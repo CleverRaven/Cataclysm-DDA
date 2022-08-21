@@ -192,7 +192,6 @@ static void clear_everything()
     options.get_option( "AUTO_PICKUP_OWNED" ).setValue( "false" );
 }
 
-
 TEST_CASE( "auto pickup should recognize container content", "[autopickup][item]" )
 {
     avatar &they = get_avatar();
@@ -310,7 +309,6 @@ TEST_CASE( "auto pickup should improve your life", "[autopickup][item]" )
         }
     }
 }
-
 
 TEST_CASE( "auto pickup should consider item rigidness and seal", "[autopickup][item]" )
 {

@@ -1744,7 +1744,6 @@ comp_selection<item_comp> Character::select_item_component( const std::vector<it
             const item ingredient = item( ingredient_type );
             std::pair<int, int> kcal_values{ 0, 0 };
 
-
             switch( inv_source ) {
                 case inventory_source::MAP:
                     text = _( "%s (%d/%d nearby)" );
@@ -2341,7 +2340,6 @@ item_location Character::create_in_progress_disassembly( item_location target )
 
     item_location disassembly_in_world = place_craft_or_disassembly( *this, new_disassembly,
                                          cata::nullopt );
-
 
     if( !disassembly_in_world ) {
         return item_location::nowhere;

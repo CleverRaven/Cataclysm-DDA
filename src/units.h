@@ -371,7 +371,6 @@ inline constexpr double to_kilogram( const mass &v )
     return v.value() / 1000000.0;
 }
 
-
 // Specific energy
 const specific_energy specific_energy_min = units::specific_energy(
             std::numeric_limits<units::specific_energy::value_type>::min(), units::specific_energy::unit_type{} );
@@ -445,7 +444,6 @@ inline constexpr value_type to_fahrenheit( const
 {
     return ( v * 1.8f - from_kelvin( 459.67f ) ).value();
 }
-
 
 // Energy
 
@@ -815,7 +813,6 @@ inline constexpr units::quantity<double, units::mass_in_milligram_tag> operator"
 {
     return units::from_kilogram( v );
 }
-
 
 inline constexpr units::temperature operator"" _K( const unsigned long long v )
 {

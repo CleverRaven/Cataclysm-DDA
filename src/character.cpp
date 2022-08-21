@@ -1000,8 +1000,6 @@ double Character::aim_factor_from_volume( const item &gun ) const
         factor *= std::pow( min_volume_without_debuff / wielded_volume, 0.333333 );
     }
 
-
-
     return std::max( factor, 0.2 ) ;
 }
 
@@ -2695,7 +2693,6 @@ std::vector<item_location> Character::nearby( const
     return res;
 }
 
-
 std::list<item> Character::remove_worn_items_with( const std::function<bool( item & )> &filter )
 {
     invalidate_inventory_validity_cache();
@@ -2958,7 +2955,6 @@ bool Character::can_use( const item &it, const item &context ) const
     return true;
 }
 
-
 ret_val<void> Character::can_unwield( const item &it ) const
 {
     if( it.has_flag( flag_NO_UNWIELD ) ) {
@@ -3093,7 +3089,6 @@ void Character::mod_knowledge_level( const skill_id &ident, const int delta )
 {
     _skills->mod_knowledge_level( ident, delta );
 }
-
 
 std::string Character::enumerate_unmet_requirements( const item &it, const item &context ) const
 {
@@ -4418,7 +4413,6 @@ int Character::weary_threshold() const
 
     return std::max( threshold, bmr / 10 );
 }
-
 
 std::pair<int, int> Character::weariness_transition_progress() const
 {
@@ -5957,7 +5951,6 @@ std::string Character::age_string( time_point when ) const
     return string_format( unformatted, age( when ) );
 }
 
-
 struct HeightLimits {
     int min_height = 0;
     int base_height = 0;
@@ -6570,7 +6563,6 @@ bool Character::invoke_item( item *used, const std::string &method, const tripoi
         // The item may also have been deleted
         return false;
     }
-
 
     if( actually_used->is_comestible() ) {
         const bool ret = consume_effects( *used );
@@ -10448,7 +10440,6 @@ book_mastery Character::get_book_mastery( const item &book ) const
     return book_mastery::LEARNING;
 }
 
-
 bool Character::fun_to_read( const item &book ) const
 {
     return book_fun_for( book, *this ) > 0;
@@ -11347,7 +11338,6 @@ void Character::process_items()
         }
     }
 }
-
 
 void Character::search_surroundings()
 {

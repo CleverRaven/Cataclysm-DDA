@@ -204,7 +204,6 @@ item::reload_option Character::select_ammo( const item_location &base,
     menu.text += _( "| Destination " );
     menu.text += std::string( w + 3 - utf8_width( _( "| Destination " ) ), ' ' );
 
-
     menu.text += _( "| Amount  " );
     menu.text += _( "| Moves   " );
 

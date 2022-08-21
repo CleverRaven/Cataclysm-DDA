@@ -1791,8 +1791,6 @@ bool monster::move_to( const tripoint &p, bool force, bool step_on_critter,
         }
     }
 
-
-
     // Acid trail monsters leave... a trail of acid
     if( has_flag( MF_ACIDTRAIL ) ) {
         here.add_field( pos(), fd_acid, 3 );

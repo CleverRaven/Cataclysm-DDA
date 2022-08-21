@@ -333,7 +333,6 @@ std::vector<cata_path> find_file_if_bfs( const cata_path &root_path,
     return cps;
 }
 
-
 } //anonymous namespace
 
 //--------------------------------------------------------------------------------------------------

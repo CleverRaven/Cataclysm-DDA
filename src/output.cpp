@@ -2811,7 +2811,6 @@ std::string healthy_bar( const int healthy )
     }
 }
 
-
 scrollingcombattext::cSCT::cSCT( const point &p_pos, const direction p_oDir,
                                  const std::string &p_sText, const game_message_type p_gmt,
                                  const std::string &p_sText2, const game_message_type p_gmt2,

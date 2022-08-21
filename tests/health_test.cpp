@@ -35,7 +35,6 @@ static void daily_routine( npc &dude, int numb_stam_burn, int vitamin_amount,
         dude.set_sleep_deprivation( static_cast<int>( SLEEP_DEPRIVATION_MASSIVE ) - 160 );
     }
 
-
     // set to next day
     calendar::turn = calendar::turn_zero + 24_hours;
     dude.update_body();

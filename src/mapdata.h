@@ -314,7 +314,6 @@ struct enum_traits<ter_furn_flag> {
     static constexpr ter_furn_flag last = ter_furn_flag::NUM_TFLAG_FLAGS;
 };
 
-
 struct connect_group {
     public:
         connect_group_id id;

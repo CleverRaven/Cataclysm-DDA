@@ -83,7 +83,6 @@ class diary
         /*maps description to position in change list*/
         std::map<int, std::string> desc_map; // NOLINT(cata-serialize)
 
-
         //methods
     public:
         diary();

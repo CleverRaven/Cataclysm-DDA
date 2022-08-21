@@ -29,7 +29,6 @@ static const itype_id itype_glock_19( "glock_19" );
 static const itype_id itype_glockbigmag( "glockbigmag" );
 static const itype_id itype_glockmag( "glockmag" );
 
-
 static void test_reloading( item &target, item &ammo, bool expect_success = true )
 {
     item target_copy( target );
@@ -44,8 +43,6 @@ static void test_reloading( item &target, item &ammo, bool expect_success = true
     dummy.set_wielded_item( target );
 
     g->reload_wielded( false );
-
-
 
     INFO( "Tried to reload " << target.tname() << " with " << ammo.tname() );
 
@@ -771,7 +768,6 @@ TEST_CASE( "gunmod reloading", "[reload],[gun]" )
         }
     }
 }
-
 
 TEST_CASE( "reload_gun_with_integral_magazine", "[reload],[gun]" )
 {

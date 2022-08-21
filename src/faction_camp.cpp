@@ -198,7 +198,6 @@ namespace base_camps
 static const translation recover_ally_string = to_translation( "Recover Ally, " );
 static const translation expansion_string = to_translation( " Expansion" );
 
-
 static recipe_id select_camp_option( const std::map<recipe_id, translation> &pos_options,
                                      const std::string &option );
 } // namespace base_camps
@@ -2329,7 +2328,6 @@ void basecamp::start_setup_hide_site( const mission_id &miss_id )
                                           _( "These are the items you've selected so far." ), _( "Select items to send" ), total_volume,
                                           total_mass );
 
-
         int trips = om_carry_weight_to_trips( total_mass, total_volume, nullptr );
         int haulage = trips <= 2 ? 0 : losing_equipment.size();
         time_duration build_time = 6_hours;
@@ -3240,7 +3238,6 @@ npc_ptr basecamp::companion_crafting_choose_return( const mission_id &miss_id )
     return talk_function::companion_choose_return( npc_list );
 }
 
-
 void basecamp::finish_return( npc &comp, const bool fixed_time, const std::string &return_msg,
                               const std::string &skill, int difficulty, const bool cancel )
 {
@@ -3312,7 +3309,6 @@ npc_ptr basecamp::crafting_mission_return( const mission_id &miss_id, const std:
     }
     return comp;
 }
-
 
 npc_ptr basecamp::emergency_recall( const mission_id &miss_id )
 {

@@ -334,7 +334,6 @@ TEST_CASE( "rounding" )
     CHECK( round_to_multiple_of( -360_degrees, 15_degrees ) == -360_degrees );
 }
 
-
 TEST_CASE( "Temperatures", "[temperature]" )
 {
     SECTION( "Different units match" ) {

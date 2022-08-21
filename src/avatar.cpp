@@ -534,7 +534,6 @@ bool avatar::read( item_location &book, item_location ereader )
                      string_format( _( "Reading %1$s (can train %2$s from %3$d to %4$d)" ), book->type_name(),
                                     skill_name, type->req, type->level );
 
-
         menu.addentry( 0, true, '0', _( "Read once" ) );
 
         const int lvl = get_knowledge_level( skill );
@@ -672,7 +671,6 @@ bool avatar::read( item_location &book, item_location ereader )
 
     return true;
 }
-
 
 void avatar::grab( object_type grab_type, const tripoint &grab_point )
 {
@@ -893,12 +891,10 @@ int avatar::print_info( const catacurses::window &w, int vStart, int, int column
                                     get_name() ) - 1;
 }
 
-
 mfaction_id avatar::get_monster_faction() const
 {
     return monfaction_player.id();
 }
-
 
 void avatar::disp_morale()
 {
@@ -1249,12 +1245,10 @@ void avatar::rebuild_aim_cache()
 
             float current_angle = atan2f( smy - posy(), smx - posx() );
 
-
             // move from -pi to pi, to 0 to 2pi for angles
             if( current_angle < 0 ) {
                 current_angle = current_angle + 2 * pi;
             }
-
 
             // some basic angle inclusion math, but also everything with 15 is still seen
             if( rl_dist( tripoint( point( smx, smy ), pos().z ), pos() ) < 15 ) {

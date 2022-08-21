@@ -446,8 +446,6 @@ bool Character::ablative_armor_absorb( damage_unit &du, item &armor, const sub_b
                     damaged = ablative_armor.damage_armor_durability( du, bp->parent );
                 }
 
-
-
                 if( damaged == item::armor_status::TRANSFORMED ) {
                     //the plate is broken
                     const std::string pre_damage_name = ablative_armor.tname();

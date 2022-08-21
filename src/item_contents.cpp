@@ -1817,7 +1817,6 @@ item item_contents::remove_pocket( int index )
     // start at the first pocket
     auto rit = contents.rbegin();
 
-
     // find the pockets to remove from the item
     for( int i = additional_pockets.size() - 1; i >= index; --i ) {
         // move the iterator past all the pockets we aren't removing
@@ -2238,7 +2237,6 @@ units::length item_contents::item_length_modifier() const
     }
     return total_length;
 }
-
 
 int item_contents::best_quality( const quality_id &id ) const
 {

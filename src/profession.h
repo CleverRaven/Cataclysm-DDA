@@ -68,7 +68,6 @@ class profession
         // does this profession require a specific achiement to unlock
         cata::optional<achievement_id> _requirement;
 
-
         std::vector<addiction> _starting_addictions;
         std::vector<bionic_id> _starting_CBMs;
         std::vector<proficiency_id> _starting_proficiencies;

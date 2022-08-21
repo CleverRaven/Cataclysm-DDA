@@ -1230,7 +1230,6 @@ class Creature : public viewer
         int cut_bonus = 0;
         int size_bonus = 0;
 
-
         float bash_mult = 0.0f;
         float cut_mult = 0.0f;
         bool melee_quiet = false;

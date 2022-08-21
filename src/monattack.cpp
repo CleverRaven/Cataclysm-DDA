@@ -2803,7 +2803,6 @@ bool mattack::ranged_pull( monster *z )
         return true;
     }
 
-
     if( target->has_grab_break_tec() ) {
         Character *pl = dynamic_cast<Character *>( target );
         ///\EFFECT_STR increases chance to avoid being grabbed

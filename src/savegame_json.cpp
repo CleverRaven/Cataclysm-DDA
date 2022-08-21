@@ -227,7 +227,6 @@ void item_contents::serialize( JsonOut &json ) const
         json.member( "contents", contents );
         json.member( "additional_pockets", additional_pockets );
 
-
         json.end_object();
     }
 }
@@ -1432,7 +1431,6 @@ void Character::store( JsonOut &json ) const
         json.end_object();
     }
     json.end_array();
-
 
     // energy
     json.member( "last_sleep_check", last_sleep_check );
@@ -3009,7 +3007,6 @@ void item::io( Archive &archive )
         temperature /= 100000;
         specific_energy /= 100000;
     }
-
 
     // erase all invalid flags (not defined in flags.json)
     // warning was generated earlier on load

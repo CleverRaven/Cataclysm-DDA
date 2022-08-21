@@ -649,7 +649,6 @@ void MonsterGenerator::load_monster( const JsonObject &jo, const std::string &sr
     mon_templates->load( jo, src );
 }
 
-
 mon_effect_data::mon_effect_data() :
     chance( 100.0f ),
     permanent( false ),

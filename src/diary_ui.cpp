@@ -37,7 +37,6 @@ void print_list_scrollable( catacurses::window *win, std::vector<std::string> li
     const int borderspace = border ? 1 : 0;
     entries_per_page = entries_per_page - borderspace * 2;
 
-
     const int top_of_page = entries_per_page * ( *selection / entries_per_page );
 
     const int bottom_of_page = std::min<int>( top_of_page + entries_per_page, list.size() );
@@ -168,9 +167,7 @@ void diary::show_diary_ui( diary *c_diary )
     enum class window_mode : int {PAGE_WIN = 0, CHANGE_WIN, TEXT_WIN, NUM_WIN, FIRST_WIN = 0, LAST_WIN = NUM_WIN - 1};
     window_mode currwin = window_mode::PAGE_WIN;
 
-
     std::map<window_mode, int> selected = { {window_mode::PAGE_WIN, 0}, {window_mode::CHANGE_WIN, 0}, {window_mode::TEXT_WIN, 0} };
-
 
     input_context ctxt( "DIARY" );
     ctxt.register_cardinal();

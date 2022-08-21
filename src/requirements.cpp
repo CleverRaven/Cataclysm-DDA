@@ -55,13 +55,11 @@ static const quality_id qual_SEW( "SEW" );
 
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
 
-
 static std::map<requirement_id, requirement_data> requirements_all;
 
 static bool a_satisfies_b( const quality_requirement &a, const quality_requirement &b );
 static bool a_satisfies_b( const std::vector<quality_requirement> &a,
                            const std::vector<quality_requirement> &b );
-
 
 /** @relates string_id */
 template<>

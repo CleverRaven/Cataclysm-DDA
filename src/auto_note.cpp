@@ -72,7 +72,6 @@ bool auto_note_settings::save( bool bCharacter )
             jout.end_array();
         }
 
-
         if( !( bCharacter ?  character_custom_symbols : global_custom_symbols ).empty() ) {
             jout.member( "custom_symbols" );
             jout.start_array();

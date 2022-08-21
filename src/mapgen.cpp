@@ -6766,8 +6766,6 @@ void map::mirror( bool mirror_horizontal, bool mirror_vertical )
         return;
     }
 
-
-
     real_coords rc;
     const tripoint_abs_sm &abs_sub = get_abs_sub();
     // TODO: fix point types

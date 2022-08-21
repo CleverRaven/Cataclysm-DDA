@@ -118,7 +118,6 @@ class effect_type
         static void check_consistency();
         void verify() const;
 
-
         /** Registers the effect in the global map */
         static void register_ma_buff_effect( const effect_type &eff );
 
@@ -365,7 +364,6 @@ class effect
 
         /** Returns if the effect is supposed to be handed in Creature::movement */
         bool impairs_movement() const;
-
 
         /** Returns the effect's matching effect_type id. */
         const efftype_id &get_id() const {

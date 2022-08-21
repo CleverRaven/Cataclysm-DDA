@@ -157,7 +157,6 @@ void DefaultRemovePartHandler::removed( vehicle &veh, const int part )
     here.dirty_vehicle_list.insert( &veh );
 }
 
-
 // Vehicle stack methods.
 vehicle_stack::iterator vehicle_stack::erase( vehicle_stack::const_iterator it )
 {
@@ -4913,8 +4912,6 @@ int vehicle::net_battery_charge_rate_w( bool include_reactors, bool connected_ve
                ( include_reactors ? active_reactor_epower_w( false ) : 0 );
     }
 }
-
-
 
 int vehicle::active_reactor_epower_w( bool connected_vehicles ) const
 {

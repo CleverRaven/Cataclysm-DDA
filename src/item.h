@@ -960,7 +960,6 @@ class item : public visitable
          */
         void mod_charges( int mod );
 
-
         /**
          * Returns rate of rot (rot/h) at the given temperature
          */
@@ -1269,8 +1268,6 @@ class item : public visitable
         float damage_resist( damage_type dt, bool to_self,
                              const sub_bodypart_id &bp, int roll = 0 ) const;
 
-
-
         /**
          * Returns resistance to being damaged by attack against the item itself.
          * Calculated from item's materials.
@@ -1373,7 +1370,6 @@ class item : public visitable
          * @return the state of the armor
          */
         armor_status damage_armor_transforms( damage_unit &du ) const;
-
 
         /** Provide color for UI display dependent upon current item damage level */
         nc_color damage_color() const;
@@ -2413,7 +2409,6 @@ class item : public visitable
 
         /** Switch to the next available firing mode */
         void gun_cycle_mode();
-
 
         /** Get lowest actual and effective dispersion of either integral or any attached sights for specific character */
         std::pair<int, int> sight_dispersion( const Character &character ) const;

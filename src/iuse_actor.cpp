@@ -1598,7 +1598,6 @@ void salvage_actor::cut_up( Character &p, item_location &cut ) const
     // Decompose the item into irreducible parts
     cut_up_component( *cut.get_item(), efficiency );
 
-
     // Not much practice, and you won't get very far ripping things up.
     p.practice( skill_fabrication, rng( 0, 5 ), 1 );
 
@@ -4204,13 +4203,11 @@ cata::optional<int> molle_detach_actor::use( Character &p, item &it, bool,
 
     prompt.query();
 
-
     if( prompt.ret >= 0 ) {
         p.i_add( it.get_contents().remove_pocket( prompt.ret ) );
         p.add_msg_if_player( _( "You remove the item from your %s." ), it.tname() );
         return 0;
     }
-
 
     p.add_msg_if_player( _( "Never mind." ) );
     return cata::nullopt;

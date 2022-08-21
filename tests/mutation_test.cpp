@@ -283,7 +283,6 @@ static void check_test_mutation_is_triggered( const Character &dummy, bool trigg
     }
 }
 
-
 TEST_CASE( "The various type of triggers work", "[mutations]" )
 {
     Character &dummy = get_player_character();

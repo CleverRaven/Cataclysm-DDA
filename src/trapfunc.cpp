@@ -79,8 +79,6 @@ static const species_id species_ROBOT( "ROBOT" );
 
 static const trait_id trait_INFRESIST( "INFRESIST" );
 
-
-
 // A pit becomes less effective as it fills with corpses.
 static float pit_effectiveness( const tripoint &p )
 {
@@ -1256,7 +1254,6 @@ bool trapfunc::ledge( const tripoint &p, Creature *c, item * )
     }
 
     item jetpack = you->item_worn_with_flag( STATIC( flag_id( "JETPACK" ) ) );
-
 
     if( you->has_flag( json_flag_WALL_CLING ) &&  get_map().is_wall_adjacent( p ) ) {
         you->add_msg_player_or_npc( _( "You attach yourself to the nearby wall." ),

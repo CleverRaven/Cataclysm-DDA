@@ -699,7 +699,6 @@ static cata::optional<std::pair<tripoint_abs_omt, std::string>> get_mission_arro
         return cata::nullopt;
     }
 
-
     tripoint arr_pos = traj[0];
     for( auto it = traj.rbegin(); it != traj.rend(); it++ ) {
         if( overmap_area.contains( *it ) ) {

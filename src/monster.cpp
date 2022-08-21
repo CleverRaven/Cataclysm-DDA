@@ -2410,7 +2410,6 @@ bool monster::has_special( const std::string &special_name ) const
     return iter != special_attacks.end() && iter->second.enabled;
 }
 
-
 void monster::explode()
 {
     // Handled in mondeath::normal
@@ -3507,7 +3506,6 @@ void monster::on_load()
             aggro_character = false;
         }
     }
-
 
     // TODO: regen_morale
     float regen = type->regenerates;

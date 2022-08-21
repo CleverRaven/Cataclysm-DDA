@@ -807,7 +807,6 @@ bool monexamine::pet_menu( monster &z )
     return true;
 }
 
-
 bool monexamine::mech_hack( monster &z )
 {
     Character &player_character = get_player_character();

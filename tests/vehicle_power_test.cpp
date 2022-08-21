@@ -24,7 +24,6 @@ static const vproto_id vehicle_prototype_scooter_electric_test( "scooter_electri
 static const vproto_id vehicle_prototype_scooter_test( "scooter_test" );
 static const vproto_id vehicle_prototype_solar_panel_test( "solar_panel_test" );
 
-
 // TODO: Move this into player_helpers to avoid character include.
 static void reset_player()
 {
@@ -132,7 +131,6 @@ TEST_CASE( "Solar power", "[vehicle][power]" )
         REQUIRE( veh_ptr != nullptr );
         REQUIRE( veh_2_ptr != nullptr );
 
-
         calendar::turn = calendar::turn_zero + 1_days;
         veh_ptr->update_time( calendar::turn );
         veh_2_ptr->update_time( calendar::turn );
@@ -214,7 +212,6 @@ TEST_CASE( "Daily solar power", "[vehicle][power]" )
         }
     }
 }
-
 
 TEST_CASE( "maximum reverse velocity", "[vehicle][power][reverse]" )
 {

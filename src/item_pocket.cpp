@@ -58,7 +58,6 @@ std::string enum_to_string<item_pocket::pocket_type>( item_pocket::pocket_type d
 constexpr units::volume pocket_data::max_volume_for_container;
 constexpr units::mass pocket_data::max_weight_for_container;
 
-
 std::string pocket_data::check_definition() const
 {
     if( type == item_pocket::pocket_type::MOD ||
@@ -1414,7 +1413,6 @@ ret_val<item_pocket::contain_code> item_pocket::can_contain( const item &it ) co
         return ret_val<item_pocket::contain_code>::make_failure(
                    contain_code::ERR_GAS, _( "can't put non gas into pocket with gas" ) );
     }
-
 
     if( !data->ammo_restriction.empty() ) {
         const ammotype it_ammo = it.ammo_type();

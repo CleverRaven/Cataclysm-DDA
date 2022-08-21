@@ -835,7 +835,6 @@ void conditional_t<T>::set_npc_allies( const JsonObject &jo )
     };
 }
 
-
 template<class T>
 void conditional_t<T>::set_npc_allies_global( const JsonObject &jo )
 {
@@ -851,7 +850,6 @@ void conditional_t<T>::set_npc_allies_global( const JsonObject &jo )
         return count >= static_cast<size_t>( iov.evaluate( d ) );
     };
 }
-
 
 template<class T>
 void conditional_t<T>::set_u_has_cash( const JsonObject &jo )

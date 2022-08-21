@@ -1125,7 +1125,6 @@ class sew_advanced_actor : public iuse_actor
         std::unique_ptr<iuse_actor> clone() const override;
 };
 
-
 /**
  * Activate an array of effect_on_conditions
  */

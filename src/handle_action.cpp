@@ -160,7 +160,6 @@ static const zone_type_id zone_type_zone_disassemble( "zone_disassemble" );
 static const zone_type_id zone_type_zone_strip( "zone_strip" );
 static const zone_type_id zone_type_zone_unload_all( "zone_unload_all" );
 
-
 static const std::string flag_CANT_DRAG( "CANT_DRAG" );
 
 #define dbg(x) DebugLog((x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "

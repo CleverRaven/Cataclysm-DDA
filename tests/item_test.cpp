@@ -25,12 +25,10 @@
 #include "units.h"
 #include "value_ptr.h"
 
-
 static const flag_id json_flag_COLD( "COLD" );
 static const flag_id json_flag_FILTHY( "FILTHY" );
 static const flag_id json_flag_FIX_NEARSIGHT( "FIX_NEARSIGHT" );
 static const flag_id json_flag_HOT( "HOT" );
-
 
 static const itype_id itype_test_backpack( "test_backpack" );
 static const itype_id itype_test_duffelbag( "test_duffelbag" );
@@ -820,7 +818,6 @@ TEST_CASE( "rigid_armor_compliance", "[item][armor]" )
     guy.change_side( *guy.worn.top_items_loc( guy ).front().get_item() );
 
     CHECK( guy.worn.top_items_loc( guy ).front().get_item()->get_side() == side::RIGHT );
-
 
     // check if you can't wear 3 rigid armors
     clear_avatar();

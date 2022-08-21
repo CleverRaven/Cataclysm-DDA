@@ -177,7 +177,6 @@ float proficiency::default_weakpoint_penalty() const
     return _default_weakpoint_penalty;
 }
 
-
 time_duration proficiency::time_to_learn() const
 {
     return _time_to_learn;

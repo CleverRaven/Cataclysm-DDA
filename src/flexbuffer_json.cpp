@@ -129,7 +129,6 @@ std::string Json::str() const
     return ret;
 }
 
-
 bool JsonValue::read( bool &b, bool throw_on_error ) const
 {
     if( !test_bool() ) {

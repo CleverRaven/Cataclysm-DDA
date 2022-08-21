@@ -244,7 +244,6 @@ void relic_charge_template::deserialize( const JsonObject &jo )
     load( jo );
 }
 
-
 void relic_charge_template::load( const JsonObject &jo )
 {
     int tmp_power = 0;
@@ -545,7 +544,6 @@ bool relic::can_recharge( item &parent, Character *carrier ) const
     }
 
     return true;
-
 
 }
 

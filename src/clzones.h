@@ -277,7 +277,6 @@ class unload_options : public zone_options, public mark_option
             return always_unload;
         }
 
-
         void set_mark( std::string const &nmark ) {
             mark = nmark;
         }

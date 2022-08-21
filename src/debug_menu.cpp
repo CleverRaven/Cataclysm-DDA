@@ -506,7 +506,6 @@ static void spell_description(
     // Name: spell name
     description << string_format( _( "Name: %1$s" ), colorize( spl.name(), c_white ) ) << '\n';
 
-
     // Class: Spell Class
     description << string_format( _( "Class: %1$s" ), colorize( spl.spell_class() == trait_NONE ?
                                   _( "Classless" ) : chrc.mutation_name( spl.spell_class() ),
@@ -531,7 +530,6 @@ static void spell_description(
                     //~ %1$d - difficulty, %2$s - failure chance
                     _( "Difficulty: %1$d (%2$s)" ),
                     spl.get_difficulty(), spl.colorized_fail_percent( chrc ) ) << '\n';
-
 
     const std::string impeded = _( "(impeded)" );
 
@@ -652,7 +650,6 @@ static void spell_description(
     // Range / AOE in two columns
     description << string_format( _( "Range: %1$s" ),
                                   spl.range() <= 0 ? _( "self" ) : std::to_string( spl.range() ) ) << '\n';
-
 
     description << aoe_string << '\n';
 

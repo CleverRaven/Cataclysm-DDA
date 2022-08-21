@@ -275,7 +275,6 @@ cata::optional<std::list<item>::iterator> outfit::wear_item( Character &guy, con
         worn.push_back( to_wear );
     }
 
-
     get_event_bus().send<event_type::character_wears_item>( guy.getID(), guy.last_item );
 
     if( interactive ) {
@@ -417,7 +416,6 @@ bool Character::takeoff( item_location loc, std::list<item> *res )
         add_msg_player_or_npc( _( "You take off your %s." ),
                                _( "<npcname> takes off their %s." ),
                                name );
-
 
         recalc_sight_limits();
         calc_encumbrance();
@@ -1225,8 +1223,6 @@ ret_val<void> outfit::check_rigid_conflicts( const item &clothing, side s ) cons
         }
     }
 
-
-
     // go through all worn and see if already wearing something rigid
     for( const item &i : worn ) {
         // check each sublimb individually
@@ -1265,15 +1261,12 @@ ret_val<void> outfit::check_rigid_conflicts( const item &clothing ) const
     ret_val<void> ls = check_rigid_conflicts( clothing, side::LEFT );
     ret_val<void> rs = check_rigid_conflicts( clothing, side::RIGHT );
 
-
     if( !ls.success() && !rs.success() ) {
         return ls;
     }
 
     return ret_val<void>::make_success();
 }
-
-
 
 void outfit::one_per_layer_sidedness( item &clothing ) const
 {
@@ -2159,7 +2152,6 @@ void outfit::prepare_bodymap_info( bodygraph_info &info, const bodypart_id &bp,
             temp_coverage = armor.get_coverage( bp );
         }
         info.avg_coverage += temp_coverage;
-
 
         // need to do each sub part seperately and then average them if need be
         for( const sub_bodypart_id &sbp : sub_parts ) {

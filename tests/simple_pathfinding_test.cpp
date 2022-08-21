@@ -75,7 +75,6 @@ TEST_CASE( "greedy_u_bend", "[pathfinding]" )
     test_greedy_u_bend<point_om_omt>();
 }
 
-
 TEST_CASE( "find_overmap_path_u_bend", "[pathfinding]" )
 {
     using Point = tripoint_abs_omt;

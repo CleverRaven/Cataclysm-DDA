@@ -178,8 +178,6 @@ class item_pocket
         size_t size() const;
         void pop_back();
 
-
-
         /**
          * Is the pocket compatible with the specified item?
          * Does not check if the item actually fits volume/weight wise

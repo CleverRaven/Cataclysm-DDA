@@ -15,7 +15,6 @@ using dialogue_fun_ptr = std::add_pointer<void( npc & )>::type;
 
 using trial_mod = std::pair<std::string, int>;
 
-
 template<class T>
 struct talk_effect_fun_t {
     private:
@@ -119,7 +118,6 @@ struct talk_effect_fun_t {
         }
 };
 
-
 struct var_info {
     var_info( var_type in_type, std::string in_name ): type( in_type ),
         name( std::move( in_name ) ) {}
@@ -160,7 +158,6 @@ static std::string read_var_value( const var_info &info, const T &d )
     }
     return ret_val;
 }
-
 
 template<class T>
 struct str_or_var {

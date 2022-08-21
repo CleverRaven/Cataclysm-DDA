@@ -468,7 +468,6 @@ FLATBUFFERS_CONSTEXPR_CPP11 bool operator==(const Optional<T>& lhs, const Option
 }
 #endif // FLATBUFFERS_USE_STD_OPTIONAL
 
-
 // Very limited and naive partial implementation of C++20 std::span<T,Extent>.
 #if defined(FLATBUFFERS_USE_STD_SPAN)
   inline constexpr std::size_t dynamic_extent = std::dynamic_extent;

@@ -871,7 +871,6 @@ class Character : public Creature, public visitable
         void make_footstep_noise() const;
         void make_clatter_sound() const;
 
-
         bool can_switch_to( const move_mode_id &mode ) const;
         steed_type get_steed_type() const;
         virtual void set_movement_mode( const move_mode_id &mode ) = 0;
@@ -1288,7 +1287,6 @@ class Character : public Creature, public visitable
                                  bool show_all, bool precise,
                                  int normal_bonus, int head_bonus, int torso_bonus,
                                  int bleed, float bite, float infect, float bandage_power, float disinfectant_power ) const;
-
 
         static const std::vector<material_id> fleshy;
         bool made_of( const material_id &m ) const override;

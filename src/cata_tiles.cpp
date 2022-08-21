@@ -761,7 +761,6 @@ void tileset_cache::loader::load( const std::string &tileset_id, const bool prec
         load_layers( layer_config );
     }
 
-
 }
 
 void tileset_cache::loader::load_internal( const JsonObject &config,
@@ -2049,8 +2048,6 @@ bool cata_tiles::draw_from_id_string( const std::string &id, TILE_CATEGORY categ
     const tile_type *tt = nullptr;
     cata::optional<tile_lookup_res> res;
 
-
-
     // check if there is an available intensity tile and if there is use that instead of the basic tile
     // this is only relevant for fields
     if( intensity_level > 0 ) {
@@ -3144,7 +3141,6 @@ bool cata_tiles::draw_field_or_item( const tripoint &p, const lit_level ll, int 
                     }
                 };
 
-
                 int subtile = 0;
                 int rotation = 0;
                 get_tile_values( fld.to_i(), neighborhood, subtile, rotation, 0 );
@@ -3302,7 +3298,6 @@ bool cata_tiles::draw_field_or_item( const tripoint &p, const lit_level ll, int 
                             draw_from_id_string( sprite_to_draw, TILE_CATEGORY::ITEM, layer_it_category, p, 0,
                                                  0, layer_lit, layer_nv, height_3d, 0, variant, layer_var.offset );
 
-
                             // if the top item is already being layered don't draw it later
                             if( i.typeId() == tile.get_uppermost_item().typeId() ) {
                                 drawtop = false;
@@ -3348,7 +3343,6 @@ bool cata_tiles::draw_field_or_item( const tripoint &p, const lit_level ll, int 
                                 draw_from_id_string( sprite_to_draw, TILE_CATEGORY::ITEM, layer_it_category, p, 0,
                                                      0, layer_lit, layer_nv, height_3d, 0, variant, layer_var.offset );
 
-
                                 // if the top item is already being layered don't draw it later
                                 if( i.typeId() == tile.get_uppermost_item().typeId() ) {
                                     drawtop = false;
@@ -3391,9 +3385,6 @@ bool cata_tiles::draw_field_or_item( const tripoint &p, const lit_level ll, int 
                 const std::string it_category = it_type->get_item_type_string();
                 const lit_level lit = it_overridden ? lit_level::LIT : ll;
                 const bool nv = it_overridden ? false : nv_goggles_activated;
-
-
-
 
                 ret_draw_items = draw_from_id_string( disp_id, TILE_CATEGORY::ITEM, it_category, p, 0,
                                                       0, lit, nv, height_3d, 0, variant );
@@ -4278,7 +4269,6 @@ void cata_tiles::draw_footsteps_frame( const tripoint &center )
     static const std::string id_footstep = "footstep";
     static const std::string id_footstep_above = "footstep_above";
     static const std::string id_footstep_below = "footstep_below";
-
 
     const tile_type *tl_above = tileset_ptr->find_tile_type( id_footstep_above );
     const tile_type *tl_below = tileset_ptr->find_tile_type( id_footstep_below );

@@ -31,7 +31,6 @@ namespace io
     // *INDENT-ON*
 } // namespace io
 
-
 namespace
 {
 generic_factory<effect_on_condition>

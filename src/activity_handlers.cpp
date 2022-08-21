@@ -3153,7 +3153,6 @@ void activity_handlers::multiple_dis_do_turn( player_activity *act, Character *y
     generic_multi_activity_handler( *act, *you );
 }
 
-
 void activity_handlers::vehicle_deconstruction_do_turn( player_activity *act, Character *you )
 {
     generic_multi_activity_handler( *act, *you );

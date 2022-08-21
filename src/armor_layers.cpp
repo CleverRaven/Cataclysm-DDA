@@ -751,7 +751,6 @@ void outfit::sort_armor( Character &guy )
                             left_w - offset_x - storage_character_allowance,
                             penalties.color_for_stacking_badness(), worn_armor_name );
 
-
             if( worn_armor_storage > 0 ) {
                 // two digits, accurate to 1% of preferred storage unit
                 right_print( w_sort_left, drawindex + 1, 0, c_light_gray, storage_string );

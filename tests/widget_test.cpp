@@ -644,7 +644,6 @@ TEST_CASE( "widgets showing avatar weight", "[widget][weight]" )
     set_avatar_bmi( ava, 50.0 );
     CHECK( weight_clause_w.layout( ava ) == "Weight: <color_c_red>Morbidly Obese</color>" );
 
-
     // "Fun" version with customized thresholds, text, and color
     widget weight_clause_fun_w = widget_test_weight_clauses_fun.obj();
 

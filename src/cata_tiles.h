@@ -163,7 +163,6 @@ class tileset
         std::array<std::unordered_map<std::string, season_tile_value>, season_type::NUM_SEASONS>
         tile_ids_by_season;
 
-
         static const texture *get_if_available( const size_t index,
                                                 const decltype( shadow_tile_values ) &tiles ) {
             return index < tiles.size() ? & tiles[index] : nullptr;

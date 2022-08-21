@@ -1876,7 +1876,6 @@ static int print_ranged_chance( const catacurses::window &w, int line_number,
 
             print_colored_text( w, point( 1, line_number++ ), col, col, desc );
 
-
             if( display_numbers ) {
                 const std::string line = enumerate_as_string( out.chances.cbegin(), out.chances.cend(),
                 []( const aim_type_prediction::aim_confidence & conf ) {
@@ -2279,7 +2278,6 @@ dispersion_sources Character::get_weapon_dispersion( const item &obj ) const
                               300 / get_option< float >( "GUN_DISPERSION_DIVIDER" ) ) );
     }
 
-
     float disperation_mod = enchantment_cache->modify_value( enchant_vals::mod::WEAPON_DISPERSION,
                             1.0f );
     if( disperation_mod != 1.0f ) {
@@ -2533,7 +2531,6 @@ target_handler::trajectory target_ui::run()
             activity->aif_duration += 1;
         }
     }
-
 
     // Event loop!
     ExitCode loop_exit_code;
