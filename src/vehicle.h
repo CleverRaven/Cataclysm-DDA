@@ -561,6 +561,9 @@ class turret_data
         item_location base();
         item_location base() const;
 
+        /** @returns true if turret is using vehicle tanks or batteries */
+        bool uses_vehicle_tanks_or_batteries() const;
+
         /** Quantity of ammunition available for use */
         int ammo_remaining() const;
 
