@@ -704,8 +704,10 @@ map::apparent_light_info map::apparent_light_helper( const level_cache &map_cach
             if( is_opaque( neighbour ) ) {
                 continue;
             }
-            if( map_cache.seen_cache[neighbour.x][neighbour.y] == 0 &&
-                map_cache.camera_cache[neighbour.x][neighbour.y] == 0 ) {
+            if( ( rl_dist( u.pos().xy(), neighbour ) > u.unimpaired_range() &&
+                  map_cache.camera_cache[neighbour.x][neighbour.y] == 0 ) ||
+                ( map_cache.seen_cache[neighbour.x][neighbour.y] == 0 &&
+                  map_cache.camera_cache[neighbour.x][neighbour.y] == 0 ) ) {
                 continue;
             }
             // This is a non-opaque visible neighbour, so count visibility from the relevant
