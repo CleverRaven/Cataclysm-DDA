@@ -6167,8 +6167,7 @@ bool mattack::dsa_drone_scan( monster *z )
         return true;
     }
     if( !available.empty() ) {
-        if( !avatar_in_range ||
-            ( avatar_in_range && x_in_y( available.size(), available.size() + 1 ) ) ) {
+        if( !avatar_in_range || x_in_y( available.size(), available.size() + 1 ) ) {
             target = random_entry( available );
         }
     }
