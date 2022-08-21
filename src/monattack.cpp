@@ -5543,8 +5543,8 @@ bool mattack::bio_op_takedown( monster *z )
             }
             foe->add_effect( effect_downed, 3_turns );
         }
-    } else if( ( !foe->is_armed() ||
-                 foe->martial_arts_data->selected_has_weapon( foe->get_wielded_item()->typeId() ) ) ) {
+    } else if( !foe->is_armed() ||
+               foe->martial_arts_data->selected_has_weapon( foe->get_wielded_item()->typeId() ) ) {
         // Saved by the tentacle-bracing! :)
         hit = bodypart_id( "torso" );
         dam = rng( 3, 9 );
