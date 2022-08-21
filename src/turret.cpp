@@ -249,19 +249,21 @@ turret_data::status turret_data::query() const
         return status::invalid;
     }
 
-    if( part->info().has_flag( "USE_TANKS" ) ) {
-        if( veh->fuel_left( ammo_current() ) < part->base.ammo_required() ) {
+    const item &gun = part->base;
+
+    if( uses_vehicle_tanks_or_batteries() ) {
+        if( veh->fuel_left( ammo_current() ) < gun.ammo_required() ) {
             return status::no_ammo;
-        }
-    } else if( part->base.get_gun_ups_drain() > 0_kJ ) {
-        units::energy ups = part->base.get_gun_ups_drain() * part->base.gun_current_mode().qty;
-        if( ups > units::from_kilojoule( veh->fuel_left( fuel_type_battery ) ) ) {
-            return status::no_power;
         }
     } else {
-        if( !part->base.ammo_sufficient( nullptr ) ) {
+        if( gun.ammo_required() && gun.ammo_remaining() < gun.ammo_required() ) {
             return status::no_ammo;
         }
+    }
+
+    const units::energy ups_drain = gun.get_gun_ups_drain() * gun.gun_current_mode().qty;
+    if( ups_drain > units::from_kilojoule( veh->fuel_left( fuel_type_battery ) ) ) {
+        return status::no_power;
     }
 
     return status::ready;
