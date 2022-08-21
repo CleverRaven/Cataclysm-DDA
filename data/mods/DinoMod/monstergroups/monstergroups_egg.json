@@ -1,6 +1,7 @@
 [
   {
     "name": "GROUP_EGG_DINO",
+    "//": "North American dinos not theropods at least 50 kg and not largest",
     "type": "monstergroup",
     "monsters": [
       { "monster": "mon_stegosaurus_hatchling", "weight": 5 },
@@ -24,9 +25,9 @@
   },
   {
     "name": "GROUP_EGG_DINO_SMALL",
+    "//": "North American dinos not theropods smaller than 50 kg",
     "type": "monstergroup",
     "monsters": [
-      { "monster": "mon_eoraptor_hatchling", "weight": 20 },
       { "monster": "mon_scutellosaurus_hatchling", "weight": 5 },
       { "monster": "mon_dryosaurus_hatchling", "weight": 5 },
       { "monster": "mon_stegoceras_hatchling", "weight": 5 },
@@ -37,6 +38,7 @@
   },
   {
     "name": "GROUP_EGG_DINO_LARGE",
+    "//": "North American dinos not theropods largest",
     "type": "monstergroup",
     "monsters": [
       { "monster": "mon_apatosaurus_hatchling", "weight": 10 },
@@ -49,6 +51,7 @@
   },
   {
     "name": "GROUP_EGG_THEROPOD",
+    "//": "North American theropod dinos at least 50 kg and not largest",
     "type": "monstergroup",
     "monsters": [
       { "monster": "mon_dilophosaurus_hatchling", "weight": 1 },
@@ -74,18 +77,19 @@
   },
   {
     "name": "GROUP_EGG_THEROPOD_SMALL",
+    "//": "North American theropod dinos smaller than 50 kg",
     "type": "monstergroup",
     "monsters": [
       { "monster": "mon_compsognathus_hatchling", "weight": 20 },
       { "monster": "mon_albertonykus_hatchling", "weight": 20 },
       { "monster": "mon_saurornitholestes_hatchling", "weight": 15 },
-      { "monster": "mon_velociraptor_hatchling", "weight": 15 },
       { "monster": "mon_dromaeosaurus_hatchling", "weight": 15 },
       { "monster": "mon_stenonychosaurus_hatchling", "weight": 10 }
     ]
   },
   {
     "name": "GROUP_EGG_THEROPOD_LARGE",
+    "//": "North American theropod dinos largest",
     "type": "monstergroup",
     "monsters": [ { "monster": "mon_spinosaurus_hatchling", "weight": 1 }, { "monster": "mon_tyrannosaurus_hatchling", "weight": 8 } ]
   },

@@ -217,6 +217,38 @@
   },
   {
     "type": "terrain",
+    "id": "t_palisade_pulley_wood",
+    "looks_like": "t_palisade_pulley",
+    "name": "gate pulley",
+    "description": "A system of ropes and wooden pulleys that allows to pull up heavy doors or gates.",
+    "symbol": "|",
+    "color": "brown",
+    "move_cost": 0,
+    "flags": [ "TRANSPARENT", "NOITEM", "SHORT", "PERMEABLE", "EASY_DECONSTRUCT", "THIN_OBSTACLE" ],
+    "examine_action": "controls_gate",
+    "bash": {
+      "str_min": 8,
+      "str_max": 40,
+      "sound": "crunch!",
+      "sound_fail": "whump.",
+      "ter_set": "t_null",
+      "items": [
+        { "item": "rope_makeshift_6", "count": [ 3, 4 ] },
+        { "item": "2x4", "count": [ 1, 4 ] },
+        { "item": "splinter", "count": [ 2, 4 ] }
+      ]
+    },
+    "deconstruct": {
+      "ter_set": "t_dirt",
+      "items": [
+        { "item": "rope_makeshift_30", "count": 1 },
+        { "item": "2x4", "count": 8 },
+        { "item": "block_and_tackle_wood", "count": 1 }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
     "id": "t_intercom",
     "name": "intercom",
     "description": "An intercom panel.  For when you want to scare the crap out of someone, or just talk to them over the intercom system, if you're boring like that.",

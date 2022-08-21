@@ -768,7 +768,7 @@ static bool butchery_drops_harvest( item *corpse_item, const mtype &mt, Characte
         for( item *item : corpse_item->all_items_top( item_pocket::pocket_type::CORPSE ) ) {
             dissectable_num++;
             const int skill_level = butchery_dissect_skill_level( you, tool_quality,
-                                    item->dropped_from.value_or( harvest_drop_type_id::NULL_ID() ) );
+                                    item->dropped_from );
             const int butchery = roll_butchery_dissect( skill_level, you.dex_cur, tool_quality );
             dissectable_practice += ( 4 + butchery );
             int roll = butchery - corpse_item->damage_level();
@@ -1307,8 +1307,8 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act, Character *yo
         liquid.charges = std::min( charges_per_second, liquid.charges );
         const int original_charges = liquid.charges;
         if( liquid.has_temperature() && units::to_joule_per_gram( liquid.specific_energy ) < 0 ) {
-            liquid.set_item_temperature( std::max( units::from_fahrenheit( get_weather().get_temperature(
-                    you->pos() ) ), temperatures::cold ) );
+            liquid.set_item_temperature( std::max( get_weather().get_temperature( you->pos() ),
+                                                   temperatures::cold ) );
         }
 
         // 2. Transfer charges.
@@ -1338,7 +1338,7 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act, Character *yo
                 break;
             }
             case liquid_target_type::CONTAINER:
-                you->pour_into( *act_ref.targets.at( 0 ), liquid, true );
+                you->pour_into( act_ref.targets.at( 0 ), liquid, true );
                 break;
             case liquid_target_type::MAP:
                 if( iexamine::has_keg( act_ref.coords.at( 1 ) ) ) {

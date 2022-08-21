@@ -58,6 +58,13 @@ Some code distributed with the project is not part of the project and is release
 
 Please see [CONTRIBUTING.md](https://github.com/CleverRaven/Cataclysm-DDA/blob/master/.github/CONTRIBUTING.md) for details.
 
+Special thanks to the contributors, including but not limited to, people below:
+<a href="https://github.com/cleverraven/cataclysm-dda/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=cleverraven/cataclysm-dda" />
+</a>
+
+Made with [contrib.rocks](https://contrib.rocks).
+
 ## Community
 
 Forums:

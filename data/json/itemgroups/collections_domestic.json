@@ -1216,6 +1216,7 @@
       { "group": "ketchup_sealed_rng", "prob": 10 },
       { "group": "mustard_sealed_rng", "prob": 10 },
       { "group": "barbecue_sauce_sealed_rng", "prob": 5 },
+      { "group": "honey_mustard_sealed_rng", "prob": 3 },
       { "item": "soysauce", "prob": 10 },
       { "item": "horseradish", "prob": 10 },
       { "item": "glass", "prob": 90 },

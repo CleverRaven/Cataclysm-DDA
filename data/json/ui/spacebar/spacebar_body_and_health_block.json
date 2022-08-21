@@ -24,7 +24,7 @@
     "style": "layout",
     "arrange": "rows",
     "width": 14,
-    "widgets": [ "spacebar_separator_2", "spacebar_body_graph" ]
+    "widgets": [ "spacebar_separator_2", "spacebar_separator_2", "spacebar_body_graph" ]
   },
   {
     "id": "spacebar_body_graph",
@@ -32,7 +32,7 @@
     "var": "body_graph",
     "style": "text",
     "width": 13,
-    "height": 17
+    "height": 15
   },
   {
     "id": "char_num_block",
@@ -73,21 +73,21 @@
     "type": "widget",
     "style": "text",
     "colors": [ "c_dark_gray" ],
-    "string": "=>  ( HP/Status/Encum./Temp./swet )  <="
+    "string": "=>    ( HP/Status/Encum./Temp./swet )   <="
   },
   {
     "id": "spacebar_legend_bar_1",
     "type": "widget",
     "style": "text",
     "colors": [ "c_dark_gray" ],
-    "string": "   b bleeding, + bandaged, $ disinfected   "
+    "string": " b bleeding, + bandaged, $ disinfected     "
   },
   {
     "id": "spacebar_legend_bar_2",
     "type": "widget",
     "style": "text",
     "colors": [ "c_dark_gray" ],
-    "string": "     = splinted, % broken, I infected     "
+    "string": " = splinted, % broken, B bite, I infected  "
   },
   {
     "id": "spacebar_filler_hp",
@@ -495,8 +495,8 @@
       "thirst_desc_label",
       "fatigue_desc_label",
       "body_temp_desc_label",
-      "pain_desc_label",
-      "power_short_desc"
+      "power_short_desc",
+      "pain_desc_label"
     ]
   },
   {
@@ -510,8 +510,8 @@
       "thirst_desc_label",
       "fatigue_desc_label",
       "body_temp_desc_label",
-      "pain_num_label",
-      "power_short_desc"
+      "power_short_desc",
+      "pain_num_label"
     ]
   },
   {
@@ -522,7 +522,7 @@
     "label_align": "right",
     "arrange": "rows",
     "width": 15,
-    "widgets": [ "str_num", "dex_num", "int_num", "per_num", "safe_mode_classic_desc" ]
+    "widgets": [ "str_num", "dex_num", "int_num", "per_num", "safe_mode_desc" ]
   },
   {
     "id": "spacebar_bp_status_legend_text",

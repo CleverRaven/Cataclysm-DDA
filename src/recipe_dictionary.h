@@ -30,6 +30,11 @@ class recipe_dictionary
             return autolearn;
         }
 
+        /** Returns all recipes that are nested categories */
+        const std::set<const recipe *> &all_nested() const {
+            return nested;
+        }
+
         /** Returns all blueprints */
         const std::set<const recipe *> &all_blueprints() const {
             return blueprints;
@@ -49,6 +54,7 @@ class recipe_dictionary
         static void load_recipe( const JsonObject &jo, const std::string &src );
         static void load_uncraft( const JsonObject &jo, const std::string &src );
         static void load_practice( const JsonObject &jo, const std::string &src );
+        static void load_nested_category( const JsonObject &jo, const std::string &src );
 
         static void finalize();
         static void check_consistency();
@@ -68,6 +74,7 @@ class recipe_dictionary
         std::map<recipe_id, recipe> recipes;
         std::map<recipe_id, recipe> uncraft;
         std::set<const recipe *> autolearn;
+        std::set<const recipe *> nested;
         std::set<const recipe *> blueprints;
         std::unordered_set<itype_id> items_on_loops;
 
@@ -151,6 +158,9 @@ class recipe_subset
 
         /** Find hidden recipes */
         std::vector<const recipe *> hidden() const;
+
+        /** Find current nested recipes */
+        std::vector<const recipe *> nested() const;
 
         /** Find recipes matching query (left anchored partial matches are supported) */
         std::vector<const recipe *> search(

@@ -1700,6 +1700,25 @@
     "armor": [ { "encumbrance": [ 2, 15 ], "coverage": 30, "covers": [ "torso" ] } ]
   },
   {
+    "id": "test_mini_backpack",
+    "type": "ARMOR",
+    "name": "TEST backpack",
+    "description": "A small backpack designed for testing nesting issues.  Good storage for a little encumbrance.",
+    "weight": "633 g",
+    "volume": "2 L",
+    "price": 3900,
+    "price_postapoc": 16000,
+    "material": [ "cotton" ],
+    "symbol": "[",
+    "looks_like": "ragpouch",
+    "color": "green",
+    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "3 L", "max_contains_weight": "30 kg", "moves": 300 } ],
+    "warmth": 6,
+    "material_thickness": 2,
+    "flags": [ "BELTED" ],
+    "armor": [ { "encumbrance": [ 2, 15 ], "coverage": 30, "covers": [ "torso" ] } ]
+  },
+  {
     "id": "test_briefcase",
     "repairs_like": "backpack_hiking",
     "type": "ARMOR",
@@ -3124,28 +3143,6 @@
         "item_restriction": [ "test_glockmag", "test_glockbigmag" ]
       }
     ]
-  },
-  {
-    "id": "test_folding_bicycle",
-    "type": "TOOL",
-    "name": { "str": "folding bicycle" },
-    "description": "This is a bicycle folded into a relatively portable package.",
-    "weight": "10160 g",
-    "volume": "76651 ml",
-    "//": "Data taken from given values/dimensions for the Brompton S1E folding bicycle",
-    "price": 35000,
-    "price_postapoc": 2000,
-    "to_hit": -5,
-    "bashing": 10,
-    "material": [ "steel" ],
-    "symbol": "0",
-    "color": "light_gray",
-    "use_action": {
-      "type": "unfold_vehicle",
-      "vehicle_name": "bicycle",
-      "unfold_msg": "You painstakingly unfold the bicycle and make it ready to ride.",
-      "moves": 500
-    }
   },
   {
     "id": "test_exo_lense_module",
