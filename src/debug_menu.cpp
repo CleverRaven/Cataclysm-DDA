@@ -2624,6 +2624,14 @@ void debug()
             if( weather_menu.ret >= 0 &&
                 static_cast<size_t>( weather_menu.ret ) < weather_types::get_all().size() ) {
                 const weather_type_id selected_weather = weather_types::get_all()[weather_menu.ret].id;
+                if( weather.weather_id->debug_leave_eoc.has_value() ) {
+                    dialogue d( get_talker_for( get_avatar() ), nullptr );
+                    effect_on_condition_id( weather.weather_id->debug_leave_eoc.value() )->activate( d );
+                }
+                if( selected_weather->debug_cause_eoc.has_value() ) {
+                    dialogue d( get_talker_for( get_avatar() ), nullptr );
+                    effect_on_condition_id( selected_weather->debug_cause_eoc.value() )->activate( d );
+                }
                 weather.weather_override = selected_weather;
                 weather.set_nextweather( calendar::turn );
             }
