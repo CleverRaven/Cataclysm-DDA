@@ -84,7 +84,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_VALHALLIST_SHOPKEEPER_Job",
-    "dynamic_line": "This is our warehouse, which I run and stock. We've got everything here from our scavenging runs; books, food, tools, materials, you name it.  I'd be willing to sell a few things for the right price.",
+    "dynamic_line": "This is our warehouse, which I run and stock.  We've got everything here from our scavenging runs; books, food, tools, materials, you name it.  I'd be willing to sell a few things for the right price.",
     "responses": [
       { "text": "Who are you?", "topic": "TALK_VALHALLIST_SHOPKEEPER_WHO" },
       { "text": "Lets talk buisness, then.", "effect": "start_trade", "topic": "TALK_VALHALLIST_SHOPKEEPER_2" },

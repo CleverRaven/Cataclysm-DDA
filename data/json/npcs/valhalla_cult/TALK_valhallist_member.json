@@ -2,7 +2,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_VALHALLIST_MEMBER_1",
-    "dynamic_line": "Hallo, reisendre. What is it you want?",
+    "dynamic_line": "Hallo, reisendre.  What is it you want?",
     "speaker_effect": { "effect": { "npc_first_topic": "TALK_VALHALLIST_MEMBER_2" } },
     "responses": [
       { "text": "Who are you, exactly?", "topic": "TALK_VALHALLIST_MEMBER_WHO" },
@@ -13,7 +13,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_VALHALLIST_MEMBER_2",
-    "dynamic_line": "Hello again. What's up?",
+    "dynamic_line": "Hello again.  What's up?",
     "responses": [
       { "text": "I'm sorry, who are you again?", "topic": "TALK_VALHALLIST_MEMBER_WHO" },
       { "text": "What's your deal here?", "topic": "TALK_VALHALLIST_MEMBER_Job" },
@@ -64,7 +64,7 @@
     "dynamic_line": [
       "*prays unintelligebly.",
       "Great Tyr, defendeth me.",
-      "Just in time for the party. Get your sword ready!",
+      "Just in time for the party.  Get your sword ready!",
       "Hallelujah, rescue!",
       "I can't believe my eyes.  Thank you, thank you!"
     ],

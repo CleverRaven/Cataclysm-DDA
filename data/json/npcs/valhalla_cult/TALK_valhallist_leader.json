@@ -12,7 +12,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_VALHALLIST_LEADER_2",
-    "dynamic_line": "Hello again. What do you want?",
+    "dynamic_line": "Hello again.  What do you want?",
     "responses": [
       {
         "text": "Do you think I could join your organization?",

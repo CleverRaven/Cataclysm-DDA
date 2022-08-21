@@ -46,7 +46,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_VALHALLIST_LEADER_Position_2",
-    "dynamic_line": "We were out on a routine scavenging run one day, like we'd done many times before.  Some horde followed us out of town, and we had to fight them off.  Something was off about this one zombie though, huge and burly towards the back.  We managed to handle the rest of them easy, but this one guy was a bit much for the three of us...",
+    "dynamic_line": "We were out on a routine scavenging run one day, like we'd done many times before.  Some horde followed us out of town, and we had to fight them off.  Something was off about this one zombie though, huge and burly towards the back.  We managed to handle the rest of them easy, but this one guy was a bit much for the three of us…",
     "responses": [ { "text": "I'm guessing that didn't go well.", "topic": "TALK_VALHALLIST_LEADER_Position_3" } ]
   },
   {
