@@ -4444,7 +4444,7 @@ void map::translate_radius( const ter_id &from, const ter_id &to, float radi, co
 }
 
 // NOLINTNEXTLINE(readability-make-member-function-const)
-void map::transform_radius( ter_furn_transform_id transform, int radi,
+void map::transform_radius( const ter_furn_transform_id &transform, int radi,
                             const tripoint_abs_ms &p )
 {
     if( !inbounds( p - point( radi, radi ) ) || !inbounds( p + point( radi, radi ) ) ) {
@@ -4458,7 +4458,7 @@ void map::transform_radius( ter_furn_transform_id transform, int radi,
     }
 }
 
-void map::transform_line( ter_furn_transform_id transform, const tripoint_abs_ms &first,
+void map::transform_line( const ter_furn_transform_id &transform, const tripoint_abs_ms &first,
                           const tripoint_abs_ms &second )
 {
     if( !inbounds( first ) || !inbounds( second ) ) {

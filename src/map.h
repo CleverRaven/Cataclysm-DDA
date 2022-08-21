@@ -1110,9 +1110,9 @@ class map
         // Optionally toggles instances $from->$to & $to->$from
         void translate_radius( const ter_id &from, const ter_id &to, float radi, const tripoint &p,
                                bool same_submap = false, bool toggle_between = false );
-        void transform_radius( ter_furn_transform_id transform, int radi,
+        void transform_radius( const ter_furn_transform_id &transform, int radi,
                                const tripoint_abs_ms &p );
-        void transform_line( ter_furn_transform_id transform, const tripoint_abs_ms &first,
+        void transform_line( const ter_furn_transform_id &transform, const tripoint_abs_ms &first,
                              const tripoint_abs_ms &second );
         // TODO: fix point types (remove the first overload)
         bool close_door( const tripoint &p, bool inside, bool check_only );

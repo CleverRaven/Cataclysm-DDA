@@ -112,7 +112,7 @@ bool Character::list_ammo( const item_location &base, std::vector<item::reload_o
 }
 
 item::reload_option Character::select_ammo( const item_location &base,
-        std::vector<item::reload_option> opts, const std::string name_override ) const
+        std::vector<item::reload_option> opts, const std::string &name_override ) const
 {
     if( opts.empty() ) {
         add_msg_if_player( m_info, _( "Never mind." ) );

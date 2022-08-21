@@ -92,7 +92,7 @@ bool mapbuffer::add_submap( const tripoint_abs_sm &p, submap *sm )
     return result;
 }
 
-void mapbuffer::remove_submap( tripoint_abs_sm addr )
+void mapbuffer::remove_submap( const tripoint_abs_sm &addr )
 {
     auto m_target = submaps.find( addr );
     if( m_target == submaps.end() ) {

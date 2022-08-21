@@ -25,9 +25,9 @@
 namespace
 {
 /**print list scrollable, printed std::vector<std::string> as list with scrollbar*/
-void print_list_scrollable( catacurses::window *win, std::vector<std::string> list, int *selection,
-                            int entries_per_page, int xoffset, int width, bool active, bool border,
-                            const report_color_error color_error )
+void print_list_scrollable( catacurses::window *win, const std::vector<std::string> &list,
+                            int *selection, int entries_per_page, int xoffset, int width,
+                            bool active, bool border, const report_color_error color_error )
 {
     if( *selection < 0 && !list.empty() ) {
         *selection = static_cast<int>( list.size() ) - 1;
@@ -66,8 +66,9 @@ void print_list_scrollable( catacurses::window *win, std::vector<std::string> li
 
 }
 
-void print_list_scrollable( catacurses::window *win, std::vector<std::string> list, int *selection,
-                            bool active, bool border, const report_color_error color_error )
+void print_list_scrollable( catacurses::window *win, const std::vector<std::string> &list,
+                            int *selection, bool active, bool border,
+                            const report_color_error color_error )
 {
     print_list_scrollable( win, std::move( list ), selection, getmaxy( *win ), 0, getmaxx( *win ),
                            active, border,

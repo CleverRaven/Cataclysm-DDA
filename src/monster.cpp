@@ -695,7 +695,7 @@ static std::pair<std::string, nc_color> hp_description( int cur_hp, int max_hp )
 
 std::string monster::speed_description( float mon_speed_rating,
                                         bool immobile,
-                                        speed_description_id speed_desc )
+                                        const speed_description_id &speed_desc )
 {
     if( speed_desc.is_null() || !speed_desc.is_valid() ) {
         return std::string();

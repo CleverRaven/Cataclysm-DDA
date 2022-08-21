@@ -828,7 +828,7 @@ std::vector<proficiency_id> recipe::used_proficiencies() const
     return ret;
 }
 
-static float get_aided_proficiency_level( const Character &crafter, proficiency_id prof )
+static float get_aided_proficiency_level( const Character &crafter, const proficiency_id &prof )
 {
     float max_prof = crafter.get_proficiency_practice( prof );
     for( const npc *helper : crafter.get_crafting_helpers() ) {

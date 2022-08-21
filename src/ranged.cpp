@@ -555,7 +555,7 @@ int range_with_even_chance_of_good_hit( int dispersion )
 }
 
 int Character::gun_engagement_moves( const item &gun, int target, int start,
-                                     Target_attributes attributes ) const
+                                     const Target_attributes &attributes ) const
 {
     int mv = 0;
     double penalty = start;

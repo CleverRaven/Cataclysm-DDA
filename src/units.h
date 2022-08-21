@@ -751,7 +751,7 @@ inline std::string quantity_to_string( const quantity<value_type, tag_type> &v )
     return os.str();
 }
 
-std::string display( units::energy v );
+std::string display( const units::energy &v );
 
 std::string display( units::power v );
 

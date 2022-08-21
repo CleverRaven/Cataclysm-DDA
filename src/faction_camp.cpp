@@ -516,13 +516,13 @@ static bool update_emergency_recall( std::string &entry, const comp_list &npc_li
     return avail;
 }
 
-static bool extract_and_check_orientation_flags( const recipe_id recipe,
+static bool extract_and_check_orientation_flags( const recipe_id &recipe,
         const point &dir,
         bool &mirror_horizontal,
         bool &mirror_vertical,
         int &rotation,
-        const std::string base_error_message,
-        const std::string actor )
+        const std::string &base_error_message,
+        const std::string &actor )
 {
     mirror_horizontal = recipe->has_flag( "MAP_MIRROR_HORIZONTAL" );
     mirror_vertical = recipe->has_flag( "MAP_MIRROR_VERTICAL" );
@@ -4664,7 +4664,7 @@ drop_locations basecamp::give_equipment( Character *pc, const inventory_filter_p
     return selected;
 }
 
-drop_locations basecamp::get_equipment( tinymap *target_bay, const tripoint target, Character *pc,
+drop_locations basecamp::get_equipment( tinymap *target_bay, const tripoint &target, Character *pc,
                                         const inventory_filter_preset &preset,
                                         const std::string &msg, const std::string &title, units::volume &total_volume,
                                         units::mass &total_mass )

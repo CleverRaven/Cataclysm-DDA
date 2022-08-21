@@ -331,7 +331,7 @@ class basecamp
         drop_locations give_equipment( Character *pc, const inventory_filter_preset &preset,
                                        const std::string &msg, const std::string &title, units::volume &total_volume,
                                        units::mass &total_mass );
-        drop_locations get_equipment( tinymap *target_bay, tripoint target, Character *pc,
+        drop_locations get_equipment( tinymap *target_bay, const tripoint &target, Character *pc,
                                       const inventory_filter_preset &preset,
                                       const std::string &msg, const std::string &title, units::volume &total_volume,
                                       units::mass &total_mass );

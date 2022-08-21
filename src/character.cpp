@@ -7055,7 +7055,7 @@ weighted_int_list<mutation_category_id> Character::get_vitamin_weighted_categori
     return weighted_output;
 }
 
-int Character::vitamin_RDA( vitamin_id vitamin, int ammount ) const
+int Character::vitamin_RDA( const vitamin_id &vitamin, int ammount ) const
 {
     const double multiplier = vitamin_rate( vitamin ) / 1_days * 100;
     return std::lround( ammount * multiplier );
@@ -8804,12 +8804,12 @@ void Character::clear_moncams()
     moncams.clear();
 }
 
-void Character::remove_moncam( mtype_id moncam_id )
+void Character::remove_moncam( const mtype_id &moncam_id )
 {
     moncams.erase( moncam_id );
 }
 
-void Character::add_moncam( std::pair<mtype_id, int> moncam )
+void Character::add_moncam( const std::pair<mtype_id, int> &moncam )
 {
     moncams.insert( moncam );
 }

@@ -1002,7 +1002,7 @@ static bool selection_ok( const std::vector<const recipe *> &list, const int cur
     return false;
 }
 
-const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id goto_recipe )
+const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id &goto_recipe )
 {
     recipe_result_info_cache result_info;
     recipe_info_cache r_info_cache;

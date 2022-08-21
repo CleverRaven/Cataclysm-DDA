@@ -414,7 +414,7 @@ class zone_data
             }
             return tripoint_abs_ms{ end };
         }
-        void update_cached_shift( tripoint_abs_ms player_loc ) {
+        void update_cached_shift( const tripoint_abs_ms &player_loc ) {
             cached_shift = player_loc;
         }
         tripoint_abs_ms get_center_point() const;

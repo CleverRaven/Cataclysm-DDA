@@ -230,7 +230,7 @@ npc_ptr companion_choose_return( comp_list &npc_list );
 //Return NPC to your party
 void companion_return( npc &comp );
 //Smash stuff, steal valuables, and change map marker
-std::set<item> loot_building( const tripoint_abs_omt &site, oter_str_id looted_replacement );
+std::set<item> loot_building( const tripoint_abs_omt &site, const oter_str_id &looted_replacement );
 
 } // namespace talk_function
 #endif // CATA_SRC_MISSION_COMPANION_H

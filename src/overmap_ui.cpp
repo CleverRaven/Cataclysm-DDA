@@ -1640,7 +1640,7 @@ static void set_special_args( tripoint_abs_omt &curs )
     *maybe_args = args;
 }
 
-static std::vector<tripoint_abs_omt> get_overmap_path_to( const tripoint_abs_omt dest,
+static std::vector<tripoint_abs_omt> get_overmap_path_to( const tripoint_abs_omt &dest,
         bool driving )
 {
     if( !overmap_buffer.seen( dest ) ) {

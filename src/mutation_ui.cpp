@@ -49,8 +49,9 @@ static const auto shortcut_desc = []( const std::string &comment, const std::str
 
 // needs extensive improvement
 
-static trait_id GetTrait( std::vector<trait_id> active, std::vector<trait_id> passive, int cursor,
-                          mutation_tab_mode tab_mode )
+static trait_id GetTrait( const std::vector<trait_id> &active,
+                          const std::vector<trait_id> &passive,
+                          int cursor, mutation_tab_mode tab_mode )
 {
     trait_id mut_id;
     if( tab_mode == mutation_tab_mode::active ) {
