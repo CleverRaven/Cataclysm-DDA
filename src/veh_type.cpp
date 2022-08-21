@@ -628,6 +628,34 @@ static int gun_battery_mags_drain( const itype &guntype )
     return charges_used;
 };
 
+static std::string get_looks_like( const vpart_info &vpi, const itype &it )
+{
+    static const auto has_light_ammo = []( const std::set<ammotype> &ats ) {
+        for( const ammotype &at : ats ) {
+            if( !at->default_ammotype() ) {
+                continue;
+            }
+            const auto at_weight = at->default_ammotype()->weight;
+            if( 15_gram > at_weight && at_weight > 3_gram ) {
+                return true; // detects g80 and coil gun
+            }
+        }
+        return false;
+    };
+
+    if( it.gun->ups_charges > 0 && has_light_ammo( it.gun->ammo ) ) {
+        return "mounted_hk_g80"; // railguns
+    } else if( vpi.has_flag( "USE_BATTERIES" ) || it.gun->ups_charges > 0 ) {
+        return "laser_rifle"; // generic energy weapons
+    } else if( vpi.has_flag( "USE_TANKS" ) ) {
+        return "watercannon"; // liquid sprayers (flamethrower, foam gun etc)
+    } else if( it.gun->skill_used == skill_launcher ) {
+        return "tow_launcher"; // launchers
+    } else {
+        return "mounted_m249"; // machine guns and also default for any unknown
+    }
+};
+
 void vpart_info::finalize()
 {
     DynamicDataLoader::get_instance().load_deferred( deferred );
@@ -688,6 +716,8 @@ void vpart_info::finalize()
 
         new_part.install_moves = to_moves<int>( install_time );
         new_part.removal_moves = to_moves<int>( removal_time );
+
+        new_part.looks_like = get_looks_like( new_part, *item );
 
         vpart_info_all.emplace( new_part.id, new_part );
     }
