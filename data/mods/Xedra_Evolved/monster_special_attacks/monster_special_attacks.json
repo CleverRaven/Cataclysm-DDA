@@ -23,7 +23,7 @@
     "type": "SPELL",
     "name": "Cure Light Wounds",
     "description": "Heals a little bit of damage on the target.",
-    "valid_targets": [ "self", "ally" ],
+    "valid_targets": [ "self" ],
     "min_damage": -5,
     "max_damage": -20,
     "damage_increment": -1.0,
