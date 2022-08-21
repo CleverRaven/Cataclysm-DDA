@@ -218,7 +218,7 @@ void avatar::control_npc_menu()
     if( charmenu.ret < 0 || static_cast<size_t>( charmenu.ret ) >= followers.size() ) {
         return;
     }
-    get_avatar().control_npc( *followers.at( charmenu.ret ) );
+    get_avatar().control_npc( *followers[charmenu.ret] );
 }
 
 void avatar::longpull( const std::string &name )

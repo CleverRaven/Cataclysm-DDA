@@ -1561,7 +1561,7 @@ std::map<std::string, inclusive_rectangle<point>> draw_tabs( const catacurses::w
     std::map<std::string, inclusive_rectangle<point>> ret_map;
     for( size_t i = 0; i < tab_texts.size(); i++ ) {
         if( tab_map.count( i ) > 0 ) {
-            ret_map.emplace( tab_texts.at( i ), tab_map.at( i ) );
+            ret_map.emplace( tab_texts[i], tab_map[i] );
         }
     }
     return ret_map;

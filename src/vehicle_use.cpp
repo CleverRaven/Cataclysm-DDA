@@ -948,7 +948,7 @@ void vehicle::crash_terrain_around()
         const transform_terrain_data &ttd = vp.info().transform_terrain;
         for( size_t i = 0; i < eight_horizontal_neighbors.size() &&
              !here.inbounds_z( crush_target.z ); i++ ) {
-            tripoint cur_pos = start_pos + eight_horizontal_neighbors.at( i );
+            tripoint cur_pos = start_pos + eight_horizontal_neighbors[i];
             bool busy_pos = false;
             for( const vpart_reference &vp_tmp : get_all_parts() ) {
                 busy_pos |= vp_tmp.pos() == cur_pos;

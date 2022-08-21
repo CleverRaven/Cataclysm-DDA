@@ -141,9 +141,9 @@ std::vector<int> main_menu::print_menu_items( const catacurses::window &w_in,
         }
         std::vector<std::string> tmp_chars = utf8_display_split( remove_color_tags( txt ) );
         for( int x = 0; static_cast<size_t>( x ) < tmp_chars.size(); x++ ) {
-            if( tmp_chars.at( x ) == "[" ) {
+            if( tmp_chars[x] == "[" ) {
                 for( int x2 = x; static_cast<size_t>( x2 ) < tmp_chars.size(); x2++ ) {
-                    if( tmp_chars.at( x2 ) == "]" ) {
+                    if( tmp_chars[x2] == "]" ) {
                         inclusive_rectangle<point> rec( win_offset + offset + point( x, y_off ),
                                                         win_offset + offset + point( x2, y_off ) );
                         main_menu_button_map.emplace_back( rec, sel_opt++ );
