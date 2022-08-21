@@ -978,8 +978,8 @@ castLightAll<fragment_cloud, fragment_cloud, shrapnel_calc, shrapnel_check,
  * @param origin the starting location
  * @param target_z Z-level to draw light map on
  */
-void map::build_seen_cache( const tripoint &origin, const int target_z, bool cumulative,
-                            bool camera, int penalty )
+void map::build_seen_cache( const tripoint &origin, const int target_z, int extension_range,
+                            bool cumulative, bool camera, int penalty )
 {
     level_cache &map_cache = get_cache( target_z );
     using mdarray = cata::mdarray<float, point_bub_ms>;
@@ -1059,6 +1059,9 @@ void map::build_seen_cache( const tripoint &origin, const int target_z, bool cum
             continue;
         }
         const tripoint mirror_pos = vp.pos();
+        if( rl_dist( origin, vp.pos() ) > extension_range ) {
+            continue;
+        }
         // We can utilize the current state of the seen cache to determine
         // if the player can see the mirror from their position.
         if( !vp.info().has_flag( "CAMERA" ) &&
