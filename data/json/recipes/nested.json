@@ -45,6 +45,27 @@
     "difficulty": 1
   },
   {
+    "id": "nested_maces",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_BASHING",
+    "name": "maces",
+    "description": "Recipes related to constructing different types of maces.",
+    "skill_used": "fabrication",
+    "nested_category_data": [
+      "mace",
+      "mace_bronze",
+      "mace_trench",
+      "mace_trench_from simple version",
+      "mace_pipe",
+      "mace_pipe_large",
+      "mace_simple",
+      "morningstar"
+    ],
+    "difficulty": 1
+  },
+  {
     "id": "nested_holsters",
     "type": "nested_category",
     "activity_level": "LIGHT_EXERCISE",
