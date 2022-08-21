@@ -8296,8 +8296,7 @@ void Character::migrate_items_to_storage( bool disintegrate )
     inv->visit_items( [&]( const item * it, item * ) {
         if( disintegrate ) {
             if( try_add( *it, /*avoid=*/nullptr, it ) == item_location::nowhere ) {
-                std::string profession_id = "<none>";
-                profession_id = prof->ident().str();
+                std::string profession_id = prof->ident().str();
                 debugmsg( "ERROR: Could not put %s (%s) into inventory.  Check if the "
                           "profession (%s) has enough space.",
                           it->tname(), it->typeId().str(), profession_id );
