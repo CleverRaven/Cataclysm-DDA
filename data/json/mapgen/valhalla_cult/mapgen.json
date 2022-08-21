@@ -1,5 +1,5 @@
 [
-  {
+{
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "pagan_cult_enter" ],
@@ -7,38 +7,48 @@
     "object": {
       "fill_ter": "t_dirt",
       "rows": [
-        "                        ",
-        "                  ##### ",
-        "  #####           #S+T# ",
-        "  #...+           +.### ",
-        "  #T.S#           #.+T# ",
-        "  #####           ##### ",
-        "                        ",
-        " $    $           0   0 ",
-        "                        ",
-        " $    $           0   0 ",
-        "                        ",
-        " $    $           0   0 ",
-        "                        ",
-        " $    $           0   0 ",
-        "                        ",
-        " $    $           0   0 ",
-        "                        ",
-        " $    $           0   0 ",
-        "       !       x!       ",
-        "########pppppppP########",
-        "       !       x!       ",
-        "                        ",
-        "                        ",
-        "                        "
+            "                        ",
+            "                  ##### ",
+            "  #####           #S+T# ",
+            "  #...+           +.### ",
+            "  #T.S#           #.+T# ",
+            "  #####           ##### ",
+            "                        ",
+            " $    $           0   0 ",
+            "                        ",
+            " $    $           0   0 ",
+            "                        ",
+            " $    $           0   0 ",
+            "                        ",
+            " $    $           0   0 ",
+            "                        ",
+            " $    $           0   0 ",
+            "                        ",
+            " $    $           0   0 ",
+            "       !       x!       ",
+            "########pppppppP########",
+            "       !       x!       ",
+            "                        ",
+            "                        ",
+            "                        "
       ],
       "palettes": [ "bandit_camp" ],
-      "npcs": { "!": { "class": "pagan_cult_member" } },
-      "terrain": { " ": "t_region_groundcover", ".": "t_rock_floor" },
-      "furniture": { "0": "f_training_dummy_heavy", "$": "f_training_dummy_light", "S": "f_sink", "T": "f_toilet" }
+      "npcs": {
+	        "!": { "class": "pagan_cult_member" }
+              },
+      "terrain": {
+        " ": "t_region_groundcover",
+        ".": "t_rock_floor"
+      },
+      "furniture": {
+        "0": "f_training_dummy_heavy",
+        "$": "f_training_dummy_light",
+        "S": "f_sink",
+        "T": "f_toilet"
+      }
     }
   },
-  {
+{
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "pagan_cult_right_corner" ],
@@ -46,38 +56,45 @@
     "object": {
       "fill_ter": "t_rock_floor",
       "rows": [
-        "                       #",
-        "        !n!            #",
-        "                       #",
-        "  ####+#### ####+####  #",
-        "  #nh....o# #nh....o#  #",
-        "  #1..d.@@# #1..d.@@#  #",
-        "  ######### #########  #",
-        "                       #",
-        "  ####+#### ####+####  #",
-        "  #nh..!.o# #nh....o#  #",
-        "  #1..d.@@# #1..d.@@#  #",
-        "  ######### #########  #",
-        "                       #",
-        "  ####+#### ####+####  #",
-        "  #nh....o# #nh..!.o#  #",
-        "  #1..d.@@# #1..d.@@#  #",
-        "  ######### #########  #",
-        "                       #",
-        "                       #",
-        "########################",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        "
+            "                       #",
+            "        !n!            #",
+            "                       #",
+            "  ####+#### ####+####  #",
+            "  #nh....o# #nh....o#  #",
+            "  #1..d.@@# #1..d.@@#  #",
+            "  ######### #########  #",
+            "                       #",
+            "  ####+#### ####+####  #",
+            "  #nh..!.o# #nh....o#  #",
+            "  #1..d.@@# #1..d.@@#  #",
+            "  ######### #########  #",
+            "                       #",
+            "  ####+#### ####+####  #",
+            "  #nh....o# #nh..!.o#  #",
+            "  #1..d.@@# #1..d.@@#  #",
+            "  ######### #########  #",
+            "                       #",
+            "                       #",
+            "########################",
+            "                        ",
+            "                        ",
+            "                        ",
+            "                        "
       ],
       "palettes": [ "bandit_camp" ],
-      "npcs": { "!": { "class": "pagan_cult_member" } },
-      "terrain": { " ": "t_region_groundcover", ".": "t_rock_floor" },
-      "furniture": { "1": "f_firefly_terrarium" }
+      "npcs": {
+	        "!": { "class": "pagan_cult_member" }
+              },
+      "terrain": {
+        " ": "t_region_groundcover",
+        ".": "t_rock_floor"
+      }, 
+      "furniture": {
+        "1": "f_firefly_terrarium"
+      }
     }
   },
-  {
+{
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "pagan_cult_left_corner" ],
@@ -85,38 +102,45 @@
     "object": {
       "fill_ter": "t_rock_floor",
       "rows": [
-        "#                       ",
-        "#                       ",
-        "#                       ",
-        "# ####+#### ####+####   ",
-        "# #nh....o# #nh....o#   ",
-        "# #1..d.@@# #1..d.@@#   ",
-        "# ######### #########   ",
-        "#                       ",
-        "# ####+#### ####+####   ",
-        "# #nh..!.o# #nh....o#   ",
-        "# #1..d.@@# #1..d.@@#   ",
-        "# ######### #########   ",
-        "#                       ",
-        "# ####+#### ####+####   ",
-        "# #nh....o# #nh..!.o#   ",
-        "# #1..d.@@# #1..d.@@#   ",
-        "# ######### #########   ",
-        "#                       ",
-        "#                       ",
-        "########################",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        "
+            "#                       ",
+            "#                       ",
+            "#                       ",
+            "# ####+#### ####+####   ",
+            "# #nh....o# #nh....o#   ",
+            "# #1..d.@@# #1..d.@@#   ",
+            "# ######### #########   ",
+            "#                       ",
+            "# ####+#### ####+####   ",
+            "# #nh..!.o# #nh....o#   ",
+            "# #1..d.@@# #1..d.@@#   ",
+            "# ######### #########   ",
+            "#                       ",
+            "# ####+#### ####+####   ",
+            "# #nh....o# #nh..!.o#   ",
+            "# #1..d.@@# #1..d.@@#   ",
+            "# ######### #########   ",
+            "#                       ",
+            "#                       ",
+            "########################",
+            "                        ",
+            "                        ",
+            "                        ",
+            "                        "
       ],
       "palettes": [ "bandit_camp" ],
-      "npcs": { "!": { "class": "pagan_cult_member" } },
-      "terrain": { " ": "t_region_groundcover", ".": "t_rock_floor" },
-      "furniture": { "1": "f_firefly_terrarium" }
+      "npcs": {
+	        "!": { "class": "pagan_cult_member" }
+              },
+      "terrain": {
+        " ": "t_region_groundcover",
+        ".": "t_rock_floor"
+      }, 
+      "furniture": {
+        "1": "f_firefly_terrarium"
+      }
     }
   },
-  {
+{
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "pagan_cult_right_corner_up" ],
@@ -124,75 +148,96 @@
     "object": {
       "fill_ter": "t_rock_floor",
       "rows": [
-        "########################",
-        "                       #",
-        "                       #",
-        "  ####+#### ####+####  #",
-        "  #nh....o# #nh....o#  #",
-        "  #1..d.@@# #1..d.@@#  #",
-        "  ######### #########  #",
-        "                       #",
-        "  ####+#### ####+####  #",
-        "  #nh..!.o# #nh....o#  #",
-        "  #1..d.@@# #1..d.@@#  #",
-        "  ######### #########  #",
-        "                       #",
-        "  ####+#### ####+####  #",
-        "  #nh....o# #nh..!.o#  #",
-        "  #1..d.@@# #1..d.@@#  #",
-        "  ######### #########  #",
-        "                       #",
-        "  ####+#### ####+####  #",
-        "  #nh....o# #nh..!.o#  #",
-        "  #1..d.@@# #1..d.@@#  #",
-        "  ######### #########  #",
-        "                       #",
-        "                       #"
+            "########################",
+            "                       #",
+            "                       #",
+            "  ####+#### ####+####  #",
+            "  #nh....o# #nh....o#  #",
+            "  #1..d.@@# #1..d.@@#  #",
+            "  ######### #########  #",
+            "                       #",
+            "  ####+#### ####+####  #",
+            "  #nh..!.o# #nh....o#  #",
+            "  #1..d.@@# #1..d.@@#  #",
+            "  ######### #########  #",
+            "                       #",
+            "  ####+#### ####+####  #",
+            "  #nh....o# #nh..!.o#  #",
+            "  #1..d.@@# #1..d.@@#  #",
+            "  ######### #########  #",
+            "                       #",
+            "  ####+#### ####+####  #",
+            "  #nh....o# #nh..!.o#  #",
+            "  #1..d.@@# #1..d.@@#  #",
+            "  ######### #########  #",
+            "                       #",
+            "                       #"
       ],
       "palettes": [ "bandit_camp" ],
-      "npcs": { "!": { "class": "pagan_cult_member" } },
-      "terrain": { " ": "t_region_groundcover", ".": "t_rock_floor" },
-      "furniture": { "1": "f_firefly_terrarium" }
+      "npcs": {
+	        "!": { "class": "pagan_cult_member" }
+              },
+      "terrain": {
+        " ": "t_region_groundcover",
+        ".": "t_rock_floor"
+      }, 
+      "furniture": {
+        "1": "f_firefly_terrarium"
+      }
     }
   },
-  {
+{
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "pagan_cult_left_corner_up" ],
     "weight": 100,
     "object": {
-      "faction_owner": [ { "id": "valhallists", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
+      "faction_owner": [
+        { "id": "valhallists", "x": [ 0, 23 ], "y": [ 0, 23 ] }
+      ],
       "fill_ter": "t_rock_floor",
       "rows": [
-        "########################",
-        "#                       ",
-        "#                       ",
-        "#  ####+###+##########  ",
-        "#  #L2o.ooo.r.r2r.r.r#  ",
-        "#  #L.o.....r.r.r.r.r#  ",
-        "#  #L.1..2..r.1.1.r.1#  ",
-        "#  #L...............r#  ",
-        "#  #L.1.....r.1.1.r.1#  ",
-        "#  #L.o..1..r.r.r.r2r#  ",
-        "#  #L.o.....r.r#######  ",
-        "#  #L.1..2..r.r#33333#  ",
-        "#  #2..........+..!.3#  ",
-        "#  #LLL..1..LLL#]]]]]#  ",
-        "#  #2.........2#.....#  ",
-        "#  #LLLLLLLLLLL#hnh..#  ",
-        "#  ################+##  ",
-        "#                       ",
-        "#                       ",
-        "#                       ",
-        "#                       ",
-        "#                       ",
-        "#                       ",
-        "#                       "
+            "########################",
+            "#                       ",
+            "#                       ",
+            "#  ####+###+##########  ",
+            "#  #L2o.ooo.r.r2r.r.r#  ",
+            "#  #L.o.....r.r.r.r.r#  ",
+            "#  #L.1..2..r.1.1.r.1#  ",
+            "#  #L...............r#  ",
+            "#  #L.1.....r.1.1.r.1#  ",
+            "#  #L.o..1..r.r.r.r2r#  ",
+            "#  #L.o.....r.r#######  ",
+            "#  #L.1..2..r.r#33333#  ",
+            "#  #2..........+..!.3#  ",
+            "#  #LLL..1..LLL#]]]]]#  ",
+            "#  #2.........2#.....#  ",
+            "#  #LLLLLLLLLLL#hnh..#  ",
+            "#  ################+##  ",
+            "#                       ",
+            "#                       ",
+            "#                       ",
+            "#                       ",
+            "#                       ",
+            "#                       ",
+            "#                       "
       ],
       "palettes": [ "bandit_camp" ],
-      "npcs": { "!": { "class": "pagan_cult_shopkeep" }, "2": { "class": "pagan_cult_member" } },
-      "terrain": { " ": "t_region_groundcover", ".": "t_rock_floor", "]": "t_bars" },
-      "furniture": { "1": "f_firefly_terrarium", "3": "f_rack_wood", "L": "f_rack_wood", "r": "f_rack_wood" },
+      "npcs": {
+	        "!": { "class": "pagan_cult_shopkeep" },
+	        "2": { "class": "pagan_cult_member" }
+              },
+      "terrain": {
+        " ": "t_region_groundcover",
+        ".": "t_rock_floor",
+        "]": "t_bars"
+      }, 
+      "furniture": {
+        "1": "f_firefly_terrarium",
+        "3": "f_rack_wood",
+        "L": "f_rack_wood",
+        "r": "f_rack_wood"
+      },
       "items": {
         "L": [
           { "item": "condiments", "chance": 80, "repeat": [ 2, 4 ] },
@@ -224,7 +269,7 @@
       }
     }
   },
-  {
+{
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "pagan_cult_long_wall" ],
@@ -233,35 +278,49 @@
     "object": {
       "fill_ter": "t_dirt",
       "rows": [
-        "#                       ",
-        "#    ###...###          ",
-        "#    #T+...+T#          ",
-        "#    ###S.S###          ",
-        "#    #T+...+T#          ",
-        "#    ###S.S###          ",
-        "#    #T+...+T#          ",
-        "#    #########          ",
-        "#                !      ",
-        "#     #.........#       ",
-        "#     #1.........       ",
-        "#     #r.........       ",
-        "#     #r2........       ",
-        "#     #r.........       ",
-        "#     #1.........       ",
-        "#     #.........#       ",
-        "#               !       ",
-        "#                       ",
-        "#                       ",
-        "#                       ",
-        "#                       ",
-        "#                       ",
-        "#                       ",
-        "#                       "
+            "#                       ",
+            "#    ###...###          ",
+            "#    #T+...+T#          ",
+            "#    ###S.S###          ",
+            "#    #T+...+T#          ",
+            "#    ###S.S###          ",
+            "#    #T+...+T#          ",
+            "#    #########          ",
+            "#                !      ",
+            "#     #.........#       ",
+            "#     #1.........       ",
+            "#     #r.........       ",
+            "#     #r2........       ",
+            "#     #r.........       ",
+            "#     #1.........       ",
+            "#     #.........#       ",
+            "#               !       ",
+            "#                       ",
+            "#                       ",
+            "#                       ",
+            "#                       ",
+            "#                       ",
+            "#                       ",
+            "#                       "
       ],
       "palettes": [ "bandit_camp" ],
-      "npcs": { "!": { "class": "pagan_cult_member" }, "2": { "class": "pagan_cult_mechanic" } },
-      "terrain": { " ": "t_region_groundcover", ".": "t_rock_floor", "2": "t_rock_floor", "S": "t_rock_floor", "T": "t_rock_floor" },
-      "furniture": { "1": "f_firefly_terrarium", "r": "f_rack", "S": "f_sink", "T": "f_toilet" },
+      "npcs": {
+	        "!": { "class": "pagan_cult_member" },
+	        "2": { "class": "pagan_cult_mechanic" }
+              },
+      "terrain": {
+        " ": "t_region_groundcover",
+        ".": "t_rock_floor",
+        "2": "t_rock_floor",
+        "S": "t_rock_floor",
+        "T": "t_rock_floor"
+      }, 
+      "furniture": {
+        "1": "f_firefly_terrarium",
+        "r": "f_rack",
+        "S": "f_sink",
+        "T": "f_toilet"
+      },
       "items": {
         "r": [
           { "item": "hardware_bulk", "chance": 80, "repeat": [ 2, 4 ] },
@@ -271,7 +330,7 @@
       }
     }
   },
-  {
+{
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "pagan_cult_long_wall" ],
@@ -280,38 +339,43 @@
     "object": {
       "fill_ter": "t_dirt",
       "rows": [
-        "#                       ",
-        "#                 !     ",
-        "#    DD DD   DD DD      ",
-        "#    DD DD   DD DD      ",
-        "#    DD DD   DD DD      ",
-        "#    DD DD   DD DD      ",
-        "#    DD DD   DD DD      ",
-        "#    DD DD   DD DD      ",
-        "#    DD DD  !DD DD      ",
-        "#    DD DD   DD DD      ",
-        "#    DD DD   DD DD      ",
-        "#    DD DD   DD DD      ",
-        "#    DD DD   DD DD      ",
-        "#    DD DD   DD DD      ",
-        "#    DD DD   DD DD      ",
-        "#    DD DD   DD DD      ",
-        "#    DD DD   DD DD      ",
-        "#    DD DD   DD DD      ",
-        "#    DD DD   DD DD      ",
-        "#    DD DD   DD DD      ",
-        "#   !DD DD   DD DD      ",
-        "#                       ",
-        "#                       ",
-        "#                       "
+            "#                       ",
+            "#                 !     ",
+            "#    DD DD   DD DD      ",
+            "#    DD DD   DD DD      ",
+            "#    DD DD   DD DD      ",
+            "#    DD DD   DD DD      ",
+            "#    DD DD   DD DD      ",
+            "#    DD DD   DD DD      ",
+            "#    DD DD  !DD DD      ",
+            "#    DD DD   DD DD      ",
+            "#    DD DD   DD DD      ",
+            "#    DD DD   DD DD      ",
+            "#    DD DD   DD DD      ",
+            "#    DD DD   DD DD      ",
+            "#    DD DD   DD DD      ",
+            "#    DD DD   DD DD      ",
+            "#    DD DD   DD DD      ",
+            "#    DD DD   DD DD      ",
+            "#    DD DD   DD DD      ",
+            "#    DD DD   DD DD      ",
+            "#   !DD DD   DD DD      ",
+            "#                       ",
+            "#                       ",
+            "#                       "
       ],
       "palettes": [ "bandit_camp" ],
       "sealed_item": { "D": { "item": { "item": "seed_corn" }, "furniture": "f_plant_seedling", "chance": 70 } },
-      "npcs": { "!": { "class": "pagan_cult_member" } },
-      "terrain": { " ": "t_region_groundcover", "D": "t_dirtmound" }
+      "npcs": {
+	        "!": { "class": "pagan_cult_member" }
+              },
+      "terrain": {
+        " ": "t_region_groundcover",
+        "D": "t_dirtmound"
+      }
     }
   },
-  {
+{
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "pagan_cult_longhouse" ],
@@ -319,38 +383,48 @@
     "object": {
       "fill_ter": "t_rock_floor",
       "rows": [
-        "########################",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "       ##############   ",
-        "       #@@1.hnh.1#.T#   ",
-        "       #@@.......+..#   ",
-        "       #######+###1S#   ",
-        "       #!...1...!####   ",
-        "       #....2....#      ",
-        "       #.........#      ",
-        "       #1.......1#      ",
-        "       #.........#      ",
-        "       #.........#      ",
-        "       #!.1...1.!#      ",
-        "       ####+++####      ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        "
+            "########################",
+            "                        ",
+            "                        ",
+            "                        ",
+            "                        ",
+            "                        ",
+            "       ##############   ",
+            "       #@@1.hnh.1#.T#   ",
+            "       #@@.......+..#   ",
+            "       #######+###1S#   ",
+            "       #!...1...!####   ",
+            "       #....2....#      ",
+            "       #.........#      ",
+            "       #1.......1#      ",
+            "       #.........#      ",
+            "       #.........#      ",
+            "       #!.1...1.!#      ",
+            "       ####+++####      ",
+            "                        ",
+            "                        ",
+            "                        ",
+            "                        ",
+            "                        ",
+            "                        "
       ],
       "palettes": [ "bandit_camp" ],
-      "npcs": { "!": { "class": "pagan_cult_member" }, "2": { "class": "pagan_cult_leader" } },
-      "terrain": { " ": "t_region_groundcover" },
-      "furniture": { "1": "f_firefly_terrarium", "2": "f_chair", "S": "f_sink", "T": "f_toilet" }
+      "npcs": {
+	        "!": { "class": "pagan_cult_member" },
+                "2": { "class": "pagan_cult_leader" }
+              },
+      "terrain": {
+        " ": "t_region_groundcover"
+      }, 
+      "furniture": {
+        "1": "f_firefly_terrarium",
+        "2": "f_chair",
+        "S": "f_sink",
+        "T": "f_toilet"
+      }
     }
   },
-  {
+{
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "pagan_cult_henge" ],
@@ -358,7 +432,7 @@
     "object": {
       "fill_ter": "t_dirt",
       "rows": [
-        "                        ",
+            "                        ",
         "               ...      ",
         "               .~!..    ",
         "    ....        ....    ",
@@ -384,9 +458,21 @@
         "                        "
       ],
       "palettes": [ "bandit_camp" ],
-      "npcs": { "!": { "class": "pagan_cult_member" }, "2": { "class": "pagan_cult_gode" } },
-      "terrain": { " ": "t_region_groundcover", "s": "t_grass", ".": [ "t_region_soil", "t_region_groundcover" ] },
-      "furniture": { "2": "f_chair", "p": "f_boulder_large", "~": "f_boulder_small", "#": "f_brazier" }
+      "npcs": {
+	        "!": { "class": "pagan_cult_member" },
+              "2": { "class": "pagan_cult_gode" }
+              },
+      "terrain": {
+        " ": "t_region_groundcover",
+        "s": "t_grass",
+        ".": [ "t_region_soil", "t_region_groundcover" ]
+      }, 
+      "furniture": {
+        "2": "f_chair",
+        "p": "f_boulder_large", 
+        "~": "f_boulder_small",
+        "#": "f_brazier"
+      }
     }
   }
 ]
