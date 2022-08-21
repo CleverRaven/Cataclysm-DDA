@@ -1,5 +1,5 @@
 [
- {
+  {
     "id": "MISSION_JOIN_VALHALLISTS",
     "type": "mission_definition",
     "name": { "str": "Join The Valhallists" },
@@ -8,17 +8,16 @@
     "difficulty": 5,
     "value": 0,
     "start": {
-      "assign_mission_target": {
-        "om_terrain": "field",
-        "reveal_radius": 1,
-        "random": true,
-        "search_range": 20,
-        "min_distance": 5,
-        "z": 0
-      },
+      "assign_mission_target": { "om_terrain": "field", "reveal_radius": 1, "random": true, "search_range": 20, "min_distance": 5, "z": 0 },
       "update_mapgen": { "place_monster": [ { "monster": "mon_nakedmolerat_giant", "x": 11, "y": 11, "target": true } ] }
     },
-    "end": { "effect": [ { "u_spawn_item": "helmet_skull" }, { "u_spawn_item": "signed_chit", "count": 8 }, { "u_add_var": "u_joined_valhallists", "type": "general", "context": "meeting", "value": "yes" } ] },
+    "end": {
+      "effect": [
+        { "u_spawn_item": "helmet_skull" },
+        { "u_spawn_item": "signed_chit", "count": 8 },
+        { "u_add_var": "u_joined_valhallists", "type": "general", "context": "meeting", "value": "yes" }
+      ]
+    },
     "origins": [ "ORIGIN_OPENER_NPC" ],
     "has_generic_rewards": false,
     "dialogue": {
@@ -33,7 +32,7 @@
       "failure": "Not everyone is cut out for this life, I suppose."
     }
   },
- {
+  {
     "id": "MISSION_VALHALLISTS_EXTERMINATE_FUNGAL_BLOOM",
     "type": "mission_definition",
     "name": { "str": "Pyromanic Dreams" },
@@ -52,7 +51,7 @@
         "z": 0
       },
       "update_mapgen": { "place_monster": [ { "monster": "mon_fungaloid_seeder", "x": [ 1, 21 ], "y": [ 1, 21 ], "target": true } ] },
-      "effect": [ { "u_spawn_item": "molotov", "count": 5 } ] 
+      "effect": [ { "u_spawn_item": "molotov", "count": 5 } ]
     },
     "end": { "effect": [ { "u_spawn_item": "signed_chit", "count": 80 } ] },
     "origins": [ "ORIGIN_OPENER_NPC" ],
@@ -273,9 +272,22 @@
         "min_distance": 10,
         "z": 1
       },
-      "update_mapgen": { "place_npcs": [ { "class": "pagan_cult_member_rescue", "x": [ 4, 20 ], "y": [ 5, 14 ], "target": true }, { "class": "pagan_cult_member_rescue", "x": [ 4, 20 ], "y": [ 5, 14 ], "target": true }, { "class": "pagan_cult_member_rescue", "x": [ 4, 20 ], "y": [ 5, 14 ], "target": true }, { "class": "pagan_cult_member_rescue", "x": [ 4, 20 ], "y": [ 5, 14 ], "target": true }, { "class": "pagan_cult_member_rescue", "x": [ 4, 20 ], "y": [ 5, 14 ], "target": true } ] }
+      "update_mapgen": {
+        "place_npcs": [
+          { "class": "pagan_cult_member_rescue", "x": [ 4, 20 ], "y": [ 5, 14 ], "target": true },
+          { "class": "pagan_cult_member_rescue", "x": [ 4, 20 ], "y": [ 5, 14 ], "target": true },
+          { "class": "pagan_cult_member_rescue", "x": [ 4, 20 ], "y": [ 5, 14 ], "target": true },
+          { "class": "pagan_cult_member_rescue", "x": [ 4, 20 ], "y": [ 5, 14 ], "target": true },
+          { "class": "pagan_cult_member_rescue", "x": [ 4, 20 ], "y": [ 5, 14 ], "target": true }
+        ]
+      }
     },
-    "end": { "effect": [ { "u_spawn_item": "signed_chit", "count": 100 }, { "mapgen_update": "valahllist_remove_raiding_party", "om_terrain": "pagan_cult_henge" } ] },
+    "end": {
+      "effect": [
+        { "u_spawn_item": "signed_chit", "count": 100 },
+        { "mapgen_update": "valahllist_remove_raiding_party", "om_terrain": "pagan_cult_henge" }
+      ]
+    },
     "followup": "MISSION_VALHALLISTS_GET_SPIRAL_STONE",
     "origins": [ "ORIGIN_OPENER_NPC" ],
     "has_generic_rewards": false,
@@ -318,7 +330,7 @@
       "failure": "Ah, well.  I'll see about an alternative."
     }
   },
-{
+  {
     "id": "MISSION_VALHALLISTS_KILL_BANDITS",
     "type": "mission_definition",
     "name": { "str": "Blood Gulch" },
@@ -356,17 +368,10 @@
     },
     "fail": {
       "update_mapgen": {
-        "remove_npcs": [
-          { "class": "bandit", "x": [ 0, 23 ], "y": [ 0, 23 ] },
-          { "class": "thug", "x": [ 0, 23 ], "y": [ 0, 23 ] }
-        ]
+        "remove_npcs": [ { "class": "bandit", "x": [ 0, 23 ], "y": [ 0, 23 ] }, { "class": "thug", "x": [ 0, 23 ], "y": [ 0, 23 ] } ]
       }
     },
-    "end": {
-      "effect": [
-        { "u_spawn_item": "signed_chit", "count": 60 }
-      ]
-    },
+    "end": { "effect": [ { "u_spawn_item": "signed_chit", "count": 60 } ] },
     "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_VALHALLISTS_RESCUE_SLAVES",
     "has_generic_rewards": false,
@@ -402,9 +407,20 @@
         "min_distance": 10,
         "z": 0
       },
-      "update_mapgen": { "place_npcs": [ { "class": "slave", "x": 10, "y": 15, "target": true }, { "class": "slave", "x": 10, "y": 16, "target": true }, { "class": "slave", "x": 11, "y": 15, "target": true } ] }
+      "update_mapgen": {
+        "place_npcs": [
+          { "class": "slave", "x": 10, "y": 15, "target": true },
+          { "class": "slave", "x": 10, "y": 16, "target": true },
+          { "class": "slave", "x": 11, "y": 15, "target": true }
+        ]
+      }
     },
-    "end": { "effect": [ { "u_spawn_item": "signed_chit", "count": 150 }, { "mapgen_update": "valahllist_remove_slaves", "om_terrain": "pagan_cult_henge" } ] },
+    "end": {
+      "effect": [
+        { "u_spawn_item": "signed_chit", "count": 150 },
+        { "mapgen_update": "valahllist_remove_slaves", "om_terrain": "pagan_cult_henge" }
+      ]
+    },
     "origins": [ "ORIGIN_OPENER_NPC" ],
     "has_generic_rewards": false,
     "dialogue": {
