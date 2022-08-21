@@ -6800,7 +6800,6 @@ bool map::draw_maptile( const catacurses::window &w, const tripoint &p,
     if( item_sym.empty() && sym == ' ' ) {
         if( !zlevels || p.z <= -OVERMAP_DEPTH || !curr_ter.has_flag( ter_furn_flag::TFLAG_NO_FLOOR ) ) {
             // Print filler symbol
-            sym = ' ';
             tercol = c_black;
         } else {
             // Draw tile underneath this one instead

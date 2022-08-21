@@ -297,8 +297,6 @@ void npc_template::load( const JsonObject &jsobj )
         } else {
             tem.gender_override = gender::female;
         }
-    } else {
-        tem.gender_override = gender::random;
     }
     if( jsobj.has_string( "faction" ) ) {
         guy.set_fac_id( jsobj.get_string( "faction" ) );
