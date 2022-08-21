@@ -4079,6 +4079,119 @@
     "difficulty": 1
   },
   {
+    "id": "nested_blunderbuss",
+    "type": "nested_category",
+    "activity_level": "fake",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_SHOT",
+    "name": "blunderbuss shot",
+    "description": "Recipes related to making rounds chambered for blunderbusses, the predecessor to the modern shotgun.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "blun_flechette", "blun_shot", "blun_shot_using_big_scrap", "blun_lead_shot", "blun_slug", "blun_slug_using_lead" ],
+    "difficulty": 3
+  },
+  {
+    "id": "nested_12ga",
+    "type": "nested_category",
+    "activity_level": "fake",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_SHOT",
+    "name": "12 gauge",
+    "description": "Recipes related to making rounds chambered in 12 gauge, the most common variety of shotshell.",
+    "skill_used": "fabrication",
+    "nested_category_data": [
+      "reloaded_shot_00",
+      "reloaded_shot_bird",
+      "reloaded_shot_dragon",
+      "reloaded_shot_flechette",
+      "reloaded_shot_slug",
+      "shot_scrap",
+      "bp_shot_00",
+      "bp_shot_bird",
+      "bp_shot_dragon",
+      "bp_shot_flechette",
+      "bp_shot_slug",
+      "bp_shot_scrap",
+      "bp_shot_00_with dowel",
+      "bp_shot_bird_with dowel",
+      "bp_shot_dragon_with dowel",
+      "bp_shot_flechette_with dowel",
+      "bp_shot_slug_with dowel",
+      "bp_shot_scrap_with dowel"
+    ],
+    "difficulty": 2
+  },
+  {
+    "id": "nested_20ga",
+    "type": "nested_category",
+    "activity_level": "fake",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_SHOT",
+    "name": "20 gauge percussion",
+    "description": "Recipes related to making rounds chambered in 20 gauge percussion.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "shot_paper_00", "shot_paper_bird", "shot_paper_slug", "shot_paper_dragon" ],
+    "difficulty": 2
+  },
+  {
+    "id": "nested_40mm",
+    "type": "nested_category",
+    "activity_level": "fake",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_SHOT",
+    "name": "40mm grenades",
+    "description": "Recipes related to making rounds chambered in 40mm.",
+    "skill_used": "launcher",
+    "nested_category_data": [ "nested_40x46mm", "nested_40x53mm" ],
+    "difficulty": 1
+  },
+  {
+    "id": "nested_40x46mm",
+    "type": "nested_category",
+    "activity_level": "fake",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "40x46mm",
+    "description": "Recipes related to making rounds chambered in 40x46mm, a low-velocity grenade for handheld grenade launchers.",
+    "skill_used": "launcher",
+    "nested_category_data": [
+      "40x46mm_buckshot_m118",
+      "40x46mm_buckshot_m199",
+      "40x46mm_hornets_nest_22lr",
+      "40x46mm_hornets_nest_410",
+      "40x46mm_slug_m118",
+      "40x46mm_slug_m199",
+      "40x46mm_flechette_m118",
+      "40x46mm_flechette_m199",
+      "bp_40x46mm_buckshot_m118",
+      "bp_40x46mm_buckshot_m199",
+      "bp_40x46mm_slug_m118",
+      "bp_40x46mm_slug_m199",
+      "bp_40x46mm_flechette_m118",
+      "bp_40x46mm_flechette_m199"
+    ],
+    "difficulty": 1
+  },
+  {
+    "id": "nested_40x53mm",
+    "type": "nested_category",
+    "activity_level": "fake",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "40x53mm",
+    "description": "Recipes related to making rounds chambered in 40x53mm, a high-velocity grenade for mounted or crew-served grenade launchers.",
+    "skill_used": "fabrication",
+    "nested_category_data": [
+      "40x53mm_buckshot_m169",
+      "40x53mm_slug_m169",
+      "40x53mm_flechette_m169",
+      "bp_40x53mm_buckshot_m169",
+      "bp_40x53mm_slug_m169",
+      "bp_40x53mm_flechette_m169"
+    ],
+    "difficulty": 4
+  },
+  {
     "id": "nested_modified_gunmods",
     "type": "nested_category",
     "activity_level": "fake",
@@ -4094,7 +4207,8 @@
       "muzzle_brake_mod",
       "nested_modified_gunmods_weapons",
       "nested_modified_gunmods_sights"
-    ]
+    ],
+    "difficulty": 4
   },
   {
     "id": "nested_modified_gunmods_weapons",
@@ -4114,7 +4228,8 @@
       "rm121aux_mod",
       "sword_bayonet_mod",
       "u_shotgun_mod"
-    ]
+    ],
+    "difficulty": 4
   },
   {
     "id": "nested_modified_gunmods_sights",
@@ -4125,7 +4240,8 @@
     "name": "sights",
     "description": "Recipes related to modifying sights to attach to a wider variety of guns and crossbows.",
     "skill_used": "fabrication",
-    "nested_category_data": [ "acog_scope_mod", "offset_sights_mod", "offset_sight_rail_mod", "rifle_scope_mod" ]
+    "nested_category_data": [ "acog_scope_mod", "offset_sights_mod", "offset_sight_rail_mod", "rifle_scope_mod" ],
+    "difficulty": 4
   },
   {
     "id": "nested_ammo_flamethrower",
@@ -4475,7 +4591,8 @@
       "sights_mount_pistol",
       "stock_mount",
       "underbarrel_mount"
-    ]
+    ],
+    "difficulty": 3
   },
   {
     "id": "nested_arming_sword",
