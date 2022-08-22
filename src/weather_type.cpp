@@ -35,24 +35,6 @@ std::string enum_to_string<precip_class>( precip_class data )
 }
 
 template<>
-std::string enum_to_string<sun_intensity_type>( sun_intensity_type data )
-{
-    switch( data ) {
-        case sun_intensity_type::none:
-            return "none";
-        case sun_intensity_type::light:
-            return "light";
-        case sun_intensity_type::normal:
-            return "normal";
-        case sun_intensity_type::high:
-            return "high";
-        case sun_intensity_type::last:
-            break;
-    }
-    cata_fatal( "Invalid sun_intensity_type" );
-}
-
-template<>
 std::string enum_to_string<weather_sound_category>( weather_sound_category data )
 {
     switch( data ) {

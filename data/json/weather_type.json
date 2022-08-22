@@ -14,7 +14,6 @@
     "precip": "none",
     "rains": false,
     "acidic": false,
-    "sun_intensity": "high",
     "sound_category": "sunny",
     "condition": {
       "and": [
@@ -41,7 +40,6 @@
     "rains": false,
     "acidic": false,
     "sound_category": "cloudy",
-    "sun_intensity": "light",
     "condition": {
       "and": [
         { "compare_int": [ { "weather": "humidity" }, ">=", { "const": 40 } ] },
@@ -68,7 +66,6 @@
     "tiles_animation": "weather_rain_drop",
     "weather_animation": { "factor": 0.01, "color": "light_blue", "sym": "," },
     "sound_category": "drizzle",
-    "sun_intensity": "light",
     "required_weathers": [ "cloudy" ],
     "condition": {
       "or": [
@@ -96,7 +93,6 @@
     "tiles_animation": "weather_rain_drop",
     "weather_animation": { "factor": 0.01, "color": "light_blue", "sym": "." },
     "sound_category": "drizzle",
-    "sun_intensity": "light",
     "required_weathers": [ "light_drizzle" ],
     "condition": {
       "or": [
@@ -124,7 +120,6 @@
     "tiles_animation": "weather_rain_drop",
     "weather_animation": { "factor": 0.02, "color": "light_blue", "sym": "," },
     "sound_category": "rainy",
-    "sun_intensity": "light",
     "required_weathers": [ "light_drizzle", "drizzle" ],
     "condition": {
       "or": [
@@ -152,7 +147,6 @@
     "tiles_animation": "weather_rain_drop",
     "weather_animation": { "factor": 0.02, "color": "light_blue", "sym": "." },
     "sound_category": "thunder",
-    "sun_intensity": "none",
     "required_weathers": [ "rain" ],
     "condition": { "compare_int": [ { "weather": "pressure" }, "<", { "const": 996 } ] }
   },
@@ -175,7 +169,6 @@
     "tiles_animation": "weather_rain_drop",
     "weather_animation": { "factor": 0.04, "color": "light_blue", "sym": "," },
     "sound_category": "thunder",
-    "sun_intensity": "none",
     "required_weathers": [ "thunder" ],
     "condition": { "compare_int": [ { "weather": "pressure" }, "<", { "const": 990 } ] }
   },
@@ -198,7 +191,6 @@
     "tiles_animation": "weather_acid_drop",
     "weather_animation": { "factor": 0.01, "color": "light_green", "sym": "." },
     "sound_category": "drizzle",
-    "sun_intensity": "normal",
     "required_weathers": [ "drizzle" ]
   },
   {
@@ -220,7 +212,6 @@
     "tiles_animation": "weather_acid_drop",
     "weather_animation": { "factor": 0.02, "color": "light_green", "sym": "," },
     "sound_category": "rainy",
-    "sun_intensity": "none",
     "required_weathers": [ "rain" ]
   },
   {
@@ -242,7 +233,6 @@
     "tiles_animation": "weather_snowflake",
     "weather_animation": { "factor": 0.01, "color": "white", "sym": "." },
     "sound_category": "flurries",
-    "sun_intensity": "light",
     "required_weathers": [ "flurries" ],
     "condition": { "compare_int": [ { "weather": "temperature" }, "<", { "const": 33 } ] }
   },
@@ -265,7 +255,6 @@
     "tiles_animation": "weather_snowflake",
     "weather_animation": { "factor": 0.02, "color": "white", "sym": "," },
     "sound_category": "snow",
-    "sun_intensity": "light",
     "required_weathers": [ "rain", "thunder", "lightning" ],
     "condition": { "compare_int": [ { "weather": "temperature" }, "<", { "const": 33 } ] }
   },
@@ -288,7 +277,6 @@
     "tiles_animation": "weather_snowflake",
     "weather_animation": { "factor": 0.04, "color": "white", "sym": "*" },
     "sound_category": "snowstorm",
-    "sun_intensity": "none",
     "required_weathers": [ "thunder", "lightning" ],
     "condition": {
       "and": [
@@ -316,7 +304,6 @@
     "tiles_animation": "weather_portal_storm",
     "weather_animation": { "factor": 0.01, "color": "red", "sym": "*" },
     "sound_category": "portal_storm",
-    "sun_intensity": "light",
     "condition": { "compare_int": [ { "global_val": "var", "var_name": "cause_early_portal_storm" }, "=", { "const": 1 } ] }
   },
   {
@@ -338,7 +325,6 @@
     "tiles_animation": "weather_portal_storm",
     "weather_animation": { "factor": 0.01, "color": "red", "sym": "*" },
     "sound_category": "portal_storm",
-    "sun_intensity": "light",
     "condition": { "compare_int": [ { "global_val": "var", "var_name": "cause_portal_storm" }, "=", { "const": 1 } ] }
   }
 ]
