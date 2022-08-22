@@ -542,7 +542,7 @@ static medical_column draw_effects_summary( const int column_count, avatar *play
     }
 
     if( player->has_trait( trait_TROGLO ) && g->is_in_sunlight( player->pos() ) &&
-        get_weather().weather_id->sun_intensity >= sun_intensity_type::high ) {
+        incident_sun_irradiance( get_weather().weather_id, calendar::turn ) > irradiance::moderate ) {
         effects_column.add_column_line( selection_line( "In Sunlight", "The sunlight irritates you.\n",
                                         max_width ) );
     } else if( player->has_trait( trait_TROGLO2 ) && g->is_in_sunlight( player->pos() ) ) {

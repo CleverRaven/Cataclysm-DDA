@@ -843,7 +843,7 @@ void suffer::in_sunlight( Character &you )
     }
 
     if( ( you.has_trait( trait_TROGLO ) || you.has_trait( trait_TROGLO2 ) ) &&
-        get_weather().weather_id->sun_intensity >= sun_intensity_type::high ) {
+        incident_sun_irradiance( get_weather().weather_id, calendar::turn ) > irradiance::moderate ) {
         you.mod_str_bonus( -1 );
         you.mod_dex_bonus( -1 );
         you.add_miss_reason( _( "The sunlight distracts you." ), 1 );
