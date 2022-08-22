@@ -194,7 +194,7 @@
         { "item": "hammer", "x": [ 10, 17 ], "y": 4 },
         { "item": "1st_aid_box", "x": 3, "y": [ 6, 7 ] },
         { "item": "filthy_used_rag", "x": [ 2, 3 ], "y": [ 6, 7 ], "repeat": 2 },
-		{ "item": "bottle_plastic_pill_prescription", "x": [ 2, 3 ], "y": [ 6, 7 ] },
+        { "item": "bottle_plastic_pill_prescription", "x": [ 2, 3 ], "y": [ 6, 7 ] },
         { "item": "loose_tramadol", "x": [ 2, 3 ], "y": [ 6, 7 ], "repeat": [ 1, 3 ] }
       ],
       "place_monster": [
@@ -300,20 +300,20 @@
   },
   {
     "id": "loose_nail_group",
-	"//": "Item group for spawning single nails",
-	"type": "item_group",
+    "//": "Item group for spawning single nails",
+    "type": "item_group",
     "items": [
       { "item": "nail", "charges": 1 }
-	]
+    ]
   },
   {
     "id": "loose_tramadol",
     "//": "Copies from tramadol object to remove container, allowing for spawning single pill",
-	"copy-from": "tramadol",
+    "copy-from": "tramadol",
     "type": "COMESTIBLE",
     "name": { "str": "tramadol" },
-	"charges": 1,
-	"container": null
+    "charges": 1,
+    "container": null
   },
   {
     "id": "filthy_used_rag",
@@ -321,6 +321,6 @@
     "copy-from": "cotton_patchwork",
     "type": "TOOL",
     "name": { "str": "cotton patch", "str_pl": "cotton patches" },
-    "flags": [ "FILTHY" ]	
+    "flags": [ "FILTHY" ]
   }
 ]
