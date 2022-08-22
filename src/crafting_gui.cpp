@@ -738,7 +738,7 @@ void recipe_result_info_cache::insert_iteminfo_block_separator( std::vector<item
     info_vec.emplace_back( "DESCRIPTION", "--" );
 }
 
-int nested_index( tab_list &tab, tab_list &subtab )
+static int nested_index( tab_list &tab, tab_list &subtab )
 {
     if( tab.cur_index() == 0 && subtab.cur_index() >= fav_tab_size ) {
         return subtab.cur_index() - fav_tab_size;
