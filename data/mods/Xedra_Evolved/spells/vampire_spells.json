@@ -1,0 +1,21 @@
+[
+  {
+    "id": "spell_eyegleam",
+    "type": "SPELL",
+    "name": "Eye gleam",
+    "description": "Gives you the power to see in the dark.",
+    "message": "Your eyes glow red for a moment.  Now your sight can pierce the darkest shadows.",
+    "valid_targets": [ "self" ],
+    "effect": "attack",
+    "effect_str": "eyegleam",
+    "shape": "blast",
+    "min_range": 1,
+    "max_range": 1,
+    "base_casting_time": 100,
+    "base_energy_cost": 0,
+    "energy_source": "NONE",
+    "min_duration": 100000,
+    "max_duration": 1000000,
+    "duration_increment": 2000
+  },
+]

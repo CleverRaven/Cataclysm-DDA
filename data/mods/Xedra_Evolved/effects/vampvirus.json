@@ -93,46 +93,42 @@
       }
     ]
   },
-    {
-      "type": "effect_on_condition",
-      "id": "EOC_vampire_virus_escalation",
-      "recurrence": [ "48 hours", "120 hours 15 minutes" ],
-      "condition": { "and": [ { "u_has_effect": "vampire_virus" }, { "not": { "u_has_effect": "blood_treatment" } } ] },
-      "deactivate_condition": { "not": { "u_has_effect": "vampire_virus" } },
-      "effect": {
-        "run_eocs": [
-          {
-            "id": "EOC_VAMPVIRUS",
-            "condition": {
-              "and": [
-                { "u_has_effect": "vampire_virus", "intensity": 1 },
-                { "compare_int": [ { "u_val": "effect_intensity", "effect": "vampire_virus" }, "=", { "const": 1 } ] }
-              ]
-            },
-            "effect": {
-              "run_eocs": {
-                "id": "eoc_vampvirus_1_trait",
-                "condition": { "u_has_trait": "VAMPIRE" },
-                "effect": {
-                  "run_eocs": [
-                    {
-                      "id": "EOC_VAMPVIRUS_TRAITS",
-                      "condition": { "and": [ { "u_has_trait": "VAMPIRE" }, { "u_has_trait": "EYEGLEAM" }, { "u_has_trait": "STAMINAFORBLOOD" } ] },
-                      "effect": "EOC_VAMPVIRUS1",
-                      "false_effect": [
-                        { "u_roll_remainder": [ "EYEGLEAM", "STAMINAFORBLOOD" ], "type": "mutation" },
-                        { "u_message": "You realize a new ability as a result of the changes your body is undergoing." }
-                      ]
-                    }
-                  ]
-                }
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_vampire_virus_escalation",
+    "recurrence": [ "48 hours", "120 hours 15 minutes" ],
+    "condition": { "and": [ { "u_has_effect": "vampire_virus" }, { "not": { "u_has_effect": "blood_treatment" } } ] },
+    "deactivate_condition": { "not": { "u_has_effect": "vampire_virus" } },
+    "effect": {
+      "run_eocs": [
+        {
+          "id": "EOC_VAMPVIRUS",
+          "condition": {
+            "and": [
+              { "u_has_effect": "vampire_virus", "intensity": 1 },
+              { "compare_int": [ { "u_val": "effect_intensity", "effect": "vampire_virus" }, "=", { "const": 1 } ] }
+            ]
+          },
+          "effect": {
+            "run_eocs": {
+              "id": "eoc_vampvirus_1_trait",
+              "condition": { "u_has_trait": "VAMPIRE" },
+              "effect": {
+                "run_eocs": [
+                  {
+                    "id": "EOC_VAMPVIRUS_TRAITS",
+                    "condition": { "and": [ { "u_has_trait": "VAMPIRE" }, { "u_has_trait": "EYEGLEAM" }, { "u_has_trait": "STAMINAFORBLOOD" } ] },
+                    "effect": "EOC_VAMPVIRUS1",
+                    "false_effect": [
+                      { "u_roll_remainder": [ "EYEGLEAM", "STAMINAFORBLOOD" ], "type": "mutation" },
+                      { "u_message": "You realize a new ability as a result of the changes your body is undergoing." }
+                    ]
+                  }
+                ]
               }
             }
           }
-        ]
-      }
-    },
-
+        },
         {
           "id": "EOC_VAMPVIRUS1",
           "condition": {
@@ -146,19 +142,17 @@
               "id": "eoc_vampvirus_2_trait",
               "condition": { "u_has_trait": "VAMPIRE2" },
               "effect": {
-                    "run_eocs": [
-                      {
-                        "id": "EOC_VAMPVIRUS2_TRAITS",
-                        "condition": { "and": [ { "u_has_trait": "VAMPIRE" }, { "u_has_trait": "BLOODHEAL" }, { "u_has_trait": "COAGULANTWEAVE" } ] },
-                        "effect": "EOC_VAMPVIRUS1",
-                        "false_effect": [
-                          { "u_roll_remainder": [ "COAGULANTWEAVE", "BLOODHEAL" ], "type": "mutation" },
-                          { "u_message": "You realize a new ability as a result of the changes your body is undergoing." }
-                        ]
-                      }
+                "run_eocs": [
+                  {
+                    "id": "EOC_VAMPVIRUS2_TRAITS",
+                    "condition": { "and": [ { "u_has_trait": "VAMPIRE" }, { "u_has_trait": "BLOODHEAL" }, { "u_has_trait": "COAGULANTWEAVE" } ] },
+                    "effect": "EOC_VAMPVIRUS1",
+                    "false_effect": [
+                      { "u_roll_remainder": [ "COAGULANTWEAVE", "BLOODHEAL" ], "type": "mutation" },
+                      { "u_message": "You realize a new ability as a result of the changes your body is undergoing." }
                     ]
                   }
-                }
+                ]
               },
               "false_effect": [
                 { "u_add_trait": "VAMPIRE2" },
@@ -228,7 +222,7 @@
         }
       ]
     }
-,
+  },
   {
     "type": "effect_on_condition",
     "id": "EOC_vampire_virus_blood_needs",

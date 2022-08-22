@@ -89,7 +89,7 @@
     "id": "VAMPIRE2",
     "name": { "str": "Walking the shadowed path of blood." },
     "points": 0,
-    "description": "You have developed a thirst for the blood of your fellow humans.",
+    "description": "You have new fangs to go along with your thirst for blood.",
     "starting_trait": false,
     "purifiable": false,
     "types": [ "TEETH" ],
