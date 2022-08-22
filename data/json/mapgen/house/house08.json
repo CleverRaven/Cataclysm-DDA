@@ -10,11 +10,11 @@
       "rows": [
         ".%%%.....p.`....%%%.....",
         ".%###o####o*o##########.",
-        ".%#hr E | RRRR       ho.",
-        ".^# r E +HHH    lll  ho.",
+        ".%#hr E |    RR HHH  ho.",
+        ".^# r E +       lll  ho.",
         ".%#y    |            h#.",
-        ".##||||+|             o.",
-        ".o      |         h   o.",
+        ".##||||+|R            o.",
+        ".o      |R        h   o.",
         ".#E @@  |       A   A #.",
         ".o d@@s | hfh | ||JJJ|#.",
         ".#|||||+| hfh |  Y   4#.",
@@ -98,7 +98,7 @@
         "........................"
       ],
       "palettes": [
-        { "distribution": [ [ "standard_domestic_palette", 10 ], [ "standard_domestic_palette_abandoned", 2 ] ] },
+        "standard_domestic_palette",
         "standard_domestic_party_palette"
       ],
       "place_fields": [ { "field": "fd_blood", "x": [ 9, 11 ], "y": [ 12, 14 ], "repeat": [ 4, 6 ] } ],
@@ -134,6 +134,71 @@
         { "monster": "mon_zombie_child", "x": [ 7, 21 ], "y": [ 13, 21 ], "chance": 100, "repeat": 4 },
         { "monster": "mon_zombie_child", "x": [ 4, 21 ], "y": [ 3, 11 ], "chance": 100, "repeat": 2 },
         { "monster": "mon_zombie", "x": [ 4, 21 ], "y": [ 3, 11 ], "chance": 66, "repeat": 2 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "house_08" ],
+    "//": "Overrun while fortifying variant",
+    "weight": 30,
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+        ".%%%.....p.`....%%%.....",
+        ".%###=####=*=##########.",
+        ".%#hr E | RRR        H=.", 
+        ".^# r E 0       lll  H=.",
+        ".%#y    |            H#.",
+        ".##||||$|        h    =.",
+        ".o    sE|       h h   ~.",
+        ".#  @@  |       AA    #.",
+        "._ d@@  | hfh | ||JJJ|#.",
+        ".#|||||$| hfh |  Y   4#.",
+        ".#g|                 Oo.",
+        ".#>+    d     |6 31F52#.",
+        ".#||+|##¶###¶###o######.",
+        ".oB8 S#%``````.......^Ŧ.",
+        ".#B  t#.``````........Ŧ.",
+        ".######...............Ŧ.",
+        ".Ŧ....................Ŧ.",
+        ".Ŧ....................Ŧ.",
+        ".Ŧ....................Ŧ.",
+        ".Ŧ....................Ŧ.",
+        ".Ŧ....................Ŧ.",
+        ".Ŧ....................Ŧ.",
+        ".ŦŦŦŦŦŦŦŦŦŦŦŦŦŦŦŦŦŦŦŦŦŦ.",
+        "........................"
+      ],
+      "palettes": [ "standard_domestic_palette", "standard_domestic_landscaping_palette" ],
+      "terrain": {
+        "o": "t_curtains",
+        "=": "t_window_boarded",
+        "~": "t_window_frame",
+        "_": "t_window_open",
+        "0": "t_door_b",
+        "$": "t_door_c"
+      },
+      "place_fields": [
+        { "field": "fd_blood", "x": [ 21, 22 ], "y": [ 5, 7 ], "repeat": [ 6, 8 ] },
+        { "field": "fd_blood", "x": [ 10, 17 ], "y": 4, "repeat": [ 8, 12 ] },
+        { "field": "fd_blood", "x": [ 9, 10 ], "y": [ 3, 4 ], "repeat": [ 2, 4 ] },
+        { "field": "fd_blood", "x": 7, "y": 4 },
+        { "field": "fd_blood", "x": [ 3, 5 ], "y": 6, "repeat": 2 },
+        { "field": "fd_blood", "x": [ 2, 3 ], "y": [ 6, 7 ], "repeat": 4 }
+       ],
+      "place_loot": [
+        { "item": "2x4", "x": [ 20, 21 ], "y": [ 5, 7 ], "repeat": [ 3, 5 ] },
+        { "group": "loose_nail_group", "x": [ 20, 21 ], "y": [ 5, 7 ], "repeat": [ 6, 10 ] },
+        { "item": "hammer", "x": [ 10, 17 ], "y": 4 },
+        { "item": "1st_aid_box", "x": 3, "y": [ 6, 7 ] },
+        { "item": "filthy_used_rag", "x": [ 2, 3 ], "y": [ 6, 7 ], "repeat": 2 },
+		{ "item": "bottle_plastic_pill_prescription", "x": [ 2, 3 ], "y": [ 6, 7 ] },
+        { "item": "loose_tramadol", "x": [ 2, 3 ], "y": [ 6, 7 ], "repeat": [ 1, 3 ] }
+      ],
+      "place_monster": [
+        { "monster": "mon_zombie", "x": [ 9, 21 ], "y": [ 3, 7 ], "repeat": 5 }
       ]
     }
   },
@@ -232,5 +297,30 @@
         }
       }
     }
+  },
+  {
+    "id": "loose_nail_group",
+	"//": "Item group for spawning single nails",
+	"type": "item_group",
+    "items": [
+      { "item": "nail", "charges": 1 }
+	]
+  },
+  {
+    "id": "loose_tramadol",
+    "//": "Copies from tramadol object to remove container, allowing for spawning single pill",
+	"copy-from": "tramadol",
+    "type": "COMESTIBLE",
+    "name": { "str": "tramadol" },
+	"charges": 1,
+	"container": null
+  },
+  {
+    "id": "filthy_used_rag",
+    "//": "Copies from cotton_patchwork to add filthy tag, allowing for spawning filthy cotton patch",
+    "copy-from": "cotton_patchwork",
+    "type": "TOOL",
+    "name": { "str": "cotton patch", "str_pl": "cotton patches" },
+    "flags": [ "FILTHY" ]	
   }
 ]
