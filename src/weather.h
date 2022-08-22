@@ -65,7 +65,7 @@ constexpr float very_high = 906;
 
 // Sun at 70° on a clear day.
 constexpr float extreme = 940;
-}
+} // namespace irradiance
 
 #include <cstdint>
 #include <iosfwd>
