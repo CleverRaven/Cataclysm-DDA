@@ -23,7 +23,7 @@
     "description": "The shuffling corpse of a medium-sized dinosaur with sharp teeth and two prominent bony crests on its head, with ragged strips of ripped flesh hanging down like a frill.",
     "burn_into": "mon_zilophosaurus_scorched",
     "fungalize_into": "mon_zilophosaurus_fungus",
-    "upgrades": { "half_life": 14, "into_group": "GROUP_zilophosaurus_UPGRADE" }
+    "upgrades": { "half_life": 30, "into_group": "GROUP_zilophosaurus_UPGRADE" }
   },
   {
     "type": "MONSTER",
@@ -48,7 +48,7 @@
     "description": "This zombie is enormous, scaly, and studded with bony spikes; it moves with horrible speed.  Its colorful horns are worn and wet with filth and its bright scales and bone spikes have taken a beating.",
     "burn_into": "mon_zeratosaurus_scorched",
     "fungalize_into": "mon_zeratosaurus_fungus",
-    "upgrades": { "half_life": 14, "into_group": "GROUP_zeratosaurus_UPGRADE" },
+    "upgrades": { "half_life": 30, "into_group": "GROUP_zeratosaurus_UPGRADE" },
     "flags": [ "SEES", "SMELLS", "HEARS", "BASHES", "POISON", "STUMBLES", "NO_BREATHE", "REVIVES", "FILTHY", "WARM", "SWIMS" ]
   },
   {
@@ -81,7 +81,7 @@
     "special_attacks": [ [ "scratch", 10 ], [ "GRAB", 10 ], { "type": "bite", "cooldown": 5 } ],
     "burn_into": "mon_zpinosaurus_scorched",
     "fungalize_into": "mon_zpinosaurus_fungus",
-    "upgrades": { "half_life": 14, "into_group": "GROUP_zpinosaurus_UPGRADE" },
+    "upgrades": { "half_life": 30, "into_group": "GROUP_zpinosaurus_UPGRADE" },
     "flags": [
       "SEES",
       "SMELLS",
@@ -132,7 +132,7 @@
     "special_attacks": [ [ "scratch", 10 ], [ "GRAB", 10 ], { "type": "bite", "cooldown": 5 } ],
     "burn_into": "mon_zorvosaurus_scorched",
     "fungalize_into": "mon_zorvosaurus_fungus",
-    "upgrades": { "half_life": 14, "into_group": "GROUP_zorvosaurus_UPGRADE" },
+    "upgrades": { "half_life": 30, "into_group": "GROUP_zorvosaurus_UPGRADE" },
     "flags": [ "SEES", "SMELLS", "HEARS", "POISON", "STUMBLES", "BASHES", "DESTROYS", "NO_BREATHE", "REVIVES", "FILTHY", "WARM" ],
     "vision_night": 3,
     "harvest": "zed_dino_leather",
@@ -162,7 +162,7 @@
     "description": "The shambling corpse of a large predatory bipedal dinosaur with a mouth full of sharp serrated teeth.",
     "burn_into": "mon_zallosaurus_scorched",
     "fungalize_into": "mon_zallosaurus_fungus",
-    "upgrades": { "half_life": 14, "into_group": "GROUP_zallosaurus_UPGRADE" },
+    "upgrades": { "half_life": 30, "into_group": "GROUP_zallosaurus_UPGRADE" },
     "flags": [ "SEES", "SMELLS", "HEARS", "POISON", "STUMBLES", "BASHES", "NO_BREATHE", "REVIVES", "FILTHY", "WARM" ]
   },
   {
@@ -188,7 +188,7 @@
     "description": "The shambling corpse of a huge, bipedal dinosaur predator, with a tall ridge running down the length of its back covered with heavy muscles.  Its teeth are curved and serrated like sawblades.",
     "burn_into": "mon_zacrocanthosaurus_scorched",
     "fungalize_into": "mon_zacrocanthosaurus_fungus",
-    "upgrades": { "half_life": 14, "into_group": "GROUP_zacrocanthosaurus_UPGRADE" },
+    "upgrades": { "half_life": 30, "into_group": "GROUP_zacrocanthosaurus_UPGRADE" },
     "flags": [ "SEES", "SMELLS", "HEARS", "POISON", "STUMBLES", "BASHES", "NO_BREATHE", "REVIVES", "FILTHY", "WARM" ]
   },
   {
@@ -214,7 +214,7 @@
     "description": "The shambling corpse of a huge, bipedal dinosaur predator with long claws and strong arms for grappling.",
     "burn_into": "mon_ziats_scorched",
     "fungalize_into": "mon_ziats_fungus",
-    "upgrades": { "half_life": 14, "into_group": "GROUP_ziats_UPGRADE" },
+    "upgrades": { "half_life": 30, "into_group": "GROUP_ziats_UPGRADE" },
     "flags": [ "SEES", "SMELLS", "HEARS", "POISON", "STUMBLES", "BASHES", "NO_BREATHE", "REVIVES", "FILTHY", "WARM" ]
   },
   {
@@ -231,7 +231,7 @@
     ],
     "burn_into": "mon_zryptosaurus_scorched",
     "fungalize_into": "mon_zryptosaurus_fungus",
-    "upgrades": { "half_life": 14, "into_group": "GROUP_zryptosaurus_UPGRADE" }
+    "upgrades": { "half_life": 30, "into_group": "GROUP_zryptosaurus_UPGRADE" }
   },
   {
     "type": "MONSTER",
@@ -245,7 +245,7 @@
     "special_attacks": [ { "type": "bite", "cooldown": 15 }, [ "GRAB", 15 ], [ "scratch", 20 ], [ "LUNGE", 20 ] ],
     "burn_into": "mon_zappalachiosaurus_scorched",
     "fungalize_into": "mon_zappalachiosaurus_fungus",
-    "upgrades": { "half_life": 14, "into_group": "GROUP_zappalachiosaurus_UPGRADE" }
+    "upgrades": { "half_life": 30, "into_group": "GROUP_zappalachiosaurus_UPGRADE" }
   },
   {
     "type": "MONSTER",
@@ -260,7 +260,7 @@
     "special_attacks": [ { "type": "bite", "cooldown": 10 }, [ "GRAB", 15 ], [ "scratch", 20 ], [ "LUNGE", 15 ] ],
     "burn_into": "mon_zorgosaurus_scorched",
     "fungalize_into": "mon_zorgosaurus_fungus",
-    "upgrades": { "half_life": 14, "into_group": "GROUP_zorgosaurus_UPGRADE" }
+    "upgrades": { "half_life": 30, "into_group": "GROUP_zorgosaurus_UPGRADE" }
   },
   {
     "type": "MONSTER",
@@ -278,7 +278,7 @@
     "description": "Massive jaws drooling black liquid, lifted over grasping claws by a huge shuffling dinosaur corpse.",
     "burn_into": "mon_zalbertosaurus_scorched",
     "fungalize_into": "mon_zalbertosaurus_fungus",
-    "upgrades": { "half_life": 14, "into_group": "GROUP_zalbertosaurus_UPGRADE" }
+    "upgrades": { "half_life": 30, "into_group": "GROUP_zalbertosaurus_UPGRADE" }
   },
   {
     "type": "MONSTER",
@@ -300,7 +300,7 @@
     "description": "Massive, long jaws drooling black liquid, lifted by a huge but shuffling dinosaur corpse.",
     "burn_into": "mon_zianzhousaurus_scorched",
     "fungalize_into": "mon_zianzhousaurus_fungus",
-    "upgrades": { "half_life": 14, "into_group": "GROUP_zianzhousaurus_UPGRADE" },
+    "upgrades": { "half_life": 30, "into_group": "GROUP_zianzhousaurus_UPGRADE" },
     "flags": [ "SEES", "SMELLS", "HEARS", "BASHES", "POISON", "STUMBLES", "NO_BREATHE", "REVIVES", "FILTHY", "WARM" ]
   },
   {
@@ -314,7 +314,7 @@
     "description": "Huge jaws with long sharp teeth drooling black liquid over white feathers, lifted by a huge but shuffling dinosaur corpse.",
     "burn_into": "mon_zanuqsaurus_scorched",
     "fungalize_into": "mon_zanuqsaurus_fungus",
-    "upgrades": { "half_life": 14, "into_group": "GROUP_zanuqsaurus_UPGRADE" }
+    "upgrades": { "half_life": 30, "into_group": "GROUP_zanuqsaurus_UPGRADE" }
   },
   {
     "type": "MONSTER",
@@ -329,7 +329,7 @@
     "description": "Huge jaws with long sharp teeth drooling black liquid, lifted by a huge but shuffling dinosaur corpse.",
     "burn_into": "mon_zaspletosaurus_scorched",
     "fungalize_into": "mon_zaspletosaurus_fungus",
-    "upgrades": { "half_life": 14, "into_group": "GROUP_zaspletosaurus_UPGRADE" },
+    "upgrades": { "half_life": 30, "into_group": "GROUP_zaspletosaurus_UPGRADE" },
     "flags": [ "SEES", "SMELLS", "HEARS", "BASHES", "POISON", "STUMBLES", "NO_BREATHE", "REVIVES", "FILTHY", "WARM" ]
   },
   {
@@ -361,7 +361,7 @@
     "special_attacks": [ [ "scratch", 10 ], [ "GRAB", 7 ], { "type": "bite", "cooldown": 5 } ],
     "burn_into": "mon_zyrannosaurus_scorched",
     "fungalize_into": "mon_zyrannosaurus_fungus",
-    "upgrades": { "half_life": 14, "into_group": "GROUP_zyrannosaurus_UPGRADE" },
+    "upgrades": { "half_life": 30, "into_group": "GROUP_zyrannosaurus_UPGRADE" },
     "flags": [
       "SEES",
       "SMELLS",
@@ -423,7 +423,7 @@
     "description": "The shuffling corpse of a medium-sized bipedal dinosaur, covered with tattered feathers and black, putrid liquid.",
     "burn_into": "mon_zallimimus_scorched",
     "fungalize_into": "mon_zallimimus_fungus",
-    "upgrades": { "half_life": 14, "into_group": "GROUP_zallimimus_UPGRADE" },
+    "upgrades": { "half_life": 30, "into_group": "GROUP_zallimimus_UPGRADE" },
     "flags": [ "SEES", "SMELLS", "HEARS", "PET_MOUNTABLE", "POISON", "STUMBLES", "NO_BREATHE", "REVIVES", "FILTHY", "WARM" ],
     "vision_night": 3,
     "harvest": "zed_dino_feather",
@@ -441,7 +441,7 @@
     "attack_cost": 140,
     "burn_into": "mon_ztruthiomimus_scorched",
     "fungalize_into": "mon_ztruthiomimus_fungus",
-    "upgrades": { "half_life": 14, "into_group": "GROUP_ztruthiomimus_UPGRADE" }
+    "upgrades": { "half_life": 30, "into_group": "GROUP_ztruthiomimus_UPGRADE" }
   },
   {
     "type": "MONSTER",
@@ -455,7 +455,7 @@
     "attack_cost": 125,
     "burn_into": "mon_zornithomimus_scorched",
     "fungalize_into": "mon_zornithomimus_fungus",
-    "upgrades": { "half_life": 14, "into_group": "GROUP_zornithomimus_UPGRADE" },
+    "upgrades": { "half_life": 30, "into_group": "GROUP_zornithomimus_UPGRADE" },
     "extend": { "flags": [ "CLIMBS" ] }
   },
   {
@@ -479,7 +479,7 @@
     "description": "The shuffling corpse of a large-sized bipedal dinosaur covered with tattered feathers and black putrid liquid.  Sharp curved claws protrude from its hands.",
     "burn_into": "mon_zothronychus_scorched",
     "fungalize_into": "mon_zothronychus_fungus",
-    "upgrades": { "half_life": 14, "into_group": "GROUP_zothronychus_UPGRADE" }
+    "upgrades": { "half_life": 30, "into_group": "GROUP_zothronychus_UPGRADE" }
   },
   {
     "type": "MONSTER",
@@ -501,7 +501,7 @@
     "description": "The shuffling corpse of a large bipedal dinosaur covered with tattered feathers and black putrid liquid.  Long claws protrude from its hands.",
     "burn_into": "mon_zanzu_scorched",
     "fungalize_into": "mon_zanzu_fungus",
-    "upgrades": { "half_life": 14, "into_group": "GROUP_zanzu_UPGRADE" }
+    "upgrades": { "half_life": 30, "into_group": "GROUP_zanzu_UPGRADE" }
   },
   {
     "type": "MONSTER",
@@ -539,7 +539,7 @@
     "description": "The shuffling corpse of a medium-sized bipedal dinosaur covered with tattered feathers and black putrid liquid.  Both feet brandish a large sickle-like claw.",
     "burn_into": "mon_zeinonychus_scorched",
     "fungalize_into": "mon_zeinonychus_fungus",
-    "upgrades": { "half_life": 14, "into_group": "GROUP_zeinonychus_UPGRADE" },
+    "upgrades": { "half_life": 30, "into_group": "GROUP_zeinonychus_UPGRADE" },
     "flags": [ "SEES", "SMELLS", "HEARS", "KEENNOSE", "POISON", "STUMBLES", "NO_BREATHE", "REVIVES", "FILTHY", "WARM" ],
     "vision_day": 30,
     "vision_night": 10,
@@ -567,7 +567,7 @@
     "description": "The swaying, hopping corpse of a large bipedal dinosaur with feathered arms, a long tail, and long, sharp scythe-like claws.",
     "burn_into": "mon_zutahraptor_scorched",
     "fungalize_into": "mon_zutahraptor_fungus",
-    "upgrades": { "half_life": 14, "into_group": "GROUP_zutahraptor_UPGRADE" }
+    "upgrades": { "half_life": 30, "into_group": "GROUP_zutahraptor_UPGRADE" }
   },
   {
     "type": "MONSTER",
@@ -589,7 +589,7 @@
     "description": "Large, long-necked, two-legged dinosaur corpse with a long tail.",
     "burn_into": "mon_zissi_scorched",
     "fungalize_into": "mon_zissi_fungus",
-    "upgrades": { "half_life": 14, "into_group": "GROUP_zissi_UPGRADE" },
+    "upgrades": { "half_life": 30, "into_group": "GROUP_zissi_UPGRADE" },
     "special_attacks": [
       [ "scratch", 10 ],
       [ "GRAB", 20 ],
@@ -618,7 +618,7 @@
     "description": "Huge, long-necked, four-legged dinosaur corpse with two parallel rows of tall spines down its neck and back and a whip-like tail.",
     "burn_into": "mon_zamargasaurus_scorched",
     "fungalize_into": "mon_zamargasaurus_fungus",
-    "upgrades": { "half_life": 14, "into_group": "GROUP_zamargasaurus_UPGRADE" },
+    "upgrades": { "half_life": 30, "into_group": "GROUP_zamargasaurus_UPGRADE" },
     "flags": [ "SEES", "SMELLS", "HEARS", "BASHES", "POISON", "STUMBLES", "NO_BREATHE", "REVIVES", "FILTHY", "WARM" ]
   },
   {
@@ -647,7 +647,7 @@
     "description": "A massive, long-necked, four-legged dinosaur corpse with a long, whip-like tail.  The head is still upright and the neck looks like it would still make a good, strong club.",
     "burn_into": "mon_zapatosaurus_scorched",
     "fungalize_into": "mon_zapatosaurus_fungus",
-    "upgrades": { "half_life": 14, "into_group": "GROUP_zapatosaurus_UPGRADE" }
+    "upgrades": { "half_life": 30, "into_group": "GROUP_zapatosaurus_UPGRADE" }
   },
   {
     "type": "MONSTER",
@@ -658,7 +658,7 @@
     "description": "Massive, long-necked, four-legged dinosaur corpse with a bulky torso and a long, whip-like tail.",
     "burn_into": "mon_zrontosaurus_scorched",
     "fungalize_into": "mon_zrontosaurus_fungus",
-    "upgrades": { "half_life": 14, "into_group": "GROUP_zrontosaurus_UPGRADE" }
+    "upgrades": { "half_life": 30, "into_group": "GROUP_zrontosaurus_UPGRADE" }
   },
   {
     "type": "MONSTER",
@@ -684,7 +684,7 @@
     "description": "Huge, long-necked, four-legged dinosaur with a long, whip-like tail and a tiny head with vacant white eyes.  Sways and staggers.",
     "burn_into": "mon_ziplodocus_scorched",
     "fungalize_into": "mon_ziplodocus_fungus",
-    "upgrades": { "half_life": 14, "into_group": "GROUP_ziplodocus_UPGRADE" }
+    "upgrades": { "half_life": 30, "into_group": "GROUP_ziplodocus_UPGRADE" }
   },
   {
     "type": "MONSTER",
@@ -698,7 +698,7 @@
     "description": "Massive, long-necked, four-legged dinosaur corpse with a long, whip-like tail.  The head is still upright and the neck looks like it would still make a good, strong club.",
     "burn_into": "mon_zamarasaurus_scorched",
     "fungalize_into": "mon_zamarasaurus_fungus",
-    "upgrades": { "half_life": 14, "into_group": "GROUP_zamarasaurus_UPGRADE" }
+    "upgrades": { "half_life": 30, "into_group": "GROUP_zamarasaurus_UPGRADE" }
   },
   {
     "type": "MONSTER",
@@ -716,7 +716,7 @@
     "description": "Gigantic, long-necked, four-legged dinosaur corpse with longer forelegs and a whip-like tail.",
     "burn_into": "mon_zrachiosaurus_scorched",
     "fungalize_into": "mon_zrachiosaurus_fungus",
-    "upgrades": { "half_life": 14, "into_group": "GROUP_zrachiosaurus_UPGRADE" }
+    "upgrades": { "half_life": 30, "into_group": "GROUP_zrachiosaurus_UPGRADE" }
   },
   {
     "type": "MONSTER",
@@ -732,7 +732,7 @@
     "description": "Gigantic, long-necked, four-legged dinosaur corpse, protected by natural bone armor and a spiked tail.",
     "burn_into": "mon_zalamosaurus_scorched",
     "fungalize_into": "mon_zalamosaurus_fungus",
-    "upgrades": { "half_life": 14, "into_group": "GROUP_zalamosaurus_UPGRADE" }
+    "upgrades": { "half_life": 30, "into_group": "GROUP_zalamosaurus_UPGRADE" }
   },
   {
     "type": "MONSTER",
@@ -765,7 +765,7 @@
     "description": "A large, shambling quadruped dinosaur corpse, dragging with the weight of the plates on its back - waving a much livelier-looking spiked tail.",
     "burn_into": "mon_ztegosaurus_scorched",
     "fungalize_into": "mon_ztegosaurus_fungus",
-    "upgrades": { "half_life": 14, "into_group": "GROUP_ztegosaurus_UPGRADE" }
+    "upgrades": { "half_life": 30, "into_group": "GROUP_ztegosaurus_UPGRADE" }
   },
   {
     "type": "MONSTER",
@@ -778,7 +778,7 @@
     "description": "This armored dinosaur corpse looks like a giant prehistoric armadillo.  Its tail ends in a spiked club of bone.",
     "burn_into": "mon_zyoplosaurus_scorched",
     "fungalize_into": "mon_zyoplosaurus_fungus",
-    "upgrades": { "half_life": 14, "into_group": "GROUP_zyoplosaurus_UPGRADE" }
+    "upgrades": { "half_life": 30, "into_group": "GROUP_zyoplosaurus_UPGRADE" }
   },
   {
     "type": "MONSTER",
@@ -811,7 +811,7 @@
     "description": "The shuffling corpse of what looks like a giant armadillo with peeling armored plates and black, glistening eyes.  Its tail ends in a massive spiked club of bone.",
     "burn_into": "mon_zankylosaurus_scorched",
     "fungalize_into": "mon_zankylosaurus_fungus",
-    "upgrades": { "half_life": 14, "into_group": "GROUP_zankylosaurus_UPGRADE" },
+    "upgrades": { "half_life": 30, "into_group": "GROUP_zankylosaurus_UPGRADE" },
     "flags": [ "SEES", "SMELLS", "HEARS", "POISON", "STUMBLES", "NO_BREATHE", "REVIVES", "FILTHY", "WARM", "BASHES" ],
     "vision_night": 3,
     "harvest": "zed_dino_leather",
@@ -831,7 +831,7 @@
     "description": "This heavily-armored dinosaur corpse looks like a giant prehistoric armadillo.",
     "burn_into": "mon_zodosaurus_scorched",
     "fungalize_into": "mon_zodosaurus_fungus",
-    "upgrades": { "half_life": 14, "into_group": "GROUP_zodosaurus_UPGRADE" }
+    "upgrades": { "half_life": 30, "into_group": "GROUP_zodosaurus_UPGRADE" }
   },
   {
     "type": "MONSTER",
@@ -848,7 +848,7 @@
     "description": "This heavily-armored dinosaur corpse looks like a giant prehistoric armadillo with long, bony spikes.",
     "burn_into": "mon_zedmontonia_scorched",
     "fungalize_into": "mon_zedmontonia_fungus",
-    "upgrades": { "half_life": 14, "into_group": "GROUP_zedmontonia_UPGRADE" }
+    "upgrades": { "half_life": 30, "into_group": "GROUP_zedmontonia_UPGRADE" }
   },
   {
     "type": "MONSTER",
@@ -881,7 +881,7 @@
     "description": "The shuffling corpse of a large, feathered, bipedal dinosaur with strong legs, broad shoulders, and a pointed beak.  Its tattered feathers are stained with black, sticky liquid.",
     "burn_into": "mon_zamptosaurus_scorched",
     "fungalize_into": "mon_zamptosaurus_fungus",
-    "upgrades": { "half_life": 14, "into_group": "GROUP_zamptosaurus_UPGRADE" },
+    "upgrades": { "half_life": 30, "into_group": "GROUP_zamptosaurus_UPGRADE" },
     "flags": [ "SEES", "SMELLS", "HEARS", "POISON", "STUMBLES", "NO_BREATHE", "REVIVES", "FILTHY", "WARM", "BASHES" ],
     "vision_night": 3,
     "harvest": "zed_dino_leather",
@@ -914,7 +914,7 @@
     "description": "A bulky, beaked dinosaur, dead but walking, eyes vacant and swollen.",
     "burn_into": "mon_zadrosaurus_scorched",
     "fungalize_into": "mon_zadrosaurus_fungus",
-    "upgrades": { "half_life": 14, "into_group": "GROUP_zadrosaurus_UPGRADE" }
+    "upgrades": { "half_life": 30, "into_group": "GROUP_zadrosaurus_UPGRADE" }
   },
   {
     "type": "MONSTER",
@@ -943,7 +943,7 @@
     "description": "A huge, mottled dinosaur with a blunt head crest, dead but walking, eyes vacant and swollen.",
     "burn_into": "mon_zarasaurolophus_scorched",
     "fungalize_into": "mon_zarasaurolophus_fungus",
-    "upgrades": { "half_life": 14, "into_group": "GROUP_zarasaurolophus_UPGRADE" }
+    "upgrades": { "half_life": 30, "into_group": "GROUP_zarasaurolophus_UPGRADE" }
   },
   {
     "type": "MONSTER",
@@ -964,7 +964,7 @@
     "description": "A huge, scaly dinosaur with a short beak and a tall head crest, dead but walking, eyes vacant and swollen.",
     "burn_into": "mon_zorythosaurus_scorched",
     "fungalize_into": "mon_zorythosaurus_fungus",
-    "upgrades": { "half_life": 14, "into_group": "GROUP_zorythosaurus_UPGRADE" },
+    "upgrades": { "half_life": 30, "into_group": "GROUP_zorythosaurus_UPGRADE" },
     "special_attacks": [ [ "SHRIEK", 5 ] ]
   },
   {
@@ -997,7 +997,7 @@
     "description": "A huge, scaly dinosaur with a broad, toothless beak, dead but walking, eyes vacant and swollen.",
     "burn_into": "mon_zedmontosaurus_scorched",
     "fungalize_into": "mon_zedmontosaurus_fungus",
-    "upgrades": { "half_life": 14, "into_group": "GROUP_zedmontosaurus_UPGRADE" }
+    "upgrades": { "half_life": 30, "into_group": "GROUP_zedmontosaurus_UPGRADE" }
   },
   {
     "type": "MONSTER",
@@ -1028,7 +1028,7 @@
     "description": "The shuffling corpse of a medium-sized bipedal dinosaur covered with tattered feathers and black, putrid liquid.  It resembles a reptilian ostrich with a hard-looking domed head.",
     "burn_into": "mon_zachycephalosaurus_scorched",
     "fungalize_into": "mon_zachycephalosaurus_fungus",
-    "upgrades": { "half_life": 14, "into_group": "GROUP_zachycephalosaurus_UPGRADE" },
+    "upgrades": { "half_life": 30, "into_group": "GROUP_zachycephalosaurus_UPGRADE" },
     "flags": [ "SEES", "SMELLS", "HEARS", "PET_MOUNTABLE", "POISON", "STUMBLES", "NO_BREATHE", "REVIVES", "FILTHY", "WARM" ],
     "vision_night": 3,
     "harvest": "zed_dino_feather",
@@ -1055,7 +1055,7 @@
     "description": "A massive, shambling, rhino-like dinosaur corpse with two massive bony bosses on its brow and nose.  Its eyes ooze black, putrid tears.",
     "burn_into": "mon_zachyrhinosaurus_scorched",
     "fungalize_into": "mon_zachyrhinosaurus_fungus",
-    "upgrades": { "half_life": 14, "into_group": "GROUP_zachyrhinosaurus_UPGRADE" },
+    "upgrades": { "half_life": 30, "into_group": "GROUP_zachyrhinosaurus_UPGRADE" },
     "special_attacks": [
       { "id": "slam", "cooldown": 10, "damage_max_instance": [ { "damage_type": "bash", "amount": 12 } ] },
       [ "SMASH", 30 ]
@@ -1072,7 +1072,7 @@
     "description": "A massive, shambling, rhino-like dinosaur corpse with a tall, bony crest from which four long horns and a short nose horn emerge.  Its eyes ooze black, putrid tears.",
     "burn_into": "mon_zentaceratops_scorched",
     "fungalize_into": "mon_zentaceratops_fungus",
-    "upgrades": { "half_life": 14, "into_group": "GROUP_zentaceratops_UPGRADE" }
+    "upgrades": { "half_life": 30, "into_group": "GROUP_zentaceratops_UPGRADE" }
   },
   {
     "type": "MONSTER",
@@ -1094,7 +1094,7 @@
     "description": "A massive, shambling, rhino-like dinosaur corpse with a bony crest and two wavy side horns.  Its eyes ooze black, putrid tears.",
     "burn_into": "mon_zosmoceratops_scorched",
     "fungalize_into": "mon_zosmoceratops_fungus",
-    "upgrades": { "half_life": 14, "into_group": "GROUP_zosmoceratops_UPGRADE" },
+    "upgrades": { "half_life": 30, "into_group": "GROUP_zosmoceratops_UPGRADE" },
     "special_attacks": [ { "id": "impale" }, [ "stretch_horn_DinoMod", 7 ] ],
     "flags": [ "SEES", "SMELLS", "HEARS", "BASHES", "POISON", "STUMBLES", "NO_BREATHE", "REVIVES", "FILTHY", "WARM" ]
   },
@@ -1108,7 +1108,7 @@
     "description": "A massive, shambling, rhino-like dinosaur corpse with a tall, bony crest from which two wicked-looking horns emerge.  Its eyes ooze black, putrid tears.",
     "burn_into": "mon_zorosaurus_scorched",
     "fungalize_into": "mon_zorosaurus_fungus",
-    "upgrades": { "half_life": 14, "into_group": "GROUP_zorosaurus_UPGRADE" },
+    "upgrades": { "half_life": 30, "into_group": "GROUP_zorosaurus_UPGRADE" },
     "special_attacks": [ { "id": "impale" }, [ "stretch_horn_DinoMod", 5 ] ]
   },
   {
@@ -1135,7 +1135,7 @@
     "description": "A massive, shambling, rhino-like dinosaur corpse with a bony crest from which three wicked-looking horns emerge.  Its eyes ooze black, putrid tears.",
     "burn_into": "mon_zriceratops_scorched",
     "fungalize_into": "mon_zriceratops_fungus",
-    "upgrades": { "half_life": 14, "into_group": "GROUP_zriceratops_UPGRADE" },
+    "upgrades": { "half_life": 30, "into_group": "GROUP_zriceratops_UPGRADE" },
     "special_attacks": [
       { "id": "impale" },
       { "id": "stomp_DinoMod", "cooldown": 10, "damage_max_instance": [ { "damage_type": "bash", "amount": 12 } ] }
@@ -1165,7 +1165,7 @@
     "description": "A shambling, two-legged dinosaur corpse with strong arms and a toothy beak.  Its eyes ooze black, putrid tears.",
     "burn_into": "mon_zescelosaurus_scorched",
     "fungalize_into": "mon_zescelosaurus_fungus",
-    "upgrades": { "half_life": 14, "into_group": "GROUP_zescelosaurus_UPGRADE" }
+    "upgrades": { "half_life": 30, "into_group": "GROUP_zescelosaurus_UPGRADE" }
   },
   {
     "type": "MONSTER",
@@ -1197,7 +1197,7 @@
     "description": "The ragged but flying corpse of a large, feathered reptile with a long, pointy, toothless beak and a long, pointy head crest.",
     "burn_into": "mon_zteranodon_scorched",
     "fungalize_into": "mon_zteranodon_fungus",
-    "upgrades": { "half_life": 14, "into": "mon_zteranodon_brute" },
+    "upgrades": { "half_life": 30, "into": "mon_zteranodon_brute" },
     "flags": [
       "SEES",
       "SMELLS",
@@ -1279,7 +1279,7 @@
     "looks_like": "mon_issi",
     "burn_into": "mon_zissi_scorched",
     "fungalize_into": "mon_zissi_fungus",
-    "upgrades": { "half_life": 14, "into": "mon_zissi" },
+    "upgrades": { "half_life": 30, "into": "mon_zissi" },
     "volume": "500 L",
     "weight": "500 kg",
     "bodytype": "ostrich",
@@ -1295,7 +1295,7 @@
     "looks_like": "mon_apatosaurus",
     "burn_into": "mon_zamargasaurus_scorched",
     "fungalize_into": "mon_zamargasaurus_fungus",
-    "upgrades": { "half_life": 14, "into": "mon_zamargasaurus" }
+    "upgrades": { "half_life": 30, "into": "mon_zamargasaurus" }
   },
   {
     "type": "MONSTER",
@@ -1331,7 +1331,7 @@
     "description": "A small, four-legged, herbivorous dinosaur juvenile's corpse that could be from a number of different species.",
     "burn_into": "mon_zapatosaurus_scorched",
     "fungalize_into": "mon_zapatosaurus_fungus",
-    "upgrades": { "half_life": 14, "into": "mon_zapatosaurus" },
+    "upgrades": { "half_life": 30, "into": "mon_zapatosaurus" },
     "flags": [ "SEES", "SMELLS", "HEARS", "POISON", "STUMBLES", "NO_BREATHE", "REVIVES", "FILTHY", "WARM", "BASHES" ],
     "vision_night": 3,
     "harvest": "zed_dino_leather",
@@ -1345,7 +1345,7 @@
     "looks_like": "mon_apatosaurus",
     "burn_into": "mon_zrontosaurus_scorched",
     "fungalize_into": "mon_zrontosaurus_fungus",
-    "upgrades": { "half_life": 14, "into": "mon_zrontosaurus" }
+    "upgrades": { "half_life": 30, "into": "mon_zrontosaurus" }
   },
   {
     "type": "MONSTER",
@@ -1355,7 +1355,7 @@
     "looks_like": "mon_apatosaurus",
     "burn_into": "mon_ziplodocus_scorched",
     "fungalize_into": "mon_ziplodocus_fungus",
-    "upgrades": { "half_life": 14, "into": "mon_ziplodocus" }
+    "upgrades": { "half_life": 30, "into": "mon_ziplodocus" }
   },
   {
     "type": "MONSTER",
@@ -1365,7 +1365,7 @@
     "looks_like": "mon_apatosaurus",
     "burn_into": "mon_zamarasaurus_scorched",
     "fungalize_into": "mon_zamarasaurus_fungus",
-    "upgrades": { "half_life": 14, "into": "mon_zamarasaurus" }
+    "upgrades": { "half_life": 30, "into": "mon_zamarasaurus" }
   },
   {
     "type": "MONSTER",
@@ -1380,7 +1380,7 @@
     "armor_bullet": 3,
     "burn_into": "mon_zrachiosaurus_scorched",
     "fungalize_into": "mon_zrachiosaurus_fungus",
-    "upgrades": { "half_life": 14, "into": "mon_zrachiosaurus" }
+    "upgrades": { "half_life": 30, "into": "mon_zrachiosaurus" }
   },
   {
     "type": "MONSTER",
@@ -1393,6 +1393,6 @@
     "description": "The corpse of a small, four-legged, herbivorous dinosaur juvenile, with cracked bone armor plates.",
     "burn_into": "mon_zalamosaurus_scorched",
     "fungalize_into": "mon_zalamosaurus_fungus",
-    "upgrades": { "half_life": 14, "into": "mon_zalamosaurus" }
+    "upgrades": { "half_life": 30, "into": "mon_zalamosaurus" }
   }
 ]

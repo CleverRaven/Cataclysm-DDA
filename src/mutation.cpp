@@ -1029,30 +1029,6 @@ void Character::mutate( const int &true_random_chance, const bool use_vitamins )
             }
         }
 
-        // Check whether any of our current mutations are candidates for
-        // removal. If the mutation doesn't belong to the current category and
-        // can be removed there is 1/4 chance of it being added to the removal
-        // candidates list.
-        for( const auto &mutations_iter : my_mutations ) {
-            const trait_id &mutation_id = mutations_iter.first;
-            const mutation_branch &base_mdata = mutation_id.obj();
-            if( has_base_trait( mutation_id ) || find( base_mdata.category.begin(), base_mdata.category.end(),
-                    cat ) != base_mdata.category.end() ) {
-                continue;
-            }
-
-            // mark for removal
-            // no removing Thresholds/Professions this way!
-            // unpurifiable traits also cannot be purified
-            // removing a Terminus trait is a definite no
-            if( !base_mdata.threshold && !base_mdata.terminus && !base_mdata.profession &&
-                base_mdata.purifiable ) {
-                if( one_in( 4 ) ) {
-                    downgrades.push_back( mutation_id );
-                }
-            }
-        }
-
         // Prioritize upgrading existing mutations
         if( one_in( 2 ) ) {
             if( !upgrades.empty() ) {
@@ -1061,15 +1037,6 @@ void Character::mutate( const int &true_random_chance, const bool use_vitamins )
                 if( roll < upgrades.size() ) {
                     // We got a valid upgrade index, so use it and return.
                     mutate_towards( upgrades[roll], cat );
-                    return;
-                }
-            }
-        } else {
-            // Remove existing mutations that don't fit into our category
-            if( !downgrades.empty() ) {
-                size_t roll = rng( 0, downgrades.size() + 4 );
-                if( roll < downgrades.size() ) {
-                    remove_mutation( downgrades[roll] );
                     return;
                 }
             }
