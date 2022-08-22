@@ -737,7 +737,7 @@ recipes_from_cat( const recipe_subset &available_recipes, const std::string &cat
     } else if( subcat == "CSC_*_HIDDEN" ) {
         return std::make_pair( available_recipes.hidden(), true );
     } else if( subcat == "CSC_*_NESTED" ) {
-        return std::make_pair( available_recipes.nested(), true );
+        return std::make_pair( available_recipes.nested(), false );
     } else {
         return std::make_pair( available_recipes.in_category( cat, subcat != "CSC_ALL" ? subcat : "" ),
                                false );

@@ -30,6 +30,11 @@ class recipe_dictionary
             return autolearn;
         }
 
+        /** Returns all recipes that are nested categories */
+        const std::set<const recipe *> &all_nested() const {
+            return nested;
+        }
+
         /** Returns all blueprints */
         const std::set<const recipe *> &all_blueprints() const {
             return blueprints;
@@ -69,6 +74,7 @@ class recipe_dictionary
         std::map<recipe_id, recipe> recipes;
         std::map<recipe_id, recipe> uncraft;
         std::set<const recipe *> autolearn;
+        std::set<const recipe *> nested;
         std::set<const recipe *> blueprints;
         std::unordered_set<itype_id> items_on_loops;
 

@@ -933,7 +933,7 @@
     "id": "mon_dog_pup",
     "type": "MONSTER",
     "copy-from": "mon_dog",
-    "name": { "str": "Labrador puppy", "str_pl": "labrador puppies" },
+    "name": { "str": "Labrador puppy", "str_pl": "Labrador puppies" },
     "description": "An adorable, defenseless Labrador puppy.  Much safer to tame than an adult dog.",
     "volume": "750 ml",
     "weight": "1 kg",
@@ -1370,7 +1370,7 @@
   {
     "id": "mon_dog_chihuahua_pup",
     "type": "MONSTER",
-    "name": { "str": "Chihuahua puppy", "str_pl": "chihuahua puppies" },
+    "name": { "str": "Chihuahua puppy", "str_pl": "Chihuahua puppies" },
     "description": "An adorable, defenseless Chihuahua puppy.  Much safer to tame than an adult dog.",
     "default_faction": "dog",
     "bodytype": "dog",
