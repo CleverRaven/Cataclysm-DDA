@@ -117,7 +117,6 @@ void weather_type::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "acidic", acidic, false );
     optional( jo, was_loaded, "tiles_animation", tiles_animation, "" );
     optional( jo, was_loaded, "sound_category", sound_category, weather_sound_category::silent );
-    mandatory( jo, was_loaded, "sun_intensity", sun_intensity );
     optional( jo, was_loaded, "duration_min", duration_min, 5_minutes );
     optional( jo, was_loaded, "duration_max", duration_max, 5_minutes );
     if( duration_min > duration_max ) {
