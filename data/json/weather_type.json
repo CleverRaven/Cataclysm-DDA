@@ -224,7 +224,7 @@
     "ranged_penalty": 2,
     "sight_penalty": 1.12,
     "light_modifier": -15,
-    "sun_multiplier": 0.04,
+    "sun_multiplier": 0.3,
     "sound_attn": 2,
     "dangerous": false,
     "precip": "light",
