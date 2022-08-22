@@ -184,7 +184,7 @@
         { "field": "fd_blood", "x": 7, "y": 4 },
         { "field": "fd_blood", "x": [ 3, 5 ], "y": 6, "repeat": 2 },
         { "field": "fd_blood", "x": [ 2, 3 ], "y": [ 6, 7 ], "repeat": 4 }
-       ],
+      ],
       "place_loot": [
         { "item": "2x4", "x": [ 20, 21 ], "y": [ 5, 7 ], "repeat": [ 3, 5 ] },
         { "group": "loose_nail_group", "x": [ 20, 21 ], "y": [ 5, 7 ], "repeat": [ 6, 10 ] },
