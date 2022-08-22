@@ -51,7 +51,7 @@ static const std::string flag_BLIND_HARD( "BLIND_HARD" );
 
 // the number of items in the fav menu by default
 // should be made dynamic at some point
-int fav_tab_size;
+static int fav_tab_size;
 
 
 class npc;
@@ -949,7 +949,7 @@ static void perform_nested( const recipe *rec, std::string filterstring, tab_lis
     craft_subcat_list[tab.cur()] = craft_subcat_star_default;
 
     // build our new subtab with the extra entries
-    for( auto entry : uistate.nested_recipes ) {
+    for( const auto &entry : uistate.nested_recipes ) {
         craft_subcat_list[tab.cur()].emplace_back( "CSC_*_" + entry.first );
     }
     subtab = tab_list( craft_subcat_list[tab.cur()] );
