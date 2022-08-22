@@ -19,6 +19,7 @@
         "=T=T=T=T=T=",
         "==========="
       ],
+      "terrain": { "n": "t_tile_backrooms" },
       "palettes": [ "backrooms_palette", "backrooms_bathroom_palette" ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
     }
@@ -43,6 +44,7 @@
         "=T=T=T=  T=",
         "==========="
       ],
+      "terrain": { "n": "t_tile_backrooms" },
       "palettes": [ "backrooms_palette", "backrooms_bathroom_palette" ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
     }
@@ -67,6 +69,7 @@
         "=j       j=",
         "=====D====="
       ],
+      "terrain": { "n": "t_tile_backrooms", "j": "t_tile_backrooms" },
       "palettes": [ "backrooms_palette", "backrooms_bathroom_palette" ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
     }
@@ -91,6 +94,7 @@
         "=         =",
         "=?========="
       ],
+      "terrain": { "n": "t_tile_backrooms", "j": "t_tile_backrooms" },
       "palettes": [ "backrooms_palette", "backrooms_bathroom_palette" ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
     }
@@ -133,6 +137,7 @@
         "=BCCCBn=",
         "========"
       ],
+      "terrain": { "n": "t_tile_backrooms", "j": "t_tile_backrooms" },
       "palettes": [ "backrooms_palette", "backrooms_bathroom_palette" ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
     }
@@ -154,6 +159,7 @@
         "=TTTTTT=",
         "========"
       ],
+      "terrain": { "j": "t_tile_backrooms" },
       "palettes": [ "backrooms_palette", "backrooms_bathroom_palette" ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
     }
@@ -175,6 +181,7 @@
         "=BCCCCB=",
         "========"
       ],
+      "terrain": { "n": "t_tile_backrooms" },
       "palettes": [ "backrooms_palette", "backrooms_bathroom_palette" ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
     }
@@ -192,6 +199,7 @@
         "=nC=",
         "===="
       ],
+      "terrain": { "n": "t_tile_backrooms" },
       "palettes": [ "backrooms_palette", "backrooms_bathroom_palette" ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
     }
@@ -209,6 +217,7 @@
         "=nT=",
         "===="
       ],
+      "terrain": { "n": "t_tile_backrooms" },
       "palettes": [ "backrooms_palette", "backrooms_bathroom_palette" ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
     }
@@ -228,6 +237,7 @@
         "=nCCB=",
         "======"
       ],
+      "terrain": { "n": "t_tile_backrooms" },
       "palettes": [ "backrooms_palette", "backrooms_bathroom_palette" ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
     }
@@ -247,6 +257,11 @@
         "=B ij=",
         "==D==="
       ],
+      "terrain": {
+        "?": [ [ "t_door_c", 10 ], [ "t_door_o", 5 ], [ "t_backroom_wall_gray", 75 ] ],
+        "n": "t_tile_backrooms",
+        "j": "t_tile_backrooms"
+      },
       "palettes": [ "backrooms_palette", "backrooms_bathroom_palette" ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
     }

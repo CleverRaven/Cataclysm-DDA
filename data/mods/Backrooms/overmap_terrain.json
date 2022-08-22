@@ -46,10 +46,6 @@
         "                        ",
         "                        "
       ],
-      "terrain": {
-        " ": [ [ "t_carpet_backrooms", 99 ], [ "t_carpet_backrooms_light", 1 ] ],
-        "-": [ [ "t_backroom_wall", 92 ], [ "t_door_c", 6 ], [ "t_door_o", 2 ] ]
-      },
       "place_nested": [
         { "chunks": [ [ "mx_backrooms_whole", 100 ] ], "x": 0, "y": 0 },
         {
