@@ -95,7 +95,7 @@
         "topic": "TALK_DONE"
       },
       {
-        "text": "[400$]  I'll take a mountian bike.",
+        "text": "[400$]  I'll take a mountain bike.",
         "condition": { "u_has_items": { "item": "signed_chit", "count": 160 } },
         "effect": [
           { "npc_add_var": "npc_making_car", "type": "timer", "context": "trade", "time": true },
@@ -106,7 +106,7 @@
         "topic": "TALK_DONE"
       },
       {
-        "text": "[550$]  I'll take an eletric bike.",
+        "text": "[550$]  I'll take an eleteric bike.",
         "condition": { "u_has_items": { "item": "signed_chit", "count": 220 } },
         "effect": [
           { "npc_add_var": "npc_making_car", "type": "timer", "context": "trade", "time": true },
