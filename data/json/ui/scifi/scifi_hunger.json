@@ -1,0 +1,29 @@
+[
+  {
+    "id": "scifi_hunger",
+    "width": 1,
+    "style": "text",
+    "clauses": [
+      { "id": "engorged", "text": "o", "color": "c_red_green", "condition": { "u_has_effect": "hunger_engorged" } },
+      { "id": "full", "text": "▆", "color": "c_yellow_green", "condition": { "u_has_effect": "hunger_full" } },
+      { "id": "satisfied", "text": "▃", "color": "c_green", "condition": { "u_has_effect": "hunger_satisfied" } },
+      { "id": "blank", "text": "∙", "color": "c_green", "condition": { "u_has_effect": "hunger_blank" } },
+      { "id": "hungry", "text": "▂", "color": "c_yellow", "condition": { "u_has_effect": "hunger_hungry" } },
+      {
+        "id": "very_hungry",
+        "text": "▄",
+        "color": "c_yellow",
+        "condition": { "u_has_effect": "hunger_very_hungry" }
+      },
+      {
+        "id": "near_starving",
+        "text": "▆",
+        "color": "c_red",
+        "condition": { "u_has_effect": "hunger_near_starving" }
+      },
+      { "id": "starving", "text": "█", "color": "c_red", "condition": { "u_has_effect": "hunger_starving" } },
+      { "id": "famished", "text": "X", "color": "c_white_red", "condition": { "u_has_effect": "hunger_famished" } }
+    ],
+    "type": "widget"
+  }
+]

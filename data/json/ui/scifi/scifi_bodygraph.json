@@ -27,14 +27,14 @@
     "fill_sym": "#",
     "fill_color": "white",
     "rows": [
-      "   1                                    ",
+      "m  1  e                                 ",
       " 32225                                  ",
       "4 222 6                                 ",
       "  7 9                                   ",
       " 88 00                                  "
     ],
     "fill_rows": [
-      "   O                                    ",
+      "T  O  H                                 ",
       " /|#|\\                                  ",
       "° /#\\ °                                 ",
       "  | |                                   ",
@@ -50,7 +50,9 @@
       "7": { "body_parts": [ "leg_r" ] },
       "8": { "body_parts": [ "foot_r" ] },
       "9": { "body_parts": [ "leg_l" ] },
-      "0": { "body_parts": [ "foot_l" ] }
+      "0": { "body_parts": [ "foot_l" ] },
+      "m": { "body_parts": [ "mouth" ] },
+      "e": { "body_parts": [ "eyes" ] }
     }
   }
 ]

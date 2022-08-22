@@ -1,0 +1,88 @@
+[
+  {
+    "id": "scifi_weight",
+    "type": "widget",
+    "width": 5,
+    "style": "symbol",
+    "clauses": [
+      {
+        "id": "sk",
+        "sym": "<color_red>\\</color>....",
+        "color": "light_gray",
+        "condition": { "compare_int": [ { "u_val": "bmi_permil" }, "<=", { "const": 14000 } ] }
+      },
+      {
+        "id": "e",
+        "sym": "<color_light_red>|</color>....",
+        "color": "light_gray",
+        "condition": {
+          "and": [
+            { "compare_int": [ { "u_val": "bmi_permil" }, ">", { "const": 14000 } ] },
+            { "compare_int": [ { "u_val": "bmi_permil" }, "<=", { "const": 16000 } ] }
+          ]
+        }
+      },
+      {
+        "id": "unw",
+        "sym": ".<color_yellow>|</color>...",
+        "color": "light_gray",
+        "condition": {
+          "and": [
+            { "compare_int": [ { "u_val": "bmi_permil" }, ">", { "const": 16000 } ] },
+            { "compare_int": [ { "u_val": "bmi_permil" }, "<=", { "const": 18500 } ] }
+          ]
+        }
+      },
+      {
+        "id": "nrm",
+        "sym": "..<color_green>|</color>..",
+        "color": "light_gray",
+        "condition": {
+          "and": [
+            { "compare_int": [ { "u_val": "bmi_permil" }, ">", { "const": 18500 } ] },
+            { "compare_int": [ { "u_val": "bmi_permil" }, "<=", { "const": 25000 } ] }
+          ]
+        }
+      },
+      {
+        "id": "ovw",
+        "sym": "...<color_yellow>|</color>.",
+        "color": "light_gray",
+        "condition": {
+          "and": [
+            { "compare_int": [ { "u_val": "bmi_permil" }, ">", { "const": 25000 } ] },
+            { "compare_int": [ { "u_val": "bmi_permil" }, "<=", { "const": 30000 } ] }
+          ]
+        }
+      },
+      {
+        "id": "o",
+        "sym": "....<color_yellow>|</color>",
+        "color": "light_gray",
+        "condition": {
+          "and": [
+            { "compare_int": [ { "u_val": "bmi_permil" }, ">", { "const": 30000 } ] },
+            { "compare_int": [ { "u_val": "bmi_permil" }, "<=", { "const": 35000 } ] }
+          ]
+        }
+      },
+      {
+        "id": "v_o",
+        "sym": "....<color_light_red>/</color>",
+        "color": "light_gray",
+        "condition": {
+          "and": [
+            { "compare_int": [ { "u_val": "bmi_permil" }, ">", { "const": 35000 } ] },
+            { "compare_int": [ { "u_val": "bmi_permil" }, "<=", { "const": 40000 } ] }
+          ]
+        }
+      },
+      {
+        "id": "m_o",
+        "sym": "...<color_red>.-</color>",
+        "color": "light_gray",
+        "condition": { "compare_int": [ { "u_val": "bmi_permil" }, ">", { "const": 40000 } ] }
+      }
+    ]
+  }
+]

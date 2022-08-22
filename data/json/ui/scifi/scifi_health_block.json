@@ -117,7 +117,15 @@
     "style": "layout",
     "arrange": "rows",
     "width": 7,
-    "widgets": [ "scifi_pain", "scifi_body_graph_wrapper_layout" ]
+    "widgets": [ "scifi_thirst_hunger_layout", "scifi_body_graph_wrapper_layout" ]
+  },
+  {
+    "id": "scifi_thirst_hunger_layout",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "minimum_columns",
+    "padding": 0,
+    "widgets": [ "scifi_thirst", "scifi_weight", "scifi_hunger" ]
   },
   {
     "id": "scifi_health_layout",
