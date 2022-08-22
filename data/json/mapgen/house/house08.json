@@ -99,8 +99,8 @@
       ],
       "palettes": [
         "standard_domestic_palette",
-        "standard_domestic_party_palette",
-        "standard_domestic_landscaping_palette"
+        "standard_domestic_landscaping_palette",
+        "standard_domestic_party_palette"
       ],
       "place_fields": [ { "field": "fd_blood", "x": [ 9, 11 ], "y": [ 12, 14 ], "repeat": [ 4, 6 ] } ],
       "place_loot": [
