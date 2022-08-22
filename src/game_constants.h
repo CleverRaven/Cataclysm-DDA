@@ -153,7 +153,7 @@ static constexpr units::temperature AVERAGE_ANNUAL_TEMPERATURE = units::from_fah
  * Base starting spring temperature in F used for climate, weather and temperature calculation.
  * New England base spring temperature = 65F/18C rounded to int.
 */
-static constexpr int SPRING_TEMPERATURE = 65;
+static constexpr units::temperature SPRING_TEMPERATURE = units::from_fahrenheit( 65 );
 
 /**
  * Used to limit the random seed during noise calculation. A large value flattens the noise generator to zero.

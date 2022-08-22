@@ -80,6 +80,15 @@
   },
   {
     "type": "item_group",
+    "id": "honey_mustard_sealed_rng",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "honey_mustard", "prob": 6, "charges-min": 1 },
+      { "item": "honey_mustard", "prob": 1, "charges": 32, "container-item": "condiment_bottle_sealed" }
+    ]
+  },
+  {
+    "type": "item_group",
     "id": "barbecue_sauce_sealed_rng",
     "subtype": "distribution",
     "entries": [
@@ -121,6 +130,7 @@
       { "group": "ketchup_sealed_rng", "prob": 35 },
       { "group": "mustard_sealed_rng", "prob": 35 },
       { "group": "barbecue_sauce_sealed_rng", "prob": 25 },
+      { "group": "honey_mustard_sealed_rng", "prob": 20 },
       { "item": "soysauce", "prob": 25 },
       { "item": "hot_sauce", "prob": 25 },
       { "item": "horseradish", "prob": 15 },
@@ -765,6 +775,7 @@
       { "group": "ketchup_sealed_rng", "prob": 70 },
       { "group": "mustard_sealed_rng", "prob": 75 },
       { "group": "barbecue_sauce_sealed_rng", "prob": 80 },
+      { "group": "honey_mustard_sealed_rng", "prob": 40 },
       { "item": "pickle", "prob": 20, "charges": 2, "container-item": "jar_glass_sealed" },
       { "item": "pickle", "prob": 20 },
       { "item": "cheeseburger", "prob": 20 },
@@ -804,6 +815,7 @@
       { "item": "pickle", "count": [ 0, 3 ] },
       { "item": "ketchup", "count": [ 0, 3 ], "charges": [ 10, 16 ] },
       { "item": "mustard", "count": [ 0, 3 ], "charges": [ 10, 48 ] },
+      { "item": "honey_mustard", "count": [ 0, 3 ], "charges": [ 10, 48 ] },
       { "item": "mayonnaise", "count": [ 0, 3 ], "charges": [ 10, 16 ] },
       { "item": "onion", "count": [ 0, 3 ] },
       { "item": "chili_pepper", "count": [ 0, 3 ], "charges": [ 1, 3 ] },
@@ -841,6 +853,7 @@
       { "group": "ketchup_sealed_rng", "prob": 60 },
       { "group": "mustard_sealed_rng", "prob": 60 },
       { "group": "barbecue_sauce_sealed_rng", "prob": 10 },
+      { "group": "honey_mustard_sealed_rng", "prob": 10 },
       { "item": "soysauce", "prob": 45 },
       { "item": "hot_sauce", "prob": 45 },
       { "item": "horseradish", "prob": 30 },

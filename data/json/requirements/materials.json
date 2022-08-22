@@ -356,7 +356,7 @@
     "id": "waterproofing",
     "type": "requirement",
     "//": "Materials for waterproofing leather and wooden items.",
-    "components": [ [ [ "wax", 1 ], [ "pine_bough", 5 ] ] ]
+    "components": [ [ [ "wax", 1 ], [ "pine_resin", 5 ] ] ]
   },
   {
     "id": "fletching",

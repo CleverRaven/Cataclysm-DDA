@@ -44,6 +44,8 @@
 
 static const bionic_id bio_cqb( "bio_cqb" );
 
+static const json_character_flag json_flag_ECTOTHERM( "ECTOTHERM" );
+
 static const skill_id skill_bashing( "bashing" );
 static const skill_id skill_cutting( "cutting" );
 static const skill_id skill_dodge( "dodge" );
@@ -51,7 +53,6 @@ static const skill_id skill_melee( "melee" );
 static const skill_id skill_stabbing( "stabbing" );
 static const skill_id skill_unarmed( "unarmed" );
 
-static const trait_id trait_COLDBLOOD4( "COLDBLOOD4" );
 static const trait_id trait_SUNLIGHT_DEPENDENT( "SUNLIGHT_DEPENDENT" );
 static const trait_id trait_TROGLO( "TROGLO" );
 static const trait_id trait_TROGLO2( "TROGLO2" );
@@ -955,16 +956,16 @@ static void draw_speed_tab( const catacurses::window &w_speed,
     if( temperature_speed_modifier != 0 ) {
         nc_color pen_color;
         std::string pen_sign;
-        const int player_local_temp = get_weather().get_temperature( you.pos() );
-        if( you.has_trait( trait_COLDBLOOD4 ) && player_local_temp > 65 ) {
+        const units::temperature player_local_temp = get_weather().get_temperature( you.pos() );
+        if( you.has_flag( json_flag_ECTOTHERM ) && player_local_temp > units::from_fahrenheit( 65 ) ) {
             pen_color = c_green;
             pen_sign = "+";
-        } else if( player_local_temp < 65 ) {
+        } else if( player_local_temp < units::from_fahrenheit( 65 ) ) {
             pen_color = c_red;
             pen_sign = "-";
         }
         if( !pen_sign.empty() ) {
-            pen = ( player_local_temp - 65 ) * temperature_speed_modifier;
+            pen = ( units::to_fahrenheit( player_local_temp ) - 65 ) * temperature_speed_modifier;
             mvwprintz( w_speed, point( 1, line ), pen_color,
                        //~ %s: sign of bonus/penalty, %2d: speed bonus/penalty
                        pgettext( "speed modifier", "Cold-Blooded        %s%2d%%" ), pen_sign, std::abs( pen ) );

@@ -3897,8 +3897,12 @@ window_dimensions get_window_dimensions( const point &pos, const point &size )
     return get_window_dimensions( {}, pos, size );
 }
 
-cata::optional<tripoint> input_context::get_coordinates( const catacurses::window &capture_win_ )
+cata::optional<tripoint> input_context::get_coordinates( const catacurses::window &capture_win_,
+        const point &offset, const bool center_cursor ) const
 {
+    // This information is required by curses, but is not (currently) used in SDL
+    ( void ) center_cursor;
+
     if( !coordinate_input_received ) {
         return cata::nullopt;
     }
@@ -3919,11 +3923,6 @@ cata::optional<tripoint> input_context::get_coordinates( const catacurses::windo
         return cata::nullopt;
     }
 
-    point view_offset;
-    if( capture_win == g->w_terrain ) {
-        view_offset = g->ter_view_p.xy();
-    }
-
     const point screen_pos = coordinate - win_min;
     point p;
     if( tile_iso && use_tiles ) {
@@ -3932,10 +3931,10 @@ cata::optional<tripoint> input_context::get_coordinates( const catacurses::windo
         const int screen_col = std::round( ( screen_pos.x - win_mid_x ) / ( fw / 2.0 ) );
         const int screen_row = std::round( ( screen_pos.y - win_mid_y ) / ( fw / 4.0 ) );
         const point selected( ( screen_col - screen_row ) / 2, ( screen_row + screen_col ) / 2 );
-        p = view_offset + selected;
+        p = offset + selected;
     } else {
         const point selected( screen_pos.x / fw, screen_pos.y / fh );
-        p = view_offset + selected - dim.window_size_cell / 2;
+        p = offset + selected - dim.window_size_cell / 2;
     }
 
     return tripoint( p, get_map().get_abs_sub().z() );

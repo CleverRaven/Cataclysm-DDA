@@ -149,8 +149,7 @@
     "name": "Swimming merit badge",
     "requirements": [
       { "event_statistic": "num_moves_swam", "is": ">=", "target": 10000 },
-      { "event_statistic": "num_moves_swam_underwater", "is": ">=", "target": 1000 },
-      { "event_statistic": "min_move_underwater_z", "is": "<=", "target": -5 }
+      { "event_statistic": "num_moves_swam_underwater", "is": ">=", "target": 1000 }
     ]
   },
   {

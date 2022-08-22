@@ -227,7 +227,7 @@
   {
     "type": "scenario",
     "name": "(un)living History",
-    "description": "After doing historical reenactment you and your friend are taking break inside the fort, and then you heard a scream and gunshot noises.",
+    "description": "After doing historical reenactment, you and your friend were taking a break inside the fort, and then you heard a scream and gunshot noises.",
     "id": "BastionFortStart",
     "points": -2,
     "start_name": "Bastion Fort",
@@ -694,7 +694,7 @@
     "id": "strong_portal_storm",
     "name": "Splintering Reality",
     "points": -3,
-    "description": "You found yourself alone in an open field when reality begun to heave and crack all around you.  You need to find shelter, and fast.",
+    "description": "You found yourself alone in an open field when reality began to heave and crack all around you.  You need to find shelter, and fast.",
     "flags": [ "CHALLENGE", "LONE_START" ],
     "start_name": "Field",
     "allowed_locs": [ "sloc_field" ],
@@ -799,5 +799,16 @@
       "combat-engineer"
     ],
     "flags": [ "CHALLENGE", "LONE_START" ]
+  },
+  {
+    "type": "scenario",
+    "id": "golden_years",
+    "name": "Golden Years",
+    "points": 0,
+    "description": "After a life time of hard work, you managed to settle down in a posh retirement community.  Safe behind those walls, you would live a peaceful, privileged life, away from all the crazy lunatics outside.  Then, the crazies made it inside anyway, leaving you no choice but to deal with them personally.  Welcome to your golden years.",
+    "allowed_locs": [ "sloc_retirement_community" ],
+    "start_name": "Retirement Community",
+    "professions": [ "senior" ],
+    "flags": [ "CITY_START", "LONE_START" ]
   }
 ]

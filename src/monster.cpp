@@ -383,7 +383,34 @@ void monster::try_upgrade( bool pin_time )
         if( type->upgrade_into ) {
             poly( type->upgrade_into );
         } else {
-            const mtype_id &new_type = MonsterGroupManager::GetRandomMonsterFromGroup( type->upgrade_group );
+            mtype_id new_type;
+            if( type->upgrade_multi_range ) {
+                std::vector<MonsterGroupResult> res = MonsterGroupManager::GetResultFromGroup(
+                        type->upgrade_group );
+                if( !res.empty() ) {
+                    // Set the type to poly the current monster (preserves inventory)
+                    new_type = res.front().name;
+                    res.front().pack_size--;
+                    for( const MonsterGroupResult &mgr : res ) {
+                        if( !mgr.name ) {
+                            continue;
+                        }
+                        for( int i = 0; i < mgr.pack_size; i++ ) {
+                            tripoint spawn_pos;
+                            if( g->find_nearby_spawn_point( pos(), mgr.name, 1, *type->upgrade_multi_range,
+                                                            spawn_pos, false ) ) {
+                                monster *spawned = g->place_critter_at( mgr.name, spawn_pos );
+                                if( spawned ) {
+                                    spawned->friendly = friendly;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            if( new_type ) {
+                new_type = MonsterGroupManager::GetRandomMonsterFromGroup( type->upgrade_group );
+            }
             if( new_type ) {
                 poly( new_type );
             }
@@ -1062,22 +1089,21 @@ bool monster::can_act() const
              ( !has_effect( effect_stunned ) && !has_effect( effect_downed ) && !has_effect( effect_webbed ) ) );
 }
 
-int monster::sight_range( const int light_level ) const
+int monster::sight_range( const float light_level ) const
 {
     // Non-aquatic monsters can't see much when submerged
     if( !can_see() || effect_cache[VISION_IMPAIRED] ||
         ( underwater && !swims() && !has_flag( MF_AQUATIC ) && !digging() ) ) {
         return 1;
     }
-    static const int default_daylight = default_daylight_level();
+    static const float default_daylight = default_daylight_level();
     if( light_level == 0 ) {
         return type->vision_night;
-    } else if( light_level == default_daylight ) {
+    } else if( light_level >= default_daylight ) {
         return type->vision_day;
     }
-    int range = light_level * type->vision_day + ( default_daylight - light_level ) *
-                type->vision_night;
-    range /= default_daylight;
+    int range = ( light_level * type->vision_day + ( default_daylight - light_level ) *
+                  type->vision_night ) / default_daylight;
 
     return range;
 }

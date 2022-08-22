@@ -834,7 +834,7 @@
         "default_magazine": "light_plus_battery_cell"
       }
     ],
-    "armor": [ { "coverage": 15, "covers": [ "head" ] } ]
+    "armor": [ { "coverage": 45, "covers": [ "head" ], "specifically_covers": [ "head_crown", "head_forehead" ] } ]
   },
   {
     "id": "wearable_camera",
@@ -944,7 +944,7 @@
         "default_magazine": "light_plus_battery_cell"
       }
     ],
-    "armor": [ { "coverage": 20, "covers": [ "head" ] } ]
+    "armor": [ { "coverage": 50, "covers": [ "head" ], "specifically_covers": [ "head_crown", "head_forehead" ] } ]
   },
   {
     "id": "survivor_light_on",
@@ -987,7 +987,7 @@
       "target": "wearable_atomic_light_off"
     },
     "material_thickness": 1,
-    "armor": [ { "encumbrance": 5, "coverage": 20, "covers": [ "head" ] } ]
+    "armor": [ { "encumbrance": 5, "coverage": 50, "covers": [ "head" ], "specifically_covers": [ "head_crown", "head_forehead" ] } ]
   },
   {
     "id": "wearable_atomic_light_off",
@@ -1034,7 +1034,7 @@
     "armor": [ { "encumbrance": 5, "coverage": 95, "covers": [ "eyes" ] } ],
     "material_thickness": 1,
     "environmental_protection": 1,
-    "flags": [ "WATCH", "ALARMCLOCK", "FRAGILE", "WATER_BREAK" ]
+    "flags": [ "WATCH", "ALARMCLOCK", "FRAGILE", "WATER_BREAK", "PADDED" ]
   },
   {
     "id": "ar_glasses_advanced",
@@ -1071,7 +1071,7 @@
     "armor": [ { "encumbrance": 5, "coverage": 100, "covers": [ "eyes" ] } ],
     "material_thickness": 1,
     "environmental_protection": 1,
-    "flags": [ "ZOOM", "WATCH", "ALARMCLOCK", "OUTER", "FRAGILE", "SUN_GLASSES", "THERMOMETER", "WATER_BREAK" ]
+    "flags": [ "ZOOM", "WATCH", "ALARMCLOCK", "OUTER", "FRAGILE", "SUN_GLASSES", "THERMOMETER", "WATER_BREAK", "PADDED" ]
   },
   {
     "id": "helmet_eod",
