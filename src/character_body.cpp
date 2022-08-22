@@ -448,11 +448,8 @@ void Character::update_bodytemp()
                                0.0f ) );
 
     // Sunlight
-    const int sunlight_warmth = g->is_in_sunlight( pos() ) ?
-                                ( get_weather().weather_id->sun_intensity ==
-                                  sun_intensity_type::high ?
-                                  1000 :
-                                  500 ) : 0;
+    const int sunlight_warmth = !g->is_sheltered( pos() ) ? incident_sun_irradiance(
+                                    get_weather().weather_id, calendar::turn ) * 1.5 : 0;
     const int best_fire = get_best_fire( pos() );
 
     const int lying_warmth = use_floor_warmth ? floor_warmth( pos() ) : 0;
