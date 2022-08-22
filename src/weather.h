@@ -46,7 +46,6 @@ static constexpr int BODYTEMP_THRESHOLD = 500;
 ///@}
 
 // Rough tresholds for sunlight intensity in W/m2.
-// The names very roughly correspond to UV index
 namespace irradiance
 {
 // Sun at 5° on a clear day. Minimal for what is considered direct sunlight
