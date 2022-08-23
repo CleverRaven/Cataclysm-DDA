@@ -920,7 +920,7 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "sheet metal great helm" },
-    "description": "It might look like a bucket, and that's probably not far off.  Massively heavy, extremely uncomfortable, and very crude, but it'll keep zombie claws off your face.  Comes with a bevor to help spread the weight out onto your shoulders and protect your neck, and some cloth padding to keep your bell from being rung.",
+    "description": "Massively heavy, extremely uncomfortable, very crude, and looks like a bucket with a slit cut out the front, but it'll keep zombie claws off your face.  Comes with a bevor to help spread the weight out onto your shoulders and protect your neck, and some cloth padding to keep your bell from being rung.",
     "weight": "4570 g",
     "//": "The weight assumes one large sheet of about 75cm x 40cm x 1.5mm and one circular sheet with a diameter of 24cm as the crown, and one gambeson hood.",
     "volume": "2 L",
