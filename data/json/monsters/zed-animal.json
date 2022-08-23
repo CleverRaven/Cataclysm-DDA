@@ -485,7 +485,7 @@
   {
     "id": "mon_zllama",
     "type": "MONSTER",
-    "name": { "str_sp": "zllama" },
+    "name": { "str_sp": "vicious vicuña" },
     "description": "This llama oozes a dark oil from a multitude of lesions and cuts.  It's wool has sloughed off with parts of its skin, revealing pulsating muscles and flesh.  Its mouth drips with a sickly green substance which it seems to be chewing on.",
     "default_faction": "zombie",
     "bodytype": "horse",
