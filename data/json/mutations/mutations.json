@@ -3805,6 +3805,7 @@
     "prereqs2": [ "INCISORS" ],
     "threshreq": [ "THRESH_RAT", "THRESH_RABBIT" ],
     "category": [ "RAT", "RABBIT" ],
+    "integrated_armor": [ "fake_burrowing" ],
     "active": true
   },
   {
@@ -3818,6 +3819,7 @@
     "prereqs": [ "PAWS", "PAWS_LARGE" ],
     "threshreq": [ "THRESH_LUPINE", "THRESH_URSINE" ],
     "category": [ "LUPINE", "URSINE" ],
+    "integrated_armor": [ "fake_burrowing" ],
     "active": true
   },
   {
