@@ -2481,9 +2481,12 @@ bool cata_tiles::draw_sprite_at(
     int height = 0;
     std::tie( width, height ) = sprite_tex->dimension();
 
+    bool zero_height = get_option<bool>( "ZERO_HEIGHT_ISO" );
+    int offset_y = zero_height ? 0 : tile.offset.y;
+
     SDL_Rect destination;
     destination.x = p.x + tile.offset.x * tile_width / tileset_ptr->get_tile_width();
-    destination.y = p.y + ( tile.offset.y - height_3d ) *
+    destination.y = p.y + ( offset_y - height_3d ) *
                     tile_width / tileset_ptr->get_tile_width();
     destination.w = width * tile_width / tileset_ptr->get_tile_width();
     destination.h = height * tile_height / tileset_ptr->get_tile_height();

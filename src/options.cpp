@@ -2073,8 +2073,15 @@ void options_manager::add_options_graphics()
          1, 4, 2, COPT_CURSES_HIDE
        ); // populate the options dynamically
 
+    add( "ZERO_HEIGHT_ISO", "graphics", to_translation( "Draw ISO tiles without height" ),
+         to_translation( "If true, will render all ISO tiles without height offset." ),
+         false
+       );
+
+
     get_option( "TILES" ).setPrerequisite( "USE_TILES" );
     get_option( "USE_DISTANT_TILES" ).setPrerequisite( "USE_TILES" );
+    get_option( "ZERO_HEIGHT_ISO" ).setPrerequisite( "USE_TILES" );
     get_option( "DISTANT_TILES" ).setPrerequisite( "USE_DISTANT_TILES" );
     get_option( "SWAP_ZOOM" ).setPrerequisite( "USE_DISTANT_TILES" );
 
