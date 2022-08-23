@@ -49,7 +49,7 @@ struct reg_coord_pair {
 mm_submap::mm_submap() = default;
 mm_submap::mm_submap( bool make_valid ) : valid( make_valid ) {}
 
-mm_region::mm_region() : submaps {{ nullptr }} {}
+mm_region::mm_region() : submaps( nullptr ) {}
 
 bool mm_region::is_empty() const
 {

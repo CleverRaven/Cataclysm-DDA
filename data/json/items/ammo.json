@@ -1390,7 +1390,7 @@
     "symbol": "=",
     "color": "light_gray",
     "looks_like": "marble",
-    "description": "A metal die used to play various role-playing games",
+    "description": "A metal die used to play various role-playing games.",
     "material": [ "zinc" ],
     "volume": "250 ml",
     "weight": "1 g",

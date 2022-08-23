@@ -1048,6 +1048,12 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
                                   critter->get_armor_bash( bodypart_id( "torso" ) );
                 dam = std::max( 0, dam - armor );
                 critter->apply_damage( driver, bodypart_id( "torso" ), dam );
+                if( part_flag( ret.part, "SHARP" ) ) {
+                    critter->make_bleed( effect_source( driver ), bodypart_id( "torso" ), 1_minutes * rng( 1, dam ) );
+                } else if( dam > 18 && rng( 1, 20 ) > 15 ) {
+                    //low chance of lighter bleed even with non sharp objects.
+                    critter->make_bleed( effect_source( driver ), bodypart_id( "torso" ), 1_minutes );
+                }
                 add_msg_debug( debugmode::DF_VEHICLE_MOVE, "Critter collision damage: %d", dam );
             }
 

@@ -355,7 +355,7 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "pair of sheet metal elbow guards", "str_pl": "pairs of sheet metal elbow guards" },
-    "description": "Two small half-cylinders of sheet metal cut down and hammered to fit over your elbows.  Very heavy metal, just needs spikes.",
+    "description": "Two small half-cylinders of sheet metal cut down and hammered to fit over your elbows.  Very brutal, just needs spikes.",
     "weight": "700 g",
     "//": "The weight assumes two sheets of about 15cm x 15cm x 1.5mm.",
     "volume": "1 L",
@@ -383,10 +383,9 @@
   {
     "id": "xl_armguard_metal",
     "type": "ARMOR",
-    "name": { "str": "pair of XL metal arm guards", "str_pl": "pairs of XL metal arm guards" },
+    "name": { "str": "pair of XL sheet metal arm guards", "str_pl": "pairs of XL sheet metal arm guards" },
     "description": "A pair of arm guards hammered out from metal.  Perfect for the Post-Apocalyptic Warrior look.  Larger than average.",
-    "weight": "1380 g",
-    "volume": "3250 ml",
+    "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.25 },
     "copy-from": "armguard_metal",
     "extend": { "flags": [ "OVERSIZE" ] }
   },
@@ -395,7 +394,7 @@
     "type": "ARMOR",
     "copy-from": "armguard_metal",
     "looks_like": "armguard_metal",
-    "name": { "str": "pair of XS metal arm guards", "str_pl": "pairs of XS metal arm guards" },
+    "name": { "str": "pair of XS sheet metal arm guards", "str_pl": "pairs of XS sheet metal arm guards" },
     "description": "A pair of arm guards hammered out from metal.  Perfect for the Post-Apocalyptic Warrior look.  Smaller than average.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }

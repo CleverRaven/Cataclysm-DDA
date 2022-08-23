@@ -286,6 +286,7 @@ item::item( const itype *type, time_point turn, int qty ) : type( type ), bday( 
     corpse = has_flag( flag_CORPSE ) ? &mtype_id::NULL_ID().obj() : nullptr;
     contents = item_contents( type->pockets );
     item_counter = type->countdown_interval;
+    item_vars = type->item_variables;
 
     if( qty >= 0 ) {
         charges = qty;
@@ -10213,7 +10214,7 @@ ret_val<void> item::is_compatible( const item &it ) const
 
 ret_val<void> item::can_contain( const item &it, const bool nested,
                                  const bool ignore_rigidity, const bool ignore_pkt_settings,
-                                 const item_location &parent_it ) const
+                                 const item_location &parent_it, units::volume remaining_parent_volume ) const
 {
     if( this == &it || ( parent_it.where() != item_location::type::invalid &&
                          this == parent_it.get_item() ) ) {
@@ -10229,10 +10230,17 @@ ret_val<void> item::can_contain( const item &it, const bool nested,
         it.contents.bigger_on_the_inside( it.volume() ) ) {
         return ret_val<void>::make_failure();
     }
+
     for( const item_pocket *pkt : contents.get_all_contained_pockets() ) {
         if( pkt->empty() ) {
             continue;
         }
+
+        // early exit for max length no nested item is gonna fix this
+        if( pkt->max_containable_length() < it.length() ) {
+            continue;
+        }
+
         // If the current pocket has restrictions or blacklists the item,
         // try the nested pocket regardless of whether it's soft or rigid.
         const bool ignore_rigidity =
@@ -10243,7 +10251,7 @@ ret_val<void> item::can_contain( const item &it, const bool nested,
                 continue;
             }
             if( internal_it->can_contain( it, true, ignore_rigidity, ignore_pkt_settings,
-                                          parent_it ).success() ) {
+                                          parent_it, pkt->remaining_volume() ).success() ) {
                 return ret_val<void>::make_success();
             }
         }
@@ -10251,7 +10259,7 @@ ret_val<void> item::can_contain( const item &it, const bool nested,
 
     return nested && !ignore_rigidity ?
            contents.can_contain_rigid( it, ignore_pkt_settings ) :
-           contents.can_contain( it, ignore_pkt_settings );
+           contents.can_contain( it, ignore_pkt_settings, remaining_parent_volume );
 }
 
 bool item::can_contain( const itype &tp ) const
@@ -12460,7 +12468,7 @@ bool item::process_temperature_rot( float insulation, const tripoint &pos, map &
         return false;
     }
 
-    units::temperature temp = units::from_fahrenheit( get_weather().get_temperature( pos ) );
+    units::temperature temp = get_weather().get_temperature( pos );
 
     switch( flag ) {
         case temperature_flag::NORMAL:
@@ -12486,7 +12494,7 @@ bool item::process_temperature_rot( float insulation, const tripoint &pos, map &
     // body heat increases inventory temperature by 5 F (2.77 K) and insulation by 50%
     if( carried ) {
         insulation *= 1.5;
-        temp = temp + units::from_kelvin( 2.77 );
+        temp += units::from_kelvin( 2.77 );
     }
 
     time_point time = last_temp_check;
@@ -12498,19 +12506,19 @@ bool item::process_temperature_rot( float insulation, const tripoint &pos, map &
 
         const weather_generator &wgen = get_weather().get_cur_weather_gen();
         const unsigned int seed = g->get_seed();
-        int local_mod = g->new_game ? 0 : here.get_temperature( pos );
+        units::temperature local_mod = g->new_game ? 0_K : here.get_temperature_mod( pos );
 
-        int enviroment_mod;
+        units::temperature enviroment_mod;
         // Toilets and vending machines will try to get the heat radiation and convection during mapgen and segfault.
         if( !g->new_game ) {
-            enviroment_mod = get_heat_radiation( pos, false );
+            enviroment_mod = get_heat_radiation( pos );
             enviroment_mod += get_convection_temperature( pos );
         } else {
-            enviroment_mod = 0;
+            enviroment_mod = 0_K;
         }
 
         if( carried ) {
-            local_mod += 5; // body heat increases inventory temperature
+            local_mod += units::from_kelvin( 2.77 ); // body heat increases inventory temperature
         }
 
         // Process the past of this item in 1h chunks until there is less than 1h left.
@@ -12523,12 +12531,12 @@ bool item::process_temperature_rot( float insulation, const tripoint &pos, map &
             // Use weather if above ground, use map temp if below
             units::temperature env_temperature;
             if( pos.z >= 0 && flag != temperature_flag::ROOT_CELLAR ) {
-                double weather_temperature = wgen.get_weather_temperature( pos, time, seed );
-                env_temperature = units::from_fahrenheit( weather_temperature + enviroment_mod + local_mod );
+                env_temperature = wgen.get_weather_temperature( pos, time, seed );
             } else {
-                env_temperature = units::from_fahrenheit( units::to_fahrenheit( AVERAGE_ANNUAL_TEMPERATURE ) +
-                                  enviroment_mod + local_mod );
+                env_temperature = AVERAGE_ANNUAL_TEMPERATURE;
             }
+            env_temperature += local_mod;
+            env_temperature += enviroment_mod;
 
             switch( flag ) {
                 case temperature_flag::NORMAL:

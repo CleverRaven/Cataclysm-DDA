@@ -115,6 +115,10 @@ void talk_function::assign_mission( npc &p )
     if( miss == nullptr ) {
         debugmsg( "assign_mission: mission_selected == nullptr" );
         return;
+    } else if( miss->is_assigned() ) {
+        DebugLog( D_WARNING, D_MAIN ) << "assign_mission: mission_id: " << miss->mission_id().str() <<
+                                      " is already assigned!";
+        return;
     }
     miss->assign( get_avatar() );
     p.chatbin.missions_assigned.push_back( miss );

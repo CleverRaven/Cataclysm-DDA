@@ -86,6 +86,32 @@
   },
   {
     "type": "MONSTER",
+    "id": "mon_compsognathus_bio_op",
+    "name": { "str_sp": "compsognathus bio-operator" },
+    "copy-from": "mon_compsognathus",
+    "diff": 5,
+    "proportional": { "hp": 1.2, "speed": 1.15 },
+    "relative": {
+      "morale": 50,
+      "aggression": 50,
+      "melee_skill": 2,
+      "melee_dice": 1,
+      "dodge": 2,
+      "armor_bash": 3,
+      "armor_cut": 3,
+      "armor_bullet": 3
+    },
+    "extend": { "flags": [ "ACIDPROOF", "ELECTRIC" ] },
+    "melee_damage": [ { "damage_type": "electric", "amount": 4 } ],
+    "vision_day": 100,
+    "luminance": 4,
+    "special_attacks": [ [ "BIO_OP_TAKEDOWN", 20 ] ],
+    "description": "A small fast-moving bipedal dinosaur dotted with crackling bionics.  Its sharp claws and teeth glow menacingly.",
+    "special_when_hit": [ "ZAPBACK", 75 ],
+    "dissect": "dissect_CBM_DINO"
+  },
+  {
+    "type": "MONSTER",
     "id": "mon_gallimimus_bio_op",
     "name": { "str_sp": "gallimimus bio-operator" },
     "copy-from": "mon_gallimimus",
@@ -268,6 +294,64 @@
     "description": "A small feathered bipedal dinosaur dotted with crackling bionics.  Each foot has a large glowing sickle-like claw.",
     "special_when_hit": [ "ZAPBACK", 75 ],
     "dissect": "dissect_CBM_raptor"
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_eoraptor_bio_op",
+    "name": { "str_sp": "eoraptor bio-operator" },
+    "copy-from": "mon_eoraptor",
+    "diff": 5,
+    "proportional": { "hp": 1.2, "speed": 1.15 },
+    "relative": {
+      "morale": 50,
+      "aggression": 50,
+      "melee_skill": 2,
+      "melee_dice": 1,
+      "dodge": 2,
+      "armor_bash": 3,
+      "armor_cut": 3,
+      "armor_bullet": 3
+    },
+    "extend": { "flags": [ "ACIDPROOF", "ELECTRIC" ] },
+    "melee_damage": [ { "damage_type": "electric", "amount": 4 } ],
+    "vision_day": 100,
+    "luminance": 4,
+    "special_attacks": [ [ "BIO_OP_TAKEDOWN", 20 ] ],
+    "description": "A small bipedal dinosaur dotted with crackling bionics with long arms.  The sharp teeth glow menacingly",
+    "special_when_hit": [ "ZAPBACK", 75 ],
+    "dissect": "dissect_CBM_DINO"
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_amargasaurus_bio_op",
+    "name": { "str_sp": "amargasaurus bio-operator" },
+    "copy-from": "mon_amargasaurus",
+    "diff": 5,
+    "proportional": { "hp": 1.2, "speed": 1.15 },
+    "relative": {
+      "morale": 50,
+      "aggression": 50,
+      "melee_skill": 2,
+      "melee_dice": 1,
+      "dodge": 2,
+      "armor_bash": 3,
+      "armor_cut": 3,
+      "armor_bullet": 3
+    },
+    "extend": { "flags": [ "ACIDPROOF", "ELECTRIC" ] },
+    "melee_damage": [ { "damage_type": "electric", "amount": 4 } ],
+    "vision_day": 100,
+    "luminance": 4,
+    "special_attacks": [
+      [ "BIO_OP_TAKEDOWN", 20 ],
+      { "id": "stomp_DinoMod", "cooldown": 10, "damage_max_instance": [ { "damage_type": "bash", "amount": 12 } ] },
+      [ "tailsmash_DinoMod", 30 ],
+      [ "EAT_CROP", 5 ]
+    ],
+    "description": "Massive, long-necked, four-legged dinosaur dotted with crackling bionics.  The whip-like tail and two rows of tall spines running down the neck and back glow menacingly.",
+    "special_when_hit": [ "ZAPBACK", 75 ],
+    "zombify_into": "mon_zamargasaurus_bio_op",
+    "dissect": "dissect_CBM_DINO"
   },
   {
     "type": "MONSTER",

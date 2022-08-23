@@ -25,7 +25,7 @@
     "id": "style_aikido",
     "name": { "str": "Aikido" },
     "description": "Aikido is a Japanese martial art focused on self-defense, while minimizing injury to the attacker.  It uses defensive throws and disarms but its techniques lack offensive power.",
-    "initiate": [ "You enter the hamni stance.", "%s changes into a relaxed combat posture." ],
+    "initiate": [ "You enter the hanmi stance.", "%s changes into a relaxed combat posture." ],
     "learn_difficulty": 5,
     "arm_block": 0,
     "static_buffs": [

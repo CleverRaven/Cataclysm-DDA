@@ -2088,7 +2088,7 @@
           "foot_ankle_r",
           "foot_ankle_l"
         ],
-        "material": [ { "type": "cotton", "covered_by_mat": 100, "thickness": 2 } ],
+        "material": [ { "type": "leather", "covered_by_mat": 100, "thickness": 2 } ],
         "encumbrance": 20,
         "coverage": 100
       },

@@ -34,7 +34,7 @@ namespace cata
 void UseMdarrayCheck::registerMatchers( MatchFinder *Finder )
 {
     Finder->addMatcher(
-        varDecl(
+        declaratorDecl(
             hasType( arrayType( hasElementType( arrayType() ) ) )
         ).bind( "decl" ),
         this
@@ -43,7 +43,7 @@ void UseMdarrayCheck::registerMatchers( MatchFinder *Finder )
 
 static void CheckDecl( UseMdarrayCheck &Check, const MatchFinder::MatchResult &Result )
 {
-    const VarDecl *ArrayDecl = Result.Nodes.getNodeAs<VarDecl>( "decl" );
+    const DeclaratorDecl *ArrayDecl = Result.Nodes.getNodeAs<DeclaratorDecl>( "decl" );
     if( !ArrayDecl ) {
         return;
     }
