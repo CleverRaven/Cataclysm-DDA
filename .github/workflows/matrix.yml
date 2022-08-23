@@ -192,8 +192,9 @@ jobs:
             ccache_limit: 2G
 
           # Reserving space for msvc ccache & vcpkg cache
-            # vcpkg: 500MB
-            # ccache: 8GB -> 1.4GB
+            # observed usage:
+            # vcpkg: ??? -> 500MB
+            # ccache: 8GB -> 1.0GB
 
     name: ${{ matrix.title }}
     runs-on: ${{ matrix.os }}

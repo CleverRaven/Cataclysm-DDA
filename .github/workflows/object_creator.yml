@@ -60,8 +60,14 @@ jobs:
     - name: Add msbuild to PATH
       uses: microsoft/setup-msbuild@v1.0.2
 
+    - name: Use GNU tar to enable zstd for actions/cache
+      run: |
+        echo "Adding GNU tar to PATH"
+        echo C:\Program Files\Git\usr\bin>>"%GITHUB_PATH%"
+      shell: cmd
+
     - name: Restore artifacts, or run vcpkg, build and cache artifacts
-      uses: lukka/run-vcpkg@v10.2
+      uses: lukka/run-vcpkg@v10.4
       id: runvcpkg
       with:
         # run-vcpkg tries to hash vcpkg.json but complans if it finds more than one.
@@ -78,12 +84,17 @@ jobs:
       run: |
         vcpkg integrate install
 
+    - name: Symlink intermediates to C
+      run: |
+        mkdir -p "$env:TEMP\objwin"
+        New-Item -ItemType SymbolicLink -Target "$env:TEMP\objwin" objwin
+
     - name: Build
       run: |
           cd msvc-object_creator
           msbuild -m -p:Configuration=Release -p:Platform=x64 ObjectCreator-vcpkg-static.sln
 
-    - name: Dump logs if build failed
+    - name: Dump vcpkg logs if build failed
       if: failure()
       run: |
         echo =================================================
@@ -102,6 +113,25 @@ jobs:
             }
         }
 
-    - name: Clean
+    - name: Dump disk usage logs if job failed
+      if: failure()
       run: |
-          Get-ChildItem -Path Cataclysm-lib-vcpkg-static-Release-x64.*,ObjectCreator-vcpkg-static-Release-x64.* | Foreach-Object { rm $_.FullName }
+        echo =================================================
+        df
+        echo =================================================
+        du -sh *
+        echo =================================================
+        du -sh msvc-full-features/*
+        echo =================================================
+        du -sh msvc-object_creator/*
+        echo =================================================
+        du -sh tools/*
+        echo =================================================
+        compact.exe
+      shell: bash
+
+    - name: Don't upload vcpkg cache on failure
+      if: failure()
+      run: |
+        echo "RUNVCPKG_NO_CACHE=1" >> $GITHUB_ENV
+      shell: bash
