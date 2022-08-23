@@ -467,7 +467,7 @@
   {
     "type": "COMESTIBLE",
     "id": "egg_steelhead_trout",
-    "name": { "str_sp": "stelhead trout roe" },
+    "name": { "str_sp": "steelhead trout roe" },
     "copy-from": "egg_fish",
     "rot_spawn": "GROUP_EGG_STEELHEAD_TROUT"
   },
