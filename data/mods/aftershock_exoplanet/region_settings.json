@@ -80,7 +80,7 @@
           "f_chicory": 1,
           "f_sunflower": 1
         },
-        "f_region_weed": { "f_shrub_moss": 1 },
+        "f_region_weed": { "f_shrub_moss": 2300 },
         "f_region_water_plant": { "f_shrub_moss": 15 }
       }
     },
