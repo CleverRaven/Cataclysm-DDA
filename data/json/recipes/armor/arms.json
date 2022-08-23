@@ -228,7 +228,6 @@
     "skills_required": [ "tailor", 1 ],
     "time": "120 m",
     "autolearn": true,
-    "book_learn": [ [ "textbook_armwest", 4 ], [ "recipe_melee", 4 ] ],
     "components": [ [ [ "sheet_metal", 1 ] ], [ [ "cordage_6_leather", 8 ] ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" } ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 }, { "id": "DRILL", "level": 1 } ]
@@ -262,7 +261,6 @@
     "skills_required": [ "tailor", 1 ],
     "time": "60 m",
     "autolearn": true,
-    "book_learn": [ [ "textbook_armwest", 4 ], [ "recipe_melee", 4 ] ],
     "components": [ [ [ "sheet_metal_small", 2 ] ], [ [ "cordage_6_leather", 2 ] ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_articulation" } ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 }, { "id": "DRILL", "level": 1 } ]
@@ -278,7 +276,6 @@
     "skills_required": [ "tailor", 1 ],
     "time": "60 m",
     "autolearn": true,
-    "book_learn": [ [ "textbook_armwest", 4 ], [ "recipe_melee", 4 ] ],
     "components": [ [ [ "sheet_metal_small", 4 ] ], [ [ "cordage_6_leather", 6 ], [ "cordage_36_leather", 1 ] ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_articulation" } ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 }, { "id": "DRILL", "level": 1 } ]
