@@ -29,13 +29,13 @@
     "region_terrain_and_furniture": {
       "terrain": {
         "t_region_groundcover": {
-          "t_grass": 20,
-          "t_grass_dead": 1,
-          "t_grass_long": 15,
-          "t_grass_tall": 10,
-          "t_dirt": 1,
-          "t_shrub": 1,
-          "t_underbrush": 1
+          "t_grass": 20000,
+          "t_grass_dead": 1000,
+          "t_grass_long": 15000,
+          "t_grass_tall": 10000,
+          "t_dirt": 1000,
+          "t_shrub": 1000,
+          "t_underbrush": 1000
         },
         "t_region_groundcover_urban": { "t_grass": 20, "t_grass_dead": 3 },
         "t_region_groundcover_forest": { "t_grass_long": 5, "t_grass_tall": 1, "t_moss": 1, "t_grass_dead": 3 },
