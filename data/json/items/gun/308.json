@@ -383,8 +383,17 @@
     "copy-from": "rifle_semi",
     "looks_like": "ar15",
     "type": "GUN",
-    "name": { "str": "PAP M77" },
-    "description": "Civilian AK pattern rifle made by Zastava in 7.62 NATO.",
+    "name": { "str": "7.62x51mm AK" },
+    "description": "A civilian AK pattern rifle, chambered in 7.62x51mm NATO.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "papm77",
+        "name": { "str": "PAP M77" },
+        "description": "A Serbian-made AK pattern rifle made by Zastava in 7.62x51mm NATO. To avoid import restrictions, Zastava USA has added a number of American-made parts.",
+        "weight": 1
+      }
+    ],
     "weight": "3402 g",
     "volume": "2167 ml",
     "longest_side": "87 cm",
