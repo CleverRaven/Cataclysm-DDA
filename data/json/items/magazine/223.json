@@ -564,7 +564,7 @@
     "ammo_type": [ "223" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "223": 100 } } ]
   },
-    {
+  {
     "id": "zpap85mag",
     "looks_like": "stanag30",
     "type": "MAGAZINE",
