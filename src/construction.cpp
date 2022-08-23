@@ -162,11 +162,13 @@ static void done_appliance( const tripoint_bub_ms &, Character & );
 static void done_wiring( const tripoint_bub_ms &, Character & );
 static void done_deconstruct( const tripoint_bub_ms &, Character & );
 static void done_digormine_stair( const tripoint_bub_ms &, bool, Character & );
+static void done_digormine_slope( const tripoint_bub_ms &, bool, Character & );
 static void done_dig_grave( const tripoint_bub_ms &p, Character & );
 static void done_dig_grave_nospawn( const tripoint_bub_ms &p, Character & );
 static void done_dig_stair( const tripoint_bub_ms &, Character & );
 static void done_mine_downstair( const tripoint_bub_ms &, Character & );
 static void done_mine_upstair( const tripoint_bub_ms &, Character & );
+static void done_mine_upslope( const tripoint_bub_ms &, Character & );
 static void done_wood_stairs( const tripoint_bub_ms &, Character & );
 static void done_window_curtains( const tripoint_bub_ms &, Character & );
 static void done_extract_maybe_revert_to_dirt( const tripoint_bub_ms &, Character & );
@@ -1670,6 +1672,51 @@ void construct::done_digormine_stair( const tripoint_bub_ms &p, bool dig,
     tmpmap.save();
 }
 
+void construct::done_digormine_slope( const tripoint_bub_ms &p, bool dig,
+                                      Character &player_character )
+{
+    map &here = get_map();
+    const tripoint_abs_ms abs_pos = here.getglobal( p );
+    const tripoint_abs_sm pos_sm = project_to<coords::sm>( abs_pos );
+    tinymap tmpmap;
+    tmpmap.load( pos_sm + tripoint_below, false );
+    const tripoint local_tmp = tmpmap.getlocal( abs_pos );
+
+    bool dig_muts = player_character.has_trait( trait_PAINRESIST_TROGLO ) ||
+                    player_character.has_trait( trait_STOCKY_TROGLO );
+
+    int no_mut_penalty = dig_muts ? 10 : 0;
+    int mine_penalty = dig ? 0 : 10;
+    player_character.mod_stored_kcal( -43 - 9 * mine_penalty - 9 * no_mut_penalty );
+    player_character.mod_thirst( 5 + mine_penalty + no_mut_penalty );
+    player_character.mod_fatigue( 10 + mine_penalty + no_mut_penalty );
+
+    if( tmpmap.ter( local_tmp ) == t_lava ) {
+        if( !query_yn( _( "The rock feels much warmer than normal.  Proceed?" ) ) ) {
+            here.ter_set( p, t_pit ); // You dug down a bit before detecting the problem
+            unroll_digging( dig ? 8 : 12 );
+        } else {
+            add_msg( m_warning, _( "You just tunneled into lava!" ) );
+            get_event_bus().send<event_type::digs_into_lava>();
+            here.ter_set( p, t_hole );
+        }
+
+        return;
+    }
+
+    bool impassable = tmpmap.impassable( local_tmp );
+    if( !impassable ) {
+        add_msg( _( "You burrow into a preexisting space, and improvise a slope" ) );
+    } else {
+        add_msg( _( "You burrow a rough slope" ) );
+    }
+    here.ter_set( p, t_slope_down ); // There's the top half
+    // Again, need to use submap-local coordinates.
+    tmpmap.ter_set( local_tmp, t_slope_up ); // and there's the bottom half.
+    // And save to the center coordinate of the current active map.
+    tmpmap.save();
+}
+
 void construct::done_dig_grave( const tripoint_bub_ms &p, Character &who )
 {
     map &here = get_map();
@@ -1717,6 +1764,11 @@ void construct::done_mine_downstair( const tripoint_bub_ms &p, Character &who )
     done_digormine_stair( p, false, who );
 }
 
+void construct::done_dig_slope( const tripoint_bub_ms &p, Character &who )
+{
+    done_digormine_slope( p, true, who );
+}
+
 void construct::done_mine_upstair( const tripoint_bub_ms &p, Character &player_character )
 {
     map &here = get_map();
@@ -1753,6 +1805,45 @@ void construct::done_mine_upstair( const tripoint_bub_ms &p, Character &player_c
     here.ter_set( p.xy(), t_stairs_up ); // There's the bottom half
     // We need to write to submap-local coordinates.
     tmpmap.ter_set( local_tmp, t_stairs_down ); // and there's the top half.
+    tmpmap.save();
+}
+
+void construct::done_dig_upslope( const tripoint_bub_ms &p, Character &player_character )
+{
+    map &here = get_map();
+    const tripoint_abs_ms abs_pos = here.getglobal( p );
+    const tripoint_abs_sm pos_sm = project_to<coords::sm>( abs_pos );
+    tinymap tmpmap;
+    tmpmap.load( pos_sm + tripoint_above, false );
+    const tripoint local_tmp = tmpmap.getlocal( abs_pos );
+
+    if( tmpmap.ter( local_tmp ) == t_lava ) {
+        here.ter_set( p.xy(), t_burrow ); // You dug a bit before discovering the problem
+        add_msg( m_warning, _( "The dirt overhead feels hot.  You decide *not* to mine magma." ) );
+        unroll_digging( 12 );
+        return;
+    }
+
+    if( tmpmap.has_flag_ter( ter_furn_flag::TFLAG_SHALLOW_WATER, local_tmp ) ||
+        tmpmap.has_flag_ter( ter_furn_flag::TFLAG_DEEP_WATER, local_tmp ) ) {
+        here.ter_set( p.xy(), t_burrow ); // You dug a bit before discovering the problem
+        add_msg( m_warning, _( "The dirt above is rather damp.  You decide *not* to mine water." ) );
+        unroll_digging( 12 );
+        return;
+    }
+
+    bool dig_muts = player_character.has_trait( trait_PAINRESIST_TROGLO ) ||
+                    player_character.has_trait( trait_STOCKY_TROGLO );
+
+    int no_mut_penalty = dig_muts ? 15 : 0;
+    player_character.mod_stored_kcal( -174 - 9 * no_mut_penalty );
+    player_character.mod_thirst( 20 + no_mut_penalty );
+    player_character.mod_fatigue( 25 + no_mut_penalty );
+
+    add_msg( _( "You drill out a passage, heading for the surface." ) );
+    here.ter_set( p.xy(), t_slope_up ); // There's the bottom half
+    // We need to write to submap-local coordinates.
+    tmpmap.ter_set( local_tmp, t_slope_down ); // and there's the top half.
     tmpmap.save();
 }
 
@@ -2012,7 +2103,9 @@ void load_construction( const JsonObject &jo )
             { "done_dig_grave_nospawn", construct::done_dig_grave_nospawn },
             { "done_dig_stair", construct::done_dig_stair },
             { "done_mine_downstair", construct::done_mine_downstair },
-            { "done_mine_upstair", construct::done_mine_upstair },
+			{ "done_dig_slope", construct::done_dig_slope },
+            { "done_mine_upstair", construct::done_mine_upstair }
+            { "done_mine_upslope", construct::done_mine_upslope },
             { "done_wood_stairs", construct::done_wood_stairs },
             { "done_window_curtains", construct::done_window_curtains },
             { "done_extract_maybe_revert_to_dirt", construct::done_extract_maybe_revert_to_dirt },
