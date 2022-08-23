@@ -8,6 +8,7 @@
     "valid_targets": [ "self" ],
     "effect": "attack",
     "effect_str": "eyegleam",
+    "flags": [ "NO_HANDS", "CONCENTRATE", "SILENT", "NO_FAIL" ],
     "shape": "blast",
     "min_range": 1,
     "max_range": 1,
@@ -18,4 +19,19 @@
     "max_duration": 1000000,
     "duration_increment": 2000
   },
+  {
+    "id": "spell_stamina4blood",
+    "type": "SPELL",
+    "name": "Stamina from blood",
+    "description": "You focus on sending the blood in your veins to where it can do the most good for your immediate stamina.",
+    "effect": "recover_energy",
+    "effect_str": "STAMINA",
+    "shape": "blast",
+    "valid_targets": [ "self" ],
+    "flags": [ "NO_HANDS", "CONCENTRATE", "SILENT", "NO_FAIL" ],
+    "min_damage": 1500,
+    "max_damage": 10000,
+    "base_casting_time": 100,
+    "difficulty": 5
+  }
 ]
