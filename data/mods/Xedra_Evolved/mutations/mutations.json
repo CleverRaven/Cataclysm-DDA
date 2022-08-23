@@ -79,10 +79,17 @@
     "type": "mutation",
     "id": "EYEGLEAM",
     "name": { "str": "Gleaming eyes" },
-
     "description": "Your eyes gleam lightly red as the light catches in them and with a few drops of the stolen blood in your veins you are able to see in the dark.",
     "active": true,
     "activated_eocs": [ "EOC_EYEGLEAM_activated" ]
+  },
+  {
+    "type": "mutation",
+    "id": "STAMINAFORBLOOD",
+    "name": { "str": "Recover Stamina" },
+    "description": "Your exhaust some of the blood in your veins to boost and recover some of your spent stamina.",
+    "active": true,
+    "activated_eocs": [ "EOC_STAMINAFORBLOOD_activated" ]
   },
   {
     "type": "mutation",
@@ -114,6 +121,8 @@
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
+    "vitamins_absorb_multi": [ [ "all", [ [ "mutant_toxin", 0.25 ] ] ] ],
+    "vitamin_rates":
     "metabolism_modifier": 5,
     "stamina_regen_modifier": 0.1
   },
