@@ -86,49 +86,6 @@ static std::map<std::string, std::vector<std::string> > craft_subcat_list;
 // needed for reseting the * panel when changing nested groups
 static std::vector<std::string> craft_subcat_star_default;
 
-// More specialized list_circularizer (see cata_utility.h) to allow jumping to a specific tab
-class tab_list
-{
-    private:
-        size_t _index = 0;
-        std::vector<std::string> *_list;
-    public:
-        explicit tab_list( std::vector<std::string> &_list ) : _list( &_list ) {
-        }
-
-        void next() {
-            _index = ( _index == _list->size() - 1 ? 0 : _index + 1 );
-        }
-
-        void prev() {
-            _index = ( _index == 0 ? _list->size() - 1 : _index - 1 );
-        }
-
-        int cur_index() const {
-            return static_cast<int>( _index );
-        }
-
-        std::string cur( const bool translated = false ) const {
-            if( _list->empty() ) {
-                return std::string( "" );
-            }
-            std::string returnVal;
-
-            if( translated ) {
-                returnVal =  _( ( *_list )[_index] );
-            } else {
-                returnVal = ( *_list )[_index];
-            }
-            return returnVal;
-        }
-
-        void set_index( const size_t new_index ) {
-            if( new_index < _list->size() ) {
-                _index = new_index;
-            }
-        }
-};
-
 static bool query_is_yes( const std::string &query );
 static int craft_info_width( int window_width );
 static void draw_hidden_amount( const catacurses::window &w, int amount, int num_recipe );
