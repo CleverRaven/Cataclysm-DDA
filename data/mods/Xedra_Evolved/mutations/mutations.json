@@ -114,6 +114,22 @@
   },
   {
     "type": "mutation",
+    "id": "COAGULANTWEAVE",
+    "name": { "str": "Coagulant Weave" },
+    "description": "Your body prepares to prevent the lose of any blood to combat damage.",
+    "active": true,
+    "activated_eocs": [ "EOC_COAGULANTWEAVE_activated" ]
+  },
+  {
+    "type": "mutation",
+    "id": "BLOODHEAL",
+    "name": { "str": "Blood spurred healing" },
+    "description": "Your flesh heals visibly while blood disintegrates hidden inside your veins.",
+    "active": true,
+    "activated_eocs": [ "EOC_BLOODHEAL_activated" ]
+  },
+  {
+    "type": "mutation",
     "id": "VAMPIRE3",
     "name": { "str": "Mortal hungers are replaced with immortal hungers." },
     "points": 0,

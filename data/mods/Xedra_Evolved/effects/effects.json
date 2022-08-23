@@ -250,5 +250,35 @@
       "h_mod_chance": [ -200 ]
     },
     "blood_analysis_description": "Severe Progressive Anemic Autophagy"
+  },
+  {
+    "type": "effect_type",
+    "id": "eyegleam",
+    "name": [ "Eye gleam" ],
+    "desc": [ "You can see in the dark." ],
+    "apply_message": "Your sight adjusts to the darkness.",
+    "remove_message": "The darkness loses its shape.",
+    "rating": "good",
+    "flags": [ "NIGHT_VISION" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "blood_weave",
+    "name": [ "Blood Weave" ],
+    "desc": [ "Immunity to bleeding and bites, increased stamina regeneration, increased hunger and thirst gain." ],
+    "remove_message": "The tension running through your flesh fades.",
+    "blocks_effects": [ "bleed", "bite" ],
+    "rating": "good",
+    "max_duration": "5 m",
+    "base_mods": {
+      "hunger_min": [ 1 ],
+      "hunger_chance": [ 12 ],
+      "thirst_min": [ 1 ],
+      "thirst_chance": [ 12 ],
+      "health_min": [ 1 ],
+      "health_chance": [ 4 ],
+      "stamina_min": [ 40 ],
+      "stamina_chance": [ 2 ]
+    }
   }
 ]

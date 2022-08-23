@@ -13,8 +13,8 @@
   {
     "id": "human_blood_vitamin",
     "type": "vitamin",
-    "vit_type": "vitamin",
-    "name": { "str": "Iron" },
+    "vit_type": "counter",
+    "name": { "str": "Stolen Blood" },
     "excess": "blood_quenched",
     "deficiency": "withering",
     "min": -12000,

@@ -8,7 +8,7 @@
       { "arithmetic": [ { "u_val": "human_blood_vitamin" }, "-=", { "const": 100 } ] },
       { "queue_eocs": [ "EOC_EYEGLEAM_cast" ], "time_in_future": 1 }
     ],
-    "false_effect": [ { "u_message": "You don't have enough stamina to activate your Bioluminescent Flare.", "type": "bad" } ]
+    "false_effect": [ { "u_message": "You don't have enough blood to activate your gleaming eyes.", "type": "bad" } ]
   },
   {
     "type": "effect_on_condition",
@@ -16,6 +16,69 @@
     "effect": [
       {
         "u_cast_spell": { "id": "spell_eyegleam", "message": "Your eyes gleam red momentarily as they catch the light available and grant you nightvision." },
+        "targeted": true
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_STAMINAFORBLOOD_activated",
+    "condition": { "compare_int": [ { "u_val": "human_blood_vitamin" }, ">=", { "const": -500 } ] },
+    "effect": [
+      { "u_assign_activity": "ACT_GENERIC_EOC", "duration": "1 seconds" },
+      { "arithmetic": [ { "u_val": "human_blood_vitamin" }, "-=", { "const": 100 } ] },
+      { "queue_eocs": [ "EOC_STAMINAFORBLOOD_cast" ], "time_in_future": 1 }
+    ],
+    "false_effect": [ { "u_message": "You don't have enough blood to recover any stamina.", "type": "bad" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_STAMINAFORBLOOD_cast",
+    "effect": [
+      {
+        "u_cast_spell": { "id": "spell_stamina4blood", "message": "Your veins pulse as your body pushes some of your blood reserves to exhaustion and early dissolution." },
+        "targeted": true
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_COAGULANTWEAVE_activated",
+    "condition": { "compare_int": [ { "u_val": "human_blood_vitamin" }, ">=", { "const": 500 } ] },
+    "effect": [
+      { "u_assign_activity": "ACT_GENERIC_EOC", "duration": "1 seconds" },
+      { "arithmetic": [ { "u_val": "human_blood_vitamin" }, "-=", { "const": 500 } ] },
+      { "queue_eocs": [ "EOC_COAGULANTWEAVE_cast" ], "time_in_future": 1 }
+    ],
+    "false_effect": [ { "u_message": "You don't have enough blood to fortify your flesh.", "type": "bad" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_COAGULANTWEAVE_cast",
+    "effect": [
+      {
+        "u_cast_spell": { "id": "spell_coagulant_weave", "message": "Blood flushes through your skin building preemptive threading that increases your resistance to bleed and bite attacks." },
+        "targeted": true
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BLOODHEAL_activated",
+    "condition": { "compare_int": [ { "u_val": "human_blood_vitamin" }, ">=", { "const": -9500 } ] },
+    "effect": [
+      { "u_assign_activity": "ACT_GENERIC_EOC", "duration": "1 seconds" },
+      { "arithmetic": [ { "u_val": "human_blood_vitamin" }, "-=", { "const": 750 } ] },
+      { "queue_eocs": [ "EOC_BLOODHEAL_cast" ], "time_in_future": 1 }
+    ],
+    "false_effect": [ { "u_message": "You don't have enough blood to fortify your flesh.", "type": "bad" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BLOODHEAL_cast",
+    "effect": [
+      {
+        "u_cast_spell": { "id": "spell_blood_heal", "message": "Blood flushes through your flesh repairing any damage it comes across." },
         "targeted": true
       }
     ]
