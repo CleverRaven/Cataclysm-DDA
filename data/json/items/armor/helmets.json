@@ -947,17 +947,13 @@
         "encumbrance_modifiers": [ "RESTRICTS_NECK", "WELL_SUPPORTED" ]
       },
       {
-        "material": [
-          { "type": "lc_steel", "covered_by_mat": 100, "thickness": 1.5 }
-        ],
+        "material": [ { "type": "lc_steel", "covered_by_mat": 100, "thickness": 1.5 } ],
         "covers": [ "eyes" ],
         "coverage": 100,
         "encumbrance": 25
       },
       {
-        "material": [
-          { "type": "lc_steel", "covered_by_mat": 100, "thickness": 1.5 }
-        ],
+        "material": [ { "type": "lc_steel", "covered_by_mat": 100, "thickness": 1.5 } ],
         "covers": [ "mouth" ],
         "coverage": 100,
         "encumbrance": 10
