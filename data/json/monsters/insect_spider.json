@@ -2061,7 +2061,29 @@
     "death_function": { "message": "The %s's body leaks acid.", "effect": { "id": "death_acid", "hit_self": true } },
     "harvest": "arachnid_acid",
     "dissect": "dissect_insect_sample_single",
+    "upgrades": { "half_life": 42, "into": "mon_ant_acid_soldier_mega" },
     "flags": [ "ACIDPROOF", "SHORTACIDTRAIL", "CLIMBS", "HEARS", "POISON", "SEES", "SMELLS", "PATH_AVOID_FIRE", "PATH_AVOID_FALL" ]
+  },
+  {
+    "id": "mon_ant_acid_soldier_mega",
+    "type": "MONSTER",
+    "name": { "str": "super soldier acid ant" },
+    "description": "A cow-sized, woolly brown ant.  Corrosive liquid seeping from her huge mandibles.  Given the relative strength of ants to their body size, you don't doubt that this one could shove cars around or rip through solid walls.",
+    "copy-from": "mon_ant_acid_soldier",
+    "proportional": { "hp": 10, "speed": 0.25, "dodge": 0.5, "vision_day": 2 },
+    "volume": "625 L",
+    "weight": "815 kg",
+    "melee_dice": 2,
+    "armor_elec": 4,
+    "bleed_rate": 60,
+    "special_attacks": [
+      { "id": "smash", "throw_strength": 48, "cooldown": 30 },
+      [ "BIO_OP_TAKEDOWN", 20 ],
+      [ "RANGED_PULL", 20 ],
+      [ "GRAB", 5 ]
+    ],
+    "dissect": "dissect_insect_sample_large",
+    "extend": { "flags": [ "DESTROYS", "PUSH_MON", "PUSH_VEH", "RANGED_ATTACKER" ] }
   },
   {
     "id": "mon_ant_larva",
@@ -2182,7 +2204,7 @@
       [ "RANGED_PULL", 20 ],
       [ "GRAB", 5 ]
     ],
-    "dissect": "dissect_insect_sample_small",
+    "dissect": "dissect_insect_sample_large",
     "extend": { "flags": [ "DESTROYS", "PUSH_MON", "PUSH_VEH", "RANGED_ATTACKER" ] }
   },
   {
