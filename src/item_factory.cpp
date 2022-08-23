@@ -706,13 +706,16 @@ void Item_factory::finalize_post( itype &obj )
                 data.avg_thickness = thic_acc;
             }
 
-            // Precalc hardness and comfort for these parts of the armor
+            // Precalc hardness and comfort for these parts of the armor. uncomfortable material supersedes softness (all rigid materials are assumed to be uncomfy)
             for( const part_material &m : data.materials ) {
                 if( m.cover > islot_armor::test_threshold ) {
                     if( m.id->soft() ) {
                         data.comfortable = true;
                     } else {
                         data.rigid = true;
+                    }
+                    if( m.id->uncomfortable() ) {
+                        data.comfortable = false;
                     }
                 }
             }
