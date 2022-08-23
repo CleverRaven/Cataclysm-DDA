@@ -59,7 +59,7 @@ using ItemCount = std::pair<item, int>;
 using PickupMap = std::map<std::string, ItemCount>;
 
 static const zone_type_id zone_type_NO_AUTO_PICKUP( "NO_AUTO_PICKUP" );
-static const flag_id flag_SHREDDED( "SHREDDED" );
+static const flag_id json_flag_SHREDDED( "SHREDDED" );
 
 //helper function for Pickup::autopickup
 static void show_pickup_message( const PickupMap &mapPickup )
@@ -202,18 +202,18 @@ static bool pick_one_up( item_location &loc, int quantity, bool &got_water, Pick
 
     bool did_prompt = false;
     if( newit.is_frozen_liquid() ) {
-        if( newit.has_flag( flag_SHREDDED ) ) {
+        if( newit.has_flag( json_flag_SHREDDED ) ) {
             option = STASH;
         } else {
             crushed = player_character.crush_frozen_liquid( newloc );
             if( !( got_water = !crushed ) ) {
                 option = STASH;
-                newit.set_flag( flag_SHREDDED );
+                newit.set_flag( json_flag_SHREDDED );
             } else {
                 got_frozen_liquid = true;
             }
         }
-    } else if( newit.made_of_from_type( phase_id::LIQUID ) && !newit.is_frozen_liquid() ) {
+    } else if( newit.made_of_from_type( phase_id::LIQUID ) ) {
         got_water = true;
     } else if( !player_character.can_pickWeight_partial( newit, false ) ||
                !player_character.can_stash_partial( newit, false ) ) {

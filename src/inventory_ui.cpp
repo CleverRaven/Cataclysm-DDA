@@ -719,6 +719,9 @@ bool inventory_holster_preset::is_shown( const item_location &contained ) const
         // spilt liquid cannot be picked up
         return false;
     }
+    if( contained->made_of( phase_id::LIQUID ) && !holster->is_watertight_container() ) {
+        return false;
+    }
     item item_copy( *contained );
     item_copy.charges = 1;
     item_location parent = contained.has_parent() ? contained.parent_item() : item_location();
@@ -3165,11 +3168,22 @@ void inventory_multiselector::deselect_contained_items()
     for( inventory_column *col : get_all_columns() ) {
         for( inventory_entry *selected : col->get_entries(
         []( const inventory_entry & entry ) {
-        return entry.is_item() && entry.chosen_count > 0 && ( entry.locations.front()->is_frozen_liquid() &&
-                    entry.locations.front().where() != item_location::type::map &&
-                    ( !entry.locations.front().has_parent() || ( entry.locations.front().has_parent() &&
-                            ( entry.locations.front()->length() > entry.locations.front().parent_item()->contained_where(
-                                  *entry.locations.front() )->get_pocket_data()->max_item_length ) ) ) ) ;
+        return entry.is_item() && entry.chosen_count > 0 && entry.locations.front()->is_frozen_liquid() &&
+                   //Frozen liquids can be selected if it have the SHREDDED flag.
+                   !entry.locations.front()->has_flag( STATIC( flag_id( "SHREDDED" ) ) ) &&
+                   (
+                       ( //Frozen liquids on the map are not selectable if they can't be crushed.
+                           entry.locations.front().where() == item_location::type::map &&
+                           !get_player_character().can_crush_frozen_liquid( entry.locations.front() ).success() ) ||
+                       ( //Weapon in hand is can selectable.
+                           entry.locations.front().where() == item_location::type::character &&
+                           !entry.locations.front().has_parent() &&
+                           entry.locations.front() != get_player_character().used_weapon() ) ||
+                       ( //Frozen liquids are unselectable if they don't have SHREDDED flag and can't be crushed in a container.
+                           entry.locations.front().has_parent() &&
+                           entry.locations.front().where() == item_location::type::container &&
+                           !get_player_character().can_crush_frozen_liquid( entry.locations.front() ).success() )
+                   );
         } ) ) {
             set_chosen_count( *selected, 0 );
         }

@@ -2125,14 +2125,13 @@ void item_contents::process( map &here, Character *carrier, const tripoint &pos,
     }
 }
 
-bool item_contents::leak( map &here, Character *carrier, const tripoint &pos, item_pocket *pocke )
+void item_contents::leak( map &here, Character *carrier, const tripoint &pos, item_pocket *pocke )
 {
     for( item_pocket &pocket : contents ) {
         if( pocket.is_type( item_pocket::pocket_type::CONTAINER ) ) {
             pocket.leak( here, carrier, pos, pocke );
         }
     }
-    return false;
 }
 
 int item_contents::remaining_capacity_for_liquid( const item &liquid ) const

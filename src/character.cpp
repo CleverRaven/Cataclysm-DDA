@@ -364,7 +364,6 @@ static const proficiency_id proficiency_prof_wound_care_expert( "prof_wound_care
 static const quality_id qual_DRILL( "DRILL" );
 static const quality_id qual_HAMMER( "HAMMER" );
 static const quality_id qual_SCREW( "SCREW" );
-
 static const quality_id qual_LIFT( "LIFT" );
 
 static const scenttype_id scent_sc_human( "sc_human" );
@@ -7119,8 +7118,11 @@ ret_val<void> Character::can_wield( const item &it ) const
         return ret_val<void>::make_failure(
                    _( "You need at least one arm available to even consider wielding something." ) );
     }
-    if( it.made_of_from_type( phase_id::LIQUID ) && !it.is_frozen_liquid() ) {
+    if( it.made_of( phase_id::LIQUID ) ) {
         return ret_val<void>::make_failure( _( "Can't wield spilt liquids." ) );
+    }
+    if( it.is_frozen_liquid() && !it.has_flag( flag_SHREDDED ) ) {
+        return ret_val<void>::make_failure( _( "Can't wield unbroken frozen liquids." ) );
     }
     if( it.has_flag( flag_NO_UNWIELD ) ) {
         if( get_wielded_item() && get_wielded_item().get_item() == &it ) {
@@ -8953,16 +8955,22 @@ const pathfinding_settings &Character::get_pathfinding_settings() const
     return *path_settings;
 }
 
-bool Character::crush_frozen_liquid( item_location loc )
+ret_val<crush_tool_type> Character::can_crush_frozen_liquid( item_location loc ) const
 {
-    if( loc.has_parent() && loc.parent_item()->contained_where( *loc )->get_pocket_data()->rigid ) {
+    crush_tool_type tool_type = CRUSH_NO_TOOL;
+    bool success = false;
+    if( !loc.has_parent() || !loc.parent_item()->contained_where( *loc )->get_pocket_data()->rigid ) {
+        tool_type = CRUSH_HAMMER;
+        success = has_quality( qual_HAMMER );
+    } else {
         bool enough_quality = false;
+        tool_type = CRUSH_DRILL_OR_HAMMER_AND_SCREW;
         if( has_quality( qual_DRILL ) ) {
             enough_quality = true;
         } else if( has_quality( qual_HAMMER ) && has_quality( qual_SCREW ) ) {
             std::list<item_location> screw_tools;
             std::vector<item_location> hammer_tools;
-            for( item_location &tool : all_items_loc() ) {
+            for( item_location &tool : const_cast<Character *>( this )->all_items_loc() ) {
                 if( tool->has_quality( qual_HAMMER ) ) {
                     hammer_tools.emplace_back( tool );
                 }
@@ -8970,24 +8978,32 @@ bool Character::crush_frozen_liquid( item_location loc )
                     screw_tools.emplace_back( tool );
                 }
             }
-            if( screw_tools.size() >= 1 && hammer_tools.size() >= 1 ) {
+            if( !screw_tools.empty() && !hammer_tools.empty() ) {
                 for( item_location &hammer : hammer_tools ) {
                     screw_tools.remove( hammer );
                 }
-                if( screw_tools.size() >= 1 ) {
+                if( !screw_tools.empty() ) {
                     enough_quality = true;
                 }
             }
-            if( enough_quality ) {
-                add_msg_if_player( _( "You pulverize and gather %s" ), loc.get_item()->display_name() );
-                return true;
-            }
-        } else {
-            add_msg_if_player(
-                _( "You need both hammering tools and screwdrivers or a drill to crush up frozen liquids in rigid container!" ) );
         }
+        success = enough_quality;
+    }
+    if( success ) {
+        return ret_val<crush_tool_type>::make_success( tool_type );
     } else {
-        if( has_quality( qual_HAMMER ) ) {
+        return ret_val<crush_tool_type>::make_failure( tool_type,
+                _( "You don't have the tools to crush frozen liquids." ) );;
+    }
+}
+
+bool Character::crush_frozen_liquid( item_location loc )
+{
+    ret_val<crush_tool_type> can_crush = can_crush_frozen_liquid( loc );
+    bool done_crush = false;
+    if( can_crush.success() ) {
+        done_crush = true;
+        if( can_crush.value() == CRUSH_HAMMER ) {
             item hammering_item = item_with_best_of_quality( qual_HAMMER, true );
             //~ %1$s: item to be crushed, %2$s: hammer name
             if( query_yn( _( "Do you want to crush up %1$s with your %2$s?\n"
@@ -8998,17 +9014,36 @@ bool Character::crush_frozen_liquid( item_location loc )
                 if( one_in( 1 + dex_cur / 4 ) ) {
                     add_msg_if_player( colorize( _( "You swing your %s wildly!" ), c_red ),
                                        hammering_item.tname() );
-                    int smashskill = get_arm_str() + hammering_item.damage_melee( damage_type::BASH );
+                    const int smashskill = get_arm_str() + hammering_item.damage_melee( damage_type::BASH );
                     get_map().bash( loc.position(), smashskill );
                 }
-                add_msg_if_player( _( "You crush up and gather %s" ), loc.get_item()->display_name() );
-                return true;
+            } else {
+                done_crush = false;
             }
-        } else {
-            add_msg_if_player( _( "You need a hammering tool to crush up frozen liquids!" ) );
         }
+        if( done_crush ) {
+            add_msg_if_player( _( "You crush up and gather %s." ), loc.get_item()->display_name() );
+        }
+    } else {
+        std::string need_str = _( "somethings" );
+
+        switch( can_crush.value() ) {
+            case CRUSH_HAMMER:
+                need_str = _( "a hammering tool" );
+                break;
+            case CRUSH_DRILL_OR_HAMMER_AND_SCREW:
+                need_str = _( "a drill or both hammering tool and screwdriver" );
+                break;
+            default:
+                break;
+        }
+        add_msg_if_player( string_format( _( "You need %s to crush up frozen liquids in rigid container!" ),
+                                          need_str ) );
     }
-    return false;
+    if( done_crush ) {
+        loc->set_flag( flag_SHREDDED );
+    }
+    return done_crush;
 }
 
 float Character::power_rating() const
@@ -11167,7 +11202,14 @@ void Character::leak_items()
         if( weapon.leak( get_map(), this, pos() ) ) {
             weapon.spill_contents( pos() );
         }
+    } else if( weapon.made_of( phase_id::LIQUID ) ) {
+        if( weapon.leak( get_map(), this, pos() ) ) {
+            get_map().add_item_or_charges( pos(), weapon );
+            removed_items.push_back( item_location( *this, &weapon ) );
+            add_msg_if_player( m_warning, _( "%s spilled from your hand." ), weapon.tname() );
+        }
     }
+
     for( item_location it : top_items_loc() ) {
         if( !it || ( !it->is_container() && !it->made_of( phase_id::LIQUID ) ) ) {
             continue;
