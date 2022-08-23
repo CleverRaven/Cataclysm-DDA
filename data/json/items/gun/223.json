@@ -770,8 +770,17 @@
     "copy-from": "rifle_semi",
     "looks_like": "ar15",
     "type": "GUN",
-    "name": { "str": "ZPAP M90" },
-    "description": "Civilian AK pattern rifle made by Zastava in 5.56 NATO.",
+    "name": { "str": "5.56x45mm AK" },
+    "description": "A civilian AK pattern rifle, chambered in 5.56x45 NATO.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "zpapm90",
+        "name": { "str": "ZPAP M90" },
+        "description": "A Serbian-made AK pattern rifle made by Zastava in 5.56x45mm NATO. To avoid import restrictions, Zastava USA has added a number of American-made parts.",
+        "weight": 1
+      }
+    ],
     "weight": "3402 g",
     "volume": "2167 ml",
     "longest_side": "99 cm",
