@@ -589,10 +589,33 @@ void recipe_dictionary::finalize()
         }
     }
 
+    // Check for nested items without a category to make sure nothing is getting lost
+    for( const auto &rec : recipe_dict.recipes ) {
+        if( rec.second.subcategory == "CSC_*_NESTED" ) {
+            bool found = false;
+            for( const auto &nest : recipe_dict.recipes ) {
+                if( nest.second.is_nested() ) {
+                    if( find( nest.second.nested_category_data.begin(), nest.second.nested_category_data.end(),
+                              rec.first ) != nest.second.nested_category_data.end() ) {
+                        found = true;
+                        break;
+                    }
+                }
+            }
+            if( !found ) {
+                debugmsg( "recipe %s is nested but isn't in a nested group.  It will be impossible to path to by the player.",
+                          rec.first.str() );
+            }
+        }
+    }
+
     // Cache auto-learn recipes and blueprints
     for( const auto &e : recipe_dict.recipes ) {
         if( e.second.autolearn ) {
             recipe_dict.autolearn.insert( &e.second );
+        }
+        if( e.second.is_nested() ) {
+            recipe_dict.nested.insert( &e.second );
         }
         if( e.second.is_blueprint() ) {
             recipe_dict.blueprints.insert( &e.second );
@@ -645,6 +668,7 @@ void recipe_dictionary::reset()
 {
     recipe_dict.blueprints.clear();
     recipe_dict.autolearn.clear();
+    recipe_dict.nested.clear();
     recipe_dict.recipes.clear();
     recipe_dict.uncraft.clear();
     recipe_dict.items_on_loops.clear();
