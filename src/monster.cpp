@@ -1937,7 +1937,7 @@ void monster::apply_damage( Creature *source, bodypart_id /*bp*/, int dam,
     } else if( dam > 0 ) {
         process_trigger( mon_trigger::HURT, 1 + static_cast<int>( dam / 3 ) );
         // Get angry at characters if hurt by one
-        if( source != nullptr && !aggro_character && !source->is_monster() ) {
+        if( source != nullptr && !aggro_character && !source->is_monster() && !source->is_fake() ) {
             aggro_character = true;
         }
     }
@@ -2678,7 +2678,7 @@ void monster::die( Creature *nkiller )
                 // Anger trumps fear trumps ennui
                 if( critter.type->has_anger_trigger( mon_trigger::FRIEND_DIED ) ) {
                     critter.anger += 15;
-                    if( nkiller != nullptr && !nkiller->is_monster() ) {
+                    if( nkiller != nullptr && !nkiller->is_monster() && !nkiller->is_fake() ) {
                         // A character killed our friend
                         add_msg_debug( debugmode::DF_MONSTER, "%s's character aggro triggered by killing a friendly %s",
                                        critter.name(), name() );
@@ -3269,7 +3269,7 @@ void monster::on_hit( Creature *source, bodypart_id,
                 // Anger trumps fear trumps ennui
                 if( critter.type->has_anger_trigger( mon_trigger::FRIEND_ATTACKED ) ) {
                     critter.anger += 15;
-                    if( source != nullptr && !source->is_monster() ) {
+                    if( source != nullptr && !source->is_monster() && !source->is_fake() ) {
                         // A character attacked our friend
                         add_msg_debug( debugmode::DF_MONSTER, "%s's character aggro triggered by attacking a friendly %s",
                                        critter.name(), name() );
