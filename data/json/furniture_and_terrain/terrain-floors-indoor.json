@@ -1167,5 +1167,37 @@
     "trap": "tr_ledge",
     "flags": [ "TRANSPARENT" ],
     "examine_action": "ledge"
+  },
+  {
+    "type": "terrain",
+    "id": "t_burrow",
+    "//": "for mutant burrows.",
+    "name": "burrow tunnel",
+    "description": "A burrow, like the passageway of a bear or wolf den, but sized for humans...  or something the size of humans, at least.  You still need to crouch or crawl to traverse it, and it's cramped enough to not need supports.",
+    "symbol": "LINE_OXOX",
+    "color": "brown",
+    "connects_to": "DIRT",
+    "move_cost": 3,
+    "looks_like": "t_pit_shallow",
+    "roof": "t_rock_roof",
+    "flags": [ "TRANSPARENT", "SUPPORTS_ROOF", "INDOORS" ],
+    "max_volume": "50 L",
+    "bash": { "sound": "thump", "ter_set": "t_null", "str_min": 50, "str_max": 100, "str_min_supported": 100, "bash_below": true }
+  },
+  {
+    "type": "terrain",
+    "id": "t_burrow_chamber",
+    "//": "for mutant burrows.",
+    "name": "burrow chamber",
+    "description": "A large burrow, like the chamber of a bear or wolf den, but sized for humans...  or something the size of humans, at least.  You can mostly stand up in it, and it looks like it has enough space for furniture, but it will collapse if it gets too large.",
+    "symbol": ".",
+    "color": "brown",
+    "connects_to": "DIRT",
+    "move_cost": 2,
+    "looks_like": "t_dirt_underground",
+    "roof": "t_rock_roof",
+    "flags": [ "TRANSPARENT", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT" ],
+    "max_volume": "500 L",
+    "bash": { "sound": "thump", "ter_set": "t_null", "str_min": 50, "str_max": 100, "str_min_supported": 100, "bash_below": true }
   }
 ]
