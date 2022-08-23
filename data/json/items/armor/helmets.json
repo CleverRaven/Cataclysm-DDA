@@ -943,7 +943,7 @@
         ],
         "covers": [ "head" ],
         "coverage": 100,
-        "encumbrance_modifiers": [ "IMBALANCED", "RESTRICTS_NECK", "WELL_SUPPORTED" ]
+        "encumbrance_modifiers": [ "RESTRICTS_NECK", "WELL_SUPPORTED" ]
       },
       {
         "material": [
@@ -968,7 +968,7 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "sheet metal helmet" },
-    "description": "A helmet that looks like a crude bucket with the face cut out.  It comes with bevors to distribute some of the weight to your shoulders, as well as cloth padding to keep your bell from being rung.",
+    "description": "A helmet that looks like a crude bucket with the face cut out.  It comes with a bevor to distribute some of the weight to your shoulders, as well as cloth padding to keep your bell from being rung.",
     "weight": "3690 g",
     "//": "The weight assumes one large sheet of about 75cm x 40cm x 1.5mm and one circular sheet with a diameter of 24cm as the crown, and one gambeson hood, but minus the weight of a 25cm x 30cm face cut out.",
     "volume": "2 L",
@@ -990,7 +990,7 @@
         ],
         "covers": [ "head" ],
         "coverage": 100,
-        "encumbrance_modifiers": [ "IMBALANCED", "RESTRICTS_NECK", "WELL_SUPPORTED" ]
+        "encumbrance_modifiers": [ "RESTRICTS_NECK", "WELL_SUPPORTED" ]
       }
     ]
   },
