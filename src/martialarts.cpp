@@ -2106,12 +2106,11 @@ bool ma_style_callback::key( const input_context &ctxt, const input_event &event
 
         ui_adaptor ui;
         ui.on_screen_resize( [&]( ui_adaptor & ui ) {
-            w = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
-                                    point( TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0,
-                                           TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0 ) );
+            w = catacurses::newwin( TERMY * 0.9, FULL_SCREEN_WIDTH,
+                                    point( TERMX - FULL_SCREEN_WIDTH, TERMY * 0.1 ) / 2 );
 
-            width = FULL_SCREEN_WIDTH - 4;
-            height = FULL_SCREEN_HEIGHT - 2;
+            width = catacurses::getmaxx( w ) - 4;
+            height = catacurses::getmaxy( w ) - 2;
 
             const auto vFolded = foldstring( text, width );
             iLines = vFolded.size();

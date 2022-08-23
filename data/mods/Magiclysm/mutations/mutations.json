@@ -375,6 +375,40 @@
   },
   {
     "type": "mutation",
+    "id": "HEADBUMPS",
+    "copy-from": "HEADBUMPS",
+    "extend": { "category": [ "DRAGON_BLACK" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "HORNS",
+    "copy-from": "HORNS",
+    "extend": { "category": [ "DRAGON_BLACK" ], "changes_to": [ "HORNS_DRAGON" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "HORNS_DRAGON",
+    "name": { "str": "Dragon Horns" },
+    "points": 1,
+    "visibility": 8,
+    "ugliness": 2,
+    "mixed_effect": true,
+    "description": "You have a pair of long, curved back, dragon-like horns.  They allow you to make a strong bashing headbutt attack, but prevent wearing headwear that is not made of fabric.",
+    "types": [ "HORNS" ],
+    "prereqs": [ "HORNS" ],
+    "category": [ "DRAGON_BLACK" ],
+    "threshreq": [ "THRESH_DRAGON_BLACK" ],
+    "restricts_gear": [ "head" ],
+    "allow_soft_gear": true,
+    "attacks": {
+      "attack_text_u": "You headbutt %s with your draconic horns",
+      "attack_text_npc": "%1$s headbutts %2$s with their draconic horns",
+      "chance": 20,
+      "base_damage": { "damage_type": "bash", "amount": 16 }
+    }
+  },
+  {
+    "type": "mutation",
     "id": "FORKED_TONGUE",
     "copy-from": "FORKED_TONGUE",
     "extend": { "category": [ "DRAGON_BLACK" ] }
