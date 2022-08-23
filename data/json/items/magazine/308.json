@@ -148,7 +148,7 @@
     "name": { "str": "M14 5-round makeshift magazine" },
     "description": "An improvised 5-round straight single-stack box magazine consisting of little more than a bent sheet of steel held together by duct tape and hope, for use with M14 pattern rifles."
   },
-    {
+  {
     "id": "papm77mag",
     "looks_like": "stanag30",
     "type": "MAGAZINE",
