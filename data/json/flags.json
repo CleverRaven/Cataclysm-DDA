@@ -2091,5 +2091,9 @@
     "id": "SHREDDED",
     "type": "json_flag",
     "info": "This is a small fragment."
+  },
+  {
+    "id": "FROM_FROZEN_LIQUID",
+    "type": "json_flag"
   }
 ]

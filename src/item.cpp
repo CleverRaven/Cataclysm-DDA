@@ -12757,6 +12757,9 @@ void item::set_temp_flags( units::temperature new_temperature, float freeze_perc
             current_phase = type->phase;
             apply_freezerburn();
             unset_flag( flag_SHREDDED );
+            if( made_of( phase_id::LIQUID ) ) {
+                set_flag( flag_FROM_FROZEN_LIQUID );
+            }
         }
     } else if( has_own_flag( flag_COLD ) ) {
         unset_flag( flag_COLD );
@@ -13303,9 +13306,14 @@ bool item::leak( map &here, Character *carrier, const tripoint &pos, item_pocket
         contents.leak( here, carrier, pos, pocke );
         return false;
     } else if( this->made_of( phase_id::LIQUID ) && !this->is_frozen_liquid() ) {
-        if( pocke == nullptr || !pocke->watertight() ) {
+        if( pocke ) {
+            if( pocke->watertight() ) {
+                unset_flag( flag_FROM_FROZEN_LIQUID );
+                return false;
+            }
             return true;
         }
+        return true;
     }
     return false;
 }

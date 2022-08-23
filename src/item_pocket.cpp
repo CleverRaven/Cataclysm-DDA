@@ -1271,6 +1271,12 @@ ret_val<item_pocket::contain_code> item_pocket::is_compatible( const item &it ) 
         return ret_val<item_pocket::contain_code>::make_success();
     }
 
+    if( it.made_of( phase_id::LIQUID ) ) {
+        if( !data->watertight && !it.has_flag( flag_FROM_FROZEN_LIQUID ) ) {
+            return ret_val<item_pocket::contain_code>::make_failure(
+                       contain_code::ERR_LIQUID, _( "can't contain liquid" ) );
+        }
+    }
     if( it.made_of( phase_id::GAS ) ) {
         if( !data->airtight ) {
             return ret_val<item_pocket::contain_code>::make_failure(
@@ -1739,6 +1745,7 @@ void item_pocket::leak( map &here, Character *carrier, const tripoint &pos, item
                 pocke->add( *it );
                 contents.erase( iter );
             } else {
+                iter->unset_flag( flag_FROM_FROZEN_LIQUID );
                 iter->on_drop( pos );
                 here.add_item_or_charges( pos, *iter );
                 contents.erase( iter );
