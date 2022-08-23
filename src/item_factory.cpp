@@ -709,7 +709,7 @@ void Item_factory::finalize_post( itype &obj )
             // Precalc hardness and comfort for these parts of the armor
             for( const part_material &m : data.materials ) {
                 if( m.cover > islot_armor::test_threshold ) {
-                    if( m.id->soft() ) {
+                    if( m.id->soft() && !m.id->uncomfortable() ) {
                         data.comfortable = true;
                     } else {
                         data.rigid = true;
