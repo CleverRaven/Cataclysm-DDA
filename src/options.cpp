@@ -2215,6 +2215,16 @@ void options_manager::add_options_graphics()
 
     get_option( "PIXEL_MINIMAP_BLINK" ).setPrerequisite( "PIXEL_MINIMAP" );
 
+    add( "PIXEL_MINIMAP_BG", "graphics", to_translation( "Background color" ),
+         to_translation( "What color the minimap background should be.  Either based on color theme or (0,0,0) black." ),
+    {
+        { "theme", to_translation( "Theme" ) },
+        { "black", to_translation( "Black" ) }
+    }, "black", COPT_CURSES_HIDE
+       );
+
+    get_option( "PIXEL_MINIMAP_BLINK" ).setPrerequisite( "PIXEL_MINIMAP" );
+
     add_empty_line();
 
 #if defined(TILES)
