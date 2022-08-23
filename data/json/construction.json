@@ -5939,7 +5939,7 @@
     "activity_level": "EXTRA_EXERCISE",
     "pre_flags": "DIGGABLE",
     "pre_special": "check_down_OK",
-    "post_special": "done_dig_stair",
+    "post_special": "done_dig_slope",
     "do_turn_special": "do_turn_shovel"
   },
   {
@@ -5953,7 +5953,7 @@
     "byproducts": [ { "group": "digging_soil_loam_50L", "count": 9 } ],
     "pre_special": "check_up_OK",
     "pre_terrain": "t_soil",
-    "post_special": "done_mine_upstair",
+    "post_special": "done_mine_upslope",
     "activity_level": "EXTRA_EXERCISE"
   }
 ]
