@@ -5,7 +5,10 @@
     "text": [
       {
         "id": "male_1",
-        "text": "MISSING\nHAVE YOU SEEN THIS PERSON?\n\n[Photograph: professional headshot of a middle-aged man wearing glasses and a formal white shirt.]\n\nFULL NAME: Theodore Dean Garrity\nDOB: January 23, 1979\nAGE: 43\nSEX: Male\nHEIGHT: 6'1\"\nWEIGHT: 171 lbs\nRACE: Caucasian\nHAIR: Brown\nEYES: Hazel\nLAST SEEN: April 15th, around 5PM, near Derry gas station\nIDENTIFYING MARKS: heart tattoo on left forearm above wrists\nWEARING: light blue windbreaker, gray jeans, 'I <3 MASSACHUSETTS' cap, leather boots\n\nIF YOU HAVE ANY INFORMATION ABOUT THEODORE'S WHEREABOUTS, CONTACT LOCAL LAW ENFORCEMENT OR CALL (617)555-7979."
+        "text": {
+            "str": "MISSING\nHAVE YOU SEEN THIS PERSON?\n\n[Photograph: professional headshot of a middle-aged man wearing glasses and a formal white shirt.]\n\nFULL NAME: Theodore Dean Garrity\nDOB: January 23, 1979\nAGE: 43\nSEX: Male\nHEIGHT: 6'1\"\nWEIGHT: 171 lbs\nRACE: Caucasian\nHAIR: Brown\nEYES: Hazel\nLAST SEEN: April 15th, around 5PM, near Derry gas station\nIDENTIFYING MARKS: heart tattoo on left forearm above wrists\nWEARING: light blue windbreaker, gray jeans, 'I <3 MASSACHUSETTS' cap, leather boots\n\nIF YOU HAVE ANY INFORMATION ABOUT THEODORE'S WHEREABOUTS, CONTACT LOCAL LAW ENFORCEMENT OR CALL (617)555-7979.",
+            "//~": "Please replace the fictitious phone number with one of your local equivalent when translating"
+        }
       },
       {
         "id": "male_2",
