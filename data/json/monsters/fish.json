@@ -196,7 +196,7 @@
     "type": "MONSTER",
     "name": { "str_sp": "fish fry" },
     "//": "a default fish type - does not appear in-game",
-    "description": "A miniscule half-translucent fish larva. Impossible to identify which species it belongs to.",
+    "description": "A miniscule half-translucent fish larva.  Impossible to identify which species it belongs to.",
     "default_faction": "fish",
     "bodytype": "fish",
     "categories": [ "WILDLIFE" ],
@@ -231,7 +231,7 @@
     "id": "mon_fry_trout",
     "type": "MONSTER",
     "copy-from": "mon_fry",
-    "name": { "str": "fry", "str_pl": "fry" }
+    "name": { "str_sp": "fry" }
   },
   {
     "id": "mon_fish_brown_trout",
@@ -246,7 +246,7 @@
     "id": "mon_fry_brown_trout",
     "type": "MONSTER",
     "copy-from": "mon_fry",
-    "name": { "str": "fry", "str_pl": "fry" }
+    "name": { "str_sp": "fry" }
   },
   {
     "id": "mon_fish_brook_trout",
@@ -261,7 +261,7 @@
     "id": "mon_fry_brook_trout",
     "type": "MONSTER",
     "copy-from": "mon_fry",
-    "name": { "str": "fry", "str_pl": "fry" }
+    "name": { "str_sp": "fry" }
   },
   {
     "id": "mon_fish_lake_trout",
@@ -276,7 +276,7 @@
     "id": "mon_fry_lake_trout",
     "type": "MONSTER",
     "copy-from": "mon_fry",
-    "name": { "str": "fry", "str_pl": "fry" }
+    "name": { "str_sp": "fry" }
   },
   {
     "id": "mon_fish_rainbow_trout",
@@ -291,7 +291,7 @@
     "id": "mon_fry_rainbow_trout",
     "type": "MONSTER",
     "copy-from": "mon_fry",
-    "name": { "str": "fry", "str_pl": "fry" }
+    "name": { "str_sp": "fry" }
   },
   {
     "id": "mon_fish_steelhead_trout",
@@ -306,7 +306,7 @@
     "id": "mon_fry_steelhead_trout",
     "type": "MONSTER",
     "copy-from": "mon_fry",
-    "name": { "str": "fry", "str_pl": "fry" }
+    "name": { "str_sp": "fry" }
   },
   {
     "id": "mon_fish_salmon",
@@ -320,7 +320,7 @@
     "id": "mon_fry_salmon",
     "type": "MONSTER",
     "copy-from": "mon_fry",
-    "name": { "str": "fry", "str_pl": "fry" }
+    "name": { "str_sp": "fry" }
   },
   {
     "id": "mon_fish_kokanee_salmon",
@@ -335,7 +335,7 @@
     "id": "mon_fry_kokanee_salmon",
     "type": "MONSTER",
     "copy-from": "mon_fry",
-    "name": { "str": "fry", "str_pl": "fry" }
+    "name": { "str_sp": "fry" }
   },
   {
     "id": "mon_fish_chinook_salmon",
@@ -350,7 +350,7 @@
     "id": "mon_fry_chinook_salmon",
     "type": "MONSTER",
     "copy-from": "mon_fry",
-    "name": { "str": "fry", "str_pl": "fry" }
+    "name": { "str_sp": "fry" }
   },
   {
     "id": "mon_fish_coho_salmon",
@@ -365,7 +365,7 @@
     "id": "mon_fry_coho_salmon",
     "type": "MONSTER",
     "copy-from": "mon_fry",
-    "name": { "str": "fry", "str_pl": "fry" }
+    "name": { "str_sp": "fry" }
   },
   {
     "id": "mon_fish_whitefish",
@@ -379,7 +379,7 @@
     "id": "mon_fry_whitefish",
     "type": "MONSTER",
     "copy-from": "mon_fry",
-    "name": { "str": "fry", "str_pl": "fry" }
+    "name": { "str_sp": "fry" }
   },
   {
     "id": "mon_fish_lbass",
@@ -393,7 +393,7 @@
     "id": "mon_fry_lbass",
     "type": "MONSTER",
     "copy-from": "mon_fry",
-    "name": { "str": "fry", "str_pl": "fry" }
+    "name": { "str_sp": "fry" }
   },
   {
     "id": "mon_fish_sbass",
@@ -407,7 +407,7 @@
     "id": "mon_fry_sbass",
     "type": "MONSTER",
     "copy-from": "mon_fry",
-    "name": { "str": "fry", "str_pl": "fry" }
+    "name": { "str_sp": "fry" }
   },
   {
     "id": "mon_fish_pbass",
@@ -421,7 +421,7 @@
     "id": "mon_fry_pbass",
     "type": "MONSTER",
     "copy-from": "mon_fry",
-    "name": { "str": "fry", "str_pl": "fry" }
+    "name": { "str_sp": "fry" }
   },
   {
     "id": "mon_fish_white_bass",
@@ -436,7 +436,7 @@
     "id": "mon_fry_white_bass",
     "type": "MONSTER",
     "copy-from": "mon_fry",
-    "name": { "str": "fry", "str_pl": "fry" }
+    "name": { "str_sp": "fry" }
   },
   {
     "id": "mon_fish_perch",
@@ -451,7 +451,7 @@
     "id": "mon_fry_perch",
     "type": "MONSTER",
     "copy-from": "mon_fry",
-    "name": { "str": "fry", "str_pl": "fry" }
+    "name": { "str_sp": "fry" }
   },
   {
     "id": "mon_fish_walleye",
@@ -466,7 +466,7 @@
     "id": "mon_fry_walleye",
     "type": "MONSTER",
     "copy-from": "mon_fry",
-    "name": { "str": "fry", "str_pl": "fry" }
+    "name": { "str_sp": "fry" }
   },
   {
     "id": "mon_fish_sunfish",
@@ -480,7 +480,7 @@
     "id": "mon_fry_sunfish",
     "type": "MONSTER",
     "copy-from": "mon_fry",
-    "name": { "str": "fry", "str_pl": "fry" }
+    "name": { "str_sp": "fry" }
   },
   {
     "id": "mon_fish_pumpkinseed",
@@ -495,7 +495,7 @@
     "id": "mon_fry_pumpkinseed",
     "type": "MONSTER",
     "copy-from": "mon_fry",
-    "name": { "str": "fry", "str_pl": "fry" }
+    "name": { "str_sp": "fry" }
   },
   {
     "id": "mon_fish_bluegill",
@@ -509,7 +509,7 @@
     "id": "mon_fry_bluegill",
     "type": "MONSTER",
     "copy-from": "mon_fry",
-    "name": { "str": "fry", "str_pl": "fry" }
+    "name": { "str_sp": "fry" }
   },
   {
     "id": "mon_fish_redbreast",
@@ -524,7 +524,7 @@
     "id": "mon_fry_redbreast",
     "type": "MONSTER",
     "copy-from": "mon_fry",
-    "name": { "str": "fry", "str_pl": "fry" }
+    "name": { "str_sp": "fry" }
   },
   {
     "id": "mon_fish_green_sunfish",
@@ -539,7 +539,7 @@
     "id": "mon_fry_green_sunfish",
     "type": "MONSTER",
     "copy-from": "mon_fry",
-    "name": { "str": "fry", "str_pl": "fry" }
+    "name": { "str_sp": "fry" }
   },
   {
     "id": "mon_fish_longear_sunfish",
@@ -554,7 +554,7 @@
     "id": "mon_fry_longear_sunfish",
     "type": "MONSTER",
     "copy-from": "mon_fry",
-    "name": { "str": "fry", "str_pl": "fry" }
+    "name": { "str_sp": "fry" }
   },
   {
     "id": "mon_fish_redear_sunfish",
@@ -569,7 +569,7 @@
     "id": "mon_fry_redear_sunfish",
     "type": "MONSTER",
     "copy-from": "mon_fry",
-    "name": { "str": "fry", "str_pl": "fry" }
+    "name": { "str_sp": "fry" }
   },
   {
     "id": "mon_fish_rock_bass",
@@ -584,7 +584,7 @@
     "id": "mon_fry_rock_bass",
     "type": "MONSTER",
     "copy-from": "mon_fry",
-    "name": { "str": "fry", "str_pl": "fry" }
+    "name": { "str_sp": "fry" }
   },
   {
     "id": "mon_fish_calico_bass",
@@ -599,7 +599,7 @@
     "id": "mon_fry_calico_bass",
     "type": "MONSTER",
     "copy-from": "mon_fry",
-    "name": { "str": "fry", "str_pl": "fry" }
+    "name": { "str_sp": "fry" }
   },
   {
     "id": "mon_fish_warmouth",
@@ -614,7 +614,7 @@
     "id": "mon_fry_warmouth",
     "type": "MONSTER",
     "copy-from": "mon_fry",
-    "name": { "str": "fry", "str_pl": "fry" }
+    "name": { "str_sp": "fry" }
   },
   {
     "id": "mon_fish_bullhead",
@@ -628,7 +628,7 @@
     "id": "mon_fry_bullhead",
     "type": "MONSTER",
     "copy-from": "mon_fry",
-    "name": { "str": "fry", "str_pl": "fry" }
+    "name": { "str_sp": "fry" }
   },
   {
     "id": "mon_fish_channel_catfish",
@@ -643,7 +643,7 @@
     "id": "mon_fry_channel_catfish",
     "type": "MONSTER",
     "copy-from": "mon_fry",
-    "name": { "str": "fry", "str_pl": "fry" }
+    "name": { "str_sp": "fry" }
   },
   {
     "id": "mon_fish_white_catfish",
@@ -658,7 +658,7 @@
     "id": "mon_fry_white_catfish",
     "type": "MONSTER",
     "copy-from": "mon_fry",
-    "name": { "str": "fry", "str_pl": "fry" }
+    "name": { "str_sp": "fry" }
   },
   {
     "id": "mon_fish_pike",
@@ -672,7 +672,7 @@
     "id": "mon_fry_pike",
     "type": "MONSTER",
     "copy-from": "mon_fry",
-    "name": { "str": "fry", "str_pl": "fry" }
+    "name": { "str_sp": "fry" }
   },
   {
     "id": "mon_fish_pickerel",
@@ -686,7 +686,7 @@
     "id": "mon_fry_pickerel",
     "type": "MONSTER",
     "copy-from": "mon_fry",
-    "name": { "str": "fry", "str_pl": "fry" }
+    "name": { "str_sp": "fry" }
   },
   {
     "id": "mon_fish_muskellunge",
@@ -701,7 +701,7 @@
     "id": "mon_fry_muskellunge",
     "type": "MONSTER",
     "copy-from": "mon_fry",
-    "name": { "str": "fry", "str_pl": "fry" }
+    "name": { "str_sp": "fry" }
   },
   {
     "id": "mon_fish_white_sucker",
@@ -716,7 +716,7 @@
     "id": "mon_fry_white_sucker",
     "type": "MONSTER",
     "copy-from": "mon_fry",
-    "name": { "str": "fry", "str_pl": "fry" }
+    "name": { "str_sp": "fry" }
   },
   {
     "id": "mon_fish_carp",
@@ -730,7 +730,7 @@
     "id": "mon_fry_carp",
     "type": "MONSTER",
     "copy-from": "mon_fry",
-    "name": { "str": "fry", "str_pl": "fry" }
+    "name": { "str_sp": "fry" }
   },
   {
     "id": "mon_fish_grass_carp",
@@ -745,7 +745,7 @@
     "id": "mon_fry_grass_carp",
     "type": "MONSTER",
     "copy-from": "mon_fry",
-    "name": { "str": "fry", "str_pl": "fry" }
+    "name": { "str_sp": "fry" }
   },
   {
     "id": "mon_fish_bowfin",
@@ -759,7 +759,7 @@
     "id": "mon_fry_bowfin",
     "type": "MONSTER",
     "copy-from": "mon_fry",
-    "name": { "str": "fry", "str_pl": "fry" }
+    "name": { "str_sp": "fry" }
   },
   {
     "id": "mon_fish_fallfish",
@@ -774,7 +774,7 @@
     "id": "mon_fry_fallfish",
     "type": "MONSTER",
     "copy-from": "mon_fry",
-    "name": { "str": "fry", "str_pl": "fry" }
+    "name": { "str_sp": "fry" }
   },
   {
     "id": "mon_fish_lobster",
