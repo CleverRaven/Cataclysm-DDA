@@ -431,6 +431,272 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "egg_trout",
+    "name": { "str": "roe" },
+    "copy-from": "egg_fish",
+    "rot_spawn": "GROUP_EGG_TROUT"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_brown_trout",
+    "name": { "str": "roe" },
+    "copy-from": "egg_fish",
+    "rot_spawn": "GROUP_EGG_BROWN_TROUT"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_brook_trout",
+    "name": { "str": "roe" },
+    "copy-from": "egg_fish",
+    "rot_spawn": "GROUP_EGG_BROOK_TROUT"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_lake_trout",
+    "name": { "str": "roe" },
+    "copy-from": "egg_fish",
+    "rot_spawn": "GROUP_EGG_LAKE_TROUT"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_rainbow_trout",
+    "name": { "str": "roe" },
+    "copy-from": "egg_fish",
+    "rot_spawn": "GROUP_EGG_RAINBOW_TROUT"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_steelhead_trout",
+    "name": { "str": "roe" },
+    "copy-from": "egg_fish",
+    "rot_spawn": "GROUP_EGG_STEELHEAD_TROUT"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_salmon",
+    "name": { "str": "roe" },
+    "copy-from": "egg_fish",
+    "rot_spawn": "GROUP_EGG_SALMON"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_kokanee_salmon",
+    "name": { "str": "roe" },
+    "copy-from": "egg_fish",
+    "rot_spawn": "GROUP_EGG_KOKANEE_SALMON"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_chinook_salmon",
+    "name": { "str": "roe" },
+    "copy-from": "egg_fish",
+    "rot_spawn": "GROUP_EGG_CHINOOK_SALMON"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_coho_salmon",
+    "name": { "str": "roe" },
+    "copy-from": "egg_fish",
+    "rot_spawn": "GROUP_EGG_COHO_SALMON"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_whitefish",
+    "name": { "str": "roe" },
+    "copy-from": "egg_fish",
+    "rot_spawn": "GROUP_EGG_WHITEFISH"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_lbass",
+    "name": { "str": "roe" },
+    "copy-from": "egg_fish",
+    "rot_spawn": "GROUP_EGG_LBASS"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_sbass",
+    "name": { "str": "roe" },
+    "copy-from": "egg_fish",
+    "rot_spawn": "GROUP_EGG_SBASS"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_pbass",
+    "name": { "str": "roe" },
+    "copy-from": "egg_fish",
+    "rot_spawn": "GROUP_EGG_PBASS"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_white_bass",
+    "name": { "str": "roe" },
+    "copy-from": "egg_fish",
+    "rot_spawn": "GROUP_EGG_WHITE_BASS"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_perch",
+    "name": { "str": "roe" },
+    "copy-from": "egg_fish",
+    "rot_spawn": "GROUP_EGG_PERCH"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_walleye",
+    "name": { "str": "roe" },
+    "copy-from": "egg_fish",
+    "rot_spawn": "GROUP_EGG_WALLEYE"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_sunfish",
+    "name": { "str": "roe" },
+    "copy-from": "egg_fish",
+    "rot_spawn": "GROUP_EGG_SUNFISH"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_pumpkinseed",
+    "name": { "str": "roe" },
+    "copy-from": "egg_fish",
+    "rot_spawn": "GROUP_EGG_PUMPKINSEED"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_bluegill",
+    "name": { "str": "roe" },
+    "copy-from": "egg_fish",
+    "rot_spawn": "GROUP_EGG_BLUEGILL"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_redbreast",
+    "name": { "str": "roe" },
+    "copy-from": "egg_fish",
+    "rot_spawn": "GROUP_EGG_REDBREAST"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_green_sunfish",
+    "name": { "str": "roe" },
+    "copy-from": "egg_fish",
+    "rot_spawn": "GROUP_EGG_GREEN_SUNFISH"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_longear_sunfish",
+    "name": { "str": "roe" },
+    "copy-from": "egg_fish",
+    "rot_spawn": "GROUP_EGG_LONGEAR_SUNFISH"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_redear_sunfish",
+    "name": { "str": "roe" },
+    "copy-from": "egg_fish",
+    "rot_spawn": "GROUP_EGG_REDEAR_SUNFISH"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_rock_bass",
+    "name": { "str": "roe" },
+    "copy-from": "egg_fish",
+    "rot_spawn": "GROUP_EGG_ROCK_BASS"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_calico_bass",
+    "name": { "str": "roe" },
+    "copy-from": "egg_fish",
+    "rot_spawn": "GROUP_EGG_CALICO_BASS"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_warmouth",
+    "name": { "str": "roe" },
+    "copy-from": "egg_fish",
+    "rot_spawn": "GROUP_EGG_WARMOUTH"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_bullhead",
+    "name": { "str": "roe" },
+    "copy-from": "egg_fish",
+    "rot_spawn": "GROUP_EGG_BULLHEAD"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_channel_catfish",
+    "name": { "str": "roe" },
+    "copy-from": "egg_fish",
+    "rot_spawn": "GROUP_EGG_CHANNEL_CATFISH"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_white_catfish",
+    "name": { "str": "roe" },
+    "copy-from": "egg_fish",
+    "rot_spawn": "GROUP_EGG_WHITE_CATFISH"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_pike",
+    "name": { "str": "roe" },
+    "copy-from": "egg_fish",
+    "rot_spawn": "GROUP_EGG_PIKE"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_pickerel",
+    "name": { "str": "roe" },
+    "copy-from": "egg_fish",
+    "rot_spawn": "GROUP_EGG_PICKEREL"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_muskellunge",
+    "name": { "str": "roe" },
+    "copy-from": "egg_fish",
+    "rot_spawn": "GROUP_EGG_MUSKELLUNGE"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_white_sucker",
+    "name": { "str": "roe" },
+    "copy-from": "egg_fish",
+    "rot_spawn": "GROUP_EGG_WHITE_SUCKER"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_carp",
+    "name": { "str": "roe" },
+    "copy-from": "egg_fish",
+    "rot_spawn": "GROUP_EGG_CARP"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_grass_carp",
+    "name": { "str": "roe" },
+    "copy-from": "egg_fish",
+    "rot_spawn": "GROUP_EGG_GRASS_CARP"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_bowfin",
+    "name": { "str": "roe" },
+    "copy-from": "egg_fish",
+    "rot_spawn": "GROUP_EGG_BOWFIN"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_fallfish",
+    "name": { "str": "roe" },
+    "copy-from": "egg_fish",
+    "rot_spawn": "GROUP_EGG_FALLFISH"
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "powder_eggs",
     "name": { "str": "powdered egg" },
     "weight": "7 g",
