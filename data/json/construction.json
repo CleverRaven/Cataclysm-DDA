@@ -5898,5 +5898,62 @@
     "byproducts": [ { "item": "material_sand", "charges": [ 300, 600 ] } ],
     "pre_terrain": "t_sand_underground",
     "post_special": "done_extract_maybe_revert_to_dirt"
+  },
+  {
+    "type": "construction",
+    "id": "constr_burrow",
+    "group": "burrow",
+    "category": "DIG",
+    "required_skills": [ [ "survival", 0 ] ],
+    "time": "30 m",
+    "tools": [ [ [ "fake_burrowing", -1 ] ] ],
+    "byproducts": [ { "group": "digging_soil_loam_50L", "count": 3 } ],
+    "activity_level": "EXTRA_EXERCISE",
+    "pre_terrain": "t_soil",
+    "post_terrain": "t_burrow",
+    "do_turn_special": "do_turn_shovel"
+  },
+  {
+    "type": "construction",
+    "id": "constr_burrow_chamber",
+    "group": "burrow_chamber",
+    "category": "DIG",
+    "required_skills": [ [ "survival", 0 ] ],
+    "time": "300 m",
+    "tools": [ [ [ "fake_burrowing", -1 ] ] ],
+    "byproducts": [ { "group": "digging_soil_loam_50L", "count": 30 } ],
+    "activity_level": "EXTRA_EXERCISE",
+    "pre_terrain": "t_soil",
+    "post_terrain": "t_burrow_chamber",
+    "do_turn_special": "do_turn_shovel"
+  },
+  {
+    "type": "construction",
+    "id": "constr_burrow_down",
+    "group": "burrow_down",
+    "category": "DIG",
+    "required_skills": [ [ "survival", 0 ] ],
+    "time": "90 m",
+    "tools": [ [ [ "fake_burrowing", -1 ] ] ],
+    "byproducts": [ { "group": "digging_soil_loam_50L", "count": 9 } ],
+    "activity_level": "EXTRA_EXERCISE",
+    "pre_flags": "DIGGABLE",
+    "pre_special": "check_down_OK",
+    "post_special": "done_dig_stair",
+    "do_turn_special": "do_turn_shovel"
+  },
+  {
+    "type": "construction",
+    "id": "constr_burrow_up",
+    "group": "burrow_up",
+    "category": "DIG",
+    "required_skills": [ [ "survival", 0 ] ],
+    "time": "90 m",
+    "tools": [ [ [ "fake_burrowing", -1 ] ] ],
+    "byproducts": [ { "group": "digging_soil_loam_50L", "count": 9 } ],
+    "pre_special": "check_up_OK",
+    "pre_terrain": "t_soil",
+    "post_special": "done_mine_upstair",
+    "activity_level": "EXTRA_EXERCISE"
   }
 ]
