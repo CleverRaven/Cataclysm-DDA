@@ -719,5 +719,35 @@
     "condition": { "x_in_y_chance": { "x": 8, "y": 10 } },
     "effect": [ { "queue_eocs": "EOC_PORTAL_STORM_SHADOW_SPAWN", "time_in_future": [ "30 seconds", "1 minutes" ] } ],
     "false_effect": [ { "u_lose_trait": "TAINTED_SHADOW" } ]
+  },
+  {
+    "id": "hallu_touch_suicide",
+    "type": "SPELL",
+    "name": { "str": "Hallucination Touch Dissipation" },
+    "description": "Nothing to see here.",
+    "valid_targets": [ "hostile", "ally", "self" ],
+    "effect": "attack",
+    "shape": "blast",
+    "flags": [ "SILENT" ],
+    "damage_type": "pure",
+    "min_damage": 100000000,
+    "max_damage": 100000000
+  },
+  {
+    "id": "hallucinator_touch",
+    "type": "SPELL",
+    "name": { "str": "Give The Hallucination Effect" },
+    "description": "Spell that gives the player the effect, that will cause short term hallucination attacks.  You can see it only in debug menu.",
+    "valid_targets": [ "hostile" ],
+    "effect": "attack",
+    "effect_str": "hallucination_attacks",
+    "shape": "blast",
+    "min_damage": 0,
+    "max_damage": 0,
+    "min_range": 1,
+    "max_range": 1,
+    "min_duration": 25920000,
+    "max_duration": 25920000,
+    "extra_effects": [ { "id": "hallu_touch_suicide", "hit_self": true } ]
   }
 ]

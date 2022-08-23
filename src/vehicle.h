@@ -1238,11 +1238,9 @@ class vehicle
         std::list<item *> fuel_items_left();
 
         // Checks how much certain fuel left in tanks.
-        int fuel_left( const itype_id &ftype, bool recurse = false,
-                       const std::function<bool( const vehicle_part & )> &filter = return_true<const vehicle_part &> )
+        int64_t fuel_left( const itype_id &ftype, bool recurse = false,
+                           const std::function<bool( const vehicle_part & )> &filter = return_true<const vehicle_part &> )
         const;
-        // Checks how much of the part p's current fuel is left
-        int fuel_left( int p, bool recurse = false ) const;
         // Checks how much of an engine's current fuel is left in the tanks.
         int engine_fuel_left( int e, bool recurse = false ) const;
         // Returns what type of fuel an engine uses
@@ -1291,7 +1289,7 @@ class vehicle
         int total_engine_epower_w() const;
         // Total production of electrical power from alternators.
         int total_alternator_epower_w() const;
-        // Total power currently being produced by all solar panels.
+        // Total power (W) currently being produced by all solar panels.
         int total_solar_epower_w() const;
         // Total power currently being produced by all wind turbines.
         int total_wind_epower_w() const;

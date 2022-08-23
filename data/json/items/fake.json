@@ -83,7 +83,7 @@
     "copy-from": "fake_item",
     "type": "TOOL",
     "name": { "str": "bionic razor" },
-    "qualities": [ [ "BUTCHER", 8 ] ]
+    "qualities": [ [ "BUTCHER", 8 ], [ "CUT", 1 ] ]
   },
   {
     "id": "boulder_anvil",

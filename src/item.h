@@ -2885,7 +2885,8 @@ class item : public visitable
 
         int seed = rng( 0, INT_MAX );  // A random seed for layering and other options
 
-        cata::optional<harvest_drop_type_id> dropped_from; // The drop type this item spawned from
+        harvest_drop_type_id dropped_from =
+            harvest_drop_type_id::NULL_ID(); // The drop type this item spawned from
 
         // Set when the item / its content changes. Used for worn item with
         // encumbrance depending on their content.
