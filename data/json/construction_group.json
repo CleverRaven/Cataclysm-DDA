@@ -901,6 +901,26 @@
   },
   {
     "type": "construction_group",
+    "id": "burrow",
+    "name": "Burrow"
+  },
+  {
+    "type": "construction_group",
+    "id": "burrow_chamber",
+    "name": "Burrow a Chamber"
+  },
+  {
+    "type": "construction_group",
+    "id": "burrow_down",
+    "name": "Burrow Down"
+  },
+  {
+    "type": "construction_group",
+    "id": "burrow_up",
+    "name": "Burrow Up"
+  },
+  {
+    "type": "construction_group",
     "id": "carpet_floor_green",
     "name": "Carpet Floor Green"
   },
