@@ -536,6 +536,7 @@
     "symbol": "[",
     "looks_like": "lc_mitten_gaunt",
     "material": [ "lc_steel" ],
+    "repairs_with": [ "steel" ],
     "color": "light_gray",
     "warmth": 5,
     "material_thickness": 1.5,

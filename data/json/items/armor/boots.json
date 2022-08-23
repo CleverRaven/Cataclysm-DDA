@@ -727,6 +727,7 @@
     "symbol": "[",
     "looks_like": "lc_sabaton",
     "material": [ "lc_steel" ],
+    "repairs_with": [ "steel" ],
     "color": "light_gray",
     "warmth": 5,
     "environmental_protection": 1,
