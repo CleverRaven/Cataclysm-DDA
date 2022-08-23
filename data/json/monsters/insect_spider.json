@@ -2691,7 +2691,7 @@
     "families": [ "prof_wp_basic_bug" ],
     "vision_day": 10,
     "harvest": "arachnid",
-	"dissect": "dissect_insect_sample_single",
+    "dissect": "dissect_insect_sample_single",
     "upgrades": { "age_grow": 30, "into": "mon_grasshopper_giant" },
     "special_attacks": [
       { "type": "leap", "cooldown": 3, "max_range": 4, "allow_no_target": true, "forbidden_effects_any": [ "maimed_leg" ] },
