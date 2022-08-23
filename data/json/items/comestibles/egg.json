@@ -423,7 +423,7 @@
     "price": 50,
     "price_postapoc": 100,
     "material": [ "egg" ],
-    "volume": "25 ml",
+    "volume": "100 ml",
     "stack_size": 4,
     "fun": 1,
     "vitamins": [ [ "vitC", 1 ] ],
