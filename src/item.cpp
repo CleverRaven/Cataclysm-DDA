@@ -10243,6 +10243,8 @@ ret_val<void> item::can_contain( const item &it, const bool nested,
 
         // If the current pocket has restrictions or blacklists the item,
         // try the nested pocket regardless of whether it's soft or rigid.
+        bool is_container;
+        bool bool_contain;
         const bool ignore_rigidity =
             !pkt->settings.accepts_item( it ) ||
             !pkt->get_pocket_data()->get_flag_restrictions().empty();
@@ -10250,8 +10252,15 @@ ret_val<void> item::can_contain( const item &it, const bool nested,
             if( parent_it.where() != item_location::type::invalid && internal_it == parent_it.get_item() ) {
                 continue;
             }
-            if( internal_it->can_contain( it, true, ignore_rigidity, ignore_pkt_settings,
-                                          parent_it, pkt->remaining_volume() ).success() ) {
+
+            is_container = internal_it->is_container();
+            if( !is_container ) {
+                continue;
+            }
+
+            bool_contain = internal_it->can_contain( it, true, ignore_rigidity, ignore_pkt_settings,
+                           parent_it, pkt->remaining_volume() ).success();
+            if( bool_contain ) {
                 return ret_val<void>::make_success();
             }
         }
