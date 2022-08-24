@@ -2073,15 +2073,9 @@ void options_manager::add_options_graphics()
          1, 4, 2, COPT_CURSES_HIDE
        ); // populate the options dynamically
 
-    add( "ZERO_HEIGHT_ISO", "graphics", to_translation( "Draw ISO tiles without height" ),
-         to_translation( "If true, will render all ISO tiles without height offset." ),
-         false
-       );
-
 
     get_option( "TILES" ).setPrerequisite( "USE_TILES" );
     get_option( "USE_DISTANT_TILES" ).setPrerequisite( "USE_TILES" );
-    get_option( "ZERO_HEIGHT_ISO" ).setPrerequisite( "USE_TILES" );
     get_option( "DISTANT_TILES" ).setPrerequisite( "USE_DISTANT_TILES" );
     get_option( "SWAP_ZOOM" ).setPrerequisite( "USE_DISTANT_TILES" );
 
@@ -2539,6 +2533,11 @@ void options_manager::add_options_debug()
     add( "FOV_3D_Z_RANGE", "debug", to_translation( "Vertical range of 3D field of vision" ),
          to_translation( "How many levels up and down the experimental 3D field of vision reaches.  (This many levels up, this many levels down.)  3D vision of the full height of the world can slow the game down a lot.  Seeing fewer Z-levels is faster." ),
          0, OVERMAP_LAYERS, 4
+       );
+
+    add( "RETRACT_ISO_WALLS", "debug", to_translation( "Draw walls retracted in ISO tilesets" ),
+         to_translation( "If true, will draw ISO wall tiles retracted/lowered." ),
+         false
        );
 
     get_option( "FOV_3D_Z_RANGE" ).setPrerequisite( "FOV_3D" );

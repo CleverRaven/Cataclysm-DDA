@@ -2766,6 +2766,11 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
             handle_debug_mode();
             break;
 
+        case ACTION_DISPLAY_ISO_WALLS:
+            get_options().get_option( "RETRACT_ISO_WALLS" ).setNext();
+            get_options().save();
+            break;
+
         case ACTION_ZOOM_IN:
             zoom_in();
             mark_main_ui_adaptor_resize();
