@@ -24,7 +24,7 @@
   {
     "id": "BGSS_GRAD_STUDENT_1_STORY3",
     "type": "talk_topic",
-    "dynamic_line": "Yes.  Simple hunger.  I stayed long enough to realize no one was going to come for me, then packed up what I could and headed off.  Eventually I was caught in a downpour of acid rain that ate up a lot of my gear. I've been living the life of a hunter gatherer ever since.  Honestly, I think I eat better this way than I did as a student.",
+    "dynamic_line": "Yes.  Simple hunger.  I stayed long enough to realize no one was going to come for me, then packed up what I could and headed off.  Eventually I was caught in a downpour of acid rain that ate up a lot of my gear.  I've been living the life of a hunter gatherer ever since.  Honestly, I think I eat better this way than I did as a student.",
     "responses": [
       { "text": "What were you studying?", "topic": "BGSS_GRAD_STUDENT_1_FIELD" },
       { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
