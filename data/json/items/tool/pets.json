@@ -127,7 +127,7 @@
     "flags": [ "TACK" ]
   },
   {
-    "//": "https://primeusascales.com/product/sls-single-animal-livestock-scales/"
+    "//": "https://primeusascales.com/product/sls-single-animal-livestock-scales/",
     "id": "livestock_scale",
     "type": "TOOL",
     "name": { "str": "livestock scale" },
