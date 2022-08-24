@@ -139,7 +139,7 @@ bool teleport::teleport_to_point( Creature &critter, tripoint target, bool safe,
                 g->place_player_overmap( project_to<coords::omt>( avatar_pos ), false );
             }
             return false;
-        } else {
+        } else if( ( !poor_player && one_in( 2 ) ) || ( poor_player && one_in( 2 ) && poor_soul->has_effect( effect_teleglow ) ) ){
             const bool poor_soul_is_u = poor_soul->is_avatar();
             if( poor_soul_is_u && display_message ) {
                 add_msg( m_bad, _( "…" ) );
@@ -164,6 +164,30 @@ bool teleport::teleport_to_point( Creature &critter, tripoint target, bool safe,
             //Splatter real nice.
             poor_soul->apply_damage( nullptr, bodypart_id( "torso" ), 9999 );
             poor_soul->check_dead_state();
+        } else {
+            const bool poor_soul_is_u = poor_soul->is_avatar();
+            if( poor_soul_is_u && display_message ) {
+                add_msg( m_bad, _( "…" ) );
+                add_msg( m_bad, _( "You're violently teleported out of the way!" ) );
+            }
+            if( p ) {
+                if( display_message ) {
+                    p->add_msg_player_or_npc( m_warning,
+                                              _( "You teleport into the same place as %s, and they are forcibly teleported away to make room for you." ),
+                                              _( "<npcname> teleports into the same place as %s, and they are forcibly teleported away to make room for them." ),
+                                              poor_soul->disp_name() );
+                }
+                get_event_bus().send<event_type::telefrags_creature>( p->getID(), poor_soul->get_name() );
+            } else {
+                if( get_player_view().sees( *poor_soul ) ) {
+                    if( display_message ) {
+                        add_msg( m_good, _( "%2$s is teleported out of the way to make room for %1$s!" ),
+                                 critter.disp_name(), poor_soul->disp_name() );
+                    }
+                }
+            }
+            //don't splatter. instead get teleported away.
+            teleport( *poor_soul );
         }
     }
     critter.setpos( target );
