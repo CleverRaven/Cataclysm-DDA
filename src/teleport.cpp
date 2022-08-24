@@ -190,19 +190,17 @@ bool teleport::teleport_to_point( Creature &critter, tripoint target, bool safe,
             teleport( *poor_soul );
         }
     }
-    if( critter ) {
-        critter.setpos( target );
-        //player and npc exclusive teleporting effects
-        if( p ) {
-            g->place_player( p->pos() );
-            if( add_teleglow ) {
-                p->add_effect( effect_teleglow, 30_minutes );
-            }
+    critter.setpos( target );
+    //player and npc exclusive teleporting effects
+    if( p ) {
+        g->place_player( p->pos() );
+        if( add_teleglow ) {
+            p->add_effect( effect_teleglow, 30_minutes );
         }
-        if( c_is_u ) {
-            g->update_map( *p );
-        }
-        critter.remove_effect( effect_grabbed );
     }
+    if( c_is_u ) {
+        g->update_map( *p );
+    }
+    critter.remove_effect( effect_grabbed );
     return true;
 }
