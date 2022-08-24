@@ -35,8 +35,6 @@
 #include "output.h"
 #include "ui_manager.h"
 
-#include "messages.h" //TEMPORARY
-
 static void curses_check_result( const int result, const int expected, const char *const /*name*/ )
 {
     if( result != expected ) {

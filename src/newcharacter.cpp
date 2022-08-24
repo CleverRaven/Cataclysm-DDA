@@ -174,9 +174,11 @@ bool tab_manager::handle_input( const std::string &action, const input_context &
             for( const auto &entry : tab_map ) {
                 if( entry.second.contains( local_coord ) ) {
                     position.set_index( entry.first );
+                    return true;
                 }
             }
         }
+        return false;
     } else {
         return false;
     }
@@ -2726,8 +2728,8 @@ void set_skills( tab_manager &tabs, avatar &u, pool_type pool )
 
     ui.on_redraw( [&]( const ui_adaptor & ) {
         werase( w );
-	werase( w_list );
-	werase( w_keybindings );
+        werase( w_list );
+        werase( w_keybindings );
         tabs.draw( w );
         draw_points( w, pool, u );
 
@@ -2809,12 +2811,12 @@ void set_skills( tab_manager &tabs, avatar &u, pool_type pool )
     do {
         ui_manager::redraw();
         const std::string action = ctxt.handle_input();
-	  const int pos_for_curr_description = cur_pos;
-	  
+        const int pos_for_curr_description = cur_pos;
+
         if( tabs.handle_input( action, ctxt ) ) {
             break; // Tab has changed or user has quit the screen
-	} else if( details.handle_navigation( action, ctxt ) ) {
-	  // NO FURTHER ACTION REQUIRED
+        } else if( details.handle_navigation( action, ctxt ) ) {
+            // NO FURTHER ACTION REQUIRED
         } else if( action == "DOWN" ) {
             get_next( false, false );
         } else if( action == "UP" ) {
@@ -2850,6 +2852,7 @@ void set_skills( tab_manager &tabs, avatar &u, pool_type pool )
                 u.mod_skill_level( skill_id, level == 0 ? +2 : +1 );
                 u.set_knowledge_level( skill_id, u.get_skill_level( skill_id ) );
             }
+            details_recalc = true;
         }
         if( cur_pos != pos_for_curr_description ) {
             details_recalc = true;
@@ -3174,7 +3177,7 @@ void set_scenario( tab_manager &tabs, avatar &u, pool_type pool )
         const std::string action = ctxt.handle_input();
         const int scroll_rate = scens_length > 20 ? 5 : 2;
         const int id_for_curr_description = cur_id;
-	
+
         if( tabs.handle_input( action, ctxt ) ) {
             break; // Tab has changed or user has quit the screen
         } else if( details.handle_navigation( action, ctxt ) ) {

@@ -1796,6 +1796,7 @@ void scrolling_text_view::draw( const nc_color &base_color )
         apply( w_ );
         scrollbar_area = inclusive_rectangle<point>( point( getbegx( w_ ), getbegy( w_ ) ),
                          point( getbegx( w_ ), getbegy( w_ ) + height ) );
+
     } else {
         // No scrollbar; we need to draw the window edge instead
         for( int i = 0; i < height; i++ ) {
@@ -1815,16 +1816,9 @@ void scrolling_text_view::draw( const nc_color &base_color )
 
 bool scrolling_text_view::handle_navigation( const std::string &action, input_context &ctxt )
 {
-
-    cata::optional<tripoint> coord3d = ctxt.get_coordinates( catacurses::stdscr );
-    cata::optional<point> coord;
-    if( coord3d.has_value() ) {
-        coord = coord3d->xy() + point( TERMX, TERMY ) / 2;
-    }
+    cata::optional<point> coord = ctxt.get_coordinates_text( catacurses::stdscr );
     inclusive_rectangle<point> mouseover_area( point( getbegx( w_ ), getbegy( w_ ) ),
             point( getmaxx( w_ ) + getbegx( w_ ), getmaxy( w_ ) + getbegy( w_ ) ) );
-    bool mouse_in_screen = coord.has_value() && coord->x >= 0 && coord->x < TERMX && coord->y >= 0 &&
-                           coord->y < TERMY;
     bool mouse_in_window = coord.has_value() && mouseover_area.contains( coord.value() );
     bool mouse_over_scrollbar = coord.has_value() && scrollbar_area.contains( coord.value() );
 
@@ -1842,7 +1836,7 @@ bool scrolling_text_view::handle_navigation( const std::string &action, input_co
         page_down();
     } else if( action == "CLICK_AND_DRAG" && mouse_over_scrollbar && !dragging ) {
         dragging = true;
-    } else if( action == "MOUSE_MOVE" && mouse_in_screen && dragging ) {
+    } else if( action == "MOUSE_MOVE" && coord.has_value() && dragging ) {
         int y_position = ( coord->y - getbegy( w_ ) ) * max_offset() / getmaxy( w_ );
         offset_ = clamp( y_position, 0, max_offset() );
     } else if( action == "SELECT" && mouse_over_scrollbar ) {
