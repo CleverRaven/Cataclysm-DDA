@@ -190,7 +190,7 @@ bool teleport::teleport_to_point( Creature &critter, tripoint target, bool safe,
             teleport( *poor_soul );
         }
     }
-    if( critter ){
+    if( critter ) {
         critter.setpos( target );
         //player and npc exclusive teleporting effects
         if( p ) {
