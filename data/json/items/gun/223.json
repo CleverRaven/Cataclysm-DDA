@@ -812,7 +812,7 @@
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "zpap85mag" ] } ]
   },
   {
-    "id": "zpapm85",
+    "id": "zpap85",
     "copy-from": "pistol_base",
     "looks_like": "ar15",
     "type": "GUN",
@@ -821,8 +821,8 @@
     "variant_type": "gun",
     "variants": [
       {
-        "id": "zpapm90",
-        "name": { "str": "ZPAP M85" },
+        "id": "zpap85",
+        "name": { "str": "ZPAP 85" },
         "description": "A Serbian-made AK pattern rifle made by Zastava in 5.56x45mm NATO. To avoid import restrictions, Zastava USA has added a number of American-made parts. This one is shorter and without a stock",
         "weight": 1
       }
