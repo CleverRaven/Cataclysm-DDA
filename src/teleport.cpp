@@ -178,7 +178,6 @@ bool teleport::teleport_to_point( Creature &critter, tripoint target, bool safe,
                                               _( "<npcname> teleports into the same place as %s, and they are forcibly teleported away to make room for them." ),
                                               poor_soul->disp_name() );
                 }
-                get_event_bus().send<event_type::telefrags_creature>( p->getID(), poor_soul->get_name() );
             } else {
                 if( get_player_view().sees( *poor_soul ) ) {
                     if( display_message ) {
