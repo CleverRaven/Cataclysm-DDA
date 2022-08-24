@@ -336,7 +336,7 @@
     "bashing": 5,
     "//": "I don't know how much these were worth pre-Cataclysm but the pu-238 alone is worth about 5-6 million and hundreds of millions were spent on research.  After the apocalypse these should basically be valuable beyond compare though.",
     "price": 1000000000,
-    "price_postapoc": 250000,
+    "price_postapoc": 12000,
     "symbol": "O",
     "color": "green_white",
     "flags": [ "LEAK_DAM", "NO_SALVAGE" ]
