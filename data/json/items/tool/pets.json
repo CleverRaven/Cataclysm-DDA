@@ -127,6 +127,7 @@
     "flags": [ "TACK" ]
   },
   {
+    "//": "https://primeusascales.com/product/sls-single-animal-livestock-scales/"
     "id": "livestock_scale",
     "type": "TOOL",
     "name": { "str": "livestock scale" },
@@ -138,7 +139,6 @@
     "volume": "40000 ml",
     "longest_side": "196 cm",
     "price": 1200000,
-    "//:" "https://primeusascales.com/product/sls-single-animal-livestock-scales/"
     "price_postapoc": 50,
     "to_hit": -8,
     "bashing": 16,
