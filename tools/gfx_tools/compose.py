@@ -392,6 +392,8 @@ class Tileset:
                     FALLBACK['sprite_height'] = sheet.sprite_height
                     FALLBACK['sprite_offset_x'] = sheet.offset_x
                     FALLBACK['sprite_offset_y'] = sheet.offset_y
+                    FALLBACK['sprite_offset_x_retracted'] = sheet.offset_x_retracted
+                    FALLBACK['sprite_offset_y_retracted'] = sheet.offset_y_retracted
                 continue
             if sheet.is_filler and not main_finished:
                 create_tile_entries_for_unused(
@@ -417,6 +419,8 @@ class Tileset:
                 sheet_conf['sprite_height'] = sheet.sprite_height
                 sheet_conf['sprite_offset_x'] = sheet.offset_x
                 sheet_conf['sprite_offset_y'] = sheet.offset_y
+                sheet_conf['sprite_offset_x_retracted'] = sheet.offset_x_retracted
+                sheet_conf['sprite_offset_y_retracted'] = sheet.offset_y_retracted
 
             sheet_conf['tiles'] = sheet_entries
 
@@ -497,6 +501,8 @@ class Tilesheet:
             'sprite_height', tileset.sprite_height)
         self.offset_x = specs.get('sprite_offset_x', 0)
         self.offset_y = specs.get('sprite_offset_y', 0)
+        self.offset_x_retracted = specs.get('sprite_offset_x_retracted', self.offset_x)
+        self.offset_y_retracted = specs.get('sprite_offset_y_retracted', self.offset_y)
 
         self.sprites_across = specs.get('sprites_across', 16)
         self.exclude = specs.get('exclude', tuple())
