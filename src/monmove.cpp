@@ -42,6 +42,7 @@
 #include "rng.h"
 #include "scent_map.h"
 #include "sounds.h"
+#include "sdltiles.h"
 #include "string_formatter.h"
 #include "tileray.h"
 #include "translations.h"
@@ -950,7 +951,7 @@ void monster::move()
     point new_d( destination.xy() - pos().xy() );
 
     // toggle facing direction for sdl flip
-    if( !tile_iso ) {
+    if( !get_tile_iso() ) {
         if( new_d.x < 0 ) {
             facing = FacingDirection::LEFT;
         } else if( new_d.x > 0 ) {

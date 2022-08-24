@@ -2404,7 +2404,7 @@ scrollingcombattext::cSCT::cSCT( const point &p_pos, const direction p_oDir,
 
     // translate from player relative to screen relative direction
 #if defined(TILES)
-    iso_mode = tile_iso && use_tiles;
+    iso_mode = get_tile_iso() && use_tiles;
 #else
     iso_mode = false;
 #endif
@@ -2455,7 +2455,7 @@ void scrollingcombattext::add( const point &pos, direction p_oDir,
         bool iso_mode = false;
 #if defined(TILES)
         tiled = use_tiles;
-        iso_mode = tile_iso && use_tiles;
+        iso_mode = get_tile_iso() && use_tiles;
 #endif
 
         if( p_sType == "hp" ) {

@@ -1291,7 +1291,8 @@ cata::optional<tripoint> input_context::get_direction( const std::string &action
         rotate_direction_cw( p.x, p.y );
         return p;
     } );
-    const auto transform = iso_mode && tile_iso && use_tiles ? rotate : noop;
+    // TODO: are we really in terrain mode here, no overmap?
+    const auto transform = iso_mode && get_tile_iso() && use_tiles ? rotate : noop;
 
     if( action == "UP" ) {
         return transform( tripoint_north );

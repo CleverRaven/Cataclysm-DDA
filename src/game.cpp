@@ -2305,7 +2305,7 @@ std::pair<tripoint, tripoint> game::mouse_edge_scrolling( input_context &ctxt, c
 tripoint game::mouse_edge_scrolling_terrain( input_context &ctxt )
 {
     auto ret = mouse_edge_scrolling( ctxt, std::max( DEFAULT_TILESET_ZOOM / tileset_zoom, 1 ),
-                                     last_mouse_edge_scroll_vector_terrain, tile_iso );
+                                     last_mouse_edge_scroll_vector_terrain, get_tile_iso() );
     last_mouse_edge_scroll_vector_terrain = ret.second;
     last_mouse_edge_scroll_vector_overmap = tripoint_zero;
     return ret.first;
@@ -2313,8 +2313,8 @@ tripoint game::mouse_edge_scrolling_terrain( input_context &ctxt )
 
 tripoint game::mouse_edge_scrolling_overmap( input_context &ctxt )
 {
-    // overmap has no iso mode
-    auto ret = mouse_edge_scrolling( ctxt, 2, last_mouse_edge_scroll_vector_overmap, false );
+    auto ret = mouse_edge_scrolling( ctxt, 2, last_mouse_edge_scroll_vector_overmap,
+                                     get_tile_iso_overmap() );
     last_mouse_edge_scroll_vector_overmap = ret.second;
     last_mouse_edge_scroll_vector_terrain = tripoint_zero;
     return ret.first;

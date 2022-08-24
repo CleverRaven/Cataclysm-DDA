@@ -49,6 +49,7 @@
 #include "player_activity.h"
 #include "point.h"
 #include "ret_val.h"
+#include "sdltiles.h"
 #include "string_formatter.h"
 #include "string_input_popup.h"
 #include "translations.h"
@@ -218,7 +219,7 @@ bool advanced_inventory::get_square( const std::string &action, aim_location &re
 
 aim_location advanced_inventory::screen_relative_location( aim_location area )
 {
-    if( use_tiles && tile_iso ) {
+    if( use_tiles && get_tile_iso() ) {
         return squares[area].relative_location;
     } else {
         return area;

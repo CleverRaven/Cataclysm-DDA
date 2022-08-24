@@ -599,7 +599,7 @@ class cata_tiles
         float get_tile_ratioy() const {
             return tile_ratioy;
         }
-        
+
         bool get_tile_iso() const {
             return tile_iso;
         }

@@ -3925,7 +3925,8 @@ cata::optional<tripoint> input_context::get_coordinates( const catacurses::windo
 
     const point screen_pos = coordinate - win_min;
     point p;
-    if( tile_iso && use_tiles ) {
+    // TODO: Are we really in terrain mode here, no overmap?
+    if( get_tile_iso() && use_tiles ) {
         const float win_mid_x = win_min.x + win_size.x / 2.0f;
         const float win_mid_y = -win_min.y + win_size.y / 2.0f;
         const int screen_col = std::round( ( screen_pos.x - win_mid_x ) / ( fw / 2.0 ) );
@@ -4080,4 +4081,22 @@ bool window_contains_point_relative( const catacurses::window &win, const point 
     const point bound = point( catacurses::getmaxx( win ), catacurses::getmaxy( win ) );
     const half_open_rectangle<point> win_bounds( point_zero, bound );
     return win_bounds.contains( p );
+}
+
+bool get_tile_iso()
+{
+#if defined(TILES)
+    return tilecontext->get_tile_iso();
+#else
+    return false;
+#endif
+}
+
+bool get_tile_iso_overmap()
+{
+#if defined(TILES)
+    return overmap_tilecontext->get_tile_iso();
+#else
+    return false;
+#endif
 }

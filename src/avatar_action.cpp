@@ -50,6 +50,7 @@
 #include "ranged.h"
 #include "ret_val.h"
 #include "rng.h"
+#include "sdltiles.h"
 #include "translations.h"
 #include "type_id.h"
 #include "value_ptr.h"
@@ -228,7 +229,7 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
     // If the player is *attempting to* move on the X axis, update facing direction of their sprite to match.
     point new_d( dest_loc.xy() + point( -you.posx(), -you.posy() ) );
 
-    if( !tile_iso ) {
+    if( !get_tile_iso() ) {
         if( new_d.x > 0 ) {
             you.facing = FacingDirection::RIGHT;
             if( is_riding ) {

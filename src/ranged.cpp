@@ -63,6 +63,7 @@
 #include "rng.h"
 #include "skill.h"
 #include "sounds.h"
+#include "sdltiles.h"
 #include "string_formatter.h"
 #include "translations.h"
 #include "trap.h"
@@ -2869,7 +2870,7 @@ bool target_ui::set_cursor_pos( const tripoint &new_pos )
 
     // Make player's sprite flip to face the current target
     point d( dst.xy() - src.xy() );
-    if( !tile_iso ) {
+    if( !get_tile_iso() ) {
 
         if( d.x > 0 ) {
             you->facing = FacingDirection::RIGHT;
