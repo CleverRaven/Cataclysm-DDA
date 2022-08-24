@@ -2911,7 +2911,7 @@
   },
   {
     "id": "armor_nomad_heavyplate_on",
-    "copy-from": "armor_nomad_heavyplate",
+    "copy-from": "armor_lc_lightplate",
     "repairs_like": "armor_nomad_heavyplate",
     "type": "TOOL_ARMOR",
     "name": { "str": "nomad heavy plate armor (on)", "str_pl": "nomad heavy plate armors (on)" },
