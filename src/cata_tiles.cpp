@@ -329,6 +329,7 @@ void cata_tiles::load_tileset( const std::string &tileset_id, const bool prechec
     tileset_mutation_overlay_ordering.clear();
 
     tileset_ptr = cache.load_tileset( tileset_id, renderer, precheck, force, pump_events );
+    tile_iso = tileset_ptr->get_tile_iso();
 
     set_draw_scale( 16 );
 
@@ -660,7 +661,7 @@ void tileset_cache::loader::load( const std::string &tileset_id, const bool prec
     for( const JsonObject curr_info : config.get_array( "tile_info" ) ) {
         ts.tile_height = curr_info.get_int( "height" );
         ts.tile_width = curr_info.get_int( "width" );
-        tile_iso = curr_info.get_bool( "iso", false );
+        ts.tile_iso = curr_info.get_bool( "iso", false );
         ts.tile_pixelscale = curr_info.get_float( "pixelscale", 1.0f );
     }
 

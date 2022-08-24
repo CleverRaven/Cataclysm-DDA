@@ -129,6 +129,7 @@ class tileset
 
         int tile_width = 0;
         int tile_height = 0;
+        bool tile_iso = false;
 
         // multiplier for pixel-doubling tilesets
         float tile_pixelscale = 1.0f;
@@ -172,6 +173,9 @@ class tileset
         }
         const std::string &get_tileset_id() const {
             return tileset_id;
+        }
+        bool get_tile_iso() const {
+            return tile_iso;
         }
 
         const texture *get_tile( const size_t index ) const {
@@ -595,6 +599,11 @@ class cata_tiles
         float get_tile_ratioy() const {
             return tile_ratioy;
         }
+        
+        bool get_tile_iso() const {
+            return tile_iso;
+        }
+
         void do_tile_loading_report();
         point player_to_screen( const point & ) const;
         static std::vector<options_manager::id_and_option> build_renderer_list();
@@ -642,6 +651,8 @@ class cata_tiles
         int screentile_height = 0;
         float tile_ratiox = 0.0f;
         float tile_ratioy = 0.0f;
+
+        bool tile_iso = false;
 
         bool in_animation = false;
 
