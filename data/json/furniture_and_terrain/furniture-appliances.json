@@ -382,7 +382,7 @@
     "id": "f_gas_oven_microwave_combo",
     "name": "gas oven and microwave combo",
     "symbol": "#",
-    "description": "A standard gas powered oven, commonly used for heating and cooking food.  With the state of nearby gas lines unknown it's best not to put any fire near it.  You could disassemble the shelving holding them together and pull the microwave out. ",
+    "description": "A standard gas powered oven, commonly used for heating and cooking food.  With the state of nearby gas lines unknown it's best not to put any fire near it.  You could disassemble the shelving holding them together and pull the microwave out.",
     "color": "dark_gray",
     "move_cost_mod": 2,
     "coverage": 60,
