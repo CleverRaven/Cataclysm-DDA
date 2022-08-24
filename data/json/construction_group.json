@@ -861,6 +861,16 @@
   },
   {
     "type": "construction_group",
+    "id": "build_wooden_gangway",
+    "name": "Build Wooden Gangway"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_metal_gangway",
+    "name": "Build Metal Gangway"
+  },
+  {
+    "type": "construction_group",
     "id": "build_wooden_keg",
     "name": "Build Wooden Keg"
   },
@@ -1618,6 +1628,11 @@
     "type": "construction_group",
     "id": "build_clay_oven",
     "name": "Build Clay Oven"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_asrg_containment",
+    "name": "Place ASRG"
   },
   {
     "type": "construction_group",

@@ -601,7 +601,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "homelesscamp",
+    "id": [ "homelesscamp", "homelesscamp_npc" ],
     "copy-from": "generic_city_building_no_sidewalk",
     "name": "homeless camp",
     "sym": "H",

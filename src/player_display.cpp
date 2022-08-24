@@ -44,6 +44,8 @@
 
 static const bionic_id bio_cqb( "bio_cqb" );
 
+static const json_character_flag json_flag_ECTOTHERM( "ECTOTHERM" );
+
 static const skill_id skill_bashing( "bashing" );
 static const skill_id skill_cutting( "cutting" );
 static const skill_id skill_dodge( "dodge" );
@@ -51,7 +53,6 @@ static const skill_id skill_melee( "melee" );
 static const skill_id skill_stabbing( "stabbing" );
 static const skill_id skill_unarmed( "unarmed" );
 
-static const trait_id trait_COLDBLOOD4( "COLDBLOOD4" );
 static const trait_id trait_SUNLIGHT_DEPENDENT( "SUNLIGHT_DEPENDENT" );
 static const trait_id trait_TROGLO( "TROGLO" );
 static const trait_id trait_TROGLO2( "TROGLO2" );
@@ -655,10 +656,16 @@ static void draw_traits_info( const catacurses::window &w_info, const unsigned l
     wnoutrefresh( w_info );
 }
 
+struct bionic_grouping {
+    const translation name;
+    const translation description;
+    const int installed_count;
+};
+
 static void draw_bionics_tab( ui_adaptor &ui, const catacurses::window &w_bionics,
                               const Character &you, const unsigned line,
                               const player_display_tab curtab,
-                              const std::vector<bionic> &bionicslist )
+                              const std::vector<bionic_grouping> &bionicslist )
 {
     werase( w_bionics );
     const bool is_current_tab = curtab == player_display_tab::bionics;
@@ -697,8 +704,17 @@ static void draw_bionics_tab( ui_adaptor &ui, const catacurses::window &w_bionic
         if( highlight_line ) {
             ui.set_cursor( w_bionics, pos );
         }
-        trim_and_print( w_bionics, pos, width,
-                        highlight_line ? hilite( c_white ) : c_white, "%s", bionicslist[i].info().name );
+        const bionic_grouping &bio_group = bionicslist[i];
+        const std::string bio_name = bio_group.name.translated( bio_group.installed_count );
+        nc_color col = highlight_line ? hilite( c_white ) : c_white;
+        if( bio_group.installed_count <= 1 ) {
+            trim_and_print( w_bionics, pos, width - 1, col, bio_name );
+        } else {
+            const std::string bio_count = string_format( " (%d)", bio_group.installed_count );
+            const std::string bio_trunc = trim_by_length( bio_name, width - utf8_width( bio_count ) - 1 );
+            print_colored_text( w_bionics, pos, col, col, bio_trunc );
+            print_colored_text( w_bionics, pos + point( utf8_width( bio_trunc ), 0 ), col, col, bio_count );
+        }
     }
     if( do_draw_scrollbar ) {
         draw_scrollbar( w_bionics, range.first, height, bionicslist.size(), point( width + 1, 2 ), c_white,
@@ -708,13 +724,13 @@ static void draw_bionics_tab( ui_adaptor &ui, const catacurses::window &w_bionic
 }
 
 static void draw_bionics_info( const catacurses::window &w_info, const unsigned line,
-                               const std::vector<bionic> &bionicslist )
+                               const std::vector<bionic_grouping> &bionicslist )
 {
     werase( w_info );
     if( line < bionicslist.size() ) {
         // NOLINTNEXTLINE(cata-use-named-point-constants)
         fold_and_print( w_info, point( 1, 0 ), FULL_SCREEN_WIDTH - 2, c_light_gray, "%s",
-                        bionicslist[line].info().description );
+                        bionicslist[line].description );
     }
     wnoutrefresh( w_info );
 }
@@ -955,16 +971,16 @@ static void draw_speed_tab( const catacurses::window &w_speed,
     if( temperature_speed_modifier != 0 ) {
         nc_color pen_color;
         std::string pen_sign;
-        const int player_local_temp = get_weather().get_temperature( you.pos() );
-        if( you.has_trait( trait_COLDBLOOD4 ) && player_local_temp > 65 ) {
+        const units::temperature player_local_temp = get_weather().get_temperature( you.pos() );
+        if( you.has_flag( json_flag_ECTOTHERM ) && player_local_temp > units::from_fahrenheit( 65 ) ) {
             pen_color = c_green;
             pen_sign = "+";
-        } else if( player_local_temp < 65 ) {
+        } else if( player_local_temp < units::from_fahrenheit( 65 ) ) {
             pen_color = c_red;
             pen_sign = "-";
         }
         if( !pen_sign.empty() ) {
-            pen = ( player_local_temp - 65 ) * temperature_speed_modifier;
+            pen = ( units::to_fahrenheit( player_local_temp ) - 65 ) * temperature_speed_modifier;
             mvwprintz( w_speed, point( 1, line ), pen_color,
                        //~ %s: sign of bonus/penalty, %2d: speed bonus/penalty
                        pgettext( "speed modifier", "Cold-Blooded        %s%2d%%" ), pen_sign, std::abs( pen ) );
@@ -1002,7 +1018,7 @@ static void draw_speed_tab( const catacurses::window &w_speed,
 static void draw_info_window( const catacurses::window &w_info, const Character &you,
                               const unsigned line, const unsigned info_line, const player_display_tab curtab,
                               const std::vector<trait_and_var> &traitslist,
-                              const std::vector<bionic> &bionicslist,
+                              const std::vector<bionic_grouping> &bionicslist,
                               const std::vector<std::pair<std::string, std::string>> &effect_name_and_text,
                               const std::vector<HeaderSkill> &skillslist )
 {
@@ -1080,7 +1096,8 @@ static bool handle_player_display_action( Character &you, unsigned int &line,
         const ui_adaptor &ui_info, const ui_adaptor &ui_stats, const ui_adaptor &ui_encumb,
         const ui_adaptor &ui_traits, const ui_adaptor &ui_bionics, const ui_adaptor &ui_effects,
         const ui_adaptor &ui_skills, const ui_adaptor &ui_proficiencies,
-        std::vector<trait_and_var> &traitslist, const std::vector<bionic> &bionicslist,
+        std::vector<trait_and_var> &traitslist,
+        const std::vector<bionic_grouping> &bionicslist,
         const std::vector<std::pair<std::string, std::string>> &effect_name_and_text,
         const std::vector<HeaderSkill> &skillslist, bool customize_character )
 {
@@ -1389,7 +1406,20 @@ void Character::disp_info( bool customize_character )
     std::sort( traitslist.begin(), traitslist.end(), trait_display_sort );
     const unsigned int trait_win_size_y_max = 1 + static_cast<unsigned>( traitslist.size() );
 
-    std::vector<bionic> bionicslist = *my_bionics;
+    std::vector<bionic_grouping> bionicslist;
+    {
+        // count installed bionics by type and sort by localized name
+        const auto bio_comp = []( const bionic_data & lhs, const bionic_data & rhs ) {
+            return lhs.name.translated_lt( rhs.name );
+        };
+        std::map<const bionic_data, int, decltype( bio_comp )> bionics_map( bio_comp );
+        for( const bionic &bio : *my_bionics ) {
+            bionics_map[bio.info()]++;
+        }
+        for( const auto &pair : bionics_map ) {
+            bionicslist.push_back( { pair.first.name, pair.first.description, pair.second } );
+        }
+    }
     const unsigned int bionics_win_size_y_max = 2 + bionicslist.size();
 
     const std::vector<const Skill *> player_skill = Skill::get_skills_sorted_by(

@@ -2105,13 +2105,16 @@ class jmapgen_liquid_item : public jmapgen_piece
 /**
  * Place a corpse of a random monster from a monster group into the map.
  * "group": id of monster group to choose from
+ * "age": age (in days) of monster's corpse
  */
 class jmapgen_corpse : public jmapgen_piece
 {
     public:
         mongroup_id group;
+        time_duration age;
         jmapgen_corpse( const JsonObject &jsi, const std::string &/*context*/ ) :
-            group( jsi.get_member( "group" ) ) {
+            group( jsi.get_member( "group" ) )
+            , age( time_duration::from_days( jsi.get_int( "age", 0 ) ) ) {
         }
 
         void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y,
@@ -2119,7 +2122,8 @@ class jmapgen_corpse : public jmapgen_piece
             const std::vector<mtype_id> monster_group =
                 MonsterGroupManager::GetMonstersFromGroup( group, true );
             const mtype_id &corpse_type = random_entry_ref( monster_group );
-            item corpse = item::make_corpse( corpse_type, calendar::start_of_cataclysm );
+            item corpse = item::make_corpse( corpse_type,
+                                             std::max( calendar::turn - age, calendar::start_of_cataclysm ) );
             dat.m.add_item_or_charges( tripoint( x.get(), y.get(), dat.m.get_abs_sub().z() ),
                                        corpse );
         }
@@ -4969,11 +4973,11 @@ void map::draw_lab( mapgendata &dat )
         tower_lab = is_ot_match( "tower_lab", terrain_type, ot_match_type::prefix );
 
         if( ice_lab ) {
-            int temperature = -20 + 30 * dat.zlevel();
-            set_temperature( p2, temperature );
-            set_temperature( p2 + point( SEEX, 0 ), temperature );
-            set_temperature( p2 + point( 0, SEEY ), temperature );
-            set_temperature( p2 + point( SEEX, SEEY ), temperature );
+            units::temperature temperature = units::from_kelvin( -11.111 + 16.666 * dat.zlevel() );
+            set_temperature_mod( p2, temperature );
+            set_temperature_mod( p2 + point( SEEX, 0 ), temperature );
+            set_temperature_mod( p2 + point( 0, SEEY ), temperature );
+            set_temperature_mod( p2 + point( SEEX, SEEY ), temperature );
         }
 
         // Check for adjacent sewers; used below
@@ -5657,11 +5661,11 @@ void map::draw_lab( mapgendata &dat )
         tower_lab = is_ot_match( "tower_lab", terrain_type, ot_match_type::prefix );
 
         if( ice_lab ) {
-            int temperature = -20 + 30 * dat.zlevel();
-            set_temperature( p2, temperature );
-            set_temperature( p2 + point( SEEX, 0 ), temperature );
-            set_temperature( p2 + point( 0, SEEY ), temperature );
-            set_temperature( p2 + point( SEEX, SEEY ), temperature );
+            units::temperature temperature = units::from_kelvin( -11.111 + 16.666 * dat.zlevel() );
+            set_temperature_mod( p2, temperature );
+            set_temperature_mod( p2 + point( SEEX, 0 ), temperature );
+            set_temperature_mod( p2 + point( 0, SEEY ), temperature );
+            set_temperature_mod( p2 + point( SEEX, SEEY ), temperature );
         }
 
         tw = is_ot_match( "lab", dat.north(), ot_match_type::contains ) ? 0 : 2;

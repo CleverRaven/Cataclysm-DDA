@@ -2471,6 +2471,7 @@ void npc::move_to( const tripoint &pt, bool no_bashing, std::set<tripoint> *nomo
     }
 
     if( moved ) {
+        make_footstep_noise();
         const tripoint old_pos = pos();
         setpos( p );
         if( old_pos.x - p.x < 0 ) {

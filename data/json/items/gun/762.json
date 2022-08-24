@@ -31,7 +31,7 @@
       [ "rail mount", 1 ],
       [ "sights mount", 1 ],
       [ "sling", 1 ],
-      [ "stock", 1 ],
+      [ "stock mount", 1 ],
       [ "stock accessory", 2 ],
       [ "underbarrel mount", 1 ]
     ],
@@ -114,7 +114,7 @@
       [ "rail", 1 ],
       [ "sights", 1 ],
       [ "sling", 1 ],
-      [ "stock", 1 ],
+      [ "stock mount", 1 ],
       [ "stock accessory", 2 ],
       [ "underbarrel", 1 ]
     ],
@@ -160,7 +160,7 @@
       [ "rail mount", 1 ],
       [ "sights mount", 1 ],
       [ "sling", 1 ],
-      [ "stock", 1 ],
+      [ "stock mount", 1 ],
       [ "stock accessory", 2 ],
       [ "underbarrel mount", 1 ]
     ],

@@ -136,7 +136,7 @@ cata::optional<int> hotplate( Character *, item *, bool, const tripoint & );
 cata::optional<int> hotplate_atomic( Character *, item *, bool, const tripoint & );
 cata::optional<int> jackhammer( Character *, item *, bool, const tripoint & );
 cata::optional<int> jet_injector( Character *, item *, bool, const tripoint & );
-cata::optional<int> ladder( Character *, item *, bool, const tripoint & );
+cata::optional<int> ladder( Character *, item *it, bool, const tripoint & );
 cata::optional<int> lumber( Character *, item *, bool, const tripoint & );
 cata::optional<int> ma_manual( Character *, item *, bool, const tripoint & );
 cata::optional<int> magic_8_ball( Character *, item *, bool, const tripoint & );
@@ -206,6 +206,7 @@ cata::optional<int> weak_antibiotic( Character *, item *, bool, const tripoint &
 cata::optional<int> weather_tool( Character *, item *, bool, const tripoint & );
 cata::optional<int> sextant( Character *, item *, bool, const tripoint & );
 cata::optional<int> lux_meter( Character *, item *, bool, const tripoint & );
+cata::optional<int> dbg_lux_meter( Character *, item *, bool, const tripoint & );
 cata::optional<int> calories_intake_tracker( Character *p, item *, bool, const tripoint & );
 
 // MACGUFFINS

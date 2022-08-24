@@ -25,11 +25,27 @@
   },
   {
     "type": "mutation",
+    "id": "MANIFESTED_DESTINY_GOBLIN",
+    "name": { "str": "Transformed into Goblin" },
+    "points": 0,
+    "player_display": false,
+    "description": "You feel like you've left behind your old life and form."
+  },
+  {
+    "type": "mutation",
+    "id": "MANIFEST_DESTINY_SPIDER",
+    "name": { "str": "Transforming into Spider" },
+    "points": 0,
+    "player_display": false,
+    "description": "You don't feel very well.  On an existential level."
+  },
+  {
+    "type": "mutation",
     "id": "MANIFESTED_DESTINY_SPIDER",
     "name": { "str": "Transformed into Spider" },
     "points": 0,
     "player_display": false,
-    "description": "You don't feel very well.  On an existential level."
+    "description": "You feel like you've left behind your old life and form."
   },
   {
     "type": "mutation",

@@ -36,7 +36,8 @@
           { "item": "welding_wire_steel", "prob": 45, "charges": [ 50, 360 ] },
           { "item": "welding_wire_alloy", "prob": 15, "charges": [ 50, 360 ] },
           { "item": "brazing_rod_bronze", "prob": 25, "charges": [ 50, 200 ] },
-          { "item": "brazing_rod_alloy", "prob": 10, "charges": [ 50, 200 ] }
+          { "item": "brazing_rod_alloy", "prob": 10, "charges": [ 50, 200 ] },
+          { "item": "welding_blanket", "prob": 10, "count": [ 0, 1 ] }
         ]
       }
     ]

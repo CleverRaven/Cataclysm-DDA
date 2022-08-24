@@ -131,6 +131,7 @@ static const skill_id skill_gun( "gun" );
 static const skill_id skill_launcher( "launcher" );
 static const skill_id skill_throw( "throw" );
 
+static const trait_id trait_BRAWLER( "BRAWLER" );
 static const trait_id trait_PYROMANIA( "PYROMANIA" );
 
 static const trap_str_id tr_practice_target( "tr_practice_target" );
@@ -2763,7 +2764,8 @@ bool target_ui::handle_cursor_movement( const std::string &action, bool &skip_re
     } else if( const cata::optional<tripoint> delta = ctxt.get_direction( action ) ) {
         // Shift view/cursor with directional keys
         shift_view_or_cursor( *delta );
-    } else if( action == "SELECT" && ( mouse_pos = ctxt.get_coordinates( g->w_terrain ) ) ) {
+    } else if( action == "SELECT" &&
+               ( mouse_pos = ctxt.get_coordinates( g->w_terrain, g->ter_view_p.xy() ) ) ) {
         // Set pos by clicking with mouse
         mouse_pos->z = you->pos().z + you->view_offset.z;
         set_cursor_pos( *mouse_pos );
@@ -3905,6 +3907,11 @@ bool gunmode_checks_common( avatar &you, const map &m, std::vector<std::string> 
                             const gun_mode &gmode )
 {
     bool result = true;
+    if( you.has_trait( trait_BRAWLER ) ) {
+        messages.push_back( string_format( _( "Pfft.  You are a brawler; using %s is beneath you." ),
+                                           gmode->tname() ) );
+        result = false;
+    }
 
     // Check that passed gun mode is valid and we are able to use it
     if( !( gmode && you.can_use( *gmode ) ) ) {

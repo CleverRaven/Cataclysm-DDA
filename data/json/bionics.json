@@ -1610,6 +1610,7 @@
       { "condition": "ACTIVE", "values": [ { "value": "MOVE_COST", "multiply": -0.1 } ] },
       { "condition": "INACTIVE", "values": [ { "value": "MOVE_COST", "multiply": 0.1 } ] }
     ],
+    "act_cost": "5 J",
     "trigger_cost": "35 J"
   },
   {

@@ -171,7 +171,7 @@ class monster : public Creature
         bool swims() const;
         // Returns false if the monster is stunned, has 0 moves or otherwise wouldn't act this turn
         bool can_act() const;
-        int sight_range( int light_level ) const override;
+        int sight_range( float light_level ) const override;
         bool made_of( const material_id &m ) const override; // Returns true if it's made of m
         bool made_of_any( const std::set<material_id> &ms ) const override;
         bool made_of( phase_id p ) const; // Returns true if its phase is p
@@ -605,6 +605,8 @@ class monster : public Creature
         std::bitset<NUM_MEFF> effect_cache;
         cata::optional<time_point> lifespan_end = cata::nullopt;
         int turns_since_target = 0;
+
+        bool aggro_character = true;
 
         Character *find_dragged_foe();
         void nursebot_operate( Character *dragged_foe );

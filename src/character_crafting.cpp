@@ -70,7 +70,8 @@ const recipe_subset &Character::get_learned_recipes() const
     // Cache validity check
     if( !_skills->has_same_levels_as( *valid_autolearn_skills ) ) {
         for( const recipe * const &r : recipe_dict.all_autolearn() ) {
-            if( meets_skill_requirements( r->autolearn_requirements ) ) {
+            // skip nested recipes they will be covered in get_available_nested
+            if( meets_skill_requirements( r->autolearn_requirements ) && !r->is_nested() ) {
                 learned_recipes->include( r );
             }
         }
@@ -78,6 +79,35 @@ const recipe_subset &Character::get_learned_recipes() const
     }
 
     return *learned_recipes;
+}
+
+static bool check_nested_has_recipes( const recipe *r, const recipe_subset &res )
+{
+    for( const recipe_id &nestedr : r->nested_category_data ) {
+        if( nestedr->is_nested() ) {
+            // recursively check for a category that has stuff in it
+            if( check_nested_has_recipes( &nestedr.obj(), res ) ) {
+                return true;
+            }
+        } else if( res.contains( &nestedr.obj() ) ) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+recipe_subset Character::get_available_nested( const recipe_subset &res ) const
+{
+    recipe_subset nested_recipes;
+    for( const recipe * const &r : recipe_dict.all_nested() ) {
+        // only display a nested category if you know at least one recipe within it
+        if( check_nested_has_recipes( r, res ) ) {
+            nested_recipes.include( r );
+        }
+    }
+
+    return nested_recipes;
 }
 
 recipe_subset Character::get_recipes_from_books( const inventory &crafting_inv ) const
@@ -122,7 +152,6 @@ recipe_subset Character::get_available_recipes( const inventory &crafting_inv,
         const std::vector<npc *> *helpers ) const
 {
     recipe_subset res( get_learned_recipes() );
-
     res.include( get_recipes_from_books( crafting_inv ) );
     res.include( get_recipes_from_ebooks( crafting_inv ) );
 
@@ -137,6 +166,8 @@ recipe_subset Character::get_available_recipes( const inventory &crafting_inv,
             } );
         }
     }
+
+    res.include( get_available_nested( res ) );
 
     return res;
 }
