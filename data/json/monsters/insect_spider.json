@@ -2192,20 +2192,28 @@
     "name": { "str": "super soldier ant" },
     "description": "A cow-sized, hairy red ant.  Bulging pincers extend from her jaws.  Given the relative strength of ants to their body size, you don't doubt that this one could shove cars around or rip through solid walls.",
     "copy-from": "mon_ant_soldier",
-    "proportional": { "hp": 10, "speed": 0.25, "dodge": 0.5, "vision_day": 2 },
+    "proportional": { "hp": 5, "speed": 0.85, "dodge": 0.5, "vision_day": 2 },
     "volume": "625 L",
     "weight": "815 kg",
     "melee_dice": 2,
+    "grab_strength": 3,
+    "armor_bash": 15,
+    "armor_cut": 24,
+    "armor_bullet": 15,
     "armor_elec": 4,
     "bleed_rate": 60,
     "special_attacks": [
       { "id": "smash", "throw_strength": 48, "cooldown": 30 },
-      [ "BIO_OP_TAKEDOWN", 20 ],
-      [ "RANGED_PULL", 20 ],
-      [ "GRAB", 5 ]
+      { "id": "leg_sweep" },
+      {
+        "type": "bite",
+        "cooldown": 5,
+        "damage_max_instance": [ { "damage_type": "cut", "amount": 12, "armor_penetration": 14 } ]
+      },
+      [ "GRAB_DRAG", 10 ]
     ],
     "dissect": "dissect_insect_sample_large",
-    "extend": { "flags": [ "DESTROYS", "PUSH_MON", "PUSH_VEH", "RANGED_ATTACKER" ] }
+    "extend": { "flags": [ "DESTROYS", "PUSH_MON", "PUSH_VEH" ] }
   },
   {
     "id": "mon_locust_small",
