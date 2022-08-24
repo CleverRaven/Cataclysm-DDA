@@ -5,7 +5,7 @@
     "name": { "str": "fake item" },
     "description": "Dummy item.",
     "//": "Include ZERO_WEIGHT flag to avoid errors when instantiating pseudo items.",
-    "flags": [ "ZERO_WEIGHT", "TRADER_AVOID", "DEBUG_ONLY" ],
+      "flags": [ "ZERO_WEIGHT", "TRADER_AVOID", "DEBUG_ONLY", "PSEUDO" ],
     "weight": "1 g",
     "volume": "1 ml",
     "symbol": "@",

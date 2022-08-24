@@ -18,6 +18,7 @@
 #include "cata_catch.h"
 #include "character.h"
 #include "craft_command.h"
+#include "crafting_gui.h" // Temporary
 #include "game.h"
 #include "inventory.h"
 #include "item.h"
@@ -2390,5 +2391,43 @@ TEST_CASE( "pseudo_tools_in_crafting_inventory", "[crafting][tools]" )
             }
         }
         clear_map();
+    }
+}
+
+static void prep_components_for_craft( const recipe *r )
+{
+    Character &player_character = get_player_character();
+    clear_items( 0 );
+    grant_skills_to_character( player_character, *r );
+    std::string failures = capture_debugmsg_during( [&r]() {
+        debug_assemble_crafting_materials( r, 1, true );
+    } );
+    INFO( r->result() );
+    if( !failures.empty() ) {
+        DebugLog( D_INFO, DC_ALL ) << failures;
+    }
+
+    player_character.moves--;
+    const inventory &crafting_inv = player_character.crafting_inventory();
+
+    bool can_craft_with_crafting_inv = r->deduped_requirements().can_make_with_inventory(
+                                           crafting_inv, r->get_component_filter() );
+    CHECK( can_craft_with_crafting_inv == true );
+    bool can_craft_with_temp_inv = r->deduped_requirements().can_make_with_inventory(
+                                       temp_crafting_inventory( crafting_inv ), r->get_component_filter() );
+    CHECK( can_craft_with_temp_inv == true );
+}
+
+TEST_CASE( "Check provision of recipe components and tools", "[crafting][craftingdebug]" )
+{
+    clear_avatar();
+    const tripoint test_origin( 60, 60, 0 );
+    get_weather().temperature = 293_K; // ~20C, to avoid crafting failure due to frozen items
+    get_weather().clear_temp_cache();
+    get_player_character().setpos( test_origin );
+    for( const auto &e : recipe_dict ) {
+        if( !e.second.obsolete && !e.second.never_learn && !e.second.result().is_null() ) {
+            prep_components_for_craft( &e.second );
+        }
     }
 }

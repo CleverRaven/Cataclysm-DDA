@@ -8978,6 +8978,15 @@
   },
   {
     "type": "mutation",
+    "id": "DEBUG_HS_LIGHT",
+    "name": { "str": "Debug Hammerspace Light" },
+    "points": 99,
+    "valid": false,
+    "description": "You can reach out and get anything you need for crafting, but you do need to reach for it.",
+    "debug": true
+  },
+  {
+    "type": "mutation",
     "id": "DEBUG_CNF",
     "name": { "str": "Debug Crafting Virtuoso" },
     "points": 99,
