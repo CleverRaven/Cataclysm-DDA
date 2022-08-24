@@ -139,7 +139,8 @@ bool teleport::teleport_to_point( Creature &critter, tripoint target, bool safe,
                 g->place_player_overmap( project_to<coords::omt>( avatar_pos ), false );
             }
             return false;
-        } else if( ( !poor_player && one_in( 2 ) ) || ( poor_player && one_in( 2 ) && poor_soul->has_effect( effect_teleglow ) ) ){
+        } else if( ( !poor_player && one_in( 2 ) ) || ( poor_player && one_in( 2 ) &&
+                   poor_soul->has_effect( effect_teleglow ) ) ) {
             const bool poor_soul_is_u = poor_soul->is_avatar();
             if( poor_soul_is_u && display_message ) {
                 add_msg( m_bad, _( "…" ) );
