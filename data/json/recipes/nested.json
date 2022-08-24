@@ -12,6 +12,104 @@
     "difficulty": 1
   },
   {
+    "id": "nested_flintlock_arms",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_RANGED",
+    "name": "flintlock arms",
+    "description": "Recipes related to constructing flintlock rifles, pistols and shotguns.",
+    "skill_used": "fabrication",
+    "nested_category_data": [
+      "rifle_flintlock",
+      "longrifle_flintlock",
+      "carbine_flintlock",
+      "pistol_flintlock",
+      "carbine_flintlock_double",
+      "carbine_flintlock_double_from_antiques",
+      "blunderbuss"
+    ],
+    "difficulty": 1
+  },
+  {
+    "id": "nested_staffs",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_BASHING",
+    "name": "staffs",
+    "description": "Recipes related to constructing different types of staffs.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "shock_staff", "q_staff", "bo_from long stick", "bo_from quarterstaff", "i_staff" ],
+    "difficulty": 1
+  },
+  {
+    "id": "nested_maces",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_BASHING",
+    "name": "maces",
+    "description": "Recipes related to constructing different types of maces.",
+    "skill_used": "fabrication",
+    "nested_category_data": [
+      "mace",
+      "mace_bronze",
+      "mace_trench",
+      "mace_trench_from simple version",
+      "mace_pipe",
+      "mace_pipe_large",
+      "mace_simple",
+      "morningstar"
+    ],
+    "difficulty": 1
+  },
+  {
+    "id": "nested_holsters",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_STORAGE",
+    "name": "holsters",
+    "description": "Recipes related to constructing holsters for small, regular and large firearms.",
+    "skill_used": "fabrication",
+    "nested_category_data": [
+      "XL_holster",
+      "baldric_holster",
+      "back_holster",
+      "bholster",
+      "bbholster",
+      "bootstrap",
+      "holster",
+      "western_holster",
+      "shoulder_holster",
+      "tactical_holster",
+      "XS_holster",
+      "sholster",
+      "suspenders_holster"
+    ],
+    "difficulty": 1
+  },
+  {
+    "id": "nested_bandoliers",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_STORAGE",
+    "name": "bandoliers",
+    "description": "Recipes related to constructing different types of bandoliers.",
+    "skill_used": "fabrication",
+    "nested_category_data": [
+      "bandolier_pistol",
+      "bandolier_rifle",
+      "bandolier_shotgun",
+      "torso_bandolier_shotgun",
+      "torso_bandolier_grenade",
+      "bandolier_wrist"
+    ],
+    "difficulty": 1
+  },
+  {
     "id": "nested_vehicle_battery",
     "type": "nested_category",
     "activity_level": "LIGHT_EXERCISE",
@@ -187,6 +285,27 @@
     ]
   },
   {
+    "id": "nested_refined_cannabis",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_CHEM",
+    "subcategory": "CSC_CHEM_DRUGS",
+    "name": "refined cannabis",
+    "description": "Recipes related to refining cannabis into more potent forms.",
+    "skill_used": "chemistry",
+    "nested_category_data": [
+      "hi_q_wax",
+      "hi_q_wax_improvised_extraction",
+      "hi_q_shatter",
+      "hi_q_shatter_improvised_extraction",
+      "hi_q_distillate",
+      "hi_q_distillate_improvised_extraction",
+      "hi_q_distillate_large_extraction",
+      "hi_q_distillate_crude_extraction"
+    ],
+    "difficulty": 1
+  },
+  {
     "id": "nested_steel_suits",
     "type": "nested_category",
     "activity_level": "BRISK_EXERCISE",
@@ -301,6 +420,25 @@
       "armor_lc_lightarmguard"
     ],
     "difficulty": 5
+  },
+  {
+    "id": "nested_gambeson_sleeves",
+    "type": "nested_category",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_ARMS",
+    "name": "gambeson sleeves",
+    "description": "Recipes related to constructing gambeson sleeves in various sizes.",
+    "skill_used": "fabrication",
+    "nested_category_data": [
+      "gambeson_sleeve",
+      "xl_gambeson_sleeve",
+      "xs_gambeson_sleeve",
+      "k_gambeson_sleeve",
+      "xl_k_gambeson_sleeve",
+      "xs_k_gambeson_sleeve"
+    ],
+    "difficulty": 1
   },
   {
     "id": "nested_lc_chainmail_hauberk",
@@ -1095,6 +1233,111 @@
     "difficulty": 5
   },
   {
+    "id": "nested_gambeson_full",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "full gambesons",
+    "description": "Recipes related to constructing gambesons that cover the torso and arms.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "gambeson", "gambeson_xs", "xl_gambeson" ],
+    "difficulty": 1
+  },
+  {
+    "id": "nested_kevlar_gambeson_full",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "full kevlar gambesons",
+    "description": "Recipes related to constructing gambesons that cover the torso and arms, these ones are more relevant in a world with lead projectiles.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "k_gambeson", "k_gambeson_xs", "xl_k_gambeson" ],
+    "difficulty": 1
+  },
+  {
+    "id": "nested_gambeson_vest",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "gambeson vests",
+    "description": "Recipes related to constructing gambesons that cover the torso.",
+    "skill_used": "fabrication",
+    "nested_category_data": [
+      "gambeson_vest",
+      "gambeson_vest_cutting",
+      "gambeson_vest_xs",
+      "gambeson_vest_xs_cutting",
+      "xl_gambeson_vest",
+      "xl_gambeson_vest_cutting"
+    ],
+    "difficulty": 1
+  },
+  {
+    "id": "nested_kevlar_gambeson_vest",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "kevlar gambeson vests",
+    "description": "Recipes related to constructing kevlar gambesons that cover the torso.",
+    "skill_used": "fabrication",
+    "nested_category_data": [
+      "k_gambeson_vest",
+      "k_gambeson_vest_cutting",
+      "k_gambeson_vest_xs",
+      "k_gambeson_vest_xs_cutting",
+      "xl_k_gambeson_vest",
+      "xl_k_gambeson_vest_cutting"
+    ],
+    "difficulty": 1
+  },
+  {
+    "id": "nested_all_gambeson",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_TORSO",
+    "name": "gambesons",
+    "description": "Recipes related to constructing a variety of gambesons.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "nested_gambeson_full", "nested_kevlar_gambeson_full", "nested_gambeson_vest", "nested_kevlar_gambeson_vest" ],
+    "difficulty": 1
+  },
+  {
+    "id": "nested_all_arming_pants",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_LEGS",
+    "name": "arming pants",
+    "description": "Recipes related to constructing a variety of arming pants.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "gambeson_pants", "xl_gambeson_pants", "k_gambeson_pants", "xl_k_gambeson_pants" ],
+    "difficulty": 1
+  },
+  {
+    "id": "nested_all_gambeson_hoods",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HEAD",
+    "name": "gambeson hoods",
+    "description": "Recipes related to constructing a variety of gambeson hoods.",
+    "skill_used": "fabrication",
+    "nested_category_data": [
+      "gambeson_hood",
+      "xl_gambeson_hood",
+      "xs_gambeson_hood",
+      "k_gambeson_hood",
+      "xl_k_gambeson_hood",
+      "xs_k_gambeson_hood"
+    ],
+    "difficulty": 1
+  },
+  {
     "id": "nested_gloves_fsurvivor",
     "type": "nested_category",
     "activity_level": "LIGHT_EXERCISE",
@@ -1695,6 +1938,76 @@
       "bundle_copper_pipe",
       "bundle_branch",
       "bundle_branch_long"
+    ],
+    "difficulty": 1
+  },
+  {
+    "id": "nested_cardboard_boxes",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "cardboard boxes",
+    "description": "Recipes related to constructing cardboard boxes.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "box_small", "box_medium", "box_large", "box_large_reinforced", "box_oversize" ],
+    "difficulty": 1
+  },
+  {
+    "id": "nested_wooden_boxes",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "wooden boxes",
+    "description": "Recipes related to constructing wooden boxes.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "box_small_wood", "box_medium_wood", "box_large_wood", "box_oversize_wood" ],
+    "difficulty": 1
+  },
+  {
+    "id": "nested_metal_boxes",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "metal boxes",
+    "description": "Recipes related to constructing metal boxes.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "box_small_metal", "box_medium_metal", "box_large_metal", "box_oversize_metal" ],
+    "difficulty": 1
+  },
+  {
+    "id": "nested_all_boxes",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_CONTAINERS",
+    "name": "boxes",
+    "description": "Recipes related to constructing boxes.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "nested_cardboard_boxes", "nested_wooden_boxes", "nested_metal_boxes" ],
+    "difficulty": 1
+  },
+  {
+    "id": "nested_sheet_patchwork",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "name": "patchwork fabrics",
+    "description": "Recipes related to sewing together patchwork fabrics.",
+    "skill_used": "tailor",
+    "nested_category_data": [
+      "sheet_cotton_patchwork",
+      "sheet_faux_fur_patchwork",
+      "sheet_fur_patchwork",
+      "sheet_leather_patchwork",
+      "sheet_felt_patchwork",
+      "sheet_neoprene_patchwork",
+      "sheet_nomex_patchwork",
+      "sheet_lycra_patchwork",
+      "sheet_nylon_patchwork"
     ],
     "difficulty": 1
   },
