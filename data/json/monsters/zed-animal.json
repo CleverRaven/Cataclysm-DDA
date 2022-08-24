@@ -507,7 +507,6 @@
     "anger_triggers": [ "PLAYER_CLOSE", "HURT" ],
     "harvest": "zombie_leather",
     "families": [ "prof_intro_biology", "prof_wp_zombie" ],
-    "fear_triggers": [ "FIRE" ],
     "special_attacks": [
       {
         "type": "gun",
