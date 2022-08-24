@@ -177,7 +177,14 @@
           "t_tree_plum": 2,
           "t_tree_elderberry": 2,
           "t_tree_mulberry": 2,
-          "t_tree_dead": 4
+          "t_tree_dead": 4,
+          "t_tree_mango": 2,
+          "t_tree_papaya": 2,
+          "t_tree_pomegranate": 2,
+          "t_tree_coconut": 2,
+          "t_tree_orange": 2,
+          "t_tree_lemon": 2,
+          "t_tree_grapefruit": 2
         },
         "t_region_tree_nut": {
           "t_tree_hickory": 16,
