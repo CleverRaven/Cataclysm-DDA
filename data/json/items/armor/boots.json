@@ -713,6 +713,37 @@
     "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
+    "id": "sabaton_metal_sheets",
+    "type": "ARMOR",
+    "name": { "str": "pair of sheet metal sabatons", "str_pl": "pairs of sheet metal sabatons" },
+    "description": "Some sheets of metal hammered to fit over the top of your foot and around your ankles, meant to be worn over boots.  They make walking a fair bit more awkward, but they'll keep your toes from being stomped on.",
+    "//": "The weight assumes two small sheets of about 20cm x 10cm and two small sheets of about 30cm x 10 cm.",
+    "weight": "1180 g",
+    "volume": "750 ml",
+    "price": 400,
+    "price_postapoc": 200,
+    "to_hit": -2,
+    "bashing": 7,
+    "symbol": "[",
+    "looks_like": "lc_sabaton",
+    "material": [ "lc_steel" ],
+    "repairs_with": [ "steel" ],
+    "color": "light_gray",
+    "warmth": 5,
+    "environmental_protection": 1,
+    "flags": [ "STURDY", "OUTER" ],
+    "armor": [
+      {
+        "material": [ { "type": "lc_steel", "covered_by_mat": 100, "thickness": 1.5 } ],
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [ "foot_toes_r", "foot_toes_l", "foot_heel_r", "foot_heel_l", "foot_arch_r", "foot_arch_l" ],
+        "coverage": 95,
+        "encumbrance": 15,
+        "layers": [ "OUTER" ]
+      }
+    ]
+  },
+  {
     "id": "boots_steel",
     "repairs_like": "boots_larmor",
     "type": "ARMOR",
