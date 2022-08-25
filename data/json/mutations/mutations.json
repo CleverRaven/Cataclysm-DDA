@@ -767,8 +767,6 @@
     "starting_trait": true,
     "valid": false,
     "cancels": [ "FORGETFUL" ],
-    "//": "TODO: Remove this after 0.G Stable, as map memory is now permanent.",
-    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "MAP_MEMORY", "multiply": 1 } ] } ]
   },
   {
     "type": "mutation",
@@ -1515,8 +1513,6 @@
     "starting_trait": true,
     "category": [ "BEAST", "MEDICAL", "CHIMERA", "MOUSE", "INSECT", "RABBIT" ],
     "cancels": [ "GOODMEMORY" ],
-    "//": "TODO: Remove this after 0.G Stable, as map memory is now permanent.",
-    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "MAP_MEMORY", "multiply": -0.5 } ] } ]
   },
   {
     "type": "mutation",

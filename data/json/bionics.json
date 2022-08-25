@@ -1129,9 +1129,7 @@
     "enchantments": [
       {
         "condition": "ACTIVE",
-        "//": "TODO: Remove MAP_MEMORY after 0.G Stable, as map memory is now permanent",
         "values": [
-          { "value": "MAP_MEMORY", "add": 49 },
           { "value": "READING_EXP", "add": 2 },
           { "value": "SKILL_RUST_RESIST", "add": 20 },
           { "value": "LEARNING_FOCUS", "add": 10 }
