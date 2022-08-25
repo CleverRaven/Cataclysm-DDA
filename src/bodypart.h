@@ -240,6 +240,15 @@ struct body_part_type {
         // Health at which the limb stops contributing its conditional flags / techs
         int health_limit = 0;
 
+        // Minimum BMI to start adding extra encumbrance
+        int bmi_encumbrance_threshold = 999;
+        // Amount of encumbrance per point of BMI over the threshold
+        float bmi_encumbrance_scalar = 0;
+        // Amount of BMI at which point wearing rigid items becomes difficult
+        int bmi_rigid_problems_threshold = 999;
+        // Amount of BMI at which point wearing rigid items becomes impossible
+        int bmi_rigid_problems_hardcap = 1000;
+    
         float smash_efficiency = 0.5f;
 
         //Morale parameters
@@ -370,6 +379,7 @@ struct layer_details {
 struct encumbrance_data {
     int encumbrance = 0;
     int armor_encumbrance = 0;
+    int bmi_encumbrance = 0;
     int layer_penalty = 0;
 
     std::array<layer_details, static_cast<size_t>( layer_level::NUM_LAYER_LEVELS )>
@@ -458,6 +468,11 @@ class bodypart
         int get_frostbite_timer() const;
         int get_temp_cur() const;
         int get_temp_conv() const;
+    
+        int get_bmi_encumbrance_threshold() const;
+        float get_bmi_encumbrance_scalar() const;
+        int get_bmi_rigid_problems_threshold() const;
+        int get_bmi_rigid_problems_hardcap() const;
 
         std::array<int, NUM_WATER_TOLERANCE> get_mut_drench() const;
 
