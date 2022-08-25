@@ -409,10 +409,10 @@ void body_part_type::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "health_limit", health_limit, 1 );
     optional( jo, was_loaded, "techniques", techniques );
     optional( jo, was_loaded, "technique_encumbrance_limit", technique_enc_limit, 50 );
-    optional( jo, was_loaded, "bmi_encumbrance_threshold", bmi_encumbrance_threshold_, 999 );
-    optional( jo, was_loaded, "bmi_encumbrance_scalar", bmi_encumbrance_scalar_, 0 );
+    optional( jo, was_loaded, "bmi_encumbrance_threshold", bmi_encumbrance_threshold, 999 );
+    optional( jo, was_loaded, "bmi_encumbrance_scalar", bmi_encumbrance_scalar, 0 );
     optional( jo, was_loaded, "bmi_rigid_problems_threshold", bmi_rigid_problems_threshold, 999 );
-    optional( jo, was_loaded, "bmi_rigid_problems_hardcap", bmi_rigid_problems_hardcap_, 1000 );
+    optional( jo, was_loaded, "bmi_rigid_problems_hardcap", bmi_rigid_problems_hardcap, 1000 );
     
     if( jo.has_member( "limb_scores" ) ) {
         limb_scores.clear();
