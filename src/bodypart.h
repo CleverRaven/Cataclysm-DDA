@@ -248,7 +248,6 @@ struct body_part_type {
         int bmi_rigid_problems_threshold = 999;
         // Amount of BMI at which point wearing rigid items becomes impossible
         int bmi_rigid_problems_hardcap = 1000;
-    
         float smash_efficiency = 0.5f;
 
         //Morale parameters
