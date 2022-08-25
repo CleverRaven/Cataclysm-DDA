@@ -73,7 +73,7 @@
     "id": "judgement_sword",
     "type": "SPELL",
     "name": "Sword of Judgement",
-    "description": "This blade of light will cut through any evil it makes contact with!  You can change his shape into dagger, great sword, spear or mace.",
+    "description": "This blade of light will cut through any evil it makes contact with!  You can change its shape into a dagger, great sword, spear or mace.",
     "valid_targets": [ "self" ],
     "flags": [ "CONCENTRATE", "NO_LEGS", "MUST_HAVE_CLASS_TO_LEARN" ],
     "min_damage": 1,
