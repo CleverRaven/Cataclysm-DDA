@@ -2586,6 +2586,8 @@ class Character : public Creature, public visitable
         void randomize_height();
         // returns bodyweight of the Character
         units::mass bodyweight() const;
+        // returns bodyweight of the Character if they were just shy of obesity - used to calculate how much fat is weighing them down
+        units::mass bodyweight_fat() const;
         // returns total weight of installed bionics
         units::mass bionics_weight() const;
         // increases the activity level to the specified level
