@@ -1422,7 +1422,7 @@
     "id": "welding_kit",
     "type": "TOOL",
     "name": { "str": "welding kit" },
-    "description": "An welder combined with a fireproof insulating blanket allows for advanced welds and repairs to tempered steels.",
+    "description": "A welder combined with a fireproof insulating blanket allows for advanced welds and repairs to tempered steels.",
     "weight": "10500 g",
     "volume": "12500 ml",
     "price": 9000,
