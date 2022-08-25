@@ -356,7 +356,7 @@
     "type": "GENERIC",
     "id": "mutant_bug_hydrogen_sacs",
     "category": "COMESTIBLE",
-	"comestible_type": "FOOD",
+    "comestible_type": "FOOD",
     "symbol": "o",
     "color": "light_gray",
     "contamination": [ { "disease": "bad_food", "probability": 100 } ],
