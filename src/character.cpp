@@ -1269,8 +1269,8 @@ int Character::swim_speed() const
     float hand_bonus_mult = ( usable.test( body_part_hand_l ) ? 0.5f : 0.0f ) +
                             ( usable.test( body_part_hand_r ) ? 0.5f : 0.0f );
 
-    // base swim speed.
-    ret = ( 440 * mutation_value( "movecost_swim_modifier" ) ) + weight_carried() /
+    // base swim speed. weight carried usually includes bodyweight_fat() but cancel it out here since fat is bouyant
+    ret = ( 440 * mutation_value( "movecost_swim_modifier" ) ) + ( weight_carried() - bodyweight_fat() ) /
           ( 60_gram / mutation_value( "movecost_swim_modifier" ) ) - 50 * get_skill_level( skill_swimming );
     /** @EFFECT_STR increases swim speed bonus from PAWS */
     if( has_trait( trait_PAWS ) ) {
@@ -2736,7 +2736,7 @@ units::mass Character::weight_carried() const
     if( cached_weight_carried ) {
         return *cached_weight_carried;
     }
-    cached_weight_carried = weight_carried_with_tweaks( item_tweaks() );
+    cached_weight_carried = bodyweight_fat() + weight_carried_with_tweaks( item_tweaks() );
     return *cached_weight_carried;
 }
 
