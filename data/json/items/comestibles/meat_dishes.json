@@ -1708,7 +1708,7 @@
     "price": 750,
     "price_postapoc": 400,
     "material": [ "veggy", "flesh", "milk" ],
-    "volume": "240 ml",
+    "volume": "120 ml",
     "flags": [ "EATEN_HOT", "FREEZERBURN" ],
     "fun": 4,
     "charges": 6,
