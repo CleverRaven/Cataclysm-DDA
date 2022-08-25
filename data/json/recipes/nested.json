@@ -1074,7 +1074,13 @@
     "name": "steel leg guards",
     "description": "Recipes related to constructing leg guards from various types of steel.",
     "skill_used": "fabrication",
-    "nested_category_data": [ "nested_lc_leg_guards", "nested_mc_leg_guards", "nested_hc_leg_guards", "nested_ch_leg_guards", "nested_qt_leg_guards" ],
+    "nested_category_data": [
+      "nested_lc_leg_guards",
+      "nested_mc_leg_guards",
+      "nested_hc_leg_guards",
+      "nested_ch_leg_guards",
+      "nested_qt_leg_guards"
+    ],
     "difficulty": 2
   },
   {
