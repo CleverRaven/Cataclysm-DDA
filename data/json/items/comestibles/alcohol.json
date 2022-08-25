@@ -1031,7 +1031,7 @@
     "name": { "str_sp": "spiced mead" },
     "copy-from": "mead",
     "description": "Homebrewed spiced honey wine, a tasty beverage that can be served hot or cold.",
-    "flags": [ "EATEN_COLD", "EATEN_HOT", "NO_AUTO_CONSUME" ],
+    "flags": [ "EATEN_COLD", "NO_AUTO_CONSUME" ],
     "fun": 13
   },
   {
