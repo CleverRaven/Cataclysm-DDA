@@ -5868,7 +5868,7 @@ units::mass Character::bodyweight_fat() const
                             2 ) ) - ( 25 * std::pow( height() / 100.0f, 2 ) ) );
 }
 
-units::mass Character::bionics_weight() const
+       units::mass Character::bionics_weight() const
 {
     units::mass bio_weight = 0_gram;
     for( const bionic_id &bid : get_bionics() ) {
