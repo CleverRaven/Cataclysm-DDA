@@ -1159,6 +1159,12 @@ void bodypart::serialize( JsonOut &json ) const
     json.member( "temp_cur", temp_cur );
     json.member( "temp_conv", temp_conv );
     json.member( "frostbite_timer", frostbite_timer );
+    json.member( "bmi_encumbrance_threshold", bmi_encumbrance_threshold );
+    json.member( "bmi_encumbrance_scalar", bmi_encumbrance_scalar );
+    json.member( "bmi_rigid_problems_threshold", bmi_rigid_problems_threshold );
+    json.member( "bmi_rigid_problems_hardcap", bmi_rigid_problems_hardcap );
+    
+    json.member( "wetness", wetness );
 
     json.end_object();
 }
@@ -1175,7 +1181,10 @@ void bodypart::deserialize( const JsonObject &jo )
     jo.read( "wetness", wetness, true );
     jo.read( "temp_cur", temp_cur, true );
     jo.read( "temp_conv", temp_conv, true );
-    jo.read( "frostbite_timer", frostbite_timer, true );
+    jo.read( "bmi_encumbrance_threshold", bmi_encumbrance_threshold, true );
+    jo.read( "bmi_encumbrance_scalar", bmi_encumbrance_scalar, true );
+    jo.read( "bmi_rigid_problems_threshold", bmi_rigid_problems_threshold, true );
+    jo.read( "bmi_rigid_problems_hardcap", bmi_rigid_problems_hardcap, true );
 
 }
 
