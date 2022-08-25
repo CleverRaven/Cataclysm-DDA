@@ -22,7 +22,6 @@
             { "not": { "npc_has_trait": "PSYCHOTIC" } }
           ]
         },
-        "//": "This is a stand-in for 'npc_has_trait_flag': 'EXP_Agriculture' when that becomes available",
         "topic": "BGSS_PRISONER_1_IN_FOR_GROWOP"
       },
       {
@@ -44,7 +43,6 @@
             { "not": { "npc_has_trait": "PSYCHOTIC" } }
           ]
         },
-        "//": "This is a stand-in for 'npc_has_trait_flag': 'EXP_Biochemistry' when that becomes available",
         "topic": "BGSS_PRISONER_1_IN_FOR_BIOWEAPON"
       },
       {
@@ -108,7 +106,6 @@
             { "not": { "npc_has_trait": "PSYCHOTIC" } }
           ]
         },
-        "//": "This is a stand-in for 'npc_has_trait_flag': 'EXP_Physics' when that becomes available",
         "topic": "BGSS_PRISONER_1_IN_FOR_NUCLEAR"
       },
       {
@@ -214,7 +211,7 @@
   {
     "id": "BGSS_PRISONER_1_IN_FOR_ASSAULT",
     "type": "talk_topic",
-    "dynamic_line": "Assault charges.  I really don't want to get into it, let's just say that you don't want to look at me crosseyed when I'm in a bad mood okay?",
+    "dynamic_line": "Assault charges.  I really don't want to get into it, let's just say that you don't want to look at me cross eyed when I'm in a bad mood okay?",
     "responses": [ { "text": "<done_conversation_section>", "topic": "TALK_NONE" }, { "text": "<end_talking>", "topic": "TALK_DONE" } ]
   },
   {
