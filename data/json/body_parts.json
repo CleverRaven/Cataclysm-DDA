@@ -170,7 +170,7 @@
     "bionic_slots": 20,
     "sub_parts": [ "arm_shoulder_l", "arm_upper_l", "arm_elbow_l", "arm_lower_l" ],
     "bmi_encumbrance_threshold": 25,
-    "bmi_encumbrance_scalar": 1,
+    "bmi_encumbrance_scalar": 0.5,
     "bmi_rigid_problems_threshold": 35,
     "bmi_rigid_problems_hardcap": 40
   },
@@ -206,7 +206,7 @@
     "bionic_slots": 20,
     "sub_parts": [ "arm_shoulder_r", "arm_upper_r", "arm_elbow_r", "arm_lower_r" ],
     "bmi_encumbrance_threshold": 25,
-    "bmi_encumbrance_scalar": 1,
+    "bmi_encumbrance_scalar": 0.5,
     "bmi_rigid_problems_threshold": 35,
     "bmi_rigid_problems_hardcap": 40
   },
@@ -311,7 +311,7 @@
     "sub_parts": [ "leg_hip_l", "leg_upper_l", "leg_knee_l", "leg_lower_l" ],
     "flags": [ "LIMB_LOWER" ],
     "bmi_encumbrance_threshold": 25,
-    "bmi_encumbrance_scalar": 1,
+    "bmi_encumbrance_scalar": 0.5,
     "bmi_rigid_problems_threshold": 35,
     "bmi_rigid_problems_hardcap": 40
   },
@@ -350,7 +350,7 @@
     "sub_parts": [ "leg_hip_r", "leg_upper_r", "leg_knee_r", "leg_lower_r" ],
     "flags": [ "LIMB_LOWER" ],
     "bmi_encumbrance_threshold": 25,
-    "bmi_encumbrance_scalar": 1,
+    "bmi_encumbrance_scalar": 0.5,
     "bmi_rigid_problems_threshold": 35,
     "bmi_rigid_problems_hardcap": 40
   },
