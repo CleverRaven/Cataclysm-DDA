@@ -2234,6 +2234,26 @@
     "nested_category_data": [ "acog_scope_mod", "offset_sights_mod", "offset_sight_rail_mod", "rifle_scope_mod" ]
   },
   {
+    "id": "nested_sewing_tools",
+    "type": "nested_category",
+    "activity_level": "fake",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "name": "sewing tools",
+    "description": "Recipes related to creating sewing tools.",
+    "skill_used": "fabrication",
+    "nested_category_data": [
+      "needle_bone",
+      "needle_wood",
+      "needle_curved",
+      "tailors_kit",
+      "sewing_kit",
+      "awl_bone",
+      "awl_steel",
+      "awl_steel_using_file"
+    ]
+  },
+  {
     "id": "nested_gun_mounts",
     "type": "nested_category",
     "activity_level": "fake",
