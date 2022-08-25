@@ -15,7 +15,10 @@
     "id": "EOC_EYEGLEAM_cast",
     "effect": [
       {
-        "u_cast_spell": { "id": "spell_eyegleam", "message": "Your eyes gleam red momentarily as they catch the light available and grant you nightvision." },
+        "u_cast_spell": {
+          "id": "spell_eyegleam",
+          "message": "Your eyes gleam red momentarily as they catch the light available and grant you nightvision."
+        },
         "targeted": true
       }
     ]
@@ -36,7 +39,10 @@
     "id": "EOC_STAMINAFORBLOOD_cast",
     "effect": [
       {
-        "u_cast_spell": { "id": "spell_stamina4blood", "message": "Your veins pulse as your body pushes some of your blood reserves to exhaustion and early dissolution." },
+        "u_cast_spell": {
+          "id": "spell_stamina4blood",
+          "message": "Your veins pulse as your body pushes some of your blood reserves to exhaustion and early dissolution."
+        },
         "targeted": true
       }
     ]
@@ -57,7 +63,10 @@
     "id": "EOC_COAGULANTWEAVE_cast",
     "effect": [
       {
-        "u_cast_spell": { "id": "spell_coagulant_weave", "message": "Blood flushes through your skin building preemptive threading that increases your resistance to bleed and bite attacks." },
+        "u_cast_spell": {
+          "id": "spell_coagulant_weave",
+          "message": "Blood flushes through your skin building preemptive threading that increases your resistance to bleed and bite attacks."
+        },
         "targeted": true
       }
     ]

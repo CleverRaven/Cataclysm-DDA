@@ -72,6 +72,7 @@
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
+    "vitamin_rates": [ [ "human_blood_vitamin", 180 ] ],
     "spells_learned": [ [ "consume_human_blood", 1 ] ],
     "flags": [ "CANNIBAL" ]
   },
@@ -101,6 +102,7 @@
     "purifiable": false,
     "types": [ "TEETH" ],
     "valid": false,
+    "vitamin_rates": [ [ "human_blood_vitamin", 180 ] ],
     "attacks": [
       {
         "attack_text_u": "You sink your fangs into %s",
@@ -138,8 +140,8 @@
     "purifiable": false,
     "valid": false,
     "vitamins_absorb_multi": [ [ "all", [ [ "mutant_toxin", 0.25 ] ] ] ],
-    "vitamin_rates":
-    "metabolism_modifier": 5,
+    "vitamin_rates": [ [ "human_blood_vitamin", 180 ] ],
+    "metabolism_modifier": 0.8,
     "stamina_regen_modifier": 0.1
   },
   {
