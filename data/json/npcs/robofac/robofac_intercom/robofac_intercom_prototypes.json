@@ -426,7 +426,7 @@
     "id": "TALK_ROBOFAC_INTERCOM_ANCHOR_PT_1_COMPLETE",
     "//": "creating better MDS",
     "type": "talk_topic",
-    "dynamic_line": "We've made some notable progress.  We believe that we can integrate this into our current modular armor system leading to extradimensional protection, however it will make it heavier and it will no longer fold up conveniently for travel.",
+    "dynamic_line": "We've made some notable progress.  We believe that we can integrate this into our current modular armor system leading to extradimensional protection, however it will make it heavier and it won't be quite as easy to fold up for travel.  The poncho will remain wearable outside of metal armor although it will be a more snug fit than the anchor alone would have been.",
     "responses": [
       {
         "text": "Interesting.",

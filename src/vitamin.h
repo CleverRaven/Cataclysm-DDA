@@ -97,6 +97,12 @@ class vitamin
         /** Clear all loaded vitamins (invalidating any pointers) */
         static void reset();
 
+        /**
+         * Convert standard RDA to units a character can ingest
+         * This is the default RDA for an average human, before any modifiers
+         */
+        float RDA_to_default( int percent ) const;
+
     private:
         vitamin_id id_;
         vitamin_type type_ = vitamin_type::num_vitamin_types;

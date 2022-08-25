@@ -119,6 +119,7 @@ std::string enum_to_string<spell_flag>( spell_flag data )
 {
     switch( data ) {
         case spell_flag::PERMANENT: return "PERMANENT";
+        case spell_flag::PERMANENT_ALL_LEVELS: return "PERMANENT_ALL_LEVELS";
         case spell_flag::PERCENTAGE_DAMAGE: return "PERCENTAGE_DAMAGE";
         case spell_flag::IGNORE_WALLS: return "IGNORE_WALLS";
         case spell_flag::NO_PROJECTILE: return "NO_PROJECTILE";
@@ -853,7 +854,8 @@ std::string spell::duration_string() const
     if( has_flag( spell_flag::RANDOM_DURATION ) ) {
         return string_format( "%s - %s", moves_to_string( min_leveled_duration() ),
                               moves_to_string( type->max_duration ) );
-    } else if( has_flag( spell_flag::PERMANENT ) && ( is_max_level() || effect() == "summon" ) ) {
+    } else if( ( has_flag( spell_flag::PERMANENT ) && ( is_max_level() || effect() == "summon" ) ) ||
+               has_flag( spell_flag::PERMANENT_ALL_LEVELS ) ) {
         return _( "Permanent" );
     } else {
         return moves_to_string( duration() );
@@ -2181,7 +2183,8 @@ void spellcasting_callback::draw_spell_info( const spell &sp, const uilist *menu
     // todo: damage over time here, when it gets implemented
 
     // Show duration for spells that endure
-    if( sp.duration() > 0 || sp.has_flag( spell_flag::PERMANENT ) ) {
+    if( sp.duration() > 0 || sp.has_flag( spell_flag::PERMANENT ) ||
+        sp.has_flag( spell_flag::PERMANENT_ALL_LEVELS ) ) {
         print_colored_text( w_menu, point( h_col1, line++ ), gray, gray,
                             string_format( "%s: %s", _( "Duration" ), sp.duration_string() ) );
     }

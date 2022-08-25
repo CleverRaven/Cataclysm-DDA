@@ -613,7 +613,7 @@
   {
     "id": "stepladder",
     "type": "TOOL",
-    "name": { "str": "stepladder" },
+    "name": { "str": "wooden stepladder" },
     "description": "This is a wooden stepladder.  Use it to set it down.",
     "weight": "20000 g",
     "volume": "50 L",
@@ -854,5 +854,22 @@
       { "type": "firestarter", "moves": 1000, "moves_slow": 25000, "need_sunlight": true }
     ],
     "flags": [ "FIRESTARTER", "THERMOMETER" ]
+  },
+  {
+    "id": "aluminum_stepladder",
+    "type": "TOOL",
+    "name": { "str": "aluminum stepladder" },
+    "description": "This is an aluminum stepladder.  Use it to set it down.",
+    "looks_like": "stepladder",
+    "weight": "15750 g",
+    "volume": "50 L",
+    "price": 2000,
+    "price_postapoc": 100,
+    "to_hit": -3,
+    "bashing": 12,
+    "material": [ "aluminum" ],
+    "symbol": "H",
+    "color": "light_gray",
+    "use_action": [ "LADDER" ]
   }
 ]

@@ -1103,9 +1103,9 @@ TEST_CASE( "npc_compare_int", "[npc_talk]" )
     const skill_id skill = skill_driving;
     player_character.set_skill_level( skill, 0 );
 
-    get_weather().temperature = 19;
+    get_weather().temperature = units::from_fahrenheit( 19 );
     get_weather().windspeed = 20;
-    get_weather().weather_precise->temperature = 19;
+    get_weather().weather_precise->temperature = units::from_fahrenheit( 19 );
     get_weather().weather_precise->windpower = 20;
     get_weather().weather_precise->humidity = 20;
     get_weather().weather_precise->pressure = 20;
@@ -1154,7 +1154,7 @@ TEST_CASE( "npc_compare_int", "[npc_talk]" )
     player_character.cash = 13;
     beta.op_of_u.owed = 14;
     player_character.set_skill_level( skill, 8 );
-    get_weather().weather_precise->temperature = 21;
+    get_weather().weather_precise->temperature = units::from_fahrenheit( 21 );
     get_weather().weather_precise->windpower = 15;
     get_weather().weather_precise->humidity = 16;
     get_weather().weather_precise->pressure = 17;
@@ -1375,12 +1375,13 @@ TEST_CASE( "npc_arithmetic", "[npc_talk]" )
     effects.apply( d );
     CHECK( calendar::turn == time_point( 1 ) );
 
-    get_weather().weather_precise->temperature = 20;
+    get_weather().weather_precise->temperature = units::from_fahrenheit( 20 );
     get_weather().clear_temp_cache();
     // "Sets temperature to 2."
     effects = d.responses[ 1 ].success;
     effects.apply( d );
-    CHECK( get_weather().weather_precise->temperature == 2 );
+    CHECK( units::to_fahrenheit( get_weather().weather_precise->temperature ) == Approx( 2 ).margin(
+               0.01 ) );
 
     get_weather().weather_precise->windpower = 20;
     get_weather().clear_temp_cache();

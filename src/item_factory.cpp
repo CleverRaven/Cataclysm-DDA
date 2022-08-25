@@ -103,6 +103,8 @@ static const material_id material_veggy( "veggy" );
 static const material_id material_wheat( "wheat" );
 static const material_id material_wool( "wool" );
 
+static const quality_id qual_GUN( "GUN" );
+
 static const skill_id skill_pistol( "pistol" );
 static const skill_id skill_rifle( "rifle" );
 static const skill_id skill_shotgun( "shotgun" );
@@ -629,6 +631,15 @@ void Item_factory::finalize_post( itype &obj )
         return false;
     } );
 
+    if( obj.gun && !obj.gunmod && !obj.has_flag( flag_PRIMITIVE_RANGED_WEAPON ) ) {
+        const quality_id qual_gun_skill( to_upper_case( obj.gun->skill_used.str() ) );
+
+        obj.qualities[qual_GUN] = std::max( obj.qualities[qual_GUN], 1 );
+        if( qual_gun_skill.is_valid() ) {
+            obj.qualities[qual_gun_skill] = std::max( obj.qualities[qual_gun_skill], 1 );
+        }
+    }
+
     // handle complex firearms as a special case
     if( obj.gun && !obj.has_flag( flag_PRIMITIVE_RANGED_WEAPON ) ) {
         std::copy( gun_tools.begin(), gun_tools.end(), std::inserter( obj.repair, obj.repair.begin() ) );
@@ -668,18 +679,13 @@ void Item_factory::finalize_post( itype &obj )
                 // if no portion info defined skip scaling for portions
                 bool skip_scale = obj.mat_portion_total == 0;
                 for( const auto &m : obj.materials ) {
-                    if( skip_scale ) {
-                        part_material pm( m.first, 100, obj.materials.size() * data.avg_thickness );
-                        // need to ignore sheet thickness since inferred thicknesses are not gonna be perfect
-                        pm.ignore_sheet_thickness = true;
-                        data.materials.push_back( pm );
-                    } else {
-                        part_material pm( m.first, 100,
-                                          static_cast<float>( m.second ) / static_cast<float>( obj.mat_portion_total ) * data.avg_thickness );
-                        // need to ignore sheet thickness since inferred thicknesses are not gonna be perfect
-                        pm.ignore_sheet_thickness = true;
-                        data.materials.push_back( pm );
-                    }
+                    float factor = skip_scale
+                                   ? obj.materials.size()
+                                   : static_cast<float>( m.second ) / static_cast<float>( obj.mat_portion_total );
+                    part_material pm( m.first, 100, factor * data.avg_thickness );
+                    // need to ignore sheet thickness since inferred thicknesses are not gonna be perfect
+                    pm.ignore_sheet_thickness = true;
+                    data.materials.push_back( pm );
                 }
             }
         }
@@ -1193,6 +1199,13 @@ void Item_factory::finalize_post( itype &obj )
                 debugmsg( "contamination in %s contains invalid diseasetype_id %s.",
                           obj.id.str(), dtype.str() );
             }
+        }
+    }
+
+    // if we haven't set what the item can be repaired with calculate it now
+    if( obj.repairs_with.empty() ) {
+        for( const auto &mats : obj.materials ) {
+            obj.repairs_with.insert( mats.first );
         }
     }
 }
@@ -1713,6 +1726,7 @@ void Item_factory::init()
     add_iuse( "XANAX", &iuse::xanax );
     add_iuse( "BREAK_STICK", &iuse::break_stick );
     add_iuse( "LUX_METER", &iuse::lux_meter );
+    add_iuse( "DBG_LUX_METER", &iuse::dbg_lux_meter );
     add_iuse( "CALORIES_INTAKE_TRACKER", &iuse::calories_intake_tracker );
     add_iuse( "VOLTMETER", &iuse::voltmeter );
 
@@ -1738,7 +1752,6 @@ void Item_factory::init()
     add_actor( std::make_unique<place_npc_iuse>() );
     add_actor( std::make_unique<reveal_map_actor>() );
     add_actor( std::make_unique<salvage_actor>() );
-    add_actor( std::make_unique<unfold_vehicle_iuse>() );
     add_actor( std::make_unique<place_trap_actor>() );
     add_actor( std::make_unique<emit_actor>() );
     add_actor( std::make_unique<saw_barrel_actor>() );
@@ -3782,6 +3795,8 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
     assign( jo, "solar_efficiency", def.solar_efficiency );
     assign( jo, "ascii_picture", def.picture_id );
 
+    optional( jo, false, "repairs_with", def.repairs_with, string_id_reader<material_type>() );
+
     if( jo.has_member( "thrown_damage" ) ) {
         def.thrown_damage = load_damage_instance( jo.get_array( "thrown_damage" ) );
     } else {
@@ -3939,6 +3954,7 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
         def.explosion = load_explosion_data( je );
     }
 
+    assign( jo, "variables", def.item_variables );
     assign( jo, "flags", def.item_tags );
     assign( jo, "faults", def.faults );
 
@@ -4115,6 +4131,7 @@ void Item_factory::load_migration( const JsonObject &jo )
     assign( jo, "charges", m.charges );
     assign( jo, "contents", m.contents );
     assign( jo, "sealed", m.sealed );
+    assign( jo, "reset_item_vars", m.reset_item_vars );
 
     std::vector<itype_id> ids;
     if( jo.has_string( "id" ) ) {
@@ -4197,6 +4214,12 @@ void Item_factory::migrate_item( const itype_id &id, item &obj )
         obj.convert( migrant->replace );
     }
 
+    if( migrant->reset_item_vars ) {
+        obj.clear_vars();
+        for( const auto &pair : migrant->replace.obj().item_variables ) {
+            obj.set_var( pair.first, pair.second ) ;
+        }
+    }
     for( const std::string &f : migrant->flags ) {
         obj.set_flag( flag_id( f ) );
     }

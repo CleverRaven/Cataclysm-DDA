@@ -31,8 +31,8 @@ alamosaurus
 alate
 alates
 alay
-albertosaurus
 albertonykus
+albertosaurus
 aldosterone
 alembic
 alexandrites
@@ -486,6 +486,8 @@ doots
 downspout
 doz
 draconic
+dragonail
+dragonails
 dragonbreath
 dragonfire
 dragonhide
@@ -688,6 +690,7 @@ functionless
 fungaloid
 fungaloids
 fungicidal
+funnelcap
 fursuit
 fusillies
 fusilly
@@ -879,6 +882,7 @@ inulin
 invlet
 invlets
 ironshod
+irradiance
 irremovable
 isable
 isassembled
@@ -907,6 +911,8 @@ junipers
 k
 kabuto
 kalimotxo
+kampuch
+kampuches
 kariginu
 kasaya
 katar
@@ -1084,6 +1090,7 @@ microportals
 microreactor
 microskirt
 mideastern
+midsentence
 migo
 milkfat
 milspec
@@ -1094,6 +1101,7 @@ minimap
 minin
 mininuke
 minireactor
+mirrorshades
 misc
 misjudgements
 misprogram
@@ -1116,6 +1124,7 @@ monomeric
 monomolecular
 monstah
 moonflower
+moonflowers
 moriatur
 morningstar
 mortems
@@ -1233,6 +1242,7 @@ offroading
 ohms
 oignon
 oleaginous
+olieribos
 olors
 ompare
 omplete
@@ -1271,6 +1281,7 @@ pachyrhinosaurus
 packable
 paf
 papyrifera
+parabellum
 parabolan
 parachuter
 parasaurolophus
@@ -1319,6 +1330,7 @@ pickelhaube
 pickhead
 pickin
 piezomechanical
+pileus
 pinout
 pipebomb
 pipework
@@ -1399,7 +1411,6 @@ pushmower
 pussywillows
 pwn
 pyrolusite
-parabellum
 pyrophoric
 pyrrolidone
 q
@@ -1429,8 +1440,8 @@ rainsuit
 rale
 randomize
 rangehands
-rashguard
 raptorial
+rashguard
 ratlike
 rayed
 razorbar
@@ -1443,6 +1454,7 @@ reachability
 readme
 reamer
 reamers
+rearwards
 rebrands
 rebreathing
 recalt
@@ -1466,7 +1478,6 @@ reimpose
 reluctancy
 remodulator
 rended
-rearwards
 renderer
 renfaires
 rennet
@@ -1572,6 +1583,7 @@ shadowcat
 shambler
 shamblers
 shantak
+shapechangers
 sharksuit
 sharksuits
 shatteringly
@@ -1958,7 +1970,6 @@ warhammer
 warmouth
 wastebread
 wastelanders
-waterbottle
 waterproofness
 waterskin
 waterskins
@@ -1975,6 +1986,8 @@ whiplike
 whirrr
 whirrrr
 whirrrrrclick
+whiskflower
+whiskflowers
 whitelist
 whitelisted
 whitelists
@@ -2022,9 +2035,9 @@ yateveo
 ybindings
 yipe
 ynn
+yo-yo
 yoroi
 yowl
-yo-yo
 yugg
 yulecat
 z
@@ -2045,8 +2058,10 @@ zombiespawn
 zombiethustra
 zomborg
 zombull
+zombullfrog
+zombullfrogs
 zpzzzzpzz
 zubon
 zygomaticus
 zzz
-zzzzchzzzzchurzzz
+zzzzchzzzzchurzzzpileus

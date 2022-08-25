@@ -44,7 +44,6 @@ class JsonObject;
 // They are handled in monster::check_triggers(), in monster.cpp
 enum class mon_trigger : int {
     STALK,              // Increases when following the player
-    MEAT,               // Meat or a corpse nearby
     HOSTILE_WEAK,       // Hurt hostile player/npc/monster seen
     HOSTILE_CLOSE,      // Hostile creature within a few tiles
     HOSTILE_SEEN,       // Hostile creature in visual range
@@ -408,6 +407,7 @@ struct mtype {
         mtype_id upgrade_into;
         mongroup_id upgrade_group;
         mtype_id burn_into;
+        cata::optional<int> upgrade_multi_range;
 
         mtype_id zombify_into; // mtype_id this monster zombifies into
         mtype_id fungalize_into; // mtype_id this monster fungalize into
@@ -431,6 +431,9 @@ struct mtype {
         bool upgrades;
         bool reproduces;
         bool biosignatures;
+
+        // Do we indiscriminately attack characters, or should we wait until one annoys us?
+        bool aggro_character = true;
 
         mtype();
         /**

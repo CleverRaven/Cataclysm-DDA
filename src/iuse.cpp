@@ -238,6 +238,7 @@ static const efftype_id effect_weed_high( "weed_high" );
 
 static const flag_id json_flag_POWER_CORD( "POWER_CORD" );
 
+static const furn_str_id furn_f_aluminum_stepladder( "f_aluminum_stepladder" );
 static const furn_str_id furn_f_ladder( "f_ladder" );
 
 static const itype_id itype_advanced_ecig( "advanced_ecig" );
@@ -245,6 +246,7 @@ static const itype_id itype_afs_atomic_smartphone( "afs_atomic_smartphone" );
 static const itype_id itype_afs_atomic_smartphone_music( "afs_atomic_smartphone_music" );
 static const itype_id itype_afs_atomic_wraitheon_music( "afs_atomic_wraitheon_music" );
 static const itype_id itype_afs_wraitheon_smartphone( "afs_wraitheon_smartphone" );
+static const itype_id itype_aluminum_stepladder( "aluminum_stepladder" );
 static const itype_id itype_apparatus( "apparatus" );
 static const itype_id itype_arcade_machine( "arcade_machine" );
 static const itype_id itype_atomic_coffeepot( "atomic_coffeepot" );
@@ -301,6 +303,7 @@ static const itype_id itype_smartphone_music( "smartphone_music" );
 static const itype_id itype_soap( "soap" );
 static const itype_id itype_soldering_iron( "soldering_iron" );
 static const itype_id itype_spiral_stone( "spiral_stone" );
+static const itype_id itype_stepladder( "stepladder" );
 static const itype_id itype_thermometer( "thermometer" );
 static const itype_id itype_towel( "towel" );
 static const itype_id itype_towel_wet( "towel_wet" );
@@ -896,8 +899,8 @@ cata::optional<int> iuse::meth( Character *p, item *it, bool, const tripoint & )
         map &here = get_map();
         // breathe out some smoke
         for( int i = 0; i < 3; i++ ) {
-            here.add_field( {p->posx() + static_cast<int>( rng( -2, 2 ) ), p->posy() + static_cast<int>( rng( -2, 2 ) ), p->posz()},
-                            field_type_id( "fd_methsmoke" ), 2 );
+            point offset( rng( -2, 2 ), rng( -2, 2 ) );
+            here.add_field( p->pos_bub() + offset, field_type_id( "fd_methsmoke" ), 2 );
         }
     } else {
         p->add_msg_if_player( _( "You snort some crystal meth." ) );
@@ -2918,7 +2921,7 @@ cata::optional<int> iuse::makemound( Character *p, item *it, bool t, const tripo
         !here.has_flag( ter_furn_flag::TFLAG_PLANT, pnt ) ) {
         p->add_msg_if_player( _( "You start churning up the earth here." ) );
         p->assign_activity( player_activity( churn_activity_actor( 18000, item_location( *p, it ) ) ) );
-        p->activity.placement = here.getabs( pnt );
+        p->activity.placement = here.getglobal( pnt );
         return it->type->charges_to_use();
     } else {
         p->add_msg_if_player( _( "You can't churn up this ground." ) );
@@ -3029,7 +3032,7 @@ cata::optional<int> iuse::clear_rubble( Character *p, item *it, bool, const trip
         add_msg( m_info, _( "%s helps with this task…" ), helpers[i]->get_name() );
     }
     p->assign_activity( player_activity( clear_rubble_activity_actor( moves / bonus ) ) );
-    p->activity.placement = pnt;
+    p->activity.placement = get_map().getglobal( pnt );
     return it->type->charges_to_use();
 }
 
@@ -3321,7 +3324,7 @@ cata::optional<int> iuse::jackhammer( Character *p, item *it, bool, const tripoi
 
     p->assign_activity( ACT_JACKHAMMER, moves );
     p->activity.targets.emplace_back( *p, it );
-    p->activity.placement = here.getabs( pnt );
+    p->activity.placement = here.getglobal( pnt );
 
     // You can mine either furniture or terrain, and furniture goes first,
     // according to @ref map::bash_ter_furn()
@@ -3438,7 +3441,7 @@ cata::optional<int> iuse::pickaxe( Character *p, item *it, bool, const tripoint 
 
     p->assign_activity( ACT_PICKAXE, moves, -1 );
     p->activity.targets.emplace_back( *p, it );
-    p->activity.placement = here.getabs( pnt );
+    p->activity.placement = here.getglobal( pnt );
 
     // You can mine either furniture or terrain, and furniture goes first,
     // according to @ref map::bash_ter_furn()
@@ -4841,7 +4844,7 @@ void iuse::cut_log_into_planks( Character &p )
     p.add_msg_if_player( _( "You cut the log into planks." ) );
 
     p.assign_activity( player_activity( chop_planks_activity_actor( moves ) ) );
-    p.activity.placement = get_map().getabs( p.pos() );
+    p.activity.placement = get_map().getglobal( p.pos() );
 }
 
 cata::optional<int> iuse::lumber( Character *p, item *it, bool t, const tripoint & )
@@ -4933,7 +4936,7 @@ cata::optional<int> iuse::chop_tree( Character *p, item *it, bool t, const tripo
         add_msg( m_info, _( "%s helps with this task…" ), helpers[i]->get_name() );
     }
     p->assign_activity( player_activity( chop_tree_activity_actor( moves, item_location( *p, it ) ) ) );
-    p->activity.placement = here.getabs( pnt );
+    p->activity.placement = here.getglobal( pnt );
 
     return it->type->charges_to_use();
 }
@@ -4976,7 +4979,7 @@ cata::optional<int> iuse::chop_logs( Character *p, item *it, bool t, const tripo
         add_msg( m_info, _( "%s helps with this task…" ), helpers[i]->get_name() );
     }
     p->assign_activity( player_activity( chop_logs_activity_actor( moves, item_location( *p, it ) ) ) );
-    p->activity.placement = here.getabs( pnt );
+    p->activity.placement = here.getglobal( pnt );
 
     return it->type->charges_to_use();
 }
@@ -5123,7 +5126,8 @@ cata::optional<int> iuse::mop( Character *p, item *it, bool, const tripoint & )
     }
     map &here = get_map();
     const std::function<bool( const tripoint & )> f = [&here]( const tripoint & pnt ) {
-        return here.terrain_moppable( pnt );
+        // TODO: fix point types
+        return here.terrain_moppable( tripoint_bub_ms( pnt ) );
     };
 
     const cata::optional<tripoint> pnt_ = choose_adjacent_highlight(
@@ -5131,9 +5135,11 @@ cata::optional<int> iuse::mop( Character *p, item *it, bool, const tripoint & )
     if( !pnt_ ) {
         return cata::nullopt;
     }
-    const tripoint &pnt = *pnt_;
-    if( !f( pnt ) ) {
-        if( pnt == p->pos() ) {
+    // TODO: fix point types
+    const tripoint_bub_ms pnt( *pnt_ );
+    // TODO: fix point types
+    if( !f( pnt.raw() ) ) {
+        if( pnt == p->pos_bub() ) {
             p->add_msg_if_player( m_info, _( "You mop yourself up." ) );
             p->add_msg_if_player( m_info, _( "The universe implodes and reforms around you." ) );
         } else {
@@ -5403,7 +5409,13 @@ cata::optional<int> iuse::unfold_generic( Character *p, item *it, bool, const tr
     }
     veh->suspend_refresh();
     veh->name = it->get_var( "vehicle_name" );
-    if( !veh->restore( it->get_var( "folding_bicycle_parts" ) ) ) {
+
+    // TODO: Remove folding_bicycle_parts after savegames migrate
+    std::string folded_parts = it->has_var( "folding_bicycle_parts" )
+                               ? it->get_var( "folding_bicycle_parts" )
+                               : it->get_var( "folded_parts" );
+
+    if( !veh->restore( folded_parts ) ) {
         here.destroy_vehicle( veh );
         return 0;
     }
@@ -8204,7 +8216,7 @@ cata::optional<int> iuse::multicooker( Character *p, item *it, bool t, const tri
                 meal.heat_up();
             } else {
                 meal.set_item_temperature( std::max( temperatures::cold,
-                                                     units::from_fahrenheit( get_weather().get_temperature( pos ) ) ) );
+                                                     get_weather().get_temperature( pos ) ) );
             }
 
             it->active = false;
@@ -9051,7 +9063,7 @@ cata::optional<int> iuse::weather_tool( Character *p, item *it, bool, const trip
     const w_point weatherPoint = *weather.weather_precise;
 
     /* Possibly used twice. Worth spending the time to precalculate. */
-    const int player_local_temp = weather.get_temperature( p->pos() );
+    const units::temperature player_local_temp = weather.get_temperature( p->pos() );
 
     if( it->typeId() == itype_weather_reader ) {
         p->add_msg_if_player( m_neutral, _( "The %s's monitor slowly outputs the data…" ),
@@ -9104,9 +9116,8 @@ cata::optional<int> iuse::weather_tool( Character *p, item *it, bool, const trip
                               velocity_units( VU_WIND ) );
         p->add_msg_if_player(
             m_neutral, _( "Feels Like: %s." ),
-            print_temperature(
-                get_local_windchill( weatherPoint.temperature, weatherPoint.humidity, windpower ) +
-                player_local_temp ) );
+            print_temperature( player_local_temp + get_local_windchill( weatherPoint.temperature,
+                               weatherPoint.humidity, windpower ) ) );
         std::string dirstring = get_dirstring( weather.winddirection );
         p->add_msg_if_player( m_neutral, _( "Wind Direction: From the %s." ), dirstring );
     }
@@ -9133,19 +9144,24 @@ cata::optional<int> iuse::sextant( Character *p, item *, bool, const tripoint &p
     return 0;
 }
 
-cata::optional<int> iuse::lux_meter( Character *p, item *, bool, const tripoint &pos )
+cata::optional<int> iuse::lux_meter( Character *p, item *it, bool, const tripoint &pos )
 {
-    if( debug_mode ) {
-        // In debug mode show extra info:
-        // Sun illumination is sun with no clouds
-        const units::angle altitude = sun_azimuth_altitude( calendar::turn ).second;
-        p->add_msg_if_player( m_neutral,
-                              "The illumination is %.1f, Sun illumination %.1f, Sun altitude %.1f.",
-                              g->natural_light_level( pos.z ), sun_light_at( calendar::turn ), to_degrees( altitude ) );
-    } else {
-        p->add_msg_if_player( m_neutral, _( "The illumination is %.1f." ),
-                              g->natural_light_level( pos.z ) );
-    }
+    p->add_msg_if_player( m_neutral, _( "The illumination is %.1f." ),
+                          g->natural_light_level( pos.z ) );
+
+    return it->type->charges_to_use();
+}
+
+cata::optional<int> iuse::dbg_lux_meter( Character *p, item *, bool, const tripoint &pos )
+{
+    const float incident_light = incident_sunlight( current_weather( pos ), calendar::turn );
+    const float nat_light = g->natural_light_level( pos.z );
+    const float sunlight = sun_light_at( calendar::turn );
+    const float sun_irrad = sun_irradiance( calendar::turn );
+    const float incident_irrad = incident_sun_irradiance( current_weather( pos ), calendar::turn );
+    p->add_msg_if_player( m_neutral,
+                          _( "Incident light: %.1f\nNatural light: %.1f\nSunlight: %.1f\nSun irradiance: %.1f\nIncident irradiance %.1f" ),
+                          incident_light, nat_light, sunlight, sun_irrad, incident_irrad );
 
     return 0;
 }
@@ -9342,7 +9358,7 @@ cata::optional<int> iuse::capture_monster_act( Character *p, item *it, bool, con
     return 0;
 }
 
-cata::optional<int> iuse::ladder( Character *p, item *, bool, const tripoint & )
+cata::optional<int> iuse::ladder( Character *p, item *it, bool, const tripoint & )
 {
     map &here = get_map();
     if( p->is_mounted() ) {
@@ -9362,7 +9378,13 @@ cata::optional<int> iuse::ladder( Character *p, item *, bool, const tripoint & )
 
     p->add_msg_if_player( _( "You set down the ladder." ) );
     p->moves -= to_moves<int>( 5_seconds );
-    here.furn_set( pnt, furn_f_ladder );
+
+    if( it->typeId() == itype_stepladder ) {
+        here.furn_set( pnt, furn_f_ladder );
+    } else if( it->typeId() == itype_aluminum_stepladder ) {
+        here.furn_set( pnt, furn_f_aluminum_stepladder );
+    }
+
     return 1;
 }
 
@@ -9954,7 +9976,8 @@ cata::optional<int> iuse::ebookread( Character *p, item *it, bool t, const tripo
         return cata::nullopt;
     }
 
-    if( !it->active && it->is_transformable() ) {
+    // Only turn on the eBook light, if it's too dark to read
+    if( p->fine_detail_vision_mod() > 4 && !it->active && it->is_transformable() ) {
         const use_function *readinglight = it->type->get_use( "transform" );
         if( readinglight ) {
             readinglight->call( *p, *it, it->active, p->pos() );

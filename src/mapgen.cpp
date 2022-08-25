@@ -2105,13 +2105,16 @@ class jmapgen_liquid_item : public jmapgen_piece
 /**
  * Place a corpse of a random monster from a monster group into the map.
  * "group": id of monster group to choose from
+ * "age": age (in days) of monster's corpse
  */
 class jmapgen_corpse : public jmapgen_piece
 {
     public:
         mongroup_id group;
+        time_duration age;
         jmapgen_corpse( const JsonObject &jsi, const std::string &/*context*/ ) :
-            group( jsi.get_member( "group" ) ) {
+            group( jsi.get_member( "group" ) )
+            , age( time_duration::from_days( jsi.get_int( "age", 0 ) ) ) {
         }
 
         void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y,
@@ -2119,7 +2122,8 @@ class jmapgen_corpse : public jmapgen_piece
             const std::vector<mtype_id> monster_group =
                 MonsterGroupManager::GetMonstersFromGroup( group, true );
             const mtype_id &corpse_type = random_entry_ref( monster_group );
-            item corpse = item::make_corpse( corpse_type, calendar::start_of_cataclysm );
+            item corpse = item::make_corpse( corpse_type,
+                                             std::max( calendar::turn - age, calendar::start_of_cataclysm ) );
             dat.m.add_item_or_charges( tripoint( x.get(), y.get(), dat.m.get_abs_sub().z() ),
                                        corpse );
         }
@@ -4969,11 +4973,11 @@ void map::draw_lab( mapgendata &dat )
         tower_lab = is_ot_match( "tower_lab", terrain_type, ot_match_type::prefix );
 
         if( ice_lab ) {
-            int temperature = -20 + 30 * dat.zlevel();
-            set_temperature( p2, temperature );
-            set_temperature( p2 + point( SEEX, 0 ), temperature );
-            set_temperature( p2 + point( 0, SEEY ), temperature );
-            set_temperature( p2 + point( SEEX, SEEY ), temperature );
+            units::temperature temperature = units::from_kelvin( -11.111 + 16.666 * dat.zlevel() );
+            set_temperature_mod( p2, temperature );
+            set_temperature_mod( p2 + point( SEEX, 0 ), temperature );
+            set_temperature_mod( p2 + point( 0, SEEY ), temperature );
+            set_temperature_mod( p2 + point( SEEX, SEEY ), temperature );
         }
 
         // Check for adjacent sewers; used below
@@ -5510,9 +5514,9 @@ void map::draw_lab( mapgendata &dat )
                             if( one_in( 200 ) && ( t_thconc_floor == ter( point( i, j ) ) ||
                                                    t_strconc_floor == ter( point( i, j ) ) ) ) {
                                 if( is_toxic ) {
-                                    add_field( {i, j, abs_sub.z()}, fd_gas_vent, 1 );
+                                    add_field( tripoint_bub_ms{i, j, abs_sub.z()}, fd_gas_vent, 1 );
                                 } else {
-                                    add_field( {i, j, abs_sub.z()}, fd_smoke_vent, 2 );
+                                    add_field( tripoint_bub_ms{i, j, abs_sub.z()}, fd_smoke_vent, 2 );
                                 }
                             }
                         }
@@ -5657,11 +5661,11 @@ void map::draw_lab( mapgendata &dat )
         tower_lab = is_ot_match( "tower_lab", terrain_type, ot_match_type::prefix );
 
         if( ice_lab ) {
-            int temperature = -20 + 30 * dat.zlevel();
-            set_temperature( p2, temperature );
-            set_temperature( p2 + point( SEEX, 0 ), temperature );
-            set_temperature( p2 + point( 0, SEEY ), temperature );
-            set_temperature( p2 + point( SEEX, SEEY ), temperature );
+            units::temperature temperature = units::from_kelvin( -11.111 + 16.666 * dat.zlevel() );
+            set_temperature_mod( p2, temperature );
+            set_temperature_mod( p2 + point( SEEX, 0 ), temperature );
+            set_temperature_mod( p2 + point( 0, SEEY ), temperature );
+            set_temperature_mod( p2 + point( SEEX, SEEY ), temperature );
         }
 
         tw = is_ot_match( "lab", dat.north(), ot_match_type::contains ) ? 0 : 2;
@@ -5979,8 +5983,8 @@ void map::draw_temple( const mapgendata &dat )
                     square( this, t_rock, point_zero, point( SEEX - 1, SOUTH_EDGE ) );
                     square( this, t_rock, point( SEEX + 2, 0 ), point( EAST_EDGE, SOUTH_EDGE ) );
                     for( int i = 2; i < SEEY * 2 - 4; i++ ) {
-                        add_field( {SEEX, i, abs_sub.z()}, fd_fire_vent, rng( 1, 3 ) );
-                        add_field( {SEEX + 1, i, abs_sub.z()}, fd_fire_vent, rng( 1, 3 ) );
+                        add_field( tripoint_bub_ms{SEEX, i, abs_sub.z()}, fd_fire_vent, rng( 1, 3 ) );
+                        add_field( tripoint_bub_ms{SEEX + 1, i, abs_sub.z()}, fd_fire_vent, rng( 1, 3 ) );
                     }
                     break;
 
@@ -7503,7 +7507,7 @@ void map::create_anomaly( const tripoint &cp, artifact_natural_property prop, bo
             for( int i = c.x - 5; i <= c.x + 5; i++ ) {
                 for( int j = c.y - 5; j <= c.y + 5; j++ ) {
                     if( furn( point( i, j ) ) == f_rubble ) {
-                        add_field( {i, j, abs_sub.z()}, fd_push_items, 1 );
+                        add_field( tripoint_bub_ms{i, j, abs_sub.z()}, fd_push_items, 1 );
                         if( one_in( 3 ) ) {
                             spawn_item( point( i, j ), "rock" );
                         }
@@ -7591,7 +7595,7 @@ void map::create_anomaly( const tripoint &cp, artifact_natural_property prop, bo
             for( int i = c.x - 5; i <= c.x + 5; i++ ) {
                 for( int j = c.y - 5; j <= c.y + 5; j++ ) {
                     if( furn( point( i, j ) ) == f_rubble ) {
-                        add_field( {i, j, abs_sub.z()}, fd_fire_vent,
+                        add_field( tripoint_bub_ms{i, j, abs_sub.z()}, fd_fire_vent,
                                    1 + ( rl_dist( c, point( i, j ) ) % 3 ) );
                     }
                 }

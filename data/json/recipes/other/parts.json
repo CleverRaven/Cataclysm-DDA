@@ -384,7 +384,7 @@
       { "proficiency": "prof_welding_basic", "fail_multiplier": 1.5 },
       { "proficiency": "prof_welding" }
     ],
-    "components": [ [ [ "material_aluminium_ingot", 8 ] ] ]
+    "components": [ [ [ "material_aluminium_ingot", 4 ], [ "scrap_aluminum", 35 ] ] ]
   },
   {
     "type": "recipe",
@@ -660,7 +660,7 @@
     "book_learn": [ [ "mag_electronics", 2 ] ],
     "using": [ [ "soldering_standard", 6 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "amplifier", 1 ] ], [ [ "scrap", 2 ] ], [ [ "cable", 4 ] ] ]
+    "components": [ [ [ "amplifier", 1 ] ], [ [ "scrap_aluminum", 2 ] ], [ [ "cable", 4 ] ], [ [ "plastic_chunk", 1 ] ] ]
   },
   {
     "type": "recipe",

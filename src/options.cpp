@@ -2215,6 +2215,16 @@ void options_manager::add_options_graphics()
 
     get_option( "PIXEL_MINIMAP_BLINK" ).setPrerequisite( "PIXEL_MINIMAP" );
 
+    add( "PIXEL_MINIMAP_BG", "graphics", to_translation( "Background color" ),
+         to_translation( "What color the minimap background should be.  Either based on color theme or (0,0,0) black." ),
+    {
+        { "theme", to_translation( "Theme" ) },
+        { "black", to_translation( "Black" ) }
+    }, "black", COPT_CURSES_HIDE
+       );
+
+    get_option( "PIXEL_MINIMAP_BLINK" ).setPrerequisite( "PIXEL_MINIMAP" );
+
     add_empty_line();
 
 #if defined(TILES)
@@ -3178,7 +3188,7 @@ std::string options_manager::show( bool ingame, const bool world_options_only, b
             bool found_opt = false;
             sel_worldgen_tab = 1;
             cata::optional<point> coord = ctxt.get_coordinates_text( w_options_border );
-            if( world_options_only && with_tabs && !!coord ) {
+            if( world_options_only && with_tabs && coord.has_value() ) {
                 // worldgen tabs
                 found_opt = run_for_point_in<size_t, point>( worldgen_tab_map, *coord,
                 [&sel_worldgen_tab]( const std::pair<size_t, inclusive_rectangle<point>> &p ) {
@@ -3188,9 +3198,9 @@ std::string options_manager::show( bool ingame, const bool world_options_only, b
                     return sel_worldgen_tab == 0 ? "PREV_TAB" : "NEXT_TAB";
                 }
             }
-            if( !found_opt && !!coord ) {
+            coord = ctxt.get_coordinates_text( w_options_header );
+            if( !found_opt && coord.has_value() ) {
                 // option category tabs
-                coord = ctxt.get_coordinates_text( w_options_header );
                 bool new_val = false;
                 const int psize = pages_.size();
                 found_opt = run_for_point_in<int, point>( opt_tab_map, *coord,
@@ -3205,18 +3215,16 @@ std::string options_manager::show( bool ingame, const bool world_options_only, b
                     sfx::play_variant_sound( "menu_move", "default", 100 );
                 }
             }
-            if( !found_opt ) {
+            coord = ctxt.get_coordinates_text( w_options );
+            if( !found_opt && coord.has_value() ) {
                 // option lines
-                coord = ctxt.get_coordinates_text( w_options );
-                if( !!coord ) {
-                    const int psize = page_items.size();
-                    found_opt = run_for_point_in<int, point>( opt_line_map, *coord,
-                    [&iCurrentLine, &psize]( const std::pair<int, inclusive_rectangle<point>> &p ) {
-                        iCurrentLine = clamp<int>( p.first, 0, psize - 1 );
-                    } ) > 0;
-                    if( found_opt && action == "SELECT" ) {
-                        action = "CONFIRM";
-                    }
+                const int psize = page_items.size();
+                found_opt = run_for_point_in<int, point>( opt_line_map, *coord,
+                [&iCurrentLine, &psize]( const std::pair<int, inclusive_rectangle<point>> &p ) {
+                    iCurrentLine = clamp<int>( p.first, 0, psize - 1 );
+                } ) > 0;
+                if( found_opt && action == "SELECT" ) {
+                    action = "CONFIRM";
                 }
             }
         }

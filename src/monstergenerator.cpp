@@ -54,7 +54,6 @@ std::string enum_to_string<mon_trigger>( mon_trigger data )
     switch( data ) {
         // *INDENT-OFF*
         case mon_trigger::STALK: return "STALK";
-        case mon_trigger::MEAT: return "MEAT";
         case mon_trigger::HOSTILE_WEAK: return "PLAYER_WEAK";
         case mon_trigger::HOSTILE_CLOSE: return "PLAYER_CLOSE";
         case mon_trigger::HOSTILE_SEEN: return "HOSTILE_SEEN";
@@ -911,6 +910,8 @@ void mtype::load( const JsonObject &jo, const std::string &src )
     optional( jo, was_loaded, "fungalize_into", fungalize_into, string_id_reader<::mtype> {},
               mtype_id() );
 
+    optional( jo, was_loaded, "aggro_character", aggro_character, true );
+
     if( jo.has_array( "attack_effs" ) ) {
         atk_effs.clear();
         for( const JsonObject effect_jo : jo.get_array( "attack_effs" ) ) {
@@ -1062,6 +1063,15 @@ void mtype::load( const JsonObject &jo, const std::string &src )
         optional( up, was_loaded, "into_group", upgrade_group, string_id_reader<::MonsterGroup> {},
                   mongroup_id::NULL_ID() );
         optional( up, was_loaded, "into", upgrade_into, string_id_reader<::mtype> {}, mtype_id::NULL_ID() );
+        bool multi = !!upgrade_multi_range;
+        optional( up, was_loaded, "multiple_spawns", multi, false );
+        if( multi && jo.has_bool( "multiple_spawns" ) ) {
+            mandatory( up, was_loaded, "spawn_range", upgrade_multi_range );
+        } else if( multi ) {
+            optional( up, was_loaded, "spawn_range", upgrade_multi_range );
+        } else {
+            jo.get_int( "spawn_range", 0 ); // ignore if defined
+        }
         upgrades = true;
     }
 

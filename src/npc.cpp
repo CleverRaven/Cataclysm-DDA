@@ -2073,14 +2073,19 @@ int npc::max_willing_to_owe() const
     const int credit_trust    = 10000;
     const int credit_value    = 10000;
     const int credit_fear     = 10000;
-    const int credit_altruism = 0;
+    const int credit_altruism = 10000;
     const int credit_anger    = -10000;
+    const int credit_default  = 10000;
 
+    // NPCs will usually be happy to owe at least credit_default, but may be willing to owe
+    // more if they trust, value, are fearful, or altruistic.
+    // Angry NPCs could conceiveably refuse to owe you money, out of spite.
     return std::max( 0,
-                     op_of_u.trust * credit_trust +
-                     op_of_u.value * credit_value +
-                     op_of_u.fear  * credit_fear  +
-                     personality.altruism * credit_altruism +
+                     credit_default +
+                     std::max( 0, op_of_u.trust ) * credit_trust +
+                     std::max( 0, op_of_u.value ) * credit_value +
+                     std::max( 0, op_of_u.fear )  * credit_fear  +
+                     std::max( 0, static_cast<int>( personality.altruism ) ) * credit_altruism +
                      op_of_u.anger * credit_anger
                    );
 

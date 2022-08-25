@@ -521,6 +521,38 @@
     ]
   },
   {
+    "id": "mitten_gaunt_metal_sheets",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "pair of sheet metal gauntlets", "str_pl": "pairs of sheet metal gauntlets" },
+    "description": "A pair of small sheets of metal, one attached to the back of the hand, and one tied to the back of your fingers, leaving the index finger untied for trigger pulling.  Your handwriting will suffer, but they'll keep your fingers attached.",
+    "//": "The weight assumes four small sheets of about 10cm x 10cm.",
+    "weight": "480 g",
+    "volume": "1250 ml",
+    "price": 400,
+    "price_postapoc": 100,
+    "to_hit": -2,
+    "bashing": 5,
+    "symbol": "[",
+    "looks_like": "lc_mitten_gaunt",
+    "material": [ "lc_steel" ],
+    "repairs_with": [ "steel" ],
+    "color": "light_gray",
+    "warmth": 5,
+    "material_thickness": 1.5,
+    "environmental_protection": 1,
+    "flags": [ "OUTER" ],
+    "armor": [
+      {
+        "material": [ { "type": "lc_steel", "covered_by_mat": 100, "thickness": 1.5 } ],
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_wrist_l", "hand_wrist_r", "hand_fingers_l", "hand_fingers_r", "hand_back_l", "hand_back_r" ],
+        "coverage": 100,
+        "encumbrance": 25
+      }
+    ]
+  },
+  {
     "id": "gloves_fur",
     "type": "ARMOR",
     "name": { "str": "pair of fur gloves", "str_pl": "pairs of fur gloves" },

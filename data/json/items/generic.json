@@ -3573,6 +3573,7 @@
   },
   {
     "id": "wallet",
+    "repairs_like": "backpack",
     "type": "GENERIC",
     "category": "container",
     "name": { "str": "wallet" },
@@ -3671,10 +3672,12 @@
     "copy-from": "wallet",
     "name": { "str": "duct tape wallet" },
     "description": "This wallet is made entirely out of duct tape.",
-    "material": [ "plastic" ]
+    "material": [ "plastic" ],
+    "flags": [ "NO_REPAIR" ]
   },
   {
     "id": "wallet_leather",
+    "repairs_like": "leather_belt",
     "type": "GENERIC",
     "copy-from": "wallet",
     "name": { "str": "leather wallet" },
@@ -3683,6 +3686,7 @@
   },
   {
     "id": "wallet_large",
+    "repairs_like": "leather_belt",
     "type": "GENERIC",
     "copy-from": "wallet",
     "name": { "str": "large wallet" },
@@ -3772,6 +3776,7 @@
   },
   {
     "id": "wallet_stylish",
+    "repairs_like": "leather_belt",
     "type": "GENERIC",
     "copy-from": "wallet",
     "name": { "str": "stylish wallet" },
@@ -3781,6 +3786,7 @@
   },
   {
     "id": "wallet_travel",
+    "repairs_like": "leather_belt",
     "type": "TOOL_ARMOR",
     "category": "clothing",
     "symbol": ";",

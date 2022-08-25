@@ -17,6 +17,10 @@ extern bool use_tiles;
 extern bool use_far_tiles;
 extern bool use_tiles_overmap;
 extern bool pixel_minimap_option;
+extern int pixel_minimap_r;
+extern int pixel_minimap_g;
+extern int pixel_minimap_b;
+extern int pixel_minimap_a;
 
 // test_mode is not a regular game option; it's true when we are running unit
 // tests.

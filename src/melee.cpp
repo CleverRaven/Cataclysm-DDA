@@ -718,7 +718,7 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
 
         // Failsafe for tec_none
         if( technique_id == tec_none ) {
-            attack_vector = cur_weapon ? "WEAPON" : "HANDS";
+            attack_vector = cur_weapon ? "WEAPON" : "HAND";
         } else {
             attack_vector = martial_arts_data->get_valid_attack_vector( *this,
                             technique_id.obj().attack_vectors );
@@ -743,7 +743,7 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
         roll_all_damage( critical_hit, d, false, cur_weap, attack_vector, &t, target_bp );
 
         // your hits are not going to hurt very much if you can't use martial arts due to broken limbs
-        if( attack_vector == "HANDS" && get_working_arm_count() < 1 ) {
+        if( attack_vector == "HAND" && get_working_arm_count() < 1 ) {
             technique_id = tec_none;
             d.mult_damage( 0.1 );
             add_msg_if_player( m_bad, _( "Your arms are too damaged or encumbered to fight effectively!" ) );
@@ -2058,7 +2058,8 @@ void Character::perform_technique( const ma_technique &technique, Creature &t, d
 
     Character *you = dynamic_cast<Character *>( &t );
 
-    if( technique.take_weapon && !has_weapon() && you != nullptr && you->is_armed() ) {
+    if( technique.take_weapon && !has_weapon() && you != nullptr && you->is_armed() &&
+        !you->is_hallucination() ) {
         if( you->is_avatar() ) {
             add_msg_if_npc( _( "<npcname> disarms you and takes your weapon!" ) );
         } else {
@@ -2070,7 +2071,7 @@ void Character::perform_technique( const ma_technique &technique, Creature &t, d
         wield( it );
     }
 
-    if( technique.disarms && you != nullptr && you->is_armed() ) {
+    if( technique.disarms && you != nullptr && you->is_armed() && !you->is_hallucination() ) {
         item weap = you->remove_weapon();
         here.add_item_or_charges( you->pos(), weap );
         if( you->is_avatar() ) {
