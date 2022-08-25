@@ -159,7 +159,7 @@
       {
         "target": "zwei_judgement",
         "msg": "Concentrating, you change your dagger into a much larger, more intimidating form.",
-        "menu_text": "Transform to zweihander.",
+        "menu_text": "Transform to great sword.",
         "type": "transform"
       }
     ]
