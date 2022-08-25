@@ -328,7 +328,7 @@
     "material": [ "wood", "steel" ],
     "symbol": "/",
     "color": "brown",
-    "looks_like": "light_gray",
+    "looks_like": "glaive",
     "qualities": [ [ "AXE", 1 ], [ "GRASS_CUT", 1 ], [ "CUT", 1 ], [ "BUTCHER", -70 ] ],
     "techniques": [ "WBLOCK_1", "BRUTAL", "WIDE", "SWEEP" ],
     "flags": [ "DURABLE_MELEE", "REACH_ATTACK", "NONCONDUCTIVE", "POLEARM", "SHEATH_SPEAR", "ALWAYS_TWOHAND" ],

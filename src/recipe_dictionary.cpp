@@ -153,7 +153,7 @@ std::vector<const recipe *> recipe_subset::recent() const
     return res;
 }
 
-std::vector<const recipe *> recipe_subset::nested() const
+std::vector<const recipe *> recipe_subset::nested( int index ) const
 {
     std::vector<const recipe *> res;
 
@@ -161,7 +161,8 @@ std::vector<const recipe *> recipe_subset::nested() const
         if( !*r || r->obsolete ) {
             return false;
         }
-        return uistate.nested_recipes.find( r->ident() ) != uistate.nested_recipes.end();
+        return uistate.nested_recipes[index].second.find( r->ident() ) !=
+               uistate.nested_recipes[index].second.end();
     } );
 
     return res;
@@ -350,8 +351,9 @@ bool recipe_subset::empty_category( const std::string &cat, const std::string &s
         return uistate.recent_recipes.empty();
     } else if( subcat == "CSC_*_HIDDEN" ) {
         return uistate.hidden_recipes.empty();
-    } else if( subcat == "CSC_*_NESTED" ) {
-        return uistate.nested_recipes.empty();
+    } else if( cat == "CC_*" ) {
+        //any other category in CC_* is populated
+        return false;
     }
 
     auto iter = category.find( cat );
@@ -589,10 +591,33 @@ void recipe_dictionary::finalize()
         }
     }
 
+    // Check for nested items without a category to make sure nothing is getting lost
+    for( const auto &rec : recipe_dict.recipes ) {
+        if( rec.second.subcategory == "CSC_*_NESTED" ) {
+            bool found = false;
+            for( const auto &nest : recipe_dict.recipes ) {
+                if( nest.second.is_nested() ) {
+                    if( find( nest.second.nested_category_data.begin(), nest.second.nested_category_data.end(),
+                              rec.first ) != nest.second.nested_category_data.end() ) {
+                        found = true;
+                        break;
+                    }
+                }
+            }
+            if( !found ) {
+                debugmsg( "recipe %s is nested but isn't in a nested group.  It will be impossible to path to by the player.",
+                          rec.first.str() );
+            }
+        }
+    }
+
     // Cache auto-learn recipes and blueprints
     for( const auto &e : recipe_dict.recipes ) {
         if( e.second.autolearn ) {
             recipe_dict.autolearn.insert( &e.second );
+        }
+        if( e.second.is_nested() ) {
+            recipe_dict.nested.insert( &e.second );
         }
         if( e.second.is_blueprint() ) {
             recipe_dict.blueprints.insert( &e.second );
@@ -645,6 +670,7 @@ void recipe_dictionary::reset()
 {
     recipe_dict.blueprints.clear();
     recipe_dict.autolearn.clear();
+    recipe_dict.nested.clear();
     recipe_dict.recipes.clear();
     recipe_dict.uncraft.clear();
     recipe_dict.items_on_loops.clear();

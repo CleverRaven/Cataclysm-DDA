@@ -3041,6 +3041,7 @@ class Character : public Creature, public visitable
 
         /** Returns all known recipes. */
         const recipe_subset &get_learned_recipes() const;
+        recipe_subset get_available_nested( const recipe_subset & ) const;
         /** Returns all recipes that are known from the books (either in inventory or nearby). */
         recipe_subset get_recipes_from_books( const inventory &crafting_inv ) const;
         /** Returns all recipes that are known from the books inside ereaders (either in inventory or nearby). */

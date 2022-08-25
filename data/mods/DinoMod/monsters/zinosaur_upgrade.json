@@ -115,7 +115,7 @@
       "vision_night": 1
     },
     "bleed_rate": 50,
-    "upgrades": { "half_life": 21, "into_group": "GROUP_zallosaurus_BRUTE" },
+    "upgrades": { "half_life": 42, "into_group": "GROUP_zallosaurus_BRUTE" },
     "special_attacks": [ [ "SMASH", 30 ] ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
     "categories": [ "DINOSAUR" ]
@@ -139,7 +139,7 @@
       "vision_night": 1
     },
     "bleed_rate": 50,
-    "upgrades": { "half_life": 21, "into_group": "GROUP_zallosaurus_BRUTE" },
+    "upgrades": { "half_life": 42, "into_group": "GROUP_zallosaurus_BRUTE" },
     "special_attacks": [ [ "SMASH", 30 ] ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
     "categories": [ "DINOSAUR" ]
@@ -163,7 +163,7 @@
       "vision_night": 1
     },
     "bleed_rate": 50,
-    "upgrades": { "half_life": 21, "into_group": "GROUP_zallosaurus_BRUTE" },
+    "upgrades": { "half_life": 42, "into_group": "GROUP_zallosaurus_BRUTE" },
     "special_attacks": [ [ "SMASH", 30 ] ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
     "categories": [ "DINOSAUR" ]
@@ -188,7 +188,7 @@
       "vision_night": 1
     },
     "bleed_rate": 50,
-    "upgrades": { "half_life": 21, "into_group": "GROUP_zyrannosaurus_BRUTE" },
+    "upgrades": { "half_life": 42, "into_group": "GROUP_zyrannosaurus_BRUTE" },
     "special_attacks": [ [ "SMASH", 30 ], [ "GRAB", 7 ] ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
     "categories": [ "DINOSAUR" ]
@@ -213,7 +213,7 @@
       "vision_night": 1
     },
     "bleed_rate": 50,
-    "upgrades": { "half_life": 21, "into_group": "GROUP_zyrannosaurus_BRUTE" },
+    "upgrades": { "half_life": 42, "into_group": "GROUP_zyrannosaurus_BRUTE" },
     "special_attacks": [ [ "SMASH", 30 ], [ "GRAB", 7 ] ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
     "categories": [ "DINOSAUR" ]
@@ -238,7 +238,7 @@
       "vision_night": 1
     },
     "bleed_rate": 50,
-    "upgrades": { "half_life": 21, "into_group": "GROUP_zyrannosaurus_BRUTE" },
+    "upgrades": { "half_life": 42, "into_group": "GROUP_zyrannosaurus_BRUTE" },
     "special_attacks": [ [ "SMASH", 30 ], [ "GRAB", 7 ] ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
     "categories": [ "DINOSAUR" ]
@@ -263,7 +263,7 @@
       "vision_night": 1
     },
     "bleed_rate": 50,
-    "upgrades": { "half_life": 21, "into_group": "GROUP_zyrannosaurus_BRUTE" },
+    "upgrades": { "half_life": 42, "into_group": "GROUP_zyrannosaurus_BRUTE" },
     "special_attacks": [ [ "SMASH", 30 ], [ "GRAB", 7 ] ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
     "categories": [ "DINOSAUR" ]
@@ -288,7 +288,7 @@
       "vision_night": 1
     },
     "bleed_rate": 50,
-    "upgrades": { "half_life": 21, "into_group": "GROUP_zyrannosaurus_BRUTE" },
+    "upgrades": { "half_life": 42, "into_group": "GROUP_zyrannosaurus_BRUTE" },
     "special_attacks": [ [ "SMASH", 30 ], [ "GRAB", 7 ] ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
     "categories": [ "DINOSAUR" ]
@@ -311,7 +311,7 @@
       "vision_night": 1
     },
     "bleed_rate": 50,
-    "upgrades": { "half_life": 21, "into_group": "GROUP_zyrannosaurus_BRUTE" },
+    "upgrades": { "half_life": 42, "into_group": "GROUP_zyrannosaurus_BRUTE" },
     "special_attacks": [ [ "SMASH", 30 ], [ "GRAB", 7 ] ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
     "categories": [ "DINOSAUR" ]
@@ -336,7 +336,7 @@
       "vision_night": 1
     },
     "bleed_rate": 50,
-    "upgrades": { "half_life": 21, "into_group": "GROUP_zyrannosaurus_BRUTE" },
+    "upgrades": { "half_life": 42, "into_group": "GROUP_zyrannosaurus_BRUTE" },
     "special_attacks": [ [ "SMASH", 30 ], [ "GRAB", 7 ] ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
     "categories": [ "DINOSAUR" ]
@@ -361,7 +361,7 @@
       "vision_night": 1
     },
     "bleed_rate": 50,
-    "upgrades": { "half_life": 21, "into_group": "GROUP_zyrannosaurus_BRUTE" },
+    "upgrades": { "half_life": 42, "into_group": "GROUP_zyrannosaurus_BRUTE" },
     "special_attacks": [ [ "SMASH", 30 ] ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
     "categories": [ "DINOSAUR" ]
@@ -606,7 +606,7 @@
       "vision_night": 1
     },
     "bleed_rate": 50,
-    "upgrades": { "half_life": 21, "into_group": "GROUP_zapatosaurus_BRUTE" },
+    "upgrades": { "half_life": 42, "into_group": "GROUP_zapatosaurus_BRUTE" },
     "special_attacks": [ [ "SMASH", 30 ] ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
     "categories": [ "DINOSAUR" ]
@@ -630,7 +630,7 @@
       "vision_night": 1
     },
     "bleed_rate": 50,
-    "upgrades": { "half_life": 21, "into_group": "GROUP_zapatosaurus_BRUTE" },
+    "upgrades": { "half_life": 42, "into_group": "GROUP_zapatosaurus_BRUTE" },
     "special_attacks": [ [ "SMASH", 30 ] ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
     "categories": [ "DINOSAUR" ]
@@ -654,7 +654,7 @@
       "vision_night": 1
     },
     "bleed_rate": 50,
-    "upgrades": { "half_life": 21, "into_group": "GROUP_zapatosaurus_BRUTE" },
+    "upgrades": { "half_life": 42, "into_group": "GROUP_zapatosaurus_BRUTE" },
     "special_attacks": [ [ "SMASH", 30 ] ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
     "categories": [ "DINOSAUR" ]
@@ -678,7 +678,7 @@
       "vision_night": 1
     },
     "bleed_rate": 50,
-    "upgrades": { "half_life": 21, "into_group": "GROUP_zapatosaurus_BRUTE" },
+    "upgrades": { "half_life": 42, "into_group": "GROUP_zapatosaurus_BRUTE" },
     "special_attacks": [ [ "SMASH", 30 ] ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
     "categories": [ "DINOSAUR" ]
@@ -702,7 +702,7 @@
       "vision_night": 1
     },
     "bleed_rate": 50,
-    "upgrades": { "half_life": 21, "into_group": "GROUP_zapatosaurus_BRUTE" },
+    "upgrades": { "half_life": 42, "into_group": "GROUP_zapatosaurus_BRUTE" },
     "special_attacks": [ [ "SMASH", 30 ] ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
     "categories": [ "DINOSAUR" ]
@@ -750,7 +750,7 @@
       "vision_night": 1
     },
     "bleed_rate": 50,
-    "upgrades": { "half_life": 21, "into_group": "GROUP_zankylosaurus_BRUTE" },
+    "upgrades": { "half_life": 42, "into_group": "GROUP_zankylosaurus_BRUTE" },
     "special_attacks": [ [ "SMASH", 30 ] ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
     "categories": [ "DINOSAUR" ]
@@ -774,7 +774,7 @@
       "vision_night": 1
     },
     "bleed_rate": 50,
-    "upgrades": { "half_life": 21, "into_group": "GROUP_zankylosaurus_BRUTE" },
+    "upgrades": { "half_life": 42, "into_group": "GROUP_zankylosaurus_BRUTE" },
     "special_attacks": [ [ "SMASH", 30 ] ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
     "categories": [ "DINOSAUR" ]
@@ -798,7 +798,7 @@
       "vision_night": 1
     },
     "bleed_rate": 50,
-    "upgrades": { "half_life": 21, "into_group": "GROUP_zankylosaurus_BRUTE" },
+    "upgrades": { "half_life": 42, "into_group": "GROUP_zankylosaurus_BRUTE" },
     "special_attacks": [ [ "SMASH", 30 ] ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
     "categories": [ "DINOSAUR" ]
@@ -822,7 +822,7 @@
       "vision_night": 1
     },
     "bleed_rate": 50,
-    "upgrades": { "half_life": 21, "into_group": "GROUP_zankylosaurus_BRUTE" },
+    "upgrades": { "half_life": 42, "into_group": "GROUP_zankylosaurus_BRUTE" },
     "special_attacks": [ [ "SMASH", 30 ] ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
     "categories": [ "DINOSAUR" ]
@@ -1014,7 +1014,7 @@
       "vision_night": 1
     },
     "bleed_rate": 50,
-    "upgrades": { "half_life": 21, "into_group": "GROUP_zriceratops_BRUTE" },
+    "upgrades": { "half_life": 42, "into_group": "GROUP_zriceratops_BRUTE" },
     "special_attacks": [ [ "SMASH", 30 ] ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
     "categories": [ "DINOSAUR" ]
@@ -1038,7 +1038,7 @@
       "vision_night": 1
     },
     "bleed_rate": 50,
-    "upgrades": { "half_life": 21, "into_group": "GROUP_zriceratops_BRUTE" },
+    "upgrades": { "half_life": 42, "into_group": "GROUP_zriceratops_BRUTE" },
     "special_attacks": [ [ "SMASH", 30 ] ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
     "categories": [ "DINOSAUR" ]
@@ -1062,7 +1062,7 @@
       "vision_night": 1
     },
     "bleed_rate": 50,
-    "upgrades": { "half_life": 21, "into_group": "GROUP_zriceratops_BRUTE" },
+    "upgrades": { "half_life": 42, "into_group": "GROUP_zriceratops_BRUTE" },
     "special_attacks": [ [ "SMASH", 30 ] ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
     "categories": [ "DINOSAUR" ]
@@ -1086,7 +1086,7 @@
       "vision_night": 1
     },
     "bleed_rate": 50,
-    "upgrades": { "half_life": 21, "into_group": "GROUP_zriceratops_BRUTE" },
+    "upgrades": { "half_life": 42, "into_group": "GROUP_zriceratops_BRUTE" },
     "special_attacks": [ [ "SMASH", 30 ] ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
     "categories": [ "DINOSAUR" ]
@@ -1110,7 +1110,7 @@
       "vision_night": 1
     },
     "bleed_rate": 50,
-    "upgrades": { "half_life": 21, "into_group": "GROUP_zriceratops_BRUTE" },
+    "upgrades": { "half_life": 42, "into_group": "GROUP_zriceratops_BRUTE" },
     "special_attacks": [ [ "SMASH", 30 ] ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
     "categories": [ "DINOSAUR" ]

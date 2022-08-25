@@ -768,7 +768,7 @@ static bool butchery_drops_harvest( item *corpse_item, const mtype &mt, Characte
         for( item *item : corpse_item->all_items_top( item_pocket::pocket_type::CORPSE ) ) {
             dissectable_num++;
             const int skill_level = butchery_dissect_skill_level( you, tool_quality,
-                                    item->dropped_from.value_or( harvest_drop_type_id::NULL_ID() ) );
+                                    item->dropped_from );
             const int butchery = roll_butchery_dissect( skill_level, you.dex_cur, tool_quality );
             dissectable_practice += ( 4 + butchery );
             int roll = butchery - corpse_item->damage_level();

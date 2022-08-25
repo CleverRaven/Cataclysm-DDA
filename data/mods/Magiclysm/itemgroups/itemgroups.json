@@ -129,6 +129,24 @@
     }
   },
   {
+    "id": "elecsto_displ",
+    "type": "item_group",
+    "copy-from": "elecsto_displ",
+    "extend": { "items": [ [ "bio_power_storage", 10 ] ] }
+  },
+  {
+    "id": "elecsto_persele",
+    "type": "item_group",
+    "copy-from": "elecsto_persele",
+    "extend": { "items": [ [ "bio_power_storage", 5 ] ] }
+  },
+  {
+    "id": "elecsto_pcs",
+    "type": "item_group",
+    "copy-from": "elecsto_pcs",
+    "extend": { "items": [ [ "bio_power_storage", 1 ] ] }
+  },
+  {
     "id": "coffee_display_2",
     "type": "item_group",
     "copy-from": "coffee_display_2",

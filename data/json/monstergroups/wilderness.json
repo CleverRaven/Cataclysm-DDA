@@ -11,6 +11,7 @@
       { "monster": "mon_mutant_experimental", "weight": 25, "cost_multiplier": 3 },
       { "monster": "mon_nakedmolerat_giant", "weight": 100, "cost_multiplier": 3 },
       { "monster": "mon_mole_cricket", "weight": 60, "cost_multiplier": 3 },
+      { "monster": "mon_woodlouse", "weight": 60, "cost_multiplier": 3, "pack_size": [ 2, 4 ] },
       { "monster": "mon_stag_beetle_larva", "freq": 40, "cost_multiplier": 5 }
     ]
   },
@@ -1825,7 +1826,44 @@
       { "monster": "mon_antlion_giant", "weight": 2, "cost_multiplier": 10 },
       { "monster": "mon_stag_beetle_small", "freq": 2, "cost_multiplier": 0, "starts": 168, "ends": 720 },
       { "monster": "mon_stag_beetle_small", "freq": 2, "cost_multiplier": 0, "starts": 168 },
-      { "monster": "mon_stag_beetle_giant", "freq": 1, "cost_multiplier": 0, "starts": 720 }
+      { "monster": "mon_stag_beetle_giant", "freq": 1, "cost_multiplier": 0, "starts": 720 },
+      { "monster": "mon_caterpillar", "weight": 3, "cost_multiplier": 0 },
+      { "monster": "mon_woodlouse", "weight": 3, "cost_multiplier": 0 },
+      { "monster": "mon_caterpillar_giant", "weight": 2, "cost_multiplier": 0, "starts": "120 hours" },
+      { "monster": "mon_butterfly", "weight": 2, "cost_multiplier": 0 },
+      { "monster": "mon_moth", "weight": 2, "cost_multiplier": 0, "conditions": [ "DAWN", "DUSK" ] },
+      { "monster": "mon_butterfly_giant", "weight": 1, "cost_multiplier": 3, "starts": "240 hours" },
+      { "monster": "mon_butterfly_titan", "weight": 1, "cost_multiplier": 3, "starts": "480 hours" },
+      {
+        "monster": "mon_moth_giant",
+        "weight": 1,
+        "cost_multiplier": 3,
+        "conditions": [ "DAWN", "DUSK" ],
+        "starts": "240 hours"
+      },
+      {
+        "monster": "mon_moth_titan",
+        "weight": 1,
+        "cost_multiplier": 3,
+        "conditions": [ "DAWN", "DUSK" ],
+        "starts": "480 hours"
+      },
+      { "monster": "mon_cicada", "weight": 1, "cost_multiplier": 3, "starts": "240 hours" },
+      { "monster": "mon_toad", "weight": 5, "cost_multiplier": 10, "pack_size": [ 1, 3 ] },
+      {
+        "monster": "mon_hummingbird",
+        "weight": 5,
+        "cost_multiplier": 0,
+        "pack_size": [ 1, 3 ],
+        "conditions": [ "DAWN", "DUSK", "DAY" ]
+      },
+      {
+        "monster": "mon_woodpecker",
+        "weight": 5,
+        "cost_multiplier": 0,
+        "pack_size": [ 1, 3 ],
+        "conditions": [ "DAWN", "DUSK", "DAY" ]
+      }
     ]
   },
   {
@@ -2249,7 +2287,25 @@
         "starts": "7 days",
         "pack_size": [ 1, 3 ]
       },
-      { "monster": "mon_strider_small", "weight": 15, "cost_multiplier": 3, "pack_size": [ 2, 4 ] }
+      { "monster": "mon_strider_small", "weight": 15, "cost_multiplier": 3, "pack_size": [ 2, 4 ] },
+      { "monster": "mon_goose", "weight": 15, "cost_multiplier": 5, "pack_size": [ 1, 4 ] },
+      { "monster": "mon_coot", "weight": 15, "cost_multiplier": 5, "pack_size": [ 1, 6 ] },
+      { "monster": "mon_moorhen", "weight": 15, "cost_multiplier": 5, "pack_size": [ 1, 6 ] },
+      { "monster": "mon_cormorant", "weight": 15, "cost_multiplier": 5, "pack_size": [ 1, 4 ] },
+      { "monster": "mon_grebe", "weight": 15, "cost_multiplier": 5, "pack_size": [ 1, 4 ] },
+      { "monster": "mon_toad", "weight": 5, "cost_multiplier": 10, "pack_size": [ 1, 3 ] },
+      { "monster": "mon_diving_larva", "weight": 10, "cost_multiplier": 2, "ends": "7 days" },
+      { "monster": "mon_diving_larva", "weight": 30, "cost_multiplier": 3, "starts": "7 days", "pack_size": [ 1, 3 ] },
+      { "monster": "mon_water_scorpion_larva", "weight": 10, "cost_multiplier": 2, "ends": "7 days" },
+      {
+        "monster": "mon_water_scorpion_larva",
+        "weight": 30,
+        "cost_multiplier": 3,
+        "starts": "7 days",
+        "pack_size": [ 1, 3 ]
+      },
+      { "monster": "mon_diving_beetle_small", "weight": 4, "cost_multiplier": 10 },
+      { "monster": "mon_water_scorpion", "weight": 4, "cost_multiplier": 10 }
     ]
   },
   {
@@ -2853,7 +2909,69 @@
       },
       { "monster": "mon_mutant_experimental", "weight": 2, "cost_multiplier": 6 },
       { "monster": "mon_mantis_small", "weight": 2, "cost_multiplier": 8 },
-      { "monster": "mon_antlion_giant", "weight": 4, "cost_multiplier": 10 }
+      { "monster": "mon_antlion_giant", "weight": 4, "cost_multiplier": 10 },
+      {
+        "monster": "mon_toad",
+        "weight": 30,
+        "cost_multiplier": 2,
+        "ends": 24,
+        "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
+      },
+      {
+        "monster": "mon_toad",
+        "weight": 35,
+        "cost_multiplier": 2,
+        "starts": 24,
+        "ends": 95,
+        "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
+      },
+      {
+        "monster": "mon_toad",
+        "weight": 40,
+        "cost_multiplier": 2,
+        "starts": 95,
+        "ends": 180,
+        "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
+      },
+      {
+        "monster": "mon_toad_small",
+        "weight": 20,
+        "cost_multiplier": 2,
+        "ends": "84 hours",
+        "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
+      },
+      {
+        "monster": "mon_toad_small",
+        "weight": 25,
+        "cost_multiplier": 2,
+        "starts": "84 hours",
+        "ends": "180 hours",
+        "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
+      },
+      {
+        "monster": "mon_toad_small",
+        "weight": 30,
+        "cost_multiplier": 2,
+        "starts": "180 hours",
+        "ends": "15 days",
+        "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
+      },
+      {
+        "monster": "mon_toad_giant",
+        "weight": 30,
+        "cost_multiplier": 2,
+        "starts": "15 days",
+        "ends": "540 hours",
+        "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
+      },
+      {
+        "monster": "mon_toad_giant",
+        "weight": 40,
+        "cost_multiplier": 2,
+        "starts": "540 hours",
+        "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
+      },
+      { "monster": "mon_toad", "weight": 20, "cost_multiplier": 2, "pack_size": [ 1, 3 ] }
     ]
   },
   {
@@ -2896,7 +3014,9 @@
       { "monster": "mon_aphid", "weight": 20, "cost_multiplier": 0 },
       { "monster": "mon_grasshopper_small", "weight": 30, "cost_multiplier": 0 },
       { "monster": "mon_antlion_larva", "weight": 7, "cost_multiplier": 10 },
-      { "monster": "mon_antlion_giant", "weight": 5, "cost_multiplier": 10 }
+      { "monster": "mon_antlion_giant", "weight": 5, "cost_multiplier": 10 },
+      { "monster": "mon_hummingbird", "weight": 25, "cost_multiplier": 0 },
+      { "monster": "mon_woodpecker", "weight": 25, "cost_multiplier": 0 }
     ]
   },
   {
@@ -2951,7 +3071,8 @@
         "cost_multiplier": 0,
         "pack_size": [ 6, 12 ],
         "conditions": [ "DAWN", "DUSK", "NIGHT", "SPRING", "SUMMER", "AUTUMN" ]
-      }
+      },
+      { "monster": "mon_woodpecker", "weight": 25, "cost_multiplier": 0 }
     ]
   },
   {
@@ -2964,7 +3085,8 @@
       { "monster": "mon_rabbit", "weight": 50, "cost_multiplier": 0 },
       { "monster": "mon_squirrel_red", "weight": 50, "cost_multiplier": 0 },
       { "monster": "mon_squirrel", "weight": 50, "cost_multiplier": 0 },
-      { "monster": "mon_frog", "weight": 50, "cost_multiplier": 0 }
+      { "monster": "mon_frog", "weight": 50, "cost_multiplier": 0 },
+      { "monster": "mon_toad", "weight": 50, "cost_multiplier": 0 }
     ]
   },
   {
@@ -2975,7 +3097,13 @@
     "monsters": [
       { "monster": "mon_null", "weight": 900, "cost_multiplier": 0 },
       { "monster": "mon_duck", "weight": 50, "cost_multiplier": 0 },
-      { "monster": "mon_goose_canadian", "weight": 50, "cost_multiplier": 0 }
+      { "monster": "mon_goose_canadian", "weight": 50, "cost_multiplier": 0 },
+      { "monster": "mon_goose", "weight": 50, "cost_multiplier": 0 },
+      { "monster": "mon_coot", "weight": 50, "cost_multiplier": 0 },
+      { "monster": "mon_moorhen", "weight": 50, "cost_multiplier": 0 },
+      { "monster": "mon_cormorant", "weight": 50, "cost_multiplier": 0 },
+      { "monster": "mon_grebe", "weight": 50, "cost_multiplier": 0 },
+      { "monster": "mon_goose_golden", "weight": 10, "cost_multiplier": 0 }
     ]
   },
   {
@@ -2988,7 +3116,8 @@
       { "monster": "mon_fish_bluegill", "weight": 50, "cost_multiplier": 0 },
       { "monster": "mon_fish_carp", "weight": 50, "cost_multiplier": 0 },
       { "monster": "mon_fish_sbass", "weight": 50, "cost_multiplier": 0 },
-      { "monster": "mon_strider_small", "weight": 30, "cost_multiplier": 0, "pack_size": [ 3, 6 ] }
+      { "monster": "mon_strider_small", "weight": 30, "cost_multiplier": 0, "pack_size": [ 3, 6 ] },
+      { "monster": "mon_water_scorpion_larva", "weight": 30, "cost_multiplier": 0 }
     ]
   },
   {
@@ -3002,7 +3131,9 @@
       { "monster": "mon_cardinal", "weight": 50, "cost_multiplier": 0 },
       { "monster": "mon_robin", "weight": 50, "cost_multiplier": 0 },
       { "monster": "mon_sparrow", "weight": 50, "cost_multiplier": 0 },
-      { "monster": "mon_squirrel", "weight": 25, "cost_multiplier": 0 }
+      { "monster": "mon_squirrel", "weight": 25, "cost_multiplier": 0 },
+      { "monster": "mon_hummingbird", "weight": 50, "cost_multiplier": 0 },
+      { "monster": "mon_woodpecker", "weight": 50, "cost_multiplier": 0 }
     ]
   }
 ]

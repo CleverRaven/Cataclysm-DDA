@@ -154,7 +154,7 @@
     "death_function": { "effect": { "id": "death_guilt", "min_level": 3 } },
     "petfood": { "food": [ "DINOFOOD_B" ] },
     "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "STUMBLES", "NO_BREED", "CANPLAY" ],
-    "harvest": "mammal_tiny"
+    "harvest": "bird_tiny"
   },
   {
     "id": "mon_gallimimus_hatchling",
@@ -525,6 +525,7 @@
     "name": "mosasaurus neonate",
     "description": "A tiny aquatic reptile neonate with huge shiny eyes and pointy little teeth.",
     "default_faction": "mosasaurus_hatchling",
+    "harvest": "mammal_tiny",
     "upgrades": { "age_grow": 30, "into": "mon_mosasaurus_juvenile" },
     "death_function": { "effect": { "id": "death_guilt", "min_level": 3 } },
     "petfood": { "food": [ "DINOFOOD_B" ] },
