@@ -2073,7 +2073,6 @@ void options_manager::add_options_graphics()
          1, 4, 2, COPT_CURSES_HIDE
        ); // populate the options dynamically
 
-
     get_option( "TILES" ).setPrerequisite( "USE_TILES" );
     get_option( "USE_DISTANT_TILES" ).setPrerequisite( "USE_TILES" );
     get_option( "DISTANT_TILES" ).setPrerequisite( "USE_DISTANT_TILES" );
@@ -3528,6 +3527,7 @@ static void update_options_cache()
     // cache to global due to heavy usage.
     trigdist = ::get_option<bool>( "CIRCLEDIST" );
     use_tiles = ::get_option<bool>( "USE_TILES" );
+    tile_retracted = ::get_option<bool>( "RETRACT_ISO_WALLS" );
     // if the tilesets are identical don't duplicate
     use_far_tiles = ::get_option<bool>( "USE_DISTANT_TILES" ) ||
                     get_option<std::string>( "TILES" ) == get_option<std::string>( "DISTANT_TILES" );
