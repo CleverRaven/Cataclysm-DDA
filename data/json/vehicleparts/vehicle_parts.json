@@ -3061,7 +3061,7 @@
       "repair": { "skills": [ [ "mechanics", 5 ] ], "time": "15 m", "using": [ [ "adhesive", 1 ], [ "soldering_standard", 2 ] ] }
     },
     "flags": [  ],
-    "pseudo_tools": [ { "id": "pseudo_veh_water_purifier", "hotkey": "p" } ],
+    "pseudo_tools": [ { "id": "pseudo_water_purifier", "hotkey": "p" } ],
     "breaks_into": [ { "item": "plastic_chunk", "count": [ 1, 2 ] } ],
     "damage_reduction": { "all": 26 }
   },
