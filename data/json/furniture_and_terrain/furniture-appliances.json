@@ -342,8 +342,7 @@
         { "item": "cu_pipe", "count": [ 1, 4 ] },
         { "item": "scrap_copper", "count": [ 0, 2 ] }
       ]
-    },
-    "crafting_pseudo_item": "pseudo_app_oven_hotplate"
+    }
   },
   {
     "type": "furniture",
