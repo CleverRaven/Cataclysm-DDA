@@ -5848,9 +5848,9 @@ units::mass Character::bodyweight() const
     return units::from_kilogram( get_bmi() * std::pow( height() / 100.0f, 2 ) );
 }
 
-units::mass Character::bodyweight_normal() const
+units::mass Character::bodyweight_fat() const
 {
-    return units::from_kilogram( 25 * std::pow( height() / 100.0f, 2 ) );
+    return std::max( 0, ( units::from_kilogram( get_bmi() * std::pow( height() / 100.0f, 2 ) ) - units::from_kilogram( 25 * std::pow( height() / 100.0f, 2 ) ) ) );
 }
 
 units::mass Character::bionics_weight() const
