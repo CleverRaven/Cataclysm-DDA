@@ -976,6 +976,7 @@ void player_morale::set_worn( const item &it, bool worn )
         if( filthy_gear ) {
             bp_data.filthy += sign;
         }
+        // If armor is integrated (Subdermal CBM, Skin armor mutation) don't count it as covering
         if( !integrated ) {
             bp_data.covered += sign;
         }
