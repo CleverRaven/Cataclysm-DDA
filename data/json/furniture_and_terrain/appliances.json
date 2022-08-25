@@ -219,7 +219,7 @@
     "type": "vehicle_part",
     "id": "ap_weldkit",
     "name": { "str": "welding kit" },
-    "description": "A welding rig combined with a fireproof insulating blanket allows for advanced welds and repairs to tempered steels, mounted combined with a fireproof insulating blanket allows for advanced welds and repairs to tempered steelsin the vehicle, that draws power from the vehicle's batteries.  You still need glare protection.  'e'xamine the tile with the rig to use it to repair items in your inventory.  If you attempt to craft an item or perform a repair that requires a welder, you will be given the option of using the welding rig.",
+    "description": "A welding rig combined with a fireproof insulating blanket allows for advanced welds and repairs to tempered steels that draws power from the vehicle's batteries.  You still need glare protection.  'e'xamine the tile with the rig to use it to repair items in your inventory.  If you attempt to craft an item or perform a repair that requires a welder, you will be given the option of using the welding rig.",
     "item": "welding_kit",
     "flags": [ "CARGO", "OBSTACLE", "APPLIANCE" ],
     "copy-from": "welding_kit"
