@@ -468,7 +468,6 @@ class bodypart
         int get_frostbite_timer() const;
         int get_temp_cur() const;
         int get_temp_conv() const;
-    
         int get_bmi_encumbrance_threshold() const;
         float get_bmi_encumbrance_scalar() const;
         int get_bmi_rigid_problems_threshold() const;
