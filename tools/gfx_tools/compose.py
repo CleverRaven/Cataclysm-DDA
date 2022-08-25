@@ -392,8 +392,9 @@ class Tileset:
                     FALLBACK['sprite_height'] = sheet.sprite_height
                     FALLBACK['sprite_offset_x'] = sheet.offset_x
                     FALLBACK['sprite_offset_y'] = sheet.offset_y
-                    FALLBACK['sprite_offset_x_retracted'] = sheet.offset_x_retracted
-                    FALLBACK['sprite_offset_y_retracted'] = sheet.offset_y_retracted
+                    if sheet.offset_x_retracted != sheet.offset_x or sheet.offset_y_retracted != sheet.offset_y:
+                        FALLBACK['sprite_offset_x_retracted'] = sheet.offset_x_retracted
+                        FALLBACK['sprite_offset_y_retracted'] = sheet.offset_y_retracted
                 continue
             if sheet.is_filler and not main_finished:
                 create_tile_entries_for_unused(
@@ -419,8 +420,9 @@ class Tileset:
                 sheet_conf['sprite_height'] = sheet.sprite_height
                 sheet_conf['sprite_offset_x'] = sheet.offset_x
                 sheet_conf['sprite_offset_y'] = sheet.offset_y
-                sheet_conf['sprite_offset_x_retracted'] = sheet.offset_x_retracted
-                sheet_conf['sprite_offset_y_retracted'] = sheet.offset_y_retracted
+                if sheet.offset_x_retracted != sheet.offset_x or sheet.offset_y_retracted != sheet.offset_y:
+                    sheet_conf['sprite_offset_x_retracted'] = sheet.offset_x_retracted
+                    sheet_conf['sprite_offset_y_retracted'] = sheet.offset_y_retracted
 
             sheet_conf['tiles'] = sheet_entries
 
@@ -531,6 +533,8 @@ class Tilesheet:
         Check whether output object needs a non-standard size or offset config
         '''
         if self.offset_x or self.offset_y:
+            return False
+        if self.offset_x_retracted != self.offset_x or self.offset_y_retracted != self.offset_y:
             return False
         if self.sprite_width != self.tileset.sprite_width:
             return False

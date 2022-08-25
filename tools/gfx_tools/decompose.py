@@ -223,10 +223,11 @@ class TileSheetData(object):
             if self.write_dim:
                 ts_tile_info["sprite_offset_x"] = self.sprite_offset_x
                 ts_tile_info["sprite_offset_y"] = self.sprite_offset_y
-                ts_tile_info["sprite_offset_x_retracted"] = self.sprite_offset_x_retracted
-                ts_tile_info["sprite_offset_y_retracted"] = self.sprite_offset_y_retracted
                 ts_tile_info["sprite_width"] = self.sprite_width
                 ts_tile_info["sprite_height"] = self.sprite_height
+                if self.sprite_offset_x_retracted != self.sprite_offset_x or self.sprite_offset_y_retracted != self.sprite_offset_y:
+                    ts_tile_info["sprite_offset_x_retracted"] = self.sprite_offset_x_retracted
+                    ts_tile_info["sprite_offset_y_retracted"] = self.sprite_offset_y_retracted
             #print("{}: {}".format(
             #    self.ts_filename, json.dumps(ts_tile_info, indent=2)))
             tile_info.append({self.ts_filename: ts_tile_info})
