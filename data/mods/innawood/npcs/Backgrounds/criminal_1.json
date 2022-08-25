@@ -12,7 +12,7 @@
   {
     "id": "BGSS_CRIMINAL_1_STORY2",
     "type": "talk_topic",
-    "dynamic_line": "It was just <swear> chaos out there, man.  But I'm used to chaos.  You don't live as long as I've lived and not know how to keep away from a fight you can't win.  Biggest worry wasn't the zombies and the monsters, honestly.  It was that somethine even worse was coming.",
+    "dynamic_line": "It was just <swear> chaos out there, man.  But I'm used to chaos.  You don't live as long as I've lived and not know how to keep away from a fight you can't win.  Biggest worry wasn't the zombies and the monsters, honestly.  It was that something even worse was coming.",
     "responses": [
       { "text": "How did you keep safe?", "topic": "BGSS_CRIMINAL_1_STORY3" },
       { "text": "What were you in for in the first place?", "topic": "BGSS_CRIMINAL_1_PAROLE" },
