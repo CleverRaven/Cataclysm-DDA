@@ -321,6 +321,20 @@
   },
   {
     "type": "overmap_special",
+    "id": "Locked LMOE Shelter",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "lmoe_prepperquest_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "lmoe_roof_north" },
+      { "point": [ 0, 0, -1 ], "overmap": "lmoe_under_empty_prepperquest_north" }
+    ],
+    "locations": [ "forest_without_trail" ],
+    "city_distance": [ 25, -1 ],
+    "city_sizes": [ 0, 12 ],
+    "occurrences": [ 80, 100 ],
+    "flags": [ "CLASSIC", "MAN_MADE", "UNIQUE" ]
+  },
+  {
+    "type": "overmap_special",
     "id": "Occupied LMOE Shelter",
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "lmoe_zombie_north" },

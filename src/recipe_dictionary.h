@@ -30,6 +30,11 @@ class recipe_dictionary
             return autolearn;
         }
 
+        /** Returns all recipes that are nested categories */
+        const std::set<const recipe *> &all_nested() const {
+            return nested;
+        }
+
         /** Returns all blueprints */
         const std::set<const recipe *> &all_blueprints() const {
             return blueprints;
@@ -69,6 +74,7 @@ class recipe_dictionary
         std::map<recipe_id, recipe> recipes;
         std::map<recipe_id, recipe> uncraft;
         std::set<const recipe *> autolearn;
+        std::set<const recipe *> nested;
         std::set<const recipe *> blueprints;
         std::unordered_set<itype_id> items_on_loops;
 
@@ -117,10 +123,8 @@ class recipe_subset
          */
         int get_custom_difficulty( const recipe *r ) const;
 
-        /** Check if there is any recipes in given category (optionally restricted to subcategory) */
-        bool empty_category(
-            const std::string &cat,
-            const std::string &subcat = std::string() ) const;
+        /** Check if there is any recipes in given category (optionally restricted to subcategory), index which is for nested categories */
+        bool empty_category( const std::string &cat, const std::string &subcat = std::string() ) const;
 
         /** Get all recipes in given category (optionally restricted to subcategory) */
         std::vector<const recipe *> in_category(
@@ -153,8 +157,8 @@ class recipe_subset
         /** Find hidden recipes */
         std::vector<const recipe *> hidden() const;
 
-        /** Find current nested recipes */
-        std::vector<const recipe *> nested() const;
+        /** Find current nested recipes by the index */
+        std::vector<const recipe *> nested( int index ) const;
 
         /** Find recipes matching query (left anchored partial matches are supported) */
         std::vector<const recipe *> search(

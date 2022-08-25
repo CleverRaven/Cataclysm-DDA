@@ -108,10 +108,10 @@ static const itype_id fuel_type_plutonium_cell( "plut_cell" );
 static const itype_id fuel_type_wind( "wind" );
 static const itype_id itype_battery( "battery" );
 static const itype_id itype_plut_cell( "plut_cell" );
+static const itype_id itype_pseudo_water_purifier( "pseudo_water_purifier" );
 static const itype_id itype_water( "water" );
 static const itype_id itype_water_clean( "water_clean" );
 static const itype_id itype_water_faucet( "water_faucet" );
-static const itype_id itype_water_purifier( "water_purifier" );
 
 static const proficiency_id proficiency_prof_aircraft_mechanic( "prof_aircraft_mechanic" );
 
@@ -3283,10 +3283,10 @@ point vehicle::pivot_displacement() const
     return dp.xy();
 }
 
-int vehicle::fuel_left( const itype_id &ftype, bool recurse,
-                        const std::function<bool( const vehicle_part & )> &filter ) const
+int64_t vehicle::fuel_left( const itype_id &ftype, bool recurse,
+                            const std::function<bool( const vehicle_part & )> &filter ) const
 {
-    int fl = 0;
+    int64_t fl = 0;
 
     for( const int i : fuel_containers ) {
         const vehicle_part &part = parts[i];
@@ -3336,10 +3336,6 @@ int vehicle::fuel_left( const itype_id &ftype, bool recurse,
     }
 
     return fl;
-}
-int vehicle::fuel_left( const int p, bool recurse ) const
-{
-    return fuel_left( parts[ p ].fuel_current(), recurse );
 }
 
 int vehicle::engine_fuel_left( const int e, bool recurse ) const
@@ -7320,11 +7316,11 @@ void vehicle::update_time( const time_point &update_to )
         double area = std::pow( pt.info().size / units::legacy_volume_factor, 2 ) * M_PI;
         int qty = roll_remainder( funnel_charges_per_turn( area, accum_weather.rain_amount ) );
         int c_qty = qty + ( tank->can_reload( water_clean ) ?  tank->ammo_remaining() : 0 );
-        int cost_to_purify = c_qty * item::find_type( itype_water_purifier )->charges_to_use();
+        int cost_to_purify = c_qty * item::find_type( itype_pseudo_water_purifier )->charges_to_use();
 
         if( qty > 0 ) {
             const cata::optional<vpart_reference> vp_purifier = vpart_position( *this, idx )
-                    .part_with_tool( itype_water_purifier );
+                    .part_with_tool( itype_pseudo_water_purifier );
 
             if( vp_purifier && ( fuel_left( itype_battery, true ) > cost_to_purify ) ) {
                 tank->ammo_set( itype_water_clean, c_qty );
