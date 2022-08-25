@@ -419,7 +419,7 @@ class bodypart
         int bmi_encumbrance_threshold = 999;
         float bmi_encumbrance_scalar = 0;
         int bmi_rigid_problems_threshold = 999;
-        int bmi_rigid_problems_hardcap = 1000;    
+        int bmi_rigid_problems_hardcap = 1000;
 
         int healed_total = 0;
         int damage_bandaged = 0;
