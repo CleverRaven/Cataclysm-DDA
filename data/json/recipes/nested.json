@@ -2254,6 +2254,17 @@
     ]
   },
   {
+    "id": "nested_belts",
+    "type": "nested_category",
+    "activity_level": "fake",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_STORAGE",
+    "name": "belts",
+    "description": "Recipes related to creating items that help keep your pants around your waist.",
+    "skill_used": "tailor",
+    "nested_category_data": [ "survivor_belt_notools", "webbing_belt", "fireman_belt", "police_belt", "tool_belt", "santa_belt", "leather_belt" ]
+  },
+  {
     "id": "nested_gun_mounts",
     "type": "nested_category",
     "activity_level": "fake",
