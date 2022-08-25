@@ -91,5 +91,50 @@
         "targeted": true
       }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_HYPNOTIC_GAZE_activated",
+    "condition": { "compare_int": [ { "u_val": "human_blood_vitamin" }, ">=", { "const": -500 } ] },
+    "effect": [
+      { "u_assign_activity": "ACT_GENERIC_EOC", "duration": "1 seconds" },
+      { "arithmetic": [ { "u_val": "human_blood_vitamin" }, "-=", { "const": 150 } ] },
+      { "queue_eocs": [ "EOC_HYPNOTIC_GAZE_cast" ], "time_in_future": 1 }
+    ],
+    "false_effect": [ { "u_message": "You don't have enough blood to hypnotize your foes.", "type": "bad" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_HYPNOTIC_GAZE_cast",
+    "effect": [
+      {
+        "u_cast_spell": {
+          "id": "spell_hypnotic_gaze",
+          "message": "Your eyes redden and deepen as you lock gazes with your prey."
+        },
+        "targeted": true
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BLOODHASTE_activated",
+    "condition": { "compare_int": [ { "u_val": "human_blood_vitamin" }, ">=", { "const": -1500 } ] },
+    "effect": [
+      { "u_assign_activity": "ACT_GENERIC_EOC", "duration": "1 seconds" },
+      { "arithmetic": [ { "u_val": "human_blood_vitamin" }, "-=", { "const": 750 } ] },
+      { "queue_eocs": [ "EOC_BLOODHASTE_cast" ], "time_in_future": 1 }
+    ],
+    "false_effect": [ { "u_message": "You lack the stolen lifeforce to accelerate your own.", "type": "bad" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BLOODHASTE_cast",
+    "effect": [
+      {
+        "u_cast_spell": { "id": "spell_blood_haste", "message": "Blood flushes through your flesh pushing you beyond human limits." },
+        "targeted": true
+      }
+    ]
   }
 ]

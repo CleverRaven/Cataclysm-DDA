@@ -113,19 +113,7 @@
             "run_eocs": {
               "id": "eoc_vampvirus_1_trait",
               "condition": { "u_has_trait": "VAMPIRE" },
-              "effect": {
-                "run_eocs": [
-                  {
-                    "id": "EOC_VAMPVIRUS_TRAITS",
-                    "condition": { "and": [ { "u_has_trait": "VAMPIRE" }, { "u_has_trait": "EYEGLEAM" }, { "u_has_trait": "STAMINAFORBLOOD" } ] },
-                    "effect": "EOC_VAMPVIRUS1",
-                    "false_effect": [
-                      { "u_roll_remainder": [ "EYEGLEAM", "STAMINAFORBLOOD" ], "type": "mutation" },
-                      { "u_message": "You realize a new ability as a result of the changes your body is undergoing." }
-                    ]
-                  }
-                ]
-              }
+              "effect": { "u_roll_remainder": [ "EYEGLEAM", "STAMINAFORBLOOD" ], "type": "mutation", "true_eocs": [ "EOC_VAMPVIRUS1" ] }
             }
           }
         },
@@ -141,19 +129,7 @@
             "run_eocs": {
               "id": "eoc_vampvirus_2_trait",
               "condition": { "u_has_trait": "VAMPIRE2" },
-              "effect": {
-                "run_eocs": [
-                  {
-                    "id": "EOC_VAMPVIRUS2_TRAITS",
-                    "condition": { "and": [ { "u_has_trait": "VAMPIRE" }, { "u_has_trait": "BLOODHEAL" }, { "u_has_trait": "COAGULANTWEAVE" } ] },
-                    "effect": "EOC_VAMPVIRUS1",
-                    "false_effect": [
-                      { "u_roll_remainder": [ "COAGULANTWEAVE", "BLOODHEAL" ], "type": "mutation" },
-                      { "u_message": "You realize a new ability as a result of the changes your body is undergoing." }
-                    ]
-                  }
-                ]
-              },
+              "effect": { "u_roll_remainder": [ "BLOODHEAL", "COAGULANTWEAVE" ], "type": "mutation", "true_eocs": [ "EOC_VAMPVIRUS2" ] },
               "false_effect": [
                 { "u_add_trait": "VAMPIRE2" },
                 {
@@ -175,9 +151,13 @@
             "run_eocs": {
               "id": "eoc_vampvirus_3_trait",
               "condition": { "u_has_trait": "VAMPIRE3" },
-              "effect": { "u_message": "You feel a gnawing in your belly and a pressure in your mouth, as if your teeth can't all fit." },
-              "false_effect": [ { "u_add_trait": "VAMPIRE3" }, { "u_message": "Your skin seems to have become unnaturally pale." } ]
-            }
+              "effect": { "u_roll_remainder": [ "BLOODHASTE", "HYPNOTIC_GAZE" ], "type": "mutation", "true_eocs": [ "EOC_VAMPVIRUS2" ] },
+              "false_effect": [
+                { "u_add_trait": "VAMPIRE3" },
+                {
+                  "u_message": "With a popping sound several of your teeth fall out but when you put a finger into your mouth to feel the hole, there are new sharp fangs where you expected nothing."
+                }
+              ]}
           }
         },
         {

@@ -139,10 +139,26 @@
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
-    "vitamins_absorb_multi": [ [ "all", [ [ "mutant_toxin", 0.25 ] ] ] ],
+    "vitamins_absorb_multi": [ [ "all", [ [ "human_blood_vitamin", 1.25 ] ] ] ],
     "vitamin_rates": [ [ "human_blood_vitamin", 180 ] ],
     "metabolism_modifier": 0.8,
     "stamina_regen_modifier": 0.1
+  },
+  {
+    "type": "mutation",
+    "id": "HYPNOTIC_GAZE",
+    "name": { "str": "Hypnotic gaze" },
+    "description": "You lock eyes with your prey and stun them with the force of your will.",
+    "active": true,
+    "activated_eocs": [ "EOC_HYPNOTIC_GAZE_activated" ]
+  },
+  {
+    "type": "mutation",
+    "id": "BLOODHASTE",
+    "name": { "str": "Blood driven speed" },
+    "description": "Your body exceeds normal human reaction limits as blood turns to ash in your veins.",
+    "active": true,
+    "activated_eocs": [ "EOC_BLOODHASTE_activated" ]
   },
   {
     "type": "mutation",
