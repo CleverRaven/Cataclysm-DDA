@@ -57,14 +57,14 @@ constexpr float low = 422;
 // Sun at 35° on a clear day.
 constexpr float moderate = 573;
 
+// Sun at 45° on a clear day.
+constexpr float high = 707;
+
 // Sun at 60° on a clear day.
-constexpr float high = 866;
+constexpr float very_high = 866;
 
 // Sun at 65° on a clear day.
-constexpr float very_high = 906;
-
-// Sun at 70° on a clear day.
-constexpr float extreme = 940;
+constexpr float extreme = 906;
 } // namespace irradiance
 
 #include <cstdint>
