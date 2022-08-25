@@ -1163,7 +1163,6 @@ void bodypart::serialize( JsonOut &json ) const
     json.member( "bmi_encumbrance_scalar", bmi_encumbrance_scalar );
     json.member( "bmi_rigid_problems_threshold", bmi_rigid_problems_threshold );
     json.member( "bmi_rigid_problems_hardcap", bmi_rigid_problems_hardcap );
-    
     json.member( "wetness", wetness );
 
     json.end_object();
