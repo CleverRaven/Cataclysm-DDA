@@ -413,7 +413,7 @@ void body_part_type::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "bmi_encumbrance_scalar", bmi_encumbrance_scalar, 0 );
     optional( jo, was_loaded, "bmi_rigid_problems_threshold", bmi_rigid_problems_threshold, 999 );
     optional( jo, was_loaded, "bmi_rigid_problems_hardcap", bmi_rigid_problems_hardcap, 1000 );
-    
+
     if( jo.has_member( "limb_scores" ) ) {
         limb_scores.clear();
         const JsonArray &jarr = jo.get_array( "limb_scores" );
