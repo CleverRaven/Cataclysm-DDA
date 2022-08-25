@@ -629,41 +629,47 @@
   },
   {
     "type": "SPELL",
-    "id": "mon_endless_hunger_attack",
-    "name": { "str": "Endless Hunger Action" },
+    "id": "mon_reflection_attack",
+    "name": { "str": "Reflection Action" },
     "description": "Teleports and harms monsters.",
     "copy-from": "base_portal",
     "min_range": 15,
     "max_range": 15,
-    "effect_str": "EOC_mon_endless_hunger_attack"
+    "effect_str": "EOC_mon_reflection_attack"
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_mon_endless_hunger_attack",
+    "id": "EOC_mon_reflection_attack",
     "effect": {
       "switch": { "distance": [ "u", "npc" ] },
       "cases": [
         {
           "case": 0,
           "effect": [
-            { "u_message": "The endless hunger feasts directly on your essence." },
-            { "arithmetic": [ { "u_val": "fatigue" }, "+=", { "global_val": "var", "var_name": "endless_hunger" } ] },
-            { "arithmetic": [ { "global_val": "var", "var_name": "endless_hunger" }, "+=", { "const": 3 } ] }
+            { "u_message": "Your reflection feasts directly on your essence." },
+            {
+              "arithmetic": [ { "u_val": "fatigue" }, "+=", { "global_val": "var", "var_name": "portal_dungeon_reflect_strength" } ]
+            },
+            {
+              "arithmetic": [ { "global_val": "var", "var_name": "portal_dungeon_reflect_strength" }, "+=", { "const": 3 } ]
+            }
           ]
         },
         {
           "case": 2,
           "effect": [
-            { "u_message": "The endless hunger uses your bond to feast on your essence." },
-            { "arithmetic": [ { "u_val": "fatigue" }, "+=", { "global_val": "var", "var_name": "endless_hunger" } ] },
-            { "arithmetic": [ { "global_val": "var", "var_name": "endless_hunger" }, "++" ] }
+            { "u_message": "Your reflection uses your bond to feast on your essence." },
+            {
+              "arithmetic": [ { "u_val": "fatigue" }, "+=", { "global_val": "var", "var_name": "portal_dungeon_reflect_strength" } ]
+            },
+            { "arithmetic": [ { "global_val": "var", "var_name": "portal_dungeon_reflect_strength" }, "++" ] }
           ]
         },
         {
           "case": 8,
           "effect": [
-            { "u_message": "The endless hunger uses some of the energy it stole from you to clear the way." },
-            { "arithmetic": [ { "global_val": "var", "var_name": "endless_hunger" }, "--" ] },
+            { "u_message": "Your reflection uses some of the energy it stole from you to clear the way." },
+            { "arithmetic": [ { "global_val": "var", "var_name": "portal_dungeon_reflect_strength" }, "--" ] },
             { "u_location_variable": { "global_val": "first" }, "min_radius": 1, "max_radius": 1 },
             { "npc_location_variable": { "global_val": "second" }, "min_radius": 1, "max_radius": 1 },
             {
@@ -683,9 +689,9 @@
   },
   {
     "type": "SPELL",
-    "id": "mon_endless_hunger_revive",
-    "name": { "str": "Endless Hunger Revive" },
-    "description": "Revives the endless hunger.",
+    "id": "mon_reflection_revive",
+    "name": { "str": "Reflection Revive" },
+    "description": "Revives the reflection.",
     "valid_targets": [ "self", "ground" ],
     "max_level": 1,
     "flags": [ "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
@@ -694,12 +700,12 @@
     "max_range": 15,
     "shape": "blast",
     "effect": "effect_on_condition",
-    "effect_str": "EOC_PORTAL_STORM_DUNGEON_ENDLESS_HUNGER_RESPAWN"
+    "effect_str": "EOC_PORTAL_STORM_DUNGEON_REFLECTION_RESPAWN"
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_PORTAL_STORM_DUNGEON_ENDLESS_HUNGER_RESPAWN",
-    "effect": [ { "queue_eocs": "EOC_PORTAL_STORM_DUNGEON_ENDLESS_HUNGER_SPAWN", "time_in_future": [ "30 seconds", "1 minutes" ] } ]
+    "id": "EOC_PORTAL_STORM_DUNGEON_REFLECTION_RESPAWN",
+    "effect": [ { "queue_eocs": "EOC_PORTAL_STORM_DUNGEON_REFLECTION_SPAWN", "time_in_future": [ "30 seconds", "1 minutes" ] } ]
   },
   {
     "type": "SPELL",
