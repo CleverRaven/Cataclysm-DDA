@@ -477,7 +477,7 @@ void Character::update_bodytemp()
     // fat insulates and increases total heat production of body, but it should have a diminishing effect.
     // at 30 bmi, it is ~6 warmth, at 40 bmi (morbid obesity) it is ~17 warmth
     // effects start to kick in halfway through overweightness
-    int bmi_heat_bonus = 500 * std::floor( std::sqrt( std::min( 0.0f, ( get_bmi() - 27.0f ) ) ) );
+    int bmi_heat_bonus = 500 * std::floor( std::sqrt( std::max( 0.0f, ( get_bmi() - 27.0f ) ) ) );
 
     std::map<bodypart_id, int> warmth_per_bp = worn.warmth( *this );
     std::map<bodypart_id, int> bonus_warmth_per_bp = bonus_item_warmth();
