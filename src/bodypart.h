@@ -326,10 +326,6 @@ struct body_part_type {
         float get_limb_score( const limb_score_id &id ) const;
         float get_limb_score_max( const limb_score_id &id ) const;
         bool has_limb_score( const limb_score_id &id ) const;
-        int get_bmi_encumbrance_threshold() const;
-        float get_bmi_encumbrance_scalar() const;
-        int get_bmi_rigid_problems_threshold() const;
-        int get_bmi_rigid_problems_hardcap() const;
 
         int bionic_slots() const {
             return bionic_slots_;
