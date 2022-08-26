@@ -1291,8 +1291,8 @@
   {
     "id": "mon_hallucinator",
     "type": "MONSTER",
-    "name": { "str": "person" },
-    "description": "A common human, that looks exactly like human do.  You can see it.  It can see you.  You know it knows you can see it.  It knows you know you can see him.  It moves towards you.",
+    "name": { "str": "storm roamer" },
+    "description": "Their greater than human countenance festers in the deepest recesses of your mind.  It grows ever closer.",
     "//": "it must be spooky, but god im bad in this stuff",
     "default_faction": "nether_player_hate",
     "species": [ "NETHER" ],
