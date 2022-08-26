@@ -3706,13 +3706,12 @@ void Character::calc_bmi_encumb( std::map<bodypart_id, encumbrance_data> &vals )
 {
     //if BMI > minimum BMI for the limb to receive penalty encumbrance, multiply that by the scalar value per point of BMI to get total penalty
     //for( std::pair<const bodypart_id, encumbrance_data> &val : vals ) {
-    //    int penalty = std::floor( val.first.id().bmi_encumbrance_scalar * ( std::max( 0, ( get_bmi() - val.first.id().bmi_encumbrance_threshold ) ) ) );
+    //    int penalty = std::floor( val.first.id().get_bmi_encumbrance_scalar() * ( std::max( 0, ( get_bmi() - val.first.id().get_bmi_encumbrance_threshold() ) ) ) );
     //    val.second.encumbrance += penalty;
     //}
     for( const std::pair<const bodypart_str_id, bodypart> &elem : get_body() ) {
-        int penalty = std::floor( elem.second.bmi_encumbrance_scalar * ( std::max( 0,
-                                  ( get_bmi() - elem.second.bmi_encumbrance_threshold ) ) ) );
-        val.first.encumbrance += 3;
+        int penalty = std::floor( elem.second.get_bmi_encumbrance_scalar() * ( std::max( 0,
+                                  ( get_bmi() - elem.second.get_bmi_encumbrance_threshold() ) ) ) );
     }
 }
 
