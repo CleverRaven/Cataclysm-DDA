@@ -3707,7 +3707,7 @@ void Character::calc_bmi_encumb( std::map<bodypart_id, encumbrance_data> &vals )
     //if BMI > minimum BMI for the limb to receive penalty encumbrance, multiply that by the scalar value per point of BMI to get total penalty
     for( const std::pair<const bodypart_str_id, bodypart> &elem : get_body() ) {
         int penalty = std::floor( elem.second.get_bmi_encumbrance_scalar() * ( std::max( 0.0f,
-                                  ( get_bmi() - static_cast<float>( elem.second.get_bmi_encumbrance_threshold() ) ) ) ) );
+                                  get_bmi() - static_cast<float>( elem.second.get_bmi_encumbrance_threshold() ) ) ) );
         vals[elem.first.id()].encumbrance += penalty;
     }
 }
@@ -4052,6 +4052,7 @@ void Character::mod_stored_kcal( int nkcal, const bool ignore_weariness )
 
 void Character::mod_stored_calories( int ncal, const bool ignore_weariness )
 {
+    int cached_bmi = std::floor( get_bmi() );
     int nkcal = ncal / 1000;
     if( nkcal > 0 ) {
         add_gained_calories( nkcal );
@@ -4063,11 +4064,16 @@ void Character::mod_stored_calories( int ncal, const bool ignore_weariness )
         activity_history.calorie_adjust( ncal );
     }
     set_stored_calories( stored_calories + ncal );
+    //don't run calc_encumbrance unless BMI has changed enough for it to matter
+    if( std::floor( get_bmi() ) != cached_bmi ){
+        calc_encumbrance();
+    }
 }
 
 void Character::set_stored_kcal( int kcal )
 {
     set_stored_calories( kcal * 1000 );
+    calc_encumbrance();
 }
 
 void Character::set_stored_calories( int cal )
