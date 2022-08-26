@@ -421,6 +421,11 @@ class bodypart
         int damage_bandaged = 0;
         int damage_disinfected = 0;
 
+        int bmi_encumbrance_threshold = 999;
+        float bmi_encumbrance_scalar = 0;
+        int bmi_rigid_problems_threshold = 999;
+        int bmi_rigid_problems_hardcap = 1000;
+
         encumbrance_data encumb_data; // NOLINT(cata-serialize)
 
         std::array<int, NUM_WATER_TOLERANCE> mut_drench; // NOLINT(cata-serialize)
