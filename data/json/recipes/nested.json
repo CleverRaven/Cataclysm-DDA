@@ -552,6 +552,84 @@
     "difficulty": 2
   },
   {
+    "id": "nested_lc_demi_gaunt",
+    "type": "nested_category",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "mild steel demi-gauntlets",
+    "description": "Recipes related to constructing demi-gauntlets from low quality steel.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "xl_lc_demi_gaunt", "lc_demi_gaunt" ],
+    "difficulty": 1
+  },
+  {
+    "id": "nested_mc_demi_gaunt",
+    "type": "nested_category",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "medium steel demi-gauntlets",
+    "description": "Recipes related to constructing demi-gauntlets from steel.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "xl_mc_demi_gaunt", "mc_demi_gaunt" ],
+    "difficulty": 2
+  },
+  {
+    "id": "nested_hc_demi_gaunt",
+    "type": "nested_category",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "high steel demi-gauntlets",
+    "description": "Recipes related to constructing demi-gauntlets from high quality steel.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "xl_hc_demi_gaunt", "hc_demi_gaunt" ],
+    "difficulty": 3
+  },
+  {
+    "id": "nested_ch_demi_gaunt",
+    "type": "nested_category",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "hardened steel demi-gauntlets",
+    "description": "Recipes related to constructing demi-gauntlets from case hardened steel.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "xl_ch_demi_gaunt", "ch_demi_gaunt" ],
+    "difficulty": 4
+  },
+  {
+    "id": "nested_qt_demi_gaunt",
+    "type": "nested_category",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "tempered steel demi-gauntlets",
+    "description": "Recipes related to constructing demi-gauntlets from quench tempered steel.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "xl_qt_demi_gaunt", "qt_demi_gaunt" ],
+    "difficulty": 5
+  },
+  {
+    "id": "nested_all_demi_gaunt",
+    "type": "nested_category",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HANDS",
+    "name": "all steel demi-gauntlets",
+    "description": "Recipes related to constructing demi-gauntlets from different types of steel.",
+    "skill_used": "fabrication",
+    "nested_category_data": [
+      "nested_lc_demi_gaunt",
+      "nested_mc_demi_gaunt",
+      "nested_hc_demi_gaunt",
+      "nested_ch_demi_gaunt",
+      "nested_qt_demi_gaunt"
+    ],
+    "difficulty": 5
+  },
+  {
     "id": "nested_lc_lightarmguards",
     "type": "nested_category",
     "activity_level": "MODERATE_EXERCISE",
