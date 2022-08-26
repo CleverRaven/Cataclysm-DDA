@@ -61,8 +61,8 @@
             "id": "EOC_REDUCE_VAMPVIRUS3",
             "condition": {
               "and": [
-                { "u_has_effect": "vampire_virus", "intensity": 4 },
-                { "compare_int": [ { "u_val": "effect_intensity", "effect": "vampire_virus" }, "=", { "const": 4 } ] }
+                { "u_has_effect": "vampire_virus_ascendant", "intensity": 1 },
+                { "compare_int": [ { "u_val": "effect_intensity", "effect": "vampire_virus_ascendant" }, "=", { "const": 1 } ] }
               ]
             },
             "effect": [
@@ -77,8 +77,8 @@
             "id": "EOC_REDUCE_VAMPVIRUS4",
             "condition": {
               "and": [
-                { "u_has_effect": "vampire_virus", "intensity": 5 },
-                { "compare_int": [ { "u_val": "effect_intensity", "effect": "vampire_virus" }, "=", { "const": 5 } ] }
+                { "u_has_effect": "vampire_virus_post_mortal", "intensity": 1 },
+                { "compare_int": [ { "u_val": "effect_intensity", "effect": "vampire_virus_post_mortal" }, "=", { "const": 1 } ] }
               ]
             },
             "effect": [
@@ -157,49 +157,9 @@
                 {
                   "u_message": "With a popping sound several of your teeth fall out but when you put a finger into your mouth to feel the hole, there are new sharp fangs where you expected nothing."
                 }
-              ]
-            }
+              ]}
           }
-        },
-        {
-          "id": "EOC_VAMPVIRUS3",
-          "condition": {
-            "and": [
-              { "u_has_effect": "vampire_virus", "intensity": 4 },
-              { "compare_int": [ { "u_val": "effect_intensity", "effect": "vampire_virus" }, "=", { "const": 4 } ] }
-            ]
-          },
-          "effect": {
-            "run_eocs": {
-              "id": "eoc_vampvirus_4_trait",
-              "condition": { "u_has_trait": "VAMPIRE4" },
-              "effect": { "u_message": "You feel a gnawing in your belly and a pressure in your mouth, as if your teeth can't all fit." },
-              "false_effect": [ { "u_add_trait": "VAMPIRE4" }, { "u_message": "Your skin seems to have become unnaturally pale." } ]
-            }
-          }
-        },
-        {
-          "id": "EOC_VAMPVIRUS4",
-          "condition": {
-            "and": [
-              { "u_has_effect": "vampire_virus", "intensity": 5 },
-              { "compare_int": [ { "u_val": "effect_intensity", "effect": "vampire_virus" }, "=", { "const": 5 } ] }
-            ]
-          },
-          "effect": {
-            "run_eocs": {
-              "id": "eoc_vampvirus_5_trait",
-              "condition": { "u_has_trait": "BLOOD_DRINKER" },
-              "effect": [
-                { "u_message": "The HUNGER is overwhelming, all you can think about is blood!" },
-                { "u_add_effect": "blood_crazed", "duration": 28800 }
-              ],
-              "false_effect": [
-                { "u_add_trait": "BLOOD_DRINKER" },
-                { "u_message": "You no longer receive nourishment from anything other than blood." }
-              ]
-            }
-          }
+        }
         }
       ]
     }

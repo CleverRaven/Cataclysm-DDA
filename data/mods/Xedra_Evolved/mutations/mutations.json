@@ -79,6 +79,7 @@
   {
     "type": "mutation",
     "id": "EYEGLEAM",
+    "points": 0,
     "name": { "str": "Gleaming eyes" },
     "description": "Your eyes gleam lightly red as the light catches in them and with a few drops of the stolen blood in your veins you are able to see in the dark.",
     "active": true,
@@ -87,6 +88,7 @@
   {
     "type": "mutation",
     "id": "STAMINAFORBLOOD",
+    "points": 0,
     "name": { "str": "Recover Stamina" },
     "description": "Your exhaust some of the blood in your veins to boost and recover some of your spent stamina.",
     "active": true,
@@ -117,6 +119,7 @@
   {
     "type": "mutation",
     "id": "COAGULANTWEAVE",
+    "points": 0,
     "name": { "str": "Coagulant Weave" },
     "description": "Your body prepares to prevent the lose of any blood to combat damage.",
     "active": true,
@@ -125,6 +128,7 @@
   {
     "type": "mutation",
     "id": "BLOODHEAL",
+    "points": 0,
     "name": { "str": "Blood spurred healing" },
     "description": "Your flesh heals visibly while blood disintegrates hidden inside your veins.",
     "active": true,
@@ -147,6 +151,7 @@
   {
     "type": "mutation",
     "id": "HYPNOTIC_GAZE",
+    "points": 0,
     "name": { "str": "Hypnotic gaze" },
     "description": "You lock eyes with your prey and stun them with the force of your will.",
     "active": true,
@@ -155,6 +160,7 @@
   {
     "type": "mutation",
     "id": "BLOODHASTE",
+    "points": 0,
     "name": { "str": "Blood driven speed" },
     "description": "Your body exceeds normal human reaction limits as blood turns to ash in your veins.",
     "active": true,

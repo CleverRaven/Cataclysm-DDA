@@ -184,13 +184,11 @@
   {
     "type": "effect_type",
     "id": "vampire_virus",
-    "name": [ "Wan", "Reddened Eyes", "Bloodthirst", "Terminal Porphyria", "Homo sapiens homovorus" ],
+    "name": [ "Wan", "Reddened Eyes", "Bloodthirst" ],
     "desc": [
       "Your complexion is wan and spent.",
       "Your skin is pale and your eyes are thoroughly bloodshot.",
-      "Your skin is pale and have turned dark red.  You feel a constant hunger, like the food you eat is no longer nourishing you.",
-      "Your skin is deathly white and will redden and burn when exposed to the sun.",
-      "Your skin is deathly white, your eyes are solid red except for a huge pupil, the only food you can consume is human blood, and if sunlight hits you that part of your body instantly burns."
+      "Your skin is pale and have turned dark red.  You feel a constant hunger, like the food you eat is no longer nourishing you."
     ],
     "apply_message": "You feel the blood rushing from the wound and then a pressure that reminds you of backwash.",
     "death_msg": "You succumb to your deadly necrotic condition.",
@@ -206,6 +204,41 @@
     "blood_analysis_description": "Unknown RNA virus is rewriting sampled blood cells.",
     "base_mods": { "speed_mod": [ 10 ], "str_mod": [ 1 ], "dodge_mod": [ 1 ] },
     "scaling_mods": { "speed_mod": [ 10 ], "str_mod": [ 0.5 ], "dodge_mod": [ 0.5 ] }
+  },
+  {
+    "type": "effect_type",
+    "id": "vampire_virus_ascendant",
+    "name": [ "Terminal Porphyria" ],
+    "desc": [
+    "Your skin is deathly white and will redden and burn when exposed to the sun."
+    ],
+    "apply_message": "You've chosen to embrace this illness and enhance your curse.",
+    "death_msg": "You succumb to your deadly necrotic condition.",
+    "apply_memorial_log": "Willingly left their humanity behind.",
+    "resist_traits": [ "ACIDBLOOD" ],
+    "resist_effects": [ "blood_treatment", "blood_quenched" ],
+    "max_intensity": 1,
+    "rating": "bad",
+    "blood_analysis_description": "Blood sample contains numerous unidentified mutations and numerous blood sources.  Original host blood unidentifiable in the mix.",
+    "base_mods": { "speed_mod": [ 20 ], "str_mod": [ 2 ], "dodge_mod": [ 2 ] }
+  },
+  {
+    "type": "effect_type",
+    "id": "vampire_virus_post_mortal",
+    "name": [ "Homo sapiens homovorus" ],
+    "desc": [
+    "Your skin is deathly white, your eyes are solid red except for a huge pupil, the only food you can consume is human blood, and if sunlight hits you that part of your body instantly burns."
+    ],
+    "apply_message": "Becoming a monster is a matter of degrees until one day it isn't and you can no longer remember why morality seemed important.",
+    "death_msg": "You succumb to your deadly necrotic condition.",
+    "apply_memorial_log": "Terrorized the remnants of humanity til there were none left.",
+    "remove_memorial_log": "Found a miracle in a world full of the dead.",
+    "resist_traits": [ "ACIDBLOOD" ],
+    "resist_effects": [ "blood_treatment", "blood_quenched" ],
+    "max_intensity": 1,
+    "rating": "bad",
+    "blood_analysis_description": "Blood sample contains numerous unidentified mutations and numerous blood sources.  Original host blood unidentifiable in the mix.",
+    "base_mods": { "speed_mod": [ 40 ], "str_mod": [ 4 ], "dodge_mod": [ 4 ] }
   },
   {
     "type": "effect_type",
