@@ -474,6 +474,11 @@ void Character::update_bodytemp()
         clothing_map.emplace( bp, std::vector<const item *>() );
     }
 
+    // fat insulates and increases total heat production of body, but it should have a diminishing effect.
+    // at 30 bmi, it is ~6 warmth, at 40 bmi (morbid obesity) it is ~17 warmth
+    // effects start to kick in halfway through overweightness
+    int bmi_heat_bonus = 500 * std::floor( std::sqrt( std::min( 0, ( get_bmi() - 27 ) ) ) )
+
     std::map<bodypart_id, int> warmth_per_bp = worn.warmth( *this );
     std::map<bodypart_id, int> bonus_warmth_per_bp = bonus_item_warmth();
     std::map<bodypart_id, int> wind_res_per_bp = get_wind_resistance( clothing_map );
@@ -535,6 +540,8 @@ void Character::update_bodytemp()
         mod_part_temp_conv( bp, fatigue_warmth );
         // Mutations
         mod_part_temp_conv( bp, mutation_heat_low );
+        // BMI
+        mod_part_temp_conv( bp, bmi_heat_bonus );
         // DIRECT HEAT SOURCES (generates body heat, helps fight frostbite)
         // Bark : lowers blister count to -5; harder to get blisters
         int blister_count = has_bark ? -5 : 0; // If the counter is high, your skin starts to burn
