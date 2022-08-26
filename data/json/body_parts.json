@@ -30,7 +30,7 @@
     "smash_message": "You smash the %s with a powerful shoulder-check.",
     "bionic_slots": 80,
     "sub_parts": [ "torso_upper", "torso_neck", "torso_lower", "torso_hanging_front", "torso_hanging_back", "torso_waist" ],
-    "bmi_encumbrance_threshold": 25,
+    "bmi_encumbrance_threshold": 27,
     "bmi_encumbrance_scalar": 1,
     "bmi_rigid_problems_threshold": 35,
     "bmi_rigid_problems_hardcap": 40
@@ -132,8 +132,8 @@
     "bionic_slots": 4,
     "flags": [ "LIMB_UPPER" ],
     "sub_parts": [ "mouth_lips", "mouth_nose", "mouth_cheeks", "mouth_chin" ],
-    "bmi_encumbrance_threshold": 25,
-    "bmi_encumbrance_scalar": 1,
+    "bmi_encumbrance_threshold": 27,
+    "bmi_encumbrance_scalar": 0.9,
     "bmi_rigid_problems_threshold": 40,
     "bmi_rigid_problems_hardcap": 60
   },
@@ -169,8 +169,8 @@
     "smash_message": "You elbow-smash the %s.",
     "bionic_slots": 20,
     "sub_parts": [ "arm_shoulder_l", "arm_upper_l", "arm_elbow_l", "arm_lower_l" ],
-    "bmi_encumbrance_threshold": 25,
-    "bmi_encumbrance_scalar": 0.5,
+    "bmi_encumbrance_threshold": 27,
+    "bmi_encumbrance_scalar": 0.6,
     "bmi_rigid_problems_threshold": 35,
     "bmi_rigid_problems_hardcap": 40
   },
@@ -205,8 +205,8 @@
     "smash_message": "You elbow-smash the %s.",
     "bionic_slots": 20,
     "sub_parts": [ "arm_shoulder_r", "arm_upper_r", "arm_elbow_r", "arm_lower_r" ],
-    "bmi_encumbrance_threshold": 25,
-    "bmi_encumbrance_scalar": 0.5,
+    "bmi_encumbrance_threshold": 27,
+    "bmi_encumbrance_scalar": 0.6,
     "bmi_rigid_problems_threshold": 35,
     "bmi_rigid_problems_hardcap": 40
   },
@@ -238,8 +238,8 @@
     "smash_message": "You smash the %s with your fist.",
     "bionic_slots": 5,
     "sub_parts": [ "hand_wrist_l", "hand_palm_l", "hand_back_l", "hand_fingers_l" ],
-    "bmi_encumbrance_threshold": 30,
-    "bmi_encumbrance_scalar": 0.5,
+    "bmi_encumbrance_threshold": 34,
+    "bmi_encumbrance_scalar": 0.4,
     "bmi_rigid_problems_threshold": 40,
     "bmi_rigid_problems_hardcap": 60
   },
@@ -271,8 +271,8 @@
     "smash_message": "You smash the %s with your fist.",
     "bionic_slots": 5,
     "sub_parts": [ "hand_wrist_r", "hand_palm_r", "hand_back_r", "hand_fingers_r" ],
-    "bmi_encumbrance_threshold": 30,
-    "bmi_encumbrance_scalar": 0.5,
+    "bmi_encumbrance_threshold": 34,
+    "bmi_encumbrance_scalar": 0.4,
     "bmi_rigid_problems_threshold": 40,
     "bmi_rigid_problems_hardcap": 60
   },
@@ -310,8 +310,8 @@
     "bionic_slots": 30,
     "sub_parts": [ "leg_hip_l", "leg_upper_l", "leg_knee_l", "leg_lower_l" ],
     "flags": [ "LIMB_LOWER" ],
-    "bmi_encumbrance_threshold": 25,
-    "bmi_encumbrance_scalar": 0.5,
+    "bmi_encumbrance_threshold": 27,
+    "bmi_encumbrance_scalar": 0.7,
     "bmi_rigid_problems_threshold": 35,
     "bmi_rigid_problems_hardcap": 40
   },
@@ -349,8 +349,8 @@
     "bionic_slots": 30,
     "sub_parts": [ "leg_hip_r", "leg_upper_r", "leg_knee_r", "leg_lower_r" ],
     "flags": [ "LIMB_LOWER" ],
-    "bmi_encumbrance_threshold": 25,
-    "bmi_encumbrance_scalar": 0.5,
+    "bmi_encumbrance_threshold": 27,
+    "bmi_encumbrance_scalar": 0.7,
     "bmi_rigid_problems_threshold": 35,
     "bmi_rigid_problems_hardcap": 40
   },
@@ -384,8 +384,8 @@
     "bionic_slots": 7,
     "sub_parts": [ "foot_sole_l", "foot_arch_l", "foot_toes_l", "foot_ankle_l", "foot_heel_l" ],
     "flags": [ "LIMB_LOWER" ],
-    "bmi_encumbrance_threshold": 30,
-    "bmi_encumbrance_scalar": 0.5,
+    "bmi_encumbrance_threshold": 34,
+    "bmi_encumbrance_scalar": 0.4,
     "bmi_rigid_problems_threshold": 60
   },
   {
@@ -418,8 +418,8 @@
     "bionic_slots": 7,
     "sub_parts": [ "foot_sole_r", "foot_arch_r", "foot_toes_r", "foot_ankle_r", "foot_heel_r" ],
     "flags": [ "LIMB_LOWER" ],
-    "bmi_encumbrance_threshold": 30,
-    "bmi_encumbrance_scalar": 0.5,
+    "bmi_encumbrance_threshold": 34,
+    "bmi_encumbrance_scalar": 0.4,
     "bmi_rigid_problems_threshold": 60
   },
   {
