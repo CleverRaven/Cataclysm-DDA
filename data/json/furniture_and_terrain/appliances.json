@@ -222,7 +222,7 @@
     "description": "A welding rig combined with a fireproof insulating blanket allows for advanced welds and repairs to tempered steels that draws power from the vehicle's batteries.  You still need glare protection.  'e'xamine the tile with the rig to use it to repair items in your inventory.  If you attempt to craft an item or perform a repair that requires a welder, you will be given the option of using the welding rig.",
     "item": "welding_kit",
     "flags": [ "CARGO", "OBSTACLE", "APPLIANCE" ],
-    "copy-from": "welding_rig"
+    "copy-from": "welding_kit"
   },
   {
     "type": "vehicle_part",
