@@ -53,7 +53,7 @@
     "type": "GENERIC",
     "name": { "str": "vehicle welding rig" },
     "description": "A welding rig made to run off a vehicle's storage battery.  It has a soldering iron attachment for delicate work, and a compartment to store your extra tools in."
-  }
+  },
   {
     "id": "weldkit",
     "copy-from": "vehicle_rig",
