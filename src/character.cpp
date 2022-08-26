@@ -3494,6 +3494,7 @@ units::mass Character::get_weight() const
     units::mass wornWeight = worn.weight();
 
     ret += bodyweight();       // The base weight of the player's body
+    ret -= bodyweight_fat();       // Both carried weight and bodyweight include this weight, so prevent it from double dipping
     ret += inv->weight();           // Weight of the stored inventory
     ret += wornWeight;             // Weight of worn items
     ret += weapon.weight();        // Weight of wielded item
