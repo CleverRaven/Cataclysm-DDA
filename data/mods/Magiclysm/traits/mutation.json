@@ -323,7 +323,7 @@
     "name": { "str": "Wildshape: Deer" },
     "points": 0,
     "valid": false,
-    "description": "You are deer-like, giving you the ability to move quickly and escape danger. It is hard to use your arms in combat, however.",
+    "description": "You are deer-like, giving you the ability to move quickly and escape danger.  It is hard to use your arms in combat, however.",
     "encumbrance_always": [ [ "hand_r", 50 ], [ "hand_l", 50 ], [ "arm_r", 50 ], [ "arm_l", 50 ] ]
   },
   {
