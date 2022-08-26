@@ -2534,7 +2534,7 @@ void options_manager::add_options_debug()
          0, OVERMAP_LAYERS, 4
        );
 
-    add( "RETRACT_ISO_WALLS", "debug", to_translation( "Draw walls retracted in ISO tilesets" ),
+    add( "RETRACT_ISO_WALLS", "debug", to_translation( "Draw walls retracted in ISO tile-sets" ),
          to_translation( "If true, will draw ISO wall tiles retracted/lowered." ),
          false
        );
