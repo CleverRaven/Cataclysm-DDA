@@ -4065,7 +4065,7 @@ void Character::mod_stored_calories( int ncal, const bool ignore_weariness )
     }
     set_stored_calories( stored_calories + ncal );
     //don't run calc_encumbrance unless BMI has changed enough for it to matter
-    if( std::floor( get_bmi() ) != cached_bmi ){
+    if( std::floor( get_bmi() ) != cached_bmi ) {
         calc_encumbrance();
     }
 }
