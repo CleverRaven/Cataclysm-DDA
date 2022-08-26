@@ -3711,7 +3711,7 @@ void Character::calc_bmi_encumb() const
     //}
     for( const std::pair<const bodypart_str_id, bodypart> &elem : get_body() ) {
         int penalty = std::floor( elem.second.get_bmi_encumbrance_scalar() * ( std::max( 0.0,
-                                  ( get_bmi() - static_cast<float>elem.second.get_bmi_encumbrance_threshold() ) ) ) );
+                                  ( get_bmi() - static_cast<float>( elem.second.get_bmi_encumbrance_threshold() ) ) ) ) );
     }
 }
 
