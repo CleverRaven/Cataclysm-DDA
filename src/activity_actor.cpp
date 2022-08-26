@@ -1129,6 +1129,12 @@ std::unique_ptr<activity_actor> hacksaw_activity_actor::deserialize( JsonValue &
     return actor.clone();
 }
 
+bikerack_racking_activity_actor::bikerack_racking_activity_actor( vehicle &parent_vehicle,
+        std::vector<std::vector<int>> parts ) : parts( std::move( parts ) )
+{
+    parent_vehicle_pos = parent_vehicle.pos_bub();
+}
+
 void bikerack_racking_activity_actor::start( player_activity &act, Character & )
 {
     act.moves_total = moves_total;
@@ -1137,8 +1143,17 @@ void bikerack_racking_activity_actor::start( player_activity &act, Character & )
 
 void bikerack_racking_activity_actor::finish( player_activity &act, Character & )
 {
+    map &here = get_map();
+    const optional_vpart_position ovp = here.veh_at( parent_vehicle_pos );
+    if( !ovp ) {
+        debugmsg( "racking activity lost vehicle" );
+        act.set_to_null();
+        return;
+    }
+
+    vehicle &parent_vehicle = ovp->vehicle();
+
     if( parent_vehicle.try_to_rack_nearby_vehicle( parts ) ) {
-        map &here = get_map();
         here.invalidate_map_cache( here.get_abs_sub().z() );
         here.rebuild_vehicle_level_caches();
     } else {
@@ -1152,21 +1167,27 @@ void bikerack_racking_activity_actor::serialize( JsonOut &jsout ) const
 {
     jsout.start_object();
     jsout.member( "moves_total", moves_total );
-    jsout.member( "parent_vehicle", parent_vehicle );
+    jsout.member( "parent_vehicle_pos", parent_vehicle_pos );
     jsout.member( "parts", parts );
     jsout.end_object();
 }
 
 std::unique_ptr<activity_actor> bikerack_racking_activity_actor::deserialize( JsonValue &jsin )
 {
-    vehicle veh;
-    bikerack_racking_activity_actor actor( 0, veh, std::vector<std::vector<int>>() );
+    bikerack_racking_activity_actor actor;
     JsonObject data = jsin.get_object();
     data.read( "moves_total", actor.moves_total );
-    data.read( "parent_vehicle", actor.parent_vehicle );
+    data.read( "parent_vehicle_pos", actor.parent_vehicle_pos );
     data.read( "parts", actor.parts );
 
     return actor.clone();
+}
+
+bikerack_unracking_activity_actor::bikerack_unracking_activity_actor( vehicle &parent_vehicle,
+        std::vector<int> parts, std::vector<int> racks )
+    : parts( std::move( parts ) ), racks( std::move( racks ) )
+{
+    parent_vehicle_pos = parent_vehicle.pos_bub();
 }
 
 void bikerack_unracking_activity_actor::start( player_activity &act, Character & )
@@ -1177,9 +1198,18 @@ void bikerack_unracking_activity_actor::start( player_activity &act, Character &
 
 void bikerack_unracking_activity_actor::finish( player_activity &act, Character & )
 {
+    map &here = get_map();
+    const optional_vpart_position ovp = get_map().veh_at( parent_vehicle_pos );
+    if( !ovp ) {
+        debugmsg( "unracking activity lost vehicle" );
+        act.set_to_null();
+        return;
+    }
+
+    vehicle &parent_vehicle = ovp->vehicle();
+
     if( parent_vehicle.remove_carried_vehicle( parts ) ) {
         parent_vehicle.clear_bike_racks( racks );
-        map &here = get_map();
         here.invalidate_map_cache( here.get_abs_sub().z() );
         here.rebuild_vehicle_level_caches();
     } else {
@@ -1193,7 +1223,7 @@ void bikerack_unracking_activity_actor::serialize( JsonOut &jsout ) const
 {
     jsout.start_object();
     jsout.member( "moves_total", moves_total );
-    jsout.member( "parent_vehicle", parent_vehicle );
+    jsout.member( "parent_vehicle_pos", parent_vehicle_pos );
     jsout.member( "parts", parts );
     jsout.member( "racks", racks );
     jsout.end_object();
@@ -1201,11 +1231,10 @@ void bikerack_unracking_activity_actor::serialize( JsonOut &jsout ) const
 
 std::unique_ptr<activity_actor> bikerack_unracking_activity_actor::deserialize( JsonValue &jsin )
 {
-    vehicle veh;
-    bikerack_unracking_activity_actor actor( 0, veh, std::vector<int>(), std::vector<int>() );
+    bikerack_unracking_activity_actor actor;
     JsonObject data = jsin.get_object();
     data.read( "moves_total", actor.moves_total );
-    data.read( "parent_vehicle", actor.parent_vehicle );
+    data.read( "parent_vehicle_pos", actor.parent_vehicle_pos );
     data.read( "parts", actor.parts );
     data.read( "racks", actor.racks );
 
