@@ -590,7 +590,7 @@
   {
     "id": "nested_ch_lightarmguards",
     "type": "nested_category",
-    "activity_level": "MODERATE_EXERCISE",
+    "activity_level": "BRISK_EXERCISE",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "name": "hardened steel light arm guards",
