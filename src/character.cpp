@@ -3710,7 +3710,7 @@ void Character::calc_bmi_encumb() const
     //    val.second.encumbrance += penalty;
     //}
     for( const std::pair<const bodypart_str_id, bodypart> &elem : get_body() ) {
-        int penalty = std::floor( elem.second.get_bmi_encumbrance_scalar() * ( std::max( 0.0,
+        int penalty = std::floor( elem.second.get_bmi_encumbrance_scalar() * ( std::max( 0.0f,
                                   ( get_bmi() - static_cast<float>( elem.second.get_bmi_encumbrance_threshold() ) ) ) ) );
     }
 }
@@ -5865,7 +5865,7 @@ units::mass Character::bodyweight() const
 
 units::mass Character::bodyweight_fat() const
 {
-    return units::from_kilogram( std::max( 0.0, ( get_bmi() * std::pow( height() / 100.0f,
+    return units::from_kilogram( std::max( 0.0f, ( get_bmi() * std::pow( height() / 100.0f,
                                            2 ) - 25.0 * std::pow( height() / 100.0f, 2 ) ) );
 }
 
