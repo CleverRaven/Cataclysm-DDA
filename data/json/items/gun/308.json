@@ -379,7 +379,7 @@
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "hk417mag_20rd", "hk417mag_10rd", "hk417_makeshiftmag" ] } ]
   },
   {
-    "id": "papm77",
+    "id": "ak308",
     "copy-from": "rifle_semi",
     "looks_like": "ar15",
     "type": "GUN",
