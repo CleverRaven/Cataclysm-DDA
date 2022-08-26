@@ -916,6 +916,83 @@
     "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
+    "id": "helmet_metal_sheets_full",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "sheet metal great helm" },
+    "description": "Massively heavy, extremely uncomfortable, very crude, and looks like a bucket with a slit cut out the front, but it'll keep zombie claws off your face.  Comes with a bevor to help spread the weight out onto your shoulders and protect your neck, and some cloth padding to keep your bell from being rung.",
+    "weight": "4570 g",
+    "//": "The weight assumes one large sheet of about 75cm x 40cm x 1.5mm and one circular sheet with a diameter of 24cm as the crown, and one gambeson hood.",
+    "volume": "2 L",
+    "price": 4500,
+    "price_postapoc": 50,
+    "bashing": 18,
+    "material": [ "lc_steel", "cotton" ],
+    "repairs_with": [ "steel" ],
+    "symbol": "[",
+    "looks_like": "helmet_plate",
+    "color": "light_gray",
+    "warmth": 40,
+    "material_thickness": 6.5,
+    "techniques": [ "WBLOCK_1" ],
+    "flags": [ "PADDED" ],
+    "armor": [
+      {
+        "material": [
+          { "type": "lc_steel", "covered_by_mat": 100, "thickness": 1.5 },
+          { "type": "cotton", "covered_by_mat": 100, "thickness": 5 }
+        ],
+        "covers": [ "head" ],
+        "coverage": 100,
+        "encumbrance_modifiers": [ "RESTRICTS_NECK", "WELL_SUPPORTED" ]
+      },
+      {
+        "material": [ { "type": "lc_steel", "covered_by_mat": 100, "thickness": 1.5 } ],
+        "covers": [ "eyes" ],
+        "coverage": 100,
+        "encumbrance": 25
+      },
+      {
+        "material": [ { "type": "lc_steel", "covered_by_mat": 100, "thickness": 1.5 } ],
+        "covers": [ "mouth" ],
+        "coverage": 100,
+        "encumbrance": 10
+      }
+    ]
+  },
+  {
+    "id": "helmet_metal_sheets",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "sheet metal helmet" },
+    "description": "A helmet that looks like a crude bucket with the face cut out.  It comes with a bevor to distribute some of the weight to your shoulders, as well as cloth padding to keep your bell from being rung.",
+    "weight": "3690 g",
+    "//": "The weight assumes one large sheet of about 75cm x 40cm x 1.5mm and one circular sheet with a diameter of 24cm as the crown, and one gambeson hood, but minus the weight of a 25cm x 30cm face cut out.",
+    "volume": "2 L",
+    "price": 4500,
+    "price_postapoc": 50,
+    "bashing": 16,
+    "material": [ "lc_steel", "cotton" ],
+    "repairs_with": [ "steel" ],
+    "symbol": "[",
+    "looks_like": "helmet_barbute",
+    "color": "light_gray",
+    "warmth": 35,
+    "material_thickness": 6.5,
+    "techniques": [ "WBLOCK_1" ],
+    "armor": [
+      {
+        "material": [
+          { "type": "lc_steel", "covered_by_mat": 100, "thickness": 1.5 },
+          { "type": "cotton", "covered_by_mat": 100, "thickness": 5 }
+        ],
+        "covers": [ "head" ],
+        "coverage": 100,
+        "encumbrance_modifiers": [ "RESTRICTS_NECK", "WELL_SUPPORTED" ]
+      }
+    ]
+  },
+  {
     "id": "helmet_skid",
     "repairs_like": "helmet_barbute",
     "type": "ARMOR",

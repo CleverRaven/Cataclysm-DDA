@@ -886,6 +886,35 @@
     "components": [ [ [ "fur", 6 ], [ "leather", 6 ] ] ]
   },
   {
+    "result": "helmet_metal_sheets_full",
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HEAD",
+    "skill_used": "fabrication",
+    "difficulty": 4,
+    "time": "240 m",
+    "autolearn": true,
+    "components": [ [ [ "sheet_metal", 1 ] ], [ [ "gambeson_hood", 1 ] ] ],
+    "proficiencies": [ { "proficiency": "prof_metalworking" } ],
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 } ]
+  },
+  {
+    "result": "helmet_metal_sheets",
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HEAD",
+    "skill_used": "fabrication",
+    "difficulty": 4,
+    "time": "245 m",
+    "autolearn": true,
+    "components": [ [ [ "sheet_metal", 1 ] ], [ [ "gambeson_hood", 1 ] ] ],
+    "proficiencies": [ { "proficiency": "prof_metalworking" } ],
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 } ],
+    "byproducts": [ [ "sheet_metal_small", 1 ] ]
+  },
+  {
     "result": "helmet_scavenger",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",

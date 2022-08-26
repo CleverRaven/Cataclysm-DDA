@@ -527,5 +527,41 @@
     "color": "yellow",
     "autonote": true,
     "flags": [ "CLASSIC" ]
+  },
+  {
+    "id": "mx_portal_dino_south_america",
+    "type": "map_extra",
+    "name": { "str": "Portal" },
+    "description": "Portal is here.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_portal_dino_south_america" },
+    "min_max_zlevel": [ -5, 5 ],
+    "sym": "P",
+    "color": "magenta",
+    "autonote": true,
+    "flags": [ "CLASSIC" ]
+  },
+  {
+    "id": "mx_portal_dino_asia",
+    "type": "map_extra",
+    "name": { "str": "Portal" },
+    "description": "Portal is here.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_portal_dino_asia" },
+    "min_max_zlevel": [ -5, 5 ],
+    "sym": "P",
+    "color": "magenta",
+    "autonote": true,
+    "flags": [ "CLASSIC" ]
+  },
+  {
+    "id": "mx_portal_dino_europe",
+    "type": "map_extra",
+    "name": { "str": "Portal" },
+    "description": "Portal is here.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_portal_dino_europe" },
+    "min_max_zlevel": [ -5, 5 ],
+    "sym": "P",
+    "color": "magenta",
+    "autonote": true,
+    "flags": [ "CLASSIC" ]
   }
 ]

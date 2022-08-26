@@ -1311,6 +1311,21 @@
     "tools": [ [ [ "swage", -1 ] ] ]
   },
   {
+    "result": "sabaton_metal_sheets",
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_FEET",
+    "skill_used": "fabrication",
+    "difficulty": 4,
+    "skills_required": [ "tailor", 1 ],
+    "time": "90 m",
+    "autolearn": true,
+    "components": [ [ [ "sheet_metal_small", 4 ] ], [ [ "cordage_6_leather", 4 ] ] ],
+    "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_articulation" } ],
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 }, { "id": "DRILL", "level": 1 } ]
+  },
+  {
     "result": "mc_sabaton",
     "type": "recipe",
     "activity_level": "BRISK_EXERCISE",
