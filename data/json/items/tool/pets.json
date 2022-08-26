@@ -143,6 +143,7 @@
     "to_hit": -8,
     "bashing": 16,
     "material": [ "steel", "rubber" ],
+    "ammo": [ "battery" ],
     "use_action": { "type": "weigh_self", "max_weight": "2300 kg" },
     "flags": [ "ALLOWS_REMOTE_USE" ],
     "charges_per_use": 1,
