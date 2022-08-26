@@ -479,7 +479,7 @@ void Character::update_bodytemp()
     // effects start to kick in halfway through overweightness
     int bmi_heat_bonus = 500 * std::floor( std::sqrt( std::min( 0, ( get_bmi() - 27 ) ) ) )
 
-    std::map<bodypart_id, int> warmth_per_bp = worn.warmth( *this );
+                         std::map<bodypart_id, int> warmth_per_bp = worn.warmth( *this );
     std::map<bodypart_id, int> bonus_warmth_per_bp = bonus_item_warmth();
     std::map<bodypart_id, int> wind_res_per_bp = get_wind_resistance( clothing_map );
     // We might not use this at all, so leave it empty
