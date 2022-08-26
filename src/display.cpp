@@ -1162,17 +1162,16 @@ std::pair<std::string, nc_color> display::move_count_and_mode_text_color( const 
 std::pair<std::string, nc_color> display::carry_weight_text_color( const avatar &u )
 {
     int carry_wt = ( 100 * u.weight_carried() ) / u.weight_capacity();
-    int fat_wt = ( 100 * u.weight_fat() ) / u.weight_capacity();
-    std::string weight_text = string_format( "%d+%d%", carry_wt, fat_wt );
+    std::string weight_text = string_format( "%d+%d%", carry_wt );
 
     nc_color weight_color = c_green;
-    if( carry_wt + fat_wt > 100 ) {
+    if( carry_wt > 100 ) {
         weight_color = c_white_red;
-    } else if( carry_wt + fat_wt > 75 ) {
+    } else if( carry_wt > 75 ) {
         weight_color = c_light_red;
-    } else if( carry_wt + fat_wt > 50 ) {
+    } else if( carry_wt > 50 ) {
         weight_color = c_yellow;
-    } else if( carry_wt + fat_wt > 25 ) {
+    } else if( carry_wt > 25 ) {
         weight_color = c_light_green;
     } else {
         weight_color = c_green;
