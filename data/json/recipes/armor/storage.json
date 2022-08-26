@@ -1895,12 +1895,11 @@
     "difficulty": 3,
     "time": "14 h",
     "autolearn": true,
-    "using": [ [ "tailoring_leather_patchwork", 3 ], [ "fastener_large", 2 ] ],
+    "using": [ [ "tailoring_nylon_patchwork", 18 ], [ "fastener_large", 2 ], [ "plastic_molding", 3 ] ],
     "proficiencies": [
       { "proficiency": "prof_closures" },
       { "proficiency": "prof_closures_waterproofing" },
-      { "proficiency": "prof_leatherworking_basic" },
-      { "proficiency": "prof_leatherworking" }
+      { "proficiency": "prof_plasticworking" }
     ]
   },
   {
