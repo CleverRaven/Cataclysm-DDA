@@ -310,7 +310,6 @@
     "flags": [ "NO_SALVAGE" ],
     "weight": "50 g",
     "volume": "250 ml",
-    "vitamins": [  ],
     "to_hit": -4,
     "fun": -25
   },
