@@ -9463,7 +9463,7 @@
       [ [ "gastropod_purged", 6 ] ],
       [ [ "salt", 1 ], [ "seasoning_salt", 1 ], [ "garlic_clove", 1 ], [ "wild_garlic", 1 ] ],
       [ [ "butter", 1 ] ],
-      [ [ "wild_herbs", 100 ] ]
+      [ [ "wild_herbs", 6 ] ]
     ]
   }
 ]
