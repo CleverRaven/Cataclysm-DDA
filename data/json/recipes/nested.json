@@ -630,6 +630,84 @@
     "difficulty": 5
   },
   {
+    "id": "nested_lc_mitten_gaunt",
+    "type": "nested_category",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "mild steel mitten gauntlets",
+    "description": "Recipes related to constructing mitten gauntlets from low quality steel.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "xl_lc_mitten_gaunt", "lc_mitten_gaunt" ],
+    "difficulty": 1
+  },
+  {
+    "id": "nested_mc_mitten_gaunt",
+    "type": "nested_category",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "medium steel mitten gauntlets",
+    "description": "Recipes related to constructing mitten gauntlets from steel.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "xl_mc_mitten_gaunt", "mc_mitten_gaunt" ],
+    "difficulty": 2
+  },
+  {
+    "id": "nested_hc_mitten_gaunt",
+    "type": "nested_category",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "high steel mitten gauntlets",
+    "description": "Recipes related to constructing mitten gauntlets from high quality steel.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "xl_hc_mitten_gaunt", "hc_mitten_gaunt" ],
+    "difficulty": 3
+  },
+  {
+    "id": "nested_ch_mitten_gaunt",
+    "type": "nested_category",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "hardened steel mitten gauntlets",
+    "description": "Recipes related to constructing mitten gauntlets from case hardened steel.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "xl_ch_mitten_gaunt", "ch_mitten_gaunt" ],
+    "difficulty": 4
+  },
+  {
+    "id": "nested_qt_mitten_gaunt",
+    "type": "nested_category",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "tempered steel mitten gauntlets",
+    "description": "Recipes related to constructing mitten gauntlets from quench tempered steel.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "xl_qt_mitten_gaunt", "qt_mitten_gaunt" ],
+    "difficulty": 5
+  },
+  {
+    "id": "nested_all_mitten_gaunt",
+    "type": "nested_category",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HANDS",
+    "name": "all steel mitten gauntlets",
+    "description": "Recipes related to constructing mitten gauntlets from different types of steel.",
+    "skill_used": "fabrication",
+    "nested_category_data": [
+      "nested_lc_mitten_gaunt",
+      "nested_mc_mitten_gaunt",
+      "nested_hc_mitten_gaunt",
+      "nested_ch_mitten_gaunt",
+      "nested_qt_mitten_gaunt"
+    ],
+    "difficulty": 5
+  },
+  {
     "id": "nested_lc_lightarmguards",
     "type": "nested_category",
     "activity_level": "MODERATE_EXERCISE",
