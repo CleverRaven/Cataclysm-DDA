@@ -1702,7 +1702,7 @@
     "spoils_in": "1 day",
     "comestible_type": "FOOD",
     "symbol": "%",
-    "calories": 200,
+    "calories": 1200,
     "description": "A traditional dish originating from France, more specifically from the region of Bourgogne.  It consists of prepared snails that have then been cooked in butter and parsley inside their own shells, very low on fat but high on protein.",
     "//": "Nutrition information roughly based on a serving of 6 snails + butter and veggies. if you know more pls expand",
     "price": 750,
