@@ -1180,6 +1180,7 @@ void bodypart::deserialize( const JsonObject &jo )
     jo.read( "wetness", wetness, true );
     jo.read( "temp_cur", temp_cur, true );
     jo.read( "temp_conv", temp_conv, true );
+    jo.read( "frostbite_timer", frostbite_timer, true );
     jo.read( "bmi_encumbrance_threshold", bmi_encumbrance_threshold, true );
     jo.read( "bmi_encumbrance_scalar", bmi_encumbrance_scalar, true );
     jo.read( "bmi_rigid_problems_threshold", bmi_rigid_problems_threshold, true );
