@@ -1293,7 +1293,6 @@
     "type": "MONSTER",
     "name": { "str": "storm roamer" },
     "description": "Their greater than human countenance festers in the deepest recesses of your mind.  It grows ever closer.",
-    "//": "it must be spooky, but god im bad in this stuff",
     "default_faction": "nether_player_hate",
     "species": [ "NETHER" ],
     "volume": "62500 ml",
