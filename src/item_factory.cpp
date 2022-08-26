@@ -103,6 +103,8 @@ static const material_id material_veggy( "veggy" );
 static const material_id material_wheat( "wheat" );
 static const material_id material_wool( "wool" );
 
+static const quality_id qual_GUN( "GUN" );
+
 static const skill_id skill_pistol( "pistol" );
 static const skill_id skill_rifle( "rifle" );
 static const skill_id skill_shotgun( "shotgun" );
@@ -628,6 +630,15 @@ void Item_factory::finalize_post( itype &obj )
         }
         return false;
     } );
+
+    if( obj.gun && !obj.gunmod && !obj.has_flag( flag_PRIMITIVE_RANGED_WEAPON ) ) {
+        const quality_id qual_gun_skill( to_upper_case( obj.gun->skill_used.str() ) );
+
+        obj.qualities[qual_GUN] = std::max( obj.qualities[qual_GUN], 1 );
+        if( qual_gun_skill.is_valid() ) {
+            obj.qualities[qual_gun_skill] = std::max( obj.qualities[qual_gun_skill], 1 );
+        }
+    }
 
     // handle complex firearms as a special case
     if( obj.gun && !obj.has_flag( flag_PRIMITIVE_RANGED_WEAPON ) ) {
