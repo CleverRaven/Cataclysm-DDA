@@ -307,7 +307,7 @@
     "name": { "str": "Wildshape: Fish" },
     "points": 0,
     "valid": false,
-    "description": "You are fish-like. Just keep swimming!"
+    "description": "You are fish-like.  Just keep swimming!"
   },
   {
     "type": "mutation",
