@@ -766,7 +766,7 @@
     "skill_rust_multiplier": 0.66,
     "starting_trait": true,
     "valid": false,
-    "cancels": [ "FORGETFUL" ],
+    "cancels": [ "FORGETFUL" ]
   },
   {
     "type": "mutation",
@@ -1512,7 +1512,7 @@
     "skill_rust_multiplier": 1.33,
     "starting_trait": true,
     "category": [ "BEAST", "MEDICAL", "CHIMERA", "MOUSE", "INSECT", "RABBIT" ],
-    "cancels": [ "GOODMEMORY" ],
+    "cancels": [ "GOODMEMORY" ]
   },
   {
     "type": "mutation",
