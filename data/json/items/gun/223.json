@@ -766,7 +766,7 @@
     ]
   },
   {
-    "id": "zpapm90",
+    "id": "ak556",
     "copy-from": "rifle_semi",
     "looks_like": "ar15",
     "type": "GUN",
@@ -812,12 +812,12 @@
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "zpap85mag" ] } ]
   },
   {
-    "id": "zpap85",
+    "id": "minidraco556",
     "copy-from": "pistol_base",
     "looks_like": "ar15",
     "type": "GUN",
     "name": { "str": "5.56x45mm Mini Draco" },
-    "description": "A civilian AK pattern rifle, chambered in 5.56x45 NATO.",
+    "description": "A civilian AK pattern rifle, chambered in 5.56x45 NATO. This one is shorter and without a stock",
     "variant_type": "gun",
     "variants": [
       {
