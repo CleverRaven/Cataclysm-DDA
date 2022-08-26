@@ -3705,10 +3705,13 @@ void Character::mut_cbm_encumb( std::map<bodypart_id, encumbrance_data> &vals ) 
 void Character::calc_bmi_encumb( std::map<bodypart_id, encumbrance_data> &vals ) const
 {
     //if BMI > minimum BMI for the limb to receive penalty encumbrance, multiply that by the scalar value per point of BMI to get total penalty
-    for( std::pair<const bodypart_id, encumbrance_data> &val : vals ) {
-        int penalty = std::floor( val.first.id().bmi_encumbrance_scalar * ( std::max( 0,
-                                  ( get_bmi() - val.first.id().bmi_encumbrance_threshold ) ) ) );
-        val.second.encumbrance += penalty;
+    //for( std::pair<const bodypart_id, encumbrance_data> &val : vals ) {
+    //    int penalty = std::floor( val.first.id().bmi_encumbrance_scalar * ( std::max( 0, ( get_bmi() - val.first.id().bmi_encumbrance_threshold ) ) ) );
+    //    val.second.encumbrance += penalty;
+    //}
+    for( const std::pair<const bodypart_str_id, bodypart> &elem : get_body() ) {
+        int penalty = std::floor( elem.second.bmi_encumbrance_scalar * ( std::max( 0, ( get_bmi() - elem.second.bmi_encumbrance_threshold ) ) ) );
+        val.first.encumbrance += 3;
     }
 }
 
@@ -5862,8 +5865,8 @@ units::mass Character::bodyweight() const
 
 units::mass Character::bodyweight_fat() const
 {
-    return std::max( 0, ( ( get_bmi() * std::pow( height() / 100.0f,
-                            2 ) ) - ( 25 * std::pow( height() / 100.0f, 2 ) ) ) );
+    float diff = get_bmi() * std::pow( height() / 100.0f, 2 ) - 25 * std::pow( height() / 100.0f, 2 );
+    return units::from_kilogram( std::max( 0, diff ) );
 }
 
 units::mass Character::bionics_weight() const
