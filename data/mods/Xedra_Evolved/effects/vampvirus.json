@@ -62,7 +62,9 @@
             "condition": {
               "and": [
                 { "u_has_effect": "vampire_virus_ascendant", "intensity": 1 },
-                { "compare_int": [ { "u_val": "effect_intensity", "effect": "vampire_virus_ascendant" }, "=", { "const": 1 } ] }
+                {
+                  "compare_int": [ { "u_val": "effect_intensity", "effect": "vampire_virus_ascendant" }, "=", { "const": 1 } ]
+                }
               ]
             },
             "effect": [
@@ -78,7 +80,9 @@
             "condition": {
               "and": [
                 { "u_has_effect": "vampire_virus_post_mortal", "intensity": 1 },
-                { "compare_int": [ { "u_val": "effect_intensity", "effect": "vampire_virus_post_mortal" }, "=", { "const": 1 } ] }
+                {
+                  "compare_int": [ { "u_val": "effect_intensity", "effect": "vampire_virus_post_mortal" }, "=", { "const": 1 } ]
+                }
               ]
             },
             "effect": [
@@ -157,9 +161,9 @@
                 {
                   "u_message": "With a popping sound several of your teeth fall out but when you put a finger into your mouth to feel the hole, there are new sharp fangs where you expected nothing."
                 }
-              ]}
+              ]
+            }
           }
-        }
         }
       ]
     }
