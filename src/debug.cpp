@@ -895,7 +895,7 @@ static cata::optional<uintptr_t> debug_compute_load_offset(
         }
 
         std::array<char, 1024> buf;
-        while( fgets( buf.data(), sizeof( buf ), nm ) ) {
+        while( fgets( buf.data(), buf.size(), nm ) ) {
             std::string line( buf.data() );
             while( !line.empty() && isspace( line.end()[-1] ) ) {
                 line.erase( line.end() - 1 );
@@ -1254,7 +1254,7 @@ void debug_write_backtrace( std::ostream &out )
             return false;
         }
         std::array<char, 1024> buf;
-        while( fgets( buf.data(), sizeof( buf ), addr2line ) ) {
+        while( fgets( buf.data(), buf.size(), addr2line ) ) {
             out.write( "    ", 4 );
             // Strip leading directories for source file path
             const char *search_for = "/src/";
