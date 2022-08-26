@@ -306,9 +306,9 @@
       "ak556",
       "minidraco556",
       "ak308",
-	    "zpapm90",
-	    "zpap85",
-	    "papm77"
+      "zpapm90",
+      "zpap85",
+      "papm77"
     ],
     "type": "MIGRATION",
     "replace": "rifle_sporter"
