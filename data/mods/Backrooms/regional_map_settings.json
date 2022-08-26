@@ -1,0 +1,205 @@
+[
+  {
+    "type": "region_settings",
+    "id": "default",
+    "default_oter": [
+      "open_air",
+      "open_air",
+      "open_air",
+      "open_air",
+      "open_air",
+      "open_air",
+      "open_air",
+      "open_air",
+      "open_air",
+      "open_air",
+      "backfloorchamber_north",
+      "solid_earth",
+      "empty_rock",
+      "empty_rock",
+      "deep_rock",
+      "deep_rock",
+      "deep_rock",
+      "deep_rock",
+      "deep_rock",
+      "deep_rock",
+      "deep_rock"
+    ],
+    "default_groundcover": [ [ "t_region_groundcover", 1 ] ],
+    "region_terrain_and_furniture": {
+      "terrain": {
+        "t_region_groundcover": { "t_carpet_backrooms": 500, "t_carpet_backrooms_light": 1 },
+        "t_region_shrub": { "t_backroom_wall": 1, "t_carpet_backrooms_light": 1 },
+        "t_region_groundcover_urban": { "t_carpet_backrooms": 2 },
+        "t_region_groundcover_forest": { "t_carpet_backrooms": 1 },
+        "t_region_groundcover_swamp": { "t_carpet_backrooms": 1 },
+        "t_region_tree": { "t_wall_b": 1 },
+        "t_region_groundcover_barren": { "t_carpet_red": 1 }
+      },
+      "furniture": { "f_region_flower": { "f_rack_coat": 1, "f_sign_warning": 1, "f_sign": 1 } }
+    },
+    "river_scale": 0.0,
+    "field_coverage": {
+      "percent_coverage": 0.1333,
+      "default_ter": "t_carpet_red",
+      "other": { "f_mutpoppy": 1 },
+      "boost_chance": 0.833,
+      "boosted_percent_coverage": 2.5,
+      "boosted_other": { "f_dandelion": 5.0 },
+      "boosted_other_percent": 50.0
+    },
+    "overmap_lake_settings": {
+      "noise_threshold_lake": 1.0,
+      "lake_size_min": 0,
+      "lake_depth": -5,
+      "shore_extendable_overmap_terrain": [ "forest" ],
+      "shore_extendable_overmap_terrain_aliases": [  ]
+    },
+    "overmap_ravine_settings": { "num_ravines": 0, "ravine_width": 3, "ravine_range": 45, "ravine_depth": -3 },
+    "overmap_forest_settings": {
+      "noise_threshold_forest": 1.0,
+      "noise_threshold_forest_thick": 1.0,
+      "noise_threshold_swamp_adjacent_water": 1.0,
+      "noise_threshold_swamp_isolated": 1.0,
+      "river_floodplain_buffer_distance_min": 0,
+      "river_floodplain_buffer_distance_max": 0
+    },
+    "forest_mapgen_settings": {
+      "forest": {
+        "sparseness_adjacency_factor": 3,
+        "item_group": "forest",
+        "item_group_chance": 60,
+        "item_spawn_iterations": 1,
+        "clear_groundcover": false,
+        "groundcover": { "t_carpet_yellow": 10, "t_carpet_red": 1 },
+        "clear_components": false,
+        "components": {
+          "trees": { "sequence": 0, "chance": 6, "clear_types": false, "types": { "t_wall": 128 } },
+          "shrubs_and_flowers": { "sequence": 1, "chance": 10, "clear_types": false, "types": { "f_rack_coat": 1, "f_sign_warning": 1, "f_sign": 1 } },
+          "clutter": { "sequence": 2, "chance": 80, "clear_types": false, "types": { "t_wall_b": 128, "t_wall": 128, "t_carpet_red": 128 } },
+          "water": { "sequence": 3, "chance": 512, "clear_types": false, "types": { "t_thconc_floor": 1 } }
+        },
+        "clear_terrain_furniture": false,
+        "terrain_furniture": {  }
+      },
+      "forest_thick": {
+        "sparseness_adjacency_factor": 4,
+        "item_group": "forest",
+        "item_group_chance": 60,
+        "item_spawn_iterations": 1,
+        "clear_groundcover": false,
+        "groundcover": { "t_floor": 1 },
+        "clear_components": false,
+        "components": {
+          "trees": {
+            "sequence": 0,
+            "chance": 5,
+            "clear_types": false,
+            "types": { "t_wall_b": 128, "t_wall": 128, "t_carpet_red": 128, "t_thconc_floor_olight": 20 }
+          },
+          "shrubs_and_flowers": { "sequence": 1, "chance": 5, "clear_types": false, "types": { "f_rack_coat": 1, "f_sign_warning": 1, "f_sign": 1 } },
+          "clutter": { "sequence": 2, "chance": 64, "clear_types": false, "types": { "t_scrap_floor": 64, "t_dirtfloor": 64 } },
+          "water": { "sequence": 3, "chance": 512, "clear_types": false, "types": { "t_carpet_green": 1 } }
+        },
+        "clear_terrain_furniture": false,
+        "terrain_furniture": {  }
+      },
+      "forest_water": {
+        "sparseness_adjacency_factor": 2,
+        "item_group": "forest",
+        "item_group_chance": 60,
+        "item_spawn_iterations": 1,
+        "clear_groundcover": false,
+        "groundcover": { "t_linoleum_white": 2 },
+        "clear_components": false,
+        "components": {
+          "trees": { "sequence": 0, "chance": 5, "clear_types": false, "types": { "t_utility_light": 30 } },
+          "shrubs_and_flowers": { "sequence": 1, "chance": 15, "clear_types": false, "types": { "t_floor_wax": 1 } },
+          "clutter": { "sequence": 2, "chance": 75, "clear_types": false, "types": { "t_linoleum_gray": 1 } },
+          "water": { "sequence": 3, "chance": 2, "clear_types": false, "types": { "t_junk_floor": 6 } }
+        },
+        "clear_terrain_furniture": false,
+        "terrain_furniture": { "t_water_sh": { "chance": 1, "clear_furniture": false, "furniture": { "f_sign_warning": 5 } } }
+      }
+    },
+    "forest_trail_settings": {
+      "chance": 2,
+      "border_point_chance": 2,
+      "minimum_forest_size": 100,
+      "random_point_min": 4,
+      "random_point_max": 50,
+      "random_point_size_scalar": 100,
+      "trailhead_chance": 1,
+      "trailhead_road_distance": 6,
+      "trail_center_variance": 3,
+      "trail_width_offset_min": 1,
+      "trail_width_offset_max": 3,
+      "clear_trail_terrain": false,
+      "trail_terrain": { "t_dirt": 1 },
+      "trailheads": { "trailhead_basic": 1, "trailhead_outhouse": 1, "trailhead_shack": 1 }
+    },
+    "map_extras": {
+      "field": {
+        "chance": 40,
+        "extras": {
+          "mx_teleporter_node": 100,
+          "mx_casings": 50,
+          "mx_corpses": 50,
+          "mx_collegekids": 25,
+          "mx_spider": 20,
+          "mx_pond": 20,
+          "mx_nest_dermatik": 20,
+          "mx_house_spider": 20,
+          "mx_science": 20,
+          "mx_crater": 10,
+          "mx_nest_wasp": 10,
+          "mx_house_wasp": 10,
+          "mx_military": 8,
+          "mx_drugdeal": 8,
+          "mx_supplydrop": 8,
+          "mx_portal": 3,
+          "mx_portal_in": 3,
+          "mx_jabberwock": 1,
+          "mx_helicopter": 1
+        }
+      },
+      "forest_thick": { "chance": 0, "extras": {  } },
+      "forest_water": { "chance": 0, "extras": {  } },
+      "forest": { "chance": 0, "extras": {  } },
+      "road": { "chance": 0, "extras": {  } },
+      "build": { "chance": 0, "extras": {  } },
+      "subway": { "chance": 0, "extras": {  } }
+    },
+    "city": {
+      "shop_radius": 30,
+      "shop_sigma": 50,
+      "park_radius": 20,
+      "park_sigma": 80,
+      "houses": { "s_liquor": 100 },
+      "parks": { "s_liquor": 100 },
+      "shops": { "s_liquor": 100 }
+    },
+    "weather": {
+      "base_temperature": 6.5,
+      "base_humidity": 70.0,
+      "base_pressure": 1015.0,
+      "base_wind": 3.4,
+      "base_wind_distrib_peaks": 80,
+      "base_wind_season_variation": 50,
+      "weather_types": [
+        "clear",
+        "sunny",
+        "cloudy",
+        "light_drizzle",
+        "drizzle",
+        "rain",
+        "thunder",
+        "lightning",
+        "flurries",
+        "snowing",
+        "snowstorm"
+      ]
+    },
+    "overmap_feature_flag_settings": { "clear_blacklist": false, "blacklist": [  ], "clear_whitelist": false, "whitelist": [ "BACKROOMS" ] }
+  }
+]
