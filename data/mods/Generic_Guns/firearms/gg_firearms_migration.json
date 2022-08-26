@@ -302,9 +302,9 @@
       "mk47",
       "hk_usc45",
       "m1carbine",
-      "m2carbine"
-	    "zpapm90"
-	    "zpap85"
+      "m2carbine",
+	    "zpapm90",
+	    "zpap85",
 	    "papm77"
     ],
     "type": "MIGRATION",
