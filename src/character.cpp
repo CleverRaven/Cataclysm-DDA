@@ -3710,7 +3710,8 @@ void Character::calc_bmi_encumb( std::map<bodypart_id, encumbrance_data> &vals )
     //    val.second.encumbrance += penalty;
     //}
     for( const std::pair<const bodypart_str_id, bodypart> &elem : get_body() ) {
-        int penalty = std::floor( elem.second.bmi_encumbrance_scalar * ( std::max( 0, ( get_bmi() - elem.second.bmi_encumbrance_threshold ) ) ) );
+        int penalty = std::floor( elem.second.bmi_encumbrance_scalar * ( std::max( 0,
+                                  ( get_bmi() - elem.second.bmi_encumbrance_threshold ) ) ) );
         val.first.encumbrance += 3;
     }
 }
