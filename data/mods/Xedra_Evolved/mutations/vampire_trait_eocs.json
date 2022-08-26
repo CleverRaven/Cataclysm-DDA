@@ -108,10 +108,7 @@
     "id": "EOC_HYPNOTIC_GAZE_cast",
     "effect": [
       {
-        "u_cast_spell": {
-          "id": "spell_hypnotic_gaze",
-          "message": "Your eyes redden and deepen as you lock gazes with your prey."
-        },
+        "u_cast_spell": { "id": "spell_hypnotic_gaze", "message": "Your eyes redden and deepen as you lock gazes with your prey." },
         "targeted": true
       }
     ]
