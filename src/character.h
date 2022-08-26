@@ -1289,6 +1289,7 @@ class Character : public Creature, public visitable
 
         /** Applies encumbrance from BMI */
         void calc_bmi_encumb( std::map<bodypart_id, encumbrance_data> &vals ) const;
+        void calc_bmi_encumb() const;
 
     public:
         /** Recalculate encumbrance for all body parts. */
