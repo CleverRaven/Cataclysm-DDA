@@ -777,7 +777,7 @@
       {
         "id": "zpapm90",
         "name": { "str": "ZPAP M90" },
-        "description": "A Serbian-made AK pattern rifle made by Zastava in 5.56x45mm NATO. To avoid import restrictions, Zastava USA has added a number of American-made parts.",
+        "description": "A Serbian-made AK pattern rifle made by Zastava in 5.56x45mm NATO.  To avoid import restrictions, Zastava USA has added a number of American-made parts.",
         "weight": 1
       }
     ],
@@ -817,13 +817,13 @@
     "looks_like": "ar15",
     "type": "GUN",
     "name": { "str": "5.56x45mm Mini Draco" },
-    "description": "A civilian AK pattern rifle, chambered in 5.56x45 NATO. This one is shorter and without a stock",
+    "description": "A civilian AK pattern rifle, chambered in 5.56x45 NATO.  This one is shorter and without a stock",
     "variant_type": "gun",
     "variants": [
       {
         "id": "zpap85",
         "name": { "str": "ZPAP 85" },
-        "description": "A Serbian-made AK pattern rifle made by Zastava in 5.56x45mm NATO. To avoid import restrictions, Zastava USA has added a number of American-made parts. This one is shorter and without a stock",
+        "description": "A Serbian-made AK pattern rifle made by Zastava in 5.56x45mm NATO.  To avoid import restrictions, Zastava USA has added a number of American-made parts.  This one is shorter and without a stock",
         "weight": 1
       }
     ],
