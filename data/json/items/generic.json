@@ -2838,7 +2838,7 @@
     "symbol": "s",
     "color": "cyan",
     "name": { "str": "shark plushie" },
-    "description": "A somewhat large, mass produced shark plushie. Meant to provide comfort to people of all ages.",
+    "description": "A somewhat large, mass produced shark plushie.  Meant to provide comfort to people of all ages.",
     "price": 600,
     "price_postapoc": 20,
     "material": [ "cotton" ],
