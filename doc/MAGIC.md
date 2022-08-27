@@ -129,25 +129,25 @@ Below is a table of currently implemented effects, along with special rules for 
 | `remove_effect` | Removes `effect_str` effects from all creatures in aoe.
 | `remove_field` | Removes a `effect_str` field in aoe.  Causes teleglow of varying intensity and potentially teleportation depending on field density, if the field removed is `fd_fatigue`.
 | `revive` | Revives a monster like a zombie necromancer.  The monster must have the `REVIVES` flag.
-| `short_range_teleport` | Teleports the player randomly range spaces with aoe variation.  See also `TARGET_TELEPORT` and `UNSAFE_TELEPORT` flags.
+| `short_range_teleport` | Teleports the player randomly range spaces with aoe variation.  See also the `TARGET_TELEPORT` and `UNSAFE_TELEPORT` flags.
 | `spawn_item` | Spawns an item that will disappear at the end of its duration.  Default duration is 0.
-| `summon` | Summons a `MONSTER` or `monstergroup` from `effect_str` that will disappear at the end of its duration.  Default duration is 0.
+| `summon` | Summons a `MONSTER` or `monstergroup` from `effect_str` that will disappear at the end of its duration.  Default duration is 0.  See also the `SPAWN_WITH_DEATH_DROPS` flag.
 | `summon_vehicle` | Summons a `vehicle` from `effect_str` that will disappear at the end of its duration.  Default duration is 0.
 | `targeted_polymorph` | A targeted monster is permanently transformed into the `MONSTER` specified by `effect_str`, if it has less HP than the spell's damage.  If `effect_str` is left empty, the target will transform into a random monster with a similar difficulty rating.  Alternatively, the `POLYMORPH_GROUP` flag can be used to pick a weighted ID from a `monstergroup`.  The player and NPCs are immune to this spell effect.
 | `ter_transform` | Transforms the terrain and furniture in its aoe.  The chance of any one of the points in the aoe changing is 1 / (damage).  The `effect_str` is the ID of a `ter_furn_transform`.
-| `timed_event` | Adds a timed event to the player only.  Valid timed events are: `amigara`, `artifact_light`, `help`, `robot_attack`, `roots_die`, `spawn_wyrms`, `temple_open`, `wanted`, `temple_flood`, `temple_spawn`, `dim`, .  **NOTE**: This was added only for artifact active effects.  Support is limited, use at your own risk.
+| `timed_event` | Adds a timed event to the player only.  Valid timed events are: `amigara`, `artifact_light`, `dim`, `help`, `robot_attack`, `roots_die`, `spawn_wyrms`, `temple_flood`, `temple_open`, `temple_spawn`, `wanted`.  **NOTE**: This was added only for artifact active effects.  Support is limited, use at your own risk.
 | `translocate` | Opens up a window that allows the caster to choose a translocation gate to teleport to.
-| `upgrade` | Immediately upgrades a target monster.
-| `vomit` | any creature within its area of effect will instantly vomit, if it's able to do so.
+| `upgrade` | Immediately upgrades a target `MONSTER`.
+| `vomit` | Any creature within its aoe will instantly vomit, if it's able to do so.
 
 
 Another mandatory member is spell "shape". This dictates how the area of effect works.
 
 | Shape | Description
 | --    | --
-| `blast` | a standard circular blast that goes outward from the impact position. aoe value is the radius.
-| `line` | fires a line with a width equal to the aoe
-| `cone` | fires a cone with an arc equal to aoe in degrees
+| `blast` | A circular blast centered on the impact position.  Aoe value is the radius.
+| `line` | Fires a line with a width equal to the aoe.
+| `cone` | Fires a cone with an arc equal to aoe in degrees.
 
 
 ### Spell Flags
@@ -165,37 +165,37 @@ Spells may have any number of flags, for example:
 
 | Flag | Description
 | ---  | ---
-| `WONDER` | This alters the behavior of the parent spell drastically: The spell itself doesn't cast, but its damage and range information is used in order to cast the extra_effects.  N of the extra_effects will be chosen at random to be cast, where N is the current damage of the spell (stacks with RANDOM_DAMAGE flag) and the message of the spell cast by this spell will also be displayed.  If this spell's message is not wanted to be displayed, make sure the message is an empty string.
-| `EXTRA_EFFECTS_FIRST` | The spell extra effects will happen before the main spell effect.
-| `RANDOM_TARGET` | Forces the spell to choose a random valid target within range instead of the caster choosing the target. This also affects extra_effects.
-| `RANDOM_DURATION` | picks random number between min+increment*level and max instead of normal behavior
-| `RANDOM_DAMAGE` | picks random number between min+increment*level and max instead of normal behavior
-| `RANDOM_AOE` | picks random number between min+increment*level and max instead of normal behavior
+| `CONCENTRATE` | Focus affects spell fail %.
+| `EXTRA_EFFECTS_FIRST` | The spell's `extra_effects` will happen before the main spell effect.
+| `FRIENDLY_POLY` | The target of a `targeted_polymorph` spell will become friendly to the caster if the spell resolves successfully.
+| `HOSTILE_SUMMON` | Summon spell always spawns a hostile monster.
+| `HOSTILE_50` | Summoned monster spawns friendly 50% of the time.
+| `IGNORE_WALLS` | Spell's aoe goes through walls.
+| `LOUD` | Spell makes extra noise at target.
+| `MUTATE_TRAIT` | Overrides the `mutate` spell effect to use a specific trait_id instead of a category.
+| `NO_EXPLOSION_SFX` | The spell will not generate a visual explosion effect.
+| `NO_HANDS` | Hands do not affect spell energy cost.
+| `NO_LEGS` | Legs do not affect casting time.
+| `NO_PROJECTILE` | The "projectile" portion of the spell phases through walls, the epicenter of the spell effect is exactly where you target it, with no regards to obstacles.
+| `NON_MAGICAL` | Ignores spell resistance when calculating damage mitigation.
+| `PAIN_NORESIST` | Pain altering spells can't be resisted (like with the deadened trait).
 | `PERMANENT` | items or creatures spawned with this spell do not disappear and die as normal.  Items can only be permanent at maximum spell level; creatures can be permanent at any spell level.
-| `PERMANENT_ALL_LEVELS` | items spawned with this spell do not disappear even if the spell is not max level. 
-| `IGNORE_WALLS` | spell's aoe goes through walls
-| `SWAP_POS` | a projectile spell swaps the positions of the caster and target
-| `HOSTILE_SUMMON` | summon spell always spawns a hostile monster
-| `HOSTILE_50` | summoned monster spawns friendly 50% of the time
-| `FRIENDLY_POLY` | the target of a `targeted_polymorph` spell will become friendly to the caster if the spell resolves successfully.
-| `POLYMORPH_GROUP` | a `targeted_polymorph` spell will transform the target into random monster from the monster group ID matching `effect_str`.
-| `SILENT` | spell makes no noise at target
-| `LOUD` | spell makes extra noise at target
-| `VERBAL` | spell makes noise at caster location, mouth encumbrance affects fail %
-| `SOMATIC` | arm encumbrance affects fail % and casting time (slightly)
-| `NO_HANDS` | hands do not affect spell energy cost
-| `NO_LEGS` | legs do not affect casting time
-| `CONCENTRATE` | focus affects spell fail %
-| `MUTATE_TRAIT` | overrides the mutate spell_effect to use a specific trait_id instead of a category
-| `PAIN_NORESIST` | pain altering spells can't be resisted (like with the deadened trait)
-| `WITH_CONTAINER` | items spawned with container
-| `UNSAFE_TELEPORT` | teleport spell risks killing the caster or others
-| `TARGET_TELEPORT` | teleport spell changes to maximum range target with aoe as variation around target
-| `SPAWN_GROUP` | spawn or summon from an item or monster group, instead of individual item/monster ID
-| `SPAWN_WITH_DEATH_DROPS` | allows summoned monsters to retain their usual death drops, otherwise they drop nothing
-| `NON_MAGICAL` | ignores spell resistance when calculating damage mitigation
-| `NO_PROJECTILE` | the "projectile" portion of the spell phases through walls. the epicenter of the spell effect is exactly where you target it with no regards to obstacles
-| `NO_EXPLOSION_SFX` | The spell will not generate a visual explosion effect
+| `PERMANENT_ALL_LEVELS` | Items spawned with this spell do not disappear even if the spell is not max level.
+| `POLYMORPH_GROUP` | A `targeted_polymorph` spell will transform the target into a random monster from the `monstergroup` in `effect_str`.
+| `RANDOM_AOE` | Picks random number between (min + increment)*level and max instead of normal behavior.
+| `RANDOM_DAMAGE` | Picks random number between (min + increment) * level and max instead of normal behavior.
+| `RANDOM_DURATION` | picks random number between (min + increment) * level and max instead of normal behavior.
+| `RANDOM_TARGET` | Forces the spell to choose a random valid target within range instead of the caster choosing the target.  This also affects `extra_effects`.
+| `SILENT` | Spell makes no noise at target.
+| `SOMATIC` | Arm encumbrance affects fail % and casting time (slightly).
+| `SPAWN_GROUP` | Spawn or summon from an `item_group` or `monstergroup`, instead of the specific IDs.
+| `SPAWN_WITH_DEATH_DROPS` | Allows summoned monsters to retain their usual death drops, otherwise they drop nothing.
+| `SWAP_POS` | A projectile spell swaps the positions of the caster and target.
+| `TARGET_TELEPORT` | Teleport spell changes to maximum range target with aoe as variation around target.
+| `UNSAFE_TELEPORT` | Teleport spell risks killing the caster or others.
+| `VERBAL` | Spell makes noise at caster location, mouth encumbrance affects fail %.
+| `WITH_CONTAINER` | Items spawned with container.
+| `WONDER` | This drastically alters the behavior of the parent spell: The spell itself doesn't cast, but its damage and range information is used in order to cast the `extra_effects`.  N of the `extra_effects` will be chosen to be cast at random, where N is the current damage of the spell (stacks with the `RANDOM_DAMAGE` flag) and the message of the spell cast by this spell will also be displayed.  If this spell's message is not wanted, make sure `message` is an empty string.
 
 
 ### Damage Types
