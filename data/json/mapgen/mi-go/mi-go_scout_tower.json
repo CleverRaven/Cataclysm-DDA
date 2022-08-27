@@ -40,7 +40,7 @@
           "x": 8,
           "y": 10,
           "pack_size": [ 1, 2 ],
-          "spawn_data": { "patrol": [ { "x": 8, "y": 10 } ] }
+          "spawn_data": { "patrol": [ { "x": [ 0, 23 ], "y": [ 0, 23 ] } ] }
         }
       ]
     }
@@ -84,7 +84,7 @@
           "x": 8,
           "y": 10,
           "pack_size": [ 1, 2 ],
-          "spawn_data": { "patrol": [ { "x": 8, "y": 10 } ] },
+          "spawn_data": { "patrol": [ { "x": [ 0, 23 ], "y": [ 0, 23 ] } ] },
           "repeat": [ 1, 2 ]
         }
       ]
@@ -133,7 +133,7 @@
           "x": 12,
           "y": 12,
           "pack_size": [ 1, 2 ],
-          "spawn_data": { "patrol": [ { "x": 12, "y": 12 } ] }
+          "spawn_data": { "patrol": [ { "x": [ 0, 23 ], "y": [ 0, 23 ] } ] }
         }
       ]
     }
@@ -177,7 +177,7 @@
           "x": 12,
           "y": 12,
           "pack_size": [ 1, 2 ],
-          "spawn_data": { "patrol": [ { "x": 12, "y": 12 } ] },
+          "spawn_data": { "patrol": [ { "x": [ 0, 23 ], "y": [ 0, 23 ] } ] },
           "repeat": [ 1, 2 ]
         }
       ]
