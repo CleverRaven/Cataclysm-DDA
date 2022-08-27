@@ -85,12 +85,10 @@
     "symbol": "!",
     "color": "magenta",
     "use_action": {
-      "type": "consume_drug",
-      "activation_message": "You inject the %s.",
-      "tools_needed": { "syringe": -1 },
-      "run_eocs": "EOC_CONSUMED_BLOOD_TREATMENT",
-      "vitamins": [ [ "blood", 100, 250 ] ]
+      "type": "effect_on_conditions",
+      "description": "You inject the %s in hopes of ending your thirst for blood.",
+      "effect_on_conditions": [ "EOC_CONSUMED_BLOOD_TREATMENT" ]
     },
-    "flags": [ "NO_INGEST", "NPC_SAFE", "TRADER_AVOID", "IRREPLACEABLE_CONSUMABLE" ]
+    "flags": [ "NPC_SAFE", "TRADER_AVOID" ]
   }
 ]
