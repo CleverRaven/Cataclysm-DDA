@@ -2417,7 +2417,7 @@
     "id": "mon_mantis_nymph",
     "type": "MONSTER",
     "name": { "str": "mantis nymph" },
-    "description": "A mantis nymph about the size of a dog.",
+    "description": "A mantis nymph about the size of a dog.  Even though its far smaller than the adults, you have a feeling it wouldn't take kindly to you coming too close.",
     "default_faction": "mantis",
     "bodytype": "insect",
     "species": [ "INSECT" ],
