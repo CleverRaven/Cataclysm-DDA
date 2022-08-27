@@ -146,8 +146,8 @@ Another mandatory member is spell "shape". This dictates how the area of effect 
 | Shape | Description
 | --    | --
 | `blast` | A circular blast centered on the impact position.  Aoe value is the radius.
-| `line` | Fires a line with a width equal to the aoe.
 | `cone` | Fires a cone with an arc equal to aoe in degrees.
+| `line` | Fires a line with a width equal to the aoe.
 
 
 ### Spell Flags
@@ -179,12 +179,12 @@ Spells may have any number of flags, for example:
 | `NO_PROJECTILE` | The "projectile" portion of the spell phases through walls, the epicenter of the spell effect is exactly where you target it, with no regards to obstacles.
 | `NON_MAGICAL` | Ignores spell resistance when calculating damage mitigation.
 | `PAIN_NORESIST` | Pain altering spells can't be resisted (like with the deadened trait).
-| `PERMANENT` | items or creatures spawned with this spell do not disappear and die as normal.  Items can only be permanent at maximum spell level; creatures can be permanent at any spell level.
+| `PERMANENT` | Items or creatures spawned with this spell do not disappear and die as normal.  Items can only be permanent at maximum spell level; creatures can be permanent at any spell level.
 | `PERMANENT_ALL_LEVELS` | Items spawned with this spell do not disappear even if the spell is not max level.
 | `POLYMORPH_GROUP` | A `targeted_polymorph` spell will transform the target into a random monster from the `monstergroup` in `effect_str`.
 | `RANDOM_AOE` | Picks random number between (min + increment)*level and max instead of normal behavior.
 | `RANDOM_DAMAGE` | Picks random number between (min + increment) * level and max instead of normal behavior.
-| `RANDOM_DURATION` | picks random number between (min + increment) * level and max instead of normal behavior.
+| `RANDOM_DURATION` | Picks random number between (min + increment) * level and max instead of normal behavior.
 | `RANDOM_TARGET` | Forces the spell to choose a random valid target within range instead of the caster choosing the target.  This also affects `extra_effects`.
 | `SILENT` | Spell makes no noise at target.
 | `SOMATIC` | Arm encumbrance affects fail % and casting time (slightly).
@@ -200,17 +200,18 @@ Spells may have any number of flags, for example:
 
 ### Damage Types
 
-For Spells that have an attack type, these are the available damage types:
+For spells that have an attack type, these are the available damage types:
 
-* "heat"
 * "acid"
 * "bash"
 * "biological" - internal damage such as poison
 * "cold"
 * "cut"
 * "electric"
-* "stab"
+* "heat"
 * "pure" - this damage type goes through armor altogether. it is the default.
+* "stab"
+
 
 ### Spells that level up
 
@@ -318,6 +319,8 @@ Spell types:
     "max_duration": 6250
   }
   ```
+
+
 2) Typical attack:
 ```
     {
@@ -340,27 +343,27 @@ Spell types:
     "damage_type": "stab"                                    // type of damage
   } ;
   ```
-  note: Uses both `ground` and `hostile` in `valid_targets` as well so it can be targeted in an area with no line of sight
+  Note: Uses both `ground` and `hostile` in `valid_targets` so it can be targeted in an area with no line of sight.
 
 
 3) Consecutively cast spells:
 ```
     {
-    "id": "test_combo",                                        // id of the spell, used internally. not translated
+    "id": "test_combo",                                      // id of the spell, used internally. not translated
     "type": "SPELL",
-    "name": "Combo Strikes",                                   // name of the spell that shows in game
+    "name": "Combo Strikes",                                 // name of the spell that shows in game
     "description": "Upon casting this spell, will also activate the spells specified on the 'extra_effects' in descending order.",
-    "flags": [ "SILENT", "RANDOM_DAMAGE", "RANDOM_AOE" ],      // see "Spell Flags" in this document
-    "valid_targets": [ "hostile", "ground" ],                  // if a valid target is not included, you cannot cast the spell on that target.
-    "effect": "projectile_attack",                             // effects are coded in C++. A list is provided in this document of possible effects that have been coded.
-    "effect_str": "downed",                                    // varies, see table of implemented effects in this document
+    "flags": [ "SILENT", "RANDOM_DAMAGE", "RANDOM_AOE" ],    // see "Spell Flags" in this document
+    "valid_targets": [ "hostile", "ground" ],                // if a valid target is not included, you cannot cast the spell on that target.
+    "effect": "projectile_attack",                           // effects are coded in C++. A list is provided in this document of possible effects that have been coded.
+    "effect_str": "downed",                                  // varies, see table of implemented effects in this document
     "extra_effects": [ { "id": "test_atk1" }, { "id": "test_atk2" } ],               // this allows you to cast multiple spells with only one spell
     "min_damage": 7,                                         // minimum damage (or "starting" damage)
     "max_damage": 14,                                        // maximum  damage the spell can achieve
-    "damage_increment": 0.7                            // damage increase per spell level
+    "damage_increment": 0.7                                  // damage increase per spell level
     "min_aoe": 2,                                            // area of effect
     "max_aoe": 4,
-    "aoe_increment": 0.2,                               // how much wider the area of effect gets per spell level
+    "aoe_increment": 0.2,                                     // how much wider the area of effect gets per spell level
     "min_range": 10,                                         // range of the spell
     "max_range": 10,
     "base_casting_time": 750,                                // this is the casting time (in moves)
@@ -369,7 +372,8 @@ Spell types:
     "damage_type": "stab"                                    // type of damage
   } ;
   ```
-  note: If you put two or more spells in `extra_effects`, it will simply cast all the spells consecutively - first spell in `extra_effects`, second in `extra_effects`, third in `extra_effects` and etc. if you wish to pick one randomly, use the `WONDER` flag. Additionally, the extra spells will be cast at a level up to the level of the parent spell being cast, unless additional data is added to the fake_spell.
+  Explanation: If you put two or more spells in `extra_effects`, it will consecutively cast the spells: first `extra_effects`, second `extra_effects`, third `extra_effects`, etc.  If you wish to pick one at random, use the `WONDER` flag (see below).  Additionally, the extra spells will be cast at a level up to the level of the parent spell being cast, unless additional data is added to the fake_spell.
+
 
 4) Randomly cast spells:
 ```
@@ -377,7 +381,7 @@ Spell types:
     "id": "test_starter_spell",                              // id of the spell, used internally. not translated
     "type": "SPELL",
     "name": "Starter",                                       // name of the spell that shows in game
-    "description": "Upon casting this spell, randomly selects one spell specified in'extra_effects' to cast. This spell's damage counts how many times it will randomly select from the list",
+    "description": "Upon casting this spell, randomly selects one spell specified in 'extra_effects' to cast. The spell damage shows how many times it will randomly select from the list",
     "flags": [ "SILENT", "WONDER", "RANDOM_DAMAGE" ],        // see "Spell Flags" in this document
     "valid_targets": [ "hostile" ],                          // if a valid target is not included, you cannot cast the spell on that target.
     "effect": "projectile_attack",                           // effects are coded in C++. A list is provided in this document of possible effects that have been coded.
@@ -391,12 +395,13 @@ Spell types:
     ],
     "min_damage": 3,                                         // minimum damage (or "starting" damage)
     "max_damage": 5,                                         // maximum damage the spell can achieve
-    "damage_increment": 0.2                            // damage increase per spell level
+    "damage_increment": 0.2                                  // damage increase per spell level
     "min_range": 10,                                         // range of the spell
     "max_range": 10
   }
   ```
-  note: `WONDER` flag does wonders here, it works as a dice emulator. It picks one out of these spells (It cannot fail, it will always pick a minimum of one random spell), the amount of `rolls` of this dice are specified via `min_damage` and `max_damage` with the help of `RANDOM_DAMAGE` flag of course - in this example, this spell will be repeated minimum 3 times and maximum 5 times thus it will always be cast 3-5 times. There must be a minimum of one spell in `extra_effects` for wonder to work properly.
+  Explanation: The `WONDER` flag does wonders by turning the spell into a dice: When cast, the main spell will pick the subspells in `extra_effects`.  The amount of "rolls" is specified via `min_damage` and `max_damage` plus the `RANDOM_DAMAGE` flag.  In this example, casting `test_starter_spell` will cause any one of each `test_atk#` subspells to be selected, this repeats 3 to 5 times.  There must be a minimum of one spell in `extra_effects` for the `WONDER` flag to work properly.
+
 
 5) Repeatedly cast the same spell:
 ```
@@ -419,7 +424,8 @@ Spell types:
     "max_duration": 1
   }
   ```
-  note: Notice how we have `WONDER`, `RANDOM_DAMAGE` combo again - we have `min_damage` set to 5, `max_damage` set to 7. so that means that the `dice` will `roll` 5-7 times, but this time we have only one spell in `extra_effects`. observe that `WONDER` has a 100% chance of picking a spell if there is only 1 spell in `extra_effets`, thus it will repeat the same spell 5-7 times.
+  Explanation: Notice the `WONDER` and `RANDOM_DAMAGE` combo, with a different approach:  `min_damage` set to 5 and `max_damage` set to 7 will cause the main spell to "roll" `extra_effects` 5 - 7 times, but this time there's a single `test_attack`.  Because `WONDER` has a 100% chance of picking a spell, `test_attack`, will be repeated 5 to 7 times.
+
 
 6) A spell that casts a note on a target and an effect on itself:
 ```
@@ -439,8 +445,8 @@ Spell types:
     "max_duration": 1
   }
   ```
-  note: Here we have to use one spell on the caster itself and the other on the hostile target. in order to make the caster cast a spell on itself - you must specify the `id` of whatever spell you're using and write near it in the same brackets `hit_self`: true, the second spell will be cast on the target
-	This is necessary only if we need an effect that is cast on a target and a second effect that is cast on the caster.
+  Explanation: Here we have one spell with two effects: one on the caster and the other on the target.  To do this, you must specify the `id` of whatever spell you're using with the `extra_effects` field, with `"hit_self": true`, the second spell will be cast on the target
+	This is only necessary if we need an effect that is cast on a target and a second effect that is cast on the caster.
 
 
 #### Monsters
