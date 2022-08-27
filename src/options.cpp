@@ -2401,6 +2401,8 @@ void options_manager::add_options_world_default()
     }, "normal"
        );
 
+    add_empty_line();
+
     add( "WANDER_SPAWNS", "world_default", to_translation( "Wandering hordes" ),
          to_translation( "If true, emulates zombie hordes.  Zombies can group together into hordes, which can wander around cities and will sometimes move towards noise.  Note: the current implementation does not properly respect obstacles, so hordes can appear to walk through walls under some circumstances.  Must reset world directory after changing for it to take effect." ),
          false
