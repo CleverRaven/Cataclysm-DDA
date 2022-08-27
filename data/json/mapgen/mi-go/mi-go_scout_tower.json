@@ -34,8 +34,8 @@
       "palettes": [ "mi-go_palette" ],
       "terrain": { ".": "t_region_groundcover" },
       "place_nested": [ { "chunks": [ "mi-go_encampment1_room14" ], "x": 1, "y": 14 } ],
-      "place_monster": [ 
-        { 
+      "place_monster": [
+        {
           "group": "GROUP_MI-GO_BASE_COMMON",
           "x": 8,
           "y": 10,
@@ -78,10 +78,10 @@
         "vvvvvvvvvvvvvvvvvvvvvvvv"
       ],
       "palettes": [ "mi-go_palette" ],
-      "place_monster": [ 
-        { 
+      "place_monster": [
+        {
           "group": "GROUP_MI-GO_BASE_COMMON",
-          "x": 8, 
+          "x": 8,
           "y": 10,
           "pack_size": [ 1, 2 ],
           "spawn_data": { "patrol": [ { "x": 8, "y": 10 } ] },
@@ -127,10 +127,10 @@
         { "chunks": [ "mi-go_scout_tower_cells" ], "x": 4, "y": 3 },
         { "chunks": [ "mi-go_encampment1_room17" ], "x": 1, "y": 14 }
       ],
-      "place_monster": [ 
-        { 
+      "place_monster": [
+        {
           "group": "GROUP_MI-GO_SCOUT_TOWER",
-          "x": 12, 
+          "x": 12,
           "y": 12,
           "pack_size": [ 1, 2 ],
           "spawn_data": { "patrol": [ { "x": 12, "y": 12 } ] }
@@ -171,10 +171,10 @@
         "vvvvvvvvvvvvvvvvvvvvvvvv"
       ],
       "palettes": [ "mi-go_palette" ],
-      "place_monster": [ 
-        { 
+      "place_monster": [
+        {
           "group": "GROUP_MI-GO_BASE_COMMON",
-          "x": 12, 
+          "x": 12,
           "y": 12,
           "pack_size": [ 1, 2 ],
           "spawn_data": { "patrol": [ { "x": 12, "y": 12 } ] },
