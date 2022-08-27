@@ -93,8 +93,15 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_VAMPIRES",
+    "recurrence": [ { "global_val": "ps_min_woc", "default": "1 days" }, { "global_val": "ps_max_woc", "default": "2 days" } ],
+    "global": true,
+    "effect": { "run_eocs": "EOC_vampire_virus_escalation" }
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_vampire_virus_escalation",
-    "recurrence": [ "48 hours", "120 hours 15 minutes" ],
+    "recurrence": [ "48 hours", "72 hours 15 minutes" ],
     "condition": { "and": [ { "u_has_effect": "vampire_virus" }, { "not": { "u_has_effect": "blood_treatment" } } ] },
     "deactivate_condition": { "not": { "u_has_effect": "vampire_virus" } },
     "effect": {
@@ -114,6 +121,12 @@
               "effect": [
                 { "u_roll_remainder": [ "EYEGLEAM", "STAMINAFORBLOOD" ], "type": "mutation", "true_eocs": [ "EOC_VAMPVIRUS1" ] },
                 { "u_message": "Suddenly you feel your heart pounding and you realize a new ability." }
+              ],
+              "false_effect": [
+                { "u_add_trait": "VAMPIRE" },
+                {
+                  "u_message": "With a popping sound several of your teeth fall out but when you put a finger into your mouth to feel the hole, there are new sharp fangs where you expected nothing."
+                }
               ]
             }
           }
