@@ -1003,7 +1003,7 @@ void hacksaw_activity_actor::do_turn( player_activity &/*act*/, Character &who )
 
     if( tool->ammo_sufficient( &who, method ) ) {
         int ammo_consumed = tool->ammo_required();
-        std::map<std::string, float>::const_iterator iter = tool->type->ammo_scale.find( method );
+        std::map<std::string, int>::const_iterator iter = tool->type->ammo_scale.find( method );
         if( iter != tool->type->ammo_scale.end() ) {
             ammo_consumed *= iter->second;
         }
@@ -4855,7 +4855,7 @@ void prying_activity_actor::do_turn( player_activity &/*act*/, Character &who )
 
     if( tool->ammo_sufficient( &who, method ) ) {
         int ammo_consumed = tool->ammo_required();
-        std::map<std::string, float>::const_iterator iter = tool->type->ammo_scale.find( method );
+        std::map<std::string, int>::const_iterator iter = tool->type->ammo_scale.find( method );
         if( iter != tool->type->ammo_scale.end() ) {
             ammo_consumed *= iter->second;
         }
