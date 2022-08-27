@@ -2065,7 +2065,7 @@ void vehicle::use_bike_rack( int part )
         bikerack_racking_activity_actor rack( *this, racks_parts );
         pc.assign_activity( player_activity( rack ), false );
     } else {
-        pc.add_msg_if_player( _( "Nothing to unrack or vehicles fit for racking nearby." ) );
+        pc.add_msg_if_player( _( "Nothing to take off or put on the racks is nearby." ) );
     }
 }
 
