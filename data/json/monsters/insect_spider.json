@@ -2629,7 +2629,6 @@
     "vision_night": 20,
     "harvest": "arachnid",
     "dissect": "dissect_insect_sample_single",
-    "upgrades": { "half_life": 42, "into": "mon_grasshopper_mega" },
     "reproduction": { "baby_egg": "egg_grasshopper", "baby_count": 3, "baby_timer": 15 },
     "baby_flags": [ "SPRING", "SUMMER", "AUTUMN" ],
     "fear_triggers": [ "FIRE", "PLAYER_CLOSE" ],
@@ -2645,25 +2644,6 @@
       }
     ],
     "flags": [ "SEES", "HEARS", "SMELLS", "CLIMBS", "PATH_AVOID_FALL", "PATH_AVOID_FIRE" ]
-  },
-  {
-    "id": "mon_grasshopper_mega",
-    "type": "MONSTER",
-    "name": { "str": "hillhopper" },
-    "description": "This cow-sized grasshopper kicks up dust with every step.  Its vigorous hops cause the earth around it to quake from the force.",
-    "copy-from": "mon_grasshopper_giant",
-    "proportional": { "hp": 20, "speed": 0.33, "morale": 4, "dodge": 0.5, "vision_day": 2 },
-    "volume": "625 L",
-    "weight": "815 kg",
-    "melee_dice": 2,
-    "dissect": "dissect_insect_sample_large",
-    "special_attacks": [
-      { "type": "leap", "cooldown": 2, "max_range": 25, "allow_no_target": true, "forbidden_effects_any": [ "maimed_leg" ] },
-      [ "EAT_FOOD", 10 ],
-      [ "EAT_CROP", 15 ],
-      { "id": "smash", "throw_strength": 36, "cooldown": 30 }
-    ],
-    "extend": { "flags": [ "DESTROYS", "PUSH_MON", "PUSH_VEH", "LOUDMOVES" ] }
   },
   {
     "id": "mon_grasshopper_nymph",
