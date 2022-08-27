@@ -1339,36 +1339,34 @@ bool vehicle::can_unmount( const int p, std::string &reason ) const
             //First, find all the squares connected to the one we're removing
             std::vector<vehicle_part> connected_parts;
 
-            for( int i = 0; i < 4; i++ ) {
-                const point next = parts[p].mount + point( i < 2 ? ( i == 0 ? -1 : 1 ) : 0,
-                                   i < 2 ? 0 : ( i == 2 ? -1 : 1 ) );
-                std::vector<int> parts_over_there = parts_at_relative( next, false );
-                //Ignore empty squares
+            for( const point &offset : four_adjacent_offsets ) {
+                const point next = parts[p].mount + offset;
+                const std::vector<int> parts_over_there = parts_at_relative( next, false );
                 if( !parts_over_there.empty() ) {
                     //Just need one part from the square to track the x/y
                     connected_parts.push_back( parts[parts_over_there[0]] );
                 }
             }
 
-            /* If size = 0, it's the last part of the whole vehicle, so we're OK
-             * If size = 1, it's one protruding part (i.e., bicycle wheel), so OK
-             * Otherwise, it gets complicated... */
             if( connected_parts.size() > 1 ) {
-
+                // run BFS to check path exists from first connected part to every other connected part
                 /* We'll take connected_parts[0] to be the target part.
                  * Every other part must have some path (that doesn't involve
                  * the part about to be removed) to the target part, in order
                  * for the part to be legally removable. */
                 for( const vehicle_part &next_part : connected_parts ) {
                     if( !is_connected( connected_parts[0], next_part, parts[p] ) ) {
-                        //Removing that part would break the vehicle in two
                         reason = _( "Removing this part would split the vehicle." );
                         return false;
                     }
                 }
-
-            }
-
+            } else if( connected_parts.size() == 1 ) {
+                // prevent leaving vehicle with only a PROTRUSION part (wing mirror, forklift etc)
+                if( connected_parts[0].info().has_flag( "PROTRUSION" ) ) {
+                    reason = _( "Remove other parts before removing last structural part." );
+                    return false;
+                }
+            } // else it's last part that's ok to remove
         }
     }
     //Anything not explicitly denied is permitted
