@@ -2421,7 +2421,7 @@
     "default_faction": "mantis",
     "bodytype": "insect",
     "species": [ "INSECT" ],
-    "volume": "20 l",
+    "volume": "20 L",
     "weight": "10 kg",
     "hp": 25,
     "speed": 80,
