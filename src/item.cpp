@@ -10249,6 +10249,9 @@ ret_val<void> item::can_contain( const item &it, const bool nested,
             if( parent_it.where() != item_location::type::invalid && internal_it == parent_it.get_item() ) {
                 continue;
             }
+            if( !internal_it->is_container() ) {
+                continue;
+            }
             if( internal_it->can_contain( it, true, ignore_rigidity, ignore_pkt_settings,
                                           parent_it, pkt->remaining_volume() ).success() ) {
                 return ret_val<void>::make_success();
