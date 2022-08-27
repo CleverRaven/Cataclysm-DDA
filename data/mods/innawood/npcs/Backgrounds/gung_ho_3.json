@@ -5,7 +5,7 @@
     "dynamic_line": "Well y'see, I'm not from these parts at all.  I came here from the south to visit my son when it all happened.  I just got scooped up with a bunch of others by the boss men to be taken to some kind of refugee camp.",
     "responses": [
       { "text": "Tell me about your son.", "topic": "BGSS_GUNG_HO_3_SON1" },
-      { "text": "So, you went to one of the FEMA camps?", "topic": "BGSS_GUNG_HO_3_FEMA1" },
+      { "text": "So, you went to one of the camps?", "topic": "BGSS_GUNG_HO_3_FEMA1" },
       { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
       { "text": "<end_talking>", "topic": "TALK_DONE" }
     ]
