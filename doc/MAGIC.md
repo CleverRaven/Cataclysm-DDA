@@ -445,13 +445,13 @@ Spell types:
     "max_duration": 1
   }
   ```
-  Explanation: Here we have one spell with two effects: one on the caster and the other on the target.  To do this, you must specify the `id` of whatever spell you're using with the `extra_effects` field, with `"hit_self": true`, the second spell will be cast on the target
-	This is only necessary if we need an effect that is cast on a target and a second effect that is cast on the caster.
+  Explanation: Here we have one main spell with two subspells: one on the caster and the other on the target.  To do this, you must specify the `id` of whatever spells you're using with the `extra_effects` field, in this case `sacrifice_spell` is stated with `"hit_self": true` and will hit the caster, while the second spell will be cast as normal.
+  This is only necessary if we need an effect that is cast on a target and a second effect that is cast on the caster.
 
 
 #### Monsters
 
-You can assign a spell as a special attack for a monster.  Spells with `target_self: true` will only target the monster itself, but will still only be cast if the monster has a hostile target.
+Monster creatures can also cast spells.  To do this, you need to assign the spells in `special_attacks`.  Spells with `target_self: true` will only target the monster itself, and will be casted only if the monster has a hostile target.
 
 ```json 
 { "type": "spell", "spell_data": { "id": "cone_cold", "min_level": 4 }, "monster_message": "%1$s casts %2$s at %3$s!", "cooldown": 25 }
