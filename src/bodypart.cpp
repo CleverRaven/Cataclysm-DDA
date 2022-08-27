@@ -1153,7 +1153,6 @@ void bodypart::serialize( JsonOut &json ) const
     json.member( "temp_cur", temp_cur );
     json.member( "temp_conv", temp_conv );
     json.member( "frostbite_timer", frostbite_timer );
-    json.member( "wetness", wetness );
 
     json.end_object();
 }
