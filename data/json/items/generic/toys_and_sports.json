@@ -328,7 +328,7 @@
     "bashing": 18,
     "to_hit": -2,
     "ammo": [ "battery" ],
-    "flags": [ "WATER_BREAK" ],
+    "flags": [ "WATER_BREAK", "SINGLE_USE" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",

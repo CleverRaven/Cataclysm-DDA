@@ -966,6 +966,7 @@ void player_morale::set_worn( const item &it, bool worn )
     const bool fancy = it.has_flag( STATIC( flag_id( "FANCY" ) ) );
     const bool super_fancy = it.has_flag( STATIC( flag_id( "SUPER_FANCY" ) ) );
     const bool filthy_gear = it.has_flag( STATIC( flag_id( "FILTHY" ) ) );
+    const bool integrated = it.has_flag( STATIC( flag_id( "INTEGRATED" ) ) );
     const int sign = worn ? 1 : -1;
 
     const auto update_body_part = [&]( body_part_data & bp_data ) {
@@ -975,7 +976,10 @@ void player_morale::set_worn( const item &it, bool worn )
         if( filthy_gear ) {
             bp_data.filthy += sign;
         }
-        bp_data.covered += sign;
+        // If armor is integrated (Subdermal CBM, Skin armor mutation) don't count it as covering
+        if( !integrated ) {
+            bp_data.covered += sign;
+        }
     };
 
     const body_part_set covered( it.get_covered_body_parts() );
