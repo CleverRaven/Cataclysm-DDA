@@ -2428,7 +2428,7 @@
     "material": [ "iflesh" ],
     "symbol": "M",
     "color": "light_green",
-    "aggression": 10,
+    "aggression": -10,
     "morale": 30,
     "melee_skill": 1,
     "melee_dice": 1,
