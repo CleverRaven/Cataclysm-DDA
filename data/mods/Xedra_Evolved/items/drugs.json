@@ -88,7 +88,7 @@
       "type": "consume_drug",
       "activation_message": "You inject the %s.",
       "tools_needed": { "syringe": -1 },
-      "effects": [ { "id": "blood_treatment", "duration": 28800 } ],
+      "run_eocs": "EOC_CONSUMED_BLOOD_TREATMENT",
       "vitamins": [ [ "blood", 100, 250 ] ]
     },
     "flags": [ "NO_INGEST", "NPC_SAFE", "TRADER_AVOID", "IRREPLACEABLE_CONSUMABLE" ]

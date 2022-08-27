@@ -14,27 +14,23 @@
         "run_eocs": [
           {
             "id": "EOC_REDUCE_VAMPVIRUS",
-            "condition": {
-              "and": [
-                { "u_has_effect": "vampire_virus", "intensity": 1 },
-                { "compare_int": [ { "u_val": "effect_intensity", "effect": "vampire_virus" }, "=", { "const": 1 } ] }
-              ]
-            },
+            "condition": { "compare_int": [ { "u_val": "effect_intensity", "effect": "vampire_virus" }, "=", { "const": 1 } ] },
             "effect": [
               { "u_lose_effect": "vampire_virus" },
+              { "u_lose_trait": "VAMPIRE" },
+              { "u_lose_trait": "EYEGLEAM" },
+              { "u_lose_trait": "STAMINAFORBLOOD" },
               { "u_message": "The light seems less bright and the air fresher.", "type": "good" }
             ]
           },
           {
             "id": "EOC_REDUCE_VAMPVIRUS1",
-            "condition": {
-              "and": [
-                { "u_has_effect": "vampire_virus", "intensity": 2 },
-                { "compare_int": [ { "u_val": "effect_intensity", "effect": "vampire_virus" }, "=", { "const": 2 } ] }
-              ]
-            },
+            "condition": { "compare_int": [ { "u_val": "effect_intensity", "effect": "vampire_virus" }, "=", { "const": 2 } ] },
             "effect": [
               { "u_add_effect": "vampire_virus", "intensity": 1, "duration": "PERMANENT" },
+              { "u_lose_trait": "VAMPIRE2" },
+              { "u_lose_trait": "COAGULANTWEAVE" },
+              { "u_lose_trait": "BLOODHEAL" },
               {
                 "u_message": "You seem to be feeling a little better, but the thirst for blood remains.",
                 "type": "good"
@@ -43,14 +39,12 @@
           },
           {
             "id": "EOC_REDUCE_VAMPVIRUS2",
-            "condition": {
-              "and": [
-                { "u_has_effect": "vampire_virus", "intensity": 3 },
-                { "compare_int": [ { "u_val": "effect_intensity", "effect": "vampire_virus" }, "=", { "const": 3 } ] }
-              ]
-            },
+            "condition": { "compare_int": [ { "u_val": "effect_intensity", "effect": "vampire_virus" }, "=", { "const": 3 } ] },
             "effect": [
               { "u_add_effect": "vampire_virus", "intensity": 2, "duration": "PERMANENT" },
+              { "u_lose_trait": "VAMPIRE3" },
+              { "u_lose_trait": "HYPNOTIC_GAZE" },
+              { "u_lose_trait": "BLOODHASTE" },
               {
                 "u_message": "You no longer instantly turn red in sunlight, but your skin is still concerningly pale.",
                 "type": "good"
