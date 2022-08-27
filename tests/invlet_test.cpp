@@ -82,13 +82,13 @@ static item *retrieve_item( const T &sel, int id )
 static std::string location_desc( const inventory_location loc )
 {
     switch( loc ) {
-        case GROUND:
+        case inventory_location::GROUND:
             return "the ground";
-        case INVENTORY:
+        case inventory_location::INVENTORY:
             return "inventory";
-        case WORN:
+        case inventory_location::WORN:
             return "worn items";
-        case WIELDED_OR_WORN:
+        case inventory_location::WIELDED_OR_WORN:
             return "wielded or worn items";
         default:
             break;

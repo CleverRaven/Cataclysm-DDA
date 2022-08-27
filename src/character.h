@@ -3603,7 +3603,7 @@ class Character : public Creature, public visitable
 
         // a cache of all active enchantment values.
         // is recalculated every turn in Character::recalculate_enchantment_cache
-        pimpl<enchantment> enchantment_cache;
+        pimpl<enchant_cache> enchantment_cache;
 };
 
 Character &get_player_character();
