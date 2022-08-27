@@ -240,56 +240,10 @@ bool enchantment::is_active( const Character &guy, const bool active ) const
     return false;
 }
 
-
-bool enchant_cache::is_active( const Character &guy, const item &parent ) const
-{
-    if( !guy.has_item( parent ) ) {
-        return false;
-    }
-
-    if( active_conditions.first == enchantment::has::HELD &&
-        active_conditions.second == enchantment::condition::ALWAYS ) {
-        return true;
-    }
-
-    if( !( active_conditions.first == enchantment::has::HELD ||
-           ( active_conditions.first == enchantment::has::WIELD && guy.is_wielding( parent ) ) ||
-           ( active_conditions.first == enchantment::has::WORN && guy.is_worn( parent ) ) ) ) {
-        return false;
-    }
-
-    return is_active( guy, parent.active );
-}
-
-bool enchant_cache::is_active( const Character &guy, const bool active ) const
-{
-    if( active_conditions.second == enchantment::condition::ACTIVE ) {
-        return active;
-    }
-
-    if( active_conditions.second == enchantment::condition::INACTIVE ) {
-        return !active;
-    }
-
-    if( active_conditions.second == enchantment::condition::ALWAYS ) {
-        return true;
-    }
-
-    if( active_conditions.second == enchantment::condition::DIALOG_CONDITION ) {
-        dialogue d( get_talker_for( guy ), nullptr );
-        return dialog_condition( d );
-    }
-    return false;
-}
-
 bool enchantment::active_wield() const
 {
-    return active_conditions.first == enchantment::has::HELD || active_conditions.first == enchantment::has::WIELD;
-}
-
-bool enchant_cache::active_wield() const
-{
-    return active_conditions.first == enchantment::has::HELD || active_conditions.first == enchantment::has::WIELD;
+    return active_conditions.first == enchantment::has::HELD ||
+           active_conditions.first == enchantment::has::WIELD;
 }
 
 void enchantment::add_activation( const time_duration &dur, const fake_spell &fake )
@@ -297,23 +251,18 @@ void enchantment::add_activation( const time_duration &dur, const fake_spell &fa
     intermittent_activation[dur].emplace_back( fake );
 }
 
-void enchant_cache::add_activation( const time_duration &dur, const fake_spell &fake )
-{
-    intermittent_activation[dur].emplace_back( fake );
-}
-
-void bodypart_changes::load( const JsonObject &jo )
+void enchantment::bodypart_changes::load( const JsonObject &jo )
 {
     optional( jo, was_loaded, "gain", gain );
     optional( jo, was_loaded, "lose", lose );
 }
 
-void bodypart_changes::deserialize( const JsonObject &jo )
+void enchantment::bodypart_changes::deserialize( const JsonObject &jo )
 {
     load( jo );
 }
 
-void bodypart_changes::serialize( JsonOut &jsout ) const
+void enchantment::bodypart_changes::serialize( JsonOut &jsout ) const
 {
     jsout.start_object();
     jsout.member( "gain", gain );
@@ -392,7 +341,7 @@ void enchantment::load( const JsonObject &jo, const std::string &,
 
 
 void enchant_cache::load( const JsonObject &jo, const std::string &,
-                        const cata::optional<std::string> &inline_id )
+                          const cata::optional<std::string> &inline_id )
 {
     optional( jo, was_loaded, "id", id, enchantment_id( inline_id.value_or( "" ) ) );
 
@@ -424,7 +373,8 @@ void enchant_cache::load( const JsonObject &jo, const std::string &,
     if( jo.has_string( "condition" ) ) {
         std::string condit;
         optional( jo, was_loaded, "condition", condit );
-        cata::optional<enchantment::condition> con = io::string_to_enum_optional<enchantment::condition>( condit );
+        cata::optional<enchantment::condition> con = io::string_to_enum_optional<enchantment::condition>
+                ( condit );
         if( con.has_value() ) {
             active_conditions.second = con.value();
         } else {
@@ -451,7 +401,7 @@ void enchant_cache::load( const JsonObject &jo, const std::string &,
             const double add = value_obj.get_int( "add", 0 );
             const double mult = value_obj.get_float( "multiply", 0.0 );
             if( value_obj.has_member( "add" ) ) {
-                
+
                 values_add.emplace( value, add );
             }
             if( mult != 0.0 ) {
@@ -529,11 +479,6 @@ void enchant_cache::serialize( JsonOut &jsout ) const
 }
 
 bool enchant_cache::stacks_with( const enchantment &rhs ) const
-{
-    return active_conditions == rhs.active_conditions;
-}
-
-bool enchant_cache::stacks_with( const enchant_cache &rhs ) const
 {
     return active_conditions == rhs.active_conditions;
 }
@@ -729,25 +674,6 @@ bool enchantment::modifies_bodyparts() const
 }
 
 body_part_set enchantment::modify_bodyparts( const body_part_set &unmodified ) const
-{
-    body_part_set modified( unmodified );
-    for( const bodypart_changes &changes : modified_bodyparts ) {
-        if( !changes.gain.is_empty() ) {
-            modified.set( changes.gain );
-        }
-        if( !changes.lose.is_empty() ) {
-            modified.reset( changes.lose );
-        }
-    }
-    return modified;
-}
-
-bool enchant_cache::modifies_bodyparts() const
-{
-    return !modified_bodyparts.empty();
-}
-
-body_part_set enchant_cache::modify_bodyparts( const body_part_set &unmodified ) const
 {
     body_part_set modified( unmodified );
     for( const bodypart_changes &changes : modified_bodyparts ) {

@@ -10168,7 +10168,7 @@ double item::calculate_by_enchantment( const Character &owner, double modify,
     double mult_value = 1.0;
     for( const enchant_cache &ench : get_enchantments() ) {
         if( ench.is_active( owner, *this ) ) {
-            add_value += ench.get_value_add( value);
+            add_value += ench.get_value_add( value );
             mult_value += ench.get_value_multiply( value );
         }
     }

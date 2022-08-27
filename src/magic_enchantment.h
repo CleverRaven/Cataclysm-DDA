@@ -124,36 +124,25 @@ enum class mod : int {
 };
 } // namespace enchant_vals
 
-struct bodypart_changes {
-    bodypart_str_id gain;
-    bodypart_str_id lose;
-
-    bool was_loaded = false;
-
-    void serialize( JsonOut &jsout ) const;
-    void deserialize( const JsonObject &jo );
-    void load( const JsonObject &jo );
-};
-
 // an "enchantment" is what passive artifact effects used to be:
 // under certain conditions, the effect persists upon the appropriate Character
 class enchantment
 {
-    public:  
+    public:
         enum has {
-        WIELD,
-        WORN,
-        HELD,
-        NUM_HAS
-    };
-    // the condition at which the enchantment is giving passive effects
-    enum condition {
-        ALWAYS,
-        ACTIVE, // the item, mutation, etc. is active
-        INACTIVE, // the item, mutation, etc. is inactive
-        DIALOG_CONDITION, // Check a provided dialog condition
-        NUM_CONDITION
-    };
+            WIELD,
+            WORN,
+            HELD,
+            NUM_HAS
+        };
+        // the condition at which the enchantment is giving passive effects
+        enum condition {
+            ALWAYS,
+            ACTIVE, // the item, mutation, etc. is active
+            INACTIVE, // the item, mutation, etc. is inactive
+            DIALOG_CONDITION, // Check a provided dialog condition
+            NUM_CONDITION
+        };
 
         static void load_enchantment( const JsonObject &jo, const std::string &src );
         static void reset();
@@ -164,9 +153,6 @@ class enchantment
         // If the input is a string return it as an enchantment_id otherwise create an enchantment with id inline_id and return inline_id as an enchantment id
         static enchantment_id load_inline_enchantment( const JsonValue &jv, const std::string &src,
                 std::string &inline_id );
-
-        int get_value_add( enchant_vals::mod value, const Character &guy ) const;
-        double get_value_multiply( enchant_vals::mod value ) const;
 
         // this enchantment has a valid condition and is in the right location
         bool is_active( const Character &guy, const item &parent ) const;
@@ -187,13 +173,21 @@ class enchantment
         const std::set<trait_id> &get_mutations() const {
             return mutations;
         }
-
+        int get_value_add( const enchant_vals::mod value, const Character &guy ) const;
+        double get_value_multiply( enchant_vals::mod value ) const;
         bool operator==( const enchantment &rhs ) const;
 
         body_part_set modify_bodyparts( const body_part_set &unmodified ) const;
         // does the enchantment modify bodyparts?
         bool modifies_bodyparts() const;
-
+        struct bodypart_changes {
+            bodypart_str_id gain;
+            bodypart_str_id lose;
+            bool was_loaded = false;
+            void serialize( JsonOut &jsout ) const;
+            void deserialize( const JsonObject &jo );
+            void load( const JsonObject &jo );
+        };
         std::vector<bodypart_changes> modified_bodyparts;
 
         std::set<trait_id> mutations;
@@ -216,7 +210,7 @@ class enchantment
         void add_activation( const time_duration &dur, const fake_spell &fake );
 };
 
-class enchant_cache
+class enchant_cache : public enchantment
 {
     public:
 
@@ -226,9 +220,6 @@ class enchant_cache
         // adds two enchantments together and ignores their conditions
         void force_add( const enchantment &rhs, const Character &you );
         void force_add( const enchant_cache &rhs );
-        body_part_set modify_bodyparts( const body_part_set &unmodified ) const;
-        // does the enchantment modify bodyparts?
-        bool modifies_bodyparts() const;
 
         // modifies character stats, or does other passive effects
         void activate_passive( Character &guy ) const;
@@ -241,53 +232,29 @@ class enchant_cache
         bool add( const enchant_cache &rhs );
         // checks if the enchantments have the same active_conditions
         bool stacks_with( const enchantment &rhs ) const;
-        bool stacks_with( const enchant_cache &rhs ) const;
         // performs cooldown and distance checks before casting enchantment spells
         void cast_enchantment_spell( Character &caster, const Creature *target,
                                      const fake_spell &sp ) const;
-        
+
         // casts all the hit_you_effects on the target
         void cast_hit_you( Character &caster, const Creature &target ) const;
         // casts all the hit_me_effects on self or a target depending on the enchantment definition
         void cast_hit_me( Character &caster, const Creature *target ) const;
         void serialize( JsonOut &jsout ) const;
-        const std::set<trait_id> &get_mutations() const {
-            return mutations;
-        }
         void add_value_add( enchant_vals::mod value, int add_value );
-        
+
         void set_has( enchantment::has value );
         void add_value_mult( enchant_vals::mod value, float mult_value );
         void add_hit_you( const fake_spell &sp );
         void add_hit_me( const fake_spell &sp );
-        // this enchantment has a valid condition and is in the right location
-        bool is_active( const Character &guy, const item &parent ) const;
-
-        // this enchantment has a valid item independent conditions
-        // @active means the container for the enchantment is active, for comparison to active flag.
-        bool is_active( const Character &guy, bool active ) const;
-        // this enchantment is active when wielded.
-        // shows total conditional values, so only use this when Character is not available
-        bool active_wield() const;
-        void load( const JsonObject &jo, const std::string &src = "", const cata::optional<std::string> &inline_id = cata::nullopt );
-        enchantment_id id;
+        void load( const JsonObject &jo, const std::string &src = "",
+                   const cata::optional<std::string> &inline_id = cata::nullopt );
         bool operator==( const enchant_cache &rhs ) const;
     private:
-        bool was_loaded = false;
-        std::vector<bodypart_changes> modified_bodyparts;
         std::map<enchant_vals::mod, int> values_add; // NOLINT(cata-serialize)
         // values that get multiplied to the base value
         // multipliers add to each other instead of multiply against themselves
         std::map<enchant_vals::mod, double> values_multiply; // NOLINT(cata-serialize)
-        std::vector<fake_spell> hit_me_effect;
-        std::vector<fake_spell> hit_you_effect;
-        std::map<efftype_id, int> ench_effects;
-        cata::optional<emit_id> emitter;
-        std::map<time_duration, std::vector<fake_spell>> intermittent_activation;
-        std::set<trait_id> mutations;
-        std::pair<enchantment::has, enchantment::condition> active_conditions;
-        std::function<bool( const dialogue & )> dialog_condition; // NOLINT(cata-serialize)
-        void add_activation( const time_duration &dur, const fake_spell &fake );
 
 };
 
