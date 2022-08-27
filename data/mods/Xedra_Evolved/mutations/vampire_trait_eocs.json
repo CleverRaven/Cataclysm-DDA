@@ -2,10 +2,10 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_EYEGLEAM_activated",
-    "condition": { "compare_int": [ { "u_val": "human_blood_vitamin" }, ">=", { "const": -500 } ] },
+    "condition": { "compare_int": [ { "u_val": "vitamin", "name": "human_blood_vitamin" }, ">=", { "const": -500 } ] },
     "effect": [
       { "u_assign_activity": "ACT_GENERIC_EOC", "duration": "1 seconds" },
-      { "arithmetic": [ { "u_val": "human_blood_vitamin" }, "-=", { "const": 100 } ] },
+      { "arithmetic": [ { "u_val": "vitamin", "name": "human_blood_vitamin" }, "-=", { "const": 100 } ] },
       { "queue_eocs": [ "EOC_EYEGLEAM_cast" ], "time_in_future": 1 }
     ],
     "false_effect": [ { "u_message": "You don't have enough blood to activate your gleaming eyes.", "type": "bad" } ]
@@ -26,10 +26,10 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_STAMINAFORBLOOD_activated",
-    "condition": { "compare_int": [ { "u_val": "human_blood_vitamin" }, ">=", { "const": -500 } ] },
+    "condition": { "compare_int": [ { "u_val": "vitamin", "name": "human_blood_vitamin" }, ">=", { "const": -500 } ] },
     "effect": [
       { "u_assign_activity": "ACT_GENERIC_EOC", "duration": "1 seconds" },
-      { "arithmetic": [ { "u_val": "human_blood_vitamin" }, "-=", { "const": 100 } ] },
+      { "arithmetic": [ { "u_val": "vitamin", "name": "human_blood_vitamin" }, "-=", { "const": 100 } ] },
       { "queue_eocs": [ "EOC_STAMINAFORBLOOD_cast" ], "time_in_future": 1 }
     ],
     "false_effect": [ { "u_message": "You don't have enough blood to recover any stamina.", "type": "bad" } ]
@@ -50,10 +50,10 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_COAGULANTWEAVE_activated",
-    "condition": { "compare_int": [ { "u_val": "human_blood_vitamin" }, ">=", { "const": 500 } ] },
+    "condition": { "compare_int": [ { "u_val": "vitamin", "name": "human_blood_vitamin" }, ">=", { "const": 500 } ] },
     "effect": [
       { "u_assign_activity": "ACT_GENERIC_EOC", "duration": "1 seconds" },
-      { "arithmetic": [ { "u_val": "human_blood_vitamin" }, "-=", { "const": 500 } ] },
+      { "arithmetic": [ { "u_val": "vitamin", "name": "human_blood_vitamin" }, "-=", { "const": 500 } ] },
       { "queue_eocs": [ "EOC_COAGULANTWEAVE_cast" ], "time_in_future": 1 }
     ],
     "false_effect": [ { "u_message": "You don't have enough blood to fortify your flesh.", "type": "bad" } ]
@@ -74,10 +74,10 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_BLOODHEAL_activated",
-    "condition": { "compare_int": [ { "u_val": "human_blood_vitamin" }, ">=", { "const": -9500 } ] },
+    "condition": { "compare_int": [ { "u_val": "vitamin", "name": "human_blood_vitamin" }, ">=", { "const": -9500 } ] },
     "effect": [
       { "u_assign_activity": "ACT_GENERIC_EOC", "duration": "1 seconds" },
-      { "arithmetic": [ { "u_val": "human_blood_vitamin" }, "-=", { "const": 750 } ] },
+      { "arithmetic": [ { "u_val": "vitamin", "name": "human_blood_vitamin" }, "-=", { "const": 750 } ] },
       { "queue_eocs": [ "EOC_BLOODHEAL_cast" ], "time_in_future": 1 }
     ],
     "false_effect": [ { "u_message": "You don't have enough blood to fortify your flesh.", "type": "bad" } ]
@@ -95,10 +95,10 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_HYPNOTIC_GAZE_activated",
-    "condition": { "compare_int": [ { "u_val": "human_blood_vitamin" }, ">=", { "const": -500 } ] },
+    "condition": { "compare_int": [ { "u_val": "vitamin", "name": "human_blood_vitamin" }, ">=", { "const": -500 } ] },
     "effect": [
       { "u_assign_activity": "ACT_GENERIC_EOC", "duration": "1 seconds" },
-      { "arithmetic": [ { "u_val": "human_blood_vitamin" }, "-=", { "const": 150 } ] },
+      { "arithmetic": [ { "u_val": "vitamin", "name": "human_blood_vitamin" }, "-=", { "const": 150 } ] },
       { "queue_eocs": [ "EOC_HYPNOTIC_GAZE_cast" ], "time_in_future": 1 }
     ],
     "false_effect": [ { "u_message": "You don't have enough blood to hypnotize your foes.", "type": "bad" } ]
@@ -108,7 +108,10 @@
     "id": "EOC_HYPNOTIC_GAZE_cast",
     "effect": [
       {
-        "u_cast_spell": { "id": "spell_hypnotic_gaze", "message": "Your eyes redden and deepen as you lock gazes with your prey." },
+        "u_cast_spell": {
+          "id": "spell_hypnotic_gaze",
+          "message": "Your eyes redden and deepen as you lock gazes with your prey."
+        },
         "targeted": true
       }
     ]
@@ -116,10 +119,10 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_BLOODHASTE_activated",
-    "condition": { "compare_int": [ { "u_val": "human_blood_vitamin" }, ">=", { "const": -1500 } ] },
+    "condition": { "compare_int": [ { "u_val": "vitamin", "name": "human_blood_vitamin" }, ">=", { "const": -1500 } ] },
     "effect": [
       { "u_assign_activity": "ACT_GENERIC_EOC", "duration": "1 seconds" },
-      { "arithmetic": [ { "u_val": "human_blood_vitamin" }, "-=", { "const": 750 } ] },
+      { "arithmetic": [ { "u_val": "vitamin", "name": "human_blood_vitamin" }, "-=", { "const": 750 } ] },
       { "queue_eocs": [ "EOC_BLOODHASTE_cast" ], "time_in_future": 1 }
     ],
     "false_effect": [ { "u_message": "You lack the stolen lifeforce to accelerate your own.", "type": "bad" } ]
