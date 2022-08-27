@@ -4,7 +4,7 @@
     "type": "widget",
     "style": "sidebar",
     "label": "structured",
-    "description": "A compact, structured sidebar. Ideal for playing with large font size or small resolution.\n\nFeatures compact body graphs for HP, encumbrance, status and temperature.\n\nHighly customizable in-game!\n\n(It is recommended to disable sidebar spacers under Options -> Graphics.)",
+    "description": "A compact, structured sidebar. Ideal for playing with large font size or small resolution.\n\nFeatures compact body graphs for HP, encumbrance, status and temperature.\n\nHighly customizable in-game!\n\n(It is recommended to disable sidebar spacers under Options -> Interface.)",
     "separator": ": ",
     "width": 48,
     "padding": 1,
