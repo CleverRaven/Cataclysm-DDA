@@ -153,7 +153,7 @@ std::vector<const recipe *> recipe_subset::recent() const
     return res;
 }
 
-std::vector<const recipe *> recipe_subset::nested() const
+std::vector<const recipe *> recipe_subset::nested( int index ) const
 {
     std::vector<const recipe *> res;
 
@@ -161,7 +161,8 @@ std::vector<const recipe *> recipe_subset::nested() const
         if( !*r || r->obsolete ) {
             return false;
         }
-        return uistate.nested_recipes.find( r->ident() ) != uistate.nested_recipes.end();
+        return uistate.nested_recipes[index].second.find( r->ident() ) !=
+               uistate.nested_recipes[index].second.end();
     } );
 
     return res;
@@ -350,8 +351,9 @@ bool recipe_subset::empty_category( const std::string &cat, const std::string &s
         return uistate.recent_recipes.empty();
     } else if( subcat == "CSC_*_HIDDEN" ) {
         return uistate.hidden_recipes.empty();
-    } else if( subcat == "CSC_*_NESTED" ) {
-        return uistate.nested_recipes.empty();
+    } else if( cat == "CC_*" ) {
+        //any other category in CC_* is populated
+        return false;
     }
 
     auto iter = category.find( cat );

@@ -1238,11 +1238,9 @@ class vehicle
         std::list<item *> fuel_items_left();
 
         // Checks how much certain fuel left in tanks.
-        int fuel_left( const itype_id &ftype, bool recurse = false,
-                       const std::function<bool( const vehicle_part & )> &filter = return_true<const vehicle_part &> )
+        int64_t fuel_left( const itype_id &ftype, bool recurse = false,
+                           const std::function<bool( const vehicle_part & )> &filter = return_true<const vehicle_part &> )
         const;
-        // Checks how much of the part p's current fuel is left
-        int fuel_left( int p, bool recurse = false ) const;
         // Checks how much of an engine's current fuel is left in the tanks.
         int engine_fuel_left( int e, bool recurse = false ) const;
         // Returns what type of fuel an engine uses

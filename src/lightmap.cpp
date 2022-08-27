@@ -704,8 +704,10 @@ map::apparent_light_info map::apparent_light_helper( const level_cache &map_cach
             if( is_opaque( neighbour ) ) {
                 continue;
             }
-            if( map_cache.seen_cache[neighbour.x][neighbour.y] == 0 &&
-                map_cache.camera_cache[neighbour.x][neighbour.y] == 0 ) {
+            if( ( rl_dist( u.pos().xy(), neighbour ) > u.unimpaired_range() &&
+                  map_cache.camera_cache[neighbour.x][neighbour.y] == 0 ) ||
+                ( map_cache.seen_cache[neighbour.x][neighbour.y] == 0 &&
+                  map_cache.camera_cache[neighbour.x][neighbour.y] == 0 ) ) {
                 continue;
             }
             // This is a non-opaque visible neighbour, so count visibility from the relevant
@@ -752,13 +754,9 @@ lit_level map::apparent_light_at( const tripoint &p, const visibility_variables 
                 // This represents too hazy to see detail,
                 // but enough light getting through to illuminate.
                 return lit_level::BRIGHT_ONLY;
-            } else {
-                // If it's not brighter than the surroundings, it just ends up shadowy.
-                return lit_level::LOW;
             }
-        } else {
-            return lit_level::BLANK;
         }
+        return lit_level::BLANK;
     }
     // Then we just search for the light level in descending order.
     if( a.apparent_light > LIGHT_SOURCE_BRIGHT || map_cache.sm[p.x][p.y] > 0.0 ) {
@@ -982,8 +980,8 @@ castLightAll<fragment_cloud, fragment_cloud, shrapnel_calc, shrapnel_check,
  * @param origin the starting location
  * @param target_z Z-level to draw light map on
  */
-void map::build_seen_cache( const tripoint &origin, const int target_z, bool cumulative,
-                            bool camera, int penalty )
+void map::build_seen_cache( const tripoint &origin, const int target_z, int extension_range,
+                            bool cumulative, bool camera, int penalty )
 {
     level_cache &map_cache = get_cache( target_z );
     using mdarray = cata::mdarray<float, point_bub_ms>;
@@ -1063,6 +1061,9 @@ void map::build_seen_cache( const tripoint &origin, const int target_z, bool cum
             continue;
         }
         const tripoint mirror_pos = vp.pos();
+        if( rl_dist( origin, vp.pos() ) > extension_range ) {
+            continue;
+        }
         // We can utilize the current state of the seen cache to determine
         // if the player can see the mirror from their position.
         if( !vp.info().has_flag( "CAMERA" ) &&
@@ -1088,12 +1089,14 @@ void map::build_seen_cache( const tripoint &origin, const int target_z, bool cum
         // Determine how far the light has already traveled so mirrors
         // don't cheat the light distance falloff.
         int offsetDistance;
+        mdarray *mocache = &out_cache;
         if( !is_camera ) {
             offsetDistance = penalty + rl_dist( origin, mirror_pos );
         } else {
             offsetDistance = 60 - veh->part_info( mirror ).bonus *
                              veh->part( mirror ).hp() / veh->part_info( mirror ).durability;
-            camera_cache[mirror_pos.x][mirror_pos.y] = LIGHT_TRANSPARENCY_OPEN_AIR;
+            mocache = &camera_cache;
+            ( *mocache )[mirror_pos.x][mirror_pos.y] = LIGHT_TRANSPARENCY_OPEN_AIR;
         }
 
         // TODO: Factor in the mirror facing and only cast in the
@@ -1102,7 +1105,7 @@ void map::build_seen_cache( const tripoint &origin, const int target_z, bool cum
         // The naive solution of making the mirrors act like a second player
         // at an offset appears to give reasonable results though.
         castLightAll<float, float, sight_calc, sight_check, update_light, accumulate_transparency>(
-            camera_cache, transparency_cache, mirror_pos.xy(), offsetDistance );
+            *mocache, transparency_cache, mirror_pos.xy(), offsetDistance );
     }
 }
 

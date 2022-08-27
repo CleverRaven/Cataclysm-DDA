@@ -753,6 +753,7 @@ These flags can be applied via JSON item definition to most items.  Not to be co
 - ```REDUCED_BASHING``` ... Gunmod flag; reduces the item's bashing damage by 50%.
 - ```REDUCED_WEIGHT``` ... Gunmod flag; reduces the item's base weight by 25%.
 - ```REQUIRES_TINDER``` ... Requires tinder to be present on the tile this item tries to start a fire on.
+- ```SINGLE_USE``` ... This item is deleted after being used. Items that count by charge do not need this as they are deleted when charges run out.
 - ```SLEEP_AID``` ... This item helps in sleeping.
 - ```SLEEP_AID_CONTAINER``` ... This item allows sleep aids inside of it to help in sleeping. (E.g. this is a pillowcase).
 - ```SLEEP_IGNORE``` ... This item is not shown as before-sleep warning.

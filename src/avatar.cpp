@@ -1848,6 +1848,12 @@ bool character_martial_arts::pick_style( const avatar &you ) // Style selection 
 
     kmenu.selected = STYLE_OFFSET;
 
+    // +1 to keep "No Style" at top
+    std::sort( selectable_styles.begin() + 1, selectable_styles.end(),
+    []( const matype_id & a, const matype_id & b ) {
+        return localized_compare( a->name.translated(), b->name.translated() );
+    } );
+
     for( size_t i = 0; i < selectable_styles.size(); i++ ) {
         const martialart &style = selectable_styles[i].obj();
         //Check if this style is currently selected

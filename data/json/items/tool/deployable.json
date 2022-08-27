@@ -135,7 +135,8 @@
       "moves": 100,
       "practice": 0,
       "done_message": "You unfold the cot and place it on the ground."
-    }
+    },
+    "flags": [ "SINGLE_USE" ]
   },
   {
     "id": "metal_butcher_rack",

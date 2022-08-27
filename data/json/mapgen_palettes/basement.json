@@ -50,7 +50,7 @@
       "s": "f_chair",
       "F": "f_home_furnace",
       "W": "f_water_heater",
-      "o": "f_oven",
+      "o": [ "f_oven", "f_gas_oven_microwave_combo" ],
       "b": "f_cupboard",
       "T": "f_rack"
     },
