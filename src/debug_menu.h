@@ -43,6 +43,7 @@ enum class debug_menu_index : int {
     SPAWN_ARTIFACT,
     SPAWN_CLAIRVOYANCE,
     MAP_EDITOR,
+    CHANGE_WEATHER,
     WIND_DIRECTION,
     WIND_SPEED,
     GEN_SOUND,
