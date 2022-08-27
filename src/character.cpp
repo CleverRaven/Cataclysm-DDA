@@ -4092,6 +4092,8 @@ void Character::set_stored_calories( int cal )
 
         //some mutant change their max_hp according to their bmi
         recalc_hp();
+        //need to check obesity penalties when this happens
+        calc_encumbrance();
     }
 }
 
