@@ -3470,8 +3470,8 @@ void Character::calc_discomfort()
     }
     // do the same for obesity conflicting with rigid armors
     remove_effect( effect_squeezed );
-    for( const bodypart_id &bp : worn ) {
-        if( get_bmi() > bp->get_bmi_rigid_problems_threshold() &&
+    for( const bodypart_id &bp : get_all_body_parts() ) {
+        if( get_bmi() > bp->bmi_rigid_problems_threshold &&
             worn.wearing_something_rigid_on_most_of( bp ) ) {
             add_effect( effect_squeezed, 1_turns, bp, true, 1 );
         }
