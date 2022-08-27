@@ -105,39 +105,41 @@ Below is a table of currently implemented effects, along with special rules for 
 
 | Effect                   | Description
 |---                       |---
-| `pain_split` | makes all of your limbs' damage even out
-| `attack` | "causes damage to targets in its aoe, and applies an effect to the targets named by `effect_str`
+| `area_pull` | Pulls `valid_targets` in aoe toward the target location. Currently, pull distance is set to 1 (see `directed_push`).
+| `area_push` | Pushes `valid_targets` in aoe away from the target location. Currently, push distance is set to 1 (see `directed_push`).
+| `attack` | Causes damage to targets in its aoe, and applies an effect to the targets named by `effect_str`.
+| `banishment` | Kills monsters in the aoe up to damage hp. Any overflow hp the monster has is taken from the caster; if it's more hp than the caster has it fails.
+| `bash` | Bashes the terrain at the target. Uses damage() as the strength of the bash.
+| `charm_monster` | Charms a monster that has less hp than damage() for approximately duration().
+| `dash` | Dashes forward up to range and hits targets in a cone at the target.
+| `directed_push` | Pushes `valid_targets` in aoe away from the target location, with a distance of damage() . Negative values pull instead.
+| `effect_on_condition` | Runs the effect_on_condition with the id found in `effect_str` on all valid targets. For the run eoc the target will be u and the caster will be npc.
+| `emit` | Causes an emit at the target.
+| `explosion` | an explosion is centered on the target, with power damage() and factor aoe()/10.
+| `flashbang` | a flashbang effect is centered on the target, with power damage() and factor aoe()/10.
+| `fungalize` | Fungalizes the target.
+| `guilt` | The target gets the guilt morale as if it killed the caster.
+| `map` | maps the overmap centered on the player out to a radius of aoe().
+| `mod_moves` | adds damage() moves to the target. can be negative to "freeze" the target for that amount of time.
+| `morale` | gives a morale effect to all npcs or avatar within aoe, with value damage(). `decay_start` is duration() / 10.
+| `mutate` | mutates the target(s). if effect_str is defined, mutates toward that category instead of picking at random. the "MUTATE_TRAIT" flag allows effect_str to be a specific trait instead of a category. damage() / 100 is the percent chance the mutation will be successful (a value of 10000 represents 100.00%).
+| `pain_split` | makes all of your limbs' damage even out.
+| `pull_target` | Attempts to pull the target towards the caster in a straight line. If the path is blocked by impassable furniture or terrain, the effect fails.
+| `recover_energy` | recovers an energy source equal to damage of the spell. The energy source recovered is defined in "effect_str" and may be one of "MANA", "STAMINA", "FATIGUE", "PAIN", "BIONIC".
+| `remove_effect` | Removes `effect_str` effects from all creatures in aoe.
+| `remove_field` | Removes a `effect_str` field in aoe.  Causes teleglow of varying intensity and potentially teleportation depending on field density if the field removed is `fd_fatigue`.
+| `revive` | Revives a monster like a zombie necromancer.  The monster must have the `REVIVES` flag.
+| `short_range_teleport` | teleports the player randomly range spaces with aoe variation.
 | `spawn_item` | spawns an item that will disappear at the end of its duration.  Default duration is 0.
 | `summon` | summons a monster ID or group ID from `effect_str` that will disappear at the end of its duration.  Default duration is 0.
 | `summon_vehicle` | summons a vehicle ID from `effect_str` that will disappear at the end of its duration.  Default duration is 0.
-| `translocate` | Opens up a window that allows the caster to choose a translocation gate to teleport to.
-| `area_pull` | Pulls `valid_targets` in aoe toward the target location
-| `area_push` | Pushes `valid_targets` in aoe away from the target location
-| `short_range_teleport` | teleports the player randomly range spaces with aoe variation
 | `targeted_polymorph` | A targeted monster is permanently transformed into the monster ID specified by  `effect_str` if it has less HP than the spell's damage. If `effect_str` is left empty, the target will transform into a random monster with a similar difficulty rating, alternatively  the flag `"POLYMORPH_GROUP"` can be used to pick a weighted monster ID from a monster group. The player and NPCs are immune to this spell effect.
-| `recover_energy` | recovers an energy source equal to damage of the spell. The energy source recovered is defined in "effect_str" and may be one of "MANA", "STAMINA", "FATIGUE", "PAIN", "BIONIC"
 | `ter_transform` | transform the terrain and furniture in an area centered at the target.  The chance of any one of the points in the area of effect changing is one_in( damage ).  The effect_str is the id of a ter_furn_transform.
+| `timed_event` | adds a timed event to the player only. valid timed events: "help", "wanted", "robot_attack", "spawn_wyrms", "amigara", "roots_die", "temple_open", "temple_flood", "temple_spawn", "dim", "artifact_light". NOTE: This was added only for artifact active effects. support is limited, use at your own risk.
+| `translocate` | Opens up a window that allows the caster to choose a translocation gate to teleport to.
+| `upgrade` | Immediately upgrades a target monster.
 | `vomit` | any creature within its area of effect will instantly vomit, if it's able to do so.
-| `timed_event` | adds a timed event to the player only. valid timed events: "help", "wanted", "robot_attack", "spawn_wyrms", "amigara", "roots_die", "temple_open", "temple_flood", "temple_spawn", "dim", "artifact_light" NOTE: This was added only for artifact active effects. support is limited, use at your own risk.
-| `explosion` | an explosion is centered on the target, with power damage() and factor aoe()/10
-| `flashbang` | a flashbang effect is centered on the target, with power damage() and factor aoe()/10
-| `mod_moves` | adds damage() moves to the target. can be negative to "freeze" the target for that amount of time
-| `map` | maps the overmap centered on the player out to a radius of aoe()
-| `morale` | gives a morale effect to all npcs or avatar within aoe, with value damage(). decay_start is duration() / 10.
-| `charm_monster` | charms a monster that has less hp than damage() for approximately duration()
-| `mutate` | mutates the target(s). if effect_str is defined, mutates toward that category instead of picking at random. the "MUTATE_TRAIT" flag allows effect_str to be a specific trait instead of a category. damage() / 100 is the percent chance the mutation will be successful (a value of 10000 represents 100.00%)
-| `bash` | bashes the terrain at the target. uses damage() as the strength of the bash.
-| `dash` | dashes forward up to range and hits targets in a cone at the target
-| `banishment` | kills monsters in the aoe up to damage hp. any overflow hp the monster has is taken from the caster; if it's more hp than the caster has it fails.
-| `revive` | Revives a monster like a zombie necromancer.  The monster must have the revives flag
-| `upgrade` | Immediately upgrades a target monster
-| `pull_target` | Attempts to pull the target towards the caster in a straight line. If the path is blocked by impassable furniture or terrain, the effect fails.
-| `guilt` | The target gets the guilt morale as if it killed the caster
-| `remove_effect` | Removes `effect_str` effects from all creatures in aoe.
-| `remove_field` | Removes a `effect_str` field in aoe.  Causes teleglow of varying intensity and potentially teleportation depending on field density if the field removed is `fd_fatigue`.
-| `emit` | Causes an emit at the target
-| `fungalize` | Fungalizes the target
-| `effect_on_condition` | Runs the effect_on_condition with the id found in `effect_str` on all valid targets. For the run eoc the target will be u and the caster will be npc.
+
 
 Another mandatory member is spell "shape". This dictates how the area of effect works.
 
