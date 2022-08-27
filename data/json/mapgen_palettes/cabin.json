@@ -28,7 +28,7 @@
       "s": "f_sink",
       "T": "f_toilet",
       "U": "f_utility_shelf",
-      "V": "f_oven",
+      "V": [ "f_oven", "f_gas_oven_microwave_combo" ],
       "u": "f_cupboard",
       "z": "f_brazier",
       "Z": "f_fireplace",

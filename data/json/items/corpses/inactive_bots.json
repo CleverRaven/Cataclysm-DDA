@@ -23,7 +23,8 @@
       "moves": 60,
       "place_randomly": true,
       "skills": [ "electronics", "computer" ]
-    }
+    },
+    "flags": [ "SINGLE_USE" ]
   },
   {
     "id": "bot_c4_hack",
@@ -49,7 +50,8 @@
       "moves": 60,
       "place_randomly": true,
       "skills": [ "electronics", "computer" ]
-    }
+    },
+    "flags": [ "SINGLE_USE" ]
   },
   {
     "id": "bot_flashbang_hack",
@@ -75,7 +77,8 @@
       "moves": 60,
       "place_randomly": true,
       "skills": [ "electronics", "computer" ]
-    }
+    },
+    "flags": [ "SINGLE_USE" ]
   },
   {
     "id": "bot_gasbomb_hack",
@@ -101,7 +104,8 @@
       "moves": 60,
       "place_randomly": true,
       "skills": [ "electronics", "computer" ]
-    }
+    },
+    "flags": [ "SINGLE_USE" ]
   },
   {
     "id": "bot_grenade_hack",
@@ -127,7 +131,8 @@
       "moves": 60,
       "place_randomly": true,
       "skills": [ "electronics", "computer" ]
-    }
+    },
+    "flags": [ "SINGLE_USE" ]
   },
   {
     "id": "bot_antimateriel",
@@ -149,7 +154,8 @@
       "difficulty": 6,
       "moves": 100,
       "skills": [ "electronics", "computer" ]
-    }
+    },
+    "flags": [ "SINGLE_USE" ]
   },
   {
     "id": "bot_manhack",
@@ -175,7 +181,8 @@
       "moves": 60,
       "place_randomly": true,
       "skills": [ "electronics", "computer" ]
-    }
+    },
+    "flags": [ "SINGLE_USE" ]
   },
   {
     "id": "bot_mininuke_hack",
@@ -201,7 +208,8 @@
       "moves": 60,
       "place_randomly": true,
       "skills": [ "electronics", "computer" ]
-    }
+    },
+    "flags": [ "SINGLE_USE" ]
   },
   {
     "id": "bot_rifleturret",
@@ -223,7 +231,8 @@
       "difficulty": 6,
       "moves": 100,
       "skills": [ "electronics", "computer" ]
-    }
+    },
+    "flags": [ "SINGLE_USE" ]
   },
   {
     "id": "bot_crows_m240",
@@ -245,7 +254,8 @@
       "difficulty": 6,
       "moves": 100,
       "skills": [ "electronics", "computer" ]
-    }
+    },
+    "flags": [ "SINGLE_USE" ]
   },
   {
     "id": "bot_turret_riot",
@@ -267,7 +277,8 @@
       "difficulty": 6,
       "moves": 100,
       "skills": [ "electronics", "computer" ]
-    }
+    },
+    "flags": [ "SINGLE_USE" ]
   },
   {
     "id": "bot_turret",
@@ -289,7 +300,8 @@
       "difficulty": 6,
       "moves": 100,
       "skills": [ "electronics", "computer" ]
-    }
+    },
+    "flags": [ "SINGLE_USE" ]
   },
   {
     "id": "bot_secubot",
@@ -313,7 +325,8 @@
       "difficulty": 6,
       "moves": 150,
       "skills": [ "electronics", "computer" ]
-    }
+    },
+    "flags": [ "SINGLE_USE" ]
   },
   {
     "id": "bot_talon_m202a1",
@@ -337,7 +350,8 @@
       "difficulty": 6,
       "moves": 150,
       "skills": [ "electronics", "computer" ]
-    }
+    },
+    "flags": [ "SINGLE_USE" ]
   },
   {
     "id": "bot_nursebot",
@@ -361,7 +375,8 @@
       "difficulty": 6,
       "moves": 150,
       "skills": [ "electronics", "computer" ]
-    }
+    },
+    "flags": [ "SINGLE_USE" ]
   },
   {
     "id": "bot_grocerybot",
@@ -385,7 +400,8 @@
       "difficulty": 6,
       "moves": 150,
       "skills": [ "electronics", "computer" ]
-    }
+    },
+    "flags": [ "SINGLE_USE" ]
   },
   {
     "id": "bot_grocerybot_busted",
@@ -409,7 +425,8 @@
       "difficulty": 4,
       "moves": 150,
       "skills": [ "electronics", "computer" ]
-    }
+    },
+    "flags": [ "SINGLE_USE" ]
   },
   {
     "id": "bot_broken_cyborg",
@@ -435,7 +452,8 @@
       "difficulty": 9,
       "moves": 250,
       "skills": [ "electronics", "computer" ]
-    }
+    },
+    "flags": [ "SINGLE_USE" ]
   },
   {
     "id": "bot_prototype_cyborg",
@@ -461,7 +479,8 @@
       "difficulty": 9,
       "moves": 250,
       "skills": [ "electronics", "computer" ]
-    }
+    },
+    "flags": [ "SINGLE_USE" ]
   },
   {
     "id": "bot_copbot",
@@ -487,7 +506,8 @@
       "difficulty": 3,
       "moves": 100,
       "skills": [ "electronics", "computer" ]
-    }
+    },
+    "flags": [ "SINGLE_USE" ]
   },
   {
     "id": "bot_eyebot",
@@ -513,7 +533,8 @@
       "difficulty": 1,
       "moves": 100,
       "skills": [ "electronics", "computer" ]
-    }
+    },
+    "flags": [ "SINGLE_USE" ]
   },
   {
     "id": "bot_hazmatbot",
@@ -538,7 +559,8 @@
       "difficulty": 1,
       "moves": 100,
       "skills": [ "electronics", "computer" ]
-    }
+    },
+    "flags": [ "SINGLE_USE" ]
   },
   {
     "id": "bot_molebot",
@@ -564,7 +586,8 @@
       "difficulty": 3,
       "moves": 100,
       "skills": [ "electronics", "computer" ]
-    }
+    },
+    "flags": [ "SINGLE_USE" ]
   },
   {
     "id": "bot_riotbot",
@@ -590,7 +613,8 @@
       "difficulty": 4,
       "moves": 150,
       "skills": [ "electronics", "computer" ]
-    }
+    },
+    "flags": [ "SINGLE_USE" ]
   },
   {
     "id": "bot_skitterbot",
@@ -616,7 +640,8 @@
       "difficulty": 4,
       "moves": 100,
       "skills": [ "electronics", "computer" ]
-    }
+    },
+    "flags": [ "SINGLE_USE" ]
   },
   {
     "id": "bot_science_bot",
@@ -642,7 +667,8 @@
       "difficulty": 6,
       "moves": 100,
       "skills": [ "electronics", "computer" ]
-    }
+    },
+    "flags": [ "SINGLE_USE" ]
   },
   {
     "id": "bot_turret_searchlight",
@@ -667,7 +693,8 @@
       "difficulty": 4,
       "moves": 150,
       "skills": [ "electronics", "computer" ]
-    }
+    },
+    "flags": [ "SINGLE_USE" ]
   },
   {
     "id": "bot_dispatch",
@@ -691,7 +718,8 @@
       "difficulty": 1,
       "moves": 300,
       "skills": [ "electronics", "computer" ]
-    }
+    },
+    "flags": [ "SINGLE_USE" ]
   },
   {
     "id": "bot_dispatch_military",
@@ -715,7 +743,8 @@
       "difficulty": 1,
       "moves": 300,
       "skills": [ "electronics", "computer" ]
-    }
+    },
+    "flags": [ "SINGLE_USE" ]
   },
   {
     "id": "bot_turret_speaker",
@@ -739,7 +768,8 @@
       "difficulty": 2,
       "moves": 150,
       "skills": [ "electronics", "computer" ]
-    }
+    },
+    "flags": [ "SINGLE_USE" ]
   },
   {
     "id": "bot_tazer_hack",
@@ -765,7 +795,8 @@
       "moves": 60,
       "place_randomly": true,
       "skills": [ "electronics", "computer" ]
-    }
+    },
+    "flags": [ "SINGLE_USE" ]
   },
   {
     "id": "bot_yrax_trifacet",
@@ -791,7 +822,8 @@
       "moves": 60,
       "place_randomly": true,
       "skills": [ "electronics", "computer" ]
-    }
+    },
+    "flags": [ "SINGLE_USE" ]
   },
   {
     "id": "bot_lab_security_drone_GR",
@@ -817,7 +849,8 @@
       "moves": 60,
       "place_randomly": true,
       "skills": [ "electronics", "computer" ]
-    }
+    },
+    "flags": [ "SINGLE_USE" ]
   },
   {
     "id": "bot_lab_security_drone_GM",
@@ -843,7 +876,8 @@
       "moves": 60,
       "place_randomly": true,
       "skills": [ "electronics", "computer" ]
-    }
+    },
+    "flags": [ "SINGLE_USE" ]
   },
   {
     "id": "bot_lab_security_drone_YM",
@@ -869,7 +903,8 @@
       "moves": 60,
       "place_randomly": true,
       "skills": [ "electronics", "computer" ]
-    }
+    },
+    "flags": [ "SINGLE_USE" ]
   },
   {
     "id": "bot_lab_security_drone_BM",
@@ -895,7 +930,8 @@
       "moves": 60,
       "place_randomly": true,
       "skills": [ "electronics", "computer" ]
-    }
+    },
+    "flags": [ "SINGLE_USE" ]
   },
   {
     "id": "bot_lab_security_drone_BM2",
@@ -921,7 +957,8 @@
       "moves": 60,
       "place_randomly": true,
       "skills": [ "electronics", "computer" ]
-    }
+    },
+    "flags": [ "SINGLE_USE" ]
   },
   {
     "id": "bot_lab_security_drone_BS",
@@ -947,6 +984,7 @@
       "moves": 60,
       "place_randomly": true,
       "skills": [ "electronics", "computer" ]
-    }
+    },
+    "flags": [ "SINGLE_USE" ]
   }
 ]

@@ -204,10 +204,29 @@
           [ "t_dirt_underground", 2 ],
           [ "t_mud_underground", 2 ],
           "t_shrub"
+        ],
+        ",": [
+          [ "t_grass_tall", 5 ],
+          [ "t_stump", 1 ],
+          [ "t_pit_shallow", 2 ],
+          [ "t_pit_corpsed", 2 ],
+          [ "t_pit_spiked", 2 ],
+          [ "t_pit_glass", 2 ],
+          [ "t_grass_long", 5 ],
+          [ "t_water_murky", 25 ],
+          [ "t_water_sh_underground", 25 ],
+          [ "t_swater_sh_underground", 25 ],
+          [ "t_sand_underground", 3 ],
+          [ "t_water_dp_underground", 40 ],
+          [ "t_moss_underground", 10 ],
+          [ "t_underbrush", 3 ],
+          [ "t_dirt_underground", 2 ],
+          [ "t_mud_underground", 2 ],
+          "t_shrub"
         ]
       },
       "furniture": { "a": "f_boulder_small", "c": "f_boulder_medium", "b": "f_boulder_large", "1": "f_table", "2": "f_swamp_gas" },
-      "items": { ".": [ { "item": "lair_black_dragon", "chance": 5 } ] },
+      "items": { ".": [ { "item": "lair_black_dragon", "chance": 5 } ], ",": [ { "item": "lair_black_dragon", "chance": 5 } ] },
       "fields": {
         ",": { "field": "fd_fog_permanent", "intensity": 2 },
         ">": { "field": "fd_fog_permanent", "intensity": 2 },
