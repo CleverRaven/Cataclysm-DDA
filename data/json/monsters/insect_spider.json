@@ -2446,13 +2446,7 @@
     "dissect": "dissect_insect_sample_single",
     "upgrades": { "age_grow": 30, "into": "mon_mantis_giant" },
     "special_attacks": [
-      {
-        "type": "leap",
-        "cooldown": 8,
-        "max_range": 3,
-        "allow_no_target": false,
-        "forbidden_effects_any": [ "maimed_leg" ]
-      }
+      { "type": "leap", "cooldown": 8, "max_range": 3, "allow_no_target": false, "forbidden_effects_any": [ "maimed_leg" ] }
     ],
     "anger_triggers": [ "PLAYER_CLOSE" ],
     "fear_triggers": [ "HURT", "FIRE" ],
