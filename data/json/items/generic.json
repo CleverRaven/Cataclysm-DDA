@@ -2842,8 +2842,8 @@
     "price": 600,
     "price_postapoc": 20,
     "material": [ "cotton" ],
-    "weight": "1800 g ",
-    "volume": "3300 ml",
+    "weight": "640 g ",
+    "volume": "1300 ml",
     "flags": [ "SLEEP_AID" ]
   },
   {
