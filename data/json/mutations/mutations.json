@@ -2307,29 +2307,29 @@
   {
     "type": "mutation",
     "id": "SCALES",
-    "name": { "str": "Scales" },
+    "name": { "str": "Sparse Scales" },
     "points": 2,
     "visibility": 10,
     "ugliness": 3,
-    "description": "A set of flexible green scales has grown to cover your body, acting as natural armor.  Somewhat reduces wet effects.",
+    "description": "Your skin has toughened and grown thin, flexible scales in some places, acting as natural armor.  Somewhat reduces wet effects.",
     "types": [ "SKIN" ],
     "category": [ "RAPTOR", "LIZARD", "FISH" ],
     "prereqs": [ "SKIN_ROUGH" ],
     "changes_to": [ "THICK_SCALES", "SLEEK_SCALES" ],
-    "movecost_swim_modifier": 0.9,
     "wet_protection": [
-      { "part": "head", "ignored": 3 },
-      { "part": "leg_l", "ignored": 10 },
-      { "part": "leg_r", "ignored": 10 },
-      { "part": "foot_l", "ignored": 3 },
-      { "part": "foot_r", "ignored": 3 },
-      { "part": "arm_l", "ignored": 9 },
-      { "part": "arm_r", "ignored": 9 },
-      { "part": "hand_l", "ignored": 2 },
-      { "part": "hand_r", "ignored": 2 },
-      { "part": "torso", "ignored": 20 }
+      { "part": "head", "ignored": 2 },
+      { "part": "leg_l", "ignored": 5 },
+      { "part": "leg_r", "ignored": 5 },
+      { "part": "foot_l", "ignored": 2 },
+      { "part": "foot_r", "ignored": 2 },
+      { "part": "arm_l", "ignored": 4 },
+      { "part": "arm_r", "ignored": 4 },
+      { "part": "hand_l", "ignored": 1 },
+      { "part": "hand_r", "ignored": 1 },
+      { "part": "torso", "ignored": 10 }
     ],
-    "armor": [ { "part_types": [ "torso", "head", "arm", "hand", "leg", "foot", "mouth", "tail" ], "cut": 2 } ]
+    "armor": [ { "part_types": [ "tail" ], "cut": 2, "bash": 2 } ],
+    "integrated_armor": [ "integrated_scales" ]
   },
   {
     "type": "mutation",
@@ -2339,7 +2339,7 @@
     "visibility": 10,
     "ugliness": 4,
     "mixed_effect": true,
-    "description": "A set of heavy green scales has grown to cover your body, acting as natural armor.  While difficult to penetrate, it also limits your flexibility, resulting in a -2 penalty to Dexterity.  Greatly reduces wet effects.",
+    "description": "Your skin has grown thick and leathery and a set of heavy green scales has grown to cover most of your body, acting as natural armor.  While difficult to penetrate, it also limits your flexibility.  Greatly reduces wet effects.",
     "types": [ "SKIN" ],
     "prereqs": [ "SCALES" ],
     "threshreq": [ "THRESH_LIZARD" ],
@@ -2356,8 +2356,8 @@
       { "part": "hand_r", "ignored": 4 },
       { "part": "torso", "ignored": 30 }
     ],
-    "armor": [ { "part_types": [ "torso", "head", "arm", "hand", "leg", "foot", "mouth", "tail" ], "cut": 4 } ],
-    "passive_mods": { "dex_mod": -2 }
+    "armor": [ { "part_types": [ "tail" ], "cut": 14, "bash": 10 } ],
+    "integrated_armor": [ "integrated_reptilescales" ]
   },
   {
     "type": "mutation",
@@ -2366,7 +2366,7 @@
     "points": 4,
     "visibility": 10,
     "ugliness": 4,
-    "description": "A set of very flexible and slick scales has grown to cover your body.  These act as weak natural armor, improve your ability to swim, and make you difficult to grab.  Mostly reduces wet effects.",
+    "description": "A set of very flexible and slick scales has grown to cover your toughened skin.  These act as decent natural armor, improve your ability to swim, and make you difficult to grab.  Mostly reduces wet effects.",
     "types": [ "SKIN" ],
     "prereqs": [ "SCALES" ],
     "category": [ "FISH" ],
@@ -2383,7 +2383,8 @@
       { "part": "hand_r", "good": 5 },
       { "part": "torso", "good": 40 }
     ],
-    "armor": [ { "part_types": [ "torso", "head", "arm", "hand", "leg", "foot", "mouth", "tail" ], "cut": 1 } ]
+    "armor": [ { "part_types": [ "tail" ], "cut": 8, "bash": 5 } ],
+    "integrated_armor": [ "integrated_fishscales" ]
   },
   {
     "type": "mutation",
