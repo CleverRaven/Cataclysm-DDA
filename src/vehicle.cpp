@@ -108,10 +108,10 @@ static const itype_id fuel_type_plutonium_cell( "plut_cell" );
 static const itype_id fuel_type_wind( "wind" );
 static const itype_id itype_battery( "battery" );
 static const itype_id itype_plut_cell( "plut_cell" );
+static const itype_id itype_pseudo_water_purifier( "pseudo_water_purifier" );
 static const itype_id itype_water( "water" );
 static const itype_id itype_water_clean( "water_clean" );
 static const itype_id itype_water_faucet( "water_faucet" );
-static const itype_id itype_water_purifier( "water_purifier" );
 
 static const proficiency_id proficiency_prof_aircraft_mechanic( "prof_aircraft_mechanic" );
 
@@ -1308,6 +1308,12 @@ bool vehicle::can_unmount( const int p, std::string &reason ) const
         return false;
     }
 
+    if( parts[p].has_flag( vehicle_part::carrying_flag ) ||
+        parts[p].has_flag( vehicle_part::carried_flag ) ) {
+        reason = _( "Unracking is required before removing this part." );
+        return false;
+    }
+
     //Structural parts have extra requirements
     if( part_info( p ).location == part_location_structure ) {
 
@@ -1333,36 +1339,34 @@ bool vehicle::can_unmount( const int p, std::string &reason ) const
             //First, find all the squares connected to the one we're removing
             std::vector<vehicle_part> connected_parts;
 
-            for( int i = 0; i < 4; i++ ) {
-                const point next = parts[p].mount + point( i < 2 ? ( i == 0 ? -1 : 1 ) : 0,
-                                   i < 2 ? 0 : ( i == 2 ? -1 : 1 ) );
-                std::vector<int> parts_over_there = parts_at_relative( next, false );
-                //Ignore empty squares
+            for( const point &offset : four_adjacent_offsets ) {
+                const point next = parts[p].mount + offset;
+                const std::vector<int> parts_over_there = parts_at_relative( next, false );
                 if( !parts_over_there.empty() ) {
                     //Just need one part from the square to track the x/y
                     connected_parts.push_back( parts[parts_over_there[0]] );
                 }
             }
 
-            /* If size = 0, it's the last part of the whole vehicle, so we're OK
-             * If size = 1, it's one protruding part (i.e., bicycle wheel), so OK
-             * Otherwise, it gets complicated... */
             if( connected_parts.size() > 1 ) {
-
+                // run BFS to check path exists from first connected part to every other connected part
                 /* We'll take connected_parts[0] to be the target part.
                  * Every other part must have some path (that doesn't involve
                  * the part about to be removed) to the target part, in order
                  * for the part to be legally removable. */
                 for( const vehicle_part &next_part : connected_parts ) {
                     if( !is_connected( connected_parts[0], next_part, parts[p] ) ) {
-                        //Removing that part would break the vehicle in two
                         reason = _( "Removing this part would split the vehicle." );
                         return false;
                     }
                 }
-
-            }
-
+            } else if( connected_parts.size() == 1 ) {
+                // prevent leaving vehicle with only a PROTRUSION part (wing mirror, forklift etc)
+                if( connected_parts[0].info().has_flag( "PROTRUSION" ) ) {
+                    reason = _( "Remove other parts before removing last structural part." );
+                    return false;
+                }
+            } // else it's last part that's ok to remove
         }
     }
     //Anything not explicitly denied is permitted
@@ -3283,10 +3287,10 @@ point vehicle::pivot_displacement() const
     return dp.xy();
 }
 
-int vehicle::fuel_left( const itype_id &ftype, bool recurse,
-                        const std::function<bool( const vehicle_part & )> &filter ) const
+int64_t vehicle::fuel_left( const itype_id &ftype, bool recurse,
+                            const std::function<bool( const vehicle_part & )> &filter ) const
 {
-    int fl = 0;
+    int64_t fl = 0;
 
     for( const int i : fuel_containers ) {
         const vehicle_part &part = parts[i];
@@ -3336,10 +3340,6 @@ int vehicle::fuel_left( const itype_id &ftype, bool recurse,
     }
 
     return fl;
-}
-int vehicle::fuel_left( const int p, bool recurse ) const
-{
-    return fuel_left( parts[ p ].fuel_current(), recurse );
 }
 
 int vehicle::engine_fuel_left( const int e, bool recurse ) const
@@ -7320,11 +7320,11 @@ void vehicle::update_time( const time_point &update_to )
         double area = std::pow( pt.info().size / units::legacy_volume_factor, 2 ) * M_PI;
         int qty = roll_remainder( funnel_charges_per_turn( area, accum_weather.rain_amount ) );
         int c_qty = qty + ( tank->can_reload( water_clean ) ?  tank->ammo_remaining() : 0 );
-        int cost_to_purify = c_qty * item::find_type( itype_water_purifier )->charges_to_use();
+        int cost_to_purify = c_qty * item::find_type( itype_pseudo_water_purifier )->charges_to_use();
 
         if( qty > 0 ) {
             const cata::optional<vpart_reference> vp_purifier = vpart_position( *this, idx )
-                    .part_with_tool( itype_water_purifier );
+                    .part_with_tool( itype_pseudo_water_purifier );
 
             if( vp_purifier && ( fuel_left( itype_battery, true ) > cost_to_purify ) ) {
                 tank->ammo_set( itype_water_clean, c_qty );

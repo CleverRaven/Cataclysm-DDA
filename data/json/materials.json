@@ -1383,7 +1383,6 @@
     "id": "neoprene",
     "name": "Neoprene",
     "density": 1.25,
-    "breathability": "POOR",
     "specific_heat_liquid": 1.1,
     "specific_heat_solid": 1.1,
     "latent_heat": 273,
