@@ -1308,6 +1308,12 @@ bool vehicle::can_unmount( const int p, std::string &reason ) const
         return false;
     }
 
+    if( parts[p].has_flag( vehicle_part::carrying_flag ) ||
+        parts[p].has_flag( vehicle_part::carried_flag ) ) {
+        reason = _( "Unracking is required before removing this part." );
+        return false;
+    }
+
     //Structural parts have extra requirements
     if( part_info( p ).location == part_location_structure ) {
 
