@@ -1,11 +1,24 @@
 # How to add magic to a mod
 
-### Spells
+- [Spells](#spells)
+- [Spell effects and rules](#spell-effects-and-rules)
+- 
+
+## Spells
+
+Spells in Cataclysm: Dark Days Ahead consist in actions performed by a character or item, which result on a target receiving an event.
+
+This can be anything from the humble fireball spell or the classic polymorph, to granting invisibility, mutations, creating items and vehicles, summoning monsters, exploding monsters, applying auras, crowd-controlling, blinking, teleporting, adding or subtracting stats, and more.
+
+By making clever use of JSON fields, interactions and descriptions, one can go wild in spell crafting.
+
+Remarkably, some things that don't seem quite "magical" at first glance may also be handled by spells, like casting Fist, casting Gun, 
+
 
 In `data/mods/Magiclysm` there is a template spell, copied here for your perusal:
 
 ```C++
-{
+    {
     // This spell exists in json as a template for contributors to see the possible values of the spell
     "id": "example_template",                                 // id of the spell, used internally. not translated
     "type": "SPELL",
@@ -23,7 +36,7 @@ In `data/mods/Magiclysm` there is a template spell, copied here for your perusal
     "base_casting_time": 1000,                                // this is the casting time (in moves)
     "final_casting_time": 100,
     "casting_time_increment": -50,
-    "base_energy_cost": 30,                                  // the amount of energy (of the requisite type) to cast the spell
+    "base_energy_cost": 30,                                   // the amount of energy (of the requisite type) to cast the spell
     "final_energy_cost": 100,
     "energy_increment": -6,
     "energy_source": "MANA",                                  // the type of energy used to cast the spell. types are: MANA, BIONIC, HP, STAMINA, NONE (none will not use mana)
@@ -63,9 +76,9 @@ In `data/mods/Magiclysm` there is a template spell, copied here for your perusal
     "sound_id": "misc",                                       // the sound id
     "sound_variant": "shockwave",                             // the sound variant
     "learn_spells": { "create_atomic_light": 5, "megablast": 10 }   // the caster will learn these spells when the current spell reaches the specified level. should be a map of spell_type_id and the level at which the new spell is learned.
-  }
+    }
 ```
-Most of the default values for the above are either 0 or "NONE", so you may leave out most of the values if they do not pertain to your spell.
+The template spell above shows every JSON field that spells can have.  Most of these values can be set at 0 or "NONE", so you may leave out most of these fields if they do not pertain to your spell.
 
 When deciding values for some of these, it is important to note that some of the formulae are not linear.
 For example, this is the formula for spell failure chance:
@@ -79,9 +92,9 @@ However, experience gain is a little more complicated to calculate.  The formula
 
 ```e ^ ( ( level + 62.5 ) * 0.146661 ) ) - 6200```
 
-### Spell effects and rules
+## Spell effects and rules
 
-The value of the `"effect"` string in the spell's JSON data says what effect the spell has. For example, the Magus spell "Magic Missile" has a `target_attack` effect, meaning it deals damage to a specific target:
+The `effect` field says what effect the spell has. For example, the Magus spell "Magic Missile" has a `target_attack` effect, meaning it deals damage to a specific target:
 
 ```json
 {
@@ -226,7 +239,7 @@ Spells that change effects as they level up must have a min and max effect and a
 Min and max values must always have the same sign, but it can be negative eg. in the case of spells that use a negative 'recover' effect to cause pain or stamina damage. For example:
 
 ```json
-{
+  {
   "id": "stamina_damage",
   "type": "SPELL",
   "name": "Tired",
@@ -238,7 +251,7 @@ Min and max values must always have the same sign, but it can be negative eg. in
   "max_level": 10,
   "effect": "recover_energy",
   "effect_str": "STAMINA"
-}
+  }
 ```
 
 ### Learning Spells
@@ -246,7 +259,7 @@ Min and max values must always have the same sign, but it can be negative eg. in
 Currently there multiple ways of learning spells that are implemented: learning a spell from an item(through a use_action), from spells that have the learn_spells property and from traits/mutations.  An example of an use item is shown below:
 
 ```json
-{
+  {
   "id": "DEBUG_spellbook",
   "type": "GENERIC",
   "name": "A Technomancer's Guide to Debugging C:DDA",
@@ -260,14 +273,14 @@ Currently there multiple ways of learning spells that are implemented: learning 
     "//": "list of spells you can learn from the item",
     "spells": [ "debug_hp", "debug_stamina", "example_template", "debug_bionic", "pain_split", "fireball" ]
   }
-},
+  }
 ```
 
 You can study this spellbook for a rate of ~1 experience per turn depending on intelligence, spellcraft, and focus.
 
 Below is an example of the learn_spells property:
 ```json
-  {
+    {
     "id": "phase_door",
     "type": "SPELL",
     "name": "Phase Door",
@@ -279,7 +292,7 @@ Below is an example of the learn_spells property:
     "difficulty": 2,
     "spell_class": "MAGUS",
     "learn_spells": { "dimension_door": 10 }
-  },
+    }
 ```
 Traits/mutations have the spells_learned property, see the [JSON_INFO](JSON_INFO.md) documentation for details.
 
