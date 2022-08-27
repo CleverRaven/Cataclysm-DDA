@@ -270,7 +270,7 @@
     "longest_side": "170 cm",
     "bashing": 5,
     "price": 90000,
-    "price_postapoc": 5000,
+    "price_postapoc": 500,
     "symbol": "F",
     "color": "white"
   },
