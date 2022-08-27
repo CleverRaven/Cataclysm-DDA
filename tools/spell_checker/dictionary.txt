@@ -753,6 +753,7 @@ grinny
 grnd
 groundcover
 groundsheet
+gryposaurus
 gt
 guayaba
 gunblade
@@ -779,6 +780,7 @@ handiness
 handloading
 hangry
 haori
+haplocanthosaurus
 hardbound
 hardpoint
 hardpoints
@@ -797,6 +799,7 @@ helpdesk
 hemolymph
 hemostatics
 heoretical
+hesperosaurus
 hevel
 hexamine
 hexapod
@@ -1546,6 +1549,7 @@ samghati
 samoyed
 sandleather
 sapience
+sarahsaurus
 sarracenia
 satirizes
 sauropod
