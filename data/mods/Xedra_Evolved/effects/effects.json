@@ -1,6 +1,16 @@
 [
   {
     "type": "effect_type",
+    "id": "haste",
+    "name": [ "Hasted" ],
+    "desc": [ "Your speed is boosted enormously." ],
+    "apply_message": "Your speed is boosted to superhuman levels!",
+    "remove_message": "You return to your normal speed.",
+    "rating": "good",
+    "base_mods": { "dex_mod": [ 4 ], "speed_mod": [ 250 ] }
+  },
+  {
+    "type": "effect_type",
     "id": "blood_spiders",
     "name": [ "Blood Spiders" ],
     "desc": [
@@ -199,7 +209,7 @@
     "max_intensity": 5,
     "int_add_val": 1,
     "int_decay_step": 1,
-    "int_decay_tick": 86400,
+    "int_decay_tick":   2864000,
     "rating": "bad",
     "blood_analysis_description": "Unknown RNA virus is rewriting sampled blood cells.",
     "base_mods": { "speed_mod": [ 10 ], "str_mod": [ 1 ], "dodge_mod": [ 1 ] },

@@ -117,7 +117,10 @@
             "run_eocs": {
               "id": "eoc_vampvirus_1_trait",
               "condition": { "u_has_trait": "VAMPIRE" },
-              "effect": { "u_roll_remainder": [ "EYEGLEAM", "STAMINAFORBLOOD" ], "type": "mutation", "true_eocs": [ "EOC_VAMPVIRUS1" ] }
+              "effect": [
+                { "u_roll_remainder": [ "EYEGLEAM", "STAMINAFORBLOOD" ], "type": "mutation", "true_eocs": [ "EOC_VAMPVIRUS1" ] },
+                { "u_message": "Suddenly you feel your heart pounding and you realize a new ability." }
+              ]
             }
           }
         },
@@ -133,7 +136,10 @@
             "run_eocs": {
               "id": "eoc_vampvirus_2_trait",
               "condition": { "u_has_trait": "VAMPIRE2" },
-              "effect": { "u_roll_remainder": [ "BLOODHEAL", "COAGULANTWEAVE" ], "type": "mutation", "true_eocs": [ "EOC_VAMPVIRUS2" ] },
+              "effect": [
+                { "u_roll_remainder": [ "BLOODHEAL", "COAGULANTWEAVE" ], "type": "mutation", "true_eocs": [ "EOC_VAMPVIRUS2" ] },
+                { "u_message": "Suddenly you feel your heart slowing and you realize a new ability." }
+              ],
               "false_effect": [
                 { "u_add_trait": "VAMPIRE2" },
                 {
@@ -155,7 +161,12 @@
             "run_eocs": {
               "id": "eoc_vampvirus_3_trait",
               "condition": { "u_has_trait": "VAMPIRE3" },
-              "effect": { "u_roll_remainder": [ "BLOODHASTE", "HYPNOTIC_GAZE" ], "type": "mutation", "true_eocs": [ "EOC_VAMPVIRUS2" ] },
+              "effect": [
+                { "u_roll_remainder": [ "BLOODHASTE", "HYPNOTIC_GAZE" ], "type": "mutation", "true_eocs": [ "EOC_VAMPVIRUS2" ] },
+                {
+                  "u_message": "You feel the absence of your heart beating for several seconds and then it resumes at this new rhythm."
+                }
+              ],
               "false_effect": [
                 { "u_add_trait": "VAMPIRE3" },
                 {
