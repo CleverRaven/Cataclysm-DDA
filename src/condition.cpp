@@ -44,6 +44,7 @@
 #include "vehicle.h"
 #include "vpart_position.h"
 #include "widget.h"
+#include "worldfactory.h"
 
 class basecamp;
 class recipe;
@@ -1789,8 +1790,36 @@ std::function<int( const T & )> conditional_t<T>::get_get_int( const JsonObject 
                     }
                     return false;
                 } );
-                return targets.size();
+                return (int)targets.size();
             };
+        } else if( checked_value == "spell_level" ) {
+            if( jo.has_member( "school" ) ) {
+                const std::string school_name = jo.get_string( "school" );
+                const trait_id spell_school(school_name);
+                return [is_npc, spell_school]( const T & d ) {
+                    int spell_level = -1;
+                    for( const spell &sp : d.actor( is_npc )->get_character()->spells_known_of_class(spell_school) ) {
+                        spell_level = std::max( sp.get_level(), spell_level );
+                    }
+                    return spell_level;
+                };
+            } else if (jo.has_member("spell")) {
+                const std::string spell_name = jo.get_string( "spell" );
+                return [is_npc, spell_name]( const T & d ) {
+                    if( !d.actor( is_npc )->get_character()->magic->knows_spell( spell_name ) ) {
+                        return -1;
+                    }
+                    return d.actor( is_npc )->get_character()->magic->get_spell( spell_id(spell_name) ).get_level();
+                };
+            } else {
+                return [is_npc](const T & d) {
+                    int spell_level = -1;
+                    for (const spell *sp : d.actor(is_npc)->get_character()->magic->get_spells()) {
+                        spell_level = std::max(sp->get_level(), spell_level);
+                    }
+                    return spell_level;
+                };
+            }
         }
     } else if( jo.has_member( "moon" ) ) {
         return []( const T & ) {
@@ -1812,7 +1841,19 @@ std::function<int( const T & )> conditional_t<T>::get_get_int( const JsonObject 
             tripoint_abs_ms second_point = get_tripoint_from_string( second, d );
             return rl_dist( first_point, second_point );
         };
-    } else if( jo.has_array( "arithmetic" ) ) {
+    }/*  else if (jo.has_member("mod_load_order")) {
+        const std::string our_mod_id = jo.get_string("mod_id");
+        return [our_mod_id](const T &) {
+            int count = 0;
+            for (const mod_id & mod : world_generator->active_world->active_mod_order) {
+                if (our_mod_id == mod.mod_id) {
+                    return count;
+                }
+                count++;
+            }
+            return -1;
+        };
+    }*/ else if( jo.has_array( "arithmetic" ) ) {
         talk_effect_fun_t<T> arith;
         arith.set_arithmetic( jo, "arithmetic", true );
         return [arith]( const T & d ) {
