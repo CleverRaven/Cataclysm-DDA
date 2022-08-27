@@ -865,7 +865,7 @@
     "name": { "str_sp": "thick scales" },
     "description": "Leathery and heavily armored, your lamellar skin has toughened for the fiercest battles ahead.",
     "weight": "4 kg",
-    "volume": "3000 ml",
+    "volume": "3600 ml",
     "price": 0,
     "price_postapoc": 0,
     "material": [ "leather", "flesh", "bone", "chitin" ],
