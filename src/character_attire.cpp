@@ -958,7 +958,7 @@ bool outfit::wearing_something_on( const bodypart_id &bp ) const
 bool outfit::wearing_something_rigid_on_most_of( const bodypart_id &bp ) const
 {
     for( const item &i : worn ) {
-        if( i.covers( bp ) && i.is_rigid() && i.get_coverage( bp ) > 33 ) ) {
+        if( i.covers( bp ) && i.is_rigid() && i.get_coverage( bp ) > 33 ) {
             return true;
         }
     }
