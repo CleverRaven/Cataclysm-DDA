@@ -69,6 +69,7 @@ class outfit
         bool is_wearing_on_bp( const itype_id &clothing, const bodypart_id &bp ) const;
         bool covered_with_flag( const flag_id &f, const body_part_set &parts ) const;
         bool wearing_something_on( const bodypart_id &bp ) const;
+        bool wearing_something_rigid_on_most_of( const bodypart_id &bp ) const;
         bool worn_with_flag( const flag_id &f, const bodypart_id &bp ) const;
         bool worn_with_flag( const flag_id &f ) const;
         bool is_worn_item_visible( std::list<item>::const_iterator worn_item,
