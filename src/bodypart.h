@@ -376,7 +376,6 @@ struct layer_details {
 struct encumbrance_data {
     int encumbrance = 0;
     int armor_encumbrance = 0;
-    int bmi_encumbrance = 0;
     int layer_penalty = 0;
 
     std::array<layer_details, static_cast<size_t>( layer_level::NUM_LAYER_LEVELS )>
