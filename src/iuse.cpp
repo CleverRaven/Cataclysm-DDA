@@ -9387,7 +9387,9 @@ cata::optional<int> iuse::ladder( Character *p, item *it, bool, const tripoint &
         here.furn_set( pnt, furn_f_aluminum_stepladder );
     }
 
-    return 1;
+    p->i_rem( it );
+
+    return 0;
 }
 
 washing_requirements washing_requirements_for_volume( const units::volume &vol )
