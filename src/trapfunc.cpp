@@ -56,6 +56,7 @@ static const flag_id json_flag_UNCONSUMED( "UNCONSUMED" );
 
 static const itype_id itype_bullwhip( "bullwhip" );
 static const itype_id itype_grapnel( "grapnel" );
+static const itype_id itype_grenade_act( "grenade_act" );
 static const itype_id itype_rope_30( "rope_30" );
 
 static const json_character_flag json_flag_WALL_CLING( "WALL_CLING" );
@@ -678,7 +679,11 @@ bool trapfunc::boobytrap( const tripoint &p, Creature *c, item * )
         c->add_msg_player_or_npc( m_bad, _( "You trigger a booby trap!" ),
                                   _( "<npcname> triggers a booby trap!" ) );
     }
-    explosion_handler::explosion( p, 18, 0.6, false, 12 );
+
+    item grenade( itype_grenade_act );
+    grenade.active = true;
+    get_map().add_item( p, grenade );
+
     get_map().remove_trap( p );
     return true;
 }
