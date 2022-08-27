@@ -508,7 +508,6 @@
       { "item": "shot_bird", "prob": 75, "charges": [ 22, 40 ] },
       { "item": "shot_bird", "prob": 30, "charges": [ 44, 80 ] },
       { "item": "shot_dragon", "prob": 30, "charges": [ 1, 20 ] },
-      { "item": "shot_he", "prob": 30, "charges": [ 1, 20 ] },
       { "item": "shot_flechette", "prob": 30, "charges": [ 1, 20 ] },
       { "item": "shot_slug", "prob": 100, "charges": [ 1, 20 ] },
       { "item": "shot_slug", "prob": 75, "charges": [ 22, 40 ] },
