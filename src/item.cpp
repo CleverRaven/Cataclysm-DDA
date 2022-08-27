@@ -13261,7 +13261,7 @@ bool item::process_tool( Character *carrier, const tripoint &pos )
     if( type->tool->turns_per_charge > 0 &&
         to_turn<int>( calendar::turn ) % type->tool->turns_per_charge == 0 ) {
         energy = std::max( ammo_required(), 1 );
-    } else if( type->tool->power_draw > 0 ) {
+    } else if( type->tool->power_draw > 0_J ) {
         // kJ (battery unit) per second
         energy = units::to_kilojoule( type->tool->power_draw );
         // energy_bat remainder results in chance at additional charge/discharge
