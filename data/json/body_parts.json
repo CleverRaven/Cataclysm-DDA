@@ -32,8 +32,7 @@
     "sub_parts": [ "torso_upper", "torso_neck", "torso_lower", "torso_hanging_front", "torso_hanging_back", "torso_waist" ],
     "bmi_encumbrance_threshold": 27,
     "bmi_encumbrance_scalar": 1,
-    "bmi_rigid_problems_threshold": 35,
-    "bmi_rigid_problems_hardcap": 40
+    "bmi_rigid_problems_threshold": 35
   },
   {
     "id": "head",
@@ -133,9 +132,8 @@
     "flags": [ "LIMB_UPPER" ],
     "sub_parts": [ "mouth_lips", "mouth_nose", "mouth_cheeks", "mouth_chin" ],
     "bmi_encumbrance_threshold": 27,
-    "bmi_encumbrance_scalar": 0.9,
-    "bmi_rigid_problems_threshold": 40,
-    "bmi_rigid_problems_hardcap": 60
+    "bmi_encumbrance_scalar": 0.75,
+    "bmi_rigid_problems_threshold": 60
   },
   {
     "id": "arm_l",
@@ -171,8 +169,7 @@
     "sub_parts": [ "arm_shoulder_l", "arm_upper_l", "arm_elbow_l", "arm_lower_l" ],
     "bmi_encumbrance_threshold": 27,
     "bmi_encumbrance_scalar": 0.6,
-    "bmi_rigid_problems_threshold": 35,
-    "bmi_rigid_problems_hardcap": 40
+    "bmi_rigid_problems_threshold": 40
   },
   {
     "id": "arm_r",
@@ -207,8 +204,7 @@
     "sub_parts": [ "arm_shoulder_r", "arm_upper_r", "arm_elbow_r", "arm_lower_r" ],
     "bmi_encumbrance_threshold": 27,
     "bmi_encumbrance_scalar": 0.6,
-    "bmi_rigid_problems_threshold": 35,
-    "bmi_rigid_problems_hardcap": 40
+    "bmi_rigid_problems_threshold": 40
   },
   {
     "id": "hand_l",
@@ -240,8 +236,7 @@
     "sub_parts": [ "hand_wrist_l", "hand_palm_l", "hand_back_l", "hand_fingers_l" ],
     "bmi_encumbrance_threshold": 34,
     "bmi_encumbrance_scalar": 0.4,
-    "bmi_rigid_problems_threshold": 40,
-    "bmi_rigid_problems_hardcap": 60
+    "bmi_rigid_problems_threshold": 60
   },
   {
     "id": "hand_r",
@@ -273,8 +268,7 @@
     "sub_parts": [ "hand_wrist_r", "hand_palm_r", "hand_back_r", "hand_fingers_r" ],
     "bmi_encumbrance_threshold": 34,
     "bmi_encumbrance_scalar": 0.4,
-    "bmi_rigid_problems_threshold": 40,
-    "bmi_rigid_problems_hardcap": 60
+    "bmi_rigid_problems_threshold": 60
   },
   {
     "id": "leg_l",
@@ -312,8 +306,7 @@
     "flags": [ "LIMB_LOWER" ],
     "bmi_encumbrance_threshold": 27,
     "bmi_encumbrance_scalar": 0.7,
-    "bmi_rigid_problems_threshold": 35,
-    "bmi_rigid_problems_hardcap": 40
+    "bmi_rigid_problems_threshold": 40
   },
   {
     "id": "leg_r",
@@ -351,8 +344,7 @@
     "flags": [ "LIMB_LOWER" ],
     "bmi_encumbrance_threshold": 27,
     "bmi_encumbrance_scalar": 0.7,
-    "bmi_rigid_problems_threshold": 35,
-    "bmi_rigid_problems_hardcap": 40
+    "bmi_rigid_problems_threshold": 40
   },
   {
     "id": "foot_l",
@@ -449,7 +441,10 @@
     "unarmed_damage": [ { "damage_type": "acid", "amount": 10 }, { "damage_type": "bullet", "amount": 5, "armor_penetration": 100 } ],
     "techniques": [ "tec_dbg_sting" ],
     "temp_mod": [ 500, 500 ],
-    "technique_encumbrance_limit": 10
+    "technique_encumbrance_limit": 10,
+    "bmi_encumbrance_threshold": 20,
+    "bmi_encumbrance_scalar": 0.5,
+    "bmi_rigid_problems_threshold": 60
   },
   {
     "id": "sub_limb_debug",
