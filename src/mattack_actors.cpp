@@ -45,6 +45,7 @@ static const efftype_id effect_run( "run" );
 static const efftype_id effect_sensor_stun( "sensor_stun" );
 static const efftype_id effect_stunned( "stunned" );
 static const efftype_id effect_targeted( "targeted" );
+static const efftype_id effect_vampire_virus( "vampire_virus" );
 static const efftype_id effect_was_laserlocked( "was_laserlocked" );
 static const efftype_id effect_zombie_virus( "zombie_virus" );
 
@@ -52,6 +53,7 @@ static const skill_id skill_gun( "gun" );
 static const skill_id skill_throw( "throw" );
 
 static const trait_id trait_TOXICFLESH( "TOXICFLESH" );
+static const trait_id trait_VAMPIRE( "VAMPIRE" );
 
 void leap_actor::load_internal( const JsonObject &obj, const std::string & )
 {
@@ -688,9 +690,11 @@ void bite_actor::on_damage( monster &z, Creature &target, dealt_damage_instance 
     }
 
     // Flag only set for zombies in the deadly_bites mod
-    if( z.has_flag( MF_DEADLY_VIRUS ) && x_in_y( infection_chance, 20 ) ) {
-        if( !target.has_effect( effect_zombie_virus ) ) {
+    if( x_in_y( infection_chance, 20 ) ) {
+        if( z.has_flag( MF_DEADLY_VIRUS ) && !target.has_effect( effect_zombie_virus ) ) {
             target.add_effect( effect_zombie_virus, 1_turns, bodypart_str_id::NULL_ID(), true );
+        } else if( z.has_flag( MF_VAMP_VIRUS ) && !target.has_trait( trait_VAMPIRE ) ) {
+            target.add_effect( effect_vampire_virus, 1_turns, bodypart_str_id::NULL_ID(), true );
         }
     }
 
@@ -941,4 +945,3 @@ void gun_actor::shoot( monster &z, const tripoint &target, const gun_mode_id &mo
         z.ammo[ammo] -= tmp.fire_gun( target, gun.gun_current_mode().qty );
     }
 }
-
