@@ -572,7 +572,7 @@
   {
     "type": "MONSTER",
     "id": "mon_zarahsaurus",
-    "name": { "str_sp": "issi zombie" },
+    "name": { "str_sp": "sarahsaurus zombie" },
     "copy-from": "mon_zissi",
     "volume": "200 L",
     "weight": "200 kg",
