@@ -436,7 +436,7 @@
       { "item": "mk47", "prob": 1, "charges-min": 0, "charges-max": 30 },
       { "item": "m1carbine", "prob": 1, "charges-min": 0, "charges-max": 15 },
       { "item": "ak556", "prob": 2, "charges-min": 0, "charges-max": 30 },
-      { "item": "zpapm90", "prob": 1, "charges-min": 0, "charges-max": 15 }
+      { "item": "ak556", "variant": "zpapm90", "prob": 1, "charges-min": 0, "charges-max": 30 }
     ]
   },
   {
@@ -464,7 +464,7 @@
       { "item": "aksemi", "prob": 15, "charges-min": 0, "charges-max": 0 },
       { "item": "mk47", "prob": 10, "charges-min": 0, "charges-max": 0 },
       { "item": "ak556", "prob": 15, "charges-min": 0, "charges-max": 0 },
-      { "item": "zpapm90", "prob": 10, "charges-min": 0, "charges-max": 0 }
+      { "item": "ak556", "variant": "zpapm90", "prob": 10, "charges-min": 0, "charges-max": 0 }
     ]
   },
   {
@@ -622,7 +622,7 @@
       { "item": "hk417_13", "prob": 40, "charges-min": 0, "charges-max": 0 },
       { "item": "m2carbine", "prob": 5, "charges-min": 0, "charges-max": 0 },
       { "item": "ak308", "prob": 10, "charges-min": 0, "charges-max": 0 },
-      { "item": "papm77", "prob": 5, "charges-min": 0, "charges-max": 0 }
+      { "item": "ak308", "variant": "papm77", "prob": 5, "charges-min": 0, "charges-max": 0 }
     ]
   },
   {
@@ -1123,7 +1123,8 @@
       { "item": "remington_700", "prob": 4, "charges-min": 0, "charges-max": 4 },
       { "item": "garand", "prob": 1, "charges-min": 0, "charges-max": 8 },
       { "item": "mk47", "prob": 1, "charges-min": 0, "charges-max": 30 },
-      { "item": "ak556", "prob": 2, "charges-min": 0, "charges-max": 30 }
+      { "item": "ak556", "prob": 2, "charges-min": 0, "charges-max": 30 },
+      { "item": "ak556", "variant": "zpapm90", "prob": 1, "charges-min": 0, "charges-max": 0 }
     ]
   }
 ]
