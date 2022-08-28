@@ -4370,19 +4370,11 @@ void map::transform_radius( ter_furn_transform_id transform, float radi,
 void map::transform_line( ter_furn_transform_id transform, const tripoint_abs_ms &first,
                           const tripoint_abs_ms &second )
 {
-    tripoint_abs_ms avatar_pos = get_avatar().get_location();
-    bool shifted = false;
-    if( !get_map().inbounds( get_map().getlocal( first ) ) ) {
-        g->place_player_overmap( project_to<coords::omt>( first ), false );
-        shifted = true;
+    if( !inbounds( first ) || !inbounds( second ) ) {
+        debugmsg( "transform_line called for line out of bounds" );
     }
-
     for( const tripoint_abs_ms &t : line_to( first, second ) ) {
-        transform->transform( *this, getlocal( t ), shifted );
-    }
-
-    if( shifted ) {
-        g->place_player_overmap( project_to<coords::omt>( avatar_pos ), false );
+        transform->transform( *this, bub_from_abs( t ) );
     }
 }
 
