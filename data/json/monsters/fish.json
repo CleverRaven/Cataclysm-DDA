@@ -1006,7 +1006,7 @@
   {
     "id": "mon_crayfish_giant_larva",
     "type": "MONSTER",
-    "name": { "str": "giant crayfish larva" },
+    "name": { "str": "giant crayfish larva", "str_pl": "giant crayfish larvae" },
     "description": "A large crayfish larva already larger than non-mutated adults of its kind.",
     "default_faction": "crayfish",
     "bodytype": "crab",
