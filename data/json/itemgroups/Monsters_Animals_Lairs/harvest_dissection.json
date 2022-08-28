@@ -598,5 +598,32 @@
     "type": "item_group",
     "subtype": "collection",
     "entries": [ { "item": "ursine_sample", "count-min": 10, "count-max": 20 } ]
+  },
+  {
+    "id": "subterranean_insect_large",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [
+      { "item": "troglobite_sample", "count-min": 1, "count-max": 4 },
+      { "item": "insect_sample", "count-min": 1, "count-max": 4 }
+    ]
+  },
+  {
+    "id": "subterranean_rodent_large",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [
+      { "item": "rat_sample", "count-min": 1, "count-max": 4 },
+      { "item": "insect_sample", "count-min": 1, "count-max": 4 }
+    ]
+  },
+  {
+    "id": "slimy_fish_small",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [
+      { "item": "fish_sample", "prob": 50 },
+      { "item": "slime_sample", "prob": 50 }
+    ]
   }
 ]
