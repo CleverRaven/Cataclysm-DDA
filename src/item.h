@@ -1526,8 +1526,8 @@ class item : public visitable
         /** Returns the total area of this wheel or 0 if it isn't one. */
         int wheel_area() const;
 
-        /** Returns energy of one charge of this item as fuel for an engine. */
-        float fuel_energy() const;
+        /** Returns energy per liter of this item as fuel for an engine. */
+        units::energy fuel_energy() const;
         /** Returns the string of the id of the terrain that pumps this fuel, if any. */
         std::string fuel_pump_terrain() const;
         bool has_explosion_data() const;

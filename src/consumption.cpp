@@ -1637,13 +1637,13 @@ int Character::get_acquirable_energy( const item &it ) const
     if( it.type->magazine ) {
         item ammo = item( it.ammo_current() );
         to_consume = std::min( it.ammo_remaining(), bid->fuel_capacity );
-        to_charge = ammo.fuel_energy() * to_consume * bid->fuel_efficiency;
+        to_charge = units::to_kilojoule( ammo.fuel_energy() * to_consume * bid->fuel_efficiency );
     } else if( it.flammable() ) {
         to_consume = std::min( units::to_milliliter( it.volume() ), bid->fuel_capacity );
-        to_charge = it.get_base_material().id->get_fuel_data().energy * to_consume * bid->fuel_efficiency;
+        to_charge = units::to_kilojoule( it.fuel_energy() * to_consume * bid->fuel_efficiency / 1000 );
     } else {
         to_consume = std::min( it.charges, bid->fuel_capacity );
-        to_charge = it.fuel_energy() * to_consume * bid->fuel_efficiency;
+        to_charge = units::to_kilojoule( it.fuel_energy() * to_consume * bid->fuel_efficiency );
     }
     return to_charge;
 }

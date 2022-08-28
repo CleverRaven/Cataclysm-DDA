@@ -9995,9 +9995,10 @@ int item::wheel_area() const
     return is_wheel() ? type->wheel->diameter * type->wheel->width : 0;
 }
 
-float item::fuel_energy() const
+units::energy item::fuel_energy() const
 {
-    return get_base_material().get_fuel_data().energy;
+    // get_fuel_data().energy is in MJ/L
+    return units::from_kilojoule( get_base_material().get_fuel_data().energy * 1000 );
 }
 
 std::string item::fuel_pump_terrain() const
