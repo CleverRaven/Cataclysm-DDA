@@ -1,24 +1,27 @@
 # How to add magic to a mod
 
 - [Spells](#spells)
-- [Spell effects and rules](#spell-effects-and-rules)
+- [The template spell](#the-template-spell)
+  - [Mandatory fields](#mandatory-fields)
+  - [Spell effects](#spell-effects)
 - 
 
 ## Spells
 
-Spells in Cataclysm: Dark Days Ahead consist in actions performed by a character or item, which result on a target receiving an event.
+Spells in Cataclysm: Dark Days Ahead consist in actions performed by a character or item, that result on a target or targets receiving an event.
 
-This can be anything from the humble fireball spell or the classic polymorph, to granting invisibility, mutations, creating items and vehicles, summoning monsters, exploding monsters, applying auras, crowd-controlling, blinking, teleporting, adding or subtracting stats, and more.
+This can be anything from the humble fireball spell or the simple heal, to granting states, mutations, summoning items and vehicles, spawning monsters, exploding monsters, applying auras, crowd-controlling, blinking, transforming terrain, adding or subtracting stats, granting or removing `effect_type`s, and more.
 
-By making clever use of JSON fields, interactions and descriptions, one can go wild in spell crafting.
+Remarkably, some things that don't seem quite "magical" at first glance may also be handled by spells, like casting Fist, casting Gun, casting Vomit, granting (or removing) `drunk`enness, handling fields (`field_id`s), transforming items, among other things.
 
-Remarkably, some things that don't seem quite "magical" at first glance may also be handled by spells, like casting Fist, casting Gun, 
+By making clever use of JSON fields, interactions, combinations and descriptions, anyone can go wild in spell crafting.
 
+## The template spell
 
 In `data/mods/Magiclysm` there is a template spell, copied here for your perusal:
 
 ```C++
-    {
+  {
     // This spell exists in json as a template for contributors to see the possible values of the spell
     "id": "example_template",                                 // id of the spell, used internally. not translated
     "type": "SPELL",
@@ -76,7 +79,7 @@ In `data/mods/Magiclysm` there is a template spell, copied here for your perusal
     "sound_id": "misc",                                       // the sound id
     "sound_variant": "shockwave",                             // the sound variant
     "learn_spells": { "create_atomic_light": 5, "megablast": 10 }   // the caster will learn these spells when the current spell reaches the specified level. should be a map of spell_type_id and the level at which the new spell is learned.
-    }
+  }
 ```
 The template spell above shows every JSON field that spells can have.  Most of these values can be set at 0 or "NONE", so you may leave out most of these fields if they do not pertain to your spell.
 
@@ -92,26 +95,49 @@ However, experience gain is a little more complicated to calculate.  The formula
 
 ```e ^ ( ( level + 62.5 ) * 0.146661 ) ) - 6200```
 
-## Spell effects and rules
+### Mandatory fields
 
-The `effect` field says what effect the spell has. For example, the Magus spell "Magic Missile" has a `target_attack` effect, meaning it deals damage to a specific target:
+As noted above, few JSON fields are actually required for spells to work.  Some of the mandatory fields are:
+
+| Identifier                  | Description
+|---                          |---
+| `id` |  Unique ID for the spell, used internally. Must be one continuous word, use underscores if necessary.
+| `type` | Indicates the JSON object is a `SPELL`.
+| `name` | Name of the spell that shows in game.
+| `description` | Description of the spell that shows in game.
+| `valid_targets` | Targets affected by the spell.  If a valid target is not included, you cannot cast the spell on that target.  Additionally, if the valid target is not specified, the spell aoe will not affect it.  Can be `ally`, `field`, `ground`, `hostile`, `item`, `none` or `self`.
+| `effect` | Hardcoded spell behaviors, roughly speaking spell "type".  See the list below.
+| `shape` | The shape of the spell's area of effect.  See the list below.
+
+Depending on the spell effect, more or less fields will be required.  
+
+For example, a classic `attack` spell needs the `damage_type`, `min_damage`, `max_damage`, `min_range`, `max_range`, and `max_level` fields.  
+
+In contrast, an `attack` spell using `effect_str` to grant a `self` buff (without a damage component) needs the `min_duration`, `max_duration`, and `max_level` fields instead.
+
+Different spells from the official mods can be used as reference for spell crafting.
+
+
+### Spell effects
+
+Each spell effect is defined in the `effect` field. For example, the Magus spell "Magic Missile" has the `attack` effect, meaning it deals damage to a specific target:
 
 ```json
-{
-  "id": "magic_missile",
-  "effect": "attack",
-  "min_damage": 1
-}
+  {
+    "id": "magic_missile",
+    "effect": "attack",
+    "min_damage": 1
+  }
 ```
 
-while the Druid spell "Nature's Bow" has a `spawn_item` effect, and requires the name of the item to spawn:
+while the Druid spell "Nature's Bow" has the `spawn_item` effect, designating the ID of the item to spawn:
 
 ```json
-{
-  "id": "druid_naturebow1",
-  "effect": "spawn_item",
-  "effect_str": "druid_recurve"
-}
+  {
+    "id": "druid_naturebow1",
+    "effect": "spawn_item",
+    "effect_str": "druid_recurve"
+  }
 ```
 
 Below is a table of currently implemented effects, along with special rules for how they work:
@@ -139,8 +165,8 @@ Below is a table of currently implemented effects, along with special rules for 
 | `pain_split` | Evens out all of your limbs' damage.
 | `pull_target` | Attempts to pull the target towards the caster in a straight line.  If the path is blocked by impassable furniture or terrain, the effect fails.
 | `recover_energy` | Recovers an energy source equal to damage of the spell.  The energy source is defined in `effect_str` and may be one of `BIONIC`, `FATIGUE`, `PAIN`, `MANA` or `STAMINA`.
-| `remove_effect` | Removes `effect_str` effects from all creatures in aoe.
-| `remove_field` | Removes a `effect_str` field in aoe.  Causes teleglow of varying intensity and potentially teleportation depending on field density, if the field removed is `fd_fatigue`.
+| `remove_effect` | Removes `effect_str` effects from all creatures in the aoe.
+| `remove_field` | Removes a `effect_str` field in the aoe.  Causes teleglow of varying intensity and potentially teleportation depending on field density, if the field removed is `fd_fatigue`.
 | `revive` | Revives a monster like a zombie necromancer.  The monster must have the `REVIVES` flag.
 | `short_range_teleport` | Teleports the player randomly range spaces with aoe variation.  See also the `TARGET_TELEPORT` and `UNSAFE_TELEPORT` flags.
 | `spawn_item` | Spawns an item that will disappear at the end of its duration.  Default duration is 0.
@@ -154,7 +180,7 @@ Below is a table of currently implemented effects, along with special rules for 
 | `vomit` | Any creature within its aoe will instantly vomit, if it's able to do so.
 
 
-Another mandatory member is spell "shape". This dictates how the area of effect works.
+Another mandatory field is spell "shape". This dictates how the area of effect works.
 
 | Shape | Description
 | --    | --
@@ -169,11 +195,11 @@ Flags allow you to provide additional customizations for spell effects, behavior
 Spells may have any number of flags, for example:
 
 ```json
- {
+  {
     "id": "bless",
     "//": "Encumbrance on the mouth (verbal) or arms (somatic) affect casting success, but not legs.",
     "flags": [ "VERBAL", "SOMATIC", "NO_LEGS" ]
- }
+  }
 ```
 
 | Flag | Description
@@ -260,19 +286,19 @@ Currently there multiple ways of learning spells that are implemented: learning 
 
 ```json
   {
-  "id": "DEBUG_spellbook",
-  "type": "GENERIC",
-  "name": "A Technomancer's Guide to Debugging C:DDA",
-  "description": "static std::string description( spell sp ) const;",
-  "weight": 1,
-  "volume": "1 ml",
-  "symbol": "?",
-  "color": "magenta",
-  "use_action": {
+    "id": "DEBUG_spellbook",
+    "type": "GENERIC",
+    "name": "A Technomancer's Guide to Debugging C:DDA",
+    "description": "static std::string description( spell sp ) const;",
+    "weight": 1,
+    "volume": "1 ml",
+    "symbol": "?",
+    "color": "magenta",
+    "use_action": {
     "type": "learn_spell",
     "//": "list of spells you can learn from the item",
     "spells": [ "debug_hp", "debug_stamina", "example_template", "debug_bionic", "pain_split", "fireball" ]
-  }
+    }
   }
 ```
 
