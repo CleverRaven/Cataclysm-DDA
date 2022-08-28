@@ -2833,6 +2833,20 @@
     "flags": [ "SLEEP_AID" ]
   },
   {
+    "type": "GENERIC",
+    "id": "shark_plushie",
+    "symbol": "s",
+    "color": "cyan",
+    "name": { "str": "shark plushie" },
+    "description": "A somewhat large, mass produced shark plushie.  Meant to provide comfort to people of all ages.",
+    "price": 600,
+    "price_postapoc": 20,
+    "material": [ "cotton" ],
+    "weight": "640 g ",
+    "volume": "30000 ml",
+    "flags": [ "SLEEP_AID" ]
+  },
+  {
     "id": "pouch_autoclave",
     "type": "AMMO",
     "ammo_type": "NULL",
