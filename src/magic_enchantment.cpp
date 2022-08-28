@@ -298,11 +298,11 @@ void enchantment::load( const JsonObject &jo, const std::string &,
         }
     }
 
-    active_conditions.first = io::string_to_enum<enchantment::has>( jo.get_string( "has", "HELD" ) );
+    active_conditions.first = io::string_to_enum<has>( jo.get_string( "has", "HELD" ) );
     if( jo.has_string( "condition" ) ) {
         std::string condit;
         optional( jo, was_loaded, "condition", condit );
-        cata::optional<enchantment::condition> con = io::string_to_enum_optional<condition>( condit );
+        cata::optional<condition> con = io::string_to_enum_optional<condition>( condit );
         if( con.has_value() ) {
             active_conditions.second = con.value();
         } else {
