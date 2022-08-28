@@ -1497,7 +1497,7 @@ void Character::burn_fuel( bionic &bio, const auto_toggle_bionic_result &result 
         case auto_toggle_bionic_result::fuel_type_t::metabolism: {
             // 1kcal = 4184 J TODO Check this
             const units::energy power_gain = result.fuel_energy * 4184 * result.effective_efficiency;
-            mod_stored_kcal( -units::to_kilojoule(result.fuel_energy), true );
+            mod_stored_kcal( -units::to_kilojoule( result.fuel_energy ), true );
             mod_power_level( power_gain );
             break;
         }

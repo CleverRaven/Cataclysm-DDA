@@ -9,7 +9,7 @@
     "description": "seeing this is a bug",
     "stackable": true,
     "price": 0,
-    "volume": "0 ml",
+    "volume": "1 L",
     "material": [ "animal" ],
     "flags": [ "PSEUDO", "PERPETUAL" ]
   },
@@ -35,7 +35,7 @@
     "description": "seeing this is a bug",
     "stackable": true,
     "price": 0,
-    "volume": "0 ml",
+    "volume": "1 L",
     "material": [ "muscle" ],
     "flags": [ "PSEUDO", "PERPETUAL" ]
   },
@@ -49,7 +49,7 @@
     "description": "seeing this is a bug",
     "stackable": true,
     "price": 0,
-    "volume": "0 ml",
+    "volume": "1 L",
     "material": [ "wind" ],
     "flags": [ "PSEUDO", "PERPETUAL" ]
   },
@@ -63,7 +63,7 @@
     "description": "seeing this is a bug",
     "stackable": true,
     "price": 0,
-    "volume": "0 ml",
+    "volume": "1 L",
     "material": [ "sunlight" ],
     "flags": [ "PSEUDO", "PERPETUAL" ]
   },
@@ -77,7 +77,7 @@
     "description": "seeing this is a bug",
     "stackable": true,
     "price": 0,
-    "volume": "0 ml",
+    "volume": "1 L",
     "material": [ "metabolism" ],
     "flags": [ "PSEUDO", "PERPETUAL" ]
   },

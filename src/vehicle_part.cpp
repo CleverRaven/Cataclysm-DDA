@@ -346,8 +346,9 @@ units::energy vehicle_part::consume_energy( const itype_id &ftype, units::energy
     item &fuel = base.legacy_front();
     if( fuel.typeId() == ftype ) {
         cata_assert( fuel.is_fuel() );
-        const int ml_to_use = static_cast<int>( std::floor( energy_j / fuel.fuel_energy() * 1000 ) );
-        int charges_to_use = fuel.charges_per_volume( ml_to_use * 1_ml );
+
+        units::energy energy_per_carge = fuel.fuel_energy() / fuel.charges;
+        int charges_to_use = energy_j / energy_per_carge;
 
         if( !charges_to_use ) {
             return 0_J;
@@ -358,8 +359,7 @@ units::energy vehicle_part::consume_energy( const itype_id &ftype, units::energy
         } else {
             fuel.charges -= charges_to_use;
         }
-        item fuel_consumed( ftype, calendar::turn, charges_to_use );
-        return fuel.fuel_energy() * units::to_milliliter( fuel_consumed.volume( true ) ) / 1000;
+        return charges_to_use * energy_per_carge;
     }
     return 0_J;
 }
