@@ -27,7 +27,7 @@ static const std::vector<std::pair<std::string, std::string>> configurable_distr
     {translate_marker( "Weather change" ),               translate_marker( "This distraction will interrupt your activity when weather changes to dangerous." )},
     {translate_marker( "Hunger" ),                       translate_marker( "This distraction will interrupt your activity when you're at risk of starving." )},
     {translate_marker( "Thirst" ),                       translate_marker( "This distraction will interrupt your activity when you're dangerously dehydrated." )},
-    {translate_marker( "Temperature" ),                  translate_marker( "This distraction will interrupt your activity when your temperature is very high or low." )},
+    {translate_marker( "Temperature" ),                  translate_marker( "This distraction will interrupt your activity when your temperature is very high or very low." )},
 };
 
 void distraction_manager_gui::show()
