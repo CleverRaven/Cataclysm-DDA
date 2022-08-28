@@ -267,7 +267,7 @@
   {
     "id": "mon_sarahsaurus_hatchling",
     "type": "MONSTER",
-    "name": "issi hatchling",
+    "name": "sarahsaurus hatchling",
     "copy-from": "mon_gallimimus_hatchling",
     "weight": "2 kg",
     "volume": "2 L",
@@ -285,14 +285,14 @@
     "upgrades": { "age_grow": 40, "into": "mon_issi_juvenile" }
   },
   {
-    "id": "mon_issi_hatchling",
+    "id": "mon_haplocanthosaurus_hatchling",
     "type": "MONSTER",
-    "name": "issi hatchling",
+    "name": "haplocanthosaurus hatchling",
     "copy-from": "mon_gallimimus_hatchling",
     "weight": "4 kg",
     "volume": "4 L",
     "petfood": { "food": [ "DINOFOOD_C" ] },
-    "upgrades": { "age_grow": 45, "into": "mon_issi_juvenile" }
+    "upgrades": { "age_grow": 45, "into": "mon_haplocanthosaurus_juvenile" }
   },
   {
     "id": "mon_amargasaurus_hatchling",
