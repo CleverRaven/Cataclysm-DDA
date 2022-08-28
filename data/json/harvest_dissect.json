@@ -604,14 +604,8 @@
     "type": "harvest",
     "message": "With cuts and pulls equally similar to both extraction and vandalism, you scrape together the most important parts of the creature.",
     "entries": [
-      {
-        "drop": "rat_sample_large",
-        "type": "mutagen_group"
-      },
-      {
-        "drop": "troglobite_sample_large",
-        "type": "mutagen_group"
-      }
+      { "drop": "rat_sample_large", "type": "mutagen_group" },
+      { "drop": "troglobite_sample_large", "type": "mutagen_group" }
     ]
   },
   {
@@ -619,14 +613,8 @@
     "type": "harvest",
     "message": "With cuts and pulls equally similar to both extraction and vandalism, you scrape together the most important parts of the creature.",
     "entries": [
-      {
-        "drop": "insect_sample_large",
-        "type": "mutagen_group"
-      },
-      {
-        "drop": "troglobite_sample_large",
-        "type": "mutagen_group"
-      }
+      { "drop": "insect_sample_large", "type": "mutagen_group" },
+      { "drop": "troglobite_sample_large", "type": "mutagen_group" }
     ]
   },
   {
@@ -634,14 +622,8 @@
     "type": "harvest",
     "message": "With cuts and pulls equally similar to both extraction and vandalism, you scrape together the most important parts of the creature.",
     "entries": [
-      {
-        "drop": "insect_sample_small",
-        "type": "mutagen_group"
-      },
-      {
-        "drop": "troglobite_sample_small",
-        "type": "mutagen_group"
-      }
+      { "drop": "insect_sample_small", "type": "mutagen_group" },
+      { "drop": "troglobite_sample_small", "type": "mutagen_group" }
     ]
   },
   {
@@ -649,14 +631,8 @@
     "type": "harvest",
     "message": "With cuts and pulls equally similar to both extraction and vandalism, you scrape together the most important parts of the creature.",
     "entries": [
-      {
-        "drop": "fish_sample_single",
-        "type": "mutagen_group"
-      },
-      {
-        "drop": "slime_sample_single",
-        "type": "mutagen_group"
-      }
+      { "drop": "fish_sample_single", "type": "mutagen_group" },
+      { "drop": "slime_sample_single", "type": "mutagen_group" }
     ]
   },
   {
