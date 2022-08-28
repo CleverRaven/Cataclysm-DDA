@@ -2521,7 +2521,7 @@
     "vision_day": 10,
     "vision_night": 15,
     "harvest": "arachnid",
-    "dissect": "subterranean_insect_large",
+    "dissect": "dissect_subterranean_insect_large",
     "reproduction": { "baby_egg": "egg_mole_cricket", "baby_count": 1, "baby_timer": 20 },
     "baby_flags": [ "SPRING", "SUMMER", "AUTUMN" ],
     "special_attacks": [ [ "SHRIEK_ALERT", 10 ], [ "SHRIEK_STUN", 5 ], [ "impale", 15 ] ],
