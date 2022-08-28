@@ -323,8 +323,18 @@
   },
   {
     "type": "monstergroup",
+    "name": "GROUP_zarahsaurus_UPGRADE",
+    "monsters": [ { "monster": "mon_skarahsaurus", "weight": 600 }, { "monster": "mon_zarahsaurus_brute", "weight": 400 } ]
+  },
+  {
+    "type": "monstergroup",
     "name": "GROUP_zissi_UPGRADE",
     "monsters": [ { "monster": "mon_sissi", "weight": 600 }, { "monster": "mon_zissi_brute", "weight": 400 } ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_zaplocanthosaurus_UPGRADE",
+    "monsters": [ { "monster": "mon_saplocanthosaurus", "weight": 600 }, { "monster": "mon_zaplocanthosaurus_brute", "weight": 400 } ]
   },
   {
     "type": "monstergroup",
@@ -365,6 +375,11 @@
     "type": "monstergroup",
     "name": "GROUP_ztegosaurus_UPGRADE",
     "monsters": [ { "monster": "mon_sktegosaurus", "weight": 600 }, { "monster": "mon_ztegosaurus_brute", "weight": 400 } ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_zesperosaurus_UPGRADE",
+    "monsters": [ { "monster": "mon_sesperosaurus", "weight": 600 }, { "monster": "mon_zesperosaurus_brute", "weight": 400 } ]
   },
   {
     "type": "monstergroup",
@@ -419,6 +434,11 @@
     "type": "monstergroup",
     "name": "GROUP_zedmontosaurus_UPGRADE",
     "monsters": [ { "monster": "mon_sedmontosaurus", "weight": 600 }, { "monster": "mon_zedmontosaurus_brute", "weight": 400 } ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_zryposaurus_UPGRADE",
+    "monsters": [ { "monster": "mon_sryposaurus", "weight": 600 }, { "monster": "mon_zryposaurus_brute", "weight": 400 } ]
   },
   {
     "type": "monstergroup",
