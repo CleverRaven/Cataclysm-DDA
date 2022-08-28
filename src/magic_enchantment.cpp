@@ -205,14 +205,14 @@ bool enchantment::is_active( const Character &guy, const item &parent ) const
         return false;
     }
 
-    if( active_conditions.first == enchantment::has::HELD &&
-        active_conditions.second == enchantment::condition::ALWAYS ) {
+    if( active_conditions.first == has::HELD &&
+        active_conditions.second == condition::ALWAYS ) {
         return true;
     }
 
-    if( !( active_conditions.first == enchantment::has::HELD ||
-           ( active_conditions.first == enchantment::has::WIELD && guy.is_wielding( parent ) ) ||
-           ( active_conditions.first == enchantment::has::WORN && guy.is_worn( parent ) ) ) ) {
+    if( !( active_conditions.first == has::HELD ||
+           ( active_conditions.first == has::WIELD && guy.is_wielding( parent ) ) ||
+           ( active_conditions.first == has::WORN && guy.is_worn( parent ) ) ) ) {
         return false;
     }
 
@@ -221,19 +221,19 @@ bool enchantment::is_active( const Character &guy, const item &parent ) const
 
 bool enchantment::is_active( const Character &guy, const bool active ) const
 {
-    if( active_conditions.second == enchantment::condition::ACTIVE ) {
+    if( active_conditions.second == condition::ACTIVE ) {
         return active;
     }
 
-    if( active_conditions.second == enchantment::condition::INACTIVE ) {
+    if( active_conditions.second == condition::INACTIVE ) {
         return !active;
     }
 
-    if( active_conditions.second == enchantment::condition::ALWAYS ) {
+    if( active_conditions.second == condition::ALWAYS ) {
         return true;
     }
 
-    if( active_conditions.second == enchantment::condition::DIALOG_CONDITION ) {
+    if( active_conditions.second == condition::DIALOG_CONDITION ) {
         dialogue d( get_talker_for( guy ), nullptr );
         return dialog_condition( d );
     }
@@ -242,8 +242,8 @@ bool enchantment::is_active( const Character &guy, const bool active ) const
 
 bool enchantment::active_wield() const
 {
-    return active_conditions.first == enchantment::has::HELD ||
-           active_conditions.first == enchantment::has::WIELD;
+    return active_conditions.first == has::HELD ||
+           active_conditions.first == has::WIELD;
 }
 
 void enchantment::add_activation( const time_duration &dur, const fake_spell &fake )
