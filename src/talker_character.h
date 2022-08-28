@@ -71,8 +71,12 @@ class talker_character_const: public talker
         bool has_max_power() const override;
         bool has_bionic( const bionic_id &bionics_id ) const override;
         bool knows_spell( const spell_id &sp ) const override;
-        int get_skill_level( const skill_id &skill ) const override;
+        int get_skill_level( const skill_id &) const override;
+        int get_spell_level(const trait_id&) const override;
+        int get_spell_level(const spell_id&) const override;
+        int get_highest_spell_level() const override;
         bool knows_proficiency( const proficiency_id &proficiency ) const override;
+        time_duration proficiency_practiced_time(const proficiency_id&) const override;
 
         // effects and values
         bool has_effect( const efftype_id &effect_id, const bodypart_id &bp ) const override;

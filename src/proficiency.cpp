@@ -403,6 +403,19 @@ float proficiency_set::pct_practiced( const proficiency_id &query ) const
     return 0.0f;
 }
 
+time_duration proficiency_set::pct_practiced_time(const proficiency_id& query) const
+{
+    for (const learning_proficiency& prof : learning) {
+        if (prof.id == query) {
+            return prof.practiced;
+        }
+    }
+    if (has_learned(query)) {
+        return query->time_to_learn();
+    }
+    return 0_seconds;
+}
+
 time_duration proficiency_set::training_time_needed( const proficiency_id &query ) const
 {
     for( const learning_proficiency &prof : learning ) {

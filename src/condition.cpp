@@ -1797,28 +1797,58 @@ std::function<int( const T & )> conditional_t<T>::get_get_int( const JsonObject 
                 const std::string school_name = jo.get_string( "school" );
                 const trait_id spell_school(school_name);
                 return [is_npc, spell_school]( const T & d ) {
-                    int spell_level = -1;
-                    for( const spell &sp : d.actor( is_npc )->get_character()->spells_known_of_class(spell_school) ) {
-                        spell_level = std::max( sp.get_level(), spell_level );
-                    }
-                    return spell_level;
+                    return d.actor(is_npc)->get_spell_level(spell_school);
                 };
             } else if (jo.has_member("spell")) {
                 const std::string spell_name = jo.get_string( "spell" );
-                return [is_npc, spell_name]( const T & d ) {
-                    if( !d.actor( is_npc )->get_character()->magic->knows_spell( spell_name ) ) {
-                        return -1;
-                    }
-                    return d.actor( is_npc )->get_character()->magic->get_spell( spell_id(spell_name) ).get_level();
+                const spell_id this_spell_id(spell_name);
+                return [is_npc, this_spell_id]( const T & d ) {
+                    return d.actor(is_npc)->get_spell_level(this_spell_id);
                 };
             } else {
                 return [is_npc](const T & d) {
-                    int spell_level = -1;
-                    for (const spell *sp : d.actor(is_npc)->get_character()->magic->get_spells()) {
-                        spell_level = std::max(sp->get_level(), spell_level);
-                    }
-                    return spell_level;
+                    return d.actor(is_npc)->get_highest_spell_level();
                 };
+            }
+        } else if (checked_value == "proficiency") {
+            if (jo.has_member("proficiency_id")) {
+                const std::string proficiency_name = jo.get_string("proficiency_id");
+                const proficiency_id the_proficiency_id(proficiency_name);
+                if (jo.has_int("format")) {
+                    const int format = jo.get_int("format");
+                    return [is_npc, format, the_proficiency_id](const T& d) {
+                        return (int)((d.actor(is_npc)->proficiency_practiced_time(the_proficiency_id) * format) / the_proficiency_id->time_to_learn());
+                    };
+                } else if (jo.has_member("format")) {
+                    const std::string format = jo.get_string("format");
+                    if (format == "time_spent") {
+                        return [is_npc, the_proficiency_id](const T& d) {
+                            return to_turns<int>(d.actor(is_npc)->proficiency_practiced_time(the_proficiency_id));
+                        };
+                    } else if (format == "percent") {
+                        return [is_npc, the_proficiency_id](const T& d) {
+                            return (int)((d.actor(is_npc)->proficiency_practiced_time(the_proficiency_id) * 100) / the_proficiency_id->time_to_learn());
+                        };
+                    } else if (format == "permille") {
+                        return [is_npc, the_proficiency_id](const T& d) {
+                            return (int)((d.actor(is_npc)->proficiency_practiced_time(the_proficiency_id) * 1000) / the_proficiency_id->time_to_learn());
+                        };
+                    } else if (format == "total_time_required") {
+                        return [is_npc, the_proficiency_id](const T& d) {
+                            return to_turns<int>(the_proficiency_id->time_to_learn());
+                        };
+                    } else if (format == "time_left") {
+                        return [is_npc, the_proficiency_id](const T& d) {
+                            return to_turns<int>(the_proficiency_id->time_to_learn() - d.actor(is_npc)->proficiency_practiced_time(the_proficiency_id));
+                        };
+                    }
+                    else {
+                        jo.throw_error("unrecognized format in " + jo.str());
+                    }
+                }
+            }
+            else {
+                jo.throw_error("proficiency_id required in " + jo.str());
             }
         }
     } else if( jo.has_member( "moon" ) ) {
@@ -1841,19 +1871,19 @@ std::function<int( const T & )> conditional_t<T>::get_get_int( const JsonObject 
             tripoint_abs_ms second_point = get_tripoint_from_string( second, d );
             return rl_dist( first_point, second_point );
         };
-    }/*  else if (jo.has_member("mod_load_order")) {
-        const std::string our_mod_id = jo.get_string("mod_id");
+    } else if (jo.has_member("mod_load_order")) {
+        const mod_id our_mod_id = mod_id(jo.get_string("mod_id"));
         return [our_mod_id](const T &) {
             int count = 0;
             for (const mod_id & mod : world_generator->active_world->active_mod_order) {
-                if (our_mod_id == mod.mod_id) {
+                if (our_mod_id == mod) {
                     return count;
                 }
                 count++;
             }
             return -1;
         };
-    }*/ else if( jo.has_array( "arithmetic" ) ) {
+    } else if( jo.has_array( "arithmetic" ) ) {
         talk_effect_fun_t<T> arith;
         arith.set_arithmetic( jo, "arithmetic", true );
         return [arith]( const T & d ) {

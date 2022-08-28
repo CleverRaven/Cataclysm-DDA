@@ -12,6 +12,11 @@ float Character::get_proficiency_practice( const proficiency_id &prof ) const
     return _proficiencies->pct_practiced( prof );
 }
 
+time_duration Character::get_proficiency_practiced_time(const proficiency_id& prof) const
+{
+    return _proficiencies->pct_practiced_time(prof);
+}
+
 bool Character::has_prof_prereqs( const proficiency_id &prof ) const
 {
     return _proficiencies->has_prereqs( prof );
