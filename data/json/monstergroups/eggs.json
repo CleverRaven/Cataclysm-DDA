@@ -440,5 +440,10 @@
     "name": "GROUP_EGG_FALLFISH",
     "type": "monstergroup",
     "monsters": [ { "monster": "mon_fry_fallfish" } ]
+  },
+  {
+    "name": "GROUP_EGG_CRAYFISH_GIANT",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_crayfish_giant_larva" } ]
   }
 ]
