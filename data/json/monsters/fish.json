@@ -1004,7 +1004,7 @@
     "extend": { "flags": [ "DESTROYS", "PUSH_MON", "PUSH_VEH" ] }
   },
   {
-    "id": "mon_crayfish_larva",
+    "id": "mon_crayfish_giant_larva",
     "type": "MONSTER",
     "name": { "str": "giant crayfish larva" },
     "description": "A large crayfish larva already larger than non-mutated adults of its kind.",
