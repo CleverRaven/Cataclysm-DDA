@@ -18,7 +18,10 @@
   - [Consecutive spell casting](#consecutive-spell-casting)
   - [Random spell casting](#random-spell-casting)
   - [Repeatedly cast the same spell](#repeatedly-cast-the-same-spell)
-  - 
+  - [A spell that casts a note on the target and an effect on the caster](#a-spell-that-casts-a-note-on-the-target-and-an-effect-on-the-caster)
+  - [Monster spells](#monster-spells)
+  - [Enchantments](#enchantments)
+    - [ID values](#id-values)
 
 
 ## Spells
@@ -368,6 +371,7 @@ You can add spells to professions or NPC class definitions like this:
     "description": "Tests professions",
     "spells": [ { "id": "summon_zombie", "level": 0 }, { "id": "magic_missile", "level": 10 } ],
     ...
+  }
 ```
 
 **Note:** This makes it possible to learn spells that conflict with a class. It also does not give the prompt to gain the class. Be judicious upon adding this to a profession!
@@ -421,6 +425,7 @@ The following are some spell examples, some simple and some advanced ones:
     "damage_type": "stab"                                    // type of damage
   }
 ```
+
 Note: Uses both `ground` and `hostile` in `valid_targets` so it can be targeted in an area with no line of sight.
 
 
@@ -450,12 +455,13 @@ Note: Uses both `ground` and `hostile` in `valid_targets` so it can be targeted 
     "max_duration": 325,
     "damage_type": "stab"                                    // type of damage
   }
-  ```
+```
 
 Explanation: If you put two or more spells in `extra_effects`, it will consecutively cast the spells: first `extra_effects`, second `extra_effects`, third `extra_effects`, etc.  If you wish to pick one at random, use the `WONDER` flag (see below).  Additionally, the extra spells will be cast at a level up to the level of the parent spell being cast, unless additional data is added to the fake_spell.
 
 
 ### Random spell casting
+
 ```C++
   {
     "id": "test_starter_spell",                              // id of the spell, used internally. not translated
@@ -510,7 +516,7 @@ Explanation: The `WONDER` flag does wonders by turning the spell into a dice: Wh
 Explanation: Notice the `WONDER` and `RANDOM_DAMAGE` combo, with a different approach:  `min_damage` set to 5 and `max_damage` set to 7 will cause the main spell to "roll" `extra_effects` 5 - 7 times, but this time there's a single `test_attack`.  Because `WONDER` has a 100% chance of picking a spell, `test_attack`, will be repeated 5 to 7 times.
 
 
-### A spell that casts a note on a target and an effect on itself
+### A spell that casts a note on the target and an effect on the caster
 
 
 ```C++
@@ -531,21 +537,22 @@ Explanation: Notice the `WONDER` and `RANDOM_DAMAGE` combo, with a different app
     }
 ```
 
-Explanation: Here we have one main spell with two subspells: one on the caster and the other on the target.  To do this, you must specify the ID of whatever spells you're using with the `extra_effects` field.  In this case, `sacrifice_spell` is stated with `"hit_self": true` and will "hit" the caster, while the second spell will be cast as normal.  This is only necessary if we need an effect that is cast on a target and a second effect that is cast on the caster.
+Explanation: Here we have one main spell with two subspells: one on the caster and the other on the target.  To do this, you must specify the ID of whatever spells you're using with the `extra_effects` field.  In this case, `sacrifice_spell` is stated with `"hit_self": true` and will "hit" the caster, while the second spell will be cast as normal.  This is only necessary if we need an effect that is cast on a target and a secondary effect cast on the caster.
 
 
 ### Monster spells
 
-Monster creatures can also cast spells.  To do this, you need to assign the spells in `special_attacks`.  Spells with `target_self: true` will only target the monster itself, and will be casted only if the monster has a hostile target.
+`MONSTER` creatures can also cast spells.  To do this, you need to assign the spells in `special_attacks`.  Spells with `target_self: true` will only target the casting monster, and will be casted only if the monster has a hostile target.
 
 ```json 
-    { 
+  { 
     "type": "spell", 
     "spell_data": { "id": "cone_cold", "min_level": 4 }, 
     "monster_message": "%1$s casts %2$s at %3$s!", 
     "cooldown": 25 
-    }
+  }
 ```
+
 | Identifier              | Description
 |---                      |---
 | `spell_data`            | List of spell properties for the attack.
@@ -558,7 +565,9 @@ Monster creatures can also cast spells.  To do this, you need to assign the spel
 | `required_effects_all`  | Array of effect ids, the monster needs every effect for the attack to trigger.
 | `allow_no_target`       | Bool, default false. If true the monster will cast it even without a hostile target.
 
+
 ### Enchantments
+
 | Identifier                  | Description
 |---                          |---
 | `id`                        | Unique ID. Must be one continuous word, use underscores if necessary.
@@ -583,7 +592,10 @@ Monster creatures can also cast spells.  To do this, you need to assign the spel
         "npc_message": "%1$s's ink glands spay some ink into %2$s's eyes."
       }
     ]
-  },
+  }
+```  
+
+```json
   {
     "type": "enchantment",
     "id": "ENCH_INVISIBILITY",
@@ -604,93 +616,96 @@ Monster creatures can also cast spells.  To do this, you need to assign the spel
       ]
     }
   }
-
 ```
 
-To add the enchantment to the item, you need to write the id of your enchantment inside `relic_data` field. For example:
+To add the enchantment to the item, you need add the enchantment ID inside the `relic_data` field. For example:
 
 ```json
+...
 "relic_data": { "passive_effects": [ { "id": "ench_fishform" } ] },
-
+...
 ```
 
-If your enchantment is relatively small, you can write it right in the thing json, using the same syntaxys as the common enchantment. For example:
+If your enchantment is relatively small, you can write it right in the same JSON object, using the same syntaxis as a common enchantment. For example:
 
 ```json
-"relic_data": {
-  "passive_effects": [
-    {
-      "has": "WORN",
-      "condition": "ALWAYS",
-      "values": [
-        { "value": "ARMOR_CUT", "add": -4 },
-        { "value": "ARMOR_BASH", "add": -4 },
-        { "value": "ARMOR_STAB", "add": -4 },
-        { "value": "ARMOR_BULLET", "add": -2 }
-      ]    
-    }
-  ]
-}
+...
+  "relic_data": {
+    "passive_effects": [
+      {
+        "has": "WORN",
+        "condition": "ALWAYS",
+        "values": [
+          { "value": "ARMOR_CUT", "add": -4 },
+          { "value": "ARMOR_BASH", "add": -4 },
+          { "value": "ARMOR_STAB", "add": -4 },
+          { "value": "ARMOR_BULLET", "add": -2 }
+        ]    
+      }
+    ]
+  },
+...
 ```
 
 
-### Allowed id for values
+#### ID values
 
-The allowed values are as follows:
+The following is a list of possible `values`:
 
-Effects for the character that has the enchantment:
+| Status value                | Description
+|---                          |---
+| `ARMOR_ACID` | 
+| `ARMOR_BASH` | 
+| `ARMOR_BIO` | 
+| `ARMOR_COLD` | 
+| `ARMOR_CUT` | 
+| `ARMOR_ELEC` | 
+| `ARMOR_HEAT` | 
+| `ARMOR_STAB` | 
+| `ATTACK_COST` | 
+| `ATTACK_NOISE` | 
+| `ATTACK_SPEED` | 
+| `BIONIC_POWER` |
+| `BONUS_BLOCK` | 
+| `BONUS_DODGE` | 
+| `BONUS_DAMAGE` | 
+| `CARRY_VOLUME` | 
+| `CARRY_WEIGHT` | 
+| `DEXTERITY` | 
+| `INTELLIGENCE` | 
+| `PERCEPTION` | 
+| `STRENGTH` | 
+| `SPEED` | 
+| `EFFECTIVE_HEALTH_MOD` | If this is anything other than zero (which it defaults to) you will use it instead of your actual health mod.
+| `FATIGUE` | 
+| `FOOTSTEP_NOISE` | 
+| `HUNGER` | 
+| `LEARNING_FOCUS` | Amount of bonus focus you have for learning purposes.
+| `LUMINATION` | Character produces light.
+| `MAX_HP` | 
+| `MAX_MANA` | 
+| `MAX_STAMINA` | 
+| `METABOLISM` | 
+| `MAP_MEMORY` | How many map tiles you can remember.
+| `MOD_HEALTH` | If this is anything other than zero (which it defaults to) you will to mod your health to a max/min of `MOD_HEALTH_CAP` every half hour.
+| `MOD_HEALTH_CAP` | If this is anything other than zero (which it defaults to) you will cap your `MOD_HEALTH` gain/loss at this every half hour.
+| `MOVE_COST` | 
+| `PAIN` | 
+| `SHOUT_NOISE` | 
+| `SIGHT_RANGE` | 
+| `SKILL_RUST_RESIST` | Chance out of 100 to resist skill rust.
+| `SLEEPY` | The higher this the more easily you fall asleep.
+| `SOCIAL_INTIMIDATE` | 
+| `SOCIAL_LIE` | 
+| `SOCIAL_PERSUADE` | 
+| `SPELL_NOISE` | 
+| `READING_EXP` | Changes the minimum you learn from each reading increment.
+| `REGEN_HP` | 
+| `REGEN_MANA` | 
+| `REGEN_STAMINA` | 
+| `THIRST` | 
+| `WEAPON_DISPERSION` | 
 
-* STRENGTH
-* DEXTERITY
-* PERCEPTION
-* INTELLIGENCE
-* SPEED
-* ATTACK_COST
-* ATTACK_SPEED
-* MOVE_COST
-* METABOLISM
-* MAX_MANA
-* REGEN_MANA
-* BIONIC_POWER
-* MAX_STAMINA
-* REGEN_STAMINA
-* MAX_HP
-* REGEN_HP
-* HUNGER
-* THIRST
-* FATIGUE
-* PAIN
-* BONUS_DODGE
-* BONUS_BLOCK
-* BONUS_DAMAGE
-* ATTACK_NOISE
-* SPELL_NOISE
-* SHOUT_NOISE
-* FOOTSTEP_NOISE
-* SIGHT_RANGE
-* CARRY_WEIGHT
-* CARRY_VOLUME
-* WEAPON_DISPERSION
-* SOCIAL_LIE
-* SOCIAL_PERSUADE
-* SOCIAL_INTIMIDATE
-* SLEEPY : The higher this is the more easily you fall asleep.
-* LUMINATION : The character produces light
-* EFFECTIVE_HEALTH_MOD : If this is anything other than zero(which it defaults to) you will use it instead of your actual health mod
-* MOD_HEALTH : If this is anything other than zero(which it defaults to) you will to mod your health to a max/min of MOD_HEALTH_CAP every half hour
-* MOD_HEALTH_CAP : If this is anything other than zero(which it defaults to) you will cap your MOD_HEALTH gain/loss at this every half hour
-* MAP_MEMORY : How many map tiles you can remember.
-* READING_EXP : Changes the minimum you learn from each reading increment.
-* SKILL_RUST_RESIST : Chance out of 100 to resist skill rust.
-* LEARNING_FOCUS : Amount of bonus focus you have for learning purposes.
-* ARMOR_BASH
-* ARMOR_CUT
-* ARMOR_STAB
-* ARMOR_HEAT
-* ARMOR_COLD
-* ARMOR_ELEC
-* ARMOR_ACID
-* ARMOR_BIO
 
 Effects for the item that has the enchantment:
 
@@ -724,6 +739,8 @@ The damage enchantment values are for melee only.
 * ITEM_WET_PROTECTION
 
 Examples
+
+```
     { "value": "ARMOR_ELEC", "add": -20 } subtracts 20 points of electrical damage
     { "value": "ATTACK_SPEED", "add": -60 } subtracts 60 moves from attacking making the attack faster
     { "value": "ARMOR_COLD", "multiply": -0.4 } subtracts 40 percent of the any cold damage
@@ -731,3 +748,4 @@ Examples
     { "value": "ARMOR_CUT", "add": 2 } increases cut damage taken by 2
     { "value": "ARMOR_BIO", "multiply": -1.4 } subtracts 140 percent of the any bio damage giving 40% of damage dealt as increased health
     { "value": "ARMOR_ACID", "multiply": 1.4 } increases damage taken from acid by 140 percent
+```
