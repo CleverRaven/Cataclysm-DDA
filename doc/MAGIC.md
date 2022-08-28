@@ -568,6 +568,11 @@ Creatures can also cast spells.  To do this, you need to assign the spells in `s
 
 ## Enchantments
 
+A subtype of spells are enchantments.  Enchantments can be considered physical spells, as these rely on item entities as "containers", and are automatically activated depending on the specified usage and `condition`, instead of being `a`ctivated directly or casted by someone.
+
+Depending on their effects on the user, enchantments can behave like blessings, by granting positive stats and subspells, curses if such effects are detrimental to the user (through a clever use of the `NO_TAKEOFF` flag), or a mix of both.
+
+
 | Identifier                  | Description
 |---                          |---
 | `id`                        | Unique ID.  Must be one continuous word, use underscores if necessary.
