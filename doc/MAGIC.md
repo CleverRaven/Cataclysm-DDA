@@ -257,22 +257,24 @@ Spells may have any number of flags, for example:
 | `UNSAFE_TELEPORT` | Teleport spell risks killing the caster or others.
 | `VERBAL` | Spell makes noise at caster location, mouth encumbrance affects fail %.
 | `WITH_CONTAINER` | Items spawned with container.
-| `WONDER` | This drastically alters the behavior of the parent spell: The spell itself doesn't cast, but its damage and range information is used in order to cast the `extra_effects`.  N of the `extra_effects` will be chosen to be cast at random, where N is the current damage of the spell (stacks with the `RANDOM_DAMAGE` flag) and the message of the spell cast by this spell will also be displayed.  If this spell's message is not wanted, make sure `message` is an empty string.
+| `WONDER` | This drastically alters the behavior of the parent spell: The spell itself doesn't cast, but the damage and range information are used to cast the `extra_effects`.  A n number of `extra_effects` will be chosen to be cast at random, where n is the current damage of the spell (stacks with the `RANDOM_DAMAGE` flag), the message of the casted spell will also be displayed.  If this spell's message is not wanted, make sure `message` is an empty string.
 
 
 ### Damage Types
 
 The following are the available damage types, for those spells that have a damaging component:
 
-* "acid"
-* "bash"
-* "biological" - internal damage such as poison
-* "cold"
-* "cut"
-* "electric"
-* "heat"
-* "pure" - this damage type goes through armor altogether. it is the default.
-* "stab"
+| Damage type             | Description
+|---                      |---
+| `acid` | 
+| `bash` | 
+| `biological` | Internal damage such as poison.
+| `cold` | 
+| `cut` | 
+| `electric` | 
+| `heat` | 
+| `pure` | This damage type goes through armor altogether.  Set by default.
+| `stab` | 
 
 
 ### Spell level
@@ -284,12 +286,14 @@ The level cap is indicated by the `max_level` field, and the effect growth is in
 For example:
 
 ```json
+...
     "min_range": 1,
     "max_range": 25,
     "range_increment": 5,
+...
 ```
 
-Min and max values must always have the same sign, but it can be negative eg. in the case of spells that use a negative 'recover' effect to cause pain or stamina damage. For example:
+Min and max values must always have the same sign, but it can be negative e.g. in the case of spells that use a negative 'recover' effect to cause pain or stamina damage. For example:
 
 ```json
   {
@@ -310,7 +314,7 @@ Min and max values must always have the same sign, but it can be negative eg. in
 
 ### Learning Spells
 
-Currently there multiple ways of learning spells that are implemented: learning a spell from an item (through a `use_action`), from spells that have the `learn_spells` field and from traits/mutations.  An example is shown below:
+There multiple ways to learn spells: learning a spell from an item (through a `use_action`), from spells that have the `learn_spells` field, and from traits/mutations.  An example is shown below:
 
 ```json
   {
@@ -334,7 +338,7 @@ You can study this spellbook for a rate of ~1 experience per turn depending on i
 
 Below is an example of `learn_spells` usage:
 ```json
-    {
+  {
     "id": "phase_door",
     "type": "SPELL",
     "name": "Phase Door",
@@ -346,8 +350,9 @@ Below is an example of `learn_spells` usage:
     "difficulty": 2,
     "spell_class": "MAGUS",
     "learn_spells": { "dimension_door": 10 }
-    }
+  }
 ```
+
 Traits/mutations have the `spells_learned` field, see the [JSON_INFO](JSON_INFO.md) documentation for details.
 
 
@@ -357,7 +362,7 @@ Another two interesting fields are `extra_effects` and `effect_str`:
 
 * `extra_effects` allows to cast one or more spells simultaneously, thus enabling "chain" style casting.
 
-* `effect_str` works as a pointer, it links the main spell to a JSON object (like an effect, item, monster, mutation, stat, terrain transform, vehicle, etc).  Behavior can vary depending on the spell's `effect`, e.g. it may define which `effect_type` will be applied the target, the ID of the `spawn_item`, `monster` or `vehicle` to spawn, etc.  Do note that some effect types are hardcoded, like `beartrap`, `crushed`, `dazed`, `downed`, `stunned`, etc. (non-exhaustive list!)
+* `effect_str` works as a pointer, it links the main spell to a certain JSON object.  Behavior can vary depending on the spell's `effect`, e.g. it may define which `effect_type` will be applied the target, the ID of the `spawn_item`, `monster` or `vehicle` to spawn, etc.  Do note that some effect types are hardcoded, like `beartrap`, `crushed`, `dazed`, `downed`, `stunned`, etc. (non-exhaustive list!).
 
 
 ## Adding spells to professions and NPCs
@@ -379,7 +384,7 @@ You can add spells to professions or NPC class definitions like this:
 
 ## Examples
 
-The following are some spell examples, some simple and some advanced ones:
+The following are some spell examples, from simple to advanced:
 
 ### Summon spell
 
@@ -402,6 +407,7 @@ The following are some spell examples, some simple and some advanced ones:
   }
 ```
 
+Self explanatory: when cast, `test_summon` will silently summon 1 hostile `mon_test_monster` on a random 3x3 location centered around the caster, with a duration of 62.5 seconds, after which it will disappear.
 
 ### Typical attack
 
@@ -427,7 +433,9 @@ The following are some spell examples, some simple and some advanced ones:
   }
 ```
 
-Note: Uses both `ground` and `hostile` in `valid_targets` so it can be targeted in an area with no line of sight.
+Explanation: classic damage spell with designated effect.  After a 5 second cast, a lvl 1 `test_attack` will deal 11 stab damage up to 4 tiles away, and stun the `hostile` target for 2.1 seconds.
+
+Note: `valid_targets` has both `ground` and `hostile` so it can be targeted in an area with no line of sight.
 
 
 ### Consecutive spell casting
@@ -458,7 +466,7 @@ Note: Uses both `ground` and `hostile` in `valid_targets` so it can be targeted 
   }
 ```
 
-Explanation: If you put two or more spells in `extra_effects`, it will consecutively cast the spells: first `extra_effects`, second `extra_effects`, third `extra_effects`, etc.  If you wish to pick one at random, use the `WONDER` flag (see below).  Additionally, the extra spells will be cast at a level up to the level of the parent spell being cast, unless additional data is added to the fake_spell.
+Explanation: If you put two or more spells in `extra_effects`, it will consecutively cast the spells: first `extra_effects`, second `extra_effects`, third `extra_effects`, etc.  If you wish to pick one at random, use the `WONDER` flag (see below).  Additionally, the extra spells will be cast at a level up to the level of the parent spell being cast, unless additional data is added to each `test_atk#.
 
 
 ### Random spell casting
@@ -488,7 +496,9 @@ Explanation: If you put two or more spells in `extra_effects`, it will consecuti
   }
 ```
 
-Explanation: The `WONDER` flag does wonders by turning the spell into a dice: When cast, the main spell will pick the subspells in `extra_effects`.  The amount of "rolls" is specified via `min_damage` and `max_damage` plus the `RANDOM_DAMAGE` flag.  In this example, casting `test_starter_spell` will cause any one of each `test_atk#` subspells to be selected, this repeats 3 to 5 times.  There must be a minimum of one spell in `extra_effects` for the `WONDER` flag to work properly.
+Explanation: The `WONDER` flag does wonders by turning the spell into a dice: When cast, the main spell will pick the subspells in `extra_effects`.  The amount of "rolls" is specified via `min_damage` and `max_damage` plus the `RANDOM_DAMAGE` flag.  In this example, casting `test_starter_spell` will cause any one of each `test_atk#` subspells to be selected, this repeats 3 to 5 times.
+
+Note: There must be a minimum of one spell in `extra_effects` for the `WONDER` flag to work properly.
 
 
 ### Repeatedly cast the same spell
@@ -514,13 +524,13 @@ Explanation: The `WONDER` flag does wonders by turning the spell into a dice: Wh
   }
 ```
 
-Explanation: Notice the `WONDER` and `RANDOM_DAMAGE` combo, with a different approach:  `min_damage` set to 5 and `max_damage` set to 7 will cause the main spell to "roll" `extra_effects` 5 - 7 times, but this time there's a single `test_attack`.  Because `WONDER` has a 100% chance of picking a spell, `test_attack`, will be repeated 5 to 7 times.
+Explanation: Notice a different approach for the `WONDER` and `RANDOM_DAMAGE` combo: `min_damage` set to 5 and `max_damage` set to 7 will cause the main spell to "roll" `extra_effects` 5 - 7 times, but this time there's a single `test_attack`.  Because `WONDER` has a 100% chance of picking a spell, `test_attack`, will be repeated 5 to 7 times.
 
 
 ### A spell that casts a note on the target and an effect on the caster
 
 ```C++
-    {
+  {
     "id": "test_attack_note",                                // id of the spell, used internally. not translated
     "type": "SPELL",
     "name": "a note",                                        // name of the spell that shows in game
@@ -534,10 +544,10 @@ Explanation: Notice the `WONDER` and `RANDOM_DAMAGE` combo, with a different app
     "max_aoe": 6,
     "min_duration": 1,                                       // duration of spell effect in moves (if the spell has a special effect)
     "max_duration": 1
-    }
+  }
 ```
 
-Explanation: Here we have one main spell with two subspells: one on the caster and the other on the target.  To do this, you must specify the ID of whatever spells you're using with the `extra_effects` field.  In this case, `sacrifice_spell` is stated with `"hit_self": true` and will "hit" the caster, while the second spell will be cast as normal.  This is only necessary if we need an effect that is cast on a target and a secondary effect cast on the caster.
+Explanation: Here we have one main spell with two subspells: one on the caster and the other on the target.  To do this, you must specify the ID of whatever spells you're using with the `extra_effects` field.  In this case, `sacrifice_spell` is stated with `"hit_self": true` and will "hit" the caster, while the second spell will be cast as normal on the `hostile` target.  This is only necessary if we need an effect that is cast on a target and a secondary effect cast on the caster.
 
 
 ### Monster spells
