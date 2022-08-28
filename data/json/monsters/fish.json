@@ -928,8 +928,8 @@
     "melee_damage": [ { "damage_type": "cut", "amount": 1 } ],
     "luminance": 0,
     "fear_triggers": [ "PLAYER_CLOSE", "SOUND" ],
-    "harvest": "slimy_fish_small",
-    "dissect": "dissect_slime_sample_single",
+    "harvest": "fish_small",
+    "dissect": "dissect_slimy_fish_small",
     "flags": [ "FISHABLE", "SEES", "SMELLS", "SWIMS", "AQUATIC", "WATER_CAMOUFLAGE" ]
   },
   {
