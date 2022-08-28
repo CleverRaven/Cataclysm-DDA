@@ -1118,7 +1118,7 @@
     "id": "bio_memory",
     "type": "bionic",
     "name": { "str": "Enhanced Memory Banks" },
-    "description": "Your memory has been enhanced with small quantum storage drives.  While active, you learn - both through reading and practice - more quickly.  Additionally, you can't forget skills you've already learned, and the layout of terrain you've explored will remain in your memory for an incredibly long time.",
+    "description": "Your memory has been enhanced with small quantum storage drives.  While active, you learn - both through reading and practice - more quickly.  Additionally, you can't forget skills you've already learned.",
     "occupied_bodyparts": [ [ "head", 3 ] ],
     "flags": [ "BIONIC_TOGGLED", "BIONIC_SLEEP_FRIENDLY" ],
     "active_flags": [ "CBQ_LEARN_BONUS" ],
@@ -1130,7 +1130,6 @@
       {
         "condition": "ACTIVE",
         "values": [
-          { "value": "MAP_MEMORY", "add": 49 },
           { "value": "READING_EXP", "add": 2 },
           { "value": "SKILL_RUST_RESIST", "add": 20 },
           { "value": "LEARNING_FOCUS", "add": 10 }
