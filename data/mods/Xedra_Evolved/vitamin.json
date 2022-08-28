@@ -9,5 +9,18 @@
     "max": 500,
     "rate": "5 m",
     "disease_excess": [ [ 50, 100 ], [ 101, 250 ], [ 251, 500 ] ]
+  },
+  {
+    "id": "human_blood_vitamin",
+    "type": "vitamin",
+    "vit_type": "counter",
+    "name": { "str": "Stolen Blood" },
+    "excess": "blood_quenched",
+    "deficiency": "withering",
+    "min": -12000,
+    "max": 5600,
+    "rate": "0 m",
+    "disease": [ [ -4800, -5600 ], [ -5601, -6400 ], [ -6401, -11998 ], [ -11999, -12000 ] ],
+    "disease_excess": [ [ 1800, 2400 ], [ 2401, 4400 ], [ 4401, 5600 ] ]
   }
 ]

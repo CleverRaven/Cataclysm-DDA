@@ -1,6 +1,16 @@
 [
   {
     "type": "effect_type",
+    "id": "haste",
+    "name": [ "Hasted" ],
+    "desc": [ "Your speed is boosted enormously." ],
+    "apply_message": "Your speed is boosted to superhuman levels!",
+    "remove_message": "You return to your normal speed.",
+    "rating": "good",
+    "base_mods": { "dex_mod": [ 4 ], "speed_mod": [ 250 ] }
+  },
+  {
+    "type": "effect_type",
     "id": "blood_spiders",
     "name": [ "Blood Spiders" ],
     "desc": [
@@ -127,5 +137,189 @@
     "remove_message": "The weight is lifted from your mind and the air warms.",
     "base_mods": { "speed_mod": [ -40 ] },
     "scaling_mods": { "speed_mod": [ -10 ] }
+  },
+  {
+    "type": "effect_type",
+    "id": "blood_treatment",
+    "rating": "good",
+    "blocks_effects": [ "vampire_virus" ],
+    "blood_analysis_description": "Heightened levels of organosulfur compounds, mercury, and silver.",
+    "max_duration": 86400,
+    "dur_add_perc": 25
+  },
+  {
+    "type": "effect_type",
+    "id": "blood_quenched",
+    "name": [ "Flush", "Engorged", "Tick-like" ],
+    "rating": "mixed",
+    "max_intensity": 100,
+    "blocks_effects": [ "vampire_virus_hunger" ],
+    "blood_analysis_description": "Patient has had extensive battlefield blood transfusions.  Serious risk of bloodborne infections.",
+    "base_mods": { "speed_mod": [ -10 ], "dex_mod": [ -1 ], "dodge_mod": [ -1 ] },
+    "scaling_mods": { "speed_mod": [ -20 ], "dex_mod": [ -1 ], "dodge_mod": [ -1 ] }
+  },
+  {
+    "type": "effect_type",
+    "id": "poisoned_blood",
+    "name": [ "Poisoned blood" ],
+    "desc": [ "You have poisoned your own blood!" ],
+    "miss_messages": [ [ "You feel bad inside.", 1 ] ],
+    "rating": "bad",
+    "pain_sizing": true,
+    "hurt_sizing": true,
+    "main_parts_only": true,
+    "base_mods": {
+      "per_mod": [ -2, -1 ],
+      "dex_mod": [ -1, -1 ],
+      "str_mod": [ -2, 0 ],
+      "pain_min": [ 1 ],
+      "pain_chance": [ 150, 900 ],
+      "hurt_min": [ 1 ],
+      "hurt_chance": [ 150, 2700 ]
+    },
+    "show_in_info": true,
+    "blood_analysis_description": "Poison"
+  },
+  {
+    "type": "effect_type",
+    "id": "poisoned_blood2",
+    "rating": "bad",
+    "chance_kill": [ [ 1, 1 ] ],
+    "chance_kill_resist": [ [ 1, 1 ] ],
+    "death_msg": "Your blood turns to acid and melts through your body.",
+    "death_event": "dies_from_bleeding",
+    "max_duration": 86400,
+    "dur_add_perc": 25
+  },
+  {
+    "type": "effect_type",
+    "id": "vampire_virus",
+    "name": [ "Wan", "Reddened Eyes", "Bloodthirst" ],
+    "desc": [
+      "Your complexion is wan and spent.",
+      "Your skin is pale and your eyes are thoroughly bloodshot.",
+      "Your skin is pale and have turned dark red.  You feel a constant hunger, like the food you eat is no longer nourishing you."
+    ],
+    "apply_message": "You feel the blood rushing from the wound and then a pressure that reminds you of backwash.",
+    "death_msg": "You succumb to your deadly necrotic condition.",
+    "apply_memorial_log": "Contracted a bloodborne pathogen out of legend.",
+    "remove_memorial_log": "Rid themselves of a horrific curse of the blood.",
+    "resist_traits": [ "ACIDBLOOD" ],
+    "resist_effects": [ "blood_treatment", "blood_quenched" ],
+    "max_intensity": 3,
+    "int_add_val": 1,
+    "int_decay_step": 1,
+    "int_decay_tick": 2864000,
+    "rating": "bad",
+    "blood_analysis_description": "Unknown RNA virus is rewriting sampled blood cells.",
+    "base_mods": { "speed_mod": [ -10 ], "str_mod": [ -1 ], "dodge_mod": [ -1 ] },
+    "scaling_mods": { "speed_mod": [ 15 ], "str_mod": [ 1.5 ], "dodge_mod": [ 1.5 ] }
+  },
+  {
+    "type": "effect_type",
+    "id": "vampire_virus_ascendant",
+    "name": [ "Terminal Porphyria" ],
+    "desc": [ "Your skin is deathly white and will redden and burn when exposed to the sun." ],
+    "apply_message": "You've chosen to embrace this illness and enhance your curse.",
+    "death_msg": "You succumb to your deadly necrotic condition.",
+    "apply_memorial_log": "Willingly left their humanity behind.",
+    "resist_traits": [ "ACIDBLOOD" ],
+    "resist_effects": [ "blood_treatment", "blood_quenched" ],
+    "max_intensity": 1,
+    "rating": "bad",
+    "blood_analysis_description": "Blood sample contains numerous unidentified mutations and numerous blood sources.  Original host blood unidentifiable in the mix.",
+    "base_mods": { "speed_mod": [ 20 ], "str_mod": [ 2 ], "dodge_mod": [ 2 ] }
+  },
+  {
+    "type": "effect_type",
+    "id": "vampire_virus_post_mortal",
+    "name": [ "Homo sapiens homovorus" ],
+    "desc": [
+      "Your skin is deathly white, your eyes are solid red except for a huge pupil, the only food you can consume is human blood, and if sunlight hits you that part of your body instantly burns."
+    ],
+    "apply_message": "Becoming a monster is a matter of degrees until one day it isn't and you can no longer remember why morality seemed important.",
+    "death_msg": "You succumb to your deadly necrotic condition.",
+    "apply_memorial_log": "Terrorized the remnants of humanity til there were none left.",
+    "remove_memorial_log": "Found a miracle in a world full of the dead.",
+    "resist_traits": [ "ACIDBLOOD" ],
+    "resist_effects": [ "blood_treatment", "blood_quenched" ],
+    "max_intensity": 1,
+    "rating": "bad",
+    "blood_analysis_description": "Blood sample contains numerous unidentified mutations and numerous blood sources.  Original host blood unidentifiable in the mix.",
+    "base_mods": { "speed_mod": [ 40 ], "str_mod": [ 4 ], "dodge_mod": [ 4 ] }
+  },
+  {
+    "type": "effect_type",
+    "id": "withering",
+    "name": [ "Sallow", "Hypomia", "Corpse-like", "Eternal Slumber" ],
+    "desc": [
+      "The absence of raw blood from your diet has left you wan, pale and uncomfortable.",
+      "Your body is weakened and your need to feed is a constant pain in your chest.",
+      "Severe blood deficiency has left you looking emaciated no matter what your weight is.",
+      "One day blood may spill on your lips and wake you from your slumber, but until then you are a corpse."
+    ],
+    "apply_message": "Most of your thoughts now revolve around blood, how good it tastes and where you might find it.",
+    "remove_message": "Your blood lust is slaked.",
+    "decay_messages": [
+      [ "You've almost consumed enough blood to feel normal again.", "good" ],
+      [ "More blood and you'll start to feel even better.", "good" ]
+    ],
+    "max_intensity": 4,
+    "rating": "bad",
+    "chance_kill": [ [ -1, 1 ], [ -1, 1 ], [ -1, 1 ], [ 1, 100 ] ],
+    "chance_kill_resist": [ [ -1, 1 ], [ -1, 1 ], [ -1, 1 ], [ 1, 2000000 ] ],
+    "base_mods": {
+      "str_mod": [ -1 ],
+      "stamina_min": [ -100 ],
+      "stamina_max": [ -200 ],
+      "stamina_chance": [ 900 ],
+      "fatigue_min": [ 10 ],
+      "fatigue_max": [ 20 ],
+      "fatigue_chance": [ 900 ],
+      "h_mod_min": [ -1 ],
+      "h_mod_min_val": [ 0 ],
+      "h_mod_chance": [ 900 ]
+    },
+    "scaling_mods": {
+      "str_mod": [ -2 ],
+      "stamina_max": [ -500 ],
+      "fatigue_max": [ 20 ],
+      "stamina_chance": [ -300 ],
+      "fatigue_chance": [ -300 ],
+      "h_mod_min": [ -1 ],
+      "h_mod_min_val": [ -50 ],
+      "h_mod_chance": [ -200 ]
+    },
+    "blood_analysis_description": "Severe Progressive Anemic Autophagy"
+  },
+  {
+    "type": "effect_type",
+    "id": "eyegleam",
+    "name": [ "Eye gleam" ],
+    "desc": [ "You can see in the dark." ],
+    "apply_message": "Your sight adjusts to the darkness.",
+    "remove_message": "The darkness loses its shape.",
+    "rating": "good",
+    "flags": [ "NIGHT_VISION" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "blood_weave",
+    "name": [ "Blood Weave" ],
+    "desc": [ "Immunity to bleeding and bites, increased stamina regeneration, increased hunger and thirst gain." ],
+    "remove_message": "The tension running through your flesh fades.",
+    "blocks_effects": [ "bleed", "bite" ],
+    "rating": "good",
+    "max_duration": "5 m",
+    "base_mods": {
+      "hunger_min": [ 1 ],
+      "hunger_chance": [ 12 ],
+      "thirst_min": [ 1 ],
+      "thirst_chance": [ 12 ],
+      "health_min": [ 1 ],
+      "health_chance": [ 4 ],
+      "stamina_min": [ 40 ],
+      "stamina_chance": [ 2 ]
+    }
   }
 ]

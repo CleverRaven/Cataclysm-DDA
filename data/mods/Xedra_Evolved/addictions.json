@@ -1,0 +1,10 @@
+[
+  {
+    "type": "addiction_type",
+    "id": "human_blood",
+    "name": "Blood Hunger",
+    "type_name": "blood_hunger",
+    "description": "You suffer from a quite unnatural thirst for the blood of your fellow man.  Unfortunately, the supply has shrunk by about 99% from a few months ago.",
+    "effect_on_condition": "EOC_BLOOD_ADDICTION"
+  }
+]
