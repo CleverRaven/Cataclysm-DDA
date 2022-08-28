@@ -4569,7 +4569,7 @@ int vehicle::engine_fuel_usage( int e ) const
     }
     const vpart_info &info = part_info( engines[ e ] );
 
-    int usage = info.energy_consumption;
+    int usage = units::to_joule( info.energy_consumption );
     if( parts[ engines[ e ] ].has_fault_flag( "DOUBLE_FUEL_CONSUMPTION" ) ) {
         usage *= 2;
     }

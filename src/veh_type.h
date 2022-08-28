@@ -437,10 +437,10 @@ class vpart_info
         int epower = 0;
 
         /**
-         * Energy consumed by engines and motors (watts) when delivering max @ref power
+         * Energy consumed per second by engines and motors when delivering max @ref power
          * Includes waste. Gets scaled based on powertrain demand.
          */
-        int energy_consumption = 0;
+        units::energy energy_consumption = 0_J;
 
         /**
          * For engines and motors this is maximum output (watts)
