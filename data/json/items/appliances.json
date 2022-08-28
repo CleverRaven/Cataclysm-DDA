@@ -253,7 +253,7 @@
     "longest_side": "170 cm",
     "bashing": 5,
     "price": 9000,
-    "price_postapoc": 5000,
+    "price_postapoc": 500,
     "symbol": "L",
     "color": "white",
     "looks_like": "f_floor_lamp"
@@ -270,7 +270,7 @@
     "longest_side": "170 cm",
     "bashing": 5,
     "price": 90000,
-    "price_postapoc": 500,
+    "price_postapoc": 1500,
     "symbol": "F",
     "color": "white"
   },
