@@ -947,7 +947,7 @@
     "dissect": "dissect_gastropod_sample_single",
     "delete": {
       "reproduction": { "baby_monster": "mon_crayfish_giant_larva", "baby_count": 3, "baby_timer": 21 },
-      "baby_flags": [ "AUTUMN" ],
+      "baby_flags": [ "AUTUMN" ]
     },
     "upgrades": { "half_life": 28, "into": "mon_giant_crayfish" }
   },
