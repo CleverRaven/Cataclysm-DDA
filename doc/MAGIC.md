@@ -552,7 +552,7 @@ Explanation: Here we have one main spell with two subspells: one on the caster a
 
 ### Monster spells
 
-Creatures can also cast spells.  To do this, you need to assign the spells in `special_attacks`.  Spells with `target_self: true` will only target the casting monster, and will be casted only if the monster has a hostile target.
+`MONSTER`s can also cast spells.  To do this, you need to declare the spells in `special_attacks`.  Spells with `target_self: true` will only target the casting monster, and will be casted only if the monster has a hostile target.
 
 ```json 
   { 
@@ -573,7 +573,7 @@ Creatures can also cast spells.  To do this, you need to assign the spells in `s
 | `forbidden_effects_all` | Array of effect IDs, if the monster has every effect the attack can't trigger.
 | `required_effects_any`  | Array of effect IDs, the monster needs any one for the attack to trigger.
 | `required_effects_all`  | Array of effect IDs, the monster needs every effect for the attack to trigger.
-| `allow_no_target`       | Bool, default false. If true the monster will cast it even without a hostile target.
+| `allow_no_target`       | Bool, default `false`. If `true` the monster will cast it even without a hostile target.
 
 
 ## Enchantments
