@@ -20,8 +20,9 @@
   - [Repeatedly cast the same spell](#repeatedly-cast-the-same-spell)
   - [A spell that casts a note on the target and an effect on the caster](#a-spell-that-casts-a-note-on-the-target-and-an-effect-on-the-caster)
   - [Monster spells](#monster-spells)
-  - [Enchantments](#enchantments)
-    - [ID values](#id-values)
+- [Enchantments](#enchantments)
+  - [ID values](#id-values)
+  - [Enchantment value examples](#enchantment-value-examples)
 
 
 ## Spells
@@ -518,7 +519,6 @@ Explanation: Notice the `WONDER` and `RANDOM_DAMAGE` combo, with a different app
 
 ### A spell that casts a note on the target and an effect on the caster
 
-
 ```C++
     {
     "id": "test_attack_note",                                // id of the spell, used internally. not translated
@@ -542,7 +542,7 @@ Explanation: Here we have one main spell with two subspells: one on the caster a
 
 ### Monster spells
 
-`MONSTER` creatures can also cast spells.  To do this, you need to assign the spells in `special_attacks`.  Spells with `target_self: true` will only target the casting monster, and will be casted only if the monster has a hostile target.
+Creatures can also cast spells.  To do this, you need to assign the spells in `special_attacks`.  Spells with `target_self: true` will only target the casting monster, and will be casted only if the monster has a hostile target.
 
 ```json 
   { 
@@ -559,24 +559,24 @@ Explanation: Here we have one main spell with two subspells: one on the caster a
 | `min_level`             | The level at which the spell is cast. Spells cast by monsters do not gain levels like player spells.
 | `cooldown `             | How often the monster can cast this spell
 | `monster_message`       | Message to print when the spell is cast, replacing the `message` in the spell definition. Dynamic fields correspond to `<Monster Display Name> / <Spell Name> / <Target name>`.
-| `forbidden_effects_any` | Array of effect ids, if the monster has any one the attack can't trigger.
-| `forbidden_effects_all` | Array of effect ids, if the monster has every effect the attack can't trigger.
-| `required_effects_any`  | Array of effect ids, the monster needs any one for the attack to trigger.
-| `required_effects_all`  | Array of effect ids, the monster needs every effect for the attack to trigger.
+| `forbidden_effects_any` | Array of effect IDs, if the monster has any one the attack can't trigger.
+| `forbidden_effects_all` | Array of effect IDs, if the monster has every effect the attack can't trigger.
+| `required_effects_any`  | Array of effect IDs, the monster needs any one for the attack to trigger.
+| `required_effects_all`  | Array of effect IDs, the monster needs every effect for the attack to trigger.
 | `allow_no_target`       | Bool, default false. If true the monster will cast it even without a hostile target.
 
 
-### Enchantments
+## Enchantments
 
 | Identifier                  | Description
 |---                          |---
-| `id`                        | Unique ID. Must be one continuous word, use underscores if necessary.
-| `has`                       | How an enchantment determines if it is in the right location in order to qualify for being active. "WIELD" - when wielded in your hand * "WORN" - when worn as armor * "HELD" - when in your inventory
-| `condition`                 | How an enchantment determines if you are in the right environments in order for the enchantment to qualify for being active. * "ALWAYS" - Always and forevermore * "DIALOG_CONDITION" - ACTIVE whenever the dialog condition in `condition` is true * "ACTIVE" - whenever the item, mutation, bionic, or whatever the enchantment is attached to is active. * "INACTIVE" - whenever the item, mutation, bionic, or whatever the enchantment is attached to is inactive.
-| `hit_you_effect`            | A spell that activates when you melee_attack a creature.  The spell is centered on the location of the creature unless self = true, then it is centered on your location.  Follows the template for defining "fake_spell"
-| `hit_me_effect`             | A spell that activates when you are hit by a creature.  The spell is centered on your location.  Follows the template for defining "fake_spell"
-| `intermittent_activation`   | Spells that activate centered on you depending on the duration.  The spells follow the "fake_spell" template.
-| `values`                    | Anything that is a number that can be modified.  The id field is required, and "add" and "multiply" are optional.  A "multiply" value of -1 is -100% and a multiply of 2.5 is +250%.  Add is always before multiply. See allowed id below.
+| `id`                        | Unique ID.  Must be one continuous word, use underscores if necessary.
+| `has`                       | How an enchantment determines if it is in the right location in order to qualify for being active.  `WIELD` when wielded in your hand, `WORN` when worn as armor, `HELD` when in your inventory.
+| `condition`                 | Determines the environment where the enchantment is active. `ALWAYS` is active always and forevermore, `DIALOG_CONDITION - ACTIVE` whenever the dialog condition in `condition` is true, `ACTIVE` whenever the item, mutation, bionic, or whatever the enchantment is attached to is active, `INACTIVE` whenever the item, mutation, bionic, or whatever the enchantment is attached to is inactive.
+| `hit_you_effect`            | A spell that activates when you `melee_attack` a creature.  The spell is centered on the location of the creature unless `"hit_self": true`, then it is centered on your location.  Follows the template for defining `fake_spell`.
+| `hit_me_effect`             | A spell that activates when you are hit by a creature.  The spell is centered on your location.  Follows the template for defining `fake_spell`
+| `intermittent_activation`   | Spells that activate centered on you depending on the duration.  The spells follow the `fake_spell` template.
+| `values`                    | Anything that is a number that can be modified.  The ID field is required, `add` and `multiply` are optional.  A `multiply` value of -1 is -100% and 2.5 is +250%.  `add` is always applied before `multiply`.  Allowed ID values are shown below.
 
 
 ```json
@@ -648,11 +648,11 @@ If your enchantment is relatively small, you can write it right in the same JSON
 ```
 
 
-#### ID values
+### ID values
 
 The following is a list of possible `values`:
 
-| Status value                | Description
+| Character status value      | Description
 |---                          |---
 | `ARMOR_ACID` | 
 | `ARMOR_BASH` | 
@@ -693,8 +693,8 @@ The following is a list of possible `values`:
 | `PAIN` | 
 | `SHOUT_NOISE` | 
 | `SIGHT_RANGE` | 
-| `SKILL_RUST_RESIST` | Chance out of 100 to resist skill rust.
-| `SLEEPY` | The higher this the more easily you fall asleep.
+| `SKILL_RUST_RESIST` | Chance / 100 to resist skill rust.
+| `SLEEPY` | The higher this the easier you fall asleep.
 | `SOCIAL_INTIMIDATE` | 
 | `SOCIAL_LIE` | 
 | `SOCIAL_PERSUADE` | 
@@ -707,45 +707,47 @@ The following is a list of possible `values`:
 | `WEAPON_DISPERSION` | 
 
 
-Effects for the item that has the enchantment:
+| Enchanted item value        | Description
+|---                          |---
+| `ITEM_DAMAGE_ACID` | 
+| `ITEM_DAMAGE_BASH` | 
+| `ITEM_DAMAGE_BIO` | 
+| `ITEM_DAMAGE_COLD` | 
+| `ITEM_DAMAGE_CUT` | 
+| `ITEM_DAMAGE_ELEC` | 
+| `ITEM_DAMAGE_HEAT` | 
+| `ITEM_DAMAGE_PURE` | 
+| `ITEM_DAMAGE_STAB` | 
 
-* ITEM_DAMAGE_PURE
-* ITEM_DAMAGE_BASH
-* ITEM_DAMAGE_CUT
-* ITEM_DAMAGE_STAB
-* ITEM_DAMAGE_HEAT
-* ITEM_DAMAGE_COLD
-* ITEM_DAMAGE_ELEC
-* ITEM_DAMAGE_ACID
-* ITEM_DAMAGE_BIO
 
-The damage enchantment values are for melee only.
+| Melee-only enchantment values  | Description
+|---                             |---
+| `ITEM_ARMOR_ACID` | 
+| `ITEM_ARMOR_BASH` | 
+| `ITEM_ARMOR_BIO` | 
+| `ITEM_ARMOR_COLD` | 
+| `ITEM_ARMOR_CUT` | 
+| `ITEM_ARMOR_ELEC` | 
+| `ITEM_ARMOR_HEAT` | 
+| `ITEM_ARMOR_PURE` | 
+| `ITEM_ARMOR_STAB` | 
+| `ITEM_ATTACK_SPEED` | 
+| `ITEM_COVERAGE` | 
+| `ITEM_DAMAGE_AP` | 
+| `ITEM_ENCUMBRANCE` | 
+| `ITEM_VOLUME` | 
+| `ITEM_WEIGHT` | 
+| `ITEM_WET_PROTECTION` | 
 
-* ITEM_DAMAGE_AP
-* ITEM_DAMAGE_PURE
-* ITEM_ARMOR_BASH
-* ITEM_ARMOR_CUT
-* ITEM_ARMOR_STAB
-* ITEM_ARMOR_HEAT
-* ITEM_ARMOR_COLD
-* ITEM_ARMOR_ELEC
-* ITEM_ARMOR_ACID
-* ITEM_ARMOR_BIO
-* ITEM_WEIGHT
-* ITEM_ENCUMBRANCE
-* ITEM_VOLUME
-* ITEM_COVERAGE
-* ITEM_ATTACK_SPEED
-* ITEM_WET_PROTECTION
 
-Examples
+### Enchantment value examples
 
-```
-    { "value": "ARMOR_ELEC", "add": -20 } subtracts 20 points of electrical damage
-    { "value": "ATTACK_SPEED", "add": -60 } subtracts 60 moves from attacking making the attack faster
-    { "value": "ARMOR_COLD", "multiply": -0.4 } subtracts 40 percent of the any cold damage
-    { "value": "ARMOR_HEAT", "multiply": 0.4 } increases damage taken from fire by 40 percent
-    { "value": "ARMOR_CUT", "add": 2 } increases cut damage taken by 2
-    { "value": "ARMOR_BIO", "multiply": -1.4 } subtracts 140 percent of the any bio damage giving 40% of damage dealt as increased health
-    { "value": "ARMOR_ACID", "multiply": 1.4 } increases damage taken from acid by 140 percent
+```C++
+  { "value": "ARMOR_ELEC", "add": -20 }       // subtracts 20 points of incoming electrical damage
+  { "value": "ATTACK_SPEED", "add": -60 }     // subtracts 60 attack moves, making the attacker faster
+  { "value": "ARMOR_COLD", "multiply": -0.4 } // subtracts 40% of incoming cold damage
+  { "value": "ARMOR_HEAT", "multiply": 0.4 }  // increases damage taken from fire by 40%
+  { "value": "ARMOR_CUT", "add": 2 }          // increases incoming cut damage by 2
+  { "value": "ARMOR_BIO", "multiply": -1.4 }  // subtracts 100 percent of incoming biological damage, heals for the remaining 40%  
+  { "value": "ARMOR_ACID", "multiply": 1.4 }  // increases incoming acid damage by 140%
 ```
