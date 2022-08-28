@@ -1620,7 +1620,7 @@ class Character : public Creature, public visitable
         int consume_remote_fuel( int amount );
         void reset_remote_fuel();
         /**Handle heat from exothermic power generation*/
-        void heat_emission( const bionic &bio, int fuel_energy );
+        void heat_emission( const bionic &bio, units::energy fuel_energy );
         /**Applies modifier to fuel_efficiency and returns the resulting efficiency*/
         float get_effective_efficiency( const bionic &bio, float fuel_efficiency ) const;
 

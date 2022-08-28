@@ -9927,7 +9927,7 @@ bool item::is_fuel() const
         return false;
     }
     // and this material has to produce energy
-    if( get_base_material().get_fuel_data().energy <= 0.0 ) {
+    if( get_base_material().get_fuel_data().energy <= 0_J ) {
         return false;
     }
     // and it needs to be have consumable charges
@@ -9997,8 +9997,7 @@ int item::wheel_area() const
 
 units::energy item::fuel_energy() const
 {
-    // get_fuel_data().energy is in MJ/L
-    return units::from_kilojoule( get_base_material().get_fuel_data().energy * 1000 );
+    return get_base_material().get_fuel_data().energy * units::to_liter( volume() );
 }
 
 std::string item::fuel_pump_terrain() const

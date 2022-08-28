@@ -1306,7 +1306,7 @@ If a fuel has the PERPETUAL flag, engines powered by it never use any fuel.  Thi
 
 ```C++
 "fuel_data" : {
-    "energy": 34.2,              // Energy per volume of fuel (MJ/L).
+    "energy": "34200_kJ",        // Energy per litre of fuel.
                                  // https://en.wikipedia.org/wiki/Energy_density
    "perpetual": true,            // this material is a perpetual fuel like `wind`, `sunlight`, `muscle`, `animal` and `metabolism`.
    "pump_terrain": "t_gas_pump", // optional. terrain id for the fuel's pump, if any.

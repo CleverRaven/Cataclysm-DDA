@@ -57,8 +57,8 @@ struct fuel_explosion_data {
 
 struct fuel_data {
     public:
-        /** Energy of the fuel (kilojoules per charge) */
-        float energy = 0.0f;
+        /** Energy of the fuel per litre */
+        units::energy energy = 0_J;
         fuel_explosion_data explosion_data;
         std::string pump_terrain = "t_null";
         bool is_perpetual_fuel = false;
