@@ -155,7 +155,7 @@
   {
     "name": "GROUP_EGG_GRASSHOPPER",
     "type": "monstergroup",
-    "monsters": [ { "monster": "mon_grasshopper_small" } ]
+    "monsters": [ { "monster": "mon_grasshopper_nymph" } ]
   },
   {
     "name": "GROUP_EGG_LADY_BUG",
