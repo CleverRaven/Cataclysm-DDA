@@ -79,5 +79,49 @@
     "symbol": ".",
     "color": "red",
     "use_action": { "type": "learn_spell", "spells": [ "summon_bio_launcher" ] }
+  },
+  {
+    "id": "money_strap_magic",
+    "type": "GENERIC",
+    "category": "artifacts",
+    "name": { "str": "odd hundred-dollar strap" },
+    "description": "A hundred-dollar bills held together by a mustard currency strap.  Each bill contain a sequence of symbols you can't understand, but can feel pounding inside your skull.",
+    "looks_like": "money_strap_one",
+    "weight": "100 g",
+    "volume": "113 ml",
+    "material": [ "forged_dreamstuff" ],
+    "color": "green",
+    "symbol": "$",
+    "use_action": { "type": "learn_spell", "spells": [ "summon_rip_ticket" ] }
+  },
+  {
+    "id": "foil_hat",
+    "type": "GENERIC",
+    "category": "artifacts",
+    "name": { "str": "tin foil hat" },
+    "description": "Tiny hat, maded from thin tin foil layer and a strainer.  You can't wear it, because its too small for your head.",
+    "weight": "6 g",
+    "volume": "89 ml",
+    "price": 600,
+    "price_postapoc": 10,
+    "material": [ "forged_dreamstuff" ],
+    "symbol": "[",
+    "looks_like": "scarf",
+    "color": "white",
+    "use_action": { "type": "learn_spell", "spells": [ "summon_helmet_inventor" ] }
+  },
+  {
+    "id": "book_inventor",
+    "type": "GENERIC",
+    "category": "artifacts",
+    "name": { "str": "video game disc" },
+    "description": "Small box with video game.  The cover shows a man, surrounded by monsters, who's shooting the monsters with a gun in each hand.  There is a compact disc inside, but you can't pick it up.",
+    "//": "No, its 'Crimsonland'",
+    "weight": "60 g",
+    "volume": "250 ml",
+    "material": [ "forged_dreamstuff" ],
+    "symbol": "?",
+    "looks_like": "textbook_anarch",
+    "use_action": { "type": "learn_spell", "spells": [ "summon_ion_gun" ] }
   }
 ]

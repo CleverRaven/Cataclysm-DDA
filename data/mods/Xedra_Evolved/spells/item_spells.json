@@ -46,5 +46,53 @@
     "min_range": 45,
     "max_range": 45,
     "damage_type": "biological"
+  },
+  {
+    "id": "rip_ticket",
+    "type": "SPELL",
+    "name": "Rip",
+    "description": "Something or someone was cut in half.",
+    "effect": "attack",
+    "shape": "blast",
+    "valid_targets": [ "hostile", "ground" ],
+    "flags": [ "LOUD", "NO_LEGS", "RANDOM_DAMAGE" ],
+    "min_damage": 15,
+    "max_damage": 35,
+    "min_aoe": 2,
+    "max_aoe": 2,
+    "min_range": 15,
+    "max_range": 15,
+    "damage_type": "cut"
+  },
+  {
+    "id": "ion_shot_1",
+    "type": "SPELL",
+    "name": "Ion Shot",
+    "description": "Small ion charge.",
+    "effect": "attack",
+    "shape": "blast",
+    "valid_targets": [ "hostile" ],
+    "flags": [ "LOUD", "RANDOM_DAMAGE" ],
+    "min_damage": 40,
+    "max_damage": 60,
+    "min_range": 30,
+    "max_range": 30,
+    "damage_type": "electric",
+    "extra_effects": [ { "id": "ion_shot_2", "max_level": 0 } ]
+  },
+  {
+    "id": "ion_shot_2",
+    "type": "SPELL",
+    "name": "Secondary Ion Shot",
+    "description": "Small ion charge.",
+    "effect": "attack",
+    "shape": "blast",
+    "valid_targets": [ "hostile" ],
+    "flags": [ "LOUD", "RANDOM_DAMAGE", "RANDOM_TARGET" ],
+    "min_damage": 40,
+    "max_damage": 60,
+    "min_range": 4,
+    "max_range": 4,
+    "damage_type": "electric"
   }
 ]

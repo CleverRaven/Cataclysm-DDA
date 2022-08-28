@@ -154,5 +154,99 @@
     "material": [ "steel", "plastic" ],
     "symbol": "*",
     "color": "light_green"
+  },
+  {
+    "id": "rip_ticket",
+    "name": { "str": "vancian bill" },
+    "description": "Small bill, full of some odd symbols.  Ripping it off cause the small dimensional rip.  It will last only a few miliseconds, yet make enough damage to kill something.",
+    "type": "TOOL",
+    "weight": "1 g",
+    "volume": "1 ml",
+    "material": [ "paper" ],
+    "symbol": "|",
+    "color": "brown",
+    "flags": [ "NONCONDUCTIVE", "MAGIC_FOCUS", "TRADER_AVOID" ],
+    "use_action": { "type": "countdown", "name": "Tear", "message": "You tear the ticket apart." },
+    "countdown_destroy": true,
+    "countdown_action": { "type": "cast_spell", "spell_id": "rip_ticket", "no_fail": true, "level": 0, "need_wielding": true },
+    "max_charges": 1,
+    "charges_per_use": 1,
+    "initial_charges": 1
+  },
+  {
+    "id": "helmet_inventor",
+    "type": "TOOL_ARMOR",
+    "category": "armor",
+    "name": { "str": "helmet of creative juices", "str_pl": "helmets of creative juices" },
+    "description": "A small, weirdly shaped helmet, that covers your head.  It isn't turned on currently, but you can still wear it.",
+    "weight": "1383 g",
+    "volume": "1750 ml",
+    "to_hit": -1,
+    "bashing": 5,
+    "material": [ "plastic" ],
+    "symbol": "[",
+    "looks_like": "hat_hard",
+    "ammo": [ "battery" ],
+    "color": "green",
+    "warmth": 20,
+    "material_thickness": 3,
+    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 85, "covers": [ "head" ] } ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE",
+        "airtight": true,
+        "watertight": true,
+        "rigid": true,
+        "ammo_restriction": { "battery": 5000 }
+      }
+    ],
+    "use_action": [
+      {
+        "target": "helmet_inventor_on",
+        "need_charges": 1,
+        "active": true,
+        "msg": "The helmet turns on.",
+        "type": "transform"
+      }
+    ],
+    "techniques": [ "WBLOCK_1" ],
+    "flags": [ "VARSIZE", "WATERPROOF", "STURDY", "PADDED", "TRADER_AVOID", "NO_UNLOAD", "NO_RELOAD", "PSYSHIELD_PARTIAL" ]
+  },
+  {
+    "id": "helmet_inventor_on",
+    "type": "TOOL_ARMOR",
+    "copy-from": "helmet_inventor",
+    "name": { "str": "helmet of creative juices (on)", "str_pl": "helmets of creative juices (on)" },
+    "description": "The helmet of creative juices may look like a child's homemade toy, but it's effects when turned on are real enough.  While wearing it your thoughts are buffered from the outside world by a soft white nosie that varies from person to person as to what they actually hear.  Some hear the ocean, a fan blowing or paper crumpling.  Whatever the sound it helps you to think faster and more creatively than before.",
+    "turns_per_charge": 54,
+    "//": "15 hours",
+    "use_action": [ { "ammo_scale": 0, "target": "helmet_inventor", "msg": "The helmet turns off.", "type": "transform" } ],
+    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "INTELLIGENCE", "add": 4 } ] } ] }
+  },
+  {
+    "id": "ion_gun",
+    "type": "TOOL",
+    "name": { "str": "ion rifle" },
+    "description": "Something something ion, something something wide area.  Don't even ask.",
+    "weight": "2260 g",
+    "volume": "3130 ml",
+    "longest_side": "780 mm",
+    "to_hit": -2,
+    "bashing": 6,
+    "material": [ "steel" ],
+    "symbol": "|",
+    "color": "blue",
+    "charges_per_use": 30,
+    "ammo": [ "battery" ],
+    "flags": [ "TRADER_AVOID" ],
+    "use_action": { "type": "cast_spell", "spell_id": "ion_shot_1", "no_fail": true, "level": 0, "need_wielding": true },
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "flag_restriction": [ "BATTERY_MEDIUM", "BATTERY_HEAVY" ],
+        "default_magazine": "medium_battery_cell"
+      }
+    ]
   }
 ]
