@@ -2,9 +2,17 @@
 
 - [Spells](#spells)
 - [The template spell](#the-template-spell)
-  - [Mandatory fields](#mandatory-fields)
+- [Mandatory fields](#mandatory-fields)
   - [Spell effects](#spell-effects)
-- 
+  - [Spell shape](#spell-shape)
+- [Common fields](#common-fields)
+  - [Spell Flags](#spell-flags)
+  - [Damage Types](#damage-types)
+  - [Spell level](#spell-level)
+  - [Extra spell effects](#extra-spell-effects)
+  - [Other fields](#other-fields)
+- [Learning Spells](#learning-spells)
+- [Spells in professions and NPC classes]()
 
 ## Spells
 
@@ -14,7 +22,7 @@ This can be anything from the humble fireball spell or the simple heal, to grant
 
 Remarkably, some things that don't seem quite "magical" at first glance may also be handled by spells, like casting Fist, casting Gun, casting Vomit, granting (or removing) `drunk`enness, handling fields (`field_id`s), transforming items, among other things.
 
-By making clever use of JSON fields, interactions, combinations and descriptions, anyone can go wild in spell crafting.
+By making clever use of JSON fields, interactions, combinations and descriptions, anyone can go wild in spell crafting.  Different spells from the official mods can be used as reference.
 
 ## The template spell
 
@@ -95,7 +103,7 @@ However, experience gain is a little more complicated to calculate.  The formula
 
 ```e ^ ( ( level + 62.5 ) * 0.146661 ) ) - 6200```
 
-### Mandatory fields
+## Mandatory fields
 
 As noted above, few JSON fields are actually required for spells to work.  Some of the mandatory fields are:
 
@@ -114,8 +122,6 @@ Depending on the spell effect, more or less fields will be required.
 For example, a classic `attack` spell needs the `damage_type`, `min_damage`, `max_damage`, `min_range`, `max_range`, and `max_level` fields.  
 
 In contrast, an `attack` spell using `effect_str` to grant a `self` buff (without a damage component) needs the `min_duration`, `max_duration`, and `max_level` fields instead.
-
-Different spells from the official mods can be used as reference for spell crafting.
 
 
 ### Spell effects
@@ -180,13 +186,20 @@ Below is a table of currently implemented effects, along with special rules for 
 | `vomit` | Any creature within its aoe will instantly vomit, if it's able to do so.
 
 
-Another mandatory field is spell "shape". This dictates how the area of effect works.
+### Spell shape
+
+Another mandatory field is the spell shape. This dictates how the area of effect works:
 
 | Shape | Description
 | --    | --
 | `blast` | A circular blast centered on the impact position.  Aoe value is the radius.
 | `cone` | Fires a cone with an arc equal to aoe in degrees.
 | `line` | Fires a line with a width equal to the aoe.
+
+
+## Common fields
+
+The following are more JSON fields that, while optional, greatly expand how spells can behave.
 
 
 ### Spell Flags
@@ -221,7 +234,7 @@ Spells may have any number of flags, for example:
 | `PERMANENT` | Items or creatures spawned with this spell do not disappear and die as normal.  Items can only be permanent at maximum spell level; creatures can be permanent at any spell level.
 | `PERMANENT_ALL_LEVELS` | Items spawned with this spell do not disappear even if the spell is not max level.
 | `POLYMORPH_GROUP` | A `targeted_polymorph` spell will transform the target into a random monster from the `monstergroup` in `effect_str`.
-| `RANDOM_AOE` | Picks random number between (min + increment)*level and max instead of normal behavior.
+| `RANDOM_AOE` | Picks random number between (min + increment) * level and max instead of normal behavior.
 | `RANDOM_DAMAGE` | Picks random number between (min + increment) * level and max instead of normal behavior.
 | `RANDOM_DURATION` | Picks random number between (min + increment) * level and max instead of normal behavior.
 | `RANDOM_TARGET` | Forces the spell to choose a random valid target within range instead of the caster choosing the target.  This also affects `extra_effects`.
@@ -239,7 +252,7 @@ Spells may have any number of flags, for example:
 
 ### Damage Types
 
-For spells that have an attack type, these are the available damage types:
+The following are the available damage types, for those spells that have a damaging component:
 
 * "acid"
 * "bash"
@@ -252,37 +265,53 @@ For spells that have an attack type, these are the available damage types:
 * "stab"
 
 
-### Spells that level up
+### Spell level
 
-Spells that change effects as they level up must have a min and max effect and an increment. The min effect is what the spell will do at level 0, and the max effect is where it stops growing.  The increment is how much it changes per level. For example:
+Spells can change effects as they level up.  "Effect" in this context can be: accuracy, aoe, damage, dot, duration, pierce and range, also including energy cost (as `base_energy_cost`, `final_energy_cost`, `energy_increment`) and field intensity (`min_field_intensity`, `max_field_intensity`, `field_intensity_increment` plus `field_intensity_variance`).
+
+The level cap is indicated by the `max_level` field, and the effect growth is indicated with the `min_effect`, `max_effect` and `effect_increment` fields.  The min_effect is what the spell will do at level 0, and the max_effect is where it stops growing.  The effect_increment is how much it changes per level.
+
+For example:
 
 ```json
-"min_range": 1,
-"max_range": 25,
-"range_increment": 5,
+    "min_range": 1,
+    "max_range": 25,
+    "range_increment": 5,
 ```
 
 Min and max values must always have the same sign, but it can be negative eg. in the case of spells that use a negative 'recover' effect to cause pain or stamina damage. For example:
 
 ```json
   {
-  "id": "stamina_damage",
-  "type": "SPELL",
-  "name": "Tired",
-  "description": "decreases stamina",
-  "valid_targets": [ "hostile" ],
-  "min_damage": -2000,
-  "max_damage": -10000,
-  "damage_increment": -3000,
-  "max_level": 10,
-  "effect": "recover_energy",
-  "effect_str": "STAMINA"
+    "id": "stamina_damage",
+    "type": "SPELL",
+    "name": "Tired",
+    "description": "decreases stamina",
+    "valid_targets": [ "hostile" ],
+    "min_damage": -2000,
+    "max_damage": -10000,
+    "damage_increment": -3000,
+    "max_level": 10,
+    "effect": "recover_energy",
+    "effect_str": "STAMINA"
   }
 ```
 
-### Learning Spells
+### Extra spell effects
 
-Currently there multiple ways of learning spells that are implemented: learning a spell from an item(through a use_action), from spells that have the learn_spells property and from traits/mutations.  An example of an use item is shown below:
+Another three interesting fields are `extra_effects`, `effect_str` and `effect_on_conditions`.
+
+* `extra_effects` allows to cast one or more spells simultaneously, thus enabling "chain" style casting.
+
+* `effect_str` works as a pointer, it links the main spell to a JSON object (like an item, monster, vehicle, effect, mutation, terrain transform, etc).  Behavior can vary depending on the spell's `effect`, e.g. it may define which `effect_type` will be applied the target, the ID of the `spawn_item`, `monster` or `vehicle` to spawn, etc.  Do note that some effect types are hardcoded, like `dazed`, `downed`, 
+* 
+
+
+
+
+## Learning Spells
+
+Currently there multiple ways of learning spells that are implemented: learning a spell from an item (through a `use_action`), from spells that have the `learn_spells` field and from traits/mutations.  An example is shown below:
 
 ```json
   {
@@ -304,7 +333,7 @@ Currently there multiple ways of learning spells that are implemented: learning 
 
 You can study this spellbook for a rate of ~1 experience per turn depending on intelligence, spellcraft, and focus.
 
-Below is an example of the learn_spells property:
+Below is an example of `learn_spells` usage:
 ```json
     {
     "id": "phase_door",
@@ -320,20 +349,26 @@ Below is an example of the learn_spells property:
     "learn_spells": { "dimension_door": 10 }
     }
 ```
-Traits/mutations have the spells_learned property, see the [JSON_INFO](JSON_INFO.md) documentation for details.
+Traits/mutations have the `spells_learned` field, see the [JSON_INFO](JSON_INFO.md) documentation for details.
 
 
-### Spells in professions and NPC classes
+## Adding spells to professions and NPCs
 
-You can add a "spell" member to professions or an NPC class definition like so:
+You can add spells to professions or NPC class definitions like this:
 
 ```json
-"spells": [ { "id": "summon_zombie", "level": 0 }, { "id": "magic_missile", "level": 10 } ]
+  {
+    "id": "test_profession",
+    "type": "profession",
+    "name": "Test Professioner",
+    "description": "Tests professions",
+    "spells": [ { "id": "summon_zombie", "level": 0 }, { "id": "magic_missile", "level": 10 } ],
+    ...
 ```
 
-NOTE: This makes it possible to learn spells that conflict with a class. It also does not give the prompt to gain the class. Be judicious upon adding this to a profession!
+**Note:** This makes it possible to learn spells that conflict with a class. It also does not give the prompt to gain the class. Be judicious upon adding this to a profession!
 
-### Spell examples
+## Examples
 
 Below you can see the proper examples of monster spells - most common types and even some advanced ones:
 
