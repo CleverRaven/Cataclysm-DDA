@@ -1027,7 +1027,6 @@
     "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
     "vision_day": 15,
     "harvest": "mutant_shellfish",
-    "dissect": "dissect_gastropod_sample_single",
     "upgrades": { "age_grow": 30, "into": "mon_giant_crayfish" },
     "fear_triggers": [ "HURT", "PLAYER_CLOSE", "SOUND" ],
     "flags": [ "SEES", "HEARS", "SMELLS", "LARVA", "SWIMS", "AQUATIC", "WATER_CAMOUFLAGE" ]
