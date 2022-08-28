@@ -13,6 +13,7 @@
 #include <utility>
 #include <vector>
 
+#include "cached_options.h"
 #include "cata_assert.h"
 #include "cata_utility.h"
 #include "cata_tiles.h"
@@ -318,7 +319,7 @@ void pixel_minimap::update_cache_at( const tripoint &sm_pos )
 
             if( lighting == lit_level::BLANK || lighting == lit_level::DARK ) {
                 // TODO: Map memory?
-                color = { 0x00, 0x00, 0x00, 0xFF };
+                color = { Uint8( pixel_minimap_r ), Uint8( pixel_minimap_g ), Uint8( pixel_minimap_b ), Uint8( pixel_minimap_a ) };
             } else {
                 color = get_map_color_at( p );
 
@@ -436,8 +437,7 @@ void pixel_minimap::reset()
 void pixel_minimap::render( const tripoint &center )
 {
     SetRenderTarget( renderer, main_tex );
-
-    SetRenderDrawColor( renderer, 0x00, 0x00, 0x00, 0x00 );
+    SetRenderDrawColor( renderer, pixel_minimap_r, pixel_minimap_g, pixel_minimap_b, pixel_minimap_a );
     RenderClear( renderer );
 
     render_cache( center );

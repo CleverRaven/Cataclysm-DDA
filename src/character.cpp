@@ -6498,19 +6498,26 @@ bool Character::invoke_item( item *used, const std::string &method, const tripoi
         moves = pre_obtain_moves;
         return false;
     }
+
     if( charges_used.value() == 0 ) {
+        // Not really used.
+        // The item may also have been deleted
         return false;
     }
-    // Prevent accessing the item as it may have been deleted by the invoked iuse function.
-    if( used->is_tool() || actually_used->is_medication() ) {
-        return consume_charges( *actually_used, charges_used.value() );
-    } else if( used->is_bionic() || used->is_deployable() || method == "place_trap" ) {
-        i_rem( used );
-        return true;
-    } else if( used->is_comestible() ) {
+
+
+    if( actually_used->is_comestible() ) {
         const bool ret = consume_effects( *used );
-        consume_charges( *used, charges_used.value() );
+        actually_used->activation_consume( charges_used.value(), pt, this );
         return ret;
+    }
+
+    actually_used->activation_consume( charges_used.value(), pt, this );
+
+    if( actually_used->has_flag( flag_SINGLE_USE ) || actually_used->is_bionic() ||
+        actually_used->is_deployable() ) {
+        i_rem( actually_used );
+        return true;
     }
 
     return false;

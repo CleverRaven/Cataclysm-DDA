@@ -665,7 +665,7 @@
       "furniture": {
         "A": "f_armchair",
         "H": "f_bathtub",
-        "O": "f_oven",
+        "O": [ "f_oven", "f_gas_oven_microwave_combo" ],
         "S": "f_sink",
         "a": "f_sofa",
         "b": "f_bed",

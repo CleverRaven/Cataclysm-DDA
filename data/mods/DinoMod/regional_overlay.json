@@ -26,9 +26,13 @@
           "mx_nest_torvosaurus": 30,
           "mx_nest_tyrannosaurus": 30,
           "mx_nest_utahraptor": 30,
-          "mx_nest_velociraptor": 1
+          "mx_nest_velociraptor": 1,
+          "mx_portal_dino_south_america": 3,
+          "mx_portal_dino_asia": 3,
+          "mx_portal_dino_europe": 3
         }
       },
+      "forest_thick": { "chance": 30, "extras": { "mx_portal_dino_south_america": 1, "mx_portal_dino_asia": 1, "mx_portal_dino_europe": 1 } },
       "forest": {
         "chance": 20,
         "extras": {
@@ -58,10 +62,16 @@
           "mx_nest_stegosaurus": 30,
           "mx_nest_thescelosaurus": 30,
           "mx_nest_torosaurus": 30,
-          "mx_nest_triceratops": 30
+          "mx_nest_triceratops": 30,
+          "mx_portal_dino_south_america": 1,
+          "mx_portal_dino_asia": 1,
+          "mx_portal_dino_europe": 1
         }
       },
-      "field": { "chance": 6, "extras": { "mx_mass_grave_dino": 30 } }
+      "field": {
+        "chance": 6,
+        "extras": { "mx_mass_grave_dino": 30, "mx_portal_dino_south_america": 3, "mx_portal_dino_asia": 3, "mx_portal_dino_europe": 3 }
+      }
     },
     "city": { "parks": { "dinozoo": 25 } }
   }

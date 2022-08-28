@@ -492,12 +492,20 @@
   {
     "type": "monstergroup",
     "name": "GROUP_zallosaurus_BRUTE",
-    "monsters": [ { "monster": "mon_zallosaurus_hulk", "weight": 600 }, { "monster": "mon_zallosaurus_truck", "weight": 400 } ]
+    "monsters": [
+      { "monster": "mon_zallosaurus_hulk", "weight": 400 },
+      { "monster": "mon_zallosaurus_truck", "weight": 300 },
+      { "monster": "mon_zallosaurus_nightstalker", "weight": 300 }
+    ]
   },
   {
     "type": "monstergroup",
     "name": "GROUP_zyrannosaurus_BRUTE",
-    "monsters": [ { "monster": "mon_zyrannosaurus_hulk", "weight": 600 }, { "monster": "mon_zyrannosaurus_truck", "weight": 400 } ]
+    "monsters": [
+      { "monster": "mon_zyrannosaurus_hulk", "weight": 400 },
+      { "monster": "mon_zyrannosaurus_truck", "weight": 300 },
+      { "monster": "mon_zyrannosaurus_nightstalker", "weight": 300 }
+    ]
   },
   {
     "type": "monstergroup",
@@ -507,7 +515,11 @@
   {
     "type": "monstergroup",
     "name": "GROUP_zankylosaurus_BRUTE",
-    "monsters": [ { "monster": "mon_zankylosaurus_hulk", "weight": 600 }, { "monster": "mon_zankylosaurus_tank", "weight": 400 } ]
+    "monsters": [
+      { "monster": "mon_zankylosaurus_hulk", "weight": 400 },
+      { "monster": "mon_zankylosaurus_tank", "weight": 300 },
+      { "monster": "mon_zankylosaurus_nightstalker", "weight": 300 }
+    ]
   },
   {
     "type": "monstergroup",

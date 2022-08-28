@@ -141,6 +141,8 @@ void weather_type::load( const JsonObject &jo, const std::string & )
     if( duration_min > duration_max ) {
         jo.throw_error( "duration_min must be less than or equal to duration_max" );
     }
+    optional( jo, was_loaded, "debug_cause_eoc", debug_cause_eoc );
+    optional( jo, was_loaded, "debug_leave_eoc", debug_leave_eoc );
 
     if( jo.has_member( "weather_animation" ) ) {
         JsonObject weather_animation_jo = jo.get_object( "weather_animation" );
