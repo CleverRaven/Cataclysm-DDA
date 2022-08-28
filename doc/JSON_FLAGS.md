@@ -190,11 +190,11 @@ These are handled through `ammo_types.json`.  You can tag a weapon with these to
 - ```MUZZLE_SMOKE``` Generate a small cloud of smoke at the source.
 - ```NAPALM``` Explosion that spreads fire.
 - ```NEVER_MISFIRES``` Firing ammo without this flag may trigger a misfiring, this is independent of the weapon flags.
-- ```NOGIB``` Prevents overkill damage on the target (target won't explode into gibs, see also the monster flag `NOGIB`).
-- ```NO_PENETRATE_OBSTACLES``` Prevents a projectile from going through a tile with obstacles, such as chainlink fences or dressers.
-- ```TANGLE``` When this projectile hits a target, it has a chance to tangle them up and immobilize them.
 - ```NO_EMBED``` When an item would be spawned from the projectile, it will always be spawned on the ground rather than in a monster's inventory. Implied for active thrown items. Doesn't do anything on projectiles that do not drop items.
+- ```NOGIB``` Prevents overkill damage on the target (target won't explode into gibs, see also the monster flag `NOGIB`).
 - ```NO_ITEM_DAMAGE``` Will not damage items on the map even when it otherwise would try to.
+- ```NON_FOULING``` This ammo does not cause dirtying or blackpowder fouling on the gun when fired.
+- ```NO_PENETRATE_OBSTACLES``` Prevents a projectile from going through a tile with obstacles, such as chainlink fences or dressers.
 - ```PLASMA``` Creates a trail of superheated plasma.
 - ```RECOVER_[X]``` Has a (X-1/X) chance to create a single charge of the used ammo at the point of impact.
 - ```RECYCLED``` (For handmade ammo) causes the gun to misfire sometimes; this is independent of the weapon flags.
@@ -203,9 +203,9 @@ These are handled through `ammo_types.json`.  You can tag a weapon with these to
 - ```SMOKE``` Generates a cloud of smoke at the target.
 - ```STREAM_BIG``` Leaves a trail of intense fire fields.
 - ```STREAM``` Leaves a trail of fire fields.
+- ```TANGLE``` When this projectile hits a target, it has a chance to tangle them up and immobilize them.
 - ```TRAIL``` Creates a trail of smoke.
 - ```WIDE``` Prevents `HARDTOSHOOT` monster flag from having any effect. Implied by ```SHOT``` or liquid ammo.
-- ```NON_FOULING``` This ammo does not cause dirtying or blackpowder fouling on the gun when fired.
 
 ### Flags
 
