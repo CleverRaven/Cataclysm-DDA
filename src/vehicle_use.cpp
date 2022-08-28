@@ -2056,15 +2056,16 @@ void vehicle::use_bike_rack( int part )
         unload_carried = rack_menu.ret - 1;
     }
 
-    player_activity new_act;
+    Character &pc = get_player_character();
     if( unload_carried > -1 ) {
-        new_act = player_activity( bikerack_unracking_activity_actor( to_moves<int>( 5_minutes ), *this,
-                                   carried_vehicles[unload_carried], carrying_racks[unload_carried] ) );
-        get_player_character().assign_activity( new_act, false );
+        bikerack_unracking_activity_actor unrack( *this, carried_vehicles[unload_carried],
+                carrying_racks[unload_carried] );
+        pc.assign_activity( player_activity( unrack ), false );
     } else if( found_rackable_vehicle ) {
-        new_act = player_activity( bikerack_racking_activity_actor( to_moves<int>( 5_minutes ), *this,
-                                   racks_parts ) );
-        get_player_character().assign_activity( new_act, false );
+        bikerack_racking_activity_actor rack( *this, racks_parts );
+        pc.assign_activity( player_activity( rack ), false );
+    } else {
+        pc.add_msg_if_player( _( "Nothing to take off or put on the racks is nearby." ) );
     }
 }
 

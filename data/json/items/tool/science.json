@@ -727,7 +727,8 @@
     "material": [ "plastic", "aluminum" ],
     "symbol": ";",
     "color": "dark_gray",
-    "use_action": { "type": "place_trap", "trap": "tr_telepad", "moves": 350, "practice": 10, "done_message": "You place the telepad." }
+    "use_action": { "type": "place_trap", "trap": "tr_telepad", "moves": 350, "practice": 10, "done_message": "You place the telepad." },
+    "flags": [ "SINGLE_USE" ]
   },
   {
     "id": "teleporter",

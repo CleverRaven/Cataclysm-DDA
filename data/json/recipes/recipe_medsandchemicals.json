@@ -649,15 +649,16 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "NO_EXERCISE",
     "result": "fertilizer_commercial",
     "id_suffix": "simple",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_CHEMICALS",
     "charges": 1,
-    "time": "5 s",
+    "time": "1 s",
     "autolearn": true,
-    "components": [ [ [ "chem_ammonium_nitrate_pellets", 350 ] ] ]
+    "flags": [ "BLIND_EASY" ],
+    "components": [ [ [ "chem_ammonium_nitrate_pellets", 27 ] ] ]
   },
   {
     "type": "recipe",
@@ -985,13 +986,14 @@
   },
   {
     "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
+    "activity_level": "NO_EXERCISE",
     "result": "chem_ammonium_nitrate_pellets",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_CHEMICALS",
-    "charges": 350,
-    "time": "30 s",
+    "charges": 27,
+    "time": "1 s",
     "autolearn": true,
+    "flags": [ "BLIND_EASY" ],
     "components": [ [ [ "fertilizer_commercial", 1 ] ] ]
   },
   {
