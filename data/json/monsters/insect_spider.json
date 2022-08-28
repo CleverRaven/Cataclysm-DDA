@@ -3123,6 +3123,7 @@
     "vision_day": 15,
     "dodge": 2,
     "harvest": "arachnid_flying",
+    "dissect": "dissect_insect_sample_single",
     "weakpoint_sets": [ "wps_arthropod", "wps_arthropod_flying" ],
     "families": [ "prof_wp_basic_bug" ],
     "biosignature": { "biosig_item": "insect_dust", "biosig_timer": 3 },
@@ -3137,6 +3138,7 @@
     "name": { "str": "emperor butterfly", "str_pl": "emperor butterflies" },
     "description": "An enormous butterfly with regal looking wings.  This giant of the sky flies cheerfully under the sun, leaving dust as it passes.",
     "copy-from": "mon_butterfly_giant",
+    "dissect": "dissect_insect_sample_large",
     "proportional": { "hp": 3, "speed": 1.1, "morale": 1.1, "melee_dice_sides": 1.1 },
     "symbol": "L",
     "color": "yellow",
@@ -3187,6 +3189,7 @@
     "vision_night": 15,
     "dodge": 2,
     "harvest": "arachnid_flying",
+    "dissect": "dissect_insect_sample_single",
     "weakpoint_sets": [ "wps_arthropod", "wps_arthropod_flying" ],
     "families": [ "prof_wp_basic_bug" ],
     "biosignature": { "biosig_item": "insect_dust", "biosig_timer": 3 },
@@ -3201,6 +3204,7 @@
     "name": { "str": "lunar moth" },
     "description": "A majestic moth painted in pale colors.  This giant of the night only comes out after the moon is out, leaving glittering dust.",
     "copy-from": "mon_moth_giant",
+    "dissect": "dissect_insect_sample_large",
     "proportional": { "hp": 3, "speed": 1.1, "morale": 1.1, "melee_dice_sides": 1.1 },
     "symbol": "L",
     "color": "cyan",
@@ -3238,6 +3242,7 @@
     "symbol": "C",
     "volume": "60 L",
     "weight": "75 kg",
+    "dissect": "dissect_insect_sample_large",
     "upgrades": { "age_grow": 15, "into_group": "GROUP_BUTTERFLY_GIANT" }
   },
   {
@@ -3268,6 +3273,7 @@
     "vision_day": 10,
     "vision_night": 15,
     "harvest": "arachnid",
+    "dissect": "dissect_insect_sample_single",
     "weakpoint_sets": [ "wps_arthropod" ],
     "families": [ "prof_wp_basic_bug" ],
     "upgrades": { "age_grow": 21, "into": "mon_cicada" },
@@ -3304,6 +3310,7 @@
     "vision_day": 10,
     "vision_night": 15,
     "harvest": "arachnid_flying",
+    "dissect": "dissect_insect_sample_large",
     "weakpoint_sets": [ "wps_arthropod", "wps_arthropod_flying" ],
     "families": [ "prof_wp_basic_bug" ],
     "reproduction": { "baby_egg": "egg_cicada", "baby_count": 3, "baby_timer": 20 },
@@ -3335,6 +3342,7 @@
     "vision_day": 10,
     "vision_night": 15,
     "harvest": "mutant_shellfish",
+    "dissect": "dissect_insect_sample_single",
     "weakpoint_sets": [ "wps_arthropod", "wps_arthropod_beetle" ],
     "families": [ "prof_wp_basic_bug", "prof_wp_beetle" ],
     "reproduction": { "baby_monster": "mon_woodlouse_manca", "baby_count": 5, "baby_timer": 210 },
@@ -3352,7 +3360,8 @@
     "color": "white",
     "volume": "5 L",
     "weight": "5 kg",
-    "upgrades": { "half_life": 14, "into": "mon_woodlouse" }
+    "upgrades": { "age_grow": 21, "into": "mon_woodlouse" },
+    "delete": { "dissect": "dissect_insect_sample_single" }
   },
   {
     "id": "mon_diving_larva",
@@ -3414,6 +3423,7 @@
     "vision_day": 14,
     "vision_night": 12,
     "harvest": "arachnid_beetle",
+    "dissect": "dissect_insect_sample_single",
     "weakpoint_sets": [ "wps_arthropod", "wps_arthropod_beetle" ],
     "families": [ "prof_wp_basic_bug", "prof_wp_beetle" ],
     "reproduction": { "baby_egg": "egg_water_beetle", "baby_count": 3, "baby_timer": 15 },
@@ -3450,12 +3460,13 @@
     "vision_day": 12,
     "vision_night": 5,
     "harvest": "arachnid",
+    "dissect": "dissect_insect_sample_single",
     "weakpoint_sets": [ "wps_arthropod" ],
     "families": [ "prof_wp_basic_bug" ],
     "reproduction": { "baby_egg": "egg_water_bug", "baby_count": 3, "baby_timer": 10 },
     "anger_triggers": [ "PLAYER_WEAK", "PLAYER_CLOSE" ],
     "fear_triggers": [ "HURT" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "SWIMS", "GRABS", "AQUATIC" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "SWIMS", "AQUATIC" ]
   },
   {
     "id": "mon_water_scorpion_larva",
