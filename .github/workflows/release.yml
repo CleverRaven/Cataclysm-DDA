@@ -215,9 +215,6 @@ jobs:
         ZSTD_CLEVEL: 17
     steps:
       - uses: actions/checkout@v2
-      - run: |
-          rm -v doc/CONTRIBUTING.md
-          cp -v .github/CONTRIBUTING.md doc/
       - name: Get soundpack
         if: matrix.sound == 1
         run: |
