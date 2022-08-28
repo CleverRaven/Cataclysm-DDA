@@ -35,7 +35,7 @@
   {
     "id": "spell_components_schematics",
     "type": "requirement",
-    "using": [ [ "compute_standard", 10 ] ]
+    "using": [ [ "compute_standard", 10 ] ],
     "components": [ [ [ "drawing_tool", 2 ] ] ]
   },
   {
