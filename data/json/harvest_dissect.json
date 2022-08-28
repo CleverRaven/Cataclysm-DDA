@@ -645,16 +645,16 @@
     ]
   },
   {
-    "id": "dissect_slimy_fish_small",
+    "id": "dissect_slimy_fish_single",
     "type": "harvest",
     "message": "With cuts and pulls equally similar to both extraction and vandalism, you scrape together the most important parts of the creature.",
     "entries": [
       {
-        "drop": "fish_sample_small",
+        "drop": "fish_sample_single",
         "type": "mutagen_group"
       },
       {
-        "drop": "slime_sample_small",
+        "drop": "slime_sample_single",
         "type": "mutagen_group"
       }
     ]
