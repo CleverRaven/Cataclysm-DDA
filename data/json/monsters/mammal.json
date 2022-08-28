@@ -2859,6 +2859,7 @@
     "bodytype": "horse",
     "categories": [ "WILDLIFE" ],
     "species": [ "MAMMAL" ],
+    "zombify_into": "mon_zllama",
     "volume": "200000 ml",
     "weight": "200000 g",
     "hp": 90,
