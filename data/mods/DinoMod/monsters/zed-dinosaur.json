@@ -1039,6 +1039,17 @@
   },
   {
     "type": "MONSTER",
+    "id": "mon_zryposaurus",
+    "name": { "str": "maiasaura zombie" },
+    "copy-from": "mon_zedmontosaurus",
+    "hp": 300,
+    "description": "A huge, mottled dinosaur with hooves and a heavy tail, dead but walking, eyes vacant and swollen.  Has a flat beak and a nose with a prominent nasal arch.",
+    "burn_into": "mon_zryposaurus_scorched",
+    "fungalize_into": "mon_zryposaurus_fungus",
+    "upgrades": { "half_life": 14, "into_group": "GROUP_zryposaurus_UPGRADE" }
+  },
+  {
+    "type": "MONSTER",
     "id": "mon_zachycephalosaurus",
     "name": { "str": "pachycephalosaurus zombie" },
     "looks_like": "mon_pachycephalosaurus",
@@ -1311,6 +1322,22 @@
   },
   {
     "type": "MONSTER",
+    "id": "mon_zarahsaurus_juvenile",
+    "name": { "str": "juvenile sarahsaurus zombie" },
+    "copy-from": "mon_zapatosaurus_juvenile",
+    "looks_like": "mon_issi",
+    "burn_into": "mon_zarahsaurus_scorched",
+    "fungalize_into": "mon_zarahsaurus_fungus",
+    "upgrades": { "half_life": 30, "into": "mon_zarahsaurus" },
+    "volume": "100 L",
+    "weight": "100 kg",
+    "bodytype": "ostrich",
+    "hp": 100,
+    "speed": 80,
+    "special_attacks": [ { "id": "stomp_DinoMod", "cooldown": 10, "damage_max_instance": [ { "damage_type": "bash", "amount": 8 } ] } ]
+  },
+  {
+    "type": "MONSTER",
     "id": "mon_zissi_juvenile",
     "name": { "str": "juvenile issi zombie" },
     "copy-from": "mon_zapatosaurus_juvenile",
@@ -1322,8 +1349,17 @@
     "weight": "500 kg",
     "bodytype": "ostrich",
     "hp": 100,
-    "speed": 100,
+    "speed": 80,
     "special_attacks": [ { "id": "stomp_DinoMod", "cooldown": 10, "damage_max_instance": [ { "damage_type": "bash", "amount": 8 } ] } ]
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zaplocanthosaurus_juvenile",
+    "name": { "str": "juvenile haplocanthosaurus zombie" },
+    "copy-from": "mon_zapatosaurus_juvenile",
+    "burn_into": "mon_zaplocanthosaurus_scorched",
+    "fungalize_into": "mon_zaplocanthosaurus_fungus",
+    "upgrades": { "half_life": 30, "into": "mon_zaplocanthosaurus" }
   },
   {
     "type": "MONSTER",
