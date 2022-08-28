@@ -1568,8 +1568,9 @@ void Character::passive_power_gen( const bionic &bio )
         }
 
         if( fuel == fuel_type_sun_light ) {
-            const double modifier = g->natural_light_level( pos().z ) / default_daylight_level();
-            mod_power_level( units::from_kilojoule( fuel_energy ) * modifier * effective_passive_efficiency );
+            const float intensity = incident_sun_irradiance( current_weather( pos() ),
+                                    calendar::turn ) / max_sun_irradiance();
+            mod_power_level( units::from_kilojoule( fuel_energy ) * intensity * effective_passive_efficiency );
         } else if( fuel == fuel_type_wind ) {
             int vehwindspeed = 0;
             const optional_vpart_position vp = here.veh_at( pos() );

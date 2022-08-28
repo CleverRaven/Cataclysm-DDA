@@ -470,6 +470,7 @@
     "copy-from": "pseudo_hotplate_abstract",
     "id": "pseudo_app_oven_hotplate",
     "type": "TOOL",
+    "qualities": [ [ "OVEN", 2 ] ],
     "name": { "str": "oven" }
   },
   {

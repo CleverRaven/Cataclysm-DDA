@@ -128,6 +128,7 @@
       [ "baseball", 40 ],
       [ "football", 40 ],
       [ "basketball", 50 ],
+      [ "shark_plushie", 25 ],
       { "item": "talking_doll", "prob": 50, "charges": 100 },
       { "item": "marble", "prob": 60, "charges": [ 1, 20 ] },
       { "item": "creepy_doll", "prob": 1, "charges": 100 },

@@ -193,6 +193,7 @@
     "to_hit": { "grip": "weapon", "length": "hand", "surface": "point", "balance": "good" },
     "cutting": 16,
     "material": [ "steel", "leather" ],
+    "repairs_with": [ "steel" ],
     "symbol": "/",
     "color": "dark_gray",
     "qualities": [ [ "CUT", 2 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 30 ] ],

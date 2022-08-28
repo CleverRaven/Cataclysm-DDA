@@ -193,7 +193,7 @@
         "P": "f_mailbox",
         "T": "f_toilet",
         "c": "f_cupboard",
-        "o": "f_oven",
+        "o": [ "f_oven", "f_gas_oven_microwave_combo" ],
         "{": "f_fridge"
       },
       "place_items": [

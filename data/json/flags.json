@@ -2086,5 +2086,10 @@
     "id": "VOLTMETER",
     "type": "json_flag",
     "info": "This tool can test for voltage."
+  },
+  {
+    "id": "SINGLE_USE",
+    "type": "json_flag",
+    "info": "This item is removed after use."
   }
 ]

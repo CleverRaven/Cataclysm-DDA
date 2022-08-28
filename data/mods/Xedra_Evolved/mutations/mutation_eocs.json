@@ -147,5 +147,19 @@
         }
       }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "consume_human_blood",
+    "condition": { "u_has_trait": "VAMPIRE" },
+    "effect": [
+      {
+        "arithmetic": [
+          { "u_val": "vitamin", "name": "human_blood_vitamin" },
+          "+=",
+          { "arithmetic": [ { "rand": 100 }, "+", { "const": 500 } ] }
+        ]
+      }
+    ]
   }
 ]

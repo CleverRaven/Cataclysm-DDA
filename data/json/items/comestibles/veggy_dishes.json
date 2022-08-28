@@ -1045,7 +1045,7 @@
     "price_postapoc": 100,
     "material": [ "veggy" ],
     "volume": "250 ml",
-    "fun": 1,
+    "fun": 6,
     "flags": [ "FREEZERBURN" ],
     "vitamins": [ [ "vitC", 30 ], [ "calcium", 6 ], [ "iron", 10 ] ]
   },
