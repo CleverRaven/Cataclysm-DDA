@@ -209,7 +209,7 @@ Another mandatory field is the spell shape. This dictates how the area of effect
 
 ## Common fields
 
-The following are more JSON fields that, while optional, greatly expand how spells can behave.
+The following JSON fields are also used in spells and, while optional, greatly expand how spells can behave.
 
 
 ### Spell Flags
