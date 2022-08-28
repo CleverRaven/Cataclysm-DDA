@@ -59,6 +59,8 @@
     "armor_elec": 1,
     "bleed_rate": 50,
     "harvest": "demihuman",
+    "families": [ "prof_wp_demihuman" ],
+    "weakpoint_sets": [ "wps_humanoid_body" ],
     "special_attacks": [ [ "FEAR_PARALYZE", 0 ] ],
     "death_function": { "effect": { "id": "death_amigara" } },
     "dissect": "dissect_human_sample_single",
@@ -87,6 +89,8 @@
     "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
     "dodge": 1,
     "harvest": "demihuman",
+    "families": [ "prof_wp_demihuman" ],
+    "weakpoint_sets": [ "wps_humanoid_body" ],
     "special_attacks": [ [ "SHRIEK", 10 ] ],
     "flags": [ "SMELLS", "HEARS", "WARM", "ANIMAL", "PATH_AVOID_DANGER_1", "SUNDEATH", "NO_BREATHE", "HUMAN" ]
   },
@@ -470,6 +474,8 @@
     "bleed_rate": 60,
     "vision_day": 30,
     "harvest": "gozu",
+    "families": [ "prof_wp_demihuman" ],
+    "weakpoint_sets": [ "wps_humanoid_body" ],
     "special_attacks": [ [ "FEAR_PARALYZE", 20 ] ],
     "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "BASHES", "GROUP_BASH", "ANIMAL", "NO_BREATHE", "PATH_AVOID_DANGER_1" ]
   },
@@ -499,6 +505,8 @@
     "bleed_rate": 60,
     "path_settings": { "avoid_traps": true, "avoid_sharp": true },
     "harvest": "demihuman",
+    "families": [ "prof_wp_demihuman" ],
+    "weakpoint_sets": [ "wps_humanoid_body" ],
     "flags": [ "SMELLS", "HEARS", "WARM", "NO_BREATHE", "GRABS", "PRIORITIZE_TARGETS", "PATH_AVOID_DANGER_1" ]
   },
   {
@@ -646,6 +654,7 @@
     "armor_cut": 12,
     "armor_bullet": 10,
     "harvest": "demihuman_snail",
+    "families": [ "prof_wp_demihuman" ],
     "dissect": "dissect_gastropod_sample_large",
     "special_attacks": [ [ "ACID", 15 ] ],
     "anger_triggers": [ "PLAYER_WEAK", "FRIEND_DIED" ],
@@ -916,6 +925,8 @@
     "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
     "dodge": 6,
     "harvest": "demihuman",
+    "families": [ "prof_wp_demihuman" ],
+    "weakpoint_sets": [ "wps_humanoid_body" ],
     "flags": [ "SEES", "HEARS", "GOODHEARING", "POISON", "HUMAN", "CLIMBS" ]
   },
   {
