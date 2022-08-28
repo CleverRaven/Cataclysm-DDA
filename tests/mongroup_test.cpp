@@ -23,6 +23,7 @@ static const mtype_id mon_test_non_shearable( "mon_test_non_shearable" );
 static const mtype_id mon_test_shearable( "mon_test_shearable" );
 static const mtype_id mon_test_speed_desc_base( "mon_test_speed_desc_base" );
 static const mtype_id mon_test_speed_desc_base_immobile( "mon_test_speed_desc_base_immobile" );
+static const mtype_id mon_test_zombie_cop( "mon_test_zombie_cop" );
 
 static const int max_iters = 10000;
 
@@ -271,41 +272,123 @@ TEST_CASE( "mongroup_sets_quantity_correctly", "[mongroup]" )
     CHECK( 10 - quantity == static_cast<int>( res.size() ) );
 }
 
-TEST_CASE( "mongroup_multi_spawn_upgrades", "[mongroup]" )
+static void test_multi_spawn( const mtype_id &old_mon, int range, int min, int max,
+                              const time_point &start, const std::set<mtype_id> &new_mons,
+                              std::map<mtype_id, int> &new_count )
 {
     const int upgrade_attempts = 100;
+    clear_avatar();
 
     for( int i = 0; i < upgrade_attempts; i++ ) {
         clear_map();
-        clear_avatar();
         map &m = get_map();
-        calendar::turn = calendar::turn_zero + 1_days;
+        calendar::turn = start;
         const tripoint ground_zero = get_player_character().pos() - tripoint( 5, 5, 0 );
 
-        monster *orig = g->place_critter_at( mon_test_non_shearable, ground_zero );
+        monster *orig = g->place_critter_at( old_mon, ground_zero );
         REQUIRE( orig );
-        REQUIRE( orig->type->id == mon_test_non_shearable );
+        REQUIRE( orig->type->id == old_mon );
         REQUIRE( orig->pos() == ground_zero );
         REQUIRE( orig->can_upgrade() );
 
         // monster::next_upgrade_time has a ~3% chance to outright fail
         // so keep trying until we succeed
         orig->try_upgrade( false );
-        if( orig->type->id != mon_test_shearable ) {
+        if( orig->type->id == old_mon ) {
             continue;
         }
 
-        REQUIRE( orig->type->id == mon_test_shearable );
+        REQUIRE( new_mons.count( orig->type->id ) > 0 );
         int total_spawns = 0;
         for( const Creature *c : m.get_creatures_in_radius( ground_zero, 10 ) ) {
-            if( !c->is_monster() || c->as_monster()->type->id != mon_test_shearable ) {
+            if( !c->is_monster() || new_mons.count( c->as_monster()->type->id ) == 0 ) {
                 continue;
             }
             total_spawns++;
-            CHECK( std::abs( c->pos().x - ground_zero.x ) <= 5 );
-            CHECK( std::abs( c->pos().y - ground_zero.y ) <= 5 );
+            CHECK( std::abs( c->pos().x - ground_zero.x ) <= range );
+            CHECK( std::abs( c->pos().y - ground_zero.y ) <= range );
+            if( new_count.count( c->as_monster()->type->id ) == 0 ) {
+                new_count[c->as_monster()->type->id] = 0;
+            }
+            new_count[c->as_monster()->type->id]++;
         }
-        CHECK( total_spawns == Approx( 5 ).margin( 1 ) );
-        break;
+        CHECK( total_spawns == Approx( ( max + min ) / 2 ).margin( ( max - min ) / 2 ) );
+    }
+}
+
+TEST_CASE( "mongroup_multi_spawn_upgrades", "[mongroup]" )
+{
+    std::map<mtype_id, int> counts;
+
+    test_multi_spawn( mon_test_non_shearable, 5, 4, 6,
+                      calendar::turn_zero + 1_days, { mon_test_shearable }, counts );
+
+    CHECK( counts.size() == 1 );
+    CHECK( counts.count( mon_test_shearable ) > 0 );
+}
+
+TEST_CASE( "mongroup_multi_spawn_restrictions", "[mongroup]" )
+{
+    const std::set<mtype_id> all_types { mon_test_shearable, mon_test_CBM, mon_test_zombie_cop };
+
+    SECTION( "no valid spawns" ) {
+        std::map<mtype_id, int> counts;
+
+        test_multi_spawn( mon_test_bovine, 5, 4, 6, calendar::turn_zero + 4 * 3_days,
+                          all_types, counts );
+
+        CHECK( counts.empty() );
+    }
+
+    SECTION( "1 valid spawn, with DAY" ) {
+        std::map<mtype_id, int> counts;
+
+        test_multi_spawn( mon_test_bovine, 5, 4, 6, calendar::turn_zero + 4 * 3_days + 12_hours,
+                          all_types, counts );
+
+        CHECK( counts.size() == 1 );
+        CHECK( counts.count( mon_test_zombie_cop ) > 0 );
+    }
+
+    SECTION( "1 valid spawn, with ends" ) {
+        std::map<mtype_id, int> counts;
+
+        test_multi_spawn( mon_test_bovine, 5, 4, 6, calendar::turn_zero + 1_days,
+                          all_types, counts );
+
+        CHECK( counts.size() == 1 );
+        CHECK( counts.count( mon_test_CBM ) > 0 );
+    }
+
+    SECTION( "2 valid spawn, with ends and DAY" ) {
+        std::map<mtype_id, int> counts;
+
+        test_multi_spawn( mon_test_bovine, 5, 4, 6, calendar::turn_zero + 1_days + 12_hours,
+                          all_types, counts );
+
+        CHECK( counts.size() == 2 );
+        CHECK( counts.count( mon_test_CBM ) > 0 );
+        CHECK( counts.count( mon_test_zombie_cop ) > 0 );
+    }
+
+    SECTION( "1 valid spawn, with starts" ) {
+        std::map<mtype_id, int> counts;
+
+        test_multi_spawn( mon_test_bovine, 5, 4, 6, calendar::turn_zero + 4 * 8_days,
+                          all_types, counts );
+
+        CHECK( counts.size() == 1 );
+        CHECK( counts.count( mon_test_shearable ) > 0 );
+    }
+
+    SECTION( "2 valid spawn, with starts and DAY" ) {
+        std::map<mtype_id, int> counts;
+
+        test_multi_spawn( mon_test_bovine, 5, 4, 6, calendar::turn_zero + 4 * 8_days + 12_hours,
+                          all_types, counts );
+
+        CHECK( counts.size() == 2 );
+        CHECK( counts.count( mon_test_shearable ) > 0 );
+        CHECK( counts.count( mon_test_zombie_cop ) > 0 );
     }
 }

@@ -283,6 +283,7 @@ const flag_id flag_ROLLER_QUAD( "ROLLER_QUAD" );
 const flag_id flag_SAFECRACK( "SAFECRACK" );
 const flag_id flag_SEMITANGIBLE( "SEMITANGIBLE" );
 const flag_id flag_SHRUB( "SHRUB" );
+const flag_id flag_SINGLE_USE( "SINGLE_USE" );
 const flag_id flag_SKINNED( "SKINNED" );
 const flag_id flag_SKINTIGHT( "SKINTIGHT" );
 const flag_id flag_SLEEP_AID( "SLEEP_AID" );

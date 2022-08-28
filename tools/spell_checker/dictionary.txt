@@ -202,6 +202,7 @@ blackpowders
 blacksmithy
 bleedin
 bloodbank
+bloodborne
 bloodloss
 bloomery
 bluegill
@@ -814,6 +815,7 @@ hmmm
 hollowpoint
 holybook
 homebrewing
+homovorus
 honeygold
 hosomaki
 hotcut
@@ -1127,6 +1129,7 @@ moonflower
 moonflowers
 moriatur
 morningstar
+moroi
 mortems
 mosasaurus
 mostlike

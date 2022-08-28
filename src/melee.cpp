@@ -2058,7 +2058,8 @@ void Character::perform_technique( const ma_technique &technique, Creature &t, d
 
     Character *you = dynamic_cast<Character *>( &t );
 
-    if( technique.take_weapon && !has_weapon() && you != nullptr && you->is_armed() ) {
+    if( technique.take_weapon && !has_weapon() && you != nullptr && you->is_armed() &&
+        !you->is_hallucination() ) {
         if( you->is_avatar() ) {
             add_msg_if_npc( _( "<npcname> disarms you and takes your weapon!" ) );
         } else {
@@ -2070,7 +2071,7 @@ void Character::perform_technique( const ma_technique &technique, Creature &t, d
         wield( it );
     }
 
-    if( technique.disarms && you != nullptr && you->is_armed() ) {
+    if( technique.disarms && you != nullptr && you->is_armed() && !you->is_hallucination() ) {
         item weap = you->remove_weapon();
         here.add_item_or_charges( you->pos(), weap );
         if( you->is_avatar() ) {

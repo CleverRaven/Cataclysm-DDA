@@ -2396,7 +2396,9 @@
         "max_contains_volume": "100000 L",
         "max_contains_weight": "100000 kg",
         "moves": 1,
-        "max_item_length": "1 km"
+        "max_item_length": "1 km",
+        "weight_multiplier": 0.01,
+        "volume_multiplier": 0.01
       }
     ],
     "warmth": 0,

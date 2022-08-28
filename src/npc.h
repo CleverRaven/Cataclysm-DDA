@@ -267,6 +267,12 @@ const std::unordered_map<std::string, combat_engagement> combat_engagement_strs 
     }
 };
 
+enum class combat_skills : int {
+    ALL = 0,
+    NO_GENERAL,
+    WEAPONS_ONLY
+};
+
 enum class aim_rule : int {
     // Aim some
     WHEN_CONVENIENT = 0,
@@ -788,8 +794,7 @@ class npc : public Character
          * See @ref dialogue_chatbin::add_new_mission
          */
         void add_new_mission( mission *miss );
-        skill_id best_skill() const;
-        int best_skill_level() const;
+        std::pair<skill_id, int> best_combat_skill( combat_skills subset ) const;
         void starting_weapon( const npc_class_id &type );
 
         // Save & load

@@ -2095,5 +2095,10 @@
   {
     "id": "FROM_FROZEN_LIQUID",
     "type": "json_flag"
+  },
+  {
+    "id": "SINGLE_USE",
+    "type": "json_flag",
+    "info": "This item is removed after use."
   }
 ]
