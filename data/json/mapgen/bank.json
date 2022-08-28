@@ -78,7 +78,16 @@
           "failures": [ { "action": "shutdown" }, { "action": "alarm" } ]
         }
       },
-      "place_monster": [ { "monster": "mon_secubot", "x": [ 7, 18 ], "y": [ 7, 18 ], "chance": 30, "repeat": 4 } ]
+      "place_monster": [
+        {
+          "monster": "mon_secubot",
+          "x": [ 7, 18 ],
+          "y": [ 7, 18 ],
+          "chance": 30,
+          "repeat": 4,
+          "spawn_data": { "patrol": [ { "x": [ 7, 18 ], "y": [ 7, 18 ] } ] }
+        }
+      ]
     }
   },
   {
@@ -224,10 +233,19 @@
           "access_denied": "ERROR!  Access denied!  Unauthorized access will be met with lethal force!",
           "security": 4,
           "options": [ { "name": "Open Vault", "action": "unlock" } ],
-          "failures": [ { "action": "alarm" }, { "action": "damage" }, { "action": "secubots" } ]
+          "failures": [ { "action": "alarm" }, { "action": "shutdown" }, { "action": "secubots" } ]
         }
       },
-      "place_monster": [ { "monster": "mon_secubot", "x": [ 7, 18 ], "y": [ 7, 18 ], "chance": 30, "repeat": 4 } ]
+      "place_monster": [
+        {
+          "monster": "mon_secubot",
+          "x": [ 7, 18 ],
+          "y": [ 7, 18 ],
+          "chance": 30,
+          "repeat": 4,
+          "spawn_data": { "patrol": [ { "x": [ 7, 18 ], "y": [ 7, 18 ] } ] }
+        }
+      ]
     }
   },
   {
