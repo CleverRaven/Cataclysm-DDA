@@ -1556,7 +1556,15 @@ bool vehicle::try_to_rack_nearby_vehicle( std::vector<std::vector<int>> &list_of
                     partial_matches[ i ].clear();
                 }
                 partial_matches[ i ].insert( search_pos );
-                if( partial_matches[ i ] == test_veh->get_points() ) {
+
+                std::set<tripoint> test_veh_points;
+                for( const vpart_reference &vpr : test_veh->get_all_parts() ) {
+                    if( !vpr.part().removed && !vpr.part().is_fake ) {
+                        test_veh_points.insert( vpr.pos() );
+                    }
+                }
+
+                if( partial_matches[ i ] == test_veh_points ) {
                     if( do_not_rack ) {
                         return true;
                     } else {
