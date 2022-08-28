@@ -603,19 +603,61 @@
     "id": "dissect_subterranean_rodent_large",
     "type": "harvest",
     "message": "With cuts and pulls equally similar to both extraction and vandalism, you scrape together the most important parts of the creature.",
-    "entries": [ { "drop": "subterranean_rodent_large", "type": "mutagen_group" } ]
+    "entries": [
+      {
+        "drop": "rat_sample_large",
+        "type": "mutagen_group"
+      },
+      {
+        "drop": "troglobite_sample_large",
+        "type": "mutagen_group"
+      }
+    ]
   },
   {
     "id": "dissect_subterranean_insect_large",
     "type": "harvest",
     "message": "With cuts and pulls equally similar to both extraction and vandalism, you scrape together the most important parts of the creature.",
-    "entries": [ { "drop": "subterranean_insect_large", "type": "mutagen_group" } ]
+    "entries": [
+      {
+        "drop": "insect_sample_large",
+        "type": "mutagen_group"
+      },
+      {
+        "drop": "troglobite_sample_large",
+        "type": "mutagen_group"
+      }
+    ]
+  },
+  {
+    "id": "dissect_subterranean_insect_small",
+    "type": "harvest",
+    "message": "With cuts and pulls equally similar to both extraction and vandalism, you scrape together the most important parts of the creature.",
+    "entries": [
+      {
+        "drop": "insect_sample_small",
+        "type": "mutagen_group"
+      },
+      {
+        "drop": "troglobite_sample_small",
+        "type": "mutagen_group"
+      }
+    ]
   },
   {
     "id": "dissect_slimy_fish_small",
     "type": "harvest",
     "message": "With cuts and pulls equally similar to both extraction and vandalism, you scrape together the most important parts of the creature.",
-    "entries": [ { "drop": "slimy_fish_small", "type": "mutagen_group" } ]
+    "entries": [
+      {
+        "drop": "fish_sample_small",
+        "type": "mutagen_group"
+      },
+      {
+        "drop": "slime_sample_small",
+        "type": "mutagen_group"
+      }
+    ]
   },
   {
     "id": "dissect_mon_broken_cyborg",
