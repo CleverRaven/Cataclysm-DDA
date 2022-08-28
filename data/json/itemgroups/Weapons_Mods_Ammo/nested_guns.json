@@ -2378,8 +2378,8 @@
     "ammo": 100,
     "entries": [
       { "item": "ak556", "variant": "zpapm90", "charges-min": 0, "charges-max": 30 },
-      { "group": "zpap85mag" },
-      { "group": "zpap85mag", "prob": 50 },
+      { "item": "zpap85mag" },
+      { "item": "zpap85mag", "prob": 50 },
       { "group": "on_hand_223" }
     ]
   },
@@ -2391,8 +2391,8 @@
     "ammo": 100,
     "entries": [
       { "item": "minidraco556", "variant": "zpap85", "charges-min": 0, "charges-max": 30 },
-      { "group": "zpap85mag" },
-      { "group": "zpap85mag", "prob": 50 },
+      { "item": "zpap85mag" },
+      { "item": "zpap85mag", "prob": 50 },
       { "group": "on_hand_223" }
     ]
   },
@@ -2404,8 +2404,8 @@
     "ammo": 100,
     "entries": [
       { "item": "ak308", "variant": "papm77", "charges-min": 0, "charges-max": 20 },
-      { "group": "papm77mag_10rd" },
-      { "group": "papm77mag_10rd", "prob": 50 },
+      { "item": "papm77mag_10rd" },
+      { "item": "papm77mag_10rd", "prob": 50 },
       { "group": "on_hand_308" }
     ]
   }
