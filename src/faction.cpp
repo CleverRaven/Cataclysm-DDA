@@ -728,7 +728,8 @@ int npc::faction_display( const catacurses::window &fac_w, const int width ) con
     }
     std::string best_three_noncombat = _( "Best other skills: " );
     std::string best_skill_text = string_format( _( "Best combat skill: %s: %d" ),
-                                  best_skill().obj().name(), best_skill_level() );
+                                  best_combat_skill( combat_skills::NO_GENERAL ).first.obj().name(),
+                                  best_combat_skill( combat_skills::NO_GENERAL ).second );
     mvwprintz( fac_w, point( width, ++y ), col, best_skill_text );
     mvwprintz( fac_w, point( width, ++y ), col, best_three_noncombat + skill_strs[0] );
     mvwprintz( fac_w, point( width + utf8_width( best_three_noncombat ), ++y ), col, skill_strs[1] );

@@ -2294,6 +2294,16 @@ class item : public visitable
          */
         int ammo_consume( int qty, const tripoint &pos, Character *carrier );
 
+        /**
+         * Consume ammo to activate item qty times (if available) and return the amount of ammo that was consumed
+         * Consume order: loaded items, UPS, bionic
+         * @param qty number of times to consume item activation charges
+         * @param pos current location of item, used for ejecting magazines and similar effects
+         * @param carrier holder of the item, used for getting UPS and bionic power
+         * @return amount of ammo consumed which will be between 0 and qty
+         */
+        int activation_consume( int qty, const tripoint &pos, Character *carrier );
+
         /** Specific ammo data, returns nullptr if item is neither ammo nor loaded with any */
         const itype *ammo_data() const;
         /** Specific ammo type, returns "null" if item is neither ammo nor loaded with any */
