@@ -242,8 +242,7 @@ bool enchantment::is_active( const Character &guy, const bool active ) const
 
 bool enchantment::active_wield() const
 {
-    return active_conditions.first == has::HELD ||
-           active_conditions.first == has::WIELD;
+    return active_conditions.first == has::HELD || active_conditions.first == has::WIELD;
 }
 
 void enchantment::add_activation( const time_duration &dur, const fake_spell &fake )
