@@ -552,7 +552,7 @@ action_id get_movement_action_from_delta( const tripoint &d, const iso_rotate ro
         return ACTION_MOVE_UP;
     }
 
-    const bool iso_mode = rot == iso_rotate::yes && use_tiles && tile_iso;
+    const bool iso_mode = rot == iso_rotate::yes && g->is_tileset_isometric();
     if( d.xy() == point_north ) {
         return iso_mode ? ACTION_MOVE_FORTH_LEFT : ACTION_MOVE_FORTH;
     } else if( d.xy() == point_north_east ) {
@@ -574,7 +574,7 @@ action_id get_movement_action_from_delta( const tripoint &d, const iso_rotate ro
 
 point get_delta_from_movement_action( const action_id act, const iso_rotate rot )
 {
-    const bool iso_mode = rot == iso_rotate::yes && use_tiles && tile_iso;
+    const bool iso_mode = rot == iso_rotate::yes && g->is_tileset_isometric();
     switch( act ) {
         case ACTION_MOVE_FORTH:
             return iso_mode ? point_north_east : point_north;

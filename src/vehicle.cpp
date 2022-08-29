@@ -1289,88 +1289,86 @@ bool vehicle::can_unmount( const int p, std::string &reason ) const
         return false;
     }
 
-    // Find all the flags on parts in this tile that require other flags
-    const point pt = parts[p].mount;
-    std::vector<int> parts_here = parts_at_relative( pt, false );
+    const vehicle_part &vp_to_remove = parts[p];
+    const std::vector<int> parts_here = parts_at_relative( vp_to_remove.mount, false );
 
+    // make sure there are no parts which require flags from this part
     for( const int &elem : parts_here ) {
         for( const std::string &flag : part_info( elem ).get_flags() ) {
-            if( part_info( p ).has_flag( json_flag::get( flag ).requires_flag() ) ) {
+            if( vp_to_remove.info().has_flag( json_flag::get( flag ).requires_flag() ) ) {
                 reason = string_format( _( "Remove the attached %s first." ), part_info( elem ).name() );
                 return false;
             }
         }
     }
 
-    //Can't remove an animal part if the animal is still contained
-    if( parts[p].has_flag( vehicle_part::animal_flag ) ) {
+    if( vp_to_remove.has_flag( vehicle_part::animal_flag ) ) {
         reason = _( "Remove carried animal first." );
         return false;
     }
 
-    if( parts[p].has_flag( vehicle_part::carrying_flag ) ||
-        parts[p].has_flag( vehicle_part::carried_flag ) ) {
+    if( vp_to_remove.has_flag( vehicle_part::carrying_flag ) ||
+        vp_to_remove.has_flag( vehicle_part::carried_flag ) ) {
         reason = _( "Unracking is required before removing this part." );
         return false;
     }
 
-    //Structural parts have extra requirements
-    if( part_info( p ).location == part_location_structure ) {
+    if( vp_to_remove.info().location != part_location_structure ) {
+        return true; // non-structure parts don't have extra requirements
+    }
 
-        std::vector<int> parts_in_square = parts_at_relative( parts[p].mount, false );
-        /* To remove a structural part, there can be only structural parts left
-         * in that square (might be more than one in the case of wreckage) */
-        for( const int &elem : parts_in_square ) {
-            if( part_info( elem ).location != part_location_structure ) {
-                reason = _( "Remove all other attached parts first." );
-                return false;
-            }
-        }
-
-        //If it's the last part in the square...
-        if( parts_in_square.size() == 1 ) {
-
-            /* This is the tricky part: We can't remove a part that would cause
-             * the vehicle to 'break into two' (like removing the middle section
-             * of a quad bike, for instance). This basically requires doing some
-             * breadth-first searches to ensure previously connected parts are
-             * still connected. */
-
-            //First, find all the squares connected to the one we're removing
-            std::vector<vehicle_part> connected_parts;
-
-            for( const point &offset : four_adjacent_offsets ) {
-                const point next = parts[p].mount + offset;
-                const std::vector<int> parts_over_there = parts_at_relative( next, false );
-                if( !parts_over_there.empty() ) {
-                    //Just need one part from the square to track the x/y
-                    connected_parts.push_back( parts[parts_over_there[0]] );
-                }
-            }
-
-            if( connected_parts.size() > 1 ) {
-                // run BFS to check path exists from first connected part to every other connected part
-                /* We'll take connected_parts[0] to be the target part.
-                 * Every other part must have some path (that doesn't involve
-                 * the part about to be removed) to the target part, in order
-                 * for the part to be legally removable. */
-                for( const vehicle_part &next_part : connected_parts ) {
-                    if( !is_connected( connected_parts[0], next_part, parts[p] ) ) {
-                        reason = _( "Removing this part would split the vehicle." );
-                        return false;
-                    }
-                }
-            } else if( connected_parts.size() == 1 ) {
-                // prevent leaving vehicle with only a PROTRUSION part (wing mirror, forklift etc)
-                if( connected_parts[0].info().has_flag( "PROTRUSION" ) ) {
-                    reason = _( "Remove other parts before removing last structural part." );
-                    return false;
-                }
-            } // else it's last part that's ok to remove
+    // structure parts can only be removed when no non-structure parts are on tile
+    for( const int &elem : parts_here ) {
+        if( part_info( elem ).location != part_location_structure ) {
+            reason = _( "Remove all other attached parts first." );
+            return false;
         }
     }
-    //Anything not explicitly denied is permitted
-    return true;
+
+    // reaching here means only structure parts left on this tile
+
+    if( parts_here.size() > 1 ) {
+        return true; // wrecks can have more than one structure part, so it's valid for removal
+    }
+
+    // find all the vehicle's tiles adjacent to the one we're removing
+    std::vector<vehicle_part> adjacent_parts;
+    for( const point &offset : four_adjacent_offsets ) {
+        const std::vector<int> parts_over_there = parts_at_relative( vp_to_remove.mount + offset, false );
+        if( !parts_over_there.empty() ) {
+            //Just need one part from the square to track the x/y
+            adjacent_parts.push_back( parts[parts_over_there[0]] );
+        }
+    }
+
+    if( adjacent_parts.empty() ) {
+        return true; // this is the only vehicle tile left, valid to remove
+    }
+
+    if( adjacent_parts.size() == 1 ) {
+        // removing this will create invalid vehicle with only a PROTRUSION part (wing mirror, forklift etc)
+        if( adjacent_parts[0].info().has_flag( "PROTRUSION" ) ) {
+            reason = _( "Remove other parts before removing last structure part." );
+            return false;
+        }
+    }
+
+    if( adjacent_parts.size() > 1 ) {
+        // Reaching here means there is more than one adjacent tile, which means it's possible
+        // for removal of this part to split the vehicle in two or more disjoint parts, for
+        // example removing the middle section of a quad bike. To prevent that we'll run BFS
+        // on every pair combination of adjacent parts to verify each pair is connected.
+        for( size_t i = 0; i < adjacent_parts.size(); i++ ) {
+            for( size_t j = i + 1; j < adjacent_parts.size(); j++ ) {
+                if( !is_connected( adjacent_parts[i], adjacent_parts[j], vp_to_remove ) ) {
+                    reason = _( "Removing this part would split the vehicle." );
+                    return false;
+                }
+            }
+        }
+    }
+
+    return true; // Anything not explicitly denied is permitted
 }
 
 /**
@@ -1389,60 +1387,47 @@ bool vehicle::is_connected( const vehicle_part &to, const vehicle_part &from,
     const point target = to.mount;
     const point excluded = excluded_part.mount;
 
-    //Breadth-first-search components
-    std::list<vehicle_part> discovered;
-    std::list<vehicle_part> searched;
+    std::queue<point> queue;
+    std::unordered_set<point> visited;
 
-    //We begin with just the start point
-    discovered.push_back( from );
+    queue.push( from.mount );
+    visited.insert( from.mount );
+    while( !queue.empty() ) {
+        const point current_pt = queue.front();
+        queue.pop();
 
-    while( !discovered.empty() ) {
-        vehicle_part current_part = discovered.front();
-        discovered.pop_front();
-        point current = current_part.mount;
-
+        // in this case BFS "edges" are north/east/west/south tiles, diagonals don't connect
         for( const point &offset : four_adjacent_offsets ) {
-            point next = current + offset;
+            const point next = current_pt + offset;
 
             if( next == target ) {
-                //Success!
-                return true;
-            } else if( next == excluded ) {
-                //There might be a path, but we're not allowed to go that way
-                continue;
+                return true; // found a path, bail out early from BFS
             }
 
-            std::vector<int> parts_there = parts_at_relative( next, true );
+            if( next == excluded ) {
+                continue; // can't traverse excluded tile
+            }
 
-            if( !parts_there.empty() && !parts[ parts_there[ 0 ] ].removed &&
-                part_info( parts_there[ 0 ] ).location == "structure" &&
-                !part_info( parts_there[ 0 ] ).has_flag( "PROTRUSION" ) ) {
-                //Only add the part if we haven't been here before
-                bool found = false;
-                for( const vehicle_part &elem : discovered ) {
-                    if( elem.mount == next ) {
-                        found = true;
-                        break;
-                    }
-                }
-                if( !found ) {
-                    for( const vehicle_part &elem : searched ) {
-                        if( elem.mount == next ) {
-                            found = true;
-                            break;
-                        }
-                    }
-                }
-                if( !found ) {
-                    vehicle_part next_part = parts[parts_there[0]];
-                    discovered.push_back( next_part );
-                }
+            const std::vector<int> parts_there = parts_at_relative( next, false );
+
+            if( parts_there.empty() ) {
+                continue; // can't traverse empty tiles
+            }
+
+            // 2022-08-27 assuming structure part is on 0th index is questionable but it worked before so...
+            vehicle_part vp_next = parts[ parts_there[ 0 ] ];
+
+            if( vp_next.info().location != part_location_structure || // not a structure part
+                vp_next.info().has_flag( "PROTRUSION" ) ||            // protrusions are not really structure
+                vp_next.has_flag( vehicle_part::carried_flag ) ) {    // carried frames are not structure
+                continue; // can't connect if it's not structure
+            }
+
+            if( visited.insert( vp_next.mount ).second ) { // .second is false if already in visited
+                queue.push( vp_next.mount ); // not visited, need to explore
             }
         }
-        //Now that that's done, we've finished exploring here
-        searched.push_back( current_part );
     }
-    //If we completely exhaust the discovered list, there's no path
     return false;
 }
 

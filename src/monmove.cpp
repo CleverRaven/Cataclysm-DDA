@@ -950,7 +950,7 @@ void monster::move()
     point new_d( destination.xy() - pos().xy() );
 
     // toggle facing direction for sdl flip
-    if( !tile_iso ) {
+    if( !g->is_tileset_isometric() ) {
         if( new_d.x < 0 ) {
             facing = FacingDirection::LEFT;
         } else if( new_d.x > 0 ) {
