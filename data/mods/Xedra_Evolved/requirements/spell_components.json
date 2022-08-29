@@ -24,13 +24,29 @@
     "id": "spell_components_battery_gun",
     "type": "requirement",
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 }, { "id": "SAW_W", "level": 1 } ],
-    "components": [ [ [ "pipe", 2 ] ], [ [ "pipe_fittings", 1 ] ], [ [ "betavoltaic", 1 ] ], [ [ "cable", 10 ] ], [ [ "element", 3 ] ], [ [ "scrap", 5 ] ], [ [ "nuts_bolts", 3 ] ] ]
+    "components": [
+      [ [ "pipe", 2 ] ],
+      [ [ "pipe_fittings", 1 ] ],
+      [ [ "betavoltaic", 1 ] ],
+      [ [ "cable", 10 ] ],
+      [ [ "element", 3 ] ],
+      [ [ "scrap", 5 ] ],
+      [ [ "nuts_bolts", 3 ] ]
+    ]
   },
   {
     "id": "spell_components_battery_gun",
     "type": "requirement",
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 }, { "id": "SAW_W", "level": 1 } ],
-    "components": [ [ [ "pipe", 2 ] ], [ [ "pipe_fittings", 1 ] ], [ [ "plut_cell", 1 ] ], [ [ "cable", 10 ] ], [ [ "element", 3 ] ], [ [ "scrap", 5 ] ], [ [ "nuts_bolts", 3 ] ] ]
+    "components": [
+      [ [ "pipe", 2 ] ],
+      [ [ "pipe_fittings", 1 ] ],
+      [ [ "plut_cell", 1 ] ],
+      [ [ "cable", 10 ] ],
+      [ [ "element", 3 ] ],
+      [ [ "scrap", 5 ] ],
+      [ [ "nuts_bolts", 3 ] ]
+    ]
   },
   {
     "id": "spell_components_schematics",
@@ -41,7 +57,12 @@
   {
     "id": "spell_components_mace_magic",
     "type": "requirement",
-    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 }, { "id": "SAW_W", "level": 1 }, { "id": "GRIND", "level": 2 }  ],
+    "qualities": [
+      { "id": "SCREW", "level": 1 },
+      { "id": "WRENCH", "level": 1 },
+      { "id": "SAW_W", "level": 1 },
+      { "id": "GRIND", "level": 2 }
+    ],
     "components": [ [ [ "magnetron", 1 ] ], [ [ "pipe", 3 ] ], [ [ "scrap", 25 ] ], [ [ "duct_tape", 25 ] ] ]
   },
   {
@@ -111,7 +132,14 @@
     "id": "spell_components_ion_gun",
     "type": "requirement",
     "qualities": [ { "id": "WRENCH", "level": 1 }, { "id": "SAW_W", "level": 1 } ],
-    "components": [ [ [ "magnetron", 1 ] ], [ [ "pipe", 2 ] ], [ [ "antenna", 3 ] ], [ [ "cable", 20 ] ], [ [ "scrap", 5 ] ], [ [ "duct_tape", 15 ] ] ]
+    "components": [
+      [ [ "magnetron", 1 ] ],
+      [ [ "pipe", 2 ] ],
+      [ [ "antenna", 3 ] ],
+      [ [ "cable", 20 ] ],
+      [ [ "scrap", 5 ] ],
+      [ [ "duct_tape", 15 ] ]
+    ]
   },
   {
     "id": "spell_components_human_blood",

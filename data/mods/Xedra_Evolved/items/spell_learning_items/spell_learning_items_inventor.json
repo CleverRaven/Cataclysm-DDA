@@ -4,8 +4,7 @@
     "type": "GENERIC",
     "category": "artifacts",
     "name": { "str": "ray diagrams", "str_pl": "copies of ray diagrams" },
-    "description": "This is a medium battery cell, universally compatible with all kinds of appliances and power tools. It has no charges, but it create some sparks time to time.",
-    "ascii_picture": "medium_battery",
+    "description": "These are diagrams covered in mathematical formulae and drawings of rays.  You think there are some discussions about how to manipulate rays, rays of what though?",
     "weight": "600 g",
     "volume": "450ml",
     "price": 10000,
@@ -13,7 +12,7 @@
     "material": [ "forged_dreamstuff" ],
     "symbol": "=",
     "color": "yellow",
-    "looks_like": "battery",
+    "looks_like": "tailor_portfolio",
     "use_action": { "type": "learn_spell", "spells": [ "summon_battery_gun" ] }
   },
   {
@@ -21,16 +20,15 @@
     "type": "GENERIC",
     "category": "artifacts",
     "name": { "str": "ray weapon schematics", "str_pl": "copies of ray weapon schematics" },
-    "description": "This is a medium battery cell, universally compatible with all kinds of appliances and power tools. It has no charges, but it create some sparks time to time.",
-    "ascii_picture": "medium_battery",
+    "description": "These are designs you created in a manic episode, they build upon the ray schematics you had found and yes that is your handwriting there 'DEATH RAY'.  Well that's promising I guess.",
     "weight": "600 g",
     "volume": "450ml",
     "price": 10000,
     "price_postapoc": 300,
     "material": [ "forged_dreamstuff" ],
     "symbol": "=",
-    "color": "yellow",
-    "looks_like": "battery",
+    "color": "light_cyan",
+    "looks_like": "tailor_portfolio",
     "use_action": { "type": "learn_spell", "spells": [ "summon_ray_gun" ] }
   },
   {
