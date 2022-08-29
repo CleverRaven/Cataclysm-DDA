@@ -2680,7 +2680,7 @@
         "default_magazine": "light_plus_battery_cell"
       }
     ],
-    "armor": [ { "encumbrance": 5, "coverage": 100, "covers": [ "head" ], "specifically_covers": [ "hear_ear_r", "head_ear_l" ] } ]
+    "armor": [ { "encumbrance": 5, "coverage": 100, "covers": [ "head" ], "specifically_covers": [ "head_ear_r", "head_ear_l" ] } ]
   },
   {
     "id": "powered_earmuffs_on",
@@ -2719,7 +2719,7 @@
         "default_magazine": "light_plus_battery_cell"
       }
     ],
-    "armor": [ { "encumbrance": 5, "coverage": 100, "covers": [ "head" ], "specifically_covers": [ "hear_ear_r", "head_ear_l" ] } ]
+    "armor": [ { "encumbrance": 5, "coverage": 100, "covers": [ "head" ], "specifically_covers": [ "head_ear_r", "head_ear_l" ] } ]
   },
   {
     "id": "powered_earplugs",
