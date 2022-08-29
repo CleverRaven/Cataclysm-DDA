@@ -1232,6 +1232,8 @@ std::string widget::value_string( int value, int width_max )
     const int w = _width > 0 ? _width : width_max;
     if( _style == "graph" ) {
         ret += graph( value );
+    } else if( _style == "bar" ) {
+        ret += bar( value );
     } else if( _style == "text" ) {
         ret += text( !_clauses.empty(), w );
     } else if( _style == "symbol" ) {
@@ -1472,6 +1474,19 @@ std::vector<const widget_clause *> widget::get_clauses() const
         }
     }
     return ret;
+}
+
+std::string widget::bar( int value ) const
+{
+    std::wstring g = utf8_to_wstr( graph( value ) );
+    std::wstring ret;
+    for( int i = g.size() - 1; i >= 0; i-- ) {
+        ret += g[i];
+        if( i > 0 ) {
+            ret += '\n';
+        }
+    }
+    return wstr_to_utf8( ret );
 }
 
 std::string widget::graph( int value ) const
