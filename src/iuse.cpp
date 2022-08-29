@@ -5456,7 +5456,8 @@ cata::optional<int> iuse::unfold_generic( Character *p, item *it, bool, const tr
     }
 
     p->moves -= it->get_var( "moves", to_turns<int>( 5_seconds ) );
-    return 1;
+    p->i_rem( it );
+    return 0;
 }
 
 cata::optional<int> iuse::adrenaline_injector( Character *p, item *it, bool, const tripoint & )
