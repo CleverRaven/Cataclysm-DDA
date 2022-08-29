@@ -63,7 +63,7 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
     <TargetExt>.exe</TargetExt>
-    <OutDir>$(SolutionDir)..\tools\format\</OutDir>
+    <OutDir>$(CDDA_ROOT)\tools\format\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)'=='Debug'">
     <LinkIncremental>true</LinkIncremental>
