@@ -9997,7 +9997,8 @@ int item::wheel_area() const
 
 units::energy item::fuel_energy() const
 {
-    return get_base_material().get_fuel_data().energy * units::to_liter( volume() );
+    // The odd units and division are to avoid integer rounding errors.
+    return get_base_material().get_fuel_data().energy * units::to_milliliter( volume() ) / 1000;
 }
 
 std::string item::fuel_pump_terrain() const

@@ -12,7 +12,7 @@
     "flags": [ "TRADER_AVOID", "ZERO_WEIGHT" ],
     "material": [ "battery" ],
     "effects": [ "COOKOFF" ],
-    "volume": "250 ml",
+    "volume": "1 L",
     "//": "Setting battery volume to 0 causes weirdness in vehicle tests.  Please don't do that.",
     "ammo_type": "battery",
     "count": 100,
