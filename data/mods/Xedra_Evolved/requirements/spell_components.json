@@ -57,7 +57,7 @@
     "components": [ [ [ "inventor_warhead", 1 ] ], [ [ "c4", 1 ] ], [ [ "bioweapon", 1 ] ], [ [ "fuse", 1 ] ], [ [ "scrap", 2 ] ] ]
   },
   {
-    "id": "spell_components_fire_biowarhead",
+    "id": "spell_components_fire_bio_warhead",
     "type": "requirement",
     "components": [ [ [ "bio_warhead", 1 ] ] ]
   },

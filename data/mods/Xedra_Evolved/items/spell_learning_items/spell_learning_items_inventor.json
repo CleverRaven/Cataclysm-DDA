@@ -99,7 +99,7 @@
     "type": "GENERIC",
     "category": "artifacts",
     "name": { "str": "tin foil hat" },
-    "description": "Tiny hat, maded from thin tin foil layer and a strainer.  You can't wear it, because its too small for your head.",
+    "description": "Tiny hat, made from thin tin foil layer and a strainer.  You can't wear it, because its too small for your head.",
     "weight": "6 g",
     "volume": "89 ml",
     "price": 600,
