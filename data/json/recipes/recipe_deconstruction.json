@@ -5044,7 +5044,7 @@
     "activity_level": "NO_EXERCISE",
     "skill_used": "fabrication",
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "felt_patch", 100 ], [ [ "thread", 8 ] ]  ] ],
+    "components": [ [ [ "felt_patch", 100 ] ], [ [ "thread", 8 ] ] ],
     "flags": [ "BLIND_EASY" ]
   },
   {
