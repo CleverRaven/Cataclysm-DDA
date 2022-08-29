@@ -1395,12 +1395,10 @@
           "mc_steel",
           "hc_steel",
           "ch_steel",
-          "qt_steel",
           "lc_steel_chain",
           "mc_steel_chain",
           "hc_steel_chain",
-          "ch_steel_chain",
-          "qt_steel_chain"
+          "ch_steel_chain"
         ],
         "skill": "fabrication",
         "tool_quality": 5,
