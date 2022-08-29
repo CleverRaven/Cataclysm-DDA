@@ -4664,12 +4664,12 @@ void vehicle::consume_fuel( int load, bool idling )
                 // more pedaling = more power
                 player_character.mod_power_level( muscle.fuel_energy() *
                                                   bid->fuel_efficiency *
-                                                  ( load / 1000 ) );
+                                                  load / 1000 );
                 mod += eff_load / 5;
             } else { // passive power gen
                 player_character.mod_power_level( muscle.fuel_energy() *
                                                   bid->passive_fuel_efficiency *
-                                                  ( load / 1000 ) );
+                                                  load / 1000 );
                 mod += eff_load / 10;
             }
         }

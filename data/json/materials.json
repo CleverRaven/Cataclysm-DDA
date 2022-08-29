@@ -74,35 +74,35 @@
     "type": "material",
     "id": "wind",
     "name": "Wind",
-    "fuel_data": { "energy": "1000 kJ", "perpetual": true },
+    "fuel_data": { "energy": "1 kJ", "perpetual": true },
     "copy-from": "pseudo_fuel"
   },
   {
     "type": "material",
     "id": "sunlight",
     "name": "Sunlight",
-    "fuel_data": { "energy": "1000 kJ", "perpetual": true },
+    "fuel_data": { "energy": "1 kJ", "perpetual": true },
     "copy-from": "pseudo_fuel"
   },
   {
     "type": "material",
     "id": "animal",
     "name": "Animal",
-    "fuel_data": { "energy": "1000 kJ", "perpetual": true },
+    "fuel_data": { "energy": "1 kJ", "perpetual": true },
     "copy-from": "pseudo_fuel"
   },
   {
     "type": "material",
     "id": "muscle",
     "name": "Muscle",
-    "fuel_data": { "energy": "1000 kJ", "perpetual": true },
+    "fuel_data": { "energy": "1 kJ", "perpetual": true },
     "copy-from": "pseudo_fuel"
   },
   {
     "type": "material",
     "id": "metabolism",
     "name": "Metabolism",
-    "fuel_data": { "energy": "1000 kJ", "perpetual": true },
+    "fuel_data": { "energy": "1 kJ", "perpetual": true },
     "copy-from": "pseudo_fuel"
   },
   {
