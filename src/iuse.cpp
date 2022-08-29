@@ -8408,8 +8408,8 @@ cata::optional<int> iuse::multicooker( Character *p, item *it, bool t, const tri
                     mealtime = meal->time_to_craft_moves( *p ) * 2;
                 }
 
-                const int all_charges = charges_to_start + ( ( mealtime / 100 ) * ( it->type->tool->power_draw /
-                                        1000 ) ) / 1000;
+                const int all_charges = charges_to_start + mealtime / 100 * units::to_joule(
+                                            it->type->tool->power_draw ) / 1000;
 
                 if( it->ammo_remaining( p ) < all_charges ) {
 

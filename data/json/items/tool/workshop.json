@@ -76,7 +76,7 @@
     "charged_qualities": [ [ "GRIND", 2 ], [ "SAW_M", 10 ] ],
     "ammo": [ "battery" ],
     "charges_per_use": 1,
-    "power_draw": 800000,
+    "power_draw": "800 J",
     "flags": [ "NONCONDUCTIVE", "WATER_BREAK" ],
     "pocket_data": [
       {
@@ -972,7 +972,7 @@
     "charged_qualities": [ [ "SAW_M", 1 ], [ "SAW_W", 1 ] ],
     "ammo": [ "battery" ],
     "charges_per_use": 1,
-    "power_draw": 800000,
+    "power_draw": "800 J",
     "flags": [ "NONCONDUCTIVE", "WATER_BREAK" ],
     "pocket_data": [
       {
