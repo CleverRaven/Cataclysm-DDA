@@ -697,12 +697,14 @@ bool monexamine::pet_menu( monster &z )
         }
         amenu.addentry( check_bat, false, 'c', _( "%s battery level is %d%%" ), z.get_name(),
                         static_cast<int>( charge_percent ) );
-        if( !player_character.get_wielded_item() && z.battery_item ) {
+        if( !player_character.get_wielded_item() && z.battery_item && player_character.get_bmi() < 50 ) {
             amenu.addentry( mount, true, 'r', _( "Climb into the mech and take control" ) );
         } else if( player_character.get_wielded_item() ) {
             amenu.addentry( mount, false, 'r', _( "You cannot pilot the mech whilst wielding something" ) );
         } else if( !z.battery_item ) {
             amenu.addentry( mount, false, 'r', _( "This mech has a dead battery and won't turn on" ) );
+        } else if( player_character.get_bmi() >= 50 ) {
+            amenu.addentry( mount, false, 'r', _( "You're too fat to pilot this mech." ) );
         }
         if( z.battery_item ) {
             amenu.addentry( remove_bat, true, 'x', _( "Remove the mech's battery pack" ) );
