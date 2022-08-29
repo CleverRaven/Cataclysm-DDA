@@ -872,7 +872,7 @@
     "symbol": "x",
     "color": "light_red",
     "warmth": 5,
-    "environmental_protection": 3
+    "environmental_protection": 3,
     "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "SKINTIGHT", "NORMAL", "WATER_FRIENDLY", "PADDED", "SOFT" ],
     "armor": [
       {
