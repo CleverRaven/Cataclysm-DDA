@@ -597,7 +597,7 @@
           { "item": "m1911", "ammo-item": "45_acp", "charges": 7, "container-item": "holster" },
           { "item": "45_acp", "charges": 23 },
           { "item": "garand", "ammo-item": "3006", "charges": 8, "contents-item": "shoulder_strap" },
-          { "item": "3006", "charges": 8, "container-item": "garandclip" },
+          { "item": "garandclip", "ammo-item": "3006", "charges": 8 },
           { "item": "3006", "charges": 4 }
         ]
       },
