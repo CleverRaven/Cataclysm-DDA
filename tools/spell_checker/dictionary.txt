@@ -626,6 +626,7 @@ firesuits
 fireweed
 fishfolk
 fishily
+fizzbitch
 fl
 flagration
 flairs
@@ -1050,6 +1051,7 @@ manhack
 manhacks
 manuc
 manufactory
+manana
 manwich
 mapgen
 maracuya
@@ -1379,6 +1381,7 @@ potentiates
 poufs
 pouncer
 powerplants
+powerthirst
 powertool
 prateleiras
 prayeres
@@ -1387,6 +1390,7 @@ premeasured
 preminiscent
 premix
 preoptic
+preposterone
 prescriptures
 prev
 primeside
