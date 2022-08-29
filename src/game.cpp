@@ -640,6 +640,15 @@ void game::toggle_pixel_minimap() const
 #endif // TILES
 }
 
+bool game::is_tileset_isometric() const
+{
+#if defined(TILES)
+    return use_tiles && tilecontext && tilecontext->is_isometric();
+#else
+    return false;
+#endif
+}
+
 void game::reload_tileset()
 {
 #if defined(TILES)
@@ -2305,7 +2314,7 @@ std::pair<tripoint, tripoint> game::mouse_edge_scrolling( input_context &ctxt, c
 tripoint game::mouse_edge_scrolling_terrain( input_context &ctxt )
 {
     auto ret = mouse_edge_scrolling( ctxt, std::max( DEFAULT_TILESET_ZOOM / tileset_zoom, 1 ),
-                                     last_mouse_edge_scroll_vector_terrain, tile_iso );
+                                     last_mouse_edge_scroll_vector_terrain, g->is_tileset_isometric() );
     last_mouse_edge_scroll_vector_terrain = ret.second;
     last_mouse_edge_scroll_vector_overmap = tripoint_zero;
     return ret.first;

@@ -228,7 +228,7 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
     // If the player is *attempting to* move on the X axis, update facing direction of their sprite to match.
     point new_d( dest_loc.xy() + point( -you.posx(), -you.posy() ) );
 
-    if( !tile_iso ) {
+    if( !g->is_tileset_isometric() ) {
         if( new_d.x > 0 ) {
             you.facing = FacingDirection::RIGHT;
             if( is_riding ) {

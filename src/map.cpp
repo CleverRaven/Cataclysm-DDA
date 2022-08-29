@@ -4951,8 +4951,8 @@ item map::water_from( const tripoint &p )
                 ret.poison = rng( 1, 6 );
                 ret.get_comestible()->parasites = 5;
                 ret.get_comestible()->contamination = { { disease_bad_food, 5 } };
+                return ret;
             }
-            return ret;
         }
     }
 
@@ -4962,8 +4962,8 @@ item map::water_from( const tripoint &p )
                 ret.set_item_temperature( std::max( weather.get_temperature( p ),
                                                     temperatures::cold ) );
                 ret.poison = one_in( 3 ) ? 0 : rng( 1, 3 );
+                return ret;
             }
-            return ret;
         }
     }
 

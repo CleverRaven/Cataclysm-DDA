@@ -147,7 +147,7 @@ expansion_data basecamp::parse_expansion( const std::string &terrain,
     expansion_data e;
     size_t last_bar = terrain.find_last_of( '_' );
     e.type = terrain.substr( base_camps::prefix_len, last_bar - base_camps::prefix_len );
-    e.cur_level = std::stoi( terrain.substr( last_bar + 1 ) );
+    e.cur_level = std::stoi( "0" + terrain.substr( last_bar + 1 ) );
     e.pos = new_pos;
     return e;
 }
