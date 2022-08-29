@@ -2,6 +2,8 @@
 #define CATA_OBJECT_CREATOR_ITEM_GROUP_WINDOW_H
 
 #include "listwidget_drag.h"
+#include "simple_property_widget.h"
+#include "flowlayout.h"
 #include "item_group.h"
 
 #include "QtWidgets/qlistwidget.h"
@@ -86,6 +88,7 @@ namespace creator
     private:
         void delete_self();
         void change_notify_top_parent();
+        void add_property_changed();
         void count_min_changed();
         void count_max_changed();
         QLabel* title_label;
@@ -94,8 +97,15 @@ namespace creator
         QSpinBox* count_max;
         QSpinBox* charges_min;
         QSpinBox* charges_max;
+        simple_property_widget* containerItem_frame;
+        simple_property_widget* charges_frame;
+        QFrame* count_frame;
+        FlowLayout* flowLayout;
         QLineEdit* containerItem;
+        QComboBox* add_property;
         item_group_window* top_parent_widget;
+    protected:
+        bool event( QEvent* event ) override;
     };
 
     //Holds the properties for either a collection or a distribution

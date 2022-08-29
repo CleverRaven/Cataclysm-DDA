@@ -622,7 +622,6 @@ creator::itemGroupEntry::itemGroupEntry( QWidget* parent, QString entryText, boo
                             item_group_window* top_parent ) : QFrame( parent )
 {
     top_parent_widget = top_parent;
-
     if ( group ) {
         setObjectName( "group" );
         setStyleSheet( "background-color:rgb(255,204,153)" );
@@ -630,18 +629,28 @@ creator::itemGroupEntry::itemGroupEntry( QWidget* parent, QString entryText, boo
         setObjectName( "item" );
         setStyleSheet( "background-color:rgb(247,236,232)" );
     }
-    setMaximumHeight( 60 ); 
     QHBoxLayout* entryLayout = new QHBoxLayout;
+    entryLayout->setMargin( 0 );
+    entryLayout->setContentsMargins( 4,4,4,4 );
 
     title_label = new QLabel;
     title_label->setText( entryText );
     title_label->setToolTip( entryText );
     title_label->setStyleSheet( "font: 10pt;" );
 
+    //This layout will contain all the properties and wrap the widgets as needed
+    flowLayout = new FlowLayout;
+    flowLayout->setMargin( 0 );
+    flowLayout->setContentsMargins( 0,0,0,0 );
+
+    QFrame* prob_frame = new QFrame;
+    QHBoxLayout* prob_layout = new QHBoxLayout;
+    prob_layout->setMargin( 0 );
+    prob_layout->setContentsMargins( 0,0,0,0 );
+    prob_frame->setLayout( prob_layout ) ;
     QLabel* prob_label = new QLabel;
     prob_label->setText( QString( "Prob:" ) );
-    prob_label->setMinimumSize( QSize( 30, 24 ) );
-    prob_label->setMaximumSize( QSize( 35, 24 ) );
+    prob_layout->addWidget( prob_label );
 
     prob = new QSpinBox;
     prob->setRange( 0, 100 );
@@ -652,20 +661,29 @@ creator::itemGroupEntry::itemGroupEntry( QWidget* parent, QString entryText, boo
     tooltipText += "could be removed anyway. Setting this to 0 or 100 will remove the";
     tooltipText += "property from json";
     prob->setToolTip( tooltipText );
-    prob->setMinimumSize( QSize( 45, 24 ) );
-    prob->setMaximumSize( QSize( 50, 24 ) );
+    prob->setMinimumSize( QSize( 50, 24 ) );
+    prob->setMaximumSize( QSize( 55, 24 ) );
     connect( prob, QOverload<int>::of( &QSpinBox::valueChanged ),
         [=]( ) { change_notify_top_parent(); } );
+    prob_layout->addWidget( prob ) ;
 
+
+    count_frame = new QFrame;
+    count_frame->hide();
+    QHBoxLayout* count_layout = new QHBoxLayout;
+    count_layout->setMargin(0);
+    count_layout->setContentsMargins( 0,0,0,0 );
+    count_frame->setLayout( count_layout ) ;
     QLabel* count_label = new QLabel;
     count_label->setText( QString( "Count:" ) );
     count_label->setMinimumSize( QSize( 42, 24 ) );
     count_label->setMaximumSize( QSize( 47, 24) );
+    count_layout->addWidget( count_label ) ;
 
     count_min = new QSpinBox;
     count_min->setRange( 0, INT_MAX );
-    count_min->setMinimumSize( QSize( 45, 24 ) );
-    count_min->setMaximumSize( QSize( 50, 24 ) );
+    count_min->setMinimumSize( QSize( 50, 24 ) );
+    count_min->setMaximumSize( QSize( 55, 24 ) );
     tooltipText = "count-min:";
     tooltipText += "Makes the item spawn repeat, each time creating a new item.";
     tooltipText += "\nThe game will repeat the item spawn at least this many times";
@@ -675,11 +693,12 @@ creator::itemGroupEntry::itemGroupEntry( QWidget* parent, QString entryText, boo
     count_min->setToolTip( tooltipText );
     connect( count_min, QOverload<int>::of( &QSpinBox::valueChanged ),
         [=]( ) { count_min_changed(); } );
+    count_layout->addWidget( count_min ) ;
 
     count_max = new QSpinBox;
     count_max->setRange( 0, INT_MAX );
-    count_max->setMinimumSize( QSize( 45, 24 ) );
-    count_max->setMaximumSize( QSize( 50, 24 ) );
+    count_max->setMinimumSize( QSize( 50, 24 ) );
+    count_max->setMaximumSize( QSize( 55, 24 ) );
     tooltipText = "count-max:";
     tooltipText += "Makes the item spawn repeat, each time creating a new item.";
     tooltipText += "\nThe game will repeat the item spawn up to this many times";
@@ -689,44 +708,33 @@ creator::itemGroupEntry::itemGroupEntry( QWidget* parent, QString entryText, boo
     count_max->setToolTip( tooltipText );
     connect( count_max, QOverload<int>::of( &QSpinBox::valueChanged ),
         [=]( ) { count_max_changed(); } );
+    count_layout->addWidget( count_max ) ;
 
-    QLabel* charges_label = new QLabel;
-    charges_label->setText( QString( "Charges:" ) );
-    charges_label->setMinimumSize( QSize( 42, 24 ) );
-    charges_label->setMaximumSize( QSize( 47, 24) );
-
-    charges_min = new QSpinBox;
-    charges_min->setRange( 0, INT_MAX );
-    charges_min->setMinimumSize( QSize( 45, 24 ) );
-    charges_min->setMaximumSize( QSize( 50, 24 ) );
+    charges_frame = new simple_property_widget(this, QString( "charges"), 
+                                            property_type::MINMAX, this );
+    charges_frame->hide();
+    charges_frame->allow_hiding( true );
     tooltipText = "The minimum amount of charges. Only shows up in JSON if max has ";
     tooltipText += "a greater value then 0";
-    charges_min->setToolTip( tooltipText );
-    connect( charges_min, QOverload<int>::of( &QSpinBox::valueChanged ),
-        [=]( ) { change_notify_top_parent(); } );
+    charges_frame->setToolTip( tooltipText );
 
-    charges_max = new QSpinBox;
-    charges_max->setRange( 0, INT_MAX );
-    charges_max->setMinimumSize( QSize( 45, 24 ) );
-    charges_max->setMaximumSize( QSize( 50, 24 ) );
-    tooltipText = "The maximum amount of charges. Only shows up in JSON if the value ";
-    tooltipText += "is greater then 0";
-    charges_max->setToolTip( tooltipText );
-    connect( charges_max, QOverload<int>::of( &QSpinBox::valueChanged ),
-        [=]( ) { change_notify_top_parent(); } );
+    containerItem_frame = new simple_property_widget(this, QString( "container-item"), 
+                                            property_type::LINEEDIT, this );
+    containerItem_frame->hide();
+    containerItem_frame->allow_hiding( true );
 
-    QLabel* containerItem_label = new QLabel;
-    containerItem_label->setText( QString( "Container-item:" ) );
-    containerItem_label->setMinimumSize( QSize( 70, 24 ) );
-    containerItem_label->setMaximumSize( QSize( 75, 24 ) );
 
-    containerItem = new QLineEdit;
-    containerItem->setMinimumSize( QSize( 120, 24 ) );
-    containerItem->setMaximumSize( QSize( 150, 24 ) );
     tooltipText = "The item will be spawned inside this container";
     tooltipText += "\nYou can type the item ID, or drag it from the item list";
-    containerItem->setToolTip( tooltipText );
-    QObject::connect( containerItem, &QLineEdit::textChanged, [&]() { change_notify_top_parent(); } );
+    containerItem_frame->setToolTip( tooltipText );
+
+    add_property = new QComboBox;
+    tooltipText = "Add new property to this entry";
+    add_property->setToolTip( tooltipText );
+    add_property->addItems( QStringList{ "Add property", "count", "charges", "container-item" } );
+    add_property->setMaximumWidth( 60 );
+    connect( add_property, QOverload<int>::of( &QComboBox::activated ), 
+                                    [=](){ add_property_changed(); }) ;
 
     QPushButton* btnDeleteThis = new QPushButton;
     btnDeleteThis->setText( "X" );
@@ -736,24 +744,64 @@ creator::itemGroupEntry::itemGroupEntry( QWidget* parent, QString entryText, boo
     connect( btnDeleteThis, &QPushButton::clicked, this, &itemGroupEntry::delete_self );
 
     entryLayout->addWidget( title_label );
-    entryLayout->addWidget( prob_label );
-    entryLayout->addWidget( prob );
-    entryLayout->addWidget( count_label );
-    entryLayout->addWidget( count_min );
-    entryLayout->addWidget( count_max );
-    entryLayout->addWidget( charges_label );
-    entryLayout->addWidget( charges_min );
-    entryLayout->addWidget( charges_max );
-    entryLayout->addWidget( containerItem_label );
-    entryLayout->addWidget( containerItem );
+    flowLayout->addWidget( prob_frame );
+    flowLayout->addWidget( count_frame );
+    flowLayout->addWidget( charges_frame );
+    flowLayout->addWidget( containerItem_frame );
+    entryLayout->addLayout( flowLayout );
+    entryLayout->addWidget( add_property );
     entryLayout->addWidget( btnDeleteThis );
 
+    entryLayout->setStretchFactor( title_label, 1 );
+    entryLayout->setStretchFactor( flowLayout, 6 );
+    entryLayout->setStretchFactor( add_property, 1  );
+    entryLayout->setStretchFactor( btnDeleteThis, 1  );
+
     setLayout( entryLayout );
+}
+
+
+bool creator::itemGroupEntry::event( QEvent* event )
+{
+    //The event is a property_changed when one the itemGroupEntry's properties change
+    if( event->type() == property_changed::eventType ) {
+        QObjectList entriesChildren = this->children();
+        for ( QObject* i : entriesChildren ) {
+            simple_property_widget* ent = dynamic_cast<creator::simple_property_widget*>( i );
+            if ( ent != nullptr ) {
+                QString property = ent->get_propertyName();
+                //If the property is hidden and not in the add_property combobox, 
+                //add it to the combobox
+                if( ent->isHidden()  && add_property->findText( property ) == -1 ){
+                    add_property->addItem( property ) ;
+                }
+            }
+        }
+        change_notify_top_parent();
+        return true;
+    }
+    //call the event method of the base class for the events that aren't handled
+    return QFrame::event( event );
 }
 
 void creator::itemGroupEntry::change_notify_top_parent() {
     QEvent* myEvent = new QEvent( item_group_changed::eventType );
     QCoreApplication::sendEvent( top_parent_widget, myEvent );
+}
+
+void creator::itemGroupEntry::add_property_changed() {
+    std::string prop = add_property->currentText().toStdString();
+    if ( prop == "" || prop == "Add property" ){
+        return;
+    } else if ( prop == "count" ){
+        count_frame->show();
+    } else if ( prop == "charges" ){
+        charges_frame->show();
+    } else if ( prop == "container-item" ){
+        containerItem_frame->show();
+    }
+
+    add_property->removeItem( add_property->currentIndex() );
 }
 
 QSize creator::itemGroupEntry::sizeHint() const
@@ -826,14 +874,8 @@ void creator::itemGroupEntry::get_json( JsonOut &jo ) {
         jo.member( "count", max );
     }
 
-    max = charges_max->value(); //If charges-max is 0, we omit charges entirely
-    if( max ) {
-        jo.member( "charges-min", charges_min->value() );
-        jo.member( "charges-max", max );
-    }
-    if( containerItem->text().size() > 0 ) {
-        jo.member( "container-item", containerItem->text().toStdString() );
-    }
+    charges_frame->get_json( jo );
+    containerItem_frame->get_json( jo );
     jo.end_object();
 }
 
