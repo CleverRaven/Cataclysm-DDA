@@ -3770,7 +3770,7 @@ Alternately, every item (book, tool, armor, even food) can be used as a gunmod i
 "initial_charges": 75,     // Charges when spawned
 "max_charges": 75,         // Maximum charges tool can hold
 "rand_charges": [10, 15, 25], // Randomize the charges when spawned. This example has a 50% chance of rng(10, 15) charges and a 50% chance of rng(15, 25). (The endpoints are included.)
-"power_draw": 50,          // Energy consumption rate in mW
+"power_draw": "50 mJ",          // Energy consumption per second
 "revert_to": "torch_done", // Transforms into item when charges are expended
 "sub": "hotplate",         // optional; this tool has the same functions as another tool
 ```
