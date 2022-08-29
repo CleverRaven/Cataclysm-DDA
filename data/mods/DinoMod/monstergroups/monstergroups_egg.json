@@ -244,9 +244,19 @@
     "monsters": [ { "monster": "mon_eoraptor_hatchling" } ]
   },
   {
+    "name": "GROUP_EGG_sarahsaurus",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_sarahsaurus_hatchling" } ]
+  },
+  {
     "name": "GROUP_EGG_issi",
     "type": "monstergroup",
     "monsters": [ { "monster": "mon_issi_hatchling" } ]
+  },
+  {
+    "name": "GROUP_EGG_haplocanthosaurus",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_haplocanthosaurus_hatchling" } ]
   },
   {
     "name": "GROUP_EGG_amargasaurus",
@@ -292,6 +302,11 @@
     "name": "GROUP_EGG_stegosaurus",
     "type": "monstergroup",
     "monsters": [ { "monster": "mon_stegosaurus_hatchling" } ]
+  },
+  {
+    "name": "GROUP_EGG_hesperosaurus",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_hesperosaurus_hatchling" } ]
   },
   {
     "name": "GROUP_EGG_dyoplosaurus",
@@ -347,6 +362,11 @@
     "name": "GROUP_EGG_edmontosaurus",
     "type": "monstergroup",
     "monsters": [ { "monster": "mon_edmontosaurus_hatchling" } ]
+  },
+  {
+    "name": "GROUP_EGG_gryposaurus",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_gryposaurus_hatchling" } ]
   },
   {
     "name": "GROUP_EGG_stegoceras",

@@ -290,9 +290,27 @@
     "dissect": "dissect_raptor_sample_single"
   },
   {
+    "id": "mon_sarahsaurus_juvenile",
+    "type": "MONSTER",
+    "copy-from": "mon_amargasaurus_juvenile",
+    "description": "A large, two-legged, plant-eating juvenile sauropod with a long neck and tail.",
+    "zombify_into": "mon_zarahsaurus_juvenile",
+    "upgrades": { "age_grow": 365, "into": "mon_sarahsaurus" },
+    "volume": "100 L",
+    "weight": "100 kg",
+    "bodytype": "ostrich",
+    "hp": 65,
+    "speed": 100,
+    "special_attacks": [
+      { "id": "stomp_DinoMod", "cooldown": 10, "damage_max_instance": [ { "damage_type": "bash", "amount": 8 } ] },
+      [ "EAT_CROP", 10 ]
+    ]
+  },
+  {
     "id": "mon_issi_juvenile",
     "type": "MONSTER",
     "copy-from": "mon_amargasaurus_juvenile",
+    "description": "A large, two-legged, plant-eating juvenile sauropod with a long neck and tail.",
     "zombify_into": "mon_zissi_juvenile",
     "upgrades": { "age_grow": 365, "into": "mon_issi" },
     "volume": "500 L",
@@ -304,6 +322,13 @@
       { "id": "stomp_DinoMod", "cooldown": 10, "damage_max_instance": [ { "damage_type": "bash", "amount": 8 } ] },
       [ "EAT_CROP", 10 ]
     ]
+  },
+  {
+    "id": "mon_haplocanthosaurus_juvenile",
+    "type": "MONSTER",
+    "copy-from": "mon_amargasaurus_juvenile",
+    "zombify_into": "mon_zaplocanthosaurus_juvenile",
+    "upgrades": { "age_grow": 365, "into": "mon_haplocanthosaurus" }
   },
   {
     "id": "mon_amargasaurus_juvenile",
@@ -387,13 +412,22 @@
     "name": "green and magenta four-legged juvenile",
     "description": "A small four-legged plant-eating dinosaur juvenile, it could be from a number of different species.",
     "copy-from": "mon_gallimimus_juvenile",
+    "hp": 200,
+    "volume": "1000 L",
+    "weight": "1000 kg",
     "petfood": { "food": [ "DINOFOOD_C" ] },
     "upgrades": { "age_grow": 365, "into": "mon_stegosaurus" }
   },
   {
+    "id": "mon_hesperosaurus_juvenile",
+    "type": "MONSTER",
+    "name": "green and magenta four-legged juvenile",
+    "copy-from": "mon_stegosaurus_juvenile",
+    "upgrades": { "age_grow": 365, "into": "mon_hesperosaurus" }
+  },
+  {
     "id": "mon_dyoplosaurus_juvenile",
     "type": "MONSTER",
-    "name": "brown and magenta four-legged juvenile",
     "copy-from": "mon_stegosaurus_juvenile",
     "upgrades": { "age_grow": 365, "into": "mon_dyoplosaurus" }
   },
@@ -421,7 +455,8 @@
     "name": "green and yellow four-legged juvenile",
     "copy-from": "mon_stegosaurus_juvenile",
     "color": "yellow",
-    "upgrades": { "age_grow": 140, "into": "mon_camptosaurus" }
+    "upgrades": { "age_grow": 140, "into": "mon_camptosaurus" },
+    "extend": { "flags": [ "SWIMS" ] }
   },
   {
     "id": "mon_hadrosaurus_juvenile",
@@ -456,6 +491,12 @@
     "type": "MONSTER",
     "copy-from": "mon_hadrosaurus_juvenile",
     "upgrades": { "age_grow": 365, "into": "mon_edmontosaurus" }
+  },
+  {
+    "id": "mon_gryposaurus_juvenile",
+    "type": "MONSTER",
+    "copy-from": "mon_hadrosaurus_juvenile",
+    "upgrades": { "age_grow": 365, "into": "mon_gryposaurus" }
   },
   {
     "id": "mon_pachycephalosaurus_juvenile",

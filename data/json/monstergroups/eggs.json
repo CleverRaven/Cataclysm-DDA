@@ -150,12 +150,12 @@
   {
     "name": "GROUP_EGG_STRIDER",
     "type": "monstergroup",
-    "monsters": [ { "monster": "mon_strider_small" } ]
+    "monsters": [ { "monster": "mon_strider_nymph" } ]
   },
   {
     "name": "GROUP_EGG_GRASSHOPPER",
     "type": "monstergroup",
-    "monsters": [ { "monster": "mon_grasshopper_small" } ]
+    "monsters": [ { "monster": "mon_grasshopper_nymph" } ]
   },
   {
     "name": "GROUP_EGG_LADY_BUG",
@@ -175,7 +175,7 @@
   {
     "name": "GROUP_EGG_MANTIS",
     "type": "monstergroup",
-    "monsters": [ { "monster": "mon_mantis_small" } ]
+    "monsters": [ { "monster": "mon_mantis_nymph" } ]
   },
   {
     "name": "GROUP_EGG_FROG",

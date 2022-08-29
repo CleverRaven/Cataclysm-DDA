@@ -170,6 +170,7 @@ enum m_flag : int {
     MF_ATTACK_UPPER,        // This monster is capable of hitting upper limbs
     MF_ATTACK_LOWER,        // This monster is incapable of hitting upper limbs regardless of other factors
     MF_DEADLY_VIRUS,        // This monster can inflict the zombie_virus effect
+    MF_VAMP_VIRUS,          // This monster can inflict the vampire_virus effect
     MF_ALWAYS_VISIBLE,      // This monster can always be seen regardless of los or light or anything
     MF_ALWAYS_SEES_YOU,     // This monster always knows where the avatar is
     MF_ALL_SEEING,          // This monster can see everything within its vision range regardless of light or obstacles

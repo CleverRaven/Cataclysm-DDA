@@ -762,12 +762,11 @@
     "id": "GOODMEMORY",
     "name": { "str": "Good Memory" },
     "points": 3,
-    "description": "You have an exceptional memory, and find it easy to remember things.  Your skills will erode slightly slower than usual, and you can remember more terrain.",
+    "description": "You have an exceptional memory, and find it easy to remember things.  Your skills will erode slightly slower than usual.",
     "skill_rust_multiplier": 0.66,
     "starting_trait": true,
     "valid": false,
-    "cancels": [ "FORGETFUL" ],
-    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "MAP_MEMORY", "multiply": 1 } ] } ]
+    "cancels": [ "FORGETFUL" ]
   },
   {
     "type": "mutation",
@@ -1508,13 +1507,12 @@
     "id": "FORGETFUL",
     "name": { "str": "Forgetful" },
     "points": -3,
-    "description": "You have a hard time remembering things.  Your skills will erode slightly faster than usual, and you can remember less terrain.",
+    "description": "You have a hard time remembering things.  Your skills will erode slightly faster than usual.",
     "social_modifiers": { "lie": -5 },
     "skill_rust_multiplier": 1.33,
     "starting_trait": true,
     "category": [ "BEAST", "MEDICAL", "CHIMERA", "MOUSE", "INSECT", "RABBIT" ],
-    "cancels": [ "GOODMEMORY" ],
-    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "MAP_MEMORY", "multiply": -0.5 } ] } ]
+    "cancels": [ "GOODMEMORY" ]
   },
   {
     "type": "mutation",

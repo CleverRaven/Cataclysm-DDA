@@ -574,7 +574,7 @@
     "type": "BIONIC_ITEM",
     "name": { "str": "Enhanced Memory Banks CBM" },
     "looks_like": "bio_int_enhancer",
-    "description": "A set of highly-advanced quantum storage drives used to enhance memory.  While active, they increase the rate that the user learns skills, and give them near-perfect memory of skills and terrain.",
+    "description": "A set of highly-advanced quantum storage drives used to enhance memory.  While active, they increase the rate that the user learns skills.",
     "price": 1000000,
     "weight": "100 g",
     "difficulty": 9

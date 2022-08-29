@@ -132,7 +132,7 @@
     "symbol": ",",
     "color": "dark_gray",
     "material_thickness": 3,
-    "flags": [ "ABLATIVE_LARGE", "CANT_WEAR" ],
+    "flags": [ "ABLATIVE_LARGE", "CANT_WEAR", "STURDY" ],
     "armor": [
       {
         "material": [
@@ -166,7 +166,7 @@
     "symbol": ",",
     "color": "dark_gray",
     "material_thickness": 3,
-    "flags": [ "ABLATIVE_LARGE", "CANT_WEAR" ],
+    "flags": [ "ABLATIVE_LARGE", "CANT_WEAR", "STURDY" ],
     "armor": [
       {
         "material": [
@@ -200,7 +200,7 @@
     "symbol": ",",
     "color": "dark_gray",
     "material_thickness": 6.35,
-    "flags": [ "ABLATIVE_LARGE", "CANT_WEAR" ],
+    "flags": [ "ABLATIVE_LARGE", "CANT_WEAR", "STURDY" ],
     "armor": [
       {
         "material": [ { "type": "qt_steel", "covered_by_mat": 100, "thickness": 6.35 } ],
