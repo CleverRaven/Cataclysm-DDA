@@ -490,12 +490,6 @@ cata::optional<std::string> iuse::can_smoke( const Character &you )
     return cata::nullopt;
 }
 
-/* iuse methods return the number of charges expended, which is usually "1", or no value.
- * Returning 0 indicates the item has not been used up, though it may have been successfully activated.
- * 0 may also mean that the consumption and time progress was handled within iuse action.
- * If the item is destroyed here the return value must be 0.
- * A return of cata::nullopt means it was not used at all.
- */
 cata::optional<int> iuse::sewage( Character *p, item *, bool, const tripoint & )
 {
     if( !p->query_yn( _( "Are you sure you want to drink… this?" ) ) ) {
@@ -5456,7 +5450,8 @@ cata::optional<int> iuse::unfold_generic( Character *p, item *it, bool, const tr
     }
 
     p->moves -= it->get_var( "moves", to_turns<int>( 5_seconds ) );
-    return 1;
+    p->i_rem( it );
+    return 0;
 }
 
 cata::optional<int> iuse::adrenaline_injector( Character *p, item *it, bool, const tripoint & )
