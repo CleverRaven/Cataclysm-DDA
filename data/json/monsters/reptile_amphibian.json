@@ -374,7 +374,7 @@
     "id": "mon_toad_giant",
     "type": "MONSTER",
     "name": { "str": "giant toad" },
-    "description": "This cane toad has grown bigger than a human.  It looks uninterested in eating you but you better not give it a chance.",
+    "description": "This toad has grown bigger than a human.  It looks uninterested in eating you but you better not give it a chance.",
     "default_faction": "frog",
     "bodytype": "frog",
     "looks_like": "mon_frog_giant",
