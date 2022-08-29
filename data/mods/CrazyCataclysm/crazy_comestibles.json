@@ -41,7 +41,7 @@
     "stim": 40,
     "name": { "str_sp": "Powerthirst - Manana Flavor" },
     "description": "POWERTHIRST in new Manana flavor.  Contains preposterous amounts of testosterone.  PREPOSTERONE.  It's like crystal meth in a can.  It's crystal meth in a can.  Powerthirst is crystal meth.",
-    "vitamins": [ [ "mutagen", 2000 ], [ "mutagen_chimera", 1200 ], [ "mutagen_raptor", 1200 ] ]
+    "vitamins": [ [ "mutagen", 2000 ], [ "mutagen_chimera", 800 ], [ "mutagen_raptor", 800 ] ]
   },
   {
     "id": "powerthirst2",
@@ -51,9 +51,10 @@
     "addiction_potential": 55,
     "addiction_type": "amphetamine",
     "container": "rocket_can_drink",
-    "stim": 20,
+    "stim": 30,
     "name": { "str_sp": "Powerthirst - Fizzbitch Flavor" },
-    "description": "POWERTHIRST in new Fizzbitch flavor.  Contains preposterous amounts of testosterone.  PREPOSTERONE.  It's like crystal meth in a can.  It's crystal meth in a can.  Powerthirst is crystal meth."
+    "description": "POWERTHIRST in new Fizzbitch flavor.  Contains preposterous amounts of testosterone.  PREPOSTERONE.  It's like crystal meth in a can.  It's crystal meth in a can.  Powerthirst is crystal meth.",
+    "vitamins": [ [ "mutagen", 2000 ], [ "mutagen_chimera", 1000 ], [ "mutagen_raptor", 1000 ] ]
   },
   {
     "id": "powerthirst3",
@@ -65,6 +66,6 @@
     "stim": 20,
     "name": { "str_sp": "Powerthirst - Gun Flavor" },
     "description": "POWERTHIRST in new Gun flavor.  Contains preposterous amounts of testosterone.  PREPOSTERONE.  It's like crystal meth in a can.  It's crystal meth in a can.  Powerthirst is crystal meth.",
-    "vitamins": [ [ "mutagen", 2000 ], [ "mutagen_beast", 1200 ], [ "mutagen_medical", 1200 ] ]
+    "vitamins": [ [ "mutagen", 2000 ], [ "mutagen_chimera", 1200 ], [ "mutagen_raptor", 1200 ] ]
   }
 ]
