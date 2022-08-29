@@ -9714,7 +9714,7 @@ std::vector<std::string> game::get_dangerous_tile( const tripoint &dest_loc ) co
 bool game::walk_move( const tripoint &dest_loc, const bool via_ramp, const bool furniture_move )
 {
     if( m.has_flag_ter( ter_furn_flag::TFLAG_SMALL_PASSAGE, dest_loc ) ) {
-        if( u.get_size() > creature_size::medium ) {
+        if( u.get_size() > creature_size::medium || u.get_bmi() > 50 ) {
             add_msg( m_warning, _( "You can't fit there." ) );
             return false; // character too large to fit through a tight passage
         }
