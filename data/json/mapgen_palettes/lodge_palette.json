@@ -29,6 +29,7 @@
       "c": "f_chair",
       "d": "f_desk",
       "F": "f_fridge",
+      "é": "f_freezer",
       "h": "f_bathtub",
       "O": "f_sofa",
       "R": [ "f_rack", "f_utility_shelf" ],
@@ -128,7 +129,8 @@
       "Z": "f_fireplace",
       "~": "f_chimney",
       "=": "f_vent_pipe",
-      "v": "f_wind_vane"
+      "v": "f_wind_vane",
+      "é": "f_freezer"
     },
     "items": {
       "D": [

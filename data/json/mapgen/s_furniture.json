@@ -20,7 +20,7 @@
         " |#......dq..OO..oo..B| ",
         " |h..................B| ",
         " |h......EE..CC..&&..B| ",
-        " |H......EE..CC..&&..B| ",
+        " |H......EE..CC..éé..B| ",
         " |H..................q| ",
         " |...yffBBBBBBBBBBBBBB| ",
         " |DD------------------| ",
@@ -49,6 +49,7 @@
       "furniture": {
         "#": "f_table",
         "&": "f_fridge",
+        "é": "f_freezer",
         "B": "f_rack",
         "C": "f_cupboard",
         "E": "f_bookcase",
