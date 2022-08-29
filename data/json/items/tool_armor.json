@@ -392,8 +392,13 @@
     "qualities": [ [ "GLARE", 1 ] ],
     "flags": [ "SUN_GLASSES", "FLASH_PROTECTION" ],
     "armor": [
-      { "encumbrance": 20, "coverage": 100, "covers": [ "head" ], "specifically_covers": [ "head_forehead", "head_ear_r", "head_ear_l" ] },
-      { "encumbrance": 20, "coverage": 30, "covers": [ "head" ],  "specifically_covers": [ "head_crown" ] },
+      {
+        "encumbrance": 20,
+        "coverage": 100,
+        "covers": [ "head" ],
+        "specifically_covers": [ "head_forehead", "head_ear_r", "head_ear_l" ]
+      },
+      { "encumbrance": 20, "coverage": 30, "covers": [ "head" ], "specifically_covers": [ "head_crown" ] },
       { "encumbrance": 40, "coverage": 90, "covers": [ "eyes", "mouth" ], "rigid_layer_only": true }
     ]
   },
@@ -422,8 +427,13 @@
     "qualities": [ [ "GLARE", 1 ] ],
     "flags": [ "SUN_GLASSES", "FLASH_PROTECTION" ],
     "armor": [
-      { "encumbrance": 25, "coverage": 100, "covers": [ "head" ], "specifically_covers": [ "head_forehead", "head_ear_r", "head_ear_l" ] },
-      { "encumbrance": 25, "coverage": 30, "covers": [ "head" ],  "specifically_covers": [ "head_crown" ] },
+      {
+        "encumbrance": 25,
+        "coverage": 100,
+        "covers": [ "head" ],
+        "specifically_covers": [ "head_forehead", "head_ear_r", "head_ear_l" ]
+      },
+      { "encumbrance": 25, "coverage": 30, "covers": [ "head" ], "specifically_covers": [ "head_crown" ] },
       { "encumbrance": 45, "coverage": 90, "covers": [ "eyes", "mouth" ], "rigid_layer_only": true }
     ]
   },
@@ -544,7 +554,12 @@
     "flags": [ "OVERSIZE", "HOOD", "WATERPROOF", "OUTER", "SOFT" ],
     "armor": [
       { "encumbrance": 10, "coverage": 70, "covers": [ "torso", "arm_l", "arm_r", "leg_l", "leg_r" ] },
-      { "encumbrance": 10, "coverage": 100, "covers": [ "head" ], "specifically_covers": [ "head_crown", "head_forehead", "head_nape" ] }
+      {
+        "encumbrance": 10,
+        "coverage": 100,
+        "covers": [ "head" ],
+        "specifically_covers": [ "head_crown", "head_forehead", "head_nape" ]
+      }
     ]
   },
   {
@@ -2802,9 +2817,7 @@
     "material_thickness": 3,
     "use_action": [ "SOLARPACK" ],
     "flags": [ "BELTED", "FRAGILE", "OUTER", "ONLY_ONE", "SOLARPACK" ],
-    "armor": [
-      { "encumbrance": 10, "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] }
-    ]
+    "armor": [ { "encumbrance": 10, "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ]
   },
   {
     "id": "solarpack_on",
@@ -2825,9 +2838,7 @@
     "use_action": [ "SOLARPACK_OFF" ],
     "solar_efficiency": 0.05,
     "flags": [ "BELTED", "FRAGILE", "OUTER", "ONLY_ONE", "SOLARPACK_ON" ],
-    "armor": [
-      { "encumbrance": 10, "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] }
-    ]
+    "armor": [ { "encumbrance": 10, "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ]
   },
   {
     "id": "helmet_riot",
@@ -2908,7 +2919,8 @@
           { "type": "plastic", "covered_by_mat": 100, "thickness": 2.0 },
           { "type": "thermo_resin", "covered_by_mat": 100, "thickness": 1.0 }
         ],
-        "covers": [ "head" ], "specifically_covers": [ "head_crown", "head_forehead", "head_nape", "head_ear_r", "head_ear_l" ],
+        "covers": [ "head" ],
+        "specifically_covers": [ "head_crown", "head_forehead", "head_nape", "head_ear_r", "head_ear_l" ],
         "coverage": 100,
         "encumbrance_modifiers": [ "NONE" ]
       }
