@@ -106,6 +106,7 @@
       "D": "t_carpet_green",
       "O": "t_carpet_green",
       "F": "t_carpet_green",
+      "é": "t_carpet_green",
       "w": "t_double_pane_glass_with_curtain_open_window_closed",
       "W": [ [ "t_double_pane_glass_with_curtain", 2 ], "t_double_pane_glass_with_curtain_open_window_closed" ],
       "<": "t_wood_stairs_down",
