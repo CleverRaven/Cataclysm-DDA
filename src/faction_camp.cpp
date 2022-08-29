@@ -685,7 +685,7 @@ void talk_function::start_camp( npc &p )
         if( is_ot_match( "faction_base", om_type, ot_match_type::contains ) ) {
             auto const &building_omt_pos = om_near.second;
             auto const &camps = overmap_buffer.get_om_global( building_omt_pos ).om->camps;
-            if( std::any_of( camps.cbegin(), camps.cend(), [&building_omt_pos]( const auto & camp ) {
+            if( std::any_of( camps.cbegin(), camps.cend(), [&building_omt_pos]( const basecamp & camp ) {
             return camp.camp_omt_pos() == building_omt_pos;
             } ) ) {
                 popup( _( "You are too close to another camp!" ) );
