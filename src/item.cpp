@@ -13265,7 +13265,8 @@ bool item::process_tool( Character *carrier, const tripoint &pos )
         // kJ (battery unit) per second
         energy = units::to_kilojoule( type->tool->power_draw );
         // energy_bat remainder results in chance at additional charge/discharge
-        energy += x_in_y( units::to_millijoule( type->tool->power_draw ) % 1000000, 1000000 ) ? 1 : 0;
+        const int kj_in_mj = units::to_millijoule( 1_kJ );
+        energy += x_in_y( units::to_millijoule( type->tool->power_draw ) % kj_in_mj, kj_in_mj ) ? 1 : 0;
     }
 
     if( energy > 0 ) {
