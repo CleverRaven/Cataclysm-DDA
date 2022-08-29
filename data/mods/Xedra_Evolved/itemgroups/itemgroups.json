@@ -300,5 +300,26 @@
         [ "occult_seal", 1 ]
       ]
     }
+  },
+  {
+    "id": "costume_misc_items",
+    "type": "item_group",
+    "copy-from": "costume_misc_items",
+    "subtype": "distribution",
+    "extend": { "items": [ [ "wolf_mask", 5 ], [ "magicians_hat", 5 ], [ "syringe_artifact", 5 ], [ "foil_hat", 1 ] ] }
+  },
+  {
+    "id": "homebooks",
+    "type": "item_group",
+    "copy-from": "homebooks",
+    "subtype": "distribution",
+    "extend": {
+      "entries": [
+        { "item": "book_inventor", "prob": 1 },
+        { "item": "money_strap_magic", "prob": 1 },
+        { "item": "firmament_driver_book", "prob": 1 },
+        { "item": "ray_diagrams", "prob": 1 }
+      ]
+    }
   }
 ]

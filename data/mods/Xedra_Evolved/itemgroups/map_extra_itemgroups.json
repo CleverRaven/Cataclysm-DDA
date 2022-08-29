@@ -21,5 +21,17 @@
       { "group": "underwear", "damage-min": 1, "damage-max": 3 },
       { "item": "corpse", "damage": 4 }
     ]
+  },
+  {
+    "type": "item_group",
+    "id": "minor_spark_artifact",
+    "subtype": "distribution",
+    "entries": [
+      {
+        "group": "minor_spark_artifacts",
+        "artifact": { "procgen_id": "spark_items", "rules": { "power_level": 500, "max_attributes": 2, "max_negative_power": -250 } },
+        "prob": 100
+      }
+    ]
   }
 ]
