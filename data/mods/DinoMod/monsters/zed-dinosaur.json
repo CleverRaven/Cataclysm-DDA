@@ -571,12 +571,22 @@
   },
   {
     "type": "MONSTER",
+    "id": "mon_zarahsaurus",
+    "name": { "str_sp": "sarahsaurus zombie" },
+    "copy-from": "mon_zissi",
+    "volume": "200 L",
+    "weight": "200 kg",
+    "description": "Long-necked, two-legged dinosaur corpse with a long tail.",
+    "burn_into": "mon_zarahsaurus_scorched",
+    "fungalize_into": "mon_zarahsaurus_fungus",
+    "upgrades": { "half_life": 30, "into_group": "GROUP_zarahsaurus_UPGRADE" }
+  },
+  {
+    "type": "MONSTER",
     "id": "mon_zissi",
     "name": { "str_sp": "issi zombie" },
     "copy-from": "mon_zapatosaurus",
     "looks_like": "mon_zapatosaurus",
-    "volume": "1000 L",
-    "weight": "1000 kg",
     "speed": 55,
     "attack_cost": 55,
     "melee_dice": 4,
@@ -600,12 +610,27 @@
   },
   {
     "type": "MONSTER",
+    "id": "mon_zaplocanthosaurus",
+    "name": { "str_sp": "haplocanthosaurus zombie" },
+    "copy-from": "mon_zapatosaurus",
+    "looks_like": "mon_zapatosaurus",
+    "speed": 55,
+    "attack_cost": 55,
+    "melee_dice": 4,
+    "melee_dice_sides": 7,
+    "melee_damage": [ { "damage_type": "bash", "amount": 4 } ],
+    "hp": 400,
+    "description": "Huge, long-necked, four-legged dinosaur corpse with a long tail.",
+    "burn_into": "mon_zaplocanthosaurus_scorched",
+    "fungalize_into": "mon_zaplocanthosaurus_fungus",
+    "upgrades": { "half_life": 30, "into_group": "GROUP_zaplocanthosaurus_UPGRADE" }
+  },
+  {
+    "type": "MONSTER",
     "id": "mon_zamargasaurus",
     "name": { "str_sp": "amargasaurus zombie" },
     "copy-from": "mon_zapatosaurus",
     "looks_like": "mon_zapatosaurus",
-    "volume": "1000 L",
-    "weight": "1000 kg",
     "speed": 55,
     "attack_cost": 55,
     "melee_dice": 4,
@@ -750,7 +775,7 @@
     "melee_dice_sides": 4,
     "melee_damage": [ { "damage_type": "stab", "amount": 1 } ],
     "armor_bash": 4,
-    "armor_cut": 4,
+    "armor_cut": 13,
     "armor_bullet": 2,
     "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_wp_nat_armored" ],
     "weakpoint_sets": [ "wps_ankylosaurid_body" ],
@@ -766,6 +791,19 @@
     "burn_into": "mon_ztegosaurus_scorched",
     "fungalize_into": "mon_ztegosaurus_fungus",
     "upgrades": { "half_life": 30, "into_group": "GROUP_ztegosaurus_UPGRADE" }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zesperosaurus",
+    "name": { "str": "hesperosaurus zombie" },
+    "copy-from": "mon_ztegosaurus",
+    "looks_like": "mon_ztegosaurus",
+    "hp": 450,
+    "armor_bash": 5,
+    "armor_cut": 15,
+    "burn_into": "mon_zesperosaurus_scorched",
+    "fungalize_into": "mon_zesperosaurus_fungus",
+    "upgrades": { "half_life": 30, "into_group": "GROUP_zesperosaurus_UPGRADE" }
   },
   {
     "type": "MONSTER",
@@ -998,6 +1036,17 @@
     "burn_into": "mon_zedmontosaurus_scorched",
     "fungalize_into": "mon_zedmontosaurus_fungus",
     "upgrades": { "half_life": 30, "into_group": "GROUP_zedmontosaurus_UPGRADE" }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zryposaurus",
+    "name": { "str": "maiasaura zombie" },
+    "copy-from": "mon_zedmontosaurus",
+    "hp": 300,
+    "description": "A huge, mottled dinosaur with hooves and a heavy tail, dead but walking, eyes vacant and swollen.  Has a flat beak and a nose with a prominent nasal arch.",
+    "burn_into": "mon_zryposaurus_scorched",
+    "fungalize_into": "mon_zryposaurus_fungus",
+    "upgrades": { "half_life": 14, "into_group": "GROUP_zryposaurus_UPGRADE" }
   },
   {
     "type": "MONSTER",
@@ -1273,6 +1322,22 @@
   },
   {
     "type": "MONSTER",
+    "id": "mon_zarahsaurus_juvenile",
+    "name": { "str": "juvenile sarahsaurus zombie" },
+    "copy-from": "mon_zapatosaurus_juvenile",
+    "looks_like": "mon_issi",
+    "burn_into": "mon_zarahsaurus_scorched",
+    "fungalize_into": "mon_zarahsaurus_fungus",
+    "upgrades": { "half_life": 30, "into": "mon_zarahsaurus" },
+    "volume": "100 L",
+    "weight": "100 kg",
+    "bodytype": "ostrich",
+    "hp": 100,
+    "speed": 80,
+    "special_attacks": [ { "id": "stomp_DinoMod", "cooldown": 10, "damage_max_instance": [ { "damage_type": "bash", "amount": 8 } ] } ]
+  },
+  {
+    "type": "MONSTER",
     "id": "mon_zissi_juvenile",
     "name": { "str": "juvenile issi zombie" },
     "copy-from": "mon_zapatosaurus_juvenile",
@@ -1284,8 +1349,17 @@
     "weight": "500 kg",
     "bodytype": "ostrich",
     "hp": 100,
-    "speed": 100,
+    "speed": 80,
     "special_attacks": [ { "id": "stomp_DinoMod", "cooldown": 10, "damage_max_instance": [ { "damage_type": "bash", "amount": 8 } ] } ]
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zaplocanthosaurus_juvenile",
+    "name": { "str": "juvenile haplocanthosaurus zombie" },
+    "copy-from": "mon_zapatosaurus_juvenile",
+    "burn_into": "mon_zaplocanthosaurus_scorched",
+    "fungalize_into": "mon_zaplocanthosaurus_fungus",
+    "upgrades": { "half_life": 30, "into": "mon_zaplocanthosaurus" }
   },
   {
     "type": "MONSTER",

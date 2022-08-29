@@ -4426,8 +4426,8 @@ cata::optional<int> deploy_tent_actor::use( Character &p, item &it, bool, const 
     player_activity new_act = player_activity( tent_placement_activity_actor( to_moves<int>
                               ( 20_minutes ), direction, radius, it, wall, floor, floor_center, door_closed ) );
     get_player_character().assign_activity( new_act, false );
-
-    return 1;
+    p.i_rem( &it );
+    return 0;
 }
 
 bool deploy_tent_actor::check_intact( const tripoint &center ) const
