@@ -12,7 +12,7 @@ C++ flags used by all builds:
 /MP     cl.exe build with multiple processes
 /utf-8  set source and execution character sets to UTF-8
 /bigobj increase # of sections in object files
-/permissive-   to allow alternative operators ("and", "or", "not")
+/permissive-   enforce more standards compliant behavior
 /sdl-   disable additional security checks
 /FC     full path in compiler messages
 /Gd     __cdecl
