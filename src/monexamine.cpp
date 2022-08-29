@@ -697,7 +697,8 @@ bool monexamine::pet_menu( monster &z )
         }
         amenu.addentry( check_bat, false, 'c', _( "%s battery level is %d%%" ), z.get_name(),
                         static_cast<int>( charge_percent ) );
-        if( !player_character.get_wielded_item() && z.battery_item && player_character.get_bmi() < 50 && player_character.get_size() < creature_size::large ) {
+        if( !player_character.get_wielded_item() && z.battery_item && player_character.get_bmi() < 50 &&
+            player_character.get_size() < creature_size::large ) {
             amenu.addentry( mount, true, 'r', _( "Climb into the mech and take control" ) );
         } else if( player_character.get_wielded_item() ) {
             amenu.addentry( mount, false, 'r', _( "You cannot pilot the mech whilst wielding something" ) );
