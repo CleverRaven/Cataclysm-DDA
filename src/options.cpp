@@ -3205,8 +3205,10 @@ std::string options_manager::show( bool ingame, const bool world_options_only, b
                 const int psize = pages_.size();
                 found_opt = run_for_point_in<int, point>( opt_tab_map, *coord,
                 [&iCurrentPage, &new_val, &psize]( const std::pair<int, inclusive_rectangle<point>> &p ) {
-                    new_val = true;
-                    iCurrentPage = clamp<int>( p.first, 0, psize - 1 );
+                    if( p.first != iCurrentPage ) {
+                        new_val = true;
+                        iCurrentPage = clamp<int>( p.first, 0, psize - 1 );
+                    }
                 } ) > 0;
                 if( new_val ) {
                     iCurrentLine = 0;
