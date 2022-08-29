@@ -558,7 +558,6 @@
       { "item": "apple_cider", "prob": 50 },
       { "item": "lemonade", "prob": 50 },
       { "item": "energy_drink", "prob": 55 },
-      { "group": "powerthirst_flavors", "prob": 10 },
       { "item": "herbal_tea", "prob": 30 },
       { "item": "energy_drink_atomic", "prob": 4 },
       { "group": "softdrinks_canned", "prob": 460 },
@@ -932,16 +931,6 @@
         "charges-min": 1,
         "charges-max": 1
       }
-    ]
-  },
-  {
-    "type": "item_group",
-    "id": "powerthirst_flavors",
-    "subtype": "distribution",
-    "entries": [
-      { "item": "powerthirst1", "prob": 10, "container-item": "rocket_can_drink", "charges-min": 2, "charges-max": 2 },
-      { "item": "powerthirst2", "prob": 10, "container-item": "rocket_can_drink", "charges-min": 2, "charges-max": 2 },
-      { "item": "powerthirst3", "prob": 10, "container-item": "rocket_can_drink", "charges-min": 2, "charges-max": 2 }
     ]
   }
 ]
