@@ -1132,7 +1132,7 @@ std::unique_ptr<activity_actor> hacksaw_activity_actor::deserialize( JsonValue &
 bikerack_racking_activity_actor::bikerack_racking_activity_actor( vehicle &parent_vehicle,
         std::vector<std::vector<int>> parts ) : parts( std::move( parts ) )
 {
-    parent_vehicle_pos = parent_vehicle.pos_bub();
+    parent_vehicle_pos = parent_vehicle.bub_part_pos( 0 );
 }
 
 void bikerack_racking_activity_actor::start( player_activity &act, Character & )
@@ -1187,7 +1187,7 @@ bikerack_unracking_activity_actor::bikerack_unracking_activity_actor( vehicle &p
         std::vector<int> parts, std::vector<int> racks )
     : parts( std::move( parts ) ), racks( std::move( racks ) )
 {
-    parent_vehicle_pos = parent_vehicle.pos_bub();
+    parent_vehicle_pos = parent_vehicle.bub_part_pos( 0 );
 }
 
 void bikerack_unracking_activity_actor::start( player_activity &act, Character & )

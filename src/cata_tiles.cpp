@@ -331,8 +331,6 @@ void cata_tiles::load_tileset( const std::string &tileset_id, const bool prechec
     tileset_ptr = cache.load_tileset( tileset_id, renderer, precheck, force, pump_events );
 
     set_draw_scale( 16 );
-
-    minimap->set_type( tile_iso ? pixel_minimap_type::iso : pixel_minimap_type::ortho );
 }
 
 void cata_tiles::reinit()
@@ -660,7 +658,7 @@ void tileset_cache::loader::load( const std::string &tileset_id, const bool prec
     for( const JsonObject curr_info : config.get_array( "tile_info" ) ) {
         ts.tile_height = curr_info.get_int( "height" );
         ts.tile_width = curr_info.get_int( "width" );
-        tile_iso = curr_info.get_bool( "iso", false );
+        ts.tile_isometric = curr_info.get_bool( "iso", false );
         ts.tile_pixelscale = curr_info.get_float( "pixelscale", 1.0f );
     }
 
@@ -1258,9 +1256,7 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
     map &here = get_map();
     const visibility_variables &cache = here.get_visibility_variables_cache();
 
-    const bool iso_mode = tile_iso;
-
-    o = iso_mode ? center.xy() : center.xy() - point( POSX, POSY );
+    o = is_isometric() ? center.xy() : center.xy() - point( POSX, POSY );
 
     op = dest;
     // Rounding up to include incomplete tiles at the bottom/right edges
@@ -1354,7 +1350,7 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
         draw_points.reserve( max_col );
         for( int col = min_col; col < max_col; col ++ ) {
             point temp;
-            if( iso_mode ) {
+            if( is_isometric() ) {
                 // in isometric, rows and columns represent a checkerboard screen space,
                 // and we place the appropriate tile in valid squares by getting position
                 // relative to the screen center.
@@ -1624,7 +1620,7 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
         for( int mem_x = min_visible.x; mem_x <= max_visible.x; mem_x++ ) {
             half_open_rectangle<point> already_drawn(
                 point( min_col, min_row ), point( max_col, max_row ) );
-            if( iso_mode ) {
+            if( is_isometric() ) {
                 // calculate the screen position according to the drawing code above
                 // (division rounded down):
 
@@ -1741,13 +1737,14 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
 
 void cata_tiles::draw_minimap( const point &dest, const tripoint &center, int width, int height )
 {
+    minimap->set_type( is_isometric() ? pixel_minimap_type::iso : pixel_minimap_type::ortho );
     minimap->draw( SDL_Rect{ dest.x, dest.y, width, height }, center );
 }
 
 void cata_tiles::get_window_tile_counts( const int width, const int height, int &columns,
         int &rows ) const
 {
-    if( tile_iso ) {
+    if( is_isometric() ) {
         columns = std::ceil( static_cast<double>( width ) / tile_width ) * 2 + 4;
         rows = std::ceil( static_cast<double>( height ) / ( tile_width / 2.0 - 1 ) ) * 2 + 4;
     } else {
@@ -2020,8 +2017,7 @@ bool cata_tiles::draw_from_id_string( const std::string &id, TILE_CATEGORY categ
     // [0->width|height / tile_width|height]
 
     half_open_rectangle<point> screen_bounds( o, o + point( screentile_width, screentile_height ) );
-    if( !tile_iso &&
-        !screen_bounds.contains( pos.xy() ) ) {
+    if( !is_isometric() && !screen_bounds.contains( pos.xy() ) ) {
         return false;
     }
 
@@ -2509,7 +2505,7 @@ bool cata_tiles::draw_sprite_at(
                     destination.y -= 1;
                 }
 #endif
-                if( !tile_iso ) {
+                if( !is_isometric() ) {
                     // never rotate isometric tiles
                     ret = sprite_tex->render_copy_ex( renderer, &destination, -90, nullptr,
                                                       SDL_FLIP_NONE );
@@ -2520,7 +2516,7 @@ bool cata_tiles::draw_sprite_at(
                 break;
             case 2:
                 // 180 degrees, implemented with flips instead of rotation
-                if( !tile_iso ) {
+                if( !is_isometric() ) {
                     // never flip isometric tiles vertically
                     ret = sprite_tex->render_copy_ex(
                               renderer, &destination, 0, nullptr,
@@ -2539,7 +2535,7 @@ bool cata_tiles::draw_sprite_at(
                     destination.x -= 1;
                 }
 #endif
-                if( !tile_iso ) {
+                if( !is_isometric() ) {
                     // never rotate isometric tiles
                     ret = sprite_tex->render_copy_ex( renderer, &destination, 90, nullptr,
                                                       SDL_FLIP_NONE );
@@ -2655,15 +2651,14 @@ bool cata_tiles::draw_terrain_below( const tripoint &p, const lit_level, int &,
     }
 
     SDL_Rect belowRect;
+    point screen;
     belowRect.h = tile_width / sizefactor;
     belowRect.w = tile_height / sizefactor;
-    if( tile_iso ) {
+    if( is_isometric() ) {
         belowRect.h = ( belowRect.h * 2 ) / 3;
         belowRect.w = ( belowRect.w * 3 ) / 4;
-    }
-    // translate from player-relative to screen relative tile position
-    point screen;
-    if( tile_iso ) {
+
+        // translate from player-relative to screen relative tile position
         screen.x = ( ( pbelow.x - o.x ) - ( o.y - pbelow.y ) + screentile_width - 2 ) *
                    tile_width / 2 + op.x;
         // y uses tile_width because width is definitive for iso tiles
@@ -2677,7 +2672,7 @@ bool cata_tiles::draw_terrain_below( const tripoint &p, const lit_level, int &,
     }
     belowRect.x = screen.x + ( tile_width - belowRect.w ) / 2;
     belowRect.y = screen.y + ( tile_height - belowRect.h ) / 2;
-    if( tile_iso ) {
+    if( is_isometric() ) {
         belowRect.y += tile_height / 8;
     }
     geometry->rect( renderer, belowRect, tercol );
@@ -3465,7 +3460,7 @@ bool cata_tiles::draw_critter_at_below( const tripoint &p, const lit_level, int 
     belowRect.h = tile_width / sizefactor;
     belowRect.w = tile_height / sizefactor;
 
-    if( tile_iso ) {
+    if( is_isometric() ) {
         belowRect.h = ( belowRect.h * 2 ) / 3;
         belowRect.w = ( belowRect.w * 3 ) / 4;
     }
@@ -3473,7 +3468,7 @@ bool cata_tiles::draw_critter_at_below( const tripoint &p, const lit_level, int 
     belowRect.x = screen_point.x + ( tile_width - belowRect.w ) / 2;
     belowRect.y = screen_point.y + ( tile_height - belowRect.h ) / 2;
 
-    if( tile_iso ) {
+    if( is_isometric() ) {
         belowRect.y += tile_height / 8;
     }
 
@@ -4113,7 +4108,7 @@ void cata_tiles::draw_weather_frame()
     for( auto &vdrop : anim_weather.vdrops ) {
         // TODO: Z-level awareness if weather ever happens on anything but z-level 0.
         tripoint p( vdrop.first, vdrop.second, 0 );
-        if( !tile_iso ) {
+        if( !is_isometric() ) {
             // currently in ASCII screen coordinates
             p += o;
         }
@@ -4158,7 +4153,7 @@ void cata_tiles::draw_sct_frame( std::multimap<point, formatted_text> &overlay_s
                                              0, 0, lit_level::LIT, false );
                     }
 
-                    if( tile_iso ) {
+                    if( is_isometric() ) {
                         iOffset.y++;
                     }
                     iOffset.x++;
@@ -4506,7 +4501,7 @@ void cata_tiles::do_tile_loading_report()
 point cata_tiles::player_to_screen( const point &p ) const
 {
     point screen;
-    if( tile_iso ) {
+    if( is_isometric() ) {
         screen.x = ( ( p.x - o.x ) - ( o.y - p.y ) + screentile_width - 2 ) * tile_width / 2 +
                    op.x;
         // y uses tile_width because width is definitive for iso tiles
