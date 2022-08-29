@@ -703,7 +703,8 @@ bool monexamine::pet_menu( monster &z )
             amenu.addentry( mount, false, 'r', _( "You cannot pilot the mech whilst wielding something" ) );
         } else if( !z.battery_item ) {
             amenu.addentry( mount, false, 'r', _( "This mech has a dead battery and won't turn on" ) );
-        } else if( player_character.get_bmi() >= 50 || player_character.get_size() > creature_size::medium ) {
+        } else if( player_character.get_bmi() >= 50 ||
+                   player_character.get_size() > creature_size::medium ) {
             amenu.addentry( mount, false, 'r', _( "You're too big to pilot this mech." ) );
         }
         if( z.battery_item ) {
