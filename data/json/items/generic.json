@@ -412,6 +412,20 @@
     "color": "white"
   },
   {
+    "id": "bundle_cotton",
+    "type": "GENERIC",
+    "category": "spare_parts",
+    "name": { "str": "bundle of cotton sheets", "str_pl": "bundles of cotton sheets" },
+    "description": "Cotton sheets, bundled tightly together for storage.  Disassemble to unpack.",
+    "weight": "950 g",
+    "volume": "1000 ml",
+    "price": 20000,
+    "price_postapoc": 200,
+    "material": [ "cotton" ],
+    "symbol": ",",
+    "color": "white"
+  },
+  {
     "id": "bundle_leather",
     "type": "GENERIC",
     "category": "spare_parts",
