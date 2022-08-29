@@ -175,7 +175,7 @@ class SkillLevel
         void practice();
         bool can_train() const;
 
-        void readBook( int minimumGain, int maximumGain, int maximumLevel = -1 );
+        void readBook( float gain, int maximumLevel = -1 );
 
         bool operator==( const SkillLevel &b ) const {
             return this->level() == b.level() && this->_exercise == b._exercise;

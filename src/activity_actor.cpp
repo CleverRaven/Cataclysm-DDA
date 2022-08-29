@@ -1351,26 +1351,16 @@ void read_activity_actor::read_book( Character &learner,
     // Calculate experience gained
     /** @EFFECT_INT increases reading comprehension */
     // Enhanced Memory Banks modestly boosts experience
-    int min_ex = std::max( 1, to_minutes<int>( islotbook->time ) / 10 + learner.get_int() / 4 );
-    int max_ex = to_minutes<int>( islotbook->time ) / 5 + learner.get_int() / 2 - originalSkillLevel;
+    float exp = to_minutes<int>( islotbook->time ) / 7.5f + learner.get_int() / 3.0f;
+    exp = learner.enchantment_cache->modify_value( enchant_vals::mod::READING_EXP, exp );
+    exp = learner.adjust_for_focus( exp );
+    exp = std::max( 1.0f, exp );
+    exp = std::min( 10.0f, exp );
+    exp *= ( originalSkillLevel + 1 ) * penalty;
 
-    min_ex = learner.enchantment_cache->modify_value( enchant_vals::mod::READING_EXP, min_ex );
-
-    min_ex = learner.adjust_for_focus( min_ex ) / 100;
-    max_ex = learner.adjust_for_focus( max_ex ) / 100;
-
-    max_ex = clamp( max_ex, 2, 10 );
-    max_ex = std::max( min_ex, max_ex );
-
-    min_ex *= ( originalSkillLevel + 1 ) * penalty;
-    min_ex = std::max( min_ex, 1 );
-
-    max_ex *= ( originalSkillLevel + 1 ) * penalty;
-    max_ex = std::max( min_ex, max_ex );
-
-    add_msg_debug( debugmode::DF_ACT_READ, "%s read exp: min_ex %d; max_ex %d",
-                   learner.disp_name(), min_ex, max_ex );
-    skill_level.readBook( min_ex, max_ex, islotbook->level );
+    add_msg_debug( debugmode::DF_ACT_READ, "%s read book, experience: %f",
+                   learner.disp_name(), exp );
+    skill_level.readBook( exp, islotbook->level );
 }
 
 bool read_activity_actor::player_read( avatar &you )

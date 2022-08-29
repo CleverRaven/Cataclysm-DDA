@@ -419,10 +419,10 @@ void SkillLevel::practice()
     _lastPracticed = calendar::turn;
 }
 
-void SkillLevel::readBook( int minimumGain, int maximumGain, int maximumLevel )
+void SkillLevel::readBook( float gain, int maximumLevel )
 {
     if( knowledgeLevel() < maximumLevel || maximumLevel < 0 ) {
-        knowledge_train( ( knowledgeLevel() + 1 ) * rng( minimumGain, maximumGain ) * 100 );
+        knowledge_train( static_cast<int>( ( knowledgeLevel() + 1 ) * gain * 100 ) );
     }
 
     practice();
