@@ -2352,7 +2352,7 @@
     "autolearn": true,
     "using": [ [ "filament", 8 ] ],
     "qualities": [ { "id": "SEW", "level": 1 } ],
-    "components": [ [ [ "leather", 100 ] ] ],
+    "components": [ [ [ "leather", 50 ] ] ],
     "flags": [ "BLIND_HARD" ]
   },
   {
