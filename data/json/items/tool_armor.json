@@ -2475,7 +2475,6 @@
     "flags": [ "VARSIZE", "FANCY", "ALLOWS_NATURAL_ATTACKS" ],
     "armor": [
       { "encumbrance": 8, "coverage": 95, "covers": [ "torso", "arm_l", "arm_r", "mouth" ] },
-      { "encumbrance": 8, "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_neck" ] },
       { "encumbrance": 8, "coverage": 100, "covers": [ "head" ], "specifically_covers": [ "head_throat" ] }
     ]
   },
@@ -2504,7 +2503,6 @@
     "flags": [ "VARSIZE", "FANCY", "ALLOWS_NATURAL_ATTACKS" ],
     "armor": [
       { "encumbrance": 8, "coverage": 95, "covers": [ "torso", "arm_l", "arm_r" ] },
-      { "encumbrance": 8, "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_neck" ] },
       { "encumbrance": 8, "coverage": 100, "covers": [ "head" ], "specifically_covers": [ "head_throat" ] }
     ]
   },
@@ -2534,8 +2532,7 @@
     "flags": [ "VARSIZE", "FANCY", "ALLOWS_NATURAL_ATTACKS" ],
     "armor": [
       { "encumbrance": 4, "coverage": 95, "covers": [ "torso", "arm_l", "arm_r", "mouth" ] },
-      { "encumbrance": 8, "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_neck" ] },
-      { "encumbrance": 8, "coverage": 100, "covers": [ "head" ], "specifically_covers": [ "head_throat" ] }
+      { "encumbrance": 4, "coverage": 100, "covers": [ "head" ], "specifically_covers": [ "head_throat" ] }
     ]
   },
   {
@@ -2563,8 +2560,7 @@
     "flags": [ "VARSIZE", "FANCY", "ALLOWS_NATURAL_ATTACKS" ],
     "armor": [
       { "encumbrance": 4, "coverage": 95, "covers": [ "torso", "arm_l", "arm_r" ] },
-      { "encumbrance": 8, "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_neck" ] },
-      { "encumbrance": 8, "coverage": 100, "covers": [ "head" ], "specifically_covers": [ "head_throat" ] }
+      { "encumbrance": 4, "coverage": 100, "covers": [ "head" ], "specifically_covers": [ "head_throat" ] }
     ]
   },
   {
