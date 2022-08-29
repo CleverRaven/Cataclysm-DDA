@@ -448,7 +448,7 @@
     "start_name": "Hospital",
     "forced_traits": [ "FLIMSY2" ],
     "forbidden_traits": [ "TOUGH", "DISRESISTANT" ],
-    "professions": [ "unemployed", "patient" ],
+    "professions": [ "unemployed", "patient", "veteran" ],
     "flags": [ "CHALLENGE", "CITY_START", "LONE_START" ]
   },
   {
