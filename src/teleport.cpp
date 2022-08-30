@@ -148,7 +148,8 @@ bool teleport::teleport_to_point( Creature &critter, tripoint target, bool safe,
             } else {
                 if( get_player_view().sees( *poor_soul ) ) {
                     if( display_message ) {
-                        add_msg( m_good, _( "%1$s collides with %2$s mid teleport, and they are both knocked away by a violent explosion of energy!" ),
+                        add_msg( m_good,
+                                 _( "%1$s collides with %2$s mid teleport, and they are both knocked away by a violent explosion of energy!" ),
                                  critter.disp_name(), poor_soul->disp_name() );
                     }
                 }
