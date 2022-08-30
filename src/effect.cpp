@@ -372,6 +372,16 @@ bool effect_type::load_mod_data( const JsonObject &jo, const std::string &member
         extract_effect( j, mod_data, "thirst_chance_bot", member, "THIRST",   "chance_bot" );
         extract_effect( j, mod_data, "thirst_tick",      member, "THIRST",   "tick" );
 
+        // Then thirst
+        extract_effect( j, mod_data, "perspiration_amount",    member, "PERSPIRATION",   "amount" );
+        extract_effect( j, mod_data, "perspiration_min",       member, "PERSPIRATION",   "min" );
+        extract_effect( j, mod_data, "perspiration_max",       member, "PERSPIRATION",   "max" );
+        extract_effect( j, mod_data, "perspiration_min_val",   member, "PERSPIRATION",   "min_val" );
+        extract_effect( j, mod_data, "perspiration_max_val",   member, "PERSPIRATION",   "max_val" );
+        extract_effect( j, mod_data, "perspiration_chance",    member, "PERSPIRATION",   "chance_top" );
+        extract_effect( j, mod_data, "perspiration_chance_bot", member, "PERSPIRATION",   "chance_bot" );
+        extract_effect( j, mod_data, "perspiration_tick",      member, "PERSPIRATION",   "tick" );
+
         // Then fatigue
         extract_effect( j, mod_data, "fatigue_amount",    member, "FATIGUE",  "amount" );
         extract_effect( j, mod_data, "fatigue_min",       member, "FATIGUE",  "min" );
@@ -558,9 +568,8 @@ bool effect_type::load_decay_msgs( const JsonObject &jo, const std::string &memb
                 rate = m_mixed;
             } else {
                 inner.throw_error(
-                    string_format( "Unexpected message type \"%s\"; expected \"good\", "
-                                   "\"neutral\", " "\"bad\", or \"mixed\"", r ),
-                    1 );
+                    1, string_format( "Unexpected message type \"%s\"; expected \"good\", "
+                                      "\"neutral\", " "\"bad\", or \"mixed\"", r ) );
             }
             decay_msgs.emplace_back( msg, rate );
         }
@@ -635,9 +644,9 @@ std::string effect::disp_desc( bool reduced ) const
         timestr = string_format( _( "%s ago" ),
                                  debug_mode ? to_string( effect_dur_elapsed ) : to_string_clipped( effect_dur_elapsed ) );
     }
-    ret += string_format( _( "Effect started: <color_white>%s</color>    " ), timestr );
+    ret += string_format( _( "Effect started: <color_white>%s</color>" ), timestr );
     if( debug_mode ) {
-        ret += string_format( _( "Effect ends in <color_white>%s</color>" ), to_string( duration ) );
+        ret += string_format( _( "Effect ends in: <color_white>%s</color>" ), to_string( duration ) );
     }
     //Newline if necessary
     if( !ret.empty() && ret.back() != '\n' ) {
@@ -647,33 +656,33 @@ std::string effect::disp_desc( bool reduced ) const
     // First print stat changes, adding + if value is positive
     int tmp = get_avg_mod( "STR", reduced );
     if( tmp > 0 ) {
-        ret += string_format( _( "Strength <color_white>+%d</color>;  " ), tmp );
+        ret += string_format( _( "Strength <color_white>+%d</color>; " ), tmp );
     } else if( tmp < 0 ) {
-        ret += string_format( _( "Strength <color_white>%d</color>;  " ), tmp );
+        ret += string_format( _( "Strength <color_white>%d</color>; " ), tmp );
     }
     tmp = get_avg_mod( "DEX", reduced );
     if( tmp > 0 ) {
-        ret += string_format( _( "Dexterity <color_white>+%d</color>;  " ), tmp );
+        ret += string_format( _( "Dexterity <color_white>+%d</color>; " ), tmp );
     } else if( tmp < 0 ) {
-        ret += string_format( _( "Dexterity <color_white>%d</color>;  " ), tmp );
+        ret += string_format( _( "Dexterity <color_white>%d</color>; " ), tmp );
     }
     tmp = get_avg_mod( "PER", reduced );
     if( tmp > 0 ) {
-        ret += string_format( _( "Perception <color_white>+%d</color>;  " ), tmp );
+        ret += string_format( _( "Perception <color_white>+%d</color>; " ), tmp );
     } else if( tmp < 0 ) {
-        ret += string_format( _( "Perception <color_white>%d</color>;  " ), tmp );
+        ret += string_format( _( "Perception <color_white>%d</color>; " ), tmp );
     }
     tmp = get_avg_mod( "INT", reduced );
     if( tmp > 0 ) {
-        ret += string_format( _( "Intelligence <color_white>+%d</color>;  " ), tmp );
+        ret += string_format( _( "Intelligence <color_white>+%d</color>; " ), tmp );
     } else if( tmp < 0 ) {
-        ret += string_format( _( "Intelligence <color_white>%d</color>;  " ), tmp );
+        ret += string_format( _( "Intelligence <color_white>%d</color>; " ), tmp );
     }
     tmp = get_avg_mod( "SPEED", reduced );
     if( tmp > 0 ) {
-        ret += string_format( _( "Speed <color_white>+%d</color>;  " ), tmp );
+        ret += string_format( _( "Speed <color_white>+%d</color>; " ), tmp );
     } else if( tmp < 0 ) {
-        ret += string_format( _( "Speed <color_white>%d</color>;  " ), tmp );
+        ret += string_format( _( "Speed <color_white>%d</color>; " ), tmp );
     }
     // Newline if necessary
     if( !ret.empty() && ret.back() != '\n' ) {
@@ -717,7 +726,7 @@ std::string effect::disp_desc( bool reduced ) const
     values.emplace_back( get_percentage( "SLEEP", val, reduced ), val, _( "blackouts" ),
                          _( "blackouts" ) );
 
-    for( auto &i : values ) {
+    for( desc_freq &i : values ) {
         if( i.val > 0 ) {
             // +50% chance, every other step
             if( i.chance >= 50.0 ) {
@@ -815,14 +824,30 @@ std::string effect::disp_short_desc( bool reduced ) const
     }
 }
 
+static bool effect_is_blocked( const efftype_id &e, const effects_map &eff_map )
+{
+    for( const auto &eff_grp : eff_map ) {
+        for( const auto &eff : eff_grp.second ) {
+            for( const efftype_id &block : eff.second.get_blocks_effects() ) {
+                if( block == e ) {
+                    return true;
+                }
+            }
+        }
+    }
+    return false;
+}
+
 void effect::decay( std::vector<efftype_id> &rem_ids, std::vector<bodypart_id> &rem_bps,
-                    const time_point &time, const bool player )
+                    const time_point &time, const bool player, const effects_map &eff_map )
 {
     // Decay intensity if supposed to do so, removing effects at zero intensity
     if( intensity > 0 && eff_type->int_decay_tick != 0 &&
         to_turn<int>( time ) % eff_type->int_decay_tick == 0 &&
         get_max_duration() > get_duration() ) {
-        set_intensity( intensity + eff_type->int_decay_step, player );
+        if( eff_type->int_decay_step <= 0 || !effect_is_blocked( eff_type->id, eff_map ) ) {
+            set_intensity( intensity + eff_type->int_decay_step, player );
+        }
         if( intensity <= 0 ) {
             rem_ids.push_back( get_id() );
             rem_bps.push_back( bp.id() );
@@ -1444,10 +1469,10 @@ void load_effect_type( const JsonObject &jo )
         } else if( r == "mixed" ) {
             new_etype.rating = e_mixed;
         } else {
-            jo.throw_error(
+            jo.throw_error_at(
+                "rating",
                 string_format( "Unexpected rating \"%s\"; expected \"good\", \"neutral\", "
-                               "\"bad\", or \"mixed\"", r ),
-                "rating" );
+                               "\"bad\", or \"mixed\"", r ) );
         }
     } else {
         new_etype.rating = e_neutral;
@@ -1516,7 +1541,12 @@ void load_effect_type( const JsonObject &jo )
     new_etype.impairs_movement = hardcoded_movement_impairing.count( new_etype.id ) > 0;
 
     new_etype.flags = jo.get_tags<flag_id>( "flags" );
-
+    int enchant_num = 0;
+    for( JsonValue jv : jo.get_array( "enchantments" ) ) {
+        std::string enchant_name = "INLINE_ENCH_" + new_etype.id.str() + "_" + std::to_string(
+                                       enchant_num++ );
+        new_etype.enchantments.push_back( enchantment::load_inline_enchantment( jv, "", enchant_name ) );
+    }
     effect_types[new_etype.id] = new_etype;
 }
 

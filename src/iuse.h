@@ -8,6 +8,7 @@
 #include <vector>
 
 #include "clone_ptr.h"
+#include "item_location.h"
 #include "optional.h"
 #include "type_id.h"
 #include "units_fwd.h"
@@ -20,7 +21,11 @@ struct iteminfo;
 struct tripoint;
 template<typename T> class ret_val;
 
-// iuse methods returning a bool indicating whether to consume a charge of the item being used.
+// iuse methods return the number of charges expended, which is usually "1", or no value.
+// Returning 0 indicates the item has not been used up, though it may have been successfully activated.
+// 0 may also mean that the consumption and time progress was handled within iuse action.
+// If the item is destroyed here the return value must be 0.
+// A return of cata::nullopt means it was not used at all.
 namespace iuse
 {
 
@@ -55,8 +60,6 @@ cata::optional<int> petfood( Character *p, item *it, bool, const tripoint & );
 cata::optional<int> plantblech( Character *, item *, bool, const tripoint & );
 cata::optional<int> poison( Character *, item *, bool, const tripoint & );
 cata::optional<int> prozac( Character *, item *, bool, const tripoint & );
-cata::optional<int> purifier( Character *, item *, bool, const tripoint & );
-cata::optional<int> purify_iv( Character *, item *, bool, const tripoint & );
 cata::optional<int> purify_smart( Character *, item *, bool, const tripoint & );
 cata::optional<int> sewage( Character *, item *, bool, const tripoint & );
 cata::optional<int> smoking( Character *, item *, bool, const tripoint & );
@@ -68,7 +71,6 @@ cata::optional<int> xanax( Character *, item *, bool, const tripoint & );
 // TOOLS
 cata::optional<int> acidbomb_act( Character *, item *, bool, const tripoint & );
 cata::optional<int> adrenaline_injector( Character *, item *, bool, const tripoint & );
-cata::optional<int> arrow_flammable( Character *, item *, bool, const tripoint & );
 cata::optional<int> bell( Character *, item *, bool, const tripoint & );
 cata::optional<int> blood_draw( Character *, item *, bool, const tripoint & );
 cata::optional<int> boltcutters( Character *, item *, bool, const tripoint & );
@@ -94,9 +96,9 @@ cata::optional<int> coin_flip( Character *, item *, bool, const tripoint & );
 cata::optional<int> combatsaw_off( Character *, item *, bool, const tripoint & );
 cata::optional<int> combatsaw_on( Character *, item *, bool, const tripoint & );
 cata::optional<int> contacts( Character *, item *, bool, const tripoint & );
+cata::optional<int> cord_attach( Character *, item *, bool, const tripoint & );
 cata::optional<int> crowbar( Character *, item *, bool, const tripoint & );
-cata::optional<int> cs_lajatang_off( Character *, item *, bool, const tripoint & );
-cata::optional<int> cs_lajatang_on( Character *, item *, bool, const tripoint & );
+cata::optional<int> crowbar_weak( Character *, item *, bool, const tripoint & );
 cata::optional<int> dig( Character *, item *, bool, const tripoint & );
 cata::optional<int> dig_channel( Character *, item *, bool, const tripoint & );
 cata::optional<int> directional_antenna( Character *, item *, bool, const tripoint & );
@@ -105,12 +107,12 @@ cata::optional<int> dive_tank( Character *, item *, bool, const tripoint & );
 cata::optional<int> dog_whistle( Character *, item *, bool, const tripoint & );
 cata::optional<int> e_combatsaw_off( Character *, item *, bool, const tripoint & );
 cata::optional<int> e_combatsaw_on( Character *, item *, bool, const tripoint & );
-cata::optional<int> ecs_lajatang_off( Character *, item *, bool, const tripoint & );
-cata::optional<int> ecs_lajatang_on( Character *, item *, bool, const tripoint & );
 cata::optional<int> ehandcuffs( Character *, item *, bool, const tripoint & );
 cata::optional<int> einktabletpc( Character *, item *, bool, const tripoint & );
 cata::optional<int> elec_chainsaw_off( Character *, item *, bool, const tripoint & );
 cata::optional<int> elec_chainsaw_on( Character *, item *, bool, const tripoint & );
+cata::optional<int> emf_passive_off( Character *, item *, bool, const tripoint & );
+cata::optional<int> emf_passive_on( Character *, item *, bool, const tripoint & );
 cata::optional<int> extinguisher( Character *, item *, bool, const tripoint & );
 cata::optional<int> fill_pit( Character *, item *, bool, const tripoint & );
 cata::optional<int> firecracker( Character *, item *, bool, const tripoint & );
@@ -138,7 +140,7 @@ cata::optional<int> hotplate( Character *, item *, bool, const tripoint & );
 cata::optional<int> hotplate_atomic( Character *, item *, bool, const tripoint & );
 cata::optional<int> jackhammer( Character *, item *, bool, const tripoint & );
 cata::optional<int> jet_injector( Character *, item *, bool, const tripoint & );
-cata::optional<int> ladder( Character *, item *, bool, const tripoint & );
+cata::optional<int> ladder( Character *, item *it, bool, const tripoint & );
 cata::optional<int> lumber( Character *, item *, bool, const tripoint & );
 cata::optional<int> ma_manual( Character *, item *, bool, const tripoint & );
 cata::optional<int> magic_8_ball( Character *, item *, bool, const tripoint & );
@@ -146,8 +148,8 @@ cata::optional<int> electricstorage( Character *, item *, bool, const tripoint &
 cata::optional<int> ebooksave( Character *, item *, bool, const tripoint & );
 cata::optional<int> ebookread( Character *, item *, bool, const tripoint & );
 cata::optional<int> makemound( Character *, item *, bool, const tripoint & );
+cata::optional<int> manage_exosuit( Character *, item *, bool, const tripoint & );
 cata::optional<int> melatonin_tablet( Character *, item *, bool, const tripoint & );
-cata::optional<int> mind_splicer( Character *, item *, bool, const tripoint & );
 cata::optional<int> mininuke( Character *, item *, bool, const tripoint & );
 cata::optional<int> molotov_lit( Character *, item *, bool, const tripoint & );
 cata::optional<int> mop( Character *, item *, bool, const tripoint & );
@@ -197,6 +199,7 @@ cata::optional<int> trimmer_on( Character *, item *, bool, const tripoint & );
 cata::optional<int> unfold_generic( Character *, item *, bool, const tripoint & );
 cata::optional<int> unpack_item( Character *, item *, bool, const tripoint & );
 cata::optional<int> vibe( Character *, item *, bool, const tripoint & );
+cata::optional<int> voltmeter( Character *p, item *it, bool, const tripoint & );
 cata::optional<int> vortex( Character *, item *, bool, const tripoint & );
 cata::optional<int> wash_all_items( Character *, item *, bool, const tripoint & );
 cata::optional<int> wash_hard_items( Character *, item *, bool, const tripoint & );
@@ -207,14 +210,14 @@ cata::optional<int> weak_antibiotic( Character *, item *, bool, const tripoint &
 cata::optional<int> weather_tool( Character *, item *, bool, const tripoint & );
 cata::optional<int> sextant( Character *, item *, bool, const tripoint & );
 cata::optional<int> lux_meter( Character *, item *, bool, const tripoint & );
+cata::optional<int> dbg_lux_meter( Character *, item *, bool, const tripoint & );
+cata::optional<int> calories_intake_tracker( Character *p, item *, bool, const tripoint & );
 
 // MACGUFFINS
 
 cata::optional<int> radiocar( Character *, item *, bool, const tripoint & );
 cata::optional<int> radiocaron( Character *, item *, bool, const tripoint & );
 cata::optional<int> radiocontrol( Character *, item *, bool, const tripoint & );
-
-cata::optional<int> autoclave( Character *, item *, bool, const tripoint & );
 
 cata::optional<int> multicooker( Character *, item *, bool, const tripoint & );
 
@@ -229,7 +232,7 @@ void cut_log_into_planks( Character & );
 void play_music( Character &p, const tripoint &source, int volume, int max_morale );
 int towel_common( Character *, item *, bool );
 
-// Helper for validating a potential taget of robot control
+// Helper for validating a potential target of robot control
 bool robotcontrol_can_target( Character *, const monster & );
 
 // Helper for handling pesky wannabe-artists
@@ -241,6 +244,8 @@ cata::optional<std::string> can_smoke( const Character &you );
 } // namespace iuse
 
 void remove_radio_mod( item &it, Character &p );
+// used for unit testing iuse::gun_repair
+cata::optional<int> gun_repair( Character *p, item *it, item_location &loc );
 
 // Helper for clothes washing
 struct washing_requirements {
@@ -271,7 +276,7 @@ class iuse_actor
         virtual ~iuse_actor() = default;
         virtual void load( const JsonObject &jo ) = 0;
         virtual cata::optional<int> use( Character &, item &, bool, const tripoint & ) const = 0;
-        virtual ret_val<bool> can_use( const Character &, const item &, bool, const tripoint & ) const;
+        virtual ret_val<void> can_use( const Character &, const item &, bool, const tripoint & ) const;
         virtual void info( const item &, std::vector<iteminfo> & ) const {}
         /**
          * Returns a deep copy of this object. Example implementation:
@@ -294,6 +299,10 @@ class iuse_actor
          */
         virtual std::string get_name() const;
         /**
+         * Returns the translated description of the action. It is used for the item action menu.
+         */
+        virtual std::string get_description() const;
+        /**
          * Finalizes the actor. Must be called after all items are loaded.
          */
         virtual void finalize( const itype_id &/*my_item_type*/ ) { }
@@ -309,7 +318,7 @@ struct use_function {
         explicit use_function( std::unique_ptr<iuse_actor> f ) : actor( std::move( f ) ) {}
 
         cata::optional<int> call( Character &, item &, bool, const tripoint & ) const;
-        ret_val<bool> can_call( const Character &, const item &, bool t, const tripoint &pos ) const;
+        ret_val<void> can_call( const Character &, const item &, bool t, const tripoint &pos ) const;
 
         iuse_actor *get_actor_ptr() {
             return actor.get();
@@ -327,6 +336,8 @@ struct use_function {
         std::string get_type() const;
         /** @return See @ref iuse_actor::get_name */
         std::string get_name() const;
+        /** @return See @ref iuse_actor::get_description */
+        std::string get_description() const;
         /** @return Used by @ref item::info to get description of the actor */
         void dump_info( const item &, std::vector<iteminfo> & ) const;
 };

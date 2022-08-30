@@ -13,13 +13,13 @@
 #include "catacharset.h"
 #include "color.h"
 #include "damage.h"
-#include "dialogue.h"
 #include "optional.h"
 #include "translations.h"
 #include "type_id.h"
 
 class JsonObject;
 template <typename E> struct enum_traits;
+struct dialogue;
 template<typename T>
 class generic_factory;
 
@@ -59,6 +59,9 @@ enum weather_sound_category : int {
     snowstorm,
     snow,
     portal_storm,
+    clear,
+    sunny,
+    cloudy,
     last
 };
 
@@ -84,6 +87,7 @@ struct weather_type {
         friend class generic_factory<weather_type>;
         bool was_loaded = false;
         weather_type_id id;
+        std::vector<std::pair<weather_type_id, mod_id>> src;
         // UI name of weather type.
         translation name;
         // UI color of weather type.
@@ -98,6 +102,8 @@ struct weather_type {
         float sight_penalty = 0.0f;
         // Modification to ambient light.
         int light_modifier = 0;
+        // Multiplier to radiation from Sun.
+        float sun_multiplier = 1.f;
         // Sound attenuation of a given weather type.
         int sound_attn = 0;
         // If true, our activity gets interrupted.
@@ -121,6 +127,8 @@ struct weather_type {
         std::vector<weather_type_id> required_weathers;
         time_duration duration_min = 0_turns;
         time_duration duration_max = 0_turns;
+        cata::optional<std::string> debug_cause_eoc;
+        cata::optional<std::string> debug_leave_eoc;
         void load( const JsonObject &jo, const std::string &src );
         void finalize();
         void check() const;

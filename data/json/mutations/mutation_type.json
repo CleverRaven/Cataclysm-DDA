@@ -5,7 +5,111 @@
   },
   {
     "type": "mutation_type",
+    "id": "SUNLIGHT"
+  },
+  {
+    "type": "mutation_type",
+    "id": "GILLS"
+  },
+  {
+    "type": "mutation_type",
+    "id": "CONSTITUTION"
+  },
+  {
+    "type": "mutation_type",
+    "id": "ATTRACTIVENESS"
+  },
+  {
+    "type": "mutation_type",
+    "id": "SIZE"
+  },
+  {
+    "type": "mutation_type",
+    "id": "STR"
+  },
+  {
+    "type": "mutation_type",
+    "id": "DEX"
+  },
+  {
+    "type": "mutation_type",
+    "id": "PER"
+  },
+  {
+    "type": "mutation_type",
+    "id": "INT"
+  },
+  {
+    "type": "mutation_type",
+    "id": "ATTITUDE"
+  },
+  {
+    "type": "mutation_type",
+    "id": "BUILD"
+  },
+  {
+    "type": "mutation_type",
+    "id": "DURABILITY"
+  },
+  {
+    "type": "mutation_type",
+    "id": "ARMOR"
+  },
+  {
+    "type": "mutation_type",
+    "id": "TORSO_ARMOR"
+  },
+  {
+    "type": "mutation_type",
+    "id": "THIRST"
+  },
+  {
+    "type": "mutation_type",
+    "id": "DIET"
+  },
+  {
+    "type": "mutation_type",
+    "id": "CARDIO"
+  },
+  {
+    "type": "mutation_type",
+    "id": "EYES"
+  },
+  {
+    "type": "mutation_type",
+    "id": "VISION"
+  },
+  {
+    "type": "mutation_type",
+    "id": "PAIN"
+  },
+  {
+    "type": "mutation_type",
+    "id": "PAIN_RECOVERY"
+  },
+  {
+    "type": "mutation_type",
+    "id": "HUMAN_EMPATHY"
+  },
+  {
+    "type": "mutation_type",
+    "id": "SECRETION"
+  },
+  {
+    "type": "mutation_type",
+    "id": "ANIMAL_EMPATHY"
+  },
+  {
+    "type": "mutation_type",
+    "id": "PREDATION"
+  },
+  {
+    "type": "mutation_type",
     "id": "HEALING"
+  },
+  {
+    "type": "mutation_type",
+    "id": "BONES"
   },
   {
     "type": "mutation_type",
@@ -25,7 +129,19 @@
   },
   {
     "type": "mutation_type",
+    "id": "PHEROMONE"
+  },
+  {
+    "type": "mutation_type",
     "id": "HANDS"
+  },
+  {
+    "type": "mutation_type",
+    "id": "FEET"
+  },
+  {
+    "type": "mutation_type",
+    "id": "SOLES"
   },
   {
     "type": "mutation_type",
@@ -61,11 +177,19 @@
   },
   {
     "type": "mutation_type",
+    "id": "HEARING"
+  },
+  {
+    "type": "mutation_type",
     "id": "WHISKERS"
   },
   {
     "type": "mutation_type",
     "id": "WINGS"
+  },
+  {
+    "type": "mutation_type",
+    "id": "ARMS"
   },
   {
     "type": "mutation_type",

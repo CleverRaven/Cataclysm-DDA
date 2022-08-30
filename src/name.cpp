@@ -16,7 +16,11 @@
 
 namespace Name
 {
-static std::map< nameFlags, std::vector< std::string > > names;
+names_map &get_names()
+{
+    static names_map names;
+    return names;
+}
 
 static const std::map< std::string, nameFlags > usage_flags = {
     { "given",     nameFlags::IsGivenName },
@@ -76,10 +80,10 @@ static void load( JsonIn &jsin )
         // find group type and add name(s) to group
         if( jo.has_array( "name" ) ) {
             for( const std::string n : jo.get_array( "name" ) ) {
-                names[type].push_back( n );
+                get_names()[type].push_back( n );
             }
         } else {
-            names[type].push_back( jo.get_string( "name" ) );
+            get_names()[type].push_back( jo.get_string( "name" ) );
         }
     }
 }
@@ -93,11 +97,11 @@ void load_from_file( const std::string &filename )
 //
 // i.e. if searchFlag is  [ Male|Family ]
 // it will match any group with those two flags set, such as [ Unisex|Family ]
-using names_vec = std::vector< decltype( names.cbegin() ) >;
+using names_vec = std::vector < decltype( get_names().cbegin() ) >;
 static names_vec get_matching_groups( nameFlags searchFlags )
 {
     names_vec matching_groups;
-    for( auto it = names.cbegin(), end = names.cend(); it != end; ++it ) {
+    for( auto it = get_names().cbegin(), end = get_names().cend(); it != end; ++it ) {
         const nameFlags type = it->first;
         if( ( searchFlags & type ) == searchFlags ) {
             matching_groups.push_back( it );
@@ -141,8 +145,8 @@ std::string generate( bool is_male )
     } else {
         //~ Used for constructing full name: %1$s is `given name`, %2$s is `family name`
         translation full_name_format = to_translation( "Full Name", "%1$s %2$s" );
-        //One in three chance to add a nickname to full name
-        if( one_in( 3 ) ) {
+        // Chance to add a nickname to full name
+        if( one_in( 10 ) ) {
             //~ Used for constructing full name with nickname: %1$s is `given name`, %2$s is `family name`, %3$s is `nickname`
             full_name_format = to_translation( "Full Name", "%1$s '%3$s' %2$s" );
         }
@@ -156,7 +160,7 @@ std::string generate( bool is_male )
 
 void clear()
 {
-    names.clear();
+    get_names().clear();
 }
 } // namespace Name
 

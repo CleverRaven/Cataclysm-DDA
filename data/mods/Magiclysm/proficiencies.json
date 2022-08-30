@@ -1,7 +1,14 @@
 [
   {
+    "type": "proficiency_category",
+    "id": "prof_alchemy",
+    "name": "Alchemy",
+    "description": "Proficiencies for working with the elements and transforming substances."
+  },
+  {
     "type": "proficiency",
     "id": "prof_alchemy",
+    "category": "prof_alchemy",
     "name": { "str": "Alchemy" },
     "description": "You know the basics of manipulating the mana of objects through application of chemical laws.",
     "can_learn": true,
@@ -12,6 +19,7 @@
   {
     "type": "proficiency",
     "id": "prof_almetallurgy",
+    "category": "prof_alchemy",
     "name": { "str": "Almetallurgy" },
     "description": "The forging of magical alloys is a complex process requiring an understanding of both mundane metals and alchemy.",
     "can_learn": true,
@@ -23,6 +31,7 @@
   {
     "type": "proficiency",
     "id": "prof_leatherworking_dragon",
+    "category": "prof_tailoring",
     "name": { "str": "Dragon leather working" },
     "description": "Working with dragon leather requires a specific set of skills and tools… a set you are familiar with.",
     "can_learn": true,
@@ -34,6 +43,7 @@
   {
     "type": "proficiency",
     "id": "prof_scaleworking_dragon",
+    "category": "prof_tailoring",
     "name": { "str": "Dragon scale working" },
     "description": "Working with dragon scales requires a specific set of skills and tools… a set you are familiar with.",
     "can_learn": true,
@@ -45,6 +55,7 @@
   {
     "type": "proficiency",
     "id": "prof_golemancy_basic",
+    "category": "prof_alchemy",
     "name": { "str": "Basic Golemancy" },
     "description": "Infusing shaped material with your will and the ability to move is hard but you're starting to get it.",
     "can_learn": true,

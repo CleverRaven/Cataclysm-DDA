@@ -9,6 +9,11 @@ on:
     branches:
     - master
 
+# We only care about the latest revision of a PR, so cancel all previous instances.
+concurrency:
+  group: clang-tidy-build-${{ github.event.pull_request.number || github.ref_name }}
+  cancel-in-progress: true
+
 jobs:
   skip-duplicates:
     continue-on-error: true
@@ -21,7 +26,7 @@ jobs:
         uses: fkirc/skip-duplicate-actions@master
         with:
           cancel_others: 'true'
-          paths: '[ "**.cpp", "**.h", "**.c", "**/CMakeLists.txt", "**/Makefile", "**.hpp", "**.cmake" ]'
+          paths: '[ "**.cpp", "**.h", "**.c", "**/CMakeLists.txt", "**/Makefile", "**.hpp", "**.cmake", ".github/workflows/clang-tidy.yml" ]'
   build:
     needs: skip-duplicates
     if: ${{ needs.skip-duplicates.outputs.should_skip != 'true' }}
@@ -36,7 +41,7 @@ jobs:
         SOUND: 1
     steps:
     - name: checkout repository
-      uses: actions/checkout@v1
+      uses: actions/checkout@v2
       with:
         fetch-depth: 1
     - name: install dependencies
@@ -49,6 +54,24 @@ jobs:
             gettext
     - name: prepare
       run: bash ./build-scripts/requirements.sh
+    - name: determine changed files
+      if: ${{ github.event_name == 'pull_request' }}
+      uses: actions/github-script@v5
+      with:
+        script: |
+          var fs = require('fs');
+          const response = await github.paginate(github.rest.pulls.listFiles,
+            {
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: context.issue.number,
+            }
+          );
+          const files = response.map(x => x.filename);
+          for (const path of files) {
+            console.log(path);
+          }
+          fs.writeFileSync("files_changed", files.join('\n'));
     - uses: ammaraskar/gcc-problem-matcher@master
     - name: run clang-tidy
-      run: bash ./build-scripts/build.sh
+      run: bash ./build-scripts/clang-tidy.sh

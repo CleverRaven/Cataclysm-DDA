@@ -25,10 +25,10 @@ static void wield_check_from_inv( avatar &guy, const itype_id &item_name, const 
     item spawned_item( item_name, calendar::turn, 1 );
     item backpack( "backpack" );
     REQUIRE( backpack.can_contain( spawned_item ).success() );
-    guy.worn.push_back( backpack );
+    auto item_iter = guy.worn.wear_item( guy, backpack, false, false );
     REQUIRE( guy.mutation_value( "obtain_cost_multiplier" ) == 1.0 );
 
-    item_location backpack_loc( guy, &guy.worn.back() );
+    item_location backpack_loc( guy, & **item_iter );
     backpack_loc->put_in( spawned_item, item_pocket::pocket_type::CONTAINER );
     REQUIRE( backpack_loc->num_item_stacks() == 1 );
     item_location item_loc( backpack_loc, &backpack_loc->only_item() );
@@ -38,7 +38,7 @@ static void wield_check_from_inv( avatar &guy, const itype_id &item_name, const 
     guy.set_moves( 1000 );
     const int old_moves = guy.moves;
     REQUIRE( guy.wield( item_loc ) );
-    CAPTURE( guy.get_wielded_item().typeId() );
+    CAPTURE( guy.get_wielded_item()->typeId() );
     int move_cost = old_moves - guy.moves;
 
     INFO( "Strength:" << guy.get_str() );
@@ -67,8 +67,8 @@ TEST_CASE( "Wield time test", "[wield]" )
 
         avatar guy;
         guy.set_body();
-        guy.worn.push_back( backpack );
-        item_location backpack_loc( guy, &guy.worn.back() );
+        auto item_iter = guy.worn.wear_item( guy, backpack, false, false );
+        item_location backpack_loc( guy, & **item_iter );
         backpack_loc->put_in( plastic_bag, item_pocket::pocket_type::CONTAINER );
         REQUIRE( backpack_loc->num_item_stacks() == 1 );
         REQUIRE( guy.mutation_value( "obtain_cost_multiplier" ) == 1.0 );

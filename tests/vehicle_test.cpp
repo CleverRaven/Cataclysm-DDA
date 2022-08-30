@@ -98,7 +98,7 @@ TEST_CASE( "starting_bicycle_damaged_pedal" )
     vehicle_part &pedel = veh_ptr->part( veh_ptr->engines[ 0 ] );
 
     SECTION( "when the pedal has 1/4 hp" ) {
-        veh_ptr->set_hp( pedel, pedel.hp() * 0.25 );
+        veh_ptr->set_hp( pedel, pedel.hp() * 0.25, true );
         // Try starting the engine 100 time because it is random that a combustion engine does fails
         for( int i = 0; i < 100 ; i++ ) {
             CHECK( veh_ptr->start_engine( 0 ) );
@@ -106,7 +106,7 @@ TEST_CASE( "starting_bicycle_damaged_pedal" )
     }
 
     SECTION( "when the pedal has 0 hp" ) {
-        veh_ptr->set_hp( pedel, 0 );
+        veh_ptr->set_hp( pedel, 0, true );
 
         CHECK_FALSE( veh_ptr->start_engine( 0 ) );
     }

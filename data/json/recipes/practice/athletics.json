@@ -27,5 +27,21 @@
     "autolearn": [ [ "swimming", 2 ] ],
     "flags": [ "BLIND_EASY" ],
     "tools": [ [ "pseudo_exercise_machine", "pseudo_punching_bag", "pseudo_ergometer_mechanical", "pseudo_treadmill_mechanical" ] ]
+  },
+  {
+    "id": "prac_parkour",
+    "type": "practice",
+    "activity_level": "BRISK_EXERCISE",
+    "category": "CC_PRACTICE",
+    "subcategory": "CSC_PRACTICE_ATHLETICS",
+    "name": "parkour",
+    "description": "Practice parkour using a complex obstacle course.",
+    "skill_used": "swimming",
+    "autolearn": [ [ "swimming", 5 ] ],
+    "time": "1 h",
+    "practice_data": { "min_difficulty": 3, "max_difficulty": 6, "skill_limit": 5 },
+    "proficiencies": [ { "proficiency": "prof_parkour", "fail_multiplier": 3, "time_multiplier": 2 } ],
+    "flags": [ "BLIND_EASY" ],
+    "tools": [ [ "parkour_practice" ] ]
   }
 ]

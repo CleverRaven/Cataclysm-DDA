@@ -12,6 +12,7 @@
 #include "event.h"
 #include "game.h"
 #include "mtype.h"
+#include "npc.h"
 #include "options.h"
 #include "string_formatter.h"
 #include "translations.h"

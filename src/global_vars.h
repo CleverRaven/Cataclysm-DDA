@@ -1,10 +1,21 @@
 #pragma once
 #ifndef CATA_SRC_GLOBAL_VARS_H
 #define CATA_SRC_GLOBAL_VARS_H
+#include <utility>
+
 #include "json.h"
+
+enum class var_type : int {
+    u,
+    npc,
+    global,
+    faction,
+    party,
+    last
+};
+
 class global_variables
 {
-
     public:
         // Methods for setting/getting misc key/value pairs.
         void set_global_value( const std::string &key, const std::string &value ) {
@@ -29,7 +40,7 @@ class global_variables
         }
 
         void set_global_values( std::unordered_map<std::string, std::string> input ) {
-            global_values = input;
+            global_values = std::move( input );
         }
         void unserialize( JsonObject &jo );
         void serialize( JsonOut &jsout ) const;

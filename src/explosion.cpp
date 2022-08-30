@@ -133,7 +133,7 @@ namespace explosion_handler
 static int ballistic_damage( float velocity, float mass )
 {
     // Damage is square root of Joules, dividing by 2000 because it's dividing by 2 and
-    // converting mass from grams to kg. The inital term is simply a scaling factor.
+    // converting mass from grams to kg. The initial term is simply a scaling factor.
     return 4.0 * std::sqrt( ( velocity * velocity * mass ) / 2000.0 );
 }
 // Calculate cross-sectional area of a steel sphere in cm^2 based on mass of fragment.
@@ -148,7 +148,7 @@ static float mass_to_area( const float mass )
 
 // Approximate Gurney constant for Composition B and C (in m/s instead of the usual km/s).
 // Source: https://en.wikipedia.org/wiki/Gurney_equations#Gurney_constant_and_detonation_velocity
-constexpr double TYPICAL_GURNEY_CONSTANT = 2700.0;
+static constexpr double TYPICAL_GURNEY_CONSTANT = 2700.0;
 static float gurney_spherical( const double charge, const double mass )
 {
     return static_cast<float>( std::pow( ( mass / charge ) + ( 3.0 / 5.0 ),
@@ -301,8 +301,8 @@ static void do_blast( const tripoint &p, const float power,
 
         if( const optional_vpart_position vp = here.veh_at( pt ) ) {
             // TODO: Make this weird unit used by vehicle::damage more sensible
-            vp->vehicle().damage( vp->part_index(), force, fire ? damage_type::HEAT : damage_type::BASH,
-                                  false );
+            vp->vehicle().damage( here, vp->part_index(), force,
+                                  fire ? damage_type::HEAT : damage_type::BASH, false );
         }
 
         Creature *critter = creatures.creature_at( pt, true );
@@ -347,7 +347,7 @@ static void do_blast( const tripoint &p, const float power,
             }
         };
 
-        for( const auto &blp : blast_parts ) {
+        for( const blastable_part &blp : blast_parts ) {
             const int part_dam = rng( force * blp.low_mul, force * blp.high_mul );
             const std::string hit_part_name = body_part_name_accusative( blp.bp );
             const damage_instance dmg_instance = damage_instance( damage_type::BASH, part_dam, 0,
@@ -382,13 +382,13 @@ static std::vector<tripoint> shrapnel( const tripoint &src, int power,
     proj.proj_effects.insert( "NULL_SOURCE" );
 
     struct local_caches {
-        fragment_cloud obstacle_cache[MAPSIZE_X][MAPSIZE_Y];
-        fragment_cloud visited_cache[MAPSIZE_X][MAPSIZE_Y];
+        cata::mdarray<fragment_cloud, point_bub_ms> obstacle_cache;
+        cata::mdarray<fragment_cloud, point_bub_ms> visited_cache;
     };
 
     std::unique_ptr<local_caches> caches = std::make_unique<local_caches>();
-    fragment_cloud( &obstacle_cache )[MAPSIZE_X][MAPSIZE_Y] = caches->obstacle_cache;
-    fragment_cloud( &visited_cache )[MAPSIZE_X][MAPSIZE_Y] = caches->visited_cache;
+    cata::mdarray<fragment_cloud, point_bub_ms> &obstacle_cache = caches->obstacle_cache;
+    cata::mdarray<fragment_cloud, point_bub_ms> &visited_cache = caches->visited_cache;
 
     map &here = get_map();
     // TODO: Calculate range based on max effective range for projectiles.
@@ -457,7 +457,7 @@ static std::vector<tripoint> shrapnel( const tripoint &src, int power,
         }
         if( here.impassable( target ) ) {
             if( optional_vpart_position vp = here.veh_at( target ) ) {
-                vp->vehicle().damage( vp->part_index(), damage / 10 );
+                vp->vehicle().damage( here, vp->part_index(), damage / 10 );
             } else {
                 here.bash( target, damage / 100, true );
             }
@@ -481,7 +481,7 @@ void explosion( const tripoint &p, float power, float factor, bool fire,
 
 void explosion( const tripoint &p, const explosion_data &ex )
 {
-    _explosions.emplace_back( p, ex );
+    _explosions.emplace_back( get_map().getglobal( p ), ex );
 }
 
 void _make_explosion( const tripoint &p, const explosion_data &ex )
@@ -507,7 +507,7 @@ void _make_explosion( const tripoint &p, const explosion_data &ex )
     }
 
     map &here = get_map();
-    const auto &shr = ex.shrapnel;
+    const shrapnel_data &shr = ex.shrapnel;
     if( shr.casing_mass > 0 ) {
         auto shrapnel_locations = shrapnel( p, ex.power, shr.casing_mass, shr.fragment_mass );
 
@@ -516,7 +516,7 @@ void _make_explosion( const tripoint &p, const explosion_data &ex )
 
             // Extract only passable tiles affected by shrapnel
             std::vector<tripoint> tiles;
-            for( const auto &e : shrapnel_locations ) {
+            for( const tripoint &e : shrapnel_locations ) {
                 if( here.passable( e ) ) {
                     tiles.push_back( e );
                 }
@@ -528,7 +528,7 @@ void _make_explosion( const tripoint &p, const explosion_data &ex )
             std::shuffle( tiles.begin(), tiles.end(), rng_get_engine() );
             tiles.resize( std::min( static_cast<int>( tiles.size() ), qty ) );
 
-            for( const auto &e : tiles ) {
+            for( const tripoint &e : tiles ) {
                 here.add_item_or_charges( e, item( shr.drop, calendar::turn, item::solitary_tag{} ) );
             }
         }
@@ -746,13 +746,13 @@ void emp_blast( const tripoint &p )
         }
         // TODO: More effects?
         //e-handcuffs effects
-        item &weapon = player_character.get_wielded_item();
-        if( weapon.typeId() == itype_e_handcuffs && weapon.charges > 0 ) {
-            weapon.unset_flag( STATIC( flag_id( "NO_UNWIELD" ) ) );
-            weapon.charges = 0;
-            weapon.active = false;
+        item_location weapon = player_character.get_wielded_item();
+        if( weapon && weapon->typeId() == itype_e_handcuffs && weapon->charges > 0 ) {
+            weapon->unset_flag( STATIC( flag_id( "NO_UNWIELD" ) ) );
+            weapon->charges = 0;
+            weapon->active = false;
             add_msg( m_good, _( "The %s on your wrists spark briefly, then release your hands!" ),
-                     weapon.tname() );
+                     weapon->tname() );
         }
     }
     // Drain any items of their battery charge
@@ -783,7 +783,6 @@ void resonance_cascade( const tripoint &p )
     Character &player_character = get_player_character();
     const time_duration maxglow = time_duration::from_turns( 100 - 5 * trig_dist( p,
                                   player_character.pos() ) );
-    MonsterGroupResult spawn_details;
     if( maxglow > 0_turns ) {
         const time_duration minglow = std::max( 0_turns, time_duration::from_turns( 60 - 5 * trig_dist( p,
                                                 player_character.pos() ) ) );
@@ -828,7 +827,8 @@ void resonance_cascade( const tripoint &p )
                                     break;
                             }
                             if( !one_in( 3 ) ) {
-                                here.add_field( { k, l, p.z }, type, 3 );
+                                // TODO: fix point types
+                                here.add_field( tripoint_bub_ms{ k, l, p.z }, type, 3 );
                             }
                         }
                     }
@@ -846,10 +846,14 @@ void resonance_cascade( const tripoint &p )
                     break;
                 case 13:
                 case 14:
-                case 15:
-                    spawn_details = MonsterGroupManager::GetResultFromGroup( GROUP_NETHER );
-                    g->place_critter_at( spawn_details.name, dest );
-                    break;
+                case 15: {
+                    std::vector<MonsterGroupResult> spawn_details =
+                        MonsterGroupManager::GetResultFromGroup( GROUP_NETHER );
+                    for( const MonsterGroupResult &mgr : spawn_details ) {
+                        g->place_critter_at( mgr.name, dest );
+                    }
+                }
+                break;
                 case 16:
                 case 17:
                 case 18:
@@ -868,7 +872,12 @@ void resonance_cascade( const tripoint &p )
 void process_explosions()
 {
     for( const queued_explosion &ex : _explosions ) {
-        _make_explosion( ex.first, ex.second );
+        const tripoint p = get_map().getlocal( ex.first );
+        if( p.x < 0 || p.x >= MAPSIZE_X || p.y < 0 || p.y >= MAPSIZE_Y ) {
+            debugmsg( "Explosion origin (%d, %d, %d) is out-of-bounds", p.x, p.y, p.z );
+            continue;
+        }
+        _make_explosion( p, ex.second );
     }
     _explosions.clear();
 }
@@ -884,7 +893,7 @@ fragment_cloud &fragment_cloud::operator=( const float &value )
     return *this;
 }
 
-bool fragment_cloud::operator==( const fragment_cloud &that )
+bool fragment_cloud::operator==( const fragment_cloud &that ) const
 {
     return velocity == that.velocity && density == that.density;
 }

@@ -31,7 +31,7 @@
     "description": "A cleared spot on the ground for crafting.  Slower than using a workbench or holding a project in your hands, but readily available.",
     "symbol": "x",
     "color": "white",
-    "move_cost_mod": 2,
+    "move_cost_mod": 0,
     "required_str": 0,
     "deconstruct": { "items": [  ] },
     "bash": { "str_min": 0, "str_max": 0, "items": [  ] },

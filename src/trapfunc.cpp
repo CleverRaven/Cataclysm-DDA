@@ -22,6 +22,7 @@
 #include "game.h"
 #include "game_constants.h"
 #include "item.h"
+#include "make_static.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
@@ -50,9 +51,17 @@ static const efftype_id effect_ridden( "ridden" );
 static const efftype_id effect_slimed( "slimed" );
 static const efftype_id effect_tetanus( "tetanus" );
 
+static const flag_id json_flag_LEVITATION( "LEVITATION" );
+static const flag_id json_flag_UNCONSUMED( "UNCONSUMED" );
+
 static const itype_id itype_bullwhip( "bullwhip" );
 static const itype_id itype_grapnel( "grapnel" );
+static const itype_id itype_grenade_act( "grenade_act" );
 static const itype_id itype_rope_30( "rope_30" );
+
+static const json_character_flag json_flag_WALL_CLING( "WALL_CLING" );
+static const json_character_flag json_flag_WINGS_1( "WINGS_1" );
+static const json_character_flag json_flag_WINGS_2( "WINGS_2" );
 
 static const material_id material_kevlar( "kevlar" );
 static const material_id material_steel( "steel" );
@@ -69,8 +78,8 @@ static const species_id species_ROBOT( "ROBOT" );
 
 static const trait_id trait_INFIMMUNE( "INFIMMUNE" );
 static const trait_id trait_INFRESIST( "INFRESIST" );
-static const trait_id trait_WINGS_BIRD( "WINGS_BIRD" );
-static const trait_id trait_WINGS_BUTTERFLY( "WINGS_BUTTERFLY" );
+
+
 
 // A pit becomes less effective as it fills with corpses.
 static float pit_effectiveness( const tripoint &p )
@@ -114,8 +123,8 @@ bool trapfunc::bubble( const tripoint &p, Creature *c, item * )
 bool trapfunc::glass( const tripoint &p, Creature *c, item * )
 {
     if( c != nullptr ) {
-        // tiny animals and hallucinations don't trigger glass trap
-        if( c->get_size() == creature_size::tiny || c->is_hallucination() ) {
+        // tiny animals don't trigger glass trap
+        if( c->get_size() == creature_size::tiny ) {
             return false;
         }
         c->add_msg_player_or_npc( m_warning, _( "You step on some glass!" ),
@@ -173,19 +182,20 @@ bool trapfunc::beartrap( const tripoint &p, Creature *c, item * )
         damage_instance d;
         d.add_damage( damage_type::BASH, 12 );
         d.add_damage( damage_type::CUT, 18 );
-        c->deal_damage( nullptr, hit, d );
+        dealt_damage_instance dealt_dmg = c->deal_damage( nullptr, hit, d );
 
         Character *you = dynamic_cast<Character *>( c );
-        if( you != nullptr && !you->has_trait( trait_INFIMMUNE ) ) {
+        if( you != nullptr && !you->has_trait( trait_INFIMMUNE ) &&
+            dealt_dmg.type_damage( damage_type::CUT ) > 0 ) {
             const int chance_in = you->has_trait( trait_INFRESIST ) ? 512 : 128;
             if( one_in( chance_in ) ) {
                 you->add_effect( effect_tetanus, 1_turns, true );
             }
         }
         c->check_dead_state();
-    } else {
-        here.spawn_item( p, "beartrap" );
     }
+
+    here.spawn_item( p, "beartrap" );
     return true;
 }
 
@@ -214,11 +224,13 @@ bool trapfunc::board( const tripoint &, Creature *c, item * )
         z->deal_damage( nullptr, bodypart_id( "foot_r" ), damage_instance( damage_type::CUT, rng( 3,
                         5 ) ) );
     } else {
-        c->deal_damage( nullptr, bodypart_id( "foot_l" ), damage_instance( damage_type::CUT, rng( 6,
-                        10 ) ) );
-        c->deal_damage( nullptr, bodypart_id( "foot_r" ), damage_instance( damage_type::CUT, rng( 6,
-                        10 ) ) );
-        if( !you->has_trait( trait_INFIMMUNE ) ) {
+        dealt_damage_instance dealt_dmg_l = c->deal_damage( nullptr, bodypart_id( "foot_l" ),
+                                            damage_instance( damage_type::CUT, rng( 6, 10 ) ) );
+        dealt_damage_instance dealt_dmg_r = c->deal_damage( nullptr, bodypart_id( "foot_r" ),
+                                            damage_instance( damage_type::CUT, rng( 6, 10 ) ) );
+        int total_cut_dmg = dealt_dmg_l.type_damage( damage_type::CUT ) + dealt_dmg_l.type_damage(
+                                damage_type::CUT );
+        if( !you->has_trait( trait_INFIMMUNE ) && total_cut_dmg > 0 ) {
             const int chance_in = you->has_trait( trait_INFRESIST ) ? 256 : 35;
             if( one_in( chance_in ) ) {
                 you->add_effect( effect_tetanus, 1_turns, true );
@@ -268,7 +280,7 @@ bool trapfunc::caltrops_glass( const tripoint &p, Creature *c, item * )
         return false;
     }
     // tiny animals don't trigger caltrops, they can squeeze between them
-    if( c->get_size() == creature_size::tiny || c->is_hallucination() ) {
+    if( c->get_size() == creature_size::tiny ) {
         return false;
     }
     c->add_msg_player_or_npc( m_bad, _( "You step on a sharp glass caltrop!" ),
@@ -667,7 +679,11 @@ bool trapfunc::boobytrap( const tripoint &p, Creature *c, item * )
         c->add_msg_player_or_npc( m_bad, _( "You trigger a booby trap!" ),
                                   _( "<npcname> triggers a booby trap!" ) );
     }
-    explosion_handler::explosion( p, 18, 0.6, false, 12 );
+
+    item grenade( itype_grenade_act );
+    grenade.active = true;
+    get_map().add_item( p, grenade );
+
     get_map().remove_trap( p );
     return true;
 }
@@ -802,12 +818,12 @@ bool trapfunc::pit( const tripoint &p, Creature *c, item * )
     monster *z = dynamic_cast<monster *>( c );
     Character *you = dynamic_cast<Character *>( c );
     if( you != nullptr ) {
-        if( you->has_trait( trait_WINGS_BIRD ) || ( one_in( 2 ) &&
-                you->has_trait( trait_WINGS_BUTTERFLY ) ) ) {
+        if( you->has_flag( json_flag_WINGS_2 ) || ( one_in( 2 ) &&
+                you->has_flag( json_flag_WINGS_1 ) ) ) {
             you->add_msg_if_player( _( "You flap your wings and flutter down gracefully." ) );
         } else if( you->has_active_bionic( bio_shock_absorber ) ) {
             you->add_msg_if_player( m_info,
-                                    _( "You hit the ground hard, but your shock absorbers handle the impact admirably!" ) );
+                                    _( "You hit the ground hard, but your grav chute handles the impact admirably!" ) );
         } else {
             int dodge = you->get_dodge();
             ///\EFFECT_DODGE reduces damage taken falling into a pit
@@ -854,12 +870,12 @@ bool trapfunc::pit_spikes( const tripoint &p, Creature *c, item * )
     if( you != nullptr ) {
         int dodge = you->get_dodge();
         int damage = pit_effectiveness( p ) * rng( 20, 50 );
-        if( you->has_trait( trait_WINGS_BIRD ) || ( one_in( 2 ) &&
-                you->has_trait( trait_WINGS_BUTTERFLY ) ) ) {
+        if( you->has_flag( json_flag_WINGS_2 ) || ( one_in( 2 ) &&
+                you->has_flag( json_flag_WINGS_1 ) ) ) {
             you->add_msg_if_player( _( "You flap your wings and flutter down gracefully." ) );
         } else if( you->has_active_bionic( bio_shock_absorber ) ) {
             you->add_msg_if_player( m_info,
-                                    _( "You hit the ground hard, but your shock absorbers handle the impact admirably!" ) );
+                                    _( "You hit the ground hard, but your grav chute handles the impact admirably!" ) );
             ///\EFFECT_DODGE reduces chance of landing on spikes in spiked pit
         } else if( 0 == damage || rng( 5, 30 ) < dodge ) {
             you->add_msg_if_player( _( "You avoid the spikes within." ) );
@@ -889,8 +905,9 @@ bool trapfunc::pit_spikes( const tripoint &p, Creature *c, item * )
             }
             you->add_msg_if_player( m_bad, _( "The spikes impale your %s!" ),
                                     body_part_name_accusative( hit ) );
-            you->deal_damage( nullptr, hit, damage_instance( damage_type::CUT, damage ) );
-            if( !you->has_trait( trait_INFIMMUNE ) ) {
+            dealt_damage_instance dealt_dmg = you->deal_damage( nullptr, hit, damage_instance( damage_type::CUT,
+                                              damage ) );
+            if( !you->has_trait( trait_INFIMMUNE ) && dealt_dmg.type_damage( damage_type::CUT ) > 0 ) {
                 const int chance_in = you->has_trait( trait_INFRESIST ) ? 256 : 35;
                 if( one_in( chance_in ) ) {
                     you->add_effect( effect_tetanus, 1_turns, true );
@@ -938,12 +955,12 @@ bool trapfunc::pit_glass( const tripoint &p, Creature *c, item * )
     if( you != nullptr ) {
         int dodge = you->get_dodge();
         int damage = pit_effectiveness( p ) * rng( 15, 35 );
-        if( you->has_trait( trait_WINGS_BIRD ) || ( one_in( 2 ) &&
-                you->has_trait( trait_WINGS_BUTTERFLY ) ) ) {
+        if( you->has_flag( json_flag_WINGS_2 ) || ( one_in( 2 ) &&
+                you->has_flag( json_flag_WINGS_1 ) ) ) {
             you->add_msg_if_player( _( "You flap your wings and flutter down gracefully." ) );
         } else if( you->has_active_bionic( bio_shock_absorber ) ) {
             you->add_msg_if_player( m_info,
-                                    _( "You hit the ground hard, but your shock absorbers handle the impact admirably!" ) );
+                                    _( "You hit the ground hard, but your grav chute handles the impact admirably!" ) );
             ///\EFFECT_DODGE reduces chance of landing on glass in glass pit
         } else if( 0 == damage || rng( 5, 30 ) < dodge ) {
             you->add_msg_if_player( _( "You avoid the glass shards within." ) );
@@ -977,8 +994,9 @@ bool trapfunc::pit_glass( const tripoint &p, Creature *c, item * )
             }
             you->add_msg_if_player( m_bad, _( "The glass shards slash your %s!" ),
                                     body_part_name_accusative( hit ) );
-            you->deal_damage( nullptr, hit, damage_instance( damage_type::CUT, damage ) );
-            if( !you->has_trait( trait_INFIMMUNE ) ) {
+            dealt_damage_instance dealt_dmg = you->deal_damage( nullptr, hit, damage_instance( damage_type::CUT,
+                                              damage ) );
+            if( !you->has_trait( trait_INFIMMUNE ) && dealt_dmg.type_damage( damage_type::CUT ) > 0 ) {
                 const int chance_in = you->has_trait( trait_INFRESIST ) ? 256 : 35;
                 if( one_in( chance_in ) ) {
                     you->add_effect( effect_tetanus, 1_turns, true );
@@ -1164,6 +1182,11 @@ bool trapfunc::ledge( const tripoint &p, Creature *c, item * )
     if( m != nullptr && m->flies() ) {
         return false;
     }
+
+    if( c->has_effect_with_flag( json_flag_LEVITATION ) ) {
+        return false;
+    }
+
     map &here = get_map();
 
     int height = 0;
@@ -1217,6 +1240,15 @@ bool trapfunc::ledge( const tripoint &p, Creature *c, item * )
         return true;
     }
 
+    item jetpack = you->item_worn_with_flag( STATIC( flag_id( "JETPACK" ) ) );
+
+
+    if( you->has_flag( json_flag_WALL_CLING ) &&  get_map().is_wall_adjacent( p ) ) {
+        you->add_msg_player_or_npc( _( "You attach yourself to the nearby wall." ),
+                                    _( "<npcname> clings to the wall." ) );
+        return false;
+    }
+
     if( you->is_avatar() ) {
         add_msg( m_bad, n_gettext( "You fall down %d story!", "You fall down %d stories!", height ),
                  height );
@@ -1224,16 +1256,34 @@ bool trapfunc::ledge( const tripoint &p, Creature *c, item * )
     } else {
         you->setpos( where );
     }
-    if( you->has_trait( trait_WINGS_BIRD ) || ( one_in( 2 ) &&
-            you->has_trait( trait_WINGS_BUTTERFLY ) ) ) {
+    if( you->has_flag( json_flag_WINGS_2 ) || ( one_in( 2 ) &&
+            you->has_flag( json_flag_WINGS_1 ) ) ) {
         you->add_msg_player_or_npc( _( "You flap your wings and flutter down gracefully." ),
                                     _( "<npcname> flaps their wings and flutters down gracefully." ) );
     } else if( you->has_active_bionic( bio_shock_absorber ) ) {
         you->add_msg_if_player( m_info,
-                                _( "You hit the ground hard, but your shock absorbers handle the impact admirably!" ) );
+                                _( "You hit the ground hard, but your grav chute handles the impact admirably!" ) );
+    } else if( !jetpack.is_null() ) {
+        if( jetpack.ammo_sufficient( you ) ) {
+            you->add_msg_player_or_npc( _( "You ignite your %s and use it to break the fall." ),
+                                        _( "<npcname> uses their %s to break the fall." ), jetpack.tname() );
+            jetpack.activation_consume( 1, you->pos(), you );
+        } else {
+            you->add_msg_if_player( m_bad,
+                                    _( "You attempt to break the fall with your %s but it is out of fuel!" ), jetpack.tname() );
+            you->impact( height * 30, where );
+
+        }
     } else {
         you->impact( height * 30, where );
     }
+
+    if( here.has_flag( ter_furn_flag::TFLAG_DEEP_WATER, where ) ) {
+        you->set_underwater( true );
+        g->water_affect_items( *you );
+        you->add_msg_player_or_npc( _( "You dive into water." ), _( "<npcname> dives into water." ) );
+    }
+
     return true;
 }
 
@@ -1438,11 +1488,16 @@ bool trapfunc::cast_spell( const tripoint &p, Creature *critter, item * )
         return false;
     }
     map &here = get_map();
-    const spell trap_spell = here.tr_at( p ).spell_data.get_spell( 0 );
+    trap tr = here.tr_at( p );
+    const spell trap_spell = tr.spell_data.get_spell( 0 );
     npc dummy;
+    if( !tr.has_flag( json_flag_UNCONSUMED ) ) {
+        here.remove_trap( p );
+    }
+    // we remove the trap before casting the spell because otherwise if we teleport we might be elsewhere at the end and p is no longer valid
     trap_spell.cast_all_effects( dummy, critter->pos() );
-    trap_spell.make_sound( p, 20 );
-    here.remove_trap( p );
+    trap_spell.make_sound( p );
+
     return true;
 }
 

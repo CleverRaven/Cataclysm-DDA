@@ -1,0 +1,51 @@
+[
+  {
+    "type": "body_graph",
+    "id": "hand_r",
+    "parent_bodypart": "hand_r",
+    "fill_sym": "#",
+    "fill_color": "white",
+    "rows": [
+      "            44      44                  ",
+      "            444     44                  ",
+      "      44     44     44                  ",
+      "       44    444    44                  ",
+      "        44    44    44                  ",
+      "         44   444   44                  ",
+      "444       44   44   444                 ",
+      "  444      444222222222                 ",
+      "    4444   4222222222222            444 ",
+      "      4444222222222222222         444444",
+      "         422222222222222222     4444    ",
+      "          222222222222222222224444      ",
+      "           2222222222222222222244       ",
+      "            2222222222222222222         ",
+      "            222222222222222222          ",
+      "             222222222222222            ",
+      "              111111111111              ",
+      "             111111111111               ",
+      "             111111111111               ",
+      "            111111111111                "
+    ],
+    "parts": {
+      "1": { "sub_body_parts": [ "hand_wrist_r" ], "select_color": "red" },
+      "2": { "sub_body_parts": [ "hand_palm_r" ], "select_color": "red" },
+      "3": { "sub_body_parts": [ "hand_back_r" ], "select_color": "red" },
+      "4": { "sub_body_parts": [ "hand_fingers_r" ], "select_color": "red" }
+    }
+  },
+  {
+    "type": "body_graph",
+    "id": "hand_l",
+    "parent_bodypart": "hand_l",
+    "fill_sym": "#",
+    "fill_color": "white",
+    "mirror": "hand_r",
+    "parts": {
+      "1": { "sub_body_parts": [ "hand_wrist_l" ], "select_color": "red" },
+      "2": { "sub_body_parts": [ "hand_palm_l" ], "select_color": "red" },
+      "3": { "sub_body_parts": [ "hand_back_l" ], "select_color": "red" },
+      "4": { "sub_body_parts": [ "hand_fingers_l" ], "select_color": "red" }
+    }
+  }
+]

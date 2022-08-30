@@ -31,6 +31,8 @@ static const itype_id fuel_type_battery( "battery" );
 
 static const skill_id skill_gun( "gun" );
 
+static const trait_id trait_BRAWLER( "BRAWLER" );
+
 std::vector<vehicle_part *> vehicle::turrets()
 {
     std::vector<vehicle_part *> res;
@@ -244,9 +246,9 @@ turret_data::status turret_data::query() const
         if( veh->fuel_left( ammo_current() ) < part->base.ammo_required() ) {
             return status::no_ammo;
         }
-    } else if( part->base.get_gun_ups_drain() ) {
-        int ups = part->base.get_gun_ups_drain() * part->base.gun_current_mode().qty;
-        if( ups > veh->fuel_left( fuel_type_battery ) ) {
+    } else if( part->base.get_gun_ups_drain() > 0_kJ ) {
+        units::energy ups = part->base.get_gun_ups_drain() * part->base.gun_current_mode().qty;
+        if( ups > units::from_kilojoule( veh->fuel_left( fuel_type_battery ) ) ) {
             return status::no_power;
         }
     } else {
@@ -288,9 +290,19 @@ void turret_data::post_fire( Character &you, int shots )
     if( part->info().has_flag( "USE_TANKS" ) ) {
         veh->drain( ammo_current(), mode->ammo_required() * shots );
         mode->ammo_unset();
+
+        // remove the magazines as well, this gets rid of e.g. flamethrower's
+        // "pressurized tanks" that are left over after firing.
+        std::vector<item_pocket *> magazine_wells = base()->get_contents().get_pockets(
+        []( const item_pocket & pocket ) {
+            return pocket.is_type( item_pocket::pocket_type::MAGAZINE_WELL );
+        } );
+        for( item_pocket *pocket : magazine_wells ) {
+            pocket->clear_items();
+        }
     }
 
-    veh->drain( fuel_type_battery, mode->get_gun_ups_drain() * shots );
+    veh->drain( fuel_type_battery, units::to_kilojoule( mode->get_gun_ups_drain() * shots ) );
 }
 
 int turret_data::fire( Character &c, const tripoint &target )
@@ -313,7 +325,7 @@ void vehicle::turrets_aim_and_fire_single()
     std::vector<vehicle_part *> options;
 
     // Find all turrets that are ready to fire
-    for( auto &t : turrets() ) {
+    for( vehicle_part *&t : turrets() ) {
         turret_data data = turret_query( *t );
         if( data.query() == turret_data::status::ready ) {
             option_names.push_back( t->name() );
@@ -395,6 +407,12 @@ bool vehicle::turrets_aim( std::vector<vehicle_part *> &turrets )
     }
 
     avatar &player_character = get_avatar();
+    if( player_character.has_trait( trait_BRAWLER ) ) {
+        player_character.add_msg_if_player(
+            _( "Pfft.  You are a brawler; using turrets is beneath you." ) );
+        return false;
+    }
+
     // Get target
     target_handler::trajectory trajectory = target_handler::mode_turrets( player_character, *this,
                                             turrets );
@@ -434,7 +452,7 @@ void vehicle::turrets_set_targeting()
     std::vector<vehicle_part *> turrets;
     std::vector<tripoint> locations;
 
-    for( auto &p : parts ) {
+    for( vehicle_part &p : parts ) {
         if( p.is_turret() ) {
             turrets.push_back( &p );
             locations.push_back( global_part_pos3( p ) );
@@ -452,7 +470,7 @@ void vehicle::turrets_set_targeting()
         menu.fselected = sel;
         menu.w_y_setup = 2;
 
-        for( auto &p : turrets ) {
+        for( vehicle_part *&p : turrets ) {
             menu.addentry( -1, has_part( global_part_pos3( *p ), "TURRET_CONTROLS" ), MENU_AUTOASSIGN,
                            "%s [%s]", p->name(), p->enabled ?
                            _( "auto -> manual" ) : has_part( global_part_pos3( *p ), "TURRET_CONTROLS" ) ?
@@ -490,7 +508,7 @@ void vehicle::turrets_set_mode()
     std::vector<vehicle_part *> turrets;
     std::vector<tripoint> locations;
 
-    for( auto &p : parts ) {
+    for( vehicle_part &p : parts ) {
         if( p.base.is_gun() ) {
             turrets.push_back( &p );
             locations.push_back( global_part_pos3( p ) );
@@ -508,7 +526,7 @@ void vehicle::turrets_set_mode()
         menu.fselected = sel;
         menu.w_y_setup = 2;
 
-        for( auto &p : turrets ) {
+        for( vehicle_part *&p : turrets ) {
             menu.addentry( -1, true, MENU_AUTOASSIGN, "%s [%s]",
                            p->name(), p->base.gun_current_mode().tname() );
         }
@@ -523,7 +541,7 @@ void vehicle::turrets_set_mode()
     }
 }
 
-npc vehicle::get_targeting_npc( const vehicle_part &pt )
+npc vehicle::get_targeting_npc( const vehicle_part &pt ) const
 {
     // Make a fake NPC to represent the targeting system
     npc cpu;

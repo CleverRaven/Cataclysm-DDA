@@ -510,19 +510,6 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "pond_forest",
-    "copy-from": "pond_forest",
-    "sym": "\u00DC"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "pond_swamp",
-    "copy-from": "pond_swamp",
-    "sym": "\u00DC",
-    "color": "green"
-  },
-  {
-    "type": "overmap_terrain",
     "id": "hunter_shack",
     "copy-from": "hunter_shack",
     "sym": "\u00E0"

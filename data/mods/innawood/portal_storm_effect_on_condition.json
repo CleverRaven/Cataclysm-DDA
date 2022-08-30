@@ -1,0 +1,52 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "innawood_milder_portal_storms",
+    "recurrence": 1,
+    "condition": {
+      "and": [
+        { "not": { "u_has_trait": "PORTAL_DEPENDENT" } },
+        { "compare_int": [ { "global_val": "var", "var_name": "ps_min_woc" }, "<", { "time": "45 days" } ] }
+      ]
+    },
+    "deactivate_condition": {
+      "or": [
+        { "u_has_trait": "PORTAL_DEPENDENT" },
+        { "compare_int": [ { "global_val": "var", "var_name": "ps_min_woc" }, ">=", { "time": "45 days" } ] }
+      ]
+    },
+    "effect": [
+      { "arithmetic": [ { "global_val": "var", "var_name": "ps_min_woc" }, "=", { "time": "45 days" } ] },
+      { "arithmetic": [ { "global_val": "var", "var_name": "ps_max_woc" }, "=", { "time": "90 days" } ] },
+      { "arithmetic": [ { "global_val": "var", "var_name": "ps_min_length" }, "=", { "time": "15 minutes" } ] },
+      { "arithmetic": [ { "global_val": "var", "var_name": "ps_max_length" }, "=", { "time": "75 minutes" } ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_WORSEN_PORTAL_STORM",
+    "effect": {
+      "weighted_list_eocs": [
+        [ "EOC_PORTAL_STRENGTHEN", { "const": 3 } ],
+        [ "EOC_PORTAL_LENGTHEN", { "const": 3 } ],
+        [ "EOC_PORTAL_WEAKEN", { "const": 3 } ],
+        [ "EOC_PORTAL_SHORTEN", { "const": 3 } ]
+      ]
+    }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PORTAL_WEAKEN",
+    "condition": { "compare_int": [ { "global_val": "var", "var_name": "ps_base_str" }, ">=", { "const": 1 } ] },
+    "effect": { "arithmetic": [ { "global_val": "var", "var_name": "ps_base_str" }, "--" ], "max": 8 }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PORTAL_SHORTEN",
+    "condition": { "compare_int": [ { "global_val": "var", "var_name": "ps_min_length" }, ">=", { "time": "15 minutes" } ] },
+    "effect": [
+      { "arithmetic": [ { "global_val": "var", "var_name": "ps_min_length" }, "-=", { "time": "15 minutes" } ] },
+      { "arithmetic": [ { "global_val": "var", "var_name": "ps_max_length" }, "-=", { "time": "15 minutes" } ] }
+    ]
+  }
+]

@@ -362,12 +362,6 @@
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "lab_filltank_chem",
-    "object": { "mapgensize": [ 1, 1 ], "place_liquids": [ { "amount": [ 200, 800 ], "x": 0, "y": 0, "liquid": "ammonia" } ] }
-  },
-  {
-    "type": "mapgen",
-    "method": "json",
-    "nested_mapgen_id": "lab_filltank_chem",
     "object": { "mapgensize": [ 1, 1 ], "place_liquids": [ { "amount": [ 200, 800 ], "x": 0, "y": 0, "liquid": "bleach" } ] }
   },
   {
@@ -732,7 +726,6 @@
     "object": {
       "mapgensize": [ 1, 1 ],
       "rows": [ "A" ],
-      "terrain": { "A": "t_thconc_floor" },
       "furniture": {
         "A": [
           "f_machinery_heavy",
@@ -1082,7 +1075,6 @@
     "object": {
       "mapgensize": [ 1, 1 ],
       "rows": [ "a" ],
-      "terrain": { "a": "t_thconc_floor" },
       "furniture": { "a": "f_ash" },
       "item": { "a": [ { "item": "ash", "amount": 49, "chance": 100 }, { "item": "bone_human", "amount": [ 3, 5 ], "chance": 50 } ] },
       "items": { "a": { "item": "science", "chance": 10 } }

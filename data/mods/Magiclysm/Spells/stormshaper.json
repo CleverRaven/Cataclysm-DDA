@@ -30,7 +30,7 @@
     "id": "shocking_lash_base",
     "type": "SPELL",
     "name": "Shocking Lash Base",
-    "description": "Reference spell definition used for Shocking Lash and Shocking Lash Jump",
+    "description": "Reference spell definition used for Shocking Lash and Shocking Lash Jump.",
     "effect": "attack",
     "shape": "blast",
     "valid_targets": [ "hostile" ],
@@ -235,7 +235,7 @@
   {
     "id": "lightning_storm",
     "type": "SPELL",
-    "name": "Lightning Storm",
+    "name": { "ctxt": "spell", "str": "Lightning Storm" },
     "description": "You call the power of the sky to strike the earth.  Several lightning blasts fire from your finger tips to strike the target.",
     "valid_targets": [ "hostile", "ground", "self", "ally" ],
     "flags": [ "CONCENTRATE", "LOUD", "VERBAL", "SOMATIC", "NO_LEGS" ],

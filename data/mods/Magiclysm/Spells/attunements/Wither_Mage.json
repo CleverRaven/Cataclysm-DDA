@@ -82,7 +82,7 @@
   {
     "type": "SPELL",
     "id": "life_drain_stamina",
-    "name": "Life Drain stamina",
+    "name": "Life Drain Stamina",
     "description": "Gives you a bit of stamina.  Subspell; you aren't allowed to see it except in debug mode.",
     "effect": "recover_energy",
     "effect_str": "STAMINA",

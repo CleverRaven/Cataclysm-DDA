@@ -12,6 +12,7 @@
     "autolearn": false,
     "book_learn": [ [ "textbook_fabrication", 5 ], [ "welding_book", 6 ], [ "textbook_carpentry", 5 ] ],
     "using": [ [ "welding_standard", 20 ] ],
+    "proficiencies": [ { "proficiency": "prof_basic_engines" }, { "proficiency": "prof_welding_basic" } ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 } ],
     "components": [
       [ [ "pipe", 16 ] ],
@@ -238,7 +239,7 @@
     "using": [ [ "sewing_standard", 100 ] ],
     "proficiencies": [ { "proficiency": "prof_leatherworking_basic" }, { "proficiency": "prof_leatherworking" } ],
     "components": [
-      [ [ "leather", 12 ], [ "tanned_hide", 2 ], [ "fur", 12 ], [ "tanned_pelt", 2 ] ],
+      [ [ "leather", 16 ], [ "tanned_hide", 2 ], [ "fur", 16 ], [ "tanned_pelt", 2 ] ],
       [ [ "cordage_superior", 2, "LIST" ] ]
     ]
   },
@@ -256,7 +257,7 @@
     "using": [ [ "sewing_standard", 100 ] ],
     "proficiencies": [ { "proficiency": "prof_leatherworking_basic" }, { "proficiency": "prof_leatherworking" } ],
     "components": [
-      [ [ "leather", 6 ], [ "tanned_hide", 1 ], [ "fur", 6 ], [ "tanned_pelt", 1 ] ],
+      [ [ "leather", 8 ], [ "tanned_hide", 1 ], [ "fur", 8 ], [ "tanned_pelt", 1 ] ],
       [ [ "2x4", 4 ] ],
       [ [ "rope_superior_short", 2, "LIST" ] ]
     ]
@@ -445,30 +446,6 @@
     ]
   },
   {
-    "result": "fridge",
-    "type": "recipe",
-    "activity_level": "MODERATE_EXERCISE",
-    "copy-from": "minifridge",
-    "skills_required": [ "fabrication", 4 ],
-    "proficiencies": [ { "proficiency": "prof_plasticworking", "required": false, "time_multiplier": 1.1, "learning_time_multiplier": 0.1 } ],
-    "qualities": [
-      { "id": "HAMMER", "level": 2 },
-      { "id": "SAW_M", "level": 1 },
-      { "id": "DRILL", "level": 1 },
-      { "id": "SCREW", "level": 1 },
-      { "id": "WRENCH", "level": 1 }
-    ],
-    "components": [
-      [ [ "sheet_metal", 20 ] ],
-      [ [ "condensor_coil", 1 ] ],
-      [ [ "evaporator_coil", 1 ] ],
-      [ [ "thermostat", 1 ] ],
-      [ [ "motor_small", 1 ] ],
-      [ [ "refrigerant_tank", 1 ] ],
-      [ [ "plastic_chunk", 16 ] ]
-    ]
-  },
-  {
     "result": "mountable_heater",
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
@@ -478,6 +455,7 @@
     "skills_required": [ "mechanics", 2 ],
     "difficulty": 2,
     "time": "30 m",
+    "reversible": true,
     "autolearn": true,
     "using": [ [ "welding_standard", 15 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
@@ -493,6 +471,7 @@
     "skills_required": [ "mechanics", 2 ],
     "difficulty": 2,
     "time": "30 m",
+    "reversible": true,
     "autolearn": true,
     "using": [ [ "welding_standard", 15 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
@@ -553,6 +532,7 @@
     "time": "170 m",
     "book_learn": [ [ "textbook_fabrication", 6 ], [ "textbook_mechanics", 5 ] ],
     "using": [ [ "welding_standard", 25 ] ],
+    "proficiencies": [ { "proficiency": "prof_basic_engines" }, { "proficiency": "prof_welding_basic" } ],
     "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "SAW_M", "level": 2 }, { "id": "DRILL", "level": 2 } ],
     "components": [
       [ [ "sheet_metal", 3 ] ],
@@ -579,6 +559,7 @@
     "time": "170 m",
     "book_learn": [ [ "textbook_fabrication", 6 ], [ "textbook_mechanics", 5 ] ],
     "using": [ [ "welding_standard", 25 ] ],
+    "proficiencies": [ { "proficiency": "prof_basic_engines" }, { "proficiency": "prof_welding_basic" } ],
     "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "SAW_M", "level": 2 }, { "id": "DRILL", "level": 2 } ],
     "components": [
       [ [ "sheet_metal", 3 ] ],
@@ -766,7 +747,8 @@
     "skills_required": [ "electronics", 1 ],
     "difficulty": 3,
     "time": "1 h",
-    "autolearn": true,
+    "reversible": true,
+    "book_learn": [ [ "arduino_experiments", 2 ] ],
     "using": [ [ "welding_standard", 10 ], [ "steel_standard", 2 ], [ "soldering_standard", 10 ] ],
     "proficiencies": [ { "proficiency": "prof_elec_soldering" } ],
     "qualities": [
@@ -787,7 +769,7 @@
     "skills_required": [ [ "computer", 5 ], [ "mechanics", 3 ] ],
     "difficulty": 5,
     "time": "2 h",
-    "autolearn": true,
+    "book_learn": [ [ "arduino_experiments", 4 ] ],
     "using": [ [ "soldering_standard", 10 ] ],
     "proficiencies": [ { "proficiency": "prof_elec_soldering" } ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
@@ -870,7 +852,7 @@
     "reversible": true,
     "autolearn": true,
     "proficiencies": [ { "proficiency": "prof_carpentry_basic" }, { "proficiency": "prof_carving" } ],
-    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CUT", "level": 2 } ],
     "components": [ [ [ "2x4", 5 ] ], [ [ "stick", 2 ] ], [ [ "nail", 20 ] ] ]
   },
   {
@@ -1064,7 +1046,6 @@
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_PARTS",
     "skill_used": "fabrication",
-    "skills_required": [ "fabrication", 5 ],
     "difficulty": 5,
     "time": "10 h",
     "reversible": true,
@@ -1082,7 +1063,6 @@
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "fabrication",
-    "skills_required": [ "fabrication", 4 ],
     "difficulty": 4,
     "time": "9 h",
     "reversible": true,
@@ -1117,7 +1097,6 @@
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_PARTS",
     "skill_used": "fabrication",
-    "skills_required": [ "fabrication", 7 ],
     "difficulty": 8,
     "//": "hardened metal can be achieved with a simple forge setup. Ask Atsume#2311 on discord if you want to change.",
     "time": "12 h",
@@ -1150,6 +1129,21 @@
       [ [ "refrigerant_tank", 1 ] ],
       [ [ "plastic_chunk", 8 ] ]
     ]
+  },
+  {
+    "result": "heattank",
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "copy-from": "fridgetank",
+    "skills_required": [ "fabrication", 4 ],
+    "qualities": [
+      { "id": "HAMMER", "level": 2 },
+      { "id": "SAW_M", "level": 1 },
+      { "id": "DRILL", "level": 1 },
+      { "id": "SCREW", "level": 1 },
+      { "id": "WRENCH", "level": 1 }
+    ],
+    "components": [ [ [ "metal_tank", 1 ] ], [ [ "element", 6 ] ], [ [ "thermostat", 1 ] ], [ [ "plastic_chunk", 8 ] ] ]
   },
   {
     "type": "recipe",
@@ -1186,5 +1180,75 @@
     "proficiencies": [ { "proficiency": "prof_elec_soldering" } ],
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
     "components": [ [ [ "e_scrap", 4 ] ], [ [ "cable", 30 ] ] ]
+  },
+  {
+    "result": "oil_press_electric",
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "reversible": true,
+    "skill_used": "fabrication",
+    "difficulty": 4,
+    "time": "90 m",
+    "autolearn": true,
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skills_required": [ [ "electronics", 2 ] ],
+    "using": [ [ "soldering_standard", 5 ] ],
+    "qualities": [
+      { "id": "HAMMER", "level": 2 },
+      { "id": "SAW_M", "level": 1 },
+      { "id": "SCREW", "level": 1 },
+      { "id": "WRENCH", "level": 1 }
+    ],
+    "components": [
+      [ [ "funnel", 1 ], [ "metal_funnel", 1 ] ],
+      [ [ "frame", 1 ] ],
+      [ [ "sheet_metal", 4 ] ],
+      [ [ "element", 4 ] ],
+      [ [ "motor_small", 1 ] ],
+      [ [ "cable", 10 ] ],
+      [ [ "power_supply", 1 ] ],
+      [ [ "pipe_fittings", 2 ] ],
+      [ [ "pipe", 2 ] ],
+      [ [ "wire_mesh", 1 ] ],
+      [ [ "metal_tank_little", 1 ], [ "jerrycan_big", 1 ], [ "jerrycan", 1 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
+    "result": "aluminum_boat_hull",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 4,
+    "time": "45 m",
+    "reversible": true,
+    "autolearn": true,
+    "qualities": [ { "id": "GLARE", "level": 1 } ],
+    "tools": [
+      [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ],
+      [ [ "welder", 50 ], [ "welder_crude", 75 ], [ "toolset", 75 ], [ "forge", 50 ], [ "oxy_torch", 10 ] ]
+    ],
+    "components": [ [ [ "scrap_aluminum", 45 ], [ "material_aluminium_ingot", 4 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "foldxlframe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 4,
+    "time": "120 m",
+    "reversible": true,
+    "autolearn": true,
+    "using": [ [ "welding_standard", 6 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_welding_basic", "fail_multiplier": 1.5 },
+      { "proficiency": "prof_welding" }
+    ],
+    "components": [ [ [ "material_aluminium_ingot", 4 ], [ "scrap_aluminum", 35 ] ] ]
   }
 ]

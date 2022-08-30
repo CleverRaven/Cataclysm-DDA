@@ -1,0 +1,94 @@
+[
+  {
+    "id": "faewild",
+    "type": "COMESTIBLE",
+    "comestible_type": "MED",
+    "name": { "str": "faewild dust" },
+    "description": "A shimmering silvery dust.  Narcotic with the street name of Faewild.  Causes the user to see colors not normally visible to the naked human eye.",
+    "weight": "1 g",
+    "volume": "250 ml",
+    "price": 10000,
+    "price_postapoc": 2500,
+    "charges": 5,
+    "stack_size": 100,
+    "symbol": ":",
+    "color": "pink",
+    "stim": 20,
+    "fun": 25,
+    "flags": [ "NO_INGEST", "EDIBLE_FROZEN" ],
+    "use_action": {
+      "type": "consume_drug",
+      "activation_message": "You rub the glittering dust into your gums.",
+      "effects": [ { "id": "faewild", "duration": 3600 } ]
+    }
+  },
+  {
+    "id": "lotus_blossom",
+    "type": "COMESTIBLE",
+    "comestible_type": "MED",
+    "name": { "str": "lotus blossom" },
+    "description": "A drug that became popular over the last few years before the Cataclysm.  It appears to be exactly as its street name, a dark purple lotus blossom.  It's known to be a strong painkiller while also causing vivid hallucinations.",
+    "weight": "1 g",
+    "volume": "250 ml",
+    "price": 10000,
+    "price_postapoc": 2500,
+    "charges": 5,
+    "stack_size": 100,
+    "symbol": "*",
+    "color": "magenta",
+    "stim": -20,
+    "fun": 45,
+    "flags": [ "NO_INGEST", "EDIBLE_FROZEN" ],
+    "use_action": {
+      "type": "consume_drug",
+      "activation_message": "You eat the purple lotus blossom.",
+      "effects": [
+        { "id": "visuals", "duration": 900 },
+        { "id": "hallu", "duration": 9000 },
+        { "id": "pkill3", "duration": 180 },
+        { "id": "pkill2", "duration": 600 }
+      ]
+    }
+  },
+  {
+    "id": "wyld_candy",
+    "type": "COMESTIBLE",
+    "comestible_type": "MED",
+    "name": { "str": "wyld candy", "str_pl": "wyld candies" },
+    "description": "Mixed candies purporting to come from 'Fair Folk Industries' these candies appear in areas of the country thought to have significant crossover events.  It remains unknown whether these candies are produced by a company from here taking advantage of a thin place or if they came from somewhere else.",
+    "weight": "1 g",
+    "volume": "100 ml",
+    "price": 5000,
+    "price_postapoc": 2000,
+    "charges": 20,
+    "stack_size": 20,
+    "symbol": "!",
+    "color": "magenta",
+    "container": "wrapper_wyld",
+    "flags": [ "IRREPLACEABLE_CONSUMABLE", "WATER_DISSOLVE", "EDIBLE_FROZEN" ],
+    "use_action": { "type": "consume_drug", "activation_message": "You take the %s.", "vitamins": [ [ "underhill_essence", 44, 122 ] ] }
+  },
+  {
+    "id": "blood_treatment",
+    "type": "COMESTIBLE",
+    "comestible_type": "MED",
+    "name": { "str": "questionable blood treatment" },
+    "description": "This homemade blood treatment .",
+    "weight": "12 g",
+    "volume": "10ml",
+    "price": 5000,
+    "phase": "liquid",
+    "price_postapoc": 2000,
+    "material": [ "hflesh" ],
+    "charges": 4,
+    "stack_size": 4,
+    "symbol": "!",
+    "color": "magenta",
+    "use_action": {
+      "type": "effect_on_conditions",
+      "description": "You inject the %s in hopes of ending your thirst for blood.",
+      "effect_on_conditions": [ "EOC_CONSUMED_BLOOD_TREATMENT" ]
+    },
+    "flags": [ "NPC_SAFE", "TRADER_AVOID" ]
+  }
+]

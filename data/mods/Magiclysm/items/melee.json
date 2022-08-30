@@ -35,7 +35,7 @@
     "description": "Gram, the sword of Sigurd.  It is rumored to be the sword that slayed the legendary dragon, Fafnir.  Once said to have cleaved Regin's anvil in half, the edge is impeccable.",
     "weight": "1132 g",
     "material": [ "orichalcum_metal", "steel", "leather" ],
-    "techniques": [ "WBLOCK_2", "PRECISE", "VORPAL" ],
+    "techniques": [ "WBLOCK_2", "PRECISE", "DIVIDE" ],
     "volume": "2500 ml",
     "cutting": 45,
     "price": 200000
@@ -48,7 +48,7 @@
     "description": "Laevateinn, the staff of Loki.  Said to have been plucked from the gates of Hel by Loki.  Imbued with a mysterious magic, the magic of the trickster god himself.",
     "price": 160000,
     "material": [ "steel", "gold", "orichalcum_metal" ],
-    "flags": [ "MAGIC_FOCUS" ],
+    "extend": { "flags": [ "MAGIC_FOCUS" ] },
     "techniques": [ "WBLOCK_2", "SPIN", "RAPID", "SWEEP" ],
     "weight": "1860 g",
     "bashing": 20,

@@ -31,6 +31,7 @@
     "fire_resist": 5,
     "elec_resist": 0,
     "chip_resist": 10,
+    "breathability": "GOOD",
     "dmg_adj": [ "marked", "dented", "scarred", "broken" ],
     "bash_dmg_verb": "ripped",
     "cut_dmg_verb": "cut"

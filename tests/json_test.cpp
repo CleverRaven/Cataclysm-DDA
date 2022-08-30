@@ -400,7 +400,9 @@ TEST_CASE( "translation_text_style_check", "[json][translation]" )
     test_pl_translation_text_style_check(
         Catch::Equals(
             R"((json-error))" "\n"
-            R"(Json error: <unknown source file>:EOF: Cannot autogenerate plural form.  Please specify the plural form explicitly.)" ),
+            R"(Json error: <unknown source file>:EOF: Cannot autogenerate plural )"
+            R"(form.  Please specify the plural form explicitly using 'str' and )"
+            R"('str_pl', or 'str_sp' if the singular and plural forms are the same.)" ),
         R"("box")" );
 
     test_pl_translation_text_style_check(
@@ -409,7 +411,9 @@ TEST_CASE( "translation_text_style_check", "[json][translation]" )
     test_pl_translation_text_style_check(
         Catch::Equals(
             R"((json-error))" "\n"
-            R"(Json error: <unknown source file>:1:8: Cannot autogenerate plural form.  Please specify the plural form explicitly.)"
+            R"(Json error: <unknown source file>:1:8: Cannot autogenerate plural )"
+            R"(form.  Please specify the plural form explicitly using 'str' and )"
+            R"('str_pl', or 'str_sp' if the singular and plural forms are the same.)"
             "\n"
             R"()" "\n"
             R"({"str":)" "\n"
@@ -640,7 +644,7 @@ static void test_string_error_throws_matches( Matcher &&matcher, const std::stri
     CAPTURE( offset );
     std::istringstream iss( json );
     JsonIn jsin( iss );
-    CHECK_THROWS_MATCHES( jsin.string_error( "<message>", offset ), JsonError, matcher );
+    CHECK_THROWS_MATCHES( jsin.string_error( offset, "<message>" ), JsonError, matcher );
 }
 
 TEST_CASE( "jsonin_get_string", "[json]" )

@@ -1,0 +1,11 @@
+[
+  {
+    "type": "overmap_terrain",
+    "id": "portal_reef",
+    "name": "alien reef",
+    "sym": "O",
+    "color": "light_blue",
+    "see_cost": 3,
+    "flags": [ "NO_ROTATE", "RISK_HIGH" ]
+  }
+]

@@ -107,6 +107,14 @@ mapgendata::mapgendata( const mapgendata &other,
     mapgen_args_.merge( mapgen_args );
 }
 
+mapgendata::mapgendata( const mapgendata &other,
+                        const mapgen_arguments &mapgen_args,
+                        const enum_bitset<jmapgen_flags> &flags ) :
+    mapgendata( other, mapgen_args )
+{
+    mapgen_flags_ = flags;
+}
+
 void mapgendata::set_dir( int dir_in, int val )
 {
     switch( dir_in ) {
@@ -197,6 +205,11 @@ bool mapgendata::is_groundcover( const ter_id &iid ) const
     }
 
     return false;
+}
+
+bool mapgendata::has_flag( jmapgen_flags f ) const
+{
+    return mapgen_flags_.test( f );
 }
 
 ter_id mapgendata::groundcover() const

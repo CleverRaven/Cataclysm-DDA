@@ -19,7 +19,7 @@ They:
 
 - must define `id`, `name`, `description` and `practice_data`
 - must not define a `result` or `difficulty`
-- may define `byproducts`
+- may define `byproducts` / `byproduct_group`
 
 The `practice_data` field is required for practice recipes, and must be defined. It is an object
 with its own fields, as follows:

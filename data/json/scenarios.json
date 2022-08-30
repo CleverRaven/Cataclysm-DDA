@@ -47,7 +47,7 @@
     "type": "scenario",
     "id": "largebuilding",
     "name": "Large Building",
-    "points": -2,
+    "points": -1,
     "description": "Whether due to stubbornness, ignorance, or just plain bad luck, you missed the evacuation, and are stuck in a large building full of the risen dead.",
     "allowed_locs": [
       "sloc_mall_loading_area",
@@ -55,10 +55,12 @@
       "sloc_apartments_rooftop",
       "sloc_apartments_rooftop2",
       "sloc_hospital",
-      "sloc_school"
+      "sloc_school",
+      "sloc_hotel_rooftop",
+      "sloc_office_tower_rooftop",
+      "sloc_cathedral_rooftop"
     ],
     "start_name": "In Large Building",
-    "surround_groups": [ [ "GROUP_BLACK_ROAD", 70.0 ] ],
     "flags": [ "CITY_START", "LONE_START" ]
   },
   {
@@ -66,7 +68,7 @@
     "id": "surrounded",
     "name": "Surrounded",
     "points": -2,
-    "description": "You've attracted the attention of living dead in some way, now they're all around and you'll likely have to fight thorough them if you want to escape.",
+    "description": "You've attracted the attention of living dead in some way, now they're all around and you'll likely have to fight through them if you want to escape.",
     "allowed_locs": [
       "sloc_house",
       "sloc_house_boarded",
@@ -83,11 +85,12 @@
       "sloc_church",
       "sloc_cemetery",
       "sloc_fire_station",
-      "sloc_police"
+      "sloc_police",
+      "sloc_town_hall"
     ],
     "start_name": "In Town",
     "surround_groups": [ [ "GROUP_BLACK_ROAD", 70.0 ] ],
-    "flags": [ "CITY_START", "LONE_START" ]
+    "flags": [ "CITY_START", "LONE_START", "SUR_START" ]
   },
   {
     "type": "scenario",
@@ -216,11 +219,19 @@
       "sloc_bookstore",
       "sloc_zoo_giftshop",
       "sloc_zoo_cages",
-      "sloc_golfcourse_mid_course",
       "sloc_golfcourse_clubhouse",
       "sloc_church",
       "sloc_cemetery"
     ]
+  },
+  {
+    "type": "scenario",
+    "name": "(un)living History",
+    "description": "After doing historical reenactment, you and your friend were taking a break inside the fort, and then you heard a scream and gunshot noises.",
+    "id": "BastionFortStart",
+    "points": -2,
+    "start_name": "Bastion Fort",
+    "allowed_locs": [ "sloc_fort" ]
   },
   {
     "type": "scenario",
@@ -249,7 +260,19 @@
       "sloc_church",
       "sloc_cemetery"
     ],
-    "professions": [ "svictim", "tweaker" ],
+    "professions": [
+      "svictim",
+      "naked",
+      "unemployed",
+      "homeless",
+      "hitchhiker",
+      "patriot",
+      "clown",
+      "lost_sub",
+      "spouse",
+      "musician",
+      "true_foodperson"
+    ],
     "eoc": [ "scenario_infected", "scenario_bad_day" ],
     "flags": [ "FIRE_START", "CHALLENGE", "CITY_START", "LONE_START" ]
   },
@@ -317,6 +340,7 @@
       "CHITIN",
       "ELECTRORECEPTORS"
     ],
+    "requirement": "achievement_reach_lab_finale",
     "flags": [ "CHALLENGE", "CITY_START", "LONE_START" ]
   },
   {
@@ -328,6 +352,7 @@
     "start_name": "Locked Lab",
     "professions": [ "labtech", "security", "medic" ],
     "allowed_locs": [ "sloc_lab_random", "sloc_lab_escape_cells", "sloc_lab_finale", "sloc_ice_lab_stairs", "sloc_ice_lab_finale" ],
+    "requirement": "achievement_reach_lab_finale",
     "flags": [ "CHALLENGE", "CITY_START", "LONE_START" ]
   },
   {
@@ -373,7 +398,8 @@
     "flags": [ "LONE_START" ],
     "custom_initial_date": { "season": "winter" },
     "add_professions": true,
-    "professions": [ "sheltered_survivor", "sheltered_militia", "winter_scavenger", "winter_army" ]
+    "professions": [ "sheltered_survivor", "sheltered_militia", "winter_scavenger", "winter_army" ],
+    "requirement": "achievement_survive_91_days"
   },
   {
     "type": "scenario",
@@ -397,7 +423,8 @@
     "flags": [ "LONE_START" ],
     "custom_initial_date": { "season": "summer", "year": 2 },
     "add_professions": true,
-    "professions": [ "sheltered_survivor", "sheltered_militia", "winter_scavenger", "winter_army" ]
+    "professions": [ "sheltered_survivor", "sheltered_militia", "winter_scavenger", "winter_army" ],
+    "requirement": "achievement_survive_91_days"
   },
   {
     "type": "scenario",
@@ -429,12 +456,13 @@
     "id": "prisonbreak",
     "name": "Prison",
     "points": -4,
-    "description": "When the Cataclysm happened, you were convicted or working in a prison.  Now the prisoners have turned into mindless horrors and the security bots are shooting on sight… you might need to expedite your escape plans.",
+    "description": "When the Cataclysm happened, you were convicted or working in a prison.  Now the prisoners have turned into mindless horrors and the police officers joined hands with them… you might need to expedite your escape plans.",
     "allowed_locs": [ "sloc_prison" ],
     "start_name": "Prison",
     "professions": [
       "convict",
       "death_row_convict",
+      "convict_assassin",
       "convict_embezzler",
       "convict_drugs",
       "convict_political",
@@ -455,6 +483,7 @@
     "professions": [
       "convict",
       "death_row_convict",
+      "convict_assassin",
       "convict_embezzler",
       "convict_drugs",
       "convict_political",
@@ -588,6 +617,15 @@
       "specops",
       "national_guard",
       "politician",
+      "hitman",
+      "assassin",
+      "mil_marksman",
+      "mil_auto_rifleman",
+      "mil_grenadier",
+      "mil_breacher",
+      "mil_sniper",
+      "mil_hacker",
+      "mil_undercover",
       "mili_pilot",
       "mili_medic",
       "mili_burner",
@@ -608,7 +646,7 @@
     "start_name": "Bottom of a mine",
     "allowed_locs": [ "sloc_mine_finale" ],
     "professions": [ "miner", "labtech", "security", "archaeologist" ],
-    "flags": [ "CITY_START", "LONE_START" ]
+    "flags": [ "CITY_START", "LONE_START", "CHALLENGE" ]
   },
   {
     "type": "scenario",
@@ -625,6 +663,13 @@
       "specops",
       "labtech",
       "medic",
+      "mil_marksman",
+      "mil_auto_rifleman",
+      "mil_grenadier",
+      "mil_breacher",
+      "mil_sniper",
+      "mil_hacker",
+      "mil_undercover",
       "mili_pilot",
       "mili_medic",
       "mili_burner",
@@ -661,9 +706,9 @@
   {
     "type": "scenario",
     "id": "strong_portal_storm",
-    "name": "Outside In Strong Portal Storm",
+    "name": "Splintering Reality",
     "points": -3,
-    "description": "A powerful portal storm is happening and you need to find shelter.",
+    "description": "You found yourself alone in an open field when reality began to heave and crack all around you.  You need to find shelter, and fast.",
     "flags": [ "CHALLENGE", "LONE_START" ],
     "start_name": "Field",
     "allowed_locs": [ "sloc_field" ],
@@ -674,7 +719,7 @@
     "id": "strong_portal_storm_base",
     "name": "Stronger Portal Storms",
     "points": -4,
-    "description": "You've managed to get to a shelter, but reality has grown weaker than normal and portal storms will be quite strong.",
+    "description": "You've managed to get to a shelter, but reality has grown weaker than normal, and portal storms will be quite strong.",
     "flags": [ "CHALLENGE", "LONE_START" ],
     "start_name": "Evac Shelter",
     "allowed_locs": [ "sloc_shelter_a", "sloc_shelter_b", "sloc_shelter_c" ],
@@ -685,7 +730,7 @@
     "id": "quick_portal_storm_base",
     "name": "Frequent Portal Storms",
     "points": -4,
-    "description": "You've managed to get to a shelter, but reality has grown weaker than normal, portal storms will be more frequent and strengthen faster.",
+    "description": "You've managed to get to a shelter, but reality has grown weaker than normal, and portal storms will be more frequent.",
     "flags": [ "CHALLENGE", "LONE_START" ],
     "start_name": "Evac Shelter",
     "allowed_locs": [ "sloc_shelter_a", "sloc_shelter_b", "sloc_shelter_c" ],
@@ -696,7 +741,7 @@
     "id": "portal_dependent",
     "name": "Challenge - Portal Dependent",
     "points": -8,
-    "description": "You were caught on a huge and unstable portal storm.  You feel…  different.",
+    "description": "You were caught in a huge and unstable portal storm, and were utterly unprotected from the full force of its effects.  You're on the tail end of the storm now, and while you've survived, you feel… different.",
     "forced_traits": [ "PORTAL_DEPENDENT" ],
     "flags": [ "CHALLENGE", "LONE_START" ],
     "start_name": "Field",
@@ -722,14 +767,62 @@
       "lawyer",
       "politician",
       "dancer",
+      "cheerleader",
       "spouse",
       "musician",
       "chef",
       "groundskeeper",
       "homemaker",
+      "ninja",
       "mafia_boss",
       "major-general"
     ],
     "missions": [ "MISSION_MANSION_START" ]
+  },
+  {
+    "type": "scenario",
+    "id": "infested_shelter_start",
+    "name": "Compromised Shelter",
+    "points": -1,
+    "description": "You have survived the initial wave of panic, and have achieved (relative) safety in one of the many government evac shelters.  However, the people you came with started to turn and now they're out for your flesh!  You've holed up in the basement for now, but sooner or later you have to make for the door… and fast!",
+    "allowed_locs": [ "sloc_shelter_infest_a", "sloc_shelter_infest_b", "sloc_shelter_infest_c" ],
+    "start_name": "In an Infested Shelter",
+    "flags": [ "CHALLENGE", "LONE_START" ]
+  },
+  {
+    "type": "scenario",
+    "id": "aircraft_carrier_start",
+    "name": "CVN Sailor",
+    "points": 4,
+    "description": "For some reason your mission off the coast of North Korea was ended in the middle of a lake, in an unknown location.  You have no idea what's happened, but now you have more important things to do.",
+    "start_name": "Aircraft Carrier",
+    "allowed_locs": [ "aircraft_carrier_berth", "aircraft_carrier_bridge" ],
+    "professions": [
+      "unemployed",
+      "electrician",
+      "chef",
+      "sailor",
+      "marine",
+      "seal",
+      "diver_navy",
+      "medic",
+      "mili_pilot",
+      "mili_medic",
+      "major-general",
+      "nco",
+      "combat-engineer"
+    ],
+    "flags": [ "CHALLENGE", "LONE_START" ]
+  },
+  {
+    "type": "scenario",
+    "id": "golden_years",
+    "name": "Golden Years",
+    "points": 0,
+    "description": "After a life time of hard work, you managed to settle down in a posh retirement community.  Safe behind those walls, you would live a peaceful, privileged life, away from all the crazy lunatics outside.  Then, the crazies made it inside anyway, leaving you no choice but to deal with them personally.  Welcome to your golden years.",
+    "allowed_locs": [ "sloc_retirement_community" ],
+    "start_name": "Retirement Community",
+    "professions": [ "senior" ],
+    "flags": [ "CITY_START", "LONE_START" ]
   }
 ]

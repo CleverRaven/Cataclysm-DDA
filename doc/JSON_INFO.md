@@ -25,6 +25,9 @@ Use the `Home` key to return to the top.
 - [Description and content of each JSON file](#description-and-content-of-each-json-file)
   - [`data/json/` JSONs](#datajson-jsons)
     - [Ascii_arts](#ascii_arts)
+    - [Addiction types](#addiction-types)
+    - [Body Graphs](#body-graphs)
+      - [Graph Parts](#graph-parts)
     - [Body_parts](#body_parts)
     - [Limb scores](#limb-scores)
     - [Character Modifiers](#character-modifiers)
@@ -32,8 +35,12 @@ Use the `Home` key to return to the top.
     - [Bionics](#bionics)
     - [Dreams](#dreams)
     - [Disease](#disease)
+    - [Emitters](#emitters)
     - [Item Groups](#item-groups)
     - [Item Category](#item-category)
+    - [Item Properties](#item-properties)
+    - [Item Variables](#item-variables)
+    - [Item Migrations](#item-migrations)
     - [Materials](#materials)
       - [Fuel data](#fuel-data)
     - [Monster Groups](#monster-groups)
@@ -49,7 +56,10 @@ Use the `Home` key to return to the top.
       - [`name`](#name)
       - [`points`](#points)
       - [`addictions`](#addictions)
+      - [`shopkeeper_consumption_rates`](#shopkeeper_consumption_rates)
+      - [`shopkeeper_blacklist`](#shopkeeper_blacklist)
       - [`skills`](#skills)
+      - [`missions`](#missions)
       - [`proficiencies`](#proficiencies)
       - [`items`](#items)
       - [`pets`](#pets)
@@ -57,8 +67,10 @@ Use the `Home` key to return to the top.
       - [`flags`](#flags)
       - [`cbms`](#cbms)
       - [`traits`](#traits)
+      - [`requirement`](#requirement)
     - [Recipes](#recipes)
       - [Practice recipes](#practice-recipes)
+      - [Nested recipes](#nested-recipes)
       - [Recipe requirements](#recipe-requirements)
       - [Defining common requirements](#defining-common-requirements)
       - [Overlapping recipe component requirements](#overlapping-recipe-component-requirements)
@@ -73,7 +85,9 @@ Use the `Home` key to return to the top.
     - [Skills](#skills)
     - [Speed Description](#speed-description)
     - [Mood Face](#mood-face)
+    - [Tool Qualities](#tool-qualities)
     - [Traits/Mutations](#traitsmutations)
+    - [Trait Migrations](#trait-migrations)
     - [Traps](#traps)
     - [Vehicle Groups](#vehicle-groups)
     - [Vehicle Parts](#vehicle-parts)
@@ -89,6 +103,8 @@ Use the `Home` key to return to the top.
     - [Vehicle Placement](#vehicle-placement)
     - [Vehicle Spawn](#vehicle-spawn)
     - [Vehicles](#vehicles)
+    - [Vehicle Part Migrations](#vehicle-part-migrations)
+    - [Weakpoint Sets](#weakpoint-sets)
 - [`data/json/items/` JSONs](#datajsonitems-jsons)
     - [Generic Items](#generic-items)
       - [To hit object](#to-hit-object)
@@ -97,6 +113,7 @@ Use the `Home` key to return to the top.
     - [Armor](#armor)
       - [Armor Portion Data](#armor-portion-data)
         - [Encumbrance](#encumbrance)
+        - [Encumbrance_modifiers](#encumbrance_modifiers)
         - [Coverage](#coverage)
         - [Covers](#covers)
         - [Specifically Covers](#specifically-covers)
@@ -212,12 +229,16 @@ Use the `Home` key to return to the top.
   - [`start_name`](#start_name)
   - [`professions`](#professions)
   - [`map_special`](#map_special)
+      - [`requirement`](#requirement-1)
   - [`eocs`](#eocs)
-  - [`missions`](#missions)
+  - [`missions`](#missions-1)
   - [`custom_initial_date`](#custom_initial_date)
 - [Starting locations](#starting-locations)
   - [`name`](#name-3)
   - [`terrain`](#terrain)
+  - [`city_sizes`](#city_sizes)
+  - [`city_distance`](#city_distance)
+  - [`allowed_z_levels`](#allowed_z_levels)
   - [`flags`](#flags-3)
 - [Mutation overlay ordering](#mutation-overlay-ordering)
   - [`id`](#id-2)
@@ -226,6 +247,9 @@ Use the `Home` key to return to the top.
   - [`compatibility`](#compatibility)
   - [`tiles-new`](#tiles-new)
 - [Field types](#field-types)
+- [Option sliders](#option-sliders)
+  - [Option sliders - Fields](#option-sliders---fields)
+  - [Option sliders - Levels](#option-sliders---levels)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -308,7 +332,7 @@ the fact that it's impassable, flammable, etc.) are inherited from
     "id": "t_tree_pine_harvested",
     "copy-from": "t_tree_pine",
     "name": "pine tree",
-    "description": "A towering coniferous tree that belongs to the 'Pinus' genus, with the New England species varying from 'P. strobus', 'P. resinosa' and 'P. rigida'.  Some of the branches have been stripped away and many of the pinecones aren't developed fully yet, but given a season, it could be harvestable again.  Also, you could cut it down with the right tools.",
+    "description": "A towering coniferous tree that belongs to the 'Pinus' genus, with the New England species varying from 'P. strobus', 'P. resinosa' and 'P. rigida'.  Some of the branches have been stripped away and many of the pinecones aren't developed fully yet, but given a season, it could be harvestable again.",
     "symbol": "4",
     "color": "brown",
     "looks_like": "t_tree_deadpine",
@@ -409,7 +433,7 @@ order of the entries does not matter.
 }
 ```
 
-Currently, only some JSON values support this syntax (see [here](doc/TRANSLATING.md#translation) for a list of supported values and more detailed explanation).
+Currently, only some JSON values support this syntax (see [here](/doc/TRANSLATING.md#translation) for a list of supported values and more detailed explanation).
 
 ## Comments
 
@@ -613,17 +637,154 @@ This section describes each json file and their contents. Each json has their ow
 ```
 For information about tools with option to export ASCII art in format ready to be pasted into `ascii_arts.json`, see `ASCII_ARTS.md`.
 
+### Addiction types
+
+Addictions are defined in JSON using `"addiction_type"`:
+
+```JSON
+{
+  "type": "addiction_type",
+  "id": "caffeine",
+  "name": "Caffeine Withdrawal",
+  "type_name": "caffeine",
+  "description": "Strength - 1;   Slight sluggishness;   Occasional cravings",
+  "craving_morale": "morale_craving_caffeine",
+  "effect_on_condition": "EOC_CAFFEINE_ADDICTION"
+}
+```
+
+| Field                   | Description
+|---                      |---
+| `"name"`                | The name of the addiction's effect as it appears in the player's status
+| `"type_name"`           | The name of the addiction's source
+| `"description"`         | Description of the addiction's effects as it appears in the player's status
+| `"craving_morale"`      | ID of the `morale_type` penalty
+| `"effect_on_condition"` | ID of the `effect_on_condition` (can also be an inline EOC) which activates on each `update_body` (aka every turn)
+| `"builtin"`             | *(for legacy addiction code)* Name of a hardcoded function to process the addiction's effect. For new addictions, use `"effect_on_condition"` instead.
+
+Each turn, the player's addictions are processed using either the given `effect_on_condition` or `builtin`. These effects usually have a rng condition so that the effect isn't applied constantly every turn. Ex:
+
+```JSON
+{
+  "type": "effect_on_condition",
+  "id": "EOC_MARLOSS_R_ADDICTION",
+  "condition": { "compare_int": [ { "rand": 800 }, "<", { "u_val": "addiction_intensity", "addiction": "marloss_r", "mod": 20 } ] },
+  "effect": [
+    { "u_add_morale": "morale_craving_marloss", "bonus": -5, "max_bonus": -30 },
+    { "u_message": "You daydream about luscious pink berries as big as your fist.", "type": "info" },
+    {
+      "run_eocs": [
+        {
+          "id": "EOC_MARLOSS_R_ADDICTION_MODFOCUS",
+          "condition": { "compare_int": [ { "u_val": "focus" }, ">", { "const": 40 } ] },
+          "effect": { "arithmetic": [ { "u_val": "focus" }, "-=", { "const": 1 } ] }
+        }
+      ]
+    }
+  ]
+}
+```
+
+Current hardcoded builtins:
+- `nicotine_effect`
+- `alcohol_effect`
+- `diazepam_effect`
+- `opiate_effect`
+- `amphetamine_effect`
+- `cocaine_effect`
+- `crack_effect`
+
+
+### Body Graphs
+
+Body graphs are displayed in the body status menu, accessible by pressing `s` on the player's @-screen.
+These are interactive graphs that highlight different body parts or sub body parts.
+
+```JSON
+{
+  "type": "body_graph",
+  "id": "head",
+  "parent_bodypart": "head",
+  "fill_sym": "#",
+  "fill_color": "white",
+  "rows": [
+    "             7777777777777              ",
+    "          7777777777777777777           ",
+    "         777777777777777777777          ",
+    "        ######66666666666######         ",
+    "        ####666666666666666####         ",
+    "        ####666666666666666####         ",
+    "      9 #####6666666666666##### 0       ",
+    "      99#####111###4###222#####00       ",
+    "      99####11111#444#22222####00       ",
+    "      99##5555555544455555555##00       ",
+    "       9##5555555544455555555##0        ",
+    "        ##5555555444445555555##         ",
+    "         ###555533333335555###          ",
+    "          #####333333333#####           ",
+    "           #######333#######            ",
+    "            ###############             ",
+    "            8 ########### 8             ",
+    "         8888888 ##### 8888888          ",
+    "       88888888888   88888888888        ",
+    "           88888888888888888            "
+  ],
+  "parts": {
+    "1": { "sub_body_parts": [ "eyes_left" ], "select_color": "red", "nested_graph": "eyes" },
+    "2": { "sub_body_parts": [ "eyes_right" ], "select_color": "red", "nested_graph": "eyes" },
+    "3": { "sub_body_parts": [ "mouth_lips" ], "select_color": "red", "nested_graph": "mouth" },
+    "4": { "sub_body_parts": [ "mouth_nose" ], "select_color": "red", "nested_graph": "mouth" },
+    "5": { "sub_body_parts": [ "mouth_cheeks" ], "select_color": "red", "nested_graph": "mouth" },
+    "6": { "sub_body_parts": [ "head_forehead" ], "select_color": "red" },
+    "7": { "sub_body_parts": [ "head_crown" ], "select_color": "red" },
+    "8": { "sub_body_parts": [ "head_throat", "head_nape" ], "select_color": "red" },
+    "9": { "sub_body_parts": [ "head_ear_r" ], "select_color": "red" },
+    "0": { "sub_body_parts": [ "head_ear_l" ], "select_color": "red" }
+  }
+}
+```
+
+| Field | description
+|--- |---
+| `type` | Always `body_graph`.
+| `id` | String uniquely identifying this graph.
+| `parent_bodypart` | (_optional_) ID of the parent body part of this graph, if any. Only used to display the current body part as the window's subtitle.
+| `fill_sym` | (_optional_) Specifies a character to fill all sections of the graph when viewing in-game.
+| `fill_color` | (_optional_) Specifies a color to use for unselected sections of the graph when viewing in-game.
+| `rows` | Array of strings that form the graph. The symbols used for each fragment may correspond to an entry in `parts`, which form the sections of the graph. Empty spaces (` `) are ignored for the purposes of filling.
+| `mirror` | (_optional_) Can be specified instead of `rows`. This takes a string ID refering to a different body_graph, which will be flipped horizontally and used as the rows in this graph (ex: `hand_l` mirrors `hand_r`).
+| `parts` | A list of symbols present in the graph that correspond to specific body parts or sub body parts.
+
+The resolution limit for the `rows` field is 40x20, in order to maintain compatibility with 80x24 terminals.
+
+#### Graph Parts
+
+The `parts` field can be used to define the interaction with different sections of the graph. Each part should
+reference at least one body part or sub body part.
+
+| Field | description
+|--- |---
+| `body_parts` | An array of `body_part` IDs that are represented by this graph section.
+| `sub_body_parts` | An array of `sub_body_part` IDs that are represented by this graph section.
+| `sym` | (_optional_) A symbol to override fragments belonging to this section.
+| `select_color` | (_optional_) Color to use when selecting this section.
+| `nested_graph` | (_optional_) ID of another body_graph. When the player selects and confirms this section, the UI switches to the given nested graph.
+
+
 ### Body_parts
 
 | `Identifier`           | Description
 |---                     |---
 | `id`                   | (_mandatory_) Unique ID. Must be one continuous word, use underscores if necessary.
 | `name`                 | (_mandatory_) In-game name displayed.
+| `limb_type`            | (_mandatory_) Type of limb, as defined by `bodypart.h`. Certain functions will check only a given bodypart type for their purposes. Currently implemented types are: `head, torso, sensor, mouth, arm, hand, leg, foot, wing, tail, other`.
+| `limb_types`           | (_optional_) (Can be used instead of `limb_type`) Weighted list of limb types this body part can emulate. The weights are modifiers that determine how good this body part is at acting like the given limb type. (Ex: `[ [ "foot", 1.0 ], [ "hand", 0.15 ] ]`)
+| `secondary_types`      | (_optional_) List of secondary limb types for the bodypart, to include it in relevant calculations.
 | `accusative`           | (_mandatory_) Accusative form for this bodypart.
 | `heading`              | (_mandatory_) How it's displayed in headings.
-| `heading_multiple`     | (_mandatory_) Plural form of heading.
+| `heading_multiple`     | (_mandatory_) Plural form of heading.  Gets used if opposite bodyparts have the same encumbrance data, health and temperature.
 | `encumbrance_text`     | (_mandatory_) Message printed when the limb reaches 40 encumbrance.
-| `encumbrance_threshold`| (_optional_) Encumbrance value where the limb's scorese start scaling bbased on encumbrance. Default 0, meaning sclaing from the first point of encumbrance.
+| `encumbrance_threshold`| (_optional_) Encumbrance value where the limb's scores start scaling based on encumbrance. Default 0, meaning scaling from the first point of encumbrance.
 | `encumbrance_limit`    | (_optional_) When encumbrance reaches or surpasses this value the limb stops contributing its scores. Default 100.
 | `encumb_impacts_dodge` | (_optional_) If true, this body part's encumbrance impacts dodge ability. Defaults to false.
 | `hp_bar_ui_text`       | (_mandatory_) How it's displayed next to the hp bar in the panel.
@@ -631,23 +792,37 @@ For information about tools with option to export ASCII art in format ready to b
 | `connected_to`         | (_mandatory_ if main_part is itself) What is the next part this one is attached to towards the "root" bodypart (the root bodypart should be connected to itself).  Each anatomy should have a unique root bodypart, usually the head.
 | `base_hp`              | (_mandatory_) The amount of hp this part has before any modification.
 | `opposite_part`        | (_mandatory_) What is the opposite part of this one in case of a pair.
-| `hit_size`             | (_mandatory_) Size of the body part when doing an unweighted selection.
-| `hit_size_relative`    | (_mandatory_) Hit sizes for attackers who are smaller, equal in size, and bigger.
+| `hit_size`             | (_mandatory_) Size of the body part for (melee) attack targeting.  Monster special attacks are capable of targeting set bodypart hitsizes (see `hitsize_min/max` in `MONSTERS.md`).  The character's whole `hitsize sum / base hitsize sum` acts as a denominator of dodge rolls, meaning extra limbs passively make it harder to dodge.
 | `hit_difficulty`       | (_mandatory_) How hard is it to hit a given body part, assuming "owner" is hit. Higher number means good hits will veer towards this part, lower means this part is unlikely to be hit by inaccurate attacks. Formula is `chance *= pow(hit_roll, hit_difficulty)`
-| `drench_capacity`      | (_mandatory_) How wet this part can get before being 100% drenched.
+| `drench_capacity`      | (_mandatory_) How wet this part can get before being 100% drenched. 0 makes the limb waterproof, morale checks for absolute wetness while other effects for wetness percentage - making a high `drench_capacity` prevent the penalties longer.
+| `drench_increment`     | (_optional_) Units of "wetness" applied each time the limb gets drenched. Default 2, ignored by diving underwater.
+| `drying_chance`        | (_optional_) Base chance the bodypart will succeed in the drying roll ( `x/80` chance, modified by ambient temperature etc)
+| `drying_increment`     | (_optonal_) Units of wetness the limb will dry each turn, if it succeeds in the drying roll (base chance `drench_capacity / 80`, modified by ambient temperature).
+| `wet_morale`           | (_optional_) Mood bonus/malus when the limb gets wet, representing the morale effect at 100% limb saturation. Modified by worn clothing and ambient temperature.
 | `stylish_bonus`        | (_optional_) Mood bonus associated with wearing fancy clothing on this part. (default: `0`)
 | `hot_morale_mod`       | (_optional_) Mood effect of being too hot on this part. (default: `0`)
 | `cold_morale_mod`      | (_optional_) Mood effect of being too cold on this part. (default: `0`)
 | `squeamish_penalty`    | (_optional_) Mood effect of wearing filthy clothing on this part. (default: `0`)
 | `fire_warmth_bonus`    | (_optional_) How effectively you can warm yourself at a fire with this part. (default: `0`)
+| `temp_mod`             | (_optional array_) Intrinsic temperature modifier of the bodypart.  The first value (in the same "temperature unit" as mutations' `bodytemp_modifier`) is always applied, the second value is applied on top when the bodypart isn't overheated.
 | `env_protection`       | (_optional_) Innate environmental protection of this part. (default: `0`)
 | `stat_hp_mods`         | (_optional_) Values modifying hp_max of this part following this formula: `hp_max += int_mod*int_max + dex_mod*dex_max + str_mod*str_max + per_mod*per_max + health_mod*get_healthy()` with X_max being the unmodified value of the X stat and get_healthy() being the hidden health stat of the character.
+| `heal_bonus`           | (_optional_) Innate amount of HP the bodypart heals every successful healing roll. See the `ALWAYS_HEAL` and `HEAL_OVERRIDE` flags.
+| `mend_rate`            | (_optional_) Innate mending rate of the limb, should it get broken. Default `1.0`, used as a multiplier on the healing factor after other factors are calculated.
+| `health_limit`         | (_optional_) Amount of limb HP necessary for the limb to provide its melee `techniques` and `conditional_flags`.  Defaults to 1, meaning broken limbs don't contribute.
+| `ugliness`             | (_optional_) Ugliness of the part that can be covered up, negatives confer beauty bonuses.
+| `ugliness_mandatory`   | (_optional_) Inherent ugliness that can't be covered up by armor.
 | `bionic_slots`         | (_optional_) How many bionic slots does this part have.
 | `is_limb`              | (_optional_) Is this bodypart a limb and capable of breaking. (default: `false`)
 | `smash_message`        | (_optional_) The message displayed when using that part to smash something.
 | `smash_efficiency`     | (_optional_) Modifier applied to your smashing strength when using this part to smash terrain or furniture unarmed. (default: `0.5`)
 | `flags`                | (_optional_) List of bodypart flags.  These are considered character flags, similar to bionic/trait/effect flags.
+| `conditional_flags`    | (_optional_) List of character flags this limb provides as long as it's above `health_limit` HP.
+| `techniques`           | (_optional_) List of melee techniques granted by this limb as long as it's above its `health_limit` HP.  The chance for the technique to be included in each attack's tech list is dependent on limb encumbrance. ( `!x_in_y(current encumbrance / technique_encumbrance_limit`)
+| `technique_encumbrance_limit` | (_optional_) Level of encumbrance that disables the given techniques for this limb completely, lower encumbrance still reduces the chances of the technique being chosen (see above).
 | `limb_scores`          | (_optional_) List of arrays defining limb scores. Each array contains 2 mandatory values and 1 optional value. Value 1 is a reference to a `limb_score` id. Value 2 is a float defining the limb score's value. (optional) Value 3 is a float defining the limb score's maximum value (mostly just used for manipulator score).
+| `unarmed_damage`       | (_optional_) An array of objects, each detailing the amount of unarmed damage the bodypart contributes to unarmed attacks and their armor penetration. The unarmed damages of each limb are summed and added to the base unarmed damage. Should be used for limbs the character is expected to *always* attack with, for special attacks use a dedicated technique.
+| `armor`                | (_optional_) An object containing damage resistance values. Ex: `"armor": { "bash": 2, "cut": 1 }`. See [Part Resistance](#part-resistance) for details.
 
 ```json
 {
@@ -666,10 +841,10 @@ For information about tools with option to export ASCII art in format ready to b
   "connected_to": "torso",
   "opposite_part": "arm_r",
   "hit_size": 9,
-  "hit_size_relative": [ 15, 20, 22.86 ],
   "hit_difficulty": 0.95,
   "limb_type": "arm",
   "limb_scores": [ [ "manip", 0.1, 0.2 ], [ "lift", 0.5 ], [ "block", 1.0 ], [ "swim", 0.1 ] ],
+  "armor": { "electric": 2, "stab": 1 },
   "side": "left",
   "legacy_id": "ARM_L",
   "hot_morale_mod": 0.5,
@@ -707,17 +882,17 @@ Here are the currently defined limb scores:
 
 | Limb score id          | Description
 |------                  |------
-| `manipulator_score`    | Modifies aim speed, reload speed, thrown attack speed, ranged dispersion and crafting speed.
+| `manipulator_score`    | Modifies aim speed, reload speed, thrown attack speed, ranged dispersion and crafting speed.  The manipulator scores of each limb type are aggregated and the best limb group is chosen for checks.
 | `manipulator_max`      | The upper limit of manipulator score the limb can contribute to.
-| `lifting_score`        | Modifies melee attack stamina cost on arm-type limbs, a sum above 0.5 qualifies for wielding two-handed weapons and similar checks.
-| `blocking_score`       | If the sum of blocking scores on arm-type limbs is above 1 the character can use arm blocks provided they have a relevant martial art.  Blocking score below 1 prevents using any martial arts and reduces damage to 10% (used as a surrogate for broken arms)
+| `lifting_score`        | Modifies melee attack stamina and move cost, as well as a number of STR checks.  A sum above 0.5 qualifies for wielding two-handed weapons and similar checks.  Arms below 0.1 lift score don't count as working for the purposes of melee combat.
+| `blocking_score`       | The blocking limb is chosen by a roll weighted by eligible limbs' block score, and blocking efficiency is multiplied by the target limb's score.
 | `breathing_score`      | Modifies stamina recovery speed and shout volume.
-| `vision_score`         | Modifies ranged dispersion.
+| `vision_score`         | Modifies ranged dispersion, ranged and melee weakpoint hit chances.
 | `nightvision_score`    | Modifies night vision range (multiplier on the calculated range).
-| `reaction_score`       | Modifies dodge chance and block effectivity.
-| `balance_score`        | Modifies thrown attack speed, melee attack rolls.
+| `reaction_score`       | Modifies dodge chance, block chance, melee weakpoint hit chances.
+| `balance_score`        | Modifies thrown attack speed, movement cost and melee attack rolls.
 | `footing_score`        | Modifies movement cost.
-| `movement_speed_score` | Modifies movement cost, twice as strongly as `footing_score`.
+| `movement_speed_score` | Modifies movement cost.
 | `swim_score`           | Modifies swim speed.
 
 These limb scores are referenced in `"body_part"` within the `"limb_scores"` array. (See [body parts](#body_parts)).
@@ -733,6 +908,18 @@ Character modifiers define how effective different behaviours are for actions th
   "description": "Hand dispersion when using ranged attacks",
   "mod_type": "+",
   "value": { "limb_score": "manip", "max": 1000.0, "nominator": 22.8, "subtract": 22.8 }
+},
+{
+  "type": "character_mod",
+  "id": "slip_prevent_mod",
+  "description": "Slip prevention modifier",
+  "mod_type": "x",
+  "value": {
+    "limb_score": [ [ "grip", 3.0 ], [ "lift", 2.0 ], "footing" ],
+    "override_encumb": true,
+    "limb_score_op": "+",
+    "denominator": 6.0
+  }
 },
 {
   "type": "character_mod",
@@ -755,20 +942,24 @@ Character modifiers define how effective different behaviours are for actions th
 
 | Field        | Description
 |------        |------------
-| `limb_score` | Refers to a `limb_score` id. This is the limb score from which this modifier is derived.
+| `limb_score` | Refers to a `limb_score` id, or an array of `limb_score` id's (can be a weighted list). These are the limb scores from which this modifier is derived.
+| `limb_score_op` | (_optional_) Operation (add `+` or multiply `x`) to apply when multiple limb scores are defined. Ex: `x` => `score1 x score2 x score3 ...`. (Defaults to `x`)
 | `limb_type`  | (_optional_) Refers to a `limb_type` as defined in [`body_part`](#body_parts). If present, only limb scores from body parts with that `limb_type` are used.
 | `override_encumb` | (_optional_) Boolean (true/false). If specified, this forces the limb score to be affected/unaffected by limb encumbrance if true/false. (Overrides `affected_by_encumb` in `limb_score`)
 | `override_wounds` | (_optional_) Boolean (true/false). If specified, this forces the limb score to be affected/unaffected by limb health if true/false.(Overrides `affected_by_wounds` in `limb_score`)
 | `min`        | (_optional_) Defines a minimum value for this modifier. Generally only used for "bonus" multipliers that provide a benefit. Should not be used together with `max`.
 | `max`        | (_optional_) Defines a maximum value for this modifier. Generally used for "cost" multipliers that provide a malus. Should not be used together with `min`. This value can be defined as a decimal or as the special value `"max_move_cost"`.
-| `nominator`  | (_optional_) Causes the limb score to divide the specified value, such that `nominator / limb_score`.
+| `nominator`  | (_optional_) Causes the limb score to divide the specified value, such that `nominator / ( limb_score * denominator )`.
+| `denominator` | (_optional_) Divides the limb score (or the nominator, if specified) by the specified value, such that `limb_score / denominator`.
 | `subtract`   | (_optional_) Defines a value to subtract from the resulting modifier, such that `mod - subtract`.
 | `builtin`    | Instead of a limb score, the `value` object can define a built-in function to handle the calculation of the modifier.
 
 The modifier is normally derived from a limb score, which is modified in a sequence of operations. Here are some possible outcomes for different combinations of specified fields in `value`:
 ```C++
-// Only "limb_score" specified:
+// Only one "limb_score" specified:
 mod = limb_score;
+// 3 score id's in "limb_score" array (with "x" operation):
+mod = limb_score1 * limb_score2 * limb_score3;
 // "max" specified:
 mod = min( max, limb_score );
 // "min" specified:
@@ -777,6 +968,8 @@ mod = max( min, limb_score );
 mod = min( max, nominator / limb_score );
 // "max", "nominator", and "subtract" specified:
 mod = min( max, ( nominator / limb_score ) - subtract );
+// "max", "denominator", and "subtract" specified:
+mod = min( max, ( limb_score / denominator ) - subtract );
 ```
 
 
@@ -795,6 +988,7 @@ mod = min( max, ( nominator / limb_score ) - subtract );
 | upgraded_bionic             | (_optional_) Bionic that can be upgraded by installing this one.
 | available_upgrades          | (_optional_) Upgrades available for this bionic, i.e. the list of bionics having this one referenced by `upgraded_bionic`.
 | encumbrance                 | (_optional_) A list of body parts and how much this bionic encumber them.
+| known_ma_styles             | (_optional_) A list of martial art styles that are known to the wearer when the bionic is activated
 | weight_capacity_bonus       | (_optional_) Bonus to weight carrying capacity in grams, can be negative.  Strings can be used - "5000 g" or "5 kg" (default: `0`)
 | weight_capacity_modifier    | (_optional_) Factor modifying base weight carrying capacity. (default: `1`)
 | canceled_mutations          | (_optional_) A list of mutations/traits that are removed when this bionic is installed (e.g. because it replaces the fault biological part).
@@ -816,6 +1010,9 @@ mod = min( max, ( nominator / limb_score ) - subtract );
 | coverage_power_gen_penalty  | (_optional_) Fraction of coverage diminishing fuel_efficiency. Float between 0.0 and 1.0. (default: `nullopt`)
 | power_gen_emission          | (_optional_) `emit_id` of the field emitted by this bionic when it produces energy. Emit_ids are defined in `emit.json`.
 | stat_bonus                  | (_optional_) List of passive stat bonus. Stat are designated as follow: "DEX", "INT", "STR", "PER".
+| activated_eocs              | (_optional_) List of effect_on_conditions that attempt to activate when this CBM is successfully activated.
+| processed_eocs              | (_optional_) List of effect_on_conditions that attempt to activate each turn this CBM is active.
+| deactivated_eocs            | (_optional_) List of effect_on_conditions that attempt to activate when this CBM is successfully deactivated.
 | enchantments                | (_optional_) List of enchantments applied by this CBM (see MAGIC.md for instructions on enchantment. NB: enchantments are not necessarily magic.) Values can either be the enchantment's id or an inline definition of the enchantment.
 | learned_spells              | (_optional_) Map of {spell:level} you gain when installing this CBM, and lose when you uninstall this CBM. Spell classes are automatically gained.
 | learned_proficiencies       | (_optional_) Array of proficiency ids you gain when installing this CBM, and lose when uninstalling
@@ -825,6 +1022,7 @@ mod = min( max, ( nominator / limb_score ) - subtract );
 | cant_remove_reason          | (_optional_) String message to be displayed as the reason it can't be uninstalled.  Having any value other than `""` as this will prevent unistalling the bionic. Formatting includes two `%s` for example: `The Telescopic Lenses are part of %1$s eyes now. Removing them would leave %2$s blind.`  (default: `""`)
 | social_modifiers			  | (_optional_) Json object with optional members: persuade, lie, and intimidate which add or subtract that amount from those types of social checks
 | dispersion_mod              | (_optional_) Modifier to change firearm dispersion.
+| activated_on_install        | (_optional_) Auto-activates this bionic when installed.
 
 ```C++
 {
@@ -908,6 +1106,28 @@ When adding a new bionic, if it's not included with another one, you must also a
   }
 ```
 
+### Emitters
+
+Emitters randomly place [fields](#field-types) around their positions - every turn for monster emissions, every ten seconds for furniture/terrain.
+
+| Identifier | Description
+|---         |---
+| id         | Unique ID
+| field      | Field type emitted
+| intensity  | Initial intensity of the spawned fields (spawning multiple fields will still cause their intensity to increase). Default 1.
+| chance     | **Percent** chance of the emitter emitting, values above 100 will increase the quantity of fields placed via `roll_remainder` (ex: `chance: 150` will place one field 50% of the time and two fields the other 50% ). Failing the roll will disable the whole emission for the tick, not rolled for every `qty`! Default 100.
+| qty        | Number of fields placed. Fields are placed using the field propagation rules, allowing fields to spread. Default 1.
+
+```JSON
+  {
+    "id": "emit_shock_burst",
+    "type": "emit",
+    "field": "fd_electricity",
+    "intensity": 3,
+    "chance": 1,
+    "qty": 10
+  },
+```
 ### Item Groups
 
 Item groups have been expanded, look at [the detailed docs](ITEM_SPAWN.md) to their new description.
@@ -956,6 +1176,61 @@ When you sort your inventory by category, these are the categories that are disp
 }
 ```
 
+### Item Properties
+
+Properties are bound to item's type definition and code checks for them for special behaviour,
+for example the property below makes a container burst open when filled over 75% and it's thrown.
+
+```json
+  {
+    "properties": [ [ "burst_when_filled", "75" ] ]
+  }
+```
+
+### Item Variables
+
+Item variables are bound to the item itself and used to serialize special behaviour,
+for example folding a vehicle serializes the folded vehicle's name and list of parts
+(part type ids, part damage, degradation etc) into json string for use when unfolding.
+
+They can originate from code - like in the example above when folding a vehicle.
+
+Alternatively item variables may also originate from the item's prototype. Specifying them
+can be done in the item's definition, add the `variables` key and inside write a key-value
+map.
+
+Example:
+```json
+    "variables": {
+      "special_key": "spiffy value"
+    }
+```
+
+This will make any item instantiated from that prototype get assigned this variable, once
+the item is spawned the variables set on the prototype no longer affect the item's variables,
+a migration can clear out the item's variables and reassign the prototype ones if reset_item_vars
+flag is set.
+
+### Item Migrations
+
+Migrations allow replacing items or modifying them in ways to keep up with code changes or
+maintain a consistent list of item type ids.
+
+The item migration code itself is at Item_factory::migrate_item and may provide more details.
+
+The following migration will migrate items with id 'arrow_heavy_field_point' to id
+'arrow_heavy_field_point_fletched', it will also reset the item's item_vars field to
+the item prototype ones (although in this case most likely both item_vars are empty)
+
+```json
+  {
+    "id": "arrow_heavy_field_point",
+    "type": "MIGRATION",
+    "replace": "arrow_heavy_field_point_fletched",
+    "reset_item_vars": "true"
+  }
+```
+
 ### Materials
 
 | Identifier       | Description
@@ -966,7 +1241,9 @@ When you sort your inventory by category, these are the categories that are disp
 | `cut_resist`     | How well a material resists cutting damage.
 | `bullet_resist`  | How well a material resists bullet damage.
 | `acid_resist`    | Ability of a material to resist acid.
-| `elec_resist`    | Ability of a material to resist electricity.
+| `elec_resist`    | Ability of a material to resist electricity. Optional defaults to 0.0
+| `biologic_resist`    | Ability of a material to resist biological damage. Optional defaults to 0.0
+| `cold_resist`    | Ability of a material to resist cold damage. Optional defaults to 0.0
 | `fire_resist`    | Ability of a material to resist fire.
 | `chip_resist`    | Returns resistance to being damaged by attacks against the item itself.
 | `bash_dmg_verb`  | Verb used when material takes bashing damage.
@@ -983,6 +1260,7 @@ When you sort your inventory by category, these are the categories that are disp
 | `edible`   | Optional boolean. Default is false.
 | `rotting`   | Optional boolean. Default is false.
 | `soft`   | True for pliable materials, whose length doesn't prevent fitting into a container, or through the opening of a container. Default is false.
+| `conductive`     | True if the material conducts electricity, defaults to false
 | `reinforces`   | Optional boolean. Default is false.
 
 There are seven -resist parameters: acid, bash, chip, cut, elec, fire, and bullet. These are integer values; the default is 0 and they can be negative to take more damage.
@@ -1075,6 +1353,7 @@ In monster groups, within the `"monsters"` array, you can define `"group"` objec
 | `starts`          | (_optional_) This entry becomes active after this time.  Specified using time units.  (**multiplied by the evolution scaling factor**)
 | `ends`            | (_optional_) This entry becomes inactive after this time.  Specified using time units.  (**multiplied by the evolution scaling factor**)
 | `spawn_data`      | (_optional_) Any properties that the monster only has when spawned in this group. `ammo` defines how much of which ammo types the monster spawns with. Only applies to "monster" type entries.
+| `event`           | (_optional_) If present, this entry can only spawn during the specified event. See the `holiday` enum for possible values. Defaults to `none`. (Ex: `"event": "halloween"`)
 
 ```C++
 // Example of a monstergroup containing only "monster" entries:
@@ -1086,7 +1365,8 @@ In monster groups, within the `"monsters"` array, you can define `"group"` objec
     { "monster" : "mon_ant_larva", "weight" : 40, "cost_multiplier" : 0 },
     { "monster" : "mon_ant_soldier", "weight" : 90, "cost_multiplier" : 5 },
     { "monster" : "mon_ant_queen", "weight" : 0, "cost_multiplier" : 0 },
-    { "monster" : "mon_thing", "weight" : 100, "cost_multiplier" : 0, "pack_size" : [3,5], "conditions" : ["DUSK","DAWN","SUMMER"] }
+    { "monster" : "mon_thing", "weight" : 100, "cost_multiplier" : 0, "pack_size" : [3,5], "conditions" : ["DUSK","DAWN","SUMMER"] },
+    { "monster" : "mon_santa", "weight" : 500, "event" : "christmas" }
   ]
 },
 // Example of a monstergroup containing subgroups:
@@ -1138,33 +1418,10 @@ A Mutation Category identifies a set of interrelated mutations that as a whole e
 | `id`               | Unique ID. Must be one continuous word, use underscores when necessary.
 | `name`             | Human readable name for the category of mutations.
 | `threshold_mut`    | A special mutation that marks the point at which the identity of the character is changed by the extent of mutation they have experienced.
-| `mutagen_message`  | A message displayed to the player when they take a mutagen of the matching type.
-| `mutagen_hunger`   | The amount of hunger (per mutation triggered) caused by taking the matching mutagen.
-| `mutagen_thirst`   | The amount of thirst (per mutation triggered) caused by taking the matching mutagen.
-| `mutagen_pain`     | The amount of pain caused (per mutation triggered) by taking the matching mutagen.
-| `mutagen_fatigue`  | The amount of fatigue caused (per mutation triggered) by taking the matching mutagen.
-| `mutagen_morale`   | The amount of morale increase caused by taking the matching mutagen for mutagen junkies.
-| `iv_message`       | A message displayed to the player when they take a mutagen serum of the matching type.
-| `iv_min_mutations` | The minimum number of mutations to trigger when taking the mutagen serum.
-| `iv_additional_mutations`  | The minimum number of mutations to trigger when taking the mutagen serum.
-| `iv_additional_mutations_chance`  | The probability of acquiring additional mutations, the formula is one in "additional_mutations_chance" per "additional_mutation".
-| `iv_hunger`        | The amount of hunger (per mutation triggered) caused by taking the matching mutagen serum.
-| `iv_thirst`        | The amount of thirst (per mutation triggered) caused by taking the matching mutagen serum.
-| `iv_pain`          | The amount of pain (per mutation triggered) caused by taking the matching mutagen serum.
-| `iv_fatigue`       | The amount of fatigue caused (per mutation triggered) by taking the matching mutagen serum.
-| `iv_morale`        | The minimum amount of morale caused by taking the matching mutagen serum.
-| `iv_morale_max`    | The maximum amount of morale caused by taking the matching mutagen serum.
-| `iv_sound`         | A flag indicating that taking the matching mutagen serum causes the character to make noise.
-| `iv_sound_message` | The message describing the noise made by the character when taking the mutagen serum.
-| `iv_sound_id`      | The id of a sound clip to play depicting the noise made by the character.
-| `iv_sound_variant` | The id of a variant clip to play depicting the noise made by the character.
-| `iv_noise`         | The volume of the noise the character makes.
-| `iv_sleep`         | A flag indicating that the player will involuntarily sleep after taking the matching mutation serum.
-| `iv_sleep_message` | The message to display notifying the player that their character has fallen sleep.
-| `iv_sleep_dur`     | The duration of the involuntary sleep in seconds.
+| `mutagen_message`  | A message displayed to the player when they mutate in this category.
 | `memorial_message` | The memorial message to display when a character crosses the associated mutation threshold.
-| `junkie_message`   | The message to display if the character is addicted to the associated mutagen and takes some.
 | `wip`              | A flag indicating that a mutation category is unfinished and shouldn't have consistency tests run on it. See tests/mutation_test.cpp.
+
 
 ### Names
 
@@ -1283,6 +1540,44 @@ Example:
 ]
 ```
 
+#### `shopkeeper_consumption_rates`
+
+```JSON
+  "type": "shopkeeper_consumption_rates",
+  "id": "basic_shop_rates",
+  "default_rate": 5, // defined as units/day since last restock
+  "junk_threshold": "10 cent", // items below this price will be consumed completely regardless of matches below
+  "rates": [ // lower entries override higher ones
+      { "item": "hammer", "rate": 1 },
+      {
+        "item": "hammer",
+        "rate": 10,
+        "condition": { "npc_has_var": "hammer_eater", "type": "bool", "context": "dinner", "value": "yes" }
+      },
+      { "category": "ammo", "rate": 10 },
+      { "group": "EXODII_basic_trade", "rate": 100 }
+      { "group": "EXODII_basic_trade", "category": "ammo", "rate": 200 }
+  ]
+```
+`condition` is checked with avatar as alpha and npc as beta. See [Player or NPC conditions](NPCs.md#player-or-npc-conditions).
+
+#### `shopkeeper_blacklist`
+Similar to `shopkeeper_consumption_rates`
+
+```JSON
+  "type": "shopkeeper_blacklist",
+  "id": "basic_blacklist",
+  "entries": [
+      {
+        "item": "hammer",
+        "condition": { "npc_has_var": "hammer_hater", "type": "bool", "context": "test", "value": "yes" },
+        "message": "<npcname> hates this item"
+      },
+      { "category": "ammo" },
+      { "group": "EXODII_basic_trade" }
+  ]
+```
+
 #### `skills`
 
 (optional, array of skill levels)
@@ -1296,6 +1591,17 @@ Example:
 "skills": [
     { "name": "archery", "level": 2 }
 ]
+```
+
+#### `missions`
+
+(optional, array of mission ids)
+
+List of starting missions for this profession/hobby.
+
+Example:
+```JSON
+"missions": [ "MISSION_LAST_DELIVERY" ]
 ```
 
 #### `proficiencies`
@@ -1371,6 +1677,12 @@ A list of CBM ids that are implanted in the character.
 
 A list of trait/mutation ids that are applied to the character.
 
+#### `requirement`
+
+(optional, an achievement ID)
+
+The achievement you need to do to access this profession
+
 ### Recipes
 
 Crafting recipes are defined as a JSON object with the following fields:
@@ -1378,6 +1690,10 @@ Crafting recipes are defined as a JSON object with the following fields:
 ```C++
 "result": "javelin",         // ID of resulting item
 "byproducts": [ [ "" ] ],    // Optional (default: empty). Additional items generated by crafting this recipe.
+"byproduct_group": [         // Optional (default: empty). Same as above, but using item group definitions.
+  { "item": "item_id_1", "count": [ 1, 4 ] },
+  { "item": "item_id_2", "charges": [ 8, 15 ] },
+],
 "category": "CC_WEAPON",     // Category of crafting recipe. CC_NONCRAFT used for disassembly recipes
 "subcategory": "CSC_WEAPON_PIERCING",
 "id_suffix": "",             // Optional (default: empty string). Some suffix to make the ident of the recipe unique. The ident of the recipe is "<id-of-result><id_suffix>".
@@ -1397,7 +1713,8 @@ Crafting recipes are defined as a JSON object with the following fields:
 "difficulty": 3,             // Difficulty of success check
 "time": "5 m",               // Preferred time to perform recipe, can specify in minutes, hours etc.
 "time": 5000,                // Legacy time to perform recipe (where 1000 ~= 10 turns ~= 10 seconds game time).
-"reversible": false,         // Can be disassembled.
+"reversible": true,          // Can be disassembled. Time taken is as long as to craft the item.
+"reversible": { "time": "30 s" }, // Can be disassembled. Time to disassemble as specified.
 "autolearn": true,           // Automatically learned upon gaining required skills
 "autolearn" : [              // Automatically learned upon gaining listed skills
     [ "survival", 2 ],
@@ -1454,9 +1771,67 @@ Crafting recipes are defined as a JSON object with the following fields:
 #### Practice recipes
 
 Recipes may instead be defined with type "practice", to make them appear in the "PRACTICE" tab of
-the crafting menu.  These recipes do not have a "result", but they may define "byproducts". See
-[PRACTICE_RECIPES.md](PRACTICE_RECIPES.md) for how to define them.
+the crafting menu.  These recipes do not have a "result", but they may define "byproducts"/"byproduct_group".
+See [PRACTICE_RECIPES.md](PRACTICE_RECIPES.md) for how to define them.
 
+#### Nested recipes
+
+Similar recipes may instead be nested allowing you to save space in the UI.  This is done as such:
+```json
+{
+  "id": "nested_steel_legs",
+  "type": "nested_category",
+  "activity_level": "BRISK_EXERCISE",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_LEGS",
+  "name": "steel leg guards",
+  "description": "Recipes related to constructing steel leg guards in various thickness and steel variants.",
+  "skill_used": "fabrication",
+  "nested_category_data": [
+    "xl_armor_qt_heavy_leg_guard",
+    "armor_qt_heavy_leg_guard",
+    "xl_armor_ch_heavy_leg_guard",
+    "armor_ch_heavy_leg_guard",
+    "xl_armor_hc_heavy_leg_guard",
+    "armor_hc_heavy_leg_guard",
+    "xl_armor_mc_heavy_leg_guard",
+    "armor_mc_heavy_leg_guard",
+    "xl_armor_lc_heavy_leg_guard",
+    "armor_lc_heavy_leg_guard",
+    "xl_armor_qt_leg_guard",
+    "armor_qt_leg_guard",
+    "xl_armor_ch_leg_guard",
+    "armor_ch_leg_guard",
+    "xl_armor_hc_leg_guard",
+    "armor_hc_leg_guard",
+    "xl_armor_mc_leg_guard",
+    "armor_mc_leg_guard",
+    "xl_armor_lc_leg_guard",
+    "armor_lc_leg_guard",
+    "xl_armor_qt_light_leg_guard",
+    "armor_qt_light_leg_guard",
+    "xl_armor_ch_light_leg_guard",
+    "armor_ch_light_leg_guard",
+    "xl_armor_hc_light_leg_guard",
+    "armor_hc_light_leg_guard",
+    "xl_armor_mc_light_leg_guard",
+    "armor_mc_light_leg_guard",
+    "xl_armor_lc_light_leg_guard",
+    "armor_lc_light_leg_guard"
+  ],
+  "difficulty": 5,
+  "autolearn": [ [ "fabrication", 5 ] ]
+}
+```
+
+So it is identical to a normal recipe with the addition of the "nested_category_data" which lists all of the recipe ID's that are in the category.
+
+If you want to hide recipes that are nested you can set their category and subcategory as:
+
+```json
+"category": "CC_*",
+"subcategory": "CSC_*_NESTED",
+```
 
 #### Recipe requirements
 
@@ -1620,6 +1995,26 @@ requirement, along with some other components:
 Requirements can be used not just for regular crafting and uncrafting recipes,
 but also for constructions and vehicle part installation and mending.
 
+***NOTE:*** Requirement lists included in mods overwrite the previously loaded
+requirement list with a matching id. This means that two mods modifying the same
+requirement id will overwrite each other. This can be avoided by using `"extend"`
+to extend from the previously loaded list. Ex.:
+
+```json
+{
+  "id": "bone_sturdy",
+  "type": "requirement",
+  "extend": {
+    "components": [
+      [
+        [ "frost_bone_human", 1 ],
+        [ "alien_bone", 1 ]
+      ]
+    ]
+  }
+}
+```
+
 
 #### Overlapping recipe component requirements
 
@@ -1664,13 +2059,17 @@ request](https://github.com/CleverRaven/Cataclysm-DDA/pull/36657) and the
 "components": [ [ [ "spear_wood", 4 ], [ "pointy_stick", 4 ] ] ],   // Items used in construction
 "pre_special": "check_empty",                                       // Required something that isn't terrain
 "pre_terrain": "t_pit",                                             // Alternative to pre_special; Required terrain to build on
+"pre_flags": [ "WALL", { "flag": "DIGGABLE", "force_terrain": true } ], // Flags beginning furniture/terrain must have. force_ter forces the flag to apply to the underlying terrain
 "post_terrain": "t_pit_spiked"                                      // Terrain type after construction is complete
 ```
 
 | pre_special            | Description
 |---                     |---
-| `check_empty`          | Tile is empty
+| `check_channel`        | Must be empty and have a current in at least one orthogonal tile
+| `check_empty`          | Tile is empty (no furniture, trap, item, or vehicle) and flat terrain
+| `check_empty_lite`     | Tile is empty (no furniture, trap, item, or vehicle)
 | `check_support`        | Must have at least two solid walls/obstructions nearby on orthogonals (non-diagonal directions only) to support the tile
+| `check_support_below`  | Must have at least two solid walls/obstructions at the Z level below on orthogonals (non-diagonal directions only) to support the tile and be empty lite but with a ledge trap acceptable, as well as open air
 | `check_stable`         | Tile on level below has a flag `SUPPORTS_ROOF`
 | `check_empty_stable`   | Tile is empty and stable
 | `check_nofloor_above`  | Tile on level above has a flag `NO_FLOOR`
@@ -1681,6 +2080,7 @@ request](https://github.com/CleverRaven/Cataclysm-DDA/pull/36657) and the
 | `check_no_trap`        | There is no trap object in this tile
 | `check_ramp_low`       | Both this and the next level above can be built up one additional Z level
 | `check_ramp_high`      | There is a complete downramp on the next higher level, and both this and next level above can be built up one additional Z level
+| `check_no_wiring`      | The tile must either be free of a vehicle, or at least a vehicle that doesn't have the WIRING flag
 
 ### Scent_types
 
@@ -1751,7 +2151,7 @@ Any or all of the following alterations can be made to the event stream:
 
 * Add new fields to each event based on event field transformations.  The event
   field transformations can be found in
-  [`event_field_transformation.cpp`](../src/event_field_transformation.cpp).
+  [`event_field_transformations.cpp`](/src/event_field_transformations.cpp).
 * Filter events based on the values they contain to produce a stream containing
   some subset of the input stream.
 * Drop some fields which are not of interest in the output stream.
@@ -1782,6 +2182,7 @@ Here are examples of each modification:
     // Each key is the field to which the constraint applies
     // The value specifies the constraint.
     // "equals" can be used to specify a constant cata_variant value the field must take.
+    // "equals_any" can be used to check for a value in a set of values
     // "equals_statistic" specifies that the value must match the value of some statistic (see below)
     "mount" : { "equals": [ "mtype_id", "mon_horse" ] }
 }
@@ -1794,6 +2195,14 @@ The parameter to `"equals"` is normally a length-two array specifying a
 `cata_variant_type` and a value.  As a short cut, you can simply specify an
 `int` or `bool` (e.g. `"equals": 7` or `"equals": true`) for fields which have
 those types.
+
+The parameter to `"equals_any"` will be a pair where the first element is a
+string `cata_variant_type` and the second is an array of values.  For example:
+```
+"value_constraints": {
+  "oter_type_id": { "equals_any": [ "oter_type_str_id", [ "central_lab_finale", "lab_finale" ] ] }
+}
+```
 
 Value constraints are type-checked, so you should see an error message at game
 data verification time if the variant type you have specified doesn't match the
@@ -2069,6 +2478,52 @@ The `id` must be exact as it is hardcoded to look for that.
 
 `HORIZONTAL` means 3 characters width.
 
+### Tool Qualities
+
+Defined in tool_qualities.json.
+
+Format and syntax:
+```C++
+{
+  "type": "tool_quality",
+  "id": "SAW_W",                      // Unique ID
+  "name": { "str": "wood sawing" },   // Description used in tabs in-game when looking at entries with the id
+  "usages": [ [ 2, [ "LUMBER" ] ] ]   // Not mandatory.  The special actions that may be performed with the item.
+},
+```
+
+Examples of various usages syntax:
+```C++
+"usages": [ [ 1, [ "PICK_LOCK" ] ] ]
+"usages": [ [ 2, [ "LUMBER" ] ] ]
+"usages": [ [ 1, [ "salvage", "inscribe", "cauterize" ] ] ]
+"usages": [ [ 2, [ "HACKSAW", "saw_barrel" ] ] ]
+"usages": [ [ 1, [ "CHOP_TREE", "CHOP_LOGS" ] ], [ 2, [ "LUMBER" ] ] ]
+```
+
+The usages line is only required for items that have qualities that allow
+special actions on activation. See [Use Actions](#use-actions) for specific
+actions and documentation.
+
+IDs of actions and the plaintext action description for the player are defined
+in item_actions.json.
+
+Each usage must be defined first by the minimum level of the tool quality that
+is required for that action to be possible, then the ID of the action or array
+of actions that is possible with that tool quality level or greater.
+
+As shown in the examples, one or more actions for multiple tool levels may be
+defined and if multiple levels are defined, those must be defined in a
+higher order array.
+
+Comment lines using the normal `"//"` (or `"//1"`, or higher numbers) format are
+allowed (see [Comments](#comments)).
+
+Qualities are (non-exclusively) associated with items in the various item
+definitions in the json files by adding a `"qualities":` line.
+For example: `"qualities": [ [ "ANVIL", 2 ] ],` associates the `ANVIL` quality
+at level `2` to the item.
+
 ### Traits/Mutations
 
 ```C++
@@ -2093,8 +2548,17 @@ The `id` must be exact as it is hardcoded to look for that.
 "purifiable": false, //Sets if the mutation be purified (default: true)
 "profession": true, //Trait is a starting profession special trait. (default: false)
 "debug": false,     //Trait is for debug purposes (default: false)
-"player_display": true, //Trait is displayed in the `@` player display menu
-"vanity": false, //Trait can be changed any time with no cost, like hair, eye colour and skin colour
+"player_display": true, //Trait is displayed in the `@` player display menu and mutations screen
+"vanity": false, //Trait can be changed any time with no cost, like hair, eye color and skin color
+"variants": [ // Cosmetic variants of this mutation
+  {
+    "id": "red", // String (mandatory): id of the variant
+    "name": { "str": "Glass-Half-Full Optimist" } // Name displayed in place of the mutation name
+    "description": "You think the glass is half-full." // Description displayed in place of mutation description, unless append_desc is true.
+    "apped_desc": false // If true, append the description, instead of replacing.
+    "weight": 1 // Used to randomly select variant when this is mutated. Chance of being selected is weight/sum-of-all-weights. If no weight is specified or weight is 0, variant will not be selected.
+  }
+]
 "category": ["MUTCAT_BIRD", "MUTCAT_INSECT"], // Categories containing this mutation
 // prereqs and prereqs2 specify prerequisites of the current mutation
 // Both are optional, but if prereqs2 is specified prereqs must also be specified
@@ -2111,7 +2575,7 @@ The `id` must be exact as it is hardcoded to look for that.
 },
 "wet_protection":[{ "part": "head", // Wet Protection on specific bodyparts
                     "good": 1 } ] // "neutral/good/ignored" // Good increases pos and cancels neg, neut cancels neg, ignored cancels both
-"vitamin_rates": [ [ "vitC", -1200 ] ], // How much extra vitamins do you consume per minute. Negative values mean production
+"vitamin_rates": [ [ "vitC", -1200 ] ], // How much extra vitamins do you consume, one point per this many seconds. Negative values mean production
 "vitamins_absorb_multi": [ [ "flesh", [ [ "vitA", 0 ], [ "vitB", 0 ], [ "vitC", 0 ], [ "calcium", 0 ], [ "iron", 0 ] ], [ "all", [ [ "vitA", 2 ], [ "vitB", 2 ], [ "vitC", 2 ], [ "calcium", 2 ], [ "iron", 2 ] ] ] ], // multiplier of vitamin absorption based on material. "all" is every material. supports multiple materials.
 "craft_skill_bonus": [ [ "electronics", -2 ], [ "tailor", -2 ], [ "mechanics", -2 ] ], // Skill affected by the mutation and their bonuses. Bonuses can be negative, a bonus of 4 is worth 1 full skill level.
 "restricts_gear" : [ "torso" ], //list of bodyparts that get restricted by this mutation
@@ -2130,21 +2594,23 @@ The `id` must be exact as it is hardcoded to look for that.
   "arm_r": 0.75
 },
 "armor" : [ // Protects selected body parts this much. Resistances use syntax like `PART RESISTANCE` below.
-    [
-        [ "head" ],
-        { "bash" : 2 } // The resistance provided to the body part(s) selected above
-    ],
-    [   // NOTE: Resistances are applies in order and ZEROED between applications!
-        [ "arm_l", "arm_r" ], // Overrides the above settings for those body parts
-        { "bash" : 1 }        // ...and gives them those resistances instead
-    ]
+  {
+    "part_types": [ "arm", "leg" ],
+    "bash": 2,
+    "electric": 5                  // The resistance provided to the body part type(s) selected above
+  },
+  {
+    "parts": [ "arm_l", "arm_r" ], // Overrides the above settings for those specific body parts
+    "bash": 1,                     // ...and gives them those resistances instead
+    "cut": 2
+  }
 ],
 "stealth_modifier" : 0, // Percentage to be subtracted from player's visibility range, capped to 60. Negative values work, but are not very effective due to the way vision ranges are capped
 "active" : true, //When set the mutation is an active mutation that the player needs to activate (default: false)
 "starts_active" : true, //When true, this 'active' mutation starts active (default: false, requires 'active')
 "cost" : 8, // Cost to activate this mutation. Needs one of the hunger, thirst, or fatigue values set to true. (default: 0)
 "time" : 100, //Sets the amount of (turns * current player speed ) time units that need to pass before the cost is to be paid again. Needs to be higher than one to have any effect. (default: 0)
-"hunger" : true, //If true, activated mutation increases hunger by cost. (default: false)
+"kcal" : true, //If true, activated mutation consumes `cost` kcal. (default: false)
 "thirst" : true, //If true, activated mutation increases thirst by cost. (default: false)
 "fatigue" : true, //If true, activated mutation increases fatigue by cost. (default: false)
 "scent_modifier": 0.0,// float affecting the intensity of your smell. (default: 1.0)
@@ -2167,9 +2633,12 @@ The `id` must be exact as it is hardcoded to look for that.
 "metabolism_modifier": 0.333, // Extra metabolism rate multiplier. 1.0 doubles usage, -0.5 halves.
 "fatigue_modifier": 0.5, // Extra fatigue rate multiplier. 1.0 doubles usage, -0.5 halves.
 "fatigue_regen_modifier": 0.333, // Modifier for the rate at which fatigue and sleep deprivation drops when resting.
+"stamina_regen_modifier": 0.1, // Increase stamina regen by this proportion (1.0 being 100% of normal regen)
+"cardio_multiplier": 1.5, // Multiply total cardio fitness by this amount
 "healing_awake": 1.0, // Healing rate per turn while awake.
 "healing_resting": 0.5, // Healing rate per turn while resting.
-"mending_modifier": 1.2 // Multiplier on how fast your limbs mend - This value would make your limbs mend 20% faster
+"mending_modifier": 1.2, // Multiplier on how fast your limbs mend - This value would make your limbs mend 20% faster
+"spells_learned": [ [ "spell_slime_spray", 1 ] ], // spells learned and the level they're at after gaining the trait/mutation.
 "transform": { "target": "BIOLUM1", // Trait_id of the mutation this one will transform into
                "msg_transform": "You turn your photophore OFF.", // message displayed upon transformation
                "active": false , // Will the target mutation start powered ( turn ON ).
@@ -2178,7 +2647,7 @@ The `id` must be exact as it is hardcoded to look for that.
 "triggers": [ // List of sublist of triggers, all sublists must be True for the mutation to activate
   [ // Sublist of trigger: at least one trigger must be true for the sublist to be true
       {
-        "condition": { "compare_int": [ { "u_val": "morale" }, { "const": -50 } ], "op": "<" }, //dialog condition(see NPCs.md)
+        "condition": { "compare_int": [ { "u_val": "morale" }, "<", { "const": -50 } ] }, //dialog condition(see NPCs.md)
         "msg_on": { "text": "Everything is terrible and this makes you so ANGRY!", "rating": "mixed" } // message displayed when the trigger activates
       }
   ],
@@ -2186,8 +2655,8 @@ The `id` must be exact as it is hardcoded to look for that.
     {
       "condition": { //dialog condition(see NPCs.md)
         "or": [
-          { "compare_int": [ { "u_val": "hour" }, { "const": 2 } ], "op": "<" },
-          { "compare_int": [ { "u_val": "hour" }, { "const": 20 } ], "op": ">" }
+          { "compare_int": [ { "hour", "<", { "const": 2 } ] },
+          { "compare_int": [ { "hour", ">", { "const": 20 } ] }
         ]
       },
       "msg_on": { "text": "Everything is terrible and this makes you so ANGRY!", "rating": "mixed" } // message displayed when the trigger activates
@@ -2195,12 +2664,50 @@ The `id` must be exact as it is hardcoded to look for that.
     }
   ]
 ],
+"activated_eocs": [ "eoc_id_1" ],  // List of effect_on_conditions that attempt to activate when this mutation is successfully activated.
+"deactivated_eocs": [ "eoc_id_1" ],  // List of effect_on_conditions that attempt to activate when this mutation is successfully deactivated.
 "enchantments": [ "ench_id_1" ],   // List of enchantments granted by this mutation, can be either string ids of the enchantment or an inline definition of the enchantment
 "temperature_speed_modifier": 0.5, // If nonzero, become slower when cold, and faster when hot
                                    // 1.0 gives +/-1% speed for each degree above or below 65F
 "mana_modifier": 100               // Positive or negative change to total mana pool
 
 ```
+
+### Trait Migrations
+
+A mutation migration can be used to migrate a mutation that formerly existed gracefully into a proficiency, another mutation (potentially a specific variant), or to simply remove it without noise.
+
+```json
+[
+  {
+    "type": "TRAIT_MIGRATION",
+    "id": "dead_trait1",
+    "trait": "new_trait",
+    "variant": "correct_variant"
+  },
+  {
+    "type": "TRAIT_MIGRATION",
+    "id": "trait_now_prof",
+    "proficiency": "prof_old_trait"
+  },
+  {
+    "type": "TRAIT_MIGRATION",
+    "id": "deleted_trait",
+    "remove": true
+  }
+]
+```
+
+| Identifier    | Description
+|---            |---
+| `type`        | Mandatory. String. Must be `"TRAIT_MIGRATION"`
+| `id`          | Mandatory. String. Id of the trait that has been removed.
+| `trait`       | Optional\*. String. Id of the trait this trait is being migrated to.
+| `variant`     | Optional. String. Can only be specified if `trait` is specified. Id of a variant of `trait` that this mutation will be set to.
+| `proficiency` | Optional\*. String. Id of proficiency that will replace this trait.
+| `remove`      | Optional\*. Boolean. If neither `trait` or `variant` are specified, this must be true.
+
+\*One of these three must be specified.
 
 ### Traps
 
@@ -2233,7 +2740,9 @@ The `id` must be exact as it is hardcoded to look for that.
       "sound_variant": "bear_trap",
       "remove_trap": true,
       "spawn_items": [ "beartrap" ]
-    }
+    },
+    "trigger_message_u": "A bear trap closes on your foot!",  // This message will be printed when player steps on a trap
+    "trigger_message_npc": "A bear trap closes on <npcname>'s foot!"  // This message will be printed when NPC or monster step on a trap
 ```
 
 ### Vehicle Groups
@@ -2277,6 +2786,8 @@ Vehicle components when installed on a vehicle.
                               // Negative values mean power is consumed, positive values mean power
                               // is generated.  Power consumption usually also requires the
                               // ENABLED_DRAINS_EPOWER flag and for the item to be turned on.
+                              // Solar panel power gneration is modified by sun angle.
+                              // When sun is at 90 degrees the panel produces the full epower.
 "item": "wheel",              // The item used to install this part, and the item obtained when
                               // removing this part.
 "difficulty": 4,              // Your mechanics skill must be at least this level to install this part
@@ -2477,7 +2988,7 @@ It also has a hotplate that can be activated by examining it with `e` then `h` o
   "facing" : [90,270], // The facing of the vehicle. Can be a single value or an array of possible values. Not needed if placement is specified.
   "number" : 1, // The number of vehicles to spawn.
   "fuel" : -1, // The fuel of the new vehicles. Defined in percentage. 0 is empty, 100 is full tank, -1 is random from 7% to 35% (default).
-  "status" : 1  // The status of the new vehicles. -1 = light damage (default), 0 = undamaged, 1 = disabled, destroyed tires OR engine.
+  "status" : 1  // The status of the new vehicles. -1 = light damage (default), 0 = undamaged, 1 = disabled: destroyed seats, controls, tanks, tires, OR engine.
 } } ]
 ```
 
@@ -2498,6 +3009,76 @@ See also VEHICLE_JSON.md
                                             * You also cannot break the normal rules of installation
                                             * (you can't stack non-stackable part flags). */
 ```
+
+### Vehicle Part Migrations
+
+These migrations will (at runtime) replace one vehicle part id with another one.
+This is useful when vpart ids are changing or obsoleting one part for another.
+
+```json
+[
+  {
+    "type": "vehicle_part_migration",
+    "from": "old_vpart_id",
+    "to": "new_vpart_id"
+  },
+  {
+    "type": "vehicle_part_migration",
+    "from": "old_vpart_id",
+    "to": "new_vpart_id"
+  },
+  {
+    "type": "vehicle_part_migration",
+    "from": "old_vpart_id",
+    "to": "new_vpart_id"
+  }
+]
+```
+
+### Weakpoint Sets
+A thin container for weakpoint definitions. The only unique fields for this object are `"id"` and `"type"`. The `"weakpoints"` array contains weakpoints that are defined the same way as in monster definitions. See [Weakpoints](MONSTERS.md#weakpoints) for details.
+
+```json
+{
+  "type": "weakpoint_set",
+  "id": "wps_zombie_headshot",
+  "weakpoints": [
+    {
+      "id": "wp_head_stun",
+      "name": "the head",
+      "coverage": 5,
+      "crit_mult": { "all": 1.1 },
+      "armor_mult": { "physical": 0.75 },
+      "difficulty": { "melee": 1, "ranged": 3 },
+      "effects": [
+        {
+          "effect": "stunned",
+          "duration": [ 1, 2 ],
+          "chance": 5,
+          "message": "The %s is stunned!",
+          "damage_required": [ 1, 10 ]
+        },
+        {
+          "effect": "stunned",
+          "duration": [ 1, 2 ],
+          "chance": 25,
+          "message": "The %s is stunned!",
+          "damage_required": [ 11, 100 ]
+        }
+      ]
+    }
+  ]
+}
+```
+
+Weakpoint sets are applied to a monster using the monster's `"weakpoint_sets"` field. Each subsequent weakpoint set overwrites weakpoints with the same id from the previous set. This allows hierarchical sets that can be applied from general -> specific, so that general weakpoint sets can be reused for many different monsters, and more specific sets can override some general weakpoints for specific monsters. For example:
+```json
+"//": "(in MONSTER type)",
+"weakpoint_sets": [ "humanoid", "zombie_headshot", "riot_gear" ]
+```
+In the example above, the `"humanoid"` weakpoint set is applied as a base, then the `"zombie_headshot"` set overwrites any previously defined weakpoints with the same id (ex: "wp_head_stun"). Then the `"riot_gear"` set overwrites any matching weakpoints from the previous sets with armour-specific weakpoints. Finally, if the monster type has an inline `"weakpoints"` definition, those weakpoints overwrite any matching weakpoints from all sets.
+
+Weakpoints only match if they share the same id, so it's important to define the weakpoint's id field if you plan to overwrite previous weakpoints.
 
 # `data/json/items/` JSONs
 
@@ -2533,10 +3114,12 @@ See also VEHICLE_JSON.md
 "insulation": 1,                             // (Optional, default = 1) If container or vehicle part, how much insulation should it provide to the contents
 "price": 100,                                // Used when bartering with NPCs. For stackable items (ammo, comestibles) this is the price for stack_size charges. Can use string "cent" "USD" or "kUSD".
 "price_postapoc": "1 USD",                       // Same as price but represent value post cataclysm. Can use string "cent" "USD" or "kUSD".
+"degradation_multiplier": 0.8,               // Controls how quickly an item degrades when taking damage. 0 = no degradation. Defaults to 1.0.
 "material": [                                // Material types, can be as many as you want.  See materials.json for possible options
   { "type": "cotton", "portion": 9 },        // type indicates the material's ID, portion indicates proportionally how much of the item is composed of that material
   { "type": "plastic" }                      // portion can be omitted and will default to 1. In this case, the item is 90% cotton and 10% plastic.
 ],
+"repairs_with": [ "plastic" ],               // Material types that this item can be repaired with. Defaults to all the item materials.
 "weapon_category": [ "WEAPON_CAT1" ],        // (Optional) Weapon categories this item is in for martial arts.
 "cutting": 0,                                // (Optional, default = 0) Cutting damage caused by using it as a melee weapon.  This value cannot be negative.
 "bashing": 0,                                // (Optional, default = 0) Bashing damage caused by using it as a melee weapon.  This value cannot be negative.
@@ -2554,7 +3137,10 @@ See also VEHICLE_JSON.md
     "name": { "str": "Variant A" },             // The name used instead of the default name when this variant is selected
     "description": "A fancy variant A",         // The description used instead of the default when this variant is selected
     "ascii_picture": "valid_ascii_art_id",      // An ASCII art picture used when this variant is selected. If there is none, the default (if it exists) is used.
-    "weight": 2                                 // The relative chance of this variant being selected over other variants when this item is spawned with no explicit variant. Defaults to 0. If it is 0, this variant will not be selected
+    "symbol": "/",                              // Valid unicode character to replace the item symbol. If not specified, no change will be made.
+    "color": "red",                             // Replacement color of item symbol. If not specified, no change will be made.
+    "weight": 2,                                // The relative chance of this variant being selected over other variants when this item is spawned with no explicit variant. Defaults to 0. If it is 0, this variant will not be selected
+    "append": true                              // If this description should just be appended to the base item description instead of completely overwriting it.
   }
 ],
 "flags": ["VARSIZE"],                        // Indicates special effects, see JSON_FLAGS.md
@@ -2699,6 +3285,9 @@ Encumbrance and coverage can be defined on a piece of armor as such:
 The value of this field (or, if it is an array, the first value in the array) is the base encumbrance (unfitted) of this item.
 When specified as an array, the second value is the max encumbrance - when the pockets of this armor are completely full of items, the encumbrance of a non-rigid item will be set to this. Otherwise it'll be between the first value and the second value following this the equation: first value + (second value - first value) * non-rigid volume / non-rigid capacity.  By default, the max encumbrance is the encumbrance + (non-rigid volume / 250ml).
 
+##### Encumbrance_modifiers
+Experimental feature for having an items encumbrance be generated by weight instead of a fixed number. Takes an array of "DESCRIPTORS" described in the code. If you don't need any descriptors put "NONE". This overrides encumbrance putting it as well will make it be ignored. Currently only works for head armor.
+
 ##### Coverage
 (integer)
 What percentage of time this piece of armor will be hit (and thus used as armor) when an attack hits the body parts in `covers`.
@@ -2714,7 +3303,7 @@ What body parts this section of the armor covers. See the bodypart_ids defined i
 ##### Specifically Covers
 (array of strings)
 What sub body parts this section of the armor covers. See the sub_bodypart_ids defined in body_parts.json for valid values.
-These are used for wearing multiple armor pieces on a single layer without gaining encumberance penalties. They are not mandatory
+These are used for wearing multiple armor pieces on a single layer without gaining encumbrance penalties. They are not mandatory
 if you don't specify them it is assumed that the section covers all the body parts it covers entirely.
 strapped layer items, and outer layer armor should always have these specified otherwise it will conflict with other pieces.
 
@@ -2803,7 +3392,7 @@ Chart cobbled together from several sources for more general materials:
 
 Shoe thicknesses are outlined at <https://secretcobbler.com/choosing-leather/>; TL;DR: upper 1.2 - 2.0mm, lining 0.8 - 1.2mm, for a total of 2.0 - 3.2mm.
 
-For turnout gear, see <http://bolivar.mo.us/media/uploads/2014/09/2014-06-bid-fire-gear-packet.pdf>.
+For turnout gear, see <https://web.archive.org/web/20220331215535/http://bolivar.mo.us/media/uploads/2014/09/2014-06-bid-fire-gear-packet.pdf>.
 
 
 ### Pet Armor
@@ -2850,6 +3439,8 @@ Books can be defined like this:
 "chapters" : 4,       // Number of chapters (for fun only books), each reading "consumes" a chapter. Books with no chapters left are less fun (because the content is already known to the character).
 "required_level" : 2  // Minimum skill level required to learn
 ```
+It is possible to omit the `max_level` field if the book you're creating contains only recipes and it's not supposed to level up any skill. In this case the `skill` field will just refer to the skill required to learn the recipes.
+
 Alternately, every item (tool, gun, even food) can be used as book if it has book_data:
 ```C++
 "type" : "TOOL",      // Or any other item type
@@ -2970,7 +3561,7 @@ CBMs can be defined like this:
 "stim" : 40,                // Stimulant effect
 "fatigue_mod": 3,           // How much fatigue this comestible removes. (Negative values add fatigue)
 "radiation": 8,             // How much radiation you get from this comestible.
-"comestible_type" : "MED",  // Comestible type, used for inventory sorting
+"comestible_type" : "MED",  // Comestible type, used for inventory sorting. One of 'FOOD', 'DRINK', 'MED', or 'INVALID' (consider using a different "type" than COMESTIBLE instead of using INVALID)
 "consumption_effect_on_conditions" : [ "EOC_1" ],  // Effect on conditions to run after consuming.  Inline or string id supported
 "quench" : 0,               // Thirst quenched
 "healthy" : -2,             // Health effects (used for sickness chances)
@@ -2985,7 +3576,7 @@ CBMs can be defined like this:
 "fun" : 50                  // Morale effects when used
 "freezing_point": 32,       // (Optional) Temperature in C at which item freezes, default is water (32F/0C)
 "cooks_like": "meat_cooked",         // (Optional) If the item is used in a recipe, replaces it with its cooks_like
-"parasites": 10,            // (Optional) Probability of becoming parasitised when eating
+"parasites": 10,            // (Optional) Probability of becoming parasitized when eating
 "contamination": [ { "disease": "bad_food", "probability": 5 } ],         // (Optional) List of diseases carried by this comestible and their associated probability. Values must be in the [0, 100] range.
 "vitamins": [ [ "calcium", 5 ], [ "iron", 12 ] ],         // Vitamins provided by consuming a charge (portion) of this.  An integer percentage of ideal daily value average.  Vitamins array keys include the following: calcium, iron, vitA, vitB, vitC, mutant_toxin, bad_food, blood, and redcells.  Note that vitB is B12.
 "material": [                     // All materials (IDs) this food is made of
@@ -3079,7 +3670,7 @@ Guns can be defined like this:
 "clip_size": 100,          // Maximum amount of ammo that can be loaded
 "ups_charges": 0,          // Additionally to the normal ammo (if any), a gun can require some charges from an UPS. This also works on mods. Attaching a mod with ups_charges will add/increase ups drain on the weapon.
 "ammo_to_fire" 1,          // Amount of ammo used
-"modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ], // Firing modes on this gun, DEFAULT,AUTO, or MELEE followed by the name of the mode displayed in game, and finaly the number of shots of the mod.
+"modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ], // Firing modes on this gun, DEFAULT,AUTO, or MELEE followed by the name of the mode displayed in game, and finally the number of shots of the mod.
 "reload": 450,             // Amount of time to reload, 100 = 1 second = 1 "turn"
 "built_in_mods": ["m203"], //An array of mods that will be integrated in the weapon using the IRREMOVABLE tag.
 "default_mods": ["m203"]   //An array of mods that will be added to a weapon on spawn.
@@ -3169,7 +3760,9 @@ Alternately, every item (book, tool, armor, even food) can be used as a gunmod i
 "cutting": 0,         // Cutting damage caused by using it as a melee weapon
 "to_hit": 3,          // To-hit bonus if using it as a melee weapon
 "turns_per_charge": 20, // Charges consumed over time, deprecated in favor of power_draw
-"use_action": [ "firestarter" ] // Action performed when tool is used, see special definition below
+"use_action": [ "firestarter" ], // Action performed when tool is used, see special definition below
+"qualities": [ [ "SCREW", 1 ] ], // Inherent item qualities like hammering, sawing, screwing (see tool_qualities.json)
+"charged_qualities": [ [ "DRILL", 3 ] ], // Qualities available if tool has at least charges_per_use charges left
 // Only TOOL type items may define the following fields:
 "ammo": [ "NULL" ],        // Ammo types used for reloading
 "charge_factor": 5,        // this tool uses charge_factor charges for every charge required in a recipe; intended for tools that have a "sub" field but use a different ammo that the original tool
@@ -3177,7 +3770,7 @@ Alternately, every item (book, tool, armor, even food) can be used as a gunmod i
 "initial_charges": 75,     // Charges when spawned
 "max_charges": 75,         // Maximum charges tool can hold
 "rand_charges": [10, 15, 25], // Randomize the charges when spawned. This example has a 50% chance of rng(10, 15) charges and a 50% chance of rng(15, 25). (The endpoints are included.)
-"power_draw": 50,          // Energy consumption rate in mW
+"power_draw": "50 mJ",          // Energy consumption per second
 "revert_to": "torch_done", // Transforms into item when charges are expended
 "sub": "hotplate",         // optional; this tool has the same functions as another tool
 ```
@@ -3334,6 +3927,7 @@ The contents of use_action fields can either be a string indicating a built-in f
     "type": "transform",  // The type of method, in this case one that transforms the item.
     "target": "gasoline_lantern_on", // The item to transform to.
     "active": true,       // Whether the item is active once transformed.
+    "ammo_scale": 0,    // For use when an item automatically transforms into another when its ammo drops to 0, or to allow guns to transform with 0 ammo.
     "msg": "You turn the lamp on.", // Message to display when activated.
     "need_fire": 1,                 // Whether fire is needed to activate.
     "need_fire_msg": "You need a lighter!", // Message to display if there is no fire.
@@ -3537,7 +4131,6 @@ The contents of use_action fields can either be a string indicating a built-in f
     "bite" : 0.95,          // Chance to remove bite effect.
     "infect" : 0.1,         // Chance to remove infected effect.
     "move_cost" : 250,      // Cost in moves to use the item.
-    "long_action" : true,   // Is using this item a long action. Setting this to true will divide move cost by (first aid skill + 1).
     "limb_scaling" : 1.2,   // How much extra limb hp should be healed per first aid level. Defaults to 0.25 * limb_power.
     "head_scaling" : 1.0,   // How much extra limb hp should be healed per first aid level. Defaults to (limb_scaling / limb_power) * head_power.
     "torso_scaling" : 2.0,  // How much extra limb hp should be healed per first aid level. Defaults to (limb_scaling / limb_power) * torso_power.
@@ -3686,31 +4279,31 @@ Optional message to be printed when a creature using the harvest definition is b
 #### `entries`
 
 Array of dictionaries defining possible items produced on butchering and their likelihood of being produced.
-`drop` value should be the `id` string of the item to be produced.  
+`drop` value should be the `id` string of the item to be produced.
 
-`type` value should refer to an existing `harvest_drop_type` associated with body part the item comes from.  
-    Acceptable values are as follows:  
-    `flesh`: the "meat" of the creature.  
-    `offal`: the "organs" of the creature. these are removed when field dressing.  
-    `skin`: the "skin" of the creature. this is what is ruined while quartering.  
-    `bone`: the "bones" of the creature. you will get some amount of these from field dressing, and the rest of them from butchering the carcass.  
-    `mutagen`: an item from harvested mutagenic samples obtained from dissection.  
-    `mutagen_group`: an item group that can produce an item from harvested mutagenic samples obtained from dissection.  
-    `bionic`: an item gained by dissecting the creature. not restricted to CBMs.  
-    `bionic_group`: an item group that will give an item by dissecting a creature. not restricted to groups containing CBMs.  
+`type` value should refer to an existing `harvest_drop_type` associated with body part the item comes from.
+    Acceptable values are as follows:
+    `flesh`: the "meat" of the creature.
+    `offal`: the "organs" of the creature. these are removed when field dressing.
+    `skin`: the "skin" of the creature. this is what is ruined while quartering.
+    `bone`: the "bones" of the creature. you will get some amount of these from field dressing, and the rest of them from butchering the carcass.
+    `mutagen`: an item from harvested mutagenic samples obtained from dissection.
+    `mutagen_group`: an item group that can produce an item from harvested mutagenic samples obtained from dissection.
+    `bionic`: an item gained by dissecting the creature. not restricted to CBMs.
+    `bionic_group`: an item group that will give an item by dissecting a creature. not restricted to groups containing CBMs.
 
-`flags` value should be an array of strings.  These flags will be added to the items of that entry upon harvesting.  
+`flags` value should be an array of strings.  These flags will be added to the items of that entry upon harvesting.
 
-`faults` value should be an array of `fault_id` strings.  These faults will be added to the items of that entry upon harvesting.  
+`faults` value should be an array of `fault_id` strings.  These faults will be added to the items of that entry upon harvesting.
 
-For every `type` other then those with "dissect_only" (see below) the following entries scale the results:  
-    `base_num` value should be an array with two elements in which the first defines the minimum number of the corresponding item produced and the second defines the maximum number.  
-    `scale_num` value should be an array with two elements, increasing the minimum and maximum drop numbers respectively by element value * survival skill.  
-    `max` upper limit after `bas_num` and `scale_num` are calculated using  
-    `mass_ratio` value is a multiplier of how much of the monster's weight comprises the associated item. to conserve mass, keep between 0 and 1 combined with all drops. This overrides `base_num`, `scale_num` and `max`  
+For every `type` other then those with "dissect_only" (see below) the following entries scale the results:
+    `base_num` value should be an array with two elements in which the first defines the minimum number of the corresponding item produced and the second defines the maximum number.
+    `scale_num` value should be an array with two elements, increasing the minimum and maximum drop numbers respectively by element value * survival skill.
+    `max` upper limit after `bas_num` and `scale_num` are calculated using
+    `mass_ratio` value is a multiplier of how much of the monster's weight comprises the associated item. to conserve mass, keep between 0 and 1 combined with all drops. This overrides `base_num`, `scale_num` and `max`
 
-For `type`s with "dissect_only" (see below), the following entries can scale the results:  
-    `max` this value (in contrary to `max` for other `type`s) corresponds to maximum butchery roll that will be passed to check_butcher_cbm() in activity_handlers.cpp; view check_butcher_cbm() to see corresponding distribution chances for roll values passed to that function  
+For `type`s with "dissect_only" (see below), the following entries can scale the results:
+    `max` this value (in contrary to `max` for other `type`s) corresponds to maximum butchery roll that will be passed to check_butcher_cbm() in activity_handlers.cpp; view check_butcher_cbm() to see corresponding distribution chances for roll values passed to that function
 
 ### Harvest Drop Type
 ```json
@@ -4037,7 +4630,7 @@ For examples: An overhead light is 120, a utility light, 240, and a console, 10.
 
 #### `trap`
 
-(Optional) Id of the build-in trap of that terrain.
+(Optional) Id of the built-in trap of that terrain.
 
 For example the terrain `t_pit` has the built-in trap `tr_pit`. Every tile in the game that has the terrain `t_pit` also has, therefore, an implicit trap `tr_pit` on it. The two are inseparable (the player can not deactivate the built-in trap, and changing the terrain will also deactivate the built-in trap).
 
@@ -4447,6 +5040,8 @@ A list of CBM ids that are implanted in the character.
 
 Lists of trait/mutation ids. Traits in "forbidden_traits" are forbidden and can't be selected during the character creation. Traits in "forced_traits" are automatically added to character. Traits in "traits" enables them to be chosen, even if they are not starting traits.
 
+`forced_traits` can also be specified with a variant, as `{ "trait": "trait_id", "variant": "variant_id" }` (replacing just `"trait_id"`).
+
 ## `allowed_locs`
 (optional, array of strings)
 
@@ -4466,6 +5061,12 @@ A list of allowed professions that can be chosen when using this scenario. The f
 (optional, string)
 
 Add a map special to the starting location, see JSON_FLAGS for the possible specials.
+
+#### `requirement`
+
+(optional, an achievement ID)
+
+The achievement you need to do to access this scenario
 
 ## `eocs`
 (optional, array of strings)
@@ -4504,6 +5105,9 @@ Starting locations are specified as JSON object with "type" member set to "start
     "id": "field",
     "name": "An empty field",
     "terrain": [ "field", { "om_terrain": "hospital", "om_terrain_match_type": "PREFIX" } ],
+    "city_sizes": [ 0, 16 ],
+    "city_distance": [ 0, -1 ],
+    "allowed_z_levels": [ 0, 0 ],
     ...
 }
 ```
@@ -4547,6 +5151,21 @@ If it is an object - it has following attributes:
 * `CONTAINS` - The provided string must be contained within the overmap terrain
   id, but may occur at the beginning, end, or middle and does not have any rules
   about underscore delimiting.
+
+## `city_sizes`
+(array of two integers)
+
+Restricts possible start location based on nearest city size (similar to how overmap specials are restricted).
+
+## `city_distance`
+(array of two integers)
+
+Restricts possible start location based on distance to nearest city (similar to how overmap specials are restricted).
+
+## `allowed_z_levels`
+(array of two integers)
+
+Restricts possible start location based on z-level (e.g. there is no need to search forests on z-levels other than 0).
 
 ## `flags`
 (optional, array of strings)
@@ -4645,15 +5264,82 @@ The internal ID of the compatible tilesets. MOD tileset is only applied when bas
 Setting of sprite sheets. Same as `tiles-new` field in `tile_config`. Sprite files are loaded from the same folder json file exists.
 
 # Field types
+
+Fields can exist on top of terrain/furniture, and support different intensity levels. Each intensity level inherits its properties from the lower one, so any field not explicitly overwritten will carry over. They affect both characters and monsters, but a lot of fields have hardcoded effects that are potentially different for both (found in `map_field.cpp:creature_in_field`). Gaseous fields that have a chance to do so are spread depending on the local wind force when outside, preferring spreading down to on the same Z-level, which is preferred to spreading upwards. Indoors and by weak winds fields spread randomly.
+
 ```C++
   {
     "type": "field_type", // this is a field type
     "id": "fd_gum_web", // id of the field
     "immune_mtypes": [ "mon_spider_gum" ], // list of monster immune to this field
-    "intensity_levels": [
+    "intensity_levels":  // The below fields are all tied to the specific intensity unless they got defined in the lower-level one
+    [
       { "name": "shadow",  // name of this level of intensity
-        "light_override": 3.7 } //light level on the tile occupied by this field will be set at 3.7 not matter the ambient light.
-     ],
+        "sym": "{", // symbol of this level of intensity
+        "color":  "brown", // color of this level of intensity
+        "transparent": false, // default true, on false this intensity blocks vision
+        "dangerous": false, // is this level of intensity considered dangerous for monster avoidance and player warnings
+        "move_cost": 120, // Extra movement cost for moving through this level of intensity (on top of base terrain/furniture movement costs)
+        "extra_radiation_min": 1,
+        "extra_radiation_max": 5, // This level of intensity will add a random amount of radiation between the min and the max value to its tile
+        "radiation_hurt_damage_min": 5,
+        "radiation_hurt_damage_max": 7, // When standing in this field hurt every limb for a random amount of damage between the min and max value. Requires extra_radiation_min > 0
+        "radiation_hurt_message": "Ouch", // String to print when you get hurt by radiation_hurt_damage
+        "intensity_upgrade_chance": 1,
+        "intensity_upgrade_duration": "1 days", // Every "upgrade_duration" a "1-in-upgrade_chance" roll is made. On success, increase the field intensity by 1
+        "monster_spawn_chance": 5,
+        "monster_spawn_count": 2,
+        "monster_spawn_radius": 15,
+        "monster_spawn_group": "GROUP_NETHER", // 1-in-spawn_chance roll to spawn spawn_count entries from spawn_group monstergroup and place them in a spawn_radius radius around the field
+        "light_emitted": 2.5, // light level emitted by this intensity
+        "light_override": 3.7 }, //light level on the tile occupied by this field will be set at 3.7 no matter the ambient light.
+        "translucency": 2.0, // How much light the field blocks (higher numbers mean less light can penetrate through)
+        "convection_temperature_mod": 12, // Heat given off by this level of intensity
+        "effects":  // List of effects applied to any creatures within the field as long as they aren't immune to the effect or the field itself
+        [
+          {
+            "effect_id": "webbed", // Effect ID
+            "min_duration": "1 minutes",
+            "max_duration": "5 minutes", // Effect duration randomized between min and max duration
+            "intensity": 1, // Intensity of the effect to apply
+            "body_part": "head", // Bodypart the effect gets applied to, default BP_NULL ("whole body")
+            "is_environmental": false, // If true the environmental effect roll is used to determine if the effect gets applied: <intensity>d3 > <target BP's armor/bionic env resist>d3
+            "immune_inside_vehicle": false, // If true being inside a vehicle protects from the effect
+            "immune_outside_vehicle": false, // If true being *outside* a vehicle protects from the effect,
+            "chance_in_vehicle": 2,
+            "chance_inside_vehicle": 2,
+            "chance_outside_vehicle": 2, // 1-in-<chance> chance of the effect being applied when traversing a field in a vehicle, inside a vehicle (as in, under a roof), and outside a vehicle
+            "message": "You're debilitated!", // Message to print when the effect is applied to the player
+            "message_npc": "<npcname> is debilitated!", // Message to print when the effect is applied to an NPC
+            "message_type": "bad", // Type of the above messages - good/bad/mixed/neutral
+          }
+        ]
+        "scent_neutralization": 3, // Reduce scents at the field's position by this value        
+    ],
+    "npc_complain": { "chance": 20, "issue": "weed_smoke", "duration": "10 minutes", "speech": "<weed_smoke>" }, // NPCs in this field will complain about being in it once per <duration> if a 1-in-<chance> roll succeeds, giving off a <speech> bark that supports snippets
+    "immunity_data": {
+      { "traits": [ "WEB_WALKER" ] },
+      { "body_part_env_resistance": [ [ "mouth", 15 ] ] }
+      }, // If the character in the field has the defined traits or env resistance on the bodypart they will be considered immune to the field
+    "decay_amount_factor": 2, // The field's rain decay amount is divided by this when processing the field, the rain decay is a function of the weather type's precipitation class: very_light = 5s, light = 15s, heavy = 45 s
+    "half_life": "3 minutes", // If above 0 the field will disappear after two half-lifes on average
+    "underwater_age_speedup": "25 minutes", // Increase the field's age by this time every tick if it's on a terrain with the SWIMMABLE flag
+    "outdoor_age_speedup": "20 minutes", // Increase the field's age by this duration if it's on an outdoor tile
+    "accelerated_decay": true, // If the field should use a more simple decay calculation, used for cosmetic fields like gibs
+    "percent_spread": 90, // The field must succeed on a `rng( 1, 100 - local windpower ) > percent_spread` roll to spread. The field must have a non-zero spread percent and the GAS phase to be eligible to spread in the first place
+    "phase": "gas", // Phase of the field. Gases can spread after spawning and can be spawned out of emitters through impassable terrain with the PERMEABLE flag
+    "apply_slime_factor": 10, // Intensity of slime to apply to creatures standing in this field (Why not use an effect? No idea.)
+    "gas_absorption_factor": 15, // Amount of gasmask charges the field uses up per tick
+    "is_splattering": true, // If splatters of this field should bloody vehicle parts
+    "dirty_transparency_cache": true, // Should the transparency cache be recalculated when the field is modified (used for nontransparent, spreading fields)
+    "has_fire": false, // Is this field a kind of fire (for immunity, monster avoidance and similar checks)
+    "has_acid": false, // See has_fire
+    "has_elec": false, // See has_fire
+    "has_fume": false, // See has_fire, non-breathing monsters are immune to this field
+    "display_items": true, // If the field should obscure items on this tile
+    "display_fields": true, // If the field should obscure other fields
+    "description_affix": "covered_in", // Description affix for items in this field, possible values are "in", "covered_in", "on", "under", and "illuminated_by"
+    "wandering_field": "fd_toxic_gas", // Spawns the defined field in an `intensity-1` radius, or increases the intensity of such fields until their intensity is the same as the parent field
     "decrease_intensity_on_contact": true, // Decrease the field intensity by one each time a character walk on it.
     "mopsafe": false, // field is safe to use in a mopping zone
     "bash": {
@@ -4675,3 +5361,63 @@ Setting of sprite sheets. Same as `tiles-new` field in `tile_config`. Sprite fil
     }
   }
 ```
+
+# Option sliders
+
+```JSON
+{
+  "type": "option_slider",
+  "id": "world_difficulty",
+  "context": "WORLDGEN",
+  "name": "Difficulty",
+  "default": 3,
+  "levels": [
+    {
+      "level": 0,
+      "name": "Cakewalk?",
+      "description": "Monsters are much easier to deal with, and plenty of items can be found.",
+      "options": [
+        { "option": "MONSTER_SPEED", "type": "int", "val": 90 },
+        { "option": "MONSTER_RESILIENCE", "type": "int", "val": 75 },
+        { "option": "SPAWN_DENSITY", "type": "float", "val": 0.8 },
+        { "option": "MONSTER_UPGRADE_FACTOR", "type": "float", "val": 8 },
+        { "option": "ITEM_SPAWNRATE", "type": "float", "val": 1.5 }
+      ]
+    },
+    ...
+  ]
+}
+```
+
+## Option sliders - Fields
+
+| Field       | Description
+|---          |---
+| `"type"`    | _(mandatory)_ Always `"option_slider"`
+| `"id"`      | _(mandatory)_ Uniquely identifies this `option_slider`
+| `"context"` | The hardcoded context in which this `option_slider` is used (ex: the world creation menu shows option sliders in the `WORLDGEN` context)
+| `"name"`    | _(mandatory)_ The translated name of this `option_slider`
+| `"default"` | The default level for this `option_slider` (defaults to 0)
+| `"levels"`  | _(mandatory)_ A list of definitions for each level of this `option_slider`
+
+## Option sliders - Levels
+
+Each object in the `"levels"` field uses these fields:
+
+| Field | Description
+|--- |---
+| `"level"` | _(mandatory)_ The numeric index of this level in the slider.  Indexes start at 0 and increase sequentially.
+| `"name"` | _(mandatory)_ The name of this slider level, acts as a short descriptor for the selected level.
+| `"description"` | A longer description for the effects of this slider level.
+| `"options"` | _(mandatory)_ A list of option values to apply when selecting this slider level.
+
+Each option defines an `"option"` tag that corresponds to an option ID as listed in the
+`options_manager::add_options_*` functions in src/options.cpp. The `"type"` field determines
+how the `"val"` field is interpreted:
+
+| `type`     | `val`
+|---         |---
+| `"int"`    | An integer.  Ex: `"type": "int", "val": 5`
+| `"float"`  | A decimal number.  Ex: `"type": "float", "val": 0.8`
+| `"bool"`   | A boolean.  Ex: `"type": "bool", "val": false`
+| `"string"` | A text value.  Ex: `"type": "string", "val": "crops"`

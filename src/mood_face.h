@@ -33,8 +33,10 @@ class mood_face
 
     private:
         friend class generic_factory<mood_face>;
+        friend struct mod_tracker;
 
         mood_face_id id;
+        std::vector<std::pair<mood_face_id, mod_id>> src;
         bool was_loaded = false;
 
         // Always sorted with highest value first

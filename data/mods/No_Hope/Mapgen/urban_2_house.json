@@ -1,0 +1,81 @@
+[
+  {
+    "method": "json",
+    "om_terrain": [ [ "urban_2_1", "urban_2_2" ] ],
+    "type": "mapgen",
+    "weight": 25000,
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+        "................................................",
+        "........```````````````.........................",
+        "..u...`````#########o#*####ooo####o####.........",
+        "......`````o Txxxx     L|234S7O1FJJJ|6#....[....",
+        "......`````*       E    |n,,,,,,,,,,+6#.........",
+        "........```o   ll  s    ,,,,,,,00J||||#.........",
+        ".......##+##E      E   y|0,,,YJJJJ|q'q#^........",
+        ".......#'''|  HHHH   |+||||,,#######+####oo###..",
+        "....[..#UUU|        ||,t|>+  #A'''''''''''''q#..",
+        ".......#||||        |,,,|D+  #''''''''''''''q#..",
+        ".......#6,6|      RR|8S8|||  #'''''''''''''''o..",
+        ".......#|+||||  |||||||||<|  #'''''''''''''''#..",
+        ".......#R              y|    +''''''''''''''N#..",
+        ".......#R     hhhh           #''''''''''''''N#..",
+        ".......#a    ffffff     |y  L#'''''''''''''''o..",
+        ".......#R     hhhh     E#o**o#'''''''''''''''#..",
+        "......^#R             ET#````#&'''''''''''''&#..",
+        ".......####oo######oo####````##======#======##..",
+        "..........%%%%....%%%%....``...______.______....",
+        "..........................`````______!______....",
+        "..........................`````______!______....",
+        "..................[............______.______....",
+        "...[...........................______!______....",
+        "...............................______!______p..."
+      ],
+      "palettes": [ "standard_domestic_palette" ],
+      "terrain": {
+        "%": [ "t_region_shrub", "t_region_shrub_fruit", "t_region_shrub_decorative" ],
+        "[": [ [ "t_region_tree_fruit", 2 ], [ "t_region_tree_nut", 2 ], "t_region_tree_shade" ],
+        "!": "t_region_groundcover_urban",
+        "=": "t_door_metal_locked",
+        "_": "t_pavement",
+        "&": "t_gates_control_brick",
+        "#": "t_brick_wall",
+        "'": "t_thconc_floor",
+        "q": "t_thconc_floor",
+        "A": "t_thconc_floor",
+        "N": "t_thconc_floor",
+        "U": "t_thconc_floor",
+        "`": "t_concrete",
+        ",": "t_linoleum_white",
+        "O": "t_linoleum_white",
+        "F": "t_linoleum_white",
+        "1": "t_linoleum_white",
+        "2": "t_linoleum_white",
+        "3": "t_linoleum_white",
+        "4": "t_linoleum_white",
+        "5": "t_linoleum_white",
+        "6": "t_linoleum_white",
+        "7": "t_linoleum_white",
+        "8": "t_linoleum_white",
+        "n": "t_linoleum_white",
+        "J": "t_linoleum_white",
+        "Y": "t_linoleum_white",
+        "S": "t_linoleum_white",
+        "t": "t_linoleum_white",
+        "0": "t_linoleum_white"
+      },
+      "furniture": { "!": "f_region_flower", "0": "f_stool" },
+      "place_loot": [
+        { "item": "television", "x": 15, "y": 3, "chance": 20 },
+        { "item": "stereo", "x": 16, "y": 3, "chance": 20 },
+        { "item": "lawnmower", "x": 8, "y": 7, "chance": 20 },
+        { "item": "stepladder", "x": 10, "y": 7, "chance": 20 }
+      ],
+      "place_vehicles": [
+        { "vehicle": "suburban_home", "x": 33, "y": 11, "chance": 30, "rotation": 270, "status": 1 },
+        { "vehicle": "suburban_home", "x": 40, "y": 11, "chance": 30, "rotation": 270, "status": 1 }
+      ]
+    }
+  }
+]

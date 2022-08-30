@@ -7,7 +7,7 @@
 #include "filesystem.h" // IWYU pragma: keep
 #include "options.h"
 #include "rng.h"
-#include "system_language.h"
+#include "system_locale.h"
 
 #if defined(_WIN32)
 #include <windows.h>
@@ -34,6 +34,7 @@ static std::string datadir_value;
 static std::string base_path_value;
 static std::string savedir_value;
 static std::string autopickup_value;
+static std::string autonote_value;
 static std::string keymap_value;
 static std::string options_value;
 static std::string memorialdir_value;
@@ -120,6 +121,7 @@ void PATH_INFO::set_standard_filenames()
     options_value = config_dir_value + "options.json";
     keymap_value = config_dir_value + "keymap.txt";
     autopickup_value = config_dir_value + "auto_pickup.json";
+    autonote_value = config_dir_value + "auto_note.json";
 }
 
 std::string find_translated_file( const std::string &base_path, const std::string &extension,
@@ -127,9 +129,10 @@ std::string find_translated_file( const std::string &base_path, const std::strin
 {
 #if defined(LOCALIZE) && !defined(__CYGWIN__)
     const std::string language_option = get_option<std::string>( "USE_LANG" );
-    const std::string loc_name = language_option.empty() ? getSystemLanguage() : language_option;
+    const std::string loc_name = language_option.empty() ? SystemLocale::Language().value_or( "" ) :
+                                 language_option;
     if( !loc_name.empty() ) {
-        const std::string local_path = base_path + loc_name + extension;
+        std::string local_path = base_path + loc_name + extension;
         if( file_exist( local_path ) ) {
             return local_path;
         }
@@ -143,6 +146,10 @@ std::string find_translated_file( const std::string &base_path, const std::strin
 std::string PATH_INFO::autopickup()
 {
     return autopickup_value;
+}
+std::string PATH_INFO::autonote()
+{
+    return autonote_value;
 }
 std::string PATH_INFO::base_colors()
 {
@@ -159,6 +166,10 @@ std::string PATH_INFO::colors()
 std::string PATH_INFO::color_templates()
 {
     return datadir_value + "raw/" + "color_templates/";
+}
+std::string PATH_INFO::color_themes()
+{
+    return datadir_value + "raw/" + "color_themes/";
 }
 std::string PATH_INFO::config_dir()
 {
@@ -349,6 +360,10 @@ std::string PATH_INFO::title( const holiday current_holiday )
     std::string theme_basepath = datadir_value + "title/";
     std::string theme_extension = ".title";
     std::string theme_fallback = theme_basepath + "en.title";
+
+    if( !get_option<bool>( "ENABLE_ASCII_TITLE" ) ) {
+        return _( "Cataclysm: Dark Days Ahead" );
+    }
 
     if( x_in_y( get_option<int>( "ALT_TITLE" ), 100 ) ) {
         theme_extension = ".alt1";

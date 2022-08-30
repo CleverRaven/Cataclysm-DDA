@@ -41,6 +41,8 @@ class VehicleGroup
             return *vehicles.pick();
         }
 
+        std::vector<vproto_id> all_possible_results() const;
+
         static void load( const JsonObject &jo );
         static void reset();
 

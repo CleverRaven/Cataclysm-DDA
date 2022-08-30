@@ -9,6 +9,14 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "unexplored",
+    "name": "Unexplored",
+    "sym": "#",
+    "color": "dark_gray",
+    "flags": [ "NO_ROTATE", "SHOULD_NOT_SPAWN" ]
+  },
+  {
+    "type": "overmap_terrain",
     "abstract": "generic_city_building_no_sidewalk",
     "name": "city building",
     "sym": "^",
@@ -44,31 +52,6 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [
-      "park",
-      "park_2",
-      "park_3",
-      "park_4",
-      "park_5",
-      "park_6",
-      "park_7",
-      "playground",
-      "playground_1",
-      "dog_park",
-      "volleyball_court",
-      "tennis_court",
-      "baskeball_court"
-    ],
-    "name": "park",
-    "sym": "O",
-    "color": "green",
-    "see_cost": 2,
-    "extras": "build",
-    "mondensity": 2,
-    "flags": [ "SIDEWALK" ]
-  },
-  {
-    "type": "overmap_terrain",
     "id": [ "s_garage", "s_garage_1", "s_garage_2" ],
     "copy-from": "generic_city_building",
     "name": "garage",
@@ -86,7 +69,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "boat_rental",
+    "id": [ "boat_rental", "boat_rental_1", "boat_rental_2", "boat_rental_roof", "boat_rental_1_roof", "boat_rental_2_roof" ],
     "name": "boat rental",
     "sym": "#",
     "color": "white",
@@ -169,21 +152,42 @@
     "name": "field",
     "sym": ".",
     "color": "brown",
+    "looks_like": "field",
     "see_cost": 1,
     "flags": [ "NO_ROTATE" ]
   },
   {
     "type": "overmap_terrain",
-    "id": [ "special_forest", "special_forest_thick" ],
+    "id": "special_forest",
     "name": "forest",
     "sym": "F",
     "color": "green",
+    "looks_like": "forest",
     "see_cost": 1,
     "flags": [ "NO_ROTATE" ]
   },
   {
     "type": "overmap_terrain",
-    "id": "riverside_dwelling",
+    "id": "special_forest_thick",
+    "name": "forest",
+    "sym": "F",
+    "color": "green",
+    "looks_like": "forest_thick",
+    "see_cost": 1,
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "riverside_dwelling",
+      "riverside_dwelling1",
+      "riverside_dwelling2",
+      "riverside_dwelling3",
+      "riverside_dwelling_roof",
+      "riverside_dwelling1_roof",
+      "riverside_dwelling2_roof",
+      "riverside_dwelling3_roof"
+    ],
     "name": "riverside dwelling",
     "sym": "+",
     "color": "i_yellow",
@@ -236,7 +240,19 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "cabin", "cabin_1", "cabin_2", "cabin_3", "cabin_4", "cabin_5", "cabin_6", "cabin_7", "cabin_lapin", "bandit_cabin" ],
+    "id": [
+      "cabin",
+      "cabin_1",
+      "cabin_2",
+      "cabin_3",
+      "cabin_4",
+      "cabin_5",
+      "cabin_6",
+      "cabin_7",
+      "cabin_lapin",
+      "bandit_cabin",
+      "cabin_prepper"
+    ],
     "name": "cabin",
     "sym": "C",
     "color": "i_green",
@@ -256,13 +272,33 @@
       "cabin_roof_5",
       "cabin_roof_6",
       "cabin_roof_7",
-      "cabin_roof_lapin"
+      "cabin_roof_lapin",
+      "bandit_cabin_roof"
     ],
     "name": "cabin roof",
     "sym": "C",
     "color": "i_green",
     "see_cost": 5,
     "extras": "build"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "cabin_lakeside", "cabin_lakeside1", "cabin_lakeside2", "cabin_lakeside3", "cabin_lakeside4", "cabin_lakeside5" ],
+    "name": "lakeside cabin",
+    "copy-from": "cabin"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "cabin_lakeside_roof",
+      "cabin_lakeside1_roof",
+      "cabin_lakeside2_roof",
+      "cabin_lakeside3_roof",
+      "cabin_lakeside4_roof",
+      "cabin_lakeside5_roof"
+    ],
+    "name": "lakeside cabin roof",
+    "copy-from": "cabin_roof"
   },
   {
     "type": "overmap_terrain",
@@ -276,8 +312,27 @@
   },
   {
     "type": "overmap_terrain",
+    "id": [ "lodge_ground_glooscap1", "lodge_ground_glooscap2" ],
+    "name": "hunting lodge",
+    "sym": "L",
+    "copy-from": "generic_forest",
+    "color": "light_green",
+    "see_cost": 4,
+    "extend": { "flags": [ "SOURCE_GUN", "SOURCE_AMMO" ] }
+  },
+  {
+    "type": "overmap_terrain",
     "id": [ "lodge_2ndfloor1", "lodge_2ndfloor2" ],
     "name": "second floor hunting lodge",
+    "copy-from": "generic_forest",
+    "sym": "L",
+    "see_cost": 4,
+    "color": "light_green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "lodge_roof1", "lodge_roof2" ],
+    "name": "hunting lodge roof",
     "copy-from": "generic_forest",
     "sym": "L",
     "see_cost": 4,
@@ -413,7 +468,16 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "bandit_camp_1", "bandit_camp_2", "bandit_camp_3", "bandit_camp_4" ],
+    "id": [
+      "bandit_camp_1",
+      "bandit_camp_2",
+      "bandit_camp_3",
+      "bandit_camp_4",
+      "bandit_camp_1_roof",
+      "bandit_camp_2_roof",
+      "bandit_camp_3_roof",
+      "bandit_camp_4_roof"
+    ],
     "name": "wooden fort",
     "sym": "+",
     "color": "brown",
@@ -425,6 +489,51 @@
     "type": "overmap_terrain",
     "id": "debug_ramps",
     "name": "ramp testing area",
+    "sym": "%",
+    "color": "white",
+    "flags": [ "NO_ROTATE", "SHOULD_NOT_SPAWN" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "//": "Pseudo terrain used for Tacoma companion raids",
+    "id": "looted_house",
+    "name": "looted house",
+    "sym": "%",
+    "color": "white",
+    "flags": [ "NO_ROTATE", "SHOULD_NOT_SPAWN" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "//": "Pseudo terrain used for Tacoma companion raids",
+    "id": "looted_house_roof",
+    "name": "looted house roof",
+    "sym": "%",
+    "color": "white",
+    "flags": [ "NO_ROTATE", "SHOULD_NOT_SPAWN" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "//": "Pseudo terrain used for Tacoma companion raids",
+    "id": "looted_house_basement",
+    "name": "looted house basement",
+    "sym": "%",
+    "color": "white",
+    "flags": [ "NO_ROTATE", "SHOULD_NOT_SPAWN" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "//": "Pseudo terrain used for Tacoma companion raids",
+    "id": "looted_hospital",
+    "name": "looted hospital",
+    "sym": "%",
+    "color": "white",
+    "flags": [ "NO_ROTATE", "SHOULD_NOT_SPAWN" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "//": "Pseudo terrain used for Tacoma companion raids",
+    "id": "looted_hospital_roof",
+    "name": "looted hospital roof",
     "sym": "%",
     "color": "white",
     "flags": [ "NO_ROTATE", "SHOULD_NOT_SPAWN" ]
@@ -476,24 +585,6 @@
     "color": "light_blue",
     "see_cost": 5,
     "mondensity": 1
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "pond_forest",
-    "name": "basin",
-    "sym": "F",
-    "color": "blue",
-    "see_cost": 5,
-    "mondensity": 2
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "pond_swamp",
-    "name": "bog",
-    "sym": "F",
-    "color": "blue",
-    "see_cost": 5,
-    "mondensity": 2
   },
   {
     "type": "overmap_terrain",
@@ -551,7 +642,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "bandit_garage_1", "bandit_garage_2" ],
+    "id": [ "bandit_garage_1", "bandit_garage_2", "bandit_garage_1_roof", "bandit_garage_2_roof" ],
     "name": "garage",
     "sym": "O",
     "color": "white",
@@ -579,7 +670,8 @@
     "id": "cs_public_space",
     "copy-from": "generic_city_building",
     "name": "public space",
-    "color": "i_white"
+    "sym": "g",
+    "color": "light_green"
   },
   {
     "type": "overmap_terrain",
@@ -691,7 +783,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "airliner_2b", "airliner_2b_1", "airliner_2b_-1" ],
+    "id": [ "airliner_2b", "airliner_2b_1", "airliner_2b_-1", "airliner_2c_-1" ],
     "name": "crashed airliner",
     "sym": "A",
     "color": "red",
@@ -703,15 +795,6 @@
     "name": "open air",
     "sym": ".",
     "color": "blue",
-    "see_cost": 5
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "airliner_2c_-1",
-    "name": "solid rock",
-    "looks_like": "empty_rock",
-    "sym": "%",
-    "color": "dark_gray",
     "see_cost": 5
   },
   {
@@ -839,5 +922,28 @@
     "sym": "0",
     "color": "light_gray",
     "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "chemical_lab_ocu", "chemical_lab_roof_ocu" ],
+    "name": "small cabin",
+    "sym": "C",
+    "color": "i_green",
+    "flags": [ "SOURCE_CONSTRUCTION", "SOURCE_FABRICATION" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "smallscrapyard_ocu" ],
+    "name": "scrap yard",
+    "sym": "s",
+    "color": "red"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "lumbermill_0_0_ocu", "lumbermill_0_1_ocu", "lumbermill_1_0_ocu", "lumbermill_1_1_ocu" ],
+    "name": "lumbermill",
+    "sym": "L",
+    "color": "i_green",
+    "flags": [ "SOURCE_CONSTRUCTION", "SOURCE_FABRICATION" ]
   }
 ]

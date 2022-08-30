@@ -20,16 +20,20 @@
     "dispersion": 150,
     "durability": 7,
     "min_cycle_recoil": 1350,
-    "weapon_category": [ "AUTOMATIC_RIFLES" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
         "item_restriction": [
           "stanag30",
           "stanag5",
+          "stanag5ranger",
           "stanag10",
+          "stanag10ranger",
           "stanag20",
+          "stanag20ranger",
+          "stanag30ranger",
           "stanag40",
+          "stanag40ranger",
           "stanag50",
           "stanag60",
           "stanag60drum",
@@ -86,9 +90,14 @@
         "item_restriction": [
           "stanag30",
           "stanag5",
+          "stanag5ranger",
           "stanag10",
+          "stanag10ranger",
           "stanag20",
+          "stanag20ranger",
+          "stanag30ranger",
           "stanag40",
+          "stanag40ranger",
           "stanag50",
           "stanag60",
           "stanag60drum",
@@ -173,7 +182,7 @@
       [ "sights", 1 ],
       [ "underbarrel mount", 1 ]
     ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "stanag30" ] } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "stanag30", "stanag30ranger" ] } ]
   },
   {
     "//": "Groups all 'H&K416' related rifles together, alongside the SCAR-L due to its similar properties. Used M27 due to it being the most popular of the four in the US.",
@@ -225,16 +234,20 @@
     "durability": 8,
     "min_cycle_recoil": 1350,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
-    "weapon_category": [ "AUTOMATIC_RIFLES" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
         "item_restriction": [
           "stanag30",
           "stanag5",
+          "stanag5ranger",
           "stanag10",
+          "stanag10ranger",
           "stanag20",
+          "stanag20ranger",
+          "stanag30ranger",
           "stanag40",
+          "stanag40ranger",
           "stanag50",
           "stanag60",
           "stanag60drum",
@@ -316,7 +329,8 @@
       [ "rail", 1 ],
       [ "sights", 1 ],
       [ "sling", 1 ],
-      [ "stock", 1 ]
+      [ "stock", 1 ],
+      [ "stock accessory", 2 ]
     ],
     "pocket_data": [
       {
@@ -325,9 +339,14 @@
           "belt223",
           "stanag30",
           "stanag5",
+          "stanag5ranger",
           "stanag10",
+          "stanag10ranger",
           "stanag20",
+          "stanag20ranger",
+          "stanag30ranger",
           "stanag40",
+          "stanag40ranger",
           "stanag50",
           "stanag60",
           "stanag60drum",
@@ -372,7 +391,7 @@
       },
       {
         "id": "m4_cqbr",
-        "name": { "str": "MK 18 CQBR" },
+        "name": { "str": "Mk 18 CQBR" },
         "description": "This is a shorter M4 carbine with a 10.3 inch barrel, intended for confined spaces and close quarters battle situations."
       }
     ],
@@ -387,16 +406,20 @@
     "durability": 6,
     "min_cycle_recoil": 1350,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
-    "weapon_category": [ "AUTOMATIC_RIFLES" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
         "item_restriction": [
           "stanag30",
           "stanag5",
+          "stanag5ranger",
           "stanag10",
+          "stanag10ranger",
           "stanag20",
+          "stanag20ranger",
+          "stanag30ranger",
           "stanag40",
+          "stanag40ranger",
           "stanag50",
           "stanag60",
           "stanag60drum",
@@ -426,7 +449,7 @@
       {
         "id": "m16a4",
         "name": { "str": "M16A4" },
-        "description": "The M16 is a very common assault rifle descended from the AR-15, used by militaries across the world for over 50 years.  It is a gas operated, rotating bolt rifle known for its accuracy and controllable recoil.",
+        "description": "The M16 is a very common assault rifle descended from the AR-15, used by militaries across the world for over 50 years.  It is a gas-operated, rotating bolt rifle known for its accuracy and controllable recoil.",
         "weight": 1
       }
     ],
@@ -440,16 +463,20 @@
     "durability": 7,
     "min_cycle_recoil": 1350,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "BURST", "3 rd.", 3 ] ],
-    "weapon_category": [ "AUTOMATIC_RIFLES" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
         "item_restriction": [
           "stanag30",
           "stanag5",
+          "stanag5ranger",
           "stanag10",
+          "stanag10ranger",
           "stanag20",
+          "stanag20ranger",
+          "stanag30ranger",
           "stanag40",
+          "stanag40ranger",
           "stanag50",
           "stanag60",
           "stanag60drum",
@@ -474,16 +501,15 @@
       {
         "id": "m16a3",
         "name": { "str": "M16A3" },
-        "description": "The M16 is a very common assault rifle descended from the AR-15, used by militaries across the world for over 50 years.  It is a gas operated, rotating bolt rifle known for its accuracy and controllable recoil.  This one is a relatively rare M16A3, with full auto capability.",
+        "description": "The M16 is a very common assault rifle descended from the AR-15, used by militaries across the world for over 50 years.  It is a gas-operated, rotating bolt rifle known for its accuracy and controllable recoil.  This one is a relatively rare M16A3, with full auto capability.",
         "weight": 1
       },
       {
         "id": "acr",
         "name": { "str": "Remington ACR" },
-        "description": "This is a shorter M4 carbine with a 10.3 inch barrel, intended for confined spaces and close quarters battle situations."
+        "description": "This carbine was developed for military use in the early 21st century.  It is damaging and accurate, though its rate of fire is a bit slower than competing carbines."
       }
     ],
-    "weapon_category": [ "AUTOMATIC_RIFLES" ],
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ]
   },
   {
@@ -502,7 +528,7 @@
       {
         "id": "m231pfw",
         "name": { "str": "M231 port firing weapon" },
-        "description": "The M231 PFW is an adaptation of the M16 assault rifle, designed to be used in the firing ports of the M2 Bradley Infantry Fighting Vehicle.  It does not have a buttstock or front sight post, and the smooth front hand guard does nothing to protect you from the potentially scorching hot barrel collar, making it slighly less than ergonomic.  You could screw it into a firing port if you were so inclined.  The fire selector says only 'SAFE' and 'AUTO'.  You can't help but wonder which one is preferable."
+        "description": "The M231 PFW is an adaptation of the M16 assault rifle, designed to be used in the firing ports of the M2 Bradley Infantry Fighting Vehicle.  It does not have a buttstock or front sight post, and the smooth front hand guard does nothing to protect you from the potentially scorching hot barrel collar, making it slightly less than ergonomic.  You could screw it into a firing port if you were so inclined.  The fire selector says only 'SAFE' and 'AUTO'.  You can't help but wonder which one is preferable."
       }
     ],
     "dispersion": 350,
@@ -567,9 +593,14 @@
         "item_restriction": [
           "stanag30",
           "stanag5",
+          "stanag5ranger",
           "stanag10",
+          "stanag10ranger",
           "stanag20",
+          "stanag20ranger",
+          "stanag30ranger",
           "stanag40",
+          "stanag40ranger",
           "stanag50",
           "stanag60",
           "stanag60drum",
@@ -620,7 +651,6 @@
       [ "stock mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
-    "weapon_category": [ "AUTOMATIC_RIFLES" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -665,9 +695,14 @@
         "item_restriction": [
           "stanag30",
           "stanag5",
+          "stanag5ranger",
           "stanag10",
+          "stanag10ranger",
           "stanag20",
+          "stanag20ranger",
+          "stanag30ranger",
           "stanag40",
+          "stanag40ranger",
           "stanag50",
           "stanag60",
           "stanag60drum",
@@ -726,9 +761,100 @@
       [ "sling", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "weapon_category": [ "AUTOMATIC_RIFLES" ],
     "pocket_data": [
       { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "augmag_30rd", "augmag_10rd", "augmag_42rd", "augmag_100rd" ] }
     ]
+  },
+  {
+    "id": "ak556",
+    "copy-from": "rifle_semi",
+    "looks_like": "ar15",
+    "type": "GUN",
+    "name": { "str": "5.56x45mm AK" },
+    "description": "A civilian AK pattern rifle, chambered in 5.56x45 NATO.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "zpapm90",
+        "name": { "str": "ZPAP M90" },
+        "description": "A Serbian-made AK pattern rifle made by Zastava in 5.56x45mm NATO.  To avoid import restrictions, Zastava USA has added a number of American-made parts.",
+        "weight": 1
+      }
+    ],
+    "weight": "3402 g",
+    "volume": "2167 ml",
+    "longest_side": "99 cm",
+    "price": 79500,
+    "price_postapoc": 3000,
+    "to_hit": -1,
+    "bashing": 12,
+    "material": [ "steel", "wood" ],
+    "color": "brown",
+    "ammo": [ "223" ],
+    "dispersion": 180,
+    "durability": 8,
+    "min_cycle_recoil": 1350,
+    "valid_mod_locations": [
+      [ "accessories", 4 ],
+      [ "barrel", 1 ],
+      [ "bore", 1 ],
+      [ "brass catcher", 1 ],
+      [ "grip", 1 ],
+      [ "mechanism", 4 ],
+      [ "muzzle", 1 ],
+      [ "rail", 2 ],
+      [ "sights mount", 1 ],
+      [ "sling", 1 ],
+      [ "stock", 1 ],
+      [ "stock accessory", 2 ],
+      [ "underbarrel", 1 ]
+    ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "zpap85mag" ] } ]
+  },
+  {
+    "id": "minidraco556",
+    "copy-from": "pistol_base",
+    "looks_like": "ar15",
+    "type": "GUN",
+    "name": { "str": "5.56x45mm Mini Draco" },
+    "description": "A civilian AK pattern rifle, chambered in 5.56x45 NATO.  This one is shorter and without a stock",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "zpap85",
+        "name": { "str": "ZPAP 85" },
+        "description": "A Serbian-made AK pattern rifle made by Zastava in 5.56x45mm NATO.  To avoid import restrictions, Zastava USA has added a number of American-made parts.  This one is shorter and without a stock",
+        "weight": 1
+      }
+    ],
+    "weight": "2563 g",
+    "volume": "1286 ml",
+    "longest_side": "48 cm",
+    "price": 72500,
+    "price_postapoc": 2500,
+    "to_hit": -5,
+    "bashing": 8,
+    "material": [ "steel", "wood" ],
+    "color": "brown",
+    "ammo": [ "223" ],
+    "dispersion": 240,
+    "ranged_damage": { "damage_type": "bullet", "amount": -5 },
+    "durability": 7,
+    "min_cycle_recoil": 1350,
+    "valid_mod_locations": [
+      [ "accessories", 4 ],
+      [ "barrel", 1 ],
+      [ "bore", 1 ],
+      [ "brass catcher", 1 ],
+      [ "grip", 1 ],
+      [ "mechanism", 4 ],
+      [ "muzzle", 1 ],
+      [ "rail mount", 1 ],
+      [ "sights mount", 1 ],
+      [ "sling", 1 ],
+      [ "stock mount", 1 ],
+      [ "underbarrel mount", 1 ]
+    ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "zpap85mag" ] } ]
   }
 ]

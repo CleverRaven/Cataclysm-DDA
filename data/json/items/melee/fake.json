@@ -11,9 +11,9 @@
     "volume": "500 ml",
     "bashing": 8,
     "cutting": 16,
-    "flags": [ "STAB", "NO_UNWIELD", "UNBREAKABLE_MELEE", "TRADER_AVOID" ],
+    "flags": [ "STAB", "BIONIC_WEAPON", "UNBREAKABLE_MELEE", "TRADER_AVOID", "ZERO_WEIGHT" ],
     "weapon_category": [ "BIONIC_WEAPONRY", "CLAWS" ],
-    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 12 ] ]
+    "qualities": [ [ "CUT", 2 ], [ "BUTCHER", 12 ] ]
   },
   {
     "type": "GENERIC",
@@ -29,8 +29,8 @@
     "volume": "750 ml",
     "longest_side": "30 cm",
     "cutting": 28,
-    "flags": [ "NO_UNWIELD", "UNBREAKABLE_MELEE", "TRADER_AVOID" ],
-    "weapon_category": [ "BIONIC_WEAPONRY" ],
-    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 22 ] ]
+    "flags": [ "BIONIC_WEAPON", "UNBREAKABLE_MELEE", "TRADER_AVOID" ],
+    "weapon_category": [ "BIONIC_WEAPONRY", "BIONIC_SWORDS" ],
+    "qualities": [ [ "CUT", 2 ], [ "BUTCHER", 22 ] ]
   }
 ]

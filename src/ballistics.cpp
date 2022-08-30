@@ -24,6 +24,7 @@
 #include "map.h"
 #include "messages.h"
 #include "monster.h"
+#include "npc.h"
 #include "optional.h"
 #include "options.h"
 #include "point.h"
@@ -46,7 +47,7 @@ static const json_character_flag json_flag_HARDTOHIT( "HARDTOHIT" );
 
 static void drop_or_embed_projectile( const dealt_projectile_attack &attack )
 {
-    const auto &proj = attack.proj;
+    const projectile &proj = attack.proj;
     const item &drop_item = proj.get_drop();
     const auto &effects = proj.proj_effects;
     if( drop_item.is_null() ) {
@@ -214,7 +215,7 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
     projectile_attack_aim aim = projectile_attack_roll( dispersion, range, target_size );
 
     if( target_critter && target_critter->as_character() &&
-        target_critter->as_character()->has_trait_flag( json_flag_HARDTOHIT ) ) {
+        target_critter->as_character()->has_flag( json_flag_HARDTOHIT ) ) {
 
         projectile_attack_aim lucky_aim = projectile_attack_roll( dispersion, range, target_size );
         // if the target's lucky they're more likely to be missed
@@ -433,6 +434,11 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
             }
             critter->deal_projectile_attack( null_source ? nullptr : origin, attack, print_messages,
                                              wp_attack );
+
+            if( critter->is_npc() ) {
+                critter->as_npc()->on_attacked( *origin );
+            }
+
             // Critter can still dodge the projectile
             // In this case hit_critter won't be set
             if( attack.hit_critter != nullptr ) {
@@ -475,7 +481,7 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
     drop_or_embed_projectile( attack );
 
     apply_ammo_effects( tp, proj.proj_effects );
-    const auto &expl = proj.get_custom_explosion();
+    const explosion_data &expl = proj.get_custom_explosion();
     if( expl.power > 0.0f ) {
         explosion_handler::explosion( tp, proj.get_custom_explosion() );
     }

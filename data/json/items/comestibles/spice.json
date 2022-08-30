@@ -144,7 +144,6 @@
     "primary_material": "water",
     "quench": -20,
     "charges": 10,
-    "healthy": -1,
     "fun": -15,
     "freezing_point": -30,
     "phase": "liquid"

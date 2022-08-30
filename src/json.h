@@ -25,22 +25,20 @@
 /* Cataclysm-DDA homegrown JSON tools
  * copyright CC-BY-SA-3.0 2013 CleverRaven
  *
- * Consists of six JSON manipulation tools:
+ * Consists of four JSON manipulation tools:
  * JsonIn - for low-level parsing of an input JSON stream
  * JsonOut - for outputting JSON
  * JsonObject - convenience-wrapper for reading JSON objects from a JsonIn
  * JsonArray - convenience-wrapper for reading JSON arrays from a JsonIn
- * JsonSerializer - inheritable interface for custom datatype serialization
- * JsonDeserializer - inheritable interface for custom datatype deserialization
  *
  * Further documentation can be found below.
  */
 
+template<typename E>
+class enum_bitset;
 class JsonArray;
-class JsonDeserializer;
 class JsonIn;
 class JsonObject;
-class JsonSerializer;
 class JsonValue;
 class item;
 
@@ -144,8 +142,10 @@ class JsonValue
         JsonObject get_object() const;
         JsonArray get_array() const;
 
-        [[noreturn]] void string_error( const std::string &err, int offset = 0 ) const;
-        [[noreturn]] void throw_error( const std::string &err, int offset = 0 ) const;
+        [[noreturn]] void string_error( const std::string &err ) const;
+        [[noreturn]] void string_error( int offset, const std::string &err ) const;
+        [[noreturn]] void throw_error( const std::string &err ) const;
+        [[noreturn]] void throw_error( int offset, const std::string &err ) const;
 };
 
 
@@ -276,7 +276,7 @@ class JsonIn
             return path;
         }
 
-        bool get_ate_separator() {
+        bool get_ate_separator() const {
             return ate_separator;
         }
         void set_ate_separator( bool s ) {
@@ -368,7 +368,6 @@ class JsonIn
         bool read( std::string &s, bool throw_on_error = false );
         template<size_t N>
         bool read( std::bitset<N> &b, bool throw_on_error = false );
-        bool read( JsonDeserializer &j, bool throw_on_error = false );
 
         template <typename T>
         auto read( string_id<T> &thing, bool throw_on_error = false ) -> bool {
@@ -575,6 +574,38 @@ class JsonIn
             return true;
         }
 
+        // special case for enum_bitset
+        template <typename T>
+        bool read( enum_bitset<T> &v, bool throw_on_error = false ) {
+            if( !test_array() ) {
+                return error_or_false( throw_on_error, "Expected json array" );
+            }
+            try {
+                start_array();
+                v = {};
+                while( !end_array() ) {
+                    T element;
+                    if( read( element, throw_on_error ) ) {
+                        if( v.test( element ) ) {
+                            return error_or_false(
+                                       throw_on_error,
+                                       "Duplicate entry in set defined by json array" );
+                        }
+                        v.set( element );
+                    } else {
+                        skip_value();
+                    }
+                }
+            } catch( const JsonError & ) {
+                if( throw_on_error ) {
+                    throw;
+                }
+                return false;
+            }
+
+            return true;
+        }
+
         // special case for colony<item> as it supports RLE
         // see corresponding `write` for details
         template <typename T, std::enable_if_t<std::is_same<T, item>::value> * = nullptr >
@@ -687,15 +718,17 @@ class JsonIn
 
         // error messages
         std::string line_number( int offset_modifier = 0 ); // for occasional use only
-        [[noreturn]] void error( const std::string &message, int offset = 0 ); // ditto
+        [[noreturn]] void error( const std::string &message ); // ditto
+        [[noreturn]] void error( int offset, const std::string &message ); // ditto
         // if the next element is a string, throw error after the `offset`th unicode
         // character in the parsed string. if `offset` is 0, throw error right after
         // the starting quotation mark.
-        [[noreturn]] void string_error( const std::string &message, int offset );
+        [[noreturn]] void string_error( int offset, const std::string &message );
 
         // If throw_, then call error( message, offset ), otherwise return
         // false
-        bool error_or_false( bool throw_, const std::string &message, int offset = 0 );
+        bool error_or_false( bool throw_, const std::string &message );
+        bool error_or_false( bool throw_, int offset, const std::string &message );
         void rewind( int max_lines = -1, int max_chars = -1 );
         std::string substr( size_t pos, size_t len = std::string::npos );
     private:
@@ -731,7 +764,6 @@ class JsonIn
  * which inserts newlines and whitespace liberally, if turned on.
  *
  * Basic containers such as maps, sets and vectors,
- * as well as anything inheriting the JsonSerializer interface,
  * can be serialized automatically by write() and member().
  */
 class JsonOut
@@ -752,7 +784,7 @@ class JsonOut
         void write_indent();
         void write_separator();
         void write_member_separator();
-        bool get_need_separator() {
+        bool get_need_separator() const {
             return need_separator;
         }
         void set_need_separator() {
@@ -819,8 +851,6 @@ class JsonOut
 
         template<size_t N>
         void write( const std::bitset<N> &b );
-
-        void write( const JsonSerializer &thing );
 
         template <typename T>
         auto write( const string_id<T> &thing ) {
@@ -1005,8 +1035,8 @@ class JsonOut
  * and for member existence with has_member(name).
  *
  * They can also read directly into compatible data structures,
- * including sets, vectors, maps, and any class inheriting JsonDeserializer,
- * using read(name, value).
+ * including sets, vectors, maps, and any class with a compatible
+ * deserialize() routine.
  *
  * read() returns true on success, false on failure.
  *
@@ -1081,8 +1111,7 @@ class JsonObject
         bool has_member( const std::string &name ) const; // true iff named member exists
         std::string str() const; // copy object json as string
         [[noreturn]] void throw_error( const std::string &err ) const;
-        [[noreturn]] void throw_error( const std::string &err, const std::string &name,
-                                       int offset = 0 ) const;
+        [[noreturn]] void throw_error_at( const std::string &name, const std::string &err ) const;
         // seek to a value and return a pointer to the JsonIn (member must exist)
         JsonIn *get_raw( const std::string &name ) const;
         JsonValue get_member( const std::string &name ) const;
@@ -1224,12 +1253,12 @@ class JsonObject
  * -------------------------
  *
  * Elements can also be automatically read into compatible containers,
- * such as maps, sets, vectors, and classes implementing JsonDeserializer,
+ * such as maps, sets, vectors, and classes using a deserialize routine,
  * using the read_next() and read() methods.
  *
  *     JsonArray ja = jo.get_array("custom_datatype_array");
  *     while (ja.has_more()) {
- *         MyDataType mydata; // MyDataType implementing JsonDeserializer
+ *         MyDataType mydata;
  *         ja.read_next(mydata);
  *         process(mydata);
  *     }
@@ -1261,9 +1290,9 @@ class JsonArray
         bool empty();
         std::string str(); // copy array json as string
         [[noreturn]] void throw_error( const std::string &err ) const;
-        [[noreturn]] void throw_error( const std::string &err, int idx ) const;
+        [[noreturn]] void throw_error( int idx, const std::string &err ) const;
         // See JsonIn::string_error
-        [[noreturn]] void string_error( const std::string &err, int idx, int offset );
+        [[noreturn]] void string_error( int idx, int offset, const std::string &err );
 
         // iterative access
         JsonValue next();
@@ -1400,17 +1429,6 @@ inline bool JsonValue::test_null() const
 {
     return seek().test_null();
 }
-
-[[noreturn]] inline void JsonValue::string_error( const std::string &err, int offset ) const
-{
-    seek().string_error( err, offset );
-}
-
-[[noreturn]] inline void JsonValue::throw_error( const std::string &err, int offset ) const
-{
-    seek().error( err, offset );
-}
-
 inline std::string JsonValue::get_string() const
 {
     return seek().get_string();
@@ -1595,72 +1613,6 @@ Res JsonObject::get_tags( const std::string &name ) const
  * array (which should be a string) add it to the given set.
  */
 void add_array_to_set( std::set<std::string> &, const JsonObject &json, const std::string &name );
-
-/* JsonSerializer
- * ==============
- *
- * JsonSerializer is an inheritable interface,
- * allowing classes to define how they are to be serialized,
- * and then treated as a basic type for serialization purposes.
- *
- * All a class must to do satisfy this interface,
- * is define a `void serialize(JsonOut&) const` method,
- * which should use the provided JsonOut to write its data as JSON.
- *
- *     class point : public JsonSerializer {
- *         int x, y;
- *         void serialize(JsonOut &jsout) const {
- *             jsout.start_array();
- *             jsout.write(x);
- *             jsout.write(y);
- *             jsout.end_array();
- *         }
- *     }
- */
-class JsonSerializer
-{
-    public:
-        virtual ~JsonSerializer() = default;
-        virtual void serialize( JsonOut &jsout ) const = 0;
-        JsonSerializer() = default;
-        JsonSerializer( JsonSerializer && ) = default;
-        JsonSerializer( const JsonSerializer & ) = default;
-        JsonSerializer &operator=( JsonSerializer && ) = default;
-        JsonSerializer &operator=( const JsonSerializer & ) = default;
-};
-
-/* JsonDeserializer
- * ==============
- *
- * JsonDeserializer is an inheritable interface,
- * allowing classes to define how they are to be deserialized,
- * and then treated as a basic type for deserialization purposes.
- *
- * All a class must to do satisfy this interface,
- * is define a `void deserialize(JsonIn&)` method,
- * which should read its data from the provided JsonIn,
- * assuming it to be in the correct form.
- *
- *     class point : public JsonDeserializer {
- *         int x, y;
- *         void deserialize(JsonIn &jsin) {
- *             JsonArray ja = jsin.get_array();
- *             x = ja.get_int(0);
- *             y = ja.get_int(1);
- *         }
- *     }
- */
-class JsonDeserializer
-{
-    public:
-        virtual ~JsonDeserializer() = default;
-        virtual void deserialize( JsonIn &jsin ) = 0;
-        JsonDeserializer() = default;
-        JsonDeserializer( JsonDeserializer && ) = default;
-        JsonDeserializer( const JsonDeserializer & ) = default;
-        JsonDeserializer &operator=( JsonDeserializer && ) = default;
-        JsonDeserializer &operator=( const JsonDeserializer & ) = default;
-};
 
 std::ostream &operator<<( std::ostream &stream, const JsonError &err );
 

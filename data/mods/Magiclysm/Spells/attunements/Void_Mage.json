@@ -33,7 +33,7 @@
   {
     "id": "voidmage_final_grasp_slowdown",
     "type": "SPELL",
-    "name": "Final Grasp slowdown",
+    "name": "Final Grasp Slowdown",
     "description": "Removes some moves from an enemy.  Subspell; you aren't allowed to see it except in debug mode.",
     "valid_targets": [ "hostile" ],
     "effect": "mod_moves",
@@ -82,7 +82,7 @@
   },
   {
     "abstract": "horizon_vortex_abstract",
-    "name": "Horizon Vortex abstract",
+    "name": "Horizon Vortex Abstract",
     "type": "SPELL",
     "description": "Causes some damage in the Horizon Vortex spell.  Subspell; you aren't allowed to see it except in debug mode.",
     "valid_targets": [ "hostile" ],
@@ -101,7 +101,7 @@
     "id": "horizon_vortex_fire",
     "copy-from": "horizon_vortex_abstract",
     "type": "SPELL",
-    "name": "Horizon Vortex heat damage",
+    "name": "Horizon Vortex Heat Damage",
     "extend": { "flags": [ "RANDOM_DAMAGE" ] },
     "damage_type": "heat"
   },
@@ -109,7 +109,7 @@
     "id": "horizon_vortex_acid",
     "copy-from": "horizon_vortex_abstract",
     "type": "SPELL",
-    "name": "Horizon Vortex acid damage",
+    "name": "Horizon Vortex Acid Damage",
     "extend": { "flags": [ "RANDOM_DAMAGE" ] },
     "damage_type": "acid"
   },
@@ -117,7 +117,7 @@
     "id": "horizon_vortex_bash",
     "copy-from": "horizon_vortex_abstract",
     "type": "SPELL",
-    "name": "Horizon Vortex bash damage",
+    "name": "Horizon Vortex Bash Damage",
     "extend": { "flags": [ "RANDOM_DAMAGE" ] },
     "damage_type": "bash"
   },
@@ -125,7 +125,7 @@
     "id": "horizon_vortex_pure",
     "copy-from": "horizon_vortex_abstract",
     "type": "SPELL",
-    "name": "Horizon Vortex pure damage",
+    "name": "Horizon Vortex Pure Damage",
     "extend": { "flags": [ "RANDOM_DAMAGE" ] },
     "damage_type": "pure"
   },
@@ -133,7 +133,7 @@
     "id": "horizon_vortex_cold",
     "copy-from": "horizon_vortex_abstract",
     "type": "SPELL",
-    "name": "Horizon Vortex cold damage",
+    "name": "Horizon Vortex Cold Damage",
     "damage_type": "cold",
     "max_level": 35
   },
@@ -141,7 +141,7 @@
     "id": "horizon_vortex_cut",
     "copy-from": "horizon_vortex_abstract",
     "type": "SPELL",
-    "name": "Horizon Vortex cut damage",
+    "name": "Horizon Vortex Cut Damage",
     "damage_type": "cut",
     "max_level": 35
   },
@@ -149,7 +149,7 @@
     "id": "horizon_vortex_electric",
     "copy-from": "horizon_vortex_abstract",
     "type": "SPELL",
-    "name": "Horizon Vortex electric damage",
+    "name": "Horizon Vortex Electric Damage",
     "damage_type": "electric",
     "max_level": 35
   },
@@ -157,7 +157,7 @@
     "id": "horizon_vortex_stab",
     "copy-from": "horizon_vortex_abstract",
     "type": "SPELL",
-    "name": "Horizon Vortex stab damage",
+    "name": "Horizon Vortex Stab Damage",
     "damage_type": "stab",
     "max_level": 35
   }

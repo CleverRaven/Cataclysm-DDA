@@ -1,0 +1,53 @@
+[
+  {
+    "id": "spy_map",
+    "copy-from": "abstractmap",
+    "type": "GENERIC",
+    "category": "maps",
+    "name": "strategic points of interest tourist map",
+    "description": "A tourist brochure that has markings on it in places that clearly aren't the advertised tourist 'zebras?'.",
+    "color": "brown_green",
+    "use_action": {
+      "type": "reveal_map",
+      "radius": 185,
+      "terrain": [ "field_office", "lab_surface_brick_blockC3", "lab_surface_brick_basementD1_hidden_lab_stairs" ],
+      "message": "You add the locations to your map."
+    }
+  },
+  {
+    "type": "GENERIC",
+    "id": "spy_note",
+    "category": "books",
+    "symbol": ",",
+    "color": "white",
+    "name": { "str": "left behind note" },
+    "snippet_category": "spy_note",
+    "description": "A scrap of paper.  Something's written on it, scrawled in bad handwriting.",
+    "price": 0,
+    "price_postapoc": 0,
+    "material": [ "paper" ],
+    "flags": [ "TRADER_AVOID" ],
+    "weight": "3 g",
+    "volume": "1 ml"
+  },
+  {
+    "type": "BOOK",
+    "id": "grimy_recipe",
+    "category": "manuals",
+    "symbol": "0",
+    "color": "white",
+    "name": { "str": "grimy handwritten recipe" },
+    "description": "A scrap of paper.  Something's written on it, scrawled in bad handwriting.  You can barely make out the words 'Blood treatment' followed by a list of ingredients.",
+    "price": 0,
+    "price_postapoc": 0,
+    "material": [ "paper" ],
+    "flags": [ "TRADER_AVOID" ],
+    "weight": "3 g",
+    "volume": "1 ml",
+    "skill": "cooking",
+    "required_level": 1,
+    "intelligence": 6,
+    "time": "5 m",
+    "fun": -2
+  }
+]

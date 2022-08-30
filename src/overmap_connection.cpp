@@ -108,7 +108,7 @@ void overmap_connection::check() const
     if( subtypes.empty() ) {
         debugmsg( "Overmap connection \"%s\" doesn't have subtypes.", id.c_str() );
     }
-    for( const auto &subtype : subtypes ) {
+    for( const overmap_connection::subtype &subtype : subtypes ) {
         if( !subtype.terrain.is_valid() ) {
             debugmsg( "In overmap connection \"%s\", terrain \"%s\" is invalid.", id.c_str(),
                       subtype.terrain.c_str() );
@@ -135,7 +135,7 @@ void overmap_connections::load( const JsonObject &jo, const std::string &src )
 void overmap_connections::finalize()
 {
     connections.finalize();
-    for( const auto &elem : connections.get_all() ) {
+    for( const overmap_connection &elem : connections.get_all() ) {
         const_cast<overmap_connection &>( elem ).finalize(); // This cast is ugly, but safe.
     }
 }

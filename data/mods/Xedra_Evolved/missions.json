@@ -1,0 +1,13 @@
+[
+  {
+    "id": "MISSION_SAFEHOUSE",
+    "type": "mission_definition",
+    "name": { "str": "Return to the safehouse and grab your gear." },
+    "goal": "MGOAL_GO_TO_TYPE",
+    "destination": "safe_house",
+    "difficulty": 1,
+    "value": 0,
+    "start": { "assign_mission_target": { "om_terrain": "safe_house", "om_special": "safe_house", "search_range": 200 } },
+    "origins": [ "ORIGIN_GAME_START" ]
+  }
+]

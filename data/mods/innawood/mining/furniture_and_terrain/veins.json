@@ -1,0 +1,223 @@
+[
+  {
+    "type": "terrain",
+    "id": "t_bog_iron",
+    "name": "bog iron",
+    "description": "A wet pit full of raw bog iron, suitable for bloomery refining if it was extracted properly.",
+    "symbol": "*",
+    "looks_like": "f_wreckage",
+    "color": "brown",
+    "move_cost": 6,
+    "flags": [ "TRANSPARENT", "DIGGABLE", "FLAT" ],
+    "bash": { "sound": "thump", "ter_set": "t_null", "str_min": 50, "str_max": 100, "str_min_supported": 100, "bash_below": true }
+  },
+  {
+    "type": "terrain",
+    "id": "t_rock_coal",
+    "name": "bituminous coal",
+    "description": "A vein of soft coal.",
+    "symbol": "#",
+    "color": "dark_gray",
+    "move_cost": 0,
+    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "MINEABLE" ],
+    "roof": "t_rock_floor",
+    "bash": {
+      "str_min": 100,
+      "str_max": 400,
+      "sound": "crash!",
+      "sound_fail": "whump!",
+      "ter_set": "t_rock_floor",
+      "items": [ { "item": "rock", "count": [ 3, 7 ] }, { "item": "coal_lump", "charges": [ 250, 500 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_rock_halite",
+    "name": "halite",
+    "description": "A vein of salt.",
+    "symbol": "#",
+    "color": "white",
+    "move_cost": 0,
+    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "MINEABLE" ],
+    "roof": "t_rock_floor",
+    "bash": {
+      "str_min": 100,
+      "str_max": 400,
+      "sound": "crash!",
+      "sound_fail": "whump!",
+      "ter_set": "t_rock_floor",
+      "items": [ { "item": "rock", "count": [ 3, 7 ] }, { "item": "material_rocksalt", "count": [ 1, 3 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_rock_niter",
+    "name": "niter",
+    "description": "A vein of saltpeter.",
+    "symbol": "#",
+    "color": "light_gray",
+    "move_cost": 0,
+    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "MINEABLE" ],
+    "roof": "t_rock_floor",
+    "bash": {
+      "str_min": 100,
+      "str_max": 400,
+      "sound": "crash!",
+      "sound_fail": "whump!",
+      "ter_set": "t_rock_floor",
+      "items": [ { "item": "rock", "count": [ 3, 7 ] }, { "item": "material_niter", "count": [ 1, 3 ], "prob": 80 } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_rock_brimstone",
+    "name": "brimstone",
+    "description": "A vein of sulfur.",
+    "symbol": "#",
+    "color": "yellow",
+    "move_cost": 0,
+    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "MINEABLE" ],
+    "roof": "t_rock_floor",
+    "bash": {
+      "str_min": 100,
+      "str_max": 400,
+      "sound": "crash!",
+      "sound_fail": "whump!",
+      "ter_set": "t_rock_floor",
+      "items": [ { "item": "rock", "count": [ 3, 7 ] }, { "item": "chunk_sulfur", "count": [ 1, 3 ], "prob": 80 } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_rock_copper",
+    "name": "native copper",
+    "description": "A vein of copper.",
+    "symbol": "#",
+    "color": "light_red",
+    "move_cost": 0,
+    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "MINEABLE" ],
+    "roof": "t_rock_floor",
+    "bash": {
+      "str_min": 100,
+      "str_max": 400,
+      "sound": "crash!",
+      "sound_fail": "whump!",
+      "ter_set": "t_rock_floor",
+      "items": [ { "item": "rock", "count": [ 3, 7 ] }, { "item": "chunk_copper", "count": [ 1, 3 ], "prob": 80 } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_rock_silver",
+    "name": "native silver",
+    "description": "A vein of silver.",
+    "symbol": "#",
+    "color": "white",
+    "move_cost": 0,
+    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "MINEABLE" ],
+    "roof": "t_rock_floor",
+    "bash": {
+      "str_min": 100,
+      "str_max": 400,
+      "sound": "crash!",
+      "sound_fail": "whump!",
+      "ter_set": "t_rock_floor",
+      "items": [ { "item": "rock", "count": [ 3, 7 ] }, { "item": "chunk_silver", "count": [ 1, 2 ], "prob": 80 } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_rock_gold",
+    "name": "native gold",
+    "description": "A glittering vein of gold.",
+    "symbol": "#",
+    "color": "yellow",
+    "move_cost": 0,
+    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "MINEABLE" ],
+    "roof": "t_rock_floor",
+    "bash": {
+      "str_min": 100,
+      "str_max": 400,
+      "sound": "crash!",
+      "sound_fail": "whump!",
+      "ter_set": "t_rock_floor",
+      "items": [ { "item": "rock", "count": [ 3, 7 ] }, { "item": "chunk_gold", "count": [ 1, 2 ], "prob": 80 } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_rock_aluminum",
+    "name": "native aluminum",
+    "description": "A vein of aluminum.",
+    "symbol": "#",
+    "color": "light_gray",
+    "move_cost": 0,
+    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "MINEABLE" ],
+    "roof": "t_rock_floor",
+    "bash": {
+      "str_min": 100,
+      "str_max": 400,
+      "sound": "crash!",
+      "sound_fail": "whump!",
+      "ter_set": "t_rock_floor",
+      "items": [ { "item": "rock", "count": [ 3, 7 ] }, { "item": "chunk_aluminum", "count": [ 1, 3 ], "prob": 80 } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_rock_cassiterite",
+    "name": "cassiterite",
+    "description": "A deposit of cassiterite.",
+    "symbol": "#",
+    "color": "brown",
+    "move_cost": 0,
+    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "MINEABLE" ],
+    "roof": "t_rock_floor",
+    "bash": {
+      "str_min": 100,
+      "str_max": 400,
+      "sound": "crash!",
+      "sound_fail": "whump!",
+      "ter_set": "t_rock_floor",
+      "items": [ { "item": "rock", "count": [ 3, 7 ] }, { "item": "chunk_cassiterite", "count": [ 2, 4 ], "prob": 80 } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_rock_galena",
+    "name": "galena",
+    "description": "A deposit of galena.",
+    "symbol": "#",
+    "color": "light_gray",
+    "move_cost": 0,
+    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "MINEABLE" ],
+    "roof": "t_rock_floor",
+    "bash": {
+      "str_min": 100,
+      "str_max": 400,
+      "sound": "crash!",
+      "sound_fail": "whump!",
+      "ter_set": "t_rock_floor",
+      "items": [ { "item": "rock", "count": [ 3, 7 ] }, { "item": "chunk_galena", "count": [ 2, 4 ], "prob": 80 } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_rock_hematite",
+    "name": "hematite",
+    "description": "A deposit of hematite.",
+    "symbol": "#",
+    "color": "brown",
+    "move_cost": 0,
+    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "MINEABLE" ],
+    "roof": "t_rock_floor",
+    "bash": {
+      "str_min": 100,
+      "str_max": 400,
+      "sound": "crash!",
+      "sound_fail": "whump!",
+      "ter_set": "t_rock_floor",
+      "items": [ { "item": "rock", "count": [ 3, 7 ] }, { "item": "chunk_hematite", "count": [ 2, 4 ], "prob": 80 } ]
+    }
+  }
+]

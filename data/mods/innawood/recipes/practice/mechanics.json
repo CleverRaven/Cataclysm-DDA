@@ -1,0 +1,19 @@
+[
+  {
+    "id": "prac_mechanics",
+    "type": "practice",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_PRACTICE",
+    "subcategory": "CSC_PRACTICE_MECHANICS",
+    "name": "mechanics (beginner)",
+    "description": "Practice attaching and detaching wheels to vehicle frames.",
+    "skill_used": "mechanics",
+    "time": "1 h",
+    "practice_data": { "min_difficulty": 0, "max_difficulty": 2, "skill_limit": 3 },
+    "autolearn": [ [ "mechanics", 0 ] ],
+    "tools": [
+      [ "foldframe", "xlframe", "frame", "hdframe", "hdframe", "frame_wood", "foldwoodframe", "frame_wood_light" ],
+      [ "wheel_wood", "wheel_wood_b", "wheel", "wheel_bicycle" ]
+    ]
+  }
+]

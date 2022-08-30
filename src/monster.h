@@ -118,6 +118,7 @@ class monster : public Creature
         void refill_udders();
         void spawn( const tripoint &p );
         void spawn( const tripoint_abs_ms &loc );
+        std::vector<material_id> get_absorb_material() const;
         creature_size get_size() const override;
         units::mass get_weight() const override;
         units::mass weight_capacity() const override;
@@ -170,7 +171,7 @@ class monster : public Creature
         bool swims() const;
         // Returns false if the monster is stunned, has 0 moves or otherwise wouldn't act this turn
         bool can_act() const;
-        int sight_range( int light_level ) const override;
+        int sight_range( float light_level ) const override;
         bool made_of( const material_id &m ) const override; // Returns true if it's made of m
         bool made_of_any( const std::set<material_id> &ms ) const override;
         bool made_of( phase_id p ) const; // Returns true if its phase is p
@@ -237,7 +238,7 @@ class monster : public Creature
                             const tripoint &nearby_destination ); // shove vehicles out of the way
 
         // check if the given square could drown a drownable monster
-        bool is_aquatic_danger( const tripoint &at_pos );
+        bool is_aquatic_danger( const tripoint &at_pos ) const;
 
         // check if a monster at a position will drown and kill it if necessary
         // returns true if the monster dies
@@ -300,8 +301,8 @@ class monster : public Creature
         bool push_to( const tripoint &p, int boost, size_t depth );
 
         /** Returns innate monster bash skill, without calculating additional from helpers */
-        int bash_skill();
-        int bash_estimate();
+        int bash_skill() const;
+        int bash_estimate() const;
         /** Returns ability of monster and any cooperative helpers to
          * bash the designated target.  **/
         int group_bash_skill( const tripoint &target );
@@ -391,6 +392,7 @@ class monster : public Creature
         float  hit_roll() const override;  // For the purposes of comparing to player::dodge_roll()
         float  dodge_roll() const override;  // For the purposes of comparing to player::hit_roll()
 
+        bool can_attack_high() const override; // Can we attack upper limbs?
         int get_grab_strength() const; // intensity of grabbed effect
 
         monster_horde_attraction get_horde_attraction();
@@ -419,6 +421,8 @@ class monster : public Creature
         void set_special( const std::string &special_name, int time );
         /** Sets the enabled flag for the given special to false */
         void disable_special( const std::string &special_name );
+        /** Test whether the monster has the specified special regardless of readiness. */
+        bool has_special( const std::string &special_name ) const;
         /** Test whether the specified special is ready. */
         bool special_available( const std::string &special_name ) const;
 
@@ -429,7 +433,10 @@ class monster : public Creature
         void reset_stats() override;
 
         void die( Creature *killer ) override; //this is the die from Creature, it calls kill_mo
-        void drop_items_on_death();
+        void drop_items_on_death( item *corpse );
+        void spawn_dissectables_on_death( item *corpse ); //spawn dissectable CBMs into CORPSE pocket
+        //spawn monster's inventory without killing it
+        void generate_inventory( bool disableDrops = true );
 
         // Other
         /**
@@ -443,8 +450,13 @@ class monster : public Creature
         void make_ally( const monster &z );
         // Add an item to inventory
         void add_item( const item &it );
-        // check mech power levels and modify it.
-        bool use_mech_power( int amt );
+
+        /**
+        * Consume UPS from mech battery.
+        * @param amt amount of energy to consume. Is rounded down to kJ precision. Do not use negative values.
+        * @return Actual amount of energy consumed
+        */
+        units::energy use_mech_power( units::energy amt );
         bool check_mech_powered() const;
         int mech_str_addition() const;
 
@@ -458,6 +470,8 @@ class monster : public Creature
         void hear_sound( const tripoint &source, int vol, int distance, bool provocative );
 
         bool is_hallucination() const override;    // true if the monster isn't actually real
+
+        bool is_electrical() const override;    // true if the monster produces electric radiation
 
         field_type_id bloodType() const override;
         field_type_id gibType() const override;
@@ -480,6 +494,7 @@ class monster : public Creature
         bool provocative_sound = false; // Are we wandering toward something we think is alive?
         int wandf = 0;       // Urge to is_wandering - Increased by sound, decrements each move
         std::vector<item> inv; // Inventory
+        std::vector<item> dissectable_inv; // spawned at death, tracked for respawn/dissection
         Character *mounted_player = nullptr; // player that is mounting this creature
         character_id mounted_player_id; // id of player that is mounting this creature ( for save/load )
         character_id dragged_foe_id; // id of character being dragged by the monster
@@ -543,7 +558,7 @@ class monster : public Creature
          * This applies to robotic monsters that are spawned by invoking an item (e.g. turret),
          * and to reviving monsters that spawn from a corpse.
          */
-        void init_from_item( const item &itm );
+        void init_from_item( item &itm );
 
         /**
          * Do some cleanup and caching as monster is being unloaded from map.
@@ -567,7 +582,6 @@ class monster : public Creature
         void process_trigger( mon_trigger trig, int amount );
         void process_trigger( mon_trigger trig, const std::function<int()> &amount_func );
 
-    private:
         int hp = 0;
         std::map<std::string, mon_special_attack> special_attacks;
         cata::optional<tripoint_abs_ms> goal;
@@ -589,8 +603,10 @@ class monster : public Creature
         int next_patrol_point = -1;
 
         std::bitset<NUM_MEFF> effect_cache;
-        cata::optional<time_duration> summon_time_limit = cata::nullopt;
+        cata::optional<time_point> lifespan_end = cata::nullopt;
         int turns_since_target = 0;
+
+        bool aggro_character = true;
 
         Character *find_dragged_foe();
         void nursebot_operate( Character *dragged_foe );

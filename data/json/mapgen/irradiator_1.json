@@ -32,7 +32,7 @@
       { "item": "prussian_blue", "prob": 75 },
       { "group": "full_1st_aid", "prob": 50 },
       { "item": "gloves_medical", "prob": 20 },
-      { "item": "rag", "prob": 30, "custom-flags": [ "FILTHY" ] },
+      { "item": "cotton_patchwork", "prob": 30, "custom-flags": [ "FILTHY" ] },
       { "group": "drugs_emergency", "prob": 30 },
       { "group": "drugs_heal_simple", "prob": 20 },
       { "group": "drugs_analgesic", "prob": 10 }
@@ -332,9 +332,9 @@
       ],
       "place_vehicles": [
         { "vehicle": "warehouse_vehicles", "chance": 50, "fuel": -1, "rotation": 0, "status": -1, "x": 8, "y": 48 },
-        { "vehicle": "warehouse_vehicles", "chance": 50, "fuel": -1, "rotation": 180, "status": 0, "x": 23, "y": 48 },
-        { "vehicle": "warehouse_vehicles", "chance": 50, "fuel": -1, "rotation": 0, "status": 1, "x": 47, "y": 48 },
-        { "vehicle": "warehouse_vehicles", "chance": 50, "fuel": -1, "rotation": 180, "status": -1, "x": 60, "y": 48 },
+        { "vehicle": "warehouse_vehicles", "chance": 50, "fuel": -1, "rotation": 180, "status": 0, "x": 22, "y": 49 },
+        { "vehicle": "warehouse_vehicles", "chance": 50, "fuel": -1, "rotation": 0, "status": 1, "x": 45, "y": 48 },
+        { "vehicle": "warehouse_vehicles", "chance": 50, "fuel": -1, "rotation": 180, "status": -1, "x": 60, "y": 49 },
         {
           "vehicle": "industrial_transport",
           "chance": 25,
@@ -463,16 +463,16 @@
       "place_nested": [
         {
           "chunks": [
-            [ "null", 5 ],
+            [ "null", 30 ],
             [ "roof_4x4_survivor", 15 ],
-            [ "roof_16x16_help", 25 ],
             [ "roof_4x4_holdout", 5 ],
             [ "roof_6x6_utility", 45 ],
             [ "roof_5x5_coop", 5 ]
           ],
-          "x": [ 11, 23 ],
-          "y": [ 5, 23 ]
-        }
+          "x": [ 11, 18 ],
+          "y": [ 5, 18 ]
+        },
+        { "chunks": [ [ "null", 75 ], [ "roof_16x16_help", 25 ] ], "x": [ 24, 32 ], "y": [ 5, 8 ] }
       ]
     }
   }

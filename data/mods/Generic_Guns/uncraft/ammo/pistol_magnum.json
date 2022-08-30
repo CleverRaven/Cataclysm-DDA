@@ -13,8 +13,7 @@
       [ [ "pistol_magnum_casing", 1 ] ],
       [ [ "lgpistol_primer", 1 ] ],
       [ [ "lead", 4 ] ]
-    ],
-    "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
+    ]
   },
   {
     "result": "pistol_magnum_jhp",
@@ -29,7 +28,6 @@
       [ [ "pistol_magnum_casing", 1 ] ],
       [ [ "lgpistol_primer", 1 ] ],
       [ [ "lead", 4 ] ]
-    ],
-    "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
+    ]
   }
 ]

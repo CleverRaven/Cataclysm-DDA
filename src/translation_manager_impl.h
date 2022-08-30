@@ -10,7 +10,7 @@
 #include "translation_document.h"
 #include "translation_manager.h"
 
-class TranslationManagerImpl : public TranslationManagerInterface
+class TranslationManager::Impl
 {
     private:
         std::vector<TranslationDocument> documents;
@@ -26,19 +26,18 @@ class TranslationManagerImpl : public TranslationManagerInterface
         void Reset();
         std::string current_language_code;
     public:
-        TranslationManagerImpl();
-        std::unordered_set<std::string> GetAvailableLanguages() override;
-        void SetLanguage( const std::string &language_code ) override;
-        std::string GetCurrentLanguage() const override;
-        void LoadDocuments( const std::vector<std::string> &files ) override;
+        Impl();
+        std::unordered_set<std::string> GetAvailableLanguages();
+        void SetLanguage( const std::string &language_code );
+        std::string GetCurrentLanguage() const;
+        void LoadDocuments( const std::vector<std::string> &files );
 
-        const char *Translate( const std::string &message ) const override;
-        const char *Translate( const char *message ) const override;
-        const char *TranslatePlural( const char *singular, const char *plural,
-                                     std::size_t n ) const override;
-        const char *TranslateWithContext( const char *context, const char *message ) const override;
+        const char *Translate( const std::string &message ) const;
+        const char *Translate( const char *message ) const;
+        const char *TranslatePlural( const char *singular, const char *plural, std::size_t n ) const;
+        const char *TranslateWithContext( const char *context, const char *message ) const;
         const char *TranslatePluralWithContext( const char *context, const char *singular,
-                                                const char *plural, std::size_t n ) const override;
+                                                const char *plural, std::size_t n ) const;
 };
 
 #endif // defined(LOCALIZE)

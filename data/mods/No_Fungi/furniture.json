@@ -14,7 +14,7 @@
   {
     "type": "furniture",
     "id": "f_flower_marloss",
-    "name": "marloss flower",
+    "name": "Marloss flower",
     "description": "",
     "symbol": "f",
     "color": "cyan",
@@ -27,7 +27,7 @@
     "type": "furniture",
     "id": "f_fungal_mass",
     "name": "fungal mass",
-    "description": "Thick ropes of mycal matter have covered the ground here completely.  It's soft to the touch, but you sink into it, making moving across it difficult.",
+    "description": "Thick ropes of Mycal matter have covered the ground here completely.  It's soft to the touch, but you sink into it, making moving across it difficult.",
     "symbol": "O",
     "bgcolor": "dark_gray",
     "move_cost_mod": -10,

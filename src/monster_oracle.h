@@ -25,6 +25,7 @@ class monster_oracle_t : public oracle_t
         status_t items_available( const std::string & ) const;
         status_t adjacent_plants( const std::string & ) const;
         status_t special_available( const std::string &special_name ) const;
+        status_t split_possible( const std::string & ) const;
     private:
         const monster *subject;
 };

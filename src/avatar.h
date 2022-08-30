@@ -25,6 +25,7 @@
 class advanced_inv_area;
 class advanced_inv_listitem;
 class advanced_inventory_pane;
+class diary;
 class faction;
 class item;
 class item_location;
@@ -51,6 +52,8 @@ struct mtype;
 enum class pool_type;
 
 // Monster visible in different directions (safe mode & compass)
+// Suppressions due to a bug in clang-tidy 12
+// NOLINTNEXTLINE(bugprone-reserved-identifier,cert-dcl37-c,cert-dcl51-cpp)
 struct monster_visible_info {
     // New monsters visible from last update
     std::vector<shared_ptr_fast<monster>> new_seen_mon;
@@ -73,7 +76,7 @@ class avatar : public Character
         avatar( const avatar & ) = delete;
         // NOLINTNEXTLINE(performance-noexcept-move-constructor)
         avatar( avatar && );
-        ~avatar();
+        ~avatar() override;
         avatar &operator=( const avatar & ) = delete;
         // NOLINTNEXTLINE(performance-noexcept-move-constructor)
         avatar &operator=( avatar && );
@@ -124,7 +127,7 @@ class avatar : public Character
         bool query_yn( const std::string &mes ) const override;
 
         void toggle_map_memory();
-        bool should_show_map_memory();
+        bool should_show_map_memory() const;
         void prepare_map_memory_region( const tripoint &p1, const tripoint &p2 );
         /** Memorizes a given tile in tiles mode; finalize_tile_memory needs to be called after it */
         void memorize_tile( const tripoint &pos, const std::string &ter, int subtile,
@@ -142,6 +145,8 @@ class avatar : public Character
 
         /** Provides the window and detailed morale data */
         void disp_morale();
+        /** Opens the medical window */
+        void disp_medical();
         /** Resets stats, and applies effects in an idempotent manner */
         void reset_stats() override;
         /** Resets all missions before saving character to template */
@@ -173,9 +178,14 @@ class avatar : public Character
          */
         void on_mission_finished( mission &cur_mission );
 
+        void remove_active_mission( mission &cur_mission );
+
+        //return avatar diary
+        diary *get_avatar_diary();
+
         // Dialogue and bartering--see npctalk.cpp
         void talk_to( std::unique_ptr<talker> talk_with, bool radio_contact = false,
-                      bool is_computer = false );
+                      bool is_computer = false, bool is_not_conversation = false );
 
         /**
          * Try to disarm the NPC. May result in fail attempt, you receiving the weapon and instantly wielding it,
@@ -194,6 +204,7 @@ class avatar : public Character
                              int base_cost = INVENTORY_HANDLING_PENALTY );
         /** Handles sleep attempts by the player, starts ACT_TRY_SLEEP activity */
         void try_to_sleep( const time_duration &dur );
+        void set_location( const tripoint_abs_ms &loc );
         /** Handles reading effects and returns true if activity started */
         bool read( item_location &book, item_location ereader = {} );
         /** Note that we've read a book at least once. **/
@@ -201,13 +212,17 @@ class avatar : public Character
         void identify( const item &item ) override;
         void clear_identified();
 
+        void add_snippet( snippet_id snippet );
+        bool has_seen_snippet( const snippet_id &snippet ) const;
+        const std::set<snippet_id> &get_snippets();
+
         // the encumbrance on your limbs reducing your dodging ability
         int limb_dodge_encumbrance() const;
 
         /**
          * Opens the targeting menu to pull a nearby creature towards the character.
          * @param name Name of the implement used to pull the creature. */
-        void longpull( const std::string name );
+        void longpull( const std::string &name );
 
         void wake_up() override;
         // Grab furniture / vehicle
@@ -241,10 +256,18 @@ class avatar : public Character
         // Preferred aim mode - ranged.cpp aim mode defaults to this if possible
         std::string preferred_aiming_mode;
 
+        // checks if the point is blocked based on characters current aiming state
+        bool cant_see( const tripoint &p );
+
+        // rebuilds the full aim cache for the character if it is dirty
+        void rebuild_aim_cache();
+
         void set_movement_mode( const move_mode_id &mode ) override;
 
         // Cycles to the next move mode.
         void cycle_move_mode();
+        // Cycles to the previous move mode.
+        void cycle_move_mode_reverse();
         // Resets to walking.
         void reset_move_mode();
         // Toggles running on/off.
@@ -275,9 +298,14 @@ class avatar : public Character
             return mon_visible;
         }
 
+        const monster_visible_info &get_mon_visible() const {
+            return mon_visible;
+        }
+
         struct daily_calories {
             int spent = 0;
             int gained = 0;
+            int ingested = 0;
             int total() const {
                 return gained - spent;
             }
@@ -288,6 +316,7 @@ class avatar : public Character
 
                 json.member( "spent", spent );
                 json.member( "gained", gained );
+                json.member( "ingested", ingested );
                 save_activity( json );
 
                 json.end_object();
@@ -295,6 +324,7 @@ class avatar : public Character
             void deserialize( const JsonObject &data ) {
                 data.read( "spent", spent );
                 data.read( "gained", gained );
+                data.read( "ingested", ingested );
                 if( data.has_member( "activity" ) ) {
                     read_activity( data );
                 }
@@ -316,6 +346,9 @@ class avatar : public Character
         // called once a day; adds a new daily_calories to the
         // front of the list and pops off the back if there are more than 30
         void advance_daily_calories();
+        int get_daily_spent_kcal( bool yesterday ) const;
+        int get_daily_ingested_kcal( bool yesterday ) const;
+        void add_ingested_kcal( int kcal );
         void update_cardio_acc() override;
         void add_spent_calories( int cal ) override;
         void add_gained_calories( int cal ) override;
@@ -327,20 +360,23 @@ class avatar : public Character
 
         int movecounter = 0;
 
-        // ammount of turns since last check for pocket noise
+        // bionic power in the last turn
+        units::energy power_prev_turn = 0_kJ;
+        // balance/net power generation/loss during the last turn
+        units::energy power_balance = 0_kJ;
+
+        // amount of turns since last check for pocket noise
         time_point last_pocket_noise = time_point( 0 );
 
         vproto_id starting_vehicle;
         std::vector<mtype_id> starting_pets;
         std::set<character_id> follower_ids;
 
-        const mood_face_id &character_mood_face();
-        void clear_mood_face();
+        bool aim_cache_dirty = true;
+
+        const mood_face_id &character_mood_face( bool clear_cache = false ) const;
 
     private:
-
-        bool mood_face_horizontal = false;
-        cata::optional<mood_face_id> mood_face_cache;
 
         // The name used to generate save filenames for this avatar. Not serialized in json.
         std::string save_id;
@@ -367,6 +403,10 @@ class avatar : public Character
          */
         mission *active_mission;
         /**
+        * diary to track player progression and to write the players stroy
+        */
+        std::unique_ptr <diary> a_diary;
+        /**
          * The amount of calories spent and gained per day for the last 30 days.
          * the back is popped off and a new one added to the front at midnight each day
          */
@@ -374,6 +414,9 @@ class avatar : public Character
 
         // Items the player has identified.
         std::unordered_set<itype_id> items_identified;
+
+        // Snippets the player has seen
+        std::set<snippet_id> snippets_read;
 
         object_type grab_type;
 
@@ -384,6 +427,9 @@ class avatar : public Character
          * The Character data in this object is not relevant/used.
          */
         std::unique_ptr<npc> shadow_npc;
+
+        // true when the space is still visible when aiming
+        cata::mdarray<bool, point_bub_ms> aim_cache;
 };
 
 avatar &get_avatar();

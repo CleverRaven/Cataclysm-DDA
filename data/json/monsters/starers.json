@@ -1,0 +1,62 @@
+[
+  {
+    "id": "mon_starer_pipe",
+    "type": "MONSTER",
+    "name": { "str": "starer" },
+    "description": "A horribly burned human, reeking of charred meat.  Their flesh has mended into a leathery shell, and the pupils of their wide-open eyes are dilated and the iris and sclera are bloodshot.  Somehow they still breathe, in deep, ragged gulps.",
+    "copy-from": "mon_feral_human_pipe",
+    "looks_like": "mon_zombie_scorched",
+    "default_faction": "fungus",
+    "special_attacks": [
+      {
+        "type": "gun",
+        "cooldown": 5,
+        "move_cost": 150,
+        "gun_type": "feral_human_thrown_rock",
+        "ammo_type": "rock",
+        "no_ammo_sound": "",
+        "fake_skills": [ [ "gun", 2 ], [ "throw", 2 ] ],
+        "fake_dex": 6,
+        "fake_per": 6,
+        "require_targeting_player": false,
+        "ranges": [ [ 2, 5, "DEFAULT" ] ],
+        "description": "The starer throws a rock!"
+      }
+    ],
+    "death_drops": "starer_death_drops_pipe",
+    "harvest": "exempt",
+    "death_function": { "effect": { "id": "death_smokeburst", "hit_self": true }, "message": "A %s explodes!", "corpse_type": "NO_CORPSE" },
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "WARM",
+      "BASHES",
+      "GROUP_BASH",
+      "HUMAN",
+      "CAN_OPEN_DOORS",
+      "PATH_AVOID_DANGER_1",
+      "DROPS_AMMO",
+      "NO_FUNG_DMG"
+    ]
+  },
+  {
+    "id": "mon_starer_crowbar",
+    "type": "MONSTER",
+    "description": "A horribly burned human, reeking of charred meat.  Their flesh has mended into a leathery shell, and the pupils of their wide-open eyes are dilated and the iris and sclera are bloodshot.  Somehow they still breathe, in deep, ragged gulps.",
+    "copy-from": "mon_starer_pipe",
+    "melee_dice": 2,
+    "melee_dice_sides": 6,
+    "death_drops": "starer_death_drops_crowbar"
+  },
+  {
+    "id": "mon_starer_axe",
+    "type": "MONSTER",
+    "description": "A horribly burned human, reeking of charred meat.  Their flesh has mended into a leathery shell, and the pupils of their wide-open eyes are dilated and the iris and sclera are bloodshot.  Somehow they still breathe, in deep, ragged gulps.",
+    "copy-from": "mon_starer_pipe",
+    "melee_dice": 2,
+    "melee_dice_sides": 7,
+    "melee_damage": [ { "damage_type": "cut", "amount": 9 } ],
+    "death_drops": "starer_death_drops_axe"
+  }
+]

@@ -52,6 +52,7 @@ struct gate_data {
         was_loaded( false ) {}
 
     gate_id id;
+    std::vector<std::pair<gate_id, mod_id>> src;
 
     ter_str_id door;
     ter_str_id floor;
@@ -333,7 +334,7 @@ void doors::close_door( map &m, Creature &who, const tripoint &closep )
                 if( m.has_flag( ter_furn_flag::TFLAG_NOITEM, closep ) ) {
                     // Just plopping items back on their origin square will displace them to adjacent squares
                     // since the door is closed now.
-                    for( auto &elem : items_in_way ) {
+                    for( item &elem : items_in_way ) {
                         m.add_item_or_charges( closep, elem );
                     }
                     m.i_clear( closep );

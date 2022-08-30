@@ -1,0 +1,26 @@
+[
+  {
+    "type": "item_group",
+    "id": "milspec_arsenal_50_mg_gun&mags&cans",
+    "subtype": "collection",
+    "items": [ { "group": "milspec_arsenal_50_mg_gun&ammo" }, { "item": "ammunition_can_50", "count": [ 1, 4 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "milspec_arsenal_50_mg_gun&ammo",
+    "subtype": "collection",
+    "items": [ { "group": "milspec_arsenal_50_mg_gun&mags" }, { "group": "ammo_can_belt50_full", "prob": 50, "count": [ 1, 2 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "milspec_arsenal_50_mg_gun&mags",
+    "subtype": "collection",
+    "items": [ { "item": "m2browning", "count": 1, "prob": 70 }, { "item": "m2browning", "count": 1, "prob": 15 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "ammo_can_belt50_full",
+    "container-item": "ammunition_can_50",
+    "items": [ { "item": "belt50", "count": 1 } ]
+  }
+]

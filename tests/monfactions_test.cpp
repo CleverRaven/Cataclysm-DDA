@@ -9,6 +9,12 @@ static const mfaction_str_id monfaction_animal( "animal" );
 static const mfaction_str_id monfaction_bear( "bear" );
 static const mfaction_str_id monfaction_fish( "fish" );
 static const mfaction_str_id monfaction_small_animal( "small_animal" );
+static const mfaction_str_id monfaction_test_monfaction1( "test_monfaction1" );
+static const mfaction_str_id monfaction_test_monfaction2( "test_monfaction2" );
+static const mfaction_str_id monfaction_test_monfaction3( "test_monfaction3" );
+static const mfaction_str_id monfaction_test_monfaction5( "test_monfaction5" );
+static const mfaction_str_id monfaction_test_monfaction7( "test_monfaction7" );
+static const mfaction_str_id monfaction_test_monfaction_extend( "test_monfaction_extend" );
 static const mfaction_str_id monfaction_vermin( "vermin" );
 
 static std::string att_enum_to_string( mf_attitude att )
@@ -38,8 +44,8 @@ TEST_CASE( "generate_monfactions_attitude_matrix", "[.]" )
 {
     cata::ofstream outfile;
     outfile.open( fs::u8path( "monfactions.txt" ) );
-    for( const auto &f : monfactions::get_all() ) {
-        for( const auto &f1 : monfactions::get_all() ) {
+    for( const monfaction &f : monfactions::get_all() ) {
+        for( const monfaction &f1 : monfactions::get_all() ) {
             mf_attitude att = f.attitude( f1.id );
             mf_attitude rev_att = f1.attitude( f.id );
             // NOLINTNEXTLINE(cata-text-style)
@@ -55,9 +61,9 @@ TEST_CASE( "generate_monfactions_attitude_matrix", "[.]" )
 
 TEST_CASE( "monfactions_reciprocate", "[monster][monfactions]" )
 {
-    for( const auto &f : monfactions::get_all() ) {
+    for( const monfaction &f : monfactions::get_all() ) {
         SECTION( f.id.str() ) {
-            for( const auto &f1 : monfactions::get_all() ) {
+            for( const monfaction &f1 : monfactions::get_all() ) {
                 mf_attitude att = f.attitude( f1.id );
                 mf_attitude rev_att = f1.attitude( f.id );
 
@@ -144,4 +150,24 @@ TEST_CASE( "monfactions_attitude", "[monster][monfactions]" )
         CHECK( attitude( "wolf", "pig" ) == MFA_HATE );
         CHECK( attitude( "small_animal", "zombie" ) == MFA_NEUTRAL );
     }
+}
+
+TEST_CASE( "monfaction_extend", "[monster][monfactions]" )
+{
+    const monfaction &orig = monfaction_test_monfaction1.obj();
+    const monfaction &extn = monfaction_test_monfaction_extend.obj();
+
+    // check that player was extended and ant was deleted
+    CHECK( orig.attitude( monfaction_test_monfaction7 ) == MFA_BY_MOOD );
+    CHECK( extn.attitude( monfaction_test_monfaction7 ) == MFA_FRIENDLY );
+
+    CHECK( orig.attitude( monfaction_test_monfaction3 ) == MFA_NEUTRAL );
+    CHECK( extn.attitude( monfaction_test_monfaction3 ) == MFA_BY_MOOD );
+
+    // check that other attitudes are preserved
+    CHECK( orig.attitude( monfaction_test_monfaction2 ) == MFA_FRIENDLY );
+    CHECK( extn.attitude( monfaction_test_monfaction2 ) == MFA_FRIENDLY );
+
+    CHECK( orig.attitude( monfaction_test_monfaction5 ) == MFA_BY_MOOD );
+    CHECK( extn.attitude( monfaction_test_monfaction5 ) == MFA_BY_MOOD );
 }

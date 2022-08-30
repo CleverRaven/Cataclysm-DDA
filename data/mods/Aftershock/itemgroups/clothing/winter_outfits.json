@@ -11,7 +11,7 @@
     "id": "afs_wintersuit_generic_advanced",
     "type": "item_group",
     "subtype": "distribution",
-    "items": [ { "group": "afs_frontier_cryo_g", "prob": 2 } ]
+    "items": [ { "group": "afs_frontier_cryo_g", "prob": 20 }, { "group": "afs_cryopod_g", "prob": 1 } ]
   },
   {
     "//": "A group for any science-flavour advanced civilian piece of clothing",
@@ -26,6 +26,13 @@
     "//": "The matching frontier-cryosuit set. Includes suit, mask and possible future accessories",
     "subtype": "collection",
     "entries": [ { "item": "afs_frontier_cryo" }, { "item": "afs_frontier_cryomask", "prob": 90 } ]
+  },
+  {
+    "id": "afs_cryopod_g",
+    "type": "item_group",
+    "//": "The high tech outfit you get cryo-sepulted in",
+    "subtype": "collection",
+    "entries": [ { "item": "afs_cryopod_bodyglove" } ]
   },
   {
     "id": "afs_magellan_g",

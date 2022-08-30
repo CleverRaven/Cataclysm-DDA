@@ -36,6 +36,7 @@ class scent_type
         bool was_loaded = false;
 
         scenttype_id id;
+        std::vector<std::pair<scenttype_id, mod_id>> src;
         std::set<species_id> receptive_species;
         static void reset();
 };

@@ -1,0 +1,33 @@
+[
+  {
+    "type": "GENERIC",
+    "id": "fridge",
+    "looks_like": "minifridge",
+    "symbol": "F",
+    "color": "light_blue",
+    "name": { "str": "fridge" },
+    "description": "A fridge for keeping food cool.  Provides some insulation from outside weather.",
+    "longest_side": "1700 mm",
+    "insulation": 10,
+    "volume": "800 L",
+    "weight": "70 kg",
+    "pocket_data": [ { "pocket_type": "CONTAINER", "rigid": true, "max_contains_volume": "500 L", "max_contains_weight": "400 kg" } ],
+    "use_action": { "type": "deploy_furn", "furn_type": "f_refrigerator" }
+  },
+  {
+    "type": "GENERIC",
+    "id": "household_washing_machine",
+    "symbol": "{",
+    "color": "white",
+    "name": { "str": "household washing machine" },
+    "description": "An appliance used to do laundry, not of much use without power and plumbing.  You could probably scrap it for parts.",
+    "price": 0,
+    "price_postapoc": 10,
+    "material": [ "steel" ],
+    "weight": "31752 g",
+    "volume": "125 L",
+    "bashing": 5,
+    "to_hit": -5,
+    "use_action": { "type": "deploy_furn", "furn_type": "f_washer" }
+  }
+]

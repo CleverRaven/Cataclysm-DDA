@@ -70,60 +70,6 @@
     }
   },
   {
-    "//": "Bsmt - 2: storage",
-    "type": "mapgen",
-    "om_terrain": "2storyModern01_basement",
-    "weight": 2000,
-    "method": "json",
-    "object": {
-      "palettes": [ "standard_domestic_palette", "standard_domestic_basement_palette" ],
-      "fill_ter": "t_thconc_floor",
-      "rows": [
-        "^^^^^^^^^^^^^^^^^^^^^^^^",
-        "^^^^^^^^^^^^^^^^^^^^^^^^",
-        "^^^^^^^^^^^^^^^^^^^^^^^^",
-        "^^^^^^^^^^^^^^^^^^^^^^^^",
-        "^^^^###################^",
-        "^^^^#U  #       $z$$$z#^",
-        "^^^^#U  #       zz$zz$#^",
-        "^^^^#g                #^",
-        "^^^^#####     !!!!!!  #^",
-        "^^^^^^^^#     !!!!!! ##^",
-        "^^^^^^^^#$z   !!!!!! #^^",
-        "^^^^^^^^#$z $z     NN#^^",
-        "^^^^^^^^#z$ $     ####^^",
-        "^^^^^^^^#zz       %ZW#^^",
-        "^^^^^^^^##$          #^^",
-        "^^^^^^^^^#u          ##^",
-        "^^^^^^^^^#E_/}[      <#^",
-        "^^^^^^^^^#AT={    #####^",
-        "^^^^^^^^^##&??{   #^^^^^",
-        "^^^^^^^^^^#&~~0  b#^^^^^",
-        "^^^^^^^^^^##,,0   #^^^^^",
-        "^^^^^^^^^^^########^^^^^",
-        "^^^^^^^^^^^^^^^^^^^^^^^^",
-        "^^^^^^^^^^^^^^^^^^^^^^^^"
-      ],
-      "furniture": {
-        "!": "f_large_groundsheet",
-        "$": "f_cardboard_box",
-        "%": "f_sink",
-        "&": "f_table",
-        "_": "f_dresser",
-        "=": "f_rack",
-        "~": "f_desk",
-        "?": "f_filing_cabinet",
-        "/": "f_wardrobe",
-        ",": "f_coffee_table",
-        "0": "f_bed",
-        "{": "f_bookcase",
-        "}": "f_glass_cabinet",
-        "[": "f_rack_coat"
-      },
-      "rotation": [ 2 ]
-    }
-  },
-  {
     "//": "Bsmt - 3: laundry, office, pool table",
     "type": "mapgen",
     "om_terrain": "2storyModern01_basement",
@@ -229,7 +175,7 @@
       "furniture": { "!": "f_flower_tulip", "$": "f_table" },
       "items": { "$": { "item": "table_foyer", "chance": 30 } },
       "place_loot": [ { "item": "television", "x": 11, "y": 10, "chance": 50 } ],
-      "place_vehicles": [ { "vehicle": "suv", "x": 3, "y": 18, "chance": 20, "status": 50, "rotation": 270 } ],
+      "place_vehicles": [ { "vehicle": "suv", "x": 3, "y": 18, "chance": 20, "status": 1, "rotation": 270 } ],
       "rotation": [ 2 ]
     }
   },
@@ -287,126 +233,7 @@
       },
       "furniture": { "$": "f_table", ",": "f_chair" },
       "items": { "$": { "item": "table_foyer", "chance": 30 } },
-      "place_vehicles": [ { "vehicle": "bicycle", "x": 21, "y": 3, "chance": 30, "status": 100, "rotation": 180 } ],
-      "rotation": [ 2 ]
-    }
-  },
-  {
-    "//": "Ground Floor - Variant 3",
-    "type": "mapgen",
-    "om_terrain": "2storyModern01_first",
-    "weight": 2000,
-    "method": "json",
-    "object": {
-      "palettes": [ "standard_domestic_palette", "standard_domestic_lino_bathroom" ],
-      "fill_ter": "t_floor_waxed",
-      "rows": [
-        "........................",
-        "...{........X........{..",
-        "........[[[[[[[[[[[[[[[.",
-        ".....---[[[[[[[[[[[[[[[.",
-        "....|:%:||:::::||:::::|.",
-        "....|$  y      y|JJn5J|.",
-        "....o    =h=h=  |2   O|.",
-        "....|TEsy=fff=       7|.",
-        "....|||||hfffh       6|.",
-        ".......?|=h=h= y|4Y1F||.",
-        ".......[||||||  ||||||^.",
-        ".{.....[:HHHsy  a|q Uo?.",
-        ".......[:H      a|q U|?.",
-        ".}}}...[:H ll   |||+|||.",
-        ".}}}...[||           <o.",
-        ".}}}...[[o(A  R||+|| ||.",
-        ".......[||y   R|t_9| >|.",
-        "....?----*    R|S_Q|o||.",
-        "....?----:L$  ||||||??-.",
-        "....?----|||  + ,r|?---.",
-        "....?----??|RR|  r|----.",
-        "....?-----?||||oo||----.",
-        "....?------------------.",
-        "....p------------------."
-      ],
-      "terrain": {
-        "|": "t_strconc_wall",
-        "}": "t_shrub_lilac",
-        "{": "t_tree_birch",
-        "_": "t_linoleum_gray",
-        "[": "t_dirt",
-        "=": "t_carpet_yellow",
-        "f": "t_carpet_yellow",
-        "h": "t_carpet_yellow",
-        "?": "t_shrub",
-        "%": "t_door_glass_c"
-      },
-      "furniture": {
-        "$": "f_table",
-        ",": "f_chair",
-        "(": "f_piano",
-        "[": [
-          "f_black_eyed_susan",
-          "f_mutpoppy",
-          "f_lily",
-          "f_flower_tulip",
-          "f_datura",
-          "f_flower_spurge",
-          "f_dahlia",
-          "f_chamomile",
-          "f_sunflower",
-          "f_chicory",
-          "f_dandelion"
-        ]
-      },
-      "items": { "$": { "item": "table_foyer", "chance": 30 } },
-      "rotation": [ 2 ]
-    }
-  },
-  {
-    "//": "Second Floor - Variant 1 ",
-    "type": "mapgen",
-    "om_terrain": "2storyModern01_second",
-    "weight": 10000,
-    "method": "json",
-    "object": {
-      "palettes": [ "standard_domestic_palette", "standard_domestic_lino_bathroom" ],
-      "fill_ter": "t_floor_waxed",
-      "rows": [
-        "........................",
-        "........................",
-        "........................",
-        "........................",
-        "....|||||:::::::||oo|||.",
-        "....or  +       |!@@ d|.",
-        "....orh ||+||V  | @@ do.",
-        "....|ryP|z P|V  +     o.",
-        "....||||||||||y |  b D|.",
-        "........|BBYQ|  |||||||.",
-        "........o~~~~+  || hro..",
-        "........|tS88|  ||R r|^.",
-        "........||||||y V||+||..",
-        "........|U +     y  y||.",
-        "........||$|RRR      >o.",
-        ".........||||||+|||   |.",
-        ".........|&&|dd  !|???|.",
-        ".........=__%   @@||oo|.",
-        ".........=__%   @@||....",
-        ".........||||b   !|.....",
-        "...........|vyII D|.....",
-        "...........|||oo|||.....",
-        "........................",
-        "........................"
-      ],
-      "terrain": {
-        "|": "t_strconc_wall",
-        "%": "t_door_glass_c",
-        "~": "t_linoleum_gray",
-        "Y": "t_linoleum_gray",
-        "=": "t_glass_railing",
-        "_": "t_concrete",
-        "&": "t_concrete",
-        ".": "t_open_air"
-      },
-      "furniture": { "!": "f_table", "$": "f_utility_shelf", "&": "f_table", "?": "f_table" },
-      "items": { "!": { "item": "nightstand", "chance": 30, "repeat": [ 1, 2 ] } },
+      "place_vehicles": [ { "vehicle": "bicycle", "x": 21, "y": 3, "chance": 30, "rotation": 180 } ],
       "rotation": [ 2 ]
     }
   },
@@ -542,44 +369,6 @@
         { "group": "shirts", "x": 13, "y": 18, "chance": 90 },
         { "group": "clothing_outdoor_shoes", "x": 13, "y": 18, "chance": 70 }
       ],
-      "rotation": [ 2 ]
-    }
-  },
-  {
-    "type": "mapgen",
-    "om_terrain": "2storyModern01_roof",
-    "weight": 25000,
-    "method": "json",
-    "object": {
-      "palettes": [ "roof_palette" ],
-      "fill_ter": "t_open_air",
-      "rows": [
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "    2222222222222222223 ",
-        "    |.................3 ",
-        "    |...N.............3 ",
-        "    |.................3 ",
-        "    ----|.............3 ",
-        "        |............33 ",
-        "        |............5  ",
-        "        |.......~....3  ",
-        "        |.......~....3  ",
-        "        |............33 ",
-        "        --............3 ",
-        "         ---|.........3 ",
-        "            |.........3 ",
-        "            |......3--3 ",
-        "            |.....33    ",
-        "           ||.....3     ",
-        "           |......3     ",
-        "           -------3     ",
-        "                        ",
-        "                        "
-      ],
-      "terrain": { ".": "t_shingle_flat_roof", "~": "t_shingle_flat_roof", "N": "t_shingle_flat_roof" },
       "rotation": [ 2 ]
     }
   }

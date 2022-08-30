@@ -25,7 +25,7 @@
       "rows": [
         "₸  ",
         "₸ Z",
-        "6 8"
+        "6 Ö"
       ],
       "palettes": [ "lab_common_palette", "lab_maintenance_palette" ]
     }
@@ -193,6 +193,7 @@
         "|;;;|",
         "|||||"
       ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "lab_common_palette", "lab_maintenance_palette" ],
       "place_loot": [
         { "item": "cheese_hard", "x": 2, "y": [ 1, 3 ], "chance": 100 },
@@ -216,6 +217,7 @@
         "|;;;|",
         "|||||"
       ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "lab_common_palette", "lab_maintenance_palette" ],
       "place_loot": [
         { "item": "recipe_elfa", "x": 2, "y": [ 1, 3 ], "chance": 100 },
@@ -239,6 +241,7 @@
         "|;;;|",
         "|||||"
       ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "lab_common_palette", "lab_maintenance_palette" ],
       "place_loot": [
         { "item": "record_patient", "x": 2, "y": [ 1, 3 ], "chance": 100 },
@@ -262,6 +265,7 @@
         "|;;;|",
         "|||||"
       ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "lab_common_palette", "lab_maintenance_palette" ],
       "place_loot": [
         { "group": "toxic_waste", "x": [ 1, 3 ], "y": [ 1, 3 ], "repeat": 3, "chance": 100 },
@@ -283,6 +287,7 @@
         "|;;;|",
         "|||||"
       ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "lab_common_palette", "lab_maintenance_palette" ],
       "place_monster": [ { "monster": "mon_sewer_rat", "x": [ 1, 3 ], "y": [ 1, 3 ], "repeat": [ 2, 4 ], "chance": 100 } ]
     }
@@ -301,6 +306,7 @@
         "|;;;|",
         "||;||"
       ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "lab_common_palette", "lab_maintenance_palette" ],
       "place_monster": [ { "monster": "mon_black_rat", "x": [ 1, 3 ], "y": [ 1, 3 ], "repeat": [ 2, 4 ], "chance": 100 } ]
     }
@@ -319,6 +325,7 @@
         "|;;;|",
         "||;||"
       ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "lab_common_palette", "lab_maintenance_palette" ],
       "place_monster": [ { "monster": "mon_sewer_snake", "x": [ 1, 3 ], "y": [ 1, 3 ], "repeat": [ 2, 4 ], "chance": 100 } ]
     }
@@ -337,6 +344,7 @@
         "|;;;|",
         "||;||"
       ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "lab_common_palette", "lab_maintenance_palette" ],
       "terrain": { "Æ": "t_thconc_floor" },
       "place_loot": [
@@ -363,6 +371,7 @@
         " XXXX ",
         "      "
       ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "lab_common_palette", "lab_maintenance_palette" ]
     }
   },
@@ -380,6 +389,7 @@
         "  NN ",
         "   h "
       ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "lab_common_palette", "lab_maintenance_palette" ]
     }
   },
@@ -397,6 +407,7 @@
         "Y j L",
         "L   L"
       ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "lab_common_palette", "lab_maintenance_palette" ]
     }
   },
@@ -414,6 +425,7 @@
         "^ƨƨƨ^",
         "^^^^^"
       ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "lab_common_palette", "lab_maintenance_palette" ]
     }
   },
@@ -431,6 +443,7 @@
         " 0ƨƨ ",
         "00   "
       ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "lab_common_palette", "lab_maintenance_palette" ]
     }
   },
@@ -448,6 +461,7 @@
         "  A  ",
         "⁵⁵   "
       ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "lab_common_palette", "lab_maintenance_palette" ]
     }
   },
@@ -465,6 +479,7 @@
         ";~~~;",
         ";ƧƧƧ;"
       ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "lab_common_palette", "lab_maintenance_palette" ],
       "terrain": { "~": "t_sewage", "Ƨ": "t_thconc_floor" },
       "furniture": { "Ƨ": "f_barricade_road" }
@@ -484,6 +499,7 @@
         " WWW ",
         "     "
       ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "lab_common_palette", "lab_maintenance_palette" ]
     }
   },
@@ -502,6 +518,7 @@
         "⁵  Ø ⁵",
         "⁵⁵  ⁵⁵"
       ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "lab_common_palette", "lab_maintenance_palette" ]
     }
   },

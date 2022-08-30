@@ -40,7 +40,7 @@
 #  make LOCALIZE=0
 # Disable backtrace support, not available on all platforms
 #  make BACKTRACE=0
-# Use libbacktrace. Only has effect if BACKTRACE=1. (currently only for MinGW builds)
+# Use libbacktrace. Only has effect if BACKTRACE=1. (currently only for MinGW and Linux builds)
 #  make LIBBACKTRACE=1
 # Compile localization files for specified languages
 #  make localization LANGUAGES="<lang_id_1>[ lang_id_2][ ...]"
@@ -49,8 +49,6 @@
 #  (for every .po file in lang/po)
 # Enable sanitizer (address, undefined, etc.)
 #  make SANITIZE=address
-# Change mapsize (reality bubble size)
-#  make MAPSIZE=<size>
 # Enable the string id debugging helper
 #  make STRING_ID_DEBUG=1
 # Adjust names of build artifacts (for example to allow easily toggling between build types).
@@ -74,12 +72,16 @@
 #  make NOOPT=1
 # Astyle all source files.
 #  make astyle
+# Astyle all source files as fast as possible.
+#  make astyle-fast
 # Check if source files are styled properly.
 #  make astyle-check
 # Style the whitelisted json files (maintain the current level of styling).
 #  make style-json
 # Style all json files using the current rules (don't PR this, it's too many changes at once).
 #  make style-all-json
+# Style all json files in parallel using all available CPU cores (don't make -jX on this, just make)
+#  make style-all-json-parallel
 # Disable astyle of source files.
 # make ASTYLE=0
 # Disable format check of whitelisted json files.
@@ -259,7 +261,7 @@ W32ODIR = $(BUILD_PREFIX)objwin
 W32ODIRTILES = $(W32ODIR)/tiles
 
 ifdef AUTO_BUILD_PREFIX
-  BUILD_PREFIX = $(if $(RELEASE),release-)$(if $(DEBUG_SYMBOLS),symbol-)$(if $(TILES),tiles-)$(if $(SOUND),sound-)$(if $(LOCALIZE),local-)$(if $(BACKTRACE),back-$(if $(LIBBACKTRACE),libbacktrace-))$(if $(SANITIZE),sanitize-)$(if $(MAPSIZE),map-$(MAPSIZE)-)$(if $(USE_XDG_DIR),xdg-)$(if $(USE_HOME_DIR),home-)$(if $(DYNAMIC_LINKING),dynamic-)$(if $(MSYS2),msys2-)
+  BUILD_PREFIX = $(if $(RELEASE),release-)$(if $(DEBUG_SYMBOLS),symbol-)$(if $(TILES),tiles-)$(if $(SOUND),sound-)$(if $(LOCALIZE),local-)$(if $(BACKTRACE),back-$(if $(LIBBACKTRACE),libbacktrace-))$(if $(SANITIZE),sanitize-)$(if $(USE_XDG_DIR),xdg-)$(if $(USE_HOME_DIR),home-)$(if $(DYNAMIC_LINKING),dynamic-)$(if $(MSYS2),msys2-)
   export BUILD_PREFIX
 endif
 
@@ -269,7 +271,7 @@ ifneq ($(findstring BSD,$(OS)),)
 endif
 
 ifeq ($(PCH), 1)
-	CCACHEBIN = CCACHE_SLOPPINESS=pch_defines,time_macros ccache
+	CCACHEBIN = CCACHE_SLOPPINESS=pch_defines,time_macros,include_file_ctime,include_file_mtime ccache
 else
 	CCACHEBIN = ccache
 endif
@@ -297,10 +299,6 @@ ifneq ($(CLANG), 0)
   ifdef USE_LIBCXX
     OTHERS += -stdlib=libc++
     LDFLAGS += -stdlib=libc++
-  else
-    # clang with glibc 2.31+ will cause linking error on math functions
-    # this is a workaround (see https://github.com/google/filament/issues/2146)
-    CXXFLAGS += -fno-builtin
   endif
   ifeq ($(CCACHE), 1)
     CXX = CCACHE_CPP2=1 $(CCACHEBIN) $(CROSS)$(CLANGCMD)
@@ -400,7 +398,11 @@ ifeq ($(RELEASE), 1)
   OTHERS += $(RELEASE_FLAGS)
   DEBUG =
   ifndef DEBUG_SYMBOLS
-    DEBUGSYMS =
+    ifeq ($(LIBBACKTRACE), 1)
+      DEBUGSYMS = -g1
+    else
+      DEBUGSYMS =
+    endif
   endif
   DEFINES += -DRELEASE
   # Check for astyle or JSON regressions on release builds.
@@ -438,11 +440,11 @@ WARNINGS += -Wimplicit-fallthrough=0
 endif
 
 ifeq ($(PCH), 1)
-  PCHFLAGS = -Ipch -Winvalid-pch
+  PCHFLAGS = -Winvalid-pch
   PCH_H = pch/main-pch.hpp
 
   ifeq ($(CLANG), 0)
-    PCHFLAGS += -fpch-preprocess -include main-pch.hpp
+    PCHFLAGS += -include pch/main-pch.hpp
     PCH_P = $(PCH_H).gch
   else
     PCH_P = $(PCH_H).pch
@@ -467,7 +469,7 @@ ifeq ($(PCH), 1)
 endif
 
 CPPFLAGS += -isystem ${SRC_DIR}/third-party
-CXXFLAGS += $(WARNINGS) $(DEBUG) $(DEBUGSYMS) $(PROFILE) $(OTHERS) -MMD -MP
+CXXFLAGS += $(WARNINGS) $(DEBUG) $(DEBUGSYMS) $(PROFILE) $(OTHERS)
 TOOL_CXXFLAGS = -DCATA_IN_TOOL
 
 BINDIST_EXTRAS += README.md data doc LICENSE.txt LICENSE-OFL-Terminus-Font.txt VERSION.txt $(JSON_FORMATTER_BIN)
@@ -615,10 +617,6 @@ ifeq ($(TARGETSYSTEM),WINDOWS)
   endif
 endif
 
-ifdef MAPSIZE
-    CXXFLAGS += -DMAPSIZE=$(MAPSIZE)
-endif
-
 ifeq ($(shell git rev-parse --is-inside-work-tree),true)
   # We have a git repository, use git version
   DEFINES += -DGIT_VERSION
@@ -733,14 +731,7 @@ ifeq ($(TILES), 1)
     ODIR = $(ODIRTILES)
   endif
 else
-  ifeq ($(LOCALIZE),1)
-    NCURSES_PREFIX = ncursesw
-  else
-    NCURSES_PREFIX = ncurses
-  endif
-  ifdef OSXCROSS
-    NCURSES_PREFIX = ncurses
-  endif
+  NCURSES_PREFIX = ncursesw
   # ONLY when not cross-compiling, check for pkg-config or ncurses5-config
   # When doing a cross-compile, we can't rely on the host machine's -configs
   ifeq ($(CROSS),)
@@ -793,9 +784,6 @@ ifeq ($(TARGETSYSTEM),WINDOWS)
   LDFLAGS += -lgdi32 -lwinmm -limm32 -lole32 -loleaut32 -lversion
   ifeq ($(BACKTRACE),1)
     LDFLAGS += -ldbghelp
-    ifeq ($(LIBBACKTRACE),1)
-      LDFLAGS += -lbacktrace
-    endif
   endif
 endif
 
@@ -803,6 +791,7 @@ ifeq ($(BACKTRACE),1)
   DEFINES += -DBACKTRACE
   ifeq ($(LIBBACKTRACE),1)
       DEFINES += -DLIBBACKTRACE
+      LDFLAGS += -lbacktrace
   endif
 endif
 
@@ -861,6 +850,7 @@ endif
 OBJS = $(sort $(patsubst %,$(ODIR)/%,$(_OBJS)))
 
 ifdef LANGUAGES
+  export LOCALE_DIR
   L10N = localization
 endif
 
@@ -916,7 +906,7 @@ endif
 
 LDFLAGS += -lz
 
-all: version $(CHECKS) $(TARGET) $(L10N) $(TESTS)
+all: version prefix $(CHECKS) $(TARGET) $(L10N) $(TESTS)
 	@
 
 $(TARGET): $(OBJS)
@@ -930,12 +920,12 @@ ifeq ($(RELEASE), 1)
 endif
 
 $(PCH_P): $(PCH_H)
-	-$(CXX) $(CPPFLAGS) $(DEFINES) $(subst -Werror,,$(CXXFLAGS)) -c $(PCH_H) -o $(PCH_P)
+	-$(CXX) $(CPPFLAGS) $(DEFINES) $(CXXFLAGS) -MMD -MP -Wno-error -c $(PCH_H) -o $(PCH_P)
 
 $(BUILD_PREFIX)$(TARGET_NAME).a: $(OBJS)
 	$(AR) rcs $(BUILD_PREFIX)$(TARGET_NAME).a $(filter-out $(ODIR)/main.o $(ODIR)/messages.o,$(OBJS))
 
-.PHONY: version
+.PHONY: version prefix
 version:
 	@( VERSION_STRING=$(VERSION) ; \
             [ -e ".git" ] && GITVERSION=$$( git describe --tags --always --match "[0-9A-Z]*.[0-9A-Z]*" ) && DIRTYFLAG=$$( [ -z "$$(git diff --numstat | grep -v lang/po/)" ] || echo "-dirty") && VERSION_STRING=$$GITVERSION$$DIRTYFLAG ; \
@@ -943,11 +933,24 @@ version:
             if [ "x$$VERSION_STRING" != "x$$OLDVERSION" ]; then printf '// NOLINT(cata-header-guard)\n#define VERSION "%s"\n' "$$VERSION_STRING" | tee $(SRC_DIR)/version.h ; fi \
          )
 
+prefix:
+	@( PREFIX_STRING=$(PREFIX) ; \
+            [ -e "$(SRC_DIR)/prefix.h" ] && OLDPREFIX=$$(grep PREFIX $(SRC_DIR)/PREFIX.h|cut -d '"' -f2) ; \
+            if [ "x$$PREFIX_STRING" != "x$$OLDPREFIX" ]; then printf '// NOLINT(cata-header-guard)\n#define PREFIX "%s"\n' "$$PREFIX_STRING" | tee $(SRC_DIR)/prefix.h ; fi \
+         )
+
 # Unconditionally create the object dir on every invocation.
 $(shell mkdir -p $(ODIR))
 
+$(ODIR)/%.inc: $(SRC_DIR)/%.cpp
+	$(CXX) $(CPPFLAGS) $(DEFINES) $(CXXFLAGS) -H -E $< -o /dev/null 2> $@
+
+.PHONY: includes
+includes: $(OBJS:.o=.inc)
+	+make -C tests includes
+
 $(ODIR)/%.o: $(SRC_DIR)/%.cpp $(PCH_P)
-	$(CXX) $(CPPFLAGS) $(DEFINES) $(CXXFLAGS) $(PCHFLAGS) -c $< -o $@
+	$(CXX) $(CPPFLAGS) $(DEFINES) $(CXXFLAGS) -MMD -MP $(PCHFLAGS) -c $< -o $@
 
 $(ODIR)/%.o: $(SRC_DIR)/%.rc
 	$(RC) $(RFLAGS) $< -o $@
@@ -966,7 +969,7 @@ $(TEST_MO): data/mods/TEST_DATA/lang/po/ru.po
 
 MO_DEPS := \
   $(wildcard lang/*.sh lang/*.py src/*.cpp src/*.h) \
-  $(shell find data/{raw,json,mods,core,help} -type f -name '*.json')
+  $(shell find data/raw data/json data/mods data/core data/help -type f -name '*.json')
 
 lang/mo_built.stamp: $(MO_DEPS)
 	$(MAKE) -C lang
@@ -1030,9 +1033,8 @@ ifeq ($(SOUND), 1)
 endif
 	install --mode=644 data/changelog.txt data/cataicon.ico data/fontdata.json \
                    LICENSE.txt LICENSE-OFL-Terminus-Font.txt -t $(DATA_PREFIX)
-	mkdir -p $(LOCALE_DIR)
 ifdef LANGUAGES
-	$(MAKE) -C lang
+	$(MAKE) -C lang install
 endif
 endif
 
@@ -1066,9 +1068,8 @@ ifeq ($(SOUND), 1)
 endif
 	install --mode=644 data/changelog.txt data/cataicon.ico data/fontdata.json \
                    LICENSE.txt LICENSE-OFL-Terminus-Font.txt -t $(DATA_PREFIX)
-	mkdir -p $(LOCALE_DIR)
 ifdef LANGUAGES
-	$(MAKE) -C lang
+	$(MAKE) -C lang install
 endif
 endif
 
@@ -1201,20 +1202,23 @@ $(ODIR)/.astyle-check-stamp: $(ASTYLE_SOURCES)
 
 endif
 
+astyle-fast: $(ASTYLE_SOURCES)
+	$(ASTYLE_BINARY) --options=.astylerc -n $(ASTYLE_SOURCES)
+
 astyle-all: $(ASTYLE_SOURCES)
 	$(ASTYLE_BINARY) --options=.astylerc -n $(ASTYLE_SOURCES)
 	mkdir -p $(ODIR) && touch $(ODIR)/.astyle-check-stamp
 
 # Test whether the system has a version of astyle that supports --dry-run
 ifeq ($(shell if $(ASTYLE_BINARY) -Q -X --dry-run src/game.h > /dev/null; then echo foo; fi),foo)
-  ASTYLE_CHECK=$(shell $(ASTYLE_BINARY) --options=.astylerc --dry-run -X -Q --ascii $(ASTYLE_SOURCES))
+  ASTYLE_CHECK=$(shell $(ASTYLE_BINARY) --options=.astylerc --dry-run -X -Q --ascii $(ASTYLE_SOURCES) | sed -E "s/Formatted[[:space:]]+(.*)/Needs formatting: \1\\\n/" | tr -d '\n')
 endif
 
 astyle-check:
 ifdef ASTYLE_CHECK
 	$(info $(ASTYLE_BINARY) -V: $(shell $(ASTYLE_BINARY) -V))
-	@if [ "$(findstring Formatted,$(ASTYLE_CHECK))" = "" ]; then echo "no astyle regressions";\
-        else printf "astyle regressions found.\n$(ASTYLE_CHECK)\n" && false; fi
+	@if [ "$(findstring Needs formatting:,$(ASTYLE_CHECK))" = "" ]; then echo "no astyle regressions";\
+        else printf "astyle regressions found.\n$(ASTYLE_CHECK)" && false; fi
 else
 	@echo Cannot run an astyle check, your system either does not have astyle, or it is too old.
 endif
@@ -1232,8 +1236,11 @@ endif
 style-all-json: $(JSON_FORMATTER_BIN)
 	find data -name "*.json" -print0 | xargs -0 -L 1 $(JSON_FORMATTER_BIN)
 
+style-all-json-parallel: $(JSON_FORMATTER_BIN)
+	find data -name "*.json" -print0 | xargs -0 -L 1 -P $$(nproc) $(JSON_FORMATTER_BIN)
+
 $(JSON_FORMATTER_BIN): $(JSON_FORMATTER_SOURCES)
-	$(CXX) $(CXXFLAGS) $(TOOL_CXXFLAGS) -Itools/format -Isrc \
+	$(CXX) $(CXXFLAGS) -MMD -MP $(TOOL_CXXFLAGS) -Itools/format -Isrc \
 	  $(JSON_FORMATTER_SOURCES) -o $(JSON_FORMATTER_BIN)
 
 python-check:
@@ -1261,5 +1268,4 @@ clean-pch:
 
 .PHONY: tests check ctags etags clean-tests clean-object_creator clean-pch install lint
 
--include $(SOURCES:$(SRC_DIR)/%.cpp=$(DEPDIR)/%.P)
 -include ${OBJS:.o=.d}

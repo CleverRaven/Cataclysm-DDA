@@ -105,6 +105,7 @@
       [ "sights", 1 ],
       [ "sling", 1 ],
       [ "stock", 1 ],
+      [ "stock accessory", 1 ],
       [ "underbarrel", 1 ]
     ],
     "flags": [ "WATERPROOF_GUN", "NEVER_JAMS" ],
@@ -135,7 +136,16 @@
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 6 ] ],
     "reload": 400,
     "barrel_volume": "1500 ml",
-    "valid_mod_locations": [ [ "barrel", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "rail", 1 ], [ "sights", 1 ], [ "sling", 1 ], [ "stock", 1 ] ],
+    "valid_mod_locations": [
+      [ "barrel", 1 ],
+      [ "grip", 1 ],
+      [ "mechanism", 4 ],
+      [ "rail", 1 ],
+      [ "sights", 1 ],
+      [ "sling", 1 ],
+      [ "stock", 1 ],
+      [ "stock accessory", 1 ]
+    ],
     "flags": [ "WATERPROOF_GUN", "NEVER_JAMS" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "8x40_500_mag", "8x40_250_mag" ] } ]
   },
@@ -170,6 +180,7 @@
       [ "sights", 1 ],
       [ "sling", 1 ],
       [ "stock", 1 ],
+      [ "stock accessory", 1 ],
       [ "underbarrel", 1 ]
     ],
     "flags": [ "WATERPROOF_GUN", "NEVER_JAMS" ],
@@ -209,6 +220,7 @@
       [ "sights", 1 ],
       [ "sling", 1 ],
       [ "stock", 1 ],
+      [ "stock accessory", 1 ],
       [ "underbarrel", 1 ]
     ],
     "flags": [ "WATERPROOF_GUN", "NEVER_JAMS" ],
@@ -245,6 +257,7 @@
       [ "sights", 1 ],
       [ "sling", 1 ],
       [ "stock", 1 ],
+      [ "stock accessory", 1 ],
       [ "underbarrel", 1 ]
     ],
     "magazines": [ [ "8x40mm", [ "8x40_100_mag", "8x40_50_mag", "8x40_250_mag" ] ] ],

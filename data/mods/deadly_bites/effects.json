@@ -1,0 +1,46 @@
+[
+  {
+    "type": "effect_type",
+    "id": "antivirals",
+    "rating": "good",
+    "blocks_effects": [ "zombie_virus" ],
+    "blood_analysis_description": "Antivirals",
+    "max_duration": 86400,
+    "dur_add_perc": 25
+  },
+  {
+    "//": "Only used for the deadly zombie bite gimmick, not present during normal games",
+    "type": "effect_type",
+    "id": "zombie_virus",
+    "name": [ "", "Pallor", "Itchy pale skin", "Necrotic skin" ],
+    "desc": [
+      "",
+      "Your skin is pale and there are dark spots around your eyes.",
+      "Your skin is pale and there are dark spots around your eyes.  You feel a constant itching sensation, like your skin could fall off at any moment.",
+      "Your skin is pale and covered in gross sores.  It's like your skin is rotting right off your body."
+    ],
+    "apply_message": "An ominous prickling feeling reverberates through your body.",
+    "death_msg": "You succumb to your deadly necrotic condition.",
+    "apply_memorial_log": "Contracted a deadly necrotic virus.",
+    "chance_kill": [ [ -1, 1 ], [ -1, 1 ], [ -1, 1 ], [ 1, 100000 ] ],
+    "chance_kill_resist": [ [ -1, 1 ], [ -1, 1 ], [ -1, 1 ], [ 1, 2000000 ] ],
+    "death_event": "dies_of_infection",
+    "resist_effects": [ "antivirals" ],
+    "max_intensity": 4,
+    "int_add_val": 1,
+    "int_decay_step": 1,
+    "int_decay_tick": 86400,
+    "rating": "bad",
+    "show_intensity": false,
+    "harmful_cough": true,
+    "base_mods": {
+      "cough_chance": [ -10, -10 ],
+      "cough_chance_bot": [ 1000, 10000 ],
+      "pain_chance": [ -10, -10 ],
+      "pain_chance_bot": [ 1000, 10000 ],
+      "pain_min": [ 1, 0 ],
+      "pain_max": [ 5, 1 ]
+    },
+    "scaling_mods": { "cough_chance": [ 5.5, 3.5 ], "cough_chance_bot": [ 1, 5 ], "pain_chance": [ 5.5, 3.5 ], "pain_chance_bot": [ 1, 5 ] }
+  }
+]

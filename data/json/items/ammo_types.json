@@ -31,6 +31,12 @@
   },
   {
     "type": "ammunition_type",
+    "id": "nuts_bolts",
+    "name": "nuts and bolts",
+    "default": "nuts_bolts"
+  },
+  {
+    "type": "ammunition_type",
     "id": "barb",
     "name": "barb",
     "default": "barb_paralysis"
@@ -97,6 +103,12 @@
   },
   {
     "type": "ammunition_type",
+    "id": "powder_blank",
+    "name": "powder blank",
+    "default": "22_blank"
+  },
+  {
+    "type": "ammunition_type",
     "id": "9mm",
     "name": "9x19mm",
     "default": "9mm"
@@ -110,7 +122,7 @@
   {
     "type": "ammunition_type",
     "id": "357mag",
-    "name": ".357 magnum",
+    "name": ".357 Magnum",
     "default": "357mag_jhp"
   },
   {
@@ -223,6 +235,12 @@
   },
   {
     "type": "ammunition_type",
+    "id": "30carbine",
+    "name": ".30 Carbine",
+    "default": "30carbine"
+  },
+  {
+    "type": "ammunition_type",
     "id": "270win",
     "name": ".270 Winchester",
     "default": "270win_jsp"
@@ -302,8 +320,14 @@
   {
     "type": "ammunition_type",
     "id": "lamp_oil",
-    "name": "lamp oil",
+    "name": "kerosene",
     "default": "lamp_oil"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "crude_lamp_oil",
+    "name": "crude lamp oil",
+    "default": "crude_lamp_oil"
   },
   {
     "type": "ammunition_type",
@@ -427,9 +451,21 @@
   },
   {
     "type": "ammunition_type",
+    "id": "propane",
+    "name": "propane",
+    "default": "propane"
+  },
+  {
+    "type": "ammunition_type",
     "id": "conc_alcohol",
     "name": "concentrated alcohol",
     "default": "denat_alcohol"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "methanol_fuelcell",
+    "name": "methanol",
+    "default": "chem_methanol_fuelcell"
   },
   {
     "type": "ammunition_type",
@@ -733,44 +769,14 @@
   },
   {
     "type": "ammunition_type",
-    "id": "currency",
-    "name": "currency",
-    "default": "coin_penny"
+    "id": "ammonia_liquid",
+    "name": "ammonia",
+    "default": "ammonia_liquid"
   },
   {
     "type": "ammunition_type",
-    "id": "coin_penny",
-    "name": "pennies",
-    "default": "coin_penny"
-  },
-  {
-    "type": "ammunition_type",
-    "id": "coin_nickel",
-    "name": "nickels",
-    "default": "coin_nickel"
-  },
-  {
-    "type": "ammunition_type",
-    "id": "coin_dime",
-    "name": "dimes",
-    "default": "coin_dime"
-  },
-  {
-    "type": "ammunition_type",
-    "id": "coin_quarter",
-    "name": "quarters",
-    "default": "coin_quarter"
-  },
-  {
-    "type": "ammunition_type",
-    "id": "coin_half_dollar",
-    "name": "half-dollars",
-    "default": "coin_half_dollar"
-  },
-  {
-    "type": "ammunition_type",
-    "id": "coin_dollar",
-    "name": "dollar coins",
-    "default": "coin_dollar"
+    "id": "turpentine",
+    "name": "turpentine",
+    "default": "chem_turpentine"
   }
 ]

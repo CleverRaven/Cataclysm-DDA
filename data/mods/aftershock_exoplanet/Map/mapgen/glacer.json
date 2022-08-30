@@ -1,0 +1,8 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "solid_glacier",
+    "object": { "fill_ter": "t_ice_wall" }
+  }
+]

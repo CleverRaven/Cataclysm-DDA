@@ -35,7 +35,7 @@
     "m2c": 65,
     "//": "40% energy efficiency",
     "extend": { "flags": [ "E_COLD_START", "E_DIESEL_FUEL" ] },
-    "description": "A combustion engine.  Burns diesel fuel from a tank in the vehicle.  Can also burn biodiesel or lamp oil, though somewhat less efficiently."
+    "description": "A combustion engine.  Burns diesel fuel from a tank in the vehicle.  Can also burn biodiesel or kerosene, though somewhat less efficiently."
   },
   {
     "abstract": "gasoline_engine",
@@ -54,14 +54,14 @@
     "fuel_options": [ "gasoline", "diesel", "lamp_oil", "jp8", "motor_oil", "avgas", "biodiesel" ],
     "m2c": 60,
     "//": "25% energy efficiency",
-    "description": "An advanced combustion engine.  Burns gasoline or diesel or aviation fuel from a tank in the vehicle.  Can also burn lamp oil, though somewhat less efficiently.  Better power-to-weight ratio than a traditional engine, but consumes more fuel."
+    "description": "An advanced combustion engine.  Burns gasoline or diesel or aviation fuel from a tank in the vehicle.  Can also burn kerosene, though somewhat less efficiently.  Better power-to-weight ratio than a traditional engine, but consumes more fuel."
   },
   {
     "id": "diesel_engine_i6",
     "copy-from": "diesel_engine",
     "type": "vehicle_part",
     "item": "i6_diesel",
-    "description": "An inline 6-cylinder diesel engine.  Somewhat more powerful than a V6, you might see an engine like this in a road roller or excavator.",
+    "description": "An inline 6-cylinder diesel engine.  Somewhat more powerful but much larger than a V6, you might see an engine like this in a road roller or excavator.",
     "durability": 400,
     "epower": -350,
     "power": 223800,
@@ -74,7 +74,11 @@
     "requirements": {
       "install": { "skills": [ [ "mechanics", 4 ] ], "time": "60 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 5 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
+      "repair": {
+        "skills": [ [ "mechanics", 5 ] ],
+        "time": "60 m",
+        "using": [ [ "repair_welding_standard", 3 ], [ "repair_welding_alloys", 1 ], [ "vehicle_wrench_2", 1 ], [ "vehicle_screw", 1 ] ]
+      }
     },
     "damage_reduction": { "all": 100 }
   },
@@ -96,7 +100,11 @@
     "requirements": {
       "install": { "skills": [ [ "mechanics", 4 ] ], "time": "60 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 5 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
+      "repair": {
+        "skills": [ [ "mechanics", 5 ] ],
+        "time": "60 m",
+        "using": [ [ "repair_welding_standard", 3 ], [ "repair_welding_alloys", 1 ], [ "vehicle_wrench_2", 1 ], [ "vehicle_screw", 1 ] ]
+      }
     },
     "damage_reduction": { "all": 100 }
   },
@@ -118,7 +126,11 @@
     "requirements": {
       "install": { "skills": [ [ "mechanics", 4 ] ], "time": "60 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 5 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
+      "repair": {
+        "skills": [ [ "mechanics", 5 ] ],
+        "time": "60 m",
+        "using": [ [ "repair_welding_standard", 5 ], [ "repair_welding_alloys", 1 ], [ "vehicle_wrench_2", 1 ], [ "vehicle_screw", 1 ] ]
+      }
     },
     "damage_reduction": { "all": 100 }
   },
@@ -133,7 +145,7 @@
     "epower": 0,
     "power": 7370,
     "energy_consumption": 18425,
-    "folded_volume": "1500 ml",
+    "folded_volume": "60 L",
     "breaks_into": [
       { "item": "steel_lump", "count": [ 5, 10 ] },
       { "item": "steel_chunk", "count": [ 5, 10 ] },
@@ -142,7 +154,11 @@
     "requirements": {
       "install": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
+      "repair": {
+        "skills": [ [ "mechanics", 3 ] ],
+        "time": "60 m",
+        "using": [ [ "repair_welding_standard", 1 ], [ "repair_welding_alloys", 1 ], [ "vehicle_wrench_2", 1 ], [ "vehicle_screw", 1 ] ]
+      }
     },
     "extend": { "flags": [ "FOLDABLE" ] },
     "damage_reduction": { "all": 40 }
@@ -158,7 +174,7 @@
     "epower": 0,
     "power": 41000,
     "energy_consumption": 124500,
-    "folded_volume": "2 L",
+    "folded_volume": "90 L",
     "breaks_into": [
       { "item": "steel_lump", "count": [ 6, 12 ] },
       { "item": "steel_chunk", "count": [ 6, 12 ] },
@@ -167,7 +183,11 @@
     "requirements": {
       "install": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 4 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
+      "repair": {
+        "skills": [ [ "mechanics", 4 ] ],
+        "time": "60 m",
+        "using": [ [ "repair_welding_standard", 2 ], [ "repair_welding_alloys", 1 ], [ "vehicle_wrench_2", 1 ], [ "vehicle_screw", 1 ] ]
+      }
     },
     "extend": { "flags": [ "FOLDABLE" ] },
     "damage_reduction": { "all": 40 }
@@ -184,7 +204,7 @@
     "epower": 0,
     "power": 3728,
     "energy_consumption": 9320,
-    "folded_volume": "750 ml",
+    "folded_volume": "629 ml",
     "breaks_into": [
       { "item": "steel_lump", "count": [ 2, 4 ] },
       { "item": "steel_chunk", "count": [ 2, 4 ] },
@@ -193,7 +213,11 @@
     "requirements": {
       "install": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
+      "repair": {
+        "skills": [ [ "mechanics", 3 ] ],
+        "time": "60 m",
+        "using": [ [ "repair_welding_standard", 1 ], [ "vehicle_wrench_2", 1 ], [ "vehicle_screw", 1 ] ]
+      }
     },
     "extend": { "flags": [ "FOLDABLE" ] },
     "damage_reduction": { "all": 40 }
@@ -215,7 +239,11 @@
     "requirements": {
       "install": { "skills": [ [ "mechanics", 5 ] ], "time": "60 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 4 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 6 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
+      "repair": {
+        "skills": [ [ "mechanics", 6 ] ],
+        "time": "60 m",
+        "using": [ [ "repair_welding_standard", 3 ], [ "repair_welding_alloys", 2 ], [ "vehicle_wrench_2", 1 ], [ "vehicle_screw", 1 ] ]
+      }
     },
     "damage_reduction": { "all": 50 }
   },
@@ -237,7 +265,11 @@
     "requirements": {
       "install": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
+      "repair": {
+        "skills": [ [ "mechanics", 3 ] ],
+        "time": "60 m",
+        "using": [ [ "repair_welding_standard", 3 ], [ "repair_welding_alloys", 1 ], [ "vehicle_wrench_2", 1 ], [ "vehicle_screw", 1 ] ]
+      }
     },
     "damage_reduction": { "all": 50 }
   },
@@ -259,7 +291,11 @@
     "requirements": {
       "install": { "skills": [ [ "mechanics", 6 ] ], "time": "60 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 4 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 7 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
+      "repair": {
+        "skills": [ [ "mechanics", 7 ] ],
+        "time": "60 m",
+        "using": [ [ "repair_welding_standard", 5 ], [ "repair_welding_alloys", 4 ], [ "vehicle_wrench_2", 1 ], [ "vehicle_screw", 1 ] ]
+      }
     },
     "damage_reduction": { "all": 110 }
   },
@@ -281,7 +317,11 @@
     "requirements": {
       "install": { "skills": [ [ "mechanics", 7 ] ], "time": "60 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 5 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 8 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
+      "repair": {
+        "skills": [ [ "mechanics", 8 ] ],
+        "time": "60 m",
+        "using": [ [ "repair_welding_standard", 8 ], [ "repair_welding_alloys", 2 ], [ "vehicle_wrench_2", 1 ], [ "vehicle_screw", 1 ] ]
+      }
     },
     "damage_reduction": { "all": 110 }
   },
@@ -303,7 +343,11 @@
     "requirements": {
       "install": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 4 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
+      "repair": {
+        "skills": [ [ "mechanics", 4 ] ],
+        "time": "60 m",
+        "using": [ [ "repair_welding_standard", 3 ], [ "repair_welding_alloys", 2 ], [ "vehicle_wrench_2", 1 ], [ "vehicle_screw", 1 ] ]
+      }
     },
     "damage_reduction": { "all": 100 }
   },
@@ -325,7 +369,11 @@
     "requirements": {
       "install": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 4 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
+      "repair": {
+        "skills": [ [ "mechanics", 4 ] ],
+        "time": "60 m",
+        "using": [ [ "repair_welding_standard", 4 ], [ "repair_welding_alloys", 3 ], [ "vehicle_wrench_2", 1 ], [ "vehicle_screw", 1 ] ]
+      }
     },
     "damage_reduction": { "all": 100 }
   },
@@ -339,7 +387,7 @@
     "epower": -50,
     "power": 37300,
     "energy_consumption": 124500,
-    "folded_volume": "2 L",
+    "folded_volume": "109 L",
     "breaks_into": [
       { "item": "steel_lump", "count": [ 10, 20 ] },
       { "item": "steel_chunk", "count": [ 10, 20 ] },
@@ -348,7 +396,11 @@
     "requirements": {
       "install": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
+      "repair": {
+        "skills": [ [ "mechanics", 3 ] ],
+        "time": "60 m",
+        "using": [ [ "repair_welding_standard", 1 ], [ "repair_welding_alloys", 1 ], [ "vehicle_wrench_2", 1 ], [ "vehicle_screw", 1 ] ]
+      }
     },
     "extend": { "flags": [ "FOLDABLE" ] },
     "damage_reduction": { "all": 60 }
@@ -387,7 +439,11 @@
     "requirements": {
       "install": { "skills": [ [ "mechanics", 4 ] ], "time": "60 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 5 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
+      "repair": {
+        "skills": [ [ "mechanics", 5 ] ],
+        "time": "60 m",
+        "using": [ [ "repair_welding_standard", 4 ], [ "vehicle_wrench_1", 1 ] ]
+      }
     },
     "damage_reduction": { "all": 40 }
   },
@@ -409,7 +465,11 @@
     "requirements": {
       "install": { "skills": [ [ "mechanics", 4 ] ], "time": "60 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 5 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
+      "repair": {
+        "skills": [ [ "mechanics", 5 ] ],
+        "time": "60 m",
+        "using": [ [ "repair_welding_standard", 5 ], [ "vehicle_wrench_1", 1 ] ]
+      }
     },
     "damage_reduction": { "all": 45 }
   },
@@ -431,7 +491,11 @@
     "requirements": {
       "install": { "skills": [ [ "mechanics", 4 ] ], "time": "60 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 5 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
+      "repair": {
+        "skills": [ [ "mechanics", 5 ] ],
+        "time": "60 m",
+        "using": [ [ "repair_welding_standard", 6 ], [ "vehicle_wrench_1", 1 ] ]
+      }
     },
     "damage_reduction": { "all": 50 }
   },
@@ -454,7 +518,11 @@
     "requirements": {
       "install": { "skills": [ [ "mechanics", 7 ] ], "time": "60 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 5 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 8 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
+      "repair": {
+        "skills": [ [ "mechanics", 8 ] ],
+        "time": "60 m",
+        "using": [ [ "repair_welding_standard", 3 ], [ "repair_welding_alloys", 2 ], [ "vehicle_wrench_2", 1 ], [ "vehicle_screw", 1 ] ]
+      }
     },
     "damage_reduction": { "all": 60 }
   },
@@ -477,7 +545,11 @@
     "requirements": {
       "install": { "skills": [ [ "mechanics", 8 ] ], "time": "60 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 6 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 9 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
+      "repair": {
+        "skills": [ [ "mechanics", 9 ] ],
+        "time": "60 m",
+        "using": [ [ "repair_welding_standard", 5 ], [ "repair_welding_alloys", 3 ], [ "vehicle_wrench_2", 1 ], [ "vehicle_screw", 1 ] ]
+      }
     },
     "damage_reduction": { "all": 65 }
   },
@@ -500,7 +572,11 @@
     "requirements": {
       "install": { "skills": [ [ "mechanics", 9 ] ], "time": "60 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 7 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 10 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
+      "repair": {
+        "skills": [ [ "mechanics", 10 ] ],
+        "time": "60 m",
+        "using": [ [ "repair_welding_standard", 7 ], [ "repair_welding_alloys", 5 ], [ "vehicle_wrench_2", 1 ], [ "vehicle_screw", 1 ] ]
+      }
     },
     "damage_reduction": { "all": 70 }
   }

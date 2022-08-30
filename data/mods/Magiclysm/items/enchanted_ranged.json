@@ -137,6 +137,7 @@
     "barrel_volume": "500 ml",
     "valid_mod_locations": [ [ "mechanism", 1 ] ],
     "reload_noise": "chuk chuk.",
+    "weapon_category": [ "MEDIUM_SWORDS" ],
     "flags": [ "RELOAD_ONE", "PUMP_ACTION", "DURABLE_MELEE", "SHEATH_SWORD" ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "shot": 3 } } ]
@@ -145,7 +146,7 @@
     "id": "boreal_mosin",
     "copy-from": "mosin91_30",
     "type": "GUN",
-    "name": { "str_sp": "Mosin-Nagant 91/30 Boreal" },
+    "name": { "str_sp": "Mosin-Nagant 1891/30 Boreal" },
     "description": "A modernized version of the Mosin-Nagant 1891/30 by Cannith Industries, chambered in 7.62x51 NATO.  The barrel is enchanted to give bullets a minor freezing property.",
     "ammo": [ "308" ],
     "ranged_damage": { "damage_type": "cold", "amount": 3 },
@@ -166,7 +167,7 @@
     ],
     "flags": [ "RELOAD_ONE" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "308": 5 }, "allowed_speedloaders": [ "borealmosin_clip" ] } ],
-    "proportional": { "price": 3, "price_postaopoc": 3, "bashing": 1.1, "weight": 0.9, "dispersion": 0.9 },
+    "proportional": { "price": 3, "price_postapoc": 3, "bashing": 1.1, "weight": 0.9, "dispersion": 0.9 },
     "relative": { "to_hit": 1 }
   },
   {
@@ -175,7 +176,7 @@
     "symbol": "%",
     "color": "red",
     "name": { "str": "Bone Launcher" },
-    "description": "Once a flesh spear, now a grotesque pipe like object with an barrel made from bone and coated in flesh.  There is an biomancer rune embedded in the tooth like trigger.",
+    "description": "Once a flesh spear, now a grotesque pipe like object with an barrel made from bone and coated in flesh.  There is an biomancer rune embedded in the tooth like trigger.  Uses sharpened bone as an ammo.",
     "material": [ "hflesh", "bone" ],
     "flags": [
       "PRIMITIVE_RANGED_WEAPON",
@@ -209,6 +210,7 @@
       "target": "rune_biomancer_weapon_adept",
       "msg": "You feel the spear rapidly contracting and squirming for close combat",
       "need_wielding": true,
+      "ammo_scale": 0,
       "moves": 400
     }
   },

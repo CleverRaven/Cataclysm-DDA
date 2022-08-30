@@ -47,7 +47,7 @@
     "melee_skill": 4,
     "melee_dice": 3,
     "melee_dice_sides": 6,
-    "melee_cut": 4,
+    "melee_damage": [ { "damage_type": "cut", "amount": 4 } ],
     "dodge": 2,
     "armor_cut": 15,
     "armor_stab": 15,
@@ -78,13 +78,13 @@
     "melee_skill": 2,
     "melee_dice": 2,
     "melee_dice_sides": 6,
-    "melee_cut": 4,
+    "melee_damage": [ { "damage_type": "cut", "amount": 4 } ],
     "dodge": 0,
     "vision_day": 30,
     "vision_night": 3,
     "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s melts away." },
     "harvest": "mr_bones",
-    "flags": [ "SEES", "HEARS", "HARDTOSHOOT", "REVIVES", "NO_BREATHE", "POISON", "BONES", "FILTHY" ]
+    "flags": [ "SEES", "HEARS", "HARDTOSHOOT", "REVIVES", "NO_BREATHE", "POISON", "FILTHY" ]
   },
   {
     "id": "mon_bear_smoky",
@@ -105,7 +105,7 @@
     "melee_skill": 6,
     "melee_dice": 4,
     "melee_dice_sides": 6,
-    "melee_cut": 4,
+    "melee_damage": [ { "damage_type": "cut", "amount": 4 } ],
     "dodge": 3,
     "armor_bash": 4,
     "armor_cut": 4,
@@ -114,7 +114,6 @@
     "emit_fields": [ { "emit_id": "emit_smoke_stream", "delay": "1 s" } ],
     "special_attacks": [ { "type": "bite", "cooldown": 5 } ],
     "anger_triggers": [ "HURT", "PLAYER_CLOSE" ],
-    "placate_triggers": [ "MEAT" ],
     "death_function": { "effect": { "id": "death_smokeburst", "hit_self": true }, "message": "A %s explode!" },
     "harvest": "zombie_fur",
     "flags": [
@@ -130,5 +129,11 @@
       "NO_BREATHE",
       "FILTHY"
     ]
+  },
+  {
+    "id": "mon_moose",
+    "type": "MONSTER",
+    "name": { "ctxt": "crazy", "str": "moose", "str_pl": "meese", "//~": "joke plural name for CrazyCataclysm" },
+    "copy-from": "mon_moose"
   }
 ]

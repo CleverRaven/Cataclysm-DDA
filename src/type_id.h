@@ -13,6 +13,9 @@ using achievement_id = string_id<achievement>;
 class activity_type;
 using activity_id = string_id<activity_type>;
 
+struct add_type;
+using addiction_id = string_id<add_type>;
+
 class ammunition_type;
 using ammotype = string_id<ammunition_type>;
 
@@ -31,11 +34,17 @@ struct sub_body_part_type;
 using sub_bodypart_id = int_id<sub_body_part_type>;
 using sub_bodypart_str_id = string_id<sub_body_part_type>;
 
+struct bodygraph;
+using bodygraph_id = string_id<bodygraph>;
+
 struct character_modifier;
 using character_modifier_id = string_id<character_modifier>;
 
 struct limb_score;
 using limb_score_id = string_id<limb_score>;
+
+struct city;
+using city_id = string_id<city>;
 
 struct construction_category;
 using construction_category_id = string_id<construction_category>;
@@ -112,6 +121,9 @@ using matype_id = string_id<martialart>;
 class ma_technique;
 using matec_id = string_id<ma_technique>;
 
+class map_extra;
+using map_extra_id = string_id<map_extra>;
+
 class mapgen_palette;
 using palette_id = string_id<mapgen_palette>;
 
@@ -149,6 +161,9 @@ using npc_template_id = string_id<npc_template>;
 class faction;
 using faction_id = string_id<faction>;
 
+struct option_slider;
+using option_slider_id = string_id<option_slider>;
+
 struct oter_t;
 using oter_id = int_id<oter_t>;
 using oter_str_id = string_id<oter_t>;
@@ -166,6 +181,9 @@ using overmap_location_id = string_id<overmap_location>;
 class overmap_special;
 using overmap_special_id = string_id<overmap_special>;
 
+struct overmap_special_migration;
+using overmap_special_migration_id = string_id<overmap_special_migration>;
+
 class profession;
 using profession_id = string_id<profession>;
 
@@ -177,6 +195,12 @@ using requirement_id = string_id<requirement_data>;
 
 class score;
 using score_id = string_id<score>;
+
+struct shopkeeper_cons_rates;
+using shopkeeper_cons_rates_id = string_id<shopkeeper_cons_rates>;
+
+struct shopkeeper_blacklist;
+using shopkeeper_blacklist_id = string_id<shopkeeper_blacklist>;
 
 class Skill;
 using skill_id = string_id<Skill>;
@@ -204,6 +228,9 @@ using move_mode_id = string_id<move_mode>;
 
 struct mutation_category_trait;
 using mutation_category_id = string_id<mutation_category_trait>;
+
+struct proficiency_category;
+using proficiency_category_id = string_id<proficiency_category>;
 
 class proficiency;
 using proficiency_id = string_id<proficiency>;
@@ -267,5 +294,8 @@ using json_character_flag = string_id<json_flag>;
 
 class widget;
 using widget_id = string_id<widget>;
+
+struct weakpoints;
+using weakpoints_id = string_id<weakpoints>;
 
 #endif // CATA_SRC_TYPE_ID_H

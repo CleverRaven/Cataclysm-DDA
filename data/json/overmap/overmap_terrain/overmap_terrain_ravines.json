@@ -38,7 +38,7 @@
     "id": "ravine_floor",
     "copy-from": "generic_ravine",
     "sym": ".",
-    "name": "Ravine floor",
+    "name": "ravine floor",
     "color": "light_gray",
     "flags": [ "NO_ROTATE", "RAVINE" ]
   }

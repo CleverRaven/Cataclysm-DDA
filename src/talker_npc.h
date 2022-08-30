@@ -106,6 +106,16 @@ class talker_npc : public talker_character
         void set_first_topic( const std::string &chat_topic ) override;
         bool is_safe() const override;
 
+        // opinions
+        void set_npc_trust( int trust ) override;
+        int get_npc_trust() const override;
+        void set_npc_fear( int fear ) override;
+        int get_npc_fear() const override;
+        void set_npc_value( int value ) override;
+        int get_npc_value() const override;
+        void set_npc_anger( int anger ) override;
+        int get_npc_anger() const override;
+
     protected:
         npc *me_npc;
 };

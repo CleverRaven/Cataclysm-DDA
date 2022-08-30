@@ -54,7 +54,7 @@ int calc_xp_gain( const vpart_info &vp, const skill_id &sk, const Character &who
 
 vehicle_part &most_repairable_part( vehicle &veh, Character &who, bool only_repairable )
 {
-    const auto &inv = who.crafting_inventory();
+    const inventory &inv = who.crafting_inventory();
 
     enum class repairable_status {
         not_repairable = 0,
@@ -63,9 +63,9 @@ vehicle_part &most_repairable_part( vehicle &veh, Character &who, bool only_repa
     };
     std::map<const vehicle_part *, repairable_status> repairable_cache;
     for( const vpart_reference &vpr : veh.get_all_parts() ) {
-        const auto &info = vpr.info();
+        const vpart_info &info = vpr.info();
         repairable_cache[ &vpr.part() ] = repairable_status::not_repairable;
-        if( vpr.part().removed || vpr.part().damage() <= 0 ) {
+        if( vpr.part().removed || vpr.part().damage() <= vpr.part().degradation() ) {
             continue;
         }
 
@@ -84,8 +84,8 @@ vehicle_part &most_repairable_part( vehicle &veh, Character &who, bool only_repa
 
         if( info.is_repairable() &&
             who.meets_skill_requirements( info.repair_skills ) &&
-            ( info.repair_requirements() * vpr.part().damage_level() ).can_make_with_inventory( inv,
-                    is_crafting_component ) ) {
+            ( info.repair_requirements() * ( vpr.part().damage_level() - vpr.part().damage_level(
+                    vpr.part().damage_floor( false ) ) ) ).can_make_with_inventory( inv, is_crafting_component ) ) {
             repairable_cache[ &vpr.part()] = repairable_status::repairable;
         }
     }
@@ -118,9 +118,8 @@ bool repair_part( vehicle &veh, vehicle_part &pt, Character &who, const std::str
     const vpart_info &vp = pt.info();
 
     // TODO: Expose base part damage somewhere, don't recalculate it here
-    const requirement_data reqs = pt.is_broken() ?
-                                  vp.install_requirements() :
-                                  vp.repair_requirements() * pt.damage_level();
+    const requirement_data reqs = pt.is_broken() ? vp.install_requirements() :
+                                  vp.repair_requirements() * ( pt.damage_level() - pt.damage_level( pt.damage_floor( false ) ) );
 
     const inventory &inv = who.crafting_inventory( who.pos(), PICKUP_RANGE, !who.is_npc() );
     inventory map_inv;
@@ -137,7 +136,7 @@ bool repair_part( vehicle &veh, vehicle_part &pt, Character &who, const std::str
     // consume items extracting any base item (which we will need if replacing broken part)
     item base( vp.base_item );
     for( const auto &e : reqs.get_components() ) {
-        for( auto &obj : who.consume_items( who.select_item_component( e, 1, map_inv ), 1,
+        for( item &obj : who.consume_items( who.select_item_component( e, 1, map_inv ), 1,
                                             is_crafting_component ) ) {
             if( obj.typeId() == vp.base_item ) {
                 base = obj;
@@ -170,7 +169,7 @@ bool repair_part( vehicle &veh, vehicle_part &pt, Character &who, const std::str
         veh.part( partnum ).direction = dir;
         veh.part_removal_cleanup();
     } else {
-        veh.set_hp( pt, pt.info().durability );
+        veh.set_hp( pt, pt.info().durability, true );
     }
 
     // TODO: NPC doing that

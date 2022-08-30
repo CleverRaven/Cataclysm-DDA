@@ -1,0 +1,63 @@
+[
+  {
+    "id": "lcla_health_mid_layout_one_padding",
+    "type": "widget",
+    "copy-from": "lcla_health_mid_layout",
+    "width": 14
+  },
+  {
+    "id": "lcla_health_layout_one_padding",
+    "type": "widget",
+    "copy-from": "lcla_health_layout",
+    "separator": " ",
+    "widgets": [
+      "lcla_health_overmap_wrapper",
+      "lcla_health_left_layout",
+      "lcla_health_mid_layout_one_padding",
+      "lcla_health_right_layout"
+    ]
+  },
+  {
+    "id": "lcla_health_sa_mid_layout_one_padding",
+    "type": "widget",
+    "copy-from": "lcla_health_sa_mid_layout",
+    "width": 14
+  },
+  {
+    "id": "lcla_health_sa_layout_one_padding",
+    "type": "widget",
+    "copy-from": "lcla_health_layout",
+    "label": "Health (self-aware)",
+    "separator": " ",
+    "widgets": [
+      "lcla_health_overmap_wrapper",
+      "lcla_health_sa_left_layout",
+      "lcla_health_sa_mid_layout_one_padding",
+      "lcla_health_right_layout"
+    ],
+    "flags": [ "W_DISABLED_BY_DEFAULT" ]
+  },
+  {
+    "id": "legacy_classic_sidebar_one_padding",
+    "type": "widget",
+    "copy-from": "legacy_classic_sidebar",
+    "label": "one padding",
+    "padding": 1,
+    "widgets": [
+      "lcla_health_layout_one_padding",
+      "lcla_health_sa_layout_one_padding",
+      "ll_movement_layout",
+      "lcla_vehicle_layout",
+      "all_weariness_layout",
+      "lcla_place_desc",
+      "lcla_time_layout",
+      "lcla_weather_layout",
+      "lcla_lighting_layout",
+      "lcla_weapon_layout",
+      "wind_desc",
+      "bodypart_armor_outer_layout",
+      "compass_all_danger_layout",
+      "bodygraph_hp_layout"
+    ]
+  }
+]

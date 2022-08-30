@@ -9,13 +9,13 @@
       "rows": [
         "..MMMsssMMMss|ooooo|+||~~$M|o+o|...sss...|o+o|M.M.X.s|oo|+|oo|s.X.M$~~$ss|ooooooooo|MMMsssMMMsss",
         ".|ooo|+|ooo|s|y  JE  F|~~|||   |o|<sss<|o|y y|o|MGGGs|y  <  y|sGGGM|~~~ss+  JA FFFy|ooo|+|ooo|ss",
-        ".|1        |<|  A?   F|~~|y      |||||||      y|ooo|+|||||||||+|ooo|~~<|o|  JJ     |1        |ss",
+        ".|1        |<|  AJ   F|~~|y      |||||||      y|ooo|+|||||||||+|ooo|~~<|o|  JJ     |1        |ss",
         ".|         ||| JJJ   F|~~|2       B | B2       |1        |1        |~~||5          |         |ss",
-        ".|         |6         |~~|        %%|%%        |         |         |~~p|           |         |<s",
-        ".|         |          |~~|        B | B        |         |         |~~p|           |         |||",
+        ".|         |6         |~~|        %%|%%        |         |         |~~q|           |         |<s",
+        ".|         |          |~~|        B | B        |         |         |~~q|           |         |||",
         ".|         |          |~~|        %%|%%        |         |         |~~~|           |         |j|",
         ".|         |          |~~|        B | B        |         |         |~~~|           |         * |",
-        ".|         |          |~~|        %%|%%        |         |         |~~p|           |         |t|",
+        ".|         |          |~~|        %%|%%        |         |         |~~q|           |         |t|",
         ".|         |          |~~|y       B | B        |         |         |~~~|           |         |||",
         ".|         |          |~~|        |||||        |         |         |~~~|           |         |t|",
         ".|| ||||||||          |~~|4       vU|4         |         |         |~~~|           || |||||| * |",
@@ -33,13 +33,17 @@
         "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
       ],
       "palettes": [ "city_block_foundation_palette" ],
+      "place_loot": [
+        { "group": "cash_register_random", "x": 17, "y": [ 1, 3 ] },
+        { "group": "cash_register_random", "x": 76, "y": [ 1, 2 ] }
+      ],
       "place_vehicles": [
         { "vehicle": "bikeshop", "x": 23, "y": [ 5, 18 ], "rotation": 270, "chance": 30 },
         { "vehicle": "bikeshop", "x": 24, "y": [ 5, 18 ], "rotation": 270, "chance": 30 },
         { "vehicle": "bikeshop", "x": 68, "y": [ 5, 18 ], "rotation": 270, "chance": 35 },
         { "vehicle": "back_alley", "x": [ 5, 19 ], "y": 22, "rotation": 180, "chance": 25 }
       ],
-      "terrain": { "G": "t_grass", "X": "t_grass" },
+      "terrain": { "G": "t_region_grass", "X": "t_region_grass" },
       "nested": {
         "1": {
           "chunks": [

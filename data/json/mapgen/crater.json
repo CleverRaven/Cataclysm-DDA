@@ -83,7 +83,6 @@
       ],
       "place_items": [ { "item": "wreckage", "repeat": 3, "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
       "rubble": { ".": { "rubble_type": "f_rubble_rock" } },
-      "set": [ { "square": "radiation", "amount": [ 0, 8 ], "x": 0, "y": 0, "x2": 23, "y2": 23 } ],
       "terrain": {
         ".": [ [ "t_region_groundcover_barren", 10 ], "t_region_groundcover" ],
         "0": [ [ "t_region_groundcover_barren", 10 ], "t_region_groundcover" ]

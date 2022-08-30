@@ -1,0 +1,51 @@
+# Lines longer than 78 characters will be wrapped automatically
+# The following line is for reference
+##############################################################################
+<color_white>Επισκεφθείτε μας:</color>
+
+<color_light_gray>*Αρχική σελίδα:</color>    <color_cyan>https://cataclysmdda.org</color>
+<color_light_gray>* Wiki:</color>        <color_cyan>https://cddawiki.chezzo.com/cdda_wiki</color>
+
+<color_white>* Αναφέρετε σφάλματα, προτάσεις και ακολουθήστε την ανάπτυξη σε:</color>
+
+<color_light_gray>* Github: </color><color_light_cyan>https://github.com/CleverRaven/Cataclysm-DDA/issues</color>
+<color_light_gray>* e-mail: </color><color_light_cyan>kevin.granade@gmail.com</color>
+
+<color_white>Λάβετε μέρος στη συζήτηση στα φόρουμ και στα chats:</color>
+
+<color_light_gray>*Συζήτηση:                  </color><color_cyan>https://discourse.cataclysmdda.org/</color>
+<color_light_gray>* Discord:                   </color><color_cyan>https://discord.gg/jFEc7Yp</color>
+<color_light_gray>* IRC:                       </color><color_cyan>#CataclysmDDA at libera.chat</color>
+<color_light_gray>* Reddit (unofficial):       </color><color_cyan>https://www.reddit.com/r/cataclysmdda/</color>
+
+<color_light_gray>Άλλοι χρήσιμοι σύνδεσμοι είναι επίσης διαθέσιμοι στην αρχική μας σελίδα.</color>
+
+<color_light_gray>Στο παιχνίδι μπορείτε να αποκτήσετε πρόσβαση στις επιλογές μέσω του κύριου μενού (<color_yellow>Esc</color>).</color>
+
+<color_light_red>******************************************************************************</color>
+<color_light_red>    Αποποίηση ευθυνών για τις πειραματικές εκδόσεις:</color>
+<color_light_red>******************************************************************************</color>
+
+<color_white>Ε: </color><color_yellow>Τί είναι η πειραματική έκδοση;</color>
+
+<color_white>A: </color><color_light_gray>Ο στόχος των πειραματικών εκδόσεων είναι μια δεύτερη βαθμίδα ποιοτικού ελέγχου. Είναι η πρώτη έκδοση όπου κυκλοφορεί νέο περιεχόμενο για δοκιμή και ισορροπία μετά τον αρχικό ποιοτικό έλεγχο. Λάβετε υπόψη ότι επιλέγοντας να παίξετε τις τελευταίες πειραματικές εκδόσεις συμμετέχετε στη διαδικασία ανάπτυξης παίζοντας κυριολεκτικά το νέο περιεχόμενο που είναι επιρρεπές σε σφάλματα και σε μη ανεπτυγμένες λειτουργίες.</color>
+
+<color_white>Ε: </color><color_yellow>Ποιός ο λόγος ύπαρξης πειραματικών εκδόσεων;</color>
+
+<color_white>Α: </color><color_light_gray>Θεωρείστε το σαν να παίζετε μια alpha/beta έκδοση - σφάλματα και υπανάπτυκτες λειτουργίες είναι μέρος του. Λόγω συνεχoύς προσπαθειών ενοποίησης, οι πειραματικές εκδόσεις είναι πάντα σε κατάσταση διαρκούς έργου σε εξέλιξη. Οι πειραματικές είναι ένα sandbox όπου ο εντοπισμός σφαλμάτων και η τελειοποίηση λειτουργιών παίρνουν μέρος. Μεγάλες και μικρές λειτουργίες κυκλοφορούν συνεχώς σε αυτές τις εκδόσεις για να ελεγχθούν για γενική σταθερότητα και ισορροπία. Για αυτό τον λόγο, οι πειραματικές εκδόσεις δεν υπόσχονται ισορροπία και σταθερότητα. Στην πραγματικότητα, τίποτα δεν είναι εγγυημένο στις πειραματικές εκδόσεις.</color>
+
+<color_white>Ε:</color><color_yellow>Είναι οι πειραματικές εκδόσεις έτοιμες για να παιχτούν;</color>
+
+<color_white>Α: </color> <color_light_gray>Ναι. Αλλά, ενώ οι πειραματικές εκδόσεις είναι συνολικά σταθερές, δεν είναι εγγυημένο αφού λειτουργίες μπορεί να εισαχθούν σε μια υπανάπτυκτη κατάσταση, σε μέρη· και μπορεί να φέρουν σφάλματα, συμπεριλαμβανομένου σοβαρά σφάλματα που μπορεί να τερματίσουν το παιχνίδι ή να καταστρέψουν αποθηκευμένα παιχνίδια. Είναι σπάνιο, αλλά εξαιτίας της περιπλοκότητας του παιχνιδιού, ο αρχικός έλεγχος ποιότητας πριν την συγχώνευση με μια πειραματική έκδοση μπορεί να είναι ανεπαρκής και υπάρχει πάντα χώρος για ανθρώπινο λάθος. Άλλωστε, για αυτό τον λόγο υπάρχουν αυτές οι εκδόσεις.</color>
+
+<color_white>Q: </color><color_yellow>Should I play experimental builds then, or stick to stable build?</color>
+
+<color_white>A: </color><color_light_gray>The reward is instant access to the newest content, the risk is losing your game progress if a nasty bug emerges.  It is always your choice to play experimental builds, with a stable build available, so play at your own discretion.  You take all of the burden if something goes wrong, so be warned.  Take precautions, make backups.  Sometimes it's even best to postpone updating for few days until a big feature has been stabilized or a significant bug has been removed.</color>
+
+<color_white>Q: </color><color_yellow>Should I be aware of anything else?</color>
+
+<color_white>A: </color><color_light_gray>Yes.  Remember that everything you see and are about to see is potentially subject to change.  All features, including newly implemented, are a work in progress and may change in the course of game development.  And, as said previously, nothing is guaranteed, including balance and stability.</color>
+
+<color_white>Q: </color><color_yellow>What if I find the risk of playing experimental build unacceptable?</color>
+
+<color_white>A: </color><color_light_gray>If the risk is unacceptable - play the stable version.  If you are willing to take the risk - enjoy the newly added content of the experimental builds and partake in development - report bugs, submit suggestions, or even contribute your own content to the game.  Good luck.</color>

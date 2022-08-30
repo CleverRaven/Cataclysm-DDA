@@ -3,13 +3,12 @@
     "type": "COMESTIBLE",
     "id": "egg_bird",
     "name": { "str": "bird egg" },
-    "weight": "57 g",
+    "weight": "55 g",
     "color": "brown",
     "spoils_in": "7 days",
     "comestible_type": "FOOD",
     "symbol": "o",
     "quench": 4,
-    "healthy": 1,
     "calories": 80,
     "description": "Nutritious egg laid by a bird.",
     "price": 44,
@@ -20,7 +19,7 @@
     "fun": -8,
     "flags": [ "FREEZERBURN", "RAW" ],
     "rot_spawn": "GROUP_EGG_BIRD_WILD",
-    "vitamins": [ [ "vitA", 9 ], [ "calcium", 3 ], [ "iron", 4 ], [ "vitB", 21 ] ],
+    "vitamins": [ [ "calcium", 3 ], [ "iron", 4 ] ],
     "rot_spawn_chance": 50
   },
   {
@@ -37,7 +36,7 @@
     "copy-from": "egg_bird",
     "looks_like": "egg_bird",
     "name": { "str": "unfertilized bird egg" },
-    "description": "Nutritious egg laid by a bird.  This one is unfertilized and is probably from a farm.",
+    "description": "Nutritious egg laid by a bird.  This one is unfertilized and probably from a farm.",
     "rot_spawn_chance": 0
   },
   {
@@ -105,7 +104,7 @@
     "calories": 130,
     "volume": "83 ml",
     "weight": "70 g",
-    "vitamins": [ [ "vitA", 15 ], [ "calcium", 5 ], [ "iron", 15 ], [ "vitB", 158 ] ],
+    "vitamins": [ [ "calcium", 5 ], [ "iron", 15 ] ],
     "rot_spawn": "GROUP_EGG_DUCK"
   },
   {
@@ -114,9 +113,9 @@
     "name": { "str": "goose egg" },
     "copy-from": "egg_chicken",
     "calories": 266,
-    "volume": "125 ml",
-    "weight": "144 g",
-    "vitamins": [ [ "vitA", 30 ], [ "calcium", 9 ], [ "iron", 29 ], [ "vitB", 306 ] ],
+    "volume": "130 ml",
+    "weight": "143 g",
+    "vitamins": [ [ "calcium", 9 ], [ "iron", 29 ] ],
     "rot_spawn": "GROUP_EGG_GOOSE_CANADIAN"
   },
   {
@@ -127,7 +126,7 @@
     "volume": "83 ml",
     "weight": "79 g",
     "calories": 135,
-    "vitamins": [ [ "vitA", 15 ], [ "calcium", 8 ], [ "iron", 18 ], [ "vitB", 56 ] ],
+    "vitamins": [ [ "calcium", 8 ], [ "iron", 18 ] ],
     "rot_spawn": "GROUP_EGG_TURKEY"
   },
   {
@@ -154,7 +153,6 @@
     "comestible_type": "FOOD",
     "symbol": "o",
     "quench": 3,
-    "healthy": 1,
     "calories": 87,
     "description": "An egg belonging to one of reptile species found in New England.",
     "price": 250,
@@ -170,7 +168,7 @@
   {
     "type": "COMESTIBLE",
     "comestible_type": "FOOD",
-    "name": { "str": "Insect Egg" },
+    "name": { "str": "insect egg" },
     "abstract": "egg_insect",
     "//": "5x the weight and 3x the nutrition of real chicken eggs, toxins equal to 296g mutant meat",
     "color": "white",
@@ -178,15 +176,15 @@
     "material": [ "egg" ],
     "stack_size": 1,
     "volume": "250 ml",
-    "weight": "300 g",
+    "weight": "275 g",
     "calories": 240,
     "quench": 10,
     "fun": -20,
     "price": 0,
     "price_postapoc": 100,
     "spoils_in": "5 days",
-    "flags": [ "FREEZERBURN", "RAW" ],
-    "vitamins": [ [ "vitA", 19 ], [ "calcium", 7 ], [ "iron", 18 ], [ "vitB", 66 ], [ "mutant_toxin", 25 ] ]
+    "flags": [ "FREEZERBURN", "RAW", "NO_AUTO_CONSUME" ],
+    "vitamins": [ [ "calcium", 7 ], [ "iron", 18 ], [ "mutant_toxin", 25 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -198,7 +196,7 @@
     "price_postapoc": 500,
     "material": [ "egg" ],
     "proportional": { "weight": 4, "calories": 4, "volume": 4 },
-    "vitamins": [ [ "vitA", 76 ], [ "calcium", 28 ], [ "iron", 72 ], [ "vitB", 264 ], [ "mutant_toxin", 100 ] ],
+    "vitamins": [ [ "calcium", 28 ], [ "iron", 72 ], [ "mutant_toxin", 100 ] ],
     "rot_spawn": "GROUP_EGG_ANT",
     "rot_spawn_chance": 60
   },
@@ -219,7 +217,6 @@
     "color": "white",
     "symbol": "%",
     "spoils_in": "4 days 16 hours",
-    "healthy": -1,
     "quench": 3,
     "description": "A fist-sized egg from a giant roach.  Incredibly gross.",
     "price": 80,
@@ -229,9 +226,10 @@
   {
     "type": "COMESTIBLE",
     "id": "egg_roach_plague",
-    "name": { "str": "roach egg" },
+    "name": { "str": "plague vector egg" },
     "copy-from": "egg_roach",
-    "healthy": -10,
+    "description": "A fist-sized egg from a plague vector.  Incredibly gross.",
+    "vitamins": [ [ "mutant_toxin", 50 ] ],
     "rot_spawn": "GROUP_EGG_ROACH_PLAGUE"
   },
   {
@@ -276,7 +274,7 @@
     "copy-from": "egg_insect",
     "color": "light_green",
     "proportional": { "weight": 2, "calories": 2, "volume": 2 },
-    "vitamins": [ [ "vitA", 38 ], [ "calcium", 14 ], [ "iron", 36 ], [ "vitB", 132 ], [ "mutant_toxin", 50 ] ],
+    "vitamins": [ [ "calcium", 14 ], [ "iron", 36 ], [ "mutant_toxin", 50 ] ],
     "rot_spawn": "GROUP_EGG_CENTIPEDE",
     "rot_spawn_chance": 50
   },
@@ -301,7 +299,7 @@
     "symbol": "o",
     "spoils_in": "20 days",
     "proportional": { "weight": 5, "calories": 5, "volume": 5 },
-    "vitamins": [ [ "vitA", 95 ], [ "calcium", 35 ], [ "iron", 90 ], [ "vitB", 330 ], [ "mutant_toxin", 125 ] ],
+    "vitamins": [ [ "calcium", 35 ], [ "iron", 90 ], [ "mutant_toxin", 125 ] ],
     "description": "A huge translucent beetle egg.  You can see a larva slowly squirming inside, contorting uncomfortably outside of the soil.",
     "rot_spawn": "GROUP_EGG_STAG_BEETLE",
     "rot_spawn_chance": 100
@@ -314,7 +312,7 @@
     "color": "yellow",
     "symbol": "o",
     "proportional": { "weight": 2, "calories": 2, "volume": 2 },
-    "vitamins": [ [ "vitA", 38 ], [ "calcium", 14 ], [ "iron", 36 ], [ "vitB", 132 ], [ "mutant_toxin", 50 ] ],
+    "vitamins": [ [ "calcium", 14 ], [ "iron", 36 ], [ "mutant_toxin", 50 ] ],
     "description": "A large white antlion egg.  There is something hard inside.",
     "rot_spawn": "GROUP_EGG_ANTLION",
     "rot_spawn_chance": 50
@@ -350,8 +348,20 @@
     "color": "light_red",
     "symbol": "o",
     "spoils_in": "7 days",
-    "description": "A lady bug egg.  It looks like a huge yellow rice grain.  Inside there is a hungry translucent lavrae.",
+    "description": "A lady bug egg.  It looks like a huge yellow rice grain.  Inside there is a hungry translucent larva.",
     "rot_spawn": "GROUP_EGG_LADY_BUG",
+    "rot_spawn_chance": 50
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_lady_bug_giant",
+    "name": { "str": "giant ladybug egg" },
+    "copy-from": "egg_insect",
+    "color": "red",
+    "symbol": "o",
+    "spoils_in": "7 days",
+    "description": "A giant ladybug egg.  It looks like a huge yellow rice grain.  Inside there is a hungry giant translucent larva.",
+    "rot_spawn": "GROUP_EGG_LADY_BUG_GIANT",
     "rot_spawn_chance": 50
   },
   {
@@ -394,7 +404,7 @@
     "price_postapoc": 750,
     "material": [ "flesh" ],
     "volume": "250 ml",
-    "vitamins": [ [ "vitA", 24 ], [ "vitC", 42 ], [ "calcium", 5 ], [ "iron", 8 ], [ "vitB", 985 ] ],
+    "vitamins": [ [ "vitC", 42 ], [ "calcium", 5 ], [ "iron", 8 ] ],
     "fun": 5,
     "flags": [ "RAW" ]
   },
@@ -408,17 +418,282 @@
     "comestible_type": "FOOD",
     "symbol": "o",
     "quench": 4,
-    "healthy": 1,
     "calories": 34,
     "description": "Common roe from an unknown fish.",
     "price": 50,
     "price_postapoc": 100,
     "material": [ "egg" ],
-    "volume": "25 ml",
+    "volume": "100 ml",
     "stack_size": 4,
     "fun": 1,
-    "vitamins": [ [ "vitC", 1 ], [ "vitB", 24 ] ],
+    "vitamins": [ [ "vitC", 1 ] ],
     "flags": [ "RAW" ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_trout",
+    "name": { "str_sp": "trout roe" },
+    "copy-from": "egg_fish",
+    "rot_spawn": "GROUP_EGG_TROUT"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_brown_trout",
+    "name": { "str_sp": "brown trout roe" },
+    "copy-from": "egg_fish",
+    "rot_spawn": "GROUP_EGG_BROWN_TROUT"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_brook_trout",
+    "name": { "str_sp": "brook trout roe" },
+    "copy-from": "egg_fish",
+    "rot_spawn": "GROUP_EGG_BROOK_TROUT"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_lake_trout",
+    "name": { "str_sp": "lake trout roe" },
+    "copy-from": "egg_fish",
+    "rot_spawn": "GROUP_EGG_LAKE_TROUT"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_rainbow_trout",
+    "name": { "str_sp": "rainbow trout roe" },
+    "copy-from": "egg_fish",
+    "rot_spawn": "GROUP_EGG_RAINBOW_TROUT"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_steelhead_trout",
+    "name": { "str_sp": "steelhead trout roe" },
+    "copy-from": "egg_fish",
+    "rot_spawn": "GROUP_EGG_STEELHEAD_TROUT"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_salmon",
+    "name": { "str_sp": "salmon roe" },
+    "copy-from": "egg_fish",
+    "rot_spawn": "GROUP_EGG_SALMON"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_kokanee_salmon",
+    "name": { "str_sp": "kokanee salmon roe" },
+    "copy-from": "egg_fish",
+    "rot_spawn": "GROUP_EGG_KOKANEE_SALMON"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_chinook_salmon",
+    "name": { "str_sp": "chinook salmon roe" },
+    "copy-from": "egg_fish",
+    "rot_spawn": "GROUP_EGG_CHINOOK_SALMON"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_coho_salmon",
+    "name": { "str_sp": "coho salmon roe" },
+    "copy-from": "egg_fish",
+    "rot_spawn": "GROUP_EGG_COHO_SALMON"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_whitefish",
+    "name": { "str_sp": "whitefish roe" },
+    "copy-from": "egg_fish",
+    "rot_spawn": "GROUP_EGG_WHITEFISH"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_lbass",
+    "name": { "str_sp": "largemouth bass roe" },
+    "copy-from": "egg_fish",
+    "rot_spawn": "GROUP_EGG_LBASS"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_sbass",
+    "name": { "str_sp": "smallmouth bass roe" },
+    "copy-from": "egg_fish",
+    "rot_spawn": "GROUP_EGG_SBASS"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_pbass",
+    "name": { "str_sp": "striped bass roe" },
+    "copy-from": "egg_fish",
+    "rot_spawn": "GROUP_EGG_PBASS"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_white_bass",
+    "name": { "str_sp": "white bass roe" },
+    "copy-from": "egg_fish",
+    "rot_spawn": "GROUP_EGG_WHITE_BASS"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_perch",
+    "name": { "str_sp": "perch roe" },
+    "copy-from": "egg_fish",
+    "rot_spawn": "GROUP_EGG_PERCH"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_walleye",
+    "name": { "str_sp": "walleye roe" },
+    "copy-from": "egg_fish",
+    "rot_spawn": "GROUP_EGG_WALLEYE"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_sunfish",
+    "name": { "str_sp": "sunfish roe" },
+    "copy-from": "egg_fish",
+    "rot_spawn": "GROUP_EGG_SUNFISH"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_pumpkinseed",
+    "name": { "str_sp": "pumpkinseed roe" },
+    "copy-from": "egg_fish",
+    "rot_spawn": "GROUP_EGG_PUMPKINSEED"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_bluegill",
+    "name": { "str_sp": "bluegill roe" },
+    "copy-from": "egg_fish",
+    "rot_spawn": "GROUP_EGG_BLUEGILL"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_redbreast",
+    "name": { "str_sp": "redbreast roe" },
+    "copy-from": "egg_fish",
+    "rot_spawn": "GROUP_EGG_REDBREAST"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_green_sunfish",
+    "name": { "str_sp": "green sunfish roe" },
+    "copy-from": "egg_fish",
+    "rot_spawn": "GROUP_EGG_GREEN_SUNFISH"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_longear_sunfish",
+    "name": { "str_sp": "longear sunfish roe" },
+    "copy-from": "egg_fish",
+    "rot_spawn": "GROUP_EGG_LONGEAR_SUNFISH"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_redear_sunfish",
+    "name": { "str_sp": "redear sunfish roe" },
+    "copy-from": "egg_fish",
+    "rot_spawn": "GROUP_EGG_REDEAR_SUNFISH"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_rock_bass",
+    "name": { "str_sp": "rock bass roe" },
+    "copy-from": "egg_fish",
+    "rot_spawn": "GROUP_EGG_ROCK_BASS"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_calico_bass",
+    "name": { "str_sp": "calico bass roe" },
+    "copy-from": "egg_fish",
+    "rot_spawn": "GROUP_EGG_CALICO_BASS"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_warmouth",
+    "name": { "str_sp": "warmouth roe" },
+    "copy-from": "egg_fish",
+    "rot_spawn": "GROUP_EGG_WARMOUTH"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_bullhead",
+    "name": { "str_sp": "bullhead roe" },
+    "copy-from": "egg_fish",
+    "rot_spawn": "GROUP_EGG_BULLHEAD"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_channel_catfish",
+    "name": { "str_sp": "channel catfish roe" },
+    "copy-from": "egg_fish",
+    "rot_spawn": "GROUP_EGG_CHANNEL_CATFISH"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_white_catfish",
+    "name": { "str_sp": "white catfish roe" },
+    "copy-from": "egg_fish",
+    "rot_spawn": "GROUP_EGG_WHITE_CATFISH"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_pike",
+    "name": { "str_sp": "pike roe" },
+    "copy-from": "egg_fish",
+    "rot_spawn": "GROUP_EGG_PIKE"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_pickerel",
+    "name": { "str_sp": "pickerel roe" },
+    "copy-from": "egg_fish",
+    "rot_spawn": "GROUP_EGG_PICKEREL"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_muskellunge",
+    "name": { "str_sp": "muskellunge roe" },
+    "copy-from": "egg_fish",
+    "rot_spawn": "GROUP_EGG_MUSKELLUNGE"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_white_sucker",
+    "name": { "str_sp": "white sucker roe" },
+    "copy-from": "egg_fish",
+    "rot_spawn": "GROUP_EGG_WHITE_SUCKER"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_carp",
+    "name": { "str_sp": "carp roe" },
+    "copy-from": "egg_fish",
+    "rot_spawn": "GROUP_EGG_CARP"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_grass_carp",
+    "name": { "str_sp": "grass carp roe" },
+    "copy-from": "egg_fish",
+    "rot_spawn": "GROUP_EGG_GRASS_CARP"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_bowfin",
+    "name": { "str_sp": "bowfin roe" },
+    "copy-from": "egg_fish",
+    "rot_spawn": "GROUP_EGG_BOWFIN"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_fallfish",
+    "name": { "str_sp": "fallfish roe" },
+    "copy-from": "egg_fish",
+    "rot_spawn": "GROUP_EGG_FALLFISH"
   },
   {
     "type": "COMESTIBLE",
@@ -437,11 +712,10 @@
     "material": [ "powder", "egg" ],
     "primary_material": "powder",
     "volume": "250 ml",
-    "flags": [ "EDIBLE_FROZEN" ],
+    "flags": [ "EDIBLE_FROZEN", "NO_AUTO_CONSUME" ],
     "charges": 16,
     "fun": -4,
-    "freezing_point": -274,
-    "vitamins": [ [ "vitB", 2 ] ]
+    "freezing_point": -274
   },
   {
     "type": "COMESTIBLE",
@@ -454,14 +728,13 @@
     "looks_like": "powder_egg",
     "quench": 2,
     "calories": 80,
-    "description": "Rehydrated eggs.  You can use it instead of an egg when cooking, provided you don't care that it has lost its complete shape.",
+    "description": "Rehydrated eggs.  You can use them instead of eggs when cooking, provided you don't care that they have lost their complete shape.",
     "price": 22,
     "price_postapoc": 25,
     "material": [ "egg" ],
     "volume": "50 ml",
     "flags": [  ],
-    "fun": -2,
-    "vitamins": [ [ "vitB", 2 ] ]
+    "fun": -2
   },
   {
     "type": "COMESTIBLE",
@@ -630,5 +903,104 @@
     "volume": "650 ml",
     "description": "A large clump of the eggs of a frog.  The eggs themselves are gelatinous and transparent.",
     "rot_spawn": "GROUP_EGG_FROG"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_goose",
+    "name": "goose egg",
+    "copy-from": "egg_goose_canadian",
+    "rot_spawn": "GROUP_EGG_GOOSE"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_goose_golden",
+    "name": "golden goose egg",
+    "copy-from": "egg_goose_canadian",
+    "proportional": { "weight": 2, "calories": 2, "volume": 2 },
+    "rot_spawn": "GROUP_EGG_GOOSE"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_hummingbird",
+    "name": "hummingbird egg",
+    "copy-from": "egg_crow",
+    "volume": "1 ml",
+    "weight": "1 g",
+    "rot_spawn": "GROUP_EGG_HUMMINGBIRD"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_woodpecker",
+    "name": "woodpecker egg",
+    "copy-from": "egg_crow",
+    "rot_spawn": "GROUP_EGG_WOODPECKER"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_coot",
+    "name": "coot egg",
+    "copy-from": "egg_chicken",
+    "rot_spawn": "GROUP_EGG_COOT"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_cormorant",
+    "name": "cormorant egg",
+    "copy-from": "egg_chicken",
+    "rot_spawn": "GROUP_EGG_CORMORANT"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_moorhen",
+    "name": "moorhen egg",
+    "copy-from": "egg_chicken",
+    "rot_spawn": "GROUP_EGG_MOORHEN"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_grebe",
+    "name": "grebe egg",
+    "copy-from": "egg_chicken",
+    "rot_spawn": "GROUP_EGG_GREBE"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_toad",
+    "name": { "str": "cluster of toad's eggs", "str_pl": "clusters of toad's eggs" },
+    "copy-from": "egg_frog",
+    "description": "A large clump of the eggs of a toad.  The eggs themselves are gelatinous and transparent.",
+    "rot_spawn": "GROUP_EGG_TOAD"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_water_beetle",
+    "name": "water beetle egg",
+    "copy-from": "egg_strider",
+    "description": "The egg of a water beetle, usually found near aquatic grass.",
+    "rot_spawn": "GROUP_EGG_WATER_BEETLE"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_water_bug",
+    "name": "water scorpion egg",
+    "copy-from": "egg_strider",
+    "description": "The egg of a water scorpion, usually found near aquatic grass.",
+    "rot_spawn": "GROUP_EGG_WATER_BUG"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_butterfly",
+    "name": "butterfly egg",
+    "copy-from": "egg_insect",
+    "description": "The egg of a butterfly.  They are usually found clustered on leaves.",
+    "rot_spawn": "GROUP_EGG_BUTTERFLY"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_cicada",
+    "name": "cicada egg",
+    "copy-from": "egg_insect",
+    "description": "The egg of a cicada.  They are usually found near trees.",
+    "rot_spawn": "GROUP_EGG_CICADA"
   }
 ]

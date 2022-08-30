@@ -161,6 +161,8 @@ std::string action_ident( action_id act )
             return "shift_nw";
         case ACTION_CYCLE_MOVE:
             return "cycle_move";
+        case ACTION_CYCLE_MOVE_REVERSE:
+            return "cycle_move_reverse";
         case ACTION_RESET_MOVE:
             return "reset_move";
         case ACTION_TOGGLE_RUN:
@@ -309,6 +311,10 @@ std::string action_ident( action_id act )
             return "factions";
         case ACTION_SCORES:
             return "scores";
+        case ACTION_MEDICAL:
+            return "medical";
+        case ACTION_BODYSTATUS:
+            return "bodystatus";
         case ACTION_MORALE:
             return "morale";
         case ACTION_MESSAGES:
@@ -377,6 +383,8 @@ std::string action_ident( action_id act )
             return "autoattack";
         case ACTION_MAIN_MENU:
             return "main_menu";
+        case ACTION_DIARY:
+            return "diary";
         case ACTION_KEYBINDINGS:
             return "HELP_KEYBINDINGS";
         case ACTION_OPTIONS:
@@ -391,6 +399,8 @@ std::string action_ident( action_id act )
             return "open_color";
         case ACTION_WORLD_MODS:
             return "open_world_mods";
+        case ACTION_DISTRACTION_MANAGER:
+            return "open_distraction_manager";
         case ACTION_NULL:
             return "null";
         default:
@@ -429,6 +439,8 @@ bool can_action_change_worldstate( const action_id act )
         case ACTION_SCORES:
         case ACTION_FACTIONS:
         case ACTION_MORALE:
+        case ACTION_MEDICAL:
+        case ACTION_BODYSTATUS:
         case ACTION_MESSAGES:
         case ACTION_HELP:
         case ACTION_MAIN_MENU:
@@ -439,6 +451,7 @@ bool can_action_change_worldstate( const action_id act )
         case ACTION_SAFEMODE:
         case ACTION_COLOR:
         case ACTION_WORLD_MODS:
+        case ACTION_DISTRACTION_MANAGER:
         // Debug Functions
         case ACTION_TOGGLE_FULLSCREEN:
         case ACTION_DEBUG:
@@ -539,7 +552,7 @@ action_id get_movement_action_from_delta( const tripoint &d, const iso_rotate ro
         return ACTION_MOVE_UP;
     }
 
-    const bool iso_mode = rot == iso_rotate::yes && use_tiles && tile_iso;
+    const bool iso_mode = rot == iso_rotate::yes && g->is_tileset_isometric();
     if( d.xy() == point_north ) {
         return iso_mode ? ACTION_MOVE_FORTH_LEFT : ACTION_MOVE_FORTH;
     } else if( d.xy() == point_north_east ) {
@@ -561,7 +574,7 @@ action_id get_movement_action_from_delta( const tripoint &d, const iso_rotate ro
 
 point get_delta_from_movement_action( const action_id act, const iso_rotate rot )
 {
-    const bool iso_mode = rot == iso_rotate::yes && use_tiles && tile_iso;
+    const bool iso_mode = rot == iso_rotate::yes && g->is_tileset_isometric();
     switch( act ) {
         case ACTION_MOVE_FORTH:
             return iso_mode ? point_north_east : point_north;
@@ -690,7 +703,7 @@ bool can_interact_at( action_id action, const tripoint &p )
     tripoint player_pos = get_player_character().pos();
     switch( action ) {
         case ACTION_OPEN:
-            return here.open_door( p, !here.is_outside( player_pos ), true );
+            return here.open_door( get_avatar(), p, !here.is_outside( player_pos ), true );
         case ACTION_CLOSE: {
             const optional_vpart_position vp = here.veh_at( p );
             return ( vp &&
@@ -738,10 +751,11 @@ action_id handle_action_menu()
         // Only prioritize movement options if we're not driving.
         if( !player_character.controlling_vehicle ) {
             action_weightings[ACTION_CYCLE_MOVE] = 400;
+            action_weightings[ACTION_CYCLE_MOVE_REVERSE] = 400;
         }
-        const item &weapon = player_character.get_wielded_item();
+        const item_location weapon = player_character.get_wielded_item();
         // Only prioritize fire weapon options if we're wielding a ranged weapon.
-        if( weapon.is_gun() || weapon.has_flag( flag_REACH_ATTACK ) ) {
+        if( weapon && ( weapon->is_gun() || weapon->has_flag( flag_REACH_ATTACK ) ) ) {
             action_weightings[ACTION_FIRE] = 350;
         }
     }
@@ -945,7 +959,10 @@ action_id handle_action_menu()
             REGISTER_ACTION( ACTION_SCORES );
             REGISTER_ACTION( ACTION_FACTIONS );
             REGISTER_ACTION( ACTION_MORALE );
+            REGISTER_ACTION( ACTION_MEDICAL );
+            REGISTER_ACTION( ACTION_BODYSTATUS );
             REGISTER_ACTION( ACTION_MESSAGES );
+            REGISTER_ACTION( ACTION_DIARY );
         } else if( category == _( "Misc" ) ) {
             REGISTER_ACTION( ACTION_WAIT );
             REGISTER_ACTION( ACTION_SLEEP );
@@ -972,8 +989,7 @@ action_id handle_action_menu()
 
         std::string title = _( "Actions" );
         if( category != "back" ) {
-            catgname = category;
-            capitalize_letter( catgname, 0 );
+            catgname = uppercase_first_letter( category );
             title += ": " + catgname;
         }
 
@@ -1013,11 +1029,16 @@ action_id handle_main_menu()
     };
 
     REGISTER_ACTION( ACTION_HELP );
-    REGISTER_ACTION( ACTION_KEYBINDINGS );
+
+    // The hotkey is reserved for the uilist keybindings menu
+    entries.emplace_back( ACTION_KEYBINDINGS, true, cata::nullopt,
+                          ctxt.get_action_name( action_ident( ACTION_KEYBINDINGS ) ) );
+
     REGISTER_ACTION( ACTION_OPTIONS );
     REGISTER_ACTION( ACTION_AUTOPICKUP );
     REGISTER_ACTION( ACTION_AUTONOTES );
     REGISTER_ACTION( ACTION_SAFEMODE );
+    REGISTER_ACTION( ACTION_DISTRACTION_MANAGER );
     REGISTER_ACTION( ACTION_COLOR );
     REGISTER_ACTION( ACTION_WORLD_MODS );
     REGISTER_ACTION( ACTION_ACTIONMENU );
@@ -1059,7 +1080,7 @@ cata::optional<tripoint> choose_direction( const std::string &message, const boo
     do {
         ui_manager::redraw();
         action = ctxt.handle_input();
-        if( const cata::optional<tripoint> vec = ctxt.get_direction( action ) ) {
+        if( cata::optional<tripoint> vec = ctxt.get_direction( action ) ) {
             FacingDirection &facing = get_player_character().facing;
             // Make player's sprite face left/right if interacting with something to the left or right
             if( vec->x > 0 ) {

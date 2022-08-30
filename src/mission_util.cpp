@@ -11,6 +11,7 @@
 #include "cata_assert.h"
 #include "character.h"
 #include "coordinates.h"
+#include "condition.h"
 #include "debug.h"
 #include "dialogue.h"
 #include "enum_conversions.h"
@@ -176,6 +177,11 @@ static cata::optional<tripoint_abs_omt> find_or_create_om_terrain(
     const tripoint_abs_omt &origin_pos, const mission_target_params &params )
 {
     tripoint_abs_omt target_pos = overmap::invalid_tripoint;
+
+    if( params.target_var.has_value() ) {
+        dialogue d( get_talker_for( get_avatar() ), nullptr );
+        return project_to<coords::omt>( get_tripoint_from_var( params.target_var.value(), d ) );
+    }
 
     omt_find_params find_params;
     std::vector<std::pair<std::string, ot_match_type>> temp_types;
@@ -424,6 +430,9 @@ mission_target_params mission_util::parse_mission_om_target( const JsonObject &j
     if( jo.has_member( "z" ) ) {
         p.z = jo.get_int( "z" );
     }
+    if( jo.has_member( "var" ) ) {
+        p.target_var = read_var_info( jo.get_object( "var" ) );
+    }
     return p;
 }
 
@@ -527,13 +536,13 @@ bool mission_type::parse_funcs( const JsonObject &jo, std::function<void( missio
     /* this is a kind of gross hijack of the dialogue responses effect system, but I don't want to
      * write that code in two places so here it goes.
      */
-    talk_effect_t talk_effects;
+    talk_effect_t<::dialogue> talk_effects;
     talk_effects.load_effect( jo, "effect" );
     phase_func = [ funcs, talk_effects ]( mission * miss ) {
         npc *beta_npc = g->find_npc( miss->get_npc_id() );
         ::dialogue d( get_talker_for( get_avatar() ),
                       beta_npc == nullptr ? nullptr : get_talker_for( beta_npc ) );
-        for( const talk_effect_fun_t &effect : talk_effects.effects ) {
+        for( const talk_effect_fun_t<::dialogue> &effect : talk_effects.effects ) {
             effect( d );
         }
         for( const auto &mission_function : funcs ) {
@@ -541,7 +550,7 @@ bool mission_type::parse_funcs( const JsonObject &jo, std::function<void( missio
         }
     };
 
-    for( talk_effect_fun_t &effect : talk_effects.effects ) {
+    for( talk_effect_fun_t<::dialogue> &effect : talk_effects.effects ) {
         auto rewards = effect.get_likely_rewards();
         if( !rewards.empty() ) {
             likely_rewards.insert( likely_rewards.end(), rewards.begin(), rewards.end() );

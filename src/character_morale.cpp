@@ -92,7 +92,7 @@ void Character::apply_persistent_morale()
     }
 
     if( has_trait( trait_PROF_FOODP ) ) {
-        // Loosing your face is distressing
+        // Losing your face is distressing
         if( !( is_wearing( itype_foodperson_mask ) ||
                is_wearing( itype_foodperson_mask_on ) ) ) {
             add_morale( MORALE_PERM_NOFACE, -20, -20, 1_minutes, 1_minutes, true );
@@ -141,13 +141,18 @@ bool Character::has_morale_to_read() const
     return get_morale_level() >= -40;
 }
 
+void outfit::check_and_recover_morale( player_morale &test_morale ) const
+{
+    for( const item &wit : worn ) {
+        test_morale.on_item_wear( wit );
+    }
+}
+
 void Character::check_and_recover_morale()
 {
     player_morale test_morale;
 
-    for( const item &wit : worn ) {
-        test_morale.on_item_wear( wit );
-    }
+    worn.check_and_recover_morale( test_morale );
 
     for( const trait_id &mut : get_mutations() ) {
         test_morale.on_mutation_gain( mut );

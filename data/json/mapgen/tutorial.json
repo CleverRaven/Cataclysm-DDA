@@ -145,7 +145,8 @@
         "Ŕ": { "item": "gasoline", "chance": 100 }
       },
       "items": { "Ŗ": { "item": "fully_loaded_lighter", "chance": 100 } },
-      "traps": { "9": "tr_tutorial_9", "1": "tr_tutorial_10" }
+      "traps": { "9": "tr_tutorial_9", "1": "tr_tutorial_10" },
+      "liquids": { "~": { "liquid": "water_clean", "amount": [ 0, 80 ] } }
     }
   }
 ]

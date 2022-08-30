@@ -71,7 +71,7 @@
         "PP.....PPPPPPPPP...PPPPP"
       ],
       "palettes": [ "triffid" ],
-      "terrain": { ">": "t_rock" },
+      "terrain": { ">": "t_soil" },
       "monster": { "!": { "monster": "mon_creeper_hub", "chance": 60 } }
     }
   },
@@ -109,7 +109,7 @@
         ">>>>>>>>>>>>>>>>>>>>>>>>"
       ],
       "palettes": [ "triffid" ],
-      "terrain": { ">": "t_rock" },
+      "terrain": { ">": "t_soil" },
       "monster": { "!": { "monster": "mon_creeper_hub", "chance": 60 } }
     }
   },
@@ -147,7 +147,7 @@
         "P....PPPPPPPPPPPP>>>>>>>"
       ],
       "palettes": [ "triffid" ],
-      "terrain": { ">": "t_rock" },
+      "terrain": { ">": "t_soil" },
       "monster": { "!": { "monster": "mon_creeper_hub", "chance": 60 } }
     }
   },
@@ -185,7 +185,7 @@
         ">>>>>>>PPPPPPPPPPP....PP"
       ],
       "palettes": [ "triffid" ],
-      "terrain": { ">": "t_rock" },
+      "terrain": { ">": "t_soil" },
       "furniture": { "O": "f_midden" },
       "items": {
         "O": [
@@ -231,7 +231,7 @@
         ">>>>>>>>>>>>>PP>>>>>>>>>"
       ],
       "palettes": [ "triffid" ],
-      "terrain": { ">": "t_rock" },
+      "terrain": { ">": "t_soil" },
       "monster": { "!": { "monster": "mon_creeper_hub", "chance": 60 } }
     }
   },
@@ -269,7 +269,7 @@
         ">>>>>>>>>>P>>>>>>>>>>>>>"
       ],
       "palettes": [ "triffid" ],
-      "terrain": { ">": "t_rock" },
+      "terrain": { ">": "t_soil" },
       "monster": { "!": { "monster": "mon_creeper_hub", "chance": 60 } }
     }
   },
@@ -307,7 +307,7 @@
         ">>>>>>>PP.T.PPPPPPPPPPPP"
       ],
       "palettes": [ "triffid" ],
-      "terrain": { ">": "t_rock" },
+      "terrain": { ">": "t_soil" },
       "monster": { "!": { "monster": "mon_creeper_hub", "chance": 60 } }
     }
   },
@@ -345,7 +345,7 @@
         "PPPPPPPPPP.PPPPP>>>>>>>>"
       ],
       "palettes": [ "triffid" ],
-      "terrain": { ">": "t_rock" },
+      "terrain": { ">": "t_soil" },
       "monster": { "!": { "monster": "mon_creeper_hub", "chance": 60 } }
     }
   }

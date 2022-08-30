@@ -12,7 +12,8 @@
         "     ",
         "     "
       ],
-      "terrain": { "f": "t_dirtmound" }
+      "terrain": { "f": "t_dirtmound" },
+      "furniture": { "f": "f_clear" }
     }
   },
   {
@@ -28,7 +29,8 @@
         "     ",
         "     "
       ],
-      "terrain": { "f": "t_dirtmound" }
+      "terrain": { "f": "t_dirtmound" },
+      "furniture": { "f": "f_clear" }
     }
   }
 ]

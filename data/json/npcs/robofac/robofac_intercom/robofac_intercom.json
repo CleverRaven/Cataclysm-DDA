@@ -1,0 +1,782 @@
+[
+  {
+    "type": "npc",
+    "id": "robofac_intercom",
+    "//1": "The voice behind the Hub 01 intercom. They handle all front-facing stuff for mercenaries, and trade items using a tray embedded into the wall.",
+    "//2": "This isn't a single person, but rather a rotating group of staff managing the intercom. Be mindful of tone when writing dialogue, since there's no guarantee that the same person will be on the intercom at any given time that the player speaks with Hub 01.",
+    "//3": "Note: Using '*' for non-quoted text will result in the sentence starting out lowercase due to the unique name being an improper noun. Use '&The intercom ' if you want to produce the same effect while maintaining proper grammar!",
+    "name_unique": "the intercom",
+    "gender": "female",
+    "class": "NC_ROBOFAC_INTERCOM",
+    "attitude": 0,
+    "mission": 3,
+    "chat": "TALK_ROBOFAC_INTERCOM",
+    "mission_offered": [ "MISSION_ROBOFAC_INTERCOM_ROBOT_SM_1", "MISSION_ROBOFAC_INTERCOM_2" ],
+    "faction": "robofac"
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_ROBOFAC_INTERCOM",
+    "name": { "str": "intercom" },
+    "job_description": "Reading this line is a bug",
+    "common": false,
+    "bonus_str": { "rng": [ 8, 10 ] },
+    "bonus_int": { "rng": [ 1, 2 ] },
+    "bonus_per": { "rng": [ 1, 2 ] },
+    "skills": [ { "skill": "speech", "level": { "dice": [ 2, 2 ] } } ],
+    "carry_override": "EMPTY_GROUP",
+    "worn_override": "EMPTY_GROUP",
+    "weapon_override": "EMPTY_GROUP",
+    "shopkeeper_item_group": [
+      { "group": "NC_ROBOFAC_INTERCOM_trade", "rigid": true },
+      {
+        "group": "NC_ROBOFAC_INTERCOM_trade_armor",
+        "rigid": true,
+        "condition": {
+          "or": [
+            { "compare_int": [ { "u_val": "var", "var_name": "hub01_good_candidate" }, "==", { "const": 1 } ] },
+            { "compare_int": [ { "u_val": "var", "var_name": "hub01_completed_missions" }, ">=", { "const": 2 } ] }
+          ]
+        },
+        "refusal": "you're not yet qualified to buy this"
+      },
+      {
+        "group": "NC_ROBOFAC_INTERCOM_trade_military",
+        "rigid": true,
+        "strict": true,
+        "condition": {
+          "and": [
+            { "compare_int": [ { "global_val": "var", "var_name": "hub01_uhmwpe_researched" }, "==", { "const": 1 } ] },
+            { "not": { "u_has_var": "u_can_buy_armor", "type": "dialogue", "context": "hub_rnd", "value": "yes" } }
+          ]
+        }
+      },
+      {
+        "group": "robofac_gun_mags",
+        "rigid": true,
+        "condition": { "u_has_var": "u_has_researched_gun", "type": "dialogue", "context": "hub_rnd", "value": "yes" },
+        "refusal": "you need to earn a HWP first"
+      },
+      {
+        "group": "robofac_gun_kit",
+        "rigid": true,
+        "strict": true,
+        "condition": { "u_has_var": "u_has_researched_gun", "type": "dialogue", "context": "hub_rnd", "value": "yes" }
+      },
+      {
+        "group": "robofac_gun_exodii",
+        "rigid": true,
+        "strict": true,
+        "condition": {
+          "and": [
+            { "u_has_var": "u_has_researched_gun", "type": "dialogue", "context": "hub_rnd", "value": "yes" },
+            {
+              "compare_int": [ { "global_val": "var", "var_name": "hub01_hwp_exotic_researched" }, "==", { "const": 1 } ]
+            }
+          ]
+        }
+      },
+      {
+        "group": "NC_ROBOFAC_INTERCOM_trade_envirosuit",
+        "rigid": true,
+        "condition": {
+          "or": [
+            { "npc_has_var": "npc_bought_protective_gear", "type": "dialogue", "context": "intercom", "value": "yes" },
+            { "u_has_var": "completed_robofac_intercom_3", "type": "dialogue", "context": "intercom", "value": "yes" }
+          ]
+        },
+        "refusal": "you're not yet qualified to buy this"
+      }
+    ],
+    "shopkeeper_blacklist": "robofac_blacklist"
+  },
+  {
+    "type": "item_group",
+    "id": "NC_ROBOFAC_INTERCOM_trade",
+    "subtype": "collection",
+    "entries": [ { "group": "robofac_basic_trade", "count": [ 15, 25 ], "prob": 100 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_ROBOFAC_INTERCOM_trade_armor",
+    "subtype": "collection",
+    "entries": [ { "group": "robofac_armor_pieces", "count": [ 4, 8 ], "prob": 100 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_ROBOFAC_INTERCOM_trade_military",
+    "subtype": "collection",
+    "entries": [ { "group": "robofac_armor_pieces_military", "count": [ 0, 2 ], "prob": 100 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_ROBOFAC_INTERCOM_trade_envirosuit",
+    "subtype": "collection",
+    "entries": [ { "item": "robofac_enviro_suit", "count": 1, "prob": 25 } ]
+  },
+  {
+    "id": "robofac_blacklist",
+    "type": "shopkeeper_blacklist",
+    "entries": [ { "group": "NC_ROBOFAC_gear", "message": "Hub 01 will not buy back their own gear" } ]
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "update_mapgen_id": "nest_robofac_add_free_merchant_camp",
+    "object": {
+      "place_nested": [ { "chunks": [ "robofac_hq_surface_freemerchant_camp" ], "x": 0, "y": 0 } ],
+      "//": "migration from older saved games - remove existing NPCs",
+      "remove_npcs": [
+        { "class": "roabofac_free_merchant", "x": 0, "y": 0 },
+        { "class": "guard", "x": 0, "y": 0 },
+        { "class": "NC_ROBOFAC_FREE_MERCHANT", "x": 0, "y": 0 },
+        { "class": "NC_BOUNTY_HUNTER", "x": 0, "y": 0 }
+      ]
+    }
+  },
+  {
+    "id": "TALK_ROBOFAC_INTERCOM",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "npc_has_var": "npc_intercom_trade",
+      "type": "dialogue",
+      "context": "intercom",
+      "value": "yes",
+      "yes": [
+        "&The intercom is silent.",
+        "&The intercom crackles on.",
+        "&The intercom's red LED blinks on.",
+        "&The intercom says something unintelligible."
+      ],
+      "no": {
+        "u_has_var": "u_discovered_robofac_intercom",
+        "type": "dialogue",
+        "context": "intercom",
+        "value": "yes",
+        "yes": "&The intercom is silent.",
+        "no": "&An intercom is embedded into the wall here, just next to the card reader.  It's a metal box about as big as a dinner plate, with a speaker shaped like a downwards curve and a large camera prominently featured in the center.  You see a single metal button with a dark LED next to it.  The intercom is silent."
+      }
+    },
+    "speaker_effect": {
+      "effect": { "u_add_var": "u_discovered_robofac_intercom", "type": "dialogue", "context": "intercom", "value": "yes" },
+      "sentinel": "discovered_intercom"
+    },
+    "responses": [
+      {
+        "text": "[Identify yourself before the intercom.]",
+        "condition": { "npc_has_var": "npc_intercom_trade", "type": "dialogue", "context": "intercom", "value": "yes" },
+        "topic": "TALK_ROBOFAC_INTERCOM_SERVICES",
+        "effect": {
+          "run_eocs": [
+            {
+              "id": "EOC_INTERCOM_MAYBE_ADD_FREE_MERCHANT_CAMP",
+              "condition": { "compare_int": [ { "global_val": "var", "var_name": "free_merchants_hub_trade_route" }, "==", { "const": 1 } ] },
+              "effect": [
+                { "mapgen_update": "nest_robofac_add_free_merchant_camp", "om_terrain": "robofachq_surface_parking" },
+                {
+                  "arithmetic": [ { "global_val": "var", "var_name": "free_merchants_hub_trade_route" }, "=", { "const": 2 } ]
+                },
+                { "u_add_effect": "robofac_surveillance", "duration": "14 days" }
+              ],
+              "false_effect": { "u_add_effect": "robofac_surveillance", "duration": "14 days" }
+            }
+          ]
+        }
+      },
+      {
+        "text": "[Press the button.]",
+        "topic": "TALK_ROBOFAC_INTERCOM_INTRO",
+        "condition": {
+          "and": [
+            { "not": { "npc_has_var": "npc_intercom_trade", "type": "dialogue", "context": "intercom", "value": "yes" } },
+            { "not": { "u_has_mission": "MISSION_ROBOFAC_INTERCOM_1" } }
+          ]
+        }
+      },
+      {
+        "text": "[Press the button.]",
+        "topic": "MISSION_ROBOFAC_INTERCOM_1_INQUIRE",
+        "condition": {
+          "and": [
+            { "not": { "npc_has_var": "npc_intercom_trade", "type": "dialogue", "context": "intercom", "value": "yes" } },
+            { "u_has_mission": "MISSION_ROBOFAC_INTERCOM_1" }
+          ]
+        }
+      },
+      {
+        "text": "[Bang on the metal door.]",
+        "topic": "TALK_ROBOFAC_INTERCOM",
+        "condition": { "not": { "u_has_var": "u_met_robofac_intercom", "type": "dialogue", "context": "intercom", "value": "yes" } }
+      },
+      { "text": "[Leave.]", "topic": "TALK_DONE" }
+    ],
+    "replace_built_in_responses": true
+  },
+  {
+    "//": "This is the generic 'services' menu for Hub 01, but a lot of dialogue leads back here.  The other IDs here are used to defined custom responses that make sense within the context of the dialogue they stem from; you can find most of them in other files.",
+    "id": [
+      "TALK_ROBOFAC_INTERCOM_SERVICES",
+      "TALK_ROBOFAC_INTERCOM_SERVICES_FIRST",
+      "TALK_ROBOFAC_INTERCOM_PORTAL_STORMS_END",
+      "TALK_ROBOFAC_INTERCOM_FREE_MERCHANT_DELIVERY_MERCENARY_END",
+      "TALK_ROBOFAC_INTERCOM_ARMOR_BREAKTHROUGH_END"
+    ],
+    "type": "talk_topic",
+    "dynamic_line": {
+      "u_has_faction_trust": 5,
+      "no": [
+        "So, do you need something?",
+        "Yes, mercenary?",
+        "Mercenary.",
+        "Mercenary.",
+        "Well?",
+        "Say it.",
+        "Get with it.",
+        "Make it quick.",
+        "Don't loiter.",
+        "Don't do anything stupid.",
+        "Ugh, I hate intercom duty… oh, um.  Hello.",
+        "Please don't bother us senselessly.",
+        "What's up with the interference in this thing?",
+        "Speak slowly and clearly.  Please.",
+        "Say again?",
+        "If/you speak to/understand… you/me. Yes?"
+      ],
+      "//": "higher faction trust results in warmer greetings",
+      "yes": [
+        "Good to see you.",
+        "Hello again.  Brought us anything good?",
+        "What do you need?",
+        "Oh, hi.  Doing okay?",
+        "How's that armor working?",
+        "Sorry, I didn't catch that.",
+        "-ello?  Hello?\"  [Thump thump.]  \"Oh, there we go.",
+        "&The voice on the intercom is humming a tune.",
+        "What's up with the interference in this thing?",
+        "Speak slowly and clearly.  Please.",
+        "Say again?"
+      ]
+    },
+    "speaker_effect": { "effect": { "npc_add_effect": "npc_said", "duration": 600 } },
+    "responses": [
+      { "text": "Let's discuss contracts.", "topic": "TALK_ROBOFAC_INTERCOM_CONTRACTS" },
+      { "text": "Let's trade.", "topic": "TALK_ROBOFAC_INTERCOM_SERVICES", "effect": "start_trade" },
+      {
+        "text": "The traders at the refugee center asked me to deliver this drive of FEMA data…",
+        "condition": {
+          "and": [
+            {
+              "not": { "u_has_var": "completed_free_merchants_hub_delivery_1", "type": "dialogue", "context": "intercom", "value": "yes" }
+            },
+            { "u_has_mission": "MISSION_FREE_MERCHANTS_HUB_DELIVERY_1" }
+          ]
+        },
+        "topic": "TALK_ROBOFAC_INTERCOM_FREE_MERCHANT_DELIVERY_MERCENARY"
+      },
+      {
+        "text": "You mentioned portal storms.  What are those?",
+        "condition": {
+          "and": [
+            { "u_has_var": "u_heard_of_portal_storms", "type": "global", "context": "portal_storms", "value": "yes" },
+            {
+              "not": { "u_has_var": "u_witnessed_portal_storm", "type": "global", "context": "portal_storms", "value": "yes" }
+            },
+            {
+              "not": { "npc_has_var": "told_about_portal_storms", "type": "dialogue", "context": "intercom", "value": "yes" }
+            }
+          ]
+        },
+        "topic": "TALK_ROBOFAC_INTERCOM_PORTAL_STORMS"
+      },
+      {
+        "text": "Listen, something happened earlier.  The world got… bad.  Things felt very wrong.  Do you know anything about what that was?",
+        "condition": {
+          "and": [
+            { "u_has_var": "u_witnessed_portal_storm", "type": "global", "context": "portal_storms", "value": "yes" },
+            {
+              "not": { "npc_has_var": "told_about_portal_storms", "type": "dialogue", "context": "intercom", "value": "yes" }
+            }
+          ]
+        },
+        "topic": "TALK_ROBOFAC_INTERCOM_PORTAL_STORMS"
+      },
+      {
+        "text": "I have some portal storm recordings.",
+        "condition": {
+          "or": [
+            { "u_has_items": { "item": "small_printout_portal_storm_data", "count": 1 } },
+            { "u_has_items": { "item": "medium_printout_portal_storm_data", "count": 1 } },
+            { "u_has_items": { "item": "large_printout_portal_storm_data", "count": 1 } }
+          ]
+        },
+        "topic": "TALK_ROBOFAC_INTERCOM_SELL_PORTAL_STORM_DATA"
+      },
+      {
+        "text": "What the hell were you testing out there?",
+        "condition": {
+          "and": [
+            { "u_has_var": "completed_robofac_intercom_1", "type": "dialogue", "context": "intercom", "value": "yes" },
+            {
+              "not": { "npc_has_var": "told_about_prototype", "type": "dialogue", "context": "intercom", "value": "yes" }
+            }
+          ]
+        },
+        "topic": "TALK_ROBOFAC_INTERCOM_PROTOTYPE_ASK"
+      },
+      {
+        "text": "Your scientist was wearing some kind of armor.  What is it?",
+        "condition": {
+          "and": [
+            { "u_has_var": "completed_robofac_intercom_1", "type": "dialogue", "context": "intercom", "value": "yes" },
+            {
+              "not": { "npc_has_var": "told_about_armor", "type": "dialogue", "context": "intercom", "value": "yes" }
+            }
+          ]
+        },
+        "topic": "TALK_ROBOFAC_INTERCOM_ARMOR_ASK"
+      },
+      {
+        "text": "I found this in the collapsed tower with the other data.  Is it useful to your people?  [Hand over the UHMWPE nanofabricator template.]",
+        "condition": {
+          "and": [
+            { "u_has_var": "completed_robofac_intercom_1", "type": "dialogue", "context": "intercom", "value": "yes" },
+            { "u_has_items": { "item": "template_armor", "count": 1 } }
+          ]
+        },
+        "topic": "TALK_ROBOFAC_INTERCOM_ARMOR_NANO_ASK"
+      },
+      {
+        "text": "I'm here to check on a prototype.",
+        "condition": { "u_has_var": "u_hub_prototypes", "type": "dialogue", "context": "intercom", "value": "yes" },
+        "topic": "TALK_ROBOFAC_INTERCOM_PROTOTYPE_MENU"
+      },
+      {
+        "text": "I saw that your mercs have specialty rifles.  Would I be able to get one of those?",
+        "condition": {
+          "and": [
+            { "u_has_var": "robofac_merc_1_HWP", "type": "dialogue", "context": "robofac_merc_1", "value": "yes" },
+            {
+              "not": { "u_has_var": "u_can_research_rifle", "type": "dialogue", "context": "hub_rnd", "value": "yes" }
+            },
+            { "not": { "u_has_var": "u_hub_prototypes", "type": "dialogue", "context": "intercom", "value": "yes" } }
+          ]
+        },
+        "topic": "TALK_ROBOFAC_INTERCOM_PROTOTYPE_NO"
+      },
+      {
+        "text": "I think one of your operatives has vouched for my competency.  I'd like one of those rifles.",
+        "condition": {
+          "and": [
+            { "u_has_var": "robofac_merc_1_HWP", "type": "dialogue", "context": "robofac_merc_1", "value": "yes" },
+            { "u_has_var": "u_can_research_rifle", "type": "dialogue", "context": "hub_rnd", "value": "yes" },
+            { "not": { "u_has_var": "u_hub_prototypes", "type": "dialogue", "context": "intercom", "value": "yes" } }
+          ]
+        },
+        "topic": "TALK_ROBOFAC_INTERCOM_PROTOTYPE_GUN_YES"
+      },
+      {
+        "text": "So, about that protective gear?",
+        "condition": {
+          "and": [
+            { "u_has_mission": "MISSION_ROBOFAC_INTERCOM_3" },
+            {
+              "not": { "npc_has_var": "npc_bought_protective_gear", "type": "dialogue", "context": "intercom", "value": "yes" }
+            }
+          ]
+        },
+        "topic": "TALK_ROBOFAC_INTERCOM_BUY_PROTECTIVE_GEAR"
+      },
+      {
+        "text": "You mentioned you had a map of the area?",
+        "condition": {
+          "and": [
+            { "u_has_var": "completed_robofac_intercom_2", "type": "dialogue", "context": "intercom", "value": "yes" },
+            { "not": { "npc_has_var": "sold_local_map", "type": "dialogue", "context": "intercom", "value": "yes" } }
+          ]
+        },
+        "topic": "TALK_ROBOFAC_INTERCOM_BUY_LOCAL_MAP"
+      },
+      { "text": "I have to go.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_ROBOFAC_INTERCOM_INTRO",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "u_has_var": "u_met_robofac_intercom",
+      "type": "dialogue",
+      "context": "intercom",
+      "value": "yes",
+      "yes": "&The intercom is silent.",
+      "no": "&The intercom crackles with static as it turns on.  The LED next to the button lights up a bright red, and the camera lens whirrs as it focuses on you.  There is no immediate response."
+    },
+    "speaker_effect": {
+      "effect": { "u_add_var": "u_met_robofac_intercom", "type": "dialogue", "context": "intercom", "value": "yes" },
+      "sentinel": "met_intercom"
+    },
+    "responses": [
+      { "text": "…Hello?", "topic": "TALK_ROBOFAC_INTERCOM_INTRO" },
+      { "text": "Um, can anyone hear me?", "topic": "TALK_ROBOFAC_INTERCOM_INTRO" },
+      {
+        "text": "[Tap the camera lens.]  Look, I know someone's listening.  What is this place?",
+        "topic": "TALK_ROBOFAC_INTERCOM_INTRO_1"
+      },
+      {
+        "text": "The merchant at the refugee center sent me.  You were looking for a hard drive from them?",
+        "condition": {
+          "and": [
+            { "not": { "u_has_var": "completed_robofac_intercom_1", "type": "dialogue", "context": "intercom", "value": "yes" } },
+            {
+              "not": { "u_has_var": "completed_free_merchants_hub_delivery_1", "type": "dialogue", "context": "intercom", "value": "yes" }
+            },
+            {
+              "not": { "u_has_var": "u_started_robofac_hdd_trade", "type": "dialogue", "context": "intercom", "value": "yes" }
+            },
+            { "u_has_mission": "MISSION_FREE_MERCHANTS_HUB_DELIVERY_1" }
+          ]
+        },
+        "topic": "TALK_ROBOFAC_INTERCOM_FREE_MERCHANT_DELIVERY_1"
+      },
+      {
+        "text": "About that hard drive…",
+        "condition": {
+          "and": [
+            { "not": { "u_has_var": "completed_robofac_intercom_1", "type": "dialogue", "context": "intercom", "value": "yes" } },
+            {
+              "not": { "u_has_var": "completed_free_merchants_hub_delivery_1", "type": "dialogue", "context": "intercom", "value": "yes" }
+            },
+            { "u_has_var": "u_started_robofac_hdd_trade", "type": "dialogue", "context": "intercom", "value": "yes" },
+            { "u_has_mission": "MISSION_FREE_MERCHANTS_HUB_DELIVERY_1" }
+          ]
+        },
+        "topic": "TALK_ROBOFAC_INTERCOM_FREE_MERCHANT_DELIVERY_1"
+      },
+      {
+        "text": "The traders mentioned you were looking for help.",
+        "condition": {
+          "and": [
+            { "not": { "u_has_var": "completed_robofac_intercom_1", "type": "dialogue", "context": "intercom", "value": "yes" } },
+            {
+              "u_has_var": "completed_free_merchants_hub_delivery_1",
+              "type": "dialogue",
+              "context": "intercom",
+              "value": "yes"
+            }
+          ]
+        },
+        "trial": { "type": "LIE", "difficulty": 1 },
+        "success": { "topic": "TALK_ROBOFAC_INTERCOM_INTRO_2" },
+        "failure": { "topic": "TALK_ROBOFAC_INTERCOM_INTRO_2" }
+      },
+      { "text": "[Leave.]", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": [ "TALK_ROBOFAC_INTERCOM_INTRO_1", "TALK_ROBOFAC_INTERCOM_INTRO_SILENCE" ],
+    "type": "talk_topic",
+    "dynamic_line": "&The intercom hisses.  A voice of indeterminate sex speaks flatly.  \"I don't know who you are or how you got to this location, but we have nothing to gain from one another.  If you have a reason to be here, then please state your business.  Otherwise, please leave the area.\"",
+    "responses": [
+      {
+        "text": "I have a delivery from the Free Merchants.  You requested a hard drive from them.",
+        "condition": {
+          "and": [
+            { "not": { "u_has_var": "completed_robofac_intercom_1", "type": "dialogue", "context": "intercom", "value": "yes" } },
+            {
+              "not": { "u_has_var": "completed_free_merchants_hub_delivery_1", "type": "dialogue", "context": "intercom", "value": "yes" }
+            },
+            {
+              "not": { "u_has_var": "u_started_robofac_hdd_trade", "type": "dialogue", "context": "intercom", "value": "yes" }
+            },
+            { "u_has_mission": "MISSION_FREE_MERCHANTS_HUB_DELIVERY_1" }
+          ]
+        },
+        "topic": "TALK_ROBOFAC_INTERCOM_FREE_MERCHANT_DELIVERY_1"
+      },
+      { "text": "Wait, what?", "topic": "TALK_ROBOFAC_INTERCOM_INTRO_SILENCE" },
+      { "text": "You do realize that the front door is just open?", "topic": "TALK_ROBOFAC_INTERCOM_INTRO_SILENCE" },
+      {
+        "text": "It's the apocalypse out here!  Please just let me in!",
+        "topic": "TALK_ROBOFAC_INTERCOM_INTRO_SILENCE"
+      },
+      {
+        "text": "I'm just looking for valuables.  Maybe we can trade?",
+        "topic": "TALK_ROBOFAC_INTERCOM_INTRO_SILENCE"
+      },
+      { "text": "Look, there must be something we can work out.", "topic": "TALK_ROBOFAC_INTERCOM_INTRO_2" },
+      { "text": "[Leave.]", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_ROBOFAC_INTERCOM_INTRO_SILENCE",
+    "type": "talk_topic",
+    "dynamic_line": "&The intercom is silent."
+  },
+  {
+    "id": "TALK_ROBOFAC_INTERCOM_INTRO_2",
+    "type": "talk_topic",
+    "dynamic_line": "I promise you, there is nothing you can do for us.  Now leave, before I'm forced to-\"  They stop suddenly.  You hear a short, muffled conversation from the other end.  There's a brief pause.  \"Alright.  We might be able to gain some mutual benefit.  It's a dangerous task, but if you complete it then we would be willing to open up limited trading access.",
+    "responses": [
+      { "text": "I'm listening.", "topic": "MISSION_ROBOFAC_INTERCOM_1_OFFER" },
+      { "text": "Risk my neck for the privilege of trading with you?  Maybe another time.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_ROBOFAC_INTERCOM_1_JOBS",
+    "type": "talk_topic",
+    "dynamic_line": "Right.  Your handling of this situation was exemplary, and it's clear to us that we greatly underestimated our potential for mutual benefit.  If you are interested, we are willing to offer you more work going forward, and all of it will have proper compensation from now on.",
+    "responses": [ { "text": "And the trading we agreed on?", "topic": "TALK_ROBOFAC_INTERCOM_1_JOBS_2" } ]
+  },
+  {
+    "id": "TALK_ROBOFAC_INTERCOM_1_JOBS_2",
+    "type": "talk_topic",
+    "dynamic_line": "Certainly.  I've just finished speaking with a certain individual, who has authorized you limited access to a selection of our internal stores.  We will provide you with pay for contracts in the form of tokens to be used as an exchange currency, which you can then trade for goods.  We are also amenable to bartering in exchange for supplies that are currently difficult for us to obtain from outside the facility.",
+    "speaker_effect": {
+      "effect": [
+        { "npc_add_var": "npc_intercom_trade", "type": "dialogue", "context": "intercom", "value": "yes" },
+        { "u_add_var": "completed_robofac_intercom_1", "type": "dialogue", "context": "intercom", "value": "yes" },
+        { "finish_mission": "MISSION_ROBOFAC_INTERCOM_1", "success": true }
+      ],
+      "sentinel": "unlocked_trade"
+    },
+    "responses": [ { "text": "I'll keep that in mind.  Let's get down to business.", "topic": "TALK_ROBOFAC_INTERCOM_SERVICES_FIRST" } ]
+  },
+  {
+    "id": "TALK_ROBOFAC_INTERCOM_SERVICES_FIRST",
+    "type": "talk_topic",
+    "dynamic_line": "We look forward to working with you."
+  },
+  {
+    "id": "TALK_ROBOFAC_INTERCOM_ARMOR_NANO_ASK",
+    "type": "talk_topic",
+    "dynamic_line": "Thank you.  This might be of use benefit to us, but we will need at least a day to read the contents of the template.  Please speak with us again once we've had time.",
+    "speaker_effect": {
+      "effect": [
+        {
+          "u_sell_item": "template_armor",
+          "count": 1,
+          "true_eocs": {
+            "id": "EOC_nano_ask",
+            "effect": [
+              { "u_add_faction_trust": 2 },
+              { "u_add_var": "u_waiting_on_armor", "type": "timer", "context": "hub_rnd", "time": true },
+              { "u_add_var": "u_gave_armor_disk", "type": "dialogue", "context": "hub_rnd", "value": "yes" },
+              { "u_add_var": "u_project_ongoing", "type": "dialogue", "context": "hub_rnd", "value": "yes" },
+              { "u_add_var": "u_hub_prototypes", "type": "dialogue", "context": "intercom", "value": "yes" }
+            ]
+          }
+        }
+      ],
+      "sentinel": "gave_armor_template"
+    },
+    "responses": [
+      { "text": "Very well.", "topic": "TALK_ROBOFAC_INTERCOM_SERVICES" },
+      { "text": "I'll see you then.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_fema_data",
+    "effect": { "u_add_var": "completed_free_merchants_hub_delivery_1", "type": "dialogue", "context": "intercom", "value": "yes" }
+  },
+  {
+    "//": "These are all dialogues related to the breadcrumb quest from the refugee center to deliver a hard drive.",
+    "id": [
+      "TALK_ROBOFAC_INTERCOM_FREE_MERCHANT_DELIVERY_1",
+      "TALK_ROBOFAC_INTERCOM_FREE_MERCHANT_DELIVERY_2",
+      "TALK_ROBOFAC_INTERCOM_FREE_MERCHANT_DELIVERY_3"
+    ],
+    "type": "talk_topic",
+    "dynamic_line": {
+      "u_has_var": "u_started_robofac_hdd_trade",
+      "type": "dialogue",
+      "context": "intercom",
+      "value": "yes",
+      "yes": "&The intercom's tray wordlessly slides open.",
+      "no": "&The intercom erupts into static.  Then, it resolves into a voice.  It clears its throat, then speaks slowly and carefully.  \"Understood.  There is a tray embedded beneath the intercom.  Please place the drive into it.\"  On cue, a small portion of the wall beneath the intercom slides out along rails, revealing a large tray several inches deep.  \"You are welcome to leave afterwards.\""
+    },
+    "speaker_effect": {
+      "effect": { "u_add_var": "u_started_robofac_hdd_trade", "type": "dialogue", "context": "intercom", "value": "yes" },
+      "sentinel": "started_hdd_trade"
+    },
+    "responses": [
+      {
+        "text": "[Hand over the FEMA data.]",
+        "condition": { "u_has_items": { "item": "fema_data", "count": 1 } },
+        "effect": [ { "u_sell_item": "fema_data", "count": 1, "true_eocs": "EOC_fema_data" } ],
+        "topic": "TALK_ROBOFAC_INTERCOM_FREE_MERCHANT_DELIVERY_END"
+      },
+      {
+        "text": "Hold on, who are you?  And what do you want with the data?",
+        "topic": "TALK_ROBOFAC_INTERCOM_FREE_MERCHANT_DELIVERY_2"
+      },
+      { "text": "What am I getting out of this?", "topic": "TALK_ROBOFAC_INTERCOM_FREE_MERCHANT_DELIVERY_3" },
+      { "text": "Sorry, forgot to grab the drive.  I'll return with it.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_ROBOFAC_INTERCOM_FREE_MERCHANT_DELIVERY_2",
+    "type": "talk_topic",
+    "dynamic_line": "&The intercom is silent."
+  },
+  {
+    "id": "TALK_ROBOFAC_INTERCOM_FREE_MERCHANT_DELIVERY_3",
+    "type": "talk_topic",
+    "dynamic_line": "Ask Gavin."
+  },
+  {
+    "id": "TALK_ROBOFAC_INTERCOM_FREE_MERCHANT_DELIVERY_END",
+    "type": "talk_topic",
+    "dynamic_line": "&The tray slides shut.  \"Thank you.\"  The intercom turns off without another word.",
+    "responses": [ { "text": "[Leave.]", "topic": "TALK_DONE" } ]
+  },
+  {
+    "//": "This exchange is used when the player is already a mercenary for Hub 01, so the intercom is much more informal about it",
+    "id": "TALK_ROBOFAC_INTERCOM_FREE_MERCHANT_DELIVERY_MERCENARY",
+    "type": "talk_topic",
+    "dynamic_line": "Oh!  Good.  We had written that off as a non-starter.  Just drop it into the tray and we'll bring it in.",
+    "responses": [
+      {
+        "text": "[Hand over the FEMA data.]",
+        "condition": { "u_has_items": { "item": "fema_data", "count": 1 } },
+        "effect": [ { "u_sell_item": "fema_data", "count": 1, "true_eocs": "EOC_fema_data" } ],
+        "topic": "TALK_ROBOFAC_INTERCOM_FREE_MERCHANT_DELIVERY_MERCENARY_END"
+      },
+      {
+        "text": "I don't have the drive with me right now; I'll give it to you when I have it.",
+        "topic": "TALK_ROBOFAC_INTERCOM_SERVICES"
+      }
+    ]
+  },
+  {
+    "id": "TALK_ROBOFAC_INTERCOM_FREE_MERCHANT_DELIVERY_MERCENARY_END",
+    "type": "talk_topic",
+    "dynamic_line": "Thank you.  Was there anything else you needed?"
+  },
+  {
+    "id": "TALK_ROBOFAC_INTERCOM_PORTAL_STORMS",
+    "type": "talk_topic",
+    "dynamic_line": "That question has… a complicated answer.",
+    "responses": [
+      { "text": "I'd like to hear it.", "topic": "TALK_ROBOFAC_INTERCOM_PORTAL_STORMS_1" },
+      { "text": "Later, then.", "topic": "TALK_ROBOFAC_INTERCOM_SERVICES" }
+    ]
+  },
+  {
+    "id": [
+      "TALK_ROBOFAC_INTERCOM_PORTAL_STORMS_1",
+      "TALK_ROBOFAC_INTERCOM_PORTAL_STORMS_2",
+      "TALK_ROBOFAC_INTERCOM_PORTAL_STORMS_3",
+      "TALK_ROBOFAC_INTERCOM_PORTAL_STORMS_4",
+      "TALK_ROBOFAC_INTERCOM_PORTAL_STORMS_5",
+      "TALK_ROBOFAC_INTERCOM_PORTAL_STORMS_6"
+    ],
+    "//": "These lines are being paraphrased mostly from written information, so repeating things or using distinct phrasing is fine",
+    "type": "talk_topic",
+    "dynamic_line": "\"Understand that I'm not an expert about this.\"  The voice sighs.  You hear the person on the other side typing on a keyboard for several seconds.  \"I will explain it as best I can, but again, I'm not a professional.  Whatever caused the apocalypse, it… broke something about the way our world works.  I'm sure you've noticed that 'normal' physics don't always apply anymore.  We are, as of right now, uncertain if our models were wrong, or if this is something fundamentally different to our reality.\"\n\n\"From what we've observed, these events are what happen at the peak of a cyclical effect.  This is gross oversimplification, and I don't know the science behind it, but… I guess the simplest way to think of it is that 'our' reality is moving closer and further from this other place, or model, or so on.  Like a yo-yo.  When these two things are closest together, we get portal storms.  Otherwise, things are… I wouldn't say normal, not anymore, but they are as close to normal as we get now.\"\n\n\"It also looks like research needs an external agent to take a few portal storm measurements.  I'll add that one to the list of available contracts, in case you are interested.",
+    "speaker_effect": {
+      "effect": [ { "npc_add_var": "told_about_portal_storms", "type": "dialogue", "context": "intercom", "value": "yes" } ],
+      "sentinel": "told_about_portal_storms"
+    },
+    "responses": [
+      { "text": "Are there any warning signs?", "topic": "TALK_ROBOFAC_INTERCOM_PORTAL_STORMS_2" },
+      { "text": "Is there any way to stay safe during one?", "topic": "TALK_ROBOFAC_INTERCOM_PORTAL_STORMS_3" },
+      {
+        "text": "That sounds pretty bad.  Is this going to get worse?",
+        "topic": "TALK_ROBOFAC_INTERCOM_PORTAL_STORMS_4"
+      },
+      { "text": "How can you know all this?", "topic": "TALK_ROBOFAC_INTERCOM_PORTAL_STORMS_5" },
+      {
+        "text": "Is there anything useful I could find in one of these storms?",
+        "topic": "TALK_ROBOFAC_INTERCOM_PORTAL_STORMS_6"
+      },
+      { "text": "Thank you for the information.", "topic": "TALK_ROBOFAC_INTERCOM_PORTAL_STORMS_END" }
+    ]
+  },
+  {
+    "id": "TALK_ROBOFAC_INTERCOM_PORTAL_STORMS_2",
+    "type": "talk_topic",
+    "dynamic_line": "In a way.  In the days and hours leading up to one of these events, you may see things that are obviously out of place, or that don't make sense.  This is most clear during the nighttime, but you can see it during the day, too.  If this happens once, take note of it.  If it happens again, be ready for anything."
+  },
+  {
+    "id": "TALK_ROBOFAC_INTERCOM_PORTAL_STORMS_3",
+    "type": "talk_topic",
+    "dynamic_line": "Yes and no.  When something like this is going on, the storm is going to affect you one way or another, but being outside is much more dangerous.  If you can, find a solid shelter.  Stay as far away from the outer walls as you can.  Being underground is probably a good idea.  There are likely undocumented psychological effects; use your best judgment and your common sense."
+  },
+  {
+    "id": "TALK_ROBOFAC_INTERCOM_PORTAL_STORMS_4",
+    "type": "talk_topic",
+    "dynamic_line": "Unfortunately, it seems likely.  This isn't exactly something we can measure with traditional instruments, but observation has shown that they're not likely to get better.  By far the strongest so far was at the start of the Cataclysm, and while we cannot accurately predict what the future holds, our projections are not optimistic.  I wish I could tell you anything else, but I would advise you get used to seeing them going forward."
+  },
+  {
+    "id": "TALK_ROBOFAC_INTERCOM_PORTAL_STORMS_5",
+    "type": "talk_topic",
+    "//": "this is lie of omission. Hub 01 is explicitly aware of XEDRA and the work they were doing, and the staff likely had an indication just before the Cataclysm hit that things were about to get really bad, leading them to back up a vast amount of online information before the internet was completely knocked out.",
+    "dynamic_line": "We have a vested interest in determining how these events will influence the future of the planet - as should you.  Most of the equipment inside of this facility has remained in working order, and although the Internet no longer exists in a functional way, we still have a plethora of information that was stored locally prior to <the_cataclysm>.  We are monitoring and documenting these portal storms, and we will continue to do so for the foreseeable future."
+  },
+  {
+    "id": "TALK_ROBOFAC_INTERCOM_PORTAL_STORMS_6",
+    "type": "talk_topic",
+    "//": "A recording to give proof without requiring those who know the most about portal storms to risk their agents.",
+    "dynamic_line": "We recently acquired a recording taken outside during a portal storm.  It shown a particular entity that seemed to react to human presence by changing shape quicker than it already did.  This entity eventually reshaped itself in a small object, which the author of the video claimed had anomalous properties.  According to our observations, this kind of creature will only manifest itself if there's a living human outside during a portal storm and even there it seems to appear rarely.  We are not interested by risking ourselves to gather such objects but if you acquired some, we would eagerly buy them."
+  },
+  {
+    "id": "TALK_ROBOFAC_INTERCOM_ARMOR_ASK",
+    "type": "talk_topic",
+    "dynamic_line": "We've been working on specialized gear for potential agents in the field, given the hardware we have available.  Given the risks we've observed from here, it seemed astute.  It seems we still have some work to do.",
+    "speaker_effect": {
+      "effect": { "npc_add_var": "told_about_armor", "type": "dialogue", "context": "intercom", "value": "yes" },
+      "sentinel": "told_about_armor"
+    },
+    "responses": [
+      { "text": "…", "topic": "TALK_ROBOFAC_INTERCOM_ARMOR_NEUTRAL" },
+      {
+        "text": "[INT 10] The pieces seemed warped.  Whatever you're using to reinforce the armor isn't strong enough.",
+        "condition": { "u_has_intelligence": 10 },
+        "topic": "TALK_ROBOFAC_INTERCOM_ARMOR_POSITIVE"
+      }
+    ]
+  },
+  {
+    "id": "TALK_ROBOFAC_INTERCOM_ARMOR_NEUTRAL",
+    "type": "talk_topic",
+    "dynamic_line": "&The intercom goes quiet for a moment.  You hear a brief exchange on the other end, and then the microphone squeals as the voice gets closer again.  \"As additional payment for helping resolve the situation, feel free to keep the modular defense system.  The core armor platform is solid, and we have been iterating on supplementary pieces that we would be willing to trade to you.\"",
+    "responses": [
+      { "text": "Thank you.", "topic": "TALK_ROBOFAC_INTERCOM_SERVICES" },
+      { "text": "I've always wanted to be a lab rat.", "topic": "TALK_ROBOFAC_INTERCOM_SERVICES" },
+      { "text": "If you say so.", "topic": "TALK_ROBOFAC_INTERCOM_SERVICES" }
+    ]
+  },
+  {
+    "id": "TALK_ROBOFAC_INTERCOM_ARMOR_POSITIVE",
+    "type": "talk_topic",
+    "dynamic_line": "We've solved that issue with our more recent prototypes.\"  There is a brief pause.  \"You seem like a good candidate.  We will transfer over the additional pieces to complete that prototype set, with the goal of collecting additional field data.  The core armor platform is solid, and we have been iterating on supplementary pieces we would be willing to trade to you.  Any feedback on their performance would be appreciated.",
+    "speaker_effect": { "effect": { "arithmetic": [ { "u_val": "var", "var_name": "hub01_good_candidate" }, "=", { "const": 1 } ] } },
+    "responses": [
+      {
+        "text": "Thank you.",
+        "topic": "TALK_ROBOFAC_INTERCOM_SERVICES",
+        "effect": [ { "u_spawn_item": "robofac_basic_vambraces" }, { "u_spawn_item": "robofac_basic_greaves" } ]
+      },
+      {
+        "text": "Hopefully it serves me better than the good doctor.",
+        "topic": "TALK_ROBOFAC_INTERCOM_SERVICES",
+        "effect": [ { "u_spawn_item": "robofac_basic_vambraces" }, { "u_spawn_item": "robofac_basic_greaves" } ]
+      },
+      {
+        "text": "We'll see what happens.",
+        "topic": "TALK_ROBOFAC_INTERCOM_SERVICES",
+        "effect": [ { "u_spawn_item": "robofac_basic_vambraces" }, { "u_spawn_item": "robofac_basic_greaves" } ]
+      }
+    ]
+  },
+  {
+    "id": "TALK_ROBOFAC_INTERCOM_PROTOTYPE_ASK",
+    "type": "talk_topic",
+    "dynamic_line": "It was a modified Wraitheon chassis, with a custom AI.  We'd hoped that it would interact with the outside world for us, but you know how well that went.  That particular line of study is now on hiatus, given that the project lead… well, you know.",
+    "speaker_effect": {
+      "effect": { "npc_add_var": "told_about_prototype", "type": "dialogue", "context": "intercom", "value": "yes" },
+      "sentinel": "told_about_prototype"
+    },
+    "responses": [ { "text": "Right.", "topic": "TALK_ROBOFAC_INTERCOM_SERVICES" } ]
+  }
+]

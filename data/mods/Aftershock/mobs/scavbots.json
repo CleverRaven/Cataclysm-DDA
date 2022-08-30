@@ -22,7 +22,7 @@
     "type": "MONSTER",
     "name": "floating lantern",
     "looks_like": "bot_manhack",
-    "description": "A salvaged drone repurposed into a mobile lightsource.",
+    "description": "A salvaged drone repurposed into a mobile light source.",
     "speed": 250,
     "color": "yellow",
     "luminance": 100,

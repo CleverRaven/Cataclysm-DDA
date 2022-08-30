@@ -1,0 +1,8 @@
+[
+  {
+    "type": "enchantment",
+    "id": "FORCE_MAGE",
+    "condition": "ALWAYS",
+    "values": [ { "value": "MELEE_DAMAGE", "multiply": 1 }, { "value": "SPEED", "multiply": 0.2 } ]
+  }
+]

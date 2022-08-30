@@ -75,7 +75,8 @@
         "X": [
           { "item": "electronics", "chance": 30 },
           { "item": "supplies_electronics", "chance": 30 },
-          { "item": "supplies_reagents_lab", "chance": 10 }
+          { "item": "supplies_reagents_lab", "chance": 10 },
+          { "item": "costume_all", "chance": 5, "repeat": [ 1, 6 ] }
         ],
         "i": [ { "item": "trash", "chance": 60 } ],
         "F": [ { "item": "fridgesnacks", "chance": 60 } ],

@@ -2,70 +2,8 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": "cabin_isherwood",
-    "object": {
-      "fill_ter": "t_floor",
-      "rows": [
-        "............//..........",
-        "...........//...........",
-        "...........//...........",
-        "............//..........",
-        "............//..........",
-        "...........//...........",
-        "..........//.B..........",
-        "...////...//............",
-        ".//.../////.777.........",
-        "//..|||0||+||0|||||00||.",
-        "//..|           |mmsmf|.",
-        "//..|                n0.",
-        "//..0           | nnon|.",
-        "//..|W h      h |||||||.",
-        ".//.0       h   |s &|S|.",
-        "//..|           +     |.",
-        "//..|||||+|||+|||||0|||.",
-        "////.|     |    |l|.....",
-        "//...| @@  |   @| +.....",
-        "//...| @@  |   @|||.....",
-        "//...||0|0|||00||4......",
-        ".//.....................",
-        "..//...............x....",
-        "...//..................."
-      ],
-      "terrain": {
-        ">": "t_stairs_down",
-        " ": "t_floor",
-        "B": "t_grass",
-        "x": "t_grass",
-        "/": "t_dirt",
-        "7": "t_dirt",
-        ".": [ [ "t_grass", 5 ], [ "t_grass_long", 2 ], "t_dirt", "t_shrub" ],
-        "|": [ [ "t_wall_log", 5 ], "t_wall_log_chipped", "t_wall_log_broken" ],
-        "0": [ "t_window_domestic", "t_window_open", "t_curtains", "t_window_frame" ],
-        "+": [ "t_door_c", "t_door_boarded_damaged" ],
-        "4": "t_gutter_downspout"
-      },
-      "furniture": {
-        "h": "f_chair",
-        "@": "f_bed",
-        "s": "f_sink",
-        "o": "f_oven",
-        "f": "f_fridge",
-        "n": "f_counter",
-        "m": "f_cupboard",
-        "7": "f_bench",
-        "B": "f_birdbath",
-        "W": "f_fireplace",
-        "x": "f_rotary_clothesline",
-        "S": "f_shower",
-        "l": "f_water_heater"
-      },
-      "toilets": { "&": {  } }
-    }
-  },
-  {
-    "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "cabin_isherwood_update",
+    "weight": 25000,
     "object": {
       "mapgensize": [ 20, 20 ],
       "rows": [

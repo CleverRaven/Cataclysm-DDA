@@ -13,6 +13,8 @@
 #include "cata_catch.h"
 #include "inventory.h"
 #include "item.h"
+#include "iuse.h"
+#include "mutation.h"
 #include "pimpl.h"
 #include "profession.h"
 #include "scenario.h"
@@ -27,6 +29,7 @@ static const trait_id trait_ANTIWHEAT( "ANTIWHEAT" );
 static const trait_id trait_ASTHMA( "ASTHMA" );
 static const trait_id trait_LACTOSE( "LACTOSE" );
 static const trait_id trait_MEATARIAN( "MEATARIAN" );
+static const trait_id trait_TAIL_FLUFFY( "TAIL_FLUFFY" );
 static const trait_id trait_VEGETARIAN( "VEGETARIAN" );
 static const trait_id trait_WOOLALLERGY( "WOOLALLERGY" );
 
@@ -86,7 +89,7 @@ static avatar get_sanitized_player()
     return ret;
 }
 
-static int get_item_count( std::set<const item *> items )
+static int get_item_count( const std::set<const item *> &items )
 {
     int sum = 0;
     for( const item *it : items ) {
@@ -211,4 +214,33 @@ TEST_CASE( "starting_items", "[slow]" )
     }
     INFO( failure_messages.str() );
     REQUIRE( failures.empty() );
+}
+
+TEST_CASE( "Generated character with category mutations", "[mutation]" )
+{
+    REQUIRE( !trait_TAIL_FLUFFY.obj().category.empty() );
+    avatar u = get_sanitized_player();
+    REQUIRE( u.get_mutations().empty() );
+    REQUIRE( u.get_base_traits().empty() );
+    REQUIRE( u.mutation_category_level.empty() );
+
+    SECTION( "Mutations have category levels" ) {
+        u.toggle_trait_deps( trait_TAIL_FLUFFY );
+        CHECK( u.has_trait( trait_TAIL_FLUFFY ) );
+        CHECK( !u.get_mutations().empty() );
+        CHECK( u.get_base_traits().empty() );
+        CHECK( !u.mutation_category_level.empty() );
+        u.toggle_trait_deps( trait_TAIL_FLUFFY );
+        CHECK( !u.has_trait( trait_TAIL_FLUFFY ) );
+        CHECK( u.get_mutations().empty() );
+        CHECK( u.get_base_traits().empty() );
+        CHECK( u.mutation_category_level.empty() );
+    }
+
+    SECTION( "Category mutations can be removed" ) {
+        u.toggle_trait_deps( trait_TAIL_FLUFFY );
+        CHECK( u.has_trait( trait_TAIL_FLUFFY ) );
+        u.remove_mutation( trait_TAIL_FLUFFY );
+        CHECK( !u.has_trait( trait_TAIL_FLUFFY ) );
+    }
 }

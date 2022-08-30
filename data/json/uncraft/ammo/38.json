@@ -11,8 +11,7 @@
       [ [ "smpistol_primer", 1 ] ],
       [ [ "gunpowder_pistol", 3 ] ],
       [ [ "copper", 1 ] ]
-    ],
-    "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
+    ]
   },
   {
     "result": "38_special",
@@ -20,8 +19,7 @@
     "activity_level": "MODERATE_EXERCISE",
     "time": "5 s",
     "qualities": [ { "id": "PULL", "level": 1 } ],
-    "components": [ [ [ "lead", 3 ] ], [ [ "38_casing", 1 ] ], [ [ "smpistol_primer", 1 ] ], [ [ "gunpowder_pistol", 3 ] ] ],
-    "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
+    "components": [ [ [ "lead", 3 ] ], [ [ "38_casing", 1 ] ], [ [ "smpistol_primer", 1 ] ], [ [ "gunpowder_pistol", 3 ] ] ]
   },
   {
     "result": "38_super",
@@ -29,7 +27,6 @@
     "activity_level": "MODERATE_EXERCISE",
     "time": "5 s",
     "qualities": [ { "id": "PULL", "level": 1 } ],
-    "components": [ [ [ "lead", 2 ] ], [ [ "38_casing", 1 ] ], [ [ "smpistol_primer", 1 ] ], [ [ "gunpowder_pistol", 5 ] ] ],
-    "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
+    "components": [ [ [ "lead", 2 ] ], [ [ "38_casing", 1 ] ], [ [ "smpistol_primer", 1 ] ], [ [ "gunpowder_pistol", 5 ] ] ]
   }
 ]

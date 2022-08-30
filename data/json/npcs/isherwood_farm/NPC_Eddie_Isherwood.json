@@ -2,7 +2,7 @@
   {
     "type": "npc",
     "id": "isherwood_eddie",
-    "//": "Dairy farmer the Isherwood family.",
+    "//": "Dairy farmer of the Isherwood family.",
     "name_unique": "Eddie Isherwood",
     "gender": "male",
     "class": "NC_ISHERWOOD_EDDIE",

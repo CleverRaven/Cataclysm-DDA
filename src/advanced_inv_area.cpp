@@ -57,7 +57,7 @@ advanced_inv_area::advanced_inv_area( aim_location id, const point &h, tripoint 
     id( id ), hscreen( h ),
     off( off ), name( name ), shortname( shortname ),
     vstor( -1 ), volume( 0_ml ),
-    weight( 0_gram ), minimapname( minimapname ), actionname( actionname ),
+    weight( 0_gram ), minimapname( std::move( minimapname ) ), actionname( std::move( actionname ) ),
     relative_location( relative_location )
 {
 }
@@ -229,7 +229,7 @@ bool advanced_inv_area::canputitems( const advanced_inv_listitem *advitem )
                 it = get_container( from_vehicle );
             }
             if( it ) {
-                canputitems = it->is_watertight_container();
+                canputitems = true;
             }
             break;
         }
@@ -238,6 +238,32 @@ bool advanced_inv_area::canputitems( const advanced_inv_listitem *advitem )
             break;
     }
     return canputitems;
+}
+
+item_location outfit::adv_inv_get_container( item_location container, const advanced_inv_area &area,
+        Character &guy )
+{
+    size_t idx = static_cast<size_t>( uistate.adv_inv_container_index );
+    if( worn.size() > idx ) {
+        auto iter = worn.begin();
+        std::advance( iter, idx );
+        if( area.is_container_valid( &*iter ) ) {
+            container = item_location( guy, &*iter );
+        }
+    }
+
+    // no need to reinvent the wheel
+    if( !container ) {
+        auto iter = worn.begin();
+        for( size_t i = 0; i < worn.size(); ++i, ++iter ) {
+            if( area.is_container_valid( &*iter ) ) {
+                container = item_location( guy, &*iter );
+                uistate.adv_inv_container_index = i;
+                break;
+            }
+        }
+    }
+    return container;
 }
 
 item_location advanced_inv_area::get_container( bool in_vehicle )
@@ -270,27 +296,7 @@ item_location advanced_inv_area::get_container( bool in_vehicle )
                 }
             }
         } else if( uistate.adv_inv_container_location == AIM_WORN ) {
-            std::list<item> &worn = player_character.worn;
-            size_t idx = static_cast<size_t>( uistate.adv_inv_container_index );
-            if( worn.size() > idx ) {
-                auto iter = worn.begin();
-                std::advance( iter, idx );
-                if( is_container_valid( &*iter ) ) {
-                    container = item_location( player_character, &*iter );
-                }
-            }
-
-            // no need to reinvent the wheel
-            if( !container ) {
-                auto iter = worn.begin();
-                for( size_t i = 0; i < worn.size(); ++i, ++iter ) {
-                    if( is_container_valid( &*iter ) ) {
-                        container = item_location( player_character, &*iter );
-                        uistate.adv_inv_container_index = i;
-                        break;
-                    }
-                }
-            }
+            container = player_character.worn.adv_inv_get_container( container, *this, player_character );
         } else {
             map &here = get_map();
             bool is_in_vehicle = veh &&
@@ -425,12 +431,12 @@ void advanced_inv_area::set_container_position()
 
 aim_location advanced_inv_area::offset_to_location() const
 {
-    static aim_location loc_array[3][3] = {
+    static constexpr cata::mdarray<aim_location, point, 3, 3> loc_array = {
         {AIM_NORTHWEST,     AIM_NORTH,      AIM_NORTHEAST},
         {AIM_WEST,          AIM_CENTER,     AIM_EAST},
         {AIM_SOUTHWEST,     AIM_SOUTH,      AIM_SOUTHEAST}
     };
-    return loc_array[off.y + 1][off.x + 1];
+    return loc_array[off.xy() + point_south_east];
 }
 
 bool advanced_inv_area::can_store_in_vehicle() const
@@ -455,15 +461,15 @@ advanced_inv_area::itemstack advanced_inv_area::i_stacked( T items )
     // used to recall indices we stored `itype_id' item at in itemstack
     std::unordered_map<itype_id, std::set<int>> cache;
     // iterate through and create stacks
-    for( auto &elem : items ) {
+    for( item &elem : items ) {
         const auto id = elem.typeId();
         auto iter = cache.find( id );
         bool got_stacked = false;
         // cache entry exists
         if( iter != cache.end() ) {
             // check to see if it stacks with each item in a stack, not just front()
-            for( auto &idx : iter->second ) {
-                for( auto &it : stacks[idx] ) {
+            for( const int &idx : iter->second ) {
+                for( item *&it : stacks[idx] ) {
                     if( ( got_stacked = it->display_stacked_with( elem ) ) ) {
                         stacks[idx].push_back( &elem );
                         break;

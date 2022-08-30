@@ -18,7 +18,7 @@
     "id": "naked",
     "copy-from": "naked",
     "name": "Naked and Afraid",
-    "description": "You were out filming a reality TV show, naked in the woods.  The cast and crew fled when the aliens came, which is pretty bad timing for you.  Looks like it's for real this time…"
+    "description": "For some reason you are now completely naked!  Maybe you were robbed, maybe you were in a nudist beach, or maybe you just enjoy the feeling of liberation brought upon the wind touching your skin, whatever it is, you lack clothes in a time when the aliens are searching for prey."
   },
   {
     "type": "profession",
@@ -148,13 +148,6 @@
   },
   {
     "type": "profession",
-    "id": "labtech",
-    "copy-from": "labtech",
-    "name": "Lab Technician",
-    "description": "Thanks to years of study and hard work in the lab, you're familiar with the basics of scientific inquiry.  Only one question remains: can you avoid getting experimented on in return?"
-  },
-  {
-    "type": "profession",
     "id": "national_guard",
     "copy-from": "national_guard",
     "name": "National Guard",
@@ -186,7 +179,7 @@
     "id": "combat-mechanic",
     "copy-from": "combat-mechanic",
     "name": "Combat Mechanic",
-    "description": "You failed out of high school, and joined the army.  You were soon hand picked for extra training in the mechanics trade, keeping the armour running.  It's been years since you last touched a rifle, and now the sky is falling…"
+    "description": "You failed out of high school, and joined the army.  You were soon hand picked for extra training in the mechanics trade, keeping the armor running.  It's been years since you last touched a rifle, and now the sky is falling…"
   },
   {
     "type": "profession",

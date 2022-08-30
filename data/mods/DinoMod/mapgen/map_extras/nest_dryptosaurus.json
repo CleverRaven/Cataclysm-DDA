@@ -1,0 +1,59 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "update_mapgen_id": "mx_nest_dryptosaurus",
+    "object": {
+      "rows": [
+        "                        ",
+        "   t                    ",
+        "            t           ",
+        "                        ",
+        "              t      t  ",
+        "       t   t----        ",
+        "         ----..-t       ",
+        " t    t---..-..---t  t  ",
+        "       -.-..---..--t    ",
+        "     ---.---.,---.-     ",
+        "    t-.--.,--...-.--    ",
+        "      --...-.--.--.     ",
+        "     -..-,-..-,-..-t  t ",
+        " t   --....-.-..---     ",
+        "     t---.,.-.---..-    ",
+        "      -.---.---..---    ",
+        "    t  --.---..---t     ",
+        "       t-....---t    t  ",
+        "         -----t         ",
+        "           t            ",
+        "                 t      ",
+        "      t                 ",
+        "                        ",
+        "               t        "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": {
+        "t": [ "t_region_tree", "t_region_groundcover_swamp" ],
+        ",": [ "t_pit_shallow" ],
+        "-": [ "t_fern" ],
+        ".": [ "t_dirt" ]
+      },
+      "place_monster": [ { "monster": "mon_dryptosaurus", "x": 9, "y": 11, "spawn_data": { "patrol": [ { "x": 4, "y": 11 } ] } } ],
+      "place_item": [
+        { "item": "egg_dryptosaurus", "x": 10, "y": 10, "amount": [ 3, 16 ] },
+        { "item": "straw_pile", "x": 10, "y": 10, "amount": [ 1, 2 ] },
+        { "item": "bone", "x": [ 4, 17 ], "y": [ 6, 15 ], "amount": [ 10, 20 ], "repeat": [ 1, 3 ], "chance": 40 },
+        { "item": "meat", "x": [ 4, 17 ], "y": [ 6, 15 ], "amount": [ 10, 20 ], "repeat": [ 1, 3 ], "chance": 40 },
+        { "item": "feather", "x": [ 4, 17 ], "y": [ 6, 15 ], "amount": [ 10, 20 ], "repeat": [ 1, 3 ], "chance": 40 },
+        {
+          "item": "down_feather",
+          "x": [ 4, 17 ],
+          "y": [ 6, 15 ],
+          "amount": [ 5, 10 ],
+          "repeat": [ 1, 3 ],
+          "chance": 40
+        }
+      ],
+      "place_items": [ { "item": "military", "x": [ 4, 17 ], "y": [ 6, 15 ], "repeat": [ 1, 3 ], "chance": 40 } ]
+    }
+  }
+]

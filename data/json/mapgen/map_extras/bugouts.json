@@ -1,0 +1,53 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "nested_bugout_bag",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "place_items": [
+        {
+          "item": { "subtype": "distribution", "entries": [ { "group": "bugout_bag", "prob": 100 } ] },
+          "x": 0,
+          "y": 0,
+          "chance": 100
+        }
+      ],
+      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": 0, "y": 0, "chance": 100 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "update_mapgen_id": "mx_bugout",
+    "object": {
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "place_nested": [ { "chunks": [ [ "nested_bugout_bag", 100 ] ], "x": [ 0, 23 ], "y": [ 0, 23 ] } ]
+    }
+  }
+]

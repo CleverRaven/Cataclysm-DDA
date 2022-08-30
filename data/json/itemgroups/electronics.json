@@ -17,6 +17,7 @@
       [ "receiver", 10 ],
       [ "antenna", 18 ],
       [ "solar_cell", 5 ],
+      [ "compressor", 5 ],
       [ "screwdriver", 40 ],
       [ "screwdriver_set", 40 ],
       [ "mask_dust", 65 ],
@@ -34,6 +35,7 @@
       [ "battery_ups", 15 ],
       { "item": "cell_phone", "prob": 5, "charges": [ 0, 150 ] },
       { "item": "smart_phone", "prob": 31, "charges-min": 0 },
+      { "item": "waterproof_smart_phone_case", "prob": 11 },
       { "item": "eink_tablet_pc", "prob": 8, "charges": [ 0, 100 ] },
       { "item": "laptop", "prob": 20, "charges": [ 0, 500 ] },
       { "item": "smart_lamp", "prob": 5, "charges": [ 0, 100 ] },
@@ -49,6 +51,9 @@
       [ "software_useless", 10 ],
       { "item": "vac_sealer", "prob": 10, "charges": [ 0, 500 ] },
       { "group": "toy_radio_car", "prob": 3 },
+      { "group": "toy_makerspace_kit", "prob": 1 },
+      { "group": "toy_robot_kit", "prob": 1 },
+      { "group": "toy_engine_kit", "prob": 1 },
       { "item": "radiocontrol", "prob": 25, "charges": [ 0, 50 ] },
       [ "omnicamera", 7 ],
       [ "chem_nitric_acid", 1 ],
@@ -103,6 +108,9 @@
       { "item": "camera_pro", "prob": 5, "charges": [ 0, 150 ] },
       [ "wristwatch", 15 ],
       { "group": "toy_radio_car", "prob": 3 },
+      { "group": "toy_makerspace_kit", "prob": 1 },
+      { "group": "toy_robot_kit", "prob": 1 },
+      { "group": "toy_engine_kit", "prob": 1 },
       { "item": "radiocontrol", "prob": 15, "charges": [ 0, 100 ] },
       [ "magnifying_glass", 4 ],
       [ "omnicamera", 2 ],
@@ -117,6 +125,22 @@
     "type": "item_group",
     "subtype": "distribution",
     "id": "phones",
+    "items": [ { "group": "phones_case", "prob": 10 }, { "group": "phones_no_case", "prob": 90 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "phones_case",
+    "container-item": "waterproof_smart_phone_case",
+    "items": [
+      { "item": "smart_phone", "prob": 17, "charges-min": 0, "charges-max": 15 },
+      { "item": "smart_phone", "prob": 1, "charges-min": 130, "charges-max": 130 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "phones_no_case",
     "items": [
       { "item": "cell_phone", "prob": 2, "charges-min": 0, "charges-max": 15 },
       { "item": "cell_phone", "prob": 1, "charges-min": 150, "charges-max": 150 },
@@ -150,7 +174,8 @@
       { "item": "AID_bio_meteorologist" },
       { "item": "AID_bio_railgun" },
       { "item": "AID_bio_ups" },
-      { "item": "AID_bio_weight" }
+      { "item": "AID_bio_weight" },
+      { "item": "AID_bio_trickle" }
     ]
   },
   {

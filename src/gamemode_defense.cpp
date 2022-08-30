@@ -30,7 +30,6 @@
 #include "output.h"
 #include "overmap.h"
 #include "overmapbuffer.h"
-#include "pldata.h"
 #include "point.h"
 #include "popup.h"
 #include "ret_val.h"
@@ -116,7 +115,7 @@ defense_game::defense_game()
 bool defense_game::init()
 {
     calendar::turn = calendar::turn_zero + 12_hours; // Start at noon
-    get_weather().temperature = 65;
+    get_weather().temperature = units::from_fahrenheit( 65 );
     avatar &player_character = get_avatar();
     if( !player_character.create( character_type::CUSTOM ) ) {
         return false;
@@ -195,12 +194,12 @@ void defense_game::pre_action( action_id &act )
         case ACTION_MOVE_LEFT:
         case ACTION_MOVE_FORTH_LEFT: {
             Character &player_character = get_player_character();
-            const tripoint abs_sub = get_map().get_abs_sub();
+            const tripoint_abs_sm abs_sub = get_map().get_abs_sub();
             const point delta = get_delta_from_movement_action( act, iso_rotate::yes );
-            if( ( delta.y < 0 && player_character.posy() == HALF_MAPSIZE_Y && abs_sub.y <= 93 ) ||
-                ( delta.y > 0 && player_character.posy() == HALF_MAPSIZE_Y + SEEY - 1 && abs_sub.y >= 98 ) ||
-                ( delta.x < 0 && player_character.posx() == HALF_MAPSIZE_X && abs_sub.x <= 93 ) ||
-                ( delta.x > 0 && player_character.posx() == HALF_MAPSIZE_X + SEEX - 1 && abs_sub.x >= 98 ) ) {
+            if( ( delta.y < 0 && player_character.posy() == HALF_MAPSIZE_Y && abs_sub.y() <= 93 ) ||
+                ( delta.y > 0 && player_character.posy() == HALF_MAPSIZE_Y + SEEY - 1 && abs_sub.y() >= 98 ) ||
+                ( delta.x < 0 && player_character.posx() == HALF_MAPSIZE_X && abs_sub.x() <= 93 ) ||
+                ( delta.x > 0 && player_character.posx() == HALF_MAPSIZE_X + SEEX - 1 && abs_sub.x() >= 98 ) ) {
                 action_error_message = string_format( _( "You cannot leave the %s behind!" ),
                                                       defense_location_name( location ) );
             }
@@ -250,12 +249,12 @@ void defense_game::init_map()
     ui_manager::redraw();
     refresh_display();
 
-    auto &starting_om = overmap_buffer.get( point_abs_om() );
+    overmap &starting_om = overmap_buffer.get( point_abs_om() );
     for( int x = 0; x < OMAPX; x++ ) {
         for( int y = 0; y < OMAPY; y++ ) {
             tripoint_om_omt p( x, y, 0 );
             starting_om.ter_set( p, oter_id( "field" ) );
-            starting_om.seen( p ) = true;
+            starting_om.set_seen( p, true );
         }
     }
 
@@ -877,7 +876,7 @@ std::string defense_location_description( defense_location location )
     return "Unknown data bug.  (defense.cpp:defense_location_description)";
 }
 
-void defense_game::caravan()
+void defense_game::caravan() const
 {
     std::vector<itype_id> items[NUM_CARAVAN_CATEGORIES];
     std::vector<int> item_count[NUM_CARAVAN_CATEGORIES];
@@ -1112,7 +1111,7 @@ std::string caravan_category_name( caravan_category cat )
         case CARAVAN_RANGED:
             return _( "Ranged Weapons" );
         case CARAVAN_AMMUNITION:
-            return _( "Ammuniton" );
+            return _( "Ammunition" );
         case CARAVAN_COMPONENTS:
             return _( "Crafting & Construction Components" );
         case CARAVAN_FOOD:
@@ -1168,7 +1167,7 @@ std::vector<itype_id> caravan_items( caravan_category cat )
             break;
     }
 
-    for( auto &it : item_list ) {
+    for( item &it : item_list ) {
         itype_id item_type = it.typeId();
         ret.emplace_back( item_type );
         // Add the default magazine types for each gun.
@@ -1345,7 +1344,7 @@ void defense_game::spawn_wave()
     add_msg( m_info, "********" );
 }
 
-std::vector<mtype_id> defense_game::pick_monster_wave()
+std::vector<mtype_id> defense_game::pick_monster_wave() const
 {
     std::vector<mongroup_id> valid;
     std::vector<mtype_id> ret;
@@ -1399,7 +1398,7 @@ void defense_game::spawn_wave_monster( const mtype_id &type )
                 pnt = point( -pnt.x, pnt.y ) + point( MAPSIZE_X - 1, 0 );
             }
         }
-        monster *const mon = g->place_critter_at( type, tripoint( pnt, here.get_abs_sub().z ) );
+        monster *const mon = g->place_critter_at( type, tripoint( pnt, here.get_abs_sub().z() ) );
         if( !mon ) {
             continue;
         }
@@ -1418,12 +1417,14 @@ std::string defense_game::special_wave_message( std::string name )
     std::string ret;
     ret += string_format( _( "Wave %d: " ), current_wave );
 
-    // Capitalize
-    capitalize_letter( name );
-    for( size_t i = 2; i < name.size(); i++ ) {
-        if( name[i - 1] == ' ' ) {
-            capitalize_letter( name, i );
+    std::vector<std::string> words = string_split( name, ' ' );
+    std::transform( words.begin(), words.end(), words.begin(), uppercase_first_letter );
+    name = "";
+    if( !words.empty() ) {
+        for( std::string &word : words ) {
+            str_append( name, word, " " );
         }
+        name.pop_back();
     }
 
     switch( rng( 1, 8 ) ) {

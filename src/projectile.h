@@ -76,6 +76,6 @@ void apply_ammo_effects( const tripoint &p, const std::set<std::string> &effects
 int max_aoe_size( const std::set<std::string> &tags );
 
 void multi_projectile_hit_message( Creature *critter, int hit_count, int damage_taken,
-                                   std::string projectile_name );
+                                   const std::string &projectile_name );
 
 #endif // CATA_SRC_PROJECTILE_H

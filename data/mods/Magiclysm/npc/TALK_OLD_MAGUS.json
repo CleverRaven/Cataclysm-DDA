@@ -7,7 +7,7 @@
       "type": "dialogue",
       "context": "old_magus",
       "value": "yes",
-      "no": "Huh?  *mumble mumble* … Who are you?",
+      "no": "Huh?  *mumble mumble* …Who are you?",
       "yes": "Oh, you again."
     },
     "responses": [

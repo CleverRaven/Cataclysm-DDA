@@ -11,7 +11,7 @@ def parse_effect_type(json, origin):
                 names.add(("", name))
             elif type(name) is dict:
                 names.add((name["ctxt"], name["str"]))
-        for (ctxt, name) in names:
+        for (ctxt, name) in sorted(list(names), key=lambda x: x[1]):
             write_text(name, origin, context=ctxt,
                        comment="Name of effect type id \"{}\""
                        .format(json["id"]))
@@ -29,7 +29,7 @@ def parse_effect_type(json, origin):
                 descs.add(("", desc))
             elif type(desc) is dict:
                 descs.add((desc["ctxt"], desc["str"]))
-        for (ctxt, desc) in descs:
+        for (ctxt, desc) in sorted(list(descs), key=lambda x: x[1]):
             write_text(desc, origin, context=ctxt,
                        comment="Description of effect type \"{}\""
                        .format(effect_name))

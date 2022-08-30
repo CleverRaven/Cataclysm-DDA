@@ -17,46 +17,373 @@
     ]
   },
   {
+    "id": "armor_plates",
+    "type": "item_group",
+    "//": "a list of all plates that could be sold in stores",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "esapi_plate", "prob": 50 },
+      { "item": "stab_plate", "prob": 50 },
+      { "item": "steel_ballistic_plate", "prob": 50 },
+      { "item": "heavy_steel_ballistic_plate", "prob": 50 },
+      { "item": "esbi_plate", "prob": 50 }
+    ]
+  },
+  {
+    "id": "maybe_esapi_plate",
+    "type": "item_group",
+    "//": "plate that is either broken or working",
+    "subtype": "distribution",
+    "entries": [ { "item": "esapi_plate", "prob": 50 }, { "item": "destroyed_large_ceramic_plate", "prob": 50 } ]
+  },
+  {
+    "id": "maybe_esbi_plate",
+    "type": "item_group",
+    "//": "plate that is either broken or working",
+    "subtype": "distribution",
+    "entries": [ { "item": "esbi_plate", "prob": 50 }, { "item": "destroyed_medium_ceramic_plate", "prob": 50 } ]
+  },
+  {
+    "id": "some_esapi_plates",
+    "type": "item_group",
+    "//": "ESAPI plates for full vest",
+    "subtype": "collection",
+    "entries": [
+      { "group": "maybe_esapi_plate" },
+      { "group": "maybe_esapi_plate" },
+      { "group": "maybe_esbi_plate" },
+      { "group": "maybe_esbi_plate" }
+    ]
+  },
+  {
+    "id": "some_esapi_front_plates",
+    "type": "item_group",
+    "//": "ESAPI plates for light vest",
+    "subtype": "collection",
+    "entries": [ { "group": "maybe_esapi_plate" }, { "group": "maybe_esapi_plate" } ]
+  },
+  {
+    "id": "some_steel_front_plates",
+    "type": "item_group",
+    "//": "ESAPI plates for light vest",
+    "subtype": "collection",
+    "entries": [ { "item": "steel_ballistic_plate", "damage": [ 0, 2 ] }, { "item": "steel_ballistic_plate", "damage": [ 0, 2 ] } ]
+  },
+  {
+    "id": "some_heavy_steel_front_plates",
+    "type": "item_group",
+    "//": "ESAPI plates for light vest",
+    "subtype": "collection",
+    "entries": [
+      { "item": "heavy_steel_ballistic_plate", "damage": [ 0, 2 ] },
+      { "item": "heavy_steel_ballistic_plate", "damage": [ 0, 2 ] }
+    ]
+  },
+  {
+    "id": "some_stab_front_plates",
+    "type": "item_group",
+    "//": "ESAPI plates for light vest",
+    "subtype": "collection",
+    "entries": [ { "item": "stab_plate", "damage": [ 0, 2 ] }, { "item": "stab_plate", "damage": [ 0, 2 ] } ]
+  },
+  {
+    "id": "pristine_esapi_plates",
+    "type": "item_group",
+    "//": "ESAPI plates for full vest",
+    "subtype": "collection",
+    "entries": [ { "item": "esapi_plate" }, { "item": "esapi_plate" }, { "item": "esbi_plate" }, { "item": "esbi_plate" } ]
+  },
+  {
+    "id": "pristine_esapi_front_plates",
+    "type": "item_group",
+    "//": "ESAPI plates for light vest",
+    "subtype": "collection",
+    "entries": [ { "item": "esapi_plate" }, { "item": "esapi_plate" } ]
+  },
+  {
+    "id": "some_front_plates",
+    "type": "item_group",
+    "//": "random collection of two matching plates",
+    "subtype": "distribution",
+    "entries": [
+      { "group": "some_esapi_front_plates", "prob": 20 },
+      { "group": "some_steel_front_plates", "prob": 50 },
+      { "group": "some_heavy_steel_front_plates", "prob": 20 },
+      { "group": "some_stab_front_plates", "prob": 50 }
+    ]
+  },
+  {
+    "id": "kitted_heavy_vest",
+    "type": "item_group",
+    "//": "ESAPI plates for full vest and pouches",
+    "subtype": "collection",
+    "entries": [ { "group": "pristine_esapi_plates" }, { "group": "custom_heavy_lbv" } ]
+  },
+  {
+    "id": "used_kitted_heavy_vest",
+    "type": "item_group",
+    "//": "ESAPI plates for full vest and pouches",
+    "subtype": "collection",
+    "entries": [ { "group": "some_esapi_plates" }, { "group": "custom_heavy_lbv" } ]
+  },
+  {
+    "id": "used_kitted_medium_vest",
+    "type": "item_group",
+    "//": "ESAPI plates for full vest and pouches",
+    "subtype": "collection",
+    "entries": [ { "group": "some_esapi_plates" }, { "group": "custom_medium_lbv" } ]
+  },
+  {
+    "id": "kitted_medium_vest",
+    "type": "item_group",
+    "//": "ESAPI plates for full vest and pouches",
+    "subtype": "collection",
+    "entries": [ { "group": "pristine_esapi_plates" }, { "group": "custom_medium_lbv" } ]
+  },
+  {
+    "id": "kitted_light_vest",
+    "type": "item_group",
+    "//": "ESAPI plates for full vest and pouches",
+    "subtype": "collection",
+    "entries": [ { "group": "pristine_esapi_front_plates" }, { "group": "custom_light_lbv" } ]
+  },
+  {
+    "id": "used_kitted_light_vest",
+    "type": "item_group",
+    "//": "ESAPI plates for full vest and pouches",
+    "subtype": "collection",
+    "entries": [ { "group": "some_esapi_front_plates" }, { "group": "custom_light_lbv" } ]
+  },
+  {
     "id": "military_ballistic_vest",
     "type": "item_group",
     "//": "ESAPI vest plus plates",
-    "container-item": "ballistic_vest_esapi",
-    "subtype": "collection",
+    "subtype": "distribution",
     "entries": [
-      { "item": "esapi_plate", "prob": 50 },
-      { "item": "esapi_plate", "prob": 50 },
-      { "item": "esbi_plate", "prob": 50 },
-      { "item": "esbi_plate", "prob": 50 }
+      {
+        "distribution": [
+          {
+            "item": "ballistic_vest_esapi",
+            "variant": "us_ballistic_vest",
+            "contents-group": "used_kitted_medium_vest",
+            "prob": 100
+          },
+          {
+            "collection": [
+              { "item": "ballistic_vest_esapi", "variant": "us_ballistic_vest", "contents-group": "some_esapi_plates" },
+              { "group": "loaded_lbv" }
+            ],
+            "prob": 50
+          }
+        ],
+        "prob": 40
+      },
+      {
+        "collection": [
+          { "item": "level_3_vest", "variant": "national_guard_armor_vest", "contents-group": "some_esapi_front_plates" },
+          { "group": "loaded_lbv" }
+        ],
+        "prob": 50
+      },
+      { "group": "military_ballistic_vest_light", "prob": 10 },
+      { "group": "military_ballistic_vest_heavy", "prob": 5 }
     ]
+  },
+  {
+    "id": "swat_ballistic_vest",
+    "type": "item_group",
+    "//": "ESAPI vest plus plates",
+    "subtype": "distribution",
+    "entries": [
+      {
+        "item": "ballistic_vest_esapi",
+        "variant": "swat_ballistic_vest",
+        "contents-group": "used_kitted_medium_vest",
+        "prob": 7
+      },
+      {
+        "collection": [
+          { "item": "ballistic_vest_esapi", "variant": "swat_ballistic_vest", "contents-group": "some_esapi_plates" },
+          { "item": "tacvest" }
+        ],
+        "prob": 2
+      },
+      {
+        "collection": [
+          { "item": "ballistic_vest_esapi", "variant": "swat_ballistic_vest", "contents-group": "some_esapi_plates" },
+          {
+            "item": "heavy_load_bearing_vest_breacher",
+            "contents-group": "custom_light_lbv",
+            "contents-item": "remington_870_breacher"
+          }
+        ],
+        "prob": 1
+      }
+    ]
+  },
+  {
+    "id": "swat_ballistic_vest_pristine",
+    "type": "item_group",
+    "//": "ESAPI vest plus plates",
+    "subtype": "distribution",
+    "entries": [ { "item": "ballistic_vest_esapi", "variant": "swat_ballistic_vest", "contents-group": "kitted_medium_vest" } ]
   },
   {
     "id": "military_ballistic_vest_pristine",
     "type": "item_group",
     "//": "ESAPI vest plus plates",
-    "container-item": "ballistic_vest_esapi",
     "subtype": "collection",
-    "entries": [ { "item": "esapi_plate" }, { "item": "esapi_plate" }, { "item": "esbi_plate" }, { "item": "esbi_plate" } ]
+    "entries": [
+      {
+        "distribution": [
+          { "item": "ballistic_vest_esapi", "variant": "us_ballistic_vest", "contents-group": "kitted_medium_vest", "prob": 100 },
+          {
+            "collection": [
+              { "item": "ballistic_vest_esapi", "variant": "us_ballistic_vest", "contents-group": "pristine_esapi_plates" },
+              { "group": "loaded_lbv" }
+            ],
+            "prob": 50
+          }
+        ],
+        "prob": 40
+      },
+      {
+        "collection": [
+          { "item": "level_3_vest", "variant": "national_guard_armor_vest", "contents-group": "pristine_esapi_front_plates" },
+          { "group": "loaded_lbv" }
+        ],
+        "prob": 50
+      },
+      { "group": "military_ballistic_vest_light_pristine", "prob": 10 },
+      { "group": "military_ballistic_vest_heavy_pristine", "prob": 5 }
+    ]
+  },
+  {
+    "id": "us_ballistic_vest_pristine",
+    "type": "item_group",
+    "//": "ESAPI vest plus plates",
+    "subtype": "collection",
+    "entries": [ { "item": "ballistic_vest_esapi", "variant": "us_ballistic_vest", "contents-group": "kitted_medium_vest" } ]
+  },
+  {
+    "id": "contractor_ballistic_vest_light",
+    "type": "item_group",
+    "//": "light ballistic vests with assorted plates",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "ballistic_vest_light", "contents-group": "kitted_light_vest", "prob": 50 },
+      { "item": "ballistic_vest_light_pouches", "contents-group": "kitted_light_vest", "prob": 50 },
+      { "item": "ballistic_vest_light_operator", "contents-group": "kitted_light_vest", "prob": 50 }
+    ]
   },
   {
     "id": "military_ballistic_vest_light",
     "type": "item_group",
+    "//": "light ballistic vests you could get away with in the army",
+    "subtype": "distribution",
+    "entries": [
+      {
+        "item": "ballistic_vest_light",
+        "variant": "ballistic_vest_light_tan",
+        "contents-group": "used_kitted_light_vest",
+        "prob": 50
+      },
+      {
+        "item": "ballistic_vest_light",
+        "variant": "ballistic_vest_light_olive",
+        "contents-group": "used_kitted_light_vest",
+        "prob": 50
+      },
+      {
+        "item": "ballistic_vest_light_pouches",
+        "variant": "ballistic_vest_light_tan",
+        "contents-group": "used_kitted_light_vest",
+        "prob": 50
+      },
+      {
+        "item": "ballistic_vest_light_pouches",
+        "variant": "ballistic_vest_light_olive",
+        "contents-group": "used_kitted_light_vest",
+        "prob": 50
+      },
+      {
+        "item": "ballistic_vest_light_operator",
+        "variant": "ballistic_vest_light_tan",
+        "contents-group": "used_kitted_light_vest",
+        "prob": 50
+      },
+      {
+        "item": "ballistic_vest_light_operator",
+        "variant": "ballistic_vest_light_olive",
+        "contents-group": "used_kitted_light_vest",
+        "prob": 50
+      }
+    ]
+  },
+  {
+    "id": "military_ballistic_vest_light_pristine",
+    "type": "item_group",
+    "//": "light ballistic vests you could get away with in the army",
+    "subtype": "distribution",
+    "entries": [
+      {
+        "item": "ballistic_vest_light",
+        "variant": "ballistic_vest_light_tan",
+        "contents-group": "kitted_light_vest",
+        "prob": 50
+      },
+      {
+        "item": "ballistic_vest_light",
+        "variant": "ballistic_vest_light_olive",
+        "contents-group": "kitted_light_vest",
+        "prob": 50
+      },
+      {
+        "item": "ballistic_vest_light_pouches",
+        "variant": "ballistic_vest_light_tan",
+        "contents-group": "kitted_light_vest",
+        "prob": 50
+      },
+      {
+        "item": "ballistic_vest_light_pouches",
+        "variant": "ballistic_vest_light_olive",
+        "contents-group": "kitted_light_vest",
+        "prob": 50
+      },
+      {
+        "item": "ballistic_vest_light_operator",
+        "variant": "ballistic_vest_light_tan",
+        "contents-group": "kitted_light_vest",
+        "prob": 50
+      },
+      {
+        "item": "ballistic_vest_light_operator",
+        "variant": "ballistic_vest_light_olive",
+        "contents-group": "kitted_light_vest",
+        "prob": 50
+      }
+    ]
+  },
+  {
+    "id": "ballistic_vest_light_pristine",
+    "type": "item_group",
     "//": "light ballistic vest plus plates",
-    "container-item": "ballistic_vest_light",
     "subtype": "collection",
-    "entries": [ { "item": "esapi_plate", "prob": 50 }, { "item": "esapi_plate", "prob": 50 } ]
+    "entries": [ { "item": "ballistic_vest_light", "contents-group": "kitted_light_vest" } ]
+  },
+  {
+    "id": "military_ballistic_vest_heavy_pristine",
+    "type": "item_group",
+    "//": "heavy ballistic vest plus plates",
+    "subtype": "collection",
+    "entries": [ { "item": "ballistic_vest_heavy", "contents-group": "kitted_heavy_vest" } ]
   },
   {
     "id": "military_ballistic_vest_heavy",
     "type": "item_group",
     "//": "heavy ballistic vest plus plates",
-    "container-item": "ballistic_vest_heavy",
     "subtype": "collection",
-    "entries": [
-      { "item": "esapi_plate", "prob": 50 },
-      { "item": "esapi_plate", "prob": 50 },
-      { "item": "esbi_plate", "prob": 50 },
-      { "item": "esbi_plate", "prob": 50 }
-    ]
+    "entries": [ { "item": "ballistic_vest_heavy", "contents-group": "used_kitted_heavy_vest" } ]
   },
   {
     "type": "item_group",
@@ -64,7 +391,8 @@
     "subtype": "distribution",
     "entries": [
       { "item": "mossberg_930", "variant": "m1014", "prob": 60, "charges": [ 0, 8 ] },
-      { "item": "mossberg_590", "prob": 40, "charges": [ 0, 9 ] }
+      { "item": "mossberg_590", "prob": 40, "charges": [ 0, 9 ] },
+      { "item": "m26_mass_standalone", "prob": 5, "charges": [ 0, 3 ] }
     ]
   },
   {
@@ -146,7 +474,12 @@
     "subtype": "collection",
     "entries": [
       {
-        "distribution": [ { "item": "holo_sight", "prob": 50 }, { "item": "acog_scope", "prob": 30 }, { "item": "red_dot_sight", "prob": 20 } ]
+        "distribution": [
+          { "item": "holo_sight", "prob": 50 },
+          { "item": "acog_scope", "prob": 30 },
+          { "item": "hybrid_sight_4x", "prob": 30 },
+          { "item": "red_dot_sight", "prob": 20 }
+        ]
       },
       { "distribution": [ { "item": "grip", "prob": 70 }, { "item": "m203", "prob": 30 } ] },
       { "item": "offset_sights", "prob": 30 },
@@ -175,7 +508,7 @@
       { "item": "knuckle_steel_forged", "prob": 5 },
       { "item": "battery_ups", "prob": 10 },
       { "item": "bandages", "prob": 30 },
-      { "item": "adhesive_bandages", "prob": 20 },
+      { "item": "adhesive_bandages", "prob": 20, "count": [ 1, 20 ] },
       { "item": "cotton_ball", "prob": 20 },
       { "item": "iodine", "prob": 5 },
       { "item": "prussian_blue", "prob": 5 },
@@ -237,6 +570,7 @@
       { "item": "sp2022", "prob": 1 },
       { "item": "m27_assault_rifle", "variant": "h&k416a5", "prob": 7 },
       { "item": "mossberg_930", "variant": "m1014", "prob": 2 },
+      { "item": "m26_mass_standalone", "prob": 1 },
       { "item": "m27_assault_rifle", "variant": "scar_l", "prob": 6 },
       { "item": "scar_h", "prob": 5 },
       { "item": "sig_mcx_rattler_sbr", "prob": 1 },
@@ -254,6 +588,7 @@
       { "item": "shot_suppressor", "prob": 1 },
       { "item": "brass_catcher", "prob": 15 },
       { "item": "lighter", "prob": 60, "charges": [ 0, 100 ] },
+      { "item": "small_lighter", "prob": 5, "charges": [ 0, 50 ] },
       { "item": "ref_lighter", "prob": 5, "charges": [ 0, 50 ] },
       { "item": "flashlight", "prob": 40, "charges": [ 0, 300 ] },
       { "item": "heavy_flashlight", "prob": 40, "charges": [ 0, 300 ] },
@@ -272,6 +607,7 @@
       { "item": "rm451_flamethrower", "prob": 1 },
       { "item": "binoculars", "prob": 20 },
       { "item": "masterkey", "prob": 2 },
+      { "item": "m26_mass", "prob": 3 },
       { "item": "rm121aux", "prob": 1 },
       { "item": "shot_flechette", "prob": 5 },
       { "item": "canteen", "prob": 15 },
@@ -279,6 +615,7 @@
       { "item": "camelbak", "prob": 5 },
       { "item": "jerrycan", "prob": 10 },
       { "item": "rucksack", "prob": 20 },
+      { "group": "molle_backpacks_and_accessories", "prob": 15 },
       { "item": "LAW_Packed", "prob": 30 },
       { "item": "m3_carlgustav", "prob": 1 },
       { "item": "m4_carlgustav", "prob": 1 },
@@ -303,7 +640,6 @@
       { "item": "8mm_inc", "prob": 2 },
       { "item": "tac_helmet", "prob": 10 },
       { "item": "tac_fullhelmet", "prob": 5 },
-      { "item": "helmet_lobster", "prob": 5 },
       { "item": "flight_helmet", "prob": 5 },
       { "item": "mil_flight_suit", "prob": 5 },
       { "item": "gum", "prob": 90 },
@@ -330,6 +666,8 @@
       { "item": "bucket", "prob": 4 },
       { "item": "sheath", "prob": 13 },
       { "item": "bootsheath", "prob": 8 },
+      { "item": "leg_sheath6", "prob": 2 },
+      { "item": "throwing_knife", "charges-min": 1, "charges-max": 6, "container-item": "leg_sheath6", "prob": 1 },
       { "group": "tools_toolbox", "prob": 1 },
       { "item": "knife_rm42", "prob": 4 },
       { "item": "survnote", "prob": 1 },
@@ -348,7 +686,9 @@
       { "item": "effective_emitter", "prob": 1 },
       { "item": "high_density_capacitor", "prob": 1 },
       { "item": "emp_gun", "prob": 1 },
-      { "item": "bt_apc9k", "prob": 1 }
+      { "item": "bt_apc9k", "prob": 1 },
+      { "item": "kevlar_nape_protector", "prob": 5 },
+      { "item": "counterweight_pouch", "prob": 5 }
     ]
   },
   {
@@ -373,7 +713,7 @@
       { "item": "radio", "prob": 10, "charges-min": 10, "charges-max": 95 },
       { "item": "boots_combat", "prob": 50 },
       { "item": "bandages", "prob": 10, "charges-min": 1, "charges-max": 3 },
-      { "item": "adhesive_bandages", "prob": 10, "charges-min": 1, "charges-max": 6 },
+      { "item": "adhesive_bandages", "prob": 10, "count": [ 1, 20 ] },
       { "item": "cig", "prob": 60, "charges-min": 1, "charges-max": 20 },
       { "item": "knife_combat", "prob": 30 },
       { "item": "pockknife", "prob": 30 },
@@ -391,6 +731,7 @@
       { "item": "2lcanteen", "prob": 20 },
       { "item": "camelbak", "prob": 10 },
       { "item": "rucksack", "prob": 30 },
+      { "group": "molle_backpacks_and_accessories", "prob": 15 },
       { "item": "heatpack", "prob": 30 },
       { "item": "sleeping_bag_roll", "prob": 20 },
       { "item": "duffelbag", "prob": 25 },
@@ -400,7 +741,9 @@
       { "item": "mag_fieldrepair", "prob": 20 },
       { "item": "mag_comic", "prob": 20 },
       { "group": "book_gunmags", "prob": 20 },
-      { "item": "thermos", "prob": 15 }
+      { "item": "thermos", "prob": 15 },
+      { "item": "kevlar_nape_protector", "prob": 5 },
+      { "item": "counterweight_pouch", "prob": 5 }
     ]
   },
   {
@@ -558,7 +901,7 @@
       { "group": "guns_rifle_milspec", "prob": 10 },
       { "item": "human_flesh", "prob": 4, "count-min": 1, "count-max": 10 },
       { "item": "bone_human", "prob": 10, "count-min": 1, "count-max": 5 },
-      { "item": "rag", "prob": 10, "count-min": 1, "count-max": 10, "custom-flags": [ "FILTHY" ] },
+      { "item": "cotton_patchwork", "prob": 10, "count-min": 1, "count-max": 10, "custom-flags": [ "FILTHY" ] },
       { "item": "sheet_metal", "prob": 22 },
       { "item": "seat", "prob": 4 },
       { "item": "chain", "prob": 20 },
@@ -611,7 +954,7 @@
       { "item": "radio", "prob": 20, "charges": [ 0, 100 ] },
       { "item": "UPS_off", "prob": 8, "charges": [ 0, 1000 ] },
       { "item": "tacvest", "prob": 10 },
-      { "item": "molle_pack", "prob": 8 },
+      { "group": "molle_backpacks_and_accessories", "prob": 15 },
       { "item": "legrig", "prob": 10 },
       { "item": "rucksack", "prob": 20 },
       { "item": "gobag", "prob": 2 },
@@ -619,7 +962,6 @@
       { "item": "recipe_raptor", "prob": 2 },
       { "item": "tac_helmet", "prob": 5 },
       { "item": "tac_fullhelmet", "prob": 2 },
-      { "item": "helmet_lobster", "prob": 2 },
       { "item": "cowboy_hat", "prob": 4 },
       { "item": "mask_bal", "prob": 1 },
       { "item": "sm_extinguisher", "prob": 10, "charges": 10 },
@@ -637,6 +979,88 @@
       { "item": "solarpack", "prob": 1 },
       { "item": "flight_helmet", "prob": 20, "ammo-item": "light_plus_battery_cell", "charges": [ 0, 150 ] },
       { "item": "mil_flight_suit", "prob": 20 }
+    ]
+  },
+  {
+    "id": "inactive_bots_milspec",
+    "type": "item_group",
+    "items": [
+      [ "bot_EMP_hack", 100 ],
+      [ "bot_c4_hack", 25 ],
+      [ "bot_flashbang_hack", 50 ],
+      [ "bot_gasbomb_hack", 50 ],
+      [ "bot_grenade_hack", 50 ],
+      [ "bot_antimateriel", 5 ],
+      [ "bot_manhack", 100 ],
+      [ "bot_mininuke_hack", 2 ],
+      [ "bot_rifleturret", 10 ],
+      [ "bot_crows_m240", 10 ],
+      [ "bot_talon_m202a1", 10 ],
+      [ "bot_dispatch_military", 15 ],
+      [ "bot_turret_searchlight", 75 ]
+    ]
+  },
+  {
+    "id": "maps_milspec",
+    "type": "item_group",
+    "items": [ [ "militarymap", 100 ], [ "satellitemap", 100 ] ]
+  },
+  {
+    "id": "supplies_mechanics_milspec",
+    "type": "item_group",
+    "//": "same as supplies_mechanics, but mostly for heavy vehicle",
+    "items": [
+      [ "v_airjack_item", 20 ],
+      [ "jumper_cable", 15 ],
+      [ "jumper_cable_heavy", 5 ],
+      [ "frame", 10 ],
+      [ "hd_tow_cable", 5 ],
+      [ "hdframe", 20 ],
+      [ "motor", 2 ],
+      [ "wheel", 10 ],
+      { "item": "polycarbonate_sheet", "prob": 4, "count": [ 1, 3 ] },
+      { "item": "rubber_cement", "prob": 15, "count": [ 3, 9 ] },
+      [ "vac_mold", 1 ],
+      [ "wheel_wide", 10 ],
+      [ "wheel_small", 10 ],
+      [ "wheel_wide_or", 5 ],
+      [ "tire_medium", 10 ],
+      [ "tire_wide", 5 ],
+      [ "tire_wide_or", 5 ],
+      [ "deflated_wheel", 10 ],
+      [ "deflated_wheel_wide_or", 5 ],
+      [ "wheel_rim_medium", 5 ],
+      [ "wheel_rim_wide", 5 ],
+      [ "1cyl_combustion", 1 ],
+      [ "v2_combustion", 2 ],
+      [ "i4_combustion", 2 ],
+      [ "v6_combustion", 10 ],
+      [ "v6_diesel", 10 ],
+      { "item": "aero_engine_light", "prob": 1 },
+      [ "vehicle_controls", 3 ],
+      [ "horn_car", 1 ],
+      [ "horn_big", 1 ],
+      [ "v8_combustion", 7 ],
+      [ "v8_diesel", 7 ],
+      [ "v12_combustion", 5 ],
+      [ "v12_diesel", 5 ],
+      [ "small_turbine_engine", 7 ],
+      [ "medium_turbine_engine", 5 ],
+      [ "large_turbine_engine", 3 ],
+      [ "weldrig", 1 ],
+      [ "solar_cell", 1 ],
+      [ "bearing", 1 ],
+      [ "headlight_reinforced", 10 ],
+      [ "motor_large", 1 ],
+      [ "battery_car", 6 ],
+      [ "alternator_car", 6 ],
+      [ "alternator_truck", 6 ],
+      [ "hd_tow_cable", 1 ],
+      [ "generator_7500w", 3 ],
+      [ "storage_battery", 6 ],
+      [ "motor_oil", 100 ],
+      [ "solar_panel", 3 ],
+      [ "recharge_station", 8 ]
     ]
   }
 ]

@@ -41,7 +41,10 @@ class talker_character_const: public talker
         int posy() const override;
         int posz() const override;
         tripoint pos() const override;
+        tripoint_abs_ms global_pos() const override;
         tripoint_abs_omt global_omt_location() const override;
+        int get_cur_hp( const bodypart_id &bp ) const override;
+        int get_cur_part_temp( const bodypart_id &bp ) const override;
 
         // stats, skills, traits, bionics, and magic
         int str_cur() const override;
@@ -53,12 +56,16 @@ class talker_character_const: public talker
         int get_dex_max() const override;
         int get_int_max() const override;
         int get_per_max() const override;
+        int get_str_bonus() const override;
+        int get_dex_bonus() const override;
+        int get_int_bonus() const override;
+        int get_per_bonus() const override;
         units::energy power_cur() const override;
         units::energy power_max() const override;
         int mana_cur() const override;
         int mana_max() const override;
         bool has_trait( const trait_id &trait_to_check ) const override;
-        bool has_trait_flag( const json_character_flag &trait_flag_to_check ) const override;
+        bool has_flag( const json_character_flag &trait_flag_to_check ) const override;
         bool crossed_threshold() const override;
         int num_bionics() const override;
         bool has_max_power() const override;
@@ -78,6 +85,7 @@ class talker_character_const: public talker
         bool is_wearing( const itype_id &item_id ) const override;
         int charges_of( const itype_id &item_id ) const override;
         bool has_charges( const itype_id &item_id, int count ) const override;
+        bool has_charges( const itype_id &item_id, int count, bool in_tools ) const override;
         bool has_amount( const itype_id &item_id, int count ) const override;
         int get_amount( const itype_id &item_id ) const override;
         int cash() const override;
@@ -94,25 +102,38 @@ class talker_character_const: public talker
         std::string short_description() const override;
         bool has_activity() const override;
         bool is_mounted() const override;
+        int get_activity_level() const override;
         int get_fatigue() const override;
         int get_hunger() const override;
         int get_thirst() const override;
+        int get_instant_thirst() const override;
         int get_stored_kcal() const override;
         bool is_in_control_of( const vehicle &veh ) const override;
 
 
-        bool worn_with_flag( const flag_id &flag ) const override;
+        bool worn_with_flag( const flag_id &flag, const bodypart_id &bp ) const override;
         bool wielded_with_flag( const flag_id &flag ) const override;
+        bool has_item_with_flag( const flag_id &flag ) const override;
 
         bool can_see() const override;
         int morale_cur() const override;
         int focus_cur() const override;
         int get_rad() const override;
         int get_stim() const override;
+        int get_addiction_intensity( const addiction_id &add_id ) const override;
+        int get_addiction_turns( const addiction_id &add_id ) const override;
         int get_pkill() const override;
         int get_stamina() const override;
         int get_sleep_deprivation() const override;
         int get_kill_xp() const override;
+        int get_age() const override;
+        int get_height() const override;
+        int get_bmi_permil() const override;
+        const move_mode_id &get_move_mode() const override;
+        int get_fine_detail_vision_mod() const override;
+        int get_health() const override;
+        int get_body_temp() const override;
+        int get_body_temp_delta() const override;
     protected:
         talker_character_const() = default;
         const Character *me_chr_const;
@@ -148,14 +169,21 @@ class talker_character: public talker_character_const
         void set_dex_max( int value ) override;
         void set_int_max( int value ) override;
         void set_per_max( int value ) override;
+        void set_str_bonus( int value ) override;
+        void set_dex_bonus( int value ) override;
+        void set_int_bonus( int value ) override;
+        void set_per_bonus( int value ) override;
         void set_power_cur( units::energy value ) override;
         void set_mana_cur( int value ) override;
+        void mutate( const int &highest_cat_chance, const bool &use_vitamins ) override;
+        void mutate_category( const mutation_category_id &mut_cat, const bool &use_vitamins ) override;
         void set_mutation( const trait_id &new_trait ) override;
         void unset_mutation( const trait_id &old_trait ) override;
         void set_skill_level( const skill_id &skill, int value ) override;
 
         void add_effect( const efftype_id &new_effect, const time_duration &dur,
-                         std::string bp, bool permanent, bool force, int intensity ) override;
+                         const std::string &bp, bool permanent, bool force, int intensity
+                       ) override;
         void remove_effect( const efftype_id &old_effect ) override;
         void set_value( const std::string &var_name, const std::string &value ) override;
         void remove_value( const std::string &var_name ) override;
@@ -163,6 +191,7 @@ class talker_character: public talker_character_const
         // inventory, buying, and selling
         std::vector<item *> items_with( const std::function<bool( const item & )> &filter ) const override;
         std::list<item> use_charges( const itype_id &item_name, int count ) override;
+        std::list<item> use_charges( const itype_id &item_name, int count, bool in_tools ) override;
         std::list<item> use_amount( const itype_id &item_name, int count ) override;
         void i_add( const item &new_item ) override;
         void remove_items_with( const std::function<bool( const item & )> &filter ) override;
@@ -176,10 +205,11 @@ class talker_character: public talker_character_const
 
         void set_fatigue( int amount ) override;
         void mod_pain( int amount ) override;
-        void mod_healthy_mod( int, int ) override;
+        void mod_daily_health( int, int ) override;
         void add_morale( const morale_type &new_morale, int bonus, int max_bonus, time_duration duration,
                          time_duration decay_started, bool capped ) override;
         void remove_morale( const morale_type &old_morale ) override;
+        void set_addiction_turns( const addiction_id &add_id, int amount ) override;
         void mod_focus( int ) override;
         void set_rad( int ) override;
         void set_stim( int ) override;
@@ -187,6 +217,8 @@ class talker_character: public talker_character_const
         void set_stamina( int ) override;
         void set_sleep_deprivation( int ) override;
         void set_kill_xp( int ) override;
+        void set_age( int ) override;
+        void set_height( int ) override;
         void add_bionic( const bionic_id &new_bionic ) override;
         void remove_bionic( const bionic_id &old_bionic ) override;
         std::vector<skill_id> skills_teacheable() const override;

@@ -155,7 +155,7 @@ void computer::load_legacy_data( const std::string &data )
         int tmpsec;
 
         dump >> tmpname >> tmpaction >> tmpsec;
-        // Legacy missle launch option that got removed before `computer_action` was
+        // Legacy missile launch option that got removed before `computer_action` was
         // refactored to be saved and loaded as string ids. Do not change this number:
         // `computer_action` now has different underlying values from back then!
         if( tmpaction == 15 ) {

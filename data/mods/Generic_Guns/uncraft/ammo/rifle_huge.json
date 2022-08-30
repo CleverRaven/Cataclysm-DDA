@@ -7,8 +7,7 @@
     "difficulty": 5,
     "time": "5 s",
     "qualities": [ { "id": "PULL", "level": 1 } ],
-    "components": [ [ [ "gunpowder_rifle", 30 ] ], [ [ "rifle_huge_casing", 1 ] ], [ [ "lgrifle_primer", 1 ] ], [ [ "lead", 12 ] ] ],
-    "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
+    "components": [ [ [ "gunpowder_rifle", 30 ] ], [ [ "rifle_huge_casing", 1 ] ], [ [ "lgrifle_primer", 1 ] ], [ [ "lead", 12 ] ] ]
   },
   {
     "result": "rifle_huge_AP",
@@ -25,7 +24,6 @@
       [ [ "lead", 12 ] ],
       [ [ "copper", 6 ] ],
       [ [ "scrap", 3 ] ]
-    ],
-    "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
+    ]
   }
 ]

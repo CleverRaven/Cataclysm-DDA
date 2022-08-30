@@ -23,6 +23,7 @@
 #include "activity_actor_definitions.h"
 #include "activity_type.h"
 #include "avatar.h"
+#include "avatar_action.h"
 #include "bionics.h"
 #include "bodypart.h"
 #include "calendar.h"
@@ -35,6 +36,7 @@
 #include "coordinates.h"
 #include "creature.h"
 #include "creature_tracker.h"
+#include "cuboid_rectangle.h"
 #include "damage.h"
 #include "debug.h"
 #include "effect.h" // for weed_msg
@@ -73,6 +75,7 @@
 #include "monster.h"
 #include "morale_types.h"
 #include "mtype.h"
+#include "music.h"
 #include "mutation.h"
 #include "npc.h"
 #include "omdata.h"
@@ -83,7 +86,6 @@
 #include "overmapbuffer.h"
 #include "pimpl.h"
 #include "player_activity.h"
-#include "pldata.h"
 #include "point.h"
 #include "popup.h" // For play_game
 #include "recipe.h"
@@ -104,6 +106,7 @@
 #include "try_parse_integer.h"
 #include "type_id.h"
 #include "ui.h"
+#include "ui_manager.h"
 #include "units.h"
 #include "units_utility.h"
 #include "value_ptr.h"
@@ -118,28 +121,31 @@
 #include "weather_gen.h"
 #include "weather_type.h"
 
-static const activity_id ACT_CHOP_LOGS( "ACT_CHOP_LOGS" );
-static const activity_id ACT_CHOP_PLANKS( "ACT_CHOP_PLANKS" );
-static const activity_id ACT_CHOP_TREE( "ACT_CHOP_TREE" );
-static const activity_id ACT_CHURN( "ACT_CHURN" );
-static const activity_id ACT_CLEAR_RUBBLE( "ACT_CLEAR_RUBBLE" );
-static const activity_id ACT_FILL_PIT( "ACT_FILL_PIT" );
 static const activity_id ACT_FISH( "ACT_FISH" );
 static const activity_id ACT_GAME( "ACT_GAME" );
 static const activity_id ACT_GENERIC_GAME( "ACT_GENERIC_GAME" );
 static const activity_id ACT_HAND_CRANK( "ACT_HAND_CRANK" );
 static const activity_id ACT_HEATING( "ACT_HEATING" );
 static const activity_id ACT_JACKHAMMER( "ACT_JACKHAMMER" );
-static const activity_id ACT_MIND_SPLICER( "ACT_MIND_SPLICER" );
 static const activity_id ACT_PICKAXE( "ACT_PICKAXE" );
 static const activity_id ACT_ROBOT_CONTROL( "ACT_ROBOT_CONTROL" );
 static const activity_id ACT_VIBE( "ACT_VIBE" );
 static const activity_id ACT_WASH( "ACT_WASH" );
 
+static const addiction_id addiction_marloss_b( "marloss_b" );
+static const addiction_id addiction_marloss_r( "marloss_r" );
+static const addiction_id addiction_marloss_y( "marloss_y" );
+static const addiction_id addiction_nicotine( "nicotine" );
+
 static const ammotype ammo_battery( "battery" );
 
 static const bionic_id bio_shock( "bio_shock" );
 static const bionic_id bio_tools( "bio_tools" );
+
+static const construction_str_id construction_constr_fill_pit( "constr_fill_pit" );
+static const construction_str_id construction_constr_pit( "constr_pit" );
+static const construction_str_id construction_constr_pit_shallow( "constr_pit_shallow" );
+static const construction_str_id construction_constr_water_channel( "constr_water_channel" );
 
 static const efftype_id effect_adrenaline( "adrenaline" );
 static const efftype_id effect_antibiotic( "antibiotic" );
@@ -232,6 +238,7 @@ static const efftype_id effect_weed_high( "weed_high" );
 
 static const flag_id json_flag_POWER_CORD( "POWER_CORD" );
 
+static const furn_str_id furn_f_aluminum_stepladder( "f_aluminum_stepladder" );
 static const furn_str_id furn_f_ladder( "f_ladder" );
 
 static const itype_id itype_advanced_ecig( "advanced_ecig" );
@@ -239,11 +246,13 @@ static const itype_id itype_afs_atomic_smartphone( "afs_atomic_smartphone" );
 static const itype_id itype_afs_atomic_smartphone_music( "afs_atomic_smartphone_music" );
 static const itype_id itype_afs_atomic_wraitheon_music( "afs_atomic_wraitheon_music" );
 static const itype_id itype_afs_wraitheon_smartphone( "afs_wraitheon_smartphone" );
+static const itype_id itype_aluminum_stepladder( "aluminum_stepladder" );
 static const itype_id itype_apparatus( "apparatus" );
-static const itype_id itype_arrow_flamming( "arrow_flamming" );
+static const itype_id itype_arcade_machine( "arcade_machine" );
 static const itype_id itype_atomic_coffeepot( "atomic_coffeepot" );
 static const itype_id itype_barometer( "barometer" );
 static const itype_id itype_battery( "battery" );
+static const itype_id itype_blood_tainted( "blood_tainted" );
 static const itype_id itype_c4armed( "c4armed" );
 static const itype_id itype_canister_empty( "canister_empty" );
 static const itype_id itype_chainsaw_off( "chainsaw_off" );
@@ -251,10 +260,11 @@ static const itype_id itype_chainsaw_on( "chainsaw_on" );
 static const itype_id itype_cig( "cig" );
 static const itype_id itype_cigar( "cigar" );
 static const itype_id itype_cow_bell( "cow_bell" );
-static const itype_id itype_data_card( "data_card" );
 static const itype_id itype_detergent( "detergent" );
 static const itype_id itype_e_handcuffs( "e_handcuffs" );
 static const itype_id itype_ecig( "ecig" );
+static const itype_id itype_emf_detector( "emf_detector" );
+static const itype_id itype_emf_detector_on( "emf_detector_on" );
 static const itype_id itype_fire( "fire" );
 static const itype_id itype_firecracker_act( "firecracker_act" );
 static const itype_id itype_firecracker_pack_act( "firecracker_pack_act" );
@@ -265,6 +275,7 @@ static const itype_id itype_handrolled_cig( "handrolled_cig" );
 static const itype_id itype_heatpack_used( "heatpack_used" );
 static const itype_id itype_hygrometer( "hygrometer" );
 static const itype_id itype_joint( "joint" );
+static const itype_id itype_liquid_soap( "liquid_soap" );
 static const itype_id itype_log( "log" );
 static const itype_id itype_mask_h20survivor_on( "mask_h20survivor_on" );
 static const itype_id itype_mininuke_act( "mininuke_act" );
@@ -285,7 +296,6 @@ static const itype_id itype_radio_car_on( "radio_car_on" );
 static const itype_id itype_radio_on( "radio_on" );
 static const itype_id itype_rebreather_on( "rebreather_on" );
 static const itype_id itype_rebreather_xl_on( "rebreather_xl_on" );
-static const itype_id itype_rmi2_corpse( "rmi2_corpse" );
 static const itype_id itype_shocktonfa_off( "shocktonfa_off" );
 static const itype_id itype_shocktonfa_on( "shocktonfa_on" );
 static const itype_id itype_smart_phone( "smart_phone" );
@@ -293,7 +303,7 @@ static const itype_id itype_smartphone_music( "smartphone_music" );
 static const itype_id itype_soap( "soap" );
 static const itype_id itype_soldering_iron( "soldering_iron" );
 static const itype_id itype_spiral_stone( "spiral_stone" );
-static const itype_id itype_thermometer( "thermometer" );
+static const itype_id itype_stepladder( "stepladder" );
 static const itype_id itype_towel( "towel" );
 static const itype_id itype_towel_wet( "towel_wet" );
 static const itype_id itype_water( "water" );
@@ -328,8 +338,6 @@ static const quality_id qual_LOCKPICK( "LOCKPICK" );
 static const quality_id qual_PRY( "PRY" );
 static const quality_id qual_SCREW_FINE( "SCREW_FINE" );
 
-static const requirement_id requirement_data_autoclave_item( "autoclave_item" );
-
 static const skill_id skill_computer( "computer" );
 static const skill_id skill_cooking( "cooking" );
 static const skill_id skill_electronics( "electronics" );
@@ -344,6 +352,7 @@ static const species_id species_FUNGUS( "FUNGUS" );
 static const species_id species_HALLUCINATION( "HALLUCINATION" );
 static const species_id species_INSECT( "INSECT" );
 static const species_id species_ROBOT( "ROBOT" );
+static const species_id species_ZOMBIE( "ZOMBIE" );
 
 static const ter_str_id ter_t_grave( "t_grave" );
 static const ter_str_id ter_t_grave_new( "t_grave_new" );
@@ -374,9 +383,8 @@ static const trait_id trait_MASOCHIST( "MASOCHIST" );
 static const trait_id trait_MASOCHIST_MED( "MASOCHIST_MED" );
 static const trait_id trait_M_DEPENDENT( "M_DEPENDENT" );
 static const trait_id trait_NOPAIN( "NOPAIN" );
-static const trait_id trait_NUMB( "NUMB" );
 static const trait_id trait_PSYCHOPATH( "PSYCHOPATH" );
-static const trait_id trait_SAPROVORE( "SAPROVORE" );
+static const trait_id trait_PYROMANIA( "PYROMANIA" );
 static const trait_id trait_SPIRITUAL( "SPIRITUAL" );
 static const trait_id trait_THRESH_MARLOSS( "THRESH_MARLOSS" );
 static const trait_id trait_THRESH_MYCUS( "THRESH_MYCUS" );
@@ -388,6 +396,8 @@ static const vitamin_id vitamin_blood( "blood" );
 static const vitamin_id vitamin_redcells( "redcells" );
 
 static const vproto_id vehicle_prototype_none( "none" );
+
+static const weather_type_id weather_portal_storm( "portal_storm" );
 
 // how many characters per turn of radio
 static constexpr int RADIO_PER_TURN = 25;
@@ -480,12 +490,7 @@ cata::optional<std::string> iuse::can_smoke( const Character &you )
     return cata::nullopt;
 }
 
-/* iuse methods return the number of charges expended or no value, which is usually it->charges_to_use().
- * Some items that don't normally use charges return 1 to indicate they're used up.
- * Regardless, returning 0 indicates the item has not been used up,
- * though it may have been successfully activated.  A return of no value means it was not used.
- */
-cata::optional<int> iuse::sewage( Character *p, item *it, bool, const tripoint & )
+cata::optional<int> iuse::sewage( Character *p, item *, bool, const tripoint & )
 {
     if( !p->query_yn( _( "Are you sure you want to drink… this?" ) ) ) {
         return cata::nullopt;
@@ -493,13 +498,13 @@ cata::optional<int> iuse::sewage( Character *p, item *it, bool, const tripoint &
 
     get_event_bus().send<event_type::eats_sewage>();
     p->vomit();
-    return it->type->charges_to_use();
+    return 1;
 }
 
-cata::optional<int> iuse::honeycomb( Character *p, item *it, bool, const tripoint & )
+cata::optional<int> iuse::honeycomb( Character *p, item *, bool, const tripoint & )
 {
     get_map().spawn_item( p->pos(), itype_wax, 2 );
-    return it->type->charges_to_use();
+    return 1;
 }
 
 cata::optional<int> iuse::xanax( Character *p, item *it, bool, const tripoint & )
@@ -507,7 +512,7 @@ cata::optional<int> iuse::xanax( Character *p, item *it, bool, const tripoint & 
     p->add_msg_if_player( _( "You take some %s." ), it->tname() );
     p->add_effect( effect_took_xanax, 90_minutes );
     p->add_effect( effect_took_xanax_visible, rng( 70_minutes, 110_minutes ) );
-    return it->type->charges_to_use();
+    return 1;
 }
 
 static constexpr time_duration alc_strength( const int strength, const time_duration &weak,
@@ -536,7 +541,7 @@ static int alcohol( Character &p, const item &it, const int strength )
         duration += alc_strength( strength, 9_minutes, 16_minutes, 24_minutes );
     }
     p.add_effect( effect_drunk, duration );
-    return it.type->charges_to_use();
+    return 1;
 }
 
 cata::optional<int> iuse::alcohol_weak( Character *p, item *it, bool, const tripoint & )
@@ -609,11 +614,11 @@ cata::optional<int> iuse::smoking( Character *p, item *it, bool, const tripoint 
         }
     }
     if( p->get_effect_dur( effect_cig ) > 10_minutes * ( p->addiction_level(
-                add_type::CIG ) + 1 ) ) {
+                addiction_nicotine ) + 1 ) ) {
         p->add_msg_if_player( m_bad, _( "Ugh, too much smoke… you feel nasty." ) );
     }
 
-    return it->type->charges_to_use();
+    return 1;
 }
 
 cata::optional<int> iuse::ecig( Character *p, item *it, bool, const tripoint & )
@@ -637,13 +642,13 @@ cata::optional<int> iuse::ecig( Character *p, item *it, bool, const tripoint & )
     p->mod_hunger( -1 );
     p->add_effect( effect_cig, 10_minutes );
     if( p->get_effect_dur( effect_cig ) > 10_minutes * ( p->addiction_level(
-                add_type::CIG ) + 1 ) ) {
+                addiction_nicotine ) + 1 ) ) {
         p->add_msg_if_player( m_bad, _( "Ugh, too much nicotine… you feel nasty." ) );
     }
-    return it->type->charges_to_use();
+    return 1;
 }
 
-cata::optional<int> iuse::antibiotic( Character *p, item *it, bool, const tripoint & )
+cata::optional<int> iuse::antibiotic( Character *p, item *, bool, const tripoint & )
 {
     p->add_msg_player_or_npc( m_neutral,
                               _( "You take some antibiotics." ),
@@ -662,7 +667,7 @@ cata::optional<int> iuse::antibiotic( Character *p, item *it, bool, const tripoi
     }
     p->add_effect( effect_antibiotic, 12_hours );
     p->add_effect( effect_antibiotic_visible, rng( 9_hours, 15_hours ) );
-    return it->type->charges_to_use();
+    return 1;
 }
 
 cata::optional<int> iuse::eyedrops( Character *p, item *it, bool, const tripoint & )
@@ -671,7 +676,7 @@ cata::optional<int> iuse::eyedrops( Character *p, item *it, bool, const tripoint
         p->add_msg_if_player( m_info, _( "You can't do that while underwater." ) );
         return cata::nullopt;
     }
-    if( it->charges < it->type->charges_to_use() ) {
+    if( !it->ammo_sufficient( p ) ) {
         p->add_msg_if_player( _( "You're out of %s." ), it->tname() );
         return cata::nullopt;
     }
@@ -681,10 +686,10 @@ cata::optional<int> iuse::eyedrops( Character *p, item *it, bool, const tripoint
         p->remove_effect( effect_boomered );
         p->add_msg_if_player( m_good, _( "You wash the slime from your eyes." ) );
     }
-    return it->type->charges_to_use();
+    return 1;
 }
 
-cata::optional<int> iuse::fungicide( Character *p, item *it, bool, const tripoint & )
+cata::optional<int> iuse::fungicide( Character *p, item *, bool, const tripoint & )
 {
     if( p->is_underwater() ) {
         p->add_msg_if_player( m_info, _( "You can't do that while underwater." ) );
@@ -739,10 +744,10 @@ cata::optional<int> iuse::fungicide( Character *p, item *it, bool, const tripoin
             }
         }
     }
-    return it->type->charges_to_use();
+    return 1;
 }
 
-cata::optional<int> iuse::antifungal( Character *p, item *it, bool, const tripoint & )
+cata::optional<int> iuse::antifungal( Character *p, item *, bool, const tripoint & )
 {
     if( p->is_underwater() ) {
         p->add_msg_if_player( m_info, _( "You can't do that while underwater." ) );
@@ -758,10 +763,10 @@ cata::optional<int> iuse::antifungal( Character *p, item *it, bool, const tripoi
             p->add_msg_if_player( m_warning, _( "Your skin grows warm for a moment." ) );
         }
     }
-    return it->type->charges_to_use();
+    return 1;
 }
 
-cata::optional<int> iuse::antiparasitic( Character *p, item *it, bool, const tripoint & )
+cata::optional<int> iuse::antiparasitic( Character *p, item *, bool, const tripoint & )
 {
     if( p->is_underwater() ) {
         p->add_msg_if_player( m_info, _( "You can't do that while underwater." ) );
@@ -808,10 +813,10 @@ cata::optional<int> iuse::antiparasitic( Character *p, item *it, bool, const tri
             p->add_msg_if_player( m_good, _( "The pain in your joints goes away." ) );
         }
     }
-    return it->type->charges_to_use();
+    return 1;
 }
 
-cata::optional<int> iuse::anticonvulsant( Character *p, item *it, bool, const tripoint & )
+cata::optional<int> iuse::anticonvulsant( Character *p, item *, bool, const tripoint & )
 {
     p->add_msg_if_player( _( "You take some anticonvulsant medication." ) );
     /** @EFFECT_STR reduces duration of anticonvulsant medication */
@@ -829,10 +834,10 @@ cata::optional<int> iuse::anticonvulsant( Character *p, item *it, bool, const tr
         p->remove_effect( effect_shakes );
         p->add_msg_if_player( m_good, _( "You stop shaking." ) );
     }
-    return it->type->charges_to_use();
+    return 1;
 }
 
-cata::optional<int> iuse::weed_cake( Character *p, item *it, bool, const tripoint & )
+cata::optional<int> iuse::weed_cake( Character *p, item *, bool, const tripoint & )
 {
     p->add_msg_if_player(
         _( "You start scarfing down the delicious cake.  It tastes a little funny, though…" ) );
@@ -853,10 +858,10 @@ cata::optional<int> iuse::weed_cake( Character *p, item *it, bool, const tripoin
     if( one_in( 5 ) ) {
         weed_msg( *p );
     }
-    return it->type->charges_to_use();
+    return 1;
 }
 
-cata::optional<int> iuse::coke( Character *p, item *it, bool, const tripoint & )
+cata::optional<int> iuse::coke( Character *p, item *, bool, const tripoint & )
 {
     p->add_msg_if_player( _( "You snort a bump of coke." ) );
     /** @EFFECT_STR reduces duration of coke */
@@ -869,10 +874,10 @@ cata::optional<int> iuse::coke( Character *p, item *it, bool, const tripoint & )
     }
     p->mod_hunger( -8 );
     p->add_effect( effect_high, duration );
-    return it->type->charges_to_use();
+    return 1;
 }
 
-cata::optional<int> iuse::meth( Character *p, item *it, bool, const tripoint & )
+cata::optional<int> iuse::meth( Character *p, item *, bool, const tripoint & )
 {
     /** @EFFECT_STR reduces duration of meth */
     time_duration duration = 1_minutes * ( 60 - p->str_cur );
@@ -888,8 +893,8 @@ cata::optional<int> iuse::meth( Character *p, item *it, bool, const tripoint & )
         map &here = get_map();
         // breathe out some smoke
         for( int i = 0; i < 3; i++ ) {
-            here.add_field( {p->posx() + static_cast<int>( rng( -2, 2 ) ), p->posy() + static_cast<int>( rng( -2, 2 ) ), p->posz()},
-                            field_type_id( "fd_methsmoke" ), 2 );
+            point offset( rng( -2, 2 ), rng( -2, 2 ) );
+            here.add_field( p->pos_bub() + offset, field_type_id( "fd_methsmoke" ), 2 );
         }
     } else {
         p->add_msg_if_player( _( "You snort some crystal meth." ) );
@@ -907,18 +912,18 @@ cata::optional<int> iuse::meth( Character *p, item *it, bool, const tripoint & )
         }
         p->add_effect( effect_meth, duration );
     }
-    return it->type->charges_to_use();
+    return 1;
 }
 
 cata::optional<int> iuse::vaccine( Character *p, item *it, bool, const tripoint & )
 {
     p->add_msg_if_player( _( "You inject the vaccine." ) );
     p->add_msg_if_player( m_good, _( "You feel tough." ) );
-    p->mod_healthy_mod( 200, 200 );
+    p->mod_daily_health( 200, 200 );
     p->mod_pain( 3 );
     item syringe( "syringe", it->birthday() );
-    p->i_add( syringe );
-    return it->type->charges_to_use();
+    p->i_add_or_drop( syringe );
+    return 1;
 }
 
 cata::optional<int> iuse::flu_vaccine( Character *p, item *it, bool, const tripoint & )
@@ -936,14 +941,14 @@ cata::optional<int> iuse::flu_vaccine( Character *p, item *it, bool, const tripo
     }
     p->mod_pain( 3 );
     item syringe( "syringe", it->birthday() );
-    p->i_add( syringe );
-    return it->type->charges_to_use();
+    p->i_add_or_drop( syringe );
+    return 1;
 }
 
 cata::optional<int> iuse::poison( Character *p, item *it, bool, const tripoint & )
 {
     if( p->has_trait( trait_EATDEAD ) ) {
-        return it->type->charges_to_use();
+        return 1;
     }
 
     // NPCs have a magical sense of what is inedible
@@ -955,11 +960,11 @@ cata::optional<int> iuse::poison( Character *p, item *it, bool, const tripoint &
     }
     /** @EFFECT_STR increases EATPOISON trait effectiveness (50-90%) */
     if( p->has_trait( trait_EATPOISON ) && ( !one_in( p->str_cur / 2 ) ) ) {
-        return it->type->charges_to_use();
+        return 1;
     }
     p->add_effect( effect_poison, 1_hours );
     p->add_effect( effect_foodpoison, 3_hours );
-    return it->type->charges_to_use();
+    return 1;
 }
 
 cata::optional<int> iuse::meditate( Character *p, item *it, bool t, const tripoint & )
@@ -977,10 +982,10 @@ cata::optional<int> iuse::meditate( Character *p, item *it, bool t, const tripoi
         p->add_msg_if_player( _( "This %s probably meant a lot to someone at one time." ),
                               it->tname() );
     }
-    return it->type->charges_to_use();
+    return 1;
 }
 
-cata::optional<int> iuse::thorazine( Character *p, item *it, bool, const tripoint & )
+cata::optional<int> iuse::thorazine( Character *p, item *, bool, const tripoint & )
 {
     if( p->has_effect( effect_took_thorazine ) ) {
         p->remove_effect( effect_took_thorazine );
@@ -1002,10 +1007,10 @@ cata::optional<int> iuse::thorazine( Character *p, item *it, bool, const tripoin
         p->add_msg_if_player( m_warning, _( "You feel a bit wobbly." ) );
     }
     p->add_effect( effect_took_thorazine_visible, rng( 9_hours, 15_hours ) );
-    return it->type->charges_to_use();
+    return 1;
 }
 
-cata::optional<int> iuse::prozac( Character *p, item *it, bool, const tripoint & )
+cata::optional<int> iuse::prozac( Character *p, item *, bool, const tripoint & )
 {
     if( !p->has_effect( effect_took_prozac ) ) {
         p->add_effect( effect_took_prozac, 12_hours );
@@ -1017,7 +1022,7 @@ cata::optional<int> iuse::prozac( Character *p, item *it, bool, const tripoint &
         p->add_effect( effect_took_prozac_bad, p->get_effect_dur( effect_took_prozac ) );
     }
     p->add_effect( effect_took_prozac_visible, rng( 9_hours, 15_hours ) );
-    return it->type->charges_to_use();
+    return 1;
 }
 
 cata::optional<int> iuse::datura( Character *p, item *it, bool, const tripoint & )
@@ -1031,14 +1036,14 @@ cata::optional<int> iuse::datura( Character *p, item *it, bool, const tripoint &
     if( p->has_trait( trait_SPIRITUAL ) ) {
         p->add_morale( MORALE_FOOD_GOOD, 36, 72, 2_hours, 1_hours, false, it->type );
     }
-    return it->type->charges_to_use();
+    return 1;
 }
 
 cata::optional<int> iuse::flumed( Character *p, item *it, bool, const tripoint & )
 {
     p->add_effect( effect_took_flumed, 10_hours );
     p->add_msg_if_player( _( "You take some %s." ), it->tname() );
-    return it->type->charges_to_use();
+    return 1;
 }
 
 cata::optional<int> iuse::flusleep( Character *p, item *it, bool, const tripoint & )
@@ -1047,10 +1052,10 @@ cata::optional<int> iuse::flusleep( Character *p, item *it, bool, const tripoint
     p->mod_fatigue( 30 );
     p->add_msg_if_player( _( "You take some %s." ), it->tname() );
     p->add_msg_if_player( m_warning, _( "You feel very sleepy…" ) );
-    return it->type->charges_to_use();
+    return 1;
 }
 
-cata::optional<int> iuse::inhaler( Character *p, item *it, bool, const tripoint & )
+cata::optional<int> iuse::inhaler( Character *p, item *, bool, const tripoint & )
 {
     p->add_msg_player_or_npc( m_neutral, _( "You take a puff from your inhaler." ),
                               _( "<npcname> takes a puff from their inhaler." ) );
@@ -1062,7 +1067,7 @@ cata::optional<int> iuse::inhaler( Character *p, item *it, bool, const tripoint 
     }
     p->add_effect( effect_took_antiasthmatic, rng( 6_hours, 12_hours ) );
     p->remove_effect( effect_smoke );
-    return it->type->charges_to_use();
+    return 1;
 }
 
 cata::optional<int> iuse::oxygen_bottle( Character *p, item *it, bool, const tripoint & )
@@ -1083,7 +1088,7 @@ cata::optional<int> iuse::oxygen_bottle( Character *p, item *it, bool, const tri
         p->mod_painkiller( 2 );
     }
     p->mod_painkiller( 2 );
-    return it->type->charges_to_use();
+    return 1;
 }
 
 cata::optional<int> iuse::blech( Character *p, item *it, bool, const tripoint & )
@@ -1107,8 +1112,8 @@ cata::optional<int> iuse::blech( Character *p, item *it, bool, const tripoint & 
         p->stomach.mod_nutr( -p->nutrition_for( *it ) * multiplier );
         p->mod_thirst( -it->get_comestible()->quench * multiplier );
         p->stomach.mod_quench( 20 ); //acidproof people can drink acids like diluted water.
-        p->mod_healthy_mod( it->get_comestible()->healthy * multiplier,
-                            it->get_comestible()->healthy * multiplier );
+        p->mod_daily_health( it->get_comestible()->healthy * multiplier,
+                             it->get_comestible()->healthy * multiplier );
         p->add_morale( MORALE_FOOD_BAD, it->get_comestible_fun() * multiplier, 60, 1_hours, 30_minutes,
                        false, it->type );
     } else if( it->has_flag( flag_ACID ) || it->has_flag( flag_CORROSIVE ) ) {
@@ -1121,7 +1126,7 @@ cata::optional<int> iuse::blech( Character *p, item *it, bool, const tripoint & 
         p->add_msg_if_player( m_bad, _( "Blech, you don't feel you can stomach much of that." ) );
         p->add_effect( effect_nausea, 3_minutes );
     }
-    return it->type->charges_to_use();
+    return 1;
 }
 
 cata::optional<int> iuse::blech_because_unclean( Character *p, item *it, bool, const tripoint & )
@@ -1137,7 +1142,7 @@ cata::optional<int> iuse::blech_because_unclean( Character *p, item *it, bool, c
             }
         }
     }
-    return it->type->charges_to_use();
+    return 1;
 }
 
 cata::optional<int> iuse::plantblech( Character *p, item *it, bool, const tripoint &pos )
@@ -1154,10 +1159,10 @@ cata::optional<int> iuse::plantblech( Character *p, item *it, bool, const tripoi
         //reverses the harmful values of drinking fertilizer
         p->stomach.mod_nutr( p->nutrition_for( *it ) * multiplier );
         p->mod_thirst( -it->get_comestible()->quench * multiplier );
-        p->mod_healthy_mod( it->get_comestible()->healthy * multiplier,
-                            it->get_comestible()->healthy * multiplier );
+        p->mod_daily_health( it->get_comestible()->healthy * multiplier,
+                             it->get_comestible()->healthy * multiplier );
         p->add_morale( MORALE_FOOD_GOOD, -10 * multiplier, 60, 1_hours, 30_minutes, false, it->type );
-        return it->type->charges_to_use();
+        return 1;
     } else {
         return blech( p, it, true, pos );
     }
@@ -1167,7 +1172,7 @@ cata::optional<int> iuse::chew( Character *p, item *it, bool, const tripoint & )
 {
     // TODO: Add more effects?
     p->add_msg_if_player( _( "You chew your %s." ), it->tname() );
-    return it->type->charges_to_use();
+    return 1;
 }
 
 // Helper to handle the logic of removing some random mutations.
@@ -1196,68 +1201,8 @@ static void do_purify( Character &p )
     }
 }
 
-cata::optional<int> iuse::purifier( Character *p, item *it, bool, const tripoint & )
-{
-    mutagen_attempt checks =
-        mutagen_common_checks( *p, *it, false, mutagen_technique::consumed_purifier );
-    if( !checks.allowed ) {
-        return checks.charges_used;
-    }
-
-    do_purify( *p );
-    return it->type->charges_to_use();
-}
-
-cata::optional<int> iuse::purify_iv( Character *p, item *it, bool, const tripoint & )
-{
-    mutagen_attempt checks =
-        mutagen_common_checks( *p, *it, false, mutagen_technique::injected_purifier );
-    if( !checks.allowed ) {
-        return checks.charges_used;
-    }
-
-    std::vector<trait_id> valid; // Which flags the player has
-    for( const mutation_branch &traits_iter : mutation_branch::get_all() ) {
-        if( p->has_trait( traits_iter.id ) && !p->has_base_trait( traits_iter.id ) ) {
-            //Looks for active mutation
-            valid.push_back( traits_iter.id );
-        }
-    }
-    if( valid.empty() ) {
-        p->add_msg_if_player( _( "You feel cleansed." ) );
-        return it->type->charges_to_use();
-    }
-    int num_cured = rng( 4,
-                         valid.size() ); //Essentially a double-strength purifier, but guaranteed at least 4.  Double-edged and all
-    if( num_cured > 8 ) {
-        num_cured = 8;
-    }
-    for( int i = 0; i < num_cured && !valid.empty(); i++ ) {
-        const trait_id id = random_entry_removed( valid );
-        if( p->purifiable( id ) ) {
-            p->remove_mutation( id );
-        } else {
-            p->add_msg_if_player( m_warning, _( "You feel a distinct burning inside, but it passes." ) );
-        }
-        if( !p->has_trait( trait_NOPAIN ) ) {
-            p->mod_pain( 2 * num_cured ); //Hurts worse as it fixes more
-            p->add_msg_if_player( m_warning, _( "Feels like you're on fire, but you're OK." ) );
-        }
-        p->mod_stored_nutr( 2 * num_cured );
-        p->mod_thirst( 2 * num_cured );
-        p->mod_fatigue( 2 * num_cured );
-    }
-    return it->type->charges_to_use();
-}
-
 cata::optional<int> iuse::purify_smart( Character *p, item *it, bool, const tripoint & )
 {
-    mutagen_attempt checks =
-        mutagen_common_checks( *p, *it, false, mutagen_technique::injected_smart_purifier );
-    if( !checks.allowed ) {
-        return checks.charges_used;
-    }
-
     std::vector<trait_id> valid; // Which flags the player has
     std::vector<std::string> valid_names; // Which flags the player has
     for( const mutation_branch &traits_iter : mutation_branch::get_all() ) {
@@ -1266,7 +1211,7 @@ cata::optional<int> iuse::purify_smart( Character *p, item *it, bool, const trip
             p->purifiable( traits_iter.id ) ) {
             //Looks for active mutation
             valid.push_back( traits_iter.id );
-            valid_names.push_back( traits_iter.id->name() );
+            valid_names.push_back( p->mutation_name( traits_iter.id ) );
         }
     }
     if( valid.empty() ) {
@@ -1299,7 +1244,10 @@ cata::optional<int> iuse::purify_smart( Character *p, item *it, bool, const trip
 
     item syringe( "syringe", it->birthday() );
     p->i_add( syringe );
-    return it->type->charges_to_use();
+    p->vitamins_mod( it->get_comestible()->default_nutrition.vitamins );
+    get_event_bus().send<event_type::administers_mutagen>( p->getID(),
+            mutagen_technique::injected_smart_purifier );
+    return 1;
 }
 
 static void spawn_spores( const Character &p )
@@ -1330,8 +1278,8 @@ static void spawn_spores( const Character &p )
 
 static void marloss_common( Character &p, item &it, const trait_id &current_color )
 {
-    static const std::map<trait_id, add_type> mycus_colors = {{
-            { trait_MARLOSS_BLUE, add_type::MARLOSS_B }, { trait_MARLOSS_YELLOW, add_type::MARLOSS_Y }, { trait_MARLOSS, add_type::MARLOSS_R }
+    static const std::map<trait_id, addiction_id> mycus_colors = {{
+            { trait_MARLOSS_BLUE, addiction_marloss_b }, { trait_MARLOSS_YELLOW, addiction_marloss_y }, { trait_MARLOSS, addiction_marloss_r }
         }
     };
 
@@ -1340,7 +1288,7 @@ static void marloss_common( Character &p, item &it, const trait_id &current_colo
                              _( "As you eat the %s, you have a near-religious experience, feeling at one with your surroundings…" ),
                              it.tname() );
         p.add_morale( MORALE_MARLOSS, 100, 1000 );
-        for( const std::pair<const trait_id, add_type> &pr : mycus_colors ) {
+        for( const std::pair<const trait_id, addiction_id> &pr : mycus_colors ) {
             if( pr.first != current_color ) {
                 p.add_addiction( pr.second, 50 );
             }
@@ -1352,7 +1300,7 @@ static void marloss_common( Character &p, item &it, const trait_id &current_colo
     }
 
     int marloss_count = std::count_if( mycus_colors.begin(), mycus_colors.end(),
-    [&p]( const std::pair<trait_id, add_type> &pr ) {
+    [&p]( const std::pair<trait_id, addiction_id> &pr ) {
         return p.has_trait( pr.first );
     } );
 
@@ -1360,9 +1308,9 @@ static void marloss_common( Character &p, item &it, const trait_id &current_colo
      * 1 - Mutate
      * 2 - Mutate
      * 3 - Mutate
-     * 4 - Purify
-     * 5 - Purify
-     * 6 - Cleanse radiation + Purify
+     * 4 - Painkiller
+     * 5 - Painkiller
+     * 6 - Cleanse radiation + Painkiller
      * 7 - Fully satiate
      * 8 - Vomit
      * 9-12 - Give Marloss mutation
@@ -1373,13 +1321,13 @@ static void marloss_common( Character &p, item &it, const trait_id &current_colo
         p.mutate();
         // Gruss dich, mutation drain, missed you!
         p.mod_pain( 2 * rng( 1, 5 ) );
-        p.mod_stored_nutr( 10 );
+        p.mod_stored_kcal( -87 );
         p.mod_thirst( 10 );
         p.mod_fatigue( 5 );
     } else if( effect <= 6 ) { // Radiation cleanse is below
         p.add_msg_if_player( m_good, _( "You feel better all over." ) );
         p.mod_painkiller( 30 );
-        iuse::purifier( &p, &it, false, p.pos() );
+        p.mod_pain( -40 );
         if( effect == 6 ) {
             p.set_rad( 0 );
         }
@@ -1411,10 +1359,10 @@ static void marloss_common( Character &p, item &it, const trait_id &current_colo
         p.vomit();
         p.mod_pain( 90 );
         p.hurtall( rng( 40, 65 ), nullptr ); // No good way to say "lose half your current HP"
-        /** @EFFECT_INT slightly reduces sleep duration when eating mycus+goo */
+        /** @EFFECT_INT slightly reduces sleep duration when eating Mycus+goo */
         p.fall_asleep( 10_hours - p.int_cur *
-                       1_minutes ); // Hope you were eating someplace safe.  Mycus v. Goo in your guts is no joke.
-        for( const std::pair<const trait_id, add_type> &pr : mycus_colors ) {
+                       1_minutes ); // Hope you were eating someplace safe.  Mycus v. goo in your guts is no joke.
+        for( const std::pair<const trait_id, addiction_id> &pr : mycus_colors ) {
             p.unset_mutation( pr.first );
             p.rem_addiction( pr.second );
         }
@@ -1423,9 +1371,9 @@ static void marloss_common( Character &p, item &it, const trait_id &current_colo
     } else if( marloss_count >= 2 ) {
         p.add_msg_if_player( m_bad,
                              _( "You feel a familiar warmth, but suddenly it surges into painful burning as you convulse and collapse to the ground…" ) );
-        /** @EFFECT_INT reduces sleep duration when eating wrong color marloss */
+        /** @EFFECT_INT reduces sleep duration when eating wrong color Marloss */
         p.fall_asleep( 40_minutes - 1_minutes * p.int_cur / 2 );
-        for( const std::pair<const trait_id, add_type> &pr : mycus_colors ) {
+        for( const std::pair<const trait_id, addiction_id> &pr : mycus_colors ) {
             p.unset_mutation( pr.first );
             p.rem_addiction( pr.second );
         }
@@ -1434,7 +1382,7 @@ static void marloss_common( Character &p, item &it, const trait_id &current_colo
         get_map().ter_set( p.pos(), t_marloss );
         get_event_bus().send<event_type::crosses_marloss_threshold>( p.getID() );
         p.add_msg_if_player( m_good,
-                             _( "You wake up in a marloss bush.  Almost *cradled* in it, actually, as though it grew there for you." ) );
+                             _( "You wake up in a Marloss bush.  Almost *cradled* in it, actually, as though it grew there for you." ) );
         p.add_msg_if_player( m_good,
                              //~ Beginning to hear the Mycus while conscious: that's it speaking
                              _( "unity.  together we have reached the door.  we provide the final key.  now to pass through…" ) );
@@ -1442,7 +1390,7 @@ static void marloss_common( Character &p, item &it, const trait_id &current_colo
         p.add_msg_if_player( _( "You feel a strange warmth spreading throughout your body…" ) );
         p.set_mutation( current_color );
         // Give us addictions to the other two colors, but cure one for current color
-        for( const std::pair<const trait_id, add_type> &pr : mycus_colors ) {
+        for( const std::pair<const trait_id, addiction_id> &pr : mycus_colors ) {
             if( pr.first == current_color ) {
                 p.rem_addiction( pr.second );
             } else {
@@ -1481,7 +1429,7 @@ cata::optional<int> iuse::marloss( Character *p, item *it, bool, const tripoint 
     get_event_bus().send<event_type::consumes_marloss_item>( p->getID(), it->typeId() );
 
     marloss_common( *p, *it, trait_MARLOSS );
-    return it->type->charges_to_use();
+    return 1;
 }
 
 cata::optional<int> iuse::marloss_seed( Character *p, item *it, bool, const tripoint & )
@@ -1498,7 +1446,7 @@ cata::optional<int> iuse::marloss_seed( Character *p, item *it, bool, const trip
     get_event_bus().send<event_type::consumes_marloss_item>( p->getID(), it->typeId() );
 
     marloss_common( *p, *it, trait_MARLOSS_BLUE );
-    return it->type->charges_to_use();
+    return 1;
 }
 
 cata::optional<int> iuse::marloss_gel( Character *p, item *it, bool, const tripoint & )
@@ -1510,13 +1458,13 @@ cata::optional<int> iuse::marloss_gel( Character *p, item *it, bool, const tripo
     get_event_bus().send<event_type::consumes_marloss_item>( p->getID(), it->typeId() );
 
     marloss_common( *p, *it, trait_MARLOSS_YELLOW );
-    return it->type->charges_to_use();
+    return 1;
 }
 
-cata::optional<int> iuse::mycus( Character *p, item *it, bool t, const tripoint &pos )
+cata::optional<int> iuse::mycus( Character *p, item *, bool, const tripoint & )
 {
     if( p->is_npc() ) {
-        return it->type->charges_to_use();
+        return 1;
     }
     // Welcome our guide.  Welcome.  To. The Mycus.
 
@@ -1530,7 +1478,6 @@ cata::optional<int> iuse::mycus( Character *p, item *it, bool t, const tripoint 
                               _( "It tastes amazing, and you finish it quickly." ) );
         p->add_msg_if_player( m_good, _( "You feel better all over." ) );
         p->mod_painkiller( 30 );
-        iuse::purifier( p, it, t, pos ); // Clear out some of that goo you may have floating around
         p->set_rad( 0 );
         p->healall( 4 ); // Can't make you a whole new person, but not for lack of trying
         p->add_msg_if_player( m_good,
@@ -1538,7 +1485,7 @@ cata::optional<int> iuse::mycus( Character *p, item *it, bool t, const tripoint 
         p->add_morale( MORALE_MARLOSS, 1000, 1000 ); // Last time you'll ever have it this good.  So enjoy.
         p->add_msg_if_player( m_good,
                               _( "Your eyes roll back in your head.  Everything dissolves into a blissful haze…" ) );
-        /** @EFFECT_INT slightly reduces sleep duration when eating mycus */
+        /** @EFFECT_INT slightly reduces sleep duration when eating Mycus */
         p->fall_asleep( 5_hours - p->int_cur * 1_minutes );
         p->unset_mutation( trait_THRESH_MARLOSS );
         p->set_mutation( trait_THRESH_MYCUS );
@@ -1585,14 +1532,14 @@ cata::optional<int> iuse::mycus( Character *p, item *it, bool t, const tripoint 
                 fe.marlossify( nearby_pos );
             }
         }
-        p->rem_addiction( add_type::MARLOSS_R );
-        p->rem_addiction( add_type::MARLOSS_B );
-        p->rem_addiction( add_type::MARLOSS_Y );
+        p->rem_addiction( addiction_marloss_r );
+        p->rem_addiction( addiction_marloss_b );
+        p->rem_addiction( addiction_marloss_y );
     } else if( p->has_trait( trait_THRESH_MYCUS ) &&
                !p->has_trait( trait_M_DEPENDENT ) ) { // OK, now set the hook.
         if( !one_in( 3 ) ) {
             p->mutate_category( mutation_category_MYCUS );
-            p->mod_stored_nutr( 10 );
+            p->mod_stored_kcal( -87 );
             p->mod_thirst( 10 );
             p->mod_fatigue( 5 );
             p->add_morale( MORALE_MARLOSS, 25, 200 ); // still covers up mutation pain
@@ -1606,13 +1553,13 @@ cata::optional<int> iuse::mycus( Character *p, item *it, bool t, const tripoint 
             _( "This tastes really weird!  You're not sure it's good for you…" ) );
         p->mutate();
         p->mod_pain( 2 * rng( 1, 5 ) );
-        p->mod_stored_nutr( 10 );
+        p->mod_stored_kcal( -87 );
         p->mod_thirst( 10 );
         p->mod_fatigue( 5 );
         p->vomit(); // no hunger/quench benefit for you
-        p->mod_healthy_mod( -8, -50 );
+        p->mod_daily_health( -8, -50 );
     }
-    return it->type->charges_to_use();
+    return 1;
 }
 
 cata::optional<int> iuse::petfood( Character *p, item *it, bool, const tripoint & )
@@ -1625,7 +1572,7 @@ cata::optional<int> iuse::petfood( Character *p, item *it, bool, const tripoint 
     const cata::optional<tripoint> pnt = choose_adjacent( string_format( _( "Put the %s where?" ),
                                          it->tname() ) );
     if( !pnt ) {
-        return cata::nullopt;;
+        return cata::nullopt;
     }
 
     creature_tracker &creatures = get_creature_tracker();
@@ -1637,7 +1584,7 @@ cata::optional<int> iuse::petfood( Character *p, item *it, bool, const tripoint 
                                   it->tname(), who->disp_name( true ) );
             if( x_in_y( 9, 10 ) || who->is_ally( *p ) ) {
                 who->say(
-                    _( "Okay, but please, don't give me this again.  I don't want to eat pet food in the cataclysm all day." ) );
+                    _( "Okay, but please, don't give me this again.  I don't want to eat pet food in the Cataclysm all day." ) );
             } else {
                 p->add_msg_if_player( _( "%s knocks it from your hand!" ), who->disp_name() );
                 who->make_angry();
@@ -1663,12 +1610,10 @@ cata::optional<int> iuse::petfood( Character *p, item *it, bool, const tripoint 
         bool can_feed = false;
         const pet_food_data &petfood = mon->type->petfood;
         const std::set<std::string> &itemfood = it->get_comestible()->petfood;
-        if( !petfood.food.empty() ) {
-            for( const std::string &food : petfood.food ) {
-                if( itemfood.find( food ) != itemfood.end() ) {
-                    can_feed = true;
-                    break;
-                }
+        for( const std::string &food : petfood.food ) {
+            if( itemfood.find( food ) != itemfood.end() ) {
+                can_feed = true;
+                break;
             }
         }
 
@@ -2033,7 +1978,352 @@ cata::optional<int> iuse::extinguisher( Character *p, item *it, bool, const trip
         here.mod_field_intensity( dest, fd_fire, std::min( 0 - rng( 0, 1 ) + rng( 0, 1 ), 0 ) );
     }
 
-    return it->type->charges_to_use();
+    return 1;
+}
+
+class exosuit_interact
+{
+    public:
+        static int run( item *it ) {
+            exosuit_interact menu( it );
+            menu.interact_loop();
+            return menu.moves;
+        }
+
+    private:
+        explicit exosuit_interact( item *it ) : suit( it ), ctxt( "", keyboard_mode::keycode ) {
+            ctxt.register_directions();
+            ctxt.register_action( "SCROLL_INFOBOX_UP" );
+            ctxt.register_action( "SCROLL_INFOBOX_DOWN" );
+            ctxt.register_action( "CONFIRM" );
+            ctxt.register_action( "QUIT" );
+            // mouse selection
+            ctxt.register_action( "SELECT" );
+            ctxt.register_action( "SEC_SELECT" );
+            ctxt.register_action( "MOUSE_MOVE" );
+            ctxt.register_action( "SCROLL_UP" );
+            ctxt.register_action( "SCROLL_DOWN" );
+            pocket_count = it->get_all_contained_pockets().size();
+            height = std::max( pocket_count, height_default ) + 2;
+            width_menu = 30;
+            for( const item_pocket *pkt : it->get_all_contained_pockets() ) {
+                int tmp = utf8_width( get_pocket_name( pkt ) );
+                if( tmp > width_menu ) {
+                    width_menu = tmp;
+                }
+            }
+            width_menu = std::min( width_menu, 50 );
+            width_info = 80 - width_menu;
+            moves = 0;
+        }
+        ~exosuit_interact() = default;
+
+        item *suit;
+        weak_ptr_fast<ui_adaptor> ui;
+        input_context ctxt;
+        catacurses::window w_border;
+        catacurses::window w_info;
+        catacurses::window w_menu;
+        std::map<int, inclusive_rectangle<point>> pkt_map;
+        int moves = 0;
+        int pocket_count = 0;
+        int cur_pocket = 0;
+        int scroll_pos = 0;
+        int height = 0;
+        const int height_default = 20;
+        int width_info = 30;
+        int width_menu = 30;
+        int sel_frame = 0;
+
+        static std::string get_pocket_name( const item_pocket *pkt ) {
+            if( !pkt->get_pocket_data()->pocket_name.empty() ) {
+                return pkt->get_pocket_data()->pocket_name.translated();
+            }
+            const std::set<flag_id> flags = pkt->get_pocket_data()->get_flag_restrictions();
+            return enumerate_as_string( flags, []( const flag_id & fid ) {
+                if( fid->name().empty() ) {
+                    return fid.str();
+                }
+                return fid->name();
+            } );
+        }
+
+        void init_windows() {
+            const point topleft( TERMX / 2 - ( width_info + width_menu + 3 ) / 2, TERMY / 2 - height / 2 );
+            //NOLINTNEXTLINE(cata-use-named-point-constants)
+            w_menu = catacurses::newwin( height - 2, width_menu, topleft + point( 1, 1 ) );
+            w_info = catacurses::newwin( height - 2, width_info, topleft + point( 2 + width_menu, 1 ) );
+            w_border = catacurses::newwin( height, width_info + width_menu + 3, topleft );
+        }
+
+        void draw_menu() {
+            pkt_map.clear();
+            // info box
+            pkt_map.emplace( -1, inclusive_rectangle<point>( point( 2 + width_menu, 1 ),
+                             point( 2 + width_menu + width_info, height - 2 ) ) );
+            werase( w_menu );
+            int row = 0;
+            for( const item_pocket *pkt : suit->get_all_contained_pockets() ) {
+                nc_color colr = row == cur_pocket ? h_white : c_white;
+                std::string txt = get_pocket_name( pkt );
+                int remaining = width_menu - utf8_width( txt, true );
+                if( remaining > 0 ) {
+                    txt.append( remaining, ' ' );
+                }
+                trim_and_print( w_menu, point( 0, row ), width_menu, colr, txt );
+                pkt_map.emplace( row, inclusive_rectangle<point>( point( 0, row ), point( width_menu, row ) ) );
+                row++;
+            }
+            wnoutrefresh( w_menu );
+        }
+
+        void draw_iteminfo() {
+            std::vector<iteminfo> dummy;
+            std::vector<iteminfo> suitinfo;
+            item_pocket *pkt = suit->get_all_contained_pockets()[cur_pocket];
+            pkt->general_info( suitinfo, cur_pocket, true );
+            pkt->contents_info( suitinfo, cur_pocket, true );
+            item_info_data data( suit->tname(), suit->type_name(), suitinfo, dummy, scroll_pos );
+            data.without_getch = true;
+            data.without_border = true;
+            data.scrollbar_left = false;
+            data.use_full_win = true;
+            data.padding = 0;
+            draw_item_info( w_info, data );
+        }
+
+        shared_ptr_fast<ui_adaptor> create_or_get_ui_adaptor() {
+            shared_ptr_fast<ui_adaptor> current_ui = ui.lock();
+            if( !current_ui ) {
+                ui = current_ui = make_shared_fast<ui_adaptor>();
+                current_ui->on_screen_resize( [this]( ui_adaptor & cui ) {
+                    init_windows();
+                    cui.position_from_window( w_border );
+                } );
+                current_ui->mark_resize();
+                current_ui->on_redraw( [this]( const ui_adaptor & ) {
+                    draw_border( w_border, c_white, suit->tname(), c_light_green );
+                    for( int i = 1; i < height - 1; i++ ) {
+                        mvwputch( w_border, point( width_menu + 1, i ), c_white, LINE_XOXO );
+                    }
+                    mvwputch( w_border, point( width_menu + 1, height - 1 ), c_white, LINE_XXOX );
+                    wnoutrefresh( w_border );
+                    draw_menu();
+                    draw_iteminfo();
+                } );
+            }
+            return current_ui;
+        }
+
+        void interact_loop() {
+            bool done = false;
+            shared_ptr_fast<ui_adaptor> current_ui = create_or_get_ui_adaptor();
+            while( !done ) {
+                ui_manager::redraw();
+                std::string action = ctxt.handle_input();
+                if( action == "MOUSE_MOVE" || action == "SELECT" ) {
+                    cata::optional<point> coord = ctxt.get_coordinates_text( w_border );
+                    if( !!coord ) {
+                        int tmp_frame = 0;
+                        run_for_point_in<int, point>( pkt_map, *coord,
+                        [&tmp_frame]( const std::pair<int, inclusive_rectangle<point>> &p ) {
+                            if( p.first == -1 ) {
+                                tmp_frame = 1;
+                            }
+                        } );
+                        sel_frame = tmp_frame;
+                    }
+                    coord = ctxt.get_coordinates_text( w_menu );
+                    if( !!coord ) {
+                        int tmp_pocket = cur_pocket;
+                        run_for_point_in<int, point>( pkt_map, *coord,
+                        [&tmp_pocket, &action]( const std::pair<int, inclusive_rectangle<point>> &p ) {
+                            if( p.first >= 0 ) {
+                                tmp_pocket = p.first;
+                                if( action == "SELECT" ) {
+                                    action = "CONFIRM";
+                                }
+                            }
+                        } );
+                        cur_pocket = tmp_pocket;
+                    }
+                } else if( action == "SCROLL_UP" || action == "SCROLL_DOWN" ) {
+                    if( sel_frame == 0 ) {
+                        action = action == "SCROLL_UP" ? "UP" : "DOWN";
+                    } else {
+                        action = action == "SCROLL_UP" ? "SCROLL_INFOBOX_UP" : "SCROLL_INFOBOX_DOWN";
+                    }
+                }
+                if( action == "QUIT" || action == "SEC_SELECT" ) {
+                    scroll_pos = 0;
+                    done = true;
+                } else if( action == "CONFIRM" ) {
+                    scroll_pos = 0;
+                    int nmoves = insert_replace_activate_mod(
+                                     suit->get_all_contained_pockets()[cur_pocket], suit );
+                    moves = moves > nmoves ? moves : nmoves;
+                    if( !get_player_character().activity.is_null() ) {
+                        done = true;
+                    }
+                } else if( action == "UP" ) {
+                    cur_pocket--;
+                    if( cur_pocket < 0 ) {
+                        cur_pocket = pocket_count - 1;
+                    }
+                    scroll_pos = 0;
+                    sel_frame = 0;
+                } else if( action == "DOWN" ) {
+                    cur_pocket++;
+                    if( cur_pocket >= pocket_count ) {
+                        cur_pocket = 0;
+                    }
+                    scroll_pos = 0;
+                    sel_frame = 0;
+                } else if( action == "SCROLL_INFOBOX_UP" ) {
+                    scroll_pos--;
+                    sel_frame = 1;
+                } else if( action == "SCROLL_INFOBOX_DOWN" ) {
+                    scroll_pos++;
+                    sel_frame = 1;
+                }
+            }
+        }
+
+        int insert_replace_activate_mod( item_pocket *pkt, item *it ) {
+            Character &c = get_player_character();
+            map &here = get_map();
+            const std::set<flag_id> flags = pkt->get_pocket_data()->get_flag_restrictions();
+            if( flags.empty() ) {
+                //~ Modular exoskeletons require pocket restrictions to insert modules. %s = pocket name.
+                popup( _( "%s doesn't define any restrictions for modules!" ), get_pocket_name( pkt ) );
+                return 0;
+            }
+
+            // If pocket already contains a module, ask to unload or replace
+            const bool not_empty = !pkt->empty();
+            if( not_empty ) {
+                item *mod_it = pkt->all_items_top().front();
+                std::string mod_name = mod_it->tname();
+                uilist amenu;
+                //~ Prompt the player to handle the module inside the modular exoskeleton
+                amenu.text = _( "What to do with the existing module?" );
+                amenu.addentry( -1, true, MENU_AUTOASSIGN, _( "Unload everything from this %s" ),
+                                get_pocket_name( pkt ) );
+                amenu.addentry( -1, true, MENU_AUTOASSIGN, _( "Replace the %s" ), mod_name );
+                amenu.addentry( -1, mod_it->has_relic_activation() || mod_it->type->has_use(), MENU_AUTOASSIGN,
+                                mod_it->active ? _( "Deactivate the %s" ) : _( "Activate the %s" ), mod_name );
+                amenu.addentry( -1, mod_it->is_reloadable() && c.can_reload( *mod_it ), MENU_AUTOASSIGN,
+                                _( "Reload the %s" ), mod_name );
+                amenu.addentry( -1, !mod_it->is_container_empty(), MENU_AUTOASSIGN, _( "Unload the %s" ),
+                                mod_name );
+                amenu.query();
+                int ret = amenu.ret;
+                item_location loc_it;
+                item_location held = c.get_wielded_item();
+                if( !!held && held->has_item( *mod_it ) ) {
+                    loc_it = item_location( held, mod_it );
+                } else {
+                    for( const item_location &loc : c.top_items_loc() ) {
+                        if( loc->has_item( *mod_it ) ) {
+                            loc_it = item_location( loc, mod_it );
+                            break;
+                        }
+                    }
+                }
+                if( ret < 0 || ret > 4 ) {
+                    return 0;
+                } else if( ret == 0 ) {
+                    // Unload existing module
+                    pkt->remove_items_if( [&c, &here]( const item & i ) {
+                        here.add_item_or_charges( c.pos(), i );
+                        return true;
+                    } );
+                    return to_moves<int>( 5_seconds );
+                } else if( ret == 2 ) {
+                    if( !!loc_it ) {
+                        avatar_action::use_item( get_avatar(), loc_it );
+                    }
+                    return 0;
+                } else if( ret == 3 ) {
+                    if( !!loc_it ) {
+                        g->reload( loc_it );
+                    }
+                    return 0;
+                } else if( ret == 4 ) {
+                    if( !!loc_it ) {
+                        c.unload( loc_it );
+                    }
+                    return 0;
+                }
+            }
+
+            const item_filter filter = [&flags, pkt, it]( const item & i ) {
+                return i.has_any_flag( flags ) && ( pkt->empty() || !it->has_item( i ) ) &&
+                       pkt->can_contain( i ).success();
+            };
+
+            std::vector<item_location> candidates;
+            for( item *i : c.items_with( filter ) ) {
+                candidates.emplace_back( c, i );
+            }
+            for( const tripoint &p : here.points_in_radius( c.pos(), PICKUP_RANGE ) ) {
+                for( item &i : here.i_at( p ) ) {
+                    if( filter( i ) ) {
+                        candidates.emplace_back( map_cursor( p ), &i );
+                    }
+                }
+            }
+            if( candidates.empty() ) {
+                //~ The player has nothing that fits in the modular exoskeleton's pocket
+                popup( _( "You don't have anything compatible with this module!" ) );
+                return 0;
+            }
+
+            //~ Prompt the player to select an item to attach to the modular exoskeleton's pocket (%s)
+            uilist imenu( string_format( _( "Which module to attach to the %s?" ), get_pocket_name( pkt ) ), {} );
+            for( const item_location &i : candidates ) {
+                imenu.addentry( -1, true, MENU_AUTOASSIGN, i->tname() );
+            }
+            imenu.query();
+            int ret = imenu.ret;
+            if( ret < 0 || static_cast<size_t>( ret ) >= candidates.size() ) {
+                // Cancelled
+                return 0;
+            }
+
+            int moves = 0;
+
+            // Unload existing module
+            if( not_empty ) {
+                pkt->remove_items_if( [&c, &here]( const item & i ) {
+                    here.add_item_or_charges( c.pos(), i );
+                    return true;
+                } );
+                moves += to_moves<int>( 5_seconds );
+            }
+            ret_val<item_pocket::contain_code> rval = pkt->insert_item( *candidates[ret] );
+            if( rval.success() ) {
+                candidates[ret].remove_item();
+                moves += to_moves<int>( 5_seconds );
+                return moves;
+            }
+            debugmsg( "Could not insert item \"%s\" into pocket \"%s\": %s",
+                      candidates[ret]->type_name(), get_pocket_name( pkt ), rval.str() );
+            return moves;
+        }
+};
+
+cata::optional<int> iuse::manage_exosuit( Character *p, item *it, bool, const tripoint & )
+{
+    if( !p->is_avatar() ) {
+        return cata::nullopt;
+    }
+    if( it->get_all_contained_pockets().empty() ) {
+        add_msg( m_warning, _( "Your %s does not have any pockets to contain modules." ), it->tname() );
+        return cata::nullopt;
+    }
+    p->moves -= exosuit_interact::run( it );
+    return 0;
 }
 
 cata::optional<int> iuse::rm13armor_off( Character *p, item *it, bool, const tripoint & )
@@ -2054,7 +2344,7 @@ cata::optional<int> iuse::rm13armor_off( Character *p, item *it, bool, const tri
         p->add_msg_if_player( _( "All systems nominal." ) );
         it->convert( itype_id( oname ) ).active = true;
         p->calc_encumbrance();
-        return it->type->charges_to_use();
+        return 1;
     }
 }
 
@@ -2075,7 +2365,7 @@ cata::optional<int> iuse::rm13armor_on( Character *p, item *it, bool t, const tr
         it->convert( itype_id( oname ) ).active = false;
         p->calc_encumbrance();
     }
-    return it->type->charges_to_use();
+    return 1;
 }
 
 cata::optional<int> iuse::unpack_item( Character *p, item *it, bool, const tripoint & )
@@ -2159,14 +2449,14 @@ static cata::optional<int> cauterize_elec( Character &p, item &it )
         if( ( p.has_trait( trait_MASOCHIST ) || p.has_trait( trait_MASOCHIST_MED ) ||
               p.has_trait( trait_CENOBITE ) ) &&
             p.query_yn( _( "Cauterize yourself for fun?" ) ) ) {
-            return cauterize_actor::cauterize_effect( p, it, true ) ? it.type->charges_to_use() : 0;
+            return cauterize_actor::cauterize_effect( p, it, true ) ? 1 : 0;
         } else {
             p.add_msg_if_player( m_info,
                                  _( "You aren't bleeding or bitten; there is no need to cauterize yourself." ) );
             return cata::nullopt;
         }
     } else if( p.is_npc() || query_yn( _( "Cauterize any open wounds?" ) ) ) {
-        return cauterize_actor::cauterize_effect( p, it, true ) ? it.type->charges_to_use() : 0;
+        return cauterize_actor::cauterize_effect( p, it, true ) ? 1 : 0;
     }
     return cata::nullopt;
 }
@@ -2216,10 +2506,10 @@ cata::optional<int> iuse::radio_off( Character *p, item *it, bool, const tripoin
         p->add_msg_if_player( _( "You turn the radio on." ) );
         it->convert( itype_radio_on ).active = true;
     }
-    return it->type->charges_to_use();
+    return 1;
 }
 
-cata::optional<int> iuse::directional_antenna( Character *p, item *it, bool, const tripoint & )
+cata::optional<int> iuse::directional_antenna( Character *p, item *, bool, const tripoint & )
 {
     // Find out if we have an active radio
     auto radios = p->items_with( []( const item & it ) {
@@ -2249,7 +2539,31 @@ cata::optional<int> iuse::directional_antenna( Character *p, item *it, bool, con
     const tripoint_abs_sm player_pos = p->global_sm_location();
     direction angle = direction_from( player_pos.xy(), tref.abs_sm_pos );
     add_msg( _( "The signal seems strongest to the %s." ), direction_name( angle ) );
-    return it->type->charges_to_use();
+    return 1;
+}
+
+// 0-100 percent chance of a character in a radio signal being obscured by static
+static int radio_static_chance( const radio_tower_reference &tref )
+{
+    constexpr int HALF_RADIO_MIN = RADIO_MIN_STRENGTH / 2;
+    const int signal_strength = tref.signal_strength;
+    const int max_strength = tref.tower->strength;
+    int dist = max_strength - signal_strength;
+    // For towers whose strength is quite close to the min, make them act as though they are farther away
+    if( RADIO_MIN_STRENGTH * 1.25 > max_strength ) {
+        dist += 25;
+    }
+    // When we're close enough, there's no noise
+    if( dist < HALF_RADIO_MIN ) {
+        return 0;
+    }
+    // There's minimal, but increasing noise when quite close to the signal
+    if( dist < RADIO_MIN_STRENGTH ) {
+        return lerp( 1, 20, static_cast<float>( dist - HALF_RADIO_MIN ) / HALF_RADIO_MIN );
+    }
+    // Otherwise, just a rapid increase until the signal stops
+    return lerp( 20, 100, static_cast<float>( dist - RADIO_MIN_STRENGTH ) /
+                 ( max_strength - RADIO_MIN_STRENGTH ) );
 }
 
 cata::optional<int> iuse::radio_on( Character *p, item *it, bool t, const tripoint &pos )
@@ -2258,7 +2572,11 @@ cata::optional<int> iuse::radio_on( Character *p, item *it, bool t, const tripoi
         // Normal use
         std::string message = _( "Radio: Kssssssssssssh." );
         const radio_tower_reference tref = overmap_buffer.find_radio_station( it->frequency );
+        add_msg_debug( debugmode::DF_RADIO, "Set freq: %d", it->frequency );
         if( tref ) {
+            point_abs_omt dbgpos = project_to<coords::omt>( tref.abs_sm_pos );
+            add_msg_debug( debugmode::DF_RADIO, "found broadcast (str %d) at (%d %d)",
+                           tref.signal_strength, dbgpos.x(), dbgpos.y() );
             const radio_tower *selected_tower = tref.tower;
             if( selected_tower->type == radio_type::MESSAGE_BROADCAST ) {
                 message = selected_tower->message;
@@ -2266,20 +2584,26 @@ cata::optional<int> iuse::radio_on( Character *p, item *it, bool t, const tripoi
                 message = weather_forecast( tref.abs_sm_pos );
             }
 
-            message = obscure_message( message, [&]()->int {
-                int signal_roll = dice( 10, tref.signal_strength * 3 );
-                int static_roll = dice( 10, 100 );
-                if( static_roll > signal_roll )
+            const city *c = overmap_buffer.closest_city( tripoint_abs_sm( tref.abs_sm_pos, 0 ) ).city;
+            //~ radio noise
+            const std::string cityname = c == nullptr ? _( "ksssh" ) : c->name;
+
+            replace_city_tag( message, cityname );
+            int static_chance = radio_static_chance( tref );
+            add_msg_debug( debugmode::DF_RADIO, "Message: '%s' at %d%% noise", message, static_chance );
+            message = obscure_message( message, [&static_chance]()->int {
+                if( x_in_y( static_chance, 100 ) )
                 {
-                    if( static_roll < signal_roll * 1.1 && one_in( 4 ) ) {
+                    // Gradually replace random characters with noise as distance increases
+                    if( one_in( 3 ) && static_chance - rng( 0, 25 ) < 50 ) {
+                        // Replace with random character
                         return 0;
-                    } else {
-                        return '#';
                     }
-                } else
-                {
-                    return -1;
+                    // Replace with '#'
+                    return '#';
                 }
+                // Leave unchanged
+                return -1;
             } );
 
             std::vector<std::string> segments = foldstring( message, RADIO_PER_TURN );
@@ -2303,27 +2627,51 @@ cata::optional<int> iuse::radio_on( Character *p, item *it, bool t, const tripoi
             } );
         }
 
+        const auto tower_desc = []( const int noise ) {
+            if( noise == 0 ) {
+                return SNIPPET.random_from_category( "radio_station_desc_noise_0" )->translated();
+            } else if( noise <= 20 ) {
+                return SNIPPET.random_from_category( "radio_station_desc_noise_20" )->translated();
+            } else if( noise <= 40 ) {
+                return SNIPPET.random_from_category( "radio_station_desc_noise_40" )->translated();
+            } else if( noise <= 60 ) {
+                return SNIPPET.random_from_category( "radio_station_desc_noise_60" )->translated();
+            } else if( noise <= 80 ) {
+                return SNIPPET.random_from_category( "radio_station_desc_noise_80" )->translated();
+            }
+            return SNIPPET.random_from_category( "radio_station_desc_noise_max" )->translated();
+        };
+
         switch( ch ) {
             case 0: {
-                const int old_frequency = it->frequency;
-                const radio_tower *lowest_tower = nullptr;
-                const radio_tower *lowest_larger_tower = nullptr;
-                for( auto &tref : overmap_buffer.find_all_radio_stations() ) {
-                    const int new_frequency = tref.tower->frequency;
-                    if( new_frequency == old_frequency ) {
-                        continue;
-                    }
-                    if( new_frequency > old_frequency &&
-                        ( lowest_larger_tower == nullptr || new_frequency < lowest_larger_tower->frequency ) ) {
-                        lowest_larger_tower = tref.tower;
-                    } else if( lowest_tower == nullptr || new_frequency < lowest_tower->frequency ) {
-                        lowest_tower = tref.tower;
-                    }
+                std::vector<radio_tower_reference> options = overmap_buffer.find_all_radio_stations();
+                if( options.empty() ) {
+                    popup( SNIPPET.random_from_category( "radio_scan_no_stations" )->translated() );
                 }
-                if( lowest_larger_tower != nullptr ) {
-                    it->frequency = lowest_larger_tower->frequency;
-                } else if( lowest_tower != nullptr ) {
-                    it->frequency = lowest_tower->frequency;
+                uilist scanlist;
+                scanlist.title = _( "Select a station" );
+                scanlist.desc_enabled = true;
+                add_msg_debug( debugmode::DF_RADIO, "Radio scan:" );
+                for( size_t i = 0; i < options.size(); ++i ) {
+                    std::string selected_text;
+                    const radio_tower_reference &tref = options[i];
+                    if( it->frequency == tref.tower->frequency ) {
+                        selected_text = pgettext( "radio station", " (selected)" );
+                    }
+                    //~ Selected radio station, %d is a number in sequence (1,2,3...),
+                    //~ %s is ' (selected)' if this is the radio station playing, else nothing
+                    const std::string station_name = string_format( _( "Station %d%s" ), i + 1, selected_text );
+                    const int noise_chance = radio_static_chance( tref );
+                    scanlist.addentry_desc( i, true, MENU_AUTOASSIGN, station_name, tower_desc( noise_chance ) );
+                    const point_abs_omt dbgpos = project_to<coords::omt>( tref.abs_sm_pos );
+                    add_msg_debug( debugmode::DF_RADIO, "  %d: %d at (%d %d) str [%d/%d]", i + 1, tref.tower->frequency,
+                                   dbgpos.x(), dbgpos.y(), tref.signal_strength, tref.tower->strength );
+                }
+                scanlist.query();
+                const int sel = scanlist.ret;
+                if( sel >= 0 && static_cast<size_t>( sel ) < options.size() ) {
+                    it->frequency = options[sel].tower->frequency;
+                    break;
                 }
             }
             break;
@@ -2336,7 +2684,7 @@ cata::optional<int> iuse::radio_on( Character *p, item *it, bool t, const tripoi
                 break;
         }
     }
-    return it->type->charges_to_use();
+    return 1;
 }
 
 cata::optional<int> iuse::noise_emitter_off( Character *p, item *it, bool, const tripoint & )
@@ -2348,7 +2696,7 @@ cata::optional<int> iuse::noise_emitter_off( Character *p, item *it, bool, const
         p->add_msg_if_player( _( "You turn the noise emitter on." ) );
         it->convert( itype_noise_emitter_on ).active = true;
     }
-    return it->type->charges_to_use();
+    return 1;
 }
 
 cata::optional<int> iuse::noise_emitter_on( Character *p, item *it, bool t, const tripoint &pos )
@@ -2361,7 +2709,78 @@ cata::optional<int> iuse::noise_emitter_on( Character *p, item *it, bool t, cons
         p->add_msg_if_player( _( "The infernal racket dies as the noise emitter turns off." ) );
         it->convert( itype_noise_emitter ).active = false;
     }
-    return it->type->charges_to_use();
+    return 1;
+}
+
+cata::optional<int> iuse::emf_passive_off( Character *p, item *it, bool, const tripoint & )
+{
+    if( !it->ammo_sufficient( p ) ) {
+        p->add_msg_if_player( _( "It's dead." ) );
+        return cata::nullopt;
+    } else {
+        p->add_msg_if_player( _( "You turn the EMF detector on." ) );
+        it->convert( itype_emf_detector_on ).active = true;
+    }
+    return 1;
+}
+
+cata::optional<int> iuse::emf_passive_on( Character *p, item *it, bool t, const tripoint &pos )
+{
+    if( t ) { // Normal use
+        // need to calculate distance to closest electrical thing
+
+        // set distance as farther than the radius
+        const int max = 10;
+        int distance = max + 1;
+
+        creature_tracker &creatures = get_creature_tracker();
+        map &here = get_map();
+        // can't get a reading during a portal storm
+        if( get_weather().weather_id == weather_portal_storm ) {
+            sounds::sound( pos, 6, sounds::sound_t::alarm, _( "BEEEEE-CHHHHHHH-eeEEEEEEE-CHHHHHHHHHHHH" ), true,
+                           "tool", "emf_detector" );
+            // skip continuing to check for locations
+            return 1;
+        }
+
+        for( const tripoint &loc : closest_points_first( pos, max ) ) {
+            const Creature *critter = creatures.creature_at( loc );
+
+            // if the creature exists and is either a robot or electric
+            bool found = critter != nullptr && critter->is_electrical();
+
+            // check for an electrical field
+            if( !found ) {
+                for( const auto &fd : here.field_at( loc ) ) {
+                    if( fd.first->has_elec ) {
+                        found = true;
+                        break;
+                    }
+                }
+            }
+
+            // if an electrical field or creature is nearby
+            if( found ) {
+                distance = rl_dist( pos, loc );
+                if( distance <= 3 ) {
+                    sounds::sound( pos, 4, sounds::sound_t::alarm, _( "BEEEEEEP BEEEEEEP" ), true, "tool",
+                                   "emf_detector" );
+                } else if( distance <= 7 ) {
+                    sounds::sound( pos, 3, sounds::sound_t::alarm, _( "BEEP BEEP" ), true, "tool",
+                                   "emf_detector" );
+                } else if( distance <= 10 ) {
+                    sounds::sound( pos, 2, sounds::sound_t::alarm, _( "beep… beep" ), true, "tool",
+                                   "emf_detector" );
+                }
+                // skip continuing to check for locations
+                return 1;
+            }
+        }
+    } else { // Turning it off
+        p->add_msg_if_player( _( "The noise of your EMF detector slows to a halt." ) );
+        it->convert( itype_emf_detector ).active = false;
+    }
+    return 1;
 }
 
 cata::optional<int> iuse::ma_manual( Character *p, item *it, bool, const tripoint & )
@@ -2382,6 +2801,11 @@ cata::optional<int> iuse::ma_manual( Character *p, item *it, bool, const tripoin
 
 // Remove after 0.G
 cata::optional<int> iuse::hammer( Character *p, item *it, bool, const tripoint &pos )
+{
+    return iuse::crowbar( p, it, false, pos );
+}
+
+cata::optional<int> iuse::crowbar_weak( Character *p, item *it, bool, const tripoint &pos )
 {
     return iuse::crowbar( p, it, false, pos );
 }
@@ -2490,147 +2914,16 @@ cata::optional<int> iuse::makemound( Character *p, item *it, bool t, const tripo
     if( here.has_flag( ter_furn_flag::TFLAG_PLOWABLE, pnt ) &&
         !here.has_flag( ter_furn_flag::TFLAG_PLANT, pnt ) ) {
         p->add_msg_if_player( _( "You start churning up the earth here." ) );
-        p->assign_activity( ACT_CHURN, 18000, -1, p->get_item_position( it ) );
-        p->activity.placement = here.getabs( pnt );
-        return it->type->charges_to_use();
+        p->assign_activity( player_activity( churn_activity_actor( 18000, item_location( *p, it ) ) ) );
+        p->activity.placement = here.getglobal( pnt );
+        return 1;
     } else {
         p->add_msg_if_player( _( "You can't churn up this ground." ) );
         return cata::nullopt;
     }
 }
 
-struct digging_moves_and_byproducts {
-    int moves;
-    int spawn_count;
-    std::string byproducts_item_group;
-    ter_id result_terrain;
-};
-
-static digging_moves_and_byproducts dig_pit_moves_and_byproducts( Character *p, item *it, bool deep,
-        bool channel )
-{
-    // When we dig, we're generally digging out either a deep or shallow pit.
-    //
-    // The dimensions are a little hand-wavey... based on our exactly
-    // as-big-as-they-need-to-be tile sizes, we could assume that the width and height
-    // are 1 meter each. Our pit could be a square as well, or we could assume it's
-    // circular and 1 meter in diameter.
-    //
-    // Depth is even less rigidly defined, both in terms of "what is a z-level", and in
-    // terms of how the deep and shallow pits are used in game.
-    //
-    // A shallow pit gets used to do things like build an improvised shelter or start
-    // the foundation for a wall, and is ostensibly a relatively quick effort: a
-    // survivor might get a crude digging implement (e.g. digging stick) and attempt to
-    // dig out the start of an improvised shelter, or they might have a proper shovel
-    // and be digging a foundation footing. Referencing the 2018 IBC
-    // https://codes.iccsafe.org/content/IRC2018/chapter-4-foundations we can see in
-    // R403.1.4 the requirement that "exterior footings shall be placed not less than
-    // 12 inches (305 mm) below the undisturbed ground surface." You'd need even more
-    // space for the actual footing, but that's close enough. I don't think survivors
-    // care about building to code, but let's call it 12 inches (0.3048 meters) at the
-    // maximum for a shallow pit depth.
-    //
-    // The deep pit is a little more complicated because it gets used for more complex
-    // constructions like traps, reinforced concrete wall footings, palisades, wells,
-    // root cellars, and the like. The depth requirements for those are quite varied,
-    // but let's just throw some number around to get a feel for it: say at least 2
-    // meters deep to be an effective pit trap. The USGS maintains
-    // depth-to-ground-water-level records and provides them at
-    // https://waterdata.usgs.gov/nwis/current/?type=gw. A cursory review (and
-    // remembering it's seasonal) shows values in Massachusetts ranging from 122 feet
-    // and 1 foot, and values between 3 to 9 feet aren't uncommon. Root cellars are
-    // ideally constructed where the ground temperature has stabilized, below the frost
-    // line. This depth varies by location, but is somewhere in the 1 to 3 meter range.
-    //
-    // With all of that in hand, let's make some estimates.
-    //
-    // A shallow pit is a circular pit 1 meter in diameter and 0.3048 meters deep,
-    // which works out to... ~0.239 m^3. That's so close, let's just call it 0.25 m^3
-    // or 250 liters.
-    //
-    // A deep pit is a rectangular pit 1m x 1m x 2m, or 2 m^3, or 2000 liters.
-    //
-    // Now, for how long that takes, things are going to get even more subjective and
-    // couched in assumptions. Let's assume a single individual, digging in optimally
-    // diggable soil(rather than something requiring a pickaxe to break the soil or
-    // requiring saws to remove tree roots), using an appropriate (but manual)
-    // implement designed for the task (e.g. a shovel). The Canadian Centre for
-    // Occupational Health and Safety has some interesting recommendations on the rate
-    // of shoveling, weight of the load, and throw distance at
-    // https://www.ccohs.ca/oshanswers/ergonomics/shovel.html. Of particular interest
-    // is the table of "recommended workload for continuous shoveling", which gives a
-    // weight per minute and a total weight per 15 minutes, as well as a description of
-    // the conditions. It also discusses the need to take breaks, for example
-    // alternating 15 minutes of shoveling and 15 minutes of rest in extreme
-    // conditions. Taking all that into consideration, I'm going to call it 10
-    // scoops/min * 5 kg/scoop for 15 minutes followed by 15 minutes of rest, or
-    // effectively 25 kg/min.
-    //
-    // Now we need to bring the weights and volumes together. Again, more hand waving
-    // as the soil composition is going to have a big influence on this. The
-    // engineering toolbox https://www.engineeringtoolbox.com/dirt-mud-densities-d_1727.html
-    // lists the density of wet and dry versions of many materials. I'm going with the
-    // assumption that this is moist/wet soil that includes clay, silt, load, as well as
-    // some rock, so I'll just call it 1700 kg/m^3 on average.
-    //
-    // Shallow pit is 0.25 m^3 * 1700 kg/m^3, or 425 kg.
-    // Deep pit is 2 m^3 * 1700 kg/m^3, or 3400 kg.
-    //
-    // We'll do some variables below, but for reference:
-    // Shallow pit: 425 kg / 25 kg/min = 17 minutes
-    // Deep pit: 3400 kg / 25 kg/min = 136 minutes
-    //
-    // Now, one addendum: we're digging our deep pit in the location that we've already
-    // dug the shallow pit, so really we should exclude the shallow pit volume from the
-    // deep when counting the amount of work we need to do.
-    //
-    // Adjusted deep pit: ( 3400 kg - 425 kg ) / 25 kg/min = 119 minutes
-
-    constexpr double shallow_pit_volume_m3 = 0.25;
-    constexpr double deep_pit_volume_m3 = 2;
-    constexpr int dig_rate_kg_min = 25;
-    constexpr int material_density_kg_m3 = 1700;
-
-    // At the time of writing this, a shovel is DIG 3, which is what the numbers are
-    // balanced around.
-    constexpr double baseline_dig_quality = 3;
-
-    // Get the dig quality of the tool.
-    const int quality = it->get_quality( qual_DIG );
-
-    // Dig quality affects the dig rate linearly relative to baseline dig quality
-    const double tool_dig_rate = dig_rate_kg_min * quality / baseline_dig_quality;
-
-    ///\EFFECT_STR modifies dig rate
-    // Adjust the dig rate by 2 kg/min per point of strength more/less than 10.
-    const double player_dig_rate = std::max( 1.0, tool_dig_rate + ( p->str_cur - 10 ) * 2 );
-
-    // Figure out the volume of the pit we're digging.
-    // Subtract the shallow volume from the deep, since we already dug that.
-    const double volume_m3 = deep ? ( deep_pit_volume_m3 - shallow_pit_volume_m3 ) :
-                             shallow_pit_volume_m3;
-
-    // And now determine the moves...
-    int dig_minutes = volume_m3 * material_density_kg_m3 / player_dig_rate;
-    int moves = to_moves<int>( time_duration::from_minutes( dig_minutes ) );
-
-    // Modify the number of moves based on the help.
-    // TODO: this block of code is all over the place and could probably be consolidated.
-    const int helpersize = p->get_num_crafting_helpers( 3 );
-    moves *= ( 1.0f - ( helpersize / 10.0f ) );
-
-    ter_id result_terrain;
-    if( channel ) {
-        result_terrain = ter_id( "t_water_moving_sh" );
-    } else {
-        result_terrain = deep ? ter_id( "t_pit" ) : ter_id( "t_pit_shallow" );
-    }
-
-    return { moves, static_cast<int>( volume_m3 / 0.05 ), "digging_soil_loam_50L", result_terrain };
-}
-
-cata::optional<int> iuse::dig( Character *p, item *it, bool t, const tripoint & )
+cata::optional<int> iuse::dig( Character *p, item * /* it */, bool t, const tripoint & )
 {
     if( !p || t ) {
         return cata::nullopt;
@@ -2639,101 +2932,27 @@ cata::optional<int> iuse::dig( Character *p, item *it, bool t, const tripoint & 
         p->add_msg_if_player( m_info, _( "You can't do that while mounted." ) );
         return cata::nullopt;
     }
-    const tripoint dig_point = p->pos();
 
-    map &here = get_map();
-    const bool can_dig_here = here.has_flag( ter_furn_flag::TFLAG_DIGGABLE, dig_point ) &&
-                              !here.has_furn( dig_point ) &&
-                              !here.can_see_trap_at( dig_point, *p ) &&
-                              ( here.ter( dig_point ) == t_grave_new || here.i_at( dig_point ).empty() ) &&
-                              !here.veh_at( dig_point );
-    const bool here_is_pit = here.ter( dig_point ) == t_pit;
-    if( here_is_pit ) {
-        p->add_msg_if_player(
-            _( "There's already a pit here!" ) );
-        return cata::nullopt;
-    } else if( !can_dig_here ) {
-        p->add_msg_if_player(
-            _( "You can't dig a pit in this location.  Ensure it is clear diggable ground with no items or obstacles." ) );
-        return cata::nullopt;
-    }
-    const bool can_deepen = here.has_flag( ter_furn_flag::TFLAG_DIGGABLE_CAN_DEEPEN, dig_point );
-    const bool grave = here.ter( dig_point ) == t_grave;
-
-    if( !p->crafting_inventory().has_quality( qual_DIG, 2 ) ) {
-        if( can_deepen ) {
-            p->add_msg_if_player( _( "You can't deepen this pit without a proper shovel." ) );
-            return cata::nullopt;
-        } else if( grave ) {
-            p->add_msg_if_player( _( "You can't exhume a grave without a proper shovel." ) );
-            return cata::nullopt;
-        }
+    std::vector<construction> const &cnstr = get_constructions();
+    auto build = std::find_if( cnstr.begin(), cnstr.end(), []( const construction & it ) {
+        return it.str_id == construction_constr_pit;
+    } );
+    bool const can_dig_pit = !points_in_radius_where( p->pos_bub(),
+    1, [&build]( tripoint_bub_ms const & pt ) {
+        return can_construct( *build, pt );
+    } ).empty();
+    if( !can_dig_pit ) {
+        build = std::find_if( cnstr.begin(), cnstr.end(), []( const construction & it ) {
+            return it.str_id == construction_constr_pit_shallow;
+        } );
     }
 
-    const std::function<bool( const tripoint & )> f = [&here]( const tripoint & pnt ) {
-        return here.passable( pnt );
-    };
+    place_construction( build->group );
 
-    const cata::optional<tripoint> pnt_ = choose_adjacent_highlight(
-            _( "Deposit excavated materials where?" ),
-            _( "There is nowhere to deposit the excavated materials." ), f, false );
-    if( !pnt_ ) {
-        return cata::nullopt;
-    }
-    const tripoint deposit_point = *pnt_;
-
-    if( !f( deposit_point ) ) {
-        p->add_msg_if_player(
-            _( "You can't deposit the excavated materials onto an impassable location." ) );
-        return cata::nullopt;
-    }
-
-    if( grave ) {
-        if( p->has_trait( trait_SPIRITUAL ) && !p->has_trait( trait_PSYCHOPATH ) &&
-            p->query_yn( _( "Would you really touch the sacred resting place of the dead?" ) ) ) {
-            add_msg( m_info, _( "Exhuming a grave is really against your beliefs." ) );
-            p->add_morale( MORALE_GRAVEDIGGER, -50, -100, 48_hours, 12_hours );
-            if( one_in( 3 ) ) {
-                p->vomit();
-            }
-        } else if( p->has_trait( trait_PSYCHOPATH ) ) {
-            p->add_msg_if_player( m_good,
-                                  _( "Exhuming a grave is fun now, when there is no one to object." ) );
-            p->add_morale( MORALE_GRAVEDIGGER, 25, 50, 2_hours, 1_hours );
-        } else if( p->has_trait( trait_NUMB ) ) {
-            p->add_msg_if_player( m_bad, _( "You wonder if you dig up anything usefull." ) );
-            p->add_morale( MORALE_GRAVEDIGGER, -25, -50, 2_hours, 1_hours );
-        } else if( !p->has_trait( trait_EATDEAD ) &&
-                   !p->has_trait( trait_SAPROVORE ) ) {
-            p->add_msg_if_player( m_bad, _( "Exhuming this grave is utterly disgusting!" ) );
-            p->add_morale( MORALE_GRAVEDIGGER, -25, -50, 2_hours, 1_hours );
-            if( one_in( 5 ) ) {
-                p->vomit();
-            }
-        }
-    }
-
-    const std::vector<npc *> helpers = p->get_crafting_helpers();
-    for( std::size_t i = 0; i < helpers.size() && i < 3; i++ ) {
-        add_msg( m_info, _( "%s helps with this task…" ), helpers[i]->get_name() );
-    }
-
-    digging_moves_and_byproducts moves_and_byproducts = dig_pit_moves_and_byproducts( p, it,
-            can_deepen, false );
-
-    p->assign_activity( player_activity( dig_activity_actor(
-            moves_and_byproducts.moves,
-            dig_point,
-            moves_and_byproducts.result_terrain.id().str(),
-            deposit_point,
-            moves_and_byproducts.spawn_count,
-            moves_and_byproducts.byproducts_item_group
-                                         ) ) );
-
-    return it->type->charges_to_use();
+    return 0;
 }
 
-cata::optional<int> iuse::dig_channel( Character *p, item *it, bool t, const tripoint & )
+cata::optional<int> iuse::dig_channel( Character *p, item */* it */, bool t, const tripoint & )
 {
     if( !p || t ) {
         return cata::nullopt;
@@ -2742,67 +2961,17 @@ cata::optional<int> iuse::dig_channel( Character *p, item *it, bool t, const tri
         p->add_msg_if_player( m_info, _( "You can't do that while mounted." ) );
         return cata::nullopt;
     }
-    const tripoint dig_point = p->pos();
 
-    tripoint north = dig_point + point_north;
-    tripoint south = dig_point + point_south;
-    tripoint west = dig_point + point_west;
-    tripoint east = dig_point + point_east;
+    std::vector<construction> const &cnstr = get_constructions();
+    auto const build = std::find_if( cnstr.begin(), cnstr.end(), []( const construction & it ) {
+        return it.str_id == construction_constr_water_channel;
+    } );
 
-    map &here = get_map();
-    const bool can_dig_here = here.has_flag( ter_furn_flag::TFLAG_DIGGABLE, dig_point ) &&
-                              !here.has_furn( dig_point ) &&
-                              !here.can_see_trap_at( dig_point, *p ) && here.i_at( dig_point ).empty() &&
-                              !here.veh_at( dig_point ) &&
-                              ( here.has_flag( ter_furn_flag::TFLAG_CURRENT, north ) ||
-                                here.has_flag( ter_furn_flag::TFLAG_CURRENT, south ) ||
-                                here.has_flag( ter_furn_flag::TFLAG_CURRENT, east ) ||
-                                here.has_flag( ter_furn_flag::TFLAG_CURRENT, west ) );
-
-    if( !can_dig_here ) {
-        p->add_msg_if_player(
-            _( "You can't dig a channel in this location.  Ensure it is clear diggable ground with no items or obstacles, adjacent to flowing water." ) );
-        return cata::nullopt;
-    }
-
-    const std::function<bool( const tripoint & )> f = [&here]( const tripoint & pnt ) {
-        return here.passable( pnt );
-    };
-
-    const cata::optional<tripoint> pnt_ = choose_adjacent_highlight(
-            _( "Deposit excavated materials where?" ),
-            _( "There is nowhere to deposit the excavated materials." ), f, false );
-    if( !pnt_ ) {
-        return cata::nullopt;
-    }
-    const tripoint deposit_point = *pnt_;
-
-    if( !f( deposit_point ) ) {
-        p->add_msg_if_player(
-            _( "You can't deposit the excavated materials onto an impassable location." ) );
-        return cata::nullopt;
-    }
-
-    const std::vector<npc *> helpers = p->get_crafting_helpers();
-    for( std::size_t i = 0; i < helpers.size() && i < 3; i++ ) {
-        add_msg( m_info, _( "%s helps with this task…" ), helpers[i]->get_name() );
-    }
-
-    digging_moves_and_byproducts moves_and_byproducts = dig_pit_moves_and_byproducts( p, it, false,
-            true );
-
-    p->assign_activity( player_activity( dig_channel_activity_actor(
-            moves_and_byproducts.moves,
-            dig_point,
-            moves_and_byproducts.result_terrain.id().str(),
-            deposit_point,
-            moves_and_byproducts.spawn_count,
-            moves_and_byproducts.byproducts_item_group
-                                         ) ) );
-    return it->type->charges_to_use();
+    place_construction( build->group );
+    return 0;
 }
 
-cata::optional<int> iuse::fill_pit( Character *p, item *it, bool t, const tripoint & )
+cata::optional<int> iuse::fill_pit( Character *p, item */* it */, bool t, const tripoint & )
 {
     if( !p || t ) {
         return cata::nullopt;
@@ -2811,62 +2980,14 @@ cata::optional<int> iuse::fill_pit( Character *p, item *it, bool t, const tripoi
         p->add_msg_if_player( m_info, _( "You can't do that while mounted." ) );
         return cata::nullopt;
     }
-    const std::set<ter_id> allowed_ter_id {
-        t_pit,
-        t_pit_spiked,
-        t_pit_glass,
-        t_pit_corpsed,
-        t_pit_shallow,
-        t_dirtmound
-    };
 
-    map &here = get_map();
-    const std::function<bool( const tripoint & )> f =
-    [&allowed_ter_id, &here, p]( const tripoint & pnt ) {
-        if( pnt == p->pos() ) {
-            return false;
-        }
-        const ter_id type = here.ter( pnt );
-        return ( allowed_ter_id.find( type ) != allowed_ter_id.end() );
-    };
+    std::vector<construction> const &cnstr = get_constructions();
+    auto const build = std::find_if( cnstr.begin(), cnstr.end(), []( const construction & it ) {
+        return it.str_id == construction_constr_fill_pit;
+    } );
 
-    const cata::optional<tripoint> pnt_ = choose_adjacent_highlight(
-            _( "Fill which pit or mound?" ), _( "There is no pit or mound to fill nearby." ), f, false );
-    if( !pnt_ ) {
-        return cata::nullopt;
-    }
-    const tripoint &pnt = *pnt_;
-    const ter_id ter = here.ter( pnt );
-    if( !f( pnt ) ) {
-        if( pnt == p->pos() ) {
-            p->add_msg_if_player( m_info, _( "You decide not to bury yourself that early." ) );
-        } else {
-            p->add_msg_if_player( m_info, _( "There is nothing to fill." ) );
-        }
-        return cata::nullopt;
-    }
-
-    int moves;
-    if( ter == t_pit || ter == t_pit_spiked ||
-        ter == t_pit_glass || ter == t_pit_corpsed ) {
-        moves = to_moves<int>( time_duration::from_minutes( 15 ) );
-    } else if( ter == t_pit_shallow ) {
-        moves = to_moves<int>( time_duration::from_minutes( 10 ) );
-    } else if( ter == t_dirtmound ) {
-        moves = to_moves<int>( time_duration::from_minutes( 5 ) );
-    } else {
-        return cata::nullopt;
-    }
-    const std::vector<npc *> helpers = p->get_crafting_helpers();
-    const std::size_t helpersize = p->get_num_crafting_helpers( 3 );
-    moves *= ( 1.0f - ( helpersize / 10.0f ) );
-    for( std::size_t i = 0; i < helpersize; i++ ) {
-        add_msg( m_info, _( "%s helps with this task…" ), helpers[i]->get_name() );
-    }
-    p->assign_activity( ACT_FILL_PIT, moves, -1, p->get_item_position( it ) );
-    p->activity.placement = pnt;
-
-    return it->type->charges_to_use();
+    place_construction( build->group );
+    return 0;
 }
 
 /**
@@ -2904,13 +3025,12 @@ cata::optional<int> iuse::clear_rubble( Character *p, item *it, bool, const trip
     for( std::size_t i = 0; i < helpersize; i++ ) {
         add_msg( m_info, _( "%s helps with this task…" ), helpers[i]->get_name() );
     }
-    player_activity act( ACT_CLEAR_RUBBLE, moves / bonus, bonus );
-    p->assign_activity( act );
-    p->activity.placement = pnt;
-    return it->type->charges_to_use();
+    p->assign_activity( player_activity( clear_rubble_activity_actor( moves / bonus ) ) );
+    p->activity.placement = get_map().getglobal( pnt );
+    return 1;
 }
 
-cata::optional<int> iuse::siphon( Character *p, item *it, bool, const tripoint & )
+cata::optional<int> iuse::siphon( Character *p, item *, bool, const tripoint & )
 {
     if( p->is_mounted() ) {
         p->add_msg_if_player( m_info, _( "You can't do that while mounted." ) );
@@ -2958,7 +3078,7 @@ cata::optional<int> iuse::siphon( Character *p, item *it, bool, const tripoint &
         return cata::nullopt;
     }
     act_vehicle_siphon( v );
-    return it->type->charges_to_use();
+    return 1;
 }
 
 static int toolweapon_off( Character &p, item &it, const bool fast_startup,
@@ -2980,7 +3100,7 @@ static int toolweapon_off( Character &p, item &it, const bool fast_startup,
         // 4 is the length of "_off".
         it.convert( itype_id( it.typeId().str().substr( 0, it.typeId().str().size() - 4 ) + "_on" ) );
         it.active = true;
-        return it.type->charges_to_use();
+        return 1;
     } else {
         if( it.typeId() == itype_chainsaw_off ) {
             sfx::play_variant_sound( "chainsaw_cord", "chainsaw_on", sfx::get_heard_volume( p.pos() ) );
@@ -3023,24 +3143,6 @@ cata::optional<int> iuse::elec_chainsaw_off( Character *p, item *it, bool, const
                            false,
                            rng( 0, 10 ) - it->damage_level() > 5 && !p->is_underwater(),
                            20, _( "With a roar, the electric chainsaw screams to life!" ),
-                           _( "You flip the switch, but nothing happens." ) );
-}
-
-cata::optional<int> iuse::cs_lajatang_off( Character *p, item *it, bool, const tripoint & )
-{
-    return toolweapon_off( *p, *it,
-                           false,
-                           rng( 0, 10 ) - it->damage_level() > 5 && it->ammo_remaining() > 1 && !p->is_underwater(),
-                           40, _( "With a roar, the chainsaws scream to life!" ),
-                           _( "You yank the cords, but nothing happens." ) );
-}
-
-cata::optional<int> iuse::ecs_lajatang_off( Character *p, item *it, bool, const tripoint & )
-{
-    return toolweapon_off( *p, *it,
-                           false,
-                           rng( 0, 10 ) - it->damage_level() > 5 && it->ammo_remaining() > 1 && !p->is_underwater(),
-                           40, _( "With a buzz, the chainsaws scream to life!" ),
                            _( "You flip the switch, but nothing happens." ) );
 }
 
@@ -3091,7 +3193,7 @@ static int toolweapon_on( Character &p, item &it, const bool t,
         it.convert( itype_id( off_type ) ).active = false;
         return 0; // Don't consume charges when turning off.
     }
-    return it.type->charges_to_use();
+    return 1;
 }
 
 cata::optional<int> iuse::combatsaw_on( Character *p, item *it, bool t, const tripoint & )
@@ -3120,26 +3222,6 @@ cata::optional<int> iuse::elec_chainsaw_on( Character *p, item *it, bool t, cons
     return toolweapon_on( *p, *it, t, _( "electric chainsaw" ),
                           false,
                           15, 12, _( "Your electric chainsaw rumbles." ) );
-}
-
-cata::optional<int> iuse::cs_lajatang_on( Character *p, item *it, bool t, const tripoint & )
-{
-    return toolweapon_on( *p, *it, t, _( "chainsaw lajatang" ),
-                          false,
-                          15, 12, _( "Your chainsaws rumble." ),
-                          true );
-    // The chainsaw lajatang drains 2 charges per turn, since
-    // there are two chainsaws.
-}
-
-cata::optional<int> iuse::ecs_lajatang_on( Character *p, item *it, bool t, const tripoint & )
-{
-    return toolweapon_on( *p, *it, t, _( "electric chainsaw lajatang" ),
-                          false,
-                          15, 12, _( "Your chainsaws buzz." ),
-                          true );
-    // The chainsaw lajatang drains 2 charges per turn, since
-    // there are two chainsaws.
 }
 
 cata::optional<int> iuse::carver_on( Character *p, item *it, bool t, const tripoint & )
@@ -3205,10 +3287,15 @@ cata::optional<int> iuse::jackhammer( Character *p, item *it, bool, const tripoi
     }
 
     map &here = get_map();
-    bool mineable_furn = here.has_flag_furn( ter_furn_flag::TFLAG_MINEABLE, pnt );
-    bool mineable_ter = here.has_flag_ter( ter_furn_flag::TFLAG_MINEABLE, pnt );
+    const bool mineable_furn = here.has_flag_furn( ter_furn_flag::TFLAG_MINEABLE, pnt );
+    const bool mineable_ter = here.has_flag_ter( ter_furn_flag::TFLAG_MINEABLE, pnt );
+    const int max_mining_ability = 70;
     if( !mineable_furn && !mineable_ter ) {
         p->add_msg_if_player( m_info, _( "You can't drill there." ) );
+        if( here.bash_resistance( pnt ) > max_mining_ability ) {
+            p->add_msg_if_player( m_info,
+                                  _( "The material is too hard for you to even make a dent." ) );
+        }
         return cata::nullopt;
     }
     if( here.veh_at( pnt ) ) {
@@ -3231,7 +3318,7 @@ cata::optional<int> iuse::jackhammer( Character *p, item *it, bool, const tripoi
 
     p->assign_activity( ACT_JACKHAMMER, moves );
     p->activity.targets.emplace_back( *p, it );
-    p->activity.placement = here.getabs( pnt );
+    p->activity.placement = here.getglobal( pnt );
 
     // You can mine either furniture or terrain, and furniture goes first,
     // according to @ref map::bash_ter_furn()
@@ -3288,7 +3375,7 @@ cata::optional<int> iuse::pick_lock( Character *p, item *it, bool, const tripoin
         player_activity( lockpick_activity_actor::use_item( to_moves<int>( duration ),
                          item_location( you, it ),
                          get_map().getabs( *target ) ) ) );
-    return it->type->charges_to_use();
+    return 1;
 }
 
 cata::optional<int> iuse::pickaxe( Character *p, item *it, bool, const tripoint &pos )
@@ -3316,10 +3403,15 @@ cata::optional<int> iuse::pickaxe( Character *p, item *it, bool, const tripoint 
     }
 
     map &here = get_map();
-    bool mineable_furn = here.has_flag_furn( ter_furn_flag::TFLAG_MINEABLE, pnt );
-    bool mineable_ter = here.has_flag_ter( ter_furn_flag::TFLAG_MINEABLE, pnt );
+    const bool mineable_furn = here.has_flag_furn( ter_furn_flag::TFLAG_MINEABLE, pnt );
+    const bool mineable_ter = here.has_flag_ter( ter_furn_flag::TFLAG_MINEABLE, pnt );
+    const int max_mining_ability = 70;
     if( !mineable_furn && !mineable_ter ) {
         p->add_msg_if_player( m_info, _( "You can't mine there." ) );
+        if( here.bash_resistance( pnt ) > max_mining_ability ) {
+            p->add_msg_if_player( m_info,
+                                  _( "The material is too hard for you to even make a dent." ) );
+        }
         return cata::nullopt;
     }
     if( here.veh_at( pnt ) ) {
@@ -3328,7 +3420,7 @@ cata::optional<int> iuse::pickaxe( Character *p, item *it, bool, const tripoint 
     }
 
     int moves = to_moves<int>( 20_minutes );
-    moves += ( ( MAX_STAT + 4 ) - std::min( p->str_cur, MAX_STAT ) ) * to_moves<int>( 5_minutes );
+    moves += ( ( MAX_STAT + 4 ) - std::min( p->get_arm_str(), MAX_STAT ) ) * to_moves<int>( 5_minutes );
     if( here.move_cost( pnt ) == 2 ) {
         // We're breaking up some flat surface like pavement, which is much easier
         moves /= 2;
@@ -3343,7 +3435,7 @@ cata::optional<int> iuse::pickaxe( Character *p, item *it, bool, const tripoint 
 
     p->assign_activity( ACT_PICKAXE, moves, -1 );
     p->activity.targets.emplace_back( *p, it );
-    p->activity.placement = here.getabs( pnt );
+    p->activity.placement = here.getglobal( pnt );
 
     // You can mine either furniture or terrain, and furniture goes first,
     // according to @ref map::bash_ter_furn()
@@ -3360,7 +3452,7 @@ cata::optional<int> iuse::geiger( Character *p, item *it, bool t, const tripoint
     if( t ) { // Every-turn use when it's on
         const int rads = here.get_radiation( pos );
         if( rads == 0 ) {
-            return it->type->charges_to_use();
+            return 1;
         }
         std::string description = rads > 50 ? _( "buzzing" ) :
                                   rads > 25 ? _( "rapid clicking" ) : _( "clicking" );
@@ -3370,7 +3462,7 @@ cata::optional<int> iuse::geiger( Character *p, item *it, bool t, const tripoint
         sounds::sound( pos, 6, sounds::sound_t::alarm, description, true, "tool", sound_var );
         if( !p->can_hear( pos, 6 ) ) {
             // can not hear it, but may have alarmed other creatures
-            return it->type->charges_to_use();
+            return 1;
         }
         if( rads > 50 ) {
             add_msg( m_warning, _( "The geiger counter buzzes intensely." ) );
@@ -3387,7 +3479,7 @@ cata::optional<int> iuse::geiger( Character *p, item *it, bool t, const tripoint
         } else {
             add_msg( _( "The geiger counter clicks once." ) );
         }
-        return it->type->charges_to_use();
+        return 1;
     }
     // Otherwise, we're activating the geiger counter
     if( it->typeId() == itype_geiger_on ) {
@@ -3414,14 +3506,14 @@ cata::optional<int> iuse::geiger( Character *p, item *it, bool t, const tripoint
             const tripoint &pnt = *pnt_;
             if( pnt == p->pos() ) {
                 p->add_msg_if_player( m_info, _( "Your radiation level: %d mSv (%d mSv from items)" ), p->get_rad(),
-                                      p->leak_level( flag_RADIOACTIVE ) );
+                                      static_cast<int>( p->leak_level() ) );
                 break;
             }
             if( npc *const person_ = creatures.creature_at<npc>( pnt ) ) {
                 npc &person = *person_;
                 p->add_msg_if_player( m_info, _( "%s's radiation level: %d mSv (%d mSv from items)" ),
                                       person.get_name(), person.get_rad(),
-                                      person.leak_level( flag_RADIOACTIVE ) );
+                                      static_cast<int>( person.leak_level() ) );
             }
             break;
         }
@@ -3438,7 +3530,7 @@ cata::optional<int> iuse::geiger( Character *p, item *it, bool t, const tripoint
     }
     p->mod_moves( -100 );
 
-    return it->type->charges_to_use();
+    return 1;
 }
 
 cata::optional<int> iuse::teleport( Character *p, item *it, bool, const tripoint & )
@@ -3456,7 +3548,7 @@ cata::optional<int> iuse::teleport( Character *p, item *it, bool, const tripoint
     }
     p->moves -= to_moves<int>( 1_seconds );
     teleport::teleport( *p );
-    return it->type->charges_to_use();
+    return 1;
 }
 
 cata::optional<int> iuse::can_goo( Character *p, item *it, bool, const tripoint & )
@@ -3505,7 +3597,7 @@ cata::optional<int> iuse::can_goo( Character *p, item *it, bool, const tripoint 
             return 0;
         }
     }
-    return it->type->charges_to_use();
+    return 1;
 }
 
 cata::optional<int> iuse::granade( Character *p, item *it, bool, const tripoint & )
@@ -3514,7 +3606,7 @@ cata::optional<int> iuse::granade( Character *p, item *it, bool, const tripoint 
     it->convert( itype_granade_act );
     it->charges = 5;
     it->active = true;
-    return it->type->charges_to_use();
+    return 1;
 }
 
 cata::optional<int> iuse::granade_act( Character *p, item *it, bool t, const tripoint &pos )
@@ -3529,7 +3621,7 @@ cata::optional<int> iuse::granade_act( Character *p, item *it, bool t, const tri
         sounds::sound( pos, 0, sounds::sound_t::electronic_speech, _( "Merged!" ),
                        true, "speech", it->typeId().str() );
     } else if( it->charges > 0 ) {
-        p->add_msg_if_player( m_info, _( "You've already pulled the %s's pin; try throwing it instead." ),
+        p->add_msg_if_player( m_info, _( "You've already pulled the %s's pin, try throwing it instead." ),
                               it->tname() );
         return cata::nullopt;
     } else { // When that timer runs down...
@@ -3665,7 +3757,7 @@ cata::optional<int> iuse::granade_act( Character *p, item *it, bool t, const tri
                 break;
         }
     }
-    return it->type->charges_to_use();
+    return 1;
 }
 
 cata::optional<int> iuse::c4( Character *p, item *it, bool, const tripoint & )
@@ -3681,7 +3773,7 @@ cata::optional<int> iuse::c4( Character *p, item *it, bool, const tripoint & )
     it->convert( itype_c4armed );
     it->charges = time;
     it->active = true;
-    return it->type->charges_to_use();
+    return 1;
 }
 
 cata::optional<int> iuse::acidbomb_act( Character *p, item *it, bool, const tripoint &pos )
@@ -3707,7 +3799,7 @@ cata::optional<int> iuse::grenade_inc_act( Character *p, item *it, bool t, const
         // Vol 0 = only heard if you hold it
         sounds::sound( pos, 0, sounds::sound_t::alarm, _( "Tick!" ), true, "misc", "bomb_ticking" );
     } else if( it->charges > 0 ) {
-        p->add_msg_if_player( m_info, _( "You've already released the handle; try throwing it instead." ) );
+        p->add_msg_if_player( m_info, _( "You've already released the handle, try throwing it instead." ) );
         return cata::nullopt;
     } else {  // blow up
         map &here = get_map();
@@ -3715,7 +3807,7 @@ cata::optional<int> iuse::grenade_inc_act( Character *p, item *it, bool t, const
         for( int current_flame = 0; current_flame < num_flames; current_flame++ ) {
             tripoint dest( pos + point( rng( -5, 5 ), rng( -5, 5 ) ) );
             std::vector<tripoint> flames = line_to( pos, dest, 0, 0 );
-            for( auto &flame : flames ) {
+            for( tripoint &flame : flames ) {
                 here.add_field( flame, fd_fire, rng( 0, 2 ) );
             }
         }
@@ -3724,30 +3816,13 @@ cata::optional<int> iuse::grenade_inc_act( Character *p, item *it, bool t, const
             here.add_field( dest, fd_incendiary, 3 );
         }
 
+        if( p->has_trait( trait_PYROMANIA ) ) {
+            p->add_morale( MORALE_PYROMANIA_STARTFIRE, 15, 15, 8_hours, 6_hours );
+            p->rem_morale( MORALE_PYROMANIA_NOFIRE );
+            p->add_msg_if_player( m_good, _( "Fire…  Good…" ) );
+        }
     }
     return 0;
-}
-
-cata::optional<int> iuse::arrow_flammable( Character *p, item *it, bool, const tripoint & )
-{
-    if( p->is_underwater() ) {
-        p->add_msg_if_player( m_info, _( "You can't do that while underwater." ) );
-        return cata::nullopt;
-    }
-    if( !p->use_charges_if_avail( itype_fire, 1 ) ) {
-        p->add_msg_if_player( m_info, _( "You need a source of fire!" ) );
-        return cata::nullopt;
-    }
-    p->add_msg_if_player( _( "You light the arrow!" ) );
-    p->moves -= to_moves<int>( 1_seconds );
-    if( it->charges == 1 ) {
-        it->convert( itype_arrow_flamming );
-        return 0;
-    }
-    item lit_arrow( *it );
-    lit_arrow.convert( itype_arrow_flamming ).charges = 1;
-    p->i_add( lit_arrow );
-    return 1;
 }
 
 cata::optional<int> iuse::molotov_lit( Character *p, item *it, bool t, const tripoint &pos )
@@ -3760,9 +3835,14 @@ cata::optional<int> iuse::molotov_lit( Character *p, item *it, bool t, const tri
             const int intensity = 1 + one_in( 3 ) + one_in( 5 );
             here.add_field( pt, fd_fire, intensity );
         }
+        if( p->has_trait( trait_PYROMANIA ) ) {
+            p->add_morale( MORALE_PYROMANIA_STARTFIRE, 15, 15, 8_hours, 6_hours );
+            p->rem_morale( MORALE_PYROMANIA_NOFIRE );
+            p->add_msg_if_player( m_good, _( "Fire…  Good…" ) );
+        }
         return 1;
     } else if( it->charges > 0 ) {
-        p->add_msg_if_player( m_info, _( "You've already lit the %s; try throwing it instead." ),
+        p->add_msg_if_player( m_info, _( "You've already lit the %s, try throwing it instead." ),
                               it->tname() );
         return cata::nullopt;
     } else if( p->has_item( *it ) && it->charges == 0 ) {
@@ -3831,7 +3911,7 @@ cata::optional<int> iuse::firecracker( Character *p, item *it, bool, const tripo
     it->convert( itype_firecracker_act );
     it->charges = 2;
     it->active = true;
-    return it->type->charges_to_use();
+    return 1;
 }
 
 cata::optional<int> iuse::firecracker_act( Character *p, item *it, bool t, const tripoint &pos )
@@ -3842,7 +3922,7 @@ cata::optional<int> iuse::firecracker_act( Character *p, item *it, bool t, const
     if( t ) { // Simple timer effects
         sounds::sound( pos, 0,  sounds::sound_t::alarm, _( "ssss…" ), true, "misc", "lit_fuse" );
     } else if( it->charges > 0 ) {
-        p->add_msg_if_player( m_info, _( "You've already lit the %s; try throwing it instead." ),
+        p->add_msg_if_player( m_info, _( "You've already lit the %s, try throwing it instead." ),
                               it->tname() );
         return cata::nullopt;
     } else { // When that timer runs down...
@@ -3865,7 +3945,7 @@ cata::optional<int> iuse::mininuke( Character *p, item *it, bool, const tripoint
     it->convert( itype_mininuke_act );
     it->charges = time;
     it->active = true;
-    return it->type->charges_to_use();
+    return 1;
 }
 
 cata::optional<int> iuse::portal( Character *p, item *it, bool, const tripoint & )
@@ -3879,7 +3959,7 @@ cata::optional<int> iuse::portal( Character *p, item *it, bool, const tripoint &
     }
     tripoint t( p->posx() + rng( -2, 2 ), p->posy() + rng( -2, 2 ), p->posz() );
     get_map().trap_set( t, tr_portal );
-    return it->type->charges_to_use();
+    return 1;
 }
 
 cata::optional<int> iuse::tazer( Character *p, item *it, bool, const tripoint &pos )
@@ -3922,43 +4002,49 @@ cata::optional<int> iuse::tazer( Character *p, item *it, bool, const tripoint &p
 
     /** @EFFECT_DODGE increases chance of dodging a tazer attack */
     const bool tazer_was_dodged = dice( numdice, 10 ) < dice( target->get_dodge(), 10 );
+    const int tazer_resistance = target->get_armor_bash( bodypart_id( "torso" ) );
+    const bool tazer_was_armored = dice( numdice, 10 ) < dice( tazer_resistance, 10 );
     if( tazer_was_dodged ) {
         p->add_msg_player_or_npc( _( "You attempt to shock %s, but miss." ),
                                   _( "<npcname> attempts to shock %s, but misses." ),
                                   target->disp_name() );
+    } else if( tazer_was_armored ) {
+        p->add_msg_player_or_npc( _( "You attempt to shock %s, but are blocked by armor." ),
+                                  _( "<npcname> attempts to shock %s, but is blocked by armor." ),
+                                  target->disp_name() );
     } else {
-        // TODO: Maybe - Execute an attack and maybe zap something other than torso
-        // Maybe, because it's torso (heart) that fails when zapped with electricity
-        int dam = target->deal_damage( p, bodypart_id( "torso" ), damage_instance( damage_type::ELECTRIC,
-                                       rng( 5,
-                                            25 ) ) ).total_damage();
-        if( dam > 0 ) {
-            p->add_msg_player_or_npc( m_good,
-                                      _( "You shock %s!" ),
-                                      _( "<npcname> shocks %s!" ),
-                                      target->disp_name() );
+        // Stun duration scales harshly inversely with big creatures
+        if( target->get_size() == creature_size::tiny ) {
+            target->moves -= rng( 150, 250 );
+        } else if( target->get_size() == creature_size::small ) {
+            target->moves -= rng( 125, 200 );
+        } else if( target->get_size() == creature_size::large ) {
+            target->moves -= rng( 95, 115 );
+        } else if( target->get_size() == creature_size::huge ) {
+            target->moves -= rng( 50, 80 );
         } else {
-            p->add_msg_player_or_npc( m_warning,
-                                      _( "You unsuccessfully attempt to shock %s!" ),
-                                      _( "<npcname> unsuccessfully attempts to shock %s!" ),
-                                      target->disp_name() );
+            target->moves -= rng( 110, 150 );
         }
+        p->add_msg_player_or_npc( m_good,
+                                  _( "You shock %s!" ),
+                                  _( "<npcname> shocks %s!" ),
+                                  target->disp_name() );
     }
 
     if( foe != nullptr ) {
         foe->on_attacked( *p );
     }
 
-    return it->type->charges_to_use();
+    return 1;
 }
 
 cata::optional<int> iuse::tazer2( Character *p, item *it, bool b, const tripoint &pos )
 {
-    if( it->ammo_remaining( p ) >= 100 ) {
+    if( it->ammo_remaining( p ) >= 2 ) {
         // Instead of having a ctrl+c+v of the function above, spawn a fake tazer and use it
         // Ugly, but less so than copied blocks
         item fake( "tazer", calendar::turn_zero );
-        fake.charges = 100;
+        fake.charges = 2;
         return tazer( p, &fake, b, pos );
     } else {
         p->add_msg_if_player( m_info, _( "Insufficient power" ) );
@@ -3984,7 +4070,7 @@ cata::optional<int> iuse::shocktonfa_off( Character *p, item *it, bool t, const 
             } else {
                 p->add_msg_if_player( _( "You turn the light on." ) );
                 it->convert( itype_shocktonfa_on ).active = true;
-                return it->type->charges_to_use();
+                return 1;
             }
         }
     }
@@ -4040,7 +4126,7 @@ cata::optional<int> iuse::mp3( Character *p, item *it, bool, const tripoint & )
         }
         p->mod_moves( -200 );
     }
-    return it->type->charges_to_use();
+    return 1;
 }
 
 static std::string get_music_description()
@@ -4078,15 +4164,16 @@ void iuse::play_music( Character &p, const tripoint &source, const int volume,
 {
     // TODO: what about other "player", e.g. when a NPC is listening or when the PC is listening,
     // the other characters around should be able to profit as well.
-    const bool do_effects = p.can_hear( source, volume );
+    const bool do_effects = p.can_hear( source, volume ) && !p.in_sleep_state();
     std::string sound = "music";
-    if( calendar::once_every( 5_minutes ) ) {
-        // Every 5 minutes, describe the music
+    if( calendar::once_every( time_duration::from_minutes(
+                                  get_option<int>( "DESCRIBE_MUSIC_FREQUENCY" ) ) ) ) {
+        // Every X minutes, describe the music
         const std::string music = get_music_description();
         if( !music.empty() ) {
             sound = music;
             // descriptions aren't printed for sounds at our position
-            if( p.pos() == source && p.can_hear( source, volume ) ) {
+            if( p.pos() == source && do_effects ) {
                 p.add_msg_if_player( _( "You listen to %s" ), music );
             }
         }
@@ -4111,6 +4198,7 @@ cata::optional<int> iuse::mp3_on( Character *p, item *it, bool t, const tripoint
         if( p->has_item( *it ) ) {
             // mp3 player in inventory, we can listen
             play_music( *p, pos, 0, 20 );
+            music::activate_music_id( music::music_id::mp3 );
         }
     } else { // Turning it off
         if( it->typeId() == itype_mp3_on ) {
@@ -4127,9 +4215,11 @@ cata::optional<int> iuse::mp3_on( Character *p, item *it, bool t, const tripoint
             it->convert( itype_afs_wraitheon_smartphone ).active = false;
         }
         p->mod_moves( -200 );
+        music::deactivate_music_id( music::music_id::mp3 );
+
         return 0;
     }
-    return it->type->charges_to_use();
+    return 1;
 }
 
 cata::optional<int> iuse::rpgdie( Character *you, item *die, bool, const tripoint & )
@@ -4195,7 +4285,7 @@ cata::optional<int> iuse::dive_tank( Character *p, item *it, bool t, const tripo
             }
         }
     }
-    return it->type->charges_to_use();
+    return 1;
 }
 
 cata::optional<int> iuse::solarpack( Character *p, item *it, bool, const tripoint & )
@@ -4279,7 +4369,7 @@ cata::optional<int> iuse::gasmask( Character *p, item *it, bool t, const tripoin
         it->set_var( "overwrite_env_resist", 0 );
         it->active = false;
     }
-    return it->type->charges_to_use();
+    return 1;
 }
 
 cata::optional<int> iuse::portable_game( Character *p, item *it, bool active, const tripoint & )
@@ -4305,7 +4395,7 @@ cata::optional<int> iuse::portable_game( Character *p, item *it, bool active, co
     if( p->has_trait( trait_ILLITERATE ) ) {
         p->add_msg_if_player( m_info, _( "You're illiterate!" ) );
         return cata::nullopt;
-    } else if( !it->ammo_sufficient( p ) ) {
+    } else if( it->typeId() != itype_arcade_machine && !it->ammo_sufficient( p ) ) {
         p->add_msg_if_player( m_info, _( "The %s's batteries are dead." ), it->tname() );
         return cata::nullopt;
     } else {
@@ -4321,7 +4411,7 @@ cata::optional<int> iuse::portable_game( Character *p, item *it, bool active, co
 
         uilist as_m;
         as_m.text = _( "What do you want to play?" );
-        as_m.entries.emplace_back( 1, true, '1', _( "Robot finds Kitten" ) );
+        as_m.entries.emplace_back( 1, true, '1', _( "robotfindskitten" ) );
         as_m.entries.emplace_back( 2, true, '2', _( "S N A K E" ) );
         as_m.entries.emplace_back( 3, true, '3', _( "Sokoban" ) );
         as_m.entries.emplace_back( 4, true, '4', _( "Minesweeper" ) );
@@ -4438,35 +4528,48 @@ cata::optional<int> iuse::fitness_check( Character *p, item *it, bool, const tri
         return cata::nullopt;
     } else {
         //What else should block using f-band?
+        std::string msg;
+        msg.append( "***  " );
+        msg.append( string_format( _( "You check your health metrics on your %s." ), it->tname( 1,
+                                   false ) ) );
+        msg.append( "  ***\n\n" );
         const int bpm = p->heartrate_bpm();
-        p->add_msg_if_player( _( "You check your health metrics on your %s." ), it->tname() );
-        //Maybe should pick better words
-        p->add_msg_if_player( _( "Your %s displays your heart's BPM:  %i." ), it->tname(), bpm );
+        msg.append( "-> " );
+        msg.append( string_format( _( "Your heart rate is %i bpm." ), bpm ) );
         if( bpm > 179 ) {
-            p->add_msg_if_player( _( "Your %s shows warning:  'Slow down!  "
-                                     "Your pulse is getting too high, champion!'" ), it->tname() );
+            msg.append( "\n" );
+            msg.append( "-> " );
+            msg.append( _( "WARNING!  Slow down!  Your pulse is getting too high, champion!" ) );
         }
         const std::string exercise = p->activity_level_str();
+        msg.append( "\n" );
+        msg.append( "-> " );
         if( exercise == "NO_EXERCISE" ) {
-            p->add_msg_if_player( _( "Your %s shows your overall activity:  "
-                                     "'You haven't really been active today.  Try going for a walk!'." ), it->tname() );
+            msg.append( _( "You haven't really been active today.  Try going for a walk!" ) );
         } else if( exercise == "LIGHT_EXERCISE" ) {
-            p->add_msg_if_player( _( "Your %s shows your overall activity:  "
-                                     "'Good start!  Keep it up and move more.'" ), it->tname() );
+            msg.append( _( "Good start!  Keep it up and move more." ) );
         } else if( exercise == "MODERATE_EXERCISE" ) {
-            p->add_msg_if_player( _( "Your %s shows your overall activity:  "
-                                     "'Doing good!  Don't stop, push the limit!'" ), it->tname() );
+            msg.append( _( "Doing good!  Don't stop, push the limit!" ) );
         } else if( exercise == "ACTIVE_EXERCISE" ) {
-            //Ad will most likely need to go
-            p->add_msg_if_player( _( "Your %s shows your overall activity:  'Great job!  "
-                                     "Take a break from workout and refresh with a bottle of sport drink!'" ), it->tname() );
+            msg.append( _( "Great job!  Take a break and don't forget about hydration!" ) );
         } else {
-            p->add_msg_if_player( _( "Your %s shows your overall activity:  "
-                                     "'You are too active!  Avoid overexertion for your safety and health.'" ), it->tname() );
+            msg.append( _( "You are too active!  Avoid overexertion for your safety and health." ) );
         }
-        //TODO add whatever else makes sense (sleep quality, health level approximation?)
+        msg.append( "\n" );
+        msg.append( "-> " );
+        msg.append( string_format( _( "You consumed %d kcal today and %d kcal yesterday." ),
+                                   p->as_avatar()->get_daily_ingested_kcal( false ),
+                                   p->as_avatar()->get_daily_ingested_kcal( true ) ) );
+        msg.append( "\n" );
+        msg.append( "-> " );
+        msg.append( string_format( _( "You burned %d kcal today and %d kcal yesterday." ),
+                                   p->as_avatar()->get_daily_spent_kcal( false ),
+                                   p->as_avatar()->get_daily_spent_kcal( true ) ) );
+        //TODO add whatever else makes sense (steps, sleep quality, health level approximation?)
+        p->add_msg_if_player( m_neutral, msg );
+        popup( msg );
     }
-    return it->type->charges_to_use();
+    return 1;
 }
 
 cata::optional<int> iuse::hand_crank( Character *p, item *it, bool, const tripoint & )
@@ -4540,7 +4643,7 @@ cata::optional<int> iuse::vibe( Character *p, item *it, bool, const tripoint & )
         p->assign_activity( ACT_VIBE, moves, -1, 0, "de-stressing" );
         p->activity.targets.emplace_back( *p, it );
     }
-    return it->type->charges_to_use();
+    return 1;
 }
 
 cata::optional<int> iuse::vortex( Character *p, item *it, bool, const tripoint & )
@@ -4563,15 +4666,15 @@ cata::optional<int> iuse::vortex( Character *p, item *it, bool, const tripoint &
         p->moves -= to_moves<int>( 1_seconds );
         it->convert( itype_spiral_stone );
         mon->friendly = -1;
-        return it->type->charges_to_use();
+        return 1;
     }
 
     // Only reachable when no monster has been spawned.
     p->add_msg_if_player( m_warning, _( "Air swirls around you for a moment." ) );
-    return it->convert( itype_spiral_stone ).type->charges_to_use();
+    return 0;
 }
 
-cata::optional<int> iuse::dog_whistle( Character *p, item *it, bool, const tripoint & )
+cata::optional<int> iuse::dog_whistle( Character *p, item *, bool, const tripoint & )
 {
     if( !p->is_avatar() ) {
         return cata::nullopt;
@@ -4629,10 +4732,10 @@ cata::optional<int> iuse::dog_whistle( Character *p, item *it, bool, const tripo
             }
         }
     }
-    return it->type->charges_to_use();
+    return 1;
 }
 
-cata::optional<int> iuse::call_of_tindalos( Character *p, item *it, bool, const tripoint & )
+cata::optional<int> iuse::call_of_tindalos( Character *p, item *, bool, const tripoint & )
 {
     map &here = get_map();
     for( const tripoint &dest : here.points_in_radius( p->pos(), 12 ) ) {
@@ -4641,7 +4744,7 @@ cata::optional<int> iuse::call_of_tindalos( Character *p, item *it, bool, const 
             add_msg( m_info, _( "You hear a low-pitched echoing howl." ) );
         }
     }
-    return it->type->charges_to_use();
+    return 1;
 }
 
 cata::optional<int> iuse::blood_draw( Character *p, item *it, bool, const tripoint & )
@@ -4661,14 +4764,19 @@ cata::optional<int> iuse::blood_draw( Character *p, item *it, bool, const tripoi
     item blood( "blood", calendar::turn );
     bool drew_blood = false;
     bool acid_blood = false;
-    float blood_temp = -1.0f;  //kelvins
+    units::temperature blood_temp = units::from_kelvin( -1.0f ); //kelvins
     for( item &map_it : get_map().i_at( point( p->posx(), p->posy() ) ) ) {
         if( map_it.is_corpse() &&
             query_yn( _( "Draw blood from %s?" ),
                       colorize( map_it.tname(), map_it.color_in_inventory() ) ) ) {
             p->add_msg_if_player( m_info, _( "You drew blood from the %s…" ), map_it.tname() );
             drew_blood = true;
-            blood_temp = map_it.temperature * 0.00001;
+            blood_temp = map_it.temperature ;
+
+            if( map_it.get_mtype()->in_species( species_ZOMBIE ) ) {
+                blood.convert( itype_blood_tainted );
+            }
+
             auto bloodtype( map_it.get_mtype()->bloodType() );
             if( bloodtype.obj().has_acid ) {
                 acid_blood = true;
@@ -4681,7 +4789,7 @@ cata::optional<int> iuse::blood_draw( Character *p, item *it, bool, const tripoi
     if( !drew_blood && query_yn( _( "Draw your own blood?" ) ) ) {
         p->add_msg_if_player( m_info, _( "You drew your own blood…" ) );
         drew_blood = true;
-        blood_temp = 310.15f;
+        blood_temp = units::from_celcius( 37 );
         if( p->has_trait( trait_ACIDBLOOD ) ) {
             acid_blood = true;
         }
@@ -4707,56 +4815,17 @@ cata::optional<int> iuse::blood_draw( Character *p, item *it, bool, const tripoi
             }
             p->add_msg_if_player( m_info, _( "…but acidic blood damages the %s!" ), it->tname() );
         }
-        return it->type->charges_to_use();
+        return 1;
     }
 
     if( !drew_blood ) {
-        return it->type->charges_to_use();
+        return cata::nullopt;;
     }
 
     blood.set_item_temperature( blood_temp );
     it->put_in( blood, item_pocket::pocket_type::CONTAINER );
-    return it->type->charges_to_use();
-}
-
-//This is just used for robofac_intercom_mission_2
-cata::optional<int> iuse::mind_splicer( Character *p, item *it, bool, const tripoint & )
-{
-    if( p->is_mounted() ) {
-        p->add_msg_if_player( m_info, _( "You can't do that while mounted." ) );
-        return cata::nullopt;
-    }
-    for( item &map_it : get_map().i_at( point( p->posx(), p->posy() ) ) ) {
-        if( map_it.typeId() == itype_rmi2_corpse &&
-            query_yn( _( "Use the mind splicer kit on the %s?" ), colorize( map_it.tname(),
-                      map_it.color_in_inventory() ) ) ) {
-
-            auto filter = []( const item & it ) {
-                return it.typeId() == itype_data_card;
-            };
-            avatar *you = p->as_avatar();
-            item_location loc;
-            if( you != nullptr ) {
-                loc = game_menus::inv::titled_filter_menu( filter, *you, _( "Select storage media" ) );
-            }
-            if( !loc ) {
-                add_msg( m_info, _( "Nevermind." ) );
-                return cata::nullopt;
-            }
-            item &data_card = *loc;
-            ///\EFFECT_DEX makes using the mind splicer faster
-            ///\EFFECT_FIRSTAID makes using the mind splicer faster
-            const time_duration time = std::max( 150_minutes - 20_minutes * ( p->get_skill_level(
-                    skill_firstaid ) - 1 ) - 10_minutes * ( p->get_dex() - 8 ), 30_minutes );
-
-            player_activity act( ACT_MIND_SPLICER, to_moves<int>( time ) );
-            act.targets.emplace_back( *p, &data_card );
-            p->assign_activity( act );
-            return it->type->charges_to_use();
-        }
-    }
-    add_msg( m_info, _( "There's nothing to use the %s on here." ), it->tname() );
-    return cata::nullopt;
+    p->mod_moves( -to_moves<int>( 5_seconds ) );
+    return 1;
 }
 
 void iuse::cut_log_into_planks( Character &p )
@@ -4768,11 +4837,11 @@ void iuse::cut_log_into_planks( Character &p )
     const int moves = to_moves<int>( 20_minutes );
     p.add_msg_if_player( _( "You cut the log into planks." ) );
 
-    p.assign_activity( ACT_CHOP_PLANKS, moves, -1 );
-    p.activity.placement = get_map().getabs( p.pos() );
+    p.assign_activity( player_activity( chop_planks_activity_actor( moves ) ) );
+    p.activity.placement = get_map().getglobal( p.pos() );
 }
 
-cata::optional<int> iuse::lumber( Character *p, item *it, bool t, const tripoint & )
+cata::optional<int> iuse::lumber( Character *p, item *, bool t, const tripoint & )
 {
     if( t ) {
         return cata::nullopt;
@@ -4787,7 +4856,7 @@ cata::optional<int> iuse::lumber( Character *p, item *it, bool t, const tripoint
         if( i.typeId() == itype_log ) {
             here.i_rem( p->pos(), &i );
             cut_log_into_planks( *p );
-            return it->type->charges_to_use();
+            return 1;
         }
     }
 
@@ -4807,7 +4876,7 @@ cata::optional<int> iuse::lumber( Character *p, item *it, bool t, const tripoint
     }
     p->i_rem( &*loc );
     cut_log_into_planks( *p );
-    return it->type->charges_to_use();
+    return 1;
 }
 
 static int chop_moves( Character *p, item *it )
@@ -4816,7 +4885,7 @@ static int chop_moves( Character *p, item *it )
     const int quality = it->get_quality( qual_AXE );
 
     // attribute; regular tools - based on STR, powered tools - based on DEX
-    const int attr = it->has_flag( flag_POWERED ) ? p->dex_cur : p->str_cur;
+    const int attr = it->has_flag( flag_POWERED ) ? p->dex_cur : p->get_arm_str();
 
     int moves = to_moves<int>( time_duration::from_minutes( 60 - attr ) / std::pow( 2, quality - 1 ) );
     const int helpersize = p->get_num_crafting_helpers( 3 );
@@ -4860,10 +4929,10 @@ cata::optional<int> iuse::chop_tree( Character *p, item *it, bool t, const tripo
     for( std::size_t i = 0; i < helpers.size() && i < 3; i++ ) {
         add_msg( m_info, _( "%s helps with this task…" ), helpers[i]->get_name() );
     }
-    p->assign_activity( ACT_CHOP_TREE, moves, -1, p->get_item_position( it ) );
-    p->activity.placement = here.getabs( pnt );
+    p->assign_activity( player_activity( chop_tree_activity_actor( moves, item_location( *p, it ) ) ) );
+    p->activity.placement = here.getglobal( pnt );
 
-    return it->type->charges_to_use();
+    return 1;
 }
 
 cata::optional<int> iuse::chop_logs( Character *p, item *it, bool t, const tripoint & )
@@ -4903,10 +4972,10 @@ cata::optional<int> iuse::chop_logs( Character *p, item *it, bool t, const tripo
     for( std::size_t i = 0; i < helpers.size() && i < 3; i++ ) {
         add_msg( m_info, _( "%s helps with this task…" ), helpers[i]->get_name() );
     }
-    p->assign_activity( ACT_CHOP_LOGS, moves, -1, p->get_item_position( it ) );
-    p->activity.placement = here.getabs( pnt );
+    p->assign_activity( player_activity( chop_logs_activity_actor( moves, item_location( *p, it ) ) ) );
+    p->activity.placement = here.getglobal( pnt );
 
-    return it->type->charges_to_use();
+    return 1;
 }
 
 cata::optional<int> iuse::oxytorch( Character *p, item *it, bool, const tripoint & )
@@ -5043,7 +5112,7 @@ cata::optional<int> iuse::boltcutters( Character *p, item *it, bool, const tripo
     return cata::nullopt;
 }
 
-cata::optional<int> iuse::mop( Character *p, item *it, bool, const tripoint & )
+cata::optional<int> iuse::mop( Character *p, item *, bool, const tripoint & )
 {
     if( p->is_mounted() ) {
         p->add_msg_if_player( m_info, _( "You can't do that while mounted." ) );
@@ -5051,7 +5120,8 @@ cata::optional<int> iuse::mop( Character *p, item *it, bool, const tripoint & )
     }
     map &here = get_map();
     const std::function<bool( const tripoint & )> f = [&here]( const tripoint & pnt ) {
-        return here.terrain_moppable( pnt );
+        // TODO: fix point types
+        return here.terrain_moppable( tripoint_bub_ms( pnt ) );
     };
 
     const cata::optional<tripoint> pnt_ = choose_adjacent_highlight(
@@ -5059,9 +5129,11 @@ cata::optional<int> iuse::mop( Character *p, item *it, bool, const tripoint & )
     if( !pnt_ ) {
         return cata::nullopt;
     }
-    const tripoint &pnt = *pnt_;
-    if( !f( pnt ) ) {
-        if( pnt == p->pos() ) {
+    // TODO: fix point types
+    const tripoint_bub_ms pnt( *pnt_ );
+    // TODO: fix point types
+    if( !f( pnt.raw() ) ) {
+        if( pnt == p->pos_bub() ) {
             p->add_msg_if_player( m_info, _( "You mop yourself up." ) );
             p->add_msg_if_player( m_info, _( "The universe implodes and reforms around you." ) );
         } else {
@@ -5081,7 +5153,7 @@ cata::optional<int> iuse::mop( Character *p, item *it, bool, const tripoint & )
     } else {
         return cata::nullopt;
     }
-    return it->type->charges_to_use();
+    return 1;
 }
 
 cata::optional<int> iuse::spray_can( Character *p, item *it, bool, const tripoint & )
@@ -5132,7 +5204,7 @@ cata::optional<int> iuse::handle_ground_graffiti( Character &p, item *it, const 
     }
     p.moves -= move_cost;
     if( it != nullptr ) {
-        return it->type->charges_to_use();
+        return 1;
     } else {
         return 0;
     }
@@ -5219,7 +5291,7 @@ cata::optional<int> iuse::hotplate( Character *p, item *it, bool, const tripoint
 
     if( choice == 0 ) {
         if( heat_item( *p ) ) {
-            return it->type->charges_to_use();
+            return 1;
         }
     } else if( choice == 1 ) {
         return cauterize_elec( *p, *it );
@@ -5310,7 +5382,7 @@ int iuse::towel_common( Character *p, item *it, bool t )
             it->active = true;
         }
     }
-    return it ? it->type->charges_to_use() : 0;
+    return it ? 1 : 0;
 }
 
 cata::optional<int> iuse::unfold_generic( Character *p, item *it, bool, const tripoint & )
@@ -5329,8 +5401,15 @@ cata::optional<int> iuse::unfold_generic( Character *p, item *it, bool, const tr
         p->add_msg_if_player( m_info, _( "There's no room to unfold the %s." ), it->tname() );
         return cata::nullopt;
     }
+    veh->suspend_refresh();
     veh->name = it->get_var( "vehicle_name" );
-    if( !veh->restore( it->get_var( "folding_bicycle_parts" ) ) ) {
+
+    // TODO: Remove folding_bicycle_parts after savegames migrate
+    std::string folded_parts = it->has_var( "folding_bicycle_parts" )
+                               ? it->get_var( "folding_bicycle_parts" )
+                               : it->get_var( "folded_parts" );
+
+    if( !veh->restore( folded_parts ) ) {
         here.destroy_vehicle( veh );
         return 0;
     }
@@ -5351,8 +5430,12 @@ cata::optional<int> iuse::unfold_generic( Character *p, item *it, bool, const tr
             return 0;
         }
     }
-
+    veh->set_owner( *p );
+    veh->enable_refresh();
     here.add_vehicle_to_cache( veh );
+    if( here.veh_at( p->pos() ).part_with_feature( VPFLAG_BOARDABLE, true ) ) {
+        here.board_vehicle( p->pos(), p ); // if boardable unbroken part is present -> get on it
+    }
 
     std::string unfold_msg = it->get_var( "unfold_msg" );
     if( unfold_msg.empty() ) {
@@ -5360,11 +5443,15 @@ cata::optional<int> iuse::unfold_generic( Character *p, item *it, bool, const tr
     } else {
         unfold_msg = _( unfold_msg );
     }
-    veh->set_owner( *p );
     p->add_msg_if_player( m_neutral, unfold_msg, veh->name );
 
+    if( p->is_avatar() && it->get_var( "tracking", 0 ) == 1 ) {
+        veh->toggle_tracking(); // restore position tracking state
+    }
+
     p->moves -= it->get_var( "moves", to_turns<int>( 5_seconds ) );
-    return 1;
+    p->i_rem( it );
+    return 0;
 }
 
 cata::optional<int> iuse::adrenaline_injector( Character *p, item *it, bool, const tripoint & )
@@ -5382,12 +5469,12 @@ cata::optional<int> iuse::adrenaline_injector( Character *p, item *it, bool, con
     if( p->has_effect( effect_adrenaline ) ) {
         p->add_msg_if_player( m_bad, _( "Your heart spasms!" ) );
         // Note: not the mod, the health
-        p->mod_healthy( -20 );
+        p->mod_livestyle( -20 );
     }
 
     p->add_effect( effect_adrenaline, 20_minutes );
 
-    return it->type->charges_to_use();
+    return 1;
 }
 
 cata::optional<int> iuse::jet_injector( Character *p, item *it, bool, const tripoint & )
@@ -5409,7 +5496,7 @@ cata::optional<int> iuse::jet_injector( Character *p, item *it, bool, const trip
             p->add_msg_if_player( m_warning, _( "Your heart is beating alarmingly fast!" ) );
         }
     }
-    return it->type->charges_to_use();
+    return 1;
 }
 
 cata::optional<int> iuse::stimpack( Character *p, item *it, bool, const tripoint & )
@@ -5432,7 +5519,7 @@ cata::optional<int> iuse::stimpack( Character *p, item *it, bool, const tripoint
         p->mod_fatigue( -100 );
         p->set_stamina( p->get_stamina_max() );
     }
-    return it->type->charges_to_use();
+    return 1;
 }
 
 cata::optional<int> iuse::radglove( Character *p, item *it, bool, const tripoint & )
@@ -5460,7 +5547,7 @@ cata::optional<int> iuse::radglove( Character *p, item *it, bool, const tripoint
         p->add_msg_if_player( _( "Have a nice day!" ) );
     }
 
-    return it->type->charges_to_use();
+    return 1;
 }
 
 cata::optional<int> iuse::contacts( Character *p, item *it, bool, const tripoint & )
@@ -5476,7 +5563,7 @@ cata::optional<int> iuse::contacts( Character *p, item *it, bool, const tripoint
             p->add_msg_if_player( _( "You replace your current %s." ), it->tname() );
             p->remove_effect( effect_contacts );
             p->add_effect( effect_contacts, duration );
-            return it->type->charges_to_use();
+            return 1;
         } else {
             p->add_msg_if_player( _( "You don't do anything with your %s." ), it->tname() );
             return cata::nullopt;
@@ -5486,7 +5573,7 @@ cata::optional<int> iuse::contacts( Character *p, item *it, bool, const tripoint
         p->moves -= to_moves<int>( 20_seconds );
         p->add_msg_if_player( _( "You put the %s in your eyes." ), it->tname() );
         p->add_effect( effect_contacts, duration );
-        return it->type->charges_to_use();
+        return 1;
     } else {
         p->add_msg_if_player( m_info, _( "Your vision is fine already." ) );
         return cata::nullopt;
@@ -5505,7 +5592,7 @@ cata::optional<int> iuse::talking_doll( Character *p, item *it, bool, const trip
     sounds::sound( p->pos(), speech.volume, sounds::sound_t::electronic_speech,
                    speech.text.translated(), true, "speech", it->typeId().str() );
 
-    return it->type->charges_to_use();
+    return 1;
 }
 
 cata::optional<int> iuse::gun_repair( Character *p, item *it, bool, const tripoint & )
@@ -5532,6 +5619,11 @@ cata::optional<int> iuse::gun_repair( Character *p, item *it, bool, const tripoi
         p->add_msg_if_player( m_info, _( "You don't have that item!" ) );
         return cata::nullopt;
     }
+    return ::gun_repair( p, it, loc );
+}
+
+cata::optional<int> gun_repair( Character *p, item *, item_location &loc )
+{
     item &fix = *loc;
     if( !fix.is_firearm() ) {
         p->add_msg_if_player( m_info, _( "That isn't a firearm!" ) );
@@ -5541,13 +5633,19 @@ cata::optional<int> iuse::gun_repair( Character *p, item *it, bool, const tripoi
         p->add_msg_if_player( m_info, _( "You can't repair your %s." ), fix.tname() );
         return cata::nullopt;
     }
-    if( fix.damage() <= fix.min_damage() ) {
-        p->add_msg_if_player( m_info, _( "You can't improve your %s any more this way." ),
-                              fix.tname() );
+    if( fix.damage() <= fix.damage_floor( true ) ) {
+        const char *msg = fix.damage_level() > 0 ?
+                          _( "You can't improve your %s any more, considering the degradation." ) :
+                          _( "You can't improve your %s any more this way." );
+        p->add_msg_if_player( m_info, msg, fix.tname() );
         return cata::nullopt;
     }
-    if( fix.damage() <= 0 && p->get_skill_level( skill_mechanics ) < 8 ) {
-        p->add_msg_if_player( m_info, _( "Your %s is already in peak condition." ), fix.tname() );
+    if( fix.damage() <= fix.damage_floor( false ) && fix.damage_floor( true ) < 0 &&
+        p->get_skill_level( skill_mechanics ) < 8 ) {
+        const char *msg = fix.damage_level() > 0 ?
+                          _( "Your %s is in its best condition, considering the degradation." ) :
+                          _( "Your %s is already in peak condition." );
+        p->add_msg_if_player( m_info, msg, fix.tname() );
         p->add_msg_if_player( m_info,
                               _( "With a higher mechanics skill, you might be able to improve it." ) );
         return cata::nullopt;
@@ -5575,13 +5673,13 @@ cata::optional<int> iuse::gun_repair( Character *p, item *it, bool, const tripoi
         sounds::sound( p->pos(), 8, sounds::sound_t::activity, "crunch", true, "tool", "repair_kit" );
         p->moves -= to_moves<int>( 5_seconds * p->fine_detail_vision_mod() );
         p->practice( skill_mechanics, 10 );
-        fix.set_damage( 0 );
+        fix.set_damage( fix.damage_floor( false ) );
         resultdurability = fix.durability_indicator( true );
         p->add_msg_if_player( m_good, _( "You repair your %s completely!  ( %s-> %s)" ),
                               fix.tname( 1, false ), startdurability, resultdurability );
         // Do these need to use the %1$s syntax used elsewhere?
     }
-    return it->type->charges_to_use();
+    return 1;
 }
 
 cata::optional<int> iuse::gunmod_attach( Character *p, item *it, bool, const tripoint & )
@@ -5679,17 +5777,15 @@ cata::optional<int> iuse::bell( Character *p, item *it, bool, const tripoint & )
             auto cattle_level =
                 p->mutation_category_level.find( mutation_category_CATTLE );
             const int cow_factor = 1 + ( cattle_level == p->mutation_category_level.end() ?
-                                         0 :
-                                         ( cattle_level->second ) / 8
-                                       );
+                                         0 : cattle_level->second );
             if( x_in_y( cow_factor, 1 + cow_factor ) ) {
-                p->add_morale( MORALE_MUSIC, 1, 15 * ( cow_factor > 10 ? 10 : cow_factor ) );
+                p->add_morale( MORALE_MUSIC, 1, std::min( cow_factor, 100 ) );
             }
         }
     } else {
         sounds::sound( p->pos(), 4, sounds::sound_t::music, _( "Ring!  Ring!" ), true, "misc", "bell" );
     }
-    return it->type->charges_to_use();
+    return 1;
 }
 
 cata::optional<int> iuse::seed( Character *p, item *it, bool, const tripoint & )
@@ -5697,7 +5793,7 @@ cata::optional<int> iuse::seed( Character *p, item *it, bool, const tripoint & )
     if( p->is_npc() ||
         query_yn( _( "Are you sure you want to eat the %s?  You could plant it in a mound of dirt." ),
                   colorize( it->tname(), it->color_in_inventory() ) ) ) {
-        return it->type->charges_to_use(); //This eats the seed object.
+        return 1; //This eats the seed object.
     }
     return cata::nullopt;
 }
@@ -5763,14 +5859,14 @@ cata::optional<int> iuse::robotcontrol( Character *p, item *it, bool active, con
             }
             if( mons.empty() ) {
                 p->add_msg_if_player( m_info, _( "No enemy robots in range." ) );
-                return it->type->charges_to_use();
+                return 1;
             }
             pointmenu_cb callback( locations );
             pick_robot.callback = &callback;
             pick_robot.query();
             if( pick_robot.ret < 0 || static_cast<size_t>( pick_robot.ret ) >= mons.size() ) {
                 p->add_msg_if_player( m_info, _( "Never mind" ) );
-                return it->type->charges_to_use();
+                return 1;
             }
             const size_t mondex = pick_robot.ret;
             shared_ptr_fast< monster > z = mons[mondex];
@@ -5784,7 +5880,7 @@ cata::optional<int> iuse::robotcontrol( Character *p, item *it, bool active, con
 
             p->assign_activity( act );
 
-            return it->type->charges_to_use();
+            return 1;
         }
         case 1: { //make all friendly robots stop their purposeless extermination of (un)life.
             p->moves -= to_moves<int>( 1_seconds );
@@ -5801,7 +5897,7 @@ cata::optional<int> iuse::robotcontrol( Character *p, item *it, bool active, con
                 p->add_msg_if_player( _( "You aren't commanding any robots." ) );
                 return cata::nullopt;
             }
-            return it->type->charges_to_use();
+            return 1;
         }
         case 2: { //make all friendly robots terminate (un)life with extreme prejudice
             p->moves -= to_moves<int>( 1_seconds );
@@ -5818,7 +5914,7 @@ cata::optional<int> iuse::robotcontrol( Character *p, item *it, bool active, con
                 p->add_msg_if_player( _( "You aren't commanding any robots." ) );
                 return cata::nullopt;
             }
-            return it->type->charges_to_use();
+            return 1;
         }
     }
     return 0;
@@ -5934,7 +6030,7 @@ static bool einkpc_download_memory_card( Character &p, item &eink, item &mc )
         std::vector<const recipe *> candidates;
 
         for( const auto &e : recipe_dict ) {
-            const auto &r = e.second;
+            const recipe &r = e.second;
             if( r.never_learn || r.obsolete ) {
                 continue;
             }
@@ -5962,8 +6058,7 @@ static bool einkpc_download_memory_card( Character &p, item &eink, item &mc )
                 }
             }
 
-            for( auto rec = new_recipes.begin(); rec != new_recipes.end(); ++rec ) {
-                const recipe *r = *rec;
+            for( const recipe *r : new_recipes ) {
                 const recipe_id &rident = r->ident();
 
                 const auto old_recipes = eink.get_var( "EIPC_RECIPES" );
@@ -6183,7 +6278,7 @@ cata::optional<int> iuse::einktabletpc( Character *p, item *it, bool t, const tr
                                       SNIPPET.random_from_category( "examine_photo_msg" ).value_or( translation() ) );
             }
 
-            return it->type->charges_to_use();
+            return 1;
         }
 
         if( ei_music == choice ) {
@@ -6213,7 +6308,7 @@ cata::optional<int> iuse::einktabletpc( Character *p, item *it, bool t, const tr
                 p->add_msg_if_player( m_info, _( "You turned on the music on your %s." ), it->tname() );
             }
 
-            return it->type->charges_to_use();
+            return 1;
         }
 
         if( ei_recipe == choice ) {
@@ -6235,7 +6330,7 @@ cata::optional<int> iuse::einktabletpc( Character *p, item *it, bool t, const tr
 
                 candidate_recipes.emplace_back( s );
 
-                const auto &recipe = *candidate_recipes.back();
+                const recipe &recipe = *candidate_recipes.back();
                 if( recipe ) {
                     rmenu.addentry( k++, true, -1, recipe.result_name( /*decorated=*/true ) );
                 }
@@ -6243,12 +6338,12 @@ cata::optional<int> iuse::einktabletpc( Character *p, item *it, bool t, const tr
 
             rmenu.query();
 
-            return it->type->charges_to_use();
+            return 1;
         }
 
         if( ei_uploaded_photos == choice ) {
             show_photo_selection( *p, *it, "EIPC_EXTENDED_PHOTOS" );
-            return it->type->charges_to_use();
+            return 1;
         }
 
         if( ei_monsters == choice ) {
@@ -6288,7 +6383,7 @@ cata::optional<int> iuse::einktabletpc( Character *p, item *it, bool t, const tr
                 const monster dummy( monster_photos[choice] );
                 popup( dummy.type->get_description() );
             } while( true );
-            return it->type->charges_to_use();
+            return 1;
         }
 
         avatar *you = p->as_avatar();
@@ -6307,29 +6402,29 @@ cata::optional<int> iuse::einktabletpc( Character *p, item *it, bool t, const tr
             }
             if( !loc ) {
                 p->add_msg_if_player( m_info, _( "You don't have that item!" ) );
-                return it->type->charges_to_use();
+                return 1;
             }
             item &mc = *loc;
 
             if( !mc.has_flag( flag_MC_MOBILE ) ) {
                 p->add_msg_if_player( m_info, _( "This is not a compatible memory card." ) );
-                return it->type->charges_to_use();
+                return 1;
             }
 
             init_memory_card_with_random_stuff( mc );
 
             if( mc.has_flag( flag_MC_ENCRYPTED ) ) {
                 p->add_msg_if_player( m_info, _( "This memory card is encrypted." ) );
-                return it->type->charges_to_use();
+                return 1;
             }
             if( !mc.has_flag( flag_MC_HAS_DATA ) ) {
                 p->add_msg_if_player( m_info, _( "This memory card does not contain any new data." ) );
-                return it->type->charges_to_use();
+                return 1;
             }
 
             einkpc_download_memory_card( *p, *it, mc );
 
-            return it->type->charges_to_use();
+            return 1;
         }
 
         if( ei_decrypt == choice ) {
@@ -6339,20 +6434,20 @@ cata::optional<int> iuse::einktabletpc( Character *p, item *it, bool t, const tr
             }
             if( !loc ) {
                 p->add_msg_if_player( m_info, _( "You don't have that item!" ) );
-                return it->type->charges_to_use();
+                return 1;
             }
             item &mc = *loc;
 
             if( !mc.has_flag( flag_MC_MOBILE ) ) {
                 p->add_msg_if_player( m_info, _( "This is not a compatible memory card." ) );
-                return it->type->charges_to_use();
+                return 1;
             }
 
             init_memory_card_with_random_stuff( mc );
 
             if( !mc.has_flag( flag_MC_ENCRYPTED ) ) {
                 p->add_msg_if_player( m_info, _( "This memory card is not encrypted." ) );
-                return it->type->charges_to_use();
+                return 1;
             }
 
             p->practice( skill_computer, rng( 2, 5 ) );
@@ -6379,7 +6474,7 @@ cata::optional<int> iuse::einktabletpc( Character *p, item *it, bool t, const tr
                     mc.convert( itype_mobile_memory_card_used );
                 }
             }
-            return it->type->charges_to_use();
+            return 1;
         }
     }
     return 0;
@@ -6911,7 +7006,7 @@ static extended_photo_def photo_def_for_camera_point( const tripoint &aim_point,
         }
     }
 
-    // scan for everythin NOT near critters
+    // scan for everything NOT near critters
     object_names_collection obj_coll = enumerate_objects_around_point( aim_point, 2, aim_point, 2,
                                        camera_pos, min_visible_volume, false,
                                        ignored_points, vehicles_recorded );
@@ -7046,7 +7141,7 @@ static extended_photo_def photo_def_for_camera_point( const tripoint &aim_point,
     }
     photo_text += "\n" + overmap_desc + ".";
 
-    if( get_map().get_abs_sub().z >= 0 && need_store_weather ) {
+    if( get_map().get_abs_sub().z() >= 0 && need_store_weather ) {
         photo_text += "\n\n";
         if( is_dawn( calendar::turn ) ) {
             photo_text += _( "It is <color_yellow>sunrise</color>. " );
@@ -7088,6 +7183,9 @@ static void item_save_monsters( Character &p, item &it, const std::vector<monste
 
         // position of <monster type string>
         const size_t mon_str_pos = monster_photos.find( "," + mtype + "," );
+
+        // monster gets recorded by the character, add to known types
+        p.set_knows_creature_type( monster_p->type->id );
 
         if( mon_str_pos == std::string::npos ) { // new monster
             monster_photos += string_format( "%s,%d,", mtype, photo_quality );
@@ -7374,15 +7472,15 @@ cata::optional<int> iuse::camera( Character *p, item *it, bool, const tripoint &
                 if( !monster_vec.empty() ) {
                     item_save_monsters( *p, *it, monster_vec, photo_quality );
                 }
-                return it->type->charges_to_use();
+                return 1;
             }
         }
-        return it->type->charges_to_use();
+        return 1;
     }
 
     if( c_photos == choice ) {
         show_photo_selection( *p, *it, "CAMERA_EXTENDED_PHOTOS" );
-        return it->type->charges_to_use();
+        return 1;
     }
 
     if( c_monsters == choice ) {
@@ -7435,7 +7533,7 @@ cata::optional<int> iuse::camera( Character *p, item *it, bool, const tripoint &
 
         } while( true );
 
-        return it->type->charges_to_use();
+        return 1;
     }
 
     if( c_upload == choice ) {
@@ -7456,25 +7554,25 @@ cata::optional<int> iuse::camera( Character *p, item *it, bool, const tripoint &
         }
         if( !loc ) {
             p->add_msg_if_player( m_info, _( "You don't have that item!" ) );
-            return it->type->charges_to_use();
+            return 1;
         }
         item &mc = *loc;
 
         if( !mc.has_flag( flag_MC_MOBILE ) ) {
             p->add_msg_if_player( m_info, _( "This is not a compatible memory card." ) );
-            return it->type->charges_to_use();
+            return 1;
         }
 
         init_memory_card_with_random_stuff( mc );
 
         if( mc.has_flag( flag_MC_ENCRYPTED ) ) {
             if( !query_yn( _( "This memory card is encrypted.  Format and clear data?" ) ) ) {
-                return it->type->charges_to_use();
+                return 1;
             }
         }
         if( mc.has_flag( flag_MC_HAS_DATA ) ) {
             if( !query_yn( _( "Are you sure you want to clear the old data on the card?" ) ) ) {
-                return it->type->charges_to_use();
+                return 1;
             }
         }
 
@@ -7488,10 +7586,10 @@ cata::optional<int> iuse::camera( Character *p, item *it, bool, const tripoint &
         p->add_msg_if_player( m_info,
                               _( "You upload your photos and monster collection to the memory card." ) );
 
-        return it->type->charges_to_use();
+        return 1;
     }
 
-    return it->type->charges_to_use();
+    return 1;
 }
 
 cata::optional<int> iuse::ehandcuffs( Character *p, item *it, bool t, const tripoint &pos )
@@ -7504,7 +7602,7 @@ cata::optional<int> iuse::ehandcuffs( Character *p, item *it, bool t, const trip
             it->ammo_unset();
             it->active = false;
             add_msg( m_good, _( "%s automatically turned off!" ), it->tname() );
-            return it->type->charges_to_use();
+            return 1;
         }
 
         if( it->charges == 0 ) {
@@ -7513,11 +7611,12 @@ cata::optional<int> iuse::ehandcuffs( Character *p, item *it, bool t, const trip
             it->unset_flag( flag_NO_UNWIELD );
             it->active = false;
 
-            if( p->has_item( *it ) && p->get_wielded_item().typeId() == itype_e_handcuffs ) {
+            if( p->has_item( *it ) && p->get_wielded_item() &&
+                p->get_wielded_item()->typeId() == itype_e_handcuffs ) {
                 add_msg( m_good, _( "%s on your wrists opened!" ), it->tname() );
             }
 
-            return it->type->charges_to_use();
+            return 1;
         }
 
         if( p->has_item( *it ) ) {
@@ -7531,7 +7630,7 @@ cata::optional<int> iuse::ehandcuffs( Character *p, item *it, bool t, const trip
                 add_msg( m_good, _( "The %s crackle with electricity from your bionic, then come off your hands!" ),
                          it->tname() );
 
-                return it->type->charges_to_use();
+                return 1;
             }
         }
 
@@ -7545,7 +7644,8 @@ cata::optional<int> iuse::ehandcuffs( Character *p, item *it, bool t, const trip
         if( ( it->ammo_remaining() > it->type->maximum_charges() - 1000 ) && ( p2.x != pos.x ||
                 p2.y != pos.y ) ) {
 
-            if( p->has_item( *it ) && p->get_wielded_item().typeId() == itype_e_handcuffs ) {
+            if( p->has_item( *it ) && p->get_wielded_item() &&
+                p->get_wielded_item()->typeId() == itype_e_handcuffs ) {
 
                 if( p->is_elec_immune() ) {
                     if( one_in( 10 ) ) {
@@ -7572,11 +7672,11 @@ cata::optional<int> iuse::ehandcuffs( Character *p, item *it, bool t, const trip
             it->set_var( "HANDCUFFS_X", pos.x );
             it->set_var( "HANDCUFFS_Y", pos.y );
 
-            return it->type->charges_to_use();
+            return 1;
 
         }
 
-        return it->type->charges_to_use();
+        return 1;
 
     }
 
@@ -7587,7 +7687,7 @@ cata::optional<int> iuse::ehandcuffs( Character *p, item *it, bool t, const trip
         add_msg( _( "The %s have discharged and can be taken off." ), it->tname() );
     }
 
-    return it->type->charges_to_use();
+    return 1;
 }
 
 cata::optional<int> iuse::foodperson( Character *p, item *it, bool t, const tripoint &pos )
@@ -7603,7 +7703,7 @@ cata::optional<int> iuse::foodperson( Character *p, item *it, bool t, const trip
             sounds::sound( pos, speech.volume, sounds::sound_t::alarm, speech.text.translated(), true, "speech",
                            "foodperson_mask" );
         }
-        return it->type->charges_to_use();
+        return 1;
     }
 
     time_duration shift = time_duration::from_turns( it->magazine_current()->ammo_remaining() *
@@ -7688,7 +7788,7 @@ cata::optional<int> iuse::radiocar( Character *p, item *it, bool, const tripoint
         }
     }
 
-    return it->type->charges_to_use();
+    return 1;
 }
 
 cata::optional<int> iuse::radiocaron( Character *p, item *it, bool t, const tripoint &pos )
@@ -7697,7 +7797,7 @@ cata::optional<int> iuse::radiocaron( Character *p, item *it, bool t, const trip
         //~Sound of a radio controlled car moving around
         sounds::sound( pos, 6, sounds::sound_t::movement, _( "buzzz…" ), true, "misc", "rc_car_drives" );
 
-        return it->type->charges_to_use();
+        return 1;
     } else if( !it->ammo_sufficient( p ) ) {
         // Deactivate since other mode has an iuse too.
         it->active = false;
@@ -7709,23 +7809,23 @@ cata::optional<int> iuse::radiocaron( Character *p, item *it, bool t, const trip
     } );
 
     if( choice < 0 ) {
-        return it->type->charges_to_use();
+        return 1;
     }
 
     if( choice == 0 ) {
         it->convert( itype_radio_car ).active = false;
 
         p->add_msg_if_player( _( "You turned off your RC car." ) );
-        return it->type->charges_to_use();
+        return 1;
     }
 
-    return it->type->charges_to_use();
+    return 1;
 }
 
 static void sendRadioSignal( Character &p, const flag_id &signal )
 {
     map &here = get_map();
-    for( const tripoint &loc : here.points_in_radius( p.pos(), 30 ) ) {
+    for( const tripoint &loc : here.points_in_radius( p.pos(), 60 ) ) {
         for( item &it : here.i_at( loc ) ) {
             if( it.has_flag( flag_RADIO_ACTIVATION ) && it.has_flag( signal ) ) {
                 sounds::sound( p.pos(), 6, sounds::sound_t::alarm, _( "beep" ), true, "misc", "beep" );
@@ -7760,7 +7860,7 @@ cata::optional<int> iuse::radiocontrol( Character *p, item *it, bool t, const tr
             it->active = false;
         }
 
-        return it->type->charges_to_use();
+        return 1;
     }
 
     const char *car_action = nullptr;
@@ -7795,7 +7895,7 @@ cata::optional<int> iuse::radiocontrol( Character *p, item *it, bool t, const tr
             }
             if( rc_item_location.x == 999 ) {
                 p->add_msg_if_player( _( "No active RC cars on ground and in range." ) );
-                return it->type->charges_to_use();
+                return 1;
             } else {
                 std::stringstream car_location_string;
                 // Populate with the point and stash it.
@@ -7811,7 +7911,7 @@ cata::optional<int> iuse::radiocontrol( Character *p, item *it, bool t, const tr
         const flag_id signal( "RADIOSIGNAL_" + std::to_string( choice ) );
 
         auto item_list = p->get_radio_items();
-        for( auto &elem : item_list ) {
+        for( item *&elem : item_list ) {
             if( elem->has_flag( flag_BOMB ) && elem->has_flag( signal ) ) {
                 p->add_msg_if_player( m_warning,
                                       _( "The %s in your inventory would explode on this signal.  Place it down before sending the signal." ),
@@ -7824,18 +7924,16 @@ cata::optional<int> iuse::radiocontrol( Character *p, item *it, bool t, const tr
             return itm.has_flag( flag_RADIO_CONTAINER );
         } );
 
-        if( !radio_containers.empty() ) {
-            for( item *items : radio_containers ) {
-                item *itm = items->get_item_with( [&]( const item & c ) {
-                    return c.has_flag( flag_BOMB ) && c.has_flag( signal );
-                } );
+        for( item *items : radio_containers ) {
+            item *itm = items->get_item_with( [&]( const item & c ) {
+                return c.has_flag( flag_BOMB ) && c.has_flag( signal );
+            } );
 
-                if( itm != nullptr ) {
-                    p->add_msg_if_player( m_warning,
-                                          _( "The %1$s in your %2$s would explode on this signal.  Place it down before sending the signal." ),
-                                          itm->display_name(), items->display_name() );
-                    return cata::nullopt;
-                }
+            if( itm != nullptr ) {
+                p->add_msg_if_player( m_warning,
+                                      _( "The %1$s in your %2$s would explode on this signal.  Place it down before sending the signal." ),
+                                      itm->display_name(), items->display_name() );
+                return cata::nullopt;
             }
         }
 
@@ -7844,7 +7942,7 @@ cata::optional<int> iuse::radiocontrol( Character *p, item *it, bool t, const tr
         p->moves -= to_moves<int>( 2_seconds );
     }
 
-    return it->type->charges_to_use();
+    return 1;
 }
 
 static bool hackveh( Character &p, item &it, vehicle &veh )
@@ -7911,8 +8009,8 @@ static vehicle *pickveh( const tripoint &center, bool advanced )
     pmenu.title = _( "Select vehicle to access" );
     std::vector< vehicle * > vehs;
 
-    for( auto &veh : get_map().get_vehicles() ) {
-        auto &v = veh.v;
+    for( wrapped_vehicle &veh : get_map().get_vehicles() ) {
+        vehicle *&v = veh.v;
         if( rl_dist( center, v->global_pos3() ) < 40 &&
             v->fuel_left( itype_battery, true ) > 0 &&
             ( !empty( v->get_avail_parts( advctrl ) ) ||
@@ -7964,7 +8062,7 @@ cata::optional<int> iuse::remoteveh( Character *p, item *it, bool t, const tripo
             g->setremoteveh( nullptr );
         }
 
-        return it->type->charges_to_use();
+        return 1;
     }
 
     bool controlling = it->active && remote != nullptr;
@@ -8020,7 +8118,7 @@ cata::optional<int> iuse::remoteveh( Character *p, item *it, bool t, const tripo
 
     player_character.view_offset.x = p2.x;
     player_character.view_offset.y = p2.y;
-    return it->type->charges_to_use();
+    return 1;
 }
 
 static bool multicooker_hallu( Character &p )
@@ -8075,101 +8173,6 @@ static bool multicooker_hallu( Character &p )
 
 }
 
-cata::optional<int> iuse::autoclave( Character *p, item *it, bool t, const tripoint &pos )
-{
-    if( t ) {
-        if( !it->ammo_sufficient( p ) ) {
-            add_msg( m_bad, _( "The autoclave ran out of charge and stopped before completing its cycle." ) );
-            it->active = false;
-            it->erase_var( "CYCLETIME" );
-            it->unset_flag( flag_NO_UNLOAD );
-            return 0;
-        }
-
-        int Cycle_time = it->get_var( "CYCLETIME", 0 );
-        Cycle_time -= 1;
-        if( Cycle_time <= 0 ) {
-            it->active = false;
-            it->erase_var( "CYCLETIME" );
-            it->unset_flag( flag_NO_UNLOAD );
-            item *cbm = it->get_item_with( []( const item & it ) {
-                return it.is_bionic() && !it.has_flag( flag_NO_PACKED );
-            } );
-            cbm->unset_flag( flag_NO_STERILE );
-        } else {
-            it->set_var( "CYCLETIME", Cycle_time );
-        }
-    } else if( !it->active ) {
-        if( p->is_underwater() ) {
-            p->add_msg_if_player( m_info, _( "You can't do that while underwater." ) );
-            return cata::nullopt;
-        }
-
-        bool empty = true;
-        item *clean_cbm = it->get_item_with(
-        []( const item & it ) {
-            return it.is_bionic();
-        } );
-
-        if( clean_cbm ) {
-            empty = false;
-            if( query_yn( _( "Autoclave already contains a CBM.  Do you want to remove it?" ) ) ) {
-                get_map().add_item( pos, *clean_cbm );
-                it->remove_item( *clean_cbm );
-                if( !query_yn( _( "Do you want to use the autoclave?" ) ) ) {
-                    return 0;
-                }
-                empty = true;
-            }
-        }
-
-        //Using power_draw seem to consume random amount of battery so +100 to be safe
-        static const int power_need = ( ( it->type->tool->power_draw / 1000 ) * to_seconds<int>
-                                        ( 90_minutes ) ) / 1000 + 100;
-        if( power_need > it->ammo_remaining( p ) ) {
-            popup( _( "The autoclave doesn't have enough battery for one cycle.  You need at least %s charges." ),
-                   power_need );
-            return cata::nullopt;
-        }
-
-        item_location to_sterile;
-        if( empty ) {
-            to_sterile = game_menus::inv::sterilize_cbm( *p );
-            if( !to_sterile ) {
-                return cata::nullopt;
-            }
-        }
-
-        if( query_yn( _( "Start the autoclave?" ) ) ) {
-            requirement_data reqs = *requirement_data_autoclave_item;
-            for( const auto &e : reqs.get_components() ) {
-                p->consume_items( e, 1, is_crafting_component );
-            }
-            for( const auto &e : reqs.get_tools() ) {
-                p->consume_tools( e );
-            }
-            p->invalidate_crafting_inventory();
-
-            if( empty ) {
-                const item *cbm = to_sterile.get_item();
-                it->put_in( *cbm, item_pocket::pocket_type::CONTAINER );
-                to_sterile.remove_item();
-            }
-
-            it->activate();
-            it->set_var( "CYCLETIME", to_seconds<int>( 90_minutes ) ); // one cycle
-            it->set_flag( flag_NO_UNLOAD );
-            return it->type->charges_to_use();
-        }
-    } else {
-        int Cycle_time = it->get_var( "CYCLETIME", 0 );
-        add_msg( _( "The cycle will be completed in %s." ),
-                 to_string( time_duration::from_seconds( Cycle_time ) ) );
-    }
-
-    return 0;
-}
-
 cata::optional<int> iuse::multicooker( Character *p, item *it, bool t, const tripoint &pos )
 {
     static const std::set<std::string> multicooked_subcats = { "CSC_FOOD_MEAT", "CSC_FOOD_VEGGI", "CSC_FOOD_PASTA" };
@@ -8207,8 +8210,8 @@ cata::optional<int> iuse::multicooker( Character *p, item *it, bool t, const tri
             if( ( *recipe_id( it->get_var( "RECIPE" ) ) ).hot_result() ) {
                 meal.heat_up();
             } else {
-                meal.set_item_temperature( temp_to_kelvin( std::max( temperatures::cold,
-                                           get_weather().get_temperature( pos ) ) ) );
+                meal.set_item_temperature( std::max( temperatures::cold,
+                                                     get_weather().get_temperature( pos ) ) );
             }
 
             it->active = false;
@@ -8380,7 +8383,7 @@ cata::optional<int> iuse::multicooker( Character *p, item *it, bool t, const tri
 
             int counter = 0;
 
-            for( const auto &r : get_avatar().get_learned_recipes().in_category( "CC_FOOD" ) ) {
+            for( const recipe * const &r : get_avatar().get_learned_recipes().in_category( "CC_FOOD" ) ) {
                 if( multicooked_subcats.count( r->subcategory ) > 0 ) {
                     dishes.push_back( r );
                     const bool can_make = r->deduped_requirements().can_make_with_inventory(
@@ -8405,8 +8408,8 @@ cata::optional<int> iuse::multicooker( Character *p, item *it, bool t, const tri
                     mealtime = meal->time_to_craft_moves( *p ) * 2;
                 }
 
-                const int all_charges = charges_to_start + ( ( mealtime / 100 ) * ( it->type->tool->power_draw /
-                                        1000 ) ) / 1000;
+                const int all_charges = charges_to_start + mealtime / 100 * units::to_joule(
+                                            it->type->tool->power_draw ) / 1000;
 
                 if( it->ammo_remaining( p ) < all_charges ) {
 
@@ -8525,7 +8528,7 @@ cata::optional<int> iuse::tow_attach( Character *p, item *it, bool, const tripoi
     const auto set_cable_active = []( Character * p, item * it, const std::string & state ) {
         it->set_var( "state", state );
         it->active = true;
-        it->process( p, p->pos() );
+        it->process( get_map(), p, p->pos() );
         p->moves -= 15;
     };
     map &here = get_map();
@@ -8556,7 +8559,7 @@ cata::optional<int> iuse::tow_attach( Character *p, item *it, bool, const tripoi
             const tripoint abspos = here.getabs( posp );
             it->set_var( "source_x", abspos.x );
             it->set_var( "source_y", abspos.y );
-            it->set_var( "source_z", here.get_abs_sub().z );
+            it->set_var( "source_z", here.get_abs_sub().z() );
             set_cable_active( p, it, "pay_out_cable" );
         }
     } else {
@@ -8566,7 +8569,7 @@ cata::optional<int> iuse::tow_attach( Character *p, item *it, bool, const tripoi
                                     it->get_var( "source_y", 0 ),
                                     it->get_var( "source_z", 0 ) );
             tripoint source_local = here.getlocal( source_global );
-            const optional_vpart_position source_vp = here.veh_at( source_local );
+            optional_vpart_position source_vp = here.veh_at( source_local );
             vehicle *const source_veh = veh_pointer_or_null( source_vp );
             if( detach_if_missing && source_veh == nullptr ) {
                 if( p->has_item( *it ) ) {
@@ -8668,7 +8671,7 @@ cata::optional<int> iuse::cable_attach( Character *p, item *it, bool, const trip
         const std::string prev_state = it->get_var( "state" );
         it->set_var( "state", state );
         it->active = true;
-        it->process( p, p->pos() );
+        it->process( get_map(), p, p->pos() );
         p->moves -= 15;
 
         if( !prev_state.empty() && ( prev_state == "cable_charger" || ( prev_state != "attach_first" &&
@@ -8693,7 +8696,7 @@ cata::optional<int> iuse::cable_attach( Character *p, item *it, bool, const trip
             int choice = kmenu.ret;
 
             if( choice < 0 ) {
-                return 0; // we did nothing.
+                return cata::nullopt; // we did nothing.
             } else if( choice == 1 ) {
                 set_cable_active( p, it, "cable_charger" );
                 p->add_msg_if_player( m_info, _( "You attach the cable to your Cable Charger System." ) );
@@ -8733,7 +8736,7 @@ cata::optional<int> iuse::cable_attach( Character *p, item *it, bool, const trip
             const tripoint abspos = here.getabs( posp );
             it->set_var( "source_x", abspos.x );
             it->set_var( "source_y", abspos.y );
-            it->set_var( "source_z", here.get_abs_sub().z );
+            it->set_var( "source_z", here.get_abs_sub().z() );
             set_cable_active( p, it, "pay_out_cable" );
         }
     } else {
@@ -8743,7 +8746,7 @@ cata::optional<int> iuse::cable_attach( Character *p, item *it, bool, const trip
                                     it->get_var( "source_y", 0 ),
                                     it->get_var( "source_z", 0 ) );
             tripoint source_local = here.getlocal( source_global );
-            const optional_vpart_position source_vp = here.veh_at( source_local );
+            optional_vpart_position source_vp = here.veh_at( source_local );
             vehicle *const source_veh = veh_pointer_or_null( source_vp );
             if( detach_if_missing && source_veh == nullptr ) {
                 if( p != nullptr && p->has_item( *it ) ) {
@@ -8847,7 +8850,7 @@ cata::optional<int> iuse::cable_attach( Character *p, item *it, bool, const trip
             const tripoint abspos = here.getabs( vpos );
             it->set_var( "source_x", abspos.x );
             it->set_var( "source_y", abspos.y );
-            it->set_var( "source_z", here.get_abs_sub().z );
+            it->set_var( "source_z", here.get_abs_sub().z() );
             set_cable_active( p, it, "cable_charger_link" );
             p->add_msg_if_player( m_good, _( "You are now plugged into the vehicle." ) );
             return 0;
@@ -8855,10 +8858,10 @@ cata::optional<int> iuse::cable_attach( Character *p, item *it, bool, const trip
             vehicle *const target_veh = &target_vp->vehicle();
             if( source_veh == target_veh ) {
                 if( p != nullptr && p->has_item( *it ) ) {
-                    p->add_msg_if_player( m_warning, _( "The %s already has access to its own electric system!" ),
+                    p->add_msg_if_player( m_warning, _( "There is no need to connect the %s to itself." ),
                                           source_veh->name );
                 }
-                return 0;
+                return cata::nullopt;
             }
 
             tripoint target_global = here.getabs( vpos );
@@ -8886,7 +8889,140 @@ cata::optional<int> iuse::cable_attach( Character *p, item *it, bool, const trip
                                       source_veh->name, target_veh->name );
             }
 
-            return 1; // Let the cable be destroyed.
+            p->i_rem( it );
+            return 0; // Let the cable be destroyed.
+        }
+    }
+
+    return 0;
+}
+
+cata::optional<int> iuse::cord_attach( Character *p, item *it, bool, const tripoint & )
+{
+    std::string initial_state = it->get_var( "state", "attach_first" );
+
+    item_location loc;
+
+    const auto set_cable_active = []( Character * p, item * it, const std::string & state ) {
+        const std::string prev_state = it->get_var( "state" );
+        it->set_var( "state", state );
+        it->active = true;
+        it->process( get_map(), p, p->pos() );
+        p->moves -= 15;
+
+        if( !prev_state.empty() && ( prev_state == "cable_charger" || ( prev_state != "attach_first" &&
+                                     ( state == "cable_charger_link" || state == "cable_charger" ) ) ) ) {
+            p->find_remote_fuel();
+        }
+    };
+    map &here = get_map();
+    if( initial_state == "attach_first" ) {
+        const cata::optional<tripoint> posp_ = choose_adjacent( _( "Attach cable to appliance where?" ) );
+        if( !posp_ ) {
+            return cata::nullopt;
+        }
+        const tripoint posp = *posp_;
+        const optional_vpart_position vp = here.veh_at( posp );
+        if( !vp || !vp->vehicle().has_tag( "APPLIANCE" ) ) {
+            p->add_msg_if_player( _( "There's no appliance here." ) );
+            return cata::nullopt;
+        } else {
+            const tripoint abspos = here.getabs( posp );
+            it->set_var( "source_x", abspos.x );
+            it->set_var( "source_y", abspos.y );
+            it->set_var( "source_z", here.get_abs_sub().z() );
+            set_cable_active( p, it, "pay_out_cable" );
+        }
+    } else {
+        const auto confirm_source_vehicle = [&here]( Character * p, item * it,
+        const bool detach_if_missing ) {
+            tripoint source_global( it->get_var( "source_x", 0 ),
+                                    it->get_var( "source_y", 0 ),
+                                    it->get_var( "source_z", 0 ) );
+            tripoint source_local = here.getlocal( source_global );
+            optional_vpart_position source_vp = here.veh_at( source_local );
+            vehicle *const source_veh = veh_pointer_or_null( source_vp );
+            if( detach_if_missing && source_veh == nullptr ) {
+                if( p != nullptr && p->has_item( *it ) ) {
+                    p->add_msg_if_player( m_bad, _( "You notice the cable has come loose!" ) );
+                }
+                it->reset_cable( p );
+            }
+            return source_vp;
+        };
+
+        const bool paying_out = initial_state == "pay_out_cable";
+        bool is_power_cord = it->has_flag( json_flag_POWER_CORD );
+        uilist kmenu;
+        kmenu.text = _( "Using cable:" );
+        if( !is_power_cord ) {
+            kmenu.addentry( 0, true, -1, _( "Detach and re-spool the cable" ) );
+        }
+        kmenu.addentry( 1, true, -1, _( "Attach loose end to appliance" ) );
+
+        kmenu.query();
+        int choice = kmenu.ret;
+
+        if( choice < 0 ) {
+            return cata::nullopt; // we did nothing.
+        } else if( choice == 0 ) { // unconnect & respool
+            p->reset_remote_fuel();
+            it->reset_cable( p );
+            return 0;
+        }
+        // connecting self to vehicle
+        const optional_vpart_position source_vp = confirm_source_vehicle( p, it, paying_out );
+        vehicle *const source_veh = veh_pointer_or_null( source_vp );
+        if( source_veh == nullptr && paying_out ) {
+            return 0;
+        }
+
+        const cata::optional<tripoint> vpos_ = choose_adjacent( _( "Attach cable to appliance where?" ) );
+        if( !vpos_ ) {
+            return cata::nullopt;
+        }
+        const tripoint vpos = *vpos_;
+
+        const optional_vpart_position target_vp = here.veh_at( vpos );
+        if( !target_vp || !target_vp->vehicle().has_tag( "APPLIANCE" ) ) {
+            p->add_msg_if_player( _( "There's no appliance there." ) );
+            return cata::nullopt;
+        } else {
+            vehicle *const target_veh = &target_vp->vehicle();
+            if( source_veh == target_veh ) {
+                if( p != nullptr && p->has_item( *it ) ) {
+                    p->add_msg_if_player( m_warning, _( "There is no need to connect the %s to itself." ),
+                                          source_veh->name );
+                }
+                return cata::nullopt;
+            }
+
+            tripoint target_global = here.getabs( vpos );
+            // TODO: make sure there is always a matching vpart id here. Maybe transform this into
+            // a iuse_actor class, or add a check in item_factory.
+            const vpart_id vpid( it->typeId().str() );
+
+            point vcoords = source_vp->mount();
+            vehicle_part source_part( vpid, "", vcoords, item( *it ) );
+            source_part.target.first = target_global;
+            source_part.target.second = target_veh->global_square_location().raw();
+            source_veh->install_part( vcoords, source_part );
+
+            vcoords = target_vp->mount();
+            vehicle_part target_part( vpid, "", vcoords, item( *it ) );
+            tripoint source_global( it->get_var( "source_x", 0 ),
+                                    it->get_var( "source_y", 0 ),
+                                    it->get_var( "source_z", 0 ) );
+            target_part.target.first = source_global;
+            target_part.target.second = source_veh->global_square_location().raw();
+            target_veh->install_part( vcoords, target_part );
+
+            if( p != nullptr && p->has_item( *it ) ) {
+                p->add_msg_if_player( m_good, _( "You link up the electric systems of the %1$s and the %2$s." ),
+                                      source_veh->name, target_veh->name );
+            }
+            p->i_rem( it );
+            return 0; // Let the cable be destroyed.
         }
     }
 
@@ -8904,17 +9040,17 @@ cata::optional<int> iuse::shavekit( Character *p, item *it, bool, const tripoint
     } else {
         p->assign_activity( player_activity( shave_activity_actor() ) );
     }
-    return it->type->charges_to_use();
+    return 1;
 }
 
-cata::optional<int> iuse::hairkit( Character *p, item *it, bool, const tripoint & )
+cata::optional<int> iuse::hairkit( Character *p, item *, bool, const tripoint & )
 {
     if( p->is_mounted() ) {
         p->add_msg_if_player( m_info, _( "You can't do that while mounted." ) );
         return cata::nullopt;
     }
     p->assign_activity( player_activity( haircut_activity_actor() ) );
-    return it->type->charges_to_use();
+    return 1;
 }
 
 cata::optional<int> iuse::weather_tool( Character *p, item *it, bool, const tripoint & )
@@ -8923,20 +9059,22 @@ cata::optional<int> iuse::weather_tool( Character *p, item *it, bool, const trip
     const w_point weatherPoint = *weather.weather_precise;
 
     /* Possibly used twice. Worth spending the time to precalculate. */
-    const int player_local_temp = weather.get_temperature( p->pos() );
+    const units::temperature player_local_temp = weather.get_temperature( p->pos() );
 
     if( it->typeId() == itype_weather_reader ) {
         p->add_msg_if_player( m_neutral, _( "The %s's monitor slowly outputs the data…" ),
                               it->tname() );
     }
     if( it->has_flag( flag_THERMOMETER ) ) {
-        if( it->typeId() == itype_thermometer ) {
-            p->add_msg_if_player( m_neutral, _( "The %1$s reads %2$s." ), it->tname(),
-                                  print_temperature( player_local_temp ) );
+        std::string temperature_str;
+        if( get_map().has_flag_ter( ter_furn_flag::TFLAG_DEEP_WATER, p->pos() ) ||
+            get_map().has_flag_ter( ter_furn_flag::TFLAG_SHALLOW_WATER, p->pos() ) ) {
+            temperature_str = print_temperature( get_weather().get_cur_weather_gen().get_water_temperature() );
         } else {
-            p->add_msg_if_player( m_neutral, _( "Temperature: %s." ),
-                                  print_temperature( player_local_temp ) );
+            temperature_str = print_temperature( player_local_temp );
         }
+        p->add_msg_if_player( m_neutral, _( "The %1$s reads %2$s." ), it->tname(),
+                              temperature_str );
     }
     if( it->has_flag( flag_HYGROMETER ) ) {
         if( it->typeId() == itype_hygrometer ) {
@@ -8968,23 +9106,21 @@ cata::optional<int> iuse::weather_tool( Character *p, item *it, bool, const trip
             vehwindspeed = std::abs( vp->vehicle().velocity / 100 ); // For mph
         }
         const oter_id &cur_om_ter = overmap_buffer.ter( p->global_omt_location() );
-        /* windpower defined in internal velocity units (=.01 mph) */
-        const double windpower = 100 * get_local_windpower( weather.windspeed + vehwindspeed, cur_om_ter,
-                                 p->pos(), weather.winddirection, g->is_sheltered( p->pos() ) );
+        const int windpower = get_local_windpower( weather.windspeed + vehwindspeed, cur_om_ter,
+                              p->pos(), weather.winddirection, g->is_sheltered( p->pos() ) );
 
         p->add_msg_if_player( m_neutral, _( "Wind Speed: %.1f %s." ),
-                              convert_velocity( windpower, VU_WIND ),
+                              convert_velocity( windpower * 100, VU_WIND ),
                               velocity_units( VU_WIND ) );
         p->add_msg_if_player(
             m_neutral, _( "Feels Like: %s." ),
-            print_temperature(
-                get_local_windchill( weatherPoint.temperature, weatherPoint.humidity, windpower / 100 ) +
-                player_local_temp ) );
+            print_temperature( player_local_temp + get_local_windchill( weatherPoint.temperature,
+                               weatherPoint.humidity, windpower ) ) );
         std::string dirstring = get_dirstring( weather.winddirection );
         p->add_msg_if_player( m_neutral, _( "Wind Direction: From the %s." ), dirstring );
     }
 
-    return 0;
+    return 1; //TODO check
 }
 
 cata::optional<int> iuse::sextant( Character *p, item *, bool, const tripoint &pos )
@@ -9006,21 +9142,47 @@ cata::optional<int> iuse::sextant( Character *p, item *, bool, const tripoint &p
     return 0;
 }
 
-cata::optional<int> iuse::lux_meter( Character *p, item *, bool, const tripoint &pos )
+cata::optional<int> iuse::lux_meter( Character *p, item *it, bool, const tripoint &pos )
 {
-    if( debug_mode ) {
-        // In debug mode show extra info:
-        // Sun illumination is sun with no clouds
-        const units::angle altitude = sun_azimuth_altitude( calendar::turn ).second;
-        p->add_msg_if_player( m_neutral,
-                              "The illumination is %.1f, Sun illumination %.1f, Sun altitude %.1f.",
-                              g->natural_light_level( pos.z ), sun_light_at( calendar::turn ), to_degrees( altitude ) );
-    } else {
-        p->add_msg_if_player( m_neutral, _( "The illumination is %.1f." ),
-                              g->natural_light_level( pos.z ) );
-    }
+    p->add_msg_if_player( m_neutral, _( "The illumination is %.1f." ),
+                          g->natural_light_level( pos.z ) );
+
+    return it->type->charges_to_use();
+}
+
+cata::optional<int> iuse::dbg_lux_meter( Character *p, item *, bool, const tripoint &pos )
+{
+    const float incident_light = incident_sunlight( current_weather( pos ), calendar::turn );
+    const float nat_light = g->natural_light_level( pos.z );
+    const float sunlight = sun_light_at( calendar::turn );
+    const float sun_irrad = sun_irradiance( calendar::turn );
+    const float incident_irrad = incident_sun_irradiance( current_weather( pos ), calendar::turn );
+    p->add_msg_if_player( m_neutral,
+                          _( "Incident light: %.1f\nNatural light: %.1f\nSunlight: %.1f\nSun irradiance: %.1f\nIncident irradiance %.1f" ),
+                          incident_light, nat_light, sunlight, sun_irrad, incident_irrad );
 
     return 0;
+}
+
+cata::optional<int> iuse::calories_intake_tracker( Character *p, item *it, bool, const tripoint & )
+{
+    if( p->has_trait( trait_ILLITERATE ) ) {
+        p->add_msg_if_player( m_info, _( "You don't know what you're looking at." ) );
+        return cata::nullopt;
+    } else {
+        std::string msg;
+        msg.append( "***  " );
+        msg.append( string_format( _( "You check your registered calories intake on your %s." ),
+                                   it->tname( 1, false ) ) );
+        msg.append( "  ***\n\n" );
+        msg.append( "-> " );
+        msg.append( string_format( _( "You consumed %d kcal today and %d kcal yesterday." ),
+                                   p->as_avatar()->get_daily_ingested_kcal( false ),
+                                   p->as_avatar()->get_daily_ingested_kcal( true ) ) );
+        p->add_msg_if_player( m_neutral, msg );
+        popup( msg );
+    }
+    return 1;
 }
 
 cata::optional<int> iuse::directional_hologram( Character *p, item *it, bool, const tripoint & )
@@ -9048,7 +9210,7 @@ cata::optional<int> iuse::directional_hologram( Character *p, item *it, bool, co
     hologram->set_summon_time( 60_seconds );
     hologram->set_dest( target );
     p->mod_moves( -to_moves<int>( 1_seconds ) );
-    return it->type->charges_to_use();
+    return 1;
 }
 
 cata::optional<int> iuse::capture_monster_veh( Character *p, item *it, bool, const tripoint &pos )
@@ -9194,7 +9356,7 @@ cata::optional<int> iuse::capture_monster_act( Character *p, item *it, bool, con
     return 0;
 }
 
-cata::optional<int> iuse::ladder( Character *p, item *, bool, const tripoint & )
+cata::optional<int> iuse::ladder( Character *p, item *it, bool, const tripoint & )
 {
     map &here = get_map();
     if( p->is_mounted() ) {
@@ -9214,8 +9376,16 @@ cata::optional<int> iuse::ladder( Character *p, item *, bool, const tripoint & )
 
     p->add_msg_if_player( _( "You set down the ladder." ) );
     p->moves -= to_moves<int>( 5_seconds );
-    here.furn_set( pnt, furn_f_ladder );
-    return 1;
+
+    if( it->typeId() == itype_stepladder ) {
+        here.furn_set( pnt, furn_f_ladder );
+    } else if( it->typeId() == itype_aluminum_stepladder ) {
+        here.furn_set( pnt, furn_f_aluminum_stepladder );
+    }
+
+    p->i_rem( it );
+
+    return 0;
 }
 
 washing_requirements washing_requirements_for_volume( const units::volume &vol )
@@ -9303,24 +9473,25 @@ cata::optional<int> iuse::wash_items( Character *p, bool soft_items, bool hard_i
                               crafting_inv.charges_of( itype_water_clean, INT_MAX, is_liquid )
                           );
     int available_cleanser = std::max( crafting_inv.charges_of( itype_soap ),
-                                       crafting_inv.charges_of( itype_detergent ) );
+                                       std::max( crafting_inv.charges_of( itype_detergent ),
+                                               crafting_inv.charges_of( itype_liquid_soap, INT_MAX, is_liquid ) ) );
 
     const inventory_filter_preset preset( [soft_items, hard_items]( const item_location & location ) {
-        return location->has_flag( flag_FILTHY ) && ( ( soft_items && location->is_soft() ) ||
-                ( hard_items && !location->is_soft() ) );
+        return location->has_flag( flag_FILTHY ) && !location->has_flag( flag_NO_CLEAN ) &&
+               ( ( soft_items && location->is_soft() ) || ( hard_items && !location->is_soft() ) );
     } );
     auto make_raw_stats = [available_water,
                            available_cleanser]( const std::vector<std::pair<item_location, int>> &locs
     ) {
         units::volume total_volume = 0_ml;
         for( const auto &pair : locs ) {
-            total_volume += pair.first->volume( false, true );
+            total_volume += pair.first->volume( false, true, pair.second );
         }
         washing_requirements required = washing_requirements_for_volume( total_volume );
         auto to_string = []( int val ) -> std::string {
             if( val == INT_MAX )
             {
-                return "inf";
+                return pgettext( "short for infinity", "inf" );
             }
             return string_format( "%3d", val );
         };
@@ -9330,7 +9501,8 @@ cata::optional<int> iuse::wash_items( Character *p, bool soft_items, bool hard_i
                 display_stat( _( "Cleanser" ), required.cleanser, available_cleanser, to_string )
             }};
     };
-    inventory_iuse_selector inv_s( *p, _( "ITEMS TO CLEAN" ), preset, make_raw_stats );
+    inventory_multiselector inv_s( *p, preset, _( "ITEMS TO CLEAN" ),
+                                   make_raw_stats, /*allow_select_contained=*/true );
     inv_s.set_invlet_type( inventory_selector::SELECTOR_INVLET_ALPHA );
     inv_s.add_character_items( *p );
     inv_s.add_nearby_items( PICKUP_RANGE );
@@ -9351,7 +9523,7 @@ cata::optional<int> iuse::wash_items( Character *p, bool soft_items, bool hard_i
             p->add_msg_if_player( m_info, _( "Never mind." ) );
             return cata::nullopt;
         }
-        total_volume += pair.first->volume( false, true );
+        total_volume += pair.first->volume( false, true, pair.second );
     }
 
     washing_requirements required = washing_requirements_for_volume( total_volume );
@@ -9362,7 +9534,8 @@ cata::optional<int> iuse::wash_items( Character *p, bool soft_items, bool hard_i
                               required.water );
         return cata::nullopt;
     } else if( !crafting_inv.has_charges( itype_soap, required.cleanser ) &&
-               !crafting_inv.has_charges( itype_detergent, required.cleanser ) ) {
+               !crafting_inv.has_charges( itype_detergent, required.cleanser ) &&
+               !crafting_inv.has_charges( itype_liquid_soap, required.cleanser, is_liquid ) ) {
         p->add_msg_if_player( _( "You need %1$i charges of cleansing agent to wash these items." ),
                               required.cleanser );
         return cata::nullopt;
@@ -9426,7 +9599,7 @@ cata::optional<int> iuse::weak_antibiotic( Character *p, item *it, bool, const t
     }
     p->add_effect( effect_weak_antibiotic, 12_hours );
     p->add_effect( effect_weak_antibiotic_visible, rng( 9_hours, 15_hours ) );
-    return it->type->charges_to_use();
+    return 1;
 }
 
 cata::optional<int> iuse::strong_antibiotic( Character *p, item *it, bool, const tripoint & )
@@ -9437,7 +9610,7 @@ cata::optional<int> iuse::strong_antibiotic( Character *p, item *it, bool, const
     }
     p->add_effect( effect_strong_antibiotic, 12_hours );
     p->add_effect( effect_strong_antibiotic_visible, rng( 9_hours, 15_hours ) );
-    return it->type->charges_to_use();
+    return 1;
 }
 
 static item *wield_before_use( Character *const p, item *const it, const std::string &msg )
@@ -9451,7 +9624,7 @@ static item *wield_before_use( Character *const p, item *const it, const std::st
                 return nullptr;
             }
             // `it` is no longer the item we are using (note that `player::wielded` is a value).
-            return &p->get_wielded_item();
+            return &*p->get_wielded_item();
         } else {
             return nullptr;
         }
@@ -9525,7 +9698,7 @@ cata::optional<int> iuse::melatonin_tablet( Character *p, item *it, bool, const 
                               _( "Simply taking more melatonin won't help.  You have to go to sleep for it to work." ) );
     }
     p->add_effect( effect_melatonin, 16_hours );
-    return it->type->charges_to_use();
+    return 1;
 }
 
 cata::optional<int> iuse::coin_flip( Character *p, item *it, bool, const tripoint & )
@@ -9552,7 +9725,8 @@ cata::optional<int> iuse::play_game( Character *p, item *it, bool, const tripoin
                               .query().action;
             if( res == "FRIENDS" ) {
                 if( fcount > 1 ) {
-                    add_msg( _( "You and your %d friends start playing." ), fcount );
+                    add_msg( n_gettext( "You and your %d friend start playing.",
+                                        "You and your %d friends start playing.", fcount ), fcount );
                 } else {
                     add_msg( _( "You and your friend start playing." ) );
                 }
@@ -9802,7 +9976,8 @@ cata::optional<int> iuse::ebookread( Character *p, item *it, bool t, const tripo
         return cata::nullopt;
     }
 
-    if( !it->active && it->is_transformable() ) {
+    // Only turn on the eBook light, if it's too dark to read
+    if( p->fine_detail_vision_mod() > 4 && !it->active && it->is_transformable() ) {
         const use_function *readinglight = it->type->get_use( "transform" );
         if( readinglight ) {
             readinglight->call( *p, *it, it->active, p->pos() );
@@ -9875,7 +10050,7 @@ cata::optional<int> iuse::binder_add_recipe( Character *p, item *binder, bool, c
 
     const inventory crafting_inv = p->crafting_inventory();
     const std::vector<const item *> writing_tools = crafting_inv.items_with( [&]( const item & it ) {
-        return it.has_flag( flag_WRITE_MESSAGE ) && it.ammo_remaining() >= it.ammo_required() ;
+        return it.has_flag( flag_WRITE_MESSAGE ) && it.ammo_sufficient( p );
     } );
 
     if( writing_tools.empty() ) {
@@ -10038,6 +10213,28 @@ cata::optional<int> iuse::binder_manage_recipe( Character *p, item *binder, bool
     return cata::nullopt;
 }
 
+cata::optional<int> iuse::voltmeter( Character *p, item *, bool, const tripoint & )
+{
+    const cata::optional<tripoint> pnt_ = choose_adjacent( _( "Check voltage where?" ) );
+    if( !pnt_ ) {
+        return cata::nullopt;
+    }
+
+    const map &here = get_map();
+    const optional_vpart_position vp = here.veh_at( *pnt_ );
+
+    if( !vp ) {
+        p->add_msg_if_player( _( "There's nothing to measure there." ) );
+        return cata::nullopt;
+    }
+    if( vp->vehicle().fuel_left( itype_battery, true ) ) {
+        p->add_msg_if_player( _( "The %1$s has voltage." ), vp->vehicle().name );
+    } else {
+        p->add_msg_if_player( _( "The %1$s has no voltage." ), vp->vehicle().name );
+    }
+    return 1;
+}
+
 void use_function::dump_info( const item &it, std::vector<iteminfo> &dump ) const
 {
     if( actor != nullptr ) {
@@ -10045,14 +10242,14 @@ void use_function::dump_info( const item &it, std::vector<iteminfo> &dump ) cons
     }
 }
 
-ret_val<bool> use_function::can_call( const Character &p, const item &it, bool t,
+ret_val<void> use_function::can_call( const Character &p, const item &it, bool t,
                                       const tripoint &pos ) const
 {
     if( actor == nullptr ) {
-        return ret_val<bool>::make_failure( _( "You can't do anything interesting with your %s." ),
+        return ret_val<void>::make_failure( _( "You can't do anything interesting with your %s." ),
                                             it.tname() );
     } else if( it.is_broken() ) {
-        return ret_val<bool>::make_failure( _( "Your %s is broken and won't activate." ),
+        return ret_val<void>::make_failure( _( "Your %s is broken and won't activate." ),
                                             it.tname() );
     }
 

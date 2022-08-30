@@ -39,6 +39,12 @@
   {
     "type": "mapgen",
     "method": "json",
+    "nested_mapgen_id": "damaged_door_nested_no_junk",
+    "object": { "mapgensize": [ 1, 1 ], "place_ter_furn_transforms": [ { "transform": "damaged_door", "x": 0, "y": 0 } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
     "nested_mapgen_id": "destroyed_door_nested",
     "object": {
       "mapgensize": [ 1, 1 ],
@@ -50,6 +56,12 @@
         { "item": "hinge", "x": 0, "y": 0, "repeat": [ 1, 2 ] }
       ]
     }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "destroyed_door_nested_no_junk",
+    "object": { "mapgensize": [ 1, 1 ], "place_ter_furn_transforms": [ { "transform": "destroyed_door", "x": 0, "y": 0 } ] }
   },
   {
     "type": "mapgen",
@@ -177,6 +189,13 @@
   {
     "type": "mapgen",
     "method": "json",
+    "//": "A nested map bash damage.",
+    "nested_mapgen_id": "1x1_bash",
+    "object": { "mapgensize": [ 1, 1 ], "set": [ { "point": "bash", "x": 0, "y": 0 } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
     "nested_mapgen_id": "destroyed_small_tent",
     "object": {
       "mapgensize": [ 3, 3 ],
@@ -192,6 +211,16 @@
     "method": "json",
     "nested_mapgen_id": "destroyed_furniture",
     "object": { "mapgensize": [ 1, 1 ], "place_rubble": [ { "x": 0, "y": 0, "rubble_type": "f_null", "items": true } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "destroyed_furniture_gunstore",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "place_rubble": [ { "x": 0, "y": 0, "rubble_type": "f_null", "items": true } ],
+      "place_items": [ { "item": "loose_ammo", "x": [ 0, 0 ], "y": [ 0, 0 ], "chance": 50, "repeat": [ 1, 4 ] } ]
+    }
   },
   {
     "type": "mapgen",
@@ -217,5 +246,11 @@
         { "field": "fd_gibs_flesh", "x": 0, "y": 0, "intensity": 1, "age": 10 }
       ]
     }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "update_mapgen_id": "amigara_death",
+    "object": { "place_items": [ { "item": "amigara_drops", "x": 11, "y": 12, "chance": 100 } ] }
   }
 ]

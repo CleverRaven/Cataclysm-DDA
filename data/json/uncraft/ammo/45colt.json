@@ -11,7 +11,6 @@
       [ [ "lgpistol_primer", 1 ] ],
       [ [ "gunpowder_pistol", 5 ] ],
       [ [ "copper", 2 ] ]
-    ],
-    "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
+    ]
   }
 ]

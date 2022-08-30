@@ -1,0 +1,38 @@
+[
+  {
+    "id": [ "BEM_KEYCARD_SELLER_1", "BEM_KEYCARD_SELLER_ASK", "TALK_KEYCARD_SELLER_NO_DISCOUNTS" ],
+    "type": "talk_topic",
+    "dynamic_line": "&You spot the mercenary at the tail end of a deal.  \"Want in on the business?  Still have a pair of ID cards looking for buyers.  Two army and two science cards left, they sell together for 4 coins or not at all.",
+    "responses": [
+      {
+        "text": "[4 HGC] Its a deal.",
+        "condition": { "u_has_items": { "item": "RobofacCoin", "count": 4 } },
+        "effect": [
+          { "u_sell_item": "RobofacCoin", "count": 4 },
+          { "u_spawn_item": "id_science", "count": 2 },
+          { "u_spawn_item": "id_military", "count": 2 },
+          "end_conversation"
+        ],
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "Offer to buy them for 2 coins.",
+        "trial": { "type": "PERSUADE", "difficulty": 10 },
+        "success": { "topic": "TALK_KEYCARD_SELLER_NO_DISCOUNTS" },
+        "failure": { "topic": "TALK_KEYCARD_SELLER_NO_DISCOUNTS" }
+      },
+      { "text": "Huh where do you get those from", "topic": "BEM_KEYCARD_SELLER_ASK" },
+      { "text": "Sorry, not interested.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "BEM_KEYCARD_SELLER_ASK",
+    "type": "talk_topic",
+    "dynamic_line": "Well that'd be telling.  Suffice to say that a few friends found them, and none of us are into the lab-dive business."
+  },
+  {
+    "id": "TALK_KEYCARD_SELLER_NO_DISCOUNTS",
+    "type": "talk_topic",
+    "dynamic_line": "Not a bargain bin kid, the price's the price."
+  }
+]

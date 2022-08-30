@@ -1,0 +1,20 @@
+[
+  {
+    "type": "COMESTIBLE",
+    "id": "escape_stone",
+    "name": { "str_sp": "escape stone" },
+    "color": "magenta",
+    "use_action": {
+      "type": "effect_on_conditions",
+      "description": "Seems like a spatial distortion.",
+      "effect_on_conditions": [ "EOC_PORTAL_STORM_CELL" ]
+    },
+    "comestible_type": "FOOD",
+    "volume": "250 ml",
+    "weight": "10 g",
+    "symbol": "@",
+    "description": "Nothing about this is appealing but it doesn't feel malevolent.",
+    "flags": [ "NO_AUTO_CONSUME" ],
+    "fun": -10
+  }
+]

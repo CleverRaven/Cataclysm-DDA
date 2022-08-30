@@ -16,6 +16,7 @@
 #include "map_selector.h"
 #include "optional.h"
 #include "pimpl.h"
+#include "player_helpers.h"
 #include "point.h"
 #include "rng.h"
 #include "type_id.h"
@@ -54,11 +55,9 @@ TEST_CASE( "visitable_remove", "[visitable]" )
     REQUIRE( item( container_id ).is_container() );
     REQUIRE( item( worn_id ).is_container() );
 
+    clear_avatar();
     Character &p = get_player_character();
-    p.worn.clear();
-    p.worn.emplace_back( "backpack" );
-    p.inv->clear();
-    p.remove_weapon();
+    p.worn.wear_item( p, item( "backpack" ), false, false );
     p.wear_item( item( "backpack" ) ); // so we don't drop anything
     map &here = get_map();
 
@@ -78,10 +77,12 @@ TEST_CASE( "visitable_remove", "[visitable]" )
     };
 
     // move player randomly until we find a suitable position
-    while( !suitable( p.pos(), 1 ) ) {
+    constexpr int num_trials = 100;
+    for( int i = 0; i < num_trials && !suitable( p.pos(), 1 ); ++i ) {
         CHECK( !p.in_vehicle );
         p.setpos( random_entry( closest_points_first( p.pos(), 1 ) ) );
     }
+    REQUIRE( suitable( p.pos(), 1 ) );
 
     item temp_liquid( liquid_id );
     item obj = temp_liquid.in_container( temp_liquid.type->default_container.value_or( "null" ) );
@@ -154,7 +155,7 @@ TEST_CASE( "visitable_remove", "[visitable]" )
 
         WHEN( "one of the bottles is wielded" ) {
             p.wield( p.worn.front().legacy_front() );
-            REQUIRE( p.get_wielded_item().typeId() == container_id );
+            REQUIRE( p.get_wielded_item()->typeId() == container_id );
             REQUIRE( count_items( p, container_id ) == count );
             REQUIRE( count_items( p, liquid_id ) == count );
 
@@ -170,7 +171,7 @@ TEST_CASE( "visitable_remove", "[visitable]" )
                     REQUIRE( count_items( p, liquid_id ) == 0 );
                 }
                 THEN( "there is no currently wielded item" ) {
-                    REQUIRE( p.get_wielded_item().is_null() );
+                    REQUIRE( !p.get_wielded_item() );
                 }
                 THEN( "the correct number of items were removed" ) {
                     REQUIRE( del.size() == count );
@@ -196,11 +197,11 @@ TEST_CASE( "visitable_remove", "[visitable]" )
                 THEN( "there is only one bottle remaining in the players possession" ) {
                     REQUIRE( count_items( p, container_id ) == 1 );
                     AND_THEN( "the remaining bottle is currently wielded" ) {
-                        REQUIRE( p.get_wielded_item().typeId() == container_id );
+                        REQUIRE( p.get_wielded_item()->typeId() == container_id );
 
                         AND_THEN( "the remaining water is contained by the currently wielded bottle" ) {
-                            REQUIRE( p.get_wielded_item().num_item_stacks() == 1 );
-                            REQUIRE( p.get_wielded_item().has_item_with( has_liquid_filter ) );
+                            REQUIRE( p.get_wielded_item()->num_item_stacks() == 1 );
+                            REQUIRE( p.get_wielded_item()->has_item_with( has_liquid_filter ) );
                         }
                     }
                 }

@@ -13,8 +13,7 @@
       [ [ "lgrifle_primer", 1 ] ],
       [ [ "gunpowder_large_rifle", 32 ] ],
       [ [ "copper", 2 ] ]
-    ],
-    "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
+    ]
   },
   {
     "result": "3006_incendiary",
@@ -31,8 +30,7 @@
       [ [ "lgrifle_primer", 1 ] ],
       [ [ "gunpowder_large_rifle", 33 ] ],
       [ [ "copper", 2 ] ]
-    ],
-    "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
+    ]
   },
   {
     "result": "3006fmj",
@@ -48,7 +46,6 @@
       [ [ "lgrifle_primer", 1 ] ],
       [ [ "gunpowder_large_rifle", 33 ] ],
       [ [ "copper", 2 ] ]
-    ],
-    "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
+    ]
   }
 ]

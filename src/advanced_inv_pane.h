@@ -56,7 +56,7 @@ class advanced_inventory_pane
             return viewing_cargo;
         }
         advanced_inv_pane_save_state *save_state;
-        void save_settings();
+        void save_settings() const;
         void load_settings( int saved_area_idx,
                             const std::array<advanced_inv_area, NUM_AIM_LOCATIONS> &squares, bool is_re_enter );
         /**
@@ -105,6 +105,8 @@ class advanced_inventory_pane
          * @param offset Must be either +1 or -1
          */
         void scroll_category( int offset );
+        void scroll_to_start();
+        void scroll_to_end();
         /**
          * @return either null, if @ref index is invalid, or the selected
          * item in @ref items.

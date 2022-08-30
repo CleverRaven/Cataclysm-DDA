@@ -60,7 +60,7 @@
     "id": "HUB01_SNarayana_Intro",
     "dynamic_line": {
       "u_has_trait": "PROF_HUB01_ANCILLIARY",
-      "yes": "Oooh, the NEW person.  So, you're not just some rumour they cooked up as a team building exercise.  I'm Sunil, welcome to the underground.",
+      "yes": "Oooh, the NEW person.  So, you're not just some rumor they cooked up as a team building exercise.  I'm Sunil, welcome to the underground.",
       "no": "Who the fuck are you?  How did you get down here?  Security!"
     },
     "responses": [

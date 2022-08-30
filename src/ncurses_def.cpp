@@ -9,6 +9,9 @@
 // ncurses can define some functions as macros, but we need those identifiers
 // to be unchanged by the preprocessor, as we use them as function names.
 #define NCURSES_NOMACROS
+#if !defined(__APPLE__)
+#define NCURSES_WIDECHAR 1
+#endif
 #if defined(__CYGWIN__)
 #include <ncurses/curses.h>
 #else
@@ -23,9 +26,11 @@
 #include <stdexcept>
 
 #include "cached_options.h"
+#include "cata_utility.h"
 #include "catacharset.h"
 #include "color.h"
 #include "cursesdef.h"
+#include "game_constants.h"
 #include "game_ui.h"
 #include "output.h"
 #include "ui_manager.h"
@@ -218,6 +223,7 @@ void catacurses::init_pair( const short pair, const base_color f, const base_col
                                 OK, "init_pair" );
 }
 
+catacurses::window catacurses::newscr;
 catacurses::window catacurses::stdscr;
 
 void catacurses::resizeterm()
@@ -240,12 +246,16 @@ void catacurses::init_interface()
     if( !stdscr ) {
         throw std::runtime_error( "initscr failed" );
     }
+    newscr = window( std::shared_ptr<void>( ::newscr, []( void *const ) { } ) );
+    if( !newscr ) {
+        throw std::runtime_error( "null newscr" );
+    }
 #if !defined(__CYGWIN__)
     // ncurses mouse registration
     mousemask( BUTTON1_CLICKED | BUTTON3_CLICKED | REPORT_MOUSE_POSITION, nullptr );
 #endif
     // our curses wrapper does not support changing this behavior, ncurses must
-    // behave exactly like the wrapper, therefor:
+    // behave exactly like the wrapper, therefore:
     noecho();  // Don't echo keypresses
     cbreak();  // C-style breaks (e.g. ^C to SIGINT)
     keypad( stdscr.get<::WINDOW>(), true ); // Numpad is numbers
@@ -326,11 +336,11 @@ input_event input_manager::get_input_event( const keyboard_mode /*preferred_keyb
                 rval.type = input_event_t::mouse;
                 rval.mouse_pos = point( event.x, event.y );
                 if( event.bstate & BUTTON1_CLICKED ) {
-                    rval.add_input( MOUSE_BUTTON_LEFT );
+                    rval.add_input( MouseInput::LeftButtonReleased );
                 } else if( event.bstate & BUTTON3_CLICKED ) {
-                    rval.add_input( MOUSE_BUTTON_RIGHT );
+                    rval.add_input( MouseInput::RightButtonReleased );
                 } else if( event.bstate & REPORT_MOUSE_POSITION ) {
-                    rval.add_input( MOUSE_MOVE );
+                    rval.add_input( MouseInput::Move );
                     if( input_timeout > 0 ) {
                         // Mouse movement seems to clear ncurses timeout
                         set_timeout( input_timeout );
@@ -422,14 +432,14 @@ bool nc_color::is_blink() const
     return attribute_value & A_BLINK;
 }
 
-void ensure_term_size();
-void check_encoding();
+void ensure_term_size(); // NOLINT(cata-static-declarations)
+void check_encoding(); // NOLINT(cata-static-declarations)
 
 void ensure_term_size()
 {
     // do not use ui_adaptor here to avoid re-entry
-    const int minHeight = FULL_SCREEN_HEIGHT;
-    const int minWidth = FULL_SCREEN_WIDTH;
+    const int minHeight = EVEN_MINIMUM_TERM_HEIGHT;
+    const int minWidth = EVEN_MINIMUM_TERM_WIDTH;
     int maxy = getmaxy( catacurses::stdscr );
     int maxx = getmaxx( catacurses::stdscr );
 
@@ -461,6 +471,7 @@ void ensure_term_size()
     }
 }
 
+// NOLINTNEXTLINE(cata-static-declarations)
 void check_encoding()
 {
     // Check whether LC_CTYPE supports the UTF-8 encoding
@@ -480,6 +491,11 @@ void check_encoding()
             key = getch();
         } while( key == KEY_RESIZE || key == KEY_MOUSE );
     }
+}
+
+void set_title( const std::string & )
+{
+    // curses does not seem to have a portable way of setting the window title.
 }
 
 #endif

@@ -76,5 +76,30 @@
       { "drop": "cholla_bud", "base_num": [ 2, 5 ], "scale_num": [ 0, 0.5 ] },
       { "drop": "cactus_pad", "base_num": [ 1, 2 ], "scale_num": [ 0, 0.5 ] }
     ]
+  },
+  {
+    "id": "fungus_harv",
+    "type": "harvest",
+    "entries": [ { "drop": "fungus_mutated", "base_num": [ 2, 5 ], "scale_num": [ 0, 0.5 ] } ]
+  },
+  {
+    "id": "echinoderm",
+    "//": "no bones or organs, copied from meatslug",
+    "type": "harvest",
+    "entries": [
+      { "drop": "echinoderm", "type": "flesh", "mass_ratio": 0.4 },
+      { "drop": "fat", "type": "flesh", "mass_ratio": 0.1 },
+      { "drop": "fat", "type": "offal", "mass_ratio": 0.1 }
+    ]
+  },
+  {
+    "id": "cnidarian",
+    "//": "no bones or organs, copied from meatslug",
+    "type": "harvest",
+    "entries": [
+      { "drop": "cnidarian", "type": "flesh", "mass_ratio": 0.4 },
+      { "drop": "fat", "type": "flesh", "mass_ratio": 0.1 },
+      { "drop": "fat", "type": "offal", "mass_ratio": 0.1 }
+    ]
   }
 ]

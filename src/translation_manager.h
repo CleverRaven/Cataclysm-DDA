@@ -8,30 +8,17 @@
 #include <unordered_set>
 #include <vector>
 
-class TranslationManagerInterface
-{
-    public:
-        virtual ~TranslationManagerInterface() = default;
-        virtual std::unordered_set<std::string> GetAvailableLanguages() = 0;
-        virtual void SetLanguage( const std::string &language_code ) = 0;
-        virtual std::string GetCurrentLanguage() const = 0;
-        virtual void LoadDocuments( const std::vector<std::string> &files ) = 0;
-
-        virtual const char *Translate( const std::string &message ) const = 0;
-        virtual const char *Translate( const char *message ) const = 0;
-        virtual const char *TranslatePlural( const char *singular, const char *plural,
-                                             std::size_t n ) const = 0;
-        virtual const char *TranslateWithContext( const char *context, const char *message ) const = 0;
-        virtual const char *TranslatePluralWithContext( const char *context, const char *singular,
-                const char *plural, std::size_t n ) const = 0;
-};
+#include "pimpl.h"
 
 class TranslationManager
 {
     private:
-        std::unique_ptr<TranslationManagerInterface> impl;
+        class Impl;
+        pimpl<Impl> impl;
     public:
-        TranslationManager();
+        TranslationManager() = default;
+        TranslationManager( const TranslationManager & ) = delete;
+        TranslationManager( TranslationManager && ) = delete;
         static TranslationManager &GetInstance();
         std::unordered_set<std::string> GetAvailableLanguages();
         void SetLanguage( const std::string &language_code );

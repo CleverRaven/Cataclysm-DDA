@@ -54,7 +54,7 @@
     "qualities": [ { "id": "CONTAIN", "level": 1 }, { "id": "MANA_INFUSE", "level": 1 }, { "id": "MANA_FOCUS", "level": 1 } ],
     "tools": [ [ [ "paint_brush", -1 ] ] ],
     "components": [
-      [ [ "blood_tainted", 2000 ], [ "blood", 8 ], [ "dragon_blood", 2000 ] ],
+      [ [ "blood_tainted", 2000 ], [ "edible_blood", 8, "LIST" ], [ "dragon_blood", 2000 ] ],
       [ [ "any_strong_acid", 4, "LIST" ] ],
       [ [ "water", 2 ], [ "water_clean", 2 ] ]
     ],
@@ -86,7 +86,7 @@
     "activity_level": "fake",
     "result": "mana_infused_blood",
     "qualities": [ { "id": "CONTAIN", "level": 1 }, { "id": "MANA_INFUSE", "level": 1 } ],
-    "components": [ [ [ "mana_dust", 1 ] ], [ [ "blood", 1 ] ] ],
+    "components": [ [ [ "mana_dust", 1 ] ], [ [ "edible_blood", 1, "LIST" ] ] ],
     "time": "30 m",
     "skill_used": "chemistry",
     "difficulty": 3,

@@ -14,8 +14,8 @@ static const bionic_id bio_power_storage( "bio_power_storage" );
 
 static const gun_mode_id gun_mode_MELEE( "MELEE" );
 
-static const mtype_id mon_zombie( "mon_zombie" );
 static const mtype_id mon_zombie_electric( "mon_zombie_electric" );
+static const mtype_id mon_zomborg( "mon_zomborg" );
 
 static void test_zapback( Creature &attacker, const bool expect_damage,
                           const dealt_projectile_attack *proj = nullptr )
@@ -100,17 +100,17 @@ TEST_CASE( "zapback_npc_electricity_immune", "[mondefense]" )
 {
     standard_npc attacker( "Attacker" );
     attacker.add_bionic( bio_power_storage );
+    attacker.set_power_level( attacker.get_max_power_level() );
     attacker.add_bionic( bio_faraday );
-    attacker.mod_power_level( 100_kJ );
     // Don't forget to turn it on...
     test_zapback( attacker, true );
     // Wow this is a raw index?
-    attacker.activate_bionic( 1 );
+    attacker.activate_bionic( attacker.bionic_at_index( attacker.num_bionics() - 1 ) );
     test_zapback( attacker, false );
 }
 
 TEST_CASE( "zapback_monster", "[mondefense]" )
 {
-    monster attacker( mon_zombie );
+    monster attacker( mon_zomborg );
     test_zapback( attacker, true );
 }

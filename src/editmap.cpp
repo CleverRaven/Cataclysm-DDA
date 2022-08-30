@@ -475,7 +475,7 @@ void editmap::uber_draw_ter( const catacurses::window &w, map *m )
     creature_tracker &creatures = get_creature_tracker();
     drawsq_params params = drawsq_params().center( center );
     for( const tripoint &p : tripoint_range<tripoint>( start, end ) ) {
-        int sym = game_map ? '%' : ' ';
+        uint8_t sym = game_map ? '%' : ' ';
         if( p.x >= 0 && p.x < msize && p.y >= 0 && p.y < msize ) {
             if( game_map ) {
                 Creature *critter = creatures.creature_at( p );
@@ -538,8 +538,8 @@ void editmap::draw_main_ui_overlay()
                 p[0] += point_north_west;
                 p[1] += point_south_east;
             }
-            for( const auto &pi : p ) {
-                for( const auto &pj : p ) {
+            for( const point &pi : p ) {
+                for( const point &pj : p ) {
                     g->draw_cursor( tripoint( pi.x, pj.y, target.z ) );
                 }
             }
@@ -560,7 +560,7 @@ void editmap::draw_main_ui_overlay()
     creature_tracker &creatures = get_creature_tracker();
     // hilight target_list points if blink=true
     if( blink ) {
-        for( const auto &p : target_list ) {
+        for( const tripoint &p : target_list ) {
 #ifdef TILES
             if( use_tiles ) {
                 if( draw_target_override ) {
@@ -673,7 +673,7 @@ void editmap::draw_main_ui_overlay()
                     submap *sm = tmpmap.get_submap_at_grid( { x, y, target.z } );
                     if( sm ) {
                         const tripoint sm_origin = origin_p + tripoint( x * SEEX, y * SEEY, target.z );
-                        for( const auto &sp : sm->spawns ) {
+                        for( const spawn_point &sp : sm->spawns ) {
                             const tripoint spawn_p = sm_origin + sp.pos;
                             const auto spawn_it = spawns.find( spawn_p );
                             if( spawn_it == spawns.end() ) {
@@ -729,14 +729,14 @@ void editmap::update_view_with_help( const std::string &txt, const std::string &
     mvwprintz( w_info, point( 2, 0 ), c_light_gray, "< %d,%d,%d >", target.x, target.y, target.z );
 
     mvwputch( w_info, point( 2, off ), terrain_type.color(), terrain_type.symbol() );
-    mvwprintw( w_info, point( 4, off ), _( "%d: %s; movecost %d" ), here.ter( target ).to_i(),
+    mvwprintw( w_info, point( 4, off ), _( "%d: %s; move cost %d" ), here.ter( target ).to_i(),
                terrain_type.name(),
                terrain_type.movecost
              );
     off++; // 2
     if( here.furn( target ).to_i() > 0 ) {
         mvwputch( w_info, point( 2, off ), furniture_type.color(), furniture_type.symbol() );
-        mvwprintw( w_info, point( 4, off ), _( "%d: %s; movecost %d movestr %d" ),
+        mvwprintw( w_info, point( 4, off ), _( "%d: %s; move cost %d movestr %d" ),
                    here.furn( target ).to_i(),
                    furniture_type.name(),
                    furniture_type.movecost,
@@ -744,7 +744,7 @@ void editmap::update_view_with_help( const std::string &txt, const std::string &
                  );
         off++; // 3
     }
-    const auto &map_cache = here.get_cache( target.z );
+    const level_cache &map_cache = here.get_cache( target.z );
 
     Character &player_character = get_player_character();
     const std::string u_see_msg = player_character.sees( target ) ? _( "yes" ) : _( "no" );
@@ -1197,6 +1197,7 @@ void editmap::update_fmenu_entry( uilist &fmenu, field &field, const field_type_
     if( fld != nullptr ) {
         fmenu.entries[idx.to_i()].txt += " " + std::string( field_intensity, '*' );
     }
+    fmenu.entries[idx.to_i()].txt += string_format( " (%s)", ftype.id.c_str() );
     fmenu.entries[idx.to_i()].text_color = fld != nullptr ? c_cyan : fmenu.text_color;
     fmenu.entries[idx.to_i()].extratxt.color = ftype.get_intensity_level( field_intensity - 1 ).color;
     fmenu.entries[idx.to_i()].extratxt.txt = ftype.get_symbol( field_intensity - 1 );
@@ -1299,7 +1300,7 @@ void editmap::edit_fld()
                                            "-clear-" ) );
 
                 int i = 0;
-                for( const auto &intensity_level : ftype.intensity_levels ) {
+                for( const field_intensity_level &intensity_level : ftype.intensity_levels ) {
                     i++;
                     femenu.addentry( string_format( _( "%d: %s" ), i, intensity_level.name.translated() ) );
                 }
@@ -1317,7 +1318,7 @@ void editmap::edit_fld()
                 fsel_intensity--;
             }
             if( field_intensity != fsel_intensity || target_list.size() > 1 ) {
-                for( auto &elem : target_list ) {
+                for( tripoint &elem : target_list ) {
                     const auto fid = static_cast<field_type_id>( idx );
                     field &t_field = here.get_field( elem );
                     field_entry *t_fld = t_field.find_field( fid );
@@ -1342,7 +1343,7 @@ void editmap::edit_fld()
                 sel_field_intensity = fsel_intensity;
             }
         } else if( fmenu.ret == 0 ) {
-            for( auto &elem : target_list ) {
+            for( tripoint &elem : target_list ) {
                 field &t_field = here.get_field( elem );
                 while( t_field.field_count() > 0 ) {
                     const auto rmid = t_field.begin()->first;
@@ -1383,7 +1384,10 @@ void editmap::edit_fld()
  * edit items in target square. WIP
  */
 enum editmap_imenu_ent {
-    imenu_bday, imenu_damage, imenu_burnt,
+    imenu_bday,
+    imenu_damage,
+    imenu_degradation,
+    imenu_burnt,
     imenu_tags,
     imenu_sep,
     imenu_savetest,
@@ -1401,7 +1405,7 @@ void editmap::edit_itm()
     };
     map_stack items = get_map().i_at( target );
     int i = 0;
-    for( auto &an_item : items ) {
+    for( item &an_item : items ) {
         ilmenu.addentry( i++, true, 0, "%s%s", an_item.tname(),
                          an_item.is_emissive() ? " L" : "" );
     }
@@ -1443,6 +1447,8 @@ void editmap::edit_itm()
                             to_turn<int>( it.birthday() ) );
             imenu.addentry( imenu_damage, true, -1, pgettext( "item manipulation debug menu entry",
                             "damage: %d" ), it.damage() );
+            imenu.addentry( imenu_degradation, true, -1, pgettext( "item manipulation debug menu entry",
+                            "degradation: %d" ), it.degradation() );
             imenu.addentry( imenu_burnt, true, -1, pgettext( "item manipulation debug menu entry",
                             "burnt: %d" ), static_cast<int>( it.burnt ) );
             imenu.addentry( imenu_tags, true, -1, pgettext( "item manipulation debug menu entry",
@@ -1473,6 +1479,9 @@ void editmap::edit_itm()
                             break;
                         case imenu_damage:
                             intval = it.damage();
+                            break;
+                        case imenu_degradation:
+                            intval = it.degradation();
                             break;
                         case imenu_burnt:
                             intval = static_cast<int>( it.burnt );
@@ -1510,6 +1519,15 @@ void editmap::edit_itm()
                                 it.set_damage( retval );
                                 // NOLINTNEXTLINE(cata-translate-string-literal)
                                 imenu.entries[imenu_damage].txt = string_format( "damage: %d", it.damage() );
+                                // NOLINTNEXTLINE(cata-translate-string-literal)
+                                imenu.entries[imenu_degradation].txt = string_format( "degradation: %d", it.degradation() );
+                                break;
+                            case imenu_degradation:
+                                it.set_degradation( retval );
+                                // NOLINTNEXTLINE(cata-translate-string-literal)
+                                imenu.entries[imenu_degradation].txt = string_format( "degradation: %d", it.degradation() );
+                                // NOLINTNEXTLINE(cata-translate-string-literal)
+                                imenu.entries[imenu_damage].txt = string_format( "damage: %d", it.damage() );
                                 break;
                             case imenu_burnt:
                                 it.burnt = retval;
@@ -1537,7 +1555,7 @@ void editmap::edit_itm()
             debug_menu::wishitem( nullptr, target );
             ilmenu.entries.clear();
             i = 0;
-            for( auto &an_item : items ) {
+            for( item &an_item : items ) {
                 ilmenu.addentry( i++, true, 0, "%s%s", an_item.tname(),
                                  an_item.is_emissive() ? " L" : "" );
             }
@@ -1559,7 +1577,7 @@ void editmap::edit_critter( Creature &critter )
     }
 }
 
-void editmap::edit_veh()
+void editmap::edit_veh() const
 {
     edit_json( get_map().veh_at( target )->vehicle() );
 }
@@ -1630,9 +1648,9 @@ static int limited_shift( int var, int &shift, int min, int max )
     if( var + shift < min ) {
         shift = min - var;
     } else if( var + shift >= max ) {
-        shift = shift + ( max - 1 - ( var + shift ) );
+        shift = max - 1 - var;
     }
-    return var += shift;
+    return var + shift;
 }
 
 /*
@@ -2015,7 +2033,7 @@ vehicle *editmap::mapgen_veh_query( const tripoint_abs_omt &omt_tgt )
 
     std::vector<std::string> car_titles;
     car_titles.reserve( possible_vehicles.size() );
-    for( auto &elem : possible_vehicles ) {
+    for( vehicle *&elem : possible_vehicles ) {
         car_titles.push_back( elem->name );
     }
     if( car_titles.size() == 1 ) {
@@ -2200,14 +2218,14 @@ void editmap::edit_mapgen()
 /*
  * Special voodoo sauce required to cleanse vehicles and caches to prevent debugmsg loops when re-applying mapgen.
  */
-void editmap::cleartmpmap( tinymap &tmpmap )
+void editmap::cleartmpmap( tinymap &tmpmap ) const
 {
     for( submap *&smap : tmpmap.grid ) {
         delete smap;
         smap = nullptr;
     }
 
-    auto &ch = tmpmap.get_cache( target.z );
+    level_cache &ch = tmpmap.get_cache( target.z );
     ch.clear_vehicle_cache();
     ch.vehicle_list.clear();
     ch.zone_vehicles.clear();

@@ -3,8 +3,15 @@
     "result": "blade_scythe",
     "type": "uncraft",
     "activity_level": "MODERATE_EXERCISE",
-    "time": 0,
+    "time": "0 s",
     "components": [ [ [ "steel_lump", 1 ] ] ]
+  },
+  {
+    "result": "young_koji_done",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "1 m",
+    "components": [ [ [ "koji", 5 ] ] ]
   },
   {
     "type": "uncraft",
@@ -13,7 +20,7 @@
     "skill_used": "fabrication",
     "difficulty": 1,
     "time": "20 s",
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [ [ [ "incendiary", 75 ] ] ]
   },
   {
@@ -22,7 +29,7 @@
     "activity_level": "MODERATE_EXERCISE",
     "skill_used": "fabrication",
     "time": "5 m",
-    "tools": [ [ [ "pickaxe", -1 ], [ "jackhammer", 1 ], [ "elec_jackhammer", 50 ] ] ],
+    "tools": [ [ [ "pickaxe", -1 ], [ "bronze_pickaxe", -1 ], [ "jackhammer", 1 ], [ "elec_jackhammer", 50 ] ] ],
     "components": [ [ [ "rock", 24 ] ] ]
   },
   {
@@ -52,8 +59,7 @@
     "skill_used": "fabrication",
     "time": "30 m",
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
-    "components": [ [ [ "steel_chunk", 38 ] ] ],
-    "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
+    "components": [ [ [ "steel_chunk", 38 ] ] ]
   },
   {
     "result": "mattress",
@@ -62,8 +68,8 @@
     "skill_used": "tailor",
     "difficulty": 1,
     "time": "22 s",
-    "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "rag", 60 ] ], [ [ "sheet", 4 ] ], [ [ "spring", 4 ] ], [ [ "wire", 20 ] ] ]
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "cotton_patchwork", 60 ] ], [ [ "sheet", 4 ] ], [ [ "spring", 4 ] ], [ [ "wire", 20 ] ] ]
   },
   {
     "result": "character_sheet",
@@ -88,9 +94,8 @@
     "activity_level": "MODERATE_EXERCISE",
     "skill_used": "tailor",
     "time": "2 m",
-    "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "thread", 1 ] ] ],
-    "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "thread", 1 ] ] ]
   },
   {
     "result": "spatula",
@@ -107,7 +112,7 @@
     "activity_level": "MODERATE_EXERCISE",
     "skill_used": "fabrication",
     "time": "4 m",
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [ [ [ "chunk_rubber", 3 ] ] ]
   },
   {
@@ -116,7 +121,7 @@
     "activity_level": "MODERATE_EXERCISE",
     "skill_used": "fabrication",
     "time": "5 m",
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [ [ [ "rubber_tire_strip", 1 ] ] ]
   },
   {
@@ -125,7 +130,7 @@
     "activity_level": "MODERATE_EXERCISE",
     "skill_used": "fabrication",
     "time": "7 m",
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [ [ [ "rubber_tire_strip", 2 ] ] ]
   },
   {
@@ -134,7 +139,7 @@
     "activity_level": "MODERATE_EXERCISE",
     "skill_used": "fabrication",
     "time": "5 m",
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [ [ [ "rubber_tire_strip", 1 ] ] ]
   },
   {
@@ -143,7 +148,7 @@
     "activity_level": "MODERATE_EXERCISE",
     "skill_used": "fabrication",
     "time": "5 m",
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [ [ [ "rubber_tire_strip", 1 ] ] ]
   },
   {
@@ -152,7 +157,7 @@
     "activity_level": "MODERATE_EXERCISE",
     "skill_used": "fabrication",
     "time": "10 m",
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [ [ [ "rubber_tire_strip", 3 ] ] ]
   },
   {
@@ -161,7 +166,7 @@
     "activity_level": "MODERATE_EXERCISE",
     "skill_used": "fabrication",
     "time": "10 m",
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [ [ [ "rubber_tire_strip", 3 ] ] ]
   },
   {
@@ -170,7 +175,7 @@
     "activity_level": "MODERATE_EXERCISE",
     "skill_used": "fabrication",
     "time": "5 m",
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [ [ [ "rubber_tire_chunk", 3 ] ] ]
   },
   {
@@ -179,7 +184,7 @@
     "activity_level": "MODERATE_EXERCISE",
     "skill_used": "fabrication",
     "time": "5 m",
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [ [ [ "rubber_tire_chunk", 3 ] ] ]
   },
   {
@@ -188,7 +193,7 @@
     "activity_level": "MODERATE_EXERCISE",
     "skill_used": "fabrication",
     "time": "5 m",
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [ [ [ "rubber_tire_chunk", 5 ] ] ]
   },
   {
@@ -207,6 +212,16 @@
     "skill_used": "fabrication",
     "time": "10 s",
     "components": [ [ [ "bag_canvas", 1 ] ], [ [ "material_soil", 3 ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "skull_human",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "skill_used": "fabrication",
+    "time": "10 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "bone_human", 4 ] ] ],
     "flags": [ "BLIND_EASY" ]
   }
 ]

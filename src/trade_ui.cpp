@@ -6,6 +6,7 @@
 #include <memory>
 
 #include "character.h"
+#include "clzones.h"
 #include "color.h"
 #include "enums.h"
 #include "game_constants.h"
@@ -13,6 +14,7 @@
 #include "item.h"
 #include "npc.h"
 #include "npctrade.h"
+#include "npctrade_utils.h"
 #include "output.h"
 #include "point.h"
 #include "string_formatter.h"
@@ -48,9 +50,9 @@ trade_preset::trade_preset( Character const &you, Character const &trader )
 
 bool trade_preset::is_shown( item_location const &loc ) const
 {
-    return inventory_selector_preset::is_shown( loc ) and loc->is_owned_by( _u ) and
-           loc->made_of( phase_id::SOLID ) and
-           ( !_u.is_wielding( *loc ) or !loc->has_flag( json_flag_NO_UNWIELD ) );
+    return !loc->has_var( VAR_TRADE_IGNORE ) && inventory_selector_preset::is_shown( loc ) &&
+           loc->is_owned_by( _u ) && loc->made_of( phase_id::SOLID ) &&
+           ( !_u.is_wielding( *loc ) || !loc->has_flag( json_flag_NO_UNWIELD ) );
 }
 
 std::string trade_preset::get_denial( const item_location &loc ) const
@@ -60,13 +62,21 @@ std::string trade_preset::get_denial( const item_location &loc ) const
 
     if( _u.is_npc() ) {
         npc const &np = *_u.as_npc();
-        if( !np.wants_to_sell( *loc, price, market_price ) ) {
-            return string_format( _( "%s does not want to sell this" ), np.get_name() );
+        ret_val<void> const ret = np.wants_to_sell( *loc, price, market_price );
+        if( !ret.success() ) {
+            if( ret.str().empty() ) {
+                return string_format( _( "%s does not want to sell this" ), np.get_name() );
+            }
+            return np.replace_with_npc_name( ret.str() );
         }
     } else if( _trader.is_npc() ) {
         npc const &np = *_trader.as_npc();
-        if( !np.wants_to_buy( *loc, price, market_price ) ) {
-            return string_format( _( "%s does not want to buy this" ), np.get_name() );
+        ret_val<void> const ret = np.wants_to_buy( *loc, price, market_price );
+        if( !ret.success() ) {
+            if( ret.str().empty() ) {
+                return string_format( _( "%s does not want to buy this" ), np.get_name() );
+            }
+            return np.replace_with_npc_name( ret.str() );
         }
     }
 
@@ -75,8 +85,12 @@ std::string trade_preset::get_denial( const item_location &loc ) const
 
 bool trade_preset::cat_sort_compare( const inventory_entry &lhs, const inventory_entry &rhs ) const
 {
+    item_category const *const lcat = lhs.get_category_ptr();
+    if( lcat->get_id() == item_category_ITEMS_WORN || lcat->get_id() == item_category_WEAPON_HELD ) {
+        return false;
+    }
     item_category const *const rcat = rhs.get_category_ptr();
-    if( rcat->get_id() == item_category_ITEMS_WORN or rcat->get_id() == item_category_WEAPON_HELD ) {
+    if( rcat->get_id() == item_category_ITEMS_WORN || rcat->get_id() == item_category_WEAPON_HELD ) {
         return true;
     }
 
@@ -97,7 +111,27 @@ trade_ui::trade_ui( party_t &you, npc &trader, currency_t cost, std::string titl
     _panes[_trader]->add_character_items( trader );
     if( trader.mission == NPC_MISSION_SHOPKEEP ) {
         _panes[_trader]->categorize_map_items( true );
-        _panes[_trader]->add_nearby_items( PICKUP_RANGE );
+
+        add_fallback_zone( trader );
+
+        zone_manager &zmgr = zone_manager::get_manager();
+
+        // FIXME: migration for traders in old saves - remove after 0.G
+        zone_data const *const fallback =
+            zmgr.get_zone_at( trader.get_location(), true, trader.get_fac_id() );
+        bool const legacy = fallback != nullptr && fallback->get_name() == fallback_name;
+
+        if( legacy ) {
+            _panes[_trader]->add_nearby_items( PICKUP_RANGE );
+        } else {
+            std::unordered_set<tripoint> const src =
+                zmgr.get_point_set_loot( trader.get_location(), PICKUP_RANGE, trader.get_fac_id() );
+
+            for( tripoint const &pt : src ) {
+                _panes[_trader]->add_map_items( pt );
+                _panes[_trader]->add_vehicle_items( pt );
+            }
+        }
     } else if( !trader.is_player_ally() ) {
         _panes[_trader]->add_nearby_items( 1 );
     }
@@ -170,6 +204,21 @@ void trade_ui::recalc_values_cpane()
         _balance = _cost + _trade_values[_you] - _trade_values[_trader];
     }
     _header_ui.invalidate_ui();
+}
+
+void trade_ui::autobalance()
+{
+    int const sign = _cpane == _you ? -1 : 1;
+    if( ( sign < 0 && _balance < 0 ) || ( sign > 0 && _balance > 0 ) ) {
+        inventory_entry &entry = _panes[_cpane]->get_active_column().get_highlighted();
+        size_t const avail = entry.get_available_count() - entry.chosen_count;
+        double const price = npc_trading::trading_price( *_parties[-_cpane + 1], *_parties[_cpane],
+                             entry_t{ entry.any_item(), 1 } ) * sign;
+        double const num = _balance / price;
+        double const extra = sign < 0 ? std::ceil( num ) : std::floor( num );
+        _panes[_cpane]->toggle_entry( entry, entry.chosen_count +
+                                      std::min( static_cast<size_t>( extra ), avail ) );
+    }
 }
 
 void trade_ui::resize()
@@ -249,5 +298,10 @@ void trade_ui::_draw_header()
                   string_format( _( "%s to switch panes" ),
                                  colorize( _panes[_you]->get_ctxt()->get_desc(
                                          trade_selector::ACTION_SWITCH_PANES ),
+                                           c_yellow ) ) );
+    center_print( _header_w, header_size - 2, c_white,
+                  string_format( _( "%s to auto balance with highlighted item" ),
+                                 colorize( _panes[_you]->get_ctxt()->get_desc(
+                                         trade_selector::ACTION_AUTOBALANCE ),
                                            c_yellow ) ) );
 }

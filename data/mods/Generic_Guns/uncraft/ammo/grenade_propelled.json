@@ -13,8 +13,7 @@
       [ [ "smpistol_primer", 1 ] ],
       [ [ "sheet_metal_small", 1 ] ],
       [ [ "paper", 1 ] ]
-    ],
-    "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
+    ]
   },
   {
     "result": "grenade_ammo_slug",
@@ -30,7 +29,6 @@
       [ [ "smpistol_primer", 1 ] ],
       [ [ "sheet_metal_small", 1 ] ],
       [ [ "paper", 1 ] ]
-    ],
-    "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
+    ]
   }
 ]

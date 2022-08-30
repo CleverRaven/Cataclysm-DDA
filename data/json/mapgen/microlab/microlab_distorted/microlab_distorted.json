@@ -1,17 +1,5 @@
 [
   {
-    "type": "item_group",
-    "id": "microlab_artifacts",
-    "subtype": "distribution",
-    "entries": [
-      {
-        "group": "amigara_items",
-        "artifact": { "procgen_id": "netherum_tunnels", "rules": { "power_level": 750, "max_attributes": 4, "max_negative_power": -1000 } },
-        "prob": 100
-      }
-    ]
-  },
-  {
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ [ "microlab_distorted" ] ],

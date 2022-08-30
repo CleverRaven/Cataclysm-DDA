@@ -116,6 +116,12 @@
     "info": "You need to be in a seat or saddle to operate vehicle controls."
   },
   {
+    "id": "ENHANCED_VISION",
+    "type": "json_flag",
+    "info": "Can be used to <color_cyan>scout things far away</color> when seated.",
+    "requires_flag": "SEAT"
+  },
+  {
     "id": "SEATBELT",
     "type": "json_flag",
     "info": "This part will help prevent you from being thrown from the vehicle in a collision.  You will automatically enable this part when you move into a tile with it.",
@@ -150,7 +156,7 @@
   {
     "id": "TURRET_CONTROLS",
     "type": "json_flag",
-    "requires_flag": "TURRET"
+    "requires_flag": "TURRET_MOUNT"
   },
   {
     "id": "WHEEL",
@@ -260,6 +266,10 @@
     "type": "json_flag"
   },
   {
+    "id": "ARCADE",
+    "type": "json_flag"
+  },
+  {
     "id": "BEEPER",
     "type": "json_flag"
   },
@@ -318,7 +328,7 @@
   {
     "id": "E_DIESEL_FUEL",
     "type": "json_flag",
-    "info": "Burns diesel or JP8 fuel from a tank in the vehicle.  Can also burn biodiesel or lamp oil, though somewhat less efficiently."
+    "info": "Burns diesel or JP8 fuel from a tank in the vehicle.  Can also burn biodiesel or kerosene, though somewhat less efficiently."
   },
   {
     "id": "E_HEATER",
@@ -338,6 +348,10 @@
   },
   {
     "id": "FLUIDTANK",
+    "type": "json_flag"
+  },
+  {
+    "id": "GASTANK",
     "type": "json_flag"
   },
   {
@@ -374,6 +388,10 @@
   },
   {
     "id": "HARNESS_human",
+    "type": "json_flag"
+  },
+  {
+    "id": "HEATED_TANK",
     "type": "json_flag"
   },
   {

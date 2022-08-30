@@ -1,0 +1,31 @@
+[
+  {
+    "id": "player_weapon_and_martial_arts_block",
+    "type": "widget",
+    "style": "layout",
+    "label": "4_Weapon/Sound block",
+    "arrange": "minimum_columns",
+    "width": 58,
+    "widgets": [ "spacebar_separator_2", "weapon_sound_block", "ma_buff_legend" ]
+  },
+  {
+    "id": "weapon_sound_block",
+    "type": "widget",
+    "style": "layout",
+    "label": "Weapon/Sound block",
+    "width": 28,
+    "arrange": "rows",
+    "widgets": [ "sound_bar", "wielding_desc", "style_desc" ]
+  },
+  {
+    "id": "sound_bar",
+    "type": "widget",
+    "style": "graph",
+    "label": "Sound",
+    "width": 15,
+    "symbols": ".oO",
+    "fill": "bucket",
+    "var": "sound",
+    "colors": [ "c_blue", "c_cyan", "c_light_blue", "c_green", "c_yellow", "c_light_red", "c_red" ]
+  }
+]

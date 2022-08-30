@@ -17,6 +17,6 @@
     "damage": { "damage_type": "bullet", "amount": 27 },
     "dispersion": 70,
     "recoil": 580,
-    "effects": [ "COOKOFF", "MUZZLE_SMOKE", "BLACKPOWDER" ]
+    "effects": [ "COOKOFF", "RECYCLED", "MUZZLE_SMOKE", "BLACKPOWDER" ]
   }
 ]

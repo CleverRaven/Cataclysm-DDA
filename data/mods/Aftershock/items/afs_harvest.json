@@ -7,12 +7,16 @@
       { "drop": "meat_tainted", "type": "flesh", "mass_ratio": 0.25 },
       { "drop": "fat_tainted", "type": "flesh", "mass_ratio": 0.08 },
       { "drop": "blood_tainted", "type": "blood", "mass_ratio": 0.1 },
-      { "drop": "bone_tainted", "type": "bone", "mass_ratio": 0.1 },
-      { "drop": "afs_titanium_implant", "type": "bionic", "flags": [ "FILTHY", "NO_STERILE" ], "max": 1 }
+      { "drop": "bone_tainted", "type": "bone", "mass_ratio": 0.1 }
     ]
   },
   {
-    "id": "CBM_CIV",
+    "id": "dissect_human",
+    "type": "harvest",
+    "entries": [ { "drop": "afs_titanium_implant", "type": "bionic", "flags": [ "FILTHY", "NO_STERILE" ], "max": 1 } ]
+  },
+  {
+    "id": "dissect_CBM_CIV",
     "type": "harvest",
     "entries": [
       {
@@ -27,7 +31,13 @@
         "flags": [ "FILTHY", "NO_STERILE", "NO_PACKED" ],
         "faults": [ "fault_bionic_salvaged" ]
       },
-      { "drop": "afs_titanium_implant", "type": "bionic", "flags": [ "FILTHY", "NO_STERILE" ], "max": 1 },
+      { "drop": "afs_titanium_implant", "type": "bionic", "flags": [ "FILTHY", "NO_STERILE" ], "max": 1 }
+    ]
+  },
+  {
+    "id": "CBM_CIV",
+    "type": "harvest",
+    "entries": [
       { "drop": "meat_tainted", "type": "flesh", "mass_ratio": 0.25 },
       { "drop": "blood_tainted", "type": "blood", "mass_ratio": 0.1 },
       { "drop": "fat_tainted", "type": "flesh", "mass_ratio": 0.08 },
@@ -44,7 +54,6 @@
       { "drop": "blood", "type": "blood", "mass_ratio": 0.1 },
       { "drop": "bone_human", "type": "bone", "mass_ratio": 0.12 },
       { "drop": "sinew", "type": "bone", "mass_ratio": 0.001 },
-      { "drop": "afs_titanium_implant", "type": "bionic", "flags": [ "FILTHY", "NO_STERILE" ], "max": 1 },
       { "drop": "raw_hleather", "type": "skin", "mass_ratio": 0.01 }
     ]
   }

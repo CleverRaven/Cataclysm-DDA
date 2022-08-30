@@ -60,7 +60,7 @@
   {
     "id": "immolate_push",
     "type": "SPELL",
-    "name": "Immolate push effect",
+    "name": "Immolate Push Effect",
     "description": "The immolate spell is powerful enough to push targets from its epicenter.",
     "effect": "directed_push",
     "shape": "blast",
@@ -82,7 +82,7 @@
     "spell_class": "CLEANSING_FLAME",
     "name": "Hermes Reborn",
     "description": "In the sea without lees\nStandeth the bird of Hermes\nEating his wings variable\nAnd maketh himself yet full stable",
-    "//": "Well thats too edgy now, need to replase it.",
+    "//": "Well that's too edgy now, need to replace it.",
     "valid_targets": [ "self" ],
     "effect": "attack",
     "shape": "blast",
@@ -100,7 +100,7 @@
   {
     "id": "cleansingflame_hermes_burn",
     "type": "SPELL",
-    "name": "Hermes Reborn fire",
+    "name": "Hermes Reborn Fire",
     "description": "Give some frost damage for Hermes Reborn spell.  Subspell; you aren't allowed to see it except in debug mode.",
     "valid_targets": [ "self" ],
     "max_level": 35,

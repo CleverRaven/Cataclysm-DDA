@@ -356,7 +356,7 @@
     "charges": 1,
     "reversible": true,
     "using": [ [ "ammo_bullet", 1 ] ],
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "components": [ [ [ "chem_black_powder", 4 ] ], [ [ "smpistol_primer", 1 ] ], [ [ "paper", 1 ], [ "aluminum_foil", 1 ] ] ]
   },
@@ -375,7 +375,7 @@
     "charges": 1,
     "reversible": true,
     "using": [ [ "ammo_bullet", 2 ] ],
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "components": [ [ [ "chem_black_powder", 4 ] ], [ [ "lgpistol_primer", 1 ] ], [ [ "paper", 1 ], [ "aluminum_foil", 1 ] ] ]
   },

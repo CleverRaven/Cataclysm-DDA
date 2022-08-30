@@ -1,0 +1,9 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "Pseudo terrain used for Tacoma companion raids",
+    "om_terrain": [ "looted_house", "looted_house_roof", "looted_house_basement", "looted_hospital", "looted_hospital_roof" ],
+    "object": { "fill_ter": "t_floor" }
+  }
+]

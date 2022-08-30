@@ -72,6 +72,12 @@ std::string enum_to_string<weather_sound_category>( weather_sound_category data 
             return "silent";
         case weather_sound_category::portal_storm:
             return "portal_storm";
+        case weather_sound_category::clear:
+            return "clear";
+        case weather_sound_category::sunny:
+            return "sunny";
+        case weather_sound_category::cloudy:
+            return "cloudy";
         case weather_sound_category::last:
             break;
     }
@@ -120,6 +126,7 @@ void weather_type::load( const JsonObject &jo, const std::string & )
     mandatory( jo, was_loaded, "ranged_penalty", ranged_penalty );
     mandatory( jo, was_loaded, "sight_penalty", sight_penalty );
     mandatory( jo, was_loaded, "light_modifier", light_modifier );
+    optional( jo, was_loaded, "sun_multiplier", sun_multiplier, 1.f );
 
     mandatory( jo, was_loaded, "sound_attn", sound_attn );
     mandatory( jo, was_loaded, "dangerous", dangerous );
@@ -134,6 +141,8 @@ void weather_type::load( const JsonObject &jo, const std::string & )
     if( duration_min > duration_max ) {
         jo.throw_error( "duration_min must be less than or equal to duration_max" );
     }
+    optional( jo, was_loaded, "debug_cause_eoc", debug_cause_eoc );
+    optional( jo, was_loaded, "debug_leave_eoc", debug_leave_eoc );
 
     if( jo.has_member( "weather_animation" ) ) {
         JsonObject weather_animation_jo = jo.get_object( "weather_animation" );

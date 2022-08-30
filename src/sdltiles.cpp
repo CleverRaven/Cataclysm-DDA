@@ -47,8 +47,8 @@
 #include "flag.h"
 #include "font_loader.h"
 #include "game.h"
+#include "game_constants.h"
 #include "game_ui.h"
-#include "get_version.h"
 #include "hash_utils.h"
 #include "input.h"
 #include "json.h"
@@ -68,6 +68,7 @@
 #include "sdl_geometry.h"
 #include "sdl_wrappers.h"
 #include "sdl_font.h"
+#include "sdl_gamepad.h"
 #include "sdlsound.h"
 #include "string_formatter.h"
 #include "ui_manager.h"
@@ -106,7 +107,9 @@ static const trait_id trait_DEBUG_NIGHTVISION( "DEBUG_NIGHTVISION" );
 //***********************************
 
 static tileset_cache ts_cache;
-std::unique_ptr<cata_tiles> tilecontext;
+std::shared_ptr<cata_tiles> tilecontext;
+std::shared_ptr<cata_tiles> closetilecontext;
+std::shared_ptr<cata_tiles> fartilecontext;
 std::unique_ptr<cata_tiles> overmap_tilecontext;
 static uint32_t lastupdate = 0;
 static uint32_t interval = 25;
@@ -132,25 +135,15 @@ static int WindowHeight;       //Height of the actual window, not the curses win
 // input from various input sources. Each input source sets the type and
 // the actual input value (key pressed, mouse button clicked, ...)
 // This value is finally returned by input_manager::get_input_event.
-static input_event last_input;
+input_event last_input;
 
-static constexpr int ERR = -1;
 static int inputdelay;         //How long getch will wait for a character to be typed
-static Uint32 delaydpad =
-    std::numeric_limits<Uint32>::max();     // Used for entering diagonal directions with d-pad.
-static Uint32 dpad_delay =
-    100;   // Delay in milliseconds between registering a d-pad event and processing it.
-static bool dpad_continuous = false;  // Whether we're currently moving continuously with the dpad.
-static int lastdpad = ERR;      // Keeps track of the last dpad press.
-static int queued_dpad = ERR;   // Queued dpad press, for individual button presses.
 int fontwidth;          //the width of the font, background is always this size
 int fontheight;         //the height of the font, background is always this size
 static int TERMINAL_WIDTH;
 static int TERMINAL_HEIGHT;
 static bool fullscreen;
 static int scaling_factor;
-
-static SDL_Joystick *joystick; // Only one joystick for now.
 
 using cata_cursesport::curseline;
 using cata_cursesport::cursecell;
@@ -205,9 +198,6 @@ static void InitSDL()
     printErrorIf( ( ret & IMG_INIT_PNG ) != IMG_INIT_PNG,
                   "IMG_Init failed to initialize PNG support, tiles won't work" );
 
-    ret = SDL_InitSubSystem( SDL_INIT_JOYSTICK );
-    printErrorIf( ret != 0, "Initializing joystick subsystem failed" );
-
     //SDL2 has no functionality for INPUT_DELAY, we would have to query it manually, which is expensive
     //SDL2 instead uses the OS's Input Delay.
 
@@ -234,9 +224,6 @@ static bool SetupRenderTarget()
 //Registers, creates, and shows the Window!!
 static void WinCreate()
 {
-    // NOLINTNEXTLINE(cata-translate-string-literal)
-    std::string version = string_format( "Cataclysm: Dark Days Ahead - %s", getVersionString() );
-
     // Common flags used for fulscreen and for windowed
     int window_flags = 0;
     WindowWidth = TERMINAL_WIDTH * fontwidth * scaling_factor;
@@ -291,7 +278,7 @@ static void WinCreate()
 #endif
 #endif
 
-    ::window.reset( SDL_CreateWindow( version.c_str(),
+    ::window.reset( SDL_CreateWindow( "",
                                       SDL_WINDOWPOS_CENTERED_DISPLAY( display ),
                                       SDL_WINDOWPOS_CENTERED_DISPLAY( display ),
                                       WindowWidth,
@@ -386,8 +373,8 @@ static void WinCreate()
                       "Failed to initialize display buffer under software rendering, unable to continue." );
     }
 
-    SDL_SetWindowMinimumSize( ::window.get(), fontwidth * FULL_SCREEN_WIDTH * scaling_factor,
-                              fontheight * FULL_SCREEN_HEIGHT * scaling_factor );
+    SDL_SetWindowMinimumSize( ::window.get(), fontwidth * EVEN_MINIMUM_TERM_WIDTH * scaling_factor,
+                              fontheight * EVEN_MINIMUM_TERM_HEIGHT * scaling_factor );
 
 #if defined(__ANDROID__)
     // TODO: Not too sure why this works to make fullscreen on Android behave. :/
@@ -410,22 +397,8 @@ static void WinCreate()
         SDL_ShowCursor( SDL_ENABLE );
     }
 
-    // Initialize joysticks.
-    int numjoy = SDL_NumJoysticks();
-
-    if( get_option<bool>( "ENABLE_JOYSTICK" ) && numjoy >= 1 ) {
-        if( numjoy > 1 ) {
-            dbg( D_WARNING ) <<
-                             "You have more than one gamepads/joysticks plugged in, only the first will be used.";
-        }
-        joystick = SDL_JoystickOpen( 0 );
-        printErrorIf( joystick == nullptr, "SDL_JoystickOpen failed" );
-        if( joystick ) {
-            printErrorIf( SDL_JoystickEventState( SDL_ENABLE ) < 0,
-                          "SDL_JoystickEventState(SDL_ENABLE) failed" );
-        }
-    } else {
-        joystick = nullptr;
+    if( get_option<bool>( "ENABLE_JOYSTICK" ) ) {
+        gamepad::init();
     }
 
     // Set up audio mixer.
@@ -449,12 +422,7 @@ static void WinDestroy()
 
     shutdown_sound();
     tilecontext.reset();
-
-    if( joystick ) {
-        SDL_JoystickClose( joystick );
-
-        joystick = nullptr;
-    }
+    gamepad::quit();
     geometry.reset();
     format.reset();
     display_buffer.reset();
@@ -463,7 +431,7 @@ static void WinDestroy()
 }
 
 /// Converts a color from colorscheme to SDL_Color.
-static inline const SDL_Color &color_as_sdl( const unsigned char color )
+static const SDL_Color &color_as_sdl( const unsigned char color )
 {
     return windowsPalette[color];
 }
@@ -604,7 +572,7 @@ static void invalidate_framebuffer( std::vector<curseline> &framebuffer )
     }
 }
 
-void reinitialize_framebuffer()
+void reinitialize_framebuffer( const bool force_invalidate )
 {
     static int prev_height = -1;
     static int prev_width = -1;
@@ -622,7 +590,7 @@ void reinitialize_framebuffer()
         for( int i = 0; i < new_height; i++ ) {
             terminal_framebuffer[i].chars.assign( new_width, cursecell( "" ) );
         }
-    } else if( need_invalidate_framebuffers ) {
+    } else if( force_invalidate || need_invalidate_framebuffers ) {
         need_invalidate_framebuffers = false;
         invalidate_framebuffer( oversized_framebuffer );
         invalidate_framebuffer( terminal_framebuffer );
@@ -704,27 +672,39 @@ static cata::optional<std::pair<tripoint_abs_omt, std::string>> get_mission_arro
     }
     const tripoint_abs_omt mission_target = get_avatar().get_active_mission_target();
 
-    std::string mission_arrow_variant = "mission_cursor";
+    std::string mission_arrow_variant;
     if( overmap_area.contains( mission_target.raw() ) ) {
+        mission_arrow_variant = "mission_cursor";
         return std::make_pair( mission_target, mission_arrow_variant );
     }
 
-    const std::vector<tripoint> mission_trajectory = line_to( center.raw(),
-            tripoint( mission_target.raw().xy(), center.raw().z ) );
-
-    cata::optional<tripoint> prev;
-    int z = 0;
-    for( const tripoint &traj_pt : mission_trajectory ) {
-        if( !overmap_area.contains( traj_pt ) ) {
-            z = prev->z - traj_pt.z;
-            break;
+    inclusive_rectangle<point> area_flat( overmap_area.p_min.xy(), overmap_area.p_max.xy() );
+    if( area_flat.contains( mission_target.raw().xy() ) ) {
+        int area_z = center.z();
+        if( mission_target.z() > area_z ) {
+            mission_arrow_variant = "mission_arrow_up";
+        } else {
+            mission_arrow_variant = "mission_arrow_down";
         }
-        prev = traj_pt;
+        return std::make_pair( tripoint_abs_omt( mission_target.xy(), area_z ), mission_arrow_variant );
     }
 
-    if( !prev ) {
-        debugmsg( "ERROR: trajectory for mission in overmap failed" );
+    const std::vector<tripoint> traj = line_to( center.raw(),
+                                       tripoint( mission_target.raw().xy(), center.raw().z ) );
+
+    if( traj.empty() ) {
+        debugmsg( "Failed to gen overmap mission trajectory %s %s",
+                  center.to_string(), mission_target.to_string() );
         return cata::nullopt;
+    }
+
+
+    tripoint arr_pos = traj[0];
+    for( auto it = traj.rbegin(); it != traj.rend(); it++ ) {
+        if( overmap_area.contains( *it ) ) {
+            arr_pos = *it;
+            break;
+        }
     }
 
     const int north_border_y = ( overmap_area.p_max.y - overmap_area.p_min.y ) / 3;
@@ -747,24 +727,18 @@ static cata::optional<std::pair<tripoint_abs_omt, std::string>> get_mission_arro
     const inclusive_cuboid<tripoint> east_sector( east_pmin, overmap_area.p_max );
 
     mission_arrow_variant = "mission_arrow_";
-    if( z == 0 ) {
-        if( north_sector.contains( *prev ) ) {
-            mission_arrow_variant += 'n';
-        } else if( south_sector.contains( *prev ) ) {
-            mission_arrow_variant += 's';
-        }
-        if( west_sector.contains( *prev ) ) {
-            mission_arrow_variant += 'w';
-        } else if( east_sector.contains( *prev ) ) {
-            mission_arrow_variant += 'e';
-        }
-    } else if( z > 0 ) {
-        mission_arrow_variant += "down";
-    } else {
-        mission_arrow_variant += "up";
+    if( north_sector.contains( arr_pos ) ) {
+        mission_arrow_variant += 'n';
+    } else if( south_sector.contains( arr_pos ) ) {
+        mission_arrow_variant += 's';
+    }
+    if( west_sector.contains( arr_pos ) ) {
+        mission_arrow_variant += 'w';
+    } else if( east_sector.contains( arr_pos ) ) {
+        mission_arrow_variant += 'e';
     }
 
-    return std::make_pair( tripoint_abs_omt( *prev ), mission_arrow_variant );
+    return std::make_pair( tripoint_abs_omt( arr_pos ), mission_arrow_variant );
 }
 
 std::string cata_tiles::get_omt_id_rotation_and_subtile(
@@ -864,7 +838,6 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
     point s;
     get_window_tile_counts( width, height, s.x, s.y );
 
-
     op = point( dest.x * fontwidth, dest.y * fontheight );
     // Rounding up to include incomplete tiles at the bottom/right edges
     screentile_width = divide_round_up( width, tile_width );
@@ -905,7 +878,7 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
             std::string id;
             int rotation = 0;
             int subtile = -1;
-            string_id<map_extra> mx;
+            map_extra_id mx;
 
             if( viewing_weather ) {
                 const tripoint_abs_omt omp_sky( omp.xy(), OVERMAP_HEIGHT );
@@ -981,18 +954,20 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
 
             if( uistate.place_terrain || uistate.place_special ) {
                 // Highlight areas that already have been generated
-                // TODO: fix point types
-                if( MAPBUFFER.lookup_submap( project_to<coords::sm>( omp ).raw() ) ) {
+                if( MAPBUFFER.lookup_submap( project_to<coords::sm>( omp ) ) ) {
                     draw_from_id_string( "highlight", omp.raw(), 0, 0, lit_level::LIT, false );
                 }
             }
 
             if( blink && overmap_buffer.has_vehicle( omp ) ) {
-                if( find_tile_looks_like( "overmap_remembered_vehicle", TILE_CATEGORY::OVERMAP_NOTE, "" ) ) {
-                    draw_from_id_string( "overmap_remembered_vehicle", TILE_CATEGORY::OVERMAP_NOTE,
+                const std::string tile_id = overmap_buffer.get_vehicle_tile_id( omp );
+                if( find_tile_looks_like( tile_id, TILE_CATEGORY::OVERMAP_NOTE, "" ) ) {
+                    draw_from_id_string( tile_id, TILE_CATEGORY::OVERMAP_NOTE,
                                          "overmap_note", omp.raw(), 0, 0, lit_level::LIT, false );
                 } else {
-                    draw_from_id_string( "note_c_cyan", TILE_CATEGORY::OVERMAP_NOTE,
+                    const std::string ter_sym = overmap_buffer.get_vehicle_ter_sym( omp );
+                    std::string note_name = "note_" + ter_sym + "_cyan";
+                    draw_from_id_string( note_name, TILE_CATEGORY::OVERMAP_NOTE,
                                          "overmap_note", omp.raw(), 0, 0, lit_level::LIT, false );
                 }
             }
@@ -1103,20 +1078,20 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
 
         // the tiles on the overmap are overmap tiles, so we need to use
         // coordinate conversions to make sure we're in the right place.
-        const int radius = coords::project_to<coords::sm>( tripoint_abs_omt( std::min( max_col, max_row ),
+        const int radius = project_to<coords::sm>( tripoint_abs_omt( std::min( max_col, max_row ),
                            0, 0 ) ).x() / 2;
 
         for( const city_reference &city : overmap_buffer.get_cities_near(
-                 coords::project_to<coords::sm>( center_abs_omt ), radius ) ) {
-            const tripoint_abs_omt city_center = coords::project_to<coords::omt>( city.abs_sm_pos );
+                 project_to<coords::sm>( center_abs_omt ), radius ) ) {
+            const tripoint_abs_omt city_center = project_to<coords::omt>( city.abs_sm_pos );
             if( overmap_buffer.seen( city_center ) && overmap_area.contains( city_center.raw() ) ) {
                 label_bg( city.abs_sm_pos, city.city->name );
             }
         }
 
         for( const camp_reference &camp : overmap_buffer.get_camps_near(
-                 coords::project_to<coords::sm>( center_abs_omt ), radius ) ) {
-            const tripoint_abs_omt camp_center = coords::project_to<coords::omt>( camp.abs_sm_pos );
+                 project_to<coords::sm>( center_abs_omt ), radius ) ) {
+            const tripoint_abs_omt camp_center = project_to<coords::omt>( camp.abs_sm_pos );
             if( overmap_buffer.seen( camp_center ) && overmap_area.contains( camp_center.raw() ) ) {
                 label_bg( camp.abs_sm_pos, camp.camp->name );
             }
@@ -1148,7 +1123,7 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
         }
     }
 
-    for( auto &v : overmap_buffer.get_vehicle( center_abs_omt ) ) {
+    for( om_vehicle &v : overmap_buffer.get_vehicle( center_abs_omt ) ) {
         notes_window_text.emplace_back( c_white, v.name );
     }
 
@@ -1163,7 +1138,7 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
         };
 
         // Find screen coordinates to the right of the center tile
-        auto center_sm = coords::project_to<coords::sm>( tripoint_abs_omt( center_abs_omt.x() + 1,
+        auto center_sm = project_to<coords::sm>( tripoint_abs_omt( center_abs_omt.x() + 1,
                          center_abs_omt.y(), center_abs_omt.z() ) );
         const tripoint tile_draw_pos = global_omt_to_draw_position( project_to<coords::omt>
                                        ( center_sm ) ) - o;
@@ -1463,7 +1438,6 @@ void cata_cursesport::curses_drawwindow( const catacurses::window &w )
         for( const auto &iter : overlay_strings ) {
             const point coord = iter.first;
             const formatted_text ft = iter.second;
-            const utf8_wrapper text( ft.text );
 
             // Strings at equal coords are displayed sequentially.
             if( coord != prev_coord ) {
@@ -1475,8 +1449,7 @@ void cata_cursesport::curses_drawwindow( const catacurses::window &w )
                 int full_text_length = 0;
                 const auto range = overlay_strings.equal_range( coord );
                 for( auto ri = range.first; ri != range.second; ++ri ) {
-                    utf8_wrapper rt( ri->second.text );
-                    full_text_length += rt.display_width();
+                    full_text_length += utf8_width( ri->second.text );
                 }
 
                 alignment_offset = 0;
@@ -1488,7 +1461,7 @@ void cata_cursesport::curses_drawwindow( const catacurses::window &w )
             }
 
             int width = 0;
-            for( size_t i = 0; i < text.size(); ++i ) {
+            for( const char32_t ch : utf8_view( ft.text ) ) {
                 const point p0( win->pos.x * fontwidth, win->pos.y * fontheight );
                 const point p( coord + p0 + point( ( x_offset - alignment_offset + width ) * map_font->width, 0 ) );
 
@@ -1499,7 +1472,6 @@ void cata_cursesport::curses_drawwindow( const catacurses::window &w )
                 }
 
                 // TODO: draw with outline / BG color for better readability
-                const uint32_t ch = text.at( i );
                 map_font->OutputChar( renderer, geometry, utf32_to_utf8( ch ), p, ft.color );
                 width += mk_wcwidth( ch );
             }
@@ -1590,78 +1562,6 @@ static int end_alt_code()
 {
     alt_down = false;
     return alt_buffer;
-}
-
-static int HandleDPad()
-{
-    // Check if we have a gamepad d-pad event.
-    if( SDL_JoystickGetHat( joystick, 0 ) != SDL_HAT_CENTERED ) {
-        // When someone tries to press a diagonal, they likely will
-        // press a single direction first. Wait a few milliseconds to
-        // give them time to press both of the buttons for the diagonal.
-        int button = SDL_JoystickGetHat( joystick, 0 );
-        int lc = ERR;
-        if( button == SDL_HAT_LEFT ) {
-            lc = JOY_LEFT;
-        } else if( button == SDL_HAT_DOWN ) {
-            lc = JOY_DOWN;
-        } else if( button == SDL_HAT_RIGHT ) {
-            lc = JOY_RIGHT;
-        } else if( button == SDL_HAT_UP ) {
-            lc = JOY_UP;
-        } else if( button == SDL_HAT_LEFTUP ) {
-            lc = JOY_LEFTUP;
-        } else if( button == SDL_HAT_LEFTDOWN ) {
-            lc = JOY_LEFTDOWN;
-        } else if( button == SDL_HAT_RIGHTUP ) {
-            lc = JOY_RIGHTUP;
-        } else if( button == SDL_HAT_RIGHTDOWN ) {
-            lc = JOY_RIGHTDOWN;
-        }
-
-        if( delaydpad == std::numeric_limits<Uint32>::max() ) {
-            delaydpad = SDL_GetTicks() + dpad_delay;
-            queued_dpad = lc;
-        }
-
-        // Okay it seems we're ready to process.
-        if( SDL_GetTicks() > delaydpad ) {
-
-            if( lc != ERR ) {
-                if( dpad_continuous && ( lc & lastdpad ) == 0 ) {
-                    // Continuous movement should only work in the same or similar directions.
-                    dpad_continuous = false;
-                    lastdpad = lc;
-                    return 0;
-                }
-
-                last_input = input_event( lc, input_event_t::gamepad );
-                lastdpad = lc;
-                queued_dpad = ERR;
-
-                if( !dpad_continuous ) {
-                    delaydpad = SDL_GetTicks() + 200;
-                    dpad_continuous = true;
-                } else {
-                    delaydpad = SDL_GetTicks() + 60;
-                }
-                return 1;
-            }
-        }
-    } else {
-        dpad_continuous = false;
-        delaydpad = std::numeric_limits<Uint32>::max();
-
-        // If we didn't hold it down for a while, just
-        // fire the last registered press.
-        if( queued_dpad != ERR ) {
-            last_input = input_event( queued_dpad, input_event_t::gamepad );
-            queued_dpad = ERR;
-            return 1;
-        }
-    }
-
-    return 0;
 }
 
 static SDL_Keycode sdl_keycode_opposite_arrow( SDL_Keycode key )
@@ -1864,6 +1764,7 @@ static int sdl_keysym_to_curses( const SDL_Keysym &keysym )
             return -1;
         // The following are simple translations:
         case SDLK_KP_ENTER:
+            return KEY_ENTER;
         case SDLK_RETURN:
         case SDLK_RETURN2:
             return '\n';
@@ -1960,19 +1861,21 @@ static input_event sdl_keysym_to_keycode_evt( const SDL_Keysym &keysym )
 
 bool handle_resize( int w, int h )
 {
-    if( ( w != WindowWidth ) || ( h != WindowHeight ) ) {
-        WindowWidth = w;
-        WindowHeight = h;
-        TERMINAL_WIDTH = WindowWidth / fontwidth / scaling_factor;
-        TERMINAL_HEIGHT = WindowHeight / fontheight / scaling_factor;
-        need_invalidate_framebuffers = true;
-        catacurses::stdscr = catacurses::newwin( TERMINAL_HEIGHT, TERMINAL_WIDTH, point_zero );
-        SetupRenderTarget();
-        game_ui::init_ui();
-        ui_manager::screen_resized();
-        return true;
+    if( w == WindowWidth && h == WindowHeight ) {
+        return false;
     }
-    return false;
+    WindowWidth = w;
+    WindowHeight = h;
+    // A minimal window size is set during initialization, but some platforms ignore
+    // the minimum size so we clamp the terminal size here for extra safety.
+    TERMINAL_WIDTH = std::max( WindowWidth / fontwidth / scaling_factor, EVEN_MINIMUM_TERM_WIDTH );
+    TERMINAL_HEIGHT = std::max( WindowHeight / fontheight / scaling_factor, EVEN_MINIMUM_TERM_HEIGHT );
+    need_invalidate_framebuffers = true;
+    catacurses::stdscr = catacurses::newwin( TERMINAL_HEIGHT, TERMINAL_WIDTH, point_zero );
+    throwErrorIf( !SetupRenderTarget(), "SetupRenderTarget failed" );
+    game_ui::init_ui();
+    ui_manager::screen_resized();
+    return true;
 }
 
 void resize_term( const int cell_w, const int cell_h )
@@ -1996,8 +1899,8 @@ void toggle_fullscreen_window()
         }
         SDL_RestoreWindow( window.get() );
         SDL_SetWindowSize( window.get(), restore_win_w, restore_win_h );
-        SDL_SetWindowMinimumSize( window.get(), fontwidth * FULL_SCREEN_WIDTH * scaling_factor,
-                                  fontheight * FULL_SCREEN_HEIGHT * scaling_factor );
+        SDL_SetWindowMinimumSize( window.get(), fontwidth * EVEN_MINIMUM_TERM_WIDTH * scaling_factor,
+                                  fontheight * EVEN_MINIMUM_TERM_HEIGHT * scaling_factor );
     } else {
         restore_win_w = WindowWidth;
         restore_win_h = WindowHeight;
@@ -2314,16 +2217,15 @@ void remove_stale_inventory_quick_shortcuts()
                 in_inventory = player_character.inv->invlet_to_position( key ) != INT_MIN;
                 if( !in_inventory ) {
                     // We couldn't find this item in the inventory, let's check worn items
-                    for( const auto &item : player_character.worn ) {
-                        if( item.invlet == key ) {
-                            in_inventory = true;
-                            break;
-                        }
+                    cata::optional<const item *> item = player_character.worn.item_worn_with_inv_let( key );
+                    if( item ) {
+                        in_inventory = true;
                     }
                 }
                 if( !in_inventory ) {
                     // We couldn't find it in worn items either, check weapon held
-                    if( player_character.get_wielded_item().invlet == key ) {
+                    item_location wielded = player_character.get_wielded_item();
+                    if( wielded && wielded->invlet == key ) {
                         in_inventory = true;
                     }
                 }
@@ -2449,17 +2351,16 @@ void draw_quick_shortcuts()
                                 key ) ).display_name();
                 if( hint_text == "none" ) {
                     // We couldn't find this item in the inventory, let's check worn items
-                    for( const auto &item : player_character.worn ) {
-                        if( item.invlet == key ) {
-                            hint_text = item.display_name();
-                            break;
-                        }
+                    cata::optional<const item *> item = player_character.worn.item_worn_with_inv_let( key );
+                    if( item ) {
+                        hint_text = item.value()->display_name();
                     }
                 }
                 if( hint_text == "none" ) {
                     // We couldn't find it in worn items either, must be weapon held
-                    if( player_character.get_wielded_item().invlet == key ) {
-                        hint_text = player_character.get_wielded_item().display_name();
+                    item_location wielded = player_character.get_wielded_item();
+                    if( wielded && wielded->invlet == key ) {
+                        hint_text = player_character.get_wielded_item()->display_name();
                     }
                 }
             } else {
@@ -2754,6 +2655,10 @@ static bool text_input_active_when_regaining_focus = false;
 
 void StartTextInput()
 {
+    // prevent sending spurious empty SDL_TEXTEDITING events
+    if( SDL_IsTextInputActive() == SDL_TRUE ) {
+        return;
+    }
 #if defined(__ANDROID__)
     SDL_StartTextInput();
 #else
@@ -2785,9 +2690,6 @@ static void CheckMessages()
     bool quit = false;
     bool text_refresh = false;
     bool is_repeat = false;
-    if( HandleDPad() ) {
-        return;
-    }
 
 #if defined(__ANDROID__)
     if( visible_display_frame_dirty ) {
@@ -2863,9 +2765,11 @@ static void CheckMessages()
                         actions.insert( ACTION_CYCLE_MOVE );
                     }
                     // Only prioritize fire weapon options if we're wielding a ranged weapon.
-                    if( player_character.get_wielded_item().is_gun() ||
-                        player_character.get_wielded_item().has_flag( flag_REACH_ATTACK ) ) {
-                        actions.insert( ACTION_FIRE );
+                    item_location wielded = player_character.get_wielded_item();
+                    if( wielded ) {
+                        if( wielded->is_gun() || wielded->has_flag( flag_REACH_ATTACK ) ) {
+                            actions.insert( ACTION_FIRE );
+                        }
                     }
                 }
 
@@ -3087,7 +2991,8 @@ static void CheckMessages()
 
     last_input = input_event();
 
-    bool need_redraw = false;
+    cata::optional<point> resize_dims;
+    bool render_target_reset = false;
 
     while( SDL_PollEvent( &ev ) ) {
         switch( ev.type ) {
@@ -3146,7 +3051,6 @@ static void CheckMessages()
                     case SDL_WINDOWEVENT_MINIMIZED:
                         break;
                     case SDL_WINDOWEVENT_EXPOSED:
-                        need_redraw = true;
                         needupdate = true;
                         break;
                     case SDL_WINDOWEVENT_RESTORED:
@@ -3158,18 +3062,15 @@ static void CheckMessages()
                         }
 #endif
                         break;
-                    case SDL_WINDOWEVENT_RESIZED: {
-                        restore_on_out_of_scope<input_event> prev_last_input( last_input );
-                        needupdate = handle_resize( ev.window.data1, ev.window.data2 );
+                    case SDL_WINDOWEVENT_RESIZED:
+                        resize_dims = point( ev.window.data1, ev.window.data2 );
                         break;
-                    }
                     default:
                         break;
                 }
                 break;
             case SDL_RENDER_TARGETS_RESET:
-                need_redraw = true;
-                needupdate = true;
+                render_target_reset = true;
                 break;
             case SDL_KEYDOWN: {
 #if defined(__ANDROID__)
@@ -3308,12 +3209,15 @@ static void CheckMessages()
                 text_refresh = true;
             }
             break;
-            case SDL_JOYBUTTONDOWN:
-                last_input = input_event( ev.jbutton.button, input_event_t::keyboard_char );
+            case SDL_CONTROLLERBUTTONDOWN:
+            case SDL_CONTROLLERBUTTONUP:
+                gamepad::handle_button_event( ev );
                 break;
-            case SDL_JOYAXISMOTION:
-                // on gamepads, the axes are the analog sticks
-                // TODO: somehow get the "digipad" values from the axes
+            case SDL_CONTROLLERAXISMOTION:
+                gamepad::handle_axis_event( ev );
+                break;
+            case SDL_GAMEPAD_SCHEDULER:
+                gamepad::handle_scheduler_event( ev );
                 break;
             case SDL_MOUSEMOTION:
                 if( get_option<std::string>( "HIDE_CURSOR" ) == "show" ||
@@ -3323,26 +3227,37 @@ static void CheckMessages()
                     }
 
                     // Only monitor motion when cursor is visible
-                    last_input = input_event( MOUSE_MOVE, input_event_t::mouse );
+                    last_input = input_event( MouseInput::Move, input_event_t::mouse );
+                }
+                break;
+
+            case SDL_MOUSEBUTTONDOWN:
+                switch( ev.button.button ) {
+                    case SDL_BUTTON_LEFT:
+                        last_input = input_event( MouseInput::LeftButtonPressed, input_event_t::mouse );
+                        break;
+                    case SDL_BUTTON_RIGHT:
+                        last_input = input_event( MouseInput::RightButtonPressed, input_event_t::mouse );
+                        break;
                 }
                 break;
 
             case SDL_MOUSEBUTTONUP:
                 switch( ev.button.button ) {
                     case SDL_BUTTON_LEFT:
-                        last_input = input_event( MOUSE_BUTTON_LEFT, input_event_t::mouse );
+                        last_input = input_event( MouseInput::LeftButtonReleased, input_event_t::mouse );
                         break;
                     case SDL_BUTTON_RIGHT:
-                        last_input = input_event( MOUSE_BUTTON_RIGHT, input_event_t::mouse );
+                        last_input = input_event( MouseInput::RightButtonReleased, input_event_t::mouse );
                         break;
                 }
                 break;
 
             case SDL_MOUSEWHEEL:
                 if( ev.wheel.y > 0 ) {
-                    last_input = input_event( SCROLLWHEEL_UP, input_event_t::mouse );
+                    last_input = input_event( MouseInput::ScrollWheelUp, input_event_t::mouse );
                 } else if( ev.wheel.y < 0 ) {
-                    last_input = input_event( SCROLLWHEEL_DOWN, input_event_t::mouse );
+                    last_input = input_event( MouseInput::ScrollWheelDown, input_event_t::mouse );
                 }
                 break;
 
@@ -3516,16 +3431,24 @@ static void CheckMessages()
             break;
         }
     }
-    if( need_redraw ) {
+    bool resized = false;
+    if( resize_dims.has_value() ) {
+        restore_on_out_of_scope<input_event> prev_last_input( last_input );
+        needupdate = resized = handle_resize( resize_dims.value().x, resize_dims.value().y );
+    }
+    // resizing already reinitializes the render target
+    if( !resized && render_target_reset ) {
+        throwErrorIf( !SetupRenderTarget(), "SetupRenderTarget failed" );
+        reinitialize_framebuffer( true );
+        needupdate = true;
         restore_on_out_of_scope<input_event> prev_last_input( last_input );
         // FIXME: SDL_RENDER_TARGETS_RESET only seems to be fired after the first redraw
         // when restoring the window after system sleep, rather than immediately
         // on focus gain. This seems to mess up the first redraw and
         // causes black screen that lasts ~0.5 seconds before the screen
         // contents are redrawn in the following code.
-        window_dimensions dim = get_window_dimensions( catacurses::stdscr );
-        ui_manager::invalidate( rectangle<point>( point_zero, dim.window_size_pixel ), false );
-        ui_manager::redraw();
+        ui_manager::invalidate( rectangle<point>( point_zero, point( WindowWidth, WindowHeight ) ), false );
+        ui_manager::redraw_invalidated();
     }
     if( needupdate ) {
         try_sdl_update();
@@ -3581,8 +3504,8 @@ static void init_term_size_and_scaling_factor()
                 test_window.reset( SDL_CreateWindow( "test_window",
                                                      SDL_WINDOWPOS_CENTERED_DISPLAY( current_display_id ),
                                                      SDL_WINDOWPOS_CENTERED_DISPLAY( current_display_id ),
-                                                     FULL_SCREEN_WIDTH * fontwidth,
-                                                     FULL_SCREEN_HEIGHT * fontheight,
+                                                     EVEN_MINIMUM_TERM_WIDTH * fontwidth,
+                                                     EVEN_MINIMUM_TERM_HEIGHT * fontheight,
                                                      SDL_WINDOW_RESIZABLE | SDL_WINDOW_ALLOW_HIGHDPI | SDL_WINDOW_MAXIMIZED
                                                    ) );
 
@@ -3605,8 +3528,8 @@ static void init_term_size_and_scaling_factor()
         }
 
         if( terminal.x * fontwidth > max_width ||
-            FULL_SCREEN_WIDTH * fontwidth * scaling_factor > max_width ) {
-            if( FULL_SCREEN_WIDTH * fontwidth * scaling_factor > max_width ) {
+            EVEN_MINIMUM_TERM_WIDTH * fontwidth * scaling_factor > max_width ) {
+            if( EVEN_MINIMUM_TERM_WIDTH * fontwidth * scaling_factor > max_width ) {
                 dbg( D_WARNING ) << "SCALING_FACTOR set too high for display size, resetting to 1";
                 scaling_factor = 1;
                 terminal.x = max_width / fontwidth;
@@ -3618,8 +3541,8 @@ static void init_term_size_and_scaling_factor()
         }
 
         if( terminal.y * fontheight > max_height ||
-            FULL_SCREEN_HEIGHT * fontheight * scaling_factor > max_height ) {
-            if( FULL_SCREEN_HEIGHT * fontheight * scaling_factor > max_height ) {
+            EVEN_MINIMUM_TERM_HEIGHT * fontheight * scaling_factor > max_height ) {
+            if( EVEN_MINIMUM_TERM_HEIGHT * fontheight * scaling_factor > max_height ) {
                 dbg( D_WARNING ) << "SCALING_FACTOR set too high for display size, resetting to 1";
                 scaling_factor = 1;
                 terminal.x = max_width / fontwidth;
@@ -3633,13 +3556,13 @@ static void init_term_size_and_scaling_factor()
         terminal.x -= terminal.x % scaling_factor;
         terminal.y -= terminal.y % scaling_factor;
 
-        terminal.x = std::max( FULL_SCREEN_WIDTH * scaling_factor, terminal.x );
-        terminal.y = std::max( FULL_SCREEN_HEIGHT * scaling_factor, terminal.y );
+        terminal.x = std::max( EVEN_MINIMUM_TERM_WIDTH * scaling_factor, terminal.x );
+        terminal.y = std::max( EVEN_MINIMUM_TERM_HEIGHT * scaling_factor, terminal.y );
 
         get_options().get_option( "TERMINAL_X" ).setValue(
-            std::max( FULL_SCREEN_WIDTH * scaling_factor, terminal.x ) );
+            std::max( EVEN_MINIMUM_TERM_WIDTH * scaling_factor, terminal.x ) );
         get_options().get_option( "TERMINAL_Y" ).setValue(
-            std::max( FULL_SCREEN_HEIGHT * scaling_factor, terminal.y ) );
+            std::max( EVEN_MINIMUM_TERM_HEIGHT * scaling_factor, terminal.y ) );
 
         get_options().save();
     }
@@ -3682,13 +3605,30 @@ void catacurses::init_interface()
     WinCreate();
 
     dbg( D_INFO ) << "Initializing SDL Tiles context";
-    tilecontext = std::make_unique<cata_tiles>( renderer, geometry, ts_cache );
+    fartilecontext = std::make_shared<cata_tiles>( renderer, geometry, ts_cache );
+    if( use_far_tiles ) {
+        try {
+            // Disable UIs below to avoid accessing the tile context during loading.
+            ui_adaptor dummy( ui_adaptor::disable_uis_below{} );
+            fartilecontext->load_tileset( get_option<std::string>( "DISTANT_TILES" ),
+                                          /*precheck=*/true, /*force=*/false,
+                                          /*pump_events=*/true );
+        } catch( const std::exception &err ) {
+            dbg( D_ERROR ) << "failed to check for tileset: " << err.what();
+            // use_tiles is the cached value of the USE_TILES option.
+            // most (all?) code refers to this to see if cata_tiles should be used.
+            // Setting it to false disables this from getting used.
+            use_far_tiles = false;
+        }
+    }
+    closetilecontext = std::make_shared<cata_tiles>( renderer, geometry, ts_cache );
     try {
         // Disable UIs below to avoid accessing the tile context during loading.
-        ui_adaptor dummy( ui_adaptor::disable_uis_below {} );
-        tilecontext->load_tileset( get_option<std::string>( "TILES" ),
-                                   /*precheck=*/true, /*force=*/false,
-                                   /*pump_events=*/true );
+        ui_adaptor dummy( ui_adaptor::disable_uis_below{} );
+        closetilecontext->load_tileset( get_option<std::string>( "TILES" ),
+                                        /*precheck=*/true, /*force=*/false,
+                                        /*pump_events=*/true );
+        tilecontext = closetilecontext;
     } catch( const std::exception &err ) {
         dbg( D_ERROR ) << "failed to check for tileset: " << err.what();
         // use_tiles is the cached value of the USE_TILES option.
@@ -3741,9 +3681,15 @@ void load_tileset()
     if( !tilecontext || !use_tiles ) {
         return;
     }
-    tilecontext->load_tileset( get_option<std::string>( "TILES" ),
-                               /*precheck=*/false, /*force=*/false,
-                               /*pump_events=*/true );
+    closetilecontext->load_tileset( get_option<std::string>( "TILES" ),
+                                    /*precheck=*/false, /*force=*/false,
+                                    /*pump_events=*/true );
+    if( use_far_tiles ) {
+        fartilecontext->load_tileset( get_option<std::string>( "DISTANT_TILES" ),
+                                      /*precheck=*/false, /*force=*/false,
+                                      /*pump_events=*/true );
+    }
+    tilecontext = closetilecontext;
     tilecontext->do_tile_loading_report();
 
     if( overmap_tilecontext ) {
@@ -3758,6 +3704,8 @@ void load_tileset()
 void catacurses::endwin()
 {
     tilecontext.reset();
+    closetilecontext.reset();
+    fartilecontext.reset();
     overmap_tilecontext.reset();
     font.reset();
     map_font.reset();
@@ -3776,10 +3724,10 @@ SDL_Color color_loader<SDL_Color>::from_rgb( const int r, const int g, const int
     return result;
 }
 
-void input_manager::set_timeout( const int t )
+void input_manager::set_timeout( const int delay )
 {
-    input_timeout = t;
-    inputdelay = t;
+    input_timeout = delay;
+    inputdelay = delay;
 }
 
 void input_manager::pump_events()
@@ -3874,11 +3822,19 @@ input_event input_manager::get_input_event( const keyboard_mode preferred_keyboa
 
 bool gamepad_available()
 {
-    return joystick != nullptr;
+    return gamepad::get_controller() != nullptr;
 }
 
 void rescale_tileset( int size )
 {
+    // zoom is calculated as powers of 2 so need to convert swap zoom between 4 and 64
+    if( size <= pow( 2, get_option<int>( "SWAP_ZOOM" ) + 1 ) && use_far_tiles ) {
+        tilecontext = fartilecontext;
+        g->mark_main_ui_adaptor_resize();
+    } else {
+        tilecontext = closetilecontext;
+        g->mark_main_ui_adaptor_resize();
+    }
     tilecontext->set_draw_scale( size );
 }
 
@@ -3897,8 +3853,8 @@ static window_dimensions get_window_dimensions( const catacurses::window &win,
     } else if( overmap_font && g && win == g->w_overmap ) {
         if( use_tiles && use_tiles_overmap ) {
             // tiles might have different dimensions than standard font
-            dim.scaled_font_size.x = tilecontext->get_tile_width();
-            dim.scaled_font_size.y = tilecontext->get_tile_height();
+            dim.scaled_font_size.x = overmap_tilecontext->get_tile_width();
+            dim.scaled_font_size.y = overmap_tilecontext->get_tile_height();
         } else {
             dim.scaled_font_size.x = overmap_font->width;
             dim.scaled_font_size.y = overmap_font->height;
@@ -3941,8 +3897,12 @@ window_dimensions get_window_dimensions( const point &pos, const point &size )
     return get_window_dimensions( {}, pos, size );
 }
 
-cata::optional<tripoint> input_context::get_coordinates( const catacurses::window &capture_win_ )
+cata::optional<tripoint> input_context::get_coordinates( const catacurses::window &capture_win_,
+        const point &offset, const bool center_cursor ) const
 {
+    // This information is required by curses, but is not (currently) used in SDL
+    ( void ) center_cursor;
+
     if( !coordinate_input_received ) {
         return cata::nullopt;
     }
@@ -3963,31 +3923,21 @@ cata::optional<tripoint> input_context::get_coordinates( const catacurses::windo
         return cata::nullopt;
     }
 
-    point view_offset;
-    if( capture_win == g->w_terrain ) {
-        view_offset = g->ter_view_p.xy();
-    }
-
     const point screen_pos = coordinate - win_min;
     point p;
-    if( tile_iso && use_tiles ) {
+    if( g->is_tileset_isometric() ) {
         const float win_mid_x = win_min.x + win_size.x / 2.0f;
         const float win_mid_y = -win_min.y + win_size.y / 2.0f;
         const int screen_col = std::round( ( screen_pos.x - win_mid_x ) / ( fw / 2.0 ) );
         const int screen_row = std::round( ( screen_pos.y - win_mid_y ) / ( fw / 4.0 ) );
         const point selected( ( screen_col - screen_row ) / 2, ( screen_row + screen_col ) / 2 );
-        p = view_offset + selected;
+        p = offset + selected;
     } else {
         const point selected( screen_pos.x / fw, screen_pos.y / fh );
-        if( capture_win == g->w_overmap ) {
-            p = view_offset + selected - point( std::ceil( dim.window_size_cell.x / 2.0 ),
-                                                std::ceil( dim.window_size_cell.y / 2.0 ) );
-        } else {
-            p = view_offset + selected - dim.window_size_cell / 2;
-        }
+        p = offset + selected - dim.window_size_cell / 2;
     }
 
-    return tripoint( p, get_map().get_abs_sub().z );
+    return tripoint( p, get_map().get_abs_sub().z() );
 }
 
 int get_terminal_width()
@@ -4023,16 +3973,16 @@ static int map_font_height()
 
 static int overmap_font_width()
 {
-    if( use_tiles && tilecontext && use_tiles_overmap ) {
-        return tilecontext->get_tile_width();
+    if( use_tiles && overmap_tilecontext && use_tiles_overmap ) {
+        return overmap_tilecontext->get_tile_width();
     }
     return ( overmap_font ? overmap_font.get() : font.get() )->width;
 }
 
 static int overmap_font_height()
 {
-    if( use_tiles && tilecontext && use_tiles_overmap ) {
-        return tilecontext->get_tile_height();
+    if( use_tiles && overmap_tilecontext && use_tiles_overmap ) {
+        return overmap_tilecontext->get_tile_height();
     }
     return ( overmap_font ? overmap_font.get() : font.get() )->height;
 }
@@ -4110,6 +4060,18 @@ HWND getWindowHandle()
     return info.info.win.window;
 }
 #endif
+
+void set_title( const std::string &title )
+{
+    if( ::window ) {
+        SDL_SetWindowTitle( ::window.get(), title.c_str() );
+    }
+}
+
+const SDL_Renderer_Ptr &get_sdl_renderer()
+{
+    return renderer;
+}
 
 #endif // TILES
 

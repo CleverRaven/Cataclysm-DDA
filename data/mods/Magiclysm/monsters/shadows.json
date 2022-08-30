@@ -1,0 +1,37 @@
+[
+  {
+    "id": "mon_magi_shadow",
+    "type": "MONSTER",
+    "//": "A buffed version for animist summons.",
+    "copy-from": "mon_shadow",
+    "name": { "str": "shadow" },
+    "description": "This is an animate shadow.  Looking like nothing more than an errant patch of normal shadow, it draws your attention by the way it moves subtly and whispers softly in the back of your mind.  Strange intrusive thoughts accompany the quiet murmur, awakening your most horrific memories and fears.",
+    "hp": 60,
+    "speed": 150,
+    "melee_skill": 8,
+    "melee_dice": 2,
+    "melee_dice_sides": 4,
+    "melee_damage": [ { "damage_type": "stab", "amount": 2.0, "armor_penetration": 20 } ],
+    "dodge": 1,
+    "vision_day": 50,
+    "vision_night": 50,
+    "harvest": "exempt",
+    "special_when_hit": [ "ZAPBACK", 100 ],
+    "flags": [
+      "SEES",
+      "HEARS",
+      "GOODHEARING",
+      "SMELLS",
+      "NOHEAD",
+      "HARDTOSHOOT",
+      "GRABS",
+      "WEBWALK",
+      "PLASTIC",
+      "ELECTRIC",
+      "ACIDPROOF",
+      "HIT_AND_RUN",
+      "NO_BREATHE",
+      "NOGIB"
+    ]
+  }
+]

@@ -1,0 +1,28 @@
+[
+  {
+    "type": "faction",
+    "id": "debuggers",
+    "name": "Brave Debuggers",
+    "likes_u": 1000,
+    "respects_u": 1000,
+    "known_by_u": true,
+    "size": 5,
+    "power": 9001,
+    "food_supply": 1,
+    "wealth": 0,
+    "currency": "FMCNote",
+    "price_rules": [
+      { "item": "test_pants_fur", "fixed_adj": 0 },
+      {
+        "item": "test_nuclear_carafe",
+        "markup": 2.0,
+        "fixed_adj": 0.1,
+        "condition": { "npc_has_var": "thirsty", "type": "bool", "context": "allnighter", "value": "yes" }
+      },
+      { "item": "test_multitool", "premium": 25, "markup": 1.1 },
+      { "item": "log", "price": 10000000 },
+      { "item": "scrap", "price": 10000000 }
+    ],
+    "description": "They debug so you don't have to."
+  }
+]

@@ -34,13 +34,16 @@ std::string vehicle::disp_name() const
     return string_format( _( "the %s" ), name );
 }
 
-char vehicle::part_sym( const int p, const bool exact ) const
+char vehicle::part_sym( const int p, const bool exact, const bool include_fake ) const
 {
     if( p < 0 || p >= static_cast<int>( parts.size() ) || parts[p].removed ) {
         return ' ';
     }
 
-    const int displayed_part = exact ? p : part_displayed_at( parts[p].mount );
+    int displayed_part = exact ? p : part_displayed_at( parts[p].mount, include_fake );
+    if( displayed_part == -1 ) {
+        displayed_part = p;
+    }
 
     const vehicle_part &vp = parts.at( displayed_part );
     const vpart_info &vp_info = part_info( displayed_part );
@@ -74,7 +77,7 @@ std::string vehicle::part_id_string( const int p, char &part_mod ) const
         return "";
     }
 
-    int displayed_part = part_displayed_at( parts[p].mount );
+    int displayed_part = part_displayed_at( parts[p].mount, true );
     if( displayed_part < 0 || displayed_part >= static_cast<int>( parts.size() ) ||
         parts[ displayed_part ].removed ) {
         return "";
@@ -93,7 +96,7 @@ std::string vehicle::part_id_string( const int p, char &part_mod ) const
     return vp.id.str() + ( vp.variant.empty() ?  "" : "_" + vp.variant );
 }
 
-nc_color vehicle::part_color( const int p, const bool exact ) const
+nc_color vehicle::part_color( const int p, const bool exact, const bool include_fake ) const
 {
     if( p < 0 || p >= static_cast<int>( parts.size() ) ) {
         return c_black;
@@ -111,7 +114,7 @@ nc_color vehicle::part_color( const int p, const bool exact ) const
     if( parm >= 0 ) {
         col = part_info( parm ).color;
     } else {
-        const int displayed_part = exact ? p : part_displayed_at( parts[p].mount );
+        const int displayed_part = exact ? p : part_displayed_at( parts[p].mount, include_fake );
 
         if( displayed_part < 0 || displayed_part >= static_cast<int>( parts.size() ) ) {
             return c_black;
@@ -161,21 +164,24 @@ nc_color vehicle::part_color( const int p, const bool exact ) const
  * @param detail Whether or not to show detailed contents for fuel components.
  */
 int vehicle::print_part_list( const catacurses::window &win, int y1, const int max_y, int width,
-                              int p, int hl /*= -1*/, bool detail ) const
+                              int p, int hl /*= -1*/, bool detail, bool include_fakes ) const
 {
     if( p < 0 || p >= static_cast<int>( parts.size() ) ) {
         return y1;
     }
-    std::vector<int> pl = this->parts_at_relative( parts[p].mount, true );
+    std::vector<int> pl = this->parts_at_relative( parts[p].mount, true, include_fakes );
     int y = y1;
     for( size_t i = 0; i < pl.size(); i++ ) {
+        const vehicle_part &vp = parts[ pl [ i ] ];
+        if( vp.is_fake && !vp.is_active_fake ) {
+            continue;
+        }
         if( y >= max_y ) {
             mvwprintz( win, point( 1, y ), c_yellow, _( "More parts here…" ) );
             ++y;
             break;
         }
 
-        const vehicle_part &vp = parts[ pl [ i ] ];
 
         std::string partname = vp.name();
 
@@ -184,12 +190,12 @@ int vehicle::print_part_list( const catacurses::window &win, int y1, const int m
                 if( vp.ammo_current() == itype_battery ) {
                     partname += string_format( _( " (%s/%s charge)" ), vp.ammo_remaining(),
                                                vp.ammo_capacity( ammo_battery ) );
-                } else {
+                } else if( vp.ammo_current()->stack_size > 0 ) {
                     const itype *pt_ammo_cur = item::find_type( vp.ammo_current() );
                     auto stack = units::legacy_volume_factor / pt_ammo_cur->stack_size;
                     partname += string_format( _( " (%.1fL %s)" ),
-                                               round_up( units::to_liter( vp.ammo_remaining() * stack ),
-                                                         1 ), item::nname( vp.ammo_current() ) );
+                                               round_up( units::to_liter( vp.ammo_remaining() * stack ), 1 ),
+                                               item::nname( vp.ammo_current() ) );
                 }
             } else {
                 partname += string_format( " (%s)", item::nname( vp.ammo_current() ) );
@@ -329,7 +335,8 @@ void vehicle::print_vparts_descs( const catacurses::window &win, int max_y, int 
 std::vector<itype_id> vehicle::get_printable_fuel_types() const
 {
     std::set<itype_id> opts;
-    for( const auto &pt : parts ) {
+    for( const vpart_reference &vpr : get_all_parts() ) {
+        const vehicle_part &pt = vpr.part();
         if( !pt.has_flag( vehicle_part::carried_flag ) && pt.is_fuel_store() &&
             !pt.ammo_current().is_null() ) {
             opts.emplace( pt.ammo_current() );
@@ -473,7 +480,7 @@ void vehicle::print_fuel_indicator( const catacurses::window &win, const point &
 
             if( debug_mode ) {
                 wprintz( win, tank_color, _( ", %d %s(%4.2f%%)/hour, %s until %s" ),
-                         rate, units, 100.0 * rate  / cap, to_string_clipped( estimate ), tank_goal );
+                         rate, units, 100.0 * rate / cap, to_string_clipped( estimate ), tank_goal );
             } else {
                 wprintz( win, tank_color, _( ", %3.1f%% / hour, %s until %s" ),
                          100.0 * rate  / cap, to_string_clipped( estimate ), tank_goal );
@@ -482,7 +489,7 @@ void vehicle::print_fuel_indicator( const catacurses::window &win, const point &
     }
 }
 
-void vehicle::print_speed_gauge( const catacurses::window &win, const point &p, int spacing )
+void vehicle::print_speed_gauge( const catacurses::window &win, const point &p, int spacing ) const
 {
     if( spacing < 0 ) {
         spacing = 0;
@@ -491,10 +498,12 @@ void vehicle::print_speed_gauge( const catacurses::window &win, const point &p, 
         return;
     }
 
+    // Color is based on how much vehicle is straining beyond its safe velocity
     const float strain = this->strain();
     nc_color col_vel = strain <= 0 ? c_light_blue :
                        ( strain <= 0.2 ? c_yellow :
                          ( strain <= 0.4 ? c_light_red : c_red ) );
+    // Get cruising (target) velocity, and current (actual) velocity
     int t_speed = static_cast<int>( convert_velocity( cruise_velocity, VU_VEHICLE ) );
     int c_speed = static_cast<int>( convert_velocity( velocity, VU_VEHICLE ) );
     auto ndigits = []( int value ) {
@@ -507,8 +516,11 @@ void vehicle::print_speed_gauge( const catacurses::window &win, const point &p, 
     int t_offset = ndigits( t_speed );
     int c_offset = ndigits( c_speed );
 
+    // Target cruising velocity in green
     mvwprintz( win, p, c_light_green, "%d", t_speed );
     mvwprintz( win, p + point( t_offset + spacing, 0 ), c_light_gray, "<" );
+    // Current velocity in color indicating engine strain
     mvwprintz( win, p + point( t_offset + 1 + 2 * spacing, 0 ), col_vel, "%d", c_speed );
+    // Units of speed (mph, km/h, t/t)
     mvwprintz( win, p + point( t_offset  + c_offset + 1 + 3 * spacing, 0 ), c_light_gray, type );
 }

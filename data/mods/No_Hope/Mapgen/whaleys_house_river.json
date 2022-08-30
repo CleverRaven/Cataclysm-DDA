@@ -28,7 +28,7 @@
         "d": "f_fridge",
         "e": "f_bathtub",
         "f": "f_null",
-        "o": "f_oven",
+        "o": [ "f_oven", "f_gas_oven_microwave_combo" ],
         "r": "f_null",
         "s": "f_null",
         "t": "f_table",
@@ -392,7 +392,7 @@
         { "item": "splinter", "repeat": 1, "x": 16, "y": 4 },
         { "item": "corpse", "repeat": 1, "x": 17, "y": 11 },
         { "item": "splinter", "repeat": 1, "x": 4, "y": 13 },
-        { "item": "rag", "repeat": 1, "x": 16, "y": 15, "custom-flags": [ "FILTHY" ] },
+        { "item": "cotton_patchwork", "repeat": 1, "x": 16, "y": 15, "custom-flags": [ "FILTHY" ] },
         { "item": "log", "repeat": 1, "x": 20, "y": 16 },
         { "item": "splinter", "repeat": 1, "x": 11, "y": 19 }
       ],
@@ -941,7 +941,7 @@
         "c": "f_counter",
         "d": "f_table",
         "f": "f_null",
-        "o": "f_oven",
+        "o": [ "f_oven", "f_gas_oven_microwave_combo" ],
         "s": "f_shower",
         "t": "f_null",
         "w": "f_null",
@@ -1155,7 +1155,7 @@
         "f": "f_null",
         "g": "f_dresser",
         "m": "f_null",
-        "o": "f_oven",
+        "o": [ "f_oven", "f_gas_oven_microwave_combo" ],
         "s": "f_null",
         "t": "f_table",
         "w": "f_null",
@@ -1336,12 +1336,12 @@
     "object": {
       "place_item": [
         { "item": "corpse", "repeat": 1, "x": 19, "y": 7 },
-        { "item": "rag", "repeat": 1, "x": 13, "y": 12, "custom-flags": [ "FILTHY" ] },
+        { "item": "cotton_patchwork", "repeat": 1, "x": 13, "y": 12, "custom-flags": [ "FILTHY" ] },
         { "item": "human_flesh", "repeat": 1, "x": 19, "y": 12 },
         { "item": "corpse", "repeat": 1, "x": 13, "y": 14 },
         { "item": "corpse", "repeat": 1, "x": 19, "y": 14 },
         { "item": "corpse", "repeat": 1, "x": 13, "y": 15 },
-        { "item": "rag", "repeat": 1, "x": 14, "y": 15, "custom-flags": [ "FILTHY" ] }
+        { "item": "cotton_patchwork", "repeat": 1, "x": 14, "y": 15, "custom-flags": [ "FILTHY" ] }
       ],
       "furniture": {
         "#": "f_null",

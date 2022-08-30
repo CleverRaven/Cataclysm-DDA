@@ -197,7 +197,8 @@ bool monster::will_move_to( const tripoint &p ) const
         if( attitude( &get_player_character() ) != MATT_ATTACK ) {
             // Sharp terrain is ignored while attacking
             if( avoid_simple && here.has_flag( ter_furn_flag::TFLAG_SHARP, p ) &&
-                !( type->size == creature_size::tiny || flies() ) ) {
+                !( type->size == creature_size::tiny || flies() ||
+                   get_armor_cut( bodypart_id( "torso" ) ) >= 10 ) ) {
                 return false;
             }
         }
@@ -304,6 +305,8 @@ void monster::plan()
     bool docile = friendly != 0 && has_effect( effect_docile );
 
     const bool angers_hostile_weak = type->has_anger_trigger( mon_trigger::HOSTILE_WEAK );
+    const bool fears_hostile_weak = type->has_fear_trigger( mon_trigger::HOSTILE_WEAK );
+    const bool placate_hostile_weak = type->has_placate_trigger( mon_trigger::HOSTILE_WEAK );
     const int angers_hostile_near = type->has_anger_trigger( mon_trigger::HOSTILE_CLOSE ) ? 5 : 0;
     const int angers_hostile_seen = type->has_anger_trigger( mon_trigger::HOSTILE_SEEN ) ? rng( 0,
                                     2 ) : 0;
@@ -330,10 +333,19 @@ void monster::plan()
         }
         if( !fleeing ) {
             morale -= fears_hostile_seen;
+            // Decide that the player is too annoying, less likely than the other triggers
+            if( angers_hostile_seen && x_in_y( anger, 200 ) ) {
+                add_msg_debug( debugmode::DF_MONSTER, "%s's character aggro triggered by seeing you", name() );
+                aggro_character = true;
+            }
         }
         if( dist <= 5 ) {
             if( anger <= 30 ) {
                 anger += angers_hostile_near;
+            }
+            if( angers_hostile_near && x_in_y( anger, 100 ) ) {
+                add_msg_debug( debugmode::DF_MONSTER, "%s's character aggro triggered by proximity", name() );
+                aggro_character = true;
             }
             morale -= fears_hostile_near;
             if( angers_mating_season > 0  && anger <= 30 ) {
@@ -350,6 +362,10 @@ void monster::plan()
                 }
                 if( mating_angry ) {
                     anger += angers_mating_season;
+                    if( x_in_y( anger, 100 ) ) {
+                        add_msg_debug( debugmode::DF_MONSTER, "%s's character aggro triggered by season", name() );
+                        aggro_character = true;
+                    }
                 }
             }
         }
@@ -362,6 +378,9 @@ void monster::plan()
                         //proximity to baby; monster gets furious and less likely to flee
                         anger += angers_cub_threatened;
                         morale += angers_cub_threatened / 2;
+                        add_msg_debug( debugmode::DF_MONSTER, "%s's character aggro triggered by threatening %s", name(),
+                                       tmp.name() );
+                        aggro_character = true;
                     }
                 }
             }
@@ -420,6 +439,11 @@ void monster::plan()
             if( anger <= 30 ) {
                 anger += angers_hostile_near;
             }
+            if( angers_hostile_near && x_in_y( anger, 100 ) ) {
+                add_msg_debug( debugmode::DF_MONSTER, "%s's character aggro triggered by proximity to %s", name(),
+                               who.name );
+                aggro_character = true;
+            }
             morale -= fears_hostile_near;
             if( angers_mating_season > 0 && anger <= 30 ) {
                 bool mating_angry = false;
@@ -435,6 +459,10 @@ void monster::plan()
                 }
                 if( mating_angry ) {
                     anger += angers_mating_season;
+                    if( x_in_y( anger, 100 ) ) {
+                        add_msg_debug( debugmode::DF_MONSTER, "%s's character aggro triggered by season", name() );
+                        aggro_character = true;
+                    }
                 }
             }
         }
@@ -443,6 +471,12 @@ void monster::plan()
         }
         if( !fleeing && valid_targets != 0 ) {
             morale -= fears_hostile_seen;
+            // Decide that characters are too annoying
+            if( angers_hostile_seen && x_in_y( anger, 200 ) ) {
+                add_msg_debug( debugmode::DF_MONSTER, "%s's character aggro triggered by seeing %s", name(),
+                               who.name );
+                aggro_character = true;
+            }
         }
     }
 
@@ -570,7 +604,7 @@ void monster::plan()
             bool found_path_to_couch = false;
             tripoint tmp( pos() + point( 12, 12 ) );
             tripoint couch_loc;
-            for( const auto &couch_pos : here.find_furnitures_with_flag_in_radius( pos(), 10,
+            for( const tripoint &couch_pos : here.find_furnitures_with_flag_in_radius( pos(), 10,
                     ter_furn_flag::TFLAG_AUTODOC_COUCH ) ) {
                 if( here.clear_path( pos(), couch_pos, 10, 0, 100 ) ) {
                     if( rl_dist( pos(), couch_pos ) < rl_dist( pos(), tmp ) ) {
@@ -600,10 +634,22 @@ void monster::plan()
             away.z() = posz();
             set_dest( away );
         }
-        if( angers_hostile_weak && att_to_target != Attitude::FRIENDLY ) {
+        if( ( angers_hostile_weak || fears_hostile_weak || placate_hostile_weak ) &&
+            att_to_target != Attitude::FRIENDLY ) {
             int hp_per = target->hp_percentage();
             if( hp_per <= 70 ) {
-                anger += 10 - static_cast<int>( hp_per / 10 );
+                if( angers_hostile_weak && anger <= 40 ) {
+                    anger += 10 - static_cast<int>( hp_per / 10 );
+                    if( x_in_y( anger, 100 ) ) {
+                        add_msg_debug( debugmode::DF_MONSTER, "%s's character aggro triggered by %s's weakness", name(),
+                                       target->disp_name() );
+                        aggro_character = true;
+                    }
+                } else if( fears_hostile_weak ) {
+                    morale -= 10 - static_cast<int>( hp_per / 10 );
+                } else if( placate_hostile_weak ) {
+                    anger -= 10 - static_cast<int>( hp_per / 10 );
+                }
             }
         }
     } else if( !patrol_route.empty() ) {
@@ -611,7 +657,7 @@ void monster::plan()
         tripoint_abs_ms next_stop = patrol_route.at( next_patrol_point );
 
         // if there is more than one patrol point, advance to the next one if we're almost there
-        // this handles impassable obstancles but patrollers can still get stuck
+        // this handles impassable obstacles but patrollers can still get stuck
         if( ( patrol_route.size() > 1 ) && rl_dist( next_stop, get_location() ) < 2 ) {
             next_patrol_point = ( next_patrol_point + 1 ) % patrol_route.size();
             next_stop = patrol_route.at( next_patrol_point );
@@ -666,7 +712,7 @@ static float get_stagger_adjust( const tripoint &source, const tripoint &destina
  * Returns true if the given square presents a possibility of drowning for the monster: it's deep water, it's liquid,
  * the monster can drown, and there is no boardable vehicle part present.
  */
-bool monster::is_aquatic_danger( const tripoint &at_pos )
+bool monster::is_aquatic_danger( const tripoint &at_pos ) const
 {
     map &here = get_map();
     return here.has_flag_ter( ter_furn_flag::TFLAG_DEEP_WATER, at_pos ) &&
@@ -713,35 +759,12 @@ void monster::move()
     //The monster can consume objects it stands on. Check if there are any.
     //If there are. Consume them.
     // TODO: Stick this in a map and dispatch to it via the action string.
-    if( action == "consume_items" ) {
-        add_msg_if_player_sees( *this,
-                                _( "The %s flows around the objects on the floor and they are quickly dissolved!" ),
-                                name() );
-        static const auto volume_per_hp = 250_ml;
-        for( item &elem : here.i_at( pos() ) ) {
-            hp += elem.volume() / volume_per_hp; // Yeah this means it can get more HP than normal.
-            if( has_flag( MF_ABSORBS_SPLITS ) ) {
-                while( hp / 2 > type->hp ) {
-                    monster *const spawn = g->place_critter_around( type->id, pos(), 1 );
-                    if( !spawn ) {
-                        break;
-                    }
-                    hp -= type->hp;
-                    //this is a new copy of the monster. Ideally we should copy the stats/effects that affect the parent
-                    spawn->make_ally( *this );
-                    add_msg_if_player_sees( *this, _( "The %s splits in two!" ), name() );
-                }
-            }
-        }
-        here.i_clear( pos() );
-    } else if( action == "eat_crop" ) {
-        // TODO: Create a special attacks whitelist unordered map instead of an if chain.
-        std::map<std::string, mtype_special_attack>::const_iterator attack =
-            type->special_attacks.find( action );
-        if( attack != type->special_attacks.end() && attack->second->call( *this ) ) {
-            if( special_attacks.count( action ) != 0 ) {
-                reset_special( action );
-            }
+    // TODO: Create a special attacks whitelist unordered map instead of an if chain.
+    std::map<std::string, mtype_special_attack>::const_iterator attack =
+        type->special_attacks.find( action );
+    if( attack != type->special_attacks.end() && attack->second->call( *this ) ) {
+        if( special_attacks.count( action ) != 0 ) {
+            reset_special( action );
         }
     }
     // record position before moving to put the player there if we're dragging
@@ -765,10 +788,14 @@ void monster::move()
             continue;
         }
 
+        add_msg_debug( debugmode::DF_MATTACK, "%s attempting a special attack %s, cooldown %d", name(),
+                       sp_type.first, local_attack_data.cooldown );
+
         // Cooldowns are decremented in monster::process_turn
 
         if( local_attack_data.cooldown == 0 && !pacified && !is_hallucination() ) {
             if( !sp_type.second->call( *this ) ) {
+                add_msg_debug( debugmode::DF_MATTACK, "Attack failed" );
                 continue;
             }
 
@@ -883,7 +910,7 @@ void monster::move()
                 path.erase( path.begin() );
             }
 
-            const auto &pf_settings = get_pathfinding_settings();
+            const pathfinding_settings &pf_settings = get_pathfinding_settings();
             if( pf_settings.max_dist >= rl_dist( get_location(), get_dest() ) &&
                 ( path.empty() || rl_dist( pos(), path.front() ) >= 2 || path.back() != local_dest ) ) {
                 // We need a new path
@@ -923,7 +950,7 @@ void monster::move()
     point new_d( destination.xy() - pos().xy() );
 
     // toggle facing direction for sdl flip
-    if( !tile_iso ) {
+    if( !g->is_tileset_isometric() ) {
         if( new_d.x < 0 ) {
             facing = FacingDirection::LEFT;
         } else if( new_d.x > 0 ) {
@@ -939,7 +966,7 @@ void monster::move()
     }
 
     tripoint_abs_ms next_step;
-    const bool can_open_doors = has_flag( MF_CAN_OPEN_DOORS );
+    const bool can_open_doors = has_flag( MF_CAN_OPEN_DOORS ) && !is_hallucination();
     const bool staggers = has_flag( MF_STUMBLES );
     if( moved ) {
         // Implement both avoiding obstacles and staggering.
@@ -1004,6 +1031,10 @@ void monster::move()
 
             const Creature *target = creatures.creature_at( candidate, is_hallucination() );
             if( target != nullptr ) {
+                if( is_hallucination() != target->is_hallucination() && !target->is_avatar() ) {
+                    // Hallucinations should only be capable of targeting the player or other hallucinations.
+                    continue;
+                }
                 const Attitude att = attitude_to( *target );
                 if( att == Attitude::HOSTILE ) {
                     // When attacking an adjacent enemy, we're direct.
@@ -1027,7 +1058,7 @@ void monster::move()
 
             // is there an openable door?
             if( can_open_doors &&
-                here.open_door( candidate, !here.is_outside( pos() ), true ) ) {
+                here.open_door( *this, candidate, !here.is_outside( pos() ), true ) ) {
                 moved = true;
                 next_step = candidate_abs;
                 continue;
@@ -1078,7 +1109,8 @@ void monster::move()
         const tripoint local_next_step = here.getlocal( next_step );
         const bool did_something =
             ( !pacified && attack_at( local_next_step ) ) ||
-            ( !pacified && can_open_doors && here.open_door( local_next_step, !here.is_outside( pos() ) ) ) ||
+            ( !pacified && can_open_doors &&
+              here.open_door( *this, local_next_step, !here.is_outside( pos() ) ) ) ||
             ( !pacified && bash_at( local_next_step ) ) ||
             ( !pacified && push_to( local_next_step, 0, 0 ) ) ||
             move_to( local_next_step, false, false, get_stagger_adjust( pos(), destination, local_next_step ) );
@@ -1152,7 +1184,7 @@ void monster::nursebot_operate( Character *dragged_foe )
         if( dragged_foe->has_effect( effect_grabbed ) && !has_effect( effect_countdown ) &&
             ( creatures.creature_at( get_dest() ) == nullptr ||
               creatures.creature_at( get_dest() ) == dragged_foe ) ) {
-            add_msg( m_bad, _( "The %1$s slowly but firmly puts %2$s down onto the autodoc couch." ), name(),
+            add_msg( m_bad, _( "The %1$s slowly but firmly puts %2$s down onto the Autodoc couch." ), name(),
                      dragged_foe->disp_name() );
 
             dragged_foe->move_to( get_dest() );
@@ -1163,7 +1195,7 @@ void monster::nursebot_operate( Character *dragged_foe )
         } else if( creatures.creature_at( get_dest() ) != nullptr && has_effect( effect_dragging ) ) {
             sounds::sound( pos(), 8, sounds::sound_t::electronic_speech,
                            string_format(
-                               _( "a soft robotic voice say, \"Please step away from the autodoc, this patient needs immediate care.\"" ) ) );
+                               _( "a soft robotic voice say, \"Please step away from the Autodoc, this patient needs immediate care.\"" ) ) );
             // TODO: Make it able to push NPC/player
             push_to( here.getlocal( get_dest() ), 4, 0 );
         }
@@ -1193,6 +1225,10 @@ void monster::nursebot_operate( Character *dragged_foe )
 // and create a sound in the monsters location when they move
 void monster::footsteps( const tripoint &p )
 {
+    if( is_hallucination() ) {
+        return;
+    }
+
     if( made_footstep ) {
         return;
     }
@@ -1235,7 +1271,7 @@ void monster::footsteps( const tripoint &p )
 tripoint monster::scent_move()
 {
     // TODO: Remove when scentmap is 3D
-    if( std::abs( posz() - get_map().get_abs_sub().z ) > SCENT_MAP_Z_REACH ) {
+    if( std::abs( posz() - get_map().get_abs_sub().z() ) > SCENT_MAP_Z_REACH ) {
         return { -1, -1, INT_MIN };
     }
     scent_map &scents = get_scent();
@@ -1463,7 +1499,7 @@ bool monster::bash_at( const tripoint &p )
     return true;
 }
 
-int monster::bash_estimate()
+int monster::bash_estimate() const
 {
     int estimate = bash_skill();
     if( has_flag( MF_GROUP_BASH ) ) {
@@ -1474,7 +1510,7 @@ int monster::bash_estimate()
     return estimate;
 }
 
-int monster::bash_skill()
+int monster::bash_skill() const
 {
     return type->bash_skill;
 }
@@ -1557,7 +1593,7 @@ bool monster::attack_at( const tripoint &p )
         return false;
     }
 
-    npc *const guy = creatures.creature_at<npc>( p );
+    npc *const guy = creatures.creature_at<npc>( p, is_hallucination() );
     if( guy && type->melee_dice > 0 ) {
         // For now we're always attacking NPCs that are getting into our
         // way. This is consistent with how it worked previously, but
@@ -2129,7 +2165,7 @@ void monster::shove_vehicle( const tripoint &remote_destination,
                              const tripoint &nearby_destination )
 {
     map &here = get_map();
-    if( this->has_flag( MF_PUSH_VEH ) ) {
+    if( this->has_flag( MF_PUSH_VEH ) && !is_hallucination() ) {
         optional_vpart_position vp = here.veh_at( nearby_destination );
         if( vp ) {
             vehicle &veh = vp->vehicle();

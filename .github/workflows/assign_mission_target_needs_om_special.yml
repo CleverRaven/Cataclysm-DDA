@@ -1,0 +1,12 @@
+name: Detect missions that are missing .start.assign_mission_target.om_special
+
+on: pull_request
+
+jobs:
+  run-the-tool:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        fetch-depth: 1
+    - run: ./tools/json_tools/assign_mission_target_needs_om_special.bash 2>&1

@@ -187,11 +187,9 @@ void field::remove_field( std::map<field_type_id, field_entry>::iterator const i
 {
     _field_type_list.erase( it );
     _displayed_field_type = fd_null;
-    if( !_field_type_list.empty() ) {
-        for( auto &fld : _field_type_list ) {
-            if( !_displayed_field_type || fld.first.obj().priority >= _displayed_field_type.obj().priority ) {
-                _displayed_field_type = fld.first;
-            }
+    for( auto &fld : _field_type_list ) {
+        if( !_displayed_field_type || fld.first.obj().priority >= _displayed_field_type.obj().priority ) {
+            _displayed_field_type = fld.first;
         }
     }
 }

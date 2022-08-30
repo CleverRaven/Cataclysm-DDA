@@ -4,7 +4,7 @@
     "type": "SPELL",
     "spell_class": "GAIAS_CHOSEN",
     "name": "Samsara",
-    "description": "You tie your ley-lines to the world's, renewing your flesh as if reborn.",
+    "description": "You tie your ley lines to the world's, renewing your flesh as if reborn.",
     "valid_targets": [ "self" ],
     "effect": "attack",
     "effect_str": "cureall",

@@ -40,6 +40,7 @@
         "=": "t_door_metal_locked",
         "_": "t_pavement",
         "&": "t_gates_control_brick",
+        "#": "t_brick_wall",
         "G": "t_sidewalk",
         "K": "t_sidewalk",
         "~": "t_thconc_floor",
@@ -59,106 +60,6 @@
       ],
       "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 2, 21 ], "y": [ 2, 21 ], "chance": 2 } ],
       "place_vehicles": [ { "vehicle": "suburban_home", "x": 17, "y": 6, "chance": 15, "fuel": 80, "rotation": 90 } ]
-    }
-  },
-  {
-    "type": "mapgen",
-    "method": "json",
-    "om_terrain": "house_garage2_roof",
-    "object": {
-      "fill_ter": "t_shingle_flat_roof",
-      "rows": [
-        "                        ",
-        "             |222222223 ",
-        "             |........3 ",
-        "             |........3 ",
-        "             |........3 ",
-        "             |........3 ",
-        "             |........3 ",
-        "             |........3 ",
-        "             |........3 ",
-        "             |........3 ",
-        "             |........3 ",
-        "             |........3 ",
-        " |222222222225........3 ",
-        " |....................3 ",
-        " |....................3 ",
-        " |.......&............3 ",
-        " |.................=..3 ",
-        " |----5...............3 ",
-        "      |...............3 ",
-        "      |...............3 ",
-        "      |...............3 ",
-        "      |...............3 ",
-        "      |---------------3 ",
-        "                        "
-      ],
-      "palettes": [ "roof_palette" ],
-      "terrain": { ".": "t_shingle_flat_roof" }
-    }
-  },
-  {
-    "type": "mapgen",
-    "method": "json",
-    "om_terrain": "house_garage2_basement",
-    "object": {
-      "fill_ter": "t_thconc_floor",
-      "rows": [
-        "                        ",
-        "             |||||||||| ",
-        "             |1.......| ",
-        "             |........| ",
-        "             |........| ",
-        "             |........| ",
-        "             |........| ",
-        "             |........| ",
-        "             |........| ",
-        "             |........| ",
-        "             |.......Z| ",
-        "             |<...A..J| ",
-        " |||||||||||||.......W| ",
-        " |F.z.................| ",
-        " |U.z.................| ",
-        " |Uz...2..............| ",
-        " |z.g.................| ",
-        " ||||||..........3....| ",
-        "      |...............| ",
-        "      |...............| ",
-        "      |...............| ",
-        "      |...............| ",
-        "      ||||||||||||||||| ",
-        "                        "
-      ],
-      "palettes": [ "basement_empty" ],
-      "nested": {
-        "1": { "chunks": [ [ "null", 80 ], [ "8x8_gym_S", 10 ], [ "room_8x8_hobby_S", 20 ], [ "room_8x8_junk_S", 20 ] ] },
-        "2": {
-          "chunks": [
-            [ "null", 60 ],
-            [ "room_7x7_wine_cellar_N", 10 ],
-            [ "room_7x7_junk_N", 40 ],
-            [ "room_7x7_junk_E", 30 ],
-            [ "room_7x7_recroom_E", 30 ],
-            [ "room_7x7_recroom_N", 30 ],
-            [ "7x7_tent_indoors", 15 ]
-          ]
-        },
-        "3": {
-          "chunks": [
-            [ "null", 60 ],
-            [ "5x5_holdout_N", 2 ],
-            [ "livingroom_5x5_S_1", 30 ],
-            [ "livingroom_5x5_N_1", 30 ],
-            [ "livingroom_5x5_W_1", 30 ],
-            [ "livingroom_5x5_S_2", 30 ],
-            [ "livingroom_5x5_E_2", 30 ],
-            [ "livingroom_5x5_N_2", 30 ],
-            [ "livingroom_5x5_W_2", 30 ],
-            [ "home_office_4x4_N", 20 ],
-            [ "home_office_4x4_S", 20 ]
-          ]
-        }
-      }
     }
   }
 ]

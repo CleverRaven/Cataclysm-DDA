@@ -129,7 +129,7 @@ cover the `field` overmap terrain.
 The **overmap_lake_settings** section defines the attributes used in generating lakes on the
 overmap. The actual placement of these features is determined globally across all overmaps so that
 the edges of the features align, and these parameters are mostly about how those global features
-are interpreted. 
+are interpreted.
 
 ### Fields
 
@@ -198,9 +198,9 @@ furniture.
 
 ### General Structure
 
-At the top level, the `forest_mapgen_settings` is a collection of named configurations, e.g. 
-`forest`, `forest_thick`, `forest_water`. It is possible to define settings for overmap terrains 
-that are not rendered by the forest mapgen, but will be used when blending forest terrains with 
+At the top level, the `forest_mapgen_settings` is a collection of named configurations, e.g.
+`forest`, `forest_thick`, `forest_water`. It is possible to define settings for overmap terrains
+that are not rendered by the forest mapgen, but will be used when blending forest terrains with
 other terrain types.
 
 ```json

@@ -17,7 +17,7 @@
       { "id": "blacksmith" },
       { "id": "power_saw_recipes" }
     ],
-    "blueprint_resources": [ "fake_planer", "fake_drill_press" ],
+    "blueprint_resources": [ "planer_tool", "drill_press_tool" ],
     "blueprint_requires": [ { "id": "not_an_upgrade" } ],
     "blueprint_name": "military helipad garage survey",
     "check_blueprint_needs": false

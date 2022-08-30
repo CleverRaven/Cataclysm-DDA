@@ -86,6 +86,49 @@
     "armor": [ { "encumbrance": 8, "coverage": 80, "covers": [ "leg_l", "leg_r" ] } ]
   },
   {
+    "id": "cheerleader_skirt",
+    "repairs_like": "skirt",
+    "type": "ARMOR",
+    "name": { "str": "cheerleader skirt" },
+    "description": "A breezy red cheerleader skirt.  Easy to move in, and of an acceptable length for most real cheerleading.",
+    "weight": "100 g",
+    "volume": "250 ml",
+    "price": 6500,
+    "price_postapoc": 50,
+    "material": [ "cotton" ],
+    "symbol": "[",
+    "looks_like": "skirt",
+    "color": "red",
+    "warmth": 2,
+    "material_thickness": 0.1,
+    "flags": [ "VARSIZE", "WATER_FRIENDLY" ],
+    "armor": [
+      { "coverage": 100, "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_hip_l", "leg_hip_r" ] },
+      { "coverage": 75, "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_upper_l", "leg_upper_r" ] }
+    ]
+  },
+  {
+    "id": "cheerleader_skirt_short",
+    "repairs_like": "skirt",
+    "type": "ARMOR",
+    "name": { "str": "short cheerleader skirt" },
+    "description": "A very short and breezy red cheerleader skirt.  Easy to move in, but you will probably need shorts underneath to safely practice cheerleading in this.",
+    "weight": "70 g",
+    "volume": "200 ml",
+    "price": 6500,
+    "price_postapoc": 50,
+    "material": [ "cotton" ],
+    "symbol": "[",
+    "looks_like": "skirt",
+    "color": "red",
+    "material_thickness": 0.1,
+    "flags": [ "VARSIZE", "WATER_FRIENDLY" ],
+    "armor": [
+      { "coverage": 100, "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_hip_l", "leg_hip_r" ] },
+      { "coverage": 25, "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_upper_l", "leg_upper_r" ] }
+    ]
+  },
+  {
     "id": "fishing_waders",
     "repairs_like": "boots_larmor",
     "type": "ARMOR",
@@ -117,6 +160,55 @@
     "material_thickness": 2,
     "environmental_protection": 6,
     "flags": [ "VARSIZE", "WATERPROOF" ]
+  },
+  {
+    "id": "flag_pants",
+    "repairs_like": "pants",
+    "type": "ARMOR",
+    "name": { "str_sp": "flag pants" },
+    "description": "A pair of pants embroidered with an American flag pattern.",
+    "weight": "399 g",
+    "volume": "2 L",
+    "price": 5500,
+    "price_postapoc": 50,
+    "material": [ "cotton" ],
+    "symbol": "[",
+    "looks_like": "pants",
+    "color": "light_red",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1250 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "19 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1250 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "19 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1080 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "165 mm",
+        "moves": 100
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1080 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "165 mm",
+        "moves": 100
+      }
+    ],
+    "warmth": 10,
+    "material_thickness": 0.2,
+    "flags": [ "VARSIZE", "POCKETS" ],
+    "armor": [ { "encumbrance": [ 6, 10 ], "coverage": 95, "covers": [ "leg_l", "leg_r" ] } ]
   },
   {
     "id": "hot_pants",
@@ -228,7 +320,7 @@
         "text": "An old pair of blue jeans.  You are not sure if they are faded through age or stone washed."
       }
     ],
-    "armor": [ { "encumbrance": [ 12, 16 ], "coverage": 95, "covers": [ "leg_l", "leg_r" ] } ]
+    "armor": [ { "encumbrance": [ 7, 11 ], "coverage": 95, "covers": [ "leg_l", "leg_r" ] } ]
   },
   {
     "id": "jeans_red",
@@ -278,14 +370,14 @@
     "warmth": 10,
     "material_thickness": 0.25,
     "flags": [ "VARSIZE", "POCKETS" ],
-    "armor": [ { "encumbrance": [ 12, 16 ], "coverage": 95, "covers": [ "leg_l", "leg_r" ] } ]
+    "armor": [ { "encumbrance": [ 7, 11 ], "coverage": 95, "covers": [ "leg_l", "leg_r" ] } ]
   },
   {
     "id": "kilt",
     "type": "ARMOR",
     "name": { "str": "kilt" },
     "description": "No true Scotsman would leave home without his kilt.",
-    "weight": "1814 g",
+    "weight": "500 g",
     "volume": "1500 ml",
     "price": 6500,
     "price_postapoc": 50,
@@ -363,7 +455,7 @@
     "type": "ARMOR",
     "name": { "str": "loincloth" },
     "description": "Rags stitched together and tied into a makeshift loincloth.  Covers your modesty, but not much else.",
-    "weight": "32 g",
+    "weight": "75 g",
     "volume": "250 ml",
     "price": 900,
     "price_postapoc": 10,
@@ -380,7 +472,7 @@
     "type": "ARMOR",
     "name": { "str": "fur loincloth" },
     "description": "A fur pelt tied into a loincloth.  Covers your modesty, but not much else.  Now you are a true barbarian warrior.",
-    "weight": "64 g",
+    "weight": "250 g",
     "volume": "250 ml",
     "price": 7500,
     "price_postapoc": 10,
@@ -398,7 +490,7 @@
     "type": "ARMOR",
     "name": { "str": "leather loincloth" },
     "description": "Leather patches stitched together and tied into a makeshift loincloth.  Covers your modesty, but not much else.",
-    "weight": "64 g",
+    "weight": "550 g",
     "volume": "250 ml",
     "price": 7500,
     "price_postapoc": 10,
@@ -434,7 +526,7 @@
     "type": "ARMOR",
     "name": { "str": "nanoskirt" },
     "description": "Apparently the microskirt wasn't short enough.",
-    "weight": "11 g",
+    "weight": "115 g",
     "volume": "250 ml",
     "price": 3000,
     "price_postapoc": 10,
@@ -506,7 +598,7 @@
     "volume": "2500 ml",
     "price": 3500,
     "price_postapoc": 250,
-    "material": [ "cotton", "plastic" ],
+    "material": [ { "type": "nylon", "portion": 7 }, { "type": "cotton", "portion": 3 } ],
     "symbol": "[",
     "looks_like": "pants_cargo",
     "color": "green",
@@ -557,7 +649,7 @@
     "snippet_category": [
       {
         "id": "apants_UCP",
-        "text": "A tough pair of pants.  Favored by the military.  This pair came in a gray, green and tan camouflage.  The pattern is notable for its lack of black."
+        "text": "A tough pair of pants.  Favored by the military.  This pair sports the US Army's gray, green and tan Universal Camouflage Pattern.  The pattern is notable for its lack of black."
       },
       {
         "id": "apants_desert",
@@ -569,17 +661,17 @@
       },
       {
         "id": "apants_BDU",
-        "text": "A tough pair of military pants with a black, brown, green and tan camouflage pattern.  They look old."
+        "text": "A tough pair of military pants with the black, brown, green and tan Battle Dress camouflage pattern.  They look old."
       },
       {
         "id": "mil_pants_navy",
-        "text": "A tough pair of military pants with a predominantly dark blue camouflage.  Favored by the navy."
+        "text": "A tough pair of military pants with a predominantly dark blue camouflage.  Favored by the US Navy."
       }
     ],
     "warmth": 20,
     "material_thickness": 0.25,
-    "flags": [ "VARSIZE", "POCKETS" ],
-    "armor": [ { "encumbrance": [ 9, 18 ], "coverage": 95, "covers": [ "leg_l", "leg_r" ] } ]
+    "flags": [ "VARSIZE", "POCKETS", "SOFT" ],
+    "armor": [ { "encumbrance": 3, "coverage": 95, "covers": [ "leg_l", "leg_r" ], "volume_encumber_modifier": 0.6 } ]
   },
   {
     "id": "pants_cargo",
@@ -641,7 +733,7 @@
     "warmth": 15,
     "material_thickness": 0.25,
     "flags": [ "VARSIZE", "POCKETS" ],
-    "armor": [ { "encumbrance": [ 8, 16 ], "coverage": 95, "covers": [ "leg_l", "leg_r" ] } ]
+    "armor": [ { "encumbrance": 2, "coverage": 100, "covers": [ "leg_l", "leg_r" ], "volume_encumber_modifier": 0.6 } ]
   },
   {
     "id": "pants_checkered",
@@ -753,6 +845,25 @@
     "warmth": 70
   },
   {
+    "id": "trousers_ninja",
+    "type": "ARMOR",
+    "repairs_like": "pants",
+    "name": { "str_sp": "ninja trousers" },
+    "description": "A pair of black trousers with calf and waistband ties.  Comfortable to use but lacks pockets.",
+    "weight": "400 g",
+    "volume": "1500 ml",
+    "price": 4800,
+    "price_postapoc": 40,
+    "material": [ "cotton" ],
+    "symbol": "[",
+    "looks_like": "pants",
+    "color": "dark_gray",
+    "warmth": 8,
+    "material_thickness": 0.2,
+    "flags": [ "VARSIZE" ],
+    "armor": [ { "encumbrance": 5, "coverage": 100, "covers": [ "leg_l", "leg_r" ] } ]
+  },
+  {
     "id": "pants_leather",
     "type": "ARMOR",
     "name": { "str_sp": "leather pants" },
@@ -843,7 +954,7 @@
     "repairs_like": "jeans",
     "type": "ARMOR",
     "name": { "str_sp": "police breeches" },
-    "description": "Pair of tight-fitting police breeches.  Offers lots of mobility for motorized officers.",
+    "description": "A pair of tight-fitting police breeches.  Offers lots of mobility for motorized officers.",
     "weight": "560 g",
     "volume": "1500 ml",
     "price": 4900,
@@ -916,6 +1027,83 @@
       { "coverage": 100, "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_hip_l", "leg_hip_r" ] },
       { "coverage": 50, "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_upper_l", "leg_upper_r" ] }
     ]
+  },
+  {
+    "id": "santa_shorts",
+    "type": "ARMOR",
+    "name": { "str_sp": "santa shorts" },
+    "description": "A pair of red shorts with white trim.  For when Santa is on summer vacation.",
+    "weight": "230 g",
+    "volume": "1 L",
+    "price": 2200,
+    "price_postapoc": 50,
+    "to_hit": 1,
+    "material": [ "cotton" ],
+    "symbol": "[",
+    "looks_like": "shorts",
+    "color": "red",
+    "warmth": 5,
+    "material_thickness": 0.2,
+    "flags": [ "VARSIZE" ],
+    "armor": [
+      {
+        "encumbrance": 2,
+        "coverage": 100,
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_hip_l", "leg_hip_r" ]
+      },
+      { "coverage": 40, "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_upper_l", "leg_upper_r" ] }
+    ]
+  },
+  {
+    "id": "santa_pants",
+    "type": "ARMOR",
+    "name": { "str_sp": "santa pants" },
+    "description": "A pair of red pants with white faux fur trim, commonly used by bearded men on Christmas.  Somewhat warm and has two deep pockets.",
+    "weight": "800 g",
+    "volume": "3 L",
+    "price": 20000,
+    "price_postapoc": 100,
+    "to_hit": 1,
+    "material": [ "cotton", "faux_fur" ],
+    "symbol": "[",
+    "looks_like": "pants",
+    "color": "red",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1250 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "19 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1250 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "19 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1080 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "165 mm",
+        "moves": 100
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1080 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "165 mm",
+        "moves": 100
+      }
+    ],
+    "warmth": 30,
+    "material_thickness": 1,
+    "environmental_protection": 2,
+    "flags": [ "VARSIZE", "POCKETS" ],
+    "armor": [ { "encumbrance": [ 13, 17 ], "coverage": 95, "covers": [ "leg_l", "leg_r" ] } ]
   },
   {
     "id": "shorts",
@@ -1077,7 +1265,7 @@
     ],
     "snippet_category": [
       { "id": "denim_shorts1", "text": "A pair of stone wash denim shorts." },
-      { "id": "denim_shorts2", "text": "An old pair of denim jeans that have been cut down to shorts." },
+      { "id": "denim_shorts2", "text": "An old pair of denim jeans that have been cut down into shorts." },
       { "id": "denim_shorts3", "text": "A pair of brand-name black denim shorts." }
     ],
     "warmth": 5,
@@ -1099,7 +1287,7 @@
     "type": "ARMOR",
     "name": { "str": "skirt" },
     "description": "A short, breezy cotton skirt.  Easy to move in, but only has a single small pocket.",
-    "weight": "74 g",
+    "weight": "225 g",
     "volume": "250 ml",
     "price": 6500,
     "price_postapoc": 50,
@@ -1129,6 +1317,7 @@
     "symbol": "[",
     "looks_like": "kilt",
     "color": "yellow",
+    "warmth": 1,
     "material_thickness": 1,
     "flags": [ "VARSIZE", "OVERSIZE", "WATER_FRIENDLY" ],
     "armor": [
@@ -1278,7 +1467,7 @@
     "volume": "2500 ml",
     "price": 4375,
     "price_postapoc": 250,
-    "material": [ "cotton", "plastic" ],
+    "material": [ "nylon" ],
     "symbol": "[",
     "looks_like": "pants_army",
     "color": "white",
@@ -1329,7 +1518,7 @@
     "warmth": 50,
     "material_thickness": 0.5,
     "valid_mods": [ "steel_padded" ],
-    "flags": [ "VARSIZE", "POCKETS" ],
+    "flags": [ "VARSIZE", "POCKETS", "WATERPROOF" ],
     "armor": [ { "encumbrance": [ 11, 22 ], "coverage": 95, "covers": [ "leg_l", "leg_r" ] } ]
   },
   {

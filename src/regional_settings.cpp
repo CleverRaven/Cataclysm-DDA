@@ -11,6 +11,7 @@
 #include "enum_conversions.h"
 #include "generic_factory.h"
 #include "json.h"
+#include "map_extras.h"
 #include "options.h"
 #include "output.h"
 #include "rng.h"
@@ -547,7 +548,7 @@ void load_region_settings( const JsonObject &jo )
                     if( member.is_comment() ) {
                         continue;
                     }
-                    extras.values.add( member.name(), member.get_int() );
+                    extras.values.add( map_extra_id( member.name() ), member.get_int() );
                 }
             }
 
@@ -625,7 +626,7 @@ void check_region_settings()
             if( extras.chance == 0 ) {
                 continue;
             }
-            const weighted_int_list<std::string> &values = extras.values;
+            const weighted_int_list<map_extra_id> &values = extras.values;
             if( !values.is_valid() ) {
                 if( values.empty() ) {
                     debugmsg( "Invalid map extras for region \"%s\", extras \"%s\".  "
@@ -634,8 +635,8 @@ void check_region_settings()
                 } else {
                     std::string list_of_values =
                         enumerate_as_string( values,
-                    []( const weighted_object<int, std::string> &w ) {
-                        return '"' + w.obj + '"';
+                    []( const weighted_object<int, map_extra_id> &w ) {
+                        return '"' + w.obj.str() + '"';
                     } );
                     debugmsg( "Invalid map extras for region \"%s\", extras \"%s\".  "
                               "Extras %s are listed, but all have zero weight.",
@@ -763,7 +764,7 @@ void apply_region_overlay( const JsonObject &jo, regional_settings &region )
             if( member.is_comment() ) {
                 continue;
             }
-            extras.values.add_or_replace( member.name(), member.get_int() );
+            extras.values.add_or_replace( map_extra_id( member.name() ), member.get_int() );
         }
 
         // It's possible that all the entries of the weighted list have their
@@ -1014,6 +1015,22 @@ void overmap_lake_settings::finalize()
             continue;
         }
     }
+}
+
+map_extras map_extras::filtered_by( const mapgendata &dat ) const
+{
+    map_extras result( chance );
+    for( const weighted_object<int, map_extra_id> &obj : values ) {
+        const map_extra_id &extra_id = obj.obj;
+        if( extra_id->is_valid_for( dat ) ) {
+            result.values.add( extra_id, obj.weight );
+        }
+    }
+    if( !values.empty() && result.values.empty() ) {
+        // OMT is too tall / too deep for all map extras. Skip map extra generation.
+        result.chance = 0;
+    }
+    return result;
 }
 
 void region_terrain_and_furniture_settings::finalize()

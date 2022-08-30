@@ -33,28 +33,24 @@
 
 static const activity_id ACT_CRAFT( "ACT_CRAFT" );
 
+static const ammotype ammo_flammable( "flammable" );
+static const ammotype ammo_water( "water" );
+
+static const itype_id itype_fridge_test( "fridge_test" );
+static const itype_id itype_metal_tank_test( "metal_tank_test" );
 static const itype_id itype_oatmeal( "oatmeal" );
 static const itype_id itype_water_clean( "water_clean" );
 
 static const recipe_id recipe_oatmeal_cooked( "oatmeal_cooked" );
 
+static const vpart_id vpart_ap_fridge_test( "ap_fridge_test" );
 static const vpart_id vpart_halfboard_horizontal( "halfboard_horizontal" );
+static const vpart_id vpart_tank_test( "tank_test" );
 
 static const vproto_id vehicle_prototype_test_rv( "test_rv" );
 
 static time_point midnight = calendar::turn_zero;
 static time_point midday = midnight + 12_hours;
-
-static void set_time( const time_point &time )
-{
-    calendar::turn = time;
-    g->reset_light_level();
-    int z = get_player_character().posz();
-    map &here = get_map();
-    here.update_visibility_cache( z );
-    here.invalidate_map_cache( z );
-    here.build_map_cache( z );
-}
 
 TEST_CASE( "verify_copy_from_gets_damage_reduction", "[vehicle]" )
 {
@@ -69,7 +65,7 @@ TEST_CASE( "vehicle_parts_seats_and_beds_have_beltable_flags", "[vehicle][vehicl
     // this checks all seats and beds either BELTABLE or NONBELTABLE but not both
 
     for( const auto &e : vpart_info::all() ) {
-        const auto &vp = e.second;
+        const vpart_info &vp = e.second;
 
         if( !vp.has_flag( "BED" ) && !vp.has_flag( "SEAT" ) ) {
             continue;
@@ -84,7 +80,7 @@ TEST_CASE( "vehicle_parts_boardable_openable_parts_have_door_flag", "[vehicle][v
     // this checks all BOARDABLE and OPENABLE parts have DOOR flag
 
     for( const auto &e : vpart_info::all() ) {
-        const auto &vp = e.second;
+        const vpart_info &vp = e.second;
 
         if( !vp.has_flag( "BOARDABLE" ) || !vp.has_flag( "OPENABLE" ) ) {
             continue;
@@ -162,7 +158,7 @@ static void test_craft_via_rig( const std::vector<item> &items, int give_battery
         }
         // seems it's not needed but just in case
         if( p.has_feature( "SOLAR_PANEL" ) ) {
-            veh.set_hp( p.part(), 0 );
+            veh.set_hp( p.part(), 0, true );
         }
     }
     get_map().board_vehicle( test_origin, &character );
@@ -190,7 +186,7 @@ static void test_craft_via_rig( const std::vector<item> &items, int give_battery
             character.activity.do_turn( character );
         }
 
-        REQUIRE( character.get_wielded_item().type->get_id() == recipe.result() );
+        REQUIRE( character.get_wielded_item()->type->get_id() == recipe.result() );
     } else {
         REQUIRE_FALSE( can_craft );
     }
@@ -225,5 +221,54 @@ TEST_CASE( "craft_available_via_vehicle_rig", "[vehicle][vehicle_craft]" )
         items.emplace_back( itype_oatmeal );
 
         test_craft_via_rig( items, 2, 0, 1, 0, recipe_oatmeal_cooked.obj(), true );
+    }
+}
+
+static void check_part_ammo_capacity( vpart_id part_type, itype_id item_type, ammotype ammo_type,
+                                      int expected_count )
+{
+    CAPTURE( part_type );
+    CAPTURE( item_type );
+    CAPTURE( ammo_type );
+    vehicle_part test_part( part_type, "", point_zero, item( item_type ) );
+    CHECK( expected_count == test_part.ammo_capacity( ammo_type ) );
+}
+
+TEST_CASE( "verify_vehicle_tank_refill", "[vehicle]" )
+{
+    check_part_ammo_capacity( vpart_ap_fridge_test, itype_fridge_test, ammo_water, 1600 );
+    check_part_ammo_capacity( vpart_ap_fridge_test, itype_fridge_test, ammo_flammable, 444444 );
+    check_part_ammo_capacity( vpart_tank_test, itype_metal_tank_test, ammo_water, 240 );
+    check_part_ammo_capacity( vpart_tank_test, itype_metal_tank_test, ammo_flammable, 60000 );
+}
+
+TEST_CASE( "check_capacity_fueltype_handling", "[vehicle]" )
+{
+    GIVEN( "tank is empty" ) {
+        vehicle_part vp( vpart_tank_test, "", point_zero, item( itype_metal_tank_test ) );
+        REQUIRE( vp.ammo_remaining() == 0 );
+        THEN( "ammo_current ammotype is always null" ) {
+            CHECK( vp.ammo_current().is_null() );
+            CHECK( !item::find_type( vp.ammo_current() )->ammo );
+            // Segmentation fault:
+            //vp.ammo_capacity( item::find_type( vp.ammo_current() )->ammo->type );
+        }
+        THEN( "using explicit ammotype for ammo_capacity returns expected value" ) {
+            CHECK( vp.ammo_capacity( ammo_flammable ) == 60000 );
+        }
+    }
+
+    GIVEN( "tank is not empty" ) {
+        vehicle_part vp( vpart_tank_test, "", point_zero, item( itype_metal_tank_test ) );
+        item tank( itype_metal_tank_test );
+        REQUIRE( tank.fill_with( item( itype_water_clean ), 100 ) == 100 );
+        vp.set_base( tank );
+        REQUIRE( vp.ammo_remaining() == 100 );
+
+        THEN( "ammo_current is not null" ) {
+            CHECK( vp.ammo_current() == itype_water_clean );
+            CHECK( !!item::find_type( vp.ammo_current() )->ammo );
+            CHECK( vp.ammo_capacity( item::find_type( vp.ammo_current() )->ammo->type ) == 240 );
+        }
     }
 }

@@ -32,12 +32,13 @@ class trade_selector : public inventory_drop_selector
         using entry_t = std::pair<item_location, int>;
         using select_t = std::vector<entry_t>;
         void execute();
+        void on_toggle() override;
         select_t to_trade() const;
         void resize( point const &size, point const &origin );
         shared_ptr_fast<ui_adaptor> get_ui() const;
         input_context const *get_ctxt() const;
-        void categorize_map_items( bool toggle );
 
+        static constexpr char const *ACTION_AUTOBALANCE = "AUTO_BALANCE";
         static constexpr char const *ACTION_SWITCH_PANES = "SWITCH_LISTS";
         static constexpr char const *ACTION_TRADE_OK = "CONFIRM";
         static constexpr char const *ACTION_TRADE_CANCEL = "QUIT";
@@ -86,6 +87,7 @@ class trade_ui
 
         trade_result_t perform_trade();
         void recalc_values_cpane();
+        void autobalance();
         void resize();
 
         constexpr static int header_size = 5;

@@ -153,6 +153,7 @@
       { "monster": "mon_albino_penguin", "weight": 5, "cost_multiplier": 5, "pack_size": [ 3, 9 ] },
       { "monster": "mon_gator", "weight": 40, "cost_multiplier": 2, "pack_size": [ 1, 2 ] },
       { "monster": "mon_frog", "weight": 10, "cost_multiplier": 2, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_zombullfrog", "weight": 10, "cost_multiplier": 2 },
       { "monster": "mon_frog_mother", "weight": 5, "cost_multiplier": 3 }
     ]
   },
@@ -601,7 +602,7 @@
       { "item": "hstomach_large", "prob": 60 },
       { "item": "hstomach", "prob": 60 },
       { "item": "bone_human", "prob": 90, "count-min": 1, "count-max": 5 },
-      { "item": "rag", "prob": 90, "count-min": 1, "count-max": 4, "custom-flags": [ "FILTHY" ] }
+      { "item": "cotton_patchwork", "prob": 90, "count-min": 1, "count-max": 4, "custom-flags": [ "FILTHY" ] }
     ]
   }
 ]

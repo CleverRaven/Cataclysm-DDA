@@ -47,20 +47,18 @@ void move_mode::load_move_mode( const JsonObject &jo, const std::string &src )
     move_mode_factory.load( jo, src );
 }
 
-void move_mode::load( const JsonObject &jo, const std::string &src )
+void move_mode::load( const JsonObject &jo, const std::string &/*src*/ )
 {
-    bool strict = src == "dda";
-
     mandatory( jo, was_loaded, "character", _letter, unicode_codepoint_from_symbol_reader );
     mandatory( jo, was_loaded, "name",  _name );
 
     mandatory( jo, was_loaded, "panel_char", _panel_letter, unicode_codepoint_from_symbol_reader );
-    assign( jo, "panel_color", _panel_color, strict );
-    assign( jo, "symbol_color", _symbol_color, strict );
+    assign( jo, "panel_color", _panel_color );
+    assign( jo, "symbol_color", _symbol_color );
 
     std::string exert = jo.get_string( "exertion_level" );
     if( !activity_levels_map.count( exert ) ) {
-        jo.throw_error( "Invalid activity level for move mode %s", id.str() );
+        jo.throw_error_at( id.str(), "Invalid activity level for move mode " + id.str() );
     }
     _exertion_level = activity_levels_map.at( exert );
 
@@ -115,6 +113,15 @@ void move_mode::finalize()
         }
     }
 
+    // Cycle to the move mode below ours
+    for( size_t i = move_modes_sorted.size(); i > 0; --i ) {
+        const move_mode &curr = *move_modes_sorted[i - 1];
+        if( i == 1 ) {
+            curr.set_cycle_back( move_modes_sorted.back() );
+        } else {
+            curr.set_cycle_back( move_modes_sorted[i - 2] );
+        }
+    }
 }
 
 std::string move_mode::name() const
@@ -144,6 +151,11 @@ move_mode_id move_mode::cycle() const
     return cycle_to;
 }
 
+move_mode_id move_mode::cycle_reverse() const
+{
+    return cycle_back;
+}
+
 move_mode_id move_mode::ident() const
 {
     return id;
@@ -169,9 +181,9 @@ float move_mode::move_speed_mult() const
     return _move_speed_mult;
 }
 
-int move_mode::mech_power_use() const
+units::energy move_mode::mech_power_use() const
 {
-    return _mech_power_use;
+    return units::from_kilojoule( _mech_power_use );
 }
 
 int move_mode::swim_speed_mod() const
@@ -212,4 +224,9 @@ move_mode_type move_mode::type() const
 void move_mode::set_cycle( const move_mode_id &mode ) const
 {
     cycle_to = mode;
+}
+
+void move_mode::set_cycle_back( const move_mode_id &mode ) const
+{
+    cycle_back = mode;
 }

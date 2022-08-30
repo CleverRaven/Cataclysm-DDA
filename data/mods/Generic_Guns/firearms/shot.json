@@ -27,6 +27,16 @@
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "ammo_shot": 6 }, "rigid": true } ]
   },
   {
+    "id": "shot_short_pump",
+    "copy-from": "remington_870_breacher",
+    "type": "GUN",
+    "name": "short shotgun",
+    "ammo": [ "ammo_shot" ],
+    "description": "A simple, shotgun without a stock used by law enforcement and occasionally militaries.  Its internal magazine is small, and reloading can be quite slow.  Shotshells come in many varieties, and shotguns are suitable for anything from some large game to small birds.",
+    "clip_size": 4,
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "ammo_shot": 4 }, "rigid": true } ]
+  },
+  {
     "id": "shot_tactical",
     "copy-from": "saiga_12",
     "type": "GUN",
@@ -65,6 +75,14 @@
     "type": "GUN",
     "name": { "str": "double slam-fire pipe shotgun" },
     "description": "A crude shotgun, composed of two thick steel pipes, an end cap and a nail.  The lack of sights make this weapon only useful at point-blank range.",
+    "ammo": [ "ammo_shot" ]
+  },
+  {
+    "id": "small_shotgun",
+    "copy-from": "m26_mass_standalone",
+    "type": "GUN",
+    "name": { "str": "compact shotgun" },
+    "description": "Small shotgun, assembled from underbarrel shotgun modification and a pistol grip.  Not the best weapon, but has a really small size and weight.",
     "ammo": [ "ammo_shot" ]
   }
 ]

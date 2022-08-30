@@ -20,11 +20,14 @@
 #include "mission.h"
 #include "monattack.h"
 #include "mtype.h"
+#include "music.h"
+#include "npc.h"
 #include "options.h"
 #include "output.h"
 #include "overmapbuffer.h"
 #include "popup.h"
 #include "scent_map.h"
+#include "sdlsound.h"
 #include "string_input_popup.h"
 #include "timed_event.h"
 #include "ui_manager.h"
@@ -33,8 +36,8 @@
 #include "wcwidth.h"
 #include "worldfactory.h"
 
-static const activity_id ACT_AIM( "ACT_AIM" );
 static const activity_id ACT_AUTODRIVE( "ACT_AUTODRIVE" );
+static const activity_id ACT_FIRSTAID( "ACT_FIRSTAID" );
 static const activity_id ACT_OPERATION( "ACT_OPERATION" );
 
 static const bionic_id bio_alarm( "bio_alarm" );
@@ -550,7 +553,7 @@ void overmap_npc_move()
         }
     }
     bool npcs_need_reload = false;
-    for( auto &elem : travelling_npcs ) {
+    for( npc *&elem : travelling_npcs ) {
         if( elem->has_omt_destination() ) {
             if( !elem->omt_path.empty() ) {
                 if( rl_dist( elem->omt_path.back(), elem->global_omt_location() ) > 2 ) {
@@ -598,6 +601,8 @@ bool do_turn()
         calendar::turn += 1_turns;
     }
 
+    play_music( music::get_music_id_string() );
+
     weather_manager &weather = get_weather();
     // starting a new turn, clear out temperature cache
     weather.temperature_cache.clear();
@@ -618,6 +623,10 @@ bool do_turn()
             veh->handle_potential_theft( dynamic_cast<Character &>( u ), false, false );
         }
     }
+
+    // Make sure players cant defy gravity by standing still, Looney tunes style.
+    u.gravity_check();
+
     // If riding a horse - chance to spook
     if( u.is_mounted() ) {
         u.check_mount_is_spooked();
@@ -655,12 +664,15 @@ bool do_turn()
     while( u.moves > 0 && u.activity ) {
         u.activity.do_turn( u );
     }
+
     // Process NPC sound events before they move or they hear themselves talking
     for( npc &guy : g->all_npcs() ) {
         if( rl_dist( guy.pos(), u.pos() ) < MAX_VIEW_DISTANCE ) {
             sounds::process_sound_markers( &guy );
         }
     }
+
+    music::deactivate_music_id( music::music_id::sound );
 
     // Process sound events into sound markers for display to the player.
     sounds::process_sound_markers( &u );
@@ -680,6 +692,7 @@ bool do_turn()
                         sounds::process_sound_markers( &guy );
                     }
                 }
+                explosion_handler::process_explosions();
                 sounds::process_sound_markers( &u );
                 if( !u.activity && g->uquit != QUIT_WATCH
                     && ( !u.has_distant_destination() || calendar::once_every( 10_seconds ) ) ) {
@@ -727,18 +740,13 @@ bool do_turn()
             // If player is performing a task, a monster is dangerously close,
             // and monster can reach to the player or it has some sort of a ranged attack,
             // warn them regardless of previous safemode warnings
-            if( u.activity && !u.has_activity( ACT_AIM ) &&
-                u.activity.moves_left > 0 &&
-                !u.activity.is_distraction_ignored( distraction_type::hostile_spotted_near ) ) {
-                Creature *hostile_critter = g->is_hostile_very_close( true );
-
-                if( hostile_critter != nullptr ) {
-                    g->cancel_activity_or_ignore_query( distraction_type::hostile_spotted_near,
-                                                        string_format( _( "The %s is dangerously close!" ),
-                                                                hostile_critter->get_name() ) );
+            if( u.activity ) {
+                for( std::pair<const distraction_type, std::string> &dist : u.activity.get_distractions() ) {
+                    if( g->cancel_activity_or_ignore_query( dist.first, dist.second ) ) {
+                        break;
+                    }
                 }
             }
-
         }
     }
 
@@ -771,7 +779,7 @@ bool do_turn()
 
     // Apply sounds from previous turn to monster and NPC AI.
     sounds::process_sounds();
-    const int levz = m.get_abs_sub().z;
+    const int levz = m.get_abs_sub().z();
     // Update vision caches for monsters. If this turns out to be expensive,
     // consider a stripped down cache just for monsters.
     m.build_map_cache( levz, true );
@@ -820,6 +828,8 @@ bool do_turn()
         }
         if( u.activity.id() == ACT_AUTODRIVE ) {
             wait_refresh_rate = 1_turns;
+        } else if( u.activity.id() == ACT_FIRSTAID ) {
+            wait_refresh_rate = 5_turns;
         } else {
             wait_refresh_rate = 5_minutes;
         }
@@ -867,6 +877,10 @@ bool do_turn()
 
     // reset player noise
     u.volume = 0;
+
+    // Calculate bionic power balance
+    u.power_balance = u.get_power_level() - u.power_prev_turn;
+    u.power_prev_turn = u.get_power_level();
 
     return false;
 }

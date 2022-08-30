@@ -55,6 +55,15 @@ bool player_has_item_of_type( const std::string &type )
     return !matching_items.empty();
 }
 
+// Return true if character has an item with get_var( var ) set to the given value
+bool character_has_item_with_var_val( const Character &they, const std::string &var,
+                                      const std::string &val )
+{
+    return they.has_item_with( [var, val]( const item & cand ) {
+        return cand.get_var( var ) == val;
+    } );
+}
+
 void clear_character( Character &dummy, bool skip_nutrition )
 {
     dummy.set_body();
@@ -131,43 +140,44 @@ void arm_shooter( npc &shooter, const std::string &gun_type,
     shooter.remove_weapon();
     // XL so arrows can fit.
     if( !shooter.is_wearing( itype_debug_backpack ) ) {
-        shooter.worn.emplace_back( "debug_backpack" );
+        shooter.worn.wear_item( shooter, item( "debug_backpack" ), false, false );
     }
 
     const itype_id &gun_id{ itype_id( gun_type ) };
     // Give shooter a loaded gun of the requested type.
-    item &gun = shooter.i_add( item( gun_id ) );
+    item_location gun = shooter.i_add( item( gun_id ) );
     itype_id ammo_id;
     // if ammo is not supplied we want the default
     if( ammo_type.empty() ) {
-        if( gun.ammo_default().is_null() ) {
-            ammo_id = item( gun.magazine_default() ).ammo_default();
+        if( gun->ammo_default().is_null() ) {
+            ammo_id = item( gun->magazine_default() ).ammo_default();
         } else {
-            ammo_id = gun.ammo_default();
+            ammo_id = gun->ammo_default();
         }
     } else {
         ammo_id = itype_id( ammo_type );
     }
     const ammotype &type_of_ammo = item::find_type( ammo_id )->ammo->type;
-    if( gun.magazine_integral() ) {
-        item &ammo = shooter.i_add( item( ammo_id, calendar::turn, gun.ammo_capacity( type_of_ammo ) ) );
-        REQUIRE( gun.is_reloadable_with( ammo_id ) );
-        REQUIRE( shooter.can_reload( gun, ammo_id ) );
-        gun.reload( shooter, item_location( shooter, &ammo ), gun.ammo_capacity( type_of_ammo ) );
+    if( gun->magazine_integral() ) {
+        item_location ammo = shooter.i_add( item( ammo_id, calendar::turn,
+                                            gun->ammo_capacity( type_of_ammo ) ) );
+        REQUIRE( gun->can_reload_with( *ammo, true ) );
+        REQUIRE( shooter.can_reload( *gun, &*ammo ) );
+        gun->reload( shooter, ammo, gun->ammo_capacity( type_of_ammo ) );
     } else {
-        const itype_id magazine_id = gun.magazine_default();
-        item &magazine = shooter.i_add( item( magazine_id ) );
-        item &ammo = shooter.i_add( item( ammo_id, calendar::turn,
-                                          magazine.ammo_capacity( type_of_ammo ) ) );
-        REQUIRE( magazine.is_reloadable_with( ammo_id ) );
-        REQUIRE( shooter.can_reload( magazine, ammo_id ) );
-        magazine.reload( shooter, item_location( shooter, &ammo ), magazine.ammo_capacity( type_of_ammo ) );
-        gun.reload( shooter, item_location( shooter, &magazine ), magazine.ammo_capacity( type_of_ammo ) );
+        const itype_id magazine_id = gun->magazine_default();
+        item_location magazine = shooter.i_add( item( magazine_id ) );
+        item_location ammo = shooter.i_add( item( ammo_id, calendar::turn,
+                                            magazine->ammo_capacity( type_of_ammo ) ) );
+        REQUIRE( magazine->can_reload_with( *ammo,  true ) );
+        REQUIRE( shooter.can_reload( *magazine, &*ammo ) );
+        magazine->reload( shooter, ammo, magazine->ammo_capacity( type_of_ammo ) );
+        gun->reload( shooter, magazine, magazine->ammo_capacity( type_of_ammo ) );
     }
-    for( const auto &mod : mods ) {
-        gun.put_in( item( itype_id( mod ) ), item_pocket::pocket_type::MOD );
+    for( const std::string &mod : mods ) {
+        gun->put_in( item( itype_id( mod ) ), item_pocket::pocket_type::MOD );
     }
-    shooter.wield( gun );
+    shooter.wield( *gun );
 }
 
 void clear_avatar()
@@ -228,14 +238,14 @@ void give_and_activate_bionic( Character &you, bionic_id const &bioid )
     // get bionic's index - might not be "last added" due to "integrated" ones
     int bioindex = -1;
     for( size_t i = 0; i < you.my_bionics->size(); i++ ) {
-        const auto &bio = ( *you.my_bionics )[ i ];
+        const bionic &bio = ( *you.my_bionics )[ i ];
         if( bio.id == bioid ) {
             bioindex = i;
         }
     }
     REQUIRE( bioindex != -1 );
 
-    const bionic &bio = you.bionic_at_index( bioindex );
+    bionic &bio = you.bionic_at_index( bioindex );
     REQUIRE( bio.id == bioid );
 
     // turn on if possible
@@ -244,7 +254,7 @@ void give_and_activate_bionic( Character &you, bionic_id const &bioid )
         if( !fuel_opts.empty() ) {
             you.set_value( fuel_opts.front().str(), "2" );
         }
-        you.activate_bionic( bioindex );
+        you.activate_bionic( bio );
         INFO( "bionic " + bio.id.str() + " with index " + std::to_string( bioindex ) + " is active " );
         REQUIRE( you.has_active_bionic( bioid ) );
         if( !fuel_opts.empty() ) {

@@ -1,0 +1,68 @@
+# This workflow runs at 23:00 UTC sundays
+name: "Pull Tileset Updates"
+
+on:
+  schedule:
+    - cron: "0 23 * * sun"
+
+env:
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  TX_TOKEN: ${{ secrets.TX_TOKEN }}
+
+jobs:
+  pull-updates:
+    if: github.repository == 'CleverRaven/Cataclysm-DDA'
+    runs-on: ubuntu-latest
+    steps:
+      - name: "Generate PR body/tileset update changelog"
+        id: pr-changelog
+        run: |
+          printf '#### Summary\nNone\n\nAutomatic tilesets updates from:\n\n#### https://github.com/I-am-Erk/CDDA-Tilesets\n' >> pr-body
+          gh release view -R I-am-Erk/CDDA-Tilesets --json body --jq .body >> pr-body
+          echo "---" >> pr-body
+          printf '#### https://github.com/pixel-32/CDDA-tileset\n' >> pr-body
+          gh release view -R pixel-32/CDDA-tileset --json body --jq .body >> pr-body
+          sed -i "s/## What's Changed/**What's Changed**/g" pr-body
+          sed -i "s/## New Contributors/**New Contributors**/g" pr-body
+          sed -i '/Full Changelog/d' pr-body
+
+          CHANGELOG=$(cat pr-body)
+          CHANGELOG="${CHANGELOG//'%'/'%25'}"
+          CHANGELOG="${CHANGELOG//$'\n'/'%0A'}"
+          CHANGELOG="${CHANGELOG//$'\r'/'%0D'}"
+
+          echo "::set-output name=pr-body::$CHANGELOG"
+          rm -f pr-body
+
+      - uses: actions/checkout@v3
+      - name: "Get current date"
+        uses: 1466587594/get-current-time@v2
+        id: current-date
+        with:
+          format: 'DD MMMM YYYY'
+      - name: "Update Tilesets"
+        shell: bash
+        run: |
+          gh release download -D gfx/ -p '*.zip' -R I-am-Erk/CDDA-Tilesets
+          gh release download -D gfx/ -p '*.zip' -R pixel-32/CDDA-tileset
+
+          find gfx/ -name "*.zip" | xargs -I{} unzip -o {} -d gfx/
+          rm -fr gfx/*.zip
+
+          # make sure all files are linted just in case
+          # FIXME: make json test check gfx folder instead of using this
+          make tools/format/json_formatter.cgi
+          find gfx/ -name "*.json" -print0 | xargs -0 -L 1 -P $(nproc) tools/format/json_formatter.cgi || exit 0
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v4
+        with:
+          commit-message: |
+            Routine tileset updates on ${{ steps.current-date.outputs.formattedTime }}
+          committer: casswedson <casswedson@users.noreply.github.com>
+          author: casswedson <casswedson@users.noreply.github.com>
+          token: ${{ secrets.TX_PR_CREATOR }}
+          branch: tileset-updates
+          delete-branch: true
+          base: master
+          title: Routine tileset updates on ${{ steps.current-date.outputs.formattedTime }}
+          body: ${{ steps.pr-changelog.outputs.pr-body }}

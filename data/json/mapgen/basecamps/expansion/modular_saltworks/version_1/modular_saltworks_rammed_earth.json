@@ -2,8 +2,22 @@
   {
     "type": "palette",
     "id": "fbmsw_rammed_earth_palette",
-    "terrain": { ".": "t_dirtfloor", "~": "t_swater_sh", "o": "t_window_empty", "w": "t_wall_rammed_earth", "+": "t_door_makeshift_c" },
+    "terrain": {
+      ".": "t_dirtfloor",
+      "b": "t_dirtfloor",
+      "r": "t_dirtfloor",
+      "t": "t_dirtfloor",
+      "#": "t_dirtfloor",
+      "c": "t_dirtfloor",
+      "H": "t_dirtfloor",
+      "O": "t_dirtfloor",
+      "~": "t_swater_sh",
+      "o": "t_window_empty",
+      "w": "t_wall_rammed_earth",
+      "+": "t_door_makeshift_c"
+    },
     "furniture": {
+      ".": "f_clear",
       "b": "f_bench",
       "r": "f_rack",
       "t": "f_table",
@@ -11,8 +25,10 @@
       "c": "f_counter",
       "H": "f_wood_keg",
       "O": "f_fvat_empty",
-      "^": "f_still",
-      "s": "f_woodstove"
+      "~": "f_clear",
+      "o": "f_clear",
+      "w": "f_clear",
+      "+": "f_clear"
     }
   },
   {

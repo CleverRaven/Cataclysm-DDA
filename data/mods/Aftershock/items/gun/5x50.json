@@ -5,7 +5,7 @@
     "copy-from": "needlepistol",
     "name": { "str": "eidolon derringer" },
     "volume": "500 ml",
-    "description": "A slick, miniature derringer designed as a backup weapon for covert operations and close range assassination.  It will fire up to four 5x50mm penetrators simultaneously, to devastating effect.",
+    "description": "A slick, miniature derringer designed as a backup weapon for covert operations and close-range assassination.  It will fire up to four 5x50mm penetrators simultaneously, to devastating effect.",
     "dispersion": 410,
     "range": -48,
     "valid_mod_locations": [ [ "accessories", 2 ] ],

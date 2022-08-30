@@ -11,6 +11,7 @@ class avatar;
 class Character;
 class gun_mode;
 class item;
+class item_location;
 class map;
 class spell;
 class turret_data;
@@ -31,7 +32,7 @@ trajectory mode_fire( avatar &you, aim_activity_actor &activity );
 trajectory mode_throw( avatar &you, item &relevant, bool blind_throwing );
 
 /** Reach attacking */
-trajectory mode_reach( avatar &you, item &weapon );
+trajectory mode_reach( avatar &you, item_location weapon );
 
 /** Manually firing vehicle turret */
 trajectory mode_turret_manual( avatar &you, turret_data &turret );
@@ -64,5 +65,23 @@ bool gunmode_checks_weapon( avatar &you, const map &m, std::vector<std::string> 
                             const gun_mode &gmode );
 
 int throw_cost( const Character &c, const item &to_throw );
+
+// check for steadiness for a given pos
+double calc_steadiness( const Character &you, const item &weapon, const tripoint &pos,
+                        double predicted_recoil );
+
+double calculate_aim_cap( const Character &you, const tripoint &target );
+
+
+struct Target_attributes {
+    int range = 1;
+    double size = 0.5;
+    double size_in_moa = 10800.0;
+    float light = 0.0f;
+    bool visible = true;
+    explicit Target_attributes() = default;
+    explicit Target_attributes( tripoint src, tripoint target );
+    explicit Target_attributes( int rng, double size, float l, bool can_see );
+};
 
 #endif // CATA_SRC_RANGED_H

@@ -1,0 +1,41 @@
+[
+  {
+    "type": "trap",
+    "id": "tr_spider",
+    "name": "trapdoor spiderden",
+    "color": "green",
+    "symbol": "#",
+    "visibility": 10,
+    "avoidance": 14,
+    "difficulty": 99,
+    "trap_radius": 4,
+    "action": "spell",
+    "spell_data": { "id": "summon_trapspider" }
+  },
+  {
+    "id": "summon_trapspider",
+    "type": "SPELL",
+    "name": "summon trapdoor spider",
+    "description": "This spell summons hostile trapdoor spiders from the earth.",
+    "effect": "summon",
+    "effect_str": "mon_spider_trapdoor_small",
+    "shape": "blast",
+    "valid_targets": [ "ground" ],
+    "flags": [ "PERMANENT", "HOSTILE_SUMMON" ],
+    "max_level": 15,
+    "min_aoe": 2,
+    "max_aoe": 3,
+    "min_damage": 1,
+    "max_damage": 1,
+    "min_range": 1,
+    "max_range": 3,
+    "min_duration": 30000,
+    "max_duration": 120000,
+    "duration_increment": 6000,
+    "spell_class": "NONE",
+    "base_casting_time": 400,
+    "base_energy_cost": 600,
+    "energy_source": "MANA",
+    "difficulty": 6
+  }
+]

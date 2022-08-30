@@ -152,6 +152,21 @@ std::vector<const recipe *> recipe_subset::recent() const
 
     return res;
 }
+
+std::vector<const recipe *> recipe_subset::nested( int index ) const
+{
+    std::vector<const recipe *> res;
+
+    std::copy_if( recipes.begin(), recipes.end(), std::back_inserter( res ), [&]( const recipe * r ) {
+        if( !*r || r->obsolete ) {
+            return false;
+        }
+        return uistate.nested_recipes[index].second.find( r->ident() ) !=
+               uistate.nested_recipes[index].second.end();
+    } );
+
+    return res;
+}
 std::vector<const recipe *> recipe_subset::search(
     const std::string &txt, const search_type key,
     const std::function<void( size_t, size_t )> &progress_callback ) const
@@ -197,8 +212,12 @@ std::vector<const recipe *> recipe_subset::search(
             }
 
             case search_type::description_result: {
-                const item result = r->create_result();
-                return lcmatch( remove_color_tags( result.info( true ) ), txt );
+                if( r->is_practice() ) {
+                    return lcmatch( r->description.translated(), txt );
+                } else {
+                    const item result = r->create_result();
+                    return lcmatch( remove_color_tags( result.info( true ) ), txt );
+                }
             }
 
             case search_type::proficiency:
@@ -318,8 +337,7 @@ std::vector<const recipe *> recipe_subset::search_result( const itype_id &item )
         if( r->obsolete ) {
             return false;
         }
-        return item == r->result() ||
-               ( r->has_byproducts() && r->byproducts.find( item ) != r->byproducts.end() );
+        return item == r->result() || r->in_byproducts( item );
     } );
 
     return res;
@@ -333,6 +351,9 @@ bool recipe_subset::empty_category( const std::string &cat, const std::string &s
         return uistate.recent_recipes.empty();
     } else if( subcat == "CSC_*_HIDDEN" ) {
         return uistate.hidden_recipes.empty();
+    } else if( cat == "CC_*" ) {
+        //any other category in CC_* is populated
+        return false;
     }
 
     auto iter = category.find( cat );
@@ -391,6 +412,11 @@ void recipe_dictionary::load_uncraft( const JsonObject &jo, const std::string &s
 }
 
 void recipe_dictionary::load_practice( const JsonObject &jo, const std::string &src )
+{
+    load( jo, src, recipe_dict.recipes );
+}
+
+void recipe_dictionary::load_nested_category( const JsonObject &jo, const std::string &src )
 {
     load( jo, src, recipe_dict.recipes );
 }
@@ -518,8 +544,8 @@ void recipe_dictionary::finalize()
     finalize_internal( recipe_dict.recipes );
     finalize_internal( recipe_dict.uncraft );
 
-    for( auto &e : recipe_dict.recipes ) {
-        auto &r = e.second;
+    for( const auto &e : recipe_dict.recipes ) {
+        const recipe &r = e.second;
 
         if( r.obsolete ) {
             continue;
@@ -534,8 +560,16 @@ void recipe_dictionary::finalize()
         }
 
         // if reversible and no specific uncraft recipe exists use this recipe
-        if( r.is_reversible() && !recipe_dict.uncraft.count( recipe_id( r.result().str() ) ) ) {
-            recipe_dict.uncraft[ recipe_id( r.result().str() ) ] = r;
+
+        const string_id<recipe> uncraft_id = recipe_id( r.result().str() );
+        if( r.is_reversible() && !recipe_dict.uncraft.count( uncraft_id ) ) {
+            recipe_dict.uncraft[ uncraft_id ] = r;
+
+            if( r.uncraft_time > 0 ) {
+                // If a specified uncraft time has been given, use that in the uncraft
+                // recipe rather than the original.
+                recipe_dict.uncraft[ uncraft_id ].time = r.uncraft_time;
+            }
         }
     }
 
@@ -547,7 +581,7 @@ void recipe_dictionary::finalize()
         // books that don't already have an uncrafting recipe
         if( e->book && !recipe_dict.uncraft.count( rid ) && e->volume > 0_ml ) {
             int pages = e->volume / 12.5_ml;
-            auto &bk = recipe_dict.uncraft[rid];
+            recipe &bk = recipe_dict.uncraft[rid];
             bk.ident_ = rid;
             bk.result_ = id;
             bk.reversible = true;
@@ -557,10 +591,33 @@ void recipe_dictionary::finalize()
         }
     }
 
+    // Check for nested items without a category to make sure nothing is getting lost
+    for( const auto &rec : recipe_dict.recipes ) {
+        if( rec.second.subcategory == "CSC_*_NESTED" ) {
+            bool found = false;
+            for( const auto &nest : recipe_dict.recipes ) {
+                if( nest.second.is_nested() ) {
+                    if( find( nest.second.nested_category_data.begin(), nest.second.nested_category_data.end(),
+                              rec.first ) != nest.second.nested_category_data.end() ) {
+                        found = true;
+                        break;
+                    }
+                }
+            }
+            if( !found ) {
+                debugmsg( "recipe %s is nested but isn't in a nested group.  It will be impossible to path to by the player.",
+                          rec.first.str() );
+            }
+        }
+    }
+
     // Cache auto-learn recipes and blueprints
     for( const auto &e : recipe_dict.recipes ) {
         if( e.second.autolearn ) {
             recipe_dict.autolearn.insert( &e.second );
+        }
+        if( e.second.is_nested() ) {
+            recipe_dict.nested.insert( &e.second );
         }
         if( e.second.is_blueprint() ) {
             recipe_dict.blueprints.insert( &e.second );
@@ -613,6 +670,7 @@ void recipe_dictionary::reset()
 {
     recipe_dict.blueprints.clear();
     recipe_dict.autolearn.clear();
+    recipe_dict.nested.clear();
     recipe_dict.recipes.clear();
     recipe_dict.uncraft.clear();
     recipe_dict.items_on_loops.clear();
@@ -661,7 +719,7 @@ void recipe_subset::include( const recipe *r, int custom_difficulty )
 
 void recipe_subset::include( const recipe_subset &subset )
 {
-    for( const auto &elem : subset ) {
+    for( const recipe * const &elem : subset ) {
         include( elem, subset.get_custom_difficulty( elem ) );
     }
 }

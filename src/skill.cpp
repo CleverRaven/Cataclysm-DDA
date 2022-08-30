@@ -166,6 +166,19 @@ SkillDisplayType::SkillDisplayType( const skill_displayType_id &ident,
 {
 }
 
+/** @relates string_id */
+template<>
+const SkillDisplayType &skill_displayType_id::obj() const
+{
+    for( const SkillDisplayType &skill : SkillDisplayType::skillTypes ) {
+        if( skill.ident() == *this ) {
+            return skill;
+        }
+    }
+
+    return invalid_skill_type;
+}
+
 void SkillDisplayType::load( const JsonObject &jsobj )
 {
     // TEMPORARY until 0.G: Remove "ident" support
@@ -185,7 +198,7 @@ void SkillDisplayType::load( const JsonObject &jsobj )
 
 const SkillDisplayType &SkillDisplayType::get_skill_type( const skill_displayType_id &id )
 {
-    for( auto &i : skillTypes ) {
+    for( SkillDisplayType &i : skillTypes ) {
         if( i._ident == id ) {
             return i;
         }
@@ -347,7 +360,7 @@ bool SkillLevel::isRusty() const
            _knowledgeExperience - _exercise >= pow( level() + 1, 2U ) * 10;
 }
 
-bool SkillLevel::rust( int rust_resist )
+bool SkillLevel::rust( int rust_resist, float rust_multiplier )
 {
     if( ( calendar::turn - _lastPracticed ) < 24_hours ) {
         // don't rust within the grace period
@@ -372,7 +385,7 @@ bool SkillLevel::rust( int rust_resist )
 
     // rust amount starts at 4% of a level's xp, run every 24 hours.
     // Once the accumulated rust exceeds 16% of a level, rust_amount starts to drop.
-    int rust_amount = level_multiplier * 16 / rust_slowdown;
+    int rust_amount = level_multiplier * rust_multiplier * 16 / rust_slowdown;
 
     if( rust_resist > 0 ) {
         rust_amount = std::lround( rust_amount * ( std::max( ( 100 - rust_resist ), 0 ) / 100.0 ) );
@@ -572,23 +585,7 @@ bool SkillLevelMap::has_same_levels_as( const SkillLevelMap &other ) const
 // Caps at 200% when you are 5 levels ahead, int comparison is handled in npctalk.cpp
 double price_adjustment( int barter_skill )
 {
-    if( barter_skill <= 0 ) {
-        return 1.0;
-    }
-    if( barter_skill >= 5 ) {
-        return 2.0;
-    }
-    switch( barter_skill ) {
-        case 1:
-            return 1.05;
-        case 2:
-            return 1.15;
-        case 3:
-            return 1.30;
-        case 4:
-            return 1.65;
-        default:
-            // Should never occur
-            return 1.0;
-    }
+    int const skill = std::min( 5, std::abs( barter_skill ) );
+    double const val = 0.045 * std::pow( skill, 2 ) - 0.025 * skill + 1;
+    return barter_skill >= 0 ? val : 1 / val;
 }

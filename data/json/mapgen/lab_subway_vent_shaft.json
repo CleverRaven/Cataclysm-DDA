@@ -91,6 +91,7 @@
         "                        ",
         "                        "
       ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "lab_subway_vent_shaft" ]
     }
   },

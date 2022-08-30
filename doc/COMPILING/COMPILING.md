@@ -94,9 +94,11 @@ Given you're building from source you have a number of choices to make:
 
 There is a couple of other possible options - feel free to read the `Makefile`.
 
-If you have a multi-core computer you'd probably want to add `-jX` to the options, where `X` should roughly be twice the number of cores you have available.
+If you have a multi-core computer you'd probably want to add `-jX` to the options, where `X` is your CPU's number of threads (generally twice the number of your CPU cores). Alternatively, you can add `-j$(nproc)` for the build to use all of your CPU processors.
 
-Example: `make -j4 CLANG=1 CCACHE=1 NATIVE=linux64 RELEASE=1 TILES=1`
+Examples: 
+- `make -j4 CLANG=1 CCACHE=1 NATIVE=linux64 RELEASE=1 TILES=1`
+- `make -j$(nproc) CLANG=1 TILES=1 SOUND=0`
 
 The above will build a tiles release explicitly for 64 bit Linux, using Clang and ccache and 4 parallel processes.
 
@@ -118,8 +120,6 @@ If you want to compile localization files for specific languages, you can add th
 
 You can get the language ID from the filenames of `*.po` in `lang/po` directory. Setting `LOCALIZE=1` only may not tell `make` to compile those localization files for you.
 
-Special note for MinGW: due to a [libintl bug](https://savannah.gnu.org/bugs/index.php?58006), using English without a `.mo` file would cause significant slow down on MinGW targets. In such case you can compile a `.mo` file for English using `make LANGUAGES="en"`. `make LANGUAGE="all"` also compiles a `.mo` file for English in addition to other languages.
-
 # Accelerating Linux builds with llama
 
 [llama](https://github.com/nelhage/llama) is a CLI tool for outsourcing computation to AWS Lambda.  If you want your builds to run faster and are willing to pay Amazon for the privilege, then you may be able to use it to accelerate your builds.  See [../../tools/llama/README.md](our llama README) for more details.
@@ -129,6 +129,17 @@ Special note for MinGW: due to a [libintl bug](https://savannah.gnu.org/bugs/ind
 Instructions for compiling on a Debian-based system. The package names here are valid for Ubuntu 12.10 and may or may not work on your system.
 
 The building instructions below always assume you are running them from the Cataclysm:DDA source directory.
+
+# Gentoo
+If you want sound and graphics, make sure to emerge with the following:
+
+`USE="flac fluidsynth mad midi mod modplug mp3 playtools vorbis wav png" emerge -1va emerge media-libs/libsdl2 media-libs/sdl2-gfx media-libs/sdl2-image media-libs/sdl2-mixer media-libs/sdl2-ttf`
+
+It may also be possible to get away with fewer dependencies, but this set has been tested.
+
+Once the above libraries are installed, compile with:
+
+`make -j$(nproc) TILES=1 SOUND=1 RELEASE=1`
 
 ## Linux (native) ncurses builds
 
@@ -326,7 +337,7 @@ The Gradle project lives in the repository under `android/`. You can build it vi
   * SDL2_mixer (tested with 2.0.2)
   * SDL2_image (tested with 2.0.3)
 
-The Gradle build process automatically installs dependencies from [deps.zip](android/app/deps.zip).
+The Gradle build process automatically installs dependencies from [deps.zip](/android/app/deps.zip).
 
 ### Setup
 
@@ -352,7 +363,7 @@ Export Android environment variables (you can add these to the end of `~/.bashrc
     export PATH=$PATH:$ANDROID_SDK_ROOT/tools
     export PATH=$PATH:$ANDROID_NDK_ROOT
 
-You can also use these additional variables if you want to use `ccache` to speed up subsequnt builds:
+You can also use these additional variables if you want to use `ccache` to speed up subsequent builds:
 
     export USE_CCACHE=1
     export NDK_CCACHE=/usr/local/bin/ccache
@@ -388,7 +399,7 @@ The app stores data files on the device in `/sdcard/Android/data/com.cleverraven
 
 # Mac OS X
 
-To build Cataclysm on Mac you'll need [Command Line Tools for Xcode](https://developer.apple.com/downloads/) and the [Homebrew](http://brew.sh) package manager. With Homebrew, you can easily install or build Cataclysm using the [cataclysm](https://formulae.brew.sh/formula/cataclysm) forumla.
+To build Cataclysm on Mac you'll need [Command Line Tools for Xcode](https://developer.apple.com/downloads/) and the [Homebrew](http://brew.sh) package manager. With Homebrew, you can easily install or build Cataclysm using the [cataclysm](https://formulae.brew.sh/formula/cataclysm) formula.
 
 ## Simple build using Homebrew
 
@@ -581,9 +592,11 @@ Open Terminal's preferences, turn on "Use bright colors for bold text" in "Prefe
 
 # Windows
 
+## Building with Visual Studio
+
 See [COMPILING-VS-VCPKG.md](COMPILING-VS-VCPKG.md) for instructions on how to set up and use a build environment using Visual Studio on windows.
 
-This is probably the easiest solution for someone used to working with Visual Studio and similar IDEs. -->
+This is probably the easiest solution for someone used to working with Visual Studio and similar IDEs.
 
 ## Building with MSYS2
 
@@ -623,6 +636,38 @@ Then you should be able to build with something like this:
 gmake RELEASE=1 # ncurses builds
 gmake RELEASE=1 TILES=1 # tiles builds
 ```
+
+### Building on OpenBSD/amd64 7.1 with clang
+
+Install necessary dependencies:
+
+`# pkg_add gmake libiconv`
+
+If building with tiles also install:
+
+`# pkg_add sdl2 sdl2-image sdl2-mixer sdl2-ttf`
+
+Compiling:
+
+```
+$ gmake RELEASE=1 BSD=1 CLANG=1 RUNTESTS=0 # ncurses build
+$ gmake RELEASE=1 BSD=1 CLANG=1 RUNTESTS=0 TILES=1 # tiles build
+```
+
+You may get an out of memory error when compiling with an underprivileged user,
+you can simply fix this by running:
+
+`# usermod -L pbuild <user>`
+
+This command sets your login class to `pbuild` thus the data ulimit is increased from
+1GB to 8GB.
+
+**NOTE: don't run this command for your main user, as it is already a part
+of the `staff` login class**
+
+Instead, you need to increase `data` limit with:
+
+`$ ulimit -d 8000000`
 
 ### Building on OpenBSD/amd64 5.8 with GCC 4.9.2 from ports/packages
 

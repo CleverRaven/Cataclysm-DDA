@@ -9,11 +9,13 @@
 #include <new>
 #include <set>
 #include <unordered_map>
+#include <unordered_set>
 #include <utility>
 #include <vector>
 
 #include "coordinates.h"
 #include "enums.h"
+#include "json.h"
 #include "memory_fast.h"
 #include "omdata.h"
 #include "optional.h"
@@ -179,8 +181,8 @@ class overmapbuffer
         void delete_note( const tripoint_abs_omt &p );
         void mark_note_dangerous( const tripoint_abs_omt &p, int radius, bool is_dangerous );
         bool has_extra( const tripoint_abs_omt &p );
-        const string_id<map_extra> &extra( const tripoint_abs_omt &p );
-        void add_extra( const tripoint_abs_omt &p, const string_id<map_extra> &id );
+        const map_extra_id &extra( const tripoint_abs_omt &p );
+        void add_extra( const tripoint_abs_omt &p, const map_extra_id &id );
         void delete_extra( const tripoint_abs_omt &p );
         bool is_explored( const tripoint_abs_omt &p );
         void toggle_explored( const tripoint_abs_omt &p );
@@ -191,6 +193,8 @@ class overmapbuffer
         bool has_horde( const tripoint_abs_omt &p );
         int get_horde_size( const tripoint_abs_omt &p );
         std::vector<om_vehicle> get_vehicle( const tripoint_abs_omt &p );
+        std::string get_vehicle_ter_sym( const tripoint_abs_omt &omt );
+        std::string get_vehicle_tile_id( const tripoint_abs_omt &omt );
         const regional_settings &get_settings( const tripoint_abs_omt &p );
         /**
          * Accessors for horde introspection into overmaps.
@@ -281,6 +285,7 @@ class overmapbuffer
          * Searches all loaded overmaps.
          */
         shared_ptr_fast<npc> find_npc( character_id id );
+        shared_ptr_fast<npc> find_npc_by_unique_id( const std::string &unique_id );
         /**
          * Get all NPCs active on the overmap
          */
@@ -397,7 +402,7 @@ class overmapbuffer
         t_notes_vector find_notes( int z, const std::string &pattern ) {
             return get_notes( z, &pattern ); // filter with pattern
         }
-        using t_point_with_extra = std::pair<point_abs_omt, string_id<map_extra>>;
+        using t_point_with_extra = std::pair<point_abs_omt, map_extra_id>;
         using t_extras_vector = std::vector<t_point_with_extra>;
         t_extras_vector get_all_extras( int z ) {
             return get_extras( z, nullptr ); // NULL => don't filter extras
@@ -426,7 +431,7 @@ class overmapbuffer
          * @param p is the player's location, which functions as the signal origin
          * only the nemesis horde can 'hear' this signal.
          */
-        void signal_nemesis( const tripoint_abs_sm p );
+        void signal_nemesis( const tripoint_abs_sm &p );
         /**
          * adds a nemesis horde into the hordes list of the overmap where the kill_nemesis mision is targeted
          */
@@ -532,6 +537,8 @@ class overmapbuffer
         mutable std::set<point_abs_om> known_non_existing;
         // Cached result of previous call to overmapbuffer::get_existing
         overmap mutable *last_requested_overmap;
+        // Set of globally unique overmap specials that have already been placed
+        std::unordered_set<overmap_special_id> placed_unique_specials;
 
         /**
          * Get a list of notes in the (loaded) overmaps.
@@ -566,6 +573,23 @@ class overmapbuffer
                                 const tripoint_abs_omt &loc );
         bool check_overmap_special_type_existing( const overmap_special_id &id,
                 const tripoint_abs_omt &loc );
+
+        /**
+         * Adds the given globally unique overmap special to the list of placed specials.
+         */
+        void add_unique_special( const overmap_special_id &id );
+        /**
+         * Returns true if the given globally unique overmap special has already been placed.
+         */
+        bool contains_unique_special( const overmap_special_id &id ) const;
+        /**
+         * Writes the placed unique specials as a JSON value.
+         */
+        void serialize_placed_unique_specials( JsonOut &json ) const;
+        /**
+         * Reads placed unique specials from JSON and overwrites the global value.
+         */
+        void deserialize_placed_unique_specials( JsonIn &jsin );
     private:
         /**
          * Go thorough the monster groups of the overmap and move out-of-bounds

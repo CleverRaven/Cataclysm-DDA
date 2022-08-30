@@ -5,7 +5,7 @@
 ##### Tileset
 A package of images for the game.
 
-##### Sprite 
+##### Sprite
 A single image that represents either an individual game entity or a common background
 
 ##### Root name
@@ -88,7 +88,7 @@ Are defined by adding `_female` or `_male` part to the `overlay_` part of a pref
 
 Are defined by adding `_season_spring`, `_season_summer`, `_season_autumn`, or `_season_winter` suffix to any tile entry `id`. For example `"id": "mon_wolf_season_winter"`.
 
-#### Item variant sprite variants
+#### Item/Mutation variant sprite variants
 
 Are defined by adding `_var_variant_id`, where `variant_id` is replaced by the id of the variant you want to sprite.
 
@@ -177,10 +177,10 @@ An optional file called layering.json can be provided. this file defines layerin
 
 ```c++
 {
-"item_variants": [
+"variants": [
   {
     "context": "f_desk",
-    "variants": [
+    "item_variants": [
       {
         "item": "laptop",
         "sprite": [{"id": "desk_laptop", "weight": 1}],
@@ -190,6 +190,12 @@ An optional file called layering.json can be provided. this file defines layerin
         "item": "pen",
         "sprite": [{"id": "desk_pen_1", "weight": 2}, {"id": "desk_pen_2", "weight": 2}],
         "layer": 100
+      }
+    ],
+    "field_variants": [
+      {
+        "field": "fd_fire",
+        "sprite": [{"id": "desk_fd_fire", "weight": 1}]
       }
     ]
   }
@@ -201,13 +207,25 @@ This entry sets it so that the f_desk furniture if it contains either a pen or a
 
 `"context": "f_desk"` the furniture or terrain that this should apply to.
 
-`"variants":` the defenitions for what will have a variant sprite.
+##### Items
 
-`"item": "laptop"` the item id.
+`"item_variants":` the definitions for what items will have a variant sprite.
 
-`"sprite": [{"id": "desk_pen_1", "weight": 2}, {"id": "desk_pen_2", "weight": 2}]` an array of the possible sprites that can display. For variation multiple sprites can be provided with specific weights.
+`"item": "laptop"` the item id. (only supported in item_variants)
 
-`"layer": 100` this defines the order the sprites will draw in. 1 drawing first 100 drawing last (so 100 ends up on top)
+`"layer": 100` this defines the order the sprites will draw in. 1 drawing first 100 drawing last (so 100 ends up on top). This only works for items, Fields are instead drawn in the order they are stacked on the tile.
+
+`"sprite": [{"id": "desk_pen_1", "weight": 2}, {"id": "desk_pen_2", "weight": 2}]` an array of the possible sprites that can display. For items multiple sprites can be provided with specific weights and will be selected at random.
+
+##### Fields
+
+`"field_variants":` the definitions for what fields will have a variant sprite.
+
+`"field": "fd_fire"` the field id. (only supported in field_variants)
+
+`"sprite": [{"id": "desk_fd_fire", "weight": 1}]` A field can have at most one sprite.
+
+
 
 ## `compose.py`
 
@@ -242,7 +260,9 @@ Requires `pyvips` module, see below.
 ### Windows
 
 #### Python and pyvips
- * Install Python with the latest **installer** https://www.python.org/downloads/windows/ (do not uncheck setting up the `py` shortcut unless you know what you are doing)
+ * Install Python with the latest **installer** https://www.python.org/downloads/windows/ (do not uncheck setting up the `py` shortcut unless you know what you are doing, check 'add Python to PATH'.)
+ 
+Installation of pyvips can be skipped if you are planning to use `updtset.cmd` - see below. Otherwise:
  * Open Console (Window key + `R` key, type `cmd` and hit `Enter`)
  * Install pyvips with these commands:
 ```
@@ -262,6 +282,9 @@ py -m pip install --user pyvips
 #### Launching scripts
 Navigate on Console to a directory with the script you want to launch.
 Prefix the script filename with `py `, like this: `py compose.py --use-all --obsolete-fillers pathToYourTileset pathToYourOutputFolder`
+Alternatively you can copy `updtset.cmd` from `CDDA-Tilesets\tools` to your Desktop, right click on it, select `Edit`, change four variables on the top part. Then you can just doubleclick on it and get Tileset updated.
+
+It is recommended to bind a key to the `update tileset` action, so you do not need to restart the game after composing the tileset. E.g. `F12` is usually unused.
 
 ### Linux
 _TODO, please ask if you need it or send suggestions if you want to help_

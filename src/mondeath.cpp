@@ -24,7 +24,6 @@
 #include "fungal_effects.h"
 #include "game.h"
 #include "harvest.h"
-#include "item.h"
 #include "item_stack.h"
 #include "itype.h"
 #include "kill_tracker.h"
@@ -56,10 +55,10 @@ static const harvest_drop_type_id harvest_drop_flesh( "flesh" );
 
 static const species_id species_ZOMBIE( "ZOMBIE" );
 
-void mdeath::normal( monster &z )
+item *mdeath::normal( monster &z )
 {
     if( z.no_corpse_quiet ) {
-        return;
+        return nullptr;
     }
 
     if( !z.quiet_death ) {
@@ -80,11 +79,17 @@ void mdeath::normal( monster &z )
         z.bleed(); // leave some blood if we have to
 
         if( pulverized ) {
-            splatter( z );
+            return splatter( z );
         } else {
-            make_mon_corpse( z, static_cast<int>( std::floor( corpse_damage * itype::damage_scale ) ) );
+            const float damage = std::floor( corpse_damage * itype::damage_scale );
+            item *corpse = make_mon_corpse( z, static_cast<int>( damage ) );
+            if( corpse->is_null() ) {
+                return nullptr;
+            }
+            return corpse;
         }
     }
+    return nullptr;
 }
 
 static void scatter_chunks( const itype_id &chunk_name, int chunk_amt, monster &z, int distance,
@@ -130,7 +135,7 @@ static void scatter_chunks( const itype_id &chunk_name, int chunk_amt, monster &
     }
 }
 
-void mdeath::splatter( monster &z )
+item *mdeath::splatter( monster &z )
 {
     const bool gibbable = !z.type->has_flag( MF_NOGIB );
 
@@ -166,7 +171,7 @@ void mdeath::splatter( monster &z )
     if( gibbable ) {
         float overflow_ratio = overflow_damage / max_hp + 1.0f;
         int gib_distance = std::round( rng( 2, 4 ) );
-        for( const auto &entry : *z.type->harvest ) {
+        for( const harvest_entry &entry : *z.type->harvest ) {
             // only flesh and bones survive.
             if( entry.type == harvest_drop_flesh || entry.type == harvest_drop_bone ) {
                 // the larger the overflow damage, the less you get
@@ -187,19 +192,23 @@ void mdeath::splatter( monster &z )
         }
         // add corpse with gib flag
         item corpse = item::make_corpse( z.type->id, calendar::turn, z.unique_name, z.get_upgrade_time() );
+        if( corpse.is_null() ) {
+            return nullptr;
+        }
         // Set corpse to damage that aligns with being pulped
         corpse.set_damage( 4000 );
         corpse.set_flag( STATIC( flag_id( "GIBBED" ) ) );
         if( z.has_effect( effect_no_ammo ) ) {
             corpse.set_var( "no_ammo", "no_ammo" );
         }
-        here.add_item_or_charges( z.pos(), corpse );
+        return &here.add_item_or_charges( z.pos(), corpse );
     }
+    return nullptr;
 }
 
 void mdeath::disappear( monster &z )
 {
-    add_msg_if_player_sees( z, m_good, _( "The %s disappears." ), z.name() );
+    add_msg_if_player_sees( z.pos(), m_good, _( "The %s disappears." ), z.name() );
 }
 
 void mdeath::broken( monster &z )
@@ -266,17 +275,17 @@ void mdeath::broken( monster &z )
     }
 }
 
-void make_mon_corpse( monster &z, int damageLvl )
+item *make_mon_corpse( monster &z, int damageLvl )
 {
     item corpse = item::make_corpse( z.type->id, calendar::turn, z.unique_name, z.get_upgrade_time() );
     // All corpses are at 37 C at time of death
     // This may not be true but anything better would be way too complicated
     if( z.is_warm() ) {
-        corpse.set_item_temperature( 310.15 );
+        corpse.set_item_temperature( units::from_celcius( 37 ) );
     }
     corpse.set_damage( damageLvl );
     if( z.has_effect( effect_no_ammo ) ) {
         corpse.set_var( "no_ammo", "no_ammo" );
     }
-    get_map().add_item_or_charges( z.pos(), corpse );
+    return &get_map().add_item_or_charges( z.pos(), corpse );
 }

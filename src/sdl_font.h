@@ -59,7 +59,7 @@ class Font
             int fontheight,
             const palette_array &palette,
             bool fontblending );
-    public:
+
         // the width of the font, background is always this size.
         int width;
         // the height of the font, background is always this size.

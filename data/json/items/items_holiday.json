@@ -68,7 +68,7 @@
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "candle_wax": 100 }, "rigid": true } ],
     "use_action": {
       "target": "jackolantern_lit",
-      "msg": "You light the jackolantern.",
+      "msg": "You light the jack o'lantern.",
       "active": true,
       "need_fire": 1,
       "menu_text": "Light",

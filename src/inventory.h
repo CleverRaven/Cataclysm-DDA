@@ -18,6 +18,7 @@
 #include <vector>
 
 #include "cata_utility.h"
+#include "coordinates.h"
 #include "item.h"
 #include "magic_enchantment.h"
 #include "proficiency.h"
@@ -88,6 +89,20 @@ class invlet_favorites
         std::array<itype_id, 256> ids_by_invlet;
 };
 
+struct quality_query {
+    quality_id qual;
+    int level;
+    int count;
+
+    bool operator==( const quality_query &other ) const {
+        return qual == other.qual && level == other.level && count == other.count;
+    }
+
+    bool operator<( const quality_query &other ) const {
+        return std::tie( qual, level, count ) < std::tie( other.qual, other.level, other.count );
+    }
+};
+
 class inventory : public visitable
 {
     public:
@@ -131,8 +146,8 @@ class inventory : public visitable
          * the player's worn items / weapon
          */
         void restack( Character &p );
-        void form_from_zone( map &m, std::unordered_set<tripoint> &zone_pts, const Character *pl = nullptr,
-                             bool assign_invlet = true );
+        void form_from_zone( map &m, std::unordered_set<tripoint_abs_ms> &zone_pts,
+                             const Character *pl = nullptr, bool assign_invlet = true );
         void form_from_map( const tripoint &origin, int range, const Character *pl = nullptr,
                             bool assign_invlet = true,
                             bool clear_path = true );
@@ -177,8 +192,6 @@ class inventory : public visitable
         //        "charges" refers to charges
         std::list<item> use_amount( const itype_id &it, int quantity,
                                     const std::function<bool( const item & )> &filter = return_true<item> );
-
-        int leak_level( const flag_id &flag ) const; // level of leaked bad stuff from items
 
         // NPC/AI functions
         int worst_item_value( npc *p ) const;
@@ -242,19 +255,27 @@ class inventory : public visitable
                                            int count = INT_MAX ) override;
         int charges_of( const itype_id &what, int limit = INT_MAX,
                         const std::function<bool( const item & )> &filter = return_true<item>,
-                        const std::function<void( int )> &visitor = nullptr ) const override;
-        int amount_of( const itype_id &what, bool pseudo = true,
-                       int limit = INT_MAX,
-                       const std::function<bool( const item & )> &filter = return_true<item> ) const override;
+                        const std::function<void( int )> &visitor = nullptr, bool in_tools = false ) const override;
+        int amount_of(
+            const itype_id &what, bool pseudo = true, int limit = INT_MAX,
+            const std::function<bool( const item & )> &filter = return_true<item> ) const override;
 
-        std::pair<int, int> kcal_range( const itype_id &id,
-                                        const std::function<bool( const item & )> &filter, Character &player_character );
+        std::pair<int, int> kcal_range(
+            const itype_id &id,
+            const std::function<bool( const item & )> &filter, Character &player_character ) const;
+
+        // specifically used to for displaying non-empty liquid container color in crafting screen
+        bool must_use_liq_container( const itype_id &id, int to_use ) const;
+        void update_liq_container_count( const itype_id &id, int count );
+        void replace_liq_container_count( const std::map<itype_id, int> &newmap, bool use_max = false );
 
     private:
         invlet_favorites invlet_cache;
         char find_usable_cached_invlet( const itype_id &item_type );
 
         invstack items;
+
+        std::map<itype_id, int> max_empty_liq_cont;
 
         // tracker for provide_pseudo_item to prevent duplicate tools/liquids
         std::set<itype_id> provisioned_pseudo_tools;
@@ -266,6 +287,8 @@ class inventory : public visitable
          * `mutable` because this is a pure cache that doesn't affect the contained items.
          */
         mutable itype_bin binned_items;
+
+        mutable std::map<quality_query, bool> qualities_cache;
 };
 
 #endif // CATA_SRC_INVENTORY_H

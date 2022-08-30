@@ -12,7 +12,7 @@
 #include <vector>
 
 #include "animation.h"
-#include "cata_void.h"
+#include "cata_type_traits.h"
 #include "creature.h"
 #include "enums.h"
 #include "lightmap.h"
@@ -88,7 +88,8 @@ class texture
         SDL_Rect srcrect = { 0, 0, 0, 0 };
 
     public:
-        texture( std::shared_ptr<SDL_Texture> ptr, const SDL_Rect &rect ) : sdl_texture_ptr( ptr ),
+        texture( std::shared_ptr<SDL_Texture> ptr,
+                 const SDL_Rect &rect ) : sdl_texture_ptr( std::move( ptr ) ),
             srcrect( rect ) { }
         texture() = default;
 
@@ -110,7 +111,7 @@ class texture
 class layer_variant
 {
     public:
-        std::string item;
+        std::string id;
         std::map<std::string, int> sprite;
         int layer;
         int total_weight;
@@ -126,6 +127,7 @@ class tileset
 
         std::string tileset_id;
 
+        bool tile_isometric = false;
         int tile_width = 0;
         int tile_height = 0;
 
@@ -155,10 +157,14 @@ class tileset
 
     public:
 
-        std::unordered_map<std::string, std::vector<layer_variant>> layer_data;
+        std::unordered_map<std::string, std::vector<layer_variant>> item_layer_data;
+        std::unordered_map<std::string, std::vector<layer_variant>> field_layer_data;
 
         void clear();
 
+        bool is_isometric() const {
+            return tile_isometric;
+        }
         int get_tile_width() const {
             return tile_width;
         }
@@ -218,8 +224,8 @@ class tileset_cache
 {
     public:
         std::shared_ptr<const tileset> load_tileset( const std::string &tileset_id,
-                const SDL_Renderer_Ptr &renderer, const bool precheck,
-                const bool force, const bool pump_events );
+                const SDL_Renderer_Ptr &renderer, bool precheck,
+                bool force, bool pump_events );
     private:
         class loader;
         std::unordered_map<std::string, std::weak_ptr<tileset>> tilesets_;
@@ -252,7 +258,7 @@ class tileset_cache::loader
                                       std::vector<texture> &target );
         void create_textures_from_tile_atlas( const SDL_Surface_Ptr &tile_atlas, const point &offset );
 
-        void process_variations_after_loading( weighted_int_list<std::vector<int>> &v );
+        void process_variations_after_loading( weighted_int_list<std::vector<int>> &v ) const;
 
         void add_ascii_subtile( tile_type &curr_tile, const std::string &t_id, int sprite_id,
                                 const std::string &s_id );
@@ -267,7 +273,7 @@ class tileset_cache::loader
         tile_type &load_tile( const JsonObject &entry, const std::string &id );
 
         void load_tile_spritelists( const JsonObject &entry, weighted_int_list<std::vector<int>> &vs,
-                                    const std::string &objname );
+                                    const std::string &objname ) const;
 
         void load_ascii( const JsonObject &config );
         /** Load tileset, R,G,B, are the color components of the transparent color
@@ -358,6 +364,11 @@ class cata_tiles
         void set_draw_scale( int scale );
 
         void on_options_changed();
+
+        // checks if the tileset_ptr is valid
+        bool is_valid() {
+            return tileset_ptr != nullptr;
+        }
 
         /** Draw to screen */
         void draw( const point &dest, const tripoint &center, int width, int height,
@@ -556,7 +567,7 @@ class cata_tiles
         void void_monster_override();
 
         bool has_draw_override( const tripoint &p ) const;
-    public:
+
         /**
          * Initialize the current tileset (load tile images, load mapping), using the current
          * tileset as it is set in the options.
@@ -576,6 +587,9 @@ class cata_tiles
          */
         void reinit();
 
+        bool is_isometric() const {
+            return tileset_ptr->is_isometric();
+        }
         int get_tile_height() const {
             return tile_height;
         }

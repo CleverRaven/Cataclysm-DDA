@@ -86,5 +86,47 @@
       { "trait": "COLDBLOOD4", "prob": 50 },
       { "distribution": [ { "trait": "MUT_TOUGH2" }, { "trait": "MUT_TOUGH" } ] }
     ]
+  },
+  {
+    "type": "trait_group",
+    "id": "trait_mutant_npc_common",
+    "subtype": "collection",
+    "traits": [
+      { "distribution": [ { "trait": "FASTLEARNER" }, { "trait": "SLOWLEARNER" } ], "prob": 10 },
+      {
+        "distribution": [ { "trait": "FASTREADER" }, { "trait": "SLOWREADER" }, { "trait": "ILLITERATE", "prob": 5 } ],
+        "prob": 10
+      },
+      { "distribution": [ { "trait": "GOODCARDIO" }, { "trait": "BADKNEES" } ], "prob": 10 },
+      { "distribution": [ { "trait": "LIAR" }, { "trait": "TRUTHTELLER" } ], "prob": 10 },
+      {
+        "distribution": [
+          { "trait": "MARTIAL_ARTS" },
+          { "trait": "MARTIAL_ARTS2" },
+          { "trait": "MARTIAL_ARTS3" },
+          { "trait": "MARTIAL_ARTS4" },
+          { "trait": "MARTIAL_ARTS5" }
+        ],
+        "prob": 10
+      },
+      { "trait": "DEFT", "prob": 10 },
+      { "trait": "ADRENALINE", "prob": 10 },
+      { "trait": "OUTDOORSMAN", "prob": 10 },
+      { "trait": "PAINRESIST", "prob": 10 },
+      { "trait": "QUICK", "prob": 10 },
+      { "trait": "ROBUST", "prob": 10 },
+      { "trait": "SPIRITUAL", "prob": 10 },
+      { "trait": "STYLISH", "prob": 10 },
+      { "trait": "ALBINO", "prob": 5 },
+      { "trait": "ASTHMA", "prob": 5 },
+      { "trait": "CHEMIMBALANCE", "prob": 10 },
+      { "trait": "HOARDER", "prob": 10 },
+      { "trait": "JITTERY", "prob": 10 },
+      { "trait": "MOODSWINGS", "prob": 10 },
+      { "trait": "SAVANT", "prob": 10 },
+      { "trait": "SCHIZOPHRENIC", "prob": 10 },
+      { "trait": "SQUEAMISH", "prob": 10 },
+      { "group": "Appearance_demographics", "prob": 100 }
+    ]
   }
 ]

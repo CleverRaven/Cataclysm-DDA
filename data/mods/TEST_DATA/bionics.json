@@ -11,6 +11,6 @@
     "react_cost": "9 kJ",
     "included": true,
     "//": "not actually included, this is a trick to not have to add an item version.",
-    "time": 1
+    "time": "1 s"
   }
 ]

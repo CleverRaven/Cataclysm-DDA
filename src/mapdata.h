@@ -91,7 +91,7 @@ struct map_shoot_info {
     int reduce_dmg_max_laser = 0;
     // Damage required to have a chance to destroy
     int destroy_dmg_min = 0;
-    // Damage required to guarentee destruction
+    // Damage required to guarantee destruction
     int destroy_dmg_max = 0;
     // Are lasers incapable of destroying the object (defaults to false)
     bool no_laser_destroy = false;
@@ -160,6 +160,7 @@ struct plant_data {
  * HIDE_PLACE - Creature on this tile can't be seen by other creature not standing on adjacent tiles
  * BLOCK_WIND - This tile will partially block wind
  * FLAT_SURF - Furniture or terrain or vehicle part with flat hard surface (ex. table, but not chair; tree stump, etc.).
+ * ROAD - Mainly affects the speed of rollerblades
  *
  * Currently only used for Fungal conversions
  * WALL - This terrain is an upright obstacle
@@ -223,6 +224,7 @@ enum class ter_furn_flag : int {
     TFLAG_GOES_DOWN,
     TFLAG_GOES_UP,
     TFLAG_NO_FLOOR,
+    TFLAG_ALLOW_ON_OPEN_AIR,
     TFLAG_SEEN_FROM_ABOVE,
     TFLAG_RAMP_DOWN,
     TFLAG_RAMP_UP,
@@ -281,6 +283,7 @@ enum class ter_furn_flag : int {
     TFLAG_NO_PICKUP_ON_EXAMINE,
     TFLAG_RUBBLE,
     TFLAG_DIGGABLE_CAN_DEEPEN,
+    TFLAG_PIT_FILLABLE,
     TFLAG_DIFFICULT_Z,
     TFLAG_ALIGN_WORKBENCH,
     TFLAG_NO_SPOIL,
@@ -293,6 +296,11 @@ enum class ter_furn_flag : int {
     TFLAG_BLOCKSDOOR,
     TFLAG_NO_SELF_CONNECT,
     TFLAG_BURROWABLE,
+    TFLAG_MURKY,
+    TFLAG_AMMOTYPE_RELOAD,
+    TFLAG_TRANSPARENT_FLOOR,
+    TFLAG_TOILET_WATER,
+    TFLAG_ELEVATOR,
 
     NUM_TFLAG_FLAGS
 };
@@ -326,6 +334,7 @@ enum ter_connects : int {
     TERCONN_CLAY,
     TERCONN_DIRT,
     TERCONN_ROCKFLOOR,
+    TERCONN_MULCHFLOOR,
     TERCONN_METALFLOOR,
     TERCONN_WOODFLOOR,
 };
@@ -464,7 +473,6 @@ struct map_data_common_t {
             return !( curtain_transform.is_empty() || curtain_transform.is_null() );
         }
 
-    public:
         std::string name() const;
 
         /*
@@ -487,6 +495,9 @@ struct map_data_common_t {
         int heat_radiation = 0;
         // The coverage percentage of a furniture piece of terrain. <30 won't cover from sight.
         int coverage = 0;
+        // Warmth provided by the terrain (for sleeping, etc.)
+        int floor_bedding_warmth = 0;
+        int comfort = 0;
         // Maximal volume of items that can be stored in/on this furniture
         units::volume max_volume = 1000_liter;
 
@@ -494,7 +505,7 @@ struct map_data_common_t {
 
         // The color the sym will draw in on the GUI.
         std::array<nc_color, NUM_SEASONS> color_;
-        void load_symbol( const JsonObject &jo );
+        void load_symbol( const JsonObject &jo, const std::string &context );
 
         std::string looks_like;
 
@@ -521,11 +532,11 @@ struct map_data_common_t {
             return bitflags[flag];
         }
 
-        void extraprocess_flags( const ter_furn_flag flag );
+        void extraprocess_flags( ter_furn_flag flag );
 
         void set_flag( const std::string &flag );
 
-        void set_flag( const ter_furn_flag flag );
+        void set_flag( ter_furn_flag flag );
 
         int connect_group = 0;
 
@@ -619,8 +630,6 @@ struct furn_t : map_data_common_t {
     translation lockpick_message; // Lockpick action: message when successfully lockpicked
     itype_id crafting_pseudo_item;
     units::volume keg_capacity = 0_ml;
-    int comfort = 0;
-    int floor_bedding_warmth = 0;
     /** Emissions of furniture */
     std::set<emit_id> emissions;
 

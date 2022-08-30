@@ -3,6 +3,7 @@
 #define CATA_SRC_MORALE_TYPES_H
 
 #include <iosfwd>
+#include <vector>
 
 #include "translations.h"
 #include "type_id.h"
@@ -18,6 +19,7 @@ class morale_type_data
         translation text;
     public:
         morale_type id;
+        std::vector<std::pair<morale_type, mod_id>> src;
         bool was_loaded = false;
 
         /** Describes this morale type, with item type to replace wildcard with. */
@@ -63,7 +65,9 @@ extern const morale_type MORALE_CRAVING_MARLOSS;
 extern const morale_type MORALE_FOOD_BAD;
 extern const morale_type MORALE_CANNIBAL;
 extern const morale_type MORALE_VEGETARIAN;
+extern const morale_type MORALE_ANTIVEGGY;
 extern const morale_type MORALE_MEATARIAN;
+extern const morale_type MORALE_ANTIMEAT;
 extern const morale_type MORALE_ANTIFRUIT;
 extern const morale_type MORALE_LACTOSE;
 extern const morale_type MORALE_ANTIJUNK;

@@ -1,0 +1,117 @@
+[
+  {
+    "id": "changeling_death_drops",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [
+      { "group": "cufflinks_silver", "prob": 30, "damage": [ 0, 4 ] },
+      { "group": "dress_shoes", "prob": 70, "damage": [ 1, 4 ] },
+      { "group": "dress_shop", "prob": 70, "damage": [ 1, 4 ] },
+      { "group": "underwear", "damage": [ 1, 4 ] },
+      { "group": "clothing_glasses", "prob": 5 },
+      { "group": "tiaras_silver", "prob": 5 },
+      { "group": "pendant_necklaces_silver", "prob": 5 },
+      { "group": "clothing_watch", "prob": 5 },
+      { "group": "fae_furs", "damage": [ 1, 4 ] },
+      { "item": "scrap_dreamdross", "prob": 75, "count": [ 1, 4 ] }
+    ]
+  },
+  {
+    "id": "changeling_bannerman_death_drops",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [
+      { "group": "cufflinks_silver", "prob": 30, "damage": [ 0, 4 ] },
+      { "group": "dress_shoes", "prob": 70, "damage": [ 1, 4 ] },
+      { "group": "dress_shop", "prob": 70, "damage": [ 1, 4 ] },
+      { "group": "underwear", "damage": [ 1, 4 ] },
+      { "group": "clothing_glasses", "prob": 5 },
+      { "group": "bannerman_armor", "prob": 20, "damage": [ 1, 4 ] },
+      { "group": "pendant_necklaces_silver", "prob": 5 },
+      { "group": "clothing_watch", "prob": 5 },
+      { "group": "fae_furs", "damage": [ 1, 4 ] },
+      { "item": "mirror_march_estoc", "prob": 25, "damage": [ 0, 5 ] },
+      { "item": "scabbard", "prob": 100 },
+      { "item": "scrap_dreamdross", "prob": 75, "count": [ 1, 4 ] }
+    ]
+  },
+  {
+    "id": "changeling_redcap_aspirant_death_drops",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [
+      { "group": "clothing_outdoor_shoes", "prob": 70, "damage": [ 1, 4 ] },
+      { "group": "clothing_outdoor_pants", "prob": 70, "damage": [ 1, 4 ] },
+      { "group": "underwear", "damage": [ 1, 4 ] },
+      { "group": "redcap_armor", "prob": 20, "damage": [ 1, 4 ] },
+      { "group": "pendant_necklaces_silver", "prob": 5 },
+      { "group": "clothing_outdoor_torso", "prob": 70, "damage": [ 1, 4 ] },
+      { "item": "redcap_club", "prob": 25, "damage": [ 0, 5 ] },
+      { "item": "scrap_dreamdross", "prob": 75, "count": [ 4, 8 ] }
+    ]
+  },
+  {
+    "id": "changeling_pooka_aspirant_death_drops",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [
+      { "group": "clothing_outdoor_shoes", "prob": 70, "damage": [ 1, 4 ] },
+      { "group": "clothing_outdoor_pants", "prob": 70, "damage": [ 1, 4 ] },
+      { "group": "underwear", "damage": [ 1, 4 ] },
+      { "group": "pooka_armor", "prob": 20, "damage": [ 1, 4 ] },
+      { "group": "pendant_necklaces_silver", "prob": 5 },
+      { "group": "clothing_outdoor_torso", "prob": 70, "damage": [ 1, 4 ] },
+      { "item": "pooka_gladius", "prob": 25, "damage": [ 0, 5 ] },
+      { "item": "scabbard", "prob": 100 },
+      { "item": "scrap_dreamdross", "prob": 75, "count": [ 4, 8 ] }
+    ]
+  },
+  {
+    "id": "changeling_lord_death_drops",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [
+      { "group": "cufflinks_silver", "prob": 30, "damage": [ 0, 4 ] },
+      { "group": "dress_shoes", "prob": 70, "damage": [ 1, 4 ] },
+      { "group": "dress_shop", "prob": 70, "damage": [ 1, 4 ] },
+      { "group": "bannerman_armor", "prob": 20, "damage": [ 1, 4 ] },
+      { "group": "pendant_necklaces_silver", "prob": 5 },
+      { "group": "fae_furs", "damage": [ 1, 4 ] },
+      { "item": "winter_lord_estoc", "prob": 25, "damage": [ 0, 5 ] },
+      { "item": "scabbard", "prob": 100 },
+      { "item": "purity_crackers", "prob": 10 },
+      { "item": "golden_bridle", "prob": 5 },
+      { "item": "scrap_dreamdross", "prob": 75, "count": [ 12, 24 ] }
+    ]
+  },
+  {
+    "id": "default_zombie_children_clothes",
+    "type": "item_group",
+    "subtype": "collection",
+    "copy-from": "default_zombie_children_clothes",
+    "extend": {
+      "entries": [
+        { "item": "wyld_candy", "prob": 15, "container-item": "wrapper_wyld", "sealed": false },
+        { "item": "scrap_dreamdross", "prob": 75, "count": [ 1, 4 ] }
+      ]
+    }
+  },
+  {
+    "id": "default_moroi_death_drops",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [
+      {
+        "distribution": [
+          { "group": "default_zombie_clothes", "prob": 90 },
+          { "group": "default_zombie_clothes_christmas", "event": "christmas", "prob": 10 },
+          { "group": "professional_zombie_gear", "prob": 1 }
+        ]
+      },
+      { "group": "default_zombie_items", "prob": 50 },
+      { "group": "wallets", "damage": [ 1, 4 ], "prob": 30 },
+      { "item": "grimy_recipe", "prob": 55 },
+      { "item": "scrap_dreamdross", "prob": 75, "count": [ 1, 4 ] }
+    ]
+  }
+]

@@ -508,13 +508,9 @@
     "time": "180 m",
     "blueprint_requires": [ { "id": "not_an_upgrade" } ],
     "blueprint_needs": {
-      "time": "1 d 1 h",
-      "skills": [ [ "survival", 3 ] ],
-      "inline": {
-        "tools": [ [ [ "elec_jackhammer", 35000 ], [ "jackhammer", 700 ], [ "pickaxe", -1 ] ] ],
-        "qualities": [ [ { "id": "DIG", "level": 2 } ] ],
-        "components": [  ]
-      }
+      "time": "11 h 35 m",
+      "skills": [ [ "survival", 0 ] ],
+      "inline": { "tools": [  ], "qualities": [ [ { "id": "DIG", "level": 2 } ] ], "components": [  ] }
     }
   },
   {
@@ -591,7 +587,7 @@
     "qualities": [
       [ { "id": "DIG", "level": 2 } ],
       [ { "id": "HAMMER", "level": 2 } ],
-      [ { "id": "CUT", "level": 1 } ],
+      [ { "id": "CUT", "level": 2 } ],
       [ { "id": "SAW_W", "level": 1 } ]
     ],
     "components": [
@@ -650,7 +646,7 @@
     "qualities": [
       [ { "id": "DIG", "level": 2 } ],
       [ { "id": "HAMMER", "level": 2 } ],
-      [ { "id": "CUT", "level": 1 } ],
+      [ { "id": "CUT", "level": 2 } ],
       [ { "id": "WRENCH", "level": 1 } ],
       [ { "id": "SAW_W", "level": 1 } ]
     ],
@@ -771,13 +767,9 @@
     "blueprint_requires": [ { "id": "not_an_upgrade" } ],
     "time": "180 m",
     "blueprint_needs": {
-      "time": "1 d 16 h",
-      "skills": [ [ "survival", 3 ] ],
-      "inline": {
-        "tools": [ [ [ "elec_jackhammer", 56000 ], [ "jackhammer", 1120 ], [ "pickaxe", -1 ] ] ],
-        "qualities": [ [ { "id": "DIG", "level": 2 } ] ],
-        "components": [  ]
-      }
+      "time": "18 h 32 m",
+      "skills": [ [ "survival", 0 ] ],
+      "inline": { "tools": [  ], "qualities": [ [ { "id": "DIG", "level": 2 } ] ], "components": [  ] }
     }
   },
   {

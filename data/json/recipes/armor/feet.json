@@ -9,7 +9,7 @@
     "difficulty": 2,
     "time": "1 h",
     "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
     "proficiencies": [ { "proficiency": "prof_basketweaving" } ],
     "components": [ [ [ "filament", 140, "LIST" ] ] ]
   },
@@ -24,7 +24,7 @@
     "time": "10 h",
     "autolearn": true,
     "reversible": true,
-    "using": [ [ "tailoring_leather_small", 12 ], [ "fastener_shoes", 2 ], [ "shoe_rubber", 1 ], [ "adhesive_rubber", 1 ] ],
+    "using": [ [ "tailoring_leather_small", 22 ], [ "fastener_shoes", 2 ], [ "shoe_rubber", 1 ], [ "adhesive_rubber", 1 ] ],
     "proficiencies": [
       { "proficiency": "prof_cobbling" },
       { "proficiency": "prof_leatherworking_basic" },
@@ -32,11 +32,18 @@
     ]
   },
   {
+    "result": "xs_boots",
+    "type": "recipe",
+    "copy-from": "boots",
+    "time": "10 h",
+    "using": [ [ "tailoring_leather_small", 15 ], [ "fastener_shoes", 1 ], [ "shoe_rubber", 1 ], [ "adhesive_rubber", 1 ] ]
+  },
+  {
     "result": "xl_boots",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "copy-from": "boots",
-    "using": [ [ "tailoring_leather_small", 15 ], [ "fastener_shoes", 3 ], [ "shoe_rubber", 2 ], [ "adhesive_rubber", 2 ] ],
+    "using": [ [ "tailoring_leather_small", 30 ], [ "fastener_shoes", 3 ], [ "shoe_rubber", 2 ], [ "adhesive_rubber", 2 ] ],
     "time": "11 h 15 m"
   },
   {
@@ -59,6 +66,13 @@
       { "proficiency": "prof_chitinworking" },
       { "proficiency": "prof_articulation" }
     ]
+  },
+  {
+    "result": "xs_boots_chitin",
+    "type": "recipe",
+    "copy-from": "boots_chitin",
+    "time": "12 h",
+    "using": [ [ "armor_chitin", 13 ], [ "strap_small", 3 ], [ "clasps", 1 ] ]
   },
   {
     "result": "xl_boots_chitin",
@@ -91,6 +105,13 @@
     ]
   },
   {
+    "result": "xs_boots_acidchitin",
+    "type": "recipe",
+    "copy-from": "boots_acidchitin",
+    "time": "16 h",
+    "using": [ [ "armor_acidchitin", 13 ], [ "strap_small", 3 ], [ "clasps", 1 ] ]
+  },
+  {
     "result": "xl_boots_acidchitin",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
@@ -103,14 +124,15 @@
     "result": "boots_fsurvivor",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_FEET",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
     "skill_used": "tailor",
     "difficulty": 8,
     "skills_required": [ "fabrication", 6 ],
     "time": "20 h",
     "autolearn": true,
-    "using": [ [ "tailoring_kevlar_fabric", 4 ], [ "tailoring_nomex_patchwork", 8 ], [ "fastener_small", 2 ] ],
+    "using": [ [ "tailoring_kevlar_fabric", 4 ], [ "tailoring_nomex_patchwork", 4 ], [ "fastener_small", 2 ] ],
+    "byproducts": [ [ "scrap_kevlar", 20 ], [ "scrap_nomex", 20 ] ],
     "proficiencies": [
       { "proficiency": "prof_cobbling" },
       { "proficiency": "prof_leatherworking_basic" },
@@ -120,12 +142,22 @@
     "components": [ [ [ "duct_tape", 50 ] ], [ [ "boots_combat", 1 ], [ "boots_steel", 1 ], [ "boots_bunker", 1 ] ] ]
   },
   {
+    "result": "xs_boots_fsurvivor",
+    "type": "recipe",
+    "copy-from": "boots_fsurvivor",
+    "time": "20 h",
+    "using": [ [ "tailoring_kevlar_fabric", 3 ], [ "tailoring_nomex_patchwork", 3 ], [ "fastener_small", 1 ] ],
+    "byproducts": [ [ "scrap_kevlar", 10 ], [ "scrap_nomex", 10 ] ],
+    "components": [ [ [ "duct_tape", 38 ] ], [ [ "boots_combat", 1 ], [ "boots_steel", 1 ], [ "boots_bunker", 1 ] ] ]
+  },
+  {
     "result": "xl_boots_fsurvivor",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "copy-from": "boots_fsurvivor",
     "time": "22 h 30 m",
-    "using": [ [ "tailoring_kevlar_fabric", 6 ], [ "tailoring_nomex_patchwork", 11 ], [ "fastener_small", 2 ] ]
+    "byproducts": [ [ "scrap_kevlar", 20 ], [ "scrap_nomex", 20 ] ],
+    "using": [ [ "tailoring_kevlar_fabric", 6 ], [ "tailoring_nomex_patchwork", 6 ], [ "fastener_small", 2 ] ]
   },
   {
     "result": "boots_fur",
@@ -138,12 +170,11 @@
     "skills_required": [ "survival", 1 ],
     "time": "12 h",
     "autolearn": true,
-    "reversible": true,
     "book_learn": [ [ "textbook_survival", 1 ] ],
     "using": [
       [ "sewing_standard", 13 ],
-      [ "tailoring_leather_small", 7 ],
-      [ "tailoring_fur_small", 7 ],
+      [ "tailoring_leather_patchwork", 3 ],
+      [ "tailoring_fur_patchwork", 2 ],
       [ "fastener_shoes", 2 ],
       [ "shoe_rubber", 1 ],
       [ "adhesive_rubber", 1 ]
@@ -156,14 +187,28 @@
     ]
   },
   {
+    "result": "xs_boots_fur",
+    "type": "recipe",
+    "copy-from": "boots_fur",
+    "time": "12 h",
+    "using": [
+      [ "sewing_standard", 9 ],
+      [ "tailoring_leather_patchwork", 2 ],
+      [ "tailoring_fur_patchwork", 3 ],
+      [ "fastener_shoes", 1 ],
+      [ "shoe_rubber", 1 ],
+      [ "adhesive_rubber", 1 ]
+    ]
+  },
+  {
     "result": "xl_boots_fur",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "copy-from": "boots_fur",
     "using": [
       [ "sewing_standard", 16 ],
-      [ "tailoring_leather_small", 8 ],
-      [ "tailoring_fur_small", 8 ],
+      [ "tailoring_leather_patchwork", 4 ],
+      [ "tailoring_fur_patchwork", 4 ],
       [ "fastener_shoes", 3 ],
       [ "shoe_rubber", 2 ],
       [ "adhesive_rubber", 2 ]
@@ -174,8 +219,8 @@
     "result": "boots_wsurvivor_nofur",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_FEET",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
     "skill_used": "tailor",
     "difficulty": 7,
     "skills_required": [ "fabrication", 5 ],
@@ -191,6 +236,18 @@
     "components": [
       [ [ "faux_fur", 12 ] ],
       [ [ "duct_tape", 100 ] ],
+      [ [ "boots_combat", 1 ], [ "boots_steel", 1 ], [ "boots_hiking", 1 ], [ "boots_bunker", 1 ], [ "boots", 1 ] ]
+    ]
+  },
+  {
+    "result": "xs_boots_wsurvivor_nofur",
+    "type": "recipe",
+    "copy-from": "boots_wsurvivor_nofur",
+    "time": "24 h",
+    "using": [ [ "tailoring_kevlar_fabric", 3 ], [ "fastener_small", 1 ] ],
+    "components": [
+      [ [ "faux_fur", 9 ] ],
+      [ [ "duct_tape", 75 ] ],
       [ [ "boots_combat", 1 ], [ "boots_steel", 1 ], [ "boots_hiking", 1 ], [ "boots_bunker", 1 ], [ "boots", 1 ] ]
     ]
   },
@@ -211,8 +268,8 @@
     "result": "boots_h20survivor",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_FEET",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
     "skill_used": "tailor",
     "difficulty": 7,
     "skills_required": [ "fabrication", 6 ],
@@ -236,8 +293,8 @@
     "result": "boots_hsurvivor",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_FEET",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
     "skill_used": "tailor",
     "difficulty": 7,
     "skills_required": [ "fabrication", 5 ],
@@ -254,6 +311,18 @@
     "components": [
       [ [ "steel_chunk", 4 ], [ "scrap", 12 ] ],
       [ [ "duct_tape", 100 ] ],
+      [ [ "boots_combat", 1 ], [ "boots_steel", 1 ], [ "boots_hiking", 1 ], [ "boots_bunker", 1 ], [ "boots", 1 ] ]
+    ]
+  },
+  {
+    "result": "xs_boots_hsurvivor",
+    "type": "recipe",
+    "copy-from": "boots_hsurvivor",
+    "time": "24 h",
+    "using": [ [ "tailoring_kevlar_fabric", 3 ], [ "tailoring_leather_small", 3 ], [ "fastener_small", 1 ] ],
+    "components": [
+      [ [ "steel_chunk", 3 ], [ "scrap", 9 ] ],
+      [ [ "duct_tape", 75 ] ],
       [ [ "boots_combat", 1 ], [ "boots_steel", 1 ], [ "boots_hiking", 1 ], [ "boots_bunker", 1 ], [ "boots", 1 ] ]
     ]
   },
@@ -280,7 +349,7 @@
     "difficulty": 2,
     "time": "12 h",
     "autolearn": true,
-    "using": [ [ "fastener_small", 2 ], [ "tailoring_leather_small", 18 ] ],
+    "using": [ [ "fastener_small", 2 ], [ "tailoring_leather_patchwork", 4 ] ],
     "proficiencies": [
       { "proficiency": "prof_cobbling" },
       { "proficiency": "prof_leatherworking_basic" },
@@ -288,19 +357,26 @@
     ]
   },
   {
+    "result": "xs_boots_larmor",
+    "type": "recipe",
+    "copy-from": "boots_larmor",
+    "time": "12 h",
+    "using": [ [ "fastener_small", 1 ], [ "tailoring_leather_patchwork", 3 ] ]
+  },
+  {
     "result": "xl_boots_larmor",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "copy-from": "boots_larmor",
-    "using": [ [ "fastener_small", 2 ], [ "tailoring_leather_small", 24 ] ],
+    "using": [ [ "fastener_small", 2 ], [ "tailoring_leather_patchwork", 5 ] ],
     "time": "13 h 30 m"
   },
   {
     "result": "boots_lsurvivor",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_FEET",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
     "skill_used": "tailor",
     "difficulty": 5,
     "skills_required": [ "fabrication", 3 ],
@@ -315,6 +391,17 @@
     ],
     "components": [
       [ [ "duct_tape", 100 ] ],
+      [ [ "boots_combat", 1 ], [ "boots_steel", 1 ], [ "boots_hiking", 1 ], [ "boots_bunker", 1 ], [ "boots", 1 ] ]
+    ]
+  },
+  {
+    "result": "xs_boots_lsurvivor",
+    "type": "recipe",
+    "copy-from": "boots_lsurvivor",
+    "time": "20 h",
+    "using": [ [ "tailoring_kevlar_fabric", 3 ], [ "fastener_small", 1 ] ],
+    "components": [
+      [ [ "duct_tape", 75 ] ],
       [ [ "boots_combat", 1 ], [ "boots_steel", 1 ], [ "boots_hiking", 1 ], [ "boots_bunker", 1 ], [ "boots", 1 ] ]
     ]
   },
@@ -353,6 +440,14 @@
     "tools": [ [ [ "swage", -1 ] ] ]
   },
   {
+    "result": "xs_boots_plate",
+    "type": "recipe",
+    "copy-from": "boots_plate",
+    "time": "8 h",
+    "using": [ [ "blacksmithing_standard", 24 ], [ "steel_standard", 6 ], [ "tailoring_leather_small", 12 ] ],
+    "tools": [ [ [ "swage", -1 ] ] ]
+  },
+  {
     "result": "xl_boots_plate",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
@@ -374,27 +469,34 @@
     "reversible": true,
     "autolearn": true,
     "book_learn": [ [ "recipe_melee", 2 ] ],
-    "using": [ [ "strap_small", 4 ] ],
+    "using": [ [ "cordage", 1 ], [ "mixed_steel", 1 ] ],
+    "components": [ [ [ "cotton_patchwork", 4 ] ] ],
     "proficiencies": [ { "proficiency": "prof_cobbling" }, { "proficiency": "prof_metalworking" }, { "proficiency": "prof_articulation" } ],
-    "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "scrap", 50 ] ] ]
+    "qualities": [ { "id": "HAMMER", "level": 1 } ]
+  },
+  {
+    "result": "xs_boots_scrap",
+    "type": "recipe",
+    "copy-from": "boots_scrap",
+    "time": "30 m",
+    "using": [ [ "cordage", 1 ], [ "mixed_steel", 1 ] ],
+    "components": [ [ [ "cotton_patchwork", 2 ] ] ]
   },
   {
     "result": "xl_boots_scrap",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "copy-from": "boots_scrap",
-    "using": [ [ "strap_small", 4 ] ],
     "time": "35 m",
-    "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "scrap", 65 ] ] ]
+    "using": [ [ "cordage", 2 ], [ "mixed_steel", 1 ] ],
+    "components": [ [ [ "cotton_patchwork", 6 ] ] ]
   },
   {
     "result": "boots_survivor",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_FEET",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
     "skill_used": "tailor",
     "difficulty": 6,
     "skills_required": [ "fabrication", 4 ],
@@ -414,6 +516,17 @@
     ]
   },
   {
+    "result": "boots_xssurvivor",
+    "type": "recipe",
+    "copy-from": "boots_survivor",
+    "time": "22 h",
+    "using": [ [ "tailoring_kevlar_fabric", 3 ], [ "tailoring_leather_small", 6 ] ],
+    "components": [
+      [ [ "duct_tape", 75 ] ],
+      [ [ "boots_combat", 1 ], [ "boots_steel", 1 ], [ "boots_hiking", 1 ], [ "boots_bunker", 1 ], [ "boots", 1 ] ]
+    ]
+  },
+  {
     "result": "boots_western",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
@@ -428,7 +541,7 @@
       { "proficiency": "prof_leatherworking_basic" },
       { "proficiency": "prof_leatherworking" }
     ],
-    "using": [ [ "tailoring_leather_small", 14 ] ]
+    "using": [ [ "tailoring_leather_patchwork", 5 ] ]
   },
   {
     "result": "boots_winter",
@@ -443,7 +556,7 @@
     "using": [
       [ "tailoring_felt_patchwork", 4 ],
       [ "plastic_molding", 4 ],
-      [ "waterproofing_plastic_bags", 2 ],
+      [ "waterproofing_plastic_sheets", 2 ],
       [ "fastener_shoes", 2 ],
       [ "shoe_rubber", 1 ],
       [ "adhesive_rubber", 1 ]
@@ -455,6 +568,20 @@
     ]
   },
   {
+    "result": "xs_boots_winter",
+    "type": "recipe",
+    "copy-from": "boots_winter",
+    "time": "12 h",
+    "using": [
+      [ "tailoring_felt_patchwork", 3 ],
+      [ "plastic_molding", 3 ],
+      [ "waterproofing_plastic_sheets", 1 ],
+      [ "fastener_shoes", 1 ],
+      [ "shoe_rubber", 1 ],
+      [ "adhesive_rubber", 1 ]
+    ]
+  },
+  {
     "result": "xl_boots_winter",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
@@ -462,7 +589,7 @@
     "using": [
       [ "tailoring_felt_patchwork", 6 ],
       [ "plastic_molding", 5 ],
-      [ "waterproofing_plastic_bags", 2 ],
+      [ "waterproofing_plastic_sheets", 2 ],
       [ "fastener_shoes", 3 ],
       [ "shoe_rubber", 1 ],
       [ "adhesive_rubber", 1 ]
@@ -473,8 +600,8 @@
     "result": "boots_wsurvivor",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_FEET",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
     "skill_used": "tailor",
     "difficulty": 7,
     "skills_required": [ "fabrication", 5 ],
@@ -494,6 +621,17 @@
     ]
   },
   {
+    "result": "xs_boots_wsurvivor",
+    "type": "recipe",
+    "copy-from": "boots_wsurvivor",
+    "time": "24 h",
+    "using": [ [ "tailoring_kevlar_fabric", 3 ], [ "tailoring_fur_small", 9 ], [ "fastener_small", 1 ] ],
+    "components": [
+      [ [ "duct_tape", 75 ] ],
+      [ [ "boots_combat", 1 ], [ "boots_steel", 1 ], [ "boots_hiking", 1 ], [ "boots_bunker", 1 ], [ "boots", 1 ] ]
+    ]
+  },
+  {
     "result": "xl_boots_wsurvivor",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
@@ -509,8 +647,8 @@
     "result": "boots_xlsurvivor",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_FEET",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
     "skill_used": "tailor",
     "difficulty": 6,
     "skills_required": [ "fabrication", 4 ],
@@ -536,7 +674,7 @@
     "difficulty": 3,
     "time": "1 h 20 m",
     "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
     "proficiencies": [ { "proficiency": "prof_carving" } ],
     "components": [ [ [ "2x4", 2 ], [ "stick", 2 ] ] ]
   },
@@ -551,7 +689,7 @@
     "time": "40 m",
     "book_learn": [ [ "tailor_japanese", 2 ] ],
     "proficiencies": [ { "proficiency": "prof_carving" } ],
-    "qualities": [ { "id": "SAW_W", "level": 1 }, { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "SAW_W", "level": 1 }, { "id": "CUT", "level": 2 } ],
     "components": [ [ [ "2x4", 1 ] ], [ [ "strap_small", 2, "LIST" ] ] ]
   },
   {
@@ -564,7 +702,8 @@
     "difficulty": 1,
     "time": "20 m",
     "book_learn": [ [ "tailor_japanese", 2 ] ],
-    "using": [ [ "tailoring_cotton", 1 ] ]
+    "byproducts": [ [ "scrap_cotton", 4 ] ],
+    "using": [ [ "tailoring_cotton", 2 ] ]
   },
   {
     "result": "footrags",
@@ -576,7 +715,7 @@
     "time": "1 m",
     "reversible": true,
     "autolearn": true,
-    "using": [ [ "fabric_standard_nostretch", 6 ] ],
+    "using": [ [ "tailoring_cotton_patchwork", 2 ] ],
     "flags": [ "BLIND_HARD" ]
   },
   {
@@ -589,7 +728,7 @@
     "time": "1 m 30 s",
     "reversible": true,
     "autolearn": true,
-    "components": [ [ [ "fur", 2 ] ] ],
+    "components": [ [ [ "sheet_fur_patchwork", 2 ] ] ],
     "flags": [ "BLIND_HARD" ]
   },
   {
@@ -602,7 +741,7 @@
     "time": "1 m 30 s",
     "reversible": true,
     "autolearn": true,
-    "components": [ [ [ "leather", 2 ] ] ],
+    "components": [ [ [ "sheet_leather_patchwork", 2 ] ] ],
     "flags": [ "BLIND_HARD" ]
   },
   {
@@ -615,7 +754,7 @@
     "time": "1 m",
     "reversible": true,
     "autolearn": true,
-    "components": [ [ [ "felt_patch", 2 ] ] ],
+    "components": [ [ [ "sheet_felt_patchwork", 2 ] ] ],
     "flags": [ "BLIND_HARD" ]
   },
   {
@@ -633,7 +772,7 @@
       { "proficiency": "prof_leatherworking_basic" },
       { "proficiency": "prof_leatherworking" }
     ],
-    "using": [ [ "tailoring_leather_small", 3 ] ]
+    "using": [ [ "tailoring_leather_patchwork", 3 ] ]
   },
   {
     "result": "mocassins",
@@ -651,7 +790,7 @@
       { "proficiency": "prof_furriery" }
     ],
     "book_learn": [ [ "textbook_survival", 0 ], [ "pocket_survival", 0 ] ],
-    "using": [ [ "tailoring_fur_small", 2 ] ]
+    "using": [ [ "tailoring_fur_patchwork", 1 ] ]
   },
   {
     "result": "nomex_socks",
@@ -664,7 +803,15 @@
     "time": "24 m",
     "proficiencies": [ { "proficiency": "prof_polymerworking" } ],
     "book_learn": [ [ "textbook_fireman", 6 ], [ "textbook_tailor", 5 ], [ "tailor_portfolio", 5 ] ],
-    "using": [ [ "tailoring_nomex_patchwork", 2 ] ]
+    "using": [ [ "tailoring_nomex_patchwork", 7 ] ],
+    "byproducts": [ [ "nomex", 1 ] ]
+  },
+  {
+    "result": "xsnomex_socks",
+    "type": "recipe",
+    "copy-from": "nomex_socks",
+    "time": "24 m",
+    "using": [ [ "tailoring_nomex_patchwork", 5 ] ]
   },
   {
     "result": "xlnomex_socks",
@@ -677,7 +824,7 @@
     "time": "37 m",
     "proficiencies": [ { "proficiency": "prof_polymerworking" } ],
     "book_learn": [ [ "textbook_fireman", 6 ], [ "textbook_tailor", 5 ], [ "tailor_portfolio", 5 ] ],
-    "using": [ [ "tailoring_nomex_patchwork", 4 ] ]
+    "using": [ [ "tailoring_nomex_patchwork", 10 ] ]
   },
   {
     "result": "shoes_birchbark",
@@ -691,7 +838,7 @@
     "autolearn": true,
     "proficiencies": [ { "proficiency": "prof_basketweaving" } ],
     "book_learn": [ [ "textbook_survival", 1 ], [ "pocket_survival", 1 ] ],
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [ [ [ "birchbark", 3 ] ] ]
   },
   {
@@ -703,7 +850,16 @@
     "skill_used": "tailor",
     "time": "1 h",
     "autolearn": true,
-    "using": [ [ "tailoring_cotton", 1 ] ]
+    "using": [ [ "tailoring_cotton_patchwork", 1 ] ],
+    "byproducts": [ [ "scrap_cotton", 3 ] ]
+  },
+  {
+    "result": "xssocks",
+    "type": "recipe",
+    "copy-from": "socks",
+    "time": "1 h",
+    "using": [ [ "tailoring_cotton_patchwork", 1 ] ],
+    "byproducts": [ [ "scrap_cotton", 1 ], [ "cotton_patchwork", 2 ] ]
   },
   {
     "result": "xlsocks",
@@ -714,7 +870,8 @@
     "skill_used": "tailor",
     "time": "1 h 12 m",
     "autolearn": true,
-    "using": [ [ "tailoring_cotton", 2 ] ]
+    "using": [ [ "tailoring_cotton_patchwork", 2 ] ],
+    "byproducts": [ [ "scrap_cotton", 2 ], [ "cotton_patchwork", 2 ] ]
   },
   {
     "result": "socks_bag",
@@ -742,6 +899,20 @@
     "using": [ [ "tailoring_wool_knitting", 40 ] ]
   },
   {
+    "result": "xlsocks_wool",
+    "type": "recipe",
+    "copy-from": "socks_wool",
+    "time": "2 h 24 m",
+    "using": [ [ "tailoring_wool_knitting", 80 ] ]
+  },
+  {
+    "result": "xssocks_wool",
+    "type": "recipe",
+    "copy-from": "socks_wool",
+    "time": "2 h 24 m",
+    "using": [ [ "tailoring_wool_knitting", 30 ] ]
+  },
+  {
     "result": "socks_ankle",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
@@ -750,7 +921,8 @@
     "skill_used": "tailor",
     "time": "1 h",
     "autolearn": true,
-    "using": [ [ "tailoring_cotton", 1 ] ]
+    "using": [ [ "tailoring_cotton", 1 ] ],
+    "byproducts": [ [ "cotton_patchwork", 2 ] ]
   },
   {
     "result": "stockings",
@@ -762,7 +934,8 @@
     "difficulty": 1,
     "time": "2 h",
     "autolearn": true,
-    "using": [ [ "tailoring_cotton", 1 ] ]
+    "using": [ [ "tailoring_cotton_patchwork", 3 ] ],
+    "byproducts": [ [ "cotton_patchwork", 3 ] ]
   },
   {
     "result": "straw_sandals",
@@ -804,7 +977,7 @@
     "book_learn": [ [ "textbook_fabrication", 3 ], [ "tailor_portfolio", 4 ], [ "textbook_tailor", 3 ], [ "atomic_survival", 3 ] ],
     "using": [ [ "sewing_standard", 6 ], [ "soldering_standard", 20 ] ],
     "proficiencies": [ { "proficiency": "prof_elec_soldering" } ],
-    "components": [ [ [ "rag", 2 ], [ "socks", 1 ], [ "socks_wool", 1 ] ], [ [ "element", 2 ] ], [ [ "cable", 4 ] ] ]
+    "components": [ [ [ "socks", 1 ], [ "socks_wool", 1 ] ], [ [ "element", 2 ] ], [ [ "cable", 4 ] ] ]
   },
   {
     "result": "wetsuit_booties",
@@ -814,30 +987,145 @@
     "subcategory": "CSC_ARMOR_FEET",
     "skill_used": "tailor",
     "difficulty": 4,
-    "time": "2 h",
+    "time": "3 h",
     "book_learn": [ [ "textbook_tailor", 4 ], [ "manual_tailor", 5 ], [ "tailor_portfolio", 4 ] ],
     "proficiencies": [ { "proficiency": "prof_closures_waterproofing" }, { "proficiency": "prof_elastics" } ],
-    "using": [ [ "tailoring_neoprene", 1 ] ]
+    "using": [ [ "tailoring_neoprene_patchwork", 7 ] ]
   },
   {
-    "result": "chainmail_feet",
+    "result": "lc_chainmail_feet",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_FEET",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
     "skill_used": "fabrication",
     "difficulty": 7,
     "time": "3 h",
     "book_learn": [ [ "textbook_armwest", 6 ], [ "textbook_fabrication", 6 ], [ "recipe_melee", 6 ] ],
     "proficiencies": [ { "proficiency": "prof_cobbling" }, { "proficiency": "prof_chain_armour" } ],
-    "using": [ [ "armor_chainmail_assembling", 2 ], [ "strap_small", 2 ] ]
+    "using": [ [ "armor_lc_chainmail_assembling", 2 ], [ "strap_small", 2 ] ]
   },
   {
-    "result": "xl_chainmail_feet",
+    "result": "xs_lc_chainmail_feet",
     "type": "recipe",
-    "copy-from": "chainmail_feet",
+    "copy-from": "lc_chainmail_feet",
+    "time": "3 h",
+    "using": [ [ "armor_lc_chainmail_assembling", 1 ], [ "strap_small", 1 ] ]
+  },
+  {
+    "result": "xl_lc_chainmail_feet",
+    "type": "recipe",
+    "copy-from": "lc_chainmail_feet",
     "time": "5 h",
-    "using": [ [ "armor_chainmail_assembling", 4 ], [ "strap_small", 2 ] ]
+    "using": [ [ "armor_lc_chainmail_assembling", 4 ], [ "strap_small", 2 ] ]
+  },
+  {
+    "result": "mc_chainmail_feet",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "fabrication",
+    "difficulty": 7,
+    "time": "3 h",
+    "book_learn": [ [ "textbook_armwest", 6 ], [ "textbook_fabrication", 6 ], [ "recipe_melee", 6 ] ],
+    "proficiencies": [ { "proficiency": "prof_cobbling" }, { "proficiency": "prof_chain_armour" } ],
+    "using": [ [ "armor_mc_chainmail_assembling", 2 ], [ "strap_small", 2 ] ]
+  },
+  {
+    "result": "xs_mc_chainmail_feet",
+    "type": "recipe",
+    "copy-from": "mc_chainmail_feet",
+    "time": "3 h",
+    "using": [ [ "armor_mc_chainmail_assembling", 1 ], [ "strap_small", 1 ] ]
+  },
+  {
+    "result": "xl_mc_chainmail_feet",
+    "type": "recipe",
+    "copy-from": "mc_chainmail_feet",
+    "time": "5 h",
+    "using": [ [ "armor_mc_chainmail_assembling", 4 ], [ "strap_small", 2 ] ]
+  },
+  {
+    "result": "hc_chainmail_feet",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "fabrication",
+    "difficulty": 7,
+    "time": "3 h",
+    "book_learn": [ [ "textbook_armwest", 6 ], [ "textbook_fabrication", 6 ], [ "recipe_melee", 6 ] ],
+    "proficiencies": [ { "proficiency": "prof_cobbling" }, { "proficiency": "prof_chain_armour" } ],
+    "using": [ [ "armor_hc_chainmail_assembling", 2 ], [ "strap_small", 2 ] ]
+  },
+  {
+    "result": "xs_hc_chainmail_feet",
+    "type": "recipe",
+    "copy-from": "hc_chainmail_feet",
+    "time": "3 h",
+    "using": [ [ "armor_hc_chainmail_assembling", 1 ], [ "strap_small", 1 ] ]
+  },
+  {
+    "result": "xl_hc_chainmail_feet",
+    "type": "recipe",
+    "copy-from": "hc_chainmail_feet",
+    "time": "5 h",
+    "using": [ [ "armor_hc_chainmail_assembling", 4 ], [ "strap_small", 2 ] ]
+  },
+  {
+    "result": "ch_chainmail_feet",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "fabrication",
+    "difficulty": 7,
+    "time": "3 h",
+    "book_learn": [ [ "textbook_armwest", 6 ], [ "textbook_fabrication", 6 ], [ "recipe_melee", 6 ] ],
+    "proficiencies": [ { "proficiency": "prof_cobbling" }, { "proficiency": "prof_chain_armour" } ],
+    "using": [ [ "armor_ch_chainmail_assembling", 2 ], [ "strap_small", 2 ] ]
+  },
+  {
+    "result": "xs_ch_chainmail_feet",
+    "type": "recipe",
+    "copy-from": "ch_chainmail_feet",
+    "time": "3 h",
+    "using": [ [ "armor_ch_chainmail_assembling", 1 ], [ "strap_small", 1 ] ]
+  },
+  {
+    "result": "xl_ch_chainmail_feet",
+    "type": "recipe",
+    "copy-from": "ch_chainmail_feet",
+    "time": "5 h",
+    "using": [ [ "armor_ch_chainmail_assembling", 4 ], [ "strap_small", 2 ] ]
+  },
+  {
+    "result": "qt_chainmail_feet",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "fabrication",
+    "difficulty": 7,
+    "time": "3 h",
+    "book_learn": [ [ "textbook_armwest", 6 ], [ "textbook_fabrication", 6 ], [ "recipe_melee", 6 ] ],
+    "proficiencies": [ { "proficiency": "prof_cobbling" }, { "proficiency": "prof_chain_armour" } ],
+    "using": [ [ "armor_qt_chainmail_assembling", 2 ], [ "strap_small", 2 ] ]
+  },
+  {
+    "result": "xs_qt_chainmail_feet",
+    "type": "recipe",
+    "copy-from": "qt_chainmail_feet",
+    "time": "3 h",
+    "using": [ [ "armor_qt_chainmail_assembling", 1 ], [ "strap_small", 1 ] ]
+  },
+  {
+    "result": "xl_qt_chainmail_feet",
+    "type": "recipe",
+    "copy-from": "qt_chainmail_feet",
+    "time": "5 h",
+    "using": [ [ "armor_qt_chainmail_assembling", 4 ], [ "strap_small", 2 ] ]
   },
   {
     "result": "roller_blades",
@@ -886,13 +1174,13 @@
     "difficulty": 6,
     "time": "14 h",
     "autolearn": false,
-    "reversible": true,
     "using": [
-      [ "tailoring_leather_small", 9 ],
-      [ "tailoring_kevlar_fabric", 3 ],
+      [ "tailoring_leather_small", 11 ],
+      [ "tailoring_kevlar_fabric", 15 ],
       [ "fastener_shoes", 2 ],
       [ "shoe_rubber", 1 ],
-      [ "adhesive_rubber", 1 ]
+      [ "adhesive_rubber", 1 ],
+      [ "sewing_aramids", 3 ]
     ],
     "proficiencies": [
       { "proficiency": "prof_cobbling" },
@@ -900,8 +1188,7 @@
       { "proficiency": "prof_leatherworking" },
       { "proficiency": "prof_closures" },
       { "proficiency": "prof_polymerworking" }
-    ],
-    "components": [ [ [ "thread_kevlar", 6 ] ] ]
+    ]
   },
   {
     "result": "motorbike_boots",
@@ -913,16 +1200,16 @@
     "difficulty": 5,
     "time": "12 h",
     "autolearn": false,
-    "reversible": true,
     "using": [
-      [ "tailoring_cotton_patchwork", 8 ],
-      [ "tailoring_kevlar_fabric", 6 ],
+      [ "tailoring_cotton_patchwork", 27 ],
+      [ "tailoring_kevlar_fabric", 36 ],
       [ "fastener_shoes", 2 ],
       [ "shoe_rubber", 1 ],
-      [ "adhesive_rubber", 1 ]
+      [ "adhesive_rubber", 1 ],
+      [ "sewing_aramids", 5 ]
     ],
-    "proficiencies": [ { "proficiency": "prof_cobbling" }, { "proficiency": "prof_closures" }, { "proficiency": "prof_polymerworking" } ],
-    "components": [ [ [ "thread_kevlar", 7 ] ] ]
+    "byproducts": [ [ "cotton_patchwork", 4 ], [ "scrap_cotton", 3 ], [ "scrap_kevlar", 14 ] ],
+    "proficiencies": [ { "proficiency": "prof_cobbling" }, { "proficiency": "prof_closures" }, { "proficiency": "prof_polymerworking" } ]
   },
   {
     "result": "motor_police_boots",
@@ -934,14 +1221,14 @@
     "difficulty": 5,
     "time": "12 h",
     "autolearn": false,
-    "reversible": true,
-    "using": [ [ "tailoring_leather_small", 16 ], [ "fastener_shoes", 2 ], [ "shoe_rubber", 1 ], [ "adhesive_rubber", 1 ] ],
+    "using": [ [ "tailoring_leather_small", 36 ], [ "fastener_shoes", 2 ], [ "shoe_rubber", 1 ], [ "adhesive_rubber", 1 ] ],
     "proficiencies": [
       { "proficiency": "prof_cobbling" },
       { "proficiency": "prof_leatherworking_basic" },
       { "proficiency": "prof_leatherworking" },
       { "proficiency": "prof_closures" }
-    ]
+    ],
+    "byproducts": [ [ "scrap_leather", 2 ] ]
   },
   {
     "result": "boots_bunker",
@@ -953,8 +1240,7 @@
     "difficulty": 7,
     "time": "14 h",
     "autolearn": false,
-    "reversible": true,
-    "using": [ [ "tailoring_nomex_patchwork", 6 ], [ "shoe_rubber", 1 ], [ "adhesive_rubber", 1 ] ],
+    "using": [ [ "tailoring_nomex_patchwork", 43 ], [ "shoe_rubber", 1 ], [ "adhesive_rubber", 1 ] ],
     "proficiencies": [
       { "proficiency": "prof_cobbling" },
       { "proficiency": "prof_leatherworking_basic" },
@@ -962,7 +1248,8 @@
       { "proficiency": "prof_closures" },
       { "proficiency": "prof_polymerworking" }
     ],
-    "components": [ [ [ "thread_nomex", 10 ] ], [ [ "chunk_rubber", 10 ] ] ]
+    "components": [ [ [ "thread_nomex", 10 ] ], [ [ "chunk_rubber", 10 ] ] ],
+    "byproducts": [ [ "nomex", 3 ] ]
   },
   {
     "result": "sneakers",
@@ -974,9 +1261,228 @@
     "difficulty": 2,
     "time": "5 h",
     "autolearn": true,
-    "reversible": true,
-    "using": [ [ "sewing_standard", 6 ], [ "fastener_shoes", 2 ], [ "shoe_rubber", 1 ], [ "adhesive_rubber", 1 ] ],
-    "proficiencies": [ { "proficiency": "prof_cobbling" }, { "proficiency": "prof_closures" } ],
-    "components": [ [ [ "rag", 6 ], [ "cotton_patchwork", 6 ] ] ]
+    "using": [
+      [ "sewing_standard", 6 ],
+      [ "fastener_shoes", 2 ],
+      [ "shoe_rubber", 1 ],
+      [ "adhesive_rubber", 1 ],
+      [ "tailoring_cotton_patchwork", 16 ]
+    ],
+    "proficiencies": [ { "proficiency": "prof_cobbling" }, { "proficiency": "prof_closures" } ]
+  },
+  {
+    "result": "lc_sabaton",
+    "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_FEET",
+    "skill_used": "fabrication",
+    "difficulty": 4,
+    "time": "1 d 12 h",
+    "book_learn": [ [ "textbook_armwest", 7 ] ],
+    "using": [
+      [ "fabric_leather_fur_hide", 2 ],
+      [ "blacksmithing_standard", 16 ],
+      [ "lc_steel_standard", 1 ],
+      [ "armor_chainmail_assembling", 1 ]
+    ],
+    "qualities": [ { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "swage", -1 ] ] ],
+    "proficiencies": [
+      { "proficiency": "prof_armorsmithing" },
+      { "proficiency": "prof_closures", "time_multiplier": 1.25, "fail_multiplier": 1.15 },
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_blacksmithing" },
+      { "proficiency": "prof_leatherworking_basic", "fail_multiplier": 1.15 }
+    ]
+  },
+  {
+    "result": "xl_lc_sabaton",
+    "type": "recipe",
+    "copy-from": "lc_sabaton",
+    "time": "1 d 17 h",
+    "using": [
+      [ "fabric_leather_fur_hide", 3 ],
+      [ "blacksmithing_standard", 22 ],
+      [ "lc_steel_standard", 2 ],
+      [ "armor_chainmail_assembling", 2 ]
+    ],
+    "qualities": [ { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "swage", -1 ] ] ]
+  },
+  {
+    "result": "sabaton_metal_sheets",
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_FEET",
+    "skill_used": "fabrication",
+    "difficulty": 4,
+    "skills_required": [ "tailor", 1 ],
+    "time": "90 m",
+    "autolearn": true,
+    "components": [ [ [ "sheet_metal_small", 4 ] ], [ [ "cordage_6_leather", 4 ] ] ],
+    "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_articulation" } ],
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 }, { "id": "DRILL", "level": 1 } ]
+  },
+  {
+    "result": "mc_sabaton",
+    "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_FEET",
+    "skill_used": "fabrication",
+    "difficulty": 4,
+    "time": "1 d 12 h",
+    "book_learn": [ [ "textbook_armwest", 7 ] ],
+    "using": [
+      [ "fabric_leather_fur_hide", 2 ],
+      [ "blacksmithing_standard", 16 ],
+      [ "mc_steel_standard", 1 ],
+      [ "armor_chainmail_assembling", 1 ]
+    ],
+    "qualities": [ { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "swage", -1 ] ] ],
+    "proficiencies": [
+      { "proficiency": "prof_armorsmithing" },
+      { "proficiency": "prof_closures", "time_multiplier": 1.25, "fail_multiplier": 1.15 },
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_blacksmithing" },
+      { "proficiency": "prof_leatherworking_basic", "fail_multiplier": 1.15 }
+    ]
+  },
+  {
+    "result": "xl_mc_sabaton",
+    "type": "recipe",
+    "copy-from": "mc_sabaton",
+    "time": "1 d 17 h",
+    "using": [
+      [ "fabric_leather_fur_hide", 3 ],
+      [ "blacksmithing_standard", 22 ],
+      [ "mc_steel_standard", 2 ],
+      [ "armor_chainmail_assembling", 2 ]
+    ],
+    "qualities": [ { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "swage", -1 ] ] ]
+  },
+  {
+    "result": "hc_sabaton",
+    "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_FEET",
+    "skill_used": "fabrication",
+    "difficulty": 4,
+    "time": "1 d 13 h",
+    "book_learn": [ [ "textbook_armwest", 7 ] ],
+    "using": [
+      [ "fabric_leather_fur_hide", 2 ],
+      [ "blacksmithing_standard", 16 ],
+      [ "hc_steel_standard", 1 ],
+      [ "armor_chainmail_assembling", 1 ]
+    ],
+    "qualities": [ { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "swage", -1 ] ] ],
+    "proficiencies": [
+      { "proficiency": "prof_armorsmithing" },
+      { "proficiency": "prof_closures", "time_multiplier": 1.25, "fail_multiplier": 1.15 },
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_blacksmithing" },
+      { "proficiency": "prof_leatherworking_basic", "fail_multiplier": 1.15 }
+    ]
+  },
+  {
+    "result": "xl_hc_sabaton",
+    "type": "recipe",
+    "copy-from": "hc_sabaton",
+    "time": "1 d 17 h",
+    "using": [
+      [ "fabric_leather_fur_hide", 3 ],
+      [ "blacksmithing_standard", 22 ],
+      [ "hc_steel_standard", 2 ],
+      [ "armor_chainmail_assembling", 2 ]
+    ],
+    "qualities": [ { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "swage", -1 ] ] ]
+  },
+  {
+    "result": "ch_sabaton",
+    "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_FEET",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "1 d 13 h",
+    "book_learn": [ [ "textbook_armwest", 7 ] ],
+    "using": [
+      [ "fabric_leather_fur_hide", 2 ],
+      [ "blacksmithing_standard", 16 ],
+      [ "lc_steel_standard", 1 ],
+      [ "armor_chainmail_assembling", 1 ]
+    ],
+    "qualities": [ { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "swage", -1 ] ] ],
+    "proficiencies": [
+      { "proficiency": "prof_armorsmithing" },
+      { "proficiency": "prof_closures", "time_multiplier": 1.25, "fail_multiplier": 1.15 },
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_blacksmithing" },
+      { "proficiency": "prof_leatherworking_basic", "fail_multiplier": 1.15 }
+    ]
+  },
+  {
+    "result": "xl_ch_sabaton",
+    "type": "recipe",
+    "copy-from": "ch_sabaton",
+    "time": "1 d 19 h",
+    "using": [
+      [ "fabric_leather_fur_hide", 3 ],
+      [ "blacksmithing_standard", 22 ],
+      [ "lc_steel_standard", 2 ],
+      [ "armor_chainmail_assembling", 2 ]
+    ],
+    "qualities": [ { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "swage", -1 ] ] ]
+  },
+  {
+    "result": "qt_sabaton",
+    "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_FEET",
+    "skill_used": "fabrication",
+    "difficulty": 6,
+    "time": "1 d 15 h",
+    "book_learn": [ [ "textbook_armwest", 7 ] ],
+    "using": [
+      [ "fabric_leather_fur_hide", 2 ],
+      [ "blacksmithing_standard", 16 ],
+      [ "mc_steel_standard", 1 ],
+      [ "armor_chainmail_assembling", 1 ]
+    ],
+    "qualities": [ { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "swage", -1 ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -120 ] ] ],
+    "proficiencies": [
+      { "proficiency": "prof_armorsmithing" },
+      { "proficiency": "prof_closures", "time_multiplier": 1.25, "fail_multiplier": 1.15 },
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_blacksmithing" },
+      { "proficiency": "prof_leatherworking_basic", "fail_multiplier": 1.15 }
+    ]
+  },
+  {
+    "result": "xl_qt_sabaton",
+    "type": "recipe",
+    "copy-from": "qt_sabaton",
+    "time": "1 d 23 h",
+    "using": [
+      [ "fabric_leather_fur_hide", 3 ],
+      [ "blacksmithing_standard", 22 ],
+      [ "mc_steel_standard", 2 ],
+      [ "armor_chainmail_assembling", 2 ]
+    ],
+    "qualities": [ { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "swage", -1 ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -120 ] ] ]
   }
 ]

@@ -2,20 +2,22 @@
 #ifndef CATA_SRC_MONDEATH_H
 #define CATA_SRC_MONDEATH_H
 
+#include "item.h"
+
 class monster;
 
 namespace mdeath
 {
 // Drop a body
-void normal( monster &z );
+item *normal( monster &z );
 // Overkill splatter (also part of normal under conditions)
-void splatter( monster &z );
+item *splatter( monster &z );
 // Hallucination disappears
 void disappear( monster &z );
 // Broken robot drop
 void broken( monster &z );
 } //namespace mdeath
 
-void make_mon_corpse( monster &z, int damageLvl );
+item *make_mon_corpse( monster &z, int damageLvl );
 
 #endif // CATA_SRC_MONDEATH_H

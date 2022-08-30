@@ -5,7 +5,7 @@
     "looks_like": "remington_870",
     "type": "GUN",
     "name": { "str": "Saiga-410" },
-    "description": "The Saiga-410 is a semi-automatic shotgun designed on the same Kalashnikov pattern as the AK47 rifle.  It reloads with a magazine, rather than one shell at a time like most shotguns.",
+    "description": "The Saiga-410 is a semi-automatic shotgun designed on the same Kalashnikov pattern as the AK-47 rifle.  It reloads with a magazine, rather than one shell at a time like most shotguns.",
     "weight": "3400 g",
     "volume": "5762 ml",
     "longest_side": "1171 mm",

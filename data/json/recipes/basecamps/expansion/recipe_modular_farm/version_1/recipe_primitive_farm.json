@@ -13,7 +13,7 @@
     "blueprint_name": "farm area survey",
     "time": "3 h",
     "blueprint_requires": [ { "id": "not_an_upgrade" } ],
-    "blueprint_provides": [ { "id": "fbmf_0" } ]
+    "blueprint_provides": [ { "id": "fbmf_0" }, { "id": "farming" } ]
   },
   {
     "type": "recipe",
@@ -28,7 +28,6 @@
     "time": "540 m",
     "construction_blueprint": "faction_base_field_camp_farm_1",
     "blueprint_name": "Farm basic plots",
-    "blueprint_provides": [ { "id": "farming" } ],
     "blueprint_requires": [ { "id": "fbmf_0" } ],
     "qualities": [ [ { "id": "DIG", "level": 1 } ] ]
   },

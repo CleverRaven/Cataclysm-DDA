@@ -26,7 +26,7 @@
     "skill_used": "cooking",
     "difficulty": 1,
     "autolearn": true,
-    "time": 1000,
+    "time": "10 s",
     "qualities": [ { "id": "COOK", "level": 2 } ],
     "components": [ [ [ "cookies", 4 ] ], [ [ "marloss_berry", 1 ], [ "marloss_seed", 1 ], [ "mycus_fruit", 1 ] ] ]
   }

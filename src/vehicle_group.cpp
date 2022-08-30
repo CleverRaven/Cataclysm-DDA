@@ -72,6 +72,15 @@ bool string_id<VehiclePlacement>::is_valid() const
     return vplacements.count( *this ) > 0;
 }
 
+std::vector<vproto_id> VehicleGroup::all_possible_results() const
+{
+    std::vector<vproto_id> result;
+    for( const weighted_object<int, vproto_id> &wo : vehicles ) {
+        result.push_back( wo.obj );
+    }
+    return result;
+}
+
 void VehicleGroup::load( const JsonObject &jo )
 {
     VehicleGroup &group = vgroups[vgroup_id( jo.get_string( "id" ) )];
@@ -183,7 +192,7 @@ void VehicleSpawn::load( const JsonObject &jo )
             spawn.add( type.get_float( "weight" ), make_shared_fast<VehicleFunction_json>( vjo ) );
         } else if( type.has_string( "vehicle_function" ) ) {
             if( builtin_functions.count( type.get_string( "vehicle_function" ) ) == 0 ) {
-                type.throw_error( "load_vehicle_spawn: unable to find builtin function", "vehicle_function" );
+                type.throw_error_at( "vehicle_function", "load_vehicle_spawn: unable to find builtin function" );
             }
 
             spawn.add( type.get_float( "weight" ), make_shared_fast<VehicleFunction_builtin>
@@ -292,7 +301,7 @@ static void builtin_parkinglot( map &m, const std::string & )
         tripoint pos_p;
         pos_p.x = rng( 0, 1 ) * 15 + rng( 4, 5 );
         pos_p.y = rng( 0, 4 ) * 4 + rng( 2, 4 );
-        pos_p.z = m.get_abs_sub().z;
+        pos_p.z = m.get_abs_sub().z();
 
         if( !m.veh_at( pos_p ) ) {
             units::angle facing;

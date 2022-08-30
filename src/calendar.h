@@ -61,6 +61,22 @@ enum moon_phase {
     MOON_PHASE_MAX
 };
 
+enum class time_accuracy {
+    /** No accuracy, no idea what time it is **/
+    NONE = 0,
+    /** Estimated time, can see the sky **/
+    PARTIAL = 1,
+    /** Full accuracy, using a timekeeping device **/
+    FULL = 2,
+    /** Unused, only for string conversions **/
+    NUM_TIME_ACCURACY
+};
+
+template<>
+struct enum_traits<time_accuracy> {
+    static constexpr time_accuracy last = time_accuracy::NUM_TIME_ACCURACY;
+};
+
 /**
  * Time keeping class
  *
@@ -96,6 +112,14 @@ extern const time_duration INDEFINITELY_LONG_DURATION;
 /// @returns Whether the eternal season is enabled.
 bool eternal_season();
 void set_eternal_season( bool is_eternal_season );
+
+/// @returns Whether the eternal night is enabled.
+bool eternal_night();
+void set_eternal_night( bool is_eternal_night );
+
+/// @returns Whether the eternal day is enabled.
+bool eternal_day();
+void set_eternal_day( bool is_eternal_day );
 
 /** @returns Time in a year, (configured in current world settings) */
 time_duration year_length();
@@ -418,7 +442,7 @@ std::pair<int, clipped_unit> clipped_time( const time_duration &d );
  * @param align none, right, or compact.
  */
 std::string to_string_clipped( const time_duration &d,
-                               const clipped_align align = clipped_align::none );
+                               clipped_align align = clipped_align::none );
 /**
  * Returns approximate duration.
  * @param verbose If true, 'less than' and 'more than' will be printed instead of '<' and '>' respectively.
@@ -449,7 +473,6 @@ class time_point
         // TODO: make private
         explicit constexpr time_point( const int t ) : turn_( t ) { }
 
-    public:
         // TODO: remove this, nobody should need it, one should use a constant `time_point`
         // (representing turn 0) and a `time_duration` instead.
         static constexpr time_point from_turn( const int t ) {
@@ -561,6 +584,10 @@ season_type season_of_year( const time_point &p );
 std::string to_string( const time_point &p );
 /// @returns The time point formatted to be shown to the player. Contains only the time of day, not the year, day or season.
 std::string to_string_time_of_day( const time_point &p );
+/** Time approximation based on the player's timekeeping capability, formatted for diary pages **/
+std::string get_diary_time_str( const time_point &turn, time_accuracy acc );
+/** Time approximation based on the player's timekeeping capability, formatted for diary pages **/
+std::string get_diary_time_since_str( const time_duration &turn_diff, time_accuracy acc );
 /** Returns the default duration of a lunar month (duration between syzygies) */
 time_duration lunar_month();
 /** Returns the current phase of the moon. */
@@ -582,19 +609,25 @@ bool is_dusk( const time_point &p );
 /** Returns true if it's currently dawn - between sunrise and twilight_duration after sunrise. */
 bool is_dawn( const time_point &p );
 /** How much light is provided in full daylight */
-double default_daylight_level();
+float default_daylight_level();
+/* Irradiance (W/m2) on clear day when sun is at 90 degrees */
+float max_sun_irradiance();
 /** Returns the current sunlight.
  *  Based entirely on astronomical circumstances; does not account for e.g.
  *  weather.
  *  For most situations you actually want to call the below function which also
  *  includes moonlight. */
 float sun_light_at( const time_point &p );
+
+/* Returns sun irradiance (W/m2) on a flat surface*/
+float sun_irradiance( const time_point &p );
+
 /** Returns the current sunlight plus moonlight level.
  *  Based entirely on astronomical circumstances; does not account for e.g.
  *  weather. */
 float sun_moon_light_at( const time_point &p );
 /** How much light is provided at the solar noon nearest to given time */
-double sun_moon_light_at_noon_near( const time_point &p );
+float sun_moon_light_at_noon_near( const time_point &p );
 
 std::pair<units::angle, units::angle> sun_azimuth_altitude( time_point );
 
@@ -614,5 +647,17 @@ enum class weekdays : int {
 };
 
 weekdays day_of_week( const time_point &p );
+
+// To support the eternal season option we create a strong typedef of timepoint
+// which is a season_effective_time.  This converts a regular time to a time
+// which would be relevant for sun position and weather calculations.  Normally
+// the two times are the same, but when eternal seasons are used the effective
+// time is always set to the same day, so that the sun position and weather
+// doesn't change from day to day.
+struct season_effective_time {
+    season_effective_time() = default;
+    explicit season_effective_time( const time_point & );
+    time_point t;
+};
 
 #endif // CATA_SRC_CALENDAR_H

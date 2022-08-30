@@ -2,7 +2,7 @@
   {
     "type": "technique",
     "id": "tec_none",
-    "name": "Not at technique at all",
+    "name": "Not a technique at all",
     "dummy": true
   },
   {
@@ -38,7 +38,8 @@
     "name": "disarm",
     "melee_allowed": true,
     "disarms": true,
-    "description": "Unwield target's weapon"
+    "description": "Unwield target's weapon",
+    "attack_vectors": [ "HAND" ]
   },
   {
     "type": "technique",
@@ -56,7 +57,8 @@
     "crit_tec": true,
     "messages": [ "You swing through %s and everyone nearby", "<npcname> swings through %s and everyone nearby" ],
     "aoe": "spin",
-    "description": "Attack adjacent enemies, crit only, min 4 melee"
+    "description": "Attack adjacent enemies, crit only, min 4 melee",
+    "attack_vectors": [ "WEAPON" ]
   },
   {
     "type": "technique",
@@ -68,7 +70,8 @@
     "weighting": 2,
     "messages": [ "You swing in a wide arc through %s", "<npcname> swings in a wide arc through %s" ],
     "aoe": "wide",
-    "description": "Attack in a wide arc, crit only, min 3 melee"
+    "description": "Attack in a wide arc, crit only, min 3 melee",
+    "attack_vectors": [ "WEAPON" ]
   },
   {
     "type": "technique",
@@ -79,7 +82,8 @@
     "crit_tec": true,
     "messages": [ "You pierce straight through %s", "<npcname> pierces through %s" ],
     "aoe": "impale",
-    "description": "Attack target and another one behind it, crit only, min 4 melee"
+    "description": "Attack target and another one behind it, crit only, min 4 melee",
+    "attack_vectors": [ "WEAPON" ]
   },
   {
     "type": "technique",
@@ -90,7 +94,8 @@
     "stun_dur": 1,
     "knockback_dist": 1,
     "messages": [ "You send %s reeling", "<npcname> sends %s reeling" ],
-    "description": "Stun 1 turn, knockback 1 tile, crit only"
+    "description": "Stun 1 turn, knockback 1 tile, crit only",
+    "attack_vectors": [ "WEAPON" ]
   },
   {
     "type": "technique",
@@ -104,7 +109,8 @@
       { "stat": "damage", "type": "stab", "scale": 0.66 }
     ],
     "messages": [ "You quickly strike %s", "<npcname> quickly strikes %s" ],
-    "description": "50% moves, 66% damage"
+    "description": "50% moves, 66% damage",
+    "attack_vectors": [ "WEAPON" ]
   },
   {
     "type": "technique",
@@ -118,7 +124,8 @@
       "Snicker-snack!  You slice through %s like hot knife slices through butter.",
       "Snicker-snack!  <npcname> slices through %s like hot knife slices through butter."
     ],
-    "description": "Cut damage multiply by 99, crit only"
+    "description": "Cut damage multiply by 99, crit only",
+    "attack_vectors": [ "WEAPON" ]
   },
   {
     "type": "technique",
@@ -127,7 +134,8 @@
     "melee_allowed": true,
     "stun_dur": 2,
     "messages": [ "You wrap up %s", "<npcname> wraps up %s" ],
-    "description": "Stun 2 turns"
+    "description": "Stun 2 turns",
+    "attack_vectors": [ "WEAPON" ]
   },
   {
     "type": "technique",
@@ -136,17 +144,41 @@
     "melee_allowed": true,
     "down_dur": 2,
     "messages": [ "You sweep %s", "<npcname> sweeps %s" ],
-    "description": "Down 2 turns"
+    "description": "Down 2 turns",
+    "attack_vectors": [ "WEAPON" ]
+  },
+  {
+    "type": "technique",
+    "id": "SWEETSPOT",
+    "name": "Sweet Spot Hit",
+    "melee_allowed": true,
+    "crit_tec": true,
+    "needs_ammo": true,
+    "stun_dur": 1,
+    "knockback_dist": 2,
+    "//": "this should basically always happen if you get the crit",
+    "weighting": 10,
+    "mult_bonuses": [
+      { "stat": "movecost", "scale": 1.1 },
+      { "stat": "damage", "type": "bash", "scale": 2.5 },
+      { "stat": "damage", "type": "cut", "scale": 2.5 },
+      { "stat": "damage", "type": "stab", "scale": 2.5 }
+    ],
+    "messages": [ "With a loud crack the piston extends sending %s reeling", "<npcname> sends %s reeling" ],
+    "description": "Stun 1 turn, knockback 2 tile, crit only, requires ammo",
+    "attack_vectors": [ "WEAPON" ]
   },
   {
     "type": "technique",
     "id": "PRECISE",
     "name": "Precise Strike",
+    "skill_requirements": [ { "name": "melee", "level": 3 } ],
     "melee_allowed": true,
     "crit_tec": true,
     "messages": [ "You precisely hit %s", "<npcname> precisely hits %s" ],
     "stun_dur": 2,
-    "description": "Stun 2 turns, crit only"
+    "description": "Stun 2 turns, crit only, min 3 melee",
+    "attack_vectors": [ "WEAPON" ]
   },
   {
     "type": "technique",
@@ -155,7 +187,8 @@
     "melee_allowed": true,
     "disarms": true,
     "messages": [ "You disarm %s using your whip", "<npcname> disarms %s using their whip" ],
-    "description": "Unwield target's weapon"
+    "description": "Unwield target's weapon",
+    "attack_vectors": [ "WEAPON" ]
   },
   {
     "type": "technique",
@@ -182,7 +215,8 @@
     "melee_allowed": true,
     "crit_tec": true,
     "messages": [ "You jab deftly at %s", "<npcname> jabs deftly at %s" ],
-    "stun_dur": 2
+    "stun_dur": 2,
+    "attack_vectors": [ "WEAPON" ]
   },
   {
     "type": "technique",
@@ -197,7 +231,8 @@
     "crit_ok": true,
     "down_dur": 1,
     "knockback_dist": 1,
-    "mult_bonuses": [ { "stat": "movecost", "scale": 0.7 } ]
+    "mult_bonuses": [ { "stat": "movecost", "scale": 0.7 } ],
+    "attack_vectors": [ "THROW" ]
   },
   {
     "type": "technique",
@@ -211,7 +246,8 @@
     "crit_ok": true,
     "down_dur": 1,
     "knockback_dist": 1,
-    "mult_bonuses": [ { "stat": "movecost", "scale": 0.7 } ]
+    "mult_bonuses": [ { "stat": "movecost", "scale": 0.7 } ],
+    "attack_vectors": [ "THROW" ]
   },
   {
     "type": "technique",
@@ -227,7 +263,8 @@
     "disarms": true,
     "down_dur": 1,
     "knockback_dist": 1,
-    "mult_bonuses": [ { "stat": "movecost", "scale": 0.7 } ]
+    "mult_bonuses": [ { "stat": "movecost", "scale": 0.7 } ],
+    "attack_vectors": [ "THROW" ]
   },
   {
     "type": "technique",
@@ -243,7 +280,8 @@
     "disarms": true,
     "down_dur": 1,
     "knockback_dist": 1,
-    "mult_bonuses": [ { "stat": "movecost", "scale": 0.7 } ]
+    "mult_bonuses": [ { "stat": "movecost", "scale": 0.7 } ],
+    "attack_vectors": [ "THROW" ]
   },
   {
     "type": "technique",
@@ -262,18 +300,97 @@
   },
   {
     "type": "technique",
+    "id": "tec_bojutsu_thrust",
+    "name": "Front Thrust",
+    "messages": [ "You thrust at the %s", "<npcname> thrusts at %s" ],
+    "skill_requirements": [ { "name": "melee", "level": 1 } ],
+    "melee_allowed": true,
+    "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.2 } ],
+    "attack_vectors": [ "WEAPON" ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_bojutsu_kneestrike",
+    "name": "Knee Strike",
+    "messages": [
+      "After blocking %s's attack you quickly strike at their knee!",
+      "After blocking %s's attack <npcname> quickly strikes at their knee!"
+    ],
+    "skill_requirements": [ { "name": "melee", "level": 2 } ],
+    "melee_allowed": true,
+    "block_counter": true,
+    "crit_ok": true,
+    "down_dur": 1,
+    "mult_bonuses": [ { "stat": "movecost", "scale": 0.8 } ],
+    "attack_vectors": [ "WEAPON" ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_bojutsu_frontstrike",
+    "name": "Overhead Front Strike",
+    "messages": [
+      "You block %s's attack and counter with a Overhead Front Strike!",
+      "<npcname> blocks %s's attack and counter with a Overhead Front Strike!"
+    ],
+    "skill_requirements": [ { "name": "melee", "level": 3 } ],
+    "melee_allowed": true,
+    "block_counter": true,
+    "crit_ok": true,
+    "stun_dur": 1,
+    "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.4 } ],
+    "attack_vectors": [ "WEAPON" ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_bojutsu_rollingstrike",
+    "name": "Rolling Strike",
+    "messages": [ "Using your rolling staff you quickly strike %s", "Using rolling staff <npcname> quickly strikes %s" ],
+    "skill_requirements": [ { "name": "melee", "level": 3 } ],
+    "melee_allowed": true,
+    "required_buffs_all": [ "buff_bojutsu_onmove" ],
+    "weighting": 2,
+    "crit_ok": true,
+    "mult_bonuses": [ { "stat": "movecost", "scale": 0.75 }, { "stat": "damage", "type": "bash", "scale": 1.5 } ],
+    "attack_vectors": [ "WEAPON" ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_bojutsu_feint",
+    "name": "Feint",
+    "messages": [ "You fake a strike at %s.", "<npcname> fakes a strike at %s." ],
+    "skill_requirements": [ { "name": "melee", "level": 4 } ],
+    "melee_allowed": true,
+    "defensive": true,
+    "miss_recovery": true,
+    "mult_bonuses": [ { "stat": "movecost", "scale": 0.8 } ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_bojutsu_disarm",
+    "name": "Hooking Disarm",
+    "messages": [ "You're able to disarm %s by hooking their weapon", "<npcname> hooks %s's weapon and casts it away" ],
+    "skill_requirements": [ { "name": "melee", "level": 5 } ],
+    "melee_allowed": true,
+    "crit_ok": true,
+    "disarms": true,
+    "attack_vectors": [ "WEAPON" ]
+  },
+  {
+    "type": "technique",
     "id": "tec_barbaran_impale",
     "name": "Impaling Estocada",
     "messages": [ "You thrust your weapon through %s", "<npcname> thrusts their weapon through %s" ],
     "skill_requirements": [ { "name": "melee", "level": 2 } ],
-    "weapon_damage_requirements": [ { "type": "cut", "min": 8 } ],
     "melee_allowed": true,
+    "weapon_categories_allowed": [ "CONSTRUCTED_SWORDS", "GREAT_SWORDS" ],
     "aoe": "impale",
     "mult_bonuses": [
+      { "stat": "damage", "type": "bash", "scale": 1.1 },
       { "stat": "damage", "type": "cut", "scale": 1.1 },
       { "stat": "damage", "type": "stab", "scale": 1.1 },
       { "stat": "movecost", "scale": 1.2 }
-    ]
+    ],
+    "attack_vectors": [ "WEAPON" ]
   },
   {
     "type": "technique",
@@ -288,7 +405,8 @@
       { "stat": "damage", "type": "bash", "scale": 0.66 },
       { "stat": "damage", "type": "cut", "scale": 0.66 },
       { "stat": "damage", "type": "stab", "scale": 0.66 }
-    ]
+    ],
+    "attack_vectors": [ "WEAPON" ]
   },
   {
     "type": "technique",
@@ -296,7 +414,8 @@
     "name": "Cross",
     "messages": [ "You throw a heavy cross at %s", "<npcname> throws a cross at %s" ],
     "unarmed_allowed": true,
-    "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.2 } ]
+    "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.2 } ],
+    "attack_vectors": [ "HAND" ]
   },
   {
     "type": "technique",
@@ -312,7 +431,8 @@
     "knockback_spread": 1,
     "stun_dur": 1,
     "down_dur": 1,
-    "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.5 } ]
+    "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.5 } ],
+    "attack_vectors": [ "HAND" ]
   },
   {
     "type": "technique",
@@ -326,7 +446,8 @@
       { "stat": "damage", "type": "bash", "scale": 0.66 },
       { "stat": "damage", "type": "cut", "scale": 0.66 },
       { "stat": "damage", "type": "stab", "scale": 0.66 }
-    ]
+    ],
+    "attack_vectors": [ "HAND" ]
   },
   {
     "type": "technique",
@@ -337,7 +458,8 @@
     "unarmed_allowed": true,
     "crit_tec": true,
     "stun_dur": 1,
-    "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.4 } ]
+    "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.4 } ],
+    "attack_vectors": [ "HAND" ]
   },
   {
     "type": "technique",
@@ -363,7 +485,7 @@
     "type": "technique",
     "id": "tec_brawl_feint_melee",
     "name": "Feint",
-    "messages": [ "You fake a strike at %s", "<npcname> fakes a strike at %s" ],
+    "messages": [ "You fake a strike at %s.", "<npcname> fakes a strike at %s." ],
     "skill_requirements": [ { "name": "melee", "level": 3 } ],
     "melee_allowed": true,
     "defensive": true,
@@ -373,7 +495,7 @@
     "type": "technique",
     "id": "tec_brawl_feint_unarmed",
     "name": "Feint",
-    "messages": [ "You fake a strike at %s", "<npcname> fakes a strike at %s" ],
+    "messages": [ "You fake a strike at %s.", "<npcname> fakes a strike at %s." ],
     "skill_requirements": [ { "name": "unarmed", "level": 3 } ],
     "unarmed_allowed": true,
     "defensive": true,
@@ -386,7 +508,8 @@
     "messages": [ "You knock %s's weapon away", "<npcname> knock %s's weapon away" ],
     "skill_requirements": [ { "name": "melee", "level": 6 } ],
     "melee_allowed": true,
-    "disarms": true
+    "disarms": true,
+    "attack_vectors": [ "WEAPON" ]
   },
   {
     "type": "technique",
@@ -395,7 +518,8 @@
     "messages": [ "You knock %s's weapon away", "<npcname> knock %s's weapon away" ],
     "skill_requirements": [ { "name": "unarmed", "level": 6 } ],
     "unarmed_allowed": true,
-    "disarms": true
+    "disarms": true,
+    "attack_vectors": [ "HAND" ]
   },
   {
     "type": "technique",
@@ -406,7 +530,8 @@
     "unarmed_allowed": true,
     "crit_tec": true,
     "knockback_dist": 1,
-    "stun_dur": 1
+    "stun_dur": 1,
+    "attack_vectors": [ "HAND" ]
   },
   {
     "type": "technique",
@@ -415,13 +540,14 @@
     "messages": [ "You trip %s", "<npcname> trip %s" ],
     "skill_requirements": [ { "name": "unarmed", "level": 5 } ],
     "unarmed_allowed": true,
-    "down_dur": 1
+    "down_dur": 1,
+    "attack_vectors": [ "HAND" ]
   },
   {
     "type": "technique",
     "id": "tec_capoeira_feint",
     "name": "Feint",
-    "messages": [ "You fake a kick at %s", "<npcname> fakes a kick at %s" ],
+    "messages": [ "You fake a kick at %s.", "<npcname> fakes a kick at %s." ],
     "skill_requirements": [ { "name": "unarmed", "level": 3 } ],
     "unarmed_allowed": true,
     "defensive": true,
@@ -433,7 +559,12 @@
     "name": "Push Kick",
     "messages": [ "You push kick %s", "<npcname> push kicks %s" ],
     "unarmed_allowed": true,
-    "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.2 } ]
+    "mult_bonuses": [
+      { "stat": "damage", "type": "bash", "scale": 1.2 },
+      { "stat": "damage", "type": "cut", "scale": 1.2 },
+      { "stat": "damage", "type": "stab", "scale": 1.2 }
+    ],
+    "attack_vectors": [ "FOOT" ]
   },
   {
     "type": "technique",
@@ -443,7 +574,12 @@
     "skill_requirements": [ { "name": "unarmed", "level": 4 } ],
     "unarmed_allowed": true,
     "crit_tec": true,
-    "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.4 } ]
+    "mult_bonuses": [
+      { "stat": "damage", "type": "bash", "scale": 1.4 },
+      { "stat": "damage", "type": "cut", "scale": 1.4 },
+      { "stat": "damage", "type": "stab", "scale": 1.4 }
+    ],
+    "attack_vectors": [ "FOOT" ]
   },
   {
     "type": "technique",
@@ -455,7 +591,13 @@
     "required_buffs_all": [ "buff_capoeira_onmove" ],
     "weighting": 2,
     "down_dur": 1,
-    "mult_bonuses": [ { "stat": "movecost", "scale": 0.75 }, { "stat": "damage", "type": "bash", "scale": 1.2 } ]
+    "mult_bonuses": [
+      { "stat": "movecost", "scale": 0.75 },
+      { "stat": "damage", "type": "bash", "scale": 1.2 },
+      { "stat": "damage", "type": "cut", "scale": 1.2 },
+      { "stat": "damage", "type": "stab", "scale": 1.2 }
+    ],
+    "attack_vectors": [ "FOOT" ]
   },
   {
     "type": "technique",
@@ -468,7 +610,13 @@
     "weighting": 2,
     "crit_tec": true,
     "stun_dur": 1,
-    "mult_bonuses": [ { "stat": "movecost", "scale": 0.75 }, { "stat": "damage", "type": "bash", "scale": 1.4 } ]
+    "mult_bonuses": [
+      { "stat": "movecost", "scale": 0.75 },
+      { "stat": "damage", "type": "bash", "scale": 1.4 },
+      { "stat": "damage", "type": "cut", "scale": 1.4 },
+      { "stat": "damage", "type": "stab", "scale": 1.4 }
+    ],
+    "attack_vectors": [ "FOOT" ]
   },
   {
     "type": "technique",
@@ -489,7 +637,12 @@
     "required_buffs_all": [ "buff_crane_ondodge" ],
     "crit_ok": true,
     "down_dur": 1,
-    "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.25 } ]
+    "mult_bonuses": [
+      { "stat": "damage", "type": "bash", "scale": 1.25 },
+      { "stat": "damage", "type": "cut", "scale": 1.25 },
+      { "stat": "damage", "type": "stab", "scale": 1.25 }
+    ],
+    "attack_vectors": [ "FOOT" ]
   },
   {
     "type": "technique",
@@ -514,7 +667,12 @@
     "required_buffs_all": [ "buff_crane_ondodge" ],
     "crit_ok": true,
     "stun_dur": 2,
-    "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.5 } ]
+    "mult_bonuses": [
+      { "stat": "damage", "type": "bash", "scale": 1.5 },
+      { "stat": "damage", "type": "cut", "scale": 1.5 },
+      { "stat": "damage", "type": "stab", "scale": 1.5 }
+    ],
+    "attack_vectors": [ "WRIST" ]
   },
   {
     "type": "technique",
@@ -522,7 +680,8 @@
     "name": "Dragon Claw",
     "unarmed_allowed": true,
     "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.2 } ],
-    "messages": [ "You lash out at %s with a Dragon Claw", "<npcname> lashes out at %s with a Dragon Claw" ]
+    "messages": [ "You lash out at %s with a Dragon Claw", "<npcname> lashes out at %s with a Dragon Claw" ],
+    "attack_vectors": [ "HAND" ]
   },
   {
     "type": "technique",
@@ -533,19 +692,29 @@
     "unarmed_allowed": true,
     "crit_tec": true,
     "down_dur": 1,
-    "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.4 } ]
+    "mult_bonuses": [
+      { "stat": "damage", "type": "bash", "scale": 1.4 },
+      { "stat": "damage", "type": "cut", "scale": 1.4 },
+      { "stat": "damage", "type": "stab", "scale": 1.4 }
+    ],
+    "attack_vectors": [ "FOOT" ]
   },
   {
     "type": "technique",
     "id": "tec_dragon_strike",
     "name": "Dragon Strike",
-    "messages": [ "You descend upon %s with a powerful Dragon Strike", "<npcname>  descends upon %s with a powerful Dragon Strike" ],
+    "messages": [ "You descend upon %s with a powerful Dragon Strike", "<npcname> descends upon %s with a powerful Dragon Strike" ],
     "skill_requirements": [ { "name": "unarmed", "level": 5 } ],
     "unarmed_allowed": true,
     "crit_tec": true,
     "downed_target": true,
     "stun_dur": 1,
-    "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.5 } ]
+    "mult_bonuses": [
+      { "stat": "damage", "type": "bash", "scale": 1.5 },
+      { "stat": "damage", "type": "cut", "scale": 1.5 },
+      { "stat": "damage", "type": "stab", "scale": 1.5 }
+    ],
+    "attack_vectors": [ "HAND" ]
   },
   {
     "type": "technique",
@@ -554,7 +723,8 @@
     "messages": [ "You round strike %s", "<npcname> round strikes %s" ],
     "skill_requirements": [ { "name": "melee", "level": 4 } ],
     "melee_allowed": true,
-    "mult_bonuses": [ { "stat": "movecost", "scale": 0.6 } ]
+    "mult_bonuses": [ { "stat": "movecost", "scale": 0.6 } ],
+    "attack_vectors": [ "WEAPON" ]
   },
   {
     "type": "technique",
@@ -563,7 +733,8 @@
     "messages": [ "You fan strike %s", "<npcname> fan strikes %s" ],
     "skill_requirements": [ { "name": "melee", "level": 2 } ],
     "melee_allowed": true,
-    "mult_bonuses": [ { "stat": "movecost", "scale": 0.75 } ]
+    "mult_bonuses": [ { "stat": "movecost", "scale": 0.75 } ],
+    "attack_vectors": [ "WEAPON" ]
   },
   {
     "type": "technique",
@@ -571,7 +742,8 @@
     "name": "Snap Strike",
     "messages": [ "You snap out at %s", "<npcname> snaps quickly at %s" ],
     "melee_allowed": true,
-    "mult_bonuses": [ { "stat": "movecost", "scale": 0.8 } ]
+    "mult_bonuses": [ { "stat": "movecost", "scale": 0.8 } ],
+    "attack_vectors": [ "WEAPON" ]
   },
   {
     "type": "technique",
@@ -587,7 +759,8 @@
       { "stat": "damage", "type": "bash", "scale": 1.5 },
       { "stat": "damage", "type": "cut", "scale": 1.5 },
       { "stat": "damage", "type": "stab", "scale": 1.5 }
-    ]
+    ],
+    "attack_vectors": [ "WEAPON" ]
   },
   {
     "type": "technique",
@@ -598,7 +771,8 @@
     "melee_allowed": true,
     "crit_tec": true,
     "stun_dur": 1,
-    "mult_bonuses": [ { "stat": "movecost", "scale": 0.8 } ]
+    "mult_bonuses": [ { "stat": "movecost", "scale": 0.8 } ],
+    "attack_vectors": [ "WEAPON" ]
   },
   {
     "type": "technique",
@@ -608,12 +782,13 @@
     "skill_requirements": [ { "name": "melee", "level": 4 } ],
     "melee_allowed": true,
     "crit_tec": true,
-    "down_dur": 1
+    "down_dur": 1,
+    "attack_vectors": [ "WEAPON" ]
   },
   {
     "type": "technique",
     "id": "tec_fencing_feint",
-    "messages": [ "You steady your weapon and fake a thrust at %s", "<npcname> steadies their weapon and fake a thrust at %s" ],
+    "messages": [ "You steady your weapon and fake a thrust at %s.", "<npcname> steadies their weapon and fake a thrust at %s." ],
     "name": "Feint",
     "skill_requirements": [ { "name": "melee", "level": 4 } ],
     "melee_allowed": true,
@@ -628,7 +803,8 @@
     "skill_requirements": [ { "name": "melee", "level": 2 } ],
     "melee_allowed": true,
     "crit_ok": true,
-    "mult_bonuses": [ { "stat": "movecost", "scale": 0.8 } ]
+    "mult_bonuses": [ { "stat": "movecost", "scale": 0.8 } ],
+    "attack_vectors": [ "WEAPON" ]
   },
   {
     "type": "technique",
@@ -644,7 +820,8 @@
       { "stat": "damage", "type": "bash", "scale": 1.25 },
       { "stat": "damage", "type": "cut", "scale": 1.25 },
       { "stat": "damage", "type": "stab", "scale": 1.25 }
-    ]
+    ],
+    "attack_vectors": [ "WEAPON" ]
   },
   {
     "type": "technique",
@@ -660,7 +837,8 @@
       { "stat": "damage", "type": "bash", "scale": 1.25 },
       { "stat": "damage", "type": "cut", "scale": 1.25 },
       { "stat": "damage", "type": "stab", "scale": 1.25 }
-    ]
+    ],
+    "attack_vectors": [ "WEAPON" ]
   },
   {
     "type": "technique",
@@ -678,7 +856,8 @@
       { "stat": "damage", "type": "bash", "scale": 1.2 },
       { "stat": "damage", "type": "cut", "scale": 1.2 },
       { "stat": "damage", "type": "stab", "scale": 1.2 }
-    ]
+    ],
+    "attack_vectors": [ "WEAPON" ]
   },
   {
     "type": "technique",
@@ -696,7 +875,8 @@
       { "stat": "damage", "type": "bash", "scale": 0.5 },
       { "stat": "damage", "type": "cut", "scale": 0.5 },
       { "stat": "damage", "type": "stab", "scale": 0.5 }
-    ]
+    ],
+    "attack_vectors": [ "WEAPON" ]
   },
   {
     "type": "technique",
@@ -710,13 +890,14 @@
       { "stat": "damage", "type": "bash", "scale": 1.1 },
       { "stat": "damage", "type": "cut", "scale": 1.1 },
       { "stat": "damage", "type": "stab", "scale": 1.1 }
-    ]
+    ],
+    "attack_vectors": [ "WEAPON" ]
   },
   {
     "type": "technique",
     "id": "tec_medievalpole_feint",
     "name": "High Round Feint",
-    "messages": [ "You fake a high round strike at %s", "<npcname> feints at %s" ],
+    "messages": [ "You fake a high round strike at %s.", "<npcname> feints at %s." ],
     "skill_requirements": [ { "name": "melee", "level": 3 } ],
     "melee_allowed": true,
     "defensive": true,
@@ -748,7 +929,8 @@
       { "stat": "damage", "type": "bash", "scale": 0.5 },
       { "stat": "damage", "type": "cut", "scale": 0.5 },
       { "stat": "damage", "type": "stab", "scale": 0.5 }
-    ]
+    ],
+    "attack_vectors": [ "WEAPON" ]
   },
   {
     "type": "technique",
@@ -764,7 +946,8 @@
       { "stat": "damage", "type": "bash", "scale": 1.5 },
       { "stat": "damage", "type": "cut", "scale": 1.5 },
       { "stat": "damage", "type": "stab", "scale": 1.5 }
-    ]
+    ],
+    "attack_vectors": [ "WEAPON" ]
   },
   {
     "type": "technique",
@@ -776,20 +959,22 @@
     "unarmed_weapons_allowed": false,
     "crit_ok": true,
     "down_dur": 1,
-    "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.25 } ]
+    "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.25 } ],
+    "attack_vectors": [ "THROW" ]
   },
   {
     "type": "technique",
     "id": "tec_judo_disarm",
     "name": "Disarming Throw",
     "messages": [ "You disarm and throw %s", "<npcname> disarms and throws %s" ],
-    "skill_requirements": [ { "name": "unarmed", "level": 1 } ],
+    "skill_requirements": [ { "name": "unarmed", "level": 3 } ],
     "unarmed_allowed": true,
     "melee_allowed": true,
     "unarmed_weapons_allowed": false,
     "disarms": true,
     "down_dur": 1,
-    "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.25 } ]
+    "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.25 } ],
+    "attack_vectors": [ "THROW" ]
   },
   {
     "type": "technique",
@@ -804,7 +989,8 @@
     "side_switch": true,
     "down_dur": 1,
     "stun_dur": 1,
-    "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.5 } ]
+    "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.5 } ],
+    "attack_vectors": [ "THROW" ]
   },
   {
     "type": "technique",
@@ -814,7 +1000,7 @@
       "The %s tries to grab you, but you break their feeble grapple!",
       "The %s tries to grab <npcname>, but they break its feeble grapple!"
     ],
-    "skill_requirements": [ { "name": "unarmed", "level": 3 } ],
+    "skill_requirements": [ { "name": "unarmed", "level": 1 } ],
     "unarmed_allowed": true,
     "melee_allowed": true,
     "defensive": true,
@@ -829,7 +1015,12 @@
     "unarmed_allowed": true,
     "crit_tec": true,
     "stun_dur": 1,
-    "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.4 } ]
+    "mult_bonuses": [
+      { "stat": "damage", "type": "bash", "scale": 1.4 },
+      { "stat": "damage", "type": "cut", "scale": 1.4 },
+      { "stat": "damage", "type": "stab", "scale": 1.4 }
+    ],
+    "attack_vectors": [ "HAND" ]
   },
   {
     "type": "technique",
@@ -843,7 +1034,8 @@
       { "stat": "damage", "type": "bash", "scale": 0.66 },
       { "stat": "damage", "type": "cut", "scale": 0.66 },
       { "stat": "damage", "type": "stab", "scale": 0.66 }
-    ]
+    ],
+    "attack_vectors": [ "HAND_BACK" ]
   },
   {
     "type": "technique",
@@ -851,7 +1043,13 @@
     "name": "Roundhouse Kick",
     "messages": [ "You roundhouse kick %s", "<npcname> roundhouse kicks %s" ],
     "unarmed_allowed": true,
-    "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.2 } ]
+    "melee_allowed": true,
+    "mult_bonuses": [
+      { "stat": "damage", "type": "bash", "scale": 1.2 },
+      { "stat": "damage", "type": "cut", "scale": 1.2 },
+      { "stat": "damage", "type": "stab", "scale": 1.2 }
+    ],
+    "attack_vectors": [ "FOOT" ]
   },
   {
     "type": "technique",
@@ -860,7 +1058,9 @@
     "messages": [ "You strike %s with your staff", "<npcname> strikes %s with your staff" ],
     "skill_requirements": [ { "name": "melee", "level": 3 } ],
     "melee_allowed": true,
-    "mult_bonuses": [ { "stat": "movecost", "scale": 0.9 } ]
+    "weapon_categories_allowed": "QUARTERSTAVES",
+    "mult_bonuses": [ { "stat": "movecost", "scale": 0.9 } ],
+    "attack_vectors": [ "WEAPON" ]
   },
   {
     "type": "technique",
@@ -869,9 +1069,95 @@
     "messages": [ "You swing your staff hard at %s", "<npcname> swings their staff hard at %s" ],
     "skill_requirements": [ { "name": "melee", "level": 4 } ],
     "melee_allowed": true,
+    "weapon_categories_allowed": "QUARTERSTAVES",
     "crit_tec": true,
     "down_dur": 1,
-    "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.1 } ]
+    "mult_bonuses": [
+      { "stat": "damage", "type": "bash", "scale": 1.1 },
+      { "stat": "damage", "type": "cut", "scale": 1.1 },
+      { "stat": "damage", "type": "stab", "scale": 1.1 }
+    ],
+    "attack_vectors": [ "WEAPON" ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_kickboxing_rapid",
+    "name": "Jab",
+    "messages": [ "You quickly jab %s", "<npcname> quickly jabs at %s" ],
+    "skill_requirements": [ { "name": "unarmed", "level": 2 } ],
+    "unarmed_allowed": true,
+    "mult_bonuses": [
+      { "stat": "movecost", "scale": 0.5 },
+      { "stat": "damage", "type": "bash", "scale": 0.66 },
+      { "stat": "damage", "type": "cut", "scale": 0.66 },
+      { "stat": "damage", "type": "stab", "scale": 0.66 }
+    ],
+    "attack_vectors": [ "HAND" ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_kickboxing_upper",
+    "name": "Uppercut",
+    "messages": [ "You uppercut %s", "<npcname> uppercuts %s" ],
+    "skill_requirements": [ { "name": "unarmed", "level": 4 } ],
+    "unarmed_allowed": true,
+    "crit_tec": true,
+    "stun_dur": 1,
+    "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.4 } ],
+    "attack_vectors": [ "HAND" ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_kickboxing_roundhouse",
+    "name": "Roundhouse Kick",
+    "messages": [ "You roundhouse kick %s", "<npcname> roundhouse kicks %s" ],
+    "unarmed_allowed": true,
+    "melee_allowed": true,
+    "mult_bonuses": [
+      { "stat": "damage", "type": "bash", "scale": 1.2 },
+      { "stat": "damage", "type": "cut", "scale": 1.2 },
+      { "stat": "damage", "type": "stab", "scale": 1.2 }
+    ],
+    "attack_vectors": [ "FOOT" ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_kickboxing_sidekick",
+    "name": "Side Kick",
+    "messages": [ "You side kick %s", "<npcname> side kicks %s" ],
+    "skill_requirements": [ { "name": "unarmed", "level": 2 } ],
+    "unarmed_allowed": true,
+    "melee_allowed": true,
+    "mult_bonuses": [
+      { "stat": "damage", "type": "bash", "scale": 1.2 },
+      { "stat": "damage", "type": "cut", "scale": 1.2 },
+      { "stat": "damage", "type": "stab", "scale": 1.2 }
+    ],
+    "attack_vectors": [ "FOOT" ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_kickboxing_straight_knee",
+    "name": "Straight Knee",
+    "messages": [ "You deliver a straight knee to %s", "<npcname> delivers a straight knee to %s" ],
+    "skill_requirements": [ { "name": "unarmed", "level": 3 } ],
+    "unarmed_allowed": true,
+    "crit_tec": true,
+    "stun_dur": 1,
+    "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.4 } ],
+    "attack_vectors": [ "KNEE" ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_kickboxing_flying_knee",
+    "name": "Flying Knee",
+    "messages": [ "You leap and deliver a flying knee to %s", "<npcname> leaps and delivers a flying knees to %s" ],
+    "skill_requirements": [ { "name": "unarmed", "level": 5 } ],
+    "unarmed_allowed": true,
+    "crit_tec": true,
+    "stun_dur": 1,
+    "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.4 } ],
+    "attack_vectors": [ "KNEE" ]
   },
   {
     "type": "technique",
@@ -886,7 +1172,8 @@
       { "stat": "damage", "type": "bash", "scale": 0.66 },
       { "stat": "damage", "type": "cut", "scale": 0.66 },
       { "stat": "damage", "type": "stab", "scale": 0.66 }
-    ]
+    ],
+    "attack_vectors": [ "WEAPON", "HAND" ]
   },
   {
     "type": "technique",
@@ -897,7 +1184,9 @@
     "melee_allowed": true,
     "unarmed_allowed": true,
     "crit_tec": true,
-    "stun_dur": 1
+    "stun_dur": 1,
+    "attack_vectors": [ "WEAPON" ],
+    "attack_vectors_random": [ "HAND", "FINGERS", "FOOT", "ELBOW", "KNEE", "LOWER_LEG", "HEAD" ]
   },
   {
     "type": "technique",
@@ -908,7 +1197,8 @@
     "melee_allowed": true,
     "unarmed_allowed": true,
     "crit_ok": true,
-    "down_dur": 1
+    "down_dur": 1,
+    "attack_vectors": [ "THROW" ]
   },
   {
     "type": "technique",
@@ -924,7 +1214,8 @@
     "human_target": true,
     "stun_dur": 1,
     "flat_bonuses": [ { "stat": "arpen", "type": "bash", "scaling-stat": "str", "scale": 1.0 } ],
-    "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 2.0 } ]
+    "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 2.0 } ],
+    "attack_vectors": [ "GRAPPLE" ]
   },
   {
     "type": "technique",
@@ -941,7 +1232,7 @@
     "type": "technique",
     "id": "tec_leopard_feint",
     "name": "Leopard Paw",
-    "messages": [ "You paw aggressively at %s", "<npcname> paws aggressively at %s" ],
+    "messages": [ "You paw aggressively at %s.", "<npcname> paws aggressively at %s." ],
     "skill_requirements": [ { "name": "unarmed", "level": 2 } ],
     "unarmed_allowed": true,
     "defensive": true,
@@ -956,7 +1247,8 @@
     "unarmed_allowed": true,
     "crit_tec": true,
     "stun_dur": 1,
-    "mult_bonuses": [ { "stat": "movecost", "scale": 0.5 } ]
+    "mult_bonuses": [ { "stat": "movecost", "scale": 0.5 } ],
+    "attack_vectors": [ "HAND" ]
   },
   {
     "type": "technique",
@@ -969,16 +1261,18 @@
       { "stat": "damage", "type": "bash", "scale": 0.66 },
       { "stat": "damage", "type": "cut", "scale": 0.66 },
       { "stat": "damage", "type": "stab", "scale": 0.66 }
-    ]
+    ],
+    "attack_vectors": [ "HAND" ]
   },
   {
     "type": "technique",
     "id": "tec_leopard_claw",
-    "name": "Leopard Swipe",
+    "name": "Leopard Claw",
     "messages": [ "You savagely claw at %s", "<npcname> savagely claws at %s" ],
     "unarmed_allowed": true,
     "crit_tec": true,
-    "mult_bonuses": [ { "stat": "movecost", "scale": 0.8 }, { "stat": "damage", "type": "bash", "scale": 1.3 } ]
+    "mult_bonuses": [ { "stat": "movecost", "scale": 0.8 }, { "stat": "damage", "type": "bash", "scale": 1.3 } ],
+    "attack_vectors": [ "HAND" ]
   },
   {
     "type": "technique",
@@ -989,7 +1283,8 @@
     "required_buffs_all": [ "buff_leopard_oncrit" ],
     "crit_tec": true,
     "down_dur": 1,
-    "mult_bonuses": [ { "stat": "movecost", "scale": 0.8 }, { "stat": "damage", "type": "bash", "scale": 2.0 } ]
+    "mult_bonuses": [ { "stat": "movecost", "scale": 0.8 }, { "stat": "damage", "type": "bash", "scale": 2.0 } ],
+    "attack_vectors": [ "HAND" ]
   },
   {
     "type": "technique",
@@ -999,9 +1294,14 @@
     "skill_requirements": [ { "name": "melee", "level": 4 } ],
     "melee_allowed": true,
     "required_buffs_all": [ "buff_swordsmanship_onpause" ],
-    "mult_bonuses": [ { "stat": "damage", "type": "cut", "scale": 0.5 }, { "stat": "damage", "type": "stab", "scale": 0.33 } ],
+    "mult_bonuses": [
+      { "stat": "damage", "type": "bash", "scale": 0.5 },
+      { "stat": "damage", "type": "cut", "scale": 0.5 },
+      { "stat": "damage", "type": "stab", "scale": 0.33 }
+    ],
     "crit_tec": true,
-    "down_dur": 2
+    "down_dur": 2,
+    "attack_vectors": [ "WEAPON" ]
   },
   {
     "type": "technique",
@@ -1013,18 +1313,20 @@
     "required_buffs_all": [ "buff_swordsmanship_onpause" ],
     "crit_ok": true,
     "flat_bonuses": [
+      { "stat": "arpen", "type": "bash", "scaling-stat": "str", "scale": 1.5 },
       { "stat": "arpen", "type": "cut", "scaling-stat": "str", "scale": 1.5 },
       { "stat": "arpen", "type": "stab", "scaling-stat": "str", "scale": 1.5 }
     ],
-    "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 0 } ]
+    "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 0 } ],
+    "attack_vectors": [ "WEAPON" ]
   },
   {
     "type": "technique",
     "id": "tec_swordsmanship_feint",
     "name": "Flow Drills",
     "messages": [
-      "With practiced movements, you transition from a failed strike into another strike",
-      "With practiced movements, <npcname> transitions from a failed strike into another strike"
+      "With practiced movements, you transition from a failed strike into another strike.",
+      "With practiced movements, <npcname> transitions from a failed strike into another strike."
     ],
     "skill_requirements": [ { "name": "melee", "level": 1 } ],
     "melee_allowed": true,
@@ -1039,7 +1341,8 @@
     "skill_requirements": [ { "name": "unarmed", "level": 1 } ],
     "unarmed_allowed": true,
     "crit_tec": true,
-    "mult_bonuses": [ { "stat": "movecost", "scale": 0.5 } ]
+    "mult_bonuses": [ { "stat": "movecost", "scale": 0.5 } ],
+    "attack_vectors": [ "ELBOW" ]
   },
   {
     "type": "technique",
@@ -1048,7 +1351,12 @@
     "messages": [ "You deal a powerful kick to %s", "<npcname> deals a powerful kick to %s" ],
     "unarmed_allowed": true,
     "crit_ok": true,
-    "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.3 } ]
+    "mult_bonuses": [
+      { "stat": "damage", "type": "bash", "scale": 1.3 },
+      { "stat": "damage", "type": "cut", "scale": 1.3 },
+      { "stat": "damage", "type": "stab", "scale": 1.3 }
+    ],
+    "attack_vectors_random": [ "LOWER_LEG", "FOOT" ]
   },
   {
     "type": "technique",
@@ -1059,7 +1367,8 @@
     "unarmed_allowed": true,
     "crit_tec": true,
     "stun_dur": 1,
-    "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.4 } ]
+    "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.4 } ],
+    "attack_vectors": [ "KNEE" ]
   },
   {
     "type": "technique",
@@ -1080,7 +1389,9 @@
     "skill_requirements": [ { "name": "melee", "level": 2 } ],
     "unarmed_allowed": true,
     "melee_allowed": true,
-    "mult_bonuses": [ { "stat": "movecost", "scale": 0.8 } ]
+    "mult_bonuses": [ { "stat": "movecost", "scale": 0.8 } ],
+    "attack_vectors": [ "WEAPON" ],
+    "attack_vectors_random": [ "HAND", "ELBOW", "LOWER_LEG", "FOOT" ]
   },
   {
     "type": "technique",
@@ -1092,7 +1403,9 @@
     "melee_allowed": true,
     "required_buffs_all": [ "buff_ninjutsu_onattack" ],
     "crit_tec": true,
-    "mult_bonuses": [ { "stat": "movecost", "scale": 0.8 } ]
+    "mult_bonuses": [ { "stat": "movecost", "scale": 0.8 } ],
+    "attack_vectors": [ "WEAPON" ],
+    "attack_vectors_random": [ "HAND", "ELBOW", "LOWER_LEG", "FOOT" ]
   },
   {
     "type": "technique",
@@ -1108,7 +1421,8 @@
       { "stat": "damage", "type": "bash", "scale": 1.3 },
       { "stat": "damage", "type": "cut", "scale": 1.3 },
       { "stat": "damage", "type": "stab", "scale": 1.3 }
-    ]
+    ],
+    "attack_vectors": [ "WEAPON" ]
   },
   {
     "type": "technique",
@@ -1121,7 +1435,8 @@
     "crit_tec": true,
     "down_dur": 2,
     "stun_dur": 2,
-    "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 2.0 } ]
+    "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 2.0 } ],
+    "attack_vectors": [ "THROW" ]
   },
   {
     "type": "technique",
@@ -1134,7 +1449,8 @@
       { "stat": "movecost", "scale": 1.75 },
       { "stat": "damage", "type": "bash", "scale": 2.0 },
       { "stat": "damage", "type": "cut", "scale": 2.0 }
-    ]
+    ],
+    "attack_vectors": [ "WEAPON" ]
   },
   {
     "type": "technique",
@@ -1143,7 +1459,8 @@
     "messages": [ "Your strike knocks %s off balance", "<npcname>'s strike knocks %s off balance" ],
     "skill_requirements": [ { "name": "melee", "level": 3 } ],
     "melee_allowed": true,
-    "down_dur": 1
+    "down_dur": 1,
+    "attack_vectors": [ "WEAPON" ]
   },
   {
     "type": "technique",
@@ -1154,7 +1471,12 @@
     "melee_allowed": true,
     "crit_tec": true,
     "stun_dur": 1,
-    "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.5 }, { "stat": "damage", "type": "cut", "scale": 1.5 } ]
+    "mult_bonuses": [
+      { "stat": "damage", "type": "bash", "scale": 1.5 },
+      { "stat": "damage", "type": "cut", "scale": 1.5 },
+      { "stat": "damage", "type": "stab", "scale": 1.5 }
+    ],
+    "attack_vectors": [ "WEAPON" ]
   },
   {
     "type": "technique",
@@ -1170,13 +1492,14 @@
       { "stat": "movecost", "scale": 0.5 },
       { "stat": "damage", "type": "bash", "scale": 1.5 },
       { "stat": "damage", "type": "cut", "scale": 1.5 }
-    ]
+    ],
+    "attack_vectors": [ "WEAPON" ]
   },
   {
     "type": "technique",
     "id": "niten_feint",
     "name": "Feint",
-    "messages": [ "You feint at %s", "<npcname> feints at %s" ],
+    "messages": [ "You feint at %s.", "<npcname> feints at %s." ],
     "skill_requirements": [ { "name": "melee", "level": 2 } ],
     "melee_allowed": true,
     "defensive": true,
@@ -1189,7 +1512,12 @@
     "name": "Cross",
     "messages": [ "You throw a heavy cross at %s", "<npcname> throws a cross at %s" ],
     "unarmed_allowed": true,
-    "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.2 } ]
+    "mult_bonuses": [
+      { "stat": "damage", "type": "bash", "scale": 1.2 },
+      { "stat": "damage", "type": "cut", "scale": 1.2 },
+      { "stat": "damage", "type": "stab", "scale": 1.2 }
+    ],
+    "attack_vectors": [ "HAND" ]
   },
   {
     "type": "technique",
@@ -1199,7 +1527,8 @@
     "skill_requirements": [ { "name": "unarmed", "level": 2 } ],
     "unarmed_allowed": true,
     "crit_tec": true,
-    "stun_dur": 2
+    "stun_dur": 2,
+    "attack_vectors": [ "FOOT" ]
   },
   {
     "type": "technique",
@@ -1220,7 +1549,8 @@
     "unarmed_allowed": true,
     "stunned_target": true,
     "weighting": 3,
-    "mult_bonuses": [ { "stat": "movecost", "scale": 0.5 } ]
+    "mult_bonuses": [ { "stat": "movecost", "scale": 0.5 } ],
+    "attack_vectors": [ "KNEE" ]
   },
   {
     "type": "technique",
@@ -1235,7 +1565,8 @@
     "disarms": true,
     "stun_dur": 1,
     "flat_bonuses": [ { "stat": "arpen", "type": "bash", "scaling-stat": "str", "scale": 1.0 } ],
-    "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.25 } ]
+    "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.25 } ],
+    "attack_vectors": [ "GRAPPLE" ]
   },
   {
     "type": "technique",
@@ -1250,7 +1581,8 @@
     "knockback_dist": 2,
     "knockback_spread": 2,
     "stunned_target": true,
-    "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 2.0 } ]
+    "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 2.0 } ],
+    "attack_vectors": [ "THROW" ]
   },
   {
     "type": "technique",
@@ -1260,7 +1592,8 @@
     "skill_requirements": [ { "name": "melee", "level": 2 } ],
     "melee_allowed": true,
     "crit_tec": true,
-    "down_dur": 2
+    "down_dur": 2,
+    "attack_vectors": [ "WEAPON" ]
   },
   {
     "type": "technique",
@@ -1276,7 +1609,8 @@
       { "stat": "damage", "type": "bash", "scale": 1.33 },
       { "stat": "damage", "type": "cut", "scale": 1.33 },
       { "stat": "damage", "type": "stab", "scale": 1.33 }
-    ]
+    ],
+    "attack_vectors": [ "WEAPON" ]
   },
   {
     "type": "technique",
@@ -1286,7 +1620,8 @@
     "skill_requirements": [ { "name": "melee", "level": 4 } ],
     "melee_allowed": true,
     "crit_tec": true,
-    "stun_dur": 2
+    "stun_dur": 2,
+    "attack_vectors": [ "WEAPON" ]
   },
   {
     "type": "technique",
@@ -1302,7 +1637,8 @@
       { "stat": "damage", "type": "bash", "scale": 1.33 },
       { "stat": "damage", "type": "cut", "scale": 1.33 },
       { "stat": "damage", "type": "stab", "scale": 1.33 }
-    ]
+    ],
+    "attack_vectors": [ "WEAPON" ]
   },
   {
     "type": "technique",
@@ -1316,13 +1652,14 @@
       { "stat": "arpen", "type": "cut", "scaling-stat": "per", "scale": 0.5 },
       { "stat": "arpen", "type": "stab", "scaling-stat": "per", "scale": 0.5 }
     ],
-    "mult_bonuses": [ { "stat": "movecost", "scale": 0.8 } ]
+    "mult_bonuses": [ { "stat": "movecost", "scale": 0.8 } ],
+    "attack_vectors": [ "HAND" ]
   },
   {
     "type": "technique",
     "id": "tec_snake_feint",
     "name": "Snake Slide",
-    "messages": [ "You make serpentine hand motions at %s", "<npcname> makes serpentine hand motions at %s" ],
+    "messages": [ "You make serpentine hand motions at %s.", "<npcname> makes serpentine hand motions at %s." ],
     "skill_requirements": [ { "name": "unarmed", "level": 4 } ],
     "unarmed_allowed": true,
     "defensive": true,
@@ -1353,7 +1690,8 @@
       { "stat": "arpen", "type": "cut", "scaling-stat": "per", "scale": 1.0 },
       { "stat": "arpen", "type": "stab", "scaling-stat": "per", "scale": 1.0 }
     ],
-    "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.5 } ]
+    "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.5 } ],
+    "attack_vectors": [ "HAND" ]
   },
   {
     "type": "technique",
@@ -1367,7 +1705,8 @@
       { "stat": "damage", "type": "bash", "scale": 0.5 },
       { "stat": "damage", "type": "cut", "scale": 0.5 },
       { "stat": "damage", "type": "stab", "scale": 0.5 }
-    ]
+    ],
+    "attack_vectors": [ "WEAPON" ]
   },
   {
     "type": "technique",
@@ -1381,13 +1720,14 @@
       { "stat": "damage", "type": "bash", "scale": 0.5 },
       { "stat": "damage", "type": "cut", "scale": 0.5 },
       { "stat": "damage", "type": "stab", "scale": 0.5 }
-    ]
+    ],
+    "attack_vectors": [ "WEAPON" ]
   },
   {
     "type": "technique",
     "id": "tec_sojutsu_feint",
     "name": "Feint",
-    "messages": [ "You fake a thrust at %s", "<npcname> fakes a thrust at %s" ],
+    "messages": [ "You fake a thrust at %s.", "<npcname> fakes a thrust at %s." ],
     "skill_requirements": [ { "name": "melee", "level": 4 } ],
     "melee_allowed": true,
     "defensive": true,
@@ -1402,7 +1742,8 @@
     "unarmed_allowed": true,
     "weighting": 2,
     "take_weapon": true,
-    "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 0.5 } ]
+    "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 0.5 } ],
+    "attack_vectors": [ "HAND" ]
   },
   {
     "type": "technique",
@@ -1413,19 +1754,28 @@
       "<npcname> spins and back-kicks %s, right in the center of gravity"
     ],
     "skill_requirements": [ { "name": "unarmed", "level": 5 } ],
+    "melee_allowed": true,
     "unarmed_allowed": true,
     "crit_tec": true,
     "stun_dur": 2,
     "knockback_dist": 2,
-    "mult_bonuses": [ { "stat": "movecost", "scale": 1.5 }, { "stat": "damage", "type": "bash", "scale": 1.5 } ]
+    "mult_bonuses": [
+      { "stat": "movecost", "scale": 1.5 },
+      { "stat": "damage", "type": "bash", "scale": 1.5 },
+      { "stat": "damage", "type": "cut", "scale": 1.5 },
+      { "stat": "damage", "type": "stab", "scale": 1.5 }
+    ],
+    "attack_vectors": [ "FOOT" ]
   },
   {
     "type": "technique",
     "id": "tec_taekwondo_push",
     "name": "Side Kick",
-    "unarmed_allowed": true,
     "messages": [ "You turn slightly and side-kick %s", "<npcname> turns slightly and side-kicks %s" ],
-    "knockback_dist": 1
+    "melee_allowed": true,
+    "unarmed_allowed": true,
+    "knockback_dist": 1,
+    "attack_vectors": [ "FOOT" ]
   },
   {
     "type": "technique",
@@ -1433,24 +1783,33 @@
     "name": "Sweep Kick",
     "messages": [ "You crouch low and sweep-kick %s", "<npcname> crouches low and sweep-kicks %s" ],
     "skill_requirements": [ { "name": "unarmed", "level": 2 } ],
+    "melee_allowed": true,
     "unarmed_allowed": true,
     "crit_ok": true,
-    "down_dur": 1
+    "down_dur": 1,
+    "attack_vectors_random": [ "FOOT", "LOWER_LEG" ]
   },
   {
     "type": "technique",
     "id": "tec_taekwondo_roundhouse",
     "name": "Roundhouse Kick",
     "messages": [ "You roundhouse kick %s", "<npcname> roundhouse kicks %s" ],
+    "melee_allowed": true,
     "unarmed_allowed": true,
-    "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.2 } ]
+    "mult_bonuses": [
+      { "stat": "damage", "type": "bash", "scale": 1.2 },
+      { "stat": "damage", "type": "cut", "scale": 1.2 },
+      { "stat": "damage", "type": "stab", "scale": 1.2 }
+    ],
+    "attack_vectors": [ "FOOT" ]
   },
   {
     "type": "technique",
     "id": "tec_taekwondo_feint",
     "name": "Feint",
-    "messages": [ "You fake a kick at %s", "<npcname> fakes a kick at %s" ],
+    "messages": [ "You fake a kick at %s.", "<npcname> fakes a kick at %s." ],
     "skill_requirements": [ { "name": "unarmed", "level": 3 } ],
+    "melee_allowed": true,
     "unarmed_allowed": true,
     "defensive": true,
     "miss_recovery": true
@@ -1462,7 +1821,8 @@
     "messages": [ "You gently disarm %s", "<npcname> gently disarms %s" ],
     "skill_requirements": [ { "name": "unarmed", "level": 3 } ],
     "unarmed_allowed": true,
-    "disarms": true
+    "disarms": true,
+    "attack_vectors": [ "HAND" ]
   },
   {
     "type": "technique",
@@ -1473,7 +1833,12 @@
     "unarmed_allowed": true,
     "required_buffs_all": [ "buff_tai_chi_onpause" ],
     "knockback_dist": 1,
-    "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.5 } ]
+    "mult_bonuses": [
+      { "stat": "damage", "type": "bash", "scale": 1.5 },
+      { "stat": "damage", "type": "cut", "scale": 1.5 },
+      { "stat": "damage", "type": "stab", "scale": 1.5 }
+    ],
+    "attack_vectors": [ "PALM" ]
   },
   {
     "type": "technique",
@@ -1485,7 +1850,13 @@
     "required_buffs_all": [ "buff_tai_chi_onblock" ],
     "crit_ok": true,
     "down_dur": 1,
-    "mult_bonuses": [ { "stat": "movecost", "scale": 0.75 }, { "stat": "damage", "type": "bash", "scale": 1.2 } ]
+    "mult_bonuses": [
+      { "stat": "movecost", "scale": 0.75 },
+      { "stat": "damage", "type": "bash", "scale": 1.2 },
+      { "stat": "damage", "type": "cut", "scale": 1.2 },
+      { "stat": "damage", "type": "stab", "scale": 1.2 }
+    ],
+    "attack_vectors": [ "THROW" ]
   },
   {
     "type": "technique",
@@ -1498,15 +1869,20 @@
     "required_buffs_all": [ "buff_tai_chi_onpause" ],
     "knockback_dist": 1,
     "stun_dur": 1,
-    "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 2.0 } ]
+    "mult_bonuses": [
+      { "stat": "damage", "type": "bash", "scale": 2.0 },
+      { "stat": "damage", "type": "cut", "scale": 2.0 },
+      { "stat": "damage", "type": "stab", "scale": 2.0 }
+    ],
+    "attack_vectors": [ "PALM" ]
   },
   {
     "type": "technique",
     "id": "tec_tiger_break",
     "name": "Grab Break",
     "messages": [
-      "The %s tries to grab you, but you too powerful to be caged!",
-      "The %s tries to grab <npcname>, but they too powerful to be caged!"
+      "The %s tries to grab you, but you are too powerful to be caged!",
+      "The %s tries to grab <npcname>, but they are too powerful to be caged!"
     ],
     "unarmed_allowed": true,
     "defensive": true,
@@ -1520,7 +1896,8 @@
     "skill_requirements": [ { "name": "unarmed", "level": 1 } ],
     "unarmed_allowed": true,
     "down_dur": 1,
-    "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.25 } ]
+    "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.25 } ],
+    "attack_vectors": [ "THROW" ]
   },
   {
     "type": "technique",
@@ -1530,8 +1907,17 @@
     "skill_requirements": [ { "name": "unarmed", "level": 3 } ],
     "unarmed_allowed": true,
     "crit_ok": true,
-    "flat_bonuses": [ { "stat": "arpen", "type": "bash", "scaling-stat": "str", "scale": 1.0 } ],
-    "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.25 } ]
+    "flat_bonuses": [
+      { "stat": "arpen", "type": "bash", "scaling-stat": "str", "scale": 1.0 },
+      { "stat": "arpen", "type": "cut", "scaling-stat": "str", "scale": 1.0 },
+      { "stat": "arpen", "type": "stab", "scaling-stat": "str", "scale": 1.0 }
+    ],
+    "mult_bonuses": [
+      { "stat": "damage", "type": "bash", "scale": 1.25 },
+      { "stat": "damage", "type": "cut", "scale": 1.25 },
+      { "stat": "damage", "type": "stab", "scale": 1.25 }
+    ],
+    "attack_vectors": [ "HAND" ]
   },
   {
     "type": "technique",
@@ -1542,19 +1928,29 @@
     "unarmed_allowed": true,
     "crit_tec": true,
     "stun_dur": 1,
-    "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.25 } ]
+    "mult_bonuses": [
+      { "stat": "damage", "type": "bash", "scale": 1.25 },
+      { "stat": "damage", "type": "cut", "scale": 1.25 },
+      { "stat": "damage", "type": "stab", "scale": 1.25 }
+    ],
+    "attack_vectors": [ "HAND" ]
   },
   {
     "type": "technique",
     "id": "tec_tiger_wide",
-    "name": "Tiger Ramage",
+    "name": "Tiger Rampage",
     "messages": [ "You slash wildly at %s and those nearby", "<npcname> slashes wildly at %s and those nearby" ],
     "skill_requirements": [ { "name": "unarmed", "level": 5 } ],
     "unarmed_allowed": true,
     "crit_tec": true,
     "weighting": 3,
     "aoe": "wide",
-    "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.25 } ]
+    "mult_bonuses": [
+      { "stat": "damage", "type": "bash", "scale": 1.25 },
+      { "stat": "damage", "type": "cut", "scale": 1.25 },
+      { "stat": "damage", "type": "stab", "scale": 1.25 }
+    ],
+    "attack_vectors": [ "HAND" ]
   },
   {
     "type": "technique",
@@ -1562,7 +1958,12 @@
     "name": "Straight Punch",
     "messages": [ "You deliver a vertical straight punch to %s", "<npcname> delivers a vertical straight punch to %s" ],
     "unarmed_allowed": true,
-    "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.1 } ]
+    "mult_bonuses": [
+      { "stat": "damage", "type": "bash", "scale": 1.1 },
+      { "stat": "damage", "type": "cut", "scale": 1.1 },
+      { "stat": "damage", "type": "stab", "scale": 1.1 }
+    ],
+    "attack_vectors": [ "HAND" ]
   },
   {
     "type": "technique",
@@ -1575,7 +1976,12 @@
     "weighting": 2,
     "knockback_dist": 1,
     "knockback_follow": true,
-    "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.1 } ]
+    "mult_bonuses": [
+      { "stat": "damage", "type": "bash", "scale": 1.1 },
+      { "stat": "damage", "type": "cut", "scale": 1.1 },
+      { "stat": "damage", "type": "stab", "scale": 1.1 }
+    ],
+    "attack_vectors": [ "HAND" ]
   },
   {
     "type": "technique",
@@ -1586,7 +1992,12 @@
     "unarmed_allowed": true,
     "crit_tec": true,
     "down_dur": 1,
-    "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.2 } ]
+    "mult_bonuses": [
+      { "stat": "damage", "type": "bash", "scale": 1.2 },
+      { "stat": "damage", "type": "cut", "scale": 1.2 },
+      { "stat": "damage", "type": "stab", "scale": 1.2 }
+    ],
+    "attack_vectors": [ "HAND" ]
   },
   {
     "type": "technique",
@@ -1601,13 +2012,18 @@
     "down_dur": 1,
     "knockback_dist": 1,
     "knockback_follow": true,
-    "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.2 } ]
+    "mult_bonuses": [
+      { "stat": "damage", "type": "bash", "scale": 1.2 },
+      { "stat": "damage", "type": "cut", "scale": 1.2 },
+      { "stat": "damage", "type": "stab", "scale": 1.2 }
+    ],
+    "attack_vectors": [ "HAND" ]
   },
   {
     "type": "technique",
     "id": "tec_wingchun_feint",
     "name": "Feint",
-    "messages": [ "Your attack misses %s but you don't let up", "<npcname>'s attack misses %s but they don't let up" ],
+    "messages": [ "Your attack misses %s but you don't let up.", "<npcname>'s attack misses %s but they don't let up." ],
     "skill_requirements": [ { "name": "unarmed", "level": 3 } ],
     "unarmed_allowed": true,
     "defensive": true,
@@ -1617,7 +2033,7 @@
     "type": "technique",
     "id": "tec_zuiquan_feint",
     "name": "Drunken Feint",
-    "messages": [ "You stumble and leer at %s", "<npcname> stumbles and leers at %s" ],
+    "messages": [ "You stumble and leer at %s.", "<npcname> stumbles and leers at %s." ],
     "skill_requirements": [ { "name": "unarmed", "level": 2 } ],
     "unarmed_allowed": true,
     "defensive": true,
@@ -1630,7 +2046,12 @@
     "messages": [ "You lurch, and your wild swing hits %s", "<npcname> lurches, and hits %s" ],
     "unarmed_allowed": true,
     "crit_ok": true,
-    "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.2 } ]
+    "mult_bonuses": [
+      { "stat": "damage", "type": "bash", "scale": 1.2 },
+      { "stat": "damage", "type": "cut", "scale": 1.2 },
+      { "stat": "damage", "type": "stab", "scale": 1.2 }
+    ],
+    "attack_vectors": [ "HAND" ]
   },
   {
     "type": "technique",
@@ -1652,7 +2073,13 @@
     "unarmed_allowed": true,
     "crit_tec": true,
     "aoe": "spin",
-    "mult_bonuses": [ { "stat": "movecost", "scale": 1.5 }, { "stat": "damage", "type": "bash", "scale": 1.3 } ]
+    "mult_bonuses": [
+      { "stat": "movecost", "scale": 1.5 },
+      { "stat": "damage", "type": "bash", "scale": 1.3 },
+      { "stat": "damage", "type": "cut", "scale": 1.3 },
+      { "stat": "damage", "type": "stab", "scale": 1.3 }
+    ],
+    "attack_vectors_random": [ "HAND", "FOOT" ]
   },
   {
     "type": "technique",
@@ -1666,7 +2093,8 @@
       { "stat": "damage", "type": "bash", "scaling-stat": "str", "scale": 0.1 }
     ],
     "flat_bonuses": [ { "stat": "movecost", "scale": 100 }, { "stat": "movecost", "scaling-stat": "str", "scale": 10 } ],
-    "messages": [ "You slowly strike %s", "<npcname> slowly strikes %s" ]
+    "messages": [ "You slowly strike %s", "<npcname> slowly strikes %s" ],
+    "attack_vectors": [ "HAND" ]
   },
   {
     "type": "technique",
@@ -1686,6 +2114,28 @@
       { "stat": "arpen", "type": "bash", "scaling-stat": "per", "scale": 1 }
     ],
     "crit_tec": true,
-    "messages": [ "You phase-strike %s", "<npcname> phase-strikes %s" ]
+    "messages": [ "You phase-strike %s", "<npcname> phase-strikes %s" ],
+    "attack_vectors": [ "WEAPON", "HAND" ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_debug_eoc_demo",
+    "name": "Extreme Offensive Chop!",
+    "unarmed_allowed": true,
+    "melee_allowed": true,
+    "skill_requirements": [ { "name": "speech", "level": 10 } ],
+    "weighting": 100,
+    "messages": [ "You strike %s with an Extreme Offensive Chop", "<npcname> strikes %s with an Extreme Offensive Chop" ],
+    "eocs": [
+      {
+        "id": "EOC_TECH_DEBGU_EOC_DEMO",
+        "effect": [
+          { "u_message": "That was so awesome, the foe decides to surrender!", "type": "good" },
+          "follow",
+          { "arithmetic": [ { "npc_val": "friendly" }, "=", { "const": 100 } ] }
+        ]
+      }
+    ],
+    "attack_vectors": [ "WEAPON", "HAND" ]
   }
 ]

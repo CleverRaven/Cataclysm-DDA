@@ -53,6 +53,20 @@
       { "monster": "mon_zombie_upliftedbear", "weight": 1, "cost_multiplier": 10, "starts": 1086 },
       { "monster": "mon_uplifted_ape_zed", "weight": 1, "cost_multiplier": 10, "starts": 1086 },
       {
+        "monster": "afs_mon_boatman",
+        "weight": 1,
+        "cost_multiplier": 20,
+        "pack_size": [ 2, 4 ],
+        "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
+      },
+      {
+        "monster": "afs_mon_garlander",
+        "weight": 3,
+        "cost_multiplier": 10,
+        "pack_size": [ 2, 4 ],
+        "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
+      },
+      {
         "monster": "afs_mon_rabbit",
         "weight": 1,
         "cost_multiplier": 10,

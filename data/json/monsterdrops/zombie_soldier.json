@@ -14,9 +14,27 @@
       },
       {
         "distribution": [
-          { "group": "military_standard_assault_rifles", "contents-item": "shoulder_strap", "prob": 75 },
-          { "group": "military_standard_lmgs", "contents-item": "shoulder_strap", "prob": 10 },
-          { "group": "military_standard_shotguns", "contents-item": "shoulder_strap", "prob": 5 }
+          {
+            "group": "military_standard_assault_rifles",
+            "contents-item": "shoulder_strap",
+            "prob": 75,
+            "damage": [ 0, 4 ],
+            "dirt": [ 0, 6000 ]
+          },
+          {
+            "group": "military_standard_lmgs",
+            "contents-item": "shoulder_strap",
+            "prob": 10,
+            "damage": [ 0, 4 ],
+            "dirt": [ 0, 6000 ]
+          },
+          {
+            "group": "military_standard_shotguns",
+            "contents-item": "shoulder_strap",
+            "prob": 5,
+            "damage": [ 0, 4 ],
+            "dirt": [ 0, 6000 ]
+          }
         ],
         "prob": 10
       },
@@ -38,9 +56,27 @@
     "entries": [
       {
         "distribution": [
-          { "group": "military_standard_assault_rifles", "contents-item": "shoulder_strap", "prob": 75 },
-          { "group": "military_standard_lmgs", "contents-item": "shoulder_strap", "prob": 10 },
-          { "group": "military_standard_shotguns", "contents-item": "shoulder_strap", "prob": 5 }
+          {
+            "group": "military_standard_assault_rifles",
+            "contents-item": "shoulder_strap",
+            "prob": 75,
+            "damage": [ 0, 4 ],
+            "dirt": [ 0, 6000 ]
+          },
+          {
+            "group": "military_standard_lmgs",
+            "contents-item": "shoulder_strap",
+            "prob": 10,
+            "damage": [ 0, 4 ],
+            "dirt": [ 0, 6000 ]
+          },
+          {
+            "group": "military_standard_shotguns",
+            "contents-item": "shoulder_strap",
+            "prob": 5,
+            "damage": [ 0, 4 ],
+            "dirt": [ 0, 6000 ]
+          }
         ],
         "prob": 10
       },
@@ -79,9 +115,27 @@
       },
       {
         "distribution": [
-          { "group": "military_standard_assault_rifles", "contents-group": "sopmod", "prob": 75 },
-          { "group": "military_standard_lmgs", "contents-item": "shoulder_strap", "prob": 10 },
-          { "group": "military_standard_shotguns", "contents-item": "shoulder_strap", "prob": 5 }
+          {
+            "group": "military_standard_assault_rifles",
+            "contents-group": "sopmod",
+            "prob": 75,
+            "damage": [ 0, 4 ],
+            "dirt": [ 0, 6000 ]
+          },
+          {
+            "group": "military_standard_lmgs",
+            "contents-item": "shoulder_strap",
+            "prob": 10,
+            "damage": [ 0, 4 ],
+            "dirt": [ 0, 6000 ]
+          },
+          {
+            "group": "military_standard_shotguns",
+            "contents-item": "shoulder_strap",
+            "prob": 5,
+            "damage": [ 0, 4 ],
+            "dirt": [ 0, 6000 ]
+          }
         ],
         "prob": 10
       },

@@ -7,12 +7,12 @@
   {
     "type": "item_action",
     "id": "repair_metal",
-    "name": { "str": "Repair metal/plastic/kevlar" }
+    "name": { "str": "Repair metal/plastic/Kevlar" }
   },
   {
     "type": "item_action",
     "id": "sew_advanced",
-    "name": { "str": "Modify Clothing" }
+    "name": { "str": "Modify clothing" }
   },
   {
     "type": "item_action",
@@ -20,6 +20,7 @@
     "name": { "str": "Start a fire quickly" }
   },
   {
+    "//": "Remove after 0.G.",
     "type": "item_action",
     "id": "HAMMER",
     "name": { "str": "Pry crate, window, door or nails" }
@@ -33,6 +34,11 @@
     "type": "item_action",
     "id": "deploy_furn",
     "name": { "str": "Deploy item" }
+  },
+  {
+    "type": "item_action",
+    "id": "CROWBAR_WEAK",
+    "name": { "str": "Pry crate or nails" }
   },
   {
     "type": "item_action",
@@ -103,11 +109,6 @@
     "type": "item_action",
     "id": "DIRECTIONAL_HOLOGRAM",
     "name": { "str": "Create a moving hologram" }
-  },
-  {
-    "type": "item_action",
-    "id": "MIND_SPLICER",
-    "name": { "str": "Extract data from memory banks" }
   },
   {
     "type": "item_action",
@@ -192,12 +193,12 @@
   {
     "type": "item_action",
     "id": "CHANGE_EYES",
-    "name": { "str": "Change the eye colour" }
+    "name": { "str": "Change the eye color" }
   },
   {
     "type": "item_action",
     "id": "CHANGE_SKIN",
-    "name": { "str": "Change skin colour" }
+    "name": { "str": "Change skin color" }
   },
   {
     "type": "item_action",
@@ -231,8 +232,23 @@
   },
   {
     "type": "item_action",
+    "id": "attach_molle",
+    "name": { "str": "Attach pockets" }
+  },
+  {
+    "type": "item_action",
+    "id": "detach_molle",
+    "name": { "str": "Remove pockets" }
+  },
+  {
+    "type": "item_action",
     "id": "saw_barrel",
     "name": { "str": "Saw down barrel" }
+  },
+  {
+    "type": "item_action",
+    "id": "saw_stock",
+    "name": { "str": "Saw down stock" }
   },
   {
     "type": "item_action",
@@ -276,16 +292,6 @@
   },
   {
     "type": "item_action",
-    "id": "ARROW_FLAMABLE",
-    "name": { "str": "Light up" }
-  },
-  {
-    "type": "item_action",
-    "id": "AUTOCLAVE",
-    "name": { "str": "Sterilize" }
-  },
-  {
-    "type": "item_action",
     "id": "BELL",
     "name": { "str": "Ring" }
   },
@@ -307,6 +313,11 @@
   {
     "type": "item_action",
     "id": "CABLE_ATTACH",
+    "name": { "str": "Attach" }
+  },
+  {
+    "type": "item_action",
+    "id": "CORD_ATTACH",
     "name": { "str": "Attach" }
   },
   {
@@ -401,26 +412,6 @@
   },
   {
     "type": "item_action",
-    "id": "CS_LAJATANG_OFF",
-    "name": { "str": "Turn on" }
-  },
-  {
-    "type": "item_action",
-    "id": "CS_LAJATANG_ON",
-    "name": { "str": "Turn off" }
-  },
-  {
-    "type": "item_action",
-    "id": "ECS_LAJATANG_OFF",
-    "name": { "str": "Turn on" }
-  },
-  {
-    "type": "item_action",
-    "id": "ECS_LAJATANG_ON",
-    "name": { "str": "Turn off" }
-  },
-  {
-    "type": "item_action",
     "id": "DATURA",
     "name": { "str": "Eat" }
   },
@@ -481,6 +472,16 @@
   },
   {
     "type": "item_action",
+    "id": "EMF_PASSIVE_OFF",
+    "name": { "str": "Turn on" }
+  },
+  {
+    "type": "item_action",
+    "id": "EMF_PASSIVE_ON",
+    "name": { "str": "Turn off" }
+  },
+  {
+    "type": "item_action",
     "id": "EXTINGUISHER",
     "name": { "str": "Spray" }
   },
@@ -517,7 +518,7 @@
   {
     "type": "item_action",
     "id": "FISH_ROD",
-    "name": { "str": "Fish" }
+    "name": { "ctxt": "FISH_ROD", "str": "Fish" }
   },
   {
     "type": "item_action",
@@ -568,6 +569,11 @@
     "type": "item_action",
     "id": "detach_gunmods",
     "name": { "str": "Detach gunmods" }
+  },
+  {
+    "type": "item_action",
+    "id": "modify_gunmods",
+    "name": { "str": "Modify attached equipment" }
   },
   {
     "type": "item_action",
@@ -701,16 +707,6 @@
   },
   {
     "type": "item_action",
-    "id": "mutagen",
-    "name": { "str": "Consume" }
-  },
-  {
-    "type": "item_action",
-    "id": "mutagen_iv",
-    "name": { "str": "Inject" }
-  },
-  {
-    "type": "item_action",
     "id": "MYCUS",
     "name": { "str": "Consume" }
   },
@@ -786,16 +782,6 @@
   },
   {
     "type": "item_action",
-    "id": "PURIFIER",
-    "name": { "str": "Consume" }
-  },
-  {
-    "type": "item_action",
-    "id": "PURIFY_IV",
-    "name": { "str": "Inject" }
-  },
-  {
-    "type": "item_action",
     "id": "PURIFY_SMART",
     "name": { "str": "Inject" }
   },
@@ -838,6 +824,11 @@
     "type": "item_action",
     "id": "REMOTEVEH",
     "name": { "str": "Control a vehicle" }
+  },
+  {
+    "type": "item_action",
+    "id": "MANAGE_EXOSUIT",
+    "name": { "str": "Manage exosuit modules" }
   },
   {
     "type": "item_action",
@@ -1046,11 +1037,6 @@
   },
   {
     "type": "item_action",
-    "id": "unfold_vehicle",
-    "name": { "str": "Unfold" }
-  },
-  {
-    "type": "item_action",
     "id": "install_bionic",
     "name": { "str": "Install bionic" }
   },
@@ -1108,5 +1094,20 @@
     "type": "item_action",
     "id": "LUX_METER",
     "name": { "str": "Measure light level" }
+  },
+  {
+    "type": "item_action",
+    "id": "DBG_LUX_METER",
+    "name": { "str": "Measure light level" }
+  },
+  {
+    "type": "item_action",
+    "id": "CALORIES_INTAKE_TRACKER",
+    "name": { "str": "Calories intake tracker" }
+  },
+  {
+    "type": "item_action",
+    "id": "VOLTMETER",
+    "name": { "str": "Test for voltage" }
   }
 ]

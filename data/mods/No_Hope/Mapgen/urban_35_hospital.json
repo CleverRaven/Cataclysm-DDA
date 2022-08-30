@@ -93,7 +93,7 @@
         "P": { "item": "hospital_medical_items", "chance": 80, "repeat": [ 1, 2 ] },
         "F": [ { "item": "bed", "chance": 30, "repeat": [ 1, 2 ] }, { "item": "cleaning", "chance": 60, "repeat": [ 1, 2 ] } ],
         "q": [
-          { "item": "vending_drink", "chance": 40, "repeat": [ 1, 2 ] },
+          { "item": "vending_drink", "chance": 5, "repeat": [ 1, 2 ] },
           { "item": "prepared_teas", "chance": 30, "repeat": [ 1, 2 ] }
         ]
       },
@@ -470,7 +470,7 @@
         "#   ||o*o|||o*o|||||$||||$||D ւ4s|D ւ4 s|   o...",
         "#   |                      |     |      |   o...",
         "#   ||  ||||||||||||||     |oo*oo|oo*ooo|   #...",
-        "#   |    vh Q ւjւjւ  |                  |   #...",
+        "#   |    vh Q  j j   |                  |   #...",
         "#   |    v  Q  j j   |      k     ||*||||   o...",
         "#   $                *   |Я j Я|  |t X|n    #...",
         "#   |       Q  j j   |   |||||||  |t D|N    #...",

@@ -48,6 +48,10 @@ inline const T &translation_argument_identity( const T &t )
 }
 
 // Note: in case of std::string argument, the result is copied, this is intended (for safety)
+// Note that _ triggers reserved identifier warnings, but we suppress all
+// three because it's a common use of _ and thus not likely to be a problem in
+// practice.
+// NOLINTNEXTLINE(bugprone-reserved-identifier,cert-dcl37-c,cert-dcl51-cpp)
 #define _( msg ) \
     ( ( []( const auto & arg ) { \
         static auto cache = detail::get_local_translation_cache( arg ); \
@@ -70,8 +74,8 @@ inline const char *pgettext( const char *context, const char *msgid )
     return TranslationManager::GetInstance().TranslateWithContext( context, msgid );
 }
 
-inline const char *npgettext( const char *const context, const char *const msgid,
-                              const char *const msgid_plural, const unsigned long long n ) ATTRIBUTE_FORMAT_ARG( 2 );
+inline const char *npgettext( const char *context, const char *msgid,
+                              const char *msgid_plural, unsigned long long n ) ATTRIBUTE_FORMAT_ARG( 2 );
 
 inline const char *npgettext( const char *const context, const char *const msgid,
                               const char *const msgid_plural, const unsigned long long n )
@@ -84,7 +88,7 @@ inline const char *npgettext( const char *const context, const char *const msgid
 
 #define _(STRING) (STRING)
 
-#define n_gettext(STRING1, STRING2, COUNT) ((COUNT) < 2 ? _(STRING1) : _(STRING2))
+#define n_gettext(STRING1, STRING2, COUNT) ((COUNT) == 1 ? _(STRING1) : _(STRING2))
 #define pgettext(STRING1, STRING2) _(STRING2)
 #define npgettext(STRING0, STRING1, STRING2, COUNT) n_gettext(STRING1, STRING2, COUNT)
 

@@ -20,6 +20,13 @@
     "durability": 9,
     "clip_size": 5,
     "flags": [ "WATERPROOF_GUN", "RELOAD_ONE", "NEVER_JAMS" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "holster": true, "ammo_restriction": { "8x40mm": 5 } } ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE",
+        "holster": true,
+        "ammo_restriction": { "8x40mm": 5 },
+        "allowed_speedloaders": [ "afs_8x40_speedloader5" ]
+      }
+    ]
   }
 ]

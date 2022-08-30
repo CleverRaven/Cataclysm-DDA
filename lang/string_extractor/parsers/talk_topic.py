@@ -1,6 +1,7 @@
 import itertools
 
 from .effect import parse_effect
+from ..helper import is_tag
 from ..write_text import write_text
 
 
@@ -25,7 +26,7 @@ dynamic_line_string_keys = [
     "npc_has_weapon", "u_driving", "npc_driving",
     "has_pickup_list", "is_by_radio", "has_reason",
     # yes/no strings for complex conditions, 'and' list
-    "yes", "no", "and"
+    "yes", "no", "concatenate"
 ]
 
 
@@ -49,7 +50,8 @@ def parse_dynamic_line(json, origin, comment=[]):
                 parse_dynamic_line(json[key], origin, comment=comment)
 
     elif type(json) == str:
-        write_text(json, origin, comment=comment, c_format=False)
+        if not is_tag(json):
+            write_text(json, origin, comment=comment, c_format=False)
 
 
 def parse_response(json, origin):

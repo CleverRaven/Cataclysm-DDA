@@ -8,11 +8,11 @@
 #include "calendar.h"
 #include "cata_catch.h"
 #include "creature.h"
+#include "display.h"
 #include "game_constants.h"
 #include "monster.h"
 #include "options.h"
 #include "output.h"
-#include "panels.h"
 #include "player_helpers.h"
 #include "string_formatter.h"
 #include "type_id.h"
@@ -365,7 +365,7 @@ TEST_CASE( "riding various creatures at various sizes", "[avatar][bodyweight]" )
     DummyMap dummies_min_height = create_dummies_of_all_sizes( Character::min_height() );
     DummyMap dummies_max_height = create_dummies_of_all_sizes( Character::max_height() );
 
-    auto can_mount = []( avatar_ptr dummy, const monster & steed ) {
+    auto can_mount = []( const avatar_ptr & dummy, const monster & steed ) {
         return dummy->bodyweight() <= steed.get_weight() * steed.get_mountable_weight_ratio();
     };
 

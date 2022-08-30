@@ -165,7 +165,7 @@ enum legacy_mission_type_id {
     MISSION_RANCH_FOREMAN_14,              //Need 5 backpacks for scavengers
     MISSION_RANCH_FOREMAN_15,              //Need Homebrewer's Bible for Bar
     MISSION_RANCH_FOREMAN_16,              //Need Sugar for Bar
-    MISSION_RANCH_FOREMAN_17,              //Need glass sheets for 1st green house
+    MISSION_RANCH_FOREMAN_17,              //Need glass sheets for 1st greenhouse
     MISSION_RANCH_NURSE_1,                 //Need aspirin
     MISSION_RANCH_NURSE_2,                 //Need hotplates
     MISSION_RANCH_NURSE_3,                 //Need multivitamins
@@ -201,18 +201,6 @@ static const std::map<std::string, std::function<void( mission * )>> mission_fun
         { "place_priest_diary", mission_start::place_priest_diary },
         { "place_deposit_box", mission_start::place_deposit_box },
         { "find_safety", mission_start::find_safety },
-        { "ranch_nurse_1", mission_start::ranch_nurse_1 },
-        { "ranch_nurse_2", mission_start::ranch_nurse_2 },
-        { "ranch_nurse_3", mission_start::ranch_nurse_3 },
-        { "ranch_nurse_4", mission_start::ranch_nurse_4 },
-        { "ranch_nurse_5", mission_start::ranch_nurse_5 },
-        { "ranch_nurse_6", mission_start::ranch_nurse_6 },
-        { "ranch_nurse_7", mission_start::ranch_nurse_7 },
-        { "ranch_nurse_8", mission_start::ranch_nurse_8 },
-        { "ranch_nurse_9", mission_start::ranch_nurse_9 },
-        { "ranch_scavenger_1", mission_start::ranch_scavenger_1 },
-        { "ranch_scavenger_2", mission_start::ranch_scavenger_2 },
-        { "ranch_scavenger_3", mission_start::ranch_scavenger_3 },
         { "place_book", mission_start::place_book },
         { "reveal_refugee_center", mission_start::reveal_refugee_center },
         { "create_lab_console", mission_start::create_lab_console },
@@ -319,7 +307,7 @@ void assign_function( const JsonObject &jo, const std::string &id, Fun &target,
         if( iter != cont.end() ) {
             target = iter->second;
         } else {
-            jo.throw_error( "Invalid mission function", id );
+            jo.throw_error_at( id, "Invalid mission function" );
         }
     }
 }
@@ -437,7 +425,7 @@ void mission_type::finalize()
 
 void mission_type::check_consistency()
 {
-    for( const auto &m : get_all() ) {
+    for( const mission_type &m : get_all() ) {
         if( !m.item_id.is_empty() && !item::type_is_defined( m.item_id ) ) {
             debugmsg( "Mission %s has undefined item id %s", m.id.c_str(), m.item_id.c_str() );
         }

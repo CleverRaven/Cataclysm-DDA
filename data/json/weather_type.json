@@ -15,11 +15,12 @@
     "rains": false,
     "acidic": false,
     "sun_intensity": "high",
+    "sound_category": "sunny",
     "condition": {
       "and": [
         "is_day",
-        { "compare_int": [ { "weather": "pressure" }, { "const": 1020 } ], "op": ">=" },
-        { "compare_int": [ { "weather": "humidity" }, { "const": 70 } ], "op": "<" }
+        { "compare_int": [ { "weather": "pressure" }, ">=", { "const": 1020 } ] },
+        { "compare_int": [ { "weather": "humidity" }, "<", { "const": 70 } ] }
       ]
     }
   },
@@ -33,16 +34,18 @@
     "ranged_penalty": 0,
     "sight_penalty": 1.0,
     "light_modifier": -20,
+    "sun_multiplier": 0.15,
     "sound_attn": 0,
     "dangerous": false,
     "precip": "none",
     "rains": false,
     "acidic": false,
+    "sound_category": "cloudy",
     "sun_intensity": "light",
     "condition": {
       "and": [
-        { "compare_int": [ { "weather": "humidity" }, { "const": 40 } ], "op": ">=" },
-        { "compare_int": [ { "weather": "pressure" }, { "const": 1010 } ], "op": "<" }
+        { "compare_int": [ { "weather": "humidity" }, ">=", { "const": 40 } ] },
+        { "compare_int": [ { "weather": "pressure" }, "<", { "const": 1010 } ] }
       ]
     }
   },
@@ -56,6 +59,7 @@
     "ranged_penalty": 0,
     "sight_penalty": 1.01,
     "light_modifier": -10,
+    "sun_multiplier": 0.2,
     "sound_attn": 0,
     "dangerous": false,
     "precip": "very_light",
@@ -68,8 +72,8 @@
     "required_weathers": [ "cloudy" ],
     "condition": {
       "or": [
-        { "compare_int": [ { "weather": "humidity" }, { "const": 96 } ], "op": ">=" },
-        { "compare_int": [ { "weather": "pressure" }, { "const": 1003 } ], "op": "<" }
+        { "compare_int": [ { "weather": "humidity" }, ">=", { "const": 96 } ] },
+        { "compare_int": [ { "weather": "pressure" }, "<", { "const": 1003 } ] }
       ]
     }
   },
@@ -83,6 +87,7 @@
     "ranged_penalty": 1,
     "sight_penalty": 1.03,
     "light_modifier": -20,
+    "sun_multiplier": 0.1,
     "sound_attn": 1,
     "dangerous": false,
     "precip": "light",
@@ -95,8 +100,8 @@
     "required_weathers": [ "light_drizzle" ],
     "condition": {
       "or": [
-        { "compare_int": [ { "weather": "humidity" }, { "const": 97 } ], "op": ">=" },
-        { "compare_int": [ { "weather": "pressure" }, { "const": 1000 } ], "op": "<" }
+        { "compare_int": [ { "weather": "humidity" }, ">=", { "const": 97 } ] },
+        { "compare_int": [ { "weather": "pressure" }, "<", { "const": 1000 } ] }
       ]
     }
   },
@@ -110,6 +115,7 @@
     "ranged_penalty": 3,
     "sight_penalty": 1.1,
     "light_modifier": -30,
+    "sun_multiplier": 0.03,
     "sound_attn": 4,
     "dangerous": false,
     "precip": "heavy",
@@ -122,8 +128,8 @@
     "required_weathers": [ "light_drizzle", "drizzle" ],
     "condition": {
       "or": [
-        { "compare_int": [ { "weather": "humidity" }, { "const": 98 } ], "op": ">=" },
-        { "compare_int": [ { "weather": "pressure" }, { "const": 993 } ], "op": "<" }
+        { "compare_int": [ { "weather": "humidity" }, ">=", { "const": 98 } ] },
+        { "compare_int": [ { "weather": "pressure" }, "<", { "const": 993 } ] }
       ]
     }
   },
@@ -137,6 +143,7 @@
     "ranged_penalty": 4,
     "sight_penalty": 1.2,
     "light_modifier": -40,
+    "sun_multiplier": 0.01,
     "sound_attn": 8,
     "dangerous": false,
     "precip": "heavy",
@@ -147,7 +154,7 @@
     "sound_category": "thunder",
     "sun_intensity": "none",
     "required_weathers": [ "rain" ],
-    "condition": { "compare_int": [ { "weather": "pressure" }, { "const": 996 } ], "op": "<" }
+    "condition": { "compare_int": [ { "weather": "pressure" }, "<", { "const": 996 } ] }
   },
   {
     "id": "lightning",
@@ -159,6 +166,7 @@
     "ranged_penalty": 4,
     "sight_penalty": 1.25,
     "light_modifier": -45,
+    "sun_multiplier": 0.01,
     "sound_attn": 8,
     "dangerous": false,
     "precip": "heavy",
@@ -169,7 +177,7 @@
     "sound_category": "thunder",
     "sun_intensity": "none",
     "required_weathers": [ "thunder" ],
-    "condition": { "compare_int": [ { "weather": "pressure" }, { "const": 990 } ], "op": "<" }
+    "condition": { "compare_int": [ { "weather": "pressure" }, "<", { "const": 990 } ] }
   },
   {
     "id": "acid_drizzle",
@@ -181,6 +189,7 @@
     "ranged_penalty": 2,
     "sight_penalty": 1.03,
     "light_modifier": -20,
+    "sun_multiplier": 0.1,
     "sound_attn": 1,
     "dangerous": true,
     "precip": "light",
@@ -202,6 +211,7 @@
     "ranged_penalty": 4,
     "sight_penalty": 1.1,
     "light_modifier": -30,
+    "sun_multiplier": 0.03,
     "sound_attn": 4,
     "dangerous": true,
     "precip": "heavy",
@@ -223,6 +233,7 @@
     "ranged_penalty": 2,
     "sight_penalty": 1.12,
     "light_modifier": -15,
+    "sun_multiplier": 0.04,
     "sound_attn": 2,
     "dangerous": false,
     "precip": "light",
@@ -233,7 +244,7 @@
     "sound_category": "flurries",
     "sun_intensity": "light",
     "required_weathers": [ "flurries" ],
-    "condition": { "compare_int": [ { "weather": "temperature" }, { "const": 33 } ], "op": "<" }
+    "condition": { "compare_int": [ { "weather": "temperature" }, "<", { "const": 33 } ] }
   },
   {
     "id": "snowing",
@@ -245,6 +256,7 @@
     "ranged_penalty": 4,
     "sight_penalty": 1.3,
     "light_modifier": -20,
+    "sun_multiplier": 0.03,
     "sound_attn": 4,
     "dangerous": false,
     "precip": "heavy",
@@ -255,7 +267,7 @@
     "sound_category": "snow",
     "sun_intensity": "light",
     "required_weathers": [ "rain", "thunder", "lightning" ],
-    "condition": { "compare_int": [ { "weather": "temperature" }, { "const": 33 } ], "op": "<" }
+    "condition": { "compare_int": [ { "weather": "temperature" }, "<", { "const": 33 } ] }
   },
   {
     "id": "snowstorm",
@@ -267,6 +279,7 @@
     "ranged_penalty": 6,
     "sight_penalty": 1.2,
     "light_modifier": -30,
+    "sun_multiplier": 0.01,
     "sound_attn": 6,
     "dangerous": false,
     "precip": "heavy",
@@ -279,10 +292,34 @@
     "required_weathers": [ "thunder", "lightning" ],
     "condition": {
       "and": [
-        { "compare_int": [ { "weather": "temperature" }, { "const": 33 } ], "op": "<" },
-        { "compare_int": [ { "weather": "windpower" }, { "const": 15 } ], "op": ">=" }
+        { "compare_int": [ { "weather": "temperature" }, "<", { "const": 33 } ] },
+        { "compare_int": [ { "weather": "windpower" }, ">=", { "const": 15 } ] }
       ]
     }
+  },
+  {
+    "id": "early_portal_storm",
+    "type": "weather_type",
+    "name": "Early Portal Storm",
+    "color": "light_red",
+    "map_color": "light_red",
+    "sym": "o",
+    "ranged_penalty": 0,
+    "sight_penalty": 1.0,
+    "light_modifier": -5,
+    "sun_multiplier": 0.8,
+    "sound_attn": 0,
+    "dangerous": true,
+    "precip": "none",
+    "rains": false,
+    "acidic": false,
+    "debug_cause_eoc": "EOC_CAUSE_EARLY_PORTAL_STORM",
+    "debug_leave_eoc": "EOC_CANCEL_PORTAL_STORM",
+    "tiles_animation": "weather_portal_storm",
+    "weather_animation": { "factor": 0.01, "color": "red", "sym": "*" },
+    "sound_category": "portal_storm",
+    "sun_intensity": "light",
+    "condition": { "compare_int": [ { "global_val": "var", "var_name": "cause_early_portal_storm" }, "=", { "const": 1 } ] }
   },
   {
     "id": "portal_storm",
@@ -293,21 +330,19 @@
     "sym": "O",
     "ranged_penalty": 0,
     "sight_penalty": 1.0,
-    "light_modifier": -5,
+    "light_modifier": -10,
+    "sun_multiplier": 0.7,
     "sound_attn": 0,
     "dangerous": true,
     "precip": "none",
     "rains": false,
     "acidic": false,
+    "debug_cause_eoc": "EOC_CAUSE_PORTAL_STORM",
+    "debug_leave_eoc": "EOC_CANCEL_PORTAL_STORM",
     "tiles_animation": "weather_portal_storm",
     "weather_animation": { "factor": 0.01, "color": "red", "sym": "*" },
     "sound_category": "portal_storm",
     "sun_intensity": "light",
-    "condition": {
-      "compare_int": [ { "global_val": "var", "var_name": "cause_portal_storm", "type": "weather", "context": "ps" }, { "const": 1 } ],
-      "op": "="
-    },
-    "duration_min": "2 hours",
-    "duration_max": "4 hours"
+    "condition": { "compare_int": [ { "global_val": "var", "var_name": "cause_portal_storm" }, "=", { "const": 1 } ] }
   }
 ]

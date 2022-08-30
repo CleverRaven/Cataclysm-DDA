@@ -14,8 +14,7 @@
       [ [ "gunpowder_rifle", 15 ] ],
       [ [ "scrap", 1 ] ],
       [ [ "copper", 1 ] ]
-    ],
-    "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
+    ]
   },
   {
     "result": "762_m87",
@@ -31,7 +30,6 @@
       [ [ "lgrifle_primer", 1 ] ],
       [ [ "gunpowder_rifle", 15 ] ],
       [ [ "copper", 2 ] ]
-    ],
-    "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
+    ]
   }
 ]

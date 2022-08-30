@@ -1,0 +1,825 @@
+[
+  {
+    "//1": "This is the main talk topic for all of the intercom's contracts.  The player is able to learn more about missions here, and accept new ones.",
+    "//2": "This also contains dialogue topics to complete one-time missions.  Repeatables are handled in 'robofac_intercom_trades.json' instead.",
+    "id": [
+      "TALK_ROBOFAC_INTERCOM_CONTRACTS",
+      "MISSION_ROBOFAC_INTERCOM_2_ACCEPTED",
+      "MISSION_ROBOFAC_INTERCOM_ROBOT_SM_1_ACCEPTED",
+      "MISSION_ROBOFAC_INTERCOM_PORTAL_SM_1_ACCEPTED"
+    ],
+    "type": "talk_topic",
+    "dynamic_line": "What would you like to discuss?",
+    "responses": [
+      {
+        "text": "I'm back from the convoy.  [Hand over the hard case.]",
+        "condition": { "and": [ { "u_has_mission": "MISSION_ROBOFAC_INTERCOM_2" }, { "u_has_item": "robofac_hardcase" } ] },
+        "effect": [
+          { "u_consume_item": "robofac_hardcase", "count": 1, "popup": true },
+          { "u_spawn_item": "RobofacCoin", "count": 4 },
+          { "finish_mission": "MISSION_ROBOFAC_INTERCOM_2", "success": true }
+        ],
+        "topic": "MISSION_ROBOFAC_INTERCOM_2_COMPLETE"
+      },
+      {
+        "//": "Remove after 0.G - This is to prevent players who accepted the mission before its update from being unable to continue the questline",
+        "text": "I couldn't find your hard case.  Does this work?  [Hand over the data card.]",
+        "condition": { "and": [ { "u_has_mission": "MISSION_ROBOFAC_INTERCOM_2" }, { "u_has_item": "data_card" } ] },
+        "effect": [
+          { "u_consume_item": "data_card", "count": 1, "popup": true },
+          { "u_spawn_item": "RobofacCoin", "count": 4 },
+          { "finish_mission": "MISSION_ROBOFAC_INTERCOM_2", "success": true }
+        ],
+        "topic": "MISSION_ROBOFAC_INTERCOM_2_COMPLETE"
+      },
+      {
+        "text": "I found it.  I found your template.  [Hand over the silicon photonics template.]",
+        "condition": { "and": [ { "u_has_mission": "MISSION_ROBOFAC_INTERCOM_3" }, { "u_has_item": "template_photonics" } ] },
+        "effect": [
+          { "u_consume_item": "template_photonics", "count": 1, "popup": true },
+          { "finish_mission": "MISSION_ROBOFAC_INTERCOM_3", "success": true }
+        ],
+        "topic": "MISSION_ROBOFAC_INTERCOM_3_COMPLETE"
+      },
+      {
+        "text": "The weapon worked!  [Hand over the inactive trifacet.]",
+        "condition": { "and": [ { "u_has_mission": "MISSION_ROBOFAC_INTERCOM_ROBOT_SM_1" }, { "u_has_item": "bot_yrax_trifacet" } ] },
+        "effect": [
+          { "u_consume_item": "bot_yrax_trifacet", "count": 1, "popup": true },
+          { "u_spawn_item": "RobofacCoin", "count": 2 },
+          { "finish_mission": "MISSION_ROBOFAC_INTERCOM_ROBOT_SM_1", "success": true }
+        ],
+        "topic": "MISSION_ROBOFAC_INTERCOM_ROBOT_SM_1_COMPLETE"
+      },
+      {
+        "text": "I found the robot, but…  [Hand over the trifacet remains.]",
+        "condition": { "and": [ { "u_has_mission": "MISSION_ROBOFAC_INTERCOM_ROBOT_SM_1" }, { "u_has_item": "broken_yrax_trifacet" } ] },
+        "effect": [
+          { "u_consume_item": "broken_yrax_trifacet", "count": 1, "popup": true },
+          { "finish_mission": "MISSION_ROBOFAC_INTERCOM_ROBOT_SM_1", "success": false }
+        ],
+        "topic": "MISSION_ROBOFAC_INTERCOM_ROBOT_SM_1_FAILED"
+      },
+      {
+        "text": "[Contract: Return to sender]",
+        "condition": {
+          "and": [
+            { "not": { "u_has_mission": "MISSION_ROBOFAC_INTERCOM_2" } },
+            {
+              "not": { "u_has_var": "completed_robofac_intercom_2", "type": "dialogue", "context": "intercom", "value": "yes" }
+            }
+          ]
+        },
+        "effect": [ { "u_add_var": "u_heard_of_portal_storms", "type": "global", "context": "portal_storms", "value": "yes" } ],
+        "topic": "MISSION_ROBOFAC_INTERCOM_2_OFFER"
+      },
+      {
+        "text": "[Contract: Light retrieval]",
+        "condition": {
+          "and": [
+            { "not": { "u_has_mission": "MISSION_ROBOFAC_INTERCOM_3" } },
+            {
+              "not": { "u_has_var": "completed_robofac_intercom_3", "type": "dialogue", "context": "intercom", "value": "yes" }
+            },
+            { "u_has_var": "completed_robofac_intercom_2", "type": "dialogue", "context": "intercom", "value": "yes" }
+          ]
+        },
+        "topic": "MISSION_ROBOFAC_INTERCOM_3_OFFER"
+      },
+      {
+        "text": "[Contract: Iron Safari]",
+        "condition": {
+          "and": [
+            { "not": { "u_has_mission": "MISSION_ROBOFAC_INTERCOM_ROBOT_SM_1" } },
+            {
+              "not": { "u_has_var": "completed_robofac_intercom_robot_sm_1", "type": "dialogue", "context": "intercom", "value": "yes" }
+            },
+            {
+              "not": { "u_has_var": "completed_robofac_intercom_robot_sm_1", "type": "dialogue", "context": "intercom", "value": "no" }
+            }
+          ]
+        },
+        "topic": "MISSION_ROBOFAC_INTERCOM_ROBOT_SM_1_OFFER"
+      },
+      {
+        "text": "[Contract: Hazard Meteorology]",
+        "condition": {
+          "and": [
+            { "not": { "u_has_mission": "MISSION_ROBOFAC_INTERCOM_PORTAL_SM_1" } },
+            {
+              "not": { "u_has_var": "completed_robofac_intercom_portal_sm_1", "type": "dialogue", "context": "intercom", "value": "yes" }
+            },
+            { "npc_has_var": "told_about_portal_storms", "type": "dialogue", "context": "intercom", "value": "yes" }
+          ]
+        },
+        "topic": "MISSION_ROBOFAC_INTERCOM_PORTAL_SM_1_OFFER"
+      },
+      {
+        "text": "Do you have any more work for me right now?",
+        "condition": {
+          "and": [
+            { "u_has_var": "completed_robofac_intercom_2", "type": "dialogue", "context": "intercom", "value": "yes" },
+            { "u_has_var": "completed_robofac_intercom_2", "type": "dialogue", "context": "intercom", "value": "yes" },
+            { "u_has_var": "completed_robofac_intercom_3", "type": "dialogue", "context": "intercom", "value": "yes" },
+            {
+              "u_has_var": "completed_robofac_intercom_portal_sm_1",
+              "type": "dialogue",
+              "context": "intercom",
+              "value": "yes"
+            },
+            {
+              "or": [
+                { "u_has_var": "completed_robofac_intercom_robot_sm_1", "type": "dialogue", "context": "intercom", "value": "yes" },
+                {
+                  "u_has_var": "completed_robofac_intercom_robot_sm_1",
+                  "type": "dialogue",
+                  "context": "intercom",
+                  "value": "no"
+                }
+              ]
+            }
+          ]
+        },
+        "topic": "TALK_ROBOFAC_INTERCOM_CONTRACTS_NoneAvailable"
+      },
+      { "text": "Let's talk about something else.", "topic": "TALK_ROBOFAC_INTERCOM_SERVICES" }
+    ]
+  },
+  {
+    "id": "TALK_ROBOFAC_INTERCOM_CONTRACTS_NoneAvailable",
+    "type": "talk_topic",
+    "dynamic_line": "Give me a moment to look at your file… here we are.  Valid assignments are turning up empty at the moment.  I'm afraid we have no open contracts for you.",
+    "responses": [ { "text": "Understood.", "topic": "TALK_ROBOFAC_INTERCOM_SERVICES" } ]
+  },
+  {
+    "id": "MISSION_ROBOFAC_INTERCOM_1",
+    "type": "mission_definition",
+    "name": { "str": "Return Field Data" },
+    "//": "This mission is assigned and completed using conditions in dialogue with the intercom. As such, we don't have any goal, which would make it auto-complete under certain circumstances.",
+    "goal": "MGOAL_NULL",
+    "description": "Investigate a nearby field and return with Dr. Prado and the robot prototype she was testing.  Failing that, retrieve the I/O recorder stored within the robot.  If the robot remains operational, avoid direct confrontation and use EMP grenades to disable it.",
+    "difficulty": 5,
+    "value": 0,
+    "start": {
+      "assign_mission_target": { "om_terrain": "field", "reveal_radius": 2, "random": true, "search_range": 10 },
+      "update_mapgen": {
+        "rows": [
+          "                        ",
+          "                        ",
+          "                        ",
+          "                        ",
+          "                        ",
+          "                        ",
+          "                        ",
+          "                        ",
+          "                        ",
+          "                        ",
+          "                        ",
+          "                        ",
+          "                        ",
+          "                        ",
+          "                        ",
+          "                        ",
+          "                        ",
+          "                        ",
+          "          M             ",
+          "            b b         ",
+          "         b b b@bb       ",
+          "             b b        ",
+          "                        ",
+          "                        "
+        ],
+        "terrain": { "@": "t_grass", "b": "t_dirt", "M": "t_dirt" },
+        "fields": { "b": { "field": "fd_blood", "intensity": 1 } },
+        "items": { "@": { "item": "NC_ROBOFAC_SCIENTIST_worn", "chance": 100 } },
+        "item": { "@": [ { "item": "grenade_emp", "amount": 2 }, { "item": "corpse" } ] },
+        "monster": { "M": { "monster": "mon_robofac_prototype" } }
+      }
+    },
+    "end": { "effect": { "arithmetic": [ { "u_val": "var", "var_name": "hub01_completed_missions" }, "+=", { "const": 1 } ] } },
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
+    "dialogue": {
+      "//": "All dialogue for most of the intercom's missions is handled through talk_topics; we don't use these strings for those such missions",
+      "describe": "…",
+      "offer": "…",
+      "accepted": "…",
+      "rejected": "…",
+      "advice": "…",
+      "inquire": "…",
+      "success": "…",
+      "success_lie": "…",
+      "failure": "…"
+    }
+  },
+  {
+    "id": "MISSION_ROBOFAC_INTERCOM_1_OFFER",
+    "type": "talk_topic",
+    "dynamic_line": "One of our scientists recently left the building to perform a field test of a prototype robot, but failed to return.  We have not been able to contact them.  Your job would be to investigate the testing site, and return with her and the prototype.  Failing that, return with the data recorder that was attached to our prototype.",
+    "responses": [
+      { "text": "That seems trivial.  Is there a catch?", "topic": "MISSION_ROBOFAC_INTERCOM_1_ADVICE" },
+      { "text": "Not interested.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "MISSION_ROBOFAC_INTERCOM_1_ADVICE",
+    "type": "talk_topic",
+    "dynamic_line": "There is.  If the robot is operational, it's very likely to be hostile and extremely dangerous.  If you try to fight it yourself, it WILL kill you.  Dr. Prado left the building with a handful of EMP grenades.  If you can locate those grenades, use them to disable the prototype instead.",
+    "responses": [
+      {
+        "text": "I'll do it.  Where is the test site?",
+        "topic": "MISSION_ROBOFAC_INTERCOM_1_ACCEPTED",
+        "effect": { "assign_mission": "MISSION_ROBOFAC_INTERCOM_1" }
+      },
+      { "text": "I'll pass on getting killed today, thanks.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "MISSION_ROBOFAC_INTERCOM_1_ACCEPTED",
+    "type": "talk_topic",
+    "dynamic_line": "Very close by.\"  The voice lists off some relative coordinates.  \"Good luck.",
+    "responses": [ { "text": "I'll be back soon.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "id": "MISSION_ROBOFAC_INTERCOM_1_INQUIRE",
+    "type": "talk_topic",
+    "dynamic_line": "You're back.  Do you have anything to report?",
+    "responses": [
+      {
+        "text": "Your scientist was dead, but I disabled the prototype.  Is this what you were looking for?  [Hand over the prototype I/O recorder.]",
+        "condition": { "u_has_item": "robofac_test_data" },
+        "effect": { "u_consume_item": "robofac_test_data", "popup": true },
+        "topic": "MISSION_ROBOFAC_INTERCOM_1_COMPLETE"
+      },
+      { "text": "Not yet.  I'll get back to it.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": [ "MISSION_ROBOFAC_INTERCOM_1_COMPLETE", "MISSION_ROBOFAC_INTERCOM_1_COMPLETE_2" ],
+    "type": "talk_topic",
+    "dynamic_line": "&The intercom is silent for a few seconds while the tray slides back in.  \"Yes it is.  It's unfortunate that only the data was salvageable, but you have our thanks for returning it nonetheless.\"",
+    "responses": [
+      { "text": "Alright, I've done my part.  What now?", "topic": "MISSION_ROBOFAC_INTERCOM_1_COMPLETE_3" },
+      {
+        "text": "Is \"unfortunate\" how you usually describe someone being eviscerated by a robot?",
+        "topic": "MISSION_ROBOFAC_INTERCOM_1_COMPLETE_2"
+      }
+    ]
+  },
+  {
+    "id": "MISSION_ROBOFAC_INTERCOM_1_COMPLETE_2",
+    "type": "talk_topic",
+    "dynamic_line": "Dr. Prado knew the risks, and she chose to follow through with the test anyway.  Her death is cause for sadness, and it will affect us, but you didn't even know her.  At least now, something of her work will remain."
+  },
+  {
+    "id": "MISSION_ROBOFAC_INTERCOM_1_COMPLETE_3",
+    "type": "talk_topic",
+    "dynamic_line": "&The voice hesitates.  \"About that.  Give me a moment.\"  After a pause, you hear muffled back-and-forth conversation.  You can't make out what's being said, but you can make out at least two other distinct voices.",
+    "responses": [ { "text": "[Wait.]", "topic": "TALK_ROBOFAC_INTERCOM_1_JOBS" } ]
+  },
+  {
+    "id": "MISSION_ROBOFAC_INTERCOM_2",
+    "type": "mission_definition",
+    "name": { "str": "Return to sender" },
+    "description": "Find the corpse of a Hub 01's AI researcher and retrieve the hard case they brought with them during the evacuation.",
+    "goal": "MGOAL_NULL",
+    "difficulty": 5,
+    "value": 0,
+    "start": {
+      "assign_mission_target": { "om_terrain": "road_ew", "om_terrain_match_type": "EXACT", "reveal_radius": 2, "random": true, "search_range": 80 },
+      "update_mapgen": { "place_nested": [ { "chunks": [ "robofac_mi2_convoy_ambush_chunk" ], "x": 0, "y": 0 } ] },
+      "effect": [ { "u_add_var": "u_heard_of_portal_storms", "type": "global", "context": "portal_storms", "value": "yes" } ]
+    },
+    "end": {
+      "update_mapgen": [
+        {
+          "om_terrain": "robofachq_surface_entrance",
+          "place_nested": [ { "chunks": [ "robofac_hq_surface_merc_1" ], "x": 6, "y": 7 } ]
+        }
+      ],
+      "effect": [
+        { "u_spawn_item": "RobofacCoin", "count": 4 },
+        { "u_add_var": "completed_robofac_intercom_2", "type": "dialogue", "context": "intercom", "value": "yes" },
+        { "arithmetic": [ { "u_val": "var", "var_name": "hub01_completed_missions" }, "+=", { "const": 1 } ] }
+      ]
+    },
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
+    "dialogue": {
+      "describe": "…",
+      "offer": "…",
+      "accepted": "…",
+      "rejected": "…",
+      "advice": "…",
+      "inquire": "…",
+      "success": "…",
+      "success_lie": "…",
+      "failure": "…"
+    }
+  },
+  {
+    "id": [
+      "MISSION_ROBOFAC_INTERCOM_2_OFFER",
+      "MISSION_ROBOFAC_INTERCOM_2_ADVICE_Convoy",
+      "MISSION_ROBOFAC_INTERCOM_2_ADVICE_DARPA"
+    ],
+    "type": "talk_topic",
+    "dynamic_line": "When the portal storms started, the government issued an evacuation order for critical personnel and sent convoys to retrieve them, with our head of AI research among the recalled.  We recently discovered that he died when the convoy transferring him was ambushed in the initial chaos, but his corpse and belongings might remain intact enough to benefit from his research.\"\n\n\"We want you to travel to the convoy and locate the body, if possible.  His evacuation protocol included retrieving and storing as much of the data from his facility as possible, to be stored in a code-locked hard case.  If this hard case is present, retrieve it, and bring it back here.\"\n\n\"We offer the standard hazard pay of 4 HGC for this contract.",
+    "responses": [
+      {
+        "text": "I'll take it.  Where's the convoy?",
+        "effect": { "assign_mission": "MISSION_ROBOFAC_INTERCOM_2" },
+        "topic": "MISSION_ROBOFAC_INTERCOM_2_ACCEPTED"
+      },
+      { "text": "What should I expect to go up against?", "topic": "MISSION_ROBOFAC_INTERCOM_2_ADVICE_Convoy" },
+      {
+        "text": "Who was this person, and what do they look like?",
+        "topic": "MISSION_ROBOFAC_INTERCOM_2_ADVICE_DARPA"
+      },
+      { "text": "What else do you have available?", "topic": "TALK_ROBOFAC_INTERCOM_CONTRACTS" }
+    ]
+  },
+  {
+    "id": "MISSION_ROBOFAC_INTERCOM_2_ADVICE_Convoy",
+    "type": "talk_topic",
+    "dynamic_line": "The convoy was composed of vehicles and personnel from the US Army, and it was heavily armed.  Our surveillance of the area has shown that the majority of the slain military personnel have revived, including one wearing a light combat exoskeleton.  Resistance will be heavy, but if possible, you may be able to locate and retrieve the hard case, then exfiltrate without direct combat as long as you can outpace the undead there.  Otherwise, bring a rifle and plenty of ammo."
+  },
+  {
+    "id": "MISSION_ROBOFAC_INTERCOM_2_ADVICE_DARPA",
+    "type": "talk_topic",
+    "//": "This is a lie.  The researcher was XEDRA; DARPA is just the organization being used as a front.",
+    "dynamic_line": "Officially speaking, they were a senior DARPA researcher.  Their corpse should stick out; it's likely the only one not wearing camouflage.  That's all you need to know."
+  },
+  {
+    "id": "MISSION_ROBOFAC_INTERCOM_2_ACCEPTED",
+    "type": "talk_topic",
+    "dynamic_line": "It was ambushed on the road.\"  The intercom recites a series of coordinates.  \"Report back with the hard case.  If the researcher brought it with him, it will be intact; have no doubt about that."
+  },
+  {
+    "id": [ "MISSION_ROBOFAC_INTERCOM_2_COMPLETE", "MISSION_ROBOFAC_INTERCOM_2_COMPLETE_Hardcase" ],
+    "type": "talk_topic",
+    "dynamic_line": "&The intercom's tray slides shut.\n\n\"This is the case; thank you.  Transferring the stipulated amount now.\"  The tray slides back open with your payment.  \"As an additional form of payment, you have been given clearance to receive a map of the area around this site, to assist in your work.  The standing price is 1 HGC; please inform us if you'd like to follow up on that offer going forward.",
+    "responses": [
+      {
+        "text": "[PER 8+] The original markings on that case had been scratched out.  Who did it really belong to?",
+        "condition": { "u_has_perception": 8 },
+        "topic": "MISSION_ROBOFAC_INTERCOM_2_COMPLETE_Hardcase"
+      },
+      { "text": "I'm interested in that map.", "topic": "TALK_ROBOFAC_INTERCOM_BUY_LOCAL_MAP" },
+      { "text": "Thank you.", "topic": "TALK_ROBOFAC_INTERCOM_SERVICES" }
+    ]
+  },
+  {
+    "id": "MISSION_ROBOFAC_INTERCOM_2_COMPLETE_Hardcase",
+    "type": "talk_topic",
+    "dynamic_line": "&The intercom is silent."
+  },
+  {
+    "id": "MISSION_ROBOFAC_INTERCOM_3",
+    "type": "mission_definition",
+    "name": { "str": "Light retrieval" },
+    "description": "Reach the collapsed tower basement, and search the ruins for a photonic circuitry template.  The intercom warned you about heavy enemy presence, and of the existence of a hazardous environment.",
+    "goal": "MGOAL_NULL",
+    "difficulty": 5,
+    "value": 0,
+    "start": {
+      "assign_mission_target": {
+        "om_terrain": "office_tower_collapse_b_a0",
+        "om_special": "office_tower_collapsed",
+        "reveal_radius": 1,
+        "random": true,
+        "search_range": 180,
+        "z": -1
+      },
+      "update_mapgen": [ { "place_nested": [ { "chunks": [ "robofac_mi3_photonics_chunk" ], "x": 10, "y": 22 } ] } ]
+    },
+    "end": {
+      "effect": [
+        { "u_spawn_item": "RobofacCoin", "count": 8 },
+        { "u_add_var": "completed_robofac_intercom_3", "type": "dialogue", "context": "intercom", "value": "yes" },
+        { "arithmetic": [ { "u_val": "var", "var_name": "hub01_completed_missions" }, "+=", { "const": 1 } ] }
+      ]
+    },
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
+    "dialogue": {
+      "describe": "…",
+      "offer": "…",
+      "accepted": "…",
+      "rejected": "…",
+      "advice": "…",
+      "inquire": "…",
+      "success": "…",
+      "success_lie": "…",
+      "failure": "…"
+    }
+  },
+  {
+    "id": [
+      "MISSION_ROBOFAC_INTERCOM_3_OFFER",
+      "MISSION_ROBOFAC_INTERCOM_3_OFFER_AnythingElse",
+      "MISSION_ROBOFAC_INTERCOM_3_OFFER_Hesitating",
+      "MISSION_ROBOFAC_INTERCOM_3_ADVICE_Location"
+    ],
+    "type": "talk_topic",
+    "dynamic_line": "Our facility once sourced advanced photonic circuitry from a nearby robotics manufacturer.  Their building suffered major damage during the portal storms, and collapsed almost entirely.  However, preliminary scouting reveals that the basement prototyping lab likely remains intact.\"\n\n\"We ask you to investigate the ruins, and if possible, retrieve a template for the fabrication of said photonic circuitry.\"\n\n\"Completion of this contract awards 8 HGC, the standard heightened-hazard rate.  We are also willing to provide you with a set of protective gear at a considerable discount upon acceptance of the contract.",
+    "responses": [
+      {
+        "text": "Let's do this, then.  Transfer the location.",
+        "effect": { "assign_mission": "MISSION_ROBOFAC_INTERCOM_3" },
+        "topic": "MISSION_ROBOFAC_INTERCOM_3_ACCEPTED"
+      },
+      { "text": "Where is this manufacturer?", "topic": "MISSION_ROBOFAC_INTERCOM_3_ADVICE_Location" },
+      {
+        "text": "You mention hazard pay.  What dangers are there?",
+        "topic": "MISSION_ROBOFAC_INTERCOM_3_ADVICE_DANGERS"
+      },
+      { "text": "What else do you have available?", "topic": "TALK_ROBOFAC_INTERCOM_CONTRACTS" }
+    ]
+  },
+  {
+    "id": "MISSION_ROBOFAC_INTERCOM_3_ADVICE_Location",
+    "type": "talk_topic",
+    "dynamic_line": "I don't believe I'm cleared to-\"  You hear brief chatter.  \"Apologies; I was mistaken.  The manufacturer was, technically speaking, kept secret from the public.  As a result, it operated using an office tower as a front, and was located underground.  An elevator in the back of the building led to the basement, but it was likely destroyed in the damage - as a result, you will need to find a way down yourself.  While there were stairs as well, it's highly likely that they have been destroyed.\"\n\n\"We advise bringing a way to safely enter and exit the lower level; a grappling hook would work well for this purpose.  Given the damage, the elevator shaft itself probably remains intact, and would be your likeliest point of entry to the underground portion of the building."
+  },
+  {
+    "id": [
+      "MISSION_ROBOFAC_INTERCOM_3_ADVICE_DANGERS",
+      "MISSION_ROBOFAC_INTERCOM_3_ADVICE_DANGERS_Toxins",
+      "MISSION_ROBOFAC_INTERCOM_3_ADVICE_DANGERS_Heat"
+    ],
+    "type": "talk_topic",
+    "dynamic_line": "About that.\"  You hear papers shuffling.  \"Our drones are unable to approach the structure too closely, as a large amount of interference prevents surveillance, but long-distance measurements reveal a high concentration of toxic compounds in the air, as well as densely-clustered heat signatures.  We expect a high concentration of undead, and other dangers are likely.",
+    "responses": [
+      { "text": "Toxic compounds?", "topic": "MISSION_ROBOFAC_INTERCOM_3_ADVICE_DANGERS_Toxins" },
+      { "text": "Tell me about these heat signatures.", "topic": "MISSION_ROBOFAC_INTERCOM_3_ADVICE_DANGERS_Heat" },
+      {
+        "text": "\"Other dangers\" is a little vague.  Do you have anything more substantial?",
+        "topic": "MISSION_ROBOFAC_INTERCOM_3_ADVICE_DANGERS_Other"
+      },
+      { "text": "Back to the contract itself…", "topic": "MISSION_ROBOFAC_INTERCOM_3_OFFER_AnythingElse" }
+    ]
+  },
+  {
+    "id": "MISSION_ROBOFAC_INTERCOM_3_ADVICE_DANGERS_Toxins",
+    "type": "talk_topic",
+    "dynamic_line": "Correct.  The source of the chemicals is unknown, as is the exact composition; only trace amounts are present in the air itself.  We can, however, extrapolate that something within the ruins is creating highly poisonous emissions.  We do not know how strong these emissions will become, or what form they will take."
+  },
+  {
+    "id": "MISSION_ROBOFAC_INTERCOM_3_ADVICE_DANGERS_Heat",
+    "type": "talk_topic",
+    "dynamic_line": "At the moment, their origin is unclear.  The temperature profile of the building is highly unusual, despite the damage, and is much denser than wandering hordes observed through remote scouting.  A large amount of heat consistent with an extremely high density of organisms appears to be emanating from the basement itself.  We are, unfortunately, in the dark about the cause of this density.  We would advise you remain observant and note down any abnormalities."
+  },
+  {
+    "id": "MISSION_ROBOFAC_INTERCOM_3_ADVICE_DANGERS_Other",
+    "type": "talk_topic",
+    "dynamic_line": "To be specific, there have been anomalous readings that we are unable to explain.  Seismic disturbances have been recorded emanating from the ruins, with a magnitude ranging from two to four, and periodic vocalizations have been documented to exceed 150 decibels.  We are uncertain why or how these phenomena are created.",
+    "responses": [
+      { "text": "The more I hear about this, the worse it sounds.", "topic": "MISSION_ROBOFAC_INTERCOM_3_OFFER_Hesitating" },
+      { "text": "Understood.", "topic": "MISSION_ROBOFAC_INTERCOM_3_OFFER_AnythingElse" }
+    ]
+  },
+  {
+    "id": "MISSION_ROBOFAC_INTERCOM_3_OFFER_AnythingElse",
+    "type": "talk_topic",
+    "dynamic_line": "Did you have any other concerns?"
+  },
+  {
+    "id": "MISSION_ROBOFAC_INTERCOM_3_OFFER_Hesitating",
+    "type": "talk_topic",
+    "dynamic_line": "Your hesitation is understandable.  Unfortunately, we have already taken all possible measures to obtain data and information remotely, but we are unable to develop our understanding further without a physical presence."
+  },
+  {
+    "id": "MISSION_ROBOFAC_INTERCOM_3_ACCEPTED",
+    "type": "talk_topic",
+    "dynamic_line": "Excellent.  Thank you very much.\"  The intercom recites a series of coordinates.  \"Exercise a great deal of caution.  We do not know what the conditions on the ground are like.  Use your best judgment.  As before, we are willing to offer you protective gear, if you would like it.",
+    "responses": [
+      { "text": "I would like that gear, yes.  Tell me about it.", "topic": "TALK_ROBOFAC_INTERCOM_BUY_PROTECTIVE_GEAR" },
+      { "text": "Understood.", "topic": "TALK_ROBOFAC_INTERCOM_SERVICES" }
+    ]
+  },
+  {
+    "id": "MISSION_ROBOFAC_INTERCOM_3_COMPLETE",
+    "type": "talk_topic",
+    "dynamic_line": "Fantastic.\"  The intercom's tray slides shut, and then opens shortly afterwards with your payment.  \"You have our thanks and our payment.",
+    "responses": [
+      { "text": "Do you have any idea what I just went through?", "topic": "MISSION_ROBOFAC_INTERCOM_3_COMPLETE_1" },
+      {
+        "text": "You certainly gave me a run for my money, I'll say that much.",
+        "topic": "MISSION_ROBOFAC_INTERCOM_3_COMPLETE_1"
+      },
+      { "text": "Thank you.", "topic": "TALK_ROBOFAC_INTERCOM_SERVICES" }
+    ]
+  },
+  {
+    "id": "MISSION_ROBOFAC_INTERCOM_3_COMPLETE_1",
+    "type": "talk_topic",
+    "dynamic_line": "As we discussed during acceptance of the contract, we were aware of hazardous ground conditions, but we were unable to deduce further information other than what was available through long-range sensing.  If you would like to provide a description of the hazards present, we are willing to document them.",
+    "responses": [
+      {
+        "text": "[Detail the conditions at the collapsed tower and its basement.  This will advance time by ten minutes.]",
+        "effect": { "u_assign_activity": "ACT_GENERIC_EOC", "duration": "10 minutes" },
+        "topic": "MISSION_ROBOFAC_INTERCOM_3_COMPLETE_Explainer"
+      },
+      {
+        "text": "[Let them know how bad that mission REALLY was.]",
+        "topic": "MISSION_ROBOFAC_INTERCOM_3_COMPLETE_ChewingOut"
+      },
+      { "text": "…Just forget it.  Let's never speak of this again.", "topic": "TALK_ROBOFAC_INTERCOM_SERVICES" }
+    ]
+  },
+  {
+    "id": "MISSION_ROBOFAC_INTERCOM_3_COMPLETE_Explainer",
+    "type": "talk_topic",
+    "dynamic_line": "&Over the course of several minutes, you explain what happened at the ruins: the zombie presence and gigantic tendrils on the surface, and the biological infestation completely taking over the basement, as well as the hostile threats encountered therein.  The voice periodically interjects with questions or statements; the whole time, you hear the sounds of typing on a keyboard.\n\n\"We would like to extend our thanks for your detailed report.  It is clear to us that the threat level present at the manufacturer was far higher than we had originally anticipated, and your performance in the situation was exemplary.  Should you desire further contract work, we will bear these facts in mind, and ensure that the threat prognoses of your future assignments are adequately assessed.\"",
+    "responses": [
+      { "text": "It's fine.  At least now we know for the future.", "topic": "TALK_DONE" },
+      { "text": "Yeah, yeah.  You're welcome.", "topic": "TALK_DONE" },
+      { "text": "Let's never do that again.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "MISSION_ROBOFAC_INTERCOM_3_COMPLETE_ChewingOut",
+    "type": "talk_topic",
+    "dynamic_line": "&The intercom waits patiently.",
+    "responses": [
+      {
+        "text": "Description, huh?  Where to begin?  Let's start with the giant mob of zombies that was infesting the building.  Oh, and there were also horrors full of toxic gas that exploded when I got near them or killed one, so I was constantly choking on fumes the whole time.",
+        "topic": "MISSION_ROBOFAC_INTERCOM_3_COMPLETE_ChewingOut_1"
+      }
+    ]
+  },
+  {
+    "id": "MISSION_ROBOFAC_INTERCOM_3_COMPLETE_ChewingOut_1",
+    "type": "talk_topic",
+    "dynamic_line": "That makes-",
+    "responses": [
+      {
+        "text": "Oh, but that's not all!  They were coming from a pair of giant fucking tentacles coming out of the ground like a monster movie that were constantly roaring and shaking the whole building, and toxic exploding spiders kept crawling off and shooting poison darts at me until I got away or stopped the tentacles themselves, which wasn't easy because the entire building had come down around them.",
+        "topic": "MISSION_ROBOFAC_INTERCOM_3_COMPLETE_ChewingOut_2"
+      },
+      { "text": "[Stop talking.]", "topic": "MISSION_ROBOFAC_INTERCOM_3_COMPLETE_ChewingOut_5" }
+    ]
+  },
+  {
+    "id": "MISSION_ROBOFAC_INTERCOM_3_COMPLETE_ChewingOut_2",
+    "type": "talk_topic",
+    "dynamic_line": "What do you mean by-",
+    "responses": [
+      {
+        "text": "Then it took me half an hour to find the way down, because there were holes in the floor everywhere, and when I finally did, I was in the insides of a goddamn flesh pit with flooding up to my ankles, and to complement the innards hanging from the ceiling that I couldn't see through the gas that would throw me ten feet and make me start drowning, there were dozens of people fused together in lumps everywhere, and did I mention the poison gas?  Because they were full of it too, and so everything reeked and it felt like being in a giant fucking intestine full of people.",
+        "topic": "MISSION_ROBOFAC_INTERCOM_3_COMPLETE_ChewingOut_3"
+      },
+      { "text": "[Stop talking.]", "topic": "MISSION_ROBOFAC_INTERCOM_3_COMPLETE_ChewingOut_4" }
+    ]
+  },
+  {
+    "id": "MISSION_ROBOFAC_INTERCOM_3_COMPLETE_ChewingOut_3",
+    "type": "talk_topic",
+    "dynamic_line": "Please slow down-",
+    "responses": [
+      {
+        "text": "And after ALL THAT, I find your manufacturing lab on the other end of this thing straight out of a fever dream nightmare, and after ALL THAT, I find your photonics, and then I have to get ALL THE WAY out of the ENTIRE ZOMBIE-INFESTED TOWN so I could bring you your stupid fucking template.  Are you happy now?",
+        "topic": "MISSION_ROBOFAC_INTERCOM_3_COMPLETE_ChewingOut_4"
+      },
+      { "text": "[Stop talking.]", "topic": "MISSION_ROBOFAC_INTERCOM_3_COMPLETE_ChewingOut_4" }
+    ]
+  },
+  {
+    "id": "MISSION_ROBOFAC_INTERCOM_3_COMPLETE_ChewingOut_4",
+    "type": "talk_topic",
+    "dynamic_line": "&The voice on the other side of the intercom is silent with disbelief.",
+    "responses": [ { "text": "[Wait.]", "topic": "MISSION_ROBOFAC_INTERCOM_3_COMPLETE_ChewingOut_5" } ]
+  },
+  {
+    "id": "MISSION_ROBOFAC_INTERCOM_3_COMPLETE_ChewingOut_5",
+    "type": "talk_topic",
+    "dynamic_line": "…Uh.  We are- thank you for finding the photonics.  We will, ah, make sure that the threat conditions of your future contracts are adequately assessed.  Um.  Thank you.",
+    "responses": [ { "text": "Good.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "id": "MISSION_ROBOFAC_INTERCOM_ROBOT_SM_1",
+    "type": "mission_definition",
+    "name": { "str": "Iron Safari" },
+    "description": "Disable and retrieve the unusual robot.  You can intercept the robot indicated by Hub 01, or find an inactive robot somewhere else.  You'll need some experience in electronics or mechanics to disable it.",
+    "goal": "MGOAL_NULL",
+    "difficulty": 5,
+    "value": 0,
+    "start": {
+      "assign_mission_target": { "om_terrain": "forest", "reveal_radius": 2, "random": true, "search_range": 70 },
+      "update_mapgen": {
+        "rows": [
+          "                        ",
+          "                        ",
+          "                        ",
+          "                        ",
+          "                        ",
+          "                        ",
+          "                        ",
+          "                        ",
+          "              M         ",
+          "                        ",
+          "                        ",
+          "                        ",
+          "                        ",
+          "                        ",
+          "                        ",
+          "                        ",
+          "                        ",
+          "                        ",
+          "                        ",
+          "                        ",
+          "                        ",
+          "                        ",
+          "                        ",
+          "                        "
+        ],
+        "terrain": { "M": "t_dirt" },
+        "monster": { "M": { "monster": "mon_yrax_trifacet" } }
+      }
+    },
+    "end": {
+      "effect": [
+        { "u_add_var": "completed_robofac_intercom_robot_sm_1", "type": "dialogue", "context": "intercom", "value": "yes" },
+        { "arithmetic": [ { "u_val": "var", "var_name": "hub01_completed_missions" }, "+=", { "const": 1 } ] }
+      ]
+    },
+    "fail": {
+      "effect": [ { "u_add_var": "completed_robofac_intercom_robot_sm_1", "type": "dialogue", "context": "intercom", "value": "no" } ]
+    },
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
+    "dialogue": {
+      "describe": "…",
+      "offer": "…",
+      "accepted": "…",
+      "rejected": "…",
+      "advice": "…",
+      "inquire": "…",
+      "success": "…",
+      "success_lie": "…",
+      "failure": "…"
+    }
+  },
+  {
+    "//": "'SM' is short for 'side mission'. These contracts are separate from Hub 01's main quests.",
+    "id": [
+      "MISSION_ROBOFAC_INTERCOM_ROBOT_SM_1_OFFER",
+      "MISSION_ROBOFAC_INTERCOM_ROBOT_SM_1_OFFER_ADVICE_Gun",
+      "MISSION_ROBOFAC_INTERCOM_ROBOT_SM_1_OFFER_ADVICE_Trifacet"
+    ],
+    "type": "talk_topic",
+    "dynamic_line": "One of our scout drones spotted a partially-malfunctioning robot of unconventional make while tracking an anomalous radiation spike close by.  We project that much knowledge could be gained from a close examination of this subject, and you would be tasked to retrieve it for us intact.  We will equip you with a prototype rifle and instructions on how to use it and deactivate the robot, if you accept.\"\n\n\"The success of this contract requires that the subject be brought back in an inactive state, and *not* destroyed.  A ruined robot is of no scientific value.  We emphasize that you use the prototype to complete this task; an EMP blast would likely destroy the subject outright.\"\n\n\"Completion of this contract awards 2 HGC, and you will be able to keep the prototype and the equipment used to operate it.",
+    "responses": [
+      {
+        "text": "You've got a deal.  I'll track down your robot.",
+        "effect": [
+          { "assign_mission": "MISSION_ROBOFAC_INTERCOM_ROBOT_SM_1" },
+          { "u_spawn_item": "UPS_off", "count": 1 },
+          { "u_spawn_item": "heavy_battery_cell", "count": 1 },
+          { "u_spawn_item": "robofac_yrax_deactivation_manual", "count": 1 },
+          { "u_spawn_item": "hm12", "count": 1 }
+        ],
+        "topic": "MISSION_ROBOFAC_INTERCOM_ROBOT_SM_1_ACCEPTED"
+      },
+      { "text": "Tell me about this prototype.", "topic": "MISSION_ROBOFAC_INTERCOM_ROBOT_SM_1_OFFER_ADVICE_Gun" },
+      {
+        "text": "What is this robot, and what does it look like?",
+        "topic": "MISSION_ROBOFAC_INTERCOM_ROBOT_SM_1_OFFER_ADVICE_Trifacet"
+      },
+      { "text": "What else do you have available?", "topic": "TALK_ROBOFAC_INTERCOM_CONTRACTS" }
+    ]
+  },
+  {
+    "id": "MISSION_ROBOFAC_INTERCOM_ROBOT_SM_1_OFFER_ADVICE_Gun",
+    "type": "talk_topic",
+    "dynamic_line": "If you'll give me a moment…\"  You hear the sounds of typing.  \"Its working name is the hm12.  It functions similarly to a laser, but is specifically designed to incapacitate robots without harming their internals.  Once a subject is stunned, it can be manually deactivated.\"\n\n\"A shot will only stun the robot if you manage to hit its main sensory array, which will rely on your aim.  After a stunning shot, you might proceed to the deactivation attempts by examining the robot from up close."
+  },
+  {
+    "id": "MISSION_ROBOFAC_INTERCOM_ROBOT_SM_1_OFFER_ADVICE_Trifacet",
+    "type": "talk_topic",
+    "dynamic_line": "We are as of yet uncertain of its origin and purpose.  Its body most closely resembles a pyramid on what we believe are three sets of legs for mobility.  It is lightly armed, and has attacked our cam-spy drones using high-voltage electric discharge.  We theorize that this is most likely for deterrence, and not to cause direct harm.  Nonetheless, we need to emphasize that its full capabilities are unknown, and we do not know how it will react when confronted with a living threat."
+  },
+  {
+    "id": "MISSION_ROBOFAC_INTERCOM_ROBOT_SM_1_ACCEPTED",
+    "type": "talk_topic",
+    "dynamic_line": "Lovely.  Just a moment; we will transfer the prototype and handling procedures, which includes information of its last recorded location.\"\n\nThe intercom tray thumps several times as objects are placed into it.  After about a minute, it slides open, revealing a slender weapon that looks a bit like a radar gun, a heavy battery, a sheaf of papers in a binder, and a UPS.  \"The hm12 draws power from a connected UPS.  Please remember to bring the specimen back *intact* - battered salvage is of no use to us.  To safely perform the task of deactivation, please review the provided documentation, and pay special attention to the procedures detailed in subsections IV and VII."
+  },
+  {
+    "id": [
+      "MISSION_ROBOFAC_INTERCOM_ROBOT_SM_1_COMPLETE",
+      "MISSION_ROBOFAC_INTERCOM_ROBOT_SM_1_COMPLETE_Prototype",
+      "MISSION_ROBOFAC_INTERCOM_ROBOT_SM_1_COMPLETE_Binder"
+    ],
+    "type": "talk_topic",
+    "dynamic_line": "&The intercom tray quickly slides shut.\n\n\"We expected nothing less.  We hope your found the prototype's performance to be satisfactory.\"",
+    "responses": [
+      {
+        "text": "Will this weapon work on other robots, as well?",
+        "topic": "MISSION_ROBOFAC_INTERCOM_ROBOT_SM_1_COMPLETE_Prototype"
+      },
+      {
+        "text": "The handling procedures you gave me seemed to predate the Cataclysm.  How long had that robot been here?",
+        "topic": "MISSION_ROBOFAC_INTERCOM_ROBOT_SM_1_COMPLETE_Binder",
+        "effect": [ { "u_add_var": "u_heard_of_portal_storms", "type": "global", "context": "portal_storms", "value": "yes" } ]
+      },
+      { "text": "Thank you.", "topic": "TALK_ROBOFAC_INTERCOM_SERVICES" }
+    ]
+  },
+  {
+    "id": "MISSION_ROBOFAC_INTERCOM_ROBOT_SM_1_COMPLETE_Prototype",
+    "type": "talk_topic",
+    "dynamic_line": "We believe so; it underwent intensive internal tests on existing and theoretical models before giving it to you.  UGVs, autonomous CROWS units, manhacks, and other robots should all be possible to neutralize by using the weapon, although we advise great caution; the weapon is short-ranged, and was not designed to target distant enemies."
+  },
+  {
+    "id": "MISSION_ROBOFAC_INTERCOM_ROBOT_SM_1_COMPLETE_Binder",
+    "type": "talk_topic",
+    "dynamic_line": "Pardon me.\"  The voice briefly turns away from the microphone and asks something.  \"Very well.  I am cleared to tell you that it appeared near the beginning of the portal storms, and during this time, it was logged and documented.  No attempt was ever made to retrieve it before the government collapsed.  That is all I am able to share with you at this time."
+  },
+  {
+    "id": "MISSION_ROBOFAC_INTERCOM_ROBOT_SM_1_FAILED",
+    "type": "talk_topic",
+    "dynamic_line": "&The intercom tray quickly slides shut.  After a pause, the voice on the other end sighs.\n\n\"…we requested that the subject remain intact.  This outcome is… unfortunate.  We will process the specimen, but it is unlikely that it will yield usable information as to its purpose.\"\n\n\"You may keep the prototype.  You are dismissed.\"",
+    "responses": [ { "text": "I'm sorry.", "topic": "TALK_DONE" }, { "text": "Alright, alright.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "id": "MISSION_ROBOFAC_INTERCOM_PORTAL_SM_1",
+    "type": "mission_definition",
+    "name": { "str": "Hazard Meteorology" },
+    "//": "This mission is completed when you first sell any piece of portal storm data.",
+    "goal": "MGOAL_NULL",
+    "description": "Use the NRE recorder to collect information during a portal storm event.  You'll need stay outside and carry the recorder for around 6 minutes to collect sufficient data.  Generate a printout and offer it to Hub 01 to finish the mission.",
+    "difficulty": 5,
+    "value": 0,
+    "end": {
+      "effect": [
+        { "u_add_var": "completed_robofac_intercom_portal_sm_1", "type": "dialogue", "context": "intercom", "value": "yes" },
+        { "arithmetic": [ { "u_val": "var", "var_name": "hub01_completed_missions" }, "+=", { "const": 1 } ] }
+      ]
+    },
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
+    "dialogue": {
+      "describe": "…",
+      "offer": "…",
+      "accepted": "…",
+      "rejected": "…",
+      "advice": "…",
+      "inquire": "…",
+      "success": "…",
+      "success_lie": "…",
+      "failure": "…"
+    }
+  },
+  {
+    "id": [
+      "MISSION_ROBOFAC_INTERCOM_PORTAL_SM_1_OFFER",
+      "MISSION_ROBOFAC_INTERCOM_PORTAL_SM_1_OFFER_ADVICE_Recorder",
+      "MISSION_ROBOFAC_INTERCOM_PORTAL_SM_1_OFFER_ADVICE_Outside",
+      "MISSION_ROBOFAC_INTERCOM_PORTAL_SM_1_OFFER_ADVICE_Hold"
+    ],
+    "type": "talk_topic",
+    "dynamic_line": "As we mentioned before, our research into the portal storm phenomena requires that we obtain additional data to verify our own local measurements.  Recording this data will require you to carry a scientific instrument called an NRE recorder on your person while outside in the storm for around six minutes.  The recording instrument will be provided at no cost if you choose to accept.\"\n\n\"We offer the standard hazard pay of 4 HGC for completion of this contract.",
+    "responses": [
+      {
+        "text": "Sure, why not?  Let's do some science.",
+        "effect": [
+          { "assign_mission": "MISSION_ROBOFAC_INTERCOM_PORTAL_SM_1" },
+          { "u_spawn_item": "nre_recorder", "count": 1 },
+          { "u_spawn_item": "light_battery_cell", "count": 1 }
+        ],
+        "topic": "MISSION_ROBOFAC_INTERCOM_PORTAL_SM_1_ACCEPTED"
+      },
+      { "text": "How does the recorder work?", "topic": "MISSION_ROBOFAC_INTERCOM_PORTAL_SM_1_OFFER_ADVICE_Recorder" },
+      {
+        "text": "How will I know when I've been outside long enough?",
+        "topic": "MISSION_ROBOFAC_INTERCOM_PORTAL_SM_1_OFFER_ADVICE_Outside"
+      },
+      {
+        "text": "Do I need to physically hold the recorder in my hand?",
+        "topic": "MISSION_ROBOFAC_INTERCOM_PORTAL_SM_1_OFFER_ADVICE_Hold"
+      },
+      { "text": "What else do you have available?", "topic": "TALK_ROBOFAC_INTERCOM_CONTRACTS" }
+    ]
+  },
+  {
+    "id": "MISSION_ROBOFAC_INTERCOM_PORTAL_SM_1_OFFER_ADVICE_Recorder",
+    "type": "talk_topic",
+    "dynamic_line": "Once the storm starts, it should be enough to walk outside while carrying the NRE, as the recording requires no particular actions on your part.  Research insist on the fact that you must personally carry the NRE on your person to take accurate measurements, so leaving it outside while you take shelter won't work.  I'd explain the synchronistic relations that demand this, but I didn't really understand that part myself… oh, and you might may to obtain a high-caliber firearm before attempting to take the measurements.  Just in case things start leaking into uhm… prime."
+  },
+  {
+    "id": "MISSION_ROBOFAC_INTERCOM_PORTAL_SM_1_OFFER_ADVICE_Outside",
+    "type": "talk_topic",
+    "dynamic_line": "The recorder will beep once it has recorded enough data for a report.  The longer you stay outside, however, the higher the quality and quantity of the data will be.  While you are only expected to obtain the minimum viable report that the NRE can produce, we are willing to offer increased pay for higher-quality recordings."
+  },
+  {
+    "id": "MISSION_ROBOFAC_INTERCOM_PORTAL_SM_1_OFFER_ADVICE_Hold",
+    "type": "talk_topic",
+    "dynamic_line": "You do not.  All that is required is that you have it somewhere on your person; it will function equally well inside of a bag as it would in your own hands.  Your preferred method of carrying the instrument will be enough to collect data as long as it is directly carried on your person."
+  },
+  {
+    "id": "MISSION_ROBOFAC_INTERCOM_PORTAL_SM_1_ACCEPTED",
+    "type": "talk_topic",
+    "dynamic_line": "Transferring the recorder now.\"  The intercom tray slides open, revealing a hefty, barebones device and a light battery to accompany it.  \"Please remember to exercise caution; the effects of portal storms on human physiology are poorly understood."
+  }
+]

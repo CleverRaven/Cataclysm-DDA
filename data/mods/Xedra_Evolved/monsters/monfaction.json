@@ -1,0 +1,73 @@
+[
+  {
+    "type": "MONSTER_FACTION",
+    "name": "changeling",
+    "base_faction": "nether",
+    "neutral": [ "fish", "small_animal", "slime" ],
+    "by_mood": [ "nether", "nightmares" ],
+    "hate": [ "zombie", "triffid", "fungus", "exodii", "isolated_artisans" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "vampire",
+    "base_faction": "zombie",
+    "neutral": [ "zombie" ],
+    "by_mood": [ "nether", "nightmares" ],
+    "hate": [ "changeling" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "fish",
+    "copy-from": "fish",
+    "extend": { "neutral": [ "changeling", "nightmares", "vampire" ] }
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "small_animal",
+    "copy-from": "small_animal",
+    "extend": { "neutral": [ "changeling", "nightmares", "vampire" ] }
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "slime",
+    "copy-from": "slime",
+    "extend": { "neutral": [ "changeling", "nightmares", "vampire" ] }
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "zombie",
+    "copy-from": "zombie",
+    "extend": { "hate": [ "changeling" ], "neutral": [ "vampire" ] }
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "triffid",
+    "copy-from": "triffid",
+    "extend": { "hate": [ "changeling" ] }
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "fungus",
+    "copy-from": "fungus",
+    "extend": { "hate": [ "changeling" ] }
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "exodii",
+    "copy-from": "exodii",
+    "extend": { "hate": [ "changeling", "vampire" ] }
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "isolated_artisans",
+    "copy-from": "isolated_artisans",
+    "extend": { "hate": [ "changeling", "vampire" ] }
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "nightmares",
+    "base_faction": "nether",
+    "neutral": [ "fish", "small_animal", "slime" ],
+    "by_mood": [ "nether", "changeling", "vampire" ]
+  }
+]

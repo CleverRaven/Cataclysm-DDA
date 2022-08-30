@@ -197,7 +197,7 @@ Sample:
 
 1. The `"fill_ter"`: this tag defines the default terrain/flooring for use under furniture and for undefined symbols in your rows.  Generally, pick the terrain that has the most furniture associated with it.
 
-2. The `"rows"`: this is the actual blueprint for your building.  A standard OMT tile (overmap tile) is 24x24 tiles.  Rows begin their x,y coordinates at 0,0 which is the upper left corner of your map.  
+2. The `"rows"`: this is the actual blueprint for your building.  A standard OMT tile (overmap tile) is 24x24 tiles.  Rows begin their x,y coordinates at 0,0 which is the upper left corner of your map.
     * tip: if you cross stitch or are familiar with cross stitch patterns, this should all look very familiar.  You have the map and the "legend" areas.
 
 3. `"terrain"`: this defines what all those letters in the rows mean when they are terrains.  A symbol can return a single terrain, or, it can offer a chance to spawn from a selection of terrains.  Here are some quick examples:
@@ -210,7 +210,7 @@ Sample:
 
 4. `"furniture"` tag:  Like terrain, this is a list of the furniture ID's and their map symbols.  It can handle the same sort of arrays as terrain.
 
-5. `"toilets"` and other specially defined furniture: you'll run into some specially defined common furniture which allows for some easier placement.  In our sample map the entry: `"toilets": { ";": {  } },` defines the symbol entry and will also auto-place water in your toilets.  There are a few other specialty furniture entries.  
+5. `"toilets"` and other specially defined furniture: you'll run into some specially defined common furniture which allows for some easier placement.  In our sample map the entry: `"toilets": { ";": {  } },` defines the symbol entry and will also auto-place water in your toilets.  There are a few other specialty furniture entries.
 
 The other most common one is: `"vendingmachines": { "D": { "item_group": "vending_drink" }, "V": { "item_group": "vending_food" } }` this assigns two symbols for vending machines and makes one for food & one for drinks. *note: you can put any item_group into the machines, like those bullet ones*.
 
@@ -299,7 +299,7 @@ Since the planter is a "sealed item" you define what's going into that container
     }
  ```
 
-11. Best practices:  
+11. Best practices:
   * If you are making a new house please use this palette: "standard_domestic_palette".  The loots are already assigned and it covers a wide range of domestic furniture.  This will keep your house in sync with all the other houses for loot spawns.
   * All buildings should also get roof entries.
   * While entry placement for json doesn't really matter, try to keep your mapgen files ordered like the majority existing maps.  Be kind to future contributors.
@@ -323,7 +323,7 @@ finally for flowers (which are furniture):
 
 #### Adding the roof!
 
-Almost all CDDA buildings are now roof-capable and we'd love to keep it that way.  Make sure to submit a roof map with your building.  This can go into the same file as your ground floor and any other floors that share the same building shape/foundation.  
+Almost all CDDA buildings are now roof-capable and we'd love to keep it that way.  Make sure to submit a roof map with your building.  This can go into the same file as your ground floor and any other floors that share the same building shape/foundation.
 
 So, this is super easy compared to the building we just went over.  It has all the same basic components.  I recommend you start by using the rows from your ground floor map and converting it to the `"roof_palette"` symbol set.  Basically your just going to trace the outline in gutters, add a t_gutter_drop next to your t_gutter_spout below and toss some infrastructure up there.  I used nests extensively in commercial building roofs and we'll cover that in advanced mapgen.
 
@@ -369,7 +369,7 @@ sample roof:
 
   1. I always just append `_roof` to the buildings ID.
   2. See how the palette takes the place of all that data from our earlier example.  So clean and easy.
-  3. There is no `"weight"` entry because this will only spawn with its building (once linked).  
+  3. There is no `"weight"` entry because this will only spawn with its building (once linked).
   4. My palette uses "t_flat_roof" as its default roof.  For houses, I wanted shingles. So, I added the "t_shingle_flat_roof" in this mapgen which will override the palettes entry for `".": "t_flat_roof"`.  (more on this in advanced mapgen).
 
 I have a separate roof document at: [doc/JSON_Mapping_Guides/JSON_ROOF_MAPGEN.md](https://github.com/CleverRaven/Cataclysm-DDA/blob/master/doc/JSON_Mapping_Guides/JSON_ROOF_MAPGEN.md).
@@ -395,7 +395,7 @@ I have a separate roof document at: [doc/JSON_Mapping_Guides/JSON_ROOF_MAPGEN.md
   ```
 
   1. The `"type"` won't change.  It should always be "city_building".
-  2. `"id"`: This ID is often the same as your mapgen ID but it doesn't have to be the same.  We could use something more generic like "house".  This ID will be used in regional settings for spawns, so keep in mind how many buildings are using the ID.  I prefer distinct ID's because it makes debug spawning much, much easier.  
+  2. `"id"`: This ID is often the same as your mapgen ID but it doesn't have to be the same.  We could use something more generic like "house".  This ID will be used in regional settings for spawns, so keep in mind how many buildings are using the ID.  I prefer distinct ID's because it makes debug spawning much, much easier.
   3. `"locations"`: defines where this building can be place by overmap terrain type.  Land is the default.
   4. `"overmaps"`: this is the bit where you define how the maps fit together, so lets break it up:
   `{ "point": [ 0, 0, 0 ], "overmap": "house_dogs_north" },`
@@ -448,10 +448,10 @@ Example:
 
   1. `"type"`: is overmap_special.
   2. `"id"` is your buildings ID for the overmap. It also displays on the overmap in game.
-  3. `"overmaps"` this works the same way as it does in the city building entries.  Note that the pump station is bigger then 1 OMT on the ground, so the y coordinate changes as well.  
-  4. `"connections"`: this places road, sewer, subway connections for your map.  
+  3. `"overmaps"` this works the same way as it does in the city building entries.  Note that the pump station is bigger then 1 OMT on the ground, so the y coordinate changes as well.
+  4. `"connections"`: this places road, sewer, subway connections for your map.
   5. `"locations"`: valid OMT types this building can be placed on.
-  6. `"city_distance"`, `"city_sizes"` both are parameters for where this spawns in relation to cities.  
+  6. `"city_distance"`, `"city_sizes"` both are parameters for where this spawns in relation to cities.
   7. `"occurrences": [ 0, 1 ],`:  Ok so occurrences can mean two things depending on if it uses the "UNIQUE" flag or not.   When the flag is absent, this simply translates to how many times this special can spawn PER overmap.  So 0 to 1 in this case.
         If you use the UNIQUE flag, this becomes a percentage so [ 1, 10 ] wouldn't be 1 to 10 times per overmap but a 1 in 10% chance to spawn on the overmap.  So 10% chance to spawn once per overmap.
   8. `"flags"`: These are flags you can use to further define the special.  For a list of flags see: [doc/JSON_FLAGS.md](https://github.com/CleverRaven/Cataclysm-DDA/blob/master/doc/JSON_FLAGS.md).

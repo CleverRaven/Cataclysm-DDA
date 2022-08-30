@@ -148,7 +148,7 @@
         { "vehicle": "parkinglotbasic", "x": 87, "y": 15, "chance": 100, "status": 1, "rotation": 90 },
         { "vehicle": "parkinglotbasic", "x": 88, "y": 7, "chance": 100, "status": 1, "rotation": 90 },
         { "vehicle": "military_vehicles", "x": 87, "y": 82, "chance": 25, "status": 1, "rotation": 270 },
-        { "vehicle": "military_vehicles", "x": 80, "y": 67, "chance": 25, "status": 1, "rotation": 90 },
+        { "vehicle": "military_vehicles", "x": 80, "y": 66, "chance": 25, "status": 1, "rotation": 90 },
         { "vehicle": "military_cargo_truck", "x": 91, "y": 33, "chance": 100, "rotation": 270 },
         { "vehicle": "humvee", "x": 89, "y": 32, "chance": 100 }
       ]
@@ -295,15 +295,15 @@
       "place_vehicles": [
         { "vehicle": "parkinglotbasic", "x": 69, "y": 20, "chance": 100, "rotation": 90 },
         { "vehicle": "parkinglotbasic", "x": 62, "y": 21, "chance": 100, "rotation": 90 },
-        { "vehicle": "parkinglotbasic", "x": 55, "y": 19, "chance": 100, "rotation": 270 },
+        { "vehicle": "parkinglotbasic", "x": 55, "y": 18, "chance": 100, "rotation": 270 },
         { "vehicle": "parkinglotbasic", "x": 41, "y": 20, "chance": 100, "rotation": 90 },
-        { "vehicle": "parkinglotbasic", "x": 27, "y": 20, "chance": 100, "rotation": 90 },
+        { "vehicle": "parkinglotbasic", "x": 28, "y": 20, "chance": 100, "rotation": 90 },
         { "vehicle": "parkinglotbasic", "x": 20, "y": 21, "chance": 100, "rotation": 90 },
-        { "vehicle": "parkinglotbasic", "x": 13, "y": 20, "chance": 100, "rotation": 270 },
+        { "vehicle": "parkinglotbasic", "x": 13, "y": 18, "chance": 100, "rotation": 270 },
         { "vehicle": "parkinglotbasic", "x": 12, "y": 12, "chance": 100 },
         { "vehicle": "parkinglotbasic", "x": 12, "y": 5, "chance": 100, "rotation": 270 },
         { "vehicle": "parkinglotbasic", "x": 18, "y": 5, "chance": 100, "rotation": 270 },
-        { "vehicle": "parkinglotbasic", "x": 3, "y": 20, "chance": 100, "rotation": 90 }
+        { "vehicle": "parkinglotbasic", "x": 4, "y": 20, "chance": 100, "rotation": 90 }
       ]
     }
   },
@@ -480,7 +480,14 @@
         { "item": "tac_helmet", "x": 42, "y": 65, "chance": 75, "repeat": [ 25, 50 ] },
         { "item": "gloves_tactical", "x": 41, "y": 65, "chance": 75, "repeat": [ 50, 150 ] },
         { "item": "kevlar", "x": 40, "y": 65, "chance": 75, "repeat": [ 50, 100 ] },
-        { "item": "ballistic_vest_esapi", "x": [ 38, 39 ], "y": 65, "chance": 75, "repeat": [ 50, 150 ] },
+        {
+          "item": "ballistic_vest_esapi",
+          "variant": "us_ballistic_vest",
+          "x": [ 38, 39 ],
+          "y": 65,
+          "chance": 75,
+          "repeat": [ 50, 150 ]
+        },
         { "item": "elbow_pads", "x": 37, "y": 65, "chance": 75, "repeat": [ 50, 150 ] },
         { "item": "knee_pads", "x": 36, "y": 65, "chance": 75, "repeat": [ 50, 150 ] },
         { "item": "light_disposable_cell", "x": 46, "y": 60, "chance": 75, "repeat": [ 50, 150 ] },
@@ -541,7 +548,9 @@
         { "item": "powder_eggs", "x": [ 39, 40 ], "y": 48, "chance": 75, "repeat": [ 50, 150 ] },
         { "item": "milk_UHT", "x": 37, "y": 48, "chance": 75, "repeat": [ 50, 150 ] },
         { "item": "water_clean", "x": 38, "y": 48, "chance": 75, "repeat": [ 50, 150 ] },
-        { "item": "crackers", "x": 36, "y": 48, "chance": 75, "repeat": [ 50, 150 ] }
+        { "item": "crackers", "x": 36, "y": 48, "chance": 75, "repeat": [ 50, 150 ] },
+        { "item": "utility_exoskeleton_off", "x": 6, "y": 14, "chance": 10 },
+        { "item": "ice_utility_exoskeleton_off", "x": 6, "y": 14, "chance": 5 }
       ],
       "place_monsters": [
         { "monster": "GROUP_MIL_BASE", "x": [ 4, 23 ], "y": [ 0, 23 ], "repeat": [ 0, 1 ], "density": 0.1 },
@@ -789,6 +798,7 @@
         { "item": "m240", "x": 20, "y": 9, "chance": 75, "repeat": 4 },
         { "item": "mossberg_930", "variant": "m1014", "x": 20, "y": 10, "chance": 75, "repeat": 10 },
         { "item": "mossberg_590", "x": 20, "y": 10, "chance": 75, "repeat": 8 },
+        { "item": "m26_mass_standalone", "x": 20, "y": 10, "chance": 10, "repeat": 4 },
         { "item": "m2010", "x": 20, "y": 11, "magazine": 100, "chance": 75, "repeat": 2 },
         { "item": "m110a1", "x": 20, "y": 11, "magazine": 100, "chance": 75, "repeat": 8 },
         { "item": "m2010mag", "x": 20, "y": 12, "chance": 75, "repeat": 10 },
@@ -843,7 +853,7 @@
         { "vehicle": "military_vehicles", "x": 60, "y": 30, "chance": 50 },
         { "vehicle": "military_vehicles", "x": 59, "y": 39, "chance": 50 },
         { "vehicle": "military_vehicles", "x": 9, "y": 32, "chance": 25, "status": 1 },
-        { "vehicle": "military_vehicles", "x": 20, "y": 39, "chance": 25, "status": 1 },
+        { "vehicle": "military_vehicles", "x": 18, "y": 39, "chance": 25, "status": 1 },
         { "vehicle": "military_vehicles", "x": 83, "y": 39, "chance": 25, "rotation": 90 },
         { "vehicle": "welding_cart", "x": 67, "y": 36, "chance": 80, "status": 0 },
         { "vehicle": "engine_crane", "x": 55, "y": 26, "chance": 80, "status": 0 }
@@ -1123,10 +1133,7 @@
         "$": [ { "item": "SUS_office_filing_cabinet", "chance": 50, "repeat": [ 1, 5 ] } ],
         "O": [ { "item": "mil_base_books", "chance": 30, "repeat": [ 1, 5 ] } ],
         "Y": [ { "item": "mil_base_coats", "chance": 25, "repeat": [ 1, 2 ] } ],
-        "E": [
-          { "item": "SUS_office_filing_cabinet", "chance": 50, "repeat": [ 1, 10 ] },
-          { "item": "bionics_mil", "chance": 50, "repeat": [ 1, 3 ] }
-        ],
+        "E": [ { "item": "SUS_office_filing_cabinet", "chance": 50, "repeat": [ 1, 10 ] } ],
         "W": [ { "item": "mil_base_iv", "chance": 70 } ],
         "^": [ { "item": "mil_base_iv", "chance": 70 } ]
       },
@@ -1152,7 +1159,7 @@
         { "item": "calcium_tablet", "x": 28, "y": 25, "chance": 50, "repeat": [ 20, 60 ] },
         { "group": "charged_inhaler", "x": 28, "y": 25, "chance": 50, "repeat": [ 1, 10 ] },
         { "item": "bandages", "x": 29, "y": 25, "chance": 30, "repeat": [ 20, 60 ] },
-        { "item": "adhesive_bandages", "x": 29, "y": 25, "chance": 30, "repeat": [ 20, 60 ] },
+        { "item": "adhesive_bandages", "x": 29, "y": 25, "chance": 30, "repeat": [ 200, 600 ] },
         { "item": "medical_gauze", "x": 29, "y": 25, "chance": 50, "repeat": [ 20, 60 ] },
         { "item": "medical_tape", "x": 29, "y": 25, "chance": 50, "repeat": [ 20, 60 ] },
         { "group": "mil_base_iv", "x": 29, "y": 25, "chance": 50, "repeat": [ 20, 80 ] },

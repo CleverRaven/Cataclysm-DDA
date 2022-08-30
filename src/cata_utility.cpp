@@ -22,6 +22,7 @@
 #include "output.h"
 #include "rng.h"
 #include "translations.h"
+#include "unicode.h"
 #include "zlib.h"
 
 static double pow10( unsigned int n )
@@ -75,25 +76,17 @@ bool isBetween( int test, int down, int up )
 
 bool lcmatch( const std::string &str, const std::string &qry )
 {
-    if( std::locale().name() != "en_US.UTF-8" && std::locale().name() != "C" ) {
-        const auto &f = std::use_facet<std::ctype<wchar_t>>( std::locale() );
-        std::wstring wneedle = utf8_to_wstr( qry );
-        std::wstring whaystack = utf8_to_wstr( str );
-
-        f.tolower( &whaystack[0], &whaystack[0] + whaystack.size() );
-        f.tolower( &wneedle[0], &wneedle[0] + wneedle.size() );
-
-        return whaystack.find( wneedle ) != std::wstring::npos;
+    std::u32string u32_str = utf8_to_utf32( str );
+    std::u32string u32_qry = utf8_to_utf32( qry );
+    std::for_each( u32_str.begin(), u32_str.end(), u32_to_lowercase );
+    std::for_each( u32_qry.begin(), u32_qry.end(), u32_to_lowercase );
+    // First try match their lowercase forms
+    if( u32_str.find( u32_qry ) != std::u32string::npos ) {
+        return true;
     }
-    std::string needle;
-    needle.reserve( qry.size() );
-    std::transform( qry.begin(), qry.end(), std::back_inserter( needle ), tolower );
-
-    std::string haystack;
-    haystack.reserve( str.size() );
-    std::transform( str.begin(), str.end(), std::back_inserter( haystack ), tolower );
-
-    return haystack.find( needle ) != std::string::npos;
+    // Then try removing accents from str ONLY
+    std::for_each( u32_str.begin(), u32_str.end(), remove_accent );
+    return u32_str.find( u32_qry ) != std::u32string::npos;
 }
 
 bool lcmatch( const translation &str, const std::string &qry )
@@ -204,21 +197,6 @@ const char *velocity_units( const units_type vel_units )
         }
     }
     return "error: unknown units!";
-}
-
-double temp_to_celsius( double fahrenheit )
-{
-    return ( fahrenheit - 32.0 ) * 5.0 / 9.0;
-}
-
-double temp_to_kelvin( double fahrenheit )
-{
-    return temp_to_celsius( fahrenheit ) + 273.15;
-}
-
-double celsius_to_kelvin( double celsius )
-{
-    return celsius + 273.15;
 }
 
 double kelvin_to_fahrenheit( double kelvin )
@@ -390,7 +368,7 @@ bool read_from_file( const std::string &path, const std::function<void( std::ist
 
                 ret = inflate( &zs, 0 );
 
-                if( outstring.size() < zs.total_out ) {
+                if( outstring.size() < static_cast<size_t>( zs.total_out ) ) {
                     outstring.append( outbuffer,
                                       zs.total_out - outstring.size() );
                 }
@@ -432,10 +410,12 @@ bool read_from_file_json( const std::string &path, const std::function<void( Jso
     } );
 }
 
-bool read_from_file( const std::string &path, JsonDeserializer &reader )
+bool read_from_file_json( const std::string &path,
+                          const std::function<void( const JsonValue & )> &reader )
 {
-    return read_from_file_json( path, [&reader]( JsonIn & jsin ) {
-        reader.deserialize( jsin );
+    return read_from_file( path, [&]( std::istream & fin ) {
+        JsonIn jsin( fin, path );
+        reader( jsin.get_value() );
     } );
 }
 
@@ -457,10 +437,12 @@ bool read_from_file_optional_json( const std::string &path,
     } );
 }
 
-bool read_from_file_optional( const std::string &path, JsonDeserializer &reader )
+bool read_from_file_optional_json( const std::string &path,
+                                   const std::function<void( const JsonValue & )> &reader )
 {
-    return read_from_file_optional_json( path, [&reader]( JsonIn & jsin ) {
-        reader.deserialize( jsin );
+    return read_from_file_optional( path, [&]( std::istream & fin ) {
+        JsonIn jsin( fin, path );
+        reader( jsin.get_value() );
     } );
 }
 
@@ -527,6 +509,18 @@ bool string_ends_with( const std::string &s1, const std::string &s2 )
 {
     return s1.size() >= s2.size() &&
            s1.compare( s1.size() - s2.size(), s2.size(), s2 ) == 0;
+}
+
+bool string_empty_or_whitespace( const std::string &s )
+{
+    if( s.empty() ) {
+        return true;
+    }
+
+    std::wstring ws = utf8_to_wstr( s );
+    return std::all_of( ws.begin(), ws.end(), []( const wchar_t &c ) {
+        return std::iswspace( c );
+    } );
 }
 
 std::string join( const std::vector<std::string> &strings, const std::string &joiner )
@@ -660,4 +654,23 @@ holiday get_holiday_from_time( std::time_t time, bool force_refresh )
     // fall through to here if localtime fails, or none of the day tests hit
     cached_holiday = holiday::none;
     return cached_holiday;
+}
+
+int bucket_index_from_weight_list( const std::vector<int> &weights )
+{
+    int total_weight = std::accumulate( weights.begin(), weights.end(), int( 0 ) );
+    if( total_weight < 1 ) {
+        return 0;
+    }
+    const int roll = rng( 0, total_weight - 1 );
+    int index = 0;
+    int accum = 0;
+    for( int w : weights ) {
+        accum += w;
+        if( accum > roll ) {
+            break;
+        }
+        index++;
+    }
+    return index;
 }

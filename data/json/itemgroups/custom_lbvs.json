@@ -1,0 +1,95 @@
+[
+  {
+    "type": "item_group",
+    "id": "loaded_lbv",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "load_bearing_vest", "prob": 60, "contents-group": "custom_medium_lbv" },
+      { "item": "light_load_bearing_vest", "prob": 20, "contents-group": "custom_light_lbv" },
+      { "item": "heavy_load_bearing_vest", "prob": 20, "contents-group": "custom_heavy_lbv" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "molle_accessories",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "chestpouch", "prob": 40 },
+      { "item": "radio_pouch", "prob": 20 },
+      { "item": "gadget_pouch", "prob": 10 },
+      { "item": "h2o_pouch", "prob": 10 },
+      { "item": "tool_pouch", "prob": 10 },
+      { "item": "flashlight_pouch", "prob": 20 },
+      { "item": "tactical_holster", "prob": 20 },
+      { "item": "gas_mask_pouch", "prob": 10 },
+      { "item": "tactical_grenade_pouch", "prob": 40 },
+      { "item": "grenade_pouch", "prob": 10 },
+      { "item": "triple_stacker_pouch", "prob": 10 },
+      { "item": "dump_pouch", "prob": 20 },
+      { "item": "canteen_pouch", "prob": 30 },
+      { "item": "deployment_bag", "prob": 10 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "//": "generic spawns for a generic vest",
+    "id": "custom_light_lbv",
+    "subtype": "collection",
+    "entries": [
+      { "item": "chestpouch" },
+      { "group": "molle_accessories" },
+      { "group": "molle_accessories", "prob": 60 },
+      { "group": "molle_accessories", "prob": 20 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "custom_medium_lbv",
+    "//": "generic spawns for a generic vest",
+    "subtype": "collection",
+    "entries": [
+      { "item": "chestpouch" },
+      { "item": "chestpouch" },
+      { "group": "molle_accessories" },
+      { "group": "molle_accessories", "prob": 60 },
+      { "group": "molle_accessories", "prob": 20 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "custom_heavy_lbv",
+    "//": "generic spawns for a generic vest",
+    "subtype": "collection",
+    "entries": [
+      { "item": "chestpouch" },
+      { "item": "chestpouch" },
+      { "item": "chestpouch" },
+      { "group": "molle_accessories" },
+      { "group": "molle_accessories" },
+      { "group": "molle_accessories", "prob": 60 },
+      { "group": "molle_accessories", "prob": 20 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "molle_backpacks_and_accessories",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "molle_pack", "prob": 70, "contents-group": "molle_backpacks_contents" },
+      { "item": "molle_medium_rucksack", "prob": 15, "contents-group": "molle_backpacks_contents" },
+      { "item": "molle_large_rucksack", "prob": 15, "contents-group": "molle_backpacks_contents" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "molle_backpacks_contents",
+    "//": "stuff that might be in a molle pack",
+    "subtype": "collection",
+    "entries": [
+      { "item": "camelbak", "prob": 40 },
+      { "group": "molle_accessories" },
+      { "group": "molle_accessories", "prob": 60 },
+      { "group": "molle_accessories", "prob": 20 }
+    ]
+  }
+]

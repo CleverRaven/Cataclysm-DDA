@@ -39,7 +39,56 @@
     "required_str": -1,
     "flags": [ "TRANSPARENT", "TINY", "FLAMMABLE_ASH", "NOCOLLIDE", "FLOWER" ],
     "examine_action": "harvest_furn_nectar",
-    "harvest_by_season": [ { "seasons": [ "spring", "summer", "autumn" ], "id": "burdoc_harv" } ],
+    "harvest_by_season": [ { "seasons": [ "spring", "summer", "autumn" ], "id": "burdock_harv" } ],
+    "bash": { "str_min": 2, "str_max": 6, "sound": "crunch.", "sound_fail": "whish." }
+  },
+  {
+    "type": "furniture",
+    "id": "f_carrot_wild",
+    "name": "wild carrot",
+    "description": "A common white wildflower which could be harvested for its root.",
+    "symbol": "f",
+    "color": "red",
+    "looks_like": "f_lily",
+    "move_cost_mod": 0,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "TINY", "FLAMMABLE_ASH", "NOCOLLIDE", "FLOWER" ],
+    "examine_action": "harvest_furn_nectar",
+    "harvest_by_season": [ { "seasons": [ "spring", "summer" ], "id": "wild_carrot_harv" } ],
+    "bash": { "str_min": 2, "str_max": 6, "sound": "crunch.", "sound_fail": "whish." }
+  },
+  {
+    "type": "furniture",
+    "id": "f_maianthemum_stellatum",
+    "name": "starry false Solomon's seal",
+    "description": "The blossoms of this flower look like stars in the night sky.  Its crimson berries are edible.",
+    "symbol": "f",
+    "color": "white",
+    "looks_like": "f_lily",
+    "move_cost_mod": 0,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "TINY", "FLAMMABLE_ASH", "NOCOLLIDE", "FLOWER" ],
+    "examine_action": "harvest_furn_nectar",
+    "harvest_by_season": [ { "seasons": [ "autumn", "winter" ], "id": "m_stellatum_harv" } ],
+    "bash": { "str_min": 2, "str_max": 6, "sound": "crunch.", "sound_fail": "whish." }
+  },
+  {
+    "type": "furniture",
+    "id": "f_salsify",
+    "name": "salsify",
+    "description": "Tragopogon porrifolius, a ragged-looking purple flower with a nutritious root.",
+    "symbol": "f",
+    "color": "light_red",
+    "looks_like": "f_dahlia",
+    "move_cost_mod": 0,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "TINY", "FLAMMABLE_ASH", "NOCOLLIDE", "FLOWER" ],
+    "examine_action": "harvest_furn_nectar",
+    "//": "Root can always be harvested, but there is no flower to harvest seeds from in winter.",
+    "harvest_by_season": [
+      { "seasons": [ "summer", "autumn" ], "id": "salsify_seed_harv" },
+      { "seasons": [ "autumn", "winter" ], "id": "salsify_harv" }
+    ],
     "bash": { "str_min": 2, "str_max": 6, "sound": "crunch.", "sound_fail": "whish." }
   },
   {
@@ -169,6 +218,21 @@
   },
   {
     "type": "furniture",
+    "id": "f_jerusalem_artichoke",
+    "name": "Jerusalem artichoke plant",
+    "description": "Looking similar to the sunflower, this tall plant has a nutritious tuber.",
+    "looks_like": "f_sunflower",
+    "symbol": "f",
+    "color": "yellow",
+    "move_cost_mod": 0,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "TINY", "FLAMMABLE_ASH", "NOCOLLIDE", "FLOWER" ],
+    "examine_action": "harvest_furn_nectar",
+    "harvest_by_season": [ { "seasons": [ "autumn", "winter" ], "id": "jerusalem_artichoke_harv" } ],
+    "bash": { "str_min": 2, "str_max": 6, "sound": "crunch.", "sound_fail": "whish." }
+  },
+  {
+    "type": "furniture",
     "id": "f_lilypad",
     "name": "lilypad",
     "description": "These lilypads don't look they'd support the weight of the things you've heard croaking in the swamp.",
@@ -217,7 +281,7 @@
     "description": "A blue flower imported from Europe, also known as a Cornflower.",
     "symbol": "f",
     "color": "cyan",
-    "looks_like": "f_dandelion",
+    "looks_like": "f_bluebell",
     "move_cost_mod": 0,
     "required_str": -1,
     "flags": [ "TRANSPARENT", "TINY", "FLAMMABLE_ASH", "NOCOLLIDE", "FLOWER" ],
@@ -279,47 +343,70 @@
     "bash": { "str_min": 2, "str_max": 6, "sound": "crunch.", "sound_fail": "whish." }
   },
   {
-    "type": "terrain",
-    "id": "t_tree_alder",
-    "name": "alder tree",
-    "description": "A deciduous flowering tree with serrate, scalloped, round-obovate leaves, commonly forming dense groves alongside water.",
-    "symbol": "7",
-    "color": [ "green", "green", "yellow_yellow", "brown" ],
-    "move_cost": 0,
-    "coverage": 80,
-    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT" ],
-    "transforms_into": "t_tree_alder_harvested",
-    "examine_action": "harvest_ter",
-    "looks_like": "t_tree_hickory",
-    "harvest_by_season": [ { "seasons": [ "spring", "autumn" ], "id": "alder_harv" } ],
+    "type": "furniture",
+    "id": "f_wild_sarsaparilla",
+    "name": "wild sarsaparilla",
+    "description": "A small, flowering plant known as 'Aralia nudicaulis'.  It is colored in vibrant shades of orange and red in autumn, making it easy to spot.",
+    "symbol": ",",
+    "looks_like": "f_lily",
+    "color": [ "brown_green", "green", "red", "brown" ],
+    "move_cost_mod": 1,
+    "coverage": 20,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "DIGGABLE", "FLAT", "THIN_OBSTACLE", "SHRUB" ],
+    "examine_action": "harvest_furn_nectar",
+    "harvest_by_season": [ { "seasons": [ "autumn" ], "id": "wild_sarsaparilla_harv" } ],
     "bash": {
-      "str_min": 80,
-      "str_max": 180,
-      "sound": "crunch!",
-      "sound_fail": "whack!",
-      "ter_set": "t_dirt",
-      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ]
+      "str_min": 2,
+      "str_max": 6,
+      "sound": "crunch.",
+      "sound_fail": "whish.",
+      "items": [ { "item": "withered", "prob": 50, "count": [ 1, 2 ] }, { "item": "twig", "prob": 50 } ]
     }
   },
   {
-    "type": "terrain",
-    "id": "t_tree_alder_harvested",
-    "name": "alder tree",
-    "description": "A deciduous flowering tree with serrate, scalloped, round-obovate leaves, commonly forming dense groves alongside water.",
-    "symbol": "7",
-    "color": [ "green", "green", "green", "brown" ],
-    "move_cost": 0,
-    "coverage": 80,
-    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT" ],
-    "transforms_into": "t_tree_alder",
-    "looks_like": "t_tree_hickory_harvested",
+    "type": "furniture",
+    "id": "f_wintergreen",
+    "name": "wintergreen",
+    "description": "A small shrub native to North America.  The leaves, which remain green even in winter, are valued for medicinal purposes.  It produces edible and sweet berries, too!",
+    "symbol": ",",
+    "looks_like": "f_mutpoppy",
+    "//": "green all year long",
+    "color": "green",
+    "move_cost_mod": 1,
+    "coverage": 20,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "DIGGABLE", "FLAT", "THIN_OBSTACLE", "FLOWER" ],
+    "examine_action": "harvest_furn_nectar",
+    "harvest_by_season": [ { "seasons": [ "autumn", "winter" ], "id": "wintergreen_harv" } ],
     "bash": {
-      "str_min": 80,
-      "str_max": 180,
-      "sound": "crunch!",
-      "sound_fail": "whack!",
-      "ter_set": "t_dirt",
-      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ]
+      "str_min": 2,
+      "str_max": 6,
+      "sound": "crunch.",
+      "sound_fail": "whish.",
+      "items": [ { "item": "withered", "prob": 50, "count": [ 1, 2 ] } ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_japanese_knotweed",
+    "name": "Japanese knotweed",
+    "description": "An invasive species originating from Japan.  The stem looks like it might contain some water.",
+    "symbol": ",",
+    "looks_like": "f_cattails",
+    "color": [ "brown_green", "green", "green", "brown" ],
+    "move_cost_mod": 3,
+    "coverage": 70,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "DIGGABLE", "FLAT", "THIN_OBSTACLE", "SHRUB" ],
+    "examine_action": "harvest_furn_nectar",
+    "harvest_by_season": [ { "seasons": [ "spring" ], "id": "japanese_knotweed_harv" } ],
+    "bash": {
+      "str_min": 2,
+      "str_max": 6,
+      "sound": "crunch.",
+      "sound_fail": "whish.",
+      "items": [ { "item": "withered", "prob": 50, "count": [ 1, 2 ] }, { "item": "leaves", "count": [ 2, 4 ] } ]
     }
   },
   {
@@ -340,7 +427,11 @@
       "str_max": 180,
       "sound": "crunch!",
       "sound_fail": "whack!",
-      "items": [ { "item": "stick_long", "count": [ 2, 3 ] }, { "item": "splinter", "count": [ 5, 10 ] } ]
+      "items": [
+        { "item": "stick_long", "count": [ 2, 3 ] },
+        { "item": "splinter", "count": [ 5, 10 ] },
+        { "item": "leaves", "count": [ 5, 8 ] }
+      ]
     }
   },
   {
@@ -361,7 +452,11 @@
       "str_max": 180,
       "sound": "crunch!",
       "sound_fail": "whack!",
-      "items": [ { "item": "stick_long", "count": [ 3, 6 ] }, { "item": "splinter", "count": [ 8, 16 ] } ]
+      "items": [
+        { "item": "stick_long", "count": [ 3, 6 ] },
+        { "item": "splinter", "count": [ 8, 16 ] },
+        { "item": "leaves", "count": [ 7, 10 ] }
+      ]
     }
   },
   {
@@ -381,7 +476,11 @@
       "str_max": 180,
       "sound": "crunch!",
       "sound_fail": "whack!",
-      "items": [ { "item": "stick_long", "count": [ 3, 6 ] }, { "item": "splinter", "count": [ 8, 16 ] } ]
+      "items": [
+        { "item": "stick_long", "count": [ 3, 6 ] },
+        { "item": "splinter", "count": [ 8, 16 ] },
+        { "item": "leaves", "count": [ 7, 10 ] }
+      ]
     }
   },
   {
@@ -401,7 +500,11 @@
       "str_max": 180,
       "sound": "crunch!",
       "sound_fail": "whack!",
-      "items": [ { "item": "stick_long", "count": [ 3, 6 ] }, { "item": "splinter", "count": [ 8, 16 ] } ]
+      "items": [
+        { "item": "stick_long", "count": [ 3, 6 ] },
+        { "item": "splinter", "count": [ 8, 16 ] },
+        { "item": "leaves", "count": [ 7, 10 ] }
+      ]
     }
   },
   {
@@ -421,7 +524,11 @@
       "str_max": 180,
       "sound": "crunch!",
       "sound_fail": "whack!",
-      "items": [ { "item": "stick_long", "count": [ 3, 6 ] }, { "item": "splinter", "count": [ 8, 16 ] } ]
+      "items": [
+        { "item": "stick_long", "count": [ 3, 6 ] },
+        { "item": "splinter", "count": [ 8, 16 ] },
+        { "item": "leaves", "count": [ 7, 10 ] }
+      ]
     }
   }
 ]

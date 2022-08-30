@@ -31,9 +31,11 @@
 #include "point.h"
 #include "regional_settings.h"
 #include "rng.h"
+#include "submap.h"
 #include "trap.h"
 #include "vehicle_group.h"
 #include "weighted_list.h"
+#include "creature_tracker.h"
 
 static const item_group_id Item_spawn_data_field( "field" );
 static const item_group_id Item_spawn_data_forest_trail( "forest_trail" );
@@ -236,11 +238,9 @@ void mapgen_crater( mapgendata &dat )
             if( rng( 0, dat.w_fac ) <= i && rng( 0, dat.e_fac ) <= SEEX * 2 - 1 - i &&
                 rng( 0, dat.n_fac ) <= j && rng( 0, dat.s_fac ) <= SEEX * 2 - 1 - j ) {
                 m->ter_set( point( i, j ), t_dirt );
-                m->make_rubble( tripoint( i,  j, m->get_abs_sub().z ), f_rubble_rock, true );
-                m->set_radiation( point( i, j ), rng( 0, 4 ) * rng( 0, 2 ) );
+                m->make_rubble( tripoint( i,  j, m->get_abs_sub().z() ), f_rubble_rock, true );
             } else {
                 m->ter_set( point( i, j ), dat.groundcover() );
-                m->set_radiation( point( i, j ), rng( 0, 2 ) * rng( 0, 2 ) * rng( 0, 2 ) );
             }
         }
     }
@@ -329,8 +329,8 @@ void mapgen_hive( mapgendata &dat )
                         m->ter_set( point( i + k, j + l ), t_floor_wax );
                     }
                 }
-                m->add_spawn( mon_bee, 2, { i, j, m->get_abs_sub().z } );
-                m->add_spawn( mon_beekeeper, 1, { i, j, m->get_abs_sub().z } );
+                m->add_spawn( mon_bee, 2, { i, j, m->get_abs_sub().z() } );
+                m->add_spawn( mon_beekeeper, 1, { i, j, m->get_abs_sub().z() } );
                 m->ter_set( point( i, j - 3 ), t_floor_wax );
                 m->ter_set( point( i, j + 3 ), t_floor_wax );
                 m->ter_set( point( i - 1, j - 2 ), t_floor_wax );
@@ -461,7 +461,7 @@ void mapgen_hive( mapgendata &dat )
 int terrain_type_to_nesw_array( oter_id terrain_type, bool array[4] )
 {
     // count and mark which directions the road goes
-    const auto &oter( *terrain_type );
+    const oter_t &oter( *terrain_type );
     int num_dirs = 0;
     for( const om_direction::type dir : om_direction::all ) {
         num_dirs += ( array[static_cast<int>( dir )] = oter.has_connection( dir ) );
@@ -965,7 +965,7 @@ void mapgen_road( mapgendata &dat )
                          dat.monster_density() );
         // 1 per 10 overmaps
         if( one_in( 10000 ) ) {
-            m->add_spawn( mon_zombie_jackson, 1, { SEEX, SEEY, m->get_abs_sub().z } );
+            m->add_spawn( mon_zombie_jackson, 1, { SEEX, SEEY, m->get_abs_sub().z() } );
         }
     }
 
@@ -1474,7 +1474,7 @@ void mapgen_highway( mapgendata &dat )
 }
 
 // mapgen_railroad
-// TODO: Refactor and combine with other similiar functions (e.g. road).
+// TODO: Refactor and combine with other similar functions (e.g. road).
 void mapgen_railroad( mapgendata &dat )
 {
     map *const m = &dat.m;
@@ -2156,7 +2156,7 @@ void mapgen_forest( mapgendata &dat )
     * biome to forests so that forests don't fade out as they transition to roads).
     *
     * @param ot The type of terrain to determine the sparseness of.
-    * @return A discrete scale of the density of natural features occuring in \p ot.
+    * @return A discrete scale of the density of natural features occurring in \p ot.
     */
     const auto get_sparseness_adjacency_factor = [&dat]( const oter_id & ot ) {
         const auto biome = dat.region.forest_composition.biomes.find( ot );
@@ -2417,7 +2417,7 @@ void mapgen_forest( mapgendata &dat )
     * Determines the groundcover that should be placed at a furniture-less point in a forest.
     *
     * Similar to the get_feathered_feature lambda with a different weighting algorithm,
-    * which favors the biome of this terrain over that of ajacent ones by fixed margin.
+    * which favors the biome of this terrain over that of adjacent ones by fixed margin.
     * Only selects groundcover, rather than biome-appropriate furniture.
     *
     * @return The groundcover to be placed at the specified point in the forest.
@@ -2738,7 +2738,8 @@ void mapgen_lake_shore( mapgendata &dat )
             oter_id match = adjacent;
 
             // Check if this terrain has an alias to something we actually will extend, and if so, use it.
-            for( const auto &alias : dat.region.overmap_lake.shore_extendable_overmap_terrain_aliases ) {
+            for( const shore_extendable_overmap_terrain_alias &alias :
+                 dat.region.overmap_lake.shore_extendable_overmap_terrain_aliases ) {
                 if( is_ot_match( alias.overmap_terrain, adjacent, alias.match_type ) ) {
                     match = alias.alias;
                     break;
@@ -2817,7 +2818,7 @@ void mapgen_lake_shore( mapgendata &dat )
 
     // I'm pretty unhappy with this block of if statements that follows, but got frustrated/sidetracked
     // in finding a more elegant solution. This is functional, but improvements that maintain the result
-    // are welcome. The basic jist is as follows:
+    // are welcome. The basic gist is as follows:
     //
     // Given our current location and the 8 adjacent locations, we classify them all as lake, lake shore,
     // river bank, or something else that we don't care about. We then create a polygon with four points,
@@ -3051,7 +3052,7 @@ void mapgen_lake_shore( mapgendata &dat )
     // be in the location as a result of our extending adjacent mapgen.
     const auto draw_shallow_water = [&]( const point & from, const point & to ) {
         std::vector<point> points = line_to( from, to );
-        for( auto &p : points ) {
+        for( point &p : points ) {
             for( const point &bp : closest_points_first( p, 1 ) ) {
                 if( !map_boundaries.contains( bp ) ) {
                     continue;
@@ -3102,7 +3103,7 @@ void mapgen_lake_shore( mapgendata &dat )
     const auto fill_deep_water = [&]( const point & starting_point ) {
         std::vector<point> water_points = ff::point_flood_fill_4_connected( starting_point, visited,
                                           should_fill );
-        for( auto &wp : water_points ) {
+        for( point &wp : water_points ) {
             m->ter_set( wp, t_water_dp );
             m->furn_set( wp, f_null );
         }
@@ -3134,10 +3135,12 @@ void mapgen_lake_shore( mapgendata &dat )
 void mapgen_ravine_edge( mapgendata &dat )
 {
     map *const m = &dat.m;
+    // A solid chunk of z layer appropriate wall or floor is first generated to carve the cliffside off from
     if( dat.zlevel() == 0 ) {
         dat.fill_groundcover();
     } else {
-        m->draw_fill_background( t_rock );
+        run_mapgen_func( dat.region.default_oter[ OVERMAP_DEPTH + dat.zlevel() ].id()->get_mapgen_id(),
+                         dat );
     }
 
     const auto is_ravine = [&]( const oter_id & id ) {
@@ -3147,7 +3150,7 @@ void mapgen_ravine_edge( mapgendata &dat )
     const auto is_ravine_edge = [&]( const oter_id & id ) {
         return id.obj().is_ravine_edge();
     };
-    // Since this terrain is directionless, we look at its inmediate neighbors to determine whether a straight
+    // Since this terrain is directionless, we look at its immediate neighbors to determine whether a straight
     // or curved ravine edge should be generated. And to then apply the correct rotation.
     const bool n_ravine  = is_ravine( dat.north() );
     const bool e_ravine  = is_ravine( dat.east() );
@@ -3224,22 +3227,38 @@ void mapgen_ravine_edge( mapgendata &dat )
     }
 }
 
-void mremove_trap( map *m, const point &p )
+void mremove_trap( map *m, const point &p, trap_id type )
 {
-    tripoint actual_location( p, m->get_abs_sub().z );
-    m->remove_trap( actual_location );
+    tripoint actual_location( p, m->get_abs_sub().z() );
+    const trap_id trap_at_loc = m->maptile_at( actual_location ).get_trap().id();
+    if( type == tr_null || trap_at_loc == type ) {
+        m->remove_trap( actual_location );
+    }
 }
 
-void mtrap_set( map *m, const point &p, trap_id type )
+void mtrap_set( map *m, const point &p, trap_id type, bool avoid_creatures )
 {
-    tripoint actual_location( p, m->get_abs_sub().z );
+    if( avoid_creatures ) {
+        Creature *c = get_creature_tracker().creature_at( tripoint_abs_ms( m->getabs( tripoint( p,
+                      m->get_abs_sub().z() ) ) ), true );
+        if( c ) {
+            return;
+        }
+    }
+    tripoint actual_location( p, m->get_abs_sub().z() );
     m->trap_set( actual_location, type );
 }
 
 void madd_field( map *m, const point &p, field_type_id type, int intensity )
 {
-    tripoint actual_location( p, m->get_abs_sub().z );
+    tripoint actual_location( p, m->get_abs_sub().z() );
     m->add_field( actual_location, type, intensity, 0_turns );
+}
+
+void mremove_fields( map *m, const point &p )
+{
+    tripoint actual_location( p, m->get_abs_sub().z() );
+    m->clear_fields( actual_location );
 }
 
 void resolve_regional_terrain_and_furniture( const mapgendata &dat )

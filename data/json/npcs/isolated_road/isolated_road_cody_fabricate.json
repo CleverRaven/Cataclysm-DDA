@@ -1,0 +1,346 @@
+[
+  {
+    "id": "TALK_BLACKSMITH_NOT_INTERESTED_FABRICATE",
+    "//": "If you haven't completed the opening quest yet Cody will blow you off",
+    "type": "talk_topic",
+    "dynamic_line": [
+      "Sorry, I don't really have the time to work on something like that.  I've got lots of pieces for sale on the shelves."
+    ],
+    "responses": [ { "text": "Alright.", "topic": "TALK_BLACKSMITH_SERVICES" } ]
+  },
+  {
+    "id": "TALK_BLACKSMITH_FABRICATE",
+    "//": "this is all the dialogue related to working on armor with Cody",
+    "type": "talk_topic",
+    "dynamic_line": [
+      "Sure.  After what you did for me, I'd equip an army for you.  I'll need some money to negotiate with the caravans and scavengers that come by.  What level of protection are you thinking?  I can do 2mm, 4mm, and 6mm suits depending on how much you want to resemble a tank.  Materials costs are 100 merch per 2mm.  Whatever I save in non-scaling bits like the chain and leather, I get gouged in looking for so much bulk metal."
+    ],
+    "responses": [
+      { "text": "Forget it.", "topic": "TALK_BLACKSMITH_SERVICES" },
+      {
+        "text": "[100 merch, 2mm] I like to stay light.",
+        "condition": { "u_has_items": { "item": "FMCNote", "count": 100 } },
+        "effect": [ { "u_add_var": "blacksmith_thickness", "type": "number", "context": "artisans", "value": "2" } ],
+        "topic": "TALK_BLACKSMITH_FABRICATE_TYPE"
+      },
+      {
+        "text": "[200 merch, 4mm] A middle ground would be good.",
+        "condition": { "u_has_items": { "item": "FMCNote", "count": 200 } },
+        "effect": [ { "u_add_var": "blacksmith_thickness", "type": "number", "context": "artisans", "value": "4" } ],
+        "topic": "TALK_BLACKSMITH_FABRICATE_TYPE"
+      },
+      {
+        "text": "[300 merch, 6mm] Never skimp on protection.",
+        "condition": { "u_has_items": { "item": "FMCNote", "count": 300 } },
+        "effect": [ { "u_add_var": "blacksmith_thickness", "type": "number", "context": "artisans", "value": "6" } ],
+        "topic": "TALK_BLACKSMITH_FABRICATE_TYPE"
+      }
+    ]
+  },
+  {
+    "id": "TALK_BLACKSMITH_FABRICATE_TYPE",
+    "//": "this is all the dialogue related to working on armor with Cody",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "u_has_var": "blacksmith_crafting_EXODII",
+      "type": "dialogue",
+      "context": "artisans",
+      "value": "yes",
+      "yes": "Alright, <u_val:number_artisans_blacksmith_thickness>mm, so the next question is time.  Currently, it's the classic problem: if you want quality, you gotta wait.  Two processes I could offer that you would be hard-pressed to find anywhere else are either really great high carbon steel, or I can go through the lengthy process of tempering.  High carbon will take three weeks to process and do the work, and tempering will take me four.  For five I could, I think, create a suit of that nomad armor.  It would incorporate climate control, help you support more weight, and it'll have a jumpsuit built in, but you won't be able to wear normal clothes with it.",
+      "no": "Alright, <u_val:number_artisans_blacksmith_thickness>mm, so the next question is time.  Currently, it's the classic problem: if you want quality, you gotta wait.  Two processes I could offer that you would be hard-pressed to find anywhere else are either really great high carbon steel, or I can go through the lengthy process of tempering.  High carbon will take three weeks to process and do the work, and tempering will take me four."
+    },
+    "responses": [
+      { "text": "Forget it.", "topic": "TALK_BLACKSMITH_SERVICES" },
+      {
+        "text": "[3 weeks, great protection] High carbon steel sounds great.",
+        "effect": [ { "u_add_var": "blacksmith_wait", "type": "number", "context": "artisans", "value": "3" } ],
+        "topic": "TALK_BLACKSMITH_FABRICATE_MEASUREMENTS"
+      },
+      {
+        "text": "[4 weeks, exceptional protection] I'll wait for the best you can do.",
+        "effect": [ { "u_add_var": "blacksmith_wait", "type": "number", "context": "artisans", "value": "4" } ],
+        "topic": "TALK_BLACKSMITH_FABRICATE_MEASUREMENTS"
+      },
+      {
+        "text": "[5 weeks, CBM-integrated protection] I'd like nomad armor.",
+        "condition": { "u_has_var": "blacksmith_has_exodii_items", "type": "dialogue", "context": "artisans", "value": "yes" },
+        "effect": [ { "u_add_var": "blacksmith_wait", "type": "number", "context": "artisans", "value": "5" } ],
+        "topic": "TALK_BLACKSMITH_FABRICATE_MEASUREMENTS"
+      }
+    ]
+  },
+  {
+    "id": "EOC_blacksmith_crafting_armor",
+    "type": "effect_on_condition",
+    "effect": [
+      { "u_add_var": "u_current_project", "type": "dialogue", "context": "artisans", "value": "armor" },
+      { "u_add_var": "blacksmith_crafting", "type": "dialogue", "context": "artisans", "value": "yes" },
+      { "u_add_var": "u_waiting_on_armor", "type": "timer", "context": "artisans", "time": true },
+      { "u_assign_activity": "ACT_MEASURE", "duration": "10 minutes" }
+    ]
+  },
+  {
+    "id": "TALK_BLACKSMITH_FABRICATE_MEASUREMENTS",
+    "//": "this is all the dialogue related to working on armor with Cody",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "u_compare_var": "blacksmith_wait",
+      "type": "number",
+      "context": "artisans",
+      "op": "==",
+      "value": 3,
+      "yes": "Alright, so it'll be <u_val:number_artisans_blacksmith_thickness>mm armor made of the best high carbon steel a woman can scavenge.  If you're good with that, I'll take the merch up front and we can start taking some very invasive measurements.",
+      "no": {
+        "u_compare_var": "blacksmith_wait",
+        "type": "number",
+        "context": "artisans",
+        "op": "==",
+        "value": 4,
+        "yes": "Alright, so it'll be <u_val:number_artisans_blacksmith_thickness>mm armor made with some of the best fabrication techniques the world has ever seen.  If you're good with that, I'll take the merch up front and we can start taking some very invasive measurements.",
+        "no": "Alright, so it'll be <u_val:number_artisans_blacksmith_thickness>mm armor made with some of the best fabrication techniques the world has ever seen, as well as help from some extradimensional friends.  I'd be lying if I said I wasn't excited.  If you're good with that, I'll take the merch up front and we can start taking some very invasive measurements."
+      }
+    },
+    "responses": [
+      { "text": "Forget it.", "topic": "TALK_BLACKSMITH_SERVICES" },
+      {
+        "text": "[100 merch] Sounds good.  See you in <u_val:number_artisans_blacksmith_wait> weeks.",
+        "condition": {
+          "and": [
+            { "u_has_items": { "item": "FMCNote", "count": 100 } },
+            { "u_has_var": "blacksmith_thickness", "type": "number", "context": "artisans", "value": "2" }
+          ]
+        },
+        "effect": [ { "u_sell_item": "FMCNote", "count": 100, "true_eocs": "EOC_blacksmith_crafting_armor" } ],
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "[200 merch] Sounds good.  See you in <u_val:number_artisans_blacksmith_wait> weeks.",
+        "condition": {
+          "and": [
+            { "u_has_items": { "item": "FMCNote", "count": 200 } },
+            { "u_has_var": "blacksmith_thickness", "type": "number", "context": "artisans", "value": "4" }
+          ]
+        },
+        "effect": [ { "u_sell_item": "FMCNote", "count": 200, "true_eocs": "EOC_blacksmith_crafting_armor" } ],
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "[300 merch] Sounds good.  See you in <u_val:number_artisans_blacksmith_wait> weeks.",
+        "condition": {
+          "and": [
+            { "u_has_items": { "item": "FMCNote", "count": 300 } },
+            { "u_has_var": "blacksmith_thickness", "type": "number", "context": "artisans", "value": "6" }
+          ]
+        },
+        "effect": [ { "u_sell_item": "FMCNote", "count": 300, "true_eocs": "EOC_blacksmith_crafting_armor" } ],
+        "topic": "TALK_DONE"
+      }
+    ]
+  },
+  {
+    "id": "TALK_BLACKSMITH_ARMOR_READY",
+    "//": "this is dialogue to pickup the armor",
+    "type": "talk_topic",
+    "dynamic_line": [ "It's all done!  Sorry for the long wait; hopefully it's worth it.  If you need it refitted, let me know." ],
+    "responses": [
+      {
+        "text": "Thanks.",
+        "condition": {
+          "and": [
+            { "u_has_var": "blacksmith_wait", "type": "number", "context": "artisans", "value": "3" },
+            { "u_has_var": "blacksmith_thickness", "type": "number", "context": "artisans", "value": "2" }
+          ]
+        },
+        "effect": [
+          { "u_spawn_item": "armor_hc_lightplate" },
+          { "u_add_var": "blacksmith_crafting", "type": "dialogue", "context": "artisans", "value": "no" },
+          { "u_add_var": "u_current_project", "type": "dialogue", "context": "artisans", "value": "none" }
+        ],
+        "topic": "TALK_BLACKSMITH_SERVICES"
+      },
+      {
+        "text": "Thanks.",
+        "condition": {
+          "and": [
+            { "u_has_var": "blacksmith_wait", "type": "number", "context": "artisans", "value": "4" },
+            { "u_has_var": "blacksmith_thickness", "type": "number", "context": "artisans", "value": "2" }
+          ]
+        },
+        "effect": [
+          { "u_spawn_item": "armor_qt_lightplate" },
+          { "u_add_var": "blacksmith_crafting", "type": "dialogue", "context": "artisans", "value": "no" },
+          { "u_add_var": "u_current_project", "type": "dialogue", "context": "artisans", "value": "none" }
+        ],
+        "topic": "TALK_BLACKSMITH_SERVICES"
+      },
+      {
+        "text": "Thanks.",
+        "condition": {
+          "and": [
+            { "u_has_var": "blacksmith_wait", "type": "number", "context": "artisans", "value": "5" },
+            { "u_has_var": "blacksmith_thickness", "type": "number", "context": "artisans", "value": "2" }
+          ]
+        },
+        "effect": [
+          { "u_spawn_item": "armor_nomad_lightplate" },
+          { "u_add_var": "blacksmith_crafting", "type": "dialogue", "context": "artisans", "value": "no" },
+          { "u_add_var": "u_current_project", "type": "dialogue", "context": "artisans", "value": "none" },
+          { "u_lose_var": "blacksmith_has_exodii_items", "type": "dialogue", "context": "artisans" }
+        ],
+        "topic": "TALK_BLACKSMITH_SERVICES"
+      },
+      {
+        "text": "Thanks.",
+        "condition": {
+          "and": [
+            { "u_has_var": "blacksmith_wait", "type": "number", "context": "artisans", "value": "3" },
+            { "u_has_var": "blacksmith_thickness", "type": "number", "context": "artisans", "value": "4" }
+          ]
+        },
+        "effect": [
+          { "u_spawn_item": "armor_hc_plate" },
+          { "u_add_var": "blacksmith_crafting", "type": "dialogue", "context": "artisans", "value": "no" },
+          { "u_add_var": "u_current_project", "type": "dialogue", "context": "artisans", "value": "none" }
+        ],
+        "topic": "TALK_BLACKSMITH_SERVICES"
+      },
+      {
+        "text": "Thanks.",
+        "condition": {
+          "and": [
+            { "u_has_var": "blacksmith_wait", "type": "number", "context": "artisans", "value": "4" },
+            { "u_has_var": "blacksmith_thickness", "type": "number", "context": "artisans", "value": "4" }
+          ]
+        },
+        "effect": [
+          { "u_spawn_item": "armor_qt_plate" },
+          { "u_add_var": "blacksmith_crafting", "type": "dialogue", "context": "artisans", "value": "no" },
+          { "u_add_var": "u_current_project", "type": "dialogue", "context": "artisans", "value": "none" }
+        ],
+        "topic": "TALK_BLACKSMITH_SERVICES"
+      },
+      {
+        "text": "Thanks.",
+        "condition": {
+          "and": [
+            { "u_has_var": "blacksmith_wait", "type": "number", "context": "artisans", "value": "5" },
+            { "u_has_var": "blacksmith_thickness", "type": "number", "context": "artisans", "value": "4" }
+          ]
+        },
+        "effect": [
+          { "u_spawn_item": "armor_nomad_plate" },
+          { "u_add_var": "blacksmith_crafting", "type": "dialogue", "context": "artisans", "value": "no" },
+          { "u_add_var": "u_current_project", "type": "dialogue", "context": "artisans", "value": "none" },
+          { "u_lose_var": "blacksmith_has_exodii_items", "type": "dialogue", "context": "artisans" }
+        ],
+        "topic": "TALK_BLACKSMITH_SERVICES"
+      },
+      {
+        "text": "Thanks.",
+        "condition": {
+          "and": [
+            { "u_has_var": "blacksmith_wait", "type": "number", "context": "artisans", "value": "3" },
+            { "u_has_var": "blacksmith_thickness", "type": "number", "context": "artisans", "value": "6" }
+          ]
+        },
+        "effect": [
+          { "u_spawn_item": "armor_hc_heavyplate" },
+          { "u_add_var": "blacksmith_crafting", "type": "dialogue", "context": "artisans", "value": "no" },
+          { "u_add_var": "u_current_project", "type": "dialogue", "context": "artisans", "value": "none" }
+        ],
+        "topic": "TALK_BLACKSMITH_SERVICES"
+      },
+      {
+        "text": "Thanks.",
+        "condition": {
+          "and": [
+            { "u_has_var": "blacksmith_wait", "type": "number", "context": "artisans", "value": "4" },
+            { "u_has_var": "blacksmith_thickness", "type": "number", "context": "artisans", "value": "6" }
+          ]
+        },
+        "effect": [
+          { "u_spawn_item": "armor_qt_heavyplate" },
+          { "u_add_var": "blacksmith_crafting", "type": "dialogue", "context": "artisans", "value": "no" },
+          { "u_add_var": "u_current_project", "type": "dialogue", "context": "artisans", "value": "none" }
+        ],
+        "topic": "TALK_BLACKSMITH_SERVICES"
+      },
+      {
+        "text": "Thanks.",
+        "condition": {
+          "and": [
+            { "u_has_var": "blacksmith_wait", "type": "number", "context": "artisans", "value": "5" },
+            { "u_has_var": "blacksmith_thickness", "type": "number", "context": "artisans", "value": "6" }
+          ]
+        },
+        "effect": [
+          { "u_spawn_item": "armor_nomad_heavyplate" },
+          { "u_add_var": "blacksmith_crafting", "type": "dialogue", "context": "artisans", "value": "no" },
+          { "u_add_var": "u_current_project", "type": "dialogue", "context": "artisans", "value": "none" },
+          { "u_lose_var": "blacksmith_has_exodii_items", "type": "dialogue", "context": "artisans" }
+        ],
+        "topic": "TALK_BLACKSMITH_SERVICES"
+      }
+    ]
+  },
+  {
+    "id": "TALK_BLACKSMITH_ARMOR_NOT_READY",
+    "//": "this is dialogue if your armor isn't ready to pickup",
+    "type": "talk_topic",
+    "dynamic_line": [ "Still working on it." ],
+    "responses": [
+      { "text": "Thanks.", "topic": "TALK_BLACKSMITH_SERVICES" },
+      { "text": "See you when it's done.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_BLACKSMITH_PROTOTYPE_EXODII",
+    "//": "this is dialogue for sharing EXODII secrets",
+    "type": "talk_topic",
+    "dynamic_line": [
+      "Oh wow, this is really interesting, huh?  The way they balance weight for travel is genius.  If you wanted a real suit of armor for a traveling warrior, I think I could do it with this.  I'll need one of each of these wire kits, though, for each set I make.  Bring some to me if you want me to use them."
+    ],
+    "responses": [
+      {
+        "text": "I have some right now.  [Hand over a CBM interface wire kit and an external climate control kit.]",
+        "condition": { "and": [ { "u_has_item": "exodii_ac_kit" }, { "u_has_item": "exodii_wire_kit" } ] },
+        "effect": [
+          { "u_add_var": "blacksmith_has_exodii_items", "type": "dialogue", "context": "artisans", "value": "yes" },
+          { "u_consume_item": "exodii_ac_kit", "count": 1, "popup": true },
+          { "u_consume_item": "exodii_wire_kit", "count": 1, "popup": true }
+        ],
+        "topic": "TALK_BLACKSMITH_PROTOTYPE_EXODII_ITEMS_READY"
+      },
+      {
+        "text": "I'll try and find some.",
+        "effect": [ { "u_add_var": "blacksmith_crafting_EXODII", "type": "dialogue", "context": "artisans", "value": "yes" } ],
+        "topic": "TALK_BLACKSMITH_SERVICES"
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_BLACKSMITH_PROTOTYPE_EXODII_ITEMS",
+    "dynamic_line": [
+      "Yeah; the designs you showed me call for 'em.  Not sure what they are myself, but the pictures are real descriptive about how to use them.  To make anything, I'll need one of each of those wire kits.  Got any?"
+    ],
+    "responses": [
+      {
+        "text": "Here you go.  [Hand over a CBM interface wire kit and an external climate control kit.]",
+        "condition": { "and": [ { "u_has_item": "exodii_ac_kit" }, { "u_has_item": "exodii_wire_kit" } ] },
+        "effect": [
+          { "u_add_var": "blacksmith_has_exodii_items", "type": "dialogue", "context": "artisans", "value": "yes" },
+          { "u_consume_item": "exodii_ac_kit", "count": 1, "popup": true },
+          { "u_consume_item": "exodii_wire_kit", "count": 1, "popup": true }
+        ],
+        "topic": "TALK_BLACKSMITH_PROTOTYPE_EXODII_ITEMS_READY"
+      },
+      { "text": "Not right now.", "topic": "TALK_BLACKSMITH_SERVICES" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_BLACKSMITH_PROTOTYPE_EXODII_ITEMS_READY",
+    "dynamic_line": [ "Thanks, sugar!  If you ever have me make some armor, just let me know if you want me to use these in it." ]
+  }
+]

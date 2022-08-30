@@ -1,0 +1,58 @@
+[
+  {
+    "result": "rubber_cement",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_CHEM",
+    "subcategory": "CSC_CHEM_OTHER",
+    "skill_used": "chemistry",
+    "difficulty": 3,
+    "time": "20 m",
+    "autolearn": true,
+    "qualities": [ { "id": "CHEM", "level": 1 } ],
+    "tools": [ [ [ "food_processor", 20 ] ] ],
+    "components": [
+      [ [ "chem_acetone", 1 ], [ "chem_chloroform", 250 ], [ "ammonia_liquid", 1 ] ],
+      [ [ "chem_ethanol", 10 ], [ "denat_alcohol", 10 ], [ "methed_alcohol", 10 ], [ "chem_methanol", 10 ] ],
+      [
+        [ "balloon", 2 ],
+        [ "condom", 2 ],
+        [ "gloves_medical", 2 ],
+        [ "chunk_rubber", 1 ],
+        [ "latex", 2 ],
+        [ "gum", 20 ],
+        [ "sheet_neoprene", 11 ],
+        [ "scrap_neoprene", 16 ],
+        [ "neoprene", 1 ]
+      ]
+    ]
+  },
+  {
+    "result": "rubber_cement",
+    "id_suffix": "by_hand",
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_CHEM",
+    "subcategory": "CSC_CHEM_OTHER",
+    "skill_used": "chemistry",
+    "difficulty": 3,
+    "time": "6 h",
+    "autolearn": true,
+    "qualities": [ { "id": "CHEM", "level": 1 } ],
+    "components": [
+      [ [ "chem_acetone", 1 ], [ "chem_chloroform", 250 ], [ "ammonia_liquid", 1 ] ],
+      [ [ "chem_ethanol", 10 ], [ "denat_alcohol", 10 ], [ "methed_alcohol", 10 ], [ "chem_methanol", 10 ] ],
+      [
+        [ "balloon", 2 ],
+        [ "condom", 2 ],
+        [ "gloves_medical", 2 ],
+        [ "chunk_rubber", 1 ],
+        [ "latex", 2 ],
+        [ "gum", 20 ],
+        [ "sheet_neoprene", 11 ],
+        [ "scrap_neoprene", 16 ],
+        [ "neoprene", 1 ]
+      ]
+    ]
+  }
+]

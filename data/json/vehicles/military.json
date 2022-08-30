@@ -722,8 +722,8 @@
     "blueprint": [ "HUH" ],
     "parts": [
       { "x": 0, "y": 0, "parts": [ "frame_wood", "turret_mount", "mounted_3in_ordnance_rifle" ] },
-      { "x": -1, "y": 0, "parts": [ "frame_wood", "wheel_mount_wood", "wheel_wood" ] },
-      { "x": 1, "y": 0, "parts": [ "frame_wood", "wheel_mount_wood", "wheel_wood" ] }
+      { "x": 0, "y": -1, "parts": [ "frame_wood", "wheel_mount_wood", "wheel_wood" ] },
+      { "x": 0, "y": 1, "parts": [ "frame_wood", "wheel_mount_wood", "wheel_wood" ] }
     ]
   },
   {
@@ -733,8 +733,8 @@
     "blueprint": [ "HUH" ],
     "parts": [
       { "x": 0, "y": 0, "parts": [ "frame_wood", "turret_mount", "plugged_3in_ordnance_rifle" ] },
-      { "x": -1, "y": 0, "parts": [ "frame_wood", "wheel_mount_wood", "wheel_wood" ] },
-      { "x": 1, "y": 0, "parts": [ "frame_wood", "wheel_mount_wood", "wheel_wood" ] }
+      { "x": 0, "y": -1, "parts": [ "frame_wood", "wheel_mount_wood", "wheel_wood" ] },
+      { "x": 0, "y": 1, "parts": [ "frame_wood", "wheel_mount_wood", "wheel_wood" ] }
     ]
   }
 ]

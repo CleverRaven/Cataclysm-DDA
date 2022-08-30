@@ -62,7 +62,8 @@ TEST_CASE( "coordinate_operations", "[point][coords]" )
     SECTION( "addition" ) {
         tripoint t0 = GENERATE( take( num_trials, random_tripoints() ) );
         point p0 = t0.xy();
-        point p1 = GENERATE( take( num_trials, random_points() ) );
+        tripoint t1 = GENERATE( take( num_trials, random_tripoints() ) );
+        point p1 = t1.xy();
         CAPTURE( p0, p1 );
         tripoint_abs_ms abst0( t0 );
         point_abs_ms abs0( p0 );
@@ -85,6 +86,12 @@ TEST_CASE( "coordinate_operations", "[point][coords]" )
         SECTION( "rel + abs -> abs" ) {
             point_abs_ms sum = rel1 + abs0;
             CHECK( sum.raw() == p0 + p1 );
+        }
+        SECTION( "raw + abs -> abs" ) {
+            point_abs_ms sum = p1 + abs0;
+            CHECK( sum.raw() == p0 + p1 );
+            tripoint_abs_ms sum_t = t1 + abs0;
+            CHECK( sum_t.raw() == p0 + t1 );
         }
         SECTION( "rel += rel" ) {
             rel0 += rel1;

@@ -72,6 +72,11 @@ TEST_CASE( "repair_vehicle_part" )
         std::vector<item> tools;
         tools.push_back( tool_with_ammo( "welder", 500 ) );
         tools.emplace_back( "goggles_welding" );
+        tools.emplace_back( "hammer" );
+        tools.insert( tools.end(), 100, item( "scrap" ) );
+        tools.insert( tools.end(), 10, item( "material_aluminium_ingot" ) );
+        tools.insert( tools.end(), 50, item( "welding_wire_steel" ) );
+        tools.insert( tools.end(), 50, item( "welding_wire_alloy" ) );
         test_repair( tools, true );
     }
     SECTION( "UPS_modded_welder" ) {
@@ -87,6 +92,11 @@ TEST_CASE( "repair_vehicle_part" )
         tools.push_back( ups );
 
         tools.emplace_back( "goggles_welding" );
+        tools.emplace_back( "hammer" );
+        tools.insert( tools.end(), 100, item( "scrap" ) );
+        tools.insert( tools.end(), 10, item( "material_aluminium_ingot" ) );
+        tools.insert( tools.end(), 50, item( "welding_wire_steel" ) );
+        tools.insert( tools.end(), 50, item( "welding_wire_alloy" ) );
         test_repair( tools, true );
     }
     SECTION( "welder_missing_goggles" ) {
@@ -112,6 +122,12 @@ TEST_CASE( "repair_vehicle_part" )
         ups.put_in( ups_mag, item_pocket::pocket_type::MAGAZINE_WELL );
         tools.push_back( ups );
 
+        tools.emplace_back( "goggles_welding" );
+        test_repair( tools, false );
+    }
+    SECTION( "welder_missing_consumables" ) {
+        std::vector<item> tools;
+        tools.push_back( tool_with_ammo( "welder", 500 ) );
         tools.emplace_back( "goggles_welding" );
         test_repair( tools, false );
     }

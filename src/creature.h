@@ -214,6 +214,7 @@ enum class get_body_part_flags : int {
     none = 0,
     only_main = 1 << 0,
     sorted = 1 << 1,
+    primary_type = 1 << 2,
 };
 
 template<>
@@ -291,7 +292,9 @@ class Creature : public viewer
         virtual bool is_fake() const;
         /** Sets a Creature's fake boolean. */
         virtual void set_fake( bool fake_value );
+        // TODO: fix point types (remove pos() and rename pos_bub() to be the new pos())
         tripoint pos() const;
+        tripoint_bub_ms pos_bub() const;
         inline int posx() const {
             return pos().x;
         }
@@ -324,6 +327,7 @@ class Creature : public viewer
         virtual float hit_roll() const = 0;
         virtual float dodge_roll() const = 0;
         virtual float stability_roll() const = 0;
+        virtual bool can_attack_high() const = 0;
 
         /**
          * Simplified attitude towards any creature:
@@ -372,13 +376,14 @@ class Creature : public viewer
         /*@{*/
         bool sees( const Creature &critter ) const override;
         bool sees( const tripoint &t, bool is_avatar = false, int range_mod = 0 ) const override;
+        bool sees( const tripoint_bub_ms &t, bool is_avatar = false, int range_mod = 0 ) const override;
         /*@}*/
 
         /**
          * How far the creature sees under the given light. Places outside this range can
          * @param light_level See @ref game::light_level.
          */
-        virtual int sight_range( int light_level ) const = 0;
+        virtual int sight_range( float light_level ) const = 0;
 
         /** Returns an approximation of the creature's strength. */
         virtual float power_rating() const = 0;
@@ -483,7 +488,7 @@ class Creature : public viewer
          * @param name Name of the implement used to pull the target.
          * @param p Position of the target creature.
         */
-        void longpull( const std::string name, const tripoint &p );
+        void longpull( const std::string &name, const tripoint &p );
 
         /**
          * This creature just dodged an attack - possibly special/ranged attack - from source.
@@ -511,6 +516,10 @@ class Creature : public viewer
 
         virtual bool has_weapon() const = 0;
         virtual bool is_hallucination() const = 0;
+
+        // returns true if the creature has an electric field
+        virtual bool is_electrical() const = 0;
+
         // returns true if health is zero or otherwise should be dead
         virtual bool is_dead_state() const = 0;
 
@@ -675,6 +684,7 @@ class Creature : public viewer
         virtual int get_armor_bash_bonus() const;
         virtual int get_armor_cut_bonus() const;
         virtual int get_armor_bullet_bonus() const;
+        virtual int get_spell_resist() const;
 
         virtual int get_armor_type( damage_type dt, bodypart_id bp ) const = 0;
 
@@ -736,6 +746,11 @@ class Creature : public viewer
             body_part_type::type part_type,
             get_body_part_flags flags = get_body_part_flags::none ) const;
         bodypart_id get_root_body_part() const;
+        /* Returns all body parts with the given flag */
+        std::vector<bodypart_id> get_all_body_parts_with_flag( const json_character_flag &flag ) const;
+        /* Returns the bodyparts to drench : upper/mid/lower correspond to the appropriate limb flag */
+        body_part_set get_drenching_body_parts( bool upper = true, bool mid = true,
+                                                bool lower = true ) const;
 
         const std::map<bodypart_str_id, bodypart> &get_body() const;
         void set_body();
@@ -1208,6 +1223,7 @@ class Creature : public viewer
         int cut_bonus = 0;
         int size_bonus = 0;
 
+
         float bash_mult = 0.0f;
         float cut_mult = 0.0f;
         bool melee_quiet = false;
@@ -1223,7 +1239,6 @@ class Creature : public viewer
         Creature &operator=( const Creature & );
         Creature &operator=( Creature && ) noexcept;
 
-    protected:
         virtual void on_stat_change( const std::string &, int ) {}
         virtual void on_effect_int_change( const efftype_id &, int, const bodypart_id & ) {}
         virtual void on_damage_of_type( int, damage_type, const bodypart_id & ) {}
@@ -1233,7 +1248,9 @@ class Creature : public viewer
         // This is done this way in order to not destroy focus since `do_aim` is on a per-move basis.
         int archery_aim_counter = 0;
 
-        bodypart_id select_body_part( Creature *source, int hit_roll ) const;
+        // Select a bodypart depending on the attack's hitsize/limb restrictions
+        bodypart_id select_body_part( int min_hit, int max_hit, bool can_attack_high, int hit_roll ) const;
+        bodypart_id select_blocking_part( bool arm, bool leg, bool nonstandard ) const;
         bodypart_id random_body_part( bool main_parts_only = false ) const;
 
         void add_damage_over_time( const damage_over_time_data &DoT );
