@@ -4032,6 +4032,10 @@ ret_val<void> saw_stock_actor::can_use_on( const Character &, const item &,
         return ret_val<void>::make_failure( _( "The stock is already sawn-off." ) );
     }
 
+    if( target.gun_type() == gun_type_type( "pistol" ) ) {
+        return ret_val<void>::make_failure( _( "This gun doesn't have a stock." ) );
+    }
+
     const auto gunmods = target.gunmods();
     const bool modified_stock = std::any_of( gunmods.begin(), gunmods.end(),
     []( const item * mod ) {

@@ -315,7 +315,7 @@ TEST_CASE( "food satiety bar", "[character][food][satiety]" )
     // NOLINTNEXTLINE(cata-text-style): verbatim ellipses necessary for validation
     CHECK( satiety_bar( 1 ) == "<color_c_red>:</color>...." );
     // NOLINTNEXTLINE(cata-text-style): verbatim ellipses necessary for validation
-    CHECK( satiety_bar( 50 ) == "<color_c_red>\\</color>...." );
+    CHECK( satiety_bar( 50 ) == "<color_c_light_red>\\</color>...." );
     // NOLINTNEXTLINE(cata-text-style): verbatim ellipses necessary for validation
     CHECK( satiety_bar( 100 ) == "<color_c_light_red>|</color>...." );
     // NOLINTNEXTLINE(cata-text-style): verbatim ellipses necessary for validation
@@ -328,8 +328,8 @@ TEST_CASE( "food satiety bar", "[character][food][satiety]" )
     CHECK( satiety_bar( 700 ) == "<color_c_light_green>|||</color>.." );
     CHECK( satiety_bar( 800 ) == "<color_c_light_green>|||\\</color>." );
     CHECK( satiety_bar( 900 ) == "<color_c_light_green>|||\\</color>." );
-    CHECK( satiety_bar( 1000 ) == "<color_c_green>||||</color>." );
-    CHECK( satiety_bar( 1100 ) == "<color_c_green>||||</color>." );
+    CHECK( satiety_bar( 1000 ) == "<color_c_light_green>||||</color>." );
+    CHECK( satiety_bar( 1100 ) == "<color_c_light_green>||||</color>." );
     CHECK( satiety_bar( 1200 ) == "<color_c_green>||||</color>." );
     CHECK( satiety_bar( 1300 ) == "<color_c_green>||||\\</color>" );
     CHECK( satiety_bar( 1400 ) == "<color_c_green>||||\\</color>" );

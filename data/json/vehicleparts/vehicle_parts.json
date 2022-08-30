@@ -1178,6 +1178,9 @@
     "item": "inflatable_section",
     "location": "structure",
     "folded_volume": "750 ml",
+    "folding_time": "60 seconds",
+    "unfolding_tools": [ "hand_pump" ],
+    "unfolding_time": "150 seconds",
     "requirements": {
       "install": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "vehicle_screw", 1 ], [ "drilling_standard", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_screw", 1 ] ] },
@@ -1201,6 +1204,9 @@
     "item": "inflatable_airbag",
     "location": "under",
     "folded_volume": "750 ml",
+    "folding_time": "60 seconds",
+    "unfolding_tools": [ "hand_pump" ],
+    "unfolding_time": "150 seconds",
     "requirements": {
       "install": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "vehicle_screw", 1 ], [ "drilling_standard", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_screw", 1 ] ] },

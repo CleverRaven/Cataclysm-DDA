@@ -775,7 +775,7 @@ void vehicle::use_controls( const tripoint &pos )
 
     if( is_foldable() && !remote ) {
         options.emplace_back( string_format( _( "Fold %s" ), name ), keybind( "FOLD_VEHICLE" ) );
-        actions.emplace_back( [&] { fold_up(); } );
+        actions.emplace_back( [&] { start_folding_activity(); } );
     }
 
     if( has_part( "ENGINE" ) ) {
@@ -916,72 +916,9 @@ void vehicle::connect( const tripoint &source_pos, const tripoint &target_pos )
     target_veh->install_part( vcoords, target_part );
 }
 
-bool vehicle::fold_up()
+void vehicle::start_folding_activity()
 {
-    if( !is_foldable() ) {
-        debugmsg( _( "Tried to fold non-folding vehicle %s" ), name );
-        return false;
-    }
-
-    avatar &player_character = get_avatar();
-    if( player_character.controlling_vehicle ) {
-        add_msg( m_warning,
-                 _( "As the pitiless metal bars close on your nether regions, you reconsider trying to fold the %s while riding it." ),
-                 name );
-        return false;
-    }
-
-    if( velocity > 0 ) {
-        add_msg( m_warning, _( "You can't fold the %s while it's in motion." ), name );
-        return false;
-    }
-
-    add_msg( _( "You painstakingly pack the %s into a portable configuration." ), name );
-
-    if( player_character.get_grab_type() != object_type::NONE ) {
-        player_character.grab( object_type::NONE );
-        add_msg( _( "You let go of %s as you fold it." ), name );
-    }
-
-    item folded( "generic_folded_vehicle", calendar::turn );
-
-    map &here = get_map();
-    // Drop stuff in containers on ground
-    for( const vpart_reference &vp : get_any_parts( "CARGO" ) ) {
-        const size_t p = vp.part_index();
-        for( item &elem : get_items( p ) ) {
-            here.add_item_or_charges( player_character.pos(), elem );
-        }
-        while( !get_items( p ).empty() ) {
-            get_items( p ).erase( get_items( p ).begin() );
-        }
-    }
-
-    unboard_all();
-
-    try {
-        std::ostringstream veh_data;
-        JsonOut json( veh_data );
-        json.write( real_parts() );
-        folded.set_var( "folded_parts", veh_data.str() );
-    } catch( const JsonError &e ) {
-        debugmsg( "Error storing vehicle: %s", e.c_str() );
-    }
-
-    folded.set_var( "tracking", tracking_on ? 1 : 0 );
-    folded.set_var( "weight", to_milligram( total_mass() ) );
-    folded.set_var( "volume", total_folded_volume() / units::legacy_volume_factor );
-    folded.set_var( "name", string_format( _( "folded %s" ), name ) );
-    folded.set_var( "vehicle_name", name );
-    // TODO: a better description?
-    folded.set_var( "description", string_format( _( "A folded %s." ), name ) );
-
-    here.add_item_or_charges( global_part_pos3( 0 ), folded );
-    here.destroy_vehicle( this );
-
-    // TODO: make un/folding an activity with time scaling with volume/weight etc
-    player_character.moves -= 500;
-    return true;
+    get_avatar().assign_activity( player_activity( vehicle_folding_activity_actor( *this ) ) );
 }
 
 double vehicle::engine_cold_factor( const int e ) const
@@ -2417,7 +2354,7 @@ void vehicle::interact_with( const vpart_position &vp, bool with_pickup )
             return;
         }
         case FOLD_VEHICLE: {
-            fold_up();
+            start_folding_activity();
             return;
         }
         case HANDBRAKE: {
