@@ -265,6 +265,16 @@
     "upgrades": { "age_grow": 14, "into": "mon_eoraptor" }
   },
   {
+    "id": "mon_sarahsaurus_hatchling",
+    "type": "MONSTER",
+    "name": "sarahsaurus hatchling",
+    "copy-from": "mon_gallimimus_hatchling",
+    "weight": "2 kg",
+    "volume": "2 L",
+    "petfood": { "food": [ "DINOFOOD_C" ] },
+    "upgrades": { "age_grow": 40, "into": "mon_sarahsaurus_juvenile" }
+  },
+  {
     "id": "mon_issi_hatchling",
     "type": "MONSTER",
     "name": "issi hatchling",
@@ -272,7 +282,17 @@
     "weight": "2 kg",
     "volume": "2 L",
     "petfood": { "food": [ "DINOFOOD_C" ] },
-    "upgrades": { "age_grow": 20, "into": "mon_issi_juvenile" }
+    "upgrades": { "age_grow": 40, "into": "mon_issi_juvenile" }
+  },
+  {
+    "id": "mon_haplocanthosaurus_hatchling",
+    "type": "MONSTER",
+    "name": "haplocanthosaurus hatchling",
+    "copy-from": "mon_gallimimus_hatchling",
+    "weight": "4 kg",
+    "volume": "4 L",
+    "petfood": { "food": [ "DINOFOOD_C" ] },
+    "upgrades": { "age_grow": 45, "into": "mon_haplocanthosaurus_juvenile" }
   },
   {
     "id": "mon_amargasaurus_hatchling",
@@ -337,6 +357,14 @@
     "name": "green and magenta hatchling",
     "petfood": { "food": [ "DINOFOOD_C" ] },
     "upgrades": { "age_grow": 30, "into": "mon_stegosaurus_juvenile" }
+  },
+  {
+    "id": "mon_hesperosaurus_hatchling",
+    "type": "MONSTER",
+    "copy-from": "mon_gallimimus_hatchling",
+    "name": "green and magenta hatchling",
+    "petfood": { "food": [ "DINOFOOD_C" ] },
+    "upgrades": { "age_grow": 30, "into": "mon_hesperosaurus_juvenile" }
   },
   {
     "id": "mon_dyoplosaurus_hatchling",
@@ -407,6 +435,12 @@
     "type": "MONSTER",
     "copy-from": "mon_hadrosaurus_hatchling",
     "upgrades": { "age_grow": 50, "into": "mon_edmontosaurus_juvenile" }
+  },
+  {
+    "id": "mon_gryposaurus_hatchling",
+    "type": "MONSTER",
+    "copy-from": "mon_hadrosaurus_hatchling",
+    "upgrades": { "age_grow": 50, "into": "mon_gryposaurus_juvenile" }
   },
   {
     "id": "mon_stegoceras_hatchling",

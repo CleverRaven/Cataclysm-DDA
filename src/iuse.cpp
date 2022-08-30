@@ -490,12 +490,6 @@ cata::optional<std::string> iuse::can_smoke( const Character &you )
     return cata::nullopt;
 }
 
-/* iuse methods return the number of charges expended, which is usually "1", or no value.
- * Returning 0 indicates the item has not been used up, though it may have been successfully activated.
- * 0 may also mean that the consumption and time progress was handled within iuse action.
- * If the item is destroyed here the return value must be 0.
- * A return of cata::nullopt means it was not used at all.
- */
 cata::optional<int> iuse::sewage( Character *p, item *, bool, const tripoint & )
 {
     if( !p->query_yn( _( "Are you sure you want to drink… this?" ) ) ) {
@@ -5456,7 +5450,8 @@ cata::optional<int> iuse::unfold_generic( Character *p, item *it, bool, const tr
     }
 
     p->moves -= it->get_var( "moves", to_turns<int>( 5_seconds ) );
-    return 1;
+    p->i_rem( it );
+    return 0;
 }
 
 cata::optional<int> iuse::adrenaline_injector( Character *p, item *it, bool, const tripoint & )
@@ -8413,8 +8408,8 @@ cata::optional<int> iuse::multicooker( Character *p, item *it, bool t, const tri
                     mealtime = meal->time_to_craft_moves( *p ) * 2;
                 }
 
-                const int all_charges = charges_to_start + ( ( mealtime / 100 ) * ( it->type->tool->power_draw /
-                                        1000 ) ) / 1000;
+                const int all_charges = charges_to_start + mealtime / 100 * units::to_joule(
+                                            it->type->tool->power_draw ) / 1000;
 
                 if( it->ammo_remaining( p ) < all_charges ) {
 
@@ -8894,7 +8889,8 @@ cata::optional<int> iuse::cable_attach( Character *p, item *it, bool, const trip
                                       source_veh->name, target_veh->name );
             }
 
-            return 1; // Let the cable be destroyed.
+            p->i_rem( it );
+            return 0; // Let the cable be destroyed.
         }
     }
 
@@ -9025,8 +9021,8 @@ cata::optional<int> iuse::cord_attach( Character *p, item *it, bool, const tripo
                 p->add_msg_if_player( m_good, _( "You link up the electric systems of the %1$s and the %2$s." ),
                                       source_veh->name, target_veh->name );
             }
-
-            return 1; // Let the cable be destroyed.
+            p->i_rem( it );
+            return 0; // Let the cable be destroyed.
         }
     }
 
@@ -9387,7 +9383,9 @@ cata::optional<int> iuse::ladder( Character *p, item *it, bool, const tripoint &
         here.furn_set( pnt, furn_f_aluminum_stepladder );
     }
 
-    return 1;
+    p->i_rem( it );
+
+    return 0;
 }
 
 washing_requirements washing_requirements_for_volume( const units::volume &vol )

@@ -214,8 +214,10 @@ pixel_minimap::~pixel_minimap() = default;
 
 void pixel_minimap::set_type( pixel_minimap_type type )
 {
-    this->type = type;
-    reset();
+    if( this->type != type ) {
+        this->type = type;
+        reset();
+    }
 }
 
 void pixel_minimap::set_settings( const pixel_minimap_settings &settings )

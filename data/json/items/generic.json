@@ -355,19 +355,21 @@
     "bashing": 1
   },
   {
-    "type": "GENERIC",
+    "type": "COMESTIBLE",
     "id": "mutant_bug_hydrogen_sacs",
-    "category": "spare_parts",
+    "comestible_type": "FOOD",
     "symbol": "o",
     "color": "light_gray",
     "name": { "str": "cluster of gas sacs", "str_pl": "clusters of gas sacs" },
     "description": "This is a cluster of membranous bubbles, each about the size of a grape, retrieved from inside a mutant insect.  They float like tiny helium balloons - perhaps they are full of a lighter-than-air gas.",
     "price": 0,
     "material": [ "flesh" ],
+    "spoils_in": "8 hours",
     "flags": [ "NO_SALVAGE" ],
     "weight": "50 g",
     "volume": "250 ml",
-    "to_hit": -4
+    "to_hit": -4,
+    "fun": -25
   },
   {
     "type": "GENERIC",
@@ -2830,6 +2832,21 @@
     "material": [ "cotton" ],
     "weight": "444 g",
     "volume": "850 ml",
+    "flags": [ "SLEEP_AID" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "shark_plushie",
+    "symbol": "s",
+    "color": "cyan",
+    "name": { "str": "shark plushie" },
+    "description": "A somewhat large, mass produced shark plushie.  Meant to provide comfort to people of all ages.",
+    "price": 600,
+    "price_postapoc": 20,
+    "material": [ "cotton" ],
+    "weight": "1945 g",
+    "volume": "30000 ml",
+    "longest_side": "103 cm",
     "flags": [ "SLEEP_AID" ]
   },
   {

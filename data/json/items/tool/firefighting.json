@@ -78,6 +78,7 @@
         "max_item_length": "76 cm",
         "moves": 150,
         "item_restriction": [ "halligan" ],
+        "description": "Marrying strap for a Halligan bar.",
         "holster": true
       }
     ]

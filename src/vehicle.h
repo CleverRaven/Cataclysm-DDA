@@ -1214,7 +1214,9 @@ class vehicle
         // Returns the location of the vehicle in global overmap terrain coordinates.
         tripoint_abs_omt global_omt_location() const;
         // Returns the coordinates (in map squares) of the vehicle relative to the local map.
+        // Warning: Don't assume this position contains a vehicle part
         tripoint global_pos3() const;
+        // Warning: Don't assume this position contains a vehicle part
         tripoint_bub_ms pos_bub() const;
         /**
          * Get the coordinates of the studied part of the vehicle

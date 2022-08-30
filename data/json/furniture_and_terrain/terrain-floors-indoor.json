@@ -669,7 +669,7 @@
       "str_min_supported": 100,
       "items": [ { "item": "cotton_patchwork", "count": [ 10, 20 ] }, { "item": "nail", "charges": [ 1, 3 ] } ]
     },
-    "deconstruct": { "items": [ { "item": "r_carpet", "count": 1 }, { "item": "nail", "count": [ 2, 5 ] } ], "ter_set": "t_floor" }
+    "deconstruct": { "items": [ { "item": "r_carpet", "count": 1 }, { "item": "nail", "charges": [ 2, 5 ] } ], "ter_set": "t_floor" }
   },
   {
     "type": "terrain",

@@ -1382,7 +1382,7 @@ void talk_function::attack_random( const std::vector<npc_ptr> &attacker,
     }
     const auto att = random_entry( attacker );
     const auto def = random_entry( defender );
-    const skill_id best = att->best_skill();
+    const skill_id best = att->best_combat_skill( combat_skills::NO_GENERAL ).first;
     int best_score = 1;
     if( best ) {
         best_score = att->get_skill_level( best );
@@ -1403,7 +1403,7 @@ int talk_function::combat_score( const std::vector<npc_ptr> &group )
     int score = 0;
     for( const auto &elem : group ) {
         if( elem->get_part_hp_cur( bodypart_id( "torso" ) ) != 0 ) {
-            const skill_id best = elem->best_skill();
+            const skill_id best = elem->best_combat_skill( combat_skills::ALL ).first;
             if( best ) {
                 score += elem->get_skill_level( best );
             } else {
@@ -2333,7 +2333,7 @@ void talk_function::companion_skill_trainer( npc &comp, const std::string &skill
 
     weighted_int_list<skill_id> skill_practice;
     if( skill_tested == "combat" ) {
-        const skill_id best_skill = comp.best_skill();
+        const skill_id best_skill = comp.best_combat_skill( combat_skills::ALL ).first;
         if( best_skill ) {
             skill_practice.add( best_skill, 30 );
         }

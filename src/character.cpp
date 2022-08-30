@@ -6508,11 +6508,11 @@ bool Character::invoke_item( item *used, const std::string &method, const tripoi
 
     if( actually_used->is_comestible() ) {
         const bool ret = consume_effects( *used );
-        actually_used->ammo_consume( charges_used.value(), pt, this );
+        actually_used->activation_consume( charges_used.value(), pt, this );
         return ret;
     }
 
-    actually_used->ammo_consume( charges_used.value(), pt, this );
+    actually_used->activation_consume( charges_used.value(), pt, this );
 
     if( actually_used->has_flag( flag_SINGLE_USE ) || actually_used->is_bionic() ||
         actually_used->is_deployable() ) {
