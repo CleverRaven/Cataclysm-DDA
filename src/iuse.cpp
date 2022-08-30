@@ -8825,8 +8825,7 @@ cata::optional<int> iuse::cable_attach( Character *p, item *it, bool, const trip
                                       source_veh->name, target_veh->name );
             }
 
-            p->i_rem( it );
-            return 0; // Let the cable be destroyed.
+            return 1; // Let the cable be destroyed.
         }
     }
 
@@ -8957,8 +8956,8 @@ cata::optional<int> iuse::cord_attach( Character *p, item *it, bool, const tripo
                 p->add_msg_if_player( m_good, _( "You link up the electric systems of the %1$s and the %2$s." ),
                                       source_veh->name, target_veh->name );
             }
-            p->i_rem( it );
-            return 0; // Let the cable be destroyed.
+
+            return 1; // Let the cable be destroyed.
         }
     }
 
