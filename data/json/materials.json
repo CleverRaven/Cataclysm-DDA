@@ -68,7 +68,7 @@
     "name": "Battery",
     "copy-from": "pseudo_fuel",
     "//": "This gives battery item 1 kJ/unit",
-    "fuel_data": { "energy": "100 kJ" }
+    "fuel_data": { "energy": "1000 kJ" }
   },
   {
     "type": "material",

@@ -1495,8 +1495,8 @@ void Character::burn_fuel( bionic &bio, const auto_toggle_bionic_result &result 
     weather_manager &weather = get_weather();
     switch( result.fuel_type ) {
         case auto_toggle_bionic_result::fuel_type_t::metabolism: {
-            // 1kcal = 4184 J TODO Check this
-            const units::energy power_gain = result.fuel_energy * 4184 * result.effective_efficiency;
+            // 1kcal = 4184 J
+            const units::energy power_gain = result.fuel_energy * 4184 * result.effective_efficiency / 1000;
             mod_stored_kcal( -units::to_kilojoule( result.fuel_energy ), true );
             mod_power_level( power_gain );
             break;
@@ -1506,7 +1506,7 @@ void Character::burn_fuel( bionic &bio, const auto_toggle_bionic_result &result 
                 const weather_type_id &wtype = current_weather( pos() );
                 const float intensity = incident_sun_irradiance( wtype, calendar::turn ) / max_sun_irradiance();
                 mod_power_level( result.fuel_energy * intensity *
-                                 result.effective_efficiency );
+                                 result.effective_efficiency / 1000 );
             } else if( result.burnable_fuel_id == fuel_type_wind ) {
                 int vehwindspeed = 0;
                 const optional_vpart_position vp = here.veh_at( pos() );
@@ -1518,7 +1518,7 @@ void Character::burn_fuel( bionic &bio, const auto_toggle_bionic_result &result 
                                       overmap_buffer.ter( global_omt_location() ), pos(), weather.winddirection,
                                       g->is_sheltered( pos() ) );
                 mod_power_level( result.fuel_energy * windpower *
-                                 result.effective_efficiency );
+                                 result.effective_efficiency / 1000 );
             } else if( result.burnable_fuel_id == fuel_type_muscle ) {
                 // simply return
             }
@@ -1527,7 +1527,7 @@ void Character::burn_fuel( bionic &bio, const auto_toggle_bionic_result &result 
             const int unconsumed = consume_remote_fuel( 1 );
             int current_fuel_stock = result.current_fuel_stock;
             if( unconsumed == 0 ) {
-                mod_power_level( result.fuel_energy * result.effective_efficiency );
+                mod_power_level( result.fuel_energy * result.effective_efficiency / 1000 );
                 current_fuel_stock -= 1;
             } else {
                 current_fuel_stock = 0;
@@ -1538,7 +1538,7 @@ void Character::burn_fuel( bionic &bio, const auto_toggle_bionic_result &result 
         case auto_toggle_bionic_result::fuel_type_t::other:
             set_value( result.burnable_fuel_id.str(), std::to_string( result.current_fuel_stock - 1 ) );
             update_fuel_storage( result.burnable_fuel_id );
-            mod_power_level( result.fuel_energy * result.effective_efficiency );
+            mod_power_level( result.fuel_energy * result.effective_efficiency / 1000 );
             break;
     }
 
