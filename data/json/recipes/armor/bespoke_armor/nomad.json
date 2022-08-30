@@ -209,10 +209,40 @@
     "subcategory": "CSC_ARMOR_SUIT",
     "skill_used": "tailor",
     "difficulty": 5,
-    "time": "3 h 30 m",
+    "time": "30min",
     "book_learn": [ [ "bp_armor_nomad_plate", 4 ] ],
-    "using": [ [ "sewing_standard", 90 ], [ "soldering_standard", 10 ], [ "blacksmithing_standard", 80 ],[ "mc_steel_standard", 20 ], [ "tailoring_leather_patchwork", 3 ], [ "armor_kevlar_layered", 27 ], [ "tailoring_kevlar_fabric", 12 ] ],
+    "using": [ [ "sewing_standard", 90 ], [ "soldering_standard", 10 ] ],
     "qualities": [ { "id": "LEATHER_AWL", "level": 1 } ],
-    "components": [ [ [ "armor_nomad_advanced", 1 ] ] ]
-  }
+    "components": [ [ [ "armor_nomad_advanced", 1 ] ], [ [ "leather_belt", 4 ], [ "webbing_belt", 4 ] ], [ "armor_mc_lightplate", 1 ], , [ "k_gambeson_vest", 1 ] ]
+ },
+{
+    "result": "armor_nomad_plate",
+    "//": "nomad plate armor",
+    "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_SUIT",
+    "skill_used": "tailor",
+    "difficulty": 5,
+    "time": "30min",
+    "book_learn": [ [ "bp_armor_nomad_plate", 4 ] ],
+    "using": [ [ "sewing_standard", 90 ], [ "soldering_standard", 10 ] ],
+    "qualities": [ { "id": "LEATHER_AWL", "level": 1 } ],
+    "components": [ [ [ "armor_nomad_advanced", 1 ] ], [ [ "leather_belt", 4 ], [ "webbing_belt", 4 ] ], [ "armor_mc_plate", 1 ], , [ "k_gambeson_vest", 1 ] ]
+ },
+{
+    "result": "armor_nomad_heavyplate",
+    "//": "nomad heavy plate armor",
+    "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_SUIT",
+    "skill_used": "tailor",
+    "difficulty": 5,
+    "time": "30min",
+    "book_learn": [ [ "bp_armor_nomad_plate", 4 ] ],
+    "using": [ [ "sewing_standard", 90 ], [ "soldering_standard", 10 ] ],
+    "qualities": [ { "id": "LEATHER_AWL", "level": 1 } ],
+    "components": [ [ [ "armor_nomad_advanced", 1 ] ], [ [ "leather_belt", 4 ], [ "webbing_belt", 4 ] ], [ "armor_mc_heavyplate", 1 ], , [ "k_gambeson_vest", 1 ] ]
+ }
 ]
