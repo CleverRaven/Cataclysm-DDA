@@ -1546,7 +1546,7 @@ std::string widget::graph( int value ) const
             }
         }
     }
-    
+
     return wstr_to_utf8( ret );
 }
 

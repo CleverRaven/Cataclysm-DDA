@@ -664,7 +664,7 @@ std::string colorize( const std::string &text, const nc_color &color )
     }
 
     size_t prevpos = 0;
-    std::string ret = "";
+    std::string ret;
     while( ( strpos = text.find( '\n', prevpos ) ) != std::string::npos ) {
         ret += tag + text.substr( prevpos, strpos - prevpos ) + "</color>\n";
         prevpos = strpos + 1;
