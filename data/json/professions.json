@@ -1117,7 +1117,7 @@
   "type": "profession",
   "id": "veteran",
   "name": "Military Veteran",
-  "description": "You've served in the armed forces and after being discharged from the army, you're sent to take medical treatment in one of the health care centers. Just when you thought you've overcome your war-time traumas and readjusted to the normal life, the world has come to and end and your worst nightmare has become a reality: living in an hellish battlefield.",
+  "description": "You've served in the armed forces and after being discharged from the army, you're sent to take medical treatment in one of the health care centers.  Just when you thought you've overcome your war-time traumas and readjusted to the normal life, the world has come to and end and your worst nightmare has become a reality: living in an hellish battlefield.",
   "points": 2,
   "proficiencies": [
     "prof_gunsmithing_basic"
