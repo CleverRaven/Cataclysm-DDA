@@ -7736,7 +7736,7 @@ cata::optional<int> iuse::radiocaron( Character *p, item *it, bool t, const trip
         return 1;
     } else if( !it->ammo_sufficient( p ) ) {
         // Deactivate since other mode has an iuse too.
-        it->active = false;
+        it->convert( itype_radio_car ).active = false;
         return 0;
     }
 
