@@ -213,7 +213,7 @@
     "book_learn": [ [ "bp_armor_nomad_plate", 4 ] ],
     "using": [ [ "sewing_standard", 90 ], [ "soldering_standard", 10 ] ],
     "qualities": [ { "id": "LEATHER_AWL", "level": 1 } ],
-    "components": [ [ [ "armor_nomad_advanced", 1 ] ], [ [ "leather_belt", 4 ], [ "webbing_belt", 4 ] ], [ "armor_mc_lightplate", 1 ], , [ "k_gambeson_vest", 1 ] ]
+    "components": [ [ [ "armor_nomad_advanced", 1 ] ], [ [ "leather_belt", 4 ], [ "webbing_belt", 4 ] ], [ "armor_mc_lightplate", 1 ], [ "k_gambeson_vest", 1 ] ]
  },
 {
     "result": "armor_nomad_plate",
@@ -228,7 +228,7 @@
     "book_learn": [ [ "bp_armor_nomad_plate", 4 ] ],
     "using": [ [ "sewing_standard", 90 ], [ "soldering_standard", 10 ] ],
     "qualities": [ { "id": "LEATHER_AWL", "level": 1 } ],
-    "components": [ [ [ "armor_nomad_advanced", 1 ] ], [ [ "leather_belt", 4 ], [ "webbing_belt", 4 ] ], [ "armor_mc_plate", 1 ], , [ "k_gambeson_vest", 1 ] ]
+    "components": [ [ [ "armor_nomad_advanced", 1 ] ], [ [ "leather_belt", 4 ], [ "webbing_belt", 4 ] ], [ "armor_mc_plate", 1 ], [ "k_gambeson_vest", 1 ] ]
  },
 {
     "result": "armor_nomad_heavyplate",
@@ -243,6 +243,6 @@
     "book_learn": [ [ "bp_armor_nomad_plate", 4 ] ],
     "using": [ [ "sewing_standard", 90 ], [ "soldering_standard", 10 ] ],
     "qualities": [ { "id": "LEATHER_AWL", "level": 1 } ],
-    "components": [ [ [ "armor_nomad_advanced", 1 ] ], [ [ "leather_belt", 4 ], [ "webbing_belt", 4 ] ], [ "armor_mc_heavyplate", 1 ], , [ "k_gambeson_vest", 1 ] ]
+    "components": [ [ [ "armor_nomad_advanced", 1 ] ], [ [ "leather_belt", 4 ], [ "webbing_belt", 4 ] ], [ "armor_mc_heavyplate", 1 ], [ "k_gambeson_vest", 1 ] ]
  }
 ]
