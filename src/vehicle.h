@@ -300,10 +300,10 @@ struct vehicle_part {
         /**
          * Consume fuel by energy content.
          * @param ftype Type of fuel to consume
-         * @param energy_j Energy to consume
+         * @param wanted_energy Energy to consume
          * @return Energy actually consumed
          */
-        units::energy consume_energy( const itype_id &ftype, units::energy energy_j );
+        units::energy consume_energy( const itype_id &ftype, units::energy wanted_energy );
 
         /* @return true if part in current state be reloaded optionally with specific itype_id */
         bool can_reload( const item &obj = item() ) const;
@@ -755,7 +755,7 @@ class vehicle
         // get vpart epowerinfo for part number.
         int part_epower_w( int index ) const;
 
-        // convert watts over time to battery energy
+        // convert watts over time to battery energy (kJ)
         int power_to_energy_bat( int power_w, const time_duration &d ) const;
 
         // convert vhp to watts.
@@ -1261,10 +1261,10 @@ class vehicle
         /**
          * Consumes enough fuel by energy content. Does not support cable draining.
          * @param ftype Type of fuel
-         * @param energy_j Desired amount of energy of fuel to consume
+         * @param wanted_energy Desired amount of energy of fuel to consume
          * @return Amount of energy actually consumed. May be more or less than energy.
          */
-        units::energy drain_energy( const itype_id &ftype, units::energy energy_j );
+        units::energy drain_energy( const itype_id &ftype, units::energy wanted_energy );
 
         // fuel consumption of vehicle engines of given type
         int basic_consumption( const itype_id &ftype ) const;

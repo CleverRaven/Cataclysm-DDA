@@ -337,7 +337,7 @@ int vehicle_part::ammo_consume( int qty, const tripoint &pos )
     return base.ammo_consume( qty, pos, nullptr );
 }
 
-units::energy vehicle_part::consume_energy( const itype_id &ftype, units::energy energy_j )
+units::energy vehicle_part::consume_energy( const itype_id &ftype, units::energy wanted_energy )
 {
     if( base.empty() || !is_fuel_store() ) {
         return 0_J;
@@ -348,7 +348,7 @@ units::energy vehicle_part::consume_energy( const itype_id &ftype, units::energy
         cata_assert( fuel.is_fuel() );
 
         units::energy energy_per_charge = fuel.fuel_energy() / fuel.charges;
-        int charges_to_use = energy_j / energy_per_charge;
+        int charges_to_use = wanted_energy / energy_per_charge;
         if( !charges_to_use ) {
             return 0_J;
         }

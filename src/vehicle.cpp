@@ -4586,17 +4586,17 @@ std::map<itype_id, units::energy> vehicle::fuel_usage() const
     return ret;
 }
 
-units::energy vehicle::drain_energy( const itype_id &ftype, units::energy energy_j )
+units::energy vehicle::drain_energy( const itype_id &ftype, units::energy wanted_energy )
 {
     units::energy drained = 0_J;
     for( vehicle_part &p : parts ) {
-        if( energy_j <= 0_J ) {
+        if( wanted_energy <= 0_J ) {
             break;
         }
 
-        units::energy consumed = p.consume_energy( ftype, energy_j );
+        units::energy consumed = p.consume_energy( ftype, wanted_energy );
         drained += consumed;
-        energy_j -= consumed;
+        wanted_energy -= consumed;
     }
 
     invalidate_mass();
@@ -4612,17 +4612,17 @@ void vehicle::consume_fuel( int load, bool idling )
             continue;
         }
 
-        units::energy amnt_precise_j = fuel_pr.second;
-        amnt_precise_j *= load * ( 1 + st * st * 100 ) / 1000;
+        units::energy to_consume = fuel_pr.second;
+        to_consume *= load * ( 1 + st * st * 100 ) / 1000;
         auto inserted = fuel_used_last_turn.insert( { ft, 0_J } );
-        inserted.first->second += amnt_precise_j;
+        inserted.first->second += to_consume;
         units::energy remainder = fuel_remainder[ ft ];
-        amnt_precise_j -= remainder;
+        to_consume -= remainder;
 
-        if( amnt_precise_j > 0_J ) {
-            fuel_remainder[ ft ] = drain_energy( ft, amnt_precise_j ) - amnt_precise_j;
+        if( to_consume > 0_J ) {
+            fuel_remainder[ ft ] = drain_energy( ft, to_consume ) - to_consume;
         } else {
-            fuel_remainder[ ft ] = -amnt_precise_j;
+            fuel_remainder[ ft ] = -to_consume;
         }
     }
     // Only process muscle power things when moving.
