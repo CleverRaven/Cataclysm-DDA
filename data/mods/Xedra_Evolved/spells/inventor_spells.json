@@ -296,7 +296,6 @@
     "//": "Add two more spells one for 3 sparks and one for 5 sparks.  Also add spell components reflecting a fully stocked garage of three different tiers.",
     "description": "Enters a manic creation episode in the appropriate workshop space and creates… something.",
     "valid_targets": [ "self" ],
-    "spell_class": "NONE",
     "flags": [ "NO_LEGS", "CONCENTRATE" ],
     "difficulty": 3,
     "min_damage": 1,

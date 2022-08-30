@@ -51,8 +51,7 @@
   {
     "id": "spell_components_schematics",
     "type": "requirement",
-    "using": [ [ "compute_standard", 10 ] ],
-    "components": [ [ [ "drawing_tool", 2 ] ] ]
+    "components": [ [ [ "drawing_tool", 2 ] ], [ [ "paper", 8 ] ] ]
   },
   {
     "id": "spell_components_mace_magic",
