@@ -850,7 +850,7 @@
     "burn_into": "mon_zankylosaurus_scorched",
     "fungalize_into": "mon_zankylosaurus_fungus",
     "upgrades": { "half_life": 30, "into_group": "GROUP_zankylosaurus_UPGRADE" },
-    "flags": [ "SEES", "SMELLS", "HEARS", "POISON", "STUMBLES", "NO_BREATHE", "REVIVES", "FILTHY", "WARM", "BASHES" ],
+    "flags": [ "SEES", "SMELLS", "HEARS", "POISON", "STUMBLES", "NO_BREATHE", "REVIVES", "FILTHY", "BASHES" ],
     "vision_night": 3,
     "harvest": "zed_dino_leather",
     "categories": [ "DINOSAUR" ]
@@ -920,7 +920,7 @@
     "burn_into": "mon_zamptosaurus_scorched",
     "fungalize_into": "mon_zamptosaurus_fungus",
     "upgrades": { "half_life": 30, "into_group": "GROUP_zamptosaurus_UPGRADE" },
-    "flags": [ "SEES", "SMELLS", "HEARS", "POISON", "STUMBLES", "NO_BREATHE", "REVIVES", "FILTHY", "WARM", "BASHES" ],
+    "flags": [ "SEES", "SMELLS", "HEARS", "POISON", "STUMBLES", "NO_BREATHE", "REVIVES", "FILTHY", "BASHES" ],
     "vision_night": 3,
     "harvest": "zed_dino_leather",
     "categories": [ "DINOSAUR" ]
@@ -1078,7 +1078,7 @@
     "burn_into": "mon_zachycephalosaurus_scorched",
     "fungalize_into": "mon_zachycephalosaurus_fungus",
     "upgrades": { "half_life": 30, "into_group": "GROUP_zachycephalosaurus_UPGRADE" },
-    "flags": [ "SEES", "SMELLS", "HEARS", "PET_MOUNTABLE", "POISON", "STUMBLES", "NO_BREATHE", "REVIVES", "FILTHY", "WARM" ],
+    "flags": [ "SEES", "SMELLS", "HEARS", "PET_MOUNTABLE", "POISON", "STUMBLES", "NO_BREATHE", "REVIVES", "FILTHY" ],
     "vision_night": 3,
     "harvest": "zed_dino_feather",
     "categories": [ "DINOSAUR" ]
@@ -1195,7 +1195,7 @@
     "fungalize_into": "mon_zosmoceratops_fungus",
     "upgrades": { "half_life": 30, "into_group": "GROUP_zosmoceratops_UPGRADE" },
     "special_attacks": [ { "id": "impale" }, [ "stretch_horn_DinoMod", 7 ] ],
-    "flags": [ "SEES", "SMELLS", "HEARS", "BASHES", "POISON", "STUMBLES", "NO_BREATHE", "REVIVES", "FILTHY", "WARM" ]
+    "flags": [ "SEES", "SMELLS", "HEARS", "BASHES", "POISON", "STUMBLES", "NO_BREATHE", "REVIVES", "FILTHY" ]
   },
   {
     "type": "MONSTER",
