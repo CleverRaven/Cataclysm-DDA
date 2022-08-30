@@ -23,7 +23,6 @@
 #include "viewer.h"
 #include "map_iterator.h"
 
-static const efftype_id effect_downed( "downed" );
 static const efftype_id effect_grabbed( "grabbed" );
 static const efftype_id effect_teleglow( "teleglow" );
 
@@ -157,7 +156,7 @@ bool teleport::teleport_to_point( Creature &critter, tripoint target, bool safe,
             //don't splatter. instead get thrown in a random direction painfully.
             collision = true;
             collision_angle = rng( 0, 360 );
-            g->fling_creature( *poor_soul, collision_angle, 50 );
+            g->fling_creature( poor_soul, collision_angle, 50 );
             poor_soul->remove_effect( effect_grabbed );
             poor_soul->apply_damage( nullptr, bodypart_id( "arm_l" ), rng( 5, 10 ) );
             poor_soul->apply_damage( nullptr, bodypart_id( "arm_r" ), rng( 5, 10 ) );
@@ -168,7 +167,7 @@ bool teleport::teleport_to_point( Creature &critter, tripoint target, bool safe,
     }
     critter.setpos( target );
     if( collision ) {
-        g->fling_creature( critter, collision_angle - 180, 50 );
+        g->fling_creature( *critter, collision_angle - 180, 50 );
         critter.apply_damage( nullptr, bodypart_id( "arm_l" ), rng( 5, 10 ) );
         critter.apply_damage( nullptr, bodypart_id( "arm_r" ), rng( 5, 10 ) );
         critter.apply_damage( nullptr, bodypart_id( "leg_l" ), rng( 7, 12 ) );
