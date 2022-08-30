@@ -478,5 +478,18 @@
     "book_learn": [ [ "manual_launcher", 7 ], [ "textbook_anarch", 8 ] ],
     "using": [ [ "volatile_explosive", 173 ], [ "stable_explosive", 6747 ] ],
     "components": [ [ [ "fuse", 1 ] ], [ [ "superglue", 1 ], [ "duct_tape", 75 ], [ "cordage", 1, "LIST" ] ], [ [ "30gal_drum", 1 ] ] ]
+  },
+  {
+    "result": "jug_bomb",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_EXPLOSIVE",
+    "skill_used": "chemistry",
+    "autolearn": true,
+    "difficulty": 1,
+    "time": "10 m",
+    "components": [ [ [ "jar_glass_sealed", 1 ] ], [ [ "gasoline", 20 ] ], [ [ "oxy_powder", 2 ] ] ]
   }
 ]
+
