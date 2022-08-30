@@ -518,7 +518,6 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```SEWAGE``` Causes vomiting.
 - ```SLEEP``` Greatly increases fatigue.
 - ```THORAZINE``` Removes diseases `hallu`, `visuals`, `high`. Additionally removes disease `formication` if disease `dermatik` isn't also present. Has a chance of a negative reaction which increases fatigue.
-- ```VACCINE``` Greatly increases health.
 - ```VITAMINS``` Increases healthiness (not to be confused with HP).
 - ```WEED``` Makes you roll with Cheech & Chong. Adds disease `weed_high`.
 - ```XANAX``` Alleviates anxiety. Adds disease `took_xanax`.
