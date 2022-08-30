@@ -1284,7 +1284,13 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "office_skyscraper_16", "office_skyscraper_17", "office_skyscraper_18", "office_skyscraper_19", "office_skyscraper_20" ],
+    "id": [
+      "office_skyscraper_16",
+      "office_skyscraper_17",
+      "office_skyscraper_18",
+      "office_skyscraper_19",
+      "office_skyscraper_20"
+    ],
     "name": "open air",
     "sym": ".",
     "color": "blue"
