@@ -1599,6 +1599,27 @@
     "difficulty": 1
   },
   {
+    "id": "nested_deflated_tires",
+    "type": "nested_category",
+    "activity_level": "fake",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_VEHICLE",
+    "name": "deflating tires",
+    "description": "Recipes related to taking the air out of tires.",
+    "skill_used": "fabrication",
+    "nested_category_data": [
+      "deflated_wheel",
+      "deflated_wheel_slick",
+      "deflated_wheel_motorbike",
+      "deflated_wheel_motorbike_or",
+      "deflated_wheel_wide",
+      "deflated_wheel_wide_or",
+      "deflated_wheel_bicycle",
+      "deflated_wheel_bicycle_or"
+    ],
+    "difficulty": 1
+  },
+  {
     "id": "nested_hood_fsurvivor",
     "type": "nested_category",
     "activity_level": "LIGHT_EXERCISE",
