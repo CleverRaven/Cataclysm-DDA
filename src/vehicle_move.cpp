@@ -187,8 +187,7 @@ void vehicle::smart_controller_handle_turn( bool thrusting,
     // otherwise trying to charge battery to 90% within 30 minutes
     bool discharge_forbidden_soft = battery_level_percent <= cfg.battery_hi;
     bool discharge_forbidden_hard = battery_level_percent <= cfg.battery_lo;
-    units::energy
-    target_charging_rate; // = ( max_battery_level == 0 || !discharge_forbidden_soft ) ? 0_J : units::from_joule( ( max_battery_level * cfg.battery_hi / 100 - cur_battery_level ) * 10 / ( 6 * 3 ) );
+    units::energy target_charging_rate;
     if( max_battery_level == 0 || !discharge_forbidden_soft ) {
         target_charging_rate = 0_J;
     } else {
