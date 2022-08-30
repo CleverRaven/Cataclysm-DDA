@@ -1093,10 +1093,6 @@ class game
         // tracks time since last monster seen to allow automatically
         // reactivating safe mode.
         time_duration turnssincelastmon = 0_turns;
-
-        // Queues a world and save to load, used for quickload and loading a world with cli option --world
-        std::string queued_world_to_load;
-        std::string queued_save_id_to_load;
     private:
         weather_manager weather; // NOLINT(cata-serialize)
 
