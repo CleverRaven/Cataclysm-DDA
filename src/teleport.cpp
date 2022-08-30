@@ -109,6 +109,8 @@ bool teleport::teleport_to_point( Creature &critter, tripoint target, bool safe,
     }
     //handles telefragging other creatures
     int tfrag_attempts = 5;
+    bool collision = false;
+    int collision_angle = 0;
     while( Creature *const poor_soul = get_creature_tracker().creature_at<Creature>( target ) ) {
         //Fail if we run out of telefrag attempts
         if( tfrag_attempts-- < 1 ) {
@@ -131,63 +133,31 @@ bool teleport::teleport_to_point( Creature &critter, tripoint target, bool safe,
                 g->place_player_overmap( project_to<coords::omt>( avatar_pos ), false );
             }
             return false;
-        } else if( poor_player && ( poor_player->worn_with_flag( json_flag_DIMENSIONAL_ANCHOR ) ||
-                                    poor_player->has_flag( json_flag_DIMENSIONAL_ANCHOR ) ) ) {
-            if( display_message ) {
-                poor_player->add_msg_if_player( m_warning, _( "You feel disjointed." ) );
-            }
-            if( shifted ) {
-                g->place_player_overmap( project_to<coords::omt>( avatar_pos ), false );
-            }
-            return false;
-        } else if( !( resonance( *poor_soul, 2, 2, false, true ) ) ) {
-            const bool poor_soul_is_u = poor_soul->is_avatar();
-            if( poor_soul_is_u && display_message ) {
-                add_msg( m_bad, _( "You're blasted with strange energy!" ) );
-                add_msg( m_bad, _( "You explode into thousands of fragments." ) );
-            }
-            if( p ) {
-                if( display_message ) {
-                    p->add_msg_player_or_npc( m_warning,
-                                              _( "You teleport into %s, and they explode into thousands of fragments." ),
-                                              _( "<npcname> teleports into %s, and they explode into thousands of fragments." ),
-                                              poor_soul->disp_name() );
-                }
-                get_event_bus().send<event_type::telefrags_creature>( p->getID(), poor_soul->get_name() );
-            } else {
-                if( get_player_view().sees( *poor_soul ) ) {
-                    if( display_message ) {
-                        add_msg( m_good, _( "%1$s teleports into %2$s, killing them!" ),
-                                 critter.disp_name(), poor_soul->disp_name() );
-                    }
-                }
-            }
-            //Splatter real nice.
-            poor_soul->apply_damage( nullptr, bodypart_id( "torso" ), 9999 );
-            poor_soul->check_dead_state();
         } else {
             const bool poor_soul_is_u = poor_soul->is_avatar();
             if( poor_soul_is_u && display_message ) {
                 add_msg( m_bad, _( "You're blasted with strange energy!" ) );
-                add_msg( m_bad, _( "You're violently forced out of the way!" ) );
             }
             if( p ) {
                 if( display_message ) {
                     p->add_msg_player_or_npc( m_warning,
-                                              _( "You teleport into the same place as %s, and they are violently forced away to make room for you." ),
-                                              _( "<npcname> teleports into the same place as %s, and they are violently forced away to make room for them." ),
+                                              _( "You collide with %s mid teleport, and you are both knocked away by a violent explosion of energy." ),
+                                              _( "<npcname> collides with %s mid teleport, and they are both knocked away by a violent explosion of energy." ),
                                               poor_soul->disp_name() );
                 }
             } else {
                 if( get_player_view().sees( *poor_soul ) ) {
                     if( display_message ) {
-                        add_msg( m_good, _( "%2$s is violently forced out of the way to make room for %1$s!" ),
+                        add_msg( m_good, _( "%1$s collides with %2$s mid teleport, and they are both knocked away by a violent explosion of energy!" ),
                                  critter.disp_name(), poor_soul->disp_name() );
                     }
                 }
             }
-            //don't splatter. instead get teleported away a square and knocked prone.
-            poor_soul->add_effect( effect_downed, 2_turns, false, 0, true );
+            //don't splatter. instead get thrown in a random direction painfully.
+            collision = true;
+            collision_angle = rng( 0, 360 );
+            g->fling_creature( *poor_soul, collision_angle, 50 );
+            poor_soul->remove_effect( effect_grabbed );
             poor_soul->apply_damage( nullptr, bodypart_id( "arm_l" ), rng( 5, 10 ) );
             poor_soul->apply_damage( nullptr, bodypart_id( "arm_r" ), rng( 5, 10 ) );
             poor_soul->apply_damage( nullptr, bodypart_id( "leg_l" ), rng( 7, 12 ) );
@@ -196,6 +166,14 @@ bool teleport::teleport_to_point( Creature &critter, tripoint target, bool safe,
         }
     }
     critter.setpos( target );
+    if( collision ) {
+        g->fling_creature( critter, collision_angle - 180, 50 );
+        critter.apply_damage( nullptr, bodypart_id( "arm_l" ), rng( 5, 10 ) );
+        critter.apply_damage( nullptr, bodypart_id( "arm_r" ), rng( 5, 10 ) );
+        critter.apply_damage( nullptr, bodypart_id( "leg_l" ), rng( 7, 12 ) );
+        critter.apply_damage( nullptr, bodypart_id( "leg_r" ), rng( 7, 12 ) );
+        critter.apply_damage( nullptr, bodypart_id( "torso" ), rng( 5, 15 ) );
+    }
     //player and npc exclusive teleporting effects
     if( p ) {
         g->place_player( p->pos() );
@@ -208,34 +186,6 @@ bool teleport::teleport_to_point( Creature &critter, tripoint target, bool safe,
     }
     critter.remove_effect( effect_grabbed );
     return true;
-}
-
-
-bool teleport::resonance( Creature &critter, int min_distance, int max_distance, bool safe,
-                         bool add_teleglow )
-{
-    if( min_distance > max_distance ) {
-        debugmsg( "ERROR: Function teleport::resonance called with invalid arguments." );
-        return false;
-    }
-    int tries = 0;
-    int rangle = rng( 0, 360 );
-    tripoint origin = critter.pos();
-    tripoint new_pos = origin;
-    map &here = get_map();
-    do {
-        int rdistance = rng( min_distance, max_distance );
-        new_pos.x = origin.x + rdistance * std::cos( rangle );
-        new_pos.y = origin.y + rdistance * std::sin( rangle );
-        rangle += 15;
-        tries++;
-    } while( here.impassable( new_pos ) && get_creature_tracker().creature_at<Creature>( new_pos ) &&
-             tries < 100 );
-    if( here.impassable( new_pos ) || get_creature_tracker().creature_at<Creature>( new_pos ) ) {
-        return false;
-    } else {
-        return teleport_to_point( critter, new_pos, safe, add_teleglow );
-    }
 }
 
 
