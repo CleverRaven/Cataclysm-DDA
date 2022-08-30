@@ -87,12 +87,12 @@
   {
     "id": "spell_components_manabomb",
     "type": "requirement",
-    "components": [ [ [ "potion_starter", 3 ] ], [ [ "rune_technomancer", 1 ] ] ]
+    "components": [ [ [ "potion_starter", 3 ] ] ]
   },
   {
     "id": "spell_components_manatrap",
     "type": "requirement",
-    "components": [ [ [ "potion_starter", 6 ], [ "alchemist_bomb", 2 ] ], [ [ "rune_technomancer", 2 ] ] ]
+    "components": [ [ [ "potion_starter", 6 ], [ "alchemist_bomb", 2 ] ] ]
   },
   {
     "id": "spell_components_samsara",

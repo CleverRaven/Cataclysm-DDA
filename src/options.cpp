@@ -2085,9 +2085,15 @@ void options_manager::add_options_graphics()
 
     get_option( "USE_TILES_OVERMAP" ).setPrerequisite( "USE_TILES" );
 
+    std::vector<options_manager::id_and_option> om_tilesets = build_tilesets_list();
+    // filter out SmashButton_iso from overmap tilesets
+    om_tilesets.erase( std::remove_if( om_tilesets.begin(), om_tilesets.end(), []( const auto & it ) {
+        return it.first == "SmashButton_iso";
+    } ), om_tilesets.end() );
+
     add( "OVERMAP_TILES", "graphics", to_translation( "Choose overmap tileset" ),
          to_translation( "Choose the overmap tileset you want to use." ),
-         build_tilesets_list(), "retrodays", COPT_CURSES_HIDE
+         om_tilesets, "retrodays", COPT_CURSES_HIDE
        ); // populate the options dynamically
 
     get_option( "OVERMAP_TILES" ).setPrerequisite( "USE_TILES_OVERMAP" );
@@ -2211,6 +2217,16 @@ void options_manager::add_options_graphics()
     add( "PIXEL_MINIMAP_BLINK", "graphics", to_translation( "Hostile creature beacon blink speed" ),
          to_translation( "Controls how fast the hostile creature beacons blink on the pixel minimap.  Value is multiplied by 200ms.  0 = disabled." ),
          0, 50, 10, COPT_CURSES_HIDE
+       );
+
+    get_option( "PIXEL_MINIMAP_BLINK" ).setPrerequisite( "PIXEL_MINIMAP" );
+
+    add( "PIXEL_MINIMAP_BG", "graphics", to_translation( "Background color" ),
+         to_translation( "What color the minimap background should be.  Either based on color theme or (0,0,0) black." ),
+    {
+        { "theme", to_translation( "Theme" ) },
+        { "black", to_translation( "Black" ) }
+    }, "black", COPT_CURSES_HIDE
        );
 
     get_option( "PIXEL_MINIMAP_BLINK" ).setPrerequisite( "PIXEL_MINIMAP" );
@@ -3195,8 +3211,10 @@ std::string options_manager::show( bool ingame, const bool world_options_only, b
                 const int psize = pages_.size();
                 found_opt = run_for_point_in<int, point>( opt_tab_map, *coord,
                 [&iCurrentPage, &new_val, &psize]( const std::pair<int, inclusive_rectangle<point>> &p ) {
-                    new_val = true;
-                    iCurrentPage = clamp<int>( p.first, 0, psize - 1 );
+                    if( p.first != iCurrentPage ) {
+                        new_val = true;
+                        iCurrentPage = clamp<int>( p.first, 0, psize - 1 );
+                    }
                 } ) > 0;
                 if( new_val ) {
                     iCurrentLine = 0;

@@ -184,6 +184,10 @@
 #include "weather_type.h"
 #include "worldfactory.h"
 
+#if defined(TILES)
+#include "sdl_utils.h"
+#endif // TILES
+
 class computer;
 
 static const activity_id ACT_BLEED( "ACT_BLEED" );
@@ -577,6 +581,18 @@ void game_ui::init_ui()
         //class variable to track the option being active
         //only set once, toggle action is used to change during game
         pixel_minimap_option = get_option<bool>( "PIXEL_MINIMAP" );
+        if( get_option<std::string>( "PIXEL_MINIMAP_BG" ) == "theme" ) {
+            SDL_Color pixel_minimap_color = curses_color_to_SDL( c_black );
+            pixel_minimap_r = pixel_minimap_color.r;
+            pixel_minimap_g = pixel_minimap_color.g;
+            pixel_minimap_b = pixel_minimap_color.b;
+            pixel_minimap_a = pixel_minimap_color.a;
+        } else {
+            pixel_minimap_r = 0x00;
+            pixel_minimap_g = 0x00;
+            pixel_minimap_b = 0x00;
+            pixel_minimap_a = 0x00;
+        }
 #endif // TILES
     }
 
@@ -622,6 +638,15 @@ void game::toggle_pixel_minimap() const
     pixel_minimap_option = !pixel_minimap_option;
     mark_main_ui_adaptor_resize();
 #endif // TILES
+}
+
+bool game::is_tileset_isometric() const
+{
+#if defined(TILES)
+    return use_tiles && tilecontext && tilecontext->is_isometric();
+#else
+    return false;
+#endif
 }
 
 void game::reload_tileset()
@@ -2289,7 +2314,7 @@ std::pair<tripoint, tripoint> game::mouse_edge_scrolling( input_context &ctxt, c
 tripoint game::mouse_edge_scrolling_terrain( input_context &ctxt )
 {
     auto ret = mouse_edge_scrolling( ctxt, std::max( DEFAULT_TILESET_ZOOM / tileset_zoom, 1 ),
-                                     last_mouse_edge_scroll_vector_terrain, tile_iso );
+                                     last_mouse_edge_scroll_vector_terrain, g->is_tileset_isometric() );
     last_mouse_edge_scroll_vector_terrain = ret.second;
     last_mouse_edge_scroll_vector_overmap = tripoint_zero;
     return ret.first;
@@ -5535,7 +5560,7 @@ static std::string get_fire_fuel_string( const tripoint &examp )
                 } else {
                     if( to_string_approx( fire_age - fire_age * mod / 5 ) == to_string_approx(
                             fire_age + fire_age * mod / 5 ) ) {
-                        ss += string_format( _( "Without extra fuel it will burn for about %s." ),
+                        ss += string_format( _( "Without extra fuel it will burn for %s." ),
                                              to_string_approx( fire_age - fire_age * mod / 5 ) );
                     } else {
                         ss += string_format( _( "Without extra fuel it will burn for between %s to %s." ),

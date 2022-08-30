@@ -4951,8 +4951,8 @@ item map::water_from( const tripoint &p )
                 ret.poison = rng( 1, 6 );
                 ret.get_comestible()->parasites = 5;
                 ret.get_comestible()->contamination = { { disease_bad_food, 5 } };
+                return ret;
             }
-            return ret;
         }
     }
 
@@ -4962,8 +4962,8 @@ item map::water_from( const tripoint &p )
                 ret.set_item_temperature( std::max( weather.get_temperature( p ),
                                                     temperatures::cold ) );
                 ret.poison = one_in( 3 ) ? 0 : rng( 1, 3 );
+                return ret;
             }
-            return ret;
         }
     }
 
@@ -8841,19 +8841,23 @@ void map::build_map_cache( const int zlev, bool skip_lightmap )
     camera_cache_dirty |= !diff.empty();
     // Initial value is illegal player position.
     const tripoint p = get_player_character().pos();
+    int const sr = u.unimpaired_range();
     static tripoint player_prev_pos;
-    seen_cache_dirty |= player_prev_pos != p;
+    static int player_prev_range( 0 );
+    seen_cache_dirty |= player_prev_pos != p || sr != player_prev_range || camera_cache_dirty;
     if( seen_cache_dirty ) {
-        build_seen_cache( p, zlev );
+        build_seen_cache( p, zlev, sr );
         player_prev_pos = p;
+        player_prev_range = sr;
         camera_cache_dirty = true;
     }
     if( camera_cache_dirty ) {
         u.moncam_cache = mcache;
         bool cumulative = seen_cache_dirty;
         for( Character::cached_moncam const &mon : u.moncam_cache ) {
-            build_seen_cache( get_map().getlocal( mon.second ), zlev, cumulative, true,
-                              std::max( 60 - mon.first->type->vision_day, 0 ) );
+            int const range = mon.first->type->vision_day;
+            build_seen_cache( get_map().getlocal( mon.second ), mon.second.z(), range, cumulative,
+                              true, std::max( 60 - range, 0 ) );
             cumulative = true;
         }
     }

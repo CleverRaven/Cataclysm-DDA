@@ -127,6 +127,8 @@ struct weather_type {
         std::vector<weather_type_id> required_weathers;
         time_duration duration_min = 0_turns;
         time_duration duration_max = 0_turns;
+        cata::optional<std::string> debug_cause_eoc;
+        cata::optional<std::string> debug_leave_eoc;
         void load( const JsonObject &jo, const std::string &src );
         void finalize();
         void check() const;

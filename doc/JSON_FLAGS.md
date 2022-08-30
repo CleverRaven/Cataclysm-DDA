@@ -86,7 +86,6 @@ When an item is crafted, it can inherit flags from the components that were used
 
 ## TODO
 
-- `Ammo effects` under `Ammo` need more descriptive details, and some need to be double-checked for accuracy.
 - `Ammo type` table is very old and doesn't include many new ammo types. Consider updating it or removing altogether, as ammo types ain't no json flags at all.
 
 
@@ -168,44 +167,92 @@ These are handled through `ammo_types.json`.  You can tag a weapon with these to
 ### Ammo effects
 
 - ```ACIDBOMB``` Leaves a pool of acid on detonation.
+- ```ACT_ON_RANGED_HIT``` The item should activate when thrown or fired, then immediately get processed if it spawns on the ground.
+- ```APPLY_SAP``` Applies sap-coated effect on hit.
 - ```BEANBAG``` Stuns the target.
 - ```BLACKPOWDER``` May clog up the gun with blackpowder fouling, which will also cause rust.
 - ```BLINDS_EYES``` Blinds the target if it hits the head (ranged projectiles can't actually hit the eyes at the moment).
 - ```BOUNCE``` Inflicts target with `bounced` effect and rebounds to a nearby target without this effect.
+- ```BURST``` Spills the contents on hit.
 - ```COOKOFF``` Explodes when lit on fire.
 - ```CUSTOM_EXPLOSION``` Explosion as specified in ```"explosion"``` field of used ammo. See `JSON_INFO.md`.
 - ```DRAW_AS_LINE``` Doesn't go through regular bullet animation; instead draws a line and the bullet on its end for one frame.
-- ```EXPLOSIVE_BIG``` Large explosion without any shrapnel.
-- ```EXPLOSIVE_HUGE``` Huge explosion without any shrapnel.
-- ```EXPLOSIVE``` Explodes without any shrapnel.
+- ```DRAW_LASER_BEAM``` Creates a trail of laser (the field type).
+- ```EMP``` Damages "electronic" terrain types (such as consoles or card readers) In rare cases might make card readers open doors. Damages and destroys robotic enemies. Drains bionic power and power from any electronic equipment in player possession.
+- ```EXPLOSIVE```                           -
+- ```EXPLOSIVE_120mmHEAT```                 -
+- ```EXPLOSIVE_20x66```                     -
+- ```EXPLOSIVE_66mmHEAT```                  -
+- ```EXPLOSIVE_84x246HE```                  -
+- ```EXPLOSIVE_84x246HEDP```                -
+- ```EXPLOSIVE_ATGMHEAT```                  -
+- ```EXPLOSIVE_BIG```                       -
+- ```EXPLOSIVE_GRENADE```                   -
+- ```EXPLOSIVE_HESHOT```                    -
+- ```EXPLOSIVE_HOMEMADE```                  - Explosions of various power, with or without shrapnel, see `ammo_effects.json` for exact values.
+- ```EXPLOSIVE_HOMEMADE_GRENADE_1```        -
+- ```EXPLOSIVE_HOMEMADE_GRENADE_2```        -
+- ```EXPLOSIVE_HUGE```                      -
+- ```EXPLOSIVE_m430a1```                    -
+- ```EXPLOSIVE_m433```                      -
+- ```EXPLOSIVE_OG7V```                      -
+- ```EXPLOSIVE_PG7VL```                     -
+- ```EXPLOSIVE_PG7VR```                     -
+- ```EXPLOSIVE_RAUFOSS```                   -
+- ```EXPLOSIVE_SMALL```                     -
+- ```EXPLOSIVE_SMALL_HOMEMADE_GRENADE_1```  -
+- ```EXPLOSIVE_SMALL_HOMEMADE_GRENADE_2```  -
+- ```EXPLOSIVE_TBG7V```                     -
 - ```FLAME``` Very small explosion that lights fires.
-- ```FLARE``` Lights the target on fire.
+- ```FLARE``` Lights the target tile on fire.
 - ```FLASHBANG``` Blinds and deafens nearby targets.
-- ```FRAG``` Small explosion that spreads shrapnel.
+- ```FOAMCRETE``` Applies foamcrete effect on hit.
+- ```FRAG``` Small explosion that spreads shrapnel ("power": 185, "shrapnel": { "casing_mass": 212, "fragment_mass": 0.025}).
+- ```FRAG_20x66``` Small explosion that spreads shrapnel ("power": 40, "shrapnel": { "casing_mass": 15, "fragment_mass": 0.08 }).
+- ```GAS_FUNGICIDAL``` Creates a cloud of fungicidal gas on hit.
+- ```GAS_INSECTICIDAL``` Creates a cloud of insecticidal gas on hit.
+- ```HEAVY_HIT``` Creates a loud sound on hit.
 - ```INCENDIARY``` Lights target on fire.
+- ```IGNITE``` Lights target on intense and longer-lasting fire.
+- ```JET``` Draws a `*` symbol as a flying projectile (unlike usual `#` symbol).
 - ```LARGE_BEANBAG``` Heavily stuns the target.
-- ```LASER``` Creates a trail of laser (the field type)
+- ```LASER``` Creates a trail of laser (the field type).
 - ```LIGHTNING``` Creates a trail of lightning.
+- ```magic``` Always best possible hit, do nothing special, no damage mults, nothing.
 - ```MININUKE_MOD``` Small thermo-nuclear detonation that leaves behind radioactive fallout.
 - ```MUZZLE_SMOKE``` Generate a small cloud of smoke at the source.
 - ```NAPALM``` Explosion that spreads fire.
+- ```NAPALM_BIG``` Large explosion that spreads fire.
+- ```NAPALM_TBG7V``` Creates a large fire on hit.
 - ```NEVER_MISFIRES``` Firing ammo without this flag may trigger a misfiring, this is independent of the weapon flags.
-- ```NOGIB``` Prevents overkill damage on the target (target won't explode into gibs, see also the monster flag `NOGIB`).
-- ```NO_PENETRATE_OBSTACLES``` Prevents a projectile from going through a tile with obstacles, such as chainlink fences or dressers.
-- ```TANGLE``` When this projectile hits a target, it has a chance to tangle them up and immobilize them.
+- ```NO_DAMAGE_SCALING``` Always set 100% damage due to hit in the weakpoint.
 - ```NO_EMBED``` When an item would be spawned from the projectile, it will always be spawned on the ground rather than in a monster's inventory. Implied for active thrown items. Doesn't do anything on projectiles that do not drop items.
+- ```NOGIB``` Prevents overkill damage on the target (target won't explode into gibs, see also the monster flag `NOGIB`).
 - ```NO_ITEM_DAMAGE``` Will not damage items on the map even when it otherwise would try to.
+- ```NON_FOULING``` This ammo does not cause dirtying or blackpowder fouling on the gun when fired.
+- ```NO_OVERSHOOT``` Projectiles with this effect won't fly farther than player's set target tile.
+- ```NO_PENETRATE_OBSTACLES``` Prevents a projectile from going through a tile with obstacles, such as chainlink fences or dressers.
+- ```NPC_AVOID``` NPCs won't use guns or gunmods loaded with ammo with this effect.
+- ```NULL_SOURCE``` Projectiles with this effect doesn't have a creature who fired them; applied only to explosives' shrapnel.
+- ```PARALYZEPOISON``` Applies paralyzing poison effect on damaging hit.
 - ```PLASMA``` Creates a trail of superheated plasma.
+- ```PLASMA_BUBBLE``` Creates a cloud of superheated plasma.
+- ```PYROPHORIC``` Large explosion that spreads fire of high intensity.
+- ```ROBOT_DAZZLE``` Applies sensor-stunning effect to robots.
 - ```RECOVER_[X]``` Has a (X-1/X) chance to create a single charge of the used ammo at the point of impact.
 - ```RECYCLED``` (For handmade ammo) causes the gun to misfire sometimes; this is independent of the weapon flags.
-- ```SHOT``` Multiple smaller pellets; less effective against armor but increases chance to hit and no point-blank penalty
-- ```SMOKE_BIG``` Generates a large cloud of smoke at the target.
+- ```SHATTER_SELF``` Destroys itself and creates shards on hit.
+- ```SHOT``` Multiple smaller pellets; less effective against armor but increases chance to hit and no point-blank penalty.
 - ```SMOKE``` Generates a cloud of smoke at the target.
-- ```STREAM_BIG``` Leaves a trail of intense fire fields.
+- ```SMOKE_BIG``` Generates a large cloud of smoke at the target.
 - ```STREAM``` Leaves a trail of fire fields.
+- ```STREAM_BIG``` Leaves a trail of intense fire fields.
+- ```STREAM_GAS_FUNGICIDAL``` Leaves a trail of fungicidal gas.
+- ```STREAM_GAS_INSCENTICIDAL``` Leaves a trail of insecticidal gas.
+- ```TANGLE``` When this projectile hits a target, it has a chance to tangle them up and immobilize them.
+- ```TOXICGAS``` Creates a cloud of toxic gas on hit.
 - ```TRAIL``` Creates a trail of smoke.
 - ```WIDE``` Prevents `HARDTOSHOOT` monster flag from having any effect. Implied by ```SHOT``` or liquid ammo.
-- ```NON_FOULING``` This ammo does not cause dirtying or blackpowder fouling on the gun when fired.
 
 ### Flags
 
@@ -753,6 +800,7 @@ These flags can be applied via JSON item definition to most items.  Not to be co
 - ```REDUCED_BASHING``` ... Gunmod flag; reduces the item's bashing damage by 50%.
 - ```REDUCED_WEIGHT``` ... Gunmod flag; reduces the item's base weight by 25%.
 - ```REQUIRES_TINDER``` ... Requires tinder to be present on the tile this item tries to start a fire on.
+- ```SINGLE_USE``` ... This item is deleted after being used. Items that count by charge do not need this as they are deleted when charges run out.
 - ```SLEEP_AID``` ... This item helps in sleeping.
 - ```SLEEP_AID_CONTAINER``` ... This item allows sleep aids inside of it to help in sleeping. (E.g. this is a pillowcase).
 - ```SLEEP_IGNORE``` ... This item is not shown as before-sleep warning.

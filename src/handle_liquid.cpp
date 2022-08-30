@@ -82,7 +82,7 @@ static void serialize_liquid_target( player_activity &act, const vpart_reference
 {
     act.values.push_back( static_cast<int>( liquid_target_type::VEHICLE ) );
     act.values.push_back( 0 ); // dummy
-    act.coords.push_back( vp.vehicle().global_pos3() );
+    act.coords.push_back( vp.vehicle().global_part_pos3( 0 ) );
     act.values.push_back( vp.part_index() ); // tank part index
 }
 

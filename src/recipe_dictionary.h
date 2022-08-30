@@ -123,10 +123,8 @@ class recipe_subset
          */
         int get_custom_difficulty( const recipe *r ) const;
 
-        /** Check if there is any recipes in given category (optionally restricted to subcategory) */
-        bool empty_category(
-            const std::string &cat,
-            const std::string &subcat = std::string() ) const;
+        /** Check if there is any recipes in given category (optionally restricted to subcategory), index which is for nested categories */
+        bool empty_category( const std::string &cat, const std::string &subcat = std::string() ) const;
 
         /** Get all recipes in given category (optionally restricted to subcategory) */
         std::vector<const recipe *> in_category(
@@ -159,8 +157,8 @@ class recipe_subset
         /** Find hidden recipes */
         std::vector<const recipe *> hidden() const;
 
-        /** Find current nested recipes */
-        std::vector<const recipe *> nested() const;
+        /** Find current nested recipes by the index */
+        std::vector<const recipe *> nested( int index ) const;
 
         /** Find recipes matching query (left anchored partial matches are supported) */
         std::vector<const recipe *> search(

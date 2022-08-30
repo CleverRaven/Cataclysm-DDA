@@ -113,7 +113,7 @@
     "type": "TOOL",
     "name": { "str": "radio (on)", "str_pl": "radios (on)" },
     "description": "This portable radio is turned on, and continually draining its batteries.  It is playing the broadcast being sent from any nearby radio towers.",
-    "power_draw": 500,
+    "power_draw": "500 mJ",
     "revert_to": "radio",
     "use_action": [ "RADIO_ON" ],
     "flags": [ "TRADER_AVOID" ]

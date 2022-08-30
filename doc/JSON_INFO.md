@@ -2816,6 +2816,11 @@ Vehicle components when installed on a vehicle.
   { "id": "hotplate", "hotkey": "h" },
   { "id": "pot" }
 ],
+"folded_volume": "750 ml", // volume this vpart takes in folded form
+"folding_tools": [ "needle_curved" ], // tool itype_ids required for folding
+"folding_time": "100 seconds", // time to fold this part
+"unfolding_tools": [ "hand_pump" ], // tool itype_ids required for unfolding
+"unfolding_time": "150 seconds", // time to unfold this part
 "damage_reduction" : {        // Flat reduction of damage, as described below. If not specified, set to zero
     "all" : 10,
     "physical" : 5
@@ -3770,7 +3775,7 @@ Alternately, every item (book, tool, armor, even food) can be used as a gunmod i
 "initial_charges": 75,     // Charges when spawned
 "max_charges": 75,         // Maximum charges tool can hold
 "rand_charges": [10, 15, 25], // Randomize the charges when spawned. This example has a 50% chance of rng(10, 15) charges and a 50% chance of rng(15, 25). (The endpoints are included.)
-"power_draw": 50,          // Energy consumption rate in mW
+"power_draw": "50 mJ",          // Energy consumption per second
 "revert_to": "torch_done", // Transforms into item when charges are expended
 "sub": "hotplate",         // optional; this tool has the same functions as another tool
 ```
@@ -3968,12 +3973,6 @@ The contents of use_action fields can either be a string indicating a built-in f
     "duration": "6 m", // How long does the effect last.
     "effects": [ { "id": "fetid_goop", "duration": 360, "bp": "torso", "permanent": true } ], // List of effects with their id, duration, bodyparts, and permanent bool
     "waterproof": true, // Is the effect waterproof.  (Default: false)
-    "moves": 500 // Number of moves required in the process.
-},
-"use_action": {
-    "type": "unfold_vehicle", // Transforms the item into a vehicle.
-    "vehicle_name": "bicycle", // Vehicle name to create.
-    "unfold_msg": "You painstakingly unfold the bicycle and make it ready to ride.", // Message to display when transforming.
     "moves": 500 // Number of moves required in the process.
 },
 "use_action" : {

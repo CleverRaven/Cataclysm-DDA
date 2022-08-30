@@ -91,6 +91,26 @@
     "multi_activity": true
   },
   {
+    "id": "ACT_VEHICLE_FOLD",
+    "type": "activity_type",
+    "activity_level": "LIGHT_EXERCISE",
+    "verb": "folding a vehicle",
+    "based_on": "speed",
+    "suspendable": false,
+    "no_resume": true,
+    "multi_activity": false
+  },
+  {
+    "id": "ACT_VEHICLE_UNFOLD",
+    "type": "activity_type",
+    "activity_level": "LIGHT_EXERCISE",
+    "verb": "unfolding a vehicle",
+    "based_on": "speed",
+    "suspendable": false,
+    "no_resume": true,
+    "multi_activity": false
+  },
+  {
     "id": "ACT_VEHICLE_REPAIR",
     "type": "activity_type",
     "activity_level": "MODERATE_EXERCISE",

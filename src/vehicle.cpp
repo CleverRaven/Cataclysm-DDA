@@ -108,10 +108,10 @@ static const itype_id fuel_type_plutonium_cell( "plut_cell" );
 static const itype_id fuel_type_wind( "wind" );
 static const itype_id itype_battery( "battery" );
 static const itype_id itype_plut_cell( "plut_cell" );
+static const itype_id itype_pseudo_water_purifier( "pseudo_water_purifier" );
 static const itype_id itype_water( "water" );
 static const itype_id itype_water_clean( "water_clean" );
 static const itype_id itype_water_faucet( "water_faucet" );
-static const itype_id itype_water_purifier( "water_purifier" );
 
 static const proficiency_id proficiency_prof_aircraft_mechanic( "prof_aircraft_mechanic" );
 
@@ -1289,84 +1289,86 @@ bool vehicle::can_unmount( const int p, std::string &reason ) const
         return false;
     }
 
-    // Find all the flags on parts in this tile that require other flags
-    const point pt = parts[p].mount;
-    std::vector<int> parts_here = parts_at_relative( pt, false );
+    const vehicle_part &vp_to_remove = parts[p];
+    const std::vector<int> parts_here = parts_at_relative( vp_to_remove.mount, false );
 
+    // make sure there are no parts which require flags from this part
     for( const int &elem : parts_here ) {
         for( const std::string &flag : part_info( elem ).get_flags() ) {
-            if( part_info( p ).has_flag( json_flag::get( flag ).requires_flag() ) ) {
+            if( vp_to_remove.info().has_flag( json_flag::get( flag ).requires_flag() ) ) {
                 reason = string_format( _( "Remove the attached %s first." ), part_info( elem ).name() );
                 return false;
             }
         }
     }
 
-    //Can't remove an animal part if the animal is still contained
-    if( parts[p].has_flag( vehicle_part::animal_flag ) ) {
+    if( vp_to_remove.has_flag( vehicle_part::animal_flag ) ) {
         reason = _( "Remove carried animal first." );
         return false;
     }
 
-    //Structural parts have extra requirements
-    if( part_info( p ).location == part_location_structure ) {
+    if( vp_to_remove.has_flag( vehicle_part::carrying_flag ) ||
+        vp_to_remove.has_flag( vehicle_part::carried_flag ) ) {
+        reason = _( "Unracking is required before removing this part." );
+        return false;
+    }
 
-        std::vector<int> parts_in_square = parts_at_relative( parts[p].mount, false );
-        /* To remove a structural part, there can be only structural parts left
-         * in that square (might be more than one in the case of wreckage) */
-        for( const int &elem : parts_in_square ) {
-            if( part_info( elem ).location != part_location_structure ) {
-                reason = _( "Remove all other attached parts first." );
-                return false;
-            }
-        }
+    if( vp_to_remove.info().location != part_location_structure ) {
+        return true; // non-structure parts don't have extra requirements
+    }
 
-        //If it's the last part in the square...
-        if( parts_in_square.size() == 1 ) {
-
-            /* This is the tricky part: We can't remove a part that would cause
-             * the vehicle to 'break into two' (like removing the middle section
-             * of a quad bike, for instance). This basically requires doing some
-             * breadth-first searches to ensure previously connected parts are
-             * still connected. */
-
-            //First, find all the squares connected to the one we're removing
-            std::vector<vehicle_part> connected_parts;
-
-            for( int i = 0; i < 4; i++ ) {
-                const point next = parts[p].mount + point( i < 2 ? ( i == 0 ? -1 : 1 ) : 0,
-                                   i < 2 ? 0 : ( i == 2 ? -1 : 1 ) );
-                std::vector<int> parts_over_there = parts_at_relative( next, false );
-                //Ignore empty squares
-                if( !parts_over_there.empty() ) {
-                    //Just need one part from the square to track the x/y
-                    connected_parts.push_back( parts[parts_over_there[0]] );
-                }
-            }
-
-            /* If size = 0, it's the last part of the whole vehicle, so we're OK
-             * If size = 1, it's one protruding part (i.e., bicycle wheel), so OK
-             * Otherwise, it gets complicated... */
-            if( connected_parts.size() > 1 ) {
-
-                /* We'll take connected_parts[0] to be the target part.
-                 * Every other part must have some path (that doesn't involve
-                 * the part about to be removed) to the target part, in order
-                 * for the part to be legally removable. */
-                for( const vehicle_part &next_part : connected_parts ) {
-                    if( !is_connected( connected_parts[0], next_part, parts[p] ) ) {
-                        //Removing that part would break the vehicle in two
-                        reason = _( "Removing this part would split the vehicle." );
-                        return false;
-                    }
-                }
-
-            }
-
+    // structure parts can only be removed when no non-structure parts are on tile
+    for( const int &elem : parts_here ) {
+        if( part_info( elem ).location != part_location_structure ) {
+            reason = _( "Remove all other attached parts first." );
+            return false;
         }
     }
-    //Anything not explicitly denied is permitted
-    return true;
+
+    // reaching here means only structure parts left on this tile
+
+    if( parts_here.size() > 1 ) {
+        return true; // wrecks can have more than one structure part, so it's valid for removal
+    }
+
+    // find all the vehicle's tiles adjacent to the one we're removing
+    std::vector<vehicle_part> adjacent_parts;
+    for( const point &offset : four_adjacent_offsets ) {
+        const std::vector<int> parts_over_there = parts_at_relative( vp_to_remove.mount + offset, false );
+        if( !parts_over_there.empty() ) {
+            //Just need one part from the square to track the x/y
+            adjacent_parts.push_back( parts[parts_over_there[0]] );
+        }
+    }
+
+    if( adjacent_parts.empty() ) {
+        return true; // this is the only vehicle tile left, valid to remove
+    }
+
+    if( adjacent_parts.size() == 1 ) {
+        // removing this will create invalid vehicle with only a PROTRUSION part (wing mirror, forklift etc)
+        if( adjacent_parts[0].info().has_flag( "PROTRUSION" ) ) {
+            reason = _( "Remove other parts before removing last structure part." );
+            return false;
+        }
+    }
+
+    if( adjacent_parts.size() > 1 ) {
+        // Reaching here means there is more than one adjacent tile, which means it's possible
+        // for removal of this part to split the vehicle in two or more disjoint parts, for
+        // example removing the middle section of a quad bike. To prevent that we'll run BFS
+        // on every pair combination of adjacent parts to verify each pair is connected.
+        for( size_t i = 0; i < adjacent_parts.size(); i++ ) {
+            for( size_t j = i + 1; j < adjacent_parts.size(); j++ ) {
+                if( !is_connected( adjacent_parts[i], adjacent_parts[j], vp_to_remove ) ) {
+                    reason = _( "Removing this part would split the vehicle." );
+                    return false;
+                }
+            }
+        }
+    }
+
+    return true; // Anything not explicitly denied is permitted
 }
 
 /**
@@ -1385,60 +1387,47 @@ bool vehicle::is_connected( const vehicle_part &to, const vehicle_part &from,
     const point target = to.mount;
     const point excluded = excluded_part.mount;
 
-    //Breadth-first-search components
-    std::list<vehicle_part> discovered;
-    std::list<vehicle_part> searched;
+    std::queue<point> queue;
+    std::unordered_set<point> visited;
 
-    //We begin with just the start point
-    discovered.push_back( from );
+    queue.push( from.mount );
+    visited.insert( from.mount );
+    while( !queue.empty() ) {
+        const point current_pt = queue.front();
+        queue.pop();
 
-    while( !discovered.empty() ) {
-        vehicle_part current_part = discovered.front();
-        discovered.pop_front();
-        point current = current_part.mount;
-
+        // in this case BFS "edges" are north/east/west/south tiles, diagonals don't connect
         for( const point &offset : four_adjacent_offsets ) {
-            point next = current + offset;
+            const point next = current_pt + offset;
 
             if( next == target ) {
-                //Success!
-                return true;
-            } else if( next == excluded ) {
-                //There might be a path, but we're not allowed to go that way
-                continue;
+                return true; // found a path, bail out early from BFS
             }
 
-            std::vector<int> parts_there = parts_at_relative( next, true );
+            if( next == excluded ) {
+                continue; // can't traverse excluded tile
+            }
 
-            if( !parts_there.empty() && !parts[ parts_there[ 0 ] ].removed &&
-                part_info( parts_there[ 0 ] ).location == "structure" &&
-                !part_info( parts_there[ 0 ] ).has_flag( "PROTRUSION" ) ) {
-                //Only add the part if we haven't been here before
-                bool found = false;
-                for( const vehicle_part &elem : discovered ) {
-                    if( elem.mount == next ) {
-                        found = true;
-                        break;
-                    }
-                }
-                if( !found ) {
-                    for( const vehicle_part &elem : searched ) {
-                        if( elem.mount == next ) {
-                            found = true;
-                            break;
-                        }
-                    }
-                }
-                if( !found ) {
-                    vehicle_part next_part = parts[parts_there[0]];
-                    discovered.push_back( next_part );
-                }
+            const std::vector<int> parts_there = parts_at_relative( next, false );
+
+            if( parts_there.empty() ) {
+                continue; // can't traverse empty tiles
+            }
+
+            // 2022-08-27 assuming structure part is on 0th index is questionable but it worked before so...
+            vehicle_part vp_next = parts[ parts_there[ 0 ] ];
+
+            if( vp_next.info().location != part_location_structure || // not a structure part
+                vp_next.info().has_flag( "PROTRUSION" ) ||            // protrusions are not really structure
+                vp_next.has_flag( vehicle_part::carried_flag ) ) {    // carried frames are not structure
+                continue; // can't connect if it's not structure
+            }
+
+            if( visited.insert( vp_next.mount ).second ) { // .second is false if already in visited
+                queue.push( vp_next.mount ); // not visited, need to explore
             }
         }
-        //Now that that's done, we've finished exploring here
-        searched.push_back( current_part );
     }
-    //If we completely exhaust the discovered list, there's no path
     return false;
 }
 
@@ -1552,7 +1541,15 @@ bool vehicle::try_to_rack_nearby_vehicle( std::vector<std::vector<int>> &list_of
                     partial_matches[ i ].clear();
                 }
                 partial_matches[ i ].insert( search_pos );
-                if( partial_matches[ i ] == test_veh->get_points() ) {
+
+                std::set<tripoint> test_veh_points;
+                for( const vpart_reference &vpr : test_veh->get_all_parts() ) {
+                    if( !vpr.part().removed && !vpr.part().is_fake ) {
+                        test_veh_points.insert( vpr.pos() );
+                    }
+                }
+
+                if( partial_matches[ i ] == test_veh_points ) {
                     if( do_not_rack ) {
                         return true;
                     } else {
@@ -3239,18 +3236,6 @@ units::mass vehicle::total_mass() const
     return mass_cache;
 }
 
-units::volume vehicle::total_folded_volume() const
-{
-    units::volume m = 0_ml;
-    for( const vpart_reference &vp : get_all_parts() ) {
-        if( vp.part().removed ) {
-            continue;
-        }
-        m += vp.info().folded_volume;
-    }
-    return m;
-}
-
 const point &vehicle::rotated_center_of_mass() const
 {
     // TODO: Bring back caching of this point
@@ -3283,10 +3268,10 @@ point vehicle::pivot_displacement() const
     return dp.xy();
 }
 
-int vehicle::fuel_left( const itype_id &ftype, bool recurse,
-                        const std::function<bool( const vehicle_part & )> &filter ) const
+int64_t vehicle::fuel_left( const itype_id &ftype, bool recurse,
+                            const std::function<bool( const vehicle_part & )> &filter ) const
 {
-    int fl = 0;
+    int64_t fl = 0;
 
     for( const int i : fuel_containers ) {
         const vehicle_part &part = parts[i];
@@ -3336,10 +3321,6 @@ int vehicle::fuel_left( const itype_id &ftype, bool recurse,
     }
 
     return fl;
-}
-int vehicle::fuel_left( const int p, bool recurse ) const
-{
-    return fuel_left( parts[ p ].fuel_current(), recurse );
 }
 
 int vehicle::engine_fuel_left( const int e, bool recurse ) const
@@ -7081,15 +7062,68 @@ bool vehicle::is_foldable() const
     return true;
 }
 
-bool vehicle::restore( const std::string &data )
+time_duration vehicle::folding_time() const
 {
+    const vehicle_part_range vpr = get_all_parts();
+    return std::accumulate( vpr.begin(), vpr.end(), time_duration(),
+    []( time_duration & acc, const vpart_reference & part ) {
+        return acc + ( part.part().removed ? time_duration() : part.info().get_folding_time() );
+    } );
+}
+
+time_duration vehicle::unfolding_time() const
+{
+    const vehicle_part_range vpr = get_all_parts();
+    return std::accumulate( vpr.begin(), vpr.end(), time_duration(),
+    []( time_duration & acc, const vpart_reference & part ) {
+        return acc + ( part.part().removed ? time_duration() : part.info().get_unfolding_time() );
+    } );
+}
+
+item vehicle::get_folded_item() const
+{
+    item folded( "generic_folded_vehicle", calendar::turn );
+    const std::vector<vehicle_part> parts = real_parts();
+    try {
+        std::ostringstream veh_data;
+        JsonOut json( veh_data );
+        json.write( parts );
+        folded.set_var( "folded_parts", veh_data.str() );
+    } catch( const JsonError &e ) {
+        debugmsg( "Error storing vehicle: %s", e.c_str() );
+    }
+    const units::volume folded_volume = std::accumulate( parts.cbegin(), parts.cend(), 0_ml,
+    []( const units::volume v, const vehicle_part & vp ) {
+        return v + ( vp.removed ? 0_ml : vp.info().folded_volume );
+    } );
+
+    folded.set_var( "tracking", tracking_on ? 1 : 0 );
+    folded.set_var( "weight", to_milligram( total_mass() ) );
+    folded.set_var( "volume", folded_volume / units::legacy_volume_factor );
+    folded.set_var( "name", string_format( _( "folded %s" ), name ) );
+    folded.set_var( "vehicle_name", name );
+    folded.set_var( "unfolding_time", to_moves<int>( unfolding_time() ) );
+    // TODO: a better description?
+    std::string desc = string_format( _( "A folded %s." ), name )
+                       .append( "\n\n" )
+                       .append( string_format( _( "It will take %s to unfold." ), to_string( unfolding_time() ) ) );
+    folded.set_var( "description", desc );
+
+    return folded;
+}
+
+bool vehicle::restore_folded_parts( const item &it )
+{
+    // TODO: Remove folding_bicycle_parts after savegames migrate
+    const std::string data = it.has_var( "folding_bicycle_parts" )
+                             ? it.get_var( "folding_bicycle_parts" )
+                             : it.get_var( "folded_parts" );
     std::istringstream veh_data( data );
     try {
-        JsonIn json( veh_data );
         parts.clear();
-        json.read( parts );
+        JsonIn( veh_data ).read( parts );
     } catch( const JsonError &e ) {
-        debugmsg( "Error restoring vehicle: %s", e.c_str() );
+        debugmsg( "Error restoring folded vehicle parts: %s", e.c_str() );
         return false;
     }
     refresh();
@@ -7320,11 +7354,11 @@ void vehicle::update_time( const time_point &update_to )
         double area = std::pow( pt.info().size / units::legacy_volume_factor, 2 ) * M_PI;
         int qty = roll_remainder( funnel_charges_per_turn( area, accum_weather.rain_amount ) );
         int c_qty = qty + ( tank->can_reload( water_clean ) ?  tank->ammo_remaining() : 0 );
-        int cost_to_purify = c_qty * item::find_type( itype_water_purifier )->charges_to_use();
+        int cost_to_purify = c_qty * item::find_type( itype_pseudo_water_purifier )->charges_to_use();
 
         if( qty > 0 ) {
             const cata::optional<vpart_reference> vp_purifier = vpart_position( *this, idx )
-                    .part_with_tool( itype_water_purifier );
+                    .part_with_tool( itype_pseudo_water_purifier );
 
             if( vp_purifier && ( fuel_left( itype_battery, true ) > cost_to_purify ) ) {
                 tank->ammo_set( itype_water_clean, c_qty );
