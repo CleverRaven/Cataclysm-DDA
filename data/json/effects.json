@@ -2179,7 +2179,7 @@
     "desc": [ "You're too fat to wear hard armor on your %s.  It's pretty uncomfortable." ],
     "max_intensity": 1,
     "part_descs": true,
-    "base_mods": { "speed_mod": [ -2 ], "pain_min": [ 1 ], "pain_chance": [ 12 ], "pain_max_val": [ 10 ] }
+    "base_mods": { "speed_mod": [ -3 ], "pain_min": [ 1 ], "pain_chance": [ 12 ], "pain_max_val": [ 10 ] }
   },
   {
     "type": "effect_type",
