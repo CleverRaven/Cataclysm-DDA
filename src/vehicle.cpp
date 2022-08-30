@@ -6517,7 +6517,7 @@ void vehicle::remove_remote_part( int part_num )
     }
 }
 
-void vehicle::shed_loose_parts()
+void vehicle::shed_loose_parts( const tripoint_bub_ms *src, const tripoint_bub_ms *dst )
 {
     map &here = get_map();
     // remove_part rebuilds the loose_parts vector, so iterate over a copy to preserve
@@ -6529,10 +6529,21 @@ void vehicle::shed_loose_parts()
             continue;
         }
         if( part_flag( elem, "POWER_TRANSFER" ) ) {
-            int distance = rl_dist( here.getabs( global_part_pos3( parts[elem] ) ), parts[elem].target.second );
+            int distance = rl_dist( here.getabs( bub_part_pos( parts[elem] ) ), parts[elem].target.second );
             int max_dist = parts[elem].get_base().type->maximum_charges();
-            if( ( max_dist - distance ) > 0 ) {
+            if( src && ( max_dist - distance ) > 0 ) {
                 // power line still has some slack to it, so keep it attached for now
+                vehicle *veh = find_vehicle( parts[elem].target.second );
+                if( veh != nullptr ) {
+                    for( int remote_lp : veh->loose_parts ) {
+                        if( veh->part_flag( remote_lp, "POWER_TRANSFER" ) &&
+                            veh->parts[remote_lp].target.first == here.getabs( *src ) ) {
+                            // update remote part's target to new position
+                            veh->parts[remote_lp].target.first = here.getabs( dst ? *dst : bub_part_pos( elem ) );
+                            veh->parts[remote_lp].target.second = veh->parts[remote_lp].target.first;
+                        }
+                    }
+                }
                 continue;
             }
             add_msg_if_player_sees( global_part_pos3( parts[elem] ), m_warning,

@@ -1260,7 +1260,7 @@ void map::unboard_vehicle( const tripoint &p, bool dead_passenger )
 bool map::displace_vehicle( vehicle &veh, const tripoint &dp, const bool adjust_pos,
                             const std::set<int> &parts_to_move )
 {
-    const tripoint src = veh.global_pos3();
+    const tripoint_bub_ms src = veh.pos_bub();
     // handle vehicle ramps
     int ramp_offset = 0;
     if( adjust_pos ) {
@@ -1273,20 +1273,20 @@ bool map::displace_vehicle( vehicle &veh, const tripoint &dp, const bool adjust_
         }
     }
 
-    const tripoint dst = src + ( adjust_pos ?
-                                 ( dp + tripoint( 0, 0, ramp_offset ) ) : tripoint_zero );
+    const tripoint_bub_ms dst =
+        src + ( adjust_pos ? ( dp + tripoint( 0, 0, ramp_offset ) ) : tripoint_zero );
 
     if( !inbounds( src ) ) {
         add_msg_debug( debugmode::DF_MAP,
                        "map::displace_vehicle: coordinates out of bounds %d,%d,%d->%d,%d,%d",
-                       src.x, src.y, src.z, dst.x, dst.y, dst.z );
+                       src.x(), src.y(), src.z(), dst.x(), dst.y(), dst.z() );
         return false;
     }
 
     point src_offset;
     point dst_offset;
-    submap *src_submap = get_submap_at( src, src_offset );
-    submap *const dst_submap = get_submap_at( dst, dst_offset );
+    submap *src_submap = get_submap_at( src.raw(), src_offset );
+    submap *const dst_submap = get_submap_at( dst.raw(), dst_offset );
     if( src_submap == nullptr || dst_submap == nullptr ) {
         debugmsg( "Tried to displace vehicle at (%d,%d) but the submap is not loaded", src_offset.x,
                   src_offset.y );
@@ -1381,7 +1381,7 @@ bool map::displace_vehicle( vehicle &veh, const tripoint &dp, const bool adjust_
             }
 
             // Place passenger on the new part location
-            tripoint psgp( dst + next_pos + tripoint( 0, 0, psg_offset_z ) );
+            tripoint_bub_ms psgp( dst + next_pos + tripoint( 0, 0, psg_offset_z ) );
             // someone is in the way so try again
             if( creatures.creature_at( psgp ) ) {
                 complete = false;
@@ -1390,42 +1390,43 @@ bool map::displace_vehicle( vehicle &veh, const tripoint &dp, const bool adjust_
             if( psg->is_avatar() ) {
                 // If passenger is you, we need to update the map
                 need_update = true;
-                z_change = psgp.z - part_pos.z;
+                z_change = psgp.z() - part_pos.z;
             }
 
-            psg->setpos( psgp );
+            psg->setpos( psgp.raw() );
             r.moved = true;
         }
     }
 
-    veh.shed_loose_parts();
-    smzs = veh.advance_precalc_mounts( dst_offset, src, dp, ramp_offset, adjust_pos, parts_to_move );
+    veh.shed_loose_parts( &src, &dst );
+    smzs = veh.advance_precalc_mounts( dst_offset, src.raw(), dp, ramp_offset,
+                                       adjust_pos, parts_to_move );
     veh.update_active_fakes();
 
     if( src_submap != dst_submap ) {
-        veh.set_submap_moved( tripoint( dst.x / SEEX, dst.y / SEEY, dst.z ) );
+        veh.set_submap_moved( tripoint( dst.x() / SEEX, dst.y() / SEEY, dst.z() ) );
         auto src_submap_veh_it = src_submap->vehicles.begin() + our_i;
         dst_submap->vehicles.push_back( std::move( *src_submap_veh_it ) );
         src_submap->vehicles.erase( src_submap_veh_it );
         dst_submap->is_uniform = false;
-        invalidate_max_populated_zlev( dst.z );
+        invalidate_max_populated_zlev( dst.z() );
     }
     if( need_update ) {
         g->update_map( player_character );
     }
     add_vehicle_to_cache( &veh );
 
-    if( z_change || src.z != dst.z ) {
+    if( z_change || src.z() != dst.z() ) {
         if( z_change ) {
             g->vertical_move( z_change, true );
             // vertical moves can flush the caches, so make sure we're still in the cache
             add_vehicle_to_cache( &veh );
         }
-        update_vehicle_list( dst_submap, dst.z );
+        update_vehicle_list( dst_submap, dst.z() );
         // delete the vehicle from the source z-level vehicle cache set if it is no longer on
         // that z-level
-        if( src.z != dst.z ) {
-            level_cache &ch2 = get_cache( src.z );
+        if( src.z() != dst.z() ) {
+            level_cache &ch2 = get_cache( src.z() );
             for( const vehicle *elem : ch2.vehicle_list ) {
                 if( elem == &veh ) {
                     ch2.vehicle_list.erase( &veh );
@@ -1447,7 +1448,7 @@ bool map::displace_vehicle( vehicle &veh, const tripoint &dp, const bool adjust_
     veh.zones_dirty = true;
 
     for( int vsmz : smzs ) {
-        on_vehicle_moved( dst.z + vsmz );
+        on_vehicle_moved( dst.z() + vsmz );
     }
     return true;
 }
