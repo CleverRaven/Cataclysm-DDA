@@ -218,16 +218,17 @@ bool teleport::resonance( Creature &critter, int min_distance, int max_distance,
         return false;
     }
     int tries = 0;
+    int rangle = rng( 0, 360 );
     tripoint origin = critter.pos();
     tripoint new_pos = origin;
     map &here = get_map();
     do {
-        int rangle = rng( 0, 360 );
         int rdistance = rng( min_distance, max_distance );
         new_pos.x = origin.x + rdistance * std::cos( rangle );
         new_pos.y = origin.y + rdistance * std::sin( rangle );
+        rangle+= 15;
         tries++;
-    } while( here.impassable( new_pos ) && get_creature_tracker().creature_at<Creature>( new_pos ) && tries < 999 );
+    } while( here.impassable( new_pos ) && get_creature_tracker().creature_at<Creature>( new_pos ) && tries < 100 );
     if ( here.impassable( new_pos ) || get_creature_tracker().creature_at<Creature>( new_pos ) ) {
         return false;
     } else {
