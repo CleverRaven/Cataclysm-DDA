@@ -137,7 +137,7 @@ jobs:
     - name: Build
       run: |
           cd msvc-full-features
-          msbuild -m -p:Configuration=Release -p:Platform=x64 "-target:Cataclysm-vcpkg-static;Cataclysm-test-vcpkg-static;JsonFormatter-vcpkg-static" Cataclysm-vcpkg-static.sln
+          msbuild -m -p:Configuration=Release -p:Platform=x64 "-target:Cataclysm-vcpkg-static;Cataclysm-test-vcpkg-static;JsonFormatter-vcpkg-static;ObjectCreator-vcpkg-static" Cataclysm-vcpkg-static.sln
 
     - name: Post-build ccache manipulation
       if: ${{ !failure() }}
@@ -157,6 +157,8 @@ jobs:
       run: |
         echo =================================================
         Get-ChildItem "${{ runner.workspace }}/Cataclysm-DDA/msvc-full-features/vcpkg_installed" -Recurse
+        echo =================================================
+        Get-ChildItem "${{ runner.workspace }}/Cataclysm-DDA/msvc-object_creator/vcpkg_installed" -Recurse
         echo =================================================
         Get-ChildItem "${{ runner.workspace }}/b/vcpkg/buildtrees" |
         Foreach-Object {
@@ -193,6 +195,8 @@ jobs:
         du -sh *
         echo =================================================
         du -sh msvc-full-features/*
+        echo =================================================
+        du -sh msvc-object_creator/*
         echo =================================================
         du -sh tools/*
         echo =================================================
