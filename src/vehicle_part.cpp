@@ -358,6 +358,7 @@ units::energy vehicle_part::consume_energy( const itype_id &ftype, units::energy
         } else {
             fuel.charges -= charges_to_use;
         }
+
         return charges_to_use * energy_per_charge;
     }
     return 0_J;
