@@ -344,7 +344,7 @@
   {
     "type": "MONSTER",
     "id": "mon_zyrannosaurus_brute",
-    "name": { "str_sp": "Rage Rex" },
+    "name": { "str": "Rage Rex", "str_pl": "Rage Rexes" },
     "copy-from": "mon_zyrannosaurus",
     "looks_like": "mon_zyrannosaurus",
     "description": "A massive pile of ragged, stinking flesh lifting enormous teeth.  Its entire body bulges with distended muscles and swollen, festering wounds.",
@@ -1094,7 +1094,7 @@
   {
     "type": "MONSTER",
     "id": "mon_zeptoceratops_brute",
-    "name": { "str": "Leaping Leptoceratops" },
+    "name": { "str_sp": "Leaping Leptoceratops" },
     "copy-from": "mon_zeptoceratops",
     "description": "A shambling, four-legged dinosaur corpse with a bony crest and beak.  Its entire body bulges with distended muscles and swollen, festering wounds.",
     "diff": 2,
@@ -3740,7 +3740,7 @@
   {
     "type": "MONSTER",
     "id": "mon_zyrannosaurus_truck",
-    "name": { "str_sp": "Tyruckusaurus Rex" },
+    "name": { "str": "Tyruckusaurus Rex", "str_pl": "Tyruckusaurus Rexes" },
     "copy-from": "mon_zyrannosaurus_brute",
     "looks_like": "mon_zyrannosaurus",
     "description": "Massive piles of ragged, stinking flesh lifting enormous teeth and what looks like a fully loaded long haul truck with mounted flamethrowers and robotic arms.",
@@ -3925,7 +3925,7 @@
   {
     "type": "MONSTER",
     "id": "mon_zyrannosaurus_hulk",
-    "name": { "str_sp": "Goliath Rex" },
+    "name": { "str": "Goliath Rex", "str_pl": "Goliath Rexes" },
     "copy-from": "mon_zyrannosaurus_brute",
     "looks_like": "mon_zyrannosaurus",
     "description": "A hideously swollen zombified tyrannosaurid theropod body towering into the sky.  Its massive body bulges with distended muscles and swollen, festering wounds.",
