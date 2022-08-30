@@ -1604,7 +1604,7 @@
     "activity_level": "fake",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_VEHICLE",
-    "name": "deflating tires",
+    "name": "deflated tires",
     "description": "Recipes related to taking the air out of tires.",
     "skill_used": "fabrication",
     "nested_category_data": [
@@ -1625,7 +1625,7 @@
     "activity_level": "fake",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_VEHICLE",
-    "name": "inflate tires",
+    "name": "inflated tires",
     "description": "Recipes related to inflating tires.",
     "skill_used": "fabrication",
     "nested_category_data": [
