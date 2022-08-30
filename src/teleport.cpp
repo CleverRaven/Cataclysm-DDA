@@ -168,7 +168,7 @@ bool teleport::teleport_to_point( Creature &critter, tripoint target, bool safe,
     }
     critter.setpos( target );
     if( collision ) {
-        g->fling_creature( *critter, units::from_degrees( collision_angle - 180 ), 50 );
+        g->fling_creature( critter, units::from_degrees( collision_angle - 180 ), 50 );
         critter.apply_damage( nullptr, bodypart_id( "arm_l" ), rng( 5, 10 ) );
         critter.apply_damage( nullptr, bodypart_id( "arm_r" ), rng( 5, 10 ) );
         critter.apply_damage( nullptr, bodypart_id( "leg_l" ), rng( 7, 12 ) );
