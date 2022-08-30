@@ -75,7 +75,7 @@
     "practice_data": { "min_difficulty": 0, "max_difficulty": 1, "skill_limit": 2 },
     "autolearn": [ [ "rifle", 1 ] ],
     "book_learn": [ [ "recipe_bows", 0 ], [ "manual_archery", 0 ], [ "book_archery", 0 ] ],
-    "tools": [ [ "bullet_crossbow", "crossbow", "compositecrossbow", "compcrossbow", "huge_crossbow" ] ],
+    "tools": [ [ [ "crossbows", 1, "LIST" ] ] ],
     "components": [ [ [ "bolt_crude", 10 ] ] ],
     "byproduct_group": [ { "item": "bolt_crude", "charges": [ 0, 2 ] } ]
   },
@@ -128,7 +128,7 @@
     "autolearn": [ [ "rifle", 3 ] ],
     "book_learn": [ [ "recipe_bows", 2 ], [ "manual_archery", 2 ], [ "book_archery", 2 ] ],
     "tools": [
-      [ "bullet_crossbow", "crossbow", "compositecrossbow", "compcrossbow", "huge_crossbow" ],
+      [ [ "crossbows", 1, "LIST" ] ],
       [ "pseudo_archery_target_box", "pseudo_archery_target_bale" ]
     ],
     "components": [ [ [ "bolt_wood", 20 ] ] ],
