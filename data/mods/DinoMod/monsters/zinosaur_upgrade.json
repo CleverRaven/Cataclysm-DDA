@@ -3540,7 +3540,7 @@
     "color": "white",
     "material": [ "bone" ],
     "armor_bash": 0,
-    "description": "This large, four-legged dinosaur corpse with a beak and long horn above the nose. has grown dense bone armor over the rest of its body.",
+    "description": "This large, four-legged dinosaur corpse with a beak and long horn above the nose has grown dense bone armor over the rest of its body.",
     "proportional": { "hp": 0.4, "speed": 0.875 },
     "relative": {
       "melee_dice": 9,
