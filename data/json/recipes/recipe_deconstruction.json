@@ -5035,7 +5035,7 @@
     "activity_level": "NO_EXERCISE",
     "skill_used": "fabrication",
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "leather", 50 ] ], [ [ "thread", 8 ] ]  ],
+    "components": [ [ [ "leather", 50 ] ], [ [ "thread", 8 ] ] ],
     "flags": [ "BLIND_EASY" ]
   },
   {
