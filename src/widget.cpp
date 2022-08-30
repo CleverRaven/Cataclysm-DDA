@@ -1232,8 +1232,6 @@ std::string widget::value_string( int value, int width_max )
     const int w = _width > 0 ? _width : width_max;
     if( _style == "graph" ) {
         ret += graph( value );
-    } else if( _style == "bar" ) {
-        ret += bar( value );
     } else if( _style == "text" ) {
         ret += text( !_clauses.empty(), w );
     } else if( _style == "symbol" ) {
@@ -1476,25 +1474,12 @@ std::vector<const widget_clause *> widget::get_clauses() const
     return ret;
 }
 
-std::string widget::bar( int value ) const
-{
-    std::wstring g = utf8_to_wstr( graph( value ) );
-    std::wstring ret;
-    for( int i = g.size() - 1; i >= 0; i-- ) {
-        ret += g[i];
-        if( i > 0 ) {
-            ret += '\n';
-        }
-    }
-    return wstr_to_utf8( ret );
-}
-
 std::string widget::graph( int value ) const
 {
     // graph "depth is equal to the number of nonzero symbols
     int depth = utf8_width( _symbols ) - 1;
     // Number of graph characters
-    const int w = _style == "bar" ? _height : _width;
+    const int w = _arrange == "rows" ? _height : _width;
     // Max integer value this graph can show
     int max_graph_val = w * depth;
     // Scale value range to current graph resolution (width x depth)
@@ -1549,6 +1534,19 @@ std::string widget::graph( int value ) const
         debugmsg( "Unknown widget fill type %s", _fill );
         return "";
     }
+
+    // Re-arrange characters to a vertical bar graph
+    if( _arrange == "rows" ) {
+        std::wstring temp = ret;
+        ret = std::wstring();
+        for( int i = temp.size() - 1; i >= 0; i-- ) {
+            ret += temp[i];
+            if( i > 0 ) {
+                ret += '\n';
+            }
+        }
+    }
+    
     return wstr_to_utf8( ret );
 }
 
