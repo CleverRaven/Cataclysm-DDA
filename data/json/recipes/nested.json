@@ -1620,6 +1620,27 @@
     "difficulty": 1
   },
   {
+    "id": "nested_filled_tires",
+    "type": "nested_category",
+    "activity_level": "fake",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_VEHICLE",
+    "name": "inflate tires",
+    "description": "Recipes related to inflating tires.",
+    "skill_used": "fabrication",
+    "nested_category_data": [
+      "wheel",
+      "wheel_slick",
+      "wheel_motorbike",
+      "wheel_motorbike_or",
+      "wheel_wide",
+      "wheel_wide_or",
+      "wheel_bicycle",
+      "wheel_bicycle_or"
+    ],
+    "difficulty": 1
+  },
+  {
     "id": "nested_hood_fsurvivor",
     "type": "nested_category",
     "activity_level": "LIGHT_EXERCISE",
