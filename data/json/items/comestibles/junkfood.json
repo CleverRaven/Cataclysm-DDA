@@ -464,6 +464,16 @@
     "fun": 6
   },
   {
+    "type": "COMESTIBLE" "ARMOR",
+    "id": "candy_bracelet",
+    "name": { "candy bracelet" }
+    "looks_like": "copper_bracelet",
+    "color": "yellow"
+    "description": "A candy bracelet made by stringing candies onto a thread. In theory, someone could both wear and eat the bracelet.",
+    "copy-from": "candy4"
+    
+  },
+  {
     "type": "COMESTIBLE",
     "id": "maple_candy",
     "name": { "str": "maple syrup candy", "str_pl": "maple syrup candies" },
