@@ -247,14 +247,14 @@
       { "fuel": -50, "smoke": 2, "burn": 1 },
       { "fuel": -10, "smoke": 2, "burn": 2 }
     ],
-    "fuel_data": { "energy": "1000 kJ" }
+    "fuel_data": { "energy": "4000 kJ" }
   },
   {
     "type": "material",
     "id": "tainted_blood",
     "name": "Tainted blood",
     "copy-from": "blood",
-    "fuel_data": { "energy": "5000 kJ" }
+    "fuel_data": { "energy": "25000 kJ" }
   },
   {
     "type": "material",
