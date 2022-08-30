@@ -346,7 +346,7 @@ static int game_uilist()
         { uilist_entry( debug_menu_index::CRASH_GAME, true, 'C', _( "Crash game (test crash handling)" ) ) },
         { uilist_entry( debug_menu_index::ACTIVATE_EOC, true, 'E', _( "Activate EOC" ) ) },
         { uilist_entry( debug_menu_index::QUIT_NOSAVE, true, 'Q', _( "Quit to main menu" ) )  },
-        { uilist_entry( debug_menu_index::QUICKLOAD, true, 'Q', _( "Quickload" ) )  },
+        { uilist_entry( debug_menu_index::QUICKLOAD, true, 'q', _( "Quickload" ) )  },
     };
 
     return uilist( _( "Game…" ), uilist_initializer );
