@@ -23,6 +23,7 @@
 #include "viewer.h"
 #include "map_iterator.h"
 
+static const efftype_id effect_downed( "downed" );
 static const efftype_id effect_grabbed( "grabbed" );
 static const efftype_id effect_teleglow( "teleglow" );
 
@@ -139,7 +140,7 @@ bool teleport::teleport_to_point( Creature &critter, tripoint target, bool safe,
                 g->place_player_overmap( project_to<coords::omt>( avatar_pos ), false );
             }
             return false;
-        } else if( !resonance( poor_soul, 2, 2, false, true ) ) {
+        } else if( !( resonance( poor_soul, 2, 2, false, true ) ) ) {
             const bool poor_soul_is_u = poor_soul->is_avatar();
             if( poor_soul_is_u && display_message ) {
                 add_msg( m_bad, _( "You're blasted with strange energy!" ) );
