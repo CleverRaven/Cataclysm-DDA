@@ -72,8 +72,6 @@ static const mongroup_id GROUP_SWAMP( "GROUP_SWAMP" );
 static const mongroup_id GROUP_WORM( "GROUP_WORM" );
 static const mongroup_id GROUP_ZOMBIE( "GROUP_ZOMBIE" );
 
-static const mtype_id mon_jabberwock( "mon_jabberwock" );
-
 static const oter_str_id oter_central_lab( "central_lab" );
 static const oter_str_id oter_central_lab_core( "central_lab_core" );
 static const oter_str_id oter_central_lab_train_depot( "central_lab_train_depot" );
@@ -4033,7 +4031,6 @@ void overmap::move_hordes()
             const mtype &type = *this_monster.type;
             if(
                 !type.species.count( species_ZOMBIE ) || // Only add zombies to hordes.
-                type.id == mon_jabberwock || // Jabberwockies are an exception.
                 this_monster.get_speed() <= 30 || // So are very slow zombies, like crawling zombies.
                 !this_monster.will_join_horde( INT_MAX ) || // So are zombies who won't join a horde of any size.
                 !this_monster.mission_ids.empty() // We mustn't delete monsters that are related to missions.

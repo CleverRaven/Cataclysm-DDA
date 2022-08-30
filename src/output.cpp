@@ -2204,7 +2204,7 @@ get_bar( const float cur, const float max,
     if( !std::isfinite( status ) || colors.empty() ) {
         col = c_red_red;
     } else {
-        int ind = static_cast<int>( ( 1 - status ) * colors.size() );
+        int ind = std::floor( ( 1.0 - status ) * ( colors.size() - 1 ) + 0.5 );
         ind = clamp<int>( ind, 0, colors.size() - 1 );
         col = colors[ind];
     }

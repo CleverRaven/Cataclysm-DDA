@@ -3236,18 +3236,6 @@ units::mass vehicle::total_mass() const
     return mass_cache;
 }
 
-units::volume vehicle::total_folded_volume() const
-{
-    units::volume m = 0_ml;
-    for( const vpart_reference &vp : get_all_parts() ) {
-        if( vp.part().removed ) {
-            continue;
-        }
-        m += vp.info().folded_volume;
-    }
-    return m;
-}
-
 const point &vehicle::rotated_center_of_mass() const
 {
     // TODO: Bring back caching of this point
@@ -7074,15 +7062,68 @@ bool vehicle::is_foldable() const
     return true;
 }
 
-bool vehicle::restore( const std::string &data )
+time_duration vehicle::folding_time() const
 {
+    const vehicle_part_range vpr = get_all_parts();
+    return std::accumulate( vpr.begin(), vpr.end(), time_duration(),
+    []( time_duration & acc, const vpart_reference & part ) {
+        return acc + ( part.part().removed ? time_duration() : part.info().get_folding_time() );
+    } );
+}
+
+time_duration vehicle::unfolding_time() const
+{
+    const vehicle_part_range vpr = get_all_parts();
+    return std::accumulate( vpr.begin(), vpr.end(), time_duration(),
+    []( time_duration & acc, const vpart_reference & part ) {
+        return acc + ( part.part().removed ? time_duration() : part.info().get_unfolding_time() );
+    } );
+}
+
+item vehicle::get_folded_item() const
+{
+    item folded( "generic_folded_vehicle", calendar::turn );
+    const std::vector<vehicle_part> parts = real_parts();
+    try {
+        std::ostringstream veh_data;
+        JsonOut json( veh_data );
+        json.write( parts );
+        folded.set_var( "folded_parts", veh_data.str() );
+    } catch( const JsonError &e ) {
+        debugmsg( "Error storing vehicle: %s", e.c_str() );
+    }
+    const units::volume folded_volume = std::accumulate( parts.cbegin(), parts.cend(), 0_ml,
+    []( const units::volume v, const vehicle_part & vp ) {
+        return v + ( vp.removed ? 0_ml : vp.info().folded_volume );
+    } );
+
+    folded.set_var( "tracking", tracking_on ? 1 : 0 );
+    folded.set_var( "weight", to_milligram( total_mass() ) );
+    folded.set_var( "volume", folded_volume / units::legacy_volume_factor );
+    folded.set_var( "name", string_format( _( "folded %s" ), name ) );
+    folded.set_var( "vehicle_name", name );
+    folded.set_var( "unfolding_time", to_moves<int>( unfolding_time() ) );
+    // TODO: a better description?
+    std::string desc = string_format( _( "A folded %s." ), name )
+                       .append( "\n\n" )
+                       .append( string_format( _( "It will take %s to unfold." ), to_string( unfolding_time() ) ) );
+    folded.set_var( "description", desc );
+
+    return folded;
+}
+
+bool vehicle::restore_folded_parts( const item &it )
+{
+    // TODO: Remove folding_bicycle_parts after savegames migrate
+    const std::string data = it.has_var( "folding_bicycle_parts" )
+                             ? it.get_var( "folding_bicycle_parts" )
+                             : it.get_var( "folded_parts" );
     std::istringstream veh_data( data );
     try {
-        JsonIn json( veh_data );
         parts.clear();
-        json.read( parts );
+        JsonIn( veh_data ).read( parts );
     } catch( const JsonError &e ) {
-        debugmsg( "Error restoring vehicle: %s", e.c_str() );
+        debugmsg( "Error restoring folded vehicle parts: %s", e.c_str() );
         return false;
     }
     refresh();
