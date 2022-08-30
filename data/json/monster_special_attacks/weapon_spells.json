@@ -5,7 +5,7 @@
     "name": { "str": "Mi-go Slaver Beam" },
     "description": "Mi-go slaver beams cause pain, lower stamina, and give a short-lasting daze effect.  Starts very short range, increases rapidly with level.",
     "valid_targets": [ "hostile" ],
-    "flags": [ "SILENT", "NO_EXPLOSION_SFX" ],
+    "flags": [ "SILENT" ],
     "shape": "blast",
     "effect": "attack",
     "effect_str": "dazed",
