@@ -599,7 +599,7 @@
       "sound_fail": "whump.",
       "items": [
         { "item": "2x4", "count": [ 2, 4 ] },
-        { "item": "nail", "count": [ 5, 18 ] },
+        { "item": "nail", "charges": [ 5, 18 ] },
         { "item": "splinter", "count": [ 5, 17 ] }
       ]
     }
@@ -623,7 +623,7 @@
       "sound_fail": "thump!",
       "items": [
         { "item": "2x4", "count": [ 2, 4 ] },
-        { "item": "nail", "count": [ 5, 18 ] },
+        { "item": "nail", "charges": [ 5, 18 ] },
         { "item": "splinter", "count": [ 5, 17 ] },
         { "item": "scrap", "count": [ 15, 60 ] }
       ]
