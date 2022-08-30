@@ -229,8 +229,9 @@ bool teleport::resonance( Creature &critter, int min_distance, int max_distance,
         new_pos.y = origin.y + rdistance * std::sin( rangle );
         rangle+= 15;
         tries++;
-    } while( here.impassable( new_pos ) && get_creature_tracker().creature_at<Creature>( new_pos ) && tries < 100 );
-    if ( here.impassable( new_pos ) || get_creature_tracker().creature_at<Creature>( new_pos ) ) {
+    } while( here.impassable( new_pos ) && get_creature_tracker().creature_at<Creature>( new_pos ) &&
+             tries < 100 );
+    if( here.impassable( new_pos ) || get_creature_tracker().creature_at<Creature>( new_pos ) ) {
         return false;
     } else {
         return teleport_to_point( critter, new_pos, safe, add_teleglow );
