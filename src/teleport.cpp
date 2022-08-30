@@ -139,8 +139,7 @@ bool teleport::teleport_to_point( Creature &critter, tripoint target, bool safe,
                 g->place_player_overmap( project_to<coords::omt>( avatar_pos ), false );
             }
             return false;
-        } else if( ( !poor_player && one_in( 2 ) ) || ( poor_player && one_in( 2 ) &&
-                   poor_soul->has_effect( effect_teleglow ) ) ) {
+        } else if( !resonance( poor_soul, 1, 1, true, true ) ) {
             const bool poor_soul_is_u = poor_soul->is_avatar();
             if( poor_soul_is_u && display_message ) {
                 add_msg( m_bad, _( "…" ) );
@@ -168,26 +167,31 @@ bool teleport::teleport_to_point( Creature &critter, tripoint target, bool safe,
         } else {
             const bool poor_soul_is_u = poor_soul->is_avatar();
             if( poor_soul_is_u && display_message ) {
-                add_msg( m_bad, _( "…" ) );
-                add_msg( m_bad, _( "You're violently teleported out of the way!" ) );
+                add_msg( m_bad, _( "" ) );
+                add_msg( m_bad, _( "You're violently forced out of the way!" ) );
             }
             if( p ) {
                 if( display_message ) {
                     p->add_msg_player_or_npc( m_warning,
-                                              _( "You teleport into the same place as %s, and they are forcibly teleported away to make room for you." ),
-                                              _( "<npcname> teleports into the same place as %s, and they are forcibly teleported away to make room for them." ),
+                                              _( "You teleport into the same place as %s, and they are violently forced away to make room for you." ),
+                                              _( "<npcname> teleports into the same place as %s, and they are violently forced away to make room for them." ),
                                               poor_soul->disp_name() );
                 }
             } else {
                 if( get_player_view().sees( *poor_soul ) ) {
                     if( display_message ) {
-                        add_msg( m_good, _( "%2$s is teleported out of the way to make room for %1$s!" ),
+                        add_msg( m_good, _( "%2$s is violently forced out of the way to make room for %1$s!" ),
                                  critter.disp_name(), poor_soul->disp_name() );
                     }
                 }
             }
-            //don't splatter. instead get teleported away.
-            teleport( *poor_soul );
+            //don't splatter. instead get teleported away a square and knocked prone.
+            poor_soul->add_effect( effect_downed, 2_turns, false, 0, true );
+            poor_soul->apply_damage( nullptr, bodypart_id( "arm_l" ), rng( 5, 10 ) );
+            poor_soul->apply_damage( nullptr, bodypart_id( "arm_r" ), rng( 5, 10 ) );
+            poor_soul->apply_damage( nullptr, bodypart_id( "leg_l" ), rng( 7, 12 ) );
+            poor_soul->apply_damage( nullptr, bodypart_id( "leg_r" ), rng( 7, 12 ) );
+            poor_soul->apply_damage( nullptr, bodypart_id( "torso" ), rng( 5, 15 ) );
         }
     }
     critter.setpos( target );
@@ -204,3 +208,33 @@ bool teleport::teleport_to_point( Creature &critter, tripoint target, bool safe,
     critter.remove_effect( effect_grabbed );
     return true;
 }
+
+
+bool teleport::resonance( Creature &critter, int min_distance, int max_distance, bool safe,
+                         bool add_teleglow )
+{
+    if( min_distance > max_distance ) {
+        debugmsg( "ERROR: Function teleport::resonance called with invalid arguments." );
+        return false;
+    }
+    int tries = 0;
+    tripoint origin = critter.pos();
+    tripoint new_pos = origin;
+    map &here = get_map();
+    do {
+        int rangle = rng( 0, 360 );
+        int rdistance = rng( min_distance, max_distance );
+        new_pos.x = origin.x + rdistance * std::cos( rangle );
+        new_pos.y = origin.y + rdistance * std::sin( rangle );
+        tries++;
+    } while( here.impassable( new_pos ) && get_creature_tracker().creature_at<Creature>( new_pos ) && tries < 999 );
+    if ( here.impassable( new_pos ) || get_creature_tracker().creature_at<Creature>( new_pos ) ) {
+        return false;
+    } else {
+        return teleport_to_point( critter, new_pos, safe, add_teleglow );
+    }
+}
+
+
+
+
