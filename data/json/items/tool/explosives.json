@@ -1662,13 +1662,13 @@
     "color": "white",
     "turns_per_charge": 1,
     "explode_in_fire": true,
-    "explosion": { "power": 300 },
+    "explosion": { "power": 150 },
     "use_action": {
       "type": "explosion",
       "sound_volume": 0,
       "sound_msg": "rattle…",
       "no_deactivate_msg": "You've already lit mixed %s, try throwing it instead.",
-      "explosion": { "power": 300 }
+      "explosion": { "power": 150 }
     },
     "flags": [ "TRADER_AVOID", "BOMB" ]
   }
