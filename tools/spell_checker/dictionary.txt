@@ -202,7 +202,6 @@ blackpowders
 blacksmithy
 bleedin
 bloodbank
-bloodborne
 bloodloss
 bloomery
 bluegill
@@ -754,7 +753,6 @@ grinny
 grnd
 groundcover
 groundsheet
-gryposaurus
 gt
 guayaba
 gunblade
@@ -781,7 +779,6 @@ handiness
 handloading
 hangry
 haori
-haplocanthosaurus
 hardbound
 hardpoint
 hardpoints
@@ -800,7 +797,6 @@ helpdesk
 hemolymph
 hemostatics
 heoretical
-hesperosaurus
 hevel
 hexamine
 hexapod
@@ -818,7 +814,6 @@ hmmm
 hollowpoint
 holybook
 homebrewing
-homovorus
 honeygold
 hosomaki
 hotcut
@@ -1132,7 +1127,6 @@ moonflower
 moonflowers
 moriatur
 morningstar
-moroi
 mortems
 mosasaurus
 mostlike
@@ -1252,6 +1246,7 @@ olieribos
 olors
 ompare
 omplete
+oneiric
 onyxes
 openable
 openair
@@ -1552,7 +1547,6 @@ samghati
 samoyed
 sandleather
 sapience
-sarahsaurus
 sarracenia
 satirizes
 sauropod
