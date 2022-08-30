@@ -17,8 +17,7 @@
   {
     "id": "spell_components_dreamdross3",
     "type": "requirement",
-    "qualities": [ [ "DREAM_HAMMER", 1 ] ],
-    "components": [ [ [ "dreamdross_lump", 2 ], [ "scrap_dreamdross", 4 ] ] ]
+    "components": [ [ [ "dreamdross_lump", 2 ], [ "scrap_dreamdross", 4 ] ], [ [  "xe_oneiric_hammer" ] ] ]
   },
   {
     "id": "spell_components_human_blood",
