@@ -1269,7 +1269,7 @@ class vehicle
         // fuel consumption of vehicle engines of given type
         int basic_consumption( const itype_id &ftype ) const;
         // Fuel consumption mL/hour
-        int consumption_per_hour( const itype_id &ftype, units::energy fuel_rate ) const;
+        int consumption_per_hour( const itype_id &ftype, units::energy fuel_per_s ) const;
 
         void consume_fuel( int load, bool idling );
 

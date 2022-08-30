@@ -3450,18 +3450,18 @@ int vehicle::basic_consumption( const itype_id &ftype ) const
     return fcon;
 }
 
-int vehicle::consumption_per_hour( const itype_id &ftype, units::energy fuel_rate_w ) const
+int vehicle::consumption_per_hour( const itype_id &ftype, units::energy fuel_per_s ) const
 {
     item fuel = item( ftype );
-    if( fuel_rate_w == 0_J || fuel.has_flag( flag_PERPETUAL ) || !engine_on ) {
+    if( fuel_per_s == 0_J || fuel.has_flag( flag_PERPETUAL ) || !engine_on ) {
         return 0;
     }
 
     // constant is 3600 sec/hr * 1/1000 J/kJ
-    // fuel_rate_w is energy per X
+    // fuel_per_s is energy per X
     // fuel.fuel_energy() is energy per L
     // expression units are mL/hr
-    return -3.6 * fuel_rate_w / fuel.fuel_energy() / 1000;
+    return -3.6 * fuel_per_s / fuel.fuel_energy() / 1000;
 }
 
 int vehicle::total_power_w( const bool fueled, const bool safe ) const
