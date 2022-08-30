@@ -432,7 +432,7 @@
     "name": { "str": "bundle of leather", "str_pl": "bundles of leather" },
     "description": "Leather patches, bundled tightly together for storage.  Disassemble to unpack.",
     "weight": "1250 g",
-    "volume": "1150 g",
+    "volume": "1150 ml",
     "price": 200000,
     "price_postapoc": 2500,
     "material": [ "leather" ],
