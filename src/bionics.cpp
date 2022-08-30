@@ -1357,7 +1357,8 @@ Character::auto_toggle_bionic_result Character::auto_toggle_bionic( bionic &bio,
         std::string msg_player;
         std::string msg_npc;
         for( const material_id &fuel : fuel_available ) {
-            const units::energy fuel_energy = fuel->get_fuel_data().energy;
+            const units::energy fuel_energy = fuel->get_fuel_data().energy /
+                                              1000; // TODO: Rewrite to use item volume
             const bool is_metabolism_powered = fuel == fuel_type_metabolism;
             const bool is_perpetual_fuel = fuel->get_fuel_data().is_perpetual_fuel;
             const bool is_remote_fuel = is_remote_fueled && fuel == remote_fuel;
@@ -1493,6 +1494,8 @@ void Character::burn_fuel( bionic &bio, const auto_toggle_bionic_result &result 
 
     map &here = get_map();
     weather_manager &weather = get_weather();
+    // TODO: Rewrite fuels to use item volume.
+    // The energy is in energy/L but we just divide by 1000 and treat it as energy/unit
     switch( result.fuel_type ) {
         case auto_toggle_bionic_result::fuel_type_t::metabolism: {
             // 1kcal = 4184 J
@@ -1561,7 +1564,8 @@ void Character::passive_power_gen( const bionic &bio )
     weather_manager &weather = get_weather();
 
     for( const material_id &fuel : fuel_available ) {
-        const units::energy fuel_energy = fuel->get_fuel_data().energy;
+        const units::energy fuel_energy = fuel->get_fuel_data().energy /
+                                          1000; // TODO: Rewrite to use item volume
         if( !fuel->get_fuel_data().is_perpetual_fuel ) {
             continue;
         }
