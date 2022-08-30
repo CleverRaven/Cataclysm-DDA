@@ -267,5 +267,17 @@
       { "proficiency": "prof_closures_waterproofing", "fail_factor": 0.05 },
       { "proficiency": "prof_leatherworking", "fail_factor": 0.05 }
     ]
+  },
+  {
+    "id": "bp_armor_nomad_plate",
+    "type": "BOOK",
+    "name": { "str": "nomad plate armor blueprint" },
+    "description": "A simple printed pamphlet with clear illustrations and very few words describing how to make what appears to be a plate armor designed to survive the long-term wear and tear of exploring the apocalyptic wasteland, with a lot of storage capacity.  The directions do not offer much guidance beyond the plans themselves; this will take a little skill to interpret.  There seems to be room within the directions to make three different versions.",
+    "copy-from": "exodii_blueprint",
+    "color": "green",
+    "proficiencies": [
+      { "proficiency": "prof_closures_waterproofing", "fail_factor": 0.05 },
+      { "proficiency": "prof_leatherworking", "fail_factor": 0.05 }
+    ]
   }
 ]
