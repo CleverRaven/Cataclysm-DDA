@@ -3119,7 +3119,7 @@
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_COMPONENTS",
     "name": "firearm primers",
-    "description": "Recipes related to constructing primers, the impact explosives used to initate the combustion of gunpowder to launch bullets from firearms.",
+    "description": "Recipes related to constructing primers, the impact explosives used to initiate the combustion of gunpowder to launch bullets from firearms.",
     "skill_used": "fabrication",
     "nested_category_data": [ "lgpistol_primer", "lgrifle_primer", "shotgun_primer", "smpistol_primer", "smrifle_primer" ],
     "difficulty": 4
