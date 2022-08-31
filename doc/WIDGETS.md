@@ -429,7 +429,7 @@ Also see [Graph widgets](#graph-widgets) for some predefined ones you can use or
 #### Vertical graphs
 
 By setting the `arrange` property to `rows`, graphs can be displayed vertically.
-For vertical graphs, `height` should be used instead of `height`.
+For vertical graphs, `height` should be used instead of `width`.
 
 ```json
 {
