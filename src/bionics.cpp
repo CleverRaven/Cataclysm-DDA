@@ -1602,9 +1602,17 @@ void Character::burn_fuel( bionic &bio, auto_toggle_bionic_result2 &result )
 
         const weather_type_id &wtype = current_weather( pos() );
         const float intensity = incident_sun_irradiance( wtype, calendar::turn ); // W/m2
-        const float efficiency = result.connected_solar.front()->type->solar_efficiency;
-        units::energy energ_production = units::from_kilojoule( intensity * efficiency );
-        mod_power_level( energ_production );
+        const float solar_efficiency = result.connected_solar.front()->type->solar_efficiency;
+        units::energy energy_gain = units::from_kilojoule( intensity * solar_efficiency );
+        mod_power_level( energy_gain * efficiency );
+    } else if( std::find( bio.id->fuel_opts.begin(), bio.id->fuel_opts.end(),
+                          fuel_type_metabolism ) != bio.id->fuel_opts.end() ) {
+        // Bionic powered by metabolism
+        // 1kcal = 4184 J
+        const units::energy energy_gain = 4184_J * efficiency;
+
+        mod_stored_kcal( 1, true );
+        mod_power_level( energy_gain * efficiency );
     }
 
 
