@@ -6613,7 +6613,7 @@
     "activity_level": "MODERATE_EXERCISE",
     "time": "2 m",
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
-    "components": [ [ [ "material_aluminium_ingot", 135 ] ] ]
+    "components": [ [ [ "material_aluminum_ingot", 10 ], [ "scrap_aluminum", 190 ] ] ]
   },
   {
     "result": "steel_scissors",
