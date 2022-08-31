@@ -309,7 +309,6 @@
     "final_energy_cost": 1000,
     "base_casting_time": 600000,
     "final_casting_time": 600000,
-    "spell_class": "INVENTOR",
-    "extra_effects": [ { "id": "mana_fatigue" } ]
+    "spell_class": "INVENTOR"
   }
 ]
