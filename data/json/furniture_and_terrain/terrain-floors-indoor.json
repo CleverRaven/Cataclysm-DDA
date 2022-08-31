@@ -1225,7 +1225,7 @@
     "looks_like": "t_carpet_purple",
     "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "RUG", "EASY_DECONSTRUCT" ],
     "deconstruct": { "items": [ { "item": "p_carpet", "charges": 1 }, { "item": "nail", "charges": 5 } ], "ter_set": "t_linoleum_white" }
-  }, 
+  },
   {
     "type": "terrain",
     "id": "t_linoleum_white",
