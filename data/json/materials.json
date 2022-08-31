@@ -1103,18 +1103,6 @@
   },
   {
     "type": "material",
-    "id": "oxyacetylene",
-    "//": "Density based on pressurized oxyacetylene",
-    "density": 0.157,
-    "name": "Oxyacetylene",
-    "copy-from": "hydrocarbons",
-    "fuel_data": {
-      "energy": 11.8,
-      "explosion_data": { "chance_hot": 5, "chance_cold": 10, "factor": 0.2, "fiery": true, "size_factor": 0.1 }
-    }
-  },
-  {
-    "type": "material",
     "id": "iflesh",
     "name": "Insect Flesh",
     "density": 1.1,
