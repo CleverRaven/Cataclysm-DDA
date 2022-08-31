@@ -6795,5 +6795,21 @@
     "activity_level": "LIGHT_EXERCISE",
     "time": "1 m",
     "components": [ [ [ "pilot_light", 1 ] ] ]
+  },
+  {
+    "result": "xlframe",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "2 m",
+    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
+    "components": [ [ [ "scrap_aluminum", 33 ] ] ]
+  },
+  {
+    "result": "foldxlframe",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "2 m",
+    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
+    "components": [ [ [ "scrap_aluminum", 33 ] ] ]
   }
 ]
