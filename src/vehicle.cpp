@@ -2059,8 +2059,7 @@ bool vehicle::remove_carried_vehicle( const std::vector<int> &carried_parts )
     carried_vehicles.push_back( carried_parts );
     std::vector<std::vector<point>> carried_mounts;
     carried_mounts.push_back( new_mounts );
-    const bool success = split_vehicles( here, carried_vehicles, new_vehicles, carried_mounts );
-    if( success ) {
+    if( split_vehicles( here, carried_vehicles, new_vehicles, carried_mounts ) ) {
         //~ %s is the vehicle being loaded onto the bicycle rack
         add_msg( _( "You unload the %s from the bike rack." ), new_vehicle->name );
         new_vehicle->remove_carried_flag();
@@ -2076,11 +2075,18 @@ bool vehicle::remove_carried_vehicle( const std::vector<int> &carried_parts )
                 new_vehicle->parts[idx].enabled = true;
             }
         }
-    } else {
-        //~ %s is the vehicle being loaded onto the bicycle rack
-        add_msg( m_bad, _( "You can't unload the %s from the bike rack." ), new_vehicle->name );
+        for( const int &rack_part : carried_parts ) {
+            parts[rack_part].remove_flag( vehicle_part::carrying_flag );
+            parts[rack_part].remove_flag( vehicle_part::tracked_flag );
+        }
+        here.invalidate_map_cache( here.get_abs_sub().z() );
+        here.rebuild_vehicle_level_caches();
+        return true;
     }
-    return success;
+
+    //~ %s is the vehicle being loaded onto the bicycle rack
+    add_msg( m_bad, _( "You can't unload the %s from the bike rack." ), new_vehicle->name );
+    return false;
 }
 
 // split the current vehicle into up to 3 new vehicles that do not connect to each other
@@ -2854,7 +2860,8 @@ int vehicle::get_next_shifted_index( int original_index, Character &you ) const
  * @return A list of lists of indices of all parts sharing the flag and contiguous with the part
  * on the X or Y axis. Returns 0, 1, or 2 lists of indices.
  */
-std::vector<std::vector<int>> vehicle::find_lines_of_parts( int part, const std::string &flag )
+std::vector<std::vector<int>> vehicle::find_lines_of_parts(
+                               int part, const std::string &flag ) const
 {
     const auto possible_parts = get_avail_parts( flag );
     std::vector<std::vector<int>> ret_parts;

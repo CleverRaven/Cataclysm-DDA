@@ -2006,14 +2006,6 @@ void vehicle::use_bike_rack( int part )
     }
 }
 
-void vehicle::clear_bike_racks( std::vector<int> &racks )
-{
-    for( const int &rack_part : racks ) {
-        parts[rack_part].remove_flag( vehicle_part::carrying_flag );
-        parts[rack_part].remove_flag( vehicle_part::tracked_flag );
-    }
-}
-
 /*
 * Todo: find a way to split and rewrite use_bikerack so that this check is no longer necessary
 */

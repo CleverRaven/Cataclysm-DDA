@@ -1242,11 +1242,7 @@ void bikerack_unracking_activity_actor::finish( player_activity &act, Character 
 
     vehicle &parent_vehicle = ovp->vehicle();
 
-    if( parent_vehicle.remove_carried_vehicle( parts ) ) {
-        parent_vehicle.clear_bike_racks( racks );
-        here.invalidate_map_cache( here.get_abs_sub().z() );
-        here.rebuild_vehicle_level_caches();
-    } else {
+    if( !parent_vehicle.remove_carried_vehicle( parts ) ) {
         debugmsg( "Unracking task failed.  Parent-Vehicle:" + parent_vehicle.name +
                   "; Found parts size:" + std::to_string( parts.size() ) );
     }
