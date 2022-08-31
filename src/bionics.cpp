@@ -1546,6 +1546,12 @@ void Character::burn_fuel( bionic &bio, auto_toggle_bionic_result2 &result )
         // Do not consume fuel unless we are below auto start treshold
         debugmsg( "AUTOSTART TRESHOLD" );
         return;
+    } else if( get_power_level() > get_max_power_level() * std::min( 1.0f,
+               bio.get_safe_fuel_thresh() ) ) {
+        // Do not waste fuel charging over limit
+        // Individual fuel sources need to check this again since the amount energy they provide may vary
+        debugmsg( "SAFE TRESHOLD" );
+        return;
     }
 
     float efficiency = get_effective_efficiency( bio, bio.info().fuel_efficiency );
@@ -1555,16 +1561,24 @@ void Character::burn_fuel( bionic &bio, auto_toggle_bionic_result2 &result )
     // Vehicle may not have power.
     // Return out if power was drained. Otherwise continue with other sources.
     if( !result.connected_vehicles.empty() ) {
+        units::energy energ_per_charge = 1_kJ;
+        if( get_power_level() + energ_per_charge * efficiency > get_max_power_level() * std::min( 1.0f,
+                bio.get_safe_fuel_thresh() ) ) {
+            // Do not waste fuel charging over limit
+            debugmsg( "SAFE TRESHOLD" );
+            return;
+        }
         // Cable bionic charging from connected vehicle(s)
         for( vehicle *veh : result.connected_vehicles ) {
             int undrained = veh->discharge_battery( 1 );
             if( undrained == 0 ) {
-                mod_power_level( 1_kJ * efficiency );
+                mod_power_level( energ_per_charge * efficiency );
                 return;
             }
         }
     }
 
+    // Rest of the fuel sources are known to exist so we can exit after any of them is accessed
     if( !result.connected_fuel.empty() ) {
         // Bionic that uses fuel items from some source.
         // There *could* be multiple items. But we only take first.
@@ -1582,6 +1596,15 @@ void Character::burn_fuel( bionic &bio, auto_toggle_bionic_result2 &result )
 
         mod_power_level( energ_per_charge * efficiency );
         fuel->charges--;
+    } else if( !result.connected_solar.empty() ) {
+        // Cable charger connected to solar panel item.
+        // There *could* be multiple items. But we only take first.
+
+        const weather_type_id &wtype = current_weather( pos() );
+        const float intensity = incident_sun_irradiance( wtype, calendar::turn ); // W/m2
+        const float efficiency = result.connected_solar.front()->type->solar_efficiency;
+        units::energy energ_production = units::from_kilojoule( intensity * efficiency );
+        mod_power_level( energ_production );
     }
 
 
