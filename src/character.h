@@ -3500,6 +3500,17 @@ class Character : public Creature, public visitable
          * user settings, and return info of the first burnable fuel.
          */
         auto_toggle_bionic_result auto_toggle_bionic( bionic &bio, bool start );
+
+        struct auto_toggle_bionic_result2;
+
+        /**
+         * Automatically turn bionic on or off according to remaining fuel and
+         * user settings, and return info of the first burnable fuel.
+         * @param bio the bionic
+         * @param start true if player is trying to turn the bionic on
+         */
+        auto_toggle_bionic_result2 auto_toggle_bionic2( bionic &bio, bool start );
+
         /**
          *Convert fuel to bionic power
          */

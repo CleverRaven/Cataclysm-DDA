@@ -212,6 +212,12 @@ struct Character::auto_toggle_bionic_result {
     int current_fuel_stock = 0;
 };
 
+struct Character::auto_toggle_bionic_result2 {
+    std::vector<vehicle *> connected_vehicles;
+    std::vector<item *> connected_solar;
+    std::vector<item *> connected_fuel;
+};
+
 namespace
 {
 generic_factory<bionic_data> bionic_factory( "bionic" );
@@ -1480,6 +1486,46 @@ Character::auto_toggle_bionic_result Character::auto_toggle_bionic( bionic &bio,
                                        _( "<npcname>'s %s does not have enough fuel to use Auto Start." ),
                                        bio.info().name );
             }
+        }
+    }
+
+    return result;
+}
+
+Character::auto_toggle_bionic_result2 Character::auto_toggle_bionic2( bionic &bio,
+        const bool start )
+{
+    auto_toggle_bionic_result2 result;
+
+    const bool is_remote_fueled = bio.info().is_remote_fueled;
+
+    if( bio.id->fuel_opts.empty() && !is_remote_fueled ) {
+        return result;
+    }
+
+    int energy_per_charge = 0; //kJ
+
+    if( is_remote_fueled ) {
+        result.connected_vehicles = get_cable_vehicle();
+        result.connected_solar = get_cable_solar();
+        result.connected_fuel = get_cable_ups();
+    } else {
+        result.connected_fuel = get_bionic_fuels( bio.id );
+    }
+
+    if( result.connected_vehicles.empty() && result.connected_solar.empty() &&
+        result.connected_fuel.empty() ) {
+        if( start ) {
+            add_msg_player_or_npc( m_bad, _( "Your %s does not have enough fuel to start." ),
+                                   _( "<npcname>'s %s does not have enough fuel to start." ),
+                                   bio.info().name );
+        } else {
+            add_msg_player_or_npc( m_info,
+                                   _( "Your %s runs out of fuel and turns off." ),
+                                   _( "<npcname>'s %s runs out of fuel and turns off." ),
+                                   bio.info().name );
+            bio.powered = false;
+            deactivate_bionic( bio, true );
         }
     }
 
