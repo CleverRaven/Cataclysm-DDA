@@ -9,7 +9,7 @@
     "volume": "250 ml",
     "price": 2400,
     "price_postapoc": 500,
-    "material": [ "acetylene" ],
+    "material": [ "hydrocarbons" ],
     "symbol": "=",
     "color": "red",
     "count": 33,
