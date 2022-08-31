@@ -319,13 +319,14 @@ const weakpoint *Character::absorb_hit( const weakpoint_attack &, const bodypart
         if( has_active_bionic( bio_ads ) ) {
             if( elem.amount > 0 && get_power_level() > 24_kJ ) {
                 if( elem.type == damage_type::BASH ) {
-                    elem.amount -= rng( 1, 2 );
+                    elem.amount /= 4;
                 } else if( elem.type == damage_type::CUT ) {
-                    elem.amount -= rng( 1, 4 );
+                    elem.amount /= 3;
                 } else if( elem.type == damage_type::STAB || elem.type == damage_type::BULLET ) {
-                    elem.amount -= rng( 1, 8 );
+                    elem.amount /= 2;
                 }
                 mod_power_level( -bio_ads->power_trigger );
+                add_msg_if_player( m_good, _( "The defensive forcefield surrounding your body ripples as it reduces velocity of incoming attack." ) );
             }
             if( elem.amount < 0 ) {
                 elem.amount = 0;
