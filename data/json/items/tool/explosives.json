@@ -1621,7 +1621,7 @@
     "type": "TOOL",
     "category": "weapons",
     "name": { "str": "jug bomb" },
-    "description": "A glass jug with gasoline spilled on the inside and a small pouch of oxidzier powder next to it, upon mixing these creat a incredibly shock explosives bomb, when activited you mix the two ingreidents its best to throw it as it might go off in your hands!",
+    "description": "A glass jug with gasoline spilled on the inside and a small pouch of oxidizer powder next to it, which upon mixing will create an incredible shock explosion. Activating this will mix the two ingredients, after which it's best to throw it as it might go off in your hands!",
     "weight": "1133 g",
     "volume": "750 ml",
     "price": 6000,
