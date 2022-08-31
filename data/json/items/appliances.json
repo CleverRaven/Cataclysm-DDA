@@ -239,7 +239,7 @@
     "max_charges": 3,
     "initial_charges": 3,
     "use_action": [ "CABLE_ATTACH" ],
-    "flags": [ "CABLE_SPOOL", "POWER_CORD" ]
+    "flags": [ "CABLE_SPOOL", "POWER_CORD", "SINGLE_USE" ]
   },
   {
     "type": "GENERIC",
