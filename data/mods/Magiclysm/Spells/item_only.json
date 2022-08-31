@@ -366,7 +366,7 @@
     "name": "Omniscientia",
     "description": "Connect the user to a few ethereal sensory organs, that allow the user to \"feel\" the territory nearby.",
     "valid_targets": [ "hostile", "ground" ],
-    "flags": [ "IGNORE_WALLS", "NO_LEGS", "SILENT" ],
+    "flags": [ "IGNORE_WALLS", "NO_LEGS", "SILENT", "NO_EXPLOSION_SFX" ],
     "effect": "attack",
     "shape": "blast",
     "min_aoe": 30,
