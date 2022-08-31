@@ -2338,7 +2338,7 @@
     "autolearn": true,
     "using": [ [ "filament", 16 ] ],
     "qualities": [ { "id": "SEW", "level": 1 } ],
-    "components": [ [ [ "cotton_sheet", 25 ] ] ],
+    "components": [ [ [ "sheet_cotton", 25 ] ] ],
     "flags": [ "BLIND_HARD" ]
   },
   {
