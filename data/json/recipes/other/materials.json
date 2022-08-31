@@ -1089,6 +1089,7 @@
     "result": "budget_steel_lump",
     "type": "recipe",
     "activity_level": "BRISK_EXERCISE",
+    "id_suffix": "scrap",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "fabrication",
