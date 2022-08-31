@@ -69,7 +69,7 @@
     "name": { "str": "deluxe sandwich", "str_pl": "deluxe sandwiches" },
     "conditional_names": [
       {
-        "type": "COMPONENT_ID",
+        "type": "COMPONENT_ID_SUBSTRING",
         "condition": "mutant",
         "name": { "str": "\"deluxe\" sandwich", "str_pl": "\"deluxe\" sandwiches" }
       }
@@ -98,7 +98,7 @@
     "name": { "str": "reuben sandwich", "str_pl": "reuben sandwiches" },
     "conditional_names": [
       {
-        "type": "COMPONENT_ID",
+        "type": "COMPONENT_ID_SUBSTRING",
         "condition": "mutant",
         "name": { "str": "\"fauxben\" sandwich", "str_pl": "\"fauxben\" sandwiches" }
       }
@@ -310,7 +310,7 @@
         "condition": "STRICT_HUMANITARIANISM",
         "name": { "str": "satyr sandwich", "str_pl": "satyr sandwiches" }
       },
-      { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str_sp": "mutant %s" } }
+      { "type": "COMPONENT_ID_SUBSTRING", "condition": "mutant", "name": { "str_sp": "mutant %s" } }
     ],
     "weight": "203 g",
     "color": "light_gray",
@@ -509,7 +509,7 @@
     "name": { "str": "wheat-free deluxe sandwich", "str_pl": "wheat-free deluxe sandwiches" },
     "conditional_names": [
       {
-        "type": "COMPONENT_ID",
+        "type": "COMPONENT_ID_SUBSTRING",
         "condition": "mutant",
         "name": { "str": "wheat-free \"deluxe\" sandwich", "str_pl": "wheat-free \"deluxe\" sandwiches" }
       }
@@ -538,7 +538,7 @@
     "name": { "str": "wheat-free reuben sandwich", "str_pl": "wheat-free reuben sandwiches" },
     "conditional_names": [
       {
-        "type": "COMPONENT_ID",
+        "type": "COMPONENT_ID_SUBSTRING",
         "condition": "mutant",
         "name": { "str": "wheat-free \"fauxben\" sandwich", "str_pl": "wheat-free \"fauxben\" sandwiches" }
       }
@@ -753,7 +753,7 @@
         "condition": "STRICT_HUMANITARIANISM",
         "name": { "str": "wheat-free satyr sandwich", "str_pl": "wheat-free satyr sandwiches" }
       },
-      { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str_sp": "mutant %s" } }
+      { "type": "COMPONENT_ID_SUBSTRING", "condition": "mutant", "name": { "str_sp": "mutant %s" } }
     ],
     "weight": "203 g",
     "color": "light_gray",

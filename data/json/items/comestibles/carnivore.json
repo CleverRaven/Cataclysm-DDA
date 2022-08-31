@@ -674,7 +674,7 @@
     "conditional_names": [
       { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str_sp": "jerk jerky" } },
       { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": { "str_sp": "talking animal jerky" } },
-      { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str_sp": "monster jerky" } }
+      { "type": "COMPONENT_ID_SUBSTRING", "condition": "mutant", "name": { "str_sp": "monster jerky" } }
     ],
     "description": "Salty dried meat that lasts for a long time, but will make you thirsty.",
     "primary_material": "cured_meat",
@@ -734,7 +734,7 @@
     "conditional_names": [
       { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str_sp": "smoked sucker" } },
       { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": { "str_sp": "smoked Narnian" } },
-      { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str_sp": "%s, mutant" } }
+      { "type": "COMPONENT_ID_SUBSTRING", "condition": "mutant", "name": { "str_sp": "%s, mutant" } }
     ],
     "description": "Tasty meat that has been heavily smoked for preservation.  It could be further smoked to dehydrate it completely.",
     "color": "brown",
@@ -1772,7 +1772,7 @@
     "conditional_names": [
       { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str_sp": "fried fool" } },
       { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": { "str_sp": "fried familiar" } },
-      { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str_sp": "%s, mutant" } }
+      { "type": "COMPONENT_ID_SUBSTRING", "condition": "mutant", "name": { "str_sp": "%s, mutant" } }
     ],
     "description": "Delicious oil-fried meat.",
     "color": "brown",
