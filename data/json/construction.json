@@ -3045,7 +3045,7 @@
     "required_skills": [ [ "fabrication", 1 ] ],
     "time": "30 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
-    "components": [ [ [ "nail", 5 ] ], [ [ "r_carpet", 1 ] ] ],
+    "components": [ [ [ "duct_tape", 5 ] ], [ [ "r_carpet", 1 ] ] ],
     "pre_terrain": "t_thconc_floor",
     "post_terrain": "t_carpet_concrete_red"
   },
@@ -3057,7 +3057,7 @@
     "required_skills": [ [ "fabrication", 1 ] ],
     "time": "30 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
-    "components": [ [ [ "nail", 5 ] ], [ [ "p_carpet", 1 ] ] ],
+    "components": [ [ [ "duct_tape", 5 ] ], [ [ "p_carpet", 1 ] ] ],
     "pre_terrain": "t_thconc_floor",
     "post_terrain": "t_carpet_concrete_purple"
   },
@@ -3069,7 +3069,7 @@
     "required_skills": [ [ "fabrication", 1 ] ],
     "time": "30 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
-    "components": [ [ [ "nail", 5 ] ], [ [ "y_carpet", 1 ] ] ],
+    "components": [ [ [ "duct_tape", 5 ] ], [ [ "y_carpet", 1 ] ] ],
     "pre_terrain": "t_thconc_floor",
     "post_terrain": "t_carpet_concrete_yellow"
   },
@@ -3081,7 +3081,7 @@
     "required_skills": [ [ "fabrication", 1 ] ],
     "time": "30 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
-    "components": [ [ [ "nail", 5 ] ], [ [ "g_carpet", 1 ] ] ],
+    "components": [ [ [ "duct_tape", 5 ] ], [ [ "g_carpet", 1 ] ] ],
     "pre_terrain": "t_thconc_floor",
     "post_terrain": "t_carpet_concrete_green"
   },
@@ -3093,7 +3093,7 @@
     "required_skills": [ [ "fabrication", 1 ] ],
     "time": "30 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
-    "components": [ [ [ "nail", 5 ] ], [ [ "r_carpet", 1 ] ] ],
+    "components": [ [ [ "duct_tape", 5 ] ], [ [ "r_carpet", 1 ] ] ],
     "pre_terrain": "t_strconc_floor",
     "post_terrain": "t_carpet_strconcrete_red"
   },
@@ -3105,7 +3105,7 @@
     "required_skills": [ [ "fabrication", 1 ] ],
     "time": "30 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
-    "components": [ [ [ "nail", 5 ] ], [ [ "p_carpet", 1 ] ] ],
+    "components": [ [ [ "duct_tape", 5 ] ], [ [ "p_carpet", 1 ] ] ],
     "pre_terrain": "t_strconc_floor",
     "post_terrain": "t_carpet_strconcrete_purple"
   },
@@ -3117,7 +3117,7 @@
     "required_skills": [ [ "fabrication", 1 ] ],
     "time": "30 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
-    "components": [ [ [ "nail", 5 ] ], [ [ "y_carpet", 1 ] ] ],
+    "components": [ [ [ "duct_tape", 5 ] ], [ [ "y_carpet", 1 ] ] ],
     "pre_terrain": "t_strconc_floor",
     "post_terrain": "t_carpet_strconcrete_yellow"
   },
@@ -3129,7 +3129,7 @@
     "required_skills": [ [ "fabrication", 1 ] ],
     "time": "30 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
-    "components": [ [ [ "nail", 5 ] ], [ [ "g_carpet", 1 ] ] ],
+    "components": [ [ [ "duct_tape", 5 ] ], [ [ "g_carpet", 1 ] ] ],
     "pre_terrain": "t_strconc_floor",
     "post_terrain": "t_carpet_strconcrete_green"
   },
