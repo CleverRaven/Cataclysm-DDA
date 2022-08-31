@@ -737,7 +737,7 @@
       "str_min": 5,
       "str_max": 15,
       "str_min_supported": 100,
-      "items": [ { "item": "cotton_patchwork", "count": [ 10, 20 ] }, { "item": "nail", "charges": [ 1, 3 ] } ]
+      "items": [ { "item": "cotton_patchwork", "count": [ 10, 20 ] } ]
     },
     "deconstruct": { "items": [ { "item": "r_carpet", "charges": 1 } ], "ter_set": "t_thconc_floor" }
   },
@@ -809,7 +809,7 @@
       "str_min": 5,
       "str_max": 15,
       "str_min_supported": 100,
-      "items": [ { "item": "cotton_patchwork", "count": [ 10, 20 ] }, { "item": "nail", "charges": [ 1, 3 ] } ]
+      "items": [ { "item": "cotton_patchwork", "count": [ 10, 20 ] } ]
     },
     "deconstruct": { "items": [ { "item": "r_carpet", "charges": 1 } ], "ter_set": "t_metal_floor" }
   },
@@ -882,7 +882,7 @@
       "str_min": 5,
       "str_max": 15,
       "str_min_supported": 100,
-      "items": [ { "item": "cotton_patchwork", "count": [ 10, 20 ] }, { "item": "nail", "charges": [ 1, 3 ] } ]
+      "items": [ { "item": "cotton_patchwork", "count": [ 10, 20 ] } ]
     },
     "deconstruct": { "items": [ { "item": "r_carpet", "charges": 1 } ], "ter_set": "t_strconc_floor" }
   },
