@@ -12066,10 +12066,10 @@ void game::quicksave()
 void game::quickload()
 {
     const WORLD *active_world = world_generator->active_world;
-    std::string const world_name = active_world->world_name;
     if( active_world == nullptr ) {
         return;
     }
+    std::string const world_name = active_world->world_name;
     std::string const &save_id = u.get_save_id();
 
     if( active_world->save_exists( save_t::from_save_id( save_id ) ) ) {
