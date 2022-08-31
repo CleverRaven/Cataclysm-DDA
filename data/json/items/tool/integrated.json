@@ -1,10 +1,10 @@
 [
   {
-    "id": "internalgasoline_tank",
+    "id": "internal_gasoline_tank",
     "type": "TOOL_ARMOR",
     "category": "clothing",
     "name": { "str": "internal gasolien tank" },
-    "description": "Internal tank for gasoline fuel cell.",
+    "description": "Internal tank for gasoline fuel cell bionic.",
     "volume": "500 ml",
     "weight": "1 g",
     "price": 0,
@@ -13,5 +13,35 @@
     "color": "magenta",
     "flags": [ "INTEGRATED", "UNBREAKABLE", "PERSONAL", "NO_REPAIR", "ALLOWS_NATURAL_ATTACKS", "BIONIC_FUEL_SOURCE" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "gasoline": 500 }, "watertight": true, "rigid": true } ]
+  },
+  {
+    "id": "internal_ethanol_tank",
+    "type": "TOOL_ARMOR",
+    "category": "clothing",
+    "name": { "str": "internal ethanol tank" },
+    "description": "Internal ethanol tank for ethanol burner bionic.",
+    "volume": "400 ml",
+    "weight": "1 g",
+    "price": 0,
+    "material": [ "plastic" ],
+    "symbol": "(",
+    "color": "magenta",
+    "flags": [ "INTEGRATED", "UNBREAKABLE", "PERSONAL", "NO_REPAIR", "ALLOWS_NATURAL_ATTACKS", "BIONIC_FUEL_SOURCE" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "ethanol": 400 }, "watertight": true, "rigid": true } ]
+  },
+  {
+    "id": "internal_oil_tank",
+    "type": "TOOL_ARMOR",
+    "category": "clothing",
+    "name": { "str": "internal oil tank" },
+    "description": "Internal oil tank for oil generator bionic.",
+    "volume": "750 ml",
+    "weight": "1 g",
+    "price": 0,
+    "material": [ "plastic" ],
+    "symbol": "(",
+    "color": "magenta",
+    "flags": [ "INTEGRATED", "UNBREAKABLE", "PERSONAL", "NO_REPAIR", "ALLOWS_NATURAL_ATTACKS", "BIONIC_FUEL_SOURCE" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "ethanol": 750 }, "watertight": true, "rigid": true } ]
   }
 ]
