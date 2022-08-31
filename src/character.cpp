@@ -1272,7 +1272,7 @@ int Character::swim_speed() const
 
     // base swim speed. weight carried usually includes bodyweight_fat() but cancel it out here since fat is bouyant to avoid drowning from it being too low
     ret = ( 440 * mutation_value( "movecost_swim_modifier" ) ) + ( weight_carried() -
-            bodyweight_fat()/2 ) /
+            bodyweight_fat() / 2 ) /
           ( 60_gram / mutation_value( "movecost_swim_modifier" ) ) - 50 * get_skill_level( skill_swimming );
     /** @EFFECT_STR increases swim speed bonus from PAWS */
     if( has_trait( trait_PAWS ) ) {
