@@ -13,6 +13,7 @@
 #include "enums.h"
 #include "event.h"
 #include "event_bus.h"
+#include "explosion.h"
 #include "game.h"
 #include "map.h"
 #include "messages.h"
@@ -157,12 +158,14 @@ bool teleport::teleport_to_point( Creature &critter, tripoint target, bool safe,
             collision = true;
             collision_angle = rng( 0, 360 );
             g->fling_creature( poor_soul, units::from_degrees( collision_angle - 180 ), 50 );
+            explosion_handler::explosion( target, 25 );
             poor_soul->remove_effect( effect_grabbed );
             poor_soul->apply_damage( nullptr, bodypart_id( "arm_l" ), rng( 5, 10 ) );
             poor_soul->apply_damage( nullptr, bodypart_id( "arm_r" ), rng( 5, 10 ) );
             poor_soul->apply_damage( nullptr, bodypart_id( "leg_l" ), rng( 7, 12 ) );
             poor_soul->apply_damage( nullptr, bodypart_id( "leg_r" ), rng( 7, 12 ) );
             poor_soul->apply_damage( nullptr, bodypart_id( "torso" ), rng( 5, 15 ) );
+            poor_soul->apply_damage( nullptr, bodypart_id( "head" ), rng( 2, 8 ) );
             poor_soul->check_dead_state();
         }
     }
@@ -174,6 +177,7 @@ bool teleport::teleport_to_point( Creature &critter, tripoint target, bool safe,
         critter.apply_damage( nullptr, bodypart_id( "leg_l" ), rng( 7, 12 ) );
         critter.apply_damage( nullptr, bodypart_id( "leg_r" ), rng( 7, 12 ) );
         critter.apply_damage( nullptr, bodypart_id( "torso" ), rng( 5, 15 ) );
+        critter.apply_damage( nullptr, bodypart_id( "head" ), rng( 2, 8 ) );
         critter.check_dead_state();
     }
     //player and npc exclusive teleporting effects
