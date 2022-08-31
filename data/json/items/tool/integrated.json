@@ -42,6 +42,6 @@
     "symbol": "(",
     "color": "magenta",
     "flags": [ "INTEGRATED", "UNBREAKABLE", "PERSONAL", "NO_REPAIR", "ALLOWS_NATURAL_ATTACKS", "BIONIC_FUEL_SOURCE" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "chem_ethanol": 750 }, "watertight": true, "rigid": true } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "conc_alcohol": 750 }, "watertight": true, "rigid": true } ]
   }
 ]
