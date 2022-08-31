@@ -1645,6 +1645,27 @@ material_id Character::find_remote_fuel( bool look_only )
     return remote_fuel;
 }
 
+std::vector<item *> Character::get_cable_ups()
+{
+    std::vector<item *> stored_fuels;
+
+    const std::vector<item *> cables = items_with( []( const item & it ) {
+        return it.active && it.has_flag( flag_CABLE_SPOOL );
+    } );
+
+    for( const item *cable : cables ) {
+        if( cable->get_var( "state" ) == "UPS_link" ) {
+            for( item_location it : all_items_loc() ) {
+                if( it->get_var( "cable" ) == "plugged_in" ) {
+                    stored_fuels.emplace_back( &it->first_ammo() );
+                }
+            }
+        }
+    }
+
+    return stored_fuels;
+}
+
 int Character::consume_remote_fuel( int amount )
 {
     int unconsumed_amount = amount;
