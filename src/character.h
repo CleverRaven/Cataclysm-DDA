@@ -1620,6 +1620,10 @@ class Character : public Creature, public visitable
         material_id find_remote_fuel( bool look_only = false );
         /** Returns battery from UPS connected to cable charger */
         std::vector<item *> get_cable_ups();
+        /** Returns solar items connected to cable charger */
+        std::vector<item *> get_cable_solar();
+        /** Returns vehicles connected to cable charger */
+        std::vector<vehicle *> get_cable_vehicle();
         /**Consume fuel used by remote powered bionic, return amount of request unfulfilled (0 if totally successful).*/
         int consume_remote_fuel( int amount );
         void reset_remote_fuel();

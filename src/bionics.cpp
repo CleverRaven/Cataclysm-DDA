@@ -1666,6 +1666,49 @@ std::vector<item *> Character::get_cable_ups()
     return stored_fuels;
 }
 
+std::vector<item *> Character::get_cable_solar()
+{
+    std::vector<item *> solar_sources;
+
+    const std::vector<item *> cables = items_with( []( const item & it ) {
+        return it.active && it.has_flag( flag_CABLE_SPOOL );
+    } );
+
+    for( const item *cable : cables ) {
+        if( cable->get_var( "state" ) == "solar_pack_link" ) {
+            for( item_location it : top_items_loc() ) {
+                if( it->get_var( "cable" ) == "plugged_in" && it->has_flag( flag_SOLARPACK_ON ) ) {
+                    solar_sources.emplace_back( it.get_item() );
+                }
+            }
+        }
+    }
+
+    return solar_sources;
+}
+
+std::vector<vehicle *> Character::get_cable_vehicle()
+{
+    std::vector<vehicle *> remote_vehicles;
+    map &here = get_map();
+
+    const std::vector<item *> cables = items_with( []( const item & it ) {
+        return it.active && it.has_flag( flag_CABLE_SPOOL );
+    } );
+
+    for( const item *cable : cables ) {
+        const cata::optional<tripoint> target = cable->get_cable_target( this, pos() );
+        if( target ) {
+            const optional_vpart_position vp = here.veh_at( *target );
+            if( vp ) {
+                remote_vehicles.emplace_back( &vp->vehicle() );
+            }
+        }
+    }
+
+    return remote_vehicles;
+}
+
 int Character::consume_remote_fuel( int amount )
 {
     int unconsumed_amount = amount;
