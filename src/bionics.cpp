@@ -1367,26 +1367,33 @@ Character::auto_toggle_bionic_result Character::auto_toggle_bionic( bionic &bio,
 
 void Character::burn_fuel( bionic &bio, auto_toggle_bionic_result &result )
 {
-    if( !bio.powered || !result.can_be_on ) {
+	float efficiency;
+    if( !bio.powered ) {
+		// Modifiers for passive bionic
+		mod_power_level( bio.info().power_trickle );
+		efficiency = get_effective_efficiency( bio, bio.info().passive_fuel_efficiency );
+		if( efficiency == 0.f ) {
+			return;
+		}
         return;
-    }
+    } else {
+		efficiency = get_effective_efficiency( bio, bio.info().fuel_efficiency );
+		if( bio.get_auto_start_thresh() > 0 &&
+			get_power_level() > bio.get_auto_start_thresh() * get_max_power_level() ) {
+			// Do not consume fuel unless we are below auto start treshold.
+			debugmsg( "AUTOSTART TRESHOLD" );
+			return;
+		} else if( get_power_level() > get_max_power_level() * std::min( 1.0f,
+				   bio.get_safe_fuel_thresh() ) ) {
+			// Do not waste fuel charging over limit.
+			// Individual fuel sources need to check this again since the amount energy they provide may vary.
+			// For maybe zero sources (sun, wind) this check is enough.
+			debugmsg( "SAFE TRESHOLD" );
+			return;
+		}
+	}
 
-
-    if( bio.get_auto_start_thresh() > 0 &&
-        get_power_level() > bio.get_auto_start_thresh() * get_max_power_level() ) {
-        // Do not consume fuel unless we are below auto start treshold.
-        debugmsg( "AUTOSTART TRESHOLD" );
-        return;
-    } else if( get_power_level() > get_max_power_level() * std::min( 1.0f,
-               bio.get_safe_fuel_thresh() ) ) {
-        // Do not waste fuel charging over limit.
-        // Individual fuel sources need to check this again since the amount energy they provide may vary.
-        // For maybe zero sources (sun, wind) this check is enough.
-        debugmsg( "SAFE TRESHOLD" );
-        return;
-    }
-
-    float efficiency = get_effective_efficiency( bio, bio.info().fuel_efficiency );
+    
     units::energy energy_gain = 0_kJ;
     map &here = get_map();
 
@@ -1480,52 +1487,6 @@ void Character::burn_fuel( bionic &bio, auto_toggle_bionic_result &result )
     mod_power_level( energy_gain * efficiency );
     heat_emission( bio, energy_gain );
     here.emit_field( pos(), bio.info().power_gen_emission );
-}
-
-void Character::passive_power_gen( const bionic &bio )
-{
-    mod_power_level( bio.info().power_trickle );
-
-    const float passive_fuel_efficiency = bio.info().passive_fuel_efficiency;
-    if( bio.info().fuel_opts.empty() || bio.is_this_fuel_powered( fuel_type_muscle ) ||
-        passive_fuel_efficiency == 0.0 ) {
-        return;
-    }
-    const float effective_passive_efficiency = get_effective_efficiency( bio, passive_fuel_efficiency );
-    const std::vector<material_id> &fuel_available = get_fuel_available( bio.id );
-    map &here = get_map();
-    weather_manager &weather = get_weather();
-
-    for( const material_id &fuel : fuel_available ) {
-        const units::energy fuel_energy = fuel->get_fuel_data().energy /
-                                          1000; // TODO: Rewrite to use item volume
-        if( !fuel->get_fuel_data().is_perpetual_fuel ) {
-            continue;
-        }
-
-        if( fuel == fuel_type_sun_light ) {
-            const float intensity = incident_sun_irradiance( current_weather( pos() ),
-                                    calendar::turn ) / max_sun_irradiance();
-            mod_power_level( fuel_energy * intensity * effective_passive_efficiency );
-        } else if( fuel == fuel_type_wind ) {
-            int vehwindspeed = 0;
-            const optional_vpart_position vp = here.veh_at( pos() );
-            if( vp ) {
-                // vehicle velocity in mph
-                vehwindspeed = std::abs( vp->vehicle().velocity / 100 );
-            }
-            const int windpower = get_local_windpower( weather.windspeed + vehwindspeed,
-                                  overmap_buffer.ter( global_omt_location() ), pos(), weather.winddirection,
-                                  g->is_sheltered( pos() ) );
-            mod_power_level( fuel_energy * windpower * effective_passive_efficiency );
-        } else {
-            mod_power_level( fuel_energy * effective_passive_efficiency );
-        }
-
-        heat_emission( bio, fuel_energy );
-        here.emit_field( pos(), bio.info().power_gen_emission );
-
-    }
 }
 
 material_id Character::find_remote_fuel( bool look_only )
@@ -1757,7 +1718,7 @@ void Character::process_bionic( bionic &bio )
 
     // Only powered bionics should be processed
     if( !bio.powered ) {
-        passive_power_gen( bio );
+        burn_fuel( bio, result);
         return;
     }
 

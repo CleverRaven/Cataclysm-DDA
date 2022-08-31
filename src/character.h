@@ -1614,8 +1614,6 @@ class Character : public Creature, public visitable
         void process_items();
         /** Search surrounding squares for traps (and maybe other things in the future). */
         void search_surroundings();
-        /**Passively produce power from PERPETUAL fuel*/
-        void passive_power_gen( const bionic &bio );
         /**Find fuel used by remote powered bionic*/
         material_id find_remote_fuel( bool look_only = false );
         /** Returns battery from UPS connected to cable charger */
@@ -3504,7 +3502,9 @@ class Character : public Creature, public visitable
         auto_toggle_bionic_result auto_toggle_bionic( bionic &bio, bool start );
 
         /**
-         *Convert fuel to bionic power
+         * Convert fuel to bionic power. Handles both active and passive bionics
+		 * @param bio the bionic
+         * @param result contains fuel source info
          */
         void burn_fuel( bionic &bio, auto_toggle_bionic_result &result );
 
