@@ -545,7 +545,7 @@
     "activity_level": "BRISK_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_SUIT",
-    "name": "all steel plate armors",
+    "name": "steel plate armors",
     "description": "Recipes related to constructing different thicknesses of steel plate armor from different qualities of steel.",
     "skill_used": "fabrication",
     "nested_category_data": [ "nested_armor_all_heavyplate", "nested_armor_all_plate", "nested_armor_all_lightplate" ],
@@ -617,7 +617,7 @@
     "activity_level": "MODERATE_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_HANDS",
-    "name": "all steel demi-gauntlets",
+    "name": "steel demi-gauntlets",
     "description": "Recipes related to constructing demi-gauntlets from different types of steel.",
     "skill_used": "fabrication",
     "nested_category_data": [
@@ -695,7 +695,7 @@
     "activity_level": "MODERATE_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_HANDS",
-    "name": "all steel mitten gauntlets",
+    "name": "steel mitten gauntlets",
     "description": "Recipes related to constructing mitten gauntlets from different types of steel.",
     "skill_used": "fabrication",
     "nested_category_data": [
@@ -1032,7 +1032,7 @@
     "activity_level": "MODERATE_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_SUIT",
-    "name": "all steel chain hauberks",
+    "name": "steel chain hauberks",
     "description": "Recipes related to fitting together chainmail armor to make chainmail hauberks in various types and sizes.",
     "skill_used": "fabrication",
     "nested_category_data": [
@@ -1152,7 +1152,7 @@
     "activity_level": "MODERATE_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_SUIT",
-    "name": "all steel chain suits",
+    "name": "steel chain suits",
     "description": "Recipes related to constructing chainmail suits in various types and sizes.",
     "skill_used": "fabrication",
     "nested_category_data": [
@@ -1987,7 +1987,7 @@
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_HEAD",
-    "name": "all survivor hoods",
+    "name": "survivor hoods",
     "description": "Recipes related to constructing various types and sizes of specialized hoods designed to protect the wearer.",
     "skill_used": "tailor",
     "nested_category_data": [
@@ -2065,7 +2065,7 @@
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_HEAD",
-    "name": "all steel chain coifs",
+    "name": "steel chain coifs",
     "description": "Recipes related to constructing various types and sizes of chainmail hoods designed to protect the wearer.",
     "skill_used": "fabrication",
     "nested_category_data": [
@@ -2186,7 +2186,7 @@
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_HEAD",
-    "name": "all survivor masks",
+    "name": "survivor masks",
     "description": "Recipes related to constructing specialized survivor masks.",
     "skill_used": "fabrication",
     "nested_category_data": [
@@ -2265,7 +2265,7 @@
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_TORSO",
-    "name": "all steel chain vests",
+    "name": "steel chain vests",
     "description": "Recipes related to constructing various sizes of chainmail vests.",
     "skill_used": "fabrication",
     "nested_category_data": [
@@ -2486,7 +2486,7 @@
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_HANDS",
-    "name": "all survivor gloves",
+    "name": "survivor gloves",
     "description": "Recipes related to constructing various sizes and types of survivor gloves.",
     "skill_used": "tailor",
     "nested_category_data": [
@@ -2566,7 +2566,7 @@
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_HANDS",
-    "name": "all steel chain gloves",
+    "name": "steel chain gloves",
     "description": "Recipes related to constructing various types and sizes of chain gloves.",
     "skill_used": "fabrication",
     "nested_category_data": [
@@ -2644,7 +2644,7 @@
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_ARMS",
-    "name": "all steel chain sleeves",
+    "name": "steel chain sleeves",
     "description": "Recipes related to constructing various sizes of chain sleeves.",
     "skill_used": "fabrication",
     "nested_category_data": [
@@ -2686,7 +2686,7 @@
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_LEGS",
-    "name": "all survivor pants",
+    "name": "survivor pants",
     "description": "Recipes related to constructing various sizes and variations of survivor cargo pants.",
     "skill_used": "tailor",
     "nested_category_data": [ "nested_lsurvivor_pants", "nested_survivor_pants" ],
@@ -2758,7 +2758,7 @@
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_LEGS",
-    "name": "all steel chain legs",
+    "name": "steel chain legs",
     "description": "Recipes related to constructing various sizes and types of chainmail leggings.",
     "skill_used": "fabrication",
     "nested_category_data": [
@@ -2855,7 +2855,7 @@
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_FEET",
-    "name": "all survivor boots",
+    "name": "survivor boots",
     "description": "Recipes related to constructing various sizes and variations of survivor boots.",
     "skill_used": "tailor",
     "nested_category_data": [
@@ -2934,7 +2934,7 @@
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_FEET",
-    "name": "all steel chain chausses",
+    "name": "steel chain chausses",
     "description": "Recipes related to constructing various types and sizes of chainmail chausses.",
     "skill_used": "fabrication",
     "nested_category_data": [
