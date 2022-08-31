@@ -1504,8 +1504,6 @@ Character::auto_toggle_bionic_result2 Character::auto_toggle_bionic2( bionic &bi
         return result;
     }
 
-    int energy_per_charge = 0; //kJ
-
     if( is_remote_fueled ) {
         result.connected_vehicles = get_cable_vehicle();
         result.connected_solar = get_cable_solar();
@@ -1514,9 +1512,35 @@ Character::auto_toggle_bionic_result2 Character::auto_toggle_bionic2( bionic &bi
         result.connected_fuel = get_bionic_fuels( bio.id );
     }
 
-    if( result.connected_vehicles.empty() && result.connected_solar.empty() &&
+    int other_charges = 0;
+    // There could be multiple fuels. But probably not. So we just check the first.
+    bool is_perpetual = bio.id->fuel_opts.front()->get_fuel_data().is_perpetual_fuel;
+    bool metabolism_powered = bio.id->fuel_opts.front() == fuel_type_metabolism;
+
+    if( metabolism_powered ) {
+        other_charges = std::max( 0.0f, get_stored_kcal() - 0.8f * get_healthy_kcal() );
+    }
+
+    if( !is_perpetual && !other_charges && result.connected_vehicles.empty() &&
+        result.connected_solar.empty() &&
         result.connected_fuel.empty() ) {
-        if( start ) {
+        if( metabolism_powered ) {
+            if( start ) {
+                add_msg_player_or_npc( m_info,
+                                       _( "Your %s cannot be started because your calories are below safe levels." ),
+                                       _( "<npcname>'s %s cannot be started because their calories are below safe levels." ),
+                                       bio.info().name );
+
+            } else if( bio.powered ) {
+                add_msg_player_or_npc( m_info,
+                                       _( "Stored calories are below the safe threshold, your %s shuts down to preserve your health." ),
+                                       _( "Stored calories are below the safe threshold, <npcname>'s %s shuts down to preserve their health." ),
+                                       bio.info().name );
+
+                bio.powered = false;
+                deactivate_bionic( bio, true );
+            }
+        } else if( start ) {
             add_msg_player_or_npc( m_bad, _( "Your %s does not have enough fuel to start." ),
                                    _( "<npcname>'s %s does not have enough fuel to start." ),
                                    bio.info().name );
