@@ -41,6 +41,7 @@
           "mx_nest_ornithomimus": 30,
           "mx_nest_ankylosaurus": 30,
           "mx_nest_camptosaurus": 30,
+          "mx_nest_centrosaurus": 30,
           "mx_nest_corythosaurus": 30,
           "mx_nest_dryosaurus": 30,
           "mx_nest_dyoplosaurus": 30,
@@ -66,6 +67,7 @@
           "mx_nest_thescelosaurus": 30,
           "mx_nest_torosaurus": 30,
           "mx_nest_triceratops": 30,
+          "mx_nest_zuniceratops": 30,
           "mx_portal_dino_south_america": 1,
           "mx_portal_dino_asia": 1,
           "mx_portal_dino_europe": 1
