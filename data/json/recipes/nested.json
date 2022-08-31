@@ -1665,6 +1665,18 @@
     "difficulty": 5
   },
   {
+    "id": "nested_heavy_survivor_jumpsuits",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "steel-plated kevlar jumpsuits",
+    "description": "Recipes related to constructing custom-made jumpsuits meant to keep the wearer REALLY safe from harm, although they are a bit heavy.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "hsurvivor_jumpsuit", "xs_hsurvivor_jumpsuit", "xl_hsurvivor_jumpsuit" ],
+    "difficulty": 7
+  },
+  {
     "id": "nested_fire_survivor_jumpsuits",
     "type": "nested_category",
     "activity_level": "LIGHT_EXERCISE",
@@ -1719,6 +1731,7 @@
     "nested_category_data": [
       "nested_survivor_jumpsuits",
       "nested_light_survivor_jumpsuits",
+      "nested_heavy_survivor_jumpsuits",
       "nested_fire_survivor_jumpsuits",
       "nested_winter_survivor_jumpsuits",
       "nested_h20_survivor_jumpsuits"
