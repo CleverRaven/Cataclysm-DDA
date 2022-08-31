@@ -1641,6 +1641,91 @@
     "difficulty": 1
   },
   {
+    "id": "nested_survivor_jumpsuits",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "standard kevlar jumpsuits",
+    "description": "Recipes related to constructing custom-made jumpsuits meant to keep the wearer safe from harm.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "survivor_jumpsuit", "xssurvivor_jumpsuit", "xlsurvivor_jumpsuit" ],
+    "difficulty": 6
+  },
+  {
+    "id": "nested_light_survivor_jumpsuits",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "light kevlar jumpsuits",
+    "description": "Recipes related to constructing custom-made jumpsuits meant to keep the wearer safe from harm while still being flexible.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "lsurvivor_jumpsuit", "xs_lsurvivor_jumpsuit", "xl_lsurvivor_jumpsuit" ],
+    "difficulty": 5
+  },
+  {
+    "id": "nested_fire_survivor_jumpsuits",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "kevlar firesuits",
+    "description": "Recipes related to constructing custom-made jumpsuits meant to keep the wearer safe from harm and intense fires.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "fsurvivor_jumpsuit", "xs_fsurvivor_jumpsuit", "xl_fsurvivor_jumpsuit" ],
+    "difficulty": 8
+  },
+  {
+    "id": "nested_winter_survivor_jumpsuits",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "winter kevlar jumpsuits",
+    "description": "Recipes related to constructing custom-made jumpsuits meant to keep the wearer safe from harm and freezing cold temperatures.",
+    "skill_used": "fabrication",
+    "nested_category_data": [
+      "wsurvivor_jumpsuit_nofur",
+      "xs_wsurvivor_jumpsuit_nofur",
+      "xl_wsurvivor_jumpsuit_nofur",
+      "wsurvivor_jumpsuit",
+      "xs_wsurvivor_jumpsuit",
+      "xl_wsurvivor_jumpsuit"
+    ],
+    "difficulty": 6
+  },
+  {
+    "id": "nested_h20_survivor_jumpsuits",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "kevlar wetsuits",
+    "description": "Recipes related to constructing custom-made jumpsuits meant to keep the wearer safe from harm and keep water out.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "h20survivor_jumpsuit", "xs_h20survivor_jumpsuit", "xl_h20survivor_jumpsuit" ],
+    "difficulty": 7
+  },
+  {
+    "id": "nested_all_survivor_jumpsuits",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_SUIT",
+    "name": "kevlar jumpsuits",
+    "description": "Recipes related to constructing custom-made jumpsuits meant to keep the wearer safe from various types of harm.",
+    "skill_used": "tailor",
+    "nested_category_data": [
+      "nested_survivor_jumpsuits",
+      "nested_light_survivor_jumpsuits",
+      "nested_fire_survivor_jumpsuits",
+      "nested_winter_survivor_jumpsuits",
+      "nested_h20_survivor_jumpsuits"
+    ],
+    "difficulty": 6
+  },
+  {
     "id": "nested_lc_sabatons",
     "type": "nested_category",
     "activity_level": "MODERATE_EXERCISE",
