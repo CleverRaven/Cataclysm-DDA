@@ -216,6 +216,7 @@ struct Character::auto_toggle_bionic_result2 {
     std::vector<vehicle *> connected_vehicles;
     std::vector<item *> connected_solar;
     std::vector<item *> connected_fuel;
+    bool can_be_on = true;
 };
 
 namespace
@@ -716,8 +717,8 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
             return false;
         }
 
-        const auto_toggle_bionic_result result = auto_toggle_bionic( bio, true );
-        if( result.can_burn_fuel && !result.has_burnable_fuel ) {
+        const auto_toggle_bionic_result2 result = auto_toggle_bionic2( bio, true );
+        if( !result.can_be_on ) {
             return false;
         }
 
@@ -1519,7 +1520,7 @@ Character::auto_toggle_bionic_result2 Character::auto_toggle_bionic2( bionic &bi
             add_msg_player_or_npc( m_bad, _( "Your %s does not have enough fuel to start." ),
                                    _( "<npcname>'s %s does not have enough fuel to start." ),
                                    bio.info().name );
-        } else {
+        } else if( bio.powered ) {
             add_msg_player_or_npc( m_info,
                                    _( "Your %s runs out of fuel and turns off." ),
                                    _( "<npcname>'s %s runs out of fuel and turns off." ),
@@ -1527,17 +1528,42 @@ Character::auto_toggle_bionic_result2 Character::auto_toggle_bionic2( bionic &bi
             bio.powered = false;
             deactivate_bionic( bio, true );
         }
+        result.can_be_on = false;
     }
 
     return result;
 }
 
-void Character::burn_fuel( bionic &bio, const auto_toggle_bionic_result &result )
+void Character::burn_fuel( bionic &bio, const auto_toggle_bionic_result2 &result )
 {
-    if( !bio.powered || !result.can_burn_fuel || !result.has_burnable_fuel ) {
+    if( !bio.powered || !result.can_be_on ) {
         return;
     }
 
+    //debugmsg("BREAK");
+
+    // There may be multiple valid fuel types. Just pick one and ignore rest.
+    if( !result.connected_fuel.empty() ) {
+        item *fuel = result.connected_fuel.front();
+        units::energy energ_per_charge = fuel->fuel_energy() / fuel->charges;
+        float efficiency = get_effective_efficiency( bio, bio.info().fuel_efficiency );
+
+        if( get_power_level() + energ_per_charge * efficiency > get_max_power_level() * std::min( 1.0f,
+                bio.get_safe_fuel_thresh() ) ) {
+            // Do not waste fuel charging over limit
+            return;
+        } else if( get_power_level() > bio.get_auto_start_thresh() * get_max_power_level() ) {
+            // Do not consume fuel unless we are below auto start treshold
+            return;
+        }
+
+        mod_power_level( energ_per_charge * efficiency );
+        fuel->charges--;
+        debugmsg("E:%i, C:%i", units::to_millijoule(energ_per_charge ), fuel->charges);
+    }
+    return;
+
+    /*
     map &here = get_map();
     weather_manager &weather = get_weather();
     // TODO: Rewrite fuels to use item volume.
@@ -1593,6 +1619,7 @@ void Character::burn_fuel( bionic &bio, const auto_toggle_bionic_result &result 
 
     heat_emission( bio, result.fuel_energy );
     here.emit_field( pos(), bio.info().power_gen_emission );
+    */
 }
 
 void Character::passive_power_gen( const bionic &bio )
@@ -1866,7 +1893,7 @@ static bool attempt_recharge( Character &p, bionic &bio, units::energy &amount )
 
 void Character::process_bionic( bionic &bio )
 {
-    const auto_toggle_bionic_result result = auto_toggle_bionic( bio, false );
+    const auto_toggle_bionic_result2 result = auto_toggle_bionic2( bio, false );
 
     // Only powered bionics should be processed
     if( !bio.powered ) {
@@ -3672,7 +3699,7 @@ std::vector<item *> Character::get_bionic_fuels( const bionic_id &bio )
             continue;
         }
         for( const material_id &mat : bio->fuel_opts ) {
-            if( it->first_ammo().made_of( mat ) ) {
+            if( it->ammo_remaining() && it->first_ammo().made_of( mat ) ) {
                 stored_fuels.emplace_back( &it->first_ammo() );
             }
         }

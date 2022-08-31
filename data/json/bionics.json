@@ -1679,7 +1679,7 @@
     "exothermic_power_gen": true,
     "time": "1 s",
     "flags": [ "BIONIC_TOGGLED", "BIONIC_POWER_SOURCE", "BIONIC_NPC_USABLE" ],
-    "passive_pseudo_items": [ "armor_bio_carbon_filament" ]
+    "passive_pseudo_items": [ "internalgasoline_tank" ]
   },
   {
     "id": "bio_syringe",
