@@ -3553,6 +3553,24 @@ std::vector<material_id> Character::get_fuel_available( const bionic_id &bio ) c
     return stored_fuels;
 }
 
+std::vector<item *> Character::get_bionic_fuels( const bionic_id &bio )
+{
+    std::vector<item *> stored_fuels;
+
+    for( item_location it : top_items_loc() ) {
+        if( !it->has_flag( flag_BIONIC_FUEL_SOURCE ) ) {
+            continue;
+        }
+        for( const material_id &mat : bio->fuel_opts ) {
+            if( it->first_ammo().made_of( mat ) ) {
+                stored_fuels.emplace_back( &it->first_ammo() );
+            }
+        }
+    }
+
+    return stored_fuels;
+}
+
 int Character::get_fuel_capacity( const material_id &fuel ) const
 {
     int amount_stored = 0;
