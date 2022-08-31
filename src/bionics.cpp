@@ -1578,7 +1578,7 @@ void Character::burn_fuel( bionic &bio, auto_toggle_bionic_result2 &result )
         }
     }
 
-    // Rest of the fuel sources are known to exist so we can exit after any of them is accessed
+    // Rest of the fuel sources are known to exist so we can exit after any of them is used
     if( !result.connected_fuel.empty() ) {
         // Bionic that uses fuel items from some source.
         // There *could* be multiple items. But we only take first.
@@ -1596,14 +1596,22 @@ void Character::burn_fuel( bionic &bio, auto_toggle_bionic_result2 &result )
 
         mod_power_level( energ_per_charge * efficiency );
         fuel->charges--;
-    } else if( !result.connected_solar.empty() ) {
-        // Cable charger connected to solar panel item.
-        // There *could* be multiple items. But we only take first.
+    }
 
+
+    if( std::find( bio.id->fuel_opts.begin(), bio.id->fuel_opts.end(),
+                   fuel_type_sun_light ) != bio.id->fuel_opts.end()
+        || !result.connected_solar.empty() ) {
+        // Some sort of solar source
         const weather_type_id &wtype = current_weather( pos() );
         const float intensity = incident_sun_irradiance( wtype, calendar::turn ); // W/m2
-        const float solar_efficiency = result.connected_solar.front()->type->solar_efficiency;
-        units::energy energy_gain = units::from_kilojoule( intensity * solar_efficiency );
+
+        if( !result.connected_solar.empty() ) {
+            // Cable charger connected to solar panel item.
+            // There *could* be multiple items. But we only take first.
+            efficiency *= result.connected_solar.front()->type->solar_efficiency;
+        }
+        units::energy energy_gain = units::from_joule( intensity );
         mod_power_level( energy_gain * efficiency );
     } else if( std::find( bio.id->fuel_opts.begin(), bio.id->fuel_opts.end(),
                           fuel_type_metabolism ) != bio.id->fuel_opts.end() ) {
@@ -1625,14 +1633,7 @@ void Character::burn_fuel( bionic &bio, auto_toggle_bionic_result2 &result )
     weather_manager &weather = get_weather();
     // TODO: Rewrite fuels to use item volume.
     // The energy is in energy/L but we just divide by 1000 and treat it as energy/unit
-    switch( result.fuel_type ) {
-        case auto_toggle_bionic_result::fuel_type_t::metabolism: {
-            // 1kcal = 4184 J
-            const units::energy power_gain = result.fuel_energy * 4184 * result.effective_efficiency / 1000;
-            mod_stored_kcal( -units::to_kilojoule( result.fuel_energy ), true );
-            mod_power_level( power_gain );
-            break;
-        }
+
         case auto_toggle_bionic_result::fuel_type_t::perpetual:
             if( result.burnable_fuel_id == fuel_type_sun_light && g->is_in_sunlight( pos() ) ) {
                 const weather_type_id &wtype = current_weather( pos() );
