@@ -354,5 +354,29 @@
     "weapon_category": [ "CONSTRUCTED_SWORDS", "MEDIUM_SWORDS" ],
     "qualities": [ [ "BUTCHER", -50 ] ],
     "techniques": [ "WBLOCK_1" ]
+  },
+  {
+    "id": "rocket_can_drink",
+    "copy-from": "can_drink",
+    "type": "GENERIC",
+    "name": { "str": "rocket can" },
+    "description": "A beverage can shaped like a rocket with a peeling label that reads 'POWERTHIRST: ROCKET CAN EDITION'.  Its tagline claims that it contains everything you've ever wanted.",
+    "symbol": "^",
+    "weight": "30 g",
+    "volume": "600 ml",
+    "longest_side": "18 cm",
+    "color": "dark_gray",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "watertight": true,
+        "open_container": false,
+        "max_contains_volume": "500 ml",
+        "max_item_volume": "10 ml",
+        "max_contains_weight": "1 kg",
+        "sealed_data": { "spoil_multiplier": 0 }
+      }
+    ]
   }
 ]
