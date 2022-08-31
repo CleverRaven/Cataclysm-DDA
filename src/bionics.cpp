@@ -3523,7 +3523,15 @@ std::vector<item *> Character::get_bionic_fuels( const bionic_id &bio )
         }
         for( const material_id &mat : bio->fuel_opts ) {
             if( it->ammo_remaining() && it->first_ammo().made_of( mat ) ) {
+                // Ammo from magazines
                 stored_fuels.emplace_back( &it->first_ammo() );
+            } else {
+                for( item *cit : it->all_items_top() ) {
+                    // Fuel from containers
+                    if( cit->made_of( mat ) ) {
+                        stored_fuels.emplace_back( cit );
+                    }
+                }
             }
         }
     }
