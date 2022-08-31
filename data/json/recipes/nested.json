@@ -1751,6 +1751,18 @@
     "difficulty": 3
   },
   {
+    "id": "nested_steel_lump",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "name": "lumps of steel",
+    "description": "Recipes related to forging steel into different quality lumps.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "steel_lump", "steel_lump_from_other_steel", "budget_steel_lump", "lc_steel_lump", "mc_steel_lump", "hc_steel_lump" ],
+    "difficulty": 5
+  },
+  {
     "id": "nested_lc_sabatons",
     "type": "nested_category",
     "activity_level": "MODERATE_EXERCISE",
