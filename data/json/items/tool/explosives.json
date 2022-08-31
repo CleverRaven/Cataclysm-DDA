@@ -1640,7 +1640,7 @@
       "target_charges": 20,
       "active": true,
       "need_fire": 0,
-      "menu_text": "Mix the ingridents",
+      "menu_text": "Mix the ingredients",
       "type": "transform"
     },
     "flags": [ "BOMB" ]
