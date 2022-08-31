@@ -1751,6 +1751,18 @@
     "difficulty": 3
   },
   {
+    "id": "nested_steel_wires",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "name": "steel wires",
+    "description": "Recipes related to constructing different qualities of steel wires.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "lc_wire", "mc_wire", "hc_wire", "ch_wire", "qt_wire" ],
+    "difficulty": 3
+  },
+  {
     "id": "nested_frames",
     "type": "nested_category",
     "activity_level": "LIGHT_EXERCISE",
