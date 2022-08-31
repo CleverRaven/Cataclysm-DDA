@@ -1713,6 +1713,34 @@
     "difficulty": 4
   },
   {
+    "id": "nested_compact_currency",
+    "type": "nested_category",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_OTHER",
+    "name": "bundled currency",
+    "description": "Recipes related to creating fat stacks of currency.",
+    "skill_used": "fabrication",
+    "nested_category_data": [
+      "money_strap_one",
+      "money_strap_two",
+      "money_strap_five",
+      "money_strap_ten",
+      "money_strap_twenty",
+      "money_strap_fifty",
+      "money_strap_hundred",
+      "money_strap_FMCNote",
+      "money_bundle_one",
+      "money_bundle_two",
+      "money_bundle_five",
+      "money_bundle_ten",
+      "money_bundle_twenty",
+      "money_bundle_fifty",
+      "money_bundle_hundred",
+      "money_bundle_FMCNote"
+    ]
+  },
+  {
     "id": "nested_hood_fsurvivor",
     "type": "nested_category",
     "activity_level": "LIGHT_EXERCISE",
