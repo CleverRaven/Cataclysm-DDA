@@ -447,7 +447,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_mon_zeptoceratops_UPGRADE",
+    "name": "GROUP_zeptoceratops_UPGRADE",
     "monsters": [ { "monster": "mon_septoceratops", "weight": 600 }, { "monster": "mon_zeptoceratops_brute", "weight": 400 } ]
   },
   {
