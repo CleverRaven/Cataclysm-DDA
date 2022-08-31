@@ -31,6 +31,9 @@
 #include "ui_manager.h"
 #include "uistate.h"
 #include "units.h"
+#include "vehicle.h"
+
+static const itype_id itype_battery( "battery" );
 
 static const material_id material_sunlight( "sunlight" );
 
@@ -204,29 +207,24 @@ static void draw_bionics_titlebar( const catacurses::window &window, avatar *p,
     bool found_fuel = false;
     fuel_string = _( "Available Fuel: " );
     for( const bionic &bio : *p->my_bionics ) {
-        for( const material_id &fuel : p->get_fuel_available( bio.id ) ) {
+        for( const item *fuel : p->get_bionic_fuels( bio.id ) ) {
             found_fuel = true;
-            if( fuel->get_fuel_data().is_perpetual_fuel ) {
-                if( fuel == material_sunlight && !g->is_in_sunlight( p->pos() ) ) {
-                    continue;
-                }
-                fuel_string += colorize( fuel->name(), c_green ) + " ";
-                continue;
-            }
-            fuel_string += fuel->name() + ": " + colorize( p->get_value( fuel.str() ),
-                           c_green ) + "/" + std::to_string( p->get_total_fuel_capacity( fuel ) ) + " ";
+            fuel_string += fuel->tname() + ": " + colorize( std::to_string( fuel->charges ), c_green ) + " ";
         }
-        if( bio.info().is_remote_fueled && p->has_active_bionic( bio.id ) ) {
-            const material_id rem_fuel = p->find_remote_fuel( true );
-            if( !rem_fuel.is_empty() ) {
-                if( rem_fuel->get_fuel_data().is_perpetual_fuel ) {
-                    fuel_string += colorize( rem_fuel->name(), c_green ) + " ";
-                } else {
-                    fuel_string += rem_fuel->name() + ": " + colorize( p->get_value( "rem_" + rem_fuel.str() ),
+        for( const item *fuel : p->get_cable_ups() ) {
+            found_fuel = true;
+            fuel_string += fuel->tname() + ": " + colorize( std::to_string( fuel->charges ), c_green ) + " ";
+        }
+        if( bio.info().is_remote_fueled ) {
+            for( vehicle *veh : p->get_cable_vehicle() ) {
+                int64_t charges = veh->connected_battery_power_level().first;
+                if( charges > 0 ) {
+                    found_fuel = true;
+                    fuel_string += item( itype_battery ).tname() + ": " + colorize( std::to_string( charges ),
                                    c_green ) + " ";
                 }
-                found_fuel = true;
             }
+
         }
     }
     if( !found_fuel ) {

@@ -1321,8 +1321,10 @@ Character::auto_toggle_bionic_result Character::auto_toggle_bionic( bionic &bio,
 
     int other_charges = 0;
     // There could be multiple fuels. But probably not. So we just check the first.
-    bool is_perpetual = bio.id->fuel_opts.front()->get_fuel_data().is_perpetual_fuel;
-    bool metabolism_powered = bio.id->fuel_opts.front() == fuel_type_metabolism;
+    bool is_perpetual = !bio.id->fuel_opts.empty() &&
+                        bio.id->fuel_opts.front()->get_fuel_data().is_perpetual_fuel;
+    bool metabolism_powered = !bio.id->fuel_opts.empty() &&
+                              bio.id->fuel_opts.front() == fuel_type_metabolism;
 
     if( metabolism_powered ) {
         other_charges = std::max( 0.0f, get_stored_kcal() - 0.8f * get_healthy_kcal() );
@@ -1367,33 +1369,33 @@ Character::auto_toggle_bionic_result Character::auto_toggle_bionic( bionic &bio,
 
 void Character::burn_fuel( bionic &bio, auto_toggle_bionic_result &result )
 {
-	float efficiency;
+    float efficiency;
     if( !bio.powered ) {
-		// Modifiers for passive bionic
-		mod_power_level( bio.info().power_trickle );
-		efficiency = get_effective_efficiency( bio, bio.info().passive_fuel_efficiency );
-		if( efficiency == 0.f ) {
-			return;
-		}
+        // Modifiers for passive bionic
+        mod_power_level( bio.info().power_trickle );
+        efficiency = get_effective_efficiency( bio, bio.info().passive_fuel_efficiency );
+        if( efficiency == 0.f ) {
+            return;
+        }
         return;
     } else {
-		efficiency = get_effective_efficiency( bio, bio.info().fuel_efficiency );
-		if( bio.get_auto_start_thresh() > 0 &&
-			get_power_level() > bio.get_auto_start_thresh() * get_max_power_level() ) {
-			// Do not consume fuel unless we are below auto start treshold.
-			debugmsg( "AUTOSTART TRESHOLD" );
-			return;
-		} else if( get_power_level() > get_max_power_level() * std::min( 1.0f,
-				   bio.get_safe_fuel_thresh() ) ) {
-			// Do not waste fuel charging over limit.
-			// Individual fuel sources need to check this again since the amount energy they provide may vary.
-			// For maybe zero sources (sun, wind) this check is enough.
-			debugmsg( "SAFE TRESHOLD" );
-			return;
-		}
-	}
+        efficiency = get_effective_efficiency( bio, bio.info().fuel_efficiency );
+        if( bio.get_auto_start_thresh() > 0 &&
+            get_power_level() > bio.get_auto_start_thresh() * get_max_power_level() ) {
+            // Do not consume fuel unless we are below auto start treshold.
+            debugmsg( "AUTOSTART TRESHOLD" );
+            return;
+        } else if( get_power_level() > get_max_power_level() * std::min( 1.0f,
+                   bio.get_safe_fuel_thresh() ) ) {
+            // Do not waste fuel charging over limit.
+            // Individual fuel sources need to check this again since the amount energy they provide may vary.
+            // For maybe zero sources (sun, wind) this check is enough.
+            debugmsg( "SAFE TRESHOLD" );
+            return;
+        }
+    }
 
-    
+
     units::energy energy_gain = 0_kJ;
     map &here = get_map();
 
@@ -1718,7 +1720,7 @@ void Character::process_bionic( bionic &bio )
 
     // Only powered bionics should be processed
     if( !bio.powered ) {
-        burn_fuel( bio, result);
+        burn_fuel( bio, result );
         return;
     }
 

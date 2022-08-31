@@ -3495,7 +3495,7 @@ class Character : public Creature, public visitable
 
         /**
          * Automatically turn bionic on or off according to remaining fuel and
-         * user settings, and return info of the first burnable fuel.
+         * user settings, and return info of usable fuels.
          * @param bio the bionic
          * @param start true if player is trying to turn the bionic on
          */
@@ -3503,7 +3503,7 @@ class Character : public Creature, public visitable
 
         /**
          * Convert fuel to bionic power. Handles both active and passive bionics
-		 * @param bio the bionic
+         * @param bio the bionic
          * @param result contains fuel source info
          */
         void burn_fuel( bionic &bio, auto_toggle_bionic_result &result );
