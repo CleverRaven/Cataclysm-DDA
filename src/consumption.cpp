@@ -816,26 +816,6 @@ ret_val<edible_rating> Character::can_eat( const item &food ) const
     return ret_val<edible_rating>::make_success();
 }
 
-ret_val<edible_rating> Character::can_consume_fuel( const item &fuel ) const
-{
-    if( !can_fuel_bionic_with( fuel ) ) {
-        return ret_val<edible_rating>::make_failure( _( "That doesn't look useable as fuel." ) );
-    } else {
-        std::string item_name = fuel.tname();
-        material_id mat_type = fuel.get_base_material().id;
-        if( fuel.type->magazine ) {
-            const item ammo = item( fuel.ammo_current() );
-            item_name = ammo.tname();
-            mat_type = ammo.get_base_material().id;
-        }
-        if( get_fuel_capacity( mat_type ) <= 0 ) {
-            return ret_val<edible_rating>::make_failure( _( "No space to store more %s" ), item_name );
-        }
-
-    }
-    return ret_val<edible_rating>::make_success();
-}
-
 ret_val<edible_rating> Character::will_eat( const item &food, bool interactive ) const
 {
     ret_val<edible_rating> ret = can_eat( food );
@@ -1853,7 +1833,7 @@ trinary Character::consume( item &target, bool force, bool refuel )
     return trinary::NONE;
 }
 
-trinary Character::consume( item_location loc, bool force, bool refuel )
+trinary Character::consume( item_location loc, bool force )
 {
     if( !loc ) {
         debugmsg( "Null loc to consume." );
@@ -1861,7 +1841,7 @@ trinary Character::consume( item_location loc, bool force, bool refuel )
     }
     contents_change_handler handler;
     item &target = *loc;
-    trinary result = consume( target, force, refuel );
+    trinary result = consume( target, force );
     if( result != trinary::NONE ) {
         handler.unseal_pocket_containing( loc );
     }

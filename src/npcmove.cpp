@@ -1689,19 +1689,6 @@ bool npc::can_use_offensive_cbm() const
     return get_power_level() > get_max_power_level() * allowed_ratio;
 }
 
-bool npc::consume_cbm_items( const std::function<bool( const item & )> &filter )
-{
-    std::vector<item *> filtered_items = items_with( filter );
-    if( filtered_items.empty() ) {
-        return false;
-    }
-
-    item_location loc = item_location( *this, filtered_items.front() );
-    const time_duration &consume_time = get_consume_time( *loc );
-    moves -= to_moves<int>( consume_time );
-    return consume( loc, /*force=*/false, /*refuel=*/true ) != trinary::NONE;
-}
-
 bool npc::recharge_cbm()
 {
     // non-allied NPCs don't consume resources to recharge
@@ -1727,7 +1714,7 @@ bool npc::recharge_cbm()
                         item( it.ammo_current() ).get_base_material().id == bid->fuel_opts.front() );
             };
 
-            if( consume_cbm_items( fuel_filter ) ) {
+            if( false ) { //TODO reload integral tanks
                 use_bionic_by_id( bid );
                 return true;
             } else {

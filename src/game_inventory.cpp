@@ -63,7 +63,6 @@
 
 static const activity_id ACT_CONSUME_DRINK_MENU( "ACT_CONSUME_DRINK_MENU" );
 static const activity_id ACT_CONSUME_FOOD_MENU( "ACT_CONSUME_FOOD_MENU" );
-static const activity_id ACT_CONSUME_FUEL_MENU( "ACT_CONSUME_FUEL_MENU" );
 static const activity_id ACT_CONSUME_MEDS_MENU( "ACT_CONSUME_MEDS_MENU" );
 static const activity_id ACT_EAT_MENU( "ACT_EAT_MENU" );
 
@@ -143,8 +142,7 @@ static item_location inv_internal( Character &u, const inventory_selector_preset
         ACT_EAT_MENU,
         ACT_CONSUME_FOOD_MENU,
         ACT_CONSUME_DRINK_MENU,
-        ACT_CONSUME_MEDS_MENU,
-        ACT_CONSUME_FUEL_MENU };
+        ACT_CONSUME_MEDS_MENU };
 
     u.inv->restack( u );
 
@@ -1167,18 +1165,6 @@ item_location game_menus::inv::consume_meds( avatar &you )
     _( "Consume medication" ), 1,
     none_message,
     get_consume_needs_hint( you ) );
-}
-
-item_location game_menus::inv::consume_fuel( avatar &you )
-{
-    if( !you.has_activity( ACT_CONSUME_FUEL_MENU ) ) {
-        you.assign_activity( ACT_CONSUME_FUEL_MENU );
-    }
-    std::string none_message = you.activity.str_values.size() == 2 ?
-                               _( "You have no more fuel to consume." ) : _( "You have no fuel to consume." );
-    return inv_internal( you, fuel_inventory_preset( you ),
-                         _( "Consume fuel" ), 1,
-                         none_message );
 }
 
 class activatable_inventory_preset : public pickup_inventory_preset
