@@ -290,6 +290,7 @@ cecalia
 cegamente
 centerdamage
 centric
+centrosaurus
 cepa
 cephalothorax
 ceratopsian
@@ -988,6 +989,7 @@ leatherworking
 legges
 lemure
 leport
+leptoceratops
 lettin
 leuchtet
 levergun
@@ -2070,6 +2072,7 @@ zombullfrog
 zombullfrogs
 zpzzzzpzz
 zubon
+zuniceratops
 zygomaticus
 zzz
 zzzzchzzzzchurzzzpileus

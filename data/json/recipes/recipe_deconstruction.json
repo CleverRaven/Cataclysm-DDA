@@ -5017,7 +5017,16 @@
     "activity_level": "NO_EXERCISE",
     "skill_used": "fabrication",
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "cotton_patchwork", 10 ] ] ],
+    "components": [ [ [ "cotton_patchwork", 100 ] ], [ [ "thread", 8 ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "bundle_cotton",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "skill_used": "fabrication",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "cotton_patchwork", 25 ] ], [ [ "thread", 16 ] ] ],
     "flags": [ "BLIND_EASY" ]
   },
   {
@@ -5026,7 +5035,7 @@
     "activity_level": "NO_EXERCISE",
     "skill_used": "fabrication",
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "leather", 10 ] ] ],
+    "components": [ [ [ "leather", 50 ] ], [ [ "thread", 8 ] ] ],
     "flags": [ "BLIND_EASY" ]
   },
   {
@@ -5035,7 +5044,7 @@
     "activity_level": "NO_EXERCISE",
     "skill_used": "fabrication",
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "felt_patch", 10 ] ] ],
+    "components": [ [ [ "felt_patch", 100 ] ], [ [ "thread", 8 ] ] ],
     "flags": [ "BLIND_EASY" ]
   },
   {

@@ -87,6 +87,7 @@
     "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
     "armor_bash": 2,
     "harvest": "mutant_meatslug",
+    "dissect": "dissect_troglobite_sample_single",
     "upgrades": { "age_grow": 10, "into": "mon_worm" },
     "flags": [ "DIGS", "HEARS", "GOODHEARING", "ATTACK_LOWER" ]
   },
@@ -113,7 +114,7 @@
     "melee_damage": [ { "damage_type": "cut", "amount": 3 } ],
     "armor_bash": 2,
     "harvest": "mutant_meatslug",
-    "dissect": "dissect_troglobite_sample_single",
+    "dissect": "dissect_troglobite_sample_small",
     "death_function": {
       "message": "The %s splits in two!",
       "effect": { "id": "death_halfworm", "hit_self": true },
@@ -129,6 +130,7 @@
     "description": "A disturbingly large mutated subterranean creature similar to a nightcrawler.  It possesses a fanged mouth and a long slender body that comes up to your knees, with even more surely hiding underground.",
     "copy-from": "mon_halfworm",
     "looks_like": "mon_worm",
+    "dissect": "dissect_troglobite_sample_single",
     "upgrades": { "half_life": 42, "into": "mon_worm" }
   },
   {
@@ -2521,7 +2523,7 @@
     "vision_day": 10,
     "vision_night": 15,
     "harvest": "arachnid",
-    "dissect": "dissect_troglobite_sample_small",
+    "dissect": "dissect_subterranean_insect_large",
     "reproduction": { "baby_egg": "egg_mole_cricket", "baby_count": 1, "baby_timer": 20 },
     "baby_flags": [ "SPRING", "SUMMER", "AUTUMN" ],
     "special_attacks": [ [ "SHRIEK_ALERT", 10 ], [ "SHRIEK_STUN", 5 ], [ "impale", 15 ] ],
@@ -2745,7 +2747,7 @@
     "armor_bullet": 3,
     "armor_acid": 6,
     "harvest": "arachnid",
-    "dissect": "dissect_troglobite_sample_small",
+    "dissect": "dissect_subterranean_insect_large",
     "//": "when taming becomes more involved, this should be slowly tameable with honeydew, allowing for a tamed stag beetle through almost a year of effort",
     "fear_triggers": [ "FIRE", "HURT" ],
     "upgrades": { "age_grow": 288, "into": "mon_stag_beetle_small" },
@@ -2937,7 +2939,7 @@
     "vision_day": 8,
     "vision_night": 5,
     "harvest": "arachnid",
-    "dissect": "dissect_troglobite_sample_single",
+    "dissect": "dissect_subterranean_insect_small",
     "upgrades": { "age_grow": 42, "into": "mon_antlion_giant" },
     "anger_triggers": [ "PLAYER_WEAK", "PLAYER_CLOSE" ],
     "fear_triggers": [ "FIRE" ],

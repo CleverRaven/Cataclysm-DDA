@@ -447,6 +447,21 @@
   },
   {
     "type": "monstergroup",
+    "name": "GROUP_zeptoceratops_UPGRADE",
+    "monsters": [ { "monster": "mon_septoceratops", "weight": 600 }, { "monster": "mon_zeptoceratops_brute", "weight": 400 } ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_zzuniceratops_UPGRADE",
+    "monsters": [ { "monster": "mon_suniceratops", "weight": 600 }, { "monster": "mon_zzuniceratops_brute", "weight": 400 } ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_zentrosaurus_UPGRADE",
+    "monsters": [ { "monster": "mon_sentrosaurus", "weight": 600 }, { "monster": "mon_zentrosaurus_brute", "weight": 400 } ]
+  },
+  {
+    "type": "monstergroup",
     "name": "GROUP_zachyrhinosaurus_UPGRADE",
     "monsters": [ { "monster": "mon_sachyrhinosaurus", "weight": 600 }, { "monster": "mon_zachyrhinosaurus_brute", "weight": 400 } ]
   },
@@ -525,7 +540,6 @@
       { "monster": "mon_zeratosaurus", "cost_multiplier": 60, "starts": "3 days" },
       { "monster": "mon_zryptosaurus", "cost_multiplier": 70, "starts": "3 days" },
       { "monster": "mon_zappalachiosaurus", "cost_multiplier": 70, "starts": "3 days" },
-      { "monster": "mon_zorgosaurus", "cost_multiplier": 70, "starts": "3 days" },
       { "monster": "mon_zallimimus", "starts": "3 days" },
       { "monster": "mon_ztruthiomimus", "starts": "3 days" },
       { "monster": "mon_zornithomimus", "starts": "3 days" },
@@ -536,7 +550,8 @@
       { "monster": "mon_zyoplosaurus", "starts": "3 days" },
       { "monster": "mon_zankylosaurus", "cost_multiplier": 40, "starts": "3 days" },
       { "monster": "mon_zodosaurus", "cost_multiplier": 40, "starts": "3 days" },
-      { "monster": "mon_zedmontonia", "cost_multiplier": 40, "starts": "3 days" },
+      { "monster": "mon_zeptoceratops", "starts": "3 days" },
+      { "monster": "mon_zzuniceratops", "cost_multiplier": 20, "starts": "3 days" },
       { "monster": "mon_zescelosaurus", "starts": "3 days" }
     ]
   },

@@ -45,6 +45,28 @@ static constexpr int BODYTEMP_SCORCHING = 9500;
 static constexpr int BODYTEMP_THRESHOLD = 500;
 ///@}
 
+// Rough tresholds for sunlight intensity in W/m2.
+namespace irradiance
+{
+// Sun at 5° on a clear day. Minimal for what is considered direct sunlight
+constexpr float minimal = 87;
+
+// Sun at 25° on a clear day.
+constexpr float low = 422;
+
+// Sun at 35° on a clear day.
+constexpr float moderate = 573;
+
+// Sun at 45° on a clear day.
+constexpr float high = 707;
+
+// Sun at 60° on a clear day.
+constexpr float very_high = 866;
+
+// Sun at 65° on a clear day.
+constexpr float extreme = 906;
+} // namespace irradiance
+
 #include <cstdint>
 #include <iosfwd>
 #include <map>
