@@ -31,6 +31,7 @@ const flag_id flag_BAROMETER( "BAROMETER" );
 const flag_id flag_BASH_IMMUNE( "BASH_IMMUNE" );
 const flag_id flag_BELTED( "BELTED" );
 const flag_id flag_BELT_CLIP( "BELT_CLIP" );
+const flag_id flag_BIONIC_FUEL_SOURCE( "BIONIC_FUEL_SOURCE" );
 const flag_id flag_BIONIC_GUN( "BIONIC_GUN" );
 const flag_id flag_BIONIC_INSTALLATION_DATA( "BIONIC_INSTALLATION_DATA" );
 const flag_id flag_BIONIC_TOGGLED( "BIONIC_TOGGLED" );
