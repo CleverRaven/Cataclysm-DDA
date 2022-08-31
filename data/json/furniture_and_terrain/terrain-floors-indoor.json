@@ -739,7 +739,7 @@
       "str_min_supported": 100,
       "items": [ { "item": "cotton_patchwork", "count": [ 10, 20 ] }, { "item": "nail", "charges": [ 1, 3 ] } ]
     },
-    "deconstruct": { "items": [ { "item": "r_carpet", "charges": 1 }, { "item": "nail", "charges": 5 } ], "ter_set": "t_thconc_floor" }
+    "deconstruct": { "items": [ { "item": "r_carpet", "charges": 1 } ], "ter_set": "t_thconc_floor" }
   },
   {
     "type": "terrain",
@@ -765,7 +765,7 @@
     "move_cost": 2,
     "looks_like": "t_carpet_yellow",
     "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "RUG", "EASY_DECONSTRUCT" ],
-    "deconstruct": { "items": [ { "item": "y_carpet", "charges": 1 }, { "item": "nail", "charges": 5 } ], "ter_set": "t_thconc_floor" }
+    "deconstruct": { "items": [ { "item": "y_carpet", "charges": 1 } ], "ter_set": "t_thconc_floor" }
   },
   {
     "type": "terrain",
@@ -778,7 +778,7 @@
     "move_cost": 2,
     "looks_like": "t_carpet_green",
     "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "RUG", "EASY_DECONSTRUCT" ],
-    "deconstruct": { "items": [ { "item": "g_carpet", "charges": 1 }, { "item": "nail", "charges": 5 } ], "ter_set": "t_thconc_floor" }
+    "deconstruct": { "items": [ { "item": "g_carpet", "charges": 1 } ], "ter_set": "t_thconc_floor" }
   },
   {
     "type": "terrain",
@@ -791,7 +791,7 @@
     "move_cost": 2,
     "looks_like": "t_carpet_purple",
     "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "RUG", "EASY_DECONSTRUCT" ],
-    "deconstruct": { "items": [ { "item": "p_carpet", "charges": 1 }, { "item": "nail", "charges": 5 } ], "ter_set": "t_thconc_floor" }
+    "deconstruct": { "items": [ { "item": "p_carpet", "charges": 1 } ], "ter_set": "t_thconc_floor" }
   },
   {
     "type": "terrain",
@@ -811,7 +811,7 @@
       "str_min_supported": 100,
       "items": [ { "item": "cotton_patchwork", "count": [ 10, 20 ] }, { "item": "nail", "charges": [ 1, 3 ] } ]
     },
-    "deconstruct": { "items": [ { "item": "r_carpet", "charges": 1 }, { "item": "nail", "charges": 5 } ], "ter_set": "t_metal_floor" }
+    "deconstruct": { "items": [ { "item": "r_carpet", "charges": 1 } ], "ter_set": "t_metal_floor" }
   },
   {
     "type": "terrain",
@@ -824,7 +824,7 @@
     "looks_like": "t_carpet_red",
     "description": "Firm, low-pile, totally non-flammable carpet in a red color, with an insulation layer beneath.",
     "flags": [ "TRANSPARENT", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "RUG", "EASY_DECONSTRUCT" ],
-    "deconstruct": { "items": [ { "item": "r_carpet", "charges": 1 }, { "item": "nail", "charges": 5 } ], "ter_set": "t_metal_floor" }
+    "deconstruct": { "items": [ { "item": "r_carpet", "charges": 1 } ], "ter_set": "t_metal_floor" }
   },
   {
     "type": "terrain",
@@ -838,7 +838,7 @@
     "move_cost": 2,
     "looks_like": "t_carpet_yellow",
     "flags": [ "TRANSPARENT", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "RUG", "EASY_DECONSTRUCT" ],
-    "deconstruct": { "items": [ { "item": "y_carpet", "charges": 1 }, { "item": "nail", "charges": 5 } ], "ter_set": "t_metal_floor" }
+    "deconstruct": { "items": [ { "item": "y_carpet", "charges": 1 } ], "ter_set": "t_metal_floor" }
   },
   {
     "type": "terrain",
@@ -851,7 +851,7 @@
     "move_cost": 2,
     "looks_like": "t_carpet_green",
     "flags": [ "TRANSPARENT", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "RUG", "EASY_DECONSTRUCT" ],
-    "deconstruct": { "items": [ { "item": "g_carpet", "charges": 1 }, { "item": "nail", "charges": 5 } ], "ter_set": "t_metal_floor" }
+    "deconstruct": { "items": [ { "item": "g_carpet", "charges": 1 } ], "ter_set": "t_metal_floor" }
   },
   {
     "type": "terrain",
@@ -864,7 +864,7 @@
     "move_cost": 2,
     "looks_like": "t_carpet_purple",
     "flags": [ "TRANSPARENT", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "RUG", "EASY_DECONSTRUCT" ],
-    "deconstruct": { "items": [ { "item": "p_carpet", "charges": 1 }, { "item": "nail", "charges": 5 } ], "ter_set": "t_metal_floor" }
+    "deconstruct": { "items": [ { "item": "p_carpet", "charges": 1 } ], "ter_set": "t_metal_floor" }
   },
   {
     "type": "terrain",
@@ -884,7 +884,7 @@
       "str_min_supported": 100,
       "items": [ { "item": "cotton_patchwork", "count": [ 10, 20 ] }, { "item": "nail", "charges": [ 1, 3 ] } ]
     },
-    "deconstruct": { "items": [ { "item": "r_carpet", "charges": 1 }, { "item": "nail", "charges": 5 } ], "ter_set": "t_strconc_floor" }
+    "deconstruct": { "items": [ { "item": "r_carpet", "charges": 1 } ], "ter_set": "t_strconc_floor" }
   },
   {
     "type": "terrain",
@@ -910,7 +910,7 @@
     "move_cost": 2,
     "looks_like": "t_carpet_yellow",
     "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "RUG", "EASY_DECONSTRUCT" ],
-    "deconstruct": { "items": [ { "item": "y_carpet", "charges": 1 }, { "item": "nail", "charges": 5 } ], "ter_set": "t_strconc_floor" }
+    "deconstruct": { "items": [ { "item": "y_carpet", "charges": 1 } ], "ter_set": "t_strconc_floor" }
   },
   {
     "type": "terrain",
@@ -923,7 +923,7 @@
     "move_cost": 2,
     "looks_like": "t_carpet_green",
     "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "RUG", "EASY_DECONSTRUCT" ],
-    "deconstruct": { "items": [ { "item": "g_carpet", "charges": 1 }, { "item": "nail", "charges": 5 } ], "ter_set": "t_strconc_floor" }
+    "deconstruct": { "items": [ { "item": "g_carpet", "charges": 1 } ], "ter_set": "t_strconc_floor" }
   },
   {
     "type": "terrain",
@@ -936,7 +936,7 @@
     "move_cost": 2,
     "looks_like": "t_carpet_purple",
     "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "RUG", "EASY_DECONSTRUCT" ],
-    "deconstruct": { "items": [ { "item": "p_carpet", "charges": 1 }, { "item": "nail", "charges": 5 } ], "ter_set": "t_strconc_floor" }
+    "deconstruct": { "items": [ { "item": "p_carpet", "charges": 1 } ], "ter_set": "t_strconc_floor" }
   },
   {
     "type": "terrain",
