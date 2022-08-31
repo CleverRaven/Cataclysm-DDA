@@ -141,7 +141,7 @@
     "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "SWIMS", "PATH_AVOID_DANGER_1", "CAN_DIG" ],
     "dissect": "dissect_rat_sample_small"
   },
-    {
+  {
     "id": "mon_pack_rat",
     "type": "MONSTER",
     "name": { "str": "pack rat" },
