@@ -20,7 +20,7 @@
         "max_contains_volume": "500 ml",
         "max_item_volume": "32 ml",
         "max_contains_weight": "1 kg",
-		"material_restriction": ["gasoline"]
+        "material_restriction": [ "gasoline" ]
       }
     ]
   },
@@ -45,7 +45,7 @@
         "max_contains_volume": "400 ml",
         "max_item_volume": "32 ml",
         "max_contains_weight": "1 kg",
-		"material_restriction": ["lamp_oil", "motor_oil"]
+        "material_restriction": [ "lamp_oil", "motor_oil" ]
       }
     ]
   },
@@ -70,7 +70,7 @@
         "max_contains_volume": "400 ml",
         "max_item_volume": "32 ml",
         "max_contains_weight": "1 kg",
-		"material_restriction": ["ethanol"]
+        "material_restriction": [ "ethanol" ]
       }
     ]
   },
