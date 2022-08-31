@@ -1510,37 +1510,31 @@ int vehicle::install_part( const point &dp, const vehicle_part &new_part )
     return new_part_index;
 }
 
-bool vehicle::try_to_rack_nearby_vehicle( std::vector<std::vector<int>> &list_of_racks,
-        bool do_not_rack )
+std::vector<vehicle::rackable_vehicle> vehicle::find_vehicles_to_rack( int rack ) const
 {
-    map &here = get_map();
-    for( std::vector<int> &this_bike_rack : list_of_racks ) {
-        std::vector<vehicle *> carry_vehs;
-        carry_vehs.assign( 4, nullptr );
-        vehicle *test_veh = nullptr;
-        std::set<tripoint> veh_partial_match;
-        std::vector<std::set<tripoint>> partial_matches;
-        partial_matches.assign( 4, veh_partial_match );
+    std::vector<rackable_vehicle> rackables;
+    for( const std::vector<int> &maybe_rack : find_lines_of_parts( rack, "BIKE_RACK_VEH" ) ) {
+        std::vector<int> filtered_rack; // only empty racks
+        std::copy_if( maybe_rack.begin(), maybe_rack.end(), std::back_inserter( filtered_rack ),
+        [&]( const int &p ) {
+            return !parts[p].has_flag( vehicle_part::carrying_flag );
+        } );
 
-        //do not attempt to rack onto already filled bike racks
-        this_bike_rack.erase( std::remove_if( this_bike_rack.begin(),
-        this_bike_rack.end(), [this]( const int &rack ) {
-            return parts[rack].has_flag( vehicle_part::carrying_flag );
-        } ), this_bike_rack.end() );
-
-        for( int &rack_part : this_bike_rack ) {
-            tripoint rack_pos = global_part_pos3( rack_part );
-            int i = 0;
-            for( const point &offset : four_cardinal_directions ) {
-                tripoint search_pos( rack_pos + offset );
-                test_veh = veh_pointer_or_null( here.veh_at( search_pos ) );
-                if( test_veh == nullptr || test_veh == this ) {
+        for( const point &offset : four_cardinal_directions ) {
+            vehicle *veh_matched = nullptr;
+            std::set<tripoint> parts_matched;
+            for( const int &rack_part : filtered_rack ) {
+                const tripoint search_pos = global_part_pos3( rack_part ) + offset;
+                const optional_vpart_position ovp = get_map().veh_at( search_pos );
+                if( !ovp || &ovp->vehicle() == this ) {
                     continue;
-                } else if( test_veh != carry_vehs[ i ] ) {
-                    carry_vehs[ i ] = test_veh;
-                    partial_matches[ i ].clear();
                 }
-                partial_matches[ i ].insert( search_pos );
+                vehicle *const test_veh = &ovp->vehicle();
+                if( test_veh != veh_matched ) { // previous vehicle ended, start gathering parts of new one
+                    veh_matched = test_veh;
+                    parts_matched.clear();
+                }
+                parts_matched.insert( search_pos );
 
                 std::set<tripoint> test_veh_points;
                 for( const vpart_reference &vpr : test_veh->get_all_parts() ) {
@@ -1549,22 +1543,106 @@ bool vehicle::try_to_rack_nearby_vehicle( std::vector<std::vector<int>> &list_of
                     }
                 }
 
-                if( partial_matches[ i ] == test_veh_points ) {
-                    if( do_not_rack ) {
-                        return true;
-                    } else {
-                        return merge_rackable_vehicle( test_veh, this_bike_rack );
+                // racking is valid when all vehicle parts are exactly 1 tile offset from each free rack part
+                // not handled: could be multiple racks that can accept same vehicle,
+                // ( for example U shaped where the prongs each have rack )
+                if( parts_matched == test_veh_points ) {
+                    const bool already_inserted = std::any_of( rackables.begin(), rackables.end(),
+                    [test_veh]( const rackable_vehicle & r ) {
+                        return r.veh == test_veh;
+                    } );
+                    if( !already_inserted ) {
+                        rackables.push_back( { test_veh->name, test_veh, filtered_rack } );
                     }
                 }
-                ++i;
             }
         }
     }
-    return false;
+    return rackables;
+}
+
+std::vector<vehicle::unrackable_vehicle> vehicle::find_vehicles_to_unrack( int rack ) const
+{
+    std::vector<unrackable_vehicle> unrackables;
+    for( const std::vector<int> &rack_parts : find_lines_of_parts( rack, "BIKE_RACK_VEH" ) ) {
+        unrackable_vehicle unrackable;
+
+        // a racked vehicle is "finished" by collecting all of it's carried parts and carrying racks
+        // involved, if any parts have been collected add them to the lists and clear the temporary
+        // variables for next carried vehicle
+        const auto commit_vehicle = [&]() {
+            if( unrackable.racks.empty() ) {
+                return; // not valid unrackable
+            }
+
+            // 2 results with same name is either a bug or this rack is a "corner" that scanned
+            // the vehicle twice: once on correct axis and once on wrong axis resulting in a 1 tile
+            // slice see #47374 for more details. Keep the longest of the two "slices".
+            const auto same_name = std::find_if( unrackables.begin(), unrackables.end(),
+            [name = unrackable.name]( const unrackable_vehicle & v ) {
+                return v.name == name;
+            } );
+            if( same_name != unrackables.end() ) {
+                if( same_name->racks.size() < unrackable.racks.size() ) {
+                    *same_name = unrackable;
+                }
+            } else {
+                unrackables.push_back( unrackable );
+            }
+
+            unrackable.racks.clear();
+            unrackable.parts.clear();
+            unrackable.name.clear();
+        };
+
+        for( const int &rack_part : rack_parts ) {
+            const vehicle_part &vp_rack = this->part( rack_part );
+            if( !vp_rack.has_flag( vehicle_part::carrying_flag ) ) {
+                commit_vehicle();
+                continue;
+            }
+            for( const point &offset : four_cardinal_directions ) {
+                const std::vector<int> near_parts = parts_at_relative( vp_rack.mount + offset, false );
+                if( near_parts.empty() ) {
+                    continue;
+                }
+                const vehicle_part &vp_near = parts[ near_parts[ 0 ] ];
+                if( !vp_near.has_flag( vehicle_part::carried_flag ) ) {
+                    continue;
+                }
+                // if carried_name is different we have 2 separate vehicles racked on same
+                // rack, commit what we have and reset variables to start collecting parts
+                // and racks for next carried vehicle.
+                if( vp_near.carried_name() != unrackable.name ) {
+                    commit_vehicle();
+                    unrackable.name = vp_near.carried_name();
+                }
+                for( const int &carried_part : near_parts ) {
+                    unrackable.parts.push_back( carried_part );
+                }
+                unrackable.racks.push_back( rack_part );
+                break; // found parts carried by this rack, bail out from search early
+            }
+        }
+
+        commit_vehicle();
+    }
+
+    return unrackables;
 }
 
 bool vehicle::merge_rackable_vehicle( vehicle *carry_veh, const std::vector<int> &rack_parts )
 {
+    for( const vpart_reference &vpr : this->get_any_parts( "BIKE_RACK_VEH" ) ) {
+        const auto unrackables = find_vehicles_to_unrack( vpr.part_index() );
+        for( const unrackable_vehicle &unrackable : unrackables ) {
+            if( unrackable.name == carry_veh->name ) {
+                debugmsg( "vehicle named %s is already racked on this vehicle", unrackable.name );
+                return false;
+            }
+        }
+    }
+
     // Mapping between the old vehicle and new vehicle mounting points
     struct mapping {
         // All the parts attached to this mounting point
@@ -2059,7 +2137,8 @@ bool vehicle::remove_carried_vehicle( const std::vector<int> &carried_parts )
     carried_vehicles.push_back( carried_parts );
     std::vector<std::vector<point>> carried_mounts;
     carried_mounts.push_back( new_mounts );
-    if( split_vehicles( here, carried_vehicles, new_vehicles, carried_mounts ) ) {
+    const bool success = split_vehicles( here, carried_vehicles, new_vehicles, carried_mounts );
+    if( success ) {
         //~ %s is the vehicle being loaded onto the bicycle rack
         add_msg( _( "You unload the %s from the bike rack." ), new_vehicle->name );
         new_vehicle->remove_carried_flag();
@@ -2075,18 +2154,11 @@ bool vehicle::remove_carried_vehicle( const std::vector<int> &carried_parts )
                 new_vehicle->parts[idx].enabled = true;
             }
         }
-        for( const int &rack_part : carried_parts ) {
-            parts[rack_part].remove_flag( vehicle_part::carrying_flag );
-            parts[rack_part].remove_flag( vehicle_part::tracked_flag );
-        }
-        here.invalidate_map_cache( here.get_abs_sub().z() );
-        here.rebuild_vehicle_level_caches();
-        return true;
+    } else {
+        //~ %s is the vehicle being loaded onto the bicycle rack
+        add_msg( m_bad, _( "You can't unload the %s from the bike rack." ), new_vehicle->name );
     }
-
-    //~ %s is the vehicle being loaded onto the bicycle rack
-    add_msg( m_bad, _( "You can't unload the %s from the bike rack." ), new_vehicle->name );
-    return false;
+    return success;
 }
 
 // split the current vehicle into up to 3 new vehicles that do not connect to each other

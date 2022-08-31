@@ -963,9 +963,28 @@ class vehicle
         int install_part( const point &dp, const vpart_id &id, item &&obj,
                           const std::string &variant = "", bool force = false );
 
-        // find a single tile wide vehicle adjacent to a list of part indices
-        bool try_to_rack_nearby_vehicle( std::vector<std::vector<int>> &list_of_racks,
-                                         bool do_not_rack = false );
+        struct rackable_vehicle {
+            std::string name;
+            vehicle *veh;
+            std::vector<int> racks;
+        };
+
+        struct unrackable_vehicle {
+            std::string name;
+            std::vector<int> racks;
+            std::vector<int> parts;
+        };
+
+        // attempts to find any nearby vehicles that can be racked on any of the list_of_racks
+        // @returns vector of structs with data required to rack each vehicle
+        std::vector<rackable_vehicle> find_vehicles_to_rack( int rack ) const;
+
+        // attempts to find any racked vehicles that can be unracked on any of the list_of_racks
+        // @returns vector of structs with data required to unrack each vehicle
+        std::vector<unrackable_vehicle> find_vehicles_to_unrack( int rack ) const;
+
+        void clear_bike_racks( std::vector<int> &racks );
+
         // merge a previously found single tile vehicle into this vehicle
         bool merge_rackable_vehicle( vehicle *carry_veh, const std::vector<int> &rack_parts );
         // merges vehicles together by copying parts, does not account for any vehicle complexities
@@ -1926,13 +1945,6 @@ class vehicle
         tripoint get_abs_diff( const tripoint &one, const tripoint &two ) const;
         bool should_enable_fake( const tripoint &fake_precalc, const tripoint &parent_precalc,
                                  const tripoint &neighbor_precalc ) const;
-        /**
-        *  checks carried_vehicles param for duplicate entries of bike racks/vehicle parts
-        * this eliminates edge cases caused by overlapping bike_rack lanes
-        * @param carried_vehicles is a set of either vehicle_parts or bike_racks that need duplicate entries accross the vector<vector>s rows removed
-        */
-        void validate_carried_vehicles( std::vector<std::vector<int>> &carried_vehicles );
-
     public:
         // Number of parts contained in this vehicle
         int part_count( bool no_fake = false ) const;
