@@ -5,7 +5,7 @@
     "type": "AMMO",
     "name": { "str_sp": "acetylene" },
     "description": "Pressurized, dangerous acetylene gas.  Can be used for welding or cutting with a torch.",
-    "weight": "36 g",
+    "weight": "35 g",
     "volume": "250 ml",
     "price": 2400,
     "price_postapoc": 500,
