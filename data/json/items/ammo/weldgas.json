@@ -1,19 +1,19 @@
 [
   {
-    "//": "roughly 36grams of oxyacetylene per cubic foot at STP. Volume given is when compressed - MC tank has gallon sized tank and holds 10 cubic feet."
+    "//": "roughly 36grams of acetylene per cubic foot at STP. Volume given is when compressed - B tank has 9.17 L tank and holds 40 cubic feet."
     "id": "oxyacetylene",
     "type": "AMMO",
-    "name": { "str_sp": "oxyacetylene" },
-    "description": "A highly explosive fuel mixture composed of equal parts oxygen and acetylene gas.",
+    "name": { "str_sp": "acetylene" },
+    "description": "Pressurized, dangerous acetylene gas.  Can be used for welding or cutting with a torch.",
     "weight": "36 g",
-    "volume": "375 ml",
+    "volume": "250 ml",
     "price": 2400,
     "price_postapoc": 500,
-    "material": [ "oxyacetylene" ],
+    "material": [ "acetylene" ],
     "symbol": "=",
     "color": "red",
-    "count": 36,
-    "stack_size": 36,
+    "count": 33,
+    "stack_size": 33,
     "ammo_type": "weldgas",
     "phase": "liquid",
     "effects": [ "COOKOFF" ],
