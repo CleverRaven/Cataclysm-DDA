@@ -3493,7 +3493,7 @@ class Character : public Creature, public visitable
          */
         bool is_visible_in_range( const Creature &critter, int range ) const;
 
-        struct auto_toggle_bionic_result2;
+        struct auto_toggle_bionic_result;
 
         /**
          * Automatically turn bionic on or off according to remaining fuel and
@@ -3501,12 +3501,12 @@ class Character : public Creature, public visitable
          * @param bio the bionic
          * @param start true if player is trying to turn the bionic on
          */
-        auto_toggle_bionic_result2 auto_toggle_bionic2( bionic &bio, bool start );
+        auto_toggle_bionic_result auto_toggle_bionic( bionic &bio, bool start );
 
         /**
          *Convert fuel to bionic power
          */
-        void burn_fuel( bionic &bio, auto_toggle_bionic_result2 &result );
+        void burn_fuel( bionic &bio, auto_toggle_bionic_result &result );
 
         player_activity destination_activity;
         /// A unique ID number, assigned by the game class. Values should never be reused.

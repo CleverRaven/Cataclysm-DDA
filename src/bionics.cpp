@@ -196,7 +196,7 @@ static const trait_id trait_PROF_MED( "PROF_MED" );
 static const trait_id trait_PYROMANIA( "PYROMANIA" );
 static const trait_id trait_THRESH_MEDICAL( "THRESH_MEDICAL" );
 
-struct Character::auto_toggle_bionic_result2 {
+struct Character::auto_toggle_bionic_result {
     std::vector<vehicle *> connected_vehicles;
     std::vector<item *> connected_solar;
     std::vector<item *> connected_fuel;
@@ -701,7 +701,7 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
             return false;
         }
 
-        const auto_toggle_bionic_result2 result = auto_toggle_bionic2( bio, true );
+        const auto_toggle_bionic_result result = auto_toggle_bionic( bio, true );
         if( !result.can_be_on ) {
             return false;
         }
@@ -1300,10 +1300,10 @@ bool Character::deactivate_bionic( bionic &bio, bool eff_only )
     return true;
 }
 
-Character::auto_toggle_bionic_result2 Character::auto_toggle_bionic2( bionic &bio,
+Character::auto_toggle_bionic_result Character::auto_toggle_bionic( bionic &bio,
         const bool start )
 {
-    auto_toggle_bionic_result2 result;
+    auto_toggle_bionic_result result;
 
     const bool is_remote_fueled = bio.info().is_remote_fueled;
 
@@ -1365,7 +1365,7 @@ Character::auto_toggle_bionic_result2 Character::auto_toggle_bionic2( bionic &bi
     return result;
 }
 
-void Character::burn_fuel( bionic &bio, auto_toggle_bionic_result2 &result )
+void Character::burn_fuel( bionic &bio, auto_toggle_bionic_result &result )
 {
     if( !bio.powered || !result.can_be_on ) {
         return;
@@ -1753,7 +1753,7 @@ static bool attempt_recharge( Character &p, bionic &bio, units::energy &amount )
 
 void Character::process_bionic( bionic &bio )
 {
-    auto_toggle_bionic_result2 result = auto_toggle_bionic2( bio, false );
+    auto_toggle_bionic_result result = auto_toggle_bionic( bio, false );
 
     // Only powered bionics should be processed
     if( !bio.powered ) {
