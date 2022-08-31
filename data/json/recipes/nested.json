@@ -1751,6 +1751,18 @@
     "difficulty": 3
   },
   {
+    "id": "nested_frames",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "name": "vehicle frames",
+    "description": "Recipes related to constructing different kinds of vehicle frames.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "foldxlframe", "foldwoodframe", "xlframe", "foldframe", "hdframe", "frame", "frame_wood", "frame_wood_light" ],
+    "difficulty": 1
+  },
+  {
     "id": "nested_flours",
     "type": "nested_category",
     "activity_level": "LIGHT_EXERCISE",
