@@ -366,7 +366,7 @@
     "type": "COMESTIBLE",
     "id": "candy4",
     "name": { "str_sp": "gummy candy" },
-    "weight": "46 g",
+    "weight": "25 g",
     "color": "yellow",
     "spoils_in": "360 days",
     "container": "bag_plastic",
@@ -378,7 +378,7 @@
     "price": 180,
     "price_postapoc": 200,
     "material": [ "junk", "flesh" ],
-    "volume": "90 ml",
+    "volume": "100 ml",
     "flags": [ "EDIBLE_FROZEN" ],
     "charges": 3,
     "fun": 5
@@ -461,6 +461,16 @@
     "flags": [ "EDIBLE_FROZEN" ],
     "charges": 5,
     "fun": 6
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "candy_bracelet",
+    "name": { "str_sp": "candy bracelet" },
+    "looks_like": "copper_bracelet",
+    "color": "yellow",
+    "description": "A candy bracelet made by stringing candies onto a thread.  In theory, you could both wear and eat the bracelet.",
+    "copy-from": "candy4",
+    "armor_data": { "covers": [ "HAND_EITHER" ] }
   },
   {
     "type": "COMESTIBLE",
