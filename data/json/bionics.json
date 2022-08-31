@@ -1678,7 +1678,8 @@
     "fuel_efficiency": 0.25,
     "exothermic_power_gen": true,
     "time": "1 s",
-    "flags": [ "BIONIC_TOGGLED", "BIONIC_POWER_SOURCE", "BIONIC_NPC_USABLE" ]
+    "flags": [ "BIONIC_TOGGLED", "BIONIC_POWER_SOURCE", "BIONIC_NPC_USABLE" ],
+    "passive_pseudo_items": [ "armor_bio_carbon_filament" ]
   },
   {
     "id": "bio_syringe",

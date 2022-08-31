@@ -1,0 +1,17 @@
+[
+  {
+    "id": "internalgasoline_tank",
+    "type": "TOOL_ARMOR",
+    "category": "clothing",
+    "name": { "str": "internal gasolien tank" },
+    "description": "Internal tank for gasoline fuel cell.",
+    "volume": "500 ml",
+    "weight": "1 g",
+    "price": 0,
+    "material": [ "plastic" ],
+    "symbol": "(",
+    "color": "magenta",
+    "flags": [ "INTEGRATED", "UNBREAKABLE", "PERSONAL", "NO_REPAIR", "ALLOWS_NATURAL_ATTACKS" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "gasoline": 500 }, "watertight": true, "rigid": true } ]
+  }
+]
