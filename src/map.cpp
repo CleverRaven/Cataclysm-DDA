@@ -290,6 +290,11 @@ const_maptile map::maptile_at( const tripoint &p ) const
     return maptile_at_internal( p );
 }
 
+const_maptile map::maptile_at( const tripoint_bub_ms &p ) const
+{
+    return maptile_at( p.raw() );
+}
+
 maptile map::maptile_at( const tripoint &p )
 {
     if( !inbounds( p ) ) {
@@ -297,6 +302,11 @@ maptile map::maptile_at( const tripoint &p )
     }
 
     return maptile_at_internal( p );
+}
+
+maptile map::maptile_at( const tripoint_bub_ms &p )
+{
+    return maptile_at( p.raw() );
 }
 
 const_maptile map::maptile_at_internal( const tripoint &p ) const
@@ -4353,44 +4363,28 @@ void map::translate_radius( const ter_id &from, const ter_id &to, float radi, co
 }
 
 // NOLINTNEXTLINE(readability-make-member-function-const)
-void map::transform_radius( ter_furn_transform_id transform, float radi,
+void map::transform_radius( ter_furn_transform_id transform, int radi,
                             const tripoint_abs_ms &p )
 {
-    tripoint_abs_ms avatar_pos = get_avatar().get_location();
-    bool shifted = false;
-    if( !get_map().inbounds( get_map().getlocal( p ) ) ) {
-        const tripoint_abs_ms abs_ms( p );
-        g->place_player_overmap( project_to<coords::omt>( abs_ms ), false );
-        shifted = true;
+    if( !inbounds( p - point( radi, radi ) ) || !inbounds( p + point( radi, radi ) ) ) {
+        debugmsg( "transform_radius called for area out of bounds" );
     }
-    for( const tripoint &t : points_on_zlevel() ) {
-        const float radiX = trig_dist( p, getglobal( t ) );
-        // within distance, and either no submap limitation or same overmap coords.
-        if( radiX <= radi ) {
-            transform->transform( t, shifted );
+    tripoint_bub_ms const loc = bub_from_abs( p );
+    for( tripoint_bub_ms const &t : points_in_radius( loc, radi, 0 ) ) {
+        if( trig_dist( loc, t ) <= radi ) {
+            transform->transform( *this, t );
         }
-    }
-    if( shifted ) {
-        g->place_player_overmap( project_to<coords::omt>( avatar_pos ), false );
     }
 }
 
 void map::transform_line( ter_furn_transform_id transform, const tripoint_abs_ms &first,
                           const tripoint_abs_ms &second )
 {
-    tripoint_abs_ms avatar_pos = get_avatar().get_location();
-    bool shifted = false;
-    if( !get_map().inbounds( get_map().getlocal( first ) ) ) {
-        g->place_player_overmap( project_to<coords::omt>( first ), false );
-        shifted = true;
+    if( !inbounds( first ) || !inbounds( second ) ) {
+        debugmsg( "transform_line called for line out of bounds" );
     }
-
     for( const tripoint_abs_ms &t : line_to( first, second ) ) {
-        transform->transform( *this, getlocal( t ), shifted );
-    }
-
-    if( shifted ) {
-        g->place_player_overmap( project_to<coords::omt>( avatar_pos ), false );
+        transform->transform( *this, bub_from_abs( t ) );
     }
 }
 
@@ -7576,7 +7570,7 @@ void map::loadn( const tripoint &grid, const bool update_vehicles, bool _actuali
             tinymap tmp_map;
             tmp_map.main_cleanup_override( false );
             tmp_map.generate( grid_abs_sub_rounded, calendar::turn );
-            _main_requires_cleanup = main_inbounds && tmp_map.is_main_cleanup_queued();
+            _main_requires_cleanup |= main_inbounds && tmp_map.is_main_cleanup_queued();
         }
 
         // This is the same call to MAPBUFFER as above!
