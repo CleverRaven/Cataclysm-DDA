@@ -2738,7 +2738,7 @@ units::mass Character::weight_carried() const
     if( cached_weight_carried ) {
         return *cached_weight_carried;
     }
-    cached_weight_carried = bodyweight_fat()/2 + weight_carried_with_tweaks( item_tweaks() );
+    cached_weight_carried = bodyweight_fat() / 2 + weight_carried_with_tweaks( item_tweaks() );
     return *cached_weight_carried;
 }
 
