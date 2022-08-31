@@ -294,6 +294,12 @@ int talker_character_const::get_highest_spell_level() const
     return spell_level;
 }
 
+
+void talker_character::set_spell_level(const spell_id& sp, int new_level)
+{
+    me_chr->magic->set_spell_level(sp, new_level, me_chr);
+}
+
 bool talker_character_const::knows_proficiency( const proficiency_id &proficiency ) const
 {
     return me_chr_const->has_proficiency( proficiency );
@@ -302,6 +308,11 @@ bool talker_character_const::knows_proficiency( const proficiency_id &proficienc
 time_duration talker_character_const::proficiency_practiced_time(const proficiency_id &prof) const
 {
     return me_chr_const->get_proficiency_practiced_time(prof);
+}
+
+void talker_character::set_proficiency_practiced_time(const proficiency_id& prof, int turns)
+{
+    me_chr->set_proficiency_practiced_time(prof, turns);
 }
 
 bool talker_character_const::has_effect( const efftype_id &effect_id, const bodypart_id &bp ) const

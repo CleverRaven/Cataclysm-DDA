@@ -179,6 +179,7 @@ class talker
         virtual int get_highest_spell_level() const {
             return 0;
         }
+        virtual void set_spell_level(const spell_id& , int) {}
         virtual void set_skill_level( const skill_id &, int ) {}
         virtual bool has_trait( const trait_id & ) const {
             return false;
@@ -212,6 +213,7 @@ class talker
         virtual time_duration proficiency_practiced_time(const proficiency_id&) const {
             return 0_seconds;
         }
+        virtual void set_proficiency_practiced_time(const proficiency_id& prof, int turns) {}
         virtual std::vector<skill_id> skills_offered_to( const talker & ) const {
             return {};
         }

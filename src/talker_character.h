@@ -179,6 +179,8 @@ class talker_character: public talker_character_const
         void set_per_bonus( int value ) override;
         void set_power_cur( units::energy value ) override;
         void set_mana_cur( int value ) override;
+        void set_spell_level(const spell_id&, int) override;
+        void set_proficiency_practiced_time(const proficiency_id& prof, int turns) override;
         void mutate( const int &highest_cat_chance, const bool &use_vitamins ) override;
         void mutate_category( const mutation_category_id &mut_cat, const bool &use_vitamins ) override;
         void set_mutation( const trait_id &new_trait ) override;

@@ -296,6 +296,27 @@ bool proficiency_set::practice( const proficiency_id &practicing, const time_dur
     return false;
 }
 
+void proficiency_set::set_time_practiced(const proficiency_id& practicing, const time_duration& amount)
+{
+    if (amount >= practicing->time_to_learn()) {
+        for (std::vector<learning_proficiency>::iterator it = learning.begin(); it != learning.end(); ) {
+            if (it->id == practicing) {
+                it = learning.erase(it);
+            }
+            else {
+                ++it;
+            }
+        }
+        learn(practicing);
+        return;
+    }
+    if (!has_practiced(practicing)) {
+        learning.emplace_back(practicing, 0_seconds);
+    }
+    learning_proficiency& current = fetch_learning(practicing);
+    current.practiced = amount;
+}
+
 void proficiency_set::learn( const proficiency_id &learned )
 {
     for( const proficiency_id &req : learned->required_proficiencies() ) {

@@ -1811,44 +1811,39 @@ std::function<int( const T & )> conditional_t<T>::get_get_int( const JsonObject 
                 };
             }
         } else if (checked_value == "proficiency") {
-            if (jo.has_member("proficiency_id")) {
-                const std::string proficiency_name = jo.get_string("proficiency_id");
-                const proficiency_id the_proficiency_id(proficiency_name);
-                if (jo.has_int("format")) {
-                    const int format = jo.get_int("format");
-                    return [is_npc, format, the_proficiency_id](const T& d) {
-                        return (int)((d.actor(is_npc)->proficiency_practiced_time(the_proficiency_id) * format) / the_proficiency_id->time_to_learn());
+            const std::string proficiency_name = jo.get_string("proficiency_id");
+            const proficiency_id the_proficiency_id(proficiency_name);
+            if (jo.has_int("format")) {
+                const int format = jo.get_int("format");
+                return [is_npc, format, the_proficiency_id](const T& d) {
+                    return (int)((d.actor(is_npc)->proficiency_practiced_time(the_proficiency_id) * format) / the_proficiency_id->time_to_learn());
+                };
+            } else if (jo.has_member("format")) {
+                const std::string format = jo.get_string("format");
+                if (format == "time_spent") {
+                    return [is_npc, the_proficiency_id](const T& d) {
+                        return to_turns<int>(d.actor(is_npc)->proficiency_practiced_time(the_proficiency_id));
                     };
-                } else if (jo.has_member("format")) {
-                    const std::string format = jo.get_string("format");
-                    if (format == "time_spent") {
-                        return [is_npc, the_proficiency_id](const T& d) {
-                            return to_turns<int>(d.actor(is_npc)->proficiency_practiced_time(the_proficiency_id));
-                        };
-                    } else if (format == "percent") {
-                        return [is_npc, the_proficiency_id](const T& d) {
-                            return (int)((d.actor(is_npc)->proficiency_practiced_time(the_proficiency_id) * 100) / the_proficiency_id->time_to_learn());
-                        };
-                    } else if (format == "permille") {
-                        return [is_npc, the_proficiency_id](const T& d) {
-                            return (int)((d.actor(is_npc)->proficiency_practiced_time(the_proficiency_id) * 1000) / the_proficiency_id->time_to_learn());
-                        };
-                    } else if (format == "total_time_required") {
-                        return [is_npc, the_proficiency_id](const T& d) {
-                            return to_turns<int>(the_proficiency_id->time_to_learn());
-                        };
-                    } else if (format == "time_left") {
-                        return [is_npc, the_proficiency_id](const T& d) {
-                            return to_turns<int>(the_proficiency_id->time_to_learn() - d.actor(is_npc)->proficiency_practiced_time(the_proficiency_id));
-                        };
-                    }
-                    else {
-                        jo.throw_error("unrecognized format in " + jo.str());
-                    }
+                } else if (format == "percent") {
+                    return [is_npc, the_proficiency_id](const T& d) {
+                        return (int)((d.actor(is_npc)->proficiency_practiced_time(the_proficiency_id) * 100) / the_proficiency_id->time_to_learn());
+                    };
+                } else if (format == "permille") {
+                    return [is_npc, the_proficiency_id](const T& d) {
+                        return (int)((d.actor(is_npc)->proficiency_practiced_time(the_proficiency_id) * 1000) / the_proficiency_id->time_to_learn());
+                    };
+                } else if (format == "total_time_required") {
+                    return [is_npc, the_proficiency_id](const T& d) {
+                        return to_turns<int>(the_proficiency_id->time_to_learn());
+                    };
+                } else if (format == "time_left") {
+                    return [is_npc, the_proficiency_id](const T& d) {
+                        return to_turns<int>(the_proficiency_id->time_to_learn() - d.actor(is_npc)->proficiency_practiced_time(the_proficiency_id));
+                    };
                 }
-            }
-            else {
-                jo.throw_error("proficiency_id required in " + jo.str());
+                else {
+                    jo.throw_error("unrecognized format in " + jo.str());
+                }
             }
         }
     } else if( jo.has_member( "moon" ) ) {
@@ -2251,6 +2246,47 @@ static std::function<void( const T &, int )> get_set_int( const JsonObject &jo,
             return [is_npc, min, max]( const T & d, int input ) {
                 d.actor( is_npc )->set_npc_anger( handle_min_max<T>( d, input, min, max ) );
             };
+        } else if (checked_value == "spell_level") {
+            const std::string spell_name = jo.get_string("spell");
+            const spell_id this_spell_id(spell_name);
+            return [is_npc, min, max, this_spell_id](const T& d, int input) {
+                d.actor(is_npc)->set_spell_level(this_spell_id, handle_min_max<T>(d, input, min, max));
+            };
+        } else if (checked_value == "proficiency") {
+            const std::string proficiency_name = jo.get_string("proficiency_id");
+            const proficiency_id the_proficiency_id(proficiency_name);
+            if (jo.has_int("format")) {
+                const int format = jo.get_int("format");
+                return [is_npc, format, the_proficiency_id](const T& d, int input) {
+                    d.actor(is_npc)->set_proficiency_practiced_time(the_proficiency_id, to_turns<int>(the_proficiency_id->time_to_learn() * input) / format);
+                };
+            }
+            else if (jo.has_member("format")) {
+                const std::string format = jo.get_string("format");
+                if (format == "time_spent") {
+                    return [is_npc, the_proficiency_id](const T& d, int input) {
+                        d.actor(is_npc)->set_proficiency_practiced_time(the_proficiency_id, input);
+                    };
+                }
+                else if (format == "percent") {
+                    return [is_npc, the_proficiency_id](const T& d, int input) {
+                        d.actor(is_npc)->set_proficiency_practiced_time(the_proficiency_id, to_turns<int>(the_proficiency_id->time_to_learn()* input) / 100);
+                    };
+                }
+                else if (format == "permille") {
+                    return [is_npc, the_proficiency_id](const T& d, int input) {
+                        d.actor(is_npc)->set_proficiency_practiced_time(the_proficiency_id, to_turns<int>(the_proficiency_id->time_to_learn() * input) / 1000);
+                    };
+                }
+                else if (format == "time_left") {
+                    return [is_npc, the_proficiency_id](const T& d, int input) {
+                        d.actor(is_npc)->set_proficiency_practiced_time(the_proficiency_id, to_turns<int>(the_proficiency_id->time_to_learn()) - input);
+                    };
+                }
+                else {
+                    jo.throw_error("unrecognized format in " + jo.str());
+                }
+            }
         }
     }
     jo.throw_error( "error setting integer destination in " + jo.str() );
