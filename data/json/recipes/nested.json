@@ -1779,7 +1779,15 @@
     "name": "lumps of steel",
     "description": "Recipes related to forging steel into different quality lumps.",
     "skill_used": "fabrication",
-    "nested_category_data": [ "steel_lump", "steel_lump_from_other_steel", "budget_steel_lump", "lc_steel_lump", "mc_steel_lump", "hc_steel_lump" ],
+    "nested_category_data": [
+      "steel_lump",
+      "steel_lump_from_other_steel",
+      "budget_steel_lump",
+      "budget_steel_lump_scrap",
+      "lc_steel_lump",
+      "mc_steel_lump",
+      "hc_steel_lump"
+    ],
     "difficulty": 5
   },
   {
