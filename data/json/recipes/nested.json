@@ -1641,6 +1641,78 @@
     "difficulty": 1
   },
   {
+    "id": "nested_lc_sabatons",
+    "type": "nested_category",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "mild steel sabatons",
+    "description": "Recipes related to constructing sabatons from low quality steel.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "xl_lc_sabaton", "lc_sabaton" ],
+    "difficulty": 1
+  },
+  {
+    "id": "nested_mc_sabatons",
+    "type": "nested_category",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "medium steel sabatons",
+    "description": "Recipes related to constructing sabatons from standard steel.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "xl_mc_sabaton", "mc_sabaton" ],
+    "difficulty": 2
+  },
+  {
+    "id": "nested_hc_sabatons",
+    "type": "nested_category",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "high steel sabatons",
+    "description": "Recipes related to constructing sabatons from quality steel.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "xl_hc_sabaton", "hc_sabaton" ],
+    "difficulty": 3
+  },
+  {
+    "id": "nested_ch_sabatons",
+    "type": "nested_category",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "hardened steel sabatons",
+    "description": "Recipes related to constructing sabatons from case hardened steel.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "xl_ch_sabaton", "ch_sabaton" ],
+    "difficulty": 4
+  },
+  {
+    "id": "nested_qt_sabatons",
+    "type": "nested_category",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "tempered steel sabatons",
+    "description": "Recipes related to constructing sabatons from tempered steel.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "xl_qt_sabaton", "qt_sabaton" ],
+    "difficulty": 5
+  },
+  {
+    "id": "nested_all_sabatons",
+    "type": "nested_category",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_FEET",
+    "name": "steel sabatons",
+    "description": "Recipes related to constructing sabatons from different qualities of steel.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "nested_lc_sabatons", "nested_mc_sabatons", "nested_hc_sabatons", "nested_ch_sabatons", "nested_qt_sabatons" ],
+    "difficulty": 4
+  },
+  {
     "id": "nested_hood_fsurvivor",
     "type": "nested_category",
     "activity_level": "LIGHT_EXERCISE",
