@@ -19,7 +19,8 @@
         "rigid": true,
         "max_contains_volume": "500 ml",
         "max_item_volume": "32 ml",
-        "max_contains_weight": "1 kg"
+        "max_contains_weight": "1 kg",
+		"material_restriction": ["gasoline"]
       }
     ]
   },
