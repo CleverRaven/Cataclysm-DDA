@@ -3493,14 +3493,6 @@ class Character : public Creature, public visitable
          */
         bool is_visible_in_range( const Creature &critter, int range ) const;
 
-        struct auto_toggle_bionic_result;
-
-        /**
-         * Automatically turn bionic on or off according to remaining fuel and
-         * user settings, and return info of the first burnable fuel.
-         */
-        auto_toggle_bionic_result auto_toggle_bionic( bionic &bio, bool start );
-
         struct auto_toggle_bionic_result2;
 
         /**
