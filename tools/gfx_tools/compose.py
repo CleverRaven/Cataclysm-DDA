@@ -538,7 +538,8 @@ class Tilesheet:
         '''
 
         def filtered_tree(excluded):
-            for root, dirs, filenames in os.walk(self.subdir_path):
+            for root, dirs, filenames in \
+                    os.walk(self.subdir_path, followlinks=True):
                 # replace dirs in-place to prevent walking down excluded paths
                 dirs[:] = [d for d in dirs
                            if Path(root).joinpath(d) not in excluded]

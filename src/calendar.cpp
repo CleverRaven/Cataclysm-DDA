@@ -401,7 +401,7 @@ float sun_irradiance( const time_point &p )
 {
     const units::angle solar_alt = sun_altitude( p );
 
-    if( solar_alt < astronomical_dawn ) {
+    if( solar_alt < 0_degrees ) {
         return 0;
     }
     return max_sun_irradiance() * sin( solar_alt );
