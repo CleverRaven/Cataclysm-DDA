@@ -61,6 +61,7 @@
     "name": { "str": "RC car (on)", "str_pl": "RC cars (on)" },
     "description": "This remote-controlled car is on, and draining its batteries just like a real electric car!  Use a remote control to drive it around.",
     "turns_per_charge": 5,
+    "revert_to": "radio_car",
     "use_action": [ "RADIOCARON" ],
     "flags": [ "LIGHT_15", "RADIO_CONTAINER", "TRADER_AVOID", "RADIOCAR" ]
   },

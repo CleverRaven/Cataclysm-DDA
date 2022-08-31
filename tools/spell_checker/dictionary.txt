@@ -1894,6 +1894,7 @@ uneasing
 unfavorite
 unfermented
 unflavored
+unfletched
 unfoldable
 ungraspable
 unhardened
