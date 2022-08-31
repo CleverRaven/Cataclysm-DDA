@@ -1739,6 +1739,18 @@
     "difficulty": 6
   },
   {
+    "id": "nested_quivers",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_STORAGE",
+    "name": "quivers",
+    "description": "Recipes related to constructing different kinds of quivers to hold arrows.",
+    "skill_used": "tailor",
+    "nested_category_data": [ "quiver_takedown_bow", "quiver", "quiver_birchbark", "quiver_large", "quiver_large_birchbark" ],
+    "difficulty": 3
+  },
+  {
     "id": "nested_lc_sabatons",
     "type": "nested_category",
     "activity_level": "MODERATE_EXERCISE",
