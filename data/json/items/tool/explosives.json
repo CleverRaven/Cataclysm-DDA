@@ -1636,7 +1636,7 @@
     "use_action": {
       "need_wielding": true,
       "target": "jug_bomb_act",
-      "msg": "You mix the ingridents.",
+      "msg": "You mix the ingredients.",
       "target_charges": 20,
       "active": true,
       "need_fire": 0,
