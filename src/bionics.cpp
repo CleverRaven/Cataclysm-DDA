@@ -1540,8 +1540,6 @@ void Character::burn_fuel( bionic &bio, const auto_toggle_bionic_result2 &result
         return;
     }
 
-    //debugmsg("BREAK");
-
     // There may be multiple valid fuel types. Just pick one and ignore rest.
     if( !result.connected_fuel.empty() ) {
         item *fuel = result.connected_fuel.front();
@@ -1551,15 +1549,17 @@ void Character::burn_fuel( bionic &bio, const auto_toggle_bionic_result2 &result
         if( get_power_level() + energ_per_charge * efficiency > get_max_power_level() * std::min( 1.0f,
                 bio.get_safe_fuel_thresh() ) ) {
             // Do not waste fuel charging over limit
+            debugmsg( "SAFE TRESHOLD" );
             return;
-        } else if( get_power_level() > bio.get_auto_start_thresh() * get_max_power_level() ) {
+        } else if( bio.get_auto_start_thresh() > 0 &&
+                   get_power_level() > bio.get_auto_start_thresh() * get_max_power_level() ) {
             // Do not consume fuel unless we are below auto start treshold
+            debugmsg( "AUTOSTART TRESHOLD" );
             return;
         }
 
         mod_power_level( energ_per_charge * efficiency );
         fuel->charges--;
-        debugmsg("E:%i, C:%i", units::to_millijoule(energ_per_charge ), fuel->charges);
     }
     return;
 
