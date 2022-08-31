@@ -3489,12 +3489,7 @@ void veh_interact::complete_vehicle( Character &you )
 
             // Remove any leftover power cords from the appliance
             if( appliance_removal && veh->part_count() >= 2 ) {
-                for( const vpart_reference &vpr : veh->get_all_parts() ) {
-                    if( vpr.part().info().has_flag( "POWER_TRANSFER" ) ) {
-                        veh->remove_remote_part( vpr.part_index() );
-                        veh->remove_part( vpr.part_index() );
-                    }
-                }
+                veh->shed_loose_parts();
                 veh->part_removal_cleanup();
                 //always stop after removing an appliance
                 you.activity.set_to_null();
