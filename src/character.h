@@ -3514,7 +3514,7 @@ class Character : public Creature, public visitable
         /**
          *Convert fuel to bionic power
          */
-        void burn_fuel( bionic &bio, const auto_toggle_bionic_result2 &result );
+        void burn_fuel( bionic &bio, auto_toggle_bionic_result2 &result );
 
         player_activity destination_activity;
         /// A unique ID number, assigned by the game class. Values should never be reused.

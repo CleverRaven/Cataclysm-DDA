@@ -1534,33 +1534,59 @@ Character::auto_toggle_bionic_result2 Character::auto_toggle_bionic2( bionic &bi
     return result;
 }
 
-void Character::burn_fuel( bionic &bio, const auto_toggle_bionic_result2 &result )
+void Character::burn_fuel( bionic &bio, auto_toggle_bionic_result2 &result )
 {
     if( !bio.powered || !result.can_be_on ) {
         return;
     }
 
-    // There may be multiple valid fuel types. Just pick one and ignore rest.
+
+    if( bio.get_auto_start_thresh() > 0 &&
+        get_power_level() > bio.get_auto_start_thresh() * get_max_power_level() ) {
+        // Do not consume fuel unless we are below auto start treshold
+        debugmsg( "AUTOSTART TRESHOLD" );
+        return;
+    }
+
+    float efficiency = get_effective_efficiency( bio, bio.info().fuel_efficiency );
+
+    // There may be multiple sources. But we charge from only one at a time per bionic.
+
+    // Vehicle may not have power.
+    // Return out if power was drained. Otherwise continue with other sources.
+    if( !result.connected_vehicles.empty() ) {
+        // Cable bionic charging from connected vehicle(s)
+        for( vehicle *veh : result.connected_vehicles ) {
+            int undrained = veh->discharge_battery( 1 );
+            if( undrained == 0 ) {
+                mod_power_level( 1_kJ * efficiency );
+                return;
+            }
+        }
+    }
+
     if( !result.connected_fuel.empty() ) {
+        // Bionic that uses fuel items from some source.
+        // There *could* be multiple items. But we only take first.
+
         item *fuel = result.connected_fuel.front();
         units::energy energ_per_charge = fuel->fuel_energy() / fuel->charges;
-        float efficiency = get_effective_efficiency( bio, bio.info().fuel_efficiency );
+
 
         if( get_power_level() + energ_per_charge * efficiency > get_max_power_level() * std::min( 1.0f,
                 bio.get_safe_fuel_thresh() ) ) {
             // Do not waste fuel charging over limit
             debugmsg( "SAFE TRESHOLD" );
             return;
-        } else if( bio.get_auto_start_thresh() > 0 &&
-                   get_power_level() > bio.get_auto_start_thresh() * get_max_power_level() ) {
-            // Do not consume fuel unless we are below auto start treshold
-            debugmsg( "AUTOSTART TRESHOLD" );
-            return;
         }
 
         mod_power_level( energ_per_charge * efficiency );
         fuel->charges--;
     }
+
+
+
+
     return;
 
     /*
@@ -1893,7 +1919,7 @@ static bool attempt_recharge( Character &p, bionic &bio, units::energy &amount )
 
 void Character::process_bionic( bionic &bio )
 {
-    const auto_toggle_bionic_result2 result = auto_toggle_bionic2( bio, false );
+    auto_toggle_bionic_result2 result = auto_toggle_bionic2( bio, false );
 
     // Only powered bionics should be processed
     if( !bio.powered ) {
