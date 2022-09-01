@@ -71,8 +71,6 @@ struct bionic_data {
     bool is_remote_fueled = false;
     /**Fuel types that can be used by this bionic*/
     std::vector<material_id> fuel_opts;
-    /**How much fuel this bionic can hold*/
-    int fuel_capacity = 0;
     /**Fraction of fuel energy converted to bionic power*/
     float fuel_efficiency = 0.0f;
     /**Fraction of fuel energy passively converted to bionic power*/

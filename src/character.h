@@ -1431,12 +1431,6 @@ class Character : public Creature, public visitable
         bionic_id get_most_efficient_bionic( const std::vector<bionic_id> &bids ) const;
         /**Return list of available fuel for this bionic*/
         std::vector<item *> get_bionic_fuels( const bionic_id &bio );
-        /**Return available space to store specified fuel*/
-        int get_fuel_capacity( const material_id &fuel ) const;
-        /**Return total space to store specified fuel*/
-        int get_total_fuel_capacity( const material_id &fuel ) const;
-        /**Updates which bionic contain fuel and which is empty*/
-        void update_fuel_storage( const material_id &fuel );
         /**Get stat bonus from bionic*/
         int get_mod_stat_from_bionic( const character_stat &Stat ) const;
         // route for overmap-scale traveling
@@ -1537,7 +1531,7 @@ class Character : public Creature, public visitable
         /** Used for eating a particular item that doesn't need to be in inventory.
          *  @returns trinary enum NONE, SOME or ALL (doesn't remove).
          */
-        trinary consume( item &target, bool force = false, bool refuel = false );
+        trinary consume( item &target, bool force = false );
 
         /**
          * Stores an item inside another consuming moves proportional to weapon skill and volume.
@@ -1612,11 +1606,11 @@ class Character : public Creature, public visitable
         void process_items();
         /** Search surrounding squares for traps (and maybe other things in the future). */
         void search_surroundings();
-        /** Returns battery from UPS connected to cable charger */
+        /** Returns battery from UPS connected to cable charger bionic */
         std::vector<item *> get_cable_ups();
-        /** Returns solar items connected to cable charger */
+        /** Returns solar items connected to cable charger bionic */
         std::vector<item *> get_cable_solar();
-        /** Returns vehicles connected to cable charger */
+        /** Returns vehicles connected to cable charger bionic */
         std::vector<vehicle *> get_cable_vehicle();
         /**Handle heat from exothermic power generation*/
         void heat_emission( const bionic &bio, units::energy fuel_energy );
@@ -2900,11 +2894,6 @@ class Character : public Creature, public visitable
         */
         int get_acquirable_energy( const item &it ) const;
 
-        /**
-        * Recharge CBMs whenever possible.
-        * @return true when recharging was successful.
-        */
-        bool fuel_bionic_with( item &it );
         /** Used to apply stimulation modifications from food and medication **/
         void modify_stimulation( const islot_comestible &comest );
         /** Used to apply fatigue modifications from food and medication **/

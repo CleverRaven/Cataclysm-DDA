@@ -367,7 +367,6 @@ void bionic_data::load( const JsonObject &jsobj, const std::string & )
     optional( jsobj, was_loaded, "included", included );
     optional( jsobj, was_loaded, "upgraded_bionic", upgraded_bionic );
     optional( jsobj, was_loaded, "fuel_options", fuel_opts );
-    optional( jsobj, was_loaded, "fuel_capacity", fuel_capacity );
     optional( jsobj, was_loaded, "activated_on_install", activated_on_install, false );
 
     optional( jsobj, was_loaded, "available_upgrades", available_upgrades );
@@ -3432,87 +3431,6 @@ std::vector<item *> Character::get_bionic_fuels( const bionic_id &bio )
     }
 
     return stored_fuels;
-}
-
-int Character::get_fuel_capacity( const material_id &fuel ) const
-{
-    int amount_stored = 0;
-    if( !get_value( fuel.str() ).empty() ) {
-        amount_stored = std::stoi( get_value( fuel.str() ) );
-    }
-    int capacity = 0;
-    for( const bionic_id &bid : get_bionics() ) {
-        for( const material_id &fl : bid->fuel_opts ) {
-            if( get_value( bid.str() ).empty() || get_value( bid.str() ) == fl.str() ) {
-                if( fl == fuel ) {
-                    capacity += bid->fuel_capacity;
-                }
-            }
-        }
-    }
-    return capacity - amount_stored;
-}
-
-int Character::get_total_fuel_capacity( const material_id &fuel ) const
-{
-    int capacity = 0;
-    for( const bionic_id &bid : get_bionics() ) {
-        for( const material_id &fl : bid->fuel_opts ) {
-            if( get_value( bid.str() ).empty() || get_value( bid.str() ) == fl.str() ) {
-                if( fl == fuel ) {
-                    capacity += bid->fuel_capacity;
-                }
-            }
-        }
-    }
-    return capacity;
-}
-
-void Character::update_fuel_storage( const material_id &fuel )
-{
-
-    if( get_value( fuel.str() ).empty() ) {
-        for( const bionic_id &bid : get_bionic_fueled_with( fuel ) ) {
-            remove_value( bid.c_str() );
-        }
-        return;
-    }
-
-    std::vector<bionic_id> bids = get_bionic_fueled_with( fuel );
-    if( bids.empty() ) {
-        return;
-    }
-    int amount_fuel_loaded = std::stoi( get_value( fuel.str() ) );
-    std::vector<bionic_id> loaded_bio;
-
-    // Sort bionic in order of decreasing capacity
-    // To fill the bigger ones firts.
-    bool swap = true;
-    while( swap ) {
-        swap = false;
-        for( size_t i = 0; i < bids.size() - 1; i++ ) {
-            if( bids[i + 1]->fuel_capacity > bids[i]->fuel_capacity ) {
-                std::swap( bids[i + 1], bids[i] );
-                swap = true;
-            }
-        }
-    }
-
-    for( const bionic_id &bid : bids ) {
-        remove_value( bid.c_str() );
-        if( bid->fuel_capacity <= amount_fuel_loaded ) {
-            amount_fuel_loaded -= bid->fuel_capacity;
-            loaded_bio.emplace_back( bid );
-        } else if( amount_fuel_loaded != 0 ) {
-            loaded_bio.emplace_back( bid );
-            break;
-        }
-    }
-
-    for( const bionic_id &bd : loaded_bio ) {
-        set_value( bd.str(), fuel.str() );
-    }
-
 }
 
 int Character::get_mod_stat_from_bionic( const character_stat &Stat ) const
