@@ -164,7 +164,7 @@
     "armor_bullet": 2,
     "anger_triggers": [ "PLAYER_WEAK", "PLAYER_CLOSE", "FRIEND_ATTACKED", "STALK" ],
     "path_settings": { "max_dist": 50, "avoid_traps": true, "avoid_sharp": true },
-    "death_drops": "ratkin_death_drops_pack-rat",
+    "death_drops": "ratkin_death_drops_pack_rat",
     "special_attacks": [
       { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 17, "armor_multiplier": 0.8 } ] },
       {
