@@ -735,11 +735,11 @@
     ],
     "techniques": [
       "tec_kickboxing_rapid",
+      "tec_kickboxing_straight_cross",
       "tec_kickboxing_upper",
       "tec_kickboxing_roundhouse",
       "tec_kickboxing_sidekick",
-      "tec_kickboxing_straight_knee",
-      "tec_kickboxing_flying_knee"
+      "tec_kickboxing_straight_kick"
     ]
   },
   {
