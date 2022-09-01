@@ -5144,23 +5144,21 @@ int vehicle::traverse_vehicle_graph( Vehicle *start_veh, int amount, Func action
             }
 
             // Add this connected vehicle to the queue of vehicles to search next,
-            // but only if we haven't seen this one before.
-            if( visited_vehs.count( target_veh ) < 1 ) {
-                int target_loss = current_loss + current_veh->part_info( p ).epower;
-                connected_vehs.push( std::make_pair( target_veh, target_loss ) );
+            // but only if we haven't seen this one before (checked above)
+            int target_loss = current_loss + current_veh->part_info( p ).epower;
+            connected_vehs.push( std::make_pair( target_veh, target_loss ) );
 
-                float loss_amount = ( static_cast<float>( amount ) * static_cast<float>( target_loss ) ) / 100.0f;
-                add_msg_debug( debugmode::DF_VEHICLE,
-                               "Visiting remote %p with %d power (loss %f, which is %d percent)",
-                               static_cast<void *>( target_veh ), amount, loss_amount, target_loss );
+            float loss_amount = ( static_cast<float>( amount ) * static_cast<float>( target_loss ) ) / 100.0f;
+            add_msg_debug( debugmode::DF_VEHICLE,
+                            "Visiting remote %p with %d power (loss %f, which is %d percent)",
+                            static_cast<void *>( target_veh ), amount, loss_amount, target_loss );
 
-                amount = action( target_veh, amount, static_cast<int>( loss_amount ) );
-                add_msg_debug( debugmode::DF_VEHICLE, "After remote %p, %d power",
-                               static_cast<void *>( target_veh ), amount );
+            amount = action( target_veh, amount, static_cast<int>( loss_amount ) );
+            add_msg_debug( debugmode::DF_VEHICLE, "After remote %p, %d power",
+                            static_cast<void *>( target_veh ), amount );
 
-                if( amount < 1 ) {
-                    break; // No more charge to donate away.
-                }
+            if( amount < 1 ) {
+                break; // No more charge to donate away.
             }
         }
     }
