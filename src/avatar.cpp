@@ -1609,7 +1609,7 @@ void avatar::daily_calories::read_activity( const JsonObject &data )
         int times;
         if( !jo.read( member.first, times ) ) {
             continue;
-        };
+        }
         activity_levels.at( member.second ) = times;
     }
 }
