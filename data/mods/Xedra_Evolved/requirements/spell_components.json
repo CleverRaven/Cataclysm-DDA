@@ -51,7 +51,7 @@
   {
     "id": "spell_components_schematics",
     "type": "requirement",
-    "components": [ [ [ "drawing_tool", 2 ] ], [ [ "paper", 8 ] ] ]
+    "components": [ [ [ "drawing_tool", 2, "LIST" ] ], [ [ "paper", 8 ] ] ]
   },
   {
     "id": "spell_components_mace_magic",
@@ -74,7 +74,7 @@
     "id": "spell_components_bio_launcher_warhead",
     "type": "requirement",
     "qualities": [ { "id": "SAW_W", "level": 1 } ],
-    "components": [ [ [ "inventor_warhead", 1 ] ], [ [ "c4", 1 ] ], [ [ "bioweapon", 1 ] ], [ [ "fuse", 1 ] ], [ [ "scrap", 2 ] ] ]
+    "components": [ [ [ "RPG", 1 ] ], [ [ "c4", 1 ] ], [ [ "flu_shot", 1 ] ], [ [ "fuse", 1 ] ], [ [ "scrap", 2 ] ] ]
   },
   {
     "id": "spell_components_fire_bio_warhead",

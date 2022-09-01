@@ -49,7 +49,7 @@
     "material": [ "steel" ],
     "symbol": "(",
     "color": "light_blue",
-    "skill": "submachinegun",
+    "skill": "smg",
     "ammo": "battery",
     "ammo_to_fire": 15,
     "range": 12,
@@ -96,7 +96,7 @@
     "ammo_effects": [ "LASER", "PLASMA_BUBBLE", "INCENDIARY" ],
     "flags": [ "NEVER_JAMS", "NO_SALVAGE", "NO_REPAIR", "NON_FOULING", "NEEDS_NO_LUBE", "TRADER_AVOID" ],
     "relic_data": { "charge_info": { "recharge_condition": "worn", "recharge_type": "periodic", "time": "5 h", "regenerate_ammo": true } },
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "aetheric_charge": 8 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "aetheric_charge": 8 }, "airtight": true } ]
   },
   {
     "type": "TOOL",

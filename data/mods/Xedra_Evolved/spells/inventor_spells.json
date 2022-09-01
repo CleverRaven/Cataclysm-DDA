@@ -280,7 +280,7 @@
     "base_energy_cost": 1400,
     "final_energy_cost": 600,
     "energy_increment": -40,
-    "min_duration": 3024000,
+    "min_duration": 302400,
     "max_duration": 604800,
     "duration_increment": 3024000,
     "difficulty": 8,
