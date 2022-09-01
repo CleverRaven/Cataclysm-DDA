@@ -10787,7 +10787,7 @@ void game::on_move_effects()
         for( const bionic_id &bid : u.get_bionic_fueled_with( muscle ) ) {
             if( u.has_active_bionic( bid ) ) {// active power gen
                 u.mod_power_level( muscle.fuel_energy() * bid->fuel_efficiency );
-            } else if( u.has_bionic( bid ) ) {// passive power gen
+            } else {// passive power gen
                 u.mod_power_level( muscle.fuel_energy() * bid->passive_fuel_efficiency );
             }
         }

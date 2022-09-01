@@ -1367,7 +1367,10 @@ void Character::burn_fuel( bionic &bio, auto_toggle_bionic_result &result )
     float efficiency;
     if( !bio.powered ) {
         // Modifiers for passive bionic
-        mod_power_level( bio.info().power_trickle );
+        if( bio.info().power_trickle != 0_J ) {
+            mod_power_level( bio.info().power_trickle );
+        }
+
         efficiency = get_effective_efficiency( bio, bio.info().passive_fuel_efficiency );
         if( efficiency == 0.f ) {
             return;
@@ -1442,7 +1445,7 @@ void Character::burn_fuel( bionic &bio, auto_toggle_bionic_result &result )
     if( energy_gain == 0_J && metabolism_powered ) {
         // Bionic powered by metabolism
         // 1kcal = 4184 J
-        energy_gain = 4184_J * efficiency;
+        energy_gain = 4184_J;
 
         if( get_power_level() + energy_gain >= get_max_power_level() * std::min( 1.0f,
                 bio.get_safe_fuel_thresh() ) ) {
@@ -2684,6 +2687,11 @@ bool Character::has_bionic( const bionic_id &b ) const
 bool Character::has_active_bionic( const bionic_id &b ) const
 {
     for( const bionic &i : *my_bionics ) {
+        if( get_power_level() + 1_kJ > get_max_power_level() * std::min( 1.0f,
+                i.get_safe_fuel_thresh() ) ) {
+            // Inactive due to fuel treshold
+            return false;
+        }
         if( i.id == b ) {
             return ( i.powered && i.incapacitated_time == 0_turns );
         }
