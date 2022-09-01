@@ -349,7 +349,7 @@ float Character::get_melee_hit_base() const
     item_location cur_weapon = used_weapon();
     item cur_weap = cur_weapon ? *cur_weapon : null_item_reference();
 
-    hit_weapon = get_hit_weapon(cur_weap);
+    hit_weapon = get_hit_weapon( cur_weap );
 
     // Character::get_hit_base includes stat calculations already
     return Character::get_hit_base() + hit_weapon + mabuff_tohit_bonus();
