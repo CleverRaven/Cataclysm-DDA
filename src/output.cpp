@@ -28,6 +28,7 @@
 #include "item.h"
 #include "line.h"
 #include "name.h"
+#include "game.h"
 #include "options.h"
 #include "point.h"
 #include "popup.h"
@@ -2203,7 +2204,7 @@ get_bar( const float cur, const float max,
     if( !std::isfinite( status ) || colors.empty() ) {
         col = c_red_red;
     } else {
-        int ind = static_cast<int>( ( 1 - status ) * colors.size() );
+        int ind = std::floor( ( 1.0 - status ) * ( colors.size() - 1 ) + 0.5 );
         ind = clamp<int>( ind, 0, colors.size() - 1 );
         col = colors[ind];
     }
@@ -2402,12 +2403,9 @@ scrollingcombattext::cSCT::cSCT( const point &p_pos, const direction p_oDir,
     sType = p_sType;
     oDir = p_oDir;
 
+    iso_mode = g->is_tileset_isometric();
+
     // translate from player relative to screen relative direction
-#if defined(TILES)
-    iso_mode = tile_iso && use_tiles;
-#else
-    iso_mode = false;
-#endif
     oUp = iso_mode ? direction::NORTHEAST : direction::NORTH;
     oUpRight = iso_mode ? direction::EAST : direction::NORTHEAST;
     oRight = iso_mode ? direction::SOUTHEAST : direction::EAST;
@@ -2452,10 +2450,10 @@ void scrollingcombattext::add( const point &pos, direction p_oDir,
         int iCurStep = 0;
 
         bool tiled = false;
-        bool iso_mode = false;
+        bool iso_mode = g->is_tileset_isometric();
+
 #if defined(TILES)
         tiled = use_tiles;
-        iso_mode = tile_iso && use_tiles;
 #endif
 
         if( p_sType == "hp" ) {

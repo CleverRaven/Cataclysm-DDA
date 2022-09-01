@@ -61,6 +61,7 @@
     "name": { "str": "RC car (on)", "str_pl": "RC cars (on)" },
     "description": "This remote-controlled car is on, and draining its batteries just like a real electric car!  Use a remote control to drive it around.",
     "turns_per_charge": 5,
+    "revert_to": "radio_car",
     "use_action": [ "RADIOCARON" ],
     "flags": [ "LIGHT_15", "RADIO_CONTAINER", "TRADER_AVOID", "RADIOCAR" ]
   },
@@ -113,7 +114,7 @@
     "type": "TOOL",
     "name": { "str": "radio (on)", "str_pl": "radios (on)" },
     "description": "This portable radio is turned on, and continually draining its batteries.  It is playing the broadcast being sent from any nearby radio towers.",
-    "power_draw": 500,
+    "power_draw": "500 mJ",
     "revert_to": "radio",
     "use_action": [ "RADIO_ON" ],
     "flags": [ "TRADER_AVOID" ]

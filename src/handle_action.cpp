@@ -266,7 +266,7 @@ input_context game::get_player_input( std::string &action )
                       -getmaxy( w_terrain ) / 2 + u.posy() ) );
 
 #if defined(TILES)
-        if( tile_iso && use_tiles ) {
+        if( g->is_tileset_isometric() ) {
             iStart.x = 0;
             iStart.y = 0;
             iEnd.x = MAPSIZE_X;
@@ -1866,8 +1866,9 @@ static void do_deathcam_action( const action_id &act, avatar &player_character )
                 { ACTION_SHIFT_NW, { point_north_west, point_north } },
             };
             int soffset = get_option<int>( "MOVE_VIEW_OFFSET" );
-            player_character.view_offset += use_tiles && tile_iso ?
-                                            shift_delta.at( act ).second * soffset : shift_delta.at( act ).first * soffset;
+            player_character.view_offset += g->is_tileset_isometric()
+                                            ? shift_delta.at( act ).second * soffset
+                                            : shift_delta.at( act ).first * soffset;
         }
         break;
 
@@ -2763,6 +2764,11 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
                 break;    //don't do anything when sharing and not debugger
             }
             handle_debug_mode();
+            break;
+
+        case ACTION_DISPLAY_ISO_WALLS:
+            get_options().get_option( "RETRACT_ISO_WALLS" ).setNext();
+            get_options().save();
             break;
 
         case ACTION_ZOOM_IN:

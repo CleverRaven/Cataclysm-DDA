@@ -217,6 +217,15 @@
   },
   {
     "type": "vehicle_part",
+    "id": "ap_weldkit",
+    "name": { "str": "welding kit rig" },
+    "description": "A welding rig combined with a fireproof insulating blanket allows for advanced welds and repairs to tempered steels that draws power from the vehicle's batteries.  You still need glare protection.  'e'xamine the tile with the rig to use it to repair items in your inventory.  If you attempt to craft an item or perform a repair that requires a welder, you will be given the option of using the welding rig.",
+    "item": "welding_kit",
+    "flags": [ "CARGO", "OBSTACLE", "APPLIANCE" ],
+    "copy-from": "welding_rig"
+  },
+  {
+    "type": "vehicle_part",
     "id": "ap_kiln",
     "description": "An electric kiln for baking brick or clay.  When plugged in and powered you could use this to harden bricks or clay.  If you attempt to craft an item that needs a kiln, you will be given the option of selecting it as a tool.",
     "flags": [ "CARGO", "OBSTACLE", "APPLIANCE" ],

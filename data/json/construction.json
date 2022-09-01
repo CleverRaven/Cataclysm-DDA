@@ -3339,6 +3339,17 @@
   },
   {
     "type": "construction",
+    "id": "app_welding_kit",
+    "group": "place_weldkit",
+    "category": "APPLIANCE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "5 m",
+    "components": [ [ [ "welding_kit", 1 ] ] ],
+    "pre_special": "check_empty",
+    "post_special": "done_appliance"
+  },
+  {
+    "type": "construction",
     "id": "app_water_purifier",
     "group": "place_water_purifier",
     "category": "APPLIANCE",
