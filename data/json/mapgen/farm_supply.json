@@ -136,11 +136,7 @@
           "y": [ 30, 40 ]
         },
         {
-          "chunks": [
-            [ "null", 90 ],
-            [ "roof_6x6_survivor", 5 ],
-            [ "roof_3x3_wine", 5 ]
-          ],
+          "chunks": [ [ "null", 90 ], [ "roof_6x6_survivor", 5 ], [ "roof_3x3_wine", 5 ] ],
           "x": [ 6, 18 ],
           "y": [ 26, 40 ]
         }
