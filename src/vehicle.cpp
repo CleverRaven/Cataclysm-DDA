@@ -7587,9 +7587,11 @@ vehicle_part_range vehicle::get_all_parts() const
     return vehicle_part_range( const_cast<vehicle &>( *this ) );
 }
 
-int vehicle::part_count() const
+int vehicle::part_count( bool no_fake ) const
 {
-    return static_cast<int>( parts.size() );
+    return no_fake ? std::count_if( parts.begin(), parts.end(), []( const vehicle_part & vp ) {
+        return !vp.is_fake;
+    } ) : static_cast<int>( parts.size() );
 }
 
 std::vector<vehicle_part> vehicle::real_parts() const

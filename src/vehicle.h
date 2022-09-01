@@ -1936,7 +1936,7 @@ class vehicle
 
     public:
         // Number of parts contained in this vehicle
-        int part_count() const;
+        int part_count( bool no_fake = false ) const;
         // Returns the vehicle_part with the given part number
         vehicle_part &part( int part_num );
         const vehicle_part &part( int part_num ) const;
