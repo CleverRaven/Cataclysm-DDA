@@ -26,7 +26,7 @@
     "category": "spare_parts",
     "name": { "str": "scrap steel" },
     "description": "A bulky assortment of small bits of scrap steel useful in all kinds of crafting.",
-    "weight": "50 g",
+    "weight": "500 g",
     "volume": "25 ml",
     "price": 500,
     "price_postapoc": 10,
