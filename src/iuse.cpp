@@ -913,17 +913,6 @@ cata::optional<int> iuse::meth( Character *p, item *, bool, const tripoint & )
     return 1;
 }
 
-cata::optional<int> iuse::vaccine( Character *p, item *it, bool, const tripoint & )
-{
-    p->add_msg_if_player( _( "You inject the vaccine." ) );
-    p->add_msg_if_player( m_good, _( "You feel tough." ) );
-    p->mod_daily_health( 200, 200 );
-    p->mod_pain( 3 );
-    item syringe( "syringe", it->birthday() );
-    p->i_add_or_drop( syringe );
-    return 1;
-}
-
 cata::optional<int> iuse::flu_vaccine( Character *p, item *it, bool, const tripoint & )
 {
     p->add_msg_if_player( _( "You inject the vaccine." ) );
