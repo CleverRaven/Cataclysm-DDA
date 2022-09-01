@@ -513,7 +513,7 @@ class pocket_data
         // this takes precedence over the other two restrictions
         cata::flat_set<itype_id> item_id_restriction;
         // Restricts items by their material.
-        std::set<material_id> material_restriction;
+        cata::flat_set<material_id> material_restriction;
         cata::flat_set<itype_id> allowed_speedloaders;
         // the first in the json array for item_id_restriction when loaded
         itype_id default_magazine = itype_id::NULL_ID();
