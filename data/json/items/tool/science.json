@@ -672,7 +672,13 @@
     "symbol": ";",
     "color": "blue",
     "pocket_data": [
-      { "pocket_type": "MAGAZINE", "airtight": true, "watertight": true, "rigid": true, "ammo_restriction": { "oxygen": 300 } }
+      {
+        "pocket_type": "MAGAZINE",
+        "airtight": true,
+        "watertight": true,
+        "rigid": true,
+        "ammo_restriction": { "oxygen": 300 }
+      }
     ],
     "initial_charges": 300,
     "max_charges": 300,
