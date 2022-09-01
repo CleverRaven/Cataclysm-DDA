@@ -24,7 +24,7 @@
     "id": "scrap",
     "type": "AMMO",
     "category": "spare_parts",
-    "name": { "str": "scrap metal" },
+    "name": { "str": "scrap steel" },
     "description": "A bulky assortment of small bits of scrap steel useful in all kinds of crafting.",
     "weight": "50 g",
     "volume": "25 ml",
