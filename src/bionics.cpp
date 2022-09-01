@@ -3316,32 +3316,6 @@ void Character::introduce_into_anesthesia( const time_duration &duration, Charac
     }
 }
 
-bool Character::can_fuel_bionic_with( const item &it ) const
-{
-    // the item needs fuel data, or it needs to be a magazine with an item with fuel data.
-    if( !it.is_fuel() ) {
-        if( it.is_magazine() ) {
-            if( !item( it.ammo_current() ).is_fuel() ) {
-                return false;
-            }
-        } else {
-            return false;
-        }
-    }
-    for( const bionic_id &bid : get_bionics() ) {
-        for( const material_id &fuel : bid->fuel_opts ) {
-            if( fuel == it.get_base_material().id ) {
-                return true;
-            }
-            if( it.type->magazine && fuel == item( it.ammo_current() ).get_base_material().id ) {
-                return true;
-            }
-        }
-
-    }
-    return false;
-}
-
 std::vector<bionic_id> Character::get_bionic_fueled_with( const item &it ) const
 {
     std::vector<bionic_id> bionics;
@@ -3350,21 +3324,6 @@ std::vector<bionic_id> Character::get_bionic_fueled_with( const item &it ) const
         for( const material_id &fuel : bid->fuel_opts ) {
             if( fuel == it.get_base_material().id ||
                 ( it.type->magazine && fuel == item( it.ammo_current() ).get_base_material().id ) ) {
-                bionics.emplace_back( bid );
-            }
-        }
-    }
-
-    return bionics;
-}
-
-std::vector<bionic_id> Character::get_bionic_fueled_with( const material_id &mat ) const
-{
-    std::vector<bionic_id> bionics;
-
-    for( const bionic_id &bid : get_bionics() ) {
-        for( const material_id &fuel : bid->fuel_opts ) {
-            if( fuel == mat ) {
                 bionics.emplace_back( bid );
             }
         }
@@ -3382,19 +3341,6 @@ std::vector<bionic_id> Character::get_fueled_bionics() const
         }
     }
     return bionics;
-}
-
-bionic_id Character::get_most_efficient_bionic( const std::vector<bionic_id> &bids ) const
-{
-    float temp_eff = 0.0f;
-    bionic_id bio( "null" );
-    for( const bionic_id &bid : bids ) {
-        if( bid->fuel_efficiency > temp_eff ) {
-            temp_eff = bid->fuel_efficiency;
-            bio = bid;
-        }
-    }
-    return bio;
 }
 
 bionic_id Character::get_remote_fueled_bionic() const
