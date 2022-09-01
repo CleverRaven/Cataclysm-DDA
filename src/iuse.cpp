@@ -8673,11 +8673,6 @@ cata::optional<int> iuse::cable_attach( Character *p, item *it, bool, const trip
         it->active = true;
         it->process( get_map(), p, p->pos() );
         p->moves -= 15;
-
-        if( !prev_state.empty() && ( prev_state == "cable_charger" || ( prev_state != "attach_first" &&
-                                     ( state == "cable_charger_link" || state == "cable_charger" ) ) ) ) {
-            p->find_remote_fuel();
-        }
     };
     map &here = get_map();
     if( initial_state == "attach_first" ) {
@@ -8786,7 +8781,6 @@ cata::optional<int> iuse::cable_attach( Character *p, item *it, bool, const trip
         if( choice < 0 ) {
             return cata::nullopt; // we did nothing.
         } else if( choice == 0 ) { // unconnect & respool
-            p->reset_remote_fuel();
             it->reset_cable( p );
             return 0;
         } else if( choice == 2 ) { // connect self while other end already connected
@@ -8909,11 +8903,6 @@ cata::optional<int> iuse::cord_attach( Character *p, item *it, bool, const tripo
         it->active = true;
         it->process( get_map(), p, p->pos() );
         p->moves -= 15;
-
-        if( !prev_state.empty() && ( prev_state == "cable_charger" || ( prev_state != "attach_first" &&
-                                     ( state == "cable_charger_link" || state == "cable_charger" ) ) ) ) {
-            p->find_remote_fuel();
-        }
     };
     map &here = get_map();
     if( initial_state == "attach_first" ) {
@@ -8966,7 +8955,6 @@ cata::optional<int> iuse::cord_attach( Character *p, item *it, bool, const tripo
         if( choice < 0 ) {
             return cata::nullopt; // we did nothing.
         } else if( choice == 0 ) { // unconnect & respool
-            p->reset_remote_fuel();
             it->reset_cable( p );
             return 0;
         }

@@ -1612,17 +1612,12 @@ class Character : public Creature, public visitable
         void process_items();
         /** Search surrounding squares for traps (and maybe other things in the future). */
         void search_surroundings();
-        /**Find fuel used by remote powered bionic*/
-        material_id find_remote_fuel( bool look_only = false );
         /** Returns battery from UPS connected to cable charger */
         std::vector<item *> get_cable_ups();
         /** Returns solar items connected to cable charger */
         std::vector<item *> get_cable_solar();
         /** Returns vehicles connected to cable charger */
         std::vector<vehicle *> get_cable_vehicle();
-        /**Consume fuel used by remote powered bionic, return amount of request unfulfilled (0 if totally successful).*/
-        int consume_remote_fuel( int amount );
-        void reset_remote_fuel();
         /**Handle heat from exothermic power generation*/
         void heat_emission( const bionic &bio, units::energy fuel_energy );
         /**Applies modifier to fuel_efficiency and returns the resulting efficiency*/

@@ -1235,10 +1235,6 @@ bool Character::deactivate_bionic( bionic &bio, bool eff_only )
         return false;
     }
 
-    if( bio.info().is_remote_fueled ) {
-        reset_remote_fuel();
-    }
-
     // Just do the effect, no stat changing or messages
     if( !eff_only ) {
         //We can actually deactivate now, do deactivation-y things
@@ -1491,56 +1487,6 @@ void Character::burn_fuel( bionic &bio, auto_toggle_bionic_result &result )
     here.emit_field( pos(), bio.info().power_gen_emission );
 }
 
-material_id Character::find_remote_fuel( bool look_only )
-{
-    material_id remote_fuel;
-    map &here = get_map();
-
-    const std::vector<item *> cables = items_with( []( const item & it ) {
-        return it.active && it.has_flag( flag_CABLE_SPOOL );
-    } );
-
-    for( const item *cable : cables ) {
-
-        const cata::optional<tripoint> target = cable->get_cable_target( this, pos() );
-        if( !target ) {
-            if( here.is_outside( pos() ) && !is_night( calendar::turn ) &&
-                cable->get_var( "state" ) == "solar_pack_link" ) {
-                if( !look_only ) {
-                    set_value( "sunlight", "1" );
-                }
-                remote_fuel = fuel_type_sun_light;
-            }
-
-            if( cable->get_var( "state" ) == "UPS_link" ) {
-                if( !look_only ) {
-                    int64_t remote_battery = 0;
-                    for( const item *i : all_items_with_flag( flag_IS_UPS ) ) {
-                        if( i->get_var( "cable" ) == "plugged_in" ) {
-                            remote_battery = i->ammo_remaining();
-                        }
-                    }
-                    remote_battery = std::min( remote_battery, units::to_kilojoule( get_max_power_level() ) );
-                    set_value( "rem_battery", std::to_string( remote_battery ) );
-                }
-                remote_fuel = fuel_type_battery;
-            }
-            continue;
-        }
-        const optional_vpart_position vp = here.veh_at( *target );
-        if( !vp ) {
-            continue;
-        }
-        if( !look_only ) {
-            set_value( "rem_battery", std::to_string( vp->vehicle().fuel_left( itype_battery,
-                       true ) ) );
-        }
-        remote_fuel = fuel_type_battery;
-    }
-
-    return remote_fuel;
-}
-
 std::vector<item *> Character::get_cable_ups()
 {
     std::vector<item *> stored_fuels;
@@ -1603,46 +1549,6 @@ std::vector<vehicle *> Character::get_cable_vehicle()
     }
 
     return remote_vehicles;
-}
-
-int Character::consume_remote_fuel( int amount )
-{
-    int unconsumed_amount = amount;
-    const std::vector<item *> cables = items_with( []( const item & it ) {
-        return it.active && it.has_flag( flag_CABLE_SPOOL );
-    } );
-
-    map &here = get_map();
-    for( const item *cable : cables ) {
-        const cata::optional<tripoint> target = cable->get_cable_target( this, pos() );
-        if( target ) {
-            const optional_vpart_position vp = here.veh_at( *target );
-            if( !vp ) {
-                continue;
-            }
-            unconsumed_amount = vp->vehicle().discharge_battery( amount );
-        }
-    }
-
-    if( unconsumed_amount > 0 ) {
-        for( const item *i : all_items_with_flag( flag_IS_UPS ) ) {
-            if( i->get_var( "cable" ) == "plugged_in" ) {
-                unconsumed_amount -= const_cast<item *>( i )->ammo_consume( unconsumed_amount, tripoint_zero,
-                                     nullptr );
-            }
-            break;
-        }
-    }
-
-    return unconsumed_amount;
-}
-
-void Character::reset_remote_fuel()
-{
-    if( get_bionic_fueled_with( fuel_type_sun_light ).empty() ) {
-        remove_value( "sunlight" );
-    }
-    remove_value( "rem_battery" );
 }
 
 void Character::heat_emission( const bionic &bio, units::energy fuel_energy )
