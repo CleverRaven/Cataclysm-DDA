@@ -873,5 +873,23 @@
     "symbol": "H",
     "color": "light_gray",
     "use_action": [ "LADDER" ]
+  },
+  {
+    "id": "glass_cutter",
+    "type": "TOOL",
+    "name": { "str": "handheld glass cutter" },
+    "description": "A handheld tool used for controlled breaking of glass. A necessity for any glass cutting projects.",
+    "weight": "700 g",
+    "volume": "500 ml",
+    "price": 1200,
+    "price_postapoc": 500,
+    "to_hit": -1,
+    "bashing": 2,
+    "cutting": 2,
+    "material": [ "steel", "plastic" ],
+    "symbol": ";",
+    "color": "light_gray",
+    "qualities": [ [ "CUT GLASS", 1 ] ],
+    "flags": [ "BELT_CLIP" ]
   }
 ]
