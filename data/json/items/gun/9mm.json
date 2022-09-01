@@ -1320,7 +1320,7 @@
       [ "stock", 1 ],
       [ "stock accessory", 1 ]
     ],
-    "default_mods": [ "folding_stock", "red_dot_sight" ],
+    "default_mods": [ "wire_stock", "red_dot_sight" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
