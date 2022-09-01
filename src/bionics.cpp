@@ -1375,13 +1375,8 @@ void Character::burn_fuel( bionic &bio, auto_toggle_bionic_result &result )
         return;
     } else {
         efficiency = get_effective_efficiency( bio, bio.info().fuel_efficiency );
-        if( bio.get_auto_start_thresh() > 0 &&
-            get_power_level() > bio.get_auto_start_thresh() * get_max_power_level() ) {
-            // Do not consume fuel unless we are below auto start treshold.
-            debugmsg( "AUTOSTART TRESHOLD" );
-            return;
-        } else if( get_power_level() > get_max_power_level() * std::min( 1.0f,
-                   bio.get_safe_fuel_thresh() ) ) {
+        if( get_power_level() > get_max_power_level() * std::min( 1.0f,
+                bio.get_safe_fuel_thresh() ) ) {
             // Do not waste fuel charging over limit.
             // Individual fuel sources need to check this again since the amount energy they provide may vary.
             // For maybe zero sources (sun, wind) this check is enough.
@@ -3055,17 +3050,11 @@ void bionic::toggle_safe_fuel_mod()
 {
     if( !info().fuel_opts.empty() || info().is_remote_fueled ) {
         uilist tmenu;
-        tmenu.text = _( "Chose Safe Fuel Level Threshold" );
+        tmenu.text = _( "Stop power generation at" );
         tmenu.addentry( 1, true, 'o', _( "Full Power" ) );
-        if( get_auto_start_thresh() < 0.80 ) {
-            tmenu.addentry( 2, true, 't', _( "Above 80 %%" ) );
-        }
-        if( get_auto_start_thresh() < 0.55 ) {
-            tmenu.addentry( 3, true, 'f', _( "Above 55 %%" ) );
-        }
-        if( get_auto_start_thresh() < 0.30 ) {
-            tmenu.addentry( 4, true, 's', _( "Above 30 %%" ) );
-        }
+        tmenu.addentry( 2, true, 't', _( "Above 80 %%" ) );
+        tmenu.addentry( 3, true, 'f', _( "Above 55 %%" ) );
+        tmenu.addentry( 4, true, 's', _( "Above 30 %%" ) );
         tmenu.addentry( 5, true, 'd', _( "Disabled" ) );
         tmenu.query();
 
@@ -3088,62 +3077,6 @@ void bionic::toggle_safe_fuel_mod()
                 break;
         }
     }
-}
-
-void bionic::toggle_auto_start_mod()
-{
-    if( info().fuel_opts.empty() && !info().is_remote_fueled ) {
-        return;
-    }
-    if( !is_auto_start_on() ) {
-        uilist tmenu;
-        tmenu.text = _( "Chose Start Power Level Threshold" );
-        tmenu.addentry( 1, true, 'o', _( "No Power Left" ) );
-        if( get_safe_fuel_thresh() > 0.25 ) {
-            tmenu.addentry( 2, true, 't', _( "Below 25 %%" ) );
-        }
-        if( get_safe_fuel_thresh() > 0.50 ) {
-            tmenu.addentry( 3, true, 'f', _( "Below 50 %%" ) );
-        }
-        if( get_safe_fuel_thresh() > 0.75 ) {
-            tmenu.addentry( 4, true, 's', _( "Below 75 %%" ) );
-        }
-        tmenu.query();
-
-        switch( tmenu.ret ) {
-            case 1:
-                set_auto_start_thresh( 0.0 );
-                break;
-            case 2:
-                set_auto_start_thresh( 0.25 );
-                break;
-            case 3:
-                set_auto_start_thresh( 0.5 );
-                break;
-            case 4:
-                set_auto_start_thresh( 0.75 );
-                break;
-            default:
-                break;
-        }
-    } else {
-        set_auto_start_thresh( -1.0 );
-    }
-}
-
-void bionic::set_auto_start_thresh( float val )
-{
-    auto_start_threshold = val;
-}
-
-float bionic::get_auto_start_thresh() const
-{
-    return auto_start_threshold;
-}
-
-bool bionic::is_auto_start_on() const
-{
-    return get_auto_start_thresh() > -1.0;
 }
 
 float bionic::get_safe_fuel_thresh() const
@@ -3174,9 +3107,6 @@ void bionic::serialize( JsonOut &json ) const
     if( incapacitated_time > 0_turns ) {
         json.member( "incapacitated_time", incapacitated_time );
     }
-    if( is_auto_start_on() ) {
-        json.member( "auto_start_threshold", auto_start_threshold );
-    }
     if( is_safe_fuel_on() ) {
         json.member( "safe_fuel_threshold", safe_fuel_threshold );
     }
@@ -3204,9 +3134,6 @@ void bionic::deserialize( const JsonObject &jo )
 
     if( jo.has_int( "incapacitated_time" ) ) {
         incapacitated_time = 1_turns * jo.get_int( "incapacitated_time" );
-    }
-    if( jo.has_float( "auto_start_threshold" ) ) {
-        auto_start_threshold = jo.get_float( "auto_start_threshold" );
     }
     if( jo.has_float( "safe_fuel_threshold" ) ) {
         safe_fuel_threshold = jo.get_float( "safe_fuel_threshold" );
