@@ -91,10 +91,10 @@
   {
     "id": "welding_standard",
     "type": "requirement",
-    "//": "Crafting of steel/iron items or installation of vehicle parts, measured in 2 cm segments - assume roughly 360 cm per hour, 20 seconds per # of this quality",
+    "//": "Crafting of steel/iron items or installation of vehicle parts, measured in 3 cm segments - assume roughly 360 cm per hour, 30 seconds per # of this quality",
     "qualities": [ { "id": "GLARE", "level": 1 } ],
     "tools": [ [ [ "welder", 50 ], [ "welder_crude", 100 ], [ "toolset", 75 ], [ "oxy_torch", 1 ] ] ],
-    "components": [ [ [ "welding_rod_steel", 2 ], [ "welding_wire_steel", 2 ], [ "brazing_rod_bronze", 2 ] ] ]
+    "components": [ [ [ "welding_rod_steel", 3 ], [ "welding_wire_steel", 3 ], [ "brazing_rod_bronze", 3 ] ] ]
   },
   {
     "id": "welding_alloys",
@@ -102,7 +102,7 @@
     "//": "Crafting items made of aluminium alloy or installation of vehicle parts, currently making the same assumption for time/coverage as steel",
     "qualities": [ { "id": "GLARE", "level": 1 } ],
     "tools": [ [ [ "welder", 50 ], [ "welder_crude", 100 ], [ "toolset", 75 ], [ "oxy_torch", 1 ] ] ],
-    "components": [ [ [ "welding_rod_alloy", 2 ], [ "welding_wire_alloy", 2 ], [ "brazing_rod_alloy", 2 ] ] ]
+    "components": [ [ [ "welding_rod_alloy", 3 ], [ "welding_wire_alloy", 3 ], [ "brazing_rod_alloy", 3 ] ] ]
   },
   {
     "id": "repair_welding_standard",
@@ -111,7 +111,7 @@
     "qualities": [ { "id": "GLARE", "level": 1 }, { "id": "HAMMER", "level": 2 } ],
     "tools": [ [ [ "welder", 100 ], [ "welder_crude", 200 ], [ "toolset", 150 ], [ "oxy_torch", 2 ] ] ],
     "components": [
-      [ [ "welding_rod_steel", 4 ], [ "welding_wire_steel", 4 ], [ "brazing_rod_bronze", 4 ] ],
+      [ [ "welding_rod_steel", 6 ], [ "welding_wire_steel", 6 ], [ "brazing_rod_bronze", 6 ] ],
       [ [ "steel_tiny", 1, "LIST" ] ]
     ]
   },
@@ -122,7 +122,7 @@
     "qualities": [ { "id": "GLARE", "level": 1 }, { "id": "HAMMER", "level": 2 } ],
     "tools": [ [ [ "welder", 100 ], [ "welder_crude", 200 ], [ "toolset", 150 ], [ "oxy_torch", 2 ] ] ],
     "components": [
-      [ [ "welding_rod_alloy", 4 ], [ "welding_wire_alloy", 4 ], [ "brazing_rod_alloy", 4 ] ],
+      [ [ "welding_rod_alloy", 6 ], [ "welding_wire_alloy", 6 ], [ "brazing_rod_alloy", 6 ] ],
       [ [ "material_aluminium_ingot", 1 ] ]
     ]
   },
