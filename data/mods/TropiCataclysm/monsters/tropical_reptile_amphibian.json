@@ -182,7 +182,7 @@
   {
     "id": "mon_tadpole_small",
     "type": "MONSTER",
-    "name": { "str": "large tadpole" },
+    "name": { "str": "strange tadpole" },
     "description": "An overgrown tadpole that swims around eating algae and other biological matter.  For some reason its legs have not yet started to form.",
     "default_faction": "frog",
     "categories": [ "WILDLIFE" ],
@@ -214,7 +214,7 @@
   {
     "id": "mon_tadfish",
     "type": "MONSTER",
-    "name": { "str": "tadfish" },
+    "name": { "str": "tadfish", "str_pl": "tadfishes" },
     "description": "A strange neotenic batrachian grown from a specific kind of tadpole.  Instead of growing legs it has become more fish-like.",
     "copy-from": "mon_tadpole_small",
     "proportional": { "hp": 2, "speed": 1.1, "morale": 1.1, "melee_dice_sides": 2 },
@@ -339,7 +339,7 @@
     "speed": 80,
     "material": [ "flesh" ],
     "symbol": "s",
-    "color": "gray",
+    "color": "light_blue",
     "aggression": -30,
     "morale": 60,
     "melee_skill": 6,
