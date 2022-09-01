@@ -66,6 +66,7 @@ static bool audio_muted = false;
 #endif
 
 static weather_type_id previous_weather;
+static cata::optional<bool> previous_is_night;
 static float g_sfx_volume_multiplier = 1.0f;
 static auto start_sfx_timestamp = std::chrono::high_resolution_clock::now();
 static auto end_sfx_timestamp = std::chrono::high_resolution_clock::now();
@@ -1089,11 +1090,13 @@ void sfx::do_ambient()
     const int heard_volume = get_heard_volume( player_character.pos() );
     const bool is_underground = player_character.pos().z < 0;
     const bool is_sheltered = g->is_sheltered( player_character.pos() );
-    const bool weather_changed = get_weather().weather_id != previous_weather;
+    const bool night = is_night( calendar::turn );
+    const bool weather_changed =
+        get_weather().weather_id != previous_weather ||
+        !previous_is_night.has_value() || previous_is_night.value() != night;
     const season_type seas = season_of_year( calendar::turn );
     const std::string seas_str = season_str( seas );
     const bool indoors = !is_creature_outside( player_character );
-    const bool night = is_night( calendar::turn );
     // Step in at night time / we are not indoors
     if( night && !is_sheltered &&
         !is_channel_playing( channel::nighttime_outdoors_env ) && !is_deaf ) {
@@ -1164,6 +1167,9 @@ void sfx::do_ambient()
         get_weather().weather_id->sound_category != weather_sound_category::silent ) {
         if( weather_changed || outdoor_playing( true ).empty() ) {
             fade_audio_group( group::weather, 1000 );
+            for( const channel &ch : outdoor_playing( false ) ) {
+                fade_audio_channel( ch, 1000 );
+            }
             // We are outside and there is audible weather
             switch( get_weather().weather_id->sound_category ) {
                 case weather_sound_category::drizzle:
@@ -1233,6 +1239,7 @@ void sfx::do_ambient()
     }
     // Keep track of weather to compare for next iteration
     previous_weather = get_weather().weather_id;
+    previous_is_night = night;
 }
 
 // firing is the item that is fired. It may be the wielded gun, but it can also be an attached

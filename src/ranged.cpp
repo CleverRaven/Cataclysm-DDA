@@ -2869,8 +2869,7 @@ bool target_ui::set_cursor_pos( const tripoint &new_pos )
 
     // Make player's sprite flip to face the current target
     point d( dst.xy() - src.xy() );
-    if( !tile_iso ) {
-
+    if( !g->is_tileset_isometric() ) {
         if( d.x > 0 ) {
             you->facing = FacingDirection::RIGHT;
         } else if( d.x < 0 ) {

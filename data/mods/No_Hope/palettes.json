@@ -880,7 +880,8 @@
       ":": "t_secretdoor_metal_c",
       ";": "t_secretdoor_metal_o",
       "~": "t_water_pump",
-      "t": "t_thconc_floor"
+      "t": "t_thconc_floor",
+      "é": "t_metal_floor"
     },
     "furniture": {
       "A": "f_air_filter",
@@ -894,6 +895,7 @@
       "e": "f_ergometer_mechanical",
       "E": "f_exercise",
       "F": "f_fridge",
+      "é": "f_freezer",
       "f": "f_sofa",
       "G": "f_generator_broken",
       "h": "f_chair",

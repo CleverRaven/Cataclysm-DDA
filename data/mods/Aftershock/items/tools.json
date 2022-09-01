@@ -364,7 +364,7 @@
     "copy-from": "control_laptop",
     "type": "TOOL",
     "name": { "str": "control laptop - lit screen", "str_pl": "control laptops - lit screen" },
-    "power_draw": 1000,
+    "power_draw": "1 J",
     "revert_to": "control_laptop",
     "use_action": { "target": "control_laptop", "msg": "You stop lighting up the screen.", "menu_text": "Turn off", "type": "transform" },
     "flags": [ "WATCH", "LIGHT_10", "TRADER_AVOID" ]
@@ -410,7 +410,7 @@
     "copy-from": "vr_laptop",
     "type": "TOOL_ARMOR",
     "name": { "str": "vr rig - holosuite deployed", "str_pl": "vr rigs - holosuite deployed" },
-    "power_draw": 1000,
+    "power_draw": "1 J",
     "revert_to": "vr_laptop",
     "use_action": { "target": "vr_laptop", "msg": "You power down the virtual overlay.", "menu_text": "Turn off", "type": "transform" },
     "flags": [ "WATCH", "TRADER_AVOID" ],

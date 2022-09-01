@@ -366,15 +366,15 @@
     "id": "mon_toad_small",
     "type": "MONSTER",
     "name": { "str": "huge toad" },
-    "description": "The cane toad is a regular sight in tropical America and some other parts of the world.  This one however, seems to have been mutated to absurd size by the Cataclysm.",
+    "description": "This toad seems to have been mutated to absurd size by the Cataclysm.",
     "copy-from": "mon_frog_small",
-    "upgrades": { "half_life": 14, "into": "mon_toad_giant" }
+    "upgrades": { "half_life": 34, "into": "mon_toad_giant" }
   },
   {
     "id": "mon_toad_giant",
     "type": "MONSTER",
     "name": { "str": "giant toad" },
-    "description": "This cane toad has grown bigger than a human.  It looks uninterested in eating you but you better not give it a chance.",
+    "description": "This toad has grown bigger than a human.  It looks uninterested in eating you but you better not give it a chance.",
     "default_faction": "frog",
     "bodytype": "frog",
     "looks_like": "mon_frog_giant",
@@ -397,7 +397,6 @@
     "armor_bash": 4,
     "harvest": "mutant_animal_large_noskin",
     "path_settings": { "max_dist": 5 },
-    "upgrades": { "half_life": 50, "into": "mon_gastro_bufo" },
     "special_attacks": [ { "type": "leap", "cooldown": 10, "move_cost": 0, "max_range": 10, "min_consider_range": 2 } ],
     "anger_triggers": [ "STALK", "PLAYER_WEAK", "PLAYER_CLOSE" ],
     "flags": [ "SEES", "SMELLS", "HEARS", "SWIMS" ]

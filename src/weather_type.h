@@ -38,18 +38,6 @@ struct enum_traits<precip_class> {
     static constexpr precip_class last = precip_class::last;
 };
 
-enum class sun_intensity_type : int {
-    none,
-    light,
-    normal,
-    high,
-    last
-};
-template<>
-struct enum_traits<sun_intensity_type > {
-    static constexpr sun_intensity_type last = sun_intensity_type::last;
-};
-
 enum weather_sound_category : int {
     silent,
     drizzle,
@@ -120,8 +108,6 @@ struct weather_type {
         weather_animation_t weather_animation;
         // if playing sound effects what to use
         weather_sound_category sound_category = weather_sound_category::silent;
-        // strength of the sun
-        sun_intensity_type sun_intensity = sun_intensity_type::none;
         // when this weather should happen
         std::function<bool( const dialogue & )> condition;
         std::vector<weather_type_id> required_weathers;

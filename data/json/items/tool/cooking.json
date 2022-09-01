@@ -105,7 +105,7 @@
     "description": "This carver is on and the blades are buzzing.  Use it to turn it off.",
     "cutting": 30,
     "to_hit": 1,
-    "power_draw": 150000,
+    "power_draw": "150 J",
     "charges_per_use": 0,
     "revert_to": "carver_off",
     "qualities": [ [ "CUT", 2 ], [ "BUTCHER", 25 ] ],
@@ -659,7 +659,7 @@
     "color": "red",
     "ammo": [ "battery" ],
     "flags": [ "WATER_BREAK" ],
-    "power_draw": 1500000,
+    "power_draw": "1500 J",
     "qualities": [ [ "CONTAIN", 1 ] ],
     "use_action": [ "MULTICOOKER" ],
     "pocket_data": [

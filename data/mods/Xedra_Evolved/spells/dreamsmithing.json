@@ -21,5 +21,26 @@
     "min_duration": 10000,
     "max_duration": 50000,
     "duration_increment": 2000
+  },
+  {
+    "id": "forge_dreamdross",
+    "type": "SPELL",
+    "name": "Forge Dreamdross",
+    "description": "This ritual pulls a small amount of dreamdross into our world and makes it permanent.  These scraps of dreaming can then be used to make permanent objects.",
+    "valid_targets": [ "self" ],
+    "min_damage": 1,
+    "effect": "spawn_item",
+    "effect_str": "forged_dreamstuff_ingot",
+    "shape": "blast",
+    "base_casting_time": 5000,
+    "base_energy_cost": 500,
+    "components": "spell_components_forging_dreamdross",
+    "duration_increment": 1,
+    "skill": "deduction",
+    "difficulty": 0,
+    "max_level": 10,
+    "spell_class": "DREAMSMITH",
+    "energy_source": "MANA",
+    "flags": [ "PERMANENT", "NO_LEGS", "CONCENTRATE" ]
   }
 ]
