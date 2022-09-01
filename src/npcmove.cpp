@@ -1705,29 +1705,6 @@ bool npc::recharge_cbm()
         if( !get_bionic_fuels( bid ).empty() ) {
             use_bionic_by_id( bid );
             return true;
-        } else {
-            const std::function<bool( const item & )> fuel_filter = [bid]( const item & it ) {
-                if( bid->fuel_opts.empty() ) {
-                    return false;
-                }
-                return ( it.get_base_material().id == bid->fuel_opts.front() ) || ( it.is_magazine() &&
-                        item( it.ammo_current() ).get_base_material().id == bid->fuel_opts.front() );
-            };
-
-            if( false ) { //TODO reload integral tanks
-                use_bionic_by_id( bid );
-                return true;
-            } else {
-                const std::vector<material_id> fuel_op = bid->fuel_opts;
-
-                if( std::find( fuel_op.begin(), fuel_op.end(), material_battery ) != fuel_op.end() ) {
-                    complain_about( "need_batteries", 3_hours, chatbin.snip_need_batteries, false );
-                } else if( std::find( fuel_op.begin(), fuel_op.end(), material_alcohol ) != fuel_op.end() ) {
-                    complain_about( "need_booze", 3_hours, chatbin.snip_need_booze, false );
-                } else {
-                    complain_about( "need_fuel", 3_hours, chatbin.snip_need_fuel, false );
-                }
-            }
         }
     }
 
