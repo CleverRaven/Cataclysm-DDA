@@ -1085,7 +1085,7 @@ void tileset_cache::loader::load_tilejson_from_file( const JsonObject &config )
                     const std::string m_id = str_cat( t_id, "_", s_id );
                     tile_type &curr_subtile = load_tile( subentry, m_id );
                     curr_subtile.offset = sprite_offset;
-                    curr_tile.offset_retracted = sprite_offset_retracted;
+                    curr_subtile.offset_retracted = sprite_offset_retracted;
                     curr_subtile.rotates = true;
                     curr_subtile.height_3d = t_h3d;
                     curr_subtile.animated = subentry.get_bool( "animated", false );
