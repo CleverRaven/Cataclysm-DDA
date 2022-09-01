@@ -659,6 +659,16 @@ void map_data_common_t::set_connects( const std::string &connect_group_string )
     }
 }
 
+void map_data_common_t::set_rotates_towards( const std::string &towards_group_string )
+{
+    const auto it = ter_connects_map.find( towards_group_string );
+    if( it != ter_connects_map.end() ) {
+        towards_group = it->second;
+    } else { // arbitrary rotates towards groups are a bad idea for optimization reasons
+        debugmsg( "can't find terrain rotates towards group %s", towards_group_string.c_str() );
+    }
+}
+
 bool map_data_common_t::connects( int &ret ) const
 {
     if( connect_group != TERCONN_NONE ) {
@@ -1391,6 +1401,9 @@ void ter_t::load( const JsonObject &jo, const std::string &src )
     if( jo.has_member( "connects_to" ) ) {
         set_connects( jo.get_string( "connects_to" ) );
     }
+    if( jo.has_member( "rotates_towars" ) ) {
+        set_rotates_towards( jo.get_string( "rotates_towars" ) );
+    }
 
     optional( jo, was_loaded, "allowed_template_ids", allowed_template_id );
 
@@ -1557,6 +1570,9 @@ void furn_t::load( const JsonObject &jo, const std::string &src )
 
     if( jo.has_member( "connects_to" ) ) {
         set_connects( jo.get_string( "connects_to" ) );
+    }
+    if( jo.has_member( "rotates_towars" ) ) {
+        set_rotates_towards( jo.get_string( "rotates_towars" ) );
     }
 
     optional( jo, was_loaded, "open", open, string_id_reader<furn_t> {}, furn_str_id::NULL_ID() );

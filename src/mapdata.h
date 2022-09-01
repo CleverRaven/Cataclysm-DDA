@@ -539,13 +539,19 @@ struct map_data_common_t {
         void set_flag( ter_furn_flag flag );
 
         int connect_group = 0;
+        int towards_group = 0;
 
         void set_connects( const std::string &connect_group_string );
+        void set_rotates_towards( const std::string &towards_group_string );
 
         bool connects( int &ret ) const;
 
         bool connects_to( int test_connect_group ) const {
             return connect_group != TERCONN_NONE && connect_group == test_connect_group;
+        }
+
+        bool rotates_towards( int test_rotates_group ) const {
+            return towards_group != TERCONN_NONE && towards_group == test_rotates_group;
         }
 
         int symbol() const;
