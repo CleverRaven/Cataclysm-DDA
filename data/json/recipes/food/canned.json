@@ -2096,6 +2096,7 @@
     "id_suffix": "jarred",
     "byproducts": [ [ "water", 10 ] ],
     "container": "jar_glass_sealed",
+    "charges": 2,
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",
     "skill_used": "cooking",
