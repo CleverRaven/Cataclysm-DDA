@@ -1190,7 +1190,7 @@ class vehicle
         // Pre-calculate mount points for (idir=0) - current direction or
         // (idir=1) - next turn direction
         // return the set of all z-levels that the vehicle is on
-        std::set<int> precalc_mounts( int idir, const units::angle &dir, const point &pivot );
+        std::unordered_set<int> precalc_mounts( int idir, const units::angle &dir, const point &pivot );
 
         // get a list of part indices where is a passenger inside
         std::vector<int> boarded_parts() const;

@@ -3104,14 +3104,14 @@ tripoint vehicle::mount_to_tripoint( const point &mount, const point &offset ) c
     return global_pos3() + mnt_translated;
 }
 
-std::set<int> vehicle::precalc_mounts( int idir, const units::angle &dir, const point &pivot )
+std::unordered_set<int> vehicle::precalc_mounts( int idir, const units::angle &dir, const point &pivot )
 {
     if( idir < 0 || idir > 1 ) {
         idir = 0;
     }
     tileray tdir( dir );
     std::unordered_map<point, tripoint> mount_to_precalc;
-    std::set<int> smzs;
+    std::unordered_set<int> smzs;
     const int pivot_z = global_pos3().z;
     for( vehicle_part &p : parts ) {
         if( p.removed ) {
@@ -5110,8 +5110,8 @@ int vehicle::traverse_vehicle_graph( Vehicle *start_veh, int amount, Func action
     }
     // Breadth-first search! Initialize the queue with a pointer to ourselves and go!
     std::queue< std::pair<Vehicle *, int> > connected_vehs;
-    std::set<Vehicle *> visited_vehs;
-    std::set<tripoint> visted_targets;
+    std::unordered_set<Vehicle *> visited_vehs;
+    std::unordered_set<tripoint> visted_targets;
     connected_vehs.push( std::make_pair( start_veh, 0 ) );
 
     while( amount > 0 && !connected_vehs.empty() ) {
