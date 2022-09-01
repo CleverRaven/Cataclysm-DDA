@@ -1212,7 +1212,7 @@
     "name": "office skyscraper",
     "copy-from": "generic_city_building",
     "sym": "S",
-    "color": "i_light_blue"
+    "color": "white"
   },
   {
     "type": "overmap_terrain",
