@@ -45,7 +45,7 @@
     "type": "item_group",
     "subtype": "distribution",
     "//": "contains shiny drops from a pack rat's mouth",
-    "id": "ratkin_death_drops_pack-rat",
+    "id": "ratkin_death_drops_pack_rat",
     "entries": [
       { "group": "coins", "damage": [ 0, 1 ], "prob": 25, "count": [ 1, 10 ] },
       { "group": "silverware", "damage": [ 0, 2 ], "prob": 25, "count": [ 1, 3 ] },
