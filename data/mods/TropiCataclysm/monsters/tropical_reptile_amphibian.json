@@ -206,6 +206,7 @@
     "harvest": "animal_noskin",
     "upgrades": { "age_grow": 30, "into": "mon_tadfish" },
     "dissect": "dissect_batrachian_sample_single",
+    
     "anger_triggers": [ "HURT", "PLAYER_CLOSE" ],
     "fear_triggers": [ "PLAYER_CLOSE" ],
     "placate_triggers": [ "PLAYER_WEAK" ],
@@ -218,6 +219,7 @@
     "description": "A strange neotenic batrachian grown from a specific kind of tadpole.  Instead of growing legs it has become more fish-like.",
     "copy-from": "mon_tadpole_small",
     "proportional": { "hp": 2, "speed": 1.1, "morale": 1.1, "melee_dice_sides": 2 },
+    "reproduction": { "baby_egg": "egg_tadfish", "baby_count": 8, "baby_timer": 26 },
     "volume": "5 L",
     "weight": "5 kg"
   }
