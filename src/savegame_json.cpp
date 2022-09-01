@@ -3455,11 +3455,17 @@ void vehicle::deserialize( const JsonObject &data )
     }
 
     data.read( "tags", tags );
-    data.read( "fuel_used_last_turn", fuel_used_last_turn );
     data.read( "labels", labels );
 
     if( data.has_string( "fuel_remainder" ) ) {
         data.read( "fuel_remainder", fuel_remainder );
+    } else {
+        // Compatibility with 0.F
+        // It is a small and not important number so just ignore it.
+    }
+
+    if( data.has_string( "fuel_used_last_turn" ) ) {
+        data.read( "fuel_used_last_turn", fuel_used_last_turn );
     } else {
         // Compatibility with 0.F
         // It is a small and not important number so just ignore it.
