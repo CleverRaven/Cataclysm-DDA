@@ -1243,11 +1243,12 @@ float firestarter_actor::light_mod( const tripoint &pos ) const
     if( !need_sunlight ) {
         return 1.0f;
     }
+    if( g->is_sheltered( pos ) ) {
+        return 0.0f;
+    }
 
-    const float light_level = g->natural_light_level( pos.z );
-    if( get_weather().weather_id->sun_intensity >= sun_intensity_type::normal &&
-        light_level >= 60.0f && !get_map().has_flag( ter_furn_flag::TFLAG_INDOORS, pos ) ) {
-        return std::pow( light_level / 80.0f, 8 );
+    if( incident_sun_irradiance( get_weather().weather_id, calendar::turn ) > irradiance::moderate ) {
+        return std::pow( g->natural_light_level( pos.z ) / 80.0f, 8 );
     }
 
     return 0.0f;
