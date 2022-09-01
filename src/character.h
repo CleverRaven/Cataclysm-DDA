@@ -1430,8 +1430,6 @@ class Character : public Creature, public visitable
         /**Return bionic_id of bionic of most fuel efficient bionic*/
         bionic_id get_most_efficient_bionic( const std::vector<bionic_id> &bids ) const;
         /**Return list of available fuel for this bionic*/
-        std::vector<material_id> get_fuel_available( const bionic_id &bio ) const;
-        /**Return list of available fuel for this bionic*/
         std::vector<item *> get_bionic_fuels( const bionic_id &bio );
         /**Return available space to store specified fuel*/
         int get_fuel_capacity( const material_id &fuel ) const;

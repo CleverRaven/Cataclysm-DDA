@@ -1702,7 +1702,7 @@ bool npc::recharge_cbm()
             continue;
         }
 
-        if( !get_fuel_available( bid ).empty() ) {
+        if( !get_bionic_fuels( bid ).empty() ) {
             use_bionic_by_id( bid );
             return true;
         } else {

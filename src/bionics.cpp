@@ -3502,17 +3502,6 @@ bionic_id Character::get_remote_fueled_bionic() const
     return bionic_id();
 }
 
-std::vector<material_id> Character::get_fuel_available( const bionic_id &bio ) const
-{
-    std::vector<material_id> stored_fuels;
-    for( const material_id &fuel : bio->fuel_opts ) {
-        if( !get_value( fuel.str() ).empty() || fuel->get_fuel_data().is_perpetual_fuel ) {
-            stored_fuels.emplace_back( fuel );
-        }
-    }
-    return stored_fuels;
-}
-
 std::vector<item *> Character::get_bionic_fuels( const bionic_id &bio )
 {
     std::vector<item *> stored_fuels;
