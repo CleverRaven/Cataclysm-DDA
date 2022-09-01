@@ -1375,14 +1375,14 @@ void Character::burn_fuel( bionic &bio, auto_toggle_bionic_result &result )
         return;
     } else {
         efficiency = get_effective_efficiency( bio, bio.info().fuel_efficiency );
-        if( get_power_level() > get_max_power_level() * std::min( 1.0f,
-                bio.get_safe_fuel_thresh() ) ) {
-            // Do not waste fuel charging over limit.
-            // Individual fuel sources need to check this again since the amount energy they provide may vary.
-            // For maybe zero sources (sun, wind) this check is enough.
-            debugmsg( "SAFE TRESHOLD" );
-            return;
-        }
+    }
+
+    if( get_power_level() + 1_kJ >= get_max_power_level() * std::min( 1.0f,
+            bio.get_safe_fuel_thresh() ) ) {
+        // Do not waste fuel charging over limit.
+        // 1 kJ treshold to avoid draining full fuel on trickle charge
+        // Individual power sources need their own check for this because power per charge can be large.
+        return;
     }
 
 
@@ -1390,16 +1390,11 @@ void Character::burn_fuel( bionic &bio, auto_toggle_bionic_result &result )
     map &here = get_map();
 
     // Each bionic *should* have only one power source.
+    // Avoid draining multiple sources. So check for energy_gain = 0_kJ
 
     // Vehicle may not have power.
     // Return out if power was drained. Otherwise continue with other sources.
     if( !result.connected_vehicles.empty() ) {
-        if( get_power_level() + 1_kJ * efficiency > get_max_power_level() * std::min( 1.0f,
-                bio.get_safe_fuel_thresh() ) ) {
-            // Do not waste fuel charging over limit
-            debugmsg( "SAFE TRESHOLD" );
-            return;
-        }
         // Cable bionic charging from connected vehicle(s)
         for( vehicle *veh : result.connected_vehicles ) {
             int undrained = veh->discharge_battery( 1 );
@@ -1411,32 +1406,26 @@ void Character::burn_fuel( bionic &bio, auto_toggle_bionic_result &result )
     }
 
     // Rest of the fuel sources are known to exist so we can exit after any of them is used
-    if( !result.connected_fuel.empty() ) {
+    if( energy_gain == 0_J && !result.connected_fuel.empty() ) {
         // Bionic that uses fuel items from some source.
         // There *could* be multiple items. But we only take first.
 
         item *fuel = result.connected_fuel.front();
         energy_gain = fuel->fuel_energy() / fuel->charges;
-
-
-        if( get_power_level() + energy_gain * efficiency > get_max_power_level() * std::min( 1.0f,
+        if( get_power_level() + energy_gain >= get_max_power_level() * std::min( 1.0f,
                 bio.get_safe_fuel_thresh() ) ) {
-            // Do not waste fuel charging over limit
-            debugmsg( "SAFE TRESHOLD" );
+            // Do not waste fuel charging over limit.
             return;
         }
         fuel->charges--;
     }
 
-
-    if( std::find( bio.id->fuel_opts.begin(), bio.id->fuel_opts.end(),
-                   fuel_type_sun_light ) != bio.id->fuel_opts.end()
-        || !result.connected_solar.empty() ) {
+    // There *could* be multiple fuel sources. But we just check first for solar.
+    bool solar_powered = bio.id->fuel_opts.front() == fuel_type_sun_light ||
+                         !result.connected_solar.empty();
+    if( energy_gain == 0_J && solar_powered && !g->is_sheltered( pos() ) ) {
         // Some sort of solar source
-        if( g->is_sheltered( pos() ) ) {
-            // No sunlight inside.
-            return;
-        }
+
         const weather_type_id &wtype = current_weather( pos() );
         float intensity = incident_sun_irradiance( wtype, calendar::turn ); // W/m2
 
@@ -1446,22 +1435,28 @@ void Character::burn_fuel( bionic &bio, auto_toggle_bionic_result &result )
             intensity *= result.connected_solar.front()->type->solar_efficiency;
         }
         energy_gain = units::from_joule( intensity );
-    } else if( std::find( bio.id->fuel_opts.begin(), bio.id->fuel_opts.end(),
-                          fuel_type_metabolism ) != bio.id->fuel_opts.end() ) {
+    }
+
+    // There *could* be multiple fuel sources. But we just check first for solar.
+    bool metabolism_powered = bio.id->fuel_opts.front() == fuel_type_metabolism;
+    if( energy_gain == 0_J && metabolism_powered ) {
         // Bionic powered by metabolism
         // 1kcal = 4184 J
         energy_gain = 4184_J * efficiency;
 
-        if( get_power_level() + energy_gain * efficiency > get_max_power_level() * std::min( 1.0f,
+        if( get_power_level() + energy_gain >= get_max_power_level() * std::min( 1.0f,
                 bio.get_safe_fuel_thresh() ) ) {
-            // Do not waste fuel charging over limit
-            debugmsg( "SAFE TRESHOLD" );
+            // Do not waste fuel charging over limit.
+            // Individual power sources need their own check for this because power per charge can be large.
             return;
         }
 
         mod_stored_kcal( 1, true );
-    } else if( std::find( bio.id->fuel_opts.begin(), bio.id->fuel_opts.end(),
-                          fuel_type_wind ) != bio.id->fuel_opts.end() ) {
+    }
+
+    // There *could* be multiple fuel sources. But we just check first for solar.
+    bool wind_powered = bio.id->fuel_opts.front() == fuel_type_wind;
+    if( energy_gain == 0_J && wind_powered ) {
         // Wind power
         int vehwindspeed = 0;
 
