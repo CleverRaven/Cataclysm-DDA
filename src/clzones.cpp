@@ -45,6 +45,7 @@
 
 static const faction_id faction_your_followers( "your_followers" );
 
+static const item_category_id item_category_container( "container" );
 static const item_category_id item_category_food( "food" );
 
 static const itype_id itype_disassembly( "disassembly" );
@@ -891,15 +892,19 @@ bool zone_manager::custom_loot_has( const tripoint_abs_ms &where, const item *it
     if( zones.empty() || !it ) {
         return false;
     }
+    item const *const check_it =
+        it->type->category_force == item_category_container && it->num_item_stacks() == 1
+        ? &it->only_item()
+        : it;
     for( zone_data const *zone : zones ) {
         loot_options const &options = dynamic_cast<const loot_options &>( zone->get_options() );
         std::string const filter_string = options.get_mark();
         bool has = false;
         if( ztype == zone_type_LOOT_CUSTOM ) {
             auto const z = item_filter_from_string( filter_string );
-            has = z( *it );
+            has = z( *check_it );
         } else if( ztype == zone_type_LOOT_ITEM_GROUP ) {
-            has = item_group::group_contains_item( item_group_id( filter_string ), it->typeId() );
+            has = item_group::group_contains_item( item_group_id( filter_string ), check_it->typeId() );
         }
         if( has ) {
             return true;
