@@ -2734,7 +2734,7 @@
     "material": [ "glass" ],
     "symbol": ")",
     "color": "light_cyan",
-	"looks_like": "aquarium_medium",
+    "looks_like": "aquarium_medium",
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -2762,7 +2762,7 @@
     "material": [ "glass" ],
     "symbol": ")",
     "color": "light_cyan",
-	"looks_like": "aquarium_medium",
+    "looks_like": "aquarium_medium",
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
