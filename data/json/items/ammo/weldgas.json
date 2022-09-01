@@ -1,6 +1,6 @@
 [
   {
-    "//": "roughly 35grams of acetylene per cubic foot at STP. Volume given is when compressed - B tank has 9.17 L tank and holds 40 cubic feet."
+    "//": "roughly 35grams of acetylene per cubic foot at STP. Volume given is when compressed - B tank has 9.17 L tank and holds 40 cubic feet.",
     "id": "oxyacetylene",
     "type": "AMMO",
     "name": { "str_sp": "acetylene" },
