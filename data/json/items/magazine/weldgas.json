@@ -7,7 +7,7 @@
     "name": { "str": "small welding tank" },
     "description": "A compact MC size acetylene tank.  It can pressurize up to 10 cubic feet of welding gas.",
     "weight": "3640 g",
-    "volume": "4 L",
+    "volume": "3 L",
     "longest_side": "39 cm",
     "price": 15790,
     "price_postapoc": 100,
@@ -15,10 +15,10 @@
     "symbol": "#",
     "color": "brown",
     "ammo_type": [ "weldgas" ],
-    "capacity": 360,
-    "count": 360,
+    "capacity": 350,
+    "count": 350,
     "flags": [ "NO_UNLOAD", "NO_RELOAD" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "weldgas": 360 }, "watertight": true } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "weldgas": 350 }, "watertight": true } ]
   },
   {
     "id": "weldtank",
@@ -28,7 +28,7 @@
     "name": { "str": "welding tank" },
     "description": "A bulky B size acetylene tank.  It can pressurize up to 40 cubic feet of welding gas.",
     "weight": "11360 g",
-    "volume": "25 L",
+    "volume": "18 L",
     "longest_side": "60 cm",
     "price": 16990,
     "price_postapoc": 100,
@@ -36,9 +36,9 @@
     "symbol": "#",
     "color": "brown",
     "ammo_type": [ "weldgas" ],
-    "capacity": 1440,
-    "count": 1440,
+    "capacity": 1400,
+    "count": 1400,
     "flags": [ "NO_UNLOAD", "NO_RELOAD" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "weldgas": 1440 }, "watertight": true } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "weldgas": 1400 }, "watertight": true } ]
   }
 ]
