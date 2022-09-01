@@ -278,7 +278,7 @@
     "id": "electric_spinwheel",
     "type": "TOOL",
     "name": { "str": "electric spinwheel" },
-    "description": "A spinning wheel is a device for spinning thread or yarn from fibres. This particular model is electrically-powered and easily portable.",
+    "description": "A spinning wheel is a device for spinning thread or yarn from fibres.  This particular model is electrically-powered and easily portable.",
     "//": "Based roughly off an Ashford E-Spinner 3 because that was the first thing I looked at.",
     "looks_like": "box_medium",
     "weight": "5200 g",
