@@ -42,6 +42,7 @@ struct tile_type {
     bool animated = false;
     int height_3d = 0;
     point offset = point_zero;
+    point offset_retracted = point_zero;
 
     std::vector<std::string> available_subtiles;
 };
@@ -238,6 +239,7 @@ class tileset_cache::loader
         const SDL_Renderer_Ptr &renderer;
 
         point sprite_offset;
+        point sprite_offset_retracted;
 
         int sprite_width = 0;
         int sprite_height = 0;

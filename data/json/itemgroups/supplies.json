@@ -289,6 +289,7 @@
       [ "hd_pipe", 5 ],
       [ "hd_pipe_fittings", 5 ],
       [ "hd_valve", 5 ],
+      { "item": "gasket_plastic", "prob": 5, "count": [ 1, 3 ] },
       [ "pressure_gauge", 5 ],
       [ "pyrometer", 2 ],
       [ "hd_compressor", 1 ],

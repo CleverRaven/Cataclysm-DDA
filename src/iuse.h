@@ -64,7 +64,6 @@ cata::optional<int> purify_smart( Character *, item *, bool, const tripoint & );
 cata::optional<int> sewage( Character *, item *, bool, const tripoint & );
 cata::optional<int> smoking( Character *, item *, bool, const tripoint & );
 cata::optional<int> thorazine( Character *, item *, bool, const tripoint & );
-cata::optional<int> vaccine( Character *, item *, bool, const tripoint & );
 cata::optional<int> weed_cake( Character *, item *, bool, const tripoint & );
 cata::optional<int> xanax( Character *, item *, bool, const tripoint & );
 

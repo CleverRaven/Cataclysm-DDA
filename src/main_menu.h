@@ -20,6 +20,8 @@ class main_menu
         // Shows the main menu and returns whether a game was started or not
         bool opening_screen();
 
+        static std::string queued_world_to_load;
+        static std::string queued_save_id_to_load;
     private:
         // ASCII art that says "Cataclysm Dark Days Ahead"
         std::vector<std::string> mmenu_title;
@@ -55,6 +57,7 @@ class main_menu
 
         // Tab functions. They return whether a game was started or not. The ones that can never
         // start a game have a void return type.
+        bool load_game( std::string const &worldname, save_t const &savegame );
         bool new_character_tab();
         bool load_character_tab( const std::string &worldname );
         void world_tab( const std::string &worldname );
