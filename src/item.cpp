@@ -10497,12 +10497,12 @@ gun_type_type item::gun_type() const
 
 skill_id item::melee_skill() const
 {
-    if( !is_melee() ) {
-        return skill_id::NULL_ID();
+    if (is_unarmed_weapon()) {
+        return skill_unarmed;
     }
 
-    if( has_flag( flag_UNARMED_WEAPON ) ) {
-        return skill_unarmed;
+    if( !is_melee() ) {
+        return skill_id::NULL_ID();
     }
 
     int hi = 0;
