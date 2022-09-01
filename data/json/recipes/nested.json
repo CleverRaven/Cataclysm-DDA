@@ -2842,7 +2842,7 @@
     "name": "short cordage pieces",
     "description": "Recipes related to constructing short cordage pieces.",
     "skill_used": "tailor",
-    "nested_category_data": [ "cordage_6", "cordage_6_spinwheel_plant" ],
+    "nested_category_data": [ "cordage_6", "cordage_6_spinwheel_plant", "cordage_6_electric_spinwheel_plant" ],
     "difficulty": 1
   },
   {
