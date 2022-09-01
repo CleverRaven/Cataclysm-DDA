@@ -2805,7 +2805,7 @@
     "name": "long strings",
     "description": "Recipes related to constructing long strings.",
     "skill_used": "tailor",
-    "nested_category_data": [ "string_36", "string_36_spinwheel" ],
+    "nested_category_data": [ "string_36", "string_36_spinwheel", "string_36_electric_spinwheel" ],
     "difficulty": 1
   },
   {
