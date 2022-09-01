@@ -1721,7 +1721,7 @@ static bool consume_med( item &target, Character &you )
     return true;
 }
 
-trinary Character::consume( item &target, bool force)
+trinary Character::consume( item &target, bool force )
 {
     if( target.is_null() ) {
         add_msg_if_player( m_info, _( "You do not have that item." ) );
