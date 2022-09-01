@@ -889,7 +889,7 @@
     "material": [ "steel", "plastic" ],
     "symbol": ";",
     "color": "light_gray",
-    "qualities": [ [ "CUT GLASS", 1 ] ],
+    "qualities": [ [ "CUT_GLASS", 1 ] ],
     "flags": [ "BELT_CLIP" ]
   }
 ]
