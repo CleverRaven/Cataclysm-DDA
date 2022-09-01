@@ -1785,49 +1785,54 @@ bool monster::move_to( const tripoint &p, bool force, bool step_on_critter,
             here.ter_set( pos(), t_dirtmound );
         }
     }
-    // Acid trail monsters leave... a trail of acid
-    if( has_flag( MF_ACIDTRAIL ) ) {
-        here.add_field( pos(), fd_acid, 3 );
-    }
 
-    // Not all acid trail monsters leave as much acid. Every time this monster takes a step, there is a 1/5 chance it will drop a puddle.
-    if( has_flag( MF_SHORTACIDTRAIL ) ) {
-        if( one_in( 5 ) ) {
+    // Don't leave any kind of liquids or liquid fields on water tiles
+    if( !here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, destination ) ) {
+
+        // Acid trail monsters leave... a trail of acid
+        if( has_flag( MF_ACIDTRAIL ) ) {
             here.add_field( pos(), fd_acid, 3 );
         }
-    }
 
-    if( has_flag( MF_SLUDGETRAIL ) ) {
-        for( const tripoint &sludge_p : here.points_in_radius( pos(), 1 ) ) {
-            const int fstr = 3 - ( std::abs( sludge_p.x - posx() ) + std::abs( sludge_p.y - posy() ) );
-            if( fstr >= 2 ) {
-                here.add_field( sludge_p, fd_sludge, fstr );
+        // Not all acid trail monsters leave as much acid. Every time this monster takes a step, there is a 1/5 chance it will drop a puddle.
+        if( has_flag( MF_SHORTACIDTRAIL ) ) {
+            if( one_in( 5 ) ) {
+                here.add_field( pos(), fd_acid, 3 );
             }
         }
-    }
 
-    if( has_flag( MF_SMALLSLUDGETRAIL ) ) {
-        if( one_in( 2 ) ) {
-            here.add_field( pos(), fd_sludge, 1 );
-        }
-    }
-
-    if( has_flag( MF_DRIPS_NAPALM ) ) {
-        if( one_in( 10 ) ) {
-            // if it has more napalm, drop some and reduce ammo in tank
-            if( ammo[itype_pressurized_tank] > 0 ) {
-                here.add_item_or_charges( pos(), item( "napalm", calendar::turn, 50 ) );
-                ammo[itype_pressurized_tank] -= 50;
-            } else {
-                // TODO: remove MF_DRIPS_NAPALM flag since no more napalm in tank
-                // Not possible for now since flag check is done on type, not individual monster
+        if( has_flag( MF_SLUDGETRAIL ) ) {
+            for( const tripoint &sludge_p : here.points_in_radius( pos(), 1 ) ) {
+                const int fstr = 3 - ( std::abs( sludge_p.x - posx() ) + std::abs( sludge_p.y - posy() ) );
+                if( fstr >= 2 ) {
+                    here.add_field( sludge_p, fd_sludge, fstr );
+                }
             }
         }
-    }
-    if( has_flag( MF_DRIPS_GASOLINE ) ) {
-        if( one_in( 5 ) ) {
-            // TODO: use same idea that limits napalm dripping
-            here.add_item_or_charges( pos(), item( "gasoline" ) );
+
+        if( has_flag( MF_SMALLSLUDGETRAIL ) ) {
+            if( one_in( 2 ) ) {
+                here.add_field( pos(), fd_sludge, 1 );
+            }
+        }
+
+        if( has_flag( MF_DRIPS_NAPALM ) ) {
+            if( one_in( 10 ) ) {
+                // if it has more napalm, drop some and reduce ammo in tank
+                if( ammo[itype_pressurized_tank] > 0 ) {
+                    here.add_item_or_charges( pos(), item( "napalm", calendar::turn, 50 ) );
+                    ammo[itype_pressurized_tank] -= 50;
+                } else {
+                    // TODO: remove MF_DRIPS_NAPALM flag since no more napalm in tank
+                    // Not possible for now since flag check is done on type, not individual monster
+                }
+            }
+        }
+        if( has_flag( MF_DRIPS_GASOLINE ) ) {
+            if( one_in( 5 ) ) {
+                // TODO: use same idea that limits napalm dripping
+                here.add_item_or_charges( pos(), item( "gasoline" ) );
+            }
         }
     }
     return true;
