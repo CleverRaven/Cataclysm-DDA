@@ -81,10 +81,11 @@
     "subcategory": "CSC_ELECTRONIC_COMPONENTS",
     "skill_used": "electronics",
     "difficulty": 2,
-    "time": "3 m",
+    "time": "20 m",
     "book_learn": [ [ "radio_book", 1 ], [ "textbook_anarch", 1 ], [ "mag_electronics", 1 ] ],
     "qualities": [ { "id": "WRENCH", "level": 1 } ],
-    "components": [ [ [ "copper_wire", 20 ] ] ]
+    "components": [ [ [ "cable", 20 ] ] ],
+    "tools": [ [ [ "two_way_radio", 25 ], [ "radiocontrol", 25 ] ] ]
   },
   {
     "type": "recipe",
@@ -100,7 +101,7 @@
     "book_learn": [ [ "radio_book", 3 ], [ "textbook_anarch", 5 ] ],
     "proficiencies": [ { "proficiency": "prof_carpentry_basic" } ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 } ],
-    "components": [ [ [ "amplifier", 1 ] ], [ [ "wire", 6 ] ], [ [ "2x4", 2 ] ], [ [ "nail", 12 ] ] ]
+    "components": [ [ [ "amplifier", 1 ] ], [ [ "antenna", 1 ] ], [ [ "2x4", 2 ] ], [ [ "nail", 12 ] ] ]
   },
   {
     "type": "recipe",
