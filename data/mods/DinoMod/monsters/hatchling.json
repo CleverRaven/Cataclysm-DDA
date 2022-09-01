@@ -154,7 +154,7 @@
     "death_function": { "effect": { "id": "death_guilt", "min_level": 3 } },
     "petfood": { "food": [ "DINOFOOD_B" ] },
     "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "STUMBLES", "NO_BREED", "CANPLAY" ],
-    "harvest": "mammal_tiny"
+    "harvest": "bird_tiny"
   },
   {
     "id": "mon_gallimimus_hatchling",
@@ -265,6 +265,16 @@
     "upgrades": { "age_grow": 14, "into": "mon_eoraptor" }
   },
   {
+    "id": "mon_sarahsaurus_hatchling",
+    "type": "MONSTER",
+    "name": "sarahsaurus hatchling",
+    "copy-from": "mon_gallimimus_hatchling",
+    "weight": "2 kg",
+    "volume": "2 L",
+    "petfood": { "food": [ "DINOFOOD_C" ] },
+    "upgrades": { "age_grow": 40, "into": "mon_sarahsaurus_juvenile" }
+  },
+  {
     "id": "mon_issi_hatchling",
     "type": "MONSTER",
     "name": "issi hatchling",
@@ -272,7 +282,17 @@
     "weight": "2 kg",
     "volume": "2 L",
     "petfood": { "food": [ "DINOFOOD_C" ] },
-    "upgrades": { "age_grow": 20, "into": "mon_issi_juvenile" }
+    "upgrades": { "age_grow": 40, "into": "mon_issi_juvenile" }
+  },
+  {
+    "id": "mon_haplocanthosaurus_hatchling",
+    "type": "MONSTER",
+    "name": "haplocanthosaurus hatchling",
+    "copy-from": "mon_gallimimus_hatchling",
+    "weight": "4 kg",
+    "volume": "4 L",
+    "petfood": { "food": [ "DINOFOOD_C" ] },
+    "upgrades": { "age_grow": 45, "into": "mon_haplocanthosaurus_juvenile" }
   },
   {
     "id": "mon_amargasaurus_hatchling",
@@ -337,6 +357,14 @@
     "name": "green and magenta hatchling",
     "petfood": { "food": [ "DINOFOOD_C" ] },
     "upgrades": { "age_grow": 30, "into": "mon_stegosaurus_juvenile" }
+  },
+  {
+    "id": "mon_hesperosaurus_hatchling",
+    "type": "MONSTER",
+    "copy-from": "mon_gallimimus_hatchling",
+    "name": "green and magenta hatchling",
+    "petfood": { "food": [ "DINOFOOD_C" ] },
+    "upgrades": { "age_grow": 30, "into": "mon_hesperosaurus_juvenile" }
   },
   {
     "id": "mon_dyoplosaurus_hatchling",
@@ -409,6 +437,12 @@
     "upgrades": { "age_grow": 50, "into": "mon_edmontosaurus_juvenile" }
   },
   {
+    "id": "mon_gryposaurus_hatchling",
+    "type": "MONSTER",
+    "copy-from": "mon_hadrosaurus_hatchling",
+    "upgrades": { "age_grow": 50, "into": "mon_gryposaurus_juvenile" }
+  },
+  {
     "id": "mon_stegoceras_hatchling",
     "type": "MONSTER",
     "copy-from": "mon_scutellosaurus_hatchling",
@@ -428,6 +462,27 @@
     "copy-from": "mon_scutellosaurus_hatchling",
     "name": "light green and magenta hatchling",
     "upgrades": { "age_grow": 30, "into": "mon_aquilops" }
+  },
+  {
+    "id": "mon_leptoceratops_hatchling",
+    "type": "MONSTER",
+    "copy-from": "mon_pachycephalosaurus_hatchling",
+    "name": "light green and magenta hatchling",
+    "upgrades": { "age_grow": 30, "into": "mon_leptoceratops_juvenile" }
+  },
+  {
+    "id": "mon_zuniceratops_hatchling",
+    "type": "MONSTER",
+    "copy-from": "mon_pachycephalosaurus_hatchling",
+    "name": "light green and magenta hatchling",
+    "upgrades": { "age_grow": 30, "into": "mon_zuniceratops_juvenile" }
+  },
+  {
+    "id": "mon_centrosaurus_hatchling",
+    "type": "MONSTER",
+    "copy-from": "mon_pachycephalosaurus_hatchling",
+    "name": "light green and magenta hatchling",
+    "upgrades": { "age_grow": 30, "into": "mon_centrosaurus_juvenile" }
   },
   {
     "id": "mon_pachyrhinosaurus_hatchling",
@@ -525,6 +580,7 @@
     "name": "mosasaurus neonate",
     "description": "A tiny aquatic reptile neonate with huge shiny eyes and pointy little teeth.",
     "default_faction": "mosasaurus_hatchling",
+    "harvest": "mammal_tiny",
     "upgrades": { "age_grow": 30, "into": "mon_mosasaurus_juvenile" },
     "death_function": { "effect": { "id": "death_guilt", "min_level": 3 } },
     "petfood": { "food": [ "DINOFOOD_B" ] },

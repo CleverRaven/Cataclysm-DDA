@@ -861,6 +861,16 @@
   },
   {
     "type": "construction_group",
+    "id": "build_wooden_gangway",
+    "name": "Build Wooden Gangway"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_metal_gangway",
+    "name": "Build Metal Gangway"
+  },
+  {
+    "type": "construction_group",
     "id": "build_wooden_keg",
     "name": "Build Wooden Keg"
   },
@@ -1168,6 +1178,11 @@
     "type": "construction_group",
     "id": "place_weldrig",
     "name": "Place Welding Rig"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_weldkit",
+    "name": "Place Welding Kit"
   },
   {
     "type": "construction_group",

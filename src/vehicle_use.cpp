@@ -80,11 +80,11 @@ static const itype_id itype_detergent( "detergent" );
 static const itype_id itype_fungal_seeds( "fungal_seeds" );
 static const itype_id itype_marloss_seed( "marloss_seed" );
 static const itype_id itype_null( "null" );
+static const itype_id itype_pseudo_water_purifier( "pseudo_water_purifier" );
 static const itype_id itype_soldering_iron( "soldering_iron" );
 static const itype_id itype_water( "water" );
 static const itype_id itype_water_clean( "water_clean" );
 static const itype_id itype_water_faucet( "water_faucet" );
-static const itype_id itype_water_purifier( "water_purifier" );
 static const itype_id itype_welder( "welder" );
 
 static const quality_id qual_SCREW( "SCREW" );
@@ -773,9 +773,9 @@ void vehicle::use_controls( const tripoint &pos )
                           keybind( "TOGGLE_TRACKING" ) );
     actions.emplace_back( [&] { toggle_tracking(); } );
 
-    if( ( is_foldable() || tags.count( "convertible" ) ) && !remote ) {
+    if( is_foldable() && !remote ) {
         options.emplace_back( string_format( _( "Fold %s" ), name ), keybind( "FOLD_VEHICLE" ) );
-        actions.emplace_back( [&] { fold_up(); } );
+        actions.emplace_back( [&] { start_folding_activity(); } );
     }
 
     if( has_part( "ENGINE" ) ) {
@@ -916,91 +916,9 @@ void vehicle::connect( const tripoint &source_pos, const tripoint &target_pos )
     target_veh->install_part( vcoords, target_part );
 }
 
-bool vehicle::fold_up()
+void vehicle::start_folding_activity()
 {
-    const bool can_be_folded = is_foldable();
-    const bool is_convertible = ( tags.count( "convertible" ) > 0 );
-    if( !( can_be_folded || is_convertible ) ) {
-        debugmsg( _( "Tried to fold non-folding vehicle %s" ), name );
-        return false;
-    }
-
-    avatar &player_character = get_avatar();
-    if( player_character.controlling_vehicle ) {
-        add_msg( m_warning,
-                 _( "As the pitiless metal bars close on your nether regions, you reconsider trying to fold the %s while riding it." ),
-                 name );
-        return false;
-    }
-
-    if( velocity > 0 ) {
-        add_msg( m_warning, _( "You can't fold the %s while it's in motion." ), name );
-        return false;
-    }
-
-    add_msg( _( "You painstakingly pack the %s into a portable configuration." ), name );
-
-    if( player_character.get_grab_type() != object_type::NONE ) {
-        player_character.grab( object_type::NONE );
-        add_msg( _( "You let go of %s as you fold it." ), name );
-    }
-
-    std::string itype_id = "folding_bicycle";
-    for( const auto &elem : tags ) {
-        if( elem.compare( 0, 12, "convertible:" ) == 0 ) {
-            itype_id = elem.substr( 12 );
-            break;
-        }
-    }
-
-    // create a folding [non]bicycle item
-    item bicycle( can_be_folded ? "generic_folded_vehicle" : "folding_bicycle", calendar::turn );
-
-    map &here = get_map();
-    // Drop stuff in containers on ground
-    for( const vpart_reference &vp : get_any_parts( "CARGO" ) ) {
-        const size_t p = vp.part_index();
-        for( item &elem : get_items( p ) ) {
-            here.add_item_or_charges( player_character.pos(), elem );
-        }
-        while( !get_items( p ).empty() ) {
-            get_items( p ).erase( get_items( p ).begin() );
-        }
-    }
-
-    unboard_all();
-
-    // Store data of all parts, iuse::unfold_bicyle only loads
-    // some of them, some are expect to be
-    // vehicle specific and therefore constant (like id, mount).
-    // Writing everything here is easier to manage, as only
-    // iuse::unfold_bicyle has to adopt to changes.
-    try {
-        std::ostringstream veh_data;
-        JsonOut json( veh_data );
-        json.write( real_parts() );
-        bicycle.set_var( "folding_bicycle_parts", veh_data.str() );
-    } catch( const JsonError &e ) {
-        debugmsg( "Error storing vehicle: %s", e.c_str() );
-    }
-
-    bicycle.set_var( "tracking", tracking_on ? 1 : 0 );
-    if( can_be_folded ) {
-        bicycle.set_var( "weight", to_milligram( total_mass() ) );
-        bicycle.set_var( "volume", total_folded_volume() / units::legacy_volume_factor );
-        bicycle.set_var( "name", string_format( _( "folded %s" ), name ) );
-        bicycle.set_var( "vehicle_name", name );
-        // TODO: a better description?
-        bicycle.set_var( "description", string_format( _( "A folded %s." ), name ) );
-    }
-
-    here.add_item_or_charges( global_part_pos3( 0 ), bicycle );
-    here.destroy_vehicle( this );
-
-    // TODO: take longer to fold bigger vehicles
-    // TODO: make this interruptible
-    player_character.moves -= 500;
-    return true;
+    get_avatar().assign_activity( player_activity( vehicle_folding_activity_actor( *this ) ) );
 }
 
 double vehicle::engine_cold_factor( const int e ) const
@@ -1009,12 +927,13 @@ double vehicle::engine_cold_factor( const int e ) const
         return 0.0;
     }
 
-    int eff_temp = get_weather().get_temperature( get_player_character().pos() );
+    double eff_temp = units::to_fahrenheit( get_weather().get_temperature(
+            get_player_character().pos() ) );
     if( !parts[ engines[ e ] ].has_fault_flag( "BAD_COLD_START" ) ) {
-        eff_temp = std::min( eff_temp, 20 );
+        eff_temp = std::min( eff_temp, 20.0 );
     }
 
-    return 1.0 - ( std::max( 0, std::min( 30, eff_temp ) ) / 30.0 );
+    return 1.0 - ( std::max( 0.0, std::min( 30.0, eff_temp ) ) / 30.0 );
 }
 
 int vehicle::engine_start_time( const int e ) const
@@ -2074,15 +1993,16 @@ void vehicle::use_bike_rack( int part )
         unload_carried = rack_menu.ret - 1;
     }
 
-    player_activity new_act;
+    Character &pc = get_player_character();
     if( unload_carried > -1 ) {
-        new_act = player_activity( bikerack_unracking_activity_actor( to_moves<int>( 5_minutes ), *this,
-                                   carried_vehicles[unload_carried], carrying_racks[unload_carried] ) );
-        get_player_character().assign_activity( new_act, false );
+        bikerack_unracking_activity_actor unrack( *this, carried_vehicles[unload_carried],
+                carrying_racks[unload_carried] );
+        pc.assign_activity( player_activity( unrack ), false );
     } else if( found_rackable_vehicle ) {
-        new_act = player_activity( bikerack_racking_activity_actor( to_moves<int>( 5_minutes ), *this,
-                                   racks_parts ) );
-        get_player_character().assign_activity( new_act, false );
+        bikerack_racking_activity_actor rack( *this, racks_parts );
+        pc.assign_activity( player_activity( rack ), false );
+    } else {
+        pc.add_msg_if_player( _( "Nothing to take off or put on the racks is nearby." ) );
     }
 }
 
@@ -2158,7 +2078,7 @@ void vehicle::interact_with( const vpart_position &vp, bool with_pickup )
     const turret_data turret = turret_query( vp.pos() );
     const cata::optional<vpart_reference> vp_curtain = vp.avail_part_with_feature( "CURTAIN" );
     const cata::optional<vpart_reference> vp_faucet = vp.part_with_tool( itype_water_faucet );
-    const cata::optional<vpart_reference> vp_purify = vp.part_with_tool( itype_water_purifier );
+    const cata::optional<vpart_reference> vp_purify = vp.part_with_tool( itype_pseudo_water_purifier );
     const cata::optional<vpart_reference> vp_controls = vp.avail_part_with_feature( "CONTROLS" );
     const cata::optional<vpart_reference> vp_electronics =
         vp.avail_part_with_feature( "CTRL_ELECTRONIC" );
@@ -2257,7 +2177,7 @@ void vehicle::interact_with( const vpart_position &vp, bool with_pickup )
     if( with_pickup && ( vp_has_items || map_has_items ) ) {
         selectmenu.addentry( GET_ITEMS, true, 'g', _( "Get items" ) );
     }
-    if( ( is_foldable() || tags.count( "convertible" ) > 0 ) && g->remoteveh() != this ) {
+    if( is_foldable() && g->remoteveh() != this ) {
         selectmenu.addentry( FOLD_VEHICLE, true, 'f', _( "Fold vehicle" ) );
     }
     if( turret.can_unload() ) {
@@ -2275,7 +2195,7 @@ void vehicle::interact_with( const vpart_position &vp, bool with_pickup )
     }
     if( vp_purify ) {
         bool can_purify = fuel_left( itype_water ) &&
-                          fuel_left( itype_battery, true ) >= itype_water_purifier.obj().charges_to_use();
+                          fuel_left( itype_battery, true ) >= itype_pseudo_water_purifier.obj().charges_to_use();
         selectmenu.addentry( PURIFY_TANK, can_purify, 'P', _( "Purify water in vehicle tank" ) );
     }
     if( vp_monster_capture ) {
@@ -2402,7 +2322,7 @@ void vehicle::interact_with( const vpart_position &vp, bool with_pickup )
                                                get_all_colors().get_name( item::find_type( itype_water )->color ) );
             vehicle_part &tank = veh_interact::select_part( *this, sel, title );
             if( tank ) {
-                int cost = item::find_type( itype_water_purifier )->charges_to_use();
+                int64_t cost = static_cast<int64_t>( itype_pseudo_water_purifier->charges_to_use() );
                 if( fuel_left( itype_battery, true ) < tank.ammo_remaining() * cost ) {
                     //~ $1 - vehicle name, $2 - part name
                     add_msg( m_bad, _( "Insufficient power to purify the contents of the %1$s's %2$s" ),
@@ -2434,7 +2354,7 @@ void vehicle::interact_with( const vpart_position &vp, bool with_pickup )
             return;
         }
         case FOLD_VEHICLE: {
-            fold_up();
+            start_folding_activity();
             return;
         }
         case HANDBRAKE: {

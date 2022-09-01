@@ -35,24 +35,6 @@ std::string enum_to_string<precip_class>( precip_class data )
 }
 
 template<>
-std::string enum_to_string<sun_intensity_type>( sun_intensity_type data )
-{
-    switch( data ) {
-        case sun_intensity_type::none:
-            return "none";
-        case sun_intensity_type::light:
-            return "light";
-        case sun_intensity_type::normal:
-            return "normal";
-        case sun_intensity_type::high:
-            return "high";
-        case sun_intensity_type::last:
-            break;
-    }
-    cata_fatal( "Invalid sun_intensity_type" );
-}
-
-template<>
 std::string enum_to_string<weather_sound_category>( weather_sound_category data )
 {
     switch( data ) {
@@ -126,6 +108,7 @@ void weather_type::load( const JsonObject &jo, const std::string & )
     mandatory( jo, was_loaded, "ranged_penalty", ranged_penalty );
     mandatory( jo, was_loaded, "sight_penalty", sight_penalty );
     mandatory( jo, was_loaded, "light_modifier", light_modifier );
+    optional( jo, was_loaded, "sun_multiplier", sun_multiplier, 1.f );
 
     mandatory( jo, was_loaded, "sound_attn", sound_attn );
     mandatory( jo, was_loaded, "dangerous", dangerous );
@@ -134,12 +117,13 @@ void weather_type::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "acidic", acidic, false );
     optional( jo, was_loaded, "tiles_animation", tiles_animation, "" );
     optional( jo, was_loaded, "sound_category", sound_category, weather_sound_category::silent );
-    mandatory( jo, was_loaded, "sun_intensity", sun_intensity );
     optional( jo, was_loaded, "duration_min", duration_min, 5_minutes );
     optional( jo, was_loaded, "duration_max", duration_max, 5_minutes );
     if( duration_min > duration_max ) {
         jo.throw_error( "duration_min must be less than or equal to duration_max" );
     }
+    optional( jo, was_loaded, "debug_cause_eoc", debug_cause_eoc );
+    optional( jo, was_loaded, "debug_leave_eoc", debug_leave_eoc );
 
     if( jo.has_member( "weather_animation" ) ) {
         JsonObject weather_animation_jo = jo.get_object( "weather_animation" );

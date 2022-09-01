@@ -686,7 +686,9 @@
       { "item": "effective_emitter", "prob": 1 },
       { "item": "high_density_capacitor", "prob": 1 },
       { "item": "emp_gun", "prob": 1 },
-      { "item": "bt_apc9k", "prob": 1 }
+      { "item": "bt_apc9k", "prob": 1 },
+      { "item": "kevlar_nape_protector", "prob": 5 },
+      { "item": "counterweight_pouch", "prob": 5 }
     ]
   },
   {
@@ -739,7 +741,9 @@
       { "item": "mag_fieldrepair", "prob": 20 },
       { "item": "mag_comic", "prob": 20 },
       { "group": "book_gunmags", "prob": 20 },
-      { "item": "thermos", "prob": 15 }
+      { "item": "thermos", "prob": 15 },
+      { "item": "kevlar_nape_protector", "prob": 5 },
+      { "item": "counterweight_pouch", "prob": 5 }
     ]
   },
   {

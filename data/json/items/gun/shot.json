@@ -264,7 +264,7 @@
     "copy-from": "shotgun_base",
     "type": "GUN",
     "name": { "str": "gas-operated semi-automatic shotgun" },
-    "description": "A semi-automatic smooth-bore shotgun, this weapon features respectable ergonomics and room for 8 shotshells within its tubular magazine.  Suitable both for competition shooting and offensive combat rolls, this firearm is faster to shoot than a traditional pump-action model, with the caveat that its harder to maintain than its manually operated siblings as it relies on an internal gas system to cycle rounds rather than the user’s own physical input.",
+    "description": "A semi-automatic smooth-bore shotgun, this weapon features respectable ergonomics and room for 8 shotshells within its tubular magazine.  Suitable both for competition shooting and offensive combat roles, this firearm is faster to shoot than a traditional pump-action model, with the caveat that its harder to maintain than its manually operated siblings as it relies on an internal gas system to cycle rounds rather than the user’s own physical input.",
     "variant_type": "gun",
     "variants": [
       {
@@ -319,8 +319,8 @@
     "ascii_picture": "db_pipe_gun",
     "clip_size": 2,
     "modes": [ [ "DEFAULT", "single", 1 ], [ "DOUBLE", "double", 2 ] ],
-    "relative": { "weight": "500 g", "volume": "250 ml", "price": 5000 },
-    "barrel_volume": "72 ml",
+    "relative": { "weight": "625 g", "volume": "360 ml", "price": 5000 },
+    "barrel_volume": "720 ml",
     "valid_mod_locations": [
       [ "accessories", 2 ],
       [ "sling", 1 ],
@@ -343,7 +343,7 @@
     "description": "A home-made shotgun.  It is simply a pipe attached to a stock, with a hammer to strike the single round it holds.",
     "ascii_picture": "lg_pipe_gun",
     "weight": "2267 g",
-    "volume": "2250 ml",
+    "volume": "1610 ml",
     "longest_side": "95 cm",
     "price": 20000,
     "price_postapoc": 500,
@@ -354,7 +354,7 @@
     "durability": 6,
     "clip_size": 1,
     "reload": 200,
-    "barrel_volume": "36 ml",
+    "barrel_volume": "360 ml",
     "valid_mod_locations": [
       [ "accessories", 2 ],
       [ "sling", 1 ],
@@ -375,7 +375,7 @@
     "//": "Tileset whitelist for shotguns.",
     "type": "GUN",
     "name": { "str": "12 gauge hunting shotgun" },
-    "description": "A classic shotgun in nearly every respect; big, bulky, and intimidating, guns such as this one have been made for over a century in one form or another, coming in both pump-action and semi-automatic models.  Serving both competition-shooting, law-enforcement, and hunting rolls, this firearm is sporting a standard-capacity 5-round magazine tube.  Despite the firearm’s low magazine space, what it lacks in capacity it makes up for in sheer close-range effectiveness and stopping power.",
+    "description": "A classic shotgun in nearly every respect; big, bulky, and intimidating, guns such as this one have been made for over a century in one form or another, coming in both pump-action and semi-automatic models.  Serving both competition-shooting, law-enforcement, and hunting roles, this firearm is sporting a standard-capacity 5-round magazine tube.  Despite the firearm’s low magazine space, what it lacks in capacity it makes up for in sheer close-range effectiveness and stopping power.",
     "variant_type": "gun",
     "variants": [
       {
@@ -505,7 +505,7 @@
     "durability": 6,
     "clip_size": 6,
     "reload": 200,
-    "barrel_volume": "36 ml",
+    "barrel_volume": "360 ml",
     "valid_mod_locations": [
       [ "accessories", 2 ],
       [ "sling", 1 ],
@@ -653,7 +653,7 @@
     "durability": 6,
     "clip_size": 12,
     "reload": 220,
-    "barrel_volume": "36 ml",
+    "barrel_volume": "505 ml",
     "default_mods": [ "grip" ],
     "built_in_mods": [ "wire_stock" ],
     "modes": [ [ "DEFAULT", "single", 1 ], [ "AUTO", "3 rd.", 3 ] ],

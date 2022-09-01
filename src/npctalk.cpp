@@ -2562,8 +2562,9 @@ void talk_effect_fun_t<T>::set_transform_radius( const JsonObject &jo, const std
                                     //Timed events happen before the player turn and eocs are during so we add a second here to sync them up using the same variable
                                     -1, target_pos, radius, transform.str(), key.evaluate( d ) );
         } else {
-            get_map().transform_radius( transform, radius, target_pos );
-            get_map().invalidate_map_cache( target_pos.z() );
+            map tm;
+            tm.load( project_to<coords::sm>( target_pos - point{ radius, radius} ), false );
+            tm.transform_radius( transform, radius, target_pos );
         }
     };
 }
@@ -2576,9 +2577,12 @@ void talk_effect_fun_t<T>::set_transform_line( const JsonObject &jo, const std::
     var_info second = read_var_info( jo.get_object( "second" ) );
 
     function = [transform, first, second]( const T & d ) {
-        get_map().transform_line( transform, get_tripoint_from_var<T>( first, d ),
-                                  get_tripoint_from_var<T>( second, d ) );
-        get_map().invalidate_map_cache( get_tripoint_from_var<T>( first, d ).z() );
+        tripoint_abs_ms const t_first = get_tripoint_from_var<T>( first, d );
+        tripoint_abs_ms const t_second = get_tripoint_from_var<T>( second, d );
+        tripoint_abs_ms const orig = coord_min( t_first, t_second );
+        map tm;
+        tm.load( project_to<coords::sm>( orig ), false );
+        tm.transform_line( transform, t_first, t_second );
     };
 }
 
@@ -3467,6 +3471,46 @@ void talk_effect_fun_t<T>::set_switch( const JsonObject &jo,
 }
 
 template<class T>
+void talk_effect_fun_t<T>::set_roll_remainder( const JsonObject &jo,
+        const std::string &member, bool is_npc )
+{
+    std::vector<std::string> list = jo.get_string_array( member );
+    std::string type = jo.get_string( "type" );
+    if( type != "bionic" && type != "mutation" ) {
+        jo.throw_error( "Type must be either bionic or mutation." );
+    }
+    std::vector<effect_on_condition_id> true_eocs = load_eoc_vector( jo, "true_eocs" );
+    std::vector<effect_on_condition_id> false_eocs = load_eoc_vector( jo, "false_eocs" );
+
+    function = [list, type, is_npc, true_eocs, false_eocs]( const T & d ) {
+        std::vector<std::string> not_had;
+        for( const std::string &cur_string : list ) {
+            if( type == "bionic" ) {
+                if( !d.actor( is_npc )->has_bionic( bionic_id( cur_string ) ) ) {
+                    not_had.push_back( cur_string );
+                }
+            } else if( type == "mutation" ) {
+                if( !d.actor( is_npc )->has_trait( trait_id( cur_string ) ) ) {
+                    not_had.push_back( cur_string );
+                }
+            }
+        }
+        if( !not_had.empty() ) {
+            int index = rng( 0, not_had.size() - 1 );
+            std::string cur_choice = not_had[index];
+            if( type == "bionic" ) {
+                d.actor( is_npc )->add_bionic( bionic_id( cur_choice ) );
+            } else if( type == "mutation" ) {
+                d.actor( is_npc )->set_mutation( trait_id( cur_choice ) );
+            }
+            run_eoc_vector( true_eocs, d );
+        } else {
+            run_eoc_vector( false_eocs, d );
+        }
+    };
+}
+
+template<class T>
 void talk_effect_fun_t<T>::set_add_morale( const JsonObject &jo, const std::string &member,
         bool is_npc )
 {
@@ -4079,6 +4123,10 @@ void talk_effect_t<T>::parse_sub_effect( const JsonObject &jo )
         subeffect_fun.set_weighted_list_eocs( jo, "weighted_list_eocs" );
     } else if( jo.has_member( "switch" ) ) {
         subeffect_fun.set_switch( jo, "switch" );
+    } else if( jo.has_member( "u_roll_remainder" ) ) {
+        subeffect_fun.set_roll_remainder( jo, "u_roll_remainder", false );
+    } else if( jo.has_member( "npc_roll_remainder" ) ) {
+        subeffect_fun.set_roll_remainder( jo, "npc_roll_remainder", true );
     } else if( jo.has_member( "u_mod_healthy" ) ) {
         subeffect_fun.set_mod_healthy( jo, "u_mod_healthy", false );
     } else if( jo.has_member( "npc_mod_healthy" ) ) {

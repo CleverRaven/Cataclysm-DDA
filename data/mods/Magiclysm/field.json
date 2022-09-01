@@ -1,18 +1,5 @@
 [
   {
-    "id": "fd_clairvoyant",
-    "type": "field_type",
-    "intensity_levels": [ { "name": "clairvoyance", "sym": "8", "dangerous": false } ],
-    "decay_amount_factor": 5,
-    "gas_absorption_factor": 12,
-    "dirty_transparency_cache": true,
-    "outdoor_age_speedup": "0 turns",
-    "priority": 8,
-    "half_life": "1 seconds",
-    "phase": "solid",
-    "display_field": false
-  },
-  {
     "id": "fd_vault_atmosphere",
     "type": "field_type",
     "intensity_levels": [
@@ -129,5 +116,12 @@
     ],
     "immunity_data": { "traits": [ "PERMAFROST_MAGE" ] },
     "half_life": "3 seconds"
+  },
+  {
+    "id": "fd_fog_permanent",
+    "type": "field_type",
+    "copy-from": "fd_fog",
+    "half_life": "999999999 minutes",
+    "looks_like": "fd_fog"
   }
 ]

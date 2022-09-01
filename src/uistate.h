@@ -143,6 +143,7 @@ class uistatedata
         bool distraction_weather_change = true;
         bool distraction_hunger = true;
         bool distraction_thirst = true;
+        bool distraction_temperature = true;
 
         // V Menu Stuff
         int list_item_sort = 0;
@@ -171,7 +172,7 @@ class uistatedata
         // crafting gui
         std::set<recipe_id> hidden_recipes;
         std::set<recipe_id> favorite_recipes;
-        std::set<recipe_id> nested_recipes; // NOLINT(cata-serialize)
+        std::vector<std::pair<std::string, std::set<recipe_id>>> nested_recipes; // NOLINT(cata-serialize)
         cata::flat_set<recipe_id> read_recipes;
         std::vector<recipe_id> recent_recipes;
 

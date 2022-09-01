@@ -215,12 +215,12 @@ class submap : maptile_soa
             cosmetics.push_back( ins );
         }
 
-        int get_temperature() const {
-            return temperature;
+        units::temperature get_temperature() const {
+            return units::from_kelvin( temperature_mod / 1.8 );
         }
 
-        void set_temperature( int new_temperature ) {
-            temperature = new_temperature;
+        void set_temperature_mod( units::temperature new_temperature_mod ) {
+            temperature_mod = units::to_kelvin( new_temperature_mod ) * 1.8;
         }
 
         bool has_graffiti( const point &p ) const;
@@ -278,7 +278,7 @@ class submap : maptile_soa
     private:
         std::map<point, computer> computers;
         std::unique_ptr<computer> legacy_computer;
-        int temperature = 0;
+        int temperature_mod = 0; // delta in F
 
         void update_legacy_computer();
 

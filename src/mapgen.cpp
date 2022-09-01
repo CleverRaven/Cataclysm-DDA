@@ -2821,7 +2821,7 @@ class jmapgen_ter_furn_transform: public jmapgen_piece
             if( chosen_id.is_null() ) {
                 return;
             }
-            chosen_id->transform( dat.m, tripoint( x.get(), y.get(), dat.m.get_abs_sub().z() ) );
+            chosen_id->transform( dat.m, tripoint_bub_ms( x.get(), y.get(), dat.m.get_abs_sub().z() ) );
         }
 
         void check( const std::string &oter_name, const mapgen_parameters &parameters,
@@ -4973,11 +4973,11 @@ void map::draw_lab( mapgendata &dat )
         tower_lab = is_ot_match( "tower_lab", terrain_type, ot_match_type::prefix );
 
         if( ice_lab ) {
-            int temperature = -20 + 30 * dat.zlevel();
-            set_temperature( p2, temperature );
-            set_temperature( p2 + point( SEEX, 0 ), temperature );
-            set_temperature( p2 + point( 0, SEEY ), temperature );
-            set_temperature( p2 + point( SEEX, SEEY ), temperature );
+            units::temperature temperature = units::from_kelvin( -11.111 + 16.666 * dat.zlevel() );
+            set_temperature_mod( p2, temperature );
+            set_temperature_mod( p2 + point( SEEX, 0 ), temperature );
+            set_temperature_mod( p2 + point( 0, SEEY ), temperature );
+            set_temperature_mod( p2 + point( SEEX, SEEY ), temperature );
         }
 
         // Check for adjacent sewers; used below
@@ -5661,11 +5661,11 @@ void map::draw_lab( mapgendata &dat )
         tower_lab = is_ot_match( "tower_lab", terrain_type, ot_match_type::prefix );
 
         if( ice_lab ) {
-            int temperature = -20 + 30 * dat.zlevel();
-            set_temperature( p2, temperature );
-            set_temperature( p2 + point( SEEX, 0 ), temperature );
-            set_temperature( p2 + point( 0, SEEY ), temperature );
-            set_temperature( p2 + point( SEEX, SEEY ), temperature );
+            units::temperature temperature = units::from_kelvin( -11.111 + 16.666 * dat.zlevel() );
+            set_temperature_mod( p2, temperature );
+            set_temperature_mod( p2 + point( SEEX, 0 ), temperature );
+            set_temperature_mod( p2 + point( 0, SEEY ), temperature );
+            set_temperature_mod( p2 + point( SEEX, SEEY ), temperature );
         }
 
         tw = is_ot_match( "lab", dat.north(), ot_match_type::contains ) ? 0 : 2;

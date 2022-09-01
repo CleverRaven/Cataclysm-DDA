@@ -2718,7 +2718,7 @@
     "rating": "bad",
     "resist_effects": [ "valium" ],
     "base_mods": { "dex_mod": [ -4, 0 ] },
-    "blood_analysis_description": "Clostridium Tetani Infection"
+    "blood_analysis_description": "Clostridium tetani Infection"
   },
   {
     "type": "effect_type",
@@ -3580,6 +3580,13 @@
     "rating": "good",
     "show_intensity": false,
     "base_mods": { "dex_mod": [ 6, 0 ] }
+  },
+  {
+    "type": "effect_type",
+    "id": "hallucination_attacks",
+    "rating": "bad",
+    "max_duration": "10 days",
+    "show_in_info": false
   },
   {
     "id": "strengthened_inertia",

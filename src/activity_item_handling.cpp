@@ -2290,6 +2290,8 @@ void activity_on_turn_move_loot( player_activity &act, Character &you )
                                 continue;
                             }
                             you.gunmod_remove( *it->first, *mod );
+                            // need to return so the activity starts
+                            return;
                             move_item( you, *mod, 1, src_loc, src_loc, this_veh, this_part );
                             moved_something = true;
                         }
@@ -2309,7 +2311,7 @@ void activity_on_turn_move_loot( player_activity &act, Character &you )
                     // perhaps move the last item first however
                     if( unload_always && moved_something ) {
                         move_and_reset = true;
-                    } else {
+                    } else if( moved_something ) {
                         return;
                     }
 

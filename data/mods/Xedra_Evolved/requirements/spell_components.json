@@ -13,5 +13,15 @@
     "id": "spell_components_dreamdross3",
     "type": "requirement",
     "components": [ [ [ "forged_dreamstuff_ingot", 1 ] ] ]
+  },
+  {
+    "id": "spell_components_dreamdross3",
+    "type": "requirement",
+    "components": [ [ [ "dreamdross_lump", 2 ], [ "scrap_dreamdross", 4 ] ], [ [ "xe_oneiric_hammer", 1 ] ] ]
+  },
+  {
+    "id": "spell_components_human_blood",
+    "type": "requirement",
+    "components": [ [ [ "demihuman_blood", 1 ], [ "mutant_human_blood", 1 ], [ "blood", 1 ] ] ]
   }
 ]

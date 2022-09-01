@@ -155,6 +155,7 @@ TEST_CASE( "behavior_tree", "[behavior]" )
 TEST_CASE( "check_npc_behavior_tree", "[npc][behavior]" )
 {
     clear_map();
+    calendar::turn = calendar::start_of_cataclysm;
     behavior::tree npc_needs;
     npc_needs.add( &behavior_node_t_npc_needs.obj() );
     npc &test_npc = spawn_npc( { 50, 50 }, "test_talker" );
@@ -163,9 +164,9 @@ TEST_CASE( "check_npc_behavior_tree", "[npc][behavior]" )
     CHECK( npc_needs.tick( &oracle ) == "idle" );
     SECTION( "Freezing" ) {
         weather_manager &weather = get_weather();
-        weather.temperature = 0;
+        weather.temperature = units::from_fahrenheit( 0 );
         weather.clear_temp_cache();
-        REQUIRE( weather.get_temperature( test_npc.pos() ) == 0 );
+        REQUIRE( units::to_fahrenheit( weather.get_temperature( test_npc.pos() ) ) == Approx( 0 ) );
         test_npc.update_bodytemp();
         REQUIRE( oracle.needs_warmth_badly( "" ) == behavior::status_t::running );
         CHECK( npc_needs.tick( &oracle ) == "idle" );

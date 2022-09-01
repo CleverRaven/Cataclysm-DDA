@@ -14,7 +14,7 @@
 static void temperature_check( Character *p, const int ambient_temp, const int target_temp )
 {
     p->set_body();
-    get_weather().temperature = ambient_temp;
+    get_weather().temperature = units::from_fahrenheit( ambient_temp );
     p->set_all_parts_temp_cur( BODYTEMP_NORM );
     p->set_all_parts_temp_conv( BODYTEMP_NORM );
 

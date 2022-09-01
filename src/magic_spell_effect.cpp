@@ -1060,7 +1060,8 @@ void spell_effect::spawn_ethereal_item( const spell &sp, Creature &caster, const
 {
     item granted( sp.effect_data(), calendar::turn );
     // Comestibles are never ethereal. Other spawned items are ethereal unless permanent and max level.
-    if( !granted.is_comestible() && !( sp.has_flag( spell_flag::PERMANENT ) && sp.is_max_level() ) ) {
+    if( !granted.is_comestible() && !( sp.has_flag( spell_flag::PERMANENT ) && sp.is_max_level() ) &&
+        !sp.has_flag( spell_flag::PERMANENT_ALL_LEVELS ) ) {
         granted.set_var( "ethereal", to_turns<int>( sp.duration_turns() ) );
         granted.ethereal = true;
     }
@@ -1257,7 +1258,7 @@ void spell_effect::transform_blast( const spell &sp, Creature &caster,
     const std::set<tripoint> area = spell_effect_area( sp, target, caster );
     for( const tripoint &location : area ) {
         if( one_in( sp.damage() ) ) {
-            transform->transform( location );
+            transform->transform( get_map(), tripoint_bub_ms{ location } );
         }
     }
 }

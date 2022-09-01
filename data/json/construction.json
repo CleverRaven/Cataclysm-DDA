@@ -484,7 +484,7 @@
     "required_skills": [ [ "fabrication", 2 ] ],
     "time": "30 m",
     "qualities": [ [ { "id": "SAW_W", "level": 1 } ], [ { "id": "HAMMER", "level": 2 } ] ],
-    "components": [ [ [ "nail", 4 ] ], [ [ "sheet", 2 ] ], [ [ "stick", 1 ] ], [ [ "string_36", 1 ] ] ],
+    "components": [ [ [ "nail", 4 ] ], [ [ "sheet", 2 ] ], [ [ "stick", 1 ] ], [ [ "string_36", 1 ], [ "cordage_36", 1 ] ] ],
     "pre_terrain": "t_window_no_curtains",
     "post_terrain": "t_window_domestic"
   },
@@ -1214,6 +1214,35 @@
   },
   {
     "type": "construction",
+    "id": "constr_wooden_gangway",
+    "group": "build_wooden_gangway",
+    "//": "Makes a wooden gangway between two adjacent points, typically roofs.",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 1 ] ],
+    "time": "100 m",
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
+    "components": [ [ [ "2x4", 14 ] ], [ [ "nail", 28 ] ] ],
+    "pre_note": "Must be supported on at least two sides.",
+    "pre_special": "check_support_below",
+    "post_terrain": "t_floor_wooden_gangway"
+  },
+  {
+    "type": "construction",
+    "id": "constr_metal_gangway",
+    "group": "build_metal_gangway",
+    "//": "Makes a metal gangway between two adjacent points, typically roofs.",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 5 ] ],
+    "time": "90 m",
+    "qualities": [ { "id": "GLARE", "level": 1 } ],
+    "tools": [ [ [ "oxy_torch", 10 ], [ "welder", 50 ], [ "welder_crude", 75 ], [ "toolset", 75 ] ] ],
+    "components": [ [ [ "steel_plate", 2 ] ] ],
+    "pre_note": "Must be supported on at least two sides.",
+    "pre_special": "check_support_below",
+    "post_terrain": "t_floor_metal_gangway"
+  },
+  {
+    "type": "construction",
     "id": "constr_sconc_wall_halfway",
     "group": "build_simple_concrete_wall",
     "//": "Step 1: foundation",
@@ -1585,13 +1614,29 @@
     "required_skills": [ [ "fabrication", 5 ], [ "mechanics", 2 ] ],
     "time": "60 m",
     "components": [
-      [ [ "rope_makeshift_30", 1 ], [ "rope_30", 1 ], [ "vine_30", 1 ] ],
+      [ [ "rope_natural", 1, "LIST" ] ],
       [ [ "stick", 8 ], [ "stick_long", 4 ], [ "2x4", 8 ] ],
       [ [ "block_and_tackle", 1 ] ]
     ],
     "pre_note": "Can be deconstructed without tools.  Must be adjacent to a palisade wall that is itself adjacent to a palisade gate in order to open said gate.",
     "pre_special": "check_empty",
     "post_terrain": "t_palisade_pulley"
+  },
+  {
+    "type": "construction",
+    "id": "constr_palisade_pulley_wood",
+    "group": "build_rope_pulley_system",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 5 ], [ "mechanics", 2 ] ],
+    "time": "60 m",
+    "components": [
+      [ [ "rope_natural", 1, "LIST" ] ],
+      [ [ "stick", 8 ], [ "stick_long", 4 ], [ "2x4", 8 ] ],
+      [ [ "block_and_tackle_wood", 1 ] ]
+    ],
+    "pre_note": "Can be deconstructed without tools.  Must be adjacent to a palisade wall that is itself adjacent to a palisade gate in order to open said gate.",
+    "pre_special": "check_empty",
+    "post_terrain": "t_palisade_pulley_wood"
   },
   {
     "type": "construction",
@@ -3294,6 +3339,17 @@
   },
   {
     "type": "construction",
+    "id": "app_welding_kit",
+    "group": "place_weldkit",
+    "category": "APPLIANCE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "5 m",
+    "components": [ [ [ "welding_kit", 1 ] ] ],
+    "pre_special": "check_empty",
+    "post_special": "done_appliance"
+  },
+  {
+    "type": "construction",
     "id": "app_water_purifier",
     "group": "place_water_purifier",
     "category": "APPLIANCE",
@@ -3974,6 +4030,17 @@
     "byproducts": [ { "item": "straw_pile", "count": [ 2, 4 ] } ],
     "pre_terrain": "t_grass_dead",
     "post_terrain": "t_grass"
+  },
+  {
+    "type": "construction",
+    "id": "constr_cut_grass_alien",
+    "group": "cut_grass",
+    "category": "OTHER",
+    "qualities": [ [ { "id": "GRASS_CUT", "level": 2 } ] ],
+    "required_skills": [ [ "survival", 0 ] ],
+    "time": "1 m",
+    "pre_terrain": "t_grass_alien",
+    "post_terrain": "t_dirt"
   },
   {
     "type": "construction",
@@ -5112,7 +5179,7 @@
     "required_skills": [ [ "fabrication", 2 ] ],
     "time": "30 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_M", "level": 1 } ] ],
-    "components": [ [ [ "nail", 4 ] ], [ [ "sheet", 2 ] ], [ [ "stick", 1 ] ], [ [ "string_36", 1 ] ] ],
+    "components": [ [ [ "nail", 4 ] ], [ [ "sheet", 1 ] ], [ [ "stick", 1 ] ], [ [ "string_36", 1 ] ] ],
     "pre_terrain": "t_metal_grate_window",
     "post_terrain": "t_metal_grate_window_with_curtain"
   },
@@ -5125,7 +5192,7 @@
     "required_skills": [ [ "fabrication", 2 ] ],
     "time": "30 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_M", "level": 1 } ] ],
-    "components": [ [ [ "nail", 4 ] ], [ [ "sheet", 2 ] ], [ [ "stick", 1 ] ], [ [ "string_36", 1 ] ] ],
+    "components": [ [ [ "nail", 4 ] ], [ [ "sheet", 1 ] ], [ [ "stick", 1 ] ], [ [ "string_36", 1 ] ] ],
     "pre_terrain": "t_metal_grate_window_noglass",
     "post_terrain": "t_metal_grate_window_with_curtain_noglass"
   },
@@ -5151,7 +5218,7 @@
     "required_skills": [ [ "fabrication", 2 ] ],
     "time": "30 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_M", "level": 1 } ] ],
-    "components": [ [ [ "nail", 4 ] ], [ [ "sheet", 2 ] ], [ [ "stick", 1 ] ], [ [ "string_36", 1 ] ] ],
+    "components": [ [ [ "nail", 4 ] ], [ [ "sheet", 1 ] ], [ [ "stick", 1 ] ], [ [ "string_36", 1 ] ] ],
     "pre_terrain": "t_single_pane_glass",
     "post_terrain": "t_single_pane_glass_with_curtain"
   },
@@ -5177,7 +5244,7 @@
     "required_skills": [ [ "fabrication", 2 ] ],
     "time": "30 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_M", "level": 1 } ] ],
-    "components": [ [ [ "nail", 4 ] ], [ [ "sheet", 2 ] ], [ [ "stick", 1 ] ], [ [ "string_36", 1 ] ] ],
+    "components": [ [ [ "nail", 4 ] ], [ [ "sheet", 1 ] ], [ [ "stick", 1 ] ], [ [ "string_36", 1 ] ] ],
     "pre_terrain": "t_reinforced_single_pane_glass",
     "post_terrain": "t_reinforced_single_pane_glass_with_curtain"
   },
@@ -5203,7 +5270,7 @@
     "required_skills": [ [ "fabrication", 2 ] ],
     "time": "30 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_M", "level": 1 } ] ],
-    "components": [ [ [ "nail", 4 ] ], [ [ "sheet", 2 ] ], [ [ "stick", 1 ] ], [ [ "string_36", 1 ] ] ],
+    "components": [ [ [ "nail", 4 ] ], [ [ "sheet", 1 ] ], [ [ "stick", 1 ] ], [ [ "string_36", 1 ] ] ],
     "pre_terrain": "t_double_pane_glass",
     "post_terrain": "t_double_pane_glass_with_curtain"
   },
@@ -5229,7 +5296,7 @@
     "required_skills": [ [ "fabrication", 2 ] ],
     "time": "30 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_M", "level": 1 } ] ],
-    "components": [ [ [ "nail", 4 ] ], [ [ "sheet", 2 ] ], [ [ "stick", 1 ] ], [ [ "string_36", 1 ] ] ],
+    "components": [ [ [ "nail", 4 ] ], [ [ "sheet", 1 ] ], [ [ "stick", 1 ] ], [ [ "string_36", 1 ] ] ],
     "pre_terrain": "t_reinforced_double_pane_glass",
     "post_terrain": "t_reinforced_double_pane_glass_with_curtain"
   },

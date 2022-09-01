@@ -76,7 +76,7 @@
     "charged_qualities": [ [ "GRIND", 2 ], [ "SAW_M", 10 ] ],
     "ammo": [ "battery" ],
     "charges_per_use": 1,
-    "power_draw": 800000,
+    "power_draw": "800 J",
     "flags": [ "NONCONDUCTIVE", "WATER_BREAK" ],
     "pocket_data": [
       {
@@ -972,7 +972,7 @@
     "charged_qualities": [ [ "SAW_M", 1 ], [ "SAW_W", 1 ] ],
     "ammo": [ "battery" ],
     "charges_per_use": 1,
-    "power_draw": 800000,
+    "power_draw": "800 J",
     "flags": [ "NONCONDUCTIVE", "WATER_BREAK" ],
     "pocket_data": [
       {
@@ -1263,12 +1263,10 @@
           "mc_steel",
           "hc_steel",
           "ch_steel",
-          "qt_steel",
           "lc_steel_chain",
           "mc_steel_chain",
           "hc_steel_chain",
           "ch_steel_chain",
-          "qt_steel_chain",
           "aluminum",
           "copper",
           "bronze",
@@ -1395,12 +1393,10 @@
           "mc_steel",
           "hc_steel",
           "ch_steel",
-          "qt_steel",
           "lc_steel_chain",
           "mc_steel_chain",
           "hc_steel_chain",
-          "ch_steel_chain",
-          "qt_steel_chain"
+          "ch_steel_chain"
         ],
         "skill": "fabrication",
         "tool_quality": 5,
@@ -1422,7 +1418,7 @@
     "id": "welding_kit",
     "type": "TOOL",
     "name": { "str": "welding kit" },
-    "description": "An welder combined with a fireproof insulating blanket allows for advanced welds and repairs to tempered steels.",
+    "description": "A welder combined with a fireproof insulating blanket allows for advanced welds and repairs to tempered steels.",
     "weight": "10500 g",
     "volume": "12500 ml",
     "price": 9000,
@@ -1673,6 +1669,20 @@
     "material": [ "steel" ],
     "symbol": "&",
     "color": "light_gray"
+  },
+  {
+    "id": "block_and_tackle_wood",
+    "type": "TOOL",
+    "category": "spare_parts",
+    "name": { "str": "wooden block and tackle", "str_pl": "wooden blocks and tackles" },
+    "description": "An wooden housing with a pair of pulleys that can be used with a thick rope or a chain to gain mechanical advantage on a lift.  Not as durable as a metal set.",
+    "weight": "230 g",
+    "volume": "400 ml",
+    "price": 500,
+    "price_postapoc": 50,
+    "material": [ "wood" ],
+    "symbol": "&",
+    "color": "brown"
   },
   {
     "id": "welding_blanket",

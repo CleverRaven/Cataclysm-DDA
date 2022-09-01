@@ -1,6 +1,7 @@
 [
   {
     "name": "GROUP_EGG_DINO",
+    "//": "North American dinos not theropods at least 50 kg and not largest",
     "type": "monstergroup",
     "monsters": [
       { "monster": "mon_stegosaurus_hatchling", "weight": 5 },
@@ -15,6 +16,9 @@
       { "monster": "mon_maiasaura_hatchling", "weight": 20 },
       { "monster": "mon_edmontosaurus_hatchling", "weight": 20 },
       { "monster": "mon_pachycephalosaurus_hatchling", "weight": 20 },
+      { "monster": "mon_leptoceratops_hatchling", "weight": 3 },
+      { "monster": "mon_zuniceratops_hatchling", "weight": 3 },
+      { "monster": "mon_centrosaurus_hatchling", "weight": 3 },
       { "monster": "mon_pachyrhinosaurus_hatchling", "weight": 3 },
       { "monster": "mon_pentaceratops_hatchling", "weight": 3 },
       { "monster": "mon_torosaurus_hatchling", "weight": 3 },
@@ -24,9 +28,9 @@
   },
   {
     "name": "GROUP_EGG_DINO_SMALL",
+    "//": "North American dinos not theropods smaller than 50 kg",
     "type": "monstergroup",
     "monsters": [
-      { "monster": "mon_eoraptor_hatchling", "weight": 20 },
       { "monster": "mon_scutellosaurus_hatchling", "weight": 5 },
       { "monster": "mon_dryosaurus_hatchling", "weight": 5 },
       { "monster": "mon_stegoceras_hatchling", "weight": 5 },
@@ -37,6 +41,7 @@
   },
   {
     "name": "GROUP_EGG_DINO_LARGE",
+    "//": "North American dinos not theropods largest",
     "type": "monstergroup",
     "monsters": [
       { "monster": "mon_apatosaurus_hatchling", "weight": 10 },
@@ -49,6 +54,7 @@
   },
   {
     "name": "GROUP_EGG_THEROPOD",
+    "//": "North American theropod dinos at least 50 kg and not largest",
     "type": "monstergroup",
     "monsters": [
       { "monster": "mon_dilophosaurus_hatchling", "weight": 1 },
@@ -74,18 +80,19 @@
   },
   {
     "name": "GROUP_EGG_THEROPOD_SMALL",
+    "//": "North American theropod dinos smaller than 50 kg",
     "type": "monstergroup",
     "monsters": [
       { "monster": "mon_compsognathus_hatchling", "weight": 20 },
       { "monster": "mon_albertonykus_hatchling", "weight": 20 },
       { "monster": "mon_saurornitholestes_hatchling", "weight": 15 },
-      { "monster": "mon_velociraptor_hatchling", "weight": 15 },
       { "monster": "mon_dromaeosaurus_hatchling", "weight": 15 },
       { "monster": "mon_stenonychosaurus_hatchling", "weight": 10 }
     ]
   },
   {
     "name": "GROUP_EGG_THEROPOD_LARGE",
+    "//": "North American theropod dinos largest",
     "type": "monstergroup",
     "monsters": [ { "monster": "mon_spinosaurus_hatchling", "weight": 1 }, { "monster": "mon_tyrannosaurus_hatchling", "weight": 8 } ]
   },
@@ -240,9 +247,19 @@
     "monsters": [ { "monster": "mon_eoraptor_hatchling" } ]
   },
   {
+    "name": "GROUP_EGG_sarahsaurus",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_sarahsaurus_hatchling" } ]
+  },
+  {
     "name": "GROUP_EGG_issi",
     "type": "monstergroup",
     "monsters": [ { "monster": "mon_issi_hatchling" } ]
+  },
+  {
+    "name": "GROUP_EGG_haplocanthosaurus",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_haplocanthosaurus_hatchling" } ]
   },
   {
     "name": "GROUP_EGG_amargasaurus",
@@ -288,6 +305,11 @@
     "name": "GROUP_EGG_stegosaurus",
     "type": "monstergroup",
     "monsters": [ { "monster": "mon_stegosaurus_hatchling" } ]
+  },
+  {
+    "name": "GROUP_EGG_hesperosaurus",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_hesperosaurus_hatchling" } ]
   },
   {
     "name": "GROUP_EGG_dyoplosaurus",
@@ -345,6 +367,11 @@
     "monsters": [ { "monster": "mon_edmontosaurus_hatchling" } ]
   },
   {
+    "name": "GROUP_EGG_gryposaurus",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_gryposaurus_hatchling" } ]
+  },
+  {
     "name": "GROUP_EGG_stegoceras",
     "type": "monstergroup",
     "monsters": [ { "monster": "mon_stegoceras_hatchling" } ]
@@ -358,6 +385,21 @@
     "name": "GROUP_EGG_aquilops",
     "type": "monstergroup",
     "monsters": [ { "monster": "mon_aquilops_hatchling" } ]
+  },
+  {
+    "name": "GROUP_EGG_leptoceratops",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_leptoceratops_hatchling" } ]
+  },
+  {
+    "name": "GROUP_EGG_zuniceratops",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_zuniceratops_hatchling" } ]
+  },
+  {
+    "name": "GROUP_EGG_centrosaurus",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_centrosaurus_hatchling" } ]
   },
   {
     "name": "GROUP_EGG_pachyrhinosaurus",

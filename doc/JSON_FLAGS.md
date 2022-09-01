@@ -14,14 +14,13 @@
   - [Bionics](#bionics)
   - [Bodyparts](#bodyparts)
   - [Books](#books)
-    - [Use actions](#use-actions)
   - [Character - (Bionic/Mutation/Effect)](#character)
   - [Comestibles](#comestibles)
     - [Comestible type](#comestible-type)
     - [Addiction type](#addiction-type)
     - [Use action](#use-action)
     - [Flags](#flags-2)
-  - [Effects](#Effects)
+  - [Effects](#effects)
   - [Furniture and Terrain](#furniture-and-terrain)
     - [Flags](#flags-3)
     - [Fungal Conversions Only](#fungal-conversions-only)
@@ -65,6 +64,7 @@
   - [Tools](#tools)
     - [Flags](#flags-12)
     - [Flags that apply to items](#flags-that-apply-to-items)
+    - [Use actions](#use-actions)
   - [Vehicle Parts](#vehicle-parts)
     - [Flags](#flags-13)
     - [Fuel types](#fuel-types)
@@ -86,7 +86,6 @@ When an item is crafted, it can inherit flags from the components that were used
 
 ## TODO
 
-- `Ammo effects` under `Ammo` need more descriptive details, and some need to be double-checked for accuracy.
 - `Ammo type` table is very old and doesn't include many new ammo types. Consider updating it or removing altogether, as ammo types ain't no json flags at all.
 
 
@@ -168,44 +167,92 @@ These are handled through `ammo_types.json`.  You can tag a weapon with these to
 ### Ammo effects
 
 - ```ACIDBOMB``` Leaves a pool of acid on detonation.
+- ```ACT_ON_RANGED_HIT``` The item should activate when thrown or fired, then immediately get processed if it spawns on the ground.
+- ```APPLY_SAP``` Applies sap-coated effect on hit.
 - ```BEANBAG``` Stuns the target.
 - ```BLACKPOWDER``` May clog up the gun with blackpowder fouling, which will also cause rust.
 - ```BLINDS_EYES``` Blinds the target if it hits the head (ranged projectiles can't actually hit the eyes at the moment).
 - ```BOUNCE``` Inflicts target with `bounced` effect and rebounds to a nearby target without this effect.
+- ```BURST``` Spills the contents on hit.
 - ```COOKOFF``` Explodes when lit on fire.
 - ```CUSTOM_EXPLOSION``` Explosion as specified in ```"explosion"``` field of used ammo. See `JSON_INFO.md`.
 - ```DRAW_AS_LINE``` Doesn't go through regular bullet animation; instead draws a line and the bullet on its end for one frame.
-- ```EXPLOSIVE_BIG``` Large explosion without any shrapnel.
-- ```EXPLOSIVE_HUGE``` Huge explosion without any shrapnel.
-- ```EXPLOSIVE``` Explodes without any shrapnel.
+- ```DRAW_LASER_BEAM``` Creates a trail of laser (the field type).
+- ```EMP``` Damages "electronic" terrain types (such as consoles or card readers) In rare cases might make card readers open doors. Damages and destroys robotic enemies. Drains bionic power and power from any electronic equipment in player possession.
+- ```EXPLOSIVE```                           -
+- ```EXPLOSIVE_120mmHEAT```                 -
+- ```EXPLOSIVE_20x66```                     -
+- ```EXPLOSIVE_66mmHEAT```                  -
+- ```EXPLOSIVE_84x246HE```                  -
+- ```EXPLOSIVE_84x246HEDP```                -
+- ```EXPLOSIVE_ATGMHEAT```                  -
+- ```EXPLOSIVE_BIG```                       -
+- ```EXPLOSIVE_GRENADE```                   -
+- ```EXPLOSIVE_HESHOT```                    -
+- ```EXPLOSIVE_HOMEMADE```                  - Explosions of various power, with or without shrapnel, see `ammo_effects.json` for exact values.
+- ```EXPLOSIVE_HOMEMADE_GRENADE_1```        -
+- ```EXPLOSIVE_HOMEMADE_GRENADE_2```        -
+- ```EXPLOSIVE_HUGE```                      -
+- ```EXPLOSIVE_m430a1```                    -
+- ```EXPLOSIVE_m433```                      -
+- ```EXPLOSIVE_OG7V```                      -
+- ```EXPLOSIVE_PG7VL```                     -
+- ```EXPLOSIVE_PG7VR```                     -
+- ```EXPLOSIVE_RAUFOSS```                   -
+- ```EXPLOSIVE_SMALL```                     -
+- ```EXPLOSIVE_SMALL_HOMEMADE_GRENADE_1```  -
+- ```EXPLOSIVE_SMALL_HOMEMADE_GRENADE_2```  -
+- ```EXPLOSIVE_TBG7V```                     -
 - ```FLAME``` Very small explosion that lights fires.
-- ```FLARE``` Lights the target on fire.
+- ```FLARE``` Lights the target tile on fire.
 - ```FLASHBANG``` Blinds and deafens nearby targets.
-- ```FRAG``` Small explosion that spreads shrapnel.
+- ```FOAMCRETE``` Applies foamcrete effect on hit.
+- ```FRAG``` Small explosion that spreads shrapnel ("power": 185, "shrapnel": { "casing_mass": 212, "fragment_mass": 0.025}).
+- ```FRAG_20x66``` Small explosion that spreads shrapnel ("power": 40, "shrapnel": { "casing_mass": 15, "fragment_mass": 0.08 }).
+- ```GAS_FUNGICIDAL``` Creates a cloud of fungicidal gas on hit.
+- ```GAS_INSECTICIDAL``` Creates a cloud of insecticidal gas on hit.
+- ```HEAVY_HIT``` Creates a loud sound on hit.
 - ```INCENDIARY``` Lights target on fire.
+- ```IGNITE``` Lights target on intense and longer-lasting fire.
+- ```JET``` Draws a `*` symbol as a flying projectile (unlike usual `#` symbol).
 - ```LARGE_BEANBAG``` Heavily stuns the target.
-- ```LASER``` Creates a trail of laser (the field type)
+- ```LASER``` Creates a trail of laser (the field type).
 - ```LIGHTNING``` Creates a trail of lightning.
+- ```magic``` Always best possible hit, do nothing special, no damage mults, nothing.
 - ```MININUKE_MOD``` Small thermo-nuclear detonation that leaves behind radioactive fallout.
 - ```MUZZLE_SMOKE``` Generate a small cloud of smoke at the source.
 - ```NAPALM``` Explosion that spreads fire.
+- ```NAPALM_BIG``` Large explosion that spreads fire.
+- ```NAPALM_TBG7V``` Creates a large fire on hit.
 - ```NEVER_MISFIRES``` Firing ammo without this flag may trigger a misfiring, this is independent of the weapon flags.
-- ```NOGIB``` Prevents overkill damage on the target (target won't explode into gibs, see also the monster flag `NOGIB`).
-- ```NO_PENETRATE_OBSTACLES``` Prevents a projectile from going through a tile with obstacles, such as chainlink fences or dressers.
-- ```TANGLE``` When this projectile hits a target, it has a chance to tangle them up and immobilize them.
+- ```NO_DAMAGE_SCALING``` Always set 100% damage due to hit in the weakpoint.
 - ```NO_EMBED``` When an item would be spawned from the projectile, it will always be spawned on the ground rather than in a monster's inventory. Implied for active thrown items. Doesn't do anything on projectiles that do not drop items.
+- ```NOGIB``` Prevents overkill damage on the target (target won't explode into gibs, see also the monster flag `NOGIB`).
 - ```NO_ITEM_DAMAGE``` Will not damage items on the map even when it otherwise would try to.
+- ```NON_FOULING``` This ammo does not cause dirtying or blackpowder fouling on the gun when fired.
+- ```NO_OVERSHOOT``` Projectiles with this effect won't fly farther than player's set target tile.
+- ```NO_PENETRATE_OBSTACLES``` Prevents a projectile from going through a tile with obstacles, such as chainlink fences or dressers.
+- ```NPC_AVOID``` NPCs won't use guns or gunmods loaded with ammo with this effect.
+- ```NULL_SOURCE``` Projectiles with this effect doesn't have a creature who fired them; applied only to explosives' shrapnel.
+- ```PARALYZEPOISON``` Applies paralyzing poison effect on damaging hit.
 - ```PLASMA``` Creates a trail of superheated plasma.
+- ```PLASMA_BUBBLE``` Creates a cloud of superheated plasma.
+- ```PYROPHORIC``` Large explosion that spreads fire of high intensity.
+- ```ROBOT_DAZZLE``` Applies sensor-stunning effect to robots.
 - ```RECOVER_[X]``` Has a (X-1/X) chance to create a single charge of the used ammo at the point of impact.
 - ```RECYCLED``` (For handmade ammo) causes the gun to misfire sometimes; this is independent of the weapon flags.
-- ```SHOT``` Multiple smaller pellets; less effective against armor but increases chance to hit and no point-blank penalty
-- ```SMOKE_BIG``` Generates a large cloud of smoke at the target.
+- ```SHATTER_SELF``` Destroys itself and creates shards on hit.
+- ```SHOT``` Multiple smaller pellets; less effective against armor but increases chance to hit and no point-blank penalty.
 - ```SMOKE``` Generates a cloud of smoke at the target.
-- ```STREAM_BIG``` Leaves a trail of intense fire fields.
+- ```SMOKE_BIG``` Generates a large cloud of smoke at the target.
 - ```STREAM``` Leaves a trail of fire fields.
+- ```STREAM_BIG``` Leaves a trail of intense fire fields.
+- ```STREAM_GAS_FUNGICIDAL``` Leaves a trail of fungicidal gas.
+- ```STREAM_GAS_INSCENTICIDAL``` Leaves a trail of insecticidal gas.
+- ```TANGLE``` When this projectile hits a target, it has a chance to tangle them up and immobilize them.
+- ```TOXICGAS``` Creates a cloud of toxic gas on hit.
 - ```TRAIL``` Creates a trail of smoke.
 - ```WIDE``` Prevents `HARDTOSHOOT` monster flag from having any effect. Implied by ```SHOT``` or liquid ammo.
-- ```NON_FOULING``` This ammo does not cause dirtying or blackpowder fouling on the gun when fired.
 
 ### Flags
 
@@ -213,10 +260,11 @@ These are handled through `ammo_types.json`.  You can tag a weapon with these to
 
 ## Traps
 
-- ```SONAR_DETECTABLE``` This trap can be identified with ground-penetrating SONAR.
-- ```CONVECTS_TEMPERATURE``` This trap convects temperature, like lava.
-- ```UNCONSUMED``` If this trap is a spell type it will not be removed after activation.
 - ```AVATAR_ONLY``` Only the player character will trigger this trap.
+- ```CONVECTS_TEMPERATURE``` This trap convects temperature, like lava.
+- ```PIT``` This trap is a version of the pit terrain.
+- ```SONAR_DETECTABLE``` This trap can be identified with ground-penetrating SONAR.
+- ```UNCONSUMED``` If this trap is a spell type it will not be removed after activation.
 - ```UNDODGEABLE``` This trap can't be dodged.
 
 ## Armor
@@ -361,105 +409,7 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 ## Books
 
 - ```INSPIRATIONAL``` Reading this book grants bonus morale to characters with the `SPIRITUAL` trait.
-
-### Use actions
-
-- ```ACIDBOMB_ACT``` Get rid of it, or you'll end up like that guy in Robocop.
-- ```ACIDBOMB``` Pull the pin on an acid bomb.
-- ```AUTOCLAVE``` Sterilize one CBM by autoclaving it.
-- ```BELL``` Ring the bell.
-- ```BOLTCUTTERS``` Use your town key to gain access anywhere.
-- ```BREAK_STICK``` Breaks long branch into two.
-- ```C4``` Arm the C4.
-- ```CABLE_ATTACH``` This item is a cable spool. Use it to try to attach to a vehicle.
-- ```CAN_GOO``` Release a little blob buddy.
-- ```CAPTURE_MONSTER_ACT``` Capture and encapsulate a monster. The associated action is also used for releasing it.
-- ```CARVER_OFF``` Turn the carver on.
-- ```CARVER_ON``` Turn the carver off.
-- ```CHAINSAW_OFF``` Turn the chainsaw on.
-- ```CHAINSAW_ON``` Turn the chainsaw off.
-- ```COMBATSAW_OFF``` Turn the combat-saw on.
-- ```COMBATSAW_ON``` Turn the combat-saw off
-- ```CROWBAR``` Pry open doors, windows, man-hole covers and many other things that need prying.
-- ```DIG``` Clear rubble.
-- ```DIRECTIONAL_ANTENNA``` Find the source of a signal with your radio.
-- ```DIVE_TANK``` Use compressed air tank to breathe.
-- ```DOG_WHISTLE``` Dogs hate this thing; your dog seems pretty cool with it though.
-- ```DOLLCHAT``` That creepy doll just keeps on talking.
-- ```ELEC_CHAINSAW_OFF``` Turn the electric chainsaw on.
-- ```ELEC_CHAINSAW_ON``` Turn the electric chainsaw off.
-- ```EXTINGUISHER``` Put out fires.
-- ```FIRECRACKER_ACT``` The saddest Fourth of July.
-- ```FIRECRACKER_PACK_ACT``` Keep the change you filthy animal.
-- ```FIRECRACKER_PACK``` Light an entire packet of firecrackers.
-- ```FIRECRACKER``` Light a singular firecracker.
-- ```FLASHBANG``` Pull the pin on a flashbang.
-- ```GEIGER``` Detect local radiation levels.
-- ```GRANADE_ACT``` Assaults enemies with source code fixes?
-- ```GRANADE``` Pull the pin on Granade.
-- ```GRENADE``` Pull the pin on a grenade.
-- ```HACKSAW``` Cut metal into chunks.
-- ```HAMMER``` Pry boards off of windows, doors and fences.
-- ```HEATPACK``` Activate the heatpack and get warm.
-- ```HEAT_FOOD``` Heat food around fires.
-- ```HOTPLATE``` Use the hotplate.
-- ```JACKHAMMER``` Bust down walls and other constructions.
-- ```JET_INJECTOR``` Inject some jet drugs right into your veins.
-- ```LAW``` Unpack the LAW for firing.
-- ```LIGHTSTRIP``` Activates the lightstrip.
-- ```LUMBER``` Cut logs into planks.
-- ```MAKEMOUND``` Make a mound of dirt.
-- ```MANHACK``` Activate a manhack.
-- ```MATCHBOMB``` Light the matchbomb.
-- ```MILITARYMAP``` Learn of local military installations, and show roads.
-- ```MININUKE``` Set the timer and run. Or hit with a hammer (not really).
-- ```MOLOTOV_LIT``` Throw it, but don't drop it.
-- ```MOLOTOV``` Light the Molotov cocktail.
-- ```MOP``` Mop up the mess.
-- ```MP3_ON``` Turn the mp3 player off.
-- ```MP3``` Turn the mp3 player on.
-- ```NOISE_EMITTER_OFF``` Turn the noise emitter on.
-- ```NOISE_EMITTER_ON``` Turn the noise emitter off.
-- ```NONE``` Do nothing.
-- ```PACK_CBM``` Put CBM in special autoclave pouch so that they stay sterile once sterilized.
-- ```PHEROMONE``` Makes zombies ignore you.
-- ```PICK_LOCK``` Pick a lock on a door. Speed and success chance are determined by skill, `LOCKPICK` item quality and `PERFECT_LOCKPICK` item flag
-- ```PICKAXE``` Does nothing but berate you for having it (I'm serious).
-- ```PLACE_RANDOMLY``` This is very much like the flag in the `manhack` iuse, it prevents the item from querying the player as to where they want the monster unloaded to, and instead chooses randomly.
-- ```PORTABLE_GAME``` Play games.
-- ```PORTAL``` Create portal traps.
-- ```RADIO_OFF``` Turn the radio on.
-- ```RADIO_ON``` Turn the radio off.
-- ```RAG``` Stop the bleeding.
-- ```RESTAURANTMAP``` Learn of local eateries, and show roads.
-- ```ROADMAP``` Learn of local common points-of-interest and show roads.
-- ```SCISSORS``` Cut up clothing.
-- ```SEED``` Asks if you are sure that you want to eat the seed. As it is better to plant seeds.
-- ```SEW``` Sew clothing.
-- ```SHELTER``` Put up a full-blown shelter.
-- ```SHOCKTONFA_OFF``` Turn the shocktonfa on.
-- ```SHOCKTONFA_ON``` Turn the shocktonfa off.
-- ```SIPHON``` Siphon liquids out of vehicle.
-- ```SMOKEBOMB_ACT``` This may be a good way to hide as a smoker.
-- ```SMOKEBOMB``` Pull the pin on a smoke bomb.
-- ```SOLARPACK_OFF``` Fold solar backpack array.
-- ```SOLARPACK``` Unfold solar backpack array.
-- ```SOLDER_WELD``` Solder or weld items, or cauterize wounds.
-- ```SPRAY_CAN``` Graffiti the town.
-- ```SURVIVORMAP``` Learn of local points-of-interest that can help you survive, and show roads.
-- ```TAZER``` Shock someone or something.
-- ```TELEPORT``` Teleport.
-- ```TORCH``` Light a torch.
-- ```TOURISTMAP``` Learn of local points-of-interest that a tourist would like to visit, and show roads.
-- ```TOWEL``` Dry your character using the item as towel.
-- ```TOW_ATTACH``` This is a tow cable, activate it to attach it to a vehicle.
-- ```TURRET``` Activate a turret.
-- ```WASH_ALL_ITEMS``` Wash items with FILTHY flag.
-- ```WASH_HARD_ITEMS``` Wash hard items with FILTHY flag.
-- ```WASH_SOFT_ITEMS``` Wash soft items with FILTHY flag.
-- ```WATER_PURIFIER``` Purify water.
 - ```BINDER_ADD_RECIPE``` Add recipe to a book binder.
-
 
 ## Comestibles
 
@@ -517,7 +467,6 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```SEWAGE``` Causes vomiting.
 - ```SLEEP``` Greatly increases fatigue.
 - ```THORAZINE``` Removes diseases `hallu`, `visuals`, `high`. Additionally removes disease `formication` if disease `dermatik` isn't also present. Has a chance of a negative reaction which increases fatigue.
-- ```VACCINE``` Greatly increases health.
 - ```VITAMINS``` Increases healthiness (not to be confused with HP).
 - ```WEED``` Makes you roll with Cheech & Chong. Adds disease `weed_high`.
 - ```XANAX``` Alleviates anxiety. Adds disease `took_xanax`.
@@ -752,6 +701,7 @@ These flags can be applied via JSON item definition to most items.  Not to be co
 - ```REDUCED_BASHING``` ... Gunmod flag; reduces the item's bashing damage by 50%.
 - ```REDUCED_WEIGHT``` ... Gunmod flag; reduces the item's base weight by 25%.
 - ```REQUIRES_TINDER``` ... Requires tinder to be present on the tile this item tries to start a fire on.
+- ```SINGLE_USE``` ... This item is deleted after being used. Items that count by charge do not need this as they are deleted when charges run out.
 - ```SLEEP_AID``` ... This item helps in sleeping.
 - ```SLEEP_AID_CONTAINER``` ... This item allows sleep aids inside of it to help in sleeping. (E.g. this is a pillowcase).
 - ```SLEEP_IGNORE``` ... This item is not shown as before-sleep warning.
@@ -1311,6 +1261,7 @@ Melee flags are fully compatible with tool flags, and vice versa.
 - ```RECHARGE``` Gain charges when placed in a cargo area with a recharge station.
 - ```SAFECRACK``` This item can be used to unlock safes.
 - ```USES_BIONIC_POWER``` The item has no charges of its own, and runs off of the player's bionic power.
+- ```USE_PLAYER_ENERGY``` Item with `use_action` that `cast_spell` consumes the specified `base_energy_cost`.
 - ```USE_UPS``` Item charges from an UPS / it uses the charges of an UPS instead of its own.
 - ```WATER_EXTINGUISH``` Is extinguishable in water or under precipitation. Converts items (requires "reverts_to" or use_action "transform" to be set).
 - ```WET``` Item is wet and will slowly dry off (e.g. towel).
@@ -1339,7 +1290,105 @@ Those flags are added by the game code to specific items (for example, that spec
 - ```USE_UPS``` The tool has the UPS mod and is charged from an UPS.
 - ```WARM``` A hidden flag used to track an item's journey to/from hot, buffers between HOT and cold.
 - ```WET``` Item is wet and will slowly dry off (e.g. towel).
+    
+### Use actions
 
+These flags apply to the `use_action` field, instead of the `flags` field.
+
+- ```ACIDBOMB_ACT``` Get rid of it, or you'll end up like that guy in Robocop.
+- ```ACIDBOMB``` Pull the pin on an acid bomb.
+- ```AUTOCLAVE``` Sterilize one CBM by autoclaving it.
+- ```BELL``` Ring the bell.
+- ```BOLTCUTTERS``` Use your town key to gain access anywhere.
+- ```BREAK_STICK``` Breaks long branch into two.
+- ```C4``` Arm the C4.
+- ```CABLE_ATTACH``` This item is a cable spool. Use it to try to attach to a vehicle.
+- ```CAN_GOO``` Release a little blob buddy.
+- ```CAPTURE_MONSTER_ACT``` Capture and encapsulate a monster. The associated action is also used for releasing it.
+- ```CARVER_OFF``` Turn the carver on.
+- ```CARVER_ON``` Turn the carver off.
+- ```CHAINSAW_OFF``` Turn the chainsaw on.
+- ```CHAINSAW_ON``` Turn the chainsaw off.
+- ```COMBATSAW_OFF``` Turn the combat-saw on.
+- ```COMBATSAW_ON``` Turn the combat-saw off
+- ```CROWBAR``` Pry open doors, windows, man-hole covers and many other things that need prying.
+- ```DIG``` Clear rubble.
+- ```DIRECTIONAL_ANTENNA``` Find the source of a signal with your radio.
+- ```DIVE_TANK``` Use compressed air tank to breathe.
+- ```DOG_WHISTLE``` Dogs hate this thing; your dog seems pretty cool with it though.
+- ```DOLLCHAT``` That creepy doll just keeps on talking.
+- ```ELEC_CHAINSAW_OFF``` Turn the electric chainsaw on.
+- ```ELEC_CHAINSAW_ON``` Turn the electric chainsaw off.
+- ```EXTINGUISHER``` Put out fires.
+- ```FIRECRACKER_ACT``` The saddest Fourth of July.
+- ```FIRECRACKER_PACK_ACT``` Keep the change you filthy animal.
+- ```FIRECRACKER_PACK``` Light an entire packet of firecrackers.
+- ```FIRECRACKER``` Light a singular firecracker.
+- ```FLASHBANG``` Pull the pin on a flashbang.
+- ```GEIGER``` Detect local radiation levels.
+- ```GRANADE_ACT``` Assaults enemies with source code fixes?
+- ```GRANADE``` Pull the pin on Granade.
+- ```GRENADE``` Pull the pin on a grenade.
+- ```HACKSAW``` Cut metal into chunks.
+- ```HAMMER``` Pry boards off of windows, doors and fences.
+- ```HEATPACK``` Activate the heatpack and get warm.
+- ```HEAT_FOOD``` Heat food around fires.
+- ```HOTPLATE``` Use the hotplate.
+- ```JACKHAMMER``` Bust down walls and other constructions.
+- ```JET_INJECTOR``` Inject some jet drugs right into your veins.
+- ```LAW``` Unpack the LAW for firing.
+- ```LIGHTSTRIP``` Activates the lightstrip.
+- ```LUMBER``` Cut logs into planks.
+- ```MAKEMOUND``` Make a mound of dirt.
+- ```MANHACK``` Activate a manhack.
+- ```MATCHBOMB``` Light the matchbomb.
+- ```MILITARYMAP``` Learn of local military installations, and show roads.
+- ```MININUKE``` Set the timer and run. Or hit with a hammer (not really).
+- ```MOLOTOV_LIT``` Throw it, but don't drop it.
+- ```MOLOTOV``` Light the Molotov cocktail.
+- ```MOP``` Mop up the mess.
+- ```MP3_ON``` Turn the mp3 player off.
+- ```MP3``` Turn the mp3 player on.
+- ```NOISE_EMITTER_OFF``` Turn the noise emitter on.
+- ```NOISE_EMITTER_ON``` Turn the noise emitter off.
+- ```NONE``` Do nothing.
+- ```PACK_CBM``` Put CBM in special autoclave pouch so that they stay sterile once sterilized.
+- ```PHEROMONE``` Makes zombies ignore you.
+- ```PICK_LOCK``` Pick a lock on a door. Speed and success chance are determined by skill, `LOCKPICK` item quality and `PERFECT_LOCKPICK` item flag
+- ```PICKAXE``` Does nothing but berate you for having it (I'm serious).
+- ```PLACE_RANDOMLY``` This is very much like the flag in the `manhack` iuse, it prevents the item from querying the player as to where they want the monster unloaded to, and instead chooses randomly.
+- ```PORTABLE_GAME``` Play games.
+- ```PORTAL``` Create portal traps.
+- ```RADIO_OFF``` Turn the radio on.
+- ```RADIO_ON``` Turn the radio off.
+- ```RAG``` Stop the bleeding.
+- ```RESTAURANTMAP``` Learn of local eateries, and show roads.
+- ```ROADMAP``` Learn of local common points-of-interest and show roads.
+- ```SCISSORS``` Cut up clothing.
+- ```SEED``` Asks if you are sure that you want to eat the seed. As it is better to plant seeds.
+- ```SEW``` Sew clothing.
+- ```SHELTER``` Put up a full-blown shelter.
+- ```SHOCKTONFA_OFF``` Turn the shocktonfa on.
+- ```SHOCKTONFA_ON``` Turn the shocktonfa off.
+- ```SIPHON``` Siphon liquids out of vehicle.
+- ```SMOKEBOMB_ACT``` This may be a good way to hide as a smoker.
+- ```SMOKEBOMB``` Pull the pin on a smoke bomb.
+- ```SOLARPACK_OFF``` Fold solar backpack array.
+- ```SOLARPACK``` Unfold solar backpack array.
+- ```SOLDER_WELD``` Solder or weld items, or cauterize wounds.
+- ```SPRAY_CAN``` Graffiti the town.
+- ```SURVIVORMAP``` Learn of local points-of-interest that can help you survive, and show roads.
+- ```TAZER``` Shock someone or something.
+- ```TELEPORT``` Teleport.
+- ```TORCH``` Light a torch.
+- ```TOURISTMAP``` Learn of local points-of-interest that a tourist would like to visit, and show roads.
+- ```TOWEL``` Dry your character using the item as towel.
+- ```TOW_ATTACH``` This is a tow cable, activate it to attach it to a vehicle.
+- ```TURRET``` Activate a turret.
+- ```WASH_ALL_ITEMS``` Wash items with ```FILTHY``` flag.
+- ```WASH_HARD_ITEMS``` Wash hard items with ```FILTHY``` flag.
+- ```WASH_SOFT_ITEMS``` Wash soft items with ```FILTHY``` flag.
+- ```WATER_PURIFIER``` Purify water.
 
 ## Vehicle Parts
 
@@ -1521,6 +1570,10 @@ Gun fault flags:
 
 ## Character
 
+- ```COLDBLOOD``` For heat dependent mutations.
+- ```COLDBLOOD2``` For very heat dependent mutations.
+- ```COLDBLOOD3``` For cold-blooded mutations.
+- ```ECTOTHERM``` For ectothermic mutations, like `COLDBLOOD4` and `DRAGONBLOOD3` (Black Dragon from Magiclysm).
 - ```HEAT_IMMUNE``` Immune to very hot temperatures.
 - ```NO_DISEASE``` This mutation grants immunity to diseases.
 - ```NO_THIRST``` Your thirst is not modified by food or drinks.

@@ -321,6 +321,20 @@
   },
   {
     "type": "overmap_special",
+    "id": "Locked LMOE Shelter",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "lmoe_prepperquest_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "lmoe_roof_north" },
+      { "point": [ 0, 0, -1 ], "overmap": "lmoe_under_empty_prepperquest_north" }
+    ],
+    "locations": [ "forest_without_trail" ],
+    "city_distance": [ 25, -1 ],
+    "city_sizes": [ 0, 12 ],
+    "occurrences": [ 80, 100 ],
+    "flags": [ "CLASSIC", "MAN_MADE", "UNIQUE" ]
+  },
+  {
+    "type": "overmap_special",
     "id": "Occupied LMOE Shelter",
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "lmoe_zombie_north" },
@@ -4411,17 +4425,6 @@
   },
   {
     "type": "overmap_special",
-    "id": "Homeless Camp",
-    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "homelesscamp_north" } ],
-    "locations": [ "land" ],
-    "city_distance": [ 3, 10 ],
-    "city_sizes": [ 8, -1 ],
-    "occurrences": [ 0, 0 ],
-    "//": "Obsoleted by homeless_camp_mutable",
-    "flags": [ "CLASSIC", "URBAN" ]
-  },
-  {
-    "type": "overmap_special",
     "id": "rural_house",
     "overmaps": [
       { "point": [ 0, 1, 0 ], "overmap": "dirt_road_forest_north" },
@@ -7792,6 +7795,16 @@
     "city_sizes": [ 4, -1 ],
     "occurrences": [ 0, 2 ],
     "flags": [ "CLASSIC", "WILDERNESS" ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "Occupied Homeless Camp",
+    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "homelesscamp_npc_north" } ],
+    "locations": [ "field" ],
+    "city_distance": [ 3, 10 ],
+    "city_sizes": [ 8, -1 ],
+    "occurrences": [ 0, 1 ],
+    "flags": [ "CLASSIC", "URBAN" ]
   },
   {
     "type": "overmap_special",

@@ -385,9 +385,10 @@ void monster::try_upgrade( bool pin_time )
         } else {
             mtype_id new_type;
             if( type->upgrade_multi_range ) {
+                bool ret_default = false;
                 std::vector<MonsterGroupResult> res = MonsterGroupManager::GetResultFromGroup(
-                        type->upgrade_group );
-                if( !res.empty() ) {
+                        type->upgrade_group, nullptr, nullptr, false, &ret_default );
+                if( !res.empty() && !ret_default ) {
                     // Set the type to poly the current monster (preserves inventory)
                     new_type = res.front().name;
                     res.front().pack_size--;
@@ -407,11 +408,10 @@ void monster::try_upgrade( bool pin_time )
                         }
                     }
                 }
-            }
-            if( new_type ) {
+            } else {
                 new_type = MonsterGroupManager::GetRandomMonsterFromGroup( type->upgrade_group );
             }
-            if( new_type ) {
+            if( !new_type.is_empty() ) {
                 poly( new_type );
             }
         }
@@ -1089,22 +1089,21 @@ bool monster::can_act() const
              ( !has_effect( effect_stunned ) && !has_effect( effect_downed ) && !has_effect( effect_webbed ) ) );
 }
 
-int monster::sight_range( const int light_level ) const
+int monster::sight_range( const float light_level ) const
 {
     // Non-aquatic monsters can't see much when submerged
     if( !can_see() || effect_cache[VISION_IMPAIRED] ||
         ( underwater && !swims() && !has_flag( MF_AQUATIC ) && !digging() ) ) {
         return 1;
     }
-    static const int default_daylight = default_daylight_level();
+    static const float default_daylight = default_daylight_level();
     if( light_level == 0 ) {
         return type->vision_night;
-    } else if( light_level == default_daylight ) {
+    } else if( light_level >= default_daylight ) {
         return type->vision_day;
     }
-    int range = light_level * type->vision_day + ( default_daylight - light_level ) *
-                type->vision_night;
-    range /= default_daylight;
+    int range = ( light_level * type->vision_day + ( default_daylight - light_level ) *
+                  type->vision_night ) / default_daylight;
 
     return range;
 }
@@ -1938,7 +1937,7 @@ void monster::apply_damage( Creature *source, bodypart_id /*bp*/, int dam,
     } else if( dam > 0 ) {
         process_trigger( mon_trigger::HURT, 1 + static_cast<int>( dam / 3 ) );
         // Get angry at characters if hurt by one
-        if( source != nullptr && !aggro_character && !source->is_monster() ) {
+        if( source != nullptr && !aggro_character && !source->is_monster() && !source->is_fake() ) {
             aggro_character = true;
         }
     }
@@ -2679,7 +2678,7 @@ void monster::die( Creature *nkiller )
                 // Anger trumps fear trumps ennui
                 if( critter.type->has_anger_trigger( mon_trigger::FRIEND_DIED ) ) {
                     critter.anger += 15;
-                    if( nkiller != nullptr && !nkiller->is_monster() ) {
+                    if( nkiller != nullptr && !nkiller->is_monster() && !nkiller->is_fake() ) {
                         // A character killed our friend
                         add_msg_debug( debugmode::DF_MONSTER, "%s's character aggro triggered by killing a friendly %s",
                                        critter.name(), name() );
@@ -3270,7 +3269,7 @@ void monster::on_hit( Creature *source, bodypart_id,
                 // Anger trumps fear trumps ennui
                 if( critter.type->has_anger_trigger( mon_trigger::FRIEND_ATTACKED ) ) {
                     critter.anger += 15;
-                    if( source != nullptr && !source->is_monster() ) {
+                    if( source != nullptr && !source->is_monster() && !source->is_fake() ) {
                         // A character attacked our friend
                         add_msg_debug( debugmode::DF_MONSTER, "%s's character aggro triggered by attacking a friendly %s",
                                        critter.name(), name() );
@@ -3391,8 +3390,8 @@ void monster::set_horde_attraction( monster_horde_attraction mha )
 bool monster::will_join_horde( int size )
 {
     const monster_horde_attraction mha = get_horde_attraction();
-    if( this->has_flag( MF_IMMOBILE ) ) {
-        return false; //immobile monsters should never join a horde.
+    if( this->has_flag( MF_IMMOBILE ) || this->has_flag( MF_NEVER_WANDER ) ) {
+        return false; //immobile monsters should never join a horde. Same with Never Wander monsters.
     }
     if( mha == MHA_NEVER ) {
         return false;
