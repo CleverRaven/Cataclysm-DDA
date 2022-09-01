@@ -2964,6 +2964,53 @@
     "nested_category_data": [ "acog_scope_mod", "offset_sights_mod", "offset_sight_rail_mod", "rifle_scope_mod" ]
   },
   {
+    "id": "nested_ammo_flamethrower",
+    "type": "nested_category",
+    "activity_level": "fake",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_OTHER",
+    "name": "flamethrower fuels",
+    "description": "Recipes related to creating flammable liquids suitable for loading into a flamethrower.",
+    "skill_used": "chemistry",
+    "nested_category_data": [ "napalm", "gelled_gasoline", "flamethrower_fuel" ],
+    "difficulty": 2
+  },
+  {
+    "id": "nested_ammo_chemthrower",
+    "type": "nested_category",
+    "activity_level": "fake",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_OTHER",
+    "name": "sprayable chemicals",
+    "description": "Recipes related to creating chemicals suitable for spraying in combat.",
+    "skill_used": "chemistry",
+    "nested_category_data": [ "gas_chloramine", "gas_insecticidal", "gas_fungicidal" ],
+    "difficulty": 3
+  },
+  {
+    "id": "nested_ammo_pebbles",
+    "type": "nested_category",
+    "activity_level": "fake",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_OTHER",
+    "name": "slingshot ammunition",
+    "description": "Recipes related to creating pebbles, pellets, and other small objects for use in slings and slingshots.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "marble", "bearing", "pebble_clay", "pebble" ]
+  },
+  {
+    "id": "nested_ammo_rockets",
+    "type": "nested_category",
+    "activity_level": "fake",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_OTHER",
+    "name": "homemade rockets",
+    "description": "Recipes related to creating inaccurate, but powerful homemade rockets.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "spiked_rocket", "incendiary_hm_rocket", "explosive_hm_rocket" ],
+    "difficulty": 3
+  },
+  {
     "id": "nested_sewing_tools",
     "type": "nested_category",
     "activity_level": "fake",
@@ -3065,6 +3112,30 @@
     "description": "Recipes related to creating close helms to protect the head.",
     "skill_used": "fabrication",
     "nested_category_data": [ "qt_helm_close", "xl_qt_helm_close" ]
+  },
+  {
+    "id": "nested_primers",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_COMPONENTS",
+    "name": "firearm primers",
+    "description": "Recipes related to constructing primers, the impact explosives used to initiate the combustion of gunpowder to launch bullets from firearms.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "lgpistol_primer", "lgrifle_primer", "shotgun_primer", "smpistol_primer", "smrifle_primer" ],
+    "difficulty": 4
+  },
+  {
+    "id": "nested_casings",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_COMPONENTS",
+    "name": "ammunition casings",
+    "description": "Recipes related to constructing casings for ammunition.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "380_casing", "460_casing", "300blk_casing" ],
+    "difficulty": 2
   },
   {
     "id": "nested_gun_mounts",

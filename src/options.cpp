@@ -2534,6 +2534,11 @@ void options_manager::add_options_debug()
          0, OVERMAP_LAYERS, 4
        );
 
+    add( "RETRACT_ISO_WALLS", "debug", to_translation( "Draw walls retracted in ISO tile-sets" ),
+         to_translation( "If true, will draw ISO wall tiles retracted/lowered." ),
+         false
+       );
+
     get_option( "FOV_3D_Z_RANGE" ).setPrerequisite( "FOV_3D" );
 }
 
@@ -3522,6 +3527,7 @@ static void update_options_cache()
     // cache to global due to heavy usage.
     trigdist = ::get_option<bool>( "CIRCLEDIST" );
     use_tiles = ::get_option<bool>( "USE_TILES" );
+    tile_retracted = ::get_option<bool>( "RETRACT_ISO_WALLS" );
     // if the tilesets are identical don't duplicate
     use_far_tiles = ::get_option<bool>( "USE_DISTANT_TILES" ) ||
                     get_option<std::string>( "TILES" ) == get_option<std::string>( "DISTANT_TILES" );
