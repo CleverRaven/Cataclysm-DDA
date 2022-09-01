@@ -1172,6 +1172,53 @@ void Character::load( const JsonObject &data )
         }
     }
 
+    // Add missing pseudoitems
+    std::vector<item_location> items = top_items_loc();
+    for( const bionic &bio : *my_bionics ) {
+        for( const itype_id &b_it : bio.id->passive_pseudo_items ) {
+            for( item_location it : items ) {
+                if( it->typeId() == b_it ) {
+                    break;
+                }
+            }
+            // No pseudoitem was found so add it.
+            item pseudo( b_it );
+
+            if( pseudo.has_flag( flag_INTEGRATED ) ) {
+                // Migrate old fuels to new system.
+                // Needed to be compatible with 0.F
+                if( b_it == itype_id( "internal_gasoline_tank" ) && !get_value( "gasoline" ).empty() ) {
+                    item gasoline( "gasoline" );
+                    gasoline.charges = std::stoi( get_value( "gasoline" ) );
+                    remove_value( "gasoline" );
+                    pseudo.put_in( gasoline, item_pocket::pocket_type::CONTAINER );
+                } else if( b_it == itype_id( "internal_ethanol_tank" ) && !get_value( "alcohol" ).empty() ) {
+                    item ethanol( "chem_ethanol" );
+                    ethanol.charges = std::stoi( get_value( "alcohol" ) );
+                    remove_value( "alcohol" );
+                    pseudo.put_in( ethanol, item_pocket::pocket_type::CONTAINER );
+                } else if( b_it == itype_id( "internal_oil_tank" ) && !get_value( "motor_oil" ).empty() ) {
+                    item oil( "motor_oil" );
+                    oil.charges = std::stoi( get_value( "motor_oil" ) );
+                    remove_value( "motor_oil" );
+                    pseudo.put_in( oil, item_pocket::pocket_type::CONTAINER );
+                } else if( b_it == itype_id( "internal_battery_compartment" ) && !get_value( "battery" ).empty() ) {
+                    item battery( "medium_battery_cell" );
+                    item battery_charge( "battery" );
+                    battery_charge.charges = std::min( 500, std::stoi( get_value( "battery" ) ) );
+                    battery.put_in( battery_charge, item_pocket::pocket_type::MAGAZINE );
+                    remove_value( "battery" );
+                    pseudo.put_in( battery, item_pocket::pocket_type::MAGAZINE_WELL );
+                }
+
+                wear_item( pseudo, false );
+            }
+
+
+
+        }
+    }
+
     // Fixes bugged characters for CBM's preventing mutations.
     for( const bionic_id &bid : get_bionics() ) {
         for( const trait_id &mid : bid->canceled_mutations ) {
