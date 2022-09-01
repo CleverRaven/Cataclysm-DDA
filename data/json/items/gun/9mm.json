@@ -1313,8 +1313,9 @@
       [ "grip", 1 ],
       [ "mechanism", 4 ],
       [ "muzzle", 1 ],
-      [ "rail mount", 3 ],
-      [ "underbarrel mount", 1 ],
+      [ "rail", 3 ],
+      [ "sights", 1 ],
+      [ "underbarrel", 1 ],
       [ "sling", 1 ],
       [ "stock", 1 ],
       [ "stock accessory", 1 ]
