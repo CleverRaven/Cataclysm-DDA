@@ -3528,6 +3528,13 @@ void veh_interact::complete_vehicle( Character &you )
             put_into_vehicle_or_drop( you, item_drop_reason::deliberate, resulting_items );
             break;
         }
+        case 'u': {
+            // Unplug action just sheds loose connections,
+            // assuming vehicle::shed_loose_parts was already called so that
+            // the removed parts have had time to be processed
+            you.add_msg_if_player( _( "You disconnect the %s's power connection." ), veh->name );
+            break;
+        }
     }
     you.invalidate_crafting_inventory();
     you.invalidate_weight_carried_cache();
