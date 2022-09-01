@@ -1380,8 +1380,9 @@ void Character::burn_fuel( bionic &bio, auto_toggle_bionic_result &result )
         efficiency = get_effective_efficiency( bio, bio.info().fuel_efficiency );
     }
 
-    if( get_power_level() + 1_kJ >= get_max_power_level() * std::min( 1.0f,
-            bio.get_safe_fuel_thresh() ) ) {
+    if( bio.is_safe_fuel_on()
+        && get_power_level() + 1_kJ * efficiency >= get_max_power_level() * std::min( 1.0f,
+                bio.get_safe_fuel_thresh() ) ) {
         // Do not waste fuel charging over limit.
         // 1 kJ treshold to avoid draining full fuel on trickle charge
         // Individual power sources need their own check for this because power per charge can be large.
@@ -1411,12 +1412,13 @@ void Character::burn_fuel( bionic &bio, auto_toggle_bionic_result &result )
     // Rest of the fuel sources are known to exist so we can exit after any of them is used
     if( energy_gain == 0_J && !result.connected_fuel.empty() ) {
         // Bionic that uses fuel items from some source.
-        // There *could* be multiple items. But we only take first.
+        // There *could* be multiple items. But we only one so we take the first.
 
         item *fuel = result.connected_fuel.front();
         energy_gain = fuel->fuel_energy() / fuel->charges;
-        if( get_power_level() + energy_gain >= get_max_power_level() * std::min( 1.0f,
-                bio.get_safe_fuel_thresh() ) ) {
+        if( bio.is_safe_fuel_on() &&
+            get_power_level() + energy_gain * efficiency >= get_max_power_level() * std::min( 1.0f,
+                    bio.get_safe_fuel_thresh() ) ) {
             // Do not waste fuel charging over limit.
             return;
         }
@@ -1447,8 +1449,9 @@ void Character::burn_fuel( bionic &bio, auto_toggle_bionic_result &result )
         // 1kcal = 4184 J
         energy_gain = 4184_J;
 
-        if( get_power_level() + energy_gain >= get_max_power_level() * std::min( 1.0f,
-                bio.get_safe_fuel_thresh() ) ) {
+        if( bio.is_safe_fuel_on() &&
+            get_power_level() + energy_gain * efficiency >= get_max_power_level() * std::min( 1.0f,
+                    bio.get_safe_fuel_thresh() ) ) {
             // Do not waste fuel charging over limit.
             // Individual power sources need their own check for this because power per charge can be large.
             return;
@@ -2687,8 +2690,8 @@ bool Character::has_bionic( const bionic_id &b ) const
 bool Character::has_active_bionic( const bionic_id &b ) const
 {
     for( const bionic &i : *my_bionics ) {
-        if( get_power_level() + 1_kJ > get_max_power_level() * std::min( 1.0f,
-                i.get_safe_fuel_thresh() ) ) {
+        if( i.is_safe_fuel_on() &&
+            get_power_level() + 1_kJ > get_max_power_level() * std::min( 1.0f, i.get_safe_fuel_thresh() ) ) {
             // Inactive due to fuel treshold
             return false;
         }
@@ -3089,7 +3092,7 @@ float bionic::get_safe_fuel_thresh() const
 
 bool bionic::is_safe_fuel_on() const
 {
-    return get_safe_fuel_thresh() < 2.0;
+    return get_safe_fuel_thresh() > -1.f;
 }
 
 void bionic::set_safe_fuel_thresh( float val )

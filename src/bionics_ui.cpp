@@ -322,9 +322,8 @@ static std::string build_bionic_poweronly_string( const bionic &bio )
     if( bio.incapacitated_time > 0_turns ) {
         properties.emplace_back( _( "(incapacitated)" ) );
     }
-    if( bio.get_safe_fuel_thresh() > 0 && ( !bio.info().fuel_opts.empty() ||
-                                            bio.info().is_remote_fueled ) ) {
-        //properties.push_back( _( "(fuel saving ON)" ) );
+    if( bio.is_safe_fuel_on() && ( !bio.info().fuel_opts.empty() ||
+                                   bio.info().is_remote_fueled ) ) {
         const std::string label = string_format( _( "(fuel saving ON > %d %%)" ),
                                   static_cast<int>( bio.get_safe_fuel_thresh() * 100 ) );
         properties.push_back( label );
