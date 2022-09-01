@@ -2785,13 +2785,13 @@
     "skill_used": "tailor",
     "nested_category_data": [
       "rope_6_spinwheel_string",
-	  "rope_6_electric_spinwheel_string",
+      "rope_6_electric_spinwheel_string",
       "rope_6_from_filament",
       "rope_6_spinwheel_filament",
-	  "rope_6_electric_spinwheel_filament",
+      "rope_6_electric_spinwheel_filament",
       "rope_6_from_cloth",
       "rope_6_spinwheel_cloth",
-	  "rope_6_electric_spinwheel_cloth",
+      "rope_6_electric_spinwheel_cloth",
       "rope_6_from_string"
     ],
     "difficulty": 1
@@ -2820,16 +2820,16 @@
     "nested_category_data": [
       "rope_30",
       "rope_30_spinwheel_ropes",
-	  "rope_30_electric_spinwheel_ropes",
+      "rope_30_electric_spinwheel_ropes",
       "rope_30_from_cloth",
       "rope_30_spinwheel_cloth",
-	  "rope_30_electric_spinwheel_cloth",
+      "rope_30_electric_spinwheel_cloth",
       "rope_30_from_string",
       "rope_30_spinwheel_string",
-	  "rope_30_electric_spinwheel_string",
+      "rope_30_electric_spinwheel_string",
       "rope_30_from_filament",
       "rope_30_spinwheel_filament",
-	  "rope_30_electric_spinwheel_filament"
+      "rope_30_electric_spinwheel_filament"
     ],
     "difficulty": 1
   },
@@ -2854,7 +2854,14 @@
     "name": "long cordage pieces",
     "description": "Recipes related to constructing long cordage pieces.",
     "skill_used": "tailor",
-    "nested_category_data": [ "cordage_36", "cordage_36_spinwheel_plant", "cordage_36_from_cordage_6", "cordage_36_spinwheel_ropes", "cordage_36_electric_spinwheel_ropes", "cordage_36_electric_spinwheel_plant" ],
+    "nested_category_data": [
+      "cordage_36",
+      "cordage_36_spinwheel_plant",
+      "cordage_36_from_cordage_6",
+      "cordage_36_spinwheel_ropes",
+      "cordage_36_electric_spinwheel_ropes",
+      "cordage_36_electric_spinwheel_plant"
+    ],
     "difficulty": 1
   },
   {
