@@ -3,7 +3,7 @@
     "id": "internal_gasoline_tank",
     "type": "GENERIC",
     "category": "container",
-    "name": { "str": "internal gasolien tank" },
+    "name": { "str": "internal gasoline tank" },
     "description": "Internal tank for gasoline fuel cell bionic.",
     "volume": "501 ml",
     "weight": "1 g",
