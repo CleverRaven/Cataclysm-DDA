@@ -3017,7 +3017,7 @@
         "watertight": true,
         "open_container": false,
         "max_contains_volume": "82 ml",
-        "max_contains_weight": "500 mg"
+        "max_contains_weight": "500 g"
       }
     ],
     "qualities": [ [ "CONTAIN", 1 ] ]
