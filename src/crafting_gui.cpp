@@ -940,7 +940,8 @@ static void perform_nested( const recipe *rec, std::string filterstring, tab_lis
     recalc = true;
 }
 
-std::string list_nested( const recipe *rec, int indent = 0 )
+std::string list_nested( const recipe *rec, const inventory &crafting_inv,
+                         const std::vector<npc *> helpers, int indent = 0 )
 {
     std::string description;
     availability avail( rec );
@@ -948,9 +949,9 @@ std::string list_nested( const recipe *rec, int indent = 0 )
         description += colorize( std::string( indent,
                                               ' ' ) + rec->result_name() + ":\n", avail.color() );
         for( const recipe_id &r : rec->nested_category_data ) {
-            description += list_nested( &r.obj(), indent + 2 );
+            description += list_nested( &r.obj(), crafting_inv, helpers, indent + 2 );
         }
-    } else {
+    } else if( get_avatar().has_recipe( rec, crafting_inv, helpers ) ) {
         description += colorize( std::string( indent,
                                               ' ' ) + rec->result_name() + "\n", avail.color() );
     }
@@ -1309,7 +1310,7 @@ const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id goto_
                 wnoutrefresh( w_iteminfo );
             } else if( cur_recipe->is_nested() ) {
                 std::string desc = cur_recipe->description.translated() + "\n\n";;
-                desc += list_nested( cur_recipe );
+                desc += list_nested( cur_recipe, crafting_inv, helpers );
                 fold_and_print( w_iteminfo, point_zero, item_info_width, c_light_gray, desc );
                 scrollbar().offset_x( item_info_width - 1 ).offset_y( 0 ).content_size( 1 ).viewport_size( getmaxy(
                             w_iteminfo ) ).apply( w_iteminfo );
