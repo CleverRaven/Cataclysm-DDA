@@ -792,7 +792,7 @@
     "type": "GUN",
     "reload_noise_volume": 10,
     "name": { "str_sp": "TEC-9" },
-    "description": "The TEC-9 is a machine pistol made of cheap polymers and machine stamped parts.  Its rise in popularity among criminals is largely due to its intimidating looks and low cost.",
+    "description": "The TEC-9 is a semi-automatic '/pistol'/ made of cheap polymers and machine stamped parts.  Its rise in popularity among criminals is largely due to its intimidating looks, low cost and relative ease of converting to fully automatic.",
     "weight": "1400 g",
     "volume": "870 ml",
     "longest_side": "345 mm",
@@ -808,7 +808,6 @@
     "dispersion": 520,
     "durability": 6,
     "min_cycle_recoil": 450,
-    "modes": [ [ "DEFAULT", "burst", 4 ] ],
     "valid_mod_locations": [
       [ "accessories", 3 ],
       [ "barrel", 1 ],
@@ -817,11 +816,11 @@
       [ "grip", 1 ],
       [ "mechanism", 4 ],
       [ "muzzle", 1 ],
-      [ "rail", 1 ],
-      [ "sights", 1 ],
+      [ "rail mount", 1 ],
+      [ "sights mount", 1 ],
       [ "sling", 1 ],
       [ "stock", 1 ],
-      [ "underbarrel", 1 ]
+      [ "underbarrel mount", 1 ]
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
     "pocket_data": [
