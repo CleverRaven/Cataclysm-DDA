@@ -1851,7 +1851,12 @@
         "coverage": 100,
         "encumbrance": [ 8, 8 ]
       },
-      { "covers": [ "arm_l", "arm_r" ], "specifically_covers": [ "arm_lower_l", "arm_lower_r" ], "coverage": 90, "encumbrance": [ 0, 0 ] }
+      {
+        "covers": [ "arm_l", "arm_r" ],
+        "specifically_covers": [ "arm_lower_l", "arm_lower_r" ],
+        "coverage": 90,
+        "encumbrance": [ 0, 0 ]
+      }
     ],
     "pocket_data": [
       {
@@ -2083,7 +2088,12 @@
         "coverage": 100,
         "encumbrance": [ 4, 4 ]
       },
-      { "covers": [ "arm_l", "arm_r" ], "specifically_covers": [ "arm_lower_l", "arm_lower_r" ], "coverage": 95, "encumbrance": [ 0, 0 ] }
+      {
+        "covers": [ "arm_l", "arm_r" ],
+        "specifically_covers": [ "arm_lower_l", "arm_lower_r" ],
+        "coverage": 95,
+        "encumbrance": [ 0, 0 ]
+      }
     ],
     "pocket_data": [
       {
