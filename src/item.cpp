@@ -9930,7 +9930,8 @@ bool item::is_fuel() const
     if( get_base_material().get_fuel_data().energy <= 0_J ) {
         return false;
     }
-    return true;
+    // and it needs to be have consumable charges
+    return count_by_charges();
 }
 
 bool item::is_toolmod() const
