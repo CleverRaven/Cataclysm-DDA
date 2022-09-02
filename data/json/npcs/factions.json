@@ -22,7 +22,7 @@
       }
     },
     "mon_faction": "player",
-    "epilogues": [ { "power_min": 0,  "power_max": 149, "id": "epilogue_faction_your_followers_0" } ],
+    "epilogues": [ { "power_min": 0, "power_max": 149, "id": "epilogue_faction_your_followers_0" } ],
     "description": "The survivors who have entrusted you with their well-being.  If morale drops, poor performance and mutiny may become issues."
   },
   {
@@ -78,7 +78,7 @@
     },
     "epilogues": [
       { "power_min": 0, "power_max": 149, "id": "epilogue_faction_robofac_0" },
-      { "power_min": 150,  "power_max": 299, "id": "epilogue_faction_robofac_150" }
+      { "power_min": 150, "power_max": 299, "id": "epilogue_faction_robofac_150" }
     ],
     "description": "The surviving staff of Hub 01, a pre-Cataclysm research lab.  They rarely leave their lab, if at all, and rely on their robots and advanced technology to survive."
   },
