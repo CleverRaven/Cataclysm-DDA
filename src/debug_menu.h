@@ -97,6 +97,7 @@ enum class debug_menu_index : int {
     EDIT_GLOBAL_VARS,
     ACTIVATE_EOC,
     WRITE_TIMED_EVENTS,
+    QUICKLOAD,
     last
 };
 

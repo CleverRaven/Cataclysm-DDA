@@ -201,6 +201,7 @@ std::string enum_to_string<m_flag>( m_flag data )
         case MF_ALWAYS_VISIBLE: return "ALWAYS_VISIBLE";
         case MF_ALWAYS_SEES_YOU: return "ALWAYS_SEES_YOU";
         case MF_ALL_SEEING: return "ALL_SEEING";
+        case MF_NEVER_WANDER: return "NEVER_WANDER";
         // *INDENT-ON*
         case m_flag::MF_MAX:
             break;

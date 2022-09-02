@@ -3925,7 +3925,7 @@ cata::optional<tripoint> input_context::get_coordinates( const catacurses::windo
 
     const point screen_pos = coordinate - win_min;
     point p;
-    if( tile_iso && use_tiles ) {
+    if( g->is_tileset_isometric() ) {
         const float win_mid_x = win_min.x + win_size.x / 2.0f;
         const float win_mid_y = -win_min.y + win_size.y / 2.0f;
         const int screen_col = std::round( ( screen_pos.x - win_mid_x ) / ( fw / 2.0 ) );

@@ -657,7 +657,20 @@ std::string get_tag_from_color( const nc_color &color )
 
 std::string colorize( const std::string &text, const nc_color &color )
 {
-    return get_tag_from_color( color ) + text + "</color>";
+    const std::string tag = get_tag_from_color( color );
+    size_t strpos = text.find( '\n' );
+    if( strpos == std::string::npos ) {
+        return tag + text + "</color>";
+    }
+
+    size_t prevpos = 0;
+    std::string ret;
+    while( ( strpos = text.find( '\n', prevpos ) ) != std::string::npos ) {
+        ret += tag + text.substr( prevpos, strpos - prevpos ) + "</color>\n";
+        prevpos = strpos + 1;
+    }
+    ret += tag + text.substr( prevpos, text.size() - prevpos ) + "</color>";
+    return ret;
 }
 
 std::string colorize( const translation &text, const nc_color &color )

@@ -59,7 +59,11 @@ enum class main_menu_opts : int {
     CREDITS = 7,
     QUIT = 8
 };
+
 static constexpr int max_menu_opts = 8;
+
+std::string main_menu::queued_world_to_load;
+std::string main_menu::queued_save_id_to_load;
 
 static int getopt( main_menu_opts o )
 {
@@ -599,6 +603,17 @@ bool main_menu::opening_screen()
     } );
     ui.mark_resize();
 
+    if( !queued_world_to_load.empty() ) {
+        save_t const &save_to_load = queued_save_id_to_load.empty() ? world_generator->get_world(
+                                         queued_world_to_load )->world_saves.front() : save_t::from_save_id( queued_save_id_to_load );
+        start = main_menu::load_game( queued_world_to_load, save_to_load );
+        queued_world_to_load.clear();
+        queued_save_id_to_load.clear();
+        if( start ) {
+            load_game = true;
+        }
+    }
+
     while( !start ) {
         ui_manager::redraw();
         std::string action = ctxt.handle_input();
@@ -962,6 +977,36 @@ bool main_menu::new_character_tab()
     return false;
 }
 
+bool main_menu::load_game( std::string const &worldname, save_t const &savegame )
+{
+    avatar &pc = get_avatar();
+    on_out_of_scope cleanup( [&pc]() {
+        pc = avatar();
+        world_generator->set_active_world( nullptr );
+    } );
+
+    g->gamemode = nullptr;
+    WORLD *world = world_generator->get_world( worldname );
+    world_generator->last_world_name = world->world_name;
+    world_generator->last_character_name = savegame.decoded_name();
+    world_generator->save_last_world_info();
+    world_generator->set_active_world( world );
+
+    try {
+        g->setup();
+    } catch( const std::exception &err ) {
+        debugmsg( "Error: %s", err.what() );
+        return false;
+    }
+
+    if( g->load( savegame ) ) {
+        cleanup.cancel();
+        return true;
+    }
+
+    return false;
+}
+
 bool main_menu::load_character_tab( const std::string &worldname )
 {
     savegames = world_generator->get_world( worldname )->world_saves;
@@ -992,32 +1037,7 @@ bool main_menu::load_character_tab( const std::string &worldname )
         return false;
     }
 
-    avatar &pc = get_avatar();
-    on_out_of_scope cleanup( [&pc]() {
-        pc = avatar();
-        world_generator->set_active_world( nullptr );
-    } );
-
-    g->gamemode = nullptr;
-    WORLD *world = world_generator->get_world( worldname );
-    world_generator->last_world_name = world->world_name;
-    world_generator->last_character_name = savegames[opt_val].decoded_name();
-    world_generator->save_last_world_info();
-    world_generator->set_active_world( world );
-
-    try {
-        g->setup();
-    } catch( const std::exception &err ) {
-        debugmsg( "Error: %s", err.what() );
-        return false;
-    }
-
-    if( g->load( savegames[opt_val] ) ) {
-        cleanup.cancel();
-        return true;
-    }
-
-    return false;
+    return main_menu::load_game( worldname, savegames[opt_val] );
 }
 
 void main_menu::world_tab( const std::string &worldname )

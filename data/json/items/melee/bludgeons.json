@@ -394,7 +394,7 @@
     "type": "TOOL",
     "name": { "str": "cheap wizard cane (on)", "str_pl": "cheap wizard canes (on)" },
     "color": "blue",
-    "power_draw": 1000,
+    "power_draw": "1 J",
     "revert_to": "wizard_cane_cheap",
     "use_action": {
       "menu_text": "Turn off",
@@ -446,7 +446,7 @@
     "type": "TOOL",
     "name": { "str": "wizard cane (on)", "str_pl": "wizard canes (on)" },
     "color": "blue",
-    "power_draw": 10000,
+    "power_draw": "10 J",
     "revert_to": "wizard_cane",
     "use_action": {
       "menu_text": "Turn off",
@@ -816,7 +816,7 @@
     "description": "Produced by the Light corporation, this stylish staff not only functions as a light source, but doubles as a light-weight weapon, due to the superalloy materials it is made of.  Due to proprietary efficiency improvements over standard light sources, the L-stick or light stick as it is commonly called, batteries last longer than other light sources.  The staff is glowing brightly, which is slowly draining the batteries.",
     "material": [ "superalloy", "steel" ],
     "revert_to": "l-stick",
-    "power_draw": 5000,
+    "power_draw": "5 J",
     "use_action": {
       "ammo_scale": 0,
       "target": "l-stick",
@@ -1419,7 +1419,7 @@
     "type": "TOOL",
     "name": { "str": "tactical tonfa (on)", "str_pl": "tactical tonfas (on)" },
     "description": "This is a reinforced plastic tonfa; the core is hollowed out and is filled with capacitors and a high-yield rechargeable storage battery.  When a switch on the handle is pressed, a high-voltage current is transmitted to the two electrodes mounted in the end of the weapon, and by extension to anyone unfortunate enough to be in contact with them.  The integral flashlight is turned on, continually draining power and lighting the surrounding area.",
-    "power_draw": 15000,
+    "power_draw": "15 J",
     "to_hit": { "grip": "weapon", "length": "short", "surface": "every", "balance": "good" },
     "revert_to": "shocktonfa_off",
     "use_action": [ "SHOCKTONFA_ON" ],

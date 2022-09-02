@@ -2085,9 +2085,15 @@ void options_manager::add_options_graphics()
 
     get_option( "USE_TILES_OVERMAP" ).setPrerequisite( "USE_TILES" );
 
+    std::vector<options_manager::id_and_option> om_tilesets = build_tilesets_list();
+    // filter out SmashButton_iso from overmap tilesets
+    om_tilesets.erase( std::remove_if( om_tilesets.begin(), om_tilesets.end(), []( const auto & it ) {
+        return it.first == "SmashButton_iso";
+    } ), om_tilesets.end() );
+
     add( "OVERMAP_TILES", "graphics", to_translation( "Choose overmap tileset" ),
          to_translation( "Choose the overmap tileset you want to use." ),
-         build_tilesets_list(), "retrodays", COPT_CURSES_HIDE
+         om_tilesets, "retrodays", COPT_CURSES_HIDE
        ); // populate the options dynamically
 
     get_option( "OVERMAP_TILES" ).setPrerequisite( "USE_TILES_OVERMAP" );
@@ -2526,6 +2532,11 @@ void options_manager::add_options_debug()
     add( "FOV_3D_Z_RANGE", "debug", to_translation( "Vertical range of 3D field of vision" ),
          to_translation( "How many levels up and down the experimental 3D field of vision reaches.  (This many levels up, this many levels down.)  3D vision of the full height of the world can slow the game down a lot.  Seeing fewer Z-levels is faster." ),
          0, OVERMAP_LAYERS, 4
+       );
+
+    add( "RETRACT_ISO_WALLS", "debug", to_translation( "Draw walls retracted in ISO tile-sets" ),
+         to_translation( "If true, will draw ISO wall tiles retracted/lowered." ),
+         false
        );
 
     get_option( "FOV_3D_Z_RANGE" ).setPrerequisite( "FOV_3D" );
@@ -3205,8 +3216,10 @@ std::string options_manager::show( bool ingame, const bool world_options_only, b
                 const int psize = pages_.size();
                 found_opt = run_for_point_in<int, point>( opt_tab_map, *coord,
                 [&iCurrentPage, &new_val, &psize]( const std::pair<int, inclusive_rectangle<point>> &p ) {
-                    new_val = true;
-                    iCurrentPage = clamp<int>( p.first, 0, psize - 1 );
+                    if( p.first != iCurrentPage ) {
+                        new_val = true;
+                        iCurrentPage = clamp<int>( p.first, 0, psize - 1 );
+                    }
                 } ) > 0;
                 if( new_val ) {
                     iCurrentLine = 0;
@@ -3514,6 +3527,7 @@ static void update_options_cache()
     // cache to global due to heavy usage.
     trigdist = ::get_option<bool>( "CIRCLEDIST" );
     use_tiles = ::get_option<bool>( "USE_TILES" );
+    tile_retracted = ::get_option<bool>( "RETRACT_ISO_WALLS" );
     // if the tilesets are identical don't duplicate
     use_far_tiles = ::get_option<bool>( "USE_DISTANT_TILES" ) ||
                     get_option<std::string>( "TILES" ) == get_option<std::string>( "DISTANT_TILES" );

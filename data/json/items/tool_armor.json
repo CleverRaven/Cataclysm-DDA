@@ -364,7 +364,7 @@
     "name": { "str": "mining helmet (on)", "str_pl": "mining helmets (on)" },
     "description": "This is a mining helmet with a heavy-duty LED flashlight.  The flashlight is turned on, and continually draining its batteries.  Use it to turn it off.",
     "flags": [ "LIGHT_450", "CHARGEDIM", "WATERPROOF", "TRADER_AVOID", "PADDED" ],
-    "power_draw": 15000,
+    "power_draw": "15 J",
     "revert_to": "miner_hat",
     "use_action": { "ammo_scale": 0, "menu_text": "Turn off", "type": "transform", "msg": "The %s flicks off.", "target": "miner_hat" },
     "techniques": [ "WBLOCK_1" ]
@@ -604,7 +604,7 @@
     "name": { "str": "pair of thermal electric socks (on)", "str_pl": "pairs of thermal electric socks (on)" },
     "description": "This is a pair of socks with internal battery-powered heating elements.  They are currently on, and continually draining batteries.  Use it to turn them off.",
     "flags": [ "VARSIZE", "SKINTIGHT", "TRADER_AVOID" ],
-    "power_draw": 7500,
+    "power_draw": "7500 mJ",
     "revert_to": "thermal_socks",
     "use_action": {
       "ammo_scale": 0,
@@ -659,7 +659,7 @@
     "name": { "str": "thermal electric suit (on)", "str_pl": "thermal electric suits (on)" },
     "description": "This is a full-body suit of thin thermal underwear equipped with internal battery-powered heating elements.  It is currently on, and continually draining batteries.  Use it to turn it off.",
     "flags": [ "VARSIZE", "SKINTIGHT", "TRADER_AVOID" ],
-    "power_draw": 120000,
+    "power_draw": "120 J",
     "revert_to": "thermal_suit",
     "warmth": 60,
     "use_action": {
@@ -714,7 +714,7 @@
     "name": { "str": "pair of thermal electric gloves (on)", "str_pl": "pairs of thermal electric gloves (on)" },
     "description": "This is a pair of gloves with internal battery-powered heating elements.  They are currently on, and continually draining batteries.  Use it to turn them off.",
     "flags": [ "VARSIZE", "SKINTIGHT", "TRADER_AVOID" ],
-    "power_draw": 7500,
+    "power_draw": "7500 mJ",
     "revert_to": "thermal_gloves",
     "use_action": {
       "ammo_scale": 0,
@@ -769,7 +769,7 @@
     "name": { "str": "thermal electric balaclava (on)", "str_pl": "thermal electric balaclavas (on)" },
     "description": "This is a snug cloth mask with internal battery-powered heating elements.  It is are currently on, and continually draining batteries.  Use it to turn it off.",
     "flags": [ "VARSIZE", "SKINTIGHT", "TRADER_AVOID" ],
-    "power_draw": 7500,
+    "power_draw": "7500 mJ",
     "revert_to": "thermal_mask",
     "use_action": {
       "ammo_scale": 0,
@@ -900,7 +900,7 @@
     "name": { "str": "headlamp (on)", "str_pl": "headlamps (on)" },
     "description": "This is an LED headlamp with an adjustable strap so as to be comfortably worn on your head or attached to your helmet.  It is turned on, and continually draining batteries.  Use it to turn it off.",
     "flags": [ "LIGHT_300", "CHARGEDIM", "OVERSIZE", "BELTED", "ALLOWS_NATURAL_ATTACKS", "TRADER_AVOID" ],
-    "power_draw": 10000,
+    "power_draw": "10 J",
     "revert_to": "wearable_light",
     "use_action": {
       "ammo_scale": 0,
@@ -954,7 +954,7 @@
     "name": { "str": "survivor headlamp (on)", "str_pl": "survivor headlamps (on)" },
     "description": "This is a custom-made LED headlamp reinforced to be more durable, brighter, and with a larger and more efficient battery pack.  The adjustable strap allows it to be comfortably worn on your head or attached to your helmet.  It is turned on, and continually draining batteries.  Use it to turn it off.",
     "flags": [ "LIGHT_350", "CHARGEDIM", "OVERSIZE", "BELTED", "ALLOWS_NATURAL_ATTACKS" ],
-    "power_draw": 10000,
+    "power_draw": "10 J",
     "revert_to": "survivor_light",
     "use_action": {
       "ammo_scale": 0,
@@ -1119,7 +1119,7 @@
     "copy-from": "helmet_eod",
     "name": { "str": "EOD helmet (on)", "str_pl": "EOD helmets (on)" },
     "extend": { "flags": [ "LIGHT_350", "CHARGEDIM", "TRADER_AVOID" ] },
-    "power_draw": 10000,
+    "power_draw": "10 J",
     "revert_to": "helmet_eod",
     "use_action": { "type": "transform", "menu_text": "Turn off headlamps", "msg": "\"Disabling illumination.\"", "target": "helmet_eod" }
   },
@@ -2035,7 +2035,7 @@
     "material": [ "plastic", "steel" ],
     "flags": [ "GNV_EFFECT", "FRAGILE", "TRADER_AVOID", "OUTER" ],
     "//": "2019 commercial models can operate at under 0.375W with the IR illuminator on",
-    "power_draw": 375,
+    "power_draw": "375 mJ",
     "revert_to": "goggles_nv",
     "use_action": { "ammo_scale": 0, "type": "transform", "menu_text": "Turn off", "msg": "Your %s deactivates.", "target": "goggles_nv" },
     "warmth": 15,
@@ -2089,7 +2089,7 @@
     "description": "A pair of battery-powered goggles that grant infrared vision, allowing you to see warm-blooded creatures in the dark.  Use it to turn them off.",
     "material": [ "plastic", "steel" ],
     "flags": [ "IR_EFFECT", "FRAGILE", "TRADER_AVOID", "OUTER" ],
-    "power_draw": 1000,
+    "power_draw": "1 J",
     "revert_to": "goggles_ir",
     "use_action": { "ammo_scale": 0, "type": "transform", "menu_text": "Turn off", "msg": "Your %s deactivates.", "target": "goggles_ir" },
     "warmth": 15,
@@ -2416,7 +2416,7 @@
     "name": { "str": "thermal electric outfit (on)", "str_pl": "thermal electric outfits (on)" },
     "description": "This suit of thin thermal underwear covers you from head to toe and is equipped with internal battery-powered heating elements.  It is currently on, and continually draining batteries.  Use it to turn it off.",
     "flags": [ "VARSIZE", "SKINTIGHT", "TRADER_AVOID" ],
-    "power_draw": 130000,
+    "power_draw": "130 J",
     "revert_to": "thermal_outfit",
     "use_action": {
       "ammo_scale": 0,
@@ -2660,7 +2660,7 @@
     "weight": "179 g",
     "volume": "1 L",
     "//": "3M Peltors claim to go 100 hours on 2 AAs",
-    "power_draw": 60,
+    "power_draw": "60 mJ",
     "ammo": "battery",
     "charges_per_use": 1,
     "revert_to": "powered_earmuffs",
@@ -2722,7 +2722,7 @@
     "description": "A pair of in-ear drivers designed to dampen loud sounds and amplify quiet sounds.  Without batteries or when turned off, they function like normal earplugs and block most sound.  They will block sounds over a certain decibel amount when turned on.  The earplugs are currently on.",
     "flags": [ "OVERSIZE", "PARTIAL_DEAF", "USE_UPS", "NO_UNLOAD", "NO_RELOAD" ],
     "//": "6-8 hours battery life",
-    "power_draw": 4000,
+    "power_draw": "4 J",
     "revert_to": "powered_earplugs",
     "use_action": {
       "ammo_scale": 0,
@@ -3163,7 +3163,7 @@
     "description": "A heated blanket made of polyester.  It's turned on, making it nice and toasty while it lasts.",
     "copy-from": "electric_blanket",
     "warmth": 90,
-    "power_draw": 100000,
+    "power_draw": "100 J",
     "revert_to": "electric_blanket",
     "use_action": {
       "ammo_scale": 0,
@@ -3357,7 +3357,7 @@
     "flags": [ "VARSIZE", "STURDY", "PARTIAL_DEAF", "SUN_GLASSES", "TWO_WAY_RADIO", "PADDED" ],
     "charges_per_use": 1,
     "ammo": "battery",
-    "power_draw": 60,
+    "power_draw": "60 mJ",
     "revert_to": "flight_helmet",
     "use_action": { "type": "transform", "menu_text": "Turn off", "msg": "The %s flicks off.", "target": "flight_helmet" },
     "pocket_data": [
@@ -3445,7 +3445,7 @@
     "flags": [ "STURDY", "OVERSIZE", "BELTED", "WATER_FRIENDLY", "TRADER_AVOID" ],
     "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ACTIVE", "values": [ { "value": "STRENGTH", "add": 10 } ] } ] },
     "ammo": "battery",
-    "power_draw": 972216,
+    "power_draw": "972216 mJ",
     "//": "Battery should last two hours (02:00:07). Weight capacity bonus should include weight of item AND battery, plus 90kg.",
     "revert_to": "utility_exoskeleton_off",
     "weight_capacity_bonus": "215 kg",

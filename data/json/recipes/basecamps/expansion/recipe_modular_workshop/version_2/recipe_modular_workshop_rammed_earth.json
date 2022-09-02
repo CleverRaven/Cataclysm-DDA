@@ -117,7 +117,7 @@
     "autolearn": false,
     "never_learn": true,
     "construction_blueprint": "fbmw_2_glassblower_rammed_earth",
-    "blueprint_name": "rammed_earth walled glassblower's cottage",
+    "blueprint_name": "rammed earth walled glassblower's cottage",
     "blueprint_requires": [ { "id": "fbmw_2" } ],
     "blueprint_provides": [ { "id": "fbmw_2_glassblower" } ],
     "blueprint_excludes": [ { "id": "fbmw_2_glassblower" } ],
