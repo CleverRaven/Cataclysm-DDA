@@ -6,6 +6,7 @@
       "_": "t_pavement",
       "Ù": "t_pavement",
       "Ú": "t_pavement",
+      "Û": "t_pavement",
       "Ü": "t_pavement_y",
       ",": "t_pavement_y",
       "S": "t_sidewalk",
@@ -76,6 +77,7 @@
       "w": "f_washer",
       "o": "f_dryer",
       "d": "f_fridge",
+      "þ": "f_fridge",
       "e": "f_oven",
       "H": "f_sofa",
       "p": "f_desk",
@@ -101,7 +103,7 @@
           "entries": [
             { "group": "ammo_rifle_common_collection", "prob": 25 },
             { "group": "ammo_shotgun_common_collection", "prob": 40 },
-            { "group": "mags_rifle_common", "prob": 35 }
+            { "group": "mags_rifle_common_gunstore", "prob": 35 }
           ]
         },
         "chance": 100,
@@ -116,7 +118,7 @@
         "chance": 80,
         "repeat": [ 0, 2 ]
       },
-      "1": { "item": "petstore_shelves", "chance": 100, "repeat": [ 0, 3 ] },
+      "1": { "item": "petstore_shelves", "chance": 80, "repeat": [ 0, 3 ] },
       "2": {
         "item": {
           "subtype": "collection",
@@ -146,7 +148,7 @@
         "chance": 100,
         "repeat": [ 0, 2 ]
       },
-      "4": { "item": "sports", "chance": 100, "repeat": [ 0, 3 ] },
+      "4": { "item": "sports", "chance": 50, "repeat": [ 0, 3 ] },
       "5": {
         "item": { "subtype": "collection", "entries": [ { "group": "toy_store", "prob": 95 }, { "group": "child_hats", "prob": 5 } ] },
         "chance": 70,
@@ -171,21 +173,27 @@
         "item": {
           "subtype": "collection",
           "entries": [
-            { "group": "consumer_electronics", "prob": 70 },
-            { "group": "ammo_any_batteries_full", "prob": 20 },
-            { "group": "tools_lighting", "prob": 10 }
+            { "group": "salty_snacks", "prob": 75 },
+            { "group": "candy_chocolate", "prob": 20 },
+            { "group": "liquor_and_spirits", "prob": 5 }
           ]
         },
-        "chance": 100,
-        "repeat": [ 0, 2 ]
+        "chance": 70,
+        "repeat": [ 0, 4 ]
       },
       "É": {
         "item": {
           "subtype": "collection",
-          "entries": [ { "group": "tools_common", "prob": 90 }, { "group": "tools_entry", "prob": 10 } ]
+          "entries": [
+            { "group": "tools_common", "prob": 40 },
+            { "group": "tools_entry", "prob": 5 },
+            { "group": "consumer_electronics", "prob": 25 },
+            { "group": "ammo_any_batteries_full", "prob": 25 },
+            { "group": "tools_lighting", "prob": 5 }
+          ]
         },
-        "chance": 100,
-        "repeat": [ 0, 2 ]
+        "chance": 80,
+        "repeat": [ 0, 3 ]
       },
       "é": { "item": "tools_tailor", "chance": 60, "repeat": [ 0, 2 ] },
       "ê": {
@@ -193,24 +201,24 @@
           "subtype": "collection",
           "entries": [ { "group": "tools_plumbing", "prob": 70 }, { "group": "plumbing_bulk", "prob": 30 } ]
         },
-        "chance": 100,
+        "chance": 80,
         "repeat": [ 0, 2 ]
       },
-      "ë": { "item": "tools_carpentry", "chance": 100, "repeat": [ 0, 2 ] },
-      "È": { "item": "tools_mechanic", "chance": 100, "repeat": [ 0, 2 ] },
+      "ë": { "item": "tools_carpentry", "chance": 80, "repeat": [ 0, 2 ] },
+      "È": { "item": "tools_mechanic", "chance": 80, "repeat": [ 0, 2 ] },
       "Ë": {
         "item": {
           "subtype": "collection",
           "entries": [ { "group": "tools_earthworking", "prob": 90 }, { "group": "tools_entry", "prob": 10 } ]
         },
-        "chance": 100,
+        "chance": 80,
         "repeat": [ 0, 2 ]
       },
       "æ": { "item": "farming_tools", "chance": 100, "repeat": [ 0, 2 ] },
-      "÷": { "item": "farming_seeds", "chance": 100, "repeat": [ 0, 4 ] },
-      "Î": { "item": "fertilizers", "chance": 100, "repeat": [ 0, 4 ] },
-      "ù": { "item": "farm_supply_soil_and_sand", "chance": 100, "repeat": [ 2, 4 ] },
-      "ú": { "item": "farm_supply_rocks", "chance": 100, "repeat": [ 2, 5 ] },
+      "÷": { "item": "farming_seeds", "chance": 100, "repeat": [ 0, 5 ] },
+      "Î": { "item": "fertilizers", "chance": 100, "repeat": [ 0, 5 ] },
+      "ù": { "item": "farm_supply_soil_and_sand", "chance": 100, "repeat": [ 1, 5 ] },
+      "ú": { "item": "farm_supply_rocks", "chance": 100, "repeat": [ 1, 5 ] },
       "Ï": { "item": "farm_supply_quicklime_and_saltpetre", "chance": 40, "repeat": [ 1, 3 ] },
       "Ø": {
         "item": { "subtype": "collection", "entries": [ { "group": "hardware_books", "prob": 80 }, { "group": "novels", "prob": 20 } ] },
@@ -242,6 +250,7 @@
         "repeat": [ 1, 3 ]
       },
       "s": { "item": "coffee_bathroom", "chance": 30 },
+      "þ": { "item": "SUS_fridge_breakroom", "chance": 80 },
       "q": { "item": "file_room", "chance": 100, "repeat": [ 1, 5 ] },
       ".": { "item": "floor_trash", "chance": 1, "repeat": [ 0, 1 ] },
       "r": { "item": "floor_trash", "chance": 1, "repeat": [ 0, 1 ] },
@@ -249,6 +258,7 @@
       "g": { "item": "trash", "chance": 70, "repeat": [ 0, 2 ] },
       "D": { "item": "trash", "chance": 70, "repeat": [ 0, 3 ] },
       "$": { "item": "cash_register_random", "chance": 100 },
+      "V": { "item": "vending_drink_items", "chance": 70, "repeat": [ 3, 8 ] },
       "c": {
         "item": {
           "subtype": "collection",
