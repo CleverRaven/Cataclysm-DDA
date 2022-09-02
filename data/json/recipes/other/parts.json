@@ -376,7 +376,6 @@
     "skill_used": "fabrication",
     "difficulty": 1,
     "time": "8 m",
-    "reversible": true,
     "autolearn": true,
     "using": [ [ "welding_standard", 6 ] ],
     "proficiencies": [
@@ -384,7 +383,7 @@
       { "proficiency": "prof_welding_basic", "fail_multiplier": 1.5 },
       { "proficiency": "prof_welding" }
     ],
-    "components": [ [ [ "material_aluminium_ingot", 4 ], [ "scrap_aluminum", 35 ] ] ]
+    "components": [ [ [ "material_aluminium_ingot", 3 ], [ "scrap_aluminum", 34 ] ] ]
   },
   {
     "type": "recipe",

@@ -40,10 +40,17 @@ concurrency:
   cancel-in-progress: true
 
 env:
+  # Compressed size ~1GB based on observations
+  CCACHE_LIMIT: 8GB
+  CDDA_CCACHE_PATH: ${{ github.workspace }}\ccache\
+  CDDA_USE_CCACHE: true
   # There's not enough disk space to build both release and debug versions of
   # our dependencies, so we hack the triplet file to build only release versions
   # Have to use github.workspace because runner namespace isn't available yet.
   VCPKG_OVERLAY_TRIPLETS: ${{ github.workspace }}\.github\vcpkg_triplets
+  # Also conveniently disable ccache internal compression
+  CCACHE_HARDLINK: true
+  # vcpkg with object_creator deps totals ~500MB at this compression level
   ZSTD_CLEVEL: 17
 
 jobs:
@@ -61,8 +68,14 @@ jobs:
     - name: Add msbuild to PATH
       uses: microsoft/setup-msbuild@v1.0.2
 
+    - name: Use GNU tar to enable zstd for actions/cache
+      run: |
+        echo "Adding GNU tar to PATH"
+        echo C:\Program Files\Git\usr\bin>>"%GITHUB_PATH%"
+      shell: cmd
+
     - name: Restore artifacts, or run vcpkg, build and cache artifacts
-      uses: lukka/run-vcpkg@v10.2
+      uses: lukka/run-vcpkg@v10.4
       id: runvcpkg
       with:
         # run-vcpkg tries to hash vcpkg.json but complans if it finds more than one.
@@ -79,16 +92,73 @@ jobs:
       run: |
         vcpkg integrate install
 
+    - name: Download ccache
+      uses: robinraju/release-downloader@v1.4
+      with:
+        repository: 'ccache/ccache'
+        tag: 'v4.6.1'
+        fileName: 'ccache-4.6.1-windows-x86_64.zip'
+
+    - name: Install ccache
+      id: install-ccache
+      run: |
+        unzip ccache-4.6.1-windows-x86_64.zip
+        cp ccache-4.6.1-windows-x86_64/ccache.exe ccache-4.6.1-windows-x86_64/cl.exe
+        cp ccache-4.6.1-windows-x86_64/ccache.exe ccache-4.6.1-windows-x86_64/clang-cl.exe
+        mv ccache-4.6.1-windows-x86_64 ${{ env.CDDA_CCACHE_PATH }}
+
+    - name: Get ccache vars
+      id: get-vars
+      run: |
+        echo "::set-output name=datetime::$(/bin/date -u "+%Y%m%d%H%M")"
+        echo "::set-output name=ccache-path::$(echo "$APPDATA\\ccache")"
+      shell: bash
+
+    - name: ccache cache files
+      uses: actions/cache@v3
+      with:
+        path: ${{ steps.get-vars.outputs.ccache-path }}
+        # double-dash after compiler is not a typo, it is to disambiguate between g++-<date> and g++-11-<date> for restore key prefix matching
+        key: ccache-${{ github.ref_name }}-${{ runner.os }}-msvc--${{ steps.get-vars.outputs.datetime }}
+        restore-keys: |
+          ccache-master-${{ runner.os }}-msvc--
+
+    - name: Configure ccache
+      run: |
+        ${{ env.CDDA_CCACHE_PATH }}\ccache.exe -M 10G
+        ${{ env.CDDA_CCACHE_PATH }}\ccache.exe -s -v
+        ${{ env.CDDA_CCACHE_PATH }}\ccache.exe -z
+
+    - name: Symlink intermediates to C
+      run: |
+        mkdir -p "$env:TEMP\objwin"
+        New-Item -ItemType SymbolicLink -Target "$env:TEMP\objwin" objwin
+
     - name: Build
       run: |
           cd msvc-full-features
-          msbuild -m -p:Configuration=Release -p:Platform=x64 "-target:Cataclysm-vcpkg-static;Cataclysm-test-vcpkg-static;JsonFormatter-vcpkg-static" Cataclysm-vcpkg-static.sln
+          msbuild -m -p:Configuration=Release -p:Platform=x64 "-target:Cataclysm-vcpkg-static;Cataclysm-test-vcpkg-static;JsonFormatter-vcpkg-static;ObjectCreator-vcpkg-static" Cataclysm-vcpkg-static.sln
 
-    - name: Dump logs if build failed
+    - name: Post-build ccache manipulation
+      if: ${{ !failure() }}
+      run: |
+        ${{ env.CDDA_CCACHE_PATH }}\ccache.exe -s -v
+        ${{ env.CDDA_CCACHE_PATH }}\ccache.exe -M ${{ env.CCACHE_LIMIT }}
+        ${{ env.CDDA_CCACHE_PATH }}\ccache.exe -c
+        ${{ env.CDDA_CCACHE_PATH }}\ccache.exe -s -v
+
+    - name: clear ccache on PRs
+      if: ${{ github.ref_name != 'master' }}
+      run: |
+        ${{ env.CDDA_CCACHE_PATH }}\ccache.exe -C
+
+    - name: Dump vcpkg logs if build failed
       if: failure()
       run: |
         echo =================================================
         Get-ChildItem "${{ runner.workspace }}/Cataclysm-DDA/msvc-full-features/vcpkg_installed" -Recurse
+        echo =================================================
+        Get-ChildItem "${{ runner.workspace }}/Cataclysm-DDA/msvc-object_creator/vcpkg_installed" -Recurse
         echo =================================================
         Get-ChildItem "${{ runner.workspace }}/b/vcpkg/buildtrees" |
         Foreach-Object {
@@ -116,6 +186,24 @@ jobs:
       run: |
           .\Cataclysm-test-vcpkg-static-Release-x64.exe --min-duration 0.2 --rng-seed time
 
-    - name: Clean
+    - name: Dump disk usage logs if job failed
+      if: failure()
       run: |
-          Get-ChildItem -Path Cataclysm-lib-vcpkg-static-Release-x64.* | Foreach-Object { rm $_.FullName }
+        echo =================================================
+        df
+        echo =================================================
+        du -sh *
+        echo =================================================
+        du -sh msvc-full-features/*
+        echo =================================================
+        du -sh msvc-object_creator/*
+        echo =================================================
+        du -sh tools/*
+        echo =================================================
+      shell: bash
+
+    - name: Don't upload vcpkg cache on failure or PRs
+      if: ${{ failure() || cancelled() || github.ref_name != 'master' }}
+      run: |
+        echo "RUNVCPKG_NO_CACHE=1" >> $GITHUB_ENV
+      shell: bash

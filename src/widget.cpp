@@ -1478,8 +1478,10 @@ std::string widget::graph( int value ) const
 {
     // graph "depth is equal to the number of nonzero symbols
     int depth = utf8_width( _symbols ) - 1;
+    // Number of graph characters
+    const int w = _arrange == "rows" ? _height : _width;
     // Max integer value this graph can show
-    int max_graph_val = _width * depth;
+    int max_graph_val = w * depth;
     // Scale value range to current graph resolution (width x depth)
     if( _var_max > 0 && _var_max != max_graph_val ) {
         // Scale max source value to max graph value
@@ -1506,32 +1508,45 @@ std::string widget::graph( int value ) const
         // Full cells at the front
         ret += std::wstring( quot, syms.back() );
         // Any partly-full cells?
-        if( _width > quot ) {
+        if( w > quot ) {
             // Current partly-full cell
             ret += syms[rem];
             // Any more zero cells at the end
-            if( _width > quot + 1 ) {
-                ret += std::wstring( _width - quot - 1, syms[0] );
+            if( w > quot + 1 ) {
+                ret += std::wstring( w - quot - 1, syms[0] );
             }
         }
     } else if( _fill == "pool" ) {
-        quot = value / _width; // baseline depth of the pool
-        rem = value % _width;  // number of cells at next depth
+        quot = value / w; // baseline depth of the pool
+        rem = value % w;  // number of cells at next depth
         // Most-filled cells come first
         if( rem > 0 ) {
             ret += std::wstring( rem, syms[quot + 1] );
             // Less-filled cells may follow
-            if( _width > rem ) {
-                ret += std::wstring( _width - rem, syms[quot] );
+            if( w > rem ) {
+                ret += std::wstring( w - rem, syms[quot] );
             }
         } else {
             // All cells at the same level
-            ret += std::wstring( _width, syms[quot] );
+            ret += std::wstring( w, syms[quot] );
         }
     } else {
         debugmsg( "Unknown widget fill type %s", _fill );
         return "";
     }
+
+    // Re-arrange characters to a vertical bar graph
+    if( _arrange == "rows" ) {
+        std::wstring temp = ret;
+        ret = std::wstring();
+        for( int i = temp.size() - 1; i >= 0; i-- ) {
+            ret += temp[i];
+            if( i > 0 ) {
+                ret += '\n';
+            }
+        }
+    }
+
     return wstr_to_utf8( ret );
 }
 
