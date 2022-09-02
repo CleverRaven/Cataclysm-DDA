@@ -479,6 +479,7 @@
     "max_coverage": 100,
     "parent": "leg_l",
     "side": 1,
+    "secondary": true,
     "opposite": "leg_draped_r",
     "name_multiple": "draped over the legs",
     "name": "draped over left leg"
@@ -489,6 +490,7 @@
     "max_coverage": 100,
     "parent": "leg_r",
     "side": 2,
+    "secondary": true,
     "opposite": "leg_draped_l",
     "name_multiple": "draped over the legs",
     "name": "draped over right leg"
