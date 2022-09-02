@@ -810,6 +810,15 @@ class map
         // as above, but for furniture
         uint8_t get_known_connections_f( const tripoint &p, int connect_group,
                                          const std::map<tripoint, furn_id> &override = {} ) const;
+
+        // Return a bitfield of the adjacent tiles which rotate towards the given
+        // connect_group.  From least-significant bit the order is south, east,
+        // west, north (because that's what cata_tiles expects).
+        // Based on the true terrain.
+        // Additional overrides can be passed in to override terrain
+        // at specific positions.
+        uint8_t get_known_rotates_to( const tripoint &p, int connect_group,
+                                      const std::map<tripoint, ter_id> &override = {} ) const;
         /**
          * Returns the full harvest list, for spawning.
          */

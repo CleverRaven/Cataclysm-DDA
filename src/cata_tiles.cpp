@@ -2708,8 +2708,9 @@ bool cata_tiles::draw_terrain( const tripoint &p, const lit_level ll, int &heigh
         int subtile = 0;
         int rotation = 0;
         int connect_group = 0;
-        if( t.obj().connects( connect_group ) ) {
-            get_connect_values( p, subtile, rotation, connect_group, {} );
+        int rotate_group = 0;
+        if( t.obj().connects( connect_group ) | t.obj().rotates( rotate_group ) ) {
+            get_connect_values( p, subtile, rotation, connect_group, rotate_group, {} );
             // re-memorize previously seen terrain in case new connections have been seen
             here.set_memory_seen_cache_dirty( p );
         } else {
@@ -2735,8 +2736,9 @@ bool cata_tiles::draw_terrain( const tripoint &p, const lit_level ll, int &heigh
             int subtile = 0;
             int rotation = 0;
             int connect_group = 0;
-            if( t2.obj().connects( connect_group ) ) {
-                get_connect_values( p, subtile, rotation, connect_group, terrain_override );
+            int rotate_group = 0;
+            if( t2.obj().connects( connect_group ) | t.obj().rotates( rotate_group ) ) {
+                get_connect_values( p, subtile, rotation, connect_group, rotate_group, terrain_override );
             } else {
                 get_terrain_orientation( p, rotation, subtile, terrain_override, invisible );
             }
@@ -4264,11 +4266,14 @@ void cata_tiles::get_terrain_orientation( const tripoint &p, int &rota, int &sub
         }
     }
 
-    get_rotation_and_subtile( val, rota, subtile );
+    get_rotation_and_subtile( val, 0, rota, subtile );
 }
 
-void cata_tiles::get_rotation_and_subtile( const char val, int &rotation, int &subtile )
+void cata_tiles::get_rotation_and_subtile( const char val, const char rot_to, int &rotation,
+        int &subtile )
 {
+    ( void ) rot_to;
+
     switch( val ) {
         // no connections
         case 0:
@@ -4344,11 +4349,12 @@ void cata_tiles::get_rotation_and_subtile( const char val, int &rotation, int &s
 }
 
 void cata_tiles::get_connect_values( const tripoint &p, int &subtile, int &rotation,
-                                     const int connect_group,
+                                     const int connect_group, const int rotate_to_group,
                                      const std::map<tripoint, ter_id> &ter_override )
 {
     uint8_t connections = get_map().get_known_connections( p, connect_group, ter_override );
-    get_rotation_and_subtile( connections, rotation, subtile );
+    uint8_t rotation_targets = get_map().get_known_rotates_to( p, rotate_to_group, ter_override );
+    get_rotation_and_subtile( connections, rotation_targets, rotation, subtile );
 }
 
 void cata_tiles::get_furn_connect_values( const tripoint &p, int &subtile, int &rotation,
@@ -4356,7 +4362,7 @@ void cata_tiles::get_furn_connect_values( const tripoint &p, int &subtile, int &
         furn_id> &furn_override )
 {
     uint8_t connections = get_map().get_known_connections_f( p, connect_group, furn_override );
-    get_rotation_and_subtile( connections, rotation, subtile );
+    get_rotation_and_subtile( connections, 0, rotation, subtile );
 }
 
 void cata_tiles::get_tile_values( const int t, const std::array<int, 4> &tn, int &subtile,
@@ -4370,7 +4376,7 @@ void cata_tiles::get_tile_values( const int t, const std::array<int, 4> &tn, int
             val += 1 << i;
         }
     }
-    get_rotation_and_subtile( val, rotation, subtile );
+    get_rotation_and_subtile( val, 0, rotation, subtile );
 }
 
 void cata_tiles::get_tile_values_with_ter(
@@ -4381,7 +4387,7 @@ void cata_tiles::get_tile_values_with_ter(
     if( here.has_flag( ter_furn_flag::TFLAG_NO_SELF_CONNECT, p ) ||
         here.has_flag( ter_furn_flag::TFLAG_ALIGN_WORKBENCH, p ) ) {
         //if we don't ever connect to ourself just return unconnected to be used further
-        get_rotation_and_subtile( 0, rotation, subtile );
+        get_rotation_and_subtile( 0, 0, rotation, subtile );
     } else {
         //if we do connect to ourself (tables, counters etc.) calculate based on neighbours
         get_tile_values( t, tn, subtile, rotation );

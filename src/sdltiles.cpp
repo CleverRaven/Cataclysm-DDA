@@ -780,7 +780,7 @@ std::string cata_tiles::get_omt_id_rotation_and_subtile(
             }
         }
 
-        get_rotation_and_subtile( val, rota, subtile );
+        get_rotation_and_subtile( val, 0, rota, subtile );
     } else {
         // 'Regular', nonlinear terrain only needs to worry about rotation, not
         // subtile

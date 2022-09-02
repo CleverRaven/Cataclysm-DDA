@@ -1814,6 +1814,30 @@ uint8_t map::get_known_connections( const tripoint &p, int connect_group,
     return val;
 }
 
+uint8_t map::get_known_rotates_to( const tripoint &p, int connect_group,
+                                   const std::map<tripoint, ter_id> &override ) const
+{
+    uint8_t val = 0;
+
+    // populate connection information
+    for( int i = 0; i < 4; ++i ) {
+        tripoint neighbour = p + offsets[i];
+        if( !inbounds( neighbour ) ) {
+            continue;
+        }
+        const auto neighbour_override = override.find( neighbour );
+        const bool neighbour_overridden = neighbour_override != override.end();
+
+        const ter_t &neighbour_terrain = neighbour_overridden ?
+                                         neighbour_override->second.obj() : ter( neighbour ).obj();
+        if( neighbour_terrain.rotates_to( connect_group ) ) {
+            val += 1 << i;
+        }
+    }
+
+    return val;
+}
+
 uint8_t map::get_known_connections_f( const tripoint &p, int connect_group,
                                       const std::map<tripoint, furn_id> &override ) const
 {

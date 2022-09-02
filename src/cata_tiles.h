@@ -438,14 +438,14 @@ class cata_tiles
         void get_tile_values_with_ter( const tripoint &p, int t, const std::array<int, 4> &tn,
                                        int &subtile, int &rotation );
         void get_connect_values( const tripoint &p, int &subtile, int &rotation, int connect_group,
-                                 const std::map<tripoint, ter_id> &ter_override );
+                                 int rotate_group, const std::map<tripoint, ter_id> &ter_override );
         void get_furn_connect_values( const tripoint &p, int &subtile, int &rotation,
                                       int connect_group,
                                       const std::map<tripoint, furn_id> &furn_override );
         void get_terrain_orientation( const tripoint &p, int &rota, int &subtile,
                                       const std::map<tripoint, ter_id> &ter_override,
                                       const std::array<bool, 5> &invisible );
-        void get_rotation_and_subtile( char val, int &rota, int &subtile );
+        void get_rotation_and_subtile( char val, char rot_to, int &rota, int &subtile );
 
         /** Map memory */
         bool has_memory_at( const tripoint &p ) const;
