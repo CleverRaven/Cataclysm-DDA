@@ -474,6 +474,26 @@
     "name_multiple": "item hangs off you"
   },
   {
+    "id": "leg_draped_l",
+    "type": "sub_body_part",
+    "max_coverage": 100,
+    "parent": "leg_l",
+    "side": 1,
+    "opposite": "leg_draped_r",
+    "name_multiple": "draped over the legs",
+    "name": "draped over left leg"
+  },
+  {
+    "id": "leg_draped_r",
+    "type": "sub_body_part",
+    "max_coverage": 100,
+    "parent": "leg_r",
+    "side": 2,
+    "opposite": "leg_draped_l",
+    "name_multiple": "draped over the legs",
+    "name": "draped over right leg"
+  },
+  {
     "id": "torso_waist",
     "type": "sub_body_part",
     "max_coverage": 10,
