@@ -5426,7 +5426,7 @@
 	"proficiencies": [ "prof_gunsmithing_basic", "prof_spotting" ],
 	"items": {
 	  "both": {
-		"items": [ "wristwatch", "jacket_army", "pants_army", "service_medal", "boots_combat", "socks", "dress_shirt", "pipe_tobacco", "tobacco", "beret" ],
+		"items": [ "wristwatch", "jacket_army", "pants", "service_medal", "boots_combat", "socks", "officer_uniform", "pipe_tobacco", "tobacco", "beret" ],
 		"entries": [ { "item": "cane", "custom-flags": [ "auto_wield" ] }, { "group": "charged_ref_lighter" },
 			{ "item": "chestrig", "contents-group": "army_mags_m14" },
 			{ "item": "knife_combat", "container-item": "sheath" },
