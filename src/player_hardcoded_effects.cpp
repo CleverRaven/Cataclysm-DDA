@@ -80,6 +80,7 @@ static const efftype_id effect_narcosis( "narcosis" );
 static const efftype_id effect_onfire( "onfire" );
 static const efftype_id effect_paincysts( "paincysts" );
 static const efftype_id effect_panacea( "panacea" );
+static const efftype_id effect_pet( "pet" );
 static const efftype_id effect_rat( "rat" );
 static const efftype_id effect_recover( "recover" );
 static const efftype_id effect_redcells_anemia( "redcells_anemia" );
@@ -1248,6 +1249,7 @@ void Character::hardcoded_effects( effect &it )
                 if( monster *const grub = g->place_critter_around( mon_dermatik_larva, pos(), 1 ) ) {
                     if( one_in( 3 ) ) {
                         grub->friendly = -1;
+                        grub->add_effect( effect_pet, 1_turns, true );
                     }
                 }
             }
