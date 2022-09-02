@@ -432,30 +432,29 @@
     "skill_used": "fabrication",
     "difficulty": 4,
     "skills_required": [ "tailor", 1 ],
-    "time": "90 m",
+    "time": "120 m",
     "autolearn": true,
-    "book_learn": [ [ "textbook_armwest", 4 ], [ "recipe_melee", 4 ] ],
     "components": [ [ [ "sheet_metal", 1 ] ], [ [ "cordage_6_leather", 8 ] ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" } ],
-    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 }, { "id": "DRILL", "level": 1 } ]
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 }, { "id": "DRILL", "level": 1 } ]
   },
   {
     "result": "xs_legguard_metal_sheets",
     "type": "recipe",
     "copy-from": "legguard_metal_sheets",
-    "time": "90 m",
+    "time": "120 m",
     "components": [ [ [ "sheet_metal", 1 ] ], [ [ "cordage_6_leather", 8 ] ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" } ],
-    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 }, { "id": "DRILL", "level": 1 } ]
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 }, { "id": "DRILL", "level": 1 } ]
   },
   {
     "result": "xl_legguard_metal_sheets",
     "type": "recipe",
     "copy-from": "legguard_metal_sheets",
-    "time": "100 m",
+    "time": "140 m",
     "components": [ [ [ "sheet_metal", 2 ] ], [ [ "cordage_36_leather", 4 ] ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" } ],
-    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 }, { "id": "DRILL", "level": 1 } ]
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 }, { "id": "DRILL", "level": 1 } ]
   },
   {
     "result": "legguard_metal_sheets_knees",
@@ -466,12 +465,11 @@
     "skill_used": "fabrication",
     "difficulty": 4,
     "skills_required": [ "tailor", 1 ],
-    "time": "45 m",
+    "time": "60 m",
     "autolearn": true,
-    "book_learn": [ [ "textbook_armwest", 4 ], [ "recipe_melee", 4 ] ],
     "components": [ [ [ "sheet_metal_small", 2 ] ], [ [ "cordage_6_leather", 2 ] ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_articulation" } ],
-    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 }, { "id": "DRILL", "level": 1 } ]
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 }, { "id": "DRILL", "level": 1 } ]
   },
   {
     "result": "legguard_metal_sheets_hip",
@@ -484,10 +482,9 @@
     "skills_required": [ "tailor", 1 ],
     "time": "90 m",
     "autolearn": true,
-    "book_learn": [ [ "textbook_armwest", 4 ], [ "recipe_melee", 4 ] ],
     "components": [ [ [ "sheet_metal", 1 ] ], [ [ "leather_belt", 1 ] ], [ [ "nuts_bolts", 8 ], [ "nail", 8 ] ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_articulation" } ],
-    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 }, { "id": "DRILL", "level": 1 } ]
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 }, { "id": "DRILL", "level": 1 } ]
   },
   {
     "result": "legguard_metal",

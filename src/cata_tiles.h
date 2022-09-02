@@ -42,6 +42,7 @@ struct tile_type {
     bool animated = false;
     int height_3d = 0;
     point offset = point_zero;
+    point offset_retracted = point_zero;
 
     std::vector<std::string> available_subtiles;
 };
@@ -127,6 +128,7 @@ class tileset
 
         std::string tileset_id;
 
+        bool tile_isometric = false;
         int tile_width = 0;
         int tile_height = 0;
 
@@ -161,6 +163,9 @@ class tileset
 
         void clear();
 
+        bool is_isometric() const {
+            return tile_isometric;
+        }
         int get_tile_width() const {
             return tile_width;
         }
@@ -234,6 +239,7 @@ class tileset_cache::loader
         const SDL_Renderer_Ptr &renderer;
 
         point sprite_offset;
+        point sprite_offset_retracted;
 
         int sprite_width = 0;
         int sprite_height = 0;
@@ -583,6 +589,9 @@ class cata_tiles
          */
         void reinit();
 
+        bool is_isometric() const {
+            return tileset_ptr->is_isometric();
+        }
         int get_tile_height() const {
             return tile_height;
         }

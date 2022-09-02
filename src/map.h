@@ -475,7 +475,9 @@ class map
         void clear_traps();
 
         const_maptile maptile_at( const tripoint &p ) const;
+        const_maptile maptile_at( const tripoint_bub_ms &p ) const;
         maptile maptile_at( const tripoint &p );
+        maptile maptile_at( const tripoint_bub_ms &p );
     private:
         // Versions of the above that don't do bounds checks
         const_maptile maptile_at_internal( const tripoint &p ) const;
@@ -1090,7 +1092,7 @@ class map
         // Optionally toggles instances $from->$to & $to->$from
         void translate_radius( const ter_id &from, const ter_id &to, float radi, const tripoint &p,
                                bool same_submap = false, bool toggle_between = false );
-        void transform_radius( ter_furn_transform_id transform, float radi,
+        void transform_radius( ter_furn_transform_id transform, int radi,
                                const tripoint_abs_ms &p );
         void transform_line( ter_furn_transform_id transform, const tripoint_abs_ms &first,
                              const tripoint_abs_ms &second );
@@ -1889,7 +1891,8 @@ class map
 
     protected:
         void generate_lightmap( int zlev );
-        void build_seen_cache( const tripoint &origin, int target_z, bool cumulative = false,
+        void build_seen_cache( const tripoint &origin, int target_z, int extension_range = 60,
+                               bool cumulative = false,
                                bool camera = false, int penalty = 0 );
         void apply_character_light( Character &p );
 

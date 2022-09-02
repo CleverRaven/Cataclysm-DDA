@@ -45,6 +45,7 @@ static const ter_str_id ter_t_window_frame( "t_window_frame" );
 static const trait_id trait_MYOPIC( "MYOPIC" );
 
 static const vproto_id vehicle_prototype_meth_lab( "meth_lab" );
+static const vproto_id vehicle_prototype_vehicle_camera_test( "vehicle_camera_test" );
 
 static int get_actual_light_level( const map_test_case::tile &t )
 {
@@ -141,6 +142,8 @@ struct vision_test_case {
     vision_test_flags flags;
     tile_predicate set_up_tiles = set_up_tiles_common;
     std::string section_prefix;
+    char anchor_char = 0;
+    std::function<void()> intermission;
 
     vision_test_case( const std::vector<std::string> &setup,
                       const std::vector<std::string> &expectedResults,
@@ -168,7 +171,11 @@ struct vision_test_case {
         map_test_case t;
         t.setup = setup;
         t.expected_results = expected_results;
-        t.set_anchor_char_from( {'u', 'U', 'V'} );
+        if( anchor_char == 0 ) {
+            t.set_anchor_char_from( {'u', 'U', 'V'} );
+        } else {
+            t.set_anchor_char_from( {anchor_char} );
+        }
         REQUIRE( t.anchor_char.has_value() );
         t.anchor_map_pos = player_character.pos();
 
@@ -217,12 +224,32 @@ struct vision_test_case {
             here.update_visibility_cache( zlev );
             here.invalidate_map_cache( zlev );
             here.build_map_cache( zlev );
+            if( intermission ) {
+                intermission();
+            }
 
             INFO( vision_test_info( t ) );
             t.for_each_tile( assert_tile_light_level );
         }
     }
 };
+
+static cata::optional<units::angle> testcase_veh_dir( point const &def, vision_test_case const &t,
+        map_test_case::tile &tile )
+{
+    cata::optional<units::angle> dir = cata::nullopt;
+    point const dim( t.setup[0].size(), t.setup.size() );
+    if( tile.p_local == def ) {
+        dir = 0_degrees;
+    } else if( tile.p_local == def.rotate( 1, dim ) ) {
+        dir = 90_degrees;
+    } else if( tile.p_local == def.rotate( 2, dim ) ) {
+        dir = 180_degrees;
+    } else if( tile.p_local == def.rotate( 3, dim ) ) {
+        dir = 270_degrees;
+    }
+    return dir;
+}
 
 // The following characters are used in these setups:
 // ' ' - empty, outdoors
@@ -674,6 +701,214 @@ TEST_CASE( "vision_moncam_basic", "[shadowcasting][vision][moncam]" )
     } else {
         REQUIRE( !u.sees( zombie->pos(), true ) );
     }
+}
+
+TEST_CASE( "vision_moncam_otherz", "[shadowcasting][vision][moncam]" )
+{
+    tripoint const disp = GENERATE( tripoint_below, tripoint_zero, tripoint_above );
+    vision_test_case t {
+        {
+            "-c-",
+            "###",
+            "#u#",
+            "###",
+        },
+        disp.z != 0 ?
+        std::vector<std::string> {
+            "666",
+            "666",
+            "616",
+            "666",
+}:
+        std::vector<std::string> {
+            "444",
+            "414",
+            "616",
+            "666",
+        },
+        day_time
+    };
+
+    tile_predicate spawn_moncam_disp = [&]( map_test_case::tile tile ) {
+        tile_predicate const p = ter_set( ter_t_floor ) + ter_set( ter_t_floor, tripoint_below ) +
+                                 ter_set_flat_roof_above;
+        p( tile );
+        monster *const slime = g->place_critter_at( mon_test_camera, tile.p + disp );
+        REQUIRE( slime->posz() == get_avatar().posz() + disp.z );
+        REQUIRE( slime->type->vision_day == 6 );
+        slime->friendly = -1;
+        return true;
+    };
+    t.section_prefix = string_format( "%i_", disp.z );
+    t.flags.moncam = true;
+    t.flags.blindfold = true; // FIXME: remove once 3dfov takes LOS into account
+    t.set_up_tiles =
+        ifchar( 'c', spawn_moncam_disp ) ||
+        t.set_up_tiles;
+
+    t.test_all();
+}
+
+TEST_CASE( "vision_vehicle_mirrors", "[shadowcasting][vision][vehicle]" )
+{
+    clear_vehicles();
+    bool const blindfold = GENERATE( true, false );
+    vision_test_case t {
+        {
+            "        ",
+            "        ",
+            "       M",
+            "       U",
+            "       M",
+            "        ",
+            "        ",
+        },
+        blindfold ?
+        std::vector<std::string> {
+            "66666666",
+            "66666666",
+            "66666666",
+            "66666664",
+            "66666666",
+            "66666666",
+            "66666666",
+} :
+        std::vector<std::string> {
+            "44444444",
+            "44444444",
+            "66666644",
+            "66666644",
+            "66666644",
+            "44444444",
+            "44444444",
+        },
+        day_time
+    };
+    tile_predicate spawn_veh = [&]( map_test_case::tile tile ) {
+        cata::optional<units::angle> dir = testcase_veh_dir( {7, 2}, t, tile );
+        if( dir ) {
+            vehicle *v = get_map().add_vehicle( vehicle_prototype_meth_lab, tile.p, *dir, 0, 0 );
+            for( const vpart_reference &vp : v->get_avail_parts( "OPENABLE" ) ) {
+                v->close( vp.part_index() );
+            }
+        }
+        return true;
+    };
+    t.flags.blindfold = blindfold;
+    t.set_up_tiles =
+        ifchar( 'M', spawn_veh ) ||
+        t.set_up_tiles;
+    t.test_all();
+    clear_vehicles();
+}
+
+TEST_CASE( "vision_vehicle_camera", "[shadowcasting][vision][vehicle]" )
+{
+    clear_vehicles();
+    bool const blindfold = GENERATE( true, false );
+    vision_test_case t {
+        {
+            " M ",
+            "   ",
+            "   ",
+            "   ",
+        },
+        blindfold ?
+        std::vector<std::string>{
+            "616",
+            "666",
+            "666",
+            "666",
+} :
+        std::vector<std::string>{
+            "111",
+            "444",
+            "444",
+            "444",
+        },
+        day_time
+    };
+
+    tile_predicate spawn_veh_cam = [&]( map_test_case::tile tile ) {
+        // NOLINTNEXTLINE(cata-use-named-point-constants)
+        cata::optional<units::angle> const dir = testcase_veh_dir( { 1, 0 }, t, tile );
+        if( dir ) {
+            vehicle *v =
+                get_map().add_vehicle( vehicle_prototype_vehicle_camera_test, tile.p, *dir, 0, 0 );
+            v->camera_on = true;
+        }
+        return true;
+    };
+
+    t.anchor_char = 'M';
+    t.flags.blindfold = blindfold;
+    t.set_up_tiles =
+        ifchar( 'M', spawn_veh_cam ) ||
+        t.set_up_tiles;
+
+    t.test_all();
+    clear_vehicles();
+}
+
+TEST_CASE( "vision_moncam_invalidation", "[shadowcasting][vision][moncam]" )
+{
+    clear_vehicles();
+    vision_test_case t {
+        {
+            "   ",
+            " M ",
+            "   ",
+            "   ",
+            "###",
+            " C ",
+        },
+        {
+            "111",
+            "111",
+            "444",
+            "444",
+            "444",
+            "444",
+        },
+        day_time
+    };
+
+    tile_predicate spawn_veh_cam = [&]( map_test_case::tile tile ) {
+        // NOLINTNEXTLINE(cata-use-named-point-constants)
+        cata::optional<units::angle> const dir = testcase_veh_dir( { 1, 1 }, t, tile );
+        if( dir ) {
+            vehicle *v =
+                get_map().add_vehicle( vehicle_prototype_vehicle_camera_test, tile.p, *dir, 0, 0 );
+            v->camera_on = true;
+        }
+        return true;
+    };
+
+    monster *slime = nullptr;
+    tile_predicate spawn_moncam_wiggle = [&]( map_test_case::tile tile ) {
+        slime = g->place_critter_at( mon_test_camera, tile.p );
+        slime->friendly = -1;
+        return true;
+    };
+
+    auto wiggle_slime = [&]() {
+        // vehicle camera should still work even if only the moncam moved
+        slime->Creature::move_to( slime->get_location() + tripoint_east );
+        get_map().build_map_cache( slime->posz() );
+        slime->Creature::move_to( slime->get_location() - tripoint_east );
+        get_map().build_map_cache( slime->posz() );
+    };
+
+    t.anchor_char = 'M';
+    t.flags.moncam = true;
+    t.intermission = wiggle_slime;
+    t.set_up_tiles =
+        ifchar( 'C', spawn_moncam_wiggle ) ||
+        ifchar( 'M', spawn_veh_cam ) ||
+        t.set_up_tiles;
+
+    t.test_all();
+    clear_vehicles();
 }
 
 TEST_CASE( "vision_bright_source", "[vision]" )

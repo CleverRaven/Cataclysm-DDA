@@ -111,6 +111,7 @@
 #include "line.h"
 #include "live_view.h"
 #include "loading_ui.h"
+#include "main_menu.h"
 #include "magic.h"
 #include "make_static.h"
 #include "map.h"
@@ -183,6 +184,10 @@
 #include "weather.h"
 #include "weather_type.h"
 #include "worldfactory.h"
+
+#if defined(TILES)
+#include "sdl_utils.h"
+#endif // TILES
 
 class computer;
 
@@ -577,6 +582,18 @@ void game_ui::init_ui()
         //class variable to track the option being active
         //only set once, toggle action is used to change during game
         pixel_minimap_option = get_option<bool>( "PIXEL_MINIMAP" );
+        if( get_option<std::string>( "PIXEL_MINIMAP_BG" ) == "theme" ) {
+            SDL_Color pixel_minimap_color = curses_color_to_SDL( c_black );
+            pixel_minimap_r = pixel_minimap_color.r;
+            pixel_minimap_g = pixel_minimap_color.g;
+            pixel_minimap_b = pixel_minimap_color.b;
+            pixel_minimap_a = pixel_minimap_color.a;
+        } else {
+            pixel_minimap_r = 0x00;
+            pixel_minimap_g = 0x00;
+            pixel_minimap_b = 0x00;
+            pixel_minimap_a = 0x00;
+        }
 #endif // TILES
     }
 
@@ -622,6 +639,15 @@ void game::toggle_pixel_minimap() const
     pixel_minimap_option = !pixel_minimap_option;
     mark_main_ui_adaptor_resize();
 #endif // TILES
+}
+
+bool game::is_tileset_isometric() const
+{
+#if defined(TILES)
+    return use_tiles && tilecontext && tilecontext->is_isometric();
+#else
+    return false;
+#endif
 }
 
 void game::reload_tileset()
@@ -2289,7 +2315,7 @@ std::pair<tripoint, tripoint> game::mouse_edge_scrolling( input_context &ctxt, c
 tripoint game::mouse_edge_scrolling_terrain( input_context &ctxt )
 {
     auto ret = mouse_edge_scrolling( ctxt, std::max( DEFAULT_TILESET_ZOOM / tileset_zoom, 1 ),
-                                     last_mouse_edge_scroll_vector_terrain, tile_iso );
+                                     last_mouse_edge_scroll_vector_terrain, g->is_tileset_isometric() );
     last_mouse_edge_scroll_vector_terrain = ret.second;
     last_mouse_edge_scroll_vector_overmap = tripoint_zero;
     return ret.first;
@@ -2399,9 +2425,7 @@ input_context get_default_mode_input_context()
     ctxt.register_action( "workout" );
     ctxt.register_action( "save" );
     ctxt.register_action( "quicksave" );
-#if !defined(RELEASE)
     ctxt.register_action( "quickload" );
-#endif
     ctxt.register_action( "SUICIDE" );
     ctxt.register_action( "player_data" );
     ctxt.register_action( "map" );
@@ -2443,6 +2467,7 @@ input_context get_default_mode_input_context()
     ctxt.register_action( "toggle_auto_foraging" );
     ctxt.register_action( "toggle_auto_pickup" );
     ctxt.register_action( "toggle_thief_mode" );
+    ctxt.register_action( "toggle_iso_walls" );
     ctxt.register_action( "diary" );
     ctxt.register_action( "action_menu" );
     ctxt.register_action( "main_menu" );
@@ -4894,12 +4919,8 @@ bool game::is_empty( const tripoint_bub_ms &p )
 
 bool game::is_in_sunlight( const tripoint &p )
 {
-    const optional_vpart_position vp = m.veh_at( p );
-    bool is_inside = vp && vp->is_inside();
-
-    return m.is_outside( p ) && light_level( p.z ) >= 40 && !is_night( calendar::turn ) &&
-           get_weather().weather_id->sun_intensity >= sun_intensity_type::normal &&
-           !is_inside;
+    return !is_sheltered( p ) &&
+           incident_sun_irradiance( get_weather().weather_id, calendar::turn ) > irradiance::minimal;
 }
 
 bool game::is_sheltered( const tripoint &p )
@@ -5535,7 +5556,7 @@ static std::string get_fire_fuel_string( const tripoint &examp )
                 } else {
                     if( to_string_approx( fire_age - fire_age * mod / 5 ) == to_string_approx(
                             fire_age + fire_age * mod / 5 ) ) {
-                        ss += string_format( _( "Without extra fuel it will burn for about %s." ),
+                        ss += string_format( _( "Without extra fuel it will burn for %s." ),
                                              to_string_approx( fire_age - fire_age * mod / 5 ) );
                     } else {
                         ss += string_format( _( "Without extra fuel it will burn for between %s to %s." ),
@@ -12014,7 +12035,7 @@ void game::display_reachability_zones()
 void game::init_autosave()
 {
     moves_since_last_save = 0;
-    last_save_timestamp = time( nullptr );
+    last_save_timestamp = std::time( nullptr );
 }
 
 void game::quicksave()
@@ -12030,7 +12051,7 @@ void game::quicksave()
     ui_manager::redraw();
     refresh_display();
 
-    time_t now = time( nullptr ); //timestamp for start of saving procedure
+    time_t now = std::time( nullptr ); //timestamp for start of saving procedure
 
     //perform save
     save();
@@ -12045,18 +12066,22 @@ void game::quickload()
     if( active_world == nullptr ) {
         return;
     }
+    std::string const world_name = active_world->world_name;
+    std::string const &save_id = u.get_save_id();
 
-    if( active_world->save_exists( save_t::from_save_id( u.get_save_id() ) ) ) {
+    if( active_world->save_exists( save_t::from_save_id( save_id ) ) ) {
         if( moves_since_last_save != 0 ) { // See if we need to reload anything
-            MAPBUFFER.clear();
-            overmap_buffer.clear();
-            try {
-                setup();
-            } catch( const std::exception &err ) {
-                debugmsg( "Error: %s", err.what() );
-            }
-            load( save_t::from_save_id( u.get_save_id() ) );
+            moves_since_last_save = 0;
+            last_save_timestamp = std::time( nullptr );
+
+            u.moves = 0;
+            uquit = QUIT_NOSAVED;
+
+            main_menu::queued_world_to_load = world_name;
+            main_menu::queued_save_id_to_load = save_id;
+
         }
+
     } else {
         popup_getkey( _( "No saves for current character yet." ) );
     }
@@ -12065,7 +12090,7 @@ void game::quickload()
 void game::autosave()
 {
     //Don't autosave if the min-autosave interval has not passed since the last autosave/quicksave.
-    if( time( nullptr ) < last_save_timestamp + 60 * get_option<int>( "AUTOSAVE_MINUTES" ) ) {
+    if( std::time( nullptr ) < last_save_timestamp + 60 * get_option<int>( "AUTOSAVE_MINUTES" ) ) {
         return;
     }
     quicksave();    //Driving checks are handled by quicksave()

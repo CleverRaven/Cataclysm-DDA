@@ -21,6 +21,8 @@
     "melee_dice_sides": 8,
     "dodge": 5,
     "harvest": "ogre",
+    "families": [ "prof_wp_demihuman" ],
+    "weakpoint_sets": [ "wps_humanoid_body", "wps_humanoid_body_armor", "wps_humanoid_open_helmet" ],
     "anger_triggers": [ "HURT", "FIRE", "PLAYER_WEAK" ],
     "vision_day": 10,
     "vision_night": 3,

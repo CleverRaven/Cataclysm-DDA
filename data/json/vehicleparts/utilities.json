@@ -95,7 +95,7 @@
     "pseudo_tools": [
       { "id": "pseudo_veh_foodco_vac_sealer" },
       { "id": "pseudo_veh_foodco_dehydrator" },
-      { "id": "pseudo_veh_foodco_water_purifier", "hotkey": "p" },
+      { "id": "pseudo_water_purifier", "hotkey": "p" },
       { "id": "pseudo_veh_foodco_food_processor" },
       { "id": "press" },
       { "id": "puller" }

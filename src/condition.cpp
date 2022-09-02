@@ -1789,7 +1789,7 @@ std::function<int( const T & )> conditional_t<T>::get_get_int( const JsonObject 
                     }
                     return false;
                 } );
-                return targets.size();
+                return static_cast<int>( targets.size() );
             };
         }
     } else if( jo.has_member( "moon" ) ) {

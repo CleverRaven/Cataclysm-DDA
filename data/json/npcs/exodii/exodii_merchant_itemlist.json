@@ -282,5 +282,15 @@
       [ "bio_railgun", 15 ],
       [ "bio_shockwave", 10 ]
     ]
+  },
+  {
+    "type": "item_group",
+    "id": "EXODII_Store_Salvage_Tech",
+    "//": "At this point the Exodii trust you enough to sell you the materials to bootstrap some of their salvaged tech onto your own tech.",
+    "subtype": "collection",
+    "items": [
+      { "item": "exodii_wiring_kit_reference", "prob": 100 },
+      { "item": "exodii_wire_kit", "prob": 100, "count": [ 1, 4 ] }
+    ]
   }
 ]

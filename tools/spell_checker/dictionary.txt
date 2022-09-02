@@ -13,6 +13,7 @@ adze
 aerarium
 aerially
 aeterna
+aetheric
 afterbirth
 afterimage
 afterlife
@@ -202,6 +203,7 @@ blackpowders
 blacksmithy
 bleedin
 bloodbank
+bloodborne
 bloodloss
 bloomery
 bluegill
@@ -268,6 +270,7 @@ caltrops
 camarasaurus
 camarasaurus
 camphine
+campin'
 camspy
 cannelured
 caparison
@@ -753,6 +756,7 @@ grinny
 grnd
 groundcover
 groundsheet
+gryposaurus
 gt
 guayaba
 gunblade
@@ -767,6 +771,7 @@ gymnocladus
 h
 hadrosaurus
 haematopoiesis
+haft
 hahahahahaha
 hahd
 halazone
@@ -779,6 +784,7 @@ handiness
 handloading
 hangry
 haori
+haplocanthosaurus
 hardbound
 hardpoint
 hardpoints
@@ -797,6 +803,7 @@ helpdesk
 hemolymph
 hemostatics
 heoretical
+hesperosaurus
 hevel
 hexamine
 hexapod
@@ -814,6 +821,7 @@ hmmm
 hollowpoint
 holybook
 homebrewing
+homovorus
 honeygold
 hosomaki
 hotcut
@@ -1127,6 +1135,7 @@ moonflower
 moonflowers
 moriatur
 morningstar
+moroi
 mortems
 mosasaurus
 mostlike
@@ -1246,6 +1255,7 @@ olieribos
 olors
 ompare
 omplete
+oneiric
 onyxes
 openable
 openair
@@ -1381,6 +1391,7 @@ premeasured
 preminiscent
 premix
 preoptic
+presaging
 prescriptures
 prev
 primeside
@@ -1546,6 +1557,7 @@ samghati
 samoyed
 sandleather
 sapience
+sarahsaurus
 sarracenia
 satirizes
 sauropod
@@ -1899,6 +1911,7 @@ universalism
 unjacketed
 unlively
 unlives
+unlooted
 unmalted
 unmark
 unmarred

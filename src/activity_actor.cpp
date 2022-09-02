@@ -81,6 +81,7 @@
 #include "value_ptr.h"
 #include "vehicle.h"
 #include "vpart_position.h"
+#include "veh_type.h"
 
 static const activity_id ACT_AIM( "ACT_AIM" );
 static const activity_id ACT_AUTODRIVE( "ACT_AUTODRIVE" );
@@ -137,6 +138,8 @@ static const activity_id ACT_TENT_PLACE( "ACT_TENT_PLACE" );
 static const activity_id ACT_TRY_SLEEP( "ACT_TRY_SLEEP" );
 static const activity_id ACT_UNLOAD( "ACT_UNLOAD" );
 static const activity_id ACT_UNLOAD_LOOT( "ACT_UNLOAD_LOOT" );
+static const activity_id ACT_VEHICLE_FOLD( "ACT_VEHICLE_FOLD" );
+static const activity_id ACT_VEHICLE_UNFOLD( "ACT_VEHICLE_UNFOLD" );
 static const activity_id ACT_WEAR( "ACT_WEAR" );
 static const activity_id ACT_WIELD( "ACT_WIELD" );
 static const activity_id ACT_WORKOUT_ACTIVE( "ACT_WORKOUT_ACTIVE" );
@@ -208,6 +211,8 @@ static const ter_str_id ter_t_underbrush_harvested_summer( "t_underbrush_harvest
 static const ter_str_id ter_t_underbrush_harvested_winter( "t_underbrush_harvested_winter" );
 
 static const trait_id trait_SCHIZOPHRENIC( "SCHIZOPHRENIC" );
+
+static const vproto_id vehicle_prototype_none( "none" );
 
 static const zone_type_id zone_type_LOOT_IGNORE( "LOOT_IGNORE" );
 static const zone_type_id zone_type_LOOT_IGNORE_FAVORITES( "LOOT_IGNORE_FAVORITES" );
@@ -1003,7 +1008,7 @@ void hacksaw_activity_actor::do_turn( player_activity &/*act*/, Character &who )
 
     if( tool->ammo_sufficient( &who, method ) ) {
         int ammo_consumed = tool->ammo_required();
-        std::map<std::string, float>::const_iterator iter = tool->type->ammo_scale.find( method );
+        std::map<std::string, int>::const_iterator iter = tool->type->ammo_scale.find( method );
         if( iter != tool->type->ammo_scale.end() ) {
             ammo_consumed *= iter->second;
         }
@@ -1129,6 +1134,12 @@ std::unique_ptr<activity_actor> hacksaw_activity_actor::deserialize( JsonValue &
     return actor.clone();
 }
 
+bikerack_racking_activity_actor::bikerack_racking_activity_actor( vehicle &parent_vehicle,
+        std::vector<std::vector<int>> parts ) : parts( std::move( parts ) )
+{
+    parent_vehicle_pos = parent_vehicle.bub_part_pos( 0 );
+}
+
 void bikerack_racking_activity_actor::start( player_activity &act, Character & )
 {
     act.moves_total = moves_total;
@@ -1137,8 +1148,17 @@ void bikerack_racking_activity_actor::start( player_activity &act, Character & )
 
 void bikerack_racking_activity_actor::finish( player_activity &act, Character & )
 {
+    map &here = get_map();
+    const optional_vpart_position ovp = here.veh_at( parent_vehicle_pos );
+    if( !ovp ) {
+        debugmsg( "racking activity lost vehicle" );
+        act.set_to_null();
+        return;
+    }
+
+    vehicle &parent_vehicle = ovp->vehicle();
+
     if( parent_vehicle.try_to_rack_nearby_vehicle( parts ) ) {
-        map &here = get_map();
         here.invalidate_map_cache( here.get_abs_sub().z() );
         here.rebuild_vehicle_level_caches();
     } else {
@@ -1152,21 +1172,27 @@ void bikerack_racking_activity_actor::serialize( JsonOut &jsout ) const
 {
     jsout.start_object();
     jsout.member( "moves_total", moves_total );
-    jsout.member( "parent_vehicle", parent_vehicle );
+    jsout.member( "parent_vehicle_pos", parent_vehicle_pos );
     jsout.member( "parts", parts );
     jsout.end_object();
 }
 
 std::unique_ptr<activity_actor> bikerack_racking_activity_actor::deserialize( JsonValue &jsin )
 {
-    vehicle veh;
-    bikerack_racking_activity_actor actor( 0, veh, std::vector<std::vector<int>>() );
+    bikerack_racking_activity_actor actor;
     JsonObject data = jsin.get_object();
     data.read( "moves_total", actor.moves_total );
-    data.read( "parent_vehicle", actor.parent_vehicle );
+    data.read( "parent_vehicle_pos", actor.parent_vehicle_pos );
     data.read( "parts", actor.parts );
 
     return actor.clone();
+}
+
+bikerack_unracking_activity_actor::bikerack_unracking_activity_actor( vehicle &parent_vehicle,
+        std::vector<int> parts, std::vector<int> racks )
+    : parts( std::move( parts ) ), racks( std::move( racks ) )
+{
+    parent_vehicle_pos = parent_vehicle.bub_part_pos( 0 );
 }
 
 void bikerack_unracking_activity_actor::start( player_activity &act, Character & )
@@ -1177,9 +1203,18 @@ void bikerack_unracking_activity_actor::start( player_activity &act, Character &
 
 void bikerack_unracking_activity_actor::finish( player_activity &act, Character & )
 {
+    map &here = get_map();
+    const optional_vpart_position ovp = get_map().veh_at( parent_vehicle_pos );
+    if( !ovp ) {
+        debugmsg( "unracking activity lost vehicle" );
+        act.set_to_null();
+        return;
+    }
+
+    vehicle &parent_vehicle = ovp->vehicle();
+
     if( parent_vehicle.remove_carried_vehicle( parts ) ) {
         parent_vehicle.clear_bike_racks( racks );
-        map &here = get_map();
         here.invalidate_map_cache( here.get_abs_sub().z() );
         here.rebuild_vehicle_level_caches();
     } else {
@@ -1193,7 +1228,7 @@ void bikerack_unracking_activity_actor::serialize( JsonOut &jsout ) const
 {
     jsout.start_object();
     jsout.member( "moves_total", moves_total );
-    jsout.member( "parent_vehicle", parent_vehicle );
+    jsout.member( "parent_vehicle_pos", parent_vehicle_pos );
     jsout.member( "parts", parts );
     jsout.member( "racks", racks );
     jsout.end_object();
@@ -1201,11 +1236,10 @@ void bikerack_unracking_activity_actor::serialize( JsonOut &jsout ) const
 
 std::unique_ptr<activity_actor> bikerack_unracking_activity_actor::deserialize( JsonValue &jsin )
 {
-    vehicle veh;
-    bikerack_unracking_activity_actor actor( 0, veh, std::vector<int>(), std::vector<int>() );
+    bikerack_unracking_activity_actor actor;
     JsonObject data = jsin.get_object();
     data.read( "moves_total", actor.moves_total );
-    data.read( "parent_vehicle", actor.parent_vehicle );
+    data.read( "parent_vehicle_pos", actor.parent_vehicle_pos );
     data.read( "parts", actor.parts );
     data.read( "racks", actor.racks );
 
@@ -4826,7 +4860,7 @@ void prying_activity_actor::do_turn( player_activity &/*act*/, Character &who )
 
     if( tool->ammo_sufficient( &who, method ) ) {
         int ammo_consumed = tool->ammo_required();
-        std::map<std::string, float>::const_iterator iter = tool->type->ammo_scale.find( method );
+        std::map<std::string, int>::const_iterator iter = tool->type->ammo_scale.find( method );
         if( iter != tool->type->ammo_scale.end() ) {
             ammo_consumed *= iter->second;
         }
@@ -6416,6 +6450,240 @@ void unload_loot_activity_actor::do_turn( player_activity &act, Character &you )
     act.set_to_null();
 }
 
+bool vehicle_folding_activity_actor::fold_vehicle( Character &p, bool check_only ) const
+{
+    map &here = get_map();
+    const optional_vpart_position vp = here.veh_at( target_pos );
+    if( !vp ) {
+        debugmsg( "Lost ACT_VEHICLE_FOLD target vehicle" );
+        return false;
+    }
+    vehicle &veh = vp->vehicle();
+
+    if( !veh.is_foldable() ) {
+        p.add_msg_if_player( m_warning, _( "%s cannot be folded." ), veh.name );
+        return false;
+    }
+
+    for( const vpart_reference &vp : veh.get_all_parts() ) {
+        for( const itype_id &tool : vp.info().get_folding_tools() ) {
+            if( !p.has_amount( tool, 1 ) ) {
+                p.add_msg_if_player( _( "You need %s to do it!" ), item::nname( tool ) );
+                return false;
+            }
+        }
+    }
+
+    if( veh.velocity != 0 ) {
+        p.add_msg_if_player( m_warning, _( "You can't fold the %s while it's in motion." ), veh.name );
+        return false;
+    }
+
+    if( check_only ) {
+        return true; // bail out early if we're just checking
+    }
+
+    // Drop cargo to ground
+    // TODO: make cargo shuffling add time to activity
+    for( const vpart_reference &vp : veh.get_any_parts( "CARGO" ) ) {
+        vehicle_stack cargo = veh.get_items( vp.part_index() );
+        for( const item &elem : cargo ) {
+            here.add_item_or_charges( veh.pos_bub(), elem );
+        }
+        cargo.clear();
+    }
+
+    veh.unboard_all();
+    p.add_msg_if_player( _( "You fold the %s." ), veh.name );
+    here.add_item_or_charges( veh.pos_bub(), veh.get_folded_item() );
+    here.destroy_vehicle( &veh );
+
+    return true;
+}
+
+vehicle_folding_activity_actor::vehicle_folding_activity_actor( const vehicle &target )
+{
+    folding_time = target.folding_time();
+    target_pos = target.pos_bub();
+}
+
+void vehicle_folding_activity_actor::start( player_activity &act, Character &p )
+{
+    avatar *pc = p.as_avatar();
+    if( pc && pc->get_grab_type() == object_type::VEHICLE ) {
+        optional_vpart_position grabbed_veh = get_map().veh_at( pc->pos_bub() + pc->grab_point );
+        optional_vpart_position target_veh = get_map().veh_at( target_pos );
+        if( grabbed_veh && target_veh && ( &grabbed_veh->vehicle() == &target_veh->vehicle() ) ) {
+            pc->grab( object_type::NONE );
+            pc->add_msg_if_player( _( "You let go of %s." ), grabbed_veh->vehicle().name );
+        }
+    }
+
+    act.moves_total = to_moves<int>( folding_time );
+    act.moves_left = to_moves<int>( folding_time );
+
+    if( !fold_vehicle( p, /* check_only = */ true ) ) {
+        act.set_to_null();
+    }
+}
+
+void vehicle_folding_activity_actor::do_turn( player_activity &act, Character &p )
+{
+    if( calendar::once_every( 30_seconds ) ) {
+        if( !fold_vehicle( p, /* check_only = */ true ) ) {
+            act.set_to_null();
+        }
+    }
+}
+
+void vehicle_folding_activity_actor::finish( player_activity &act, Character &p )
+{
+    fold_vehicle( p, /* check_only = */ false );
+    act.set_to_null();
+}
+
+void vehicle_folding_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+    jsout.member( "target_pos", target_pos );
+    jsout.member( "folding_time", folding_time );
+    jsout.end_object();
+}
+
+std::unique_ptr<activity_actor> vehicle_folding_activity_actor::deserialize( JsonValue &jsin )
+{
+    vehicle_folding_activity_actor actor;
+    JsonObject data = jsin.get_object();
+    data.read( "target_pos", actor.target_pos );
+    data.read( "folding_time", actor.folding_time );
+    return actor.clone();
+}
+
+bool vehicle_unfolding_activity_actor::unfold_vehicle( Character &p, bool check_only ) const
+{
+    if( p.is_underwater() ) {
+        p.add_msg_if_player( m_info, _( "You can't do that while underwater." ) );
+        return false;
+    }
+    if( p.is_mounted() ) {
+        p.add_msg_if_player( m_info, _( "You can't do that while mounted." ) );
+        return false;
+    }
+    map &here = get_map();
+    vehicle *veh = here.add_vehicle( vehicle_prototype_none, p.pos(), 0_degrees, 0, 0, false );
+    if( veh == nullptr ) {
+        p.add_msg_if_player( m_info, _( "There's no room to unfold the %s." ), it.tname() );
+        return false;
+    }
+    if( !veh->restore_folded_parts( it ) ) {
+        here.destroy_vehicle( veh );
+        return false;
+    }
+    const bool cant_float = size( veh->get_avail_parts( "FLOATS" ) ) <= 2;
+    const auto invalid_pos = [&here, &cant_float]( const tripoint & p ) {
+        return ( cant_float && here.has_flag_ter( ter_furn_flag::TFLAG_DEEP_WATER, p ) )
+               || here.veh_at( p )
+               || here.impassable( p );
+    };
+    for( const vpart_reference &vp : veh->get_all_parts() ) {
+        if( vp.info().location != "structure" ) {
+            continue;
+        }
+        if( invalid_pos( vp.pos() ) ) {
+            p.add_msg_if_player( m_info, _( "There's no room to unfold the %s." ), it.tname() );
+            here.destroy_vehicle( veh );
+            return false;
+        }
+        for( const itype_id &tool : vp.info().get_unfolding_tools() ) {
+            if( !p.has_amount( tool, 1 ) ) {
+                p.add_msg_if_player( _( "You need %s to do it!" ), item::nname( tool ) );
+                here.destroy_vehicle( veh );
+                return false;
+            }
+        }
+    }
+    if( check_only ) { // if we're just checking bail out at this point - this is a valid location.
+        here.destroy_vehicle( veh );
+        return true;
+    }
+    veh->name = it.get_var( "vehicle_name" );
+    veh->set_owner( p );
+    here.add_vehicle_to_cache( veh );
+    if( here.veh_at( p.pos() ).part_with_feature( "BOARDABLE", true ) ) {
+        here.board_vehicle( p.pos(), &p ); // if boardable unbroken part is present -> get on it
+    }
+    if( p.is_avatar() && it.get_var( "tracking", 0 ) == 1 ) {
+        veh->toggle_tracking(); // restore position tracking state
+    }
+
+    std::string unfold_msg = it.get_var( "unfold_msg" );
+    if( unfold_msg.empty() ) {
+        unfold_msg = _( "You unfold the %s." );
+    } else {
+        unfold_msg = _( unfold_msg );
+    }
+    p.add_msg_if_player( m_neutral, unfold_msg, veh->name );
+
+    return true;
+}
+
+vehicle_unfolding_activity_actor::vehicle_unfolding_activity_actor( const item &it )
+    : it( it )
+{
+    constexpr int legacy_unfold_moves = 500;
+    unfolding_time = time_duration::from_moves( it.get_var( "unfolding_time", legacy_unfold_moves ) );
+}
+
+void vehicle_unfolding_activity_actor::start( player_activity &act, Character &p )
+{
+    act.moves_total = to_moves<int>( unfolding_time );
+    act.moves_left = to_moves<int>( unfolding_time );
+    if( !unfold_vehicle( p, /* check_only = */ true ) ) {
+        act.canceled( p );
+    }
+}
+
+void vehicle_unfolding_activity_actor::do_turn( player_activity &act, Character &p )
+{
+    if( calendar::once_every( 30_seconds ) ) {
+        if( !unfold_vehicle( p, /* check_only = */ true ) ) {
+            act.canceled( p );
+        }
+    }
+}
+
+void vehicle_unfolding_activity_actor::finish( player_activity &act, Character &p )
+{
+    if( !unfold_vehicle( p, /* check_only = */ false ) ) {
+        debugmsg( "failed unfolding %s", it.display_name() );
+        act.canceled( p );
+    }
+    act.set_to_null();
+}
+
+void vehicle_unfolding_activity_actor::canceled( player_activity &act, Character &p )
+{
+    get_map().add_item_or_charges( p.pos(), it, true );
+    act.set_to_null();
+}
+
+void vehicle_unfolding_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+    jsout.member( "it", it );
+    jsout.member( "unfolding_time", unfolding_time );
+    jsout.end_object();
+}
+
+std::unique_ptr<activity_actor> vehicle_unfolding_activity_actor::deserialize( JsonValue &jsin )
+{
+    vehicle_unfolding_activity_actor actor;
+    JsonObject data = jsin.get_object();
+    data.read( "it", actor.it );
+    data.read( "unfolding_time", actor.unfolding_time );
+    return actor.clone();
+}
+
 namespace activity_actors
 {
 
@@ -6474,6 +6742,8 @@ deserialize_functions = {
     { ACT_TRY_SLEEP, &try_sleep_activity_actor::deserialize },
     { ACT_UNLOAD, &unload_activity_actor::deserialize },
     { ACT_UNLOAD_LOOT, &unload_loot_activity_actor::deserialize },
+    { ACT_VEHICLE_FOLD, &vehicle_folding_activity_actor::deserialize },
+    { ACT_VEHICLE_UNFOLD, &vehicle_unfolding_activity_actor::deserialize },
     { ACT_WEAR, &wear_activity_actor::deserialize },
     { ACT_WIELD, &wield_activity_actor::deserialize},
     { ACT_WORKOUT_ACTIVE, &workout_activity_actor::deserialize },

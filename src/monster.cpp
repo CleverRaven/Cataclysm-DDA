@@ -385,9 +385,10 @@ void monster::try_upgrade( bool pin_time )
         } else {
             mtype_id new_type;
             if( type->upgrade_multi_range ) {
+                bool ret_default = false;
                 std::vector<MonsterGroupResult> res = MonsterGroupManager::GetResultFromGroup(
-                        type->upgrade_group );
-                if( !res.empty() ) {
+                        type->upgrade_group, nullptr, nullptr, false, &ret_default );
+                if( !res.empty() && !ret_default ) {
                     // Set the type to poly the current monster (preserves inventory)
                     new_type = res.front().name;
                     res.front().pack_size--;
@@ -407,11 +408,10 @@ void monster::try_upgrade( bool pin_time )
                         }
                     }
                 }
-            }
-            if( new_type ) {
+            } else {
                 new_type = MonsterGroupManager::GetRandomMonsterFromGroup( type->upgrade_group );
             }
-            if( new_type ) {
+            if( !new_type.is_empty() ) {
                 poly( new_type );
             }
         }
@@ -3390,8 +3390,8 @@ void monster::set_horde_attraction( monster_horde_attraction mha )
 bool monster::will_join_horde( int size )
 {
     const monster_horde_attraction mha = get_horde_attraction();
-    if( this->has_flag( MF_IMMOBILE ) ) {
-        return false; //immobile monsters should never join a horde.
+    if( this->has_flag( MF_IMMOBILE ) || this->has_flag( MF_NEVER_WANDER ) ) {
+        return false; //immobile monsters should never join a horde. Same with Never Wander monsters.
     }
     if( mha == MHA_NEVER ) {
         return false;
