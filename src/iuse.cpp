@@ -913,17 +913,6 @@ cata::optional<int> iuse::meth( Character *p, item *, bool, const tripoint & )
     return 1;
 }
 
-cata::optional<int> iuse::vaccine( Character *p, item *it, bool, const tripoint & )
-{
-    p->add_msg_if_player( _( "You inject the vaccine." ) );
-    p->add_msg_if_player( m_good, _( "You feel tough." ) );
-    p->mod_daily_health( 200, 200 );
-    p->mod_pain( 3 );
-    item syringe( "syringe", it->birthday() );
-    p->i_add_or_drop( syringe );
-    return 1;
-}
-
 cata::optional<int> iuse::flu_vaccine( Character *p, item *it, bool, const tripoint & )
 {
     p->add_msg_if_player( _( "You inject the vaccine." ) );
@@ -5667,9 +5656,10 @@ cata::optional<int> iuse::toolmod_attach( Character *p, item *it, bool, const tr
     }
 
     auto filter = [&it]( const item & e ) {
-        // don't allow ups battery mods on a UPS or UPS-powered tools
-        if( it->has_flag( flag_USE_UPS ) &&
-            ( e.has_flag( flag_IS_UPS ) || e.has_flag( flag_USE_UPS ) ) ) {
+        // don't allow ups or bionic battery mods on a UPS or UPS-powered/bionic-powered tools
+        if( ( it->has_flag( flag_USE_UPS ) || it->has_flag( flag_USES_BIONIC_POWER ) ) &&
+            ( e.has_flag( flag_IS_UPS ) || e.has_flag( flag_USE_UPS ) ||
+              e.has_flag( flag_USES_BIONIC_POWER ) ) ) {
             return false;
         }
 
@@ -7736,7 +7726,7 @@ cata::optional<int> iuse::radiocaron( Character *p, item *it, bool t, const trip
         return 1;
     } else if( !it->ammo_sufficient( p ) ) {
         // Deactivate since other mode has an iuse too.
-        it->active = false;
+        it->convert( itype_radio_car ).active = false;
         return 0;
     }
 

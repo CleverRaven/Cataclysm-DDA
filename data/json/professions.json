@@ -1115,6 +1115,32 @@
   },
   {
     "type": "profession",
+    "id": "veteran",
+    "name": "Military Veteran",
+    "description": "You've served in the armed forces and after being discharged from the army, you're sent to take medical treatment in one of the health care centers.  Just when you thought you've overcome your war-time traumas and readjusted to the normal life, the world has come to and end and your worst nightmare has become a reality: living in an hellish battlefield.",
+    "points": 2,
+    "proficiencies": [ "prof_gunsmithing_basic" ],
+    "skills": [
+      { "level": 2, "name": "gun" },
+      { "level": 1, "name": "rifle" },
+      { "level": 2, "name": "melee" },
+      { "level": 1, "name": "dodge" },
+      { "level": 1, "name": "firstaid" },
+      { "level": 1, "name": "stabbing" },
+      { "level": 1, "name": "survival" },
+      { "level": 1, "name": "swimming" }
+    ],
+    "items": {
+      "both": {
+        "items": [ "pants", "socks", "sneakers", "wristwatch" ],
+        "entries": [ { "group": "charged_cell_phone" }, { "item": "tshirt", "variant": "generic_tshirt" } ]
+      },
+      "male": [ "boxer_shorts" ],
+      "female": [ "bra", "boxer_shorts" ]
+    }
+  },
+  {
+    "type": "profession",
     "id": "recruit",
     "name": "Military Recruit",
     "description": "Joining the military has been your dream for years.  You finally got in, just in time for your training to get interrupted by some sort of national emergency.  As far as you can tell, military command abandoned you in this hellhole when you missed the emergency evac.",

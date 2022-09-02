@@ -361,7 +361,9 @@
     "result_mult": 3,
     "book_learn": [ [ "necro_basic", 3 ] ],
     "qualities": [ { "id": "SEW", "level": 1 }, { "id": "CUT_FINE", "level": 1 }, { "id": "MANA_INFUSE", "level": 1 } ],
-    "tools": [ [ [ "rune_alchemist", -1 ], [ "rune_animist", -1 ], [ "rune_animist_weapon", -1 ] ] ],
+    "tools": [
+      [ [ "rune_alchemist", -1 ], [ "rune_animist", -1 ], [ "rune_animist_weapon", -1 ], [ "rune_animist_weapon_adept", -1 ] ]
+    ],
     "proficiencies": [ { "proficiency": "prof_leatherworking_basic" }, { "proficiency": "prof_leatherworking" } ],
     "components": [
       [ [ "brain", 1 ], [ "brain_cooked", 1 ] ],
@@ -393,7 +395,9 @@
       { "id": "HAMMER_FINE", "level": 1 },
       { "id": "MANA_INFUSE", "level": 1 }
     ],
-    "tools": [ [ [ "rune_alchemist", -1 ], [ "rune_animist", -1 ], [ "rune_animist_weapon", -1 ] ] ],
+    "tools": [
+      [ [ "rune_alchemist", -1 ], [ "rune_animist", -1 ], [ "rune_animist_weapon", -1 ], [ "rune_animist_weapon_adept", -1 ] ]
+    ],
     "proficiencies": [ { "proficiency": "prof_leatherworking_basic" }, { "proficiency": "prof_leatherworking" } ],
     "components": [
       [ [ "brain", 1 ], [ "brain_cooked", 1 ] ],
@@ -420,7 +424,7 @@
     "result_mult": 3,
     "book_learn": [ [ "necro_basic", 6 ] ],
     "qualities": [ { "id": "SEW", "level": 1 }, { "id": "CUT_FINE", "level": 1 }, { "id": "MANA_INFUSE", "level": 1 } ],
-    "tools": [ [ [ "rune_animist", -1 ], [ "rune_animist_weapon", -1 ] ] ],
+    "tools": [ [ [ "rune_animist", -1 ], [ "rune_animist_weapon", -1 ], [ "rune_animist_weapon_adept", -1 ] ] ],
     "proficiencies": [ { "proficiency": "prof_leatherworking_basic" }, { "proficiency": "prof_leatherworking" } ],
     "components": [
       [ [ "brain", 1 ], [ "brain_cooked", 1 ] ],
@@ -454,7 +458,7 @@
       { "id": "SCREW_FINE", "level": 1 },
       { "id": "MANA_INFUSE", "level": 1 }
     ],
-    "tools": [ [ [ "rune_technomancer", -1 ], [ "rune_technomancer_weapon", -1 ] ] ],
+    "tools": [ [ [ "rune_technomancer", -1 ], [ "rune_technomancer_weapon", -1 ], [ "rune_technomancer_weapon_adept", -1 ] ] ],
     "byproducts": [ [ "splinter", 4 ] ],
     "//": "Splinters from stock",
     "components": [ [ [ "leather", 4 ] ], [ [ "pipe_double_shotgun", 1 ], [ "shotgun_d", 1 ] ], [ [ "scrap", 8 ] ] ]

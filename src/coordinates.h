@@ -309,6 +309,13 @@ inline std::ostream &operator<<( std::ostream &os, const coord_point<Point, Orig
     return os << p.raw();
 }
 
+template <typename Point, origin Origin, scale Scale>
+constexpr inline coord_point<Point, Origin, Scale>
+coord_min( const coord_point<Point, Origin, Scale> &l, const coord_point<Point, Origin, Scale> &r )
+{
+    return { std::min( l.x(), r.x() ), std::min( l.y(), r.y() ), std::min( l.z(), r.z() ) };
+}
+
 template<int ScaleUp, int ScaleDown, scale ResultScale>
 struct project_to_impl;
 
