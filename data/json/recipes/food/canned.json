@@ -2889,7 +2889,7 @@
     "activity_level": "LIGHT_EXERCISE",
     "result": "juice",
     "id_suffix": "canned_big",
-    "byproducts": [ [ "juice_pulp", 1 ] ],
+    "byproducts": [ [ "juice_pulp", 12 ] ],
     "container": "can_food_big",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
