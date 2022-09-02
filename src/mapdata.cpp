@@ -267,7 +267,7 @@ std::string enum_to_string<ter_furn_flag>( ter_furn_flag data )
 } // namespace io
 
 static const std::unordered_map<std::string, ter_connects> ter_connects_map = { {
-        { "WALL",                     TERCONN_WALL },         // implied by ter_furn_flag::TFLAG_CONNECT_TO_WALL, ter_furn_flag::TFLAG_AUTO_WALL_SYMBOL or ter_furn_flag::TFLAG_WALL
+        { "WALL",                     TERCONN_WALL },         // implied for connects_to by ter_furn_flag::TFLAG_CONNECT_TO_WALL, ter_furn_flag::TFLAG_AUTO_WALL_SYMBOL or ter_furn_flag::TFLAG_WALL
         { "CHAINFENCE",               TERCONN_CHAINFENCE },
         { "WOODFENCE",                TERCONN_WOODFENCE },
         { "RAILING",                  TERCONN_RAILING },
@@ -287,7 +287,8 @@ static const std::unordered_map<std::string, ter_connects> ter_connects_map = { 
         { "ROCKFLOOR",                TERCONN_ROCKFLOOR },
         { "MULCHFLOOR",               TERCONN_MULCHFLOOR },
         { "METALFLOOR",               TERCONN_METALFLOOR },
-        { "WOODFLOOR",               TERCONN_WOODFLOOR },
+        { "WOODFLOOR",                TERCONN_WOODFLOOR },
+        { "INDOORFLOOR",              TERCONN_INDOORFLOOR },         // implied for rotates_to by ter_furn_flag::WINDOW, and for rotates_to_member by ter_furn_flag::INDOORS
     }
 };
 
@@ -629,6 +630,14 @@ void map_data_common_t::extraprocess_flags( const ter_furn_flag flag )
     // wall connection check for JSON backwards compatibility
     if( flag == ter_furn_flag::TFLAG_WALL || flag == ter_furn_flag::TFLAG_CONNECT_TO_WALL ) {
         set_connects( "WALL" );
+    }
+    // rotates_to check for JSON backwards compatibility
+    if( flag == ter_furn_flag::TFLAG_WINDOW || flag == ter_furn_flag::TFLAG_DOOR ) {
+        set_rotates_to( "INDOORFLOOR" );
+    }
+    // rotates_to_member check for JSON backwards compatibility
+    if( flag == ter_furn_flag::TFLAG_INDOORS ) {
+        set_rotates_to_member( "INDOORFLOOR" );
     }
 }
 
