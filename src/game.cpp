@@ -7168,8 +7168,8 @@ look_around_result game::look_around(
             }
 
             const int dz = action == "LEVEL_UP" ? 1 : -1;
-            lz = clamp( lz + dz, min_levz, max_levz );
-            center.z = clamp( center.z + dz, min_levz, max_levz );
+            lz = clamp( lz + dz, min_levz, max_levz - 1 );
+            center.z = clamp( center.z + dz, min_levz, max_levz - 1 );
 
             add_msg_debug( debugmode::DF_GAME, "levx: %d, levy: %d, levz: %d",
                            get_map().get_abs_sub().x(), get_map().get_abs_sub().y(), center.z );
