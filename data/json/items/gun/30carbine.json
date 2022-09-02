@@ -40,10 +40,11 @@
   {
     "id": "m2carbine",
     "copy-from": "m1carbine",
-	"//": "The M2's cyclic rate is 750 rpm, while the M4A1's is listed as 700-950 rpm so eh, close enough."
+	"//": "The M2's cyclic rate is 750 rpm, while the M4A1's is listed as 700-950 rpm so eh, close enough.",
     "looks_like": "garand",
     "type": "GUN",
     "name": { "str": "M2 carbine" },
     "description": "An improved version of the M1 carbine offering full-auto capability, the M2 carbine was rare and coveted among collectors even before the world ended.  Takes M1 carbine magazines.",
-	"modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ]	
+	"modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ]
+  }
 ]
