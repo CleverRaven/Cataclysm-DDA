@@ -29,8 +29,7 @@
       "X": "t_window_bars",
       "|": "t_concrete_wall",
       "O": "t_flat_roof",
-      "m": "t_atm",
-      "?": "t_railing"
+      "m": "t_atm"
     },
     "furniture": {
       "b": "f_bench",
