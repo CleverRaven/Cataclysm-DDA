@@ -4304,12 +4304,46 @@ void cata_tiles::get_rotation_and_subtile( const char val, const char rot_to, in
             break;
         // edges
         case 9:
+            // vertical edge
             subtile = edge;
-            rotation = 0;
+            if ((rot_to & 2) == 2) { // east +
+                if ((rot_to & 4) == 4) { // west +
+                    // EW
+                    rotation = 0;
+                } else { // west -
+                    // Ew
+                    rotation = 2;
+                }
+            } else { // east -
+                if ((rot_to & 4) == 4) { // west +
+                    // eW
+                    rotation = 4;
+                } else { // west -
+                    // ew
+                    rotation = 6;
+                }
+            }
             break;
         case 6:
+            // horizontal edge
             subtile = edge;
-            rotation = 1;
+            if ((rot_to & 8) == 8) { // north +
+                if ((rot_to & 1) == 1) { // south +
+                    // SN
+                    rotation = 1;
+                } else { // south -
+                    // Sn
+                    rotation = 3;
+                }
+            } else { // north -
+                if ((rot_to & 1) == 1) { // south +
+                    // sN
+                    rotation = 5;
+                } else { // south -
+                    // sn
+                    rotation = 7;
+                }
+            }
             break;
         // corners
         case 12:
