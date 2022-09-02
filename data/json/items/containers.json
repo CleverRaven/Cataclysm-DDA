@@ -2966,5 +2966,60 @@
       }
     ],
     "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
+  },
+  {
+    "id": "squeeze_tube",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "10.1 ounce squeeze tube" },
+    "description": "A 10.1 ounce squeeze tube, used for storing the likes of silicone caulk, paint or food dressing.",
+    "weight": "8150 mg",
+    "volume": "221 ml",
+    "price": 100,
+    "price_postapoc": 10,
+    "to_hit": -2,
+    "bashing": 1,
+    "material": [ "plastic" ],
+    "symbol": "t",
+    "color": "light_cyan",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": false,
+        "watertight": true,
+        "open_container": false,
+        "max_contains_volume": "299 ml",
+        "max_contains_weight": "2500 g"
+      }
+    ],
+    "qualities": [ [ "CONTAIN", 1 ] ]
+  },
+  {
+    "id": "squeeze_tube_small",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "2.8 ounce squeeze tube" },
+    "description": "A 2.8 ounce squeeze tube, used for storing the likes of silicone caulk, paint or food dressing.",
+    "weight": "3500 mg",
+    "volume": "95 ml",
+    "price": 50,
+    "price_postapoc": 5,
+    "to_hit": -2,
+    "bashing": 1,
+    "material": [ "plastic" ],
+    "symbol": "t",
+    "color": "light_cyan",
+    "looks_like": "squeeze_tube",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": false,
+        "watertight": true,
+        "open_container": false,
+        "max_contains_volume": "82 ml",
+        "max_contains_weight": "500 mg"
+      }
+    ],
+    "qualities": [ [ "CONTAIN", 1 ] ]
   }
 ]
