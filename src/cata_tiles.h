@@ -67,6 +67,14 @@ enum class TILE_CATEGORY {
     last
 };
 
+enum class NEIGHBOUR {
+    SOUTH = 1,
+    EAST = 2,
+    WEST = 4,
+    NORTH = 8,
+    last
+};
+
 class tile_lookup_res
 {
         // references are stored as pointers to support copy assignment of the class

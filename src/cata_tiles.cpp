@@ -4306,19 +4306,19 @@ void cata_tiles::get_rotation_and_subtile( const char val, const char rot_to, in
         case 9:
             // vertical edge
             subtile = edge;
-            if ((rot_to & 2) == 2) { // east +
-                if ((rot_to & 4) == 4) { // west +
+            if( ( rot_to & static_cast<int>( NEIGHBOUR::EAST ) ) == static_cast<int>( NEIGHBOUR::EAST ) ) {
+                if( ( rot_to & static_cast<int>( NEIGHBOUR::WEST ) ) == static_cast<int>( NEIGHBOUR::WEST ) ) {
                     // EW
                     rotation = 0;
-                } else { // west -
+                } else {
                     // Ew
                     rotation = 2;
                 }
             } else { // east -
-                if ((rot_to & 4) == 4) { // west +
+                if( ( rot_to & static_cast<int>( NEIGHBOUR::WEST ) ) == static_cast<int>( NEIGHBOUR::WEST ) ) {
                     // eW
                     rotation = 4;
-                } else { // west -
+                } else {
                     // ew
                     rotation = 6;
                 }
@@ -4327,20 +4327,20 @@ void cata_tiles::get_rotation_and_subtile( const char val, const char rot_to, in
         case 6:
             // horizontal edge
             subtile = edge;
-            if ((rot_to & 8) == 8) { // north +
-                if ((rot_to & 1) == 1) { // south +
-                    // SN
+            if( ( rot_to & static_cast<int>( NEIGHBOUR::NORTH ) ) == static_cast<int>( NEIGHBOUR::NORTH ) ) {
+                if( ( rot_to & static_cast<int>( NEIGHBOUR::SOUTH ) ) == static_cast<int>( NEIGHBOUR::SOUTH ) ) {
+                    // NS
                     rotation = 1;
-                } else { // south -
-                    // Sn
+                } else {
+                    // Ns
                     rotation = 3;
                 }
             } else { // north -
-                if ((rot_to & 1) == 1) { // south +
-                    // sN
+                if( ( rot_to & static_cast<int>( NEIGHBOUR::SOUTH ) ) == static_cast<int>( NEIGHBOUR::SOUTH ) ) {
+                    // nS
                     rotation = 5;
-                } else { // south -
-                    // sn
+                } else {
+                    // ns
                     rotation = 7;
                 }
             }
