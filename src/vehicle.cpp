@@ -5642,6 +5642,10 @@ void vehicle::gain_moves()
     // cruise control TODO: enable for NPC?
     if( ( pl_control || is_following || is_patrolling ) && cruise_on && cruise_velocity != velocity ) {
         thrust( ( cruise_velocity ) > velocity ? 1 : -1 );
+    } else if( is_rotorcraft() && velocity == 0 ) {
+        // rotorcraft uses fuel for hover
+        // whether it's flying or not is checked inside thrust function
+        thrust( 0 );
     }
 
     // Force off-map vehicles to load by visiting them every time we gain moves.
