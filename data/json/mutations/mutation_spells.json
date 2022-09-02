@@ -101,6 +101,8 @@
     "damage_type": "bash",
     "min_range": 8,
     "max_range": 8,
+    "min_aoe": 5,
+    "max_aoe": 5,
     "spell_class": "NONE",
     "difficulty": -20,
     "base_casting_time": 300,
