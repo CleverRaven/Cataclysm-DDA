@@ -52,9 +52,19 @@ class TileSheetData(object):
             "sprite_width", refs.default_width)
         self.sprite_offset_x = tilesheet_data.get("sprite_offset_x", 0)
         self.sprite_offset_y = tilesheet_data.get("sprite_offset_y", 0)
+        self.sprite_offset_x_retracted = tilesheet_data.get(
+            "sprite_offset_x_retracted",
+            self.sprite_offset_x
+        )
+        self.sprite_offset_y_retracted = tilesheet_data.get(
+            "sprite_offset_y_retracted",
+            self.sprite_offset_y
+        )
         self.write_dim = self.sprite_width != refs.default_width
         self.write_dim |= self.sprite_height != refs.default_height
         self.write_dim |= self.sprite_offset_x or self.sprite_offset_y
+        self.write_dim |= \
+            self.sprite_offset_x_retracted or self.sprite_offset_y_retracted
         self.ts_pathname = refs.tileset_pathname + "/" + self.ts_filename
         self.ts_image = Vips.Image.pngload(self.ts_pathname)
         self.ts_width = self.ts_image.width
@@ -222,6 +232,13 @@ class TileSheetData(object):
                 ts_tile_info["sprite_offset_y"] = self.sprite_offset_y
                 ts_tile_info["sprite_width"] = self.sprite_width
                 ts_tile_info["sprite_height"] = self.sprite_height
+                if self.sprite_offset_x_retracted != self.sprite_offset_x \
+                        or self.sprite_offset_y_retracted \
+                        != self.sprite_offset_y:
+                    ts_tile_info["sprite_offset_x_retracted"] = \
+                        self.sprite_offset_x_retracted
+                    ts_tile_info["sprite_offset_y_retracted"] = \
+                        self.sprite_offset_y_retracted
             #print("{}: {}".format(
             #    self.ts_filename, json.dumps(ts_tile_info, indent=2)))
             tile_info.append({self.ts_filename: ts_tile_info})
@@ -346,7 +363,7 @@ class PngRefs(object):
                         self.delete_pngnums.append(i)
 
         with open(tileset_confname, encoding="utf-8") as conf_file:
-            return(json.load(conf_file))
+            return json.load(conf_file)
 
     def add_pngnum_to_tsfilepath(self, pngnum):
         if not isinstance(pngnum, int):

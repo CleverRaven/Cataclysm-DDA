@@ -7,6 +7,7 @@ bool log_from_top;
 int message_ttl;
 int message_cooldown;
 bool test_mode;
+bool tile_retracted;
 bool use_tiles;
 bool use_far_tiles;
 bool use_tiles_overmap;

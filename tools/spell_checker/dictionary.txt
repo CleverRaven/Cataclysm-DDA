@@ -13,6 +13,7 @@ adze
 aerarium
 aerially
 aeterna
+aetheric
 afterbirth
 afterimage
 afterlife
@@ -290,7 +291,6 @@ cecalia
 cegamente
 centerdamage
 centric
-centrosaurus
 cepa
 cephalothorax
 ceratopsian
@@ -627,7 +627,6 @@ firesuits
 fireweed
 fishfolk
 fishily
-fizzbitch
 fl
 flagration
 flairs
@@ -771,6 +770,7 @@ gymnocladus
 h
 hadrosaurus
 haematopoiesis
+haft
 hahahahahaha
 hahd
 halazone
@@ -990,7 +990,6 @@ leatherworking
 legges
 lemure
 leport
-leptoceratops
 lettin
 leuchtet
 levergun
@@ -1053,7 +1052,6 @@ manhack
 manhacks
 manuc
 manufactory
-manana
 manwich
 mapgen
 maracuya
@@ -1256,6 +1254,7 @@ olieribos
 olors
 ompare
 omplete
+oneiric
 onyxes
 openable
 openair
@@ -1383,7 +1382,6 @@ potentiates
 poufs
 pouncer
 powerplants
-powerthirst
 powertool
 prateleiras
 prayeres
@@ -1392,7 +1390,7 @@ premeasured
 preminiscent
 premix
 preoptic
-preposterone
+presaging
 prescriptures
 prev
 primeside
@@ -1900,7 +1898,6 @@ uneasing
 unfavorite
 unfermented
 unflavored
-unfletched
 unfoldable
 ungraspable
 unhardened
@@ -1913,6 +1910,7 @@ universalism
 unjacketed
 unlively
 unlives
+unlooted
 unmalted
 unmark
 unmarred
@@ -2076,7 +2074,6 @@ zombullfrog
 zombullfrogs
 zpzzzzpzz
 zubon
-zuniceratops
 zygomaticus
 zzz
 zzzzchzzzzchurzzzpileus

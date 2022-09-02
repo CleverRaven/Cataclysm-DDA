@@ -917,11 +917,6 @@
   },
   {
     "type": "item_action",
-    "id": "VACCINE",
-    "name": { "str": "Inject" }
-  },
-  {
-    "type": "item_action",
     "id": "BLOOD_DRAW",
     "name": { "str": "Draw some blood" }
   },

@@ -3,12 +3,16 @@
   <ImportGroup Label="PropertySheets" />
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
+    <CDDA_ROOT>$(MSBuildThisFileDirectory)..\</CDDA_ROOT>
     <TargetName>$(ProjectName)-$(Configuration)-$(Platform)</TargetName>
-    <OutDir>$(MSBuildThisFileDirectory)..\</OutDir>
-    <IntDir>$(SolutionDir)$(ProjectName)\$(Configuration)\$(Platform)\</IntDir>
+    <IntDir>$(CDDA_ROOT)objwin\$(Configuration)\$(Platform)\$(ProjectName)\</IntDir>
+    <OutDir>$(CDDA_ROOT)objwin\$(Configuration)\$(Platform)\$(ProjectName)\</OutDir>
   </PropertyGroup>
   <PropertyGroup Label="Vcpkg">
     <VcpkgAdditionalInstallOptions>--clean-after-build</VcpkgAdditionalInstallOptions>
+  </PropertyGroup>
+  <PropertyGroup Condition="$(_CDDA_USE_CCACHE)">
+    <ClToolPath>$(CDDA_CCACHE_PATH)</ClToolPath>
   </PropertyGroup>
   <ItemDefinitionGroup>
     <ClCompile>
@@ -31,6 +35,12 @@
     <ClCompile Condition="$(Configuration.StartsWith(Release))">
       <PreprocessorDefinitions>RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
+    <ClCompile Condition="$(_CDDA_USE_CCACHE)">
+      <DebugInformationFormat>OldStyle</DebugInformationFormat>
+      <ForcedIncludeFiles />
+      <ObjectFileName>$(IntDir)%(FileName).obj</ObjectFileName>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <LinkTimeCodeGeneration>Default</LinkTimeCodeGeneration>
@@ -47,7 +57,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)stdafx.cpp">
-      <PrecompiledHeader>Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="!$(_CDDA_USE_CCACHE)">Create</PrecompiledHeader>
     </ClCompile>
   </ItemGroup>
 </Project>
