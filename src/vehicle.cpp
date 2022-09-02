@@ -123,9 +123,12 @@ static const zone_type_id zone_type_VEHICLE_PATROL( "VEHICLE_PATROL" );
 static const std::string flag_E_COMBUSTION( "E_COMBUSTION" );
 
 static const std::string flag_APPLIANCE( "APPLIANCE" );
+static const std::string flag_CANT_DRAG( "CANT_DRAG" );
 
 static bool is_sm_tile_outside( const tripoint &real_global_pos );
 static bool is_sm_tile_over_water( const tripoint &real_global_pos );
+
+static const int MAX_WIRE_VEHICLE_SIZE = 24;
 
 void DefaultRemovePartHandler::removed( vehicle &veh, const int part )
 {
@@ -1787,7 +1790,39 @@ bool vehicle::merge_vehicle_parts( vehicle *veh )
     return true;
 }
 
-bool vehicle::remove_part( vehicle_part &vp )
+void vehicle::merge_appliance_into_grid( vehicle &veh_target )
+{
+    if( &veh_target == this ) {
+        return;
+    }
+
+    bounding_box vehicle_box = get_bounding_box( false );
+    point size;
+    size.x = std::abs( ( vehicle_box.p2 - vehicle_box.p1 ).x ) + 1;
+    size.y = std::abs( ( vehicle_box.p2 - vehicle_box.p1 ).y ) + 1;
+
+    bounding_box target_vehicle_box = veh_target.get_bounding_box( false );
+
+    point target_size;
+    target_size.x = std::abs( ( target_vehicle_box.p2 - target_vehicle_box.p1 ).x ) + 1;
+    target_size.y = std::abs( ( target_vehicle_box.p2 - target_vehicle_box.p1 ).y ) + 1;
+    //Make sur the resulting vehicle would not be too large
+    if( size.x + target_size.x <= MAX_WIRE_VEHICLE_SIZE &&
+        size.y + target_size.y <= MAX_WIRE_VEHICLE_SIZE ) {
+        if( !merge_vehicle_parts( &veh_target ) ) {
+            debugmsg( "failed to merge vehicle parts" );
+        } else {
+            //The grid needs to stay undraggable
+            add_tag( flag_CANT_DRAG );
+        }
+    }
+}
+
+/**
+ * Mark a part as removed from the vehicle.
+ * @return bool true if the vehicle's 0,0 point shifted.
+ */
+bool vehicle::remove_part(vehicle_part& vp)
 {
     DefaultRemovePartHandler handler;
     return remove_part( vp, handler );
