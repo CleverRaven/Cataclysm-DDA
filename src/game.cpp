@@ -592,7 +592,7 @@ void game_ui::init_ui()
             pixel_minimap_r = 0x00;
             pixel_minimap_g = 0x00;
             pixel_minimap_b = 0x00;
-            pixel_minimap_a = 0x00;
+            pixel_minimap_a = 0xFF;
         }
 #endif // TILES
     }
