@@ -96,7 +96,6 @@
       { "item": "dayquil", "prob": 70 },
       { "item": "nyquil", "prob": 70 },
       { "item": "disinfectant", "prob": 35 },
-      { "item": "vaccine_shot", "prob": 10 },
       { "item": "protein_powder", "prob": 7 },
       { "item": "caff_gum", "prob": 10 },
       { "item": "oxygen_tank", "prob": 20 },

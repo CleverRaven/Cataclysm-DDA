@@ -2,6 +2,7 @@
 
 #include <cctype>
 #include <clocale>
+#include <cwctype>
 #include <algorithm>
 #include <cmath>
 #include <cstdio>

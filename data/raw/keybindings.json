@@ -1601,6 +1601,13 @@
   },
   {
     "type": "keybinding",
+    "id": "UNPLUG",
+    "category": "APP_INTERACT",
+    "name": "Unplug power connections",
+    "bindings": [ { "input_method": "keyboard_any", "key": "u" } ]
+  },
+  {
+    "type": "keybinding",
     "id": "INSTALL",
     "category": "VEH_INTERACT",
     "name": "Install part",
