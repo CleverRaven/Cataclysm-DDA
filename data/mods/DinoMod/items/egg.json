@@ -505,6 +505,27 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "egg_leptoceratops",
+    "name": "leptoceratops egg",
+    "copy-from": "egg_dino",
+    "rot_spawn": "GROUP_EGG_leptoceratops"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_zuniceratops",
+    "name": "zuniceratops egg",
+    "copy-from": "egg_dino",
+    "rot_spawn": "GROUP_EGG_zuniceratops"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_centrosaurus",
+    "name": "centrosaurus egg",
+    "copy-from": "egg_dino",
+    "rot_spawn": "GROUP_EGG_centrosaurus"
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "egg_pachyrhinosaurus",
     "name": "pachyrhinosaurus egg",
     "copy-from": "egg_dino",
