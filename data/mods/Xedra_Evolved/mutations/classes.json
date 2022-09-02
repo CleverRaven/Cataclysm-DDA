@@ -50,7 +50,7 @@
     "valid": false,
     "mana_modifier": 500,
     "cancels": [ "DREAMSMITH" ],
-    "vitamin_rates": [ [ "creative_spark", 604800 ] ],
+    "vitamin_rates": [ [ "creative_spark", -604800 ] ],
     "spells_learned": [ [ "spark_of_inspiration", 1 ] ]
   }
 ]

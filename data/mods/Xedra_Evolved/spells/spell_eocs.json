@@ -6,14 +6,15 @@
     "effect": [
       { "u_assign_activity": "ACT_GENERIC_EOC", "duration": "1 seconds" },
       { "arithmetic": [ { "u_val": "vitamin", "name": "creative_spark" }, "-=", { "const": 1 } ] },
-      { "queue_eocs": [ "EOC_ARTIFACT_SPAWN" ], "time_in_future": 1 }
+      { "queue_eocs": [ "EOC_ARTIFACT_SPAWN" ], "time_in_future": 1 },
+      { "u_add_effect": "manic_fugue", "duration": "2 minutes" }
     ],
     "false_effect": [ { "u_message": "You don't have enough creative juice to enter an inspired state.", "type": "bad" } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_ARTIFACT_SPAWN",
-    "condition": { "compare_int": [ { "global_val": "monsters_nearby", "id": "mon_amigara_horror" }, "<", { "const": 1 } ] },
+    "condition": { "u_has_effect": "manic_fugue" },
     "effect": [
       { "mapgen_update": "spawn_minor_spark_artifact" },
       {
