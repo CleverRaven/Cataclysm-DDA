@@ -89,7 +89,7 @@
     "type": "SPELL",
     "id": "spell_crushing_leap",
     "name": "Crushing Leap",
-    "description": "You squat down, build up tension in your legs and release.  You have the ability to target and land in the way to do maximum damage to any target in your way.  Death from above.",
+    "description": "You squat down, build up tension in your legs and release.  You have the ability to target and land in order to do maximum damage to any target in your way.  Death from above.",
     "valid_targets": [ "hostile", "ground" ],
     "flags": [ "SILENT", "NO_LEGS", "NO_HANDS", "RANDOM_DAMAGE" ],
     "effect": "dash",
