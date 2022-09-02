@@ -1971,7 +1971,7 @@
     "price": 936,
     "price_postapoc": 400,
     "ammo_type": "components",
-    "count": 10,
+    "stack_size": 10,
     "phase": "liquid",
     "container": "squeeze_tube",
     "sealed": true,
