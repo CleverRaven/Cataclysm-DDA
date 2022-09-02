@@ -531,7 +531,7 @@
   {
     "type": "COMESTIBLE",
     "id": "jerusalem_artichoke_fruitmash",
-    "looks_like": "biscuit",
+    "looks_like": "veggy_salad",
     "name": { "str": "Jerusalem artichoke fruit dessert" },
     "weight": "200 g",
     "color": "yellow",
@@ -539,7 +539,7 @@
     "comestible_type": "FOOD",
     "symbol": "o",
     "quench": 2,
-    "calories": 300,
+    "calories": 200,
     "description": "Chopped Jerusalem artichoke combined with any fruit that is in season or at hand.  Surprisingly tasty.",
     "price": 50,
     "price_postapoc": 100,
