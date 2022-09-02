@@ -533,7 +533,7 @@
     "id": "jerusalem_artichoke_fruitmash",
     "looks_like": "biscuit",
     "name": { "str": "Jerusalem artichoke fruit dessert" },
-    "weight": "120 g",
+    "weight": "200 g",
     "color": "yellow",
     "spoils_in": "3 days",
     "comestible_type": "FOOD",
@@ -544,7 +544,7 @@
     "price": 50,
     "price_postapoc": 100,
     "material": [ "fruit", "veggy" ],
-    "volume": "300 ml",
+    "volume": "320 ml",
     "charges": 4,
     "flags": [ "USE_EAT_VERB" ],
     "vitamins": [ [ "vitC", 2 ], [ "iron", 15 ] ]

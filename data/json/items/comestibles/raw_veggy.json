@@ -71,7 +71,6 @@
     "material": [ "veggy" ],
     "stim": 1,
     "spoils_in": "20 days",
-    "comestible_type": "FOOD",
     "description": "This aromatic rhizome can be eaten as is in an emergency, but it is much better used for making beverages.  Its taste is pleasant but it is also tough and stringy.",
     "comestible_type": "FOOD",
     "symbol": ",",
