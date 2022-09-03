@@ -2720,6 +2720,42 @@
     "qualities": [ [ "CONTAIN", 1 ] ]
   },
   {
+    "id": "aquarium_medium_drying",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "50 gallon aquarium (drying)" },
+    "description": "A 50 gallon glass aquarium, used for safely storing small animals for use as pets or food.  This one has been freshly made and requires time for the silicone to dry.",
+    "weight": "83 kg",
+    "volume": "222 L",
+    "longest_side": "91 cm",
+    "price": 5000,
+    "price_postapoc": 750,
+    "bashing": 1,
+    "material": [ "glass" ],
+    "symbol": ")",
+    "color": "light_cyan",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "watertight": false,
+        "open_container": true,
+        "max_contains_volume": "189 L",
+        "max_contains_weight": "300 kg"
+      }
+    ],
+    "qualities": [ [ "CONTAIN", 1 ] ],
+    "use_action": {
+    "target": "aquarium_medium",
+    "msg": "You tear off the tape from the silicone, looks like the aquarium is ready.",
+    "moves": 100,
+    "type": "delayed_transform",
+    "transform_age": 604800,
+    "not_ready_msg": "The silicone hasn't dried quite yet.",
+    "//": "The time it takes is a week and this appears to be the minimum time the internet says it takes."
+    }
+  },
+  {
     "id": "aquarium_small",
     "type": "GENERIC",
     "category": "container",
@@ -2748,6 +2784,43 @@
     "qualities": [ [ "CONTAIN", 1 ] ]
   },
   {
+    "id": "aquarium_small_drying",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "30 gallon aquarium (drying)" },
+    "description": "A 30 gallon glass aquarium, used for safely storing small animals for use as pets or food.  This one has been freshly made and requires time for the silicone to dry.",
+    "weight": "50 kg",
+    "volume": "133 L",
+    "longest_side": "91 cm",
+    "price": 5000,
+    "price_postapoc": 1000,
+    "bashing": 1,
+    "material": [ "glass" ],
+    "symbol": ")",
+    "color": "light_cyan",
+    "looks_like": "aquarium_medium",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "watertight": false,
+        "open_container": true,
+        "max_contains_volume": "113 L",
+        "max_contains_weight": "180 kg"
+      }
+    ],
+    "qualities": [ [ "CONTAIN", 1 ] ],
+    "use_action": {
+    "target": "aquarium_small",
+    "msg": "You tear off the tape from the silicone, looks like the aquarium is ready.",
+    "moves": 100,
+    "type": "delayed_transform",
+    "transform_age": 604800,
+    "not_ready_msg": "The silicone hasn't dried quite yet.",
+    "//": "The time it takes is a week and this appears to be the minimum time the internet says it takes."
+    }
+  },
+  {
     "id": "aquarium_large",
     "type": "GENERIC",
     "category": "container",
@@ -2774,6 +2847,43 @@
       }
     ],
     "qualities": [ [ "CONTAIN", 1 ] ]
+  },
+  {
+    "id": "aquarium_large_drying",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "100 gallon aquarium (drying)" },
+    "description": "A 100 gallon glass aquarium, used for safely storing small animals for use as pets or food.  This one has been freshly made and requires time for the silicone to dry.",
+    "weight": "160 kg",
+    "volume": "400 L",
+    "longest_side": "183 cm",
+    "price": 50000,
+    "price_postapoc": 2500,
+    "bashing": 1,
+    "material": [ "glass" ],
+    "symbol": ")",
+    "color": "light_cyan",
+    "looks_like": "aquarium_medium",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "watertight": false,
+        "open_container": true,
+        "max_contains_volume": "378 L",
+        "max_contains_weight": "500 kg"
+      }
+    ],
+    "qualities": [ [ "CONTAIN", 1 ] ],
+    "use_action": {
+    "target": "aquarium_large",
+    "msg": "You tear off the tape from the silicone, looks like the aquarium is ready.",
+    "moves": 100,
+    "type": "delayed_transform",
+    "transform_age": 604800,
+    "not_ready_msg": "The silicone hasn't dried quite yet.",
+    "//": "The time it takes is a week and this appears to be the minimum time the internet says it takes."
+    }
   },
   {
     "id": "small_propane_tank",
