@@ -743,7 +743,7 @@ void avatar::disp_medical()
     int info_lines = 0;
 
     // Cursor
-    int cursor_bounds[3]; // Number of selectable rows in each column
+    std::array<int, 3> cursor_bounds; // Number of selectable rows in each column
     point cursor;
 
     ui_adaptor ui;

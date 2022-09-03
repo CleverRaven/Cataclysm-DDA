@@ -134,153 +134,154 @@ struct miss_data {
     translation action;        // Optional extended UI description of task for return.
 };
 
-static const miss_data miss_info[Camp_Harvest + 1] = {
-    {
-        //  No_Mission
-        "",
-        no_translation( "" )
-    },
-    {
-        "Scavenging_Patrol_Job",
-        no_translation( "" )
-    },
-    {
-        "Scavenging_Raid_Job",
-        no_translation( "" )
-    },
-    {
-        "Hospital_Raid_Job",
-        no_translation( "" )
-    },
-    {
-        "Menial_Job",
-        no_translation( "" )
-    },
-    {
-        "Carpentry_Job",
-        no_translation( "" )
-    },
-    {
-        "Forage_Job",
-        no_translation( "" )
-    },
-    {
-        "Caravan_Commune_Center_Job",
-        no_translation( "" )
-    },
-    //  Faction camp missions
-    {
-        "Camp_Distribute_Food",
-        no_translation( "" )
-    },
-    {
-        "Hide_Mission",
-        no_translation( "" )
-    },
-    {
-        "Reveal_Mission",
-        no_translation( "" )
-    },
-    {
-        "Camp_Assign_Jobs",
-        no_translation( "" )
-    },
-    {
-        "Camp_Assign_Workers",
-        no_translation( "" )
-    },
-    {
-        "Camp_Abandon",
-        no_translation( "" )
-    },
-    {
-        "Camp_Upgrade ",  //  Want to add the blueprint after the space
-        to_translation( "Working to expand your camp!\n" )
-    },
-    {
-        "Camp_Emergency_Recall",
-        to_translation( "Lost in the ether!\n" )
-    },
-    {
-        "Camp_Crafting ",  //  Want to add the recipe after the space
-        to_translation( "Busy crafting!\n" )
-    },
-    {
-        "Camp_Gather_Materials",
-        to_translation( "Searching for materials to upgrade the camp.\n" )
-    },
-    {
-        "Camp_Collect_Firewood",
-        to_translation( "Searching for firewood.\n" )
-    },
-    {
-        "Camp_Menial",
-        to_translation( "Performing menial labor…\n" )
-    },
-    {
-        "Camp_Survey_Expansion",
-        to_translation( "Surveying for expansion…\n" )
-    },
-    {
-        "Camp_Cut_Logs",
-        to_translation( "Cutting logs in the woods…\n" )
-    },
-    {
-        "Camp_Clearcut",
-        to_translation( "Clearing a forest…\n" )
-    },
-    {
-        "Camp_Setup_Hide_Site",
-        to_translation( "Setting up a hide site…\n" )
-    },
-    {
-        "Camp_Relay_Hide_Site",
-        to_translation( "Transferring gear to a hide site…\n" )
-    },
-    {
-        "Camp Foraging",
-        to_translation( "Foraging for edible plants.\n" )
-    },
-    {
-        "Camp_Trapping",
-        to_translation( "Trapping Small Game.\n" )
-    },
-    {
-        "Camp_Hunting",
-        to_translation( "Hunting large animals.\n" )
-    },
-    {
-        "Camp_OM_Fortifications",
-        to_translation( "Constructing fortifications…\n" )
-    },
-    {
-        "Camp_Recruiting",
-        to_translation( "Searching for recruits.\n" )
-    },
-    {
-        "Camp_Scouting",
-        to_translation( "Scouting the region.\n" )
-    },
-    {
-        "Camp_Combat Patrol",
-        to_translation( "Patrolling the region.\n" )
-    },
-    {
-        //  Obsolete entry
-        "Camp_Chop_Shop",
-        to_translation( "Working at the chop shop…\n" )
-    },
-    {
-        "Camp_Plow",
-        to_translation( "Working to plow your fields!\n" )
-    },
-    {
-        "Camp_Plant",
-        to_translation( "Working to plant your fields!\n" )
-    },
-    {
-        "Camp_Harvest",
-        to_translation( "Working to harvest your fields!\n" )
+static const std::array < miss_data, Camp_Harvest + 1 > miss_info = { {
+        {
+            //  No_Mission
+            "",
+            no_translation( "" )
+        },
+        {
+            "Scavenging_Patrol_Job",
+            no_translation( "" )
+        },
+        {
+            "Scavenging_Raid_Job",
+            no_translation( "" )
+        },
+        {
+            "Hospital_Raid_Job",
+            no_translation( "" )
+        },
+        {
+            "Menial_Job",
+            no_translation( "" )
+        },
+        {
+            "Carpentry_Job",
+            no_translation( "" )
+        },
+        {
+            "Forage_Job",
+            no_translation( "" )
+        },
+        {
+            "Caravan_Commune_Center_Job",
+            no_translation( "" )
+        },
+        //  Faction camp missions
+        {
+            "Camp_Distribute_Food",
+            no_translation( "" )
+        },
+        {
+            "Hide_Mission",
+            no_translation( "" )
+        },
+        {
+            "Reveal_Mission",
+            no_translation( "" )
+        },
+        {
+            "Camp_Assign_Jobs",
+            no_translation( "" )
+        },
+        {
+            "Camp_Assign_Workers",
+            no_translation( "" )
+        },
+        {
+            "Camp_Abandon",
+            no_translation( "" )
+        },
+        {
+            "Camp_Upgrade ",  //  Want to add the blueprint after the space
+            to_translation( "Working to expand your camp!\n" )
+        },
+        {
+            "Camp_Emergency_Recall",
+            to_translation( "Lost in the ether!\n" )
+        },
+        {
+            "Camp_Crafting ",  //  Want to add the recipe after the space
+            to_translation( "Busy crafting!\n" )
+        },
+        {
+            "Camp_Gather_Materials",
+            to_translation( "Searching for materials to upgrade the camp.\n" )
+        },
+        {
+            "Camp_Collect_Firewood",
+            to_translation( "Searching for firewood.\n" )
+        },
+        {
+            "Camp_Menial",
+            to_translation( "Performing menial labor…\n" )
+        },
+        {
+            "Camp_Survey_Expansion",
+            to_translation( "Surveying for expansion…\n" )
+        },
+        {
+            "Camp_Cut_Logs",
+            to_translation( "Cutting logs in the woods…\n" )
+        },
+        {
+            "Camp_Clearcut",
+            to_translation( "Clearing a forest…\n" )
+        },
+        {
+            "Camp_Setup_Hide_Site",
+            to_translation( "Setting up a hide site…\n" )
+        },
+        {
+            "Camp_Relay_Hide_Site",
+            to_translation( "Transferring gear to a hide site…\n" )
+        },
+        {
+            "Camp Foraging",
+            to_translation( "Foraging for edible plants.\n" )
+        },
+        {
+            "Camp_Trapping",
+            to_translation( "Trapping Small Game.\n" )
+        },
+        {
+            "Camp_Hunting",
+            to_translation( "Hunting large animals.\n" )
+        },
+        {
+            "Camp_OM_Fortifications",
+            to_translation( "Constructing fortifications…\n" )
+        },
+        {
+            "Camp_Recruiting",
+            to_translation( "Searching for recruits.\n" )
+        },
+        {
+            "Camp_Scouting",
+            to_translation( "Scouting the region.\n" )
+        },
+        {
+            "Camp_Combat Patrol",
+            to_translation( "Patrolling the region.\n" )
+        },
+        {
+            //  Obsolete entry
+            "Camp_Chop_Shop",
+            to_translation( "Working at the chop shop…\n" )
+        },
+        {
+            "Camp_Plow",
+            to_translation( "Working to plow your fields!\n" )
+        },
+        {
+            "Camp_Plant",
+            to_translation( "Working to plant your fields!\n" )
+        },
+        {
+            "Camp_Harvest",
+            to_translation( "Working to harvest your fields!\n" )
+        }
     }
 };
 
