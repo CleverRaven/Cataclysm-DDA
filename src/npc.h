@@ -506,9 +506,10 @@ struct dangerous_sound {
     int volume = 0;
 };
 
-const direction npc_threat_dir[8] = { direction::NORTHWEST, direction::NORTH, direction::NORTHEAST, direction::EAST,
-                                      direction::SOUTHEAST, direction::SOUTH, direction::SOUTHWEST, direction::WEST
-                                    };
+constexpr std::array<direction, 8> npc_threat_dir = {
+    direction::NORTHWEST, direction::NORTH, direction::NORTHEAST, direction::EAST,
+    direction::SOUTHEAST, direction::SOUTH, direction::SOUTHWEST, direction::WEST
+};
 
 struct healing_options {
     bool bandage = false;

@@ -3139,6 +3139,7 @@ void game::write_memorial_file( std::string sLastWords )
                                          current_time.wYear, current_time.wMonth, current_time.wDay,
                                          current_time.wHour, current_time.wMinute, current_time.wSecond );
 #else
+    // NOLINTNEXTLINE(modernize-avoid-c-arrays)
     char buffer[suffix_len] {};
     std::time_t t = std::time( nullptr );
     tm current_time;
@@ -4098,7 +4099,7 @@ void game::mon_info_update( )
     for( auto &m : unique_mons ) {
         m.clear();
     }
-    std::fill_n( dangerous, 8, false );
+    std::fill( dangerous.begin(), dangerous.end(), false );
 
     const tripoint view = u.pos() + u.view_offset;
     new_seen_mon.clear();
@@ -10166,7 +10167,10 @@ point game::place_player( const tripoint &dest_loc )
 
     //Auto pulp or butcher and Auto foraging
     if( get_option<bool>( "AUTO_FEATURES" ) && mostseen == 0  && !u.is_mounted() ) {
-        static const direction adjacentDir[8] = { direction::NORTH, direction::NORTHEAST, direction::EAST, direction::SOUTHEAST, direction::SOUTH, direction::SOUTHWEST, direction::WEST, direction::NORTHWEST };
+        static constexpr std::array<direction, 8> adjacentDir = {
+            direction::NORTH, direction::NORTHEAST, direction::EAST, direction::SOUTHEAST,
+            direction::SOUTH, direction::SOUTHWEST, direction::WEST, direction::NORTHWEST
+        };
 
         const std::string forage_type = get_option<std::string>( "AUTO_FORAGING" );
         if( forage_type != "off" ) {
