@@ -560,7 +560,8 @@ struct map_data_common_t {
             return connect_group != TERCONN_NONE && connect_group == test_connect_group;
         }
 
-        bool rotates_to( int test_rotates_group ) const {
+        // Tests if the type is a member of a rotares_towards group
+        bool in_rotates_to( int test_rotates_group ) const {
             return rotate_to_group_member != TERCONN_NONE && rotate_to_group_member == test_rotates_group;
         }
 

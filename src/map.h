@@ -817,8 +817,12 @@ class map
         // Based on the true terrain.
         // Additional overrides can be passed in to override terrain
         // at specific positions.
-        uint8_t get_known_rotates_to( const tripoint &p, int connect_group,
+        uint8_t get_known_rotates_to( const tripoint &p, int rotate_to_group,
                                       const std::map<tripoint, ter_id> &override = {} ) const;
+        // as above, but for furniture
+        uint8_t get_known_rotates_to_f( const tripoint &p, int rotate_to_group,
+                                        const std::map<tripoint, ter_id> &override = {} ) const;
+
         /**
          * Returns the full harvest list, for spawning.
          */

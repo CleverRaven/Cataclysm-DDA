@@ -2894,8 +2894,9 @@ bool cata_tiles::draw_furniture( const tripoint &p, const lit_level ll, int &hei
         int subtile = 0;
         int rotation = 0;
         int connect_group = 0;
-        if( f.obj().connects( connect_group ) ) {
-            get_furn_connect_values( p, subtile, rotation, connect_group, {} );
+        int rotate_group = 0;
+        if( f.obj().connects( connect_group ) | f.obj().rotates( rotate_group ) ) {
+            get_furn_connect_values( p, subtile, rotation, connect_group, rotate_group, {} );
         } else {
             get_tile_values_with_ter( p, f.to_i(), neighborhood, subtile, rotation );
         }
@@ -2931,8 +2932,9 @@ bool cata_tiles::draw_furniture( const tripoint &p, const lit_level ll, int &hei
             int subtile = 0;
             int rotation = 0;
             int connect_group = 0;
-            if( f.obj().connects( connect_group ) ) {
-                get_furn_connect_values( p, subtile, rotation, connect_group, {} );
+            int rotate_group = 0;
+            if( f.obj().connects( connect_group ) | f.obj().rotates( rotate_group ) ) {
+                get_furn_connect_values( p, subtile, rotation, connect_group, rotate_group, {} );
             } else {
                 get_tile_values_with_ter( p, f.to_i(), neighborhood, subtile, rotation );
             }
@@ -4276,7 +4278,7 @@ void cata_tiles::get_rotation_and_subtile( const char val, const char rot_to, in
         // no connections
         case 0:
             subtile = unconnected;
-            rotation = 0;
+            rotation = get_rotation_unconnected( rot_to );
             break;
         // all connections
         case 15:
@@ -4380,6 +4382,31 @@ void cata_tiles::get_rotation_and_subtile( const char val, const char rot_to, in
     }
 }
 
+int cata_tiles::get_rotation_unconnected( const char rot_to )
+{
+    std::cout << "Unconn: " << static_cast<int>( rot_to ) << std::endl;
+    int rotation = 0;
+    switch( rot_to ) {
+        case 0: // no connections
+            rotation = 0;
+            break;
+        case static_cast<int>( NEIGHBOUR::NORTH ):
+            rotation = 0;
+            break;
+        case static_cast<int>( NEIGHBOUR::EAST ):
+            rotation = 1;
+            break;
+        case static_cast<int>( NEIGHBOUR::SOUTH ):
+            rotation = 2;
+            break;
+        case static_cast<int>( NEIGHBOUR::WEST ):
+            rotation = 3;
+            break;
+    }
+
+    return rotation;
+}
+
 void cata_tiles::get_connect_values( const tripoint &p, int &subtile, int &rotation,
                                      const int connect_group, const int rotate_to_group,
                                      const std::map<tripoint, ter_id> &ter_override )
@@ -4390,11 +4417,12 @@ void cata_tiles::get_connect_values( const tripoint &p, int &subtile, int &rotat
 }
 
 void cata_tiles::get_furn_connect_values( const tripoint &p, int &subtile, int &rotation,
-        const int connect_group, const std::map<tripoint,
+        const int connect_group, const int rotate_to_group, const std::map<tripoint,
         furn_id> &furn_override )
 {
     uint8_t connections = get_map().get_known_connections_f( p, connect_group, furn_override );
-    get_rotation_and_subtile( connections, 0, rotation, subtile );
+    uint8_t rotation_targets = get_map().get_known_rotates_to_f( p, rotate_to_group, {} );
+    get_rotation_and_subtile( connections, rotation_targets, rotation, subtile );
 }
 
 void cata_tiles::get_tile_values( const int t, const std::array<int, 4> &tn, int &subtile,

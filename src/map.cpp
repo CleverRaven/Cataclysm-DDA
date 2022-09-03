@@ -1765,6 +1765,10 @@ ter_id map::ter( const tripoint_bub_ms &p ) const
 uint8_t map::get_known_connections( const tripoint &p, int connect_group,
                                     const std::map<tripoint, ter_id> &override ) const
 {
+    if( connect_group == 0 ) {
+        return TERCONN_NONE;
+    }
+
     const level_cache &ch = access_cache( p.z );
     uint8_t val = 0;
     std::function<bool( const tripoint & )> is_memorized;
@@ -1814,9 +1818,13 @@ uint8_t map::get_known_connections( const tripoint &p, int connect_group,
     return val;
 }
 
-uint8_t map::get_known_rotates_to( const tripoint &p, int connect_group,
+uint8_t map::get_known_rotates_to( const tripoint &p, int rotate_to_group,
                                    const std::map<tripoint, ter_id> &override ) const
 {
+    if( rotate_to_group == 0 ) {
+        return TERCONN_NONE;
+    }
+
     uint8_t val = 0;
 
     // populate connection information
@@ -1830,7 +1838,7 @@ uint8_t map::get_known_rotates_to( const tripoint &p, int connect_group,
 
         const ter_t &neighbour_terrain = neighbour_overridden ?
                                          neighbour_override->second.obj() : ter( neighbour ).obj();
-        if( neighbour_terrain.rotates_to( connect_group ) ) {
+        if( neighbour_terrain.in_rotates_to( rotate_to_group ) ) {
             val += 1 << i;
         }
     }
@@ -1841,6 +1849,10 @@ uint8_t map::get_known_rotates_to( const tripoint &p, int connect_group,
 uint8_t map::get_known_connections_f( const tripoint &p, int connect_group,
                                       const std::map<tripoint, furn_id> &override ) const
 {
+    if( connect_group == 0 ) {
+        return TERCONN_NONE;
+    }
+
     const level_cache &ch = access_cache( p.z );
     uint8_t val = 0;
     std::function<bool( const tripoint & )> is_memorized;
@@ -1884,6 +1896,34 @@ uint8_t map::get_known_connections_f( const tripoint &p, int connect_group,
             if( neighbour_furn.connects_to( connect_group ) ) {
                 val += 1 << i;
             }
+        }
+    }
+
+    return val;
+}
+
+uint8_t map::get_known_rotates_to_f( const tripoint &p, int rotate_to_group,
+                                     const std::map<tripoint, ter_id> &override ) const
+{
+    if( rotate_to_group == 0 ) {
+        return TERCONN_NONE;
+    }
+
+    uint8_t val = 0;
+
+    // populate connection information
+    for( int i = 0; i < 4; ++i ) {
+        tripoint pt = p + offsets[i];
+        if( !inbounds( pt ) ) {
+            continue;
+        }
+        const auto neighbour_override = override.find( pt );
+        const bool neighbour_overridden = neighbour_override != override.end();
+
+        const ter_t &neighbour = neighbour_overridden ?
+                                 neighbour_override->second.obj() : ter( pt ).obj();
+        if( neighbour.in_rotates_to( rotate_to_group ) ) {
+            val += 1 << i;
         }
     }
 
