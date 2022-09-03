@@ -4307,18 +4307,18 @@ void cata_tiles::get_rotation_and_subtile( const char val, const char rot_to, in
             if( ( rot_to & static_cast<int>( NEIGHBOUR::EAST ) ) == static_cast<int>( NEIGHBOUR::EAST ) ) {
                 if( ( rot_to & static_cast<int>( NEIGHBOUR::WEST ) ) == static_cast<int>( NEIGHBOUR::WEST ) ) {
                     // EW
-                    rotation = 0;
+                    rotation = 6;
                 } else {
                     // Ew
-                    rotation = 2;
+                    rotation = 0;
                 }
             } else { // east -
                 if( ( rot_to & static_cast<int>( NEIGHBOUR::WEST ) ) == static_cast<int>( NEIGHBOUR::WEST ) ) {
                     // eW
-                    rotation = 4;
+                    rotation = 2;
                 } else {
                     // ew
-                    rotation = 6;
+                    rotation = 4;
                 }
             }
             break;
@@ -4328,7 +4328,7 @@ void cata_tiles::get_rotation_and_subtile( const char val, const char rot_to, in
             if( ( rot_to & static_cast<int>( NEIGHBOUR::NORTH ) ) == static_cast<int>( NEIGHBOUR::NORTH ) ) {
                 if( ( rot_to & static_cast<int>( NEIGHBOUR::SOUTH ) ) == static_cast<int>( NEIGHBOUR::SOUTH ) ) {
                     // NS
-                    rotation = 1;
+                    rotation = 5;
                 } else {
                     // Ns
                     rotation = 3;
@@ -4336,7 +4336,7 @@ void cata_tiles::get_rotation_and_subtile( const char val, const char rot_to, in
             } else { // north -
                 if( ( rot_to & static_cast<int>( NEIGHBOUR::SOUTH ) ) == static_cast<int>( NEIGHBOUR::SOUTH ) ) {
                     // nS
-                    rotation = 5;
+                    rotation = 1;
                 } else {
                     // ns
                     rotation = 7;
