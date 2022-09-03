@@ -6817,7 +6817,7 @@
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
     "time": "1 s",
-    "components": [ [ [ "glass_shard", 1000 ] ] ],
+    "components": [ [ [ "glass_shard", 600 ] ] ],
     "flags": [ "BLIND_EASY" ]
   },
   {
@@ -6825,7 +6825,7 @@
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
     "time": "1 s",
-    "components": [ [ [ "glass_shard", 650 ] ] ],
+    "components": [ [ [ "glass_shard", 285 ] ] ],
     "flags": [ "BLIND_EASY" ]
   },
   {
@@ -6833,7 +6833,7 @@
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
     "time": "1 s",
-    "components": [ [ [ "glass_shard", 2100 ] ] ],
+    "components": [ [ [ "glass_shard", 1000 ] ] ],
     "flags": [ "BLIND_EASY" ]
   }
 ]
