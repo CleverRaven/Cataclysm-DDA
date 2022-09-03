@@ -2,6 +2,57 @@
   {
     "type": "item_group",
     "subtype": "collection",
+    "id": "holster_supp_MEU",
+    "entries": [ { "item": "m1911", "variant": "m1911_MEU", "ammo-item": "45_acp", "charges": 7, "contents-item": [ "suppressor" ] } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "army_mags_1911",
+    "entries": [
+      { "item": "m1911mag", "ammo-item": "45_acp", "charges": 7 },
+      { "item": "m1911mag", "ammo-item": "45_acp", "charges": 7 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "army_mags_300blk",
+    "entries": [
+      { "item": "stanag30", "ammo-item": "300blk_ss", "charges": 30 },
+      { "item": "stanag30", "ammo-item": "300blk_ss", "charges": 30 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "army_mags_mp7",
+    "entries": [ { "item": "hk46mag", "ammo-item": "46mm", "charges": 20 }, { "item": "hk46mag", "ammo-item": "46mm", "charges": 20 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "holster_supp_57",
+    "entries": [ { "item": "fn57", "ammo-item": "57mm", "charges": 20 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "army_mags_57",
+    "entries": [ { "item": "fn57mag", "ammo-item": "57mm", "charges": 20 }, { "item": "fn57mag", "ammo-item": "57mm", "charges": 20 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "army_mags_m14",
+    "entries": [
+      { "item": "m14mag", "ammo-item": "762_51", "charges": 20 },
+      { "item": "m14mag", "ammo-item": "762_51", "charges": 20 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
     "id": "army_mags_m4",
     "entries": [ { "item": "stanag30", "ammo-item": "556", "charges": 30 }, { "item": "stanag30", "ammo-item": "556", "charges": 30 } ]
   },
@@ -546,7 +597,7 @@
           { "item": "m1911", "ammo-item": "45_acp", "charges": 7, "container-item": "holster" },
           { "item": "45_acp", "charges": 23 },
           { "item": "garand", "ammo-item": "3006", "charges": 8, "contents-item": "shoulder_strap" },
-          { "item": "3006", "charges": 8, "container-item": "garandclip" },
+          { "item": "garandclip", "ammo-item": "3006", "charges": 8 },
           { "item": "3006", "charges": 4 }
         ]
       },
@@ -1061,6 +1112,32 @@
       "female": [ "bikini_top", "wetsuit_shorts" ]
     },
     "flags": [ "SCEN_ONLY" ]
+  },
+  {
+    "type": "profession",
+    "id": "veteran",
+    "name": "Military Veteran",
+    "description": "You've served in the armed forces and after being discharged from the army, you're sent to take medical treatment in one of the health care centers.  Just when you thought you've overcome your war-time traumas and readjusted to the normal life, the world has come to and end and your worst nightmare has become a reality: living in an hellish battlefield.",
+    "points": 2,
+    "proficiencies": [ "prof_gunsmithing_basic" ],
+    "skills": [
+      { "level": 2, "name": "gun" },
+      { "level": 1, "name": "rifle" },
+      { "level": 2, "name": "melee" },
+      { "level": 1, "name": "dodge" },
+      { "level": 1, "name": "firstaid" },
+      { "level": 1, "name": "stabbing" },
+      { "level": 1, "name": "survival" },
+      { "level": 1, "name": "swimming" }
+    ],
+    "items": {
+      "both": {
+        "items": [ "pants", "socks", "sneakers", "wristwatch" ],
+        "entries": [ { "group": "charged_cell_phone" }, { "item": "tshirt", "variant": "generic_tshirt" } ]
+      },
+      "male": [ "boxer_shorts" ],
+      "female": [ "bra", "boxer_shorts" ]
+    }
   },
   {
     "type": "profession",
@@ -4362,6 +4439,274 @@
         "opal_gold_ring",
         "opal_gold_earring"
       ]
+    }
+  },
+  {
+    "type": "profession",
+    "id": "mil_marksman",
+    "name": "Military Marksman",
+    "description": "You like to think you're a real sniper, but really you're just infantry with a bigger gun.",
+    "points": 4,
+    "skills": [ { "level": 1, "name": "survival" }, { "level": 2, "name": "gun" }, { "level": 2, "name": "rifle" } ],
+    "items": {
+      "both": {
+        "items": [
+          "hat_boonie",
+          "jacket_army",
+          "pants_army",
+          "longshirt",
+          "rucksack",
+          "knee_pads",
+          "elbow_pads",
+          "socks",
+          "boots_combat",
+          "gloves_tactical",
+          "ballistic_vest_esapi"
+        ],
+        "entries": [
+          { "item": "m14ebr", "ammo-item": "762_51", "charges": 20, "contents-item": [ "acog_scope", "shoulder_strap", "bipod" ] },
+          { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
+          { "item": "tacvest", "contents-group": "army_mags_m14" },
+          { "item": "knife_combat", "container-item": "sheath" },
+          { "item": "m17", "ammo-item": "9mm", "charges": 17, "container-item": "holster" }
+        ]
+      },
+      "male": [ "boxer_shorts" ],
+      "female": [ "boy_shorts", "sports_bra" ]
+    }
+  },
+  {
+    "type": "profession",
+    "id": "mil_auto_rifleman",
+    "name": "Military Automatic Rifleman",
+    "description": "S stands for suppressing fire!",
+    "points": 5,
+    "skills": [ { "level": 1, "name": "survival" }, { "level": 1, "name": "gun" }, { "level": 1, "name": "rifle" } ],
+    "items": {
+      "both": {
+        "items": [
+          "pants_army",
+          "tank_top",
+          "tacvest",
+          "glasses_bal",
+          "knee_pads",
+          "elbow_pads",
+          "socks",
+          "boots_combat",
+          "gloves_tactical"
+        ],
+        "entries": [
+          { "item": "m249", "ammo-item": "556", "charges": 200, "contents-item": [ "shoulder_strap", "holo_sight", "bipod" ] },
+          { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
+          { "item": "m17", "ammo-item": "9mm", "charges": 17, "container-item": "holster" }
+        ]
+      },
+      "male": [ "boxer_shorts" ],
+      "female": [ "boy_shorts", "sports_bra" ]
+    }
+  },
+  {
+    "type": "profession",
+    "id": "mil_grenadier",
+    "name": "Military Grenadier",
+    "description": "There's no kill like overkill.",
+    "points": 3,
+    "skills": [
+      { "level": 1, "name": "survival" },
+      { "level": 1, "name": "gun" },
+      { "level": 1, "name": "rifle" },
+      { "level": 1, "name": "launcher" }
+    ],
+    "items": {
+      "both": {
+        "items": [
+          "tac_helmet",
+          "pants_army",
+          "tshirt",
+          "rucksack",
+          "glasses_bal",
+          "dump_pouch",
+          "knee_pads",
+          "elbow_pads",
+          "socks",
+          "boots_combat",
+          "gloves_tactical",
+          "ballistic_vest_esapi"
+        ],
+        "entries": [
+          { "item": "m320", "ammo-item": "40x46mm_m433", "charges": 1, "contents-item": [ "shoulder_strap", "holo_sight" ] },
+          { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
+          { "item": "tacvest", "contents-group": "army_mags_m4" },
+          { "item": "40x46mm_m433", "charges": 4, "container-item": "grenade_pouch" },
+          { "item": "knife_combat", "container-item": "sheath" },
+          { "item": "m17", "ammo-item": "9mm", "charges": 17, "container-item": "holster" }
+        ]
+      },
+      "male": [ "boxer_shorts" ],
+      "female": [ "boy_shorts", "sports_bra" ]
+    }
+  },
+  {
+    "type": "profession",
+    "id": "mil_breacher",
+    "name": "Military Breacher",
+    "description": "Doors and windows everywhere dare not speak your name.",
+    "points": 5,
+    "skills": [
+      { "level": 1, "name": "survival" },
+      { "level": 1, "name": "gun" },
+      { "level": 1, "name": "shotgun" },
+      { "level": 1, "name": "melee" },
+      { "level": 1, "name": "bashing" }
+    ],
+    "items": {
+      "both": {
+        "items": [
+          "tac_fullhelmet",
+          "pants_army",
+          "tshirt",
+          "ballistic_vest_esapi",
+          "armguard_hard",
+          "legguard_hard",
+          "socks",
+          "boots_combat",
+          "gloves_tactical",
+          "hammer_sledge"
+        ],
+        "entries": [
+          { "item": "mossberg_500", "ammo-item": "shot_00", "charges": 8, "contents-item": [ "shoulder_strap" ] },
+          { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
+          { "item": "grenadebandolier", "contents-item": [ "flashbang", "flashbang" ] },
+          { "item": "shot_00", "charges": 12, "container-item": "bandolier_shotgun" },
+          { "item": "knife_combat", "container-item": "sheath" },
+          { "item": "m17", "ammo-item": "9mm", "charges": 17, "container-item": "holster" }
+        ]
+      },
+      "male": [ "boxer_shorts" ],
+      "female": [ "boy_shorts", "sports_bra" ]
+    }
+  },
+  {
+    "type": "profession",
+    "id": "mil_sniper",
+    "name": "Operator Sniper",
+    "description": "You spent days dueling an enemy sniper, then he just… died.  And then un-died.",
+    "points": 5,
+    "skills": [ { "level": 2, "name": "survival" }, { "level": 4, "name": "gun" }, { "level": 4, "name": "rifle" } ],
+    "items": {
+      "both": {
+        "items": [
+          "hat_cotton",
+          "jacket_army",
+          "pants_army",
+          "longshirt",
+          "rucksack",
+          "knee_pads",
+          "elbow_pads",
+          "socks",
+          "boots_combat",
+          "gloves_tactical",
+          "cloak"
+        ],
+        "entries": [
+          { "item": "M24", "ammo-item": "762_51", "charges": 20, "contents-item": [ "shoulder_strap", "bipod", "suppressor" ] },
+          { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
+          { "item": "chestrig", "contents-group": "army_mags_m14" },
+          { "item": "knife_combat", "container-item": "sheath" },
+          { "item": "XL_holster", "contents-group": "holster_supp_MEU" },
+          { "item": "legpouch_large", "contents-group": "army_mags_1911" }
+        ]
+      },
+      "male": [ "boxer_shorts" ],
+      "female": [ "boy_shorts", "sports_bra" ]
+    }
+  },
+  {
+    "type": "profession",
+    "id": "mil_hacker",
+    "name": "Operator Hacker",
+    "description": "You insist you're not a hacker, you're an 'Electronic Warfare Specialist'",
+    "points": 8,
+    "skills": [
+      { "level": 1, "name": "survival" },
+      { "level": 1, "name": "gun" },
+      { "level": 1, "name": "smg" },
+      { "level": 4, "name": "electronics" },
+      { "level": 4, "name": "computer" }
+    ],
+    "items": {
+      "both": {
+        "items": [
+          "hat_ball",
+          "scarf",
+          "hoodie",
+          "pants_cargo",
+          "longshirt",
+          "kevlar",
+          "mbag",
+          "glasses_bal",
+          "dump_pouch",
+          "socks",
+          "boots_combat",
+          "gloves_tactical",
+          "multitool",
+          "diving_watch"
+        ],
+        "entries": [
+          {
+            "item": "hk_mp7",
+            "ammo-item": "46mm",
+            "charges": 20,
+            "contents-item": [ "shoulder_strap", "holo_sight", "suppressor" ]
+          },
+          { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
+          { "item": "chestrig", "contents-group": "army_mags_mp7" },
+          { "item": "knife_combat", "container-item": "sheath" },
+          { "item": "XL_holster", "contents-group": "holster_supp_MEU" },
+          { "item": "legpouch_large", "contents-group": "army_mags_1911" }
+        ]
+      },
+      "male": [ "boxer_shorts" ],
+      "female": [ "boy_shorts", "sports_bra" ]
+    }
+  },
+  {
+    "type": "profession",
+    "id": "mil_undercover",
+    "name": "Operator Undercover",
+    "description": "You've been tailing your target for months and now he's a zombie.  So much for that lead.",
+    "points": 3,
+    "skills": [
+      { "level": 1, "name": "survival" },
+      { "level": 2, "name": "gun" },
+      { "level": 2, "name": "pistol" },
+      { "level": 4, "name": "speech" }
+    ],
+    "items": {
+      "both": {
+        "items": [
+          "scarf",
+          "dress_shirt",
+          "jeans",
+          "longshirt",
+          "kevlar",
+          "mbag",
+          "fancy_sunglasses",
+          "socks",
+          "lowtops",
+          "pockknife",
+          "diving_watch",
+          "smart_phone"
+        ],
+        "entries": [
+          { "item": "holster", "contents-group": "holster_supp_57" },
+          { "item": "suppressor" },
+          { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
+          { "item": "legpouch_large", "contents-group": "army_mags_57" }
+        ]
+      },
+      "male": [ "boxer_shorts" ],
+      "female": [ "boy_shorts", "sports_bra" ]
     }
   },
   {

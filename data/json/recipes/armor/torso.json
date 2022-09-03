@@ -178,12 +178,11 @@
     "skill_used": "fabrication",
     "difficulty": 4,
     "skills_required": [ "tailor", 1 ],
-    "time": "60 m",
+    "time": "240 m",
     "autolearn": true,
-    "book_learn": [ [ "textbook_armwest", 4 ], [ "recipe_melee", 4 ] ],
     "components": [ [ [ "sheet_metal", 2 ] ], [ [ "leather_belt", 2 ] ], [ [ "nuts_bolts", 12 ], [ "nail", 12 ] ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" } ],
-    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 }, { "id": "DRILL", "level": 1 } ]
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 }, { "id": "DRILL", "level": 1 } ]
   },
   {
     "result": "chestguard_metal_sheets_light",
@@ -194,12 +193,11 @@
     "skill_used": "fabrication",
     "difficulty": 4,
     "skills_required": [ "tailor", 1 ],
-    "time": "60 m",
+    "time": "240 m",
     "autolearn": true,
-    "book_learn": [ [ "textbook_armwest", 4 ], [ "recipe_melee", 4 ] ],
     "components": [ [ [ "sheet_metal", 1 ] ], [ [ "leather_belt", 2 ] ], [ [ "nuts_bolts", 12 ], [ "nail", 12 ] ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" } ],
-    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 }, { "id": "DRILL", "level": 1 } ]
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 }, { "id": "DRILL", "level": 1 } ]
   },
   {
     "result": "bookplate",

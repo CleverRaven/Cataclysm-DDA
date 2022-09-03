@@ -29,5 +29,43 @@
     "time": "10 s",
     "qualities": [ { "id": "COOK", "level": 2 } ],
     "components": [ [ [ "cookies", 4 ] ], [ [ "marloss_berry", 1 ], [ "marloss_seed", 1 ], [ "mycus_fruit", 1 ] ] ]
+  },
+  {
+    "id": "powerthirst1",
+    "copy-from": "energy_drink",
+    "type": "COMESTIBLE",
+    "comestible_type": "DRINK",
+    "addiction_potential": 50,
+    "addiction_type": "amphetamine",
+    "container": "rocket_can_drink",
+    "stim": 40,
+    "name": { "str_sp": "Powerthirst - Manana Flavor" },
+    "description": "POWERTHIRST in new Manana flavor.  Contains preposterous amounts of testosterone.  PREPOSTERONE.  It's like crystal meth in a can.  It's crystal meth in a can.  Powerthirst is crystal meth.",
+    "vitamins": [ [ "mutagen", 2000 ], [ "mutagen_chimera", 800 ], [ "mutagen_raptor", 800 ] ]
+  },
+  {
+    "id": "powerthirst2",
+    "copy-from": "powerthirst1",
+    "type": "COMESTIBLE",
+    "comestible_type": "DRINK",
+    "addiction_potential": 55,
+    "addiction_type": "amphetamine",
+    "container": "rocket_can_drink",
+    "stim": 30,
+    "name": { "str_sp": "Powerthirst - Fizzbitch Flavor" },
+    "description": "POWERTHIRST in new Fizzbitch flavor.  Contains preposterous amounts of testosterone.  PREPOSTERONE.  It's like crystal meth in a can.  It's crystal meth in a can.  Powerthirst is crystal meth.",
+    "vitamins": [ [ "mutagen", 2000 ], [ "mutagen_chimera", 1000 ], [ "mutagen_raptor", 1000 ] ]
+  },
+  {
+    "id": "powerthirst3",
+    "copy-from": "powerthirst1",
+    "type": "COMESTIBLE",
+    "comestible_type": "DRINK",
+    "addiction_potential": 60,
+    "addiction_type": "amphetamine",
+    "stim": 20,
+    "name": { "str_sp": "Powerthirst - Gun Flavor" },
+    "description": "POWERTHIRST in new Gun flavor.  Contains preposterous amounts of testosterone.  PREPOSTERONE.  It's like crystal meth in a can.  It's crystal meth in a can.  Powerthirst is crystal meth.",
+    "vitamins": [ [ "mutagen", 2000 ], [ "mutagen_chimera", 1200 ], [ "mutagen_raptor", 1200 ] ]
   }
 ]

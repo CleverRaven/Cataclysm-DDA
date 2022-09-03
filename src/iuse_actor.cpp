@@ -213,7 +213,7 @@ void iuse_transform::load( const JsonObject &obj )
 
 cata::optional<int> iuse_transform::use( Character &p, item &it, bool t, const tripoint &pos ) const
 {
-    float scale = 1;
+    int scale = 1;
     auto iter = it.type->ammo_scale.find( type );
     if( iter != it.type->ammo_scale.end() ) {
         scale = iter->second;
@@ -293,7 +293,7 @@ cata::optional<int> iuse_transform::use( Character &p, item &it, bool t, const t
     // defined here to allow making a new item assigned to the pointer
     item obj_it;
     if( it.is_tool() ) {
-        result = int( it.type->charges_to_use() * double( scale ) );
+        result = scale;
     }
     if( container.is_empty() ) {
         obj = &it.convert( target );
@@ -607,7 +607,7 @@ cata::optional<int> explosion_iuse::use( Character &p, item &it, bool t, const t
                 p.add_msg_if_player( m_info, no_deactivate_msg.translated(), it.tname() );
             }
         }
-        return 0;
+        return cata::nullopt;
     }
 
     if( explosion.power >= 0.0f ) {
@@ -733,13 +733,12 @@ cata::optional<int> consume_drug_iuse::use( Character &p, item &it, bool, const 
 
     // Check prerequisites first.
     for( const auto &tool : need_these ) {
-        // Amount == -1 means need one, but don't consume it.
         if( !p.has_amount( tool.first, 1 ) ) {
             p.add_msg_player_or_say( _( "You need %1$s to consume %2$s!" ),
                                      _( "I need a %1$s to consume %2$s!" ),
                                      item::nname( tool.first ),
                                      it.type_name( 1 ) );
-            return -1;
+            return cata::nullopt;
         }
     }
     for( const auto &consumable : charges_needed ) {
@@ -750,7 +749,7 @@ cata::optional<int> consume_drug_iuse::use( Character &p, item &it, bool, const 
                                      _( "I need a %1$s to consume %2$s!" ),
                                      item::nname( consumable.first ),
                                      it.type_name( 1 ) );
-            return -1;
+            return cata::nullopt;
         }
     }
     // Apply the various effects.
@@ -804,7 +803,7 @@ cata::optional<int> consume_drug_iuse::use( Character &p, item &it, bool, const 
     }
 
     p.moves -= moves;
-    return it.type->charges_to_use();
+    return 1;
 }
 
 std::unique_ptr<iuse_actor> delayed_transform_iuse::clone() const
@@ -1079,7 +1078,7 @@ cata::optional<int> deploy_furn_actor::use( Character &p, item &it, bool,
     here.furn_set( pnt, furn_type );
     it.spill_contents( pnt );
     p.mod_moves( -to_moves<int>( 2_seconds ) );
-    return it.type->charges_to_use() != 0 ? it.type->charges_to_use() : 1;
+    return 1;
 }
 
 std::unique_ptr<iuse_actor> reveal_map_actor::clone() const
@@ -1244,11 +1243,12 @@ float firestarter_actor::light_mod( const tripoint &pos ) const
     if( !need_sunlight ) {
         return 1.0f;
     }
+    if( g->is_sheltered( pos ) ) {
+        return 0.0f;
+    }
 
-    const float light_level = g->natural_light_level( pos.z );
-    if( get_weather().weather_id->sun_intensity >= sun_intensity_type::normal &&
-        light_level >= 60.0f && !get_map().has_flag( ter_furn_flag::TFLAG_INDOORS, pos ) ) {
-        return std::pow( light_level / 80.0f, 8 );
+    if( incident_sun_irradiance( get_weather().weather_id, calendar::turn ) > irradiance::moderate ) {
+        return std::pow( g->natural_light_level( pos.z ) / 80.0f, 8 );
     }
 
     return 0.0f;
@@ -1303,7 +1303,7 @@ cata::optional<int> firestarter_actor::use( Character &p, item &it, bool t,
         // If less than 2 turns, don't start a long action
         resolve_firestarter_use( p, pos );
         p.mod_moves( -moves );
-        return it.type->charges_to_use();
+        return 1;
     }
 
     // skill gains are handled by the activity, but stored here in the index field
@@ -1364,7 +1364,7 @@ cata::optional<int> salvage_actor::try_to_cut_up
 
     salvage_actor::cut_up( p, cut );
     // Return used charges from cutter
-    return cost >= 0 ? cost : cutter.ammo_required();
+    return cost >= 0 ? cost : 1;
 }
 
 // Helper to visit instances of all the sub-materials of an item.
@@ -1787,7 +1787,7 @@ cata::optional<int> inscribe_actor::use( Character &p, item &it, bool t, const t
     // inscribe_item returns false if the action fails or is canceled somehow.
 
     if( item_inscription( it, cut ) ) {
-        return cost >= 0 ? cost : it.ammo_required();
+        return cost >= 0 ? cost : 1;
     }
 
     return cata::nullopt;
@@ -1956,13 +1956,13 @@ cata::optional<int> fireweapon_off_actor::use( Character &p, item &it, bool t,
         p.add_msg_if_player( m_bad, "%s", failure_message );
     }
 
-    return it.type->charges_to_use();
+    return 1;
 }
 
 ret_val<void> fireweapon_off_actor::can_use( const Character &p, const item &it, bool,
         const tripoint & ) const
 {
-    if( it.charges < it.type->charges_to_use() ) {
+    if( it.ammo_sufficient( &p ) ) {
         return ret_val<void>::make_failure( _( "This tool doesn't have enough charges." ) );
     }
 
@@ -2019,7 +2019,7 @@ cata::optional<int> fireweapon_on_actor::use( Character &p, item &it, bool t,
         }
     }
 
-    return it.type->charges_to_use();
+    return 1;
 }
 
 void manualnoise_actor::load( const JsonObject &obj )
@@ -2043,7 +2043,7 @@ cata::optional<int> manualnoise_actor::use( Character &p, item &it, bool t, cons
     if( t ) {
         return cata::nullopt;
     }
-    if( it.type->charges_to_use() != 0 && it.charges < it.type->charges_to_use() ) {
+    if( !it.ammo_sufficient( &p ) ) {
         p.add_msg_if_player( "%s", no_charges_message );
         return cata::nullopt;
     }
@@ -2055,13 +2055,13 @@ cata::optional<int> manualnoise_actor::use( Character &p, item &it, bool t, cons
         }
         p.add_msg_if_player( "%s", use_message );
     }
-    return it.type->charges_to_use();
+    return 1;
 }
 
-ret_val<void> manualnoise_actor::can_use( const Character &, const item &it, bool,
+ret_val<void> manualnoise_actor::can_use( const Character &p, const item &it, bool,
         const tripoint & ) const
 {
-    if( it.charges < it.type->charges_to_use() ) {
+    if( it.ammo_sufficient( &p ) ) {
         return ret_val<void>::make_failure( _( "This tool doesn't have enough charges." ) );
     }
 
@@ -2416,7 +2416,7 @@ cata::optional<int> cast_spell_actor::use( Character &p, item &it, bool, const t
     }
 
     spell casting = spell( spell_id( item_spell ) );
-    int charges = it.type->charges_to_use();
+    int charges = 1;
 
     player_activity cast_spell( ACT_SPELLCASTING, casting.casting_time( p ) );
     // [0] this is used as a spell level override for items casting spells
@@ -2531,6 +2531,12 @@ cata::optional<int> holster_actor::use( Character &you, item &it, bool, const tr
     }
 
     if( pos >= 0 ) {
+        item_location weapon =  you.get_wielded_item();
+        if( weapon && weapon.get_item()->has_flag( flag_NO_UNWIELD ) ) {
+            you.add_msg_if_player( m_bad, _( "You can't unwield your %s." ), weapon.get_item()->tname() );
+            return cata::nullopt;
+        }
+
         // worn holsters ignore penalty effects (e.g. GRABBED) when determining number of moves to consume
         if( you.is_worn( it ) ) {
             you.wield_contents( it, internal_item, false, it.obtain_cost( *internal_item ) );
@@ -3530,7 +3536,7 @@ int heal_actor::finish_using( Character &healer, Character &patient, item &it,
                                  time_duration::from_turns( practice_amount ) );
     healer.practice_proficiency( proficiency_prof_wound_care_expert,
                                  time_duration::from_turns( practice_amount ) );
-    return it.type->charges_to_use();
+    return 1;
 }
 
 static bodypart_id pick_part_to_heal(
@@ -4027,6 +4033,10 @@ ret_val<void> saw_stock_actor::can_use_on( const Character &, const item &,
         return ret_val<void>::make_failure( _( "The stock is already sawn-off." ) );
     }
 
+    if( target.gun_type() == gun_type_type( "pistol" ) ) {
+        return ret_val<void>::make_failure( _( "This gun doesn't have a stock." ) );
+    }
+
     const auto gunmods = target.gunmods();
     const bool modified_stock = std::any_of( gunmods.begin(), gunmods.end(),
     []( const item * mod ) {
@@ -4072,8 +4082,6 @@ cata::optional<int> molle_attach_actor::use( Character &p, item &it, bool t,
         return cata::nullopt;
     }
 
-
-
     item_location loc = game_menus::inv::molle_attach( p, it );
 
     if( !loc ) {
@@ -4088,8 +4096,6 @@ cata::optional<int> molle_attach_actor::use( Character &p, item &it, bool t,
 
     // the item has been added to the vest it should no longer exist in the world
     loc.remove_item();
-
-
 
     return 0;
 }
@@ -4143,10 +4149,11 @@ cata::optional<int> install_bionic_actor::use( Character &p, item &it, bool,
             p.consume_installation_requirement( it.type->bionic->id );
             p.consume_anesth_requirement( *it.type, p );
         }
-        return p.install_bionics( *it.type, p, false ) ? it.type->charges_to_use() : 0;
-    } else {
-        return cata::nullopt;
+        if( p.install_bionics( *it.type, p, false ) ) {
+            return 1;
+        }
     }
+    return cata::nullopt;
 }
 
 ret_val<void> install_bionic_actor::can_use( const Character &p, const item &it, bool,
@@ -4424,8 +4431,8 @@ cata::optional<int> deploy_tent_actor::use( Character &p, item &it, bool, const 
     player_activity new_act = player_activity( tent_placement_activity_actor( to_moves<int>
                               ( 20_minutes ), direction, radius, it, wall, floor, floor_center, door_closed ) );
     get_player_character().assign_activity( new_act, false );
-
-    return 1;
+    p.i_rem( &it );
+    return 0;
 }
 
 bool deploy_tent_actor::check_intact( const tripoint &center ) const
@@ -4799,5 +4806,5 @@ cata::optional<int> effect_on_conditons_actor::use( Character &p, item &it, bool
             debugmsg( "Must use an activation eoc for activation.  If you don't want the effect_on_condition to happen on its own (without the item's involvement), remove the recurrence min and max.  Otherwise, create a non-recurring effect_on_condition for this item with its condition and effects, then have a recurring one queue it." );
         }
     }
-    return it.type->charges_to_use();
+    return 1;
 }

@@ -309,10 +309,24 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "egg_sarahsaurus",
+    "name": "sarahsaurus egg",
+    "copy-from": "egg_dino",
+    "rot_spawn": "GROUP_EGG_sarahsaurus"
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "egg_issi",
     "name": "issi egg",
     "copy-from": "egg_dino",
     "rot_spawn": "GROUP_EGG_issi"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_haplocanthosaurus",
+    "name": "haplocanthosaurus egg",
+    "copy-from": "egg_dino_large",
+    "rot_spawn": "GROUP_EGG_haplocanthosaurus"
   },
   {
     "type": "COMESTIBLE",
@@ -376,6 +390,13 @@
     "name": "stegosaurus egg",
     "copy-from": "egg_dino",
     "rot_spawn": "GROUP_EGG_stegosaurus"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_hesperosaurus",
+    "name": "hesperosaurus egg",
+    "copy-from": "egg_dino",
+    "rot_spawn": "GROUP_EGG_hesperosaurus"
   },
   {
     "type": "COMESTIBLE",
@@ -456,6 +477,13 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "egg_gryposaurus",
+    "name": "gryposaurus egg",
+    "copy-from": "egg_dino",
+    "rot_spawn": "GROUP_EGG_gryposaurus"
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "egg_stegoceras",
     "name": "stegoceras egg",
     "copy-from": "egg_dino_small",
@@ -474,6 +502,27 @@
     "name": "aquilops egg",
     "copy-from": "egg_dino_small",
     "rot_spawn": "GROUP_EGG_aquilops"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_leptoceratops",
+    "name": "leptoceratops egg",
+    "copy-from": "egg_dino",
+    "rot_spawn": "GROUP_EGG_leptoceratops"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_zuniceratops",
+    "name": "zuniceratops egg",
+    "copy-from": "egg_dino",
+    "rot_spawn": "GROUP_EGG_zuniceratops"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_centrosaurus",
+    "name": "centrosaurus egg",
+    "copy-from": "egg_dino",
+    "rot_spawn": "GROUP_EGG_centrosaurus"
   },
   {
     "type": "COMESTIBLE",

@@ -207,7 +207,8 @@
       "moves": 100,
       "practice": 0,
       "done_message": "You unroll the fur mat and lay it on the ground."
-    }
+    },
+    "flags": [ "SINGLE_USE" ]
   },
   {
     "id": "hose_garden",
@@ -382,7 +383,7 @@
     "type": "TOOL",
     "name": { "str": "large space heater (on)", "str_pl": "large space heaters (on)" },
     "description": "A portable electric heater that steadily emits warm air.  Raises temperature about 10 degrees C and fills a larger volume of air than the smaller version.",
-    "power_draw": 1000000,
+    "power_draw": "1 kJ",
     "emits": [ "emit_hot_air2_blast" ],
     "flags": [ "ALLOWS_REMOTE_USE", "LIGHT_2" ],
     "revert_to": "large_space_heater",
@@ -506,7 +507,8 @@
       "moves": 100,
       "practice": 0,
       "done_message": "You unroll the mat and lay it on the ground."
-    }
+    },
+    "flags": [ "SINGLE_USE" ]
   },
   {
     "id": "safe_box",
@@ -581,7 +583,7 @@
     "type": "TOOL",
     "name": { "str": "small space heater (on)", "str_pl": "small space heaters (on)" },
     "description": "A portable electric heater that steadily emits warm air.  Raises temperature about 10 degrees C.",
-    "power_draw": 500000,
+    "power_draw": "500 J",
     "emits": [ "emit_hot_air2_stream" ],
     "flags": [ "ALLOWS_REMOTE_USE", "LIGHT_2" ],
     "revert_to": "small_space_heater",

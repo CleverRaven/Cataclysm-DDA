@@ -116,5 +116,12 @@
     ],
     "immunity_data": { "traits": [ "PERMAFROST_MAGE" ] },
     "half_life": "3 seconds"
+  },
+  {
+    "id": "fd_fog_permanent",
+    "type": "field_type",
+    "copy-from": "fd_fog",
+    "half_life": "999999999 minutes",
+    "looks_like": "fd_fog"
   }
 ]

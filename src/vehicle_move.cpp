@@ -1351,6 +1351,9 @@ bool vehicle::check_heli_ascend( Character &p ) const
         p.add_msg_if_player( m_bad, _( "It would be unsafe to try and take off while you are moving." ) );
         return false;
     }
+    if( sm_pos.z + 1 >= OVERMAP_HEIGHT ) {
+        return false; // don't allow trying to ascend to max zlevel
+    }
     map &here = get_map();
     creature_tracker &creatures = get_creature_tracker();
     for( const tripoint &pt : get_points( true ) ) {

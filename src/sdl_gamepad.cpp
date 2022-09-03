@@ -22,16 +22,16 @@ static std::array<std::array<int, 2>, max_sticks> sticks_axis = { {
     }
 };
 
-static int triggers_state[max_triggers] = {0, 0};
-static int sticks_state[max_sticks] = {0, 0};
+static std::array<int, max_triggers> triggers_state = {0, 0};
+static std::array<int, max_sticks> sticks_state = {0, 0};
 
 static int triggers_threshold = 16000;
 static int sticks_threshold = 16000;
 static int error_margin = 2000;
 
 static std::array<std::array<int, 16>, max_sticks> sticks_map = {};
-static int triggers_map[max_triggers] = {0};
-static int buttons_map[max_buttons] = {0};
+static std::array<int, max_triggers> triggers_map = {0};
+static std::array<int, max_buttons> buttons_map = {0};
 
 struct task_t {
     Uint32 when;
@@ -45,7 +45,7 @@ static constexpr int max_tasks           = max_buttons + max_sticks + max_trigge
 static constexpr int sticks_task_index   = max_buttons;
 static constexpr int triggers_task_index = max_buttons + max_sticks;
 
-static task_t all_tasks[max_tasks];
+static std::array<task_t, max_tasks> all_tasks;
 
 static int repeat_delay = 400;
 static int repeat_interval = 200;

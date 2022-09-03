@@ -13,6 +13,7 @@ adze
 aerarium
 aerially
 aeterna
+aetheric
 afterbirth
 afterimage
 afterlife
@@ -202,6 +203,7 @@ blackpowders
 blacksmithy
 bleedin
 bloodbank
+bloodborne
 bloodloss
 bloomery
 bluegill
@@ -268,6 +270,7 @@ caltrops
 camarasaurus
 camarasaurus
 camphine
+campin'
 camspy
 cannelured
 caparison
@@ -585,6 +588,8 @@ eyespots
 eyestalks
 f
 faceplates
+fader
+faders
 faewild
 fakkin
 falcata
@@ -638,6 +643,7 @@ flarewhip
 flatjaw
 flavorings
 fle
+flechette
 flechettes
 fletched
 fletching
@@ -753,6 +759,7 @@ grinny
 grnd
 groundcover
 groundsheet
+gryposaurus
 gt
 guayaba
 gunblade
@@ -767,6 +774,7 @@ gymnocladus
 h
 hadrosaurus
 haematopoiesis
+haft
 hahahahahaha
 hahd
 halazone
@@ -779,6 +787,7 @@ handiness
 handloading
 hangry
 haori
+haplocanthosaurus
 hardbound
 hardpoint
 hardpoints
@@ -797,6 +806,7 @@ helpdesk
 hemolymph
 hemostatics
 heoretical
+hesperosaurus
 hevel
 hexamine
 hexapod
@@ -814,6 +824,7 @@ hmmm
 hollowpoint
 holybook
 homebrewing
+homovorus
 honeygold
 hosomaki
 hotcut
@@ -875,6 +886,7 @@ interestin
 interjected
 interjects
 interlayer
+intermixed
 intolerances
 intoxications
 intradimensional
@@ -888,6 +900,7 @@ isable
 isassembled
 issi
 issions
+issuer
 itemname
 iterating
 j
@@ -930,6 +943,7 @@ keypress
 kg
 khopesh
 khru
+kickboard
 killbasa
 kilroy
 kinbot
@@ -1127,6 +1141,7 @@ moonflower
 moonflowers
 moriatur
 morningstar
+moroi
 mortems
 mosasaurus
 mostlike
@@ -1246,6 +1261,7 @@ olieribos
 olors
 ompare
 omplete
+oneiric
 onyxes
 openable
 openair
@@ -1381,6 +1397,7 @@ premeasured
 preminiscent
 premix
 preoptic
+presaging
 prescriptures
 prev
 primeside
@@ -1546,6 +1563,7 @@ samghati
 samoyed
 sandleather
 sapience
+sarahsaurus
 sarracenia
 satirizes
 sauropod
@@ -1770,6 +1788,7 @@ tass
 tassed
 tassin
 taxa
+tazer
 tazers
 tcha
 techn
@@ -1899,6 +1918,7 @@ universalism
 unjacketed
 unlively
 unlives
+unlooted
 unmalted
 unmark
 unmarred

@@ -88,7 +88,7 @@
     "copy-from": "cell_phone",
     "type": "TOOL",
     "name": { "str": "cellphone - Flashlight", "str_pl": "cellphones - Flashlight" },
-    "power_draw": 500,
+    "power_draw": "500 mJ",
     "revert_to": "cell_phone",
     "use_action": {
       "ammo_scale": 0,
@@ -187,7 +187,7 @@
     "id": "eink_tablet_pc_on",
     "copy-from": "eink_tablet_pc",
     "name": { "str": "e-ink tablet PC (on)", "str_pl": "e-ink tablet PCs (on)" },
-    "power_draw": 2000,
+    "power_draw": "2 J",
     "revert_to": "eink_tablet_pc",
     "use_action": [
       "EINKTABLETPC",
@@ -262,7 +262,7 @@
     "type": "TOOL",
     "name": { "str": "geiger counter (on)", "str_pl": "geiger counters (on)" },
     "description": "This is a tool for measuring radiation.  It is in continuous scan mode, and will produce quiet clicking sounds in the presence of ambient radiation.  Using it allows you to turn it off, or scan yourself or the ground.  It is currently on.",
-    "power_draw": 200,
+    "power_draw": "200 mJ",
     "revert_to": "geiger_off",
     "use_action": [ "GEIGER" ],
     "flags": [ "TRADER_AVOID" ]
@@ -365,7 +365,7 @@
     "copy-from": "laptop",
     "type": "TOOL",
     "name": { "str": "laptop computer - lit screen", "str_pl": "laptop computers - lit screen" },
-    "power_draw": 1000,
+    "power_draw": "1 J",
     "revert_to": "laptop",
     "use_action": [
       "EINKTABLETPC",
@@ -412,7 +412,7 @@
     "type": "TOOL",
     "name": { "str": "mp3 player (on)", "str_pl": "mp3 players (on)" },
     "description": "This mp3 player is turned on and playing some great tunes, raising your morale steadily while on your person.  It runs through batteries quickly; you can turn it off by using it.  It also obscures your hearing.",
-    "power_draw": 1000,
+    "power_draw": "1 J",
     "revert_to": "mp3",
     "use_action": [ "MP3_ON" ],
     "flags": [ "TRADER_AVOID", "WATER_BREAK" ]
@@ -450,7 +450,7 @@
     "type": "TOOL",
     "name": { "str": "noise emitter (on)", "str_pl": "noise emitters (on)" },
     "description": "This device has been turned on and is emitting horrible crackles, pops and other static sounds.  Quick, get away from it before it draws zombies to you!",
-    "power_draw": 10000,
+    "power_draw": "10 J",
     "revert_to": "noise_emitter",
     "use_action": [ "NOISE_EMITTER_ON" ],
     "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "TRADER_AVOID", "WATER_BREAK" ]
@@ -490,7 +490,7 @@
     "name": { "str": "EMF detector (on)", "str_pl": "EMF detectors (on)" },
     "description": "This device detects and reads out different wave lengths.  It currently is humming and beeps with proximity.  It is sensitive enough you could use it to get a sense of direction.",
     "//": "lasts 12 hours with backlight off",
-    "power_draw": 6000,
+    "power_draw": "6 J",
     "revert_to": "emf_detector",
     "use_action": [ "EMF_PASSIVE_ON" ],
     "flags": [ "TRADER_AVOID", "WATER_BREAK" ]
@@ -572,7 +572,7 @@
     "type": "TOOL",
     "name": { "str": "smartphone - music", "str_pl": "smartphones - music" },
     "description": "This phone is playing music, steadily raising your morale.  You can't hear anything else while you're listening.",
-    "power_draw": 300,
+    "power_draw": "300 mJ",
     "revert_to": "smart_phone",
     "use_action": [ "MP3_ON", "PORTABLE_GAME", "EINKTABLETPC", "EBOOKSAVE", "EBOOKREAD" ],
     "extend": { "flags": [ "TRADER_AVOID" ] }
@@ -582,7 +582,7 @@
     "copy-from": "smart_phone",
     "type": "TOOL",
     "name": { "str": "smartphone - Flashlight", "str_pl": "smartphones - Flashlight" },
-    "power_draw": 1500,
+    "power_draw": "1500 mJ",
     "revert_to": "smart_phone",
     "use_action": [
       "PORTABLE_GAME",
@@ -706,7 +706,7 @@
     "type": "TOOL",
     "name": { "str": "gas-powered UPS (on)", "str_pl": "gas-powered UPSes (on)" },
     "description": "This is a compact thermoelectric generator.  When connected to a fuel tank, it will slowly charge UPS-compatible devices.",
-    "power_draw": 60,
+    "power_draw": "60 mJ",
     "revert_to": "gas_charger",
     "use_action": {
       "ammo_scale": 0,

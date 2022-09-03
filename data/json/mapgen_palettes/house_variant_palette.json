@@ -72,7 +72,7 @@
       "L": "f_rack_coat",
       "M": "f_displaycase",
       "N": "f_workbench",
-      "O": "f_oven",
+      "O": [ "f_oven", "f_gas_oven_microwave_combo" ],
       "P": "f_filing_cabinet",
       "Q": "f_rack_wood",
       "R": "f_bookcase",
