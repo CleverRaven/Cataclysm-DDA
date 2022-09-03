@@ -941,7 +941,7 @@ static void perform_nested( const recipe *rec, std::string filterstring, tab_lis
 }
 
 static std::string list_nested( const recipe *rec, const inventory &crafting_inv,
-                         const std::vector<npc *> &helpers, int indent = 0 )
+                                const std::vector<npc *> &helpers, int indent = 0 )
 {
     std::string description;
     availability avail( rec );
