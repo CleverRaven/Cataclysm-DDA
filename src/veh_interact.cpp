@@ -766,6 +766,13 @@ bool veh_interact::update_part_requirements()
         return false;
     }
 
+    if( std::any_of( parts_here.begin(), parts_here.end(), [&]( const int e ) {
+    return veh->part( e ).has_flag( vehicle_part::carried_flag );
+    } ) ) {
+        msg = _( "Unracking is required before installing any parts here." );
+        return false;
+    }
+
     if( is_drive_conflict() ) {
         return false;
     }
@@ -2583,9 +2590,9 @@ void veh_interact::display_stats() const
     const int extraw = ( ( TERMX - FULL_SCREEN_WIDTH ) / 4 ) * 2;
     // 3 * stats_h
     const int slots = 24;
-    int x[slots];
-    int y[slots];
-    int w[slots];
+    std::array<int, slots> x;
+    std::array<int, slots> y;
+    std::array<int, slots> w;
 
     units::volume total_cargo = 0_ml;
     units::volume free_cargo = 0_ml;

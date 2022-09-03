@@ -365,7 +365,7 @@
     "difficulty": 2,
     "trap_radius": 1,
     "action": "none",
-    "drops": [ "motor", "blade", "blade", "string_36" ]
+    "drops": [ "motor_small", "blade", "blade", "string_36" ]
   },
   {
     "type": "trap",
