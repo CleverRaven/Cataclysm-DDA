@@ -91,7 +91,7 @@
     "id": "tec9_auto_parts",
     "type": "GUNMOD",
     "name": { "str": "TEC-9 full auto parts" },
-    "description": "This is a relatively simple modification of some of a TEC-9's internal fire-control components, converting it fully-automatic-only machine pistol.  Calling this hilariously illegal would be an understatement, but .",
+    "description": "This is a relatively simple modification of some of a TEC-9's internal fire-control components, converting it to a fully-automatic-only machine pistol.  Calling this hilariously illegal would be an understatement, but anyone who'd care is probably long gone by now.",
     "weight": "55 g",
     "volume": "20 ml",
     "price": 9500,
