@@ -49,10 +49,6 @@
 static const std::string flag_BLIND_EASY( "BLIND_EASY" );
 static const std::string flag_BLIND_HARD( "BLIND_HARD" );
 
-// the number of items in the fav menu by default
-// should be made dynamic at some point
-static int fav_tab_size;
-
 
 class npc;
 
@@ -135,11 +131,6 @@ void load_recipe_category( const JsonObject &jsobj )
                   subcat_id ) == craft_subcat_list[category].end() ) {
             craft_subcat_list[category].push_back( subcat_id );
         }
-    }
-    // back up the default for CC_*
-    if( category == "CC_*" ) {
-        craft_subcat_star_default = craft_subcat_list[category];
-        fav_tab_size = craft_subcat_star_default.size();
     }
 }
 
@@ -720,19 +711,9 @@ void recipe_result_info_cache::insert_iteminfo_block_separator( std::vector<item
     info_vec.emplace_back( "DESCRIPTION", "--" );
 }
 
-static int nested_index( tab_list &tab, tab_list &subtab )
-{
-    if( tab.cur_index() == 0 && subtab.cur_index() >= fav_tab_size ) {
-        return subtab.cur_index() - fav_tab_size;
-    }
-
-    // -1 is the default
-    return -1;
-}
-
 static std::pair<std::vector<const recipe *>, bool>
 recipes_from_cat( const recipe_subset &available_recipes, const std::string &cat,
-                  const std::string &subcat, int index = -1 )
+                  const std::string &subcat )
 {
     if( subcat == "CSC_*_FAVORITE" ) {
         return std::make_pair( available_recipes.favorite(), false );
@@ -740,8 +721,6 @@ recipes_from_cat( const recipe_subset &available_recipes, const std::string &cat
         return std::make_pair( available_recipes.recent(), false );
     } else if( subcat == "CSC_*_HIDDEN" ) {
         return std::make_pair( available_recipes.hidden(), true );
-    } else if( index >= 0 ) {
-        return std::make_pair( available_recipes.nested( index ), false );
     } else {
         return std::make_pair( available_recipes.in_category( cat, subcat != "CSC_ALL" ? subcat : "" ),
                                false );
@@ -910,34 +889,10 @@ static bool mouse_in_window( cata::optional<point> coord, const catacurses::wind
     return false;
 }
 
-static void perform_nested( const recipe *rec, std::string filterstring, tab_list &tab,
-                            tab_list &subtab, bool &recalc )
+// take the current and itterate through expanding each recipe
+static std::vector<int> expand_recipes( std::vector<const recipe *> &current )
 {
-    // if we are already looking at a nested category then we should spread tabs from where we are
-    int index = nested_index( tab, subtab );
-    if( index != -1 ) {
-        //delete categories past where we are
-        uistate.nested_recipes.resize( index + 1 );
-    } else {
-        uistate.nested_recipes.clear();
-    }
-    uistate.nested_recipes.emplace_back( make_pair( rec->name_.translated(),
-                                         rec->nested_category_data ) );
-    filterstring.clear();
-    // set back to * and to the nested category
-    tab.set_index( 0 );
 
-    // reset * to its default
-    craft_subcat_list[tab.cur()] = craft_subcat_star_default;
-
-    // build our new subtab with the extra entries
-    for( const auto &entry : uistate.nested_recipes ) {
-        craft_subcat_list[tab.cur()].emplace_back( "CSC_*_" + entry.first );
-    }
-    subtab = tab_list( craft_subcat_list[tab.cur()] );
-    // TODO: Make this less hard coded
-    subtab.prev();
-    recalc = true;
 }
 
 static std::string list_nested( const recipe *rec, const inventory &crafting_inv,
@@ -1069,6 +1024,8 @@ const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id goto_
     std::map<size_t, inclusive_rectangle<point>> translated_subtab_map;
     std::map<size_t, inclusive_rectangle<point>> list_map;
     std::vector<const recipe *> current;
+    // how much to indent any item
+    std::vector<int> indent;
     std::vector<availability> available;
     int line = 0;
     bool unread_recipes_first = false;
@@ -1129,9 +1086,8 @@ const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id goto_
                     is_cat_unread[cat] = false;
                     for( const std::string &subcat : craft_subcat_list[cat] ) {
                         is_subcat_unread[cat][subcat] = false;
-                        int index = nested_index( tab, subtab );
                         const std::pair<std::vector<const recipe *>, bool> result = recipes_from_cat( available_recipes,
-                                cat, subcat, index );
+                                cat, subcat );
                         const std::vector<const recipe *> &recipes = result.first;
                         const bool include_hidden = result.second;
                         for( const recipe *const rcp : recipes ) {
@@ -1373,9 +1329,8 @@ const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id goto_
                         filter_recipes( available_recipes, qry, player_character, progress_callback );
                     picking.insert( picking.end(), filtered_recipes.begin(), filtered_recipes.end() );
                 } else {
-                    int index = nested_index( tab, subtab );
                     const std::pair<std::vector<const recipe *>, bool> result = recipes_from_cat( available_recipes,
-                            tab.cur(), subtab.cur(), index );
+                            tab.cur(), subtab.cur() );
                     show_hidden = result.second;
                     if( show_hidden ) {
                         current = result.first;
@@ -1394,6 +1349,9 @@ const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id goto_
                     num_hidden = picking.size() - current.size();
                     num_recipe = picking.size();
                 }
+
+                // set up indents and append the expanded entries
+                expand_recipes( current );
 
                 available.reserve( current.size() );
                 // cache recipe availability on first display
@@ -1616,7 +1574,13 @@ const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id goto_
                 .option( "QUIT" )
                 .query();
             } else if( current[line]->is_nested() ) {
-                perform_nested( current[line], filterstring, tab, subtab, recalc );
+                auto loc = uistate.hidden_recipes.find( current[line]->ident() );
+                if( loc != uistate.hidden_recipes.end() ) {
+                    uistate.hidden_recipes.erase( current[line]->ident() );
+                } else {
+                    uistate.hidden_recipes.insert( current[line]->ident() );
+                }
+                recalc = true;
             } else if( !player_character.check_eligible_containers_for_crafting( *current[line],
                        batch ? line + 1 : 1 ) ) {
                 // popup is already inside check
