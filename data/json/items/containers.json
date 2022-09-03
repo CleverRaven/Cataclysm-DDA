@@ -2746,13 +2746,13 @@
     ],
     "qualities": [ [ "CONTAIN", 1 ] ],
     "use_action": {
-    "target": "aquarium_medium",
-    "msg": "You tear off the tape from the silicone, looks like the aquarium is ready.",
-    "moves": 100,
-    "type": "delayed_transform",
-    "transform_age": 604800,
-    "not_ready_msg": "The silicone hasn't dried quite yet.",
-    "//": "The time it takes is a week and this appears to be the minimum time the internet says it takes."
+      "target": "aquarium_medium",
+      "msg": "You tear off the tape from the silicone, looks like the aquarium is ready.",
+      "moves": 100,
+      "type": "delayed_transform",
+      "transform_age": 604800,
+      "not_ready_msg": "The silicone hasn't dried quite yet.",
+      "//": "The time it takes is a week and this appears to be the minimum time the internet says it takes."
     }
   },
   {
@@ -2811,13 +2811,13 @@
     ],
     "qualities": [ [ "CONTAIN", 1 ] ],
     "use_action": {
-    "target": "aquarium_small",
-    "msg": "You tear off the tape from the silicone, looks like the aquarium is ready.",
-    "moves": 100,
-    "type": "delayed_transform",
-    "transform_age": 604800,
-    "not_ready_msg": "The silicone hasn't dried quite yet.",
-    "//": "The time it takes is a week and this appears to be the minimum time the internet says it takes."
+      "target": "aquarium_small",
+      "msg": "You tear off the tape from the silicone, looks like the aquarium is ready.",
+      "moves": 100,
+      "type": "delayed_transform",
+      "transform_age": 604800,
+      "not_ready_msg": "The silicone hasn't dried quite yet.",
+      "//": "The time it takes is a week and this appears to be the minimum time the internet says it takes."
     }
   },
   {
@@ -2876,13 +2876,13 @@
     ],
     "qualities": [ [ "CONTAIN", 1 ] ],
     "use_action": {
-    "target": "aquarium_large",
-    "msg": "You tear off the tape from the silicone, looks like the aquarium is ready.",
-    "moves": 100,
-    "type": "delayed_transform",
-    "transform_age": 604800,
-    "not_ready_msg": "The silicone hasn't dried quite yet.",
-    "//": "The time it takes is a week and this appears to be the minimum time the internet says it takes."
+      "target": "aquarium_large",
+      "msg": "You tear off the tape from the silicone, looks like the aquarium is ready.",
+      "moves": 100,
+      "type": "delayed_transform",
+      "transform_age": 604800,
+      "not_ready_msg": "The silicone hasn't dried quite yet.",
+      "//": "The time it takes is a week and this appears to be the minimum time the internet says it takes."
     }
   },
   {
