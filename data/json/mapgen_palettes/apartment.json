@@ -94,6 +94,24 @@
           [ "livingroom_5x5_E_2", 20 ]
         ]
       },
+      "?": {
+        "chunks": [
+          [ "diningroom_6x6_N_S_1A", 20 ],
+          [ "diningroom_6x6_E_W_1A", 20 ],
+          [ "diningroom_6x6_E_W_2A", 20 ],
+          [ "diningroom_6x6_N_S_2A", 20 ]
+        ]
+      },
+      "!": {
+        "chunks": [
+          [ "diningroom_6x6_N_S_1B", 20 ],
+          [ "diningroom_6x6_E_W_1A", 20 ],
+          [ "diningroom_6x6_E_W_2", 20 ],
+          [ "diningroom_6x6_N_S_2", 20 ]
+        ]
+      },
+      "$": { "chunks": [ [ "livingroom_5x5_W_1", 20 ], [ "livingroom_5x5_E_2", 20 ] ] },
+      "§": { "chunks": [ [ "livingroom_5x5_E_1", 20 ], [ "livingroom_5x5_E_2", 20 ] ] },
       "Ő": {
         "chunks": [
           [ "diningroom_6x6_N_S_1B", 20 ],
@@ -117,6 +135,39 @@
           [ "livingroom_5x5_S_1", 10 ],
           [ "livingroom_5x5_E_1", 10 ],
           [ "livingroom_5x5_S_2", 10 ]
+        ]
+      },
+      "`": {
+        "chunks": [
+          [ "diningroom_6x6_N_S_1B", 20 ],
+          [ "diningroom_6x6_E_W_1", 20 ],
+          [ "diningroom_6x6_E_W_2A", 20 ],
+          [ "diningroom_6x6_N_S_2A", 20 ]
+        ]
+      },
+      "´": {
+        "chunks": [
+          [ "diningroom_6x6_N_S_1A", 20 ],
+          [ "diningroom_6x6_E_W_1", 20 ],
+          [ "diningroom_6x6_E_W_2", 20 ],
+          [ "diningroom_6x6_N_S_2", 20 ]
+        ]
+      },
+      "Ý": {
+        "chunks": [
+          [ "livingroom_5x5_N_1", 10 ],
+          [ "livingroom_5x5_S_1", 10 ],
+          [ "livingroom_5x5_E_1", 10 ],
+          [ "livingroom_5x5_S_2", 10 ]
+        ]
+      },
+      "ý": {
+        "chunks": [
+          [ "livingroom_5x5_N_1", 10 ],
+          [ "livingroom_5x5_S_1", 10 ],
+          [ "livingroom_5x5_W_1", 10 ],
+          [ "livingroom_5x5_S_2", 10 ],
+          [ "livingroom_5x5_E_2", 10 ]
         ]
       },
       "ü": { "chunks": [ [ "livingroom_4x4_N_S_1", 100 ] ] },
@@ -193,7 +244,27 @@
           [ "diningroom_5x5_N_S", 50 ],
           [ "diningroom_5x5_E_W", 50 ]
         ]
-      }
+      },
+      "²": {
+        "chunks": [
+          [ "livingroom_5x5_N_1", 20 ],
+          [ "livingroom_5x5_N_2", 20 ],
+          [ "livingroom_5x5_S_2", 20 ],
+          [ "livingroom_5x5_E_1", 20 ],
+          [ "livingroom_5x5_E_2", 20 ]
+        ]
+      },
+      "³": {
+        "chunks": [
+          [ "livingroom_5x5_N_1", 20 ],
+          [ "livingroom_5x5_N_2", 20 ],
+          [ "livingroom_5x5_S_2", 20 ],
+          [ "livingroom_5x5_W_1", 20 ],
+          [ "livingroom_5x5_W_2", 20 ]
+        ]
+      },
+      "µ": { "chunks": [ [ "diningroom_5x5_N_S", 50 ], [ "diningroom_5x5_E_W", 50 ] ] },
+      "_": { "chunks": [ [ "diningroom_5x5_N_S", 50 ], [ "diningroom_5x5_E_W", 50 ] ] }
     },
     "terrain": {
       "#": { "param": "shrubbery_type", "fallback": "t_region_groundcover_urban" },
@@ -206,6 +277,7 @@
       "~": { "param": "carpet_type", "fallback": "t_floor" },
       "G": "t_door_glass_c",
       "R": { "param": "railing_type", "fallback": "t_concrete_railing" },
+      "/": "t_railing_v",
       "W": "t_window",
       "s": "t_sidewalk",
       "J": "t_sidewalk",
@@ -253,7 +325,9 @@
       "x": "f_console_broken",
       "Y": "f_rack_coat",
       "h": "f_chair",
+      "L": "f_table",
       "u": [ "f_rack", [ "f_rack_wood", 3 ] ],
+      "▤": "f_bookcase",
       "^": [ "f_indoor_plant", "f_indoor_plant_y", [ "f_null", 3 ] ],
       "(": "f_solar_unit",
       "&": "f_chimney",
@@ -266,6 +340,7 @@
       "J": { "item": "trash", "chance": 65, "repeat": [ 1, 6 ] },
       "b": { "item": "shower", "chance": 20 },
       "p": { "item": "mail", "chance": 30, "repeat": [ 2, 5 ] },
+      "▤": { "item": "homebooks", "chance": 30, "repeat": [ 2, 4 ] },
       "r": [
         { "item": "tools_home", "chance": 40 },
         { "item": "cleaning", "chance": 30, "repeat": [ 1, 2 ] },
