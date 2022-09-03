@@ -103,7 +103,7 @@
     "max_range": 8,
     "min_aoe": 5,
     "max_aoe": 5,
-    "spell_class": "LEAPING_LEGS2",
+    "spell_class": "NONE",
     "difficulty": -20,
     "base_casting_time": 300,
     "base_energy_cost": 6000,
