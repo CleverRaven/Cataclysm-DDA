@@ -28,10 +28,55 @@
     "id": "COMP_PREPPER_1_NOTES",
     "dynamic_line": "Select the document you would like to view.",
     "responses": [
-      { "text": "everything.txt", "topic": "TALK_NONE" },
-      { "text": "robert williamson.txt", "topic": "TALK_NONE" },
-      { "text": "shopping list.txt", "topic": "TALK_NONE" },
-      { "text": "MVI 0022.mov", "topic": "TALK_NONE" },
+      { "text": "everything.txt", "topic": "COMP_PREPPER_1_DOC_EVERYTHING" },
+      { "text": "robert williamson.txt", "topic": "COMP_PREPPER_1_DOC_ROBERT" },
+      { "text": "shopping list.txt", "topic": "COMP_PREPPER_1_DOC_SHOPPING" },
+      { "text": "MVI 0022.mov", "topic": "COMP_PREPPER_1_DOC_THEFOOTAGE" },
+      { "text": "Back", "topic": "TALK_NONE" }
+
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "COMP_PREPPER_1_DOC_EVERYTHING",
+    "dynamic_line": "Enigma code cracked by Turing -> modern encryption technology -> internet sentience arises and gives birth to AI in Chinese lab.  New forms of computation are now required, aka: BIO-TECHNOLOGY, human AND robotic components TOGETHER.  Bio-weapon escapes lab, OF COURSE.  US gov now ACTIVELY manufacturing coverups for escaped bio-weapon to maintain peace.  Follows same pattern as Roswell, Trinity (what they told the public), oil pollution coverup (in my opinion).  Recent New York 'mass psychosis events' instigated by them.  PAID ACTORS on speed dial but the THREAT IS REAL.",
+    "responses": [
+      { "text": "Back", "topic": "TALK_NONE" }
+
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "COMP_PREPPER_1_DOC_ROBERT",
+    "dynamic_line": "Gov assigns names based off numerological conversions of house numbers. Robert Williamson: 205 W Orchard Avenue.  Robert (78) + Williamson (127) = 205.  Despite the beautiful weather, he keeps the curtains closed and no one has even visited yet.  And he's been here for more than two weeks!  I only ever see him when he's coming or going from work.  I assume it's work, even if the hours are strange sometimes.  Black car, out of state plates, looks brand new.  Spook behavior (in my opinion)… Is he actually going somewhere or just trying to convince me he's legitimate?  Is he on the job when he leaves or when he's here? Further investigation required.",
+    "responses": [
+      { "text": "Back", "topic": "TALK_NONE" }
+
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "COMP_PREPPER_1_DOC_SHOPPING",
+    "dynamic_line": "Non-perishables, MREs, canned soup, dehydrated milk, oats/rice, lemon juice, protein powder.  Ammo CRATES, if possible - just ask Rachel at RFA?  Large drums (HDPE), reusable containers, spare fuel can.  More novels and TV from home.  Iodine, colloidal silver, gas mask for potential contaminants.",
+    "responses": [
+      { "text": "Back", "topic": "TALK_NONE" }
+
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "COMP_PREPPER_1_DOC_THEFOOTAGE",
+    "dynamic_line": "*A video file starts playing.  It's quite low resolution, very shaky, and the sound is somewhat muffled as the cameraperson appears to be filming inside from their car.  On screen a man is walking away from the camera towards a nondescript white building with large windows reflecting the glare of the sunlight… an airport terminal!  He's very far away, wearing a safety orange vest and a hard hat, and he appears to be carrying a laptop bag.  You hear the person behind the camera mutter, \"I've only ever seen him come and go through that door.  No one else in the entire time I've been watching…\"  The man walks straight into the building, only looking back briefly as he swipes a keycard at the door and enters.",
+    "responses": [
+      { "text": "Continue watching…", "topic": "COMP_PREPPER_1_DOC_THEFOOTAGE2" }
+
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "COMP_PREPPER_1_DOC_THEFOOTAGE2",
+    "dynamic_line": "*The cameraperson sighs, the view slowly zooms out for a few seconds, but then suddenly jerks to focus on two teenagers together in the parking lot.  \"Ay, look at these motherfuckers!\"  The camera zooms in.  One kid takes a step back, then kicks in the taillight of a nearby car.  The other appears from around the other side of it, dragging a set of keys along the side.  The one who was kicking begins violently punching the window with his bare fist.  One punch, two punch, and with a third smash his arm goes through the glass!  They're both laughing and swearing very loudly, almost seemingly intoxicated…  The cameraperson mutters a concerned \"Okay… uhhh…\", sets the camera on the seat, and the recording turns off with a rustle.",
+    "responses": [
       { "text": "Back", "topic": "TALK_NONE" }
 
     ]
@@ -41,8 +86,7 @@
     "id": "COMP_PREPPER_1_OPENDOOR",
     "dynamic_line": "Error: 'open': command not found.",
     "responses": [
-      { "text": "Back", "topic": "TALK_NONE" },
-      { "text": "Log Off", "topic": "TALK_DONE" }
+      { "text": "Back", "topic": "TALK_NONE" }
     ]
   }
 ]
