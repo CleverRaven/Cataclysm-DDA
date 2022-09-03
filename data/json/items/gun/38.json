@@ -167,17 +167,6 @@
     "durability": 10,
     "blackpowder_tolerance": 56,
     "clip_size": 5,
-    "valid_mod_locations": [
-      [ "accessories", 2 ],
-      [ "barrel", 1 ],
-      [ "bore", 1 ],
-      [ "grip", 1 ],
-      [ "mechanism", 4 ],
-      [ "rail", 1 ],
-      [ "sights", 1 ],
-      [ "stock", 1 ],
-      [ "underbarrel", 1 ]
-    ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE",
@@ -209,17 +198,6 @@
     "durability": 10,
     "blackpowder_tolerance": 56,
     "clip_size": 7,
-    "valid_mod_locations": [
-      [ "accessories", 2 ],
-      [ "barrel", 1 ],
-      [ "bore", 1 ],
-      [ "grip", 1 ],
-      [ "mechanism", 4 ],
-      [ "rail", 1 ],
-      [ "sights", 1 ],
-      [ "stock", 1 ],
-      [ "underbarrel", 1 ]
-    ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE",
