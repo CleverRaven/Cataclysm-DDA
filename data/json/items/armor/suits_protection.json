@@ -269,7 +269,7 @@
     "material_thickness": 1.5,
     "flags": [ "OUTER", "BLOCK_WHILE_WORN" ],
     "armor": [
-      { "covers": [ "torso" ], "coverage": 95, "encumbrance": 15 },
+      { "covers": [ "torso" ], "coverage": 95, "encumbrance": 18 },
       { "covers": [ "leg_l", "leg_r" ], "coverage": 95, "encumbrance": 21 },
       { "covers": [ "arm_l", "arm_r" ], "coverage": 95, "encumbrance": 19 }
     ]
@@ -308,7 +308,7 @@
         "material": [ { "type": "lc_steel", "covered_by_mat": 100, "thickness": 3 } ],
         "covers": [ "torso" ],
         "coverage": 95,
-        "encumbrance": 25
+        "encumbrance": 30
       },
       {
         "material": [ { "type": "lc_steel", "covered_by_mat": 100, "thickness": 1.5 } ],
