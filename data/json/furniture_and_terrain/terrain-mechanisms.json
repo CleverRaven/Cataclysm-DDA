@@ -276,6 +276,7 @@
     "symbol": "6",
     "color": "pink",
     "move_cost": 0,
+    "roof": "t_metal_roof",
     "flags": [ "NOITEM", "CONNECT_TO_WALL" ],
     "examine_action": "cardreader_robofac",
     "bash": {
@@ -296,6 +297,7 @@
     "symbol": "6",
     "color": "pink",
     "move_cost": 0,
+    "roof": "t_metal_roof",
     "flags": [ "NOITEM", "CONNECT_TO_WALL" ],
     "examine_action": {
       "type": "cardreader",
@@ -323,6 +325,7 @@
     "symbol": "6",
     "color": "pink",
     "move_cost": 0,
+    "roof": "t_metal_roof",
     "flags": [ "NOITEM", "CONNECT_TO_WALL" ],
     "examine_action": {
       "type": "cardreader",
@@ -346,6 +349,7 @@
     "id": "t_card_industrial",
     "looks_like": "t_card_science",
     "name": "card reader",
+    "roof": "t_metal_roof",
     "description": "This is a smartcard reader.  The symbol of a gear in front of a bulging bicep is emblazoned on the matte black surface with an illegible heavy industrial company title.  A red LED blinks on the card reader.  Perhaps an industrial ID card could still open it.",
     "//": "Industrial",
     "symbol": "6",
@@ -374,6 +378,7 @@
     "id": "t_card_fp",
     "looks_like": "t_card_science",
     "name": "card reader",
+    "roof": "t_metal_roof",
     "description": "This looks like the console controlling the security door, there's a pretty big reading surface on it.  You can see \"Fp\" soberly printed above the reader.  You have no idea what could open it.",
     "//": "Foodplace",
     "symbol": "6",
@@ -423,6 +428,7 @@
     "symbol": "6",
     "color": "pink",
     "move_cost": 0,
+    "roof": "t_metal_roof",
     "flags": [ "NOITEM", "CONNECT_TO_WALL" ],
     "examine_action": {
       "type": "cardreader",
@@ -713,6 +719,7 @@
     "symbol": "6",
     "color": "light_gray",
     "move_cost": 0,
+    "roof": "t_metal_roof",
     "flags": [ "NOITEM", "CONNECT_TO_WALL", "MINEABLE" ],
     "bash": {
       "str_min": 200,
