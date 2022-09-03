@@ -155,5 +155,15 @@
     "type": "monstergroup",
     "default": "mon_fungaloid_saproling",
     "monsters": [ { "monster": "mon_fungaloid_saproling", "freq": 100, "cost_multiplier": 1 } ]
+  },
+  {
+    "name": "GROUP_EGG_SALAMANDER",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_axolotl" } ]
+  },
+  {
+    "name": "GROUP_EGG_TADFISH",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_tadpole_small" } ]
   }
 ]

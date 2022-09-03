@@ -4574,7 +4574,7 @@ static std::string getGasDiscountName( int discount )
 static int getGasPricePerLiter( int discount )
 {
     // Those prices are in cents
-    static const int prices[4] = { 1400, 1320, 1200, 1000 };
+    static constexpr std::array<int, 4> prices = { 1400, 1320, 1200, 1000 };
     if( discount < 0 || discount > 3 ) {
         return prices[0];
     } else {
