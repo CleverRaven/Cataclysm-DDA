@@ -327,7 +327,7 @@
   {
     "id": "nested_chitin_bodyarmor",
     "type": "nested_category",
-    "activity_level": "MODERATE_EXERCISE",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_SUIT",
     "name": "chitinous armor",
@@ -346,7 +346,7 @@
   {
     "id": "nested_chitin_armguards",
     "type": "nested_category",
-    "activity_level": "MODERATE_EXERCISE",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_ARMS",
     "name": "chitinous arm guards",
@@ -360,6 +360,18 @@
       "xs_armguard_acidchitin",
       "xl_armguard_acidchitin"
     ],
+    "difficulty": 5
+  },
+  {
+    "id": "nested_chitin_legguards",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_LEGS",
+    "name": "chitinous leg guards",
+    "description": "Recipes related to constructing durable leg guards from chitin.",
+    "skill_used": "tailor",
+    "nested_category_data": [ "legguard_chitin", "legguard_acidchitin" ],
     "difficulty": 5
   },
   {
