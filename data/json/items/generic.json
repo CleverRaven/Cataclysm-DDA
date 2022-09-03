@@ -1391,7 +1391,7 @@
     "color": "green",
     "name": { "str": "broken prototype robot" },
     "category": "other",
-    "description": "A broken prototype robot, well more broken than before.  Could be gutted for parts.",
+    "description": "A broken prototype robot--well, more broken than before.  Could be gutted for parts.",
     "price": 30000,
     "price_postapoc": 10,
     "material": [ "steel", "plastic" ],
