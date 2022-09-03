@@ -111,7 +111,7 @@ bool teleport::teleport_to_point( Creature &critter, tripoint target, bool safe,
     int tfrag_attempts = 5;
     bool collision = false;
     int collision_angle = 0;
-    while( ( Creature *const poor_soul = get_creature_tracker().creature_at<Creature>( target ) ) && ( !collision ) ) {
+    while( Creature *const poor_soul = get_creature_tracker().creature_at<Creature>( target ) ) {
         //Fail if we run out of telefrag attempts
         if( tfrag_attempts-- < 1 ) {
             if( p && display_message ) {
@@ -120,6 +120,29 @@ bool teleport::teleport_to_point( Creature &critter, tripoint target, bool safe,
                 add_msg( _( "%1$s flickers." ), critter.disp_name() );
             }
             return false;
+        }
+        if( collision ) {
+            critter.setpos( target );
+            g->fling_creature( &critter, units::from_degrees( collision_angle - 180 ), 50 );
+            critter.apply_damage( nullptr, bodypart_id( "arm_l" ), rng( 5, 10 ) );
+            critter.apply_damage( nullptr, bodypart_id( "arm_r" ), rng( 5, 10 ) );
+            critter.apply_damage( nullptr, bodypart_id( "leg_l" ), rng( 7, 12 ) );
+            critter.apply_damage( nullptr, bodypart_id( "leg_r" ), rng( 7, 12 ) );
+            critter.apply_damage( nullptr, bodypart_id( "torso" ), rng( 5, 15 ) );
+            critter.apply_damage( nullptr, bodypart_id( "head" ), rng( 2, 8 ) );
+            critter.check_dead_state();
+            //player and npc exclusive teleporting effects
+            if( p ) {
+                g->place_player( p->pos() );
+                if( add_teleglow ) {
+                    p->add_effect( effect_teleglow, 30_minutes );
+                }
+            }
+            if( c_is_u ) {
+                g->update_map( *p );
+            }
+            critter.remove_effect( effect_grabbed );
+            return true;
         }
         //Character *const poor_player = dynamic_cast<Character *>( poor_soul );
         if( force ) {
