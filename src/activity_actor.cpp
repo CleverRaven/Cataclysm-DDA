@@ -1394,8 +1394,8 @@ void read_activity_actor::read_book( Character &learner,
 
     min_ex = learner.enchantment_cache->modify_value( enchant_vals::mod::READING_EXP, min_ex );
 
-    min_ex = learner.adjust_for_focus( min_ex ) / 100;
-    max_ex = learner.adjust_for_focus( max_ex ) / 100;
+    min_ex = std::lround( learner.adjust_for_focus( min_ex ) );
+    max_ex = std::lround( learner.adjust_for_focus( max_ex ) );
 
     max_ex = clamp( max_ex, 2, 10 );
     max_ex = std::max( min_ex, max_ex );
