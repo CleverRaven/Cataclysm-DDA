@@ -765,15 +765,8 @@
       {
         "material": [ { "type": "lc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
         "covers": [ "arm_l", "arm_r" ],
-        "specifically_covers": [ "arm_lower_r", "arm_lower_l", "arm_shoulder_r", "arm_shoulder_l" ],
-        "coverage": 95,
+        "coverage": 100,
         "encumbrance": 20
-      },
-      {
-        "material": [ { "type": "lc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
-        "covers": [ "arm_l", "arm_r" ],
-        "specifically_covers": [ "arm_elbow_l", "arm_elbow_r", "arm_upper_l", "arm_upper_r" ],
-        "coverage": 100
       }
     ]
   },
@@ -806,15 +799,8 @@
       {
         "material": [ { "type": "mc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
         "covers": [ "arm_l", "arm_r" ],
-        "specifically_covers": [ "arm_lower_r", "arm_lower_l", "arm_shoulder_r", "arm_shoulder_l" ],
-        "coverage": 95,
+        "coverage": 100,
         "encumbrance": 20
-      },
-      {
-        "material": [ { "type": "mc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
-        "covers": [ "arm_l", "arm_r" ],
-        "specifically_covers": [ "arm_elbow_l", "arm_elbow_r", "arm_upper_l", "arm_upper_r" ],
-        "coverage": 100
       }
     ]
   },
@@ -847,15 +833,8 @@
       {
         "material": [ { "type": "hc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
         "covers": [ "arm_l", "arm_r" ],
-        "specifically_covers": [ "arm_lower_r", "arm_lower_l", "arm_shoulder_r", "arm_shoulder_l" ],
-        "coverage": 95,
+        "coverage": 100,
         "encumbrance": 20
-      },
-      {
-        "material": [ { "type": "hc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
-        "covers": [ "arm_l", "arm_r" ],
-        "specifically_covers": [ "arm_elbow_l", "arm_elbow_r", "arm_upper_l", "arm_upper_r" ],
-        "coverage": 100
       }
     ]
   },
@@ -888,15 +867,8 @@
       {
         "material": [ { "type": "ch_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
         "covers": [ "arm_l", "arm_r" ],
-        "specifically_covers": [ "arm_lower_r", "arm_lower_l", "arm_shoulder_r", "arm_shoulder_l" ],
-        "coverage": 95,
+        "coverage": 100,
         "encumbrance": 20
-      },
-      {
-        "material": [ { "type": "ch_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
-        "covers": [ "arm_l", "arm_r" ],
-        "specifically_covers": [ "arm_elbow_l", "arm_elbow_r", "arm_upper_l", "arm_upper_r" ],
-        "coverage": 100
       }
     ]
   },
@@ -929,15 +901,8 @@
       {
         "material": [ { "type": "qt_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
         "covers": [ "arm_l", "arm_r" ],
-        "specifically_covers": [ "arm_lower_r", "arm_lower_l", "arm_shoulder_r", "arm_shoulder_l" ],
-        "coverage": 95,
+        "coverage": 100,
         "encumbrance": 20
-      },
-      {
-        "material": [ { "type": "qt_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
-        "covers": [ "arm_l", "arm_r" ],
-        "specifically_covers": [ "arm_elbow_l", "arm_elbow_r", "arm_upper_l", "arm_upper_r" ],
-        "coverage": 100
       }
     ]
   },
