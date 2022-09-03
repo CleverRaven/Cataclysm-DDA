@@ -319,7 +319,7 @@
       {
         "material": [ { "type": "lc_steel", "covered_by_mat": 100, "thickness": 1.5 } ],
         "covers": [ "leg_l", "leg_r" ],
-        "coverage": 100,
+        "coverage": 95,
         "encumbrance": 21
       }
     ]
@@ -336,7 +336,7 @@
         "material": [ { "type": "ch_steel", "covered_by_mat": 100, "thickness": 3 } ],
         "covers": [ "torso" ],
         "coverage": 95,
-        "encumbrance": 25
+        "encumbrance": 30
       },
       {
         "material": [ { "type": "ch_steel", "covered_by_mat": 100, "thickness": 1.5 } ],
@@ -347,7 +347,7 @@
       {
         "material": [ { "type": "ch_steel", "covered_by_mat": 100, "thickness": 1.5 } ],
         "covers": [ "leg_l", "leg_r" ],
-        "coverage": 100,
+        "coverage": 95,
         "encumbrance": 21
       }
     ]
