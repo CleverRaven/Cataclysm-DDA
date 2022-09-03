@@ -325,6 +325,25 @@
     "difficulty": 6
   },
   {
+    "id": "nested_chitin_bodyarmor",
+    "type": "nested_category",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_SUIT",
+    "name": "chitinous armor",
+    "description": "Recipes related to constructing durable armor from chitin that covers the body.",
+    "skill_used": "tailor",
+    "nested_category_data": [
+      "armor_acidchitin",
+      "armor_acidchitin_xs",
+      "xl_armor_acidchitin",
+      "armor_chitin",
+      "armor_chitin_xs",
+      "xl_armor_chitin"
+    ],
+    "difficulty": 7
+  },
+  {
     "id": "nested_armor_lc_lightplate",
     "type": "nested_category",
     "activity_level": "MODERATE_EXERCISE",
