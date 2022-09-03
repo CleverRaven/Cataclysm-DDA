@@ -433,7 +433,7 @@
         "covers": [ "head" ],
         "specifically_covers": [ "head_forehead", "head_ear_r", "head_ear_l" ]
       },
-      { "encumbrance": 25, "coverage": 30, "covers": [ "head" ], "specifically_covers": [ "head_crown" ] },
+      { "encumbrance": 0, "coverage": 30, "covers": [ "head" ], "specifically_covers": [ "head_crown" ] },
       { "encumbrance": 45, "coverage": 90, "covers": [ "eyes", "mouth" ], "rigid_layer_only": true }
     ]
   },
