@@ -87,7 +87,7 @@
       "B": "f_bathtub",
       "D": "f_trashcan",
       "L": "f_locker",
-      "o": "f_oven",
+      "o": [ "f_oven", "f_gas_oven_microwave_combo" ],
       "S": "f_sink",
       "Y": "f_sofa",
       "c": "f_counter",

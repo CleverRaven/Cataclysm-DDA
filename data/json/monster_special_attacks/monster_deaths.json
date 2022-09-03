@@ -518,11 +518,13 @@
     "description": "Give 'em the old razzle dazzle.",
     "valid_targets": [ "hostile", "ally", "ground" ],
     "effect": "attack",
-    "shape": "line",
+    "shape": "blast",
     "field_id": "fd_dazzling",
     "field_chance": 1,
     "min_field_intensity": 2,
     "max_field_intensity": 2,
+    "min_range": 2,
+    "max_range": 2,
     "extra_effects": [ { "id": "death_focused_beam_explosion", "hit_self": true } ]
   },
   {

@@ -1079,8 +1079,9 @@ ret_val<void> outfit::power_armor_conflicts( const item &clothing ) const
 {
     if( clothing.is_power_armor() ) {
         for( const item &elem : worn ) {
+            // Allow power armor with compatible parts and integrated (Subdermal CBM and mutant skin armor)
             if( elem.get_covered_body_parts().make_intersection( clothing.get_covered_body_parts() ).any() &&
-                !elem.has_flag( flag_POWERARMOR_COMPATIBLE ) ) {
+                !elem.has_flag( flag_POWERARMOR_COMPATIBLE ) && !elem.has_flag( flag_INTEGRATED ) ) {
                 return ret_val<void>::make_failure( _( "Can't wear power armor over other gear!" ) );
             }
         }
@@ -1104,12 +1105,13 @@ ret_val<void> outfit::power_armor_conflicts( const item &clothing ) const
             }
         }
     } else {
-        // Only headgear can be worn with power armor, except other power armor components.
+        // You can only wear headgear or non-covering items with power armor, except other power armor components.
         // You can't wear headgear if power armor helmet is already sitting on your head.
         bool has_helmet = false;
-        if( !clothing.has_flag( flag_POWERARMOR_COMPATIBLE ) && ( is_wearing_power_armor( &has_helmet ) &&
-                ( has_helmet || !( clothing.covers( body_part_head ) || clothing.covers( body_part_mouth ) ||
-                                   clothing.covers( body_part_eyes ) ) ) ) ) {
+        if( !clothing.get_covered_body_parts().none() && !clothing.has_flag( flag_POWERARMOR_COMPATIBLE ) &&
+            ( is_wearing_power_armor( &has_helmet ) &&
+              ( has_helmet || !( clothing.covers( body_part_head ) || clothing.covers( body_part_mouth ) ||
+                                 clothing.covers( body_part_eyes ) ) ) ) ) {
             return ret_val<void>::make_failure( _( "Can't wear %s with power armor!" ), clothing.tname() );
         }
     }

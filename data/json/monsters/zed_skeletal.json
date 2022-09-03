@@ -33,7 +33,7 @@
     "vision_night": 3,
     "harvest": "mr_bones",
     "special_attacks": [ [ "scratch", 10 ], { "type": "bite", "cooldown": 5 } ],
-    "upgrades": { "half_life": 32, "into": "mon_skeleton_brute" },
+    "upgrades": { "half_life": 32, "into_group": "GROUP_SKELETON_UPGRADE" },
     "death_drops": "default_zombie_clothes",
     "fungalize_into": "mon_skeleton_fungus",
     "flags": [ "SEES", "HEARS", "BASHES", "GROUP_BASH", "HARDTOSHOOT", "REVIVES", "NO_BREATHE", "POISON", "FILTHY" ]

@@ -2923,7 +2923,7 @@ class Character : public Creature, public visitable
         /** Used to to display how filling a food is. */
         int compute_calories_per_effective_volume( const item &food,
                 const nutrients *nutrient = nullptr ) const;
-        /** Handles the effects of consuming an item */
+        /** Handles the effects of consuming an item. Returns false if nothing was consumed */
         bool consume_effects( item &food );
         /** Check whether the character can consume this very item */
         bool can_consume_as_is( const item &it ) const;
@@ -3041,6 +3041,7 @@ class Character : public Creature, public visitable
 
         /** Returns all known recipes. */
         const recipe_subset &get_learned_recipes() const;
+        recipe_subset get_available_nested( const recipe_subset & ) const;
         /** Returns all recipes that are known from the books (either in inventory or nearby). */
         recipe_subset get_recipes_from_books( const inventory &crafting_inv ) const;
         /** Returns all recipes that are known from the books inside ereaders (either in inventory or nearby). */

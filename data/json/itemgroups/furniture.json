@@ -40,6 +40,7 @@
       { "item": "quilt", "prob": 10 },
       { "item": "quilt_patchwork", "prob": 8 },
       { "item": "teddy_bear", "prob": 2 },
+      { "item": "shark_plushie", "prob": 2 },
       { "item": "bodypillow", "prob": 1 }
     ]
   },
