@@ -1976,6 +1976,7 @@
     "container": "squeeze_tube",
     "sealed": true,
     "symbol": "s",
-    "color": "light_gray"
+    "color": "light_gray",
+    "flags": [ "UNRECOVERABLE" ]
   }
 ]
