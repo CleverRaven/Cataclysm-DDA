@@ -4384,12 +4384,17 @@ void cata_tiles::get_rotation_and_subtile( const char val, const char rot_to, in
 
 int cata_tiles::get_rotation_unconnected( const char rot_to )
 {
-    std::cout << "Unconn: " << static_cast<int>( rot_to ) << std::endl;
     int rotation = 0;
     switch( rot_to ) {
-        case 0: // no connections
-            rotation = 0;
+        // Catch no and all first for performance; these are the last sprites!
+        case 0: // NONE
+            rotation = 14;
             break;
+        case 15: // ALL
+            rotation = 15;
+            break;
+
+        // Cases for single tile to rotate to -> easy
         case static_cast<int>( NEIGHBOUR::NORTH ):
             rotation = 0;
             break;
@@ -4401,6 +4406,40 @@ int cata_tiles::get_rotation_unconnected( const char rot_to )
             break;
         case static_cast<int>( NEIGHBOUR::WEST ):
             rotation = 3;
+            break;
+        // Two tiles, resulting in diagonal
+        case 10: // NE
+            rotation = 4;
+            break;
+        case 3: // SE
+            rotation = 5;
+            break;
+        case 5: // SW
+            rotation = 6;
+            break;
+        case 12: // NW
+            rotation = 7;
+            break;
+        // Cases for three tiles to rotate to -> easy
+        // Arranged to fallback / modulo to fitting index 0-4
+        case 14: // 3 but south --> modulo = north
+            rotation = 8;
+            break;
+        case 11: // 3 but west --> modulo = east
+            rotation = 9;
+            break;
+        case 7: // 3 but north --> modulo = south
+            rotation = 10;
+            break;
+        case 13: // 3 but east --> modulo = west
+            rotation = 11;
+            break;
+        // Two opposing tiles, (No tiles, all tiles; see first cases)
+        case 9: // N-S
+            rotation = 12;
+            break;
+        case 6: // E-W
+            rotation = 13;
             break;
     }
 
