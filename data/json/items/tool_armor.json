@@ -2475,7 +2475,7 @@
     "flags": [ "VARSIZE", "FANCY", "ALLOWS_NATURAL_ATTACKS" ],
     "armor": [
       { "encumbrance": 3, "coverage": 100, "covers": [ "torso", "arm_l", "arm_r", "mouth" ] },
-      { "encumbrance": 8, "coverage": 100, "covers": [ "head" ], "specifically_covers": [ "head_throat" ] }
+      { "encumbrance": 1, "coverage": 100, "covers": [ "head" ], "specifically_covers": [ "head_throat" ] }
     ]
   },
   {
