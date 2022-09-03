@@ -665,7 +665,9 @@ vehicle *map::move_vehicle( vehicle &veh, const tripoint &dp, const tileray &fac
     cata_assert( vertical == ( dp.xy() == point_zero ) );
 
     const int target_z = dp.z + veh.sm_pos.z;
-    if( target_z < -OVERMAP_DEPTH || target_z > OVERMAP_HEIGHT ) {
+    // limit vehicles to at most OVERMAP_HEIGHT - 1; this mitigates getting to zlevel 10 easily
+    // and causing `get_cache_ref( zlev + 1 );` call in map::build_sunlight_cache overflowing
+    if( target_z < -OVERMAP_DEPTH || target_z > OVERMAP_HEIGHT - 1 ) {
         return &veh;
     }
 
