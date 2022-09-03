@@ -45,6 +45,7 @@
     "purifiable": false,
     "valid": false,
     "cancels": [ "KELVINIST" ],
+    "flags": [ "ELECTRIC_IMMUNE" ],
     "spells_learned": [ [ "create_rune_stormshaper", 1 ] ]
   },
   {
