@@ -529,7 +529,7 @@ static void check_knives( const std::function<Approx( const std::string & )> &ca
         CHECK( calc_expected_dps( "knife_hunting" ) == 11.0 );
         CHECK( calc_expected_dps( "kirpan_cheap" ) == 7.61 );
         CHECK( calc_expected_dps( "switchblade" ) == 10.5 );
-        CHECK( calc_expected_dps( "knife_meat_cleaver" ) == 11.54 );
+        CHECK( calc_expected_dps( "knife_meat_cleaver" ) == 13.97 );
         CHECK( calc_expected_dps( "diveknife" ) == 8.0 );
         CHECK( calc_expected_dps( "copper_knife" ) == 8.0 );
         CHECK( calc_expected_dps( "knife_butcher" ) == 10 );

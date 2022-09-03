@@ -1621,6 +1621,11 @@ void options_manager::add_options_interface()
          false
        );
 
+    add( "AIM_AFTER_FIRING", "interface", to_translation( "Reaim after firing" ),
+         to_translation( "If true, after firing automatically aim again if targets are available." ),
+         true
+       );
+
     add( "QUERY_DISASSEMBLE", "interface", to_translation( "Query on disassembly while butchering" ),
          to_translation( "If true, will query before disassembling items while butchering." ),
          true
