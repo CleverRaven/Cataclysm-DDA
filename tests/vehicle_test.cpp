@@ -312,7 +312,7 @@ static void connect_power_line( const tripoint &src_pos, const tripoint &dst_pos
     tripoint source_global( cord.get_var( "source_x", 0 ),
                             cord.get_var( "source_y", 0 ),
                             cord.get_var( "source_z", 0 ) );
-    target_part.target.first = source_global;
+    target_part.target.first = here.getabs( source_global );
     target_part.target.second = source_veh->global_square_location().raw();
     target_veh->install_part( vcoords, target_part );
 }
@@ -322,7 +322,6 @@ TEST_CASE( "power_cable_stretch_disconnect" )
     clear_map();
     clear_avatar();
     map &m = get_map();
-    m.load( { 0, 0, 0 }, false );
     const int max_displacement = 50;
     const cata::optional<item> stand_lamp1( "test_standing_lamp" );
     const cata::optional<item> stand_lamp2( "test_standing_lamp" );

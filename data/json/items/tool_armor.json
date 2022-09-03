@@ -1130,27 +1130,86 @@
     "symbol": "[",
     "color": "dark_gray",
     "name": { "str": "RM13 combat armor" },
-    "description": "Internally powered by plutonium fuel batteries, exclusively, this full-body suit of sleek black military armor represents the pinnacle of Rivtech's non-rigid powered armor technology.  Use it to turn it on.",
-    "flags": [ "VARSIZE", "STURDY", "WATERPROOF", "RAINPROOF", "WATCH", "ALARMCLOCK", "SWIM_GOGGLES", "SUN_GLASSES", "RAD_RESIST" ],
+    "description": "This full-body suit of sleek black military armor represents the pinnacle of Rivtech's powered armor technology.  It has a proprietary internal battery recharged by UPS.  Use it to turn it on.",
+    "flags": [
+      "STURDY",
+      "WATERPROOF",
+      "RAINPROOF",
+      "WATCH",
+      "ALARMCLOCK",
+      "SWIM_GOGGLES",
+      "SUN_GLASSES",
+      "RAD_RESIST",
+      "NO_REPAIR",
+      "NANOFAB_REPAIR",
+      "PADDED",
+      "USE_UPS"
+    ],
     "price": 50000000,
     "price_postapoc": 10000,
-    "material": [ "hyperweave_off", "kevlar_layered" ],
-    "weight": "6820 g",
+    "material": [ "hyperweave_off", "carbide" ],
+    "weight": "9540 g",
     "volume": "9 L",
     "to_hit": -3,
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "rigid": true, "item_restriction": [ "heavy_atomic_battery_cell" ] } ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 5000 } } ],
     "ammo": "battery",
-    "charges_per_use": 5,
+    "charges_per_use": 1,
     "relic_data": { "passive_effects": [ { "id": "RM13" } ] },
     "use_action": [ "RM13ARMOR_OFF" ],
     "warmth": 30,
-    "environmental_protection": 15,
-    "material_thickness": 2,
+    "environmental_protection": 10,
+    "material_thickness": 3,
     "armor": [
       {
-        "encumbrance": 30,
+        "material": [
+          { "type": "lvl4ballisticglass", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "thermo_resin", "covered_by_mat": 100, "thickness": 1.0 }
+        ],
+        "encumbrance": 5,
         "coverage": 100,
-        "covers": [ "head", "mouth", "eyes", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ]
+        "covers": [ "eyes" ],
+        "volume_encumber_modifier": 0
+      },
+      {
+        "material": [
+          { "type": "carbide", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "hyperweave_off", "covered_by_mat": 100, "thickness": 2.0 }
+        ],
+        "encumbrance": 10,
+        "coverage": 100,
+        "covers": [ "mouth", "head", "torso", "arm_l", "arm_r", "leg_l", "leg_r", "hand_l", "hand_r" ],
+        "volume_encumber_modifier": 0
+      },
+      {
+        "material": [
+          { "type": "carbide", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "hyperweave_off", "covered_by_mat": 100, "thickness": 2.0 }
+        ],
+        "encumbrance": 10,
+        "coverage": 100,
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [
+          "foot_toes_r",
+          "foot_toes_l",
+          "foot_ankle_r",
+          "foot_ankle_l",
+          "foot_heel_r",
+          "foot_heel_l",
+          "foot_arch_r",
+          "foot_arch_l"
+        ],
+        "volume_encumber_modifier": 0
+      },
+      {
+        "material": [
+          { "type": "carbide", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "rubber", "covered_by_mat": 100, "thickness": 5.0 }
+        ],
+        "encumbrance": 0,
+        "coverage": 100,
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [ "foot_sole_r", "foot_sole_l" ],
+        "volume_encumber_modifier": 0
       }
     ]
   },
@@ -1160,9 +1219,8 @@
     "repairs_like": "rm13_armor",
     "type": "TOOL_ARMOR",
     "name": { "str": "RM13 combat armor (on)", "str_pl": "RM13 combat armors (on)" },
-    "description": "Internally powered by plutonium fuel batteries, exclusively, this full-body suit of sleek black military armor represents the pinnacle of Rivtech's non-rigid powered armor technology.  As you move your fingers over the surface the armor tenses almost as though it were alive.  Use it to turn it off.",
+    "description": "This full-body suit of sleek black military armor represents the pinnacle of Rivtech's powered armor technology.  As you move your fingers over the surface the armor tenses almost as though it were alive.  Use it to turn it off.",
     "flags": [
-      "VARSIZE",
       "STURDY",
       "WATERPROOF",
       "RAINPROOF",
@@ -1175,19 +1233,70 @@
       "ELECTRIC_IMMUNE",
       "THERMOMETER",
       "TRADER_AVOID",
-      "CLIMATE_CONTROL"
+      "CLIMATE_CONTROL",
+      "NO_REPAIR",
+      "NANOFAB_REPAIR",
+      "PADDED",
+      "USE_UPS"
     ],
-    "turns_per_charge": 18,
+    "material": [ "hyperweave_on", "carbide" ],
+    "turns_per_charge": 6,
     "revert_to": "rm13_armor",
     "use_action": [ "RM13ARMOR_ON" ],
     "environmental_protection": 40,
     "qualities": [ [ "GLARE", 1 ] ],
-    "material_thickness": 5,
+    "material_thickness": 3,
     "armor": [
       {
-        "encumbrance": 10,
+        "material": [
+          { "type": "lvl4ballisticglass", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "thermo_resin", "covered_by_mat": 100, "thickness": 1.0 }
+        ],
+        "encumbrance": 5,
         "coverage": 100,
-        "covers": [ "head", "mouth", "eyes", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ]
+        "covers": [ "eyes" ],
+        "volume_encumber_modifier": 0
+      },
+      {
+        "material": [
+          { "type": "carbide", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "hyperweave_on", "covered_by_mat": 100, "thickness": 2.0 }
+        ],
+        "encumbrance": 3,
+        "coverage": 100,
+        "covers": [ "mouth", "head", "torso", "arm_l", "arm_r", "leg_l", "leg_r", "hand_l", "hand_r" ],
+        "volume_encumber_modifier": 0
+      },
+      {
+        "material": [
+          { "type": "carbide", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "hyperweave_on", "covered_by_mat": 100, "thickness": 2.0 }
+        ],
+        "encumbrance": 3,
+        "coverage": 100,
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [
+          "foot_toes_r",
+          "foot_toes_l",
+          "foot_ankle_r",
+          "foot_ankle_l",
+          "foot_heel_r",
+          "foot_heel_l",
+          "foot_arch_r",
+          "foot_arch_l"
+        ],
+        "volume_encumber_modifier": 0
+      },
+      {
+        "material": [
+          { "type": "carbide", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "rubber", "covered_by_mat": 100, "thickness": 5.0 }
+        ],
+        "encumbrance": 0,
+        "coverage": 100,
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [ "foot_sole_r", "foot_sole_l" ],
+        "volume_encumber_modifier": 0
       }
     ]
   },

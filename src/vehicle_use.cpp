@@ -911,7 +911,7 @@ void vehicle::connect( const tripoint &source_pos, const tripoint &target_pos )
     tripoint source_global( cord.get_var( "source_x", 0 ),
                             cord.get_var( "source_y", 0 ),
                             cord.get_var( "source_z", 0 ) );
-    target_part.target.first = source_global;
+    target_part.target.first = here.getabs( source_global );
     target_part.target.second = source_veh->global_square_location().raw();
     target_veh->install_part( vcoords, target_part );
 }
