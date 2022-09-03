@@ -60,6 +60,8 @@ static const itype_id itype_water( "water" );
 
 static const morale_type morale_food_good( "morale_food_good" );
 
+static const proficiency_id proficiency_prof_carving( "prof_carving" );
+
 static const quality_id qual_ANVIL( "ANVIL" );
 static const quality_id qual_BOIL( "BOIL" );
 static const quality_id qual_CHISEL( "CHISEL" );
@@ -81,6 +83,8 @@ static const recipe_id recipe_blanket( "blanket" );
 static const recipe_id recipe_brew_mead( "brew_mead" );
 static const recipe_id recipe_brew_rum( "brew_rum" );
 static const recipe_id recipe_carver_off( "carver_off" );
+static const recipe_id recipe_cudgel_simple( "cudgel_simple" );
+static const recipe_id recipe_cudgel_slow( "cudgel_slow" );
 static const recipe_id recipe_dry_meat( "dry_meat" );
 static const recipe_id recipe_fishing_hook_basic( "fishing_hook_basic" );
 static const recipe_id recipe_helmet_kabuto( "helmet_kabuto" );
@@ -427,10 +431,7 @@ static void prep_craft( const recipe_id &rid, const std::vector<item> &tools,
 static time_point midnight = calendar::turn_zero + 0_hours;
 static time_point midday = calendar::turn_zero + 12_hours;
 
-// This tries to actually run the whole craft activity, which is more thorough,
-// but slow
-static int actually_test_craft( const recipe_id &rid, int interrupt_after_turns,
-                                int skill_level = -1 )
+static void setup_test_craft( const recipe_id &rid )
 {
     set_time( midday ); // Ensure light for crafting
     avatar &player_character = get_avatar();
@@ -448,10 +449,20 @@ static int actually_test_craft( const recipe_id &rid, int interrupt_after_turns,
     player_character.make_craft( rid, 1 );
     REQUIRE( player_character.activity );
     REQUIRE( player_character.activity.id() == ACT_CRAFT );
+}
+
+// This tries to actually run the whole craft activity, which is more thorough,
+// but slow
+static int actually_test_craft( const recipe_id &rid, int interrupt_after_turns,
+                                int skill_level = -1 )
+{
+    setup_test_craft( rid );
+    avatar &player_character = get_avatar();
+
     int turns = 0;
     while( player_character.activity.id() == ACT_CRAFT ) {
         if( turns >= interrupt_after_turns ||
-            ( skill_level >= 0 && player_character.get_skill_level( rec.skill_used ) > skill_level ) ) {
+            ( skill_level >= 0 && player_character.get_skill_level( rid.obj().skill_used ) > skill_level ) ) {
             set_time( midnight ); // Kill light to interrupt crafting
         }
         ++turns;
@@ -462,6 +473,85 @@ static int actually_test_craft( const recipe_id &rid, int interrupt_after_turns,
         }
     }
     return turns;
+}
+
+static int test_craft_for_prof( const recipe_id &rid, const proficiency_id &prof,
+                                float target_progress )
+{
+    setup_test_craft( rid );
+    avatar &player_character = get_avatar();
+
+    int turns = 0;
+    while( player_character.activity.id() == ACT_CRAFT ) {
+        if( player_character.get_proficiency_practice( prof ) >= target_progress ) {
+            set_time( midnight );
+        }
+
+        player_character.moves = 100;
+        player_character.set_focus( 100 );
+        player_character.activity.do_turn( player_character );
+        ++turns;
+    }
+
+    return turns;
+}
+
+// Test gaining proficiency by repeatedly crafting short recipe
+TEST_CASE( "proficiency_gain_short_crafts", "[crafting][proficiency]" )
+{
+    std::vector<item> tools = { item( "2x4" ) };
+
+    const recipe_id &rec = recipe_cudgel_simple;
+    prep_craft( rec, tools, true );
+    avatar &ch = get_avatar();
+    // Set skill above requirement so that skill training doesn't steal any focus
+    ch.set_skill_level( skill_fabrication, 1 );
+    REQUIRE( rec.obj().get_skill_cap() < ch.get_skill_level( rec.obj().skill_used ) );
+
+    REQUIRE( ch.get_proficiency_practice( proficiency_prof_carving ) == 0.0f );
+
+    int turns_taken = 0;
+    const int max_turns = 100'000;
+
+    float time_malus = rec.obj().proficiency_time_maluses( ch );
+
+    // Proficiency progress is checked every 5% of craft progress, so up to 5% of one craft worth can be wasted depending on timing
+    // Rounding effects account for another tiny bit
+    time_duration overrun = time_duration::from_turns( 466 );
+
+    do {
+        turns_taken += test_craft_for_prof( rec, proficiency_prof_carving, 1.0f );
+        give_tools( tools );
+
+        // Escape door to avoid infinite loop if there is no progress
+        REQUIRE( turns_taken < max_turns );
+    } while( !ch.has_proficiency( proficiency_prof_carving ) );
+
+    time_duration expected_time = proficiency_prof_carving.obj().time_to_learn() * time_malus + overrun;
+    CHECK( time_duration::from_turns( turns_taken ) == expected_time );
+}
+
+// Test gaining proficiency all at once after finishing 5% of a very long recipe
+TEST_CASE( "proficiency_gain_long_craft", "[crafting][proficiency]" )
+{
+    std::vector<item> tools = { item( "2x4" ) };
+    const recipe_id &rec = recipe_cudgel_slow;
+    prep_craft( rec, tools, true );
+    avatar &ch = get_avatar();
+    // Set skill above requirement so that skill training doesn't steal any focus
+    ch.set_skill_level( skill_fabrication, 1 );
+    REQUIRE( rec.obj().get_skill_cap() < ch.get_skill_level( rec.obj().skill_used ) );
+    REQUIRE( ch.get_proficiency_practice( proficiency_prof_carving ) == 0.0f );
+
+    test_craft_for_prof( rec, proficiency_prof_carving, 1.0f );
+
+    const item_location &craft = ch.get_wielded_item();
+
+    // Check exactly one 5% tick has passed
+    // 500k counter = 5% progress
+    // If counter is 0, this means the craft finished before we gained the proficiency
+    CHECK( craft->item_counter >= 500'000 );
+    CHECK( craft->item_counter < 501'000 );
 }
 
 TEST_CASE( "UPS shows as a crafting component", "[crafting][ups]" )
