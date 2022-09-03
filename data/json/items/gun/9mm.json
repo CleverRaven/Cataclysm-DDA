@@ -792,7 +792,7 @@
     "type": "GUN",
     "reload_noise_volume": 10,
     "name": { "str_sp": "TEC-9" },
-    "description": "The TEC-9 is a semi-automatic '/pistol'/ made of cheap polymers and machine stamped parts.  Its rise in popularity among criminals is largely due to its intimidating looks, low cost and relative ease of converting to fully automatic.",
+    "description": "The TEC-9 is a semi-automatic 'pistol' made of cheap polymers and machine stamped parts.  Its rise in popularity among criminals is largely due to its intimidating looks, low cost and relative ease of converting to fully automatic.",
     "weight": "1400 g",
     "volume": "870 ml",
     "longest_side": "345 mm",
