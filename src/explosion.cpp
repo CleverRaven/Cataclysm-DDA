@@ -774,7 +774,7 @@ void emp_blast( const tripoint &p )
             it->set_flag( flag_ITEM_BROKEN );
         }
     }
-    
+
     for( item &it : here.i_at( p ) ) {
         // Drain any items on the ground of their battery charge
         if( it.is_tool() && it.ammo_current() == itype_battery ) {
