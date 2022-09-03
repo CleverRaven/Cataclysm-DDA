@@ -3353,34 +3353,35 @@ void Item_factory::load_generic( const JsonObject &jo, const std::string &src )
 // Set for all items (not just food and clothing) to avoid edge cases
 void Item_factory::set_allergy_flags( itype &item_template )
 {
-    static const std::pair<material_id, flag_id> all_pairs[] = {
-        // First allergens:
-        // An item is an allergen even if it has trace amounts of allergenic material
-        { material_hflesh, flag_CANNIBALISM },
+    static const std::array<std::pair<material_id, flag_id>, 22> all_pairs = { {
+            // First allergens:
+            // An item is an allergen even if it has trace amounts of allergenic material
+            { material_hflesh, flag_CANNIBALISM },
 
-        { material_hflesh, flag_ALLERGEN_MEAT },
-        { material_iflesh, flag_ALLERGEN_MEAT },
-        { material_flesh, flag_ALLERGEN_MEAT },
-        { material_wheat, flag_ALLERGEN_WHEAT },
-        { material_fruit, flag_ALLERGEN_FRUIT },
-        { material_veggy, flag_ALLERGEN_VEGGY },
-        { material_bean, flag_ALLERGEN_VEGGY },
-        { material_tomato, flag_ALLERGEN_VEGGY },
-        { material_garlic, flag_ALLERGEN_VEGGY },
-        { material_nut, flag_ALLERGEN_NUT },
-        { material_mushroom, flag_ALLERGEN_VEGGY },
-        { material_milk, flag_ALLERGEN_MILK },
-        { material_egg, flag_ALLERGEN_EGG },
-        { material_junk, flag_ALLERGEN_JUNK },
-        // Not food, but we can keep it here
-        { material_wool, flag_ALLERGEN_WOOL },
-        // Now "made of". Those flags should not be passed
-        { material_flesh, flag_CARNIVORE_OK },
-        { material_hflesh, flag_CARNIVORE_OK },
-        { material_iflesh, flag_CARNIVORE_OK },
-        { material_milk, flag_CARNIVORE_OK },
-        { material_egg, flag_CARNIVORE_OK },
-        { material_honey, flag_URSINE_HONEY }
+            { material_hflesh, flag_ALLERGEN_MEAT },
+            { material_iflesh, flag_ALLERGEN_MEAT },
+            { material_flesh, flag_ALLERGEN_MEAT },
+            { material_wheat, flag_ALLERGEN_WHEAT },
+            { material_fruit, flag_ALLERGEN_FRUIT },
+            { material_veggy, flag_ALLERGEN_VEGGY },
+            { material_bean, flag_ALLERGEN_VEGGY },
+            { material_tomato, flag_ALLERGEN_VEGGY },
+            { material_garlic, flag_ALLERGEN_VEGGY },
+            { material_nut, flag_ALLERGEN_NUT },
+            { material_mushroom, flag_ALLERGEN_VEGGY },
+            { material_milk, flag_ALLERGEN_MILK },
+            { material_egg, flag_ALLERGEN_EGG },
+            { material_junk, flag_ALLERGEN_JUNK },
+            // Not food, but we can keep it here
+            { material_wool, flag_ALLERGEN_WOOL },
+            // Now "made of". Those flags should not be passed
+            { material_flesh, flag_CARNIVORE_OK },
+            { material_hflesh, flag_CARNIVORE_OK },
+            { material_iflesh, flag_CARNIVORE_OK },
+            { material_milk, flag_CARNIVORE_OK },
+            { material_egg, flag_CARNIVORE_OK },
+            { material_honey, flag_URSINE_HONEY }
+        }
     };
 
     const auto &mats = item_template.materials;

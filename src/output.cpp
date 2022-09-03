@@ -108,6 +108,7 @@ std::string string_from_int( const catacurses::chtype ch )
         default:
             break;
     }
+    // NOLINTNEXTLINE(modernize-avoid-c-arrays)
     char buffer[2] = { static_cast<char>( charcode ), '\0' };
     return buffer;
 }

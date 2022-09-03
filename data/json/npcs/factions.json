@@ -22,7 +22,7 @@
       }
     },
     "mon_faction": "player",
-    "epilogues": [ { "power_min": 0, "id": "epilogue_faction_your_followers_0" } ],
+    "epilogues": [ { "power_min": 0, "power_max": 149, "id": "epilogue_faction_your_followers_0" } ],
     "description": "The survivors who have entrusted you with their well-being.  If morale drops, poor performance and mutiny may become issues."
   },
   {
@@ -76,7 +76,10 @@
       },
       "marloss": { "kill on sight": true }
     },
-    "epilogues": [ { "power_min": 0, "id": "epilogue_faction_robofac_0" }, { "power_max": 150, "id": "epilogue_faction_robofac_150" } ],
+    "epilogues": [
+      { "power_min": 0, "power_max": 149, "id": "epilogue_faction_robofac_0" },
+      { "power_min": 150, "power_max": 299, "id": "epilogue_faction_robofac_150" }
+    ],
     "description": "The surviving staff of Hub 01, a pre-Cataclysm research lab.  They rarely leave their lab, if at all, and rely on their robots and advanced technology to survive."
   },
   {
@@ -139,7 +142,7 @@
     },
     "epilogues": [
       { "power_min": 0, "id": "epilogue_faction_old_guard_0" },
-      { "power_max": 150, "id": "epilogue_faction_old_guard_150" }
+      { "power_min": 150, "id": "epilogue_faction_old_guard_150" }
     ],
     "description": "The remains of the federal government.  The extent of their strength is unknown but squads of patrolling soldiers have been seen under their banner."
   },
@@ -223,8 +226,8 @@
       "hells_raiders": { "kill on sight": true }
     },
     "epilogues": [
-      { "power_min": 0, "id": "epilogue_faction_free_merchants_0" },
-      { "power_max": 150, "id": "epilogue_faction_free_merchants_150" }
+      { "power_min": 0, "power_max": 149, "id": "epilogue_faction_free_merchants_0" },
+      { "power_min": 150, "id": "epilogue_faction_free_merchants_150" }
     ],
     "description": "A conglomeration of entrepreneurs and businessmen that stand together to hammer-out an existence through trade and industry."
   },
@@ -312,8 +315,8 @@
       }
     },
     "epilogues": [
-      { "power_min": 0, "id": "epilogue_faction_tacoma_commune_0" },
-      { "power_max": 150, "id": "epilogue_faction_tacoma_commune_150" }
+      { "power_min": 0, "power_max": 149, "id": "epilogue_faction_tacoma_commune_0" },
+      { "power_min": 150, "id": "epilogue_faction_tacoma_commune_150" }
     ],
     "description": "An outpost started by the Free Merchants to provide a source of food and raw materials."
   },
@@ -341,8 +344,8 @@
       }
     },
     "epilogues": [
-      { "power_min": 0, "id": "epilogue_faction_isolated_road_0" },
-      { "power_max": 150, "id": "epilogue_faction_isolated_road_150" }
+      { "power_min": 0, "power_max": 149, "id": "epilogue_faction_isolated_road_0" },
+      { "power_min": 150, "id": "epilogue_faction_isolated_road_150" }
     ],
     "description": "A couple of talented artisans in the country."
   },
@@ -410,8 +413,8 @@
       "no_faction": { "knows your voice": true }
     },
     "epilogues": [
-      { "power_min": 0, "id": "epilogue_faction_wasteland_scavengers_0" },
-      { "power_max": 150, "id": "epilogue_faction_wasteland_scavengers_150" }
+      { "power_min": 0, "power_max": 149, "id": "epilogue_faction_wasteland_scavengers_0" },
+      { "power_min": 150, "id": "epilogue_faction_wasteland_scavengers_150" }
     ],
     "description": "Autonomous bands or individuals who make their living raiding the ruins of the old-world for gear and provisions."
   },
@@ -441,8 +444,8 @@
       "your_followers": { "kill on sight": true }
     },
     "epilogues": [
-      { "power_min": 0, "id": "epilogue_faction_hells_raiders_0" },
-      { "power_max": 150, "id": "epilogue_faction_hells_raiders_150" }
+      { "power_min": 0, "power_max": 149, "id": "epilogue_faction_hells_raiders_0" },
+      { "power_min": 150, "id": "epilogue_faction_hells_raiders_150" }
     ],
     "description": "The largest gang of hooligans and bandits that preys upon other survivors.  Even if you have no gear, there is always a need for slaves and fresh meat."
   },

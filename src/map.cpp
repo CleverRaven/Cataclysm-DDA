@@ -2224,7 +2224,7 @@ int map::combined_movecost( const tripoint &from, const tripoint &to,
                             const vehicle *ignored_vehicle,
                             const int modifier, const bool flying, const bool via_ramp ) const
 {
-    const int mults[4] = { 0, 50, 71, 100 };
+    static constexpr std::array<int, 4> mults = { 0, 50, 71, 100 };
     const int cost1 = move_cost( from, ignored_vehicle );
     const int cost2 = move_cost( to, ignored_vehicle );
     // Multiply cost depending on the number of differing axes
@@ -3598,8 +3598,8 @@ ter_id map::get_roof( const tripoint &p, const bool allow_air ) const
 // For example, a washing machine behind the bashed door
 static bool furn_is_supported( const map &m, const tripoint &p )
 {
-    const signed char cx[4] = { 0, -1, 0, 1};
-    const signed char cy[4] = { -1,  0, 1, 0};
+    static constexpr std::array<int8_t, 4> cx = { 0, -1, 0, 1};
+    static constexpr std::array<int8_t, 4> cy = { -1,  0, 1, 0};
 
     for( int i = 0; i < 4; i++ ) {
         const point adj( p.xy() + point( cx[i], cy[i] ) );
@@ -6977,16 +6977,16 @@ void map::reachable_flood_steps( std::vector<tripoint> &reachable_pts, const tri
         t_grid[ ndx ] = initial_visit_distance;
     }
 
-    auto gen_neighbors = []( const pq_item & elem, int grid_dim, pq_item * neighbors ) {
+    auto gen_neighbors = []( const pq_item & elem, int grid_dim, std::array<pq_item, 8> &neighbors ) {
         // Up to 8 neighbors
         int new_cost = elem.dist + 1;
         // *INDENT-OFF*
-        int ox[8] = {
+        std::array<int, 8> ox = {
             -1, 0, 1,
             -1,    1,
             -1, 0, 1
         };
-        int oy[8] = {
+        std::array<int, 8> oy = {
             -1, -1, -1,
             0,      0,
             1,  1,  1
@@ -7005,7 +7005,7 @@ void map::reachable_flood_steps( std::vector<tripoint> &reachable_pts, const tri
     PQ_type pq( pq_item_comp{} );
     pq_item first_item{ 0, range + range * grid_dim };
     pq.push( first_item );
-    pq_item neighbor_elems[8];
+    std::array<pq_item, 8> neighbor_elems;
 
     while( !pq.empty() ) {
         const pq_item item = pq.top();
