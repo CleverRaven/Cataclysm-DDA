@@ -1,0 +1,48 @@
+[
+  {
+    "id": "EOC_PREPPER_1_COMPUTER",
+    "type": "effect_on_condition",
+    "effect": [ "open_dialogue" ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "COMP_PREPPER_1_MAIN",
+    "dynamic_line": "You are logged in as: User.\n\n WARNING!  ERROR A104; YOUR COMPUTER HAS RECOVERED FROM AN UNEXPECTED SHUTDOWN.\n CONTACT INFORMATION TECHNOLOGY DEPARTMENT IMMEDIATELY!",
+    "responses": [
+      { "text": "Messages", "topic": "COMP_PREPPER_1_BADEMAILS" },
+      { "text": "My Documents", "topic": "COMP_PREPPER_1_NOTES" },
+      { "text": "Script: Open Door", "topic": "COMP_PREPPER_1_OPENDOOR" },
+      { "text": "Log Off", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "COMP_PREPPER_1_BADEMAILS",
+    "dynamic_line": "WARNING!  ERROR B231; UNABLE TO CONNECT TO MESSAGING SERVER.\n CONTACT INFORMATION TECHNOLOGY DEPARTMENT IMMEDIATELY!",
+    "responses": [
+      { "text": "OK", "topic": "TALK_NONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "COMP_PREPPER_1_NOTES",
+    "dynamic_line": "Select the document you would like to view.",
+    "responses": [
+      { "text": "everything.txt", "topic": "TALK_NONE" },
+      { "text": "robert williamson.txt", "topic": "TALK_NONE" },
+      { "text": "shopping list.txt", "topic": "TALK_NONE" },
+      { "text": "MVI 0022.mov", "topic": "TALK_NONE" },
+      { "text": "Back", "topic": "TALK_NONE" }
+
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "COMP_PREPPER_1_OPENDOOR",
+    "dynamic_line": "Error: 'open': command not found.",
+    "responses": [
+      { "text": "Back", "topic": "TALK_NONE" },
+      { "text": "Log Off", "topic": "TALK_DONE" }
+    ]
+  }
+]
