@@ -8,10 +8,13 @@
 #include <iosfwd>
 #include <string> // IWYU pragma: keep
 
+#include "cata_variant.h"
+
 struct tripoint;
 template <typename E> struct enum_traits;
 
 class Character;
+class requirement_data;
 
 namespace debug_menu
 {
@@ -164,6 +167,29 @@ std::string iterable_to_string( const Container &values, const std::string_view 
         return f;
     } );
 }
+
+/* Allows the player to specify the current random seed.  Useful if a random behaviour is being tested
+ * and you want to replicate
+ */
+void set_random_seed( const std::string &title );
+
+/* Function used for debugging and testing crafting and other tasks with requirements
+ * Creates a list of items (first in pair) and quantities/charges (second in pair) that
+ * will meet the provided requirements.  Results formatted for passing to debug_spawn_item_collection.
+ * Will try not to use pseudo items, but if no other option is available, will warn with a debugmsg,
+ * then include pseudo items in the list.
+ */
+std::vector<std::pair<itype_id, int>> get_items_for_requirements( const requirement_data &req,
+                                   int batch_size, const std::string &requirement_name );
+
+/* Will spawn, around the player's feet, the specified items with the specified
+ * quantity/charges/ammunition.  If multiple items that have ammunition/battery are desired, they should
+ * be listed separately (e.g. light_battery_cell, 2 should spawn a battery with 2 charges, not 2 batteries
+ * While light_battery_cell, 1000, will spawn light batteries providing 1000 charges).  If not silent,
+ * will provide a message log of the items spawned.
+ */
+void spawn_item_collection( const std::vector<std::pair<itype_id, int>> &items_to_spawn,
+                            bool silent );
 
 } // namespace debug_menu
 

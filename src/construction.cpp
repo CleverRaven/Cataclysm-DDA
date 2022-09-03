@@ -22,6 +22,7 @@
 #include "coordinates.h"
 #include "cursesdef.h"
 #include "debug.h"
+#include "debug_menu.h"
 #include "enums.h"
 #include "event.h"
 #include "event_bus.h"
@@ -99,6 +100,7 @@ static const quality_id qual_CUT( "CUT" );
 static const skill_id skill_fabrication( "fabrication" );
 
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
+static const trait_id trait_DEBUG_HS_LIGHT( "DEBUG_HS_LIGHT" );
 static const trait_id trait_EATDEAD( "EATDEAD" );
 static const trait_id trait_NUMB( "NUMB" );
 static const trait_id trait_PAINRESIST_TROGLO( "PAINRESIST_TROGLO" );
@@ -411,6 +413,9 @@ construction_id construction_menu( const bool blueprint )
     ctxt.register_action( "HELP_KEYBINDINGS" );
     ctxt.register_action( "FILTER" );
     ctxt.register_action( "RESET_FILTER" );
+    if( get_player_character().has_trait( trait_DEBUG_HS_LIGHT ) ) {
+        ctxt.register_action( "DEBUG", to_translation( "Debug creation of items", "Use hammerspace" ) );
+    }
 
     const std::vector<construction_category> &construct_cat = construction_categories::get_all();
     const int tabcount = static_cast<int>( construction_category::count() );
@@ -559,11 +564,13 @@ construction_id construction_menu( const bool blueprint )
                 // get time needed
                 add_folded( current_con->get_folded_time_string( available_window_width ) );
 
+                // TODO: Find out why total_inv doesn't update on "DEBUG" action
+                const inventory &temp_inv = player_character.crafting_inventory();
                 add_folded( current_con->requirements->get_folded_tools_list( available_window_width, color_stage,
-                            total_inv ) );
+                            temp_inv ) );
 
                 add_folded( current_con->requirements->get_folded_components_list( available_window_width,
-                            color_stage, total_inv, is_crafting_component ) );
+                            color_stage, temp_inv, is_crafting_component ) );
 
                 construct_buffers.push_back( current_buffer );
             }
@@ -842,6 +849,55 @@ construction_id construction_menu( const bool blueprint )
                 }
                 exit = true;
             }
+        } else if( action == "DEBUG" ) {
+            if( constructs.empty() || select >= static_cast<int>( constructs.size() ) ) {
+                // Nothing to be done here
+                continue;
+            }
+
+            debug_menu::set_random_seed( _( "Enter random seed for construction materials" ) );
+            const std::vector<construction *> options = constructions_by_group( constructs[select] );;
+            uilist construction_stages;
+            std::string result_string;
+            construction_stages.text = _( "Select a construction stage/variant to provide materials for" );
+            int stage_selected = 0;
+            for( int i = 0; i < static_cast<int>( options.size() ); ++i ) {
+                if( options[i]->post_is_furniture ) {
+                    result_string = furn_str_id( options[i]->post_terrain ).obj().name();
+                } else if( !options[i]->post_terrain.empty() ) {
+                    result_string = ter_str_id( options[i]->post_terrain ).obj().name();
+                } else {
+                    result_string = constructs[select]->name();;
+                }
+                // Differentiate stages based on nearby terrain requirements
+                if( !options[i]->pre_terrain.empty() ) {
+                    if( options[i]->pre_is_furniture ) {
+                        result_string.append( string_format( " (%s)", furn_str_id( options[i]->pre_terrain )->name() ) );
+                    } else {
+                        result_string.append( string_format( " (%s)", ter_str_id( options[i]->pre_terrain )->name() ) );
+                    }
+                }
+
+                construction_stages.addentry( i, true, -2, result_string );
+            }
+            if( options.empty() ) {
+                continue;
+            } else if( static_cast<int>( options.size() ) > 1 ) {
+                construction_stages.query();
+                stage_selected = construction_stages.ret;
+                if( stage_selected < 0 ) {
+                    continue;
+                }
+            }
+
+            add_msg( m_good, _( "Spawning materials for construction: %s" ),
+                     construction_stages.entries[stage_selected].txt );
+            std::vector<std::pair<itype_id, int>> items_to_spawn = debug_menu::get_items_for_requirements(
+                                                   options[stage_selected]->requirements.obj(), 1,
+                                                   construction_stages.entries[stage_selected].txt );
+            debug_menu::spawn_item_collection( items_to_spawn, false );
+            update_info = true;
+            update_cat = true;
         }
     } while( !exit );
 

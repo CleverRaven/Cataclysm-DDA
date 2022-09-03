@@ -26,9 +26,8 @@ std::pair<Character *, const recipe *> select_crafter_and_crafting_recipe( int &
 void load_recipe_category( const JsonObject &jsobj );
 void reset_recipe_categories();
 
-void debug_assemble_crafting_materials( const recipe *current, int batch_size, bool automated );
-void debug_spawn_item_collection( const std::vector<std::pair<itype_id, int>> &items_to_spawn,
-                                  bool silent );
+// Used in crafting_test and in-game debugging to spawn the required crafting materials at the player's feet
+void debug_assemble_crafting_materials( const recipe *current, int batch_size, bool silent );
 
 // Returns nullptr if the category does not exist, or a pointer to its vector
 // of subcategories it the category does exist
