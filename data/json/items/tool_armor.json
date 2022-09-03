@@ -2812,7 +2812,7 @@
     "color": "light_gray",
     "material_thickness": 3,
     "use_action": [ "SOLARPACK" ],
-    "flags": [ "BELTED", "FRAGILE", "OUTER", "ONLY_ONE", "SOLARPACK" ],
+    "flags": [ "BELTED", "FRAGILE", "ONLY_ONE", "SOLARPACK" ],
     "armor": [ { "encumbrance": 10, "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ]
   },
   {
