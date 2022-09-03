@@ -8,8 +8,8 @@
 #include "units.h"
 #include "units_utility.h"
 
-static const int sx[4] = { 1, -1, -1, 1 };
-static const int sy[4] = { 1, 1, -1, -1 };
+static constexpr std::array<int, 4> sx = { 1, -1, -1, 1 };
+static constexpr std::array<int, 4> sy = { 1, 1, -1, -1 };
 
 tileray::tileray() = default;
 
