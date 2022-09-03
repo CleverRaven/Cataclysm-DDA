@@ -2588,9 +2588,9 @@ void veh_interact::display_stats() const
     const int extraw = ( ( TERMX - FULL_SCREEN_WIDTH ) / 4 ) * 2;
     // 3 * stats_h
     const int slots = 24;
-    int x[slots];
-    int y[slots];
-    int w[slots];
+    std::array<int, slots> x;
+    std::array<int, slots> y;
+    std::array<int, slots> w;
 
     units::volume total_cargo = 0_ml;
     units::volume free_cargo = 0_ml;

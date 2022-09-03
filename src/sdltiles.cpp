@@ -764,7 +764,7 @@ std::string cata_tiles::get_omt_id_rotation_and_subtile(
         // This would be for connected terrain
 
         // get terrain neighborhood
-        const oter_type_id neighborhood[4] = {
+        const std::array<oter_type_id, 4> neighborhood = {
             oter_at( omp + point_south )->get_type_id(),
             oter_at( omp + point_east )->get_type_id(),
             oter_at( omp + point_west )->get_type_id(),
