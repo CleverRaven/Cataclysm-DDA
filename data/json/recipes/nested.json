@@ -2112,7 +2112,18 @@
     "name": "steel wires",
     "description": "Recipes related to constructing different qualities of steel wires.",
     "skill_used": "fabrication",
-    "nested_category_data": [ "lc_wire", "mc_wire", "hc_wire", "ch_wire", "qt_wire" ],
+    "nested_category_data": [
+      "lc_wire",
+      "lc_wire_wire_draw_machine",
+      "mc_wire",
+      "mc_wire_wire_draw_machine",
+      "hc_wire",
+      "hc_wire_wire_draw_machine",
+      "ch_wire",
+      "ch_wire_wire_draw_machine",
+      "qt_wire",
+      "qt_wire_wire_draw_machine"
+    ],
     "difficulty": 3
   },
   {
