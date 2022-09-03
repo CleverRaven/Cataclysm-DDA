@@ -28,6 +28,7 @@
 #include "debug.h"
 #include "enums.h"
 #include "field_type.h"
+#include "flag.h"
 #include "game.h"
 #include "game_constants.h"
 #include "item.h"
@@ -754,11 +755,38 @@ void emp_blast( const tripoint &p )
             add_msg( m_good, _( "The %s on your wrists spark briefly, then release your hands!" ),
                      weapon->tname() );
         }
+
+        // Let's assume that any item that breaks in water is destroyed by EMP blast as well
+        std::vector<item_location> electronic_stuff;
+        for( const item_location &it : player_character.all_items_loc() ) {
+            if( it->has_flag( flag_WATER_BREAK ) && !it->is_broken() ) {
+                electronic_stuff.push_back( it );
+            }
+        }
+        for( item_location &it : electronic_stuff ) {
+            // Drain any items in player's possession of their battery charge
+            if( it->is_tool() && it->ammo_current() == itype_battery ) {
+                it->ammo_unset();
+            }
+            // Render any electronic stuff in player's possession non-functional
+            add_msg( m_bad, _( "The EMP blast fries your %s!" ), it->tname() );
+            it->deactivate();
+            it->set_flag( flag_ITEM_BROKEN );
+        }
     }
-    // Drain any items of their battery charge
+    
     for( item &it : here.i_at( p ) ) {
+        // Drain any items on the ground of their battery charge
         if( it.is_tool() && it.ammo_current() == itype_battery ) {
-            it.charges = 0;
+            it.ammo_unset();
+        }
+        // Render any electronic stuff on the ground non-functional
+        if( it.has_flag( flag_WATER_BREAK ) && !it.is_broken() ) {
+            if( sight ) {
+                add_msg( _( "The EMP blast fries the %s!" ), it.tname() );
+            }
+            it.deactivate();
+            it.set_flag( flag_ITEM_BROKEN );
         }
     }
     // TODO: Drain NPC energy reserves
