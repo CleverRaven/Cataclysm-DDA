@@ -5110,8 +5110,8 @@ int vehicle::traverse_vehicle_graph( Vehicle *start_veh, int amount, Func action
     }
     // Breadth-first search! Initialize the queue with a pointer to ourselves and go!
     std::queue< std::pair<Vehicle *, int> > connected_vehs;
-    std::unordered_set<Vehicle *> visited_vehs;
-    std::unordered_set<tripoint> visted_targets;
+    std::vector<Vehicle *> visited_vehs;
+    std::vector<tripoint> visited_targets;
     connected_vehs.push( std::make_pair( start_veh, 0 ) );
 
     while( amount > 0 && !connected_vehs.empty() ) {
@@ -5119,7 +5119,7 @@ int vehicle::traverse_vehicle_graph( Vehicle *start_veh, int amount, Func action
         Vehicle *current_veh = current_node.first;
         int current_loss = current_node.second;
 
-        visited_vehs.insert( current_veh );
+        visited_vehs.push_back( current_veh );
         connected_vehs.pop();
 
         add_msg_debug( debugmode::DF_VEHICLE, "Traversing graph with %d power", amount );
@@ -5129,15 +5129,15 @@ int vehicle::traverse_vehicle_graph( Vehicle *start_veh, int amount, Func action
                 continue; // ignore loose parts that aren't power transfer cables
             }
 
-            if( visted_targets.count( current_veh->parts[p].target.second ) > 0 ) {
+            if( std::find( visited_targets.begin(), visited_targets.end(), current_veh->parts[p].target.second ) != visited_targets.end()) {
                 // If we've already looked at the target location, don't bother the expensive vehicle lookup.
                 continue;
             }
 
-            visted_targets.insert( current_veh->parts[p].target.second );
+            visited_targets.push_back( current_veh->parts[p].target.second );
 
             vehicle *target_veh = vehicle::find_vehicle( current_veh->parts[p].target.second );
-            if( target_veh == nullptr || visited_vehs.count( target_veh ) > 0 ) {
+            if( target_veh == nullptr || std::find( visited_vehs.begin(), visited_vehs.end(), target_veh ) != visited_vehs.end() ) {
                 // Either no destination here (that vehicle's rolled away or off-map) or
                 // we've already looked at that vehicle.
                 continue;
