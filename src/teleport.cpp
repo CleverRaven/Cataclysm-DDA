@@ -111,8 +111,7 @@ bool teleport::teleport_to_point( Creature &critter, tripoint target, bool safe,
     int tfrag_attempts = 5;
     bool collision = false;
     int collision_angle = 0;
-    while( ( Creature *const poor_soul = get_creature_tracker().creature_at<Creature>( target ) ) &&
-           ( !collision ) ) {
+    while( ( Creature *const poor_soul = get_creature_tracker().creature_at<Creature>( target ) ) && ( !collision ) ) {
         //Fail if we run out of telefrag attempts
         if( tfrag_attempts-- < 1 ) {
             if( p && display_message ) {
