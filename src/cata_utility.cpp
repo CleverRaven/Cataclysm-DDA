@@ -2,6 +2,7 @@
 
 #include <cctype>
 #include <clocale>
+#include <cwctype>
 #include <algorithm>
 #include <cmath>
 #include <cstdio>
@@ -335,8 +336,8 @@ bool read_from_file( const std::string &path, const std::function<void( std::ist
 
         // check if file is gzipped
         // (byte1 == 0x1f) && (byte2 == 0x8b)
-        char header[2];
-        fin.read( header, 2 );
+        std::array<char, 2> header;
+        fin.read( header.data(), 2 );
         fin.clear();
         fin.seekg( 0, std::ios::beg ); // reset read position
 
@@ -358,18 +359,18 @@ bool read_from_file( const std::string &path, const std::function<void( std::ist
             zs.avail_in = str.size();
 
             int ret;
-            char outbuffer[32768];
+            std::array<char, 32768> outbuffer;
             std::string outstring;
 
             // get the decompressed bytes blockwise using repeated calls to inflate
             do {
-                zs.next_out = reinterpret_cast<Bytef *>( outbuffer );
+                zs.next_out = reinterpret_cast<Bytef *>( outbuffer.data() );
                 zs.avail_out = sizeof( outbuffer );
 
                 ret = inflate( &zs, 0 );
 
                 if( outstring.size() < static_cast<size_t>( zs.total_out ) ) {
-                    outstring.append( outbuffer,
+                    outstring.append( outbuffer.data(),
                                       zs.total_out - outstring.size() );
                 }
 
@@ -457,6 +458,7 @@ std::string obscure_message( const std::string &str, const std::function<char()>
     std::wstring w_gibberish_wide = utf8_to_wstr( gibberish_wide );
     std::wstring w_str = utf8_to_wstr( str );
     // a trailing NULL terminator is necessary for utf8_width function
+    // NOLINTNEXTLINE(modernize-avoid-c-arrays)
     char transformation[2] = { 0 };
     for( size_t i = 0; i < w_str.size(); ++i ) {
         transformation[0] = f();

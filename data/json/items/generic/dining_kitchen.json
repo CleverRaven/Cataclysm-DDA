@@ -191,7 +191,7 @@
     "snippet_category": [
       { "id": "mug1", "text": "The side of the mug reads 'World's Greatest Dad'." },
       { "id": "mug2", "text": "The side of the mug reads 'World's Greatest Mom'." },
-      { "id": "mug3", "text": "The side of the mug has a picture of a happy looking family printed on'." },
+      { "id": "mug3", "text": "The side of the mug has a picture of a happy-looking family." },
       {
         "id": "mug4",
         "text": "The side of the mug has a comical green face on it and says 'I'm a zombie without my coffee!'."
@@ -235,7 +235,7 @@
       },
       {
         "id": "mug24",
-        "text": "A white ceramic coffee mug.  On the side is a dog wearing a hat, sat in a burning room, saying \"This is fine.\""
+        "text": "A white ceramic coffee mug.  On the side is a dog wearing a hat, sitting in a burning room, saying \"This is fine.\""
       },
       { "id": "mug25", "text": "A white ceramic coffee mug.  There's a tiny dinosaur sculpture inside of it." },
       { "id": "mug26", "text": "A white ceramic coffee mug.  It says \"I <3 Massachusetts.\" on the side." }
@@ -399,7 +399,7 @@
     "category": "container",
     "name": { "str": "plastic tupperware" },
     "symbol": "u",
-    "description": "A piece of plastic tupperware with a tupperware lid.  Holds 750 ml of liquid.",
+    "description": "A piece of plastic tupperware with a matching watertight lid.  Holds 750 ml of liquid.",
     "copy-from": "base_plastic_dish",
     "volume": "787 ml",
     "pocket_data": [
@@ -482,7 +482,7 @@
     "category": "other",
     "id": "plastic_fork",
     "name": { "str": "plastic fork" },
-    "description": "A plastic disposable fork.  Great for picnic lunches in the post apocalyptic wasteland.",
+    "description": "A plastic disposable fork.  Great for picnic lunches in the post-apocalyptic wasteland.",
     "looks_like": "fork",
     "copy-from": "base_plastic_silverware",
     "flags": [ "STAB", "SHEATH_KNIFE" ]
@@ -550,7 +550,7 @@
     "id": "plastic_straw",
     "name": { "str": "plastic straw" },
     "proportional": { "weight": 0.7, "volume": 0.5 },
-    "description": "A plastic straw, for drinking things and making litter.",
+    "description": "A plastic straw, for drinking things and littering.",
     "copy-from": "base_plastic_silverware"
   },
   {
@@ -568,7 +568,7 @@
     "category": "other",
     "id": "peeler",
     "name": { "str": "vegetable peeler" },
-    "description": "This is a simple tool for peeling the outer skin off fruit and veggies without stabbing yourself.",
+    "description": "A simple tool for peeling the outer skin off fruits and veggies without stabbing yourself.",
     "flags": [ "SHEATH_KNIFE" ],
     "looks_like": "knife_butter",
     "copy-from": "base_silverware"
@@ -652,7 +652,7 @@
     "category": "other",
     "id": "whisk",
     "name": { "str": "whisk" },
-    "description": "Also known as a 'wire whip', this is a less effective weapon than it sounds.",
+    "description": "A tool designed for finely mixing ingredients or introducing air into the blend.  Also known as a 'wire whip', but it's a less effective weapon than that name makes it sound.",
     "looks_like": "spoon",
     "copy-from": "base_utensil"
   },
@@ -661,7 +661,7 @@
     "category": "other",
     "id": "potato_masher",
     "name": { "str": "potato masher" },
-    "description": "This tool can mash potatoes and soft root vegetables; it cannot do the twist.",
+    "description": "A tool for mashing potatoes and soft root vegetables; it cannot do the twist.",
     "looks_like": "fork",
     "copy-from": "base_utensil"
   },
@@ -670,7 +670,7 @@
     "category": "other",
     "id": "garlic_press",
     "name": { "str": "garlic press", "str_pl": "garlic presses" },
-    "description": "This tool can squash a clove or two of garlic into a fine paste.",
+    "description": "A tool for squashing a clove or two of garlic into a fine paste.",
     "looks_like": "spoon",
     "copy-from": "base_utensil"
   },
@@ -679,7 +679,7 @@
     "category": "other",
     "id": "can_opener",
     "name": { "str": "can opener" },
-    "description": "It's not hard to open cans without this, but it's way messier.",
+    "description": "A tool for opening cans that lack pull-tabs.  Now that you think about it, you haven't seen any of those around lately.",
     "looks_like": "hand_crank_charger",
     "copy-from": "base_utensil"
   },
@@ -688,7 +688,7 @@
     "category": "other",
     "id": "carving_fork",
     "name": { "str": "carving fork" },
-    "description": "It's like a tiny pitchfork, or a very large dinner fork.  You use it to hold meat still while you slice it.",
+    "description": "A utensil used to hold meat still while you slice it.  It's like a tiny pitchfork, or a very large dinner fork.",
     "looks_like": "fork",
     "copy-from": "base_utensil",
     "proportional": { "cutting": 2 },
@@ -727,7 +727,7 @@
     "category": "tools",
     "id": "pot",
     "name": { "str": "pot" },
-    "description": "Useful for boiling water when cooking spaghetti and more.",
+    "description": "A cooking pot, useful for boiling water and making all kinds of food.",
     "copy-from": "base_cookpot",
     "material": [ "steel" ],
     "color": "light_gray",
@@ -773,7 +773,7 @@
     "category": "tools",
     "id": "pot_copper",
     "name": { "str": "copper pot" },
-    "description": "Useful for boiling water when cooking spaghetti and more.  Made from copper, with a lining of tin to prevent metal from leaching into acidic foods.",
+    "description": "A cooking pot, useful for boiling water and making all kinds of food.  Made from copper, with a lining of tin to prevent metal from leaching into acidic foods.",
     "copy-from": "base_cookpot",
     "material": [ "copper" ],
     "color": "light_red",
@@ -1051,7 +1051,7 @@
     "id": "colander_steel",
     "name": { "str": "mesh colander" },
     "category": "other",
-    "description": "A stainless steel mesh colander, for washing rice, vegetables or straining liquid off from noodles or other foods.",
+    "description": "A stainless steel mesh colander, for washing rice and vegetables, or straining liquid off from noodles or other foods.",
     "type": "GENERIC",
     "volume": "500 ml",
     "weight": "318 g",
@@ -1075,7 +1075,7 @@
     "type": "GENERIC",
     "category": "other",
     "name": { "str": "cutting board" },
-    "description": "A large flat piece of wood for chopping vegetables on without ruining your knife or your countertop.",
+    "description": "A large, flat piece of wood for chopping vegetables on without ruining your knife or your countertop.",
     "weight": "945 g",
     "to_hit": -1,
     "color": "brown",
@@ -1155,7 +1155,7 @@
     "category": "tools",
     "id": "improvised_oven",
     "name": { "str": "improvised oven" },
-    "description": "A large pot converted into an improvised oven suitable for basic baking on a hot surface.",
+    "description": "A large pot converted into an improvised oven, suitable for basic baking on a hot surface.",
     "copy-from": "base_cookpot",
     "material": [ "steel" ],
     "color": "light_gray",
@@ -1223,7 +1223,7 @@
     "category": "tools",
     "id": "pot_aluminum",
     "name": { "str": "aluminum pot" },
-    "description": "Useful for boiling water when cooking spaghetti and more.  Made from aluminum.",
+    "description": "A cooking pot, useful for boiling water and making all kinds of food.  Made from aluminum.",
     "copy-from": "base_cookpot",
     "material": [ "aluminum" ],
     "color": "light_gray",

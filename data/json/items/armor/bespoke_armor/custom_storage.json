@@ -469,7 +469,7 @@
     "copy-from": "nomad_rig",
     "type": "TOOL_ARMOR",
     "name": { "str": "nomad harness (on)", "str_pl": "nomad harnesses (on)" },
-    "power_draw": 15000,
+    "power_draw": "15 J",
     "revert_to": "nomad_rig",
     "use_action": {
       "ammo_scale": 0,

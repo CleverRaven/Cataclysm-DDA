@@ -14,7 +14,7 @@
     "looks_like": "flip_flops",
     "color": "brown",
     "material_thickness": 2,
-    "flags": [ "VARSIZE", "WATER_FRIENDLY", "ALLOWS_NATURAL_ATTACKS" ],
+    "flags": [ "VARSIZE", "WATER_FRIENDLY", "ALLOWS_NATURAL_ATTACKS", "ALLOWS_TALONS" ],
     "armor": [
       {
         "covers": [ "foot_l", "foot_r" ],
@@ -1252,7 +1252,7 @@
     "repairs_like": "boots",
     "color": "blue",
     "material_thickness": 1,
-    "flags": [ "VARSIZE", "WATER_FRIENDLY", "ALLOWS_NATURAL_ATTACKS" ],
+    "flags": [ "VARSIZE", "WATER_FRIENDLY", "ALLOWS_NATURAL_ATTACKS", "ALLOWS_TALONS" ],
     "armor": [
       {
         "covers": [ "foot_l", "foot_r" ],
@@ -1569,7 +1569,7 @@
     "repairs_like": "bastsandals",
     "color": "brown",
     "material_thickness": 1.5,
-    "flags": [ "VARSIZE", "WATER_FRIENDLY", "ALLOWS_NATURAL_ATTACKS" ],
+    "flags": [ "VARSIZE", "WATER_FRIENDLY", "ALLOWS_NATURAL_ATTACKS", "ALLOWS_TALONS" ],
     "armor": [
       {
         "covers": [ "foot_l", "foot_r" ],
@@ -2016,7 +2016,7 @@
     "looks_like": "leathersandals",
     "color": "light_gray",
     "material_thickness": 1,
-    "flags": [ "VARSIZE", "WATER_FRIENDLY", "ALLOWS_NATURAL_ATTACKS" ],
+    "flags": [ "VARSIZE", "WATER_FRIENDLY", "ALLOWS_NATURAL_ATTACKS", "ALLOWS_TALONS" ],
     "armor": [
       {
         "covers": [ "foot_l", "foot_r" ],

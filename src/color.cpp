@@ -559,7 +559,10 @@ nc_color color_from_string( const std::string &color,
         new_color = "c_" + new_color;
     }
 
-    const std::pair<std::string, std::string> pSearch[2] = { { "light_", "lt" }, { "dark_", "dk" } };
+    const std::array<std::pair<std::string, std::string>, 2> pSearch = { {
+            { "light_", "lt" }, { "dark_", "dk" }
+        }
+    };
     for( const auto &i : pSearch ) {
         size_t pos = 0;
         while( ( pos = new_color.find( i.second, pos ) ) != std::string::npos ) {
@@ -606,7 +609,10 @@ nc_color bgcolor_from_string( const std::string &color )
 
     std::string new_color = "i_" + color;
 
-    const std::pair<std::string, std::string> pSearch[2] = { { "light_", "lt" }, { "dark_", "dk" } };
+    const std::array<std::pair<std::string, std::string>, 2> pSearch = { {
+            { "light_", "lt" }, { "dark_", "dk" }
+        }
+    };
     for( const auto &i : pSearch ) {
         size_t pos = 0;
         while( ( pos = new_color.find( i.second, pos ) ) != std::string::npos ) {
@@ -657,7 +663,20 @@ std::string get_tag_from_color( const nc_color &color )
 
 std::string colorize( const std::string &text, const nc_color &color )
 {
-    return get_tag_from_color( color ) + text + "</color>";
+    const std::string tag = get_tag_from_color( color );
+    size_t strpos = text.find( '\n' );
+    if( strpos == std::string::npos ) {
+        return tag + text + "</color>";
+    }
+
+    size_t prevpos = 0;
+    std::string ret;
+    while( ( strpos = text.find( '\n', prevpos ) ) != std::string::npos ) {
+        ret += tag + text.substr( prevpos, strpos - prevpos ) + "</color>\n";
+        prevpos = strpos + 1;
+    }
+    ret += tag + text.substr( prevpos, text.size() - prevpos ) + "</color>";
+    return ret;
 }
 
 std::string colorize( const translation &text, const nc_color &color )
