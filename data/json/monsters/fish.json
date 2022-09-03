@@ -37,6 +37,7 @@
     "special_attacks": [ [ "SHRIEK_ALERT", 6 ], [ "SHRIEK_STUN", 1 ] ],
     "anger_triggers": [ "PLAYER_CLOSE", "HURT" ],
     "fear_triggers": [ "FIRE" ],
+    "zombify_into": "mon_meat_cocoon_med",
     "flags": [ "SMELLS", "HEARS", "SEES", "SWIMS", "GRABS", "ARTHROPOD_BLOOD", "QUEEN", "PATH_AVOID_DANGER_1" ]
   },
   {
@@ -929,6 +930,7 @@
     "anger_triggers": [ "PLAYER_CLOSE", "HURT" ],
     "fear_triggers": [ "FIRE" ],
     "upgrades": { "half_life": 42, "into": "mon_crayfish_mega" },
+    "zombify_into": "mon_meat_cocoon_small",
     "flags": [ "SMELLS", "HEARS", "SEES", "SWIMS", "GRABS", "ARTHROPOD_BLOOD" ]
   },
   {
@@ -948,6 +950,7 @@
     ],
     "vision_day": 84,
     "dissect": "dissect_crustacean_large",
+    "zombify_into": "mon_meat_cocoon_large",
     "extend": { "flags": [ "DESTROYS", "PUSH_MON", "PUSH_VEH" ] }
   },
   {
@@ -1016,6 +1019,7 @@
     "special_attacks": [ [ "SHRIEK_ALERT", 6 ], [ "SHRIEK_STUN", 1 ] ],
     "anger_triggers": [ "PLAYER_CLOSE", "FRIEND_DIED", "FRIEND_ATTACKED", "HURT" ],
     "fear_triggers": [ "FIRE" ],
+    "zombify_into": "mon_meat_cocoon_small",
     "flags": [ "SMELLS", "HEARS", "SEES", "SWIMS", "GRABS", "ARTHROPOD_BLOOD", "PATH_AVOID_DANGER_1" ]
   },
   {
