@@ -2861,6 +2861,7 @@
           { "type": "thermo_resin", "covered_by_mat": 100, "thickness": 1.0 }
         ],
         "covers": [ "head" ],
+        "specifically_covers": [ "head_crown", "head_forehead", "head_nape", "head_ear_r", "head_ear_l" ],
         "coverage": 100,
         "encumbrance_modifiers": [ "NONE" ]
       },
