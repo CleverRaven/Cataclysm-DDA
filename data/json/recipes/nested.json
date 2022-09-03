@@ -344,6 +344,25 @@
     "difficulty": 7
   },
   {
+    "id": "nested_chitin_armguards",
+    "type": "nested_category",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_ARMS",
+    "name": "chitinous arm guards",
+    "description": "Recipes related to constructing durable armguards from chitin.",
+    "skill_used": "tailor",
+    "nested_category_data": [
+      "armguard_chitin",
+      "xs_armguard_chitin",
+      "xl_armguard_chitin",
+      "armguard_acidchitin",
+      "xs_armguard_acidchitin",
+      "xl_armguard_acidchitin"
+    ],
+    "difficulty": 5
+  },
+  {
     "id": "nested_armor_lc_lightplate",
     "type": "nested_category",
     "activity_level": "MODERATE_EXERCISE",
