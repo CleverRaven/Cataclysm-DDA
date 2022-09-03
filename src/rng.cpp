@@ -113,6 +113,23 @@ int djb2_hash( const unsigned char *input )
     return hash;
 }
 
+std::vector<int> rng_sequence( size_t count, int lo, int hi, int seed )
+{
+    static std::uniform_int_distribution<int> rng_int_dist;
+    if( lo > hi ) {
+        std::swap( lo, hi );
+    }
+    std::vector<int> result;
+    result.reserve( count );
+
+    // NOLINTNEXTLINE(cata-determinism)
+    cata_default_random_engine eng( seed );
+    for( size_t i = 0; i < count; i++ ) {
+        result.push_back( rng_int_dist( eng, std::uniform_int_distribution<>::param_type( lo, hi ) ) );
+    }
+    return result;
+}
+
 double rng_normal( double lo, double hi )
 {
     if( lo > hi ) {
