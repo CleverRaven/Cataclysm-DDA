@@ -60,7 +60,7 @@
     "durability": 8,
     "blackpowder_tolerance": 56,
     "clip_size": 5,
-	"build_in_mods": [ "muzzle_brake" ],
+    "built_in_mods": [ "revolver_muzzle_brake", "revolver_cylinder_gap" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE",

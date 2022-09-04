@@ -120,7 +120,8 @@
       [ "sights mount", 1 ],
       [ "stock mount", 1 ],
       [ "rail mount", 1 ],
-      [ "underbarrel mount", 1 ]
+      [ "underbarrel mount", 1 ],
+      [ "muzzle device", 1 ]
     ]
   },
   {
