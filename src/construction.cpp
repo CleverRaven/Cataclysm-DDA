@@ -1046,13 +1046,14 @@ void place_construction( const construction_group_str_id &group )
     if( here.tr_at( pnt ).is_null() ) {
         here.trap_set( pnt, tr_unfinished_construction );
     }
-    const bool is_appliance = con.category == construction_category_APPLIANCE;
-    // Use up the components
-    for( const auto &it : con.requirements->get_components() ) {
-        if( is_appliance && player_character.has_trait( trait_DEBUG_HS ) ) {
-            // appliances require a base item in the construction
+    if( player_character.has_trait( trait_DEBUG_HS ) ) {
+        // Gift components
+        for( const auto &it : con.requirements->get_components() ) {
             used.emplace_back( item( it.front().type ) );
-        } else {
+        }
+    } else {
+        // Use up the components
+        for( const auto &it : con.requirements->get_components() ) {
             std::list<item> tmp = player_character.consume_items( it, 1, is_crafting_component );
             used.splice( used.end(), tmp );
         }
