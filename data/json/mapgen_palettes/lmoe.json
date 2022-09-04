@@ -120,9 +120,7 @@
       "{": [ { "item": "lmoe_guns", "chance": 90 }, { "item": "ammo", "chance": 30, "repeat": [ 2, 8 ] } ],
       "}": [ { "item": "novels", "chance": 90, "repeat": [ 3, 8 ] }, { "item": "religious_books", "chance": 25 } ]
     },
-    "nested": {
-      "2": { "chunks": [ "prepper_1_computer" ] }
-    }
+    "nested": { "2": { "chunks": [ "prepper_1_computer" ] } }
   },
   {
     "type": "palette",
