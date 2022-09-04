@@ -1545,18 +1545,22 @@ void construct::done_appliance( const tripoint_bub_ms &p, Character &who )
 {
     map &here = get_map();
     partial_con *pc = here.partial_con_at( p );
-    cata::optional<item> base = cata::nullopt;
-    const vpart_id &vpart = vpart_appliance_from_item( who.lastconsumed );
-    if( pc ) {
-        for( item &obj : pc->components ) {
-            if( obj.typeId() == vpart->base_item ) {
-                base = obj;
-            }
-        }
-    } else {
-        debugmsg( "partial construction not found" );
+    if( !pc ) {
+        debugmsg( "constructing failed: can't find partial construction" );
+        return;
     }
+
+    const std::list<item> components = pc->components;
     here.partial_con_remove( p );
+
+    if( components.size() != 1 ) {
+        debugmsg( "constructing failed: components size expected 1 actual %d", components.size() );
+        return;
+    }
+
+    const item base = components.front();
+    const vpart_id &vpart = vpart_appliance_from_item( base.typeId() );
+
     // TODO: fix point types
     place_appliance( p.raw(), vpart, base );
 }
