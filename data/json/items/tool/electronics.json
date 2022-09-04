@@ -246,6 +246,7 @@
     "symbol": ";",
     "color": "green",
     "ammo": [ "battery" ],
+    "flags": [ "WATER_BREAK", "ELECTRONIC" ],
     "charges_per_use": 1,
     "use_action": [ "GEIGER" ],
     "pocket_data": [
@@ -266,7 +267,7 @@
     "power_draw": "200 mJ",
     "revert_to": "geiger_off",
     "use_action": [ "GEIGER" ],
-    "flags": [ "TRADER_AVOID" ]
+    "flags": [ "TRADER_AVOID", "WATER_BREAK", "ELECTRONIC" ]
   },
   {
     "id": "nre_recorder",
@@ -282,6 +283,7 @@
     "symbol": ";",
     "color": "red",
     "ammo": [ "battery" ],
+    "flags": [ "WATER_BREAK", "ELECTRONIC" ],
     "charges_per_use": 10,
     "use_action": {
       "type": "effect_on_conditions",
@@ -311,6 +313,7 @@
     "symbol": ":",
     "color": "light_gray",
     "ammo": [ "battery" ],
+    "flags": [ "WATER_BREAK", "ELECTRONIC" ],
     "use_action": [ "HAND_CRANK" ],
     "pocket_data": [
       {
@@ -615,7 +618,7 @@
     "symbol": ";",
     "color": "light_gray",
     "ammo": [ "battery" ],
-    "flags": [ "IS_UPS" ],
+    "flags": [ "IS_UPS", "ELECTRONIC" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",

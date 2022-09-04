@@ -383,7 +383,7 @@
     "color": "blue",
     "charges_per_use": 1,
     "ammo": [ "battery" ],
-    "flags": [ "BELT_CLIP" ],
+    "flags": [ "BELT_CLIP", "ELECTRONIC" ],
     "use_action": {
       "type": "transform",
       "msg": "You turn the heavy-duty flashlight on.",
@@ -415,7 +415,7 @@
       "msg": "You turn the heavy-duty flashlight off.",
       "target": "heavy_flashlight"
     },
-    "flags": [ "LIGHT_500", "CHARGEDIM", "BELT_CLIP" ]
+    "flags": [ "LIGHT_500", "CHARGEDIM", "BELT_CLIP", "ELECTRONIC" ]
   },
   {
     "abstract": "lightstrip_base",
@@ -440,7 +440,7 @@
     "power_draw": "1 J",
     "revert_to": "lightstrip_inactive",
     "revert_msg": "The lightstrip dies.",
-    "flags": [ "LIGHT_4", "NO_UNLOAD", "NO_RELOAD" ]
+    "flags": [ "LIGHT_4", "NO_UNLOAD", "NO_RELOAD", "WATER_BREAK", "ELECTRONIC" ]
   },
   {
     "//": "This doesn't make too much sense, flavor-wise, but it's the best I can come up with.  Put it on the todo list.",

@@ -63,7 +63,7 @@
     "turns_per_charge": 5,
     "revert_to": "radio_car",
     "use_action": [ "RADIOCARON" ],
-    "flags": [ "LIGHT_15", "RADIO_CONTAINER", "TRADER_AVOID", "RADIOCAR" ]
+    "flags": [ "LIGHT_15", "RADIO_CONTAINER", "TRADER_AVOID", "RADIOCAR", "WATER_BREAK", "ELECTRONIC" ]
   },
   {
     "id": "radio_mod",
@@ -79,7 +79,8 @@
     "material": [ "steel" ],
     "symbol": ";",
     "color": "dark_gray",
-    "use_action": [ "RADIO_MOD" ]
+    "use_action": [ "RADIO_MOD" ],
+    "flags": [ "WATER_BREAK", "ELECTRONIC" ]
   },
   {
     "id": "radio",
@@ -117,7 +118,7 @@
     "power_draw": "500 mJ",
     "revert_to": "radio",
     "use_action": [ "RADIO_ON" ],
-    "flags": [ "TRADER_AVOID" ]
+    "flags": [ "TRADER_AVOID", "WATER_BREAK", "ELECTRONIC" ]
   },
   {
     "id": "two_way_radio",
