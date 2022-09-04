@@ -10,7 +10,7 @@
     "dynamic_line": "You are logged in as: User.\n\n WARNING!  ERROR A104; YOUR COMPUTER HAS RECOVERED FROM AN UNEXPECTED SHUTDOWN.\n CONTACT INFORMATION TECHNOLOGY DEPARTMENT IMMEDIATELY!",
     "responses": [
       { "text": "Messages", "topic": "COMP_PREPPER_1_EMAILS" },
-      { "text": "My Documents", "topic": "COMP_PREPPER_1_NOTES" },
+      { "text": "My Documents", "topic": "COMP_PREPPER_1_DOCUMENTS" },
       { "text": "Script: Open Door", "topic": "COMP_PREPPER_1_OPENDOOR" },
       { "text": "Log Off", "topic": "TALK_DONE" }
     ]
@@ -24,7 +24,9 @@
       { "text": "From: monica evers  Subject: RE: Interest in property", "topic": "COMP_PREPPER_1_LMOEPROPERTY2" },
       { "text": "From: Ryan  Subject: RE: Airport Facility", "topic": "COMP_PREPPER_1_AIRPORTMESSAGE" },
       { "text": "To: Ryan  Subject: RE: RE: Airport Facility", "topic": "COMP_PREPPER_1_AIRPORTMESSAGE2" },
-      { "text": "Back", "topic": "TALK_NONE" }
+      { "text": "To: Ryan  Subject: RE: RE: RE: Airport Facility", "topic": "COMP_PREPPER_1_AIRPORTMESSAGE3" },
+      { "text": "Send/Receive Emails", "topic": "COMP_PREPPER_1_NOEMAILS" },
+      { "text": "Back", "topic": "COMP_PREPPER_1_MAIN" }
     ]
   },
   {
@@ -61,7 +63,15 @@
   },
   {
     "type": "talk_topic",
-    "id": "COMP_PREPPER_1_BADEMAILS",
+    "id": "COMP_PREPPER_1_AIRPORTMESSAGE3",
+    "dynamic_line": "&To: Ryan\nSubject: RE: RE: RE: Airport Facility\n\nYeah I deleted it, don't worry.  Look, this is what he looks like.\n\nATTACHMENTS: MVI 0022.mov",
+    "responses": [
+      { "text": "Back", "topic": "TALK_NONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "COMP_PREPPER_1_NOEMAILS",
     "dynamic_line": "WARNING!  ERROR B231; UNABLE TO CONNECT TO MESSAGING SERVER.\n CONTACT INFORMATION TECHNOLOGY DEPARTMENT IMMEDIATELY!",
     "responses": [
       { "text": "OK", "topic": "TALK_NONE" }
@@ -69,21 +79,21 @@
   },
   {
     "type": "talk_topic",
-    "id": "COMP_PREPPER_1_NOTES",
+    "id": "COMP_PREPPER_1_DOCUMENTS",
     "dynamic_line": "Select the document you would like to view.",
     "responses": [      
       { "text": "everything.txt", "topic": "COMP_PREPPER_1_DOC_EVERYTHING" },
       { "text": "robert williamson.txt", "topic": "COMP_PREPPER_1_DOC_ROBERT" },
       { "text": "shopping list.txt", "topic": "COMP_PREPPER_1_DOC_SHOPPING" },
       { "text": "MVI 0022.mov", "topic": "COMP_PREPPER_1_DOC_THEFOOTAGE" },
-      { "text": "Back", "topic": "TALK_NONE" }
+      { "text": "Back", "topic": "COMP_PREPPER_1_MAIN" }
 
     ]
   },
   {
     "type": "talk_topic",
     "id": "COMP_PREPPER_1_DOC_EVERYTHING",
-    "dynamic_line": "Enigma code cracked by Turing -> modern encryption technology -> internet sentience arises and gives birth to AI in Chinese lab using new forms of computation, aka: BIO-TECHNOLOGY, human AND robotic components TOGETHER.  Bio-weapon escapes lab, OF COURSE.  Self-replicating bio-technology = imminent replacement of humanity.  US gov now ACTIVELY manufacturing coverups for escaped bio-weapon to maintain peace.  Follows same pattern as Roswell, Trinity (what they told the public), oil pollution coverup (in my opinion).  Recent New York 'mass psychosis events' instigated by them as cover.  PAID ACTORS on speed dial but the THREAT IS REAL.  They are buying time.",
+    "dynamic_line": "Enigma code cracked by Turing -> modern encryption technology -> internet sentience arises and gives birth to AI in Chinese lab using new forms of computation, aka: BIO-TECHNOLOGY, human AND robotic components TOGETHER.  Bio-weapon escapes lab, OF COURSE.  Self-replicating bio-technology = imminent replacement of humanity.  US gov now ACTIVELY manufacturing coverups for escaped bio-weapon to maintain peace.  Follows same pattern as Roswell, Trinity (what they told the public), oil pollution coverup (in my opinion).  Recent New York 'mass psychosis events' instigated by them as cover.  PAID ACTORS on speed dial but the THREAT IS REAL.  They are buying time, but what is the play?",
     "responses": [
       { "text": "Back", "topic": "TALK_NONE" }
 
@@ -92,7 +102,7 @@
   {
     "type": "talk_topic",
     "id": "COMP_PREPPER_1_DOC_ROBERT",
-    "dynamic_line": "Gov assigns names based off numerological conversions of house numbers. Robert Williamson: 205 W Orchard Avenue.  Robert (78) + Williamson (127) = 205.  Despite the beautiful weather, he keeps the curtains closed and no one has even visited yet.  And he's been here for more than two weeks!  I only ever see him when he's coming or going from work.  I assume it's work, even if the hours are strange sometimes.  Black car, out of state plates, looks brand new.  Spook behavior (in my opinion)… Is he actually going somewhere or just trying to convince me he's legitimate?  Is he on the job when he leaves or on the job when he's here? Further investigation required.",
+    "dynamic_line": "Gov assigns names based off numerological conversions of house numbers. Robert Williamson: 205 W Orchard Avenue.  Robert (78) + Williamson (127) = 205.  Despite the beautiful weather, he keeps the curtains closed and no one has even visited yet.  And he's been here for more than two weeks!  I only ever see him when he's coming or going from work.  I assume it's work, even if the hours are strange sometimes.  Black car, out of state plates, looks brand new.  Fed behavior, if you ask me… Is he actually going somewhere or just trying to convince me he's legitimate?  Is he on the job when he leaves or on the job when he's here?  Further investigation required.",
     "responses": [
       { "text": "Back", "topic": "TALK_NONE" }
 
@@ -119,9 +129,9 @@
   {
     "type": "talk_topic",
     "id": "COMP_PREPPER_1_DOC_THEFOOTAGE2",
-    "dynamic_line": "&The cameraperson sighs, the view slowly zooms out for a few seconds, but then suddenly jerks to the left.  \"Ay… hey, look at these motherfuckers!\"  The camera zooms in on two teenagers standing next to a car in the parking lot.  They're both laughing and swearing very loudly, almost seemingly intoxicated…  One kid takes a step back, then kicks in the taillight of the car.  The other appears from around the other side of it, dragging a set of keys along the side.  The one who was kicking begins violently punching the window with his bare fist.  The cameraperson lets out an astonished gasp, \"It's just like New York…\"  One punch, two punch, and with a third smash his arm goes through the glass!  The cameraperson mutters a concerned \"Uhhh…\", sets the camera on the seat, and the recording abruptly ends.",
+    "dynamic_line": "&The cameraperson sighs. The view slowly zooms out for a few seconds, but then suddenly jerks to the left.  \"Ay… hey, look at these motherfuckers!\"  The camera zooms in on two teenagers next to a car in the parking lot.  They're both laughing and shouting very loudly, almost seemingly intoxicated…  One kid takes a step back, then kicks in the taillight of the car.  The other appears from around the other side of it, dragging their keys along it, scratching up the paint.  The boy who was kicking begins violently punching the window with his bare fist.  The cameraperson lets out an astonished gasp, \"Like New York…\"  One punch, two punch, and with a third smash his arm goes through the glass!  He stares at the other teenager and they both let out a burst of laughter that lasts a little too long.  The cameraperson mutters a concerned \"Uhhh…\" and sets the camera on the seat.  The recording abruptly ends.",
     "responses": [
-      { "text": "Back", "topic": "COMP_PREPPER_1_NOTES" }
+      { "text": "Back", "topic": "COMP_PREPPER_1_DOCUMENTS" }
 
     ]
   },
