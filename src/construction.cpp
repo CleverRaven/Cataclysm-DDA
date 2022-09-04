@@ -2187,7 +2187,11 @@ void finalize_constructions()
         if( !vp.has_flag( flag_INITIAL_PART ) ) {
             continue;
         }
-        frame_items.emplace_back( vp.base_item, 1 );
+        if( vp.get_id().str() == "frame" ) {
+            frame_items.insert( frame_items.begin(), { vp.base_item, 1 } );
+        } else {
+            frame_items.emplace_back( vp.base_item, 1 );
+        }
     }
 
     if( frame_items.empty() ) {
