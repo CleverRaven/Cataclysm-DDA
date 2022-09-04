@@ -21,6 +21,57 @@
     "armor": [ { "encumbrance_modifiers": [ "IMBALANCED" ], "coverage": 55, "covers": [ "head" ] } ]
   },
   {
+    "id": "stockpot_helmet",
+    "repairs_like": "mc_helm_close",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "pot great helm" },
+    "description": "An enclosed helmet made from a stock pot with a 'T' crudely carved into the front and a blanket stuffed inside to cushion it.  There are strings tied to the handles to help fasten it to your body, but it's extremely limiting and smothering.",
+    "weight": "3580 g",
+    "volume": "13 L",
+    "price": 4500,
+    "price_postapoc": 50,
+    "bashing": 10,
+    "material": [ "mc_steel", "aluminum" ],
+    "symbol": "[",
+    "looks_like": "helmet_plate",
+    "color": "light_gray",
+    "warmth": 40,
+    "material_thickness": 1,
+    "qualities": [ [ "COOK", 2 ], [ "BOIL", 1 ] ],
+    "techniques": [ "WBLOCK_1" ],
+    "armor": [
+      {
+        "material": [
+          { "type": "mc_steel", "covered_by_mat": 100, "thickness": 0.95 },
+          { "type": "cotton", "covered_by_mat": 100, "thickness": 5.0 },
+          { "type": "aluminum", "covered_by_mat": 45, "thickness": 4.0 }
+        ],
+        "covers": [ "head" ],
+        "coverage": 100,
+        "layers": [ "NORMAL", "OUTER" ],
+        "encumbrance_modifiers": [ "RESTRICTS_NECK", "IMBALANCED" ]
+      },
+      {
+        "material": [ { "type": "mc_steel", "covered_by_mat": 90, "thickness": 0.95 } ],
+        "covers": [ "eyes" ],
+        "coverage": 100,
+        "encumbrance": 20,
+        "layers": [ "OUTER" ],
+        "rigid_layer_only": true
+      },
+      {
+        "material": [ { "type": "mc_steel", "covered_by_mat": 90, "thickness": 0.95 } ],
+        "covers": [ "mouth" ],
+        "coverage": 100,
+        "encumbrance": 10,
+        "layers": [ "OUTER" ],
+        "rigid_layer_only": true
+      }
+    ],
+    "flags": [ "RAINPROOF", "PADDED", "OUTER" ]
+  },
+  {
     "id": "headgear",
     "repairs_like": "tricorne",
     "type": "ARMOR",
