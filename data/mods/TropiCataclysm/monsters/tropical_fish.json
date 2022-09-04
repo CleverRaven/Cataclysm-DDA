@@ -37,7 +37,7 @@
     "proportional": { "hp": 0.5, "speed": 1.1, "morale": 0.67, "melee_dice_sides": 0.67 },
     "volume": "30 ml",
     "weight": "30 g",
-    "upgrades": { "age_grow": 15, "into": "mon_crab" }
+    "upgrades": { "age_grow": 15, "into": "mon_fish_crab" }
   },
   {
     "id": "mon_fish_pancora",
@@ -162,7 +162,7 @@
     "id": "mon_fry_tambaqui",
     "type": "MONSTER",
     "copy-from": "mon_fry",
-    "upgrades": { "half_life": 14, "into": "mon_fish_tambaqui" },
+    "upgrades": { "half_life": 14, "into": "mon_fish_pacu_giant" },
     "name": { "str_sp": "fry" }
   },
   {
