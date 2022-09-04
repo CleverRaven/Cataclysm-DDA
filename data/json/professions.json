@@ -5413,38 +5413,41 @@
   },
   {
     "type": "profession",
-	"id": "old_vet",
-	"name": "Old Veteran",
-	"description": "You've been through hell once before. Hopefully those weekend range trips have kept your skills sharp.",
-	"points": 4,
-	"skills": [
-	  { "level": 1, "name": "gun" },
-	  { "level": 1, "name": "rifle" },
-	  { "level": 1, "name": "firstaid" },
-	  { "level": 2, "name": "survival" }
-	],
-	"proficiencies": [ "prof_gunsmithing_basic", "prof_spotting" ],
-	"items": {
-	  "both": {
-		"items": [ "wristwatch", "jacket_army", "pants", "service_medal", "boots_combat", "socks", "officer_uniform", "pipe_tobacco", "tobacco", "beret" ],
-		"entries": [ { "item": "cane", "custom-flags": [ "auto_wield" ] }, { "group": "charged_ref_lighter" },
-			{ "item": "chestrig", "contents-group": "army_mags_m14" },
-			{ "item": "knife_combat", "container-item": "sheath" },
-			{
-			  "item": "m1a",
-			  "ammo-item": "762_51",
-			  "charges": 20,
-			  "contents-item": [ "shoulder_strap" ]
-			}
-	    ]
-	  },
-	  "male": [
-	    "briefs"
-	  ],
-	  "female": [
-	    "boy_shorts",
-		"bra"
-	  ]
-	}
+    "id": "old_vet",
+    "name": "Old Veteran",
+    "description": "You've been through hell once before.  Hopefully those weekend range trips have kept your skills sharp.",
+    "points": 4,
+    "skills": [
+      { "level": 1, "name": "gun" },
+      { "level": 1, "name": "rifle" },
+      { "level": 1, "name": "firstaid" },
+      { "level": 2, "name": "survival" }
+    ],
+    "proficiencies": [ "prof_gunsmithing_basic", "prof_spotting" ],
+    "items": {
+      "both": {
+        "items": [
+          "wristwatch",
+          "jacket_army",
+          "pants",
+          "service_medal",
+          "boots_combat",
+          "socks",
+          "officer_uniform",
+          "pipe_tobacco",
+          "tobacco",
+          "beret"
+        ],
+        "entries": [
+          { "item": "cane", "custom-flags": [ "auto_wield" ] },
+          { "group": "charged_ref_lighter" },
+          { "item": "chestrig", "contents-group": "army_mags_m14" },
+          { "item": "knife_combat", "container-item": "sheath" },
+          { "item": "m1a", "ammo-item": "762_51", "charges": 20, "contents-item": [ "shoulder_strap" ] }
+        ]
+      },
+      "male": [ "briefs" ],
+      "female": [ "boy_shorts", "bra" ]
+    }
   }
 ]
