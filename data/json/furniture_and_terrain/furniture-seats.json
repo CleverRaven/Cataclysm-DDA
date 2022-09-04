@@ -241,7 +241,9 @@
     "floor_bedding_warmth": -1000,
     "bonus_fire_warmth_feet": 1000,
     "required_str": 5,
-    "flags": [ "TRANSPARENT", "FLAMMABLE", "ORGANIC", "SHORT", "CAN_SIT" ],
+    "deployed_item": "deck_chair",
+    "examine_action": "deployed_furniture",
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "SHORT", "CAN_SIT" ],
     "max_volume": "750 L",
     "deconstruct": {
       "items": [
@@ -252,13 +254,13 @@
     },
     "bash": {
       "str_min": 5,
-      "str_max": 40,
+      "str_max": 25,
       "sound": "smash!",
       "sound_fail": "whump.",
       "items": [
         { "item": "splinter", "count": [ 2, 6 ] },
         { "item": "nail", "charges": [ 1, 3 ] },
-        { "item": "cotton_patchwork", "count": [ 5, 10 ] }
+        { "item": "cotton_patchwork", "count": [ 5, 15 ] }
       ]
     }
   },
