@@ -449,7 +449,7 @@
   {
     "id": "kelvinist_summon_flamesword_plus",
     "type": "SPELL",
-    "name": "Flamesword",
+    "name": "Enhanced Flamesword",
     "description": "This spell ignites a wooden sword, creating a flaming blade able to burn, bruise, and chop. Now you know this spell like the back of your hand, and start to design your own version.",
     "valid_targets": [ "self" ],
     "flags": [ "NO_LEGS", "NO_HANDS" ],
