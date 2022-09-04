@@ -6811,5 +6811,13 @@
     "time": "2 m",
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
     "components": [ [ [ "scrap_aluminum", 33 ] ] ]
+  },
+  {
+    "result": "deck_chair",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "30 m",
+    "qualities": [ { "id": "PRY", "level": 1 }, { "id": "SAW_W", "level": 1 }, { "id": "SCREW", "level": 1 } ],
+    "components": [ [ [ "2x4", 2 ] ], [ [ "nail", 4 ] ], [ [ "cotton_patchwork", 30 ] ] ]
   }
 ]
