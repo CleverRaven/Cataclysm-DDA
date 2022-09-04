@@ -889,10 +889,34 @@ static bool mouse_in_window( cata::optional<point> coord, const catacurses::wind
     return false;
 }
 
-// take the current and itterate through expanding each recipe
-static std::vector<int> expand_recipes( std::vector<const recipe *> &current )
+static void recursively_expance_recipes( std::vector<const recipe *> &current,
+        std::vector<int> indent, int i )
 {
+    for( const recipe_id nested : current[i]->nested_category_data ) {
+        current.insert( current.begin() + i + 1, &nested.obj() );
+        indent.insert( indent.begin() + i + 1, indent[i] + 2 );
+        /*
+        if( nested->is_nested() &&
+            uistate.expanded_recipes.find( nested->ident() ) != uistate.expanded_recipes.end() ) {
+            // also a nest that should be expanded
+            recursively_expance_recipes( current, indent, i, cur_indent + 2 );
+        }
+        */
+    }
+}
 
+// take the current and itterate through expanding each recipe
+static void expand_recipes( std::vector<const recipe *> &current,
+                            std::vector<int> indent )
+{
+    //TODO Make this more effecient
+    for( int i = 0; i < current.size(); ++i ) {
+        if( current[i]->is_nested() &&
+            uistate.expanded_recipes.find( current[i]->ident() ) != uistate.expanded_recipes.end() ) {
+            // add all the recipes from the nests
+            recursively_expance_recipes( current, indent, i );
+        }
+    }
 }
 
 static std::string list_nested( const recipe *rec, const inventory &crafting_inv,
@@ -1351,7 +1375,8 @@ const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id goto_
                 }
 
                 // set up indents and append the expanded entries
-                expand_recipes( current );
+                indent.resize( current.size(), 0 );
+                expand_recipes( current, indent );
 
                 available.reserve( current.size() );
                 // cache recipe availability on first display
@@ -1574,13 +1599,14 @@ const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id goto_
                 .option( "QUIT" )
                 .query();
             } else if( current[line]->is_nested() ) {
-                auto loc = uistate.hidden_recipes.find( current[line]->ident() );
-                if( loc != uistate.hidden_recipes.end() ) {
-                    uistate.hidden_recipes.erase( current[line]->ident() );
+                auto loc = uistate.expanded_recipes.find( current[line]->ident() );
+                if( loc != uistate.expanded_recipes.end() ) {
+                    uistate.expanded_recipes.erase( current[line]->ident() );
                 } else {
-                    uistate.hidden_recipes.insert( current[line]->ident() );
+                    uistate.expanded_recipes.insert( current[line]->ident() );
                 }
                 recalc = true;
+                keepline = true;
             } else if( !player_character.check_eligible_containers_for_crafting( *current[line],
                        batch ? line + 1 : 1 ) ) {
                 // popup is already inside check
