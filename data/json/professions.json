@@ -5456,13 +5456,8 @@
     "name": "Urban Explorer",
     "description": "You've always admired the beauty of urban desolation, and were ready for your next trip into town when the end of the world made your hobby much more relevant.",
     "points": 2,
-    "skills": [
-      { "level": 2, "name": "swimming" },
-      { "level": 1, "name": "traps" }
-    ],
-    "proficiencies": [
-      "prof_lockpicking"
-    ],
+    "skills": [ { "level": 2, "name": "swimming" }, { "level": 1, "name": "traps" } ],
+    "proficiencies": [ "prof_lockpicking" ],
     "items": {
       "both": {
         "items": [
