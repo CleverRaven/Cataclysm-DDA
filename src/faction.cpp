@@ -704,8 +704,7 @@ int npc::faction_display( const catacurses::window &fac_w, const int width ) con
                _( "Thirst: " ) + ( thirst_pair.first.empty() ? nominal : thirst_pair.first ) );
     mvwprintz( fac_w, point( width, ++y ), fatigue_pair.second,
                _( "Fatigue: " ) + ( fatigue_pair.first.empty() ? nominal : fatigue_pair.first ) );
-    std::string weapon_name = get_wielded_item() ? get_wielded_item()->tname() :
-                              null_item_reference().tname();
+    std::string weapon_name = weapname_simple();
     int lines = fold_and_print( fac_w, point( width, ++y ), getmaxx( fac_w ) - width - 2, c_white,
                                 _( "Wielding: " ) + weapon_name );
     y += lines;
