@@ -90,7 +90,10 @@ static units::temperature weather_temperature_from_common_data( const weather_ge
     // -1 at coldest_hour, +1 twelve hours later
 
     // manually specified seasonal temp variation from region_settings.json
-    const int seasonal_temp_mod[4] = { wg.spring_temp_manual_mod, wg.summer_temp_manual_mod, wg.autumn_temp_manual_mod, wg.winter_temp_manual_mod };
+    const std::array<int, 4> seasonal_temp_mod = {
+        wg.spring_temp_manual_mod, wg.summer_temp_manual_mod, wg.autumn_temp_manual_mod,
+        wg.winter_temp_manual_mod
+    };
     const double baseline(
         wg.base_temperature +
         seasonal_temp_mod[season] +

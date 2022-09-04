@@ -29,6 +29,7 @@
       "c": "f_chair",
       "d": "f_desk",
       "F": "f_fridge",
+      "é": "f_freezer",
       "h": "f_bathtub",
       "O": "f_sofa",
       "R": [ "f_rack", "f_utility_shelf" ],
@@ -105,6 +106,7 @@
       "D": "t_carpet_green",
       "O": "t_carpet_green",
       "F": "t_carpet_green",
+      "é": "t_carpet_green",
       "w": "t_double_pane_glass_with_curtain_open_window_closed",
       "W": [ [ "t_double_pane_glass_with_curtain", 2 ], "t_double_pane_glass_with_curtain_open_window_closed" ],
       "<": "t_wood_stairs_down",
@@ -128,7 +130,8 @@
       "Z": "f_fireplace",
       "~": "f_chimney",
       "=": "f_vent_pipe",
-      "v": "f_wind_vane"
+      "v": "f_wind_vane",
+      "é": "f_freezer"
     },
     "items": {
       "D": [

@@ -2274,7 +2274,7 @@
     "vision_day": 0,
     "vision_night": 0,
     "harvest": "mutant_mammal_leather",
-    "dissect": "dissect_troglobite_sample_large",
+    "dissect": "dissect_subterranean_rodent_large",
     "special_attacks": [ [ "SHRIEK_ALERT", 10 ], [ "SHRIEK_STUN", 1 ], { "type": "bite", "cooldown": 6 }, [ "impale", 10 ] ],
     "anger_triggers": [ "HURT", "SOUND", "STALK" ],
     "fear_triggers": [ "FIRE" ],

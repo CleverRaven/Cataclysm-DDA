@@ -1735,7 +1735,7 @@
     "description": "This electric combat chainsaw is on, and is continuously draining power.  Use it to turn it off.",
     "cutting": 50,
     "to_hit": { "grip": "weapon", "length": "short", "surface": "every", "balance": "neutral" },
-    "power_draw": 2000000,
+    "power_draw": "2 kJ",
     "charges_per_use": 0,
     "revert_to": "e_combatsaw_off",
     "qualities": [ [ "AXE", 3 ] ],

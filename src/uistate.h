@@ -143,6 +143,7 @@ class uistatedata
         bool distraction_weather_change = true;
         bool distraction_hunger = true;
         bool distraction_thirst = true;
+        bool distraction_temperature = true;
 
         // V Menu Stuff
         int list_item_sort = 0;
