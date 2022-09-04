@@ -306,6 +306,180 @@
     "difficulty": 1
   },
   {
+    "id": "nested_cotton_duster",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "cotton dusters",
+    "description": "Recipes related to tailoring long coats from cotton, known as dusters.",
+    "skill_used": "tailor",
+    "nested_category_data": [ "duster", "xs_duster", "xl_duster", "sleeveless_duster", "sleeveless_duster_from_duster" ],
+    "difficulty": 3
+  },
+  {
+    "id": "nested_fur_duster",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "fur dusters",
+    "description": "Recipes related to tailoring long coats from fur, known as dusters.",
+    "skill_used": "tailor",
+    "nested_category_data": [ "duster_fur", "xs_duster_fur", "xl_duster_fur", "sleeveless_duster_fur", "sleeveless_duster_fur_from_duster_fur" ],
+    "difficulty": 3
+  },
+  {
+    "id": "nested_leather_duster",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "leather dusters",
+    "description": "Recipes related to tailoring sturdy long coats from leather, known as dusters.",
+    "skill_used": "tailor",
+    "nested_category_data": [
+      "duster_leather",
+      "xs_duster_leather",
+      "xl_duster_leather",
+      "sleeveless_duster_leather",
+      "sleeveless_duster_leather_from_duster_leather"
+    ],
+    "difficulty": 6
+  },
+  {
+    "id": "nested_faux_fur_duster",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "faux fur dusters",
+    "description": "Recipes related to tailoring long coats from faux fur, known as dusters.",
+    "skill_used": "tailor",
+    "nested_category_data": [
+      "duster_faux_fur",
+      "xs_duster_faux_fur",
+      "xl_duster_faux_fur",
+      "sleeveless_duster_faux_fur",
+      "sleeveless_duster_faux_fur_from_duster_faux_fur"
+    ],
+    "difficulty": 3
+  },
+  {
+    "id": "nested_survivor_duster",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "survivor dusters",
+    "description": "Recipes related to tailoring durable long coats from kevlar and other materials, known as dusters.",
+    "skill_used": "tailor",
+    "nested_category_data": [
+      "duster_survivor",
+      "xs_duster_survivor",
+      "xl_duster_survivor",
+      "sleeveless_duster_survivor",
+      "sleeveless_duster_survivor_from_duster_survivor"
+    ],
+    "difficulty": 6
+  },
+  {
+    "id": "nested_all_duster",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_TORSO",
+    "name": "dusters",
+    "description": "Recipes related to tailoring long coats, known as dusters.",
+    "skill_used": "tailor",
+    "nested_category_data": [
+      "nested_cotton_duster",
+      "nested_fur_duster",
+      "nested_leather_duster",
+      "nested_faux_fur_duster",
+      "nested_survivor_duster"
+    ],
+    "difficulty": 3
+  },
+  {
+    "id": "nested_cotton_trenchcoat",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "cotton trenchcoats",
+    "description": "Recipes related to tailoring long coats from cotton, known as trenchcoats.",
+    "skill_used": "tailor",
+    "nested_category_data": [ "trenchcoat", "sleeveless_trenchcoat", "sleeveless_trenchcoat_from_trenchcoat" ],
+    "difficulty": 3
+  },
+  {
+    "id": "nested_fur_trenchcoat",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "fur trenchcoats",
+    "description": "Recipes related to tailoring long coats from fur, known as trenchcoats.",
+    "skill_used": "tailor",
+    "nested_category_data": [ "trenchcoat_fur", "sleeveless_trenchcoat_fur", "sleeveless_trenchcoat_fur_from_trenchcoat_fur" ],
+    "difficulty": 3
+  },
+  {
+    "id": "nested_leather_trenchcoat",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "leather trenchcoats",
+    "description": "Recipes related to tailoring long coats from leather, known as trenchcoats.",
+    "skill_used": "tailor",
+    "nested_category_data": [ "trenchcoat_leather", "sleeveless_trenchcoat_leather", "sleeveless_trenchcoat_leather_from_trenchcoat_leather" ],
+    "difficulty": 6
+  },
+  {
+    "id": "nested_faux_fur_trenchcoat",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "faux fur trenchcoats",
+    "description": "Recipes related to tailoring long coats from cotton, known as trenchcoats.",
+    "skill_used": "tailor",
+    "nested_category_data": [ "trenchcoat_faux_fur", "sleeveless_trenchcoat_faux_fur", "sleeveless_trenchcoat_faux_fur_from_trenchcoat_faux_fur" ],
+    "difficulty": 3
+  },
+  {
+    "id": "nested_survivor_trenchcoat",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "survivor trenchcoats",
+    "description": "Recipes related to tailoring long coats from kevlar, known as trenchcoats.",
+    "skill_used": "tailor",
+    "nested_category_data": [ "trenchcoat_survivor", "sleeveless_trenchcoat_survivor", "sleeveless_trenchcoat_survivor_from_trenchcoat_survivor" ],
+    "difficulty": 3
+  },
+  {
+    "id": "nested_trenchcoats",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_TORSO",
+    "name": "trenchcoats",
+    "description": "Recipes related to tailoring long coats, known as trenchcoats.",
+    "skill_used": "tailor",
+    "nested_category_data": [
+      "nested_cotton_trenchcoat",
+      "nested_fur_trenchcoat",
+      "nested_leather_trenchcoat",
+      "nested_faux_fur_trenchcoat",
+      "nested_survivor_trenchcoat"
+    ],
+    "difficulty": 3
+  },
+  {
     "id": "nested_chitin_helmets",
     "type": "nested_category",
     "activity_level": "LIGHT_EXERCISE",
