@@ -189,15 +189,19 @@
     "required_str": 3,
     "deployed_item": "camp_chair",
     "examine_action": "deployed_furniture",
-    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE", "CAN_SIT", "ALIGN_WORKBENCH" ],
+    "flags": [ "TRANSPARENT", "SHORT", "CAN_SIT", "ALIGN_WORKBENCH" ],
     "max_volume": "875 L",
     "deconstruct": { "items": [ { "item": "camp_chair", "count": 1 } ] },
     "bash": {
       "str_min": 6,
       "str_max": 20,
-      "sound": "smash!",
-      "sound_fail": "whump.",
-      "items": [ { "item": "2x4", "count": 1 }, { "item": "nail", "charges": [ 1, 5 ] }, { "item": "splinter", "count": 3 } ]
+      "sound": "metal screeching!",
+      "sound_fail": "crash!",
+      "items": [
+        { "item": "steel_chunk", "count": 1 },
+        { "item": "scrap", "charges": [ 3, 20 ] },
+        { "item": "cotton_patchwork", "count": [ 3, 10 ] }
+      ]
     }
   },
   {
