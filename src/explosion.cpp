@@ -756,10 +756,9 @@ void emp_blast( const tripoint &p )
                      weapon->tname() );
         }
 
-        // Let's assume that any item that breaks in water is destroyed by EMP blast as well
         std::vector<item_location> electronic_stuff;
         for( const item_location &it : player_character.all_items_loc() ) {
-            if( it->has_flag( flag_WATER_BREAK ) && !it->is_broken() ) {
+            if( it->has_flag( flag_ELECTRONIC ) && !it->is_broken() ) {
                 electronic_stuff.push_back( it );
             }
         }
@@ -781,7 +780,7 @@ void emp_blast( const tripoint &p )
             it.ammo_unset();
         }
         // Render any electronic stuff on the ground non-functional
-        if( it.has_flag( flag_WATER_BREAK ) && !it.is_broken() ) {
+        if( it.has_flag( flag_ELECTRONIC ) && !it.is_broken() ) {
             if( sight ) {
                 add_msg( _( "The EMP blast fries the %s!" ), it.tname() );
             }
