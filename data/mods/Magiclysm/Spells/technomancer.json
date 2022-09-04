@@ -337,7 +337,7 @@
     "shape": "blast",
     "spell_class": "TECHNOMANCER",
     "energy_source": "MANA",
-    "difficulty": 6,
+    "difficulty": 8,
     "max_level": 25,
     "base_casting_time": 200,
     "casting_time_increment": -2.0,
