@@ -1057,14 +1057,6 @@ void place_construction( const construction_group_str_id &group )
             used.splice( used.end(), tmp );
         }
     }
-    // If player has debug hammerspace while building an appliance, they won't get
-    // the appliance they want unless lastconsumed points to the appliance's base itype
-    if( is_appliance && player_character.has_trait( trait_DEBUG_HS ) ) {
-        const std::vector<std::vector<item_comp> > &comp_list = con.requirements->get_components();
-        if( !comp_list.empty() && !comp_list.front().empty() ) {
-            player_character.lastconsumed = comp_list.front().front().type;
-        }
-    }
     pc.components = used;
     here.partial_con_set( pnt, pc );
     for( const auto &it : con.requirements->get_tools() ) {
