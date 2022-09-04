@@ -60,6 +60,7 @@
     "durability": 8,
     "blackpowder_tolerance": 56,
     "clip_size": 5,
+	"build_in_mods": [ "muzzle_brake" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE",
