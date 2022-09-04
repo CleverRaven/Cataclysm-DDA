@@ -243,15 +243,9 @@
     "required_str": 5,
     "deployed_item": "deck_chair",
     "examine_action": "deployed_furniture",
-    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "SHORT", "CAN_SIT" ],
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "SHORT", "EASY_DECONSTRUCT", "CAN_SIT" ],
     "max_volume": "750 L",
-    "deconstruct": {
-      "items": [
-        { "item": "cotton_patchwork", "count": [ 10, 20 ] },
-        { "item": "2x4", "count": [ 2, 4 ] },
-        { "item": "nail", "charges": [ 2, 6 ] }
-      ]
-    },
+    "deconstruct": { "items": [ { "item": "deck_chair", "count": 1 } ] },
     "bash": {
       "str_min": 5,
       "str_max": 25,
