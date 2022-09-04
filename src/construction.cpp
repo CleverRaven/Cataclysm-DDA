@@ -1422,7 +1422,7 @@ static vpart_id vpart_from_item( const itype_id &item_id )
     return vpart_frame_vertical_2;
 }
 
-void construct::done_vehicle( const tripoint_bub_ms &p, Character &who )
+void construct::done_vehicle( const tripoint_bub_ms &p, Character & )
 {
     std::string name = string_input_popup()
                        .title( _( "Enter new vehicle name:" ) )
@@ -1534,7 +1534,7 @@ void construct::done_wiring( const tripoint_bub_ms &p, Character &/*who*/ )
     }
 }
 
-void construct::done_appliance( const tripoint_bub_ms &p, Character &who )
+void construct::done_appliance( const tripoint_bub_ms &p, Character & )
 {
     map &here = get_map();
     partial_con *pc = here.partial_con_at( p );
