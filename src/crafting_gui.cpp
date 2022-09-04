@@ -890,31 +890,61 @@ static bool mouse_in_window( cata::optional<point> coord, const catacurses::wind
 }
 
 static void recursively_expance_recipes( std::vector<const recipe *> &current,
-        std::vector<int> indent, int i )
+        std::vector<int> &indent, std::map<const recipe *, availability> &availability_cache, int i,
+        Character &player_character, bool unread_recipes_first, bool highlight_unread_recipes )
 {
+    std::vector<const recipe *> tmp;
     for( const recipe_id nested : current[i]->nested_category_data ) {
-        current.insert( current.begin() + i + 1, &nested.obj() );
+        tmp.push_back( &nested.obj() );
         indent.insert( indent.begin() + i + 1, indent[i] + 2 );
-        /*
-        if( nested->is_nested() &&
-            uistate.expanded_recipes.find( nested->ident() ) != uistate.expanded_recipes.end() ) {
-            // also a nest that should be expanded
-            recursively_expance_recipes( current, indent, i, cur_indent + 2 );
+        if( !availability_cache.count( &nested.obj() ) ) {
+            availability_cache.emplace( &nested.obj(), availability( &nested.obj() ) );
         }
-        */
     }
+
+    std::stable_sort( tmp.begin(), tmp.end(), [
+                       &player_character, &availability_cache, unread_recipes_first,
+                       highlight_unread_recipes
+    ]( const recipe * const a, const recipe * const b ) {
+        if( highlight_unread_recipes && unread_recipes_first ) {
+            const bool a_read = uistate.read_recipes.count( a->ident() );
+            const bool b_read = uistate.read_recipes.count( b->ident() );
+            if( a_read != b_read ) {
+                return !a_read;
+            }
+        }
+        const bool can_craft_a = availability_cache.at( a ).can_craft;
+        const bool can_craft_b = availability_cache.at( b ).can_craft;
+        if( can_craft_a != can_craft_b ) {
+            return can_craft_a;
+        }
+        if( b->difficulty != a->difficulty ) {
+            return b->difficulty < a->difficulty;
+        }
+        const std::string a_name = a->result_name();
+        const std::string b_name = b->result_name();
+        if( a_name != b_name ) {
+            return localized_compare( a_name, b_name );
+        }
+        return b->time_to_craft( player_character ) <
+               a->time_to_craft( player_character );
+    } );
+
+    current.insert( current.begin() + i + 1, tmp.begin(), tmp.end() );
 }
 
 // take the current and itterate through expanding each recipe
 static void expand_recipes( std::vector<const recipe *> &current,
-                            std::vector<int> indent )
+                            std::vector<int> &indent, std::map<const recipe *, availability> &availability_cache,
+                            Character &player_character, bool unread_recipes_first, bool highlight_unread_recipes )
 {
     //TODO Make this more effecient
     for( int i = 0; i < current.size(); ++i ) {
         if( current[i]->is_nested() &&
             uistate.expanded_recipes.find( current[i]->ident() ) != uistate.expanded_recipes.end() ) {
             // add all the recipes from the nests
-            recursively_expance_recipes( current, indent, i );
+            recursively_expance_recipes( current, indent, availability_cache, i, player_character,
+                                         unread_recipes_first, highlight_unread_recipes );
         }
     }
 }
@@ -1200,7 +1230,8 @@ const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id goto_
         }
         list_map.clear();
         for( int i = istart; i < iend; ++i ) {
-            std::string tmp_name = current[i]->result_name( /*decorated=*/true );
+            std::string tmp_name = std::string( indent[i],
+                                                ' ' ) + current[i]->result_name( /*decorated=*/true );
             if( batch ) {
                 tmp_name = string_format( _( "%2dx %s" ), i + 1, tmp_name );
             }
@@ -1374,9 +1405,7 @@ const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id goto_
                     num_recipe = picking.size();
                 }
 
-                // set up indents and append the expanded entries
-                indent.resize( current.size(), 0 );
-                expand_recipes( current, indent );
+
 
                 available.reserve( current.size() );
                 // cache recipe availability on first display
@@ -1415,6 +1444,12 @@ const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id goto_
                                a->time_to_craft( player_character );
                     } );
                 }
+
+                // set up indents and append the expanded entries
+                // have to do this after we sort the list
+                indent.assign( current.size(), 0 );
+                expand_recipes( current, indent, availability_cache, player_character, unread_recipes_first,
+                                highlight_unread_recipes );
 
                 std::transform( current.begin(), current.end(),
                 std::back_inserter( available ), [&]( const recipe * e ) {
