@@ -895,6 +895,43 @@
     "flags": [ "FREEZERBURN" ]
   },
   {
+    "id": "curing_roe",
+    "type": "COMESTIBLE",
+    "copy-from": "egg_fish",
+    "name": { "str_sp": "curing roe" },
+    "description": "Roe in the process of becoming fully cured with salt, capable of becoming homemade caviar.  The flavor is slowly developing at this stage, and is currently significantly unpleasant due to the residual salt.  Activate it once completed to make use of the final product.",
+    "weight": "96 g",
+    "volume": "500ml",
+    "calories": 68,
+    "price": 500,
+    "price_postapoc": 250,
+    "phase": "liquid",
+    "fun": -15,
+    "use_action": {
+      "target": "cured_roe",
+      "msg": "You remove the roe from the brine and now have post apocalypse caviar.",
+      "moves": 150,
+      "type": "delayed_transform",
+      "transform_age": 1800,
+      "not_ready_msg": "The roe isn't fully cured yet.",
+      "//": "30 minutes"
+    }
+  },
+  {
+    "id": "cured_roe",
+    "type": "COMESTIBLE",
+    "copy-from": "egg_fish",
+    "name": { "str_sp": "post apocalyptic 'caviar'" },
+    "description": "Fish eggs that have been cured in a salty brine.  Can be vacuum sealed to preserve freshness.  Technically caviar only came from a specific type of Sturgeon roe but the FDA allows all cured fish to be referred to as caviar.",
+    "weight": "48 g",
+    "volume": "250ml",
+    "calories": 68,
+    "price": 500,
+    "price_postapoc": 250,
+    "fun": 5,
+    "flags": [  ]
+  },
+  {
     "type": "COMESTIBLE",
     "id": "egg_frog",
     "name": { "str": "cluster of frog's eggs", "str_pl": "clusters of frog's eggs" },
