@@ -98,7 +98,7 @@
   {
     "id": "BGSS_PREPPER_1_LMOE2",
     "type": "talk_topic",
-    "dynamic_line": "The shelter?  I hired a contractor to build this but did the door myself.  Metal pin in the door frame.  Can't open unless you remove it.  There's a little pulley inside you have to pull up to reset.  They made dozens of these in the area, and I couldn't sleep knowing just any <name_b> at that company could waltz in as soon as shit hit the fan.  They'd know exactly where to go and what to do!  Nah… how do you think I've made it this long?  Always keep a trick up your sleeve.",
+    "dynamic_line": "The shelter?  Bought the land pretty cheap.  I hired a contractor to build the thing but did the door myself.  Metal pin in the door frame.  Can't open unless you remove it.  There's a little pulley inside you have to pull up to reset.  They made dozens of these in the area, and I couldn't sleep knowing just any <name_b> at that company could waltz in as soon as shit hit the fan.  They'd know exactly where to go and what to do!  Nah… how do you think I've made it this long?  Always keep a trick up your sleeve.",
     "responses": [
       { "text": "A contractor?  How much does something like a survivalist shelter cost?", "topic": "BGSS_PREPPER_1_LMOE4" },
       {
