@@ -79,8 +79,6 @@ static const std::map<const CRAFTING_SPEED_STATE, translation> craft_speed_reaso
 // TODO: Convert these globals to handling categories via generic_factory?
 static std::vector<std::string> craft_cat_list;
 static std::map<std::string, std::vector<std::string> > craft_subcat_list;
-// needed for reseting the * panel when changing nested groups
-static std::vector<std::string> craft_subcat_star_default;
 
 static bool query_is_yes( const std::string &query );
 static int craft_info_width( int window_width );
@@ -939,7 +937,7 @@ static void expand_recipes( std::vector<const recipe *> &current,
                             Character &player_character, bool unread_recipes_first, bool highlight_unread_recipes )
 {
     //TODO Make this more effecient
-    for( unsigned long i = 0; i < current.size(); ++i ) {
+    for( size_t i = 0; i < current.size(); ++i ) {
         if( current[i]->is_nested() &&
             uistate.expanded_recipes.find( current[i]->ident() ) != uistate.expanded_recipes.end() ) {
             // add all the recipes from the nests
@@ -966,6 +964,16 @@ static std::string list_nested( const recipe *rec, const inventory &crafting_inv
     }
 
     return description;
+}
+
+static void nested_toggle( recipe_id rec )
+{
+    auto loc = uistate.expanded_recipes.find( rec );
+    if( loc != uistate.expanded_recipes.end() ) {
+        uistate.expanded_recipes.erase( rec );
+    } else {
+        uistate.expanded_recipes.insert( rec );
+    }
 }
 
 const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id goto_recipe )
@@ -1634,12 +1642,7 @@ const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id goto_
                 .option( "QUIT" )
                 .query();
             } else if( current[line]->is_nested() ) {
-                auto loc = uistate.expanded_recipes.find( current[line]->ident() );
-                if( loc != uistate.expanded_recipes.end() ) {
-                    uistate.expanded_recipes.erase( current[line]->ident() );
-                } else {
-                    uistate.expanded_recipes.insert( current[line]->ident() );
-                }
+                nested_toggle( current[line]->ident() );
                 recalc = true;
                 keepline = true;
             } else if( !player_character.check_eligible_containers_for_crafting( *current[line],
