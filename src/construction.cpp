@@ -71,7 +71,7 @@ static const construction_category_id construction_category_APPLIANCE( "APPLIANC
 static const construction_category_id construction_category_FILTER( "FILTER" );
 static const construction_category_id construction_category_REPAIR( "REPAIR" );
 
-static const construction_str_id construction_str_constr_veh( "constr_veh" );
+static const construction_str_id construction_constr_veh( "constr_veh" );
 
 static const flag_id json_flag_FILTHY( "FILTHY" );
 static const flag_id json_flag_PIT( "PIT" );
@@ -1121,7 +1121,7 @@ void complete_construction( Character *you )
     // partial_con contains components for vehicle and appliance construction
     // it's removal is handled in done_appliance() / done_vehicle
     if( pc->id->category != construction_category_APPLIANCE &&
-        pc->id->str_id != construction_str_constr_veh ) {
+        pc->id->str_id != construction_constr_veh ) {
         here.partial_con_remove( terp );
     }
 
