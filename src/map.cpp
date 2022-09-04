@@ -1903,7 +1903,8 @@ uint8_t map::get_known_connections_f( const tripoint &p, int connect_group,
 }
 
 uint8_t map::get_known_rotates_to_f( const tripoint &p, int rotate_to_group,
-                                     const std::map<tripoint, ter_id> &override ) const
+                                     const std::map<tripoint, ter_id> &override,
+                                     const std::map<tripoint, furn_id> &override_f ) const
 {
     if( rotate_to_group == 0 ) {
         return TERCONN_NONE;
@@ -1920,9 +1921,16 @@ uint8_t map::get_known_rotates_to_f( const tripoint &p, int rotate_to_group,
         const auto neighbour_override = override.find( pt );
         const bool neighbour_overridden = neighbour_override != override.end();
 
+        const auto neighbour_override_f = override_f.find( pt );
+        const bool neighbour_overridden_f = neighbour_override_f != override_f.end();
+
         const ter_t &neighbour = neighbour_overridden ?
                                  neighbour_override->second.obj() : ter( pt ).obj();
-        if( neighbour.in_rotates_to( rotate_to_group ) ) {
+
+        const furn_t &neighbour_f = neighbour_overridden_f ?
+                                    neighbour_override_f->second.obj() : furn( pt ).obj();
+
+        if( neighbour.in_rotates_to( rotate_to_group ) || neighbour_f.in_rotates_to( rotate_to_group ) ) {
             val += 1 << i;
         }
     }

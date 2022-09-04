@@ -819,9 +819,10 @@ class map
         // at specific positions.
         uint8_t get_known_rotates_to( const tripoint &p, int rotate_to_group,
                                       const std::map<tripoint, ter_id> &override = {} ) const;
-        // as above, but for furniture
+        // as above, but for furniture (considers neighbouring terrain and furniture)
         uint8_t get_known_rotates_to_f( const tripoint &p, int rotate_to_group,
-                                        const std::map<tripoint, ter_id> &override = {} ) const;
+                                        const std::map<tripoint, ter_id> &override = {},
+                                        const std::map<tripoint, furn_id> &override_f = {} ) const;
 
         /**
          * Returns the full harvest list, for spawning.

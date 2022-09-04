@@ -4460,7 +4460,7 @@ void cata_tiles::get_furn_connect_values( const tripoint &p, int &subtile, int &
         furn_id> &furn_override )
 {
     uint8_t connections = get_map().get_known_connections_f( p, connect_group, furn_override );
-    uint8_t rotation_targets = get_map().get_known_rotates_to_f( p, rotate_to_group, {} );
+    uint8_t rotation_targets = get_map().get_known_rotates_to_f( p, rotate_to_group, {}, {} );
     get_rotation_and_subtile( connections, rotation_targets, rotation, subtile );
 }
 
