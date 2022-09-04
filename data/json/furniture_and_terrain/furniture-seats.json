@@ -189,7 +189,7 @@
     "required_str": 3,
     "deployed_item": "camp_chair",
     "examine_action": "deployed_furniture",
-    "flags": [ "TRANSPARENT", "SHORT", "CAN_SIT", "ALIGN_WORKBENCH" ],
+    "flags": [ "TRANSPARENT", "SHORT", "CAN_SIT", "EASY_DECONSTRUCT", "ALIGN_WORKBENCH" ],
     "max_volume": "875 L",
     "deconstruct": { "items": [ { "item": "camp_chair", "count": 1 } ] },
     "bash": {
