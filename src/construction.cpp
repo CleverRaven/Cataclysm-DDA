@@ -67,9 +67,11 @@ static const activity_id ACT_BUILD( "ACT_BUILD" );
 static const activity_id ACT_MULTIPLE_CONSTRUCTION( "ACT_MULTIPLE_CONSTRUCTION" );
 
 static const construction_category_id construction_category_ALL( "ALL" );
-static const construction_category_id  construction_category_APPLIANCE( "APPLIANCE" );
+static const construction_category_id construction_category_APPLIANCE( "APPLIANCE" );
 static const construction_category_id construction_category_FILTER( "FILTER" );
 static const construction_category_id construction_category_REPAIR( "REPAIR" );
+
+static const construction_str_id construction_str_constr_veh( "constr_veh" );
 
 static const flag_id json_flag_FILTHY( "FILTHY" );
 static const flag_id json_flag_PIT( "PIT" );
@@ -1123,9 +1125,10 @@ void complete_construction( Character *you )
         here.remove_trap( terp );
     }
 
-    //We need to keep the partial_con when building appliance to get the component items
-    //It will be removed in done_appliance()
-    if( pc->id->category != construction_category_APPLIANCE ) {
+    // partial_con contains components for vehicle and appliance construction
+    // it's removal is handled in done_appliance() / done_vehicle
+    if( pc->id->category != construction_category_APPLIANCE &&
+        pc->id->str_id != construction_str_constr_veh ) {
         here.partial_con_remove( terp );
     }
 
@@ -1437,16 +1440,31 @@ void construct::done_vehicle( const tripoint_bub_ms &p, Character &who )
     }
 
     map &here = get_map();
+    partial_con *pc = here.partial_con_at( p );
+    if( !pc ) {
+        debugmsg( "constructing failed: can't find partial construction" );
+        return;
+    }
+
+    const std::list<item> components = pc->components;
+    here.partial_con_remove( p );
+
+    if( components.size() != 1 ) {
+        debugmsg( "constructing failed: components size expected 1 actual %d", components.size() );
+        return;
+    }
+
     // TODO: fix point types
     vehicle *veh = here.add_vehicle( vehicle_prototype_none, p.raw(), 270_degrees, 0, 0 );
 
     if( !veh ) {
-        debugmsg( "error constructing vehicle" );
+        debugmsg( "constructing failed: add_vehicle returned null" );
         return;
     }
+    item base = components.front();
+
     veh->name = name;
-    veh->install_part( point_zero, vpart_from_item( who.has_trait( trait_DEBUG_HS ) ?
-                       STATIC( itype_id( "frame" ) ) : who.lastconsumed ) );
+    veh->install_part( point_zero, vpart_from_item( base.typeId() ), std::move( base ) );
 
     // Update the vehicle cache immediately,
     // or the vehicle will be invisible for the first couple of turns.
