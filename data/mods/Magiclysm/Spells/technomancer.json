@@ -338,7 +338,7 @@
     "spell_class": "TECHNOMANCER",
     "energy_source": "MANA",
     "difficulty": 6,
-    "max_level": 20,
+    "max_level": 25,
     "base_casting_time": 200,
     "casting_time_increment": -2.0,
     "final_casting_time": 160,
@@ -353,9 +353,9 @@
     "range_increment": 0.25,
     "min_aoe": 3,
     "max_aoe": 3,
-    "min_duration": 36000,
-    "max_duration": 1080000,
-    "duration_increment": 36000
+    "min_duration": 6000,
+    "max_duration": 156000,
+    "duration_increment": 6000
   },
   {
     "id": "mirror_image",
