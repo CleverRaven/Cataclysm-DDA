@@ -156,7 +156,7 @@
       "need_charges": 1,
       "need_charges_msg": "The lantern has no batteries."
     },
-    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "ALLOWS_REMOTE_USE", "WATER_BREAK" ],
+    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "ALLOWS_REMOTE_USE", "WATER_BREAK", "ELECTRONIC" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -191,7 +191,7 @@
     "price_postapoc": 100,
     "charges_per_use": 1,
     "ammo": [ "battery" ],
-    "flags": [ "BELT_CLIP", "WATER_BREAK_ACTIVE" ],
+    "flags": [ "BELT_CLIP", "WATER_BREAK_ACTIVE", "ELECTRONIC" ],
     "use_action": {
       "type": "transform",
       "msg": "You turn the flashlight on.",
@@ -223,7 +223,7 @@
       "target": "flashlight",
       "ammo_scale": 0
     },
-    "flags": [ "LIGHT_300", "CHARGEDIM", "TRADER_AVOID", "BELT_CLIP", "WATER_BREAK" ]
+    "flags": [ "LIGHT_300", "CHARGEDIM", "TRADER_AVOID", "BELT_CLIP", "WATER_BREAK", "ELECTRONIC" ]
   },
   {
     "id": "gasoline_lantern",
@@ -613,7 +613,7 @@
     "material": [ "plastic", "aluminum" ],
     "symbol": ";",
     "color": "white",
-    "flags": [ "WATER_BREAK" ],
+    "flags": [ "WATER_BREAK", "ELECTRONIC" ],
     "ammo": [ "battery" ],
     "charges_per_use": 1,
     "use_action": {
@@ -674,7 +674,7 @@
       "need_charges_msg": "The smart lamp batteries are dead.",
       "type": "transform"
     },
-    "flags": [ "ALLOWS_REMOTE_USE", "RADIO_ACTIVATION", "RADIO_INVOKE_PROC", "RADIOSIGNAL_2", "WATER_BREAK" ],
+    "flags": [ "ALLOWS_REMOTE_USE", "RADIO_ACTIVATION", "RADIO_INVOKE_PROC", "RADIOSIGNAL_2", "WATER_BREAK", "ELECTRONIC" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",

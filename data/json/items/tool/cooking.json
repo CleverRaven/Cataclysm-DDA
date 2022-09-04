@@ -87,7 +87,7 @@
     "ammo": [ "battery" ],
     "charges_per_use": 5,
     "use_action": [ "CARVER_OFF" ],
-    "flags": [ "SHEATH_SWORD", "NONCONDUCTIVE", "WATER_BREAK_ACTIVE" ],
+    "flags": [ "SHEATH_SWORD", "NONCONDUCTIVE", "WATER_BREAK_ACTIVE", "ELECTRONIC" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -110,7 +110,7 @@
     "revert_to": "carver_off",
     "qualities": [ [ "CUT", 2 ], [ "BUTCHER", 25 ] ],
     "use_action": [ "CARVER_ON" ],
-    "flags": [ "MESSY", "TRADER_AVOID", "NONCONDUCTIVE" ]
+    "flags": [ "MESSY", "TRADER_AVOID", "NONCONDUCTIVE", "ELECTRONIC" ]
   },
   {
     "id": "char_purifier",
@@ -260,7 +260,7 @@
     "symbol": ";",
     "color": "light_gray",
     "ammo": [ "battery" ],
-    "flags": [ "WATER_BREAK" ],
+    "flags": [ "WATER_BREAK", "ELECTRONIC" ],
     "charges_per_use": 10,
     "qualities": [ [ "BOIL", 1 ] ],
     "use_action": [ "HOTPLATE" ],
@@ -288,7 +288,7 @@
     "symbol": ";",
     "color": "blue",
     "ammo": [ "battery" ],
-    "flags": [ "ALLOWS_REMOTE_USE", "WATER_BREAK" ],
+    "flags": [ "ALLOWS_REMOTE_USE", "WATER_BREAK", "ELECTRONIC" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -389,7 +389,7 @@
     "symbol": "%",
     "color": "white",
     "ammo": [ "battery" ],
-    "flags": [ "ALLOWS_REMOTE_USE", "WATER_BREAK" ],
+    "flags": [ "ALLOWS_REMOTE_USE", "WATER_BREAK", "ELECTRONIC" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -468,7 +468,7 @@
     "material": [ "aluminum", "plastic" ],
     "symbol": ";",
     "color": "green",
-    "flags": [ "WATER_BREAK" ],
+    "flags": [ "WATER_BREAK", "ELECTRONIC" ],
     "ammo": [ "battery" ],
     "charges_per_use": 5,
     "use_action": [ "HOTPLATE" ],
@@ -497,7 +497,7 @@
     "symbol": ";",
     "color": "white",
     "ammo": [ "battery" ],
-    "flags": [ "ALLOWS_REMOTE_USE", "WATER_BREAK" ],
+    "flags": [ "ALLOWS_REMOTE_USE", "WATER_BREAK", "ELECTRONIC" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -523,7 +523,7 @@
     "symbol": ";",
     "color": "green",
     "ammo": [ "battery" ],
-    "flags": [ "WATER_BREAK" ],
+    "flags": [ "WATER_BREAK", "ELECTRONIC" ],
     "sub": "hotplate",
     "charges_per_use": 5,
     "qualities": [ [ "COOK", 2 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
@@ -658,7 +658,7 @@
     "symbol": ";",
     "color": "red",
     "ammo": [ "battery" ],
-    "flags": [ "WATER_BREAK" ],
+    "flags": [ "WATER_BREAK", "ELECTRONIC" ],
     "power_draw": "1500 J",
     "qualities": [ [ "CONTAIN", 1 ] ],
     "use_action": [ "MULTICOOKER" ],
@@ -979,7 +979,7 @@
     "symbol": ";",
     "color": "white",
     "ammo": [ "battery" ],
-    "flags": [ "ALLOWS_REMOTE_USE", "WATER_BREAK" ],
+    "flags": [ "ALLOWS_REMOTE_USE", "WATER_BREAK", "ELECTRONIC" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",

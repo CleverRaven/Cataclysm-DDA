@@ -7,7 +7,7 @@
     "symbol": "#",
     "color": "yellow",
     "ammo": [ "battery" ],
-    "flags": [ "WATER_BREAK" ],
+    "flags": [ "WATER_BREAK", "ELECTRONIC" ],
     "charges_per_use": 1,
     "turns_per_charge": 5,
     "weight": "670 g",
@@ -37,7 +37,7 @@
     "price": 24000,
     "price_postapoc": 250,
     "use_action": [ "RADIOCAR" ],
-    "flags": [ "RADIO_CONTAINER", "WATER_BREAK" ],
+    "flags": [ "RADIO_CONTAINER", "WATER_BREAK", "ELECTRONIC" ],
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -96,7 +96,7 @@
     "symbol": ";",
     "color": "light_gray",
     "ammo": [ "battery" ],
-    "flags": [ "WATER_BREAK" ],
+    "flags": [ "WATER_BREAK", "ELECTRONIC" ],
     "charges_per_use": 1,
     "use_action": [ "RADIO_OFF" ],
     "pocket_data": [
@@ -134,7 +134,7 @@
     "color": "green",
     "ammo": [ "battery" ],
     "charges_per_use": 1,
-    "flags": [ "TWO_WAY_RADIO", "WATER_BREAK" ],
+    "flags": [ "TWO_WAY_RADIO", "WATER_BREAK", "ELECTRONIC" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -158,7 +158,7 @@
     "symbol": "#",
     "color": "yellow",
     "ammo": [ "battery" ],
-    "flags": [ "WATER_BREAK" ],
+    "flags": [ "WATER_BREAK", "ELECTRONIC" ],
     "charges_per_use": 1,
     "turns_per_charge": 10,
     "use_action": [ "REMOTEVEH" ],

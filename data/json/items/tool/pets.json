@@ -99,7 +99,7 @@
     "color": "dark_gray",
     "charged_qualities": [ [ "SHEAR", 3 ] ],
     "ammo": [ "battery" ],
-    "flags": [ "WATER_BREAK" ],
+    "flags": [ "WATER_BREAK", "ELECTRONIC" ],
     "charges_per_use": 25,
     "pocket_data": [
       {
