@@ -277,7 +277,7 @@
       "~": { "param": "carpet_type", "fallback": "t_floor" },
       "G": "t_door_glass_c",
       "R": { "param": "railing_type", "fallback": "t_concrete_railing" },
-      "/": "t_railing_v",
+      "*": "t_railing_v",
       "W": "t_window",
       "s": "t_sidewalk",
       "J": "t_sidewalk",
@@ -307,7 +307,7 @@
       "<": "t_stairs_up",
       ">": "t_stairs_down",
       "¤": "t_open_air_rooved",
-      "*": "t_open_air"
+      "/": "t_open_air"
     },
     "furniture": {
       "a": "f_small_satelitte_dish",
@@ -327,7 +327,7 @@
       "h": "f_chair",
       "L": "f_table",
       "u": [ "f_rack", [ "f_rack_wood", 3 ] ],
-      "▤": "f_bookcase",
+      "B": "f_bookcase",
       "^": [ "f_indoor_plant", "f_indoor_plant_y", [ "f_null", 3 ] ],
       "(": "f_solar_unit",
       "&": "f_chimney",
@@ -340,7 +340,7 @@
       "J": { "item": "trash", "chance": 65, "repeat": [ 1, 6 ] },
       "b": { "item": "shower", "chance": 20 },
       "p": { "item": "mail", "chance": 30, "repeat": [ 2, 5 ] },
-      "▤": { "item": "homebooks", "chance": 30, "repeat": [ 2, 4 ] },
+      "B": { "item": "homebooks", "chance": 30, "repeat": [ 2, 4 ] },
       "r": [
         { "item": "tools_home", "chance": 40 },
         { "item": "cleaning", "chance": 30, "repeat": [ 1, 2 ] },
