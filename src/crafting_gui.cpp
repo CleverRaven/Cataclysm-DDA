@@ -939,7 +939,7 @@ static void expand_recipes( std::vector<const recipe *> &current,
                             Character &player_character, bool unread_recipes_first, bool highlight_unread_recipes )
 {
     //TODO Make this more effecient
-    for( int i = 0; i < current.size(); ++i ) {
+    for( unsigned long i = 0; i < current.size(); ++i ) {
         if( current[i]->is_nested() &&
             uistate.expanded_recipes.find( current[i]->ident() ) != uistate.expanded_recipes.end() ) {
             // add all the recipes from the nests
