@@ -953,26 +953,25 @@ bool can_construct_furn_ter( const construction &con, furn_id const &f, ter_id c
 
 bool can_construct( const construction &con, const tripoint_bub_ms &p )
 {
-    // see if the special pre-function checks out
-    bool place_okay = con.pre_special( p );
-    // see if the terrain type checks out
-    place_okay &= has_pre_terrain( con, p );
-    // see if the flags check out
-    map &here = get_map();
-    furn_id f = here.furn( p );
-    ter_id t = here.ter( p );
-    place_okay &= can_construct_furn_ter( con, f, t );
+    const map &here = get_map();
+    const furn_id f = here.furn( p );
+    const ter_id t = here.ter( p );
+
+    if( !con.pre_special( p ) ||                 // pre-function
+        !has_pre_terrain( con, p ) ||            // terrain type
+        !can_construct_furn_ter( con, f, t ) ) { // flags
+        return false;
+    }
+
     // make sure the construction would actually do something
     if( !con.post_terrain.empty() ) {
         if( con.post_is_furniture ) {
-            furn_id f = furn_id( con.post_terrain );
-            place_okay &= here.furn( p ) != f;
+            return f != furn_id( con.post_terrain );
         } else {
-            ter_id t = ter_id( con.post_terrain );
-            place_okay &= here.ter( p ) != t;
+            return t != ter_id( con.post_terrain );
         }
     }
-    return place_okay;
+    return true;
 }
 
 bool can_construct( const construction &con )
