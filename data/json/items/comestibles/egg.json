@@ -414,7 +414,7 @@
     "name": { "str": "roe" },
     "weight": "24 g",
     "color": "red",
-    "spoils_in": "15 days",
+    "spoils_in": "7 days",
     "comestible_type": "FOOD",
     "symbol": "o",
     "quench": 4,
