@@ -90,7 +90,7 @@
     "to_hit": -4,
     "bashing": 3,
     "looks_like": "rollmat",
-    "material": [ { "type": "steel", "portion": 95 }, { "type": "cotton" } ],
+    "material": [ { "type": "steel", "portion": 97 }, { "type": "cotton" } ],
     "symbol": "#",
     "color": "light_gray",
     "use_action": { "type": "deploy_furn", "furn_type": "f_camp_chair" }
