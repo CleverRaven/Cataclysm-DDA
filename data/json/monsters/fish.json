@@ -31,6 +31,7 @@
     "vision_night": 20,
     "path_settings": { "max_dist": 50, "avoid_traps": true, "avoid_sharp": true },
     "harvest": "mutant_shellfish",
+    "dissect": "dissect_crustacean_large",
     "special_attacks": [ [ "SHRIEK_ALERT", 6 ], [ "SHRIEK_STUN", 1 ] ],
     "anger_triggers": [ "PLAYER_CLOSE", "HURT" ],
     "fear_triggers": [ "FIRE" ],
@@ -835,6 +836,7 @@
     "melee_dice_sides": 4,
     "melee_damage": [ { "damage_type": "cut", "amount": 1 } ],
     "harvest": "lobster",
+    "dissect": "dissect_crustacean_single",
     "reproduction": { "baby_egg": "egg_fish", "baby_count": 2, "baby_timer": 180 },
     "baby_flags": [ "SUMMER", "AUTUMN" ],
     "fear_triggers": [ "PLAYER_CLOSE", "SOUND" ],
@@ -863,6 +865,7 @@
     "melee_damage": [ { "damage_type": "cut", "amount": 1 } ],
     "luminance": 0,
     "harvest": "shellfish",
+    "dissect": "dissect_crustacean_single",
     "reproduction": { "baby_monster": "mon_fry_crayfish", "baby_count": 3, "baby_timer": 17 },
     "baby_flags": [ "AUTUMN" ],
     "fear_triggers": [ "PLAYER_CLOSE", "SOUND" ],
@@ -945,6 +948,7 @@
       "reproduction": { "baby_monster": "mon_crayfish_giant_larva", "baby_count": 3, "baby_timer": 21 },
       "baby_flags": [ "AUTUMN" ]
     },
+    "dissect": "dissect_crustacean_small",
     "upgrades": { "half_life": 28, "into": "mon_giant_crayfish" }
   },
   {
@@ -972,6 +976,7 @@
     "armor_bullet": 6,
     "bleed_rate": 85,
     "harvest": "mutant_shellfish",
+    "dissect": "dissect_crustacean_small",
     "reproduction": { "baby_monster": "mon_crayfish_giant_larva", "baby_count": 3, "baby_timer": 21 },
     "baby_flags": [ "AUTUMN" ],
     "anger_triggers": [ "PLAYER_CLOSE", "HURT" ],
@@ -995,6 +1000,7 @@
       { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 23, "armor_multiplier": 0.8 } ] }
     ],
     "vision_day": 84,
+    "dissect": "dissect_crustacean_large",
     "extend": { "flags": [ "DESTROYS", "PUSH_MON", "PUSH_VEH" ] }
   },
   {
@@ -1021,6 +1027,7 @@
     "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
     "vision_day": 15,
     "harvest": "mutant_shellfish",
+    "dissect": "dissect_crustacean_single",
     "upgrades": { "age_grow": 30, "into": "mon_giant_crayfish" },
     "fear_triggers": [ "HURT", "PLAYER_CLOSE", "SOUND" ],
     "flags": [ "SEES", "HEARS", "SMELLS", "LARVA", "SWIMS", "AQUATIC", "WATER_CAMOUFLAGE" ]
@@ -1056,6 +1063,7 @@
     "vision_night": 15,
     "path_settings": { "max_dist": 50, "avoid_traps": true, "avoid_sharp": true },
     "harvest": "mutant_shellfish",
+    "dissect": "dissect_crustacean_small",
     "special_attacks": [ [ "SHRIEK_ALERT", 6 ], [ "SHRIEK_STUN", 1 ] ],
     "anger_triggers": [ "PLAYER_CLOSE", "FRIEND_DIED", "FRIEND_ATTACKED", "HURT" ],
     "fear_triggers": [ "FIRE" ],

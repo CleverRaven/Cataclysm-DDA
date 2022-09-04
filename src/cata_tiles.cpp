@@ -292,7 +292,7 @@ tile_type &tileset::create_tile_type( const std::string &id, tile_type &&new_til
 
     // populate cache by season
     constexpr size_t suffix_len = 15;
-    // NOLINTNEXTLINE(cata-use-mdarray)
+    // NOLINTNEXTLINE(cata-use-mdarray,modernize-avoid-c-arrays)
     constexpr char season_suffix[NUM_SEASONS][suffix_len] = {
         "_season_spring", "_season_summer", "_season_autumn", "_season_winter"
     };
@@ -1085,7 +1085,7 @@ void tileset_cache::loader::load_tilejson_from_file( const JsonObject &config )
                     const std::string m_id = str_cat( t_id, "_", s_id );
                     tile_type &curr_subtile = load_tile( subentry, m_id );
                     curr_subtile.offset = sprite_offset;
-                    curr_tile.offset_retracted = sprite_offset_retracted;
+                    curr_subtile.offset_retracted = sprite_offset_retracted;
                     curr_subtile.rotates = true;
                     curr_subtile.height_3d = t_h3d;
                     curr_subtile.animated = subentry.get_bool( "animated", false );
@@ -1197,11 +1197,10 @@ struct tile_render_info {
     // accumulator for 3d tallness of sprites rendered here so far;
     int height_3d = 0;
     lit_level ll;
-    bool invisible[5];
+    std::array<bool, 5> invisible;
     tile_render_info( const tripoint &pos, const int height_3d, const lit_level ll,
-                      const bool( &invisible )[5] )
-        : pos( pos ), height_3d( height_3d ), ll( ll ) {
-        std::copy_n( invisible, 5, this->invisible );
+                      const std::array<bool, 5> &inv )
+        : pos( pos ), height_3d( height_3d ), ll( ll ), invisible( inv ) {
     }
 };
 
@@ -1375,7 +1374,7 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
 
             lit_level ll;
             // invisible to normal eyes
-            bool invisible[5];
+            std::array<bool, 5> invisible;
             invisible[0] = false;
 
             if( y < min_visible.y || y > max_visible.y || x < min_visible.x || x > max_visible.x ) {
@@ -1659,7 +1658,7 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
                 continue;
             }
             int height_3d = 0;
-            bool invisible[5];
+            std::array<bool, 5> invisible;
             invisible[0] = false;
             for( int i = 0; i < 4; i++ ) {
                 const tripoint np = p + neighborhood[i];
@@ -2623,7 +2622,7 @@ bool cata_tiles::apply_vision_effects( const tripoint &pos,
 }
 
 bool cata_tiles::draw_terrain_below( const tripoint &p, const lit_level, int &,
-                                     const bool ( &invisible )[5] )
+                                     const std::array<bool, 5> &invisible )
 {
     map &here = get_map();
     const auto low_override = draw_below_override.find( p );
@@ -2689,7 +2688,7 @@ bool cata_tiles::draw_terrain_below( const tripoint &p, const lit_level, int &,
 }
 
 bool cata_tiles::draw_terrain( const tripoint &p, const lit_level ll, int &height_3d,
-                               const bool ( &invisible )[5] )
+                               const std::array<bool, 5> &invisible )
 {
     map &here = get_map();
     const auto override = terrain_override.find( p );
@@ -2866,7 +2865,7 @@ memorized_terrain_tile cata_tiles::get_vpart_memory_at( const tripoint &p ) cons
 }
 
 bool cata_tiles::draw_furniture( const tripoint &p, const lit_level ll, int &height_3d,
-                                 const bool ( &invisible )[5] )
+                                 const std::array<bool, 5> &invisible )
 {
     avatar &you = get_avatar();
     const auto override = furniture_override.find( p );
@@ -2884,7 +2883,7 @@ bool cata_tiles::draw_furniture( const tripoint &p, const lit_level ll, int &hei
     // first memorize the actual furniture
     const furn_id &f = here.furn( p );
     if( f && !invisible[0] ) {
-        const int neighborhood[4] = {
+        const std::array<int, 4> neighborhood = {
             static_cast<int>( here.furn( p + point_south ) ),
             static_cast<int>( here.furn( p + point_east ) ),
             static_cast<int>( here.furn( p + point_west ) ),
@@ -2921,7 +2920,7 @@ bool cata_tiles::draw_furniture( const tripoint &p, const lit_level ll, int &hei
                 return it != furniture_override.end() ? it->second :
                 ( !overridden || !invis ) ? here.furn( q ) : f_null;
             };
-            const int neighborhood[4] = {
+            const std::array<int, 4> neighborhood = {
                 static_cast<int>( furn( p + point_south, invisible[1] ) ),
                 static_cast<int>( furn( p + point_east, invisible[2] ) ),
                 static_cast<int>( furn( p + point_west, invisible[3] ) ),
@@ -2955,7 +2954,7 @@ bool cata_tiles::draw_furniture( const tripoint &p, const lit_level ll, int &hei
 }
 
 bool cata_tiles::draw_trap( const tripoint &p, const lit_level ll, int &height_3d,
-                            const bool ( &invisible )[5] )
+                            const std::array<bool, 5> &invisible )
 {
     const auto override = trap_override.find( p );
     const bool overridden = override != trap_override.end();
@@ -2974,7 +2973,7 @@ bool cata_tiles::draw_trap( const tripoint &p, const lit_level ll, int &height_3
     // first memorize the actual trap
     const trap &tr = here.tr_at( p );
     if( !tr.is_null() && !invisible[0] && tr.can_see( p, you ) ) {
-        const int neighborhood[4] = {
+        const std::array<int, 4> neighborhood = {
             static_cast<int>( here.tr_at( p + point_south ).loadid ),
             static_cast<int>( here.tr_at( p + point_east ).loadid ),
             static_cast<int>( here.tr_at( p + point_west ).loadid ),
@@ -3005,7 +3004,7 @@ bool cata_tiles::draw_trap( const tripoint &p, const lit_level ll, int &height_3
                 return it != trap_override.end() ? it->second :
                 ( !overridden || !invis ) ? here.tr_at( q ).loadid : tr_null;
             };
-            const int neighborhood[4] = {
+            const std::array<int, 4> neighborhood = {
                 static_cast<int>( tr_at( p + point_south, invisible[1] ) ),
                 static_cast<int>( tr_at( p + point_east, invisible[2] ) ),
                 static_cast<int>( tr_at( p + point_west, invisible[3] ) ),
@@ -3033,7 +3032,7 @@ bool cata_tiles::draw_trap( const tripoint &p, const lit_level ll, int &height_3
 }
 
 bool cata_tiles::draw_graffiti( const tripoint &p, const lit_level ll, int &height_3d,
-                                const bool ( &invisible )[5] )
+                                const std::array<bool, 5> &invisible )
 {
     const auto override = graffiti_override.find( p );
     const bool overridden = override != graffiti_override.end();
@@ -3046,7 +3045,7 @@ bool cata_tiles::draw_graffiti( const tripoint &p, const lit_level ll, int &heig
 }
 
 bool cata_tiles::draw_field_or_item( const tripoint &p, const lit_level ll, int &height_3d,
-                                     const bool ( &invisible )[5] )
+                                     const std::array<bool, 5> &invisible )
 {
     const auto fld_override = field_override.find( p );
     const bool fld_overridden = fld_override != field_override.end();
@@ -3079,11 +3078,12 @@ bool cata_tiles::draw_field_or_item( const tripoint &p, const lit_level ll, int 
                            ( !fld_overridden || !invis ) ?  found : fd_null;
                 };
                 // for rotation information
-                const int neighborhood[4] = {
-                    static_cast<int>( has_field( fld, p + point_south, invisible[1] ) ),
-                    static_cast<int>( has_field( fld, p + point_east, invisible[2] ) ),
-                    static_cast<int>( has_field( fld, p + point_west, invisible[3] ) ),
-                    static_cast<int>( has_field( fld, p + point_north, invisible[4] ) )
+                const std::array<int, 4> neighborhood = { {
+                        static_cast<int>( has_field( fld, p + point_south, invisible[1] ) ),
+                        static_cast<int>( has_field( fld, p + point_east, invisible[2] ) ),
+                        static_cast<int>( has_field( fld, p + point_west, invisible[3] ) ),
+                        static_cast<int>( has_field( fld, p + point_north, invisible[4] ) )
+                    }
                 };
 
 
@@ -3178,7 +3178,7 @@ bool cata_tiles::draw_field_or_item( const tripoint &p, const lit_level ll, int 
                 ( !fld_overridden || !invis ) ? here.field_at( q ).displayed_field_type() : fd_null;
             };
             // for rotation information
-            const int neighborhood[4] = {
+            const std::array<int, 4> neighborhood = {
                 static_cast<int>( field_at( p + point_south, invisible[1] ) ),
                 static_cast<int>( field_at( p + point_east, invisible[2] ) ),
                 static_cast<int>( field_at( p + point_west, invisible[3] ) ),
@@ -3347,7 +3347,7 @@ bool cata_tiles::draw_field_or_item( const tripoint &p, const lit_level ll, int 
 }
 
 bool cata_tiles::draw_vpart_below( const tripoint &p, const lit_level /*ll*/, int &/*height_3d*/,
-                                   const bool ( &invisible )[5] )
+                                   const std::array<bool, 5> &invisible )
 {
     const auto low_override = draw_below_override.find( p );
     const bool low_overridden = low_override != draw_below_override.end();
@@ -3357,13 +3357,13 @@ bool cata_tiles::draw_vpart_below( const tripoint &p, const lit_level /*ll*/, in
     }
     tripoint pbelow( p.xy(), p.z - 1 );
     int height_3d_below = 0;
-    bool below_invisible[5];
-    std::fill_n( below_invisible, 5, false );
+    std::array<bool, 5> below_invisible;
+    std::fill( below_invisible.begin(), below_invisible.end(), false );
     return draw_vpart( pbelow, lit_level::LOW, height_3d_below, below_invisible );
 }
 
 bool cata_tiles::draw_vpart( const tripoint &p, lit_level ll, int &height_3d,
-                             const bool ( &invisible )[5] )
+                             const std::array<bool, 5> &invisible )
 {
     const auto override = vpart_override.find( p );
     const bool overridden = override != vpart_override.end();
@@ -3431,7 +3431,7 @@ bool cata_tiles::draw_vpart( const tripoint &p, lit_level ll, int &height_3d,
 }
 
 bool cata_tiles::draw_critter_at_below( const tripoint &p, const lit_level, int &,
-                                        const bool ( &invisible )[5] )
+                                        const std::array<bool, 5> &invisible )
 {
     // Check if we even need to draw below. If not, bail.
     const auto low_override = draw_below_override.find( p );
@@ -3486,7 +3486,7 @@ bool cata_tiles::draw_critter_at_below( const tripoint &p, const lit_level, int 
 }
 
 bool cata_tiles::draw_critter_at( const tripoint &p, lit_level ll, int &height_3d,
-                                  const bool ( &invisible )[5] )
+                                  const std::array<bool, 5> &invisible )
 {
     bool result;
     bool is_player;
@@ -3607,7 +3607,7 @@ bool cata_tiles::draw_critter_at( const tripoint &p, lit_level ll, int &height_3
 }
 
 bool cata_tiles::draw_zone_mark( const tripoint &p, lit_level ll, int &height_3d,
-                                 const bool ( &invisible )[5] )
+                                 const std::array<bool, 5> &invisible )
 {
     if( invisible[0] ) {
         return false;
@@ -3634,7 +3634,7 @@ bool cata_tiles::draw_zone_mark( const tripoint &p, lit_level ll, int &height_3d
 }
 
 bool cata_tiles::draw_zombie_revival_indicators( const tripoint &pos, const lit_level /*ll*/,
-        int &/*height_3d*/, const bool ( &invisible )[5] )
+        int &/*height_3d*/, const std::array<bool, 5> &invisible )
 {
     map &here = get_map();
     if( tileset_ptr->find_tile_type( ZOMBIE_REVIVAL_INDICATOR ) && !invisible[0] &&
@@ -4229,7 +4229,7 @@ void cata_tiles::init_light()
 }
 
 void cata_tiles::get_terrain_orientation( const tripoint &p, int &rota, int &subtile,
-        const std::map<tripoint, ter_id> &ter_override, const bool ( &invisible )[5] )
+        const std::map<tripoint, ter_id> &ter_override, const std::array<bool, 5> &invisible )
 {
     map &here = get_map();
     const bool overridden = ter_override.find( p ) != ter_override.end();
@@ -4248,7 +4248,7 @@ void cata_tiles::get_terrain_orientation( const tripoint &p, int &rota, int &sub
     }
 
     // get terrain neighborhood
-    const ter_id neighborhood[4] = {
+    const std::array<ter_id, 4> neighborhood = {
         ter( p + point_south, invisible[1] ),
         ter( p + point_east, invisible[2] ),
         ter( p + point_west, invisible[3] ),
@@ -4359,9 +4359,10 @@ void cata_tiles::get_furn_connect_values( const tripoint &p, int &subtile, int &
     get_rotation_and_subtile( connections, rotation, subtile );
 }
 
-void cata_tiles::get_tile_values( const int t, const int *tn, int &subtile, int &rotation )
+void cata_tiles::get_tile_values( const int t, const std::array<int, 4> &tn, int &subtile,
+                                  int &rotation )
 {
-    bool connects[4];
+    std::array<bool, 4> connects;
     char val = 0;
     for( int i = 0; i < 4; ++i ) {
         connects[i] = ( tn[i] == t );
@@ -4372,8 +4373,8 @@ void cata_tiles::get_tile_values( const int t, const int *tn, int &subtile, int 
     get_rotation_and_subtile( val, rotation, subtile );
 }
 
-void cata_tiles::get_tile_values_with_ter( const tripoint &p, const int t, const int *tn,
-        int &subtile, int &rotation )
+void cata_tiles::get_tile_values_with_ter(
+    const tripoint &p, const int t, const std::array<int, 4> &tn, int &subtile, int &rotation )
 {
     map &here = get_map();
     //check if furniture should connect to itself
