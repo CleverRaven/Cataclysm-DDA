@@ -2107,12 +2107,6 @@ void check_constructions()
                 debugmsg( "Unknown post_terrain (terrain) %s in %s", c.post_terrain, display_name );
             }
         }
-        if( c.category == construction_category_APPLIANCE &&
-            c.requirements->get_components().size() > 1 ) {
-            // if this is needed to be lifted adjust place_construction too
-            debugmsg( "%s is constructing appliance but has over %d components, expected 1",
-                      display_name, c.requirements->get_components().size() );
-        }
         if( c.id != construction_id( i ) ) {
             debugmsg( "%s has id %u, but should have %u",
                       display_name, c.id.to_i(), i );
