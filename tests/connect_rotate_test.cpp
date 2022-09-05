@@ -14,7 +14,7 @@
 #include "cata_tiles.h"
 
 
-TEST_CASE( "walls should connect to walls", "[tiles][connects]" )
+TEST_CASE( "walls should connect to walls", "[multitile][connects]" )
 {
     map &here = get_map();
     clear_map();
@@ -241,7 +241,7 @@ TEST_CASE( "walls should connect to walls", "[tiles][connects]" )
     }
 }
 
-TEST_CASE( "windows should connect to walls and rotate to indoor floor", "[tiles][rotates]" )
+TEST_CASE( "windows should connect to walls and rotate to indoor floor", "[multitile][rotates]" )
 {
     map &here = get_map();
     clear_map();
@@ -360,7 +360,7 @@ TEST_CASE( "windows should connect to walls and rotate to indoor floor", "[tiles
     }
 }
 
-TEST_CASE( "unconnected windows rotate to indoor floor", "[tiles][rotates]" )
+TEST_CASE( "unconnected windows rotate to indoor floor", "[multitile][rotates]" )
 {
     map &here = get_map();
     clear_map();
@@ -372,17 +372,70 @@ TEST_CASE( "unconnected windows rotate to indoor floor", "[tiles][rotates]" )
     int rotation = 0;
 
     // Unconnected
-    WHEN( "no connecting neighbours and nothing to rotate to" ) {
+    WHEN( "nothing to rotate to" ) {
         REQUIRE( here.ter_set( pos + point_east, t_pavement ) );
         REQUIRE( here.ter_set( pos + point_south, t_pavement ) );
         REQUIRE( here.ter_set( pos + point_west, t_pavement ) );
         REQUIRE( here.ter_set( pos + point_north, t_pavement ) );
 
         THEN( "the window should be unconnected" ) {
-            tilecontext->get_connect_values( pos, subtile, rotation, TERCONN_WALL,
+            tilecontext->get_connect_values( pos, subtile, rotation, TERCONN_NONE,
                                              TERCONN_INDOORFLOOR, {} );
             CHECK( subtile == unconnected );
             CHECK( rotation == 14 );
+        }
+    }
+
+    WHEN( "indoor floor to the north" ) {
+        REQUIRE( here.ter_set( pos + point_east, t_pavement ) );
+        REQUIRE( here.ter_set( pos + point_south, t_pavement ) );
+        REQUIRE( here.ter_set( pos + point_west, t_pavement ) );
+        REQUIRE( here.ter_set( pos + point_north, t_floor ) );
+
+        THEN( "the window rotate to the north" ) {
+            tilecontext->get_connect_values( pos, subtile, rotation, TERCONN_NONE,
+                                             TERCONN_INDOORFLOOR, {} );
+            CHECK( subtile == unconnected );
+            CHECK( rotation == 0 );
+        }
+    }
+    WHEN( "indoor floor to the east" ) {
+        REQUIRE( here.ter_set( pos + point_east, t_floor ) );
+        REQUIRE( here.ter_set( pos + point_south, t_pavement ) );
+        REQUIRE( here.ter_set( pos + point_west, t_pavement ) );
+        REQUIRE( here.ter_set( pos + point_north, t_pavement ) );
+
+        THEN( "the window rotate to the east" ) {
+            tilecontext->get_connect_values( pos, subtile, rotation, TERCONN_NONE,
+                                             TERCONN_INDOORFLOOR, {} );
+            CHECK( subtile == unconnected );
+            CHECK( rotation == 1 );
+        }
+    }
+    WHEN( "indoor floor to the south" ) {
+        REQUIRE( here.ter_set( pos + point_east, t_pavement ) );
+        REQUIRE( here.ter_set( pos + point_south, t_floor ) );
+        REQUIRE( here.ter_set( pos + point_west, t_pavement ) );
+        REQUIRE( here.ter_set( pos + point_north, t_pavement ) );
+
+        THEN( "the window rotate to the south" ) {
+            tilecontext->get_connect_values( pos, subtile, rotation, TERCONN_NONE,
+                                             TERCONN_INDOORFLOOR, {} );
+            CHECK( subtile == unconnected );
+            CHECK( rotation == 2 );
+        }
+    }
+    WHEN( "indoor floor to the west" ) {
+        REQUIRE( here.ter_set( pos + point_east, t_pavement ) );
+        REQUIRE( here.ter_set( pos + point_south, t_pavement ) );
+        REQUIRE( here.ter_set( pos + point_west, t_floor ) );
+        REQUIRE( here.ter_set( pos + point_north, t_pavement ) );
+
+        THEN( "the window rotate to the west" ) {
+            tilecontext->get_connect_values( pos, subtile, rotation, TERCONN_NONE,
+                                             TERCONN_INDOORFLOOR, {} );
+            CHECK( subtile == unconnected );
+            CHECK( rotation == 3 );
         }
     }
 }
