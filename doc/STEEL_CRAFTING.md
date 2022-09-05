@@ -38,7 +38,15 @@ Tempering (specifically, Martenesitic transformation) is a process of hardening 
 
 ### Tools
 
-Aside from standard tools for working and shaping metal, steel requires not only high heat, but carefully controlled heat, maintained for hours in some cases. This partially accounts for the long craft times of steel items. Gas or electric forges are ideal for a survivor. Carbon is a critical component of *carbon* steels, but is readily available as long as one has trees to convert to charcoal. 
+Aside from standard tools for working and shaping metal, steel requires not only high heat, but carefully controlled heat, maintained for hours in some cases. This partially accounts for the long craft times of steel items. Gas or electric forges are ideal for a survivor. 
+
+### Resources
+
+While surface iron deposits are effectively exhausted by strip mining, there is a convenient source of metal to work with: the American automobile. Many other sources of steel exist, and reusing existing steel is a much better use of a survivor's time than digging in the dirt.
+
+At the time of this writing, most items are the old 'steel', but over time these will be converted to appropriate grades. Meanwhile, recipes exist to convert 'steel' to mild carbon steel.
+
+Not surprisingly, *carbon* is a critical component of carbon steels, but is readily available as long as one has trees to convert to charcoal. 
 
 # Scrap to swords
 
@@ -52,4 +60,4 @@ Mild steel can be 'raised' to medium steel, and medium to high steel. These reci
 
 ### Repairing
 
-Most metal repairs in Catacylsm simply use a welder with the associated fuel costs and an amount of a similar material, representing cutting and replacing or layering new material over old. While this is high abstracted, we don't have a more detailed repair model. For mild, medium, and high steel, this is sufficient. Case hardened steel should properly be re-cased after a repair, which is difficult to manage IRL and often it would be easier to reforge the item. Tempered steel can be welded, but is a much more complicated process: the metal must be heated to the temperature it was tempered at, the new material added, then the entire area is wrapped in insulation for equal cooling. To this effect, an insulated welding blanket has been added, allowing the wrap. However, the repair time is greatly condensed as the cooling process alone can take hours.
+Most metal repairs in Catacylsm simply use a welder with the associated fuel costs and an amount of a similar material, representing cutting and replacing or layering new material over old. While this is high abstracted, we don't have a more detailed repair model. For mild, medium, and high steel, this is sufficient. Case hardened steel should properly be re-cased after a repair, which is difficult to manage IRL and often it would be easier to reforge the item. Tempered steel can be welded, but is a much more complicated process: the metal must be heated to the temperature it was tempered at, the new material added, then the entire area is wrapped in insulation for equal cooling. To this effect, an insulated welding blanket has been added, allowing the wrapped metal to evenly cool. However, the repair time for this process is greatly condensed as the cooling process alone can take hours.
