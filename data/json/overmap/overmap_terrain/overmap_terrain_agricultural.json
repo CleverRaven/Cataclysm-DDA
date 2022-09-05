@@ -631,13 +631,15 @@
     "id": [ "farm_supply_1", "farm_supply_2", "farm_supply_3", "farm_supply_4" ],
     "copy-from": "generic_rural_building",
     "name": "farm supply store",
-    "sym": "s"
+    "sym": "s",
+    "color": "yellow"
   },
   {
     "type": "overmap_terrain",
     "id": [ "farm_supply_roof_1", "farm_supply_roof_2", "farm_supply_roof_3", "farm_supply_roof_4" ],
     "copy-from": "generic_rural_building",
     "name": "farm supply store roof",
-    "sym": "s"
+    "sym": "s",
+    "color": "yellow"
   }
 ]
