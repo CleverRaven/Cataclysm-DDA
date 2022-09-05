@@ -311,8 +311,7 @@
     "id": "egg_gar",
     "name": { "str_sp": "gar roe" },
     "copy-from": "egg_fish",
-    "flags": [ "POISON", "RAW" ],
-    "//": "gar eggs seem to be poisonous to consume according to wikipedia, added a poison flag to keep it realistic",
+    "//": "gar eggs seem to be poisonous to consume according to wikipedia, but poison tag didnt seem to work on this item",
     "rot_spawn": "GROUP_EGG_GAR"
   },
   {
