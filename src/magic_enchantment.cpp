@@ -503,8 +503,7 @@ void enchant_cache::force_add( const enchantment &rhs, const Character &guy )
          rhs.values_multiply ) {
         // values do not multiply against each other, they add.
         // so +10% and -10% will add to 0%
-        values_multiply[pair_values.first] += 0.01 * static_cast<double>( pair_values.second.evaluate(
-                d ) );
+        values_multiply[pair_values.first] += 0.01 * pair_values.second.evaluate( d );
     }
 
     hit_me_effect.insert( hit_me_effect.end(), rhs.hit_me_effect.begin(), rhs.hit_me_effect.end() );
@@ -575,7 +574,7 @@ double enchantment::get_value_multiply( const enchant_vals::mod value, const Cha
         return 0;
     }
     dialogue d( get_talker_for( guy ), nullptr );
-    return static_cast<double>( found->second.evaluate( d ) * 0.01 );
+    return found->second.evaluate( d ) * 0.01;
 }
 
 int enchant_cache::get_value_add( const enchant_vals::mod value ) const
@@ -724,7 +723,8 @@ void enchant_cache::cast_enchantment_spell( Character &caster, const Creature *t
 
 bool enchant_cache::operator==( const enchant_cache &rhs ) const
 {
-    if( this->values_add.size() != rhs.values_add.size() ) {
+    if( this->values_add.size() != rhs.values_add.size() ||
+        this->values_multiply.size() != rhs.values_multiply.size() ) {
         return false;
     }
     auto iter_add = this->values_add.cbegin();
@@ -733,6 +733,8 @@ bool enchant_cache::operator==( const enchant_cache &rhs ) const
         if( iter_add->second != iter_add2->second ) {
             return false;
         }
+        iter_add++;
+        iter_add2++;
     }
     auto iter_mult = this->values_multiply.cbegin();
     auto iter_mult2 = rhs.values_multiply.cbegin();
@@ -740,6 +742,8 @@ bool enchant_cache::operator==( const enchant_cache &rhs ) const
         if( iter_mult->second != iter_mult2->second ) {
             return false;
         }
+        iter_mult++;
+        iter_mult2++;
     }
     return this->id == rhs.id &&
            this->get_mutations() == rhs.get_mutations();
