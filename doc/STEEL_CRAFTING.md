@@ -38,7 +38,11 @@ Tempering (specifically, Martenesitic transformation) is a process of hardening 
 
 ### Tools
 
-Aside from standard tools for working and shaping metal, steel requires not only high heat, but carefully controlled heat, maintained for hours in some cases. This partially accounts for the long craft times of steel items. Gas or electric forges are ideal for a survivor. 
+Aside from standard tools for working and shaping metal, steel requires not only high heat, but carefully controlled heat, maintained for hours in some cases. This partially accounts for the long craft times of steel items. Gas or electric forges are ideal for a survivor.
+
+A large amount of water is used to rapidly quench hot steel. IRL this could also be done with smaller quantities of steel but that requires refreshing with cold water.
+
+Because it has come up in discussion before: oils are also used for quenching, but this is done deliberately for a slightly different result of a softer steel. 
 
 ### Resources
 
@@ -49,6 +53,27 @@ At the time of this writing, most items are the old 'steel', but over time these
 Not surprisingly, *carbon* is a critical component of carbon steels, but is readily available as long as one has trees to convert to charcoal. 
 
 # Scrap to swords
+
+### Skills
+
+Making steel is an old practice, in place for several hundred years. Recently, it has become extremely industrialized outside of custom toolshops and hobbyist professions. This means that a great deal of information is available about the mass production of steel by the ton, but less about making small batches to produce a single sword. The minimum skill for a mild steel item should be at least 5 points of fabrication, increasing larger, more complicated crafts. Hardening and tempering should also increase the skill requirements.
+
+| Item | Thickness | Steel Grade | Skill | Factor |
+|---|---|---|---|---|
+| Chestplate | 2 mm | Mild | 5 |  |
+| Chestplate | 4 mm | Medium | 6 | Increases due to thicker plate |
+| Chestplate | 6 mm | Tempered | 9 | Increases due to both thicker plate and tempering |
+
+| Thickness | Skill requirement |
+|---|---|
+| Mild, medium, or high steel up to 2 mm | 5 |
+| Up to 4 mm | +1 |
+| Up to 6 mm | +1 |
+| Any thickness, hardened | +1 |
+| Any thickness, tempered | +2 |
+
+
+
 
 ### Upgrades
 
