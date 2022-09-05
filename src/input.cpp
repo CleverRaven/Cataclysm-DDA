@@ -1387,9 +1387,8 @@ action_id input_context::display_menu( const bool permit_execute_action )
         } );
     }
     const auto recalc_size = [&]( ui_adaptor & ui ) {
-        int maxwidth = std::max( FULL_SCREEN_WIDTH, TERMX );
-        width = min( TERMX >= 100 ? 100 : 80, maxwidth );
-        w_help = catacurses::newwin( TERMY, width - 2, point( maxwidth / 2 - width / 2, 0 ) );
+        width = TERMX >= 100 ? 100 : 80;
+        w_help = catacurses::newwin( TERMY, width - 2, point( TERMX / 2 - width / 2, 0 ) );
         // height of the area usable for display of keybindings, excludes headers & borders
         display_height = TERMY - LEGEND_HEIGHT;
         const point filter_pos( 4, 8 );
