@@ -503,7 +503,8 @@ void enchant_cache::force_add( const enchantment &rhs, const Character &guy )
          rhs.values_multiply ) {
         // values do not multiply against each other, they add.
         // so +10% and -10% will add to 0%
-        values_multiply[pair_values.first] += 0.01 * ( double )pair_values.second.evaluate( d );
+        values_multiply[pair_values.first] += 0.01 * static_cast<double>( pair_values.second.evaluate(
+                d ) );
     }
 
     hit_me_effect.insert( hit_me_effect.end(), rhs.hit_me_effect.begin(), rhs.hit_me_effect.end() );
@@ -574,7 +575,7 @@ double enchantment::get_value_multiply( const enchant_vals::mod value, const Cha
         return 0;
     }
     dialogue d( get_talker_for( guy ), nullptr );
-    return ( double )found->second.evaluate( d ) * 0.01;
+    return static_cast<double>( found->second.evaluate( d ) * 0.01 );
 }
 
 int enchant_cache::get_value_add( const enchant_vals::mod value ) const
