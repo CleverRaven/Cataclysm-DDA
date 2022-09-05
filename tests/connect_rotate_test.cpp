@@ -36,7 +36,7 @@ TEST_CASE( "walls should connect to walls", "[tiles][connects]" )
             tilecontext->get_connect_values( pos, subtile, rotation, TERCONN_WALL,
                                              TERCONN_NONE, {} );
             CHECK( subtile == unconnected );
-            CHECK( rotation == 14 );
+            CHECK( rotation % 1 == 0 ); // 16 possible rotations due to rotates_to
         }
     }
     // End pieces
@@ -89,7 +89,7 @@ TEST_CASE( "walls should connect to walls", "[tiles][connects]" )
             tilecontext->get_connect_values( pos, subtile, rotation, TERCONN_WALL,
                                              TERCONN_NONE, {} );
             CHECK( subtile == end_piece );
-            CHECK( rotation % 1 == 0 ); // 16 possible rotations due to rotates_to
+            CHECK( rotation == 3 );
         }
     }
     // Corners
@@ -237,6 +237,152 @@ TEST_CASE( "walls should connect to walls", "[tiles][connects]" )
                                              TERCONN_NONE, {} );
             CHECK( subtile == center );
             CHECK( rotation == 0 );
+        }
+    }
+}
+
+TEST_CASE( "windows should connect to walls and rotate to indoor floor", "[tiles][rotates]" )
+{
+    map &here = get_map();
+    clear_map();
+    clear_avatar();
+
+    tripoint pos = get_avatar().pos() + point_east + point_east;
+
+    int subtile = 0;
+    int rotation = 0;
+
+    // Edges
+    WHEN( "connecting neighbours north and south, and rotate to east" ) {
+        REQUIRE( here.ter_set( pos + point_east, t_floor ) );
+        REQUIRE( here.ter_set( pos + point_south, t_wall ) );
+        REQUIRE( here.ter_set( pos + point_west, t_pavement ) );
+        REQUIRE( here.ter_set( pos + point_north, t_wall ) );
+
+        THEN( "the window should be connected as NS, with E positive" ) {
+            tilecontext->get_connect_values( pos, subtile, rotation, TERCONN_WALL,
+                                             TERCONN_INDOORFLOOR, {} );
+            CHECK( subtile == edge );
+            CHECK( rotation == 0 );
+        }
+    }
+    WHEN( "connecting neighbours east and west, and rotate to south" ) {
+        REQUIRE( here.ter_set( pos + point_east, t_wall ) );
+        REQUIRE( here.ter_set( pos + point_south, t_floor ) );
+        REQUIRE( here.ter_set( pos + point_west, t_wall ) );
+        REQUIRE( here.ter_set( pos + point_north, t_pavement ) );
+
+        THEN( "the window should be connected as EW, with S positive" ) {
+            tilecontext->get_connect_values( pos, subtile, rotation, TERCONN_WALL,
+                                             TERCONN_INDOORFLOOR, {} );
+            CHECK( subtile == edge );
+            CHECK( rotation == 1 );
+        }
+    }
+    WHEN( "connecting neighbours north and south, and rotate to west" ) {
+        REQUIRE( here.ter_set( pos + point_east, t_pavement ) );
+        REQUIRE( here.ter_set( pos + point_south, t_wall ) );
+        REQUIRE( here.ter_set( pos + point_west, t_floor ) );
+        REQUIRE( here.ter_set( pos + point_north, t_wall ) );
+
+        THEN( "the window should be connected as NS, with W positive" ) {
+            tilecontext->get_connect_values( pos, subtile, rotation, TERCONN_WALL,
+                                             TERCONN_INDOORFLOOR, {} );
+            CHECK( subtile == edge );
+            CHECK( rotation == 2 );
+        }
+    }
+    WHEN( "connecting neighbours east and west, and rotate to north" ) {
+        REQUIRE( here.ter_set( pos + point_east, t_wall ) );
+        REQUIRE( here.ter_set( pos + point_south, t_pavement ) );
+        REQUIRE( here.ter_set( pos + point_west, t_wall ) );
+        REQUIRE( here.ter_set( pos + point_north, t_floor ) );
+
+        THEN( "the window should be connected EW, with N positive" ) {
+            tilecontext->get_connect_values( pos, subtile, rotation, TERCONN_WALL,
+                                             TERCONN_INDOORFLOOR, {} );
+            CHECK( subtile == edge );
+            CHECK( rotation == 3 );
+        }
+    }
+
+    WHEN( "connecting neighbours north and south, and nothing to rotate to" ) {
+        REQUIRE( here.ter_set( pos + point_east, t_pavement ) );
+        REQUIRE( here.ter_set( pos + point_south, t_wall ) );
+        REQUIRE( here.ter_set( pos + point_west, t_pavement ) );
+        REQUIRE( here.ter_set( pos + point_north, t_wall ) );
+
+        THEN( "the window should be connected as NS, with E and W negative" ) {
+            tilecontext->get_connect_values( pos, subtile, rotation, TERCONN_WALL,
+                                             TERCONN_INDOORFLOOR, {} );
+            CHECK( subtile == edge );
+            CHECK( rotation == 4 );
+        }
+    }
+    WHEN( "connecting neighbours east and west, and rotate to north and south" ) {
+        REQUIRE( here.ter_set( pos + point_east, t_wall ) );
+        REQUIRE( here.ter_set( pos + point_south, t_floor ) );
+        REQUIRE( here.ter_set( pos + point_west, t_wall ) );
+        REQUIRE( here.ter_set( pos + point_north, t_floor ) );
+
+        THEN( "the window should be connected as EW, with N and S positive" ) {
+            tilecontext->get_connect_values( pos, subtile, rotation, TERCONN_WALL,
+                                             TERCONN_INDOORFLOOR, {} );
+            CHECK( subtile == edge );
+            CHECK( rotation == 5 );
+        }
+    }
+    WHEN( "connecting neighbours north and south, and rotate to east and west" ) {
+        REQUIRE( here.ter_set( pos + point_east, t_floor ) );
+        REQUIRE( here.ter_set( pos + point_south, t_wall ) );
+        REQUIRE( here.ter_set( pos + point_west, t_floor ) );
+        REQUIRE( here.ter_set( pos + point_north, t_wall ) );
+
+        THEN( "the window should be connected as NS, with E and W negative" ) {
+            tilecontext->get_connect_values( pos, subtile, rotation, TERCONN_WALL,
+                                             TERCONN_INDOORFLOOR, {} );
+            CHECK( subtile == edge );
+            CHECK( rotation == 6 );
+        }
+    }
+    WHEN( "connecting neighbours east and west, and nothing to rotate to" ) {
+        REQUIRE( here.ter_set( pos + point_east, t_wall ) );
+        REQUIRE( here.ter_set( pos + point_south, t_pavement ) );
+        REQUIRE( here.ter_set( pos + point_west, t_wall ) );
+        REQUIRE( here.ter_set( pos + point_north, t_pavement ) );
+
+        THEN( "the window should be connected as EW, with N and S negative" ) {
+            tilecontext->get_connect_values( pos, subtile, rotation, TERCONN_WALL,
+                                             TERCONN_INDOORFLOOR, {} );
+            CHECK( subtile == edge );
+            CHECK( rotation == 7 );
+        }
+    }
+}
+
+TEST_CASE( "unconnected windows rotate to indoor floor", "[tiles][rotates]" )
+{
+    map &here = get_map();
+    clear_map();
+    clear_avatar();
+
+    tripoint pos = get_avatar().pos() + point_east + point_east;
+
+    int subtile = 0;
+    int rotation = 0;
+
+    // Unconnected
+    WHEN( "no connecting neighbours and nothing to rotate to" ) {
+        REQUIRE( here.ter_set( pos + point_east, t_pavement ) );
+        REQUIRE( here.ter_set( pos + point_south, t_pavement ) );
+        REQUIRE( here.ter_set( pos + point_west, t_pavement ) );
+        REQUIRE( here.ter_set( pos + point_north, t_pavement ) );
+
+        THEN( "the window should be unconnected" ) {
+            tilecontext->get_connect_values( pos, subtile, rotation, TERCONN_WALL,
+                                             TERCONN_INDOORFLOOR, {} );
+            CHECK( subtile == unconnected );
+            CHECK( rotation == 14 );
         }
     }
 }
