@@ -4287,63 +4287,35 @@ void cata_tiles::get_rotation_and_subtile( const char val, const char rot_to, in
             break;
         // end pieces
         case 8:
+            // vertical end piece
             subtile = end_piece;
-            rotation = 2;
+            rotation = get_rotation_edge_ns( rot_to );
             break;
         case 4:
+            // horizontal end piece
             subtile = end_piece;
-            rotation = 3;
+            rotation = get_rotation_edge_ew( rot_to );
             break;
         case 2:
+            // horizontal end piece
             subtile = end_piece;
-            rotation = 1;
+            rotation = get_rotation_edge_ew( rot_to );
             break;
         case 1:
+            // vertical end piece
             subtile = end_piece;
-            rotation = 0;
+            rotation = get_rotation_edge_ns( rot_to );
             break;
         // edges
         case 9:
             // vertical edge
             subtile = edge;
-            if( ( rot_to & static_cast<int>( NEIGHBOUR::EAST ) ) == static_cast<int>( NEIGHBOUR::EAST ) ) {
-                if( ( rot_to & static_cast<int>( NEIGHBOUR::WEST ) ) == static_cast<int>( NEIGHBOUR::WEST ) ) {
-                    // EW
-                    rotation = 6;
-                } else {
-                    // Ew
-                    rotation = 0;
-                }
-            } else { // east -
-                if( ( rot_to & static_cast<int>( NEIGHBOUR::WEST ) ) == static_cast<int>( NEIGHBOUR::WEST ) ) {
-                    // eW
-                    rotation = 2;
-                } else {
-                    // ew
-                    rotation = 4;
-                }
-            }
+            rotation = get_rotation_edge_ns( rot_to );
             break;
         case 6:
             // horizontal edge
             subtile = edge;
-            if( ( rot_to & static_cast<int>( NEIGHBOUR::NORTH ) ) == static_cast<int>( NEIGHBOUR::NORTH ) ) {
-                if( ( rot_to & static_cast<int>( NEIGHBOUR::SOUTH ) ) == static_cast<int>( NEIGHBOUR::SOUTH ) ) {
-                    // NS
-                    rotation = 5;
-                } else {
-                    // Ns
-                    rotation = 3;
-                }
-            } else { // north -
-                if( ( rot_to & static_cast<int>( NEIGHBOUR::SOUTH ) ) == static_cast<int>( NEIGHBOUR::SOUTH ) ) {
-                    // nS
-                    rotation = 1;
-                } else {
-                    // ns
-                    rotation = 7;
-                }
-            }
+            rotation = get_rotation_edge_ew( rot_to );
             break;
         // corners
         case 12:
@@ -4379,6 +4351,48 @@ void cata_tiles::get_rotation_and_subtile( const char val, const char rot_to, in
             subtile = t_connection;
             rotation = 3;
             break;
+    }
+}
+
+int cata_tiles::get_rotation_edge_ns( const char rot_to )
+{
+    if( ( rot_to & static_cast<int>( NEIGHBOUR::EAST ) ) == static_cast<int>( NEIGHBOUR::EAST ) ) {
+        if( ( rot_to & static_cast<int>( NEIGHBOUR::WEST ) ) == static_cast<int>( NEIGHBOUR::WEST ) ) {
+            // EW
+            return 6;
+        } else {
+            // Ew
+            return 0;
+        }
+    } else { // east -
+        if( ( rot_to & static_cast<int>( NEIGHBOUR::WEST ) ) == static_cast<int>( NEIGHBOUR::WEST ) ) {
+            // eW
+            return 2;
+        } else {
+            // ew
+            return 4;
+        }
+    }
+}
+
+int cata_tiles::get_rotation_edge_ew( const char rot_to )
+{
+    if( ( rot_to & static_cast<int>( NEIGHBOUR::NORTH ) ) == static_cast<int>( NEIGHBOUR::NORTH ) ) {
+        if( ( rot_to & static_cast<int>( NEIGHBOUR::SOUTH ) ) == static_cast<int>( NEIGHBOUR::SOUTH ) ) {
+            // NS
+            return 5;
+        } else {
+            // Ns
+            return 3;
+        }
+    } else { // north -
+        if( ( rot_to & static_cast<int>( NEIGHBOUR::SOUTH ) ) == static_cast<int>( NEIGHBOUR::SOUTH ) ) {
+            // nS
+            return 1;
+        } else {
+            // ns
+            return 7;
+        }
     }
 }
 

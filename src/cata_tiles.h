@@ -457,6 +457,8 @@ class cata_tiles
                                       const std::array<bool, 5> &invisible );
         void get_rotation_and_subtile( char val, char rot_to, int &rota, int &subtile );
         int get_rotation_unconnected( char rot_to );
+        int get_rotation_edge_ns( char rot_to );
+        int get_rotation_edge_ew( char rot_to );
 
         /** Map memory */
         bool has_memory_at( const tripoint &p ) const;
