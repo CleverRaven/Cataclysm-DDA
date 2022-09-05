@@ -277,7 +277,6 @@
     "anger_triggers": [ "HURT", "PLAYER_CLOSE" ],
     "fear_triggers": [ "PLAYER_CLOSE" ],
     "placate_triggers": [ "PLAYER_WEAK" ],
-    "reproduction": { "baby_monster": "mon_fry_stingray", "baby_count": 8, "baby_timer": 364 },
     "flags": [ "FISHABLE", "SEES", "SMELLS", "SWIMS", "AQUATIC", "WATER_CAMOUFLAGE", "BADVENOM" ]
   },
   {
