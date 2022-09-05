@@ -1389,7 +1389,7 @@ action_id input_context::display_menu( const bool permit_execute_action )
     }
     const auto recalc_size = [&]( ui_adaptor & ui ) {
         int maxwidth = std::max( FULL_SCREEN_WIDTH, TERMX );
-        width = min( 80, maxwidth );
+        width = min( TERMX >= 100 ? 100 : 80, maxwidth );
         int maxheight = std::max( FULL_SCREEN_HEIGHT, TERMY );
         height = min( maxheight, static_cast<int>( hotkeys.size() ) + LEGEND_HEIGHT + BORDER_SPACE );
 
@@ -1492,7 +1492,7 @@ action_id input_context::display_menu( const bool permit_execute_action )
                 col = global_key;
             }
             mvwprintz( w_help, point( 4, i + 10 ), col, "%s:", get_action_name( action_id ) );
-            mvwprintz( w_help, point( 52, i + 10 ), col, "%s", get_desc( action_id ) );
+            mvwprintz( w_help, point( TERMX >= 100 ? 62 : 52, i + 10 ), col, "%s", get_desc( action_id ) );
         }
 
         // spopup.query_string() will call wnoutrefresh( w_help )
