@@ -147,7 +147,7 @@ class enchantment
         static void load_enchantment( const JsonObject &jo, const std::string &src );
         static void reset();
         void load( const JsonObject &jo, const std::string &src = "",
-                   const cata::optional<std::string> &inline_id = cata::nullopt );
+                   const cata::optional<std::string> &inline_id = cata::nullopt, bool is_child = false );
 
         // Takes in a JsonValue which can be either a string or an enchantment object and returns the id of the enchantment the caller will use.
         // If the input is a string return it as an enchantment_id otherwise create an enchantment with id inline_id and return inline_id as an enchantment id
@@ -174,8 +174,7 @@ class enchantment
             return mutations;
         }
         int get_value_add( const enchant_vals::mod value, const Character &guy ) const;
-        double get_value_multiply( enchant_vals::mod value ) const;
-        bool operator==( const enchantment &rhs ) const;
+        double get_value_multiply( enchant_vals::mod value, const Character &guy ) const;
 
         body_part_set modify_bodyparts( const body_part_set &unmodified ) const;
         // does the enchantment modify bodyparts?
@@ -197,7 +196,7 @@ class enchantment
         std::map<enchant_vals::mod, int_or_var<dialogue>> values_add; // NOLINT(cata-serialize)
         // values that get multiplied to the base value
         // multipliers add to each other instead of multiply against themselves
-        std::map<enchant_vals::mod, double> values_multiply; // NOLINT(cata-serialize)
+        std::map<enchant_vals::mod, int_or_var<dialogue>> values_multiply; // NOLINT(cata-serialize)
 
         std::vector<fake_spell> hit_me_effect;
         std::vector<fake_spell> hit_you_effect;

@@ -213,7 +213,7 @@ struct int_or_var_part {
             if( !val.empty() ) {
                 return std::stoi( val );
             } else {
-                debugmsg( "No valid value for int_or_var_part." );
+                debugmsg( "No valid arithmetic value for int_or_var_part." );
                 return 0;
             }
         } else {
@@ -268,7 +268,7 @@ struct duration_or_var_part {
                 ret_val = time_duration::from_turns( std::stoi( val ) );
                 return ret_val;
             } else {
-                debugmsg( "No valid value for duration_or_var_part." );
+                debugmsg( "No valid arithmetic value for duration_or_var_part." );
                 return 0_seconds;
             }
         } else {

@@ -270,7 +270,7 @@ void enchantment::bodypart_changes::serialize( JsonOut &jsout ) const
 }
 
 void enchantment::load( const JsonObject &jo, const std::string &,
-                        const cata::optional<std::string> &inline_id )
+                        const cata::optional<std::string> &inline_id, bool is_child )
 {
     optional( jo, was_loaded, "id", id, enchantment_id( inline_id.value_or( "" ) ) );
 
@@ -322,85 +322,39 @@ void enchantment::load( const JsonObject &jo, const std::string &,
     optional( jo, was_loaded, "modified_bodyparts", modified_bodyparts );
     optional( jo, was_loaded, "mutations", mutations );
 
-    if( jo.has_array( "values" ) ) {
+    if( !is_child && jo.has_array( "values" ) ) {
         for( const JsonObject value_obj : jo.get_array( "values" ) ) {
             const enchant_vals::mod value = io::string_to_enum<enchant_vals::mod>
                                             ( value_obj.get_string( "value" ) );
-            const double mult = value_obj.get_float( "multiply", 0.0 );
             if( value_obj.has_member( "add" ) ) {
                 int_or_var<dialogue> add = get_int_or_var<dialogue>( value_obj, "add", false );
                 values_add.emplace( value, add );
             }
-            if( mult != 0.0 ) {
+            if( value_obj.has_member( "multiply" ) ) {
+                int_or_var<dialogue> mult;
+                if( value_obj.has_float( "multiply" ) ) {
+                    mult.max.int_val = mult.min.int_val = value_obj.get_float( "multiply" ) * 100;
+                } else {
+                    mult = get_int_or_var<dialogue>( value_obj, "multiply", false );
+
+                }
                 values_multiply.emplace( value, mult );
             }
         }
     }
 }
 
-
 void enchant_cache::load( const JsonObject &jo, const std::string &,
                           const cata::optional<std::string> &inline_id )
 {
-    optional( jo, was_loaded, "id", id, enchantment_id( inline_id.value_or( "" ) ) );
-
-    jo.read( "hit_you_effect", hit_you_effect );
-    jo.read( "hit_me_effect", hit_me_effect );
-    jo.read( "emitter", emitter );
-
-    if( jo.has_object( "intermittent_activation" ) ) {
-        JsonObject jobj = jo.get_object( "intermittent_activation" );
-        for( const JsonObject effect_obj : jobj.get_array( "effects" ) ) {
-            time_duration dur = read_from_json_string<time_duration>( effect_obj.get_member( "frequency" ),
-                                time_duration::units );
-            if( effect_obj.has_array( "spell_effects" ) ) {
-                for( const JsonObject fake_spell_obj : effect_obj.get_array( "spell_effects" ) ) {
-                    fake_spell fake;
-                    fake.load( fake_spell_obj );
-                    add_activation( dur, fake );
-                }
-            } else if( effect_obj.has_object( "spell_effects" ) ) {
-                fake_spell fake;
-                JsonObject fake_spell_obj = effect_obj.get_object( "spell_effects" );
-                fake.load( fake_spell_obj );
-                add_activation( dur, fake );
-            }
-        }
-    }
-
-    active_conditions.first = io::string_to_enum<enchantment::has>( jo.get_string( "has", "HELD" ) );
-    if( jo.has_string( "condition" ) ) {
-        std::string condit;
-        optional( jo, was_loaded, "condition", condit );
-        cata::optional<enchantment::condition> con = io::string_to_enum_optional<enchantment::condition>
-                ( condit );
-        if( con.has_value() ) {
-            active_conditions.second = con.value();
-        } else {
-            active_conditions.second = enchantment::condition::DIALOG_CONDITION;
-            read_condition<dialogue>( jo, "condition", dialog_condition, false );
-        }
-    } else if( jo.has_member( "condition" ) ) {
-        active_conditions.second = enchantment::condition::DIALOG_CONDITION;
-        read_condition<dialogue>( jo, "condition", dialog_condition, false );
-    } else {
-        active_conditions.second = enchantment::condition::ALWAYS;
-    }
-    for( JsonObject jsobj : jo.get_array( "ench_effects" ) ) {
-        ench_effects.emplace( efftype_id( jsobj.get_string( "effect" ) ), jsobj.get_int( "intensity" ) );
-    }
-
-    optional( jo, was_loaded, "modified_bodyparts", modified_bodyparts );
-    optional( jo, was_loaded, "mutations", mutations );
-
+    enchantment::load( jo, "", inline_id, true );
     if( jo.has_array( "values" ) ) {
         for( const JsonObject value_obj : jo.get_array( "values" ) ) {
             const enchant_vals::mod value = io::string_to_enum<enchant_vals::mod>
                                             ( value_obj.get_string( "value" ) );
             const double add = value_obj.get_int( "add", 0 );
             const double mult = value_obj.get_float( "multiply", 0.0 );
-            if( value_obj.has_member( "add" ) ) {
-
+            if( add != 0 ) {
                 values_add.emplace( value, add );
             }
             if( mult != 0.0 ) {
@@ -545,10 +499,11 @@ void enchant_cache::force_add( const enchantment &rhs, const Character &guy )
          rhs.values_add ) {
         values_add[pair_values.first] += pair_values.second.evaluate( d );
     }
-    for( const std::pair<const enchant_vals::mod, double> &pair_values : rhs.values_multiply ) {
+    for( const std::pair<const enchant_vals::mod, int_or_var<dialogue>> &pair_values :
+         rhs.values_multiply ) {
         // values do not multiply against each other, they add.
         // so +10% and -10% will add to 0%
-        values_multiply[pair_values.first] += pair_values.second;
+        values_multiply[pair_values.first] += 0.01 * ( double )pair_values.second.evaluate( d );
     }
 
     hit_me_effect.insert( hit_me_effect.end(), rhs.hit_me_effect.begin(), rhs.hit_me_effect.end() );
@@ -612,13 +567,14 @@ int enchantment::get_value_add( const enchant_vals::mod value, const Character &
     return found->second.evaluate( d );
 }
 
-double enchantment::get_value_multiply( const enchant_vals::mod value ) const
+double enchantment::get_value_multiply( const enchant_vals::mod value, const Character &guy ) const
 {
     const auto found = values_multiply.find( value );
     if( found == values_multiply.cend() ) {
         return 0;
     }
-    return found->second;
+    dialogue d( get_talker_for( guy ), nullptr );
+    return ( double )found->second.evaluate( d ) * 0.01;
 }
 
 int enchant_cache::get_value_add( const enchant_vals::mod value ) const
@@ -765,36 +721,25 @@ void enchant_cache::cast_enchantment_spell( Character &caster, const Creature *t
     }
 }
 
-bool enchantment::operator==( const enchantment &rhs ) const
-{
-    if( this->values_add.size() != rhs.values_add.size() ) {
-        return false;
-    }
-    auto iter = this->values_add.cbegin();
-    auto iter2 = rhs.values_add.cbegin();
-    /*while( iter != this->values_add.cend() && iter2 != rhs.values_add.cend() ) {
-        if( iter->second.second != iter2->second.second ) {
-            return false;
-        }
-    }*/
-    return this->id == rhs.id &&
-           this->get_mutations() == rhs.get_mutations() &&
-           this->values_multiply == rhs.values_multiply;
-}
-
 bool enchant_cache::operator==( const enchant_cache &rhs ) const
 {
     if( this->values_add.size() != rhs.values_add.size() ) {
         return false;
     }
-    auto iter = this->values_add.cbegin();
-    auto iter2 = rhs.values_add.cbegin();
-    /*while( iter != this->values_add.cend() && iter2 != rhs.values_add.cend() ) {
-        if( iter->second.second != iter2->second.second ) {
+    auto iter_add = this->values_add.cbegin();
+    auto iter_add2 = rhs.values_add.cbegin();
+    while( iter_add != this->values_add.cend() && iter_add2 != rhs.values_add.cend() ) {
+        if( iter_add->second != iter_add2->second ) {
             return false;
         }
-    }*/
+    }
+    auto iter_mult = this->values_multiply.cbegin();
+    auto iter_mult2 = rhs.values_multiply.cbegin();
+    while( iter_mult != this->values_multiply.cend() && iter_mult2 != rhs.values_multiply.cend() ) {
+        if( iter_mult->second != iter_mult2->second ) {
+            return false;
+        }
+    }
     return this->id == rhs.id &&
-           this->get_mutations() == rhs.get_mutations() &&
-           this->values_multiply == rhs.values_multiply;
+           this->get_mutations() == rhs.get_mutations();
 }
