@@ -19,7 +19,7 @@ class cata_tiles_test_helper
         }
 };
 
-TEST_CASE( "walls should connect to walls", "[multitile][connects]" )
+TEST_CASE( "walls should be unconnected without nearby walls", "[multitile][connects]" )
 {
     map &here = get_map();
     clear_map();
@@ -44,6 +44,18 @@ TEST_CASE( "walls should connect to walls", "[multitile][connects]" )
             CHECK( rotation == 0 );
         }
     }
+}
+TEST_CASE( "walls should connect to walls as end pieces", "[multitile][connects]" )
+{
+    map &here = get_map();
+    clear_map();
+    clear_avatar();
+
+    tripoint pos = get_avatar().pos() + point_east + point_east;
+
+    int subtile = 0;
+    int rotation = 0;
+
     // End pieces
     WHEN( "connecting neighbour south" ) {
         REQUIRE( here.ter_set( pos + point_south, t_wall ) );
@@ -97,6 +109,18 @@ TEST_CASE( "walls should connect to walls", "[multitile][connects]" )
             CHECK( rotation == 3 );
         }
     }
+}
+TEST_CASE( "walls should connect to walls as corners", "[multitile][connects]" )
+{
+    map &here = get_map();
+    clear_map();
+    clear_avatar();
+
+    tripoint pos = get_avatar().pos() + point_east + point_east;
+
+    int subtile = 0;
+    int rotation = 0;
+
     // Corners
     WHEN( "connecting neighbour south and east" ) {
         REQUIRE( here.ter_set( pos + point_south, t_wall ) );
@@ -150,6 +174,18 @@ TEST_CASE( "walls should connect to walls", "[multitile][connects]" )
             CHECK( rotation == 3 );
         }
     }
+}
+TEST_CASE( "walls should connect to walls as edges", "[multitile][connects]" )
+{
+    map &here = get_map();
+    clear_map();
+    clear_avatar();
+
+    tripoint pos = get_avatar().pos() + point_east + point_east;
+
+    int subtile = 0;
+    int rotation = 0;
+
     // Edges
     WHEN( "connecting neighbour north and south" ) {
         REQUIRE( here.ter_set( pos + point_south, t_wall ) );
@@ -177,6 +213,18 @@ TEST_CASE( "walls should connect to walls", "[multitile][connects]" )
             CHECK( rotation == 1 );
         }
     }
+}
+TEST_CASE( "walls should connect to walls as t-connections and fully", "[multitile][connects]" )
+{
+    map &here = get_map();
+    clear_map();
+    clear_avatar();
+
+    tripoint pos = get_avatar().pos() + point_east + point_east;
+
+    int subtile = 0;
+    int rotation = 0;
+
     // T connections
     WHEN( "connecting neighbour all but north" ) {
         REQUIRE( here.ter_set( pos + point_south, t_wall ) );
