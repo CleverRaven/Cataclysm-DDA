@@ -22,5 +22,14 @@
     "rate": "0 m",
     "disease": [ [ -4800, -5600 ], [ -5601, -6400 ], [ -6401, -11998 ], [ -11999, -12000 ] ],
     "disease_excess": [ [ 1800, 2400 ], [ 2401, 4400 ], [ 4401, 5600 ] ]
+  },
+  {
+    "id": "creative_spark",
+    "type": "vitamin",
+    "vit_type": "counter",
+    "name": { "str": "Creative Spark" },
+    "min": 0,
+    "max": 5,
+    "rate": "0 m"
   }
 ]
