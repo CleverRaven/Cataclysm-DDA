@@ -2176,7 +2176,7 @@
     "type": "effect_type",
     "id": "squeezed",
     "name": [ "Uncomfortable" ],
-    "desc": [ "You're too fat to wear hard armor on your %s.  It's pretty uncomfortable." ],
+    "desc": [ "Your excess body weight is making it hard to wear hard armor on your %s." ],
     "max_intensity": 1,
     "part_descs": true,
     "base_mods": { "speed_mod": [ -3 ], "pain_min": [ 1 ], "pain_chance": [ 12 ], "pain_max_val": [ 10 ] }
