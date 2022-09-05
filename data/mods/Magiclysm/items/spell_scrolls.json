@@ -899,6 +899,14 @@
   {
     "type": "BOOK",
     "copy-from": "spell_scroll",
+    "id": "spell_scroll_move_earth",
+    "name": { "str": "Scroll of Move Earth", "str_pl": "Scrolls of Move Earth" },
+    "description": "Make the terrain answer to your call.",
+    "use_action": { "type": "learn_spell", "spells": [ "move_earth" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
     "id": "spell_scroll_biomancer_paralytic_dart",
     "//": "Biomancer spell",
     "name": { "str": "Scroll of Paralytic Dart", "str_pl": "Scrolls of Paralytic Dart" },
