@@ -3104,7 +3104,8 @@ tripoint vehicle::mount_to_tripoint( const point &mount, const point &offset ) c
     return global_pos3() + mnt_translated;
 }
 
-std::unordered_set<int> vehicle::precalc_mounts( int idir, const units::angle &dir, const point &pivot )
+std::unordered_set<int> vehicle::precalc_mounts( int idir, const units::angle &dir,
+        const point &pivot )
 {
     if( idir < 0 || idir > 1 ) {
         idir = 0;
@@ -5109,18 +5110,18 @@ int vehicle::traverse_vehicle_graph( Vehicle *start_veh, int amount, Func action
         return amount;
     }
     // Breadth-first search! Initialize the queue with a pointer to ourselves and go!
-    std::queue< std::pair<Vehicle *, int> > connected_vehs;
+    std::vector< std::pair<Vehicle *, int> > connected_vehs;
     std::vector<Vehicle *> visited_vehs;
     std::vector<tripoint> visited_targets;
-    connected_vehs.push( std::make_pair( start_veh, 0 ) );
+    connected_vehs.push_back( std::make_pair( start_veh, 0 ) );
 
     while( amount > 0 && !connected_vehs.empty() ) {
-        auto current_node = connected_vehs.front();
+        auto current_node = connected_vehs.back();
         Vehicle *current_veh = current_node.first;
         int current_loss = current_node.second;
 
         visited_vehs.push_back( current_veh );
-        connected_vehs.pop();
+        connected_vehs.pop_back();
 
         add_msg_debug( debugmode::DF_VEHICLE, "Traversing graph with %d power", amount );
 
@@ -5129,7 +5130,8 @@ int vehicle::traverse_vehicle_graph( Vehicle *start_veh, int amount, Func action
                 continue; // ignore loose parts that aren't power transfer cables
             }
 
-            if( std::find( visited_targets.begin(), visited_targets.end(), current_veh->parts[p].target.second ) != visited_targets.end()) {
+            if( std::find( visited_targets.begin(), visited_targets.end(),
+                           current_veh->parts[p].target.second ) != visited_targets.end() ) {
                 // If we've already looked at the target location, don't bother the expensive vehicle lookup.
                 continue;
             }
@@ -5137,7 +5139,8 @@ int vehicle::traverse_vehicle_graph( Vehicle *start_veh, int amount, Func action
             visited_targets.push_back( current_veh->parts[p].target.second );
 
             vehicle *target_veh = vehicle::find_vehicle( current_veh->parts[p].target.second );
-            if( target_veh == nullptr || std::find( visited_vehs.begin(), visited_vehs.end(), target_veh ) != visited_vehs.end() ) {
+            if( target_veh == nullptr ||
+                std::find( visited_vehs.begin(), visited_vehs.end(), target_veh ) != visited_vehs.end() ) {
                 // Either no destination here (that vehicle's rolled away or off-map) or
                 // we've already looked at that vehicle.
                 continue;
@@ -5146,16 +5149,17 @@ int vehicle::traverse_vehicle_graph( Vehicle *start_veh, int amount, Func action
             // Add this connected vehicle to the queue of vehicles to search next,
             // but only if we haven't seen this one before (checked above)
             int target_loss = current_loss + current_veh->part_info( p ).epower;
-            connected_vehs.push( std::make_pair( target_veh, target_loss ) );
+            connected_vehs.push_back( std::make_pair( target_veh, target_loss ) );
+            // current_veh could be invalid after this point
 
             float loss_amount = ( static_cast<float>( amount ) * static_cast<float>( target_loss ) ) / 100.0f;
             add_msg_debug( debugmode::DF_VEHICLE,
-                            "Visiting remote %p with %d power (loss %f, which is %d percent)",
-                            static_cast<void *>( target_veh ), amount, loss_amount, target_loss );
+                           "Visiting remote %p with %d power (loss %f, which is %d percent)",
+                           static_cast<void *>( target_veh ), amount, loss_amount, target_loss );
 
             amount = action( target_veh, amount, static_cast<int>( loss_amount ) );
             add_msg_debug( debugmode::DF_VEHICLE, "After remote %p, %d power",
-                            static_cast<void *>( target_veh ), amount );
+                           static_cast<void *>( target_veh ), amount );
 
             if( amount < 1 ) {
                 break; // No more charge to donate away.
