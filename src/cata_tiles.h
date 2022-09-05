@@ -365,6 +365,8 @@ using color_block_overlay_container = std::pair<SDL_BlendMode, std::multimap<poi
 
 class cata_tiles
 {
+        friend class cata_tiles_test_helper;
+
     public:
         cata_tiles( const SDL_Renderer_Ptr &render, const GeometryRenderer_Ptr &geometry,
                     tileset_cache &cache );
