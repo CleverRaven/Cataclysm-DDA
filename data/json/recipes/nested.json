@@ -3534,8 +3534,7 @@
     "name": "cardboard boxes",
     "description": "Recipes related to constructing cardboard boxes.",
     "skill_used": "fabrication",
-    "nested_category_data": [ "box_small", "box_medium", "box_large", "box_large_reinforced", "box_oversize" ],
-    "difficulty": 0
+    "nested_category_data": [ "box_small", "box_medium", "box_large", "box_large_reinforced", "box_oversize", "box_small_folded", "box_medium_folded", "box_large_folded", "box_oversize_folded", "box_small_folding", "box_medium_folding", "box_large_folding", "box_oversize_folding" ]
   },
   {
     "id": "nested_wooden_boxes",
@@ -3570,8 +3569,7 @@
     "name": "boxes",
     "description": "Recipes related to constructing boxes.",
     "skill_used": "fabrication",
-    "nested_category_data": [ "nested_cardboard_boxes", "nested_wooden_boxes", "nested_metal_boxes" ],
-    "difficulty": 0
+    "nested_category_data": [ "nested_cardboard_boxes", "nested_wooden_boxes", "nested_metal_boxes" ]
   },
   {
     "id": "nested_sheet_patchwork",
