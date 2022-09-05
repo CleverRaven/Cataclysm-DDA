@@ -67,9 +67,11 @@ static const activity_id ACT_BUILD( "ACT_BUILD" );
 static const activity_id ACT_MULTIPLE_CONSTRUCTION( "ACT_MULTIPLE_CONSTRUCTION" );
 
 static const construction_category_id construction_category_ALL( "ALL" );
-static const construction_category_id  construction_category_APPLIANCE( "APPLIANCE" );
+static const construction_category_id construction_category_APPLIANCE( "APPLIANCE" );
 static const construction_category_id construction_category_FILTER( "FILTER" );
 static const construction_category_id construction_category_REPAIR( "REPAIR" );
+
+static const construction_str_id construction_constr_veh( "constr_veh" );
 
 static const flag_id json_flag_FILTHY( "FILTHY" );
 static const flag_id json_flag_PIT( "PIT" );
@@ -1044,23 +1046,16 @@ void place_construction( const construction_group_str_id &group )
     if( here.tr_at( pnt ).is_null() ) {
         here.trap_set( pnt, tr_unfinished_construction );
     }
-    const bool is_appliance = con.category == construction_category_APPLIANCE;
-    // Use up the components
-    for( const auto &it : con.requirements->get_components() ) {
-        if( is_appliance && player_character.has_trait( trait_DEBUG_HS ) ) {
-            // appliances require a base item in the construction
+    if( player_character.has_trait( trait_DEBUG_HS ) ) {
+        // Gift components
+        for( const auto &it : con.requirements->get_components() ) {
             used.emplace_back( item( it.front().type ) );
-        } else {
+        }
+    } else {
+        // Use up the components
+        for( const auto &it : con.requirements->get_components() ) {
             std::list<item> tmp = player_character.consume_items( it, 1, is_crafting_component );
             used.splice( used.end(), tmp );
-        }
-    }
-    // If player has debug hammerspace while building an appliance, they won't get
-    // the appliance they want unless lastconsumed points to the appliance's base itype
-    if( is_appliance && player_character.has_trait( trait_DEBUG_HS ) ) {
-        const std::vector<std::vector<item_comp> > &comp_list = con.requirements->get_components();
-        if( !comp_list.empty() && !comp_list.front().empty() ) {
-            player_character.lastconsumed = comp_list.front().front().type;
         }
     }
     pc.components = used;
@@ -1123,9 +1118,10 @@ void complete_construction( Character *you )
         here.remove_trap( terp );
     }
 
-    //We need to keep the partial_con when building appliance to get the component items
-    //It will be removed in done_appliance()
-    if( pc->id->category != construction_category_APPLIANCE ) {
+    // partial_con contains components for vehicle and appliance construction
+    // it's removal is handled in done_appliance() / done_vehicle
+    if( pc->id->category != construction_category_APPLIANCE &&
+        pc->id->str_id != construction_constr_veh ) {
         here.partial_con_remove( terp );
     }
 
@@ -1426,7 +1422,7 @@ static vpart_id vpart_from_item( const itype_id &item_id )
     return vpart_frame_vertical_2;
 }
 
-void construct::done_vehicle( const tripoint_bub_ms &p, Character &who )
+void construct::done_vehicle( const tripoint_bub_ms &p, Character & )
 {
     std::string name = string_input_popup()
                        .title( _( "Enter new vehicle name:" ) )
@@ -1437,16 +1433,31 @@ void construct::done_vehicle( const tripoint_bub_ms &p, Character &who )
     }
 
     map &here = get_map();
+    partial_con *pc = here.partial_con_at( p );
+    if( !pc ) {
+        debugmsg( "constructing failed: can't find partial construction" );
+        return;
+    }
+
+    const std::list<item> components = pc->components;
+    here.partial_con_remove( p );
+
+    if( components.size() != 1 ) {
+        debugmsg( "constructing failed: components size expected 1 actual %d", components.size() );
+        return;
+    }
+
     // TODO: fix point types
     vehicle *veh = here.add_vehicle( vehicle_prototype_none, p.raw(), 270_degrees, 0, 0 );
 
     if( !veh ) {
-        debugmsg( "error constructing vehicle" );
+        debugmsg( "constructing failed: add_vehicle returned null" );
         return;
     }
+    item base = components.front();
+
     veh->name = name;
-    veh->install_part( point_zero, vpart_from_item( who.has_trait( trait_DEBUG_HS ) ?
-                       STATIC( itype_id( "frame" ) ) : who.lastconsumed ) );
+    veh->install_part( point_zero, vpart_from_item( base.typeId() ), std::move( base ) );
 
     // Update the vehicle cache immediately,
     // or the vehicle will be invisible for the first couple of turns.
@@ -1523,22 +1534,26 @@ void construct::done_wiring( const tripoint_bub_ms &p, Character &/*who*/ )
     }
 }
 
-void construct::done_appliance( const tripoint_bub_ms &p, Character &who )
+void construct::done_appliance( const tripoint_bub_ms &p, Character & )
 {
     map &here = get_map();
     partial_con *pc = here.partial_con_at( p );
-    cata::optional<item> base = cata::nullopt;
-    const vpart_id &vpart = vpart_appliance_from_item( who.lastconsumed );
-    if( pc ) {
-        for( item &obj : pc->components ) {
-            if( obj.typeId() == vpart->base_item ) {
-                base = obj;
-            }
-        }
-    } else {
-        debugmsg( "partial construction not found" );
+    if( !pc ) {
+        debugmsg( "constructing failed: can't find partial construction" );
+        return;
     }
+
+    const std::list<item> components = pc->components;
     here.partial_con_remove( p );
+
+    if( components.size() != 1 ) {
+        debugmsg( "constructing failed: components size expected 1 actual %d", components.size() );
+        return;
+    }
+
+    const item base = components.front();
+    const vpart_id &vpart = vpart_appliance_from_item( base.typeId() );
+
     // TODO: fix point types
     place_appliance( p.raw(), vpart, base );
 }
@@ -2166,7 +2181,11 @@ void finalize_constructions()
         if( !vp.has_flag( flag_INITIAL_PART ) ) {
             continue;
         }
-        frame_items.emplace_back( vp.base_item, 1 );
+        if( vp.get_id().str() == "frame" ) {
+            frame_items.insert( frame_items.begin(), { vp.base_item, 1 } );
+        } else {
+            frame_items.emplace_back( vp.base_item, 1 );
+        }
     }
 
     if( frame_items.empty() ) {
