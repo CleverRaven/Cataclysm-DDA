@@ -654,14 +654,7 @@
     "price_postapoc": 0,
     "material": [ "cardboard" ],
     "symbol": ")",
-    "color": "brown",
-    "use_action": {
-      "target": "box_small_folded",
-      "msg": "You fold the box.",
-      "moves": 3000,
-      "menu_text": "Fold",
-      "type": "transform"
-    }
+    "color": "brown"
   },
   {
     "id": "box_small_folded",
@@ -703,14 +696,7 @@
     ],
     "material": [ "cardboard" ],
     "symbol": ")",
-    "color": "brown",
-    "use_action": {
-      "target": "box_medium_folded",
-      "msg": "You fold the box.",
-      "moves": 1000,
-      "menu_text": "Fold",
-      "type": "transform"
-    }
+    "color": "brown"
   },
   {
     "id": "box_medium_folded",
@@ -753,13 +739,7 @@
         "max_item_length": "90 cm"
       }
     ],
-    "use_action": [ { "type": "deploy_furn", "furn_type": "f_cardboard_box" },
-    { "target": "box_large_folded",
-      "msg": "You fold the box.",
-      "moves": 1500,
-      "menu_text": "Fold",
-      "type": "transform" }
-  ]
+    "use_action":  { "type": "deploy_furn", "furn_type": "f_cardboard_box" }
   },
   {
     "id": "box_large_folded",
@@ -828,14 +808,7 @@
     ],
     "material": [ "cardboard" ],
     "symbol": ")",
-    "color": "brown",
-    "use_action": {
-      "target": "box_oversize_folded",
-      "msg": "You fold the box.",
-      "moves": 1500,
-      "menu_text": "Fold",
-      "type": "transform"
-    }
+    "color": "brown"
   },
   {
     "id": "box_oversize_folded",
