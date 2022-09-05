@@ -178,7 +178,7 @@
     "copy-from": "abstractmap",
     "type": "GENERIC",
     "name": { "str": "urban explorer's map" },
-    "description": "This is a printout of a local road map, with several buildings circled in red. Using it will add roads and abandoned buildings to your map.",
+    "description": "This is a printout of a local road map, with several buildings circled in red.  Using it will add roads and abandoned buildings to your map.",
     "color": "white",
     "use_action": {
       "type": "reveal_map",
