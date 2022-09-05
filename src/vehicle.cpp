@@ -5110,10 +5110,9 @@ int vehicle::traverse_vehicle_graph( Vehicle *start_veh, int amount, Func action
         return amount;
     }
     // Breadth-first search! Initialize the queue with a pointer to ourselves and go!
-    std::vector< std::pair<Vehicle *, int> > connected_vehs;
+    std::vector< std::pair<Vehicle *, int> > connected_vehs = std::vector< std::pair<Vehicle*, int> >{ std::make_pair( start_veh, 0 ) };
     std::vector<Vehicle *> visited_vehs;
     std::vector<tripoint> visited_targets;
-    connected_vehs.push_back( std::make_pair( start_veh, 0 ) );
 
     while( amount > 0 && !connected_vehs.empty() ) {
         auto current_node = connected_vehs.back();
