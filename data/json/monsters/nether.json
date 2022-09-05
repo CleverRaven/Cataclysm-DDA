@@ -1292,7 +1292,7 @@
   {
     "id": "mon_better_half",
     "type": "MONSTER",
-    "name": { "str": "better half", "str_pl":"better halves" },
+    "name": { "str": "better half", "str_pl": "better halves" },
     "speed": 110,
     "description": "This doesn't look like you.  It looks like what you've dreamed you could be.  Why does your mind keep mistaking you for a bad copy of it?",
     "copy-from": "mon_pale_reflection"
@@ -1371,7 +1371,7 @@
     "id": "mon_guilt",
     "type": "MONSTER",
     "name": { "str": "guilt" },
-    "description": "An animate blotch of conflicting symmetries, when you look at or think of this memories of your wrongdoings rise to the surface.",
+    "description": "An animate blotch of conflicting shapes, when you look at or think of this, memories of your wrongdoings rise to the surface.",
     "copy-from": "mon_shifting_mass",
     "special_attacks": [
       {
@@ -1388,7 +1388,7 @@
     "id": "mon_sloth",
     "type": "MONSTER",
     "name": { "str": "sloth" },
-    "description": "An animate blotch of conflicting symmetries, when you look at or think of this a desire to stop moving rises.",
+    "description": "An animate blotch of conflicting shapes, when you look at or think of this, a desire to stop moving rises.",
     "copy-from": "mon_shifting_mass",
     "special_attacks": [
       {
