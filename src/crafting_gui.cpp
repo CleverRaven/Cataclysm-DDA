@@ -966,7 +966,7 @@ static std::string list_nested( const recipe *rec, const inventory &crafting_inv
     return description;
 }
 
-static void nested_toggle( recipe_id rec )
+static void nested_toggle( recipe_id rec, bool &recalc, bool &keepline )
 {
     auto loc = uistate.expanded_recipes.find( rec );
     if( loc != uistate.expanded_recipes.end() ) {
@@ -974,6 +974,8 @@ static void nested_toggle( recipe_id rec )
     } else {
         uistate.expanded_recipes.insert( rec );
     }
+    recalc = true;
+    keepline = true;
 }
 
 const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id goto_recipe )
@@ -1642,9 +1644,7 @@ const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id goto_
                 .option( "QUIT" )
                 .query();
             } else if( current[line]->is_nested() ) {
-                nested_toggle( current[line]->ident() );
-                recalc = true;
-                keepline = true;
+                nested_toggle( current[line]->ident(), recalc, keepline );
             } else if( !player_character.check_eligible_containers_for_crafting( *current[line],
                        batch ? line + 1 : 1 ) ) {
                 // popup is already inside check
