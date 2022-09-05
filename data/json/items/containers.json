@@ -815,7 +815,7 @@
     "type": "GENERIC",
     "category": "container",
     "name": { "str": "oversize folded cardboard box", "str_pl": "oversize folded cardboard boxes" },
-    "description": "A very large folded cardboard box, the sort children would have loved to hide in, when there were still children.",
+    "description": "An oversize cardboard box, big enough to fit some longer items.  Great for storage.",
     "weight": "2000 g",
     "volume": "15400 ml",
     "longest_side": "220 cm",
