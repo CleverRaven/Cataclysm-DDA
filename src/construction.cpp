@@ -2043,19 +2043,22 @@ void load_construction( const JsonObject &jo )
             { "do_turn_exhume", construct::do_turn_exhume },
         }
     };
-    std::map<std::string, void( * )( const tripoint_bub_ms & )> explain_fail_map;
-    if( jo.has_string( "pre_special" ) &&
-        jo.get_string( "pre_special" )  == std::string( "check_deconstruct" ) ) {
-        explain_fail_map[""] = construct::failure_deconstruct;
-    } else {
-        explain_fail_map[""] = construct::failure_standard;
-    }
+    static const std::map<std::string, void( * )( const tripoint_bub_ms & )>
+    explain_fail_map = {{
+            { "standard", construct::failure_standard },
+            { "deconstruct", construct::failure_deconstruct },
+        }
+    };
+
+    const std::string failure_fallback = jo.get_string( "pre_special", "" ) == "check_deconstruct"
+                                         ? "deconstruct" : "standard";
 
     assign_or_debugmsg( con.pre_special, jo.get_string( "pre_special", "" ), pre_special_map );
     assign_or_debugmsg( con.post_special, jo.get_string( "post_special", "" ), post_special_map );
     assign_or_debugmsg( con.do_turn_special, jo.get_string( "do_turn_special", "" ),
                         do_turn_special_map );
-    assign_or_debugmsg( con.explain_failure, jo.get_string( "explain_failure", "" ), explain_fail_map );
+    assign_or_debugmsg( con.explain_failure, jo.get_string( "explain_failure", failure_fallback ),
+                        explain_fail_map );
     con.vehicle_start = jo.get_bool( "vehicle_start", false );
 
     con.on_display = jo.get_bool( "on_display", true );
