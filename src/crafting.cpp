@@ -1914,7 +1914,6 @@ std::list<item> Character::consume_items( map &m, const comp_selection<item_comp
             }
         }
     }
-    lastconsumed = selected_comp.type;
     empty_buckets( *this );
     return ret;
 }
