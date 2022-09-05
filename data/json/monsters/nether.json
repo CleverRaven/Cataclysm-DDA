@@ -1000,7 +1000,7 @@
     "special_attacks": [
       {
         "type": "spell",
-        "spell_data": { "id": "shifting_mass", "min_level": 1 },
+        "spell_data": { "id": "shifting_mass_attack", "min_level": 1 },
         "cooldown": 1,
         "monster_message": "The shifting mass passes through you as if you were an illusion, and a slight wave of fatigue washes over you."
       }
@@ -1366,5 +1366,39 @@
       }
     ],
     "emit_fields": [ { "emit_id": "emit_clairvoyant", "delay": "1 s" } ]
+  },
+  {
+    "id": "mon_guilt",
+    "type": "MONSTER",
+    "name": { "str": "guilt" },
+    "description": "An animate blotch of conflicting symmetries, when you look at or think of this memories of your wrongdoings rise to the surface.",
+    "copy-from": "mon_shifting_mass",
+    "special_attacks": [
+      {
+        "type": "spell",
+        "spell_data": { "id": "guilt_attack", "min_level": 1 },
+        "cooldown": 1,
+        "monster_message": "The guilt makes no physical movement and yet you feel the force of its assult.  Everything feels heavier."
+      }
+    ],
+    "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s fades away." },
+    "flags": [ "SEES", "HEARS", "NO_BREATHE", "PUSH_MON", "ALWAYS_VISIBLE", "ALWAYS_SEES_YOU" ]
+  },
+  {
+    "id": "mon_sloth",
+    "type": "MONSTER",
+    "name": { "str": "sloth" },
+    "description": "An animate blotch of conflicting symmetries, when you look at or think of this a desire to stop moving rises.",
+    "copy-from": "mon_shifting_mass",
+    "special_attacks": [
+      {
+        "type": "spell",
+        "spell_data": { "id": "sloth_attack", "min_level": 1 },
+        "cooldown": 1,
+        "monster_message": "The sloth does nothing, and you feel time itself aiding your desire to do nothing."
+      }
+    ],
+    "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s fades away." },
+    "flags": [ "SEES", "HEARS", "NO_BREATHE", "PUSH_MON", "ALWAYS_VISIBLE", "ALWAYS_SEES_YOU" ]
   }
 ]

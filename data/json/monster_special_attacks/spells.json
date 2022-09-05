@@ -397,7 +397,7 @@
   },
   {
     "type": "SPELL",
-    "id": "shifting_mass",
+    "id": "shifting_mass_attack",
     "name": { "str": "Shifting Mass Attack" },
     "description": "Drains some of your essence.",
     "copy-from": "base_portal",
@@ -668,14 +668,77 @@
         {
           "case": 8,
           "effect": [
-            { "u_message": "Your reflection uses some of the energy it stole from you to clear the way." },
-            { "arithmetic": [ { "global_val": "var", "var_name": "portal_dungeon_reflect_strength" }, "--" ] },
-            { "u_location_variable": { "global_val": "first" }, "min_radius": 1, "max_radius": 1 },
-            { "npc_location_variable": { "global_val": "second" }, "min_radius": 1, "max_radius": 1 },
             {
-              "transform_line": "clear_portal_walls",
-              "first": { "global_val": "first" },
-              "second": { "global_val": "second" }
+              "switch": { "rand": 10 },
+              "cases": [
+                {
+                  "case": 0,
+                  "effect": [
+                    { "u_message": "Your reflection clears the way between you two." },
+                    { "u_location_variable": { "global_val": "first" }, "min_radius": 1, "max_radius": 1 },
+                    { "npc_location_variable": { "global_val": "second" }, "min_radius": 1, "max_radius": 1 },
+                    {
+                      "transform_line": "clear_portal_walls",
+                      "first": { "global_val": "first" },
+                      "second": { "global_val": "second" }
+                    }
+                  ]
+                },
+                {
+                  "case": 5,
+                  "effect": {
+                    "run_eocs": {
+                      "id": "portal_storm_reflection_summon_guilt",
+                      "condition": {
+                        "and": [
+                          { "compare_int": [ { "global_val": "var", "var_name": "portal_dungeon_level" }, ">", { "const": 0 } ] },
+                          {
+                            "compare_int": [
+                              { "global_val": "monsters_nearby", "target_var": { "global_val": "dungeon_loc" }, "id": "mon_guilt" },
+                              "<",
+                              { "const": 1 }
+                            ]
+                          }
+                        ]
+                      },
+                      "effect": {
+                        "u_spawn_monster": "mon_guilt",
+                        "real_count": 1,
+                        "min_radius": 2,
+                        "max_radius": 4,
+                        "spawn_message": "Something deep inside you is manifested physically."
+                      }
+                    }
+                  }
+                },
+                {
+                  "case": 8,
+                  "effect": {
+                    "run_eocs": {
+                      "id": "portal_storm_reflection_summon_sloth",
+                      "condition": {
+                        "and": [
+                          { "compare_int": [ { "global_val": "var", "var_name": "portal_dungeon_level" }, ">", { "const": 0 } ] },
+                          {
+                            "compare_int": [
+                              { "global_val": "monsters_nearby", "target_var": { "global_val": "dungeon_loc" }, "id": "mon_sloth" },
+                              "<",
+                              { "const": 1 }
+                            ]
+                          }
+                        ]
+                      },
+                      "effect": {
+                        "u_spawn_monster": "mon_sloth",
+                        "real_count": 1,
+                        "min_radius": 2,
+                        "max_radius": 4,
+                        "spawn_message": "Something deep inside you is manifested physically."
+                      }
+                    }
+                  }
+                }
+              ]
             }
           ]
         }
@@ -759,5 +822,37 @@
     "min_duration": 25920000,
     "max_duration": 25920000,
     "extra_effects": [ { "id": "hallu_touch_suicide", "hit_self": true } ]
+  },
+  {
+    "type": "SPELL",
+    "id": "sloth_attack",
+    "name": { "str": "Sloth Attack" },
+    "description": "Slows you.",
+    "copy-from": "base_portal",
+    "effect_str": "EOC_sloth_attack"
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_sloth_attack",
+    "effect": [
+      { "arithmetic": [ { "global_val": "var", "var_name": "portal_dungeon_slow_strength" }, "--" ] },
+      { "u_add_effect": "slowed_time", "duration": [ "4 hours", "6 hours" ] }
+    ]
+  },
+  {
+    "type": "SPELL",
+    "id": "guilt_attack",
+    "name": { "str": "Guilt Attack" },
+    "description": "Makes things heavier.",
+    "copy-from": "base_portal",
+    "effect_str": "EOC_guilt_attack"
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_guilt_attack",
+    "effect": [
+      { "arithmetic": [ { "global_val": "var", "var_name": "portal_dungeon_carry_strength" }, "--" ] },
+      { "u_add_effect": "strengthened_gravity", "duration": [ "4 hours", "6 hours" ] }
+    ]
   }
 ]
