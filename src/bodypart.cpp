@@ -1018,17 +1018,17 @@ int bodypart::get_temp_conv() const
 
 int bodypart::get_bmi_encumbrance_threshold() const
 {
-    return bmi_encumbrance_threshold;
+    return id->bmi_encumbrance_threshold;
 }
 
 float bodypart::get_bmi_encumbrance_scalar() const
 {
-    return bmi_encumbrance_scalar;
+    return id->bmi_encumbrance_scalar;
 }
 
 int bodypart::get_bmi_rigid_problems_threshold() const
 {
-    return bmi_rigid_problems_threshold;
+    return id->bmi_rigid_problems_threshold;
 }
 
 std::array<int, NUM_WATER_TOLERANCE> bodypart::get_mut_drench() const
