@@ -984,7 +984,7 @@ int throw_cost( const Character &c, const item &to_throw )
     // Differences:
     // Dex is more (2x) important for throwing speed
     // At 10 skill, the cost is down to 0.75%, not 0.66%
-    const int base_move_cost = to_throw.attack_time( c ) / 2;
+    const int base_move_cost = to_throw.attack_time() / 2;
     const int throw_skill = std::min( MAX_SKILL, c.get_skill_level( skill_throw ) );
     ///\EFFECT_THROW increases throwing speed
     const int skill_cost = static_cast<int>( ( base_move_cost * ( 20 - throw_skill ) / 20 ) );

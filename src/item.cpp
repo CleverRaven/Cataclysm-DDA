@@ -5068,7 +5068,7 @@ void item::melee_combat_info( std::vector<iteminfo> &info, const iteminfo_query 
 
         if( base_moves ) {
             info.emplace_back( "BASE", _( "Base moves per attack: " ), "",
-                               iteminfo::lower_is_better, attack_time( player_character ) );
+                               iteminfo::lower_is_better, attack_time() );
         }
 
         if( base_dps ) {
@@ -7103,10 +7103,10 @@ int item::lift_strength() const
     return std::max( mass / 10000, 1 );
 }
 
-int item::attack_time( const Character &owner ) const
+int item::attack_time() const
 {
     int ret = 65 + ( volume() / 62.5_ml + weight() / 60_gram ) / count();
-    ret = calculate_by_enchantment_wield( owner, ret, enchant_vals::mod::ITEM_ATTACK_SPEED,
+    ret = calculate_by_enchantment_wield( ret, enchant_vals::mod::ITEM_ATTACK_SPEED,
                                           true );
     return ret;
 }
@@ -10180,7 +10180,7 @@ double item::calculate_by_enchantment( const Character &owner, double modify,
     return modify;
 }
 
-double item::calculate_by_enchantment_wield( const Character &owner, double modify,
+double item::calculate_by_enchantment_wield( double modify,
         enchant_vals::mod value,
         bool round_value ) const
 {
