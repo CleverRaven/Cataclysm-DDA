@@ -111,6 +111,12 @@
   },
   {
     "type": "effect_type",
+    "id": "manic_fugue",
+    "name": [ "Manic Fugue" ],
+    "desc": [ "Your creative state is happening." ]
+  },
+  {
+    "type": "effect_type",
     "id": "hallu",
     "max_duration": "6 h",
     "resist_effects": [ "relative_physics" ],

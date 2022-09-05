@@ -456,6 +456,7 @@
     "coverage": 60,
     "required_str": 10,
     "flags": [ "TRANSPARENT" ],
+    "crafting_pseudo_item": "fake_drop_hammer",
     "deconstruct": {
       "items": [
         { "item": "metal_tank", "count": [ 1, 2 ] },
