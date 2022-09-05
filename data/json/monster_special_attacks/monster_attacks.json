@@ -314,5 +314,12 @@
     "miss_msg_npc": "%s tries to grab <npcname>, but they dodge!",
     "no_dmg_msg_u": "%s grasps at you with silk-covered legs, engulfing you in sticky webs!",
     "no_dmg_msg_npc": "%s grabs <npcname> and covers them in sticky webs!"
+  },
+  {
+    "type": "monster_attack",
+    "id": "destruction_ray_warmup",
+    "spell_data": { "id": "destruction_ray_warmup" },
+    "monster_message": "The diamond studded body of the Jeweled Tortoise starts to flicker, the diamond shapes glittering in a pulsing, circular pattern - the center of which is pointed at you.",
+    "attack_type": "spell"
   }
 ]
