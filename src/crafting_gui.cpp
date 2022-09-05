@@ -892,7 +892,7 @@ static void recursively_expance_recipes( std::vector<const recipe *> &current,
         Character &player_character, bool unread_recipes_first, bool highlight_unread_recipes )
 {
     std::vector<const recipe *> tmp;
-    for( const recipe_id nested : current[i]->nested_category_data ) {
+    for( const recipe_id &nested : current[i]->nested_category_data ) {
         tmp.push_back( &nested.obj() );
         indent.insert( indent.begin() + i + 1, indent[i] + 2 );
         if( !availability_cache.count( &nested.obj() ) ) {
