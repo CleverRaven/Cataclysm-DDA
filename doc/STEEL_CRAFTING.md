@@ -12,7 +12,7 @@ Slag is a byproduct of metalworking, generally representing impurities in the or
 
 ### Budget Steel
 
-Budget Steel represents poorly made steel that contains impurities, rusts easily, fractures, and generally isn't very useful. This should be used to represent things like a Genuine Katana From Nippon that was sold on craigslist for $50, or to represent things like armor that's been sitting in a mansion for two hundred years without maintenance. 
+Budget Steel represents poorly made steel that contains impurities, rusts easily, fractures, and generally isn't very useful. This should be used to represent things like a Genuine Katana From Nippon that was sold on craigslist for $50, or to represent things like armor that has been sitting in a mansion for two hundred years without maintenance. 
 
 ### Mild Carbon Steel
 
@@ -82,7 +82,12 @@ Mild steel can be 'raised' to medium steel, and medium to high steel. These reci
 
 ### Hardening Requirements
 
+Hardening does not require a significant increase in material consumption as only a small amount of coal/charcoal is needed to pack each item, so the costs of steel and carbon remain the same as a mild/medium/high steel version. However the hardening process is longer, crafting time should increase by a minimum of 12 hours to represent packing the item in carbon, heating, 'cooking' and cooling. Multiple items can be hardened at the same time, so if you're making something like a steel gauntlet with lots of small parts, each can be separately packed and then all heated together. Consider additional crafting time for the disassembly of complex items. The fuel costs for the craft should increase to represent keeping the forge hot for a long period of time, but that is difficult to model with the variety of forges we have. 
+
 ### Tempering Requirements
+
+Similar to hardening, the material costs do not dramatically increase. The biggest increase is in crafting time as each item is repeatedly heated and quenched. This should add a minimum of 16 hours over a mild/medium/high steel version. The fuel costs should increase to represent the repeated heating, but that is difficult to model with the variety of forges we have. 
+
 
 ### Repairing
 
