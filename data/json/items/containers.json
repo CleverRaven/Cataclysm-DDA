@@ -666,13 +666,24 @@
   {
     "id": "box_small_folded",
     "type": "GENERIC",
-    "category": "container",
     "name": { "str": "small folded cardboard box", "str_pl": "small folded cardboard boxes" },
     "description": "A small folded cardboard box.  No bigger than a foot in dimension.",
     "copy-from": "box_small",
     "volume": "600 ml",
     "longest_side": "26 cm",
-    "delete": { "pocket_data": [{}], "use_action": {}},
+    "delete": { "pocket_data": [{
+      "pocket_type": "CONTAINER",
+        "rigid": true,
+        "max_contains_volume": "2100 ml",
+        "max_contains_weight": "8 kg",
+        "max_item_length": "20 cm"
+    }], "use_action": {
+      "target": "box_small_folded",
+      "msg": "You fold the box.",
+      "moves": 3000,
+      "menu_text": "Fold",
+      "type": "transform"
+    }},
     "//": "~1x27x22 or ~1x26x26"
   },
   {
@@ -711,13 +722,26 @@
   {
     "id": "box_medium_folded",
     "type": "GENERIC",
-    "category": "container",
     "name": { "str": "folded cardboard box", "str_pl": "folded cardboard boxes" },
     "description": "A sturdy folded cardboard box.  Great for packing.",
     "copy-from": "box_small",
     "volume": "2000 ml",
     "longest_side": "75 cm",
-    "delete": { "pocket_data": [{}], "use_action": {}},
+    "delete": { 
+    "pocket_data": [{
+    "pocket_type": "CONTAINER",
+    "rigid": true,
+    "max_contains_volume": "50000 ml",
+    "max_contains_weight": "20 kg",
+    "max_item_length": "50 cm"
+    }], 
+    "use_action": {
+    "target": "box_medium_folded",
+    "msg": "You fold the box.",
+    "moves": 1000,
+    "menu_text": "Fold",
+    "type": "transform"
+    }},
     "//": "(1x65x75)"
   },
   {
@@ -756,13 +780,26 @@
   {
     "id": "box_large_folded",
     "type": "GENERIC",
-    "category": "container",
     "name": { "str": "large folded cardboard box", "str_pl": "large folded cardboard boxes" },
     "description": "A very large folded cardboard box, the sort children would have loved to hide in, when there were still children.",
     "copy-from": "box_large",
     "volume": "18000 ml",
     "longest_side": "150 cm",
-    "delete": { "pocket_data": [{}], "use_action": {}},
+    "delete": { 
+    "pocket_data": [{
+    "pocket_type": "CONTAINER",
+    "rigid": true,
+    "max_contains_volume": "324000 ml",
+    "max_contains_weight": "50 kg",
+    "max_item_length": "90 cm"
+    }], 
+    "use_action": {
+      "target": "box_large_folded",
+    "msg": "You fold the box.",
+    "moves": 1500,
+    "menu_text": "Fold",
+    "type": "transform"
+    }},
     "//": "(1x150x120)"
   },
   {
@@ -795,7 +832,6 @@
   {
     "id": "box_oversize",
     "type": "GENERIC",
-    "category": "container",
     "name": { "str": "oversize cardboard box", "str_pl": "oversize cardboard boxes" },
     "looks_like": "box_small",
     "description": "An oversize cardboard box, big enough to fit some longer items.  Great for storage. Use it to fold it",
@@ -828,13 +864,26 @@
   {
     "id": "box_oversize_folded",
     "type": "GENERIC",
-    "category": "container",
     "name": { "str": "large folded cardboard box", "str_pl": "large folded cardboard boxes" },
     "description": "A very large folded cardboard box, the sort children would have loved to hide in, when there were still children.",
     "copy-from": "box_oversize",
     "volume": "15400 ml",
     "longest_side": "220 cm",
-    "delete": { "pocket_data": [{}], "use_action": {}},
+    "delete": { 
+    "pocket_data": [{
+    "pocket_type": "CONTAINER",
+    "rigid": true,
+    "max_contains_volume": "200000 ml",
+    "max_contains_weight": "50 kg",
+    "max_item_length": "200 cm"
+    }], 
+    "use_action": {
+      "target": "box_oversize_folded",
+    "msg": "You fold the box.",
+    "moves": 1500,
+    "menu_text": "Fold",
+    "type": "transform"
+    }},
     "//": "(220x70x1)"
   },
   {
