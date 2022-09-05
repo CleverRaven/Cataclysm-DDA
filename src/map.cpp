@@ -1765,8 +1765,8 @@ ter_id map::ter( const tripoint_bub_ms &p ) const
 uint8_t map::get_known_connections( const tripoint &p, int connect_group,
                                     const std::map<tripoint, ter_id> &override ) const
 {
-    if( connect_group == 0 ) {
-        return TERCONN_NONE;
+    if( connect_group == TERCONN_NONE ) {
+        return 0;
     }
 
     const level_cache &ch = access_cache( p.z );
@@ -1821,8 +1821,8 @@ uint8_t map::get_known_connections( const tripoint &p, int connect_group,
 uint8_t map::get_known_rotates_to( const tripoint &p, int rotate_to_group,
                                    const std::map<tripoint, ter_id> &override ) const
 {
-    if( rotate_to_group == 0 ) {
-        return TERCONN_NONE;
+    if( rotate_to_group == TERCONN_NONE ) {
+        return CHAR_MAX;
     }
 
     uint8_t val = 0;
@@ -1849,8 +1849,8 @@ uint8_t map::get_known_rotates_to( const tripoint &p, int rotate_to_group,
 uint8_t map::get_known_connections_f( const tripoint &p, int connect_group,
                                       const std::map<tripoint, furn_id> &override ) const
 {
-    if( connect_group == 0 ) {
-        return TERCONN_NONE;
+    if( connect_group == TERCONN_NONE ) {
+        return 0;
     }
 
     const level_cache &ch = access_cache( p.z );
@@ -1906,8 +1906,8 @@ uint8_t map::get_known_rotates_to_f( const tripoint &p, int rotate_to_group,
                                      const std::map<tripoint, ter_id> &override,
                                      const std::map<tripoint, furn_id> &override_f ) const
 {
-    if( rotate_to_group == 0 ) {
-        return TERCONN_NONE;
+    if( rotate_to_group == TERCONN_NONE ) {
+        return CHAR_MAX;
     }
 
     uint8_t val = 0;

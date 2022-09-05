@@ -215,7 +215,7 @@ An example for furniture are street lights that orient towards the pavement.
 
 The mechanism works similar to `connects_to`, and can be combined with it.
 It makes also use of the same [Connect groups](#connect-groups).
-Currently, however, auto-rotation is implemented only for `edge` tiles (doors, windows) and `unconnected` tiles (e.g. street lights).
+Currently, however, auto-rotation is implemented only for `edge` and `end_piece` tiles (doors, windows) and `unconnected` tiles (e.g. street lights).
 
 Unlike `connects_to`, `rotates_to` is not symmetric.
 For the active/rotating type, `rotates_to` specifies a [Connect group](#connect-groups) the terrain should rotate towards (or rather, depend on).
@@ -223,11 +223,13 @@ For the passive/target type, `rotates_to_member` is used to add it to a [Connect
 
 Terrain can only use terrain to rotate towards, while furniture can use both, terrain and furniture.
 
-Presumably, either `edge` or `unconnected` will be used for a certain type, but rarely both at the same time. Therefore we give an example for windows using `edge`, and for street lights using `unconnected`.
+Presumably, either `edge` and `end_piece`, or `unconnected` will be used for a certain type, but rarely both at the same time. Therefore we give an example for windows using `edge` and `end_piece`, and for street lights using `unconnected`.
 
 ##### Windows and doors
 
-Windows and doors (and probably other types) can render differently, depending on where inside and outside is. These elements are normally only represented by `edge` in multitile terms. For each of the two `edge` directions (north-south, east-west), 2 or 4 sprite variants are required. Further, one `unconnected` variant is required as fallback.
+Windows and doors (and probably other types) can render differently, depending on where inside and outside is.
+These elements are normally only represented by `edge` in multitile terms. In case of a wall next to the window not being visible, it will be `end_piece`.
+For each of the two basic `edge` and `end_piece` directions (north-south, east-west), 2 or 4 sprite variants are required. Further, one `unconnected` variant is required as fallback.
 
 <img width="200" src="./img/autotile_edge_rotation.svg" />
 
@@ -244,10 +246,19 @@ The full multitile would be defined like this:
     {
       "id": "edge",
       "fg": [
-        "w_NS_E", "w_EW_S",
         "w_NS_W", "w_EW_N",
-        "w_NS_NONE", "w_EW_BOTH",
-        "w_NS_BOTH", "w_EW_NONE"
+        "w_NS_E", "w_EW_S",
+        "w_NS_BOTH", "w_EW_NONE",
+        "w_NS_NONE", "w_EW_BOTH"
+      ]
+    },
+    {
+      "id": "end_piece",
+      "fg": [
+        "w_NS_W", "w_EW_N",
+        "w_NS_E", "w_EW_S",
+        "w_NS_BOTH", "w_EW_NONE",
+        "w_NS_NONE", "w_EW_BOTH"
       ]
     },
     {
@@ -261,7 +272,9 @@ The full multitile would be defined like this:
 }
 ```
 
-The order of `edge` sprites ensures that the multitile also works with only the first 4 instead of all 8 sprites. It also makes it compatible with tilesets that don't use the `rotates_to` feature.
+> Note that the same sprites are used here for `edge` and `end_piece`.
+
+The order of sprites ensures that the multitile also works with only the first 4 instead of all 8 sprites. It also makes it compatible with tilesets that don't use the `rotates_to` feature.
 
 Doors and windows work out of the box without modifying terrain definitions, as the required group `INDOORFLOOR` is implied by the flags `WINDOW`, `DOOR` (active) and `INDOORS` (target).
 

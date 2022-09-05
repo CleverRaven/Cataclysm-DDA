@@ -4268,16 +4268,21 @@ void cata_tiles::get_terrain_orientation( const tripoint &p, int &rota, int &sub
         }
     }
 
-    get_rotation_and_subtile( val, 0, rota, subtile );
+    get_rotation_and_subtile( val, -1, rota, subtile );
 }
 
 void cata_tiles::get_rotation_and_subtile( const char val, const char rot_to, int &rotation,
         int &subtile )
 {
+    const bool no_rotation = rot_to  == CHAR_MAX;
     switch( val ) {
         // no connections
         case 0:
             subtile = unconnected;
+            if( no_rotation ) {
+                rotation = 0;
+                break;
+            }
             rotation = get_rotation_unconnected( rot_to );
             break;
         // all connections
@@ -4289,32 +4294,56 @@ void cata_tiles::get_rotation_and_subtile( const char val, const char rot_to, in
         case 8:
             // vertical end piece
             subtile = end_piece;
+            if( no_rotation ) {
+                rotation = 2;
+                break;
+            }
             rotation = get_rotation_edge_ns( rot_to );
             break;
         case 4:
             // horizontal end piece
             subtile = end_piece;
+            if( no_rotation ) {
+                rotation = 3;
+                break;
+            }
             rotation = get_rotation_edge_ew( rot_to );
             break;
         case 2:
             // horizontal end piece
             subtile = end_piece;
+            if( no_rotation ) {
+                rotation = 1;
+                break;
+            }
             rotation = get_rotation_edge_ew( rot_to );
             break;
         case 1:
             // vertical end piece
             subtile = end_piece;
+            if( no_rotation ) {
+                rotation = 0;
+                break;
+            }
             rotation = get_rotation_edge_ns( rot_to );
             break;
         // edges
         case 9:
             // vertical edge
             subtile = edge;
+            if( no_rotation ) {
+                rotation = 0;
+                break;
+            }
             rotation = get_rotation_edge_ns( rot_to );
             break;
         case 6:
             // horizontal edge
             subtile = edge;
+            if( no_rotation ) {
+                rotation = 1;
+                break;
+            }
             rotation = get_rotation_edge_ew( rot_to );
             break;
         // corners
@@ -4359,18 +4388,18 @@ int cata_tiles::get_rotation_edge_ns( const char rot_to )
     if( ( rot_to & static_cast<int>( NEIGHBOUR::EAST ) ) == static_cast<int>( NEIGHBOUR::EAST ) ) {
         if( ( rot_to & static_cast<int>( NEIGHBOUR::WEST ) ) == static_cast<int>( NEIGHBOUR::WEST ) ) {
             // EW
-            return 6;
+            return 4;
         } else {
             // Ew
-            return 0;
+            return 2;
         }
     } else { // east -
         if( ( rot_to & static_cast<int>( NEIGHBOUR::WEST ) ) == static_cast<int>( NEIGHBOUR::WEST ) ) {
             // eW
-            return 2;
+            return 0;
         } else {
             // ew
-            return 4;
+            return 6;
         }
     }
 }
@@ -4380,18 +4409,18 @@ int cata_tiles::get_rotation_edge_ew( const char rot_to )
     if( ( rot_to & static_cast<int>( NEIGHBOUR::NORTH ) ) == static_cast<int>( NEIGHBOUR::NORTH ) ) {
         if( ( rot_to & static_cast<int>( NEIGHBOUR::SOUTH ) ) == static_cast<int>( NEIGHBOUR::SOUTH ) ) {
             // NS
-            return 5;
+            return 7;
         } else {
             // Ns
-            return 3;
+            return 1;
         }
     } else { // north -
         if( ( rot_to & static_cast<int>( NEIGHBOUR::SOUTH ) ) == static_cast<int>( NEIGHBOUR::SOUTH ) ) {
             // nS
-            return 1;
+            return 3;
         } else {
             // ns
-            return 7;
+            return 5;
         }
     }
 }
@@ -4489,7 +4518,7 @@ void cata_tiles::get_tile_values( const int t, const std::array<int, 4> &tn, int
             val += 1 << i;
         }
     }
-    get_rotation_and_subtile( val, 0, rotation, subtile );
+    get_rotation_and_subtile( val, -1, rotation, subtile );
 }
 
 void cata_tiles::get_tile_values_with_ter(
@@ -4500,7 +4529,7 @@ void cata_tiles::get_tile_values_with_ter(
     if( here.has_flag( ter_furn_flag::TFLAG_NO_SELF_CONNECT, p ) ||
         here.has_flag( ter_furn_flag::TFLAG_ALIGN_WORKBENCH, p ) ) {
         //if we don't ever connect to ourself just return unconnected to be used further
-        get_rotation_and_subtile( 0, 0, rotation, subtile );
+        get_rotation_and_subtile( 0, -1, rotation, subtile );
     } else {
         //if we do connect to ourself (tables, counters etc.) calculate based on neighbours
         get_tile_values( t, tn, subtile, rotation );

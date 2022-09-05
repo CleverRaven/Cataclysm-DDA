@@ -814,6 +814,7 @@ class map
         // Return a bitfield of the adjacent tiles which rotate towards the given
         // connect_group.  From least-significant bit the order is south, east,
         // west, north (because that's what cata_tiles expects).
+        // Returns CHAR_MAX if rotate_to_group is 0 (i.e. does not rotate).
         // Based on the true terrain.
         // Additional overrides can be passed in to override terrain
         // at specific positions.
