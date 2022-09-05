@@ -42,7 +42,6 @@
 #include "ui_manager.h"
 
 using std::min; // from <algorithm>
-using std::max;
 
 static const std::string default_context_id( "default" );
 
