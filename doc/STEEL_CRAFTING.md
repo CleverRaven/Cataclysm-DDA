@@ -58,12 +58,6 @@ Not surprisingly, *carbon* is a critical component of carbon steels, but is read
 
 Making steel is an old practice, in place for several hundred years. Recently, it has become extremely industrialized outside of custom toolshops and hobbyist professions. This means that a great deal of information is available about the mass production of steel by the ton, but less about making small batches to produce a single sword. The minimum skill for a mild steel item should be at least 5 points of fabrication, increasing larger, more complicated crafts. Hardening and tempering should also increase the skill requirements.
 
-| Item | Thickness | Steel Grade | Skill | Factor |
-|---|---|---|---|---|
-| Chestplate | 2 mm | Mild | 5 |  |
-| Chestplate | 4 mm | Medium | 6 | Increases due to thicker plate |
-| Chestplate | 6 mm | Tempered | 9 | Increases due to both thicker plate and tempering |
-
 | Thickness | Skill requirement |
 |---|---|
 | Mild, medium, or high steel up to 2 mm | 5 |
@@ -72,8 +66,15 @@ Making steel is an old practice, in place for several hundred years. Recently, i
 | Any thickness, hardened | +1 |
 | Any thickness, tempered | +2 |
 
+| Item | Thickness | Steel Grade | Skill | Factor |
+|---|---|---|---|---|
+| Chestplate | 2 mm | Mild | 5 |  |
+| Chestplate | 4 mm | Medium | 6 | Increases due to thicker plate |
+| Chestplate | 6 mm | Tempered | 9 | Increases due to both thicker plate and tempering |
 
+### Time
 
+One of the longest parts of any metalworking project is the heating and cooling. Even heating prevents warping of metal and ensures consistency in the item's durability. Cooling in particular must be carefully managed or it can result in brittle material that cracks and shatters. For some crafts, the metal must be allowed to cool and be reheated, especially with large or complicated projects. **A large number of steel crafts in Cataclysm are an order of magnitude too quick.** This sets unrealistic expectations among players and can only be corrected by updating more and more recipes to use longer craft times, which should be incorporated while creating graded steel versions.
 
 ### Upgrades
 
