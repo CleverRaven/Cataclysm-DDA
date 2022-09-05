@@ -822,7 +822,7 @@
     "description": "After a life time of hard work, you managed to settle down in a posh retirement community.  Safe behind those walls, you would live a peaceful, privileged life, away from all the crazy lunatics outside.  Then, the crazies made it inside anyway, leaving you no choice but to deal with them personally.  Welcome to your golden years.",
     "allowed_locs": [ "sloc_retirement_community" ],
     "start_name": "Retirement Community",
-    "professions": [ "senior" ],
+    "professions": [ "senior", "old_vet" ],
     "flags": [ "CITY_START", "LONE_START" ]
   }
 ]
