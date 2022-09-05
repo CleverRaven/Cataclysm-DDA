@@ -934,6 +934,17 @@
   },
   {
     "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "result": "box_small",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "fabrication",
+    "time": "10 s",
+    "autolearn": true,
+    "components": [ [ [ "box_small_folded", 1 ] ], [ [ "duct_tape", 5 ] ] ]
+  },
+  {
+    "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "result": "box_medium",
     "category": "CC_*",
@@ -944,6 +955,17 @@
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [ [ [ "cardboard", 40 ] ], [ [ "duct_tape", 50 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "result": "box_medium",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "fabrication",
+    "time": "15 s",
+    "autolearn": true,
+    "components": [ [ [ "box_medium_folded", 1 ] ], [ [ "duct_tape", 10 ] ] ]
   },
   {
     "type": "recipe",
@@ -960,6 +982,17 @@
   },
   {
     "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "result": "box_large",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "fabrication",
+    "time": "20 s",
+    "autolearn": true,
+    "components": [ [ [ "box_large_folded", 1 ] ], [ [ "duct_tape", 20 ] ] ]
+  },
+  {
+    "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "result": "box_large_reinforced",
     "category": "CC_*",
@@ -969,7 +1002,7 @@
     "time": "15 m",
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "box_large", 2 ] ], [ [ "duct_tape", 100 ] ] ]
+    "components": [ [ [ "box_large", 2 ], [ "box_large_folded", 2 ] ], [ [ "duct_tape", 100 ] ] ]
   },
   {
     "type": "recipe",
@@ -983,6 +1016,17 @@
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [ [ [ "cardboard", 200 ] ], [ [ "duct_tape", 100 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "result": "box_oversize",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "fabrication",
+    "time": "20 s",
+    "autolearn": true,
+    "components": [ [ [ "box_oversize_folded", 1 ] ], [ [ "duct_tape", 20 ] ] ]
   },
   {
     "type": "recipe",
