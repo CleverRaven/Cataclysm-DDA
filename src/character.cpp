@@ -4061,7 +4061,6 @@ void Character::mod_stored_kcal( int nkcal, const bool ignore_weariness )
 
 void Character::mod_stored_calories( int ncal, const bool ignore_weariness )
 {
-    int cached_bmi = std::floor( get_bmi() );
     int nkcal = ncal / 1000;
     if( nkcal > 0 ) {
         add_gained_calories( nkcal );
@@ -4073,30 +4072,26 @@ void Character::mod_stored_calories( int ncal, const bool ignore_weariness )
         activity_history.calorie_adjust( ncal );
     }
     set_stored_calories( stored_calories + ncal );
-    //don't run calc_encumbrance unless BMI has changed enough for it to matter
-    if( std::floor( get_bmi() ) != cached_bmi ) {
-        calc_encumbrance();
-        calc_discomfort();
-    }
 }
 
 void Character::set_stored_kcal( int kcal )
 {
     set_stored_calories( kcal * 1000 );
-    calc_encumbrance();
-    calc_discomfort();
 }
 
 void Character::set_stored_calories( int cal )
 {
     if( stored_calories != cal ) {
+        int cached_bmi = std::floor( get_bmi() );
         stored_calories = cal;
 
         //some mutant change their max_hp according to their bmi
         recalc_hp();
-        //need to check obesity penalties when this happens
-        calc_encumbrance();
-        calc_discomfort();
+        //need to check obesity penalties when this happens if BMI changed
+        if( std::floor( get_bmi() ) != cached_bmi ) {
+            calc_encumbrance();
+            calc_discomfort();
+        }
     }
 }
 
