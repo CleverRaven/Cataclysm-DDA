@@ -31,7 +31,7 @@ static const vpart_id vpart_ap_test_standing_lamp( "ap_test_standing_lamp" );
 
 static const vproto_id vehicle_prototype_bicycle( "bicycle" );
 
-TEST_CASE( "detaching_vehicle_unboards_passengers" )
+TEST_CASE( "detaching_vehicle_unboards_passengers", "[vehicle]" )
 {
     clear_map();
     const tripoint test_origin( 60, 60, 0 );
@@ -46,7 +46,7 @@ TEST_CASE( "detaching_vehicle_unboards_passengers" )
     REQUIRE( !player_character.in_vehicle );
 }
 
-TEST_CASE( "destroy_grabbed_vehicle_section" )
+TEST_CASE( "destroy_grabbed_vehicle_section", "[vehicle]" )
 {
     GIVEN( "A vehicle grabbed by the player" ) {
         map &here = get_map();
@@ -72,7 +72,7 @@ TEST_CASE( "destroy_grabbed_vehicle_section" )
     }
 }
 
-TEST_CASE( "add_item_to_broken_vehicle_part" )
+TEST_CASE( "add_item_to_broken_vehicle_part", "[vehicle]" )
 {
     clear_map();
     const tripoint test_origin( 60, 60, 0 );
@@ -97,7 +97,7 @@ TEST_CASE( "add_item_to_broken_vehicle_part" )
     REQUIRE( !veh_ptr->add_item( *cargo_part, itm2 ) );
 }
 
-TEST_CASE( "starting_bicycle_damaged_pedal" )
+TEST_CASE( "starting_bicycle_damaged_pedal", "[vehicle]" )
 {
     clear_map();
     const tripoint test_origin( 60, 60, 0 );
