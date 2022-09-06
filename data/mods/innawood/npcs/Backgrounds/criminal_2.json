@@ -1,0 +1,38 @@
+[
+  {
+    "id": "BGSS_CRIMINAL_2_STORY1",
+    "type": "talk_topic",
+    "dynamic_line": "I was <very> lucky for <the_cataclysm>.  I was squatting in a little canoe by the river.  I was in a real <shitty> place, and my crew had mostly just been arrested for trespassing, but I had skipped out.  I was scared they were gonna think I ratted 'em out and come get me, but hey, no worries about that now.",
+    "responses": [
+      { "text": "Woah, lucky for you.  How did you find out about <the_cataclysm>?", "topic": "BGSS_CRIMINAL_2_STORY2" },
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "BGSS_CRIMINAL_2_STORY2",
+    "type": "talk_topic",
+    "dynamic_line": "I was just in a canoe, not in Zambonia.  I could see and hear.  Scared the shit out of me.  I had it pretty good though, I'd lifted a bunch of dried food and shit, and I had a pretty sweet little squat in that canoe.  I'd been planning on spending a long time there after all, while I figured out how to get in good with my crew.",
+    "responses": [
+      { "text": "Something must have driven you out of there.", "topic": "BGSS_CRIMINAL_2_STORY3" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<end_talking>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "BGSS_CRIMINAL_2_STORY3",
+    "type": "talk_topic",
+    "dynamic_line": "Yeah.  Giant dragonflies.  A bunch of them, some of them I'm pretty sure were fuckin', I shit you not.  I dunno what brought them way out my way but they saw me takin' a piss and that was that.  I took a few shots at them but they didn't stop, so I ran.  Once I got my shit together again I realized it wasn't so bad, I was running out of stuff anyway.  Been livin' on what I can grab ever since, until I fell in with you.",
+    "responses": [
+      { "text": "Got any tips about the dragonflies?", "topic": "BGSS_CRIMINAL_2_NECROMANCER" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<end_talking>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "BGSS_CRIMINAL_2_NECROMANCER",
+    "type": "talk_topic",
+    "dynamic_line": "Well, I mean, I think I just didn't have the firepower.  A pistol shot isn't much, but something bigger might stop them.",
+    "responses": [ { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" }, { "text": "<end_talking>", "topic": "TALK_DONE" } ]
+  }
+]

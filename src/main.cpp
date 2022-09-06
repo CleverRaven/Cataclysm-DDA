@@ -714,6 +714,7 @@ int main( int argc, const char *argv[] )
     game_ui::init_ui();
 
     g = std::make_unique<game>();
+
     // First load and initialize everything that does not
     // depend on the mods.
     try {
@@ -769,20 +770,14 @@ int main( int argc, const char *argv[] )
         return 0;
     }
 
+    main_menu::queued_world_to_load = std::move( cli.world );
+
     get_help().load();
 
     while( true ) {
-        if( !cli.world.empty() ) {
-            if( !g->load( cli.world ) ) {
-                break;
-            }
-            cli.world.clear(); // ensure quit returns to opening screen
-
-        } else {
-            main_menu menu;
-            if( !menu.opening_screen() ) {
-                break;
-            }
+        main_menu menu;
+        if( !menu.opening_screen() ) {
+            break;
         }
 
         shared_ptr_fast<ui_adaptor> ui = g->create_or_get_main_ui_adaptor();

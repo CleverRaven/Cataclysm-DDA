@@ -365,7 +365,7 @@
     "difficulty": 2,
     "trap_radius": 1,
     "action": "none",
-    "drops": [ "motor", "blade", "blade", "string_36" ]
+    "drops": [ "motor_small", "blade", "blade", "string_36" ]
   },
   {
     "type": "trap",
@@ -685,7 +685,7 @@
     "effect_str": "mon_spider_trapdoor_giant",
     "shape": "blast",
     "valid_targets": [ "ground" ],
-    "flags": [ "PERMANENT", "HOSTILE_SUMMON" ],
+    "flags": [ "PERMANENT", "HOSTILE_SUMMON", "NO_EXPLOSION_SFX" ],
     "max_level": 15,
     "min_aoe": 2,
     "max_aoe": 3,

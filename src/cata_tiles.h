@@ -42,6 +42,7 @@ struct tile_type {
     bool animated = false;
     int height_3d = 0;
     point offset = point_zero;
+    point offset_retracted = point_zero;
 
     std::vector<std::string> available_subtiles;
 };
@@ -145,7 +146,8 @@ class tileset
         std::unordered_map<std::string, tile_type> tile_ids;
         // caches both "default" and "_season_XXX" tile variants (to reduce the number of lookups)
         // either variant can be either a `nullptr` or a pointer/reference to the real value (stored inside `tile_ids`)
-        std::unordered_map<std::string, season_tile_value> tile_ids_by_season[season_type::NUM_SEASONS];
+        std::array<std::unordered_map<std::string, season_tile_value>, season_type::NUM_SEASONS>
+        tile_ids_by_season;
 
 
         static const texture *get_if_available( const size_t index,
@@ -238,6 +240,7 @@ class tileset_cache::loader
         const SDL_Renderer_Ptr &renderer;
 
         point sprite_offset;
+        point sprite_offset_retracted;
 
         int sprite_width = 0;
         int sprite_height = 0;
@@ -430,10 +433,10 @@ class cata_tiles
                            lit_level ll, bool apply_night_vision_goggles, int &height_3d );
 
         /* Tile Picking */
-        void get_tile_values( int t, const int *tn, int &subtile, int &rotation );
+        void get_tile_values( int t, const std::array<int, 4> &tn, int &subtile, int &rotation );
         // as get_tile_values, but for unconnected tiles, infer rotation from surrounding walls
-        void get_tile_values_with_ter( const tripoint &p, int t, const int *tn, int &subtile,
-                                       int &rotation );
+        void get_tile_values_with_ter( const tripoint &p, int t, const std::array<int, 4> &tn,
+                                       int &subtile, int &rotation );
         void get_connect_values( const tripoint &p, int &subtile, int &rotation, int connect_group,
                                  const std::map<tripoint, ter_id> &ter_override );
         void get_furn_connect_values( const tripoint &p, int &subtile, int &rotation,
@@ -441,7 +444,7 @@ class cata_tiles
                                       const std::map<tripoint, furn_id> &furn_override );
         void get_terrain_orientation( const tripoint &p, int &rota, int &subtile,
                                       const std::map<tripoint, ter_id> &ter_override,
-                                      const bool ( &invisible )[5] );
+                                      const std::array<bool, 5> &invisible );
         void get_rotation_and_subtile( char val, int &rota, int &subtile );
 
         /** Map memory */
@@ -459,29 +462,29 @@ class cata_tiles
         bool would_apply_vision_effects( visibility_type visibility ) const;
         bool apply_vision_effects( const tripoint &pos, visibility_type visibility );
         bool draw_terrain( const tripoint &p, lit_level ll, int &height_3d,
-                           const bool ( &invisible )[5] );
+                           const std::array<bool, 5> &invisible );
         bool draw_terrain_below( const tripoint &p, lit_level ll, int &height_3d,
-                                 const bool ( &invisible )[5] );
+                                 const std::array<bool, 5> &invisible );
         bool draw_furniture( const tripoint &p, lit_level ll, int &height_3d,
-                             const bool ( &invisible )[5] );
+                             const std::array<bool, 5> &invisible );
         bool draw_graffiti( const tripoint &p, lit_level ll, int &height_3d,
-                            const bool ( &invisible )[5] );
+                            const std::array<bool, 5> &invisible );
         bool draw_trap( const tripoint &p, lit_level ll, int &height_3d,
-                        const bool ( &invisible )[5] );
+                        const std::array<bool, 5> &invisible );
         bool draw_field_or_item( const tripoint &p, lit_level ll, int &height_3d,
-                                 const bool ( &invisible )[5] );
+                                 const std::array<bool, 5> &invisible );
         bool draw_vpart( const tripoint &p, lit_level ll, int &height_3d,
-                         const bool ( &invisible )[5] );
+                         const std::array<bool, 5> &invisible );
         bool draw_vpart_below( const tripoint &p, lit_level ll, int &height_3d,
-                               const bool ( &invisible )[5] );
+                               const std::array<bool, 5> &invisible );
         bool draw_critter_at( const tripoint &p, lit_level ll, int &height_3d,
-                              const bool ( &invisible )[5] );
+                              const std::array<bool, 5> &invisible );
         bool draw_critter_at_below( const tripoint &p, lit_level ll, int &height_3d,
-                                    const bool ( &invisible )[5] );
+                                    const std::array<bool, 5> &invisible );
         bool draw_zone_mark( const tripoint &p, lit_level ll, int &height_3d,
-                             const bool ( &invisible )[5] );
+                             const std::array<bool, 5> &invisible );
         bool draw_zombie_revival_indicators( const tripoint &pos, lit_level ll, int &height_3d,
-                                             const bool ( &invisible )[5] );
+                                             const std::array<bool, 5> &invisible );
         void draw_entity_with_overlays( const Character &ch, const tripoint &p, lit_level ll,
                                         int &height_3d );
 

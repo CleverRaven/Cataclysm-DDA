@@ -1736,7 +1736,10 @@ Crafting recipes are defined as a JSON object with the following fields:
       "max_experience": "15 m" // This recipe cannot raise your experience for that proficiency above 15 minutes worth.
     }
 ]
+"contained": true, // Boolean value which defines if the resulting item comes in its designated container. Automatically set to true if any container is defined in the recipe. 
+"container": "jar_glass_sealed", //The resulting item will be contained by the item set here, overrides default container.
 "batch_time_factors": [25, 15], // Optional factors for batch crafting time reduction. First number specifies maximum crafting time reduction as percentage, and the second number the minimal batch size to reach that number. In this example given batch size of 20 the last 6 crafts will take only 3750 time units.
+"result_mult": 2, //Create this many stacks of the resulting item per craft.
 "flags": [                   // A set of strings describing boolean features of the recipe
   "BLIND_EASY",
   "ANOTHERFLAG"

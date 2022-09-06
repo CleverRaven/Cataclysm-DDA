@@ -53,6 +53,7 @@
   <PropertyGroup Label="Configuration">
     <PreferredToolArchitecture>x64</PreferredToolArchitecture>
   </PropertyGroup>
+  <Import Project="Cataclysm.Cpp.props" />
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings" />
   <ImportGroup Label="Shared" />
@@ -63,7 +64,7 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
     <TargetExt>.exe</TargetExt>
-    <OutDir>$(SolutionDir)..\tools\format\</OutDir>
+    <OutDir>$(CDDA_ROOT)\tools\format\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)'=='Debug'">
     <LinkIncremental>true</LinkIncremental>

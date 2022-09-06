@@ -5642,6 +5642,10 @@ void vehicle::gain_moves()
     // cruise control TODO: enable for NPC?
     if( ( pl_control || is_following || is_patrolling ) && cruise_on && cruise_velocity != velocity ) {
         thrust( ( cruise_velocity ) > velocity ? 1 : -1 );
+    } else if( is_rotorcraft() && velocity == 0 ) {
+        // rotorcraft uses fuel for hover
+        // whether it's flying or not is checked inside thrust function
+        thrust( 0 );
     }
 
     // Force off-map vehicles to load by visiting them every time we gain moves.
@@ -6517,14 +6521,37 @@ void vehicle::remove_remote_part( int part_num )
     }
 }
 
-void vehicle::shed_loose_parts()
+void vehicle::shed_loose_parts( const tripoint_bub_ms *src, const tripoint_bub_ms *dst )
 {
     map &here = get_map();
-    // remove_part rebuilds the loose_parts vector, when all of those parts have been removed,
-    // it will stay empty.
-    while( !loose_parts.empty() ) {
-        const int elem = loose_parts.front();
+    // remove_part rebuilds the loose_parts vector, so iterate over a copy to preserve
+    // power transfer lines that still have some slack to them
+    std::vector<int> lp = loose_parts;
+    for( const int &elem : lp ) {
+        if( std::find( loose_parts.begin(), loose_parts.end(), elem ) == loose_parts.end() ) {
+            // part was removed elsewhere
+            continue;
+        }
         if( part_flag( elem, "POWER_TRANSFER" ) ) {
+            int distance = rl_dist( here.getabs( bub_part_pos( parts[elem] ) ), parts[elem].target.second );
+            int max_dist = parts[elem].get_base().type->maximum_charges();
+            if( src && ( max_dist - distance ) > 0 ) {
+                // power line still has some slack to it, so keep it attached for now
+                vehicle *veh = find_vehicle( parts[elem].target.second );
+                if( veh != nullptr ) {
+                    for( int remote_lp : veh->loose_parts ) {
+                        if( veh->part_flag( remote_lp, "POWER_TRANSFER" ) &&
+                            veh->parts[remote_lp].target.first == here.getabs( *src ) ) {
+                            // update remote part's target to new position
+                            veh->parts[remote_lp].target.first = here.getabs( dst ? *dst : bub_part_pos( elem ) );
+                            veh->parts[remote_lp].target.second = veh->parts[remote_lp].target.first;
+                        }
+                    }
+                }
+                continue;
+            }
+            add_msg_if_player_sees( global_part_pos3( parts[elem] ), m_warning,
+                                    _( "The %s's power connection was detached!" ), name );
             remove_remote_part( elem );
         }
         if( is_towing() || is_towed() ) {
@@ -7587,9 +7614,11 @@ vehicle_part_range vehicle::get_all_parts() const
     return vehicle_part_range( const_cast<vehicle &>( *this ) );
 }
 
-int vehicle::part_count() const
+int vehicle::part_count( bool no_fake ) const
 {
-    return static_cast<int>( parts.size() );
+    return no_fake ? std::count_if( parts.begin(), parts.end(), []( const vehicle_part & vp ) {
+        return !vp.is_fake;
+    } ) : static_cast<int>( parts.size() );
 }
 
 std::vector<vehicle_part> vehicle::real_parts() const
