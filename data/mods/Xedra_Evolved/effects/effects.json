@@ -161,7 +161,7 @@
     "rating": "good",
     "blocks_effects": [ "vampire_virus" ],
     "blood_analysis_description": "Heightened levels of organosulfur compounds, mercury, and silver.",
-    "max_duration": 86400,
+    "max_duration": 8640000,
     "dur_add_perc": 25
   },
   {

@@ -53,7 +53,8 @@
     "name": { "str": "Haunted by your dreams made flesh" },
     "points": 0,
     "player_display": false,
-    "description": "Your dreams can change reality."
+    "description": "Your dreams can change reality.",
+    "vitamin_rates": [ [ "dream", -8640000 ] ]
   },
   {
     "type": "mutation",
@@ -61,7 +62,8 @@
     "name": { "str": "Accompanied by your dreams made flesh" },
     "points": 0,
     "player_display": false,
-    "description": "Your dreams can change reality."
+    "description": "Your dreams can change reality.",
+    "vitamin_rates": [ [ "dream", -8640000 ] ]
   },
   {
     "type": "mutation",
