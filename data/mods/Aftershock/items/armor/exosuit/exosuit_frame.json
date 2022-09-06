@@ -337,7 +337,7 @@
       "PARTIAL_DEAF",
       "SUN_GLASSES",
       "FLASH_PROTECTION",
-	  "MUNDANE"
+      "MUNDANE"
     ],
     "weight_capacity_bonus": "20 kg",
     "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ACTIVE", "values": [ { "value": "STRENGTH", "add": 10 } ] } ] },
