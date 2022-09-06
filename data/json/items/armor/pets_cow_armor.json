@@ -4,7 +4,7 @@
     "type": "PET_ARMOR",
     "name": { "str": "cow armor" },
     "symbol": "[",
-    "min_pet_vol": "50 L",
+    "min_pet_vol": "250 L",
     "max_pet_vol": "1000 L",
     "pet_bodytype": "dog",
     "longest_side": "60 cm",
