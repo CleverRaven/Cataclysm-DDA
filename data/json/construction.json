@@ -2243,7 +2243,8 @@
     "components": [ [ [ "chair_wood", 1 ] ] ],
     "pre_special": "check_empty",
     "post_terrain": "f_chair",
-    "activity_level": "LIGHT_EXERCISE"
+    "activity_level": "LIGHT_EXERCISE",
+    "required_skills": [ [ "fabrication", 0 ] ]
   },
   {
     "type": "construction",
