@@ -37,8 +37,7 @@
       { "monster": "mon_flaming_eye", "weight": 100, "cost_multiplier": 0 },
       { "monster": "mon_kreck", "weight": 100, "cost_multiplier": 0 },
       { "monster": "mon_gracke", "weight": 100, "cost_multiplier": 0 },
-      { "monster": "mon_blank", "weight": 100, "cost_multiplier": 0 },
-      { "monster": "mon_jeweled_tortoise", "weight": 100, "cost_multiplier": 0, "starts": "15 days" }
+      { "monster": "mon_blank", "weight": 100, "cost_multiplier": 0 }
     ]
   },
   {
