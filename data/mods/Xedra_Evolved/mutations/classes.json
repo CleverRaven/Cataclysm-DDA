@@ -44,12 +44,13 @@
     "id": "INVENTOR",
     "name": "Mad Genius",
     "points": 0,
-    "description": "The Mad Genius uses their connection to other dimensions in order to manipulate or even replace the physics of this realm with that of another.  They turn toys and nonsense inventions into machines of incredible sophistication and power, temporarily.",
+    "description": "The Mad Genius uses their connection to other dimensions in order to manipulate or even replace the physics of this realm with that of another.  They turn toys and nonsense inventions into machines of incredible sophistication and power, temporarily.  Roughly once a week they will accrue enough creative sparks to create a random minor artifact.",
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
     "mana_modifier": 500,
     "cancels": [ "DREAMSMITH" ],
+    "vitamin_rates": [ [ "creative_spark", -604800 ] ],
     "spells_learned": [ [ "spark_of_inspiration", 1 ] ]
   }
 ]

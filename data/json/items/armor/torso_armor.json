@@ -247,7 +247,48 @@
     "material_thickness": 1.5,
     "environmental_protection": 2,
     "flags": [ "OUTER", "WATER_FRIENDLY" ],
-    "armor": [ { "encumbrance": 10, "coverage": 95, "covers": [ "torso" ] } ]
+    "armor": [ { "encumbrance": 18, "coverage": 95, "covers": [ "torso" ] } ]
+  },
+  {
+    "id": "ch_chestguard_metal_sheets",
+    "type": "ARMOR",
+    "copy-from": "chestguard_metal_sheets",
+    "name": { "str": "case hardened sheet metal chest guard" },
+    "description": "A chest guard made of hammered sheet metal, case hardened for added protection.  It's not any easier to move in, but it is much sturdier now.",
+    "material": [ "ch_steel" ],
+    "extend": { "flags": [ "STURDY" ] }
+  },
+  {
+    "id": "chestguard_metal_sheets_heavy",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "heavy sheet metal chest guard" },
+    "description": "A double-decker chest guard made from two sheets of metal layered over each other and hammered to fit your torso.  Monstrously heavy, but it's quite protective and the thicker material makes it sturdier.",
+    "weight": "17600 g",
+    "//": "The weight assumes the sheet metal is 75cm x 50cm x 1.5mm, doubled.",
+    "volume": "4 L",
+    "price": 1000,
+    "price_postapoc": 400,
+    "to_hit": -3,
+    "material": [ "lc_steel" ],
+    "repairs_with": [ "steel" ],
+    "symbol": "H",
+    "looks_like": "cuirass_lightplate",
+    "color": "light_gray",
+    "warmth": 10,
+    "longest_side": "75 cm",
+    "material_thickness": 3,
+    "environmental_protection": 2,
+    "flags": [ "OUTER", "WATER_FRIENDLY", "STURDY" ],
+    "armor": [ { "encumbrance": 30, "coverage": 95, "covers": [ "torso" ] } ]
+  },
+  {
+    "id": "ch_chestguard_metal_sheets_heavy",
+    "type": "ARMOR",
+    "copy-from": "chestguard_metal_sheets_heavy",
+    "name": { "str": "case hardened heavy sheet metal chest guard" },
+    "description": "Double-thick, case hardened sheet metal hammered to fit your torso.  Offers the best protection a junkyard knight could ask for.",
+    "material": [ "ch_steel" ]
   },
   {
     "id": "chestguard_metal_sheets_light",
@@ -282,6 +323,15 @@
         "specifically_covers": [ "torso_upper" ]
       }
     ]
+  },
+  {
+    "id": "ch_chestguard_metal_sheets_light",
+    "type": "ARMOR",
+    "copy-from": "chestguard_metal_sheets_light",
+    "name": { "str": "case hardened light sheet metal chest guard" },
+    "description": "Sheet metal cut to only cover your upper torso and case hardened for extra protection.  Provides a decent compromise between protection and being able to move.",
+    "material": [ "ch_steel" ],
+    "extend": { "flags": [ "STURDY" ] }
   },
   {
     "id": "bookplate",
@@ -370,7 +420,7 @@
       {
         "material": [ { "type": "lc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
         "covers": [ "torso" ],
-        "coverage": 95,
+        "coverage": 100,
         "encumbrance": 20
       }
     ]
@@ -402,7 +452,7 @@
       {
         "material": [ { "type": "mc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
         "covers": [ "torso" ],
-        "coverage": 95,
+        "coverage": 100,
         "encumbrance": 20
       }
     ]
@@ -434,7 +484,7 @@
       {
         "material": [ { "type": "hc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
         "covers": [ "torso" ],
-        "coverage": 95,
+        "coverage": 100,
         "encumbrance": 20
       }
     ]
@@ -466,7 +516,7 @@
       {
         "material": [ { "type": "ch_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
         "covers": [ "torso" ],
-        "coverage": 95,
+        "coverage": 100,
         "encumbrance": 20
       }
     ]
@@ -498,7 +548,7 @@
       {
         "material": [ { "type": "qt_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
         "covers": [ "torso" ],
-        "coverage": 95,
+        "coverage": 100,
         "encumbrance": 20
       }
     ]

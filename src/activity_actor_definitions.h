@@ -57,6 +57,8 @@ class aim_activity_actor : public activity_actor
         tripoint initial_view_offset;
         /** Target UI requested to abort aiming */
         bool aborted = false;
+        /** if true abort if no targets are available when re-entering aiming ui after shooting */
+        bool abort_if_no_targets = false;
         /**
          * Target UI requested to abort aiming and reload weapon
          * Implies aborted = true

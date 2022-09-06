@@ -323,11 +323,20 @@
     ]
   },
   {
+    "id": "ch_armguard_metal",
+    "type": "ARMOR",
+    "copy-from": "armguard_metal",
+    "name": { "str": "pair of case hardened sheet metal arm guards", "str_pl": "pairs of case hardened sheet metal arm guards" },
+    "description": "A pair of arm guards hammered out from sheet metal, case hardened for extra protection.  Still manages that Post-Apocalyptic Warrior look.",
+    "material": [ "ch_steel" ],
+    "extend": { "flags": [ "STURDY" ] }
+  },
+  {
     "id": "armguard_metal_sheets_shoulders",
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "pair of sheet metal pauldrons", "str_pl": "pairs of sheet metal pauldrons" },
-    "description": "Two half-cylinders of sheet metal jutting out over your shoulder and two more underneath.  They make it impossible to raise your arms fully, but they'll keep your arms attached to you.",
+    "description": "Two half-cylinders of sheet metal jutting out over your shoulders and two more underneath.  They make it impossible to raise your arms fully, but they'll keep your arms attached to you.",
     "weight": "1400 g",
     "//": "The weight assumes four sheets of about 15cm x 15cm x 1.5mm.",
     "volume": "2 L",
@@ -351,6 +360,15 @@
         "specifically_covers": [ "arm_shoulder_l", "arm_shoulder_r" ]
       }
     ]
+  },
+  {
+    "id": "ch_armguard_metal_sheets_shoulders",
+    "type": "ARMOR",
+    "copy-from": "armguard_metal_sheets_shoulders",
+    "name": { "str": "pair of case hardened sheet metal pauldrons", "str_pl": "pairs of case hardened sheet metal pauldrons" },
+    "description": "A pair of crude pauldrons made out of sheet metal and case hardened for reinforcement.",
+    "material": [ "ch_steel" ],
+    "extend": { "flags": [ "STURDY" ] }
   },
   {
     "id": "armguard_metal_sheets_elbows",
@@ -382,6 +400,15 @@
         "specifically_covers": [ "arm_elbow_l", "arm_elbow_r" ]
       }
     ]
+  },
+  {
+    "id": "ch_armguard_metal_sheets_elbows",
+    "type": "ARMOR",
+    "copy-from": "armguard_metal_sheets_elbows",
+    "name": { "str": "pair of case hardened sheet metal elbow guards", "str_pl": "pairs of case hardened sheet metal elbow guards" },
+    "description": "Elbow guards of sheet metal, case hardened to make sure you never bang your funny bone on the table again.",
+    "material": [ "ch_steel" ],
+    "extend": { "flags": [ "STURDY" ] }
   },
   {
     "id": "xl_armguard_metal",
@@ -765,15 +792,8 @@
       {
         "material": [ { "type": "lc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
         "covers": [ "arm_l", "arm_r" ],
-        "specifically_covers": [ "arm_lower_r", "arm_lower_l", "arm_shoulder_r", "arm_shoulder_l" ],
-        "coverage": 95,
+        "coverage": 100,
         "encumbrance": 20
-      },
-      {
-        "material": [ { "type": "lc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
-        "covers": [ "arm_l", "arm_r" ],
-        "specifically_covers": [ "arm_elbow_l", "arm_elbow_r", "arm_upper_l", "arm_upper_r" ],
-        "coverage": 100
       }
     ]
   },
@@ -806,15 +826,8 @@
       {
         "material": [ { "type": "mc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
         "covers": [ "arm_l", "arm_r" ],
-        "specifically_covers": [ "arm_lower_r", "arm_lower_l", "arm_shoulder_r", "arm_shoulder_l" ],
-        "coverage": 95,
+        "coverage": 100,
         "encumbrance": 20
-      },
-      {
-        "material": [ { "type": "mc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
-        "covers": [ "arm_l", "arm_r" ],
-        "specifically_covers": [ "arm_elbow_l", "arm_elbow_r", "arm_upper_l", "arm_upper_r" ],
-        "coverage": 100
       }
     ]
   },
@@ -847,15 +860,8 @@
       {
         "material": [ { "type": "hc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
         "covers": [ "arm_l", "arm_r" ],
-        "specifically_covers": [ "arm_lower_r", "arm_lower_l", "arm_shoulder_r", "arm_shoulder_l" ],
-        "coverage": 95,
+        "coverage": 100,
         "encumbrance": 20
-      },
-      {
-        "material": [ { "type": "hc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
-        "covers": [ "arm_l", "arm_r" ],
-        "specifically_covers": [ "arm_elbow_l", "arm_elbow_r", "arm_upper_l", "arm_upper_r" ],
-        "coverage": 100
       }
     ]
   },
@@ -888,15 +894,8 @@
       {
         "material": [ { "type": "ch_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
         "covers": [ "arm_l", "arm_r" ],
-        "specifically_covers": [ "arm_lower_r", "arm_lower_l", "arm_shoulder_r", "arm_shoulder_l" ],
-        "coverage": 95,
+        "coverage": 100,
         "encumbrance": 20
-      },
-      {
-        "material": [ { "type": "ch_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
-        "covers": [ "arm_l", "arm_r" ],
-        "specifically_covers": [ "arm_elbow_l", "arm_elbow_r", "arm_upper_l", "arm_upper_r" ],
-        "coverage": 100
       }
     ]
   },
@@ -929,15 +928,8 @@
       {
         "material": [ { "type": "qt_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
         "covers": [ "arm_l", "arm_r" ],
-        "specifically_covers": [ "arm_lower_r", "arm_lower_l", "arm_shoulder_r", "arm_shoulder_l" ],
-        "coverage": 95,
+        "coverage": 100,
         "encumbrance": 20
-      },
-      {
-        "material": [ { "type": "qt_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
-        "covers": [ "arm_l", "arm_r" ],
-        "specifically_covers": [ "arm_elbow_l", "arm_elbow_r", "arm_upper_l", "arm_upper_r" ],
-        "coverage": 100
       }
     ]
   },

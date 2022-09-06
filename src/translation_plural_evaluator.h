@@ -4,6 +4,7 @@
 
 #if defined(LOCALIZE)
 
+#include <array>
 #include <limits>
 #include <stack>
 #include <vector>
