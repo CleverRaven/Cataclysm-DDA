@@ -425,7 +425,7 @@
     "vision_day": 20,
     "vision_night": 5,
     "harvest": "exempt",
-    "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s violently implodes with a wet crunch, dissapearing." },
+    "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s violently implodes with a wet crunch, disappearing." },
     "special_attacks": [
       [ "destruction_ray_warmup", 10 ],
       {
