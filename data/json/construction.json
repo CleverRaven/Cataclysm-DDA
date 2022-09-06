@@ -3810,6 +3810,21 @@
   },
   {
     "type": "construction",
+    "id": "app_wall_wiring_homemade",
+    "group": "place_wall_wiring",
+    "category": "APPLIANCE",
+    "required_skills": [ [ "fabrication", 2 ] ],
+    "time": "20 m",
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "tools": [ [ [ "pliers", -1 ], [ "multitool", -1 ] ] ],
+    "components": [ [ [ "cable", 19 ] ], [ [ "duct_tape", 20 ] ] ],
+    "pre_flags": "WALL",
+    "pre_special": "check_no_wiring",
+    "post_special": "done_wiring",
+    "activity_level": "MODERATE_EXERCISE"
+  },
+  {
+    "type": "construction",
     "id": "app_asrg_containment",
     "group": "place_asrg_containment",
     "category": "APPLIANCE",

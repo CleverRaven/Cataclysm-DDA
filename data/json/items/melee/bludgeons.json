@@ -1476,7 +1476,7 @@
     "//": "Craftable from steel, shouldn't be silver.  A warhammer is essentially one end of a pickaxe with balancing weight on the other and crushes/pierces the armor.",
     "material": [ "steel", "wood" ],
     "techniques": [ "WBLOCK_1", "BRUTAL", "SWEEP" ],
-    "flags": [ "DURABLE_MELEE", "SPEAR", "NONCONDUCTIVE", "BELT_CLIP" ],
+    "flags": [ "DURABLE_MELEE", "SPEAR", "NONCONDUCTIVE" ],
     "weapon_category": [ "HOOKING_WEAPONRY", "GREAT_HAMMERS" ],
     "volume": "1250 ml",
     "longest_side": "120 cm",
