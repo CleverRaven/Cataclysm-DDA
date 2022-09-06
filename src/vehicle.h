@@ -1001,10 +1001,6 @@ class vehicle
         // also called by remove_fake_parts
         bool do_remove_part_actual();
 
-        // remove the carried flag from a vehicle after it has been removed from a rack
-        void remove_carried_flag();
-        // remove the tracked flag from a tracked vehicle after it has been removed from a rack
-        void remove_tracked_flag();
         // remove a vehicle specified by a list of part indices
         bool remove_carried_vehicle( const std::vector<int> &carried_parts, const std::vector<int> &racks );
         // split the current vehicle into up to four vehicles if they have no connection other

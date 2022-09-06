@@ -2014,53 +2014,16 @@ void vehicle::part_removal_cleanup()
     coeff_air_changed = false;
 }
 
-void vehicle::remove_carried_flag()
-{
-    for( vehicle_part &part : parts ) {
-        if( part.carry_names.empty() ) {
-            // note: we get here if the part was added while the vehicle was carried / mounted. This is not expected.
-            // still try to remove the carried flag, if any.
-            part.remove_flag( vehicle_part::carried_flag );
-        } else {
-            part.carry_names.pop();
-            if( part.carry_names.empty() ) {
-                part.remove_flag( vehicle_part::carried_flag );
-            }
-        }
-    }
-}
-
-void vehicle::remove_tracked_flag()
-{
-    for( vehicle_part &part : parts ) {
-        if( part.carry_names.empty() ) {
-            part.remove_flag( vehicle_part::tracked_flag );
-        } else {
-            part.carry_names.pop();
-            if( part.carry_names.empty() ) {
-                part.remove_flag( vehicle_part::tracked_flag );
-            }
-        }
-    }
-}
-
 bool vehicle::remove_carried_vehicle( const std::vector<int> &carried_parts,
                                       const std::vector<int> &racks )
 {
-    if( carried_parts.empty() ) {
+    if( carried_parts.empty() || racks.empty() ) {
         return false;
     }
     std::string veh_record;
     tripoint new_pos3;
     bool x_aligned = false;
-    bool tracked_parts =
-        false; // we will set this to true if any of the vehicle parts carry a tracked_flag
     for( int carried_part : carried_parts ) {
-        //check if selected part carries tracking flag
-        if( parts[carried_part].has_flag(
-                vehicle_part::tracked_flag ) ) { //this should only need to run once
-            tracked_parts = true;
-        }
         const auto &carry_names = parts[carried_part].carry_names;
         if( !carry_names.empty() ) {
             std::string id_string = carry_names.top().substr( 0, 1 );
@@ -2134,20 +2097,29 @@ bool vehicle::remove_carried_vehicle( const std::vector<int> &carried_parts,
         new_mounts.push_back( new_mount );
     }
 
-    std::vector<vehicle *> new_vehicles;
-    new_vehicles.push_back( new_vehicle );
-    std::vector<std::vector<int>> carried_vehicles;
-    carried_vehicles.push_back( carried_parts );
-    std::vector<std::vector<point>> carried_mounts;
-    carried_mounts.push_back( new_mounts );
-    const bool success = split_vehicles( here, carried_vehicles, new_vehicles, carried_mounts );
-    if( success ) {
+    if( split_vehicles( here, { carried_parts }, { new_vehicle }, { new_mounts } ) ) {
         //~ %s is the vehicle being loaded onto the bicycle rack
         add_msg( _( "You unload the %s from the bike rack." ), new_vehicle->name );
-        new_vehicle->remove_carried_flag();
+        bool tracked_parts = false; // if any of the unracked vehicle parts carry a tracked_flag
+        for( vehicle_part &part : new_vehicle->parts ) {
+            tracked_parts |= part.has_flag( vehicle_part::tracked_flag );
+
+            if( part.carry_names.empty() ) {
+                // note: we get here if the part was added while the vehicle was carried / mounted.
+                // This is not expected, still try to remove the carried flag, if any.
+                debugmsg( "unracked vehicle part had no carried flag, this is an invalid state" );
+                part.remove_flag( vehicle_part::carried_flag );
+                part.remove_flag( vehicle_part::tracked_flag );
+            } else {
+                part.carry_names.pop();
+                if( part.carry_names.empty() ) {
+                    part.remove_flag( vehicle_part::carried_flag );
+                    part.remove_flag( vehicle_part::tracked_flag );
+                }
+            }
+        }
         if( tracked_parts ) {
-            new_vehicle->toggle_tracking(); //turn on tracking for our newly created vehicle
-            new_vehicle->remove_tracked_flag(); //remove our tracking flags now that the vehicle isn't carried
+            new_vehicle->toggle_tracking();
         }
         here.dirty_vehicle_list.insert( this );
         part_removal_cleanup();
@@ -2163,11 +2135,12 @@ bool vehicle::remove_carried_vehicle( const std::vector<int> &carried_parts,
         }
         here.invalidate_map_cache( here.get_abs_sub().z() );
         here.rebuild_vehicle_level_caches();
+        return true;
     } else {
         //~ %s is the vehicle being loaded onto the bicycle rack
         add_msg( m_bad, _( "You can't unload the %s from the bike rack." ), new_vehicle->name );
+        return false;
     }
-    return success;
 }
 
 // split the current vehicle into up to 3 new vehicles that do not connect to each other
