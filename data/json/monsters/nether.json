@@ -431,6 +431,7 @@
       {
         "type": "spell",
         "spell_data": { "id": "destruction_ray" },
+        "required_effects_any": [ "glittering_surface" ],
         "cooldown": 30,
         "monster_message": "A piercing beam of light bursts forth!"
       }

@@ -347,6 +347,13 @@
     "flags": [ "DISABLE_FLIGHT" ]
   },
   {
+	"type": "effect_type",
+	"id": "glittering_surface",
+	"name": [ "glittering surface" ],
+	"//": "this effect is supposed to determine when the Jeweled Tortoise can use its destruction ray",
+	"desc": [ "the diamonds that make up your carapace focus their energies on a specific point, ready to fire." ]
+  },
+  {
     "//": "ACTUAL PLAYER EFFECTS START HERE",
     "type": "effect_type",
     "id": "downed",
