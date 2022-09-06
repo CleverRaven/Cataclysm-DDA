@@ -81,6 +81,8 @@
       { "item": "wood_beam", "prob": 50, "count": [ 1, 5 ] },
       { "item": "wood_sheet", "prob": 50, "count": [ 1, 4 ] },
       { "item": "wood_panel", "prob": 60, "count": [ 1, 8 ] },
+      { "item": "plank_small", "prob": 75, "count": [ 3, 15 ] },
+      { "item": "wood_block", "prob": 100, "count": [ 5, 20 ] },
       { "item": "rock", "prob": 70, "count": [ 10, 20 ] },
       { "item": "coal_lump", "prob": 20, "count": [ 1, 10 ] },
       { "item": "material_cement", "prob": 100, "charges": 500, "container-item": "bag_canvas" },
@@ -190,6 +192,8 @@
       {
         "distribution": [
           { "item": "2x4", "prob": 500, "count": [ 20, 50 ] },
+          { "item": "plank_small", "prob": 300, "count": [ 20, 50 ] },
+          { "item": "wood_block", "prob": 150, "count": [ 20, 100 ] },
           { "item": "wood_beam", "prob": 50, "count": [ 5, 20 ] },
           { "item": "wood_sheet", "prob": 400, "count": [ 10, 30 ] },
           { "item": "wood_panel", "prob": 300, "count": [ 15, 40 ] },
@@ -214,6 +218,8 @@
       {
         "distribution": [
           { "item": "2x4", "prob": 100, "count": [ 4, 6 ] },
+          { "item": "plank_small", "prob": 65, "count": [ 4, 56 ] },
+          { "item": "wood_block", "prob": 100, "count": [ 5, 35 ] },
           { "item": "wood_beam", "prob": 10, "count": [ 1, 2 ] },
           { "item": "wood_sheet", "prob": 50, "count": [ 2, 3 ] },
           { "item": "wood_panel", "prob": 30, "count": [ 2, 3 ] },
