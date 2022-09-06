@@ -100,7 +100,7 @@
     "type": "TOOL",
     "name": { "str": "deck chair" },
     "description": "Folded deck chair, deploy to sit down.",
-    "weight": "6 kg",
+    "weight": "3500 g",
     "volume": "20 L",
     "longest_side": "120 cm",
     "price": 7000,
