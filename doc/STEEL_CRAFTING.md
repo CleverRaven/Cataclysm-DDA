@@ -16,7 +16,7 @@ Budget Steel represents poorly made steel that contains impurities, rusts easily
 
 ### Mild Carbon Steel
 
-Aproximates SAE 1010, a 0.1% carbon steel with no slag content. Mild (or low) carbon steel is the simplest version of steel that a player can craft. Despite the name, it is a tough substance with many uses. Due to the relative ease of production, many weapons and armors can use mild steel.
+Aproximates SAE 1010, a 0.1% carbon steel with no slag content. Mild (or low) carbon steel is the simplest version of steel that a player can craft. Despite the name, it is a tough substance with many uses. Due to the relative ease of production, many weapons and armors can use mild steel. This is also the easiest version to work.
 
 ### Medium Carbon Steel
 
@@ -24,7 +24,7 @@ Aproximates SAE 1050, a 0.5% carbon steel with no slag. This is commonly used in
 
 ### High Carbon Steel
 
-Approximates SAE 1085, a 0.85% carbon steel with no slag. This is a particularly hard steel, often used in metalworking and high strength applications like bladed tools, heavy-duty wires and cables. Higher carbon content than this becomes extremely difficult to work outside of a survivor's garage workshop.
+Approximates SAE 1085, a 0.85% carbon steel with no slag. This is a particularly hard steel, often used in metalworking and high strength applications like bladed tools, heavy-duty wires and cables. Higher carbon content than this becomes extremely difficult to work outside of a survivor's garage workshop. High carbon steel is the most difficult of the mild/medium/high steels to work as it is extremely hard.
 
 ### Case Hardened Carbon Steel
 
@@ -80,9 +80,9 @@ One of the longest parts of any metalworking project is the heating and cooling.
 
 Mild steel can be 'raised' to medium steel, and medium to high steel. These recipes exist in the game for lumps and chunks. Mild steel can be hardened and medium steel can be tempered, but neither of these would be done to an ingot of metal that would then later be worked. Instead a hardened or tempered item should be crafted from scratch or by using a mild/medium steel item and upgrading it to a higher type of steel.
 
-### Hardening Requirements
+### Case Hardening Requirements
 
-Hardening does not require a significant increase in material consumption as only a small amount of coal/charcoal is needed to pack each item, so the costs of steel and carbon remain the same as a mild/medium/high steel version. However the hardening process is longer, crafting time should increase by a minimum of 12 hours to represent packing the item in carbon, heating, 'cooking' and cooling. Multiple items can be hardened at the same time, so if you're making something like a steel gauntlet with lots of small parts, each can be separately packed and then all heated together. Consider additional crafting time for the disassembly of complex items. The fuel costs for the craft should increase to represent keeping the forge hot for a long period of time, but that is difficult to model with the variety of forges we have. 
+Case hardening does not require a significant increase in material consumption as only a small amount of coal/charcoal is needed to pack each item, so the costs of steel and carbon remain the same as a mild/medium/high steel version. However the case hardening process is longer, crafting time should increase by a minimum of 12 hours to represent packing the item in carbon, heating, 'cooking' and cooling. Multiple items can be hardened at the same time, so if you're making something like a steel gauntlet with lots of small parts, each can be separately packed and then all heated together. Consider additional crafting time for the disassembly of complex items. The fuel costs for the craft should increase to represent keeping the forge hot for a long period of time, but that is difficult to model with the variety of forges we have. This also does not consume materials to represent a container for the item as those can typically be made from miscellaneous scraps of steel and can often be reused but vary in size.
 
 ### Tempering Requirements
 
