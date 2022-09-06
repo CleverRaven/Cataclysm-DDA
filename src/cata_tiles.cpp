@@ -4274,7 +4274,7 @@ void cata_tiles::get_terrain_orientation( const tripoint &p, int &rota, int &sub
 void cata_tiles::get_rotation_and_subtile( const char val, const char rot_to, int &rotation,
         int &subtile )
 {
-    const bool no_rotation = ( rot_to  == CHAR_MAX );
+    const bool no_rotation = rot_to == CHAR_MAX;
     switch( val ) {
         // no connections
         case 0:
