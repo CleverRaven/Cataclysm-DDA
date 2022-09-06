@@ -481,8 +481,8 @@
     "side": 1,
     "secondary": true,
     "opposite": "leg_draped_r",
-    "name_multiple": "draped over the legs",
-    "name": "draped over left leg"
+    "name_multiple": "legs (draped)",
+    "name": "left leg (draped)"
   },
   {
     "id": "leg_draped_r",
@@ -492,8 +492,8 @@
     "side": 2,
     "secondary": true,
     "opposite": "leg_draped_l",
-    "name_multiple": "draped over the legs",
-    "name": "draped over right leg"
+    "name_multiple": "legs (draped)",
+    "name": "right leg (draped)"
   },
   {
     "id": "torso_waist",
