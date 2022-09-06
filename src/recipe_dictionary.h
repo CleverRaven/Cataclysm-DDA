@@ -157,8 +157,8 @@ class recipe_subset
         /** Find hidden recipes */
         std::vector<const recipe *> hidden() const;
 
-        /** Find current nested recipes by the index */
-        std::vector<const recipe *> nested( int index ) const;
+        /** Find expanded recipes */
+        std::vector<const recipe *> expanded() const;
 
         /** Find recipes matching query (left anchored partial matches are supported) */
         std::vector<const recipe *> search(

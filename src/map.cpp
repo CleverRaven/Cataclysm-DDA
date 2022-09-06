@@ -6041,6 +6041,11 @@ bool map::add_field( const tripoint &p, const field_type_id &type_id, int intens
         return false;
     }
 
+    // Don't spawn liquid fields on water tiles
+    if( has_flag( ter_furn_flag::TFLAG_SWIMMABLE, p ) && type_id.obj().phase == phase_id::LIQUID ) {
+        return false;
+    }
+
     // Hacky way to force electricity fields to become unlit electricity fields
     const field_type_id &converted_type_id = ( type_id == fd_electricity ||
             type_id == fd_electricity_unlit ) ? get_applicable_electricity_field( p ) : type_id;
