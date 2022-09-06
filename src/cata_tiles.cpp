@@ -4268,13 +4268,13 @@ void cata_tiles::get_terrain_orientation( const tripoint &p, int &rota, int &sub
         }
     }
 
-    get_rotation_and_subtile( val, -1, rota, subtile );
+    get_rotation_and_subtile( val, CHAR_MAX, rota, subtile );
 }
 
 void cata_tiles::get_rotation_and_subtile( const char val, const char rot_to, int &rotation,
         int &subtile )
 {
-    const bool no_rotation = rot_to  == CHAR_MAX;
+    const bool no_rotation = ( rot_to  == CHAR_MAX );
     switch( val ) {
         // no connections
         case 0:
@@ -4518,7 +4518,7 @@ void cata_tiles::get_tile_values( const int t, const std::array<int, 4> &tn, int
             val += 1 << i;
         }
     }
-    get_rotation_and_subtile( val, -1, rotation, subtile );
+    get_rotation_and_subtile( val, CHAR_MAX, rotation, subtile );
 }
 
 void cata_tiles::get_tile_values_with_ter(
@@ -4529,7 +4529,7 @@ void cata_tiles::get_tile_values_with_ter(
     if( here.has_flag( ter_furn_flag::TFLAG_NO_SELF_CONNECT, p ) ||
         here.has_flag( ter_furn_flag::TFLAG_ALIGN_WORKBENCH, p ) ) {
         //if we don't ever connect to ourself just return unconnected to be used further
-        get_rotation_and_subtile( 0, -1, rotation, subtile );
+        get_rotation_and_subtile( 0, CHAR_MAX, rotation, subtile );
     } else {
         //if we do connect to ourself (tables, counters etc.) calculate based on neighbours
         get_tile_values( t, tn, subtile, rotation );
