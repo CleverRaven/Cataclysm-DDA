@@ -173,8 +173,8 @@ class enchantment
         const std::set<trait_id> &get_mutations() const {
             return mutations;
         }
-        int get_value_add( enchant_vals::mod value, Character &guy ) const;
-        double get_value_multiply( enchant_vals::mod value, Character &guy ) const;
+        int get_value_add( enchant_vals::mod value, const Character &guy ) const;
+        double get_value_multiply( enchant_vals::mod value, const Character &guy ) const;
 
         body_part_set modify_bodyparts( const body_part_set &unmodified ) const;
         // does the enchantment modify bodyparts?
