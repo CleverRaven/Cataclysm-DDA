@@ -3104,7 +3104,7 @@ tripoint vehicle::mount_to_tripoint( const point &mount, const point &offset ) c
     return global_pos3() + mnt_translated;
 }
 
-std::unordered_set<int> vehicle::precalc_mounts( int idir, const units::angle &dir,
+void vehicle::precalc_mounts( int idir, const units::angle &dir,
         const point &pivot )
 {
     if( idir < 0 || idir > 1 ) {
@@ -3112,8 +3112,6 @@ std::unordered_set<int> vehicle::precalc_mounts( int idir, const units::angle &d
     }
     tileray tdir( dir );
     std::unordered_map<point, tripoint> mount_to_precalc;
-    std::unordered_set<int> smzs;
-    const int pivot_z = global_pos3().z;
     for( vehicle_part &p : parts ) {
         if( p.removed ) {
             continue;
@@ -3122,14 +3120,12 @@ std::unordered_set<int> vehicle::precalc_mounts( int idir, const units::angle &d
         if( q == mount_to_precalc.end() ) {
             coord_translate( tdir, pivot, p.mount, p.precalc[idir] );
             mount_to_precalc.insert( { p.mount, p.precalc[idir] } );
-            smzs.insert( p.precalc[0].z + pivot_z );
         } else {
             p.precalc[idir] = q->second;
         }
     }
     pivot_anchor[idir] = pivot;
     pivot_rotation[idir] = dir;
-    return smzs;
 }
 
 std::vector<int> vehicle::boarded_parts() const
