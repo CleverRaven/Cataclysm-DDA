@@ -37,7 +37,15 @@
   {
     "type": "item_group",
     "id": "stash_wood",
-    "items": [ [ "stick", 95 ], [ "ax", 8 ], [ "saw", 15 ], [ "2x4", 60 ], [ "log", 20 ] ]
+    "items": [
+      [ "stick", 95 ],
+      [ "ax", 8 ],
+      [ "saw", 15 ],
+      [ "2x4", 60 ],
+      [ "plank_small", 40 ],
+      [ "wood_block", 75 ],
+      [ "log", 20 ]
+    ]
   },
   {
     "type": "item_group",
