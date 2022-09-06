@@ -1666,14 +1666,10 @@ bool vehicle::merge_rackable_vehicle( vehicle *carry_veh, const std::vector<int>
     carry_data.reserve( carry_veh_structs.size() );
 
     //X is forward/backward, Y is left/right
-    std::string axis;
-    if( carry_veh_structs.size() == 1 ) {
-        axis = "X";
-    } else {
-        for( const int &carry_part : carry_veh_structs ) {
-            if( carry_veh->parts[ carry_part ].mount.x || carry_veh->parts[ carry_part ].mount.y ) {
-                axis = carry_veh->parts[ carry_part ].mount.x ? "X" : "Y";
-            }
+    std::string axis = "X";
+    for( const int &carry_part : carry_veh_structs ) {
+        if( carry_veh->parts[ carry_part ].mount.x || carry_veh->parts[ carry_part ].mount.y ) {
+            axis = carry_veh->parts[ carry_part ].mount.x ? "X" : "Y";
         }
     }
 
@@ -1743,20 +1739,19 @@ bool vehicle::merge_rackable_vehicle( vehicle *carry_veh, const std::vector<int>
 
     // Now that we have mapped all the parts of the carry vehicle to the vehicle with the rack
     // we can go ahead and merge
-    const point mount_zero{};
     if( found_all_parts ) {
         decltype( loot_zones ) new_zones;
         for( const mapping &carry_map : carry_data ) {
-            std::string offset = string_format( "%s%3d", carry_map.old_mount == mount_zero ? axis : " ",
-                                                axis == "X" ? carry_map.old_mount.x : carry_map.old_mount.y );
-            std::string unique_id = string_format( "%s%3d%s", offset,
-                                                   static_cast<int>( to_degrees( relative_dir ) ),
-                                                   carry_veh->name );
             for( const int &carry_part : carry_map.carry_parts_here ) {
                 parts.push_back( carry_veh->parts[ carry_part ] );
                 vehicle_part &carried_part = parts.back();
                 carried_part.mount = carry_map.carry_mount;
-                carried_part.carry_names.push( unique_id );
+                carried_part.carried_stack.push( {
+                    axis == "X" ? tripoint( carry_map.old_mount.x, 0, 0 ) : tripoint( 0, carry_map.old_mount.y, 0 ),
+                    axis == "X",
+                    relative_dir,
+                    carry_veh->name,
+                } );
                 carried_part.enabled = false;
                 carried_part.set_flag( vehicle_part::carried_flag );
                 //give each carried part a tracked_flag so that we can re-enable overmap tracking on unloading if necessary
@@ -2020,26 +2015,22 @@ bool vehicle::remove_carried_vehicle( const std::vector<int> &carried_parts,
     if( carried_parts.empty() || racks.empty() ) {
         return false;
     }
-    std::string veh_record;
-    tripoint new_pos3;
-    bool x_aligned = false;
+    cata::optional<vehicle_part::carried_part_data> carried_pivot;
+    tripoint pivot_pos;
     for( int carried_part : carried_parts ) {
-        const auto &carry_names = parts[carried_part].carry_names;
-        if( !carry_names.empty() ) {
-            std::string id_string = carry_names.top().substr( 0, 1 );
-            if( id_string == "X" || id_string == "Y" ) {
-                veh_record = carry_names.top();
-                new_pos3 = global_part_pos3( carried_part );
-                x_aligned = id_string == "X";
-                break;
-            }
+        const auto &carried_stack = parts[carried_part].carried_stack;
+        // pivot is the stack that has zeroed mount point, only it has valid axis set
+        if( !carried_stack.empty() && carried_stack.top().mount == tripoint_zero ) {
+            carried_pivot = carried_stack.top();
+            pivot_pos = global_part_pos3( carried_part );
+            break;
         }
     }
-    if( veh_record.empty() ) {
+    if( !carried_pivot.has_value() ) {
+        debugmsg( "unracking failed: couldn't find pivot of carried vehicle" );
         return false;
     }
-    units::angle new_dir =
-        normalize( units::from_degrees( std::stoi( veh_record.substr( 4, 3 ) ) ) + face.dir() );
+    units::angle new_dir = normalize( carried_pivot->face_dir + face.dir() );
     units::angle host_dir = normalize( face.dir(), 180_degrees );
     // if the host is skewed N/S, and the carried vehicle is going to come at an angle,
     // force it to east/west instead
@@ -2051,7 +2042,7 @@ bool vehicle::remove_carried_vehicle( const std::vector<int> &carried_parts,
         }
     }
     map &here = get_map();
-    vehicle *new_vehicle = here.add_vehicle( vehicle_prototype_none, new_pos3, new_dir );
+    vehicle *new_vehicle = here.add_vehicle( vehicle_prototype_none, pivot_pos, new_dir );
     if( new_vehicle == nullptr ) {
         add_msg_debug( debugmode::DF_VEHICLE, "Unable to unload bike rack, host face %d, new_dir %d!",
                        to_degrees( face.dir() ), to_degrees( new_dir ) );
@@ -2059,13 +2050,12 @@ bool vehicle::remove_carried_vehicle( const std::vector<int> &carried_parts,
     }
 
     std::vector<point> new_mounts;
-    new_vehicle->name = veh_record.substr( vehicle_part::name_offset );
+    new_vehicle->name = carried_pivot->veh_name;
     for( int carried_part : carried_parts ) {
-        point new_mount;
-        std::string mount_str;
-        if( !parts[carried_part].carry_names.empty() ) {
-            // the mount string should be something like "X 0 0" for ex. We get the first number out of it.
-            mount_str = parts[carried_part].carry_names.top().substr( 1, 3 );
+        const vehicle_part &pt = parts[carried_part];
+        tripoint mount;
+        if( !pt.carried_stack.empty() ) {
+            mount = pt.carried_stack.top().mount;
         } else {
             // FIX #28712; if we get here it means that a part was added to the bike while the latter was a carried vehicle.
             // This part didn't get a carry_names because those are assigned when the carried vehicle is loaded.
@@ -2073,28 +2063,17 @@ bool vehicle::remove_carried_vehicle( const std::vector<int> &carried_parts,
             // We can at least inform the player that there's something wrong.
             add_msg( m_warning,
                      _( "A part of the vehicle ('%s') has no containing vehicle's name.  It will be detached from the %s vehicle." ),
-                     parts[carried_part].name(),  new_vehicle->name );
+                     pt.name(),  new_vehicle->name );
 
             // check if any other parts at the same location have a valid carry name so we can still have a valid mount location.
-            for( const int &local_part : parts_at_relative( parts[carried_part].mount, true ) ) {
-                if( !parts[local_part].carry_names.empty() ) {
-                    mount_str = parts[local_part].carry_names.top().substr( 1, 3 );
+            for( const int &local_part : parts_at_relative( pt.mount, true ) ) {
+                if( !parts[local_part].carried_stack.empty() ) {
+                    mount = parts[local_part].carried_stack.top().mount;
                     break;
                 }
             }
         }
-        if( mount_str.empty() ) {
-            add_msg( m_bad,
-                     _( "There's not viable mount location on this vehicle: %s. It can't be unloaded from the rack." ),
-                     new_vehicle->name );
-            return false;
-        }
-        if( x_aligned ) {
-            new_mount.x = std::stoi( mount_str );
-        } else {
-            new_mount.y = std::stoi( mount_str );
-        }
-        new_mounts.push_back( new_mount );
+        new_mounts.push_back( mount.xy() );
     }
 
     if( split_vehicles( here, { carried_parts }, { new_vehicle }, { new_mounts } ) ) {
@@ -2104,15 +2083,15 @@ bool vehicle::remove_carried_vehicle( const std::vector<int> &carried_parts,
         for( vehicle_part &part : new_vehicle->parts ) {
             tracked_parts |= part.has_flag( vehicle_part::tracked_flag );
 
-            if( part.carry_names.empty() ) {
+            if( part.carried_stack.empty() ) {
                 // note: we get here if the part was added while the vehicle was carried / mounted.
                 // This is not expected, still try to remove the carried flag, if any.
                 debugmsg( "unracked vehicle part had no carried flag, this is an invalid state" );
                 part.remove_flag( vehicle_part::carried_flag );
                 part.remove_flag( vehicle_part::tracked_flag );
             } else {
-                part.carry_names.pop();
-                if( part.carry_names.empty() ) {
+                part.carried_stack.pop();
+                if( part.carried_stack.empty() ) {
                     part.remove_flag( vehicle_part::carried_flag );
                     part.remove_flag( vehicle_part::tracked_flag );
                 }

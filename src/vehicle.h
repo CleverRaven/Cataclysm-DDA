@@ -260,9 +260,15 @@ struct vehicle_part {
          */
         std::string name( bool with_prefix = true ) const;
 
-        static constexpr int name_offset = 7;
-        /** Stack of the containing vehicle's name, when it it stored as part of another vehicle */
-        std::stack<std::string, std::vector<std::string> > carry_names;
+        struct carried_part_data {
+            tripoint mount;        // if value is tripoint_zero this is the pivot
+            bool axis_is_x;        // whether axis is x or y, only valid on pivot
+            units::angle face_dir; // direction relative to the carrier vehicle
+            std::string veh_name;  // carried vehicle name this part belongs to
+        };
+
+        // each time this vehicle part is racked this will push the data required to unrack to stack
+        std::stack<carried_part_data> carried_stack;
 
         /** Specific type of fuel, charges or ammunition currently contained by a part */
         itype_id ammo_current() const;
