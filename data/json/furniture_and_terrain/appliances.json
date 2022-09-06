@@ -17,8 +17,7 @@
     "size": 2000,
     "item": "fridge",
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
+      "removal": { "time": "2 m" },
       "repair": {
         "skills": [ [ "mechanics", 4 ] ],
         "time": "60 m",
