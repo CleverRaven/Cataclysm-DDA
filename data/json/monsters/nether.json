@@ -398,7 +398,7 @@
     "id": "mon_jeweled_tortoise",
     "type": "MONSTER",
     "name": { "str": "Jeweled Tortoise" },
-    "description": "A flattened oval shape the size of a small car, suspended above five stubby leg-like structures that don't even connect to the main body. The body is covered entirely with countless pentagonal diamond shapes each the size of your eye, which appear to shift colours in a constant, rhythmic fashion. You are unable to tell if the diamonds are armor, some form of sensory organs, a weapon, or all three.",
+    "description": "A flattened oval shape the size of a small car, suspended above five stubby leg-like structures that don't even connect to the main body.  The body is covered entirely with countless pentagonal diamond shapes each the size of your eye, which appear to shift colours in a constant, rhythmic fashion.  You are unable to tell if the diamonds are armor, some form of sensory organs, a weapon, or all three.",
     "default_faction": "nether",
     "bodytype": "spider",
     "species": [ "NETHER" ],
