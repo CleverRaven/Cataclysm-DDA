@@ -31,7 +31,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_VALHALLIST_MECHANIC_2",
-    "dynamic_line": "Here to do buisness?",
+    "dynamic_line": "Here to do business?",
     "responses": [
       { "text": "I'm sorry, who are you again?", "topic": "TALK_VALHALLIST_MECHANIC_WHO" },
       { "text": "What's your deal here?", "topic": "TALK_VALHALLIST_MECHANIC_Job" },

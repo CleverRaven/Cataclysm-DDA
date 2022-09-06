@@ -89,7 +89,7 @@
       "rejected": "We are going to have to face them sometime, now is better than ever.",
       "advice": "Slay a few at a time, and don't let them surround you.",
       "inquire": "Are the dead laid to rest?",
-      "success": "We shall see a great sucess in the future now that our supply lines are open again.  Gudene vil det!",
+      "success": "We shall see a great success in the future now that our supply lines are open again.  Gudene vil det!",
       "success_lie": "My scouts say otherwise.",
       "failure": "Not everyone is cut out for this life, I suppose."
     }
@@ -144,7 +144,7 @@
     "has_generic_rewards": false,
     "dialogue": {
       "describe": "Kill 1000 zombies for the Valhallists",
-      "offer": "With the recent sucess we've had in killing the otherworldly threats, we must take grander strides in making the world safe again.  I need you to go out and kill one thousand <zombies> to do your new part in this endeavor.  A handsome reward will be provided upon your return.",
+      "offer": "With the recent success we've had in killing the otherworldly threats, we must take grander strides in making the world safe again.  I need you to go out and kill one thousand <zombies> to do your new part in this endeavor.  A handsome reward will be provided upon your return.",
       "accepted": "May Thor protect you.",
       "rejected": "If we don't kill them now, they'll only come for us later.  It's better to fight them on our terms.",
       "advice": "Slay a few at a time, and don't let them surround you.",
@@ -244,7 +244,7 @@
     "has_generic_rewards": true,
     "dialogue": {
       "describe": "Go negotiate a trade agreement.",
-      "offer": "One of our raiding parties was out the other day, and came across an old evac shelter.  They managed to pull and adress for one of the refugee centers off the computer, and I mapped it out.  I figure they could make good trade partners, so I want you to go over there and work out a deal for me.",
+      "offer": "One of our raiding parties was out the other day, and came across an old evac shelter.  They managed to pull and address for one of the refugee centers off the computer, and I mapped it out.  I figure they could make good trade partners, so I want you to go over there and work out a deal for me.",
       "advice": "It should be pretty simple making the deal, but I'd recommend taking a car over there myself.",
       "accepted": "I'll be here when you get back.  Good luck!",
       "rejected": "Please?  This is really important to me.",

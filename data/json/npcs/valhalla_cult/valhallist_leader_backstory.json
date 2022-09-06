@@ -24,7 +24,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_VALHALLIST_LEADER_Compound",
-    "dynamic_line": "One of my buddies wanted to get in the re-enacting buisness, so they started setting up this place as a to-scale model of what a Norse fort might have looked like.  I was planning on getting in to it with them, but <the_cataclysm> put a stop to it.  We came here from town, found the place wasn't occupied by those horrors, and set up camp here.  The Norse-obsessed guy decided to make a full religion out of it, and managed to bring back a large group fleeing one of those FEMA camps.",
+    "dynamic_line": "One of my buddies wanted to get in the re-enacting business, so they started setting up this place as a to-scale model of what a Norse fort might have looked like.  I was planning on getting in to it with them, but <the_cataclysm> put a stop to it.  We came here from town, found the place wasn't occupied by those horrors, and set up camp here.  The Norse-obsessed guy decided to make a full religion out of it, and managed to bring back a large group fleeing one of those FEMA camps.",
     "responses": [
       { "text": "What did you do before <the_cataclysm>?", "topic": "TALK_VALHALLIST_LEADER_Ex_Job" },
       { "text": "How did you come to power here?", "topic": "TALK_VALHALLIST_LEADER_Position" },
