@@ -284,7 +284,7 @@
     "id": "mon_fry_stingray",
     "type": "MONSTER",
     "name": { "str": "stingray fry", "str_pl": "stingray fries" },
-    "copy-from": "mon_fish stingray",
+    "copy-from": "mon_fish_stingray",
     "description": "A baby stingray.  Like many other cartilaginous fishes, river stingrays are ovoviviparous and carry the eggs until the fries are ready to get out in to the world.",
     "proportional": { "hp": 0.4, "speed": 1.1, "morale": 0.67, "melee_dice_sides": 0.67 },
     "volume": "10 ml",
