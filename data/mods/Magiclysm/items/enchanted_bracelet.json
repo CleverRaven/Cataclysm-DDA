@@ -29,7 +29,6 @@
       "ONE_PER_LAYER",
       "WATER_FRIENDLY",
       "ALLOWS_NATURAL_ATTACKS",
-      "SKINTIGHT"
     ],
     "charges_per_use": 1,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "holster": true, "ammo_restriction": { "crystallized_mana": 1 } } ],
@@ -52,7 +51,6 @@
       "ONE_PER_LAYER",
       "WATER_FRIENDLY",
       "ALLOWS_NATURAL_ATTACKS",
-      "SKINTIGHT"
     ],
     "charges_per_use": 1,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "holster": true, "ammo_restriction": { "crystallized_mana": 1 } } ],
@@ -75,7 +73,6 @@
       "ONE_PER_LAYER",
       "WATER_FRIENDLY",
       "ALLOWS_NATURAL_ATTACKS",
-      "SKINTIGHT"
     ],
     "charges_per_use": 1,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "holster": true, "ammo_restriction": { "crystallized_mana": 2 } } ],
@@ -98,7 +95,6 @@
       "ONE_PER_LAYER",
       "WATER_FRIENDLY",
       "ALLOWS_NATURAL_ATTACKS",
-      "SKINTIGHT"
     ],
     "charges_per_use": 1,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "holster": true, "ammo_restriction": { "crystallized_mana": 1 } } ],
