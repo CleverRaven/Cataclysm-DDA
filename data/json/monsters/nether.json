@@ -406,7 +406,7 @@
     "volume": "875000 ml",
     "weight": "700 kg",
     "hp": 350,
-    "speed": 50,
+    "speed": 40,
     "material": [ "flesh" ],
     "symbol": "U",
     "color": "white",
@@ -422,9 +422,10 @@
     "armor_fire": 6,
     "armor_elec": 8,
     "bleed_rate": 10,
-    "vision_day": 25,
-    "vision_night": 8,
-    "harvest": "zombie_meatslug",
+    "vision_day": 20,
+    "vision_night": 5,
+    "harvest": "exempt",
+    "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s violently implodes with a wet crunch, dissapearing." },
     "special_attacks": [
       [ "destruction_ray_warmup", 10 ],
       {
@@ -434,7 +435,7 @@
         "monster_message": "A piercing beam of light bursts forth!"
       }
     ],
-    "flags": [ "SEES", "NOHEAD", "NO_BREATHE", "BASHES", "WARM" ]
+    "flags": [ "SEES", "NOHEAD", "NO_BREATHE", "NOGIB", "BASHES", "WARM", "RANGED_ATTACKER" ]
   },
   {
     "id": "mon_unseen_hunter",
