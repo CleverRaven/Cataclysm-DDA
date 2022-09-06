@@ -317,11 +317,11 @@
   },
   {
     "type": "monster_attack",
-	"attack_type": "melee",
+    "attack_type": "melee",
     "id": "destruction_ray_warmup",
-	"move_cost": 210,
-	"attack_chance": 40,
-	"effects": [ { "id": "glittering_surface", "duration": 15 } ],
+    "move_cost": 210,
+    "attack_chance": 40,
+    "effects": [ { "id": "glittering_surface", "duration": 15 } ],
     "monster_message": "The diamond studded body of the Jeweled Tortoise starts to flicker, the diamond shapes glittering in a pulsing, circular pattern - the center of which is pointed at you."
   }
 ]
