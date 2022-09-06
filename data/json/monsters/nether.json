@@ -435,7 +435,7 @@
         "monster_message": "A piercing beam of light bursts forth!"
       }
     ],
-    "flags": [ "SEES", "NOHEAD", "NO_BREATHE", "BASHES", "HEAT" ]
+    "flags": [ "SEES", "NOHEAD", "NO_BREATHE", "BASHES", "WARM" ]
   },
   {
     "id": "mon_unseen_hunter",
