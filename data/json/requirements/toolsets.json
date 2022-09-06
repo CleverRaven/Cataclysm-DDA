@@ -144,7 +144,7 @@
     "id": "drilling_standard",
     "type": "requirement",
     "//": "Drilling holes in various materials, including metal",
-    "tools": [ [ [ "cordless_drill", 2 ], [ "drill_press_tool", 1 ] ] ]
+    "tools": [ [ [ "cordless_drill", 2 ], [ "drill_press_tool", 1 ], [ "hand_drill", -1 ] ] ]
   },
   {
     "id": "anesthetic",
