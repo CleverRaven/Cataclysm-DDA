@@ -739,7 +739,7 @@
         "max_item_length": "90 cm"
       }
     ],
-    "use_action":  { "type": "deploy_furn", "furn_type": "f_cardboard_box" }
+    "use_action": { "type": "deploy_furn", "furn_type": "f_cardboard_box" }
   },
   {
     "id": "box_large_folded",
