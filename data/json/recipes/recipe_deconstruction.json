@@ -6813,19 +6813,19 @@
     "components": [ [ [ "scrap_aluminum", 33 ] ] ]
   },
   {
-    "result": "deck_chair",
-    "type": "uncraft",
-    "activity_level": "LIGHT_EXERCISE",
-    "time": "30 m",
-    "qualities": [ { "id": "PRY", "level": 1 }, { "id": "SAW_W", "level": 2 }, { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "plank_small", 2 ] ], [ [ "wood_block", 10 ] ], [ [ "nuts_bolts", 8 ] ], [ [ "cotton_patchwork", 30 ] ] ]
-  },
-  {
     "result": "2x4",
     "type": "uncraft",
     "activity_level": "MODERATE_EXERCISE",
     "time": "10 m",
     "qualities": [ { "id": "SAW_W", "level": 2 } ],
     "components": [ [ [ "plank_small", 4 ] ] ]
+  },
+  {
+    "result": "deck_chair",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "30 m",
+    "qualities": [ { "id": "PRY", "level": 1 }, { "id": "SAW_W", "level": 2 }, { "id": "SCREW", "level": 1 } ],
+    "components": [ [ [ "plank_small", 2 ] ], [ [ "wood_block", 10 ] ], [ [ "nuts_bolts", 8 ] ], [ [ "cotton_patchwork", 30 ] ] ]
   }
 ]
