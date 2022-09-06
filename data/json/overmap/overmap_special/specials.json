@@ -8213,7 +8213,29 @@
       { "point": [ 1, 1, 0 ], "overmap": "farm_supply_4_north" },
       { "point": [ 1, 1, 1 ], "overmap": "farm_supply_roof_4_north" }
     ],
-    "occurrences": [ 100, 100 ],
+    "occurrences": [ 10, 10 ],
+    "connections": [
+      { "point": [ 0, -1, 0 ], "terrain": "road", "from": [ 0, 0, 0 ] },
+      { "point": [ 1, -1, 0 ], "terrain": "road", "from": [ 1, 0, 0 ] }
+    ],
+    "locations": [ "field" ],
+    "city_distance": [ 5, 60 ],
+    "flags": [ "CLASSIC", "MAN_MADE" ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "Farm Supply Store Looted",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "farm_supply_looted_1_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "farm_supply_roof_1_north" },
+      { "point": [ 1, 0, 0 ], "overmap": "farm_supply_looted_2_north" },
+      { "point": [ 1, 0, 1 ], "overmap": "farm_supply_roof_2_north" },
+      { "point": [ 0, 1, 0 ], "overmap": "farm_supply_looted_3_north" },
+      { "point": [ 0, 1, 1 ], "overmap": "farm_supply_roof_3_north" },
+      { "point": [ 1, 1, 0 ], "overmap": "farm_supply_looted_4_north" },
+      { "point": [ 1, 1, 1 ], "overmap": "farm_supply_roof_4_north" }
+    ],
+    "occurrences": [ 10, 10 ],
     "connections": [
       { "point": [ 0, -1, 0 ], "terrain": "road", "from": [ 0, 0, 0 ] },
       { "point": [ 1, -1, 0 ], "terrain": "road", "from": [ 1, 0, 0 ] }

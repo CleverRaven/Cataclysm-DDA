@@ -628,7 +628,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "farm_supply_1", "farm_supply_2", "farm_supply_3", "farm_supply_4" ],
+    "id": [ "farm_supply_1", "farm_supply_2", "farm_supply_3", "farm_supply_4", "farm_supply_looted_1", "farm_supply_looted_2", "farm_supply_looted_3", "farm_supply_looted_4" ],
     "copy-from": "generic_rural_building",
     "name": "farm supply store",
     "sym": "s",
