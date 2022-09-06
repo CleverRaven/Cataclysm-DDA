@@ -2239,12 +2239,11 @@
     "id": "constr_chair",
     "group": "build_chair",
     "category": "FURN",
-    "required_skills": [ [ "fabrication", 2 ] ],
-    "time": "30 m",
-    "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
-    "components": [ [ [ "2x4", 4 ] ], [ [ "nail", 8 ] ] ],
+    "time": "15 s",
+    "components": [ [ [ "chair_wood", 1 ] ] ],
     "pre_special": "check_empty",
-    "post_terrain": "f_chair"
+    "post_terrain": "f_chair",
+    "activity_level": "LIGHT_EXERCISE"
   },
   {
     "type": "construction",
