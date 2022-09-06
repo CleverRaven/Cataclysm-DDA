@@ -6818,7 +6818,7 @@
     "activity_level": "LIGHT_EXERCISE",
     "time": "30 m",
     "qualities": [ { "id": "PRY", "level": 1 }, { "id": "SAW_W", "level": 2 }, { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "2x4", 2 ] ], [ [ "nuts_bolts", 8 ] ], [ [ "cotton_patchwork", 30 ] ] ]
+    "components": [ [ [ "plank_small", 2 ] ], [ [ "wood_block", 10 ] ], [ [ "nuts_bolts", 8 ] ], [ [ "cotton_patchwork", 30 ] ] ]
   },
   {
     "result": "2x4",
