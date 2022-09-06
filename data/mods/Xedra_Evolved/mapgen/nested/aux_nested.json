@@ -1,0 +1,8 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "update_mapgen_id": "spawn_minor_spark_artifact",
+    "object": { "place_items": [ { "item": "minor_spark_artifact", "x": 0, "y": 0, "chance": 100 } ] }
+  }
+]

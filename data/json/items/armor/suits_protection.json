@@ -249,6 +249,110 @@
     "material": [ "budget_steel", "leather" ]
   },
   {
+    "id": "armor_metal_sheets",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "sheet metal armor" },
+    "description": "A full set of armor hammered out from sheet metal and tied in place with leather straps and belts.  It's crude, heavy, and uncomfortable, but damn protective.  Now, you're a true Post-Apocalyptic Warrior.",
+    "weight": "22300 g",
+    "volume": "17500 ml",
+    "price": 6000,
+    "price_postapoc": 1200,
+    "to_hit": -5,
+    "bashing": 8,
+    "material": [ "lc_steel" ],
+    "symbol": "[",
+    "looks_like": "armor_junk_lightplate",
+    "color": "light_gray",
+    "warmth": 10,
+    "longest_side": "120 cm",
+    "material_thickness": 1.5,
+    "flags": [ "OUTER", "BLOCK_WHILE_WORN" ],
+    "armor": [
+      { "covers": [ "torso" ], "coverage": 95, "encumbrance": 18 },
+      { "covers": [ "leg_l", "leg_r" ], "coverage": 95, "encumbrance": 21 },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 95, "encumbrance": 19 }
+    ]
+  },
+  {
+    "id": "armor_ch_metal_sheets",
+    "type": "ARMOR",
+    "copy-from": "armor_metal_sheets",
+    "name": { "str": "case hardened sheet metal armor" },
+    "description": "A full set of armor hammered out from sheet metal and case hardened for added protection.  Perfect for keeping all your fleshy bits safe from zombie teeth.",
+    "material": [ "ch_steel" ],
+    "extend": { "flags": [ "STURDY" ] }
+  },
+  {
+    "id": "armor_metal_sheets_heavy",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "heavy sheet metal armor" },
+    "description": "A full set of armor hammered out from sheet metal and tied in place with leather straps and belts, with a doubly-thick chest guard to keep all your important organs safe.  You might be as mobile as a refrigerator wearing all this, but that's the price to pay to keep your flesh attached.",
+    "weight": "31100 g",
+    "volume": "17500 ml",
+    "price": 6000,
+    "price_postapoc": 1300,
+    "to_hit": -5,
+    "bashing": 8,
+    "material": [ "lc_steel" ],
+    "symbol": "[",
+    "looks_like": "armor_junk_lightplate",
+    "color": "light_gray",
+    "warmth": 10,
+    "longest_side": "120 cm",
+    "material_thickness": 1.5,
+    "flags": [ "OUTER", "BLOCK_WHILE_WORN", "STURDY" ],
+    "armor": [
+      {
+        "material": [ { "type": "lc_steel", "covered_by_mat": 100, "thickness": 3 } ],
+        "covers": [ "torso" ],
+        "coverage": 95,
+        "encumbrance": 30
+      },
+      {
+        "material": [ { "type": "lc_steel", "covered_by_mat": 100, "thickness": 1.5 } ],
+        "covers": [ "arm_l", "arm_r" ],
+        "coverage": 95,
+        "encumbrance": 19
+      },
+      {
+        "material": [ { "type": "lc_steel", "covered_by_mat": 100, "thickness": 1.5 } ],
+        "covers": [ "leg_l", "leg_r" ],
+        "coverage": 95,
+        "encumbrance": 21
+      }
+    ]
+  },
+  {
+    "id": "armor_ch_metal_sheets_heavy",
+    "type": "ARMOR",
+    "copy-from": "armor_metal_sheets_heavy",
+    "name": { "str": "heavy case hardened sheet metal armor" },
+    "description": "A full set of armor hammered out from sheet metal and case hardened for extra protection, with a doubly-thick chest guard.  The Ned Kelly gang would be proud.",
+    "material": [ "ch_steel" ],
+    "armor": [
+      {
+        "material": [ { "type": "ch_steel", "covered_by_mat": 100, "thickness": 3 } ],
+        "covers": [ "torso" ],
+        "coverage": 95,
+        "encumbrance": 30
+      },
+      {
+        "material": [ { "type": "ch_steel", "covered_by_mat": 100, "thickness": 1.5 } ],
+        "covers": [ "arm_l", "arm_r" ],
+        "coverage": 95,
+        "encumbrance": 19
+      },
+      {
+        "material": [ { "type": "ch_steel", "covered_by_mat": 100, "thickness": 1.5 } ],
+        "covers": [ "leg_l", "leg_r" ],
+        "coverage": 95,
+        "encumbrance": 21
+      }
+    ]
+  },
+  {
     "id": "armor_lc_lightplate",
     "type": "ARMOR",
     "category": "armor",
@@ -1279,7 +1383,7 @@
       {
         "material": [ { "type": "budget_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
         "covers": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r" ],
-        "coverage": 95,
+        "coverage": 97,
         "encumbrance": 20
       }
     ]
@@ -1305,7 +1409,7 @@
       {
         "material": [ { "type": "lc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
         "covers": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r" ],
-        "coverage": 95,
+        "coverage": 100,
         "encumbrance": 20
       }
     ]
@@ -1337,7 +1441,7 @@
       {
         "material": [ { "type": "mc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
         "covers": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r" ],
-        "coverage": 95,
+        "coverage": 100,
         "encumbrance": 20
       }
     ]
@@ -1370,7 +1474,7 @@
       {
         "material": [ { "type": "hc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
         "covers": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r" ],
-        "coverage": 95,
+        "coverage": 100,
         "encumbrance": 20
       }
     ]
@@ -1402,7 +1506,7 @@
       {
         "material": [ { "type": "ch_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
         "covers": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r" ],
-        "coverage": 95,
+        "coverage": 100,
         "encumbrance": 20
       }
     ]
@@ -1434,7 +1538,7 @@
       {
         "material": [ { "type": "qt_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
         "covers": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r" ],
-        "coverage": 95,
+        "coverage": 100,
         "encumbrance": 20
       }
     ]
@@ -1476,7 +1580,7 @@
       {
         "material": [ { "type": "budget_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
         "covers": [ "head", "torso", "leg_l", "leg_r", "arm_l", "arm_r" ],
-        "coverage": 95,
+        "coverage": 97,
         "encumbrance": 20
       }
     ]
@@ -1502,7 +1606,7 @@
       {
         "material": [ { "type": "lc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
         "covers": [ "head", "torso", "leg_l", "leg_r", "arm_l", "arm_r" ],
-        "coverage": 95,
+        "coverage": 100,
         "encumbrance": 20
       }
     ]
@@ -1534,7 +1638,7 @@
       {
         "material": [ { "type": "mc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
         "covers": [ "head", "torso", "leg_l", "leg_r", "arm_l", "arm_r" ],
-        "coverage": 95,
+        "coverage": 100,
         "encumbrance": 20
       }
     ]
@@ -1566,7 +1670,7 @@
       {
         "material": [ { "type": "hc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
         "covers": [ "head", "torso", "leg_l", "leg_r", "arm_l", "arm_r" ],
-        "coverage": 95,
+        "coverage": 100,
         "encumbrance": 20
       }
     ]
@@ -1598,7 +1702,7 @@
       {
         "material": [ { "type": "ch_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
         "covers": [ "head", "torso", "leg_l", "leg_r", "arm_l", "arm_r" ],
-        "coverage": 95,
+        "coverage": 100,
         "encumbrance": 20
       }
     ]
@@ -1630,7 +1734,7 @@
       {
         "material": [ { "type": "qt_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
         "covers": [ "head", "torso", "leg_l", "leg_r", "arm_l", "arm_r" ],
-        "coverage": 95,
+        "coverage": 100,
         "encumbrance": 20
       }
     ]

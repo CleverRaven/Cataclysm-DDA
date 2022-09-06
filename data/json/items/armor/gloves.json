@@ -553,6 +553,15 @@
     ]
   },
   {
+    "id": "ch_mitten_gaunt_metal_sheets",
+    "type": "ARMOR",
+    "copy-from": "mitten_gaunt_metal_sheets",
+    "name": { "str": "pair of case hardened sheet metal gauntlets", "str_pl": "pairs of case hardened sheet metal gauntlets" },
+    "description": "These crude mitten gauntlets have been case hardened to keep the zombie dogs from biting your fingers off.",
+    "material": [ "ch_steel" ],
+    "extend": { "flags": [ "STURDY" ] }
+  },
+  {
     "id": "gloves_fur",
     "type": "ARMOR",
     "name": { "str": "pair of fur gloves", "str_pl": "pairs of fur gloves" },
@@ -721,7 +730,7 @@
     "repairs_like": "gloves_light",
     "type": "ARMOR",
     "name": { "str": "pair of medical gloves", "str_pl": "pairs of medical gloves" },
-    "description": "A pair of thin latex gloves, designed to limit the spread of disease.",
+    "description": "A pair of thin latex gloves, designed to limit the spread of disease.  Too fragile to protect you from much else.",
     "weight": "10 g",
     "volume": "2 ml",
     "price": 1000,
@@ -732,8 +741,8 @@
     "looks_like": "gloves_light",
     "color": "white",
     "material_thickness": 0.1,
-    "environmental_protection": 6,
-    "flags": [ "WATER_FRIENDLY", "WATERPROOF", "SKINTIGHT", "SOFT" ],
+    "environmental_protection": 2,
+    "flags": [ "WATER_FRIENDLY", "WATERPROOF", "SKINTIGHT", "SOFT", "FRAGILE" ],
     "armor": [ { "encumbrance": 1, "coverage": 90, "covers": [ "hand_l", "hand_r" ] } ]
   },
   {

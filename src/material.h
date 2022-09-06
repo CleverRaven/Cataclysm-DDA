@@ -100,6 +100,7 @@ class material_type
         bool _edible = false;
         bool _rotting = false;
         bool _soft = false;
+        bool _uncomfortable = false;
         bool _reinforces = false;
         bool _conductive = false; // If this material conducts electricity
 
@@ -166,6 +167,7 @@ class material_type
         bool edible() const;
         bool rotting() const;
         bool soft() const;
+        bool uncomfortable() const;
         bool reinforces() const;
 
         double vitamin( const vitamin_id &id ) const {
