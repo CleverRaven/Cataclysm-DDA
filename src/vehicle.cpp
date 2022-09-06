@@ -1797,6 +1797,8 @@ bool vehicle::merge_rackable_vehicle( vehicle *carry_veh, const std::vector<int>
         here.set_transparency_cache_dirty( sm_pos.z );
         here.set_seen_cache_dirty( tripoint_zero );
         refresh();
+        here.invalidate_map_cache( here.get_abs_sub().z() );
+        here.rebuild_vehicle_level_caches();
     } else {
         //~ %1$s is the vehicle being loaded onto the bicycle rack
         add_msg( m_bad, _( "You can't get the %1$s on the rack." ), carry_veh->name );
@@ -2042,7 +2044,8 @@ void vehicle::remove_tracked_flag()
     }
 }
 
-bool vehicle::remove_carried_vehicle( const std::vector<int> &carried_parts )
+bool vehicle::remove_carried_vehicle( const std::vector<int> &carried_parts,
+                                      const std::vector<int> &racks )
 {
     if( carried_parts.empty() ) {
         return false;
@@ -2154,6 +2157,12 @@ bool vehicle::remove_carried_vehicle( const std::vector<int> &carried_parts )
                 new_vehicle->parts[idx].enabled = true;
             }
         }
+        for( const int &rack_part : racks ) {
+            parts[rack_part].remove_flag( vehicle_part::carrying_flag );
+            parts[rack_part].remove_flag( vehicle_part::tracked_flag );
+        }
+        here.invalidate_map_cache( here.get_abs_sub().z() );
+        here.rebuild_vehicle_level_caches();
     } else {
         //~ %s is the vehicle being loaded onto the bicycle rack
         add_msg( m_bad, _( "You can't unload the %s from the bike rack." ), new_vehicle->name );

@@ -983,8 +983,6 @@ class vehicle
         // @returns vector of structs with data required to unrack each vehicle
         std::vector<unrackable_vehicle> find_vehicles_to_unrack( int rack ) const;
 
-        void clear_bike_racks( std::vector<int> &racks );
-
         // merge a previously found single tile vehicle into this vehicle
         bool merge_rackable_vehicle( vehicle *carry_veh, const std::vector<int> &rack_parts );
         // merges vehicles together by copying parts, does not account for any vehicle complexities
@@ -1008,7 +1006,7 @@ class vehicle
         // remove the tracked flag from a tracked vehicle after it has been removed from a rack
         void remove_tracked_flag();
         // remove a vehicle specified by a list of part indices
-        bool remove_carried_vehicle( const std::vector<int> &carried_parts );
+        bool remove_carried_vehicle( const std::vector<int> &carried_parts, const std::vector<int> &racks );
         // split the current vehicle into up to four vehicles if they have no connection other
         // than the structure part at exclude
         bool find_and_split_vehicles( map &here, int exclude );

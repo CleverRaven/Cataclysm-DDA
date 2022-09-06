@@ -1972,14 +1972,6 @@ void vehicle::use_bike_rack( int part )
     }
 }
 
-void vehicle::clear_bike_racks( std::vector<int> &racks )
-{
-    for( const int &rack_part : racks ) {
-        parts[rack_part].remove_flag( vehicle_part::carrying_flag );
-        parts[rack_part].remove_flag( vehicle_part::tracked_flag );
-    }
-}
-
 void vpart_position::form_inventory( inventory &inv ) const
 {
     const int veh_battery = vehicle().fuel_left( itype_battery, true );
