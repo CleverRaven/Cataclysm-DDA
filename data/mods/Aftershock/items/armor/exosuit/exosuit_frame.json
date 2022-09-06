@@ -304,7 +304,7 @@
       }
     ],
     "ammo": "battery",
-    "flags": [ "USE_UPS", "STURDY", "WATERPROOF", "ELECTRIC_IMMUNE", "COMBAT_TOGGLEABLE", "OUTER", "DEAF" ],
+    "flags": [ "USE_UPS", "STURDY", "WATERPROOF", "ELECTRIC_IMMUNE", "COMBAT_TOGGLEABLE", "OUTER", "DEAF", "MUNDANE" ],
     "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ACTIVE", "values": [ { "value": "STRENGTH", "add": 10 } ] } ] },
     "use_action": [
       {
@@ -336,7 +336,8 @@
       "CLIMATE_CONTROL",
       "PARTIAL_DEAF",
       "SUN_GLASSES",
-      "FLASH_PROTECTION"
+      "FLASH_PROTECTION",
+	  "MUNDANE"
     ],
     "weight_capacity_bonus": "20 kg",
     "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ACTIVE", "values": [ { "value": "STRENGTH", "add": 10 } ] } ] },

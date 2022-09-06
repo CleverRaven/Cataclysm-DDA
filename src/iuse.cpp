@@ -2309,7 +2309,7 @@ cata::optional<int> iuse::manage_exosuit( Character *p, item *it, bool, const tr
         add_msg( m_warning, _( "Your %s does not have any pockets to contain modules." ), it->tname() );
         return cata::nullopt;
     }
-    p->moves -= exosuit_interact::run( it );
+    exosuit_interact::run( it );
     return 0;
 }
 
