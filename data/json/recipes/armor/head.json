@@ -2762,6 +2762,10 @@
     "time": "15 m",
     "autolearn": true,
     "qualities": [ { "id": "SAW_METAL", "level": 1 } ],
-    "components": [ [ [ "stock_pot", 1 ] ], [ [ "string_36", 2 ] ], [ [ "blanket", 1 ], [ "down_blanket", 1 ], [ "quilt", 1 ], [ "quilt_patchwork", 1 ] ] ]
+    "components": [
+      [ [ "stock_pot", 1 ] ],
+      [ [ "string_36", 2 ] ],
+      [ [ "blanket", 1 ], [ "down_blanket", 1 ], [ "quilt", 1 ], [ "quilt_patchwork", 1 ] ]
+    ]
   }
 ]
