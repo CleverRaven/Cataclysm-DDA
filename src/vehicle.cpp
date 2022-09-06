@@ -3105,7 +3105,7 @@ tripoint vehicle::mount_to_tripoint( const point &mount, const point &offset ) c
 }
 
 void vehicle::precalc_mounts( int idir, const units::angle &dir,
-        const point &pivot )
+                              const point &pivot )
 {
     if( idir < 0 || idir > 1 ) {
         idir = 0;
@@ -5106,7 +5106,7 @@ int vehicle::traverse_vehicle_graph( Vehicle *start_veh, int amount, Func action
         return amount;
     }
     // Breadth-first search! Initialize the queue with a pointer to ourselves and go!
-    std::vector< std::pair<Vehicle *, int> > connected_vehs = std::vector< std::pair<Vehicle*, int> >{ std::make_pair( start_veh, 0 ) };
+    std::vector< std::pair<Vehicle *, int> > connected_vehs = std::vector< std::pair<Vehicle *, int> > { std::make_pair( start_veh, 0 ) };
     std::vector<Vehicle *> visited_vehs;
     std::vector<tripoint> visited_targets;
 
@@ -5646,12 +5646,13 @@ void vehicle::gain_moves()
     }
 
     // Force off-map vehicles to load by visiting them every time we gain moves.
-    // Shouldn't be too expensive if there aren't fifty trillion vehicles in the graph...
-    // ...and if there are, it's the player's fault for putting them there.
-    auto nil_visitor = []( vehicle *, int amount, int ) {
-        return amount;
-    };
-    traverse_vehicle_graph( this, 1, nil_visitor );
+    // This is expensive so we allow a slightly stale result
+    if( calendar::once_every( 5_turns ) ) {
+        auto nil_visitor = []( vehicle *, int amount, int ) {
+            return amount;
+        };
+        traverse_vehicle_graph( this, 1, nil_visitor );
+    }
 
     if( check_environmental_effects ) {
         check_environmental_effects = do_environmental_effects();
