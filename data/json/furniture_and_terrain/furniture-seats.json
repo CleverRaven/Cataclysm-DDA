@@ -114,7 +114,7 @@
       "sound": "smash!",
       "sound_fail": "whump.",
       "items": [
-        { "item": "plank_small", "count": 1 },
+        { "item": "plank_short", "count": 1 },
         { "item": "nuts_bolts", "charges": [ 2, 6 ] },
         { "item": "splinter", "count": [ 1, 3 ] }
       ]
