@@ -2758,7 +2758,6 @@
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_HEAD",
     "skill_used": "fabrication",
-    "difficulty": 0,
     "time": "15 m",
     "autolearn": true,
     "qualities": [ { "id": "SAW_METAL", "level": 1 } ],
