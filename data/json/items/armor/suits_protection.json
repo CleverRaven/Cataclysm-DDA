@@ -2529,7 +2529,7 @@
       "msg": "You slip out of the top of the suit and tie the sleeves around your waist.",
       "target": "robofac_enviro_suit_casual"
     },
-    "flags": [ "VARSIZE", "WATERPROOF", "RAINPROOF", "GAS_PROOF", "RAD_PROOF", "ELECTRIC_IMMUNE", "STURDY" ]
+    "flags": [ "VARSIZE", "WATERPROOF", "RAINPROOF", "GAS_PROOF", "RAD_PROOF", "ELECTRIC_IMMUNE", "STURDY", "ALLOWS_TAIL" ]
   },
   {
     "id": "robofac_enviro_suit_casual",
