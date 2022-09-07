@@ -6811,5 +6811,29 @@
     "time": "2 m",
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
     "components": [ [ [ "scrap_aluminum", 33 ] ] ]
+  },
+  {
+    "result": "aquarium_medium",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "1 s",
+    "components": [ [ [ "glass_shard", 600 ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "aquarium_small",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "1 s",
+    "components": [ [ [ "glass_shard", 285 ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "aquarium_large",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "1 s",
+    "components": [ [ [ "glass_shard", 1000 ] ] ],
+    "flags": [ "BLIND_EASY" ]
   }
 ]
