@@ -977,9 +977,9 @@ std::pair<std::string, nc_color> display::pain_text_color( const Character &u )
     std::string pain_string;
     // get pain color
     int perceived_pain = u.get_perceived_pain();
-    if( perceived_pain >= 60 ) {
+    if( perceived_pain > 60 ) {
         pain_color = c_red;
-    } else if( perceived_pain >= 40 ) {
+    } else if( perceived_pain > 40 ) {
         pain_color = c_light_red;
     }
     // get pain string
