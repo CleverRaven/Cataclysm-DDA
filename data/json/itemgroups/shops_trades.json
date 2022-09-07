@@ -89,6 +89,7 @@
       [ "tongs", 30 ],
       [ "crucible", 30 ],
       [ "chisel", 30 ],
+      [ "glass_cutter", 30 ],
       [ "vac_mold", 10 ],
       [ "polycarbonate_sheet", 20 ],
       [ "glasses_safety", 25 ],
