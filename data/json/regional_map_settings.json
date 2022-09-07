@@ -831,7 +831,7 @@
       "park_sigma": 80,
       "houses": {
         "2storyModern01": 5,
-		"2storyModern02": 50,
+        "2storyModern02": 50,
         "house_w_1": 50,
         "house_two_story_basement": 50,
         "multi_unit_two_story_basement": 40,
