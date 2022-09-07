@@ -528,7 +528,13 @@
   },
   {
   "type": "profession",
-  "id": "Ship Escape",
-  "description": "You awake in your cabin to the sound of emergency sirens and the ship's computer calmy announcing you have five minutes to reach an escape pod. You've got just enough time to hit a supply locker..."
+  "id": "ship_escape",
+  "name": "Escaping Crew",
+  "description": "You awake in your cabin to the sound of emergency sirens and the ship's computer calmy announcing you have five minutes to reach an escape pod. You've got just enough time to hit a supply locker...",
+    "items": {
+        "items": [ "spacer_jumpsuit", "spacer_cap", "socks", "boots", "wristwatch" ],
+      "male": [ "briefs" ],
+      "female": [ "sports_bra", "boy_shorts" ]
+    }
   }
 ]
