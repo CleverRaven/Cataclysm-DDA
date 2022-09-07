@@ -945,5 +945,37 @@
     "sym": "L",
     "color": "i_green",
     "flags": [ "SOURCE_CONSTRUCTION", "SOURCE_FABRICATION" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "pagan_cult_enter",
+      "pagan_cult_right_corner",
+      "pagan_cult_right_corner_up",
+      "pagan_cult_left_corner",
+      "pagan_cult_left_corner_up",
+      "pagan_cult_long_wall"
+    ],
+    "name": "wall",
+    "sym": "W",
+    "color": "brown",
+    "see_cost": 5,
+    "flags": [ "RISK_LOW", "SOURCE_SAFETY", "SOURCE_FOOD" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "pagan_cult_longhouse",
+    "name": "longhouse",
+    "sym": "O",
+    "color": "brown",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "pagan_cult_henge",
+    "name": "henge",
+    "sym": "^",
+    "color": "brown",
+    "see_cost": 5
   }
 ]
