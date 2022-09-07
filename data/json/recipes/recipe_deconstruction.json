@@ -6818,7 +6818,7 @@
     "activity_level": "MODERATE_EXERCISE",
     "time": "10 m",
     "qualities": [ { "id": "SAW_W", "level": 2 } ],
-    "components": [ [ [ "plank_small", 4 ] ] ]
+    "components": [ [ [ "plank_short", 2 ] ] ]
   },
   {
     "result": "deck_chair",
@@ -6827,7 +6827,7 @@
     "time": "30 m",
     "qualities": [ { "id": "PRY", "level": 1 }, { "id": "SAW_W", "level": 2 }, { "id": "SCREW", "level": 1 } ],
     "components": [
-      [ [ "plank_small", 2 ] ],
+      [ [ "plank_short", 2 ] ],
       [ [ "wood_block", 10 ] ],
       [ [ "nuts_bolts", 12 ] ],
       [ [ "cotton_patchwork", 30 ] ],
@@ -6840,6 +6840,6 @@
     "activity_level": "LIGHT_EXERCISE",
     "time": "30 m",
     "qualities": [ { "id": "PRY", "level": 1 }, { "id": "SAW_W", "level": 2 }, { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "plank_small", 2 ] ], [ [ "wood_block", 36 ] ], [ [ "nuts_bolts", 30 ] ], [ [ "splinter", 36 ] ] ]
+    "components": [ [ [ "plank_short", 2 ] ], [ [ "wood_block", 36 ] ], [ [ "nuts_bolts", 30 ] ], [ [ "splinter", 36 ] ] ]
   }
 ]
