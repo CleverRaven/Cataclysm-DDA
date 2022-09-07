@@ -28,18 +28,20 @@ creator::simple_property_widget::simple_property_widget( QWidget* parent, QStrin
     case property_type::MINMAX:
         prop_min = new QSpinBox;
         prop_min->setRange( 0, INT_MAX );
+        prop_min->setValue( 1 );
         prop_min->setMinimumSize( QSize( 50, 24 ) );
         prop_min->setMaximumSize( QSize( 55, 24 ) );
         connect( prop_min, QOverload<int>::of( &QSpinBox::valueChanged ),
-            [=]( ) { change_notify_widget(); } );
+            [=]( ) { min_changed(); } );
         property_layout->addWidget( prop_min ) ;
 
         prop_max = new QSpinBox;
         prop_max->setRange( 0, INT_MAX );
+        prop_max->setValue( 1 );
         prop_max->setMinimumSize( QSize( 50, 24 ) );
         prop_max->setMaximumSize( QSize( 55, 24 ) );
         connect( prop_max, QOverload<int>::of( &QSpinBox::valueChanged ),
-            [=]( ) { change_notify_widget(); } );
+            [=]( ) { max_changed(); } );
         property_layout->addWidget( prop_max ) ;
         break;
 
@@ -60,9 +62,12 @@ creator::simple_property_widget::simple_property_widget( QWidget* parent, QStrin
     //If it is made visible and the user presses it, another mechanism should
     //allow the user to make it visible again
     btnHide = new QPushButton;
-    btnHide->setText( "-" );
+    btnHide->setText( "X" );
     btnHide->hide();
-    btnHide->setMaximumSize( QSize( 12, 16 ) );
+    btnHide->setMaximumSize( QSize( 16, 16 ) );
+    btnHide->setStyleSheet( "background-color:rgb(206,99,108)" );
+    btnHide->setToolTip( QString( _( "Delete this property from the entry" ) ) );
+    btnHide->setContentsMargins( 2,2,2,2 );
     btnHide->setToolTip( QString( ( "Remove property " + propertyName ) ) );
     QObject::connect( btnHide, &QPushButton::clicked, this, [&]() { this->hide();
                                                 change_notify_widget(); } );
@@ -92,19 +97,15 @@ void creator::simple_property_widget::get_json( JsonOut &jo ) {
         case property_type::MINMAX:
             min = prop_min->value();
             max = prop_max->value();
-            if( min ) {
-                if( max ) {
-                    if ( max <= min ) {
-                        jo.member( propertyName.toStdString(), min );
-                    } else {
-                        jo.member( propertyName.toStdString() + "-min", min );
-                        jo.member( propertyName.toStdString() + "-max", max );
-                    }
-                } else {
+            if( min == max ){
+                if( min > 0 ){
                     jo.member( propertyName.toStdString(), min );
                 }
-            } else if( max ) {
-                jo.member( propertyName.toStdString(), max );
+                //Do not add to JSON if both are 0
+            } else {
+                //Max is bigger then min, so we add both to JSON
+                jo.member( propertyName.toStdString() + "-min", min );
+                jo.member( propertyName.toStdString() + "-max", max );
             }
             break;
         case property_type::NUM_TYPES: break;
@@ -128,10 +129,9 @@ void creator::simple_property_widget::allow_hiding( bool allow ) {
 void creator::simple_property_widget::min_changed() {
     int max = prop_max->value();
     int min = prop_min->value();
-    if( max ) {
-        if( max <= min ) {
-            prop_max->setValue( min );
-        }
+    //If max has a value but is smaller then min, set it to min
+    if( max < min ) {
+        prop_max->setValue( min );
     }
     change_notify_widget();
 }
@@ -139,10 +139,9 @@ void creator::simple_property_widget::min_changed() {
 void creator::simple_property_widget::max_changed() {
     int max = prop_max->value();
     int min = prop_min->value();
-    if( min ) {
-        if( max <= min ) {
-            prop_max->setValue( min );
-        }
+    //Max cannot be lower then min, so we set min to the value of max
+    if( max < min ) {
+        prop_min->setValue( max );
     }
     change_notify_widget();
 }
