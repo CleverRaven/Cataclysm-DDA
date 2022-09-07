@@ -1925,10 +1925,10 @@
     "color": "light_gray",
     "name": { "str": "antenna" },
     "category": "spare_parts",
-    "description": "A simple thin aluminum shaft.  Useful in lots of electronics recipes.",
+    "description": "A simple thin copper shaft.  Useful in lots of electronics recipes.",
     "price": 8000,
     "price_postapoc": 10,
-    "material": [ "aluminum" ],
+    "material": [ "copper" ],
     "weight": "68 g",
     "volume": "250 ml",
     "to_hit": 2
