@@ -150,7 +150,7 @@ void vehicle::smart_controller_handle_turn( bool thrusting,
             c_engines.push_back( i );
         }
     }
-    // Checking if the player is flying or is a rotorcraft.
+    // Checking if the vehicle is currently flying or is a rotorcraft.
     bool rotorcraft = is_flying && is_rotorcraft();
 
     Character &player_character = get_player_character();
