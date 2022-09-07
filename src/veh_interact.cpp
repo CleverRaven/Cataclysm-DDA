@@ -3455,7 +3455,7 @@ void veh_interact::complete_vehicle( Character &you )
                 vehicle *other_veh = veh->is_towing() ? veh->tow_data.get_towed() :
                                      veh->tow_data.get_towed_by();
                 if( other_veh ) {
-                    add_msg_debug( debugmode::DF_VEHICLE, "Other vehicle exists. Removing tow cable" );
+                    add_msg_debug( debugmode::DF_VEHICLE, "Other vehicle exists.  Removing tow cable" );
                     other_veh->remove_part( other_veh->part_with_feature( other_veh->get_tow_part(),
                                             "TOW_CABLE", true ) );
                     other_veh->tow_data.clear_towing();
