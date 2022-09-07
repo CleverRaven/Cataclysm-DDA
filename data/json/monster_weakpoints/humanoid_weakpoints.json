@@ -505,6 +505,45 @@
   },
   {
     "type": "weakpoint_set",
+    "id": "wps_humanoid_full_helmet_armored",
+    "weakpoints": [
+      {
+        "id": "helmet",
+        "name": "the helmet",
+        "//": "the hard part of the helmet is actually the opposite of a weakpoint.",
+        "armor_mult": { "physical": 1.7 },
+        "crit_mult": { "all": 0.5 },
+        "coverage_mult": { "melee": 0.75 },
+        "coverage": 3
+      },
+      {
+        "id": "faceplate",
+        "name": "the faceplate",
+        "//": "the armored faceplate is even less of a weakpoint.",
+        "armor_mult": { "all": 2 },
+        "crit_mult": { "all": 0.2 },
+        "coverage": 3,
+        "effects": [
+          {
+            "effect": "stunned",
+            "duration": [ 1 ],
+            "chance": 2,
+            "message": "The %s is stunned!",
+            "damage_required": [ 21, 50 ]
+          },
+          {
+            "effect": "stunned",
+            "duration": [ 1, 2 ],
+            "chance": 5,
+            "message": "The %s is stunned!",
+            "damage_required": [ 51, 100 ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "weakpoint_set",
     "id": "wps_humanoid_gasmask",
     "weakpoints": [
       {

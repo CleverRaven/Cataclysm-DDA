@@ -314,5 +314,24 @@
     "miss_msg_npc": "%s tries to grab <npcname>, but they dodge!",
     "no_dmg_msg_u": "%s grasps at you with silk-covered legs, engulfing you in sticky webs!",
     "no_dmg_msg_npc": "%s grabs <npcname> and covers them in sticky webs!"
+  },
+  {
+    "type": "monster_attack",
+    "attack_type": "melee",
+    "id": "headbash",
+    "cooldown": 12,
+    "move_cost": 400,
+    "range": 2,
+    "damage_max_instance": [ { "damage_type": "bash", "amount": 30 } ],
+    "hitsize_min": 12,
+    "throw_strength": 20,
+    "hit_dmg_u": "%1$s's head rams into your %2$s!",
+    "hit_dmg_npc": "%1$s's head rams into <npcname>!",
+    "miss_msg_u": "%1$s's head comes at you like a guillotine, but misses its mark!",
+    "miss_msg_npc": "%1$s's head comes at <npcname> like a guillotine, but misses its mark!",
+    "no_dmg_msg_u": "%1$s's head rams into your %2$s, but it bounces off your armor.",
+    "no_dmg_msg_npc": "%1$s's head rams into <npcname>, but it bounces off their armor.",
+    "dodgeable": true,
+    "blockable": false
   }
 ]

@@ -315,6 +315,7 @@
     "special_attacks": [ [ "GRAB", 7 ] ],
     "death_drops": "mon_zombie_fireman_death_drops",
     "burn_into": "mon_zombie_scorched",
+    "upgrades": { "half_life": 42, "into": "mon_zombie_nomex_1" },
     "flags": [
       "SEES",
       "HEARS",
