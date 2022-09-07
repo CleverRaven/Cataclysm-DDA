@@ -430,7 +430,7 @@
       "rejected": "Are you certain?  It'll be worth your while.",
       "advice": "I'd ambush the bandits at night, if it were me.  They've got the perimeter trapped with mines, too.",
       "inquire": "Where are they?",
-      "success": "The world will be a better place without theives walking its surface.",
+      "success": "The world will be a better place without thieves walking its surface.",
       "success_lie": "I don't see them anywhere.",
       "failure": "Its unfortunate, how many fall to barbarism…"
     }
