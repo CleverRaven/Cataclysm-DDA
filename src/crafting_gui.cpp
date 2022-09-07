@@ -1368,6 +1368,7 @@ const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id goto_
                     current.push_back( chosen );
                     available.emplace_back( chosen, i );
                 }
+                indent.assign( current.size(), 0 );
             } else {
                 static_popup popup;
                 auto last_update = std::chrono::steady_clock::now();
@@ -1506,6 +1507,8 @@ const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id goto_
         cata::optional<point> coord = ctxt.get_coordinates_text( catacurses::stdscr );
         const bool mouse_in_list = coord.has_value() && mouseover_area_list.contains( coord.value() );
         const bool mouse_in_recipe = coord.has_value() && mouseover_area_recipe.contains( coord.value() );
+
+        const std::string nested_selected = _( "Select a recipe within this group" );
 
         // Check mouse selection of recipes separately so that selecting an already-selected recipe
         // can go straight to "CONFIRM"
@@ -1655,9 +1658,9 @@ const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id goto_
                 uistate.read_recipes.insert( chosen->ident() );
             }
         } else if( action == "HELP_RECIPE" ) {
-            if( current.empty() ) {
+            if( current.empty() || current[line]->is_nested() ) {
                 query_popup()
-                .message( "%s", _( "Nothing selected!" ) )
+                .message( "%s", current.empty() ? _( "Nothing selected!" ) : nested_selected )
                 .option( "QUIT" )
                 .query();
                 continue;
@@ -1736,9 +1739,9 @@ const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id goto_
             recalc = true;
             recalc_unread = highlight_unread_recipes;
         } else if( action == "CYCLE_BATCH" ) {
-            if( current.empty() ) {
+            if( current.empty() || current[line]->is_nested() ) {
                 query_popup()
-                .message( "%s", _( "Nothing selected!" ) )
+                .message( "%s", current.empty() ? _( "Nothing selected!" ) : nested_selected )
                 .option( "QUIT" )
                 .query();
                 continue;
@@ -1851,9 +1854,9 @@ const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id goto_
             recalc = true;
             keepline = true;
         } else if( action == "RELATED_RECIPES" ) {
-            if( current.empty() ) {
+            if( current.empty() || current[line]->is_nested() ) {
                 query_popup()
-                .message( "%s", _( "Nothing selected!" ) )
+                .message( "%s", current.empty() ? _( "Nothing selected!" ) : nested_selected )
                 .option( "QUIT" )
                 .query();
                 continue;
