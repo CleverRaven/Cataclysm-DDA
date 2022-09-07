@@ -1105,12 +1105,13 @@ ret_val<void> outfit::power_armor_conflicts( const item &clothing ) const
             }
         }
     } else {
-        // Only headgear can be worn with power armor, except other power armor components.
+        // You can only wear headgear or non-covering items with power armor, except other power armor components.
         // You can't wear headgear if power armor helmet is already sitting on your head.
         bool has_helmet = false;
-        if( !clothing.has_flag( flag_POWERARMOR_COMPATIBLE ) && ( is_wearing_power_armor( &has_helmet ) &&
-                ( has_helmet || !( clothing.covers( body_part_head ) || clothing.covers( body_part_mouth ) ||
-                                   clothing.covers( body_part_eyes ) ) ) ) ) {
+        if( !clothing.get_covered_body_parts().none() && !clothing.has_flag( flag_POWERARMOR_COMPATIBLE ) &&
+            ( is_wearing_power_armor( &has_helmet ) &&
+              ( has_helmet || !( clothing.covers( body_part_head ) || clothing.covers( body_part_mouth ) ||
+                                 clothing.covers( body_part_eyes ) ) ) ) ) {
             return ret_val<void>::make_failure( _( "Can't wear %s with power armor!" ), clothing.tname() );
         }
     }
@@ -1883,9 +1884,11 @@ std::unordered_set<bodypart_id> outfit::where_discomfort() const
             if( i.is_bp_comfortable( sbp ) ) {
                 covered_sbps.insert( sbp );
             }
-            // if the bp is rigid and has yet to display as covered with something soft then it should cause discomfort
+            // if the bp is uncomfortable and has yet to display as covered with something comfortable then it should cause discomfort
             // note anything selectively rigid reasonably can be assumed to support itself so we don't need to worry about this
-            if( !i.is_bp_rigid_selective( sbp ) && i.is_bp_rigid( sbp ) && covered_sbps.count( sbp ) != 1 ) {
+            // items must also be somewhat heavy in order to cause discomfort
+            if( !i.is_bp_rigid_selective( sbp ) && !i.is_bp_comfortable( sbp ) &&
+                covered_sbps.count( sbp ) != 1 && i.weight() > units::from_gram( 250 ) ) {
                 uncomfortable_bps.insert( sbp->parent );
             }
         }

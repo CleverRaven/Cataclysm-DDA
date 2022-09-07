@@ -407,6 +407,7 @@ bool string_starts_with( const std::string &s1, const std::string &s2 );
  * Note: N is (size+1) for null-terminated strings.
  */
 template <std::size_t N>
+// NOLINTNEXTLINE(modernize-avoid-c-arrays)
 inline bool string_starts_with( const std::string &s1, const char( &s2 )[N] )
 {
     return s1.compare( 0, N - 1, s2, N - 1 ) == 0;
@@ -423,6 +424,7 @@ bool string_ends_with( const std::string &s1, const std::string &s2 );
  *  Note: N is (size+1) for null-terminated strings.
  */
 template <std::size_t N>
+// NOLINTNEXTLINE(modernize-avoid-c-arrays)
 inline bool string_ends_with( const std::string &s1, const char( &s2 )[N] )
 {
     return s1.size() >= N - 1 && s1.compare( s1.size() - ( N - 1 ), std::string::npos, s2, N - 1 ) == 0;

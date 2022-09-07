@@ -563,7 +563,7 @@ WORLD *worldfactory::pick_world( bool show_prompt, bool empty_only )
             const bool sel_this = static_cast<int>( i ) == sel;
             inclusive_rectangle<point> btn( world_list_top_left + point( 4, i ),
                                             world_list_top_left + point( world_list_width - 1, i ) );
-            button_map.emplace( i, btn );
+            button_map.emplace( static_cast<int>( i ), btn );
 
             mvwprintz( w_worlds, point( 0, static_cast<int>( i ) ), c_white, "%d", i + 1 );
             wmove( w_worlds, point( 4, static_cast<int>( i ) ) );
@@ -868,7 +868,7 @@ std::map<int, inclusive_rectangle<point>> worldfactory::draw_mod_list( const cat
                     }
                     mod_entry_name += string_format( _( " [%s]" ), mod_entry_id.str() );
                     trim_and_print( w, point( 4, iNum - start ), wwidth, mod_entry_color, mod_entry_name );
-                    ent_map.emplace( std::distance( mods.begin(), iter ),
+                    ent_map.emplace( static_cast<int>( std::distance( mods.begin(), iter ) ),
                                      inclusive_rectangle<point>( point( 1, iNum - start ), point( 3 + wwidth, iNum - start ) ) );
 
                     if( w_shift ) {
@@ -1121,8 +1121,8 @@ int worldfactory::show_worldgen_tab_modselection( const catacurses::window &win,
     headers.emplace_back( _( "Mod Load Order" ) );
 
     size_t active_header = 0;
-    int startsel[2] = {0, 0};
-    size_t cursel[2] = {0, 0};
+    std::array<int, 2> startsel = {0, 0};
+    std::array<size_t, 2> cursel = {0, 0};
     size_t iCurrentTab = 0;
     size_t sel_top_tab = 0;
     std::vector<mod_id> current_tab_mods;
@@ -1283,7 +1283,8 @@ int worldfactory::show_worldgen_tab_modselection( const catacurses::window &win,
             wputch( win, BORDER_COLOR, LINE_OXOX );
             point tabpos( point( 2 + ++xpos, 4 ) );
             int tabwidth = utf8_width( get_mod_list_tabs()[i].second.translated(), true );
-            mod_tab_map.emplace( i, inclusive_rectangle<point>( tabpos, tabpos + point( tabwidth, 0 ) ) );
+            mod_tab_map.emplace( static_cast<int>( i ),
+                                 inclusive_rectangle<point>( tabpos, tabpos + point( tabwidth, 0 ) ) );
             xpos += tabwidth + 2;
         }
 
@@ -1734,7 +1735,7 @@ int worldfactory::show_worldgen_basic( WORLD *world )
                                                  colorize( "][", acc_clr ), _( "Finish" ), colorize( "]", acc_clr ) );
             const point finish_pos( win_width / 4 - utf8_width( btn_txt, true ) / 2, y );
             print_colored_text( w_confirmation, finish_pos, base_clr, base_clr, btn_txt );
-            btn_map.emplace( wg_sliders.size() + 1,
+            btn_map.emplace( static_cast<int>( wg_sliders.size() + 1 ),
                              inclusive_rectangle<point>( finish_pos, finish_pos + point( utf8_width( btn_txt, true ), 0 ) ) );
             // Reset button
             acc_clr = get_clr( c_yellow, sel_opt == static_cast<int>( wg_sliders.size() + 2 ) );
@@ -1745,7 +1746,7 @@ int worldfactory::show_worldgen_basic( WORLD *world )
                                      colorize( "][", acc_clr ), _( "Reset" ), colorize( "]", acc_clr ) );
             const point reset_pos( win_width / 2 - utf8_width( btn_txt, true ) / 2, y );
             print_colored_text( w_confirmation, reset_pos, base_clr, base_clr, btn_txt );
-            btn_map.emplace( wg_sliders.size() + 2,
+            btn_map.emplace( static_cast<int>( wg_sliders.size() + 2 ),
                              inclusive_rectangle<point>( reset_pos, reset_pos + point( utf8_width( btn_txt, true ), 0 ) ) );
             // Randomize button
             acc_clr = get_clr( c_yellow, sel_opt == static_cast<int>( wg_sliders.size() + 3 ) );
@@ -1756,7 +1757,7 @@ int worldfactory::show_worldgen_basic( WORLD *world )
                                      colorize( "][", acc_clr ), _( "Randomize" ), colorize( "]", acc_clr ) );
             const point rand_pos( ( win_width * 3 ) / 4 - utf8_width( btn_txt, true ) / 2, y++ );
             print_colored_text( w_confirmation, rand_pos, base_clr, base_clr, btn_txt );
-            btn_map.emplace( wg_sliders.size() + 3,
+            btn_map.emplace( static_cast<int>( wg_sliders.size() + 3 ),
                              inclusive_rectangle<point>( rand_pos, rand_pos + point( utf8_width( btn_txt, true ), 0 ) ) );
         }
 
@@ -1797,13 +1798,17 @@ int worldfactory::show_worldgen_basic( WORLD *world )
                                            ctxt.get_desc( "ADVANCED_SETTINGS", 1U ) );
         mvwprintz( w_confirmation, point( 2, win_height - 4 ), c_light_gray, _( "Advanced settings:" ) );
         print_colored_text( w_confirmation, point( 2, win_height - 3 ), dummy, c_light_gray, sctxt );
-        btn_map.emplace( wg_sliders.size() + 4, inclusive_rectangle<point>( point( 2, win_height - 3 ),
-                         point( 2 + utf8_width( sctxt, true ), win_height - 3 ) ) );
+        btn_map.emplace( static_cast<int>( wg_sliders.size() + 4 ),
+                         inclusive_rectangle<point>(
+                             point( 2, win_height - 3 ),
+                             point( 2 + utf8_width( sctxt, true ), win_height - 3 ) ) );
         sctxt = string_format( _( "[<color_yellow>%s</color>] - Open mod manager" ),
                                ctxt.get_desc( "PICK_MODS", 1U ) );
         print_colored_text( w_confirmation, point( 2, win_height - 2 ), dummy, c_light_gray, sctxt );
-        btn_map.emplace( wg_sliders.size() + 5, inclusive_rectangle<point>( point( 2, win_height - 2 ),
-                         point( 2 + utf8_width( sctxt, true ), win_height - 2 ) ) );
+        btn_map.emplace( static_cast<int>( wg_sliders.size() + 5 ),
+                         inclusive_rectangle<point>(
+                             point( 2, win_height - 2 ),
+                             point( 2 + utf8_width( sctxt, true ), win_height - 2 ) ) );
         wnoutrefresh( w_confirmation );
     } );
 

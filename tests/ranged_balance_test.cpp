@@ -582,9 +582,9 @@ std::map<T, float> hit_distribution( const targeting_graph<T, W> &graph,
     for( int i = 0; i < iters; ++i ) {
         typename std::map<T, float>::iterator it;
         if( guess ) {
-            it = hits.emplace( graph.select( 0.0, 1.0, *guess ), 0 ).first;
+            it = hits.emplace( graph.select( 0.0, 1.0, *guess ), 0.f ).first;
         } else {
-            it = hits.emplace( graph.select( 0.0, 1.0, rng_float( 0, 1 ) ), 0 ).first;
+            it = hits.emplace( graph.select( 0.0, 1.0, rng_float( 0, 1 ) ), 0.f ).first;
         }
         ++it->second;
     }
@@ -1160,7 +1160,7 @@ TEST_CASE( "Default_anatomy_body_part_hit_chances", "[targeting_graph][anatomy][
     const int total_hits = 1000000;
     for( int i = 0; i < total_hits; ++i ) {
         auto it = hits.emplace( tested->select_body_part_projectile_attack( 0, 1, rng_float( 0, 1 ) ),
-                                0 ).first;
+                                0.f ).first;
         ++it->second;
     }
 

@@ -14,7 +14,7 @@
     "looks_like": "flip_flops",
     "color": "brown",
     "material_thickness": 2,
-    "flags": [ "VARSIZE", "WATER_FRIENDLY", "ALLOWS_NATURAL_ATTACKS" ],
+    "flags": [ "VARSIZE", "WATER_FRIENDLY", "ALLOWS_NATURAL_ATTACKS", "ALLOWS_TALONS" ],
     "armor": [
       {
         "covers": [ "foot_l", "foot_r" ],
@@ -744,6 +744,15 @@
     ]
   },
   {
+    "id": "ch_sabaton_metal_sheets",
+    "type": "ARMOR",
+    "copy-from": "sabaton_metal_sheets",
+    "name": { "str": "pair of case hardened sheet metal sabatons", "str_pl": "pairs of case hardened sheet metal sabatons" },
+    "description": "Sabatons made of sheet metal, case hardened to protect your feet if you drop something heavy on them.  No relation to the band, aside from being very metal.",
+    "material": [ "ch_steel" ],
+    "extend": { "flags": [ "STURDY" ] }
+  },
+  {
     "id": "boots_steel",
     "repairs_like": "boots_larmor",
     "type": "ARMOR",
@@ -1252,7 +1261,7 @@
     "repairs_like": "boots",
     "color": "blue",
     "material_thickness": 1,
-    "flags": [ "VARSIZE", "WATER_FRIENDLY", "ALLOWS_NATURAL_ATTACKS" ],
+    "flags": [ "VARSIZE", "WATER_FRIENDLY", "ALLOWS_NATURAL_ATTACKS", "ALLOWS_TALONS" ],
     "armor": [
       {
         "covers": [ "foot_l", "foot_r" ],
@@ -1569,7 +1578,7 @@
     "repairs_like": "bastsandals",
     "color": "brown",
     "material_thickness": 1.5,
-    "flags": [ "VARSIZE", "WATER_FRIENDLY", "ALLOWS_NATURAL_ATTACKS" ],
+    "flags": [ "VARSIZE", "WATER_FRIENDLY", "ALLOWS_NATURAL_ATTACKS", "ALLOWS_TALONS" ],
     "armor": [
       {
         "covers": [ "foot_l", "foot_r" ],
@@ -2016,7 +2025,7 @@
     "looks_like": "leathersandals",
     "color": "light_gray",
     "material_thickness": 1,
-    "flags": [ "VARSIZE", "WATER_FRIENDLY", "ALLOWS_NATURAL_ATTACKS" ],
+    "flags": [ "VARSIZE", "WATER_FRIENDLY", "ALLOWS_NATURAL_ATTACKS", "ALLOWS_TALONS" ],
     "armor": [
       {
         "covers": [ "foot_l", "foot_r" ],

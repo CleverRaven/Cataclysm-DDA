@@ -21,7 +21,11 @@ struct iteminfo;
 struct tripoint;
 template<typename T> class ret_val;
 
-// iuse methods returning a bool indicating whether to consume a charge of the item being used.
+// iuse methods return the number of charges expended, which is usually "1", or no value.
+// Returning 0 indicates the item has not been used up, though it may have been successfully activated.
+// 0 may also mean that the consumption and time progress was handled within iuse action.
+// If the item is destroyed here the return value must be 0.
+// A return of cata::nullopt means it was not used at all.
 namespace iuse
 {
 
@@ -60,7 +64,6 @@ cata::optional<int> purify_smart( Character *, item *, bool, const tripoint & );
 cata::optional<int> sewage( Character *, item *, bool, const tripoint & );
 cata::optional<int> smoking( Character *, item *, bool, const tripoint & );
 cata::optional<int> thorazine( Character *, item *, bool, const tripoint & );
-cata::optional<int> vaccine( Character *, item *, bool, const tripoint & );
 cata::optional<int> weed_cake( Character *, item *, bool, const tripoint & );
 cata::optional<int> xanax( Character *, item *, bool, const tripoint & );
 

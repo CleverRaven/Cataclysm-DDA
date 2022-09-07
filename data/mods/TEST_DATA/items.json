@@ -290,7 +290,7 @@
     "copy-from": "test_shears_off",
     "name": { "str": "electric shears (on)" },
     "description": "This is a set of electric shears designed to obtain wool from sheep.  These shears have been turned on.",
-    "power_draw": 10000,
+    "power_draw": "10 J",
     "revert_to": "test_shears_off",
     "use_action": { "type": "transform", "msg": "Your %s deactivates.", "target": "test_shears_off" },
     "qualities": [ [ "SHEAR", 3 ] ]
@@ -2461,7 +2461,7 @@
     "name": { "str": "test power armor (on)" },
     "description": "This is a prototype power armor just for testing.",
     "flags": [ "USE_UPS", "WATERPROOF", "STURDY", "ELECTRIC_IMMUNE", "TRADER_AVOID", "CLIMATE_CONTROL" ],
-    "power_draw": 4000000,
+    "power_draw": "4 kJ",
     "revert_to": "test_power_armor",
     "use_action": { "type": "transform", "menu_text": "Turn off", "msg": "The %s armor disengages.", "target": "test_power_armor" }
   },

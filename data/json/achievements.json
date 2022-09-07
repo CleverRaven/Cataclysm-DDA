@@ -156,7 +156,7 @@
     "id": "achievement_reach_max_z_level",
     "type": "achievement",
     "name": "Ain't no mountain high enough",
-    "requirements": [ { "event_statistic": "max_move_z", "is": ">=", "target": 10 } ]
+    "requirements": [ { "event_statistic": "max_move_z", "is": ">=", "target": 9 } ]
   },
   {
     "id": "achievement_reach_min_z_level",

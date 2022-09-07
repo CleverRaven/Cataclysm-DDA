@@ -443,16 +443,26 @@
     "type": "effect_on_condition",
     "id": "EOC_RANDOM_HALLUCINATIONS",
     "recurrence": [ "1 hours", "3 hours" ],
-    "condition": { "and": [ { "u_has_effect": "hallucination_attacks" }, { "x_in_y_chance": { "x": 3, "y": 5 } } ] },
-    "effect": {
-      "u_spawn_monster": "GROUP_YOUR_FEARS",
-      "group": true,
-      "real_count": 0,
-      "hallucination_count": { "arithmetic": [ { "const": 1 }, "+", { "rand": 2 } ] },
-      "outdoor_only": false,
-      "min_radius": 10,
-      "max_radius": 40,
-      "lifespan": [ "1 hours", "4 hours" ]
-    }
+    "condition": { "and": [ { "u_has_effect": "hallucination_attacks" }, { "x_in_y_chance": { "x": 1, "y": 6 } } ] },
+    "effect": [
+      {
+        "run_eocs": {
+          "id": "EOC_HALLUCINATION_ATTACKS",
+          "condition": { "compare_int": [ { "global_val": "monsters_nearby" }, ">", { "const": 1 } ] },
+          "effect": [
+            {
+              "u_spawn_monster": "GROUP_YOUR_FEARS",
+              "group": true,
+              "real_count": 0,
+              "hallucination_count": { "arithmetic": [ { "const": 1 }, "+", { "rand": 2 } ] },
+              "outdoor_only": false,
+              "min_radius": 10,
+              "max_radius": 40,
+              "lifespan": [ "1 hours", "4 hours" ]
+            }
+          ]
+        }
+      }
+    ]
   }
 ]
