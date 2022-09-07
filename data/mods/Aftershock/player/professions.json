@@ -525,5 +525,10 @@
       "male": [ "boxer_shorts" ],
       "female": [ "sports_bra", "panties" ]
     }
+  },
+  {
+  "type": "profession",
+  "id": "Ship Escapr",
+  "description": "You awake in your cabin to the sound of emergency sirens ahe ship's computer calmy announcing you have five minutes to reach an escape pod. You've got just enough time to hit a supply locker..."
   }
 ]
