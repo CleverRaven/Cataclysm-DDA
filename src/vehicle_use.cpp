@@ -569,11 +569,6 @@ void vehicle::smash_security_system()
     }
 }
 
-std::string vehicle::tracking_toggle_string() const
-{
-    return tracking_on ? _( "Forget vehicle position" ) : _( "Remember vehicle position" );
-}
-
 void vehicle::autopilot_patrol_check()
 {
     zone_manager &mgr = zone_manager::get_manager();
@@ -2115,7 +2110,8 @@ void vehicle::interact_with( const vpart_position &vp, bool with_pickup )
     selectmenu.addentry( EXAMINE, true, 'e',
                          is_appliance ? _( "Examine appliance" ) : _( "Examine vehicle" ) );
     if( !is_appliance ) {
-        selectmenu.addentry( TRACK, true, keybind( "TOGGLE_TRACKING" ), tracking_toggle_string() );
+        selectmenu.addentry( TRACK, true, keybind( "TOGGLE_TRACKING" ),
+                             tracking_on ? _( "Forget vehicle position" ) : _( "Remember vehicle position" ) );
     } else {
         selectmenu.addentry( PLUG, true, 'g', _( "Plug in appliance" ) );
     }
