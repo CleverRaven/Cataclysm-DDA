@@ -204,9 +204,15 @@ void pocket_favorite_callback::move_item( uilist *menu, item_pocket *selected_po
             }
         }
     } else {
-        // storage should mimick character inserting
-        get_avatar().as_character()->store( selected_pocket, *item_to_move.first );
-
+        // If no pockets are enabled, uilist allows scrolling through them, so we need to recheck
+        ret_val<item_pocket::contain_code> contain = selected_pocket->can_contain( *item_to_move.first );
+        if( contain.success() ) {
+            // storage should mimick character inserting
+            get_avatar().as_character()->store( selected_pocket, *item_to_move.first );
+        } else {
+            const std::string base_string = _( "Cannot put item in pocket because %s" );
+            popup( string_format( base_string, contain.str() ) );
+        }
         // reset the moved item
         item_to_move = { nullptr, nullptr };
 
@@ -920,7 +926,8 @@ ret_val<void> item_contents::can_contain_rigid( const item &it,
     return ret;
 }
 
-ret_val<void> item_contents::can_contain( const item &it, const bool ignore_pkt_settings ) const
+ret_val<void> item_contents::can_contain( const item &it, const bool ignore_pkt_settings,
+        units::volume remaining_parent_volume ) const
 {
     ret_val<void> ret = ret_val<void>::make_failure( _( "is not a container" ) );
     for( const item_pocket &pocket : contents ) {
@@ -930,6 +937,9 @@ ret_val<void> item_contents::can_contain( const item &it, const bool ignore_pkt_
         }
         if( !ignore_pkt_settings && !pocket.settings.accepts_item( it ) ) {
             ret = ret_val<void>::make_failure( _( "denied by pocket auto insert settings" ) );
+            continue;
+        }
+        if( !pocket.rigid() && it.volume() > remaining_parent_volume ) {
             continue;
         }
         const ret_val<item_pocket::contain_code> pocket_contain_code = pocket.can_contain( it );

@@ -145,6 +145,11 @@
       [ "tailoring_leather_small", 4 ],
       [ "tailoring_nylon_patchwork", 4 ]
     ],
+    "proficiencies": [
+      { "proficiency": "prof_leatherworking_basic" },
+      { "proficiency": "prof_leatherworking" },
+      { "proficiency": "prof_closures_waterproofing" }
+    ],
     "qualities": [ { "id": "LEATHER_AWL", "level": 1 } ],
     "components": [
       [ [ "exodii_wire_kit", 1 ] ],

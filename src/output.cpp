@@ -28,6 +28,7 @@
 #include "item.h"
 #include "line.h"
 #include "name.h"
+#include "game.h"
 #include "options.h"
 #include "point.h"
 #include "popup.h"
@@ -107,6 +108,7 @@ std::string string_from_int( const catacurses::chtype ch )
         default:
             break;
     }
+    // NOLINTNEXTLINE(modernize-avoid-c-arrays)
     char buffer[2] = { static_cast<char>( charcode ), '\0' };
     return buffer;
 }
@@ -1463,9 +1465,9 @@ void draw_tab( const catacurses::window &w, int iOffsetX, const std::string &sTe
     }
 }
 
-void draw_subtab( const catacurses::window &w, int iOffsetX, const std::string &sText,
-                  bool bSelected,
-                  bool bDecorate, bool bDisabled )
+inclusive_rectangle<point> draw_subtab( const catacurses::window &w, int iOffsetX,
+                                        const std::string &sText,  bool bSelected,
+                                        bool bDecorate, bool bDisabled )
 {
     int iOffsetXRight = iOffsetX + utf8_width( sText ) + 1;
 
@@ -1488,10 +1490,12 @@ void draw_subtab( const catacurses::window &w, int iOffsetX, const std::string &
             mvwputch( w, point( i, 1 ), c_black, ' ' );
         }
     }
+    return inclusive_rectangle<point>( point( iOffsetX, 0 ), point( iOffsetXRight, 0 ) );
 }
 
 std::map<size_t, inclusive_rectangle<point>> draw_tabs( const catacurses::window &w,
-        const std::vector<std::string> &tab_texts, size_t current_tab )
+        const std::vector<std::string> &tab_texts,
+        const size_t current_tab, const size_t offset )
 {
     std::map<size_t, inclusive_rectangle<point>> tab_map;
 
@@ -1509,7 +1513,8 @@ std::map<size_t, inclusive_rectangle<point>> draw_tabs( const catacurses::window
         const std::string &tab_text = tab_texts[i];
         draw_tab( w, x, tab_text, i == current_tab );
         const int txt_width = utf8_width( tab_text, true );
-        tab_map.emplace( i, inclusive_rectangle<point>( point( x, 1 ), point( x + txt_width, 1 ) ) );
+        tab_map.emplace( i + offset, inclusive_rectangle<point>( point( x, 1 ), point( x + txt_width,
+                         1 ) ) );
         x += txt_width + tab_step;
     }
 
@@ -1579,65 +1584,43 @@ best_fit find_best_fit_in_size( const std::vector<int> &size_of_items_to_fit, co
     return returnVal;
 }
 
-std::vector<std::string> simple_fit_tabs_to_width( const size_t max_width,
-        const std::string &current_tab,
-        const std::map<std::string, std::string> &tab_names,
-        const std::vector<std::string> &original_tab_list, bool translate )
-{
-    std::pair<std::vector<std::string>, size_t> placeholder_result;
-    placeholder_result = fit_tabs_to_width( max_width, current_tab, tab_names,
-                                            original_tab_list, translate );
-    return placeholder_result.first;
-}
-
 std::pair<std::vector<std::string>, size_t> fit_tabs_to_width( const size_t max_width,
-        const std::string &current_tab, const std::map<std::string, std::string> &tab_names,
-        const std::vector<std::string> &original_tab_list,  bool translate )
+        const int current_tab,
+        const std::vector<std::string> &original_tab_list )
 {
     const int tab_step = 3; // Step between tabs, two for tab border
     size_t available_width = max_width - 1;
-    std::pair<std::vector<std::string>, size_t> tab_list_and_index;
+    std::pair<std::vector<std::string>, size_t> tab_list_and_offset;
     std::vector<int> tab_width;
-    tab_width.resize( original_tab_list.size() );
+    tab_width.reserve( original_tab_list.size() );
 
-    for( size_t i = 0; i < original_tab_list.size(); ++i ) {
-        auto tab_name_it = tab_names.find( original_tab_list[i] );
-        cata_assert( tab_name_it != tab_names.end() );
-        tab_width[i] = utf8_width( ( *tab_name_it ).second, true );
-        if( original_tab_list[i] == current_tab ) {
-            tab_list_and_index.second = i;
-        }
+    for( const std::string &tab : original_tab_list ) {
+        tab_width.emplace_back( utf8_width( tab, true ) );
     }
 
-    best_fit tabs_to_print = find_best_fit_in_size( tab_width, tab_list_and_index.second,
+    best_fit tabs_to_print = find_best_fit_in_size( tab_width, current_tab,
                              available_width, tab_step, 1 );
 
     //Assemble list to return
     if( tabs_to_print.start != 0 ) { //Signify that the list continues left
-        tab_list_and_index.first.emplace_back( "<" );
+        tab_list_and_offset.first.emplace_back( "<" );
     }
     for( int i = tabs_to_print.start; i < static_cast<int>( original_tab_list.size() ); ++i ) {
         if( i < tabs_to_print.start + tabs_to_print.length ) {
-            //Update tab_list_and_index to suit new list:
-            if( i == static_cast<int>( tab_list_and_index.second ) ) {
-                tab_list_and_index.second = tab_list_and_index.first.size();
-            }
-            //Assemble the string vector
-            if( translate ) {
-                auto tab_name_it = tab_names.find( original_tab_list[i] );
-                cata_assert( tab_name_it != tab_names.end() );
-                tab_list_and_index.first.push_back( ( *tab_name_it ).second );
-            } else {
-                tab_list_and_index.first.push_back( original_tab_list[i] );
-            }
+            tab_list_and_offset.first.emplace_back( original_tab_list[i] );
         }
     }
     if( tabs_to_print.start + tabs_to_print.length != static_cast<int>( original_tab_list.size() ) ) {
         //Signify that the list continues right
-        tab_list_and_index.first.emplace_back( ">" );
+        tab_list_and_offset.first.emplace_back( ">" );
     }
-
-    return tab_list_and_index;
+    //Mark down offset
+    if( tabs_to_print.start > 0 ) {
+        tab_list_and_offset.second = tabs_to_print.start - 1;
+    } else {
+        tab_list_and_offset.second = tabs_to_print.start;
+    }
+    return tab_list_and_offset;
 }
 
 /**
@@ -2222,7 +2205,7 @@ get_bar( const float cur, const float max,
     if( !std::isfinite( status ) || colors.empty() ) {
         col = c_red_red;
     } else {
-        int ind = static_cast<int>( ( 1 - status ) * colors.size() );
+        int ind = std::floor( ( 1.0 - status ) * ( colors.size() - 1 ) + 0.5 );
         ind = clamp<int>( ind, 0, colors.size() - 1 );
         col = colors[ind];
     }
@@ -2421,12 +2404,9 @@ scrollingcombattext::cSCT::cSCT( const point &p_pos, const direction p_oDir,
     sType = p_sType;
     oDir = p_oDir;
 
+    iso_mode = g->is_tileset_isometric();
+
     // translate from player relative to screen relative direction
-#if defined(TILES)
-    iso_mode = tile_iso && use_tiles;
-#else
-    iso_mode = false;
-#endif
     oUp = iso_mode ? direction::NORTHEAST : direction::NORTH;
     oUpRight = iso_mode ? direction::EAST : direction::NORTHEAST;
     oRight = iso_mode ? direction::SOUTHEAST : direction::EAST;
@@ -2471,10 +2451,10 @@ void scrollingcombattext::add( const point &pos, direction p_oDir,
         int iCurStep = 0;
 
         bool tiled = false;
-        bool iso_mode = false;
+        bool iso_mode = g->is_tileset_isometric();
+
 #if defined(TILES)
         tiled = use_tiles;
-        iso_mode = tile_iso && use_tiles;
 #endif
 
         if( p_sType == "hp" ) {

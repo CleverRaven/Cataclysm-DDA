@@ -686,7 +686,9 @@
       { "item": "effective_emitter", "prob": 1 },
       { "item": "high_density_capacitor", "prob": 1 },
       { "item": "emp_gun", "prob": 1 },
-      { "item": "bt_apc9k", "prob": 1 }
+      { "item": "bt_apc9k", "prob": 1 },
+      { "item": "kevlar_nape_protector", "prob": 5 },
+      { "item": "counterweight_pouch", "prob": 5 }
     ]
   },
   {
@@ -739,7 +741,9 @@
       { "item": "mag_fieldrepair", "prob": 20 },
       { "item": "mag_comic", "prob": 20 },
       { "group": "book_gunmags", "prob": 20 },
-      { "item": "thermos", "prob": 15 }
+      { "item": "thermos", "prob": 15 },
+      { "item": "kevlar_nape_protector", "prob": 5 },
+      { "item": "counterweight_pouch", "prob": 5 }
     ]
   },
   {
@@ -966,8 +970,6 @@
       { "item": "glasses_bal", "prob": 10 },
       { "item": "55gal_drum", "prob": 1 },
       { "item": "30gal_drum", "prob": 2 },
-      { "item": "30gal_drum_aluminum", "prob": 2 },
-      { "item": "55gal_drum_aluminum", "prob": 1 },
       { "item": "optical_cloak", "prob": 1 },
       { "item": "holo_cloak", "prob": 1, "charges": [ 0, 1000 ] },
       { "item": "grapnel", "prob": 1 },

@@ -764,8 +764,6 @@ class vehicle
         // Do stuff like clean up blood and produce smoke from broken parts. Returns false if nothing needs doing.
         bool do_environmental_effects() const;
 
-        units::volume total_folded_volume() const;
-
         // Vehicle fuel indicator (by fuel)
         void print_fuel_indicator( const catacurses::window &w, const point &p,
                                    const itype_id &fuel_type,
@@ -931,9 +929,6 @@ class vehicle
         item init_cord( const tripoint &pos );
         void plug_in( const tripoint &pos );
         void connect( const tripoint &source_pos, const tripoint &target_pos );
-
-        // Fold up the vehicle
-        bool fold_up();
 
         // Try select any fuel for engine, returns true if some fuel is available
         bool auto_select_fuel( int e );
@@ -1214,12 +1209,19 @@ class vehicle
         // Returns the location of the vehicle in global overmap terrain coordinates.
         tripoint_abs_omt global_omt_location() const;
         // Returns the coordinates (in map squares) of the vehicle relative to the local map.
+        // Warning: Don't assume this position contains a vehicle part
         tripoint global_pos3() const;
+        // Warning: Don't assume this position contains a vehicle part
+        tripoint_bub_ms pos_bub() const;
         /**
          * Get the coordinates of the studied part of the vehicle
          */
+        // TODO: fix point types (remove global_part_pos3 in favour of
+        // bub_part_pos)
         tripoint global_part_pos3( const int &index ) const;
         tripoint global_part_pos3( const vehicle_part &pt ) const;
+        tripoint_bub_ms bub_part_pos( int index ) const;
+        tripoint_bub_ms bub_part_pos( const vehicle_part &pt ) const;
         /**
          * All the fuels that are in all the tanks in the vehicle, nicely summed up.
          * Note that empty tanks don't count at all. The value is the amount as it would be
@@ -1233,11 +1235,9 @@ class vehicle
         std::list<item *> fuel_items_left();
 
         // Checks how much certain fuel left in tanks.
-        int fuel_left( const itype_id &ftype, bool recurse = false,
-                       const std::function<bool( const vehicle_part & )> &filter = return_true<const vehicle_part &> )
+        int64_t fuel_left( const itype_id &ftype, bool recurse = false,
+                           const std::function<bool( const vehicle_part & )> &filter = return_true<const vehicle_part &> )
         const;
-        // Checks how much of the part p's current fuel is left
-        int fuel_left( int p, bool recurse = false ) const;
         // Checks how much of an engine's current fuel is left in the tanks.
         int engine_fuel_left( int e, bool recurse = false ) const;
         // Returns what type of fuel an engine uses
@@ -1286,7 +1286,7 @@ class vehicle
         int total_engine_epower_w() const;
         // Total production of electrical power from alternators.
         int total_alternator_epower_w() const;
-        // Total power currently being produced by all solar panels.
+        // Total power (W) currently being produced by all solar panels.
         int total_solar_epower_w() const;
         // Total power currently being produced by all wind turbines.
         int total_wind_epower_w() const;
@@ -1295,16 +1295,21 @@ class vehicle
         // Total power drain across all vehicle accessories.
         int total_accessory_epower_w() const;
         // Net power draw or drain on batteries.
-        int net_battery_charge_rate_w() const;
+        int net_battery_charge_rate_w( bool include_reactors = true ) const;
         // Maximum available power available from all reactors. Power from
         // reactors is only drawn when batteries are empty.
         int max_reactor_epower_w() const;
+        // Active power from reactors that is actually being drained by batteries.
+        int active_reactor_epower_w( bool connected_vehicles ) const;
         // Produce and consume electrical power, with excess power stored or
         // taken from batteries.
         void power_parts();
 
         // Current and total battery power level as a pair
         std::pair<int, int> battery_power_level() const;
+
+        // Current and total battery power level of all connected vehicles as a pair
+        std::pair<int, int> connected_battery_power_level() const;
 
         /**
          * Try to charge our (and, optionally, connected vehicles') batteries by the given amount.
@@ -1638,7 +1643,7 @@ class vehicle
         void shift_parts( map &here, const point &delta );
         bool shift_if_needed( map &here );
 
-        void shed_loose_parts();
+        void shed_loose_parts( const tripoint_bub_ms *src = nullptr, const tripoint_bub_ms *dst = nullptr );
 
         /**
          * @name Vehicle turrets
@@ -1740,10 +1745,20 @@ class vehicle
 
         bool can_close( int part_index, Character &who );
 
-        // Consists only of parts with the FOLDABLE tag.
+        // @returns true if vehicle only has foldable parts
         bool is_foldable() const;
-        // Restore parts of a folded vehicle.
-        bool restore( const std::string &data );
+        // @returns how long should folding activity take
+        time_duration folding_time() const;
+        // @returns how long should unfolding activity take
+        time_duration unfolding_time() const;
+        // assigns folding activity to player avatar
+        void start_folding_activity();
+        // @returns item of this vehicle folded
+        item get_folded_item() const;
+        // restores vehicle parts from a folded item
+        // @returns true if succeeded
+        bool restore_folded_parts( const item &it );
+
         //handles locked vehicles interaction
         bool interact_vehicle_locked();
         //true if an alarm part is installed on the vehicle
@@ -1760,7 +1775,6 @@ class vehicle
         void play_music() const;
         void play_chimes() const;
         void operate_planter();
-        std::string tracking_toggle_string() const;
         void autopilot_patrol_check();
         void toggle_autopilot();
         void enable_patrol();
@@ -1921,7 +1935,7 @@ class vehicle
 
     public:
         // Number of parts contained in this vehicle
-        int part_count() const;
+        int part_count( bool no_fake = false ) const;
         // Returns the vehicle_part with the given part number
         vehicle_part &part( int part_num );
         const vehicle_part &part( int part_num ) const;

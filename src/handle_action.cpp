@@ -137,6 +137,7 @@ static const quality_id qual_CUT( "CUT" );
 
 static const skill_id skill_melee( "melee" );
 
+static const trait_id trait_BRAWLER( "BRAWLER" );
 static const trait_id trait_HIBERNATE( "HIBERNATE" );
 static const trait_id trait_PROF_CHURL( "PROF_CHURL" );
 static const trait_id trait_SHELL2( "SHELL2" );
@@ -265,7 +266,7 @@ input_context game::get_player_input( std::string &action )
                       -getmaxy( w_terrain ) / 2 + u.posy() ) );
 
 #if defined(TILES)
-        if( tile_iso && use_tiles ) {
+        if( g->is_tileset_isometric() ) {
             iStart.x = 0;
             iStart.y = 0;
             iEnd.x = MAPSIZE_X;
@@ -791,7 +792,7 @@ static void smash()
     if( should_pulp ) {
         // do activity forever. ACT_PULP stops itself
         player_character.assign_activity( ACT_PULP, calendar::INDEFINITELY_LONG, 0 );
-        player_character.activity.placement = here.getabs( smashp );
+        player_character.activity.placement = here.getglobal( smashp );
         return; // don't smash terrain if we've smashed a corpse
     }
 
@@ -1480,11 +1481,19 @@ static void fire()
 
         turret_data turret;
         if( vp && ( turret = vp->vehicle().turret_query( player_character.pos() ) ) ) {
+            if( player_character.has_trait( trait_BRAWLER ) ) {
+                add_msg( m_bad, _( "You refuse to use the turret." ) );
+                return;
+            }
             avatar_action::fire_turret_manual( player_character, here, turret );
             return;
         }
 
         if( vp.part_with_feature( "CONTROLS", true ) ) {
+            if( player_character.has_trait( trait_BRAWLER ) ) {
+                add_msg( m_bad, _( "You refuse to use the turret." ) );
+                return;
+            }
             if( vp->vehicle().turrets_aim_and_fire_all_manual() ) {
                 return;
             }
@@ -1857,8 +1866,9 @@ static void do_deathcam_action( const action_id &act, avatar &player_character )
                 { ACTION_SHIFT_NW, { point_north_west, point_north } },
             };
             int soffset = get_option<int>( "MOVE_VIEW_OFFSET" );
-            player_character.view_offset += use_tiles && tile_iso ?
-                                            shift_delta.at( act ).second * soffset : shift_delta.at( act ).first * soffset;
+            player_character.view_offset += g->is_tileset_isometric()
+                                            ? shift_delta.at( act ).second * soffset
+                                            : shift_delta.at( act ).first * soffset;
         }
         break;
 
@@ -1902,6 +1912,10 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
             player_character.cycle_move_mode();
             break;
 
+        case ACTION_CYCLE_MOVE_REVERSE:
+            player_character.cycle_move_mode_reverse();
+            break;
+
         case ACTION_RESET_MOVE:
             player_character.reset_move_mode();
             break;
@@ -1942,15 +1956,15 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
                 point dest_delta = get_delta_from_movement_action( act, iso_rotate::yes );
                 if( auto_travel_mode && !player_character.is_auto_moving() ) {
                     for( int i = 0; i < SEEX; i++ ) {
-                        tripoint auto_travel_destination( player_character.posx() + dest_delta.x * ( SEEX - i ),
-                                                          player_character.posy() + dest_delta.y * ( SEEX - i ),
-                                                          player_character.posz() );
-                        destination_preview = m.route( player_character.pos(),
-                                                       auto_travel_destination,
-                                                       player_character.get_pathfinding_settings(),
-                                                       player_character.get_path_avoid() );
+                        tripoint_bub_ms auto_travel_destination =
+                            player_character.pos_bub() + dest_delta * ( SEEX - i );
+                        destination_preview =
+                            m.route( player_character.pos_bub(), auto_travel_destination,
+                                     player_character.get_pathfinding_settings(),
+                                     player_character.get_path_avoid() );
                         if( !destination_preview.empty() ) {
-                            destination_preview.erase( destination_preview.begin() + 1, destination_preview.end() );
+                            destination_preview.erase(
+                                destination_preview.begin() + 1, destination_preview.end() );
                             player_character.set_destination( destination_preview );
                             break;
                         }
@@ -1971,7 +1985,7 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
                     weapon && weapon->has_flag( json_flag_MOP ) ) {
                     map &here = get_map();
                     const bool is_blind = player_character.is_blind();
-                    for( const tripoint &point : here.points_in_radius( player_character.pos(), 1 ) ) {
+                    for( const tripoint_bub_ms &point : here.points_in_radius( player_character.pos_bub(), 1 ) ) {
                         bool did_mop = false;
                         if( is_blind ) {
                             // blind character have a 1/3 chance of actually mopping
@@ -2752,6 +2766,11 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
             handle_debug_mode();
             break;
 
+        case ACTION_DISPLAY_ISO_WALLS:
+            get_options().get_option( "RETRACT_ISO_WALLS" ).setNext();
+            get_options().save();
+            break;
+
         case ACTION_ZOOM_IN:
             zoom_in();
             mark_main_ui_adaptor_resize();
@@ -2877,7 +2896,7 @@ bool game::handle_action()
                 return false;
             }
 
-            const cata::optional<tripoint> mouse_pos = ctxt.get_coordinates( w_terrain );
+            const cata::optional<tripoint> mouse_pos = ctxt.get_coordinates( w_terrain, ter_view_p.xy(), true );
             if( !mouse_pos ) {
                 return false;
             }
@@ -2891,11 +2910,13 @@ bool game::handle_action()
                 // Note: The following has the potential side effect of
                 // setting auto-move destination state in addition to setting
                 // act.
-                if( !try_get_left_click_action( act, *mouse_target ) ) {
+                // TODO: fix point types
+                if( !try_get_left_click_action( act, tripoint_bub_ms( *mouse_target ) ) ) {
                     return false;
                 }
             } else if( act == ACTION_SEC_SELECT ) {
-                if( !try_get_right_click_action( act, *mouse_target ) ) {
+                // TODO: fix point types
+                if( !try_get_right_click_action( act, tripoint_bub_ms( *mouse_target ) ) ) {
                     return false;
                 }
             }

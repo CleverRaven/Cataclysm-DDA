@@ -44,7 +44,6 @@ class JsonObject;
 // They are handled in monster::check_triggers(), in monster.cpp
 enum class mon_trigger : int {
     STALK,              // Increases when following the player
-    MEAT,               // Meat or a corpse nearby
     HOSTILE_WEAK,       // Hurt hostile player/npc/monster seen
     HOSTILE_CLOSE,      // Hostile creature within a few tiles
     HOSTILE_SEEN,       // Hostile creature in visual range
@@ -171,9 +170,11 @@ enum m_flag : int {
     MF_ATTACK_UPPER,        // This monster is capable of hitting upper limbs
     MF_ATTACK_LOWER,        // This monster is incapable of hitting upper limbs regardless of other factors
     MF_DEADLY_VIRUS,        // This monster can inflict the zombie_virus effect
+    MF_VAMP_VIRUS,          // This monster can inflict the vampire_virus effect
     MF_ALWAYS_VISIBLE,      // This monster can always be seen regardless of los or light or anything
     MF_ALWAYS_SEES_YOU,     // This monster always knows where the avatar is
     MF_ALL_SEEING,          // This monster can see everything within its vision range regardless of light or obstacles
+    MF_NEVER_WANDER,        // This monster will never join wandering hordes.
     MF_MAX                  // Sets the length of the flags - obviously must be LAST
 };
 
@@ -408,6 +409,7 @@ struct mtype {
         mtype_id upgrade_into;
         mongroup_id upgrade_group;
         mtype_id burn_into;
+        cata::optional<int> upgrade_multi_range;
 
         mtype_id zombify_into; // mtype_id this monster zombifies into
         mtype_id fungalize_into; // mtype_id this monster fungalize into
@@ -431,6 +433,9 @@ struct mtype {
         bool upgrades;
         bool reproduces;
         bool biosignatures;
+
+        // Do we indiscriminately attack characters, or should we wait until one annoys us?
+        bool aggro_character = true;
 
         mtype();
         /**

@@ -1,4 +1,4 @@
-#if defined(__GNUC__) || defined(__clang__)
+#if (defined(__GNUC__) || defined(__clang__)) && !defined(_MSC_VER)
 #    include <cxxabi.h>
 #endif
 

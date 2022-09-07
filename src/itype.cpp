@@ -106,6 +106,16 @@ int itype::charges_default() const
     return count_by_charges() ? 1 : 0;
 }
 
+int itype::charges_to_use() const
+{
+    if( tool ) {
+        return tool->charges_per_use;
+    } else if( comestible ) {
+        return 1;
+    }
+    return 0;
+}
+
 int itype::charges_per_volume( const units::volume &vol ) const
 {
     if( volume == 0_ml ) {
@@ -376,3 +386,12 @@ std::tuple<encumbrance_modifier_type, int> armor_portion_data::convert_descripto
 }
 
 std::map<itype_id, std::set<itype_id>> islot_magazine::compatible_guns;
+
+std::set<itype_id> known_bad_density::known_bad;
+
+void known_bad_density::load( const JsonObject &jo )
+{
+    std::set<itype_id> new_known_bad;
+    jo.read( "list", new_known_bad );
+    known_bad.insert( new_known_bad.begin(), new_known_bad.end() );
+}

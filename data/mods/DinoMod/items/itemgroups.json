@@ -17,11 +17,14 @@
     "id": "lab_mutagen_ingredients_fridge",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [
-      { "item": "raptor_sample", "prob": 40, "count": [ 1, 3 ] },
-      { "item": "tyrant_sample", "prob": 40, "count": [ 1, 3 ] },
-      { "item": "stego_sample", "prob": 40, "count": [ 1, 3 ] }
-    ]
+    "copy-from": "lab_mutagen_ingredients_fridge",
+    "extend": {
+      "entries": [
+        { "item": "raptor_sample", "prob": 40, "count": [ 1, 3 ] },
+        { "item": "tyrant_sample", "prob": 40, "count": [ 1, 3 ] },
+        { "item": "stego_sample", "prob": 40, "count": [ 1, 3 ] }
+      ]
+    }
   },
   {
     "id": "raptor_sample_single",
@@ -129,76 +132,10 @@
       { "item": "sweater_armor_ostrich", "prob": 10, "event": "christmas" },
       { "item": "iron_armor_ostrich", "prob": 10 },
       { "item": "steel_armor_ostrich", "prob": 10 },
-      { "item": "bronze_armor_ostrich", "prob": 10 }
+      { "item": "bronze_armor_ostrich", "prob": 10 },
+      { "item": "dino_carrier", "prob": 10 },
+      { "item": "dino_carrier_wooden", "prob": 10 }
     ]
-  },
-  {
-    "type": "item_group",
-    "id": "rare",
-    "magazine": 100,
-    "subtype": "distribution",
-    "copy-from": "rare",
-    "extend": {
-      "entries": [
-        { "item": "kiernans_notes", "prob": 10 },
-        { "item": "kevlar_armor_elephant", "prob": 10 },
-        { "item": "acidchitin_armor_elephant", "prob": 10 },
-        { "item": "chitin_armor_elephant", "prob": 10 },
-        { "item": "chainmail_armor_elephant", "prob": 10 },
-        { "item": "leather_armor_elephant", "prob": 10 },
-        { "item": "leatherbone_armor_elephant", "prob": 10 },
-        { "item": "rubber_armor_elephant", "prob": 10 },
-        { "item": "sweater_armor_elephant", "prob": 10, "event": "christmas" },
-        { "item": "iron_armor_elephant", "prob": 10 },
-        { "item": "steel_armor_elephant", "prob": 10 },
-        { "item": "bronze_armor_elephant", "prob": 10 },
-        { "item": "kevlar_armor_ostrich", "prob": 10 },
-        { "item": "acidchitin_armor_ostrich", "prob": 10 },
-        { "item": "chitin_armor_ostrich", "prob": 10 },
-        { "item": "chainmail_armor_ostrich", "prob": 10 },
-        { "item": "leather_armor_ostrich", "prob": 10 },
-        { "item": "leatherbone_armor_ostrich", "prob": 10 },
-        { "item": "rubber_armor_ostrich", "prob": 10 },
-        { "item": "sweater_armor_ostrich", "prob": 10, "event": "christmas" },
-        { "item": "iron_armor_ostrich", "prob": 10 },
-        { "item": "steel_armor_ostrich", "prob": 10 },
-        { "item": "bronze_armor_ostrich", "prob": 10 }
-      ]
-    }
-  },
-  {
-    "type": "item_group",
-    "id": "spider",
-    "magazine": 100,
-    "subtype": "distribution",
-    "copy-from": "spider",
-    "extend": {
-      "entries": [
-        { "item": "kiernans_notes", "prob": 10 },
-        { "item": "kevlar_armor_elephant", "prob": 10 },
-        { "item": "acidchitin_armor_elephant", "prob": 10 },
-        { "item": "chitin_armor_elephant", "prob": 10 },
-        { "item": "chainmail_armor_elephant", "prob": 10 },
-        { "item": "leather_armor_elephant", "prob": 10 },
-        { "item": "leatherbone_armor_elephant", "prob": 10 },
-        { "item": "rubber_armor_elephant", "prob": 10 },
-        { "item": "sweater_armor_elephant", "prob": 10, "event": "christmas" },
-        { "item": "iron_armor_elephant", "prob": 10 },
-        { "item": "steel_armor_elephant", "prob": 10 },
-        { "item": "bronze_armor_elephant", "prob": 10 },
-        { "item": "kevlar_armor_ostrich", "prob": 10 },
-        { "item": "acidchitin_armor_ostrich", "prob": 10 },
-        { "item": "chitin_armor_ostrich", "prob": 10 },
-        { "item": "chainmail_armor_ostrich", "prob": 10 },
-        { "item": "leather_armor_ostrich", "prob": 10 },
-        { "item": "leatherbone_armor_ostrich", "prob": 10 },
-        { "item": "rubber_armor_ostrich", "prob": 10 },
-        { "item": "sweater_armor_ostrich", "prob": 10, "event": "christmas" },
-        { "item": "iron_armor_ostrich", "prob": 10 },
-        { "item": "steel_armor_ostrich", "prob": 10 },
-        { "item": "bronze_armor_ostrich", "prob": 10 }
-      ]
-    }
   },
   {
     "type": "item_group",

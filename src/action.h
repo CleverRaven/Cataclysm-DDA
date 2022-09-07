@@ -61,6 +61,8 @@ enum action_id : int {
     ACTION_MOVE_UP,
     /** Cycle run/walk/crouch mode */
     ACTION_CYCLE_MOVE,
+    /** Cycle run/walk/crouch mode in opposite direction */
+    ACTION_CYCLE_MOVE_REVERSE,
     /** Reset movement mode to walk  */
     ACTION_RESET_MOVE,
     /** Toggle run on/off */
@@ -336,6 +338,8 @@ enum action_id : int {
     ACTION_DISPLAY_RADIATION,
     /** Toggle transparency map */
     ACTION_DISPLAY_TRANSPARENCY,
+    /** Toggle retracted ISO walls */
+    ACTION_DISPLAY_ISO_WALLS,
     /** Toggle reachability zones map */
     ACTION_DISPLAY_REACHABILITY_ZONES,
     ACTION_DISPLAY_NPC_ATTACK_POTENTIAL,

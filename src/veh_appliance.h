@@ -99,6 +99,12 @@ class veh_app_interact
         */
         bool can_siphon();
         /**
+         * Checks whether the current appliance has any power connections that
+         * can be disconnected by the player.
+         * @returns True if the appliance can be unplugged.
+        */
+        bool can_unplug();
+        /**
          * Function associated with the "REFILL" action.
          * Checks all appliance parts for a watertight container to refill. If multiple
          * parts are eligible, the player is prompted to select one. A refill activity
@@ -123,6 +129,12 @@ class veh_app_interact
          * Turns the installed appliance into its base item.
         */
         void remove();
+        /**
+         * Function associated with the "UNPLUG" action.
+         * Removes all power connections to other appliances and vehicles and drops
+         * any used cable items on the ground.
+        */
+        void unplug();
         /**
          * The main loop of the appliance UI. Redraws windows, checks for input, and
          * performs selected actions. The loop exits once an activity is assigned

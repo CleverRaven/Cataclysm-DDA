@@ -109,7 +109,6 @@
     "special_attacks": [ { "type": "bite", "cooldown": 6 }, [ "EAT_CROP", 40 ] ],
     "anger_triggers": [ "HURT" ],
     "fear_triggers": [ "FIRE" ],
-    "placate_triggers": [ "MEAT", "PLAYER_WEAK" ],
     "petfood": { "food": [ "CATTLEFOOD" ], "feed": "The %s seems to like you!  It lets you pat its head and seems friendly." },
     "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "KEENNOSE", "PATH_AVOID_DANGER_1", "ANIMAL", "PET_WONT_FOLLOW", "PET_MOUNTABLE" ]
   },
@@ -143,7 +142,7 @@
     "special_attacks": [ [ "scratch", 10 ], { "type": "bite", "cooldown": 5 }, [ "EAT_FOOD", 20 ] ],
     "anger_triggers": [ "PLAYER_CLOSE", "FRIEND_ATTACKED", "HURT" ],
     "fear_triggers": [ "FIRE" ],
-    "placate_triggers": [ "MEAT" ],
+    "placate_triggers": [ "PLAYER_WEAK" ],
     "flags": [
       "SEES",
       "HEARS",

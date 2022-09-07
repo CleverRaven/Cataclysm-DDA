@@ -1070,7 +1070,7 @@ void avatar::reset_stats()
     }
     // Spider hair is basically a full-body set of whiskers, once you get the brain for it
     if( has_trait( trait_CHITIN_FUR3 ) ) {
-        static const bodypart_str_id parts[] {
+        static const std::array<bodypart_str_id, 5> parts {
             body_part_head, body_part_arm_r, body_part_arm_l,
             body_part_leg_r, body_part_leg_l
         };
@@ -1339,6 +1339,16 @@ void avatar::cycle_move_mode()
     }
 }
 
+void avatar::cycle_move_mode_reverse()
+{
+    const move_mode_id prev = current_movement_mode()->cycle_reverse();
+    set_movement_mode( prev );
+    // if a movemode is disabled then just cycle to the previous one
+    if( !movement_mode_is( prev ) ) {
+        set_movement_mode( prev->cycle_reverse() );
+    }
+}
+
 bool avatar::wield( item_location target )
 {
     return wield( *target, target.obtain_cost( *this ) );
@@ -1597,7 +1607,9 @@ void avatar::daily_calories::read_activity( const JsonObject &data )
     JsonObject jo = data.get_object( "activity" );
     for( const std::pair<const std::string, float> &member : activity_levels_map ) {
         int times;
-        jo.read( member.first, times );
+        if( !jo.read( member.first, times ) ) {
+            continue;
+        }
         activity_levels.at( member.second ) = times;
     }
 }
@@ -1837,6 +1849,12 @@ bool character_martial_arts::pick_style( const avatar &you ) // Style selection 
                          _( "When this is enabled, player won't wield things unless explicitly told to." ) );
 
     kmenu.selected = STYLE_OFFSET;
+
+    // +1 to keep "No Style" at top
+    std::sort( selectable_styles.begin() + 1, selectable_styles.end(),
+    []( const matype_id & a, const matype_id & b ) {
+        return localized_compare( a->name.translated(), b->name.translated() );
+    } );
 
     for( size_t i = 0; i < selectable_styles.size(); i++ ) {
         const martialart &style = selectable_styles[i].obj();

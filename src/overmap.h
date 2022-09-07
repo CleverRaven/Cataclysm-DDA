@@ -128,9 +128,9 @@ struct radio_tower {
 };
 
 struct map_layer {
-    cata::mdarray<oter_id, point_om_omt, OMAPX, OMAPY> terrain;
-    cata::mdarray<bool, point_om_omt, OMAPX, OMAPY> visible;
-    cata::mdarray<bool, point_om_omt, OMAPX, OMAPY> explored;
+    cata::mdarray<oter_id, point_om_omt> terrain;
+    cata::mdarray<bool, point_om_omt> visible;
+    cata::mdarray<bool, point_om_omt> explored;
     std::vector<om_note> notes;
     std::vector<om_map_extra> extras;
 };
@@ -563,8 +563,9 @@ class overmap
         void place_radios();
 
         void add_mon_group( const mongroup &group );
+        void add_mon_group( const mongroup &group, int radius );
         // Spawns a new mongroup (to be called by worldgen code)
-        void spawn_mon_group( const mongroup &group );
+        void spawn_mon_group( const mongroup &group, int radius );
 
         void load_monster_groups( JsonIn &jsin );
         void load_legacy_monstergroups( JsonIn &jsin );

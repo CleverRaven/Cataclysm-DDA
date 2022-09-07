@@ -423,5 +423,12 @@
     "field": "fd_sludge",
     "intensity": 3,
     "chance": 20
+  },
+  {
+    "id": "emit_clairvoyant",
+    "type": "emit",
+    "field": "fd_clairvoyant",
+    "intensity": 1,
+    "qty": 9
   }
 ]

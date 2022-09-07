@@ -21,6 +21,10 @@ labels:
     matcher:
       body: "(\\s|^)#### Summary\\s*Bugfixes +\".+\"\\s*(\n|$)"
 
+  - label: "<Bugfix>"
+    matcher:
+      body: ".*((C|c)lose(s|d)?|(F|f)ix(es|ed)?|(R|r)esolve(s|d)?) #([1-9][0-9]{3,6})(\\s*|$)"
+
   - label: "Code: Performance"
     matcher:
       body: "(\\s|^)#### Summary\\s*Performance +\".+\"\\s*(\n|$)"

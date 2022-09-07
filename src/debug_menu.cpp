@@ -198,6 +198,7 @@ std::string enum_to_string<debug_menu::debug_menu_index>( debug_menu::debug_menu
         case debug_menu::debug_menu_index::PRINT_FACTION_INFO: return "PRINT_FACTION_INFO";
         case debug_menu::debug_menu_index::PRINT_NPC_MAGIC: return "PRINT_NPC_MAGIC";
         case debug_menu::debug_menu_index::QUIT_NOSAVE: return "QUIT_NOSAVE";
+        case debug_menu::debug_menu_index::QUICKLOAD: return "QUICKLOAD";
         case debug_menu::debug_menu_index::TEST_WEATHER: return "TEST_WEATHER";
         case debug_menu::debug_menu_index::WRITE_GLOBAL_EOCS: return "WRITE_GLOBAL_EOCS";
         case debug_menu::debug_menu_index::WRITE_GLOBAL_VARS: return "WRITE_GLOBAL_VARS";
@@ -345,6 +346,7 @@ static int game_uilist()
         { uilist_entry( debug_menu_index::CRASH_GAME, true, 'C', _( "Crash game (test crash handling)" ) ) },
         { uilist_entry( debug_menu_index::ACTIVATE_EOC, true, 'E', _( "Activate EOC" ) ) },
         { uilist_entry( debug_menu_index::QUIT_NOSAVE, true, 'Q', _( "Quit to main menu" ) )  },
+        { uilist_entry( debug_menu_index::QUICKLOAD, true, 'q', _( "Quickload" ) )  },
     };
 
     return uilist( _( "Game…" ), uilist_initializer );
@@ -1310,7 +1312,8 @@ static void character_edit_needs_menu( Character &you )
 
     const auto &vits = vitamin::all();
     for( const auto &v : vits ) {
-        smenu.addentry( -1, true, 0, "%s: %d", v.second.name(), you.vitamin_get( v.first ) );
+        smenu.addentry( -1, true, 0, _( "%s: daily %d, overall %d" ), v.second.name(),
+                        you.get_daily_vitamin( v.first ), you.vitamin_get( v.first ) );
     }
 
     smenu.query();
@@ -2623,6 +2626,14 @@ void debug()
             if( weather_menu.ret >= 0 &&
                 static_cast<size_t>( weather_menu.ret ) < weather_types::get_all().size() ) {
                 const weather_type_id selected_weather = weather_types::get_all()[weather_menu.ret].id;
+                if( weather.weather_id->debug_leave_eoc.has_value() ) {
+                    dialogue d( get_talker_for( get_avatar() ), nullptr );
+                    effect_on_condition_id( weather.weather_id->debug_leave_eoc.value() )->activate( d );
+                }
+                if( selected_weather->debug_cause_eoc.has_value() ) {
+                    dialogue d( get_talker_for( get_avatar() ), nullptr );
+                    effect_on_condition_id( selected_weather->debug_cause_eoc.value() )->activate( d );
+                }
                 weather.weather_override = selected_weather;
                 weather.set_nextweather( calendar::turn );
             }
@@ -2853,7 +2864,9 @@ void debug()
                 break;
             }
 
-            auto rt = here.route( player_character.pos(), *dest, player_character.get_pathfinding_settings(),
+            // TODO: fix point types
+            auto rt = here.route( player_character.pos_bub(), tripoint_bub_ms( *dest ),
+                                  player_character.get_pathfinding_settings(),
                                   player_character.get_path_avoid() );
             if( !rt.empty() ) {
                 player_character.set_destination( rt );
@@ -2996,6 +3009,12 @@ void debug()
                     _( "Quit without saving?  This may cause issues such as duplicated or missing items and vehicles!" ) ) ) {
                 player_character.moves = 0;
                 g->uquit = QUIT_NOSAVED;
+            }
+            break;
+        case debug_menu_index::QUICKLOAD:
+            if( query_yn(
+                    _( "Quickload without saving?  This may cause issues such as duplicated or missing items and vehicles!" ) ) ) {
+                g->quickload();
             }
             break;
         case debug_menu_index::TEST_WEATHER: {

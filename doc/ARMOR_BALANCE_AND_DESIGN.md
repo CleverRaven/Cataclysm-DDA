@@ -485,7 +485,7 @@ Items with actions can be worn as armor. Usually you need to swap the type to ``
   "name": { "str": "survivor headlamp (on)", "str_pl": "survivor headlamps (on)" },
   "description": "This is a custom-made LED headlamp reinforced to be more durable, brighter, and with a larger and more efficient battery pack.  The adjustable strap allows it to be comfortably worn on your head or attached to your helmet.  It is turned on, and continually draining batteries.  Use it to turn it off.",
   "flags": [ "LIGHT_350", "CHARGEDIM", "OVERSIZE", "BELTED", "ALLOWS_NATURAL_ATTACKS" ],
-  "power_draw": 10000,
+  "power_draw": "10 J",
   "revert_to": "survivor_light",
   "use_action": {
     "ammo_scale": 0,

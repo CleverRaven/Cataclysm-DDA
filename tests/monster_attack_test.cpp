@@ -175,7 +175,7 @@ TEST_CASE( "monster_special_attack", "[vision][reachability]" )
 
 TEST_CASE( "monster_throwing_sanity_test", "[throwing],[balance]" )
 {
-    float expected_average_damage_at_range[] = { 0, 0, 8.5, 6.5, 5, 3.25 };
+    std::array<float, 6> expected_average_damage_at_range = { 0, 0, 8.5, 6.5, 5, 3.25 };
     clear_map();
     map &here = get_map();
     restore_on_out_of_scope<time_point> restore_calendar_turn( calendar::turn );
