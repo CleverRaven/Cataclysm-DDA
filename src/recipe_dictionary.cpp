@@ -138,6 +138,20 @@ std::vector<const recipe *> recipe_subset::hidden() const
     return res;
 }
 
+std::vector<const recipe *> recipe_subset::expanded() const
+{
+    std::vector<const recipe *> res;
+
+    std::copy_if( recipes.begin(), recipes.end(), std::back_inserter( res ), [&]( const recipe * r ) {
+        if( !*r || r->obsolete ) {
+            return false;
+        }
+        return uistate.expanded_recipes.find( r->ident() ) != uistate.expanded_recipes.end();
+    } );
+
+    return res;
+}
+
 std::vector<const recipe *> recipe_subset::recent() const
 {
     std::vector<const recipe *> res;
@@ -153,20 +167,7 @@ std::vector<const recipe *> recipe_subset::recent() const
     return res;
 }
 
-std::vector<const recipe *> recipe_subset::nested( int index ) const
-{
-    std::vector<const recipe *> res;
 
-    std::copy_if( recipes.begin(), recipes.end(), std::back_inserter( res ), [&]( const recipe * r ) {
-        if( !*r || r->obsolete ) {
-            return false;
-        }
-        return uistate.nested_recipes[index].second.find( r->ident() ) !=
-               uistate.nested_recipes[index].second.end();
-    } );
-
-    return res;
-}
 std::vector<const recipe *> recipe_subset::search(
     const std::string &txt, const search_type key,
     const std::function<void( size_t, size_t )> &progress_callback ) const

@@ -632,10 +632,31 @@
   },
   {
     "type": "recipe",
-    "activity_level": "MODERATE_EXERCISE",
-    "result": "lc_wire",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "wire",
+    "id_suffix": "wire_draw_machine",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "time": "20 m",
+    "autolearn": true,
+    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 } ],
+    "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
+    "tools": [
+      [ [ "tongs", -1 ] ],
+      [ [ "hotcut", -1 ] ],
+      [ [ "forge", 40 ], [ "oxy_torch", 40 ] ],
+      [ [ "wire_draw_machine", 100 ] ]
+    ],
+    "components": [ [ [ "scrap", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "lc_wire",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
     "skill_used": "fabrication",
     "difficulty": 3,
     "time": "30 m",
@@ -646,10 +667,31 @@
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "lc_wire",
+    "id_suffix": "wire_draw_machine",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "time": "20 m",
+    "autolearn": true,
+    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 } ],
+    "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
+    "tools": [
+      [ [ "tongs", -1 ] ],
+      [ [ "hotcut", -1 ] ],
+      [ [ "forge", 40 ], [ "oxy_torch", 40 ] ],
+      [ [ "wire_draw_machine", 100 ] ]
+    ],
+    "components": [ [ [ "lc_steel_lump", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
     "result": "mc_wire",
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_MATERIALS",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
     "skill_used": "fabrication",
     "difficulty": 3,
     "time": "30 m",
@@ -660,10 +702,31 @@
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "mc_wire",
+    "id_suffix": "wire_draw_machine",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "time": "20 m",
+    "autolearn": true,
+    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 } ],
+    "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
+    "tools": [
+      [ [ "tongs", -1 ] ],
+      [ [ "hotcut", -1 ] ],
+      [ [ "forge", 40 ], [ "oxy_torch", 40 ] ],
+      [ [ "wire_draw_machine", 100 ] ]
+    ],
+    "components": [ [ [ "mc_steel_lump", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
     "result": "hc_wire",
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_MATERIALS",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
     "skill_used": "fabrication",
     "difficulty": 3,
     "time": "30 m",
@@ -674,10 +737,31 @@
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "hc_wire",
+    "id_suffix": "wire_draw_machine",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "time": "20 m",
+    "autolearn": true,
+    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 } ],
+    "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
+    "tools": [
+      [ [ "tongs", -1 ] ],
+      [ [ "hotcut", -1 ] ],
+      [ [ "forge", 40 ], [ "oxy_torch", 40 ] ],
+      [ [ "wire_draw_machine", 100 ] ]
+    ],
+    "components": [ [ [ "hc_steel_lump", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
     "result": "ch_wire",
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_MATERIALS",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
     "skill_used": "fabrication",
     "difficulty": 3,
     "time": "30 m",
@@ -688,10 +772,31 @@
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "ch_wire",
+    "id_suffix": "wire_draw_machine",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "time": "20 m",
+    "autolearn": true,
+    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 } ],
+    "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
+    "tools": [
+      [ [ "tongs", -1 ] ],
+      [ [ "hotcut", -1 ] ],
+      [ [ "forge", 40 ], [ "oxy_torch", 40 ] ],
+      [ [ "wire_draw_machine", 100 ] ]
+    ],
+    "components": [ [ [ "ch_steel_lump", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
     "result": "qt_wire",
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_MATERIALS",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
     "skill_used": "fabrication",
     "difficulty": 3,
     "time": "30 m",
@@ -703,6 +808,34 @@
       { "proficiency": "prof_quenching", "fail_multiplier": 2 }
     ],
     "tools": [ [ [ "swage", -1 ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -120 ] ] ],
+    "components": [ [ [ "steel_lump", 1 ], [ "steel_chunk", 4 ], [ "scrap", 20 ] ], [ [ "coal_lump", 22 ], [ "charcoal", 19 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "qt_wire",
+    "id_suffix": "wire_draw_machine",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "time": "20 m",
+    "autolearn": true,
+    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 } ],
+    "proficiencies": [
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_blacksmithing" },
+      { "proficiency": "prof_quenching", "fail_multiplier": 2 }
+    ],
+    "tools": [
+      [ [ "tongs", -1 ] ],
+      [ [ "hotcut", -1 ] ],
+      [ [ "forge", 40 ], [ "oxy_torch", 40 ] ],
+      [ [ "wire_draw_machine", 100 ] ],
+      [ [ "swage", -1 ] ],
+      [ [ "metal_tank", -1 ] ],
+      [ [ "water", -120 ] ]
+    ],
     "components": [ [ [ "steel_lump", 1 ], [ "steel_chunk", 4 ], [ "scrap", 20 ] ], [ [ "coal_lump", 22 ], [ "charcoal", 19 ] ] ]
   },
   {
@@ -2324,7 +2457,21 @@
     "autolearn": true,
     "using": [ [ "filament", 8 ] ],
     "qualities": [ { "id": "SEW", "level": 1 } ],
-    "components": [ [ [ "cotton_patchwork", 10 ] ] ],
+    "components": [ [ [ "cotton_patchwork", 100 ] ] ],
+    "flags": [ "BLIND_HARD" ]
+  },
+  {
+    "result": "bundle_cotton",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "fabrication",
+    "time": "1 m",
+    "autolearn": true,
+    "using": [ [ "filament", 16 ] ],
+    "qualities": [ { "id": "SEW", "level": 1 } ],
+    "components": [ [ [ "sheet_cotton", 25 ] ] ],
     "flags": [ "BLIND_HARD" ]
   },
   {
@@ -2338,7 +2485,7 @@
     "autolearn": true,
     "using": [ [ "filament", 8 ] ],
     "qualities": [ { "id": "SEW", "level": 1 } ],
-    "components": [ [ [ "leather", 10 ] ] ],
+    "components": [ [ [ "leather", 50 ] ] ],
     "flags": [ "BLIND_HARD" ]
   },
   {
@@ -2352,7 +2499,7 @@
     "autolearn": true,
     "using": [ [ "filament", 8 ] ],
     "qualities": [ { "id": "SEW", "level": 1 } ],
-    "components": [ [ [ "felt_patch", 10 ] ] ],
+    "components": [ [ [ "felt_patch", 100 ] ] ],
     "flags": [ "BLIND_HARD" ]
   },
   {

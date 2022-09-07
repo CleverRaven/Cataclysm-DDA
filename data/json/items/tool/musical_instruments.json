@@ -13,7 +13,7 @@
     "to_hit": { "grip": "solid", "length": "short", "surface": "any", "balance": "clumsy" },
     "bashing": 16,
     "flags": [ "FRAGILE_MELEE" ],
-    "material": [ "wood", "iron" ],
+    "material": [ { "type": "wood", "portion": 7 }, { "type": "steel" }, { "type": "nylon", "portion": 2 } ],
     "symbol": "|",
     "color": "white",
     "use_action": {
@@ -73,7 +73,7 @@
     "price_postapoc": 250,
     "to_hit": 1,
     "bashing": 4,
-    "material": [ "wood", "iron" ],
+    "material": [ { "type": "wood", "portion": 9 }, { "type": "silver" } ],
     "symbol": "|",
     "color": "light_gray",
     "use_action": {
@@ -102,7 +102,8 @@
     "price": 5000,
     "price_postapoc": 150,
     "bashing": 2,
-    "material": [ "iron", "silver" ],
+    "material": [ "silver" ],
+    "//": "Moved this to just being silver.  Flutes aren't made of iron, and a full size sterling silver flute weighs 440g, which is the existing weight.",
     "symbol": "-",
     "color": "light_gray",
     "use_action": {
@@ -295,7 +296,7 @@
     "description": "A simple wooden acoustic guitar with a strap so you can wear it around, even when not playing.",
     "price": 1000,
     "price_postapoc": 250,
-    "material": [ "wood" ],
+    "material": [ { "type": "wood", "portion": 19 }, { "type": "steel" } ],
     "volume": "6750 ml",
     "longest_side": "97 cm",
     "warmth": 2,
@@ -315,9 +316,9 @@
     "use_action": {
       "type": "musical_instrument",
       "speed_penalty": 15,
-      "volume": 20,
-      "fun": 2,
-      "fun_bonus": 2,
+      "volume": 6,
+      "fun": 1,
+      "fun_bonus": 1,
       "description_frequency": 20,
       "player_descriptions": [
         "You plink out a shredding solo on your guitar.",
@@ -334,8 +335,8 @@
     "description": "A standard factory-made electric guitar.  It's probably better at smashing heads than melting faces, these days.  Has a strap.",
     "price": 1000,
     "price_postapoc": 250,
-    "//": "Electric guitar less awesome when there's no electricity.",
-    "material": [ "wood", "iron" ],
+    "//": "Electric guitar less awesome when there's no electricity.  So I made it much quieter and less fun to play.",
+    "material": [ { "type": "wood", "portion": 9 }, { "type": "steel" } ],
     "volume": "6750 ml",
     "longest_side": "97 cm",
     "warmth": 2,
@@ -404,11 +405,11 @@
     "symbol": "&",
     "description": {
       "//~": "ol' is an informal short-form for old, and here is part of big-ol as large-and-cumbersome.",
-      "str": "A big ol' tuba.  Much easier to play when wearing."
+      "str": "A big ol' tuba.  Much easier to play when wearing.  Thankfully, this one has a harness attached."
     },
     "price": 5500,
     "price_postapoc": 250,
-    "material": [ "iron" ],
+    "material": [ "brass" ],
     "volume": "12500 ml",
     "longest_side": "107 cm",
     "bashing": 13,

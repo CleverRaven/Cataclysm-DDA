@@ -1879,7 +1879,7 @@ std::vector<spell_id> npc::spells_offered_to( Character &you )
 void npc::decide_needs()
 {
     const item_location weapon = get_wielded_item();
-    double needrank[num_needs];
+    std::array<double, num_needs> needrank;
     for( double &elem : needrank ) {
         elem = 20;
     }

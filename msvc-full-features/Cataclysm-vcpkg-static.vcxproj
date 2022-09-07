@@ -76,6 +76,7 @@
   <PropertyGroup Label="Configuration">
     <PreferredToolArchitecture>x64</PreferredToolArchitecture>
   </PropertyGroup>
+  <Import Project="Cataclysm.Cpp.props" />
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings" />
   <ImportGroup Label="Shared" />
@@ -86,6 +87,7 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
     <LocalDebuggerWorkingDirectory>$(ProjectDir)..</LocalDebuggerWorkingDirectory>
+    <OutDir>$(ProjectDir)..\</OutDir>
     <TargetExt>.exe</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)'=='Debug'">

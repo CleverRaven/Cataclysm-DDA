@@ -3025,7 +3025,6 @@ class Character : public Creature, public visitable
 
         recipe_id lastrecipe;
         int last_batch;
-        itype_id lastconsumed;        //used in crafting.cpp and construction.cpp
 
         // Returns true if the character knows the recipe, is near a book or device
         // providing the recipe or a nearby NPC knows it.

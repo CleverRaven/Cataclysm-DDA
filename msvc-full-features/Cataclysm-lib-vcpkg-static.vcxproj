@@ -75,6 +75,7 @@
   <PropertyGroup Label="Configuration">
     <PreferredToolArchitecture>x64</PreferredToolArchitecture>
   </PropertyGroup>
+  <Import Project="Cataclysm.Cpp.props" />
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings" />
   <ImportGroup Label="Shared" />
@@ -104,7 +105,6 @@
     </ClCompile>
     <PreBuildEvent>
       <Command>..\msvc-full-features\prebuild.cmd</Command>
-      <Message>Get version string</Message>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)'=='Debug'">

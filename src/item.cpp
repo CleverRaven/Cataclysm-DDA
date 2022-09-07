@@ -1559,6 +1559,22 @@ double item::get_var( const std::string &name, const double default_value ) cons
         return default_value;
     }
     if( end != &val[0] + val.size() ) {
+        if( *end == ',' ) {
+            // likely legacy format with localized ',' for fraction separator instead of '.'
+            std::string converted_val = val;
+            converted_val[end - &val[0]] = '.';
+            errno = 0;
+            double result = strtod( &converted_val[0], &end );
+            if( errno != 0 ) {
+                debugmsg( "Error parsing floating point value from %s in item::get_var: %s",
+                          val, strerror( errno ) );
+                return default_value;
+            }
+            if( end != &converted_val[0] + converted_val.size() ) {
+                debugmsg( "Stray characters at end of floating point value %s in item::get_var", val );
+            }
+            return result;
+        }
         debugmsg( "Stray characters at end of floating point value %s in item::get_var", val );
     }
     return result;
@@ -1894,7 +1910,7 @@ static void insert_separation_line( std::vector<iteminfo> &info )
  * attacks
  * data painstakingly looked up at http://onlinestatbook.com/2/calculators/normal_dist.html
  */
-static const double hits_by_accuracy[41] = {
+static constexpr std::array<double, 41> hits_by_accuracy = {
     0,    1,   2,   3,   7, // -20 to -16
     13,   26,  47,   82,  139, // -15 to -11
     228,   359,  548,  808, 1151, // -10 to -6
@@ -3894,7 +3910,7 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
             item tmp = *this;
 
             //no need to clutter the ui with inactive versions when the armor is already active
-            if( !( active || ( type->tool && type->tool->power_draw > 0 ) ) ) {
+            if( !( active || ( type->tool && type->tool->power_draw > 0_J ) ) ) {
                 bool print_prot = true;
                 if( parts->test( iteminfo_parts::ARMOR_PROTECTION ) ) {
                     print_prot = !tmp.armor_full_protection_info( info, parts );
@@ -10497,12 +10513,12 @@ gun_type_type item::gun_type() const
 
 skill_id item::melee_skill() const
 {
-    if( !is_melee() ) {
-        return skill_id::NULL_ID();
+    if( is_unarmed_weapon() ) {
+        return skill_unarmed;
     }
 
-    if( has_flag( flag_UNARMED_WEAPON ) ) {
-        return skill_unarmed;
+    if( !is_melee() ) {
+        return skill_id::NULL_ID();
     }
 
     int hi = 0;
@@ -13242,7 +13258,7 @@ bool item::process_tool( Character *carrier, const tripoint &pos )
 
     avatar &player_character = get_avatar();
     // if insufficient available charges shutdown the tool
-    if( ( type->tool->turns_per_charge > 0 || type->tool->power_draw > 0 ) &&
+    if( ( type->tool->turns_per_charge > 0 || type->tool->power_draw > 0_J ) &&
         ammo_remaining( carrier ) == 0 ) {
         if( carrier && has_flag( flag_USE_UPS ) ) {
             carrier->add_msg_if_player( m_info, _( "You need an UPS to run the %s!" ), tname() );
@@ -13266,11 +13282,12 @@ bool item::process_tool( Character *carrier, const tripoint &pos )
     if( type->tool->turns_per_charge > 0 &&
         to_turn<int>( calendar::turn ) % type->tool->turns_per_charge == 0 ) {
         energy = std::max( ammo_required(), 1 );
-    } else if( type->tool->power_draw > 0 ) {
-        // power_draw in mW / 1000000 to give kJ (battery unit) per second
-        energy = type->tool->power_draw / 1000000;
+    } else if( type->tool->power_draw > 0_J ) {
+        // kJ (battery unit) per second
+        energy = units::to_kilojoule( type->tool->power_draw );
         // energy_bat remainder results in chance at additional charge/discharge
-        energy += x_in_y( type->tool->power_draw % 1000000, 1000000 ) ? 1 : 0;
+        const int kj_in_mj = units::to_millijoule( 1_kJ );
+        energy += x_in_y( units::to_millijoule( type->tool->power_draw ) % kj_in_mj, kj_in_mj ) ? 1 : 0;
     }
 
     if( energy > 0 ) {

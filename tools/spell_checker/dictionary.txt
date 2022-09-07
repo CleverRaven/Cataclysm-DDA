@@ -13,6 +13,7 @@ adze
 aerarium
 aerially
 aeterna
+aetheric
 afterbirth
 afterimage
 afterlife
@@ -269,6 +270,7 @@ caltrops
 camarasaurus
 camarasaurus
 camphine
+campin'
 camspy
 cannelured
 caparison
@@ -403,6 +405,7 @@ ctivate
 ctivating
 ctulaly
 cuirasses
+cummer
 curarines
 curasse
 currywurst
@@ -437,6 +440,7 @@ deathrattle
 decelerates
 deceptived
 defatted
+defendeth
 dehydrator
 dehydrators
 deines
@@ -586,6 +590,8 @@ eyespots
 eyestalks
 f
 faceplates
+fader
+faders
 faewild
 fakkin
 falcata
@@ -639,6 +645,7 @@ flarewhip
 flatjaw
 flavorings
 fle
+flechette
 flechettes
 fletched
 fletching
@@ -729,6 +736,7 @@ gliters
 gloppy
 glowstick
 glyceride
+gode
 goooood
 gooorge
 goops
@@ -754,6 +762,7 @@ grinny
 grnd
 groundcover
 groundsheet
+gryposaurus
 gt
 guayaba
 gunblade
@@ -768,6 +777,7 @@ gymnocladus
 h
 hadrosaurus
 haematopoiesis
+haft
 hahahahahaha
 hahd
 halazone
@@ -780,6 +790,7 @@ handiness
 handloading
 hangry
 haori
+haplocanthosaurus
 hardbound
 hardpoint
 hardpoints
@@ -798,6 +809,7 @@ helpdesk
 hemolymph
 hemostatics
 heoretical
+hesperosaurus
 hevel
 hexamine
 hexapod
@@ -877,6 +889,7 @@ interestin
 interjected
 interjects
 interlayer
+intermixed
 intolerances
 intoxications
 intradimensional
@@ -890,6 +903,7 @@ isable
 isassembled
 issi
 issions
+issuer
 itemname
 iterating
 j
@@ -932,6 +946,7 @@ keypress
 kg
 khopesh
 khru
+kickboard
 killbasa
 kilroy
 kinbot
@@ -939,6 +954,7 @@ kinderling
 kippah
 kirpan
 kittel
+kjempe
 klompen
 km
 knapping
@@ -998,6 +1014,7 @@ lifestraw
 lightnin
 lightsource
 lightstrip
+limbed
 lilypad
 lilypads
 listlessly
@@ -1249,6 +1266,7 @@ olieribos
 olors
 ompare
 omplete
+oneiric
 onyxes
 openable
 openair
@@ -1295,6 +1313,8 @@ parthenogenetic
 partyin
 pasteurize
 pathfinding
+pauldron
+pauldrons
 peanutbutter
 peccari
 pecial
@@ -1384,6 +1404,7 @@ premeasured
 preminiscent
 premix
 preoptic
+presaging
 prescriptures
 prev
 primeside
@@ -1478,6 +1499,7 @@ refillable
 reforging
 refuelable
 reimpose
+reisendre
 reluctancy
 remodulator
 rended
@@ -1536,6 +1558,8 @@ rugerlcp
 ruleset
 rummagin
 s
+sabaton
+sabatons
 saboted
 sadisticly
 safemode
@@ -1549,6 +1573,7 @@ samghati
 samoyed
 sandleather
 sapience
+sarahsaurus
 sarracenia
 satirizes
 sauropod
@@ -1773,6 +1798,7 @@ tass
 tassed
 tassin
 taxa
+tazer
 tazers
 tcha
 techn
@@ -1902,6 +1928,7 @@ universalism
 unjacketed
 unlively
 unlives
+unlooted
 unmalted
 unmark
 unmarred
@@ -1940,6 +1967,7 @@ vantablack
 varanid
 vars
 vatgrown
+valhallist
 vaulters
 veggy
 venandi

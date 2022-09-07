@@ -660,6 +660,8 @@
       [ "microscope", 5 ],
       [ "microscope_dissecting", 5 ],
       [ "funnel_separation", 3 ],
+      { "item": "filter_paper_qualitative", "prob": 3, "charges-min": 10 },
+      { "item": "filter_paper_quantitative", "prob": 3, "charges-min": 10 },
       [ "burette", 3 ],
       [ "rotovap", 3 ],
       [ "still_lab", 3 ],

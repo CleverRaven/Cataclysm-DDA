@@ -2562,8 +2562,9 @@ void talk_effect_fun_t<T>::set_transform_radius( const JsonObject &jo, const std
                                     //Timed events happen before the player turn and eocs are during so we add a second here to sync them up using the same variable
                                     -1, target_pos, radius, transform.str(), key.evaluate( d ) );
         } else {
-            get_map().transform_radius( transform, radius, target_pos );
-            get_map().invalidate_map_cache( target_pos.z() );
+            map tm;
+            tm.load( project_to<coords::sm>( target_pos - point{ radius, radius} ), false );
+            tm.transform_radius( transform, radius, target_pos );
         }
     };
 }
@@ -2576,9 +2577,12 @@ void talk_effect_fun_t<T>::set_transform_line( const JsonObject &jo, const std::
     var_info second = read_var_info( jo.get_object( "second" ) );
 
     function = [transform, first, second]( const T & d ) {
-        get_map().transform_line( transform, get_tripoint_from_var<T>( first, d ),
-                                  get_tripoint_from_var<T>( second, d ) );
-        get_map().invalidate_map_cache( get_tripoint_from_var<T>( first, d ).z() );
+        tripoint_abs_ms const t_first = get_tripoint_from_var<T>( first, d );
+        tripoint_abs_ms const t_second = get_tripoint_from_var<T>( second, d );
+        tripoint_abs_ms const orig = coord_min( t_first, t_second );
+        map tm;
+        tm.load( project_to<coords::sm>( orig ), false );
+        tm.transform_line( transform, t_first, t_second );
     };
 }
 

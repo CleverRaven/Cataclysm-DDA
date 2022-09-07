@@ -43,6 +43,8 @@
 #include "ui.h"
 #include "uistate.h"
 
+static const efftype_id effect_pet( "pet" );
+
 class ui_adaptor;
 
 class wish_mutate_callback: public uilist_callback
@@ -638,6 +640,7 @@ void debug_menu::wishmonster( const cata::optional<tripoint> &p )
                     }
                     if( cb.friendly ) {
                         mon->friendly = -1;
+                        mon->add_effect( effect_pet, 1_turns, true );
                     }
                     if( cb.hallucination ) {
                         mon->hallucination = true;

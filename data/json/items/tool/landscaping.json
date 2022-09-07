@@ -384,7 +384,7 @@
     "name": { "str": "hedge trimmer (on)", "str_pl": "hedge trimmers (on)" },
     "description": "A cordless, double-sided, gasoline-powered hedge trimmer.  It is currently on, ready to do some zombie topiary; use this item to turn it off.",
     "cutting": 40,
-    "power_draw": 500000,
+    "power_draw": "500 J",
     "charges_per_use": 0,
     "revert_to": "trimmer_off",
     "use_action": [ "TRIMMER_ON" ],

@@ -779,5 +779,22 @@
     "result": "chem_black_powder",
     "id_suffix": "generic",
     "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "nomex",
+    "id_suffix": "from_sheet",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "neoprene",
+    "id_suffix": "from_sheet",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "neoprene",
+    "obsolete": true
   }
 ]

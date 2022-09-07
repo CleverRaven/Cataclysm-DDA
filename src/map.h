@@ -475,7 +475,9 @@ class map
         void clear_traps();
 
         const_maptile maptile_at( const tripoint &p ) const;
+        const_maptile maptile_at( const tripoint_bub_ms &p ) const;
         maptile maptile_at( const tripoint &p );
+        maptile maptile_at( const tripoint_bub_ms &p );
     private:
         // Versions of the above that don't do bounds checks
         const_maptile maptile_at_internal( const tripoint &p ) const;
@@ -1090,7 +1092,7 @@ class map
         // Optionally toggles instances $from->$to & $to->$from
         void translate_radius( const ter_id &from, const ter_id &to, float radi, const tripoint &p,
                                bool same_submap = false, bool toggle_between = false );
-        void transform_radius( ter_furn_transform_id transform, float radi,
+        void transform_radius( ter_furn_transform_id transform, int radi,
                                const tripoint_abs_ms &p );
         void transform_line( ter_furn_transform_id transform, const tripoint_abs_ms &first,
                              const tripoint_abs_ms &second );
@@ -2060,7 +2062,7 @@ class map
         void apply_directional_light( const tripoint &p, int direction, float luminance );
         void apply_light_arc( const tripoint &p, const units::angle &angle, float luminance,
                               const units::angle &wideangle = 30_degrees );
-        void apply_light_ray( bool lit[MAPSIZE_X][MAPSIZE_Y],
+        void apply_light_ray( cata::mdarray<bool, point_bub_ms, MAPSIZE_X, MAPSIZE_Y> &lit,
                               const tripoint &s, const tripoint &e, float luminance );
         void add_light_from_items( const tripoint &p, const item_stack::iterator &begin,
                                    const item_stack::iterator &end );

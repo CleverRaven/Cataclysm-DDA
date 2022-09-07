@@ -1151,7 +1151,7 @@
     "description": "You are a sight to behold.  People who care about such things will react more kindly to you.",
     "starting_trait": true,
     "types": [ "ATTRACTIVENESS" ],
-    "category": [ "ALPHA" ],
+    "category": [ "ALPHA", "ELFA" ],
     "changes_to": [ "BEAUTIFUL" ]
   },
   {
@@ -5575,7 +5575,8 @@
     "description": "You're a real head-turner.  Some people will react well to your appearance, and most people have an easier time trusting you.",
     "types": [ "ATTRACTIVENESS" ],
     "prereqs": [ "PRETTY" ],
-    "changes_to": [ "BEAUTIFUL2" ]
+    "changes_to": [ "BEAUTIFUL2" ],
+    "category": [ "ALPHA" ]
   },
   {
     "type": "mutation",
@@ -5587,7 +5588,9 @@
     "description": "You are a vision of beauty.  Some people will react very well to your looks, and most people will trust you immediately.",
     "types": [ "ATTRACTIVENESS" ],
     "prereqs": [ "BEAUTIFUL" ],
-    "changes_to": [ "BEAUTIFUL3" ]
+    "changes_to": [ "BEAUTIFUL3" ],
+    "category": [ "ALPHA" ],
+    "threshreq": [ "THRESH_ALPHA" ]
   },
   {
     "type": "mutation",

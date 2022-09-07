@@ -1243,11 +1243,12 @@ float firestarter_actor::light_mod( const tripoint &pos ) const
     if( !need_sunlight ) {
         return 1.0f;
     }
+    if( g->is_sheltered( pos ) ) {
+        return 0.0f;
+    }
 
-    const float light_level = g->natural_light_level( pos.z );
-    if( get_weather().weather_id->sun_intensity >= sun_intensity_type::normal &&
-        light_level >= 60.0f && !get_map().has_flag( ter_furn_flag::TFLAG_INDOORS, pos ) ) {
-        return std::pow( light_level / 80.0f, 8 );
+    if( incident_sun_irradiance( get_weather().weather_id, calendar::turn ) > irradiance::moderate ) {
+        return std::pow( g->natural_light_level( pos.z ) / 80.0f, 8 );
     }
 
     return 0.0f;
@@ -2060,7 +2061,7 @@ cata::optional<int> manualnoise_actor::use( Character &p, item &it, bool t, cons
 ret_val<void> manualnoise_actor::can_use( const Character &p, const item &it, bool,
         const tripoint & ) const
 {
-    if( it.ammo_sufficient( &p ) ) {
+    if( !it.ammo_sufficient( &p ) ) {
         return ret_val<void>::make_failure( _( "This tool doesn't have enough charges." ) );
     }
 
@@ -4032,6 +4033,10 @@ ret_val<void> saw_stock_actor::can_use_on( const Character &, const item &,
         return ret_val<void>::make_failure( _( "The stock is already sawn-off." ) );
     }
 
+    if( target.gun_type() == gun_type_type( "pistol" ) ) {
+        return ret_val<void>::make_failure( _( "This gun doesn't have a stock." ) );
+    }
+
     const auto gunmods = target.gunmods();
     const bool modified_stock = std::any_of( gunmods.begin(), gunmods.end(),
     []( const item * mod ) {
@@ -4426,8 +4431,8 @@ cata::optional<int> deploy_tent_actor::use( Character &p, item &it, bool, const 
     player_activity new_act = player_activity( tent_placement_activity_actor( to_moves<int>
                               ( 20_minutes ), direction, radius, it, wall, floor, floor_center, door_closed ) );
     get_player_character().assign_activity( new_act, false );
-
-    return 1;
+    p.i_rem( &it );
+    return 0;
 }
 
 bool deploy_tent_actor::check_intact( const tripoint &center ) const
