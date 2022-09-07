@@ -641,74 +641,38 @@ creator::itemGroupEntry::itemGroupEntry( QWidget* parent, QString entryText, boo
     //This layout will contain all the properties and wrap the widgets as needed
     flowLayout = new FlowLayout;
     flowLayout->setMargin( 0 );
-    flowLayout->setContentsMargins( 0,0,0,0 );
-
-    QFrame* prob_frame = new QFrame;
-    QHBoxLayout* prob_layout = new QHBoxLayout;
-    prob_layout->setMargin( 0 );
-    prob_layout->setContentsMargins( 0,0,0,0 );
-    prob_frame->setLayout( prob_layout ) ;
-    QLabel* prob_label = new QLabel;
-    prob_label->setText( QString( "Prob:" ) );
-    prob_layout->addWidget( prob_label );
-
-    prob = new QSpinBox;
-    prob->setRange( 0, 100 );
-    prob->setValue( 100 );
-    QString tooltipText = "A probability of 0 (or negative) means the entry is never chosen;\n";
-    tooltipText += "a probability of 100 % means it's always chosen. The default is 100,\n";
-    tooltipText += "because it's the most useful value. A default of 0 would mean the entry\n";
-    tooltipText += "could be removed anyway. Setting this to 0 or 100 will remove the";
-    tooltipText += "property from json";
-    prob->setToolTip( tooltipText );
-    prob->setMinimumSize( QSize( 50, 24 ) );
-    prob->setMaximumSize( QSize( 55, 24 ) );
-    connect( prob, QOverload<int>::of( &QSpinBox::valueChanged ),
-        [=]( ) { change_notify_top_parent(); } );
-    prob_layout->addWidget( prob ) ;
+    flowLayout->setContentsMargins( 0,4,0,0 );
 
 
-    count_frame = new QFrame;
+
+    prob_frame = new simple_property_widget(this, QString( "prob"), 
+                                            property_type::NUMBER, this );
+    QString tooltipText = "A probability of 0 (or negative) means the entry is never chosen;";
+    tooltipText += "\na probability of 100 % means it's always chosen. The default is 100,";
+    tooltipText += "\nbecause it's the most useful value. A default of 0 would mean the entry";
+    tooltipText += "\ncould be removed anyway. Setting this to 0 or 100 will remove the";
+    tooltipText += "\nproperty from json";
+    prob_frame->setToolTip( tooltipText );
+    prob_frame->allow_hiding( true );
+
+
+    count_frame = new simple_property_widget(this, QString( "count"), 
+                                            property_type::MINMAX, this );
     count_frame->hide();
-    QHBoxLayout* count_layout = new QHBoxLayout;
-    count_layout->setMargin(0);
-    count_layout->setContentsMargins( 0,0,0,0 );
-    count_frame->setLayout( count_layout ) ;
-    QLabel* count_label = new QLabel;
-    count_label->setText( QString( "Count:" ) );
-    count_label->setMinimumSize( QSize( 42, 24 ) );
-    count_label->setMaximumSize( QSize( 47, 24) );
-    count_layout->addWidget( count_label ) ;
-
-    count_min = new QSpinBox;
-    count_min->setRange( 0, INT_MAX );
-    count_min->setMinimumSize( QSize( 50, 24 ) );
-    count_min->setMaximumSize( QSize( 55, 24 ) );
-    tooltipText = "count-min:";
-    tooltipText += "Makes the item spawn repeat, each time creating a new item.";
+    count_frame->allow_hiding( true );
+    tooltipText = "Count:";
+    tooltipText += "\nMakes the item spawn repeat, each time creating a new item.";
+    tooltipText += "\n\ncount-min:";
     tooltipText += "\nThe game will repeat the item spawn at least this many times";
     tooltipText += "\nOnly shows up in JSON if the value is greater then 0";
     tooltipText += "\nSetting this equal to count-max will set the JSON value to count: <number>";
     tooltipText += "\nIf only count-min is set, the JSON value will simply be count: <number>";
-    count_min->setToolTip( tooltipText );
-    connect( count_min, QOverload<int>::of( &QSpinBox::valueChanged ),
-        [=]( ) { count_min_changed(); } );
-    count_layout->addWidget( count_min ) ;
-
-    count_max = new QSpinBox;
-    count_max->setRange( 0, INT_MAX );
-    count_max->setMinimumSize( QSize( 50, 24 ) );
-    count_max->setMaximumSize( QSize( 55, 24 ) );
-    tooltipText = "count-max:";
-    tooltipText += "Makes the item spawn repeat, each time creating a new item.";
+    tooltipText += "\n\ncount-max:";
     tooltipText += "\nThe game will repeat the item spawn up to this many times";
     tooltipText += "\nOnly shows up in JSON if the value is greater then 0";
     tooltipText += "\nSetting this equal to count-min will set the JSON value to count: <number>";
     tooltipText += "\nIf only count-max is set, the JSON value will simply be count: <number>";
-    count_max->setToolTip( tooltipText );
-    connect( count_max, QOverload<int>::of( &QSpinBox::valueChanged ),
-        [=]( ) { count_max_changed(); } );
-    count_layout->addWidget( count_max ) ;
+    count_frame->setToolTip( tooltipText );
 
     charges_frame = new simple_property_widget(this, QString( "charges"), 
                                             property_type::MINMAX, this );
@@ -753,7 +717,7 @@ creator::itemGroupEntry::itemGroupEntry( QWidget* parent, QString entryText, boo
     entryLayout->addWidget( btnDeleteThis );
 
     entryLayout->setStretchFactor( title_label, 1 );
-    entryLayout->setStretchFactor( flowLayout, 6 );
+    entryLayout->setStretchFactor( flowLayout, 2 );
     entryLayout->setStretchFactor( add_property, 1  );
     entryLayout->setStretchFactor( btnDeleteThis, 1  );
 
@@ -793,6 +757,8 @@ void creator::itemGroupEntry::add_property_changed() {
     std::string prop = add_property->currentText().toStdString();
     if ( prop == "" || prop == "Add property" ){
         return;
+    } else if ( prop == "prob" ){
+        prob_frame->show();
     } else if ( prop == "count" ){
         count_frame->show();
     } else if ( prop == "charges" ){
@@ -802,6 +768,7 @@ void creator::itemGroupEntry::add_property_changed() {
     }
 
     add_property->removeItem( add_property->currentIndex() );
+    change_notify_top_parent();
 }
 
 QSize creator::itemGroupEntry::sizeHint() const
@@ -815,26 +782,6 @@ QSize creator::itemGroupEntry::minimumSizeHint() const
 }
 
 
-void creator::itemGroupEntry::count_min_changed() {
-    int max = count_max->value();
-    int min = count_min->value();
-    if( max ) {
-        if( max <= min ) {
-            count_max->setValue( min );
-        }
-    }
-    change_notify_top_parent();
-}
-void creator::itemGroupEntry::count_max_changed() {
-    int max = count_max->value();
-    int min = count_min->value();
-    if( min ) {
-        if( max <= min ) {
-            count_max->setValue( min );
-        }
-    }
-    change_notify_top_parent();
-}
 
 void creator::itemGroupEntry::delete_self() {
     setParent( nullptr );
@@ -850,32 +797,18 @@ void creator::itemGroupEntry::get_json( JsonOut &jo ) {
     } else {
         jo.member( "group", title_label->text().toStdString() );
     }
-    int pr = prob->value(); //If prob is 0, we omit prob entirely
-    if( pr ) {
-        //Only add if it's less then 100 since 100 is the default
-        if( pr < 100 ) {
-            jo.member( "prob", pr );
-        }
+    if( !prob_frame->isHidden() ) {
+        prob_frame->get_json( jo );
     }
-    int max = count_max->value();
-    int min = count_min->value();
-    if( min ) {
-        if( max ) {
-            if ( max <= min ) {
-                jo.member( "count", min );
-            } else {
-                jo.member( "count-min", min );
-                jo.member( "count-max", max );
-            }
-        } else {
-            jo.member( "count", min );
-        }
-    } else if( max ) {
-        jo.member( "count", max );
+    if( !count_frame->isHidden() ) {
+        count_frame->get_json( jo );
     }
-
-    charges_frame->get_json( jo );
-    containerItem_frame->get_json( jo );
+    if( !charges_frame->isHidden() ) {
+        charges_frame->get_json( jo );
+    }
+    if( !containerItem_frame->isHidden() ) {
+        containerItem_frame->get_json( jo );
+    }
     jo.end_object();
 }
 

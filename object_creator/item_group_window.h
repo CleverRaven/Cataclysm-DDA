@@ -89,19 +89,12 @@ namespace creator
         void delete_self();
         void change_notify_top_parent();
         void add_property_changed();
-        void count_min_changed();
-        void count_max_changed();
         QLabel* title_label;
-        QSpinBox* prob;
-        QSpinBox* count_min;
-        QSpinBox* count_max;
-        QSpinBox* charges_min;
-        QSpinBox* charges_max;
         simple_property_widget* containerItem_frame;
         simple_property_widget* charges_frame;
-        QFrame* count_frame;
+        simple_property_widget* count_frame;
+        simple_property_widget* prob_frame;
         FlowLayout* flowLayout;
-        QLineEdit* containerItem;
         QComboBox* add_property;
         item_group_window* top_parent_widget;
     protected:
