@@ -1775,7 +1775,6 @@ class vehicle
         void play_music() const;
         void play_chimes() const;
         void operate_planter();
-        std::string tracking_toggle_string() const;
         void autopilot_patrol_check();
         void toggle_autopilot();
         void enable_patrol();
