@@ -20,6 +20,7 @@
 #include "color.h"
 #include "crafting.h"
 #include "cursesdef.h"
+#include "debug.h"
 #include "display.h"
 #include "flag.h"
 #include "input.h"
@@ -1240,6 +1241,10 @@ const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id goto_
         }
         list_map.clear();
         for( int i = istart; i < iend; ++i ) {
+            if( i >= static_cast<int>( indent.size() ) || indent[i] < 0 ) {
+                indent.assign( current.size(), 0 );
+                debugmsg( _( "Indent for line %i not set correctly.  Indents reset to 0." ), i );
+            }
             std::string tmp_name = std::string( indent[i],
                                                 ' ' ) + current[i]->result_name( /*decorated=*/true );
             if( batch ) {
