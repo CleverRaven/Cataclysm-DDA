@@ -119,7 +119,7 @@ linked sections:
 
 | field                   | type                  | description
 | --                      | --                    | --
-| arrange                 | string                | For "layout" style, display child widgets as "rows", "columns" or "minimum_columns"; for ["graph style"](#graph-style) draw vertical ("rows") or horizontal ("columns")
+| arrange                 | string                | For "layout" style, display child widgets as "rows", "columns" or "minimum_columns"; for ["graph style"](#graph-style) draw vertical ("rows"), horizontal ("columns"), or flipped horizontal ("minimum_columns")
 | bodypart                | string                | For "bp_*" variables, body part id like "leg_r" or "torso"
 | separator               | string                | The string used to separate the label from the widget data. Children will inherit if this is not defined. Mandatory if style is "sidebar".
 | padding                 | int                   | Amount of padding between columns for this widget. Children will inherit if this is not defined. Mandatory if style is "sidebar".
@@ -426,7 +426,7 @@ are determined.
 
 Also see [Graph widgets](#graph-widgets) for some predefined ones you can use or extend.
 
-#### Vertical graphs
+#### Vertical and flipped graphs
 
 By setting the `arrange` property to `rows`, graphs can be displayed vertically.
 For vertical graphs, `height` should be used instead of `width`.
@@ -444,6 +444,8 @@ For vertical graphs, `height` should be used instead of `width`.
 
 Vertical graphs do not work well with the `label` property.
 Best to disable labels, and make a custom `text` style widget to place above or below bars.
+
+By setting the `arrange` property to `minimum_columns`, horizontal graphs can be flipped to increase from right to left.
 
 ### Text style
 

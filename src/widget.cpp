@@ -1535,13 +1535,14 @@ std::string widget::graph( int value ) const
         return "";
     }
 
-    // Re-arrange characters to a vertical bar graph
-    if( _arrange == "rows" ) {
+    // Re-arrange characters to a vertical bar graph, or right-to-left
+    if( _arrange == "rows" || _arrange == "minimum_columns" ) {
+        const bool vertical = _arrange == "rows";
         std::wstring temp = ret;
         ret = std::wstring();
         for( int i = temp.size() - 1; i >= 0; i-- ) {
             ret += temp[i];
-            if( i > 0 ) {
+            if( vertical && i > 0 ) {
                 ret += '\n';
             }
         }

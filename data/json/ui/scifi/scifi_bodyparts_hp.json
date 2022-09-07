@@ -11,7 +11,8 @@
     "id": "scifi_hp_graph_head",
     "type": "widget",
     "copy-from": "scifi_hp_graph",
-    "bodypart": "head"
+    "bodypart": "head",
+    "arrange": "minimum_columns"
   },
   {
     "id": "scifi_hp_graph_eyes",
@@ -29,7 +30,8 @@
     "id": "scifi_hp_graph_torso",
     "type": "widget",
     "copy-from": "scifi_hp_graph",
-    "bodypart": "torso"
+    "bodypart": "torso",
+    "arrange": "minimum_columns"
   },
   {
     "id": "scifi_hp_graph_arm_l",
@@ -41,7 +43,8 @@
     "id": "scifi_hp_graph_arm_r",
     "type": "widget",
     "copy-from": "scifi_hp_graph",
-    "bodypart": "arm_r"
+    "bodypart": "arm_r",
+    "arrange": "minimum_columns"
   },
   {
     "id": "scifi_hp_graph_hand_l",
@@ -53,7 +56,8 @@
     "id": "scifi_hp_graph_hand_r",
     "type": "widget",
     "copy-from": "scifi_hp_graph",
-    "bodypart": "hand_r"
+    "bodypart": "hand_r",
+    "arrange": "minimum_columns"
   },
   {
     "id": "scifi_hp_graph_leg_l",
@@ -65,7 +69,8 @@
     "id": "scifi_hp_graph_leg_r",
     "type": "widget",
     "copy-from": "scifi_hp_graph",
-    "bodypart": "leg_r"
+    "bodypart": "leg_r",
+    "arrange": "minimum_columns"
   },
   {
     "id": "scifi_hp_graph_foot_l",
@@ -77,6 +82,7 @@
     "id": "scifi_hp_graph_foot_r",
     "type": "widget",
     "copy-from": "scifi_hp_graph",
-    "bodypart": "foot_r"
+    "bodypart": "foot_r",
+    "arrange": "minimum_columns"
   }
 ]
