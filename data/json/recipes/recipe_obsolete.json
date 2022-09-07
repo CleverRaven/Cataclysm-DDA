@@ -791,5 +791,10 @@
     "result": "neoprene",
     "id_suffix": "from_sheet",
     "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "neoprene",
+    "obsolete": true
   }
 ]
