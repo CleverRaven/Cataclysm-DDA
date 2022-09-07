@@ -1044,6 +1044,8 @@
     "comestible_type": "FOOD",
     "symbol": "%",
     "calories": 15,
+    "spoils_in": "15 days",
+    "rot_spawn": "GROUP_MUTATION_SNAIL",
     "description": "A small gastropod harvested from the bushes.  Dangerous to consume raw but can be prepared if you get enough of them.",
     "price": 0,
     "price_postapoc": 0,

@@ -14,14 +14,13 @@
   - [Bionics](#bionics)
   - [Bodyparts](#bodyparts)
   - [Books](#books)
-    - [Use actions](#use-actions)
   - [Character - (Bionic/Mutation/Effect)](#character)
   - [Comestibles](#comestibles)
     - [Comestible type](#comestible-type)
     - [Addiction type](#addiction-type)
     - [Use action](#use-action)
     - [Flags](#flags-2)
-  - [Effects](#Effects)
+  - [Effects](#effects)
   - [Furniture and Terrain](#furniture-and-terrain)
     - [Flags](#flags-3)
     - [Fungal Conversions Only](#fungal-conversions-only)
@@ -65,6 +64,7 @@
   - [Tools](#tools)
     - [Flags](#flags-12)
     - [Flags that apply to items](#flags-that-apply-to-items)
+    - [Use actions](#use-actions)
   - [Vehicle Parts](#vehicle-parts)
     - [Flags](#flags-13)
     - [Fuel types](#fuel-types)
@@ -409,105 +409,7 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 ## Books
 
 - ```INSPIRATIONAL``` Reading this book grants bonus morale to characters with the `SPIRITUAL` trait.
-
-### Use actions
-
-- ```ACIDBOMB_ACT``` Get rid of it, or you'll end up like that guy in Robocop.
-- ```ACIDBOMB``` Pull the pin on an acid bomb.
-- ```AUTOCLAVE``` Sterilize one CBM by autoclaving it.
-- ```BELL``` Ring the bell.
-- ```BOLTCUTTERS``` Use your town key to gain access anywhere.
-- ```BREAK_STICK``` Breaks long branch into two.
-- ```C4``` Arm the C4.
-- ```CABLE_ATTACH``` This item is a cable spool. Use it to try to attach to a vehicle.
-- ```CAN_GOO``` Release a little blob buddy.
-- ```CAPTURE_MONSTER_ACT``` Capture and encapsulate a monster. The associated action is also used for releasing it.
-- ```CARVER_OFF``` Turn the carver on.
-- ```CARVER_ON``` Turn the carver off.
-- ```CHAINSAW_OFF``` Turn the chainsaw on.
-- ```CHAINSAW_ON``` Turn the chainsaw off.
-- ```COMBATSAW_OFF``` Turn the combat-saw on.
-- ```COMBATSAW_ON``` Turn the combat-saw off
-- ```CROWBAR``` Pry open doors, windows, man-hole covers and many other things that need prying.
-- ```DIG``` Clear rubble.
-- ```DIRECTIONAL_ANTENNA``` Find the source of a signal with your radio.
-- ```DIVE_TANK``` Use compressed air tank to breathe.
-- ```DOG_WHISTLE``` Dogs hate this thing; your dog seems pretty cool with it though.
-- ```DOLLCHAT``` That creepy doll just keeps on talking.
-- ```ELEC_CHAINSAW_OFF``` Turn the electric chainsaw on.
-- ```ELEC_CHAINSAW_ON``` Turn the electric chainsaw off.
-- ```EXTINGUISHER``` Put out fires.
-- ```FIRECRACKER_ACT``` The saddest Fourth of July.
-- ```FIRECRACKER_PACK_ACT``` Keep the change you filthy animal.
-- ```FIRECRACKER_PACK``` Light an entire packet of firecrackers.
-- ```FIRECRACKER``` Light a singular firecracker.
-- ```FLASHBANG``` Pull the pin on a flashbang.
-- ```GEIGER``` Detect local radiation levels.
-- ```GRANADE_ACT``` Assaults enemies with source code fixes?
-- ```GRANADE``` Pull the pin on Granade.
-- ```GRENADE``` Pull the pin on a grenade.
-- ```HACKSAW``` Cut metal into chunks.
-- ```HAMMER``` Pry boards off of windows, doors and fences.
-- ```HEATPACK``` Activate the heatpack and get warm.
-- ```HEAT_FOOD``` Heat food around fires.
-- ```HOTPLATE``` Use the hotplate.
-- ```JACKHAMMER``` Bust down walls and other constructions.
-- ```JET_INJECTOR``` Inject some jet drugs right into your veins.
-- ```LAW``` Unpack the LAW for firing.
-- ```LIGHTSTRIP``` Activates the lightstrip.
-- ```LUMBER``` Cut logs into planks.
-- ```MAKEMOUND``` Make a mound of dirt.
-- ```MANHACK``` Activate a manhack.
-- ```MATCHBOMB``` Light the matchbomb.
-- ```MILITARYMAP``` Learn of local military installations, and show roads.
-- ```MININUKE``` Set the timer and run. Or hit with a hammer (not really).
-- ```MOLOTOV_LIT``` Throw it, but don't drop it.
-- ```MOLOTOV``` Light the Molotov cocktail.
-- ```MOP``` Mop up the mess.
-- ```MP3_ON``` Turn the mp3 player off.
-- ```MP3``` Turn the mp3 player on.
-- ```NOISE_EMITTER_OFF``` Turn the noise emitter on.
-- ```NOISE_EMITTER_ON``` Turn the noise emitter off.
-- ```NONE``` Do nothing.
-- ```PACK_CBM``` Put CBM in special autoclave pouch so that they stay sterile once sterilized.
-- ```PHEROMONE``` Makes zombies ignore you.
-- ```PICK_LOCK``` Pick a lock on a door. Speed and success chance are determined by skill, `LOCKPICK` item quality and `PERFECT_LOCKPICK` item flag
-- ```PICKAXE``` Does nothing but berate you for having it (I'm serious).
-- ```PLACE_RANDOMLY``` This is very much like the flag in the `manhack` iuse, it prevents the item from querying the player as to where they want the monster unloaded to, and instead chooses randomly.
-- ```PORTABLE_GAME``` Play games.
-- ```PORTAL``` Create portal traps.
-- ```RADIO_OFF``` Turn the radio on.
-- ```RADIO_ON``` Turn the radio off.
-- ```RAG``` Stop the bleeding.
-- ```RESTAURANTMAP``` Learn of local eateries, and show roads.
-- ```ROADMAP``` Learn of local common points-of-interest and show roads.
-- ```SCISSORS``` Cut up clothing.
-- ```SEED``` Asks if you are sure that you want to eat the seed. As it is better to plant seeds.
-- ```SEW``` Sew clothing.
-- ```SHELTER``` Put up a full-blown shelter.
-- ```SHOCKTONFA_OFF``` Turn the shocktonfa on.
-- ```SHOCKTONFA_ON``` Turn the shocktonfa off.
-- ```SIPHON``` Siphon liquids out of vehicle.
-- ```SMOKEBOMB_ACT``` This may be a good way to hide as a smoker.
-- ```SMOKEBOMB``` Pull the pin on a smoke bomb.
-- ```SOLARPACK_OFF``` Fold solar backpack array.
-- ```SOLARPACK``` Unfold solar backpack array.
-- ```SOLDER_WELD``` Solder or weld items, or cauterize wounds.
-- ```SPRAY_CAN``` Graffiti the town.
-- ```SURVIVORMAP``` Learn of local points-of-interest that can help you survive, and show roads.
-- ```TAZER``` Shock someone or something.
-- ```TELEPORT``` Teleport.
-- ```TORCH``` Light a torch.
-- ```TOURISTMAP``` Learn of local points-of-interest that a tourist would like to visit, and show roads.
-- ```TOWEL``` Dry your character using the item as towel.
-- ```TOW_ATTACH``` This is a tow cable, activate it to attach it to a vehicle.
-- ```TURRET``` Activate a turret.
-- ```WASH_ALL_ITEMS``` Wash items with FILTHY flag.
-- ```WASH_HARD_ITEMS``` Wash hard items with FILTHY flag.
-- ```WASH_SOFT_ITEMS``` Wash soft items with FILTHY flag.
-- ```WATER_PURIFIER``` Purify water.
 - ```BINDER_ADD_RECIPE``` Add recipe to a book binder.
-
 
 ## Comestibles
 
@@ -565,7 +467,6 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```SEWAGE``` Causes vomiting.
 - ```SLEEP``` Greatly increases fatigue.
 - ```THORAZINE``` Removes diseases `hallu`, `visuals`, `high`. Additionally removes disease `formication` if disease `dermatik` isn't also present. Has a chance of a negative reaction which increases fatigue.
-- ```VACCINE``` Greatly increases health.
 - ```VITAMINS``` Increases healthiness (not to be confused with HP).
 - ```WEED``` Makes you roll with Cheech & Chong. Adds disease `weed_high`.
 - ```XANAX``` Alleviates anxiety. Adds disease `took_xanax`.
@@ -1360,6 +1261,7 @@ Melee flags are fully compatible with tool flags, and vice versa.
 - ```RECHARGE``` Gain charges when placed in a cargo area with a recharge station.
 - ```SAFECRACK``` This item can be used to unlock safes.
 - ```USES_BIONIC_POWER``` The item has no charges of its own, and runs off of the player's bionic power.
+- ```USE_PLAYER_ENERGY``` Item with `use_action` that `cast_spell` consumes the specified `base_energy_cost`.
 - ```USE_UPS``` Item charges from an UPS / it uses the charges of an UPS instead of its own.
 - ```WATER_EXTINGUISH``` Is extinguishable in water or under precipitation. Converts items (requires "reverts_to" or use_action "transform" to be set).
 - ```WET``` Item is wet and will slowly dry off (e.g. towel).
@@ -1388,7 +1290,105 @@ Those flags are added by the game code to specific items (for example, that spec
 - ```USE_UPS``` The tool has the UPS mod and is charged from an UPS.
 - ```WARM``` A hidden flag used to track an item's journey to/from hot, buffers between HOT and cold.
 - ```WET``` Item is wet and will slowly dry off (e.g. towel).
+    
+### Use actions
 
+These flags apply to the `use_action` field, instead of the `flags` field.
+
+- ```ACIDBOMB_ACT``` Get rid of it, or you'll end up like that guy in Robocop.
+- ```ACIDBOMB``` Pull the pin on an acid bomb.
+- ```AUTOCLAVE``` Sterilize one CBM by autoclaving it.
+- ```BELL``` Ring the bell.
+- ```BOLTCUTTERS``` Use your town key to gain access anywhere.
+- ```BREAK_STICK``` Breaks long branch into two.
+- ```C4``` Arm the C4.
+- ```CABLE_ATTACH``` This item is a cable spool. Use it to try to attach to a vehicle.
+- ```CAN_GOO``` Release a little blob buddy.
+- ```CAPTURE_MONSTER_ACT``` Capture and encapsulate a monster. The associated action is also used for releasing it.
+- ```CARVER_OFF``` Turn the carver on.
+- ```CARVER_ON``` Turn the carver off.
+- ```CHAINSAW_OFF``` Turn the chainsaw on.
+- ```CHAINSAW_ON``` Turn the chainsaw off.
+- ```COMBATSAW_OFF``` Turn the combat-saw on.
+- ```COMBATSAW_ON``` Turn the combat-saw off
+- ```CROWBAR``` Pry open doors, windows, man-hole covers and many other things that need prying.
+- ```DIG``` Clear rubble.
+- ```DIRECTIONAL_ANTENNA``` Find the source of a signal with your radio.
+- ```DIVE_TANK``` Use compressed air tank to breathe.
+- ```DOG_WHISTLE``` Dogs hate this thing; your dog seems pretty cool with it though.
+- ```DOLLCHAT``` That creepy doll just keeps on talking.
+- ```ELEC_CHAINSAW_OFF``` Turn the electric chainsaw on.
+- ```ELEC_CHAINSAW_ON``` Turn the electric chainsaw off.
+- ```EXTINGUISHER``` Put out fires.
+- ```FIRECRACKER_ACT``` The saddest Fourth of July.
+- ```FIRECRACKER_PACK_ACT``` Keep the change you filthy animal.
+- ```FIRECRACKER_PACK``` Light an entire packet of firecrackers.
+- ```FIRECRACKER``` Light a singular firecracker.
+- ```FLASHBANG``` Pull the pin on a flashbang.
+- ```GEIGER``` Detect local radiation levels.
+- ```GRANADE_ACT``` Assaults enemies with source code fixes?
+- ```GRANADE``` Pull the pin on Granade.
+- ```GRENADE``` Pull the pin on a grenade.
+- ```HACKSAW``` Cut metal into chunks.
+- ```HAMMER``` Pry boards off of windows, doors and fences.
+- ```HEATPACK``` Activate the heatpack and get warm.
+- ```HEAT_FOOD``` Heat food around fires.
+- ```HOTPLATE``` Use the hotplate.
+- ```JACKHAMMER``` Bust down walls and other constructions.
+- ```JET_INJECTOR``` Inject some jet drugs right into your veins.
+- ```LAW``` Unpack the LAW for firing.
+- ```LIGHTSTRIP``` Activates the lightstrip.
+- ```LUMBER``` Cut logs into planks.
+- ```MAKEMOUND``` Make a mound of dirt.
+- ```MANHACK``` Activate a manhack.
+- ```MATCHBOMB``` Light the matchbomb.
+- ```MILITARYMAP``` Learn of local military installations, and show roads.
+- ```MININUKE``` Set the timer and run. Or hit with a hammer (not really).
+- ```MOLOTOV_LIT``` Throw it, but don't drop it.
+- ```MOLOTOV``` Light the Molotov cocktail.
+- ```MOP``` Mop up the mess.
+- ```MP3_ON``` Turn the mp3 player off.
+- ```MP3``` Turn the mp3 player on.
+- ```NOISE_EMITTER_OFF``` Turn the noise emitter on.
+- ```NOISE_EMITTER_ON``` Turn the noise emitter off.
+- ```NONE``` Do nothing.
+- ```PACK_CBM``` Put CBM in special autoclave pouch so that they stay sterile once sterilized.
+- ```PHEROMONE``` Makes zombies ignore you.
+- ```PICK_LOCK``` Pick a lock on a door. Speed and success chance are determined by skill, `LOCKPICK` item quality and `PERFECT_LOCKPICK` item flag
+- ```PICKAXE``` Does nothing but berate you for having it (I'm serious).
+- ```PLACE_RANDOMLY``` This is very much like the flag in the `manhack` iuse, it prevents the item from querying the player as to where they want the monster unloaded to, and instead chooses randomly.
+- ```PORTABLE_GAME``` Play games.
+- ```PORTAL``` Create portal traps.
+- ```RADIO_OFF``` Turn the radio on.
+- ```RADIO_ON``` Turn the radio off.
+- ```RAG``` Stop the bleeding.
+- ```RESTAURANTMAP``` Learn of local eateries, and show roads.
+- ```ROADMAP``` Learn of local common points-of-interest and show roads.
+- ```SCISSORS``` Cut up clothing.
+- ```SEED``` Asks if you are sure that you want to eat the seed. As it is better to plant seeds.
+- ```SEW``` Sew clothing.
+- ```SHELTER``` Put up a full-blown shelter.
+- ```SHOCKTONFA_OFF``` Turn the shocktonfa on.
+- ```SHOCKTONFA_ON``` Turn the shocktonfa off.
+- ```SIPHON``` Siphon liquids out of vehicle.
+- ```SMOKEBOMB_ACT``` This may be a good way to hide as a smoker.
+- ```SMOKEBOMB``` Pull the pin on a smoke bomb.
+- ```SOLARPACK_OFF``` Fold solar backpack array.
+- ```SOLARPACK``` Unfold solar backpack array.
+- ```SOLDER_WELD``` Solder or weld items, or cauterize wounds.
+- ```SPRAY_CAN``` Graffiti the town.
+- ```SURVIVORMAP``` Learn of local points-of-interest that can help you survive, and show roads.
+- ```TAZER``` Shock someone or something.
+- ```TELEPORT``` Teleport.
+- ```TORCH``` Light a torch.
+- ```TOURISTMAP``` Learn of local points-of-interest that a tourist would like to visit, and show roads.
+- ```TOWEL``` Dry your character using the item as towel.
+- ```TOW_ATTACH``` This is a tow cable, activate it to attach it to a vehicle.
+- ```TURRET``` Activate a turret.
+- ```WASH_ALL_ITEMS``` Wash items with ```FILTHY``` flag.
+- ```WASH_HARD_ITEMS``` Wash hard items with ```FILTHY``` flag.
+- ```WASH_SOFT_ITEMS``` Wash soft items with ```FILTHY``` flag.
+- ```WATER_PURIFIER``` Purify water.
 
 ## Vehicle Parts
 

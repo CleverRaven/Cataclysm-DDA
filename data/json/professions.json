@@ -1115,6 +1115,32 @@
   },
   {
     "type": "profession",
+    "id": "veteran",
+    "name": "Military Veteran",
+    "description": "You've served in the armed forces and after being discharged from the army, you're sent to take medical treatment in one of the health care centers.  Just when you thought you've overcome your war-time traumas and readjusted to the normal life, the world has come to and end and your worst nightmare has become a reality: living in an hellish battlefield.",
+    "points": 2,
+    "proficiencies": [ "prof_gunsmithing_basic" ],
+    "skills": [
+      { "level": 2, "name": "gun" },
+      { "level": 1, "name": "rifle" },
+      { "level": 2, "name": "melee" },
+      { "level": 1, "name": "dodge" },
+      { "level": 1, "name": "firstaid" },
+      { "level": 1, "name": "stabbing" },
+      { "level": 1, "name": "survival" },
+      { "level": 1, "name": "swimming" }
+    ],
+    "items": {
+      "both": {
+        "items": [ "pants", "socks", "sneakers", "wristwatch" ],
+        "entries": [ { "group": "charged_cell_phone" }, { "item": "tshirt", "variant": "generic_tshirt" } ]
+      },
+      "male": [ "boxer_shorts" ],
+      "female": [ "bra", "boxer_shorts" ]
+    }
+  },
+  {
+    "type": "profession",
     "id": "recruit",
     "name": "Military Recruit",
     "description": "Joining the military has been your dream for years.  You finally got in, just in time for your training to get interrupted by some sort of national emergency.  As far as you can tell, military command abandoned you in this hellhole when you missed the emergency evac.",
@@ -5384,5 +5410,82 @@
       ]
     },
     "missions": [ "MISSION_ASSASSINATION" ]
+  },
+  {
+    "type": "profession",
+    "id": "old_vet",
+    "name": "Old Veteran",
+    "description": "You've been through hell once before.  Hopefully those weekend range trips have kept your skills sharp.",
+    "points": 4,
+    "skills": [
+      { "level": 1, "name": "gun" },
+      { "level": 1, "name": "rifle" },
+      { "level": 1, "name": "firstaid" },
+      { "level": 2, "name": "survival" }
+    ],
+    "proficiencies": [ "prof_gunsmithing_basic", "prof_spotting" ],
+    "items": {
+      "both": {
+        "items": [
+          "wristwatch",
+          "jacket_army",
+          "pants",
+          "service_medal",
+          "boots_combat",
+          "socks",
+          "officer_uniform",
+          "pipe_tobacco",
+          "tobacco",
+          "beret"
+        ],
+        "entries": [
+          { "item": "cane", "custom-flags": [ "auto_wield" ] },
+          { "group": "charged_ref_lighter" },
+          { "item": "chestrig", "contents-group": "army_mags_m14" },
+          { "item": "knife_combat", "container-item": "sheath" },
+          { "item": "m1a", "ammo-item": "762_51", "charges": 20, "contents-item": [ "shoulder_strap" ] }
+        ]
+      },
+      "male": [ "briefs" ],
+      "female": [ "boy_shorts", "bra" ]
+    }
+  },
+  {
+    "type": "profession",
+    "id": "urbex",
+    "name": "Urban Explorer",
+    "description": "You've always admired the beauty of urban desolation, and were ready for your next trip into town when the end of the world made your hobby much more relevant.",
+    "points": 2,
+    "skills": [ { "level": 2, "name": "swimming" }, { "level": 1, "name": "traps" } ],
+    "proficiencies": [ "prof_lockpicking" ],
+    "items": {
+      "both": {
+        "items": [
+          "wristwatch",
+          "gloves_fingerless",
+          "socks",
+          "sneakers",
+          "hoodie",
+          "tshirt_text",
+          "crowbar",
+          "camera_bag",
+          "slingpack",
+          "leather_belt",
+          "urbexmap"
+        ],
+        "entries": [
+          { "group": "charged_smart_phone", "container-item": "pants" },
+          { "item": "light_disposable_cell", "ammo-item": "battery", "charges": 300, "container-item": "camera_pro" },
+          {
+            "item": "light_disposable_cell",
+            "ammo-item": "battery",
+            "charges": 300,
+            "container-item": "wearable_light"
+          }
+        ]
+      },
+      "male": [ "briefs" ],
+      "female": [ "boy_shorts", "sports_bra" ]
+    }
   }
 ]

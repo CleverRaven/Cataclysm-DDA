@@ -1643,7 +1643,7 @@ class vehicle
         void shift_parts( map &here, const point &delta );
         bool shift_if_needed( map &here );
 
-        void shed_loose_parts();
+        void shed_loose_parts( const tripoint_bub_ms *src = nullptr, const tripoint_bub_ms *dst = nullptr );
 
         /**
          * @name Vehicle turrets
@@ -1936,7 +1936,7 @@ class vehicle
 
     public:
         // Number of parts contained in this vehicle
-        int part_count() const;
+        int part_count( bool no_fake = false ) const;
         // Returns the vehicle_part with the given part number
         vehicle_part &part( int part_num );
         const vehicle_part &part( int part_num ) const;

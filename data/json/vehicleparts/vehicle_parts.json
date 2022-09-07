@@ -22,12 +22,6 @@
   },
   {
     "type": "item_group",
-    "id": "ig_vp_xlframe",
-    "subtype": "collection",
-    "entries": [ { "item": "material_aluminium_ingot", "count": [ 1, 4 ] } ]
-  },
-  {
-    "type": "item_group",
     "id": "ig_vp_hdframe",
     "subtype": "collection",
     "entries": [
