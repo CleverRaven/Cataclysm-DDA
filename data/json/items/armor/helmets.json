@@ -36,7 +36,7 @@
     "symbol": "[",
     "looks_like": "helmet_plate",
     "color": "light_gray",
-    "warmth": 65,
+    "warmth": 70,
     "material_thickness": 1,
     "qualities": [ [ "COOK", 2 ], [ "BOIL", 1 ] ],
     "techniques": [ "WBLOCK_1" ],
@@ -45,25 +45,25 @@
         "material": [
           { "type": "mc_steel", "covered_by_mat": 100, "thickness": 0.95 },
           { "type": "cotton", "covered_by_mat": 100, "thickness": 5.0 },
-          { "type": "aluminum", "covered_by_mat": 45, "thickness": 4.0 }
+          { "type": "aluminum", "covered_by_mat": 40, "thickness": 4.0 }
         ],
         "covers": [ "head" ],
-        "coverage": 100,
+        "coverage": 92,
         "layers": [ "NORMAL", "OUTER" ],
         "encumbrance_modifiers": [ "RESTRICTS_NECK", "IMBALANCED" ]
       },
       {
-        "material": [ { "type": "mc_steel", "covered_by_mat": 90, "thickness": 0.95 } ],
+        "material": [ { "type": "mc_steel", "covered_by_mat": 100, "thickness": 0.95 } ],
         "covers": [ "eyes" ],
-        "coverage": 100,
+        "coverage": 90,
         "encumbrance": 25,
         "layers": [ "OUTER" ],
         "rigid_layer_only": true
       },
       {
-        "material": [ { "type": "mc_steel", "covered_by_mat": 90, "thickness": 0.95 } ],
+        "material": [ { "type": "mc_steel", "covered_by_mat": 100, "thickness": 0.95 } ],
         "covers": [ "mouth" ],
-        "coverage": 100,
+        "coverage": 80,
         "encumbrance": 30,
         "layers": [ "OUTER" ],
         "rigid_layer_only": true
