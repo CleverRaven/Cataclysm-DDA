@@ -52,6 +52,14 @@ At the time of this writing, most items are the old 'steel', but over time these
 
 Not surprisingly, *carbon* is a critical component of carbon steels, but is readily available as long as one has trees to convert to charcoal. 
 
+### Books
+
+Studies in Historic Armorsmithing: Useful as a reference for armor, but also for metalworking techniques used at small scale.
+
+Machinery's Handbook: Advanced metalworking techniques for harder steels.
+
+Welding and Metallurgy: Assembly and repairs, as well as crafting hardened/tempered steels.
+
 # Scrap to swords
 
 ### Skills
