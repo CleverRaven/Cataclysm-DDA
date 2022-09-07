@@ -612,6 +612,7 @@ void vehicle::toggle_autopilot()
             is_patrolling = false;
             is_following = false;
             autodrive_local_target = tripoint_zero;
+            add_msg( _( "You turn the engine off." ) );
             stop_engines();
             break;
         case FOLLOW:
@@ -619,7 +620,6 @@ void vehicle::toggle_autopilot()
             is_following = true;
             is_patrolling = false;
             start_engines();
-            refresh();
         default:
             return;
     }
@@ -688,40 +688,13 @@ void vehicle::use_controls( const tripoint &pos )
                 if( engine_on && has_engine_type_not( fuel_type_muscle, true ) )
                 {
                     add_msg( _( "You turn the engine off and let go of the controls." ) );
-                    sounds::sound( pos, 2, sounds::sound_t::movement,
-                                   _( "the engine go silent" ) );
                 } else
                 {
                     add_msg( _( "You let go of the controls." ) );
                 }
-
-                for( size_t e = 0; e < engines.size(); ++e )
-                {
-                    if( is_engine_on( e ) ) {
-                        if( sfx::has_variant_sound( "engine_stop", parts[ engines[ e ] ].info().get_id().str() ) ) {
-                            sfx::play_variant_sound( "engine_stop", parts[ engines[ e ] ].info().get_id().str(),
-                                                     parts[ engines[ e ] ].info().engine_noise_factor() );
-                        } else if( is_engine_type( e, fuel_type_muscle ) ) {
-                            sfx::play_variant_sound( "engine_stop", "muscle",
-                                                     parts[ engines[ e ] ].info().engine_noise_factor() );
-                        } else if( is_engine_type( e, fuel_type_wind ) ) {
-                            sfx::play_variant_sound( "engine_stop", "wind",
-                                                     parts[ engines[ e ] ].info().engine_noise_factor() );
-                        } else if( is_engine_type( e, fuel_type_battery ) ) {
-                            sfx::play_variant_sound( "engine_stop", "electric",
-                                                     parts[ engines[ e ] ].info().engine_noise_factor() );
-                        } else {
-                            sfx::play_variant_sound( "engine_stop", "combustion",
-                                                     parts[ engines[ e ] ].info().engine_noise_factor() );
-                        }
-                    }
-                }
-                vehicle_noise = 0;
-                engine_on = false;
+                stop_engines();
                 player_character.controlling_vehicle = false;
                 g->setremoteveh( nullptr );
-                sfx::do_vehicle_engine_sfx();
-                refresh();
             } );
 
         } else if( has_engine_type_not( fuel_type_muscle, true ) ) {
@@ -730,15 +703,12 @@ void vehicle::use_controls( const tripoint &pos )
             actions.emplace_back( [&] {
                 if( engine_on )
                 {
-                    engine_on = false;
-                    sounds::sound( pos, 2, sounds::sound_t::movement,
-                                   _( "the engine go silent" ) );
+                    add_msg( _( "You turn the engine off." ) );
                     stop_engines();
                 } else
                 {
                     start_engines();
                 }
-                refresh();
             } );
         }
     }
@@ -1087,22 +1057,35 @@ void vehicle::stop_engines()
 {
     vehicle_noise = 0;
     engine_on = false;
-    add_msg( _( "You turn the engine off." ) );
     for( size_t e = 0; e < engines.size(); ++e ) {
-        if( is_engine_on( e ) ) {
-            if( sfx::has_variant_sound( "engine_stop", parts[ engines[ e ] ].info().get_id().str() ) ) {
-                sfx::play_variant_sound( "engine_stop", parts[ engines[ e ] ].info().get_id().str(),
-                                         parts[ engines[ e ] ].info().engine_noise_factor() );
-            } else if( is_engine_type( e, fuel_type_battery ) ) {
-                sfx::play_variant_sound( "engine_stop", "electric",
-                                         parts[ engines[ e ] ].info().engine_noise_factor() );
-            } else {
-                sfx::play_variant_sound( "engine_stop", "combustion",
-                                         parts[ engines[ e ] ].info().engine_noise_factor() );
-            }
+        if( !is_engine_on( e ) ) {
+            continue;
         }
+
+        const vehicle_part &epart = parts[ engines[ e ] ];
+        const vpart_info &einfo = epart.info();
+        const tripoint epos = global_part_pos3( epart );
+
+        sounds::sound( epos, 2, sounds::sound_t::movement, _( "the engine go silent" ) );
+
+        std::string variant = einfo.get_id().str();
+
+        if( sfx::has_variant_sound( "engine_stop", variant ) ) {
+            // has special sound variant for this vpart id
+        } else if( is_engine_type( e, fuel_type_battery ) ) {
+            variant = "electric";
+        } else if( is_engine_type( e, fuel_type_muscle ) ) {
+            variant = "muscle";
+        } else if( is_engine_type( e, fuel_type_wind ) ) {
+            variant = "wind";
+        } else {
+            variant = "combustion";
+        }
+
+        sfx::play_variant_sound( "engine_stop", variant, einfo.engine_noise_factor() );
     }
     sfx::do_vehicle_engine_sfx();
+    refresh();
 }
 
 void vehicle::start_engines( const bool take_control, const bool autodrive )
@@ -1140,6 +1123,7 @@ void vehicle::start_engines( const bool take_control, const bool autodrive )
 
     if( !has_engine ) {
         add_msg( m_info, _( "The %s doesn't have an engine!" ), name );
+        refresh();
         return;
     }
 
@@ -1154,6 +1138,7 @@ void vehicle::start_engines( const bool take_control, const bool autodrive )
             starting_engine_position - player_character.pos_bub();
         player_character.activity.values.push_back( take_control );
     }
+    refresh();
 }
 
 void vehicle::enable_patrol()
@@ -1162,7 +1147,6 @@ void vehicle::enable_patrol()
     autopilot_on = true;
     autodrive_local_target = tripoint_zero;
     start_engines();
-    refresh();
 }
 
 void vehicle::honk_horn() const
