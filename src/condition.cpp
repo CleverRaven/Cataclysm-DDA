@@ -1867,7 +1867,7 @@ std::function<int( const T & )> conditional_t<T>::get_get_int( const JsonObject 
             return rl_dist( first_point, second_point );
         };
     } else if (jo.has_member("mod_load_order")) {
-        const mod_id our_mod_id = mod_id(jo.get_string("mod_id"));
+        const mod_id our_mod_id = mod_id(jo.get_string("mod_load_order"));
         return [our_mod_id](const T &) {
             int count = 0;
             for (const mod_id & mod : world_generator->active_world->active_mod_order) {

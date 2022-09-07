@@ -1190,9 +1190,9 @@
         "condition": { "compare_int": [ { "u_val": "mana" }, "=", { "const": 25 } ] }
       },
       {
-        "text": "Mana max is 1000.",
+        "text": "Mana max is 900.",
         "topic": "TALK_DONE",
-        "condition": { "compare_int": [ { "u_val": "mana_max" }, "=", { "const": 1000 } ] }
+        "condition": { "compare_int": [ { "u_val": "mana_max" }, "=", { "const": 900 } ] }
       },
       {
         "text": "Mana is at 2%.",
@@ -1228,6 +1228,71 @@
         "text": "Has more or equal to 35 experience.",
         "topic": "TALK_DONE",
         "condition": { "compare_int": [ { "u_val": "exp" }, ">=", { "const": 35 } ] }
+      },
+      {
+        "text": "Highest spell level in school test_trait is 1.",
+        "topic": "TALK_DONE",
+        "condition": { "compare_int": [ { "u_val": "spell_level", "school": "test_trait" }, "==", { "const": 1 } ] }
+      },
+      {
+        "text": "Spell level of Pew, Pew is 4.",
+        "topic": "TALK_DONE",
+        "condition": { "compare_int": [ { "u_val": "spell_level", "spell": "test_spell_pew" }, "==", { "const": 4 } ] }
+      },
+      {
+        "text": "Spell level of highest spell is 12.",
+        "topic": "TALK_DONE",
+        "condition": { "compare_int": [ { "u_val": "spell_level" }, "==", { "const": 12 } ] }
+      },
+      {
+        "text": "Test Proficiency learning is 5 out of 10.",
+        "topic": "TALK_DONE",
+        "condition": { "compare_int": [ { "u_val": "proficiency", "proficiency_id": "prof_test", "format": 10 }, "==", { "const": 5 } ] }
+      },
+      {
+        "text": "Test Proficiency learning done is 12 hours total.",
+        "topic": "TALK_DONE",
+        "condition": {
+          "compare_int": [ { "u_val": "proficiency", "proficiency_id": "prof_test", "format": "time_spent" }, "==", { "time": "12h" } ]
+        }
+      },
+      {
+        "text": "Test Proficiency learning is 50% learnt.",
+        "topic": "TALK_DONE",
+        "condition": {
+          "compare_int": [ { "u_val": "proficiency", "proficiency_id": "prof_test", "format": "percent" }, "==", { "const": 50 } ]
+        }
+      },
+      {
+        "text": "Test Proficiency learning is 500 permille learnt.",
+        "topic": "TALK_DONE",
+        "condition": {
+          "compare_int": [ { "u_val": "proficiency", "proficiency_id": "prof_test", "format": "permille" }, "==", { "const": 500 } ]
+        }
+      },
+      {
+        "text": "Test Proficiency total learning time is 24 hours.",
+        "topic": "TALK_DONE",
+        "condition": {
+          "compare_int": [ { "u_val": "proficiency", "proficiency_id": "prof_test", "format": "total_time_required" }, "==", { "time": "24h" } ]
+        }
+      },
+      {
+        "text": "Test Proficiency time lest to learn is 12h.",
+        "topic": "TALK_DONE",
+        "condition": {
+          "compare_int": [ { "u_val": "proficiency", "proficiency_id": "prof_test", "format": "time_left" }, "==", { "time": "12h" } ]
+        }
+      },
+      {
+        "text": "Mod load order for TESTING DATA is 1.",
+        "topic": "TALK_DONE",
+        "condition": { "compare_int": [ { "mod_load_order": "test_data" }, "==", { "const": 1 } ] }
+      },
+      {
+        "text": "Mod load order for Innawood is -1.",
+        "topic": "TALK_DONE",
+        "condition": { "compare_int": [ { "mod_load_order": "innawood" }, "==", { "const": -1 } ] }
       }
     ]
   },
