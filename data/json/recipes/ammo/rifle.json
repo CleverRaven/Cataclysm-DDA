@@ -863,12 +863,7 @@
     "reversible": true,
     "using": [ [ "bullet_forming", 4 ], [ "ammo_bullet", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
-    "components": [
-      [ [ "223_casing", 1 ] ],
-      [ [ "smrifle_primer", 1 ] ],
-      [ [ "chem_black_powder", 17 ] ],
-      [ [ "copper", 1 ] ]
-    ]
+    "components": [ [ [ "223_casing", 1 ] ], [ [ "smrifle_primer", 1 ] ], [ [ "chem_black_powder", 17 ] ], [ [ "copper", 1 ] ] ]
   },
   {
     "result": "bp_556_incendiary",
