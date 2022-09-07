@@ -221,6 +221,54 @@
     "components": [ [ [ "plastic_chunk", 100 ] ] ]
   },
   {
+    "result": "10llcsteel",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "10 m",
+    "tools": [ [ [ "angle_grinder", 10 ] ] ],
+    "components": [ [ [ "5llcsteel", 2 ] ] ]
+  },
+  {
+    "result": "5llcsteel",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "1 h",
+    "tools": [ [ [ "angle_grinder", 50 ] ] ],
+    "components": [ [ [ "lc_steel_lump", 39 ] ] ]
+  },
+  {
+    "result": "10lmcsteel",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "10 m",
+    "tools": [ [ [ "angle_grinder", 10 ] ] ],
+    "components": [ [ [ "5lmcsteel", 2 ] ] ]
+  },
+  {
+    "result": "5lmcsteel",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "1 h",
+    "tools": [ [ [ "angle_grinder", 50 ] ] ],
+    "components": [ [ [ "mc_steel_lump", 39 ] ] ]
+  },
+  {
+    "result": "10lhcsteel",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "10 m",
+    "tools": [ [ [ "angle_grinder", 10 ] ] ],
+    "components": [ [ [ "5lhcsteel", 2 ] ] ]
+  },
+  {
+    "result": "5lhcsteel",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "1 h",
+    "tools": [ [ [ "angle_grinder", 50 ] ] ],
+    "components": [ [ [ "hc_steel_lump", 39 ] ] ]
+  },
+  {
     "result": "atgm_spent",
     "type": "uncraft",
     "activity_level": "MODERATE_EXERCISE",
