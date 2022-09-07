@@ -601,7 +601,7 @@
     "id": "mon_zombie_nomex_2",
     "type": "MONSTER",
     "name": { "str": "nomex hulk" },
-    "description": "This was at some point a zombie wearing some kind of fire resistant protective gear.  It has grown to an enormous size with bulging muscles and features a hide in the likeness of its former uniform.  The faceplate that once shielded its owners face against fire has now hardened to more closely resemble a slightly curved, bone crushing hammerhead.  As a result its ability to see is heavily impaired, but its hearing and sense of smell appear to be working just fine.",
+    "description": "This was at some point a zombie wearing some kind of fire-resistant protective gear.  It has grown to an enormous size with bulging muscles and features a hide in the likeness of its former uniform.  The faceplate that once shielded its owner's face against fire has now hardened to more closely resemble a slightly curved, bone-crushing hammerhead.  As a result its ability to see is heavily impaired, but its hearing and sense of smell appear to be working just fine.",
     "default_faction": "zombie",
     "bodytype": "human",
     "species": [ "ZOMBIE", "HUMAN" ],
