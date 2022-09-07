@@ -553,6 +553,15 @@
     ]
   },
   {
+    "id": "ch_mitten_gaunt_metal_sheets",
+    "type": "ARMOR",
+    "copy-from": "mitten_gaunt_metal_sheets",
+    "name": { "str": "pair of case hardened sheet metal gauntlets", "str_pl": "pairs of case hardened sheet metal gauntlets" },
+    "description": "These crude mitten gauntlets have been case hardened to keep the zombie dogs from biting your fingers off.",
+    "material": [ "ch_steel" ],
+    "extend": { "flags": [ "STURDY" ] }
+  },
+  {
     "id": "gloves_fur",
     "type": "ARMOR",
     "name": { "str": "pair of fur gloves", "str_pl": "pairs of fur gloves" },

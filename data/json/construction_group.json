@@ -1351,6 +1351,11 @@
   },
   {
     "type": "construction_group",
+    "id": "place_wall_wiring",
+    "name": "Place Wall Wirings"
+  },
+  {
+    "type": "construction_group",
     "id": "place_anvil",
     "name": "Place Anvil"
   },
