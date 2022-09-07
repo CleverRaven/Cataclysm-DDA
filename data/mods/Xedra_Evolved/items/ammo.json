@@ -63,7 +63,7 @@
     "id": "aetheric_charge",
     "type": "AMMO",
     "name": { "str_sp": "aetheric charge" },
-    "description": "Charged ether pulled out of the void between all things.  .",
+    "description": "Charged ether pulled out of the void between all things.",
     "weight": "1 g",
     "volume": "12 ml",
     "price": "10 USD",

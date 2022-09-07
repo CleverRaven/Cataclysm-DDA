@@ -725,6 +725,31 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "pemmican_meat",
+    "name": { "str_sp": "pemmican (meat only)" },
+    "conditional_names": [
+      { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str_sp": "prepper %s" } },
+      { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": { "str_sp": "Orley %s" } },
+      { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str_sp": "pernicious %s" } }
+    ],
+    "weight": "100 g",
+    "color": "brown",
+    "spoils_in": "360 days",
+    "container": "bag_plastic",
+    "comestible_type": "FOOD",
+    "symbol": "%",
+    "quench": -3,
+    "calories": 400,
+    "description": "A concentrated mixture of fat and protein used as a nutritious high-energy food.  Composed of meat and tallow, it provides excellent nutrition in an easy to carry form.  Contains no fruits or veggies.",
+    "price": 500,
+    "price_postapoc": 300,
+    "material": [ "flesh" ],
+    "volume": "110 ml",
+    "vitamins": [ [ "calcium", 4 ], [ "iron", 20 ] ],
+    "fun": 1
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "macaroni_helper",
     "name": { "str": "hamburger helper" },
     "conditional_names": [
