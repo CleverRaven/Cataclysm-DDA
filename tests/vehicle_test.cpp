@@ -274,6 +274,129 @@ TEST_CASE( "Unfolding vehicle parts and testing degradation", "[item][degradatio
     clear_vehicles( &get_map() );
 }
 
+struct folded_item_damage_preset {
+    itype_id folded_vehicle_item;
+    int item_damage_first_fold;
+    int item_damage_second_fold;
+    int part_damage_second_unfold; // sum of damage over all parts
+    int part_damage_third_unfold;  // sum of damage over all parts
+};
+
+static void check_folded_item_to_parts_damage_transfer( const folded_item_damage_preset &preset )
+{
+    CAPTURE( preset.folded_vehicle_item.str(),
+             preset.item_damage_first_fold, preset.item_damage_second_fold,
+             preset.part_damage_second_unfold, preset.part_damage_third_unfold );
+
+    // exact damage numbers are checked against, there should be almost no rng,
+    // only the part damage is pseudo-random spread, while total damage should
+    // round trip well in integers
+    clear_avatar();
+    clear_map();
+
+    map &m = get_map();
+    Character &u = get_player_character();
+
+    u.worn.wear_item( u, item( "debug_backpack" ), false, false );
+
+    item veh_item( preset.folded_vehicle_item );
+
+    // unfold fresh item factory item
+    complete_activity( u, vehicle_unfolding_activity_actor( veh_item ) );
+
+    optional_vpart_position ovp = m.veh_at( u.get_location() );
+    REQUIRE( ovp.has_value() );
+
+    // don't actually need point_north but damage_all filters out direct damage
+    // do some damage so it is transferred when folding
+    ovp->vehicle().damage_all( 100, 100, damage_type::PURE, ovp->mount() + point_north );
+
+    // fold vehicle into an item
+    complete_activity( u, vehicle_folding_activity_actor( ovp->vehicle() ) );
+
+    ovp = m.veh_at( u.get_location() );
+    REQUIRE( !ovp.has_value() );
+
+    // copy the player-folded vehicle item and delete it from the map
+    map_stack map_items = m.i_at( u.pos_bub() );
+    REQUIRE( map_items.size() == 1 );
+    item player_folded_veh = map_items.only_item();
+    map_items.clear();
+
+    // check the damage was transferred from parts to folded item
+    CHECK( player_folded_veh.damage() == preset.item_damage_first_fold );
+    CHECK( player_folded_veh.get_var( "avg_part_damage", 0.0 ) == preset.item_damage_first_fold );
+
+    complete_activity( u, vehicle_unfolding_activity_actor( player_folded_veh ) );
+
+    ovp = m.veh_at( u.get_location() );
+    REQUIRE( ovp.has_value() );
+
+    int part_damage_before = 0;
+    for( const vpart_reference &vpr : ovp->vehicle().get_all_parts() ) {
+        part_damage_before += vpr.part().damage();
+    }
+
+    // check damage correctly transferred from item to vehicle parts
+    CHECK( part_damage_before == preset.part_damage_second_unfold );
+
+    complete_activity( u, vehicle_folding_activity_actor( ovp->vehicle() ) );
+
+    ovp = m.veh_at( u.get_location() );
+    REQUIRE( !ovp.has_value() );
+    map_items = m.i_at( u.pos_bub() );
+    REQUIRE( map_items.size() == 1 );
+    player_folded_veh = map_items.only_item();
+    map_items.clear();
+
+    // check that we don't add extra item damage after folding
+    CHECK( player_folded_veh.damage() == preset.item_damage_first_fold );
+    CHECK( player_folded_veh.get_var( "avg_part_damage", 0.0 ) == preset.item_damage_first_fold );
+
+    // add some more damage to the item
+    player_folded_veh.mod_damage( 300 );
+
+    // unfold and check extra damage gets distributed into vehicleparts
+    complete_activity( u, vehicle_unfolding_activity_actor( player_folded_veh ) );
+    ovp = m.veh_at( u.get_location() );
+    REQUIRE( ovp.has_value() );
+
+    // add up damage on all parts
+    int part_damage_after = 0;
+    for( const vpart_reference &vpr : ovp->vehicle().get_all_parts() ) {
+        part_damage_after += vpr.part().damage();
+    }
+
+    {
+        INFO( "Checking extra item damage gets distributed to vehicle parts." );
+        CHECK( part_damage_after > part_damage_before );
+        CHECK( part_damage_after == preset.part_damage_third_unfold );
+    }
+
+    complete_activity( u, vehicle_folding_activity_actor( ovp->vehicle() ) );
+
+    REQUIRE( !m.veh_at( u.get_location() ) );
+    map_items = m.i_at( u.pos_bub() );
+    REQUIRE( map_items.size() == 1 );
+    player_folded_veh = map_items.only_item();
+    map_items.clear();
+
+    CHECK( player_folded_veh.damage() == preset.item_damage_second_fold );
+    CHECK( player_folded_veh.get_var( "avg_part_damage", 0.0 ) == preset.item_damage_second_fold );
+}
+
+TEST_CASE( "Check folded item damage transfers to parts and vice versa", "[item][vehicle]" )
+{
+    std::vector<folded_item_damage_preset> presets {
+        { itype_folded_wheelchair_generic, 2111, 2277, 12666, 13666 },
+        { itype_folded_bicycle,            1689, 1961, 18582, 21582 },
+    };
+
+    for( const folded_item_damage_preset &preset : presets ) {
+        check_folded_item_to_parts_damage_transfer( preset );
+    }
+}
+
 // Basically a copy of vehicle::connect() that uses an arbitrary cord type
 static void connect_power_line( const tripoint &src_pos, const tripoint &dst_pos,
                                 const itype_id &itm )

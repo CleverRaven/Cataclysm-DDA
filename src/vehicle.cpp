@@ -7119,10 +7119,21 @@ item vehicle::get_folded_item() const
     } catch( const JsonError &e ) {
         debugmsg( "Error storing vehicle: %s", e.c_str() );
     }
-    const units::volume folded_volume = std::accumulate( parts.cbegin(), parts.cend(), 0_ml,
-    []( const units::volume v, const vehicle_part & vp ) {
-        return v + ( vp.removed ? 0_ml : vp.info().folded_volume );
-    } );
+
+    units::volume folded_volume = 0_ml;
+    double sum_of_damage = 0;
+    int num_of_parts = 0;
+    for( const vehicle_part &vp : parts ) {
+        if( vp.removed ) {
+            continue;
+        }
+        folded_volume += vp.info().folded_volume;
+        sum_of_damage += vp.damage_percent();
+        num_of_parts++;
+    }
+
+    // snapshot average damage of parts into both item's hp and item variable
+    const int avg_part_damage = static_cast<int>( sum_of_damage / num_of_parts * folded.max_damage() );
 
     folded.set_var( "tracking", tracking_on ? 1 : 0 );
     folded.set_var( "weight", to_milligram( total_mass() ) );
@@ -7130,6 +7141,8 @@ item vehicle::get_folded_item() const
     folded.set_var( "name", string_format( _( "folded %s" ), name ) );
     folded.set_var( "vehicle_name", name );
     folded.set_var( "unfolding_time", to_moves<int>( unfolding_time() ) );
+    folded.set_var( "avg_part_damage", avg_part_damage );
+    folded.set_damage( avg_part_damage );
     // TODO: a better description?
     std::string desc = string_format( _( "A folded %s." ), name )
                        .append( "\n\n" )
@@ -7153,6 +7166,21 @@ bool vehicle::restore_folded_parts( const item &it )
         debugmsg( "Error restoring folded vehicle parts: %s", e.c_str() );
         return false;
     }
+
+    // item should have snapshot of average part damage in item var. take difference of current
+    // item's damage and snapshotted damage, then randomly apply to parts in chunks to roughly match.
+    constexpr double damage_chunk = 0.25;
+    const double damage_diff = it.damage() - static_cast<int>( it.get_var( "avg_part_damage", 0.0 ) );
+    const int count = damage_diff / it.max_damage() * real_parts().size() / damage_chunk;
+    const int seed = static_cast<int>( damage_diff );
+    for( int part_idx : rng_sequence( count, 0, parts.size() - 1, seed ) ) {
+        vehicle_part &pt = parts[part_idx];
+        if( pt.removed || pt.is_fake ) {
+            continue;
+        }
+        pt.base.mod_damage( damage_chunk * pt.base.max_damage() );
+    }
+
     refresh();
     face.init( 0_degrees );
     turn_dir = 0_degrees;
