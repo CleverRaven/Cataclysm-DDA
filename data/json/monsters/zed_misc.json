@@ -531,7 +531,7 @@
     "id": "mon_zombie_nomex_1",
     "type": "MONSTER",
     "name": { "str": "nomex zombie" },
-    "description": "This was at some point a zombie wearing some kind of fire resistant protective gear.  That same outfit is now shredded and has become part of its outer tissue, making it more resiliant against physical attacks and heat induced damage.  It also seems to be rather muscle packed. At least its overgrown and hardened faceplate still holds up, preventing it from biting you and also rendering its eyes impaired.  However, it looks like it can still hear and smell you just fine.",
+    "description": "This was at some point a zombie wearing some kind of fire-resistant protective gear.  That same outfit is now shredded and has become part of its outer tissue, making it more resilient against physical attacks and heat-induced damage.  It also seems to be rather muscle packed.  At least its overgrown and hardened faceplate still holds up, preventing it from biting you and also rendering its eyes impaired.  However, it looks like it can still hear and smell you just fine.",
     "default_faction": "zombie",
     "bodytype": "human",
     "species": [ "ZOMBIE", "HUMAN" ],
