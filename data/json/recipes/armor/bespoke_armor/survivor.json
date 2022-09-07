@@ -264,6 +264,7 @@
     "autolearn": true,
     "using": [ [ "sewing_standard", 100 ] ],
     "qualities": [ { "id": "LEATHER_AWL", "level": 1 } ],
+    "byproducts": [ [ "leather", 2 ], [ "scrap_leather", 28 ] ],
     "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_leatherworking_basic" } ],
     "components": [
       [ [ "trenchcoat_leather", 1 ], [ "duster_leather", 1 ], [ "jacket_leather", 1 ], [ "leather_police_jacket", 1 ] ],
@@ -283,6 +284,7 @@
     "autolearn": true,
     "using": [ [ "sewing_standard", 60 ] ],
     "qualities": [ { "id": "LEATHER_AWL", "level": 1 } ],
+    "byproducts": [ [ "leather", 6 ], [ "scrap_leather", 22 ], [ "patch_cotton", 4 ] ],
     "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_leatherworking_basic" } ],
     "components": [
       [
@@ -310,6 +312,7 @@
     "autolearn": true,
     "using": [ [ "sewing_standard", 40 ] ],
     "qualities": [ { "id": "LEATHER_AWL", "level": 1 } ],
+    "byproducts": [ [ "leather", 15 ], [ "scrap_leather", 18 ], [ "patch_cotton", 12 ] ],
     "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_leatherworking_basic" } ],
     "components": [
       [ [ "trenchcoat_leather", 1 ], [ "duster_leather", 1 ], [ "jacket_leather", 1 ], [ "leather_police_jacket", 1 ] ],
@@ -343,6 +346,7 @@
     "autolearn": true,
     "using": [ [ "sewing_standard", 80 ] ],
     "qualities": [ { "id": "LEATHER_AWL", "level": 1 } ],
+    "byproducts": [ [ "leather", 4 ], [ "scrap_leather", 14 ] ],
     "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_leatherworking_basic" } ],
     "components": [ [ [ "pants_leather", 1 ] ], [ [ "technician_pants_gray", 1 ] ], [ [ "duct_tape", 120 ] ] ]
   }
