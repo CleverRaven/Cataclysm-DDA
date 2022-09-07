@@ -7,13 +7,13 @@
     "clauses": [
       {
         "id": "no_pain",
-        "sym": "∙",
+        "sym": "_______",
         "color": "dark_gray",
         "condition": { "and": [ { "compare_int": [ { "u_val": "pain" }, "==", { "const": 0 } ] } ] }
       },
       {
         "id": "minimal",
-        "sym": "▁",
+        "sym": "█______",
         "color": "yellow",
         "condition": {
           "and": [
@@ -24,7 +24,7 @@
       },
       {
         "id": "mild",
-        "sym": "▂",
+        "sym": "██_____",
         "color": "yellow",
         "condition": {
           "and": [
@@ -35,7 +35,7 @@
       },
       {
         "id": "moderate",
-        "sym": "▃",
+        "sym": "███____",
         "color": "yellow",
         "condition": {
           "and": [
@@ -46,7 +46,7 @@
       },
       {
         "id": "distracting",
-        "sym": "▄",
+        "sym": "████___",
         "color": "yellow",
         "condition": {
           "and": [
@@ -57,7 +57,7 @@
       },
       {
         "id": "distressing",
-        "sym": "▅",
+        "sym": "█████__",
         "color": "light_red",
         "condition": {
           "and": [
@@ -68,7 +68,7 @@
       },
       {
         "id": "unmanagable",
-        "sym": "▆",
+        "sym": "██████_",
         "color": "light_red",
         "condition": {
           "and": [
@@ -79,7 +79,7 @@
       },
       {
         "id": "intense",
-        "sym": "▇",
+        "sym": "███████",
         "color": "red",
         "condition": {
           "and": [
@@ -90,8 +90,8 @@
       },
       {
         "id": "severe",
-        "sym": "█",
-        "color": "red",
+        "sym": "███████",
+        "color": "red_white",
         "condition": { "compare_int": [ { "u_val": "pain" }, ">", { "const": 70 } ] }
       }
     ]

@@ -1,0 +1,48 @@
+[
+  {
+    "id": "scifi_pain_weariness_layout",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "rows",
+    "width": 8,
+    "pad_labels": false,
+    "widgets": [
+      "scifi_pain_graph",
+      "scifi_stamina_graph",
+      "weariness_desc_no_label",
+      "scifi_weariness_transition_graph",
+      "weary_malus_desc_no_label",
+      "activity_desc_no_label"
+    ]
+  },
+  {
+    "id": "scifi_stamina_graph",
+    "type": "widget",
+    "copy-from": "scifi_graph",
+    "var": "stamina",
+    "width": 5,
+    "label": "St",
+    "colors": [ "c_red", "c_light_red", "c_yellow", "c_light_green", "c_green" ]
+  },
+  {
+    "id": "scifi_pain_graph",
+    "type": "widget",
+    "copy-from": "scifi_graph",
+    "var": "pain",
+    "width": 8,
+    "symbols": " ▁▁▂▂▃▃▄▄▅▅▆▆▇▇██",
+    "colors": [ "c_dark_gray", "c_yellow", "c_light_red", "c_red", "c_red_white" ],
+    "//": "Breaks are in percent of range. Raw breaks are [1, 41, 61, 71]",
+    "breaks": [ 1, 51, 76, 88 ],
+    "flags": [ "W_LABEL_NONE" ]
+  },
+  {
+    "id": "scifi_weariness_transition_graph",
+    "type": "widget",
+    "copy-from": "scifi_graph",
+    "var": "weary_transition_level",
+    "width": 5,
+    "label": "Tr",
+    "colors": [ "c_red", "c_light_red", "c_yellow", "c_light_green", "c_green" ]
+  }
+]

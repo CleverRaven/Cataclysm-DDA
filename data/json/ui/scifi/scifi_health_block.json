@@ -134,10 +134,11 @@
     "style": "layout",
     "arrange": "minimum_columns",
     "padding": 0,
+    "separator": " ",
     "widgets": [
+      "scifi_pain_weariness_layout",
       "scifi_vsep_6",
       "scifi_health_labels_left_layout",
-      "scifi_space_1",
       "scifi_health_warmth_left_layout",
       "scifi_health_encumb_left_layout",
       "scifi_space_1",
@@ -149,7 +150,6 @@
       "scifi_space_1",
       "scifi_health_encumb_right_layout",
       "scifi_health_warmth_right_layout",
-      "scifi_space_1",
       "scifi_health_labels_right_layout",
       "scifi_vsep_6"
     ]
