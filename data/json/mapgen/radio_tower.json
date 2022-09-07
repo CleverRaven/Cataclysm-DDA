@@ -346,7 +346,7 @@
     "object": {
       "mapgensize": [ 2, 2 ],
       "place_loot": [
-        { "item": "survivor_scope", "x": 1, "y": 0 },
+        { "item": "binoculars", "x": 1, "y": 0 },
         { "item": "survivormap", "x": 1, "y": 0 },
         { "item": "3006", "x": 1, "y": 0, "chance": 40 }
       ]

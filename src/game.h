@@ -645,6 +645,7 @@ class game
 
         void toggle_fullscreen();
         void toggle_pixel_minimap() const;
+        bool is_tileset_isometric() const;
         void reload_tileset();
         void temp_exit_fullscreen();
         void reenter_fullscreen();
@@ -712,8 +713,11 @@ class game
                           char bullet );
         void draw_hit_mon( const tripoint &p, const monster &m, bool dead = false );
         void draw_hit_player( const Character &p, int dam );
+        // TODO: fix point types (remove the first overload)
         void draw_line( const tripoint &p, const tripoint &center_point,
                         const std::vector<tripoint> &points, bool noreveal = false );
+        void draw_line( const tripoint_bub_ms &p, const tripoint_bub_ms &center_point,
+                        const std::vector<tripoint_bub_ms> &points, bool noreveal = false );
         void draw_line( const tripoint &p, const std::vector<tripoint> &points );
         void draw_weather( const weather_printable &wPrint ) const;
         void draw_sct() const;
@@ -924,8 +928,8 @@ class game
         bool do_regular_action( action_id &act, avatar &player_character,
                                 const cata::optional<tripoint> &mouse_target );
         bool handle_action();
-        bool try_get_right_click_action( action_id &act, const tripoint &mouse_target );
-        bool try_get_left_click_action( action_id &act, const tripoint &mouse_target );
+        bool try_get_right_click_action( action_id &act, const tripoint_bub_ms &mouse_target );
+        bool try_get_left_click_action( action_id &act, const tripoint_bub_ms &mouse_target );
         // If loc is empty then use all the items in character inventory including bionics.
         void item_action_menu( item_location loc = item_location() ); // Displays item action menu
 
@@ -949,12 +953,11 @@ class game
         void autosave();         // automatic quicksaves - Performs some checks before calling quicksave()
     public:
         void quicksave();        // Saves the game without quitting
+        void quickload();        // Loads the previously saved game if it exists
         void disp_NPCs();        // Currently for debug use.  Lists global NPCs.
 
         void list_missions();       // Listed current, completed and failed missions (mission_ui.cpp)
     private:
-        void quickload();        // Loads the previously saved game if it exists
-
         // Input related
         // Handles box showing items under mouse
         bool handle_mouseview( input_context &ctxt, std::string &action );
@@ -1090,7 +1093,6 @@ class game
         // tracks time since last monster seen to allow automatically
         // reactivating safe mode.
         time_duration turnssincelastmon = 0_turns;
-
     private:
         weather_manager weather; // NOLINT(cata-serialize)
 
@@ -1118,7 +1120,7 @@ class game
         // NOLINTNEXTLINE(cata-serialize)
         std::chrono::time_point<std::chrono::steady_clock> time_of_last_load;
         int moves_since_last_save = 0; // NOLINT(cata-serialize)
-        time_t last_save_timestamp = 0; // NOLINT(cata-serialize)
+        std::time_t last_save_timestamp = 0; // NOLINT(cata-serialize)
 
         mutable std::array<float, OVERMAP_LAYERS> latest_lightlevels; // NOLINT(cata-serialize)
         // remoteveh() cache
@@ -1146,7 +1148,7 @@ class game
         unsigned int seed = 0; // NOLINT(cata-serialize)
 
         // Preview for auto move route
-        std::vector<tripoint> destination_preview; // NOLINT(cata-serialize)
+        std::vector<tripoint_bub_ms> destination_preview; // NOLINT(cata-serialize)
 
         // NOLINTNEXTLINE(cata-serialize)
         std::chrono::time_point<std::chrono::steady_clock> last_mouse_edge_scroll;
@@ -1184,11 +1186,12 @@ class game
 
 // Returns temperature modifier from direct heat radiation of nearby sources
 // @param location Location affected by heat sources
-// @param direct forces return of heat intensity (and not temperature modifier) of
-// adjacent hottest heat source
-int get_heat_radiation( const tripoint &location, bool direct );
+units::temperature get_heat_radiation( const tripoint &location );
+
+// Returns heat intensity of adjecent fires
+int get_best_fire( const tripoint &location );
 // Returns temperature modifier from hot air fields of given location
-int get_convection_temperature( const tripoint &location );
+units::temperature get_convection_temperature( const tripoint &location );
 
 namespace cata_event_dispatch
 {

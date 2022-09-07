@@ -1,6 +1,6 @@
 [
   {
-    "id": "deck_of_cards",
+    "id": "deck_of_tarot_cards",
     "type": "GENERIC",
     "category": "artifacts",
     "name": { "str": "deck of tarot cards", "str_pl": "decks of tarot cards" },

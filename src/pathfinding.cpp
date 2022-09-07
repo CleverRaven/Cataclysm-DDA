@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <array>
 #include <cstdlib>
+#include <iterator>
 #include <memory>
 #include <queue>
 #include <set>
@@ -513,4 +514,17 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
     }
 
     return ret;
+}
+
+std::vector<tripoint_bub_ms> map::route( const tripoint_bub_ms &f, const tripoint_bub_ms &t,
+        const pathfinding_settings &settings,
+        const std::set<tripoint> &pre_closed ) const
+{
+    std::vector<tripoint> raw_result = route( f.raw(), t.raw(), settings, pre_closed );
+    std::vector<tripoint_bub_ms> result;
+    std::transform( raw_result.begin(), raw_result.end(), std::back_inserter( result ),
+    []( const tripoint & p ) {
+        return tripoint_bub_ms( p );
+    } );
+    return result;
 }

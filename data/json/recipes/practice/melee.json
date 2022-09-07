@@ -224,6 +224,6 @@
     "practice_data": { "min_difficulty": 0, "max_difficulty": 2, "skill_limit": 3 },
     "autolearn": [ [ "dodge", 1 ] ],
     "book_learn": [ [ "manual_dodge_kid", 0 ], [ "manual_dodge", 0 ] ],
-    "tools": [ [ "basketball", "indoor_volleyball", "beach_volleyball", "baseball" ] ]
+    "tools": [ [ "basketball", "indoor_volleyball", "beach_volleyball", "baseball", "golf_ball" ] ]
   }
 ]

@@ -82,7 +82,7 @@ static void serialize_liquid_target( player_activity &act, const vpart_reference
 {
     act.values.push_back( static_cast<int>( liquid_target_type::VEHICLE ) );
     act.values.push_back( 0 ); // dummy
-    act.coords.push_back( vp.vehicle().global_pos3() );
+    act.coords.push_back( vp.vehicle().global_part_pos3( 0 ) );
     act.values.push_back( vp.part_index() ); // tank part index
 }
 
@@ -372,7 +372,7 @@ bool perform_liquid_transfer( item &liquid, const tripoint *const source_pos,
             // not on ground or similar. TODO: implement storing arbitrary container locations.
             if( target.item_loc && create_activity() ) {
                 serialize_liquid_target( player_character.activity, target.item_loc );
-            } else if( player_character.pour_into( *target.item_loc, liquid, true ) ) {
+            } else if( player_character.pour_into( target.item_loc, liquid, true ) ) {
                 if( target.item_loc->needs_processing() ) {
                     // Polymorphism fail, have to introspect into the type to set the target container as active.
                     switch( target.item_loc.where() ) {

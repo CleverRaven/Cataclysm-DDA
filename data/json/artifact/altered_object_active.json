@@ -14,7 +14,7 @@
     "max_damage": 3,
     "min_aoe": 5,
     "max_aoe": 5,
-    "flags": [ "RANDOM_DAMAGE", "HOSTILE_50" ],
+    "flags": [ "RANDOM_DAMAGE", "HOSTILE_50", "NO_EXPLOSION_SFX" ],
     "min_duration": 40000,
     "max_duration": 40000
   },
@@ -35,7 +35,7 @@
     "max_aoe": 15,
     "min_duration": 40000,
     "max_duration": 40000,
-    "flags": [ "HOSTILE_SUMMON" ]
+    "flags": [ "HOSTILE_SUMMON", "NO_EXPLOSION_SFX" ]
   },
   {
     "id": "AO_FORCE_PULL",
@@ -46,6 +46,7 @@
     "shape": "blast",
     "valid_targets": [ "self", "ally", "hostile", "ground", "item", "field" ],
     "message": "An unnatural implosion sends objects flying.",
+    "flags": [ "NO_EXPLOSION_SFX" ],
     "min_range": 15,
     "max_range": 15,
     "min_aoe": 7,
@@ -62,6 +63,7 @@
     "effect": "spawn_item",
     "effect_str": "artifact_teleportitis_aura",
     "shape": "blast",
+    "flags": [ "NO_EXPLOSION_SFX" ],
     "base_casting_time": 100,
     "min_duration": 4000,
     "max_duration": 4000
@@ -76,6 +78,7 @@
     "effect": "spawn_item",
     "effect_str": "artifact_slow_aura",
     "shape": "blast",
+    "flags": [ "NO_EXPLOSION_SFX" ],
     "base_casting_time": 100,
     "min_duration": 900,
     "max_duration": 900
@@ -89,6 +92,7 @@
     "valid_targets": [ "self" ],
     "effect": "mod_moves",
     "shape": "blast",
+    "flags": [ "NO_EXPLOSION_SFX" ],
     "min_damage": 500,
     "max_damage": 500,
     "base_casting_time": 100
@@ -100,7 +104,7 @@
     "description": "Grants you the Darkness effect.",
     "message": "Persistent shadows invade your field of view.",
     "valid_targets": [ "self" ],
-    "flags": [ "NO_PROJECTILE" ],
+    "flags": [ "NO_PROJECTILE", "NO_EXPLOSION_SFX" ],
     "effect": "attack",
     "effect_str": "darkness",
     "shape": "blast",
@@ -116,7 +120,7 @@
     "min_damage": 0,
     "max_damage": 10,
     "valid_targets": [ "self" ],
-    "flags": [ "RANDOM_DAMAGE", "NO_PROJECTILE" ],
+    "flags": [ "RANDOM_DAMAGE", "NO_PROJECTILE", "NO_EXPLOSION_SFX" ],
     "shape": "blast",
     "effect": "attack"
   },
@@ -129,7 +133,7 @@
     "min_aoe": 40,
     "max_aoe": 40,
     "valid_targets": [ "field" ],
-    "flags": [ "IGNORE_WALLS", "NO_PROJECTILE" ],
+    "flags": [ "IGNORE_WALLS", "NO_PROJECTILE", "NO_EXPLOSION_SFX" ],
     "shape": "blast",
     "effect": "remove_field",
     "effect_str": "fd_fatigue"

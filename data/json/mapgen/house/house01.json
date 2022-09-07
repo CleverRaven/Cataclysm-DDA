@@ -226,7 +226,7 @@
         "&": "f_sink",
         "C": "f_counter",
         "T": "f_toilet",
-        "o": "f_oven",
+        "o": [ "f_oven", "f_gas_oven_microwave_combo" ],
         "a": "f_cupboard",
         "b": "f_dumpster",
         "{": "f_fridge"

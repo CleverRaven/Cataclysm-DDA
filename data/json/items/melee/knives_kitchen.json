@@ -145,8 +145,8 @@
     "price": 2500,
     "price_postapoc": 50,
     "to_hit": { "grip": "weapon", "length": "short", "surface": "line", "balance": "neutral" },
-    "bashing": 4,
-    "cutting": 15,
+    "bashing": 3,
+    "cutting": 17,
     "qualities": [ [ "CUT", 2 ], [ "BUTCHER", 15 ] ],
     "flags": [ "SHEATH_KNIFE" ]
   },
@@ -165,8 +165,8 @@
     "price": 3500,
     "price_postapoc": 50,
     "to_hit": { "grip": "weapon", "length": "short", "surface": "line", "balance": "neutral" },
-    "bashing": 4,
-    "cutting": 15,
+    "bashing": 6,
+    "cutting": 16,
     "qualities": [ [ "CUT", 2 ], [ "BUTCHER", 25 ] ],
     "flags": [ "SHEATH_KNIFE" ]
   }

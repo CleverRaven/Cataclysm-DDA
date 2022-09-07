@@ -642,7 +642,6 @@
       "style_biojutsu",
       "style_boxing",
       "style_capoeira",
-      "style_centipede",
       "style_crane",
       "style_dragon",
       "style_eskrima",
@@ -655,15 +654,12 @@
       "style_ninjutsu",
       "style_niten",
       "style_pankration",
-      "style_scorpion",
       "style_silat",
       "style_snake",
       "style_sojutsu",
       "style_taekwondo",
       "style_tai_chi",
       "style_tiger",
-      "style_toad",
-      "style_venom_snake",
       "style_wingchun",
       "style_zui_quan"
     ],
@@ -829,7 +825,7 @@
     "description": "Much of the material in your inner eye has been surgically removed and replaced with an array of high-powered, auto-focusing lenses.  They function as integrated binoculars, letting you see much farther than before, and any vision problems you might have had are now gone.",
     "occupied_bodyparts": [ [ "eyes", 2 ] ],
     "flags": [ "ENHANCED_VISION" ],
-    "cant_remove_reason": "The Telescopic Lenses are part of %1$s eyes now.  Removing them would leave %2$s blind.",
+    "cant_remove_reason": "The CBM has completely replaced %1$s eyes now.  Removing them would leave %2$s blind.",
     "canceled_mutations": [
       "HYPEROPIC",
       "MYOPIC",
@@ -1122,7 +1118,7 @@
     "id": "bio_memory",
     "type": "bionic",
     "name": { "str": "Enhanced Memory Banks" },
-    "description": "Your memory has been enhanced with small quantum storage drives.  While active, you learn - both through reading and practice - more quickly.  Additionally, you can't forget skills you've already learned, and the layout of terrain you've explored will remain in your memory for an incredibly long time.",
+    "description": "Your memory has been enhanced with small quantum storage drives.  While active, you learn - both through reading and practice - more quickly.  Additionally, you can't forget skills you've already learned.",
     "occupied_bodyparts": [ [ "head", 3 ] ],
     "flags": [ "BIONIC_TOGGLED", "BIONIC_SLEEP_FRIENDLY" ],
     "active_flags": [ "CBQ_LEARN_BONUS" ],
@@ -1134,7 +1130,6 @@
       {
         "condition": "ACTIVE",
         "values": [
-          { "value": "MAP_MEMORY", "add": 49 },
           { "value": "READING_EXP", "add": 2 },
           { "value": "SKILL_RUST_RESIST", "add": 20 },
           { "value": "LEARNING_FOCUS", "add": 10 }
@@ -1614,6 +1609,7 @@
       { "condition": "ACTIVE", "values": [ { "value": "MOVE_COST", "multiply": -0.1 } ] },
       { "condition": "INACTIVE", "values": [ { "value": "MOVE_COST", "multiply": 0.1 } ] }
     ],
+    "act_cost": "5 J",
     "trigger_cost": "35 J"
   },
   {

@@ -212,7 +212,7 @@ void timed_event::actualize()
         case timed_event_type::TEMPLE_FLOOD: {
             bool flooded = false;
 
-            ter_id flood_buf[MAPSIZE_X][MAPSIZE_Y];
+            cata::mdarray<ter_id, point_bub_ms> flood_buf;
             for( const tripoint &p : here.points_on_zlevel() ) {
                 flood_buf[p.x][p.y] = here.ter( p );
             }
@@ -300,12 +300,13 @@ void timed_event::actualize()
         }
         break;
 
-        case timed_event_type::TRANSFORM_RADIUS:
-            get_map().transform_radius( ter_furn_transform_id( string_id ), strength,
-                                        map_square );
-            get_map().invalidate_map_cache( map_point.z() );
+        case timed_event_type::TRANSFORM_RADIUS: {
+            map tm;
+            tm.load( project_to<coords::sm>( map_square - point{ strength, strength} ), false );
+            tm.transform_radius( ter_furn_transform_id( string_id ), strength,
+                                 map_square );
             break;
-
+        }
         case timed_event_type::UPDATE_MAPGEN:
             run_mapgen_update_func( update_mapgen_id( string_id ), project_to<coords::omt>( map_point ),
                                     nullptr );

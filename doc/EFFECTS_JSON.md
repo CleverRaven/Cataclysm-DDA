@@ -192,7 +192,7 @@ the message fields the "apply_memorial_log" will only be added to the log for ne
 
 ### Resistances
 ```C++
-    "resist_trait": "NOPAIN",
+    "resist_traits": "NOPAIN",
     "resist_effect": "flumed"
 ```
 These fields are used to determine if an effect is being resisted or not. If the player has the
@@ -497,7 +497,7 @@ Valid arguments:
 "healing_rate"      - Healed rate per day
 "healing_head"      - Percentage of healing value for head
 "healing_torso"     - Percentage of healing value for torso
-
+"enchantments" - (_optional_) List of enchantments applied by this effect (see MAGIC.md for instructions on enchantment. NB: enchantments are not necessarily magic.) Values can either be the enchantments id or an inline definition of the enchantment.
 ```
 Each argument can also take either one or two values.
 ```C++

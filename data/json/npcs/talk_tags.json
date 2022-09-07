@@ -68,8 +68,8 @@
       "Absolutely no to Thorazine.",
       "You have read the notes on Thorazine, right?",
       "Thorazine… that's what 'they' use to keep you tame.",
-      "Don't.  This thorazine seriously clouds your mind.  You need to stay sharp.",
-      "Sure, take thorazine.  If you want to lose your mind and wander into a horde of undead!"
+      "Don't.  This Thorazine seriously clouds your mind.  You need to stay sharp.",
+      "Sure, take Thorazine.  If you want to lose your mind and wander into a horde of undead!"
     ]
   },
   {
@@ -711,9 +711,10 @@
       "that clear",
       "understood",
       "received",
+      "acknowledged",
       "roger that",
       "for sure",
-      "Uh huh",
+      "uh huh",
       "capiche",
       "gotcha"
     ]
@@ -993,9 +994,9 @@
       "<swear> <name_b>",
       "you can fuck right off, you <name_b>",
       "I've had enough of you, begone",
-      "Swivel on it.",
-      "What a fucking stupid suggestion.",
-      "Stop speaking, really.",
+      "Swivel on it",
+      "What a fucking stupid suggestion",
+      "Stop speaking, really",
       "you're a poster child for abortions",
       "how the fuck you've survived this far is beyond me, you <swear> <swear> <name_b>",
       "you're why the gene pool needs a lifeguard",
@@ -1361,7 +1362,7 @@
       "Who goes there?",
       "I heard something!",
       "Huh, what's that?",
-      "Could have swore I just head a voice.",
+      "Could have sworn I just heard a voice.",
       "Somebody there?",
       "Great, now I'm hearing things!",
       "Say something?",
@@ -2015,6 +2016,7 @@
       "Mhmm, I needed that.",
       "Sweet sweet aqua.",
       "Nothing quite like clean water.",
+      "Could use some ice cubes with that.",
       "That wasn't Evian, but I'm not thirsty."
     ]
   },

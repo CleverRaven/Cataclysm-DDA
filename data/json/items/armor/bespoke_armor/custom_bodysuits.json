@@ -118,7 +118,7 @@
     "description": "A reinforced but airy jumpsuit designed to survive the long-term wear and tear of exploring the apocalyptic wasteland.  Its clever construction adds additional core support, helping you to carry more equipment.  The internal cooling tubes are active and humming.",
     "revert_to": "armor_nomad_advanced",
     "flags": [ "VARSIZE", "POCKETS", "STURDY", "USES_BIONIC_POWER", "CLIMATE_CONTROL", "MUNDANE" ],
-    "power_draw": 100000,
+    "power_draw": "100 J",
     "use_action": {
       "ammo_scale": 0,
       "type": "transform",

@@ -173,7 +173,7 @@
       {
         "material": [ { "type": "lc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
         "covers": [ "leg_l", "leg_r" ],
-        "coverage": 95,
+        "coverage": 100,
         "encumbrance": 20
       }
     ]
@@ -207,7 +207,7 @@
       {
         "material": [ { "type": "mc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
         "covers": [ "leg_l", "leg_r" ],
-        "coverage": 95,
+        "coverage": 100,
         "encumbrance": 20
       }
     ]
@@ -241,7 +241,7 @@
       {
         "material": [ { "type": "hc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
         "covers": [ "leg_l", "leg_r" ],
-        "coverage": 95,
+        "coverage": 100,
         "encumbrance": 20
       }
     ]
@@ -275,7 +275,7 @@
       {
         "material": [ { "type": "ch_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
         "covers": [ "leg_l", "leg_r" ],
-        "coverage": 95,
+        "coverage": 100,
         "encumbrance": 20
       }
     ]
@@ -309,7 +309,7 @@
       {
         "material": [ { "type": "qt_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
         "covers": [ "leg_l", "leg_r" ],
-        "coverage": 95,
+        "coverage": 100,
         "encumbrance": 20
       }
     ]
@@ -646,7 +646,8 @@
     "price": 40000,
     "price_postapoc": 1000,
     "to_hit": 1,
-    "material": [ "steel" ],
+    "material": [ "lc_steel" ],
+    "repairs_with": [ "steel" ],
     "symbol": "[",
     "looks_like": "legguard_lightplate",
     "color": "light_gray",
@@ -660,11 +661,20 @@
         "encumbrance": 7,
         "coverage": 95,
         "cover_melee": 95,
-        "cover_ranged": 90,
+        "cover_ranged": 95,
         "cover_vitals": 70,
         "specifically_covers": [ "leg_lower_r", "leg_lower_l", "leg_upper_r", "leg_upper_l" ]
       }
     ]
+  },
+  {
+    "id": "ch_legguard_metal_sheets",
+    "type": "ARMOR",
+    "copy-from": "legguard_metal_sheets",
+    "name": { "str": "pair of case hardened sheet metal leg guards", "str_pl": "pairs of case hardened sheet metal leg guards" },
+    "description": "These crude leg guards have been case hardened to further protect your legs from the mighty coffee table, destroyer of shins.",
+    "material": [ "ch_steel" ],
+    "extend": { "flags": [ "STURDY" ] }
   },
   {
     "id": "legguard_metal_sheets_hip",
@@ -678,7 +688,8 @@
     "price": 500,
     "price_postapoc": 400,
     "to_hit": 1,
-    "material": [ "steel" ],
+    "material": [ "lc_steel" ],
+    "repairs_with": [ "steel" ],
     "symbol": "m",
     "color": "light_gray",
     "warmth": 5,
@@ -696,6 +707,15 @@
     ]
   },
   {
+    "id": "ch_legguard_metal_sheets_hip",
+    "type": "ARMOR",
+    "copy-from": "legguard_metal_sheets_hip",
+    "name": { "str": "case hardened sheet metal skirt" },
+    "description": "This loose skirt made from several cut-down sheets of metal has been case hardened to provide maximum protection for your most vulnerable area.",
+    "material": [ "ch_steel" ],
+    "extend": { "flags": [ "STURDY" ] }
+  },
+  {
     "id": "legguard_metal_sheets_knees",
     "type": "ARMOR",
     "category": "armor",
@@ -707,7 +727,8 @@
     "price": 500,
     "price_postapoc": 400,
     "to_hit": 1,
-    "material": [ "steel" ],
+    "material": [ "lc_steel" ],
+    "repairs_with": [ "steel" ],
     "symbol": "m",
     "looks_like": "knee_pads",
     "color": "light_gray",
@@ -726,10 +747,19 @@
     ]
   },
   {
+    "id": "ch_legguard_metal_sheets_knees",
+    "type": "ARMOR",
+    "copy-from": "legguard_metal_sheets_knees",
+    "name": { "str": "pair of case hardened sheet metal knee guards", "str_pl": "pairs of case hardened sheet metal knee guards" },
+    "description": "Knee guards of sheet metal, case hardened to protect your kneecaps from any feral with a bat.",
+    "material": [ "ch_steel" ],
+    "extend": { "flags": [ "STURDY" ] }
+  },
+  {
     "id": "xl_legguard_metal_sheets",
     "type": "ARMOR",
     "copy-from": "legguard_metal_sheets",
-    "name": { "str": "pair of XL metal leg guards", "str_pl": "pairs of XL metal leg guards" },
+    "name": { "str": "pair of XL sheet metal leg guards", "str_pl": "pairs of XL sheet metal leg guards" },
     "description": "A pair of extra large hammered metal plates tied to your legs.",
     "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
@@ -739,7 +769,7 @@
     "type": "ARMOR",
     "copy-from": "legguard_metal_sheets",
     "looks_like": "legguard_metal_sheets",
-    "name": { "str": "pair of XS metal leg guards", "str_pl": "pairs of XS metal leg guards" },
+    "name": { "str": "pair of XS sheet metal leg guards", "str_pl": "pairs of XS sheet metal leg guards" },
     "description": "A pair of extra small leg guards hammered out of metal and shaped to strap on to the upper and lower leg, avoiding joints.  Perfect for the Post-Apocalyptic Warrior look.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }

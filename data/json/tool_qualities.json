@@ -392,5 +392,10 @@
     "id": "PISTOL",
     "//": "A catchall for firearms so they can be used in practice recipes.",
     "name": { "str": "pistol" }
+  },
+  {
+    "type": "tool_quality",
+    "id": "CUT_GLASS",
+    "name": { "str": "glass cutting" }
   }
 ]

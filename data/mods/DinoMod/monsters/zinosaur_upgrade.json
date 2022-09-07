@@ -115,7 +115,7 @@
       "vision_night": 1
     },
     "bleed_rate": 50,
-    "upgrades": { "half_life": 21, "into_group": "GROUP_zallosaurus_BRUTE" },
+    "upgrades": { "half_life": 42, "into_group": "GROUP_zallosaurus_BRUTE" },
     "special_attacks": [ [ "SMASH", 30 ] ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
     "categories": [ "DINOSAUR" ]
@@ -139,7 +139,7 @@
       "vision_night": 1
     },
     "bleed_rate": 50,
-    "upgrades": { "half_life": 21, "into_group": "GROUP_zallosaurus_BRUTE" },
+    "upgrades": { "half_life": 42, "into_group": "GROUP_zallosaurus_BRUTE" },
     "special_attacks": [ [ "SMASH", 30 ] ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
     "categories": [ "DINOSAUR" ]
@@ -163,7 +163,7 @@
       "vision_night": 1
     },
     "bleed_rate": 50,
-    "upgrades": { "half_life": 21, "into_group": "GROUP_zallosaurus_BRUTE" },
+    "upgrades": { "half_life": 42, "into_group": "GROUP_zallosaurus_BRUTE" },
     "special_attacks": [ [ "SMASH", 30 ] ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
     "categories": [ "DINOSAUR" ]
@@ -188,7 +188,7 @@
       "vision_night": 1
     },
     "bleed_rate": 50,
-    "upgrades": { "half_life": 21, "into_group": "GROUP_zyrannosaurus_BRUTE" },
+    "upgrades": { "half_life": 42, "into_group": "GROUP_zyrannosaurus_BRUTE" },
     "special_attacks": [ [ "SMASH", 30 ], [ "GRAB", 7 ] ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
     "categories": [ "DINOSAUR" ]
@@ -213,7 +213,7 @@
       "vision_night": 1
     },
     "bleed_rate": 50,
-    "upgrades": { "half_life": 21, "into_group": "GROUP_zyrannosaurus_BRUTE" },
+    "upgrades": { "half_life": 42, "into_group": "GROUP_zyrannosaurus_BRUTE" },
     "special_attacks": [ [ "SMASH", 30 ], [ "GRAB", 7 ] ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
     "categories": [ "DINOSAUR" ]
@@ -238,7 +238,7 @@
       "vision_night": 1
     },
     "bleed_rate": 50,
-    "upgrades": { "half_life": 21, "into_group": "GROUP_zyrannosaurus_BRUTE" },
+    "upgrades": { "half_life": 42, "into_group": "GROUP_zyrannosaurus_BRUTE" },
     "special_attacks": [ [ "SMASH", 30 ], [ "GRAB", 7 ] ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
     "categories": [ "DINOSAUR" ]
@@ -263,7 +263,7 @@
       "vision_night": 1
     },
     "bleed_rate": 50,
-    "upgrades": { "half_life": 21, "into_group": "GROUP_zyrannosaurus_BRUTE" },
+    "upgrades": { "half_life": 42, "into_group": "GROUP_zyrannosaurus_BRUTE" },
     "special_attacks": [ [ "SMASH", 30 ], [ "GRAB", 7 ] ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
     "categories": [ "DINOSAUR" ]
@@ -288,7 +288,7 @@
       "vision_night": 1
     },
     "bleed_rate": 50,
-    "upgrades": { "half_life": 21, "into_group": "GROUP_zyrannosaurus_BRUTE" },
+    "upgrades": { "half_life": 42, "into_group": "GROUP_zyrannosaurus_BRUTE" },
     "special_attacks": [ [ "SMASH", 30 ], [ "GRAB", 7 ] ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
     "categories": [ "DINOSAUR" ]
@@ -311,7 +311,7 @@
       "vision_night": 1
     },
     "bleed_rate": 50,
-    "upgrades": { "half_life": 21, "into_group": "GROUP_zyrannosaurus_BRUTE" },
+    "upgrades": { "half_life": 42, "into_group": "GROUP_zyrannosaurus_BRUTE" },
     "special_attacks": [ [ "SMASH", 30 ], [ "GRAB", 7 ] ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
     "categories": [ "DINOSAUR" ]
@@ -336,7 +336,7 @@
       "vision_night": 1
     },
     "bleed_rate": 50,
-    "upgrades": { "half_life": 21, "into_group": "GROUP_zyrannosaurus_BRUTE" },
+    "upgrades": { "half_life": 42, "into_group": "GROUP_zyrannosaurus_BRUTE" },
     "special_attacks": [ [ "SMASH", 30 ], [ "GRAB", 7 ] ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
     "categories": [ "DINOSAUR" ]
@@ -344,7 +344,7 @@
   {
     "type": "MONSTER",
     "id": "mon_zyrannosaurus_brute",
-    "name": { "str_sp": "Rage Rex" },
+    "name": { "str": "Rage Rex", "str_pl": "Rage Rexes" },
     "copy-from": "mon_zyrannosaurus",
     "looks_like": "mon_zyrannosaurus",
     "description": "A massive pile of ragged, stinking flesh lifting enormous teeth.  Its entire body bulges with distended muscles and swollen, festering wounds.",
@@ -361,7 +361,7 @@
       "vision_night": 1
     },
     "bleed_rate": 50,
-    "upgrades": { "half_life": 21, "into_group": "GROUP_zyrannosaurus_BRUTE" },
+    "upgrades": { "half_life": 42, "into_group": "GROUP_zyrannosaurus_BRUTE" },
     "special_attacks": [ [ "SMASH", 30 ] ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
     "categories": [ "DINOSAUR" ]
@@ -445,7 +445,7 @@
   {
     "type": "MONSTER",
     "id": "mon_zanzu_brute",
-    "name": { "str_sp": "Clawed Crusher" },
+    "name": { "str": "Clawed Crusher" },
     "copy-from": "mon_zanzu",
     "description": "The shuffling corpse of a large bipedal dinosaur covered with tattered feathers and black, putrid liquid.  Long claws protrude from its hands.  Its entire body bulges with distended muscles and swollen, festering wounds.",
     "diff": 2,
@@ -517,10 +517,58 @@
   },
   {
     "type": "MONSTER",
+    "id": "mon_zarahsaurus_brute",
+    "name": { "str": "Savage Sarah" },
+    "copy-from": "mon_zarahsaurus",
+    "description": "Long-necked, two-legged dinosaur corpse with a long tail.  Its entire body bulges with distended muscles and swollen, festering wounds.",
+    "diff": 2,
+    "color": "red",
+    "proportional": { "hp": 1.5, "speed": 1.5 },
+    "relative": {
+      "melee_dice": 1,
+      "melee_dice_sides": 5,
+      "melee_damage": [ { "damage_type": "bash", "amount": 2 } ],
+      "armor_bash": 4,
+      "armor_cut": 6,
+      "armor_bullet": 5,
+      "vision_night": 1
+    },
+    "bleed_rate": 50,
+    "upgrades": {  },
+    "special_attacks": [ [ "SMASH", 30 ] ],
+    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
+    "categories": [ "DINOSAUR" ]
+  },
+  {
+    "type": "MONSTER",
     "id": "mon_zissi_brute",
     "name": { "str": "Frozen Fury", "str_pl": "Frozen Furies" },
     "copy-from": "mon_zissi",
     "description": "Large, long-necked, two-legged dinosaur corpse with a long tail.  Its entire body bulges with distended muscles and swollen, festering wounds.",
+    "diff": 2,
+    "color": "red",
+    "proportional": { "hp": 1.5, "speed": 1.5 },
+    "relative": {
+      "melee_dice": 1,
+      "melee_dice_sides": 5,
+      "melee_damage": [ { "damage_type": "bash", "amount": 2 } ],
+      "armor_bash": 4,
+      "armor_cut": 6,
+      "armor_bullet": 5,
+      "vision_night": 1
+    },
+    "bleed_rate": 50,
+    "upgrades": {  },
+    "special_attacks": [ [ "SMASH", 30 ] ],
+    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
+    "categories": [ "DINOSAUR" ]
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zaplocanthosaurus_brute",
+    "name": { "str_sp": "Haplosmashosaurus" },
+    "copy-from": "mon_zaplocanthosaurus",
+    "description": "Huge, long-necked, four-legged dinosaur corpse with a long tail.  Its entire body bulges with distended muscles and swollen, festering wounds.",
     "diff": 2,
     "color": "red",
     "proportional": { "hp": 1.5, "speed": 1.5 },
@@ -606,7 +654,7 @@
       "vision_night": 1
     },
     "bleed_rate": 50,
-    "upgrades": { "half_life": 21, "into_group": "GROUP_zapatosaurus_BRUTE" },
+    "upgrades": { "half_life": 42, "into_group": "GROUP_zapatosaurus_BRUTE" },
     "special_attacks": [ [ "SMASH", 30 ] ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
     "categories": [ "DINOSAUR" ]
@@ -630,7 +678,7 @@
       "vision_night": 1
     },
     "bleed_rate": 50,
-    "upgrades": { "half_life": 21, "into_group": "GROUP_zapatosaurus_BRUTE" },
+    "upgrades": { "half_life": 42, "into_group": "GROUP_zapatosaurus_BRUTE" },
     "special_attacks": [ [ "SMASH", 30 ] ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
     "categories": [ "DINOSAUR" ]
@@ -654,7 +702,7 @@
       "vision_night": 1
     },
     "bleed_rate": 50,
-    "upgrades": { "half_life": 21, "into_group": "GROUP_zapatosaurus_BRUTE" },
+    "upgrades": { "half_life": 42, "into_group": "GROUP_zapatosaurus_BRUTE" },
     "special_attacks": [ [ "SMASH", 30 ] ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
     "categories": [ "DINOSAUR" ]
@@ -678,7 +726,7 @@
       "vision_night": 1
     },
     "bleed_rate": 50,
-    "upgrades": { "half_life": 21, "into_group": "GROUP_zapatosaurus_BRUTE" },
+    "upgrades": { "half_life": 42, "into_group": "GROUP_zapatosaurus_BRUTE" },
     "special_attacks": [ [ "SMASH", 30 ] ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
     "categories": [ "DINOSAUR" ]
@@ -702,7 +750,7 @@
       "vision_night": 1
     },
     "bleed_rate": 50,
-    "upgrades": { "half_life": 21, "into_group": "GROUP_zapatosaurus_BRUTE" },
+    "upgrades": { "half_life": 42, "into_group": "GROUP_zapatosaurus_BRUTE" },
     "special_attacks": [ [ "SMASH", 30 ] ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
     "categories": [ "DINOSAUR" ]
@@ -712,7 +760,31 @@
     "id": "mon_ztegosaurus_brute",
     "name": { "str": "Stegosaurus Sledge" },
     "copy-from": "mon_ztegosaurus",
-    "description": "A large, shambling, quadrupedal dinosaur corpse with plates on its back, waving a spiked tail.  Its entire body bulges with distended muscles and swollen, festering wounds.",
+    "description": "A large, shambling, quadrupedal dinosaur corpse with tall plates on its back, waving a spiked tail.  Its entire body bulges with distended muscles and swollen, festering wounds.",
+    "diff": 2,
+    "color": "red",
+    "proportional": { "hp": 1.5, "speed": 1.5 },
+    "relative": {
+      "melee_dice": 1,
+      "melee_dice_sides": 5,
+      "melee_damage": [ { "damage_type": "stab", "amount": 2 } ],
+      "armor_bash": 4,
+      "armor_cut": 6,
+      "armor_bullet": 5,
+      "vision_night": 1
+    },
+    "bleed_rate": 50,
+    "upgrades": {  },
+    "special_attacks": [ [ "SMASH", 30 ] ],
+    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
+    "categories": [ "DINOSAUR" ]
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zesperosaurus_brute",
+    "name": { "str": "Hesperosaurus Horror" },
+    "copy-from": "mon_zesperosaurus",
+    "description": "A large, shambling, quadrupedal dinosaur corpse with long plates on its back, waving a spiked tail.  Its entire body bulges with distended muscles and swollen, festering wounds.",
     "diff": 2,
     "color": "red",
     "proportional": { "hp": 1.5, "speed": 1.5 },
@@ -750,7 +822,7 @@
       "vision_night": 1
     },
     "bleed_rate": 50,
-    "upgrades": { "half_life": 21, "into_group": "GROUP_zankylosaurus_BRUTE" },
+    "upgrades": { "half_life": 42, "into_group": "GROUP_zankylosaurus_BRUTE" },
     "special_attacks": [ [ "SMASH", 30 ] ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
     "categories": [ "DINOSAUR" ]
@@ -774,7 +846,7 @@
       "vision_night": 1
     },
     "bleed_rate": 50,
-    "upgrades": { "half_life": 21, "into_group": "GROUP_zankylosaurus_BRUTE" },
+    "upgrades": { "half_life": 42, "into_group": "GROUP_zankylosaurus_BRUTE" },
     "special_attacks": [ [ "SMASH", 30 ] ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
     "categories": [ "DINOSAUR" ]
@@ -798,7 +870,7 @@
       "vision_night": 1
     },
     "bleed_rate": 50,
-    "upgrades": { "half_life": 21, "into_group": "GROUP_zankylosaurus_BRUTE" },
+    "upgrades": { "half_life": 42, "into_group": "GROUP_zankylosaurus_BRUTE" },
     "special_attacks": [ [ "SMASH", 30 ] ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
     "categories": [ "DINOSAUR" ]
@@ -822,7 +894,7 @@
       "vision_night": 1
     },
     "bleed_rate": 50,
-    "upgrades": { "half_life": 21, "into_group": "GROUP_zankylosaurus_BRUTE" },
+    "upgrades": { "half_life": 42, "into_group": "GROUP_zankylosaurus_BRUTE" },
     "special_attacks": [ [ "SMASH", 30 ] ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
     "categories": [ "DINOSAUR" ]
@@ -973,6 +1045,30 @@
   },
   {
     "type": "MONSTER",
+    "id": "mon_zryposaurus_brute",
+    "name": { "str": "Agrypo the Destroyer" },
+    "copy-from": "mon_zryposaurus",
+    "description": "A huge, scaly dinosaur with a toothless beak and large nasal arch, dead but walking, eyes vacant and white.  Its entire body bulges with distended muscles and swollen, festering wounds.",
+    "diff": 2,
+    "color": "red",
+    "proportional": { "hp": 1.5, "speed": 1.5 },
+    "relative": {
+      "melee_dice": 1,
+      "melee_dice_sides": 5,
+      "melee_damage": [ { "damage_type": "bash", "amount": 2 } ],
+      "armor_bash": 4,
+      "armor_cut": 6,
+      "armor_bullet": 5,
+      "vision_night": 1
+    },
+    "bleed_rate": 50,
+    "upgrades": {  },
+    "special_attacks": [ [ "SMASH", 30 ] ],
+    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
+    "categories": [ "DINOSAUR" ]
+  },
+  {
+    "type": "MONSTER",
     "id": "mon_zachycephalosaurus_brute",
     "name": { "str": "Skull Breaker" },
     "copy-from": "mon_zachycephalosaurus",
@@ -997,6 +1093,78 @@
   },
   {
     "type": "MONSTER",
+    "id": "mon_zeptoceratops_brute",
+    "name": { "str_sp": "Leaping Leptoceratops" },
+    "copy-from": "mon_zeptoceratops",
+    "description": "A shambling, four-legged dinosaur corpse with a bony crest and beak.  Its entire body bulges with distended muscles and swollen, festering wounds.",
+    "diff": 2,
+    "color": "red",
+    "proportional": { "hp": 1.5, "speed": 1.5 },
+    "relative": {
+      "melee_dice": 1,
+      "melee_dice_sides": 5,
+      "melee_damage": [ { "damage_type": "bash", "amount": 2 } ],
+      "armor_bash": 4,
+      "armor_cut": 6,
+      "armor_bullet": 5,
+      "vision_night": 1
+    },
+    "bleed_rate": 50,
+    "upgrades": { "half_life": 42, "into_group": "GROUP_zriceratops_BRUTE" },
+    "special_attacks": [ [ "SMASH", 30 ], { "type": "leap", "cooldown": 20, "max_range": 5, "allow_no_target": true } ],
+    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
+    "categories": [ "DINOSAUR" ]
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zzuniceratops_brute",
+    "name": { "str": "Zuni Flood" },
+    "copy-from": "mon_zzuniceratops",
+    "description": "A shambling, four-legged dinosaur with a tall thin bony head crest, two long brow horns, and a beak.  Its entire body bulges with distended muscles and swollen, festering wounds.",
+    "diff": 2,
+    "color": "red",
+    "proportional": { "hp": 1.5, "speed": 1.5 },
+    "relative": {
+      "melee_dice": 1,
+      "melee_dice_sides": 5,
+      "melee_damage": [ { "damage_type": "bash", "amount": 2 } ],
+      "armor_bash": 4,
+      "armor_cut": 6,
+      "armor_bullet": 5,
+      "vision_night": 1
+    },
+    "bleed_rate": 50,
+    "upgrades": { "half_life": 42, "into_group": "GROUP_zriceratops_BRUTE" },
+    "special_attacks": [ [ "SMASH", 30 ] ],
+    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
+    "categories": [ "DINOSAUR" ]
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zentrosaurus_brute",
+    "name": { "str": "Pain Central" },
+    "copy-from": "mon_zentrosaurus",
+    "description": "A massive, shambling, rhino-like dinosaur corpse with a beak and long horn above the nose.  Its entire body bulges with distended muscles and swollen, festering wounds.",
+    "diff": 2,
+    "color": "red",
+    "proportional": { "hp": 1.5, "speed": 1.5 },
+    "relative": {
+      "melee_dice": 1,
+      "melee_dice_sides": 5,
+      "melee_damage": [ { "damage_type": "bash", "amount": 2 } ],
+      "armor_bash": 4,
+      "armor_cut": 6,
+      "armor_bullet": 5,
+      "vision_night": 1
+    },
+    "bleed_rate": 50,
+    "upgrades": { "half_life": 42, "into_group": "GROUP_zriceratops_BRUTE" },
+    "special_attacks": [ [ "SMASH", 30 ] ],
+    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
+    "categories": [ "DINOSAUR" ]
+  },
+  {
+    "type": "MONSTER",
     "id": "mon_zachyrhinosaurus_brute",
     "name": { "str": "Dino Rhino" },
     "copy-from": "mon_zachyrhinosaurus",
@@ -1014,7 +1182,7 @@
       "vision_night": 1
     },
     "bleed_rate": 50,
-    "upgrades": { "half_life": 21, "into_group": "GROUP_zriceratops_BRUTE" },
+    "upgrades": { "half_life": 42, "into_group": "GROUP_zriceratops_BRUTE" },
     "special_attacks": [ [ "SMASH", 30 ] ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
     "categories": [ "DINOSAUR" ]
@@ -1038,7 +1206,7 @@
       "vision_night": 1
     },
     "bleed_rate": 50,
-    "upgrades": { "half_life": 21, "into_group": "GROUP_zriceratops_BRUTE" },
+    "upgrades": { "half_life": 42, "into_group": "GROUP_zriceratops_BRUTE" },
     "special_attacks": [ [ "SMASH", 30 ] ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
     "categories": [ "DINOSAUR" ]
@@ -1062,7 +1230,7 @@
       "vision_night": 1
     },
     "bleed_rate": 50,
-    "upgrades": { "half_life": 21, "into_group": "GROUP_zriceratops_BRUTE" },
+    "upgrades": { "half_life": 42, "into_group": "GROUP_zriceratops_BRUTE" },
     "special_attacks": [ [ "SMASH", 30 ] ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
     "categories": [ "DINOSAUR" ]
@@ -1086,7 +1254,7 @@
       "vision_night": 1
     },
     "bleed_rate": 50,
-    "upgrades": { "half_life": 21, "into_group": "GROUP_zriceratops_BRUTE" },
+    "upgrades": { "half_life": 42, "into_group": "GROUP_zriceratops_BRUTE" },
     "special_attacks": [ [ "SMASH", 30 ] ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
     "categories": [ "DINOSAUR" ]
@@ -1110,7 +1278,7 @@
       "vision_night": 1
     },
     "bleed_rate": 50,
-    "upgrades": { "half_life": 21, "into_group": "GROUP_zriceratops_BRUTE" },
+    "upgrades": { "half_life": 42, "into_group": "GROUP_zriceratops_BRUTE" },
     "special_attacks": [ [ "SMASH", 30 ] ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
     "categories": [ "DINOSAUR" ]
@@ -1785,19 +1953,7 @@
     "special_attacks": [ [ "scratch", 10 ], [ "GRAB", 10 ], { "type": "bite", "cooldown": 5 }, [ "tailsmash_DinoMod", 30 ] ],
     "burn_into": "mon_zankylosaurus_scorched",
     "fungalize_into": "mon_zankylosaurus_fungus",
-    "flags": [
-      "SEES",
-      "SMELLS",
-      "HEARS",
-      "POISON",
-      "STUMBLES",
-      "NO_BREATHE",
-      "REVIVES",
-      "FILTHY",
-      "WARM",
-      "BASHES",
-      "NIGHT_INVISIBILITY"
-    ],
+    "flags": [ "SEES", "SMELLS", "HEARS", "POISON", "STUMBLES", "NO_BREATHE", "REVIVES", "FILTHY", "BASHES", "NIGHT_INVISIBILITY" ],
     "harvest": "zed_dino_leather",
     "categories": [ "DINOSAUR" ]
   },
@@ -2732,13 +2888,67 @@
   },
   {
     "type": "MONSTER",
+    "id": "mon_skarahsaurus",
+    "name": { "str_sp": "armored sarahsaurus" },
+    "copy-from": "mon_zarahsaurus",
+    "color": "white",
+    "material": [ "bone" ],
+    "armor_bash": 0,
+    "description": "This zombified sauropod has grown dense bone armor, completely covering the large, two-legged body and long neck.",
+    "proportional": { "hp": 0.4, "speed": 0.875 },
+    "relative": {
+      "melee_dice": 9,
+      "melee_dice_sides": 5,
+      "melee_damage": [ { "damage_type": "bash", "amount": 7 } ],
+      "armor_cut": 22,
+      "armor_bullet": 30,
+      "armor_stab": 30,
+      "armor_acid": 3,
+      "vision_day": -20
+    },
+    "bleed_rate": 50,
+    "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_wp_skeleton" ],
+    "upgrades": {  },
+    "extend": { "flags": [ "HARDTOSHOOT" ] },
+    "harvest": "mr_bones",
+    "categories": [ "DINOSAUR" ]
+  },
+  {
+    "type": "MONSTER",
     "id": "mon_sissi",
     "name": { "str_sp": "armored issi" },
     "copy-from": "mon_zissi",
     "color": "white",
     "material": [ "bone" ],
     "armor_bash": 0,
-    "description": "This zombified sauropod has grown dense bone armor, completely covering the large, two-legged body.",
+    "description": "This zombified sauropod has grown dense bone armor, completely covering the large, two-legged body and long neck.",
+    "proportional": { "hp": 0.4, "speed": 0.875 },
+    "relative": {
+      "melee_dice": 9,
+      "melee_dice_sides": 5,
+      "melee_damage": [ { "damage_type": "bash", "amount": 7 } ],
+      "armor_cut": 22,
+      "armor_bullet": 30,
+      "armor_stab": 30,
+      "armor_acid": 3,
+      "vision_day": -20
+    },
+    "bleed_rate": 50,
+    "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_wp_skeleton" ],
+    "upgrades": {  },
+    "extend": { "flags": [ "HARDTOSHOOT" ] },
+    "harvest": "mr_bones",
+    "categories": [ "DINOSAUR" ]
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_saplocanthosaurus",
+    "name": { "str_sp": "armored haplocanthosaurus" },
+    "copy-from": "mon_zaplocanthosaurus",
+    "color": "white",
+    "material": [ "bone" ],
+    "armor_bash": 0,
+    "description": "This zombified sauropod has grown dense bone armor, completely covering the huge, four-legged body and long neck and tail.",
     "proportional": { "hp": 0.4, "speed": 0.875 },
     "relative": {
       "melee_dice": 9,
@@ -2765,7 +2975,7 @@
     "color": "white",
     "material": [ "bone" ],
     "armor_bash": 0,
-    "description": "Already heavily protected, this zombified Amargasaurus has grown even more spikes and denser bone armor, completely covering the massive, four-legged body.",
+    "description": "Already heavily protected, this zombified amargasaurus has grown even more spikes and denser bone armor, completely covering the massive, four-legged body.",
     "proportional": { "hp": 0.4, "speed": 0.875 },
     "relative": {
       "melee_dice": 9,
@@ -2792,7 +3002,7 @@
     "color": "white",
     "material": [ "bone" ],
     "armor_bash": 0,
-    "description": "This zombified Apatosaurus has grown dense bone armor, completely covering the massive, four-legged body.",
+    "description": "This zombified apatosaurus has grown dense bone armor, completely covering the massive, four-legged body.",
     "proportional": { "hp": 0.4, "speed": 0.875 },
     "relative": {
       "melee_dice": 9,
@@ -2817,7 +3027,7 @@
     "name": { "str_sp": "armored brontosaurus" },
     "copy-from": "mon_sapatosaurus",
     "proportional": { "hp": 0.8 },
-    "description": "This zombified Brontosaurus has grown dense bone armor, completely covering the massive, four-legged body and long, whip-like tail."
+    "description": "This zombified brontosaurus has grown dense bone armor, completely covering the massive, four-legged body and long, whip-like tail."
   },
   {
     "type": "MONSTER",
@@ -2827,7 +3037,7 @@
     "color": "white",
     "material": [ "bone" ],
     "armor_bash": 0,
-    "description": "This zombified Diplodocus has grown dense bone armor, completely covering the massive, four-legged body and tiny head.",
+    "description": "This zombified diplodocus has grown dense bone armor, completely covering the massive, four-legged body and tiny head.",
     "proportional": { "hp": 0.4, "speed": 0.875 },
     "relative": {
       "melee_dice": 9,
@@ -2897,7 +3107,34 @@
     "color": "white",
     "material": [ "bone" ],
     "armor_bash": 0,
-    "description": "Already heavily protected, this zombified Stegosaurus has grown thick bone armor below its back plates as well as a larger and spikier bony tail.",
+    "description": "Already heavily protected, this zombified stegosaurus has grown thick bone armor below its back plates as well as a larger and spikier bony tail.",
+    "proportional": { "hp": 0.4, "speed": 0.875 },
+    "relative": {
+      "melee_dice": 9,
+      "melee_dice_sides": 5,
+      "melee_damage": [ { "damage_type": "stab", "amount": 7 } ],
+      "armor_cut": 22,
+      "armor_bullet": 30,
+      "armor_stab": 30,
+      "armor_acid": 3,
+      "vision_day": -20
+    },
+    "bleed_rate": 50,
+    "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_wp_nat_armored", "prof_wp_skeleton" ],
+    "upgrades": {  },
+    "extend": { "flags": [ "HARDTOSHOOT" ] },
+    "harvest": "mr_bones",
+    "categories": [ "DINOSAUR" ]
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_sesperosaurus",
+    "name": { "str_sp": "skeletal hesperosaurus" },
+    "copy-from": "mon_zesperosaurus",
+    "color": "white",
+    "material": [ "bone" ],
+    "armor_bash": 0,
+    "description": "Already heavily protected, this zombified hesperosaurus has grown thick bone armor below its back plates as well as a larger and spikier bony tail.",
     "proportional": { "hp": 0.4, "speed": 0.875 },
     "relative": {
       "melee_dice": 9,
@@ -2924,7 +3161,7 @@
     "color": "white",
     "material": [ "bone" ],
     "armor_bash": 0,
-    "description": "Already heavily protected, this zombified Dyoplosaurus has grown even denser bone armor as well as a larger and spikier bony tail.  It must be even slower, which is difficult to imagine.",
+    "description": "Already heavily protected, this zombified dyoplosaurus has grown even denser bone armor as well as a larger and spikier bony tail.  It must be even slower, which is difficult to imagine.",
     "proportional": { "hp": 0.4, "speed": 0.875 },
     "relative": {
       "melee_dice": 9,
@@ -2952,7 +3189,7 @@
     "color": "white",
     "material": [ "bone" ],
     "armor_bash": 0,
-    "description": "Already heavily protected, this zombified Ankylosaurus has grown even denser bone armor as well as a larger and spikier bony tail.  It must be even slower, which is difficult to imagine.",
+    "description": "Already heavily protected, this zombified ankylosaurus has grown even denser bone armor as well as a larger and spikier bony tail.  It must be even slower, which is difficult to imagine.",
     "proportional": { "hp": 0.4, "speed": 0.875 },
     "relative": {
       "melee_dice": 9,
@@ -2979,7 +3216,7 @@
     "color": "white",
     "material": [ "bone" ],
     "armor_bash": 0,
-    "description": "Already heavily protected, this zombified Nodosaurus has grown even denser bone armor; it must also be even slower, which is hard to imagine.",
+    "description": "Already heavily protected, this zombified nodosaurus has grown even denser bone armor; it must also be even slower, which is hard to imagine.",
     "proportional": { "hp": 0.4, "speed": 0.875 },
     "relative": {
       "melee_dice": 9,
@@ -3006,7 +3243,7 @@
     "color": "white",
     "material": [ "bone" ],
     "armor_bash": 0,
-    "description": "Already heavily protected, this zombified Nodosaurus has grown even denser bone armor, while keeping the long, bony spikes.",
+    "description": "Already heavily protected, this zombified edmontonia has grown even denser bone armor, while keeping the long, bony spikes.",
     "proportional": { "hp": 0.4, "speed": 0.875 },
     "relative": {
       "melee_dice": 9,
@@ -3163,12 +3400,39 @@
   {
     "type": "MONSTER",
     "id": "mon_sedmontosaurus",
-    "name": { "str_sp": "armored Edmontosaurus" },
+    "name": { "str_sp": "armored edmontosaurus" },
     "copy-from": "mon_zedmontosaurus",
     "color": "white",
     "material": [ "bone" ],
     "armor_bash": 0,
-    "description": "This large, bipedal dinosaur corpse with a broad, toothless beak has grown dense bone armor.",
+    "description": "This large, four-legged dinosaur corpse with a broad, toothless beak has grown dense bone armor.",
+    "proportional": { "hp": 0.4, "speed": 0.875 },
+    "relative": {
+      "melee_dice": 9,
+      "melee_dice_sides": 5,
+      "melee_damage": [ { "damage_type": "bash", "amount": 7 } ],
+      "armor_cut": 22,
+      "armor_bullet": 30,
+      "armor_stab": 30,
+      "armor_acid": 3,
+      "vision_day": -20
+    },
+    "bleed_rate": 50,
+    "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_wp_skeleton" ],
+    "upgrades": {  },
+    "extend": { "flags": [ "HARDTOSHOOT" ] },
+    "harvest": "mr_bones",
+    "categories": [ "DINOSAUR" ]
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_sryposaurus",
+    "name": { "str_sp": "armored gryposaurus" },
+    "copy-from": "mon_zryposaurus",
+    "color": "white",
+    "material": [ "bone" ],
+    "armor_bash": 0,
+    "description": "This large, four-legged dinosaur corpse with a toothless beak and powerful nasal arch has grown dense bone armor.",
     "proportional": { "hp": 0.4, "speed": 0.875 },
     "relative": {
       "melee_dice": 9,
@@ -3196,6 +3460,87 @@
     "material": [ "bone" ],
     "armor_bash": 0,
     "description": "This bipedal dinosaur corpse with a hard-looking, domed head has grown dense bone armor.",
+    "proportional": { "hp": 0.4, "speed": 0.875 },
+    "relative": {
+      "melee_dice": 9,
+      "melee_dice_sides": 5,
+      "melee_damage": [ { "damage_type": "bash", "amount": 7 } ],
+      "armor_cut": 22,
+      "armor_bullet": 30,
+      "armor_stab": 30,
+      "armor_acid": 3,
+      "vision_day": -20
+    },
+    "bleed_rate": 50,
+    "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_wp_skeleton" ],
+    "upgrades": {  },
+    "extend": { "flags": [ "HARDTOSHOOT" ] },
+    "harvest": "mr_bones",
+    "categories": [ "DINOSAUR" ]
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_septoceratops",
+    "name": { "str_sp": "boneplate leptoceratops" },
+    "copy-from": "mon_zeptoceratops",
+    "color": "white",
+    "material": [ "bone" ],
+    "armor_bash": 0,
+    "description": "This dinosaur corpse with a bony crest and sharp beak has grown dense bone armor over the rest of its body.",
+    "proportional": { "hp": 0.4, "speed": 0.875 },
+    "relative": {
+      "melee_dice": 9,
+      "melee_dice_sides": 5,
+      "melee_damage": [ { "damage_type": "bash", "amount": 7 } ],
+      "armor_cut": 22,
+      "armor_bullet": 30,
+      "armor_stab": 30,
+      "armor_acid": 3,
+      "vision_day": -20
+    },
+    "bleed_rate": 50,
+    "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_wp_skeleton" ],
+    "upgrades": {  },
+    "extend": { "flags": [ "HARDTOSHOOT" ] },
+    "harvest": "mr_bones",
+    "categories": [ "DINOSAUR" ]
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_suniceratops",
+    "name": { "str_sp": "boneplate zuniceratops" },
+    "copy-from": "mon_zzuniceratops",
+    "color": "white",
+    "material": [ "bone" ],
+    "armor_bash": 0,
+    "description": "This four-legged dinosaur with a tall thin bony head crest, two long brow horns, and a beak has grown dense bone armor over the rest of its body.",
+    "proportional": { "hp": 0.4, "speed": 0.875 },
+    "relative": {
+      "melee_dice": 9,
+      "melee_dice_sides": 5,
+      "melee_damage": [ { "damage_type": "bash", "amount": 7 } ],
+      "armor_cut": 22,
+      "armor_bullet": 30,
+      "armor_stab": 30,
+      "armor_acid": 3,
+      "vision_day": -20
+    },
+    "bleed_rate": 50,
+    "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_wp_skeleton" ],
+    "upgrades": {  },
+    "extend": { "flags": [ "HARDTOSHOOT" ] },
+    "harvest": "mr_bones",
+    "categories": [ "DINOSAUR" ]
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_sentrosaurus",
+    "name": { "str_sp": "armored centrosaurus" },
+    "copy-from": "mon_zentrosaurus",
+    "color": "white",
+    "material": [ "bone" ],
+    "armor_bash": 0,
+    "description": "This large, four-legged dinosaur corpse with a beak and long horn above the nose has grown dense bone armor over the rest of its body.",
     "proportional": { "hp": 0.4, "speed": 0.875 },
     "relative": {
       "melee_dice": 9,
@@ -3395,7 +3740,7 @@
   {
     "type": "MONSTER",
     "id": "mon_zyrannosaurus_truck",
-    "name": { "str_sp": "Tyruckusaurus Rex" },
+    "name": { "str": "Tyruckusaurus Rex", "str_pl": "Tyruckusaurus Rexes" },
     "copy-from": "mon_zyrannosaurus_brute",
     "looks_like": "mon_zyrannosaurus",
     "description": "Massive piles of ragged, stinking flesh lifting enormous teeth and what looks like a fully loaded long haul truck with mounted flamethrowers and robotic arms.",
@@ -3580,7 +3925,7 @@
   {
     "type": "MONSTER",
     "id": "mon_zyrannosaurus_hulk",
-    "name": { "str_sp": "Goliath Rex" },
+    "name": { "str": "Goliath Rex", "str_pl": "Goliath Rexes" },
     "copy-from": "mon_zyrannosaurus_brute",
     "looks_like": "mon_zyrannosaurus",
     "description": "A hideously swollen zombified tyrannosaurid theropod body towering into the sky.  Its massive body bulges with distended muscles and swollen, festering wounds.",

@@ -121,6 +121,27 @@
     ]
   },
   {
+    "id": "vehicle_camera_test",
+    "type": "vehicle",
+    "name": "camera test",
+    "blueprint": [
+      [ "===" ],
+      [ "===" ],
+      [ "=O=" ]
+    ],
+    "parts": [
+      { "x": -1, "y": -1, "parts": [ "frame", "board" ] },
+      { "x": 0, "y": -1, "parts": [ "frame", "board" ] },
+      { "x": 1, "y": -1, "parts": [ "frame", "board" ] },
+      { "x": -1, "y": 0, "parts": [ "frame", "board" ] },
+      { "x": 0, "y": 0, "parts": [ "frame", "seat", "roof", "cam_control", "controls", "dashboard", "battery_car" ] },
+      { "x": 1, "y": 0, "parts": [ "frame", "board" ] },
+      { "x": -1, "y": 1, "parts": [ "frame", "board" ] },
+      { "x": 0, "y": 1, "parts": [ "frame", "board", "omnicam" ] },
+      { "x": 1, "y": 1, "parts": [ "frame", "board" ] }
+    ]
+  },
+  {
     "id": "hispeed_split_test",
     "type": "vehicle",
     "name": "Rapid Destruction",
@@ -258,16 +279,16 @@
       { "x": 2, "y": 0, "parts": [ "frame_vertical", "solar_panel" ] },
       { "x": 3, "y": 0, "parts": [ "frame_vertical", "solar_panel" ] },
       { "x": 0, "y": 1, "parts": [ "frame_vertical", "solar_panel" ] },
-      { "x": 1, "y": 1, "parts": [ "frame_vertical", "solar_panel" ] },
-      { "x": 2, "y": 1, "parts": [ "frame_vertical", "solar_panel" ] },
-      { "x": 3, "y": 1, "parts": [ "frame_vertical", "solar_panel" ] },
-      { "x": 0, "y": 2, "parts": [ "frame_vertical", "solar_panel" ] },
-      { "x": 1, "y": 2, "parts": [ "frame_vertical", "solar_panel" ] },
-      { "x": 2, "y": 2, "parts": [ "frame_vertical", "solar_panel" ] },
-      { "x": 3, "y": 2, "parts": [ "frame_vertical", "solar_panel" ] },
-      { "x": 0, "y": 3, "parts": [ "frame_vertical", "solar_panel" ] },
-      { "x": 1, "y": 3, "parts": [ "frame_vertical", "solar_panel" ] },
-      { "x": 0, "y": -1, "parts": [ "frame_vertical", "seat", "battery_car" ] }
+      { "x": 1, "y": 1, "parts": [ "frame_vertical", "large_storage_battery" ] },
+      { "x": 2, "y": 1, "parts": [ "frame_vertical", "large_storage_battery" ] },
+      { "x": 3, "y": 1, "parts": [ "frame_vertical", "large_storage_battery" ] },
+      { "x": 0, "y": 2, "parts": [ "frame_vertical", "large_storage_battery" ] },
+      { "x": 1, "y": 2, "parts": [ "frame_vertical", "large_storage_battery" ] },
+      { "x": 2, "y": 2, "parts": [ "frame_vertical", "large_storage_battery" ] },
+      { "x": 3, "y": 2, "parts": [ "frame_vertical", "large_storage_battery" ] },
+      { "x": 0, "y": 3, "parts": [ "frame_vertical", "large_storage_battery" ] },
+      { "x": 1, "y": 3, "parts": [ "frame_vertical", "large_storage_battery" ] },
+      { "x": 0, "y": -1, "parts": [ "frame_vertical", "seat", "large_storage_battery" ] }
     ]
   },
   {

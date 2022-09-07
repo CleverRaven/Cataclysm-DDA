@@ -1012,7 +1012,6 @@
     "valid": false,
     "description": "The Sun Mage has been studying the Laws governing heat, and has attained a special relationship with that life-giving yellow orb in the sky.  Glimpses of the Sun meet its foes, and its own burning light pierces the darkness.",
     "prereqs": [ "MAGUS", "KELVINIST" ],
-    "passive_mods": { "per_mod": 5 },
     "enchantments": [ "SUN_MAGE" ],
     "spells_learned": [ [ "solar_beam", 5 ], [ "sunmage_pocket_sun", 5 ] ],
     "cancels": [

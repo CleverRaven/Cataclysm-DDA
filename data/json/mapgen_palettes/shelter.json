@@ -238,38 +238,49 @@
     "id": "shelter_unfinished",
     "terrain": {
       " ": "t_region_groundcover_urban",
-      "!": "t_pavement",
-      "`": "t_pavement_y",
-      "&": "t_sidewalk",
       "#": "t_soil",
       "+": "t_door_frame",
-      "-": "t_wall_wood",
+      "-": "t_wall_half",
+      "|": "t_wall_half",
       "_": "t_linoleum_white",
       ":": "t_window_empty",
       ">": "t_stairs_down",
       "<": "t_stairs_up",
-      "|": "t_wall_wood",
       ";": "t_concrete_wall",
       "/": "t_concrete_wall",
       "*": "t_ladder_up",
-      "=": "t_door_frame",
       "4": "t_gutter_downspout",
-      "~": "t_dirt",
-      ",": "t_dirt"
+      ".": "t_concrete",
+      ",": "t_region_soil"
     },
     "furniture": {
-      "b": [ [ "f_bench", 1 ], [ "f_null", 4 ] ],
-      "c": [ [ "f_cupboard", 1 ], [ "f_null", 1 ] ],
-      "l": [ [ "f_locker", 1 ], [ "f_null", 2 ] ],
-      "S": [ [ "f_sink", 1 ], [ "f_null", 1 ] ],
-      "%": [ [ "f_trashcan", 1 ], [ "f_null", 2 ] ],
-      "U": [ [ "f_utility_shelf", 1 ], [ "f_null", 2 ] ],
-      "B": [ [ "f_utility_shelf", 1 ], [ "f_null", 2 ] ],
-      "t": "f_null",
-      "C": [ [ "f_counter", 1 ], [ "f_null", 1 ] ]
+      "X": [ [ "f_crate_c", 2 ], "f_crate_o", "f_cardboard_box" ],
+      "~": "f_stack_plank",
+      "t": "f_tourist_table",
+      "c": "f_camp_chair",
+      "S": "f_sink",
+      "C": "f_counter",
+      "T": "f_toilet"
     },
-    "toilets": { "T": {  } },
-    "items": { "~": { "item": "lumberyard", "chance": 75, "repeat": [ 1, 3 ] } }
+    "items": {
+      "t": [
+        { "item": "power_tools", "chance": 5 },
+        { "item": "tools_construction", "chance": 12 },
+        { "item": "tools_carpentry", "chance": 5 },
+        { "item": "tools_earthworking", "chance": 2 },
+        { "item": "hardware_plumbing", "chance": 2 }
+      ],
+      "c": [
+        { "item": "clothing_work_hat", "chance": 15 },
+        { "item": "clothing_work_gloves", "chance": 12 },
+        { "item": "magazines", "chance": 2 },
+        { "item": "misc_smoking", "chance": 5 }
+      ],
+      "X": [
+        { "item": "hardware_bulk", "chance": 40, "repeat": [ 1, 3 ] },
+        { "item": "plumbing_bulk", "chance": 30, "repeat": [ 1, 2 ] }
+      ]
+    }
   },
   {
     "type": "palette",

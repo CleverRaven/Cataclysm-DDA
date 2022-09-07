@@ -75,6 +75,8 @@ static const std::vector<activity_id> consuming {
     ACT_CONSUME_MEDS_MENU,
     ACT_CONSUME_FUEL_MENU };
 
+constexpr tripoint_abs_ms player_activity::invalid_place;
+
 player_activity::player_activity() : type( activity_id::NULL_ID() ) { }
 
 player_activity::player_activity( activity_id t, int turns, int Index, int pos,
@@ -520,6 +522,17 @@ std::map<distraction_type, std::string> player_activity::get_distractions() cons
                 !is_distraction_ignored( distraction_type::thirst ) ) {
                 if( player_character.get_thirst() > 520 ) {
                     res.emplace( distraction_type::thirst, _( "You are dangerously dehydrated!" ) );
+                }
+            }
+        }
+        if( uistate.distraction_temperature && !is_distraction_ignored( distraction_type::temperature ) ) {
+            for( const bodypart_id &bp : get_avatar().get_all_body_parts() ) {
+                if( get_avatar().get_part_temp_cur( bp ) > BODYTEMP_VERY_HOT ) {
+                    res.emplace( distraction_type::temperature, _( "You are overheating!" ) );
+                    break;
+                } else if( get_avatar().get_part_temp_cur( bp ) < BODYTEMP_VERY_COLD ) {
+                    res.emplace( distraction_type::temperature, _( "You are freezing!" ) );
+                    break;
                 }
             }
         }

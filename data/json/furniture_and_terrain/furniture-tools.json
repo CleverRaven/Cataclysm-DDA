@@ -686,7 +686,7 @@
   {
     "type": "furniture",
     "id": "f_ladder",
-    "name": "stepladder",
+    "name": "wooden stepladder",
     "looks_like": "t_ladder_up",
     "description": "A short, foldable ladder.  Can help you climb to a rooftop, or maybe slow something down.",
     "symbol": "H",
@@ -706,6 +706,27 @@
         { "item": "nail", "charges": [ 10, 30 ] },
         { "item": "splinter", "count": [ 5, 10 ] }
       ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_aluminum_stepladder",
+    "name": "aluminum stepladder",
+    "description": "A short, foldable ladder.  Can help you climb to a rooftop, or maybe slow something down.",
+    "symbol": "H",
+    "color": "light_gray",
+    "move_cost_mod": 3,
+    "required_str": 6,
+    "flags": [ "LADDER", "TRANSPARENT", "SEEN_FROM_ABOVE", "DIFFICULT_Z" ],
+    "examine_action": "deployed_furniture",
+    "looks_like": "f_ladder",
+    "deployed_item": "aluminum_stepladder",
+    "bash": {
+      "str_min": 6,
+      "str_max": 40,
+      "sound": "smash!",
+      "sound_fail": "whump.",
+      "items": [ { "item": "scrap_aluminum", "count": [ 15, 285 ] } ]
     }
   },
   {

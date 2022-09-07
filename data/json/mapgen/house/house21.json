@@ -298,7 +298,7 @@
         "T": "f_toilet",
         "a": "f_cupboard",
         "X": "f_crate_c",
-        "o": "f_oven",
+        "o": [ "f_oven", "f_gas_oven_microwave_combo" ],
         "{": "f_dumpster"
       },
       "place_items": [

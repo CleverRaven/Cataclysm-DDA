@@ -18,21 +18,7 @@
 #include <clocale>
 
 // Needed for screen scraping
-#if !(defined(TILES) || defined(_WIN32))
-namespace cata_curses_test
-{
-#define NCURSES_NOMACROS
-#define NCURSES_WIDECHAR 1
-#if defined(__CYGWIN__)
-#include <ncurses/curses.h>
-#else
-#if !defined(_XOPEN_SOURCE_EXTENDED)
-#define _XOPEN_SOURCE_EXTENDED // required for mvwinnwstr on macOS
-#endif
-#include <curses.h>
-#endif
-} // namespace cata_curses_test
-#else
+#if (defined(TILES) || defined(_WIN32))
 #include "cursesport.h"
 #endif
 
@@ -146,12 +132,12 @@ static const widget_id widget_test_weight_clauses_normal( "test_weight_clauses_n
 
 // dseguin 2022 - Ugly hack to scrape content from the window object.
 // Scrapes the window w at origin, reading the number of cols and rows.
+#if defined(TILES) || defined(_WIN32)
 static std::vector<std::string> scrape_win_at(
     catacurses::window &w, const point &origin, int cols, int rows )
 {
     std::vector<std::string> lines;
 
-#if defined(TILES) || defined(_WIN32)
     cata_cursesport::WINDOW *win = static_cast<cata_cursesport::WINDOW *>( w.get() );
 
     for( int i = origin.y; i < rows && static_cast<size_t>( i ) < win->line.size(); i++ ) {
@@ -160,21 +146,22 @@ static std::vector<std::string> scrape_win_at(
             lines[i] += win->line[i].chars[j].ch;
         }
     }
-#else
-    cata_curses_test::WINDOW *win = static_cast<cata_curses_test::WINDOW *>( w.get() );
 
-    int max_y = catacurses::getmaxy( w );
-    for( int i = origin.y; i < rows && i < max_y; i++ ) {
-        wchar_t *buf = static_cast<wchar_t *>( ::malloc( sizeof( *buf ) * ( cols + 1 ) ) );
-        cata_curses_test::mvwinnwstr( win, i, origin.x, buf, cols );
-        std::wstring line( buf, static_cast<size_t>( cols ), std::allocator<wchar_t>() );
-        lines.emplace_back( std::string( line.begin(), line.end() ) );
-        ::free( buf );
-    }
-#endif
+    // For curses builds, this would need something like this instead (including "curses.h"):
+    //    ::WINDOW *win = static_cast<::WINDOW *>( w.get() );
+    //
+    //    int max_y = catacurses::getmaxy( w );
+    //    for( int i = origin.y; i < rows && i < max_y; i++ ) {
+    //        wchar_t *buf = static_cast<wchar_t *>( ::malloc( sizeof( *buf ) * ( cols + 1 ) ) );
+    //        ::mvwinnwstr( win, i, origin.x, buf, cols );
+    //        std::wstring line( buf, static_cast<size_t>( cols ), std::allocator<wchar_t>() );
+    //        lines.emplace_back( std::string( line.begin(), line.end() ) );
+    //        ::free( buf );
+    //    }
 
     return lines;
 }
+#endif
 
 TEST_CASE( "widget value strings", "[widget][value][string]" )
 {
@@ -2037,8 +2024,6 @@ TEST_CASE( "multi-line overmap text widget", "[widget][overmap]" )
 
 TEST_CASE( "Custom widget height and multiline formatting", "[widget]" )
 {
-    const int cols = 32;
-    const int rows = 5;
     widget height1 = widget_test_weather_text.obj();
     widget height5 = widget_test_weather_text_height5.obj();
 
@@ -2055,47 +2040,37 @@ TEST_CASE( "Custom widget height and multiline formatting", "[widget]" )
         CHECK( layout5 == "Weather: <color_c_light_cyan>Sunny</color>" );
     }
 
+#if (defined(TILES) || defined(_WIN32))
     SECTION( "Multiline drawing splits newlines correctly" ) {
-#if !(defined(TILES) || defined(_WIN32))
-        // Running the tests in a developer environment works fine, but
-        // the CI env has no interactive shell, so we skip the screen scraping.
-        const char *term_env = ::getenv( "TERM" );
-        // The tests don't initialize the curses window, so initialize it here...
-        if( term_env != nullptr && std::string( term_env ) != "unknown" &&
-            cata_curses_test::initscr() != nullptr ) {
-#endif
-            catacurses::window w = catacurses::newwin( rows, cols, point_zero );
+        const int cols = 32;
+        const int rows = 5;
+        catacurses::window w = catacurses::newwin( rows, cols, point_zero );
 
-            werase( w );
-            SECTION( "Single-line layout" ) {
-                std::string layout1 = "abcd efgh ijkl mnop qrst";
-                CHECK( widget::custom_draw_multiline( layout1, w, 1, 30, 0 ) == 1 );
-                std::vector<std::string> lines = scrape_win_at( w, point_zero, cols, rows );
-                CHECK( lines[0] == " abcd efgh ijkl mnop qrst       " );
-                CHECK( lines[1] == "                                " );
-                CHECK( lines[2] == "                                " );
-                CHECK( lines[3] == "                                " );
-                CHECK( lines[4] == "                                " );
-            }
-
-            werase( w );
-            SECTION( "Single-line layout" ) {
-                std::string layout5 = "abcd\nefgh\nijkl\nmnop\nqrst";
-                CHECK( widget::custom_draw_multiline( layout5, w, 1, 30, 0 ) == 5 );
-                std::vector<std::string> lines = scrape_win_at( w, point_zero, cols, rows );
-                CHECK( lines[0] == " abcd                           " );
-                CHECK( lines[1] == " efgh                           " );
-                CHECK( lines[2] == " ijkl                           " );
-                CHECK( lines[3] == " mnop                           " );
-                CHECK( lines[4] == " qrst                           " );
-            }
-
-#if !(defined(TILES) || defined(_WIN32))
-            // ... and free it here
-            cata_curses_test::endwin();
+        werase( w );
+        SECTION( "Single-line layout" ) {
+            std::string layout1 = "abcd efgh ijkl mnop qrst";
+            CHECK( widget::custom_draw_multiline( layout1, w, 1, 30, 0 ) == 1 );
+            std::vector<std::string> lines = scrape_win_at( w, point_zero, cols, rows );
+            CHECK( lines[0] == " abcd efgh ijkl mnop qrst       " );
+            CHECK( lines[1] == "                                " );
+            CHECK( lines[2] == "                                " );
+            CHECK( lines[3] == "                                " );
+            CHECK( lines[4] == "                                " );
         }
-#endif
+
+        werase( w );
+        SECTION( "Single-line layout" ) {
+            std::string layout5 = "abcd\nefgh\nijkl\nmnop\nqrst";
+            CHECK( widget::custom_draw_multiline( layout5, w, 1, 30, 0 ) == 5 );
+            std::vector<std::string> lines = scrape_win_at( w, point_zero, cols, rows );
+            CHECK( lines[0] == " abcd                           " );
+            CHECK( lines[1] == " efgh                           " );
+            CHECK( lines[2] == " ijkl                           " );
+            CHECK( lines[3] == " mnop                           " );
+            CHECK( lines[4] == " qrst                           " );
+        }
     }
+#endif
 }
 
 static int get_height_from_widget_factory( const widget_id &id )
@@ -2643,54 +2618,42 @@ TEST_CASE( "widget disabled when empty", "[widget]" )
         CHECK( wgt.layout( ava ).empty() );
     }
 
+#if (defined(TILES) || defined(_WIN32))
     SECTION( "test widget rendering when disabled" ) {
-#if !(defined(TILES) || defined(_WIN32))
-        // Running the tests in a developer environment works fine, but
-        // the CI env has no interactive shell, so we skip the screen scraping.
-        const char *term_env = ::getenv( "TERM" );
-        // The tests don't initialize the curses window, so initialize it here...
-        if( term_env != nullptr && std::string( term_env ) != "unknown" &&
-            cata_curses_test::initscr() != nullptr ) {
-#endif
-            const int cols = 32;
-            const int rows = 5;
+        const int cols = 32;
+        const int rows = 5;
 
-            catacurses::window w = catacurses::newwin( rows, cols, point_zero );
+        catacurses::window w = catacurses::newwin( rows, cols, point_zero );
 
-            werase( w );
-            SECTION( "Not empty" ) {
-                // Show widget text when character is not blind
-                REQUIRE( !ava.is_blind() );
-                CHECK( widget::custom_draw_multiline( wgt.layout( ava ), w, 1, 30, 0 ) == 1 );
-                std::vector<std::string> lines = scrape_win_at( w, point_zero, cols, rows );
-                CHECK( lines[0] == " NOT EMPTY: Text exists         " );
-                CHECK( lines[1] == "                                " );
-                CHECK( lines[2] == "                                " );
-                CHECK( lines[3] == "                                " );
-                CHECK( lines[4] == "                                " );
-            }
-
-            werase( w );
-            SECTION( "Empty" ) {
-                // Hide the widget when character is blind.
-                ava.wear_item( blindfold );
-                REQUIRE( ava.is_blind() );
-                // Shouldn't be called (height should be decremented), but check it just in case
-                CHECK( widget::custom_draw_multiline( wgt.layout( ava ), w, 1, 30, 0 ) == 1 );
-                std::vector<std::string> lines = scrape_win_at( w, point_zero, cols, rows );
-                CHECK( lines[0] == "                                " );
-                CHECK( lines[1] == "                                " );
-                CHECK( lines[2] == "                                " );
-                CHECK( lines[3] == "                                " );
-                CHECK( lines[4] == "                                " );
-            }
-
-#if !(defined(TILES) || defined(_WIN32))
-            // ... and free it here
-            cata_curses_test::endwin();
+        werase( w );
+        SECTION( "Not empty" ) {
+            // Show widget text when character is not blind
+            REQUIRE( !ava.is_blind() );
+            CHECK( widget::custom_draw_multiline( wgt.layout( ava ), w, 1, 30, 0 ) == 1 );
+            std::vector<std::string> lines = scrape_win_at( w, point_zero, cols, rows );
+            CHECK( lines[0] == " NOT EMPTY: Text exists         " );
+            CHECK( lines[1] == "                                " );
+            CHECK( lines[2] == "                                " );
+            CHECK( lines[3] == "                                " );
+            CHECK( lines[4] == "                                " );
         }
-#endif
+
+        werase( w );
+        SECTION( "Empty" ) {
+            // Hide the widget when character is blind.
+            ava.wear_item( blindfold );
+            REQUIRE( ava.is_blind() );
+            // Shouldn't be called (height should be decremented), but check it just in case
+            CHECK( widget::custom_draw_multiline( wgt.layout( ava ), w, 1, 30, 0 ) == 1 );
+            std::vector<std::string> lines = scrape_win_at( w, point_zero, cols, rows );
+            CHECK( lines[0] == "                                " );
+            CHECK( lines[1] == "                                " );
+            CHECK( lines[2] == "                                " );
+            CHECK( lines[3] == "                                " );
+            CHECK( lines[4] == "                                " );
+        }
     }
+#endif
 }
 
 TEST_CASE( "widget rows in columns", "[widget]" )

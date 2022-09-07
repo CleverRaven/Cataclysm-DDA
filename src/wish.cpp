@@ -43,6 +43,8 @@
 #include "ui.h"
 #include "uistate.h"
 
+static const efftype_id effect_pet( "pet" );
+
 class ui_adaptor;
 
 class wish_mutate_callback: public uilist_callback
@@ -116,6 +118,19 @@ class wish_mutate_callback: public uilist_callback
 
                 mvwprintw( menu->window, point( startx, 3 ),
                            mdata.valid ? _( "Valid" ) : _( "Nonvalid" ) );
+
+                line2++;
+                mvwprintz(
+                    menu->window,
+                    point( startx, line2 ),
+                    c_light_gray,
+                    _( "Id:" )
+                );
+                mvwprintw(
+                    menu->window,
+                    point( startx + 11, line2 ),
+                    mdata.id.str()
+                );
 
                 if( !mdata.prereqs.empty() ) {
                     line2++;
@@ -625,6 +640,7 @@ void debug_menu::wishmonster( const cata::optional<tripoint> &p )
                     }
                     if( cb.friendly ) {
                         mon->friendly = -1;
+                        mon->add_effect( effect_pet, 1_turns, true );
                     }
                     if( cb.hallucination ) {
                         mon->hallucination = true;

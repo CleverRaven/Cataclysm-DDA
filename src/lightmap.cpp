@@ -704,8 +704,10 @@ map::apparent_light_info map::apparent_light_helper( const level_cache &map_cach
             if( is_opaque( neighbour ) ) {
                 continue;
             }
-            if( map_cache.seen_cache[neighbour.x][neighbour.y] == 0 &&
-                map_cache.camera_cache[neighbour.x][neighbour.y] == 0 ) {
+            if( ( rl_dist( u.pos().xy(), neighbour ) > u.unimpaired_range() &&
+                  map_cache.camera_cache[neighbour.x][neighbour.y] == 0 ) ||
+                ( map_cache.seen_cache[neighbour.x][neighbour.y] == 0 &&
+                  map_cache.camera_cache[neighbour.x][neighbour.y] == 0 ) ) {
                 continue;
             }
             // This is a non-opaque visible neighbour, so count visibility from the relevant
@@ -752,13 +754,9 @@ lit_level map::apparent_light_at( const tripoint &p, const visibility_variables 
                 // This represents too hazy to see detail,
                 // but enough light getting through to illuminate.
                 return lit_level::BRIGHT_ONLY;
-            } else {
-                // If it's not brighter than the surroundings, it just ends up shadowy.
-                return lit_level::LOW;
             }
-        } else {
-            return lit_level::BLANK;
         }
+        return lit_level::BLANK;
     }
     // Then we just search for the light level in descending order.
     if( a.apparent_light > LIGHT_SOURCE_BRIGHT || map_cache.sm[p.x][p.y] > 0.0 ) {
@@ -829,8 +827,8 @@ template<int xx, int xy, int yx, int yy, typename T, typename Out,
          bool( *check )( const T &, const T & ),
          void( *update_output )( Out &, const T &, quadrant ),
          T( *accumulate )( const T &, const T &, const int & )>
-void castLight( cata::mdarray<Out, point_bub_ms, MAPSIZE_X, MAPSIZE_Y> &output_cache,
-                const cata::mdarray<T, point_bub_ms, MAPSIZE_X, MAPSIZE_Y> &input_array,
+void castLight( cata::mdarray<Out, point_bub_ms> &output_cache,
+                const cata::mdarray<T, point_bub_ms> &input_array,
                 const point &offset, int offsetDistance,
                 T numerator = VISIBILITY_FULL,
                 int row = 1, float start = 1.0f, float end = 0.0f,
@@ -841,8 +839,8 @@ template<int xx, int xy, int yx, int yy, typename T, typename Out,
          bool( *check )( const T &, const T & ),
          void( *update_output )( Out &, const T &, quadrant ),
          T( *accumulate )( const T &, const T &, const int & )>
-void castLight( cata::mdarray<Out, point_bub_ms, MAPSIZE_X, MAPSIZE_Y> &output_cache,
-                const cata::mdarray<T, point_bub_ms, MAPSIZE_X, MAPSIZE_Y> &input_array,
+void castLight( cata::mdarray<Out, point_bub_ms> &output_cache,
+                const cata::mdarray<T, point_bub_ms> &input_array,
                 const point &offset, const int offsetDistance, const T numerator,
                 const int row, float start, const float end, T cumulative_transparency )
 {
@@ -931,8 +929,8 @@ template<typename T, typename Out, T( *calc )( const T &, const T &, const int &
          bool( *check )( const T &, const T & ),
          void( *update_output )( Out &, const T &, quadrant ),
          T( *accumulate )( const T &, const T &, const int & )>
-void castLightAll( cata::mdarray<Out, point_bub_ms, MAPSIZE_X, MAPSIZE_Y> &output_cache,
-                   const cata::mdarray<T, point_bub_ms, MAPSIZE_X, MAPSIZE_Y> &input_array,
+void castLightAll( cata::mdarray<Out, point_bub_ms> &output_cache,
+                   const cata::mdarray<T, point_bub_ms> &input_array,
                    const point &offset, int offsetDistance, T numerator )
 {
     castLight<0, 1, 1, 0, T, Out, calc, check, update_output, accumulate>(
@@ -958,16 +956,16 @@ void castLightAll( cata::mdarray<Out, point_bub_ms, MAPSIZE_X, MAPSIZE_Y> &outpu
 
 template void castLightAll<float, four_quadrants, sight_calc, sight_check,
                            update_light_quadrants, accumulate_transparency>(
-                               cata::mdarray<four_quadrants, point_bub_ms, MAPSIZE_X, MAPSIZE_Y> &output_cache,
-                               const cata::mdarray<float, point_bub_ms, MAPSIZE_X, MAPSIZE_Y> &input_array,
+                               cata::mdarray<four_quadrants, point_bub_ms> &output_cache,
+                               const cata::mdarray<float, point_bub_ms> &input_array,
                                const point &offset, int offsetDistance, float numerator );
 
 template void
 castLightAll<fragment_cloud, fragment_cloud, shrapnel_calc, shrapnel_check,
              update_fragment_cloud, accumulate_fragment_cloud>
 (
-    cata::mdarray<fragment_cloud, point_bub_ms, MAPSIZE_X, MAPSIZE_Y> &output_cache,
-    const cata::mdarray<fragment_cloud, point_bub_ms, MAPSIZE_X, MAPSIZE_Y> &input_array,
+    cata::mdarray<fragment_cloud, point_bub_ms> &output_cache,
+    const cata::mdarray<fragment_cloud, point_bub_ms> &input_array,
     const point &offset, int offsetDistance, fragment_cloud numerator );
 
 /**
@@ -982,11 +980,11 @@ castLightAll<fragment_cloud, fragment_cloud, shrapnel_calc, shrapnel_check,
  * @param origin the starting location
  * @param target_z Z-level to draw light map on
  */
-void map::build_seen_cache( const tripoint &origin, const int target_z, bool cumulative,
-                            bool camera, int penalty )
+void map::build_seen_cache( const tripoint &origin, const int target_z, int extension_range,
+                            bool cumulative, bool camera, int penalty )
 {
     level_cache &map_cache = get_cache( target_z );
-    using mdarray = cata::mdarray<float, point_bub_ms, MAPSIZE_X, MAPSIZE_Y>;
+    using mdarray = cata::mdarray<float, point_bub_ms>;
     mdarray &transparency_cache = map_cache.vision_transparency_cache;
     mdarray &seen_cache = map_cache.seen_cache;
     mdarray &camera_cache = map_cache.camera_cache;
@@ -1063,6 +1061,9 @@ void map::build_seen_cache( const tripoint &origin, const int target_z, bool cum
             continue;
         }
         const tripoint mirror_pos = vp.pos();
+        if( rl_dist( origin, vp.pos() ) > extension_range ) {
+            continue;
+        }
         // We can utilize the current state of the seen cache to determine
         // if the player can see the mirror from their position.
         if( !vp.info().has_flag( "CAMERA" ) &&
@@ -1088,12 +1089,14 @@ void map::build_seen_cache( const tripoint &origin, const int target_z, bool cum
         // Determine how far the light has already traveled so mirrors
         // don't cheat the light distance falloff.
         int offsetDistance;
+        mdarray *mocache = &out_cache;
         if( !is_camera ) {
             offsetDistance = penalty + rl_dist( origin, mirror_pos );
         } else {
             offsetDistance = 60 - veh->part_info( mirror ).bonus *
                              veh->part( mirror ).hp() / veh->part_info( mirror ).durability;
-            camera_cache[mirror_pos.x][mirror_pos.y] = LIGHT_TRANSPARENCY_OPEN_AIR;
+            mocache = &camera_cache;
+            ( *mocache )[mirror_pos.x][mirror_pos.y] = LIGHT_TRANSPARENCY_OPEN_AIR;
         }
 
         // TODO: Factor in the mirror facing and only cast in the
@@ -1102,7 +1105,7 @@ void map::build_seen_cache( const tripoint &origin, const int target_z, bool cum
         // The naive solution of making the mirrors act like a second player
         // at an offset appears to give reasonable results though.
         castLightAll<float, float, sight_calc, sight_check, update_light, accumulate_transparency>(
-            camera_cache, transparency_cache, mirror_pos.xy(), offsetDistance );
+            *mocache, transparency_cache, mirror_pos.xy(), offsetDistance );
     }
 }
 
@@ -1139,11 +1142,11 @@ static bool light_check( const float &transparency, const float &intensity )
 void map::apply_light_source( const tripoint &p, float luminance )
 {
     level_cache &cache = get_cache( p.z );
-    cata::mdarray<four_quadrants, point_bub_ms, MAPSIZE_X, MAPSIZE_Y> &lm = cache.lm;
-    cata::mdarray<float, point_bub_ms, MAPSIZE_X, MAPSIZE_Y> &sm = cache.sm;
-    cata::mdarray<float, point_bub_ms, MAPSIZE_X, MAPSIZE_Y> &transparency_cache =
+    cata::mdarray<four_quadrants, point_bub_ms> &lm = cache.lm;
+    cata::mdarray<float, point_bub_ms> &sm = cache.sm;
+    cata::mdarray<float, point_bub_ms> &transparency_cache =
         cache.transparency_cache;
-    cata::mdarray<float, point_bub_ms, MAPSIZE_X, MAPSIZE_Y> &light_source_buffer =
+    cata::mdarray<float, point_bub_ms> &light_source_buffer =
         cache.light_source_buffer;
 
     const point p2( p.xy() );
@@ -1223,8 +1226,8 @@ void map::apply_directional_light( const tripoint &p, int direction, float lumin
     const point p2( p.xy() );
 
     level_cache &cache = get_cache( p.z );
-    cata::mdarray<four_quadrants, point_bub_ms, MAPSIZE_X, MAPSIZE_Y> &lm = cache.lm;
-    cata::mdarray<float, point_bub_ms, MAPSIZE_X, MAPSIZE_Y> &transparency_cache =
+    cata::mdarray<four_quadrants, point_bub_ms> &lm = cache.lm;
+    cata::mdarray<float, point_bub_ms> &transparency_cache =
         cache.transparency_cache;
 
     if( direction == 90 ) {
@@ -1270,8 +1273,8 @@ void map::apply_light_arc( const tripoint &p, const units::angle &angle, float l
     const point p2( p.xy() );
 
     level_cache &cache = get_cache( p.z );
-    cata::mdarray<four_quadrants, point_bub_ms, MAPSIZE_X, MAPSIZE_Y> &lm = cache.lm;
-    cata::mdarray<float, point_bub_ms, MAPSIZE_X, MAPSIZE_Y> &transparency_cache =
+    cata::mdarray<four_quadrants, point_bub_ms> &lm = cache.lm;
+    cata::mdarray<float, point_bub_ms> &transparency_cache =
         cache.transparency_cache;
 
     // Normalize (should work with negative values too)
@@ -1424,8 +1427,9 @@ void map::apply_light_arc( const tripoint &p, const units::angle &angle, float l
     }
 }
 
-void map::apply_light_ray( bool lit[LIGHTMAP_CACHE_X][LIGHTMAP_CACHE_Y],
-                           const tripoint &s, const tripoint &e, float luminance )
+void map::apply_light_ray(
+    cata::mdarray<bool, point_bub_ms, LIGHTMAP_CACHE_X, LIGHTMAP_CACHE_Y> &lit,
+    const tripoint &s, const tripoint &e, float luminance )
 {
     point a( std::abs( e.x - s.x ) * 2, std::abs( e.y - s.y ) * 2 );
     point d( ( s.x < e.x ) ? 1 : -1, ( s.y < e.y ) ? 1 : -1 );

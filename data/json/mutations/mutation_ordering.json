@@ -186,7 +186,7 @@
       { "id": [ "HOOVES", "ROOTS1", "ROOTS2", "ROOTS3", "TALONS" ], "order": 4500 },
       { "id": [ "FLOWERS" ], "order": 5000 },
       { "id": [ "ELFA_EARS", "FELINE_EARS", "LUPINE_EARS", "RABBIT_EARS", "URSINE_EARS" ], "order": 5500 },
-      { "id": [ "ANTENNAE", "ANTLERS", "CURVED_HORNS", "HORNS", "POINTED_HORNS" ], "order": 6000 },
+      { "id": [ "ANTENNAE", "ANTLERS", "HORNS_CURLED", "HORNS", "HORNS_POINTED" ], "order": 6000 },
       { "id": [ "COMPOUND_EYES", "ELFAEYES", "FEL_EYE", "LIZ_EYE" ], "order": 6500 },
       {
         "id": [

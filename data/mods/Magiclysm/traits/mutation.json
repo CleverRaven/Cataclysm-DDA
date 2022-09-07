@@ -307,8 +307,7 @@
     "name": { "str": "Wildshape: Fish" },
     "points": 0,
     "valid": false,
-    "description": "You are fish-like, making dexterous manipulation with your hands extremely difficult.",
-    "encumbrance_always": [ [ "hand_r", 50 ], [ "hand_l", 50 ], [ "arm_r", 50 ], [ "arm_l", 50 ] ]
+    "description": "You are fish-like.  Just keep swimming!"
   },
   {
     "type": "mutation",
@@ -316,8 +315,7 @@
     "name": { "str": "Wildshape: Bear" },
     "points": 0,
     "valid": false,
-    "description": "You are bear-like, granting you raw power in exchange for intelligence.  Also, using a gun is extremely difficult.",
-    "encumbrance_always": [ [ "eyes", 200 ] ]
+    "description": "You are bear-like, granting you raw bestial power in exchange for intelligence."
   },
   {
     "type": "mutation",
@@ -325,9 +323,8 @@
     "name": { "str": "Wildshape: Deer" },
     "points": 0,
     "valid": false,
-    "description": "You are deer-like, giving you the ability to move quickly and escape danger.  However, this takes a great toll on your body, and you don't think you should maintain this form for long.",
-    "encumbrance_always": [ [ "hand_r", 50 ], [ "hand_l", 50 ], [ "arm_r", 50 ], [ "arm_l", 50 ] ],
-    "healing_awake": -500.0
+    "description": "You are deer-like, giving you the ability to move quickly and escape danger.  It is hard to use your arms in combat, however.",
+    "encumbrance_always": [ [ "hand_r", 50 ], [ "hand_l", 50 ], [ "arm_r", 50 ], [ "arm_l", 50 ] ]
   },
   {
     "type": "mutation",

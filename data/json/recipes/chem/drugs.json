@@ -61,7 +61,7 @@
       [ [ "dayquil", 15 ] ],
       [ [ "iodine_crystal", 15 ] ],
       [ [ "red_phosphorous", 15 ] ],
-      [ [ "chem_acetone", 150 ] ],
+      [ [ "chem_acetone", 1 ] ],
       [ [ "chem_methanol", 3 ] ],
       [ [ "lye_powder", 5 ], [ "chem_potassium_hydroxide", 25 ], [ "lye", 1 ], [ "lye_potassium", 1 ] ]
     ]

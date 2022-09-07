@@ -1,0 +1,56 @@
+[
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "valahllist_place_bicycle",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "bicycle_spawn" ], "x": 13, "y": 11 } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "valahllist_place_bicycle_dirt",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "bicycle_dirt_spawn" ], "x": 13, "y": 11 } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "valahllist_place_bicycle_electric",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "bicycle_electric_spawn" ], "x": 13, "y": 11 } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "valahllist_place_motorcycle_enduro",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "motorcycle_enduro_spawn" ], "x": 13, "y": 11 } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "valahllist_place_motorcycle_sidecart",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "motorcycle_sidecart_spawn" ], "x": 13, "y": 11 } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "valahllist_place_scooter",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "scooter_spawn" ], "x": 13, "y": 11 } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "valahllist_place_scooter_electric",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "scooter_electric_spawn" ], "x": 13, "y": 11 } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "valahllist_remove_raiding_party",
+    "method": "json",
+    "object": { "remove_npcs": [ { "class": "pagan_cult_member_rescue", "x": [ 0, 23 ], "y": [ 0, 23 ] } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "valahllist_remove_slaves",
+    "method": "json",
+    "object": { "remove_npcs": [ { "class": "hells_raiders_slave", "x": [ 0, 23 ], "y": [ 0, 23 ] } ] }
+  }
+]
