@@ -822,7 +822,7 @@
     "name": { "str": "stock pot" },
     "description": "A large pot with 20 gauge walls and a thick aluminum bottom, used for making soup stocks.  You could fit a whole turkey in there, with a bit of shoving.",
     "copy-from": "base_cookpot",
-    "material": [ "steel", "aluminium" ],
+    "material": [ "steel", "aluminum" ],
     "color": "light_gray",
     "weight": "2490 g",
     "volume": "12800 ml",
