@@ -439,6 +439,15 @@
         "defends your space": true,
         "knows your voice": true
       },
+      "slaves": {
+        "kill on sight": false,
+        "watch your back": true,
+        "share my stuff": false,
+        "guard your stuff": true,
+        "lets you in": true,
+        "defends your space": true,
+        "knows your voice": false
+      },
       "free_merchants": { "kill on sight": true },
       "old_guard": { "kill on sight": true },
       "your_followers": { "kill on sight": true }
@@ -448,6 +457,78 @@
       { "power_min": 150, "id": "epilogue_faction_hells_raiders_150" }
     ],
     "description": "The largest gang of hooligans and bandits that preys upon other survivors.  Even if you have no gear, there is always a need for slaves and fresh meat."
+  },
+  {
+    "type": "faction",
+    "id": "slaves",
+    "name": "Enslaved individuals",
+    "likes_u": 0,
+    "respects_u": 0,
+    "known_by_u": false,
+    "size": 1,
+    "power": 1,
+    "food_supply": 1,
+    "wealth": 1,
+    "relations": {
+      "slaves": {
+        "kill on sight": false,
+        "watch your back": true,
+        "share my stuff": true,
+        "guard your stuff": true,
+        "lets you in": true,
+        "defends your space": true,
+        "knows your voice": true
+      },
+      "hells_raiders": {
+        "kill on sight": false,
+        "watch your back": false,
+        "share my stuff": false,
+        "guard your stuff": false,
+        "lets you in": false,
+        "defends your space": false,
+        "knows your voice": false
+      },
+      "free_merchants": { "kill on sight": false },
+      "old_guard": { "kill on sight": false },
+      "your_followers": { "kill on sight": false }
+    },
+    "description": "Individuals who have been enslaved or held prisoner for a long period of time, for various reasons."
+  },
+  {
+    "type": "faction",
+    "id": "valhallists",
+    "name": "Norse Evangelicals",
+    "likes_u": 2,
+    "respects_u": 0,
+    "known_by_u": false,
+    "size": 100,
+    "power": 100,
+    "food_supply": 172800,
+    "wealth": 25000,
+    "currency": "signed_chit",
+    "relations": {
+      "valhallists": {
+        "kill on sight": false,
+        "watch your back": true,
+        "share my stuff": true,
+        "guard your stuff": true,
+        "lets you in": true,
+        "defends your space": true,
+        "knows your voice": true
+      },
+      "your_followers": {
+        "kill on sight": false,
+        "watch your back": false,
+        "share my stuff": false,
+        "guard your stuff": false,
+        "lets you in": true,
+        "defends your space": false,
+        "knows your voice": false
+      },
+      "marloss": { "kill on sight": true },
+      "hells_raiders": { "kill on sight": true }
+    },
+    "description": "A band of people practicing 'Asatro' or 'Forn Sidr'; the worship of the Norse pantheon.  Thay have the common goal of recruiting new members, entering Valhalla, and exterminating the Marloss Evangelists; whom they deem heretics."
   },
   {
     "type": "faction",

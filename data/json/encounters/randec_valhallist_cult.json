@@ -1,0 +1,69 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_RandEnc_VC_Shoppers_add",
+    "//": "Adds random survivors visiting the refugee center to shop",
+    "recurrence": 3000,
+    "global": true,
+    "condition": {
+      "and": [
+        { "u_near_om_location": "pagan_cult_left_corner_up", "range": 30 },
+        { "not": { "u_near_om_location": "pagan_cult_left_corner_up", "range": 2 } },
+        "is_day",
+        { "one_in_chance": 10 },
+        {
+          "not": { "u_compare_time_since_var": "RandEnc", "type": "timer", "context": "VC_Shoppers", "op": "<", "time": "1 d" }
+        }
+      ]
+    },
+    "effect": [
+      { "mapgen_update": "nest_RandEnc_RC_Shoppers_add", "om_terrain": "pagan_cult_left_corner_up" },
+      { "u_add_var": "RandEnc", "type": "timer", "context": "VC_Shoppers", "time": true },
+      {
+        "u_location_variable": { "global_val": "randenc_shoppers_loc" },
+        "target_params": { "om_terrain": "pagan_cult_left_corner_up" }
+      },
+      { "arithmetic": [ { "global_val": "var", "var_name": "VC_Shoppers_visiting" }, "=", { "const": 1 } ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_RandEnc_VC_Shoppers_remove",
+    "recurrence": 200,
+    "global": true,
+    "condition": {
+      "and": [
+        {
+          "or": [
+            { "u_compare_time_since_var": "RandEnc", "type": "timer", "context": "VC_Shoppers", "op": ">", "time": "6 h" },
+            "is_night"
+          ]
+        },
+        { "compare_int": [ { "global_val": "var", "var_name": "VC_Shoppers_visiting" }, "==", { "const": 1 } ] },
+        { "not": { "u_near_om_location": "pagan_cult_left_corner_up", "range": 2 } }
+      ]
+    },
+    "effect": [
+      {
+        "mapgen_update": "nest_RandEnc_RC_Shoppers_remove",
+        "om_terrain": "pagan_cult_left_corner_up",
+        "target_var": { "global_val": "randenc_shoppers_loc" }
+      },
+      { "arithmetic": [ { "global_val": "var", "var_name": "VC_Shoppers_visiting" }, "=", { "const": 0 } ] }
+    ]
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "update_mapgen_id": "nest_RandEnc_VC_Shoppers_add",
+    "//": "Adds a random NPC to the warehouse, placed off in the corner.",
+    "object": { "place_npcs": [ { "class": "RC_survivor_visiting", "x": 21, "y": 8 } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "update_mapgen_id": "nest_RandEnc_VC_Shoppers_remove",
+    "//": "Adds a random NPC to the warehouse, placed off in the corner.",
+    "object": { "remove_npcs": [ { "class": "RC_survivor_visiting", "x": 0, "y": 0 } ] }
+  }
+]
