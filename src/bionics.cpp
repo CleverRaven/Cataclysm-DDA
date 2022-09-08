@@ -3092,7 +3092,7 @@ float bionic::get_safe_fuel_thresh() const
 
 bool bionic::is_safe_fuel_on() const
 {
-    return get_safe_fuel_thresh() > -1.f;
+    return !info().fuel_opts.empty() && get_safe_fuel_thresh() > -1.f;
 }
 
 void bionic::set_safe_fuel_thresh( float val )
