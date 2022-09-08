@@ -526,7 +526,7 @@
         "effects": [
           {
             "effect": "stunned",
-            "duration": [ 1 ],
+            "duration": [ 1, 2 ],
             "chance": 2,
             "message": "The %s is stunned!",
             "damage_required": [ 21, 50 ]
