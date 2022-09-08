@@ -188,7 +188,6 @@
     "symbol": ";",
     "color": "green",
     "ammo": [ "charcoal" ],
-    "sub": "hotplate",
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "charcoal": 50 } } ],
     "charges_per_use": 1,
     "use_action": [ "HOTPLATE" ]
@@ -339,7 +338,6 @@
     "symbol": ";",
     "color": "light_gray",
     "ammo": [ "esbit" ],
-    "sub": "hotplate",
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "esbit": 50 } } ],
     "charges_per_use": 1,
     "use_action": [ "HOTPLATE", "HEAT_FOOD" ]
@@ -414,7 +412,6 @@
     "symbol": ";",
     "color": "green",
     "ammo": [ "gasoline" ],
-    "sub": "hotplate",
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "gasoline": 500 }, "watertight": true, "rigid": true } ],
     "charges_per_use": 1,
     "use_action": [ "HOTPLATE" ]
@@ -703,7 +700,6 @@
     "symbol": ";",
     "color": "green",
     "ammo": [ "lamp_oil" ],
-    "sub": "hotplate",
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "lamp_oil": 800 }, "watertight": true, "rigid": true } ],
     "charges_per_use": 1,
     "use_action": [ "HOTPLATE" ]
@@ -939,7 +935,7 @@
     "symbol": ";",
     "color": "brown",
     "ammo": [ "lamp_oil" ],
-    "sub": "hotplate",
+    "sub": "oil_cooker",
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "lamp_oil": 800 }, "watertight": true, "rigid": true } ],
     "charges_per_use": 1,
     "qualities": [ [ "COOK", 3 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ], [ "CHEM", 1 ] ],
@@ -1021,7 +1017,7 @@
     "symbol": ";",
     "color": "light_blue",
     "ammo": [ "battery" ],
-    "charges_per_use": 1,
+    "charges_per_use": 20,
     "use_action": [ "WATER_PURIFIER" ],
     "flags": [ "ALLOWS_REMOTE_USE" ],
     "pocket_data": [
@@ -1048,7 +1044,6 @@
     "symbol": ";",
     "color": "green",
     "ammo": [ "propane" ],
-    "sub": "hotplate",
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "flag_restriction": [ "GAS_TANK" ], "default_magazine": "small_propane_tank" } ],
     "charges_per_use": 1,
     "use_action": [ "HOTPLATE", "HEAT_FOOD" ]
