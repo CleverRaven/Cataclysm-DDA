@@ -21,6 +21,7 @@
 #include "point.h"
 #include "requirements.h"
 #include "translations.h"
+#include "ui.h"
 #include "units_fwd.h"
 #include "veh_type.h"
 #include "vehicle.h"
@@ -181,3 +182,191 @@ bool repair_part( vehicle &veh, vehicle_part &pt, Character &who, const std::str
 }
 
 } // namespace veh_utils
+
+veh_menu_item &veh_menu_item::text( const std::string &text )
+{
+    this->_text = text;
+    return *this;
+}
+
+veh_menu_item &veh_menu_item::desc( const std::string &desc )
+{
+    this->_desc = desc;
+    return *this;
+}
+
+veh_menu_item &veh_menu_item::enable( const bool enable )
+{
+    this->_enabled = enable;
+    return *this;
+}
+
+veh_menu_item &veh_menu_item::skip_theft_check( const bool skip_theft_check )
+{
+    this->_check_theft = !skip_theft_check;
+    return *this;
+}
+
+veh_menu_item &veh_menu_item::hotkey( const char hotkey_char )
+{
+    if( this->_hotkey_event.has_value() ) {
+        debugmsg( "veh_menu_item::set_hotkey(char) called when hotkey input_event is already set" );
+    }
+    this->_hotkey_char = hotkey_char;
+    return *this;
+}
+
+veh_menu_item &veh_menu_item::hotkey( const cata::optional<input_event> &hotkey_event )
+{
+    if( this->_hotkey_char.has_value() ) {
+        debugmsg( "veh_menu_item::set_hotkey(input_event) called when hotkey char is already set" );
+    }
+    this->_hotkey_event = hotkey_event;
+    return *this;
+}
+
+veh_menu_item &veh_menu_item::hotkey_auto()
+{
+    this->_hotkey_char = MENU_AUTOASSIGN;
+    this->_hotkey_event = cata::nullopt;
+    return *this;
+}
+
+veh_menu_item &veh_menu_item::on_submit( const std::function<void()> &on_submit )
+{
+    this->_on_submit = on_submit;
+    return *this;
+}
+
+veh_menu_item &veh_menu_item::keep_menu_open( const bool keep_menu_open )
+{
+    this->_keep_menu_open = keep_menu_open;
+    return *this;
+}
+
+veh_menu_item &veh_menu_item::location( const cata::optional<tripoint> &location )
+{
+    this->_location = location;
+    return *this;
+}
+
+veh_menu::veh_menu( vehicle &veh, const std::string &title ): veh( veh )
+{
+    this->title = title;
+}
+
+veh_menu::veh_menu( vehicle *veh, const std::string &title ): veh( *veh )
+{
+    this->title = title;
+}
+
+veh_menu_item &veh_menu::add( const std::string &txt )
+{
+    veh_menu_item item;
+    item._text = txt;
+    this->items.push_back( item );
+    return items.back();
+}
+
+size_t veh_menu::get_items_size() const
+{
+    return items.size();
+}
+
+std::vector<veh_menu_item> veh_menu::get_items() const
+{
+    return items;
+}
+
+std::vector<tripoint> veh_menu::get_locations() const
+{
+    std::vector<tripoint> locations;
+
+    for( size_t i = 0; i < items.size(); i++ ) {
+        if( items[i]._location.has_value() ) {
+            locations.push_back( items[i]._location.value() );
+        }
+    }
+
+    return locations;
+}
+
+void veh_menu::reset( bool keep_last_selected )
+{
+    last_selected = keep_last_selected ? last_selected : 0;
+    items.clear();
+}
+
+static std::vector<uilist_entry> get_uilist_entries( const std::vector<veh_menu_item> &items )
+{
+    std::vector<uilist_entry> entries;
+
+    for( size_t i = 0; i < items.size(); i++ ) {
+        const veh_menu_item &it = items[i];
+
+        uilist_entry entry = it._hotkey_event.has_value()
+                             ? uilist_entry( it._text, it._hotkey_event )
+                             : uilist_entry( it._text, it._hotkey_char.value_or( 0 ) );
+
+        entry.retval = static_cast<int>( i );
+        entry.desc = it._desc;
+        entry.enabled = it._enabled;
+
+        entries.push_back( entry );
+    }
+
+    return entries;
+}
+
+bool veh_menu::query()
+{
+    if( items.empty() ) {
+        debugmsg( "veh_menu::query() called with empty items" );
+        return false;
+    }
+
+    uilist menu;
+    menu.title = title;
+    menu.entries = get_uilist_entries( items );
+    menu.desc_lines_hint = desc_lines_hint;
+    menu.desc_enabled = std::any_of( menu.entries.begin(), menu.entries.end(),
+    []( const uilist_entry & it ) {
+        return !it.desc.empty();
+    } );
+
+    const std::vector<tripoint> locations = get_locations();
+    pointmenu_cb callback( locations );
+    if( locations.size() == items.size() ) { // all items have valid location attached
+        menu.callback = &callback;
+        menu.w_x_setup = 4; // move menu to the left so more space around vehicle is visible
+    } else {
+        menu.callback = nullptr;
+    }
+
+    menu.selected = last_selected;
+    menu.query();
+    last_selected = menu.selected;
+
+    const size_t index = static_cast<size_t>( menu.ret );
+    if( index >= items.size() ) {
+        return false;
+    }
+
+    const veh_menu_item &chosen = items[index];
+    if( chosen._check_theft && !veh.handle_potential_theft( get_player_character() ) ) {
+        return false;
+    }
+
+    if( !chosen._on_submit ) {
+        debugmsg( "selected veh_menu_item has no attached std::function" );
+        return false;
+    }
+
+    chosen._on_submit();
+
+    veh.refresh();
+    map &m = get_map();
+    m.invalidate_map_cache( m.get_abs_sub().z() );
+
+    return chosen._keep_menu_open;
+}

@@ -3,8 +3,11 @@
 #define CATA_SRC_VEH_UTILS_H
 
 #include <iosfwd>
+#include <vector>
 
+#include "input.h"
 #include "type_id.h"
+#include "optional.h"
 
 class Character;
 class vehicle;
@@ -28,5 +31,58 @@ vehicle_part &most_repairable_part( vehicle &veh, Character &who_arg,
  */
 bool repair_part( vehicle &veh, vehicle_part &pt, Character &who, const std::string &variant );
 } // namespace veh_utils
+
+struct veh_menu_item {
+    std::string _text;
+    std::string _desc;
+    cata::optional<tripoint> _location = cata::nullopt;
+    bool _enabled = true;
+    bool _check_theft = true;
+    bool _keep_menu_open = false;
+    cata::optional<char> _hotkey_char = cata::nullopt;
+    cata::optional<input_event> _hotkey_event = cata::nullopt;
+    std::function<void()> _on_submit;
+
+    veh_menu_item &text( const std::string &text );
+    veh_menu_item &desc( const std::string &desc );
+    veh_menu_item &enable( const bool enable );
+    veh_menu_item &skip_theft_check( const bool skip_theft_check = true );
+    veh_menu_item &hotkey( const char hotkey );
+    veh_menu_item &hotkey( const cata::optional<input_event> &hotkey );
+    veh_menu_item &hotkey_auto();
+    veh_menu_item &on_submit( const std::function<void()> &action );
+    veh_menu_item &keep_menu_open( const bool keep_menu_open = true );
+    veh_menu_item &location( const cata::optional<tripoint> &location );
+};
+
+class veh_menu
+{
+    public:
+        veh_menu( vehicle &veh, const std::string &title );
+        veh_menu( vehicle *veh, const std::string &title );
+        veh_menu_item &add( const std::string &txt );
+        void reset( bool keep_last_selected = true );
+        bool query();
+
+        size_t get_items_size() const;
+        std::vector<veh_menu_item> get_items() const;
+
+        int desc_lines_hint = 0;
+
+    private:
+        std::vector<veh_menu_item> items;
+        std::string title;
+        vehicle &veh;
+
+        std::vector<tripoint> get_locations() const;
+
+        int last_selected = 0;
+
+        // don't allow allocating on heap
+        static void *operator new( size_t ) = delete;
+        static void *operator new[]( size_t ) = delete;
+        static void  operator delete( void * )  = delete;
+        static void  operator delete[]( void * )  = delete;
+};
 
 #endif // CATA_SRC_VEH_UTILS_H
