@@ -276,6 +276,7 @@ capiche
 caprison
 carapaces
 carryin
+cartilaginous
 casehead
 castable
 cataphract
@@ -609,6 +610,7 @@ feticks
 fetlock
 ffect
 fibercloth
+fiberoptic
 fiddleheads
 filenames
 fileset
@@ -1329,6 +1331,7 @@ photochromic
 photodiode
 photophore
 phthalocyanine
+phenotypic
 phyle
 physicochemical
 picatinny
