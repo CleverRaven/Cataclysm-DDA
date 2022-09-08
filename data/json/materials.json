@@ -1811,7 +1811,7 @@
     "type": "material",
     "id": "hc_steel",
     "name": "High Carbon Steel",
-    "//": "SAE 1085/UNS 10850, assumes .50% carbon content and zero slag.",
+    "//": "SAE 1085/UNS 10850, assumes .85% carbon content and zero slag.",
     "density": 8.0,
     "specific_heat_liquid": 0.82,
     "specific_heat_solid": 0.45,
