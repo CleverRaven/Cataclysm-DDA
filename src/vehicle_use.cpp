@@ -55,6 +55,7 @@
 #include "value_ptr.h"
 #include "veh_interact.h"
 #include "veh_type.h"
+#include "veh_utils.h"
 #include "vpart_position.h"
 #include "vpart_range.h"
 #include "weather.h"
@@ -96,14 +97,6 @@ static const vpart_id vpart_horn_bicycle( "horn_bicycle" );
 static const zone_type_id zone_type_VEHICLE_PATROL( "VEHICLE_PATROL" );
 
 static const std::string flag_APPLIANCE( "APPLIANCE" );
-
-enum change_types : int {
-    OPENCURTAINS = 0,
-    OPENBOTH,
-    CLOSEDOORS,
-    CLOSEBOTH,
-    CANCEL
-};
 
 static input_event keybind( const std::string &opt,
                             const std::string &context = "VEHICLE" )
@@ -187,101 +180,76 @@ void handbrake()
 
 void vehicle::control_doors()
 {
-    const auto door_motors = get_avail_parts( "DOOR_MOTOR" );
-    // Indices of doors
-    std::vector< int > doors_with_motors;
-    // Locations used to display the doors
-    std::vector< tripoint > locations;
-    // it is possible to have one door to open and one to close for single motor
-    if( empty( door_motors ) ) {
-        debugmsg( "vehicle::control_doors called but no door motors found" );
-        return;
-    }
-
-    uilist pmenu;
-    pmenu.title = _( "Select door to toggle" );
-    for( const vpart_reference &vp : door_motors ) {
-        const size_t p = vp.part_index();
-        if( vp.part().is_unavailable() ) {
-            continue;
-        }
-        const std::array<int, 2> doors = { { next_part_to_open( p ), next_part_to_close( p ) } };
-        for( int door : doors ) {
-            if( door == -1 ) {
+    const auto open_or_close_all = [this]( bool new_open, const std::string & require_flag ) {
+        for( const vpart_reference &vpr_motor : get_avail_parts( "DOOR_MOTOR" ) ) {
+            const int motorized_idx = new_open
+                                      ? next_part_to_open( vpr_motor.part_index() )
+                                      : next_part_to_close( vpr_motor.part_index() );
+            if( motorized_idx == -1 ) {
                 continue;
             }
-
-            int val = doors_with_motors.size();
-            doors_with_motors.push_back( door );
-            locations.push_back( global_part_pos3( p ) );
-            const char *actname = parts[door].open ? _( "Close" ) : _( "Open" );
-            pmenu.addentry( val, true, MENU_AUTOASSIGN, "%s %s", actname, parts[ door ].name() );
-        }
-    }
-
-    pmenu.addentry( doors_with_motors.size() + OPENCURTAINS, true, MENU_AUTOASSIGN,
-                    _( "Open all curtains" ) );
-    pmenu.addentry( doors_with_motors.size() + OPENBOTH, true, MENU_AUTOASSIGN,
-                    _( "Open all curtains and doors" ) );
-    pmenu.addentry( doors_with_motors.size() + CLOSEDOORS, true, MENU_AUTOASSIGN,
-                    _( "Close all doors" ) );
-    pmenu.addentry( doors_with_motors.size() + CLOSEBOTH, true, MENU_AUTOASSIGN,
-                    _( "Close all curtains and doors" ) );
-
-    pointmenu_cb callback( locations );
-    pmenu.callback = &callback;
-    // Move the menu so that we can see our vehicle
-    pmenu.w_y_setup = 0;
-    pmenu.query();
-
-    if( pmenu.ret >= 0 ) {
-        if( pmenu.ret < static_cast<int>( doors_with_motors.size() ) ) {
-            int part = doors_with_motors[pmenu.ret];
-            open_or_close( part, !( parts[part].open ) );
-        } else if( pmenu.ret < ( static_cast<int>( doors_with_motors.size() ) + CANCEL ) ) {
-            int option = pmenu.ret - static_cast<int>( doors_with_motors.size() );
-            bool open = option == OPENBOTH || option == OPENCURTAINS;
-            for( const vpart_reference &vp : door_motors ) {
-                const size_t motor = vp.part_index();
-                int next_part = -1;
-                if( open ) {
-                    int part = next_part_to_open( motor );
-                    if( part != -1 ) {
-                        if( !part_flag( part, "CURTAIN" ) &&  option == OPENCURTAINS ) {
-                            continue;
-                        }
-                        open_or_close( part, open );
-                        if( option == OPENBOTH ) {
-                            next_part = next_part_to_open( motor );
-                        }
-                        if( next_part != -1 ) {
-                            open_or_close( next_part, open );
-                        }
-                    }
-                } else {
-                    int part = next_part_to_close( motor );
-                    if( part != -1 ) {
-                        if( part_flag( part, "CURTAIN" ) && option == CLOSEDOORS ) {
-                            continue;
-                        }
-                        if( !can_close( part, get_player_character() ) ) {
-                            continue;
-                        }
-                        open_or_close( part, open );
-                        if( option == CLOSEBOTH ) {
-                            next_part = next_part_to_close( motor );
-                        }
-                        if( next_part != -1 ) {
-                            if( !can_close( part, get_player_character() ) ) {
-                                continue;
-                            }
-                            open_or_close( next_part, open );
-                        }
-                    }
-                }
+            if( !require_flag.empty() && !part_flag( motorized_idx, require_flag ) ) {
+                continue;
+            }
+            if( new_open || can_close( motorized_idx, get_player_character() ) ) {
+                open_or_close( motorized_idx, new_open );
             }
         }
-    }
+    };
+
+    const auto add_openable = [this]( veh_menu & menu, int vp_idx ) {
+        if( vp_idx == -1 ) {
+            return;
+        }
+        const vehicle_part &vp = part( vp_idx );
+        const std::string actname = vp.open ? _( "Close" ) : _( "Open" );
+        menu.add( string_format( "%s %s", actname, vp.name() ) )
+        .hotkey_auto()
+        .location( global_part_pos3( vp ) )
+        .keep_menu_open()
+        .on_submit( [this, door_idx = index_of_part( &vp ), open = !vp.open] {
+            if( can_close( door_idx, get_player_character() ) )
+            {
+                open_or_close( door_idx, open );
+            }
+        } );
+    };
+
+    veh_menu menu( this, _( "Select door to toggle" ) );
+
+    do {
+        menu.reset();
+
+        for( const vpart_reference &vp_motor : get_avail_parts( "DOOR_MOTOR" ) ) {
+            add_openable( menu, next_part_to_open( vp_motor.part_index() ) );
+            add_openable( menu, next_part_to_close( vp_motor.part_index() ) );
+        }
+
+        menu.add( _( "Open all curtains" ) )
+        .hotkey_auto()
+        .location( get_player_character().pos() )
+        .on_submit( [this, &open_or_close_all] { open_or_close_all( true, "CURTAIN" ); } );
+
+        menu.add( _( "Open all curtains and doors" ) )
+        .hotkey_auto()
+        .location( get_player_character().pos() )
+        .on_submit( [this, &open_or_close_all] { open_or_close_all( true, "" ); } );
+
+        menu.add( _( "Close all doors" ) )
+        .hotkey_auto()
+        .location( get_player_character().pos() )
+        .on_submit( [this, &open_or_close_all] { open_or_close_all( false, "DOOR" ); } );
+
+        menu.add( _( "Close all curtains and doors" ) )
+        .hotkey_auto()
+        .location( get_player_character().pos() )
+        .on_submit( [this, &open_or_close_all] { open_or_close_all( false, "" ); } );
+
+        if( menu.get_items_size() == 4 ) {
+            debugmsg( "vehicle::control_doors called but no door motors found" );
+            return;
+        }
+    } while( menu.query() );
 }
 
 void vehicle::set_electronics_menu_options( std::vector<uilist_entry> &options,
