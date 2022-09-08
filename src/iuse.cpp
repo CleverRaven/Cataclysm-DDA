@@ -8850,7 +8850,7 @@ cata::optional<int> iuse::cord_attach( Character *p, item *it, bool, const tripo
         }
         const tripoint posp = *posp_;
         const optional_vpart_position vp = here.veh_at( posp );
-        if( !vp || !vp->vehicle().has_tag( "APPLIANCE" ) ) {
+        if( !vp ) {
             p->add_msg_if_player( _( "There's no appliance here." ) );
             return cata::nullopt;
         } else {
@@ -8911,7 +8911,7 @@ cata::optional<int> iuse::cord_attach( Character *p, item *it, bool, const tripo
         const tripoint vpos = *vpos_;
 
         const optional_vpart_position target_vp = here.veh_at( vpos );
-        if( !target_vp || !target_vp->vehicle().has_tag( "APPLIANCE" ) ) {
+        if( !target_vp ) {
             p->add_msg_if_player( _( "There's no appliance there." ) );
             return cata::nullopt;
         } else {
