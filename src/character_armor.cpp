@@ -319,11 +319,11 @@ const weakpoint *Character::absorb_hit( const weakpoint_attack &, const bodypart
         if( has_active_bionic( bio_ads ) ) {
             if( elem.amount > 0 && get_power_level() > 24_kJ ) {
                 if( elem.type == damage_type::BASH ) {
-                    elem.amount /= 4;
+                    elem.amount /= 2;
                 } else if( elem.type == damage_type::CUT ) {
                     elem.amount /= 3;
                 } else if( elem.type == damage_type::STAB || elem.type == damage_type::BULLET ) {
-                    elem.amount /= 2;
+                    elem.amount /= 4;
                 }
                 mod_power_level( -bio_ads->power_trigger );
                 add_msg_if_player( m_good,
