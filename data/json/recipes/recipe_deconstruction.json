@@ -6837,14 +6837,6 @@
     "flags": [ "BLIND_EASY" ]
   },
   {
-    "result": "2x4",
-    "type": "uncraft",
-    "activity_level": "MODERATE_EXERCISE",
-    "time": "10 m",
-    "qualities": [ { "id": "SAW_W", "level": 2 } ],
-    "components": [ [ [ "plank_short", 2 ] ] ]
-  },
-  {
     "result": "deck_chair",
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
