@@ -660,7 +660,7 @@
       "msg": "You fold the box.",
       "menu_text": "Fold",
       "type": "transform",
-      "moves":500,
+      "moves": 500,
       "need_empty": true
     }
   },
@@ -710,7 +710,7 @@
       "msg": "You fold the box.",
       "menu_text": "Fold",
       "type": "transform",
-      "moves":1000,
+      "moves": 1000,
       "need_empty": true
     }
   },
@@ -755,15 +755,17 @@
         "max_item_length": "90 cm"
       }
     ],
-    "use_action": [ { "type": "deploy_furn", "furn_type": "f_cardboard_box" }, 
-    {
-      "target": "box_large_folded",
-      "msg": "You fold the box.",
-      "menu_text": "Fold",
-      "type": "transform",
-      "moves":1500,
-      "need_empty": true
-    } ]
+    "use_action": [ 
+      { "type": "deploy_furn", "furn_type": "f_cardboard_box" }, 
+      {
+        "target": "box_large_folded",
+        "msg": "You fold the box.",
+        "menu_text": "Fold",
+        "type": "transform",
+        "moves": 1500,
+        "need_empty": true
+      } 
+    ]
   },
   {
     "id": "box_large_folded",
@@ -838,7 +840,7 @@
       "msg": "You fold the box.",
       "menu_text": "Fold",
       "type": "transform",
-      "moves":1500,
+      "moves": 1500,
       "need_empty": true
     }
   },
