@@ -4119,14 +4119,15 @@ bool vehicle::can_float() const
 
 double vehicle::lift_thrust_of_rotorcraft( const bool fuelled, const bool safe ) const
 {
-    int total_diameter = 0;
+    int rotor_area_in_feet = 0;
     for( const int rotor : rotors ) {
-        total_diameter += parts[ rotor ].info().rotor_diameter();
+        int rotor_diameter_in_feet = parts[ rotor ].info().rotor_diameter() * 3.28084;
+        rotor_area_in_feet += ( M_PI / 4 ) * std::pow( rotor_diameter_in_feet, 2 );
     }
     int total_engine_w = total_power_w( fuelled, safe );
     // take off 15 % due to the imaginary tail rotor power.
     double engine_power_in_hp = total_engine_w * 0.00134102;
-    int rotor_area_in_feet = ( M_PI / 4 ) * std::pow( total_diameter * 3.28084, 2 );
+    
     // lift_thrust in lbthrust
     double lift_thrust = ( 8.8658 * std::pow( engine_power_in_hp / rotor_area_in_feet,
                            -0.3107 ) ) * engine_power_in_hp;
