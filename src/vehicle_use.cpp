@@ -504,43 +504,38 @@ void vehicle::autopilot_patrol_check()
 
 void vehicle::toggle_autopilot()
 {
-    uilist smenu;
-    enum autopilot_option : int {
-        PATROL,
-        FOLLOW,
-        STOP
-    };
-    smenu.desc_enabled = true;
-    smenu.text = _( "Choose action for the autopilot" );
-    smenu.addentry_col( PATROL, true, 'P', _( "Patrol…" ),
-                        "", string_format( _( "Program the autopilot to patrol a nearby vehicle patrol zone.  "
-                                           "If no zones are nearby, you will be prompted to create one." ) ) );
-    smenu.addentry_col( FOLLOW, true, 'F', _( "Follow…" ),
-                        "", string_format(
-                            _( "Program the autopilot to follow you.  It might be a good idea to have a remote control available to tell it to stop, too." ) ) );
-    smenu.addentry_col( STOP, true, 'S', _( "Stop…" ),
-                        "", string_format( _( "Stop all autopilot related activities." ) ) );
-    smenu.query();
-    switch( smenu.ret ) {
-        case PATROL:
-            autopilot_patrol_check();
-            break;
-        case STOP:
-            autopilot_on = false;
-            is_patrolling = false;
-            is_following = false;
-            autodrive_local_target = tripoint_zero;
-            add_msg( _( "You turn the engine off." ) );
-            stop_engines();
-            break;
-        case FOLLOW:
-            autopilot_on = true;
-            is_following = true;
-            is_patrolling = false;
-            start_engines();
-        default:
-            return;
-    }
+    veh_menu menu( this, _( "Choose action for the autopilot" ) );
+
+    menu.add( _( "Patrol…" ) )
+    .hotkey( 'P' )
+    .desc( _( "Program the autopilot to patrol a nearby vehicle patrol zone.  If no zones are nearby, you will be prompted to create one." ) )
+    .on_submit( [this] {
+        autopilot_patrol_check();
+    } );
+
+    menu.add( _( "Follow…" ) )
+    .hotkey( 'F' )
+    .desc( _( "Program the autopilot to follow you.  It might be a good idea to have a remote control available to tell it to stop, too." ) )
+    .on_submit( [this] {
+        autopilot_on = true;
+        is_following = true;
+        is_patrolling = false;
+        start_engines();
+    } );
+
+    menu.add( _( "Stop…" ) )
+    .hotkey( 'S' )
+    .desc( _( "Stop all autopilot related activities." ) )
+    .on_submit( [this] {
+        autopilot_on = false;
+        is_patrolling = false;
+        is_following = false;
+        autodrive_local_target = tripoint_zero;
+        add_msg( _( "You turn the engine off." ) );
+        stop_engines();
+    } );
+
+    menu.query();
 }
 
 void vehicle::toggle_tracking()
