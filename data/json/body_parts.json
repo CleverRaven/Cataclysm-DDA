@@ -284,7 +284,7 @@
     "drench_capacity": 1100,
     "smash_message": "You bring your knee down on the %s, smashing it.",
     "bionic_slots": 30,
-    "sub_parts": [ "leg_hip_l", "leg_upper_l", "leg_knee_l", "leg_lower_l", "leg_draped_r" ],
+    "sub_parts": [ "leg_hip_l", "leg_upper_l", "leg_knee_l", "leg_lower_l", "leg_draped_l" ],
     "flags": [ "LIMB_LOWER" ]
   },
   {
