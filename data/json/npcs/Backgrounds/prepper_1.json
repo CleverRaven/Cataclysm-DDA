@@ -269,7 +269,7 @@
     "dynamic_line": "My… what do you mean?  How would YOU know what the sign says?",
     "responses": [
       {
-        "text": "I uhh… found my way inside it a while ago.  The door was already open.  I kinda went through it already assuming whoever owned it was dead.",
+        "text": "I uh… found my way inside it a while ago.  The door was already open.  I kinda went through it already assuming whoever owned it was dead.",
         "trial": { "type": "LIE", "difficulty": 25, "mod": [ [ "TRUST", 2 ] ] },
         "success": { "topic": "BGSS_PREPPER_1_FOUND_LMOE2_BENICE" },
         "failure": { "topic": "BGSS_PREPPER_1_FOUND_LMOE2_FAILLIE" }
@@ -425,8 +425,8 @@
     "dynamic_line": [
       {
         "days_since_cataclysm": 21,
-        "no": "&<npc_name> sighs and pauses for a moment. \"Listen…  I know what you think I am, but the threats are real.  The dead are walking, strange hellspawn crawling out of…  well, I can't even talk about it.  Whatever demonic, technological abomination, bio-weapon the communists unleased on the world is definitely out of their control.  Look around you!  Isn't it obvious something bigger is going on?\"",
-        "yes": "&<npc_name> sighs and pauses for a moment. \"It's been so long now.  I barely even remember what I was doing.  There was so much confusion and violence in those last days.  My family didn't understand the threat, even though I tried to tell them.  I know what you think I am, but look what's happened!  The dead are walking, the sky is cracking open, and…  well, I can't even talk about it.  Isn't it obvious something bigger is going on?\""
+        "no": "&<npc_name> sighs and pauses for a moment.  \"Listen…  I know what you think I am, but the threats are real.  The dead are walking, strange hellspawn crawling out of…  well, I can't even talk about it.  Whatever demonic, technological abomination, bio-weapon the communists unleashed on the world is definitely out of their control.  Look around you!  Isn't it obvious something bigger is going on?\"",
+        "yes": "&<npc_name> sighs and pauses for a moment.  \"It's been so long now.  I barely even remember what I was doing.  There was so much confusion and violence in those last days.  My family didn't understand the threat, even though I tried to tell them.  I know what you think I am, but look what's happened!  The dead are walking, the sky is cracking open, and…  well, I can't even talk about it.  Isn't it obvious something bigger is going on?\""
       }
     ],
     "responses": [
