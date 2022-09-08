@@ -423,6 +423,7 @@
     "quench": -30,
     "healthy": -1,
     "description": "Water with salt added.  Not good for drinking.",
+    "flags": [ "NUTRIENT_OVERRIDE", "NO_AUTO_CONSUME" ],
     "price": 0,
     "price_postapoc": 0,
     "volume": "250 ml",
@@ -1958,5 +1959,25 @@
     "symbol": "=",
     "color": "white",
     "looks_like": "lard"
+  },
+  {
+    "id": "silicone",
+    "type": "AMMO",
+    "name": { "str_sp": "silicone caulk" },
+    "category": "chems",
+    "description": "A thick gray paste used as a sealant in many construction projects.",
+    "weight": "2480 mg",
+    "volume": "100 ml",
+    "//": "density: 0.76–4.20 g/cm3 according to google, I'm going with the middle ground",
+    "price": 936,
+    "price_postapoc": 400,
+    "ammo_type": "components",
+    "stack_size": 10,
+    "phase": "liquid",
+    "container": "squeeze_tube",
+    "sealed": true,
+    "symbol": "s",
+    "color": "light_gray",
+    "flags": [ "UNRECOVERABLE" ]
   }
 ]
