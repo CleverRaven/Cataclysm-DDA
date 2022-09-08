@@ -51,9 +51,13 @@
       { "text": "Could you tell me that story again?", "topic": "BGSS_PREPPER_1_STORY1" },
       {
         "text": "We could go check out that shelter together if you like.  Might be better having another person to keep you safe?",
+        "//": "Checks to see if you have already started this quest (by extension, it applies to any future NPC with this background), whether you have read their notes from TALK_PREPPER_1_COMPUTER, and whether you have already asked them about this quest. The conditional checks here look a little crazy but they simply gate you out of this conversation for various reasons.",
         "condition": {
           "and": [
             { "not": { "u_has_var": "prepper_1_started_quest", "type": "mission", "context": "BGSS", "value": "yes" } },
+            {
+              "not": { "u_has_var": "prepper_1_found_computer", "type": "mission", "context": "BGSS", "value": "yes" }
+            },
             {
               "not": {
                 "and": [
@@ -91,6 +95,11 @@
           ]
         }
       },
+      {
+        "text": "I know this might seem weird but… your shelter wasn't on the way out of town, was it?  A hole in the ground, surrounded by trees?  Full of supplies with a sign out front that says 'I'm gonna shoot you'?",
+        "topic": "BGSS_PREPPER_1_FOUND_LMOE1",
+        "condition": { "u_has_var": "prepper_1_found_computer", "type": "mission", "context": "BGSS", "value": "yes" }
+      },
       { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
       { "text": "<end_talking>", "topic": "TALK_DONE" }
     ]
@@ -107,7 +116,14 @@
       },
       {
         "text": "You wouldn't keep ALL your tricks and secrets from me, though, would you?  After everything we've been through?",
-        "condition": { "not": { "u_has_var": "prepper_1_asked_about_secrets", "type": "mission", "context": "BGSS", "value": "yes" } },
+        "condition": {
+          "and": [
+            { "not": { "u_has_var": "prepper_1_asked_about_secrets", "type": "mission", "context": "BGSS", "value": "yes" } },
+            {
+              "not": { "u_has_var": "prepper_1_found_computer", "type": "mission", "context": "BGSS", "value": "yes" }
+            }
+          ]
+        },
         "//": "Even though material possessions have been made trivially easy to obtain in the apocalypse, the prepper still values their stash, hence the difficult trial here.",
         "trial": { "type": "PERSUADE", "difficulty": -75, "mod": [ [ "TRUST", 1 ], [ "VALUE", 1 ], [ "ANGER", -8 ] ] },
         "success": {
@@ -246,6 +262,257 @@
     "type": "talk_topic",
     "dynamic_line": "I'd have to be absolutely <dumb> to give up the location of my stash to someone I barely know.  For all I know you'd just kill me and take it all for yourself!  Better luck next time, pal.",
     "responses": [ { "text": "Okay, calm down…", "topic": "TALK_NONE" } ]
+  },
+  {
+    "id": "BGSS_PREPPER_1_FOUND_LMOE1",
+    "type": "talk_topic",
+    "dynamic_line": "My… what do you mean?  How would YOU know what the sign says?",
+    "responses": [
+      {
+        "text": "I uhh… found my way inside it a while ago.  The door was already open.  I kinda went through it already assuming whoever owned it was dead.",
+        "trial": { "type": "LIE", "difficulty": 25, "mod": [ [ "TRUST", 2 ] ] },
+        "success": { "topic": "BGSS_PREPPER_1_FOUND_LMOE2_BENICE" },
+        "failure": { "topic": "BGSS_PREPPER_1_FOUND_LMOE2_FAILLIE" }
+      },
+      {
+        "text": "So it WAS yours?  I broke in and stole a bunch of stuff from it.  Sorry, I guess.",
+        "topic": "BGSS_PREPPER_1_FOUND_LMOE2_BEMEAN",
+        "opinion": { "trust": -1 }
+      },
+      {
+        "text": "Well, I got inside one and found a computer with a bunch of… conspiracy theory documents?  I'm not sure how to put it.  It seemed like whoever wrote it wasn't doing well.",
+        "topic": "BGSS_PREPPER_1_FOUND_LMOE5",
+        "opinion": { "trust": -2 }
+      }
+    ]
+  },
+  {
+    "id": "BGSS_PREPPER_1_FOUND_LMOE2_BENICE",
+    "type": "talk_topic",
+    "dynamic_line": [
+      {
+        "days_since_cataclysm": 14,
+        "no": "That's pretty presumptive of you, considering it hasn't been that long since shit went down.  What made you assume I was dead?",
+        "yes": "The door was open?  Was there anyone inside?  Why would you assume I was dead?"
+      }
+    ],
+    "responses": [
+      {
+        "text": "There was a dead guy inside.  It didn't take much to make that connection.",
+        "trial": { "type": "LIE", "difficulty": 40, "mod": [ [ "TRUST", 3 ] ] },
+        "success": { "topic": "BGSS_PREPPER_1_FOUND_LMOE4" },
+        "failure": { "topic": "BGSS_PREPPER_1_FOUND_LMOE4_FAILLIE", "opinion": { "trust": -1 } }
+      },
+      {
+        "text": "The whole front door had been blown off and everything had been looted.  Nothing left.  It seemed like something major had happened, that's all.",
+        "trial": { "type": "LIE", "difficulty": 10, "mod": [ [ "TRUST", 2 ] ] },
+        "success": { "topic": "BGSS_PREPPER_1_FOUND_LMOE4" },
+        "failure": { "topic": "BGSS_PREPPER_1_FOUND_LMOE4_FAILLIE", "opinion": { "trust": -1 } }
+      }
+    ]
+  },
+  {
+    "id": "BGSS_PREPPER_1_FOUND_LMOE2_BEMEAN",
+    "type": "talk_topic",
+    "dynamic_line": [
+      {
+        "days_since_cataclysm": 14,
+        "no": "Well, that's one way to say 'fuck you'!  How…  Why…  I was still trying to get back there, surviving and struggling just like you!  How would you feel if I came and stole all YOUR stuff right when you needed it most?!",
+        "yes": "Well, that's one way to say 'fuck you'!  I know it's been a while since shit went down, but I didn't lock that door and put up that sign for no reason!  How would you feel if I came and stole all the stuff that YOU locked away for safe keeping?!"
+      }
+    ],
+    "responses": [
+      {
+        "text": "Finders, keepers.",
+        "topic": "BGSS_PREPPER_1_FOUND_LMOE3_BEMEAN",
+        "opinion": { "anger": 4, "value": -5, "trust": -2 }
+      },
+      {
+        "text": "C'mon, you would do the same!  It's life or death out here!",
+        "topic": "BGSS_PREPPER_1_FOUND_LMOE3_BENICE",
+        "opinion": { "anger": 1, "value": -1, "trust": 1 }
+      }
+    ]
+  },
+  {
+    "id": "BGSS_PREPPER_1_FOUND_LMOE3_BEMEAN",
+    "type": "talk_topic",
+    "dynamic_line": "I guess I know exactly how much to trust you now.",
+    "responses": [
+      { "text": "You sure do.", "topic": "TALK_DONE", "opinion": { "anger": 1, "value": -1, "trust": -1 } },
+      {
+        "text": "This is the world now.  If I didn't take it, someone else would have.",
+        "topic": "BGSS_PREPPER_1_FOUND_LMOE3_BENICE"
+      }
+    ]
+  },
+  {
+    "id": "BGSS_PREPPER_1_FOUND_LMOE3_BENICE",
+    "type": "talk_topic",
+    "dynamic_line": "I suppose that's true.  Still not a very nice way to break the news to someone you accidentally robbed…",
+    "responses": [
+      { "text": "You're right, sorry.", "topic": "TALK_DONE" },
+      {
+        "text": "I'm just doing what I have to do.  Stick with me and we'll find plenty of stuff to replace it.",
+        "topic": "TALK_DONE"
+      }
+    ]
+  },
+  {
+    "id": "BGSS_PREPPER_1_FOUND_LMOE4",
+    "type": "talk_topic",
+    "dynamic_line": "Oh…  Yeah, that would definitely do it.  It's a shame someone already got in.  I had a lot of stuff saved up there.  But I suppose it wouldn't matter much now.",
+    "responses": [ { "text": "Stick with me and we'll find plenty of stuff to replace it.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "id": "BGSS_PREPPER_1_FOUND_LMOE4_FAILLIE",
+    "type": "talk_topic",
+    "dynamic_line": "You're not really a good liar.  I built that thing like a fortress.  No one would just break into it.",
+    "responses": [
+      {
+        "text": "Well…  I did.  And that's just how it goes.  It wasn't even that difficult.",
+        "topic": "TALK_DONE",
+        "opinion": { "anger": 3, "trust": -2 }
+      },
+      {
+        "text": "I'm sorry.  I guess I just didn't know how to tell you I needed what was in it.",
+        "topic": "BGSS_PREPPER_1_FOUND_LMOE4_FAILLIE2"
+      }
+    ]
+  },
+  {
+    "id": "BGSS_PREPPER_1_FOUND_LMOE4_FAILLIE2",
+    "type": "talk_topic",
+    "dynamic_line": "Just don't lie about it.  I understand your life was probably in danger.  I can see past that.  Trust me, I've been in sticky situations before.  Tell the truth next time.",
+    "responses": [ { "text": "…", "topic": "TALK_DONE" } ]
+  },
+  {
+    "id": "BGSS_PREPPER_1_FOUND_LMOE5",
+    "type": "talk_topic",
+    "dynamic_line": "&<npc_name> inhales sharply and breaks eye contact.  \"I…  I mean, I can sympathize with someone who thinks that way…  The government lies all the time and they're probably out there somewhere STILL lying.  But nah, I wouldn't leave my computer laying around, unprotected.\"",
+    "responses": [
+      {
+        "text": "Are you sure?  It kind of feels like it might be yours by the way you're acting…",
+        "trial": { "type": "PERSUADE", "difficulty": 30, "mod": [ [ "TRUST", 1 ], [ "VALUE", 1 ], [ "ANGER", -2 ] ] },
+        "success": { "topic": "BGSS_PREPPER_1_FOUND_LMOE6" },
+        "failure": { "topic": "BGSS_PREPPER_1_FOUND_LMOE6_FAILLIE", "opinion": { "trust": -1 } }
+      },
+      {
+        "text": "There was a bunch of notes about Chinese bio-weapons and this guy who worked at an airport…  If you want to talk about it, we can.",
+        "topic": "BGSS_PREPPER_1_FOUND_LMOE6_FAILLIE"
+      },
+      {
+        "text": "But you DID leave your computer unprotected.  AND full of evidence.  It's exactly what a government agent would need to track you down…  Someone like me…",
+        "topic": "BGSS_PREPPER_1_SHARELOOTFAILURE3"
+      }
+    ]
+  },
+  {
+    "id": "BGSS_PREPPER_1_FOUND_LMOE6_FAILLIE",
+    "type": "talk_topic",
+    "dynamic_line": "Nope.  Not mine.  Listen, maybe we shouldn't talk about this.",
+    "responses": [
+      {
+        "text": "Why not?  Now that it's all finally come to a head, maybe some of your theories are right.",
+        "topic": "BGSS_PREPPER_1_FOUND_LMOE6"
+      },
+      { "text": "OK, I understand.  Sorry for being nosy.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "BGSS_PREPPER_1_FOUND_LMOE6",
+    "type": "talk_topic",
+    "dynamic_line": [
+      {
+        "days_since_cataclysm": 21,
+        "no": "&<npc_name> sighs and pauses for a moment. \"Listen…  I know what you think I am, but the threats are real.  The dead are walking, strange hellspawn crawling out of…  well, I can't even talk about it.  Whatever demonic, technological abomination, bio-weapon the communists unleased on the world is definitely out of their control.  Look around you!  Isn't it obvious something bigger is going on?\"",
+        "yes": "&<npc_name> sighs and pauses for a moment. \"It's been so long now.  I barely even remember what I was doing.  There was so much confusion and violence in those last days.  My family didn't understand the threat, even though I tried to tell them.  I know what you think I am, but look what's happened!  The dead are walking, the sky is cracking open, and…  well, I can't even talk about it.  Isn't it obvious something bigger is going on?\""
+      }
+    ],
+    "responses": [
+      {
+        "text": "Something bigger?  You mean you think someone did this intentionally?",
+        "topic": "BGSS_PREPPER_1_FOUND_LMOE7"
+      }
+    ]
+  },
+  {
+    "id": "BGSS_PREPPER_1_FOUND_LMOE7",
+    "type": "talk_topic",
+    "dynamic_line": [
+      {
+        "days_since_cataclysm": 21,
+        "//": "Before the Cataclysm, the prepper was pretty sure it was a Chinese plot for American destabilization and control, maybe aided by elites across the world.  If you meet them early, they still sort of think this.  Later, once the portal storms ramp up, they decide it might be something more cosmic, possibly religious. The conversation from this point should allow the player to bounce ideas about what happened off of the prepper.",
+        "no": "It's an invasion.  Or, at least, I think that's what they were trying to do at first.  Sudden bouts of violence, undermining protests by putting agitators all over the news…  When they couldn't get what they wanted, they went full 'scorched earth'.  They decided to destroy everything instead.",
+        "yes": "I thought I knew at one point.  There were so many signs of manipulation and control.  I thought maybe they were trying to discredit the protests, but when the violence broke out it seemed to be everywhere.  There was footage on the news of people fighting, destroying property, eating animals and… each other in the street.  I thought at some point they were going to sweep in and seize control, but it just never happened."
+      }
+    ],
+    "responses": [ { "text": "What do you mean?  Who is 'they'?", "topic": "BGSS_PREPPER_1_FOUND_LMOE8" } ]
+  },
+  {
+    "id": "BGSS_PREPPER_1_FOUND_LMOE8",
+    "type": "talk_topic",
+    "dynamic_line": [
+      {
+        "days_since_cataclysm": 21,
+        "no": "You know, the elites.  The ones who have always had control will continue having control, no matter what it costs.  If it means destroying everything to be king of the ashes, they'll do it.  I thought for sure it was China, but I'm not so sure anymore.  I figured they would probably be here by now, putting on their crown.  Maybe they're still waiting to make their move…",
+        "yes": "The government.  Whoever was left, really.  I don't know…  I'm starting to think that maybe some of those folks were right…  Maybe this is some kind of punishment for humanity.  Maybe some god decided they'd had enough of us.  Or maybe there's no answer.  I can't explain some of the things I've seen."
+      }
+    ],
+    "responses": [
+      {
+        "text": "I think you might be right.  The government probably does have something to do with it.",
+        "topic": "BGSS_PREPPER_1_FOUND_LMOE9_GOVERNMENT"
+      },
+      {
+        "text": "I feel like this could definitely be some kind of divine punishment.",
+        "condition": { "u_has_trait": "SPIRITUAL" },
+        "topic": "BGSS_PREPPER_1_FOUND_LMOE9_GOD"
+      },
+      {
+        "text": "Maybe the explanation is more scientific.  Zombies and flesh-eating monsters only come from supervillains and gods in fiction.",
+        "condition": { "u_has_intelligence": 7 },
+        "topic": "BGSS_PREPPER_1_FOUND_LMOE9_SKEPTIC"
+      },
+      {
+        "text": "Honestly, it's probably aliens.  I can't really think of another reasonable explanation for all of this.",
+        "topic": "BGSS_PREPPER_1_FOUND_LMOE9_ALIENS"
+      },
+      {
+        "text": "I don't think there's any explanation.  Sometimes bad things just happen.",
+        "topic": "BGSS_PREPPER_1_FOUND_LMOE9_CHAOS"
+      }
+    ]
+  },
+  {
+    "id": "BGSS_PREPPER_1_FOUND_LMOE9_GOVERNMENT",
+    "type": "talk_topic",
+    "dynamic_line": "That's what I'm saying!  Everything that's going on wouldn't be possible without massive fuck-ups by people in power.  China has fusion reactors?  Well, I've never seen it!  America sinks trillions and trillions of dollars into secret military budgets with no explanation.  If you gave me a trillion dollars and the brain of a bureaucrat, I bet it wouldn't be that hard to completely fuck up reality either.",
+    "responses": [ { "text": "…", "topic": "TALK_DONE" } ]
+  },
+  {
+    "id": "BGSS_PREPPER_1_FOUND_LMOE9_GOD",
+    "type": "talk_topic",
+    "dynamic_line": "I've been trying not to think about it, but you could be right.  The more that I see, the less I can explain.  I grew up around a lot of people who always talked about the Rapture, like they KNEW it would happen.  Before the internet stopped working, I saw people saying that sinners were becoming zombies.  'As above, so below' someone said, or something like that…",
+    "responses": [ { "text": "…", "topic": "TALK_DONE" } ]
+  },
+  {
+    "id": "BGSS_PREPPER_1_FOUND_LMOE9_SKEPTIC",
+    "type": "talk_topic",
+    "dynamic_line": "Maybe.  I guess multiple things could be possible.  You really don't think that there's someone or something behind this?  Someone who flew a little too close to the sun?  Poked the beast?",
+    "responses": [ { "text": "…", "topic": "TALK_DONE" } ]
+  },
+  {
+    "id": "BGSS_PREPPER_1_FOUND_LMOE9_ALIENS",
+    "type": "talk_topic",
+    "dynamic_line": "I've been trying not to think about it, but you could be right.  The more that I see, the less I can explain.  I don't know why humans would want this, but if you're a brain-sucking alien, this is the place to be.",
+    "responses": [ { "text": "…", "topic": "TALK_DONE" } ]
+  },
+  {
+    "id": "BGSS_PREPPER_1_FOUND_LMOE9_CHAOS",
+    "type": "talk_topic",
+    "dynamic_line": "I can't accept that.  Everything was just fine for a while, but the bad started some years ago, with bad people doing bad things.  I think we all knew it was gonna end one way or another.  But there's got to be some sort of deeper explanation for… this!  Someone is responsible!",
+    "responses": [ { "text": "…", "topic": "TALK_DONE" } ]
   },
   {
     "id": "directions_prepper_1_SHELTER",
