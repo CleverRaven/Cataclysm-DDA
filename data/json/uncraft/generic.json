@@ -237,7 +237,7 @@
     "components": [ [ [ "lc_steel_lump", 39 ] ] ]
   },
   {
-    "result": "10l_mcsteel",
+    "result": "10l_mc_steel",
     "type": "uncraft",
     "activity_level": "MODERATE_EXERCISE",
     "time": "10 m",

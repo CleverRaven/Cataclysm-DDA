@@ -30,7 +30,7 @@
     "flags": [ "NO_SALVAGE" ]
   },
   {
-    "id": "10lplastic",
+    "id": "10l_plastic",
     "type": "AMMO",
     "category": "spare_parts",
     "name": { "str": "10L plastic block" },
@@ -45,7 +45,7 @@
     "ammo_type": "components"
   },
   {
-    "id": "5lplastic",
+    "id": "5l_plastic",
     "type": "AMMO",
     "category": "spare_parts",
     "name": { "str": "5L plastic block" },
