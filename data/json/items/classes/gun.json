@@ -108,6 +108,7 @@
     "type": "GUN",
     "name": { "str": "revolver" },
     "proportional": { "reload": 0.7 },
+	"//": "Need a better name than 'barrel device'"
     "extend": { "flags": [ "RELOAD_ONE", "RELOAD_EJECT", "NEVER_JAMS" ] },
     "//": "Revolvers exclude the muzzle location preventing installation of suppressors",
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ],
@@ -121,7 +122,7 @@
       [ "stock mount", 1 ],
       [ "rail mount", 1 ],
       [ "underbarrel mount", 1 ],
-      [ "muzzle device", 1 ]
+      [ "barrel device", 1 ]
     ]
   },
   {
