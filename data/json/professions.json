@@ -5410,5 +5410,82 @@
       ]
     },
     "missions": [ "MISSION_ASSASSINATION" ]
+  },
+  {
+    "type": "profession",
+    "id": "old_vet",
+    "name": "Old Veteran",
+    "description": "You've been through hell once before.  Hopefully those weekend range trips have kept your skills sharp.",
+    "points": 4,
+    "skills": [
+      { "level": 1, "name": "gun" },
+      { "level": 1, "name": "rifle" },
+      { "level": 1, "name": "firstaid" },
+      { "level": 2, "name": "survival" }
+    ],
+    "proficiencies": [ "prof_gunsmithing_basic", "prof_spotting" ],
+    "items": {
+      "both": {
+        "items": [
+          "wristwatch",
+          "jacket_army",
+          "pants",
+          "service_medal",
+          "boots_combat",
+          "socks",
+          "officer_uniform",
+          "pipe_tobacco",
+          "tobacco",
+          "beret"
+        ],
+        "entries": [
+          { "item": "cane", "custom-flags": [ "auto_wield" ] },
+          { "group": "charged_ref_lighter" },
+          { "item": "chestrig", "contents-group": "army_mags_m14" },
+          { "item": "knife_combat", "container-item": "sheath" },
+          { "item": "m1a", "ammo-item": "762_51", "charges": 20, "contents-item": [ "shoulder_strap" ] }
+        ]
+      },
+      "male": [ "briefs" ],
+      "female": [ "boy_shorts", "bra" ]
+    }
+  },
+  {
+    "type": "profession",
+    "id": "urbex",
+    "name": "Urban Explorer",
+    "description": "You've always admired the beauty of urban desolation, and were ready for your next trip into town when the end of the world made your hobby much more relevant.",
+    "points": 2,
+    "skills": [ { "level": 2, "name": "swimming" }, { "level": 1, "name": "traps" } ],
+    "proficiencies": [ "prof_lockpicking" ],
+    "items": {
+      "both": {
+        "items": [
+          "wristwatch",
+          "gloves_fingerless",
+          "socks",
+          "sneakers",
+          "hoodie",
+          "tshirt_text",
+          "crowbar",
+          "camera_bag",
+          "slingpack",
+          "leather_belt",
+          "urbexmap"
+        ],
+        "entries": [
+          { "group": "charged_smart_phone", "container-item": "pants" },
+          { "item": "light_disposable_cell", "ammo-item": "battery", "charges": 300, "container-item": "camera_pro" },
+          {
+            "item": "light_disposable_cell",
+            "ammo-item": "battery",
+            "charges": 300,
+            "container-item": "wearable_light"
+          }
+        ]
+      },
+      "male": [ "briefs" ],
+      "female": [ "boy_shorts", "sports_bra" ]
+    }
   }
 ]

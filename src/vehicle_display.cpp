@@ -413,16 +413,16 @@ void vehicle::print_fuel_indicators( const catacurses::window &win, const point 
 void vehicle::print_fuel_indicator( const catacurses::window &win, const point &p,
                                     const itype_id &fuel_type, bool verbose, bool desc )
 {
-    std::map<itype_id, float> fuel_usages;
+    std::map<itype_id, units::energy> fuel_usages;
     print_fuel_indicator( win, p, fuel_type, fuel_usages, verbose, desc );
 }
 
 void vehicle::print_fuel_indicator( const catacurses::window &win, const point &p,
                                     const itype_id &fuel_type,
-                                    std::map<itype_id, float> fuel_usages,
+                                    std::map<itype_id, units::energy> fuel_usages,
                                     bool verbose, bool desc )
 {
-    const char fsyms[5] = { 'E', '\\', '|', '/', 'F' };
+    static constexpr std::array<char, 5> fsyms = { 'E', '\\', '|', '/', 'F' };
     nc_color col_indf1 = c_light_gray;
     int cap = fuel_capacity( fuel_type );
     int f_left = fuel_left( fuel_type );

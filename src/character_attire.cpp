@@ -1882,9 +1882,11 @@ std::unordered_set<bodypart_id> outfit::where_discomfort() const
             if( i.is_bp_comfortable( sbp ) ) {
                 covered_sbps.insert( sbp );
             }
-            // if the bp is rigid and has yet to display as covered with something soft then it should cause discomfort
+            // if the bp is uncomfortable and has yet to display as covered with something comfortable then it should cause discomfort
             // note anything selectively rigid reasonably can be assumed to support itself so we don't need to worry about this
-            if( !i.is_bp_rigid_selective( sbp ) && i.is_bp_rigid( sbp ) && covered_sbps.count( sbp ) != 1 ) {
+            // items must also be somewhat heavy in order to cause discomfort
+            if( !i.is_bp_rigid_selective( sbp ) && !i.is_bp_comfortable( sbp ) &&
+                covered_sbps.count( sbp ) != 1 && i.weight() > units::from_gram( 250 ) ) {
                 uncomfortable_bps.insert( sbp->parent );
             }
         }

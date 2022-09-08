@@ -162,7 +162,13 @@
       { "item": "vibrator", "prob": 5, "charges-min": 0, "charges-max": 50 },
       { "item": "file", "prob": 10 },
       {
-        "distribution": [ { "item": "roadmap" }, { "item": "trailmap" }, { "item": "touristmap" }, { "item": "restaurantmap" } ],
+        "distribution": [
+          { "item": "roadmap" },
+          { "item": "trailmap" },
+          { "item": "touristmap" },
+          { "item": "restaurantmap" },
+          { "item": "urbexmap" }
+        ],
         "prob": 5
       },
       {

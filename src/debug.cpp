@@ -816,6 +816,7 @@ static std::ostream &operator<<( std::ostream &out, DebugClass cl )
 // In particular, we want to avoid any characters of significance to the shell.
 static bool debug_is_safe_string( const char *start, const char *finish )
 {
+    // NOLINTNEXTLINE(modernize-avoid-c-arrays)
     static constexpr char safe_chars[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
                                          "abcdefghijklmnopqrstuvwxyz"
                                          "01234567890_./-+";
@@ -883,7 +884,7 @@ static cata::optional<uintptr_t> debug_compute_load_offset(
 
     // We need to try calling nm in two different ways, because one
     // works for executables and the other for libraries.
-    const char *nm_variants[] = { "nm", "nm -D" };
+    std::array<const char *, 2> nm_variants = { "nm", "nm -D" };
     for( const char *nm_variant : nm_variants ) {
         std::ostringstream cmd;
         cmd << nm_variant << ' ' << binary << " 2>&1";
@@ -893,9 +894,9 @@ static cata::optional<uintptr_t> debug_compute_load_offset(
             return cata::nullopt;
         }
 
-        char buf[1024];
-        while( fgets( buf, sizeof( buf ), nm ) ) {
-            std::string line( buf );
+        std::array<char, 1024> buf;
+        while( fgets( buf.data(), buf.size(), nm ) ) {
+            std::string line( buf.data() );
             while( !line.empty() && isspace( line.end()[-1] ) ) {
                 line.erase( line.end() - 1 );
             }
@@ -1033,6 +1034,7 @@ static std::map<DWORD64, backtrace_module_info_t> bt_module_info_map;
 #endif
 #elif !defined(__ANDROID__) && !defined(LIBBACKTRACE)
 static constexpr int bt_cnt = 20;
+// NOLINTNEXTLINE(modernize-avoid-c-arrays)
 static void *bt[bt_cnt];
 #endif
 
@@ -1251,16 +1253,16 @@ void debug_write_backtrace( std::ostream &out )
             out << "    backtrace: popen(addr2line) failed\n";
             return false;
         }
-        char buf[1024];
-        while( fgets( buf, sizeof( buf ), addr2line ) ) {
+        std::array<char, 1024> buf;
+        while( fgets( buf.data(), buf.size(), addr2line ) ) {
             out.write( "    ", 4 );
             // Strip leading directories for source file path
-            char search_for[] = "/src/";
-            char *buf_end = buf + strlen( buf );
-            char *src = std::find_end( buf, buf_end,
+            const char *search_for = "/src/";
+            char *buf_end = buf.data() + strlen( buf.data() );
+            char *src = std::find_end( buf.data(), buf_end,
                                        search_for, search_for + strlen( search_for ) );
             if( src == buf_end ) {
-                src = buf;
+                src = buf.data();
             } else {
                 out << "…";
             }

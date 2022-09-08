@@ -665,7 +665,9 @@ vehicle *map::move_vehicle( vehicle &veh, const tripoint &dp, const tileray &fac
     cata_assert( vertical == ( dp.xy() == point_zero ) );
 
     const int target_z = dp.z + veh.sm_pos.z;
-    if( target_z < -OVERMAP_DEPTH || target_z > OVERMAP_HEIGHT ) {
+    // limit vehicles to at most OVERMAP_HEIGHT - 1; this mitigates getting to zlevel 10 easily
+    // and causing `get_cache_ref( zlev + 1 );` call in map::build_sunlight_cache overflowing
+    if( target_z < -OVERMAP_DEPTH || target_z > OVERMAP_HEIGHT - 1 ) {
         return &veh;
     }
 
@@ -2224,7 +2226,7 @@ int map::combined_movecost( const tripoint &from, const tripoint &to,
                             const vehicle *ignored_vehicle,
                             const int modifier, const bool flying, const bool via_ramp ) const
 {
-    const int mults[4] = { 0, 50, 71, 100 };
+    static constexpr std::array<int, 4> mults = { 0, 50, 71, 100 };
     const int cost1 = move_cost( from, ignored_vehicle );
     const int cost2 = move_cost( to, ignored_vehicle );
     // Multiply cost depending on the number of differing axes
@@ -3598,8 +3600,8 @@ ter_id map::get_roof( const tripoint &p, const bool allow_air ) const
 // For example, a washing machine behind the bashed door
 static bool furn_is_supported( const map &m, const tripoint &p )
 {
-    const signed char cx[4] = { 0, -1, 0, 1};
-    const signed char cy[4] = { -1,  0, 1, 0};
+    static constexpr std::array<int8_t, 4> cx = { 0, -1, 0, 1};
+    static constexpr std::array<int8_t, 4> cy = { -1,  0, 1, 0};
 
     for( int i = 0; i < 4; i++ ) {
         const point adj( p.xy() + point( cx[i], cy[i] ) );
@@ -6039,6 +6041,11 @@ bool map::add_field( const tripoint &p, const field_type_id &type_id, int intens
         return false;
     }
 
+    // Don't spawn liquid fields on water tiles
+    if( has_flag( ter_furn_flag::TFLAG_SWIMMABLE, p ) && type_id.obj().phase == phase_id::LIQUID ) {
+        return false;
+    }
+
     // Hacky way to force electricity fields to become unlit electricity fields
     const field_type_id &converted_type_id = ( type_id == fd_electricity ||
             type_id == fd_electricity_unlit ) ? get_applicable_electricity_field( p ) : type_id;
@@ -6977,16 +6984,16 @@ void map::reachable_flood_steps( std::vector<tripoint> &reachable_pts, const tri
         t_grid[ ndx ] = initial_visit_distance;
     }
 
-    auto gen_neighbors = []( const pq_item & elem, int grid_dim, pq_item * neighbors ) {
+    auto gen_neighbors = []( const pq_item & elem, int grid_dim, std::array<pq_item, 8> &neighbors ) {
         // Up to 8 neighbors
         int new_cost = elem.dist + 1;
         // *INDENT-OFF*
-        int ox[8] = {
+        std::array<int, 8> ox = {
             -1, 0, 1,
             -1,    1,
             -1, 0, 1
         };
-        int oy[8] = {
+        std::array<int, 8> oy = {
             -1, -1, -1,
             0,      0,
             1,  1,  1
@@ -7005,7 +7012,7 @@ void map::reachable_flood_steps( std::vector<tripoint> &reachable_pts, const tri
     PQ_type pq( pq_item_comp{} );
     pq_item first_item{ 0, range + range * grid_dim };
     pq.push( first_item );
-    pq_item neighbor_elems[8];
+    std::array<pq_item, 8> neighbor_elems;
 
     while( !pq.empty() ) {
         const pq_item item = pq.top();
@@ -8835,13 +8842,15 @@ void map::build_map_cache( const int zlev, bool skip_lightmap )
                                    mcache.end(), std::inserter( diff, diff.end() ) );
     camera_cache_dirty |= !diff.empty();
     // Initial value is illegal player position.
-    const tripoint p = get_player_character().pos();
+    const tripoint_abs_ms p = get_player_character().get_location();
     int const sr = u.unimpaired_range();
-    static tripoint player_prev_pos;
+    static tripoint_abs_ms player_prev_pos;
     static int player_prev_range( 0 );
     seen_cache_dirty |= player_prev_pos != p || sr != player_prev_range || camera_cache_dirty;
     if( seen_cache_dirty ) {
-        build_seen_cache( p, zlev, sr );
+        if( inbounds( p ) ) {
+            build_seen_cache( getlocal( p ), zlev, sr );
+        }
         player_prev_pos = p;
         player_prev_range = sr;
         camera_cache_dirty = true;
@@ -8850,10 +8859,12 @@ void map::build_map_cache( const int zlev, bool skip_lightmap )
         u.moncam_cache = mcache;
         bool cumulative = seen_cache_dirty;
         for( Character::cached_moncam const &mon : u.moncam_cache ) {
-            int const range = mon.first->type->vision_day;
-            build_seen_cache( get_map().getlocal( mon.second ), mon.second.z(), range, cumulative,
-                              true, std::max( 60 - range, 0 ) );
-            cumulative = true;
+            if( inbounds( mon.second ) ) {
+                int const range = mon.first->type->vision_day;
+                build_seen_cache( getlocal( mon.second ), mon.second.z(), range, cumulative,
+                                  true, std::max( 60 - range, 0 ) );
+                cumulative = true;
+            }
         }
     }
     if( !skip_lightmap ) {
