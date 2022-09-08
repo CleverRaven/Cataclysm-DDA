@@ -587,7 +587,7 @@
       { "id": "water_wheel_with_power_saw", "description": " Craft: Water Wheel, Power Saw" },
       { "id": "xl_water_wheel_with_power_saw", "description": " Craft: Large Water Wheel, Power Saw" },
       { "id": "wood_beam_with_planer", "description": " Craft: Wooden Beam, Planer" },
-      { "id": "2x4_with_power_saw", "description": " Craft: Planks, Power Saw" }
+      { "id": "plank_long", "description": " Craft: Long planks, Power Saw" }
     ]
   },
   {
