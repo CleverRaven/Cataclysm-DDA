@@ -7268,7 +7268,7 @@ bool item::has_flag( const flag_id &f, bool ignore_inherit ) const
         // if the pocket inherits flags
         if( pocket->inherits_flags() ) {
             for( const item *e : pocket->all_items_top() ) {
-                if( e->has_flag( f ) ) {
+                if( e->has_flag( f ) && f->inherit() ) {
                     return true;
                 }
             }
