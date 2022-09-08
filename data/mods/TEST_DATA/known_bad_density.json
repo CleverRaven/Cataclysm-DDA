@@ -1045,7 +1045,6 @@
       "camphine",
       "bot_EMP_hack",
       "magical_throwing_knife_cut",
-      "rune_biomancer_weapon",
       "fireproof_mortar",
       "animist_spirits",
       "q_staff_plus_one",
@@ -1068,7 +1067,6 @@
       "magical_throwing_knife_biological",
       "meat_dragon",
       "metal_legends",
-      "flamesword",
       "purified_meat",
       "sledge_heavy_plus_two",
       "lizardfolk_javelin",
@@ -1077,12 +1075,10 @@
       "alchemy_basic",
       "mkey_opening",
       "enchantment_basic",
-      "cudgel_plus_one",
       "magical_throwing_knife_pure_special",
       "impure_meat",
       "lizardfolk_club",
       "adrenal_gland_large",
-      "q_staff_plus_two",
       "rocuronium"
     ]
   }
