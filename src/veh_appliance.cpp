@@ -459,6 +459,13 @@ void veh_app_interact::remove()
     }
 }
 
+void veh_app_interact::plug()
+{
+    const int part = veh->part_at( a_point );
+    const tripoint pos = veh->global_part_pos3( part );
+    veh->plug_in( get_map().getabs( pos ) );
+}
+
 void veh_app_interact::unplug()
 {
     veh->shed_loose_parts();
@@ -511,6 +518,13 @@ void veh_app_interact::populate_app_actions()
     } );
     imenu.addentry( -1, true, ctxt.keys_bound_to( "REMOVE" ).front(),
                     ctxt.get_action_name( "REMOVE" ) );
+    // Plug
+    app_actions.emplace_back( [this]() {
+        plug();
+    } );
+    imenu.addentry( -1, true, ctxt.keys_bound_to( "PLUG" ).front(),
+                    ctxt.get_action_name( "PLUG" ) );
+
     // Unplug
     app_actions.emplace_back( [this]() {
         unplug();
@@ -520,10 +534,12 @@ void veh_app_interact::populate_app_actions()
 
     /*************** Get part-specific actions ***************/
     veh_menu menu( veh, "IF YOU SEE THIS IT IS A BUG" );
-    veh->build_electronics_menu( menu );
+    const tripoint p = veh->mount_to_tripoint( a_point );
+    veh->build_interact_menu( menu, p, false );
     std::vector<veh_menu_item> items = menu.get_items();
-    for( size_t i = 0; i < items.size() && i < ctxt_letters.size(); i++ ) {
-        imenu.addentry( -1, items[i]._enabled, ctxt_letters[i], items[i]._text );
+    for( size_t i = 0; i < items.size(); i++ ) {
+        const char hotkey = i < ctxt_letters.size() ? ctxt_letters[i] : 0;
+        imenu.addentry( -1, items[i]._enabled, hotkey, items[i]._text );
         app_actions.emplace_back( items[i]._on_submit );
     }
     imenu.setup();
@@ -558,10 +574,15 @@ void veh_app_interact::app_loop()
             populate_app_actions();
             repop_actions = false;
         }
-        shared_ptr_fast<ui_adaptor> current_ui = create_or_get_ui_adaptor();
-        ui_manager::redraw();
-        shared_ptr_fast<ui_adaptor> input_ui = imenu.create_or_get_ui_adaptor();
-        imenu.query();
+
+        // scope this tighter so that this ui is hidden when app_actions[ret]() triggers
+        {
+            shared_ptr_fast<ui_adaptor> current_ui = create_or_get_ui_adaptor();
+            ui_manager::redraw();
+            shared_ptr_fast<ui_adaptor> input_ui = imenu.create_or_get_ui_adaptor();
+            imenu.query();
+        }
+
         int ret = imenu.ret;
         if( ret < 0 || static_cast<size_t>( ret ) >= imenu.entries.size() ) {
             done = true;

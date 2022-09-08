@@ -1825,16 +1825,7 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint &p, bool with_
         }
     }
 
-    if( has_tag( flag_APPLIANCE ) ) {
-        menu.add( _( "Examine appliance" ) )
-        .skip_theft_check()
-        .hotkey( 'e' )
-        .on_submit( [this, mount = vp.mount()] { g->exam_appliance( *this, mount ); } );
-
-        menu.add( _( "Plug in appliance" ) )
-        .hotkey( 'g' )
-        .on_submit( [this, pos = vp.pos()] { plug_in( get_map().getabs( pos ) ); } );
-    } else {
+    if( !has_tag( flag_APPLIANCE ) ) {
         menu.add( _( "Examine vehicle" ) )
         .skip_theft_check()
         .hotkey( 'e' )
