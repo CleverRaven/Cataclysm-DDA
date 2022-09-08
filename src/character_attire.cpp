@@ -1749,10 +1749,8 @@ void outfit::absorb_damage( Character &guy, damage_unit &elem, bodypart_id bp,
     // if this body part has sub part locations roll one
     if( !bp->sub_parts.empty() ) {
         sbp = bp->random_sub_part( false );
-        // the torso has a second layer of hanging body parts
-        if( bp == body_part_torso ) {
-            secondary_sbp = bp->random_sub_part( true );
-        }
+        // the torso nad legs has a second layer of hanging body parts
+        secondary_sbp = bp->random_sub_part( true );
     }
 
     // generate a single roll for determining if hit
@@ -1796,7 +1794,7 @@ void outfit::absorb_damage( Character &guy, damage_unit &elem, bodypart_id bp,
                 // if this armor has sublocation data test against it instead of just a generic roll
                 destroy = guy.armor_absorb( elem, armor, bp, sbp, roll );
                 // for the torso we also need to consider if it hits anything hanging off the character or their neck
-                if( bp == body_part_torso ) {
+                if( secondary_sbp != sub_bodypart_id() ) {
                     destroy = guy.armor_absorb( elem, armor, bp, secondary_sbp, roll );
                 }
 
