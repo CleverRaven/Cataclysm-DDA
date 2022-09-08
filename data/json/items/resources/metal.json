@@ -609,7 +609,7 @@
     "qualities": [ [ "HAMMER", 1 ] ]
   },
   {
-    "id": "5laluminum",
+    "id": "5l_aluminum",
     "type": "AMMO",
     "category": "spare_parts",
     "name": { "str": "5L aluminum ingot" },
@@ -624,7 +624,7 @@
     "ammo_type": "components"
   },
   {
-    "id": "10laluminum",
+    "id": "10l_aluminum",
     "type": "AMMO",
     "category": "spare_parts",
     "name": { "str": "10L aluminum ingot" },
@@ -639,7 +639,7 @@
     "ammo_type": "components"
   },
   {
-    "id": "5lbrass",
+    "id": "5l_brass",
     "type": "AMMO",
     "category": "spare_parts",
     "name": { "str": "5L brass ingot" },
@@ -654,7 +654,7 @@
     "ammo_type": "components"
   },
   {
-    "id": "10lbrass",
+    "id": "10l_brass",
     "type": "AMMO",
     "category": "spare_parts",
     "name": { "str": "10L brass ingot" },
@@ -669,7 +669,7 @@
     "ammo_type": "components"
   },
   {
-    "id": "5lbronze",
+    "id": "5l_bronze",
     "type": "AMMO",
     "category": "spare_parts",
     "name": { "str": "5L bronze ingot" },
@@ -684,7 +684,7 @@
     "ammo_type": "components"
   },
   {
-    "id": "10lbronze",
+    "id": "10l_bronze",
     "type": "AMMO",
     "category": "spare_parts",
     "name": { "str": "10L bronze ingot" },
@@ -699,7 +699,7 @@
     "ammo_type": "components"
   },
   {
-    "id": "5lcopper",
+    "id": "5l_copper",
     "type": "AMMO",
     "category": "spare_parts",
     "name": { "str": "5L copper ingot" },
@@ -714,7 +714,7 @@
     "ammo_type": "components"
   },
   {
-    "id": "10lcopper",
+    "id": "10l_copper",
     "type": "AMMO",
     "category": "spare_parts",
     "name": { "str": "10L copper ingot" },
@@ -729,7 +729,7 @@
     "ammo_type": "components"
   },
   {
-    "id": "10ltin",
+    "id": "10l_tin",
     "type": "AMMO",
     "category": "spare_parts",
     "name": { "str": "10L tin ingot" },
@@ -744,7 +744,7 @@
     "ammo_type": "components"
   },
   {
-    "id": "5ltin",
+    "id": "5l_tin",
     "type": "AMMO",
     "category": "spare_parts",
     "name": { "str": "5L tin ingot" },
@@ -759,7 +759,7 @@
     "ammo_type": "components"
   },
   {
-    "id": "10lzinc",
+    "id": "10l_zinc",
     "type": "AMMO",
     "category": "spare_parts",
     "name": { "str": "10L zinc ingot" },
@@ -774,7 +774,7 @@
     "ammo_type": "components"
   },
   {
-    "id": "5lzinc",
+    "id": "5l_zinc",
     "type": "AMMO",
     "category": "spare_parts",
     "name": { "str": "5L zinc ingot" },
@@ -789,7 +789,7 @@
     "ammo_type": "components"
   },
   {
-    "id": "5lgold",
+    "id": "5l_gold",
     "type": "AMMO",
     "category": "spare_parts",
     "name": { "str": "5L gold ingot" },
@@ -804,7 +804,7 @@
     "ammo_type": "components"
   },
   {
-    "id": "10lgold",
+    "id": "10l_gold",
     "type": "AMMO",
     "category": "spare_parts",
     "name": { "str": "10L gold ingot" },
@@ -819,7 +819,7 @@
     "ammo_type": "components"
   },
   {
-    "id": "5liron",
+    "id": "5l_iron",
     "type": "AMMO",
     "category": "spare_parts",
     "name": { "str": "5L iron ingot" },
@@ -834,7 +834,7 @@
     "ammo_type": "components"
   },
   {
-    "id": "10liron",
+    "id": "10l_iron",
     "type": "AMMO",
     "category": "spare_parts",
     "name": { "str": "10L iron ingot" },
@@ -849,7 +849,7 @@
     "ammo_type": "components"
   },
   {
-    "id": "5llead",
+    "id": "5l_lead",
     "type": "AMMO",
     "category": "spare_parts",
     "name": { "str": "5L lead ingot" },
@@ -864,7 +864,7 @@
     "ammo_type": "components"
   },
   {
-    "id": "10llead",
+    "id": "10l_lead",
     "type": "AMMO",
     "category": "spare_parts",
     "name": { "str": "10L lead ingot" },
@@ -879,7 +879,7 @@
     "ammo_type": "components"
   },
   {
-    "id": "5lplatinum",
+    "id": "5l_platinum",
     "type": "AMMO",
     "category": "spare_parts",
     "name": { "str": "5L platinum ingot" },
@@ -894,7 +894,7 @@
     "ammo_type": "components"
   },
   {
-    "id": "10lplatinum",
+    "id": "10l_platinum",
     "type": "AMMO",
     "category": "spare_parts",
     "name": { "str": "10L platinum ingot" },
@@ -909,7 +909,7 @@
     "ammo_type": "components"
   },
   {
-    "id": "5lsilver",
+    "id": "5l_silver",
     "type": "AMMO",
     "category": "spare_parts",
     "name": { "str": "5L silver ingot" },
@@ -924,7 +924,7 @@
     "ammo_type": "components"
   },
   {
-    "id": "10lsilver",
+    "id": "10l_silver",
     "type": "AMMO",
     "category": "spare_parts",
     "name": { "str": "10L silver ingot" },
@@ -939,7 +939,7 @@
     "ammo_type": "components"
   },
   {
-    "id": "5lsteel",
+    "id": "5l_steel",
     "type": "AMMO",
     "category": "spare_parts",
     "name": { "str": "5L steel ingot" },
@@ -954,7 +954,7 @@
     "ammo_type": "components"
   },
   {
-    "id": "10lsteel",
+    "id": "10l_steel",
     "type": "AMMO",
     "category": "spare_parts",
     "name": { "str": "10L steel ingot" },
@@ -969,7 +969,7 @@
     "ammo_type": "components"
   },
   {
-    "id": "5lbudget_steel",
+    "id": "5l_budget_steel",
     "type": "AMMO",
     "category": "spare_parts",
     "name": { "str": "5L budget steel ingot" },
@@ -984,7 +984,7 @@
     "ammo_type": "components"
   },
   {
-    "id": "10lbudget_steel",
+    "id": "10l_budget_steel",
     "type": "AMMO",
     "category": "spare_parts",
     "name": { "str": "10L budget steel ingot" },
@@ -999,7 +999,7 @@
     "ammo_type": "components"
   },
   {
-    "id": "5llc_steel",
+    "id": "5l_lc_steel",
     "type": "AMMO",
     "category": "spare_parts",
     "name": { "str": "5L mild steel ingot" },
@@ -1014,7 +1014,7 @@
     "ammo_type": "components"
   },
   {
-    "id": "10llc_steel",
+    "id": "10l_lc_steel",
     "type": "AMMO",
     "category": "spare_parts",
     "name": { "str": "10L mild steel ingot" },
@@ -1029,7 +1029,7 @@
     "ammo_type": "components"
   },
   {
-    "id": "5lmc_steel",
+    "id": "5l_mc_steel",
     "type": "AMMO",
     "category": "spare_parts",
     "name": { "str": "5L medium steel ingot" },
@@ -1044,7 +1044,7 @@
     "ammo_type": "components"
   },
   {
-    "id": "10lmc_steel",
+    "id": "10l_mc_steel",
     "type": "AMMO",
     "category": "spare_parts",
     "name": { "str": "10L medium steel ingot" },
@@ -1059,7 +1059,7 @@
     "ammo_type": "components"
   },
   {
-    "id": "5lhc_steel",
+    "id": "5l_hc_steel",
     "type": "AMMO",
     "category": "spare_parts",
     "name": { "str": "5L high steel ingot" },
@@ -1074,7 +1074,7 @@
     "ammo_type": "components"
   },
   {
-    "id": "10lhc_steel",
+    "id": "10l_hc_steel",
     "type": "AMMO",
     "category": "spare_parts",
     "name": { "str": "10L high steel ingot" },
@@ -1084,36 +1084,6 @@
     "price": 52000,
     "price_postapoc": 520,
     "material": [ "hc_steel" ],
-    "symbol": "=",
-    "color": "light_gray",
-    "ammo_type": "components"
-  },
-  {
-    "id": "5lch_steel",
-    "type": "AMMO",
-    "category": "spare_parts",
-    "name": { "str": "5L high steel ingot" },
-    "description": "A five-liter ingot of solid steel.",
-    "weight": "39295 g",
-    "volume": "5 L",
-    "price": 26000,
-    "price_postapoc": 260,
-    "material": [ "ch_steel" ],
-    "symbol": "=",
-    "color": "light_gray",
-    "ammo_type": "components"
-  },
-  {
-    "id": "10lch_steel",
-    "type": "AMMO",
-    "category": "spare_parts",
-    "name": { "str": "10L high steel ingot" },
-    "description": "A ten-liter ingot of solid steel.",
-    "weight": "78590 g",
-    "volume": "10 L",
-    "price": 52000,
-    "price_postapoc": 520,
-    "material": [ "ch_steel" ],
     "symbol": "=",
     "color": "light_gray",
     "ammo_type": "components"

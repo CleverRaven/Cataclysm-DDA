@@ -58,18 +58,18 @@
     "activity_level": "MODERATE_EXERCISE",
     "time": "16 h",
     "tools": [ [ [ "angle_grinder", 500 ] ] ],
-    "components": [ [ [ "10ltin", 80 ] ] ]
+    "components": [ [ [ "10l_tin", 80 ] ] ]
   },
   {
-    "result": "10ltin",
+    "result": "10l_tin",
     "type": "uncraft",
     "activity_level": "MODERATE_EXERCISE",
     "time": "10 m",
     "tools": [ [ [ "angle_grinder", 10 ] ] ],
-    "components": [ [ [ "5ltin", 2 ] ] ]
+    "components": [ [ [ "5l_tin", 2 ] ] ]
   },
   {
-    "result": "5ltin",
+    "result": "5l_tin",
     "type": "uncraft",
     "activity_level": "MODERATE_EXERCISE",
     "time": "1 h",
@@ -82,18 +82,18 @@
     "activity_level": "MODERATE_EXERCISE",
     "time": "16 h",
     "tools": [ [ [ "angle_grinder", 500 ] ] ],
-    "components": [ [ [ "10llead", 80 ] ] ]
+    "components": [ [ [ "10l_lead", 80 ] ] ]
   },
   {
-    "result": "10llead",
+    "result": "10l_lead",
     "type": "uncraft",
     "activity_level": "MODERATE_EXERCISE",
     "time": "10 m",
     "tools": [ [ [ "angle_grinder", 10 ] ] ],
-    "components": [ [ [ "5llead", 2 ] ] ]
+    "components": [ [ [ "5l_lead", 2 ] ] ]
   },
   {
-    "result": "5llead",
+    "result": "5l_lead",
     "type": "uncraft",
     "activity_level": "MODERATE_EXERCISE",
     "time": "1 h",
@@ -106,18 +106,18 @@
     "activity_level": "MODERATE_EXERCISE",
     "time": "16 h",
     "tools": [ [ [ "angle_grinder", 500 ] ] ],
-    "components": [ [ [ "10lzinc", 80 ] ] ]
+    "components": [ [ [ "10l_zinc", 80 ] ] ]
   },
   {
-    "result": "10lzinc",
+    "result": "10l_zinc",
     "type": "uncraft",
     "activity_level": "MODERATE_EXERCISE",
     "time": "10 m",
     "tools": [ [ [ "angle_grinder", 10 ] ] ],
-    "components": [ [ [ "5lzinc", 2 ] ] ]
+    "components": [ [ [ "5l_zinc", 2 ] ] ]
   },
   {
-    "result": "5lzinc",
+    "result": "5l_zinc",
     "type": "uncraft",
     "activity_level": "MODERATE_EXERCISE",
     "time": "1 h",
@@ -130,18 +130,18 @@
     "activity_level": "MODERATE_EXERCISE",
     "time": "16 h",
     "tools": [ [ [ "angle_grinder", 500 ] ] ],
-    "components": [ [ [ "10lsteel", 80 ] ] ]
+    "components": [ [ [ "10l_steel", 80 ] ] ]
   },
   {
-    "result": "10lsteel",
+    "result": "10l_steel",
     "type": "uncraft",
     "activity_level": "MODERATE_EXERCISE",
     "time": "10 m",
     "tools": [ [ [ "angle_grinder", 10 ] ] ],
-    "components": [ [ [ "5lsteel", 2 ] ] ]
+    "components": [ [ [ "5l_steel", 2 ] ] ]
   },
   {
-    "result": "5lsteel",
+    "result": "5l_steel",
     "type": "uncraft",
     "activity_level": "MODERATE_EXERCISE",
     "time": "1 h",
@@ -154,18 +154,18 @@
     "activity_level": "MODERATE_EXERCISE",
     "time": "16 h",
     "tools": [ [ [ "angle_grinder", 500 ] ] ],
-    "components": [ [ [ "10lcopper", 80 ] ] ]
+    "components": [ [ [ "10l_copper", 80 ] ] ]
   },
   {
-    "result": "10lcopper",
+    "result": "10l_copper",
     "type": "uncraft",
     "activity_level": "MODERATE_EXERCISE",
     "time": "10 m",
     "tools": [ [ [ "angle_grinder", 10 ] ] ],
-    "components": [ [ [ "5lcopper", 2 ] ] ]
+    "components": [ [ [ "5l_copper", 2 ] ] ]
   },
   {
-    "result": "5lcopper",
+    "result": "5l_copper",
     "type": "uncraft",
     "activity_level": "MODERATE_EXERCISE",
     "time": "1 h",
@@ -178,18 +178,18 @@
     "activity_level": "MODERATE_EXERCISE",
     "time": "16 h",
     "tools": [ [ [ "angle_grinder", 500 ] ] ],
-    "components": [ [ [ "10laluminum", 80 ] ] ]
+    "components": [ [ [ "10l_aluminum", 80 ] ] ]
   },
   {
-    "result": "10laluminum",
+    "result": "10l_aluminum",
     "type": "uncraft",
     "activity_level": "MODERATE_EXERCISE",
     "time": "10 m",
     "tools": [ [ [ "angle_grinder", 10 ] ] ],
-    "components": [ [ [ "5laluminum", 2 ] ] ]
+    "components": [ [ [ "5l_aluminum", 2 ] ] ]
   },
   {
-    "result": "5laluminum",
+    "result": "5l_aluminum",
     "type": "uncraft",
     "activity_level": "MODERATE_EXERCISE",
     "time": "1 h",
@@ -202,18 +202,18 @@
     "activity_level": "MODERATE_EXERCISE",
     "time": "16 h",
     "tools": [ [ [ "reciprocating_saw", 500 ], [ "circsaw_off", 500 ] ] ],
-    "components": [ [ [ "10lplastic", 80 ] ] ]
+    "components": [ [ [ "10l_plastic", 80 ] ] ]
   },
   {
-    "result": "10lplastic",
+    "result": "10l_plastic",
     "type": "uncraft",
     "activity_level": "MODERATE_EXERCISE",
     "time": "10 m",
     "tools": [ [ [ "reciprocating_saw", 10 ], [ "circsaw_off", 10 ] ] ],
-    "components": [ [ [ "5lplastic", 2 ] ] ]
+    "components": [ [ [ "5l_plastic", 2 ] ] ]
   },
   {
-    "result": "5lplastic",
+    "result": "5l_plastic",
     "type": "uncraft",
     "activity_level": "MODERATE_EXERCISE",
     "time": "1 h",
@@ -221,15 +221,15 @@
     "components": [ [ [ "plastic_chunk", 100 ] ] ]
   },
   {
-    "result": "10llcsteel",
+    "result": "10l_lc_steel",
     "type": "uncraft",
     "activity_level": "MODERATE_EXERCISE",
     "time": "10 m",
     "tools": [ [ [ "angle_grinder", 10 ] ] ],
-    "components": [ [ [ "5llcsteel", 2 ] ] ]
+    "components": [ [ [ "5l_lc_steel", 2 ] ] ]
   },
   {
-    "result": "5llcsteel",
+    "result": "5l_lc_steel",
     "type": "uncraft",
     "activity_level": "MODERATE_EXERCISE",
     "time": "1 h",
@@ -237,15 +237,15 @@
     "components": [ [ [ "lc_steel_lump", 39 ] ] ]
   },
   {
-    "result": "10lmcsteel",
+    "result": "10l_mcsteel",
     "type": "uncraft",
     "activity_level": "MODERATE_EXERCISE",
     "time": "10 m",
     "tools": [ [ [ "angle_grinder", 10 ] ] ],
-    "components": [ [ [ "5lmcsteel", 2 ] ] ]
+    "components": [ [ [ "5l_mc_steel", 2 ] ] ]
   },
   {
-    "result": "5lmcsteel",
+    "result": "5l_mc_steel",
     "type": "uncraft",
     "activity_level": "MODERATE_EXERCISE",
     "time": "1 h",
@@ -253,15 +253,15 @@
     "components": [ [ [ "mc_steel_lump", 39 ] ] ]
   },
   {
-    "result": "10lhcsteel",
+    "result": "10l_hc_steel",
     "type": "uncraft",
     "activity_level": "MODERATE_EXERCISE",
     "time": "10 m",
     "tools": [ [ [ "angle_grinder", 10 ] ] ],
-    "components": [ [ [ "5lhcsteel", 2 ] ] ]
+    "components": [ [ [ "5l_hc_steel", 2 ] ] ]
   },
   {
-    "result": "5lhcsteel",
+    "result": "5l_hc_steel",
     "type": "uncraft",
     "activity_level": "MODERATE_EXERCISE",
     "time": "1 h",
