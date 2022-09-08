@@ -756,7 +756,7 @@
       }
     ],
     "use_action": [ 
-      { "type": "deploy_furn", "furn_type": "f_cardboard_box" }, 
+      { "type": "deploy_furn", "furn_type": "f_cardboard_box" },
       {
         "target": "box_large_folded",
         "msg": "You fold the box.",
@@ -764,7 +764,7 @@
         "type": "transform",
         "moves": 1500,
         "need_empty": true
-      } 
+      }
     ]
   },
   {
