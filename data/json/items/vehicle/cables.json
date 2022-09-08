@@ -16,7 +16,7 @@
     "price_postapoc": 100,
     "max_charges": 3,
     "initial_charges": 3,
-    "use_action": [ "CABLE_ATTACH" ],
+    "use_action": [ "CABLE_ATTACH", "INVERT_CURRENT" ],
     "flags": [ "CABLE_SPOOL", "SINGLE_USE" ]
   },
   {
@@ -27,7 +27,7 @@
     "copy-from": "jumper_cable",
     "max_charges": 10,
     "initial_charges": 10,
-    "use_action": [ "CORD_ATTACH" ],
+    "use_action": [ "CORD_ATTACH", "INVERT_CURRENT" ],
     "flags": [ "CABLE_SPOOL", "SINGLE_USE" ]
   },
   {
@@ -38,7 +38,7 @@
     "copy-from": "jumper_cable",
     "max_charges": 30,
     "initial_charges": 30,
-    "use_action": [ "CORD_ATTACH" ],
+    "use_action": [ "CORD_ATTACH", "INVERT_CURRENT" ],
     "flags": [ "CABLE_SPOOL", "SINGLE_USE" ]
   },
   {

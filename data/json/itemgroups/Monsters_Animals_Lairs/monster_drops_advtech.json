@@ -7,6 +7,7 @@
       { "item": "processor", "prob": 15 },
       { "item": "RAM", "prob": 22 },
       { "item": "power_supply", "prob": 16 },
+      { "item": "power_inverter", "prob": 16 },
       { "item": "amplifier", "prob": 8 },
       { "item": "solar_cell", "prob": 5 },
       { "item": "transponder", "prob": 5 },

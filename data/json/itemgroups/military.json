@@ -906,6 +906,7 @@
       { "item": "seat", "prob": 4 },
       { "item": "chain", "prob": 20 },
       { "item": "power_supply", "prob": 16 },
+      { "item": "power_inverter", "prob": 16 },
       { "item": "antenna", "prob": 18 },
       { "item": "steel_chunk", "prob": 30 },
       { "item": "spring", "prob": 50 },

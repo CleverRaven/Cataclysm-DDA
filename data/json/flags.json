@@ -403,6 +403,16 @@
     "info": "This gear is equipped with an accurate hygrometer (which is used to measure humidity)."
   },
   {
+    "id": "INVERTED",
+    "type": "json_flag",
+    "info": "This implement is fitted with an <info>inverter</info> that converts power <info>between vehicles and appliances</info>."
+  },
+  {
+    "id": "INVERTER_SOURCE",
+    "type": "json_flag",
+    "//": "Can be used to invert a power transfer cable."
+  },
+  {
     "id": "BURNOUT",
     "type": "json_flag",
     "//": "You can visually inspect how much it is burned out (candle, torch)."

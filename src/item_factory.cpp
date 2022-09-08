@@ -1640,6 +1640,7 @@ void Item_factory::init()
     add_iuse( "HOTPLATE", &iuse::hotplate );
     add_iuse( "HOTPLATE_ATOMIC", &iuse::hotplate_atomic );
     add_iuse( "INHALER", &iuse::inhaler );
+    add_iuse( "INVERT_CURRENT", &iuse::invert_power );
     add_iuse( "JACKHAMMER", &iuse::jackhammer );
     add_iuse( "JET_INJECTOR", &iuse::jet_injector );
     add_iuse( "LADDER", &iuse::ladder );

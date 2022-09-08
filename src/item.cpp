@@ -6527,6 +6527,10 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
         tagtext += _( " (active)" );
     }
 
+    if( has_flag( flag_INVERTED ) ) {
+        tagtext += _( " (inverter)" );
+    }
+
     if( all_pockets_sealed() ) {
         tagtext += _( " (sealed)" );
     } else if( any_pockets_sealed() ) {

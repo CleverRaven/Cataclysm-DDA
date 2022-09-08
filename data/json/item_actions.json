@@ -602,6 +602,11 @@
   },
   {
     "type": "item_action",
+    "id": "INVERT_CURRENT",
+    "name": { "str": "Attach/detach power inverter" }
+  },
+  {
+    "type": "item_action",
     "id": "JACKHAMMER",
     "name": { "str": "Drill" }
   },

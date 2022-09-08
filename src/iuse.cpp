@@ -8576,6 +8576,36 @@ cata::optional<int> iuse::tow_attach( Character *p, item *it, bool, const tripoi
     return 0;
 }
 
+static ret_val<void> can_make_power_connection( const vehicle *vp1, const vehicle *vp2,
+        const item *it )
+{
+    const bool requires_conv = vp1->has_tag( "APPLIANCE" ) != vp2->has_tag( "APPLIANCE" );
+    const bool cable_has_conv = it->has_flag( flag_INVERTED );
+    if( requires_conv == cable_has_conv ) {
+        return ret_val<void>::make_success();
+    } else if( requires_conv ) {
+        return ret_val<void>::make_failure(
+                   _( "Connecting a vehicle to an appliance requires a cable fitted with an inverter." ) );
+    }
+    return ret_val<void>::make_failure(
+               string_format( _( "Connecting two %s together requires a cable without a fitted inverter." ),
+                              vp1->has_tag( "APPLIANCE" ) ? _( "appliances" ) : _( "vehicles" ) ) );
+}
+
+static void set_cable_active( Character *p, item *it, const std::string &state )
+{
+    const std::string prev_state = it->get_var( "state" );
+    it->set_var( "state", state );
+    it->active = true;
+    it->process( get_map(), p, p->pos() );
+    p->moves -= 15;
+
+    if( !prev_state.empty() && ( prev_state == "cable_charger" || ( prev_state != "attach_first" &&
+                                 ( state == "cable_charger_link" || state == "cable_charger" ) ) ) ) {
+        p->find_remote_fuel();
+    }
+}
+
 cata::optional<int> iuse::cable_attach( Character *p, item *it, bool, const tripoint & )
 {
     std::string initial_state = it->get_var( "state", "attach_first" );
@@ -8595,18 +8625,6 @@ cata::optional<int> iuse::cable_attach( Character *p, item *it, bool, const trip
     const std::string choose_ups = _( "Choose UPS:" );
     const std::string dont_have_ups = _( "You don't have any UPS." );
 
-    const auto set_cable_active = []( Character * p, item * it, const std::string & state ) {
-        const std::string prev_state = it->get_var( "state" );
-        it->set_var( "state", state );
-        it->active = true;
-        it->process( get_map(), p, p->pos() );
-        p->moves -= 15;
-
-        if( !prev_state.empty() && ( prev_state == "cable_charger" || ( prev_state != "attach_first" &&
-                                     ( state == "cable_charger_link" || state == "cable_charger" ) ) ) ) {
-            p->find_remote_fuel();
-        }
-    };
     map &here = get_map();
     if( initial_state == "attach_first" ) {
         if( has_bio_cable ) {
@@ -8792,6 +8810,13 @@ cata::optional<int> iuse::cable_attach( Character *p, item *it, bool, const trip
                 return cata::nullopt;
             }
 
+            // Do we need an inverter for this power transfer?
+            ret_val<void> conv_s = can_make_power_connection( source_veh, target_veh, it );
+            if( !conv_s.success() ) {
+                p->add_msg_if_player( m_warning, conv_s.str() );
+                return cata::nullopt;
+            }
+
             tripoint target_global = here.getabs( vpos );
             // TODO: make sure there is always a matching vpart id here. Maybe transform this into
             // a iuse_actor class, or add a check in item_factory.
@@ -8830,18 +8855,6 @@ cata::optional<int> iuse::cord_attach( Character *p, item *it, bool, const tripo
 
     item_location loc;
 
-    const auto set_cable_active = []( Character * p, item * it, const std::string & state ) {
-        const std::string prev_state = it->get_var( "state" );
-        it->set_var( "state", state );
-        it->active = true;
-        it->process( get_map(), p, p->pos() );
-        p->moves -= 15;
-
-        if( !prev_state.empty() && ( prev_state == "cable_charger" || ( prev_state != "attach_first" &&
-                                     ( state == "cable_charger_link" || state == "cable_charger" ) ) ) ) {
-            p->find_remote_fuel();
-        }
-    };
     map &here = get_map();
     if( initial_state == "attach_first" ) {
         const cata::optional<tripoint> posp_ = choose_adjacent( _( "Attach cable to appliance where?" ) );
@@ -8924,6 +8937,13 @@ cata::optional<int> iuse::cord_attach( Character *p, item *it, bool, const tripo
                 return cata::nullopt;
             }
 
+            // Do we need an inverter for this power transfer?
+            ret_val<void> conv_s = can_make_power_connection( source_veh, target_veh, it );
+            if( !conv_s.success() ) {
+                p->add_msg_if_player( m_warning, conv_s.str() );
+                return cata::nullopt;
+            }
+
             tripoint target_global = here.getabs( vpos );
             // TODO: make sure there is always a matching vpart id here. Maybe transform this into
             // a iuse_actor class, or add a check in item_factory.
@@ -8951,6 +8971,91 @@ cata::optional<int> iuse::cord_attach( Character *p, item *it, bool, const tripo
 
             return 1; // Let the cable be destroyed.
         }
+    }
+
+    return 0;
+}
+
+cata::optional<int> iuse::invert_power( Character *p, item *it, bool, const tripoint & )
+{
+    if( !p || !it ) {
+        return cata::nullopt;
+    }
+    if( it->has_flag( flag_INVERTER_SOURCE ) ) {
+        // "it" is an inverter. Fit it to a cable.
+        std::vector<item *> candidates = p->items_with( []( const item & itm ) {
+            return itm.type->get_use( "INVERT_CURRENT" ) &&
+                   !itm.has_any_flag( cata::flat_set<flag_id> { flag_INVERTER_SOURCE, flag_INVERTED } );
+        } );
+        if( candidates.empty() ) {
+            p->add_msg_if_player( m_warning,
+                                  string_format( _( "You don't have anything that can be fitted with your %s." ), it->type_name() ) );
+            return 0;
+        }
+        int sel_opt = 0;
+        if( p->is_avatar() ) {
+            uilist amenu;
+            //~ Fit the (power inverter) to (a cable)
+            amenu.text = string_format( _( "Fit the %s to:" ), it->type_name() );
+            for( int i = 0; i < static_cast<int>( candidates.size() ); i++ ) {
+                amenu.addentry( i, true, MENU_AUTOASSIGN, candidates[i]->display_name() );
+            }
+            amenu.query();
+            if( amenu.ret < 0 || amenu.ret >= static_cast<int>( candidates.size() ) ) {
+                return cata::nullopt;
+            }
+            sel_opt = amenu.ret;
+        }
+        p->add_msg_if_player( string_format( _( "You attach the %1$s to the %2$s." ), it->type_name(),
+                                             candidates[sel_opt]->type_name() ) );
+        candidates[sel_opt]->set_flag( flag_INVERTED );
+        candidates[sel_opt]->set_var( "inverter_type", it->typeId().str() );
+
+        return 1; // Let inverter be destroyed
+    } else if( it->has_flag( flag_INVERTED ) ) {
+        // "it" is an inverted cable. Detach the inverter.
+        it->unset_flag( flag_INVERTED );
+        std::string inverter_type = it->get_var( "inverter_type" );
+        if( !inverter_type.empty() ) {
+            item inverter( inverter_type );
+            p->i_add_or_drop( inverter );
+            it->erase_var( "inverter_type" );
+            p->add_msg_if_player( string_format( _( "You detach the %1$s from the %2$s" ), inverter.type_name(),
+                                                 it->type_name() ) );
+        } else {
+            debugmsg( "Attempting to detach non-existing inverter from %s.", it->display_name() );
+        }
+        // fall through
+    } else {
+        // "it" is a cable that can be fitted with an inverter.
+        std::vector<item *> candidates = p->items_with( []( const item & itm ) {
+            return itm.has_flag( flag_INVERTER_SOURCE );
+        } );
+        if( candidates.empty() ) {
+            p->add_msg_if_player( m_warning,
+                                  string_format( _( "You don't have anything to invert the power of your %s." ), it->type_name() ) );
+            return 0;
+        }
+        int sel_opt = 0;
+        if( p->is_avatar() ) {
+            uilist amenu;
+            //~ Fit the (power cable) with (this inverter)
+            amenu.text = string_format( _( "Fit the %s with:" ), it->type_name() );
+            for( int i = 0; i < static_cast<int>( candidates.size() ); i++ ) {
+                amenu.addentry( i, true, MENU_AUTOASSIGN, candidates[i]->display_name() );
+            }
+            amenu.query();
+            if( amenu.ret < 0 || amenu.ret >= static_cast<int>( candidates.size() ) ) {
+                return cata::nullopt;
+            }
+            sel_opt = amenu.ret;
+        }
+        p->add_msg_if_player( string_format( _( "You attach the %1$s to the %2$s." ),
+                                             candidates[sel_opt]->type_name(), it->type_name() ) );
+        it->set_flag( flag_INVERTED );
+        it->set_var( "inverter_type", candidates[sel_opt]->typeId().str() );
+        p->i_rem_keep_contents( candidates[sel_opt] );
+        // fall through
     }
 
     return 0;

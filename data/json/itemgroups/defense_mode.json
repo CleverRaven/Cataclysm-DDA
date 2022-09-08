@@ -80,6 +80,7 @@
       { "item": "processor" },
       { "item": "RAM" },
       { "item": "power_supply" },
+      { "item": "power_inverter" },
       { "item": "motor" },
       { "item": "hose" },
       { "item": "pot" },

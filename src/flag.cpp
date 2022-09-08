@@ -152,6 +152,8 @@ const flag_id flag_INITIAL_PART( "INITIAL_PART" );
 const flag_id flag_INSPIRATIONAL( "INSPIRATIONAL" );
 const flag_id flag_INSTALL_DIFFICULT( "INSTALL_DIFFICULT" );
 const flag_id flag_INTEGRATED( "INTEGRATED" );
+const flag_id flag_INVERTED( "INVERTED" );
+const flag_id flag_INVERTER_SOURCE( "INVERTER_SOURCE" );
 const flag_id flag_IN_CBM( "IN_CBM" );
 const flag_id flag_IRREMOVABLE( "IRREMOVABLE" );
 const flag_id flag_IR_EFFECT( "IR_EFFECT" );
