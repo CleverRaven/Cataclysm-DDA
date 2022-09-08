@@ -5240,7 +5240,7 @@ void game::control_vehicle()
     }
     if( veh != nullptr && veh->player_in_control( u ) &&
         veh->avail_part_with_feature( veh_part, "CONTROLS" ) >= 0 ) {
-        veh->use_controls( u.pos() );
+        veh->interact_with( u.pos() );
     } else if( veh && veh->player_in_control( u ) &&
                veh->avail_part_with_feature( veh_part, "CONTROL_ANIMAL" ) >= 0 ) {
         u.controlling_vehicle = false;
@@ -5305,7 +5305,7 @@ void game::control_vehicle()
             if( !veh->handle_potential_theft( dynamic_cast<Character &>( u ) ) ) {
                 return;
             }
-            veh->use_controls( *vehicle_position );
+            veh->interact_with( *vehicle_position );
             //May be folded up (destroyed), so need to re-get it
             veh = g->remoteveh();
         }

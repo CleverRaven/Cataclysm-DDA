@@ -551,193 +551,6 @@ void vehicle::toggle_tracking()
     }
 }
 
-void vehicle::build_controls_menu( veh_menu &menu, const tripoint &pos )
-{
-    bool remote = g->remoteveh() == this;
-    bool has_electronic_controls = false;
-
-    if( remote ) {
-        menu.add( _( "Stop controlling" ) )
-        .hotkey( keybind( "RELEASE_CONTROLS" ) )
-        .skip_theft_check()
-        .on_submit( [] {
-            get_player_character().controlling_vehicle = false;
-            g->setremoteveh( nullptr );
-            add_msg( _( "You stop controlling the vehicle." ) );
-        } );
-
-        has_electronic_controls = has_part( "CTRL_ELECTRONIC" ) || has_part( "REMOTE_CONTROLS" );
-    } else if( veh_pointer_or_null( get_map().veh_at( pos ) ) == this ) {
-        if( get_player_character().controlling_vehicle ) {
-            menu.add( _( "Let go of controls" ) )
-            .hotkey( keybind( "RELEASE_CONTROLS" ) )
-            .skip_theft_check()
-            .on_submit( [] {
-                get_player_character().controlling_vehicle = false;
-                add_msg( _( "You let go of the controls." ) );
-            } );
-        }
-        has_electronic_controls = !get_parts_at( pos, "CTRL_ELECTRONIC", part_status_flag::any ).empty();
-    }
-
-    if( get_parts_at( pos, "CONTROLS", part_status_flag::any ).empty() && !has_electronic_controls ) {
-        add_msg( m_info, _( "No controls there." ) );
-        return;
-    }
-
-    // exit early if you can't control the vehicle
-    if( !interact_vehicle_locked() ) {
-        return;
-    }
-
-    if( has_part( "ENGINE" ) ) {
-        if( get_player_character().controlling_vehicle || ( remote && engine_on ) ) {
-            menu.add( _( "Stop driving" ) )
-            .hotkey( keybind( "TOGGLE_ENGINE" ) )
-            .skip_theft_check()
-            .on_submit( [this] {
-                if( engine_on && has_engine_type_not( fuel_type_muscle, true ) )
-                {
-                    add_msg( _( "You turn the engine off and let go of the controls." ) );
-                } else
-                {
-                    add_msg( _( "You let go of the controls." ) );
-                }
-                stop_engines();
-                get_player_character().controlling_vehicle = false;
-                g->setremoteveh( nullptr );
-            } );
-        } else if( has_engine_type_not( fuel_type_muscle, true ) ) {
-            menu.add( engine_on ? _( "Turn off the engine" ) : _( "Turn on the engine" ) )
-            .hotkey( keybind( "TOGGLE_ENGINE" ) )
-            .skip_theft_check()
-            .on_submit( [this] {
-                if( engine_on )
-                {
-                    add_msg( _( "You turn the engine off." ) );
-                    stop_engines();
-                } else
-                {
-                    start_engines();
-                }
-            } );
-        }
-    }
-
-    if( has_part( "HORN" ) ) {
-        menu.add( _( "Honk horn" ) )
-        .hotkey( keybind( "SOUND_HORN" ) )
-        .on_submit( [this] { honk_horn(); } );
-    }
-
-    if( has_part( "AUTOPILOT" ) && ( has_part( "CTRL_ELECTRONIC" ) ||
-                                     has_part( "REMOTE_CONTROLS" ) ) ) {
-        menu.add( _( "Control autopilot" ) )
-        .hotkey( keybind( "CONTROL_AUTOPILOT" ) )
-        .on_submit( [this] { toggle_autopilot(); } );
-    }
-
-    menu.add( cruise_on ? _( "Disable cruise control" ) : _( "Enable cruise control" ) )
-    .hotkey( keybind( "TOGGLE_CRUISE_CONTROL" ) )
-    .keep_menu_open()
-    .on_submit( [this] {
-        cruise_on = !cruise_on;
-        add_msg( cruise_on ? _( "Cruise control turned on" ) : _( "Cruise control turned off" ) );
-    } );
-
-    if( has_electronic_controls ) {
-        menu.add( _( "Control multiple electronics" ) )
-        .hotkey( keybind( "CONTROL_MANY_ELECTRONICS" ) )
-        .on_submit( [this] { control_electronics(); } );
-    }
-
-    menu.add( tracking_on ? _( "Forget vehicle position" ) : _( "Remember vehicle position" ) )
-    .hotkey( keybind( "TOGGLE_TRACKING" ) )
-    .keep_menu_open()
-    .on_submit( [this] { toggle_tracking(); } );
-
-    if( is_foldable() && !remote ) {
-        menu.add( string_format( _( "Fold %s" ), name ) )
-        .hotkey( keybind( "FOLD_VEHICLE" ) )
-        .on_submit( [this] { start_folding_activity(); } );
-    }
-
-    if( has_part( "ENGINE" ) ) {
-        menu.add( _( "Control individual engines" ) )
-        .hotkey( keybind( "CONTROL_ENGINES" ) )
-        .on_submit( [this] { control_engines(); } );
-    }
-
-    if( has_part( "SMART_ENGINE_CONTROLLER" ) ) {
-        menu.add( _( "Smart controller settings" ) )
-        .hotkey( keybind( "TOGGLE_SMART_ENGINE_CONTROLLER" ) )
-        .on_submit( [this] {
-            if( !smart_controller_cfg )
-            {
-                smart_controller_cfg = smart_controller_config();
-            }
-
-            smart_controller_settings cfg_view = smart_controller_settings( has_enabled_smart_controller,
-                    smart_controller_cfg -> battery_lo, smart_controller_cfg -> battery_hi );
-            smart_controller_ui( cfg_view ).control();
-            for( const vpart_reference &vp : get_avail_parts( "SMART_ENGINE_CONTROLLER" ) )
-            {
-                vp.part().enabled = cfg_view.enabled;
-            }
-        } );
-    }
-
-    if( is_alarm_on ) {
-        if( velocity == 0 && !remote ) {
-            menu.add( _( "Try to disarm alarm" ) )
-            .hotkey( keybind( "TOGGLE_ALARM" ) )
-            .on_submit( [this] { smash_security_system(); } );
-
-        } else if( has_electronic_controls && has_part( "SECURITY" ) ) {
-            menu.add( _( "Trigger alarm" ) )
-            .hotkey( keybind( "TOGGLE_ALARM" ) )
-            .on_submit( [this] {
-                is_alarm_on = true;
-                add_msg( _( "You trigger the alarm" ) );
-            } );
-        }
-    }
-
-    if( has_part( "TURRET" ) ) {
-        menu.add( _( "Set turret targeting modes" ) )
-        .hotkey( keybind( "TURRET_TARGET_MODE" ) )
-        .on_submit( [this] { turrets_set_targeting(); } );
-
-        menu.add( _( "Set turret firing modes" ) )
-        .hotkey( keybind( "TURRET_FIRE_MODE" ) )
-        .on_submit( [this] { turrets_set_mode(); } );
-
-        // We can also fire manual turrets with ACTION_FIRE while standing at the controls.
-        menu.add( _( "Aim turrets manually" ) )
-        .hotkey( keybind( "TURRET_MANUAL_AIM" ) )
-        .on_submit( [this] { turrets_aim_and_fire_all_manual( true ); } );
-
-        // This lets us manually override and set the target for the automatic turrets instead.
-        menu.add( _( "Aim automatic turrets" ) )
-        .hotkey( keybind( "TURRET_MANUAL_OVERRIDE" ) )
-        .on_submit( [this] { turrets_override_automatic_aim(); } );
-
-        menu.add( _( "Aim individual turret" ) )
-        .hotkey( keybind( "TURRET_SINGLE_FIRE" ) )
-        .on_submit( [this] { turrets_aim_and_fire_single(); } );
-    }
-}
-
-void vehicle::use_controls( const tripoint &pos )
-{
-    veh_menu menu( this, _( "Vehicle controls" ) );
-
-    do {
-        menu.reset();
-        build_controls_menu( menu, pos );
-    } while( menu.query() );
-}
-
 item vehicle::init_cord( const tripoint &pos )
 {
     item powercord( "power_cord" );
@@ -1946,7 +1759,6 @@ static bool use_vehicle_tool( vehicle &veh, const tripoint &vp_pos, const itype_
     return true;
 };
 
-// Handles interactions with a vehicle in the examine menu.
 void vehicle::build_interact_menu( veh_menu &menu, const tripoint &p, bool with_pickup )
 {
     const optional_vpart_position ovp = get_map().veh_at( p );
@@ -1955,6 +1767,75 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint &p, bool with_
         return;
     }
     const vpart_position vp = *ovp;
+
+    // @returns true if pos contains available part with a flag
+    const auto has_part_here = [this, pos = vp.pos()]( const std::string & flag ) {
+        return !get_parts_at( pos, flag, part_status_flag::available ).empty();
+    };
+
+    bool remote = g->remoteveh() == this;
+    bool has_electronic_controls = remote
+                                   ? has_part( "CTRL_ELECTRONIC" ) || has_part( "REMOTE_CONTROLS" )
+                                   : has_part_here( "CTRL_ELECTRONIC" );
+    bool controls_here = has_part_here( "CONTROLS" );
+    if( remote ) {
+        menu.add( _( "Stop controlling" ) )
+        .hotkey( keybind( "RELEASE_CONTROLS" ) )
+        .skip_theft_check()
+        .on_submit( [] {
+            get_player_character().controlling_vehicle = false;
+            g->setremoteveh( nullptr );
+            add_msg( _( "You stop controlling the vehicle." ) );
+        } );
+    } else if( controls_here && get_player_character().controlling_vehicle ) {
+        if( has_part( "ENGINE" ) ) {
+            if( get_player_character().controlling_vehicle || ( remote && engine_on ) ) {
+                menu.add( _( "Stop driving" ) )
+                .hotkey( keybind( "TOGGLE_ENGINE" ) )
+                .skip_theft_check()
+                .on_submit( [this] {
+                    if( engine_on && has_engine_type_not( fuel_type_muscle, true ) )
+                    {
+                        add_msg( _( "You turn the engine off and let go of the controls." ) );
+                    } else
+                    {
+                        add_msg( _( "You let go of the controls." ) );
+                    }
+                    stop_engines();
+                    get_player_character().controlling_vehicle = false;
+                    g->setremoteveh( nullptr );
+                } );
+            } else if( has_engine_type_not( fuel_type_muscle, true ) ) {
+                menu.add( engine_on ? _( "Turn off the engine" ) : _( "Turn on the engine" ) )
+                .hotkey( keybind( "TOGGLE_ENGINE" ) )
+                .skip_theft_check()
+                .on_submit( [this] {
+                    if( engine_on )
+                    {
+                        add_msg( _( "You turn the engine off." ) );
+                        stop_engines();
+                    } else
+                    {
+                        start_engines();
+                    }
+                } );
+            }
+        }
+
+        menu.add( _( "Let go of controls" ) )
+        .hotkey( keybind( "RELEASE_CONTROLS" ) )
+        .skip_theft_check()
+        .on_submit( [] {
+            get_player_character().controlling_vehicle = false;
+            add_msg( _( "You let go of the controls." ) );
+        } );
+
+        if( has_part( "ENGINE" ) ) {
+            menu.add( _( "Control individual engines" ) )
+            .hotkey( keybind( "CONTROL_ENGINES" ) )
+            .on_submit( [this] { control_engines(); } );
+        }
+    }
 
     if( has_tag( flag_APPLIANCE ) ) {
         menu.add( _( "Examine appliance" ) )
@@ -1978,17 +1859,102 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint &p, bool with_
         .on_submit( [this] { toggle_tracking(); } );
     }
 
-    if( vp.avail_part_with_feature( "CONTROLS" ) ) {
+    if( controls_here && has_part( "AUTOPILOT" ) && has_electronic_controls ) {
+        menu.add( _( "Control autopilot" ) )
+        .hotkey( keybind( "CONTROL_AUTOPILOT" ) )
+        .on_submit( [this] { toggle_autopilot(); } );
+    }
+
+    if( controls_here ) {
+        menu.add( cruise_on ? _( "Disable cruise control" ) : _( "Enable cruise control" ) )
+        .hotkey( keybind( "TOGGLE_CRUISE_CONTROL" ) )
+        .keep_menu_open()
+        .on_submit( [this] {
+            cruise_on = !cruise_on;
+            add_msg( cruise_on ? _( "Cruise control turned on" ) : _( "Cruise control turned off" ) );
+        } );
+    }
+
+    if( is_foldable() && !remote ) {
+        menu.add( string_format( _( "Fold %s" ), name ) )
+        .hotkey( keybind( "FOLD_VEHICLE" ) )
+        .on_submit( [this] { start_folding_activity(); } );
+    }
+
+    if( has_part( "SMART_ENGINE_CONTROLLER" ) ) {
+        menu.add( _( "Smart controller settings" ) )
+        .hotkey( keybind( "TOGGLE_SMART_ENGINE_CONTROLLER" ) )
+        .on_submit( [this] {
+            if( !smart_controller_cfg )
+            {
+                smart_controller_cfg = smart_controller_config();
+            }
+
+            smart_controller_settings cfg_view = smart_controller_settings(
+                has_enabled_smart_controller,
+                smart_controller_cfg -> battery_lo,
+                smart_controller_cfg -> battery_hi );
+            smart_controller_ui( cfg_view ).control();
+            for( const vpart_reference &vp : get_avail_parts( "SMART_ENGINE_CONTROLLER" ) )
+            {
+                vp.part().enabled = cfg_view.enabled;
+            }
+        } );
+    }
+
+    if( is_alarm_on ) {
+        if( velocity == 0 && !remote ) {
+            menu.add( _( "Try to disarm alarm" ) )
+            .hotkey( keybind( "TOGGLE_ALARM" ) )
+            .on_submit( [this] { smash_security_system(); } );
+
+        } else if( has_electronic_controls && has_part( "SECURITY" ) ) {
+            menu.add( _( "Trigger alarm" ) )
+            .hotkey( keybind( "TOGGLE_ALARM" ) )
+            .on_submit( [this] {
+                is_alarm_on = true;
+                add_msg( _( "You trigger the alarm" ) );
+            } );
+        }
+    }
+
+    if( controls_here && has_part( "TURRET" ) ) {
+        menu.add( _( "Set turret targeting modes" ) )
+        .hotkey( keybind( "TURRET_TARGET_MODE" ) )
+        .on_submit( [this] { turrets_set_targeting(); } );
+
+        menu.add( _( "Set turret firing modes" ) )
+        .hotkey( keybind( "TURRET_FIRE_MODE" ) )
+        .on_submit( [this] { turrets_set_mode(); } );
+
+        // We can also fire manual turrets with ACTION_FIRE while standing at the controls.
+        menu.add( _( "Aim turrets manually" ) )
+        .hotkey( keybind( "TURRET_MANUAL_AIM" ) )
+        .on_submit( [this] { turrets_aim_and_fire_all_manual( true ); } );
+
+        // This lets us manually override and set the target for the automatic turrets instead.
+        menu.add( _( "Aim automatic turrets" ) )
+        .hotkey( keybind( "TURRET_MANUAL_OVERRIDE" ) )
+        .on_submit( [this] { turrets_override_automatic_aim(); } );
+
+        menu.add( _( "Aim individual turret" ) )
+        .hotkey( keybind( "TURRET_SINGLE_FIRE" ) )
+        .on_submit( [this] { turrets_aim_and_fire_single(); } );
+    }
+
+    if( controls_here ) {
         menu.add( _( "Pull handbrake" ) )
         .hotkey( 'h' )
         .on_submit( [this] { handbrake(); } );
 
-        menu.add( _( "Control vehicle" ) )
-        .hotkey( 'v' )
-        .on_submit( [this, pos = vp.pos()] { use_controls( pos ); } );
+        if( has_part( "HORN" ) ) {
+            menu.add( _( "Honk horn" ) )
+            .hotkey( keybind( "SOUND_HORN" ) )
+            .on_submit( [this] { honk_horn(); } );
+        }
     }
 
-    if( vp.avail_part_with_feature( "CTRL_ELECTRONIC" ) ) {
+    if( !is_locked && vp.avail_part_with_feature( "CTRL_ELECTRONIC" ) ) {
         menu.add( _( "Control multiple electronics" ) )
         .hotkey( keybind( "CONTROL_MANY_ELECTRONICS" ) )
         .on_submit( [this] { control_electronics(); } );
@@ -2013,7 +1979,7 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint &p, bool with_
                   ? _( "Deactivate the autoclave" )
                   : _( "Activate the autoclave (1.5 hours)" ) )
         .hotkey( 'a' )
-        .on_submit( [this, cl_idx = vp_autoclave->part_index() ] { use_autoclave( cl_idx ); } );
+        .on_submit( [this, cl_idx = vp_autoclave->part_index()] { use_autoclave( cl_idx ); } );
     }
 
     const cata::optional<vpart_reference> vp_washing_machine =
@@ -2023,7 +1989,7 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint &p, bool with_
                   ? _( "Deactivate the washing machine" )
                   : _( "Activate the washing machine (1.5 hours)" ) )
         .hotkey( 'W' )
-        .on_submit( [this, wm_idx = vp_washing_machine->part_index() ] { use_washing_machine( wm_idx ); } );
+        .on_submit( [this, wm_idx = vp_washing_machine->part_index()] { use_washing_machine( wm_idx ); } );
     }
 
     const cata::optional<vpart_reference> vp_dishwasher = vp.avail_part_with_feature( "DISHWASHER" );
@@ -2032,41 +1998,38 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint &p, bool with_
                   ? _( "Deactivate the dishwasher" )
                   : _( "Activate the dishwasher (1.5 hours)" ) )
         .hotkey( 'D' )
-        .on_submit( [this, dw_idx = vp_dishwasher->part_index() ] { use_dishwasher( dw_idx ); } );
+        .on_submit( [this, dw_idx = vp_dishwasher->part_index()] { use_dishwasher( dw_idx ); } );
     }
 
-    // Whether vehicle part (cargo) contains items, and whether map tile (ground) has items
     const cata::optional<vpart_reference> vp_cargo = vp.part_with_feature( "CARGO", false );
-    const bool vp_has_items = vp_cargo && !get_items( vp_cargo->part_index() ).empty();
-    if( with_pickup && ( vp_has_items || get_map().has_items( vp.pos() ) ) ) {
+    // Whether vehicle part (cargo) contains items, and whether map tile (ground) has items
+    if( with_pickup && (
+            get_map().has_items( vp.pos() ) ||
+            vp_cargo && !get_items( vp_cargo->part_index() ).empty() ) ) {
         menu.add( _( "Get items" ) )
         .hotkey( 'g' )
         .skip_theft_check()
         .on_submit( [pos = vp.pos()] { g->pickup( pos ); } );
     }
 
-    if( is_foldable() && g->remoteveh() != this ) {
-        menu.add( _( "Fold vehicle" ) )
-        .hotkey( 'f' )
-        .on_submit( [this] { start_folding_activity(); } );
-    }
-
     const turret_data turret = turret_query( vp.pos() );
+
     if( turret.can_unload() ) {
-        menu.add( string_format( "Unload %s", turret.name() ) )
+        menu.add( string_format( _( "Unload %s" ), turret.name() ) )
         .hotkey( 'u' )
         .on_submit( [this, pos = vp.pos()] {
-            item_location loc = turret_query( pos ).base();
+            const turret_data turret = turret_query( pos );
+            item_location loc = turret.base();
             get_player_character().unload( loc );
         } );
     }
 
     if( turret.can_reload() ) {
-        menu.add( string_format( "Reload %s", turret.name() ) )
+        menu.add( string_format( _( "Reload %s" ), turret.name() ) )
         .hotkey( 'r' )
         .on_submit( [this, pos = vp.pos()] {
             item_location loc = turret_query( pos ).base();
-            item::reload_option opt = get_player_character().select_ammo( loc, true );
+            const item::reload_option opt = get_player_character().select_ammo( loc, true );
             if( opt )
             {
                 std::vector<item_location> targets { { opt.target, std::move( opt.ammo ) } };

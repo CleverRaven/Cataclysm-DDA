@@ -927,12 +927,6 @@ class vehicle
         autodrive_result do_autodrive( Character &driver );
         // Stop any kind of automatic vehicle control and apply the brakes.
         void stop_autodriving( bool apply_brakes = true );
-        /**
-         *  Operate vehicle controls
-         *  @param pos location of physical controls to operate (ignored during remote operation)
-         */
-        void use_controls( const tripoint &pos );
-        void build_controls_menu( veh_menu &menu, const tripoint &pos );
 
         item init_cord( const tripoint &pos );
         void plug_in( const tripoint &pos );
