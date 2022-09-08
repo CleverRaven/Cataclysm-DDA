@@ -1559,6 +1559,22 @@ double item::get_var( const std::string &name, const double default_value ) cons
         return default_value;
     }
     if( end != &val[0] + val.size() ) {
+        if( *end == ',' ) {
+            // likely legacy format with localized ',' for fraction separator instead of '.'
+            std::string converted_val = val;
+            converted_val[end - &val[0]] = '.';
+            errno = 0;
+            double result = strtod( &converted_val[0], &end );
+            if( errno != 0 ) {
+                debugmsg( "Error parsing floating point value from %s in item::get_var: %s",
+                          val, strerror( errno ) );
+                return default_value;
+            }
+            if( end != &converted_val[0] + converted_val.size() ) {
+                debugmsg( "Stray characters at end of floating point value %s in item::get_var", val );
+            }
+            return result;
+        }
         debugmsg( "Stray characters at end of floating point value %s in item::get_var", val );
     }
     return result;
@@ -7252,7 +7268,7 @@ bool item::has_flag( const flag_id &f, bool ignore_inherit ) const
         // if the pocket inherits flags
         if( pocket->inherits_flags() ) {
             for( const item *e : pocket->all_items_top() ) {
-                if( e->has_flag( f ) ) {
+                if( e->has_flag( f ) && f->inherit() ) {
                     return true;
                 }
             }
@@ -9927,7 +9943,7 @@ bool item::is_fuel() const
         return false;
     }
     // and this material has to produce energy
-    if( get_base_material().get_fuel_data().energy <= 0.0 ) {
+    if( get_base_material().get_fuel_data().energy <= 0_J ) {
         return false;
     }
     // and it needs to be have consumable charges
@@ -9995,9 +10011,10 @@ int item::wheel_area() const
     return is_wheel() ? type->wheel->diameter * type->wheel->width : 0;
 }
 
-float item::fuel_energy() const
+units::energy item::fuel_energy() const
 {
-    return get_base_material().get_fuel_data().energy;
+    // The odd units and division are to avoid integer rounding errors.
+    return get_base_material().get_fuel_data().energy * units::to_milliliter( volume() ) / 1000;
 }
 
 std::string item::fuel_pump_terrain() const

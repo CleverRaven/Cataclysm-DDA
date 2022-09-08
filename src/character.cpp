@@ -577,7 +577,6 @@ Character::Character() :
     last_item = itype_null;
     sight_max = 9999;
     last_batch = 0;
-    lastconsumed = itype_null;
     death_drops = true;
     nv_cached = false;
     volume = 0;
@@ -7239,7 +7238,7 @@ std::string Character::weapname_mode() const
         }
         return gunmode;
     } else {
-        return _( "" );
+        return "";
     }
 }
 
@@ -7284,7 +7283,7 @@ std::string Character::weapname_ammo() const
         return mag_ammo;
 
     } else {
-        return _( "" );
+        return "";
     }
 }
 

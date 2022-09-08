@@ -231,5 +231,18 @@
     "using": [ [ "soldering_standard", 3 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [ [ [ "amplifier", 2 ], [ "makeshift_transformer", 2 ] ], [ [ "cable", 20 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "antenna",
+    "//": "This is the old, completely inaccurate and frankly just terrible recipe from the mainline. It was ported to Innawoods for the sake of not removing the ability to learn electronics for players but it should ideally be changed/replaced.",
+    "category": "CC_ELECTRONIC",
+    "subcategory": "CSC_ELECTRONIC_COMPONENTS",
+    "skill_used": "electronics",
+    "time": "3 m",
+    "book_learn": [ [ "radio_book", 1 ], [ "textbook_anarch", 1 ] ],
+    "qualities": [ { "id": "SAW_M", "level": 1 } ],
+    "components": [ [ [ "steel_chunk", 1 ], [ "scrap", 3 ], [ "knife_butter", 2 ] ] ]
   }
 ]

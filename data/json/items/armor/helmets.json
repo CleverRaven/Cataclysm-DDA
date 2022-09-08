@@ -961,6 +961,38 @@
     ]
   },
   {
+    "id": "ch_helmet_metal_sheets_full",
+    "type": "ARMOR",
+    "copy-from": "helmet_metal_sheets_full",
+    "name": { "str": "case hardened sheet metal great helm" },
+    "description": "It still looks like a bucket, but this crude great helm has at least been case hardened for extra protection.",
+    "material": [ "ch_steel", "cotton" ],
+    "extend": { "flags": [ "STURDY" ] },
+    "armor": [
+      {
+        "material": [
+          { "type": "ch_steel", "covered_by_mat": 100, "thickness": 1.5 },
+          { "type": "cotton", "covered_by_mat": 100, "thickness": 5 }
+        ],
+        "covers": [ "head" ],
+        "coverage": 100,
+        "encumbrance_modifiers": [ "RESTRICTS_NECK", "WELL_SUPPORTED" ]
+      },
+      {
+        "material": [ { "type": "ch_steel", "covered_by_mat": 100, "thickness": 1.5 } ],
+        "covers": [ "eyes" ],
+        "coverage": 100,
+        "encumbrance": 25
+      },
+      {
+        "material": [ { "type": "ch_steel", "covered_by_mat": 100, "thickness": 1.5 } ],
+        "covers": [ "mouth" ],
+        "coverage": 100,
+        "encumbrance": 10
+      }
+    ]
+  },
+  {
     "id": "helmet_metal_sheets",
     "type": "ARMOR",
     "category": "armor",
@@ -984,6 +1016,26 @@
       {
         "material": [
           { "type": "lc_steel", "covered_by_mat": 100, "thickness": 1.5 },
+          { "type": "cotton", "covered_by_mat": 100, "thickness": 5 }
+        ],
+        "covers": [ "head" ],
+        "coverage": 100,
+        "encumbrance_modifiers": [ "RESTRICTS_NECK", "WELL_SUPPORTED" ]
+      }
+    ]
+  },
+  {
+    "id": "ch_helmet_metal_sheets",
+    "type": "ARMOR",
+    "copy-from": "helmet_metal_sheets",
+    "name": { "str": "case hardened sheet metal helmet" },
+    "description": "While the design is crude, this helmet has been case hardened for added protection, while still leaving your face open so you can see properly.",
+    "material": [ "ch_steel", "cotton" ],
+    "extend": { "flags": [ "STURDY" ] },
+    "armor": [
+      {
+        "material": [
+          { "type": "ch_steel", "covered_by_mat": 100, "thickness": 1.5 },
           { "type": "cotton", "covered_by_mat": 100, "thickness": 5 }
         ],
         "covers": [ "head" ],

@@ -149,6 +149,11 @@
         "topic": "TALK_EVAC_MERCHANT_DEAL_NEGOTIATE_CHEM",
         "condition": { "u_has_mission": "MISSION_CABIN_CHEMIST_SET_TRADE_ROUTE" }
       },
+      {
+        "text": "Are you interested in any household goods?",
+        "topic": "TALK_EVAC_MERCHANT_DEAL_NEGOTIATE_MISC",
+        "condition": { "u_has_mission": "MISSION_VALHALLISTS_SET_TRADE_ROUTE" }
+      },
       { "text": "Actually, I need to head out.", "topic": "TALK_DONE" }
     ]
   },
@@ -310,6 +315,18 @@
     "responses": [
       {
         "text": "Well, how about 300 merch for 10 liters of…",
+        "effect": { "u_spawn_item": "trade_writ" },
+        "topic": "TALK_DONE"
+      }
+    ]
+  },
+  {
+    "id": "TALK_EVAC_MERCHANT_DEAL_NEGOTIATE_MISC",
+    "type": "talk_topic",
+    "dynamic_line": [ "We are running a bit short on toilet paper, soap, toothpaste…  What's the offer?" ],
+    "responses": [
+      {
+        "text": "Well, how about 200 merch for 75 pounds of…",
         "effect": { "u_spawn_item": "trade_writ" },
         "topic": "TALK_DONE"
       }
