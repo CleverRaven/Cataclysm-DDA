@@ -291,10 +291,10 @@
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "fabrication",
-    "time": "10 m",
+    "time": "30 m",
     "autolearn": true,
     "qualities": [ { "id": "SAW_W", "level": 2 } ],
-    "byproducts": [ [ "wood_block", 2 ], [ "splinter", 7 ] ],
+    "byproducts": [ [ "wood_block", 4 ], [ "splinter", 13 ] ],
     "components": [ [ [ "wooden_post_short", 1 ] ] ]
   },
   {
