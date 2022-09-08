@@ -378,40 +378,34 @@ void vehicle::control_electronics()
 
 void vehicle::control_engines()
 {
-    int e_toggle = 0;
     bool dirty = false;
-    //count active engines
-    int fuel_count = 0;
-    for( int e : engines ) {
-        fuel_count += part_info( e ).engine_fuel_opts().size();
-    }
 
-    const auto adjust_engine = [this]( int e_toggle ) {
-        int i = 0;
-        for( int e : engines ) {
-            for( const itype_id &fuel : part_info( e ).engine_fuel_opts() ) {
-                if( i == e_toggle ) {
-                    if( parts[ e ].fuel_current() == fuel ) {
-                        toggle_specific_part( e, !is_part_on( e ) );
-                    } else {
-                        parts[ e ].fuel_set( fuel );
+    veh_menu menu( this, _( "Toggle which?" ) );
+    do {
+        menu.reset();
+        for( size_t e = 0; e < engines.size(); e++ ) {
+            const int engine_idx = engines[e];
+            const vehicle_part &vp = parts[engine_idx];
+            for( const itype_id &fuel_type : vp.info().engine_fuel_opts() ) {
+                bool is_active = vp.enabled && vp.fuel_current() == fuel_type;
+                bool has_fuel = is_perpetual_type( e ) || fuel_left( fuel_type );
+                menu.add( string_format( "[%s] %s %s", is_active ? "x" : " ", vp.name(), fuel_type->nname( 1 ) ) )
+                .enable( vp.is_available() && has_fuel )
+                .keep_menu_open()
+                .on_submit( [this, engine_idx, fuel_type, &dirty] {
+                    vehicle_part &vp = parts[engine_idx];
+                    if( vp.fuel_current() == fuel_type )
+                    {
+                        toggle_specific_part( engine_idx, !is_part_on( engine_idx ) );
+                    } else
+                    {
+                        vp.fuel_set( fuel_type );
                     }
-                    return;
-                }
-                i += 1;
+                    dirty = true;
+                } );
             }
         }
-    };
-
-    //show menu until user finishes
-    do {
-        e_toggle = select_engine();
-        if( e_toggle < 0 || e_toggle >= fuel_count ) {
-            break;
-        }
-        dirty = true;
-        adjust_engine( e_toggle );
-    } while( e_toggle < fuel_count );
+    } while( menu.query() );
 
     if( !dirty ) {
         return;
@@ -438,27 +432,6 @@ void vehicle::control_engines()
     if( engine_on ) {
         start_engines();
     }
-}
-
-int vehicle::select_engine()
-{
-    uilist tmenu;
-    tmenu.text = _( "Toggle which?" );
-    int i = 0;
-    for( size_t x = 0; x < engines.size(); x++ ) {
-        int e = engines[ x ];
-        for( const itype_id &fuel_id : part_info( e ).engine_fuel_opts() ) {
-            bool is_active = parts[ e ].enabled && parts[ e ].fuel_current() == fuel_id;
-            bool is_available = parts[ e ].is_available() &&
-                                ( is_perpetual_type( x ) || fuel_id == fuel_type_muscle ||
-                                  fuel_left( fuel_id ) );
-            tmenu.addentry( i++, is_available, -1, "[%s] %s %s",
-                            is_active ? "x" : " ", parts[ e ].name(),
-                            item::nname( fuel_id ) );
-        }
-    }
-    tmenu.query();
-    return tmenu.ret;
 }
 
 bool vehicle::interact_vehicle_locked()
