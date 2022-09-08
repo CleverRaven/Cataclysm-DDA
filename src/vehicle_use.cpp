@@ -1924,339 +1924,290 @@ void vpart_position::form_inventory( inventory &inv ) const
     }
 }
 
-// Handles interactions with a vehicle in the examine menu.
-void vehicle::interact_with( const vpart_position &vp, bool with_pickup )
+static bool tool_wants_battery( const itype_id &type )
 {
-    map &here = get_map();
-    avatar &player_character = get_avatar();
-    const turret_data turret = turret_query( vp.pos() );
-    const cata::optional<vpart_reference> vp_curtain = vp.avail_part_with_feature( "CURTAIN" );
-    const cata::optional<vpart_reference> vp_faucet = vp.part_with_tool( itype_water_faucet );
-    const cata::optional<vpart_reference> vp_purify = vp.part_with_tool( itype_pseudo_water_purifier );
-    const cata::optional<vpart_reference> vp_controls = vp.avail_part_with_feature( "CONTROLS" );
-    const cata::optional<vpart_reference> vp_electronics =
-        vp.avail_part_with_feature( "CTRL_ELECTRONIC" );
+    item tool( type, calendar::turn_zero );
+    item mag( tool.magazine_default() );
+    mag.clear_items();
+
+    return tool.can_contain( mag ).success() &&
+           tool.put_in( mag, item_pocket::pocket_type::MAGAZINE_WELL ).success() &&
+           tool.ammo_capacity( ammo_battery ) > 0;
+};
+
+static bool use_vehicle_tool( vehicle &veh, const tripoint &vp_pos, const itype_id &tool_type )
+{
+    item pseudo( tool_type, calendar::turn_zero );
+    pseudo.set_flag( STATIC( flag_id( "PSEUDO" ) ) );
+    if( !tool_wants_battery( tool_type ) ) {
+        get_player_character().invoke_item( &pseudo );
+        return true;
+    }
+    if( veh.fuel_left( itype_battery, true ) < pseudo.ammo_required() ) {
+        return false;
+    }
+    // TODO: Figure out this comment: Pseudo items don't have a magazine in it, and they don't need it anymore.
+    item pseudo_magazine( pseudo.magazine_default() );
+    pseudo_magazine.clear_items(); // no initial ammo
+    pseudo.put_in( pseudo_magazine, item_pocket::pocket_type::MAGAZINE_WELL );
+    const int capacity = pseudo.ammo_capacity( ammo_battery );
+    const int qty = capacity - veh.discharge_battery( capacity );
+    pseudo.ammo_set( itype_battery, qty );
+    get_player_character().invoke_item( &pseudo );
+    player_activity &act = get_player_character().activity;
+
+    // HACK: Evil hack incoming
+    if( act.id() == ACT_REPAIR_ITEM &&
+        ( tool_type == itype_welder || tool_type == itype_soldering_iron ) ) {
+        act.index = INT_MIN; // tell activity the item doesn't really exist
+        act.coords.push_back( vp_pos ); // tell it to search for the tool on `pos`
+        act.str_values.push_back( tool_type.str() ); // specific tool on the rig
+    }
+
+    veh.charge_battery( pseudo.ammo_remaining() );
+    return true;
+};
+
+// Handles interactions with a vehicle in the examine menu.
+void vehicle::build_interact_menu( veh_menu &menu, const tripoint &p, bool with_pickup )
+{
+    const optional_vpart_position ovp = get_map().veh_at( p );
+    if( !ovp ) {
+        debugmsg( "vehicle::build_interact_menu couldn't find vehicle at %s", p.to_string() );
+        return;
+    }
+    const vpart_position vp = *ovp;
+
+    if( has_tag( flag_APPLIANCE ) ) {
+        menu.add( _( "Examine appliance" ) )
+        .skip_theft_check()
+        .hotkey( 'e' )
+        .on_submit( [this, mount = vp.mount()] { g->exam_appliance( *this, mount ); } );
+
+        menu.add( _( "Plug in appliance" ) )
+        .hotkey( 'g' )
+        .on_submit( [this, pos = vp.pos()] { plug_in( get_map().getabs( pos ) ); } );
+    } else {
+        menu.add( _( "Examine vehicle" ) )
+        .skip_theft_check()
+        .hotkey( 'e' )
+        .on_submit( [this] { g->exam_vehicle( *this ); } );
+
+        menu.add( tracking_on ? _( "Forget vehicle position" ) : _( "Remember vehicle position" ) )
+        .skip_theft_check()
+        .keep_menu_open()
+        .hotkey( keybind( "TOGGLE_TRACKING" ) )
+        .on_submit( [this] { toggle_tracking(); } );
+    }
+
+    if( vp.avail_part_with_feature( "CONTROLS" ) ) {
+        menu.add( _( "Pull handbrake" ) )
+        .hotkey( 'h' )
+        .on_submit( [this] { handbrake(); } );
+
+        menu.add( _( "Control vehicle" ) )
+        .hotkey( 'v' )
+        .on_submit( [this, pos = vp.pos()] { use_controls( pos ); } );
+    }
+
+    if( vp.avail_part_with_feature( "CTRL_ELECTRONIC" ) ) {
+        menu.add( _( "Control multiple electronics" ) )
+        .hotkey( keybind( "CONTROL_MANY_ELECTRONICS" ) )
+        .on_submit( [this] { control_electronics(); } );
+    }
+
+    for( const std::pair<itype_id, int> &pair : vp.get_tools() ) {
+        const itype_id tool = pair.first;
+        const char hotkey = pair.second;
+        if( hotkey == -1 || !tool->has_use() ) {
+            continue; // passive tool
+        }
+
+        menu.add( _( "Use " ) + tool->nname( 1 ) )
+        .enable( fuel_left( itype_battery, true ) >= tool->charges_to_use() )
+        .hotkey( hotkey )
+        .on_submit( [this, pos = vp.pos(), tool] { use_vehicle_tool( *this, pos, tool ); } );
+    }
+
     const cata::optional<vpart_reference> vp_autoclave = vp.avail_part_with_feature( "AUTOCLAVE" );
+    if( vp_autoclave ) {
+        menu.add( vp_autoclave->part().enabled
+                  ? _( "Deactivate the autoclave" )
+                  : _( "Activate the autoclave (1.5 hours)" ) )
+        .hotkey( 'a' )
+        .on_submit( [this, cl_idx = vp_autoclave->part_index() ] { use_autoclave( cl_idx ); } );
+    }
+
     const cata::optional<vpart_reference> vp_washing_machine =
         vp.avail_part_with_feature( "WASHING_MACHINE" );
-    const cata::optional<vpart_reference> vp_dishwasher = vp.avail_part_with_feature( "DISHWASHER" );
-    const cata::optional<vpart_reference> vp_monster_capture =
-        vp.avail_part_with_feature( "CAPTURE_MONSTER_VEH" );
-    const cata::optional<vpart_reference> vp_bike_rack = vp.avail_part_with_feature( "BIKE_RACK_VEH" );
-    const cata::optional<vpart_reference> vp_harness = vp.avail_part_with_feature( "ANIMAL_CTRL" );
-    const cata::optional<vpart_reference> vp_workbench = vp.avail_part_with_feature( "WORKBENCH" );
-    const cata::optional<vpart_reference> vp_cargo = vp.part_with_feature( "CARGO", false );
-    const bool has_planter = vp.avail_part_with_feature( "PLANTER" ) ||
-                             vp.avail_part_with_feature( "ADVANCED_PLANTER" );
-    // Whether vehicle part (cargo) contains items, and whether map tile (ground) has items
-    const bool vp_has_items = vp_cargo && !get_items( vp_cargo->part_index() ).empty();
-    const bool map_has_items = here.has_items( vp.pos() );
-
-    bool is_appliance = has_tag( flag_APPLIANCE );
-
-    enum {
-        EXAMINE,
-        TRACK,
-        HANDBRAKE,
-        CONTROL,
-        CONTROL_ELECTRONICS,
-        GET_ITEMS,
-        FOLD_VEHICLE,
-        UNLOAD_TURRET,
-        RELOAD_TURRET,
-        FILL_CONTAINER,
-        DRINK,
-        PURIFY_TANK,
-        USE_AUTOCLAVE,
-        USE_WASHMACHINE,
-        USE_DISHWASHER,
-        USE_MONSTER_CAPTURE,
-        USE_BIKE_RACK,
-        USE_HARNESS,
-        RELOAD_PLANTER,
-        WORKBENCH,
-        PEEK_CURTAIN,
-        PLUG,
-        TOOLS_OFFSET // must be the last value!
-    };
-    uilist selectmenu;
-
-
-    selectmenu.addentry( EXAMINE, true, 'e',
-                         is_appliance ? _( "Examine appliance" ) : _( "Examine vehicle" ) );
-    if( !is_appliance ) {
-        selectmenu.addentry( TRACK, true, keybind( "TOGGLE_TRACKING" ),
-                             tracking_on ? _( "Forget vehicle position" ) : _( "Remember vehicle position" ) );
-    } else {
-        selectmenu.addentry( PLUG, true, 'g', _( "Plug in appliance" ) );
-    }
-    if( vp_controls ) {
-        selectmenu.addentry( HANDBRAKE, true, 'h', _( "Pull handbrake" ) );
-        selectmenu.addentry( CONTROL, true, 'v', _( "Control vehicle" ) );
-    }
-    if( vp_electronics ) {
-        selectmenu.addentry( CONTROL_ELECTRONICS, true, keybind( "CONTROL_MANY_ELECTRONICS" ),
-                             _( "Control multiple electronics" ) );
-    }
-
-    // retrieves a list of tools at that vehicle part
-    // first is tool itype_id, second is the hotkey
-    const std::vector<std::pair<itype_id, int>> veh_tools = vp.get_tools();
-
-    for( size_t i = 0; i < veh_tools.size(); i++ ) {
-        const std::pair<itype_id, int> pair = veh_tools[i];
-        const itype &tool = pair.first.obj();
-        if( pair.second == -1 || !tool.has_use() ) {
-            continue;
-        }
-
-        const bool enabled = fuel_left( itype_battery, true ) >= tool.charges_to_use();
-        selectmenu.addentry( TOOLS_OFFSET + i, enabled, pair.second, _( "Use " ) + tool.nname( 1 ) );
-    }
-
-    if( vp_autoclave ) {
-        selectmenu.addentry( USE_AUTOCLAVE, true, 'a', vp_autoclave->part().enabled
-                             ? _( "Deactivate the autoclave" )
-                             : _( "Activate the autoclave (1.5 hours)" ) );
-    }
     if( vp_washing_machine ) {
-        selectmenu.addentry( USE_WASHMACHINE, true, 'W', vp_washing_machine->part().enabled
-                             ? _( "Deactivate the washing machine" )
-                             : _( "Activate the washing machine (1.5 hours)" ) );
+        menu.add( vp_washing_machine->part().enabled
+                  ? _( "Deactivate the washing machine" )
+                  : _( "Activate the washing machine (1.5 hours)" ) )
+        .hotkey( 'W' )
+        .on_submit( [this, wm_idx = vp_washing_machine->part_index() ] { use_washing_machine( wm_idx ); } );
     }
+
+    const cata::optional<vpart_reference> vp_dishwasher = vp.avail_part_with_feature( "DISHWASHER" );
     if( vp_dishwasher ) {
-        selectmenu.addentry( USE_DISHWASHER, true, 'D', vp_dishwasher->part().enabled
-                             ? _( "Deactivate the dishwasher" )
-                             : _( "Activate the dishwasher (1.5 hours)" ) );
+        menu.add( vp_dishwasher->part().enabled
+                  ? _( "Deactivate the dishwasher" )
+                  : _( "Activate the dishwasher (1.5 hours)" ) )
+        .hotkey( 'D' )
+        .on_submit( [this, dw_idx = vp_dishwasher->part_index() ] { use_dishwasher( dw_idx ); } );
     }
-    if( with_pickup && ( vp_has_items || map_has_items ) ) {
-        selectmenu.addentry( GET_ITEMS, true, 'g', _( "Get items" ) );
+
+    // Whether vehicle part (cargo) contains items, and whether map tile (ground) has items
+    const cata::optional<vpart_reference> vp_cargo = vp.part_with_feature( "CARGO", false );
+    const bool vp_has_items = vp_cargo && !get_items( vp_cargo->part_index() ).empty();
+    if( with_pickup && ( vp_has_items || get_map().has_items( vp.pos() ) ) ) {
+        menu.add( _( "Get items" ) )
+        .hotkey( 'g' )
+        .skip_theft_check()
+        .on_submit( [pos = vp.pos()] { g->pickup( pos ); } );
     }
+
     if( is_foldable() && g->remoteveh() != this ) {
-        selectmenu.addentry( FOLD_VEHICLE, true, 'f', _( "Fold vehicle" ) );
+        menu.add( _( "Fold vehicle" ) )
+        .hotkey( 'f' )
+        .on_submit( [this] { start_folding_activity(); } );
     }
+
+    const turret_data turret = turret_query( vp.pos() );
     if( turret.can_unload() ) {
-        selectmenu.addentry( UNLOAD_TURRET, true, 'u', _( "Unload %s" ), turret.name() );
+        menu.add( string_format( "Unload %s", turret.name() ) )
+        .hotkey( 'u' )
+        .on_submit( [this, pos = vp.pos()] {
+            item_location loc = turret_query( pos ).base();
+            get_player_character().unload( loc );
+        } );
     }
+
     if( turret.can_reload() ) {
-        selectmenu.addentry( RELOAD_TURRET, true, 'r', _( "Reload %s" ), turret.name() );
+        menu.add( string_format( "Reload %s", turret.name() ) )
+        .hotkey( 'r' )
+        .on_submit( [this, pos = vp.pos()] {
+            item_location loc = turret_query( pos ).base();
+            item::reload_option opt = get_player_character().select_ammo( loc, true );
+            if( opt )
+            {
+                std::vector<item_location> targets { { opt.target, std::move( opt.ammo ) } };
+                reload_activity_actor reload_act( opt.moves(), opt.qty(), targets );
+                get_player_character().assign_activity( player_activity( reload_act ) );
+            }
+        } );
     }
+
+    const cata::optional<vpart_reference> vp_curtain = vp.avail_part_with_feature( "CURTAIN" );
     if( vp_curtain && !vp_curtain->part().open ) {
-        selectmenu.addentry( PEEK_CURTAIN, true, 'p', _( "Peek through the closed curtains" ) );
-    }
-    if( vp_faucet && fuel_left( itype_water_clean ) > 0 ) {
-        selectmenu.addentry( FILL_CONTAINER, true, 'c', _( "Fill a container with water" ) );
-        selectmenu.addentry( DRINK, true, 'd', _( "Have a drink" ) );
-    }
-    if( vp_purify ) {
-        bool can_purify = fuel_left( itype_water ) &&
-                          fuel_left( itype_battery, true ) >= itype_pseudo_water_purifier.obj().charges_to_use();
-        selectmenu.addentry( PURIFY_TANK, can_purify, 'P', _( "Purify water in vehicle tank" ) );
-    }
-    if( vp_monster_capture ) {
-        selectmenu.addentry( USE_MONSTER_CAPTURE, true, 'G', _( "Capture or release a creature" ) );
-    }
-    if( vp_bike_rack ) {
-        selectmenu.addentry( USE_BIKE_RACK, true, 'R', _( "Load or unload a vehicle" ) );
-    }
-    if( vp_harness ) {
-        selectmenu.addentry( USE_HARNESS, true, 'H', _( "Harness an animal" ) );
-    }
-    if( has_planter ) {
-        selectmenu.addentry( RELOAD_PLANTER, true, 's', _( "Reload seed drill with seeds" ) );
-    }
-    if( vp_workbench ) {
-        selectmenu.addentry( WORKBENCH, true,
-                             hotkey_for_action( ACTION_CRAFT, /*maximum_modifier_count=*/1 ),
-                             string_format( _( "Craft at the %s" ), vp_workbench->part().name() ) );
-    }
-
-    int choice;
-    if( selectmenu.entries.size() == 1 ) {
-        choice = selectmenu.entries.front().retval;
-    } else {
-        selectmenu.text = _( "Select an action" );
-        selectmenu.query();
-        choice = selectmenu.ret;
-    }
-    if( choice != EXAMINE && choice != TRACK && choice != GET_ITEMS ) {
-        if( !handle_potential_theft( dynamic_cast<Character &>( player_character ) ) ) {
-            return;
-        }
-    }
-
-    auto tool_wants_battery = []( const itype_id & type ) {
-        item tool( type, calendar::turn_zero );
-        item mag( tool.magazine_default() );
-        mag.clear_items();
-
-        return tool.can_contain( mag ).success() &&
-               tool.put_in( mag, item_pocket::pocket_type::MAGAZINE_WELL ).success() &&
-               tool.ammo_capacity( ammo_battery ) > 0;
-    };
-
-    auto use_vehicle_tool = [&]( const itype_id & tool_type ) {
-        item pseudo( tool_type, calendar::turn_zero );
-        pseudo.set_flag( STATIC( flag_id( "PSEUDO" ) ) );
-        if( !tool_wants_battery( tool_type ) ) {
-            player_character.invoke_item( &pseudo );
-            return true;
-        }
-        if( fuel_left( itype_battery, true ) < pseudo.ammo_required() ) {
-            return false;
-        }
-        // TODO: Figure out this comment: Pseudo items don't have a magazine in it, and they don't need it anymore.
-        item pseudo_magazine( pseudo.magazine_default() );
-        pseudo_magazine.clear_items(); // no initial ammo
-        pseudo.put_in( pseudo_magazine, item_pocket::pocket_type::MAGAZINE_WELL );
-        const int capacity = pseudo.ammo_capacity( ammo_battery );
-        const int qty = capacity - discharge_battery( capacity );
-        pseudo.ammo_set( itype_battery, qty );
-        player_character.invoke_item( &pseudo );
-        player_activity &act = player_character.activity;
-
-        // HACK: Evil hack incoming
-        if( act.id() == ACT_REPAIR_ITEM &&
-            ( tool_type == itype_welder || tool_type == itype_soldering_iron ) ) {
-            act.index = INT_MIN; // tell activity the item doesn't really exist
-            act.coords.push_back( vp.pos() ); // tell it to search for the tool on `pos`
-            act.str_values.push_back( tool_type.str() ); // specific tool on the rig
-        }
-
-        charge_battery( pseudo.ammo_remaining() );
-        return true;
-    };
-
-    switch( choice ) {
-        case USE_BIKE_RACK: {
-            use_bike_rack( vp_bike_rack->part_index() );
-            return;
-        }
-        case USE_HARNESS: {
-            use_harness( vp_harness->part_index(), vp.pos() );
-            return;
-        }
-        case USE_MONSTER_CAPTURE: {
-            use_monster_capture( vp_monster_capture->part_index(), vp.pos() );
-            return;
-        }
-        case PEEK_CURTAIN: {
+        menu.add( _( "Peek through the closed curtains" ) )
+        .hotkey( 'p' )
+        .on_submit( [pos = vp.pos()] {
             add_msg( _( "You carefully peek through the curtains." ) );
-            g->peek( vp.pos() );
-            return;
-        }
-        case USE_AUTOCLAVE: {
-            use_autoclave( vp_autoclave->part_index() );
-            return;
-        }
-        case USE_WASHMACHINE: {
-            use_washing_machine( vp_washing_machine->part_index() );
-            return;
-        }
-        case USE_DISHWASHER: {
-            use_dishwasher( vp_dishwasher->part_index() );
-            return;
-        }
-        case FILL_CONTAINER: {
-            player_character.siphon( *this, itype_water_clean );
-            return;
-        }
-        case DRINK: {
-            item water( itype_water_clean, calendar::turn_zero );
-            if( player_character.can_consume_as_is( water ) ) {
-                player_character.assign_activity( player_activity( consume_activity_actor( water ) ) );
+            g->peek( pos );
+        } );
+    }
+
+    if( vp.part_with_tool( itype_water_faucet ) && fuel_left( itype_water_clean ) > 0 ) {
+        menu.add( _( "Fill a container with water" ) )
+        .hotkey( 'c' )
+        .on_submit( [this] { get_player_character().siphon( *this, itype_water_clean ); } );
+
+        menu.add( _( "Have a drink" ) )
+        .hotkey( 'd' )
+        .on_submit( [this] {
+            const item water( itype_water_clean, calendar::turn_zero );
+            if( get_player_character().can_consume_as_is( water ) )
+            {
+                get_player_character().assign_activity( player_activity( consume_activity_actor( water ) ) );
                 drain( itype_water_clean, 1 );
             }
-            return;
-        }
-        case PURIFY_TANK: {
-            auto sel = []( const vehicle_part & pt ) {
+        } );
+    }
+
+    if( vp.part_with_tool( itype_pseudo_water_purifier ) ) {
+        menu.add( _( "Purify water in vehicle tank" ) )
+        .enable( fuel_left( itype_water ) &&
+                 fuel_left( itype_battery, true ) >= itype_pseudo_water_purifier->charges_to_use() )
+        .hotkey( 'P' )
+        .on_submit( [this] {
+            const auto sel = []( const vehicle_part & pt )
+            {
                 return pt.is_tank() && pt.ammo_current() == itype_water;
             };
             std::string title = string_format( _( "Purify <color_%s>water</color> in tank" ),
-                                               get_all_colors().get_name( item::find_type( itype_water )->color ) );
+                                               get_all_colors().get_name( itype_water->color ) );
             vehicle_part &tank = veh_interact::select_part( *this, sel, title );
-            if( tank ) {
-                int64_t cost = static_cast<int64_t>( itype_pseudo_water_purifier->charges_to_use() );
-                if( fuel_left( itype_battery, true ) < tank.ammo_remaining() * cost ) {
-                    //~ $1 - vehicle name, $2 - part name
-                    add_msg( m_bad, _( "Insufficient power to purify the contents of the %1$s's %2$s" ),
-                             name, tank.name() );
-                } else {
-                    //~ $1 - vehicle name, $2 - part name
-                    add_msg( m_good, _( "You purify the contents of the %1$s's %2$s" ), name, tank.name() );
-                    discharge_battery( tank.ammo_remaining() * cost );
-                    tank.ammo_set( itype_water_clean, tank.ammo_remaining() );
-                }
+            if( !tank )
+            {
+                return;
             }
-            return;
-        }
-        case UNLOAD_TURRET: {
-            item_location loc = turret.base();
-            player_character.unload( loc );
-            return;
-        }
-        case RELOAD_TURRET: {
-            item::reload_option opt = player_character.select_ammo( turret.base(), true );
-            std::vector<item_location> targets;
-            if( opt ) {
-                const int moves = opt.moves();
-                targets.push_back( opt.target );
-                targets.push_back( std::move( opt.ammo ) );
-                player_character.assign_activity( player_activity( reload_activity_actor( moves, opt.qty(),
-                                                  targets ) ) );
+            int64_t cost = static_cast<int64_t>( itype_pseudo_water_purifier->charges_to_use() );
+            if( fuel_left( itype_battery, true ) < tank.ammo_remaining() * cost )
+            {
+                //~ $1 - vehicle name, $2 - part name
+                add_msg( m_bad, _( "Insufficient power to purify the contents of the %1$s's %2$s" ),
+                         name, tank.name() );
+            } else
+            {
+                //~ $1 - vehicle name, $2 - part name
+                add_msg( m_good, _( "You purify the contents of the %1$s's %2$s" ), name, tank.name() );
+                discharge_battery( tank.ammo_remaining() * cost );
+                tank.ammo_set( itype_water_clean, tank.ammo_remaining() );
             }
-            return;
-        }
-        case FOLD_VEHICLE: {
-            start_folding_activity();
-            return;
-        }
-        case HANDBRAKE: {
-            handbrake();
-            return;
-        }
-        case CONTROL: {
-            use_controls( vp.pos() );
-            return;
-        }
-        case CONTROL_ELECTRONICS: {
-            control_electronics();
-            return;
-        }
-        case EXAMINE: {
-            if( is_appliance ) {
-                g->exam_appliance( *this, vp.mount() );
-            } else {
-                g->exam_vehicle( *this );
-            }
-            return;
-        }
-        case TRACK: {
-            toggle_tracking( );
-            return;
-        }
-        case GET_ITEMS: {
-            g->pickup( vp.pos() );
-            return;
-        }
-        case RELOAD_PLANTER: {
-            reload_seeds( vp.pos() );
-            return;
-        }
-        case WORKBENCH: {
-            iexamine::workbench_internal( player_character, vp.pos(), vp_workbench );
-            return;
-        }
-        case PLUG: {
-            plug_in( here.getabs( vp.pos() ) );
-            return;
-        }
-        default: {
-            if( choice >= TOOLS_OFFSET ) {
-                use_vehicle_tool( veh_tools[choice - TOOLS_OFFSET].first );
-            }
-            return;
-        }
+        } );
     }
+
+    const cata::optional<vpart_reference> vp_monster_capture =
+        vp.avail_part_with_feature( "CAPTURE_MONSTER_VEH" );
+    if( vp_monster_capture ) {
+        menu.add( _( "Capture or release a creature" ) )
+        .hotkey( 'G' )
+        .on_submit( [this, mc_idx = vp_monster_capture->part_index(), pos = vp.pos()] { use_monster_capture( mc_idx, pos ); } );
+    }
+
+    const cata::optional<vpart_reference> vp_bike_rack = vp.avail_part_with_feature( "BIKE_RACK_VEH" );
+    if( vp_bike_rack ) {
+        menu.add( _( "Load or unload a vehicle" ) )
+        .hotkey( 'R' )
+        .on_submit( [this, rk_idx = vp_bike_rack->part_index()] { use_bike_rack( rk_idx ); } );
+    }
+
+    const cata::optional<vpart_reference> vp_harness = vp.avail_part_with_feature( "ANIMAL_CTRL" );
+    if( vp_harness ) {
+        menu.add( _( "Harness an animal" ) )
+        .hotkey( 'H' )
+        .on_submit( [this, hn_idx = vp_harness->part_index(), pos = vp.pos()] { use_harness( hn_idx, pos ); } );
+    }
+
+    if( vp.avail_part_with_feature( "PLANTER" ) ) {
+        menu.add( _( "Reload seed drill with seeds" ) )
+        .hotkey( 's' )
+        .on_submit( [this, pos = vp.pos()] { reload_seeds( pos ); } );
+    }
+
+    const cata::optional<vpart_reference> vp_workbench = vp.avail_part_with_feature( "WORKBENCH" );
+    if( vp_workbench ) {
+        menu.add( string_format( _( "Craft at the %s" ), vp_workbench->part().name() ) )
+        .hotkey( hotkey_for_action( ACTION_CRAFT, /* maximum_modifier_count = */ 1 ) )
+        .on_submit( [this, wb_idx = vp_workbench->part_index(), pos = vp.pos()] {
+            const vpart_reference vp_workbench( *this, wb_idx );
+            iexamine::workbench_internal( get_player_character(), pos, vp_workbench );
+        } );
+    }
+}
+
+void vehicle::interact_with( const tripoint &p, bool with_pickup )
+{
+    const optional_vpart_position ovp = get_map().veh_at( p );
+    if( !ovp ) {
+        debugmsg( "interact_with called at %s and no vehicle is found", p.to_string() );
+        return;
+    }
+
+    veh_menu menu( *this, _( "Select an action" ) );
+    do {
+        menu.reset();
+        build_interact_menu( menu, p, with_pickup );
+    } while( menu.query() );
 }
