@@ -57,8 +57,8 @@ struct fuel_explosion_data {
 
 struct fuel_data {
     public:
-        /** Energy of the fuel (kilojoules per charge) */
-        float energy = 0.0f;
+        /** Energy of the fuel per litre */
+        units::energy energy = 0_J;
         fuel_explosion_data explosion_data;
         std::string pump_terrain = "t_null";
         bool is_perpetual_fuel = false;
@@ -100,6 +100,7 @@ class material_type
         bool _edible = false;
         bool _rotting = false;
         bool _soft = false;
+        bool _uncomfortable = false;
         bool _reinforces = false;
         bool _conductive = false; // If this material conducts electricity
 
@@ -166,6 +167,7 @@ class material_type
         bool edible() const;
         bool rotting() const;
         bool soft() const;
+        bool uncomfortable() const;
         bool reinforces() const;
 
         double vitamin( const vitamin_id &id ) const {

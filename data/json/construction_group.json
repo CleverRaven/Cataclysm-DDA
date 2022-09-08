@@ -1181,6 +1181,11 @@
   },
   {
     "type": "construction_group",
+    "id": "place_weldkit",
+    "name": "Place Welding Kit"
+  },
+  {
+    "type": "construction_group",
     "id": "place_arcade_machine",
     "name": "Place Arcade Machine"
   },
@@ -1343,6 +1348,11 @@
     "type": "construction_group",
     "id": "reveal_wall_wiring",
     "name": "Reveal Wall Wirings"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_wall_wiring",
+    "name": "Place Wall Wirings"
   },
   {
     "type": "construction_group",

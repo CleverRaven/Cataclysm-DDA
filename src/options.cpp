@@ -1621,6 +1621,11 @@ void options_manager::add_options_interface()
          false
        );
 
+    add( "AIM_AFTER_FIRING", "interface", to_translation( "Reaim after firing" ),
+         to_translation( "If true, after firing automatically aim again if targets are available." ),
+         true
+       );
+
     add( "QUERY_DISASSEMBLE", "interface", to_translation( "Query on disassembly while butchering" ),
          to_translation( "If true, will query before disassembling items while butchering." ),
          true
@@ -2532,6 +2537,11 @@ void options_manager::add_options_debug()
     add( "FOV_3D_Z_RANGE", "debug", to_translation( "Vertical range of 3D field of vision" ),
          to_translation( "How many levels up and down the experimental 3D field of vision reaches.  (This many levels up, this many levels down.)  3D vision of the full height of the world can slow the game down a lot.  Seeing fewer Z-levels is faster." ),
          0, OVERMAP_LAYERS, 4
+       );
+
+    add( "RETRACT_ISO_WALLS", "debug", to_translation( "Draw walls retracted in ISO tile-sets" ),
+         to_translation( "If true, will draw ISO wall tiles retracted/lowered." ),
+         false
        );
 
     get_option( "FOV_3D_Z_RANGE" ).setPrerequisite( "FOV_3D" );
@@ -3522,6 +3532,7 @@ static void update_options_cache()
     // cache to global due to heavy usage.
     trigdist = ::get_option<bool>( "CIRCLEDIST" );
     use_tiles = ::get_option<bool>( "USE_TILES" );
+    tile_retracted = ::get_option<bool>( "RETRACT_ISO_WALLS" );
     // if the tilesets are identical don't duplicate
     use_far_tiles = ::get_option<bool>( "USE_DISTANT_TILES" ) ||
                     get_option<std::string>( "TILES" ) == get_option<std::string>( "DISTANT_TILES" );

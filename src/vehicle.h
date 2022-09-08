@@ -113,7 +113,7 @@ struct smart_controller_cache {
     bool gas_engine_shutdown_forbidden = false;
     int velocity = 0;
     int battery_percent = 0;
-    int battery_net_charge_rate = 0;
+    units::energy battery_net_charge_rate = 0_J;
     float load = 0.0f;
 };
 
@@ -300,10 +300,10 @@ struct vehicle_part {
         /**
          * Consume fuel by energy content.
          * @param ftype Type of fuel to consume
-         * @param energy_j Energy to consume, in J
-         * @return Energy actually consumed, in J
+         * @param wanted_energy Energy to consume
+         * @return Energy actually consumed
          */
-        double consume_energy( const itype_id &ftype, double energy_j );
+        units::energy consume_energy( const itype_id &ftype, units::energy wanted_energy );
 
         /* @return true if part in current state be reloaded optionally with specific itype_id */
         bool can_reload( const item &obj = item() ) const;
@@ -755,7 +755,7 @@ class vehicle
         // get vpart epowerinfo for part number.
         int part_epower_w( int index ) const;
 
-        // convert watts over time to battery energy
+        // convert watts over time to battery energy (kJ)
         int power_to_energy_bat( int power_w, const time_duration &d ) const;
 
         // convert vhp to watts.
@@ -764,15 +764,13 @@ class vehicle
         // Do stuff like clean up blood and produce smoke from broken parts. Returns false if nothing needs doing.
         bool do_environmental_effects() const;
 
-        units::volume total_folded_volume() const;
-
         // Vehicle fuel indicator (by fuel)
         void print_fuel_indicator( const catacurses::window &w, const point &p,
                                    const itype_id &fuel_type,
                                    bool verbose = false, bool desc = false );
         void print_fuel_indicator( const catacurses::window &w, const point &p,
                                    const itype_id &fuel_type,
-                                   std::map<itype_id, float> fuel_usages,
+                                   std::map<itype_id, units::energy> fuel_usages,
                                    bool verbose = false, bool desc = false );
 
         // Calculate how long it takes to attempt to start an engine
@@ -931,9 +929,6 @@ class vehicle
         item init_cord( const tripoint &pos );
         void plug_in( const tripoint &pos );
         void connect( const tripoint &source_pos, const tripoint &target_pos );
-
-        // Fold up the vehicle
-        bool fold_up();
 
         // Try select any fuel for engine, returns true if some fuel is available
         bool auto_select_fuel( int e );
@@ -1261,24 +1256,28 @@ class vehicle
         /**
          * Consumes enough fuel by energy content. Does not support cable draining.
          * @param ftype Type of fuel
-         * @param energy_j Desired amount of energy of fuel to consume
+         * @param wanted_energy Desired amount of energy of fuel to consume
          * @return Amount of energy actually consumed. May be more or less than energy.
          */
-        double drain_energy( const itype_id &ftype, double energy_j );
+        units::energy drain_energy( const itype_id &ftype, units::energy wanted_energy );
 
         // fuel consumption of vehicle engines of given type
         int basic_consumption( const itype_id &ftype ) const;
-        int consumption_per_hour( const itype_id &ftype, int fuel_rate ) const;
+        // Fuel consumption mL/hour
+        int consumption_per_hour( const itype_id &ftype, units::energy fuel_per_s ) const;
 
         void consume_fuel( int load, bool idling );
 
         /**
          * Maps used fuel to its basic (unscaled by load/strain) consumption.
          */
-        std::map<itype_id, int> fuel_usage() const;
+        std::map<itype_id, units::energy> fuel_usage() const;
 
-        // current fuel usage for specific engine
-        int engine_fuel_usage( int e ) const;
+        /**
+        * Fuel usage for specific engine
+        * @param e is the index of the engine in the engines array
+        */
+        units::energy engine_fuel_usage( int e ) const;
         /**
          * Get all vehicle lights (excluding any that are destroyed)
          * @param active if true return only lights which are enabled
@@ -1648,7 +1647,7 @@ class vehicle
         void shift_parts( map &here, const point &delta );
         bool shift_if_needed( map &here );
 
-        void shed_loose_parts();
+        void shed_loose_parts( const tripoint_bub_ms *src = nullptr, const tripoint_bub_ms *dst = nullptr );
 
         /**
          * @name Vehicle turrets
@@ -1750,10 +1749,20 @@ class vehicle
 
         bool can_close( int part_index, Character &who );
 
-        // Consists only of parts with the FOLDABLE tag.
+        // @returns true if vehicle only has foldable parts
         bool is_foldable() const;
-        // Restore parts of a folded vehicle.
-        bool restore( const std::string &data );
+        // @returns how long should folding activity take
+        time_duration folding_time() const;
+        // @returns how long should unfolding activity take
+        time_duration unfolding_time() const;
+        // assigns folding activity to player avatar
+        void start_folding_activity();
+        // @returns item of this vehicle folded
+        item get_folded_item() const;
+        // restores vehicle parts from a folded item
+        // @returns true if succeeded
+        bool restore_folded_parts( const item &it );
+
         //handles locked vehicles interaction
         bool interact_vehicle_locked();
         //true if an alarm part is installed on the vehicle
@@ -1770,7 +1779,6 @@ class vehicle
         void play_music() const;
         void play_chimes() const;
         void operate_planter();
-        std::string tracking_toggle_string() const;
         void autopilot_patrol_check();
         void toggle_autopilot();
         void enable_patrol();
@@ -1931,7 +1939,7 @@ class vehicle
 
     public:
         // Number of parts contained in this vehicle
-        int part_count() const;
+        int part_count( bool no_fake = false ) const;
         // Returns the vehicle_part with the given part number
         vehicle_part &part( int part_num );
         const vehicle_part &part( int part_num ) const;
@@ -2005,8 +2013,9 @@ class vehicle
         std::set<label> labels;            // stores labels
         std::set<std::string> tags;        // Properties of the vehicle
         // After fuel consumption, this tracks the remainder of fuel < 1, and applies it the next time.
-        std::map<itype_id, float> fuel_remainder;
-        std::map<itype_id, float> fuel_used_last_turn;
+        // The value is negative.
+        std::map<itype_id, units::energy> fuel_remainder;
+        std::map<itype_id, units::energy> fuel_used_last_turn;
         std::unordered_multimap<point, zone_data> loot_zones;
         active_item_cache active_items; // NOLINT(cata-serialize)
         // a magic vehicle, powered by magic.gif

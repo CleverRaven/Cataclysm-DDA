@@ -2696,12 +2696,13 @@
     "id": "aquarium_medium",
     "type": "GENERIC",
     "category": "container",
-    "name": { "str": "glass aquarium" },
-    "description": "A 50 gallon glass aquarium, used for safely storing small animals for use as pets and food.",
-    "weight": "83 kg",
+    "name": { "str": "50 gallon aquarium" },
+    "description": "A 50 gallon glass aquarium, used for safely storing small animals for use as pets or food.",
+    "weight": "45 kg",
     "volume": "222 L",
     "longest_side": "91 cm",
-    "price": 0,
+    "price": 10000,
+    "price_postapoc": 1500,
     "bashing": 1,
     "material": [ "glass" ],
     "symbol": ")",
@@ -2717,6 +2718,172 @@
       }
     ],
     "qualities": [ [ "CONTAIN", 1 ] ]
+  },
+  {
+    "id": "aquarium_medium_drying",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "50 gallon aquarium (drying)", "str_pl": "50 gallon aquariums (drying)" },
+    "description": "A 50 gallon glass aquarium, used for safely storing small animals for use as pets or food.  This one has been freshly made and requires time for the silicone to dry.",
+    "weight": "45 kg",
+    "volume": "222 L",
+    "longest_side": "91 cm",
+    "price": 5000,
+    "price_postapoc": 750,
+    "bashing": 1,
+    "material": [ "glass" ],
+    "symbol": ")",
+    "color": "light_cyan",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "watertight": false,
+        "open_container": true,
+        "max_contains_volume": "189 L",
+        "max_contains_weight": "300 kg"
+      }
+    ],
+    "qualities": [ [ "CONTAIN", 1 ] ],
+    "use_action": {
+      "target": "aquarium_medium",
+      "msg": "You check that the aquarium does indeed hold water, it is ready.",
+      "moves": 100,
+      "type": "delayed_transform",
+      "transform_age": 604800,
+      "not_ready_msg": "The silicone hasn't dried quite yet.",
+      "//": "The time it takes is a week and this appears to be the minimum time the internet says it takes."
+    }
+  },
+  {
+    "id": "aquarium_small",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "30 gallon aquarium" },
+    "description": "A 30 gallon glass aquarium, used for safely storing small animals for use as pets or food.",
+    "weight": "22 kg",
+    "volume": "133 L",
+    "longest_side": "91 cm",
+    "price": 5000,
+    "price_postapoc": 1000,
+    "bashing": 1,
+    "material": [ "glass" ],
+    "symbol": ")",
+    "color": "light_cyan",
+    "looks_like": "aquarium_medium",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "watertight": true,
+        "open_container": true,
+        "max_contains_volume": "113 L",
+        "max_contains_weight": "180 kg"
+      }
+    ],
+    "qualities": [ [ "CONTAIN", 1 ] ]
+  },
+  {
+    "id": "aquarium_small_drying",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "30 gallon aquarium (drying)", "str_pl": "30 gallon aquariums (drying)" },
+    "description": "A 30 gallon glass aquarium, used for safely storing small animals for use as pets or food.  This one has been freshly made and requires time for the silicone to dry.",
+    "weight": "22 kg",
+    "volume": "133 L",
+    "longest_side": "91 cm",
+    "price": 1500,
+    "price_postapoc": 350,
+    "bashing": 1,
+    "material": [ "glass" ],
+    "symbol": ")",
+    "color": "light_cyan",
+    "looks_like": "aquarium_medium",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "watertight": false,
+        "open_container": true,
+        "max_contains_volume": "113 L",
+        "max_contains_weight": "180 kg"
+      }
+    ],
+    "qualities": [ [ "CONTAIN", 1 ] ],
+    "use_action": {
+      "target": "aquarium_small",
+      "msg": "You check that the aquarium does indeed hold water, it is ready.",
+      "moves": 100,
+      "type": "delayed_transform",
+      "transform_age": 604800,
+      "not_ready_msg": "The silicone hasn't dried quite yet.",
+      "//": "The time it takes is a week and this appears to be the minimum time the internet says it takes."
+    }
+  },
+  {
+    "id": "aquarium_large",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "100 gallon aquarium" },
+    "description": "A 100 gallon glass aquarium, used for safely storing small animals for use as pets or food.",
+    "weight": "80 kg",
+    "volume": "400 L",
+    "longest_side": "183 cm",
+    "price": 50000,
+    "price_postapoc": 2500,
+    "bashing": 1,
+    "material": [ "glass" ],
+    "symbol": ")",
+    "color": "light_cyan",
+    "looks_like": "aquarium_medium",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "watertight": true,
+        "open_container": true,
+        "max_contains_volume": "378 L",
+        "max_contains_weight": "500 kg"
+      }
+    ],
+    "qualities": [ [ "CONTAIN", 1 ] ]
+  },
+  {
+    "id": "aquarium_large_drying",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "100 gallon aquarium (drying)", "str_pl": "100 gallon aquariums (drying)" },
+    "description": "A 100 gallon glass aquarium, used for safely storing small animals for use as pets or food.  This one has been freshly made and requires time for the silicone to dry.",
+    "weight": "80 kg",
+    "volume": "400 L",
+    "longest_side": "183 cm",
+    "price": 20000,
+    "price_postapoc": 1000,
+    "bashing": 1,
+    "material": [ "glass" ],
+    "symbol": ")",
+    "color": "light_cyan",
+    "looks_like": "aquarium_medium",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "watertight": false,
+        "open_container": true,
+        "max_contains_volume": "378 L",
+        "max_contains_weight": "500 kg"
+      }
+    ],
+    "qualities": [ [ "CONTAIN", 1 ] ],
+    "use_action": {
+      "target": "aquarium_large",
+      "msg": "You check that the aquarium does indeed hold water, it is ready.",
+      "moves": 100,
+      "type": "delayed_transform",
+      "transform_age": 604800,
+      "not_ready_msg": "The silicone hasn't dried quite yet.",
+      "//": "The time it takes is a week and this appears to be the minimum time the internet says it takes."
+    }
   },
   {
     "id": "small_propane_tank",
@@ -2909,5 +3076,60 @@
       }
     ],
     "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
+  },
+  {
+    "id": "squeeze_tube",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "10.1 ounce squeeze tube" },
+    "description": "A 10.1 ounce squeeze tube, used for storing the likes of silicone caulk, paint or food dressing.",
+    "weight": "8150 mg",
+    "volume": "221 ml",
+    "price": 100,
+    "price_postapoc": 10,
+    "to_hit": -2,
+    "bashing": 1,
+    "material": [ "plastic" ],
+    "symbol": "t",
+    "color": "light_cyan",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": false,
+        "watertight": true,
+        "open_container": false,
+        "max_contains_volume": "299 ml",
+        "max_contains_weight": "2500 g"
+      }
+    ],
+    "qualities": [ [ "CONTAIN", 1 ] ]
+  },
+  {
+    "id": "squeeze_tube_small",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "2.8 ounce squeeze tube" },
+    "description": "A 2.8 ounce squeeze tube, used for storing the likes of silicone caulk, paint or food dressing.",
+    "weight": "3500 mg",
+    "volume": "95 ml",
+    "price": 50,
+    "price_postapoc": 5,
+    "to_hit": -2,
+    "bashing": 1,
+    "material": [ "plastic" ],
+    "symbol": "t",
+    "color": "light_cyan",
+    "looks_like": "squeeze_tube",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": false,
+        "watertight": true,
+        "open_container": false,
+        "max_contains_volume": "82 ml",
+        "max_contains_weight": "500 g"
+      }
+    ],
+    "qualities": [ [ "CONTAIN", 1 ] ]
   }
 ]

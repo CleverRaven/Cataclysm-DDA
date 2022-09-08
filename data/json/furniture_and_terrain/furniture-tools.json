@@ -726,7 +726,7 @@
       "str_max": 40,
       "sound": "smash!",
       "sound_fail": "whump.",
-      "items": [ { "item": "material_aluminium_ingot", "count": [ 2, 10 ] } ]
+      "items": [ { "item": "scrap_aluminum", "count": [ 15, 285 ] } ]
     }
   },
   {

@@ -366,7 +366,7 @@ void Pickup::autopickup( const tripoint &p )
     // Recursively pick up adjacent items if that option is on.
     if( get_option<bool>( "AUTO_PICKUP_ADJACENT" ) && player.pos() == p ) {
         //Autopickup adjacent
-        direction adjacentDir[8] = {
+        std::array<direction, 8> adjacentDir = {
             direction::NORTH, direction::NORTHEAST, direction::EAST,
             direction::SOUTHEAST, direction::SOUTH, direction::SOUTHWEST,
             direction::WEST, direction::NORTHWEST
