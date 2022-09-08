@@ -1809,13 +1809,11 @@ class vehicle
         // for destroying any terrain around vehicle part. Automated mining tool.
         void crash_terrain_around();
         void transform_terrain();
-        void add_toggle_to_opts( std::vector<uilist_entry> &options,
-                                 std::vector<std::function<void()>> &actions,
+        void add_toggle_to_opts( veh_menu &menu,
                                  const std::string &name,
                                  const input_event &key,
                                  const std::string &flag );
-        void set_electronics_menu_options( std::vector<uilist_entry> &options,
-                                           std::vector<std::function<void()>> &actions );
+        void set_electronics_menu_options( veh_menu &menu );
         //main method for the control of multiple electronics
         void control_electronics();
         //main method for the control of individual engines

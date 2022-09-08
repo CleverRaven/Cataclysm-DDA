@@ -13,6 +13,7 @@
 #include "units.h"
 #include "veh_appliance.h"
 #include "veh_type.h"
+#include "veh_utils.h"
 #include "vehicle.h"
 #include "vpart_range.h"
 
@@ -518,12 +519,12 @@ void veh_app_interact::populate_app_actions()
                     ctxt.get_action_name( "UNPLUG" ) );
 
     /*************** Get part-specific actions ***************/
-    std::vector<uilist_entry> tmp_opts;
-    std::vector<std::function<void()>> tmp_acts;
-    veh->set_electronics_menu_options( tmp_opts, tmp_acts );
-    for( size_t i = 0; i < tmp_opts.size() && i < ctxt_letters.size(); i++ ) {
-        imenu.addentry( -1, tmp_opts[i].enabled, ctxt_letters[i], tmp_opts[i].txt );
-        app_actions.emplace_back( tmp_acts[i] );
+    veh_menu menu( veh, "IF YOU SEE THIS IT IS A BUG" );
+    veh->set_electronics_menu_options( menu );
+    std::vector<veh_menu_item> items = menu.get_items();
+    for( size_t i = 0; i < items.size() && i < ctxt_letters.size(); i++ ) {
+        imenu.addentry( -1, items[i]._enabled, ctxt_letters[i], items[i]._text );
+        app_actions.emplace_back( items[i]._on_submit );
     }
     imenu.setup();
 }

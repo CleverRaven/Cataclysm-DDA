@@ -106,8 +106,7 @@ static input_event keybind( const std::string &opt,
     return keys.empty() ? input_event() : keys.front();
 }
 
-void vehicle::add_toggle_to_opts( std::vector<uilist_entry> &options,
-                                  std::vector<std::function<void()>> &actions,
+void vehicle::add_toggle_to_opts( veh_menu &menu,
                                   const std::string &name,
                                   const input_event &key,
                                   const std::string &flag )
@@ -118,28 +117,25 @@ void vehicle::add_toggle_to_opts( std::vector<uilist_entry> &options,
         return;
     }
 
-    // can this menu option be selected by the user?
-    bool allow = true;
-
     // determine target state - currently parts of similar type are all switched concurrently
     bool state = std::none_of( found.begin(), found.end(), []( const vpart_reference & vp ) {
         return vp.part().enabled;
     } );
 
+    // can this menu option be selected by the user?
     // if toggled part potentially usable check if could be enabled now (sufficient fuel etc.)
-    if( state ) {
-        allow = std::any_of( found.begin(), found.end(), []( const vpart_reference & vp ) {
-            return vp.vehicle().can_enable( vp.part() );
-        } );
-    }
+    bool allow = !state || std::any_of( found.begin(), found.end(),
+    []( const vpart_reference & vp ) {
+        return vp.vehicle().can_enable( vp.part() );
+    } );
 
-    auto msg = string_format( state ?
-                              _( "Turn on %s" ) :
-                              colorize( _( "Turn off %s" ), c_pink ),
-                              name );
-    options.emplace_back( -1, allow, key, msg );
+    const std::string msg = state ? _( "Turn on %s" ) : colorize( _( "Turn off %s" ), c_pink );
 
-    actions.emplace_back( [ = ] {
+    menu.add( string_format( msg, name ) )
+    .enable( allow )
+    .hotkey( key )
+    .keep_menu_open()
+    .on_submit( [found, state] {
         for( const vpart_reference &vp : found )
         {
             vehicle_part &e = vp.part();
@@ -148,7 +144,6 @@ void vehicle::add_toggle_to_opts( std::vector<uilist_entry> &options,
                 e.enabled = state;
             }
         }
-        refresh();
     } );
 }
 
@@ -252,12 +247,11 @@ void vehicle::control_doors()
     } while( menu.query() );
 }
 
-void vehicle::set_electronics_menu_options( std::vector<uilist_entry> &options,
-        std::vector<std::function<void()>> &actions )
+void vehicle::set_electronics_menu_options( veh_menu &menu )
 {
-    auto add_toggle = [&]( const std::string & name, const input_event & key,
+    auto add_toggle = [this, &menu]( const std::string & name, const input_event & key,
     const std::string & flag ) {
-        add_toggle_to_opts( options, actions, name, key, flag );
+        add_toggle_to_opts( menu, name, key, flag );
     };
     add_toggle( pgettext( "electronics menu option", "reactor" ),
                 keybind( "TOGGLE_REACTOR" ), "REACTOR" );
@@ -311,15 +305,17 @@ void vehicle::set_electronics_menu_options( std::vector<uilist_entry> &options,
                 keybind( "TOGGLE_SMART_ENGINE_CONTROLLER" ), "SMART_ENGINE_CONTROLLER" );
 
     if( has_part( "DOOR_MOTOR" ) ) {
-        options.emplace_back( _( "Toggle doors" ), keybind( "TOGGLE_DOORS" ) );
-        actions.emplace_back( [&] { control_doors(); refresh(); } );
+        menu.add( _( "Toggle doors" ) )
+        .hotkey( keybind( "TOGGLE_DOORS" ) )
+        .on_submit( [this] { control_doors(); } );
     }
     if( camera_on || ( has_part( "CAMERA" ) && has_part( "CAMERA_CONTROL" ) ) ) {
-        options.emplace_back( camera_on ?
-                              colorize( _( "Turn off camera system" ), c_pink ) :
-                              _( "Turn on camera system" ),
-                              keybind( "TOGGLE_CAMERA" ) );
-        actions.emplace_back( [&] {
+        menu.add( camera_on
+                  ? colorize( _( "Turn off camera system" ), c_pink )
+                  : _( "Turn on camera system" ) )
+        .hotkey( keybind( "TOGGLE_CAMERA" ) )
+        .keep_menu_open()
+        .on_submit( [&] {
             if( camera_on )
             {
                 camera_on = false;
@@ -332,22 +328,19 @@ void vehicle::set_electronics_menu_options( std::vector<uilist_entry> &options,
             {
                 add_msg( _( "Camera system won't turn on" ) );
             }
-            map &m = get_map();
-            m.invalidate_map_cache( m.get_abs_sub().z() );
-            refresh();
         } );
     }
 
-    if( has_part( "ARCADE" ) ) {
-        item *arc_itm = nullptr;
-        for( const vpart_reference &arc_vp : get_any_parts( "ARCADE" ) ) {
-            if( arc_vp.part().enabled ) {
-                arc_itm = &arc_vp.part().base;
-                break;
-            }
+    for( const vpart_reference &arc_vp : get_any_parts( "ARCADE" ) ) {
+        if( arc_vp.part().enabled ) {
+            item *arc_itm = &arc_vp.part().base;
+
+            menu.add( _( "Play arcade machine" ) )
+            .hotkey( keybind( "ARCADE" ) )
+            .enable( !!arc_itm )
+            .on_submit( [arc_itm] { iuse::portable_game( &get_avatar(), arc_itm, false, tripoint_zero ); } );
+            break;
         }
-        options.emplace_back( -1, !!arc_itm, keybind( "ARCADE" ), _( "Play arcade machine" ) );
-        actions.emplace_back( [arc_itm] { iuse::portable_game( &get_avatar(), arc_itm, false, tripoint() ); } );
     }
 }
 
@@ -358,22 +351,11 @@ void vehicle::control_electronics()
         return;
     }
 
-    bool valid_option = false;
+    veh_menu menu( this, _( "Electronics controls" ) );
     do {
-        std::vector<uilist_entry> options;
-        std::vector<std::function<void()>> actions;
-
-        set_electronics_menu_options( options, actions );
-
-        uilist menu;
-        menu.text = _( "Electronics controls" );
-        menu.entries = options;
-        menu.query();
-        valid_option = menu.ret >= 0 && static_cast<size_t>( menu.ret ) < actions.size();
-        if( valid_option ) {
-            actions[menu.ret]();
-        }
-    } while( valid_option );
+        menu.reset();
+        set_electronics_menu_options( menu );
+    } while( menu.query() );
 }
 
 void vehicle::control_engines()
@@ -669,7 +651,6 @@ void vehicle::use_controls( const tripoint &pos )
     } );
 
     if( has_electronic_controls ) {
-        set_electronics_menu_options( options, actions );
         options.emplace_back( _( "Control multiple electronics" ), keybind( "CONTROL_MANY_ELECTRONICS" ) );
         actions.emplace_back( [&] { control_electronics(); refresh(); } );
     }
