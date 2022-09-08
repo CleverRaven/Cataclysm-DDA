@@ -2486,7 +2486,7 @@ bool cata_tiles::draw_sprite_at(
     int height = 0;
     std::tie( width, height ) = sprite_tex->dimension();
 
-    const point &offset = tile_retracted ? tile.offset_retracted : tile.offset;
+    const point &offset = tile_retracted > 0 ? tile.offset_retracted : tile.offset;
 
     SDL_Rect destination;
     destination.x = p.x + offset.x * tile_width / tileset_ptr->get_tile_width();
