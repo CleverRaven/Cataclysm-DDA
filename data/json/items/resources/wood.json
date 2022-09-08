@@ -133,7 +133,7 @@
     "type": "GENERIC",
     "id": "plank_long",
     "name": { "str": "long plank" },
-    "description": "A short 2 by 4 plank of wood.  While not as common as the 4 foot variant, still makes a decent melee weapon, and can be used for all kinds construction.",
+    "description": "A long 2 by 4 plank of wood.  While not as common as the 4 foot variant, still makes a decent melee weapon, and can be used for all kinds construction.",
     "category": "spare_parts",
     "weight": "4880 g",
     "color": "brown",
