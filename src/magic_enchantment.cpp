@@ -730,7 +730,7 @@ bool enchant_cache::operator==( const enchant_cache &rhs ) const
     auto iter_add = this->values_add.cbegin();
     auto iter_add2 = rhs.values_add.cbegin();
     while( iter_add != this->values_add.cend() && iter_add2 != rhs.values_add.cend() ) {
-        if( iter_add->second != iter_add2->second ) {
+        if( iter_add->second != iter_add2->second || iter_add->first != iter_add2->first ) {
             return false;
         }
         iter_add++;
@@ -739,7 +739,7 @@ bool enchant_cache::operator==( const enchant_cache &rhs ) const
     auto iter_mult = this->values_multiply.cbegin();
     auto iter_mult2 = rhs.values_multiply.cbegin();
     while( iter_mult != this->values_multiply.cend() && iter_mult2 != rhs.values_multiply.cend() ) {
-        if( iter_mult->second != iter_mult2->second ) {
+        if( iter_mult->second != iter_mult2->second || iter_mult->first != iter_mult2->first ) {
             return false;
         }
         iter_mult++;
