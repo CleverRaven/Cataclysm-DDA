@@ -616,3 +616,51 @@ TEST_CASE( "xanax", "[iuse][xanax]" )
     }
 }
 
+TEST_CASE( "power inverter", "[iuse][item]" )
+{
+    standard_npc dummy;
+    item inverter( "test_power_inverter" );
+    item cable( "test_extension_cable" );
+    item backpack( "debug_backpack" );
+    clear_character( dummy );
+    dummy.wear_item( backpack );
+    item_location inverter_loc = dummy.i_add( inverter );
+    item_location cable_loc = dummy.i_add( cable );
+    REQUIRE( inverter_loc->has_flag( flag_INVERTER_SOURCE ) );
+    REQUIRE( !cable_loc->has_flag( flag_INVERTED ) );
+    std::vector<item *> pre_cables = dummy.items_with( []( const item & it ) {
+        return it.has_flag( flag_INVERTED );
+    } );
+    std::vector<item *> pre_inverters = dummy.items_with( []( const item & it ) {
+        return it.has_flag( flag_INVERTER_SOURCE );
+    } );
+    CHECK( pre_cables.empty() );
+    CHECK( pre_inverters.size() == 1 );
+
+    GIVEN( "calling iuse func using inverter" ) {
+        dummy.use( inverter_loc );
+    }
+
+    GIVEN( "calling iuse func using cable" ) {
+        dummy.use( cable_loc );
+    }
+
+    std::vector<item *> post_cables = dummy.items_with( []( const item & it ) {
+        return it.has_flag( flag_INVERTED );
+    } );
+    std::vector<item *> post_inverters = dummy.items_with( []( const item & it ) {
+        return it.has_flag( flag_INVERTER_SOURCE );
+    } );
+    CHECK( post_cables.size() == 1 );
+    CHECK( post_inverters.empty() );
+    CHECK( cable_loc->has_flag( flag_INVERTED ) );
+
+    // Try un-inverting the cable
+    dummy.use( cable_loc );
+    CHECK( !cable_loc->has_flag( flag_INVERTED ) );
+    std::vector<item *> post_post_inverters = dummy.items_with( []( const item & it ) {
+        return it.has_flag( flag_INVERTER_SOURCE );
+    } );
+    CHECK( post_post_inverters.size() == 1 );
+    CHECK( post_post_inverters.front()->typeId() == inverter.typeId() );
+}

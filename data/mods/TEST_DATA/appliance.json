@@ -57,7 +57,7 @@
     "price_postapoc": 100,
     "max_charges": 3,
     "initial_charges": 3,
-    "use_action": [ "CABLE_ATTACH" ],
+    "use_action": [ "CABLE_ATTACH", "INVERT_CURRENT" ],
     "flags": [ "CABLE_SPOOL", "POWER_CORD" ]
   },
   {
@@ -85,7 +85,7 @@
     "copy-from": "jumper_cable",
     "max_charges": 10,
     "initial_charges": 10,
-    "use_action": [ "CORD_ATTACH" ]
+    "use_action": [ "INVERT_CURRENT" ]
   },
   {
     "type": "vehicle_part",
@@ -105,5 +105,21 @@
     "requirements": { "removal": { "time": "5 s" } },
     "flags": [ "NOINSTALL", "UNMOUNT_ON_DAMAGE", "UNMOUNT_ON_MOVE", "POWER_TRANSFER" ],
     "breaks_into": [ { "item": "cable", "charges": [ 1, 10 ] }, { "item": "plastic_chunk", "count": [ 1, 2 ] } ]
+  },
+  {
+    "id": "test_power_inverter",
+    "type": "GENERIC",
+    "category": "spare_parts",
+    "name": { "str": "power inverter" },
+    "description": "This is an implement that rectifies the current between AC and DC sources.  Can be fitted to a power cable for connecting appliances and vehicles.",
+    "weight": "50 g",
+    "volume": "50 ml",
+    "price": 1000,
+    "price_postapoc": 10,
+    "material": [ { "type": "plastic", "portion": 4 }, { "type": "copper", "portion": 1 } ],
+    "symbol": ":",
+    "color": "green",
+    "use_action": [ "INVERT_CURRENT" ],
+    "flags": [ "INVERTER_SOURCE", "SINGLE_USE" ]
   }
 ]
