@@ -111,6 +111,7 @@
 #include "line.h"
 #include "live_view.h"
 #include "loading_ui.h"
+#include "main_menu.h"
 #include "magic.h"
 #include "make_static.h"
 #include "map.h"
@@ -591,7 +592,7 @@ void game_ui::init_ui()
             pixel_minimap_r = 0x00;
             pixel_minimap_g = 0x00;
             pixel_minimap_b = 0x00;
-            pixel_minimap_a = 0x00;
+            pixel_minimap_a = 0xFF;
         }
 #endif // TILES
     }
@@ -2424,9 +2425,7 @@ input_context get_default_mode_input_context()
     ctxt.register_action( "workout" );
     ctxt.register_action( "save" );
     ctxt.register_action( "quicksave" );
-#if !defined(RELEASE)
     ctxt.register_action( "quickload" );
-#endif
     ctxt.register_action( "SUICIDE" );
     ctxt.register_action( "player_data" );
     ctxt.register_action( "map" );
@@ -2468,6 +2467,7 @@ input_context get_default_mode_input_context()
     ctxt.register_action( "toggle_auto_foraging" );
     ctxt.register_action( "toggle_auto_pickup" );
     ctxt.register_action( "toggle_thief_mode" );
+    ctxt.register_action( "toggle_iso_walls" );
     ctxt.register_action( "diary" );
     ctxt.register_action( "action_menu" );
     ctxt.register_action( "main_menu" );
@@ -3139,6 +3139,7 @@ void game::write_memorial_file( std::string sLastWords )
                                          current_time.wYear, current_time.wMonth, current_time.wDay,
                                          current_time.wHour, current_time.wMinute, current_time.wSecond );
 #else
+    // NOLINTNEXTLINE(modernize-avoid-c-arrays)
     char buffer[suffix_len] {};
     std::time_t t = std::time( nullptr );
     tm current_time;
@@ -4098,7 +4099,7 @@ void game::mon_info_update( )
     for( auto &m : unique_mons ) {
         m.clear();
     }
-    std::fill_n( dangerous, 8, false );
+    std::fill( dangerous.begin(), dangerous.end(), false );
 
     const tripoint view = u.pos() + u.view_offset;
     new_seen_mon.clear();
@@ -4919,12 +4920,8 @@ bool game::is_empty( const tripoint_bub_ms &p )
 
 bool game::is_in_sunlight( const tripoint &p )
 {
-    const optional_vpart_position vp = m.veh_at( p );
-    bool is_inside = vp && vp->is_inside();
-
-    return m.is_outside( p ) && light_level( p.z ) >= 40 && !is_night( calendar::turn ) &&
-           get_weather().weather_id->sun_intensity >= sun_intensity_type::normal &&
-           !is_inside;
+    return !is_sheltered( p ) &&
+           incident_sun_irradiance( get_weather().weather_id, calendar::turn ) > irradiance::minimal;
 }
 
 bool game::is_sheltered( const tripoint &p )
@@ -7172,8 +7169,8 @@ look_around_result game::look_around(
             }
 
             const int dz = action == "LEVEL_UP" ? 1 : -1;
-            lz = clamp( lz + dz, min_levz, max_levz );
-            center.z = clamp( center.z + dz, min_levz, max_levz );
+            lz = clamp( lz + dz, min_levz, max_levz - 1 );
+            center.z = clamp( center.z + dz, min_levz, max_levz - 1 );
 
             add_msg_debug( debugmode::DF_GAME, "levx: %d, levy: %d, levz: %d",
                            get_map().get_abs_sub().x(), get_map().get_abs_sub().y(), center.z );
@@ -10170,7 +10167,10 @@ point game::place_player( const tripoint &dest_loc )
 
     //Auto pulp or butcher and Auto foraging
     if( get_option<bool>( "AUTO_FEATURES" ) && mostseen == 0  && !u.is_mounted() ) {
-        static const direction adjacentDir[8] = { direction::NORTH, direction::NORTHEAST, direction::EAST, direction::SOUTHEAST, direction::SOUTH, direction::SOUTHWEST, direction::WEST, direction::NORTHWEST };
+        static constexpr std::array<direction, 8> adjacentDir = {
+            direction::NORTH, direction::NORTHEAST, direction::EAST, direction::SOUTHEAST,
+            direction::SOUTH, direction::SOUTHWEST, direction::WEST, direction::NORTHWEST
+        };
 
         const std::string forage_type = get_option<std::string>( "AUTO_FORAGING" );
         if( forage_type != "off" ) {
@@ -12039,7 +12039,7 @@ void game::display_reachability_zones()
 void game::init_autosave()
 {
     moves_since_last_save = 0;
-    last_save_timestamp = time( nullptr );
+    last_save_timestamp = std::time( nullptr );
 }
 
 void game::quicksave()
@@ -12055,7 +12055,7 @@ void game::quicksave()
     ui_manager::redraw();
     refresh_display();
 
-    time_t now = time( nullptr ); //timestamp for start of saving procedure
+    time_t now = std::time( nullptr ); //timestamp for start of saving procedure
 
     //perform save
     save();
@@ -12070,18 +12070,22 @@ void game::quickload()
     if( active_world == nullptr ) {
         return;
     }
+    std::string const world_name = active_world->world_name;
+    std::string const &save_id = u.get_save_id();
 
-    if( active_world->save_exists( save_t::from_save_id( u.get_save_id() ) ) ) {
+    if( active_world->save_exists( save_t::from_save_id( save_id ) ) ) {
         if( moves_since_last_save != 0 ) { // See if we need to reload anything
-            MAPBUFFER.clear();
-            overmap_buffer.clear();
-            try {
-                setup();
-            } catch( const std::exception &err ) {
-                debugmsg( "Error: %s", err.what() );
-            }
-            load( save_t::from_save_id( u.get_save_id() ) );
+            moves_since_last_save = 0;
+            last_save_timestamp = std::time( nullptr );
+
+            u.moves = 0;
+            uquit = QUIT_NOSAVED;
+
+            main_menu::queued_world_to_load = world_name;
+            main_menu::queued_save_id_to_load = save_id;
+
         }
+
     } else {
         popup_getkey( _( "No saves for current character yet." ) );
     }
@@ -12090,7 +12094,7 @@ void game::quickload()
 void game::autosave()
 {
     //Don't autosave if the min-autosave interval has not passed since the last autosave/quicksave.
-    if( time( nullptr ) < last_save_timestamp + 60 * get_option<int>( "AUTOSAVE_MINUTES" ) ) {
+    if( std::time( nullptr ) < last_save_timestamp + 60 * get_option<int>( "AUTOSAVE_MINUTES" ) ) {
         return;
     }
     quicksave();    //Driving checks are handled by quicksave()

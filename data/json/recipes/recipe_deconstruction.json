@@ -3271,7 +3271,7 @@
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
     "time": "30 s",
-    "components": [ [ [ "scrap_aluminum", 1 ] ], [ [ "plastic_chunk", 1 ] ] ]
+    "components": [ [ [ "pilot_light", 1 ] ] ]
   },
   {
     "result": "silver_locket",
@@ -3699,7 +3699,7 @@
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
     "time": "1 m",
-    "components": [ [ [ "pilot_light", 1 ] ], [ [ "scrap_aluminum", 1 ] ] ]
+    "components": [ [ [ "pilot_light", 1 ] ] ]
   },
   {
     "result": "restaurantmap",
@@ -5017,7 +5017,16 @@
     "activity_level": "NO_EXERCISE",
     "skill_used": "fabrication",
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "cotton_patchwork", 10 ] ] ],
+    "components": [ [ [ "cotton_patchwork", 100 ] ], [ [ "thread", 8 ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "bundle_cotton",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "skill_used": "fabrication",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "cotton_patchwork", 25 ] ], [ [ "thread", 16 ] ] ],
     "flags": [ "BLIND_EASY" ]
   },
   {
@@ -5026,7 +5035,7 @@
     "activity_level": "NO_EXERCISE",
     "skill_used": "fabrication",
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "leather", 10 ] ] ],
+    "components": [ [ [ "leather", 50 ] ], [ [ "thread", 8 ] ] ],
     "flags": [ "BLIND_EASY" ]
   },
   {
@@ -5035,7 +5044,7 @@
     "activity_level": "NO_EXERCISE",
     "skill_used": "fabrication",
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "felt_patch", 10 ] ] ],
+    "components": [ [ [ "felt_patch", 100 ] ], [ [ "thread", 8 ] ] ],
     "flags": [ "BLIND_EASY" ]
   },
   {
@@ -6603,8 +6612,8 @@
     "type": "uncraft",
     "activity_level": "MODERATE_EXERCISE",
     "time": "2 m",
-    "qualities": [ { "id": "SAW_M", "level": 1 } ],
-    "components": [ [ [ "material_aluminium_ingot", 135 ] ] ]
+    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
+    "components": [ [ [ "scrap_aluminum", 315 ] ] ]
   },
   {
     "result": "steel_scissors",
@@ -6778,6 +6787,53 @@
     "activity_level": "NO_EXERCISE",
     "time": "6 s",
     "components": [ [ [ "paper", 2 ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "ref_lighter_butane",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "1 m",
+    "components": [ [ [ "pilot_light", 1 ] ] ]
+  },
+  {
+    "result": "xlframe",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "2 m",
+    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
+    "components": [ [ [ "scrap_aluminum", 33 ] ] ]
+  },
+  {
+    "result": "foldxlframe",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "2 m",
+    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
+    "components": [ [ [ "scrap_aluminum", 33 ] ] ]
+  },
+  {
+    "result": "aquarium_medium",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "1 s",
+    "components": [ [ [ "glass_shard", 600 ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "aquarium_small",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "1 s",
+    "components": [ [ [ "glass_shard", 285 ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "aquarium_large",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "1 s",
+    "components": [ [ [ "glass_shard", 1000 ] ] ],
     "flags": [ "BLIND_EASY" ]
   }
 ]

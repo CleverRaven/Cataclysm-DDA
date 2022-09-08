@@ -395,8 +395,6 @@ static const trait_id trait_WAYFARER( "WAYFARER" );
 static const vitamin_id vitamin_blood( "blood" );
 static const vitamin_id vitamin_redcells( "redcells" );
 
-static const vproto_id vehicle_prototype_none( "none" );
-
 static const weather_type_id weather_portal_storm( "portal_storm" );
 
 // how many characters per turn of radio
@@ -912,17 +910,6 @@ cata::optional<int> iuse::meth( Character *p, item *, bool, const tripoint & )
         }
         p->add_effect( effect_meth, duration );
     }
-    return 1;
-}
-
-cata::optional<int> iuse::vaccine( Character *p, item *it, bool, const tripoint & )
-{
-    p->add_msg_if_player( _( "You inject the vaccine." ) );
-    p->add_msg_if_player( m_good, _( "You feel tough." ) );
-    p->mod_daily_health( 200, 200 );
-    p->mod_pain( 3 );
-    item syringe( "syringe", it->birthday() );
-    p->i_add_or_drop( syringe );
     return 1;
 }
 
@@ -5387,69 +5374,7 @@ int iuse::towel_common( Character *p, item *it, bool t )
 
 cata::optional<int> iuse::unfold_generic( Character *p, item *it, bool, const tripoint & )
 {
-    if( p->is_underwater() ) {
-        p->add_msg_if_player( m_info, _( "You can't do that while underwater." ) );
-        return cata::nullopt;
-    }
-    if( p->is_mounted() ) {
-        p->add_msg_if_player( m_info, _( "You can't do that while mounted." ) );
-        return cata::nullopt;
-    }
-    map &here = get_map();
-    vehicle *veh = here.add_vehicle( vehicle_prototype_none, p->pos(), 0_degrees, 0, 0, false );
-    if( veh == nullptr ) {
-        p->add_msg_if_player( m_info, _( "There's no room to unfold the %s." ), it->tname() );
-        return cata::nullopt;
-    }
-    veh->suspend_refresh();
-    veh->name = it->get_var( "vehicle_name" );
-
-    // TODO: Remove folding_bicycle_parts after savegames migrate
-    std::string folded_parts = it->has_var( "folding_bicycle_parts" )
-                               ? it->get_var( "folding_bicycle_parts" )
-                               : it->get_var( "folded_parts" );
-
-    if( !veh->restore( folded_parts ) ) {
-        here.destroy_vehicle( veh );
-        return 0;
-    }
-    const bool can_float = size( veh->get_avail_parts( "FLOATS" ) ) > 2;
-
-    const auto invalid_pos = [&here]( const tripoint & pp, bool can_float ) {
-        return ( here.has_flag_ter( ter_furn_flag::TFLAG_DEEP_WATER, pp ) && !can_float ) ||
-               here.veh_at( pp ) || here.impassable( pp );
-    };
-    for( const vpart_reference &vp : veh->get_all_parts() ) {
-        if( vp.info().location != "structure" ) {
-            continue;
-        }
-        const tripoint pp = vp.pos();
-        if( invalid_pos( pp, can_float ) ) {
-            p->add_msg_if_player( m_info, _( "There's no room to unfold the %s." ), it->tname() );
-            here.destroy_vehicle( veh );
-            return 0;
-        }
-    }
-    veh->set_owner( *p );
-    veh->enable_refresh();
-    here.add_vehicle_to_cache( veh );
-    if( here.veh_at( p->pos() ).part_with_feature( VPFLAG_BOARDABLE, true ) ) {
-        here.board_vehicle( p->pos(), p ); // if boardable unbroken part is present -> get on it
-    }
-
-    std::string unfold_msg = it->get_var( "unfold_msg" );
-    if( unfold_msg.empty() ) {
-        unfold_msg = _( "You painstakingly unfold the %s and make it ready to ride." );
-    } else {
-        unfold_msg = _( unfold_msg );
-    }
-    p->add_msg_if_player( m_neutral, unfold_msg, veh->name );
-
-    if( p->is_avatar() && it->get_var( "tracking", 0 ) == 1 ) {
-        veh->toggle_tracking(); // restore position tracking state
-    }
-
-    p->moves -= it->get_var( "moves", to_turns<int>( 5_seconds ) );
+    p->assign_activity( player_activity( vehicle_unfolding_activity_actor( *it ) ) );
     p->i_rem( it );
     return 0;
 }
@@ -5731,9 +5656,10 @@ cata::optional<int> iuse::toolmod_attach( Character *p, item *it, bool, const tr
     }
 
     auto filter = [&it]( const item & e ) {
-        // don't allow ups battery mods on a UPS or UPS-powered tools
-        if( it->has_flag( flag_USE_UPS ) &&
-            ( e.has_flag( flag_IS_UPS ) || e.has_flag( flag_USE_UPS ) ) ) {
+        // don't allow ups or bionic battery mods on a UPS or UPS-powered/bionic-powered tools
+        if( ( it->has_flag( flag_USE_UPS ) || it->has_flag( flag_USES_BIONIC_POWER ) ) &&
+            ( e.has_flag( flag_IS_UPS ) || e.has_flag( flag_USE_UPS ) ||
+              e.has_flag( flag_USES_BIONIC_POWER ) ) ) {
             return false;
         }
 
@@ -5965,7 +5891,9 @@ static void init_memory_card_with_random_stuff( item &it )
 
         //add random recipes
         if( one_in( recipe_chance ) || ( encrypted && one_in( recipe_retry ) ) ) {
-            const std::string recipe_category[6] = { "CC_AMMO", "CC_ARMOR", "CC_CHEM", "CC_ELECTRONIC", "CC_FOOD", "CC_WEAPON" };
+            const std::array<std::string, 6> recipe_category = {
+                "CC_AMMO", "CC_ARMOR", "CC_CHEM", "CC_ELECTRONIC", "CC_FOOD", "CC_WEAPON"
+            };
             int cc_random = rng( 0, 5 );
             it.set_var( "MC_RECIPE", recipe_category[cc_random] );
         }
@@ -6864,7 +6792,7 @@ static object_names_collection enumerate_objects_around_point( const tripoint &p
     if( create_figure_desc ) {
         std::vector<std::string> objects_combined_desc;
         int objects_combined_num = 0;
-        std::unordered_map<std::string, int> vecs_to_retrieve[4] = {
+        std::array<std::unordered_map<std::string, int>, 4> vecs_to_retrieve = {
             ret_obj.furniture, ret_obj.vehicles, ret_obj.items, ret_obj.terrain
         };
 
@@ -7800,7 +7728,7 @@ cata::optional<int> iuse::radiocaron( Character *p, item *it, bool t, const trip
         return 1;
     } else if( !it->ammo_sufficient( p ) ) {
         // Deactivate since other mode has an iuse too.
-        it->active = false;
+        it->convert( itype_radio_car ).active = false;
         return 0;
     }
 
@@ -8883,8 +8811,7 @@ cata::optional<int> iuse::cable_attach( Character *p, item *it, bool, const trip
                                       source_veh->name, target_veh->name );
             }
 
-            p->i_rem( it );
-            return 0; // Let the cable be destroyed.
+            return 1; // Let the cable be destroyed.
         }
     }
 
@@ -9009,8 +8936,8 @@ cata::optional<int> iuse::cord_attach( Character *p, item *it, bool, const tripo
                 p->add_msg_if_player( m_good, _( "You link up the electric systems of the %1$s and the %2$s." ),
                                       source_veh->name, target_veh->name );
             }
-            p->i_rem( it );
-            return 0; // Let the cable be destroyed.
+
+            return 1; // Let the cable be destroyed.
         }
     }
 

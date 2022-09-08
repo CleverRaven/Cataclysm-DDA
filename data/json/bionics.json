@@ -1309,7 +1309,7 @@
     "name": { "str": "Air Filtration System" },
     "description": "Surgically implanted in your trachea is an advanced filtration system.  If toxins or airborne diseases find their way into your windpipe, the filter will attempt to remove them.",
     "occupied_bodyparts": [ [ "torso", 5 ], [ "mouth", 1 ] ],
-    "env_protec": [ [ "mouth", 9 ] ],
+    "env_protec": [ [ "mouth", 15 ] ],
     "flags": [ "BIONIC_NPC_USABLE" ]
   },
   {

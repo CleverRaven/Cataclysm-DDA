@@ -13,6 +13,7 @@ adze
 aerarium
 aerially
 aeterna
+aetheric
 afterbirth
 afterimage
 afterlife
@@ -99,10 +100,12 @@ assclown
 assimilator
 asstown
 asswagon
+asymmetrically
 ategory
 aterial
 atire
 atompot
+atrophic
 attac
 attachable
 attery
@@ -269,6 +272,7 @@ caltrops
 camarasaurus
 camarasaurus
 camphine
+campin'
 camspy
 cannelured
 caparison
@@ -276,6 +280,7 @@ capiche
 caprison
 carapaces
 carryin
+cartilaginous
 casehead
 castable
 cataphract
@@ -403,6 +408,7 @@ ctivate
 ctivating
 ctulaly
 cuirasses
+cummer
 curarines
 curasse
 currywurst
@@ -437,6 +443,7 @@ deathrattle
 decelerates
 deceptived
 defatted
+defendeth
 dehydrator
 dehydrators
 deines
@@ -586,6 +593,8 @@ eyespots
 eyestalks
 f
 faceplates
+fader
+faders
 faewild
 fakkin
 falcata
@@ -609,6 +618,7 @@ feticks
 fetlock
 ffect
 fibercloth
+fiberoptic
 fiddleheads
 filenames
 fileset
@@ -639,6 +649,7 @@ flarewhip
 flatjaw
 flavorings
 fle
+flechette
 flechettes
 fletched
 fletching
@@ -729,6 +740,7 @@ gliters
 gloppy
 glowstick
 glyceride
+gode
 goooood
 gooorge
 goops
@@ -769,6 +781,7 @@ gymnocladus
 h
 hadrosaurus
 haematopoiesis
+haft
 hahahahahaha
 hahd
 halazone
@@ -880,6 +893,7 @@ interestin
 interjected
 interjects
 interlayer
+intermixed
 intolerances
 intoxications
 intradimensional
@@ -893,6 +907,7 @@ isable
 isassembled
 issi
 issions
+issuer
 itemname
 iterating
 j
@@ -935,6 +950,7 @@ keypress
 kg
 khopesh
 khru
+kickboard
 killbasa
 kilroy
 kinbot
@@ -942,6 +958,7 @@ kinderling
 kippah
 kirpan
 kittel
+kjempe
 klompen
 km
 knapping
@@ -1001,6 +1018,7 @@ lifestraw
 lightnin
 lightsource
 lightstrip
+limbed
 lilypad
 lilypads
 listlessly
@@ -1252,6 +1270,7 @@ olieribos
 olors
 ompare
 omplete
+oneiric
 onyxes
 openable
 openair
@@ -1298,6 +1317,8 @@ parthenogenetic
 partyin
 pasteurize
 pathfinding
+pauldron
+pauldrons
 peanutbutter
 peccari
 pecial
@@ -1329,6 +1350,7 @@ photochromic
 photodiode
 photophore
 phthalocyanine
+phenotypic
 phyle
 physicochemical
 picatinny
@@ -1387,6 +1409,7 @@ premeasured
 preminiscent
 premix
 preoptic
+presaging
 prescriptures
 prev
 primeside
@@ -1481,6 +1504,7 @@ refillable
 reforging
 refuelable
 reimpose
+reisendre
 reluctancy
 remodulator
 rended
@@ -1539,6 +1563,8 @@ rugerlcp
 ruleset
 rummagin
 s
+sabaton
+sabatons
 saboted
 sadisticly
 safemode
@@ -1777,6 +1803,7 @@ tass
 tassed
 tassin
 taxa
+tazer
 tazers
 tcha
 techn
@@ -1906,6 +1933,7 @@ universalism
 unjacketed
 unlively
 unlives
+unlooted
 unmalted
 unmark
 unmarred
@@ -1944,6 +1972,7 @@ vantablack
 varanid
 vars
 vatgrown
+valhallist
 vaulters
 veggy
 venandi

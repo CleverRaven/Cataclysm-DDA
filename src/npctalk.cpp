@@ -2562,8 +2562,9 @@ void talk_effect_fun_t<T>::set_transform_radius( const JsonObject &jo, const std
                                     //Timed events happen before the player turn and eocs are during so we add a second here to sync them up using the same variable
                                     -1, target_pos, radius, transform.str(), key.evaluate( d ) );
         } else {
-            get_map().transform_radius( transform, radius, target_pos );
-            get_map().invalidate_map_cache( target_pos.z() );
+            map tm;
+            tm.load( project_to<coords::sm>( target_pos - point{ radius, radius} ), false );
+            tm.transform_radius( transform, radius, target_pos );
         }
     };
 }
@@ -2576,9 +2577,12 @@ void talk_effect_fun_t<T>::set_transform_line( const JsonObject &jo, const std::
     var_info second = read_var_info( jo.get_object( "second" ) );
 
     function = [transform, first, second]( const T & d ) {
-        get_map().transform_line( transform, get_tripoint_from_var<T>( first, d ),
-                                  get_tripoint_from_var<T>( second, d ) );
-        get_map().invalidate_map_cache( get_tripoint_from_var<T>( first, d ).z() );
+        tripoint_abs_ms const t_first = get_tripoint_from_var<T>( first, d );
+        tripoint_abs_ms const t_second = get_tripoint_from_var<T>( second, d );
+        tripoint_abs_ms const orig = coord_min( t_first, t_second );
+        map tm;
+        tm.load( project_to<coords::sm>( orig ), false );
+        tm.transform_line( transform, t_first, t_second );
     };
 }
 
@@ -3002,14 +3006,19 @@ void talk_effect_fun_t<T>::set_open_dialogue( const JsonObject &jo, const std::s
     std::vector<effect_on_condition_id> true_eocs;
     std::vector<effect_on_condition_id> false_eocs;
     str_or_var<T> topic;
+    bool has_member = false;
     if( jo.has_object( member ) ) {
+        has_member = true;
         JsonObject innerJo = jo.get_object( member );
         true_eocs = load_eoc_vector( innerJo, "true_eocs" );
         false_eocs = load_eoc_vector( innerJo, "false_eocs" );
         topic = get_str_or_var<T>( innerJo.get_member( "topic" ), "topic" );
     }
-    function = [true_eocs, false_eocs, topic]( const T & d ) {
-        std::string actual_topic = topic.evaluate( d );
+    function = [true_eocs, false_eocs, topic, has_member]( const T & d ) {
+        std::string actual_topic;
+        if( has_member ) {
+            actual_topic = topic.evaluate( d );
+        }
         if( !d.actor( false )->get_character()->is_avatar() ) { //only open a dialog if the avatar is alpha
             run_eoc_vector( false_eocs, d );
             return;

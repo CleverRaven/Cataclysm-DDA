@@ -218,7 +218,7 @@
     "id": "engine_electric_train",
     "copy-from": "engine_motor",
     "type": "vehicle_part",
-    "name": { "str": "1300hp electric train engine" },
+    "name": { "str": "1,300 HP electric train engine" },
     "description": "An enormous and heavy electric traction motor, powerful enough to pull a train.",
     "item": "motor_train1300",
     "durability": 500,
