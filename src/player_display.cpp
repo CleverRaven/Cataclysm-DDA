@@ -39,6 +39,7 @@
 #include "ui_manager.h"
 #include "units.h"
 #include "units_utility.h"
+#include "vitamin.h"
 #include "weather.h"
 #include "weather_type.h"
 
@@ -66,6 +67,7 @@ static const std::string title_SKILLS = translate_marker( "SKILLS" );
 static const std::string title_BIONICS = translate_marker( "BIONICS" );
 static const std::string title_TRAITS = translate_marker( "TRAITS" );
 static const std::string title_PROFICIENCIES = translate_marker( "PROFICIENCIES" );
+static const std::string title_VITAMINS = translate_marker("VITAMINS");
 
 // use this instead of having to type out 26 spaces like before
 static const std::string header_spaces( 26, ' ' );
@@ -294,6 +296,7 @@ enum class player_display_tab : int {
     bionics,
     effects,
     proficiencies,
+    vitamins,
     num_tabs,
 };
 } // namespace
@@ -383,6 +386,66 @@ static void draw_proficiencies_info( const catacurses::window &w_info, const uns
         y += fold_and_print( w_info, point( 1, y ), getmaxx( w_info ) - 1, cur.color, cur.id->name() );
         y += fold_and_print( w_info, point( 1, y ), getmaxx( w_info ) - 1, c_cyan, progress );
         fold_and_print( w_info, point( 1, y ), getmaxx( w_info ) - 1, c_white, cur.id->description() );
+    }
+    wnoutrefresh( w_info );
+}
+
+static void draw_vitamins_tab( ui_adaptor &ui, const catacurses::window &win, const unsigned line,
+                               const Character &guy, const player_display_tab curtab,
+                               const input_context &ctxt )
+{
+    werase( win );
+    const bool focused = curtab == player_display_tab::vitamins;
+    const nc_color title_color = focused ? h_light_gray : c_light_gray;
+    if( focused ) {
+        ui.set_cursor( win, point_zero );
+    }
+    center_print( win, 0, title_color, string_format( "[<color_yellow>%s</color>] %s",
+                  ctxt.get_desc( "VIEW_VITAMINS" ), _( title_VITAMINS ) ) );
+
+    const int height = getmaxy( win ) - 1;
+    const bool do_draw_scrollbar = height < static_cast<int>( vitamin::get_all().size() );
+    const int width = getmaxx( win ) - 1 - ( do_draw_scrollbar ? 1 : 0 );  // -1 for beginning space
+
+    const std::pair<const int, const int> range = subindex_around_cursor( vitamin::get_all().size(),
+            height, line, focused );
+    for( size_t i = range.first; i < static_cast<size_t>( range.second ); ++i ) {
+        const vitamin_id &vit = vitamin::get_all()[i];
+        const int level = guy.vitamin_get( vit );
+        const std::string name = trim_by_length( vit->name(), width );
+        const bool highlight_line = focused && i == line;
+        const nc_color col = highlight_line ? hilite( vit->color() ) : vit->color();
+        nc_color col_cur = col;  // make non const copy
+        const point pos( 1, 1 + i - range.first );
+        if( highlight_line ) {
+            ui.set_cursor( win, pos );
+        }
+        print_colored_text( win, pos, col_cur, col, name );
+        if( level > 0 ) {
+            const std::string level_str = string_format( "%d/%d", level, max );
+            print_colored_text( win, point( width - utf8_width( level_str ), pos.y ), col_cur, col,
+                                level_str );
+        }
+    }
+    if( do_draw_scrollbar) {
+        draw_scrollbar(win, range.first, height, profs.size(), point(width + 1, 1), c_white, true);
+    }
+    wnoutrefresh(win);
+}
+
+static void draw_vitamins_info( const catacurses::window &w_info, const unsigned line,
+                                const Character &guy )
+{
+    werase( w_info );
+    const std::vector<vitamin_id> &vitamins = vitamin::get_all();
+    if( line < vitamins.size() ) {
+        const vitamin_id &vit = vitamins[line];
+        const int level = guy.vitamin_get( vit );
+        int y = 0;
+        y += fold_and_print( w_info, point( 1, y ), getmaxx( w_info ) - 1, vit->color(), vit->name() );
+        y += fold_and_print( w_info, point( 1, y ), getmaxx( w_info ) - 1, c_cyan,
+                             string_format( _( "You have %d/%d %s." ), level, max, vit->units() ) );
+        fold_and_print( w_info, point( 1, y ), getmaxx( w_info ) - 1, c_white, vit->description() );
     }
     wnoutrefresh( w_info );
 }
@@ -1664,6 +1727,26 @@ void Character::disp_info( bool customize_character )
         wnoutrefresh( w_proficiencies_border );
         ui_proficiencies.disable_cursor();
         draw_proficiencies_tab( ui_proficiencies, w_proficiencies, line, *this, curtab, ctxt );
+    } );
+    
+    // VITAMINS
+    catacurses::window w_vitamins;
+    catacurses::window w_vitamins_border;
+    border_helper::border_info &border_vitamins = borders.add_border();
+    ui_adaptor ui_vitamins;
+    ui_vitamins.on_screen_resize( [&]( ui_adaptor & ui_vitamins ) {
+        w_vitamins = catacurses::newwin( grid_height, grid_width, point( grid_width * 2 + 2, 1 ) );
+        w_vitamins_border = catacurses::newwin( grid_height + 1, grid_width + 2,
+                                                point( grid_width * 2 + 1, 1 ) );
+        border_vitamins.set( point( grid_width * 2 + 1, 0 ), point( grid_width + 2, grid_height + 2 ) );
+        ui_vitamins.position_from_window( w_vitamins_border );
+    } );
+    ui_vitamins.mark_resize();
+    ui_vitamins.on_redraw( [&]( ui_adaptor & ui_vitamins ) {
+        borders.draw_border( w_vitamins_border );
+        wnoutrefresh( w_vitamins_border );
+        ui_vitamins.disable_cursor();
+        draw_vitamins_tab( ui_vitamins, w_vitamins, *this, line, curtab );
     } );
 
     // SKILLS
