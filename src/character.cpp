@@ -2908,9 +2908,9 @@ bool Character::can_pickWeight( const item &it, bool safe ) const
 {
     if( !safe ) {
         // Character can carry up to four times their maximum weight
-        return ( weight_carried() + it.weight() <= weight_capacity() * 4 );
+        return ( weight_carried() - ( bodyweight_fat() / 2 ) + it.weight() <= weight_capacity() * 4 );
     } else {
-        return ( weight_carried() + it.weight() <= weight_capacity() );
+        return ( weight_carried() - ( bodyweight_fat() / 2 ) + it.weight() <= weight_capacity() );
     }
 }
 
