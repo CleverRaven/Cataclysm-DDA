@@ -5232,6 +5232,12 @@ void game::control_vehicle()
 {
     int veh_part = -1;
     vehicle *veh = remoteveh();
+    if( veh != nullptr ) {
+        for( const vpart_reference &vpr : veh->get_avail_parts( "REMOTE_CONTROLS" ) ) {
+            veh->interact_with( vpr.pos() );
+            return;
+        }
+    }
     if( veh == nullptr ) {
         if( const optional_vpart_position vp = m.veh_at( u.pos() ) ) {
             veh = &vp->vehicle();
@@ -5306,8 +5312,6 @@ void game::control_vehicle()
                 return;
             }
             veh->interact_with( *vehicle_position );
-            //May be folded up (destroyed), so need to re-get it
-            veh = g->remoteveh();
         }
     }
     if( veh ) {

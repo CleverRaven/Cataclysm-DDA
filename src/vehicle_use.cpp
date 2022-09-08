@@ -182,22 +182,22 @@ void vehicle::control_doors()
         menu.add( _( "Open all curtains" ) )
         .hotkey_auto()
         .location( get_player_character().pos() )
-        .on_submit( [this, &open_or_close_all] { open_or_close_all( true, "CURTAIN" ); } );
+        .on_submit( [&open_or_close_all] { open_or_close_all( true, "CURTAIN" ); } );
 
         menu.add( _( "Open all curtains and doors" ) )
         .hotkey_auto()
         .location( get_player_character().pos() )
-        .on_submit( [this, &open_or_close_all] { open_or_close_all( true, "" ); } );
+        .on_submit( [&open_or_close_all] { open_or_close_all( true, "" ); } );
 
         menu.add( _( "Close all doors" ) )
         .hotkey_auto()
         .location( get_player_character().pos() )
-        .on_submit( [this, &open_or_close_all] { open_or_close_all( false, "DOOR" ); } );
+        .on_submit( [&open_or_close_all] { open_or_close_all( false, "DOOR" ); } );
 
         menu.add( _( "Close all curtains and doors" ) )
         .hotkey_auto()
         .location( get_player_character().pos() )
-        .on_submit( [this, &open_or_close_all] { open_or_close_all( false, "" ); } );
+        .on_submit( [&open_or_close_all] { open_or_close_all( false, "" ); } );
 
         if( menu.get_items_size() == 4 ) {
             debugmsg( "vehicle::control_doors called but no door motors found" );
@@ -1712,7 +1712,7 @@ static bool tool_wants_battery( const itype_id &type )
     return tool.can_contain( mag ).success() &&
            tool.put_in( mag, item_pocket::pocket_type::MAGAZINE_WELL ).success() &&
            tool.ammo_capacity( ammo_battery ) > 0;
-};
+}
 
 static bool use_vehicle_tool( vehicle &veh, const tripoint &vp_pos, const itype_id &tool_type )
 {
@@ -1745,7 +1745,7 @@ static bool use_vehicle_tool( vehicle &veh, const tripoint &vp_pos, const itype_
 
     veh.charge_battery( pseudo.ammo_remaining() );
     return true;
-};
+}
 
 void vehicle::build_interact_menu( veh_menu &menu, const tripoint &p, bool with_pickup )
 {
@@ -1775,9 +1775,9 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint &p, bool with_
             g->setremoteveh( nullptr );
             add_msg( _( "You stop controlling the vehicle." ) );
         } );
-    } else if( controls_here && get_player_character().controlling_vehicle ) {
+    } else {
         if( has_part( "ENGINE" ) ) {
-            if( get_player_character().controlling_vehicle || ( remote && engine_on ) ) {
+            if( ( controls_here && get_player_character().controlling_vehicle ) || ( remote && engine_on ) ) {
                 menu.add( _( "Stop driving" ) )
                 .hotkey( keybind( "TOGGLE_ENGINE" ) )
                 .skip_theft_check()
@@ -1793,7 +1793,7 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint &p, bool with_
                     get_player_character().controlling_vehicle = false;
                     g->setremoteveh( nullptr );
                 } );
-            } else if( has_engine_type_not( fuel_type_muscle, true ) ) {
+            } else if( controls_here && has_engine_type_not( fuel_type_muscle, true ) ) {
                 menu.add( engine_on ? _( "Turn off the engine" ) : _( "Turn on the engine" ) )
                 .hotkey( keybind( "TOGGLE_ENGINE" ) )
                 .skip_theft_check()
@@ -1810,15 +1810,21 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint &p, bool with_
             }
         }
 
-        menu.add( _( "Let go of controls" ) )
-        .hotkey( keybind( "RELEASE_CONTROLS" ) )
-        .skip_theft_check()
-        .on_submit( [] {
-            get_player_character().controlling_vehicle = false;
-            add_msg( _( "You let go of the controls." ) );
-        } );
+        if( get_player_character().controlling_vehicle ) {
+            menu.add( _( "Let go of controls" ) )
+            .hotkey( keybind( "RELEASE_CONTROLS" ) )
+            .skip_theft_check()
+            .on_submit( [] {
+                get_player_character().controlling_vehicle = false;
+                add_msg( _( "You let go of the controls." ) );
+            } );
 
-        if( has_part( "ENGINE" ) ) {
+            menu.add( _( "Pull handbrake" ) )
+            .hotkey( 'h' )
+            .on_submit( [] { handbrake(); } );
+        }
+
+        if( controls_here ) {
             menu.add( _( "Control individual engines" ) )
             .hotkey( keybind( "CONTROL_ENGINES" ) )
             .on_submit( [this] { control_engines(); } );
@@ -1922,10 +1928,6 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint &p, bool with_
     }
 
     if( controls_here ) {
-        menu.add( _( "Pull handbrake" ) )
-        .hotkey( 'h' )
-        .on_submit( [this] { handbrake(); } );
-
         if( has_part( "HORN" ) ) {
             menu.add( _( "Honk horn" ) )
             .hotkey( keybind( "SOUND_HORN" ) )
@@ -1982,7 +1984,7 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint &p, bool with_
     // Whether vehicle part (cargo) contains items, and whether map tile (ground) has items
     if( with_pickup && (
             get_map().has_items( vp.pos() ) ||
-            vp_cargo && !get_items( vp_cargo->part_index() ).empty() ) ) {
+            ( vp_cargo && !get_items( vp_cargo->part_index() ).empty() ) ) ) {
         menu.add( _( "Get items" ) )
         .hotkey( 'g' )
         .skip_theft_check()

@@ -534,13 +534,13 @@ void veh_app_interact::populate_app_actions()
 
     /*************** Get part-specific actions ***************/
     veh_menu menu( veh, "IF YOU SEE THIS IT IS A BUG" );
-    const tripoint p = veh->mount_to_tripoint( a_point );
-    veh->build_interact_menu( menu, p, false );
-    std::vector<veh_menu_item> items = menu.get_items();
+    veh->build_interact_menu( menu, veh->mount_to_tripoint( a_point ), false );
+    const std::vector<veh_menu_item> items = menu.get_items();
     for( size_t i = 0; i < items.size(); i++ ) {
+        const veh_menu_item &it = items[i];
         const char hotkey = i < ctxt_letters.size() ? ctxt_letters[i] : 0;
-        imenu.addentry( -1, items[i]._enabled, hotkey, items[i]._text );
-        app_actions.emplace_back( items[i]._on_submit );
+        imenu.addentry( -1, it._enabled, hotkey, it._text );
+        app_actions.emplace_back( it._on_submit );
     }
     imenu.setup();
 }
