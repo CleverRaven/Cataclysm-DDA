@@ -947,17 +947,6 @@
   },
   {
     "type": "recipe",
-    "activity_level": "NO_EXERCISE",
-    "result": "box_small_folded",
-    "category": "CC_*",
-    "subcategory": "CSC_*_NESTED",
-    "skill_used": "fabrication",
-    "time": "5 s",
-    "autolearn": true,
-    "components": [ [ [ "box_small", 1 ] ] ]
-  },
-  {
-    "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "result": "box_medium",
     "id_suffix": "crafted",
@@ -984,17 +973,6 @@
   },
   {
     "type": "recipe",
-    "activity_level": "NO_EXERCISE",
-    "result": "box_medium_folded",
-    "category": "CC_*",
-    "subcategory": "CSC_*_NESTED",
-    "skill_used": "fabrication",
-    "time": "10 s",
-    "autolearn": true,
-    "components": [ [ [ "box_medium", 1 ] ] ]
-  },
-  {
-    "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "result": "box_large",
     "id_suffix": "crafted",
@@ -1018,17 +996,6 @@
     "time": "20 s",
     "autolearn": true,
     "components": [ [ [ "box_large_folded", 1 ] ], [ [ "duct_tape", 20 ] ] ]
-  },
-  {
-    "type": "recipe",
-    "activity_level": "NO_EXERCISE",
-    "result": "box_large_folded",
-    "category": "CC_*",
-    "subcategory": "CSC_*_NESTED",
-    "skill_used": "fabrication",
-    "time": "10 s",
-    "autolearn": true,
-    "components": [ [ [ "box_large", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -1068,17 +1035,6 @@
     "time": "20 s",
     "autolearn": true,
     "components": [ [ [ "box_oversize_folded", 1 ] ], [ [ "duct_tape", 20 ] ] ]
-  },
-  {
-    "type": "recipe",
-    "activity_level": "NO_EXERCISE",
-    "result": "box_oversize_folded",
-    "category": "CC_*",
-    "subcategory": "CSC_*_NESTED",
-    "skill_used": "fabrication",
-    "time": "10 s",
-    "autolearn": true,
-    "components": [ [ [ "box_oversize", 1 ] ] ]
   },
   {
     "type": "recipe",
