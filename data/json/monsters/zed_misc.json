@@ -583,7 +583,6 @@
     "flags": [
       "SEES",
       "HEARS",
-      "GOODHEARING",
       "STUMBLES",
       "WARM",
       "BASHES",
@@ -639,7 +638,6 @@
     "flags": [
       "SEES",
       "HEARS",
-      "GOODHEARING",
       "STUMBLES",
       "WARM",
       "BASHES",
