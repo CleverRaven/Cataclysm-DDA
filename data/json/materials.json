@@ -1248,7 +1248,7 @@
     "type": "material",
     "id": "lead",
     "name": "Lead",
-    "density": 11.3,
+    "density": 11.342,
     "specific_heat_liquid": 0.13,
     "specific_heat_solid": 0.14,
     "latent_heat": 2,
