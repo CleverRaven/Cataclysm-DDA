@@ -106,47 +106,6 @@ static input_event keybind( const std::string &opt,
     return keys.empty() ? input_event() : keys.front();
 }
 
-void vehicle::add_toggle_to_opts( veh_menu &menu,
-                                  const std::string &name,
-                                  const input_event &key,
-                                  const std::string &flag )
-{
-    // fetch matching parts and abort early if none found
-    const auto found = get_avail_parts( flag );
-    if( empty( found ) ) {
-        return;
-    }
-
-    // determine target state - currently parts of similar type are all switched concurrently
-    bool state = std::none_of( found.begin(), found.end(), []( const vpart_reference & vp ) {
-        return vp.part().enabled;
-    } );
-
-    // can this menu option be selected by the user?
-    // if toggled part potentially usable check if could be enabled now (sufficient fuel etc.)
-    bool allow = !state || std::any_of( found.begin(), found.end(),
-    []( const vpart_reference & vp ) {
-        return vp.vehicle().can_enable( vp.part() );
-    } );
-
-    const std::string msg = state ? _( "Turn on %s" ) : colorize( _( "Turn off %s" ), c_pink );
-
-    menu.add( string_format( msg, name ) )
-    .enable( allow )
-    .hotkey( key )
-    .keep_menu_open()
-    .on_submit( [found, state] {
-        for( const vpart_reference &vp : found )
-        {
-            vehicle_part &e = vp.part();
-            if( e.enabled != state ) {
-                add_msg( state ? _( "Turned on %s." ) : _( "Turned off %s." ), e.name() );
-                e.enabled = state;
-            }
-        }
-    } );
-}
-
 void handbrake()
 {
     Character &player_character = get_player_character();
@@ -247,11 +206,54 @@ void vehicle::control_doors()
     } while( menu.query() );
 }
 
-void vehicle::set_electronics_menu_options( veh_menu &menu )
+static void add_electronic_toggle( vehicle &veh, veh_menu &menu, const std::string &name,
+                                   const input_event &key, const std::string &flag )
 {
+    // fetch matching parts and abort early if none found
+    const auto found = veh.get_avail_parts( flag );
+    if( empty( found ) ) {
+        return;
+    }
+
+    // determine target state - currently parts of similar type are all switched concurrently
+    bool state = std::none_of( found.begin(), found.end(), []( const vpart_reference & vp ) {
+        return vp.part().enabled;
+    } );
+
+    // can this menu option be selected by the user?
+    // if toggled part potentially usable check if could be enabled now (sufficient fuel etc.)
+    bool allow = !state || std::any_of( found.begin(), found.end(), []( const vpart_reference & vp ) {
+        return vp.vehicle().can_enable( vp.part() );
+    } );
+
+    const std::string msg = state ? _( "Turn on %s" ) : colorize( _( "Turn off %s" ), c_pink );
+
+    menu.add( string_format( msg, name ) )
+    .enable( allow )
+    .hotkey( key )
+    .keep_menu_open()
+    .on_submit( [found, state] {
+        for( const vpart_reference &vp : found )
+        {
+            vehicle_part &e = vp.part();
+            if( e.enabled != state ) {
+                add_msg( state ? _( "Turned on %s." ) : _( "Turned off %s." ), e.name() );
+                e.enabled = state;
+            }
+        }
+    } );
+}
+
+void vehicle::build_electronics_menu( veh_menu &menu )
+{
+    // exit early if you can't control the vehicle
+    if( is_locked ) {
+        return;
+    }
+
     auto add_toggle = [this, &menu]( const std::string & name, const input_event & key,
     const std::string & flag ) {
-        add_toggle_to_opts( menu, name, key, flag );
+        add_electronic_toggle( *this, menu, name, key, flag );
     };
     add_toggle( pgettext( "electronics menu option", "reactor" ),
                 keybind( "TOGGLE_REACTOR" ), "REACTOR" );
@@ -342,20 +344,6 @@ void vehicle::set_electronics_menu_options( veh_menu &menu )
             break;
         }
     }
-}
-
-void vehicle::control_electronics()
-{
-    // exit early if you can't control the vehicle
-    if( !interact_vehicle_locked() ) {
-        return;
-    }
-
-    veh_menu menu( this, _( "Electronics controls" ) );
-    do {
-        menu.reset();
-        set_electronics_menu_options( menu );
-    } while( menu.query() );
 }
 
 void vehicle::control_engines()
@@ -1955,9 +1943,7 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint &p, bool with_
     }
 
     if( !is_locked && vp.avail_part_with_feature( "CTRL_ELECTRONIC" ) ) {
-        menu.add( _( "Control multiple electronics" ) )
-        .hotkey( keybind( "CONTROL_MANY_ELECTRONICS" ) )
-        .on_submit( [this] { control_electronics(); } );
+        build_electronics_menu( menu );
     }
 
     for( const std::pair<itype_id, int> &pair : vp.get_tools() ) {

@@ -1804,13 +1804,6 @@ class vehicle
         // for destroying any terrain around vehicle part. Automated mining tool.
         void crash_terrain_around();
         void transform_terrain();
-        void add_toggle_to_opts( veh_menu &menu,
-                                 const std::string &name,
-                                 const input_event &key,
-                                 const std::string &flag );
-        void set_electronics_menu_options( veh_menu &menu );
-        //main method for the control of multiple electronics
-        void control_electronics();
         //main method for the control of individual engines
         void control_engines();
         //returns whether the engine is enabled or not, and has fueltype
@@ -1892,6 +1885,7 @@ class vehicle
         void use_bike_rack( int part );
         void use_harness( int part, const tripoint &pos );
 
+        void build_electronics_menu( veh_menu &menu );
         void build_interact_menu( veh_menu &menu, const tripoint &p, bool with_pickup );
         void interact_with( const tripoint &p, bool with_pickup = false );
 

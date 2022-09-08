@@ -520,7 +520,7 @@ void veh_app_interact::populate_app_actions()
 
     /*************** Get part-specific actions ***************/
     veh_menu menu( veh, "IF YOU SEE THIS IT IS A BUG" );
-    veh->set_electronics_menu_options( menu );
+    veh->build_electronics_menu( menu );
     std::vector<veh_menu_item> items = menu.get_items();
     for( size_t i = 0; i < items.size() && i < ctxt_letters.size(); i++ ) {
         imenu.addentry( -1, items[i]._enabled, ctxt_letters[i], items[i]._text );

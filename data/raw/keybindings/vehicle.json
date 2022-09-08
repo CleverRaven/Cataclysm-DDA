@@ -1,12 +1,5 @@
 [
   {
-    "id": "CONTROL_MANY_ELECTRONICS",
-    "type": "keybinding",
-    "category": "VEHICLE",
-    "name": "Control multiple electronics",
-    "bindings": [ { "input_method": "keyboard_char", "key": "E" }, { "input_method": "keyboard_code", "key": "e", "mod": [ "shift" ] } ]
-  },
-  {
     "id": "CONTROL_ENGINES",
     "type": "keybinding",
     "category": "VEHICLE",
