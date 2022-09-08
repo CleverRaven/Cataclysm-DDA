@@ -3438,16 +3438,17 @@ int vehicle::basic_consumption( const itype_id &ftype ) const
     return fcon;
 }
 
-int vehicle::consumption_per_hour( const itype_id &ftype, int fuel_rate_w ) const
+int vehicle::consumption_per_hour( const itype_id &ftype, units::energy fuel_per_s ) const
 {
     item fuel = item( ftype );
-    if( fuel_rate_w == 0 || fuel.has_flag( flag_PERPETUAL ) || !engine_on ) {
+    if( fuel_per_s == 0_J || fuel.has_flag( flag_PERPETUAL ) || !engine_on ) {
         return 0;
     }
 
-    // constant is 3600 sec/hr * 1/1000 J/kJ
-    // expression units are mL/hr
-    return -3.6 * fuel_rate_w / fuel.fuel_energy();
+    units::energy energy_per_h = fuel_per_s * 3600;
+    units::energy energy_per_liter = fuel.get_base_material().get_fuel_data().energy;
+
+    return -1000 * energy_per_h / energy_per_liter;
 }
 
 int vehicle::total_power_w( const bool fueled, const bool safe ) const
@@ -4534,23 +4535,23 @@ float vehicle::handling_difficulty() const
     return velocity * diff_mod / vehicles::vmiph_per_tile;
 }
 
-int vehicle::engine_fuel_usage( int e ) const
+units::energy vehicle::engine_fuel_usage( int e ) const
 {
     if( !is_engine_on( e ) ) {
-        return 0;
+        return 0_J;
     }
 
     const itype_id &cur_fuel = parts[engines[e]].fuel_current();
     if( cur_fuel  == fuel_type_null ) {
-        return 0;
+        return 0_J;
     }
 
     if( is_perpetual_type( e ) ) {
-        return 0;
+        return 0_J;
     }
     const vpart_info &info = part_info( engines[ e ] );
 
-    int usage = info.energy_consumption;
+    units::energy usage = info.energy_consumption;
     if( parts[ engines[ e ] ].has_fault_flag( "DOUBLE_FUEL_CONSUMPTION" ) ) {
         usage *= 2;
     }
@@ -4558,41 +4559,31 @@ int vehicle::engine_fuel_usage( int e ) const
     return usage;
 }
 
-std::map<itype_id, int> vehicle::fuel_usage() const
+std::map<itype_id, units::energy> vehicle::fuel_usage() const
 {
-    std::map<itype_id, int> ret;
+    std::map<itype_id, units::energy> ret;
     for( size_t i = 0; i < engines.size(); i++ ) {
         // Note: functions with "engine" in name do NOT take part indices
         // TODO: Use part indices and not engine vector indices
-        if( !is_engine_on( i ) ) {
-            continue;
-        }
-
-        const size_t e = engines[ i ];
-        const itype_id &cur_fuel = parts[ e ].fuel_current();
-        if( cur_fuel  == fuel_type_null ) {
-            continue;
-        }
-
-        if( !is_perpetual_type( i ) ) {
-            ret[cur_fuel] += engine_fuel_usage( i );
-        }
+        const size_t e = engines[i];
+        const itype_id &cur_fuel = parts[e].fuel_current();
+        ret[cur_fuel] += engine_fuel_usage( i );
     }
 
     return ret;
 }
 
-double vehicle::drain_energy( const itype_id &ftype, double energy_j )
+units::energy vehicle::drain_energy( const itype_id &ftype, units::energy wanted_energy )
 {
-    double drained = 0.0f;
+    units::energy drained = 0_J;
     for( vehicle_part &p : parts ) {
-        if( energy_j <= 0.0f ) {
+        if( wanted_energy <= 0_J ) {
             break;
         }
 
-        double consumed = p.consume_energy( ftype, energy_j );
+        units::energy consumed = p.consume_energy( ftype, wanted_energy );
         drained += consumed;
-        energy_j -= consumed;
+        wanted_energy -= consumed;
     }
 
     invalidate_mass();
@@ -4608,17 +4599,17 @@ void vehicle::consume_fuel( int load, bool idling )
             continue;
         }
 
-        double amnt_precise_j = static_cast<double>( fuel_pr.second );
-        amnt_precise_j *= load / 1000.0 * ( 1.0 + st * st * 100.0 );
-        auto inserted = fuel_used_last_turn.insert( { ft, 0.0f } );
-        inserted.first->second += amnt_precise_j;
-        double remainder = fuel_remainder[ ft ];
-        amnt_precise_j -= remainder;
+        units::energy to_consume = fuel_pr.second;
+        to_consume *= load * ( 1 + st * st * 100 ) / 1000;
+        auto inserted = fuel_used_last_turn.insert( { ft, 0_J } );
+        inserted.first->second += to_consume;
+        units::energy remainder = fuel_remainder[ ft ];
+        to_consume -= remainder;
 
-        if( amnt_precise_j > 0.0f ) {
-            fuel_remainder[ ft ] = drain_energy( ft, amnt_precise_j ) - amnt_precise_j;
+        if( to_consume > 0_J ) {
+            fuel_remainder[ ft ] = drain_energy( ft, to_consume ) - to_consume;
         } else {
-            fuel_remainder[ ft ] = -amnt_precise_j;
+            fuel_remainder[ ft ] = -to_consume;
         }
     }
     // Only process muscle power things when moving.
@@ -4651,14 +4642,14 @@ void vehicle::consume_fuel( int load, bool idling )
         for( const bionic_id &bid : player_character.get_bionic_fueled_with( muscle ) ) {
             if( player_character.has_active_bionic( bid ) ) { // active power gen
                 // more pedaling = more power
-                player_character.mod_power_level( units::from_kilojoule( muscle.fuel_energy() ) *
+                player_character.mod_power_level( muscle.fuel_energy() *
                                                   bid->fuel_efficiency *
-                                                  ( load / 1000 ) );
+                                                  load / 1000 );
                 mod += eff_load / 5;
             } else { // passive power gen
-                player_character.mod_power_level( units::from_kilojoule( muscle.fuel_energy() ) *
+                player_character.mod_power_level( muscle.fuel_energy() *
                                                   bid->passive_fuel_efficiency *
-                                                  ( load / 1000 ) );
+                                                  load / 1000 );
                 mod += eff_load / 10;
             }
         }
