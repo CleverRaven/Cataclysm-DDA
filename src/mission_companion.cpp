@@ -25,6 +25,7 @@
 #include "creature_tracker.h"
 #include "cursesdef.h"
 #include "debug.h"
+#include "debug_menu.h"
 #include "enums.h"
 #include "faction.h"
 #include "faction_camp.h"
@@ -53,6 +54,7 @@
 #include "rng.h"
 #include "skill.h"
 #include "string_formatter.h"
+#include "string_input_popup.h"
 #include "translations.h"
 #include "ui.h"
 #include "ui_manager.h"
@@ -101,6 +103,7 @@ static const string_id<class npc_template> npc_template_commune_guard( "commune_
 static const string_id<class npc_template> npc_template_thug( "thug" );
 
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
+static const trait_id trait_DEBUG_HS_LIGHT( "DEBUG_HS_LIGHT" );
 static const trait_id trait_NPC_CONSTRUCTION_LEV_2( "NPC_CONSTRUCTION_LEV_2" );
 static const trait_id trait_NPC_MISSION_LEV_1( "NPC_MISSION_LEV_1" );
 
@@ -895,6 +898,9 @@ bool talk_function::display_and_choose_opts(
     ctxt.register_action( "CONFIRM" );
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
+    if( get_player_character().has_trait( trait_DEBUG_HS_LIGHT ) ) {
+        ctxt.register_action( "DEBUG", to_translation( "Debug creation of items", "Use hammerspace" ) );
+    }
     std::vector<mission_entry> cur_key_list;
 
     auto reset_cur_key_list = [&]() {
@@ -1128,6 +1134,49 @@ bool talk_function::display_and_choose_opts(
             dud.name_display = "NONE";
             mission_key.cur_key = dud;
             break;
+        } else if( action == "DEBUG" ) {
+            if( mission_key.cur_key.id.id.id != Camp_Upgrade &&
+                mission_key.cur_key.id.id.id != Camp_Crafting ) {
+                continue;
+            }
+            debug_menu::set_random_seed( _( "Enter random seed for mission materials" ) );
+            add_msg( m_good, _( "Spawning materials for mission: %s" ),
+                     mission_key.cur_key.name_display );
+            recipe making;
+            int batch_size = 1;
+            if( mission_key.cur_key.id.id.id == Camp_Upgrade ) {
+                making = recipe_id( mission_key.cur_key.id.id.parameters ).obj();
+            } else if( mission_key.cur_key.id.id.id == Camp_Crafting ) {
+                making = recipe_id( mission_key.cur_key.id.id.parameters ).obj();
+                string_input_popup popup;
+                popup.title( string_format( _( "Enter desired batch size for crafting recipe: %s" ),
+                                            mission_key.cur_key.name_display ) )
+                .only_digits( true );
+                batch_size = popup.query_int();
+                if( batch_size < 1 ) {
+                    continue;
+                }
+            } else {
+                continue;
+            }
+            std::vector<std::pair<itype_id, int>> items_to_spawn = debug_menu::get_items_for_requirements(
+                                                   making.simple_requirements(), batch_size,
+                                                   mission_key.cur_key.name_display );
+            debug_menu::spawn_item_collection( items_to_spawn, false );
+            // If possible, go back to the basecamp and refresh mission entries based on the new inventory
+            mission_data updated_missions;
+            point_abs_omt omt( omt_pos.xy() );
+            cata::optional<basecamp *> bcp = overmap_buffer.find_camp( omt );
+            if( bcp.has_value() ) {
+                bcp.value()->form_crafting_inventory();;
+                bcp.value()->get_available_missions( updated_missions );
+                mission_key = updated_missions;
+                if( tab_mode == base_camps::TAB_MAIN ) {
+                    reset_cur_key_list();
+                } else {
+                    cur_key_list = mission_key.entries[size_t( tab_mode ) + 1];
+                }
+            }
         } else if( action == "CONFIRM" ) {
             if( mission_key.cur_key.possible ) {
                 break;

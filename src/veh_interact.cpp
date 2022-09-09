@@ -33,6 +33,7 @@
 #include "contents_change_handler.h"
 #include "creature_tracker.h"
 #include "debug.h"
+#include "debug_menu.h"
 #include "enums.h"
 #include "faction.h"
 #include "fault.h"
@@ -95,6 +96,7 @@ static const skill_id skill_mechanics( "mechanics" );
 
 static const trait_id trait_BADBACK( "BADBACK" );
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
+static const trait_id trait_DEBUG_HS_LIGHT( "DEBUG_HS_LIGHT" );
 static const trait_id trait_STRONGBACK( "STRONGBACK" );
 
 static const vpart_id vpart_ap_wall_wiring( "ap_wall_wiring" );
@@ -288,6 +290,10 @@ veh_interact::veh_interact( vehicle &veh, const point &p )
     main_context.register_action( "HELP_KEYBINDINGS" );
     main_context.register_action( "FILTER" );
     main_context.register_action( "ANY_INPUT" );
+    if( get_player_character().has_trait( trait_DEBUG_HS_LIGHT ) ) {
+        main_context.register_action( "DEBUG", to_translation( "Debug creation of items",
+                                      "Use hammerspace" ) );
+    }
 
     count_durability();
     cache_tool_availability();
@@ -1063,6 +1069,18 @@ void veh_interact::do_install()
 
             sel_cmd = 'i';
             break;
+        } else if( action == "DEBUG" ) {
+            if( sel_vpart_info != nullptr ) {
+                std::string result_message = string_format( _( "Spawning materials for %s" ),
+                                             sel_vpart_info->name() );
+                const requirement_data reqs = sel_vpart_info->install_requirements();
+                add_msg( m_good, result_message );
+                debug_menu::set_random_seed( _( "Enter random seed for installation materials" ) );
+                const std::vector<std::pair<itype_id, int>> items_to_spawn = debug_menu::get_items_for_requirements(
+                            reqs, 1, sel_vpart_info->name() );
+                debug_menu::spawn_item_collection( items_to_spawn, false );
+                cache_tool_availability();
+            }
         } else if( action == "QUIT" ) {
             sel_vpart_info = nullptr;
             break;
@@ -1239,6 +1257,32 @@ void veh_interact::do_repair()
                 sel_cmd = 'r';
                 break;
             }
+        } else if( action == "DEBUG" ) {
+            std::string result_message = string_format( _( "Spawning materials for %s" ),
+                                         pt.name() );
+            requirement_data reqs;
+            if( pt.is_broken() ) {
+                reqs = vp.install_requirements();
+            } else {
+                if( vp.has_flag( "NO_REPAIR" ) || vp.repair_requirements().is_empty() ||
+                    pt.base.max_damage() <= 0 ) {
+                    // Can't repair
+                    continue;
+                } else if( veh->has_part( "NO_MODIFY_VEHICLE" ) && !vp.has_flag( "SIMPLE_PART" ) ) {
+                    // Still can't repair
+                    continue;
+                } else {
+                    reqs = vp.repair_requirements() * pt.base.damage_level();
+                }
+                std::string result_message = string_format( _( "Spawning materials for %s" ),
+                                             pt.name() );
+                add_msg( m_good, result_message );
+                debug_menu::set_random_seed( _( "Enter random seed for repair materials" ) );
+                const std::vector<std::pair<itype_id, int>> items_to_spawn = debug_menu::get_items_for_requirements(
+                            reqs, 1, pt.name() );
+                debug_menu::spawn_item_collection( items_to_spawn, false );
+            }
+
         } else if( action == "QUIT" ) {
             break;
         } else {

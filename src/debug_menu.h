@@ -14,7 +14,8 @@ struct tripoint;
 template <typename E> struct enum_traits;
 
 class Character;
-class requirement_data;
+
+struct requirement_data;
 
 namespace debug_menu
 {
