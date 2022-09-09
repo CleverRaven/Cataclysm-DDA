@@ -133,6 +133,7 @@ const flag_id flag_FORAGE_POISON( "FORAGE_POISON" );
 const flag_id flag_FRAGILE( "FRAGILE" );
 const flag_id flag_FRAGILE_MELEE( "FRAGILE_MELEE" );
 const flag_id flag_FREEZERBURN( "FREEZERBURN" );
+const flag_id flag_FROM_FROZEN_LIQUID( "FROM_FROZEN_LIQUID" );
 const flag_id flag_FROZEN( "FROZEN" );
 const flag_id flag_FUNGAL_VECTOR( "FUNGAL_VECTOR" );
 const flag_id flag_GAS_DISCOUNT( "GAS_DISCOUNT" );
@@ -282,6 +283,7 @@ const flag_id flag_ROLLER_ONE( "ROLLER_ONE" );
 const flag_id flag_ROLLER_QUAD( "ROLLER_QUAD" );
 const flag_id flag_SAFECRACK( "SAFECRACK" );
 const flag_id flag_SEMITANGIBLE( "SEMITANGIBLE" );
+const flag_id flag_SHREDDED( "SHREDDED" );
 const flag_id flag_SHRUB( "SHRUB" );
 const flag_id flag_SINGLE_USE( "SINGLE_USE" );
 const flag_id flag_SKINNED( "SKINNED" );
@@ -353,8 +355,6 @@ const flag_id flag_ZERO_WEIGHT( "ZERO_WEIGHT" );
 const flag_id flag_ZOOM( "ZOOM" );
 const flag_id flag_wooled( "wooled" );
 const flag_id json_flag_HIDDEN_ITEM( "HIDDEN_ITEM" );
-const flag_id flag_SHREDDED( "SHREDDED" );
-const flag_id flag_FROM_FROZEN_LIQUID( "FROM_FROZEN_LIQUID" );
 static const flag_id json_flag_null( "null" );
 
 const flag_id flag_NULL = json_flag_null; // intentionally invalid flag

@@ -492,7 +492,7 @@ class pickup_inventory_preset : public inventory_selector_preset
                 } else if( loc->is_frozen_liquid() ) {
                     ret_val<crush_tool_type> can_crush = you.can_crush_frozen_liquid( loc );
 
-                    if( loc->has_flag( flag_SHREDDED ) ) {
+                    if( loc->has_flag( flag_SHREDDED ) ) { // NOLINT(bugprone-branch-clone)
                         return std::string();
                     } else if( !can_crush.success() ) {
                         return can_crush.str();
@@ -2034,7 +2034,7 @@ drop_locations game_menus::inv::multidrop( avatar &you )
     const inventory_filter_preset preset( [ &you ]( const item_location & location ) {
         return you.can_drop( *location ).success() &&
                ( !location.get_item()->is_frozen_liquid() || !location.has_parent() ||
-                 ( location.get_item()->has_flag( flag_SHREDDED ) ) );
+                 location.get_item()->has_flag( flag_SHREDDED ) );
     } );
 
     inventory_drop_selector inv_s( you, preset );

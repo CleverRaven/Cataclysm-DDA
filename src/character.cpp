@@ -363,8 +363,8 @@ static const proficiency_id proficiency_prof_wound_care_expert( "prof_wound_care
 
 static const quality_id qual_DRILL( "DRILL" );
 static const quality_id qual_HAMMER( "HAMMER" );
-static const quality_id qual_SCREW( "SCREW" );
 static const quality_id qual_LIFT( "LIFT" );
+static const quality_id qual_SCREW( "SCREW" );
 
 static const scenttype_id scent_sc_human( "sc_human" );
 
@@ -11212,7 +11212,7 @@ void Character::leak_items()
     } else if( weapon.made_of( phase_id::LIQUID ) ) {
         if( weapon.leak( get_map(), this, pos() ) ) {
             get_map().add_item_or_charges( pos(), weapon );
-            removed_items.push_back( item_location( *this, &weapon ) );
+            removed_items.emplace_back( *this, &weapon );
             add_msg_if_player( m_warning, _( "%s spilled from your hand." ), weapon.tname() );
         }
     }
