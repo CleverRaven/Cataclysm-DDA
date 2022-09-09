@@ -662,6 +662,8 @@
       { "item": "fire_ax", "prob": 5 },
       { "item": "antiparasitic", "prob": 2 },
       { "item": "match_trigger", "prob": 2 },
+      { "item": "m3_tripod", "prob": 1 },
+      { "item": "m205_tripod", "prob": 1 },
       { "item": "grapnel", "prob": 1 },
       { "item": "bucket", "prob": 4 },
       { "item": "sheath", "prob": 13 },
