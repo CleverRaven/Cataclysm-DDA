@@ -3997,8 +3997,7 @@ bool gunmode_checks_weapon( avatar &you, const map &m, std::vector<std::string> 
         }
     }
 
-    if( gmode->has_flag( flag_MOUNTED_GUN ) && !( gmode->has_flag( flag_TRIPOD ) && ( you.is_prone() ||
-            you.is_crouching() ) ) ) {
+    if( gmode->has_flag( flag_MOUNTED_GUN ) && !gmode->has_flag( flag_TRIPOD ) ) {
         const bool v_mountable = static_cast<bool>( m.veh_at( you.pos() ).part_with_feature( "MOUNTABLE",
                                  true ) );
         bool t_mountable = m.has_flag_ter_or_furn( ter_furn_flag::TFLAG_MOUNTABLE, you.pos() );
@@ -4008,6 +4007,13 @@ bool gunmode_checks_weapon( avatar &you, const map &m, std::vector<std::string> 
                                     gmode->tname() ) );
             result = false;
         }
+    }
+
+    if( gmode->has_flag( flag_TRIPOD ) && !( you.is_prone() || you.is_crouching() ) ) {
+        messages.push_back( string_format(
+                                _( "You must crouch or lay prone to fire %s with a tripod." ),
+                                gmode->tname() ) );
+        result = false;
     }
 
     return result;
