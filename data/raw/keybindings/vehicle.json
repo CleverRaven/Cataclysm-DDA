@@ -32,7 +32,7 @@
     "type": "keybinding",
     "category": "VEHICLE",
     "name": "Pull handbrake",
-    "bindings": [ { "input_method": "keyboard_any", "key": "h" } ]
+    "bindings": [ { "input_method": "keyboard_any", "key": "H" } ]
   },
   {
     "id": "USE_WORKBENCH",
@@ -53,28 +53,28 @@
     "type": "keybinding",
     "category": "VEHICLE",
     "name": "Set autopilot to patrol nearby zone",
-    "bindings": [ { "input_method": "keyboard_any", "key": "P" } ]
+    "bindings": [ { "input_method": "keyboard_any", "key": "p" } ]
   },
   {
     "id": "CONTROL_AUTOPILOT_FOLLOW",
     "type": "keybinding",
     "category": "VEHICLE",
     "name": "Set autopilot to follow you",
-    "bindings": [ { "input_method": "keyboard_any", "key": "F" } ]
+    "bindings": [ { "input_method": "keyboard_any", "key": "f" } ]
   },
   {
     "id": "CONTROL_AUTOPILOT_STOP",
     "type": "keybinding",
     "category": "VEHICLE",
     "name": "Set autopilot to stop all activities",
-    "bindings": [ { "input_method": "keyboard_any", "key": "S" } ]
+    "bindings": [ { "input_method": "keyboard_any", "key": "s" } ]
   },
   {
     "id": "TOGGLE_AUTOCLAVE",
     "type": "keybinding",
     "category": "VEHICLE",
     "name": "Toggle autoclave",
-    "bindings": [ { "input_method": "keyboard_any", "key": "a" } ]
+    "bindings": [ { "input_method": "keyboard_any", "key": "C" } ]
   },
   {
     "id": "TOGGLE_WASHING_MACHINE",
@@ -235,7 +235,7 @@
     "type": "keybinding",
     "category": "VEHICLE",
     "name": "Toggle engine",
-    "bindings": [ { "input_method": "keyboard_any", "key": "e" } ]
+    "bindings": [ { "input_method": "keyboard_any", "key": "s" } ]
   },
   {
     "id": "TOGGLE_FRIDGE",
@@ -256,7 +256,7 @@
     "type": "keybinding",
     "category": "VEHICLE",
     "name": "Toggle space heater",
-    "bindings": [ { "input_method": "keyboard_any", "key": "s" } ]
+    "bindings": [ { "input_method": "keyboard_any", "key": "J" } ]
   },
   {
     "id": "TOGGLE_HEATED_TANK",
