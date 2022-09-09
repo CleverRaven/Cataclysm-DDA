@@ -1408,22 +1408,25 @@ void Character::burn_fuel( bionic &bio, bionic_fuels &result )
 
     // Rest of the fuel sources are known to exist so we can exit after any of them is used
     if( energy_gain == 0_J && !result.connected_fuel.empty() ) {
-        // Bionic that uses fuel items from some source.
-        // There *could* be multiple items. But we only one so we take the first.
+        // Bionic that uses fuel items from some external connected source.
+        // There *could* be multiple connected items. But we only take the first.
 
-        item *fuel = result.connected_fuel.front();
-        energy_gain = fuel->fuel_energy() / fuel->charges;
-        if( bio.is_safe_fuel_on() &&
-            get_power_level() + energy_gain * efficiency >= get_max_power_level() * std::min( 1.0f,
-                    bio.get_safe_fuel_thresh() ) ) {
-            // Do not waste fuel charging over limit.
-            return;
+        if( result.connected_fuel.front()->ammo_remaining() > 0 ) {
+            item *fuel = &result.connected_fuel.front()->first_ammo();
+            energy_gain = fuel->fuel_energy() / fuel->charges;
+            if( bio.is_safe_fuel_on() &&
+                get_power_level() + energy_gain * efficiency >= get_max_power_level() * std::min( 1.0f,
+                        bio.get_safe_fuel_thresh() ) ) {
+                // Do not waste fuel charging over limit.
+                return;
+            }
+            fuel->charges--;
         }
-        fuel->charges--;
     }
 
     // There *could* be multiple fuel sources. But we just check first for solar.
-    bool solar_powered = bio.id->fuel_opts.front() == fuel_type_sun_light ||
+    bool solar_powered = ( !bio.id->fuel_opts.empty() &&
+                           bio.id->fuel_opts.front() == fuel_type_sun_light ) ||
                          !result.connected_solar.empty();
     if( energy_gain == 0_J && solar_powered && !g->is_sheltered( pos() ) ) {
         // Some sort of solar source
@@ -1440,7 +1443,8 @@ void Character::burn_fuel( bionic &bio, bionic_fuels &result )
     }
 
     // There *could* be multiple fuel sources. But we just check first for solar.
-    bool metabolism_powered = bio.id->fuel_opts.front() == fuel_type_metabolism;
+    bool metabolism_powered = !bio.id->fuel_opts.empty() &&
+                              bio.id->fuel_opts.front() == fuel_type_metabolism;
     if( energy_gain == 0_J && metabolism_powered ) {
         // Bionic powered by metabolism
         // 1kcal = 4184 J
@@ -1458,7 +1462,7 @@ void Character::burn_fuel( bionic &bio, bionic_fuels &result )
     }
 
     // There *could* be multiple fuel sources. But we just check first for solar.
-    bool wind_powered = bio.id->fuel_opts.front() == fuel_type_wind;
+    bool wind_powered = !bio.id->fuel_opts.empty() && bio.id->fuel_opts.front() == fuel_type_wind;
     if( energy_gain == 0_J && wind_powered ) {
         // Wind power
         int vehwindspeed = 0;
@@ -1491,7 +1495,7 @@ std::vector<item *> Character::get_cable_ups()
         if( cable->get_var( "state" ) == "UPS_link" ) {
             for( item_location it : all_items_loc() ) {
                 if( it->get_var( "cable" ) == "plugged_in" ) {
-                    stored_fuels.emplace_back( &it->first_ammo() );
+                    stored_fuels.emplace_back( it.get_item() );
                 }
             }
         }
