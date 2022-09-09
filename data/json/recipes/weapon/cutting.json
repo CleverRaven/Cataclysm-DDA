@@ -470,7 +470,7 @@
     ],
     "using": [ [ "blacksmithing_standard", 12 ], [ "mc_steel_standard", 3 ] ],
     "qualities": [ { "id": "GRIND", "level": 2 } ],
-    "tools": [ [ [ "hotcut", -1 ] ] ]
+    "tools": [ [ [ "hotcut", -1 ] ] ],
     "components": [ [ [ "leather", 2 ], [ "mc_wire", 1 ] ] ]
   },
   {
@@ -491,7 +491,7 @@
     ],
     "using": [ [ "blacksmithing_standard", 12 ], [ "hc_steel_standard", 3 ] ],
     "qualities": [ { "id": "GRIND", "level": 2 } ],
-    "tools": [ [ [ "hotcut", -1 ] ] ]
+    "tools": [ [ [ "hotcut", -1 ] ] ],
     "components": [ [ [ "leather", 2 ], [ "mc_wire", 1 ] ] ]
   },
   {
@@ -513,7 +513,7 @@
     ],
     "using": [ [ "blacksmithing_standard", 12 ], [ "ch_steel_standard", 3 ] ],
     "qualities": [ { "id": "GRIND", "level": 2 } ],
-    "tools": [ [ [ "hotcut", -1 ] ] ]
+    "tools": [ [ [ "hotcut", -1 ] ] ],
     "components": [ [ [ "kevlar_scraps", 2 ], [ "epoxy", 1 ] ] ]
   },
   {
@@ -535,7 +535,7 @@
     ],
     "using": [ [ "blacksmithing_standard", 12 ], [ "qt_steel_standard", 3 ] ],
     "qualities": [ { "id": "GRIND", "level": 2 } ],
-    "tools": [ [ [ "hotcut", -1 ] ] ]
+    "tools": [ [ [ "hotcut", -1 ] ] ],
     "components": [ [ [ "kevlar_scraps", 2 ], [ "epoxy", 1 ] ] ]
   },
   {
