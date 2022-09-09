@@ -245,7 +245,7 @@
     "name": { "str": "chunk of steel", "str_pl": "chunks of steel" },
     "description": "A misshapen chunk of steel.  Makes a decent weapon in a pinch, and is also useful for some crafting recipes.",
     "weight": "250 g",
-    "volume": "63 ml",
+    "volume": "31 ml",
     "price": 1000,
     "price_postapoc": 10,
     "bashing": 8,
@@ -265,7 +265,7 @@
     "name": { "str": "lump of steel", "str_pl": "lumps of steel" },
     "description": "A heavy formed piece of steel.  Useful for some crafting recipes.",
     "weight": "1000 g",
-    "volume": "125 ml",
+    "volume": "126 ml",
     "price": 2000,
     "price_postapoc": 50,
     "bashing": 12,
@@ -285,7 +285,7 @@
     "name": { "str": "lump of mild steel", "str_pl": "lumps of mild steel" },
     "description": "A heavy formed piece of mild steel.  Useful for some crafting recipes.",
     "weight": "1000 g",
-    "volume": "125 ml",
+    "volume": "126 ml",
     "price": 2000,
     "price_postapoc": 50,
     "bashing": 12,
@@ -305,7 +305,7 @@
     "name": { "str": "lump of medium steel", "str_pl": "lumps of medium steel" },
     "description": "A heavy formed piece of medium steel.  Useful for some crafting recipes.",
     "weight": "1000 g",
-    "volume": "125 ml",
+    "volume": "126 ml",
     "price": 2000,
     "price_postapoc": 50,
     "bashing": 12,
@@ -325,7 +325,7 @@
     "name": { "str": "lump of high steel", "str_pl": "lumps of high steel" },
     "description": "A heavy formed piece of high steel.  Useful for some crafting recipes.",
     "weight": "1000 g",
-    "volume": "125 ml",
+    "volume": "126 ml",
     "price": 2000,
     "price_postapoc": 50,
     "bashing": 12,
@@ -345,7 +345,7 @@
     "name": { "str": "lump of hardened steel", "str_pl": "lumps of hardened steel" },
     "description": "A heavy formed piece of hardened steel.  Useful for some crafting recipes.",
     "weight": "1000 g",
-    "volume": "125 ml",
+    "volume": "126 ml",
     "price": 2000,
     "price_postapoc": 50,
     "bashing": 12,
@@ -365,7 +365,7 @@
     "name": { "str": "lump of tempered steel", "str_pl": "lumps of tempered steel" },
     "description": "A heavy formed piece of tempered steel.  Useful for some crafting recipes.",
     "weight": "1000 g",
-    "volume": "125 ml",
+    "volume": "126 ml",
     "price": 2000,
     "price_postapoc": 50,
     "bashing": 12,
@@ -415,6 +415,23 @@
     "to_hit": -2
   },
   {
+    "type": "GENERIC",
+    "id": "scrap_tin",
+    "symbol": ",",
+    "color": "light_gray",
+    "name": { "str_sp": "scrap tin" },
+    "category": "spare_parts",
+    "description": "A small chunk of tin, usable for crafting or repairs.",
+    "price": 1000,
+    "price_postapoc": 10,
+    "material": [ "tin" ],
+    "//": "Density of 7.265g/cm³ = 363.25g/50ml ~ 363g",
+    "volume": "50 ml",
+    "weight": "363 g",
+    "bashing": 1,
+    "to_hit": -2
+  },
+  {
     "type": "AMMO",
     "id": "tin",
     "category": "spare_parts",
@@ -427,7 +444,6 @@
     "material": [ "tin" ],
     "volume": "50ml",
     "weight": "2 g",
-    "//": "Density 7.28g/cm³ ~ 1820kg/250ml @ stack 1000 = 2g/unit",
     "ammo_type": "components",
     "count": 100,
     "stack_size": 200
@@ -504,7 +520,7 @@
     "name": { "str": "chunk of low carbon steel", "str_pl": "chunks of low carbon steel" },
     "description": "A misshapen chunk of low carbon steel.  Makes a decent weapon in a pinch, and is also useful for some crafting recipes.",
     "weight": "250 g",
-    "volume": "63 ml",
+    "volume": "31 ml",
     "price": 1000,
     "price_postapoc": 10,
     "bashing": 8,
@@ -523,7 +539,7 @@
     "name": { "str": "chunk of medium carbon steel", "str_pl": "chunks of medium carbon steel" },
     "description": "A misshapen chunk of medium carbon steel.  Makes a decent weapon in a pinch, and is also useful for some crafting recipes.",
     "weight": "250 g",
-    "volume": "63 ml",
+    "volume": "31 ml",
     "price": 1000,
     "price_postapoc": 10,
     "bashing": 8,
@@ -542,7 +558,7 @@
     "name": { "str": "chunk of high carbon steel", "str_pl": "chunks of high carbon steel" },
     "description": "A misshapen chunk of high carbon steel.  Makes a decent weapon in a pinch, and is also useful for some crafting recipes.",
     "weight": "250 g",
-    "volume": "63 ml",
+    "volume": "31 ml",
     "price": 1000,
     "price_postapoc": 10,
     "bashing": 8,
@@ -561,7 +577,7 @@
     "name": { "str": "chunk of hardened steel", "str_pl": "chunks of hardened steel" },
     "description": "A misshapen chunk of hardened steel.  Makes a decent weapon in a pinch, and is also useful for some crafting recipes.",
     "weight": "250 g",
-    "volume": "63 ml",
+    "volume": "31 ml",
     "price": 1000,
     "price_postapoc": 10,
     "bashing": 8,
@@ -580,7 +596,7 @@
     "name": { "str": "chunk of tempered steel", "str_pl": "chunks of tempered steel" },
     "description": "A misshapen chunk of tempered steel.  Makes a decent weapon in a pinch, and is also useful for some crafting recipes.",
     "weight": "250 g",
-    "volume": "63 ml",
+    "volume": "31 ml",
     "price": 1000,
     "price_postapoc": 10,
     "bashing": 8,
@@ -593,7 +609,7 @@
     "qualities": [ [ "HAMMER", 1 ] ]
   },
   {
-    "id": "5laluminum",
+    "id": "5l_aluminum",
     "type": "AMMO",
     "category": "spare_parts",
     "name": { "str": "5L aluminum ingot" },
@@ -608,7 +624,7 @@
     "ammo_type": "components"
   },
   {
-    "id": "10laluminum",
+    "id": "10l_aluminum",
     "type": "AMMO",
     "category": "spare_parts",
     "name": { "str": "10L aluminum ingot" },
@@ -623,7 +639,7 @@
     "ammo_type": "components"
   },
   {
-    "id": "5lbrass",
+    "id": "5l_brass",
     "type": "AMMO",
     "category": "spare_parts",
     "name": { "str": "5L brass ingot" },
@@ -638,7 +654,7 @@
     "ammo_type": "components"
   },
   {
-    "id": "10lbrass",
+    "id": "10l_brass",
     "type": "AMMO",
     "category": "spare_parts",
     "name": { "str": "10L brass ingot" },
@@ -653,7 +669,7 @@
     "ammo_type": "components"
   },
   {
-    "id": "5lbronze",
+    "id": "5l_bronze",
     "type": "AMMO",
     "category": "spare_parts",
     "name": { "str": "5L bronze ingot" },
@@ -668,12 +684,12 @@
     "ammo_type": "components"
   },
   {
-    "id": "10lbronze",
+    "id": "10l_bronze",
     "type": "AMMO",
     "category": "spare_parts",
     "name": { "str": "10L bronze ingot" },
     "description": "A ten-liter ingot of solid bronze.",
-    "weight": "89600 g",
+    "weight": "88 kg",
     "volume": "10 L",
     "price": 1300400,
     "price_postapoc": 13000,
@@ -683,7 +699,7 @@
     "ammo_type": "components"
   },
   {
-    "id": "5lcopper",
+    "id": "5l_copper",
     "type": "AMMO",
     "category": "spare_parts",
     "name": { "str": "5L copper ingot" },
@@ -698,7 +714,7 @@
     "ammo_type": "components"
   },
   {
-    "id": "10lcopper",
+    "id": "10l_copper",
     "type": "AMMO",
     "category": "spare_parts",
     "name": { "str": "10L copper ingot" },
@@ -713,7 +729,67 @@
     "ammo_type": "components"
   },
   {
-    "id": "5lgold",
+    "id": "10l_tin",
+    "type": "AMMO",
+    "category": "spare_parts",
+    "name": { "str": "10L tin ingot" },
+    "description": "A ten-liter ingot of solid tin.",
+    "weight": "72650 g",
+    "volume": "10 L",
+    "price": 23150,
+    "price_postapoc": 230,
+    "material": [ "tin" ],
+    "symbol": "=",
+    "color": "light_gray",
+    "ammo_type": "components"
+  },
+  {
+    "id": "5l_tin",
+    "type": "AMMO",
+    "category": "spare_parts",
+    "name": { "str": "5L tin ingot" },
+    "description": "A five-liter ingot of solid tin.",
+    "weight": "36350 g",
+    "volume": "5 L",
+    "price": 11575,
+    "price_postapoc": 116,
+    "material": [ "tin" ],
+    "symbol": "=",
+    "color": "light_gray",
+    "ammo_type": "components"
+  },
+  {
+    "id": "10l_zinc",
+    "type": "AMMO",
+    "category": "spare_parts",
+    "name": { "str": "10L zinc ingot" },
+    "description": "A ten-liter ingot of solid zinc.",
+    "weight": "71 kg",
+    "volume": "10 L",
+    "price": 23150,
+    "price_postapoc": 230,
+    "material": [ "zinc" ],
+    "symbol": "=",
+    "color": "white",
+    "ammo_type": "components"
+  },
+  {
+    "id": "5l_zinc",
+    "type": "AMMO",
+    "category": "spare_parts",
+    "name": { "str": "5L zinc ingot" },
+    "description": "A five-liter ingot of solid zinc.",
+    "weight": "35500 g",
+    "volume": "5 L",
+    "price": 11575,
+    "price_postapoc": 116,
+    "material": [ "zinc" ],
+    "symbol": "=",
+    "color": "white",
+    "ammo_type": "components"
+  },
+  {
+    "id": "5l_gold",
     "type": "AMMO",
     "category": "spare_parts",
     "name": { "str": "5L gold ingot" },
@@ -728,7 +804,7 @@
     "ammo_type": "components"
   },
   {
-    "id": "10lgold",
+    "id": "10l_gold",
     "type": "AMMO",
     "category": "spare_parts",
     "name": { "str": "10L gold ingot" },
@@ -743,12 +819,12 @@
     "ammo_type": "components"
   },
   {
-    "id": "5liron",
+    "id": "5l_iron",
     "type": "AMMO",
     "category": "spare_parts",
     "name": { "str": "5L iron ingot" },
     "description": "A five-liter ingot of solid iron.",
-    "weight": "56700 g",
+    "weight": "39365 g",
     "volume": "5 L",
     "price": 10000,
     "price_postapoc": 200,
@@ -758,12 +834,12 @@
     "ammo_type": "components"
   },
   {
-    "id": "10liron",
+    "id": "10l_iron",
     "type": "AMMO",
     "category": "spare_parts",
     "name": { "str": "10L iron ingot" },
     "description": "A ten-liter ingot of solid iron.",
-    "weight": "113400 g",
+    "weight": "78730 g",
     "volume": "10 L",
     "price": 20000,
     "price_postapoc": 400,
@@ -773,12 +849,12 @@
     "ammo_type": "components"
   },
   {
-    "id": "5llead",
+    "id": "5l_lead",
     "type": "AMMO",
     "category": "spare_parts",
     "name": { "str": "5L lead ingot" },
     "description": "A five-liter ingot of solid lead.",
-    "weight": "56700 g",
+    "weight": "56710 g",
     "volume": "5 L",
     "price": 8333300,
     "price_postapoc": 16600,
@@ -788,7 +864,7 @@
     "ammo_type": "components"
   },
   {
-    "id": "10llead",
+    "id": "10l_lead",
     "type": "AMMO",
     "category": "spare_parts",
     "name": { "str": "10L lead ingot" },
@@ -803,7 +879,7 @@
     "ammo_type": "components"
   },
   {
-    "id": "5lplatinum",
+    "id": "5l_platinum",
     "type": "AMMO",
     "category": "spare_parts",
     "name": { "str": "5L platinum ingot" },
@@ -818,7 +894,7 @@
     "ammo_type": "components"
   },
   {
-    "id": "10lplatinum",
+    "id": "10l_platinum",
     "type": "AMMO",
     "category": "spare_parts",
     "name": { "str": "10L platinum ingot" },
@@ -833,7 +909,7 @@
     "ammo_type": "components"
   },
   {
-    "id": "5lsilver",
+    "id": "5l_silver",
     "type": "AMMO",
     "category": "spare_parts",
     "name": { "str": "5L silver ingot" },
@@ -848,7 +924,7 @@
     "ammo_type": "components"
   },
   {
-    "id": "10lsilver",
+    "id": "10l_silver",
     "type": "AMMO",
     "category": "spare_parts",
     "name": { "str": "10L silver ingot" },
@@ -863,7 +939,7 @@
     "ammo_type": "components"
   },
   {
-    "id": "5lsteel",
+    "id": "5l_steel",
     "type": "AMMO",
     "category": "spare_parts",
     "name": { "str": "5L steel ingot" },
@@ -878,7 +954,7 @@
     "ammo_type": "components"
   },
   {
-    "id": "10lsteel",
+    "id": "10l_steel",
     "type": "AMMO",
     "category": "spare_parts",
     "name": { "str": "10L steel ingot" },
@@ -893,7 +969,7 @@
     "ammo_type": "components"
   },
   {
-    "id": "5lbudget_steel",
+    "id": "5l_budget_steel",
     "type": "AMMO",
     "category": "spare_parts",
     "name": { "str": "5L budget steel ingot" },
@@ -908,7 +984,7 @@
     "ammo_type": "components"
   },
   {
-    "id": "10lbudget_steel",
+    "id": "10l_budget_steel",
     "type": "AMMO",
     "category": "spare_parts",
     "name": { "str": "10L budget steel ingot" },
@@ -923,7 +999,7 @@
     "ammo_type": "components"
   },
   {
-    "id": "5llc_steel",
+    "id": "5l_lc_steel",
     "type": "AMMO",
     "category": "spare_parts",
     "name": { "str": "5L mild steel ingot" },
@@ -938,7 +1014,7 @@
     "ammo_type": "components"
   },
   {
-    "id": "10llc_steel",
+    "id": "10l_lc_steel",
     "type": "AMMO",
     "category": "spare_parts",
     "name": { "str": "10L mild steel ingot" },
@@ -953,7 +1029,7 @@
     "ammo_type": "components"
   },
   {
-    "id": "5lmc_steel",
+    "id": "5l_mc_steel",
     "type": "AMMO",
     "category": "spare_parts",
     "name": { "str": "5L medium steel ingot" },
@@ -968,7 +1044,7 @@
     "ammo_type": "components"
   },
   {
-    "id": "10lmc_steel",
+    "id": "10l_mc_steel",
     "type": "AMMO",
     "category": "spare_parts",
     "name": { "str": "10L medium steel ingot" },
@@ -983,7 +1059,7 @@
     "ammo_type": "components"
   },
   {
-    "id": "5lhc_steel",
+    "id": "5l_hc_steel",
     "type": "AMMO",
     "category": "spare_parts",
     "name": { "str": "5L high steel ingot" },
@@ -998,7 +1074,7 @@
     "ammo_type": "components"
   },
   {
-    "id": "10lhc_steel",
+    "id": "10l_hc_steel",
     "type": "AMMO",
     "category": "spare_parts",
     "name": { "str": "10L high steel ingot" },
@@ -1008,36 +1084,6 @@
     "price": 52000,
     "price_postapoc": 520,
     "material": [ "hc_steel" ],
-    "symbol": "=",
-    "color": "light_gray",
-    "ammo_type": "components"
-  },
-  {
-    "id": "5lch_steel",
-    "type": "AMMO",
-    "category": "spare_parts",
-    "name": { "str": "5L high steel ingot" },
-    "description": "A five-liter ingot of solid steel.",
-    "weight": "39295 g",
-    "volume": "5 L",
-    "price": 26000,
-    "price_postapoc": 260,
-    "material": [ "ch_steel" ],
-    "symbol": "=",
-    "color": "light_gray",
-    "ammo_type": "components"
-  },
-  {
-    "id": "10lch_steel",
-    "type": "AMMO",
-    "category": "spare_parts",
-    "name": { "str": "10L high steel ingot" },
-    "description": "A ten-liter ingot of solid steel.",
-    "weight": "78590 g",
-    "volume": "10 L",
-    "price": 52000,
-    "price_postapoc": 520,
-    "material": [ "ch_steel" ],
     "symbol": "=",
     "color": "light_gray",
     "ammo_type": "components"
@@ -1049,7 +1095,7 @@
     "name": { "str": "chunk of budget steel", "str_pl": "chunks of budget steel" },
     "description": "A misshapen chunk of budget steel.  Makes a decent weapon in a pinch, and is also useful for some crafting recipes.",
     "weight": "250 g",
-    "volume": "63 ml",
+    "volume": "31 ml",
     "price": 1000,
     "price_postapoc": 10,
     "bashing": 8,
@@ -1068,7 +1114,7 @@
     "name": { "str": "lump of budget steel", "str_pl": "lumps of budget steel" },
     "description": "A heavy formed piece of budget steel.  Useful for some crafting recipes.",
     "weight": "1000 g",
-    "volume": "125 ml",
+    "volume": "126 ml",
     "price": 2000,
     "price_postapoc": 50,
     "bashing": 12,
