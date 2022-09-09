@@ -62,10 +62,7 @@
     "category": "backrooms_ancient_news",
     "//": "This category is for news before 1950 and should adopt the tone of voice of its era.",
     "text": [
-      {
-        "id": "backrooms_ancient_news_1",
-        "text": "\"This snippet is backrooms_ancient_news lorum ipsum text.\""
-      }
+      
     ]
   },
   {
@@ -161,6 +158,10 @@
     {
       "id": "backrooms_lost_people_news_8",
       "text": "MISSING WOMAN: Anne Demir, age 33.  Disappeared: May 3.  Last seen driving SOUTH of Dallas on I-45 at 8:45pm.  NEW DETAILS HAVE RE-OPENED THIS INVESTIGATION.  New witness footage confirms Demir's car driving SOUTH rather than north, as previously reported."
+    },
+    {
+      "id": "backrooms_lost_people_news_9",
+      "text": "NO TRACE FOUND in search for missing Lisa Hawthorne and her boyfriend Shaun after 58 Civil Air Patrol members spent three days scouring the area near Twelve Mile Trail.  The couple's car was found roadside near the northern trailhead and they were reported missing shortly after.  The couple were \"on a daily hike in a place completely known to them\", says detective Aretha Wesson, who personally knew the two intrepid young atheletes."
     }
     ]
   },
