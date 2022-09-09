@@ -5323,7 +5323,7 @@ Fields can exist on top of terrain/furniture, and support different intensity le
       { "flags": [ "WEBWALK" ] },
       { "body_part_env_resistance": [ [ "mouth", 15 ], [ "sensor", 10 ] ] },
       "immunity_flags_worn": [ [ "sensor", "FLASH_PROTECTION" ] ]
-      }, // If the character in the field has the defined character flags (see Character Flags), necessary env resistance pr worn item flags on ALL bodyparts of the defined type they will be considered immune to the field's effects -- in this example a player is immune if they have the WEBWALK flag, wear flash protection on their eyes or have both their eyes and mouth covered
+      }, // If the character in the field has the defined character flags (see Character Flags), necessary env resistance or worn item flags on ALL bodyparts of the defined type they will be considered immune to the field's effects -- in this example a player is immune if they have the WEBWALK flag, wear flash protection on their eyes or have both their eyes and mouth covered
     "decay_amount_factor": 2, // The field's rain decay amount is divided by this when processing the field, the rain decay is a function of the weather type's precipitation class: very_light = 5s, light = 15s, heavy = 45 s
     "half_life": "3 minutes", // If above 0 the field will disappear after two half-lifes on average
     "underwater_age_speedup": "25 minutes", // Increase the field's age by this time every tick if it's on a terrain with the SWIMMABLE flag
