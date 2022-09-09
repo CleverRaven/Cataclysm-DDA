@@ -45,13 +45,13 @@ struct veh_menu_item {
 
     veh_menu_item &text( const std::string &text );
     veh_menu_item &desc( const std::string &desc );
-    veh_menu_item &enable( const bool enable );
-    veh_menu_item &skip_theft_check( const bool skip_theft_check = true );
-    veh_menu_item &hotkey( const char hotkey );
+    veh_menu_item &enable( bool enable );
+    veh_menu_item &skip_theft_check( bool skip_theft_check = true );
+    veh_menu_item &hotkey( char hotkey );
     veh_menu_item &hotkey( const cata::optional<input_event> &hotkey );
     veh_menu_item &hotkey_auto();
-    veh_menu_item &on_submit( const std::function<void()> &action );
-    veh_menu_item &keep_menu_open( const bool keep_menu_open = true );
+    veh_menu_item &on_submit( const std::function<void()> &on_submit );
+    veh_menu_item &keep_menu_open( bool keep_menu_open = true );
     veh_menu_item &location( const cata::optional<tripoint> &location );
 };
 
@@ -69,6 +69,12 @@ class veh_menu
 
         int desc_lines_hint = 0;
 
+        // don't allow allocating on heap
+        static void *operator new( size_t ) = delete;
+        static void *operator new[]( size_t ) = delete;
+        static void  operator delete( void * )  = delete;
+        static void  operator delete[]( void * )  = delete;
+
     private:
         std::vector<veh_menu_item> items;
         std::string title;
@@ -77,12 +83,6 @@ class veh_menu
         std::vector<tripoint> get_locations() const;
 
         int last_selected = 0;
-
-        // don't allow allocating on heap
-        static void *operator new( size_t ) = delete;
-        static void *operator new[]( size_t ) = delete;
-        static void  operator delete( void * )  = delete;
-        static void  operator delete[]( void * )  = delete;
 };
 
 #endif // CATA_SRC_VEH_UTILS_H

@@ -282,9 +282,9 @@ std::vector<tripoint> veh_menu::get_locations() const
 {
     std::vector<tripoint> locations;
 
-    for( size_t i = 0; i < items.size(); i++ ) {
-        if( items[i]._location.has_value() ) {
-            locations.push_back( items[i]._location.value() );
+    for( const veh_menu_item &it : items ) {
+        if( it._location.has_value() ) {
+            locations.push_back( it._location.value() );
         }
     }
 

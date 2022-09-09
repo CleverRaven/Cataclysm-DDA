@@ -157,14 +157,15 @@ void vehicle::control_doors()
         }
         const vehicle_part &vp = part( vp_idx );
         const std::string actname = vp.open ? _( "Close" ) : _( "Open" );
+        const bool open = !vp.open;
         menu.add( string_format( "%s %s", actname, vp.name() ) )
         .hotkey_auto()
         .location( global_part_pos3( vp ) )
         .keep_menu_open()
-        .on_submit( [this, door_idx = index_of_part( &vp ), open = !vp.open] {
-            if( can_close( door_idx, get_player_character() ) )
+        .on_submit( [this, vp_idx, open] {
+            if( can_close( vp_idx, get_player_character() ) )
             {
-                open_or_close( door_idx, open );
+                open_or_close( vp_idx, open );
             }
         } );
     };
@@ -1755,10 +1756,11 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint &p, bool with_
         return;
     }
     const vpart_position vp = *ovp;
+    const tripoint vppos = vp.pos();
 
     // @returns true if pos contains available part with a flag
-    const auto has_part_here = [this, pos = vp.pos()]( const std::string & flag ) {
-        return !get_parts_at( pos, flag, part_status_flag::available ).empty();
+    const auto has_part_here = [this, vppos]( const std::string & flag ) {
+        return !get_parts_at( vppos, flag, part_status_flag::available ).empty();
     };
 
     bool remote = g->remoteveh() == this;
@@ -1949,35 +1951,38 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint &p, bool with_
         menu.add( _( "Use " ) + tool->nname( 1 ) )
         .enable( fuel_left( itype_battery, true ) >= tool->charges_to_use() )
         .hotkey( hotkey )
-        .on_submit( [this, pos = vp.pos(), tool] { use_vehicle_tool( *this, pos, tool ); } );
+        .on_submit( [this, vppos, tool] { use_vehicle_tool( *this, vppos, tool ); } );
     }
 
     const cata::optional<vpart_reference> vp_autoclave = vp.avail_part_with_feature( "AUTOCLAVE" );
     if( vp_autoclave ) {
+        const size_t cl_idx = vp_autoclave->part_index();
         menu.add( vp_autoclave->part().enabled
                   ? _( "Deactivate the autoclave" )
                   : _( "Activate the autoclave (1.5 hours)" ) )
         .hotkey( 'a' )
-        .on_submit( [this, cl_idx = vp_autoclave->part_index()] { use_autoclave( cl_idx ); } );
+        .on_submit( [this, cl_idx] { use_autoclave( cl_idx ); } );
     }
 
     const cata::optional<vpart_reference> vp_washing_machine =
         vp.avail_part_with_feature( "WASHING_MACHINE" );
     if( vp_washing_machine ) {
+        const size_t wm_idx = vp_washing_machine->part_index();
         menu.add( vp_washing_machine->part().enabled
                   ? _( "Deactivate the washing machine" )
                   : _( "Activate the washing machine (1.5 hours)" ) )
         .hotkey( 'W' )
-        .on_submit( [this, wm_idx = vp_washing_machine->part_index()] { use_washing_machine( wm_idx ); } );
+        .on_submit( [this, wm_idx] { use_washing_machine( wm_idx ); } );
     }
 
     const cata::optional<vpart_reference> vp_dishwasher = vp.avail_part_with_feature( "DISHWASHER" );
     if( vp_dishwasher ) {
+        const size_t dw_idx = vp_dishwasher->part_index();
         menu.add( vp_dishwasher->part().enabled
                   ? _( "Deactivate the dishwasher" )
                   : _( "Activate the dishwasher (1.5 hours)" ) )
         .hotkey( 'D' )
-        .on_submit( [this, dw_idx = vp_dishwasher->part_index()] { use_dishwasher( dw_idx ); } );
+        .on_submit( [this, dw_idx] { use_dishwasher( dw_idx ); } );
     }
 
     const cata::optional<vpart_reference> vp_cargo = vp.part_with_feature( "CARGO", false );
@@ -1988,7 +1993,7 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint &p, bool with_
         menu.add( _( "Get items" ) )
         .hotkey( 'g' )
         .skip_theft_check()
-        .on_submit( [pos = vp.pos()] { g->pickup( pos ); } );
+        .on_submit( [vppos] { g->pickup( vppos ); } );
     }
 
     const turret_data turret = turret_query( vp.pos() );
@@ -1996,8 +2001,8 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint &p, bool with_
     if( turret.can_unload() ) {
         menu.add( string_format( _( "Unload %s" ), turret.name() ) )
         .hotkey( 'u' )
-        .on_submit( [this, pos = vp.pos()] {
-            const turret_data turret = turret_query( pos );
+        .on_submit( [this, vppos] {
+            const turret_data turret = turret_query( vppos );
             item_location loc = turret.base();
             get_player_character().unload( loc );
         } );
@@ -2006,9 +2011,9 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint &p, bool with_
     if( turret.can_reload() ) {
         menu.add( string_format( _( "Reload %s" ), turret.name() ) )
         .hotkey( 'r' )
-        .on_submit( [this, pos = vp.pos()] {
-            item_location loc = turret_query( pos ).base();
-            const item::reload_option opt = get_player_character().select_ammo( loc, true );
+        .on_submit( [this, vppos] {
+            item_location loc = turret_query( vppos ).base();
+            item::reload_option opt = get_player_character().select_ammo( loc, true );
             if( opt )
             {
                 std::vector<item_location> targets { { opt.target, std::move( opt.ammo ) } };
@@ -2022,9 +2027,9 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint &p, bool with_
     if( vp_curtain && !vp_curtain->part().open ) {
         menu.add( _( "Peek through the closed curtains" ) )
         .hotkey( 'p' )
-        .on_submit( [pos = vp.pos()] {
+        .on_submit( [vppos] {
             add_msg( _( "You carefully peek through the curtains." ) );
-            g->peek( pos );
+            g->peek( vppos );
         } );
     }
 
@@ -2081,38 +2086,42 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint &p, bool with_
     const cata::optional<vpart_reference> vp_monster_capture =
         vp.avail_part_with_feature( "CAPTURE_MONSTER_VEH" );
     if( vp_monster_capture ) {
+        const size_t mc_idx = vp_monster_capture->part_index();
         menu.add( _( "Capture or release a creature" ) )
         .hotkey( 'G' )
-        .on_submit( [this, mc_idx = vp_monster_capture->part_index(), pos = vp.pos()] { use_monster_capture( mc_idx, pos ); } );
+        .on_submit( [this, mc_idx, vppos] { use_monster_capture( mc_idx, vppos ); } );
     }
 
     const cata::optional<vpart_reference> vp_bike_rack = vp.avail_part_with_feature( "BIKE_RACK_VEH" );
     if( vp_bike_rack ) {
+        const size_t rk_idx = vp_bike_rack->part_index();
         menu.add( _( "Load or unload a vehicle" ) )
         .hotkey( 'R' )
-        .on_submit( [this, rk_idx = vp_bike_rack->part_index()] { use_bike_rack( rk_idx ); } );
+        .on_submit( [this, rk_idx] { use_bike_rack( rk_idx ); } );
     }
 
     const cata::optional<vpart_reference> vp_harness = vp.avail_part_with_feature( "ANIMAL_CTRL" );
     if( vp_harness ) {
+        const size_t hn_idx = vp_harness->part_index();
         menu.add( _( "Harness an animal" ) )
         .hotkey( 'H' )
-        .on_submit( [this, hn_idx = vp_harness->part_index(), pos = vp.pos()] { use_harness( hn_idx, pos ); } );
+        .on_submit( [this, hn_idx, vppos] { use_harness( hn_idx, vppos ); } );
     }
 
     if( vp.avail_part_with_feature( "PLANTER" ) ) {
         menu.add( _( "Reload seed drill with seeds" ) )
         .hotkey( 's' )
-        .on_submit( [this, pos = vp.pos()] { reload_seeds( pos ); } );
+        .on_submit( [this, vppos] { reload_seeds( vppos ); } );
     }
 
     const cata::optional<vpart_reference> vp_workbench = vp.avail_part_with_feature( "WORKBENCH" );
     if( vp_workbench ) {
+        const size_t wb_idx = vp_workbench->part_index();
         menu.add( string_format( _( "Craft at the %s" ), vp_workbench->part().name() ) )
         .hotkey( hotkey_for_action( ACTION_CRAFT, /* maximum_modifier_count = */ 1 ) )
-        .on_submit( [this, wb_idx = vp_workbench->part_index(), pos = vp.pos()] {
+        .on_submit( [this, wb_idx, vppos] {
             const vpart_reference vp_workbench( *this, wb_idx );
-            iexamine::workbench_internal( get_player_character(), pos, vp_workbench );
+            iexamine::workbench_internal( get_player_character(), vppos, vp_workbench );
         } );
     }
 }
