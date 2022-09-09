@@ -21,7 +21,6 @@
         "text": "\"225 steps from the vending machines to the couch room…  141 steps from the couch room to the portal…\""
       },
       { "id": "backrooms_note_9", "text": "\"Welcome to Hell :)\"" },
-      { "id": "backrooms_note_9", "text": "\"Abandon hope, all ye who read this.\"" },
       {
         "id": "backrooms_note_10",
         "text": "\"know because I was wearing my watch.  Today was another bad day.  They nearly saw me as I hauled wood back to the big room, and I lost half of it running away.  Tomorrow, I plan\""
@@ -45,7 +44,6 @@
       },
       { "id": "backrooms_note_16", "text": "This paper is covered in dried blood…  Gross." },
       { "id": "backrooms_note_17", "text": "This note is covered with tally marks, front to back." },
-      { "id": "backrooms_note_17", "text": "This note just has scribbles on it." },
       { "id": "backrooms_note_18", "text": "\"NO NO NO NO NO NO NO NO NO NO NO NO NO NO NO NO NO NO NO NO\"" },
       { "id": "backrooms_note_19", "text": "\"I KILLED THEM.  I HAD TO.\"" },
       {
@@ -53,32 +51,78 @@
         "text": "\"Casey Blumenthal.  Age 34.  Bangor, Maine.  Hotel receptionist.  The last thing I remember was tripping on a power cord.\""
       },
       { "id": "backrooms_note_21", "text": "\"STOP FOLLOWING ME\"" },
-      { "id": "backrooms_note_22", "text": "\"IT'S CHASING ME\"" }
+      { "id": "backrooms_note_22", "text": "\"IT'S CHASING ME\"" },
+      { "id": "backrooms_note_23", "text": "\"Abandon hope, all ye who read this.\"" },
+      { "id": "backrooms_note_24", "text": "This note just has scribbles on it." },
+      { "id": "backrooms_note_25", "text": "Let me out.  Let me out.  Let me out.  Let me OUT.  LET ME OUT." }
     ]
   },
   {
     "type": "snippet",
     "category": "backrooms_ancient_news",
-    "//": "This category is for news before 1900 and should adopt the tone of voice of its era.",
+    "//": "This category is for news before 1950 and should adopt the tone of voice of its era.",
     "text": [
+      {
+        "id": "backrooms_ancient_news_1",
+        "text": "\"This snippet is backrooms_ancient_news lorum ipsum text.\""
+      }
     ]
   },
   {
     "type": "snippet",
     "category": "backrooms_very_old_news",
+    "//": "This category is for news after 1950 until the time of Cataclysm lore and should adopt the tone of voice of its era.",
     "text": [
+      {
+        "id": "backrooms_very_old_news_1",
+        "text": "\"This snippet is backrooms_very_old_news_1 lorum ipsum text.\""
+      }
     ]
   },
   {
     "type": "snippet",
     "category": "backrooms_old_news",
+    "//": "This category roughly lines up with Cataclysm's many_years_old_news category and contains some of the same snippets.",
     "text": [
+      {
+        "id": "backrooms_old_news_1",
+        "text": "ATOMIC DEREGULATION!  President Toffer announced to a mixed crowd today that he had signed an executive order to deregulate public use of radioactive compounds, allowing more widespread use of low-grade radioactive compounds in home appliances.  \"Plutonium is the greenest energy we have,\" he told an assembled press.  \"It's time we got over our fear and moved into the light.\""
+      },
+      {
+        "id": "backrooms_old_news_2",
+        "text": "US IGNORES UN DEMANDS: The US ambassador to the UN today turned down UN requests to begin mutual nuclear disarmament of China, the US and North Korea.  \"We have a right to defend ourselves,\" insisted the ambassador.  \"We'll back down when they do\"."
+      },
+      {
+        "id": "backrooms_old_news_3",
+        "text": "EDITORIAL: THE UN SHOULD PUT ON ITS BIG-BOY PANTS.  So, driven by decreasing regulation of radioactive materials in the US and China, the UN is pushing hard again for nuclear disarmament.  What a tired old litany this has become.  With deregulation, we've been able to slate three new green nuclear reactors in the Eastern US alone, bringing greenhouse-gas free power to millions of people.  Whatever happened to the UN's focus on global warming?  This is a classic situation of the world painting the USA as villains no matter what we do."
+      },
+      {
+        "id": "backrooms_old_news_4",
+        "text": "EDITORIAL: MORE HOMES NEED GUNS.  While visiting a friend recently, our conversation turned to gun control, and I was shocked to learn that my close friend didn't own a firearm.  In this day and age, not having a deadly weapon in your home shows an appalling lack of personal safety, and I told him so.  Weapons that can kill a man, or several men, in an instant - sometimes even accidentally - are our only hope against other people armed similarly.  I see a utopia of honest citizens keeping each other honest by being armed to the teeth."
+      },
+      {
+        "id": "backrooms_old_news_5",
+        "text": "POPULAR 'ALIEN AUTOPSY' DEBUNKED.  A widely circulated video, making the rounds everywhere from FriendFace to television news, has been debunked as a fake.  This extremely realistic and graphic alien autopsy shows an insect-like creature being dismantled by Japanese researchers, who comment on its anatomy in Japanese throughout the video.  Early observations that the creature was suspiciously similar to those described in the popular works of horror author HP Lovecraft were not sufficient to dislodge the video's viral status.  Yesterday, on the popular social media website Eddit, a 'making of' video was posted, clearly exposing the work as the final film project of a small group of students at UCLA."
+      }
     ]
   },
   {
     "type": "snippet",
     "category": "backrooms_recent_news",
+    "//": "This category roughly lines up with Cataclysm's news segments newer than a few months and contains some of the same snippets.",
     "text": [
+      {
+        "id": "backrooms_recent_news_1",
+        "text": "GOVERNMENT SCIENCE BOOST: The government has drastically increased research and development budgets after UN disarmament demands.  \"This not only keeps money in our country, but maintains our lead on China and keeps us defended\", President Oswald said.  \"This is a fight we can't afford to lose.  We're not deaf to the concerns of our population: this is a blanket increase, not just to military R&D spending but civilian as well.  We've authorized the construction of seventy nine new private civilian research facilities along the Eastern Seaboard alone!\""
+      },
+      {
+        "id": "backrooms_recent_news_2",
+        "text": "DRIVING ON A WING AND A PRAYER: A New England man has proven it is possible to create a new car from scrap parts using almost nothing but duct tape.  When asked why he had done it, his answer was \"Well, I didn't have a welder.\""
+      },
+      {
+        "id": "backrooms_recent_news_3",
+        "text": "POLICE TO INVESTIGATE SHADY HILLS.  There will be a \"thorough investigation\" into the Shady Hills nursing home, owned by Shady Hills Corporation, said police Monday.  The announcement came following several lawsuits launching against the home by family members of residents for alleged elder abuse and neglect."
+      }
     ]
   },
   {
@@ -86,14 +130,67 @@
     "category": "backrooms_lost_people_news",
     "//": "This category is for 'lost person' classified ads and newspaper snippets about people that have fallen into to the Backrooms, from any era.",
     "text": [
+    {
+      "id": "backrooms_lost_people_news_1",
+      "text": "STUDENT MISSING: A high school student vanished yesterday evening in the forest near Wayland.  The 17-year-old student Brett Dong was last seen with his friends in the camp.  \"Brett said that he was gonna get some firewood but he never came back,\" said his classmate, Jianxiang Wang.  The search is underway."
+    },
+    {
+      "id": "backrooms_lost_people_news_2",
+      "text": "CELEBRATED PHYSICIST GOES MISSING.  Dr. Amy Takatoshi, a celebrated quantum physicist at MIT dubbed by some as \"the next Hawking\" has gone missing shortly before a press conference that was expected to be the announcement of her newest research results, rumored to be in the field of teleportation."
+    },
+    {
+      "id": "backrooms_lost_people_news_3",
+      "text": "RUMORS DENIED: Allegations from search parties hunting for Brett Dong, that a civilian research facility just outside Wayland is a front for a government facility researching dangerous technologies, were addressed during a press conference earlier today.  \"I have to clarify that not only have we never done such research,\" said the officer on the press conference.  \"These allegations are absurd.  Teleportation and aliens only exist in sci-fi films, and the US certainly doesn't have the funds to build these extensive underground networks people are talking about.  I can't believe I even have to tell you this.  I don't know what those kids saw that put these ideas in their heads, but they're going through an awful lot with the loss of their friend.\""
+    },
+    {
+      "id": "backrooms_lost_people_news_4",
+      "text": "TELEPORTATION?  An unidentified source working in a major university contacted multiple media outlets this week with a farfetched story that is nonetheless corroborated by third-party physicists as \"shockingly possible\".  This source, nicknamed \"Deep Space\", describes secret government experimentation into teleportation, dating back to before 2008.  \"When I read the tagline, I just scoffed,\" said Dr. Alice Feyn, a physics professor at MIT.  \"Then I read on.  This is strongly reminiscent of Dr. Takatoshi's lost work.  It feels bizarre to say it, but I think there's a grain of truth to all of this.\"  Dr. Amy Takatoshi was a quantum physicist who went missing, along with all records of her work, in July 2007."
+    },
+    {
+      "id": "backrooms_lost_people_news_5",
+      "text": "KIDNAPPING IN WESTFIELD?  After a week of intense searching, chasing leads across the state, the Oriole County Sheriff's Department have still uncovered no leads in the disappearance of Kasey Akron, 31, postal worker and mother of two.  Akron disappeared without a trace while on the job in Westfield, a small village with a population of only 824, on September 24th.  Her vehicle was found still running, undelivered mail left inside.  Her mother tearfully testified to the Oriole Free Press, \"Kasey was a happy and loved woman.  Wherever she is, we know she wants to come home!\"  Detectives previously suggested that Akron may have departed with someone she knew, but have not made any arrests so far."
+    },
+    {
+      "id": "backrooms_lost_people_news_6",
+      "text": "MYSTERY IN DRESDEN: Nefarious happenings are nothing new for the ever-tumultuous GDR, but the peculiar mystery of two missing actors has captured international attention.  Nani Wolf and Angela Weiss were slated to perform in mere moments, spotted entering their dressing room with fellow company members testifying to every minute and every angle, but when the curtain call came, they were nowhere to be found!  Region police are baffled, but have concluded there was no sign of foul play.  The girls just disappeared!"
+    },
+    {
+      "id": "backrooms_lost_people_news_7",
+      "text": "MISSING MAN: Gerald Bienkowski, age 47.  Disappeared: April 14.  Last seen leaving Tony's Watering Hole in Burlington.  Believed to be of sound mind, but possibly in danger.  If seen, contact local police.  Do not approach."
+    },
+    {
+      "id": "backrooms_lost_people_news_8",
+      "text": "MISSING WOMAN: Anne Demir, age 33.  Disappeared: May 3.  Last seen driving SOUTH of Dallas on I-45 at 8:45pm.  NEW DETAILS HAVE RE-OPENED THIS INVESTIGATION.  New witness footage confirms Demir's car driving SOUTH rather than north, as previously reported."
+    }
     ]
   },
   {
     "type": "snippet",
     "category": "backrooms_unknown_news",
     "//": "This category is for snippets that don't make any logical sense.  They have been 'corrupted' by their movement into the Backrooms.",
-    "//2": "Snippets in this category should not be translated.",
+    "//2": "TRANSLATORS: Snippets in this category should not be translated.",
     "text": [
+      {
+        "id": "backrooms_unknown_news_1",
+        "text": {
+          "str": "\"St. Mary bingo will be hel777 B24G43A23K19T99 assistance with bond. The empty ap... , , , thsi empty abyss, floating on a salt laboratory abbbbbbbooooooooooooooannaannan.\"",
+          "//NOLINT(cata-text-style)": "intentional format"
+        }
+      },
+      {
+        "id": "backrooms_unknown_news_2",
+        "text": {
+          "str": "\"NEWS REPORTED: The absolute fucking apathy!  I hav ?????:D:D don f a    snn          ksk             t  special compartment designed for defacation inside the twentieth centurset sd dddddddddd and THEY DON'T UNDERSTAND WHAT'S HAPPENING BUT I could tell uuuuuuuuuu the smoke outlawed inside\"",
+          "//NOLINT(cata-text-style)": "intentional format"
+        }
+      },
+      {
+        "id": "backrooms_unknown_news_3",
+        "text": {
+          "str": "You've never seen anything i never scene 4444442 2222 nsnrwsnennelalkknwns i haven't sen sent the break forest knight calber song ontological corporaction nwensnnnnnnnnnfnnnnnnnnnnnndf ff XD usee?",
+          "//NOLINT(cata-text-style)": "intentional format"
+        }
+      }
     ]
   }
 ]
