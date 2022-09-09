@@ -2262,11 +2262,11 @@ bool cata_tiles::draw_from_id_string( const std::string &id, TILE_CATEGORY categ
     // translate from player-relative to screen relative tile position
     const point screen_pos = player_to_screen( pos.xy() );
 
-    float retract;
+    int retract;
     if( tile_retracted == 0 ) {
-        retract = 0.0;
+        retract = 0;
     } else if( tile_retracted == 1 ) {
-        retract = 1.0;
+        retract = 100;
     } else {
         const float distance = o.distance( pos.xy() );
         const float d_min = tile_retract_dist_min > 0.0 ? tile_retract_dist_min :
@@ -2277,7 +2277,7 @@ bool cata_tiles::draw_from_id_string( const std::string &id, TILE_CATEGORY categ
         const float d_range = d_max - d_min;
         const float d_slope = d_range <= 0.0f ? 100.0 : 1.0 / d_range;
 
-        retract = 1.0 - clamp( ( distance - d_min ) * d_slope, 0.0f, 1.0f );
+        retract = static_cast<int>( 100.0 * ( 1.0 - clamp( ( distance - d_min ) * d_slope, 0.0f, 1.0f ) ) );
     }
 
     auto simple_point_hash = []( const auto & p ) {
@@ -2435,7 +2435,7 @@ bool cata_tiles::draw_from_id_string( const std::string &id, TILE_CATEGORY categ
 bool cata_tiles::draw_sprite_at(
     const tile_type &tile, const weighted_int_list<std::vector<int>> &svlist,
     const point &p, unsigned int loc_rand, bool rota_fg, int rota, lit_level ll,
-    bool apply_night_vision_goggles, float retract )
+    bool apply_night_vision_goggles, int retract )
 {
     int nullint = 0;
     return cata_tiles::draw_sprite_at( tile, svlist, p, loc_rand, rota_fg, rota, ll,
@@ -2445,7 +2445,7 @@ bool cata_tiles::draw_sprite_at(
 bool cata_tiles::draw_sprite_at(
     const tile_type &tile, const weighted_int_list<std::vector<int>> &svlist,
     const point &p, unsigned int loc_rand, bool rota_fg, int rota, lit_level ll,
-    bool apply_night_vision_goggles, float retract, int &height_3d )
+    bool apply_night_vision_goggles, int retract, int &height_3d )
 {
     const std::vector<int> *picked = svlist.pick( loc_rand );
     if( !picked ) {
@@ -2506,14 +2506,12 @@ bool cata_tiles::draw_sprite_at(
     int height = 0;
     std::tie( width, height ) = sprite_tex->dimension();
 
-    const point &offset = retract <= 0.0
+    const point &offset = retract <= 0
                           ? tile.offset
-                          : ( retract >= 1.0
+                          : ( retract >= 100
                               ? tile.offset_retracted
                               : tile.offset
-                              + ( ( tile.offset_retracted - tile.offset )
-                                  * static_cast<int>( 100 * retract )
-                                ) / 100
+                              + ( ( tile.offset_retracted - tile.offset ) * retract ) / 100
                             );
     SDL_Rect destination;
     destination.x = p.x + offset.x * tile_width / tileset_ptr->get_tile_width();
@@ -2599,7 +2597,7 @@ bool cata_tiles::draw_sprite_at(
 
 bool cata_tiles::draw_tile_at(
     const tile_type &tile, const point &p, unsigned int loc_rand, int rota,
-    lit_level ll, bool apply_night_vision_goggles, float retract, int &height_3d )
+    lit_level ll, bool apply_night_vision_goggles, int retract, int &height_3d )
 {
     draw_sprite_at( tile, tile.bg, p, loc_rand, /*fg:*/ false, rota, ll,
                     apply_night_vision_goggles, retract );
