@@ -15,7 +15,21 @@ if("$ENV{VSCMD_VER}" STREQUAL "")
 
     if ("$ENV{DevEnvDir}" STREQUAL "")
         # Use Community Edition when not specified
-        set(ENV{DevEnvDir} "C:/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/")
+        file(DOWNLOAD https://github.com/microsoft/vswhere/releases/download/3.0.3/vswhere.exe vswhere.exe
+            TLS_VERIFY ON
+            EXPECTED_HASH SHA1=8569081535767af53811f47c0e6abeabd695f8f4
+            STATUS vswhere
+        )
+        list(GET vswhere 0 vswhere)
+        if("0" EQUAL vswhere)
+            execute_process(COMMAND vswhere.exe -latest -property productPath
+                OUTPUT_VARIABLE DevEnvDir
+                OUTPUT_STRIP_TRAILING_WHITESPACE)
+            cmake_path(GET DevEnvDir PARENT_PATH DevEnvDir)
+            set(ENV{DevEnvDir} ${DevEnvDir})
+        else()
+            set(ENV{DevEnvDir} "C:/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/")
+        endif()
     endif()
 
     # Run VsDevCmd.bat and set all environment variables it changes
