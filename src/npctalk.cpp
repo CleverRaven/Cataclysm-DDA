@@ -3006,14 +3006,19 @@ void talk_effect_fun_t<T>::set_open_dialogue( const JsonObject &jo, const std::s
     std::vector<effect_on_condition_id> true_eocs;
     std::vector<effect_on_condition_id> false_eocs;
     str_or_var<T> topic;
+    bool has_member = false;
     if( jo.has_object( member ) ) {
+        has_member = true;
         JsonObject innerJo = jo.get_object( member );
         true_eocs = load_eoc_vector( innerJo, "true_eocs" );
         false_eocs = load_eoc_vector( innerJo, "false_eocs" );
         topic = get_str_or_var<T>( innerJo.get_member( "topic" ), "topic" );
     }
-    function = [true_eocs, false_eocs, topic]( const T & d ) {
-        std::string actual_topic = topic.evaluate( d );
+    function = [true_eocs, false_eocs, topic, has_member]( const T & d ) {
+        std::string actual_topic;
+        if( has_member ) {
+            actual_topic = topic.evaluate( d );
+        }
         if( !d.actor( false )->get_character()->is_avatar() ) { //only open a dialog if the avatar is alpha
             run_eoc_vector( false_eocs, d );
             return;
