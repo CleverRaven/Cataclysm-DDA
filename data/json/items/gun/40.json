@@ -257,7 +257,7 @@
     "looks_like": "glock_17",
     "type": "GUN",
     "name": { "str": "Browning Hi-Power .40 S&W" },
-    "description": "The Browning Hi-Power is a semi-automatic handgun developed shortly before the Second World War.  Widely issued since then, it remains in use by India, Canada and Australia.  This is a commercial variant produced by Browning Arms in .40 S&W.",
+    "description": "The Browning Hi-Power is a semi-automatic handgun developed shortly before the Second World War.  Widely issued since then, it remains in use by India, Canada, and Australia.  This is a commercial variant produced by Browning Arms in .40 S&W.",
     "weight": "907 g",
     "volume": "274 ml",
     "longest_side": "228 mm",
