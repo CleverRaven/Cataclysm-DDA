@@ -1306,11 +1306,8 @@ If a fuel has the PERPETUAL flag, engines powered by it never use any fuel.  Thi
 
 ```C++
 "fuel_data" : {
-    energy": 34.2,               // battery charges per mL of fuel. batteries have energy 1
-                                 // is also MJ/L from https://en.wikipedia.org/wiki/Energy_density
-                                 // assumes stacksize 250 per volume 1 (250mL). Multiply
-                                 // by 250 / stacksize * volume for other stack sizes and
-                                 // volumes
+    "energy": "34200_kJ",        // Energy per litre of fuel.
+                                 // https://en.wikipedia.org/wiki/Energy_density
    "perpetual": true,            // this material is a perpetual fuel like `wind`, `sunlight`, `muscle`, `animal` and `metabolism`.
    "pump_terrain": "t_gas_pump", // optional. terrain id for the fuel's pump, if any.
    "explosion_data": {           // optional for fuels that can cause explosions

@@ -337,22 +337,20 @@ int vehicle_part::ammo_consume( int qty, const tripoint &pos )
     return base.ammo_consume( qty, pos, nullptr );
 }
 
-double vehicle_part::consume_energy( const itype_id &ftype, double energy_j )
+units::energy vehicle_part::consume_energy( const itype_id &ftype, units::energy wanted_energy )
 {
     if( base.empty() || !is_fuel_store() ) {
-        return 0.0f;
+        return 0_J;
     }
 
     item &fuel = base.legacy_front();
     if( fuel.typeId() == ftype ) {
         cata_assert( fuel.is_fuel() );
-        // convert energy density in MJ/L to J/ml
-        const double energy_p_mL = fuel.fuel_energy() * 1000;
-        const int ml_to_use = static_cast<int>( std::floor( energy_j / energy_p_mL ) );
-        int charges_to_use = fuel.charges_per_volume( ml_to_use * 1_ml );
 
+        units::energy energy_per_charge = fuel.fuel_energy() / fuel.charges;
+        int charges_to_use = wanted_energy / energy_per_charge;
         if( !charges_to_use ) {
-            return 0.0;
+            return 0_J;
         }
         if( charges_to_use >= fuel.charges ) {
             charges_to_use = fuel.charges;
@@ -360,10 +358,10 @@ double vehicle_part::consume_energy( const itype_id &ftype, double energy_j )
         } else {
             fuel.charges -= charges_to_use;
         }
-        item fuel_consumed( ftype, calendar::turn, charges_to_use );
-        return energy_p_mL * units::to_milliliter<int>( fuel_consumed.volume( true ) );
+
+        return charges_to_use * energy_per_charge;
     }
-    return 0.0;
+    return 0_J;
 }
 
 bool vehicle_part::can_reload( const item &obj ) const
