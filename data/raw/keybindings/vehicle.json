@@ -1,5 +1,12 @@
 [
   {
+    "id": "EXAMINE_VEHICLE",
+    "type": "keybinding",
+    "category": "VEHICLE",
+    "name": "Examine vehicle",
+    "bindings": [ { "input_method": "keyboard_any", "key": "e" } ]
+  },
+  {
     "id": "CONTROL_ENGINES",
     "type": "keybinding",
     "category": "VEHICLE",
@@ -21,11 +28,144 @@
     "bindings": [ { "input_method": "keyboard_any", "key": "l" } ]
   },
   {
+    "id": "PULL_HANDBRAKE",
+    "type": "keybinding",
+    "category": "VEHICLE",
+    "name": "Pull handbrake",
+    "bindings": [ { "input_method": "keyboard_any", "key": "h" } ]
+  },
+  {
+    "id": "USE_WORKBENCH",
+    "type": "keybinding",
+    "category": "VEHICLE",
+    "name": "Use workbench",
+    "bindings": [ { "input_method": "keyboard_char", "key": "&" }, { "input_method": "keyboard_code", "key": "7", "mod": [ "shift" ] } ]
+  },
+  {
     "id": "SOUND_HORN",
     "type": "keybinding",
     "category": "VEHICLE",
     "name": "Sound horn",
     "bindings": [ { "input_method": "keyboard_any", "key": "n" } ]
+  },
+  {
+    "id": "CONTROL_AUTOPILOT_PATROL",
+    "type": "keybinding",
+    "category": "VEHICLE",
+    "name": "Set autopilot to patrol nearby zone",
+    "bindings": [ { "input_method": "keyboard_any", "key": "P" } ]
+  },
+  {
+    "id": "CONTROL_AUTOPILOT_FOLLOW",
+    "type": "keybinding",
+    "category": "VEHICLE",
+    "name": "Set autopilot to follow you",
+    "bindings": [ { "input_method": "keyboard_any", "key": "F" } ]
+  },
+  {
+    "id": "CONTROL_AUTOPILOT_STOP",
+    "type": "keybinding",
+    "category": "VEHICLE",
+    "name": "Set autopilot to stop all activities",
+    "bindings": [ { "input_method": "keyboard_any", "key": "S" } ]
+  },
+  {
+    "id": "TOGGLE_AUTOCLAVE",
+    "type": "keybinding",
+    "category": "VEHICLE",
+    "name": "Toggle autoclave",
+    "bindings": [ { "input_method": "keyboard_any", "key": "a" } ]
+  },
+  {
+    "id": "TOGGLE_WASHING_MACHINE",
+    "type": "keybinding",
+    "category": "VEHICLE",
+    "name": "Toggle washing machine",
+    "bindings": [ { "input_method": "keyboard_any", "key": "W" } ]
+  },
+  {
+    "id": "TOGGLE_DISHWASHER",
+    "type": "keybinding",
+    "category": "VEHICLE",
+    "name": "Toggle dishwasher",
+    "bindings": [ { "input_method": "keyboard_any", "key": "D" } ]
+  },
+  {
+    "id": "GET_ITEMS",
+    "type": "keybinding",
+    "category": "VEHICLE",
+    "name": "Get items",
+    "bindings": [ { "input_method": "keyboard_any", "key": "g" } ]
+  },
+  {
+    "id": "UNLOAD_TURRET",
+    "type": "keybinding",
+    "category": "VEHICLE",
+    "name": "Unload turret",
+    "bindings": [ { "input_method": "keyboard_any", "key": "u" } ]
+  },
+  {
+    "id": "RELOAD_TURRET",
+    "type": "keybinding",
+    "category": "VEHICLE",
+    "name": "Reload turret",
+    "bindings": [ { "input_method": "keyboard_any", "key": "r" } ]
+  },
+  {
+    "id": "CURTAIN_PEEK",
+    "type": "keybinding",
+    "category": "VEHICLE",
+    "name": "Peek through closed curtains",
+    "bindings": [ { "input_method": "keyboard_any", "key": "p" } ]
+  },
+  {
+    "id": "FAUCET_FILL",
+    "type": "keybinding",
+    "category": "VEHICLE",
+    "name": "Fill container with water from faucet",
+    "bindings": [ { "input_method": "keyboard_any", "key": "c" } ]
+  },
+  {
+    "id": "FAUCET_DRINK",
+    "type": "keybinding",
+    "category": "VEHICLE",
+    "name": "Drink from faucet",
+    "bindings": [ { "input_method": "keyboard_any", "key": "d" } ]
+  },
+  {
+    "id": "PURIFY_WATER",
+    "type": "keybinding",
+    "category": "VEHICLE",
+    "name": "Purify water in vehicle tank",
+    "bindings": [ { "input_method": "keyboard_any", "key": "P" } ]
+  },
+  {
+    "id": "USE_CAPTURE_MONSTER_VEH",
+    "type": "keybinding",
+    "category": "VEHICLE",
+    "name": "Capture or release a creature",
+    "bindings": [ { "input_method": "keyboard_any", "key": "G" } ]
+  },
+  {
+    "id": "USE_BIKE_RACK_VEH",
+    "type": "keybinding",
+    "category": "VEHICLE",
+    "name": "Load or unload a vehicle on bike rack",
+    "bindings": [ { "input_method": "keyboard_any", "key": "R" } ]
+  },
+  {
+    "id": "USE_ANIMAL_CTRL",
+    "type": "keybinding",
+    "category": "VEHICLE",
+    "name": "Harness an animal",
+    "bindings": [ { "input_method": "keyboard_any", "key": "H" } ]
+  },
+  {
+    "id": "USE_PLANTER",
+    "type": "keybinding",
+    "category": "VEHICLE",
+    "name": "Reload seed drill with seeds",
+    "bindings": [ { "input_method": "keyboard_any", "key": "s" } ]
   },
   {
     "id": "TOGGLE_AISLE_LIGHT",

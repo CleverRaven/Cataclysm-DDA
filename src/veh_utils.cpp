@@ -207,28 +207,49 @@ veh_menu_item &veh_menu_item::skip_theft_check( const bool skip_theft_check )
     return *this;
 }
 
+static cata::optional<input_event> veh_keybind( const cata::optional<std::string> &hotkey )
+{
+    if( !hotkey.has_value() || hotkey->empty() ) {
+        return cata::nullopt;
+    }
+
+    const std::vector<input_event> hk_keycode = input_context( "VEHICLE", keyboard_mode::keycode )
+            .keys_bound_to( *hotkey, /* maximum_modifier_count = */ 1 );
+    if( !hk_keycode.empty() ) {
+        return hk_keycode.front(); // try for keycode hotkey first
+    }
+
+    const std::vector<input_event> hk_keychar = input_context( "VEHICLE", keyboard_mode::keychar )
+            .keys_bound_to( *hotkey );
+    if( !hk_keychar.empty() ) {
+        return hk_keychar.front(); // fallback to keychar hotkey
+    }
+
+    return cata::nullopt;
+}
+
 veh_menu_item &veh_menu_item::hotkey( const char hotkey_char )
 {
-    if( this->_hotkey_event.has_value() ) {
-        debugmsg( "veh_menu_item::set_hotkey(char) called when hotkey input_event is already set" );
+    if( this->_hotkey_action.has_value() ) {
+        debugmsg( "veh_menu_item::set_hotkey(hotkey_char) called when hotkey action is already set" );
     }
     this->_hotkey_char = hotkey_char;
     return *this;
 }
 
-veh_menu_item &veh_menu_item::hotkey( const cata::optional<input_event> &hotkey_event )
+veh_menu_item &veh_menu_item::hotkey( const std::string &action )
 {
     if( this->_hotkey_char.has_value() ) {
-        debugmsg( "veh_menu_item::set_hotkey(input_event) called when hotkey char is already set" );
+        debugmsg( "veh_menu_item::set_hotkey(action) called when hotkey char is already set" );
     }
-    this->_hotkey_event = hotkey_event;
+    this->_hotkey_action = action;
     return *this;
 }
 
 veh_menu_item &veh_menu_item::hotkey_auto()
 {
     this->_hotkey_char = MENU_AUTOASSIGN;
-    this->_hotkey_event = cata::nullopt;
+    this->_hotkey_action = cata::nullopt;
     return *this;
 }
 
@@ -303,9 +324,9 @@ static std::vector<uilist_entry> get_uilist_entries( const std::vector<veh_menu_
 
     for( size_t i = 0; i < items.size(); i++ ) {
         const veh_menu_item &it = items[i];
-
-        uilist_entry entry = it._hotkey_event.has_value()
-                             ? uilist_entry( it._text, it._hotkey_event )
+        const cata::optional<input_event> hotkey_event = veh_keybind( it._hotkey_action );
+        uilist_entry entry = hotkey_event.has_value()
+                             ? uilist_entry( it._text, hotkey_event )
                              : uilist_entry( it._text, it._hotkey_char.value_or( 0 ) );
 
         entry.retval = static_cast<int>( i );
@@ -326,6 +347,14 @@ bool veh_menu::query()
     }
 
     uilist menu;
+
+    menu.input_category = "VEHICLE";
+    for( const veh_menu_item &it : items ) {
+        if( it._hotkey_action.has_value() ) {
+            menu.additional_actions.emplace_back( it._hotkey_action.value(), translation() );
+        }
+    }
+
     menu.title = title;
     menu.entries = get_uilist_entries( items );
     menu.desc_lines_hint = desc_lines_hint;

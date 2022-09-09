@@ -40,15 +40,15 @@ struct veh_menu_item {
     bool _check_theft = true;
     bool _keep_menu_open = false;
     cata::optional<char> _hotkey_char = cata::nullopt;
-    cata::optional<input_event> _hotkey_event = cata::nullopt;
+    cata::optional<std::string> _hotkey_action = cata::nullopt;
     std::function<void()> _on_submit;
 
     veh_menu_item &text( const std::string &text );
     veh_menu_item &desc( const std::string &desc );
     veh_menu_item &enable( bool enable );
     veh_menu_item &skip_theft_check( bool skip_theft_check = true );
-    veh_menu_item &hotkey( char hotkey );
-    veh_menu_item &hotkey( const cata::optional<input_event> &hotkey );
+    veh_menu_item &hotkey( char hotkey_char );
+    veh_menu_item &hotkey( const std::string &action );
     veh_menu_item &hotkey_auto();
     veh_menu_item &on_submit( const std::function<void()> &on_submit );
     veh_menu_item &keep_menu_open( bool keep_menu_open = true );
