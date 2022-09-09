@@ -300,11 +300,7 @@ if (TILES)
     endif ()
 
     message(STATUS "Searching for SDL2_image library --")
-    if(VCPKG_MANIFEST_MODE)
-        find_package(sdl2-image)
-    else()
-        find_package(SDL2_image)
-    endif()
+    find_package(SDL2_image)
     if (NOT (SDL2_IMAGE_FOUND OR TARGET SDL2::SDL2_image))
         message(FATAL_ERROR
                 "This project requires SDL2_image to be installed to compile in graphical mode. \
@@ -346,7 +342,7 @@ if (SOUND)
     message(STATUS "Searching for SDL2_mixer library --")
     find_package(SDL2_mixer)
     if(VCPKG_MANIFEST_MODE)
-        if (NOT TARGET SDL2_mixer::SDL2_mixer-static) # TODO x64-mingw-static
+        if (NOT TARGET SDL2_mixer::SDL2_mixer-static)
             message(FATAL_ERROR
                     "You need the SDL2_mixer development library \
                      to be able to compile with sound enabled. \
