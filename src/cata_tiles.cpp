@@ -660,6 +660,10 @@ void tileset_cache::loader::load( const std::string &tileset_id, const bool prec
         ts.tile_width = curr_info.get_int( "width" );
         ts.tile_isometric = curr_info.get_bool( "iso", false );
         ts.tile_pixelscale = curr_info.get_float( "pixelscale", 1.0f );
+        ts.retract_dist_min = curr_info.get_float( "retract_dist_min", -1.0f );
+        const float retract_dist_max = curr_info.get_float( "retract_dist_max", 0.0f );
+        const float dist_range = retract_dist_max - ts.retract_dist_min;
+        ts.retract_dist_slope = dist_range <= 0.0f ? 100.0 : 1.0 / dist_range;
     }
 
     if( precheck ) {
@@ -2493,7 +2497,14 @@ bool cata_tiles::draw_sprite_at(
                               ? tile.offset_retracted
                               : tile.offset_retracted
                               + ( ( tile.offset - tile.offset_retracted )
-                                  * static_cast<int>( 100 * clamp( ( distance - 1.5 ) / 2.0, 0.0, 1.0 ) )
+                                  * static_cast<int>(
+                                      100
+                                      * clamp(
+                                          ( distance - tileset_ptr->get_retract_dist_min() )
+                                          * tileset_ptr->get_retract_dist_slope(),
+                                          0.0f, 1.0f
+                                      )
+                                  )
                                 ) / 100
                             );
 

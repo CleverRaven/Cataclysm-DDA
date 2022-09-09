@@ -132,6 +132,9 @@ class tileset
         int tile_width = 0;
         int tile_height = 0;
 
+        float retract_dist_min = 0.0;
+        float retract_dist_slope = 0.0;
+
         // multiplier for pixel-doubling tilesets
         float tile_pixelscale = 1.0f;
 
@@ -175,6 +178,12 @@ class tileset
         }
         float get_tile_pixelscale() const {
             return tile_pixelscale;
+        }
+        float get_retract_dist_min() const {
+            return retract_dist_min;
+        }
+        float get_retract_dist_slope() const {
+            return retract_dist_slope;
         }
         const std::string &get_tileset_id() const {
             return tileset_id;
