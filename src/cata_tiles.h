@@ -133,7 +133,7 @@ class tileset
         int tile_height = 0;
 
         float retract_dist_min = 0.0;
-        float retract_dist_slope = 0.0;
+        float retract_dist_max = 0.0;
 
         // multiplier for pixel-doubling tilesets
         float tile_pixelscale = 1.0f;
@@ -182,8 +182,8 @@ class tileset
         float get_retract_dist_min() const {
             return retract_dist_min;
         }
-        float get_retract_dist_slope() const {
-            return retract_dist_slope;
+        float get_retract_dist_max() const {
+            return retract_dist_max;
         }
         const std::string &get_tileset_id() const {
             return tileset_id;
@@ -433,13 +433,13 @@ class cata_tiles
         bool draw_sprite_at(
             const tile_type &tile, const weighted_int_list<std::vector<int>> &svlist,
             const point &, unsigned int loc_rand, bool rota_fg, int rota, lit_level ll,
-            bool apply_night_vision_goggles, float distance );
+            bool apply_night_vision_goggles, float retract );
         bool draw_sprite_at(
             const tile_type &tile, const weighted_int_list<std::vector<int>> &svlist,
             const point &, unsigned int loc_rand, bool rota_fg, int rota, lit_level ll,
-            bool apply_night_vision_goggles, float distance, int &height_3d );
+            bool apply_night_vision_goggles, float retract, int &height_3d );
         bool draw_tile_at( const tile_type &tile, const point &, unsigned int loc_rand, int rota,
-                           lit_level ll, bool apply_night_vision_goggles, float distance, int &height_3d );
+                           lit_level ll, bool apply_night_vision_goggles, float retract, int &height_3d );
 
         /* Tile Picking */
         void get_tile_values( int t, const std::array<int, 4> &tn, int &subtile, int &rotation );

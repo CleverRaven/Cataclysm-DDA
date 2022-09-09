@@ -14,7 +14,7 @@ extern int message_ttl;
 extern int message_cooldown;
 extern int tile_retracted;
 extern float tile_retract_dist_min;
-extern float tile_retract_dist_slope;
+extern float tile_retract_dist_max;
 extern bool use_tiles;
 extern bool use_far_tiles;
 extern bool use_tiles_overmap;

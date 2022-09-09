@@ -2539,6 +2539,8 @@ void options_manager::add_options_debug()
          0, OVERMAP_LAYERS, 4
        );
 
+    add_empty_line();
+
     add( "RETRACT_ISO_WALLS", "debug", to_translation( "Draw walls retracted in ISO tile-sets" ),
     to_translation( "Draw walls normal, retracted, or automatically retracting near player." ), {
         { 0, to_translation( "Normal" ) }, { 1, to_translation( "Retracted" ) },
@@ -3548,9 +3550,7 @@ static void update_options_cache()
 
     tile_retracted = ::get_option<int>( "RETRACT_ISO_WALLS" );
     tile_retract_dist_min = ::get_option<float>( "RETRACT_DIST_MIN" );
-    const float retract_dist_max = ::get_option<float>( "RETRACT_DIST_MAX" );
-    const float dist_range = retract_dist_max - tile_retract_dist_min;
-    tile_retract_dist_slope = dist_range <= 0.0f ? 100.0 : 1.0 / dist_range;
+    tile_retract_dist_max = ::get_option<float>( "RETRACT_DIST_MAX" );
 
     // if the tilesets are identical don't duplicate
     use_far_tiles = ::get_option<bool>( "USE_DISTANT_TILES" ) ||
