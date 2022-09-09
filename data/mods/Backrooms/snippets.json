@@ -1,0 +1,99 @@
+[
+  {
+    "type": "snippet",
+    "category": "backrooms_note",
+    "text": [
+      { "id": "backrooms_note_1", "text": "\"I took all the supplies.  I'm sorry.\"" },
+      {
+        "id": "backrooms_note_2",
+        "text": "\"Someday I will wake up.  Someday I will wake up.  Someday I will wake up.  Someday I will\""
+      },
+      { "id": "backrooms_note_3", "text": "\"eat the walls\"" },
+      { "id": "backrooms_note_4", "text": "\"STAY QUIET\"" },
+      { "id": "backrooms_note_5", "text": "\"pray that you find the same peace I have found\"" },
+      { "id": "backrooms_note_6", "text": "\"IF YOU MOVE IT WILL HEAR YOU\"" },
+      {
+        "id": "backrooms_note_7",
+        "text": "\"My name is Susan Li.  If you're reading this, I'm dead.  I leave everything I own to\""
+      },
+      {
+        "id": "backrooms_note_8",
+        "text": "\"225 steps from the vending machines to the couch room…  141 steps from the couch room to the portal…\""
+      },
+      { "id": "backrooms_note_9", "text": "\"Welcome to Hell :)\"" },
+      { "id": "backrooms_note_9", "text": "\"Abandon hope, all ye who read this.\"" },
+      {
+        "id": "backrooms_note_10",
+        "text": "\"know because I was wearing my watch.  Today was another bad day.  They nearly saw me as I hauled wood back to the big room, and I lost half of it running away.  Tomorrow, I plan\""
+      },
+      {
+        "id": "backrooms_note_11",
+        "text": "\"I AM IN A TOP SECRET FACILITY BUILT BY THE GOVERNMENT!!  I HAVE BEEN ILLEGALLY KIDNAPPED!!  PLEASE HELP ME!!\""
+      },
+      {
+        "id": "backrooms_note_12",
+        "text": "\"What do you want?  Am I supposed to confess??  What am I waiting for???\""
+      },
+      { "id": "backrooms_note_13", "text": "\"…602,651  602,652  602,653  602,654  602,655  602,656  602,657…\"" },
+      {
+        "id": "backrooms_note_14",
+        "text": "\"I AM IN A SMALL ROOM WITH MANY DESKS.  I CAN'T STAY HERE.  COME FIND ME.\""
+      },
+      {
+        "id": "backrooms_note_15",
+        "text": "This note has a bunch of lines all over it.  It looks like it might be a map, but nothing is labeled and you're already hopelessly lost."
+      },
+      { "id": "backrooms_note_16", "text": "This paper is covered in dried blood…  Gross." },
+      { "id": "backrooms_note_17", "text": "This note is covered with tally marks, front to back." },
+      { "id": "backrooms_note_17", "text": "This note just has scribbles on it." },
+      { "id": "backrooms_note_18", "text": "\"NO NO NO NO NO NO NO NO NO NO NO NO NO NO NO NO NO NO NO NO\"" },
+      { "id": "backrooms_note_19", "text": "\"I KILLED THEM.  I HAD TO.\"" },
+      {
+        "id": "backrooms_note_20",
+        "text": "\"Casey Blumenthal.  Age 34.  Bangor, Maine.  Hotel receptionist.  The last thing I remember was tripping on a power cord.\""
+      },
+      { "id": "backrooms_note_21", "text": "\"STOP FOLLOWING ME\"" },
+      { "id": "backrooms_note_22", "text": "\"IT'S CHASING ME\"" }
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "backrooms_ancient_news",
+    "//": "This category is for news before 1900 and should adopt the tone of voice of its era.",
+    "text": [
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "backrooms_very_old_news",
+    "text": [
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "backrooms_old_news",
+    "text": [
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "backrooms_recent_news",
+    "text": [
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "backrooms_lost_people_news",
+    "//": "This category is for 'lost person' classified ads and newspaper snippets about people that have fallen into to the Backrooms, from any era.",
+    "text": [
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "backrooms_unknown_news",
+    "//": "This category is for snippets that don't make any logical sense.  They have been 'corrupted' by their movement into the Backrooms.",
+    "//2": "Snippets in this category should not be translated.",
+    "text": [
+    ]
+  }
+]
