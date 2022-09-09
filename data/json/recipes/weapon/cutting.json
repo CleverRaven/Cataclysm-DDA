@@ -531,7 +531,7 @@
     "using": [ [ "blacksmithing_standard", 12 ], [ "mc_steel_standard", 3 ] ],
     "qualities": [ { "id": "GRIND", "level": 2 } ],
     "tools": [ [ [ "hotcut", -1 ] ] ],
-    "components": [ [ [ "leather", 1 ], [ "mc_wire", 2 ] ] ] ]
+    "components": [ [ [ "leather", 1 ], [ "mc_wire", 2 ] ] ]
   },
   {
     "type": "recipe",
@@ -551,7 +551,7 @@
     "using": [ [ "blacksmithing_standard", 12 ], [ "hc_steel_standard", 3 ] ],
     "qualities": [ { "id": "GRIND", "level": 2 } ],
     "tools": [ [ [ "hotcut", -1 ] ] ],
-    "components": [ [ [ "leather", 1 ], [ "hc_wire", 2 ] ] ] ]
+    "components": [ [ [ "leather", 1 ], [ "hc_wire", 2 ] ] ]
   },
   {
     "type": "recipe",
@@ -697,7 +697,7 @@
     "using": [ [ "blacksmithing_standard", 12 ], [ "mc_steel_standard", 3 ] ],
     "qualities": [ { "id": "GRIND", "level": 2 } ],
     "tools": [ [ [ "hotcut", -1 ] ] ],
-    "components": [ [ [ "leather", 1 ], [ "mc_wire", 2 ] ] ] ]
+    "components": [ [ [ "leather", 1 ], [ "mc_wire", 2 ] ] ]
   },
   {
     "type": "recipe",
@@ -717,7 +717,7 @@
     "using": [ [ "blacksmithing_standard", 12 ], [ "hc_steel_standard", 3 ] ],
     "qualities": [ { "id": "GRIND", "level": 2 } ],
     "tools": [ [ [ "hotcut", -1 ] ] ],
-    "components": [ [ [ "leather", 1 ], [ "hc_wire", 2 ] ] ] ]
+    "components": [ [ [ "leather", 1 ], [ "hc_wire", 2 ] ] ]
   },
   {
     "type": "recipe",
