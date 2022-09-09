@@ -483,7 +483,7 @@
     "id": "rock",
     "symbol": "*",
     "color": "light_gray",
-    "name": { "str": "rock" },
+    "name": { "str": "rock", "ctxt": "stone" },
     "description": "A rock the size of a baseball.  Makes a decent melee weapon, and is also good for throwing at enemies.",
     "category": "spare_parts",
     "material": [ "stone" ],
