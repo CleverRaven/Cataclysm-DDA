@@ -3445,11 +3445,11 @@ int vehicle::consumption_per_hour( const itype_id &ftype, units::energy fuel_per
         return 0;
     }
 
-    // constant is 3600 sec/hr * 1/1000 J/kJ
-    // fuel_per_s is energy per X
-    // fuel.fuel_energy() is energy per L
-    // expression units are mL/hr
-    return -3.6 * fuel_per_s / fuel.fuel_energy() / 1000;
+    // constant is 3600 sec/hr * 1000 ml/L
+    // fuel_per_s is energy per second
+    // fuel energy is energy per L
+    // Returns mL/hr
+    return -3600 * 1000 * fuel_per_s / fuel.get_base_material().get_fuel_data().energy;
 }
 
 int vehicle::total_power_w( const bool fueled, const bool safe ) const
