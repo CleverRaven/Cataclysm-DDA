@@ -1521,7 +1521,7 @@ void Character::burn_fuel( bionic &bio, const auto_toggle_bionic_result &result 
                                       overmap_buffer.ter( global_omt_location() ), pos(), weather.winddirection,
                                       g->is_sheltered( pos() ) );
                 mod_power_level( result.fuel_energy * windpower *
-                                 result.effective_efficienc );
+                                 result.effective_efficiency );
             } else if( result.burnable_fuel_id == fuel_type_muscle ) {
                 // simply return
             }
