@@ -1534,6 +1534,7 @@ rhodonite
 rhytidome
 rhytidomes
 ribbonlike
+ridged
 riendly
 rigida
 riotbot
