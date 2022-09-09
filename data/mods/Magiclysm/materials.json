@@ -219,7 +219,7 @@
       { "fuel": 900, "smoke": 6, "burn": 3 }
     ],
     "fuel_data": {
-      "energy": 50,
+      "energy": "50000000 kJ",
       "explosion_data": { "chance_hot": 20, "chance_cold": 1000, "factor": 0.2, "fiery": true, "size_factor": 0.1 }
     }
   },
@@ -247,35 +247,35 @@
       { "fuel": -50, "smoke": 2, "burn": 1 },
       { "fuel": -10, "smoke": 2, "burn": 2 }
     ],
-    "fuel_data": { "energy": 1 }
+    "fuel_data": { "energy": "1000 kJ" }
   },
   {
     "type": "material",
     "id": "tainted_blood",
     "name": "Tainted blood",
     "copy-from": "blood",
-    "fuel_data": { "energy": 5 }
+    "fuel_data": { "energy": "5000 kJ" }
   },
   {
     "type": "material",
     "id": "alumentum",
     "name": "Alumentum",
     "copy-from": "charcoal",
-    "fuel_data": { "energy": 150 }
+    "fuel_data": { "energy": "150000 kJ" }
   },
   {
     "type": "material",
     "id": "crystallized_mana",
     "name": "Crystallized mana",
     "copy-from": "stone",
-    "fuel_data": { "energy": 1 }
+    "fuel_data": { "energy": "1000 kJ" }
   },
   {
     "type": "material",
     "id": "mana",
     "name": "Mana",
     "copy-from": "pseudo_fuel",
-    "fuel_data": { "energy": 500, "perpetual": true }
+    "fuel_data": { "energy": "500000 kJ", "perpetual": true }
   },
   {
     "type": "material",
