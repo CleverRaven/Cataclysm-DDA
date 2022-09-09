@@ -48,6 +48,7 @@
     "min_cycle_recoil": 23625,
     "reload": 400,
     "barrel_volume": "1250 ml",
+    "default_mods": [ "m3_tripod" ],
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 3 ] ],
     "valid_mod_locations": [
       [ "accessories", 4 ],

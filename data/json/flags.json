@@ -1734,6 +1734,10 @@
     "type": "json_flag"
   },
   {
+    "id": "TRIPOD",
+    "type": "json_flag"
+  },
+  {
     "id": "UNDERWATER_GUN",
     "type": "json_flag"
   },

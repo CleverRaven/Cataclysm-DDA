@@ -21,6 +21,7 @@
     "durability": 8,
     "min_cycle_recoil": 16875,
     "reload": 400,
+    "default_mods": [ "m3_tripod" ],
     "valid_mod_locations": [
       [ "accessories", 2 ],
       [ "barrel", 1 ],
