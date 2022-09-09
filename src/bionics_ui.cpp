@@ -35,8 +35,6 @@
 
 static const itype_id itype_battery( "battery" );
 
-static const material_id material_sunlight( "sunlight" );
-
 // '!', '-' and '=' are uses as default bindings in the menu
 static const invlet_wrapper
 bionic_chars( "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ\"#&()*+./:;@[\\]^_{|}" );
