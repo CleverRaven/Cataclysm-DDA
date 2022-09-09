@@ -2549,12 +2549,12 @@ void options_manager::add_options_debug()
        );
 
     add( "RETRACT_DIST_MIN", "debug", to_translation( "Minimum distance for auto-retracting walls" ),
-         to_translation( "Minimum distance for auto-retracting walls. Values above zero overwrite tileset settings." ),
+         to_translation( "Minimum distance for auto-retracting walls.  Values above zero overwrite tileset settings." ),
          0.0, 60.0, 0.0, 0.1
        );
 
     add( "RETRACT_DIST_MAX", "debug", to_translation( "Maximum distance for auto-retracting walls" ),
-         to_translation( "Maximum distance for auto-retracting walls. Values above zero overwrite tileset settings." ),
+         to_translation( "Maximum distance for auto-retracting walls.  Values above zero overwrite tileset settings." ),
          0.0, 60.0, 0.0, 0.1
        );
 

@@ -267,8 +267,10 @@ class Tileset:
             self.sprite_width = self.info[0].get('width', self.sprite_width)
             self.sprite_height = self.info[0].get('height', self.sprite_height)
             self.pixelscale = self.info[0].get('pixelscale', self.pixelscale)
-            self.retract_dist_min = self.info[0].get('retract_dist_min', self.retract_dist_min)
-            self.retract_dist_max = self.info[0].get('retract_dist_max', self.retract_dist_max)
+            self.retract_dist_min = self.info[0].get('retract_dist_min',
+                                                     self.retract_dist_min)
+            self.retract_dist_max = self.info[0].get('retract_dist_max',
+                                                     self.retract_dist_max)
             self.iso = self.info[0].get('iso', self.iso)
 
     def determine_conffile(self) -> str:
