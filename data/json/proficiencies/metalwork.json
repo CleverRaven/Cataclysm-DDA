@@ -132,7 +132,7 @@
     "type": "proficiency",
     "id": "prof_quenching",
     "category": "prof_smithing",
-    "name": { "str": "Quenching" },
+    "name": { "str": "Quenching & Tempering" },
     "description": "Quenching involves repeatedly heating the steel, quenching it in water, then tempering it to create extremely tough metal.",
     "can_learn": true,
     "default_time_multiplier": 3,
