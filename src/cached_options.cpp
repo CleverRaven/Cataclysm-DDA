@@ -8,6 +8,8 @@ int message_ttl;
 int message_cooldown;
 bool test_mode;
 int tile_retracted;
+float tile_retract_dist_min;
+float tile_retract_dist_slope;
 bool use_tiles;
 bool use_far_tiles;
 bool use_tiles_overmap;

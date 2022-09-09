@@ -2546,6 +2546,17 @@ void options_manager::add_options_debug()
     }, 0, 0
        );
 
+    add( "RETRACT_DIST_MIN", "debug", to_translation( "Minimum distance for auto-retracting walls" ),
+         to_translation( "Minimum distance for auto-retracting walls. Values above zero overwrite tileset settings." ),
+         0.0, 60.0, 0.0, 0.1
+       );
+
+    add( "RETRACT_DIST_MAX", "debug", to_translation( "Maximum distance for auto-retracting walls" ),
+         to_translation( "Maximum distance for auto-retracting walls. Values above zero overwrite tileset settings." ),
+         0.0, 60.0, 0.0, 0.1
+       );
+
+
     get_option( "FOV_3D_Z_RANGE" ).setPrerequisite( "FOV_3D" );
 }
 
@@ -3534,7 +3545,13 @@ static void update_options_cache()
     // cache to global due to heavy usage.
     trigdist = ::get_option<bool>( "CIRCLEDIST" );
     use_tiles = ::get_option<bool>( "USE_TILES" );
+
     tile_retracted = ::get_option<int>( "RETRACT_ISO_WALLS" );
+    tile_retract_dist_min = ::get_option<float>( "RETRACT_DIST_MIN" );
+    const float retract_dist_max = ::get_option<float>( "RETRACT_DIST_MAX" );
+    const float dist_range = retract_dist_max - tile_retract_dist_min;
+    tile_retract_dist_slope = dist_range <= 0.0f ? 100.0 : 1.0 / dist_range;
+
     // if the tilesets are identical don't duplicate
     use_far_tiles = ::get_option<bool>( "USE_DISTANT_TILES" ) ||
                     get_option<std::string>( "TILES" ) == get_option<std::string>( "DISTANT_TILES" );
