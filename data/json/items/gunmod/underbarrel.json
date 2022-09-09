@@ -25,8 +25,8 @@
     "type": "GUNMOD",
     "name": { "str": "M3 tripod" },
     "description": "This solid-metal tripod is a weapon mount used on the M2HB Browning machine gun and the Mk19 grenade launcher, allowing them to be fired on any terrain, but requires the user to be in a prone position.",
-    "weight": "20000 g",
-    "volume": "4500 ml",
+    "weight": "22800 g",
+    "volume": "8500 ml",
     "price": 68000,
     "price_postapoc": 1000,
     "install_time": "2 m",
@@ -42,6 +42,15 @@
     "handling_modifier": 23,
     "min_skills": [ [ "weapon", 3 ] ],
     "flags": [ "TRIPOD", "SLOW_WIELD" ]
+  },
+  {
+    "id": "m205_tripod",
+    "name": { "str": "M205 tripod" },
+    "description": "This is a modern replacement for the old M3 tripod. The M205 is a weapon mount used on the M2HB Browning machine gun and the Mk19 grenade launcher, allowing them to be fired on any terrain, but requires the user to be in a prone position.",
+    "copy-from": "m3_tripod",
+    "weight": "15400 g",
+    "volume": "7500 ml",
+    "price_postapoc": 2000
   },
   {
     "id": "bipod_mod",
