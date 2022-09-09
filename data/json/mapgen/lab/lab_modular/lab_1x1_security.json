@@ -523,7 +523,7 @@
         { "monster": "GROUP_LAB_MILITARY", "x": [ 16, 20 ], "y": [ 8, 12 ], "chance": 100, "repeat": [ 1, 3 ] }
       ],
       "place_loot": [ { "item": "huge_atomic_battery_cell", "x": 21, "y": [ 15, 16 ], "chance": 85 } ],
-      "place_monster": [ { "monster": [ "mon_mech_recon", "mon_mech_combat" ], "x": 15, "y": [ 15, 16 ], "chance": 85 } ],
+      "place_monster": [ { "monster": [ "mon_mech_recon", "mon_mech_combat", "mon_mech_lifter"  ], "x": 15, "y": [ 15, 16 ], "chance": 85 } ],
       "items": {
         "q": { "item": "guns_milspec", "chance": 40, "repeat": [ 1, 2 ] },
         "Q": { "item": "SUS_rivtech_loot", "chance": 80 },
