@@ -24,7 +24,7 @@
     "id": "m3_tripod",
     "type": "GUNMOD",
     "name": { "str": "M3 tripod" },
-    "description": "This solid-metal tripod is a weapon mount used on the M2HB Browning machine gun and the Mk19 grenade launcher, allowing them to be fired on any terrain, but requires the user is in a prone position.",
+    "description": "This solid-metal tripod is a weapon mount used on the M2HB Browning machine gun and the Mk19 grenade launcher, allowing them to be fired on any terrain, but requires the user to be in a prone position.",
     "weight": "20000 g",
     "volume": "4500 ml",
     "price": 68000,
