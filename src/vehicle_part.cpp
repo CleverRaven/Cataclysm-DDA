@@ -715,8 +715,7 @@ bool vehicle::assign_seat( vehicle_part &pt, const npc &who )
 
 std::string vehicle_part::carried_name() const
 {
-    if( carry_names.empty() ) {
-        return std::string();
-    }
-    return carry_names.top().substr( name_offset );
+    return carried_stack.empty()
+           ? std::string()
+           : carried_stack.top().veh_name;
 }
