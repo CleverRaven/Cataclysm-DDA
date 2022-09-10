@@ -167,11 +167,6 @@ void vehicle::control_doors()
     do {
         menu.reset();
 
-        for( const vpart_reference &vp_motor : get_avail_parts( "DOOR_MOTOR" ) ) {
-            add_openable( menu, next_part_to_open( vp_motor.part_index() ) );
-            add_openable( menu, next_part_to_close( vp_motor.part_index() ) );
-        }
-
         menu.add( _( "Open all curtains" ) )
         .hotkey_auto()
         .location( get_player_character().pos() )
@@ -191,6 +186,11 @@ void vehicle::control_doors()
         .hotkey_auto()
         .location( get_player_character().pos() )
         .on_submit( [&open_or_close_all] { open_or_close_all( false, "" ); } );
+
+        for( const vpart_reference &vp_motor : get_avail_parts( "DOOR_MOTOR" ) ) {
+            add_openable( menu, next_part_to_open( vp_motor.part_index() ) );
+            add_openable( menu, next_part_to_close( vp_motor.part_index() ) );
+        }
 
         if( menu.get_items_size() == 4 ) {
             debugmsg( "vehicle::control_doors called but no door motors found" );
@@ -242,6 +242,31 @@ void vehicle::build_electronics_menu( veh_menu &menu )
     // exit early if you can't control the vehicle
     if( is_locked ) {
         return;
+    }
+
+    if( has_part( "DOOR_MOTOR" ) ) {
+        menu.add( _( "Control doors and curtains" ) )
+        .hotkey( "TOGGLE_DOORS" )
+        .on_submit( [this] { control_doors(); } );
+    }
+
+    if( camera_on || ( has_part( "CAMERA" ) && has_part( "CAMERA_CONTROL" ) ) ) {
+        menu.add( camera_on
+                  ? colorize( _( "Turn off camera system" ), c_pink )
+                  : _( "Turn on camera system" ) )
+        .enable( fuel_left( fuel_type_battery, true ) )
+        .hotkey( "TOGGLE_CAMERA" )
+        .keep_menu_open()
+        .on_submit( [&] {
+            if( camera_on )
+            {
+                add_msg( _( "Camera system disabled" ) );
+            } else
+            {
+                add_msg( _( "Camera system enabled" ) );
+            }
+            camera_on = !camera_on;
+        } );
     }
 
     auto add_toggle = [this, &menu]( const std::string & name, const std::string & action,
@@ -298,33 +323,6 @@ void vehicle::build_electronics_menu( veh_menu &menu )
                 "TOGGLE_WATER_PURIFIER", "WATER_PURIFIER" );
     add_toggle( pgettext( "electronics menu option", "smart controller" ),
                 "TOGGLE_SMART_ENGINE_CONTROLLER", "SMART_ENGINE_CONTROLLER" );
-
-    if( has_part( "DOOR_MOTOR" ) ) {
-        menu.add( _( "Toggle doors" ) )
-        .hotkey( "TOGGLE_DOORS" )
-        .on_submit( [this] { control_doors(); } );
-    }
-    if( camera_on || ( has_part( "CAMERA" ) && has_part( "CAMERA_CONTROL" ) ) ) {
-        menu.add( camera_on
-                  ? colorize( _( "Turn off camera system" ), c_pink )
-                  : _( "Turn on camera system" ) )
-        .hotkey( "TOGGLE_CAMERA" )
-        .keep_menu_open()
-        .on_submit( [&] {
-            if( camera_on )
-            {
-                camera_on = false;
-                add_msg( _( "Camera system disabled" ) );
-            } else if( fuel_left( fuel_type_battery, true ) )
-            {
-                camera_on = true;
-                add_msg( _( "Camera system enabled" ) );
-            } else
-            {
-                add_msg( _( "Camera system won't turn on" ) );
-            }
-        } );
-    }
 
     for( const vpart_reference &arc_vp : get_any_parts( "ARCADE" ) ) {
         if( arc_vp.part().enabled ) {
@@ -1742,14 +1740,29 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint &p, bool with_
 
     // @returns true if pos contains available part with a flag
     const auto has_part_here = [this, vppos]( const std::string & flag ) {
-        return !get_parts_at( vppos, flag, part_status_flag::available ).empty();
+        return !get_parts_at( vppos, flag, part_status_flag::working ).empty();
     };
 
-    bool remote = g->remoteveh() == this;
-    bool has_electronic_controls = remote
-                                   ? has_part( "CTRL_ELECTRONIC" ) || has_part( "REMOTE_CONTROLS" )
-                                   : has_part_here( "CTRL_ELECTRONIC" );
-    bool controls_here = has_part_here( "CONTROLS" );
+    const bool remote = g->remoteveh() == this;
+    const bool has_electronic_controls = remote
+                                         ? has_part( "CTRL_ELECTRONIC" ) || has_part( "REMOTE_CONTROLS" )
+                                         : has_part_here( "CTRL_ELECTRONIC" );
+    const bool controls_here = has_part_here( "CONTROLS" );
+    const bool player_is_driving = get_player_character().controlling_vehicle;
+
+    if( !has_tag( flag_APPLIANCE ) && !player_is_driving ) {
+        menu.add( _( "Examine vehicle" ) )
+        .skip_theft_check()
+        .hotkey( "EXAMINE_VEHICLE" )
+        .on_submit( [this] { g->exam_vehicle( *this ); } );
+
+        menu.add( tracking_on ? _( "Forget vehicle position" ) : _( "Remember vehicle position" ) )
+        .skip_theft_check()
+        .keep_menu_open()
+        .hotkey( "TOGGLE_TRACKING" )
+        .on_submit( [this] { toggle_tracking(); } );
+    }
+
     if( remote ) {
         menu.add( _( "Stop controlling" ) )
         .hotkey( "RELEASE_CONTROLS" )
@@ -1761,7 +1774,7 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint &p, bool with_
         } );
     } else {
         if( has_part( "ENGINE" ) ) {
-            if( ( controls_here && get_player_character().controlling_vehicle ) || ( remote && engine_on ) ) {
+            if( ( controls_here && player_is_driving ) || ( remote && engine_on ) ) {
                 menu.add( _( "Stop driving" ) )
                 .hotkey( "TOGGLE_ENGINE" )
                 .skip_theft_check()
@@ -1794,7 +1807,7 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint &p, bool with_
             }
         }
 
-        if( get_player_character().controlling_vehicle ) {
+        if( player_is_driving ) {
             menu.add( _( "Let go of controls" ) )
             .hotkey( "RELEASE_CONTROLS" )
             .skip_theft_check()
@@ -1815,23 +1828,14 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint &p, bool with_
         }
     }
 
-    if( !has_tag( flag_APPLIANCE ) ) {
-        menu.add( _( "Examine vehicle" ) )
-        .skip_theft_check()
-        .hotkey( "EXAMINE_VEHICLE" )
-        .on_submit( [this] { g->exam_vehicle( *this ); } );
-
-        menu.add( tracking_on ? _( "Forget vehicle position" ) : _( "Remember vehicle position" ) )
-        .skip_theft_check()
-        .keep_menu_open()
-        .hotkey( "TOGGLE_TRACKING" )
-        .on_submit( [this] { toggle_tracking(); } );
-    }
-
     if( controls_here && has_part( "AUTOPILOT" ) && has_electronic_controls ) {
         menu.add( _( "Control autopilot" ) )
         .hotkey( "CONTROL_AUTOPILOT" )
         .on_submit( [this] { toggle_autopilot(); } );
+    }
+
+    if( !is_locked && vp.avail_part_with_feature( "CTRL_ELECTRONIC" ) ) {
+        build_electronics_menu( menu );
     }
 
     if( controls_here ) {
@@ -1850,9 +1854,9 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint &p, bool with_
         .on_submit( [this] { start_folding_activity(); } );
     }
 
-    if( has_part( "SMART_ENGINE_CONTROLLER" ) ) {
+    if( has_electronic_controls && has_part( "SMART_ENGINE_CONTROLLER" ) ) {
         menu.add( _( "Smart controller settings" ) )
-        .hotkey( "TOGGLE_SMART_ENGINE_CONTROLLER" )
+        .hotkey( "CONTROL_SMART_ENGINE" )
         .on_submit( [this] {
             if( !smart_controller_cfg )
             {
@@ -1887,6 +1891,32 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint &p, bool with_
         }
     }
 
+    const turret_data turret = turret_query( vp.pos() );
+
+    if( turret.can_unload() ) {
+        menu.add( string_format( _( "Unload %s" ), turret.name() ) )
+        .hotkey( "UNLOAD_TURRET" )
+        .on_submit( [this, vppos] {
+            item_location loc = turret_query( vppos ).base();
+            get_player_character().unload( loc );
+        } );
+    }
+
+    if( turret.can_reload() ) {
+        menu.add( string_format( _( "Reload %s" ), turret.name() ) )
+        .hotkey( "RELOAD_TURRET" )
+        .on_submit( [this, vppos] {
+            item_location loc = turret_query( vppos ).base();
+            item::reload_option opt = get_player_character().select_ammo( loc, true );
+            if( opt )
+            {
+                std::vector<item_location> targets { { opt.target, std::move( opt.ammo ) } };
+                reload_activity_actor reload_act( opt.moves(), opt.qty(), targets );
+                get_player_character().assign_activity( player_activity( reload_act ) );
+            }
+        } );
+    }
+
     if( controls_here && has_part( "TURRET" ) ) {
         menu.add( _( "Set turret targeting modes" ) )
         .hotkey( "TURRET_TARGET_MODE" )
@@ -1917,10 +1947,6 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint &p, bool with_
             .hotkey( "SOUND_HORN" )
             .on_submit( [this] { honk_horn(); } );
         }
-    }
-
-    if( !is_locked && vp.avail_part_with_feature( "CTRL_ELECTRONIC" ) ) {
-        build_electronics_menu( menu );
     }
 
     for( const std::pair<itype_id, int> &pair : vp.get_tools() ) {
@@ -1976,33 +2002,6 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint &p, bool with_
         .hotkey( "GET_ITEMS" )
         .skip_theft_check()
         .on_submit( [vppos] { g->pickup( vppos ); } );
-    }
-
-    const turret_data turret = turret_query( vp.pos() );
-
-    if( turret.can_unload() ) {
-        menu.add( string_format( _( "Unload %s" ), turret.name() ) )
-        .hotkey( "UNLOAD_TURRET" )
-        .on_submit( [this, vppos] {
-            const turret_data turret = turret_query( vppos );
-            item_location loc = turret.base();
-            get_player_character().unload( loc );
-        } );
-    }
-
-    if( turret.can_reload() ) {
-        menu.add( string_format( _( "Reload %s" ), turret.name() ) )
-        .hotkey( "RELOAD_TURRET" )
-        .on_submit( [this, vppos] {
-            item_location loc = turret_query( vppos ).base();
-            item::reload_option opt = get_player_character().select_ammo( loc, true );
-            if( opt )
-            {
-                std::vector<item_location> targets { { opt.target, std::move( opt.ammo ) } };
-                reload_activity_actor reload_act( opt.moves(), opt.qty(), targets );
-                get_player_character().assign_activity( player_activity( reload_act ) );
-            }
-        } );
     }
 
     const cata::optional<vpart_reference> vp_curtain = vp.avail_part_with_feature( "CURTAIN" );

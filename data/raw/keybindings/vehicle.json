@@ -70,6 +70,13 @@
     "bindings": [ { "input_method": "keyboard_any", "key": "s" } ]
   },
   {
+    "id": "CONTROL_SMART_ENGINE",
+    "type": "keybinding",
+    "category": "VEHICLE",
+    "name": "Smart controller settings",
+    "bindings": [  ]
+  },
+  {
     "id": "TOGGLE_AUTOCLAVE",
     "type": "keybinding",
     "category": "VEHICLE",
@@ -207,7 +214,7 @@
     "type": "keybinding",
     "category": "VEHICLE",
     "name": "Toggle cruise control",
-    "bindings": [ { "input_method": "keyboard_any", "key": "c" } ]
+    "bindings": [  ]
   },
   {
     "id": "TOGGLE_DOME_LIGHT",
