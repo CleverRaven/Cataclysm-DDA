@@ -1643,6 +1643,17 @@ std::vector<vehicle::unrackable_vehicle> vehicle::find_vehicles_to_unrack( int r
         commit_vehicle();
     }
 
+    // collect total number of parts for each racked vehicle
+    std::map<std::string, size_t> racked_parts_per_veh;
+    for( const vehicle_part &vp : real_parts() ) {
+        racked_parts_per_veh[vp.carried_name()]++;
+    }
+    // filter out not vehicles not fully "located" on the given rack (corner-scanned)
+    unrackables.erase( std::remove_if( unrackables.begin(), unrackables.end(),
+    [&racked_parts_per_veh]( const unrackable_vehicle & unrackable ) {
+        return unrackable.parts.size() != racked_parts_per_veh[unrackable.name];
+    } ), unrackables.end() );
+
     return unrackables;
 }
 
