@@ -47,7 +47,7 @@
   {
     "type": "construction_group",
     "id": "build_armchair",
-    "name": "Build Armchair"
+    "name": "Place an armchair"
   },
   {
     "type": "construction_group",
