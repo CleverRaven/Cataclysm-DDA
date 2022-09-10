@@ -736,11 +736,6 @@
   },
   {
     "type": "construction_group",
-    "id": "build_sofa",
-    "name": "Build Sofa"
-  },
-  {
-    "type": "construction_group",
     "id": "build_spinwheel",
     "name": "Build Spinwheel"
   },
