@@ -18,6 +18,7 @@ Things are a bit more stable now, but nobody is left alive to appreciate that.
 ### Timeline
 
 Note: Canon date of game start is in "YEAR", which equals the IRL year the game world was created +1.
+Additional information can also be found in the [newspaper snippets](https://github.com/CleverRaven/Cataclysm-DDA/blob/master/data/json/snippets/newspapers.json). Related files in the directory may also be of use.
 
 #### YEAR -35 or so
 - An interdimensional traveler from an alternate earth crash lands a portal traveling vessel in the American Midwest. The traveler dies, the vessel is appropriated by the US government and starts a chain of research.  The technology is very similar to Earth tech of the 1990s, but the actual dimensional travelling technology is as-yet undeveloped, and there are examples of equivalent but divergent energy technologies: there is a simple but functional high-capacity fuel cell on board, using mostly Earth accessible designs but with a few exotic components that will take time to reverse engineer.
@@ -66,6 +67,7 @@ Note: Canon date of game start is in "YEAR", which equals the IRL year the game 
 - **December 18**: Sample XE-037 is brought back to Earth from the netherum. It is about thirty grams of blob matter. Standard decontamination protocols are observed. However, standard protocols do not take into account the possibility of malicious, intelligent molecular-scale contaminants. Microscopic particles of XE-037 migrate from the contamination filters onto the skin of scientists and escape containment. Soon after, the Blob enters the groundwater and begins to spread at extremely low concentrations.
 
 #### Year -1
+- **March**: The first effects of the blob contamination become visible as bees two or even three times their size are sighted. They are non-aggressive and appear to cause more good than harm due to increased honey production.
 - **July**: Several smaller powered exoskeletons, including both the private defence contractor Rivtech's version and a US government one, are released for field use.
 - **November**: Laser weapons powered by new energy technology are made widely available to military procurement, albeit still in small numbers.
 
