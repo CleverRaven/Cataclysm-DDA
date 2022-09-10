@@ -207,6 +207,12 @@ veh_menu_item &veh_menu_item::skip_theft_check( const bool skip_theft_check )
     return *this;
 }
 
+veh_menu_item &veh_menu_item::skip_locked_check( const bool skip_locked_check )
+{
+    this->_check_locked = !skip_locked_check;
+    return *this;
+}
+
 static cata::optional<input_event> veh_keybind( const cata::optional<std::string> &hotkey )
 {
     if( !hotkey.has_value() || hotkey->empty() ) {
@@ -318,7 +324,7 @@ void veh_menu::reset( bool keep_last_selected )
     items.clear();
 }
 
-static std::vector<uilist_entry> get_uilist_entries( const std::vector<veh_menu_item> &items )
+std::vector<uilist_entry> veh_menu::get_uilist_entries() const
 {
     std::vector<uilist_entry> entries;
 
@@ -332,6 +338,14 @@ static std::vector<uilist_entry> get_uilist_entries( const std::vector<veh_menu_
         entry.retval = static_cast<int>( i );
         entry.desc = it._desc;
         entry.enabled = it._enabled;
+
+        if( it._check_locked && veh.is_locked ) {
+            entry.enabled = false;
+            if( !entry.desc.empty() ) {
+                entry.desc += "\n";
+            }
+            entry.desc += _( "Vehicle is locked." );
+        }
 
         entries.push_back( entry );
     }
@@ -356,13 +370,13 @@ bool veh_menu::query()
     }
 
     menu.title = title;
-    menu.entries = get_uilist_entries( items );
+    menu.entries = get_uilist_entries();
     menu.desc_lines_hint = desc_lines_hint;
     menu.desc_enabled = std::any_of( menu.entries.begin(), menu.entries.end(),
     []( const uilist_entry & it ) {
         return !it.desc.empty();
     } );
-    menu.hilight_disabled = menu.desc_enabled;
+    menu.hilight_disabled = true;
 
     const std::vector<tripoint> locations = get_locations();
     pointmenu_cb callback( locations );

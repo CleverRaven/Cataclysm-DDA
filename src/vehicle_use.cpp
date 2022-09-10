@@ -239,11 +239,6 @@ static void add_electronic_toggle( vehicle &veh, veh_menu &menu, const std::stri
 
 void vehicle::build_electronics_menu( veh_menu &menu )
 {
-    // exit early if you can't control the vehicle
-    if( is_locked ) {
-        return;
-    }
-
     if( has_part( "DOOR_MOTOR" ) ) {
         menu.add( _( "Control doors and curtains" ) )
         .hotkey( "TOGGLE_DOORS" )
@@ -393,35 +388,6 @@ void vehicle::control_engines()
     if( engine_on ) {
         start_engines();
     }
-}
-
-bool vehicle::interact_vehicle_locked()
-{
-    if( !is_locked ) {
-        return true;
-    }
-
-    Character &player_character = get_player_character();
-    add_msg( _( "You don't find any keys in the %s." ), name );
-    const inventory &inv = player_character.crafting_inventory();
-    if( inv.has_quality( qual_SCREW ) ) {
-        if( query_yn( _( "You don't find any keys in the %s. Attempt to hotwire vehicle?" ), name ) ) {
-            ///\EFFECT_MECHANICS speeds up vehicle hotwiring
-            int skill = player_character.get_skill_level( skill_mechanics );
-            const int moves = to_moves<int>( 6000_seconds / ( ( skill > 0 ) ? skill : 1 ) );
-            tripoint target = global_square_location().raw() + coord_translate( parts[0].mount );
-            player_character.assign_activity(
-                player_activity( hotwire_car_activity_actor( moves, target ) ) );
-        } else if( has_security_working() && query_yn( _( "Trigger the %s's Alarm?" ), name ) ) {
-            is_alarm_on = true;
-        } else {
-            add_msg( _( "You leave the controls alone." ) );
-        }
-    } else {
-        add_msg( _( "You could use a screwdriver to hotwire it." ) );
-    }
-
-    return false;
 }
 
 void vehicle::smash_security_system()
@@ -1626,6 +1592,7 @@ void vehicle::build_bike_rack_menu( veh_menu &menu, int part )
                : "" )
         .enable( !has_this_name_racked )
         .hotkey_auto()
+        .skip_locked_check()
         .on_submit( [this, rackable] {
             bikerack_racking_activity_actor rack( *this, *rackable.veh, rackable.racks );
             get_player_character().assign_activity( player_activity( rack ), false );
@@ -1637,6 +1604,7 @@ void vehicle::build_bike_rack_menu( veh_menu &menu, int part )
     for( const unrackable_vehicle &unrackable : find_vehicles_to_unrack( part ) ) {
         menu.add( string_format( _( "Remove the %s from the rack" ), unrackable.name ) )
         .hotkey_auto()
+        .skip_locked_check()
         .on_submit( [this, unrackable] {
             bikerack_unracking_activity_actor unrack( *this, unrackable.parts, unrackable.racks );
             get_player_character().assign_activity( player_activity( unrack ), false );
@@ -1648,7 +1616,8 @@ void vehicle::build_bike_rack_menu( veh_menu &menu, int part )
     if( !has_rack_actions ) {
         menu.add( _( "Bike rack is empty" ) )
         .desc( _( "Nothing to take off or put on the rack is nearby." ) )
-        .enable( false );
+        .enable( false )
+        .skip_locked_check();
     }
 }
 
@@ -1753,14 +1722,51 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint &p, bool with_
     if( !has_tag( flag_APPLIANCE ) && !player_is_driving ) {
         menu.add( _( "Examine vehicle" ) )
         .skip_theft_check()
+        .skip_locked_check()
         .hotkey( "EXAMINE_VEHICLE" )
         .on_submit( [this] { g->exam_vehicle( *this ); } );
 
         menu.add( tracking_on ? _( "Forget vehicle position" ) : _( "Remember vehicle position" ) )
         .skip_theft_check()
+        .skip_locked_check()
         .keep_menu_open()
         .hotkey( "TOGGLE_TRACKING" )
         .on_submit( [this] { toggle_tracking(); } );
+    }
+
+    if( is_locked && controls_here ) {
+        menu.add( _( "Hotwire" ) )
+        .enable( get_player_character().crafting_inventory().has_quality( qual_SCREW ) )
+        .desc( _( "Attempt to hotwire the car using a screwdriver." ) )
+        .skip_locked_check()
+        .hotkey( "HOTWIRE" )
+        .on_submit( [this] {
+            ///\EFFECT_MECHANICS speeds up vehicle hotwiring
+            const int skill = std::max( 1, get_player_character().get_skill_level( skill_mechanics ) );
+            const int moves = to_moves<int>( 6000_seconds / skill );
+            const tripoint target = global_square_location().raw() + coord_translate( parts[0].mount );
+            const hotwire_car_activity_actor hotwire_act( moves, target );
+            get_player_character().assign_activity( player_activity( hotwire_act ) );
+        } );
+
+        if( !is_alarm_on ) {
+            menu.add( _( "Trigger the alarm" ) )
+            .enable( has_security_working() )
+            .desc( _( "Trigger the alarm to make noise." ) )
+            .skip_locked_check()
+            .hotkey( "TOGGLE_ALARM" )
+            .on_submit( [this] {
+                is_alarm_on = true;
+                add_msg( _( "You trigger the alarm" ) );
+            } );
+        } else { // alarm is on
+            if( velocity == 0 && !remote ) {
+                menu.add( _( "Try to disarm alarm" ) )
+                .skip_locked_check()
+                .hotkey( "TOGGLE_ALARM" )
+                .on_submit( [this] { smash_security_system(); } );
+            }
+        }
     }
 
     if( remote ) {
@@ -1810,6 +1816,7 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint &p, bool with_
         if( player_is_driving ) {
             menu.add( _( "Let go of controls" ) )
             .hotkey( "RELEASE_CONTROLS" )
+            .skip_locked_check() // in case player somehow controls locked vehicle
             .skip_theft_check()
             .on_submit( [] {
                 get_player_character().controlling_vehicle = false;
@@ -1834,7 +1841,7 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint &p, bool with_
         .on_submit( [this] { toggle_autopilot(); } );
     }
 
-    if( !is_locked && vp.avail_part_with_feature( "CTRL_ELECTRONIC" ) ) {
+    if( vp.avail_part_with_feature( "CTRL_ELECTRONIC" ) ) {
         build_electronics_menu( menu );
     }
 
@@ -1846,12 +1853,6 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint &p, bool with_
             cruise_on = !cruise_on;
             add_msg( cruise_on ? _( "Cruise control turned on" ) : _( "Cruise control turned off" ) );
         } );
-    }
-
-    if( is_foldable() && !remote ) {
-        menu.add( string_format( _( "Fold %s" ), name ) )
-        .hotkey( "FOLD_VEHICLE" )
-        .on_submit( [this] { start_folding_activity(); } );
     }
 
     if( has_electronic_controls && has_part( "SMART_ENGINE_CONTROLLER" ) ) {
@@ -1875,27 +1876,12 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint &p, bool with_
         } );
     }
 
-    if( is_alarm_on ) {
-        if( velocity == 0 && !remote ) {
-            menu.add( _( "Try to disarm alarm" ) )
-            .hotkey( "TOGGLE_ALARM" )
-            .on_submit( [this] { smash_security_system(); } );
-
-        } else if( has_electronic_controls && has_part( "SECURITY" ) ) {
-            menu.add( _( "Trigger alarm" ) )
-            .hotkey( "TOGGLE_ALARM" )
-            .on_submit( [this] {
-                is_alarm_on = true;
-                add_msg( _( "You trigger the alarm" ) );
-            } );
-        }
-    }
-
     const turret_data turret = turret_query( vp.pos() );
 
     if( turret.can_unload() ) {
         menu.add( string_format( _( "Unload %s" ), turret.name() ) )
         .hotkey( "UNLOAD_TURRET" )
+        .skip_locked_check()
         .on_submit( [this, vppos] {
             item_location loc = turret_query( vppos ).base();
             get_player_character().unload( loc );
@@ -1905,6 +1891,7 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint &p, bool with_
     if( turret.can_reload() ) {
         menu.add( string_format( _( "Reload %s" ), turret.name() ) )
         .hotkey( "RELOAD_TURRET" )
+        .skip_locked_check()
         .on_submit( [this, vppos] {
             item_location loc = turret_query( vppos ).base();
             item::reload_option opt = get_player_character().select_ammo( loc, true );
@@ -1944,6 +1931,7 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint &p, bool with_
     if( controls_here ) {
         if( has_part( "HORN" ) ) {
             menu.add( _( "Honk horn" ) )
+            .skip_locked_check()
             .hotkey( "SOUND_HORN" )
             .on_submit( [this] { honk_horn(); } );
         }
@@ -1959,6 +1947,7 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint &p, bool with_
         menu.add( _( "Use " ) + tool->nname( 1 ) )
         .enable( fuel_left( itype_battery, true ) >= tool->charges_to_use() )
         .hotkey( hotkey )
+        .skip_locked_check( !tool_wants_battery( tool ) )
         .on_submit( [this, vppos, tool] { use_vehicle_tool( *this, vppos, tool ); } );
     }
 
@@ -2000,6 +1989,7 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint &p, bool with_
             ( vp_cargo && !get_items( vp_cargo->part_index() ).empty() ) ) ) {
         menu.add( _( "Get items" ) )
         .hotkey( "GET_ITEMS" )
+        .skip_locked_check()
         .skip_theft_check()
         .on_submit( [vppos] { g->pickup( vppos ); } );
     }
@@ -2008,6 +1998,7 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint &p, bool with_
     if( vp_curtain && !vp_curtain->part().open ) {
         menu.add( _( "Peek through the closed curtains" ) )
         .hotkey( "CURTAIN_PEEK" )
+        .skip_locked_check()
         .on_submit( [vppos] {
             add_msg( _( "You carefully peek through the curtains." ) );
             g->peek( vppos );
@@ -2017,10 +2008,12 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint &p, bool with_
     if( vp.part_with_tool( itype_water_faucet ) && fuel_left( itype_water_clean ) > 0 ) {
         menu.add( _( "Fill a container with water" ) )
         .hotkey( "FAUCET_FILL" )
+        .skip_locked_check()
         .on_submit( [this] { get_player_character().siphon( *this, itype_water_clean ); } );
 
         menu.add( _( "Have a drink" ) )
         .hotkey( "FAUCET_DRINK" )
+        .skip_locked_check()
         .on_submit( [this] {
             const item water( itype_water_clean, calendar::turn_zero );
             if( get_player_character().can_consume_as_is( water ) )
@@ -2097,10 +2090,17 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint &p, bool with_
         const size_t wb_idx = vp_workbench->part_index();
         menu.add( string_format( _( "Craft at the %s" ), vp_workbench->part().name() ) )
         .hotkey( "USE_WORKBENCH" )
+        .skip_locked_check()
         .on_submit( [this, wb_idx, vppos] {
             const vpart_reference vp_workbench( *this, wb_idx );
             iexamine::workbench_internal( get_player_character(), vppos, vp_workbench );
         } );
+    }
+
+    if( is_foldable() && !remote ) {
+        menu.add( string_format( _( "Fold %s" ), name ) )
+        .hotkey( "FOLD_VEHICLE" )
+        .on_submit( [this] { start_folding_activity(); } );
     }
 }
 

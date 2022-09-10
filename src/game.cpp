@@ -5255,8 +5255,8 @@ void game::control_vehicle()
                         ( veh->avail_part_with_feature( veh_part, "CONTROL_ANIMAL" ) >= 0 &&
                           veh->has_engine_type( fuel_type_animal, false ) && veh->has_harnessed_animal() ) ) &&
                u.in_vehicle ) {
-        if( !veh->interact_vehicle_locked() ) {
-            veh->handle_potential_theft( dynamic_cast<Character &>( u ) );
+        if( veh->is_locked ) {
+            veh->interact_with( u.pos() );
             return;
         }
         if( veh->engine_on ) {

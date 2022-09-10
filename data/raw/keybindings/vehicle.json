@@ -28,6 +28,13 @@
     "bindings": [ { "input_method": "keyboard_any", "key": "l" } ]
   },
   {
+    "id": "HOTWIRE",
+    "type": "keybinding",
+    "category": "VEHICLE",
+    "name": "Attempt to hotwire",
+    "bindings": [ { "input_method": "keyboard_any", "key": "h" } ]
+  },
+  {
     "id": "PULL_HANDBRAKE",
     "type": "keybinding",
     "category": "VEHICLE",

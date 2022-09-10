@@ -12,6 +12,7 @@
 class Character;
 class vehicle;
 class vpart_info;
+struct uilist_entry;
 struct vehicle_part;
 
 namespace veh_utils
@@ -38,6 +39,7 @@ struct veh_menu_item {
     cata::optional<tripoint> _location = cata::nullopt;
     bool _enabled = true;
     bool _check_theft = true;
+    bool _check_locked = true;
     bool _keep_menu_open = false;
     cata::optional<char> _hotkey_char = cata::nullopt;
     cata::optional<std::string> _hotkey_action = cata::nullopt;
@@ -47,6 +49,7 @@ struct veh_menu_item {
     veh_menu_item &desc( const std::string &desc );
     veh_menu_item &enable( bool enable );
     veh_menu_item &skip_theft_check( bool skip_theft_check = true );
+    veh_menu_item &skip_locked_check( bool skip_locked_check = true );
     veh_menu_item &hotkey( char hotkey_char );
     veh_menu_item &hotkey( const std::string &action );
     veh_menu_item &hotkey_auto();
@@ -80,6 +83,7 @@ class veh_menu
         std::string title;
         vehicle &veh;
 
+        std::vector<uilist_entry> get_uilist_entries() const;
         std::vector<tripoint> get_locations() const;
 
         int last_selected = 0;
