@@ -45,6 +45,7 @@
   },
   {
     "id": "m205_tripod",
+    "type": "GUNMOD",
     "name": { "str": "M205 tripod" },
     "description": "This is a modern replacement for the old M3 tripod. The M205 is a weapon mount used on the M2HB Browning machine gun and the Mk19 grenade launcher, allowing them to be fired on any terrain, but requires the user to be either in a prone or crouching position.",
     "copy-from": "m3_tripod",
