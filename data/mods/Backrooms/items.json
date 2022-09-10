@@ -50,7 +50,7 @@
     "category": "books",
     "name": { "str": "newspaper page" },
     "snippet_category": "backrooms_unknown_news",
-    "description": "A single sheet of newspaper broadsheet.  It doesn't look like any newspaper you're familiar with and you can't really decipher it…"
+    "description": "A single sheet of newspaper broadsheet.  It doesn't look like any newspaper you're familiar with and the text on it makes no sense…"
   },
   {
     "type": "GENERIC",
@@ -68,7 +68,7 @@
     "copy-from": "weeks_old_newspaper",
     "name": { "str": "newspaper page" },
     "snippet_category": "backrooms_lost_people_news",
-    "description": "A single sheet of newspaper broadsheet.  It seems to be about a missing person."
+    "description": "A single sheet of newspaper broadsheet.  There seems to be an important article about a missing person."
   },  
   {
     "type": "GENERIC",
