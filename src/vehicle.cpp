@@ -1797,6 +1797,8 @@ void vehicle::merge_appliance_into_grid( vehicle &veh_target )
         return;
     }
 
+    bool has_wires = has_tag( flag_WIRING ) || veh_target.has_tag( flag_WIRING );
+
     bounding_box vehicle_box = get_bounding_box( false );
     point size;
     size.x = std::abs( ( vehicle_box.p2 - vehicle_box.p1 ).x ) + 1;
@@ -1815,6 +1817,10 @@ void vehicle::merge_appliance_into_grid( vehicle &veh_target )
         } else {
             //The grid needs to stay undraggable
             add_tag( flag_CANT_DRAG );
+            name = _( "power grid" );
+            if( has_wires ) {
+                add_tag( flag_WIRING );
+            }
         }
     }
 }
@@ -1833,7 +1839,7 @@ bool vehicle::is_powergrid()
  * Mark a part as removed from the vehicle.
  * @return bool true if the vehicle's 0,0 point shifted.
  */
-bool vehicle::remove_part(vehicle_part& vp)
+bool vehicle::remove_part( vehicle_part &vp )
 {
     DefaultRemovePartHandler handler;
     return remove_part( vp, handler );
