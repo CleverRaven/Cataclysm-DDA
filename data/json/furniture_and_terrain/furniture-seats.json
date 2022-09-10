@@ -155,7 +155,7 @@
   {
     "type": "furniture",
     "id": "f_stool",
-    "name": "stool",
+    "name": "wooden stool",
     "symbol": "#",
     "looks_like": "f_chair",
     "description": "A simple stool, with four legs and a seat.  While it's a touch more maneuverable to sit on, the lack of back support means it's significantly less comfortable than a normal chair.",
