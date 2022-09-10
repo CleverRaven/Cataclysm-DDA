@@ -140,7 +140,7 @@
     },
     "map_extras": {
       "field": {
-        "chance": 40,
+        "chance": 20,
         "extras": {
           "mx_teleporter_node": 100,
           "mx_casings": 50,
