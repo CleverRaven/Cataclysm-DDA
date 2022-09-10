@@ -2437,7 +2437,7 @@ TEST_CASE( "bionic info", "[iteminfo][bionic]" )
     CHECK( item_info_str( purifier, {} ) ==
            "--\n"
            "<color_c_white>Environmental Protection</color>: "
-           "mouth <color_c_yellow>9</color>" );
+           "mouth <color_c_yellow>15</color>" );
 }
 
 // Functions:

@@ -7238,7 +7238,7 @@ std::string Character::weapname_mode() const
         }
         return gunmode;
     } else {
-        return _( "" );
+        return "";
     }
 }
 
@@ -7283,7 +7283,7 @@ std::string Character::weapname_ammo() const
         return mag_ammo;
 
     } else {
-        return _( "" );
+        return "";
     }
 }
 

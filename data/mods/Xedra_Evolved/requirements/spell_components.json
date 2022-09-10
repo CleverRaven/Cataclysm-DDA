@@ -17,13 +17,13 @@
   {
     "id": "spell_components_battery_gun",
     "type": "requirement",
-    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 }, { "id": "SAW_W", "level": 1 } ],
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 }, { "id": "SAW_M_FINE", "level": 1 } ],
     "components": [ [ [ "pipe", 2 ] ], [ [ "cable", 10 ] ], [ [ "element", 1 ] ], [ [ "scrap", 5 ] ], [ [ "duct_tape", 25 ] ] ]
   },
   {
-    "id": "spell_components_battery_gun",
+    "id": "spell_components_ray_gun",
     "type": "requirement",
-    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 }, { "id": "SAW_W", "level": 1 } ],
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 2 }, { "id": "SAW_M_FINE", "level": 1 } ],
     "components": [
       [ [ "pipe", 2 ] ],
       [ [ "pipe_fittings", 1 ] ],
@@ -35,9 +35,9 @@
     ]
   },
   {
-    "id": "spell_components_battery_gun",
+    "id": "spell_components_death_ray",
     "type": "requirement",
-    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 }, { "id": "SAW_W", "level": 1 } ],
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 2 }, { "id": "SAW_M_FINE", "level": 1 } ],
     "components": [
       [ [ "pipe", 2 ] ],
       [ [ "pipe_fittings", 1 ] ],
