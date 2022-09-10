@@ -1882,10 +1882,10 @@ class vehicle
         void use_washing_machine( int p );
         void use_dishwasher( int p );
         void use_monster_capture( int part, const tripoint &pos );
-        void use_bike_rack( int part );
         void use_harness( int part, const tripoint &pos );
 
         void build_electronics_menu( veh_menu &menu );
+        void build_bike_rack_menu( veh_menu &menu, int part );
         void build_interact_menu( veh_menu &menu, const tripoint &p, bool with_pickup );
         void interact_with( const tripoint &p, bool with_pickup = false );
 

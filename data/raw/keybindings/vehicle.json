@@ -147,13 +147,6 @@
     "bindings": [ { "input_method": "keyboard_any", "key": "G" } ]
   },
   {
-    "id": "USE_BIKE_RACK_VEH",
-    "type": "keybinding",
-    "category": "VEHICLE",
-    "name": "Load or unload a vehicle on bike rack",
-    "bindings": [ { "input_method": "keyboard_any", "key": "R" } ]
-  },
-  {
     "id": "USE_ANIMAL_CTRL",
     "type": "keybinding",
     "category": "VEHICLE",

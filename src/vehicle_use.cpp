@@ -1600,67 +1600,57 @@ void vehicle::use_harness( int part, const tripoint &pos )
     }
 }
 
-void vehicle::use_bike_rack( int part )
+void vehicle::build_bike_rack_menu( veh_menu &menu, int part )
 {
-    Character &pc = get_player_character();
-    const std::vector<unrackable_vehicle> unrackables = find_vehicles_to_unrack( part );
-    const std::vector<rackable_vehicle> rackables = find_vehicles_to_rack( part );
-    constexpr size_t unrack_offset = 1000;
-
-    uilist rack_menu;
-    rack_menu.desc_enabled = true;
-    rack_menu.desc_lines_hint = 1;
-    rack_menu.hilight_disabled = true;
-
-    for( size_t i = 0; i < rackables.size(); i++ ) {
-        // prevent racking two vehicles with same name on single vehicle
-        bool veh_with_same_name_already_racked = false;
+    // prevent racking two vehicles with same name on single vehicle
+    // @returns true if vehicle already has a vehicle with this name racked
+    const auto has_veh_name_racked = [this]( const std::string & name ) {
         for( const vpart_reference &vpr : get_any_parts( "BIKE_RACK_VEH" ) ) {
-            const auto unrackables = find_vehicles_to_unrack( vpr.part_index() );
-            for( const unrackable_vehicle &unrackable : unrackables ) {
-                if( unrackable.name == rackables[i].name ) {
-                    veh_with_same_name_already_racked = true;
+            for( const unrackable_vehicle &unrackable : find_vehicles_to_unrack( vpr.part_index() ) ) {
+                if( unrackable.name == name ) {
+                    return true;
                 }
             }
         }
+        return false;
+    };
 
-        if( veh_with_same_name_already_racked ) {
-            std::string txt = string_format( _( "Attach the %s to the rack" ), rackables[i].name );
-            std::string desc = string_format(
-                                   _( "This vehicle already has '%s' racked, please rename before racking." ), rackables[i].name );
-            rack_menu.addentry_desc( static_cast<int>( i ), false, MENU_AUTOASSIGN, txt, desc );
-        } else {
-            std::string txt = string_format( _( "Attach the %s to the rack" ), rackables[i].name );
-            rack_menu.addentry_desc( static_cast<int>( i ), true, MENU_AUTOASSIGN, txt, "" );
-        }
+    menu.desc_lines_hint = std::max( 1, menu.desc_lines_hint );
+    bool has_rack_actions = false;
+
+    for( const rackable_vehicle &rackable : find_vehicles_to_rack( part ) ) {
+        const bool has_this_name_racked = has_veh_name_racked( rackable.name );
+
+        menu.add( string_format( _( "Attach the %s to the rack" ), rackable.name ) )
+        .desc( has_this_name_racked
+               ? string_format( _( "This vehicle already has '%s' racked.  "
+                                   "Please rename before racking." ), rackable.name )
+               : "" )
+        .enable( !has_this_name_racked )
+        .hotkey_auto()
+        .on_submit( [this, rackable] {
+            bikerack_racking_activity_actor rack( *this, *rackable.veh, rackable.racks );
+            get_player_character().assign_activity( player_activity( rack ), false );
+        } );
+
+        has_rack_actions = true;
     }
 
-    for( size_t i = 0; i < unrackables.size(); i++ ) {
-        const std::string txt = string_format( _( "Remove the %s from the rack" ), unrackables[i].name );
-        rack_menu.addentry_desc( i + unrack_offset, true, MENU_AUTOASSIGN, txt, "" );
+    for( const unrackable_vehicle &unrackable : find_vehicles_to_unrack( part ) ) {
+        menu.add( string_format( _( "Remove the %s from the rack" ), unrackable.name ) )
+        .hotkey_auto()
+        .on_submit( [this, unrackable] {
+            bikerack_unracking_activity_actor unrack( *this, unrackable.parts, unrackable.racks );
+            get_player_character().assign_activity( player_activity( unrack ), false );
+        } );
+
+        has_rack_actions = true;
     }
 
-    if( rack_menu.entries.empty() ) {
-        pc.add_msg_if_player( _( "Nothing to take off or put on the racks is nearby." ) );
-        return;
-    }
-
-    if( rack_menu.entries.size() == 1 && rack_menu.entries[0].enabled ) {
-        rack_menu.ret = rack_menu.entries[0].retval;
-    } else {
-        rack_menu.query();
-    }
-
-    if( rack_menu.ret >= static_cast<int>( unrack_offset ) ) {
-        const unrackable_vehicle &unrackable = unrackables[rack_menu.ret - unrack_offset];
-        bikerack_unracking_activity_actor unrack( *this, unrackable.parts, unrackable.racks );
-        pc.assign_activity( player_activity( unrack ), false );
-    } else if( rack_menu.ret >= 0 ) {
-        const rackable_vehicle &rackable = rackables[rack_menu.ret];
-        bikerack_racking_activity_actor rack( *this, *rackable.veh, rackable.racks );
-        pc.assign_activity( player_activity( rack ), false );
-    } else {
-        pc.add_msg_if_player( _( "Nevermind." ) );
+    if( !has_rack_actions ) {
+        menu.add( _( "Bike rack is empty" ) )
+        .desc( _( "Nothing to take off or put on the rack is nearby." ) )
+        .enable( false );
     }
 }
 
@@ -2086,10 +2076,7 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint &p, bool with_
 
     const cata::optional<vpart_reference> vp_bike_rack = vp.avail_part_with_feature( "BIKE_RACK_VEH" );
     if( vp_bike_rack ) {
-        const size_t rk_idx = vp_bike_rack->part_index();
-        menu.add( _( "Load or unload a vehicle" ) )
-        .hotkey( "USE_BIKE_RACK_VEH" )
-        .on_submit( [this, rk_idx] { use_bike_rack( rk_idx ); } );
+        build_bike_rack_menu( menu, vp_bike_rack->part_index() );
     }
 
     const cata::optional<vpart_reference> vp_harness = vp.avail_part_with_feature( "ANIMAL_CTRL" );

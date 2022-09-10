@@ -362,6 +362,7 @@ bool veh_menu::query()
     []( const uilist_entry & it ) {
         return !it.desc.empty();
     } );
+    menu.hilight_disabled = menu.desc_enabled;
 
     const std::vector<tripoint> locations = get_locations();
     pointmenu_cb callback( locations );
