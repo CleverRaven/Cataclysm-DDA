@@ -14,5 +14,21 @@
     "material": [ "wood" ],
     "to_hit": -1,
     "bashing": 5
+  },
+  {
+    "type": "GENERIC",
+    "id": "armchair",
+    "name": { "str": "armchair" },
+    "description": "A simple upholstered chair with armrests.  Soft and fairly warm, it definitely beats the ground for sleeping on, though not by much.",
+    "symbol": "H",
+    "color": "green",
+    "price": 25000,
+    "price_postapoc": 1500,
+    "longest_side": "110 cm",
+    "volume": "570 L",
+    "weight": "27 kg",
+    "material": [ { "type": "cotton", "portion": 75 }, { "type": "wood" } ],
+    "to_hit": -1,
+    "bashing": 3
   }
 ]
