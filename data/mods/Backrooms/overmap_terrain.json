@@ -50,7 +50,7 @@
         { "chunks": [ [ "mx_backrooms_whole", 100 ] ], "x": 0, "y": 0 },
         {
           "chunks": [
-            [ "null", 200 ],
+            [ "null", 250 ],
             [ "mx_backroom_big_empty", 50 ],
             [ "mx_backroom_big_generic", 50 ],
             [ "mx_backroom_big_common", 100 ],
@@ -64,7 +64,7 @@
         },
         {
           "chunks": [
-            [ "null", 200 ],
+            [ "null", 250 ],
             [ "mx_backroom_small_empty", 50 ],
             [ "mx_backroom_small_generic", 50 ],
             [ "mx_backroom_small_common", 100 ],
