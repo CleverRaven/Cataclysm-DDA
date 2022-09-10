@@ -237,7 +237,7 @@ cata::optional<int> iuse_transform::use( Character &p, item &it, bool t, const t
         p.add_msg_if_player( m_info, _( "You need to wield the %1$s before activating it." ), it.tname() );
         return cata::nullopt;
     }
-    if( possess && need_empty && !it.empty() ) {
+    if( need_empty && !it.empty() ) {
         p.add_msg_if_player( m_info, _( "You need to empty the %1$s before activating it." ), it.tname() );
         return cata::nullopt;
     }
