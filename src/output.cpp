@@ -1720,6 +1720,9 @@ scrollbar &scrollbar::scroll_to_last( bool scr2last )
 
 void scrollbar::apply( const catacurses::window &window )
 {
+    scrollbar_area = inclusive_rectangle<point>( point( getbegx( window ) + offset_x_v,
+                     getbegy( window ) + offset_y_v ), point( getbegx( window ) + offset_x_v,
+                             getbegy( window ) + offset_y_v + viewport_size_v ) );
     if( viewport_size_v >= content_size_v || content_size_v <= 0 ) {
         // scrollbar not needed, fill output area with borders
         for( int i = offset_y_v; i < offset_y_v + viewport_size_v; ++i ) {
@@ -1751,6 +1754,34 @@ void scrollbar::apply( const catacurses::window &window )
             }
         }
     }
+}
+
+bool scrollbar::point_in_scrollbar( cata::optional<point> coord )
+{
+    return coord.has_value() && scrollbar_area.contains( coord.value() );
+}
+
+scrollbar &scrollbar::set_draggable( input_context &ctxt )
+{
+    ctxt.register_action( "MOUSE_MOVE" );
+    ctxt.register_action( "CLICK_AND_DRAG" );
+    return *this;
+}
+
+int scrollbar::handle_dragging( const std::string &action, const cata::optional<point> &coord )
+{
+    if( action != "MOUSE_MOVE" ) {
+        dragging = false;
+    }
+
+    if( action == "CLICK_AND_DRAG" && point_in_scrollbar( coord ) ) {
+        dragging = true;
+    } else if( action == "MOUSE_MOVE" && coord.has_value() && dragging ) {
+        int y_position = ( coord->y - scrollbar_area.p_min.y ) * ( content_size_v /*- viewport_size_v*/ ) /
+                         scrollbar_area.p_max.y;
+        viewport_pos_v = clamp( y_position, 0, ( content_size_v - viewport_size_v ) );
+    }
+    return viewport_pos_v;
 }
 
 void scrolling_text_view::set_text( const std::string &text )
@@ -1790,16 +1821,13 @@ void scrolling_text_view::draw( const nc_color &base_color )
     const int height = getmaxy( w_ );
 
     if( max_offset() > 0 ) {
-        scrollbar().
-        content_size( text_.size() ).
+        text_view_scrollbar.content_size( text_.size() ).
         viewport_pos( offset_ ).
         viewport_size( height ).
         scroll_to_last( false ).
         apply( w_ );
-        scrollbar_area = inclusive_rectangle<point>( point( getbegx( w_ ), getbegy( w_ ) ),
-                         point( getbegx( w_ ), getbegy( w_ ) + height ) );
-
     } else {
+        text_view_scrollbar = scrollbar();
         // No scrollbar; we need to draw the window edge instead
         for( int i = 0; i < height; i++ ) {
             mvwputch( w_, point( 0, i ), BORDER_COLOR, LINE_XOXO );
@@ -1822,11 +1850,8 @@ bool scrolling_text_view::handle_navigation( const std::string &action, input_co
     inclusive_rectangle<point> mouseover_area( point( getbegx( w_ ), getbegy( w_ ) ),
             point( getmaxx( w_ ) + getbegx( w_ ), getmaxy( w_ ) + getbegy( w_ ) ) );
     bool mouse_in_window = coord.has_value() && mouseover_area.contains( coord.value() );
-    bool mouse_over_scrollbar = coord.has_value() && scrollbar_area.contains( coord.value() );
 
-    if( action != "MOUSE_MOVE" ) {
-        dragging = false;
-    }
+    int scrollbar_position = text_view_scrollbar.handle_dragging( action, coord );
 
     if( action == scroll_up_action || ( action == "SCROLL_UP" && mouse_in_window ) ) {
         scroll_up();
@@ -1836,14 +1861,8 @@ bool scrolling_text_view::handle_navigation( const std::string &action, input_co
         page_up();
     } else if( paging_enabled && action == "PAGE_DOWN" ) {
         page_down();
-    } else if( action == "CLICK_AND_DRAG" && mouse_over_scrollbar && !dragging ) {
-        dragging = true;
-    } else if( action == "MOUSE_MOVE" && coord.has_value() && dragging ) {
-        int y_position = ( coord->y - getbegy( w_ ) ) * max_offset() / getmaxy( w_ );
-        offset_ = clamp( y_position, 0, max_offset() );
-    } else if( action == "SELECT" && mouse_over_scrollbar ) {
-        int y_position = ( coord->y - getbegy( w_ ) ) * max_offset() / getmaxy( w_ );
-        offset_ = clamp( y_position, 0, max_offset() );
+    } else if( offset_ != scrollbar_position ) {
+        offset_ = scrollbar_position;
     } else {
         return false;
     }
@@ -1874,6 +1893,7 @@ void scrolling_text_view::set_up_navigation( input_context &ctxt, const scrollin
         ctxt.register_action( "PAGE_UP" );
         ctxt.register_action( "PAGE_DOWN" );
     }
+    text_view_scrollbar.set_draggable( ctxt );
 }
 
 int scrolling_text_view::text_width()
