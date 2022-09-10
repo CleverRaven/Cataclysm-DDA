@@ -1140,6 +1140,7 @@ input_event draw_item_info( const std::function<catacurses::window()> &init_wind
     int width = 0;
     int height = 0;
     std::vector<std::string> folded;
+    scrollbar item_info_bar;
 
     const auto init = [&]() {
         win = init_window();
@@ -1168,9 +1169,12 @@ input_event draw_item_info( const std::function<catacurses::window()> &init_wind
                 }
             }
         }
-        draw_scrollbar( win, *data.ptr_selected, height, folded.size(),
-                        point( data.scrollbar_left ? 0 : getmaxx( win ) - 1,
-                               ( data.without_border && data.use_full_win ? 0 : 1 ) ), BORDER_COLOR, true );
+        item_info_bar.offset_x( data.scrollbar_left ? 0 : getmaxx( win ) - 1 )
+        .offset_y( data.without_border && data.use_full_win ? 0 : 1 )
+        .content_size( folded.size() ).viewport_size( height )
+        .viewport_pos( *data.ptr_selected )
+        .scroll_to_last( false )
+        .apply( win );
         if( !data.without_border ) {
             draw_custom_border( win, buffer.empty() );
         }
@@ -1197,6 +1201,7 @@ input_event draw_item_info( const std::function<catacurses::window()> &init_wind
     if( data.handle_scrolling ) {
         ctxt.register_action( "PAGE_UP" );
         ctxt.register_action( "PAGE_DOWN" );
+        item_info_bar.set_draggable( ctxt );
     }
     ctxt.register_action( "CONFIRM" );
     ctxt.register_action( "QUIT" );
@@ -1209,6 +1214,9 @@ input_event draw_item_info( const std::function<catacurses::window()> &init_wind
     while( true ) {
         ui_manager::redraw();
         action = ctxt.handle_input();
+        cata::optional<point> coord = ctxt.get_coordinates_text( catacurses::stdscr );
+        int scrollbar_pos = item_info_bar.handle_dragging( action, coord );
+
         if( data.handle_scrolling && action == "PAGE_UP" ) {
             if( *data.ptr_selected > 0 ) {
                 --*data.ptr_selected;
@@ -1218,6 +1226,8 @@ input_event draw_item_info( const std::function<catacurses::window()> &init_wind
                 ( height > 0 && static_cast<size_t>( *data.ptr_selected ) + height < folded.size() ) ) {
                 ++*data.ptr_selected;
             }
+        } else if( data.handle_scrolling && *data.ptr_selected != scrollbar_pos ) {
+            *data.ptr_selected = scrollbar_pos;
         } else if( action == "CONFIRM" || action == "QUIT" ||
                    ( data.any_input && action == "ANY_INPUT" &&
                      !ctxt.get_raw_input().sequence.empty() ) ) {
@@ -1745,10 +1755,11 @@ void scrollbar::apply( const catacurses::window &window )
             bar_start = slot_size - bar_size;
         }
         int bar_end = bar_start + bar_size;
+        nc_color temp_bar_color = dragging ? c_magenta_magenta : c_cyan_cyan;
 
         for( int i = 0; i < slot_size; ++i ) {
             if( i >= bar_start && i < bar_end ) {
-                mvwputch( window, point( offset_x_v, offset_y_v + 1 + i ), bar_color_v, LINE_XOXO );
+                mvwputch( window, point( offset_x_v, offset_y_v + 1 + i ), temp_bar_color, LINE_XOXO );
             } else {
                 mvwputch( window, point( offset_x_v, offset_y_v + 1 + i ), slot_color_v, LINE_XOXO );
             }
@@ -1760,19 +1771,20 @@ scrollbar &scrollbar::set_draggable( input_context &ctxt )
 {
     ctxt.register_action( "MOUSE_MOVE" );
     ctxt.register_action( "CLICK_AND_DRAG" );
+    ctxt.register_action( "SELECT" ); // Not directly used yet, but required for mouse-up reaction
     return *this;
 }
 
 int scrollbar::handle_dragging( const std::string &action, const cata::optional<point> &coord )
 {
-    if( action != "MOUSE_MOVE" ) {
+    if( action != "MOUSE_MOVE" && dragging ) {
         dragging = false;
     }
 
     if( action == "CLICK_AND_DRAG" && coord.has_value() && scrollbar_area.contains( coord.value() ) ) {
         dragging = true;
     } else if( action == "MOUSE_MOVE" && coord.has_value() && dragging ) {
-        int y_position = ( coord->y - scrollbar_area.p_min.y ) * ( content_size_v /*- viewport_size_v*/ ) /
+        int y_position = ( coord->y - scrollbar_area.p_min.y ) * ( content_size_v ) /
                          scrollbar_area.p_max.y;
         viewport_pos_v = clamp( y_position, 0, ( content_size_v - viewport_size_v ) );
     }
