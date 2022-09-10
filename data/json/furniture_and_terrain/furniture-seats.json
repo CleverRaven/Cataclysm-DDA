@@ -25,7 +25,7 @@
   {
     "type": "furniture",
     "id": "f_armchair",
-    "name": "arm chair",
+    "name": "armchair",
     "symbol": "H",
     "description": "A simple upholstered chair with armrests.  Soft and fairly warm, it definitely beats the ground for sleeping on, though not by much.",
     "color": "green",
@@ -35,24 +35,18 @@
     "floor_bedding_warmth": 500,
     "bonus_fire_warmth_feet": 1000,
     "required_str": 7,
-    "deconstruct": {
-      "items": [
-        { "item": "2x4", "count": 10 },
-        { "item": "cotton_patchwork", "count": [ 30, 33 ] },
-        { "item": "nail", "charges": [ 6, 8 ] }
-      ]
-    },
-    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE", "CAN_SIT", "ALIGN_WORKBENCH" ],
+    "deconstruct": { "items": [ { "item": "armchair", "count": 1 } ] },
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE", "EASY_DECONSTRUCT", "CAN_SIT", "ALIGN_WORKBENCH" ],
     "bash": {
-      "str_min": 12,
+      "str_min": 10,
       "str_max": 40,
       "sound": "smash!",
       "sound_fail": "whump.",
       "items": [
-        { "item": "2x4", "count": [ 1, 3 ] },
-        { "item": "nail", "charges": [ 2, 6 ] },
-        { "item": "splinter", "count": 1 },
-        { "item": "cotton_patchwork", "count": [ 20, 30 ] }
+        { "item": "wooden_post_short", "count": [ 0, 3 ] },
+        { "item": "nuts_bolts", "charges": [ 2, 8 ] },
+        { "item": "splinter", "count": [ 5, 35 ] },
+        { "item": "cotton_patchwork", "count": [ 50, 85 ] }
       ]
     }
   },
