@@ -2251,12 +2251,12 @@
     "id": "constr_stool",
     "group": "build_stool",
     "category": "FURN",
-    "required_skills": [ [ "fabrication", 2 ] ],
-    "time": "25 m",
-    "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
-    "components": [ [ [ "2x4", 4 ] ], [ [ "nail", 8 ] ] ],
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "15 s",
+    "components": [ [ [ "stool_wood", 1 ] ] ],
     "pre_special": "check_empty",
-    "post_terrain": "f_stool"
+    "post_terrain": "f_stool",
+    "activity_level": "LIGHT_EXERCISE"
   },
   {
     "type": "construction",
@@ -5139,12 +5139,12 @@
     "id": "constr_logstool",
     "group": "build_log_stool",
     "category": "FURN",
-    "required_skills": [ [ "survival", 1 ] ],
-    "time": "10 m",
-    "qualities": [ [ { "id": "CUT", "level": 2 } ] ],
-    "components": [ [ [ "log", 1 ] ] ],
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "15 s",
+    "components": [ [ [ "stool_log", 1 ] ] ],
     "pre_special": "check_empty",
-    "post_terrain": "f_logstool"
+    "post_terrain": "f_logstool",
+    "activity_level": "LIGHT_EXERCISE"
   },
   {
     "type": "construction",
