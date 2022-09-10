@@ -362,7 +362,7 @@
   {
     "type": "construction_group",
     "id": "build_log_stool",
-    "name": "Build Log Stool"
+    "name": "Place a log stool"
   },
   {
     "type": "construction_group",
@@ -772,7 +772,7 @@
   {
     "type": "construction_group",
     "id": "build_stool",
-    "name": "Build Stool"
+    "name": "Place a wooden stool"
   },
   {
     "type": "construction_group",
