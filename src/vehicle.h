@@ -262,9 +262,12 @@ struct vehicle_part {
 
         struct carried_part_data {
             tripoint mount;        // if value is tripoint_zero this is the pivot
-            bool axis_is_x;        // whether axis is x or y, only valid on pivot
             units::angle face_dir; // direction relative to the carrier vehicle
             std::string veh_name;  // carried vehicle name this part belongs to
+            bool migrate_x_axis;   // migrate carried vehicles to x-axis ( for legacy saves only )
+
+            void deserialize( const JsonObject &data );
+            void serialize( JsonOut &json ) const;
         };
 
         // each time this vehicle part is racked this will push the data required to unrack to stack

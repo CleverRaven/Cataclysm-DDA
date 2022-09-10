@@ -1575,6 +1575,21 @@ std::vector<vehicle::unrackable_vehicle> vehicle::find_vehicles_to_unrack( int r
                 return; // not valid unrackable
             }
 
+            const bool migrate_x_axis = std::any_of( unrackable.parts.begin(), unrackable.parts.end(),
+            [this]( const int p ) {
+                return part( p ).carried_stack.top().migrate_x_axis;
+            } );
+
+            if( migrate_x_axis ) {
+                for( const int p : unrackable.parts ) {
+                    std::stack<vehicle_part::carried_part_data> cs = part( p ).carried_stack;
+                    vehicle_part::carried_part_data cpd = cs.top();
+                    cs.pop();
+                    cpd.mount = tripoint( cpd.mount.y, cpd.mount.x, cpd.mount.z );
+                    cs.push( cpd );
+                }
+            }
+
             // 2 results with same name is either a bug or this rack is a "corner" that scanned
             // the vehicle twice: once on correct axis and once on wrong axis resulting in a 1 tile
             // slice see #47374 for more details. Keep the longest of the two "slices".
@@ -1665,14 +1680,6 @@ bool vehicle::merge_rackable_vehicle( vehicle *carry_veh, const std::vector<int>
     std::vector<mapping> carry_data;
     carry_data.reserve( carry_veh_structs.size() );
 
-    //X is forward/backward, Y is left/right
-    std::string axis = "X";
-    for( const int &carry_part : carry_veh_structs ) {
-        if( carry_veh->parts[ carry_part ].mount.x || carry_veh->parts[ carry_part ].mount.y ) {
-            axis = carry_veh->parts[ carry_part ].mount.x ? "X" : "Y";
-        }
-    }
-
     units::angle relative_dir = normalize( carry_veh->face.dir() - face.dir() );
     units::angle relative_180 = units::fmod( relative_dir, 180_degrees );
     units::angle face_dir_180 = normalize( face.dir(), 180_degrees );
@@ -1747,10 +1754,10 @@ bool vehicle::merge_rackable_vehicle( vehicle *carry_veh, const std::vector<int>
                 vehicle_part &carried_part = parts.back();
                 carried_part.mount = carry_map.carry_mount;
                 carried_part.carried_stack.push( {
-                    axis == "X" ? tripoint( carry_map.old_mount.x, 0, 0 ) : tripoint( 0, carry_map.old_mount.y, 0 ),
-                    axis == "X",
+                    tripoint( carry_map.old_mount, 0 ),
                     relative_dir,
                     carry_veh->name,
+                    false,
                 } );
                 carried_part.enabled = false;
                 carried_part.set_flag( vehicle_part::carried_flag );

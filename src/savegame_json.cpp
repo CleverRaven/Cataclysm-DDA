@@ -3218,20 +3218,32 @@ void vehicle_part::deserialize( const JsonObject &data )
         precalc[0].z = z_offset;
         precalc[1].z = z_offset;
     }
+
+    // load legacy bike rack data
     JsonArray ja = data.get_array( "carry" );
     // count down from size - 1, then stop after unsigned long 0 - 1 becomes MAX_INT
     static constexpr int name_offset = 7;
     for( size_t index = ja.size() - 1; index < ja.size(); index-- ) {
         const std::string raw = ja.get_string( index );
-        const bool axis_is_x = raw[0] == 'X';
+        const bool migrate_x_axis = raw[0] == 'X';
         const int mount_offset = std::stoi( raw.substr( 1, 3 ) );
         carried_stack.push( {
-            axis_is_x ? tripoint( mount_offset, 0, 0 ) : tripoint( 0, mount_offset, 0 ),
-            axis_is_x,
+            tripoint( mount_offset, 0, 0 ),
             units::from_degrees( std::stoi( raw.substr( 4, 3 ) ) ),
             raw.substr( name_offset ),
+            migrate_x_axis,
         } );
     }
+
+    // load new bike rack data
+    JsonArray ja_carried = data.get_array( "carried_stack" );
+    // count down from size - 1, then stop after unsigned long 0 - 1 becomes MAX_INT
+    for( size_t index = ja_carried.size() - 1; index < ja_carried.size(); index-- ) {
+        vehicle_part::carried_part_data it;
+        ja_carried.read( index, it );
+        carried_stack.push( it );
+    }
+
     data.read( "crew_id", crew_id );
     data.read( "items", items );
     data.read( "target_first_x", target.first.x );
@@ -3275,18 +3287,11 @@ void vehicle_part::serialize( JsonOut &json ) const
     json.member( "flags", flags );
     if( !carried_stack.empty() ) {
         std::stack<vehicle_part::carried_part_data> carried_copy = carried_stack;
-        json.member( "carry" );
+        json.member( "carried_stack" );
         json.start_array();
         while( !carried_copy.empty() ) {
-            const vehicle_part::carried_part_data &x = carried_copy.top();
+            json.write( carried_copy.top() );
             carried_copy.pop();
-            const bool pivot = x.mount == tripoint_zero;
-            const int mount_offset = x.axis_is_x ? x.mount.x : x.mount.y;
-            json.write( string_format( "%c%3d%3d%s",
-                                       pivot ? ( x.axis_is_x ? 'X' : 'Y' ) : ' ',
-                                       mount_offset,
-                                       static_cast<int>( to_degrees( x.face_dir ) ),
-                                       x.veh_name ) );
         }
         json.end_array();
     }
@@ -3307,6 +3312,28 @@ void vehicle_part::serialize( JsonOut &json ) const
         json.member( "target_second_z", target.second.z );
     }
     json.member( "ammo_pref", ammo_pref );
+    json.end_object();
+}
+
+void vehicle_part::carried_part_data::deserialize( const JsonObject &data )
+{
+    data.read( "veh_name", veh_name );
+    face_dir = units::from_degrees( data.get_int( "face_dir" ) );
+    data.read( "mount_x", mount.x );
+    data.read( "mount_y", mount.y );
+    data.read( "mount_z", mount.z );
+    data.read( "migrate_x_axis", migrate_x_axis );
+}
+
+void vehicle_part::carried_part_data::serialize( JsonOut &json ) const
+{
+    json.start_object();
+    json.member( "veh_name", veh_name );
+    json.member( "face_dir", std::lround( to_degrees( face_dir ) ) );
+    json.member( "mount_x", mount.x );
+    json.member( "mount_y", mount.y );
+    json.member( "mount_z", mount.z );
+    json.member( "migrate_x_axis", migrate_x_axis, false );
     json.end_object();
 }
 
