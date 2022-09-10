@@ -6865,5 +6865,21 @@
       [ [ "nuts_bolts", 16 ] ],
       [ [ "splinter", 30 ] ]
     ]
+  },
+  {
+    "result": "stool_wood",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "30 m",
+    "qualities": [ { "id": "PRY", "level": 1 }, { "id": "SAW_W", "level": 2 }, { "id": "SCREW", "level": 1 } ],
+    "components": [ [ [ "wood_block", 12 ] ], [ [ "nuts_bolts", 10 ] ], [ [ "splinter", 4 ] ] ]
+  },
+  {
+    "result": "stool_log",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "10 m",
+    "qualities": [ { "id": "AXE", "level": 3 } ],
+    "components": [ [ [ "splinter", 80 ] ] ]
   }
 ]
