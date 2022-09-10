@@ -1756,11 +1756,6 @@ void scrollbar::apply( const catacurses::window &window )
     }
 }
 
-bool scrollbar::point_in_scrollbar( cata::optional<point> coord )
-{
-    return coord.has_value() && scrollbar_area.contains( coord.value() );
-}
-
 scrollbar &scrollbar::set_draggable( input_context &ctxt )
 {
     ctxt.register_action( "MOUSE_MOVE" );
@@ -1774,7 +1769,7 @@ int scrollbar::handle_dragging( const std::string &action, const cata::optional<
         dragging = false;
     }
 
-    if( action == "CLICK_AND_DRAG" && point_in_scrollbar( coord ) ) {
+    if( action == "CLICK_AND_DRAG" && coord.has_value() && scrollbar_area.contains( coord.value() ) ) {
         dragging = true;
     } else if( action == "MOUSE_MOVE" && coord.has_value() && dragging ) {
         int y_position = ( coord->y - scrollbar_area.p_min.y ) * ( content_size_v /*- viewport_size_v*/ ) /
