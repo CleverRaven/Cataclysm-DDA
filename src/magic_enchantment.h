@@ -217,7 +217,7 @@ class enchant_cache : public enchantment
         units::energy modify_value( enchant_vals::mod mod_val, units::energy value ) const;
         units::mass modify_value( enchant_vals::mod mod_val, units::mass value ) const;
         // adds two enchantments together and ignores their conditions
-        void force_add( const enchantment &rhs, const Character &you );
+        void force_add( const enchantment &rhs, const Character &guy );
         void force_add( const enchant_cache &rhs );
 
         // modifies character stats, or does other passive effects
