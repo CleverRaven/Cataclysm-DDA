@@ -755,7 +755,7 @@
     "name": { "str": "Soul Pressure" },
     "points": 0,
     "active": true,
-    "description": "Your attendance is so dangerous you can burn living creatures around you.  You supress it now.",
+    "description": "Your attendance is so dangerous you can burn living creatures around you.  You suppress it now.",
     "transform": {
       "target": "SOUL_PRESSURE_ON",
       "msg_transform": "Living creatures around you start to burn!",
@@ -774,6 +774,6 @@
     "points": -1,
     "description": "Your attendance is so dangerous you can burn living creatures around you.",
     "enchantments": [ "SOULFIRE" ],
-    "transform": { "target": "SOUL_PRESSURE_OFF", "msg_transform": "You supress your soul pressure.", "active": false, "moves": 10 }
+    "transform": { "target": "SOUL_PRESSURE_OFF", "msg_transform": "You suppress your soul pressure.", "active": false, "moves": 10 }
   }
 ]
