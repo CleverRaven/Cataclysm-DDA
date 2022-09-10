@@ -1044,6 +1044,8 @@ class vehicle
         bool merge_vehicle_parts( vehicle *veh );
         void merge_appliance_into_grid( vehicle &veh_target );
 
+        bool is_powergrid() const;
+
         /**
          * @param handler A class that receives various callbacks, e.g. for placing items.
          * This handler is different when called during mapgen (when items need to be placed
