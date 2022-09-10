@@ -30,5 +30,37 @@
     "material": [ { "type": "cotton", "portion": 75 }, { "type": "wood" } ],
     "to_hit": -1,
     "bashing": 3
+  },
+  {
+    "type": "GENERIC",
+    "id": "stool_wood",
+    "name": { "str": "wooden stool" },
+    "description": "A simple stool, with four legs and a seat.  While it's a touch more maneuverable to sit on, the lack of back support means it's significantly less comfortable than a normal chair.",
+    "symbol": "#",
+    "color": "brown",
+    "price": 3000,
+    "price_postapoc": 250,
+    "longest_side": "45 cm",
+    "volume": "17 L",
+    "weight": "3 kg",
+    "material": [ "wood" ],
+    "to_hit": -1,
+    "bashing": 3
+  },
+  {
+    "type": "GENERIC",
+    "id": "stool_log",
+    "name": { "str": "log stool" },
+    "description": "A short section from a tree trunk with one of the flat ends smoothed down.  Makes for a decent place to sit, but not quite a real chair.",
+    "symbol": "#",
+    "color": "brown",
+    "price": 0,
+    "price_postapoc": 1,
+    "longest_side": "50 cm",
+    "volume": "20 L",
+    "weight": "11 kg",
+    "material": [ "wood" ],
+    "to_hit": -1,
+    "bashing": 4
   }
 ]
