@@ -69,7 +69,7 @@
     "name": { "str": "newspaper page" },
     "snippet_category": "backrooms_lost_people_news",
     "description": "A single sheet of newspaper broadsheet.  There seems to be an important article about a missing person."
-  },  
+  },
   {
     "type": "GENERIC",
     "id": "newest_newspaper",

@@ -790,11 +790,6 @@
     "type": "item_group",
     "subtype": "distribution",
     "copy-from": "newspaper",
-    "extend": {
-    "entries": [
-      { "group": "newspaper_recent", "prob": 500 },
-      { "group": "newspaper_old", "prob": 500 }
-    ]
-    }
+    "extend": { "entries": [ { "group": "newspaper_recent", "prob": 500 }, { "group": "newspaper_old", "prob": 500 } ] }
   }
 ]

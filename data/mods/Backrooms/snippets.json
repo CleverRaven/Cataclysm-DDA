@@ -76,7 +76,7 @@
         "id": "backrooms_ancient_news_2",
         "//": "Based on a real 1905 American mining newspaper.",
         "text": {
-          "str": "STRIKE ORE NEAR KENDALL!  A special of the 15th to the Miner from Lewistown states that there is much excitedment around Kendall over the reported striking of a hitherto unknown ore in the Fergus tract, extending out on the flat from the Bullard property, and claims are being located in all directions!  Potential experts on the unknown metal are to arrive in the week.",
+          "str": "STRIKE ORE NEAR KENDALL!  A special of the 15th to the Miner from Lewistown states that there is much excitement around Kendall over the reported striking of a hitherto unknown ore in the Fergus tract, extending out on the flat from the Bullard property, and claims are being located in all directions!  Potential experts on the unknown metal are to arrive in the week.",
           "//NOLINT(cata-text-style)": "intentional format"
         }
       },
@@ -102,7 +102,7 @@
           "str": "ABRAMS CONFIDENT S. VIET TAKEOVER IS SUCCESS:  Gen. Creighton W. Adams, commander of US troops in South Vietnam, praised the South Vietnamese army today and said its forces have \"tremendous confidence\" in their continued success.  The disappearance of Gen. Bessemer last month has \"not disheartened the troops\", although Adams has admitted his death at enemy hands is \"likely\".",
           "//NOLINT(cata-text-style)": "intentional format"
         }
-      },      
+      },
       {
         "id": "backrooms_very_old_news_2",
         "//": "Based on a real 1981 American newspaper.",
@@ -110,14 +110,14 @@
           "str": "LUNCH MENUS:  MONDAY, February 16 - NO SCHOOL.  TUESDAY, February 17 - Corn dog with catsup and mustard, potatoes au gratin, bread and butter, buttered spinach, apple half, milk.  WEDNESDAY February 18 - Wildcat goulash, buttered green beans, hot rolls and butter, orange jello with pears, milk.  THURSDAY, February 19 - Tacos with cheese and lettuce, applesauce, milk.  FRIDAY, February 20 - Creamed turkey over mashed potatoes, peanutbutter sandwiches, cherry shortcake, chocolate milk.",
           "//NOLINT(cata-text-style)": "intentional format"
         }
-      },      
+      },
       {
         "id": "backrooms_very_old_news_3",
         "text": {
           "str": "ADMINISTRATIVE ASSISTANT SOUGHT:  Eberhard Technologies, Inc. is looking for a full-time (37.5 hours) Administrative Assistant.  This position requires a person with excellent organizational and computer skills, capable of professional discretion in their daily life.  Extensive benefits offered.  Send resume to thaskins@eberhardphoenix.com.",
           "//NOLINT(cata-text-style)": "intentional format"
         }
-      },      
+      },
       {
         "id": "backrooms_very_old_news_4",
         "//": "Based on a real 1978 disappearance of an Australian pilot.",
@@ -187,42 +187,42 @@
     "category": "backrooms_lost_people_news",
     "//": "This category is for 'lost person' classified ads and newspaper snippets about people that have fallen into to the Backrooms, from any era.",
     "text": [
-    {
-      "id": "backrooms_lost_people_news_1",
-      "text": "STUDENT MISSING: A high school student vanished yesterday evening in the forest near Wayland.  The 17-year-old student Brett Dong was last seen with his friends in the camp.  \"Brett said that he was gonna get some firewood but he never came back,\" said his classmate, Jianxiang Wang.  The search is underway."
-    },
-    {
-      "id": "backrooms_lost_people_news_2",
-      "text": "CELEBRATED PHYSICIST GOES MISSING.  Dr. Amy Takatoshi, a celebrated quantum physicist at MIT dubbed by some as \"the next Hawking\" has gone missing shortly before a press conference that was expected to be the announcement of her newest research results, rumored to be in the field of teleportation."
-    },
-    {
-      "id": "backrooms_lost_people_news_3",
-      "text": "RUMORS DENIED: Allegations from search parties hunting for Brett Dong, that a civilian research facility just outside Wayland is a front for a government facility researching dangerous technologies, were addressed during a press conference earlier today.  \"I have to clarify that not only have we never done such research,\" said the officer on the press conference.  \"These allegations are absurd.  Teleportation and aliens only exist in sci-fi films, and the US certainly doesn't have the funds to build these extensive underground networks people are talking about.  I can't believe I even have to tell you this.  I don't know what those kids saw that put these ideas in their heads, but they're going through an awful lot with the loss of their friend.\""
-    },
-    {
-      "id": "backrooms_lost_people_news_4",
-      "text": "TELEPORTATION?  An unidentified source working in a major university contacted multiple media outlets this week with a farfetched story that is nonetheless corroborated by third-party physicists as \"shockingly possible\".  This source, nicknamed \"Deep Space\", describes secret government experimentation into teleportation, dating back to before 2008.  \"When I read the tagline, I just scoffed,\" said Dr. Alice Feyn, a physics professor at MIT.  \"Then I read on.  This is strongly reminiscent of Dr. Takatoshi's lost work.  It feels bizarre to say it, but I think there's a grain of truth to all of this.\"  Dr. Amy Takatoshi was a quantum physicist who went missing, along with all records of her work, in July 2007."
-    },
-    {
-      "id": "backrooms_lost_people_news_5",
-      "text": "KIDNAPPING IN WESTFIELD?  After a week of intense searching, chasing leads across the state, the Oriole County Sheriff's Department have still uncovered no leads in the disappearance of Kasey Akron, 31, postal worker and mother of two.  Akron disappeared without a trace while on the job in Westfield, a small village with a population of only 824, on September 24th.  Her vehicle was found still running, undelivered mail left inside.  Her mother tearfully testified to the Oriole Free Press, \"Kasey was a happy and loved woman.  Wherever she is, we know she wants to come home!\"  Detectives previously suggested that Akron may have departed with someone she knew, but have not made any arrests so far."
-    },
-    {
-      "id": "backrooms_lost_people_news_6",
-      "text": "MYSTERY IN DRESDEN: Nefarious happenings are nothing new for the ever-tumultuous GDR, but the peculiar mystery of two missing actors has captured international attention.  Nani Wolf and Angela Weiss were slated to perform in mere moments, spotted entering their dressing room with fellow company members testifying to every minute and every angle, but when the curtain call came, they were nowhere to be found!  Region police are baffled, but have concluded there was no sign of foul play.  The girls just disappeared!"
-    },
-    {
-      "id": "backrooms_lost_people_news_7",
-      "text": "MISSING MAN: Gerald Bienkowski, age 47.  Disappeared: April 14.  Last seen leaving Tony's Watering Hole in Burlington.  Believed to be of sound mind, but possibly in danger.  If seen, contact local police.  Do not approach."
-    },
-    {
-      "id": "backrooms_lost_people_news_8",
-      "text": "MISSING WOMAN: Anne Demir, age 33.  Disappeared: May 3.  Last seen driving SOUTH of Dallas on I-45 at 8:45pm.  NEW DETAILS HAVE RE-OPENED THIS INVESTIGATION.  New witness footage confirms Demir's car driving SOUTH rather than north, as previously reported."
-    },
-    {
-      "id": "backrooms_lost_people_news_9",
-      "text": "NO TRACE FOUND in search for missing Lisa Hawthorne and her boyfriend Shaun after 58 Civil Air Patrol members spent three days scouring the area near Twelve Mile Trail.  The couple's car was found roadside near the northern trailhead and they were reported missing shortly after.  The couple were \"on a daily hike in a place completely known to them\", says detective Aretha Wesson, who personally knew the two intrepid young atheletes."
-    }
+      {
+        "id": "backrooms_lost_people_news_1",
+        "text": "STUDENT MISSING: A high school student vanished yesterday evening in the forest near Wayland.  The 17-year-old student Brett Dong was last seen with his friends in the camp.  \"Brett said that he was gonna get some firewood but he never came back,\" said his classmate, Jianxiang Wang.  The search is underway."
+      },
+      {
+        "id": "backrooms_lost_people_news_2",
+        "text": "CELEBRATED PHYSICIST GOES MISSING.  Dr. Amy Takatoshi, a celebrated quantum physicist at MIT dubbed by some as \"the next Hawking\" has gone missing shortly before a press conference that was expected to be the announcement of her newest research results, rumored to be in the field of teleportation."
+      },
+      {
+        "id": "backrooms_lost_people_news_3",
+        "text": "RUMORS DENIED: Allegations from search parties hunting for Brett Dong, that a civilian research facility just outside Wayland is a front for a government facility researching dangerous technologies, were addressed during a press conference earlier today.  \"I have to clarify that not only have we never done such research,\" said the officer on the press conference.  \"These allegations are absurd.  Teleportation and aliens only exist in sci-fi films, and the US certainly doesn't have the funds to build these extensive underground networks people are talking about.  I can't believe I even have to tell you this.  I don't know what those kids saw that put these ideas in their heads, but they're going through an awful lot with the loss of their friend.\""
+      },
+      {
+        "id": "backrooms_lost_people_news_4",
+        "text": "TELEPORTATION?  An unidentified source working in a major university contacted multiple media outlets this week with a farfetched story that is nonetheless corroborated by third-party physicists as \"shockingly possible\".  This source, nicknamed \"Deep Space\", describes secret government experimentation into teleportation, dating back to before 2008.  \"When I read the tagline, I just scoffed,\" said Dr. Alice Feyn, a physics professor at MIT.  \"Then I read on.  This is strongly reminiscent of Dr. Takatoshi's lost work.  It feels bizarre to say it, but I think there's a grain of truth to all of this.\"  Dr. Amy Takatoshi was a quantum physicist who went missing, along with all records of her work, in July 2007."
+      },
+      {
+        "id": "backrooms_lost_people_news_5",
+        "text": "KIDNAPPING IN WESTFIELD?  After a week of intense searching, chasing leads across the state, the Oriole County Sheriff's Department have still uncovered no leads in the disappearance of Kasey Akron, 31, postal worker and mother of two.  Akron disappeared without a trace while on the job in Westfield, a small village with a population of only 824, on September 24th.  Her vehicle was found still running, undelivered mail left inside.  Her mother tearfully testified to the Oriole Free Press, \"Kasey was a happy and loved woman.  Wherever she is, we know she wants to come home!\"  Detectives previously suggested that Akron may have departed with someone she knew, but have not made any arrests so far."
+      },
+      {
+        "id": "backrooms_lost_people_news_6",
+        "text": "MYSTERY IN DRESDEN: Nefarious happenings are nothing new for the ever-tumultuous GDR, but the peculiar mystery of two missing actors has captured international attention.  Nani Wolf and Angela Weiss were slated to perform in mere moments, spotted entering their dressing room with fellow company members testifying to every minute and every angle, but when the curtain call came, they were nowhere to be found!  Region police are baffled, but have concluded there was no sign of foul play.  The girls just disappeared!"
+      },
+      {
+        "id": "backrooms_lost_people_news_7",
+        "text": "MISSING MAN: Gerald Bienkowski, age 47.  Disappeared: April 14.  Last seen leaving Tony's Watering Hole in Burlington.  Believed to be of sound mind, but possibly in danger.  If seen, contact local police.  Do not approach."
+      },
+      {
+        "id": "backrooms_lost_people_news_8",
+        "text": "MISSING WOMAN: Anne Demir, age 33.  Disappeared: May 3.  Last seen driving SOUTH of Dallas on I-45 at 8:45pm.  NEW DETAILS HAVE RE-OPENED THIS INVESTIGATION.  New witness footage confirms Demir's car driving SOUTH rather than north, as previously reported."
+      },
+      {
+        "id": "backrooms_lost_people_news_9",
+        "text": "NO TRACE FOUND in search for missing Lisa Hawthorne and her boyfriend Shaun after 58 Civil Air Patrol members spent three days scouring the area near Twelve Mile Trail.  The couple's car was found roadside near the northern trailhead and they were reported missing shortly after.  The couple were \"on a daily hike in a place completely known to them\", says detective Aretha Wesson, who personally knew the two intrepid young athletes."
+      }
     ]
   },
   {
