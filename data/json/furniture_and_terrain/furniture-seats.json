@@ -84,7 +84,7 @@
         { "item": "pipe", "count": [ 0, 2 ] },
         { "item": "scrap", "charges": [ 2, 10 ] },
         { "item": "cotton_patchwork", "count": [ 15, 40 ] },
-        { "item": "plastic_chunk", "count": [ 1, 7 ] }
+        { "item": "plastic_chunk", "count": [ 1, 7 ] },
         { "item": "rope_6" }
       ]
     }
