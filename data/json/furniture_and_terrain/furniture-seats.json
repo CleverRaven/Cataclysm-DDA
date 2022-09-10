@@ -128,10 +128,11 @@
     "required_str": 10,
     "deconstruct": {
       "items": [
-        { "item": "2x4", "count": 12 },
-        { "item": "cotton_patchwork", "count": [ 30, 33 ] },
-        { "item": "nail", "charges": [ 8, 10 ] },
-        { "item": "spring", "charges": [ 2, 3 ] }
+        { "item": "wooden_post_short", "count": 6 },
+        { "item": "cotton_patchwork", "count": 85 },
+        { "item": "nuts_bolts", "charges": 16 },
+        { "item": "spring", "charges": 2 },
+        { "item": "splinter", "count": [ 1, 25 ] }
       ]
     },
     "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "BLOCKSDOOR", "MOUNTABLE", "CAN_SIT" ],
@@ -141,11 +142,11 @@
       "sound": "smash!",
       "sound_fail": "whump.",
       "items": [
-        { "item": "2x4", "count": [ 2, 5 ] },
-        { "item": "nail", "charges": [ 3, 8 ] },
-        { "item": "splinter", "count": [ 1, 2 ] },
-        { "item": "scrap", "count": [ 0, 5 ] },
-        { "item": "cotton_patchwork", "count": [ 20, 30 ] }
+        { "item": "wooden_post_short", "count": [ 0, 3 ] },
+        { "item": "nuts_bolts", "charges": [ 2, 8 ] },
+        { "item": "splinter", "count": [ 5, 35 ] },
+        { "item": "scrap", "charges": [ 0, 6 ] },
+        { "item": "cotton_patchwork", "count": [ 40, 70 ] }
       ]
     }
   },
