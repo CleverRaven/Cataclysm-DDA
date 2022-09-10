@@ -1108,7 +1108,8 @@ ret_val<void> outfit::power_armor_conflicts( const item &clothing ) const
         // You can only wear headgear or non-covering items with power armor, except other power armor components.
         // You can't wear headgear if power armor helmet is already sitting on your head.
         bool has_helmet = false;
-        if( !clothing.get_covered_body_parts().none() && !clothing.has_flag( flag_POWERARMOR_COMPATIBLE ) && !elem.has_flag( flag_AURA ) &&
+        if( !clothing.get_covered_body_parts().none() && !clothing.has_flag( flag_POWERARMOR_COMPATIBLE ) &&
+            !clothing.has_flag( flag_AURA ) &&
             ( is_wearing_power_armor( &has_helmet ) &&
               ( has_helmet || !( clothing.covers( body_part_head ) || clothing.covers( body_part_mouth ) ||
                                  clothing.covers( body_part_eyes ) ) ) ) ) {
