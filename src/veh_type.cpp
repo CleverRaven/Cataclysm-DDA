@@ -583,7 +583,7 @@ static bool mountable_gun_filter( const itype &guntype )
     return std::none_of( bad_flags.cbegin(), bad_flags.cend(), [&guntype]( const flag_id & flag ) {
         return guntype.has_flag( flag );
     } );
-};
+}
 
 // @returns true if itype uses liquid ammo directly or has a magwell + magazine pocket that accepts liquid ammo
 static bool gun_uses_liquid_ammo( const itype &guntype )
@@ -605,7 +605,7 @@ static bool gun_uses_liquid_ammo( const itype &guntype )
         }
     }
     return false;
-};
+}
 
 // @returns Amount of battery drained on default gunmode if itype uses magwell+mag with battery ammo
 static int gun_battery_mags_drain( const itype &guntype )
@@ -626,7 +626,7 @@ static int gun_battery_mags_drain( const itype &guntype )
         debugmsg( "%s uses both UPS charges and battery magazines", guntype.nname( 1 ) );
     }
     return charges_used;
-};
+}
 
 static std::string get_looks_like( const vpart_info &vpi, const itype &it )
 {
@@ -654,7 +654,7 @@ static std::string get_looks_like( const vpart_info &vpi, const itype &it )
     } else {
         return "mounted_m249"; // machine guns and also default for any unknown
     }
-};
+}
 
 void vpart_info::finalize()
 {
