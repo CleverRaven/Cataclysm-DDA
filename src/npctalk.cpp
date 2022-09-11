@@ -2234,15 +2234,16 @@ static void receive_item( const itype_id &item_name, int count, const std::strin
 }
 
 template<class T>
-void talk_effect_fun_t<T>::set_u_spawn_item(  const JsonObject &jo, const std::string &member, int count,
+void talk_effect_fun_t<T>::set_u_spawn_item( const JsonObject &jo, const std::string &member,
+        int count,
         const std::string &container_name )
 {
-    str_or_var<T> item_name = get_str_or_var<T>( jo.get_member( member ), member, false, "default");
+    str_or_var<T> item_name = get_str_or_var<T>( jo.get_member( member ), member, false, "default" );
     function = [item_name, count, container_name]( const T & d ) {
-        receive_item( itype_id( item_name.evaluate(d) ), count, container_name, d);
+        receive_item( itype_id( item_name.evaluate( d ) ), count, container_name, d );
     };
     dialogue d( get_talker_for( get_avatar() ), nullptr );
-    likely_rewards.emplace_back(count, itype_id( item_name.evaluate(d) ) );
+    likely_rewards.emplace_back( count, itype_id( item_name.evaluate( d ) ) );
 }
 
 template<class T>
