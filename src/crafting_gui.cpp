@@ -20,6 +20,7 @@
 #include "color.h"
 #include "crafting.h"
 #include "cursesdef.h"
+#include "debug.h"
 #include "display.h"
 #include "flag.h"
 #include "input.h"
@@ -978,6 +979,25 @@ static void nested_toggle( recipe_id rec, bool &recalc, bool &keepline )
     keepline = true;
 }
 
+static bool selection_ok( const std::vector<const recipe *> &list, const int current_line,
+                          const bool nested_acceptable )
+{
+    std::string error_message;
+    if( list.empty() ) {
+        error_message = _( "Nothing selected!" );
+    } else if( list[current_line]->is_nested() && !nested_acceptable ) {
+        error_message = _( "Select a recipe within this group" );
+    } else {
+        return true;
+    }
+
+    query_popup()
+    .message( "%s", error_message )
+    .option( "QUIT" )
+    .query();
+    return false;
+}
+
 const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id goto_recipe )
 {
     recipe_result_info_cache result_info;
@@ -1240,6 +1260,10 @@ const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id goto_
         }
         list_map.clear();
         for( int i = istart; i < iend; ++i ) {
+            if( i >= static_cast<int>( indent.size() ) || indent[i] < 0 ) {
+                indent.assign( current.size(), 0 );
+                debugmsg( _( "Indent for line %i not set correctly.  Indents reset to 0." ), i );
+            }
             std::string tmp_name = std::string( indent[i],
                                                 ' ' ) + current[i]->result_name( /*decorated=*/true );
             if( batch ) {
@@ -1368,6 +1392,7 @@ const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id goto_
                     current.push_back( chosen );
                     available.emplace_back( chosen, i );
                 }
+                indent.assign( current.size(), 0 );
             } else {
                 static_popup popup;
                 auto last_update = std::chrono::steady_clock::now();
@@ -1654,14 +1679,7 @@ const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id goto_
                 done = true;
                 uistate.read_recipes.insert( chosen->ident() );
             }
-        } else if( action == "HELP_RECIPE" ) {
-            if( current.empty() ) {
-                query_popup()
-                .message( "%s", _( "Nothing selected!" ) )
-                .option( "QUIT" )
-                .query();
-                continue;
-            }
+        } else if( action == "HELP_RECIPE" && selection_ok( current, line, false ) ) {
             uistate.read_recipes.insert( current[line]->ident() );
             recalc_unread = highlight_unread_recipes;
             ui.invalidate_ui();
@@ -1735,14 +1753,7 @@ const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id goto_
             filterstring.clear();
             recalc = true;
             recalc_unread = highlight_unread_recipes;
-        } else if( action == "CYCLE_BATCH" ) {
-            if( current.empty() ) {
-                query_popup()
-                .message( "%s", _( "Nothing selected!" ) )
-                .option( "QUIT" )
-                .query();
-                continue;
-            }
+        } else if( action == "CYCLE_BATCH" && selection_ok( current, line, false ) ) {
             batch = !batch;
             if( batch ) {
                 batch_line = line;
@@ -1753,14 +1764,7 @@ const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id goto_
                 keepline = true;
             }
             recalc = true;
-        } else if( action == "TOGGLE_FAVORITE" ) {
-            if( current.empty() ) {
-                query_popup()
-                .message( "%s", _( "Nothing selected!" ) )
-                .option( "QUIT" )
-                .query();
-                continue;
-            }
+        } else if( action == "TOGGLE_FAVORITE" && selection_ok( current, line, true ) ) {
             keepline = true;
             recalc = filterstring.empty() && subtab.cur() == "CSC_*_FAVORITE";
             if( uistate.favorite_recipes.find( current[line]->ident() ) != uistate.favorite_recipes.end() ) {
@@ -1777,14 +1781,7 @@ const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id goto_
                 uistate.read_recipes.insert( current[line]->ident() );
             }
             recalc_unread = highlight_unread_recipes;
-        } else if( action == "HIDE_SHOW_RECIPE" ) {
-            if( current.empty() ) {
-                query_popup()
-                .message( "%s", _( "Nothing selected!" ) )
-                .option( "QUIT" )
-                .query();
-                continue;
-            }
+        } else if( action == "HIDE_SHOW_RECIPE" && selection_ok( current, line, true ) ) {
             if( show_hidden ) {
                 uistate.hidden_recipes.erase( current[line]->ident() );
             } else {
@@ -1800,10 +1797,7 @@ const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id goto_
             } else {
                 line--;
             }
-        } else if( action == "TOGGLE_RECIPE_UNREAD" ) {
-            if( current.empty() ) {
-                continue;
-            }
+        } else if( action == "TOGGLE_RECIPE_UNREAD" && selection_ok( current, line, true ) ) {
             const recipe_id rcp = current[line]->ident();
             if( uistate.read_recipes.count( rcp ) ) {
                 uistate.read_recipes.erase( rcp );
@@ -1850,14 +1844,7 @@ const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id goto_
             unread_recipes_first = !unread_recipes_first;
             recalc = true;
             keepline = true;
-        } else if( action == "RELATED_RECIPES" ) {
-            if( current.empty() ) {
-                query_popup()
-                .message( "%s", _( "Nothing selected!" ) )
-                .option( "QUIT" )
-                .query();
-                continue;
-            }
+        } else if( action == "RELATED_RECIPES" && selection_ok( current, line, false ) ) {
             uistate.read_recipes.insert( current[line]->ident() );
             recalc_unread = highlight_unread_recipes;
             ui.invalidate_ui();

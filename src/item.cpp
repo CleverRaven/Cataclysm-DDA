@@ -7268,7 +7268,7 @@ bool item::has_flag( const flag_id &f, bool ignore_inherit ) const
         // if the pocket inherits flags
         if( pocket->inherits_flags() ) {
             for( const item *e : pocket->all_items_top() ) {
-                if( e->has_flag( f ) ) {
+                if( e->has_flag( f ) && f->inherit() ) {
                     return true;
                 }
             }
@@ -9943,7 +9943,7 @@ bool item::is_fuel() const
         return false;
     }
     // and this material has to produce energy
-    if( get_base_material().get_fuel_data().energy <= 0.0 ) {
+    if( get_base_material().get_fuel_data().energy <= 0_J ) {
         return false;
     }
     // and it needs to be have consumable charges
@@ -10011,9 +10011,10 @@ int item::wheel_area() const
     return is_wheel() ? type->wheel->diameter * type->wheel->width : 0;
 }
 
-float item::fuel_energy() const
+units::energy item::fuel_energy() const
 {
-    return get_base_material().get_fuel_data().energy;
+    // The odd units and division are to avoid integer rounding errors.
+    return get_base_material().get_fuel_data().energy * units::to_milliliter( volume() ) / 1000;
 }
 
 std::string item::fuel_pump_terrain() const
@@ -13704,7 +13705,17 @@ std::string item::type_name( unsigned int quantity ) const
 
     // Apply conditional names, in order.
     for( const conditional_name &cname : type->conditional_names ) {
-        // Lambda for recursively searching for a item ID among all components.
+        // Lambda for searching for a item ID among all components.
+        std::function<bool( std::list<item> )> component_id_equals =
+        [&]( const std::list<item> &components ) {
+            for( const item &component : components ) {
+                if( component.typeId().str() == cname.condition ) {
+                    return true;
+                }
+            }
+            return false;
+        };
+        // Lambda for recursively searching for a item ID substring among all components.
         std::function<bool ( std::list<item> )> component_id_contains =
         [&]( const std::list<item> &components ) {
             for( const item &component : components ) {
@@ -13722,6 +13733,11 @@ std::string item::type_name( unsigned int quantity ) const
                 }
                 break;
             case condition_type::COMPONENT_ID:
+                if( component_id_equals( components ) ) {
+                    ret_name = string_format( cname.name.translated( quantity ), ret_name );
+                }
+                break;
+            case condition_type::COMPONENT_ID_SUBSTRING:
                 if( component_id_contains( components ) ) {
                     ret_name = string_format( cname.name.translated( quantity ), ret_name );
                 }

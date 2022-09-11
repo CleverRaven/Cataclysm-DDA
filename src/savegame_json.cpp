@@ -3220,8 +3220,17 @@ void vehicle_part::deserialize( const JsonObject &data )
     }
     JsonArray ja = data.get_array( "carry" );
     // count down from size - 1, then stop after unsigned long 0 - 1 becomes MAX_INT
+    static constexpr int name_offset = 7;
     for( size_t index = ja.size() - 1; index < ja.size(); index-- ) {
-        carry_names.push( ja.get_string( index ) );
+        const std::string raw = ja.get_string( index );
+        const bool axis_is_x = raw[0] == 'X';
+        const int mount_offset = std::stoi( raw.substr( 1, 3 ) );
+        carried_stack.push( {
+            axis_is_x ? tripoint( mount_offset, 0, 0 ) : tripoint( 0, mount_offset, 0 ),
+            axis_is_x,
+            units::from_degrees( std::stoi( raw.substr( 4, 3 ) ) ),
+            raw.substr( name_offset ),
+        } );
     }
     data.read( "crew_id", crew_id );
     data.read( "items", items );
@@ -3264,13 +3273,20 @@ void vehicle_part::serialize( JsonOut &json ) const
     json.member( "blood", blood );
     json.member( "enabled", enabled );
     json.member( "flags", flags );
-    if( !carry_names.empty() ) {
-        std::stack<std::string, std::vector<std::string> > carry_copy = carry_names;
+    if( !carried_stack.empty() ) {
+        std::stack<vehicle_part::carried_part_data> carried_copy = carried_stack;
         json.member( "carry" );
         json.start_array();
-        while( !carry_copy.empty() ) {
-            json.write( carry_copy.top() );
-            carry_copy.pop();
+        while( !carried_copy.empty() ) {
+            const vehicle_part::carried_part_data &x = carried_copy.top();
+            carried_copy.pop();
+            const bool pivot = x.mount == tripoint_zero;
+            const int mount_offset = x.axis_is_x ? x.mount.x : x.mount.y;
+            json.write( string_format( "%c%3d%3d%s",
+                                       pivot ? ( x.axis_is_x ? 'X' : 'Y' ) : ' ',
+                                       mount_offset,
+                                       static_cast<int>( to_degrees( x.face_dir ) ),
+                                       x.veh_name ) );
         }
         json.end_array();
     }
@@ -3455,9 +3471,21 @@ void vehicle::deserialize( const JsonObject &data )
     }
 
     data.read( "tags", tags );
-    data.read( "fuel_remainder", fuel_remainder );
-    data.read( "fuel_used_last_turn", fuel_used_last_turn );
     data.read( "labels", labels );
+
+    if( data.has_string( "fuel_remainder" ) ) {
+        data.read( "fuel_remainder", fuel_remainder );
+    } else {
+        // Compatibility with 0.F
+        // It is a small and not important number so just ignore it.
+    }
+
+    if( data.has_string( "fuel_used_last_turn" ) ) {
+        data.read( "fuel_used_last_turn", fuel_used_last_turn );
+    } else {
+        // Compatibility with 0.F
+        // It is a small and not important number so just ignore it.
+    }
 
     // TODO: Remove after enough time passes for save games to migrate.
     // This migrates old "convertible" vehicles to new generic "folding" ones

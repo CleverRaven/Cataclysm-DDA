@@ -261,6 +261,8 @@ static int test_efficiency( const vproto_id &veh_id, int &expected_mass,
     const float fuel_percentage_used = fuel_level * ( starting_fuel_per - fuel_left );
     int adjusted_tiles_travelled = tiles_travelled / fuel_percentage_used;
     if( target_distance >= 0 ) {
+        INFO( "Target distance: " << target_distance )
+        INFO( "Travelled distance: " << adjusted_tiles_travelled )
         CHECK( adjusted_tiles_travelled >= min_dist );
         CHECK( adjusted_tiles_travelled <= max_dist );
     }
@@ -438,7 +440,7 @@ TEST_CASE( "vehicle_efficiency", "[vehicle] [engine]" )
     test_vehicle( "beetle", 707777, 399680, 358994, 110952, 91402 );
     test_vehicle( "car", 1011976, 555111, 399360, 60344, 30655 );
     test_vehicle( "car_sports", 998322, 336539, 283905, 41326, 30440 );
-    test_vehicle( "electric_car", 698493, 533760, 473105, 43302, 37555 );
+    test_vehicle( "electric_car", 698493, 209563, 182602, 17265, 14957 );
     test_vehicle( "suv", 1246644, 1050949, 630063, 90148, 34734 );
     test_vehicle( "motorcycle", 173585, 109802, 87649, 57566, 44497 );
     test_vehicle( "quad_bike", 275845, 107440, 107440, 44021, 44021 );
@@ -452,7 +454,7 @@ TEST_CASE( "vehicle_efficiency", "[vehicle] [engine]" )
     test_vehicle( "apc", 5919120, 1512911, 1042420, 123904, 79286 );
     test_vehicle( "humvee", 5980330, 676881, 284910, 23790, 7337 );
     test_vehicle( "road_roller", 9055909, 542552, 132476, 21598, 6925 );
-    test_vehicle( "golf_cart", 319630, 128762, 124548, 57882, 32461 );
+    test_vehicle( "golf_cart", 319630, 50080, 47850, 22925, 12889 );
     // in reverse
     test_vehicle( "beetle", 707777, 58800, 58800, 45900, 44560, 0, 0, true );
     test_vehicle( "car", 1011976, 76390, 76260, 48330, 30270, 0, 0, true );
