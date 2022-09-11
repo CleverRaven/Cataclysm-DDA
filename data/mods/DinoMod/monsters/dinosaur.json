@@ -1252,7 +1252,7 @@
     "zombify_into": "mon_ztegosaurus",
     "special_attacks": [
       { "id": "stomp_DinoMod", "cooldown": 10, "damage_max_instance": [ { "damage_type": "bash", "amount": 12 } ] },
-      [ "tailsmash_DinoMod", 30 ],
+      [ "tailsmash_ankyl_DinoMod", 30 ],
       [ "EAT_CROP", 20 ]
     ],
     "description": "A huge slow quadruped dinosaur with two rows of tall plates on its back, and a spiked tail.",
@@ -1278,7 +1278,7 @@
     "zombify_into": "mon_zesperosaurus",
     "special_attacks": [
       { "id": "stomp_DinoMod", "cooldown": 10, "damage_max_instance": [ { "damage_type": "bash", "amount": 15 } ] },
-      [ "tailsmash_DinoMod", 30 ],
+      [ "tailsmash_ankyl_DinoMod", 30 ],
       [ "EAT_CROP", 20 ]
     ],
     "description": "A huge slow quadruped dinosaur with two rows of long plates on its back, and a spiked tail.",
@@ -1370,7 +1370,7 @@
     "zombify_into": "mon_zyoplosaurus",
     "special_attacks": [
       { "id": "stomp_DinoMod", "cooldown": 10, "damage_max_instance": [ { "damage_type": "bash", "amount": 8 } ] },
-      [ "tailsmash_DinoMod", 30 ],
+      [ "tailsmash_ankyl_DinoMod", 30 ],
       [ "EAT_CROP", 40 ]
     ],
     "description": "This armored dinosaur looks like a giant prehistoric armadillo.  Its tail ends in a spiked club of bone.",
@@ -1410,7 +1410,7 @@
     "zombify_into": "mon_zankylosaurus",
     "special_attacks": [
       { "id": "stomp_DinoMod", "cooldown": 10, "damage_max_instance": [ { "damage_type": "bash", "amount": 12 } ] },
-      [ "tailsmash_DinoMod", 30 ],
+      [ "tailsmash_ankyl_DinoMod", 30 ],
       [ "EAT_CROP", 40 ]
     ],
     "description": "This armored dinosaur looks like a giant prehistoric armadillo.  Its tail ends in a massive spiked club of bone.",
