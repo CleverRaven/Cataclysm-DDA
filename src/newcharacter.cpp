@@ -1324,6 +1324,7 @@ void set_traits( tab_manager &tabs, avatar &u, pool_type pool )
     bool recalc_traits = false;
     // pointer for memory footprint reasons
     std::array<std::vector<const trait_and_var *>, 3> sorted_traits;
+    std::array<scrollbar, 3> trait_sbs;
     std::string filterstring;
 
     for( int i = 0; i < 3; i++ ) {
@@ -1390,6 +1391,9 @@ void set_traits( tab_manager &tabs, avatar &u, pool_type pool )
 
     input_context ctxt( "NEW_CHAR_TRAITS" );
     tabs.set_up_tab_navigation( ctxt );
+    for( scrollbar &sb : trait_sbs ) {
+        sb.set_draggable( ctxt );
+    }
     ctxt.register_cardinal();
     ctxt.register_action( "PAGE_UP", to_translation( "Fast scroll up" ) );
     ctxt.register_action( "PAGE_DOWN", to_translation( "Fast scroll down" ) );
@@ -1517,8 +1521,7 @@ void set_traits( tab_manager &tabs, avatar &u, pool_type pool )
                            page_width - 2 ) );
             }
 
-            scrollbar()
-            .offset_x( page_width * iCurrentPage )
+            trait_sbs[iCurrentPage].offset_x( page_width * iCurrentPage )
             .offset_y( 5 )
             .content_size( traits_size[iCurrentPage] )
             .viewport_pos( start )
@@ -1587,8 +1590,23 @@ void set_traits( tab_manager &tabs, avatar &u, pool_type pool )
 
         ui_manager::redraw();
         const std::string action = ctxt.handle_input();
+        std::array< int, 3> cur_sb_pos = iStartPos;
+        bool scrollbar_handled = false;
+        for( int i = 0; i < static_cast<int>( trait_sbs.size() ); ++i ) {
+            if( trait_sbs[i].handle_dragging( action, ctxt.get_coordinates_text( catacurses::stdscr ),
+                                              cur_sb_pos[i] ) ) {
+                if( cur_sb_pos[i] != iStartPos[i] ) {
+                    iStartPos[i] = cur_sb_pos[i];
+                    iCurrentLine[i] = iStartPos[i] + ( iContentHeight - 1 ) / 2;
+                }
+                scrollbar_handled = true;
+            }
+        }
+
         if( tabs.handle_input( action, ctxt ) ) {
             break; // Tab has changed or user has quit the screen
+        } else if( scrollbar_handled ) {
+            // No action required, scrollbar has handled it
         } else if( action == "LEFT" ) {
             iCurWorkingPage = next_avail_page( true );
         } else if( action == "RIGHT" ) {
