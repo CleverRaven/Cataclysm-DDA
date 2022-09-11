@@ -206,7 +206,7 @@ static bool pick_one_up( item_location &loc, int quantity, bool &got_water, Pick
             option = STASH;
         } else {
             crushed = player_character.crush_frozen_liquid( newloc );
-            if( !( got_water = !crushed ) ) {
+            if( crushed ) {
                 option = STASH;
                 newit.set_flag( json_flag_SHREDDED );
             } else {
@@ -350,7 +350,8 @@ bool Pickup::do_pickup( std::vector<item_location> &targets, std::vector<int> &q
     }
     if( got_frozen_liquid ) {
         add_msg( m_info, _( "Chunks of frozen liquid cannot be picked up without the correct tools." ) );
-    } else if( got_water ) {
+    }
+    if( got_water ) {
         add_msg( m_info, _( "Spilt liquid cannot be picked back up.  Try mopping it instead." ) );
     }
     if( weight_is_okay && player_character.weight_carried() > player_character.weight_capacity() ) {

@@ -9028,9 +9028,6 @@ bool Character::crush_frozen_liquid( item_location loc )
                 done_crush = false;
             }
         }
-        if( done_crush ) {
-            add_msg_if_player( _( "You crush up and gather %s." ), loc.get_item()->display_name() );
-        }
     } else {
         std::string need_str = _( "somethings" );
 
@@ -9048,7 +9045,7 @@ bool Character::crush_frozen_liquid( item_location loc )
                                           need_str ) );
     }
     if( done_crush ) {
-        loc->set_flag( flag_SHREDDED );
+        add_msg_if_player( _( "You crush up %s." ), loc.get_item()->display_name() );
     }
     return done_crush;
 }
