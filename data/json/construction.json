@@ -2260,18 +2260,6 @@
   },
   {
     "type": "construction",
-    "id": "constr_bench",
-    "group": "build_bench",
-    "category": "FURN",
-    "required_skills": [ [ "fabrication", 2 ] ],
-    "time": "30 m",
-    "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
-    "components": [ [ [ "2x4", 4 ] ], [ [ "nail", 10 ] ] ],
-    "pre_special": "check_empty",
-    "post_terrain": "f_bench"
-  },
-  {
-    "type": "construction",
     "id": "constr_makeshift_bed",
     "group": "build_makeshift_bed",
     "category": "FURN",
@@ -4528,23 +4516,6 @@
     ],
     "pre_special": "check_empty",
     "post_terrain": "f_scrap_bridge"
-  },
-  {
-    "type": "construction",
-    "id": "constr_metal_bench",
-    "group": "build_scrap_metal_bench",
-    "category": "CONSTRUCT",
-    "required_skills": [ [ "fabrication", 2 ] ],
-    "time": "90 m",
-    "qualities": [ [ { "id": "SAW_M", "level": 1 } ], [ { "id": "WRENCH", "level": 2 } ], [ { "id": "DRILL", "level": 1 } ] ],
-    "components": [
-      [ [ "pipe_fittings", 1 ], [ "steel_chunk", 2 ] ],
-      [ [ "sheet_metal_small", 3 ], [ "scrap", 3 ] ],
-      [ [ "sheet_metal", 1 ] ],
-      [ [ "pipe", 1 ] ]
-    ],
-    "pre_special": "check_empty",
-    "post_terrain": "f_metal_bench"
   },
   {
     "type": "construction",
