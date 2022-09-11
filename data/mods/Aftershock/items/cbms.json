@@ -103,7 +103,7 @@
     "copy-from": "bionic_general",
     "type": "BIONIC_ITEM",
     "name": { "str": "Speed Injection System CBM" },
-    "description": "Should never be found outside of the chemical enhancement rig, but probably can be uninstalled,  there is no point to doing that.",
+    "description": "Should never be found outside of the chemical enhancement rig, but probably can be uninstalled, there is no point to doing that.",
     "price": 1000000,
     "price_postapoc": 100000,
     "difficulty": 9
@@ -113,7 +113,7 @@
     "copy-from": "bionic_general",
     "type": "BIONIC_ITEM",
     "name": { "str": "Pain Suppression Injection System CBM" },
-    "description": "Should never be found outside of the chemical enhancement rig, but probably can be uninstalled,  there is no point to doing that.",
+    "description": "Should never be found outside of the chemical enhancement rig, but probably can be uninstalled, there is no point to doing that.",
     "price": 1000000,
     "price_postapoc": 100000,
     "difficulty": 9
@@ -123,7 +123,7 @@
     "copy-from": "bionic_general",
     "type": "BIONIC_ITEM",
     "name": { "str": "Strength Injection System CBM" },
-    "description": "Should never be found outside of the chemical enhancement rig, but probably can be uninstalled,  there is no point to doing that.",
+    "description": "Should never be found outside of the chemical enhancement rig, but probably can be uninstalled, there is no point to doing that.",
     "price": 1000000,
     "price_postapoc": 100000,
     "difficulty": 9
