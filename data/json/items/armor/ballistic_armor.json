@@ -688,7 +688,7 @@
         "max_item_length": "25 cm",
         "moves": 50,
         "description": "Low-profile zipper storage pouch.",
-        "volume_encumber_modifier": 1.0
+        "volume_encumber_modifier": 0.4
       }
     ]
   },
@@ -785,7 +785,7 @@
         "max_item_length": "13 cm",
         "moves": 40,
         "description": "Shoulder-mounted radio pouch.",
-        "volume_encumber_modifier": 1.0
+        "volume_encumber_modifier": 0.4
       },
       {
         "pocket_type": "CONTAINER",
@@ -795,7 +795,7 @@
         "holster": true,
         "moves": 20,
         "description": "Hook for a glowstick.",
-        "volume_encumber_modifier": 1.0
+        "volume_encumber_modifier": 0.4
       }
     ]
   },
@@ -840,7 +840,7 @@
         "max_contains_weight": "1 kg",
         "max_item_length": "13 cm",
         "moves": 120,
-        "volume_encumber_modifier": 1.0
+        "volume_encumber_modifier": 0.4
       },
       {
         "pocket_type": "CONTAINER",
@@ -848,7 +848,7 @@
         "max_contains_weight": "1 kg",
         "max_item_length": "13 cm",
         "moves": 120,
-        "volume_encumber_modifier": 1.0
+        "volume_encumber_modifier": 0.4
       },
       {
         "pocket_type": "CONTAINER",
@@ -913,7 +913,7 @@
         "max_contains_weight": "1 kg",
         "max_item_length": "13 cm",
         "moves": 120,
-        "volume_encumber_modifier": 1.0
+        "volume_encumber_modifier": 0.4
       },
       {
         "pocket_type": "CONTAINER",
@@ -921,7 +921,7 @@
         "max_contains_weight": "1 kg",
         "max_item_length": "13 cm",
         "moves": 120,
-        "volume_encumber_modifier": 1.0
+        "volume_encumber_modifier": 0.4
       },
       {
         "pocket_type": "CONTAINER",
