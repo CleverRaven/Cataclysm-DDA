@@ -1,7 +1,7 @@
 [
   {
     "type": "weakpoint_set",
-    "id": "wps_abomination_base",
+    "id": "wps_amalgamation_base",
     "weakpoints": [
       {
         "id": "leg",
@@ -90,7 +90,7 @@
   },
   {
     "type": "weakpoint_set",
-    "id": "wps_abomination_acid",
+    "id": "wps_amalgamation_acid",
     "weakpoints": [
       {
         "id": "acid_gland",
@@ -158,7 +158,7 @@
   },
   {
     "type": "weakpoint_set",
-    "id": "wps_abomination_armor",
+    "id": "wps_amalgamation_armor",
     "weakpoints": [
       {
         "id": "armor_thin",
@@ -206,7 +206,7 @@
   },
   {
     "type": "weakpoint_set",
-    "id": "wps_abomination_electric",
+    "id": "wps_amalgamation_electric",
     "weakpoints": [
       {
         "id": "capacitor",
@@ -243,7 +243,7 @@
   },
   {
     "type": "weakpoint_set",
-    "id": "wps_abomination_mandible",
+    "id": "wps_amalgamation_mandible",
     "weakpoints": [
       {
         "id": "mandible",
@@ -278,7 +278,7 @@
   },
   {
     "type": "weakpoint_set",
-    "id": "wps_abomination_tail",
+    "id": "wps_amalgamation_tail",
     "weakpoints": [
       {
         "id": "tail",
@@ -308,7 +308,7 @@
   },
   {
     "type": "weakpoint_set",
-    "id": "wps_abomination_wing",
+    "id": "wps_amalgamation_wing",
     "weakpoints": [
       {
         "id": "wing",

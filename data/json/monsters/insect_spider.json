@@ -771,7 +771,6 @@
     "reproduction": { "baby_egg": "egg_firefly", "baby_count": 1, "baby_timer": 15 },
     "baby_flags": [ "SPRING", "SUMMER" ],
     "fear_triggers": [ "HURT", "FIRE" ],
-    "zombify_into": "mon_meat_cocoon_tiny",
     "flags": [ "SEES", "HEARS", "FLIES", "STUMBLES" ]
   },
   {
@@ -1566,8 +1565,8 @@
     "bodytype": "flying insect",
     "species": [ "INSECT_FLYING" ],
     "diff": 2,
-    "volume": "9 L",
-    "weight": "9 kg",
+    "volume": "10 L",
+    "weight": "10 kg",
     "hp": 20,
     "speed": 100,
     "material": [ "iflesh" ],
@@ -3310,7 +3309,7 @@
     "dissect": "dissect_insect_sample_large",
     "upgrades": { "age_grow": 20, "into": "mon_butterfly_cocoon" },
     "fear_triggers": [ "HURT", "FIRE" ],
-    "zombify_into": "mon_meat_cocoon_tiny",
+    "zombify_into": "mon_meat_cocoon_small",
     "flags": [ "SEES", "SMELLS", "CLIMBS", "HEARS", "STUMBLES", "PATH_AVOID_FIRE" ]
   },
   {
@@ -3330,6 +3329,7 @@
     "harvest": "arachnid",
     "dissect": "dissect_insect_sample_large",
     "upgrades": { "age_grow": 50, "into": "mon_butterfly_giant" },
+    "zombify_into": "mon_meat_cocoon_small",
     "flags": [ "IMMOBILE" ]
   },
   {

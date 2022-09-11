@@ -46,10 +46,10 @@
   },
   {
     "type": "proficiency",
-    "id": "prof_wp_abomination",
+    "id": "prof_wp_amalgamation",
     "category": "prof_weakpoint",
-    "name": { "str": "Anatomy of Abominations" },
-    "description": "You are as familiar with the anatomy of these purpose-built amalgamations as it's possible given their great variation.",
+    "name": { "str": "Anatomy of Amalgamations" },
+    "description": "You are familiar with the common anatomy of these purpose-built abominations, as far as they have one.",
     "can_learn": true,
     "time_to_learn": "20 h",
     "default_weakpoint_bonus": 4,

@@ -2,13 +2,18 @@
   {
     "type": "MONSTER",
     "id": "mon_meat_cocoon_tiny",
-    "//": "10 - 35 kg",
+    "//": "10 - 35 kg corpse",
     "copy-from": "mon_meat_cocoon_small",
     "name": { "str": "tiny meat cocoon" },
     "description": "A small, wet sack of pink skin, with something dog-sized moving around underneath the surface.  Black roots anchor it to the ground.",
     "volume": "20 L",
     "weight": "20 kg",
-    "upgrades": { "age_grow": 1, "into_group": "GROUP_COCOON_TINY" }
+    "upgrades": { "age_grow": 1, "into_group": "GROUP_COCOON_TINY" },
+    "death_function": {
+      "message": "The %s explodes in a shower of gore!",
+      "corpse_type": "NO_CORPSE",
+      "effect": { "id": "death_blood", "hit_self": true, "min_level": 0 }
+    }
   },
   {
     "type": "MONSTER",
@@ -28,6 +33,12 @@
     "hp": 100,
     "speed": 100,
     "upgrades": { "age_grow": 1, "into_group": "GROUP_COCOON_SMALL", "multiple_spawns": true, "spawn_range": 5 },
+    "death_function": {
+      "message": "The %s explodes in a shower of gore!",
+      "corpse_type": "NO_CORPSE",
+      "effect": { "id": "death_blood", "hit_self": true, "min_level": 1 }
+    },
+    "//flags": "No REVIVE until monsters get smart enough to pulp/eat zombies",
     "flags": [ "IMMOBILE", "NO_BREATHE", "WARM" ]
   },
   {
@@ -41,7 +52,12 @@
     "volume": "200 L",
     "weight": "200 kg",
     "hp": 200,
-    "upgrades": { "age_grow": 1, "into_group": "GROUP_COCOON_MED_1", "multiple_spawns": true, "spawn_range": 5 }
+    "upgrades": { "age_grow": 1, "into_group": "GROUP_COCOON_MED_1", "multiple_spawns": true, "spawn_range": 5 },
+    "death_function": {
+      "message": "The %s explodes in a shower of gore!",
+      "corpse_type": "NO_CORPSE",
+      "effect": { "id": "death_blood", "hit_self": true, "min_level": 2 }
+    }
   },
   {
     "type": "MONSTER",
@@ -54,12 +70,17 @@
     "volume": "450 L",
     "weight": "450 kg",
     "hp": 600,
-    "upgrades": { "age_grow": 1, "into_group": "GROUP_COCOON_LARGE", "multiple_spawns": true, "spawn_range": 8 }
+    "upgrades": { "age_grow": 1, "into_group": "GROUP_COCOON_LARGE", "multiple_spawns": true, "spawn_range": 8 },
+    "death_function": {
+      "message": "The %s explodes in a shower of gore!",
+      "corpse_type": "NO_CORPSE",
+      "effect": { "id": "death_blood", "hit_self": true, "min_level": 3 }
+    }
   },
   {
     "type": "MONSTER",
-    "abstract": "mon_abomination_abstract_small",
-    "name": { "str": "abstracted abomination" },
+    "abstract": "mon_amalgamation_abstract_small",
+    "name": { "str": "abstracted amalgamation" },
     "color": "white",
     "symbol": "a",
     "bodytype": "spider",
@@ -86,16 +107,17 @@
     "vision_night": 8,
     "aggression": 100,
     "morale": 100,
-    "weakpoint_sets": [ "wps_abomination_base" ],
-    "families": [ "prof_wp_abomination" ],
+    "weakpoint_sets": [ "wps_amalgamation_base" ],
+    "families": [ "prof_wp_amalgamation" ],
+    "harvest": "zombie_amalgamation",
     "//": "TODO: When effects/spells can mess with path settings + flags move smartness to the effect of dedicated coordinatiors",
     "path_settings": { "avoid_sharp": true, "avoid_traps": true, "max_dist": 400 },
     "flags": [ "SEES", "SMELLS", "KEENNOSE", "HEARS", "PATH_AVOID_DANGER_2", "REVIVES", "NO_BREATHE" ]
   },
   {
     "type": "MONSTER",
-    "abstract": "mon_abomination_abstract_med",
-    "copy-from": "mon_abomination_abstract_small",
+    "abstract": "mon_amalgamation_abstract_med",
+    "copy-from": "mon_amalgamation_abstract_small",
     "symbol": "A",
     "volume": "120 L",
     "weight": "120 kg",
@@ -114,10 +136,10 @@
   },
   {
     "type": "MONSTER",
-    "id": "mon_abomination_swarmer",
-    "copy-from": "mon_abomination_abstract_small",
+    "id": "mon_amalgamation_swarmer",
+    "copy-from": "mon_amalgamation_abstract_small",
     "//": "Small, nasty glass cannon spawning in groups  WP: mandible, leg",
-    "name": { "str": "swarming abomination" },
+    "name": { "str": "swarming amalgamation" },
     "description": "An small, flat creature dashing around erratically on seven short legs.  Its form is dominated by an oversized set of black mandibles on an almost comically small head, featureless apart from a single, black eye.  The rest of the body is covered with sickly white skin criscrossed by black veins.",
     "volume": "20 L",
     "weight": "20 kg",
@@ -140,20 +162,20 @@
       }
     ],
     "dodge": 8,
-    "extend": { "flags": [ "SWARMS", "CLIMBS", "HARDTOSHOOT", "HIT_AND_RUN" ], "weakpoint_sets": [ "wps_abomination_mandible" ] }
+    "extend": { "flags": [ "SWARMS", "CLIMBS", "HARDTOSHOOT", "HIT_AND_RUN" ], "weakpoint_sets": [ "wps_amalgamation_mandible" ] }
   },
   {
     "type": "MONSTER",
-    "id": "mon_abomination_spotter",
-    "copy-from": "mon_abomination_abstract_small",
+    "id": "mon_amalgamation_spotter",
+    "copy-from": "mon_amalgamation_abstract_small",
     "symbol": "ä",
-    "name": { "str": "vigilant abomination" },
+    "name": { "str": "vigilant amalgamation" },
     "description": "An inflated white body carried by five dainty legs, waving its remaining two limbs constantly.  Each one is tipped by a head-sized compound eye, independently scanning the horizon for prey.",
     "special_attacks": [
       {
         "type": "spell",
         "spell_data": { "id": "create_noise", "hit_self": true },
-        "monster_message": "The abomination screams!"
+        "monster_message": "The amalgamation screams!"
       }
     ],
     "vision_day": 60,
@@ -164,9 +186,9 @@
   },
   {
     "type": "MONSTER",
-    "id": "mon_abomination_corroder",
-    "copy-from": "mon_abomination_abstract_small",
-    "name": { "str": "caustic abomination" },
+    "id": "mon_amalgamation_corroder",
+    "copy-from": "mon_amalgamation_abstract_small",
+    "name": { "str": "caustic amalgamation" },
     "//": "WP: acid gland, claws, proboscis",
     "description": "A gangly creature running on six legs, its form made irregular by the green pustules at the limbs' base, each feeding into a large vein leading to two blackened claws.  What must have been a seventh leg fused with the creature's head forming a jagged proboscis emerging from below its eyes, dripping a caustic liquid.",
     "color": "yellow_green",
@@ -183,15 +205,16 @@
       { "id": "acid_slash" },
       { "id": "acid_charge" }
     ],
-    "extend": { "flags": [ "ACIDPROOF", "ACID_BLOOD" ], "weakpoint_sets": [ "wps_abomination_acid" ] }
+    "harvest": "zombie_amalgamation_acid",
+    "extend": { "flags": [ "ACIDPROOF", "ACID_BLOOD" ], "weakpoint_sets": [ "wps_amalgamation_acid" ] }
   },
   {
     "type": "MONSTER",
-    "id": "mon_abomination_jumper",
-    "copy-from": "mon_abomination_abstract_med",
-    "name": { "str": "leaping abomination" },
+    "id": "mon_amalgamation_jumper",
+    "copy-from": "mon_amalgamation_abstract_med",
+    "name": { "str": "leaping amalgamation" },
     "description": "A four-legged white creature about the size of a human, running with a decidedly feline gait, the three remaining limbs holding an almost-translucent skin membrane outstretched on its side and rear.  Much of its head is taken up by a beak like a raven's, which opens to reveal a set of jagged black teeth.",
-    "color": "black_blue",
+    "color": "i_blue",
     "bodytype": "dog",
     "weight": "90 kg",
     "volume": "90 L",
@@ -220,13 +243,13 @@
         "infection_chance": 10
       }
     ],
-    "extend": { "flags": [ "HARDTOSHOOT" ], "weakpoint_sets": [ "wps_abomination_wing", "wps_abomination_mandible" ] }
+    "extend": { "flags": [ "HARDTOSHOOT" ], "weakpoint_sets": [ "wps_amalgamation_wing", "wps_amalgamation_mandible" ] }
   },
   {
     "type": "MONSTER",
-    "id": "mon_abomination_zapper",
-    "copy-from": "mon_abomination_abstract_med",
-    "name": { "str": "charged abomination" },
+    "id": "mon_amalgamation_zapper",
+    "copy-from": "mon_amalgamation_abstract_med",
+    "name": { "str": "charged amalgamation" },
     "description": "A short, crablike creature waddling around on six multi-jointed legs, its body dominated by a large glowing organ bulging from between the white armor plates. A single raised appendage connects to the mass, its tip surrounded by brilliant white sparks.",
     "color": "blue",
     "speed": 95,
@@ -257,13 +280,14 @@
     "tracking_distance": 4,
     "special_when_hit": [ "ZAPBACK", 100 ],
     "death_function": { "effect": { "id": "death_shock_blast", "hit_self": true } },
-    "extend": { "flags": [ "ELECTRIC", "KEEP_DISTANCE" ], "weakpoint_sets": [ "wps_abomination_armor", "wps_abomination_electric" ] }
+    "harvest": "zombie_amalgamation_electric",
+    "extend": { "flags": [ "ELECTRIC", "KEEP_DISTANCE" ], "weakpoint_sets": [ "wps_amalgamation_armor", "wps_amalgamation_electric" ] }
   },
   {
     "type": "MONSTER",
-    "id": "mon_abomination_soldier",
-    "copy-from": "mon_abomination_abstract_med",
-    "name": { "str": "brutish abomination" },
+    "id": "mon_amalgamation_soldier",
+    "copy-from": "mon_amalgamation_abstract_med",
+    "name": { "str": "brutish amalgamation" },
     "description": "A large, thickly armored creature built not unlike a bear, if a bear had a long, culbbed tail and two limbs ending in black talons framing a vertical mouth on an otherwise smooth, featureless head.  On second though, not that much like a bear at all.",
     "color": "dark_gray",
     "bodytype": "dog",
@@ -305,6 +329,6 @@
     "armor_elec": 12,
     "vision_day": 25,
     "vision_night": 5,
-    "extend": { "weakpoint_sets": [ "wps_abomination_armor", "wps_abomination_mandible", "wps_abomination_tail" ] }
+    "extend": { "weakpoint_sets": [ "wps_amalgamation_armor", "wps_amalgamation_mandible", "wps_amalgamation_tail" ] }
   }
 ]
