@@ -76,11 +76,6 @@
   },
   {
     "type": "construction_group",
-    "id": "build_bench",
-    "name": "Build Bench"
-  },
-  {
-    "type": "construction_group",
     "id": "build_bookcase",
     "name": "Build Bookcase"
   },
@@ -663,11 +658,6 @@
     "type": "construction_group",
     "id": "build_sandbag_wall",
     "name": "Build Sandbag Wall"
-  },
-  {
-    "type": "construction_group",
-    "id": "build_scrap_metal_bench",
-    "name": "Build Scrap Metal Bench"
   },
   {
     "type": "construction_group",
