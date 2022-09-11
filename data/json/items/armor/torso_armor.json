@@ -634,7 +634,7 @@
         "covers": [ "torso" ],
         "coverage": 100,
         "encumbrance": 8
-      },
+      }
     ],
     "warmth": 35,
     "material_thickness": 3,
