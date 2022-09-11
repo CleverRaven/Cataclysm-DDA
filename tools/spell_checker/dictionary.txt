@@ -53,6 +53,8 @@ alquerque
 altamente
 alternators
 alumentum
+amalgamation
+amalgamations
 amargasaurus
 ambusher
 amigara
@@ -187,6 +189,7 @@ bileworm
 bimetal
 bioblaster
 biocompatibility
+bioelectricity
 bioforms
 biographic
 biohacker
@@ -253,6 +256,8 @@ broadswords
 bronchodilator
 bronchospasm
 bubblicious
+bubo
+buboes
 buchner
 bucka
 bufo
@@ -402,6 +407,7 @@ coughupyourscough
 countermine
 couters
 coverplate
+crablike
 crackin
 cracklins
 craftable
