@@ -3,7 +3,7 @@
     "id": "spacebar_mana_bar_block",
     "type": "widget",
     "style": "layout",
-    "label": "movement",
+    "label": "mana_bar",
     "arrange": "minimum_columns",
     "widgets": [ "spacebar_separator_2", "spacebar_mana_graph" ]
   },
@@ -11,8 +11,8 @@
     "id": "spacebar_mana_numbers_block",
     "type": "widget",
     "style": "layout",
-    "label": "movement",
+    "label": "mana_number",
     "arrange": "minimum_columns",
-    "widgets": [ "spacebar_separator_2", "current_max_mana_nums_layout" ]
+    "widgets": [ "spacebar_separator_2", "spacebar_current_max_mana_nums_layout" ]
   }
 ]
