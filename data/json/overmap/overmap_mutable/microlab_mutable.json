@@ -99,6 +99,10 @@
         "overmap": "microlab_portal_elevator_north",
         "north": { "id": "hallway_to_hallway", "alternatives": [ "dhallway_to_dhallway" ] }
       },
+      "portal_d_elevator": {
+        "overmap": "microlab_portal_elevator_north",
+        "north": "dhallway_to_dhallway"
+      },
       "nether_elevator_above": {
         "overmap": "microlab_portal_elevator_physics_glass_north",
         "north": { "id": "hallway_to_hallway", "alternatives": [ "dhallway_to_dhallway" ] }
@@ -253,6 +257,7 @@
             { "overmap": "microlab_portal_security7", "pos": [ -1, 0, -2 ] },
             { "overmap": "microlab_portal_security8", "pos": [ -2, 0, -2 ] },
             { "overmap": "nether_elevator_above", "pos": [ 0, -1, -2 ], "rot": "south" },
+            { "overmap": "portal_d_elevator", "pos": [ 0, -1, -3 ], "rot": "south" },
             { "overmap": "nether_elevator", "pos": [ 0, -1, -8 ], "rot": "south" },
             { "overmap": "nether", "pos": [ -1, -2, -8 ] },
             { "overmap": "nether", "pos": [ 0, -2, -8 ] },
