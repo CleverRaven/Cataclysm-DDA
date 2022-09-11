@@ -405,7 +405,6 @@ static const trait_id trait_DEFT( "DEFT" );
 static const trait_id trait_DISRESISTANT( "DISRESISTANT" );
 static const trait_id trait_DOWN( "DOWN" );
 static const trait_id trait_EATHEALTH( "EATHEALTH" );
-static const trait_id trait_ELECTRORECEPTORS( "ELECTRORECEPTORS" );
 static const trait_id trait_ELFA_FNV( "ELFA_FNV" );
 static const trait_id trait_ELFA_NV( "ELFA_NV" );
 static const trait_id trait_FAT( "FAT" );
@@ -5511,8 +5510,8 @@ float Character::active_light() const
 
 bool Character::sees_with_specials( const Creature &critter ) const
 {
-    // electroreceptors grants vision of robots and electric monsters through walls
-    if( has_trait( trait_ELECTRORECEPTORS ) && critter.is_electrical() ) {
+    double elec_sight_range = calculate_by_enchantment( 0.0, enchant_vals::mod::SIGHT_RANGE_ELECTRIC );
+    if( critter.is_electrical() && rl_dist_exact( pos(), critter.pos() ) <= elec_sight_range ) {
         return true;
     }
 
