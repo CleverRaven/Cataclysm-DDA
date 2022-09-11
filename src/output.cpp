@@ -1215,9 +1215,10 @@ input_event draw_item_info( const std::function<catacurses::window()> &init_wind
         ui_manager::redraw();
         action = ctxt.handle_input();
         cata::optional<point> coord = ctxt.get_coordinates_text( catacurses::stdscr );
-        int scrollbar_pos = item_info_bar.handle_dragging( action, coord );
 
-        if( data.handle_scrolling && action == "PAGE_UP" ) {
+        if( data.handle_scrolling && item_info_bar.handle_dragging( action, coord, *data.ptr_selected ) ) {
+            // No action required, the scrollbar has handled it
+        } else if( data.handle_scrolling && action == "PAGE_UP" ) {
             if( *data.ptr_selected > 0 ) {
                 --*data.ptr_selected;
             }
@@ -1226,8 +1227,6 @@ input_event draw_item_info( const std::function<catacurses::window()> &init_wind
                 ( height > 0 && static_cast<size_t>( *data.ptr_selected ) + height < folded.size() ) ) {
                 ++*data.ptr_selected;
             }
-        } else if( data.handle_scrolling && *data.ptr_selected != scrollbar_pos ) {
-            *data.ptr_selected = scrollbar_pos;
         } else if( action == "CONFIRM" || action == "QUIT" ||
                    ( data.any_input && action == "ANY_INPUT" &&
                      !ctxt.get_raw_input().sequence.empty() ) ) {
@@ -1755,7 +1754,7 @@ void scrollbar::apply( const catacurses::window &window )
             bar_start = slot_size - bar_size;
         }
         int bar_end = bar_start + bar_size;
-        nc_color temp_bar_color = dragging ? c_magenta_magenta : c_cyan_cyan;
+        nc_color temp_bar_color = dragging ? c_magenta_magenta : bar_color_v;
 
         for( int i = 0; i < slot_size; ++i ) {
             if( i >= bar_start && i < bar_end ) {
@@ -1775,20 +1774,36 @@ scrollbar &scrollbar::set_draggable( input_context &ctxt )
     return *this;
 }
 
-int scrollbar::handle_dragging( const std::string &action, const cata::optional<point> &coord )
+bool scrollbar::handle_dragging( const std::string &action, const cata::optional<point> &coord,
+                                 int &position )
 {
-    if( action != "MOUSE_MOVE" && dragging ) {
+    if( ( action != "MOUSE_MOVE" && action != "CLICK_AND_DRAG" ) && dragging ) {
+        // Stopped dragging the scrollbar
         dragging = false;
-    }
-
-    if( action == "CLICK_AND_DRAG" && coord.has_value() && scrollbar_area.contains( coord.value() ) ) {
+        if( action == "SELECT" ) {
+            // We don't want to accidentally select something on mouse-up after dragging the scrollbar, so tell
+            // the UI that we've handled it
+            return true;
+        } else {
+            // The user is doing something else while dragging the scrollbar, don't get in their way
+            return false;
+        }
+    } else  if( action == "CLICK_AND_DRAG" && coord.has_value() &&
+                scrollbar_area.contains( coord.value() ) ) {
+        // Started dragging the scrollbar
         dragging = true;
+        return true;
     } else if( action == "MOUSE_MOVE" && coord.has_value() && dragging ) {
+        // Currently dragging the scrollbar
         int y_position = ( coord->y - scrollbar_area.p_min.y ) * ( content_size_v ) /
                          scrollbar_area.p_max.y;
         viewport_pos_v = clamp( y_position, 0, ( content_size_v - viewport_size_v ) );
+        position = viewport_pos_v;
+        return true;
+    } else {
+        // Not doing anything related to the scrollbar
+        return false;
     }
-    return viewport_pos_v;
 }
 
 void scrolling_text_view::set_text( const std::string &text )
@@ -1858,9 +1873,9 @@ bool scrolling_text_view::handle_navigation( const std::string &action, input_co
             point( getmaxx( w_ ) + getbegx( w_ ), getmaxy( w_ ) + getbegy( w_ ) ) );
     bool mouse_in_window = coord.has_value() && mouseover_area.contains( coord.value() );
 
-    int scrollbar_position = text_view_scrollbar.handle_dragging( action, coord );
-
-    if( action == scroll_up_action || ( action == "SCROLL_UP" && mouse_in_window ) ) {
+    if( text_view_scrollbar.handle_dragging( action, coord, offset_ ) ) {
+        // No action required, the scrollbar has handled it
+    } else if( action == scroll_up_action || ( action == "SCROLL_UP" && mouse_in_window ) ) {
         scroll_up();
     } else if( action == scroll_down_action || ( action == "SCROLL_DOWN" && mouse_in_window ) ) {
         scroll_down();
@@ -1868,15 +1883,14 @@ bool scrolling_text_view::handle_navigation( const std::string &action, input_co
         page_up();
     } else if( paging_enabled && action == "PAGE_DOWN" ) {
         page_down();
-    } else if( offset_ != scrollbar_position ) {
-        offset_ = scrollbar_position;
     } else {
         return false;
     }
     return true;
 }
 
-void scrolling_text_view::set_up_navigation( input_context &ctxt, const scrolling_key_scheme scheme,
+void scrolling_text_view::set_up_navigation( input_context &ctxt,
+        const scrolling_key_scheme scheme,
         const bool enable_paging )
 {
     ctxt.register_action( "CLICK_AND_DRAG" );
@@ -2378,7 +2392,8 @@ std::pair<std::string, nc_color> rad_badge_color( const int rad )
     return std::pair<std::string, nc_color>( _( values[i].second.first ), values[i].second.second );
 }
 
-std::string get_labeled_bar( const double val, const int width, const std::string &label, char c )
+std::string get_labeled_bar( const double val, const int width, const std::string &label,
+                             char c )
 {
     const std::array<std::pair<double, char>, 1> ratings =
     {{ std::make_pair( 1.0, c ) }};

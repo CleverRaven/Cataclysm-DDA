@@ -907,7 +907,8 @@ class scrollbar
         // draw the scrollbar to the window
         void apply( const catacurses::window &window );
         // Checks if the user is dragging the scrollbar with the mouse (set_draggable first)
-        int handle_dragging( const std::string &action, const cata::optional<point> &coord );
+        bool handle_dragging( const std::string &action, const cata::optional<point> &coord,
+                              int &position );
     private:
         int offset_x_v, offset_y_v;
         int content_size_v, viewport_pos_v, viewport_size_v;
