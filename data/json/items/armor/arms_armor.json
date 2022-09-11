@@ -120,7 +120,7 @@
     "id": "cloth_arms_padded",
     "type": "ARMOR",
     "category": "armor",
-    "name": { "str": "cloth-padded sleeves" },
+    "name": { "str": "pair of cloth-padded sleeves", "str_pl": "pairs of cloth-padded sleeves" },
     "description": "The sleeves of a thick cotton shirt, with a bunch of cloth sewn in to act as extra padding.  They're quite lonely, no longer being attached to each other by the rest of the shirt.",
     "weight": "400 g",
     "volume": "1500 ml",
