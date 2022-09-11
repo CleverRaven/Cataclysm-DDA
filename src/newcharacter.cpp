@@ -1920,6 +1920,7 @@ void set_profession( tab_manager &tabs, avatar &u, pool_type pool )
     scrolling_text_view details( w_details_pane );
     bool details_recalc = true;
     const int iHeaderHeight = 5;
+    scrollbar list_sb;
     const auto init_windows = [&]( ui_adaptor & ui ) {
         iContentHeight = TERMY - iHeaderHeight - 1;
         w = catacurses::newwin( TERMY, TERMX, point_zero );
@@ -1934,6 +1935,7 @@ void set_profession( tab_manager &tabs, avatar &u, pool_type pool )
     input_context ctxt( "NEW_CHAR_PROFESSIONS" );
     tabs.set_up_tab_navigation( ctxt );
     details.set_up_navigation( ctxt, scrolling_key_scheme::angle_bracket_scroll );
+    list_sb.set_draggable( ctxt );
     ctxt.register_cardinal();
     ctxt.register_action( "PAGE_UP", to_translation( "Fast scroll up" ) );
     ctxt.register_action( "PAGE_DOWN", to_translation( "Fast scroll down" ) );
@@ -2022,8 +2024,7 @@ void set_profession( tab_manager &tabs, avatar &u, pool_type pool )
                        sorted_profs[i]->gender_appropriate_name( u.male ) );
         }
 
-        scrollbar()
-        .offset_x( 0 )
+	list_sb.offset_x( 0 )
         .offset_y( 5 )
         .content_size( profs_length )
         .viewport_pos( iStartPos )
@@ -2076,11 +2077,18 @@ void set_profession( tab_manager &tabs, avatar &u, pool_type pool )
         const int recmax = profs_length;
         const int scroll_rate = recmax > 20 ? 10 : 2;
         const int id_for_curr_description = cur_id;
+	int scrollbar_pos = iStartPos;
 
         if( tabs.handle_input( action, ctxt ) ) {
             break; // Tab has changed or user has quit the screen
         } else if( details.handle_navigation( action, ctxt ) ) {
             //NO FURTHER ACTION REQUIRED
+	} else if( list_sb.handle_dragging( action, ctxt.get_coordinates_text( catacurses::stdscr ),
+                                            scrollbar_pos ) ) {
+	  if( scrollbar_pos != iStartPos ) {
+	    iStartPos = scrollbar_pos;
+	    cur_id = iStartPos + ( iContentHeight - 1 ) / 2;
+	  }
         } else if( action == "DOWN" ) {
             cur_id++;
             if( cur_id > recmax - 1 ) {
@@ -3179,14 +3187,18 @@ void set_scenario( tab_manager &tabs, avatar &u, pool_type pool )
         const std::string action = ctxt.handle_input();
         const int scroll_rate = scens_length > 20 ? 5 : 2;
         const int id_for_curr_description = cur_id;
+	int scrollbar_pos = iStartPos;
 
         if( tabs.handle_input( action, ctxt ) ) {
             break; // Tab has changed or user has quit the screen
         } else if( details.handle_navigation( action, ctxt ) ) {
             // NO FURTHER ACTION REQUIRED
         } else if( list_sb.handle_dragging( action, ctxt.get_coordinates_text( catacurses::stdscr ),
-                                            iStartPos ) ) {
-	  cur_id = iStartPos + ( iContentHeight - 1 ) / 2;;
+                                            scrollbar_pos ) ) {
+	  if( scrollbar_pos != iStartPos ) {
+	    iStartPos = scrollbar_pos;
+	    cur_id = iStartPos + ( iContentHeight - 1 ) / 2;
+	  }
         } else if( action == "DOWN" ) {
             cur_id++;
             if( cur_id > scens_length - 1 ) {
