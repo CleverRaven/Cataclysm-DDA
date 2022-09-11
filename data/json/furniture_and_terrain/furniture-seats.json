@@ -302,5 +302,59 @@
         { "item": "pipe", "count": 4 }
       ]
     }
+  },
+  {
+    "type": "furniture",
+    "id": "f_bench_wooden",
+    "name": "wooden bench",
+    "symbol": "#",
+    "description": "A simple wooden bench made of two makeshift thick legs and a flat piece of wood on top.  Certainly nowhere near as good as a bed but at least it feels like you're out camping.",
+    "color": "brown",
+    "move_cost_mod": 1,
+    "coverage": 30,
+    "comfort": 1,
+    "floor_bedding_warmth": -1500,
+    "bonus_fire_warmth_feet": 1000,
+    "required_str": 5,
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE", "SHORT", "CAN_SIT" ],
+    "deconstruct": { "items": [ { "item": "2x4", "count": 1 }, { "item": "splinter", "count": 32 } ] },
+    "bash": {
+      "str_min": 8,
+      "str_max": 25,
+      "sound": "smash!",
+      "sound_fail": "whump.",
+      "items": [ { "item": "2x4", "count": [ 0, 1 ] }, { "item": "splinter", "count": [ 4, 28 ] } ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_bench_park",
+    "name": "park bench",
+    "symbol": "#",
+    "description": "A wooden bench with a metal frame and a back support.  Still cold and uncomfortable to sleep on but seating on it is not terrible.",
+    "//": "The numbers are adjusted in such a way that the park bench should appear on two tiles next to each other.",
+    "color": "brown",
+    "move_cost_mod": 1,
+    "coverage": 45,
+    "comfort": 1,
+    "floor_bedding_warmth": -1500,
+    "bonus_fire_warmth_feet": 1000,
+    "required_str": 12,
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE", "CAN_SIT" ],
+    "deconstruct": {
+      "items": [ { "item": "2x4", "count": 8 }, { "item": "nuts_bolts", "charges": 20 }, { "item": "steel_chunk", "count": 12 } ]
+    },
+    "bash": {
+      "str_min": 10,
+      "str_max": 40,
+      "sound": "smash!",
+      "sound_fail": "whump.",
+      "items": [
+        { "item": "2x4", "count": [ 1, 5 ] },
+        { "item": "nuts_bolts", "charges": [ 4, 12 ] },
+        { "item": "splinter", "count": [ 2, 16 ] },
+        { "item": "scrap", "charges": [ 15, 40 ] }
+      ]
+    }
   }
 ]
