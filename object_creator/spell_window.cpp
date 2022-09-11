@@ -446,7 +446,7 @@ creator::spell_window::spell_window( QWidget *parent, Qt::WindowFlags flags )
 
     QStringList all_mtypes;
     for( const mtype &mon : MonsterGenerator::generator().get_all_mtypes() ) {
-        all_mtypes.append( mon.id.c_str() );
+        all_mtypes.append( QString( mon.id.str().c_str() ) );
     }
 
     targeted_monster_ids_box.initialize( all_mtypes );
@@ -1474,10 +1474,10 @@ void creator::spell_window::populate_fields()
                 }
             }
 
-            std::string field = sp_t.field->id().str();
             field_id_box.setCurrentIndex( field_id_box.findText( QString( "NONE" ) ) );
             if( sp_t.field ) {
-                index = field_id_box.findText( QString( field.c_str() ) );
+                QString field = sp_t.field->id().c_str();
+                index = field_id_box.findText( field );
                 if( index != -1 ) {
                     field_id_box.setCurrentIndex( index );
                 }
