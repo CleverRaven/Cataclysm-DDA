@@ -1643,5 +1643,10 @@
     "type": "construction_group",
     "id": "build_chain_hoist",
     "name": "Build Chain & Tackle Hoist"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_bench_wooden",
+    "name": "Build a wooden bench"
   }
 ]
