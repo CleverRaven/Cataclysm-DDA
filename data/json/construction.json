@@ -5896,5 +5896,17 @@
     "byproducts": [ { "item": "material_sand", "charges": [ 300, 600 ] } ],
     "pre_terrain": "t_sand_underground",
     "post_special": "done_extract_maybe_revert_to_dirt"
+  },
+  {
+    "type": "construction",
+    "id": "constr_bench_wooden",
+    "group": "build_bench_wooden",
+    "category": "FURN",
+    "required_skills": [ [ "fabrication", 1 ] ],
+    "time": "45 m",
+    "qualities": [ [ { "id": "SAW_W", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ] ],
+    "components": [ [ [ "log", 1 ], [ "wood_beam", 1 ] ], [ [ "nail", 4 ] ], [ [ "2x4", 1 ] ] ],
+    "pre_special": "check_empty",
+    "post_terrain": "f_bench_wooden"
   }
 ]
