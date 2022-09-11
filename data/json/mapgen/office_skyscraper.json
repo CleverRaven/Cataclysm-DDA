@@ -117,15 +117,15 @@
         "ss%|........|+|+|iii+..~~..+iii|+|+|........|%ss",
         "ss%|........|iiiiiii|..~~..|iiiiiii|........|%ss",
         "ss%|----------------|8.~~..|----------------|%ss",
-        "ss%|################|^.~~.^|V:::&UUUUUUUUUUU|%ss",
-        "ss%|#±±±±±±##±±±±±±#|b.~~..G::::::::::::::::H%ss",
-        "ss%|#ŦŦŦŦŦŦ##ŦŦŦŦŦŦ#|b.~~..G:::PN:N:N::C:PP:H%ss",
-        "ss%|#______##______#|^.~~.^|V::PW:W:W::C:PP:H%ss",
+        "ss%|################|^.~~..|V;X;W:W:W;LLLLAA|%ss",
+        "ss%|#±±±±±±##±±±±±±#|b.~~..|:::;W:W:W:::::::H%ss",
+        "ss%|#ŦŦŦŦŦŦ##ŦŦŦŦŦŦ#|b.~~..|::B;W:W:W::W:PP:H%ss",
+        "ss%|#______##______#|^.~~..|:CCCW:W:W::W:PP:H%ss",
         "ss%|#__,,__##__,,__#|9.~~..|::::W:W:W::W:PP:|%ss",
-        "ss%|#_,,,,_##__,,__#|..~~..|:CCCW:W:W::W:PP:H%ss",
-        "ss%|#__,,__##_,,,,_#|..~~..|::B;W:W:W::W:PP:H%ss",
-        "ss%|#__,,__##__,,__#|......|:::;W:W:W:::::::H%ss",
-        "ss%|#______##______#|^....^|V;X;W:W:W;LLLLAA|%ss",
+        "ss%|#_,,,,_##__,,__#|..~~.^|V::PW:W:W::C:PP:H%ss",
+        "ss%|#__,,__##_,,,,_#|..~~..G:::PN:N:N::C:PP:H%ss",
+        "ss%|#__,,__##__,,__#|......G::::::::::::::::H%ss",
+        "ss%|#______##______#|^....^|V:::&UUUUUUUUUUU|%ss",
         "ss%|#__,,__##__,,__#|HHGGHH|-HHHH-HHHH-HHHH-|%ss",
         "ss%I _,,,,_ss__,,__ IssssssI%%%%%%%%%%%%%%%%%Iss",
         "ss   __,,__ss_,,,,_  ssssss                   ss",
@@ -133,12 +133,12 @@
         "sssss______ss______sssssssssssssssssssssssssssss"
       ],
       "place_items": [
-        { "item": "behindcounter", "x": 31, "y": 40, "chance": 60 },
-        { "item": "magazines", "x": 31, "y": 36, "chance": 70 },
-        { "item": "snacks", "x": 31, "y": 37, "chance": 70 },
-        { "item": "laundromat_containers", "x": 39, "y": [ 36, 37 ], "chance": 60, "repeat": [ 1, 2 ] },
+        { "item": "behindcounter", "x": 31, "y": 36, "chance": 60 },
+        { "item": "magazines", "x": 31, "y": 40, "chance": 70 },
+        { "item": "snacks", "x": 31, "y": 39, "chance": 70 },
+        { "item": "laundromat_containers", "x": 39, "y": [ 39, 40 ], "chance": 60, "repeat": [ 1, 2 ] },
         { "item": "laundromat_bleach", "x": [ 41, 42 ], "y": [ 36, 40 ], "chance": 30, "repeat": [ 4, 8 ] },
-        { "item": "cash_register_random", "x": [ 29, 31 ], "y": 39, "chance": 100 }
+        { "item": "cash_register_random", "x": [ 29, 31 ], "y": 37, "chance": 100 }
       ],
       "palettes": [ "skyscraper_shopping_palette" ]
     }
