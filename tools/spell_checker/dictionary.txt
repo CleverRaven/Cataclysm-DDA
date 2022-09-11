@@ -2095,6 +2095,7 @@ zombear
 zombeaver
 zombiespawn
 zombiethustra
+zombified
 zomborg
 zombull
 zombullfrog
