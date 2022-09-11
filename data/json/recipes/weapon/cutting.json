@@ -1002,6 +1002,107 @@
   {
     "type": "recipe",
     "activity_level": "BRISK_EXERCISE",
+    "result": "lc_kriegsmesser",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_CUTTING",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "4 h",
+    "book_learn": [ [ "textbook_weapwest", 4 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_blacksmithing" },
+      { "proficiency": "prof_bladesmith" }
+    ],
+    "using": [ [ "forging_standard", 2 ], [ "lc_steel_standard", 3 ] ],
+    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "GRIND", "level": 2 } ],
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "hotcut", -1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
+    "result": "mc_kriegsmesser",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_CUTTING",
+    "skill_used": "fabrication",
+    "difficulty": 6,
+    "time": "5 h",
+    "book_learn": [ [ "textbook_weapwest", 5 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_blacksmithing" },
+      { "proficiency": "prof_bladesmith" }
+    ],
+    "using": [ [ "forging_standard", 2 ], [ "mc_steel_standard", 3 ] ],
+    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "GRIND", "level": 2 } ],
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "hotcut", -1 ] ] ],
+    "components": [ [ [ "leather", 1 ], [ "mc_wire", 2 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
+    "result": "hc_kriegsmesser",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_CUTTING",
+    "skill_used": "fabrication",
+    "difficulty": 6,
+    "time": "5 h",
+    "book_learn": [ [ "textbook_weapwest", 5 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_blacksmithing" },
+      { "proficiency": "prof_bladesmith" }
+    ],
+    "using": [ [ "forging_standard", 2 ], [ "hc_steel_standard", 3 ] ],
+    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "GRIND", "level": 2 } ],
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "hotcut", -1 ] ] ],
+    "components": [ [ [ "leather", 1 ], [ "hc_wire", 2 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
+    "result": "ch_kriegsmesser",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_CUTTING",
+    "skill_used": "fabrication",
+    "difficulty": 6,
+    "time": "5 h",
+    "book_learn": [ [ "textbook_weapwest", 5 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_blacksmithing" },
+      { "proficiency": "prof_bladesmith" },
+      { "proficiency": "prof_case_hardening" }
+    ],
+    "using": [ [ "blacksmithing_standard", 12 ], [ "lc_steel_standard", 3 ], [ "carbon", 1 ] ],
+    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "GRIND", "level": 2 } ],
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "hotcut", -1 ] ] ],
+    "components": [ [ [ "kevlar_scraps", 2 ], [ "epoxy", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
+    "result": "qt_kriegsmesser",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_CUTTING",
+    "skill_used": "fabrication",
+    "difficulty": 6,
+    "time": "5 h",
+    "book_learn": [ [ "textbook_weapwest", 5 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_blacksmithing" },
+      { "proficiency": "prof_bladesmith" },
+      { "proficiency": "prof_quenching" }
+    ],
+    "using": [ [ "blacksmithing_standard", 12 ], [ "mc_steel_standard", 3 ] ],
+    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "GRIND", "level": 2 } ],
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "hotcut", -1 ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -120 ] ] ],
+    "components": [ [ [ "kevlar_scraps", 2 ], [ "epoxy", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
     "result": "falx",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_CUTTING",
