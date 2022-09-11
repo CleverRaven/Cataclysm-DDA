@@ -784,5 +784,12 @@
       { "group": "backrooms_books_experimental", "count": [ 2, 6 ], "prob": 5 },
       { "group": "backrooms_books_combat", "count": [ 2, 6 ], "prob": 5 }
     ]
+  },
+  {
+    "id": "newspaper",
+    "type": "item_group",
+    "subtype": "distribution",
+    "copy-from": "newspaper",
+    "extend": { "entries": [ { "group": "newspaper_recent", "prob": 500 }, { "group": "newspaper_old", "prob": 500 } ] }
   }
 ]
