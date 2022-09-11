@@ -84,7 +84,7 @@
     "conditional_names": [
       { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str_sp": "sap soup" } },
       { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": { "str_sp": "goblin soup" } },
-      { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str_sp": "mutant %s" } }
+      { "type": "COMPONENT_ID_SUBSTRING", "condition": "mutant", "name": { "str_sp": "mutant %s" } }
     ],
     "weight": "253 g",
     "color": "red",
@@ -158,7 +158,13 @@
     "id": "curry_meat",
     "looks_like": "soup_meat",
     "name": { "str": "curry with meat", "str_pl": "curries with meat" },
-    "conditional_names": [ { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str": "creature curry", "str_pl": "creature curries" } } ],
+    "conditional_names": [
+      {
+        "type": "COMPONENT_ID_SUBSTRING",
+        "condition": "mutant",
+        "name": { "str": "creature curry", "str_pl": "creature curries" }
+      }
+    ],
     "weight": "289 g",
     "color": "red",
     "spoils_in": "5 days",
@@ -183,7 +189,7 @@
     "id": "soup_woods",
     "looks_like": "soup_veggy",
     "name": { "str": "woods meat soup" },
-    "conditional_names": [ { "type": "COMPONENT_ID", "condition": "mutant", "name": "Mirkwood soup" } ],
+    "conditional_names": [ { "type": "COMPONENT_ID_SUBSTRING", "condition": "mutant", "name": "Mirkwood soup" } ],
     "weight": "250 g",
     "color": "red",
     "spoils_in": "5 days",
@@ -208,7 +214,7 @@
     "id": "soup_woods_egg",
     "looks_like": "soup_woods",
     "name": { "str": "woods egg soup" },
-    "conditional_names": [ { "type": "COMPONENT_ID", "condition": "mutant", "name": "Mirkwood soup" } ],
+    "conditional_names": [ { "type": "COMPONENT_ID_SUBSTRING", "condition": "mutant", "name": "Mirkwood soup" } ],
     "weight": "250 g",
     "color": "red",
     "spoils_in": "5 days",
