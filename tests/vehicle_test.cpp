@@ -30,8 +30,10 @@ static const itype_id itype_test_power_cord( "test_power_cord" );
 static const vpart_id vpart_ap_test_standing_lamp( "ap_test_standing_lamp" );
 
 static const vproto_id vehicle_prototype_bicycle( "bicycle" );
+static const vproto_id vehicle_prototype_car_rack( "car_rack" );
+static const vproto_id vehicle_prototype_wheelchair( "wheelchair" );
 
-TEST_CASE( "detaching_vehicle_unboards_passengers" )
+TEST_CASE( "detaching_vehicle_unboards_passengers", "[vehicle]" )
 {
     clear_map();
     const tripoint test_origin( 60, 60, 0 );
@@ -46,7 +48,7 @@ TEST_CASE( "detaching_vehicle_unboards_passengers" )
     REQUIRE( !player_character.in_vehicle );
 }
 
-TEST_CASE( "destroy_grabbed_vehicle_section" )
+TEST_CASE( "destroy_grabbed_vehicle_section", "[vehicle]" )
 {
     GIVEN( "A vehicle grabbed by the player" ) {
         map &here = get_map();
@@ -72,7 +74,7 @@ TEST_CASE( "destroy_grabbed_vehicle_section" )
     }
 }
 
-TEST_CASE( "add_item_to_broken_vehicle_part" )
+TEST_CASE( "add_item_to_broken_vehicle_part", "[vehicle]" )
 {
     clear_map();
     const tripoint test_origin( 60, 60, 0 );
@@ -97,7 +99,7 @@ TEST_CASE( "add_item_to_broken_vehicle_part" )
     REQUIRE( !veh_ptr->add_item( *cargo_part, itm2 ) );
 }
 
-TEST_CASE( "starting_bicycle_damaged_pedal" )
+TEST_CASE( "starting_bicycle_damaged_pedal", "[vehicle]" )
 {
     clear_map();
     const tripoint test_origin( 60, 60, 0 );
@@ -274,6 +276,129 @@ TEST_CASE( "Unfolding vehicle parts and testing degradation", "[item][degradatio
     clear_vehicles( &get_map() );
 }
 
+struct folded_item_damage_preset {
+    itype_id folded_vehicle_item;
+    int item_damage_first_fold;
+    int item_damage_second_fold;
+    int part_damage_second_unfold; // sum of damage over all parts
+    int part_damage_third_unfold;  // sum of damage over all parts
+};
+
+static void check_folded_item_to_parts_damage_transfer( const folded_item_damage_preset &preset )
+{
+    CAPTURE( preset.folded_vehicle_item.str(),
+             preset.item_damage_first_fold, preset.item_damage_second_fold,
+             preset.part_damage_second_unfold, preset.part_damage_third_unfold );
+
+    // exact damage numbers are checked against, there should be almost no rng,
+    // only the part damage is pseudo-random spread, while total damage should
+    // round trip well in integers
+    clear_avatar();
+    clear_map();
+
+    map &m = get_map();
+    Character &u = get_player_character();
+
+    u.worn.wear_item( u, item( "debug_backpack" ), false, false );
+
+    item veh_item( preset.folded_vehicle_item );
+
+    // unfold fresh item factory item
+    complete_activity( u, vehicle_unfolding_activity_actor( veh_item ) );
+
+    optional_vpart_position ovp = m.veh_at( u.get_location() );
+    REQUIRE( ovp.has_value() );
+
+    // don't actually need point_north but damage_all filters out direct damage
+    // do some damage so it is transferred when folding
+    ovp->vehicle().damage_all( 100, 100, damage_type::PURE, ovp->mount() + point_north );
+
+    // fold vehicle into an item
+    complete_activity( u, vehicle_folding_activity_actor( ovp->vehicle() ) );
+
+    ovp = m.veh_at( u.get_location() );
+    REQUIRE( !ovp.has_value() );
+
+    // copy the player-folded vehicle item and delete it from the map
+    map_stack map_items = m.i_at( u.pos_bub() );
+    REQUIRE( map_items.size() == 1 );
+    item player_folded_veh = map_items.only_item();
+    map_items.clear();
+
+    // check the damage was transferred from parts to folded item
+    CHECK( player_folded_veh.damage() == preset.item_damage_first_fold );
+    CHECK( player_folded_veh.get_var( "avg_part_damage", 0.0 ) == preset.item_damage_first_fold );
+
+    complete_activity( u, vehicle_unfolding_activity_actor( player_folded_veh ) );
+
+    ovp = m.veh_at( u.get_location() );
+    REQUIRE( ovp.has_value() );
+
+    int part_damage_before = 0;
+    for( const vpart_reference &vpr : ovp->vehicle().get_all_parts() ) {
+        part_damage_before += vpr.part().damage();
+    }
+
+    // check damage correctly transferred from item to vehicle parts
+    CHECK( part_damage_before == preset.part_damage_second_unfold );
+
+    complete_activity( u, vehicle_folding_activity_actor( ovp->vehicle() ) );
+
+    ovp = m.veh_at( u.get_location() );
+    REQUIRE( !ovp.has_value() );
+    map_items = m.i_at( u.pos_bub() );
+    REQUIRE( map_items.size() == 1 );
+    player_folded_veh = map_items.only_item();
+    map_items.clear();
+
+    // check that we don't add extra item damage after folding
+    CHECK( player_folded_veh.damage() == preset.item_damage_first_fold );
+    CHECK( player_folded_veh.get_var( "avg_part_damage", 0.0 ) == preset.item_damage_first_fold );
+
+    // add some more damage to the item
+    player_folded_veh.mod_damage( 300 );
+
+    // unfold and check extra damage gets distributed into vehicleparts
+    complete_activity( u, vehicle_unfolding_activity_actor( player_folded_veh ) );
+    ovp = m.veh_at( u.get_location() );
+    REQUIRE( ovp.has_value() );
+
+    // add up damage on all parts
+    int part_damage_after = 0;
+    for( const vpart_reference &vpr : ovp->vehicle().get_all_parts() ) {
+        part_damage_after += vpr.part().damage();
+    }
+
+    {
+        INFO( "Checking extra item damage gets distributed to vehicle parts." );
+        CHECK( part_damage_after > part_damage_before );
+        CHECK( part_damage_after == preset.part_damage_third_unfold );
+    }
+
+    complete_activity( u, vehicle_folding_activity_actor( ovp->vehicle() ) );
+
+    REQUIRE( !m.veh_at( u.get_location() ) );
+    map_items = m.i_at( u.pos_bub() );
+    REQUIRE( map_items.size() == 1 );
+    player_folded_veh = map_items.only_item();
+    map_items.clear();
+
+    CHECK( player_folded_veh.damage() == preset.item_damage_second_fold );
+    CHECK( player_folded_veh.get_var( "avg_part_damage", 0.0 ) == preset.item_damage_second_fold );
+}
+
+TEST_CASE( "Check folded item damage transfers to parts and vice versa", "[item][vehicle]" )
+{
+    std::vector<folded_item_damage_preset> presets {
+        { itype_folded_wheelchair_generic, 2111, 2277, 12666, 13666 },
+        { itype_folded_bicycle,            1689, 1961, 18582, 21582 },
+    };
+
+    for( const folded_item_damage_preset &preset : presets ) {
+        check_folded_item_to_parts_damage_transfer( preset );
+    }
+}
+
 // Basically a copy of vehicle::connect() that uses an arbitrary cord type
 static void connect_power_line( const tripoint &src_pos, const tripoint &dst_pos,
                                 const itype_id &itm )
@@ -420,4 +545,179 @@ TEST_CASE( "power_cable_stretch_disconnect" )
             CHECK( app2.part_count() == 1 );
         }
     }
+}
+
+struct rack_activation {
+    int racking_vehicle_index; // vehicle with the rack
+    tripoint rack_pos;         // rack to activate
+    int racked_vehicle_index;  // vehicle to rack on it
+    bool expect_failure;       // whether this activation is expected to fail
+};
+
+// for each preset all vehicles are spawned at specified positions/facings
+// then racking activities in rack_orders are executed
+// then unracking activities in unrack_orders are executed
+struct rack_preset {
+    std::vector<vproto_id> vehicles;            // vehicles to spawn, index matching positions/facings
+    std::vector<tripoint> positions;            // spawned vehicle position
+    std::vector<units::angle> facings;          // spawned vehicle facing
+    std::vector<rack_activation> rack_orders;   // racking orders
+    std::vector<rack_activation> unrack_orders; // unracking orders
+};
+
+static void rack_check( const rack_preset &preset )
+{
+    REQUIRE( preset.vehicles.size() == preset.positions.size() );
+    REQUIRE( preset.vehicles.size() == preset.facings.size() );
+
+    map &m = get_map();
+    Character &u = get_player_character();
+
+    clear_avatar();
+    clear_map();
+    clear_vehicles( &m );
+
+    std::vector<vehicle *> vehs;
+    std::vector<std::string> veh_names;
+
+    for( size_t i = 0; i < preset.vehicles.size(); i++ ) {
+        CAPTURE( preset.vehicles[i], preset.positions[i], preset.facings[i] );
+        vehicle *veh_ptr = m.add_vehicle( preset.vehicles[i], preset.positions[i],
+                                          preset.facings[i], 0, 0 );
+        REQUIRE( veh_ptr != nullptr );
+        vehs.push_back( veh_ptr );
+        veh_names.push_back( veh_ptr->name );
+    }
+
+    for( const rack_activation &rack_act : preset.rack_orders ) {
+        CAPTURE( rack_act.racked_vehicle_index, rack_act.racking_vehicle_index, rack_act.rack_pos );
+
+        vehicle &racking_veh = *vehs[rack_act.racking_vehicle_index];
+        vehicle &racked_veh = *vehs[rack_act.racked_vehicle_index];
+
+        const auto rack_parts = racking_veh.get_parts_at( rack_act.rack_pos, "BIKE_RACK_VEH",
+                                part_status_flag::available );
+        REQUIRE( rack_parts.size() == 1 );
+        const int rack_idx = racking_veh.index_of_part( rack_parts[0] );
+        REQUIRE( rack_idx >= 0 );
+        CAPTURE( rack_idx );
+
+        const auto rackables = racking_veh.find_vehicles_to_rack( rack_idx );
+        REQUIRE( !rackables.empty() );
+
+        const auto this_rackable = std::find_if( rackables.begin(), rackables.end(),
+        [&racked_veh]( const vehicle::rackable_vehicle & rackable ) {
+            return rackable.veh == &racked_veh;
+        } );
+        REQUIRE( this_rackable != rackables.end() );
+
+        std::string error = capture_debugmsg_during( [&u, &racking_veh, &this_rackable]() {
+            bikerack_racking_activity_actor racking_actor( racking_veh,
+                    *this_rackable->veh, this_rackable->racks );
+            // racked_veh, this_rackable->veh and vehs[] element are invalid past this point
+            complete_activity( u, racking_actor );
+        } );
+
+        if( !rack_act.expect_failure ) {
+            CAPTURE( error );
+            REQUIRE( error.empty() );
+        } else {
+            REQUIRE( error ==
+                     "vehicle named Foldable wheelchair is already racked on this vehicleracking actor failed: failed racking Foldable wheelchair on Car with Bike Rack." );
+        }
+
+        const optional_vpart_position ovp_racked = m.veh_at(
+                    preset.positions[rack_act.racked_vehicle_index] );
+        REQUIRE( ovp_racked.has_value() );
+        if( !rack_act.expect_failure ) {
+            REQUIRE( &ovp_racked->vehicle() == &racking_veh );
+        } else {
+            REQUIRE( &ovp_racked->vehicle() != &racking_veh );
+        }
+    }
+
+    for( const rack_activation &rack_act : preset.unrack_orders ) {
+        const optional_vpart_position ovp_racked = m.veh_at( rack_act.rack_pos );
+        REQUIRE( ovp_racked.has_value() );
+
+        const auto rack_parts = ovp_racked->vehicle().get_parts_at( rack_act.rack_pos,
+                                "BIKE_RACK_VEH", part_status_flag::available );
+        REQUIRE( rack_parts.size() == 1 );
+        const int rack_idx = ovp_racked->vehicle().index_of_part( rack_parts[0] );
+        REQUIRE( rack_idx >= 0 );
+        CAPTURE( rack_idx );
+
+        const auto unrackables = ovp_racked->vehicle().find_vehicles_to_unrack( rack_idx );
+        if( rack_act.expect_failure ) {
+            REQUIRE( unrackables.empty() );
+        } else {
+            REQUIRE( !unrackables.empty() );
+
+            const auto this_unrackable = std::find_if( unrackables.begin(), unrackables.end(),
+            [&]( const vehicle::unrackable_vehicle & unrackable ) {
+                return unrackable.name == veh_names[rack_act.racked_vehicle_index];
+            } );
+            REQUIRE( this_unrackable != unrackables.end() );
+
+            bikerack_unracking_activity_actor unracking_actor( ovp_racked->vehicle(),
+                    this_unrackable->parts, this_unrackable->racks );
+            complete_activity( u, unracking_actor );
+        }
+    }
+
+    for( size_t i = 0; i < preset.vehicles.size(); i++ ) {
+        INFO( "despawning vehicle" );
+        CAPTURE( preset.vehicles[i], preset.positions[i] );
+        const optional_vpart_position ovp = m.veh_at( preset.positions[i] );
+        REQUIRE( ovp.has_value() );
+        m.destroy_vehicle( &ovp->vehicle() );
+    }
+}
+
+// Testing vehicle racking and unracking
+TEST_CASE( "Racking and unracking tests", "[vehicle]" )
+{
+    std::vector<rack_preset> racking_presets {
+        // basic test; rack bike on car, unrack it, everything should succeed
+        {
+            { vehicle_prototype_car_rack, vehicle_prototype_bicycle },
+            { tripoint_zero,              tripoint( -4, 0, 0 ) },
+            { 0_degrees,                  90_degrees },
+
+            { { 0, tripoint( -3, -1, 0 ), 1, false } }, // rack bicycle to car
+            { { 0, tripoint( -3, -1, 0 ), 1, false } }, // unrack bicycle from car
+        },
+        // rack test probing for #60453 and #52079
+        // racking vehicles with same name on ( potentially ) same rack should expect failures
+        {
+            { vehicle_prototype_car_rack, vehicle_prototype_wheelchair, vehicle_prototype_wheelchair },
+            { tripoint_zero,              tripoint( -4, 0, 0 ),         tripoint( -4, 1, 0 )         },
+            { 0_degrees,                  0_degrees,                    0_degrees                    },
+
+            // rack both wheelchairs to car, second rack activation should fail with debugmsg
+            { { 0, tripoint( -3, 0, 0 ), 1, false }, { 0, tripoint( -3, -1, 0 ), 2, true } },
+            // unrack both wheelchairs from car, second rack activation should fail
+            { { 0, tripoint( -3, 0, 0 ), 1, false }, { 0, tripoint( -3, -1, 0 ), 2, true } },
+        },
+    };
+
+    // shift positions to fit map
+    for( rack_preset &preset : racking_presets ) {
+        const tripoint offset = { 10, 10, 0 };
+        for( tripoint &pos : preset.positions ) {
+            pos += offset;
+        }
+        for( rack_activation &rack_act : preset.rack_orders ) {
+            rack_act.rack_pos += offset;
+        }
+        for( rack_activation &rack_act : preset.unrack_orders ) {
+            rack_act.rack_pos += offset;
+        }
+    }
+
+    for( const rack_preset &preset : racking_presets ) {
+        rack_check( preset );
+    }
+
+    clear_vehicles( &get_map() );
 }

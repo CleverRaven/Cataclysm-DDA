@@ -15,6 +15,132 @@
     "components": [ [ [ "forged_dreamstuff_ingot", 1 ] ] ]
   },
   {
+    "id": "spell_components_battery_gun",
+    "type": "requirement",
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 }, { "id": "SAW_M_FINE", "level": 1 } ],
+    "components": [ [ [ "pipe", 2 ] ], [ [ "cable", 10 ] ], [ [ "element", 1 ] ], [ [ "scrap", 5 ] ], [ [ "duct_tape", 25 ] ] ]
+  },
+  {
+    "id": "spell_components_ray_gun",
+    "type": "requirement",
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 2 }, { "id": "SAW_M_FINE", "level": 1 } ],
+    "components": [
+      [ [ "pipe", 2 ] ],
+      [ [ "pipe_fittings", 1 ] ],
+      [ [ "betavoltaic", 1 ] ],
+      [ [ "cable", 10 ] ],
+      [ [ "element", 3 ] ],
+      [ [ "scrap", 5 ] ],
+      [ [ "nuts_bolts", 3 ] ]
+    ]
+  },
+  {
+    "id": "spell_components_death_ray",
+    "type": "requirement",
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 2 }, { "id": "SAW_M_FINE", "level": 1 } ],
+    "components": [
+      [ [ "pipe", 2 ] ],
+      [ [ "pipe_fittings", 1 ] ],
+      [ [ "plut_cell", 1 ] ],
+      [ [ "cable", 10 ] ],
+      [ [ "element", 3 ] ],
+      [ [ "scrap", 5 ] ],
+      [ [ "nuts_bolts", 3 ] ]
+    ]
+  },
+  {
+    "id": "spell_components_schematics",
+    "type": "requirement",
+    "components": [ [ [ "drawing_tool", 2, "LIST" ] ], [ [ "paper", 8 ] ] ]
+  },
+  {
+    "id": "spell_components_mace_magic",
+    "type": "requirement",
+    "qualities": [
+      { "id": "SCREW", "level": 1 },
+      { "id": "WRENCH", "level": 1 },
+      { "id": "SAW_W", "level": 1 },
+      { "id": "GRIND", "level": 2 }
+    ],
+    "components": [ [ [ "magnetron", 1 ] ], [ [ "pipe", 3 ] ], [ [ "scrap", 25 ] ], [ [ "duct_tape", 25 ] ] ]
+  },
+  {
+    "id": "spell_components_build_bio_launcher",
+    "type": "requirement",
+    "qualities": [ { "id": "GRIND", "level": 1 } ],
+    "components": [ [ [ "55gal_drum", 1 ] ], [ [ "brain", 1 ] ], [ [ "pipe", 1 ] ], [ [ "e_scrap", 6 ] ], [ [ "scrap", 10 ] ] ]
+  },
+  {
+    "id": "spell_components_bio_launcher_warhead",
+    "type": "requirement",
+    "qualities": [ { "id": "SAW_W", "level": 1 } ],
+    "components": [ [ [ "RPG", 1 ] ], [ [ "c4", 1 ] ], [ [ "flu_shot", 1 ] ], [ [ "fuse", 1 ] ], [ [ "scrap", 2 ] ] ]
+  },
+  {
+    "id": "spell_components_fire_bio_warhead",
+    "type": "requirement",
+    "components": [ [ [ "bio_warhead", 1 ] ] ]
+  },
+  {
+    "id": "spell_components_rip_ticket",
+    "type": "requirement",
+    "tools": [
+      [
+        [ "pen", -5 ],
+        [ "black_pen", -5 ],
+        [ "blue_pen", -5 ],
+        [ "red_pen", -5 ],
+        [ "green_pen", -5 ],
+        [ "pencil", -5 ],
+        [ "permanent_marker", -5 ],
+        [ "survival_marker", -5 ]
+      ]
+    ],
+    "components": [
+      [
+        [ "money_one", 1 ],
+        [ "money_two", 1 ],
+        [ "money_five", 1 ],
+        [ "money_ten", 1 ],
+        [ "money_twenty", 1 ],
+        [ "money_fifty", 1 ],
+        [ "money_hundred", 1 ]
+      ]
+    ]
+  },
+  {
+    "id": "spell_components_helmet_inventor",
+    "type": "requirement",
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 }, { "id": "SAW_W", "level": 1 } ],
+    "components": [
+      [
+        [ "headgear", 1 ],
+        [ "helmet_army", 1 ],
+        [ "tac_fullhelmet", 1 ],
+        [ "tac_helmet", 1 ],
+        [ "firehelmet", 1 ],
+        [ "helmet_ball", 1 ],
+        [ "helmet_football", 1 ],
+        [ "helmet_inventor", 1 ]
+      ],
+      [ [ "magnetron", 1 ] ],
+      [ [ "aluminum_foil", 4 ] ]
+    ]
+  },
+  {
+    "id": "spell_components_ion_gun",
+    "type": "requirement",
+    "qualities": [ { "id": "WRENCH", "level": 1 }, { "id": "SAW_W", "level": 1 } ],
+    "components": [
+      [ [ "magnetron", 1 ] ],
+      [ [ "pipe", 2 ] ],
+      [ [ "antenna", 3 ] ],
+      [ [ "cable", 20 ] ],
+      [ [ "scrap", 5 ] ],
+      [ [ "duct_tape", 15 ] ]
+    ]
+  },
+  {
     "id": "spell_components_dreamdross3",
     "type": "requirement",
     "components": [ [ [ "dreamdross_lump", 2 ], [ "scrap_dreamdross", 4 ] ], [ [ "xe_oneiric_hammer", 1 ] ] ]

@@ -1149,5 +1149,44 @@
     "proficiencies": [ { "proficiency": "prof_metalworking" } ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "components": [ [ [ "scrap_aluminum", 120 ], [ "material_aluminium_ingot", 10 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "aquarium_medium_drying",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_CONTAINERS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "5 h",
+    "autolearn": true,
+    "qualities": [ { "id": "CUT_GLASS", "level": 1 } ],
+    "components": [ [ [ "glass_sheet", 5 ] ], [ [ "silicone", 9 ] ], [ [ "duct_tape", 120 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "aquarium_small_drying",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_CONTAINERS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "4 h 15 m",
+    "autolearn": true,
+    "qualities": [ { "id": "CUT_GLASS", "level": 1 } ],
+    "components": [ [ [ "glass_sheet", 3 ] ], [ [ "silicone", 7 ] ], [ [ "duct_tape", 94 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "aquarium_large_drying",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_CONTAINERS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "8 h",
+    "autolearn": true,
+    "qualities": [ { "id": "CUT_GLASS", "level": 1 } ],
+    "components": [ [ [ "glass_sheet", 8 ] ], [ [ "silicone", 12 ] ], [ [ "duct_tape", 158 ] ] ]
   }
 ]

@@ -11,8 +11,8 @@
 
 <color_white>Спеціальна подяка:</color>
 <color_yellow>Aivean</color> - За видатну продуктивність.
-<color_yellow>anothersimulacrum</color> - For making me weary.
-<color_yellow>jbytheway</color> - For making me achieve things.
+<color_yellow>anothersimulacrum</color> - За те, що втомлював мене.
+<color_yellow>jbytheway</color> - За те, що змусив мене чогось досягати.
 <color_yellow>BrettDong</color>- За переклад та інше.
 <color_yellow>Qrox</color> - За показ місць, що викликають сповіщення про помилку.
 <color_yellow>LyleSY</color> - За динозаврррів.
@@ -33,10 +33,10 @@
 <color_yellow>I-am-Erk</color> - Ultica, dialogs, NPCs and clutter in the kitchens.
 <color_yellow>KorGgenT</color> - Magiclysm and stomach aches.
 
-<color_white>Special thanks to (<color_cyan>0.E</color>):</color>
-<color_yellow>Narc</color> - For maintaining the automatic Jenkins build-bot.
-<color_yellow>Rivet-the-Zombie</color> - For merging a PR a day.
-<color_yellow>BevapDin</color> - For code reviews and refactoring efforts.
+<color_white>Спеціальна подяка (<color_cyan>0.E</color>):</color>
+<color_yellow>Narc</color> - За підтримку автоматичного Jenkins білд-бота.
+<color_yellow>Rivet-the-Zombie</color> - За мердж по PR-у в день.
+<color_yellow>BevapDin</color> - За код-рев'ю та зусилля по рефакторингу.
 <color_yellow>BrettDong</color> - За переклади.
 <color_yellow>curstwist</color> - For roofs, mapgens, NPCs and changelogs.
 <color_yellow>davidpwbrown</color> - За авто подорожі й водіння авто.  А також їзду на коні.
@@ -87,10 +87,10 @@
 <color_white>Main Developers (<color_cyan>0.A</color>):</color>
 <color_yellow>KevinGranade</color>, <color_yellow>i2amroy</color>, <color_yellow>Rivet-the-Zombie</color>, <color_yellow>KA101</color>, <color_yellow>BevapDin</color>
 
-<color_white>Special thanks to (<color_cyan>0.A</color>):</color>
+<color_white>Спеціальна подяка (<color_cyan>0.A</color>):</color>
 <color_yellow>TheDarklingWolf</color> - For creating Cataclysm:DDA as we know it.
 <color_yellow>Narc</color> - For setting up the automatic Jenkins build-bot.
-<color_yellow>BevapDin</color> - For tireless bugfixing efforts.
+<color_yellow>BevapDin</color> - За невтомні зусилля по виправленню багів.
 <color_yellow>dwarfkoala</color> - For a plethora of bug triage.
 <color_yellow>Ill-kun</color> - For countless UI cleanups.
 
@@ -99,7 +99,7 @@
 <color_white>Main Developers (<color_cyan>0.9</color>):</color>
 <color_yellow>KevinGranade</color>, <color_yellow>GalenEvil</color>, <color_yellow>i2amroy</color>, <color_yellow>AtomicDryad</color>, <color_yellow>Ianestrachan</color>
 
-<color_white>Special thanks to (<color_cyan>0.9</color>):</color>
+<color_white>Спеціальна подяка (<color_cyan>0.9</color>):</color>
 <color_yellow>TheDarklingWolf</color> - For creating Cataclysm:DDA as we know it.
 <color_yellow>Narc</color> - For setting up the automatic Jenkins build-bot.
 <color_yellow>yobbobanana</color> - For working as liason between translators and GitHub.
