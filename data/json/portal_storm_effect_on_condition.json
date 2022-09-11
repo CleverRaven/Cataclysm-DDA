@@ -1118,7 +1118,13 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_PORTAL_STORM_CELL",
-    "condition": { "and": [ { "compare_int": [ { "u_val": "var", "var_name": "in_portal_cell" }, "=", { "const": 0 } ]  },{ "not": { "u_has_worn_with_flag": "PORTAL_PROOF" } }, { "not": "u_driving" } ] },
+    "condition": {
+      "and": [
+        { "compare_int": [ { "u_val": "var", "var_name": "in_portal_cell" }, "=", { "const": 0 } ] },
+        { "not": { "u_has_worn_with_flag": "PORTAL_PROOF" } },
+        { "not": "u_driving" }
+      ]
+    },
     "effect": [
       { "u_location_variable": { "global_val": "original_loc" } },
       { "u_location_variable": { "global_val": "cell_loc" }, "z_adjust": 6, "z_override": true },
@@ -1126,9 +1132,7 @@
       {
         "arithmetic": [ { "u_val": "var", "var_name": "cell_time" }, "=", { "time": "5 minutes" }, "+", { "rand": 60 } ]
       },
-      {
-        "arithmetic": [ { "u_val": "var", "var_name": "in_portal_cell" }, "=", { "const": 1 } ]
-      },
+      { "arithmetic": [ { "u_val": "var", "var_name": "in_portal_cell" }, "=", { "const": 1 } ] },
       {
         "revert_location": { "global_val": "cell_loc" },
         "time_in_future": { "u_val": "cell_time", "default": "1 minutes" }
@@ -1156,7 +1160,11 @@
       {
         "queue_eocs": {
           "id": "EOC_PORTAL_STORM_CELL_TELEPORT",
-          "effect": [ {"arithmetic": [ { "u_val": "var", "var_name": "in_portal_cell" }, "=", { "const": 0 } ]},  { "u_teleport": { "global_val": "original_loc" } }, { "u_message": "You came back.  This time." } ]
+          "effect": [
+            { "arithmetic": [ { "u_val": "var", "var_name": "in_portal_cell" }, "=", { "const": 0 } ] },
+            { "u_teleport": { "global_val": "original_loc" } },
+            { "u_message": "You came back.  This time." }
+          ]
         },
         "time_in_future": { "u_val": "cell_time", "default": "1 minutes" }
       },
@@ -1362,10 +1370,14 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_PORTAL_DUNGEON_REWARD_ITEM",
-    "effect": [ { "u_message": "A strange item comes back with you.", "popup": true }, {
-      "set_string_var": [ "unstable_rift", "calming_stone", "escape_stone" ],
-      "target_var": { "global_val": "item_type" }
-    }, { "u_spawn_item": { "global_val": "item_type" } } ]
+    "effect": [
+      { "u_message": "A strange item comes back with you.", "popup": true },
+      {
+        "set_string_var": [ "unstable_rift", "calming_stone", "escape_stone" ],
+        "target_var": { "global_val": "item_type" }
+      },
+      { "u_spawn_item": { "global_val": "item_type" } }
+    ]
   },
   {
     "type": "effect_on_condition",
