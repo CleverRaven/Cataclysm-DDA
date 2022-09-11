@@ -84,7 +84,7 @@
     "enchantments": [ "heightened_performance" ],
     "included_bionics": [ "afs_speed_injection", "afs_healing_injection", "afs_strength_injection" ],
     "deactivated_eocs": [ "afs_eoc_hangover_baseline" ],
-    "act_cost": "1 kJ",
+    "act_cost": "100 J",
     "time": "1 m"
   },
   {
@@ -108,7 +108,7 @@
       }
     ],
     "deactivated_eocs": [ "afs_eoc_hangover_speed" ],
-    "act_cost": "1 kJ",
+    "act_cost": "100 J",
     "time": "1 m"
   },
   {
@@ -130,7 +130,7 @@
       }
     ],
     "deactivated_eocs": [ "afs_eoc_hangover_healing" ],
-    "act_cost": "1 kJ",
+    "act_cost": "100 J",
     "time": "1 m"
   },
   {
@@ -155,8 +155,17 @@
       }
     ],
     "deactivated_eocs": [ "afs_eoc_hangover_strength" ],
-    "act_cost": "1 kJ",
+    "act_cost": "100 J",
     "time": "1 m"
+  },
+  {
+    "id": "bio_power_storage_salvaged",
+    "type": "bionic",
+    "name": { "str": "Power Storage, salvaged" },
+    "capacity": "50 kJ",
+    "dupes_allowed": true,
+    "description": "A battered and used Compact Bionics Module that increases your power capacity by 50 kJ.  Having at least one of these is a prerequisite to using powered bionics.  You will also need a power supply, found in various CBMs.",
+    "flags": [ "BIONIC_NPC_USABLE" ]
   },
   {
     "id": "bio_forcefield_bash_cut_weak",

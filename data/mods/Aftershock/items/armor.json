@@ -496,34 +496,113 @@
     "material_thickness": 2,
     "environmental_protection": 3,
     "flags": [ "VARSIZE", "WATER_FRIENDLY", "SKINTIGHT" ],
-    "armor": [ { "encumbrance": [ 2, 5 ], "coverage": 90, "covers": [ "torso", "arm_l", "arm_r" ] } ]
+    "armor": [
+      {
+        "material": [
+          { "type": "neoprene", "covered_by_mat": 100, "thickness": 1.2 },
+          { "type": "kevlar", "covered_by_mat": 100, "thickness": 0.3 }
+        ],
+        "covers": [ "torso" ],
+        "coverage": 100,
+        "encumbrance": 5
+      },
+      {
+        "material": [
+          { "type": "kevlar", "covered_by_mat": 100, "thickness": 0.3 },
+          { "type": "neoprene", "covered_by_mat": 100, "thickness": 0.7 }
+        ],
+        "covers": [ "arm_l", "arm_r" ],
+        "coverage": 100,
+        "encumbrance": 2
+      }
+    ]
   },
   {
     "id": "nanomesh_vest",
-    "repairs_like": "chainmail_vest",
     "type": "ARMOR",
-    "copy-from": "chainmail_vest",
-    "looks_like": "chainmail_vest",
-    "material": [ "nanoprinted_alloy" ],
+    "category": "armor",
     "name": { "str": "nanomesh vest" },
-    "description": "A lightweight nanomesh vest designed to face down many of the perils of space travel.  These vests are mass produced and often stacked in starship lockers.",
-    "armor": [ { "encumbrance": 12, "coverage": 95, "covers": [ "torso" ] } ],
-    "price": 40000,
-    "price_postapoc": 40000,
-    "color": "brown"
+    "description": "A lightweight nanomesh vest designed to face down many of the perils of space travel.  These vests are mass produced and often stacked in starship lockers..",
+    "weight": "6953 g",
+    "volume": "1 L",
+    "price": 10000,
+    "price_postapoc": 2000,
+    "to_hit": -1,
+    "material": [ "nanoprinted_alloy" ],
+    "symbol": "[",
+    "looks_like": "mt_chainmail_vest",
+    "repairs_like": "mt_chainmail_vest",
+    "color": "light_red",
+    "flags": [ "VARSIZE", "STURDY", "OUTER" ],
+    "armor": [
+      {
+        "material": [ { "type": "nanoprinted_alloy", "covered_by_mat": 100, "thickness": 1.2 } ],
+        "covers": [ "torso" ],
+        "coverage": 100,
+        "encumbrance": 12
+      }
+    ]
+  },
+  {
+    "id": "xl_nanomesh_vest",
+    "type": "ARMOR",
+    "name": { "str": "XL nanomesh_vest" },
+    "copy-from": "nanomesh_vest",
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
     "id": "carbide_cuirass",
-    "repairs_like": "cuirass_lightplate",
     "type": "ARMOR",
-    "copy-from": "cuirass_lightplate",
+    "category": "armor",
+    "repairs_like": "cuirass_lightplate",
     "looks_like": "cuirass_lightplate",
     "name": { "str": "vacuum cast cuirass", "str_pl": "vacuum cast cuirasses" },
     "description": "This piece of armor harkens back to renaissance designs.  It differs in that it is cast as a single piece in deep space installations where conditions can be controlled absolutely.",
-    "material": [ "vacuum_carbide" ],
-    "armor": [ { "encumbrance": 23, "coverage": 95, "covers": [ "torso" ] } ],
+    "weight": "4200 g",
+    "volume": "6 L",
     "price": 300000,
     "price_postapoc": 300000,
-    "color": "brown"
+    "to_hit": -1,
+    "material": [ "vacuum_carbide" ],
+    "symbol": "[",
+    "color": "light_gray",
+    "warmth": 20,
+    "longest_side": "60 cm",
+    "material_thickness": 4,
+    "flags": [ "VARSIZE", "OUTER", "STURDY" ],
+    "armor": [
+      { "encumbrance": 20, "coverage": 95, "covers": [ "torso" ] },
+      {
+        "encumbrance": 4,
+        "coverage": 95,
+        "covers": [ "arm_l", "arm_r" ],
+        "specifically_covers": [ "arm_shoulder_l", "arm_shoulder_r" ]
+      },
+      {
+        "encumbrance": 4,
+        "coverage": 95,
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_hip_l", "leg_hip_r" ]
+      }
+    ]
+  },
+  {
+    "id": "xl_carbide_cuirass",
+    "type": "ARMOR",
+    "name": { "str": "XL vacuum cast cuirass", "str_pl": "XL vacuum cast cuirasses" },
+    "copy-from": "carbide_cuirass",
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "flags": [ "VARSIZE", "STURDY", "OVERSIZE", "OUTER" ]
+  },
+  {
+    "id": "xs_carbide_cuirass",
+    "type": "ARMOR",
+    "copy-from": "carbide_cuirass",
+    "looks_like": "carbide_cuirass",
+    "material_thickness": 3,
+    "name": { "str": "XS vacuum cast cuirass", "str_pl": "XS vacuum cast cuirasses" },
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "extend": { "flags": [ "UNDERSIZE" ] }
   }
 ]
