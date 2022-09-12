@@ -1799,6 +1799,10 @@ bool scrollbar::handle_dragging( const std::string &action, const cata::optional
                          scrollbar_area.p_max.y;
         viewport_pos_v = clamp( y_position, 0, ( content_size_v - viewport_size_v ) );
         position = viewport_pos_v;
+#if !defined(TILES)
+        // Tiles builds seem to trigger "SELECT" on mouse button-up (clearing "dragging") but curses does not
+        dragging = false;
+#endif //TILES
         return true;
     } else {
         // Not doing anything related to the scrollbar
