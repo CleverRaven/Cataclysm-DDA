@@ -76,7 +76,27 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "microlab_generic_hallway",
+    "id": [
+      "microlab_portal_security1",
+      "microlab_portal_security2",
+      "microlab_portal_security3",
+      "microlab_portal_security4",
+      "microlab_portal_security5",
+      "microlab_portal_security6",
+      "microlab_portal_security7",
+      "microlab_portal_security8",
+      "microlab_portal_security_hallway1",
+      "microlab_portal_security_hallway2"
+    ],
+    "name": "physics lab",
+    "sym": "L",
+    "color": "red",
+    "see_cost": 5,
+    "flags": [ "RISK_HIGH" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "microlab_generic_hallway" ],
     "name": "lab hallway",
     "color": "light_red",
     "see_cost": 5,
@@ -108,6 +128,22 @@
     "see_cost": 5,
     "spawns": { "group": "GROUP_DISTORTED_MICROLAB", "population": [ 2, 5 ], "chance": 80 },
     "flags": [ "LINEAR" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "microlab_portal_elevator", "microlab_portal_elevator_physics_glass" ],
+    "name": "physics department elevator",
+    "color": "light_red",
+    "sym": "L",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "microlab_portal_elevator_nether_glass",
+    "name": "lost level",
+    "color": "black",
+    "sym": " ",
+    "see_cost": 5
   },
   {
     "type": "overmap_terrain",
