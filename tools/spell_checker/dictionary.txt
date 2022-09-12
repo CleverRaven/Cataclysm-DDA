@@ -302,6 +302,7 @@ ceratosaurus
 cere
 cerium
 cestus
+chainmail
 chamberings
 champed
 channnnce
@@ -1094,6 +1095,8 @@ mesenterium
 meshwork
 metalloid
 metalsmithing
+metalworker
+metalworkers
 metatopography
 methacola
 methothexazole
