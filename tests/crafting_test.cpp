@@ -462,7 +462,7 @@ static int actually_test_craft( const recipe_id &rid, int interrupt_after_turns,
     int turns = 0;
     while( player_character.activity.id() == ACT_CRAFT ) {
         if( turns >= interrupt_after_turns ||
-            ( skill_level >= 0 && player_character.get_skill_level( rid.obj().skill_used ) > skill_level ) ) {
+            ( skill_level >= 0 && player_character.get_skill_level( rid->skill_used ) > skill_level ) ) {
             set_time( midnight ); // Kill light to interrupt crafting
         }
         ++turns;
@@ -506,14 +506,14 @@ TEST_CASE( "proficiency_gain_short_crafts", "[crafting][proficiency]" )
     avatar &ch = get_avatar();
     // Set skill above requirement so that skill training doesn't steal any focus
     ch.set_skill_level( skill_fabrication, 1 );
-    REQUIRE( rec.obj().get_skill_cap() < ch.get_skill_level( rec.obj().skill_used ) );
+    REQUIRE( rec->get_skill_cap() < ch.get_skill_level( rec->skill_used ) );
 
     REQUIRE( ch.get_proficiency_practice( proficiency_prof_carving ) == 0.0f );
 
     int turns_taken = 0;
     const int max_turns = 100'000;
 
-    float time_malus = rec.obj().proficiency_time_maluses( ch );
+    float time_malus = rec->proficiency_time_maluses( ch );
 
     // Proficiency progress is checked every 5% of craft progress, so up to 5% of one craft worth can be wasted depending on timing
     // Rounding effects account for another tiny bit
@@ -527,7 +527,7 @@ TEST_CASE( "proficiency_gain_short_crafts", "[crafting][proficiency]" )
         REQUIRE( turns_taken < max_turns );
     } while( !ch.has_proficiency( proficiency_prof_carving ) );
 
-    time_duration expected_time = proficiency_prof_carving.obj().time_to_learn() * time_malus + overrun;
+    time_duration expected_time = proficiency_prof_carving->time_to_learn() * time_malus + overrun;
     CHECK( time_duration::from_turns( turns_taken ) == expected_time );
 }
 
@@ -540,7 +540,7 @@ TEST_CASE( "proficiency_gain_long_craft", "[crafting][proficiency]" )
     avatar &ch = get_avatar();
     // Set skill above requirement so that skill training doesn't steal any focus
     ch.set_skill_level( skill_fabrication, 1 );
-    REQUIRE( rec.obj().get_skill_cap() < ch.get_skill_level( rec.obj().skill_used ) );
+    REQUIRE( rec->get_skill_cap() < ch.get_skill_level( rec->skill_used ) );
     REQUIRE( ch.get_proficiency_practice( proficiency_prof_carving ) == 0.0f );
 
     test_craft_for_prof( rec, proficiency_prof_carving, 1.0f );
