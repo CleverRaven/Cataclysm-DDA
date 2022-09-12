@@ -6,7 +6,7 @@
     "monsters": [
       { "monster": "mon_stegosaurus_hatchling", "weight": 5 },
       { "monster": "mon_gargoyleosaurus_hatchling", "weight": 5 },
-      { "monster": "mon_saurapelta_hatchling", "weight": 5 },
+      { "monster": "mon_sauropelta_hatchling", "weight": 5 },
       { "monster": "mon_nodosaurus_hatchling", "weight": 5 },
       { "monster": "mon_edmontonia_hatchling", "weight": 5 },
       { "monster": "mon_zuul_hatchling", "weight": 5 },
