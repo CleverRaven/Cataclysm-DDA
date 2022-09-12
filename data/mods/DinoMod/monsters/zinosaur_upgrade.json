@@ -829,9 +829,9 @@
   },
   {
     "type": "MONSTER",
-    "id": "mon_zaurapelta_brute",
+    "id": "mon_zauropelta_brute",
     "name": { "str": "Horrorpelta" },
-    "copy-from": "mon_zaurapelta",
+    "copy-from": "mon_zauropelta",
     "description": "Heavily-armored four-legged zombie dinosaur with large bone spikes along the sides and two very large ones protecting the neck.  Its entire body bulges with distended muscles and swollen, festering wounds.",
     "diff": 2,
     "color": "red",
@@ -3254,9 +3254,9 @@
   },
   {
     "type": "MONSTER",
-    "id": "mon_skaurapelta",
+    "id": "mon_skauropelta",
     "name": { "str_sp": "armored sauropelta" },
-    "copy-from": "mon_zaurapelta",
+    "copy-from": "mon_zauropelta",
     "color": "white",
     "material": [ "bone" ],
     "armor_bash": 0,
