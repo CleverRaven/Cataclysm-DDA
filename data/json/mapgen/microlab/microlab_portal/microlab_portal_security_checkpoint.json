@@ -80,10 +80,17 @@
       "8": "t_nether_glass_wall",
       "$": "t_metal_ventilation_shutter"
     },
-    "furniture": { "A": "f_counter", "M": "f_server", ":": "f_xedra_antenna", "Ñ": "f_locker", "H": "f_table", "D": "f_desk",       "Ó": "f_utility_shelf", 
-    "7": "f_machinery_light",
-    "&": "f_machinery_electronic"
-  },
+    "furniture": {
+      "A": "f_counter",
+      "M": "f_server",
+      ":": "f_xedra_antenna",
+      "Ñ": "f_locker",
+      "H": "f_table",
+      "D": "f_desk",
+      "Ó": "f_utility_shelf",
+      "7": "f_machinery_light",
+      "&": "f_machinery_electronic"
+    },
     "items": {
       "A": { "item": "altered_object_i", "chance": 100 },
       "Ñ": [ { "item": "guns_milspec", "chance": 10 }, { "item": "ammo_milspec", "chance": 70 } ],

@@ -99,10 +99,7 @@
         "overmap": "microlab_portal_elevator_north",
         "north": { "id": "hallway_to_hallway", "alternatives": [ "dhallway_to_dhallway" ] }
       },
-      "portal_d_elevator": {
-        "overmap": "microlab_portal_elevator_north",
-        "north": "dhallway_to_dhallway"
-      },
+      "portal_d_elevator": { "overmap": "microlab_portal_elevator_north", "north": "dhallway_to_dhallway" },
       "nether_elevator_above": {
         "overmap": "microlab_portal_elevator_physics_glass_north",
         "north": { "id": "hallway_to_hallway", "alternatives": [ "dhallway_to_dhallway" ] }

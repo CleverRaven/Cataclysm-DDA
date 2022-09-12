@@ -51,8 +51,8 @@
               "max_radius": 20,
               "lifespan": [ "40 seconds", "2 minutes" ]
             }
-            
-          ]        }
+          ]
+        }
       ]
     }
   }
