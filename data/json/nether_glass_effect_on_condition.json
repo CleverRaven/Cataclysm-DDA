@@ -30,7 +30,29 @@
               "force": true
             }
           ]
-        }
+        },
+        {
+          "id": "EOC_nether_glass_yrax_encounter",
+          "condition": { "and": [ { "x_in_y_chance": { "x": 1, "y": 250 } }, { "u_at_om_location": "nether_glass_deep" } ] },
+          "effect": [
+            {
+              "u_spawn_monster": "mon_yrax_apeirogon",
+              "real_count": 1,
+              "min_radius": 3,
+              "max_radius": 10,
+              "lifespan": [ "40 seconds", "2 minutes" ],
+              "spawn_message": "The emptiness yields before an all-encompassing construct.",
+              "spawn_message_plural": "Reality twists and deforms as wriggling chunks of it fall on the ground."
+            },
+            {
+              "u_spawn_monster": "mon_yrax_trifacet",
+              "real_count": 15,
+              "min_radius": 3,
+              "max_radius": 20,
+              "lifespan": [ "40 seconds", "2 minutes" ]
+            }
+            
+          ]        }
       ]
     }
   }
