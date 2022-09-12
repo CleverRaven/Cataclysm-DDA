@@ -2859,7 +2859,9 @@ void set_skills( tab_manager &tabs, avatar &u, pool_type pool )
                 cur_offset = scrollbar_pos;
                 cur_pos = cur_offset + ( iContentHeight - 1 ) / 2; // Get approximate location
                 get_next( false, false ); // Then make sure it's a skill rather than a heading
-                get_next( true, false ); // And go back to where we were
+                if( cur_pos < num_skills / 2 ) {
+                    get_next( true, false ); // Go back to where we were to ensure we can drag to the top
+                }
             }
         } else if( action == "DOWN" ) {
             get_next( false, false );
