@@ -3369,7 +3369,8 @@
     "valid": false,
     "purifiable": false,
     "threshreq": [ "THRESH_MYCUS" ],
-    "category": [ "MYCUS" ]
+    "category": [ "MYCUS" ],
+    "flags": [ "MYCUS_IMMUNE" ]
   },
   {
     "type": "mutation",
@@ -4567,6 +4568,7 @@
     "prereqs": [ "SLIMY" ],
     "threshreq": [ "THRESH_GASTROPOD" ],
     "leads_to": [ "GASTROPOD_BALANCE" ],
+    "flags": [ "SLUDGE_IMMUNE" ],
     "visibility": 8,
     "ugliness": 9,
     "encumbrance_always": [ [ "leg_l", 10 ], [ "leg_r", 10 ], [ "foot_l", 10 ], [ "foot_r", 10 ] ],
@@ -4711,6 +4713,7 @@
     "points": 1,
     "description": "Your body excretes very fine amounts of a chemical which prevents you from sticking to webs.  Walking through webs does not affect you at all.",
     "leads_to": [ "WEB_WEAVER" ],
+    "flags": [ "WEBWALK" ],
     "category": [ "SPIDER" ]
   },
   {
