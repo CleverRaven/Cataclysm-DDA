@@ -1640,12 +1640,20 @@ void parse_tags( std::string &phrase, const Character &u, const Character &me,
 
 void dialogue::add_topic( const std::string &topic_id )
 {
-    topic_stack.emplace_back( topic_id );
+    if( actor( true )->get_npc() ) {
+        topic_stack.emplace_back( actor( true )->get_npc()->get_specified_talk_topic( topic_id ) );
+    } else {
+        topic_stack.emplace_back( topic_id );
+    }
 }
 
 void dialogue::add_topic( const talk_topic &topic )
 {
-    topic_stack.push_back( topic );
+    if( actor( true )->get_npc() ) {
+        topic_stack.emplace_back( actor( true )->get_npc()->get_specified_talk_topic( topic.id ) );
+    } else {
+        topic_stack.push_back( topic );
+    }
 }
 
 talker *dialogue::actor( const bool is_beta ) const
@@ -4880,6 +4888,36 @@ std::string npc::pick_talk_topic( const Character &/*u*/ )
 
     set_attitude( NPCATT_NULL );
     return chatbin.talk_stranger_neutral;
+}
+
+std::string npc::get_specified_talk_topic( const std::string &topic_id )
+{
+    static const dialogue_chatbin default_chatbin;
+    static const std::vector<std::pair<std::string, std::string>> talk_topics = {
+        {default_chatbin.first_topic, chatbin.first_topic},
+        {default_chatbin.talk_radio, chatbin.talk_radio},
+        {default_chatbin.talk_leader, chatbin.talk_leader},
+        {default_chatbin.talk_friend, chatbin.talk_friend},
+        {default_chatbin.talk_stole_item, chatbin.talk_stole_item},
+        {default_chatbin.talk_wake_up, chatbin.talk_wake_up},
+        {default_chatbin.talk_mug, chatbin.talk_mug},
+        {default_chatbin.talk_stranger_aggressive, chatbin.talk_stranger_aggressive},
+        {default_chatbin.talk_stranger_scared, chatbin.talk_stranger_scared},
+        {default_chatbin.talk_stranger_wary, chatbin.talk_stranger_wary},
+        {default_chatbin.talk_stranger_friendly, chatbin.talk_stranger_friendly},
+        {default_chatbin.talk_stranger_neutral, chatbin.talk_stranger_neutral},
+        {default_chatbin.talk_friend_guard, chatbin.talk_friend_guard}
+    };
+
+    const auto iter = std::find_if( talk_topics.begin(), talk_topics.end(),
+    [&topic_id]( const std::pair<std::string, std::string> &pair ) {
+        return pair.first == topic_id;
+    } );
+    if( iter != talk_topics.end() ) {
+        return iter->second;
+    }
+
+    return topic_id;
 }
 
 bool npc::has_item_whitelist() const
