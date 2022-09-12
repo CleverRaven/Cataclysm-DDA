@@ -148,7 +148,6 @@
       "Z": { "item": "SUS_hair_drawer", "chance": 100, "repeat": [ 1 ] },
       "²": { "item": "beauty", "chance": 100, "repeat": [ 1, 4 ] },
       "[": { "item": "magazines", "chance": 100, "repeat": [ 2, 4 ] }
-
     },
     "vendingmachines": { "8": { "item_group": "vending_drink" }, "9": { "item_group": "vending_food" } },
     "toilets": { "T": {  } }
