@@ -68,7 +68,7 @@
     "type": "ARMOR",
     "price_postapoc": 1250,
     "name": { "str": "pair of biosilicified chitin leg guards", "str_pl": "pairs of biosilicified chitin leg guards" },
-    "description": "A pair of leg guards crafted from the carefully cleaned and pruned biosilicified exoskeletons of acidic ants.  Acid-resistant but brittle.",
+    "description": "A pair of leg guards crafted from the carefully cleaned and pruned biosilicified exoskeletons of acidic ants. Acid-resistant but brittle.",
     "material": [ "acidchitin" ],
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25, "encumbrance": 1.5, "warmth": 1.5 },
     "material_thickness": 5,
@@ -80,7 +80,7 @@
     "looks_like": "legguard_acidchitin",
     "type": "ARMOR",
     "name": { "str": "pair of XL biosilicified chitin leg guards", "str_pl": "pairs of XL biosilicified chitin guards" },
-    "description": "A pair of leg guards crafted from the carefully cleaned and pruned biosilicified exoskeletons of acidic ants.  Acid-resistant but brittle. This pair in particular looks fit for a giant.",
+    "description": "A pair of leg guards crafted from the carefully cleaned and pruned biosilicified exoskeletons of acidic ants. Acid-resistant but brittle. This pair in particular looks fit for a giant.",
     "material": [ "acidchitin" ],
     "proportional": { "weight": 1.5, "volume": 1.5 },
     "extend": { "flags": [ "OVERSIZE" ] }
@@ -91,7 +91,7 @@
     "looks_like": "legguard_acidchitin",
     "type": "ARMOR",
     "name": { "str": "pair of XS biosilicified chitin leg guards", "str_pl": "pairs of XS biosilicified chitin guards" },
-    "description": "A pair of leg guards crafted from the carefully cleaned and pruned biosilicified exoskeletons of acidic ants.  Acid-resistant but brittle. This pair in particular feels like it was made for a small child.",
+    "description": "A pair of leg guards crafted from the carefully cleaned and pruned biosilicified exoskeletons of acidic ants. Acid-resistant but brittle. This pair in particular feels like it was made for a small child.",
     "material": [ "acidchitin" ],
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }
