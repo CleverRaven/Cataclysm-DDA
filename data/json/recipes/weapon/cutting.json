@@ -1201,7 +1201,7 @@
     "using": [ [ "forging_standard", 2 ], [ "mc_steel_standard", 3 ] ],
     "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "GRIND", "level": 2 } ],
     "tools": [ [ [ "tongs", -1 ] ], [ [ "hotcut", -1 ] ] ],
-    "components": [ [ [ "leather", 1 ], [ "mc_wire", 2 ] ] ]
+    "components": [ [ [ "leather", 2 ], [ "mc_wire", 4 ] ] ]
   },
   {
     "type": "recipe",
@@ -1221,7 +1221,7 @@
     "using": [ [ "forging_standard", 2 ], [ "hc_steel_standard", 3 ] ],
     "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "GRIND", "level": 2 } ],
     "tools": [ [ [ "tongs", -1 ] ], [ [ "hotcut", -1 ] ] ],
-    "components": [ [ [ "leather", 1 ], [ "hc_wire", 2 ] ] ]
+    "components": [ [ [ "leather", 2 ], [ "hc_wire", 4 ] ] ]
   },
   {
     "type": "recipe",
@@ -1242,7 +1242,7 @@
     "using": [ [ "blacksmithing_standard", 12 ], [ "lc_steel_standard", 3 ], [ "carbon", 1 ] ],
     "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "GRIND", "level": 2 } ],
     "tools": [ [ [ "tongs", -1 ] ], [ [ "hotcut", -1 ] ] ],
-    "components": [ [ [ "kevlar_scraps", 2 ], [ "epoxy", 1 ] ] ]
+    "components": [ [ [ "kevlar_scraps", 4 ], [ "epoxy", 2 ] ] ]
   },
   {
     "type": "recipe",
@@ -1263,7 +1263,7 @@
     "using": [ [ "blacksmithing_standard", 12 ], [ "mc_steel_standard", 3 ] ],
     "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "GRIND", "level": 2 } ],
     "tools": [ [ [ "tongs", -1 ] ], [ [ "hotcut", -1 ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -120 ] ] ],
-    "components": [ [ [ "kevlar_scraps", 2 ], [ "epoxy", 1 ] ] ]
+    "components": [ [ [ "kevlar_scraps", 4 ], [ "epoxy", 2 ] ] ]
   },
   {
     "type": "recipe",
