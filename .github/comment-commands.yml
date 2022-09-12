@@ -32,4 +32,4 @@ users:
 
 keywords:
   - name: confirm-bug
-    value: '^\/confirmed.*'
+    value: '\/(C|c)onfirm.*'
