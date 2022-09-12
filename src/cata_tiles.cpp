@@ -2737,7 +2737,7 @@ bool cata_tiles::draw_terrain( const tripoint &p, const lit_level ll, int &heigh
             int rotation = 0;
             int connect_group = 0;
             int rotate_group = 0;
-            if( t2.obj().connects( connect_group ) | t.obj().rotates( rotate_group ) ) {
+            if( t2.obj().connects( connect_group ) | t2.obj().rotates( rotate_group ) ) {
                 get_connect_values( p, subtile, rotation, connect_group, rotate_group, terrain_override );
             } else {
                 get_terrain_orientation( p, rotation, subtile, terrain_override, invisible );
