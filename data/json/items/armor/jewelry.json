@@ -1553,7 +1553,7 @@
     "material": [ "fur", "plastic" ],
     "symbol": "^",
     "color": "brown",
-    "flags": [ "NO_WEAR_EFFECT" ]
+    "flags": [ "FANCY", "NO_WEAR_EFFECT" ]
   },
   {
     "id": "faux_fur_cat_ears",
@@ -1623,7 +1623,7 @@
     "material": [ "leather", "plastic" ],
     "symbol": "^",
     "color": "dark_gray",
-    "flags": [ "NO_WEAR_EFFECT" ]
+    "flags": [ "FANCY", "NO_WEAR_EFFECT" ]
   },
   {
     "id": "leather_cat_tail",
