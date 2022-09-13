@@ -241,6 +241,7 @@ breatharians
 brennt
 brewable
 brimless
+broadswords
 bronchodilator
 bronchospasm
 bubblicious
@@ -415,6 +416,7 @@ curasse
 currywurst
 cushiony
 customization
+cutlasses
 cuvette
 cuvettes
 cybercop
@@ -426,6 +428,7 @@ d
 dagnabbit
 dambreaker
 danceable
+dao
 daspletosaurus
 datasheet
 datasheets
@@ -570,6 +573,7 @@ espatiers
 esque
 esters
 estoc
+estocs
 ethereally
 eusocial
 evacs
@@ -600,6 +604,8 @@ faewild
 fakkin
 falcata
 fallfish
+falx
+falxes
 familiaris
 famoso
 fance
@@ -977,6 +983,8 @@ kosmoceratops
 krabgek
 kreck
 krick
+kriegsmesser
+kriegsmessers
 kshhhsk
 kshhssk
 kshssssssk
@@ -1036,6 +1044,7 @@ lockpicking
 longarm
 longear
 longsword
+longswords
 lopes
 lorekeeper
 lorica
@@ -1447,6 +1456,7 @@ pyrolusite
 pyrophoric
 pyrrolidone
 q
+qiang
 qianzhousaurus
 qt
 quadcopter
@@ -1596,6 +1606,7 @@ sawblades
 sawteeth
 sayig
 scatterer
+scimitars
 scissorlimbs
 sclerotin
 scrabblin
@@ -1910,6 +1921,7 @@ uhhh
 uistate
 ultracapacitor
 ultratech
+unarmored
 uncleaned
 uncoils
 underbarrel
