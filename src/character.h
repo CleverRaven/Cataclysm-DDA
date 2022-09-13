@@ -1800,6 +1800,11 @@ class Character : public Creature, public visitable
                                const item *original_inventory_item = nullptr, bool allow_wield = true,
                                bool ignore_pkt_settings = false );
 
+        ret_val<item_location> i_add_or_fill( item &it, bool should_stack = true,
+                                              const item *avoid = nullptr,
+                                              const item *original_inventory_item = nullptr, bool allow_drop = true,
+                                              bool allow_wield = true, bool ignore_pkt_settings = false );
+
         /**
          * Try to pour the given liquid into the given container/vehicle. The transferred charges are
          * removed from the liquid item. Check the charges of afterwards to see if anything has

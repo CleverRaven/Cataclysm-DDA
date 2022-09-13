@@ -77,7 +77,9 @@ std::list<item> npc_trading::transfer_items( trade_selector::select_t &stuff, Ch
             // No escrow in use. Items moving from giver to receiver.
         } else if( ip.first->count_by_charges() ) {
             gift.charges = ip.second;
-            receiver.i_add( gift );
+            item newit = item( gift );
+            ret_val<item_location> ret = receiver.i_add_or_fill( newit, true, nullptr, &gift,
+                                         /*allow_drop=*/true, /*allow_wield=*/true, false );
         } else {
             for( int i = 0; i < ip.second; i++ ) {
                 receiver.i_add( gift );

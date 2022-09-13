@@ -1815,6 +1815,47 @@ bool item_pocket::can_unload_liquid() const
     return will_spill() || !cts_is_frozen_liquid;
 }
 
+int item_pocket::fill_with( const item &contained, int amount, bool allow_unseal,
+                            bool ignore_settings )
+{
+    int num_contained = 0;
+
+    if( !contained.count_by_charges() || amount <= 0 ) {
+        return 0;
+    }
+    if( !ignore_settings && !settings.accepts_item( contained ) ) {
+        return 0;
+    }
+    if( !allow_unseal && sealed() ) {
+        return 0;
+    }
+
+    item contained_item( contained );
+    item_location loc;
+    ammotype ammo = contained.ammo_type();
+    if( ammo_capacity( ammo ) ) {
+        contained_item.charges = std::min( amount - num_contained,
+                                           remaining_ammo_capacity( ammo ) );
+    } else {
+        contained_item.charges = std::min( { amount - num_contained,
+                                             charges_per_remaining_volume( contained_item ),
+                                             charges_per_remaining_weight( contained_item )
+                                           } );
+    }
+    if( contained_item.charges == 0 ) {
+        return 0;
+    }
+    if( !insert_item( contained_item ).success() ) {
+        debugmsg( "charges per remaining pocket volume does not fit in that very volume" );
+        return 0;
+    }
+    num_contained += contained_item.charges;
+    if( allow_unseal ) {
+        unseal();
+    }
+    return num_contained;
+}
+
 std::list<item> &item_pocket::edit_contents()
 {
     return contents;

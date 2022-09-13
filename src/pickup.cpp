@@ -247,20 +247,14 @@ static bool pick_one_up( item_location &loc, int quantity, bool &got_water, Pick
             }
         // Intentional fallthrough
         case STASH: {
-            item_location added_it = player_character.i_add( newit, true, nullptr, &it,
-                                     /*allow_drop=*/false, /*allow_wield=*/false, false );
-            if( added_it == item_location::nowhere ) {
-                // failed to add, fill pockets if it's a stack
-                if( newit.count_by_charges() ) {
-                    int remaining_charges = newit.charges;
-                    item_location carried_item = player_character.get_wielded_item();
-                    if( carried_item && !carried_item->has_pocket_type( item_pocket::pocket_type::MAGAZINE ) &&
-                        carried_item->can_contain_partial( newit ) ) {
-                        int used_charges = carried_item->fill_with( newit, remaining_charges, false, false, false );
-                        remaining_charges -= used_charges;
-                    }
-                    player_character.worn.pickup_stash( newit, remaining_charges, false );
-                    newit.charges -= remaining_charges;
+            ret_val<item_location> ret = player_character.i_add_or_fill( newit, true, nullptr, &it,
+                                         /*allow_drop=*/false, /*allow_wield=*/false, false );
+            item_location added_it = ret.value();
+            if( ret.success() ) {
+                if( &*added_it == &it ) {
+                    // merged to the original stack, restore original charges
+                    it.charges -= newit.charges;
+                } else if( added_it == item_location::nowhere ) {
                     newit.on_pickup( player_character );
                     if( newit.charges != 0 ) {
                         auto &entry = mapPickup[newit.tname()];
@@ -268,18 +262,14 @@ static bool pick_one_up( item_location &loc, int quantity, bool &got_water, Pick
                         entry.first = newit;
                         picked_up = true;
                     }
+                } else {
+                    // successfully added
+                    auto &entry = mapPickup[newit.tname()];
+                    entry.second += newit.count();
+                    entry.first = newit;
+                    picked_up = true;
                 }
-            } else if( &*added_it == &it ) {
-                // merged to the original stack, restore original charges
-                it.charges -= newit.charges;
-            } else {
-                // successfully added
-                auto &entry = mapPickup[newit.tname()];
-                entry.second += newit.count();
-                entry.first = newit;
-                picked_up = true;
             }
-
             break;
         }
     }
