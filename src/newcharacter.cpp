@@ -585,7 +585,8 @@ void avatar::randomize( const bool random_scenario, bool play_now )
     reset_cardio_acc();
 }
 
-void avatar::randomize_cosmetics() {
+void avatar::randomize_cosmetics()
+{
     randomize_cosmetic_trait( type_hair_style );
     randomize_cosmetic_trait( type_skin_tone );
     randomize_cosmetic_trait( type_eye_color );
