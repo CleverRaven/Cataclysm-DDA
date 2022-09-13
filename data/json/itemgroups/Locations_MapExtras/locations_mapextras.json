@@ -131,9 +131,9 @@
       [ "diamond_dental_grill", 1 ],
       [ "match_trigger", 3 ],
       [ "pocketwatch", 2 ],
-      [ "wakizashi", 1 ],
+      [ "wakizashi_inferior", 1 ],
       [ "tanto", 4 ],
-      [ "katana", 1 ],
+      [ "katana_inferior", 1 ],
       [ "survnote", 3 ],
       [ "ear_spool", 30 ]
     ]
