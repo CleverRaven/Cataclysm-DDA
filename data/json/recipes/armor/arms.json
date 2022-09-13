@@ -229,7 +229,7 @@
     "time": "120 m",
     "autolearn": true,
     "components": [ [ [ "sheet_metal", 1 ] ], [ [ "cordage_6_leather", 8 ] ] ],
-    "proficiencies": [ { "proficiency": "prof_metalworking" } ],
+    "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_case_hardening" } ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 }, { "id": "DRILL", "level": 1 } ]
   },
   {
@@ -242,8 +242,9 @@
     "difficulty": 6,
     "time": "4 h",
     "book_learn": [ [ "textbook_armwest", 6 ], [ "welding_book", 6 ] ],
-    "components": [ [ [ "charcoal", 64 ] ], [ [ "armguard_metal", 1 ] ] ],
-    "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
+	"using": [ "carbon", 3 ],
+    "components": [ [ "armguard_metal", 1 ] ],
+    "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" }, { "proficiency": "prof_case_hardening" } ],
     "qualities": [ { "id": "HAMMER", "level": 2 } ],
     "tools": [ [ [ "forge", 64 ] ], [ [ "metalworking_tongs", -1 ] ] ]
   },
@@ -290,8 +291,9 @@
     "difficulty": 6,
     "time": "3 h",
     "book_learn": [ [ "textbook_armwest", 6 ], [ "welding_book", 6 ] ],
-    "components": [ [ [ "charcoal", 16 ] ], [ [ "armguard_metal_sheets_elbows", 1 ] ] ],
-    "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
+	"using": [ "carbon", 2 ],
+    "components": [ [ "armguard_metal_sheets_elbows", 1 ] ],
+    "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" }, { "proficiency": "prof_case_hardening" } ],
     "qualities": [ { "id": "HAMMER", "level": 2 } ],
     "tools": [ [ [ "forge", 16 ] ], [ [ "metalworking_tongs", -1 ] ] ]
   },
@@ -320,8 +322,9 @@
     "difficulty": 6,
     "time": "3 h",
     "book_learn": [ [ "textbook_armwest", 6 ], [ "welding_book", 6 ] ],
-    "components": [ [ [ "charcoal", 16 ] ], [ [ "armguard_metal_sheets_shoulders", 1 ] ] ],
-    "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
+	"using": [ "carbon", 1 ],
+    "components": [ [ "armguard_metal_sheets_shoulders", 1 ] ],
+    "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" }, { "proficiency": "prof_case_hardening" } ],
     "qualities": [ { "id": "HAMMER", "level": 2 } ],
     "tools": [ [ [ "forge", 16 ] ], [ [ "metalworking_tongs", -1 ] ] ]
   },
@@ -975,7 +978,7 @@
       [ "armor_chainmail_assembling", 1 ]
     ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "swage", -1 ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -120 ] ] ],
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "hotcut", -1 ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -120 ] ] ],
     "proficiencies": [
       { "proficiency": "prof_armorsmithing" },
       { "proficiency": "prof_closures", "time_multiplier": 1.25, "fail_multiplier": 1.15 },
@@ -997,7 +1000,7 @@
       [ "armor_chainmail_assembling", 2 ]
     ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "swage", -1 ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -120 ] ] ]
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "hotcut", -1 ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -120 ] ] ]
   },
   {
     "result": "armor_lc_armguard",
@@ -1176,7 +1179,7 @@
       [ "armor_chainmail_assembling", 1 ]
     ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "swage", -1 ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -120 ] ] ],
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "hotcut", -1 ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -120 ] ] ],
     "proficiencies": [
       { "proficiency": "prof_armorsmithing" },
       { "proficiency": "prof_closures", "time_multiplier": 1.25, "fail_multiplier": 1.15 },
@@ -1198,7 +1201,7 @@
       [ "armor_chainmail_assembling", 2 ]
     ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "swage", -1 ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -120 ] ] ]
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "hotcut", -1 ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -120 ] ] ]
   },
   {
     "result": "armor_lc_heavyarmguard",
@@ -1377,7 +1380,7 @@
       [ "armor_chainmail_assembling", 1 ]
     ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "swage", -1 ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -120 ] ] ],
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "hotcut", -1 ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -120 ] ] ],
     "proficiencies": [
       { "proficiency": "prof_armorsmithing" },
       { "proficiency": "prof_closures", "time_multiplier": 1.25, "fail_multiplier": 1.15 },
@@ -1399,6 +1402,6 @@
       [ "armor_chainmail_assembling", 2 ]
     ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "swage", -1 ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -120 ] ] ]
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "hotcut", -1 ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -120 ] ] ]
   }
 ]
