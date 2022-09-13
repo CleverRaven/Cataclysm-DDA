@@ -3369,7 +3369,8 @@
     "valid": false,
     "purifiable": false,
     "threshreq": [ "THRESH_MYCUS" ],
-    "category": [ "MYCUS" ]
+    "category": [ "MYCUS" ],
+    "flags": [ "MYCUS_IMMUNE" ]
   },
   {
     "type": "mutation",
@@ -4567,6 +4568,7 @@
     "prereqs": [ "SLIMY" ],
     "threshreq": [ "THRESH_GASTROPOD" ],
     "leads_to": [ "GASTROPOD_BALANCE" ],
+    "flags": [ "SLUDGE_IMMUNE" ],
     "visibility": 8,
     "ugliness": 9,
     "encumbrance_always": [ [ "leg_l", 10 ], [ "leg_r", 10 ], [ "foot_l", 10 ], [ "foot_r", 10 ] ],
@@ -4711,6 +4713,7 @@
     "points": 1,
     "description": "Your body excretes very fine amounts of a chemical which prevents you from sticking to webs.  Walking through webs does not affect you at all.",
     "leads_to": [ "WEB_WEAVER" ],
+    "flags": [ "WEBWALK" ],
     "category": [ "SPIDER" ]
   },
   {
@@ -7297,6 +7300,10 @@
     "points": 2,
     "description": "A network of jelly-filled electroreceptors, like that of a shark, have grown throughout your face and nose.  They are very sensitive to magnetic fields, allowing you to see robots and creatures charged with electricity through walls, but being shocked will seriously mess you up.",
     "category": [ "FISH" ],
+    "enchantments": [
+      { "condition": "ALWAYS", "values": [ { "value": "SIGHT_RANGE_ELECTRIC", "add": 1000 } ] },
+      { "condition": "ALWAYS", "values": [ { "value": "EXTRA_ELEC_PAIN", "add": 1 } ] }
+    ],
     "mixed_effect": true
   },
   {

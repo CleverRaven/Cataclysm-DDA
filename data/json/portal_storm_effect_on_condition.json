@@ -1118,14 +1118,21 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_PORTAL_STORM_CELL",
-    "condition": { "and": [ { "not": { "u_has_worn_with_flag": "PORTAL_PROOF" } }, { "not": "u_driving" } ] },
+    "condition": {
+      "and": [
+        { "compare_int": [ { "u_val": "var", "var_name": "in_portal_cell" }, "=", { "const": 0 } ] },
+        { "not": { "u_has_worn_with_flag": "PORTAL_PROOF" } },
+        { "not": "u_driving" }
+      ]
+    },
     "effect": [
       { "u_location_variable": { "global_val": "original_loc" } },
       { "u_location_variable": { "global_val": "cell_loc" }, "z_adjust": 6, "z_override": true },
       { "u_location_variable": { "global_val": "cell_roof_loc" }, "z_adjust": 7, "z_override": true },
       {
-        "arithmetic": [ { "u_val": "var", "var_name": "cell_time" }, "=", { "time": "3 minutes" }, "+", { "rand": 60 } ]
+        "arithmetic": [ { "u_val": "var", "var_name": "cell_time" }, "=", { "time": "5 minutes" }, "+", { "rand": 60 } ]
       },
+      { "arithmetic": [ { "u_val": "var", "var_name": "in_portal_cell" }, "=", { "const": 1 } ] },
       {
         "revert_location": { "global_val": "cell_loc" },
         "time_in_future": { "u_val": "cell_time", "default": "1 minutes" }
@@ -1153,7 +1160,11 @@
       {
         "queue_eocs": {
           "id": "EOC_PORTAL_STORM_CELL_TELEPORT",
-          "effect": [ { "u_teleport": { "global_val": "original_loc" } }, { "u_message": "You came back.  This time." } ]
+          "effect": [
+            { "arithmetic": [ { "u_val": "var", "var_name": "in_portal_cell" }, "=", { "const": 0 } ] },
+            { "u_teleport": { "global_val": "original_loc" } },
+            { "u_message": "You came back.  This time." }
+          ]
         },
         "time_in_future": { "u_val": "cell_time", "default": "1 minutes" }
       },
@@ -1329,7 +1340,7 @@
             ]
           }
         },
-        { "case": 5, "effect": { "run_eocs": "EOC_PORTAL_DUNGEON_REWARD_ESCAPE_STONE" } },
+        { "case": 5, "effect": { "run_eocs": "EOC_PORTAL_DUNGEON_REWARD_ITEM" } },
         {
           "case": 10,
           "effect": [
@@ -1358,7 +1369,47 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_PORTAL_DUNGEON_REWARD_ESCAPE_STONE",
-    "effect": [ { "u_message": "A strange item comes back with you.", "popup": true }, { "u_spawn_item": "escape_stone" } ]
+    "id": "EOC_PORTAL_DUNGEON_REWARD_ITEM",
+    "effect": [
+      { "u_message": "A strange item comes back with you.", "popup": true },
+      {
+        "set_string_var": [ "unstable_rift", "calming_stone", "escape_stone" ],
+        "target_var": { "global_val": "item_type" }
+      },
+      { "u_spawn_item": { "global_val": "item_type" } }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PORTAL_TELEPORT_UNSTABLE_RIFT",
+    "condition": { "and": [ { "not": { "u_has_worn_with_flag": "PORTAL_PROOF" } }, { "not": "u_driving" } ] },
+    "effect": [
+      { "u_location_variable": { "u_val": "unstable_teleport" }, "min_radius": 30, "max_radius": 70 },
+      { "u_teleport": { "u_val": "unstable_teleport" } },
+      { "run_eocs": "EOC_PORTAL_DUNGEON_PUNISHMENT" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PORTAL_DUNGEON_PUNISHMENT",
+    "effect": [
+      { "arithmetic": [ { "global_val": "var", "var_name": "ps_effect_length" }, "=", { "time": "3 hours" } ] },
+      {
+        "weighted_list_eocs": [
+          [ "EOC_PORTAL_DUNGEON_PUNISHMENT_STRENGTHENED_INERTIA", { "const": 10 } ],
+          [ "EOC_PORTAL_DUNGEON_PUNISHMENT_NARROW_VIEWPOINT", { "const": 10 } ]
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PORTAL_DUNGEON_PUNISHMENT_STRENGTHENED_INERTIA",
+    "effect": { "u_add_effect": "strengthened_inertia", "duration": { "global_val": "ps_effect_length" } }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PORTAL_DUNGEON_PUNISHMENT_NARROW_VIEWPOINT",
+    "effect": { "u_add_effect": "narrow_viewpoint", "duration": { "global_val": "ps_effect_length" } }
   }
 ]
