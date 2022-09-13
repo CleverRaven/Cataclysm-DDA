@@ -1474,12 +1474,12 @@
       ],
       "items": {
         ",": [
-          { "item": "home_hw", "chance": 30 },
-          { "item": "chem_home", "chance": 30 },
-          { "item": "metal_workshop", "chance": 30 },
-          { "item": "tools_common_small", "chance": 30 },
-          { "item": "cleaning", "chance": 30 },
-          { "item": "tools_workshop", "chance": 30 }
+          { "item": "home_hw", "chance": 10 },
+          { "item": "chem_home", "chance": 10 },
+          { "item": "metal_workshop", "chance": 10 },
+          { "item": "tools_common_small", "chance": 25 },
+          { "item": "cleaning", "chance": 20 },
+          { "item": "tools_workshop", "chance": 10 }
         ],
         "N": { "item": "gym", "chance": 50, "repeat": [ 0, 1 ] },
         "-": { "item": "allclothes", "chance": 50, "repeat": [ 0, 1 ] },
@@ -1633,11 +1633,11 @@
       "palettes": [ "retirement_community_b_palette" ],
       "items": {
         "R": [
-          { "item": "tools_common", "chance": 30 },
-          { "item": "tools_workshop", "chance": 30 },
-          { "item": "tools_plumbing", "chance": 30 },
-          { "item": "hardware_clothing", "chance": 30 },
-          { "item": "construction_worker", "chance": 30 }
+          { "item": "tools_common", "chance": 15 },
+          { "item": "tools_workshop", "chance": 10 },
+          { "item": "tools_plumbing", "chance": 10 },
+          { "item": "hardware_clothing", "chance": 10 },
+          { "item": "construction_worker", "chance": 10 }
         ]
       }
     }
@@ -1751,8 +1751,8 @@
         "t": { "item": "barbecue", "chance": 20 },
         "₸": { "item": "liquor_and_spirits", "chance": 100, "repeat": 2 },
         "R": [
-          { "item": "tools_plumbing", "chance": 50, "repeat": [ 0, 2 ] },
-          { "item": "tools_general", "chance": 50, "repeat": [ 0, 2 ] }
+          { "item": "tools_plumbing", "chance": 50 },
+          { "item": "tools_general", "chance": 50 }
         ]
       },
       "place_item": [
