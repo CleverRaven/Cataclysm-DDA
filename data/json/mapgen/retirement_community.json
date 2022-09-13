@@ -1750,10 +1750,7 @@
         "T": { "item": "trash", "chance": 70, "repeat": [ 2, 7 ] },
         "t": { "item": "barbecue", "chance": 20 },
         "₸": { "item": "liquor_and_spirits", "chance": 100, "repeat": 2 },
-        "R": [
-          { "item": "tools_plumbing", "chance": 50 },
-          { "item": "tools_general", "chance": 50 }
-        ]
+        "R": [ { "item": "tools_plumbing", "chance": 50 }, { "item": "tools_general", "chance": 50 } ]
       },
       "place_item": [
         { "item": "panties", "x": 44, "y": 5, "chance": 100 },
