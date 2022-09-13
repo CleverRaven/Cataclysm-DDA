@@ -364,21 +364,7 @@
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "result": "neoprene",
-    "id_suffix": "from_sheet",
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_MATERIALS",
-    "skill_used": "tailor",
-    "time": "1 m",
-    "autolearn": true,
-    "byproducts": [ [ "scrap_neoprene", 4 ] ],
-    "qualities": [ { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "sheet_neoprene", 14 ] ] ]
-  },
-  {
-    "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
-    "result": "neoprene",
+    "result": "sheet_neoprene",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "chemistry",
@@ -587,19 +573,6 @@
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [ [ [ "scrap_nylon", 4 ] ], [ [ "thread", 10 ] ] ]
-  },
-  {
-    "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
-    "result": "nomex",
-    "id_suffix": "from_sheet",
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_MATERIALS",
-    "skill_used": "tailor",
-    "time": "15 m",
-    "autolearn": true,
-    "qualities": [ { "id": "SEW", "level": 1 }, { "id": "FABRIC_CUT", "level": 2 } ],
-    "components": [ [ [ "sheet_nomex", 8 ] ], [ [ "thread", 20 ] ] ]
   },
   {
     "type": "recipe",

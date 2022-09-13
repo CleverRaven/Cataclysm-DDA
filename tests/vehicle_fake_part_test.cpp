@@ -322,7 +322,7 @@ TEST_CASE( "ensure_vehicle_with_no_obstacles_has_no_fake_parts", "[vehicle] [veh
     }
 }
 
-TEST_CASE( "fake_parts_are_opaque", "[vehicle],[vehicle_fake]" )
+TEST_CASE( "fake_parts_are_opaque", "[vehicle][vehicle_fake]" )
 {
     really_clear_map();
     Character &you = get_player_character();
@@ -339,7 +339,7 @@ TEST_CASE( "fake_parts_are_opaque", "[vehicle],[vehicle_fake]" )
     CHECK( !you.sees( you.pos() + point( 10, 10 ) ) );
 }
 
-TEST_CASE( "open_and_close_fake_doors", "[vehicle],[vehicle_fake]" )
+TEST_CASE( "open_and_close_fake_doors", "[vehicle][vehicle_fake]" )
 {
     really_clear_map();
     Character &you = get_player_character();

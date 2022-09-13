@@ -100,10 +100,12 @@ assclown
 assimilator
 asstown
 asswagon
+asymmetrically
 ategory
 aterial
 atire
 atompot
+atrophic
 attac
 attachable
 attery
@@ -278,6 +280,7 @@ capiche
 caprison
 carapaces
 carryin
+cartilaginous
 casehead
 castable
 cataphract
@@ -299,6 +302,7 @@ ceratosaurus
 cere
 cerium
 cestus
+chainmail
 chamberings
 champed
 channnnce
@@ -405,6 +409,7 @@ ctivate
 ctivating
 ctulaly
 cuirasses
+cummer
 curarines
 curasse
 currywurst
@@ -439,6 +444,7 @@ deathrattle
 decelerates
 deceptived
 defatted
+defendeth
 dehydrator
 dehydrators
 deines
@@ -613,6 +619,7 @@ feticks
 fetlock
 ffect
 fibercloth
+fiberoptic
 fiddleheads
 filenames
 fileset
@@ -710,6 +717,7 @@ gallimimus
 gallore
 gambeson
 garghoul
+gargoyleosaurus
 garou
 garried
 gasbomb
@@ -734,6 +742,7 @@ gliters
 gloppy
 glowstick
 glyceride
+gode
 goooood
 gooorge
 goops
@@ -951,6 +960,7 @@ kinderling
 kippah
 kirpan
 kittel
+kjempe
 klompen
 km
 knapping
@@ -1010,6 +1020,7 @@ lifestraw
 lightnin
 lightsource
 lightstrip
+limbed
 lilypad
 lilypads
 listlessly
@@ -1084,6 +1095,8 @@ mesenterium
 meshwork
 metalloid
 metalsmithing
+metalworker
+metalworkers
 metatopography
 methacola
 methothexazole
@@ -1308,6 +1321,8 @@ parthenogenetic
 partyin
 pasteurize
 pathfinding
+pauldron
+pauldrons
 peanutbutter
 peccari
 pecial
@@ -1339,6 +1354,7 @@ photochromic
 photodiode
 photophore
 phthalocyanine
+phenotypic
 phyle
 physicochemical
 picatinny
@@ -1492,6 +1508,7 @@ refillable
 reforging
 refuelable
 reimpose
+reisendre
 reluctancy
 remodulator
 rended
@@ -1521,6 +1538,7 @@ rhodonite
 rhytidome
 rhytidomes
 ribbonlike
+ridged
 riendly
 rigida
 riotbot
@@ -1550,6 +1568,8 @@ rugerlcp
 ruleset
 rummagin
 s
+sabaton
+sabatons
 saboted
 sadisticly
 safemode
@@ -1566,6 +1586,7 @@ sapience
 sarahsaurus
 sarracenia
 satirizes
+sauropelta
 sauropod
 saurornitholestes
 sautered
@@ -1957,6 +1978,7 @@ vantablack
 varanid
 vars
 vatgrown
+valhallist
 vaulters
 veggy
 venandi
@@ -2076,12 +2098,14 @@ zombear
 zombeaver
 zombiespawn
 zombiethustra
+zombified
 zomborg
 zombull
 zombullfrog
 zombullfrogs
 zpzzzzpzz
 zubon
+zuul
 zygomaticus
 zzz
 zzzzchzzzzchurzzzpileus

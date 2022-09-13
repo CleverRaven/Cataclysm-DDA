@@ -2476,6 +2476,7 @@ input_context get_default_mode_input_context()
     ctxt.register_action( "COORDINATE" );
     ctxt.register_action( "MOUSE_MOVE" );
     ctxt.register_action( "SELECT" );
+    ctxt.register_action( "CLICK_AND_DRAG" );
     ctxt.register_action( "SEC_SELECT" );
     return ctxt;
 }
@@ -10786,9 +10787,9 @@ void game::on_move_effects()
         const item muscle( "muscle" );
         for( const bionic_id &bid : u.get_bionic_fueled_with( muscle ) ) {
             if( u.has_active_bionic( bid ) ) {// active power gen
-                u.mod_power_level( units::from_kilojoule( muscle.fuel_energy() ) * bid->fuel_efficiency );
+                u.mod_power_level( muscle.fuel_energy() * bid->fuel_efficiency );
             } else if( u.has_bionic( bid ) ) {// passive power gen
-                u.mod_power_level( units::from_kilojoule( muscle.fuel_energy() ) * bid->passive_fuel_efficiency );
+                u.mod_power_level( muscle.fuel_energy() * bid->passive_fuel_efficiency );
             }
         }
         if( u.has_active_bionic( bio_jointservo ) ) {

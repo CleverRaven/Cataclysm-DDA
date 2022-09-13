@@ -57,7 +57,6 @@ jobs:
   build_catatclysm:
     name: Build
     runs-on: windows-2019
-    if: github.event.pull_request.draft == false
 
     steps:
     - name: checkout repository

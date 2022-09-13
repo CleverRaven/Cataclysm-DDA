@@ -53,7 +53,7 @@
     },
     "region_terrain_and_furniture": {
       "terrain": {
-        "t_region_groundcover": { "t_snow": 32, "t_ice": 2, "t_deaddirt": 5 },
+        "t_region_groundcover": { "t_snow": 32000, "t_ice": 2000, "t_deaddirt": 5000 },
         "t_region_groundcover_urban": { "t_snow": 20, "t_ice": 3 },
         "t_region_groundcover_forest": { "t_snow": 410, "t_lichen": 300, "t_lichendirt": 300, "t_fuma_ice": 1 },
         "t_region_groundcover_swamp": { "t_snow": 410, "t_lichen": 300, "t_lichendirt": 300, "t_fuma_ice": 1 },
@@ -80,7 +80,7 @@
           "f_chicory": 1,
           "f_sunflower": 1
         },
-        "f_region_weed": { "f_shrub_moss": 1 },
+        "f_region_weed": { "f_shrub_moss": 2300 },
         "f_region_water_plant": { "f_shrub_moss": 15 }
       }
     },

@@ -1227,6 +1227,15 @@ void Creature::deal_damage_handle_type( const effect_source &source, const damag
                 const int duration = std::max( adjusted_damage / 10.0 * multiplier, 2.0 );
                 add_effect( source, effect_zapped, 1_turns * duration );
             }
+
+            if( Character *ch = as_character() ) {
+                const double pain_mult = ch->calculate_by_enchantment( 1.0, enchant_vals::mod::EXTRA_ELEC_PAIN );
+                div /= pain_mult;
+                if( pain_mult > 1.0 ) {
+                    ch->add_msg_player_or_npc( m_bad, _( "You're painfully electrocuted!" ),
+                                               _( "<npcname> is shocked!" ) );
+                }
+            }
             break;
         }
 
