@@ -1753,6 +1753,26 @@
   },
   {
     "type": "item_group",
+    "id": "ambulance_drugs",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "morphine", "prob": 5, "count": [ 1, 4 ] },
+      { "item": "thorazine", "prob": 5, "count": [ 1, 4 ] },
+      { "item": "tramadol", "prob": 5, "count": [ 1, 4 ] },
+      { "item": "adrenaline_injector", "prob": 5, "count": [ 1, 4 ] },
+      { "item": "oxycodone", "prob": 5, "count": [ 1, 4 ] },
+      { "item": "quikclot", "prob": 10, "count": [ 1, 4 ] },
+      { "item": "antibiotics", "prob": 12, "count": [ 1, 4 ] },
+      { "item": "disinfectant", "prob": 15, "count": [ 1, 4 ] },
+      { "item": "aspirin", "prob": 15, "count": [ 1, 4 ] },
+      { "item": "bandages", "prob": 20, "count": [ 1, 4 ] },
+      { "item": "inhaler", "prob": 20, "charges": 100, "count": [ 1, 4 ] },
+      { "group": "full_1st_aid", "prob": 20, "count": [ 1, 2 ] },
+      { "group": "full_ifak", "prob": 20, "count": [ 1, 2 ] }
+    ]
+  },
+  {
+    "type": "item_group",
     "id": "church",
     "subtype": "distribution",
     "entries": [
