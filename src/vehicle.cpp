@@ -5778,6 +5778,20 @@ void vehicle::enable_refresh()
     refresh();
 }
 
+void vehicle::refresh_active_item_cache()
+{
+    // Need to manually backfill the active item cache since the part loader can't call its vehicle.
+    for( const vpart_reference &vp : get_any_parts( VPFLAG_CARGO ) ) {
+        auto it = vp.part().items.begin();
+        auto end = vp.part().items.end();
+        for( ; it != end; ++it ) {
+            if( it->needs_processing() ) {
+                active_items.add( *it, vp.mount() );
+            }
+        }
+    }
+}
+
 /**
  * Refreshes all caches and refinds all parts. Used after the vehicle has had a part added or removed.
  * Makes indices of different part types so they're easy to find. Also calculates power drain.
@@ -6064,6 +6078,7 @@ void vehicle::refresh( const bool remove_fakes )
     zones_dirty = true;
     invalidate_mass();
     occupied_cache_pos = { -1, -1, -1 };
+    refresh_active_item_cache();
 }
 
 vpart_edge_info vehicle::get_edge_info( const point &mount ) const

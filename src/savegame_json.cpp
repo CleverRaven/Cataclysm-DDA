@@ -3473,9 +3473,6 @@ void vehicle::deserialize( const JsonObject &data )
         auto it = vp.part().items.begin();
         auto end = vp.part().items.end();
         for( ; it != end; ++it ) {
-            if( it->needs_processing() ) {
-                active_items.add( *it, vp.mount() );
-            }
             // remove after 0.F
             if( savegame_loading_version < 33 ) {
                 migrate_item_charges( *it );

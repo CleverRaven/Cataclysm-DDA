@@ -837,6 +837,9 @@ class vehicle
         //Refresh all caches and re-locate all parts
         void refresh( bool remove_fakes = true );
 
+        // Refresh active_item cache for vehicle parts
+        void refresh_active_item_cache();
+
         /**
          * Set stat for part constrained by range [0,durability]
          * @note does not invoke base @ref item::on_damage callback
