@@ -1451,7 +1451,7 @@
     "skill_used": "fabrication",
     "difficulty": 7,
     "time": "7 h",
-    "book_learn": [ "textbook_weapwest", 7 ],
+    "book_learn": [ [ "textbook_weapwest", 7 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing" },
@@ -1470,7 +1470,7 @@
     "skill_used": "fabrication",
     "difficulty": 8,
     "time": "8 h",
-    "book_learn": [ "textbook_weapwest", 8 ],
+    "book_learn": [ [ "textbook_weapwest", 8 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing" },
@@ -1490,7 +1490,7 @@
     "skill_used": "fabrication",
     "difficulty": 8,
     "time": "8 h",
-    "book_learn": [ "textbook_weapwest", 8 ],
+    "book_learn": [ [ "textbook_weapwest", 8 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing" },
@@ -1510,7 +1510,7 @@
     "skill_used": "fabrication",
     "difficulty": 9,
     "time": "20 h",
-    "book_learn": [ "textbook_weapwest", 9 ],
+    "book_learn": [ [ "textbook_weapwest", 9 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing" },
@@ -1531,7 +1531,7 @@
     "skill_used": "fabrication",
     "difficulty": 10,
     "time": "1 d",
-    "book_learn": [ "textbook_weapwest", 10 ],
+    "book_learn": [ [ "textbook_weapwest", 10 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing" },
