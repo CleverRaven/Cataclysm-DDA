@@ -1333,7 +1333,7 @@
     "type": "keybinding",
     "id": "MOUSE_MOVE",
     "name": "Mouse move",
-    "bindings": [ { "input_method": "mouse", "key": "MOUSE_MOVE" }, { "input_method": "mouse", "key": "MOUSE_LEFT_PRESSED" } ]
+    "bindings": [ { "input_method": "mouse", "key": "MOUSE_MOVE" } ]
   },
   {
     "type": "keybinding",
