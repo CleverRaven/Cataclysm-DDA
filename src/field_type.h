@@ -13,6 +13,7 @@
 #include <utility>
 #include <vector>
 
+#include "bodypart.h"
 #include "calendar.h"
 #include "catacharset.h"
 #include "color.h"
@@ -200,8 +201,9 @@ struct field_type {
         // chance, issue, duration, speech
         std::tuple<int, std::string, time_duration, std::string> npc_complain_data;
 
-        std::vector<trait_id> immunity_data_traits;
-        std::vector<std::pair<bodypart_str_id, int>> immunity_data_body_part_env_resistance;
+        std::vector<json_character_flag> immunity_data_flags;
+        std::vector<std::pair<body_part_type::type, int>> immunity_data_body_part_env_resistance;
+        std::vector < std::pair<body_part_type::type, flag_id>> immunity_data_part_item_flags;
         std::set<mtype_id> immune_mtypes;
 
         int priority = 0;

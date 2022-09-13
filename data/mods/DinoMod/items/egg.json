@@ -3,6 +3,7 @@
     "type": "COMESTIBLE",
     "id": "egg_dino",
     "name": "dinosaur egg",
+    "looks_like": "egg_reptile",
     "weight": "2 kg",
     "color": "green",
     "spoils_in": "32 days",
@@ -26,6 +27,7 @@
     "id": "egg_dino_small",
     "name": "small dinosaur egg",
     "copy-from": "egg_dino",
+    "looks_like": "egg_reptile",
     "spoils_in": "16 days",
     "weight": "57 g",
     "comestible_type": "FOOD",
@@ -42,6 +44,7 @@
     "id": "egg_dino_large",
     "name": "large dinosaur egg",
     "copy-from": "egg_dino",
+    "looks_like": "egg_reptile",
     "spoils_in": "64 days",
     "weight": "4 kg",
     "comestible_type": "FOOD",
@@ -55,7 +58,7 @@
     "type": "COMESTIBLE",
     "id": "egg_dino_theropod",
     "name": "dinosaur egg",
-    "looks_like": "egg_dino",
+    "looks_like": "egg_bird",
     "weight": "2 kg",
     "color": "green",
     "spoils_in": "32 days",
@@ -79,6 +82,7 @@
     "id": "egg_dino_theropod_small",
     "name": "small dinosaur egg",
     "copy-from": "egg_dino_small",
+    "looks_like": "egg_bird",
     "comestible_type": "FOOD",
     "description": "Pale, football-shaped egg laid by a smaller dinosaur.",
     "material": [ "egg" ],
@@ -89,6 +93,7 @@
     "id": "egg_dino_theropod_large",
     "name": "large dinosaur egg",
     "copy-from": "egg_dino",
+    "looks_like": "egg_bird",
     "weight": "4 kg",
     "comestible_type": "FOOD",
     "calories": 5200,
@@ -400,17 +405,17 @@
   },
   {
     "type": "COMESTIBLE",
-    "id": "egg_dyoplosaurus",
-    "name": "dyoplosaurus egg",
+    "id": "egg_gargoyleosaurus",
+    "name": "gargoyleosaurus egg",
     "copy-from": "egg_dino",
-    "rot_spawn": "GROUP_EGG_dyoplosaurus"
+    "rot_spawn": "GROUP_EGG_gargoyleosaurus"
   },
   {
     "type": "COMESTIBLE",
-    "id": "egg_ankylosaurus",
-    "name": "ankylosaurus egg",
+    "id": "egg_sauropelta",
+    "name": "sauropelta egg",
     "copy-from": "egg_dino",
-    "rot_spawn": "GROUP_EGG_ankylosaurus"
+    "rot_spawn": "GROUP_EGG_sauropelta"
   },
   {
     "type": "COMESTIBLE",
@@ -425,6 +430,27 @@
     "name": "edmontonia egg",
     "copy-from": "egg_dino",
     "rot_spawn": "GROUP_EGG_edmontonia"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_zuul",
+    "name": "zuul egg",
+    "copy-from": "egg_dino",
+    "rot_spawn": "GROUP_EGG_zuul"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_dyoplosaurus",
+    "name": "dyoplosaurus egg",
+    "copy-from": "egg_dino",
+    "rot_spawn": "GROUP_EGG_dyoplosaurus"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_ankylosaurus",
+    "name": "ankylosaurus egg",
+    "copy-from": "egg_dino",
+    "rot_spawn": "GROUP_EGG_ankylosaurus"
   },
   {
     "type": "COMESTIBLE",

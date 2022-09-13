@@ -106,7 +106,7 @@
     "gas_absorption_factor": 12,
     "outdoor_age_speedup": "20 seconds",
     "dirty_transparency_cache": true,
-    "immunity_data": { "body_part_env_resistance": [ [ "mouth", 3 ], [ "eyes", 1 ] ] },
+    "immunity_data": { "body_part_env_resistance": [ [ "mouth", 3 ], [ "sensor", 1 ] ] },
     "priority": 8,
     "half_life": "20 seconds",
     "phase": "gas",

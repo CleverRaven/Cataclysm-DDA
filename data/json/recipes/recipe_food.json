@@ -2533,7 +2533,12 @@
     "autolearn": true,
     "batch_time_factors": [ 80, 4 ],
     "tools": [ [ [ "atomic_coffeepot", -1 ] ] ],
-    "components": [ [ [ "coffee_raw", 1 ], [ "coffee_syrup", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
+    "components": [
+      [ [ "coffee_raw", 2 ], [ "coffee_syrup", 2 ] ],
+      [ [ "caffeine", 2 ] ],
+      [ [ "sugar_standard", 1, "LIST" ] ],
+      [ [ "water", 1 ], [ "water_clean", 1 ] ]
+    ]
   },
   {
     "type": "recipe",
