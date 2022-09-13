@@ -576,7 +576,7 @@
     "subtype": "distribution",
     "items": [
       [ "pike", 50 ],
-      { "group": "broadsword+scabbard", "prob": 17 },
+      { "group": "broadsword_inferior+scabbard", "prob": 17 },
       [ "mace", 6 ],
       [ "morningstar", 5 ],
       [ "shillelagh", 5 ],
@@ -610,7 +610,7 @@
     "id": "soa_real_weapon_plate",
     "type": "item_group",
     "subtype": "distribution",
-    "items": [ [ "pike", 17 ], { "group": "broadsword+scabbard", "prob": 5 }, [ "mace", 50 ], [ "morningstar", 6 ] ]
+    "items": [ [ "pike", 17 ], { "group": "broadsword_inferior+scabbard", "prob": 5 }, [ "mace", 50 ], [ "morningstar", 6 ] ]
   },
   {
     "id": "soa_fake_weapon_mail",
@@ -638,7 +638,7 @@
     "id": "soa_real_weapon_mail",
     "type": "item_group",
     "subtype": "distribution",
-    "items": [ [ "pike", 50 ], { "group": "broadsword+scabbard", "prob": 5 }, [ "mace", 50 ], [ "battleaxe", 6 ] ]
+    "items": [ [ "pike", 50 ], { "group": "broadsword_inferior+scabbard", "prob": 5 }, [ "mace", 50 ], [ "battleaxe", 6 ] ]
   },
   {
     "id": "soa_fake_weapon_samurai",

@@ -37,7 +37,7 @@
       { "item": "pocketwatch", "prob": 5 },
       { "item": "well_pump", "prob": 1 },
       { "item": "katana_inferior", "prob": 2 },
-      { "item": "rapier_inferior", "prob": 3 },
+      { "item": "rapier_fake", "prob": 3 },
       { "item": "cavalry_sabre_fake", "prob": 2 },
       { "item": "sf_watch", "prob": 5 },
       { "item": "platinum_watch", "prob": 1 },

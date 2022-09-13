@@ -543,7 +543,7 @@
       [ "broadsword_inferior", 20 ],
       [ "glaive", 1 ],
       [ "halberd", 1 ],
-      [ "rapier_inferior", 1 ],
+      [ "rapier_fake", 1 ],
       [ "cavalry_saber", 1 ],
       [ "estoc_inferior", 3 ],
       [ "jian_inferior", 30 ],

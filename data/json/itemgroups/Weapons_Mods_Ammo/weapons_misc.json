@@ -26,7 +26,7 @@
       [ "baton", 8 ],
       [ "blackjack", 10 ],
       [ "tazer", 3 ],
-      [ "rapier_inferior", 3 ],
+      [ "rapier_fake", 3 ],
       [ "cavalry_sabre_fake", 2 ],
       [ "bat_metal", 60 ],
       [ "e_tool", 2 ],

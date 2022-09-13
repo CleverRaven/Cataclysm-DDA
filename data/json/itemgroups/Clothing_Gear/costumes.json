@@ -427,7 +427,7 @@
       [ "longsword_inferior", 1 ],
       [ "katana_inferior", 1 ],
       [ "kris", 1 ],
-      [ "rapier_inferior", 1 ],
+      [ "rapier_fake", 1 ],
       [ "cavalry_sabre_inferior", 1 ],
       [ "glaive", 1 ],
       [ "naginata_fake", 5 ],
