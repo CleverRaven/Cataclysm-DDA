@@ -241,6 +241,7 @@ breatharians
 brennt
 brewable
 brimless
+broadswords
 bronchodilator
 bronchospasm
 bubblicious
@@ -414,6 +415,7 @@ curasse
 currywurst
 cushiony
 customization
+cutlasses
 cuvette
 cuvettes
 cybercop
@@ -425,6 +427,7 @@ d
 dagnabbit
 dambreaker
 danceable
+dao
 daspletosaurus
 datasheet
 datasheets
@@ -1449,6 +1452,7 @@ pyrolusite
 pyrophoric
 pyrrolidone
 q
+qiang
 qianzhousaurus
 qt
 quadcopter
@@ -1596,6 +1600,7 @@ sawblades
 sawteeth
 sayig
 scatterer
+scimitars
 scissorlimbs
 sclerotin
 scrabblin
@@ -1910,6 +1915,7 @@ uhhh
 uistate
 ultracapacitor
 ultratech
+unarmored
 uncleaned
 uncoils
 underbarrel
