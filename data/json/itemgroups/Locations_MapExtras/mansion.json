@@ -518,7 +518,7 @@
     "subtype": "distribution",
     "items": [
       { "group": "soa_fake_weapon_samurai", "prob": 3 },
-      { "group": "soa_poor_weapon_samurai", "prob": 3 },
+      { "group": "soa_poor_weapon_samurai", "prob": 3 }
     ]
   },
   {
