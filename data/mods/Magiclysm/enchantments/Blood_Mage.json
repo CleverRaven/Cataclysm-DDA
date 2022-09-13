@@ -1,0 +1,7 @@
+[
+  {
+    "type": "enchantment",
+    "id": "BLOOD_MAGE_HEALING",
+    "hit_you_effect": [ { "id": "flask_regeneration_effect", "hit_self": true, "once_in": 12 } ]
+  }
+]
