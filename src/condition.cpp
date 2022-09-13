@@ -196,6 +196,7 @@ str_or_var<T> get_str_or_var( const JsonValue &jv, const std::string &member, bo
         ret_val.str_val = jv.get_string();
     } else if( jv.test_object() ) {
         ret_val.var_val = read_var_info( jv.get_object() );
+        ret_val.default_val = default_val;
     } else if( required ) {
         jv.throw_error( "No valid value for " + member );
     } else {
@@ -1491,14 +1492,13 @@ std::function<int( const T & )> conditional_t<T>::get_get_int( const JsonObject 
             return [info]( const T & d ) {
                 std::string var = read_var_value( info, d );
                 if( !var.empty() ) {
-                    return std::stoi( var );
-                } else {
-                    try {
-                        return std::stoi( info.default_val );
-                    } catch( const std::exception & ) {
-                        return 0;
-                    }
+                    // NOLINTNEXTLINE(cert-err34-c)
+                    return std::atoi( var.c_str() );
+                } else if( !info.default_val.empty() ) {
+                    // NOLINTNEXTLINE(cert-err34-c)
+                    return std::atoi( info.default_val.c_str() );
                 }
+                return 0;
             };
         } else if( checked_value == "time_since_var" ) {
             int_or_var<dialogue> empty;

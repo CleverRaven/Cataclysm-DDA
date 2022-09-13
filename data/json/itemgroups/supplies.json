@@ -316,7 +316,9 @@
       [ "tempered_glass_sheet", 25 ],
       [ "rigid_plastic_sheet", 30 ],
       [ "gas_forge", 15 ],
-      { "item": "chem_turpentine", "prob": 20, "charges-min": 20 }
+      { "item": "chem_turpentine", "prob": 20, "charges-min": 20 },
+      { "item": "silicone", "prob": 15, "charges-min": 29, "container-item": "squeeze_tube", "sealed": true },
+      { "item": "silicone", "prob": 35, "charges-min": 8, "container-item": "squeeze_tube_small", "sealed": true }
     ]
   },
   {

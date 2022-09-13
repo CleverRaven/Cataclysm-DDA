@@ -1255,6 +1255,7 @@
         "//": "Less moves as the arm version since grabing things wrapped around your legs is easier."
       }
     ],
+    "extend": { "flags": [ "OVERSIZE" ] },
     "armor": [
       {
         "encumbrance": 1,

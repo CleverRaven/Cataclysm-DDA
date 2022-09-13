@@ -37,7 +37,7 @@
       { "fuel": -50, "smoke": 2, "burn": 1 },
       { "fuel": -10, "smoke": 2, "burn": 2 }
     ],
-    "fuel_data": { "energy": 10 },
+    "fuel_data": { "energy": "10000 kJ" },
     "vitamins": [ [ "calcium", 0.1 ], [ "iron", 1.3 ], [ "underhill_essence", 5 ] ]
   },
   {

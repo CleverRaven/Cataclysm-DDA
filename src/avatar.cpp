@@ -1607,7 +1607,9 @@ void avatar::daily_calories::read_activity( const JsonObject &data )
     JsonObject jo = data.get_object( "activity" );
     for( const std::pair<const std::string, float> &member : activity_levels_map ) {
         int times;
-        jo.read( member.first, times );
+        if( !jo.read( member.first, times ) ) {
+            continue;
+        }
         activity_levels.at( member.second ) = times;
     }
 }

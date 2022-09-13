@@ -1081,7 +1081,8 @@ ret_val<void> outfit::power_armor_conflicts( const item &clothing ) const
         for( const item &elem : worn ) {
             // Allow power armor with compatible parts and integrated (Subdermal CBM and mutant skin armor)
             if( elem.get_covered_body_parts().make_intersection( clothing.get_covered_body_parts() ).any() &&
-                !elem.has_flag( flag_POWERARMOR_COMPATIBLE ) && !elem.has_flag( flag_INTEGRATED ) ) {
+                !elem.has_flag( flag_POWERARMOR_COMPATIBLE ) && !elem.has_flag( flag_INTEGRATED ) &&
+                !elem.has_flag( flag_AURA ) ) {
                 return ret_val<void>::make_failure( _( "Can't wear power armor over other gear!" ) );
             }
         }
@@ -1109,6 +1110,7 @@ ret_val<void> outfit::power_armor_conflicts( const item &clothing ) const
         // You can't wear headgear if power armor helmet is already sitting on your head.
         bool has_helmet = false;
         if( !clothing.get_covered_body_parts().none() && !clothing.has_flag( flag_POWERARMOR_COMPATIBLE ) &&
+            !clothing.has_flag( flag_AURA ) &&
             ( is_wearing_power_armor( &has_helmet ) &&
               ( has_helmet || !( clothing.covers( body_part_head ) || clothing.covers( body_part_mouth ) ||
                                  clothing.covers( body_part_eyes ) ) ) ) ) {
@@ -1886,8 +1888,9 @@ std::unordered_set<bodypart_id> outfit::where_discomfort() const
             }
             // if the bp is uncomfortable and has yet to display as covered with something comfortable then it should cause discomfort
             // note anything selectively rigid reasonably can be assumed to support itself so we don't need to worry about this
+            // items must also be somewhat heavy in order to cause discomfort
             if( !i.is_bp_rigid_selective( sbp ) && !i.is_bp_comfortable( sbp ) &&
-                covered_sbps.count( sbp ) != 1 ) {
+                covered_sbps.count( sbp ) != 1 && i.weight() > units::from_gram( 250 ) ) {
                 uncomfortable_bps.insert( sbp->parent );
             }
         }

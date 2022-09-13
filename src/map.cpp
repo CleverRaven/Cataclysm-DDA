@@ -3422,8 +3422,8 @@ void map::collapse_at( const tripoint &p, const bool silent, const bool was_supp
                 // ensure that the layer below this one is not a wall, otherwise you have a ledge dropping onto
                 // a wall which doesn't make sense.
                 if( !has_flag( ter_furn_flag::TFLAG_WALL, t ) ) {
-                    ter_set( tz, t_open_air );
                     furn_set( tz, f_null );
+                    ter_set( tz, t_open_air );
                     Creature *critter = get_creature_tracker().creature_at( tz );
                     if( critter != nullptr ) {
                         creature_on_trap( *critter );
@@ -3869,7 +3869,7 @@ void map::bash_ter_furn( const tripoint &p, bash_params &params )
     }
 
     if( bash->explosive > 0 ) {
-        explosion_handler::explosion( p, bash->explosive, 0.8, false );
+        explosion_handler::explosion( nullptr, p, bash->explosive, 0.8, false );
     }
 
     if( will_collapse && !has_flag( ter_furn_flag::TFLAG_SUPPORTS_ROOF, p ) ) {
@@ -6038,6 +6038,11 @@ bool map::add_field( const tripoint &p, const field_type_id &type_id, int intens
 
     // Don't spawn non-gaseous fields on open air
     if( has_flag( ter_furn_flag::TFLAG_NO_FLOOR, p ) && type_id.obj().phase != phase_id::GAS ) {
+        return false;
+    }
+
+    // Don't spawn liquid fields on water tiles
+    if( has_flag( ter_furn_flag::TFLAG_SWIMMABLE, p ) && type_id.obj().phase == phase_id::LIQUID ) {
         return false;
     }
 

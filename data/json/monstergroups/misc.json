@@ -468,5 +468,10 @@
       { "monster": "mon_spawn_raptor" },
       { "monster": "mon_spawn_raptor_shady" }
     ]
+  },
+  {
+    "name": "GROUP_MUTATION_SNAIL",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_null", "weight": 85 }, { "monster": "mon_snail_forest", "weight": 15 } ]
   }
 ]

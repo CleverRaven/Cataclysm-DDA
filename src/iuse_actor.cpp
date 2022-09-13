@@ -611,7 +611,7 @@ cata::optional<int> explosion_iuse::use( Character &p, item &it, bool t, const t
     }
 
     if( explosion.power >= 0.0f ) {
-        explosion_handler::explosion( pos, explosion );
+        explosion_handler::explosion( &p, pos, explosion );
     }
 
     if( draw_explosion_radius >= 0 ) {
@@ -2061,7 +2061,7 @@ cata::optional<int> manualnoise_actor::use( Character &p, item &it, bool t, cons
 ret_val<void> manualnoise_actor::can_use( const Character &p, const item &it, bool,
         const tripoint & ) const
 {
-    if( it.ammo_sufficient( &p ) ) {
+    if( !it.ammo_sufficient( &p ) ) {
         return ret_val<void>::make_failure( _( "This tool doesn't have enough charges." ) );
     }
 

@@ -569,11 +569,6 @@ void vehicle::smash_security_system()
     }
 }
 
-std::string vehicle::tracking_toggle_string() const
-{
-    return tracking_on ? _( "Forget vehicle position" ) : _( "Remember vehicle position" );
-}
-
 void vehicle::autopilot_patrol_check()
 {
     zone_manager &mgr = zone_manager::get_manager();
@@ -612,6 +607,7 @@ void vehicle::toggle_autopilot()
             is_patrolling = false;
             is_following = false;
             autodrive_local_target = tripoint_zero;
+            add_msg( _( "You turn the engine off." ) );
             stop_engines();
             break;
         case FOLLOW:
@@ -619,7 +615,6 @@ void vehicle::toggle_autopilot()
             is_following = true;
             is_patrolling = false;
             start_engines();
-            refresh();
         default:
             return;
     }
@@ -688,40 +683,13 @@ void vehicle::use_controls( const tripoint &pos )
                 if( engine_on && has_engine_type_not( fuel_type_muscle, true ) )
                 {
                     add_msg( _( "You turn the engine off and let go of the controls." ) );
-                    sounds::sound( pos, 2, sounds::sound_t::movement,
-                                   _( "the engine go silent" ) );
                 } else
                 {
                     add_msg( _( "You let go of the controls." ) );
                 }
-
-                for( size_t e = 0; e < engines.size(); ++e )
-                {
-                    if( is_engine_on( e ) ) {
-                        if( sfx::has_variant_sound( "engine_stop", parts[ engines[ e ] ].info().get_id().str() ) ) {
-                            sfx::play_variant_sound( "engine_stop", parts[ engines[ e ] ].info().get_id().str(),
-                                                     parts[ engines[ e ] ].info().engine_noise_factor() );
-                        } else if( is_engine_type( e, fuel_type_muscle ) ) {
-                            sfx::play_variant_sound( "engine_stop", "muscle",
-                                                     parts[ engines[ e ] ].info().engine_noise_factor() );
-                        } else if( is_engine_type( e, fuel_type_wind ) ) {
-                            sfx::play_variant_sound( "engine_stop", "wind",
-                                                     parts[ engines[ e ] ].info().engine_noise_factor() );
-                        } else if( is_engine_type( e, fuel_type_battery ) ) {
-                            sfx::play_variant_sound( "engine_stop", "electric",
-                                                     parts[ engines[ e ] ].info().engine_noise_factor() );
-                        } else {
-                            sfx::play_variant_sound( "engine_stop", "combustion",
-                                                     parts[ engines[ e ] ].info().engine_noise_factor() );
-                        }
-                    }
-                }
-                vehicle_noise = 0;
-                engine_on = false;
+                stop_engines();
                 player_character.controlling_vehicle = false;
                 g->setremoteveh( nullptr );
-                sfx::do_vehicle_engine_sfx();
-                refresh();
             } );
 
         } else if( has_engine_type_not( fuel_type_muscle, true ) ) {
@@ -730,15 +698,12 @@ void vehicle::use_controls( const tripoint &pos )
             actions.emplace_back( [&] {
                 if( engine_on )
                 {
-                    engine_on = false;
-                    sounds::sound( pos, 2, sounds::sound_t::movement,
-                                   _( "the engine go silent" ) );
+                    add_msg( _( "You turn the engine off." ) );
                     stop_engines();
                 } else
                 {
                     start_engines();
                 }
-                refresh();
             } );
         }
     }
@@ -1087,22 +1052,35 @@ void vehicle::stop_engines()
 {
     vehicle_noise = 0;
     engine_on = false;
-    add_msg( _( "You turn the engine off." ) );
     for( size_t e = 0; e < engines.size(); ++e ) {
-        if( is_engine_on( e ) ) {
-            if( sfx::has_variant_sound( "engine_stop", parts[ engines[ e ] ].info().get_id().str() ) ) {
-                sfx::play_variant_sound( "engine_stop", parts[ engines[ e ] ].info().get_id().str(),
-                                         parts[ engines[ e ] ].info().engine_noise_factor() );
-            } else if( is_engine_type( e, fuel_type_battery ) ) {
-                sfx::play_variant_sound( "engine_stop", "electric",
-                                         parts[ engines[ e ] ].info().engine_noise_factor() );
-            } else {
-                sfx::play_variant_sound( "engine_stop", "combustion",
-                                         parts[ engines[ e ] ].info().engine_noise_factor() );
-            }
+        if( !is_engine_on( e ) ) {
+            continue;
         }
+
+        const vehicle_part &epart = parts[ engines[ e ] ];
+        const vpart_info &einfo = epart.info();
+        const tripoint epos = global_part_pos3( epart );
+
+        sounds::sound( epos, 2, sounds::sound_t::movement, _( "the engine go silent" ) );
+
+        std::string variant = einfo.get_id().str();
+
+        if( sfx::has_variant_sound( "engine_stop", variant ) ) {
+            // has special sound variant for this vpart id
+        } else if( is_engine_type( e, fuel_type_battery ) ) {
+            variant = "electric";
+        } else if( is_engine_type( e, fuel_type_muscle ) ) {
+            variant = "muscle";
+        } else if( is_engine_type( e, fuel_type_wind ) ) {
+            variant = "wind";
+        } else {
+            variant = "combustion";
+        }
+
+        sfx::play_variant_sound( "engine_stop", variant, einfo.engine_noise_factor() );
     }
     sfx::do_vehicle_engine_sfx();
+    refresh();
 }
 
 void vehicle::start_engines( const bool take_control, const bool autodrive )
@@ -1140,6 +1118,7 @@ void vehicle::start_engines( const bool take_control, const bool autodrive )
 
     if( !has_engine ) {
         add_msg( m_info, _( "The %s doesn't have an engine!" ), name );
+        refresh();
         return;
     }
 
@@ -1154,6 +1133,7 @@ void vehicle::start_engines( const bool take_control, const bool autodrive )
             starting_engine_position - player_character.pos_bub();
         player_character.activity.values.push_back( take_control );
     }
+    refresh();
 }
 
 void vehicle::enable_patrol()
@@ -1162,7 +1142,6 @@ void vehicle::enable_patrol()
     autopilot_on = true;
     autodrive_local_target = tripoint_zero;
     start_engines();
-    refresh();
 }
 
 void vehicle::honk_horn() const
@@ -1910,133 +1889,67 @@ void vehicle::use_harness( int part, const tripoint &pos )
 
 void vehicle::use_bike_rack( int part )
 {
-    if( parts[part].is_unavailable() || parts[part].removed ) {
-        return;
-    }
-    std::vector<std::vector <int>> racks_parts = find_lines_of_parts( part, "BIKE_RACK_VEH" );
-    if( racks_parts.empty() ) {
-        return;
-    }
-
-    // check if we're storing a vehicle on this rack
-    std::vector<std::vector<int>> carried_vehicles;
-    std::vector<std::vector<int>> carrying_racks;
-    bool found_vehicle = false;
-    bool full_rack = true;
-    for( const std::vector<int> &rack_parts : racks_parts ) {
-        std::vector<int> carried_parts;
-        std::vector<int> carry_rack;
-        size_t carry_size = 0;
-        std::string cur_vehicle;
-
-        const auto add_vehicle = []( std::vector<int> &carried_parts,
-                                     std::vector<std::vector<int>> &carried_vehicles,
-                                     std::vector<int> &carry_rack,
-        std::vector<std::vector<int>> &carrying_racks ) {
-            if( !carry_rack.empty() ) {
-                carrying_racks.emplace_back( carry_rack );
-                carried_vehicles.emplace_back( carried_parts );
-                carry_rack.clear();
-                carried_parts.clear();
-            }
-        };
-
-        for( const int &rack_part : rack_parts ) {
-            // skip parts that aren't carrying anything
-            if( !parts[ rack_part ].has_flag( vehicle_part::carrying_flag ) ) {
-                add_vehicle( carried_parts, carried_vehicles, carry_rack, carrying_racks );
-                cur_vehicle.clear();
-                continue;
-            }
-            for( const point &mount_dir : five_cardinal_directions ) {
-                point near_loc = parts[ rack_part ].mount + mount_dir;
-                std::vector<int> near_parts = parts_at_relative( near_loc, true );
-                if( near_parts.empty() ) {
-                    continue;
-                }
-                if( parts[ near_parts[ 0 ] ].has_flag( vehicle_part::carried_flag ) ) {
-                    carry_size += 1;
-                    found_vehicle = true;
-                    // found a carried vehicle part
-                    if( parts[ near_parts[ 0 ] ].carried_name() != cur_vehicle ) {
-                        add_vehicle( carried_parts, carried_vehicles, carry_rack, carrying_racks );
-                        cur_vehicle = parts[ near_parts[ 0 ] ].carried_name();
-                    }
-                    for( const int &carried_part : near_parts ) {
-                        carried_parts.push_back( carried_part );
-                    }
-                    carry_rack.push_back( rack_part );
-                    // we're not adjacent to another carried vehicle on this rack
-                    break;
-                }
-            }
-        }
-
-        add_vehicle( carried_parts, carried_vehicles, carry_rack, carrying_racks );
-        full_rack &= carry_size == rack_parts.size();
-    }
-    int unload_carried = full_rack ? 0 : -1;
-    bool found_rackable_vehicle = try_to_rack_nearby_vehicle( racks_parts, true );
-    validate_carried_vehicles( carried_vehicles );
-    validate_carried_vehicles( carrying_racks );
-    if( found_vehicle && !full_rack ) {
-        uilist rack_menu;
-        if( found_rackable_vehicle ) {
-            rack_menu.addentry( 0, true, '0', _( "Load a vehicle on the rack" ) );
-        }
-        for( size_t i = 0; i < carried_vehicles.size(); i++ ) {
-            rack_menu.addentry( i + 1, true, '1' + i,
-                                string_format( _( "Remove the %s from the rack" ),
-                                               parts[ carried_vehicles[i].front() ].carried_name() ) );
-        }
-        rack_menu.query();
-        unload_carried = rack_menu.ret - 1;
-    }
-
     Character &pc = get_player_character();
-    if( unload_carried > -1 ) {
-        bikerack_unracking_activity_actor unrack( *this, carried_vehicles[unload_carried],
-                carrying_racks[unload_carried] );
+    const std::vector<unrackable_vehicle> unrackables = find_vehicles_to_unrack( part );
+    const std::vector<rackable_vehicle> rackables = find_vehicles_to_rack( part );
+    constexpr size_t unrack_offset = 1000;
+
+    uilist rack_menu;
+    rack_menu.desc_enabled = true;
+    rack_menu.desc_lines_hint = 1;
+    rack_menu.hilight_disabled = true;
+
+    for( size_t i = 0; i < rackables.size(); i++ ) {
+        // prevent racking two vehicles with same name on single vehicle
+        bool veh_with_same_name_already_racked = false;
+        for( const vpart_reference &vpr : get_any_parts( "BIKE_RACK_VEH" ) ) {
+            const auto unrackables = find_vehicles_to_unrack( vpr.part_index() );
+            for( const unrackable_vehicle &unrackable : unrackables ) {
+                if( unrackable.name == rackables[i].name ) {
+                    veh_with_same_name_already_racked = true;
+                }
+            }
+        }
+
+        if( veh_with_same_name_already_racked ) {
+            std::string txt = string_format( _( "Attach the %s to the rack" ), rackables[i].name );
+            std::string desc = string_format(
+                                   _( "This vehicle already has '%s' racked, please rename before racking." ), rackables[i].name );
+            rack_menu.addentry_desc( static_cast<int>( i ), false, MENU_AUTOASSIGN, txt, desc );
+        } else {
+            std::string txt = string_format( _( "Attach the %s to the rack" ), rackables[i].name );
+            rack_menu.addentry_desc( static_cast<int>( i ), true, MENU_AUTOASSIGN, txt, "" );
+        }
+    }
+
+    for( size_t i = 0; i < unrackables.size(); i++ ) {
+        const std::string txt = string_format( _( "Remove the %s from the rack" ), unrackables[i].name );
+        rack_menu.addentry_desc( i + unrack_offset, true, MENU_AUTOASSIGN, txt, "" );
+    }
+
+    if( rack_menu.entries.empty() ) {
+        pc.add_msg_if_player( _( "Nothing to take off or put on the racks is nearby." ) );
+        return;
+    }
+
+    if( rack_menu.entries.size() == 1 && rack_menu.entries[0].enabled ) {
+        rack_menu.ret = rack_menu.entries[0].retval;
+    } else {
+        rack_menu.query();
+    }
+
+    if( rack_menu.ret >= static_cast<int>( unrack_offset ) ) {
+        const unrackable_vehicle &unrackable = unrackables[rack_menu.ret - unrack_offset];
+        bikerack_unracking_activity_actor unrack( *this, unrackable.parts, unrackable.racks );
         pc.assign_activity( player_activity( unrack ), false );
-    } else if( found_rackable_vehicle ) {
-        bikerack_racking_activity_actor rack( *this, racks_parts );
+    } else if( rack_menu.ret >= 0 ) {
+        const rackable_vehicle &rackable = rackables[rack_menu.ret];
+        bikerack_racking_activity_actor rack( *this, *rackable.veh, rackable.racks );
         pc.assign_activity( player_activity( rack ), false );
     } else {
-        pc.add_msg_if_player( _( "Nothing to take off or put on the racks is nearby." ) );
+        pc.add_msg_if_player( _( "Nevermind." ) );
     }
 }
-
-void vehicle::clear_bike_racks( std::vector<int> &racks )
-{
-    for( const int &rack_part : racks ) {
-        parts[rack_part].remove_flag( vehicle_part::carrying_flag );
-        parts[rack_part].remove_flag( vehicle_part::tracked_flag );
-    }
-}
-
-/*
-* Todo: find a way to split and rewrite use_bikerack so that this check is no longer necessary
-*/
-void vehicle::validate_carried_vehicles( std::vector<std::vector<int>>
-        &carried_vehicles )
-{
-    std::sort( carried_vehicles.begin(), carried_vehicles.end(), []( const std::vector<int> &a,
-    const std::vector<int> &b ) {
-        return a.size() < b.size();
-    } );
-
-    std::vector<std::vector<int>>::iterator it = carried_vehicles.begin();
-    while( it != carried_vehicles.end() ) {
-        for( std::vector<std::vector<int>>::iterator it2 = it + 1; it2 < carried_vehicles.end(); it2++ ) {
-            if( std::search( ( *it2 ).begin(), ( *it2 ).end(), ( *it ).begin(),
-                             ( *it ).end() ) != ( *it2 ).end() ) {
-                it = carried_vehicles.erase( it-- );
-            }
-        }
-        it++;
-    }
-}
-
 
 void vpart_position::form_inventory( inventory &inv ) const
 {
@@ -2131,7 +2044,8 @@ void vehicle::interact_with( const vpart_position &vp, bool with_pickup )
     selectmenu.addentry( EXAMINE, true, 'e',
                          is_appliance ? _( "Examine appliance" ) : _( "Examine vehicle" ) );
     if( !is_appliance ) {
-        selectmenu.addentry( TRACK, true, keybind( "TOGGLE_TRACKING" ), tracking_toggle_string() );
+        selectmenu.addentry( TRACK, true, keybind( "TOGGLE_TRACKING" ),
+                             tracking_on ? _( "Forget vehicle position" ) : _( "Remember vehicle position" ) );
     } else {
         selectmenu.addentry( PLUG, true, 'g', _( "Plug in appliance" ) );
     }

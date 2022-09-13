@@ -661,11 +661,20 @@
         "encumbrance": 7,
         "coverage": 95,
         "cover_melee": 95,
-        "cover_ranged": 90,
+        "cover_ranged": 95,
         "cover_vitals": 70,
         "specifically_covers": [ "leg_lower_r", "leg_lower_l", "leg_upper_r", "leg_upper_l" ]
       }
     ]
+  },
+  {
+    "id": "ch_legguard_metal_sheets",
+    "type": "ARMOR",
+    "copy-from": "legguard_metal_sheets",
+    "name": { "str": "pair of case hardened sheet metal leg guards", "str_pl": "pairs of case hardened sheet metal leg guards" },
+    "description": "These crude leg guards have been case hardened to further protect your legs from the mighty coffee table, destroyer of shins.",
+    "material": [ "ch_steel" ],
+    "extend": { "flags": [ "STURDY" ] }
   },
   {
     "id": "legguard_metal_sheets_hip",
@@ -698,6 +707,15 @@
     ]
   },
   {
+    "id": "ch_legguard_metal_sheets_hip",
+    "type": "ARMOR",
+    "copy-from": "legguard_metal_sheets_hip",
+    "name": { "str": "case hardened sheet metal skirt" },
+    "description": "This loose skirt made from several cut-down sheets of metal has been case hardened to provide maximum protection for your most vulnerable area.",
+    "material": [ "ch_steel" ],
+    "extend": { "flags": [ "STURDY" ] }
+  },
+  {
     "id": "legguard_metal_sheets_knees",
     "type": "ARMOR",
     "category": "armor",
@@ -727,6 +745,15 @@
         "specifically_covers": [ "leg_knee_l", "leg_knee_r" ]
       }
     ]
+  },
+  {
+    "id": "ch_legguard_metal_sheets_knees",
+    "type": "ARMOR",
+    "copy-from": "legguard_metal_sheets_knees",
+    "name": { "str": "pair of case hardened sheet metal knee guards", "str_pl": "pairs of case hardened sheet metal knee guards" },
+    "description": "Knee guards of sheet metal, case hardened to protect your kneecaps from any feral with a bat.",
+    "material": [ "ch_steel" ],
+    "extend": { "flags": [ "STURDY" ] }
   },
   {
     "id": "xl_legguard_metal_sheets",
@@ -1489,5 +1516,59 @@
     "copy-from": "armor_qt_heavy_leg_guard",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "survivor_adhoc_leather_pants",
+    "repairs_like": "jeans",
+    "type": "ARMOR",
+    "name": { "str": "leather-padded pants", "str_pl": "pairs of leather-padded pants" },
+    "description": "A pair of tough cotton pants with sections from leather pants affixed, excluding the joints.  Offers mild protection without compromising mobility too much, but a lot of the pockets have been removed to make room for the leather.",
+    "weight": "1450 g",
+    "volume": "2500 ml",
+    "price_postapoc": 1200,
+    "looks_like": "technician_pants_gray",
+    "to_hit": 1,
+    "material": [ "cotton", "leather" ],
+    "symbol": "[",
+    "color": "light_gray",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1080 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "165 mm",
+        "moves": 100
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1080 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "165 mm",
+        "moves": 100
+      }
+    ],
+    "armor": [
+      {
+        "material": [
+          { "type": "cotton", "covered_by_mat": 100, "thickness": 0.3 },
+          { "type": "leather", "covered_by_mat": 95, "thickness": 0.75 },
+          { "type": "leather", "covered_by_mat": 90, "thickness": 0.75 }
+        ],
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_upper_l", "leg_upper_r", "leg_lower_l", "leg_lower_r" ],
+        "coverage": 100,
+        "encumbrance": 6
+      },
+      {
+        "material": [ { "type": "cotton", "covered_by_mat": 100, "thickness": 0.3 } ],
+        "covers": [ "arm_l", "arm_r" ],
+        "specifically_covers": [ "leg_hip_l", "leg_hip_r", "leg_knee_l", "leg_knee_r" ],
+        "coverage": 100,
+        "encumbrance": 0
+      }
+    ],
+    "warmth": 25,
+    "material_thickness": 1.8,
+    "flags": [ "VARSIZE" ]
   }
 ]
