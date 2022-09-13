@@ -247,6 +247,7 @@ static bool pick_one_up( item_location &loc, int quantity, bool &got_water, Pick
             }
         // Intentional fallthrough
         case STASH: {
+            int last_charges = newit.charges;
             ret_val<item_location> ret = player_character.i_add_or_fill( newit, true, nullptr, &it,
                                          /*allow_drop=*/false, /*allow_wield=*/false, false );
             item_location added_it = ret.value();
@@ -255,6 +256,7 @@ static bool pick_one_up( item_location &loc, int quantity, bool &got_water, Pick
                     // merged to the original stack, restore original charges
                     it.charges -= newit.charges;
                 } else if( added_it == item_location::nowhere ) {
+                    newit.charges = last_charges - newit.charges;
                     newit.on_pickup( player_character );
                     if( newit.charges != 0 ) {
                         auto &entry = mapPickup[newit.tname()];
@@ -267,6 +269,7 @@ static bool pick_one_up( item_location &loc, int quantity, bool &got_water, Pick
                     auto &entry = mapPickup[newit.tname()];
                     entry.second += newit.count();
                     entry.first = newit;
+                    newit.charges = newit.count();
                     picked_up = true;
                 }
             }

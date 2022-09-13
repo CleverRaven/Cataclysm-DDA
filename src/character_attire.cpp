@@ -2274,24 +2274,38 @@ void outfit::add_stash( Character &guy, const item &newit, int &remaining_charge
                     found_pockets = std::pair<item_location, item_pocket *> ( loc,
                                     const_cast<item_pocket *>( &*pocket ) );
                     pockets.emplace_back( found_pockets );
+                    for( const item *contained : pocket->all_items_top() ) {
+                        loc = item_location( guy, const_cast<item *>( contained ) );
+                        for( const item_pocket *pocket_nest : contained->get_all_contained_pockets() ) {
+                            if( pocket_nest->can_contain( temp_it ).success() && pocket_nest->rigid() ) {
+                                found_pockets = std::pair<item_location, item_pocket *> ( loc,
+                                                const_cast<item_pocket *>( &*pocket_nest ) );
+                                pockets.emplace_back( found_pockets );
+                            }
+                        }
+                    }
                 }
             }
         }
 
-        // Sort by priority and obtain_cost
+        // Sort by priority, rigid, and obtain_cost
         std::sort( pockets.begin(), pockets.end(), [temp_it]( const std::pair<item_location, item_pocket *>
                    &lhs,
         const std::pair<item_location, item_pocket *> &rhs ) {
 
             if( lhs.second->settings.priority() == rhs.second->settings.priority() ) {
-                return lhs.second->obtain_cost( temp_it ) < rhs.second->obtain_cost( temp_it );
+                if( lhs.second->rigid() == rhs.second->rigid() ) {
+                    return lhs.second->obtain_cost( temp_it ) < rhs.second->obtain_cost( temp_it );
+                } else {
+                    return lhs.second->rigid();
+                }
             }
             return lhs.second->settings.priority() > rhs.second->settings.priority();
         } );
 
         int amount = remaining_charges;
         int num_contained = 0;
-        for( std::pair<item_location, item_pocket *> pocket_pair : pockets ) {
+        for( std::pair<item_location, item_pocket *> &pocket_pair : pockets ) {
             if( amount <= num_contained || remaining_charges <= 0 ) {
                 break;
             }

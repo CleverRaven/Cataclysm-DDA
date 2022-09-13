@@ -236,12 +236,11 @@ ret_val<item_location> Character::i_add_or_fill( item &it, bool should_stack, co
         this->worn.add_stash( *this, it, new_charge, false );
 
         if( new_charge < last_charges ) {
-            it.charges = last_charges - new_charge;
+            it.charges = new_charge;
             success = true;
         } else {
             success = false;
         }
-
         if( new_charge >= 1 ) {
             if( !allow_wield || !wield( it ) ) {
                 if( allow_drop ) {
@@ -256,7 +255,6 @@ ret_val<item_location> Character::i_add_or_fill( item &it, bool should_stack, co
         } else {
             return ret_val<item_location>::make_failure( loc );
         }
-
     } else {
         loc = i_add( it, should_stack, avoid, original_inventory_item, allow_drop, allow_wield,
                      ignore_pkt_settings );
