@@ -2264,6 +2264,16 @@ void outfit::add_stash( Character &guy, const item &newit, int &remaining_charge
                     found_pockets = std::pair<item_location, item_pocket *> ( loc,
                                     const_cast<item_pocket *>( &*pocket ) );
                     pockets.emplace_back( found_pockets );
+                    for( const item *contained : pocket->all_items_top() ) {
+                        loc = item_location( guy, const_cast<item *>( contained ) );
+                        for( const item_pocket *pocket_nest : contained->get_all_contained_pockets() ) {
+                            if( pocket_nest->can_contain( temp_it ).success() && pocket_nest->rigid() ) {
+                                found_pockets = std::pair<item_location, item_pocket *> ( loc,
+                                                const_cast<item_pocket *>( &*pocket_nest ) );
+                                pockets.emplace_back( found_pockets );
+                            }
+                        }
+                    }
                 }
             }
         }
