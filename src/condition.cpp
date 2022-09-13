@@ -196,6 +196,7 @@ str_or_var<T> get_str_or_var( const JsonValue &jv, const std::string &member, bo
         ret_val.str_val = jv.get_string();
     } else if( jv.test_object() ) {
         ret_val.var_val = read_var_info( jv.get_object() );
+        ret_val.default_val = default_val;
     } else if( required ) {
         jv.throw_error( "No valid value for " + member );
     } else {

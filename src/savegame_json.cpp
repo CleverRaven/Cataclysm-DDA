@@ -3218,11 +3218,32 @@ void vehicle_part::deserialize( const JsonObject &data )
         precalc[0].z = z_offset;
         precalc[1].z = z_offset;
     }
+
+    // load legacy bike rack data
     JsonArray ja = data.get_array( "carry" );
     // count down from size - 1, then stop after unsigned long 0 - 1 becomes MAX_INT
+    static constexpr int name_offset = 7;
     for( size_t index = ja.size() - 1; index < ja.size(); index-- ) {
-        carry_names.push( ja.get_string( index ) );
+        const std::string raw = ja.get_string( index );
+        const bool migrate_x_axis = raw[0] == 'X';
+        const int mount_offset = std::stoi( raw.substr( 1, 3 ) );
+        carried_stack.push( {
+            tripoint( mount_offset, 0, 0 ),
+            units::from_degrees( std::stoi( raw.substr( 4, 3 ) ) ),
+            raw.substr( name_offset ),
+            migrate_x_axis,
+        } );
     }
+
+    // load new bike rack data
+    JsonArray ja_carried = data.get_array( "carried_stack" );
+    // count down from size - 1, then stop after unsigned long 0 - 1 becomes MAX_INT
+    for( size_t index = ja_carried.size() - 1; index < ja_carried.size(); index-- ) {
+        vehicle_part::carried_part_data it;
+        ja_carried.read( index, it );
+        carried_stack.push( it );
+    }
+
     data.read( "crew_id", crew_id );
     data.read( "items", items );
     data.read( "target_first_x", target.first.x );
@@ -3264,13 +3285,13 @@ void vehicle_part::serialize( JsonOut &json ) const
     json.member( "blood", blood );
     json.member( "enabled", enabled );
     json.member( "flags", flags );
-    if( !carry_names.empty() ) {
-        std::stack<std::string, std::vector<std::string> > carry_copy = carry_names;
-        json.member( "carry" );
+    if( !carried_stack.empty() ) {
+        std::stack<vehicle_part::carried_part_data> carried_copy = carried_stack;
+        json.member( "carried_stack" );
         json.start_array();
-        while( !carry_copy.empty() ) {
-            json.write( carry_copy.top() );
-            carry_copy.pop();
+        while( !carried_copy.empty() ) {
+            json.write( carried_copy.top() );
+            carried_copy.pop();
         }
         json.end_array();
     }
@@ -3291,6 +3312,28 @@ void vehicle_part::serialize( JsonOut &json ) const
         json.member( "target_second_z", target.second.z );
     }
     json.member( "ammo_pref", ammo_pref );
+    json.end_object();
+}
+
+void vehicle_part::carried_part_data::deserialize( const JsonObject &data )
+{
+    data.read( "veh_name", veh_name );
+    face_dir = units::from_degrees( data.get_int( "face_dir" ) );
+    data.read( "mount_x", mount.x );
+    data.read( "mount_y", mount.y );
+    data.read( "mount_z", mount.z );
+    data.read( "migrate_x_axis", migrate_x_axis );
+}
+
+void vehicle_part::carried_part_data::serialize( JsonOut &json ) const
+{
+    json.start_object();
+    json.member( "veh_name", veh_name );
+    json.member( "face_dir", std::lround( to_degrees( face_dir ) ) );
+    json.member( "mount_x", mount.x );
+    json.member( "mount_y", mount.y );
+    json.member( "mount_z", mount.z );
+    json.member( "migrate_x_axis", migrate_x_axis, false );
     json.end_object();
 }
 
@@ -3430,9 +3473,6 @@ void vehicle::deserialize( const JsonObject &data )
         auto it = vp.part().items.begin();
         auto end = vp.part().items.end();
         for( ; it != end; ++it ) {
-            if( it->needs_processing() ) {
-                active_items.add( *it, vp.mount() );
-            }
             // remove after 0.F
             if( savegame_loading_version < 33 ) {
                 migrate_item_charges( *it );
