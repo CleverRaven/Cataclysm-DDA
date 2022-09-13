@@ -41,7 +41,7 @@
     "copy-from": "mace",
     "type": "TOOL",
     "name": { "str_sp": "the Louverture" },
-    "description": "A oddly-vented mace with an internal fuel reservoir built into the pommel.  Can be engaged to ignite large puffs of gasoline and start fires.",
+    "description": "An oddly-vented mace with an internal fuel reservoir built into the pommel.  Can be engaged to ignite large puffs of gasoline and start fires.",
     "proportional": { "weight": 1.2, "volume": 1.1 },
     "charges_per_use": 100,
     "extend": { "flags": [ "FIRESTARTER" ] },

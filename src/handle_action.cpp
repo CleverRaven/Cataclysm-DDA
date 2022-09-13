@@ -2884,6 +2884,11 @@ bool game::handle_action()
             user_action_counter += 1;
         }
 
+        if( act == ACTION_CLICK_AND_DRAG ) {
+            // Need to return false to avoid disrupting actions like character mouse movement that require two clicks
+            return false;
+        }
+
         if( act == ACTION_SELECT || act == ACTION_SEC_SELECT ) {
             // Mouse button click
             if( veh_ctrl ) {

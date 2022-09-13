@@ -5,10 +5,13 @@
     "type": "monstergroup",
     "monsters": [
       { "monster": "mon_stegosaurus_hatchling", "weight": 5 },
-      { "monster": "mon_dyoplosaurus_hatchling", "weight": 5 },
-      { "monster": "mon_ankylosaurus_hatchling", "weight": 5 },
+      { "monster": "mon_gargoyleosaurus_hatchling", "weight": 5 },
+      { "monster": "mon_sauropelta_hatchling", "weight": 5 },
       { "monster": "mon_nodosaurus_hatchling", "weight": 5 },
       { "monster": "mon_edmontonia_hatchling", "weight": 5 },
+      { "monster": "mon_zuul_hatchling", "weight": 5 },
+      { "monster": "mon_dyoplosaurus_hatchling", "weight": 5 },
+      { "monster": "mon_ankylosaurus_hatchling", "weight": 5 },
       { "monster": "mon_camptosaurus_hatchling", "weight": 20 },
       { "monster": "mon_hadrosaurus_hatchling", "weight": 20 },
       { "monster": "mon_parasaurolophus_hatchling", "weight": 20 },
@@ -312,14 +315,14 @@
     "monsters": [ { "monster": "mon_hesperosaurus_hatchling" } ]
   },
   {
-    "name": "GROUP_EGG_dyoplosaurus",
+    "name": "GROUP_EGG_gargoyleosaurus",
     "type": "monstergroup",
-    "monsters": [ { "monster": "mon_dyoplosaurus_hatchling" } ]
+    "monsters": [ { "monster": "mon_gargoyleosaurus_hatchling" } ]
   },
   {
-    "name": "GROUP_EGG_ankylosaurus",
+    "name": "GROUP_EGG_sauropelta",
     "type": "monstergroup",
-    "monsters": [ { "monster": "mon_ankylosaurus_hatchling" } ]
+    "monsters": [ { "monster": "mon_sauropelta_hatchling" } ]
   },
   {
     "name": "GROUP_EGG_nodosaurus",
@@ -330,6 +333,21 @@
     "name": "GROUP_EGG_edmontonia",
     "type": "monstergroup",
     "monsters": [ { "monster": "mon_edmontonia_hatchling" } ]
+  },
+  {
+    "name": "GROUP_EGG_zuul",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_zuul_hatchling" } ]
+  },
+  {
+    "name": "GROUP_EGG_dyoplosaurus",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_dyoplosaurus_hatchling" } ]
+  },
+  {
+    "name": "GROUP_EGG_ankylosaurus",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_ankylosaurus_hatchling" } ]
   },
   {
     "name": "GROUP_EGG_dryosaurus",

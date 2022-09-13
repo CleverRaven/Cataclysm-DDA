@@ -2476,6 +2476,7 @@ input_context get_default_mode_input_context()
     ctxt.register_action( "COORDINATE" );
     ctxt.register_action( "MOUSE_MOVE" );
     ctxt.register_action( "SELECT" );
+    ctxt.register_action( "CLICK_AND_DRAG" );
     ctxt.register_action( "SEC_SELECT" );
     return ctxt;
 }
