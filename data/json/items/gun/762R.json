@@ -133,7 +133,7 @@
     "material": [ "steel", "wood" ],
     "color": "brown",
     "ammo": [ "762R" ],
-    "dispersion": 180,
+    "dispersion": 150,
     "durability": 9,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ] ],
     "valid_mod_locations": [
