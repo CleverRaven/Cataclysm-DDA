@@ -79,6 +79,7 @@
     "material": [ "steel" ],
     "symbol": ";",
     "color": "dark_gray",
+    "flags": [ "SINGLE_USE" ],
     "use_action": [ "RADIO_MOD" ]
   },
   {
