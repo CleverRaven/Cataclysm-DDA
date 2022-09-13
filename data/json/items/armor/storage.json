@@ -804,7 +804,7 @@
     "volume": "6 L",
     "price": 12000,
     "price_postapoc": 500,
-    "material": [ "cotton" ],
+    "material": [ "canvas" ],
     "symbol": "[",
     "looks_like": "rucksack",
     "color": "green",
@@ -832,7 +832,7 @@
       }
     ],
     "warmth": 10,
-    "material_thickness": 2,
+    "material_thickness": 1,
     "flags": [ "BELTED", "WATER_FRIENDLY" ],
     "armor": [
       {
@@ -2183,7 +2183,7 @@
     "price": 0,
     "price_postapoc": 50,
     "to_hit": -5,
-    "material": [ "cotton" ],
+    "material": [ "canvas" ],
     "symbol": "[",
     "looks_like": "duffelbag",
     "color": "brown",
@@ -2416,7 +2416,7 @@
     "volume": "12 L",
     "price": 18000,
     "price_postapoc": 800,
-    "material": [ "cotton" ],
+    "material": [ "canvas" ],
     "symbol": "[",
     "looks_like": "rucksack",
     "color": "green",
@@ -2431,7 +2431,7 @@
       }
     ],
     "warmth": 8,
-    "material_thickness": 2,
+    "material_thickness": 1,
     "flags": [ "BELTED", "WATER_FRIENDLY" ],
     "armor": [
       { "encumbrance": [ 8, 42 ], "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] }
@@ -2446,7 +2446,7 @@
     "volume": "2 L",
     "price": 18000,
     "price_postapoc": 800,
-    "material": [ "cotton" ],
+    "material": [ "canvas" ],
     "symbol": "[",
     "looks_like": "slingpack",
     "color": "green",
@@ -2468,7 +2468,7 @@
       }
     ],
     "warmth": 1,
-    "material_thickness": 2,
+    "material_thickness": 1,
     "flags": [ "BELTED", "OVERSIZE" ],
     "armor": [ { "encumbrance": [ 2, 6 ], "coverage": 20, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ]
   },
@@ -2554,7 +2554,7 @@
       }
     ],
     "warmth": 1,
-    "material_thickness": 2,
+    "material_thickness": 1,
     "flags": [ "BELTED", "OVERSIZE" ],
     "armor": [ { "encumbrance": [ 2, 14 ], "coverage": 30, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ]
   },
@@ -2756,7 +2756,7 @@
     "volume": "45 L",
     "price": 800,
     "price_postapoc": 750,
-    "material": [ "wood", "cotton" ],
+    "material": [ "wood", "canvas" ],
     "symbol": "[",
     "looks_like": "golf_bag",
     "color": "green",
@@ -2786,7 +2786,7 @@
     "volume": "10 L",
     "price": 800,
     "price_postapoc": 750,
-    "material": [ "wood", "cotton" ],
+    "material": [ "wood", "canvas" ],
     "symbol": "[",
     "looks_like": "backpack",
     "color": "green",
