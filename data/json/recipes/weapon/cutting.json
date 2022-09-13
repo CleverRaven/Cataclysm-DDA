@@ -80,7 +80,7 @@
     "components": [ [ [ "scrap_kevlar", 2 ], [ "thermo_resin_chunk", 1 ] ] ]
   },
   {
-    "result": "hc_cavalry_sabre",
+    "result": "qt_cavalry_sabre",
     "type": "recipe",
     "activity_level": "BRISK_EXERCISE",
     "category": "CC_WEAPON",
@@ -1727,7 +1727,7 @@
   {
     "type": "recipe",
     "activity_level": "BRISK_EXERCISE",
-    "result": "ch_katana",
+    "result": "qt_katana",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_CUTTING",
     "skill_used": "fabrication",
