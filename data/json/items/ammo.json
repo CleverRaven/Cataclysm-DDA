@@ -1257,14 +1257,15 @@
     "description": "Small metal rings, suitable for constructing chainmail.",
     "material": [ "iron" ],
     "volume": "250 ml",
-    "weight": "1 g",
+    "weight": "320 mg",
     "ammo_type": "components",
-    "count": 150
+    "count": 375
   },
   {
     "type": "AMMO",
     "id": "lc_chain_link",
     "category": "spare_parts",
+    "//": "link weighs 1/3 gram or so, make 375 per 150 gram wire to account for loss"
     "price": 150,
     "price_postapoc": 50,
     "name": { "str": "mild steel chain link" },
@@ -1273,9 +1274,9 @@
     "description": "Small metal rings, suitable for constructing chainmail.",
     "material": [ "lc_steel" ],
     "volume": "250 ml",
-    "weight": "1 g",
+    "weight": "320 mg",
     "ammo_type": "components",
-    "count": 100
+    "count": 375
   },
   {
     "type": "AMMO",
