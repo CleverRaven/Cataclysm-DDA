@@ -1408,7 +1408,7 @@
     "type": "ARMOR",
     "name": { "str": "work pants", "str_pl": "pairs of work pants" },
     "description": "A pair of gray canvas work pants.",
-    "weight": "520 g",
+    "weight": "1040 g",
     "volume": "2 L",
     "price": 5000,
     "price_postapoc": 100,
