@@ -412,7 +412,7 @@
   },
   {
     "type": "furniture",
-    "id": "f_chair",
+    "id": "f_chair_plywood",
     "name": "chair",
     "symbol": "#",
     "description": "A simple chair made of plywood on a steel frame.  Quite uncomfortable but works for sleeping if it's the only option available.",
