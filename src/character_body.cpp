@@ -402,7 +402,7 @@ void Character::update_bodytemp()
     /* Cache calls to g->get_temperature( player position ), used in several places in function */
     const units::temperature player_local_temp = weather_man.get_temperature( pos() );
     // NOTE : visit weather.h for some details on the numbers used
-    // Converts temperature to Celsius/10
+    // Converts temperature to Celsius/100
     int Ctemperature = static_cast<int>( 100 * units::to_celcius( player_local_temp ) );
     const w_point weather = *weather_man.weather_precise;
     int vehwindspeed = 0;
@@ -427,7 +427,8 @@ void Character::update_bodytemp()
     const bool use_floor_warmth = can_use_floor_warmth();
     const furn_id furn_at_pos = here.furn( pos() );
     const cata::optional<vpart_reference> boardable = vp.part_with_feature( "BOARDABLE", true );
-    // Temperature norms
+    // Temperature norms, unit is Celsius/100
+    // This means which temperature is comfortable for a naked person
     // Ambient normal temperature is lower while asleep
     const int ambient_norm = has_sleep ? 3100 : 1900;
 
@@ -484,7 +485,8 @@ void Character::update_bodytemp()
             continue;
         }
 
-        // This adjusts the temperature scale to match the bodytemp scale,
+        // 0.01c is 5 body temp unit so it needs to times 5 to scale to match the bodytemp scale,
+        // but this will change current behavior,
         // it needs to be reset every iteration
         int adjusted_temp = Ctemperature - ambient_norm;
         // Represents the fact that the body generates heat when it is cold.
