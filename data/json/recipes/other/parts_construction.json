@@ -204,7 +204,7 @@
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
     "result": "wooden_post",
-    "id_suffix": "from long_posts by hand",
+    "id_suffix": "from long posts by hand",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "fabrication",
