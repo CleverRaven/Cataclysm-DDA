@@ -522,7 +522,7 @@
     "time": "12 h",
     "book_learn": [ [ "textbook_armwest", 6 ], [ "welding_book", 6 ] ],
     "using": [ [ "carbon", 10 ] ],
-    "components": [ [ "armor_metal_sheets", 1 ] ],
+    "components": [ [ [ "armor_metal_sheets", 1 ] ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing" },

@@ -195,7 +195,7 @@
     "time": "4 h",
     "book_learn": [ [ "textbook_armwest", 6 ], [ "welding_book", 6 ] ],
     "using": [ [ "carbon", 3 ] ],
-    "components": [ [ "chestguard_metal_sheets", 1 ] ],
+    "components": [ [ [ "chestguard_metal_sheets", 1 ] ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
     "qualities": [ { "id": "HAMMER", "level": 2 } ],
     "tools": [ [ [ "forge", 64 ] ], [ [ "metalworking_tongs", -1 ] ] ]
