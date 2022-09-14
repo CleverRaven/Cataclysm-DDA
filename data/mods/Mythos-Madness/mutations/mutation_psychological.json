@@ -1,0 +1,57 @@
+[
+  {
+    "id": "encounter_zombie",
+    "type": "mutation",
+    "name": { "str": "Seen: Zombie" },
+    "description": "You have previously encountered a walking corpse.",
+    "starting_trait": false,
+    "valid": false,
+    "player_display": false,
+    "types": [ "PSYCHOLOGICAL" ]
+  },
+  {
+    "id": "mental_anxiety",
+    "type": "mutation",
+    "name": { "str": "Suffering from Anxiety" },
+    "description": "You are suffering from anxiety.",
+    "starting_trait": false,
+    "valid": false,
+    "player_display": false,
+    "types": [ "PSYCHOLOGICAL" ]
+  },
+  {
+    "type": "mutation",
+    "id": "NIGHT_RAIDER",
+    "name": { "str": "Night Raider" },
+    "points": 3,
+    "description": "Your body is one with the night.  You make less noise when the moon is up in the sky, even when you cannot see it.",
+    "category": [ "TROGLOBITE" ],
+    "enchantments": [
+      {
+        "condition": { "not": "is_day" },
+        "values": [ { "value": "FOOTSTEP_NOISE", "multiply": -0.5 }, { "value": "ATTACK_NOISE", "multiply": -0.2 } ]
+      }
+    ],
+    "cancels": [ "HUMAN_STATS" ]
+  },
+  {
+    "type": "mutation",
+    "id": "PORTAL_DEPENDENT",
+    "name": { "str": "Portal Dependent" },
+    "points": -8,
+    "description": "You feel alien in your own body, as if part of you remained behind with the storm.  You will suffer severely when not exposed to portal storms unless you find a way to anchor yourself to the world again.",
+    "valid": false,
+    "starting_trait": false,
+    "purifiable": false
+  },
+  {
+    "type": "mutation",
+    "id": "REALITY_GRASP",
+    "name": { "str": "Stabilized in Reality" },
+    "points": 0,
+    "description": "You have regained some substance and have stabilized somewhat, if not entirely.  Portal storm withdrawal will not affect you as strongly as before.",
+    "valid": false,
+    "starting_trait": false,
+    "purifiable": false
+  }
+  ]  

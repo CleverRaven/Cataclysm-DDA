@@ -2,9 +2,9 @@
   {
     "type": "MOD_INFO",
     "id": "Mythos-Madness",
-    "name": "[WIP] Mythos Mod - Madness and Insanity",
+    "name": "[WIP] Mythos Mod - Insanity and Terror",
     "authors": [ "mythosmod" ],
-    "description": "Introduces madness and insanity mechanics to the game.",
+    "description": "Introduces insanity and terror mechanics to the game, respresenting the mental strain of both the horror of the world and the guilt of being a survivor.",
     "category": "content",
     "dependencies": [ "dda" ],
     "version": "0.1"
