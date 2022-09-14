@@ -5918,7 +5918,43 @@
     "time": "15 s",
     "components": [ [ [ "barstool", 1 ] ] ],
     "pre_special": "check_empty",
-    "post_terrain": "f_stool",
+    "post_terrain": "f_barstool",
+    "activity_level": "LIGHT_EXERCISE"
+  },
+  {
+    "type": "construction",
+    "id": "constr_place_chair_plywood",
+    "group": "place_chair_plywood",
+    "category": "FURN",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "15 s",
+    "components": [ [ [ "chair_plywood", 1 ] ] ],
+    "pre_special": "check_empty",
+    "post_terrain": "f_chair_plywood",
+    "activity_level": "LIGHT_EXERCISE"
+  },
+  {
+    "type": "construction",
+    "id": "constr_place_chair_wood_black",
+    "group": "build_chair",
+    "category": "FURN",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "15 s",
+    "components": [ [ [ "chair_wood_black", 1 ] ] ],
+    "pre_special": "check_empty",
+    "post_terrain": "f_chair_black",
+    "activity_level": "LIGHT_EXERCISE"
+  },
+  {
+    "type": "construction",
+    "id": "constr_place_chair_wood_white",
+    "group": "build_chair",
+    "category": "FURN",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "15 s",
+    "components": [ [ [ "chair_wood_white", 1 ] ] ],
+    "pre_special": "check_empty",
+    "post_terrain": "f_chair_white",
     "activity_level": "LIGHT_EXERCISE"
   }
 ]
