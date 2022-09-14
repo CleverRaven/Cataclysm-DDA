@@ -2096,3 +2096,4 @@ zubon
 zygomaticus
 zzz
 zzzzchzzzzchurzzzpileus
+foldable
