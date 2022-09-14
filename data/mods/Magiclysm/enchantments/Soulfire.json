@@ -5,7 +5,7 @@
     "name": "Soul Pressure",
     "description": "This is a spell that represents the Soulfire putting a burning pressure on nearby opponents.  If you are seeing this spell, you have debugged it in.",
     "valid_targets": [ "hostile" ],
-    "flags": [ "SILENT", "NO_PROJECTILE" ],
+    "flags": [ "SILENT", "NO_PROJECTILE", "NO_EXPLOSION_SFX" ],
     "effect": "attack",
     "shape": "blast",
     "min_damage": 3,

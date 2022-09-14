@@ -11,7 +11,7 @@
     "name": "Mind Reading",
     "description": "You can predict some movements of your enemies (just slowdown in fact).  If you are seeing this spell, you have debugged it in.",
     "valid_targets": [ "hostile" ],
-    "flags": [ "SILENT", "NO_PROJECTILE" ],
+    "flags": [ "SILENT", "NO_PROJECTILE", "NO_EXPLOSION_SFX" ],
     "effect": "attack",
     "shape": "blast",
     "effect_str": "mind_reading",
