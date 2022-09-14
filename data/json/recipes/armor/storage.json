@@ -243,7 +243,7 @@
     "difficulty": 4,
     "time": "6 h",
     "autolearn": true,
-    "using": [ [ "tailoring_cotton_patchwork", 14 ], [ "fastener_large", 1 ] ]
+    "using": [ [ "tailoring_canvas_patchwork", 14 ], [ "fastener_large", 1 ], [ "fastener_small", 4 ] ]
   },
   {
     "result": "chestrig",
