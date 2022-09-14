@@ -252,10 +252,7 @@ static bool pick_one_up( item_location &loc, int quantity, bool &got_water, Pick
                                          /*allow_drop=*/false, /*allow_wield=*/false, false );
             item_location added_it = ret.value();
             if( ret.success() ) {
-                if( &*added_it == &it ) {
-                    // merged to the original stack, restore original charges
-                    it.charges = last_charges;
-                } else if( added_it == item_location::nowhere ) {
+                if( added_it == item_location::nowhere ) {
                     newit.charges = last_charges - newit.charges;
                     newit.on_pickup( player_character );
                     if( newit.charges != 0 ) {
@@ -264,12 +261,14 @@ static bool pick_one_up( item_location &loc, int quantity, bool &got_water, Pick
                         entry.first = newit;
                         picked_up = true;
                     }
+                } else if( &*added_it == &it ) {
+                    // merged to the original stack, restore original charges
+                    it.charges = last_charges;
                 } else {
                     // successfully added
                     auto &entry = mapPickup[newit.tname()];
                     entry.second += newit.count();
                     entry.first = newit;
-                    newit.charges = newit.count();
                     picked_up = true;
                 }
             }
