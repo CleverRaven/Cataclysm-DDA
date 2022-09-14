@@ -22,7 +22,10 @@
     "type": "talk_topic",
     "id": "COMP_TRAIN_DATA_MONRAIL_REQUEST",
     "dynamic_line": "UNABLE TO CONTACT MONORAIL LINE.  PLEASE SEE YOUR ADMINISTRATOR FOR ASSISTANCE.",
-    "responses": [ { "text": "Go back.", "topic": "TALK_NONE" }, { "text": "Power off.", "topic": "TALK_DONE" } ]
+    "responses": [ 
+      { "text": "Go back.", "topic": "TALK_NONE" }, 
+      { "text": "Power off.", "topic": "TALK_DONE" } 
+    ]
   },
   {
     "type": "talk_topic",
