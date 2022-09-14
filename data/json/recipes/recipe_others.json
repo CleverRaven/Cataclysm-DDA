@@ -811,7 +811,7 @@
     "difficulty": 3,
     "time": "3 h",
     "result_mult": 6,
-    "autolearn": true
+    "autolearn": true,
     "using": [ [ "blacksmithing_standard", 2 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
