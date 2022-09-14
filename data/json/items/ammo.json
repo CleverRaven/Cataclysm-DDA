@@ -1265,7 +1265,7 @@
     "type": "AMMO",
     "id": "lc_chain_link",
     "category": "spare_parts",
-    "//": "link weighs 1/3 gram or so, make 425 per 150 gram wire to account for loss"
+    "//": "link weighs 1/3 gram or so, make 425 per 150 gram wire to account for loss",
     "price": 150,
     "price_postapoc": 50,
     "name": { "str": "mild steel chain link" },
