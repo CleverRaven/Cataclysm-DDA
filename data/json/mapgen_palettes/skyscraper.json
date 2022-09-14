@@ -94,7 +94,6 @@
       "L": "f_chair",
       "/": "f_chair",
       "j": "f_displaycase",
-      "l": "f_stool",
       "n": "f_table",
       "N": "f_table",
       "t": "f_table",
@@ -124,6 +123,7 @@
       "y": "f_locker",
       "B": "f_stool",
       "f": "f_stool",
+      "l": "f_stool",
       "m": "f_bigmirror"
     },
     "items": {

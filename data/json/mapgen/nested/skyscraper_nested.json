@@ -1,0 +1,235 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "skyscraper_shopping_0_lr_laundromat_1",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "    ^.X.W.W.W.hhhhAA    ",
+        "    ....W.W.W.......H   ",
+        "    ..S.W.W.W..W.rr.H   ",
+        "    ]CCCW.W.W..W.rr.H   ",
+        "    ....W.W.W..W.rr.    ",
+        "  ^ ^..rW.W.W..C.rr.H   ",
+        "   G...rt.t.t..C.rr.H   ",
+        "   G................H   ",
+        "  ^ ^...&DDDDDDDDDDD    ",
+        "     HHHH HHHH HHHH     ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "terrain": { ".": "t_linoleum_gray", "G": "t_door_glass_c", "H": "t_wall_glass" },
+      "set": [ { "square": "terrain", "id": "t_linoleum_gray", "x": 4, "y": 10, "x2": 19, "y2": 18 } ],
+      "furniture": {
+        "^": [ "f_indoor_plant", "f_indoor_plant_y" ],
+        "X": "f_console_broken",
+        "C": "f_counter",
+        "]": "f_counter_gate_c",
+        "W": "f_washer",
+        "D": "f_dryer",
+        "S": "f_stool",
+        "h": "f_chair",
+        "t": "f_table",
+        "r": "f_rack",
+        "A": "f_arcade_machine",
+        "&": "f_trashcan"
+      },
+      "items": {
+        "D": { "item": "laundry", "chance": 15 },
+        "W": { "item": "laundry", "chance": 15 },
+        "t": { "item": "laundry", "chance": 5 },
+        "&": { "item": "trash", "chance": 70, "repeat": [ 2, 5 ] }
+      },
+      "place_items": [
+        { "item": "behindcounter", "x": 7, "y": 12, "chance": 60 },
+        { "item": "snacks", "x": 7, "y": 15, "chance": 70 },
+        { "item": "magazines", "x": 7, "y": 16, "chance": 70 },
+        { "item": "laundromat_containers", "x": 15, "y": [ 15, 16 ], "chance": 60, "repeat": [ 1, 2 ] },
+        { "item": "laundromat_bleach", "x": [ 17, 18 ], "y": [ 12, 16 ], "chance": 30, "repeat": [ 4, 8 ] },
+        { "item": "cash_register_random", "x": [ 5, 7 ], "y": 13, "chance": 100 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "skyscraper_shopping_0_mr_upper_electronics_1",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "    U..]..^ccccccc^.!s  ",
+        "    .S.C............    ",
+        "  ^ CCCC..dd.dd.ddt.H   ",
+        "   G......dd.dd.ddt.H   ",
+        "   G................H   ",
+        "  ^         .rr..rr.    ",
+        "            .rr..rr.    ",
+        "            .rr..rr.H   "
+      ],
+      "terrain": { ".": "t_floor", "s": "t_sidewalk", "G": "t_door_glass_c", "H": "t_wall_glass", "!": "t_door_metal_locked" },
+      "furniture": {
+        "^": [ "f_indoor_plant", "f_indoor_plant_y" ],
+        "c": "f_counter",
+        "C": "f_counter",
+        "]": "f_counter_gate_c",
+        "S": "f_stool",
+        "d": "f_displaycase",
+        "t": "f_table",
+        "r": "f_rack",
+        "U": "f_trashcan"
+      },
+      "set": [
+        { "square": "terrain", "id": "t_floor", "x": 4, "y": 16, "x2": 19, "y2": 20 },
+        { "square": "terrain", "id": "t_floor", "x": 12, "y": 21, "x2": 19, "y2": 23 }
+      ],
+      "items": {
+        "r": { "item": "consumer_electronics", "chance": 75, "repeat": [ 1, 4 ] },
+        "c": { "item": "consumer_electronics", "chance": 75, "repeat": [ 1, 4 ] },
+        "d": { "item": "elecsto_persele", "chance": 75, "repeat": [ 1, 4 ] },
+        "t": { "item": "elecsto_homapl", "chance": 75, "repeat": [ 1, 4 ] },
+        "U": { "item": "trash", "chance": 20, "repeat": [ 1, 2 ] }
+      },
+      "place_loot": [ { "group": "cash_register_random", "x": [ 4, 6 ], "y": 18 } ],
+      "place_monsters": [
+        { "monster": "GROUP_ELECTRO", "x": [ 4, 19 ], "y": [ 16, 20 ], "chance": 2, "repeat": [ 2, 3 ] },
+        { "monster": "GROUP_ELECTRO", "x": [ 12, 19 ], "y": [ 21, 23 ], "chance": 4, "repeat": [ 2, 3 ] }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "skyscraper_shopping_0_mr_lower_electronics_1",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "            .rr..rr.H   ",
+        "            .rr..rr.H   ",
+        "            ........    ",
+        "            .rr..rr.    ",
+        "            .rr..rr.H   ",
+        "            .rr..rr.H   ",
+        "            .rr..rr.H   ",
+        "            ........    ",
+        "            .rrrrrr.    ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "terrain": { ".": "t_floor", "H": "t_wall_glass" },
+      "furniture": { "r": "f_rack" },
+      "set": [ { "square": "terrain", "id": "t_floor", "x": 12, "y": 0, "x2": 19, "y2": 8 } ],
+      "items": { "r": { "item": "consumer_electronics", "chance": 75, "repeat": [ 1, 4 ] } },
+      "place_monsters": [ { "monster": "GROUP_ELECTRO", "x": [ 12, 19 ], "y": [ 0, 8 ], "chance": 4, "repeat": [ 2, 3 ] } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "skyscraper_shopping_0_ur_salon_1",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "     HH HH  HHH HHH     ",
+        "    &S.]..&M.M.M.M.MH   ",
+        "    c$cc............H   ",
+        "  ^ .......^rr^tt^ttH   ",
+        "   G.......#########    ",
+        "   G................    ",
+        "  ^ ..rr^rr..rr^rr..    ",
+        "    ..|||||..|||||..    ",
+        "    ...m|m....C|C...H   ",
+        "    ..hu|uh..hu|uh..H   ",
+        "    ...C|C....m|m...    ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "terrain": {
+        ".": "t_linoleum_white",
+        "#": "t_rock_wall_half",
+        "s": "t_sidewalk",
+        "G": "t_door_glass_c",
+        "H": "t_wall_glass",
+        "!": "t_door_metal_locked",
+        "|": "t_wall_P"
+      },
+      "furniture": {
+        "^": [ "f_indoor_plant", "f_indoor_plant_y" ],
+        "$": "f_counter",
+        "c": "f_counter",
+        "C": "f_counter",
+        "]": "f_counter_gate_c",
+        "r": "f_rack",
+        "u": "f_sink",
+        "t": "f_table",
+        "M": "f_armchair",
+        "h": "f_chair",
+        "S": "f_stool",
+        "m": "f_bigmirror",
+        "&": "f_trashcan"
+      },
+      "set": [ { "square": "terrain", "id": "t_linoleum_white", "x": 4, "y": 5, "x2": 19, "y2": 14 } ],
+      "items": {
+        "$": { "item": "cash_register_random", "chance": 100 },
+        "r": { "item": "beauty", "chance": 100, "repeat": [ 1, 4 ] },
+        "C": { "item": "SUS_hair_drawer", "chance": 100, "repeat": [ 1 ] },
+        "t": { "item": "magazines", "chance": 100, "repeat": [ 2, 4 ] },
+        "&": { "item": "trash", "chance": 70, "repeat": [ 2, 5 ] }
+      },
+      "place_monster": [ { "monster": "mon_feral_granny", "x": 15, "y": 9, "chance": 100 } ]
+    }
+  }
+]
