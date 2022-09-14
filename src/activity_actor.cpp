@@ -1163,10 +1163,19 @@ std::unique_ptr<activity_actor> hacksaw_activity_actor::deserialize( JsonValue &
     return actor.clone();
 }
 
-bikerack_racking_activity_actor::bikerack_racking_activity_actor( vehicle &parent_vehicle,
-        std::vector<std::vector<int>> parts ) : parts( std::move( parts ) )
+static std::string enumerate_ints_to_string( const std::vector<int> &vec )
+{
+    return enumerate_as_string( vec, []( const int &it ) {
+        return std::to_string( it );
+    } );
+}
+
+bikerack_racking_activity_actor::bikerack_racking_activity_actor( const vehicle &parent_vehicle,
+        const vehicle &racked_vehicle, const std::vector<int> &racks )
+    : racks( racks )
 {
     parent_vehicle_pos = parent_vehicle.bub_part_pos( 0 );
+    racked_vehicle_pos = racked_vehicle.bub_part_pos( 0 );
 }
 
 void bikerack_racking_activity_actor::start( player_activity &act, Character & )
@@ -1178,21 +1187,27 @@ void bikerack_racking_activity_actor::start( player_activity &act, Character & )
 void bikerack_racking_activity_actor::finish( player_activity &act, Character & )
 {
     map &here = get_map();
-    const optional_vpart_position ovp = here.veh_at( parent_vehicle_pos );
-    if( !ovp ) {
-        debugmsg( "racking activity lost vehicle" );
+
+    const optional_vpart_position ovp_parent = here.veh_at( parent_vehicle_pos );
+    if( !ovp_parent ) {
+        debugmsg( "racking actor lost parent vehicle at %s", parent_vehicle_pos.to_string() );
         act.set_to_null();
         return;
     }
 
-    vehicle &parent_vehicle = ovp->vehicle();
+    const optional_vpart_position ovp_racked = here.veh_at( racked_vehicle_pos );
+    if( !ovp_racked ) {
+        debugmsg( "racking actor lost racked vehicle at %s", racked_vehicle_pos.to_string() );
+        act.set_to_null();
+        return;
+    }
 
-    if( parent_vehicle.try_to_rack_nearby_vehicle( parts ) ) {
-        here.invalidate_map_cache( here.get_abs_sub().z() );
-        here.rebuild_vehicle_level_caches();
-    } else {
-        debugmsg( "Racking task failed.  Parent-Vehicle:" + parent_vehicle.name +
-                  "; Found parts size:" + std::to_string( parts[0].size() ) );
+    vehicle &parent_veh = ovp_parent->vehicle();
+    vehicle &racked_veh = ovp_racked->vehicle();
+
+    if( !parent_veh.merge_rackable_vehicle( &racked_veh, racks ) ) {
+        debugmsg( "racking actor failed: failed racking %s on %s, racks: [%s].",
+                  racked_veh.name, parent_veh.name, enumerate_ints_to_string( racks ) );
     }
     act.set_to_null();
 }
@@ -1202,7 +1217,8 @@ void bikerack_racking_activity_actor::serialize( JsonOut &jsout ) const
     jsout.start_object();
     jsout.member( "moves_total", moves_total );
     jsout.member( "parent_vehicle_pos", parent_vehicle_pos );
-    jsout.member( "parts", parts );
+    jsout.member( "racked_vehicle_pos", racked_vehicle_pos );
+    jsout.member( "racks", racks );
     jsout.end_object();
 }
 
@@ -1212,14 +1228,15 @@ std::unique_ptr<activity_actor> bikerack_racking_activity_actor::deserialize( Js
     JsonObject data = jsin.get_object();
     data.read( "moves_total", actor.moves_total );
     data.read( "parent_vehicle_pos", actor.parent_vehicle_pos );
-    data.read( "parts", actor.parts );
+    data.read( "racked_vehicle_pos", actor.racked_vehicle_pos );
+    data.read( "racks", actor.racks );
 
     return actor.clone();
 }
 
-bikerack_unracking_activity_actor::bikerack_unracking_activity_actor( vehicle &parent_vehicle,
-        std::vector<int> parts, std::vector<int> racks )
-    : parts( std::move( parts ) ), racks( std::move( racks ) )
+bikerack_unracking_activity_actor::bikerack_unracking_activity_actor( const vehicle &parent_vehicle,
+        const std::vector<int> &parts, const std::vector<int> &racks )
+    : parts( parts ), racks( racks )
 {
     parent_vehicle_pos = parent_vehicle.bub_part_pos( 0 );
 }
@@ -1232,23 +1249,18 @@ void bikerack_unracking_activity_actor::start( player_activity &act, Character &
 
 void bikerack_unracking_activity_actor::finish( player_activity &act, Character & )
 {
-    map &here = get_map();
     const optional_vpart_position ovp = get_map().veh_at( parent_vehicle_pos );
     if( !ovp ) {
-        debugmsg( "unracking activity lost vehicle" );
+        debugmsg( "unracking actor lost vehicle." );
         act.set_to_null();
         return;
     }
 
     vehicle &parent_vehicle = ovp->vehicle();
 
-    if( parent_vehicle.remove_carried_vehicle( parts ) ) {
-        parent_vehicle.clear_bike_racks( racks );
-        here.invalidate_map_cache( here.get_abs_sub().z() );
-        here.rebuild_vehicle_level_caches();
-    } else {
-        debugmsg( "Unracking task failed.  Parent-Vehicle:" + parent_vehicle.name +
-                  "; Found parts size:" + std::to_string( parts.size() ) );
+    if( !parent_vehicle.remove_carried_vehicle( parts, racks ) ) {
+        debugmsg( "unracking actor failed on %s, parts: [%s], racks: [%s]", parent_vehicle.name,
+                  enumerate_ints_to_string( parts ), enumerate_ints_to_string( racks ) );
     }
     act.set_to_null();
 }

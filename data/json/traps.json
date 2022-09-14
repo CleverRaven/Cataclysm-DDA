@@ -134,6 +134,21 @@
   },
   {
     "type": "trap",
+    "id": "tr_microlab_portal_elevator_physics_shift",
+    "name": "microlab shifting elevator",
+    "color": "magenta",
+    "memorial_male": { "ctxt": "memorial_male", "str": "Triggered a dimensional anomaly." },
+    "memorial_female": { "ctxt": "memorial_female", "str": "Triggered a dimensional anomaly." },
+    "symbol": ".",
+    "visibility": 99,
+    "avoidance": 99,
+    "difficulty": 99,
+    "action": "map_regen",
+    "map_regen": "microlab_portal_elevator_physics_shift",
+    "benign": false
+  },
+  {
+    "type": "trap",
     "id": "tr_glimmer_floor",
     "name": "glimmering floor",
     "color": "yellow",

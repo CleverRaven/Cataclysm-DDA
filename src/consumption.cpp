@@ -1633,19 +1633,16 @@ int Character::get_acquirable_energy( const item &it ) const
     }
     const bionic_id &bid = get_most_efficient_bionic( bids );
     int to_consume;
-    int to_charge = 0;
+    units::energy energy_per_charge;
+    item fuel;
     if( it.type->magazine ) {
-        item ammo = item( it.ammo_current() );
-        to_consume = std::min( it.ammo_remaining(), bid->fuel_capacity );
-        to_charge = ammo.fuel_energy() * to_consume * bid->fuel_efficiency;
-    } else if( it.flammable() ) {
-        to_consume = std::min( units::to_milliliter( it.volume() ), bid->fuel_capacity );
-        to_charge = it.get_base_material().id->get_fuel_data().energy * to_consume * bid->fuel_efficiency;
+        fuel = it.loaded_ammo();
     } else {
-        to_consume = std::min( it.charges, bid->fuel_capacity );
-        to_charge = it.fuel_energy() * to_consume * bid->fuel_efficiency;
+        fuel = it;
     }
-    return to_charge;
+    energy_per_charge = fuel.fuel_energy() / fuel.charges;
+    to_consume = std::min( fuel.charges, bid->fuel_capacity );
+    return units::to_kilojoule( energy_per_charge * to_consume * bid->fuel_efficiency );
 }
 
 bool Character::can_estimate_rot() const
