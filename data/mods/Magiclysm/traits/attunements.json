@@ -199,7 +199,7 @@
       "VULCANIST",
       "SOULFIRE"
     ],
-    "flags": [ "ATTUNEMENT" ]
+    "flags": [ "ATTUNEMENT", "CLIMATE_CONTROL" ]
   },
   {
     "id": "CLEANSING_FLAME",
@@ -239,7 +239,7 @@
       "SOULFIRE",
       "WITHER_MAGE"
     ],
-    "flags": [ "ATTUNEMENT" ]
+    "flags": [ "ATTUNEMENT", "CLIMATE_CONTROL" ]
   },
   {
     "id": "CRUSADER",
@@ -321,7 +321,7 @@
       "VULCANIST",
       "WITHER_MAGE"
     ],
-    "flags": [ "ATTUNEMENT" ]
+    "flags": [ "ATTUNEMENT", "ELECTRIC_IMMUNE" ]
   },
   {
     "id": "FIRE_ELEMENTAL",
@@ -362,7 +362,7 @@
       "SOULFIRE",
       "WITHER_MAGE"
     ],
-    "flags": [ "ATTUNEMENT" ]
+    "flags": [ "ATTUNEMENT", "CLIMATE_CONTROL" ]
   },
   {
     "id": "FORCE_MAGE",
@@ -483,7 +483,7 @@
       "VULCANIST",
       "SOULFIRE"
     ],
-    "flags": [ "ATTUNEMENT" ]
+    "flags": [ "ATTUNEMENT", "CLIMATE_CONTROL" ]
   },
   {
     "id": "GOLEMANCER",
@@ -644,7 +644,7 @@
       "SOULFIRE",
       "WITHER_MAGE"
     ],
-    "flags": [ "ATTUNEMENT" ]
+    "flags": [ "ATTUNEMENT", "CLIMATE_CONTROL" ]
   },
   {
     "id": "ILLUSIONIST",
@@ -725,7 +725,7 @@
       "VULCANIST",
       "SOULFIRE"
     ],
-    "flags": [ "ATTUNEMENT" ]
+    "flags": [ "ATTUNEMENT", "ELECTRIC_IMMUNE" ]
   },
   {
     "id": "PERMAFROST_MAGE",
@@ -766,7 +766,7 @@
       "SOULFIRE",
       "WITHER_MAGE"
     ],
-    "flags": [ "ATTUNEMENT", "COLD_ENERGY_IMMUNE" ]
+    "flags": [ "ATTUNEMENT", "COLD_ENERGY_IMMUNE", "CLIMATE_CONTROL" ]
   },
   {
     "id": "RADIATION_MAGE",
@@ -970,7 +970,7 @@
       "SOULFIRE",
       "WITHER_MAGE"
     ],
-    "flags": [ "ATTUNEMENT" ]
+    "flags": [ "ATTUNEMENT", "ELECTRIC_IMMUNE" ]
   },
   {
     "id": "STORMCALLER",
@@ -1009,7 +1009,7 @@
       "SOULFIRE",
       "WITHER_MAGE"
     ],
-    "flags": [ "ATTUNEMENT" ]
+    "flags": [ "ATTUNEMENT", "ELECTRIC_IMMUNE" ]
   },
   {
     "id": "SUN_MAGE",
@@ -1050,7 +1050,7 @@
       "SOULFIRE",
       "WITHER_MAGE"
     ],
-    "flags": [ "ATTUNEMENT" ]
+    "flags": [ "ATTUNEMENT", "CLIMATE_CONTROL" ]
   },
   {
     "id": "TUNDRA_MAGE",
@@ -1090,7 +1090,7 @@
       "SOULFIRE",
       "WITHER_MAGE"
     ],
-    "flags": [ "ATTUNEMENT" ]
+    "flags": [ "ATTUNEMENT", "CLIMATE_CONTROL" ]
   },
   {
     "id": "VOID_MAGE",
@@ -1171,7 +1171,7 @@
       "VOID_MAGE",
       "SOULFIRE"
     ],
-    "flags": [ "ATTUNEMENT", "HEAT_IMMUNE" ]
+    "flags": [ "ATTUNEMENT", "HEAT_IMMUNE", "CLIMATE_CONTROL" ]
   },
   {
     "id": "WITHER_MAGE",
