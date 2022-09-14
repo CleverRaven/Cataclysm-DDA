@@ -1648,5 +1648,10 @@
     "type": "construction_group",
     "id": "build_bench_wooden",
     "name": "Build a wooden bench"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_barstool",
+    "name": "Place a barstool"
   }
 ]
