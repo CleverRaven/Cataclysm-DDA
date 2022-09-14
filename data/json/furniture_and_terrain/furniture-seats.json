@@ -409,5 +409,46 @@
       "sound_fail": "whump.",
       "items": [ { "item": "plastic_chunk", "count": [ 3, 12 ] }, { "item": "scrap", "charges": [ 5, 25 ] } ]
     }
+  },
+  {
+    "type": "furniture",
+    "id": "f_chair",
+    "name": "chair",
+    "symbol": "#",
+    "description": "A simple chair made of plywood on a steel frame.  Quite uncomfortable but works for sleeping if it's the only option available.",
+    "color": "brown",
+    "move_cost_mod": 1,
+    "coverage": 30,
+    "comfort": 1,
+    "floor_bedding_warmth": -1000,
+    "bonus_fire_warmth_feet": 1000,
+    "required_str": 5,
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE", "CAN_SIT", "EASY_DECONSTRUCT", "ALIGN_WORKBENCH" ],
+    "deconstruct": { "items": [ { "item": "chair_plywood", "count": 1 } ] },
+    "bash": {
+      "str_min": 7,
+      "str_max": 25,
+      "sound": "smash!",
+      "sound_fail": "whump.",
+      "items": [ { "item": "splinter", "count": [ 1, 10 ] }, { "item": "scrap", "charges": [ 10, 30 ] } ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_chair_black",
+    "name": "black wooden chair",
+    "copy-from": "chair_wood",
+    "description": "A simple wooden chair, with four legs, a seat, and a back.  It's nice to rest your feet for once, and if coupled with a suitable table, you could eat a meal properly and almost pretend that things were normal again.  This particular chair was painted black.",
+    "color": "light_gray",
+    "deconstruct": { "items": [ { "item": "chair_wood_black", "count": 1 } ] }
+  },
+  {
+    "type": "furniture",
+    "id": "f_chair_white",
+    "name": "white wooden chair",
+    "copy-from": "chair_wood",
+    "description": "A simple wooden chair, with four legs, a seat, and a back.  It's nice to rest your feet for once, and if coupled with a suitable table, you could eat a meal properly and almost pretend that things were normal again.  This particular chair was painted white.",
+    "color": "white",
+    "deconstruct": { "items": [ { "item": "chair_wood_white", "count": 1 } ] }
   }
 ]
