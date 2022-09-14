@@ -231,5 +231,49 @@
       },
       "place_monster": [ { "monster": "mon_feral_granny", "x": 15, "y": 9, "chance": 100 } ]
     }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "skyscraper_shopping_0_toilets_7x7_E",
+    "object": {
+      "mapgensize": [ 7, 7 ],
+      "rows": [
+        "aSS|T|T",
+        "...|+|+",
+        ".......",
+        "       ",
+        "       ",
+        "       ",
+        "       "
+      ],
+      "terrain": { ".": "t_linoleum_white", "|": "t_brick_wall", "+": "t_door_c" },
+      "furniture": { "S": "f_sink", "T": "f_toilet", "a": "f_trashcan" },
+      "set": [ { "square": "terrain", "id": "t_linoleum_white", "x": 0, "y": 0, "x2": 6, "y2": 2 } ],
+      "items": { "a": { "item": "trash", "chance": 70, "repeat": [ 2, 5 ] } },
+      "toilets": { "T": {  } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "skyscraper_shopping_0_toilets_7x7_W",
+    "object": {
+      "mapgensize": [ 7, 7 ],
+      "rows": [
+        "T|T|SSa",
+        "+|+|...",
+        ".......",
+        "       ",
+        "       ",
+        "       ",
+        "       "
+      ],
+      "terrain": { ".": "t_linoleum_white", "|": "t_brick_wall", "+": "t_door_c" },
+      "furniture": { "S": "f_sink", "T": "f_toilet", "a": "f_trashcan" },
+      "set": [ { "square": "terrain", "id": "t_linoleum_white", "x": 0, "y": 0, "x2": 6, "y2": 2 } ],
+      "items": { "a": { "item": "trash", "chance": 70, "repeat": [ 2, 5 ] } },
+      "toilets": { "T": {  } }
+    }
   }
 ]

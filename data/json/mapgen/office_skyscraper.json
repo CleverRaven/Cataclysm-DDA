@@ -113,9 +113,9 @@
         "ss%|........|..........~~..........|........|%ss",
         "ss%H........|..........~~..........|........|%ss",
         "ss%H........|-------|^.~~.^|-------|........|%ss",
-        "ss%H........|T|T|SSa|..~~..|aSS|T|T|........|%ss",
-        "ss%|........|+|+|iii+..~~..+iii|+|+|........|%ss",
-        "ss%|........|iiiiiii|..~~..|iiiiiii|........|%ss",
+        "ss%H........|.......|..~~..|.......|........|%ss",
+        "ss%|........|.......+..~~..+.......|........|%ss",
+        "ss%|........|.......|..~~..|.......|........|%ss",
         "ss%|----------------|8.~~..|----------------|%ss",
         "ss%|################|^.~~..|................|%ss",
         "ss%|#±±±±±±##±±±±±±#|b.~~..|................|%ss",
@@ -133,6 +133,8 @@
         "sssss______ss______sssssssssssssssssssssssssssss"
       ],
       "place_nested": [
+        { "chunks": [ "skyscraper_shopping_0_toilets_7x7_W" ], "x": 13, "y": 30 },
+        { "chunks": [ "skyscraper_shopping_0_toilets_7x7_E" ], "x": 28, "y": 30 },
         { "chunks": [ "skyscraper_shopping_0_ur_salon_1" ], "x": 24, "y": 0 },
         { "chunks": [ "skyscraper_shopping_0_mr_upper_electronics_1" ], "x": 24, "y": 0 },
         { "chunks": [ "skyscraper_shopping_0_mr_lower_electronics_1" ], "x": 24, "y": 24 },

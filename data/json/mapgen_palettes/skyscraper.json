@@ -18,10 +18,6 @@
       "<": "t_stairs_up",
       "'": "t_thconc_floor",
       ".": "t_floor",
-      "a": "t_linoleum_white",
-      "i": "t_linoleum_white",
-      "S": "t_linoleum_white",
-      "T": "t_linoleum_white",
       " ": "t_region_groundcover_urban",
       ",": "t_pavement_y",
       "_": "t_pavement",
@@ -39,17 +35,8 @@
       "Ŧ": "t_ramp_down_high",
       "±": "t_ramp_down_low"
     },
-    "furniture": {
-      "b": "f_bench",
-      "^": [ "f_indoor_plant", "f_indoor_plant_y" ],
-      "S": "f_sink",
-      "T": "f_toilet",
-      "a": "f_trashcan",
-      "x": "f_console_broken"
-    },
-    "items": {
-      "a": { "item": "trash", "chance": 70, "repeat": [ 2, 5 ] }
-    },
+    "furniture": { "b": "f_bench", "^": [ "f_indoor_plant", "f_indoor_plant_y" ], "x": "f_console_broken" },
+    "items": { "a": { "item": "trash", "chance": 70, "repeat": [ 2, 5 ] } },
     "vendingmachines": { "8": { "item_group": "vending_drink" }, "9": { "item_group": "vending_food" } },
     "toilets": { "T": {  } }
   },
