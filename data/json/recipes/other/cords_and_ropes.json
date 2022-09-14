@@ -482,7 +482,7 @@
     "time": "5 m",
     "autolearn": true,
     "charges": 1,
-    "components": [ , [ [ "thread", 3 ], [ "sinew", 3 ], [ "yarn", 3 ], [ "plant_fibre", 3 ] ] ],
+    "components": [ [ [ "thread", 3 ], [ "sinew", 3 ], [ "yarn", 3 ], [ "plant_fibre", 3 ] ] ],
     "proficiencies": [ { "proficiency": "prof_fibers" } ]
   },
   {
@@ -498,6 +498,6 @@
     "autolearn": true,
     "tools": [ [ [ "spinwheelitem", -1 ] ] ],
     "proficiencies": [ { "proficiency": "prof_spinning", "required": false, "time_multiplier": 1.5 } ],
-    "components": [ [ [ "thread", 150 ], [ "sinew", 150 ], [ "yarn", 150 ], [ "plant_fibre", 150 ] ], [ [ "cotton_ball", 9 ] ] }
+    "components": [ [ [ "thread", 150 ], [ "sinew", 150 ], [ "yarn", 150 ], [ "plant_fibre", 150 ] ], [ [ "cotton_ball", 9 ] ]
   }
 ]
