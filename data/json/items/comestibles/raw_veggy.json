@@ -418,6 +418,23 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "raw_bottle_gourd",
+    "name": { "str": "raw bottle gourd" },
+    "copy-from": "cucumber",
+    "looks_like": "cucumber",
+    "weight": "1000 g",
+    "spoils_in": "31 days",
+    "comestible_type": "FOOD",
+    "symbol": "o",
+    "quench": 2,
+    "calories": 15,
+    "description": "A vegetable from the gourd family, bottle gourd was one of the very first plants to be domesticated by early humans.  It can be further prepared to produce a hard, watertight shell, usable as a bio-degradable liquid container.  Eating it doesn't look worth it.",
+    "volume": "4500 ml",
+    "flags": [ "FREEZERBURN", "SMOKABLE", "RAW" ],
+    "smoking_result": "dry_bottle_gourd"
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "dahlia_root",
     "name": { "str": "dahlia root" },
     "weight": "190 g",

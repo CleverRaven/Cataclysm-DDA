@@ -4222,5 +4222,21 @@
         ]
       }
     ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "dry_bottle_gourd",
+    "name": { "str": "dried bottle gourd" },
+    "weight": "500 g",
+    "looks_like": "clay_pot",
+    "comestible_type": "FOOD",
+    "spoils_in": "0 hours",
+    "symbol": "o",
+    "color": "brown",
+    "description": "A vegetable from the gourd family, bottle gourd, was one of the very first plants to be domesticated by early humans.  This one has been dried to prevent it from rotting from the inside - you'll still need to work on it to make a usable container out of it.",
+    "volume": "4500 ml",
+    "price": 300,
+    "price_postapoc": 50,
+    "smoking_result": "dry_bottle_gourd"
   }
 ]

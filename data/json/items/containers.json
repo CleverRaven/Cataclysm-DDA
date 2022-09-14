@@ -3131,5 +3131,32 @@
       }
     ],
     "qualities": [ [ "CONTAIN", 1 ] ]
+  },
+  {
+    "id": "bottle_gourd",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "bottle gourd" },
+    "looks_like": "clay_pot",
+    "description": "A vegetable from the gourd family, bottle gourd, was one of the very first plants to be domesticated by early humans.  This bottle gourd has been carefully dried and cleaned to produce a hard, watertight container.",
+    "weight": "400 g",
+    "volume": "4500 ml",
+    "price": 300,
+    "price_postapoc": 60,
+    "to_hit": 1,
+    "material": [ "wood" ],
+    "symbol": "o",
+    "color": "brown",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "watertight": true,
+        "max_contains_volume": "3750 ml",
+        "max_item_volume": "32 ml",
+        "max_contains_weight": "8 kg",
+        "sealed_data": { "spoil_multiplier": 0.9 }
+      }
+    ]
   }
 ]
