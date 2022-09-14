@@ -442,7 +442,7 @@
     "price": 15500,
     "price_postapoc": 1000,
     "to_hit": -1,
-    "material": [ "cotton" ],
+    "material": [ "canvas" ],
     "symbol": "[",
     "looks_like": "trenchcoat",
     "color": "dark_gray",
@@ -502,9 +502,9 @@
       }
     ],
     "warmth": 15,
-    "material_thickness": 0.3,
-    "environmental_protection": 1,
-    "flags": [ "VARSIZE", "POCKETS", "OUTER" ]
+    "material_thickness": 1.5,
+    "environmental_protection": 2,
+    "flags": [ "VARSIZE", "POCKETS", "OUTER", "WATERPROOF", "RAINPROOF" ]
   },
   {
     "id": "duster_fur",
@@ -2297,7 +2297,7 @@
     "price": 13175,
     "price_postapoc": 500,
     "to_hit": -1,
-    "material": [ "cotton" ],
+    "material": [ "canvas" ],
     "symbol": "[",
     "looks_like": "duster",
     "color": "dark_gray",
@@ -2361,9 +2361,9 @@
       }
     ],
     "warmth": 15,
-    "material_thickness": 0.3,
-    "environmental_protection": 1,
-    "flags": [ "VARSIZE", "POCKETS", "OUTER" ]
+    "material_thickness": 1.5,
+    "environmental_protection": 2,
+    "flags": [ "VARSIZE", "POCKETS", "OUTER", "WATERPROOF", "RAINPROOF" ]
   },
   {
     "id": "sleeveless_duster_fur",
@@ -2540,13 +2540,13 @@
     "type": "ARMOR",
     "name": { "str": "sleeveless trenchcoat" },
     "//": "The general guideline for sleeveless trenchcoats is the components, volume, weight, time to craft, and value are 15% lower (rounded down) than the original.  Making it from an original takes 50% the time.",
-    "description": "A thin cotton trenchcoat that leaves your arms unencumbered.  Has plenty of storage space due to its many pockets.",
+    "description": "A thick canvas trenchcoat that leaves your arms unencumbered.  Has plenty of storage space due to its many pockets.",
     "weight": "635 g",
     "volume": "3750 ml",
     "price": 13175,
     "price_postapoc": 500,
     "to_hit": -1,
-    "material": [ "cotton" ],
+    "material": [ "canvas" ],
     "symbol": "[",
     "looks_like": "sleeveless_duster",
     "color": "dark_gray",
@@ -2559,9 +2559,9 @@
       { "pocket_type": "CONTAINER", "max_contains_volume": "500 ml", "max_contains_weight": "1 kg", "moves": 120 }
     ],
     "warmth": 15,
-    "material_thickness": 0.3,
-    "environmental_protection": 1,
-    "flags": [ "VARSIZE", "POCKETS", "OUTER" ],
+    "material_thickness": 1.5,
+    "environmental_protection": 2,
+    "flags": [ "VARSIZE", "POCKETS", "OUTER", "WATERPROOF", "RAINPROOF" ],
     "armor": [
       { "covers": [ "torso" ], "specifically_covers": [ "torso_lower" ], "coverage": 100, "encumbrance": [ 7, 15 ] },
       { "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ], "coverage": 95 },
@@ -2716,13 +2716,13 @@
     "id": "trenchcoat",
     "type": "ARMOR",
     "name": { "str": "trenchcoat" },
-    "description": "A thin cotton trenchcoat, lined with pockets.  Great for storage.",
+    "description": "A thick canvas trenchcoat, lined with pockets.  Great for storage.",
     "weight": "830 g",
     "volume": "4250 ml",
     "price": 15500,
     "price_postapoc": 500,
     "to_hit": -1,
-    "material": [ "cotton" ],
+    "material": [ "canvas" ],
     "symbol": "[",
     "looks_like": "coat_winter",
     "color": "dark_gray",
@@ -2740,9 +2740,9 @@
       { "pocket_type": "CONTAINER", "max_contains_volume": "500 ml", "max_contains_weight": "1 kg", "moves": 120 }
     ],
     "warmth": 15,
-    "material_thickness": 0.3,
-    "environmental_protection": 1,
-    "flags": [ "VARSIZE", "POCKETS", "OUTER" ]
+    "material_thickness": 1.5,
+    "environmental_protection": 2,
+    "flags": [ "VARSIZE", "POCKETS", "OUTER", "WATERPROOF", "RAINPROOF" ]
   },
   {
     "id": "trenchcoat_fur",
