@@ -782,7 +782,7 @@
     "time": "20 m",
     "autolearn": true,
     "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 } ],
-    "using": [ "carbon", 1 ],
+    "using": [ [ "carbon", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
     "tools": [
       [ [ "tongs", -1 ] ],
