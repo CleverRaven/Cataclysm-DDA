@@ -1607,6 +1607,13 @@
   },
   {
     "type": "keybinding",
+    "id": "PLUG",
+    "category": "APP_INTERACT",
+    "name": "Plug in appliance",
+    "bindings": [ { "input_method": "keyboard_any", "key": "g" } ]
+  },
+  {
+    "type": "keybinding",
     "id": "UNPLUG",
     "category": "APP_INTERACT",
     "name": "Unplug power connections",
