@@ -194,7 +194,7 @@
     "difficulty": 6,
     "time": "4 h",
     "book_learn": [ [ "textbook_armwest", 6 ], [ "welding_book", 6 ] ],
-	"using": [ "carbon", 3 ],
+    "using": [ "carbon", 3 ],
     "components": [ [ "chestguard_metal_sheets", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
     "qualities": [ { "id": "HAMMER", "level": 2 } ],
@@ -225,7 +225,7 @@
     "difficulty": 6,
     "time": "6 h",
     "book_learn": [ [ "textbook_armwest", 6 ], [ "welding_book", 6 ] ],
-	"using": [ "carbon", 5 ],
+    "using": [ "carbon", 5 ],
     "components": [ [ "chestguard_metal_sheets_heavy", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
     "qualities": [ { "id": "HAMMER", "level": 2 } ],
@@ -256,7 +256,7 @@
     "difficulty": 6,
     "time": "3 h",
     "book_learn": [ [ "textbook_armwest", 6 ], [ "welding_book", 6 ] ],
-	"using": [ "carbon", 2 ],
+    "using": [ "carbon", 2 ],
     "components": [ [ "chestguard_metal_sheets_light", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
     "qualities": [ { "id": "HAMMER", "level": 2 } ],
@@ -2486,7 +2486,8 @@
       { "proficiency": "prof_closures", "time_multiplier": 1.25, "fail_multiplier": 1.15 },
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing" },
-      { "proficiency": "prof_leatherworking_basic", "fail_multiplier": 1.15 }, { "proficiency": "prof_case_hardening" }
+      { "proficiency": "prof_leatherworking_basic", "fail_multiplier": 1.15 },
+      { "proficiency": "prof_case_hardening" }
     ]
   },
   {
@@ -2637,7 +2638,8 @@
       { "proficiency": "prof_closures", "time_multiplier": 1.25, "fail_multiplier": 1.15 },
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing" },
-      { "proficiency": "prof_leatherworking_basic", "fail_multiplier": 1.15 }, { "proficiency": "prof_case_hardening" }
+      { "proficiency": "prof_leatherworking_basic", "fail_multiplier": 1.15 },
+      { "proficiency": "prof_case_hardening" }
     ]
   },
   {
@@ -2788,7 +2790,8 @@
       { "proficiency": "prof_closures", "time_multiplier": 1.25, "fail_multiplier": 1.15 },
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing" },
-      { "proficiency": "prof_leatherworking_basic", "fail_multiplier": 1.15 }, { "proficiency": "prof_case_hardening" }
+      { "proficiency": "prof_leatherworking_basic", "fail_multiplier": 1.15 },
+      { "proficiency": "prof_case_hardening" }
     ]
   },
   {
