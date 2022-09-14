@@ -1653,5 +1653,10 @@
     "type": "construction_group",
     "id": "place_barstool",
     "name": "Place a barstool"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_chair_plywood",
+    "name": "Place a chair"
   }
 ]
