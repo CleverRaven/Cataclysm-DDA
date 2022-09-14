@@ -1658,5 +1658,15 @@
     "type": "construction_group",
     "id": "place_chair_plywood",
     "name": "Place a chair"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_chair_wood_black",
+    "name": "Place a black wooden chair"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_chair_wood_white",
+    "name": "Place a white wooden chair"
   }
 ]
