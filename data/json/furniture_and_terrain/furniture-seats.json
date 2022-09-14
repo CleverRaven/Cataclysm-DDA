@@ -356,5 +356,32 @@
         { "item": "scrap", "charges": [ 15, 40 ] }
       ]
     }
+  },
+  {
+    "type": "furniture",
+    "id": "f_barstool",
+    "name": "bar stool",
+    "description": "A bar stool with a leather seat on a steel support.  Not practical for sleeping at all but it does feel nicer than sitting on the ground.",
+    "symbol": "p",
+    "color": "light_gray",
+    "move_cost_mod": 1,
+    "coverage": 35,
+    "required_str": 5,
+    "comfort": 1,
+    "floor_bedding_warmth": -1000,
+    "bonus_fire_warmth_feet": 1000,
+    "flags": [ "TRANSPARENT", "MOUNTABLE", "SHORT", "CAN_SIT", "EASY_DECONSTRUCT", "ALIGN_WORKBENCH" ],
+    "deconstruct": { "items": [ { "item": "barstool", "count": 1 } ] },
+    "bash": {
+      "str_min": 10,
+      "str_max": 45,
+      "sound": "metal screeching!",
+      "sound_fail": "crash!",
+      "items": [
+        { "item": "leather", "count": [ 1, 4 ] },
+        { "item": "steel_chunk", "count": [ 1, 14 ] },
+        { "item": "scrap", "charges": [ 10, 65 ] }
+      ]
+    }
   }
 ]
