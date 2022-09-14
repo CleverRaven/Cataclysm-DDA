@@ -254,7 +254,7 @@ static bool pick_one_up( item_location &loc, int quantity, bool &got_water, Pick
             if( ret.success() ) {
                 if( &*added_it == &it ) {
                     // merged to the original stack, restore original charges
-                    it.charges -= newit.charges;
+                    it.charges = last_charges;
                 } else if( added_it == item_location::nowhere ) {
                     newit.charges = last_charges - newit.charges;
                     newit.on_pickup( player_character );

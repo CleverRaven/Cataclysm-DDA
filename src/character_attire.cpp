@@ -2267,26 +2267,26 @@ void outfit::add_stash( Character &guy, const item &newit, int &remaining_charge
         for( item *i : items ) {
             for( const item_pocket *pocket : i->get_all_contained_pockets() ) {
                 if( pocket->can_contain( temp_it ).success() ) {
-                    found_pocket = const_cast<item_pocket *>( &*pocket );
+                    // Top-level( wielded, worn ) pockets may be stored
+                    found_pocket = const_cast<item_pocket *>( pocket );
                     pockets.emplace_back( found_pocket );
-                    for( const item *contained : pocket->all_items_top() ) {
-                        for( const item_pocket *pocket_nest : contained->get_all_contained_pockets() ) {
-                            if( pocket_nest->can_contain( temp_it ).success() && pocket_nest->rigid() ) {
-                                found_pocket = const_cast<item_pocket *>( &*pocket_nest );
-                                pockets.emplace_back( found_pocket );
-                            }
+                }
+                for( const item *contained : pocket->all_items_ptr( item_pocket::pocket_type::CONTAINER ) ) {
+                    for( const item_pocket *pocket_nest : contained->get_all_contained_pockets() ) {
+                        if( pocket_nest->can_contain( temp_it ).success() && pocket_nest->rigid() ) {
+                            // Nested pocket with rigid() can only be stored
+                            found_pocket = const_cast<item_pocket *>( pocket_nest );
+                            pockets.emplace_back( found_pocket );
                         }
                     }
                 }
             }
         }
 
-        // Sort by priority and obtain_cost
-        std::sort( pockets.begin(), pockets.end(), [temp_it]( item_pocket *&lhs, item_pocket *&rhs ) {
-            if( lhs->settings.priority() == rhs->settings.priority() ) {
-                return lhs->obtain_cost( temp_it ) < rhs->obtain_cost( temp_it );
-            }
-            return lhs->settings.priority() > rhs->settings.priority();
+        // Sort by item_pocket::better_pocket
+        std::sort( pockets.begin(), pockets.end(), [newit, temp_it]( item_pocket * lhs,
+        item_pocket * rhs ) {
+            return rhs->better_pocket( *lhs, newit, false );
         } );
 
         int amount = remaining_charges;
