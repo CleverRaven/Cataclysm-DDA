@@ -313,7 +313,7 @@
   {
     "id": "tailoring_canvas_small",
     "type": "requirement",
-    "//": "5g per unit. Crafting possibly-patchwork cotton items, adjusted for tailoring rework. Time needed is usually 20 minutes per unit if hand-stitching.  excessive weight of material is wasted, possibly producing canvas scraps.",
+    "//": "11g per unit. Crafting possibly-patchwork cotton items, adjusted for tailoring rework. Time needed is usually 20 minutes per unit if hand-stitching.  excessive weight of material is wasted, possibly producing canvas scraps.",
     "qualities": [ { "id": "SEW", "level": 2 }, { "id": "FABRIC_CUT", "level": 1 } ],
     "components": [ [ [ "canvas_patchwork", 1 ] ], [ [ "filament_durable", 3, "LIST" ] ] ]
   },
