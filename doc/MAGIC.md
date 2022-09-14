@@ -667,7 +667,7 @@ If your enchantment is relatively small, you can write it right in the same JSON
 
 The following is a list of possible `values`:
 
-| Character status value      | Description
+| Character status value | Description
 |---                          |---
 | `ARMOR_ACID` | 
 | `ARMOR_BASH` | 
@@ -732,7 +732,7 @@ The following is a list of possible `values`:
 | `WEAPON_DISPERSION` | 
 
 
-| Enchanted item value        | Description
+| Melee-only enchantment values | Description
 |---                          |---
 | `ITEM_DAMAGE_ACID` | 
 | `ITEM_DAMAGE_BASH` | 
@@ -746,7 +746,7 @@ The following is a list of possible `values`:
 | `ITEM_DAMAGE_STAB` | 
 
 
-| Melee-only enchantment values  | Description
+| Enchanted item value | Description
 |---                             |---
 | `ITEM_ARMOR_ACID` | 
 | `ITEM_ARMOR_BASH` | 
@@ -759,7 +759,7 @@ The following is a list of possible `values`:
 | `ITEM_ARMOR_STAB` | 
 | `ITEM_ATTACK_SPEED` | 
 | `ITEM_COVERAGE` | 
-| `ITEM_DAMAGE_AP` | armor piercing
+| `ITEM_DAMAGE_AP` | Armor Piercing. Doesn't work currently
 | `ITEM_ENCUMBRANCE` | 
 | `ITEM_VOLUME` | 
 | `ITEM_WEIGHT` | 
