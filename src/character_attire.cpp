@@ -2281,7 +2281,7 @@ void outfit::add_stash( Character &guy, const item &newit, int &remaining_charge
             }
         }
 
-        // Sort by priority, rigid, and obtain_cost
+        // Sort by priority and obtain_cost
         std::sort( pockets.begin(), pockets.end(), [temp_it]( item_pocket *&lhs, item_pocket *&rhs ) {
             if( lhs->settings.priority() == rhs->settings.priority() ) {
                 return lhs->obtain_cost( temp_it ) < rhs->obtain_cost( temp_it );
