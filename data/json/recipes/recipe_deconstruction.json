@@ -2529,7 +2529,7 @@
     "activity_level": "NO_EXERCISE",
     "time": "1 m",
     "qualities": [ { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "thread", 2 ] ] ]
+    "components": [ [ [ "thread", 1 ] ] ]
   },
   {
     "result": "sheet_canvas_patchwork",
@@ -2561,7 +2561,7 @@
     "activity_level": "NO_EXERCISE",
     "time": "1 m",
     "qualities": [ { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "thread_canvas", 2 ] ] ]
+    "components": [ [ [ "thread_canvas", 1 ] ] ]
   },
   {
     "result": "sheet_neoprene_patchwork",
