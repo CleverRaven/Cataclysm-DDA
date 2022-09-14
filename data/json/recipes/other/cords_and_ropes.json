@@ -498,6 +498,6 @@
     "autolearn": true,
     "tools": [ [ [ "spinwheelitem", -1 ] ] ],
     "proficiencies": [ { "proficiency": "prof_spinning", "required": false, "time_multiplier": 1.5 } ],
-    "components": [ [ [ "thread", 150 ], [ "sinew", 150 ], [ "yarn", 150 ], [ "plant_fibre", 150 ] ], [ [ "cotton_ball", 9 ] ]
+    "components": [ [ [ "thread", 150 ], [ "sinew", 150 ], [ "yarn", 150 ], [ "plant_fibre", 150 ], [ "cotton_ball", 9 ] ] ]
   }
 ]
