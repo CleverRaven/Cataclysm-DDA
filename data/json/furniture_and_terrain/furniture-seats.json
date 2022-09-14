@@ -437,8 +437,8 @@
     "type": "furniture",
     "id": "f_chair_black",
     "name": "black wooden chair",
-    "copy-from": "chair_wood",
-    "description": "A simple wooden chair, with four legs, a seat, and a back.  It's nice to rest your feet for once, and if coupled with a suitable table, you could eat a meal properly and almost pretend that things were normal again.  This particular chair was painted black.",
+    "copy-from": "f_chair",
+    "description": "A simple wooden chair, with four legs, a seat, and a back.  It's nice to rest your feet for once, and if coupled with a suitable table, you could eat a meal properly and almost pretend that things were normal again.  This particular chair is painted black.",
     "color": "light_gray",
     "deconstruct": { "items": [ { "item": "chair_wood_black", "count": 1 } ] }
   },
@@ -446,8 +446,8 @@
     "type": "furniture",
     "id": "f_chair_white",
     "name": "white wooden chair",
-    "copy-from": "chair_wood",
-    "description": "A simple wooden chair, with four legs, a seat, and a back.  It's nice to rest your feet for once, and if coupled with a suitable table, you could eat a meal properly and almost pretend that things were normal again.  This particular chair was painted white.",
+    "copy-from": "f_chair",
+    "description": "A simple wooden chair, with four legs, a seat, and a back.  It's nice to rest your feet for once, and if coupled with a suitable table, you could eat a meal properly and almost pretend that things were normal again.  This particular chair is painted white.",
     "color": "white",
     "deconstruct": { "items": [ { "item": "chair_wood_white", "count": 1 } ] }
   }
