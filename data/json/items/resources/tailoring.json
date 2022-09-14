@@ -552,7 +552,7 @@
     "volume": "95 ml",
     "//": "heavyweight cotton canvas with a GSM of 400-450",
     "price": 1250,
-    "price_postapoc": 10,
+    "price_postapoc": 50,
     "material": [ "canvas" ],
     "symbol": "=",
     "color": "dark_gray"
@@ -592,4 +592,33 @@
     "color": "dark_gray",
     "flags": [ "NO_SALVAGE" ]
   },
+  {
+    "type": "GENERIC",
+    "id": "canvas_patch",
+    "symbol": ",",
+    "color": "white",
+    "name": { "str": "canvas patch", "str_pl": "canvas patches" },
+    "description": "A small, 6 inch square patch of tough canvas.  It could be used to repair items made of canvas or stitched into patchwork sheets for tailoring projects.",
+    "price": 400,
+    "price_postapoc": 12,
+    "//": "Roughly 400-450 GSM cotton, with a size of 6 inches square",
+    "material": [ "canvas" ],
+    "flags": [ "NO_SALVAGE" ],
+    "weight": "11 g",
+    "volume": "13 ml",
+    "category": "spare_parts"
+  },
+  {
+    "id": "sheet_canvas_patchwork",
+    "type": "GENERIC",
+    "category": "spare_parts",
+    "name": { "str": "patchwork canvas sheet" },
+    "description": "A selection of various sections of canvas, sewn together in a patchwork fashion.  Suitable for tailoring, though it's much less time-efficient than if using proper material sheets.",
+    "weight": "80 g",
+    "volume": "95 ml",
+    "price_postapoc": 50,
+    "material": [ "canvas" ],
+    "symbol": "=",
+    "color": "dark_gray"
+  }
 ]
