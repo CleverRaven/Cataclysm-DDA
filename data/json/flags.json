@@ -284,7 +284,7 @@
     "id": "HELMET_MANDIBLE_GUARD",
     "type": "json_flag",
     "info": "This item is attachable as a mandible guard in military <info>helmets</info> or headgear specifically adapted with rails for attachments.",
-    "restriction": "Item must be some kind of mandible guard"
+    "restriction": "Item must be some kind of rail-mounted mandible guard"
   },
   {
     "id": "HELMET_MANDIBLE_GUARD_STRAPPED",
