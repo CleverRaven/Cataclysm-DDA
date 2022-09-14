@@ -97,22 +97,6 @@
   },
   {
     "type": "GENERIC",
-    "id": "chair_swivel",
-    "name": { "str": "swivel chair" },
-    "description": "A plastic swivel chair with a leather seat.  Not that bad for sleep all things considered.  A bed would still be better, though.",
-    "symbol": "#",
-    "color": "light_gray",
-    "price": 7500,
-    "price_postapoc": 2000,
-    "longest_side": "100 cm",
-    "volume": "120 L",
-    "weight": "31750 g",
-    "material": [ { "type": "plastic", "portion": 80 }, { "type": "leather" } ],
-    "to_hit": -1,
-    "bashing": 4
-  },
-  {
-    "type": "GENERIC",
     "id": "chair_wood_black",
     "name": { "str": "black wooden chair" },
     "description": "A simple wooden chair, with four legs, a seat, and a back.  It's nice to rest your feet for once, and if coupled with a suitable table, you could eat a meal properly and almost pretend that things were normal again.  This particular chair was painted black.",
