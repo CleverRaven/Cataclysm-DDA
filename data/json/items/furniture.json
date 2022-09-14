@@ -101,7 +101,7 @@
     "name": { "str": "black wooden chair" },
     "description": "A simple wooden chair, with four legs, a seat, and a back.  It's nice to rest your feet for once, and if coupled with a suitable table, you could eat a meal properly and almost pretend that things were normal again.  This particular chair was painted black.",
     "copy-from": "chair_wood",
-    "color": "black"
+    "color": "light_gray"
   },
   {
     "type": "GENERIC",
