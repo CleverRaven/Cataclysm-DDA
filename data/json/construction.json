@@ -5936,7 +5936,7 @@
   {
     "type": "construction",
     "id": "constr_place_chair_wood_black",
-    "group": "build_chair",
+    "group": "place_chair_wood_black",
     "category": "FURN",
     "required_skills": [ [ "fabrication", 0 ] ],
     "time": "15 s",
@@ -5948,7 +5948,7 @@
   {
     "type": "construction",
     "id": "constr_place_chair_wood_white",
-    "group": "build_chair",
+    "group": "place_chair_wood_white",
     "category": "FURN",
     "required_skills": [ [ "fabrication", 0 ] ],
     "time": "15 s",
