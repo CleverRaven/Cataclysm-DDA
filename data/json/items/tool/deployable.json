@@ -113,6 +113,23 @@
     "use_action": { "type": "deploy_furn", "furn_type": "f_deckchair" }
   },
   {
+    "id": "chair_folding",
+    "type": "TOOL",
+    "name": { "str": "folding chair" },
+    "description": "Folded plastic chair on a metal frame, deploy to sit down.",
+    "weight": "2900 g",
+    "volume": "5 L",
+    "longest_side": "88 cm",
+    "price": 2350,
+    "price_postapoc": 100,
+    "to_hit": -4,
+    "bashing": 2,
+    "material": [ { "type": "plastic", "portion": 60 }, { "type": "steel" } ],
+    "symbol": "#",
+    "color": "light_gray",
+    "use_action": { "type": "deploy_furn", "furn_type": "f_chair_folding" }
+  },
+  {
     "id": "xedra_antenna",
     "type": "TOOL",
     "name": { "str": "deployable antenna" },
