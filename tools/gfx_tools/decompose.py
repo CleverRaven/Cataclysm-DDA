@@ -16,6 +16,9 @@ import subprocess
 import sys
 
 try:
+    vips_path = os.getenv("LIBVIPS_PATH")
+    if vips_path is not None and vips_path != "":
+        os.environ["PATH"] += ";" + os.path.join(vips_path, "bin")
     import pyvips
     Vips = pyvips
 except ImportError:

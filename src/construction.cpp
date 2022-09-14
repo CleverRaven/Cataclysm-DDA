@@ -953,26 +953,25 @@ bool can_construct_furn_ter( const construction &con, furn_id const &f, ter_id c
 
 bool can_construct( const construction &con, const tripoint_bub_ms &p )
 {
-    // see if the special pre-function checks out
-    bool place_okay = con.pre_special( p );
-    // see if the terrain type checks out
-    place_okay &= has_pre_terrain( con, p );
-    // see if the flags check out
-    map &here = get_map();
-    furn_id f = here.furn( p );
-    ter_id t = here.ter( p );
-    place_okay &= can_construct_furn_ter( con, f, t );
+    const map &here = get_map();
+    const furn_id f = here.furn( p );
+    const ter_id t = here.ter( p );
+
+    if( !con.pre_special( p ) ||                 // pre-function
+        !has_pre_terrain( con, p ) ||            // terrain type
+        !can_construct_furn_ter( con, f, t ) ) { // flags
+        return false;
+    }
+
     // make sure the construction would actually do something
     if( !con.post_terrain.empty() ) {
         if( con.post_is_furniture ) {
-            furn_id f = furn_id( con.post_terrain );
-            place_okay &= here.furn( p ) != f;
+            return f != furn_id( con.post_terrain );
         } else {
-            ter_id t = ter_id( con.post_terrain );
-            place_okay &= here.ter( p ) != t;
+            return t != ter_id( con.post_terrain );
         }
     }
-    return place_okay;
+    return true;
 }
 
 bool can_construct( const construction &con )
@@ -2044,19 +2043,22 @@ void load_construction( const JsonObject &jo )
             { "do_turn_exhume", construct::do_turn_exhume },
         }
     };
-    std::map<std::string, void( * )( const tripoint_bub_ms & )> explain_fail_map;
-    if( jo.has_string( "pre_special" ) &&
-        jo.get_string( "pre_special" )  == std::string( "check_deconstruct" ) ) {
-        explain_fail_map[""] = construct::failure_deconstruct;
-    } else {
-        explain_fail_map[""] = construct::failure_standard;
-    }
+    static const std::map<std::string, void( * )( const tripoint_bub_ms & )>
+    explain_fail_map = {{
+            { "standard", construct::failure_standard },
+            { "deconstruct", construct::failure_deconstruct },
+        }
+    };
+
+    const std::string failure_fallback = jo.get_string( "pre_special", "" ) == "check_deconstruct"
+                                         ? "deconstruct" : "standard";
 
     assign_or_debugmsg( con.pre_special, jo.get_string( "pre_special", "" ), pre_special_map );
     assign_or_debugmsg( con.post_special, jo.get_string( "post_special", "" ), post_special_map );
     assign_or_debugmsg( con.do_turn_special, jo.get_string( "do_turn_special", "" ),
                         do_turn_special_map );
-    assign_or_debugmsg( con.explain_failure, jo.get_string( "explain_failure", "" ), explain_fail_map );
+    assign_or_debugmsg( con.explain_failure, jo.get_string( "explain_failure", failure_fallback ),
+                        explain_fail_map );
     con.vehicle_start = jo.get_bool( "vehicle_start", false );
 
     con.on_display = jo.get_bool( "on_display", true );

@@ -1405,7 +1405,8 @@
   {
     "id": "IS_UPS",
     "type": "json_flag",
-    "info": "This item provides power to <info>UPS compatible items</info>."
+    "info": "This item provides power to <info>UPS compatible items</info>.",
+    "inherit": false
   },
   {
     "id": "LEAK_DAM",
@@ -1529,7 +1530,8 @@
   },
   {
     "id": "NO_UNLOAD",
-    "type": "json_flag"
+    "type": "json_flag",
+    "inherit": false
   },
   {
     "id": "NO_UNWIELD",

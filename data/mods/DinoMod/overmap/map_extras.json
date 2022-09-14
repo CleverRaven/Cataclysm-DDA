@@ -243,6 +243,17 @@
     "flags": [ "CLASSIC" ]
   },
   {
+    "id": "mx_nest_gargoyleosaurus",
+    "type": "map_extra",
+    "name": { "str": "gargoyleosaurus nest" },
+    "description": "A gargoyleosaurus nest.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_nest_gargoyleosaurus" },
+    "sym": "D",
+    "color": "light_green",
+    "autonote": true,
+    "flags": [ "CLASSIC" ]
+  },
+  {
     "id": "mx_nest_gorgosaurus",
     "type": "map_extra",
     "name": { "str": "gorgosaurus nest" },
@@ -419,6 +430,17 @@
     "flags": [ "CLASSIC" ]
   },
   {
+    "id": "mx_nest_sauropelta",
+    "type": "map_extra",
+    "name": { "str": "sauropelta nest" },
+    "description": "A sauropelta nest.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_nest_sauropelta" },
+    "sym": "D",
+    "color": "light_green",
+    "autonote": true,
+    "flags": [ "CLASSIC" ]
+  },
+  {
     "id": "mx_nest_saurornitholestes",
     "type": "map_extra",
     "name": { "str": "saurornitholestes nest" },
@@ -578,6 +600,17 @@
     "name": { "str": "zuniceratops nest" },
     "description": "A zuniceratops nest.",
     "generator": { "generator_method": "update_mapgen", "generator_id": "mx_nest_zuniceratops" },
+    "sym": "D",
+    "color": "light_green",
+    "autonote": true,
+    "flags": [ "CLASSIC" ]
+  },
+  {
+    "id": "mx_nest_zuul",
+    "type": "map_extra",
+    "name": { "str": "zuul nest" },
+    "description": "A zuul nest.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_nest_zuul" },
     "sym": "D",
     "color": "light_green",
     "autonote": true,

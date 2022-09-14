@@ -4009,5 +4009,170 @@
       "stock_mount",
       "underbarrel_mount"
     ]
+  },
+  {
+    "id": "nested_arming_sword",
+    "type": "nested_category",
+    "activity_level": "fake",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_CUTTING",
+    "name": "arming swords",
+    "description": "Recipes for making arming swords.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "lc_arming_sword", "mc_arming_sword", "hc_arming_sword", "ch_arming_sword", "qt_arming_sword" ]
+  },
+  {
+    "id": "nested_broadsword",
+    "type": "nested_category",
+    "activity_level": "fake",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_CUTTING",
+    "name": "broadswords",
+    "description": "Recipes for making broadswords.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "lc_broadsword", "mc_broadsword", "hc_broadsword", "ch_broadsword", "qt_broadsword" ]
+  },
+  {
+    "id": "nested_cavalry_sabre",
+    "type": "nested_category",
+    "activity_level": "fake",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_CUTTING",
+    "name": "cavalry sabres",
+    "description": "Recipes for making cavalry sabres.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "lc_cavalry_sabre", "mc_cavalry_sabre", "hc_cavalry_sabre", "ch_cavalry_sabre", "qt_cavalry_sabre" ]
+  },
+  {
+    "id": "nested_cutlass",
+    "type": "nested_category",
+    "activity_level": "fake",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_CUTTING",
+    "name": "cutlasses",
+    "description": "Recipes for making cutlasses.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "lc_cutlass", "mc_cutlass", "hc_cutlass", "ch_cutlass", "qt_cutlass" ]
+  },
+  {
+    "id": "nested_estoc",
+    "type": "nested_category",
+    "activity_level": "fake",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_CUTTING",
+    "name": "estocs",
+    "description": "Recipes for making estocs.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "lc_estoc", "mc_estoc", "hc_estoc", "ch_estoc", "qt_estoc" ]
+  },
+  {
+    "id": "nested_falx",
+    "type": "nested_category",
+    "activity_level": "fake",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_CUTTING",
+    "name": "falxes",
+    "description": "Recipes for making falxes.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "lc_falx", "mc_falx", "hc_falx", "ch_falx", "qt_falx" ]
+  },
+  {
+    "id": "nested_jian",
+    "type": "nested_category",
+    "activity_level": "fake",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_CUTTING",
+    "name": "jians",
+    "description": "Recipes for making jians.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "lc_jian", "mc_jian", "hc_jian", "ch_jian", "qt_jian" ]
+  },
+  {
+    "id": "nested_katana",
+    "type": "nested_category",
+    "activity_level": "fake",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_CUTTING",
+    "name": "katanas",
+    "description": "Recipes for making katanas.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "lc_katana", "mc_katana", "hc_katana", "ch_katana", "qt_katana" ]
+  },
+  {
+    "id": "nested_kriegsmesser",
+    "type": "nested_category",
+    "activity_level": "fake",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_CUTTING",
+    "name": "kriegsmessers",
+    "description": "Recipes for making kriegsmessers.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "lc_kriegsmesser", "mc_kriegsmesser", "hc_kriegsmesser", "ch_kriegsmesser", "qt_kriegsmesser" ]
+  },
+  {
+    "id": "nested_longsword",
+    "type": "nested_category",
+    "activity_level": "fake",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_CUTTING",
+    "name": "longswords",
+    "description": "Recipes for making longswords.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "lc_longsword", "mc_longsword", "hc_longsword", "ch_longsword", "qt_longsword" ]
+  },
+  {
+    "id": "nested_nodachi",
+    "type": "nested_category",
+    "activity_level": "fake",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_CUTTING",
+    "name": "nodachis",
+    "description": "Recipes for making nodachis.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "lc_nodachi", "mc_nodachi", "hc_nodachi", "ch_nodachi", "qt_nodachi" ]
+  },
+  {
+    "id": "nested_rapier",
+    "type": "nested_category",
+    "activity_level": "fake",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_CUTTING",
+    "name": "rapiers",
+    "description": "Recipes for making rapiers.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "lc_rapier", "mc_rapier", "hc_rapier", "ch_rapier", "qt_rapier" ]
+  },
+  {
+    "id": "nested_scimitar",
+    "type": "nested_category",
+    "activity_level": "fake",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_CUTTING",
+    "name": "scimitars",
+    "description": "Recipes for making scimitars.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "lc_scimitar", "mc_scimitar", "hc_scimitar", "ch_scimitar", "qt_scimitar" ]
+  },
+  {
+    "id": "nested_wakizashi",
+    "type": "nested_category",
+    "activity_level": "fake",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_CUTTING",
+    "name": "wakizashis",
+    "description": "Recipes for making wakizashis.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "lc_wakizashi", "mc_wakizashi", "hc_wakizashi", "ch_wakizashi", "qt_wakizashi" ]
+  },
+  {
+    "id": "nested_zweihander",
+    "type": "nested_category",
+    "activity_level": "fake",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_CUTTING",
+    "name": "zweihänders",
+    "description": "Recipes for making zweihänders.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "lc_zweihander", "mc_zweihander", "hc_zweihander", "ch_zweihander", "qt_zweihander" ]
   }
 ]

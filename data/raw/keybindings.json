@@ -1319,6 +1319,12 @@
   },
   {
     "type": "keybinding",
+    "id": "CLICK_AND_DRAG",
+    "name": "Click and drag with mouse",
+    "bindings": [ { "input_method": "mouse", "key": "MOUSE_LEFT_PRESSED" } ]
+  },
+  {
+    "type": "keybinding",
     "id": "SEC_SELECT",
     "name": "Secondary select",
     "bindings": [ { "input_method": "mouse", "key": "MOUSE_RIGHT" } ]
@@ -1327,7 +1333,7 @@
     "type": "keybinding",
     "id": "MOUSE_MOVE",
     "name": "Mouse move",
-    "bindings": [ { "input_method": "mouse", "key": "MOUSE_MOVE" }, { "input_method": "mouse", "key": "MOUSE_LEFT_PRESSED" } ]
+    "bindings": [ { "input_method": "mouse", "key": "MOUSE_MOVE" } ]
   },
   {
     "type": "keybinding",

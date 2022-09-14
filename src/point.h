@@ -90,6 +90,9 @@ struct point {
      * NOLINTNEXTLINE(cata-use-named-point-constants) */
     point rotate( int turns, const point &dim = { 1, 1 } ) const;
 
+    float distance( const point &rhs ) const;
+    int distance_manhattan( const point &rhs ) const;
+
     std::string to_string() const;
     std::string to_string_writable() const;
 

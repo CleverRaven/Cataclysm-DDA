@@ -116,7 +116,7 @@
     "looks_like": "ar15",
     "type": "GUN",
     "name": { "str_sp": "M1A" },
-    "description": "The child of the M1 Garand World War 2 rifle, the M1A is a semi-automatic variant of the M14, favored for its accuracy and modular use.",
+    "description": "The child of the M1 Garand World War II rifle, the M1A is a semi-automatic variant of the M14, favored for its accuracy and modular use.",
     "weight": "4230 g",
     "volume": "3970 ml",
     "longest_side": "1126 mm",
@@ -236,7 +236,7 @@
     "type": "GUN",
     "copy-from": "m60",
     "name": { "str": "M60 Semi Auto" },
-    "description": "This is a semi-automatic civilian variant of the M60 machine gun, retaining the ability to be belt fed, an uncommon feature in civilian firearms.",
+    "description": "A semi-automatic civilian variant of the M60 machine gun, retaining the ability to be belt fed, an uncommon feature in civilian firearms.",
     "modes": [ [ "DEFAULT", "semi-auto", 1 ] ]
   },
   {

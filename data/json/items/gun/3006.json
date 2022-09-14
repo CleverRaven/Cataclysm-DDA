@@ -88,7 +88,7 @@
     "looks_like": "ar15",
     "type": "GUN",
     "name": { "str": "M1903 Springfield" },
-    "description": "A powerful military rifle chambered in .30-06, developed to replace the US Army's older Krag rifle.  Served as the main American rifle in World War I, was used alongside the M1 Garand in World War II, and was used as a sniper rifle as late as the Vietnam War.",
+    "description": "A powerful military rifle chambered in .30-06, developed to replace the US Army's older Krag rifle.  It served as the main American rifle in World War I, was used alongside the M1 Garand in World War II, and was used as a sniper rifle as late as the Vietnam War.",
     "weight": "3910 g",
     "volume": "2840 ml",
     "longest_side": "1102 mm",

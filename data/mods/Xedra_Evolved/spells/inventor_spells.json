@@ -23,7 +23,7 @@
     "difficulty": 5,
     "max_level": 20,
     "flags": [ "SOMATIC", "CONCENTRATE" ],
-    "learn_spells": { "summon_ray_gun": 20, "summon_ray_gun_schematics": 20 },
+    "learn_spells": { "summon_ray_gun_schematics": 20 },
     "spell_class": "INVENTOR",
     "energy_source": "MANA"
   },
@@ -51,7 +51,7 @@
     "difficulty": 6,
     "max_level": 20,
     "flags": [ "SOMATIC", "CONCENTRATE" ],
-    "learn_spells": { "summon_ray_gun_schematics": 20 },
+    "learn_spells": { "summon_death_ray": 20 },
     "spell_class": "INVENTOR",
     "energy_source": "MANA"
   },
@@ -65,7 +65,7 @@
     "min_damage": 1,
     "max_damage": 1,
     "effect": "spawn_item",
-    "effect_str": "ray_gun",
+    "effect_str": "ray_weapon_diagrams",
     "shape": "blast",
     "base_casting_time": 1800000,
     "base_energy_cost": 1850,
