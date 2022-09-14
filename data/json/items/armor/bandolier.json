@@ -159,7 +159,7 @@
     "volume": "250 ml",
     "price": 2900,
     "price_postapoc": 500,
-    "material": [ "cotton" ],
+    "material": [ "canvas" ],
     "symbol": "[",
     "looks_like": "leather_belt",
     "color": "dark_gray",
