@@ -701,6 +701,7 @@ The following is a list of possible `values`:
 | `EXTRA_ELEC` | 
 | `EXTRA_HEAT` | 
 | `EXTRA_STAB` | 
+| `EXTRA_ELEC_PAIN` | Multiplier on electric damage received, the result is applied as extra pain.
 | `FATIGUE` | 
 | `FOOTSTEP_NOISE` | 
 | `HUNGER` | 
@@ -718,6 +719,7 @@ The following is a list of possible `values`:
 | `PAIN` | 
 | `SHOUT_NOISE` | 
 | `SIGHT_RANGE` | 
+| `SIGHT_RANGE_ELECTRIC` | How many tiles away is_electric() creatures are visible from
 | `SKILL_RUST_RESIST` | Chance / 100 to resist skill rust.
 | `SLEEPY` | The higher this the easier you fall asleep.
 | `SOCIAL_INTIMIDATE` | 

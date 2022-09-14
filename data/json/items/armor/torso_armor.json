@@ -570,6 +570,78 @@
     "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
+    "id": "cloth_shirt_padded",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "cloth-padded shirt" },
+    "description": "A thick cotton sweatshirt that an amateur tailor sewed ever-increasing amounts of cloth onto, providing noticeable, if haphazard padding.",
+    "weight": "1000 g",
+    "volume": "3500 ml",
+    "price_postapoc": 200,
+    "to_hit": -2,
+    "material": [ "cotton" ],
+    "symbol": "[",
+    "looks_like": "sweatshirt",
+    "color": "light_gray",
+    "armor": [
+      {
+        "material": [
+          { "type": "cotton", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "cotton", "covered_by_mat": 90, "thickness": 1.0 },
+          { "type": "cotton", "covered_by_mat": 90, "thickness": 1.0 }
+        ],
+        "covers": [ "torso" ],
+        "coverage": 100,
+        "encumbrance": 8
+      },
+      {
+        "material": [
+          { "type": "cotton", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "cotton", "covered_by_mat": 90, "thickness": 1.0 },
+          { "type": "cotton", "covered_by_mat": 90, "thickness": 1.0 }
+        ],
+        "covers": [ "arm_l", "arm_r" ],
+        "coverage": 100,
+        "encumbrance": 8
+      }
+    ],
+    "warmth": 35,
+    "material_thickness": 3,
+    "environmental_protection": 2,
+    "flags": [ "VARSIZE" ]
+  },
+  {
+    "id": "cloth_vest_padded",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "cloth-padded sleeveless shirt" },
+    "description": "A thick cotton shirt with the sleeves cut off and large amounts of cloth sewn in to make a padded vest.  It would be fashionable, if not for all the disparate colors from the patchwork cotton cannibalized from other random clothes.",
+    "weight": "600 g",
+    "volume": "2000 ml",
+    "price_postapoc": 100,
+    "to_hit": -2,
+    "material": [ "cotton" ],
+    "symbol": "[",
+    "looks_like": "tank_top",
+    "color": "light_gray",
+    "armor": [
+      {
+        "material": [
+          { "type": "cotton", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "cotton", "covered_by_mat": 90, "thickness": 1.0 },
+          { "type": "cotton", "covered_by_mat": 90, "thickness": 1.0 }
+        ],
+        "covers": [ "torso" ],
+        "coverage": 100,
+        "encumbrance": 8
+      }
+    ],
+    "warmth": 35,
+    "material_thickness": 3,
+    "environmental_protection": 2,
+    "flags": [ "VARSIZE" ]
+  },
+  {
     "id": "chestguard_hard",
     "repairs_like": "armor_larmor",
     "type": "ARMOR",
@@ -1666,5 +1738,84 @@
     "copy-from": "armor_qt_heavy_chestplate",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "survivor_adhoc_leather_shirt",
+    "repairs_like": "longshirt",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "leather-padded shirt" },
+    "description": "Armor made of combined pre-Cataclysm clothing.  Sections from leather clothing are tightened and affixed to a thick cotton shirt, excluding the joints.",
+    "weight": "2000 g",
+    "volume": "2500 ml",
+    "price_postapoc": 3500,
+    "to_hit": -2,
+    "material": [ "cotton", "leather" ],
+    "symbol": "[",
+    "looks_like": "sweatshirt",
+    "color": "light_red",
+    "armor": [
+      {
+        "material": [
+          { "type": "cotton", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "leather", "covered_by_mat": 90, "thickness": 1.5 }
+        ],
+        "covers": [ "torso" ],
+        "coverage": 100,
+        "encumbrance": 8
+      },
+      {
+        "material": [ { "type": "cotton", "covered_by_mat": 100, "thickness": 1.0 } ],
+        "covers": [ "arm_l", "arm_r" ],
+        "specifically_covers": [ "arm_elbow_l", "arm_elbow_r", "arm_shoulder_l", "arm_shoulder_r" ],
+        "coverage": 100,
+        "encumbrance": 0
+      },
+      {
+        "material": [
+          { "type": "cotton", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "leather", "covered_by_mat": 95, "thickness": 1.5 }
+        ],
+        "covers": [ "arm_l", "arm_r" ],
+        "specifically_covers": [ "arm_upper_l", "arm_lower_l", "arm_upper_r", "arm_lower_r" ],
+        "coverage": 100,
+        "encumbrance": 8
+      }
+    ],
+    "warmth": 35,
+    "material_thickness": 2.5,
+    "environmental_protection": 2,
+    "flags": [ "VARSIZE", "WATER_FRIENDLY" ]
+  },
+  {
+    "id": "survivor_adhoc_leather_torso",
+    "repairs_like": "longshirt",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "leather-padded sleeveless shirt" },
+    "description": "Armor made of combined pre-Cataclysm clothing.  Sections from leather clothing are tightened and affixed to a thick cotton shirt.  The sleeves have been cut off.",
+    "weight": "1500 g",
+    "volume": "2000 ml",
+    "price_postapoc": 2000,
+    "to_hit": -2,
+    "material": [ "cotton", "leather" ],
+    "symbol": "[",
+    "looks_like": "sleeveless_tunic",
+    "color": "light_red",
+    "armor": [
+      {
+        "material": [
+          { "type": "cotton", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "leather", "covered_by_mat": 90, "thickness": 1.5 }
+        ],
+        "covers": [ "torso" ],
+        "coverage": 100,
+        "encumbrance": 8
+      }
+    ],
+    "warmth": 35,
+    "material_thickness": 2.5,
+    "environmental_protection": 2,
+    "flags": [ "VARSIZE", "WATER_FRIENDLY" ]
   }
 ]

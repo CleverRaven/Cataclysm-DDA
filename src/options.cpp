@@ -2539,10 +2539,25 @@ void options_manager::add_options_debug()
          0, OVERMAP_LAYERS, 4
        );
 
+    add_empty_line();
+
     add( "RETRACT_ISO_WALLS", "debug", to_translation( "Draw walls retracted in ISO tile-sets" ),
-         to_translation( "If true, will draw ISO wall tiles retracted/lowered." ),
-         false
+    to_translation( "Draw walls normal, retracted, or automatically retracting near player." ), {
+        { 0, to_translation( "Normal" ) }, { 1, to_translation( "Retracted" ) },
+        { 2, to_translation( "Auto" ) }
+    }, 0, 0
        );
+
+    add( "RETRACT_DIST_MIN", "debug", to_translation( "Minimum distance for auto-retracting walls" ),
+         to_translation( "Minimum distance for auto-retracting walls.  Values above zero overwrite tileset settings." ),
+         0.0, 60.0, 0.0, 0.1
+       );
+
+    add( "RETRACT_DIST_MAX", "debug", to_translation( "Maximum distance for auto-retracting walls" ),
+         to_translation( "Maximum distance for auto-retracting walls.  Values above zero overwrite tileset settings." ),
+         0.0, 60.0, 0.0, 0.1
+       );
+
 
     get_option( "FOV_3D_Z_RANGE" ).setPrerequisite( "FOV_3D" );
 }
@@ -3532,7 +3547,11 @@ static void update_options_cache()
     // cache to global due to heavy usage.
     trigdist = ::get_option<bool>( "CIRCLEDIST" );
     use_tiles = ::get_option<bool>( "USE_TILES" );
-    tile_retracted = ::get_option<bool>( "RETRACT_ISO_WALLS" );
+
+    tile_retracted = ::get_option<int>( "RETRACT_ISO_WALLS" );
+    tile_retract_dist_min = ::get_option<float>( "RETRACT_DIST_MIN" );
+    tile_retract_dist_max = ::get_option<float>( "RETRACT_DIST_MAX" );
+
     // if the tilesets are identical don't duplicate
     use_far_tiles = ::get_option<bool>( "USE_DISTANT_TILES" ) ||
                     get_option<std::string>( "TILES" ) == get_option<std::string>( "DISTANT_TILES" );

@@ -460,6 +460,18 @@
   },
   {
     "type": "item_group",
+    "id": "yrax_scrap",
+    "items": [
+      [ "yrax_sensor", 5 ],
+      [ "yrax_robotics", 20 ],
+      [ "yrax_computer", 5 ],
+      [ "yrax_scrap", 40 ],
+      [ "yrax_metal", 40 ],
+      [ "yrax_electronics", 20 ]
+    ]
+  },
+  {
+    "type": "item_group",
     "id": "dissection",
     "items": [
       { "group": "supplies_reagents_lab", "prob": 20 },
