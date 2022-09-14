@@ -27,7 +27,7 @@
   {
     "type": "talk_topic",
     "id": "COMP_TRAIN_DATA_DOWNLOAD",
-    "dynamic_line": "Transfer complete.",
+    "dynamic_line": "TRANSFER COMPLETE.",
     "responses": [
       {
         "text": "Power off.",
