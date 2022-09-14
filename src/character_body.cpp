@@ -738,6 +738,8 @@ void Character::update_bodytemp()
         // Note: Numbers are based off of BODYTEMP at the top of weather.h
         // If torso is BODYTEMP_COLD which is 34C, the early stages of hypothermia begin
         // constant shivering will prevent the player from falling asleep.
+        // Lowering this threshold to BODYTEMP_VERY_COLD because currently temp_cur is added up
+        // by numbers that are in different unit.
         // Otherwise, if any other body part is BODYTEMP_VERY_COLD, or 31C
         // AND you have frostbite, then that also prevents you from sleeping
         if( in_sleep_state() && !has_effect( effect_narcosis ) ) {
