@@ -2529,7 +2529,39 @@
     "activity_level": "NO_EXERCISE",
     "time": "1 m",
     "qualities": [ { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "thread", 10 ] ] ]
+    "components": [ [ [ "thread", 2 ] ] ]
+  },
+  {
+    "result": "sheet_canvas_patchwork",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "time": "10 s",
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "canvas_patchwork", 8 ] ] ]
+  },
+  {
+    "result": "sheet_canvas",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "time": "30 s",
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "canvas_patchwork", 8 ] ] ]
+  },
+  {
+    "result": "canvas_patch",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "time": "1 m",
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "scrap_canvas", 4 ] ] ]
+  },
+  {
+    "result": "scrap_canvas",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "time": "1 m",
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "thread_canvas", 2 ] ] ]
   },
   {
     "result": "sheet_neoprene_patchwork",
