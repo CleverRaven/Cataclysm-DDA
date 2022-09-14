@@ -1347,7 +1347,7 @@
     "time": "3 h",
     "book_learn": [ [ "textbook_armwest", 6 ], [ "welding_book", 6 ] ],
     "using": [ [ "carbon", 2 ] ],
-    "components": [ [ "mitten_gaunt_metal_sheets", 1 ] ],
+    "components": [ [ [ "mitten_gaunt_metal_sheets", 1 ] ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing" },
