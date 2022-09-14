@@ -1780,24 +1780,21 @@ bool scrollbar::handle_dragging( const std::string &action, const cata::optional
     if( ( action != "MOUSE_MOVE" && action != "CLICK_AND_DRAG" ) && dragging ) {
         // Stopped dragging the scrollbar
         dragging = false;
-        if( action == "SELECT" ) {
-            // We don't want to accidentally select something on mouse-up after dragging the scrollbar, so tell
-            // the UI that we've handled it
-            return true;
-        } else {
-            // The user is doing something else while dragging the scrollbar, don't get in their way
-            return false;
-        }
+
+        // We don't want to accidentally select something on mouse-up after dragging the scrollbar, so if
+        // there's a mouse-up event, tell the UI that we've handled it
+        return action == "SELECT";
     } else  if( action == "CLICK_AND_DRAG" && coord.has_value() &&
                 scrollbar_area.contains( coord.value() ) ) {
         // Started dragging the scrollbar
         dragging = true;
         return true;
     } else if( action == "MOUSE_MOVE" && coord.has_value() && dragging ) {
-        // Currently dragging the scrollbar
-        int y_position = ( coord->y - scrollbar_area.p_min.y ) * ( content_size_v ) /
-                         scrollbar_area.p_max.y;
-        viewport_pos_v = clamp( y_position, 0, ( content_size_v - viewport_size_v ) );
+        // Currently dragging the scrollbar.  Clamp cursor position to scrollbar area, then interpolate
+        int clamped_cursor_pos = clamp( coord->y - scrollbar_area.p_min.y, 0,
+                                        scrollbar_area.p_max.y - scrollbar_area.p_min.y - 1 );
+        viewport_pos_v = clamped_cursor_pos * ( content_size_v - viewport_size_v ) /
+                         ( scrollbar_area.p_max.y - scrollbar_area.p_min.y - 1 );
         position = viewport_pos_v;
 #if !defined(TILES)
         // Tiles builds seem to trigger "SELECT" on mouse button-up (clearing "dragging") but curses does not
