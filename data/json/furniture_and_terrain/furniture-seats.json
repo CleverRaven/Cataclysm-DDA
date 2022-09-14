@@ -438,19 +438,53 @@
     "id": "f_chair_black",
     "name": "black wooden chair",
     "symbol": "#",
-    "copy-from": "f_chair",
-    "description": "A simple wooden chair, with four legs, a seat, and a back.  It's nice to rest your feet for once, and if coupled with a suitable table, you could eat a meal properly and almost pretend that things were normal again.  This particular chair is painted black.",
+    "description": "A simple wooden chair, with four legs, a seat, and a back.  It's nice to rest your feet for once, and if coupled with a suitable table, you could eat a meal properly and almost pretend that things were normal again.  This particular chair was painted black.",
     "color": "light_gray",
-    "deconstruct": { "items": [ { "item": "chair_wood_black", "count": 1 } ] }
+    "move_cost_mod": 1,
+    "coverage": 40,
+    "comfort": 1,
+    "floor_bedding_warmth": -1500,
+    "bonus_fire_warmth_feet": 1000,
+    "required_str": 4,
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE", "CAN_SIT", "EASY_DECONSTRUCT", "ALIGN_WORKBENCH" ],
+    "deconstruct": { "items": [ { "item": "chair_wood_black", "count": 1 } ] },
+    "bash": {
+      "str_min": 6,
+      "str_max": 25,
+      "sound": "smash!",
+      "sound_fail": "whump.",
+      "items": [
+        { "item": "wooden_post_short", "count": 1 },
+        { "item": "nuts_bolts", "charges": [ 2, 10 ] },
+        { "item": "splinter", "count": [ 1, 10 ] }
+      ]
+    }
   },
   {
     "type": "furniture",
     "id": "f_chair_white",
     "name": "white wooden chair",
     "symbol": "#",
-    "copy-from": "f_chair",
-    "description": "A simple wooden chair, with four legs, a seat, and a back.  It's nice to rest your feet for once, and if coupled with a suitable table, you could eat a meal properly and almost pretend that things were normal again.  This particular chair is painted white.",
+    "description": "A simple wooden chair, with four legs, a seat, and a back.  It's nice to rest your feet for once, and if coupled with a suitable table, you could eat a meal properly and almost pretend that things were normal again.  This particular chair was painted white.",
     "color": "white",
-    "deconstruct": { "items": [ { "item": "chair_wood_white", "count": 1 } ] }
+    "move_cost_mod": 1,
+    "coverage": 40,
+    "comfort": 1,
+    "floor_bedding_warmth": -1500,
+    "bonus_fire_warmth_feet": 1000,
+    "required_str": 4,
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE", "CAN_SIT", "EASY_DECONSTRUCT", "ALIGN_WORKBENCH" ],
+    "deconstruct": { "items": [ { "item": "chair_wood_white", "count": 1 } ] },
+    "bash": {
+      "str_min": 6,
+      "str_max": 25,
+      "sound": "smash!",
+      "sound_fail": "whump.",
+      "items": [
+        { "item": "wooden_post_short", "count": 1 },
+        { "item": "nuts_bolts", "charges": [ 2, 10 ] },
+        { "item": "splinter", "count": [ 1, 10 ] }
+      ]
+    }
   }
 ]
