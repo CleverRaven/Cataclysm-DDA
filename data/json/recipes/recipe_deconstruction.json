@@ -6889,5 +6889,13 @@
     "time": "45 m",
     "qualities": [ { "id": "CUT_FINE", "level": 1 }, { "id": "SAW_M", "level": 2 } ],
     "components": [ [ [ "leather", 6 ] ], [ [ "steel_chunk", 29 ] ], [ [ "scrap", 2 ] ] ]
+  },
+  {
+    "result": "chair_folding",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "30 m",
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "SAW_M", "level": 2 } ],
+    "components": [ [ [ "plastic_chunk", 20 ] ], [ [ "scrap", 38 ] ] ]
   }
 ]
