@@ -1431,7 +1431,9 @@ int outfit::sum_filthy_cover( bool ranged, bool melee, bodypart_id bp ) const
 void outfit::inv_dump( std::vector<item *> &ret )
 {
     for( item &i : worn ) {
-        ret.push_back( &i );
+        if( !i.has_flag( flag_INTEGRATED ) ) {
+            ret.push_back( &i );
+        }
     }
 }
 
