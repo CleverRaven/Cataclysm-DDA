@@ -19,6 +19,6 @@
     "id": "ICE_ELEMENTAL",
     "condition": "ALWAYS",
     "values": [ { "value": "ARMOR_COLD", "multiply": -0.4 } ],
-    "hit_you_effect": [ { "id": "ICE_ELEMENTAL_COLD_DAMAGE" } ]
+    "hit_you_effect": [ { "id": "ICE_ELEMENTAL_COLD_DAMAGE" }, { "value": "ITEM_DAMAGE_COLD", "add": 9 } ]
   }
 ]
