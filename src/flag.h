@@ -216,6 +216,7 @@ extern const flag_id flag_NO_REPAIR;
 extern const flag_id flag_NO_SALVAGE;
 extern const flag_id flag_NO_STERILE;
 extern const flag_id flag_NO_TAKEOFF;
+extern const flag_id flag_NO_TURRET;
 extern const flag_id flag_NO_UNLOAD;
 extern const flag_id flag_NO_UNWIELD;
 extern const flag_id flag_NO_WEAR_EFFECT;
