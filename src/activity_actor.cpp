@@ -1163,6 +1163,13 @@ std::unique_ptr<activity_actor> hacksaw_activity_actor::deserialize( JsonValue &
     return actor.clone();
 }
 
+static std::string enumerate_ints_to_string( const std::vector<int> &vec )
+{
+    return enumerate_as_string( vec, []( const int &it ) {
+        return std::to_string( it );
+    } );
+}
+
 bikerack_racking_activity_actor::bikerack_racking_activity_actor( const vehicle &parent_vehicle,
         const vehicle &racked_vehicle, const std::vector<int> &racks )
     : racks( racks )
@@ -1199,7 +1206,8 @@ void bikerack_racking_activity_actor::finish( player_activity &act, Character & 
     vehicle &racked_veh = ovp_racked->vehicle();
 
     if( !parent_veh.merge_rackable_vehicle( &racked_veh, racks ) ) {
-        debugmsg( "racking actor failed: failed racking %s on %s.", racked_veh.name, parent_veh.name );
+        debugmsg( "racking actor failed: failed racking %s on %s, racks: [%s].",
+                  racked_veh.name, parent_veh.name, enumerate_ints_to_string( racks ) );
     }
     act.set_to_null();
 }
@@ -1251,8 +1259,8 @@ void bikerack_unracking_activity_actor::finish( player_activity &act, Character 
     vehicle &parent_vehicle = ovp->vehicle();
 
     if( !parent_vehicle.remove_carried_vehicle( parts, racks ) ) {
-        debugmsg( "unracking actor failed on %s, parts: [%s], racks: [%s]",
-                  parent_vehicle.name, enumerate_as_string( parts ), enumerate_as_string( racks ) );
+        debugmsg( "unracking actor failed on %s, parts: [%s], racks: [%s]", parent_vehicle.name,
+                  enumerate_ints_to_string( parts ), enumerate_ints_to_string( racks ) );
     }
     act.set_to_null();
 }
