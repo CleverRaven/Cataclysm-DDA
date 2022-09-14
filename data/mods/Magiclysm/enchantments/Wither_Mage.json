@@ -61,7 +61,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_GIVE_TOXIC_AURA_OFF",
-    "recurrence": [ "1 s", "1 s" ],
+    "recurrence": [ "60 s", "60 s" ],
     "condition": {
       "and": [
         { "u_has_trait": "WITHER_MAGE" },
