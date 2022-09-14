@@ -782,7 +782,7 @@
     "time": "20 m",
     "autolearn": true,
     "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 } ],
-	"using": [ "carbon", 1 ],
+    "using": [ "carbon", 1 ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
     "tools": [
       [ [ "tongs", -1 ] ],
@@ -790,7 +790,7 @@
       [ [ "forge", 40 ], [ "oxy_torch", 40 ] ],
       [ [ "wire_draw_machine", 100 ] ]
     ],
-    "components": [ [ [ "lc_steel_lump", 1 ] ]
+    "components": [ [ "lc_steel_lump", 1 ] ]
   },
   {
     "type": "recipe",
