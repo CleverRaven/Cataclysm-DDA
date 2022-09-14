@@ -1523,7 +1523,7 @@
     "type": "ARMOR",
     "name": { "str": "leather-padded pants", "str_pl": "pairs of leather-padded pants" },
     "description": "A pair of tough canvas pants with sections from leather pants affixed, excluding the joints.  Offers mild protection without compromising mobility too much, but a lot of the pockets have been removed to make room for the leather.",
-    "weight": "1450 g",
+    "weight": "1970 g",
     "volume": "2500 ml",
     "price_postapoc": 1200,
     "looks_like": "technician_pants_gray",
