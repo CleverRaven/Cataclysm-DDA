@@ -11,9 +11,9 @@
       { "item": "hammer_sledge" },
       { "item": "hatchet" },
       { "item": "knife_combat" },
-      { "item": "rapier" },
+      { "item": "hc_rapier" },
       { "item": "machete" },
-      { "item": "katana" },
+      { "item": "hc_katana" },
       { "item": "spear_knife" },
       { "item": "pike" },
       { "item": "chainsaw_off" }
