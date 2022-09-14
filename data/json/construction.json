@@ -5908,5 +5908,17 @@
     "components": [ [ [ "log", 1 ], [ "wood_beam", 1 ] ], [ [ "nail", 4 ] ], [ [ "2x4", 1 ] ] ],
     "pre_special": "check_empty",
     "post_terrain": "f_bench_wooden"
+  },
+  {
+    "type": "construction",
+    "id": "constr_place_barstool",
+    "group": "place_barstool",
+    "category": "FURN",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "15 s",
+    "components": [ [ [ "barstool", 1 ] ] ],
+    "pre_special": "check_empty",
+    "post_terrain": "f_stool",
+    "activity_level": "LIGHT_EXERCISE"
   }
 ]
