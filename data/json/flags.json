@@ -1529,6 +1529,11 @@
     "type": "json_flag"
   },
   {
+    "id": "NO_TURRET",
+    "type": "json_flag",
+    "//": "This flag should only be applied to GUN definitions, it will prevent generation of a turret vehicle part for the gun.  This blocks fake guns, or player unobtainable ones from appearing in turret list."
+  },
+  {
     "id": "NO_UNLOAD",
     "type": "json_flag",
     "inherit": false
@@ -2088,6 +2093,15 @@
     "id": "VOLTMETER",
     "type": "json_flag",
     "info": "This tool can test for voltage."
+  },
+  {
+    "id": "SHREDDED",
+    "type": "json_flag",
+    "info": "This is a small fragment."
+  },
+  {
+    "id": "FROM_FROZEN_LIQUID",
+    "type": "json_flag"
   },
   {
     "id": "SINGLE_USE",

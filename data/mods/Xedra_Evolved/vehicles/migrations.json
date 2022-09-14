@@ -1,0 +1,8 @@
+[
+  {
+    "type": "vehicle_part_migration",
+    "//": "xedra",
+    "from": "mounted_hammer_turret_system",
+    "to": "turret_hammer_turret_system"
+  }
+]
