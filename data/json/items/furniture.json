@@ -62,5 +62,21 @@
     "material": [ "wood" ],
     "to_hit": -1,
     "bashing": 4
+  },
+  {
+    "type": "GENERIC",
+    "id": "barstool",
+    "name": { "str": "bar stool" },
+    "description": "A bar stool with a leather seat on a steel support.  Not practical for sleeping at all but it does feel nicer than sitting on the ground.",
+    "symbol": "p",
+    "color": "light_gray",
+    "price": 5000,
+    "price_postapoc": 500,
+    "longest_side": "80 cm",
+    "volume": "75 L",
+    "weight": "7500 g",
+    "material": [ { "type": "steel", "portion": 97 }, { "type": "leather" } ],
+    "to_hit": -1,
+    "bashing": 4
   }
 ]
