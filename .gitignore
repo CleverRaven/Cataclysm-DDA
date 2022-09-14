@@ -61,6 +61,8 @@ json_formatter
 *.lastbuildstate
 .vs/
 .vscode/
+Directory.Build.props
+Directory.Build.targets
 
 # Visual Studio project files
 /msvc-full-features/**/

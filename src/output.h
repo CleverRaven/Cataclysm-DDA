@@ -911,22 +911,35 @@ class scrollbar
         bool scroll_to_last_v;
 };
 
-// A simple scrolling view onto some text.  Given a window, it will use the
-// leftmost column for the scrollbar and fill the rest with text.  When the
-// scrollbar is not needed it prints a vertical border in place of it, so the
-// expectation is that the given window will overlap the left edge of a
-// bordered window if one exists.
-// (Options to e.g. not print the border would be easy to add if needed).
-// Update the text with set_text (it will be wrapped for you).
-// scroll_up and scroll_down are expected to be called from handlers for the
-// keys used for that purpose.
-// Call draw when drawing related UI stuff.  draw calls werase/wnoutrefresh for its
-// window internally.
+/** A simple scrolling view onto some text.  Given a window, it will use the
+ * leftmost column for the scrollbar and fill the rest with text.  When the
+ * scrollbar is not needed it prints a vertical border in place of it, so the
+ * expectation is that the given window will overlap the left edge of a
+ * bordered window if one exists.
+ * (Options to e.g. not print the border would be easy to add if needed).
+ * Update the text with set_text (it will be wrapped for you).
+ * scroll_up and scroll_down are expected to be called from handlers for the
+ * keys used for that purpose.
+ * Call draw when drawing related UI stuff.  draw calls werase/wnoutrefresh for its
+ * window internally.
+ * Has some built-in default navigation options, including mousewheel scrolling
+ * when the mouse is over the window (tiles only) and a click-and-drag scrollbar
+ * (technically works in curses, but is smoother in tiles).
+ **/
+enum scrolling_key_scheme : int {
+    no_scheme,
+    angle_bracket_scroll,
+    arrow_scroll,
+    page_page
+};
 class scrolling_text_view
 {
     public:
         explicit scrolling_text_view( catacurses::window &w ) : w_( w ) {}
 
+        bool handle_navigation( const std::string &action, input_context &ctxt );
+        void set_up_navigation( input_context &ctxt,
+                                scrolling_key_scheme scheme = scrolling_key_scheme::no_scheme, bool enable_paging = false );
         void set_text( const std::string & );
         void scroll_up();
         void scroll_down();
@@ -941,6 +954,11 @@ class scrolling_text_view
         catacurses::window &w_;
         std::vector<std::string> text_;
         int offset_ = 0;
+        inclusive_rectangle<point> scrollbar_area;
+        bool dragging = false;
+        std::string scroll_up_action;
+        std::string scroll_down_action;
+        bool paging_enabled = false;
 };
 
 class scrollingcombattext
@@ -1105,5 +1123,47 @@ std::string colorize_symbols( const std::string &str, F color_of )
 
     return res;
 }
+
+// More specialized list_circularizer (see cata_utility.h) to allow jumping to a specific tab
+class tab_list
+{
+    private:
+        size_t _index = 0;
+        std::vector<std::string> *_list;
+    public:
+        explicit tab_list( std::vector<std::string> &_list ) : _list( &_list ) {
+        }
+
+        void last() {
+            if( !_list->empty() ) {
+                _index = _list->size() - 1;
+            }
+        }
+
+        void next() {
+            _index = ( _index == _list->size() - 1 ? 0 : _index + 1 );
+        }
+
+        void prev() {
+            _index = ( _index == 0 ? _list->size() - 1 : _index - 1 );
+        }
+
+        int cur_index() const {
+            return static_cast<int>( _index );
+        }
+
+        std::string cur() const {
+            if( _list->empty() ) {
+                return std::string( "" );
+            }
+            return ( *_list )[_index];
+        }
+
+        void set_index( const size_t new_index ) {
+            if( new_index < _list->size() ) {
+                _index = new_index;
+            }
+        }
+};
 
 #endif // CATA_SRC_OUTPUT_H

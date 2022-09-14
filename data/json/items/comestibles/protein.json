@@ -7,7 +7,7 @@
     "conditional_names": [
       { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str_sp": "soylent green drink" } },
       { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": { "str_sp": "sapient green drink" } },
-      { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str_sp": "perturbing %s" } }
+      { "type": "COMPONENT_ID_SUBSTRING", "condition": "mutant", "name": { "str_sp": "perturbing %s" } }
     ],
     "description": "A thin slurry of refined protein mixed with water.  While quite nutritious, it is not particularly tasty.",
     "weight": "278 g",
@@ -35,7 +35,7 @@
     "conditional_names": [
       { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str_sp": "soylent green powder" } },
       { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": { "str_sp": "sapient green powder" } },
-      { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str_sp": "perturbing %s" } }
+      { "type": "COMPONENT_ID_SUBSTRING", "condition": "mutant", "name": { "str_sp": "perturbing %s" } }
     ],
     "description": "Raw, refined protein.  While quite nutritious, it is impossible to enjoy in its pure form, try adding water.",
     "//": "1 g of protein powder is 0.959 ml, 1 serving is 28g and 27ml",
@@ -83,7 +83,7 @@
     "conditional_names": [
       { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str_sp": "soylent green shake" } },
       { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": { "str_sp": "sapient green shake" } },
-      { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str_sp": "perturbing %s" } }
+      { "type": "COMPONENT_ID_SUBSTRING", "condition": "mutant", "name": { "str_sp": "perturbing %s" } }
     ],
     "description": "A thick and tasty beverage made from pure refined protein and nutritious fruit.",
     "material": [ "fruit" ],
@@ -102,7 +102,7 @@
     "conditional_names": [
       { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str_sp": "fortified soylent green shake" } },
       { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": { "str_sp": "fortified sapient green shake" } },
-      { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str_sp": "perturbing %s" } }
+      { "type": "COMPONENT_ID_SUBSTRING", "condition": "mutant", "name": { "str_sp": "perturbing %s" } }
     ],
     "description": "A thick and tasty beverage made from pure refined protein and nutritious fruit.  It has been supplemented with extra vitamins and minerals.",
     "relative": { "vitamins": [ [ "calcium", 5 ], [ "iron", 5 ], [ "vitC", 5 ] ] }
@@ -115,7 +115,7 @@
     "conditional_names": [
       { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str_sp": "soylent milk" } },
       { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": { "str_sp": "sapient-enhanced milk" } },
-      { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str_sp": "freaky %s" } }
+      { "type": "COMPONENT_ID_SUBSTRING", "condition": "mutant", "name": { "str_sp": "freaky %s" } }
     ],
     "description": "Milk enriched with protein powder, it's extra healthy and doesn't taste too bad.",
     "weight": "286 g",
@@ -143,7 +143,7 @@
     "conditional_names": [
       { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str_sp": "soylent smoothie" } },
       { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": { "str_sp": "sapient green smoothie" } },
-      { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str_sp": "perturbing %s" } }
+      { "type": "COMPONENT_ID_SUBSTRING", "condition": "mutant", "name": { "str_sp": "perturbing %s" } }
     ],
     "description": "A thick and tasty smoothie made from pure refined protein and nutritious fruit mixed into milk.",
     "material": [ "fruit", "milk" ],

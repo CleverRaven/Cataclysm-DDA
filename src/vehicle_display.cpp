@@ -190,12 +190,12 @@ int vehicle::print_part_list( const catacurses::window &win, int y1, const int m
                 if( vp.ammo_current() == itype_battery ) {
                     partname += string_format( _( " (%s/%s charge)" ), vp.ammo_remaining(),
                                                vp.ammo_capacity( ammo_battery ) );
-                } else {
+                } else if( vp.ammo_current()->stack_size > 0 ) {
                     const itype *pt_ammo_cur = item::find_type( vp.ammo_current() );
                     auto stack = units::legacy_volume_factor / pt_ammo_cur->stack_size;
                     partname += string_format( _( " (%.1fL %s)" ),
-                                               round_up( units::to_liter( vp.ammo_remaining() * stack ),
-                                                         1 ), item::nname( vp.ammo_current() ) );
+                                               round_up( units::to_liter( vp.ammo_remaining() * stack ), 1 ),
+                                               item::nname( vp.ammo_current() ) );
                 }
             } else {
                 partname += string_format( " (%s)", item::nname( vp.ammo_current() ) );
@@ -413,16 +413,16 @@ void vehicle::print_fuel_indicators( const catacurses::window &win, const point 
 void vehicle::print_fuel_indicator( const catacurses::window &win, const point &p,
                                     const itype_id &fuel_type, bool verbose, bool desc )
 {
-    std::map<itype_id, float> fuel_usages;
+    std::map<itype_id, units::energy> fuel_usages;
     print_fuel_indicator( win, p, fuel_type, fuel_usages, verbose, desc );
 }
 
 void vehicle::print_fuel_indicator( const catacurses::window &win, const point &p,
                                     const itype_id &fuel_type,
-                                    std::map<itype_id, float> fuel_usages,
+                                    std::map<itype_id, units::energy> fuel_usages,
                                     bool verbose, bool desc )
 {
-    const char fsyms[5] = { 'E', '\\', '|', '/', 'F' };
+    static constexpr std::array<char, 5> fsyms = { 'E', '\\', '|', '/', 'F' };
     nc_color col_indf1 = c_light_gray;
     int cap = fuel_capacity( fuel_type );
     int f_left = fuel_left( fuel_type );

@@ -368,7 +368,8 @@
     "unarmed_allowed": true,
     "weighting": 2,
     "disarms": true,
-    "stun_dur": 1
+    "stun_dur": 1,
+    "attack_vectors": [ "HAND" ]
   },
   {
     "type": "technique",
@@ -376,7 +377,8 @@
     "name": "Measured Strike (melee)",
     "messages": [ "You make an efficient strike against %s", "<npcname> makes an efficient strike against %s" ],
     "melee_allowed": true,
-    "mult_bonuses": [ { "stat": "movecost", "scale": 0.8 } ]
+    "mult_bonuses": [ { "stat": "movecost", "scale": 0.8 } ],
+    "attack_vectors": [ "WEAPON" ]
   },
   {
     "type": "technique",
@@ -386,7 +388,8 @@
     "unarmed_allowed": true,
     "unarmed_weapons_allowed": false,
     "crit_ok": true,
-    "mult_bonuses": [ { "stat": "movecost", "scale": 0.8 } ]
+    "mult_bonuses": [ { "stat": "movecost", "scale": 0.8 } ],
+    "attack_vectors": [ "HAND" ]
   },
   {
     "type": "technique",
@@ -401,7 +404,8 @@
       { "stat": "damage", "type": "cut", "scale": 1.5 },
       { "stat": "damage", "type": "stab", "scale": 1.5 }
     ],
-    "stun_dur": 1
+    "stun_dur": 1,
+    "attack_vectors": [ "WEAPON" ]
   },
   {
     "type": "technique",
@@ -413,7 +417,8 @@
     "unarmed_weapons_allowed": false,
     "weighting": 2,
     "crit_ok": true,
-    "down_dur": 2
+    "down_dur": 2,
+    "attack_vectors": [ "FOOT" ]
   },
   {
     "type": "technique",
@@ -425,7 +430,8 @@
     "melee_allowed": true,
     "weighting": 2,
     "crit_tec": true,
-    "aoe": "wide"
+    "aoe": "wide",
+    "attack_vectors": [ "WEAPON" ]
   },
   {
     "type": "technique",
@@ -438,7 +444,8 @@
       { "stat": "damage", "type": "bash", "scale": 0.66 },
       { "stat": "damage", "type": "cut", "scale": 0.66 },
       { "stat": "damage", "type": "stab", "scale": 0.66 }
-    ]
+    ],
+    "attack_vectors": [ "HAND" ]
   },
   {
     "type": "technique",
@@ -448,7 +455,8 @@
     "skill_requirements": [ { "name": "unarmed", "level": 1 } ],
     "unarmed_allowed": true,
     "crit_ok": true,
-    "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.2 } ]
+    "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.2 } ],
+    "attack_vectors": [ "FOOT" ]
   },
   {
     "type": "technique",
@@ -473,7 +481,8 @@
     "stun_dur": 2,
     "knockback_dist": 1,
     "knockback_spread": 1,
-    "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 2.5 } ]
+    "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 2.5 } ],
+    "attack_vectors": [ "TORSO" ]
   },
   {
     "type": "technique",
@@ -497,7 +506,8 @@
       { "stat": "damage", "type": "bash", "scale": 0.66 },
       { "stat": "damage", "type": "cut", "scale": 0.66 },
       { "stat": "damage", "type": "stab", "scale": 0.66 }
-    ]
+    ],
+    "attack_vectors": [ "HAND" ]
   },
   {
     "type": "technique",
@@ -508,7 +518,8 @@
     "unarmed_allowed": true,
     "crit_tec": true,
     "stun_dur": 2,
-    "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.25 } ]
+    "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.25 } ],
+    "attack_vectors": [ "HAND" ]
   },
   {
     "type": "technique",
@@ -519,7 +530,8 @@
     "unarmed_allowed": true,
     "stunned_target": true,
     "weighting": 2,
-    "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.5 } ]
+    "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.5 } ],
+    "attack_vectors": [ "HAND" ]
   },
   {
     "type": "technique",
@@ -531,7 +543,8 @@
     "stunned_target": true,
     "weighting": 2,
     "crit_tec": true,
-    "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 2.0 } ]
+    "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 2.0 } ],
+    "attack_vectors": [ "HAND" ]
   },
   {
     "type": "technique",
@@ -539,7 +552,8 @@
     "name": "Roundhouse Kick",
     "messages": [ "You roundhouse kick %s", "<npcname> roundhouse kicks %s" ],
     "unarmed_allowed": true,
-    "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.2 } ]
+    "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.2 } ],
+    "attack_vectors": [ "FOOT" ]
   },
   {
     "type": "technique",
@@ -552,7 +566,8 @@
     "knockback_dist": 3,
     "powerful_knockback": true,
     "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 2.0 } ],
-    "messages": [ "Your Stinger Kick sends %s flying", "<npcname>'s Stinger Kick sends %s flying" ]
+    "messages": [ "Your Stinger Kick sends %s flying", "<npcname>'s Stinger Kick sends %s flying" ],
+    "attack_vectors": [ "FOOT" ]
   },
   {
     "type": "technique",
@@ -563,7 +578,8 @@
     "unarmed_allowed": true,
     "required_buffs_all": [ "buff_scorpion_onmove" ],
     "stun_dur": 1,
-    "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.25 } ]
+    "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.25 } ],
+    "attack_vectors": [ "FOOT" ]
   },
   {
     "type": "technique",
@@ -573,7 +589,8 @@
     "skill_requirements": [ { "name": "unarmed", "level": 4 } ],
     "crit_ok": true,
     "unarmed_allowed": true,
-    "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.25 } ]
+    "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.25 } ],
+    "attack_vectors": [ "HAND" ]
   },
   {
     "type": "technique",
@@ -584,7 +601,8 @@
     "unarmed_allowed": true,
     "crit_tec": true,
     "stun_dur": 1,
-    "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.4 } ]
+    "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.4 } ],
+    "attack_vectors": [ "ARM" ]
   },
   {
     "type": "technique",
@@ -596,7 +614,8 @@
     "required_buffs_all": [ "buff_toad_ongethit" ],
     "crit_ok": true,
     "down_dur": 2,
-    "mult_bonuses": [ { "stat": "movecost", "scale": 0.5 } ]
+    "mult_bonuses": [ { "stat": "movecost", "scale": 0.5 } ],
+    "attack_vectors": [ "HAND" ]
   },
   {
     "type": "technique",
@@ -619,7 +638,8 @@
       { "stat": "damage", "type": "bash", "scale": 0.66 },
       { "stat": "damage", "type": "cut", "scale": 0.66 },
       { "stat": "damage", "type": "stab", "scale": 0.66 }
-    ]
+    ],
+    "attack_vectors": [ "HAND" ]
   },
   {
     "type": "technique",
@@ -630,7 +650,8 @@
     "unarmed_allowed": true,
     "crit_tec": true,
     "down_dur": 1,
-    "mult_bonuses": [ { "stat": "movecost", "scale": 0.5 } ]
+    "mult_bonuses": [ { "stat": "movecost", "scale": 0.5 } ],
+    "attack_vectors": [ "PALM" ]
   },
   {
     "type": "technique",
@@ -639,6 +660,7 @@
     "messages": [ "You disarm %s with lightning speed", "<npcname> disarms %s with lightning speed" ],
     "skill_requirements": [ { "name": "unarmed", "level": 4 } ],
     "unarmed_allowed": true,
-    "disarms": true
+    "disarms": true,
+    "attack_vectors": [ "HAND" ]
   }
 ]

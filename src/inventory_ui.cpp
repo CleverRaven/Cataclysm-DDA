@@ -311,6 +311,7 @@ void uistatedata::serialize( JsonOut &json ) const
     json.member( "construction_tab", construction_tab );
     json.member( "hidden_recipes", hidden_recipes );
     json.member( "favorite_recipes", favorite_recipes );
+    json.member( "expanded_recipes", expanded_recipes );
     json.member( "read_recipes", read_recipes );
     json.member( "recent_recipes", recent_recipes );
     json.member( "bionic_ui_sort_mode", bionic_sort_mode );
@@ -328,6 +329,7 @@ void uistatedata::serialize( JsonOut &json ) const
     json.member( "distraction_weather_change", distraction_weather_change );
     json.member( "distraction_hunger", distraction_hunger );
     json.member( "distraction_thirst", distraction_thirst );
+    json.member( "distraction_temperature", distraction_temperature );
 
     json.member( "input_history" );
     json.start_object();
@@ -375,6 +377,7 @@ void uistatedata::deserialize( const JsonObject &jo )
     jo.read( "overmap_show_forest_trails", overmap_show_forest_trails );
     jo.read( "hidden_recipes", hidden_recipes );
     jo.read( "favorite_recipes", favorite_recipes );
+    jo.read( "expanded_recipes", expanded_recipes );
     jo.read( "read_recipes", read_recipes );
     jo.read( "recent_recipes", recent_recipes );
     jo.read( "bionic_ui_sort_mode", bionic_sort_mode );
@@ -392,6 +395,7 @@ void uistatedata::deserialize( const JsonObject &jo )
     jo.read( "distraction_weather_change", distraction_weather_change );
     jo.read( "distraction_hunger", distraction_hunger );
     jo.read( "distraction_thirst", distraction_thirst );
+    jo.read( "distraction_temperature", distraction_temperature );
 
     if( !jo.read( "vmenu_show_items", vmenu_show_items ) ) {
         // This is an old save: 1 means view items, 2 means view monsters,

@@ -20,6 +20,7 @@
 #include "color.h"
 #include "crafting.h"
 #include "cursesdef.h"
+#include "debug.h"
 #include "display.h"
 #include "flag.h"
 #include "input.h"
@@ -48,6 +49,7 @@
 
 static const std::string flag_BLIND_EASY( "BLIND_EASY" );
 static const std::string flag_BLIND_HARD( "BLIND_HARD" );
+
 
 class npc;
 
@@ -78,49 +80,6 @@ static const std::map<const CRAFTING_SPEED_STATE, translation> craft_speed_reaso
 // TODO: Convert these globals to handling categories via generic_factory?
 static std::vector<std::string> craft_cat_list;
 static std::map<std::string, std::vector<std::string> > craft_subcat_list;
-
-// More specialized list_circularizer (see cata_utility.h) to allow jumping to a specific tab
-class tab_list
-{
-    private:
-        size_t _index = 0;
-        std::vector<std::string> *_list;
-    public:
-        explicit tab_list( std::vector<std::string> &_list ) : _list( &_list ) {
-        }
-
-        void next() {
-            _index = ( _index == _list->size() - 1 ? 0 : _index + 1 );
-        }
-
-        void prev() {
-            _index = ( _index == 0 ? _list->size() - 1 : _index - 1 );
-        }
-
-        int cur_index() const {
-            return static_cast<int>( _index );
-        }
-
-        std::string cur( const bool translated = false ) const {
-            if( _list->empty() ) {
-                return std::string( "" );
-            }
-            std::string returnVal;
-
-            if( translated ) {
-                returnVal =  _( ( *_list )[_index] );
-            } else {
-                returnVal = ( *_list )[_index];
-            }
-            return returnVal;
-        }
-
-        void set_index( const size_t new_index ) {
-            if( new_index < _list->size() ) {
-                _index = new_index;
-            }
-        }
-};
 
 static bool query_is_yes( const std::string &query );
 static int craft_info_width( int window_width );
@@ -218,13 +177,18 @@ struct availability {
             has_all_skills = r->skill_used.is_null() ||
                              player.get_skill_level( r->skill_used ) >= r->get_difficulty( player );
             has_proficiencies = r->character_has_required_proficiencies( player );
-            can_craft = ( !r->is_practice() || has_all_skills ) && has_proficiencies &&
-                        req.can_make_with_inventory( inv, all_items_filter, batch_size, craft_flags::start_only );
+            if( r->is_nested() ) {
+                can_craft = check_can_craft_nested( *r );
+            } else {
+                can_craft = ( !r->is_practice() || has_all_skills ) && has_proficiencies &&
+                            req.can_make_with_inventory( inv, all_items_filter, batch_size, craft_flags::start_only );
+            }
             would_use_rotten = !req.can_make_with_inventory( inv, no_rotten_filter, batch_size,
                                craft_flags::start_only );
             would_use_favorite = !req.can_make_with_inventory( inv, no_favorite_filter, batch_size,
                                  craft_flags::start_only );
             would_not_benefit = r->is_practice() && cannot_gain_skill_or_prof( player, *r );
+            is_nested_category = r->is_nested();
             const requirement_data &simple_req = r->simple_requirements();
             apparently_craftable = ( !r->is_practice() || has_all_skills ) && has_proficiencies &&
                                    simple_req.can_make_with_inventory( inv, all_items_filter, batch_size, craft_flags::start_only );
@@ -242,6 +206,7 @@ struct availability {
         bool apparently_craftable;
         bool has_proficiencies;
         bool has_all_skills;
+        bool is_nested_category;
     private:
         const recipe *rec;
         mutable float proficiency_time_maluses = -1.0f;
@@ -265,9 +230,13 @@ struct availability {
         }
 
         nc_color selected_color() const {
-            if( !can_craft ) {
+            if( !can_craft && is_nested_category ) {
+                return h_blue;
+            } else if( !can_craft ) {
                 return h_dark_gray;
-            } else if( would_use_rotten || would_not_benefit ) {
+            } else if( is_nested_category ) {
+                return h_light_blue;
+            }  else if( would_use_rotten || would_not_benefit ) {
                 return has_all_skills ? h_brown : h_red;
             } else if( would_use_favorite ) {
                 return has_all_skills ? h_pink : h_red;
@@ -277,8 +246,12 @@ struct availability {
         }
 
         nc_color color( bool ignore_missing_skills = false ) const {
-            if( !can_craft ) {
+            if( !can_craft && is_nested_category ) {
+                return c_blue;
+            } else if( !can_craft ) {
                 return c_dark_gray;
+            } else if( is_nested_category ) {
+                return c_light_blue;
             } else if( would_use_rotten || would_not_benefit ) {
                 return has_all_skills || ignore_missing_skills ? c_brown : c_red;
             } else if( would_use_favorite ) {
@@ -286,6 +259,23 @@ struct availability {
             } else {
                 return has_all_skills || ignore_missing_skills ? c_white : c_yellow;
             }
+        }
+
+        static bool check_can_craft_nested( const recipe &r ) {
+            // recursively check if you can craft anything in the nest
+            bool can_craft = false;
+            for( const recipe_id &nested_r : r.nested_category_data ) {
+                // if nested recur
+                availability av = availability( &nested_r.obj() );
+                can_craft |= av.can_craft;
+
+                // early return if we can craft anything
+                if( can_craft ) {
+                    break;
+                }
+            }
+
+            return can_craft;
         }
 };
 } // namespace
@@ -302,6 +292,7 @@ static std::vector<std::string> recipe_info(
     std::ostringstream oss;
 
     oss << string_format( _( "Primary skill: %s\n" ), recp.primary_skill_string( guy ) );
+
 
     if( !recp.required_skills.empty() ) {
         oss << string_format( _( "Other skills: %s\n" ), recp.required_skills_string( guy ) );
@@ -320,10 +311,13 @@ static std::vector<std::string> recipe_info(
         oss << string_format( _( "Proficiencies Missing: %s\n" ), missing_profs );
     }
 
-    const int expected_turns = guy.expected_time_to_craft( recp, batch_size )
-                               / to_moves<int>( 1_turns );
-    oss << string_format( _( "Time to complete: <color_cyan>%s</color>\n" ),
-                          to_string( time_duration::from_turns( expected_turns ) ) );
+    if( !recp.is_nested() ) {
+        const int expected_turns = guy.expected_time_to_craft( recp, batch_size )
+                                   / to_moves<int>( 1_turns );
+        oss << string_format( _( "Time to complete: <color_cyan>%s</color>\n" ),
+                              to_string( time_duration::from_turns( expected_turns ) ) );
+
+    }
 
     const std::string batch_savings = recp.batch_savings_string();
     if( !batch_savings.empty() ) {
@@ -371,7 +365,7 @@ static std::vector<std::string> recipe_info(
                   "recipe <color_yellow>may appear to be craftable "
                   "when it is not</color>.\n" );
     }
-    if( !can_craft_this && avail.apparently_craftable ) {
+    if( !can_craft_this && avail.apparently_craftable && !recp.is_nested() ) {
         oss << _( "<color_red>Cannot be crafted because the same item is needed "
                   "for multiple components</color>\n" );
     }
@@ -410,13 +404,15 @@ static std::vector<std::string> recipe_info(
 
     std::vector<std::string> result = foldstring( oss.str(), fold_width );
 
-    const requirement_data &req = recp.simple_requirements();
-    const std::vector<std::string> tools = req.get_folded_tools_list(
-            fold_width, color, crafting_inv, batch_size );
-    const std::vector<std::string> comps = req.get_folded_components_list(
-            fold_width, color, crafting_inv, recp.get_component_filter(), batch_size, qry_comps );
-    result.insert( result.end(), tools.begin(), tools.end() );
-    result.insert( result.end(), comps.begin(), comps.end() );
+    if( !recp.is_nested() ) {
+        const requirement_data &req = recp.simple_requirements();
+        const std::vector<std::string> tools = req.get_folded_tools_list(
+                fold_width, color, crafting_inv, batch_size );
+        const std::vector<std::string> comps = req.get_folded_components_list(
+                fold_width, color, crafting_inv, recp.get_component_filter(), batch_size, qry_comps );
+        result.insert( result.end(), tools.begin(), tools.end() );
+        result.insert( result.end(), comps.begin(), comps.end() );
+    }
 
     oss = std::ostringstream();
     if( !guy.knows_recipe( &recp ) ) {
@@ -892,6 +888,116 @@ static bool mouse_in_window( cata::optional<point> coord, const catacurses::wind
     return false;
 }
 
+static void recursively_expance_recipes( std::vector<const recipe *> &current,
+        std::vector<int> &indent, std::map<const recipe *, availability> &availability_cache, int i,
+        Character &player_character, bool unread_recipes_first, bool highlight_unread_recipes )
+{
+    std::vector<const recipe *> tmp;
+    for( const recipe_id &nested : current[i]->nested_category_data ) {
+        tmp.push_back( &nested.obj() );
+        indent.insert( indent.begin() + i + 1, indent[i] + 2 );
+        if( !availability_cache.count( &nested.obj() ) ) {
+            availability_cache.emplace( &nested.obj(), availability( &nested.obj() ) );
+        }
+    }
+
+    std::stable_sort( tmp.begin(), tmp.end(), [
+                       &player_character, &availability_cache, unread_recipes_first,
+                       highlight_unread_recipes
+    ]( const recipe * const a, const recipe * const b ) {
+        if( highlight_unread_recipes && unread_recipes_first ) {
+            const bool a_read = uistate.read_recipes.count( a->ident() );
+            const bool b_read = uistate.read_recipes.count( b->ident() );
+            if( a_read != b_read ) {
+                return !a_read;
+            }
+        }
+        const bool can_craft_a = availability_cache.at( a ).can_craft;
+        const bool can_craft_b = availability_cache.at( b ).can_craft;
+        if( can_craft_a != can_craft_b ) {
+            return can_craft_a;
+        }
+        if( b->difficulty != a->difficulty ) {
+            return b->difficulty < a->difficulty;
+        }
+        const std::string a_name = a->result_name();
+        const std::string b_name = b->result_name();
+        if( a_name != b_name ) {
+            return localized_compare( a_name, b_name );
+        }
+        return b->time_to_craft( player_character ) <
+               a->time_to_craft( player_character );
+    } );
+
+    current.insert( current.begin() + i + 1, tmp.begin(), tmp.end() );
+}
+
+// take the current and itterate through expanding each recipe
+static void expand_recipes( std::vector<const recipe *> &current,
+                            std::vector<int> &indent, std::map<const recipe *, availability> &availability_cache,
+                            Character &player_character, bool unread_recipes_first, bool highlight_unread_recipes )
+{
+    //TODO Make this more effecient
+    for( size_t i = 0; i < current.size(); ++i ) {
+        if( current[i]->is_nested() &&
+            uistate.expanded_recipes.find( current[i]->ident() ) != uistate.expanded_recipes.end() ) {
+            // add all the recipes from the nests
+            recursively_expance_recipes( current, indent, availability_cache, i, player_character,
+                                         unread_recipes_first, highlight_unread_recipes );
+        }
+    }
+}
+
+static std::string list_nested( const recipe *rec, const inventory &crafting_inv,
+                                const std::vector<npc *> &helpers, int indent = 0 )
+{
+    std::string description;
+    availability avail( rec );
+    if( rec->is_nested() ) {
+        description += colorize( std::string( indent,
+                                              ' ' ) + rec->result_name() + ":\n", avail.color() );
+        for( const recipe_id &r : rec->nested_category_data ) {
+            description += list_nested( &r.obj(), crafting_inv, helpers, indent + 2 );
+        }
+    } else if( get_avatar().has_recipe( rec, crafting_inv, helpers ) ) {
+        description += colorize( std::string( indent,
+                                              ' ' ) + rec->result_name() + "\n", avail.color() );
+    }
+
+    return description;
+}
+
+static void nested_toggle( recipe_id rec, bool &recalc, bool &keepline )
+{
+    auto loc = uistate.expanded_recipes.find( rec );
+    if( loc != uistate.expanded_recipes.end() ) {
+        uistate.expanded_recipes.erase( rec );
+    } else {
+        uistate.expanded_recipes.insert( rec );
+    }
+    recalc = true;
+    keepline = true;
+}
+
+static bool selection_ok( const std::vector<const recipe *> &list, const int current_line,
+                          const bool nested_acceptable )
+{
+    std::string error_message;
+    if( list.empty() ) {
+        error_message = _( "Nothing selected!" );
+    } else if( list[current_line]->is_nested() && !nested_acceptable ) {
+        error_message = _( "Select a recipe within this group" );
+    } else {
+        return true;
+    }
+
+    query_popup()
+    .message( "%s", error_message )
+    .option( "QUIT" )
+    .query();
+    return false;
+}
+
 const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id goto_recipe )
 {
     recipe_result_info_cache result_info;
@@ -1002,6 +1108,8 @@ const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id goto_
     std::map<size_t, inclusive_rectangle<point>> translated_subtab_map;
     std::map<size_t, inclusive_rectangle<point>> list_map;
     std::vector<const recipe *> current;
+    // how much to indent any item
+    std::vector<int> indent;
     std::vector<availability> available;
     int line = 0;
     bool unread_recipes_first = false;
@@ -1152,14 +1260,19 @@ const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id goto_
         }
         list_map.clear();
         for( int i = istart; i < iend; ++i ) {
-            std::string tmp_name = current[i]->result_name( /*decorated=*/true );
+            if( i >= static_cast<int>( indent.size() ) || indent[i] < 0 ) {
+                indent.assign( current.size(), 0 );
+                debugmsg( _( "Indent for line %i not set correctly.  Indents reset to 0." ), i );
+            }
+            std::string tmp_name = std::string( indent[i],
+                                                ' ' ) + current[i]->result_name( /*decorated=*/true );
             if( batch ) {
                 tmp_name = string_format( _( "%2dx %s" ), i + 1, tmp_name );
             }
             const bool rcp_read = !highlight_unread_recipes ||
                                   uistate.read_recipes.count( current[i]->ident() );
             const bool highlight = i == line;
-            const nc_color col = highlight ? available[i].selected_color() : available[i].color();
+            nc_color col = highlight ? available[i].selected_color() : available[i].color();
             const point print_from( 2, i - istart );
             if( highlight ) {
                 ui.set_cursor( w_data, print_from );
@@ -1240,6 +1353,13 @@ const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id goto_
                 scrollbar().offset_x( item_info_width - 1 ).offset_y( 0 ).content_size( 1 ).viewport_size( getmaxy(
                             w_iteminfo ) ).apply( w_iteminfo );
                 wnoutrefresh( w_iteminfo );
+            } else if( cur_recipe->is_nested() ) {
+                std::string desc = cur_recipe->description.translated() + "\n\n";;
+                desc += list_nested( cur_recipe, crafting_inv, helpers );
+                fold_and_print( w_iteminfo, point_zero, item_info_width, c_light_gray, desc );
+                scrollbar().offset_x( item_info_width - 1 ).offset_y( 0 ).content_size( 1 ).viewport_size( getmaxy(
+                            w_iteminfo ) ).apply( w_iteminfo );
+                wnoutrefresh( w_iteminfo );
             } else {
                 item_info_data data = result_info.get_result_data( cur_recipe, batch_size, item_info_scroll,
                                       w_iteminfo );
@@ -1272,6 +1392,7 @@ const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id goto_
                     current.push_back( chosen );
                     available.emplace_back( chosen, i );
                 }
+                indent.assign( current.size(), 0 );
             } else {
                 static_popup popup;
                 auto last_update = std::chrono::steady_clock::now();
@@ -1319,6 +1440,8 @@ const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id goto_
                     num_recipe = picking.size();
                 }
 
+
+
                 available.reserve( current.size() );
                 // cache recipe availability on first display
                 for( const recipe *e : current ) {
@@ -1356,6 +1479,12 @@ const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id goto_
                                a->time_to_craft( player_character );
                     } );
                 }
+
+                // set up indents and append the expanded entries
+                // have to do this after we sort the list
+                indent.assign( current.size(), 0 );
+                expand_recipes( current, indent, availability_cache, player_character, unread_recipes_first,
+                                highlight_unread_recipes );
 
                 std::transform( current.begin(), current.end(),
                 std::back_inserter( available ), [&]( const recipe * e ) {
@@ -1399,12 +1528,7 @@ const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id goto_
         const int recmax = static_cast<int>( current.size() );
         const int scroll_rate = recmax > 20 ? 10 : 3;
 
-        cata::optional<tripoint> coord3d = ctxt.get_coordinates( catacurses::stdscr );
-        cata::optional<point> coord;
-        if( coord3d.has_value() ) {
-            // TODO: Handle this in get_coordinates, which currently only normalizes for w_terrain
-            coord = coord3d->xy() + point( TERMX, TERMY ) / 2;
-        }
+        cata::optional<point> coord = ctxt.get_coordinates_text( catacurses::stdscr );
         const bool mouse_in_list = coord.has_value() && mouseover_area_list.contains( coord.value() );
         const bool mouse_in_recipe = coord.has_value() && mouseover_area_recipe.contains( coord.value() );
 
@@ -1539,11 +1663,13 @@ const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id goto_
             line = -1;
             user_moved_line = highlight_unread_recipes;
         } else if( action == "CONFIRM" ) {
-            if( available.empty() || !available[line].can_craft ) {
+            if( available.empty() || ( !available[line].can_craft && !current[line]->is_nested() ) ) {
                 query_popup()
                 .message( "%s", _( "You can't do that!" ) )
                 .option( "QUIT" )
                 .query();
+            } else if( current[line]->is_nested() ) {
+                nested_toggle( current[line]->ident(), recalc, keepline );
             } else if( !player_character.check_eligible_containers_for_crafting( *current[line],
                        batch ? line + 1 : 1 ) ) {
                 // popup is already inside check
@@ -1553,14 +1679,7 @@ const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id goto_
                 done = true;
                 uistate.read_recipes.insert( chosen->ident() );
             }
-        } else if( action == "HELP_RECIPE" ) {
-            if( current.empty() ) {
-                query_popup()
-                .message( "%s", _( "Nothing selected!" ) )
-                .option( "QUIT" )
-                .query();
-                continue;
-            }
+        } else if( action == "HELP_RECIPE" && selection_ok( current, line, false ) ) {
             uistate.read_recipes.insert( current[line]->ident() );
             recalc_unread = highlight_unread_recipes;
             ui.invalidate_ui();
@@ -1634,14 +1753,7 @@ const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id goto_
             filterstring.clear();
             recalc = true;
             recalc_unread = highlight_unread_recipes;
-        } else if( action == "CYCLE_BATCH" ) {
-            if( current.empty() ) {
-                query_popup()
-                .message( "%s", _( "Nothing selected!" ) )
-                .option( "QUIT" )
-                .query();
-                continue;
-            }
+        } else if( action == "CYCLE_BATCH" && selection_ok( current, line, false ) ) {
             batch = !batch;
             if( batch ) {
                 batch_line = line;
@@ -1652,14 +1764,7 @@ const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id goto_
                 keepline = true;
             }
             recalc = true;
-        } else if( action == "TOGGLE_FAVORITE" ) {
-            if( current.empty() ) {
-                query_popup()
-                .message( "%s", _( "Nothing selected!" ) )
-                .option( "QUIT" )
-                .query();
-                continue;
-            }
+        } else if( action == "TOGGLE_FAVORITE" && selection_ok( current, line, true ) ) {
             keepline = true;
             recalc = filterstring.empty() && subtab.cur() == "CSC_*_FAVORITE";
             if( uistate.favorite_recipes.find( current[line]->ident() ) != uistate.favorite_recipes.end() ) {
@@ -1676,14 +1781,7 @@ const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id goto_
                 uistate.read_recipes.insert( current[line]->ident() );
             }
             recalc_unread = highlight_unread_recipes;
-        } else if( action == "HIDE_SHOW_RECIPE" ) {
-            if( current.empty() ) {
-                query_popup()
-                .message( "%s", _( "Nothing selected!" ) )
-                .option( "QUIT" )
-                .query();
-                continue;
-            }
+        } else if( action == "HIDE_SHOW_RECIPE" && selection_ok( current, line, true ) ) {
             if( show_hidden ) {
                 uistate.hidden_recipes.erase( current[line]->ident() );
             } else {
@@ -1699,10 +1797,7 @@ const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id goto_
             } else {
                 line--;
             }
-        } else if( action == "TOGGLE_RECIPE_UNREAD" ) {
-            if( current.empty() ) {
-                continue;
-            }
+        } else if( action == "TOGGLE_RECIPE_UNREAD" && selection_ok( current, line, true ) ) {
             const recipe_id rcp = current[line]->ident();
             if( uistate.read_recipes.count( rcp ) ) {
                 uistate.read_recipes.erase( rcp );
@@ -1749,14 +1844,7 @@ const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id goto_
             unread_recipes_first = !unread_recipes_first;
             recalc = true;
             keepline = true;
-        } else if( action == "RELATED_RECIPES" ) {
-            if( current.empty() ) {
-                query_popup()
-                .message( "%s", _( "Nothing selected!" ) )
-                .option( "QUIT" )
-                .query();
-                continue;
-            }
+        } else if( action == "RELATED_RECIPES" && selection_ok( current, line, false ) ) {
             uistate.read_recipes.insert( current[line]->ident() );
             recalc_unread = highlight_unread_recipes;
             ui.invalidate_ui();

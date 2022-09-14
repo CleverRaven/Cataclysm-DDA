@@ -80,11 +80,11 @@ static const itype_id itype_detergent( "detergent" );
 static const itype_id itype_fungal_seeds( "fungal_seeds" );
 static const itype_id itype_marloss_seed( "marloss_seed" );
 static const itype_id itype_null( "null" );
+static const itype_id itype_pseudo_water_purifier( "pseudo_water_purifier" );
 static const itype_id itype_soldering_iron( "soldering_iron" );
 static const itype_id itype_water( "water" );
 static const itype_id itype_water_clean( "water_clean" );
 static const itype_id itype_water_faucet( "water_faucet" );
-static const itype_id itype_water_purifier( "water_purifier" );
 static const itype_id itype_welder( "welder" );
 
 static const quality_id qual_SCREW( "SCREW" );
@@ -569,11 +569,6 @@ void vehicle::smash_security_system()
     }
 }
 
-std::string vehicle::tracking_toggle_string() const
-{
-    return tracking_on ? _( "Forget vehicle position" ) : _( "Remember vehicle position" );
-}
-
 void vehicle::autopilot_patrol_check()
 {
     zone_manager &mgr = zone_manager::get_manager();
@@ -612,6 +607,7 @@ void vehicle::toggle_autopilot()
             is_patrolling = false;
             is_following = false;
             autodrive_local_target = tripoint_zero;
+            add_msg( _( "You turn the engine off." ) );
             stop_engines();
             break;
         case FOLLOW:
@@ -619,7 +615,6 @@ void vehicle::toggle_autopilot()
             is_following = true;
             is_patrolling = false;
             start_engines();
-            refresh();
         default:
             return;
     }
@@ -688,40 +683,13 @@ void vehicle::use_controls( const tripoint &pos )
                 if( engine_on && has_engine_type_not( fuel_type_muscle, true ) )
                 {
                     add_msg( _( "You turn the engine off and let go of the controls." ) );
-                    sounds::sound( pos, 2, sounds::sound_t::movement,
-                                   _( "the engine go silent" ) );
                 } else
                 {
                     add_msg( _( "You let go of the controls." ) );
                 }
-
-                for( size_t e = 0; e < engines.size(); ++e )
-                {
-                    if( is_engine_on( e ) ) {
-                        if( sfx::has_variant_sound( "engine_stop", parts[ engines[ e ] ].info().get_id().str() ) ) {
-                            sfx::play_variant_sound( "engine_stop", parts[ engines[ e ] ].info().get_id().str(),
-                                                     parts[ engines[ e ] ].info().engine_noise_factor() );
-                        } else if( is_engine_type( e, fuel_type_muscle ) ) {
-                            sfx::play_variant_sound( "engine_stop", "muscle",
-                                                     parts[ engines[ e ] ].info().engine_noise_factor() );
-                        } else if( is_engine_type( e, fuel_type_wind ) ) {
-                            sfx::play_variant_sound( "engine_stop", "wind",
-                                                     parts[ engines[ e ] ].info().engine_noise_factor() );
-                        } else if( is_engine_type( e, fuel_type_battery ) ) {
-                            sfx::play_variant_sound( "engine_stop", "electric",
-                                                     parts[ engines[ e ] ].info().engine_noise_factor() );
-                        } else {
-                            sfx::play_variant_sound( "engine_stop", "combustion",
-                                                     parts[ engines[ e ] ].info().engine_noise_factor() );
-                        }
-                    }
-                }
-                vehicle_noise = 0;
-                engine_on = false;
+                stop_engines();
                 player_character.controlling_vehicle = false;
                 g->setremoteveh( nullptr );
-                sfx::do_vehicle_engine_sfx();
-                refresh();
             } );
 
         } else if( has_engine_type_not( fuel_type_muscle, true ) ) {
@@ -730,15 +698,12 @@ void vehicle::use_controls( const tripoint &pos )
             actions.emplace_back( [&] {
                 if( engine_on )
                 {
-                    engine_on = false;
-                    sounds::sound( pos, 2, sounds::sound_t::movement,
-                                   _( "the engine go silent" ) );
+                    add_msg( _( "You turn the engine off." ) );
                     stop_engines();
                 } else
                 {
                     start_engines();
                 }
-                refresh();
             } );
         }
     }
@@ -773,9 +738,9 @@ void vehicle::use_controls( const tripoint &pos )
                           keybind( "TOGGLE_TRACKING" ) );
     actions.emplace_back( [&] { toggle_tracking(); } );
 
-    if( ( is_foldable() || tags.count( "convertible" ) ) && !remote ) {
+    if( is_foldable() && !remote ) {
         options.emplace_back( string_format( _( "Fold %s" ), name ), keybind( "FOLD_VEHICLE" ) );
-        actions.emplace_back( [&] { fold_up(); } );
+        actions.emplace_back( [&] { start_folding_activity(); } );
     }
 
     if( has_part( "ENGINE" ) ) {
@@ -911,96 +876,14 @@ void vehicle::connect( const tripoint &source_pos, const tripoint &target_pos )
     tripoint source_global( cord.get_var( "source_x", 0 ),
                             cord.get_var( "source_y", 0 ),
                             cord.get_var( "source_z", 0 ) );
-    target_part.target.first = source_global;
+    target_part.target.first = here.getabs( source_global );
     target_part.target.second = source_veh->global_square_location().raw();
     target_veh->install_part( vcoords, target_part );
 }
 
-bool vehicle::fold_up()
+void vehicle::start_folding_activity()
 {
-    const bool can_be_folded = is_foldable();
-    const bool is_convertible = ( tags.count( "convertible" ) > 0 );
-    if( !( can_be_folded || is_convertible ) ) {
-        debugmsg( _( "Tried to fold non-folding vehicle %s" ), name );
-        return false;
-    }
-
-    avatar &player_character = get_avatar();
-    if( player_character.controlling_vehicle ) {
-        add_msg( m_warning,
-                 _( "As the pitiless metal bars close on your nether regions, you reconsider trying to fold the %s while riding it." ),
-                 name );
-        return false;
-    }
-
-    if( velocity > 0 ) {
-        add_msg( m_warning, _( "You can't fold the %s while it's in motion." ), name );
-        return false;
-    }
-
-    add_msg( _( "You painstakingly pack the %s into a portable configuration." ), name );
-
-    if( player_character.get_grab_type() != object_type::NONE ) {
-        player_character.grab( object_type::NONE );
-        add_msg( _( "You let go of %s as you fold it." ), name );
-    }
-
-    std::string itype_id = "folding_bicycle";
-    for( const auto &elem : tags ) {
-        if( elem.compare( 0, 12, "convertible:" ) == 0 ) {
-            itype_id = elem.substr( 12 );
-            break;
-        }
-    }
-
-    // create a folding [non]bicycle item
-    item bicycle( can_be_folded ? "generic_folded_vehicle" : "folding_bicycle", calendar::turn );
-
-    map &here = get_map();
-    // Drop stuff in containers on ground
-    for( const vpart_reference &vp : get_any_parts( "CARGO" ) ) {
-        const size_t p = vp.part_index();
-        for( item &elem : get_items( p ) ) {
-            here.add_item_or_charges( player_character.pos(), elem );
-        }
-        while( !get_items( p ).empty() ) {
-            get_items( p ).erase( get_items( p ).begin() );
-        }
-    }
-
-    unboard_all();
-
-    // Store data of all parts, iuse::unfold_bicyle only loads
-    // some of them, some are expect to be
-    // vehicle specific and therefore constant (like id, mount).
-    // Writing everything here is easier to manage, as only
-    // iuse::unfold_bicyle has to adopt to changes.
-    try {
-        std::ostringstream veh_data;
-        JsonOut json( veh_data );
-        json.write( real_parts() );
-        bicycle.set_var( "folding_bicycle_parts", veh_data.str() );
-    } catch( const JsonError &e ) {
-        debugmsg( "Error storing vehicle: %s", e.c_str() );
-    }
-
-    bicycle.set_var( "tracking", tracking_on ? 1 : 0 );
-    if( can_be_folded ) {
-        bicycle.set_var( "weight", to_milligram( total_mass() ) );
-        bicycle.set_var( "volume", total_folded_volume() / units::legacy_volume_factor );
-        bicycle.set_var( "name", string_format( _( "folded %s" ), name ) );
-        bicycle.set_var( "vehicle_name", name );
-        // TODO: a better description?
-        bicycle.set_var( "description", string_format( _( "A folded %s." ), name ) );
-    }
-
-    here.add_item_or_charges( global_part_pos3( 0 ), bicycle );
-    here.destroy_vehicle( this );
-
-    // TODO: take longer to fold bigger vehicles
-    // TODO: make this interruptible
-    player_character.moves -= 500;
-    return true;
+    get_avatar().assign_activity( player_activity( vehicle_folding_activity_actor( *this ) ) );
 }
 
 double vehicle::engine_cold_factor( const int e ) const
@@ -1009,12 +892,13 @@ double vehicle::engine_cold_factor( const int e ) const
         return 0.0;
     }
 
-    int eff_temp = get_weather().get_temperature( get_player_character().pos() );
+    double eff_temp = units::to_fahrenheit( get_weather().get_temperature(
+            get_player_character().pos() ) );
     if( !parts[ engines[ e ] ].has_fault_flag( "BAD_COLD_START" ) ) {
-        eff_temp = std::min( eff_temp, 20 );
+        eff_temp = std::min( eff_temp, 20.0 );
     }
 
-    return 1.0 - ( std::max( 0, std::min( 30, eff_temp ) ) / 30.0 );
+    return 1.0 - ( std::max( 0.0, std::min( 30.0, eff_temp ) ) / 30.0 );
 }
 
 int vehicle::engine_start_time( const int e ) const
@@ -1168,22 +1052,35 @@ void vehicle::stop_engines()
 {
     vehicle_noise = 0;
     engine_on = false;
-    add_msg( _( "You turn the engine off." ) );
     for( size_t e = 0; e < engines.size(); ++e ) {
-        if( is_engine_on( e ) ) {
-            if( sfx::has_variant_sound( "engine_stop", parts[ engines[ e ] ].info().get_id().str() ) ) {
-                sfx::play_variant_sound( "engine_stop", parts[ engines[ e ] ].info().get_id().str(),
-                                         parts[ engines[ e ] ].info().engine_noise_factor() );
-            } else if( is_engine_type( e, fuel_type_battery ) ) {
-                sfx::play_variant_sound( "engine_stop", "electric",
-                                         parts[ engines[ e ] ].info().engine_noise_factor() );
-            } else {
-                sfx::play_variant_sound( "engine_stop", "combustion",
-                                         parts[ engines[ e ] ].info().engine_noise_factor() );
-            }
+        if( !is_engine_on( e ) ) {
+            continue;
         }
+
+        const vehicle_part &epart = parts[ engines[ e ] ];
+        const vpart_info &einfo = epart.info();
+        const tripoint epos = global_part_pos3( epart );
+
+        sounds::sound( epos, 2, sounds::sound_t::movement, _( "the engine go silent" ) );
+
+        std::string variant = einfo.get_id().str();
+
+        if( sfx::has_variant_sound( "engine_stop", variant ) ) {
+            // has special sound variant for this vpart id
+        } else if( is_engine_type( e, fuel_type_battery ) ) {
+            variant = "electric";
+        } else if( is_engine_type( e, fuel_type_muscle ) ) {
+            variant = "muscle";
+        } else if( is_engine_type( e, fuel_type_wind ) ) {
+            variant = "wind";
+        } else {
+            variant = "combustion";
+        }
+
+        sfx::play_variant_sound( "engine_stop", variant, einfo.engine_noise_factor() );
     }
     sfx::do_vehicle_engine_sfx();
+    refresh();
 }
 
 void vehicle::start_engines( const bool take_control, const bool autodrive )
@@ -1221,6 +1118,7 @@ void vehicle::start_engines( const bool take_control, const bool autodrive )
 
     if( !has_engine ) {
         add_msg( m_info, _( "The %s doesn't have an engine!" ), name );
+        refresh();
         return;
     }
 
@@ -1235,6 +1133,7 @@ void vehicle::start_engines( const bool take_control, const bool autodrive )
             starting_engine_position - player_character.pos_bub();
         player_character.activity.values.push_back( take_control );
     }
+    refresh();
 }
 
 void vehicle::enable_patrol()
@@ -1243,7 +1142,6 @@ void vehicle::enable_patrol()
     autopilot_on = true;
     autodrive_local_target = tripoint_zero;
     start_engines();
-    refresh();
 }
 
 void vehicle::honk_horn() const
@@ -1991,132 +1889,67 @@ void vehicle::use_harness( int part, const tripoint &pos )
 
 void vehicle::use_bike_rack( int part )
 {
-    if( parts[part].is_unavailable() || parts[part].removed ) {
-        return;
-    }
-    std::vector<std::vector <int>> racks_parts = find_lines_of_parts( part, "BIKE_RACK_VEH" );
-    if( racks_parts.empty() ) {
-        return;
-    }
+    Character &pc = get_player_character();
+    const std::vector<unrackable_vehicle> unrackables = find_vehicles_to_unrack( part );
+    const std::vector<rackable_vehicle> rackables = find_vehicles_to_rack( part );
+    constexpr size_t unrack_offset = 1000;
 
-    // check if we're storing a vehicle on this rack
-    std::vector<std::vector<int>> carried_vehicles;
-    std::vector<std::vector<int>> carrying_racks;
-    bool found_vehicle = false;
-    bool full_rack = true;
-    for( const std::vector<int> &rack_parts : racks_parts ) {
-        std::vector<int> carried_parts;
-        std::vector<int> carry_rack;
-        size_t carry_size = 0;
-        std::string cur_vehicle;
+    uilist rack_menu;
+    rack_menu.desc_enabled = true;
+    rack_menu.desc_lines_hint = 1;
+    rack_menu.hilight_disabled = true;
 
-        const auto add_vehicle = []( std::vector<int> &carried_parts,
-                                     std::vector<std::vector<int>> &carried_vehicles,
-                                     std::vector<int> &carry_rack,
-        std::vector<std::vector<int>> &carrying_racks ) {
-            if( !carry_rack.empty() ) {
-                carrying_racks.emplace_back( carry_rack );
-                carried_vehicles.emplace_back( carried_parts );
-                carry_rack.clear();
-                carried_parts.clear();
-            }
-        };
-
-        for( const int &rack_part : rack_parts ) {
-            // skip parts that aren't carrying anything
-            if( !parts[ rack_part ].has_flag( vehicle_part::carrying_flag ) ) {
-                add_vehicle( carried_parts, carried_vehicles, carry_rack, carrying_racks );
-                cur_vehicle.clear();
-                continue;
-            }
-            for( const point &mount_dir : five_cardinal_directions ) {
-                point near_loc = parts[ rack_part ].mount + mount_dir;
-                std::vector<int> near_parts = parts_at_relative( near_loc, true );
-                if( near_parts.empty() ) {
-                    continue;
-                }
-                if( parts[ near_parts[ 0 ] ].has_flag( vehicle_part::carried_flag ) ) {
-                    carry_size += 1;
-                    found_vehicle = true;
-                    // found a carried vehicle part
-                    if( parts[ near_parts[ 0 ] ].carried_name() != cur_vehicle ) {
-                        add_vehicle( carried_parts, carried_vehicles, carry_rack, carrying_racks );
-                        cur_vehicle = parts[ near_parts[ 0 ] ].carried_name();
-                    }
-                    for( const int &carried_part : near_parts ) {
-                        carried_parts.push_back( carried_part );
-                    }
-                    carry_rack.push_back( rack_part );
-                    // we're not adjacent to another carried vehicle on this rack
-                    break;
+    for( size_t i = 0; i < rackables.size(); i++ ) {
+        // prevent racking two vehicles with same name on single vehicle
+        bool veh_with_same_name_already_racked = false;
+        for( const vpart_reference &vpr : get_any_parts( "BIKE_RACK_VEH" ) ) {
+            const auto unrackables = find_vehicles_to_unrack( vpr.part_index() );
+            for( const unrackable_vehicle &unrackable : unrackables ) {
+                if( unrackable.name == rackables[i].name ) {
+                    veh_with_same_name_already_racked = true;
                 }
             }
         }
 
-        add_vehicle( carried_parts, carried_vehicles, carry_rack, carrying_racks );
-        full_rack &= carry_size == rack_parts.size();
+        if( veh_with_same_name_already_racked ) {
+            std::string txt = string_format( _( "Attach the %s to the rack" ), rackables[i].name );
+            std::string desc = string_format(
+                                   _( "This vehicle already has '%s' racked, please rename before racking." ), rackables[i].name );
+            rack_menu.addentry_desc( static_cast<int>( i ), false, MENU_AUTOASSIGN, txt, desc );
+        } else {
+            std::string txt = string_format( _( "Attach the %s to the rack" ), rackables[i].name );
+            rack_menu.addentry_desc( static_cast<int>( i ), true, MENU_AUTOASSIGN, txt, "" );
+        }
     }
-    int unload_carried = full_rack ? 0 : -1;
-    bool found_rackable_vehicle = try_to_rack_nearby_vehicle( racks_parts, true );
-    validate_carried_vehicles( carried_vehicles );
-    validate_carried_vehicles( carrying_racks );
-    if( found_vehicle && !full_rack ) {
-        uilist rack_menu;
-        if( found_rackable_vehicle ) {
-            rack_menu.addentry( 0, true, '0', _( "Load a vehicle on the rack" ) );
-        }
-        for( size_t i = 0; i < carried_vehicles.size(); i++ ) {
-            rack_menu.addentry( i + 1, true, '1' + i,
-                                string_format( _( "Remove the %s from the rack" ),
-                                               parts[ carried_vehicles[i].front() ].carried_name() ) );
-        }
+
+    for( size_t i = 0; i < unrackables.size(); i++ ) {
+        const std::string txt = string_format( _( "Remove the %s from the rack" ), unrackables[i].name );
+        rack_menu.addentry_desc( i + unrack_offset, true, MENU_AUTOASSIGN, txt, "" );
+    }
+
+    if( rack_menu.entries.empty() ) {
+        pc.add_msg_if_player( _( "Nothing to take off or put on the racks is nearby." ) );
+        return;
+    }
+
+    if( rack_menu.entries.size() == 1 && rack_menu.entries[0].enabled ) {
+        rack_menu.ret = rack_menu.entries[0].retval;
+    } else {
         rack_menu.query();
-        unload_carried = rack_menu.ret - 1;
     }
 
-    player_activity new_act;
-    if( unload_carried > -1 ) {
-        new_act = player_activity( bikerack_unracking_activity_actor( to_moves<int>( 5_minutes ), *this,
-                                   carried_vehicles[unload_carried], carrying_racks[unload_carried] ) );
-        get_player_character().assign_activity( new_act, false );
-    } else if( found_rackable_vehicle ) {
-        new_act = player_activity( bikerack_racking_activity_actor( to_moves<int>( 5_minutes ), *this,
-                                   racks_parts ) );
-        get_player_character().assign_activity( new_act, false );
-    }
-}
-
-void vehicle::clear_bike_racks( std::vector<int> &racks )
-{
-    for( const int &rack_part : racks ) {
-        parts[rack_part].remove_flag( vehicle_part::carrying_flag );
-        parts[rack_part].remove_flag( vehicle_part::tracked_flag );
+    if( rack_menu.ret >= static_cast<int>( unrack_offset ) ) {
+        const unrackable_vehicle &unrackable = unrackables[rack_menu.ret - unrack_offset];
+        bikerack_unracking_activity_actor unrack( *this, unrackable.parts, unrackable.racks );
+        pc.assign_activity( player_activity( unrack ), false );
+    } else if( rack_menu.ret >= 0 ) {
+        const rackable_vehicle &rackable = rackables[rack_menu.ret];
+        bikerack_racking_activity_actor rack( *this, *rackable.veh, rackable.racks );
+        pc.assign_activity( player_activity( rack ), false );
+    } else {
+        pc.add_msg_if_player( _( "Nevermind." ) );
     }
 }
-
-/*
-* Todo: find a way to split and rewrite use_bikerack so that this check is no longer necessary
-*/
-void vehicle::validate_carried_vehicles( std::vector<std::vector<int>>
-        &carried_vehicles )
-{
-    std::sort( carried_vehicles.begin(), carried_vehicles.end(), []( const std::vector<int> &a,
-    const std::vector<int> &b ) {
-        return a.size() < b.size();
-    } );
-
-    std::vector<std::vector<int>>::iterator it = carried_vehicles.begin();
-    while( it != carried_vehicles.end() ) {
-        for( std::vector<std::vector<int>>::iterator it2 = it + 1; it2 < carried_vehicles.end(); it2++ ) {
-            if( std::search( ( *it2 ).begin(), ( *it2 ).end(), ( *it ).begin(),
-                             ( *it ).end() ) != ( *it2 ).end() ) {
-                it = carried_vehicles.erase( it-- );
-            }
-        }
-        it++;
-    }
-}
-
 
 void vpart_position::form_inventory( inventory &inv ) const
 {
@@ -2158,7 +1991,7 @@ void vehicle::interact_with( const vpart_position &vp, bool with_pickup )
     const turret_data turret = turret_query( vp.pos() );
     const cata::optional<vpart_reference> vp_curtain = vp.avail_part_with_feature( "CURTAIN" );
     const cata::optional<vpart_reference> vp_faucet = vp.part_with_tool( itype_water_faucet );
-    const cata::optional<vpart_reference> vp_purify = vp.part_with_tool( itype_water_purifier );
+    const cata::optional<vpart_reference> vp_purify = vp.part_with_tool( itype_pseudo_water_purifier );
     const cata::optional<vpart_reference> vp_controls = vp.avail_part_with_feature( "CONTROLS" );
     const cata::optional<vpart_reference> vp_electronics =
         vp.avail_part_with_feature( "CTRL_ELECTRONIC" );
@@ -2211,7 +2044,8 @@ void vehicle::interact_with( const vpart_position &vp, bool with_pickup )
     selectmenu.addentry( EXAMINE, true, 'e',
                          is_appliance ? _( "Examine appliance" ) : _( "Examine vehicle" ) );
     if( !is_appliance ) {
-        selectmenu.addentry( TRACK, true, keybind( "TOGGLE_TRACKING" ), tracking_toggle_string() );
+        selectmenu.addentry( TRACK, true, keybind( "TOGGLE_TRACKING" ),
+                             tracking_on ? _( "Forget vehicle position" ) : _( "Remember vehicle position" ) );
     } else {
         selectmenu.addentry( PLUG, true, 'g', _( "Plug in appliance" ) );
     }
@@ -2257,7 +2091,7 @@ void vehicle::interact_with( const vpart_position &vp, bool with_pickup )
     if( with_pickup && ( vp_has_items || map_has_items ) ) {
         selectmenu.addentry( GET_ITEMS, true, 'g', _( "Get items" ) );
     }
-    if( ( is_foldable() || tags.count( "convertible" ) > 0 ) && g->remoteveh() != this ) {
+    if( is_foldable() && g->remoteveh() != this ) {
         selectmenu.addentry( FOLD_VEHICLE, true, 'f', _( "Fold vehicle" ) );
     }
     if( turret.can_unload() ) {
@@ -2275,7 +2109,7 @@ void vehicle::interact_with( const vpart_position &vp, bool with_pickup )
     }
     if( vp_purify ) {
         bool can_purify = fuel_left( itype_water ) &&
-                          fuel_left( itype_battery, true ) >= itype_water_purifier.obj().charges_to_use();
+                          fuel_left( itype_battery, true ) >= itype_pseudo_water_purifier.obj().charges_to_use();
         selectmenu.addentry( PURIFY_TANK, can_purify, 'P', _( "Purify water in vehicle tank" ) );
     }
     if( vp_monster_capture ) {
@@ -2402,7 +2236,7 @@ void vehicle::interact_with( const vpart_position &vp, bool with_pickup )
                                                get_all_colors().get_name( item::find_type( itype_water )->color ) );
             vehicle_part &tank = veh_interact::select_part( *this, sel, title );
             if( tank ) {
-                int cost = item::find_type( itype_water_purifier )->charges_to_use();
+                int64_t cost = static_cast<int64_t>( itype_pseudo_water_purifier->charges_to_use() );
                 if( fuel_left( itype_battery, true ) < tank.ammo_remaining() * cost ) {
                     //~ $1 - vehicle name, $2 - part name
                     add_msg( m_bad, _( "Insufficient power to purify the contents of the %1$s's %2$s" ),
@@ -2434,7 +2268,7 @@ void vehicle::interact_with( const vpart_position &vp, bool with_pickup )
             return;
         }
         case FOLD_VEHICLE: {
-            fold_up();
+            start_folding_activity();
             return;
         }
         case HANDBRAKE: {

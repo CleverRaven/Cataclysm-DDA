@@ -292,6 +292,7 @@ static const json_character_flag json_flag_CLIMATE_CONTROL( "CLIMATE_CONTROL" );
 static const json_character_flag json_flag_COLD_IMMUNE( "COLD_IMMUNE" );
 static const json_character_flag json_flag_CUT_IMMUNE( "CUT_IMMUNE" );
 static const json_character_flag json_flag_DEAF( "DEAF" );
+static const json_character_flag json_flag_ECTOTHERM( "ECTOTHERM" );
 static const json_character_flag json_flag_ELECTRIC_IMMUNE( "ELECTRIC_IMMUNE" );
 static const json_character_flag json_flag_ENHANCED_VISION( "ENHANCED_VISION" );
 static const json_character_flag json_flag_EYE_MEMBRANE( "EYE_MEMBRANE" );
@@ -392,7 +393,6 @@ static const trait_id trait_CF_HAIR( "CF_HAIR" );
 static const trait_id trait_CHEMIMBALANCE( "CHEMIMBALANCE" );
 static const trait_id trait_CHLOROMORPH( "CHLOROMORPH" );
 static const trait_id trait_CLUMSY( "CLUMSY" );
-static const trait_id trait_COLDBLOOD4( "COLDBLOOD4" );
 static const trait_id trait_DEBUG_BIONIC_POWER( "DEBUG_BIONIC_POWER" );
 static const trait_id trait_DEBUG_CLOAK( "DEBUG_CLOAK" );
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
@@ -405,7 +405,6 @@ static const trait_id trait_DEFT( "DEFT" );
 static const trait_id trait_DISRESISTANT( "DISRESISTANT" );
 static const trait_id trait_DOWN( "DOWN" );
 static const trait_id trait_EATHEALTH( "EATHEALTH" );
-static const trait_id trait_ELECTRORECEPTORS( "ELECTRORECEPTORS" );
 static const trait_id trait_ELFA_FNV( "ELFA_FNV" );
 static const trait_id trait_ELFA_NV( "ELFA_NV" );
 static const trait_id trait_FAT( "FAT" );
@@ -577,7 +576,6 @@ Character::Character() :
     last_item = itype_null;
     sight_max = 9999;
     last_batch = 0;
-    lastconsumed = itype_null;
     death_drops = true;
     nv_cached = false;
     volume = 0;
@@ -1085,7 +1083,7 @@ double Character::aim_per_move( const item &gun, double recoil,
     return std::min( aim_speed, recoil - limit );
 }
 
-int Character::sight_range( int light_level ) const
+int Character::sight_range( float light_level ) const
 {
     if( light_level == 0 ) {
         return 1;
@@ -1101,9 +1099,9 @@ int Character::sight_range( int light_level ) const
      * log(LIGHT_AMBIENT_LOW / light_level) <= LIGHT_TRANSPARENCY_OPEN_AIR * distance
      * log(LIGHT_AMBIENT_LOW / light_level) * (1 / LIGHT_TRANSPARENCY_OPEN_AIR) <= distance
      */
-    int range = static_cast<int>( -std::log( get_vision_threshold( static_cast<int>
-                                  ( get_map().ambient_light_at( pos() ) ) ) / static_cast<float>( light_level ) ) *
-                                  ( 1.0 / LIGHT_TRANSPARENCY_OPEN_AIR ) );
+
+    int range = static_cast<int>( -std::log( get_vision_threshold( get_map().ambient_light_at(
+                                      pos() ) ) / light_level ) / LIGHT_TRANSPARENCY_OPEN_AIR );
 
     // Clamp to [1, sight_max].
     return clamp( range, 1, sight_max );
@@ -1136,7 +1134,7 @@ bool Character::overmap_los( const tripoint_abs_omt &omt, int sight_points ) con
     return true;
 }
 
-int Character::overmap_sight_range( int light_level ) const
+int Character::overmap_sight_range( float light_level ) const
 {
     int sight = sight_range( light_level );
     if( sight < SEEX ) {
@@ -2334,8 +2332,7 @@ float Character::get_vision_threshold( float light_level ) const
 
     // As light_level goes from LIGHT_AMBIENT_MINIMAL to LIGHT_AMBIENT_LIT,
     // dimming goes from 1.0 to 2.0.
-    const float dimming_from_light = 1.0 + ( ( static_cast<float>( light_level ) -
-                                     LIGHT_AMBIENT_MINIMAL ) /
+    const float dimming_from_light = 1.0f + ( ( light_level - LIGHT_AMBIENT_MINIMAL ) /
                                      ( LIGHT_AMBIENT_LIT - LIGHT_AMBIENT_MINIMAL ) );
 
     float range = get_per() / 3.0f;
@@ -2356,7 +2353,7 @@ float Character::get_vision_threshold( float light_level ) const
     // Clamp range to 1+, so that we can always see where we are
     range = std::max( 1.0f, range * get_limb_score( limb_score_night_vis ) );
 
-    return std::min( static_cast<float>( LIGHT_AMBIENT_LOW ),
+    return std::min( LIGHT_AMBIENT_LOW,
                      threshold_for_range( range ) * dimming_from_light );
 }
 
@@ -4686,7 +4683,8 @@ needs_rates Character::calc_needs_rates() const
 
     if( has_trait( trait_TRANSPIRATION ) ) {
         // Transpiration, the act of moving nutrients with evaporating water, can take a very heavy toll on your thirst when it's really hot.
-        rates.thirst *= ( ( get_weather().get_temperature( pos() ) - 32.5f ) / 40.0f );
+        rates.thirst *= ( ( units::to_fahrenheit( get_weather().get_temperature(
+                                pos() ) ) - 32.5f ) / 40.0f );
     }
 
     if( is_npc() ) {
@@ -5279,19 +5277,43 @@ bool Character::is_immune_field( const field_type_id &fid ) const
     }
     // Check to see if we are immune
     const field_type &ft = fid.obj();
-    for( const trait_id &t : ft.immunity_data_traits ) {
-        if( has_trait( t ) ) {
+    for( const json_character_flag &flag : ft.immunity_data_flags ) {
+        if( has_flag( flag ) ) {
             return true;
         }
     }
     bool immune_by_body_part_resistance = !ft.immunity_data_body_part_env_resistance.empty();
-    for( const std::pair<bodypart_str_id, int> &fide : ft.immunity_data_body_part_env_resistance ) {
-        immune_by_body_part_resistance = immune_by_body_part_resistance &&
-                                         get_env_resist( fide.first.id() ) >= fide.second;
+    for( const std::pair<body_part_type::type, int> &fide :
+         ft.immunity_data_body_part_env_resistance ) {
+        for( const bodypart_id &bp : get_all_body_parts_of_type( fide.first ) ) {
+            if( get_env_resist( bp ) < fide.second ) {
+                // If any one of a bodypart type is unprotected disregard this immunity type
+                // TODO: mitigate effect strength based on protected:unprotected ratio?
+                immune_by_body_part_resistance = false;
+                break;
+            }
+        }
     }
     if( immune_by_body_part_resistance ) {
         return true;
     }
+
+    bool immune_by_worn_flags = !ft.immunity_data_part_item_flags.empty();
+    for( const std::pair<body_part_type::type, flag_id> &fide :
+         ft.immunity_data_part_item_flags ) {
+        for( const bodypart_id &bp : get_all_body_parts_of_type( fide.first ) ) {
+            if( !worn_with_flag( fide.second, bp ) ) {
+                // If any one of a bodypart type is unprotected disregard this immunity type
+                // TODO: mitigate effect strength based on protected:unprotected ratio?
+                immune_by_worn_flags = false;
+                break;
+            }
+        }
+    }
+    if( immune_by_worn_flags ) {
+        return true;
+    }
+
     if( ft.has_elec ) {
         return is_elec_immune();
     }
@@ -5512,8 +5534,9 @@ float Character::active_light() const
 
 bool Character::sees_with_specials( const Creature &critter ) const
 {
-    // electroreceptors grants vision of robots and electric monsters through walls
-    if( has_trait( trait_ELECTRORECEPTORS ) && critter.is_electrical() ) {
+    const double sight_range_electric = calculate_by_enchantment( 0.0,
+                                        enchant_vals::mod::SIGHT_RANGE_ELECTRIC );
+    if( critter.is_electrical() && rl_dist_exact( pos(), critter.pos() ) <= sight_range_electric ) {
         return true;
     }
 
@@ -6498,19 +6521,26 @@ bool Character::invoke_item( item *used, const std::string &method, const tripoi
         moves = pre_obtain_moves;
         return false;
     }
+
     if( charges_used.value() == 0 ) {
+        // Not really used.
+        // The item may also have been deleted
         return false;
     }
-    // Prevent accessing the item as it may have been deleted by the invoked iuse function.
-    if( used->is_tool() || actually_used->is_medication() ) {
-        return consume_charges( *actually_used, charges_used.value() );
-    } else if( used->is_bionic() || used->is_deployable() || method == "place_trap" ) {
-        i_rem( used );
-        return true;
-    } else if( used->is_comestible() ) {
+
+
+    if( actually_used->is_comestible() ) {
         const bool ret = consume_effects( *used );
-        consume_charges( *used, charges_used.value() );
+        actually_used->activation_consume( charges_used.value(), pt, this );
         return ret;
+    }
+
+    actually_used->activation_consume( charges_used.value(), pt, this );
+
+    if( actually_used->has_flag( flag_SINGLE_USE ) || actually_used->is_bionic() ||
+        actually_used->is_deployable() ) {
+        i_rem( actually_used );
+        return true;
     }
 
     return false;
@@ -7055,6 +7085,15 @@ void Character::recalculate_enchantment_cache()
         }
     }
 
+    for( const auto &elem : *effects ) {
+        for( const enchantment_id &ench_id : elem.first->enchantments ) {
+            const enchantment &ench = ench_id.obj();
+            if( ench.is_active( *this, true ) ) {
+                enchantment_cache->force_add( ench );
+            }
+        }
+    }
+
     if( enchantment_cache->modifies_bodyparts() ) {
         recalculate_bodyparts();
     }
@@ -7223,7 +7262,7 @@ std::string Character::weapname_mode() const
         }
         return gunmode;
     } else {
-        return _( "" );
+        return "";
     }
 }
 
@@ -7268,7 +7307,7 @@ std::string Character::weapname_ammo() const
         return mag_ammo;
 
     } else {
-        return _( "" );
+        return "";
     }
 }
 
@@ -9226,17 +9265,14 @@ bool Character::sees_with_infrared( const Creature &critter ) const
     }
 
     map &here = get_map();
-    // Use range based on default daylight, not actual current light, since
-    // we're seeing in infra red not via light.
-    int range = sight_range( default_daylight_level() );
 
     if( is_avatar() || critter.is_avatar() ) {
         // Players should not use map::sees
         // Likewise, players should not be "looked at" with map::sees, not to break symmetry
-        return here.pl_line_of_sight( critter.pos(), range );
+        return here.pl_line_of_sight( critter.pos(), unimpaired_range() );
     }
 
-    return here.sees( pos(), critter.pos(), range );
+    return here.sees( pos(), critter.pos(), unimpaired_range() );
 }
 
 bool Character::is_visible_in_range( const Creature &critter, const int range ) const
@@ -10656,9 +10692,9 @@ void Character::recalc_speed_bonus()
         }
         const float temperature_speed_modifier = mutation_value( "temperature_speed_modifier" );
         if( temperature_speed_modifier != 0 ) {
-            const int player_local_temp = get_weather().get_temperature( pos() );
-            if( has_trait( trait_COLDBLOOD4 ) || player_local_temp < 65 ) {
-                mod_speed_bonus( ( player_local_temp - 65 ) * temperature_speed_modifier );
+            const units::temperature player_local_temp = get_weather().get_temperature( pos() );
+            if( has_flag( json_flag_ECTOTHERM ) || player_local_temp < units::from_fahrenheit( 65 ) ) {
+                mod_speed_bonus( ( units::to_fahrenheit( player_local_temp ) - 65 ) * temperature_speed_modifier );
             }
         }
     }

@@ -13,7 +13,7 @@
         { "u_has_items": { "item": "drivebelt_makeshift", "count": 3 } }
       ]
     },
-    "origins": [ "ORIGIN_OPENER_NPC" ],
+    "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_LUMBERMILL_GET_1000_NAILS",
     "has_generic_rewards": true,
     "dialogue": {
@@ -38,7 +38,7 @@
     "count": 1000,
     "difficulty": 5,
     "value": 300000,
-    "origins": [ "ORIGIN_OPENER_NPC" ],
+    "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_LUMBERMILL_GET_6800_NAILS",
     "has_generic_rewards": true,
     "dialogue": {
@@ -65,7 +65,7 @@
     "count": 6800,
     "difficulty": 32,
     "value": 2000000,
-    "origins": [ "ORIGIN_OPENER_NPC" ],
+    "origins": [ "ORIGIN_SECONDARY" ],
     "end": {
       "update_mapgen": [
         { "om_terrain": "lumbermill_0_0_ocu", "place_nested": [ { "chunks": [ "occupied_lum_wall_0_0" ], "x": 0, "y": 0 } ] },
@@ -115,7 +115,7 @@
         { "u_has_items": { "item": "quilt_patchwork", "count": 6 } }
       ]
     },
-    "origins": [ "ORIGIN_OPENER_NPC" ],
+    "origins": [ "ORIGIN_SECONDARY" ],
     "end": {
       "update_mapgen": { "om_terrain": "lumbermill_1_1_ocu", "place_nested": [ { "chunks": [ "occupied_lum_hotel_1_1" ], "x": 0, "y": 0 } ] }
     },
@@ -143,7 +143,7 @@
     "count": 1,
     "difficulty": 35,
     "value": 4000,
-    "origins": [ "ORIGIN_OPENER_NPC" ],
+    "origins": [ "ORIGIN_SECONDARY" ],
     "start": { "assign_mission_target": { "om_terrain": "evac_center_18", "om_special": "evac_center", "reveal_radius": 0 } },
     "has_generic_rewards": true,
     "dialogue": {

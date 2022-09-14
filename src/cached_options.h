@@ -12,11 +12,17 @@ extern bool keycode_mode;
 extern bool log_from_top;
 extern int message_ttl;
 extern int message_cooldown;
-extern bool tile_iso;
+extern int tile_retracted;
+extern float tile_retract_dist_min;
+extern float tile_retract_dist_max;
 extern bool use_tiles;
 extern bool use_far_tiles;
 extern bool use_tiles_overmap;
 extern bool pixel_minimap_option;
+extern int pixel_minimap_r;
+extern int pixel_minimap_g;
+extern int pixel_minimap_b;
+extern int pixel_minimap_a;
 
 // test_mode is not a regular game option; it's true when we are running unit
 // tests.

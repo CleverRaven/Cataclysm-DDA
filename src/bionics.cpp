@@ -207,7 +207,7 @@ struct Character::auto_toggle_bionic_result {
         other
     };
     fuel_type_t fuel_type = fuel_type_t::other;
-    int fuel_energy = 0;
+    units::energy fuel_energy = 0_J;
     float effective_efficiency = 0.0f;
     int current_fuel_stock = 0;
 };
@@ -1077,7 +1077,7 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
         const oter_id &cur_om_ter = overmap_buffer.ter( global_omt_location() );
         /* cache g->get_temperature( player location ) since it is used twice. No reason to recalc */
         weather_manager &weather = get_weather();
-        const int player_local_temp = weather.get_temperature( player_character.pos() );
+        const units::temperature player_local_temp = weather.get_temperature( player_character.pos() );
         const int windpower = get_local_windpower( weather.windspeed + vehwindspeed,
                               cur_om_ter, pos(), weather.winddirection, g->is_sheltered( pos() ) );
         add_msg_if_player( m_info, _( "Temperature: %s." ), print_temperature( player_local_temp ) );
@@ -1092,9 +1092,8 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
                            convert_velocity( windpower * 100, VU_WIND ),
                            velocity_units( VU_WIND ) );
         add_msg_if_player( m_info, _( "Feels Like: %s." ),
-                           print_temperature(
-                               get_local_windchill( weatherPoint.temperature, weatherPoint.humidity,
-                                       windpower ) + player_local_temp ) );
+                           print_temperature( player_local_temp + get_local_windchill( weatherPoint.temperature,
+                                              weatherPoint.humidity,  windpower ) ) );
         std::string dirstring = get_dirstring( weather.winddirection );
         add_msg_if_player( m_info, _( "Wind Direction: From the %s." ), dirstring );
     } else if( bio.id == bio_remote ) {
@@ -1358,7 +1357,8 @@ Character::auto_toggle_bionic_result Character::auto_toggle_bionic( bionic &bio,
         std::string msg_player;
         std::string msg_npc;
         for( const material_id &fuel : fuel_available ) {
-            const int fuel_energy = fuel->get_fuel_data().energy;
+            const units::energy fuel_energy = fuel->get_fuel_data().energy /
+                                              1000; // TODO: Rewrite to use item volume
             const bool is_metabolism_powered = fuel == fuel_type_metabolism;
             const bool is_perpetual_fuel = fuel->get_fuel_data().is_perpetual_fuel;
             const bool is_remote_fuel = is_remote_fueled && fuel == remote_fuel;
@@ -1393,7 +1393,7 @@ Character::auto_toggle_bionic_result Character::auto_toggle_bionic( bionic &bio,
             }
 
             if( bio.get_safe_fuel_thresh() > 0
-                && get_power_level() + units::from_kilojoule( fuel_energy ) * effective_efficiency >
+                && get_power_level() + fuel_energy * effective_efficiency >
                 get_max_power_level() * std::min( 1.0f, bio.get_safe_fuel_thresh() ) ) {
                 if( bio.powered || start ) {
                     if( !start ) {
@@ -1494,21 +1494,21 @@ void Character::burn_fuel( bionic &bio, const auto_toggle_bionic_result &result 
 
     map &here = get_map();
     weather_manager &weather = get_weather();
+    // TODO: Rewrite fuels to use item volume.
+    // The energy is in energy/L but we just divide by 1000 and treat it as energy/unit
     switch( result.fuel_type ) {
         case auto_toggle_bionic_result::fuel_type_t::metabolism: {
-            const int kcal_consumed = result.fuel_energy;
             // 1kcal = 4184 J
-            const units::energy power_gain = kcal_consumed * 4184_J * result.effective_efficiency;
-            mod_stored_kcal( -kcal_consumed, true );
+            const units::energy power_gain = result.fuel_energy * 4184 * result.effective_efficiency;
+            mod_stored_kcal( -units::to_kilojoule( result.fuel_energy ), true );
             mod_power_level( power_gain );
             break;
         }
         case auto_toggle_bionic_result::fuel_type_t::perpetual:
             if( result.burnable_fuel_id == fuel_type_sun_light && g->is_in_sunlight( pos() ) ) {
                 const weather_type_id &wtype = current_weather( pos() );
-                const float tick_sunlight = incident_sunlight( wtype, calendar::turn );
-                const double intensity = tick_sunlight / default_daylight_level();
-                mod_power_level( units::from_kilojoule( result.fuel_energy ) * intensity *
+                const float intensity = incident_sun_irradiance( wtype, calendar::turn ) / max_sun_irradiance();
+                mod_power_level( result.fuel_energy * intensity *
                                  result.effective_efficiency );
             } else if( result.burnable_fuel_id == fuel_type_wind ) {
                 int vehwindspeed = 0;
@@ -1520,7 +1520,7 @@ void Character::burn_fuel( bionic &bio, const auto_toggle_bionic_result &result 
                 const int windpower = get_local_windpower( weather.windspeed + vehwindspeed,
                                       overmap_buffer.ter( global_omt_location() ), pos(), weather.winddirection,
                                       g->is_sheltered( pos() ) );
-                mod_power_level( units::from_kilojoule( result.fuel_energy ) * windpower *
+                mod_power_level( result.fuel_energy * windpower *
                                  result.effective_efficiency );
             } else if( result.burnable_fuel_id == fuel_type_muscle ) {
                 // simply return
@@ -1530,7 +1530,7 @@ void Character::burn_fuel( bionic &bio, const auto_toggle_bionic_result &result 
             const int unconsumed = consume_remote_fuel( 1 );
             int current_fuel_stock = result.current_fuel_stock;
             if( unconsumed == 0 ) {
-                mod_power_level( units::from_kilojoule( result.fuel_energy ) * result.effective_efficiency );
+                mod_power_level( result.fuel_energy * result.effective_efficiency );
                 current_fuel_stock -= 1;
             } else {
                 current_fuel_stock = 0;
@@ -1541,7 +1541,7 @@ void Character::burn_fuel( bionic &bio, const auto_toggle_bionic_result &result 
         case auto_toggle_bionic_result::fuel_type_t::other:
             set_value( result.burnable_fuel_id.str(), std::to_string( result.current_fuel_stock - 1 ) );
             update_fuel_storage( result.burnable_fuel_id );
-            mod_power_level( units::from_kilojoule( result.fuel_energy ) * result.effective_efficiency );
+            mod_power_level( result.fuel_energy * result.effective_efficiency );
             break;
     }
 
@@ -1564,14 +1564,16 @@ void Character::passive_power_gen( const bionic &bio )
     weather_manager &weather = get_weather();
 
     for( const material_id &fuel : fuel_available ) {
-        const int fuel_energy = fuel->get_fuel_data().energy;
+        const units::energy fuel_energy = fuel->get_fuel_data().energy /
+                                          1000; // TODO: Rewrite to use item volume
         if( !fuel->get_fuel_data().is_perpetual_fuel ) {
             continue;
         }
 
         if( fuel == fuel_type_sun_light ) {
-            const double modifier = g->natural_light_level( pos().z ) / default_daylight_level();
-            mod_power_level( units::from_kilojoule( fuel_energy ) * modifier * effective_passive_efficiency );
+            const float intensity = incident_sun_irradiance( current_weather( pos() ),
+                                    calendar::turn ) / max_sun_irradiance();
+            mod_power_level( fuel_energy * intensity * effective_passive_efficiency );
         } else if( fuel == fuel_type_wind ) {
             int vehwindspeed = 0;
             const optional_vpart_position vp = here.veh_at( pos() );
@@ -1582,9 +1584,9 @@ void Character::passive_power_gen( const bionic &bio )
             const int windpower = get_local_windpower( weather.windspeed + vehwindspeed,
                                   overmap_buffer.ter( global_omt_location() ), pos(), weather.winddirection,
                                   g->is_sheltered( pos() ) );
-            mod_power_level( units::from_kilojoule( fuel_energy ) * windpower * effective_passive_efficiency );
+            mod_power_level( fuel_energy * windpower * effective_passive_efficiency );
         } else {
-            mod_power_level( units::from_kilojoule( fuel_energy ) * effective_passive_efficiency );
+            mod_power_level( fuel_energy * effective_passive_efficiency );
         }
 
         heat_emission( bio, fuel_energy );
@@ -1683,14 +1685,14 @@ void Character::reset_remote_fuel()
     remove_value( "rem_battery" );
 }
 
-void Character::heat_emission( const bionic &bio, int fuel_energy )
+void Character::heat_emission( const bionic &bio, units::energy fuel_energy )
 {
     if( !bio.info().exothermic_power_gen ) {
         return;
     }
     const float efficiency = bio.info().fuel_efficiency;
 
-    const int heat_prod = fuel_energy * ( 1.0f - efficiency );
+    const int heat_prod = units::to_kilojoule( fuel_energy * ( 1.0f - efficiency ) );
     const int heat_level = std::min( heat_prod / 10, 4 );
     const emit_id hotness = emit_id( "emit_hot_air" + std::to_string( heat_level ) + "_cbm" );
     map &here = get_map();

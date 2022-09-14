@@ -73,7 +73,7 @@
     "special_attacks": [ [ "SEARCHLIGHT", 1 ] ],
     "death_drops": { "groups": [ [ "robots", 1 ], [ "turret_searchlight", 1 ] ] },
     "death_function": {
-      "effect": { "id": "death_focused_beam" },
+      "effect": { "id": "death_focused_beam", "hit_self": true },
       "message": "As the final light is destroyed, it erupts in a blinding flare!",
       "corpse_type": "NO_CORPSE"
     },

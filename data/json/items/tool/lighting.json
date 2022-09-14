@@ -171,7 +171,7 @@
     "copy-from": "electric_lantern",
     "type": "TOOL",
     "name": { "str": "electric lantern (on)", "str_pl": "electric lanterns (on)" },
-    "power_draw": 1000,
+    "power_draw": "1 J",
     "revert_to": "electric_lantern",
     "use_action": { "menu_text": "Turn off", "type": "transform", "target": "electric_lantern", "msg": "You turn the lamp off." },
     "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "LIGHT_15", "TRADER_AVOID", "ALLOWS_REMOTE_USE" ]
@@ -214,7 +214,7 @@
     "copy-from": "flashlight",
     "type": "TOOL",
     "name": { "str": "flashlight (on)", "str_pl": "flashlights (on)" },
-    "power_draw": 10000,
+    "power_draw": "10 J",
     "revert_to": "flashlight",
     "use_action": {
       "menu_text": "Turn off",
@@ -406,7 +406,7 @@
     "copy-from": "heavy_flashlight",
     "type": "TOOL",
     "name": { "str": "heavy-duty flashlight (on)", "str_pl": "heavy-duty flashlights (on)" },
-    "power_draw": 15000,
+    "power_draw": "15 J",
     "revert_to": "heavy_flashlight",
     "use_action": {
       "ammo_scale": 0,
@@ -437,7 +437,7 @@
     "copy-from": "lightstrip_base",
     "description": "This is a light-emitting circuit that has been wired directly to a battery.  It provides some weak light and can't be turned off until the battery dies.",
     "color": "green",
-    "power_draw": 1000,
+    "power_draw": "1 J",
     "revert_to": "lightstrip_inactive",
     "revert_msg": "The lightstrip dies.",
     "flags": [ "LIGHT_4", "NO_UNLOAD", "NO_RELOAD" ]
@@ -639,7 +639,7 @@
     "type": "TOOL",
     "name": { "str": "reading light (active)", "str_pl": "reading lights (active)" },
     "description": "A little clip-on LED light, meant for reading books in the dark.  This one is turned on.",
-    "power_draw": 1000,
+    "power_draw": "1 J",
     "revert_to": "reading_light",
     "use_action": {
       "ammo_scale": 0,
@@ -690,7 +690,7 @@
     "type": "TOOL",
     "name": { "str": "smart lamp (on)", "str_pl": "smart lamps (on)" },
     "description": "This is a smart lamp, this smart lamp is turned on.  It can be deactivated remotely.",
-    "power_draw": 10000,
+    "power_draw": "10 J",
     "revert_to": "smart_lamp",
     "use_action": {
       "ammo_scale": 0,
@@ -800,7 +800,7 @@
     "type": "TOOL",
     "name": { "str": "propane lantern (on)", "str_pl": "propane lanterns (on)" },
     "description": "This is a small propane powered lantern.  It does not provide much light, but it lasts a long time.  It is turned on.  Use it to turn it off.",
-    "power_draw": 60,
+    "power_draw": "60 mJ",
     "revert_to": "propane_lantern",
     "use_action": [
       {

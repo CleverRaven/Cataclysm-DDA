@@ -72,8 +72,6 @@ static const mongroup_id GROUP_SWAMP( "GROUP_SWAMP" );
 static const mongroup_id GROUP_WORM( "GROUP_WORM" );
 static const mongroup_id GROUP_ZOMBIE( "GROUP_ZOMBIE" );
 
-static const mtype_id mon_jabberwock( "mon_jabberwock" );
-
 static const oter_str_id oter_central_lab( "central_lab" );
 static const oter_str_id oter_central_lab_core( "central_lab_core" );
 static const oter_str_id oter_central_lab_train_depot( "central_lab_train_depot" );
@@ -3070,13 +3068,11 @@ bool overmap::mongroup_check( const mongroup &candidate ) const
     [candidate]( const std::pair<tripoint_om_sm, mongroup> &match ) {
         // This is extra strict since we're using it to test serialization.
         return candidate.type == match.second.type && candidate.abs_pos == match.second.abs_pos &&
-               candidate.radius == match.second.radius &&
                candidate.population == match.second.population &&
                candidate.target == match.second.target &&
                candidate.interest == match.second.interest &&
                candidate.dying == match.second.dying &&
-               candidate.horde == match.second.horde &&
-               candidate.diffuse == match.second.diffuse;
+               candidate.horde == match.second.horde;
     } ) != matching_range.second;
 }
 
@@ -3732,8 +3728,8 @@ bool overmap::generate_sub( const int z )
         tripoint_abs_sm abs_pos = project_combine( pos(), sm_pos );
         // Normal subways are present at z == -2, but filtering for the terrain would be much nicer
         if( z == -2 ) {
-            spawn_mon_group( mongroup( GROUP_SUBWAY_CITY,
-                                       abs_pos, i.size * 2, i.size * i.size * 2 ) );
+            spawn_mon_group( mongroup( GROUP_SUBWAY_CITY, abs_pos, i.size * i.size * 2 ),
+                             i.size * 2 );
         }
     }
 
@@ -3877,7 +3873,6 @@ void overmap::process_mongroups()
         mongroup &mg = it->second;
         if( mg.dying ) {
             mg.population = ( mg.population * 4 ) / 5;
-            mg.radius = ( mg.radius * 9 ) / 10;
         }
         if( mg.empty() ) {
             zg.erase( it++ );
@@ -4036,7 +4031,6 @@ void overmap::move_hordes()
             const mtype &type = *this_monster.type;
             if(
                 !type.species.count( species_ZOMBIE ) || // Only add zombies to hordes.
-                type.id == mon_jabberwock || // Jabberwockies are an exception.
                 this_monster.get_speed() <= 30 || // So are very slow zombies, like crawling zombies.
                 !this_monster.will_join_horde( INT_MAX ) || // So are zombies who won't join a horde of any size.
                 !this_monster.mission_ids.empty() // We mustn't delete monsters that are related to missions.
@@ -4067,7 +4061,7 @@ void overmap::move_hordes()
                 // If there is no horde to add the monster to, create one.
                 if( add_to_group == nullptr ) {
                     tripoint_abs_sm abs_pos = project_combine( pos(), p );
-                    mongroup m( GROUP_ZOMBIE, abs_pos, 1, 0 );
+                    mongroup m( GROUP_ZOMBIE, abs_pos, 0 );
                     m.horde = true;
                     m.monsters.push_back( this_monster );
                     m.interest = 0; // Ensures that we will select a new target.
@@ -6129,8 +6123,8 @@ std::vector<tripoint_om_omt> overmap::place_special(
         const int pop = rng( spawns.population.min, spawns.population.max );
         const int rad = rng( spawns.radius.min, spawns.radius.max );
         spawn_mon_group(
-            mongroup( spawns.group, project_to<coords::sm>( project_combine( pos(), p ) ),
-                      rad, pop ) );
+            mongroup( spawns.group, project_to<coords::sm>( project_combine( pos(), p ) ), pop ),
+            rad );
     }
     // If it's a safe zone, remove existing spawns
     if( is_safe_zone ) {
@@ -6393,8 +6387,8 @@ void overmap::place_mongroups()
                         std::round( norm_factor * rng( swamp_count * 8, swamp_count * 25 ) );
                     spawn_mon_group(
                         mongroup(
-                            GROUP_SWAMP, project_combine( pos(), project_to<coords::sm>( p ) ), 3,
-                            pop ) );
+                            GROUP_SWAMP, project_combine( pos(), project_to<coords::sm>( p ) ),
+                            pop ), 3 );
                 }
             }
         }
@@ -6418,7 +6412,7 @@ void overmap::place_mongroups()
                     std::round( norm_factor * rng( river_count * 8, river_count * 25 ) );
                 spawn_mon_group(
                     mongroup( GROUP_RIVER, project_combine( pos(), project_to<coords::sm>( p ) ),
-                              3, pop ) );
+                              pop ), 3 );
             }
         }
     }
@@ -6430,7 +6424,7 @@ void overmap::place_mongroups()
         tripoint_om_sm p( rng( 0, OMAPX * 2 - 1 ), rng( 0, OMAPY * 2 - 1 ), 0 );
         unsigned int pop = std::round( norm_factor * rng( 30, 50 ) );
         spawn_mon_group(
-            mongroup( GROUP_WORM, project_combine( pos(), p ), rng( 20, 40 ), pop ) );
+            mongroup( GROUP_WORM, project_combine( pos(), p ), pop ), rng( 20, 40 ) );
     }
 }
 
@@ -6438,7 +6432,7 @@ void overmap::place_nemesis( const tripoint_abs_omt &p )
 {
     tripoint_abs_sm pos_sm = project_to<coords::sm>( p );
 
-    mongroup nemesis = mongroup( GROUP_NEMESIS, pos_sm, 1, 1 );
+    mongroup nemesis = mongroup( GROUP_NEMESIS, pos_sm, 1 );
     nemesis.horde = true;
     nemesis.behaviour = mongroup::horde_behaviour::nemesis;
     add_mon_group( nemesis );
@@ -6521,33 +6515,33 @@ void overmap::save() const
     } );
 }
 
-void overmap::spawn_mon_group( const mongroup &group )
+void overmap::spawn_mon_group( const mongroup &group, int radius )
 {
     tripoint_om_omt pos = project_to<coords::omt>( group.rel_pos() );
     if( safe_at_worldgen.find( pos ) != safe_at_worldgen.end() ) {
         return;
     }
-    add_mon_group( group );
+    add_mon_group( group, radius );
 }
 
 void overmap::add_mon_group( const mongroup &group )
 {
-    // Monster groups: the old system had large groups (radius > 1),
-    // the new system transforms them into groups of radius 1, this also
-    // makes the diffuse setting obsolete (as it only controls how the radius
-    // is interpreted) - it's only used when adding monster groups with function.
-    if( group.radius == 1 ) {
-        zg.emplace( group.rel_pos(), group );
+    zg.emplace( group.rel_pos(), group );
+}
+
+void overmap::add_mon_group( const mongroup &group, int radius )
+{
+    // We only spread the groups out when radius is greater than 1
+    if( radius <= 1 ) {
+        add_mon_group( group );
         return;
     }
-    // diffuse groups use a circular area, non-diffuse groups use a rectangular area
-    const int rad = std::max<int>( 0, group.radius );
-    const double total_area = group.diffuse ? std::pow( rad + 1, 2 ) : ( rad * rad * M_PI + 1 );
+    const int rad = std::max<int>( 0, radius );
+    const double total_area = rad * rad * M_PI + 1;
     const double pop = std::max<int>( 0, group.population );
     for( int x = -rad; x <= rad; x++ ) {
         for( int y = -rad; y <= rad; y++ ) {
-            const int dist = group.diffuse ? square_dist( point( x, y ), point_zero ) : trig_dist( point( x,
-                             y ), point_zero );
+            const int dist = trig_dist( point( x, y ), point_zero );
             if( dist > rad ) {
                 continue;
             }
@@ -6555,10 +6549,7 @@ void overmap::add_mon_group( const mongroup &group )
             double pop_here;
             if( rad == 0 ) {
                 pop_here = pop;
-            } else if( group.diffuse ) {
-                pop_here = pop / total_area;
             } else {
-                // non-diffuse groups are more dense towards the center.
                 // This computation is delicate, be careful and see
                 // https://github.com/CleverRaven/Cataclysm-DDA/issues/26941
                 pop_here = ( static_cast<double>( rad - dist ) / rad ) * pop / total_area;
@@ -6582,7 +6573,6 @@ void overmap::add_mon_group( const mongroup &group )
             // Exact copy to keep all important values, only change what's needed
             // for a single-submap group.
             mongroup tmp( group );
-            tmp.radius = 1;
             tmp.abs_pos += point( x, y );
             tmp.population = p;
             // This *can* create groups outside of the area of this overmap.

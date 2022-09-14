@@ -59,6 +59,8 @@
     "armor_elec": 1,
     "bleed_rate": 50,
     "harvest": "demihuman",
+    "families": [ "prof_wp_demihuman" ],
+    "weakpoint_sets": [ "wps_humanoid_body" ],
     "special_attacks": [ [ "FEAR_PARALYZE", 0 ] ],
     "death_function": { "effect": { "id": "death_amigara" } },
     "dissect": "dissect_human_sample_single",
@@ -87,6 +89,8 @@
     "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
     "dodge": 1,
     "harvest": "demihuman",
+    "families": [ "prof_wp_demihuman" ],
+    "weakpoint_sets": [ "wps_humanoid_body" ],
     "special_attacks": [ [ "SHRIEK", 10 ] ],
     "flags": [ "SMELLS", "HEARS", "WARM", "ANIMAL", "PATH_AVOID_DANGER_1", "SUNDEATH", "NO_BREATHE", "HUMAN" ]
   },
@@ -470,6 +474,8 @@
     "bleed_rate": 60,
     "vision_day": 30,
     "harvest": "gozu",
+    "families": [ "prof_wp_demihuman" ],
+    "weakpoint_sets": [ "wps_humanoid_body" ],
     "special_attacks": [ [ "FEAR_PARALYZE", 20 ] ],
     "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "BASHES", "GROUP_BASH", "ANIMAL", "NO_BREATHE", "PATH_AVOID_DANGER_1" ]
   },
@@ -499,6 +505,8 @@
     "bleed_rate": 60,
     "path_settings": { "avoid_traps": true, "avoid_sharp": true },
     "harvest": "demihuman",
+    "families": [ "prof_wp_demihuman" ],
+    "weakpoint_sets": [ "wps_humanoid_body" ],
     "flags": [ "SMELLS", "HEARS", "WARM", "NO_BREATHE", "GRABS", "PRIORITIZE_TARGETS", "PATH_AVOID_DANGER_1" ]
   },
   {
@@ -646,6 +654,7 @@
     "armor_cut": 12,
     "armor_bullet": 10,
     "harvest": "demihuman_snail",
+    "families": [ "prof_wp_demihuman" ],
     "dissect": "dissect_gastropod_sample_large",
     "special_attacks": [ [ "ACID", 15 ] ],
     "anger_triggers": [ "PLAYER_WEAK", "FRIEND_DIED" ],
@@ -916,6 +925,8 @@
     "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
     "dodge": 6,
     "harvest": "demihuman",
+    "families": [ "prof_wp_demihuman" ],
+    "weakpoint_sets": [ "wps_humanoid_body" ],
     "flags": [ "SEES", "HEARS", "GOODHEARING", "POISON", "HUMAN", "CLIMBS" ]
   },
   {
@@ -1287,5 +1298,49 @@
       "message": "Your shadow seemingly becomes normal again."
     },
     "flags": [ "SEES", "HEARS", "NO_BREATHE" ]
+  },
+  {
+    "id": "mon_hallucinator",
+    "type": "MONSTER",
+    "name": { "str": "person" },
+    "description": "A common human, that looks exactly like human do.  You can see it.  It can see you.  You know it knows you can see it.  It knows you know you can see him.  It moves towards you.",
+    "//": "it must be spooky, but god im bad in this stuff",
+    "default_faction": "nether_player_hate",
+    "species": [ "NETHER" ],
+    "volume": "62500 ml",
+    "weight": "0 g",
+    "hp": 100000000,
+    "speed": 25,
+    "symbol": "@",
+    "color": "white",
+    "aggression": 100,
+    "morale": 100,
+    "vision_day": 60,
+    "vision_night": 60,
+    "path_settings": { "max_dist": 60, "allow_open_doors": true },
+    "death_function": { "corpse_type": "NO_CORPSE", "message": "it just dissapeared." },
+    "flags": [
+      "NO_BREATHE",
+      "SEES",
+      "HEARS",
+      "ACIDPROOF",
+      "CAN_OPEN_DOORS",
+      "FIREPROOF",
+      "LOUDMOVES",
+      "SLUDGEPROOF",
+      "SMELLS",
+      "STUN_IMMUNE",
+      "WEBWALK",
+      "ALL_SEEING",
+      "ALWAYS_VISIBLE"
+    ],
+    "special_attacks": [
+      {
+        "type": "spell",
+        "spell_data": { "id": "hallucinator_touch" },
+        "monster_message": "You feel something was destroyed inside you."
+      }
+    ],
+    "emit_fields": [ { "emit_id": "emit_clairvoyant", "delay": "1 s" } ]
   }
 ]

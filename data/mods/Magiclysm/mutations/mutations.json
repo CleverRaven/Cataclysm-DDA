@@ -157,24 +157,25 @@
   {
     "type": "mutation",
     "id": "TOE_CLAWS",
-    "name": { "str": "Clawed Feet" },
-    "copy-from": "RAP_TALONS",
-    "description": "Your toenails have grown long and sharp, preventing you from wearing shoes, but providing you with a set of powerful claws on your feet.  Fortunately they don't impede your movement.",
-    "category": [ "DRAGON_BLACK", "LIZARD" ],
+    "name": { "str": "Reptilian Legs" },
+    "points": 0,
+    "description": "Your legs and feet have become reptile-like and your toenails have grown into short claws.  Fortunately they don't impede your movement.",
+    "types": [ "LEGS", "FEET" ],
+    "cancels": [ "WEBBED_FEET" ],
+    "category": [ "DRAGON_BLACK" ],
     "changes_to": [ "DRAGON_FEET" ]
   },
   {
     "type": "mutation",
     "id": "DRAGON_FEET",
-    "name": { "str": "Dragon Clawed Feet" },
+    "name": { "str": "Dragon Legs" },
     "points": -1,
     "visibility": 4,
     "ugliness": 2,
     "mixed_effect": true,
-    "description": "The claws on your toes have developed in to incredibly tough talons.  These are fearsome and powerful, but still prevent you from wearing shoes and slightly impede your movement.",
-    "valid": false,
-    "types": [ "LEGS" ],
-    "//": "This is a failsafe in case you've obtained webbed feet from elsewhere.  By normal means black dragons shouldn't obtain Webbed Feet to begin with.",
+    "description": "Your legs and feet have become dragon-like and the claws on your toes have developed into incredibly tough talons.  These are fearsome and powerful, but prevent you from wearing shoes and slightly impede your movement.",
+    "types": [ "LEGS", "FEET" ],
+    "prereqs": [ "TOE_CLAWS" ],
     "cancels": [ "WEBBED_FEET" ],
     "category": [ "DRAGON_BLACK" ],
     "threshreq": [ "THRESH_DRAGON_BLACK" ],
@@ -375,6 +376,40 @@
   },
   {
     "type": "mutation",
+    "id": "HEADBUMPS",
+    "copy-from": "HEADBUMPS",
+    "extend": { "category": [ "DRAGON_BLACK" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "HORNS",
+    "copy-from": "HORNS",
+    "extend": { "category": [ "DRAGON_BLACK" ], "changes_to": [ "HORNS_DRAGON" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "HORNS_DRAGON",
+    "name": { "str": "Dragon Horns" },
+    "points": 1,
+    "visibility": 8,
+    "ugliness": 2,
+    "mixed_effect": true,
+    "description": "You have a pair of long, curved back, dragon-like horns.  They allow you to make a strong bashing headbutt attack, but prevent wearing headwear that is not made of fabric.",
+    "types": [ "HORNS" ],
+    "prereqs": [ "HORNS" ],
+    "category": [ "DRAGON_BLACK" ],
+    "threshreq": [ "THRESH_DRAGON_BLACK" ],
+    "restricts_gear": [ "head" ],
+    "allow_soft_gear": true,
+    "attacks": {
+      "attack_text_u": "You headbutt %s with your draconic horns",
+      "attack_text_npc": "%1$s headbutts %2$s with their draconic horns",
+      "chance": 20,
+      "base_damage": { "damage_type": "bash", "amount": 16 }
+    }
+  },
+  {
+    "type": "mutation",
     "id": "FORKED_TONGUE",
     "copy-from": "FORKED_TONGUE",
     "extend": { "category": [ "DRAGON_BLACK" ] }
@@ -472,6 +507,7 @@
   {
     "type": "mutation",
     "id": "DRAGONBLOOD",
+    "flags": [ "COLDBLOOD" ],
     "name": { "str": "Draconic Heat Dependence" },
     "points": -1,
     "description": "Your muscle response is dependent on ambient temperatures.  You lose 1% of your speed for every 5 (2.8) degrees below 65 F (18.3 C).  Unfortunately, this doesn't seem to help you conserve any energy.",
@@ -483,18 +519,20 @@
   {
     "type": "mutation",
     "id": "DRAGONBLOOD2",
+    "flags": [ "COLDBLOOD2" ],
     "name": { "str": "High Draconic Heat Dependence" },
     "points": -2,
     "description": "Your muscle response is highly dependent on ambient temperatures.  You lose 1% of your speed for every 3 (1.7) degrees below 65 F (18.3 C).  Unfortunately, it seems you have to exert more energy to keep moving.",
     "changes_to": [ "DRAGONBLOOD3" ],
     "types": [ "METABOLISM" ],
     "category": [ "DRAGON_BLACK" ],
-    "temperature_speed_modifier": 0.2,
+    "temperature_speed_modifier": 0.333,
     "metabolism_modifier": 0.25
   },
   {
     "type": "mutation",
     "id": "DRAGONBLOOD3",
+    "flags": [ "ECTOTHERM" ],
     "name": { "str": "Draconic Ectothermia" },
     "points": -3,
     "description": "Your body has become permanently cold-blooded.  Your speed lowers or raises 1% for every 2 (1.1) degrees below or above 65 F (18.3 C).  All this and you need even more food to maintain your energy.",
@@ -516,9 +554,10 @@
     "type": "mutation",
     "id": "DRAGON_MAGIC",
     "name": { "str": "Draconic Magic" },
-    "description": "You are imbued with with the ancient magic powers of black dragons, improving your mana reserves and opening your mind to amazing feats of magic.",
+    "description": "You are imbued with the ancient magic powers of black dragons, improving your mana reserves and opening your mind to amazing feats of magic.",
     "points": 3,
     "category": [ "DRAGON_BLACK" ],
+    "changes_to": [ "DRAGON_SPELLS" ],
     "threshreq": [ "THRESH_DRAGON_BLACK" ],
     "prereqs": [ "MANA_MULT3" ],
     "purifiable": false,
@@ -535,9 +574,9 @@
     "category": [ "DRAGON_BLACK" ],
     "threshreq": [ "THRESH_DRAGON_BLACK" ],
     "prereqs": [ "DRAGON_MAGIC" ],
-    "spells_learned": [ [ "dragon_boost", 1 ] ],
-    "mana_modifier": 500,
-    "passive_mods": { "int_mod": 2 }
+    "spells_learned": [ [ "dragon_terror", 0 ], [ "dragon_boost", 1 ] ],
+    "mana_modifier": 750,
+    "passive_mods": { "int_mod": 4 }
   },
   {
     "type": "mutation",
@@ -591,7 +630,7 @@
   {
     "type": "mutation",
     "id": "DRAGON_TAIL_STUB",
-    "name": { "str": "Stubby Reptile Tail" },
+    "name": { "str": "Stubby Dragon Tail" },
     "points": 0,
     "visibility": 1,
     "ugliness": 2,
@@ -603,11 +642,11 @@
   {
     "type": "mutation",
     "id": "DRAGON_TAIL_SCALED",
-    "name": { "str": "Scaled Reptile Tail" },
+    "name": { "str": "Short Dragon Tail" },
     "points": 1,
     "visibility": 8,
     "ugliness": 2,
-    "description": "You have a long, thick, reptile tail.  You can use it decently as a club of sorts, but it's not doing anything to help you balance.  Prevents wearing non-fabric pants.",
+    "description": "You have a short, dragonlike tail.  You can use it decently as a club of sorts, but it's not doing anything to help you balance.  Prevents wearing non-fabric pants.",
     "types": [ "TAIL" ],
     "prereqs": [ "DRAGON_TAIL_STUB" ],
     "prereqs2": [ "SCALES", "DRAGON_SCALES_BLACK" ],

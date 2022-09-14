@@ -613,7 +613,7 @@ task_reason veh_interact::cant_do( char mode )
         case 'i':
             // install mode
             enough_morale = player_character.has_morale_to_craft();
-            valid_target = !can_mount.empty() && 0 == veh->tags.count( "convertible" );
+            valid_target = !can_mount.empty();
             //tool checks processed later
             enough_light = player_character.fine_detail_vision_mod() <= 4;
             has_tools = true;
@@ -655,7 +655,7 @@ task_reason veh_interact::cant_do( char mode )
         case 'o':
             // remove mode
             enough_morale = player_character.has_morale_to_craft();
-            valid_target = cpart >= 0 && 0 == veh->tags.count( "convertible" );
+            valid_target = cpart >= 0;
             part_free = parts_here.size() > 1 || ( cpart >= 0 && veh->can_unmount( cpart ) );
             //tool and skill checks processed later
             has_tools = true;
@@ -763,6 +763,13 @@ bool veh_interact::can_self_jack()
 bool veh_interact::update_part_requirements()
 {
     if( sel_vpart_info == nullptr ) {
+        return false;
+    }
+
+    if( std::any_of( parts_here.begin(), parts_here.end(), [&]( const int e ) {
+    return veh->part( e ).has_flag( vehicle_part::carried_flag );
+    } ) ) {
+        msg = _( "Unracking is required before installing any parts here." );
         return false;
     }
 
@@ -1448,11 +1455,8 @@ void veh_interact::calc_overview()
         trim_and_print( w, point( 1, y ), getmaxx( w ) - 2, c_light_gray, batt );
         right_print( w, y, 1, c_light_gray, _( "Capacity  Status" ) );
     };
-    overview_headers["4_REACTOR"] = [this, epower_w]( const catacurses::window & w, int y ) {
+    overview_headers["4_REACTOR"] = [this]( const catacurses::window & w, int y ) {
         int reactor_epower_w = veh->max_reactor_epower_w();
-        if( reactor_epower_w > 0 && epower_w < 0 ) {
-            reactor_epower_w += epower_w;
-        }
         std::string reactor;
         if( reactor_epower_w == 0 ) {
             reactor = _( "Reactors" );
@@ -2586,9 +2590,9 @@ void veh_interact::display_stats() const
     const int extraw = ( ( TERMX - FULL_SCREEN_WIDTH ) / 4 ) * 2;
     // 3 * stats_h
     const int slots = 24;
-    int x[slots];
-    int y[slots];
-    int w[slots];
+    std::array<int, slots> x;
+    std::array<int, slots> y;
+    std::array<int, slots> w;
 
     units::volume total_cargo = 0_ml;
     units::volume free_cargo = 0_ml;
@@ -3039,7 +3043,7 @@ void veh_interact::display_details( const vpart_info *part )
                         c_white, _( "Charge: <color_light_gray>%s</color>" ),
                         item::nname( part->fuel_type ) );
     }
-    int part_consumption = part->energy_consumption;
+    int part_consumption = units::to_joule( part->energy_consumption );
     if( part_consumption != 0 ) {
         fold_and_print( w_details, point( col_2, line + 4 ), column_width, c_white,
                         _( "Drain: <color_light_gray>%+8d</color>" ), -part_consumption );
@@ -3447,11 +3451,11 @@ void veh_interact::complete_vehicle( Character &you )
                 veh->remove_remote_part( vehicle_part );
             }
             if( veh->is_towing() || veh->is_towed() ) {
-                std::cout << "vehicle is towing/towed" << std::endl;
+                add_msg_debug( debugmode::DF_VEHICLE, "vehicle is towing/towed" );
                 vehicle *other_veh = veh->is_towing() ? veh->tow_data.get_towed() :
                                      veh->tow_data.get_towed_by();
                 if( other_veh ) {
-                    std::cout << "other veh exists" << std::endl;
+                    add_msg_debug( debugmode::DF_VEHICLE, "Other vehicle exists.  Removing tow cable" );
                     other_veh->remove_part( other_veh->part_with_feature( other_veh->get_tow_part(),
                                             "TOW_CABLE", true ) );
                     other_veh->tow_data.clear_towing();
@@ -3492,18 +3496,13 @@ void veh_interact::complete_vehicle( Character &you )
 
             // Remove any leftover power cords from the appliance
             if( appliance_removal && veh->part_count() >= 2 ) {
-                for( const vpart_reference &vpr : veh->get_all_parts() ) {
-                    if( vpr.part().info().has_flag( "POWER_TRANSFER" ) ) {
-                        veh->remove_remote_part( vpr.part_index() );
-                        veh->remove_part( vpr.part_index() );
-                    }
-                }
+                veh->shed_loose_parts();
                 veh->part_removal_cleanup();
                 //always stop after removing an appliance
                 you.activity.set_to_null();
             }
 
-            if( veh->part_count() < 2 ) {
+            if( veh->part_count( true ) < 2 ) {
                 you.add_msg_if_player( _( "You completely dismantle the %s." ), veh->name );
                 you.activity.set_to_null();
                 // destroy vehicle clears the cache
@@ -3529,6 +3528,13 @@ void veh_interact::complete_vehicle( Character &you )
             // point because we don't want to put them back into the vehicle part
             // that just got removed).
             put_into_vehicle_or_drop( you, item_drop_reason::deliberate, resulting_items );
+            break;
+        }
+        case 'u': {
+            // Unplug action just sheds loose connections,
+            // assuming vehicle::shed_loose_parts was already called so that
+            // the removed parts have had time to be processed
+            you.add_msg_if_player( _( "You disconnect the %s's power connection." ), veh->name );
             break;
         }
     }

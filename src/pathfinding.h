@@ -2,6 +2,7 @@
 #ifndef CATA_SRC_PATHFINDING_H
 #define CATA_SRC_PATHFINDING_H
 
+#include "coordinates.h"
 #include "game_constants.h"
 #include "mdarray.h"
 
