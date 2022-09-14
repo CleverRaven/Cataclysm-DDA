@@ -642,7 +642,7 @@
     "breathability": "POOR",
     "wind_resist": 85,
     "repaired_with": "sheet_canvas",
-    "salvaged_into": "scrap_canvas",
+    "salvaged_into": "canvas_patch",
     "dmg_adj": [ "ripped", "torn", "shredded", "tattered" ],
     "bash_dmg_verb": "ripped",
     "cut_dmg_verb": "cut",
