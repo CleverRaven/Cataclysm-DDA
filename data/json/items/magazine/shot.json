@@ -4,7 +4,7 @@
     "looks_like": "shotbelt_20",
     "type": "MAGAZINE",
     "name": { "str": "imported 10-round shotgun magazine" },
-    "description": "A removable plastic 10-round box magazine, for use with imported firearms chambered in 12 gauge shells.",
+    "description": "A removable plastic 10-round box magazine, for use with imported firearms chambered in 12 gauge.",
     "variant_type": "gun",
     "variants": [
       {
@@ -30,7 +30,7 @@
     "looks_like": "shotbelt_20",
     "type": "MAGAZINE",
     "name": { "str": "imported 30-round shotgun drum magazine" },
-    "description": "A removable plastic 30-round drum magazine, for use with imported firearms chambered in 12 gauge shells.",
+    "description": "A removable plastic 30-round drum magazine, for use with imported firearms chambered in 12 gauge.",
     "variant_type": "gun",
     "variants": [
       {
@@ -120,7 +120,7 @@
     "id": "m26_mass_mag_3",
     "type": "MAGAZINE",
     "name": { "str": "M26-MASS 3-round magazine" },
-    "description": "Small 3-round box magazine for M26-MASS underbarrel shotgun.",
+    "description": "A small 3-round box magazine for the M26-MASS underbarrel shotgun.",
     "variant_type": "gun",
     "weight": "22 g",
     "volume": "38 ml",
@@ -137,7 +137,7 @@
     "id": "m26_mass_mag_5",
     "type": "MAGAZINE",
     "name": { "str": "M26-MASS 5-round magazine" },
-    "description": "Small 5-round box magazine for M26-MASS underbarrel shotgun.",
+    "description": "A small 5-round box magazine for the M26-MASS underbarrel shotgun.",
     "variant_type": "gun",
     "weight": "36 g",
     "volume": "62 ml",
