@@ -6897,5 +6897,29 @@
     "time": "30 m",
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "SAW_M", "level": 2 } ],
     "components": [ [ [ "plastic_chunk", 20 ] ], [ [ "scrap", 38 ] ] ]
+  },
+  {
+    "result": "chair_plywood",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "30 m",
+    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SAW_M", "level": 2 } ],
+    "components": [ [ [ "splinter", 16 ] ], [ [ "scrap", 38 ] ] ]
+  },
+  {
+    "result": "chair_wood_black",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "30 m",
+    "qualities": [ { "id": "PRY", "level": 1 }, { "id": "SAW_W", "level": 2 }, { "id": "SCREW", "level": 1 } ],
+    "components": [ [ [ "wooden_post_short", 2 ] ], [ [ "wood_block", 24 ] ], [ [ "nuts_bolts", 30 ] ], [ [ "splinter", 10 ] ] ]
+  },
+  {
+    "result": "chair_wood_white",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "30 m",
+    "qualities": [ { "id": "PRY", "level": 1 }, { "id": "SAW_W", "level": 2 }, { "id": "SCREW", "level": 1 } ],
+    "components": [ [ [ "wooden_post_short", 2 ] ], [ [ "wood_block", 24 ] ], [ [ "nuts_bolts", 30 ] ], [ [ "splinter", 10 ] ] ]
   }
 ]
