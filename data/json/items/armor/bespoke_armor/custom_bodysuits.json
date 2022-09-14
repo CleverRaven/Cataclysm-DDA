@@ -429,10 +429,9 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "Kevlar wetsuit" },
-    "description": "A hand-built combination armor made from a wetsuit padded with thin layers of Kevlar.  Protects from the elements as well as from harm.",
-    "weight": "6400 g",
+    "description": "A hand-built combination armor made from a wetsuit padded with layers of Kevlar.  Protects from the elements as well as from harm.",
+    "weight": "5650 g",
     "volume": "7000 ml",
-    "price": 110000,
     "price_postapoc": 5000,
     "material": [ "neoprene", "kevlar" ],
     "symbol": "[",
@@ -444,11 +443,11 @@
       {
         "material": [
           { "type": "neoprene", "covered_by_mat": 100, "thickness": 3 },
-          { "type": "kevlar", "covered_by_mat": 100, "thickness": 1 }
+          { "type": "kevlar", "covered_by_mat": 100, "thickness": 1.5 }
         ],
         "covers": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r" ],
         "coverage": 100,
-        "encumbrance": [ 11, 11 ]
+        "encumbrance": [ 15, 15 ]
       }
     ],
     "pocket_data": [
@@ -469,9 +468,9 @@
         "description": "Pants pocket."
       }
     ],
-    "warmth": 30,
+    "warmth": 35,
     "environmental_protection": 10,
-    "flags": [ "VARSIZE", "WATER_FRIENDLY", "POCKETS", "HOOD", "RAINPROOF", "STURDY" ]
+    "flags": [ "VARSIZE", "WATER_FRIENDLY", "POCKETS", "HOOD", "RAINPROOF", "STURDY", "SKINTIGHT" ]
   },
   {
     "id": "xs_h20survivor_jumpsuit",
@@ -486,6 +485,71 @@
     "type": "ARMOR",
     "name": { "str": "XL Kevlar wetsuit" },
     "copy-from": "h20survivor_jumpsuit",
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "thick_h20survivor_jumpsuit",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "thick Kevlar wetsuit" },
+    "description": "A hand-built combination armor made from a thick wetsuit padded with layers of Kevlar. Protects from the elements as well as from harm.",
+    "weight": "7805 g",
+    "volume": "12000 ml",
+    "price_postapoc": 5000,
+    "material": [ "neoprene", "nylon" , "kevlar" ],
+    "symbol": "[",
+    "to_hit": -3,
+    "bashing": 6,
+    "looks_like": "wetsuit",
+    "color": "dark_gray",
+    "armor": [
+      {
+        "material": [
+          { "type": "neoprene", "covered_by_mat": 100, "thickness": 4.5 },
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 0.5 },
+          { "type": "kevlar", "covered_by_mat": 100, "thickness": 2.5 }
+        ],
+        "covers": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r" ],
+        "coverage": 100,
+        "encumbrance": [ 27, 27 ]
+      }
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "500 ml",
+        "max_contains_weight": "2 kg",
+        "moves": 80,
+        "max_item_length": "11 cm",
+        "description": "Pants pocket."
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "500 ml",
+        "max_contains_weight": "2 kg",
+        "moves": 80,
+        "max_item_length": "11 cm",
+        "description": "Pants pocket."
+      }
+    ],
+    "warmth": 65,
+    "environmental_protection": 10,
+    "flags": [ "VARSIZE", "WATER_FRIENDLY", "POCKETS", "HOOD", "RAINPROOF", "STURDY", "SKINTIGHT", "NORMAL" ]
+  },
+  {
+    "id": "thick_xs_h20survivor_jumpsuit",
+    "type": "ARMOR",
+    "name": { "str": "XS thick Kevlar wetsuit" },
+    "copy-from": "thick_h20survivor_jumpsuit",
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "extend": { "flags": [ "UNDERSIZE" ] }
+  },
+  {
+    "id": "xl_h20survivor_jumpsuit",
+    "type": "ARMOR",
+    "name": { "str": "XL thick Kevlar wetsuit" },
+    "copy-from": "thick_h20survivor_jumpsuit",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
   },
