@@ -654,7 +654,7 @@
     "proficiencies": [ { "proficiency": "prof_weaving" } ],
     "tools": [ [ [ "loom_frame", -1 ] ], [ [ "shed_stick", -1 ] ] ],
     "qualities": [ { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "thread_canvas", 80 ] ] ]
+    "components": [ [ [ "thread_canvas", 80 ] ],  [ [ "wax", 1 ] ] ]
   },
   {
     "result": "sheet_canvas",
@@ -670,7 +670,7 @@
     "proficiencies": [ { "proficiency": "prof_weaving" } ],
     "tools": [ [ [ "spinwheelitem", -1 ] ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "thread_canvas", 80 ] ] ]
+    "components": [ [ [ "thread_canvas", 80 ] ],  [ [ "wax", 1 ] ] ]
   },
   {
     "result": "sheet_canvas_patchwork",
