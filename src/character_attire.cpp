@@ -2250,47 +2250,30 @@ void outfit::add_stash( Character &guy, const item &newit, int &remaining_charge
         // Crawl Next : worn items
         pickup_stash( newit, remaining_charges, ignore_pkt_settings );
     } else {
-        std::pair<item_location, item_pocket *> found_pockets;
-        std::vector<std::pair<item_location, item_pocket *>> pockets;
+        item_pocket *found_pocket;
+        std::vector<item_pocket *> pockets;
         item temp_it = item( newit );
         temp_it.charges = 1;
 
         // Collect all pockets
+        std::list<item *> items;
         item_location carried_item = guy.get_wielded_item();
         if( carried_item != item_location::nowhere ) {
-            for( const item_pocket *pocket : carried_item->get_all_contained_pockets() ) {
-                item_location loc( guy, &*carried_item );
-                if( pocket->can_contain( temp_it ).success() ) {
-                    found_pockets = std::pair<item_location, item_pocket *> ( loc,
-                                    const_cast<item_pocket *>( &*pocket ) );
-                    pockets.emplace_back( found_pockets );
-                    for( const item *contained : pocket->all_items_top() ) {
-                        loc = item_location( guy, const_cast<item *>( contained ) );
-                        for( const item_pocket *pocket_nest : contained->get_all_contained_pockets() ) {
-                            if( pocket_nest->can_contain( temp_it ).success() && pocket_nest->rigid() ) {
-                                found_pockets = std::pair<item_location, item_pocket *> ( loc,
-                                                const_cast<item_pocket *>( &*pocket_nest ) );
-                                pockets.emplace_back( found_pockets );
-                            }
-                        }
-                    }
-                }
-            }
+            items.emplace_back( &*carried_item );
         }
         for( item &i : worn ) {
-            item_location loc( guy, &i );
-            for( const item_pocket *pocket : i.get_all_contained_pockets() ) {
+            items.emplace_back( &i );
+        }
+        for( item *i : items ) {
+            for( const item_pocket *pocket : i->get_all_contained_pockets() ) {
                 if( pocket->can_contain( temp_it ).success() ) {
-                    found_pockets = std::pair<item_location, item_pocket *> ( loc,
-                                    const_cast<item_pocket *>( &*pocket ) );
-                    pockets.emplace_back( found_pockets );
+                    found_pocket = const_cast<item_pocket *>( &*pocket );
+                    pockets.emplace_back( found_pocket );
                     for( const item *contained : pocket->all_items_top() ) {
-                        loc = item_location( guy, const_cast<item *>( contained ) );
                         for( const item_pocket *pocket_nest : contained->get_all_contained_pockets() ) {
                             if( pocket_nest->can_contain( temp_it ).success() && pocket_nest->rigid() ) {
-                                found_pockets = std::pair<item_location, item_pocket *> ( loc,
-                                                const_cast<item_pocket *>( &*pocket_nest ) );
-                                pockets.emplace_back( found_pockets );
+                                found_pocket = const_cast<item_pocket *>( &*pocket_nest );
+                                pockets.emplace_back( found_pocket );
                             }
                         }
                     }
@@ -2299,28 +2282,19 @@ void outfit::add_stash( Character &guy, const item &newit, int &remaining_charge
         }
 
         // Sort by priority, rigid, and obtain_cost
-        std::sort( pockets.begin(), pockets.end(), [temp_it]( const std::pair<item_location, item_pocket *>
-                   &lhs,
-        const std::pair<item_location, item_pocket *> &rhs ) {
-
-            if( lhs.second->settings.priority() == rhs.second->settings.priority() ) {
-                if( lhs.second->rigid() == rhs.second->rigid() ) {
-                    return lhs.second->obtain_cost( temp_it ) < rhs.second->obtain_cost( temp_it );
-                } else {
-                    return lhs.second->rigid();
-                }
+        std::sort( pockets.begin(), pockets.end(), [temp_it]( item_pocket *&lhs, item_pocket *&rhs ) {
+            if( lhs->settings.priority() == rhs->settings.priority() ) {
+                return lhs->obtain_cost( temp_it ) < rhs->obtain_cost( temp_it );
             }
-            return lhs.second->settings.priority() > rhs.second->settings.priority();
+            return lhs->settings.priority() > rhs->settings.priority();
         } );
 
         int amount = remaining_charges;
         int num_contained = 0;
-        for( std::pair<item_location, item_pocket *> &pocket_pair : pockets ) {
+        for( item_pocket *&pocket : pockets ) {
             if( amount <= num_contained || remaining_charges <= 0 ) {
                 break;
             }
-            item_pocket *pocket = pocket_pair.second;
-            item_location loc = pocket_pair.first;
             const int filled_count = pocket->fill_with( newit, remaining_charges, false, false );
             num_contained += filled_count;
             remaining_charges -= filled_count;
