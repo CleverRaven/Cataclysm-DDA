@@ -11,6 +11,7 @@
 #include "point.h"
 #include "type_id.h"
 
+class Creature;
 class JsonObject;
 class nc_color;
 
@@ -58,7 +59,14 @@ struct explosion_data {
 // handles explosion related functions
 namespace explosion_handler
 {
-using queued_explosion = std::pair<tripoint_abs_ms, explosion_data>;
+struct queued_explosion {
+    const Creature *source;
+    const tripoint_abs_ms pos;
+    const explosion_data data;
+
+    queued_explosion( const Creature *source, const tripoint_abs_ms &pos, const explosion_data &data )
+        : source( source ), pos( pos ), data( data ) {}
+};
 static std::vector<queued_explosion> _explosions;
 
 /** Queue an explosion at p of intensity (power) with (shrapnel) chunks of shrapnel.
@@ -66,12 +74,12 @@ static std::vector<queued_explosion> _explosions;
     If factor <= 0, no blast is produced
     The explosion won't actually occur until process_explosions() */
 void explosion(
-    const tripoint &p, float power, float factor = 0.8f,
+    const Creature *source, const tripoint &p, float power, float factor = 0.8f,
     bool fire = false, int casing_mass = 0, float frag_mass = 0.05
 );
 
-void explosion( const tripoint &p, const explosion_data &ex );
-void _make_explosion( const tripoint &p, const explosion_data &ex );
+void explosion( const Creature *source, const tripoint &p, const explosion_data &ex );
+void _make_explosion( const Creature *source, const tripoint &p, const explosion_data &ex );
 
 /** Triggers a flashbang explosion at p. */
 void flashbang( const tripoint &p, bool player_immune = false );

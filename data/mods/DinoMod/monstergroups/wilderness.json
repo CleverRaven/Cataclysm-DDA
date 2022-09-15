@@ -72,23 +72,34 @@
         "conditions": [ "DUSK", "DAY", "DAWN", "SPRING", "SUMMER", "AUTUMN" ]
       },
       {
-        "monster": "mon_dyoplosaurus",
-        "weight": 20,
+        "monster": "mon_gargoyleosaurus",
+        "weight": 15,
         "conditions": [ "DUSK", "DAY", "DAWN", "SPRING", "SUMMER", "AUTUMN" ]
       },
       {
-        "monster": "mon_ankylosaurus",
-        "weight": 20,
+        "monster": "mon_sauropelta",
+        "weight": 15,
         "conditions": [ "DUSK", "DAY", "DAWN", "SPRING", "SUMMER", "AUTUMN" ]
       },
       {
         "monster": "mon_nodosaurus",
-        "weight": 20,
+        "weight": 15,
         "conditions": [ "DUSK", "DAY", "DAWN", "SPRING", "SUMMER", "AUTUMN" ]
       },
       {
         "monster": "mon_edmontonia",
-        "weight": 20,
+        "weight": 15,
+        "conditions": [ "DUSK", "DAY", "DAWN", "SPRING", "SUMMER", "AUTUMN" ]
+      },
+      { "monster": "mon_zuul", "weight": 15, "conditions": [ "DUSK", "DAY", "DAWN", "SPRING", "SUMMER", "AUTUMN" ] },
+      {
+        "monster": "mon_dyoplosaurus",
+        "weight": 15,
+        "conditions": [ "DUSK", "DAY", "DAWN", "SPRING", "SUMMER", "AUTUMN" ]
+      },
+      {
+        "monster": "mon_ankylosaurus",
+        "weight": 15,
         "conditions": [ "DUSK", "DAY", "DAWN", "SPRING", "SUMMER", "AUTUMN" ]
       },
       {

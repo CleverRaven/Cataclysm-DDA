@@ -1151,7 +1151,7 @@
     "description": "You are a sight to behold.  People who care about such things will react more kindly to you.",
     "starting_trait": true,
     "types": [ "ATTRACTIVENESS" ],
-    "category": [ "ALPHA" ],
+    "category": [ "ALPHA", "ELFA" ],
     "changes_to": [ "BEAUTIFUL" ]
   },
   {
@@ -3369,7 +3369,8 @@
     "valid": false,
     "purifiable": false,
     "threshreq": [ "THRESH_MYCUS" ],
-    "category": [ "MYCUS" ]
+    "category": [ "MYCUS" ],
+    "flags": [ "MYCUS_IMMUNE" ]
   },
   {
     "type": "mutation",
@@ -4180,7 +4181,7 @@
     "social_modifiers": { "intimidate": 2 },
     "types": [ "DURABILITY" ],
     "prereqs": [ "LARGE_OK", "HUGE_OK", "STR_UP_3", "STR_UP_4" ],
-    "threshreq": [ "THRESH_URSINE", "THRESH_CATTLE", "THRESH_CHIMERA", "THRESH_MEDICAL", "THRESH_LIZARD", "THRESH_BEAST" ],
+    "threshreq": [ "THRESH_URSINE", "THRESH_CATTLE", "THRESH_CHIMERA", "THRESH_LIZARD", "THRESH_BEAST" ],
     "changes_to": [ "MUT_TOUGH2" ],
     "category": [ "URSINE", "CATTLE", "CHIMERA", "BEAST", "LIZARD" ],
     "hp_modifier_secondary": 0.2
@@ -4194,7 +4195,7 @@
     "social_modifiers": { "intimidate": 3 },
     "types": [ "DURABILITY" ],
     "prereqs": [ "MUT_TOUGH" ],
-    "threshreq": [ "THRESH_URSINE", "THRESH_CATTLE", "THRESH_CHIMERA", "THRESH_MEDICAL" ],
+    "threshreq": [ "THRESH_URSINE", "THRESH_CATTLE", "THRESH_CHIMERA" ],
     "changes_to": [ "MUT_TOUGH3" ],
     "category": [ "URSINE", "CATTLE", "CHIMERA" ],
     "hp_modifier_secondary": 0.3
@@ -4567,6 +4568,7 @@
     "prereqs": [ "SLIMY" ],
     "threshreq": [ "THRESH_GASTROPOD" ],
     "leads_to": [ "GASTROPOD_BALANCE" ],
+    "flags": [ "SLUDGE_IMMUNE" ],
     "visibility": 8,
     "ugliness": 9,
     "encumbrance_always": [ [ "leg_l", 10 ], [ "leg_r", 10 ], [ "foot_l", 10 ], [ "foot_r", 10 ] ],
@@ -4711,6 +4713,7 @@
     "points": 1,
     "description": "Your body excretes very fine amounts of a chemical which prevents you from sticking to webs.  Walking through webs does not affect you at all.",
     "leads_to": [ "WEB_WEAVER" ],
+    "flags": [ "WEBWALK" ],
     "category": [ "SPIDER" ]
   },
   {
@@ -5575,7 +5578,8 @@
     "description": "You're a real head-turner.  Some people will react well to your appearance, and most people have an easier time trusting you.",
     "types": [ "ATTRACTIVENESS" ],
     "prereqs": [ "PRETTY" ],
-    "changes_to": [ "BEAUTIFUL2" ]
+    "changes_to": [ "BEAUTIFUL2" ],
+    "category": [ "ALPHA" ]
   },
   {
     "type": "mutation",
@@ -5587,7 +5591,9 @@
     "description": "You are a vision of beauty.  Some people will react very well to your looks, and most people will trust you immediately.",
     "types": [ "ATTRACTIVENESS" ],
     "prereqs": [ "BEAUTIFUL" ],
-    "changes_to": [ "BEAUTIFUL3" ]
+    "changes_to": [ "BEAUTIFUL3" ],
+    "category": [ "ALPHA" ],
+    "threshreq": [ "THRESH_ALPHA" ]
   },
   {
     "type": "mutation",
@@ -7294,6 +7300,10 @@
     "points": 2,
     "description": "A network of jelly-filled electroreceptors, like that of a shark, have grown throughout your face and nose.  They are very sensitive to magnetic fields, allowing you to see robots and creatures charged with electricity through walls, but being shocked will seriously mess you up.",
     "category": [ "FISH" ],
+    "enchantments": [
+      { "condition": "ALWAYS", "values": [ { "value": "SIGHT_RANGE_ELECTRIC", "add": 1000 } ] },
+      { "condition": "ALWAYS", "values": [ { "value": "EXTRA_ELEC_PAIN", "add": 1 } ] }
+    ],
     "mixed_effect": true
   },
   {

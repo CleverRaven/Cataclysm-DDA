@@ -1040,6 +1040,7 @@ struct islot_seed {
 enum condition_type {
     FLAG,
     COMPONENT_ID,
+    COMPONENT_ID_SUBSTRING,
     VAR,
     SNIPPET_ID,
     num_condition_types

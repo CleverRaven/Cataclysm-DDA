@@ -1389,8 +1389,8 @@ bool game::cancel_activity_or_ignore_query( const distraction_type type, const s
                                           text, u.activity.get_stop_phrase() )
                                 .option( "YES", allow_key )
                                 .option( "NO", allow_key )
-                                .option( "IGNORE", allow_key )
                                 .option( "MANAGER", allow_key )
+                                .option( "IGNORE", allow_key )
                                 .query()
                                 .action;
 
@@ -2476,6 +2476,7 @@ input_context get_default_mode_input_context()
     ctxt.register_action( "COORDINATE" );
     ctxt.register_action( "MOUSE_MOVE" );
     ctxt.register_action( "SELECT" );
+    ctxt.register_action( "CLICK_AND_DRAG" );
     ctxt.register_action( "SEC_SELECT" );
     return ctxt;
 }
@@ -5232,6 +5233,12 @@ void game::control_vehicle()
 {
     int veh_part = -1;
     vehicle *veh = remoteveh();
+    if( veh != nullptr ) {
+        for( const vpart_reference &vpr : veh->get_avail_parts( "REMOTE_CONTROLS" ) ) {
+            veh->interact_with( vpr.pos() );
+            return;
+        }
+    }
     if( veh == nullptr ) {
         if( const optional_vpart_position vp = m.veh_at( u.pos() ) ) {
             veh = &vp->vehicle();
@@ -5240,7 +5247,7 @@ void game::control_vehicle()
     }
     if( veh != nullptr && veh->player_in_control( u ) &&
         veh->avail_part_with_feature( veh_part, "CONTROLS" ) >= 0 ) {
-        veh->use_controls( u.pos() );
+        veh->interact_with( u.pos() );
     } else if( veh && veh->player_in_control( u ) &&
                veh->avail_part_with_feature( veh_part, "CONTROL_ANIMAL" ) >= 0 ) {
         u.controlling_vehicle = false;
@@ -5249,8 +5256,8 @@ void game::control_vehicle()
                         ( veh->avail_part_with_feature( veh_part, "CONTROL_ANIMAL" ) >= 0 &&
                           veh->has_engine_type( fuel_type_animal, false ) && veh->has_harnessed_animal() ) ) &&
                u.in_vehicle ) {
-        if( !veh->interact_vehicle_locked() ) {
-            veh->handle_potential_theft( dynamic_cast<Character &>( u ) );
+        if( veh->is_locked ) {
+            veh->interact_with( u.pos() );
             return;
         }
         if( veh->engine_on ) {
@@ -5305,9 +5312,7 @@ void game::control_vehicle()
             if( !veh->handle_potential_theft( dynamic_cast<Character &>( u ) ) ) {
                 return;
             }
-            veh->use_controls( *vehicle_position );
-            //May be folded up (destroyed), so need to re-get it
-            veh = g->remoteveh();
+            veh->interact_with( *vehicle_position );
         }
     }
     if( veh ) {
@@ -5616,7 +5621,11 @@ void game::examine( const tripoint &examp, bool with_pickup )
     const optional_vpart_position vp = m.veh_at( examp );
     if( vp ) {
         if( !u.is_mounted() || u.mounted_creature->has_flag( MF_RIDEABLE_MECH ) ) {
-            vp->vehicle().interact_with( *vp, with_pickup );
+            if( !vp->vehicle().has_tag( "APPLIANCE" ) ) {
+                vp->vehicle().interact_with( examp, with_pickup );
+            } else {
+                g->exam_appliance( vp->vehicle(), vp->mount() );
+            }
             return;
         } else {
             add_msg( m_warning, _( "You cannot interact with a vehicle while mounted." ) );
@@ -10786,9 +10795,9 @@ void game::on_move_effects()
         const item muscle( "muscle" );
         for( const bionic_id &bid : u.get_bionic_fueled_with( muscle ) ) {
             if( u.has_active_bionic( bid ) ) {// active power gen
-                u.mod_power_level( units::from_kilojoule( muscle.fuel_energy() ) * bid->fuel_efficiency );
+                u.mod_power_level( muscle.fuel_energy() * bid->fuel_efficiency );
             } else if( u.has_bionic( bid ) ) {// passive power gen
-                u.mod_power_level( units::from_kilojoule( muscle.fuel_energy() ) * bid->passive_fuel_efficiency );
+                u.mod_power_level( muscle.fuel_energy() * bid->passive_fuel_efficiency );
             }
         }
         if( u.has_active_bionic( bio_jointservo ) ) {

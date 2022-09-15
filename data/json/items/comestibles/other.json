@@ -251,7 +251,7 @@
     "id": "gelatin_fresh",
     "name": { "str_sp": "fresh gelatin" },
     "conditional_names": [
-      { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str_sp": "abomination %s" } },
+      { "type": "COMPONENT_ID_SUBSTRING", "condition": "mutant", "name": { "str_sp": "abomination %s" } },
       { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str_sp": "amoral %s" } },
       { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": { "str_sp": "Orwell's %s" } }
     ],
@@ -1044,6 +1044,8 @@
     "comestible_type": "FOOD",
     "symbol": "%",
     "calories": 15,
+    "spoils_in": "15 days",
+    "rot_spawn": "GROUP_MUTATION_SNAIL",
     "description": "A small gastropod harvested from the bushes.  Dangerous to consume raw but can be prepared if you get enough of them.",
     "price": 0,
     "price_postapoc": 0,

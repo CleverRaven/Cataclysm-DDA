@@ -948,17 +948,16 @@
     "type": "overmap_special",
     "id": "Strangle Temple",
     "overmaps": [
-      { "point": [ 0, 0, 0 ], "overmap": "temple_stairs" },
-      { "point": [ 0, 0, -1 ], "overmap": "temple_stairs" },
-      { "point": [ 0, 0, -2 ], "overmap": "temple_stairs" },
-      { "point": [ 0, 0, -3 ], "overmap": "temple_stairs" },
-      { "point": [ 0, 0, -4 ], "overmap": "temple_stairs" },
-      { "point": [ 0, 0, -5 ], "overmap": "temple_finale" }
+      { "point": [ 0, 0, 0 ], "overmap": "temple_stairs_north" },
+      { "point": [ 0, 0, -1 ], "overmap": "temple_underground_1_north" },
+      { "point": [ 0, 0, -2 ], "overmap": "temple_underground_2_north" },
+      { "point": [ 0, 0, -3 ], "overmap": "temple_underground_3_north" },
+      { "point": [ 0, 0, -4 ], "overmap": "temple_underground_4_north" },
+      { "point": [ 0, 0, -5 ], "overmap": "temple_finale_north" }
     ],
     "locations": [ "forest" ],
     "city_distance": [ 40, -1 ],
     "occurrences": [ 10, 100 ],
-    "rotate": false,
     "flags": [ "WILDERNESS", "UNIQUE" ]
   },
   {
@@ -3699,6 +3698,25 @@
     "city_distance": [ 3, -1 ],
     "occurrences": [ 30, 100 ],
     "flags": [ "UNIQUE", "SAFE_AT_WORLDGEN", "MAN_MADE" ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "valhalla_cult",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "pagan_cult_henge_north" },
+      { "point": [ -1, 0, 0 ], "overmap": "pagan_cult_long_wall_north" },
+      { "point": [ 1, 0, 0 ], "overmap": "pagan_cult_long_wall_south" },
+      { "point": [ 0, -1, 0 ], "overmap": "pagan_cult_longhouse_north" },
+      { "point": [ 0, 1, 0 ], "overmap": "pagan_cult_enter_north" },
+      { "point": [ 1, -1, 0 ], "overmap": "pagan_cult_right_corner_up_north" },
+      { "point": [ -1, -1, 0 ], "overmap": "pagan_cult_left_corner_up_north" },
+      { "point": [ 1, 1, 0 ], "overmap": "pagan_cult_right_corner_north" },
+      { "point": [ -1, 1, 0 ], "overmap": "pagan_cult_left_corner_north" }
+    ],
+    "locations": [ "land" ],
+    "city_distance": [ 8, 30 ],
+    "occurrences": [ 30, 70 ],
+    "flags": [ "CLASSIC", "UNIQUE", "MAN_MADE" ]
   },
   {
     "type": "overmap_special",

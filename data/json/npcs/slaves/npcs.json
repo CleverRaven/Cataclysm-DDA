@@ -1,0 +1,12 @@
+[
+  {
+    "type": "npc",
+    "id": "slave",
+    "name_suffix": "slave",
+    "class": "NC_SLAVE",
+    "attitude": 0,
+    "mission": 7,
+    "chat": "TALK_MI-GO_PRISONER1",
+    "faction": "slaves"
+  }
+]

@@ -1306,11 +1306,8 @@ If a fuel has the PERPETUAL flag, engines powered by it never use any fuel.  Thi
 
 ```C++
 "fuel_data" : {
-    energy": 34.2,               // battery charges per mL of fuel. batteries have energy 1
-                                 // is also MJ/L from https://en.wikipedia.org/wiki/Energy_density
-                                 // assumes stacksize 250 per volume 1 (250mL). Multiply
-                                 // by 250 / stacksize * volume for other stack sizes and
-                                 // volumes
+    "energy": "34200_kJ",        // Energy per litre of fuel.
+                                 // https://en.wikipedia.org/wiki/Energy_density
    "perpetual": true,            // this material is a perpetual fuel like `wind`, `sunlight`, `muscle`, `animal` and `metabolism`.
    "pump_terrain": "t_gas_pump", // optional. terrain id for the fuel's pump, if any.
    "explosion_data": {           // optional for fuels that can cause explosions
@@ -5320,9 +5317,10 @@ Fields can exist on top of terrain/furniture, and support different intensity le
     ],
     "npc_complain": { "chance": 20, "issue": "weed_smoke", "duration": "10 minutes", "speech": "<weed_smoke>" }, // NPCs in this field will complain about being in it once per <duration> if a 1-in-<chance> roll succeeds, giving off a <speech> bark that supports snippets
     "immunity_data": {
-      { "traits": [ "WEB_WALKER" ] },
-      { "body_part_env_resistance": [ [ "mouth", 15 ] ] }
-      }, // If the character in the field has the defined traits or env resistance on the bodypart they will be considered immune to the field
+      { "flags": [ "WEBWALK" ] },
+      { "body_part_env_resistance": [ [ "mouth", 15 ], [ "sensor", 10 ] ] },
+      "immunity_flags_worn": [ [ "sensor", "FLASH_PROTECTION" ] ]
+      }, // If the character in the field has the defined character flags (see Character Flags), necessary env resistance or worn item flags on ALL bodyparts of the defined type they will be considered immune to the field's effects -- in this example a player is immune if they have the WEBWALK flag, wear flash protection on their eyes or have both their eyes and mouth covered
     "decay_amount_factor": 2, // The field's rain decay amount is divided by this when processing the field, the rain decay is a function of the weather type's precipitation class: very_light = 5s, light = 15s, heavy = 45 s
     "half_life": "3 minutes", // If above 0 the field will disappear after two half-lifes on average
     "underwater_age_speedup": "25 minutes", // Increase the field's age by this time every tick if it's on a terrain with the SWIMMABLE flag

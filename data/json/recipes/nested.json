@@ -306,6 +306,533 @@
     "difficulty": 1
   },
   {
+    "id": "nested_cotton_duster",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "cotton dusters",
+    "description": "Recipes related to tailoring long coats from cotton, known as dusters.",
+    "skill_used": "tailor",
+    "nested_category_data": [ "duster", "xs_duster", "xl_duster", "sleeveless_duster", "sleeveless_duster_from_duster" ],
+    "difficulty": 3
+  },
+  {
+    "id": "nested_fur_duster",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "fur dusters",
+    "description": "Recipes related to tailoring long coats from fur, known as dusters.",
+    "skill_used": "tailor",
+    "nested_category_data": [ "duster_fur", "xs_duster_fur", "xl_duster_fur", "sleeveless_duster_fur", "sleeveless_duster_fur_from_duster_fur" ],
+    "difficulty": 3
+  },
+  {
+    "id": "nested_leather_duster",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "leather dusters",
+    "description": "Recipes related to tailoring sturdy long coats from leather, known as dusters.",
+    "skill_used": "tailor",
+    "nested_category_data": [
+      "duster_leather",
+      "xs_duster_leather",
+      "xl_duster_leather",
+      "sleeveless_duster_leather",
+      "sleeveless_duster_leather_from_duster_leather"
+    ],
+    "difficulty": 6
+  },
+  {
+    "id": "nested_faux_fur_duster",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "faux fur dusters",
+    "description": "Recipes related to tailoring long coats from faux fur, known as dusters.",
+    "skill_used": "tailor",
+    "nested_category_data": [
+      "duster_faux_fur",
+      "xs_duster_faux_fur",
+      "xl_duster_faux_fur",
+      "sleeveless_duster_faux_fur",
+      "sleeveless_duster_faux_fur_from_duster_faux_fur"
+    ],
+    "difficulty": 3
+  },
+  {
+    "id": "nested_survivor_duster",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "survivor dusters",
+    "description": "Recipes related to tailoring durable long coats from kevlar and other materials, known as dusters.",
+    "skill_used": "tailor",
+    "nested_category_data": [
+      "duster_survivor",
+      "xs_duster_survivor",
+      "xl_duster_survivor",
+      "sleeveless_duster_survivor",
+      "sleeveless_duster_survivor_from_duster_survivor"
+    ],
+    "difficulty": 6
+  },
+  {
+    "id": "nested_all_duster",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_TORSO",
+    "name": "dusters",
+    "description": "Recipes related to tailoring long coats, known as dusters.",
+    "skill_used": "tailor",
+    "nested_category_data": [
+      "nested_cotton_duster",
+      "nested_fur_duster",
+      "nested_leather_duster",
+      "nested_faux_fur_duster",
+      "nested_survivor_duster"
+    ],
+    "difficulty": 3
+  },
+  {
+    "id": "nested_cotton_trenchcoat",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "cotton trenchcoats",
+    "description": "Recipes related to tailoring long coats from cotton, known as trenchcoats.",
+    "skill_used": "tailor",
+    "nested_category_data": [ "trenchcoat", "sleeveless_trenchcoat", "sleeveless_trenchcoat_from_trenchcoat" ],
+    "difficulty": 3
+  },
+  {
+    "id": "nested_fur_trenchcoat",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "fur trenchcoats",
+    "description": "Recipes related to tailoring long coats from fur, known as trenchcoats.",
+    "skill_used": "tailor",
+    "nested_category_data": [ "trenchcoat_fur", "sleeveless_trenchcoat_fur", "sleeveless_trenchcoat_fur_from_trenchcoat_fur" ],
+    "difficulty": 3
+  },
+  {
+    "id": "nested_leather_trenchcoat",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "leather trenchcoats",
+    "description": "Recipes related to tailoring long coats from leather, known as trenchcoats.",
+    "skill_used": "tailor",
+    "nested_category_data": [ "trenchcoat_leather", "sleeveless_trenchcoat_leather", "sleeveless_trenchcoat_leather_from_trenchcoat_leather" ],
+    "difficulty": 6
+  },
+  {
+    "id": "nested_faux_fur_trenchcoat",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "faux fur trenchcoats",
+    "description": "Recipes related to tailoring long coats from cotton, known as trenchcoats.",
+    "skill_used": "tailor",
+    "nested_category_data": [ "trenchcoat_faux_fur", "sleeveless_trenchcoat_faux_fur", "sleeveless_trenchcoat_faux_fur_from_trenchcoat_faux_fur" ],
+    "difficulty": 3
+  },
+  {
+    "id": "nested_survivor_trenchcoat",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "survivor trenchcoats",
+    "description": "Recipes related to tailoring long coats from kevlar, known as trenchcoats.",
+    "skill_used": "tailor",
+    "nested_category_data": [ "trenchcoat_survivor", "sleeveless_trenchcoat_survivor", "sleeveless_trenchcoat_survivor_from_trenchcoat_survivor" ],
+    "difficulty": 3
+  },
+  {
+    "id": "nested_trenchcoats",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_TORSO",
+    "name": "trenchcoats",
+    "description": "Recipes related to tailoring long coats, known as trenchcoats.",
+    "skill_used": "tailor",
+    "nested_category_data": [
+      "nested_cotton_trenchcoat",
+      "nested_fur_trenchcoat",
+      "nested_leather_trenchcoat",
+      "nested_faux_fur_trenchcoat",
+      "nested_survivor_trenchcoat"
+    ],
+    "difficulty": 3
+  },
+  {
+    "id": "nested_chitin_helmets",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HEAD",
+    "name": "chitinous helmets",
+    "description": "Recipes related to constructing durable helmets from chitin.",
+    "skill_used": "tailor",
+    "nested_category_data": [
+      "helmet_acidchitin",
+      "helmet_acidchitin_xs",
+      "xl_helmet_acidchitin",
+      "helmet_chitin",
+      "helmet_chitin_xs",
+      "xl_helmet_chitin"
+    ],
+    "difficulty": 6
+  },
+  {
+    "id": "nested_chitin_bodyarmor",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_SUIT",
+    "name": "chitinous armor",
+    "description": "Recipes related to constructing durable armor from chitin that covers the body.",
+    "skill_used": "tailor",
+    "nested_category_data": [
+      "armor_acidchitin",
+      "armor_acidchitin_xs",
+      "xl_armor_acidchitin",
+      "armor_chitin",
+      "armor_chitin_xs",
+      "xl_armor_chitin"
+    ],
+    "difficulty": 7
+  },
+  {
+    "id": "nested_chitin_armguards",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_ARMS",
+    "name": "chitinous arm guards",
+    "description": "Recipes related to constructing durable armguards from chitin.",
+    "skill_used": "tailor",
+    "nested_category_data": [
+      "armguard_chitin",
+      "xs_armguard_chitin",
+      "xl_armguard_chitin",
+      "armguard_acidchitin",
+      "xs_armguard_acidchitin",
+      "xl_armguard_acidchitin"
+    ],
+    "difficulty": 5
+  },
+  {
+    "id": "nested_chitin_legguards",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_LEGS",
+    "name": "chitinous leg guards",
+    "description": "Recipes related to constructing durable leg guards from chitin.",
+    "skill_used": "tailor",
+    "nested_category_data": [ "legguard_chitin", "legguard_acidchitin" ],
+    "difficulty": 5
+  },
+  {
+    "id": "nested_chitin_gauntlets",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HANDS",
+    "name": "chitinous gauntlets",
+    "description": "Recipes related to constructing durable gauntlets from chitin.",
+    "skill_used": "tailor",
+    "nested_category_data": [
+      "gauntlets_chitin",
+      "xs_gauntlets_chitin",
+      "xl_gauntlets_chitin",
+      "gauntlets_acidchitin",
+      "xs_gauntlets_acidchitin",
+      "xl_gauntlets_acidchitin"
+    ],
+    "difficulty": 4
+  },
+  {
+    "id": "nested_chitinous_boots",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_FEET",
+    "name": "chitinous boots",
+    "description": "Recipes related to constructing durable boots from chitin.",
+    "skill_used": "tailor",
+    "nested_category_data": [
+      "boots_chitin",
+      "xs_boots_chitin",
+      "xl_boots_chitin",
+      "boots_acidchitin",
+      "xs_boots_acidchitin",
+      "xl_boots_acidchitin"
+    ],
+    "difficulty": 4
+  },
+  {
+    "id": "nested_lc_light_chestplate",
+    "type": "nested_category",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "mild steel light chestplate",
+    "description": "Recipes related to constructing light chestplate from poor quality steel.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "armor_lc_light_chestplate", "xl_armor_lc_light_chestplate" ],
+    "difficulty": 1
+  },
+  {
+    "id": "nested_mc_light_chestplate",
+    "type": "nested_category",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "medium steel light chestplates",
+    "description": "Recipes related to constructing light chestplates from steel.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "armor_mc_light_chestplate", "xl_armor_mc_light_chestplate" ],
+    "difficulty": 2
+  },
+  {
+    "id": "nested_hc_light_chestplate",
+    "type": "nested_category",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "high steel light chestplates",
+    "description": "Recipes related to constructing light chestplates from high quality steel.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "armor_hc_light_chestplate", "xl_armor_hc_light_chestplate" ],
+    "difficulty": 3
+  },
+  {
+    "id": "nested_ch_light_chestplate",
+    "type": "nested_category",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "hardened steel light chestplates",
+    "description": "Recipes related to constructing light chestplates from case hardened steel.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "armor_ch_light_chestplate", "xl_armor_ch_light_chestplate" ],
+    "difficulty": 4
+  },
+  {
+    "id": "nested_qt_light_chestplate",
+    "type": "nested_category",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "tempered steel light chestplates",
+    "description": "Recipes related to constructing light chestplates from quench tempered steel.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "armor_qt_light_chestplate", "xl_armor_qt_light_chestplate" ],
+    "difficulty": 5
+  },
+  {
+    "id": "nested_all_light_chestplate",
+    "type": "nested_category",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "light chestplates",
+    "description": "Recipes related to constructing light chestplates from various types of steel.",
+    "skill_used": "fabrication",
+    "nested_category_data": [
+      "nested_lc_light_chestplate",
+      "nested_mc_light_chestplate",
+      "nested_hc_light_chestplate",
+      "nested_ch_light_chestplate",
+      "nested_qt_light_chestplate"
+    ],
+    "difficulty": 1
+  },
+  {
+    "id": "nested_armor_lc_chestplate",
+    "type": "nested_category",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "mild steel chestplate",
+    "description": "Recipes related to constructing steel chestplates from low quality steel.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "xl_armor_lc_chestplate", "armor_lc_chestplate" ],
+    "difficulty": 1
+  },
+  {
+    "id": "nested_armor_mc_chestplate",
+    "type": "nested_category",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "medium steel chestplate",
+    "description": "Recipes related to constructing steel chestplates from steel.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "xl_armor_mc_chestplate", "armor_mc_chestplate" ],
+    "difficulty": 2
+  },
+  {
+    "id": "nested_armor_hc_chestplate",
+    "type": "nested_category",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "high steel chestplate",
+    "description": "Recipes related to constructing steel chestplates from high quality steel.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "xl_armor_hc_chestplate", "armor_hc_chestplate" ],
+    "difficulty": 3
+  },
+  {
+    "id": "nested_armor_ch_chestplate",
+    "type": "nested_category",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "hardened steel chestplate",
+    "description": "Recipes related to constructing steel chestplates from case hardened steel.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "xl_armor_ch_chestplate", "armor_ch_chestplate" ],
+    "difficulty": 4
+  },
+  {
+    "id": "nested_armor_qt_chestplate",
+    "type": "nested_category",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "tempered steel chestplate",
+    "description": "Recipes related to constructing steel chestplates from quench tempered steel.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "xl_armor_qt_chestplate", "armor_qt_chestplate" ],
+    "difficulty": 5
+  },
+  {
+    "id": "nested_armor_all_chestplate",
+    "type": "nested_category",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "standard chestplates",
+    "description": "Recipes related to constructing steel chestplates from different qualities of steel.",
+    "skill_used": "fabrication",
+    "nested_category_data": [
+      "nested_armor_lc_chestplate",
+      "nested_armor_mc_chestplate",
+      "nested_armor_hc_chestplate",
+      "nested_armor_ch_chestplate",
+      "nested_armor_qt_chestplate"
+    ],
+    "difficulty": 2
+  },
+  {
+    "id": "nested_armor_lc_heavy_chestplate",
+    "type": "nested_category",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "mild steel heavy chestplates",
+    "description": "Recipes related to constructing steel chestplates from low quality steel.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "xl_armor_lc_heavy_chestplate", "armor_lc_heavy_chestplate" ],
+    "difficulty": 1
+  },
+  {
+    "id": "nested_armor_mc_heavy_chestplate",
+    "type": "nested_category",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "medium steel heavy chestplates",
+    "description": "Recipes related to constructing steel chestplates from steel.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "xl_armor_mc_heavy_chestplate", "armor_mc_heavy_chestplate" ],
+    "difficulty": 2
+  },
+  {
+    "id": "nested_armor_hc_heavy_chestplate",
+    "type": "nested_category",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "high steel heavy chestplates",
+    "description": "Recipes related to constructing steel chestplates from high quality steel.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "xl_armor_hc_heavy_chestplate", "armor_hc_heavy_chestplate" ],
+    "difficulty": 3
+  },
+  {
+    "id": "nested_armor_ch_heavy_chestplate",
+    "type": "nested_category",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "hardened steel heavy chestplates",
+    "description": "Recipes related to constructing steel chestplates from case hardened steel.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "xl_armor_ch_heavy_chestplate", "armor_ch_heavy_chestplate" ],
+    "difficulty": 4
+  },
+  {
+    "id": "nested_armor_qt_heavy_chestplate",
+    "type": "nested_category",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "tempered steel heavy chestplates",
+    "description": "Recipes related to constructing steel chestplates from quench tempered steel.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "xl_armor_qt_heavy_chestplate", "armor_qt_heavy_chestplate" ],
+    "difficulty": 5
+  },
+  {
+    "id": "nested_armor_all_heavy_chestplate",
+    "type": "nested_category",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "heavy chestplates",
+    "description": "Recipes related to constructing steel chestplates from different qualities of steel.",
+    "skill_used": "fabrication",
+    "nested_category_data": [
+      "nested_armor_lc_heavy_chestplate",
+      "nested_armor_mc_heavy_chestplate",
+      "nested_armor_hc_heavy_chestplate",
+      "nested_armor_ch_heavy_chestplate",
+      "nested_armor_qt_heavy_chestplate"
+    ],
+    "difficulty": 3
+  },
+  {
+    "id": "nested_armor_every_chestplate",
+    "type": "nested_category",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_TORSO",
+    "name": "steel chestplates",
+    "description": "Recipes related to constructing different thicknesses of steel chestplates from different qualities of steel.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "nested_all_light_chestplate", "nested_armor_all_chestplate", "nested_armor_all_heavy_chestplate" ],
+    "difficulty": 5
+  },
+  {
     "id": "nested_armor_lc_lightplate",
     "type": "nested_category",
     "activity_level": "MODERATE_EXERCISE",
@@ -1759,7 +2286,18 @@
     "name": "steel wires",
     "description": "Recipes related to constructing different qualities of steel wires.",
     "skill_used": "fabrication",
-    "nested_category_data": [ "lc_wire", "mc_wire", "hc_wire", "ch_wire", "qt_wire" ],
+    "nested_category_data": [
+      "lc_wire",
+      "lc_wire_wire_draw_machine",
+      "mc_wire",
+      "mc_wire_wire_draw_machine",
+      "hc_wire",
+      "hc_wire_wire_draw_machine",
+      "ch_wire",
+      "ch_wire_wire_draw_machine",
+      "qt_wire",
+      "qt_wire_wire_draw_machine"
+    ],
     "difficulty": 3
   },
   {
@@ -3087,7 +3625,7 @@
     "name": "short strings",
     "description": "Recipes related to constructing short strings.",
     "skill_used": "tailor",
-    "nested_category_data": [ "string_6", "string_6_spinwheel" ],
+    "nested_category_data": [ "string_6", "string_6_spinwheel", "string_6_electric_spinwheel" ],
     "difficulty": 1
   },
   {
@@ -3101,10 +3639,13 @@
     "skill_used": "tailor",
     "nested_category_data": [
       "rope_6_spinwheel_string",
+      "rope_6_electric_spinwheel_string",
       "rope_6_from_filament",
       "rope_6_spinwheel_filament",
+      "rope_6_electric_spinwheel_filament",
       "rope_6_from_cloth",
       "rope_6_spinwheel_cloth",
+      "rope_6_electric_spinwheel_cloth",
       "rope_6_from_string"
     ],
     "difficulty": 1
@@ -3118,7 +3659,7 @@
     "name": "long strings",
     "description": "Recipes related to constructing long strings.",
     "skill_used": "tailor",
-    "nested_category_data": [ "string_36", "string_36_spinwheel" ],
+    "nested_category_data": [ "string_36", "string_36_spinwheel", "string_36_electric_spinwheel" ],
     "difficulty": 1
   },
   {
@@ -3133,12 +3674,16 @@
     "nested_category_data": [
       "rope_30",
       "rope_30_spinwheel_ropes",
+      "rope_30_electric_spinwheel_ropes",
       "rope_30_from_cloth",
       "rope_30_spinwheel_cloth",
+      "rope_30_electric_spinwheel_cloth",
       "rope_30_from_string",
       "rope_30_spinwheel_string",
+      "rope_30_electric_spinwheel_string",
       "rope_30_from_filament",
-      "rope_30_spinwheel_filament"
+      "rope_30_spinwheel_filament",
+      "rope_30_electric_spinwheel_filament"
     ],
     "difficulty": 1
   },
@@ -3151,7 +3696,7 @@
     "name": "short cordage pieces",
     "description": "Recipes related to constructing short cordage pieces.",
     "skill_used": "tailor",
-    "nested_category_data": [ "cordage_6", "cordage_6_spinwheel_plant" ],
+    "nested_category_data": [ "cordage_6", "cordage_6_spinwheel_plant", "cordage_6_electric_spinwheel_plant" ],
     "difficulty": 1
   },
   {
@@ -3163,7 +3708,14 @@
     "name": "long cordage pieces",
     "description": "Recipes related to constructing long cordage pieces.",
     "skill_used": "tailor",
-    "nested_category_data": [ "cordage_36", "cordage_36_spinwheel_plant", "cordage_36_from_cordage_6", "cordage_36_spinwheel_ropes" ],
+    "nested_category_data": [
+      "cordage_36",
+      "cordage_36_spinwheel_plant",
+      "cordage_36_from_cordage_6",
+      "cordage_36_spinwheel_ropes",
+      "cordage_36_electric_spinwheel_ropes",
+      "cordage_36_electric_spinwheel_plant"
+    ],
     "difficulty": 1
   },
   {
@@ -3187,7 +3739,7 @@
     "name": "short cordage ropes",
     "description": "Recipes related to constructing short cordage ropes.",
     "skill_used": "tailor",
-    "nested_category_data": [ "rope_makeshift_6", "rope_makeshift_6_spinwheel_cordages" ],
+    "nested_category_data": [ "rope_makeshift_6", "rope_makeshift_6_spinwheel_cordages", "rope_makeshift_6_electric_spinwheel_cordages" ],
     "difficulty": 1
   },
   {
@@ -3202,8 +3754,10 @@
     "nested_category_data": [
       "rope_makeshift_30",
       "rope_makeshift_30_spinwheel_cordages",
+      "rope_makeshift_30_electric_spinwheel_cordages",
       "rope_makeshift_30_from_rope_makeshift_6",
       "rope_makeshift_30_spinwheel_ropes",
+      "rope_makeshift_30_electric_spinwheel_ropes",
       "rope_makeshift_30_from_cordage"
     ],
     "difficulty": 1
@@ -3471,5 +4025,170 @@
       "stock_mount",
       "underbarrel_mount"
     ]
+  },
+  {
+    "id": "nested_arming_sword",
+    "type": "nested_category",
+    "activity_level": "fake",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_CUTTING",
+    "name": "arming swords",
+    "description": "Recipes for making arming swords.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "lc_arming_sword", "mc_arming_sword", "hc_arming_sword", "ch_arming_sword", "qt_arming_sword" ]
+  },
+  {
+    "id": "nested_broadsword",
+    "type": "nested_category",
+    "activity_level": "fake",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_CUTTING",
+    "name": "broadswords",
+    "description": "Recipes for making broadswords.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "lc_broadsword", "mc_broadsword", "hc_broadsword", "ch_broadsword", "qt_broadsword" ]
+  },
+  {
+    "id": "nested_cavalry_sabre",
+    "type": "nested_category",
+    "activity_level": "fake",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_CUTTING",
+    "name": "cavalry sabres",
+    "description": "Recipes for making cavalry sabres.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "lc_cavalry_sabre", "mc_cavalry_sabre", "hc_cavalry_sabre", "ch_cavalry_sabre", "qt_cavalry_sabre" ]
+  },
+  {
+    "id": "nested_cutlass",
+    "type": "nested_category",
+    "activity_level": "fake",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_CUTTING",
+    "name": "cutlasses",
+    "description": "Recipes for making cutlasses.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "lc_cutlass", "mc_cutlass", "hc_cutlass", "ch_cutlass", "qt_cutlass" ]
+  },
+  {
+    "id": "nested_estoc",
+    "type": "nested_category",
+    "activity_level": "fake",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_CUTTING",
+    "name": "estocs",
+    "description": "Recipes for making estocs.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "lc_estoc", "mc_estoc", "hc_estoc", "ch_estoc", "qt_estoc" ]
+  },
+  {
+    "id": "nested_falx",
+    "type": "nested_category",
+    "activity_level": "fake",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_CUTTING",
+    "name": "falxes",
+    "description": "Recipes for making falxes.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "lc_falx", "mc_falx", "hc_falx", "ch_falx", "qt_falx" ]
+  },
+  {
+    "id": "nested_jian",
+    "type": "nested_category",
+    "activity_level": "fake",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_CUTTING",
+    "name": "jians",
+    "description": "Recipes for making jians.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "lc_jian", "mc_jian", "hc_jian", "ch_jian", "qt_jian" ]
+  },
+  {
+    "id": "nested_katana",
+    "type": "nested_category",
+    "activity_level": "fake",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_CUTTING",
+    "name": "katanas",
+    "description": "Recipes for making katanas.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "lc_katana", "mc_katana", "hc_katana", "ch_katana", "qt_katana" ]
+  },
+  {
+    "id": "nested_kriegsmesser",
+    "type": "nested_category",
+    "activity_level": "fake",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_CUTTING",
+    "name": "kriegsmessers",
+    "description": "Recipes for making kriegsmessers.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "lc_kriegsmesser", "mc_kriegsmesser", "hc_kriegsmesser", "ch_kriegsmesser", "qt_kriegsmesser" ]
+  },
+  {
+    "id": "nested_longsword",
+    "type": "nested_category",
+    "activity_level": "fake",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_CUTTING",
+    "name": "longswords",
+    "description": "Recipes for making longswords.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "lc_longsword", "mc_longsword", "hc_longsword", "ch_longsword", "qt_longsword" ]
+  },
+  {
+    "id": "nested_nodachi",
+    "type": "nested_category",
+    "activity_level": "fake",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_CUTTING",
+    "name": "nodachis",
+    "description": "Recipes for making nodachis.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "lc_nodachi", "mc_nodachi", "hc_nodachi", "ch_nodachi", "qt_nodachi" ]
+  },
+  {
+    "id": "nested_rapier",
+    "type": "nested_category",
+    "activity_level": "fake",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_CUTTING",
+    "name": "rapiers",
+    "description": "Recipes for making rapiers.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "lc_rapier", "mc_rapier", "hc_rapier", "ch_rapier", "qt_rapier" ]
+  },
+  {
+    "id": "nested_scimitar",
+    "type": "nested_category",
+    "activity_level": "fake",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_CUTTING",
+    "name": "scimitars",
+    "description": "Recipes for making scimitars.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "lc_scimitar", "mc_scimitar", "hc_scimitar", "ch_scimitar", "qt_scimitar" ]
+  },
+  {
+    "id": "nested_wakizashi",
+    "type": "nested_category",
+    "activity_level": "fake",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_CUTTING",
+    "name": "wakizashis",
+    "description": "Recipes for making wakizashis.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "lc_wakizashi", "mc_wakizashi", "hc_wakizashi", "ch_wakizashi", "qt_wakizashi" ]
+  },
+  {
+    "id": "nested_zweihander",
+    "type": "nested_category",
+    "activity_level": "fake",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_CUTTING",
+    "name": "zweihänders",
+    "description": "Recipes for making zweihänders.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "lc_zweihander", "mc_zweihander", "hc_zweihander", "ch_zweihander", "qt_zweihander" ]
   }
 ]

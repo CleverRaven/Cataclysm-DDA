@@ -619,6 +619,54 @@
     "flags": [ "SEES", "SMELLS", "POISON", "STUMBLES", "NO_BREATHE", "FILTHY", "BASHES" ]
   },
   {
+    "id": "mon_zargoyleosaurus_fungus",
+    "type": "MONSTER",
+    "name": { "str": "fungal gargoyleosaurus zombie" },
+    "description": "Once a lightly armored four legged dinosaur with a rigid spiked tail, a beak, and sturdy spikes along the sides, fungal tendrils now sprout from its mouth, eyes, and other orifices, holding together a shambling mass of mold-covered flesh and bone.",
+    "copy-from": "mon_zodosaurus_fungus",
+    "proportional": { "hp": 0.8 },
+    "upgrades": {  }
+  },
+  {
+    "id": "mon_zauropelta_fungus",
+    "type": "MONSTER",
+    "name": { "str": "fungal sauropelta zombie" },
+    "description": "Once a heavily armored four legged dinosaur with a beak, a long tail, and long wicked-looking spikes jutting out of the neck, fungal tendrils now sprout from its mouth, eyes, and other orifices, holding together a shambling mass of mold-covered flesh and bone.",
+    "armor_cut": 30,
+    "copy-from": "mon_zodosaurus_fungus",
+    "upgrades": {  }
+  },
+  {
+    "id": "mon_zodosaurus_fungus",
+    "type": "MONSTER",
+    "name": { "str": "fungal nodosaurus zombie" },
+    "description": "Once something like a gigantic armadillo-dinosaur hybrid, fungal tendrils now sprout from its mouth, eyes, and other orifices, holding together a shambling mass of mold-covered flesh and bone.",
+    "copy-from": "mon_zankylosaurus_fungus",
+    "proportional": { "hp": 0.6 },
+    "special_attacks": [ [ "FUNGUS", 200 ], [ "scratch", 10 ], { "type": "bite", "cooldown": 5 } ],
+    "upgrades": {  }
+  },
+  {
+    "id": "mon_zedmontonia_fungus",
+    "type": "MONSTER",
+    "name": { "str": "fungal edmontonia zombie" },
+    "description": "Once something like a gigantic armadillo-dinosaur hybrid with long, bony spikes, fungal tendrils now sprout from its mouth, eyes, and other orifices, holding together a shambling mass of mold-covered flesh and bone.",
+    "copy-from": "mon_zankylosaurus_fungus",
+    "melee_damage": [ { "damage_type": "stab", "amount": 10 } ],
+    "proportional": { "hp": 0.65 },
+    "special_attacks": [ [ "FUNGUS", 200 ], [ "scratch", 10 ], { "type": "bite", "cooldown": 5 } ],
+    "upgrades": {  }
+  },
+  {
+    "id": "mon_zzuul_fungus",
+    "type": "MONSTER",
+    "name": { "str": "fungal zuul zombie" },
+    "description": "Once a four-legged armored dinosaur covered with spikes with a wicked club tail, fungal tendrils now sprout from its mouth, eyes, and other orifices, holding together a shambling mass of mold-covered flesh and bone.",
+    "copy-from": "mon_zankylosaurus_fungus",
+    "proportional": { "hp": 0.4, "speed": 1.2 },
+    "upgrades": {  }
+  },
+  {
     "id": "mon_zyoplosaurus_fungus",
     "type": "MONSTER",
     "name": { "str": "fungal dyoplosaurus zombie" },
@@ -651,27 +699,6 @@
     ],
     "upgrades": {  },
     "flags": [ "SEES", "SMELLS", "POISON", "STUMBLES", "NO_BREATHE", "FILTHY", "BASHES" ]
-  },
-  {
-    "id": "mon_zodosaurus_fungus",
-    "type": "MONSTER",
-    "name": { "str": "fungal nodosaurus zombie" },
-    "description": "Once something like a gigantic armadillo-dinosaur hybrid, fungal tendrils now sprout from its mouth, eyes, and other orifices, holding together a shambling mass of mold-covered flesh and bone.",
-    "copy-from": "mon_zankylosaurus_fungus",
-    "proportional": { "hp": 0.6 },
-    "special_attacks": [ [ "FUNGUS", 200 ], [ "scratch", 10 ], { "type": "bite", "cooldown": 5 } ],
-    "upgrades": {  }
-  },
-  {
-    "id": "mon_zedmontonia_fungus",
-    "type": "MONSTER",
-    "name": { "str": "fungal edmontonia zombie" },
-    "description": "Once something like a gigantic armadillo-dinosaur hybrid with long, bony spikes, fungal tendrils now sprout from its mouth, eyes, and other orifices, holding together a shambling mass of mold-covered flesh and bone.",
-    "copy-from": "mon_zankylosaurus_fungus",
-    "melee_damage": [ { "damage_type": "stab", "amount": 10 } ],
-    "proportional": { "hp": 0.65 },
-    "special_attacks": [ [ "FUNGUS", 200 ], [ "scratch", 10 ], { "type": "bite", "cooldown": 5 } ],
-    "upgrades": {  }
   },
   {
     "id": "mon_zamptosaurus_fungus",
