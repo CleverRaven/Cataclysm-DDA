@@ -10,7 +10,7 @@
     "skills_required": [ "survival", 1 ],
     "time": "10 m",
     "autolearn": true,
-    "tools": [ [ [ "surface_heat", 4, "LIST" ] ] ],
+    "tools": [ [ [ "surface_heat", 4, "LIST" ] ] ]
     "components": [ [ [ "sugar_standard", 3, "LIST" ] ] ]
   }
 ]
