@@ -469,7 +469,7 @@
       }
     ],
     "warmth": 41,
-    "environmental_protection": 10,
+    "environmental_protection": 8,
     "flags": [ "VARSIZE", "WATER_FRIENDLY", "POCKETS", "HOOD", "RAINPROOF", "STURDY", "SKINTIGHT" ]
   },
   {
@@ -494,7 +494,7 @@
     "category": "armor",
     "name": { "str": "thick Kevlar wetsuit" },
     "description": "A hand-built combination armor made from a thick wetsuit padded with layers of Kevlar.  While smotheringly warm and hard to move in it provides substantial protection from harm and from the elements.",
-    "weight": "14805 g",
+    "weight": "14905 g",
     "volume": "15000 ml",
     "price_postapoc": 5000,
     "material": [ "neoprene", "nylon", "kevlar" ],
@@ -534,7 +534,7 @@
       }
     ],
     "warmth": 70,
-    "environmental_protection": 10,
+    "environmental_protection": 8,
     "flags": [ "VARSIZE", "WATER_FRIENDLY", "POCKETS", "HOOD", "RAINPROOF", "STURDY", "SKINTIGHT", "NORMAL" ]
   },
   {
