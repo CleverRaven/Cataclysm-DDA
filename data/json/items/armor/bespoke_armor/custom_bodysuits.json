@@ -430,7 +430,7 @@
     "category": "armor",
     "name": { "str": "Kevlar wetsuit" },
     "description": "A hand-built combination armor made from a wetsuit padded with layers of Kevlar.  Protects from the elements as well as from harm.",
-    "weight": "5650 g",
+    "weight": "5450 g",
     "volume": "7000 ml",
     "price_postapoc": 5000,
     "material": [ "neoprene", "kevlar" ],
@@ -447,7 +447,7 @@
         ],
         "covers": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r" ],
         "coverage": 100,
-        "encumbrance": [ 15, 15 ]
+        "encumbrance": [ 17, 17 ]
       }
     ],
     "pocket_data": [
@@ -493,11 +493,11 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "thick Kevlar wetsuit" },
-    "description": "A hand-built combination armor made from a thick wetsuit padded with layers of Kevlar. Protects from the elements as well as from harm.",
-    "weight": "7805 g",
+    "description": "A hand-built combination armor made from a thick wetsuit padded with layers of Kevlar. It's smotheringly warm and hard to move in but it provides substantial protection from harm and from the elements.",
+    "weight": "8805 g",
     "volume": "12000 ml",
     "price_postapoc": 5000,
-    "material": [ "neoprene", "nylon" , "kevlar" ],
+    "material": [ "neoprene", "nylon", "kevlar" ],
     "symbol": "[",
     "to_hit": -3,
     "bashing": 6,
@@ -508,7 +508,7 @@
         "material": [
           { "type": "neoprene", "covered_by_mat": 100, "thickness": 4.5 },
           { "type": "nylon", "covered_by_mat": 100, "thickness": 0.5 },
-          { "type": "kevlar", "covered_by_mat": 100, "thickness": 2.5 }
+          { "type": "kevlar", "covered_by_mat": 100, "thickness": 3.0 }
         ],
         "covers": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r" ],
         "coverage": 100,
