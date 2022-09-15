@@ -3124,7 +3124,13 @@ repair_item_actor::attempt_hint repair_item_actor::repair( Character &pl, item &
             const std::string startdurability = fix->durability_indicator( true );
             const int damage = fix->damage();
             handle_components( pl, *fix, false, false );
-            fix->mod_damage( -std::min( static_cast<int>( itype::damage_scale ), damage ) );
+
+            int dmg = fix->damage() + 1;
+            for( const int lvl = fix->damage_level(); lvl == fix->damage_level() && dmg != fix->damage(); ) {
+                dmg = fix->damage(); // break loop if clamped by degradation or no more repair needed
+                fix->mod_damage( -1 ); // scan for next damage indicator breakpoint, repairing that much damage
+            }
+
             const std::string resultdurability = fix->durability_indicator( true );
             if( damage > itype::damage_scale ) {
                 pl.add_msg_if_player( m_good, _( "You repair your %s!  ( %s-> %s)" ), fix->tname( 1, false ),
