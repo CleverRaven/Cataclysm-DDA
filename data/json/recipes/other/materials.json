@@ -680,7 +680,7 @@
     "difficulty": 3,
     "time": "2 h 30 m",
     "autolearn": true,
-    "proficiencies": [ { "proficiency": "prof_weaving" } ],
+    "proficiencies": [ { "proficiency": "prof_weaving" }, { "proficiency": "prof_closures_waterproofing" } ],
     "tools": [ [ [ "loom_frame", -1 ] ], [ [ "shed_stick", -1 ] ] ],
     "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [ [ [ "thread_canvas", 80 ] ], [ [ "wax", 1 ] ] ]
@@ -696,7 +696,7 @@
     "batch_time_factors": [ 50, 1 ],
     "time": "1 h 30 m",
     "autolearn": true,
-    "proficiencies": [ { "proficiency": "prof_weaving" } ],
+    "proficiencies": [ { "proficiency": "prof_weaving" }, { "proficiency": "prof_closures_waterproofing" } ],
     "tools": [ [ [ "spinwheelitem", -1 ] ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "thread_canvas", 80 ] ], [ [ "wax", 1 ] ] ]
