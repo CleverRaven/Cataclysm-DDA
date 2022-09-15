@@ -369,7 +369,7 @@ TEST_CASE( "included bionics", "[bionics]" )
     }
 }
 
-TEST_CASE( "bionics", "[bionics] [item]" )
+TEST_CASE( "fueled bionics", "[bionics] [item]" )
 {
     avatar &dummy = get_avatar();
     clear_avatar();
@@ -390,40 +390,55 @@ TEST_CASE( "bionics", "[bionics] [item]" )
 
     SECTION( "bio_fuel_cell_gasoline" ) {
         dummy.add_bionic( bio_fuel_cell_gasoline );
+        // Dirty way of getting the gasoline bionic
+        bionic_id gas_bionic = dummy.get_bionics()[1];
+        bionic &bio = dummy.bionic_at_index( 1 );
 
+
+        // There should be no fuel available, can't turn bionic on and no power is produced
+        CHECK( dummy.get_bionic_fuels( gas_bionic ).empty() );
+        CHECK( dummy.get_cable_ups().empty() );
+        CHECK( dummy.get_cable_solar().empty() );
+        CHECK( dummy.get_cable_vehicle().empty() );
+        CHECK_FALSE( dummy.activate_bionic( bio ) );
+        dummy.suffer();
+        REQUIRE( !dummy.has_power() );
+
+        // Add fuel. Now it turns on and generates power.
         item gasoline = item( "gasoline" );
-        REQUIRE( gasoline.charges != 0 );
-        CHECK_FALSE( dummy.get_bionic_fueled_with( gasoline ).empty() );
-
-        // Bottle with gasoline does not work
-        item bottle = item( "bottle_plastic" );
-        bottle.put_in( gasoline, item_pocket::pocket_type::CONTAINER );
-        CHECK( dummy.get_bionic_fueled_with( bottle ).empty() );
-
-        // Armor has no reason to work.
-        item armor = item( "rm13_armor" );
-        CHECK( dummy.get_bionic_fueled_with( armor ).empty() );
+        item_location gasoline_tank = dummy.top_items_loc().front();
+        REQUIRE( gasoline_tank->can_reload_with( gasoline, true ) );
+        gasoline_tank->put_in( gasoline, item_pocket::pocket_type::CONTAINER );
+        CHECK( dummy.activate_bionic( bio ) );
+        CHECK_FALSE( dummy.get_bionic_fuels( gas_bionic ).empty() );
+        dummy.suffer();
+        REQUIRE( units::to_joule( dummy.get_power_level() ) == 8550 );
     }
 
     SECTION( "bio_batteries" ) {
         dummy.add_bionic( bio_batteries );
+        bionic_id bat_bionic = dummy.get_bionics()[1];
+        bionic &bio = dummy.bionic_at_index( 1 );
 
+        // There should be no fuel available, can't turn bionic on and no power is produced
+        CHECK( dummy.get_bionic_fuels( bat_bionic ).empty() );
+        CHECK( dummy.get_cable_ups().empty() );
+        CHECK( dummy.get_cable_solar().empty() );
+        CHECK( dummy.get_cable_vehicle().empty() );
+        CHECK_FALSE( dummy.activate_bionic( bio ) );
+        dummy.suffer();
+        REQUIRE( !dummy.has_power() );
+
+        // Add fuel. Now it turns on and generates power.
         item battery = item( "light_battery_cell" );
-
-        // Empty battery won't work
-        battery.ammo_set( battery.ammo_default(), 0 );
-        CHECK( dummy.get_bionic_fueled_with( battery ).empty() );
-
-        // Full battery works
-        battery.ammo_set( battery.ammo_default(), 50 );
-        CHECK_FALSE( dummy.get_bionic_fueled_with( battery ).empty() );
-
-        // Tool with battery won't work
-        item flashlight = item( "flashlight" );
-        flashlight.put_in( battery, item_pocket::pocket_type::MAGAZINE_WELL );
-        REQUIRE( flashlight.ammo_remaining() == 50 );
-        CHECK( dummy.get_bionic_fueled_with( flashlight ).empty() );
-
+        battery.ammo_set( battery.ammo_default(), 10 );
+        item_location bat_compartment = dummy.top_items_loc().front();
+        REQUIRE( bat_compartment->can_reload_with( battery, true ) );
+        bat_compartment->put_in( battery, item_pocket::pocket_type::MAGAZINE_WELL );
+        CHECK( dummy.activate_bionic( bio ) );
+        CHECK_FALSE( dummy.get_bionic_fuels( bat_bionic ).empty() );
+        dummy.suffer();
+        REQUIRE( units::to_joule( dummy.get_power_level() ) == 1000 );
     }
 
     clear_bionics( dummy );

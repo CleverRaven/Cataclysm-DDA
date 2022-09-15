@@ -1409,18 +1409,17 @@ void Character::burn_fuel( bionic &bio, bionic_fuels &result )
     // Rest of the fuel sources are known to exist so we can exit after any of them is used
     if( energy_gain == 0_J && !result.connected_fuel.empty() ) {
         // Bionic that uses fuel items from some external connected source.
-        // There *could* be multiple connected items. But we only take the first.
 
-        if( result.connected_fuel.front()->ammo_remaining() > 0 ) {
-            item *fuel = &result.connected_fuel.front()->first_ammo();
-            energy_gain = fuel->fuel_energy() / fuel->charges;
+        for( item *fuel_source : result.connected_fuel ) {
+            energy_gain = fuel_source->fuel_energy() / fuel_source->charges;
+
             if( bio.is_safe_fuel_on() &&
                 get_power_level() + energy_gain * efficiency >= get_max_power_level() * std::min( 1.0f,
                         bio.get_safe_fuel_thresh() ) ) {
                 // Do not waste fuel charging over limit.
                 return;
             }
-            fuel->charges--;
+            fuel_source->charges--;
         }
     }
 
