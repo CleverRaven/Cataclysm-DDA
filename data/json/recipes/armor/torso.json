@@ -616,21 +616,24 @@
     "autolearn": true,
     "reversible": true,
     "using": [ [ "tailoring_canvas_patchwork", 36 ], [ "fastener_large", 1 ] ],
-    "proficiencies": [ { "proficiency": "prof_closures" } ]
+    "proficiencies": [ { "proficiency": "prof_closures" } ],
+    "byproducts": [ [ "scrap_canvas", 80 ] ]
   },
   {
     "result": "xs_duster",
     "type": "recipe",
     "copy-from": "duster",
     "time": "8 h",
-    "using": [ [ "tailoring_canvas_patchwork", 27 ], [ "fastener_large", 1 ] ]
+    "using": [ [ "tailoring_canvas_patchwork", 27 ], [ "fastener_large", 1 ] ],
+    "byproducts": [ [ "scrap_canvas", 55 ] ]
   },
   {
     "result": "xl_duster",
     "type": "recipe",
     "copy-from": "duster",
     "time": "9 h",
-    "using": [ [ "tailoring_canvas_patchwork", 54 ], [ "fastener_large", 1 ] ]
+    "using": [ [ "tailoring_canvas_patchwork", 54 ], [ "fastener_large", 1 ] ],
+    "byproducts": [ [ "scrap_canvas", 120 ] ]
   },
   {
     "result": "duster_fur",
@@ -1885,7 +1888,8 @@
     "autolearn": true,
     "reversible": true,
     "using": [ [ "tailoring_canvas_patchwork", 30 ], [ "fastener_large", 1 ] ],
-    "proficiencies": [ { "proficiency": "prof_closures_waterproofing" }, { "proficiency": "prof_closures" } ]
+    "proficiencies": [ { "proficiency": "prof_closures_waterproofing" }, { "proficiency": "prof_closures" } ],
+    "byproducts": [ [ "scrap_canvas", 64 ] ]
   },
   {
     "result": "trenchcoat_fur",
