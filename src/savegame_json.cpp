@@ -136,14 +136,14 @@ static const anatomy_id anatomy_human_anatomy( "human_anatomy" );
 
 static const efftype_id effect_riding( "riding" );
 
+static const itype_id itype_internal_battery_compartment( "internal_battery_compartment" );
+static const itype_id itype_internal_ethanol_tank( "internal_ethanol_tank" );
+static const itype_id itype_internal_gasoline_tank( "internal_gasoline_tank" );
+static const itype_id itype_internal_oil_tank( "internal_oil_tank" );
 static const itype_id itype_rad_badge( "rad_badge" );
 static const itype_id itype_radio( "radio" );
 static const itype_id itype_radio_on( "radio_on" );
 static const itype_id itype_usb_drive( "usb_drive" );
-static const itype_id itype_internal_gasoline_tank( "internal_gasoline_tank" );
-static const itype_id itype_internal_ethanol_tank( "internal_ethanol_tank" );
-static const itype_id itype_internal_battery_compartment( "internal_battery_compartment" );
-static const itype_id itype_internal_oil_tank( "internal_oil_tank" );
 
 static const matype_id style_none( "style_none" );
 
