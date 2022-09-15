@@ -5,7 +5,6 @@
     "nested_mapgen_id": "skyscraper_shopping_0_lr_laundromat_1",
     "object": {
       "mapgensize": [ 24, 24 ],
-      "rotation": [ 0, 3 ],
       "rows": [
         "                        ",
         "                        ",
