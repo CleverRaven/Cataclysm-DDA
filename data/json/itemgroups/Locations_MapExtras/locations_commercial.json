@@ -2042,6 +2042,7 @@
       { "item": "sewing_kit", "prob": 30, "charges-min": 0 },
       { "item": "shed_stick", "prob": 2 },
       { "item": "tailors_kit", "prob": 9, "charges-min": 0 },
+      { "item": "electric_spinwheel", "prob": 9, "charges-min": 0 },
       [ "knitting_needles", 15 ],
       [ "sheet_kevlar_layered", 10 ],
       [ "leather", 10 ],
