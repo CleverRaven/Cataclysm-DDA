@@ -308,7 +308,10 @@
     "type": "requirement",
     "//": "85g per unit. Crafting possibly-patchwork cotton items, adjusted for tailoring rework. Time needed is usually 40 minutes per unit if hand-stitching (most of the time actually needed goes into making a patchwork sheet)",
     "qualities": [ { "id": "SEW", "level": 2 }, { "id": "FABRIC_CUT", "level": 1 } ],
-    "components": [ [ [ "sheet_canvas", 1 ], [ "sheet_canvas_patchwork", 1 ] ], [ [ "thread_canvas", 5 ], [ "thread_kevlar", 10 ], [ "thread_nomex", 10 ] ] ]
+    "components": [
+      [ [ "sheet_canvas", 1 ], [ "sheet_canvas_patchwork", 1 ] ],
+      [ [ "thread_canvas", 5 ], [ "thread_kevlar", 10 ], [ "thread_nomex", 10 ] ]
+    ]
   },
   {
     "id": "tailoring_canvas_small",
