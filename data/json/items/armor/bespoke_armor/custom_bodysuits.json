@@ -442,12 +442,12 @@
     "armor": [
       {
         "material": [
-          { "type": "neoprene", "covered_by_mat": 100, "thickness": 3 },
+          { "type": "neoprene", "covered_by_mat": 100, "thickness": 3.5 },
           { "type": "kevlar", "covered_by_mat": 100, "thickness": 1.5 }
         ],
         "covers": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r" ],
         "coverage": 100,
-        "encumbrance": [ 17, 17 ]
+        "encumbrance": [ 19, 19 ]
       }
     ],
     "pocket_data": [
@@ -468,7 +468,7 @@
         "description": "Pants pocket."
       }
     ],
-    "warmth": 35,
+    "warmth": 41,
     "environmental_protection": 10,
     "flags": [ "VARSIZE", "WATER_FRIENDLY", "POCKETS", "HOOD", "RAINPROOF", "STURDY", "SKINTIGHT" ]
   },
@@ -506,13 +506,13 @@
     "armor": [
       {
         "material": [
-          { "type": "neoprene", "covered_by_mat": 100, "thickness": 4.5 },
+          { "type": "neoprene", "covered_by_mat": 100, "thickness": 5.0 },
           { "type": "nylon", "covered_by_mat": 100, "thickness": 0.5 },
           { "type": "kevlar", "covered_by_mat": 100, "thickness": 3.0 }
         ],
         "covers": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r" ],
         "coverage": 100,
-        "encumbrance": [ 27, 27 ]
+        "encumbrance": [ 28, 28 ]
       }
     ],
     "pocket_data": [
@@ -533,7 +533,7 @@
         "description": "Pants pocket."
       }
     ],
-    "warmth": 65,
+    "warmth": 70,
     "environmental_protection": 10,
     "flags": [ "VARSIZE", "WATER_FRIENDLY", "POCKETS", "HOOD", "RAINPROOF", "STURDY", "SKINTIGHT", "NORMAL" ]
   },
