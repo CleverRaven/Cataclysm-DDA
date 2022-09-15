@@ -137,6 +137,8 @@ For terrain or furniture that is intended to auto-connect using multitiles, set 
 }
 ```
 
+For details, see [JSON_INFO.md](./JSON_INFO.md#connects_to).
+
 Connections are only set up between types that have the same `connects_to` group, so it is symmetric or bi-directional.
 Available groups are:
 
@@ -210,6 +212,7 @@ In JSON, the multitile would be defined like this:
 #### Auto-rotating terrain and furniture - `rotates_to`
 
 Terrain and furniture can auto-rotate depending on other surrounding terrain or furniture using `rotates_to`.
+For details, see [JSON_INFO.md](./JSON_INFO.md#rotates_to-and-rotates_to_member).
 Usage examples for terrain are doors and windows that look differently, seen from inside and outside (e.g. curtain).
 An example for furniture are street lights that orient towards the pavement.
 
