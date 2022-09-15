@@ -2243,7 +2243,7 @@
     "name": "kevlar wetsuits",
     "description": "Recipes related to constructing custom-made jumpsuits meant to keep the wearer safe from harm and keep water out.",
     "skill_used": "fabrication",
-    "nested_category_data": [ "h20survivor_jumpsuit", "xs_h20survivor_jumpsuit", "xl_h20survivor_jumpsuit" ],
+    "nested_category_data": [ "h20survivor_jumpsuit", "xs_h20survivor_jumpsuit", "xl_h20survivor_jumpsuit", "thick_h20survivor_jumpsuit", "thick_xs_h20survivor_jumpsuit", "thick_xl_h20survivor_jumpsuit" ],
     "difficulty": 7
   },
   {
