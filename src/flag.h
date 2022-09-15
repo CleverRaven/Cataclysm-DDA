@@ -216,6 +216,7 @@ extern const flag_id flag_NO_REPAIR;
 extern const flag_id flag_NO_SALVAGE;
 extern const flag_id flag_NO_STERILE;
 extern const flag_id flag_NO_TAKEOFF;
+extern const flag_id flag_NO_TURRET;
 extern const flag_id flag_NO_UNLOAD;
 extern const flag_id flag_NO_UNWIELD;
 extern const flag_id flag_NO_WEAR_EFFECT;
@@ -363,7 +364,8 @@ extern const flag_id flag_NOT_FOOTWEAR;
 extern const flag_id flag_NO_CLEAN;
 extern const flag_id flag_SOFT;
 extern const flag_id flag_HARD;
-
+extern const flag_id flag_SHREDDED;
+extern const flag_id flag_FROM_FROZEN_LIQUID;
 /**
  * Flags: json entity with "type": "json_flag", defined in flags.json, vp_flags.json
  * Currently used by:

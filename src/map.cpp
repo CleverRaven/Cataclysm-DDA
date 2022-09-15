@@ -3422,8 +3422,8 @@ void map::collapse_at( const tripoint &p, const bool silent, const bool was_supp
                 // ensure that the layer below this one is not a wall, otherwise you have a ledge dropping onto
                 // a wall which doesn't make sense.
                 if( !has_flag( ter_furn_flag::TFLAG_WALL, t ) ) {
-                    ter_set( tz, t_open_air );
                     furn_set( tz, f_null );
+                    ter_set( tz, t_open_air );
                     Creature *critter = get_creature_tracker().creature_at( tz );
                     if( critter != nullptr ) {
                         creature_on_trap( *critter );
@@ -3869,7 +3869,7 @@ void map::bash_ter_furn( const tripoint &p, bash_params &params )
     }
 
     if( bash->explosive > 0 ) {
-        explosion_handler::explosion( p, bash->explosive, 0.8, false );
+        explosion_handler::explosion( nullptr, p, bash->explosive, 0.8, false );
     }
 
     if( will_collapse && !has_flag( ter_furn_flag::TFLAG_SUPPORTS_ROOF, p ) ) {
@@ -7972,6 +7972,15 @@ void map::actualize( const tripoint &grid )
     if( tmpsub == nullptr ) {
         debugmsg( "Actualize called on null submap (%d,%d,%d)", grid.x, grid.y, grid.z );
         return;
+    }
+
+    for( const std::unique_ptr<vehicle> &veh : tmpsub->vehicles ) {
+        // spill out items too large, MIGRATION pockets etc from vehicle parts
+        for( const vpart_reference &vp : veh->get_all_parts() ) {
+            const item &base_const = vp.part().get_base();
+            const_cast<item &>( base_const ).overflow( vp.pos() );
+        }
+        veh->refresh();
     }
 
     const time_duration time_since_last_actualize = calendar::turn - tmpsub->last_touched;

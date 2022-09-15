@@ -305,6 +305,9 @@ class item_pocket
          */
         void process( map &here, Character *carrier, const tripoint &pos, float insulation = 1,
                       temperature_flag flag = temperature_flag::NORMAL, float spoil_multiplier_parent = 1.0f );
+
+        void leak( map &here, Character *carrier, const tripoint &pos, item_pocket *pocke = nullptr );
+
         pocket_type saved_type() const {
             return _saved_type;
         }

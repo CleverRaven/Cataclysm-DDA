@@ -869,7 +869,7 @@
     "conditional_names": [
       { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str_sp": "niño nachos" } },
       { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": { "str_sp": "nibelung nachos" } },
-      { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str_sp": "nachos con chupacabra" } }
+      { "type": "COMPONENT_ID_SUBSTRING", "condition": "mutant", "name": { "str_sp": "nachos con chupacabra" } }
     ],
     "weight": "150 g",
     "color": "yellow",
@@ -896,7 +896,11 @@
     "conditional_names": [
       { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str_sp": "niño nachos with cheese" } },
       { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": { "str_sp": "nibelung nachos with cheese" } },
-      { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str_sp": "cheese and chupacabra nachos" } }
+      {
+        "type": "COMPONENT_ID_SUBSTRING",
+        "condition": "mutant",
+        "name": { "str_sp": "cheese and chupacabra nachos" }
+      }
     ],
     "weight": "250 g",
     "color": "yellow",

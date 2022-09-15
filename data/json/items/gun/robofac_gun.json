@@ -17,6 +17,7 @@
     "symbol": "(",
     "color": "blue",
     "ammo": [ "NULL" ],
+    "extend": { "flags": [ "NO_TURRET" ] },
     "ranged_damage": { "damage_type": "bullet", "amount": -2 },
     "modes": [  ],
     "dispersion": 150,
