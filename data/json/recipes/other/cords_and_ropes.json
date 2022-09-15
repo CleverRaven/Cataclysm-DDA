@@ -470,34 +470,5 @@
     "tools": [ [ [ "spinwheelitem", -1 ] ] ],
     "proficiencies": [ { "proficiency": "prof_fibers" }, { "proficiency": "prof_fibers_rope" } ],
     "components": [ [ [ "rope_makeshift_6", 5 ] ] ]
-  },
-  {
-    "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
-    "result": "thread_canvas",
-    "id_suffix": "from_thread",
-    "category": "CC_*",
-    "subcategory": "CSC_*_NESTED",
-    "skill_used": "tailor",
-    "time": "5 m",
-    "autolearn": true,
-    "charges": 1,
-    "components": [ [ [ "thread", 3 ], [ "sinew", 3 ], [ "yarn", 3 ], [ "plant_fibre", 3 ] ] ],
-    "proficiencies": [ { "proficiency": "prof_fibers" } ]
-  },
-  {
-    "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
-    "result": "thread_canvas",
-    "id_suffix": "with_spinningwheel",
-    "batch_time_factors": [ 70, 1 ],
-    "category": "CC_*",
-    "subcategory": "CSC_*_NESTED",
-    "skill_used": "tailor",
-    "time": "5 m",
-    "autolearn": true,
-    "tools": [ [ [ "spinwheelitem", -1 ] ] ],
-    "proficiencies": [ { "proficiency": "prof_spinning", "required": false, "time_multiplier": 1.5 } ],
-    "components": [ [ [ "thread", 150 ], [ "sinew", 150 ], [ "yarn", 150 ], [ "plant_fibre", 150 ], [ "cotton_ball", 9 ] ] ]
   }
 ]
