@@ -372,7 +372,7 @@
     "price": 10000,
     "price_postapoc": 50,
     "material": [ "plastic" ],
-    "weight": "18 g",
+    "weight": "1 g",
     "volume": "1 ml",
     "to_hit": -3
   }
