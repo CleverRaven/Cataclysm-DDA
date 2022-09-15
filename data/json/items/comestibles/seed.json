@@ -903,5 +903,14 @@
     "name": { "str_sp": "bell pepper seeds" },
     "description": "Some bell pepper seeds.",
     "seed_data": { "plant_name": "bell pepper", "fruit": "bell_pepper", "byproducts": [ "withered" ], "grow": "70 days" }
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "seed_raw_bottle_gourd",
+    "copy-from": "seed",
+    "price": 50,
+    "name": { "str_sp": "bottle gourd seeds" },
+    "description": "Some bottle gourd seeds.",
+    "seed_data": { "plant_name": "bottle gourd", "fruit": "raw_bottle_gourd", "byproducts": [ "withered" ], "grow": "60 days" }
   }
 ]
