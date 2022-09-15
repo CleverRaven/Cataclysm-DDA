@@ -2717,7 +2717,7 @@
     "type": "ARMOR",
     "name": { "str": "trenchcoat" },
     "description": "A thick canvas trenchcoat, lined with pockets.  Great for storage.",
-    "weight": "2,240 g",
+    "weight": "2240 g",
     "volume": "4250 ml",
     "price": 15500,
     "price_postapoc": 500,
