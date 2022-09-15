@@ -1,0 +1,15 @@
+[
+  {
+    "result": "sweet_goop",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_OTHER",
+    "skill_used": "cooking",
+    "difficulty": 1,
+    "skills_required": [ "survival", 1 ],
+    "time": "2 m",
+    "autolearn": true,
+    "components": [ [ [ "sugar_standard", 3, "LIST" ] ] ]
+  }
+]
