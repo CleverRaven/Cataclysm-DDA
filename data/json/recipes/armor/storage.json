@@ -244,7 +244,7 @@
     "time": "6 h",
     "autolearn": true,
     "using": [ [ "tailoring_canvas_patchwork", 14 ], [ "fastener_large", 1 ], [ "fastener_small", 4 ] ],
-    "byproducts": [ [ "scrap_canvas", 43 ] ]
+    "byproducts": [ [ "scrap_canvas", 28 ] ]
   },
   {
     "result": "chestrig",
@@ -260,8 +260,7 @@
     "reversible": true,
     "using": [ [ "tailoring_canvas_patchwork", 2 ], [ "strap_small", 1 ], [ "clasps", 4 ] ],
     "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_closures_waterproofing" } ],
-    "components": [ [ [ "chestpouch", 4 ], [ "legpouch_large", 2 ] ] ],
-    "byproducts": [ [ "scrap_canvas", 20 ] ]
+    "components": [ [ [ "chestpouch", 4 ], [ "legpouch_large", 2 ] ] ]
   },
   {
     "result": "xs_chestrig",
@@ -269,8 +268,7 @@
     "copy-from": "chestrig",
     "time": "1 h",
     "using": [ [ "tailoring_canvas_patchwork", 2 ], [ "strap_small", 1 ], [ "clasps", 4 ] ],
-    "components": [ [ [ "chestpouch", 4 ], [ "legpouch_large", 2 ] ] ],
-    "byproducts": [ [ "scrap_canvas", 28 ] ]
+    "components": [ [ [ "chestpouch", 4 ], [ "legpouch_large", 2 ] ] ]
   },
   {
     "result": "xl_chestrig",
@@ -278,8 +276,7 @@
     "copy-from": "chestrig",
     "time": "4 h 30 m",
     "using": [ [ "tailoring_canvas_patchwork", 3 ], [ "strap_large", 1 ], [ "clasps", 4 ] ],
-    "components": [ [ [ "chestpouch", 4 ], [ "legpouch_large", 2 ] ] ],
-    "byproducts": [ [ "scrap_canvas", 24 ] ]
+    "components": [ [ [ "chestpouch", 4 ], [ "legpouch_large", 2 ] ] ]
   },
   {
     "result": "axe_ring",
@@ -513,8 +510,7 @@
     "autolearn": true,
     "reversible": true,
     "using": [ [ "strap_small", 1 ], [ "clasps", 1 ], [ "tailoring_canvas_patchwork", 1 ], [ "fastener_small", 1 ] ],
-    "proficiencies": [ { "proficiency": "prof_closures" } ],
-    "byproducts": [ [ "scrap_canvas", 3 ] ]
+    "proficiencies": [ { "proficiency": "prof_closures" } ]
   },
   {
     "result": "bholster",
@@ -675,8 +671,7 @@
     "autolearn": true,
     "reversible": true,
     "using": [ [ "tailoring_canvas_patchwork", 3 ], [ "fastener_small", 1 ], [ "strap_small", 1 ], [ "clasps", 1 ] ],
-    "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_closures_waterproofing" } ],
-    "byproducts": [ [ "scrap_canvas", 8 ] ]
+    "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_closures_waterproofing" } ]
   },
   {
     "result": "leg_small_bag",
@@ -690,8 +685,7 @@
     "autolearn": true,
     "reversible": true,
     "using": [ [ "tailoring_canvas_patchwork", 3 ], [ "fastener_small", 1 ], [ "strap_small", 1 ], [ "clasps", 1 ] ],
-    "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_closures_waterproofing" } ],
-    "byproducts": [ [ "scrap_canvas", 8 ] ]
+    "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_closures_waterproofing" } ]
   },
   {
     "result": "chestpouch",
@@ -763,8 +757,7 @@
     "autolearn": true,
     "reversible": true,
     "using": [ [ "tailoring_canvas_patchwork", 26 ], [ "fastener_large", 2 ] ],
-    "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_closures_waterproofing" } ],
-    "byproducts": [ [ "scrap_canvas", 66 ] ]
+    "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_closures_waterproofing" } ]
   },
   {
     "result": "flintlock_pouch",
@@ -1205,8 +1198,7 @@
     "reversible": true,
     "using": [ [ "tailoring_canvas_patchwork", 3 ] ],
     "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_closures_waterproofing" } ],
-    "components": [ [ [ "strap_large", 1, "LIST" ] ], [ [ "clasps", 2, "LIST" ] ] ],
-    "byproducts": [ [ "scrap_canvas", 8 ] ]
+    "components": [ [ [ "strap_large", 1, "LIST" ] ], [ [ "clasps", 2, "LIST" ] ] ]
   },
   {
     "result": "makeshift_knapsack",
@@ -1512,8 +1504,7 @@
     "reversible": true,
     "using": [ [ "tailoring_canvas_patchwork", 2 ] ],
     "proficiencies": [ { "proficiency": "prof_closures" } ],
-    "components": [ [ [ "strap_large", 1, "LIST" ] ], [ [ "clasps", 1, "LIST" ] ] ],
-    "byproducts": [ [ "scrap_canvas", 5 ] ]
+    "components": [ [ [ "strap_large", 1, "LIST" ] ], [ [ "clasps", 1, "LIST" ] ] ]
   },
   {
     "result": "straw_basket",
@@ -2096,8 +2087,7 @@
     "autolearn": true,
     "reversible": true,
     "using": [ [ "tailoring_canvas_patchwork", 13 ], [ "fastener_large", 2 ] ],
-    "proficiencies": [ { "proficiency": "prof_closures" } ],
-    "byproducts": [ [ "scrap_canvas", 35 ] ]
+    "proficiencies": [ { "proficiency": "prof_closures" } ]
   },
   {
     "result": "rifle_case_soft_leather",
@@ -2135,8 +2125,7 @@
     "reversible": true,
     "using": [ [ "tailoring_canvas_patchwork", 17 ], [ "fastener_large", 3 ] ],
     "proficiencies": [ { "proficiency": "prof_closures" } ],
-    "components": [ [ [ "strap_large", 1, "LIST" ] ] ],
-    "byproducts": [ [ "scrap_canvas", 40 ] ]
+    "components": [ [ [ "strap_large", 1, "LIST" ] ] ]
   },
   {
     "result": "rifle_case_soft_leather_2",
