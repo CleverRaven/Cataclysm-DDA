@@ -100,10 +100,12 @@ assclown
 assimilator
 asstown
 asswagon
+asymmetrically
 ategory
 aterial
 atire
 atompot
+atrophic
 attac
 attachable
 attery
@@ -112,6 +114,7 @@ attuning
 atwixt
 augmentations
 ausgegangen
+autoclave
 autoclaving
 autodoc
 autodrive
@@ -239,6 +242,7 @@ breatharians
 brennt
 brewable
 brimless
+broadswords
 bronchodilator
 bronchospasm
 bubblicious
@@ -278,6 +282,7 @@ capiche
 caprison
 carapaces
 carryin
+cartilaginous
 casehead
 castable
 cataphract
@@ -299,6 +304,7 @@ ceratosaurus
 cere
 cerium
 cestus
+chainmail
 chamberings
 champed
 channnnce
@@ -405,11 +411,13 @@ ctivate
 ctivating
 ctulaly
 cuirasses
+cummer
 curarines
 curasse
 currywurst
 cushiony
 customization
+cutlasses
 cuvette
 cuvettes
 cybercop
@@ -421,6 +429,7 @@ d
 dagnabbit
 dambreaker
 danceable
+dao
 daspletosaurus
 datasheet
 datasheets
@@ -439,6 +448,7 @@ deathrattle
 decelerates
 deceptived
 defatted
+defendeth
 dehydrator
 dehydrators
 deines
@@ -564,6 +574,7 @@ espatiers
 esque
 esters
 estoc
+estocs
 ethereally
 eusocial
 evacs
@@ -594,6 +605,8 @@ faewild
 fakkin
 falcata
 fallfish
+falx
+falxes
 familiaris
 famoso
 fance
@@ -613,6 +626,7 @@ feticks
 fetlock
 ffect
 fibercloth
+fiberoptic
 fiddleheads
 filenames
 fileset
@@ -710,6 +724,7 @@ gallimimus
 gallore
 gambeson
 garghoul
+gargoyleosaurus
 garou
 garried
 gasbomb
@@ -734,6 +749,7 @@ gliters
 gloppy
 glowstick
 glyceride
+gode
 goooood
 gooorge
 goops
@@ -951,6 +967,7 @@ kinderling
 kippah
 kirpan
 kittel
+kjempe
 klompen
 km
 knapping
@@ -967,6 +984,8 @@ kosmoceratops
 krabgek
 kreck
 krick
+kriegsmesser
+kriegsmessers
 kshhhsk
 kshhssk
 kshssssssk
@@ -1010,6 +1029,7 @@ lifestraw
 lightnin
 lightsource
 lightstrip
+limbed
 lilypad
 lilypads
 listlessly
@@ -1025,6 +1045,7 @@ lockpicking
 longarm
 longear
 longsword
+longswords
 lopes
 lorekeeper
 lorica
@@ -1084,6 +1105,8 @@ mesenterium
 meshwork
 metalloid
 metalsmithing
+metalworker
+metalworkers
 metatopography
 methacola
 methothexazole
@@ -1341,6 +1364,7 @@ photochromic
 photodiode
 photophore
 phthalocyanine
+phenotypic
 phyle
 physicochemical
 picatinny
@@ -1433,6 +1457,7 @@ pyrolusite
 pyrophoric
 pyrrolidone
 q
+qiang
 qianzhousaurus
 qt
 quadcopter
@@ -1494,6 +1519,7 @@ refillable
 reforging
 refuelable
 reimpose
+reisendre
 reluctancy
 remodulator
 rended
@@ -1523,6 +1549,7 @@ rhodonite
 rhytidome
 rhytidomes
 ribbonlike
+ridged
 riendly
 rigida
 riotbot
@@ -1570,6 +1597,7 @@ sapience
 sarahsaurus
 sarracenia
 satirizes
+sauropelta
 sauropod
 saurornitholestes
 sautered
@@ -1579,6 +1607,7 @@ sawblades
 sawteeth
 sayig
 scatterer
+scimitars
 scissorlimbs
 sclerotin
 scrabblin
@@ -1893,6 +1922,7 @@ uhhh
 uistate
 ultracapacitor
 ultratech
+unarmored
 uncleaned
 uncoils
 underbarrel
@@ -1961,6 +1991,7 @@ vantablack
 varanid
 vars
 vatgrown
+valhallist
 vaulters
 veggy
 venandi
@@ -2080,12 +2111,14 @@ zombear
 zombeaver
 zombiespawn
 zombiethustra
+zombified
 zomborg
 zombull
 zombullfrog
 zombullfrogs
 zpzzzzpzz
 zubon
+zuul
 zygomaticus
 zzz
 zzzzchzzzzchurzzzpileus

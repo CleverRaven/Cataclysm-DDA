@@ -454,10 +454,10 @@ class vpart_info
         int epower = 0;
 
         /**
-         * Energy consumed by engines and motors (watts) when delivering max @ref power
+         * Energy consumed per second by engines and motors when delivering max @ref power
          * Includes waste. Gets scaled based on powertrain demand.
          */
-        int energy_consumption = 0;
+        units::energy energy_consumption = 0_J;
 
         /**
          * For engines and motors this is maximum output (watts)
@@ -561,8 +561,14 @@ class vpart_migration
         /** Clears migration list */
         static void reset();
 
+        /** Finalizes migrations */
+        static void finalize();
+
         /** Map of deprecated vpart_id to their replacement vpart_id */
         static const std::map<vpart_id, vpart_id> &get_migrations();
+
+        /** Find vpart_id with all migrations applied. */
+        static vpart_id migrate( const vpart_id &original );
 };
 
 #endif // CATA_SRC_VEH_TYPE_H

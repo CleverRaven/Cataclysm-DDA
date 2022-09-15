@@ -1423,6 +1423,8 @@ class item : public visitable
         bool process( map &here, Character *carrier, const tripoint &pos, float insulation = 1,
                       temperature_flag flag = temperature_flag::NORMAL, float spoil_multiplier_parent = 1.0f );
 
+        bool leak( map &here, Character *carrier, const tripoint &pos, item_pocket *pocke = nullptr );
+
         /**
          * Gets the point (vehicle tile) the cable is connected to.
          * Returns nothing if not connected to anything.
@@ -1526,8 +1528,8 @@ class item : public visitable
         /** Returns the total area of this wheel or 0 if it isn't one. */
         int wheel_area() const;
 
-        /** Returns energy of one charge of this item as fuel for an engine. */
-        float fuel_energy() const;
+        /** Returns energy of this item as fuel for an engine. */
+        units::energy fuel_energy() const;
         /** Returns the string of the id of the terrain that pumps this fuel, if any. */
         std::string fuel_pump_terrain() const;
         bool has_explosion_data() const;

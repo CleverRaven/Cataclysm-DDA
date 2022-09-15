@@ -367,11 +367,37 @@
     "upgrades": { "age_grow": 30, "into": "mon_hesperosaurus_juvenile" }
   },
   {
+    "id": "mon_gargoyleosaurus_hatchling",
+    "type": "MONSTER",
+    "copy-from": "mon_stegosaurus_hatchling",
+    "name": "brown and magenta hatchling",
+    "upgrades": { "age_grow": 30, "into": "mon_gargoyleosaurus_juvenile" }
+  },
+  {
+    "id": "mon_sauropelta_hatchling",
+    "type": "MONSTER",
+    "copy-from": "mon_stegosaurus_hatchling",
+    "name": "brown and magenta hatchling",
+    "upgrades": { "age_grow": 30, "into": "mon_sauropelta_juvenile" }
+  },
+  {
     "id": "mon_dyoplosaurus_hatchling",
     "type": "MONSTER",
     "copy-from": "mon_stegosaurus_hatchling",
     "name": "brown and magenta hatchling",
     "upgrades": { "age_grow": 30, "into": "mon_dyoplosaurus_juvenile" }
+  },
+  {
+    "id": "mon_edmontonia_hatchling",
+    "type": "MONSTER",
+    "copy-from": "mon_dyoplosaurus_hatchling",
+    "upgrades": { "age_grow": 30, "into": "mon_edmontonia_juvenile" }
+  },
+  {
+    "id": "mon_zuul_hatchling",
+    "type": "MONSTER",
+    "copy-from": "mon_dyoplosaurus_hatchling",
+    "upgrades": { "age_grow": 30, "into": "mon_zuul_juvenile" }
   },
   {
     "id": "mon_ankylosaurus_hatchling",
@@ -384,12 +410,6 @@
     "type": "MONSTER",
     "copy-from": "mon_dyoplosaurus_hatchling",
     "upgrades": { "age_grow": 30, "into": "mon_nodosaurus_juvenile" }
-  },
-  {
-    "id": "mon_edmontonia_hatchling",
-    "type": "MONSTER",
-    "copy-from": "mon_dyoplosaurus_hatchling",
-    "upgrades": { "age_grow": 30, "into": "mon_edmontonia_juvenile" }
   },
   {
     "id": "mon_dryosaurus_hatchling",
