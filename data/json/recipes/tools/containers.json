@@ -491,8 +491,8 @@
     "difficulty": 1,
     "time": "10 m",
     "autolearn": true,
-    "using": [ [ "filament", 50 ], [ "cordage_short", 1 ] ],
-    "components": [ [ [ "cotton_patchwork", 2 ] ] ]
+    "using": [ [ "tailoring_canvas_patchwork", 1 ], [ "cordage_short", 1 ] ],
+    "byproducts": [ [ "canvas_patch", 3 ], [ "scrap_canvas", 6 ] ]
   },
   {
     "type": "recipe",
@@ -501,11 +501,11 @@
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_CONTAINERS",
     "skill_used": "tailor",
-    "difficulty": 3,
+    "difficulty": 2,
     "time": "50 m",
     "autolearn": true,
-    "using": [ [ "filament", 300 ], [ "cordage", 1 ] ],
-    "components": [ [ [ "cotton_patchwork", 12 ] ] ]
+    "using": [ [ "tailoring_canvas_patchwork", 4 ], [ "cordage", 1 ] ],
+    "byproducts": [ [ "scrap_canvas", 8 ] ]
   },
   {
     "result": "storage_line",
