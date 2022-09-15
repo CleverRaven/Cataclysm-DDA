@@ -398,7 +398,6 @@ TEST_CASE( "fueled bionics", "[bionics] [item]" )
         bionic &bio = dummy.bionic_at_index( 1 );
         item_location gasoline_tank = dummy.top_items_loc().front();
 
-
         // There should be no fuel available, can't turn bionic on and no power is produced
         CHECK( dummy.get_bionic_fuels( gas_bionic ).empty() );
         CHECK( dummy.get_cable_ups().empty() );
@@ -428,6 +427,20 @@ TEST_CASE( "fueled bionics", "[bionics] [item]" )
         item_location bat_compartment = dummy.top_items_loc().front();
 
         // There should be no fuel available, can't turn bionic on and no power is produced
+        REQUIRE( bat_compartment->ammo_remaining() == 0 );
+        CHECK( dummy.get_bionic_fuels( bat_bionic ).empty() );
+        CHECK( dummy.get_cable_ups().empty() );
+        CHECK( dummy.get_cable_solar().empty() );
+        CHECK( dummy.get_cable_vehicle().empty() );
+        CHECK_FALSE( dummy.activate_bionic( bio ) );
+        dummy.suffer();
+        REQUIRE( !dummy.has_power() );
+
+        // Add empty battery. Still won't work
+        item battery = item( "light_battery_cell" );
+        CHECK( bat_compartment->can_reload_with( battery, true ) );
+        bat_compartment->put_in( battery, item_pocket::pocket_type::MAGAZINE_WELL );
+        REQUIRE( bat_compartment->ammo_remaining() == 0 );
         CHECK( dummy.get_bionic_fuels( bat_bionic ).empty() );
         CHECK( dummy.get_cable_ups().empty() );
         CHECK( dummy.get_cable_solar().empty() );
@@ -437,10 +450,7 @@ TEST_CASE( "fueled bionics", "[bionics] [item]" )
         REQUIRE( !dummy.has_power() );
 
         // Add fuel. Now it turns on and generates power.
-        item battery = item( "light_battery_cell" );
-        battery.ammo_set( battery.ammo_default(), 10 );
-        CHECK( bat_compartment->can_reload_with( battery, true ) );
-        bat_compartment->put_in( battery, item_pocket::pocket_type::MAGAZINE_WELL );
+        bat_compartment->magazine_current()->ammo_set( battery.ammo_default(), 10 );
         REQUIRE( bat_compartment->ammo_remaining() == 10 );
         CHECK( dummy.activate_bionic( bio ) );
         CHECK_FALSE( dummy.get_bionic_fuels( bat_bionic ).empty() );
@@ -472,6 +482,7 @@ TEST_CASE( "fueled bionics", "[bionics] [item]" )
         ups->set_var( "cable", "plugged_in" );
         cable->active = true;
 
+        REQUIRE( ups->ammo_remaining() == 0 );
         CHECK( dummy.get_bionic_fuels( cable_bionic ).empty() );
         CHECK( dummy.get_cable_ups().empty() );
         CHECK( dummy.get_cable_solar().empty() );
@@ -484,6 +495,7 @@ TEST_CASE( "fueled bionics", "[bionics] [item]" )
         item ups_mag( ups->magazine_default() );
         ups_mag.ammo_set( ups_mag.ammo_default(), 500 );
         ups->put_in( ups_mag, item_pocket::pocket_type::MAGAZINE_WELL );
+        REQUIRE( ups->ammo_remaining() == 500 );
 
         CHECK( dummy.activate_bionic( bio ) );
         CHECK_FALSE( dummy.get_cable_ups().empty() );
@@ -509,7 +521,7 @@ TEST_CASE( "fueled bionics", "[bionics] [item]" )
         dummy.worn.wear_item( dummy, item( "solarpack_on" ), false, false );
         // Unsafe way to get the worn solar backpack
         item_location solar_pack = dummy.top_items_loc()[1];
-        CHECK( solar_pack->type_name() == "solar backpack (unfolded)" );
+        REQUIRE( solar_pack->type_name() == "solar backpack (unfolded)" );
         item_location cable = dummy.i_add( item( "jumper_cable" ) );
         cable->set_var( "state", "solar_pack_link" );
         solar_pack->set_var( "cable", "plugged_in" );
