@@ -485,8 +485,7 @@ void Character::update_bodytemp()
             continue;
         }
 
-        // 0.01c is 5 body temp unit so it needs to times 5 to scale to match the bodytemp scale,
-        // but this will change current behavior,
+        // This adjusts the temperature scale to match the bodytemp scale,
         // it needs to be reset every iteration
         int adjusted_temp = Ctemperature - ambient_norm;
         // Represents the fact that the body generates heat when it is cold.
