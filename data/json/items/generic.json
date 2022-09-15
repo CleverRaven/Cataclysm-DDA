@@ -559,8 +559,8 @@
     "volume": "7 L",
     "weight": "3 kg",
     "longest_side": "140 cm",
-    "price": 0,
-    "price_postapoc": 50,
+    "price": 20000,
+    "price_postapoc": 1250,
     "material": [ "wood" ],
     "symbol": "H",
     "color": "brown"
