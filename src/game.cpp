@@ -1389,8 +1389,8 @@ bool game::cancel_activity_or_ignore_query( const distraction_type type, const s
                                           text, u.activity.get_stop_phrase() )
                                 .option( "YES", allow_key )
                                 .option( "NO", allow_key )
-                                .option( "IGNORE", allow_key )
                                 .option( "MANAGER", allow_key )
+                                .option( "IGNORE", allow_key )
                                 .query()
                                 .action;
 
