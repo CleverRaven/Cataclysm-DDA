@@ -20,6 +20,7 @@
 static const bionic_id bio_batteries( "bio_batteries" );
 // Change to some other weapon CBM if bio_blade is ever removed
 static const bionic_id bio_blade( "bio_blade" );
+static const bionic_id bio_cable( "bio_cable" );
 static const bionic_id bio_earplugs( "bio_earplugs" );
 static const bionic_id bio_ears( "bio_ears" );
 static const bionic_id bio_fuel_cell_gasoline( "bio_fuel_cell_gasoline" );
@@ -407,12 +408,14 @@ TEST_CASE( "fueled bionics", "[bionics] [item]" )
 
         // Add fuel. Now it turns on and generates power.
         item gasoline = item( "gasoline" );
-        REQUIRE( gasoline_tank->can_reload_with( gasoline, true ) );
+        CHECK( gasoline_tank->can_reload_with( gasoline, true ) );
         gasoline_tank->put_in( gasoline, item_pocket::pocket_type::CONTAINER );
+        REQUIRE( gasoline_tank->only_item().charges == 250 );
         CHECK( dummy.activate_bionic( bio ) );
         CHECK_FALSE( dummy.get_bionic_fuels( gas_bionic ).empty() );
         dummy.suffer();
-        REQUIRE( units::to_joule( dummy.get_power_level() ) == 8550 );
+        CHECK( units::to_joule( dummy.get_power_level() ) == 8550 );
+        CHECK( gasoline_tank->only_item().charges == 249 );
     }
 
     SECTION( "bio_batteries" ) {
@@ -434,12 +437,57 @@ TEST_CASE( "fueled bionics", "[bionics] [item]" )
         // Add fuel. Now it turns on and generates power.
         item battery = item( "light_battery_cell" );
         battery.ammo_set( battery.ammo_default(), 10 );
-        REQUIRE( bat_compartment->can_reload_with( battery, true ) );
+        CHECK( bat_compartment->can_reload_with( battery, true ) );
         bat_compartment->put_in( battery, item_pocket::pocket_type::MAGAZINE_WELL );
+        REQUIRE( bat_compartment->ammo_remaining() == 10 );
         CHECK( dummy.activate_bionic( bio ) );
         CHECK_FALSE( dummy.get_bionic_fuels( bat_bionic ).empty() );
         dummy.suffer();
-        REQUIRE( units::to_joule( dummy.get_power_level() ) == 1000 );
+        CHECK( units::to_joule( dummy.get_power_level() ) == 1000 );
+        CHECK( bat_compartment->ammo_remaining() == 9 );
+    }
+
+    SECTION( "bio_cable ups" ) {
+        dummy.add_bionic( bio_cable );
+        // Dirty way of getting the bionic
+        bionic_id cable_bionic = dummy.get_bionics()[1];
+        bionic &bio = dummy.bionic_at_index( 1 );
+
+        // There should be no fuel available, can't turn bionic on and no power is produced
+        CHECK( dummy.get_bionic_fuels( cable_bionic ).empty() );
+        CHECK( dummy.get_cable_ups().empty() );
+        CHECK( dummy.get_cable_solar().empty() );
+        CHECK( dummy.get_cable_vehicle().empty() );
+        CHECK_FALSE( dummy.activate_bionic( bio ) );
+        dummy.suffer();
+        REQUIRE( !dummy.has_power() );
+
+        // Connect to empty ups. UPS is seen but won't work
+        dummy.worn.wear_item( dummy, item( "backpack" ), false, false );
+        item_location ups = dummy.i_add( item( "UPS_off" ) );
+        item_location cable = dummy.i_add( item( "jumper_cable" ) );
+        cable->set_var( "state", "UPS_link" );
+        ups->set_var( "cable", "plugged_in" );
+        cable->active = true;
+
+        CHECK( dummy.get_bionic_fuels( cable_bionic ).empty() );
+        CHECK( dummy.get_cable_ups().empty() );
+        CHECK( dummy.get_cable_solar().empty() );
+        CHECK( dummy.get_cable_vehicle().empty() );
+        CHECK_FALSE( dummy.activate_bionic( bio ) );
+        dummy.suffer();
+        REQUIRE( !dummy.has_power() );
+
+        // Put battery into ups. Charger works now
+        item ups_mag( ups->magazine_default() );
+        ups_mag.ammo_set( ups_mag.ammo_default(), 500 );
+        ups->put_in( ups_mag, item_pocket::pocket_type::MAGAZINE_WELL );
+
+        CHECK( dummy.activate_bionic( bio ) );
+        CHECK_FALSE( dummy.get_cable_ups().empty() );
+        dummy.suffer();
+        CHECK( units::to_joule( dummy.get_power_level() ) == 1000 );
+        CHECK( ups->ammo_remaining() == 499 );
     }
 
     clear_bionics( dummy );

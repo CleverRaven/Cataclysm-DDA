@@ -1494,8 +1494,8 @@ std::vector<item *> Character::get_cable_ups()
     for( const item *cable : cables ) {
         if( cable->get_var( "state" ) == "UPS_link" ) {
             for( item_location it : all_items_loc() ) {
-                if( it->get_var( "cable" ) == "plugged_in" ) {
-                    stored_fuels.emplace_back( it.get_item() );
+                if( it->get_var( "cable" ) == "plugged_in" && !it->first_ammo().is_null() ) {
+                    stored_fuels.emplace_back( &it->first_ammo() );
                 }
             }
         }
