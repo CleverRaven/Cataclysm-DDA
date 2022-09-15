@@ -1454,7 +1454,7 @@
       { "id": "technician_pants_gray", "text": "A pair of gray canvas work pants." },
       { "id": "technician_pants_lightblue", "text": "A pair of light-blue canvas work pants." }
     ],
-    "flags": [ "VARSIZE", "POCKETS", "STURDY" ],
+    "flags": [ "VARSIZE", "POCKETS", "STURDY", "WATERPROOF" ],
     "armor": [ { "encumbrance": [ 4, 9 ], "coverage": 100, "covers": [ "leg_l", "leg_r" ] } ]
   },
   {
