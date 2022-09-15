@@ -711,7 +711,7 @@
     "time": "60 m",
     "autolearn": true,
     "qualities": [ { "id": "SEW", "level": 2 }, { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "canvas_patchwork", 8 ] ], [ [ "filament_durable", 15, "LIST" ] ] ]
+    "components": [ [ [ "canvas_patch", 8 ] ], [ [ "filament_durable", 15, "LIST" ] ] ]
   },
   {
     "result": "canvas_patch",
