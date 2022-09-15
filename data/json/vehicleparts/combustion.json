@@ -87,7 +87,7 @@
     "copy-from": "diesel_engine",
     "type": "vehicle_part",
     "item": "i4_diesel",
-    "description": "A four-cylinder gasoline engine, commonly found in small passenger cars and light trucks.",
+    "description": "A four-cylinder diesel engine, commonly found in small passenger cars and light trucks.",
     "durability": 300,
     "epower": -200,
     "power": 93250,
