@@ -62,6 +62,7 @@
       [ "g_paint", 45 ],
       [ "p_paint", 45 ],
       [ "y_paint", 45 ],
+      [ "black_paint", 45 ],
       [ "chipper", 55 ],
       [ "paint_brush", 55 ],
       { "item": "chem_turpentine", "prob": 45, "charges-min": 20 }
