@@ -2,9 +2,9 @@
   {
     "id": "mon_plague_nymph",
     "type": "MONSTER",
-	"copy-from": "mon_plague_nymph",
+    "copy-from": "mon_plague_nymph",
     "name": { "str": "plague nymph" },
-	"petfood": {
+    "petfood": {
       "food": [ "BUGFOOD" ],
       "feed": "The %s seems to... uhh, like you?  Well, as certainly as you could tell a giant bug could like you.  It skitters around your legs and seems friendly.",
       "pet": "The %s skitters around your feet."
@@ -28,9 +28,9 @@
   {
     "id": "mon_giant_cockroach_nymph",
     "type": "MONSTER",
-	"copy-from": "mon_giant_cockroach_nymph",
+    "copy-from": "mon_giant_cockroach_nymph",
     "name": { "str": "giant cockroach nymph" },
-	"petfood": {
+    "petfood": {
       "food": [ "BUGFOOD" ],
       "feed": "The %s seems to... uhh, like you?  Well, as certainly as you could tell a giant bug could like you.  It skitters around your legs and seems friendly.",
       "pet": "The %s skitters around your feet."
@@ -54,9 +54,9 @@
   {
     "id": "mon_dragonfly_naiad_friendly",
     "type": "MONSTER",
-	"copy-from": "mon_dragonfly_naiad",
+    "copy-from": "mon_dragonfly_naiad",
     "name": { "str": "giant dragonfly naiad" },
-	"petfood": {
+    "petfood": {
       "food": [ "BUGFOOD" ],
       "feed": "The %s seems to... uhh, like you?  Well, as certainly as you could tell a giant bug could like you.  It skitters around your legs and seems friendly.",
       "pet": "The %s skitters around your feet."
@@ -81,9 +81,9 @@
   {
     "id": "mon_wasp_larva",
     "type": "MONSTER",
-	"copy-from": "mon_wasp_larva",
+    "copy-from": "mon_wasp_larva",
     "name": { "str": "wasp larva", "str_pl": "wasp larvae" },
-	"petfood": {
+    "petfood": {
       "food": [ "BUGFOOD" ],
       "feed": "The %s seems to... uhh, like you?  Well, as certainly as you could tell a giant bug could like you.  It crawls around your legs and seems friendly.",
       "pet": "The %s crawls around your feet."
@@ -100,9 +100,9 @@
   {
     "id": "mon_ant_acid_larva",
     "type": "MONSTER",
-	"copy-from": "mon_ant_acid_larva",
+    "copy-from": "mon_ant_acid_larva",
     "name": { "str": "acidic ant larva", "str_pl": "acidic ant larvae" },
-	"petfood": {
+    "petfood": {
       "food": [ "BUGFOOD" ],
       "feed": "The %s seems to... uhh, like you?  Well, as certainly as you could tell a giant bug could like you.  It crawls around your legs and seems friendly.",
       "pet": "The %s crawls around your feet."
@@ -126,9 +126,9 @@
   {
     "id": "mon_ant_larva",
     "type": "MONSTER",
-	"copy-from": "mon_ant_larva",
+    "copy-from": "mon_ant_larva",
     "name": { "str": "ant larva", "str_pl": "ant larvae" },
-	"petfood": {
+    "petfood": {
       "food": [ "BUGFOOD" ],
       "feed": "The %s seems to... uhh, like you?  Well, as certainly as you could tell a giant bug could like you.  It crawls around your legs and seems friendly.",
       "pet": "The %s crawls around your feet."
@@ -159,9 +159,9 @@
   {
     "id": "mon_locust_nymph",
     "type": "MONSTER",
-	"copy-from": "mon_locust_nymph",
+    "copy-from": "mon_locust_nymph",
     "name": { "str": "locust nymph" },
-	"petfood": {
+    "petfood": {
       "food": [ "BUGFOOD" ],
       "feed": "The %s seems to... uhh, like you?  Well, as certainly as you could tell a giant bug could like you.  It skitters around your legs and seems friendly.",
       "pet": "The %s skitters around your feet."
@@ -185,9 +185,9 @@
   {
     "id": "mon_aphid_small",
     "type": "MONSTER",
-	"copy-from": "mon_aphid_small",
+    "copy-from": "mon_aphid_small",
     "name": { "str": "aphid" },
-	"petfood": {
+    "petfood": {
       "food": [ "BUGFOOD" ],
       "feed": "The %s seems to... uhh, like you?  Well, as certainly as you could tell a giant bug could like you.  It skitters around your legs and seems friendly.",
       "pet": "The %s skitters around your feet."
@@ -204,9 +204,9 @@
   {
     "id": "mon_mantis_nymph_friendly",
     "type": "MONSTER",
-	"copy-from": "mon_mantis_nymph",
+    "copy-from": "mon_mantis_nymph",
     "name": { "str": "praying mantis nymph" },
-	"petfood": {
+    "petfood": {
       "food": [ "BUGFOOD" ],
       "feed": "The %s seems to... uhh, like you?  Well, as certainly as you could tell a giant bug could like you.  It skitters around your legs and seems friendly.",
       "pet": "The %s skitters around your feet."
@@ -231,9 +231,9 @@
   {
     "id": "mon_grasshopper_nymph",
     "type": "MONSTER",
-	"copy-from": "mon_grasshopper_nymph",
+    "copy-from": "mon_grasshopper_nymph",
     "name": { "str": "grasshopper nymph" },
-	"petfood": {
+    "petfood": {
       "food": [ "BUGFOOD" ],
       "feed": "The %s seems to... uhh, like you?  Well, as certainly as you could tell a giant bug could like you.  It skitters around your legs and seems friendly.",
       "pet": "The %s skitters around your feet."
@@ -250,9 +250,9 @@
   {
     "id": "mon_stag_beetle_larva",
     "type": "MONSTER",
-	"copy-from": "mon_stag_beetle_larva",
+    "copy-from": "mon_stag_beetle_larva",
     "name": { "str": "giant stag beetle larva", "str_pl": "giant stag beetle larvae" },
-	"petfood": {
+    "petfood": {
       "food": [ "BUGFOOD" ],
       "feed": "The %s seems to... uhh, like you?  Well, as certainly as you could tell a giant bug could like you.  It crawls around you and seems friendly.",
       "pet": "The %s crawls around you."
@@ -262,9 +262,9 @@
   {
     "id": "mon_antlion_larva_friendly",
     "type": "MONSTER",
-	"copy-from": "mon_antlion_larva",
+    "copy-from": "mon_antlion_larva",
     "name": { "str": "giant antlion larva", "str_pl": "giant antlion larvae" },
-	"petfood": {
+    "petfood": {
       "food": [ "BUGFOOD" ],
       "feed": "The %s seems to... uhh, like you?  Well, as certainly as you could tell a giant bug could like you.  It crawls around you and seems friendly.",
       "pet": "The %s crawls around you."
@@ -282,9 +282,9 @@
   {
     "id": "mon_strider_nymph",
     "type": "MONSTER",
-	"copy-from": "mon_strider_nymph",
+    "copy-from": "mon_strider_nymph",
     "name": { "str": "water strider nymph" },
-	"petfood": {
+    "petfood": {
       "food": [ "BUGFOOD" ],
       "feed": "The %s seems to... uhh, like you?  Well, as certainly as you could tell a giant bug could like you.  It skitters around your legs and seems friendly.",
       "pet": "The %s skitters around your feet."
@@ -301,9 +301,9 @@
   {
     "id": "mon_cicada_nymph_friendly",
     "type": "MONSTER",
-	"copy-from": "mon_cicada_nymph",
+    "copy-from": "mon_cicada_nymph",
     "name": { "str": "cicada nymph" },
-	"petfood": {
+    "petfood": {
       "food": [ "BUGFOOD" ],
       "feed": "The %s seems to... uhh, like you?  Well, as certainly as you could tell a giant bug could like you.  It skitters around your legs and seems friendly.",
       "pet": "The %s skitters around your feet."
@@ -321,9 +321,9 @@
   {
     "id": "mon_woodlouse_manca",
     "type": "MONSTER",
-	"copy-from": "mon_woodlouse_manca",
+    "copy-from": "mon_woodlouse_manca",
     "name": { "str": "baby woodlouse", "str_pl": "baby woodlice" },
-	"petfood": {
+    "petfood": {
       "food": [ "BUGFOOD" ],
       "feed": "The %s seems to... uhh, like you?  Well, as certainly as you could tell a giant bug could like you.  It skitters around your legs and seems friendly.",
       "pet": "The %s skitters around your feet."
@@ -340,9 +340,9 @@
   {
     "id": "mon_diving_larva_friendly",
     "type": "MONSTER",
-	"copy-from": "mon_diving_larva",
+    "copy-from": "mon_diving_larva",
     "name": { "str": "giant water tiger" },
-	"petfood": {
+    "petfood": {
       "food": [ "BUGFOOD" ],
       "feed": "The %s seems to... uhh, like you?  Well, as certainly as you could tell a giant bug could like you.  It swims around your legs and seems friendly.",
       "pet": "The %s swims around your feet."
@@ -360,9 +360,9 @@
   {
     "id": "mon_water_scorpion_larva_friendly",
     "type": "MONSTER",
-	"copy-from": "mon_water_scorpion_larva",
+    "copy-from": "mon_water_scorpion_larva",
     "name": { "str": "water scorpion nymph" },
-	"petfood": {
+    "petfood": {
       "food": [ "BUGFOOD" ],
       "feed": "The %s seems to... uhh, like you?  Well, as certainly as you could tell a giant bug could like you.  It swims around your legs and seems friendly.",
       "pet": "The %s swims around your feet."
