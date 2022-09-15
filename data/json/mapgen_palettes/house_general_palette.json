@@ -84,7 +84,7 @@
       "L": "f_rack_coat",
       "M": "f_displaycase",
       "N": "f_workbench",
-      "O": "f_oven",
+      "O": [ "f_oven", "f_gas_oven_microwave_combo" ],
       "P": "f_filing_cabinet",
       "Q": "f_rack_wood",
       "R": "f_bookcase",
@@ -111,7 +111,8 @@
       "≠": "f_chest",
       "Ø": "f_pinball_machine",
       "Æ": "f_arcade_machine",
-      "ʭ": "f_ladder"
+      "ʭ": "f_ladder",
+      "é": "f_freezer"
     },
     "terrain": {
       "Ŧ": { "param": "house_fence_type", "fallback": "t_fence" },

@@ -111,6 +111,7 @@
 #include "line.h"
 #include "live_view.h"
 #include "loading_ui.h"
+#include "main_menu.h"
 #include "magic.h"
 #include "make_static.h"
 #include "map.h"
@@ -183,6 +184,10 @@
 #include "weather.h"
 #include "weather_type.h"
 #include "worldfactory.h"
+
+#if defined(TILES)
+#include "sdl_utils.h"
+#endif // TILES
 
 class computer;
 
@@ -577,6 +582,18 @@ void game_ui::init_ui()
         //class variable to track the option being active
         //only set once, toggle action is used to change during game
         pixel_minimap_option = get_option<bool>( "PIXEL_MINIMAP" );
+        if( get_option<std::string>( "PIXEL_MINIMAP_BG" ) == "theme" ) {
+            SDL_Color pixel_minimap_color = curses_color_to_SDL( c_black );
+            pixel_minimap_r = pixel_minimap_color.r;
+            pixel_minimap_g = pixel_minimap_color.g;
+            pixel_minimap_b = pixel_minimap_color.b;
+            pixel_minimap_a = pixel_minimap_color.a;
+        } else {
+            pixel_minimap_r = 0x00;
+            pixel_minimap_g = 0x00;
+            pixel_minimap_b = 0x00;
+            pixel_minimap_a = 0xFF;
+        }
 #endif // TILES
     }
 
@@ -622,6 +639,15 @@ void game::toggle_pixel_minimap() const
     pixel_minimap_option = !pixel_minimap_option;
     mark_main_ui_adaptor_resize();
 #endif // TILES
+}
+
+bool game::is_tileset_isometric() const
+{
+#if defined(TILES)
+    return use_tiles && tilecontext && tilecontext->is_isometric();
+#else
+    return false;
+#endif
 }
 
 void game::reload_tileset()
@@ -1494,13 +1520,9 @@ static int maptile_field_intensity( maptile &mt, field_type_id fld )
     return field_ptr == nullptr ? 0 : field_ptr->get_field_intensity();
 }
 
-int get_heat_radiation( const tripoint &location, bool direct )
+units::temperature get_heat_radiation( const tripoint &location )
 {
-    // Direct heat from fire sources
-    // Cache fires to avoid scanning the map around us bp times
-    // Stored as intensity-distance pairs
-    int temp_mod = 0;
-    int best_fire = 0;
+    units::temperature temp_mod = 0_K;
     Character &player_character = get_player_character();
     map &here = get_map();
     // Convert it to an int id once, instead of 139 times per turn
@@ -1529,32 +1551,62 @@ int get_heat_radiation( const tripoint &location, bool direct )
         }
         // Ensure fire_dist >= 1 to avoid divide-by-zero errors.
         const int fire_dist = std::max( 1, square_dist( dest, location ) );
-        temp_mod += 6 * heat_intensity * heat_intensity / fire_dist;
-        if( fire_dist <= 1 ) {
-            // Extend limbs/lean over a single adjacent fire to warm up
-            best_fire = std::max( best_fire, heat_intensity );
-        }
-    }
-    if( direct ) {
-        return best_fire;
+        temp_mod += units::from_kelvin( 6.f * heat_intensity * heat_intensity / fire_dist / 1.8 );
     }
     return temp_mod;
 }
 
-int get_convection_temperature( const tripoint &location )
+int get_best_fire( const tripoint &location )
 {
-    int temp_mod = 0;
+    int best_fire = 0;
+    Character &player_character = get_player_character();
+    map &here = get_map();
+    // Convert it to an int id once, instead of 139 times per turn
+    const field_type_id fd_fire_int = fd_fire.id();
+    for( const tripoint &dest : here.points_in_radius( location, 6 ) ) {
+        int heat_intensity = 0;
+
+        maptile mt = here.maptile_at( dest );
+
+        int ffire = maptile_field_intensity( mt, fd_fire_int );
+        if( ffire > 0 ) {
+            heat_intensity = ffire;
+        } else  {
+            heat_intensity = mt.get_ter()->heat_radiation;
+        }
+        if( heat_intensity == 0 ) {
+            // No heat source here
+            continue;
+        }
+        if( player_character.pos() == location ) {
+            if( !here.clear_path( dest, location, -1, 1, 100 ) ) {
+                continue;
+            }
+        } else if( !here.sees( location, dest, -1 ) ) {
+            continue;
+        }
+        if( square_dist( dest, location ) <= 1 ) {
+            // Extend limbs/lean over a single adjacent fire to warm up
+            best_fire = std::max( best_fire, heat_intensity );
+        }
+    }
+    return best_fire;
+}
+
+units::temperature get_convection_temperature( const tripoint &location )
+{
+    units::temperature temp_mod = 0_K;
     map &here = get_map();
     // Directly on lava tiles
-    int lava_mod = here.tr_at( location ).has_flag( json_flag_CONVECTS_TEMPERATURE ) ?
-                   fd_fire->get_intensity_level().convection_temperature_mod : 0;
+    units::temperature lava_mod = here.tr_at( location ).has_flag( json_flag_CONVECTS_TEMPERATURE ) ?
+                                  units::from_kelvin( fd_fire->get_intensity_level().convection_temperature_mod / 1.8 ) : 0_K;
     // Modifier from fields
     for( auto fd : here.field_at( location ) ) {
         // Nullify lava modifier when there is open fire
         if( fd.first.obj().has_fire ) {
-            lava_mod = 0;
+            lava_mod = 0_K;
         }
-        temp_mod += fd.second.get_intensity_level().convection_temperature_mod;
+        temp_mod += units::from_kelvin( fd.second.get_intensity_level().convection_temperature_mod / 1.8 );
     }
     return temp_mod + lava_mod;
 }
@@ -2185,7 +2237,7 @@ bool game::handle_mouseview( input_context &ctxt, std::string &action )
     do {
         action = ctxt.handle_input();
         if( action == "MOUSE_MOVE" ) {
-            const cata::optional<tripoint> mouse_pos = ctxt.get_coordinates( w_terrain );
+            const cata::optional<tripoint> mouse_pos = ctxt.get_coordinates( w_terrain, ter_view_p.xy(), true );
             if( mouse_pos && ( !liveview_pos || *mouse_pos != *liveview_pos ) ) {
                 liveview_pos = mouse_pos;
                 liveview.show( *liveview_pos );
@@ -2263,7 +2315,7 @@ std::pair<tripoint, tripoint> game::mouse_edge_scrolling( input_context &ctxt, c
 tripoint game::mouse_edge_scrolling_terrain( input_context &ctxt )
 {
     auto ret = mouse_edge_scrolling( ctxt, std::max( DEFAULT_TILESET_ZOOM / tileset_zoom, 1 ),
-                                     last_mouse_edge_scroll_vector_terrain, tile_iso );
+                                     last_mouse_edge_scroll_vector_terrain, g->is_tileset_isometric() );
     last_mouse_edge_scroll_vector_terrain = ret.second;
     last_mouse_edge_scroll_vector_overmap = tripoint_zero;
     return ret.first;
@@ -2373,9 +2425,7 @@ input_context get_default_mode_input_context()
     ctxt.register_action( "workout" );
     ctxt.register_action( "save" );
     ctxt.register_action( "quicksave" );
-#if !defined(RELEASE)
     ctxt.register_action( "quickload" );
-#endif
     ctxt.register_action( "SUICIDE" );
     ctxt.register_action( "player_data" );
     ctxt.register_action( "map" );
@@ -2417,6 +2467,7 @@ input_context get_default_mode_input_context()
     ctxt.register_action( "toggle_auto_foraging" );
     ctxt.register_action( "toggle_auto_pickup" );
     ctxt.register_action( "toggle_thief_mode" );
+    ctxt.register_action( "toggle_iso_walls" );
     ctxt.register_action( "diary" );
     ctxt.register_action( "action_menu" );
     ctxt.register_action( "main_menu" );
@@ -2425,6 +2476,7 @@ input_context get_default_mode_input_context()
     ctxt.register_action( "COORDINATE" );
     ctxt.register_action( "MOUSE_MOVE" );
     ctxt.register_action( "SELECT" );
+    ctxt.register_action( "CLICK_AND_DRAG" );
     ctxt.register_action( "SEC_SELECT" );
     return ctxt;
 }
@@ -3088,6 +3140,7 @@ void game::write_memorial_file( std::string sLastWords )
                                          current_time.wYear, current_time.wMonth, current_time.wDay,
                                          current_time.wHour, current_time.wMinute, current_time.wSecond );
 #else
+    // NOLINTNEXTLINE(modernize-avoid-c-arrays)
     char buffer[suffix_len] {};
     std::time_t t = std::time( nullptr );
     tm current_time;
@@ -4047,7 +4100,7 @@ void game::mon_info_update( )
     for( auto &m : unique_mons ) {
         m.clear();
     }
-    std::fill_n( dangerous, 8, false );
+    std::fill( dangerous.begin(), dangerous.end(), false );
 
     const tripoint view = u.pos() + u.view_offset;
     new_seen_mon.clear();
@@ -4868,12 +4921,8 @@ bool game::is_empty( const tripoint_bub_ms &p )
 
 bool game::is_in_sunlight( const tripoint &p )
 {
-    const optional_vpart_position vp = m.veh_at( p );
-    bool is_inside = vp && vp->is_inside();
-
-    return m.is_outside( p ) && light_level( p.z ) >= 40 && !is_night( calendar::turn ) &&
-           get_weather().weather_id->sun_intensity >= sun_intensity_type::normal &&
-           !is_inside;
+    return !is_sheltered( p ) &&
+           incident_sun_irradiance( get_weather().weather_id, calendar::turn ) > irradiance::minimal;
 }
 
 bool game::is_sheltered( const tripoint &p )
@@ -5184,6 +5233,12 @@ void game::control_vehicle()
 {
     int veh_part = -1;
     vehicle *veh = remoteveh();
+    if( veh != nullptr ) {
+        for( const vpart_reference &vpr : veh->get_avail_parts( "REMOTE_CONTROLS" ) ) {
+            veh->interact_with( vpr.pos() );
+            return;
+        }
+    }
     if( veh == nullptr ) {
         if( const optional_vpart_position vp = m.veh_at( u.pos() ) ) {
             veh = &vp->vehicle();
@@ -5192,7 +5247,7 @@ void game::control_vehicle()
     }
     if( veh != nullptr && veh->player_in_control( u ) &&
         veh->avail_part_with_feature( veh_part, "CONTROLS" ) >= 0 ) {
-        veh->use_controls( u.pos() );
+        veh->interact_with( u.pos() );
     } else if( veh && veh->player_in_control( u ) &&
                veh->avail_part_with_feature( veh_part, "CONTROL_ANIMAL" ) >= 0 ) {
         u.controlling_vehicle = false;
@@ -5201,8 +5256,8 @@ void game::control_vehicle()
                         ( veh->avail_part_with_feature( veh_part, "CONTROL_ANIMAL" ) >= 0 &&
                           veh->has_engine_type( fuel_type_animal, false ) && veh->has_harnessed_animal() ) ) &&
                u.in_vehicle ) {
-        if( !veh->interact_vehicle_locked() ) {
-            veh->handle_potential_theft( dynamic_cast<Character &>( u ) );
+        if( veh->is_locked ) {
+            veh->interact_with( u.pos() );
             return;
         }
         if( veh->engine_on ) {
@@ -5257,9 +5312,7 @@ void game::control_vehicle()
             if( !veh->handle_potential_theft( dynamic_cast<Character &>( u ) ) ) {
                 return;
             }
-            veh->use_controls( *vehicle_position );
-            //May be folded up (destroyed), so need to re-get it
-            veh = g->remoteveh();
+            veh->interact_with( *vehicle_position );
         }
     }
     if( veh ) {
@@ -5509,7 +5562,7 @@ static std::string get_fire_fuel_string( const tripoint &examp )
                 } else {
                     if( to_string_approx( fire_age - fire_age * mod / 5 ) == to_string_approx(
                             fire_age + fire_age * mod / 5 ) ) {
-                        ss += string_format( _( "Without extra fuel it will burn for about %s." ),
+                        ss += string_format( _( "Without extra fuel it will burn for %s." ),
                                              to_string_approx( fire_age - fire_age * mod / 5 ) );
                     } else {
                         ss += string_format( _( "Without extra fuel it will burn for between %s to %s." ),
@@ -5568,7 +5621,11 @@ void game::examine( const tripoint &examp, bool with_pickup )
     const optional_vpart_position vp = m.veh_at( examp );
     if( vp ) {
         if( !u.is_mounted() || u.mounted_creature->has_flag( MF_RIDEABLE_MECH ) ) {
-            vp->vehicle().interact_with( *vp, with_pickup );
+            if( !vp->vehicle().has_tag( "APPLIANCE" ) ) {
+                vp->vehicle().interact_with( examp, with_pickup );
+            } else {
+                g->exam_appliance( vp->vehicle(), vp->mount() );
+            }
             return;
         } else {
             add_msg( m_warning, _( "You cannot interact with a vehicle while mounted." ) );
@@ -7121,8 +7178,8 @@ look_around_result game::look_around(
             }
 
             const int dz = action == "LEVEL_UP" ? 1 : -1;
-            lz = clamp( lz + dz, min_levz, max_levz );
-            center.z = clamp( center.z + dz, min_levz, max_levz );
+            lz = clamp( lz + dz, min_levz, max_levz - 1 );
+            center.z = clamp( center.z + dz, min_levz, max_levz - 1 );
 
             add_msg_debug( debugmode::DF_GAME, "levx: %d, levy: %d, levz: %d",
                            get_map().get_abs_sub().x(), get_map().get_abs_sub().y(), center.z );
@@ -7194,7 +7251,7 @@ look_around_result game::look_around(
             if( edge_scrolling ) {
                 center += action == "MOUSE_MOVE" ? edge_scroll * 2 : edge_scroll;
             } else if( action == "MOUSE_MOVE" ) {
-                const cata::optional<tripoint> mouse_pos = ctxt.get_coordinates( w_terrain );
+                const cata::optional<tripoint> mouse_pos = ctxt.get_coordinates( w_terrain, ter_view_p.xy(), true );
                 if( mouse_pos ) {
                     lx = mouse_pos->x;
                     ly = mouse_pos->y;
@@ -8653,6 +8710,8 @@ static void butcher_submenu( const std::vector<map_stack::iterator> &corpses, in
     bool has_blood = false;
     bool has_skin = false;
     bool has_organs = false;
+    std::string dissect_wp_hint; // dissection weakpoint proficiencies training hint
+    int dissect_wp_hint_lines = 0; // track hint lines so menu width doesn't change
 
     if( index != -1 ) {
         const mtype *dead_mon = corpses[index]->get_mtype();
@@ -8672,11 +8731,26 @@ static void butcher_submenu( const std::vector<map_stack::iterator> &corpses, in
                     has_blood = true;
                 }
             }
+            if( !dead_mon->families.families.empty() ) {
+                dissect_wp_hint += std::string( "\n\n" ) + _( "Dissecting may yield knowledge of:" );
+                dissect_wp_hint_lines += 2;
+                for( const weakpoint_family &wf : dead_mon->families.families ) {
+                    std::string prof_status;
+                    if( !player_character.has_prof_prereqs( wf.proficiency ) ) {
+                        prof_status += colorize( string_format( " (%s)", _( "missing proficiencies" ) ), c_red );
+                    } else if( player_character.has_proficiency( wf.proficiency ) ) {
+                        prof_status += colorize( string_format( " (%s)", _( "already known" ) ), c_dark_gray );
+                    }
+                    dissect_wp_hint += string_format( "\n  %s%s", wf.proficiency->name(), prof_status );
+                    dissect_wp_hint_lines++;
+                }
+            }
         }
     }
 
     uilist smenu;
     smenu.desc_enabled = true;
+    smenu.desc_lines_hint += dissect_wp_hint_lines;
     smenu.text = _( "Choose type of butchery:" );
 
     const std::string cannot_see = colorize( _( "can't see!" ), c_red );
@@ -8754,13 +8828,13 @@ static void butcher_submenu( const std::vector<map_stack::iterator> &corpses, in
     smenu.addentry_col( static_cast<int>( butcher_type::DISSECT ), enough_light,
                         'd', _( "Dissect corpse" ),
                         enough_light ? cut_time( butcher_type::DISSECT ) : cannot_see,
-                        string_format( "%s  %s",
+                        string_format( "%s  %s%s",
                                        _( "By careful dissection of the corpse, you will examine it for "
                                           "possible bionic implants, or discrete organs and harvest them "
                                           "if possible.  Requires scalpel-grade cutting tools, ruins "
                                           "corpse, and consumes a lot of time.  Your medical knowledge "
                                           "is most useful here." ),
-                                       msgFactorD ) );
+                                       msgFactorD, dissect_wp_hint ) );
     smenu.query();
     switch( smenu.ret ) {
         case static_cast<int>( butcher_type::QUICK ):
@@ -10102,7 +10176,10 @@ point game::place_player( const tripoint &dest_loc )
 
     //Auto pulp or butcher and Auto foraging
     if( get_option<bool>( "AUTO_FEATURES" ) && mostseen == 0  && !u.is_mounted() ) {
-        static const direction adjacentDir[8] = { direction::NORTH, direction::NORTHEAST, direction::EAST, direction::SOUTHEAST, direction::SOUTH, direction::SOUTHWEST, direction::WEST, direction::NORTHWEST };
+        static constexpr std::array<direction, 8> adjacentDir = {
+            direction::NORTH, direction::NORTHEAST, direction::EAST, direction::SOUTHEAST,
+            direction::SOUTH, direction::SOUTHWEST, direction::WEST, direction::NORTHWEST
+        };
 
         const std::string forage_type = get_option<std::string>( "AUTO_FORAGING" );
         if( forage_type != "off" ) {
@@ -10718,9 +10795,9 @@ void game::on_move_effects()
         const item muscle( "muscle" );
         for( const bionic_id &bid : u.get_bionic_fueled_with( muscle ) ) {
             if( u.has_active_bionic( bid ) ) {// active power gen
-                u.mod_power_level( units::from_kilojoule( muscle.fuel_energy() ) * bid->fuel_efficiency );
+                u.mod_power_level( muscle.fuel_energy() * bid->fuel_efficiency );
             } else if( u.has_bionic( bid ) ) {// passive power gen
-                u.mod_power_level( units::from_kilojoule( muscle.fuel_energy() ) * bid->passive_fuel_efficiency );
+                u.mod_power_level( muscle.fuel_energy() * bid->passive_fuel_efficiency );
             }
         }
         if( u.has_active_bionic( bio_jointservo ) ) {
@@ -11971,7 +12048,7 @@ void game::display_reachability_zones()
 void game::init_autosave()
 {
     moves_since_last_save = 0;
-    last_save_timestamp = time( nullptr );
+    last_save_timestamp = std::time( nullptr );
 }
 
 void game::quicksave()
@@ -11987,7 +12064,7 @@ void game::quicksave()
     ui_manager::redraw();
     refresh_display();
 
-    time_t now = time( nullptr ); //timestamp for start of saving procedure
+    time_t now = std::time( nullptr ); //timestamp for start of saving procedure
 
     //perform save
     save();
@@ -12002,18 +12079,22 @@ void game::quickload()
     if( active_world == nullptr ) {
         return;
     }
+    std::string const world_name = active_world->world_name;
+    std::string const &save_id = u.get_save_id();
 
-    if( active_world->save_exists( save_t::from_save_id( u.get_save_id() ) ) ) {
+    if( active_world->save_exists( save_t::from_save_id( save_id ) ) ) {
         if( moves_since_last_save != 0 ) { // See if we need to reload anything
-            MAPBUFFER.clear();
-            overmap_buffer.clear();
-            try {
-                setup();
-            } catch( const std::exception &err ) {
-                debugmsg( "Error: %s", err.what() );
-            }
-            load( save_t::from_save_id( u.get_save_id() ) );
+            moves_since_last_save = 0;
+            last_save_timestamp = std::time( nullptr );
+
+            u.moves = 0;
+            uquit = QUIT_NOSAVED;
+
+            main_menu::queued_world_to_load = world_name;
+            main_menu::queued_save_id_to_load = save_id;
+
         }
+
     } else {
         popup_getkey( _( "No saves for current character yet." ) );
     }
@@ -12022,7 +12103,7 @@ void game::quickload()
 void game::autosave()
 {
     //Don't autosave if the min-autosave interval has not passed since the last autosave/quicksave.
-    if( time( nullptr ) < last_save_timestamp + 60 * get_option<int>( "AUTOSAVE_MINUTES" ) ) {
+    if( std::time( nullptr ) < last_save_timestamp + 60 * get_option<int>( "AUTOSAVE_MINUTES" ) ) {
         return;
     }
     quicksave();    //Driving checks are handled by quicksave()

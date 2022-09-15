@@ -137,6 +137,7 @@ static const quality_id qual_CUT( "CUT" );
 
 static const skill_id skill_melee( "melee" );
 
+static const trait_id trait_BRAWLER( "BRAWLER" );
 static const trait_id trait_HIBERNATE( "HIBERNATE" );
 static const trait_id trait_PROF_CHURL( "PROF_CHURL" );
 static const trait_id trait_SHELL2( "SHELL2" );
@@ -265,7 +266,7 @@ input_context game::get_player_input( std::string &action )
                       -getmaxy( w_terrain ) / 2 + u.posy() ) );
 
 #if defined(TILES)
-        if( tile_iso && use_tiles ) {
+        if( g->is_tileset_isometric() ) {
             iStart.x = 0;
             iStart.y = 0;
             iEnd.x = MAPSIZE_X;
@@ -1480,11 +1481,19 @@ static void fire()
 
         turret_data turret;
         if( vp && ( turret = vp->vehicle().turret_query( player_character.pos() ) ) ) {
+            if( player_character.has_trait( trait_BRAWLER ) ) {
+                add_msg( m_bad, _( "You refuse to use the turret." ) );
+                return;
+            }
             avatar_action::fire_turret_manual( player_character, here, turret );
             return;
         }
 
         if( vp.part_with_feature( "CONTROLS", true ) ) {
+            if( player_character.has_trait( trait_BRAWLER ) ) {
+                add_msg( m_bad, _( "You refuse to use the turret." ) );
+                return;
+            }
             if( vp->vehicle().turrets_aim_and_fire_all_manual() ) {
                 return;
             }
@@ -1857,8 +1866,9 @@ static void do_deathcam_action( const action_id &act, avatar &player_character )
                 { ACTION_SHIFT_NW, { point_north_west, point_north } },
             };
             int soffset = get_option<int>( "MOVE_VIEW_OFFSET" );
-            player_character.view_offset += use_tiles && tile_iso ?
-                                            shift_delta.at( act ).second * soffset : shift_delta.at( act ).first * soffset;
+            player_character.view_offset += g->is_tileset_isometric()
+                                            ? shift_delta.at( act ).second * soffset
+                                            : shift_delta.at( act ).first * soffset;
         }
         break;
 
@@ -2756,6 +2766,11 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
             handle_debug_mode();
             break;
 
+        case ACTION_DISPLAY_ISO_WALLS:
+            get_options().get_option( "RETRACT_ISO_WALLS" ).setNext();
+            get_options().save();
+            break;
+
         case ACTION_ZOOM_IN:
             zoom_in();
             mark_main_ui_adaptor_resize();
@@ -2869,6 +2884,11 @@ bool game::handle_action()
             user_action_counter += 1;
         }
 
+        if( act == ACTION_CLICK_AND_DRAG ) {
+            // Need to return false to avoid disrupting actions like character mouse movement that require two clicks
+            return false;
+        }
+
         if( act == ACTION_SELECT || act == ACTION_SEC_SELECT ) {
             // Mouse button click
             if( veh_ctrl ) {
@@ -2881,7 +2901,7 @@ bool game::handle_action()
                 return false;
             }
 
-            const cata::optional<tripoint> mouse_pos = ctxt.get_coordinates( w_terrain );
+            const cata::optional<tripoint> mouse_pos = ctxt.get_coordinates( w_terrain, ter_view_p.xy(), true );
             if( !mouse_pos ) {
                 return false;
             }

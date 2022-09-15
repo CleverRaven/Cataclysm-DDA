@@ -328,6 +328,7 @@
       "NO_SALVAGE",
       "NO_UNLOAD",
       "WATERPROOF_GUN",
+      "NO_TURRET",
       "NEVER_JAMS"
     ],
     "ammo_effects": [ "NEVER_MISFIRES" ],
@@ -624,7 +625,7 @@
     "cutting": 2,
     "to_hit": 2,
     "relic_data": {
-      "passive_effects": [ { "has": "WIELD", "condition": "ALWAYS", "values": [ { "value": "ITEM_DAMAGE_HEAT", "add": 8 } ] } ]
+      "passive_effects": [ { "has": "WIELD", "condition": "ALWAYS", "values": [ { "value": "ITEM_DAMAGE_HEAT", "add": 28 } ] } ]
     }
   },
   {
@@ -675,6 +676,7 @@
       "TRADER_AVOID",
       "NO_UNLOAD",
       "NO_REPAIR",
+      "NO_TURRET",
       "WATERPROOF_GUN"
     ],
     "ammo_effects": [ "NEVER_MISFIRES" ],

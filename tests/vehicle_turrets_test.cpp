@@ -12,6 +12,7 @@
 #include "item_location.h"
 #include "itype.h"
 #include "map.h"
+#include "player_helpers.h"
 #include "point.h"
 #include "type_id.h"
 #include "units.h"
@@ -89,7 +90,7 @@ TEST_CASE( "vehicle_turret", "[vehicle][gun][magazine]" )
             const itype *base_itype = veh->part( turr_idx ).get_base().type;
             REQUIRE( base_itype );
             REQUIRE( base_itype->gun );
-            if( base_itype->gun->ups_charges > 0 ) {
+            if( base_itype->gun->ups_charges > 0 || turret_vpi->has_flag( "USE_BATTERIES" ) ) {
                 install_charged_battery( veh );
             }
 
@@ -121,6 +122,11 @@ TEST_CASE( "vehicle_turret", "[vehicle][gun][magazine]" )
             CHECK( shots_fired > 0 );
 
             here.destroy_vehicle( veh );
+
+            // clear pending explosions so not to interfere with subsequent tests
+            explosion_handler::process_explosions();
+            // heal the avatar from explosion damages
+            clear_avatar();
         }
     }
 }

@@ -197,9 +197,11 @@ std::string enum_to_string<m_flag>( m_flag data )
         case MF_ATTACK_UPPER: return "ATTACK_UPPER";
         case MF_ATTACK_LOWER: return "ATTACK_LOWER";
         case MF_DEADLY_VIRUS: return "DEADLY_VIRUS";
+        case MF_VAMP_VIRUS: return "VAMP_VIRUS";
         case MF_ALWAYS_VISIBLE: return "ALWAYS_VISIBLE";
         case MF_ALWAYS_SEES_YOU: return "ALWAYS_SEES_YOU";
         case MF_ALL_SEEING: return "ALL_SEEING";
+        case MF_NEVER_WANDER: return "NEVER_WANDER";
         // *INDENT-ON*
         case m_flag::MF_MAX:
             break;
@@ -1063,6 +1065,15 @@ void mtype::load( const JsonObject &jo, const std::string &src )
         optional( up, was_loaded, "into_group", upgrade_group, string_id_reader<::MonsterGroup> {},
                   mongroup_id::NULL_ID() );
         optional( up, was_loaded, "into", upgrade_into, string_id_reader<::mtype> {}, mtype_id::NULL_ID() );
+        bool multi = !!upgrade_multi_range;
+        optional( up, was_loaded, "multiple_spawns", multi, false );
+        if( multi && jo.has_bool( "multiple_spawns" ) ) {
+            mandatory( up, was_loaded, "spawn_range", upgrade_multi_range );
+        } else if( multi ) {
+            optional( up, was_loaded, "spawn_range", upgrade_multi_range );
+        } else {
+            jo.get_int( "spawn_range", 0 ); // ignore if defined
+        }
         upgrades = true;
     }
 

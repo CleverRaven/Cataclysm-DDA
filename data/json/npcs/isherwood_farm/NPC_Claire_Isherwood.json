@@ -286,7 +286,7 @@
       "opinion": { "trust": 1, "value": 1 },
       "effect": [
         { "u_spawn_item": "thyme_oil", "container": "jar_glass_sealed", "count": 2 },
-        { "u_spawn_item": "poppy_pain", "container": "jar_glass_sealed", "count": 200 }
+        { "u_spawn_item": "poppy_pain", "container": "jar_glass_sealed", "count": 20 }
       ]
     },
     "dialogue": {

@@ -278,6 +278,13 @@ enum edible_rating {
     NO_TOOL
 };
 
+enum crush_tool_type {
+    CRUSH_EMPTY_HANDS,
+    CRUSH_HAMMER,
+    CRUSH_DRILL_OR_HAMMER_AND_SCREW,
+    CRUSH_NO_TOOL
+};
+
 struct queued_eoc {
     public:
         effect_on_condition_id eoc;
@@ -365,6 +372,16 @@ struct ret_val<edible_rating>::default_success : public
 template<>
 struct ret_val<edible_rating>::default_failure : public
     std::integral_constant<edible_rating, INEDIBLE> {};
+
+/** @relates ret_val */
+template<>
+struct ret_val<crush_tool_type>::default_success : public
+    std::integral_constant<crush_tool_type, CRUSH_EMPTY_HANDS> {};
+
+/** @relates ret_val */
+template<>
+struct ret_val<crush_tool_type>::default_failure : public
+    std::integral_constant<crush_tool_type, CRUSH_NO_TOOL> {};
 
 struct needs_rates {
     float thirst = 0.0f;
@@ -650,13 +667,13 @@ class Character : public Creature, public visitable
         float get_hit_base() const override;
 
         /** Returns the player's sight range */
-        int sight_range( int light_level ) const override;
+        int sight_range( float light_level ) const override;
         /** Returns the player maximum vision range factoring in mutations, diseases, and other effects */
         int  unimpaired_range() const;
         /** Returns true if overmap tile is within player line-of-sight */
         bool overmap_los( const tripoint_abs_omt &omt, int sight_points ) const;
         /** Returns the distance the player can see on the overmap */
-        int  overmap_sight_range( int light_level ) const;
+        int  overmap_sight_range( float light_level ) const;
         /** Returns the distance the player can see through walls */
         int  clairvoyance() const;
         /** Returns true if the player has some form of impaired sight */
@@ -1610,6 +1627,7 @@ class Character : public Creature, public visitable
                                          std::string name_override = std::string() ) const;
 
         void process_items();
+        void leak_items();
         /** Search surrounding squares for traps (and maybe other things in the future). */
         void search_surroundings();
         /**Passively produce power from PERPETUAL fuel*/
@@ -1620,7 +1638,7 @@ class Character : public Creature, public visitable
         int consume_remote_fuel( int amount );
         void reset_remote_fuel();
         /**Handle heat from exothermic power generation*/
-        void heat_emission( const bionic &bio, int fuel_energy );
+        void heat_emission( const bionic &bio, units::energy fuel_energy );
         /**Applies modifier to fuel_efficiency and returns the resulting efficiency*/
         float get_effective_efficiency( const bionic &bio, float fuel_efficiency ) const;
 
@@ -2769,6 +2787,7 @@ class Character : public Creature, public visitable
         /** Checks to see if the player is using floor items to keep warm, and return the name of one such item if so */
         std::string is_snuggling() const;
 
+        ret_val<crush_tool_type> can_crush_frozen_liquid( item_location loc ) const;
         /** Prompts user about crushing item at item_location loc, for harvesting of frozen liquids
         * @param loc Location for item to crush */
         bool crush_frozen_liquid( item_location loc );
@@ -2898,7 +2917,9 @@ class Character : public Creature, public visitable
          * Asks about them if @param interactive is true, refuses otherwise.
          */
         ret_val<edible_rating> will_eat( const item &food, bool interactive = false ) const;
-        /** Determine character's capability of recharging their CBMs. */
+        /** Determine character's capability of recharging their CBMs.
+        * Returns energy in kJ
+        */
         int get_acquirable_energy( const item &it ) const;
 
         /**
@@ -2923,7 +2944,7 @@ class Character : public Creature, public visitable
         /** Used to to display how filling a food is. */
         int compute_calories_per_effective_volume( const item &food,
                 const nutrients *nutrient = nullptr ) const;
-        /** Handles the effects of consuming an item */
+        /** Handles the effects of consuming an item. Returns false if nothing was consumed */
         bool consume_effects( item &food );
         /** Check whether the character can consume this very item */
         bool can_consume_as_is( const item &it ) const;
@@ -3025,7 +3046,6 @@ class Character : public Creature, public visitable
 
         recipe_id lastrecipe;
         int last_batch;
-        itype_id lastconsumed;        //used in crafting.cpp and construction.cpp
 
         // Returns true if the character knows the recipe, is near a book or device
         // providing the recipe or a nearby NPC knows it.
@@ -3041,6 +3061,7 @@ class Character : public Creature, public visitable
 
         /** Returns all known recipes. */
         const recipe_subset &get_learned_recipes() const;
+        recipe_subset get_available_nested( const recipe_subset & ) const;
         /** Returns all recipes that are known from the books (either in inventory or nearby). */
         recipe_subset get_recipes_from_books( const inventory &crafting_inv ) const;
         /** Returns all recipes that are known from the books inside ereaders (either in inventory or nearby). */
@@ -3212,7 +3233,7 @@ class Character : public Creature, public visitable
         /** Drenches the player with water, saturation is the percent gotten wet */
         void drench( int saturation, const body_part_set &flags, bool ignore_waterproof );
         /** Recalculates morale penalty/bonus from wetness based on mutations, equipment and temperature */
-        void apply_wetness_morale( int temperature );
+        void apply_wetness_morale( units::temperature temperature );
         int heartrate_bpm() const;
         std::vector<std::string> short_description_parts() const;
         std::string short_description() const;

@@ -156,7 +156,7 @@ static float gurney_spherical( const double charge, const double mass )
 }
 
 // (C1001) Compiler Internal Error on Visual Studio 2015 with Update 2
-static void do_blast( const tripoint &p, const float power,
+static void do_blast( const Creature *source, const tripoint &p, const float power,
                       const float distance_factor, const bool fire )
 {
     const float tile_dist = 1.0f;
@@ -166,9 +166,9 @@ static void do_blast( const tripoint &p, const float power,
     // 1 . 2
     // 6 4 8
     // 9 and 10 are up and down
-    static const int x_offset[10] = { -1, 1,  0, 0,  1, -1, -1, 1, 0, 0 };
-    static const int y_offset[10] = { 0, 0, -1, 1, -1,  1, -1, 1, 0, 0 };
-    static const int z_offset[10] = { 0, 0,  0, 0,  0,  0,  0, 0, 1, -1 };
+    static constexpr std::array<int, 10> x_offset = { -1, 1,  0, 0,  1, -1, -1, 1, 0, 0 };
+    static constexpr std::array<int, 10> y_offset = { 0, 0, -1, 1, -1,  1, -1, 1, 0, 0 };
+    static constexpr std::array<int, 10> z_offset = { 0, 0,  0, 0,  0,  0,  0, 0, 1, -1 };
     map &here = get_map();
     const size_t max_index = 10;
 
@@ -280,6 +280,7 @@ static void do_blast( const tripoint &p, const float power,
     draw_custom_explosion( get_player_character().pos(), explosion_colors );
 
     creature_tracker &creatures = get_creature_tracker();
+    Creature *mutable_source = source == nullptr ? nullptr : creatures.creature_at( source->pos() );
     for( const tripoint &pt : closed ) {
         const float force = power * std::pow( distance_factor, dist_map.at( pt ) );
         if( force < 1.0f ) {
@@ -315,10 +316,9 @@ static void do_blast( const tripoint &p, const float power,
 
         Character *pl = critter->as_character();
         if( pl == nullptr ) {
-            // TODO: player's fault?
             const double dmg = std::max( force - critter->get_armor_bash( bodypart_id( "torso" ) ) / 2.0, 0.0 );
             const int actual_dmg = rng_float( dmg * 2, dmg * 3 );
-            critter->apply_damage( nullptr, bodypart_id( "torso" ), actual_dmg );
+            critter->apply_damage( mutable_source, bodypart_id( "torso" ), actual_dmg );
             critter->check_dead_state();
             add_msg_debug( debugmode::DF_EXPLOSION, "Blast hits %s for %d damage", critter->disp_name(),
                            actual_dmg );
@@ -352,7 +352,7 @@ static void do_blast( const tripoint &p, const float power,
             const std::string hit_part_name = body_part_name_accusative( blp.bp );
             const damage_instance dmg_instance = damage_instance( damage_type::BASH, part_dam, 0,
                                                  blp.armor_mul );
-            const dealt_damage_instance result = pl->deal_damage( nullptr, blp.bp, dmg_instance );
+            const dealt_damage_instance result = pl->deal_damage( mutable_source, blp.bp, dmg_instance );
             const int res_dmg = result.total_damage();
 
             add_msg_debug( debugmode::DF_EXPLOSION, "%s for %d raw, %d actual", hit_part_name, part_dam,
@@ -364,7 +364,7 @@ static void do_blast( const tripoint &p, const float power,
     }
 }
 
-static std::vector<tripoint> shrapnel( const tripoint &src, int power,
+static std::vector<tripoint> shrapnel( const Creature *source, const tripoint &src, int power,
                                        int casing_mass, float per_fragment_mass, int range = -1 )
 {
     // The gurney equation wants the total mass of the casing.
@@ -410,6 +410,7 @@ static std::vector<tripoint> shrapnel( const tripoint &src, int power,
                  ( visited_cache, obstacle_cache, src.xy(), 0, initial_cloud );
 
     creature_tracker &creatures = get_creature_tracker();
+    Creature *mutable_source = source == nullptr ? nullptr : creatures.creature_at( source->pos() );
     // Now visited_caches are populated with density and velocity of fragments.
     for( const tripoint &target : area ) {
         fragment_cloud &cloud = visited_cache[target.x][target.y];
@@ -436,7 +437,7 @@ static std::vector<tripoint> shrapnel( const tripoint &src, int power,
             int non_damaging_hits = 0;
             for( int i = 0; i < hits; ++i ) {
                 frag.missed_by = rng_float( 0.05, 1.0 / critter->ranged_target_size() );
-                critter->deal_projectile_attack( nullptr, frag, false );
+                critter->deal_projectile_attack( mutable_source, frag, false );
                 if( frag.dealt_dam.total_damage() > 0 ) {
                     damaging_hits++;
                     damage_taken += frag.dealt_dam.total_damage();
@@ -467,7 +468,7 @@ static std::vector<tripoint> shrapnel( const tripoint &src, int power,
     return distrib;
 }
 
-void explosion( const tripoint &p, float power, float factor, bool fire,
+void explosion( const Creature *source, const tripoint &p, float power, float factor, bool fire,
                 int casing_mass, float frag_mass )
 {
     explosion_data data;
@@ -476,15 +477,15 @@ void explosion( const tripoint &p, float power, float factor, bool fire,
     data.fire = fire;
     data.shrapnel.casing_mass = casing_mass;
     data.shrapnel.fragment_mass = frag_mass;
-    explosion( p, data );
+    explosion( source, p, data );
 }
 
-void explosion( const tripoint &p, const explosion_data &ex )
+void explosion( const Creature *source, const tripoint &p, const explosion_data &ex )
 {
-    _explosions.emplace_back( get_map().getglobal( p ), ex );
+    _explosions.emplace_back( source, get_map().getglobal( p ), ex );
 }
 
-void _make_explosion( const tripoint &p, const explosion_data &ex )
+void _make_explosion( const Creature *source, const tripoint &p, const explosion_data &ex )
 {
     int noise = ex.power * ( ex.fire ? 2 : 10 );
     noise = ( noise > ex.max_noise ) ? ex.max_noise : noise;
@@ -503,13 +504,13 @@ void _make_explosion( const tripoint &p, const explosion_data &ex )
     } else if( ex.distance_factor > 0.0f && ex.power > 0.0f ) {
         // Power rescaled to mean grams of TNT equivalent, this scales it roughly back to where
         // it was before until we re-do blasting power to be based on TNT-equivalent directly.
-        do_blast( p, ex.power / 15.0, ex.distance_factor, ex.fire );
+        do_blast( source, p, ex.power / 15.0, ex.distance_factor, ex.fire );
     }
 
     map &here = get_map();
     const shrapnel_data &shr = ex.shrapnel;
     if( shr.casing_mass > 0 ) {
-        auto shrapnel_locations = shrapnel( p, ex.power, shr.casing_mass, shr.fragment_mass );
+        auto shrapnel_locations = shrapnel( source, p, ex.power, shr.casing_mass, shr.fragment_mass );
 
         // If explosion drops shrapnel...
         if( shr.recovery > 0 && !shr.drop.is_null() ) {
@@ -860,7 +861,7 @@ void resonance_cascade( const tripoint &p )
                     here.destroy( dest );
                     break;
                 case 19:
-                    explosion( dest, rng( 1, 10 ), rng( 0, 1 ) * rng( 0, 6 ), one_in( 4 ) );
+                    explosion( &player_character, dest, rng( 1, 10 ), rng( 0, 1 ) * rng( 0, 6 ), one_in( 4 ) );
                     break;
                 default:
                     break;
@@ -872,12 +873,12 @@ void resonance_cascade( const tripoint &p )
 void process_explosions()
 {
     for( const queued_explosion &ex : _explosions ) {
-        const tripoint p = get_map().getlocal( ex.first );
+        const tripoint p = get_map().getlocal( ex.pos );
         if( p.x < 0 || p.x >= MAPSIZE_X || p.y < 0 || p.y >= MAPSIZE_Y ) {
             debugmsg( "Explosion origin (%d, %d, %d) is out-of-bounds", p.x, p.y, p.z );
             continue;
         }
-        _make_explosion( p, ex.second );
+        _make_explosion( ex.source, p, ex.data );
     }
     _explosions.clear();
 }

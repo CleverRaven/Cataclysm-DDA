@@ -483,11 +483,35 @@ class pickup_inventory_preset : public inventory_selector_preset
 
         std::string get_denial( const item_location &loc ) const override {
             if( !you.has_item( *loc ) ) {
-                if( loc->made_of_from_type( phase_id::LIQUID ) ) {
+                if( loc->made_of_from_type( phase_id::LIQUID ) && !loc->is_frozen_liquid() ) {
                     if( loc.has_parent() ) {
                         return _( "Can't pick up liquids." );
                     } else {
                         return _( "Can't pick up spilt liquids." );
+                    }
+                } else if( loc->is_frozen_liquid() ) {
+                    ret_val<crush_tool_type> can_crush = you.can_crush_frozen_liquid( loc );
+
+                    if( loc->has_flag( flag_SHREDDED ) ) { // NOLINT(bugprone-branch-clone)
+                        return std::string();
+                    } else if( !can_crush.success() ) {
+                        return can_crush.str();
+                    } else if( !you.can_pickVolume_partial( *loc, false, nullptr, false ) ) {
+                        item item_copy( *loc );
+                        item_copy.charges = 1;
+                        item_copy.set_flag( flag_SHREDDED );
+                        std::pair<item_location, item_pocket *> pocke = const_cast<Character &>( you ).best_pocket(
+                                    item_copy, nullptr, false );
+
+                        item_pocket *ip = pocke.second;
+                        if( ip == nullptr || ( ip &&
+                                               ( !ip->can_contain( item_copy ).success() ||
+                                                 !ip->front().can_combine( item_copy ) ||
+                                                 item_copy.typeId() != ip->front().typeId() ) ) ) {
+                            return _( "Does not have any pocket for frozen liquids!" );
+                        }
+                    } else {
+                        return std::string();
                     }
                 } else if( !you.can_pickVolume_partial( *loc, false, nullptr, false ) &&
                            ( skip_wield_check || you.has_wield_conflicts( *loc ) ) ) {
@@ -1791,7 +1815,8 @@ drop_locations game_menus::inv::unload_container( avatar &you )
     for( drop_location &droplc : insert_menu.execute() ) {
         for( item *it : droplc.first->all_items_top( item_pocket::pocket_type::CONTAINER, true ) ) {
             // no liquids and no items marked as favorite
-            if( !it->made_of( phase_id::LIQUID ) && !it->is_favorite ) {
+            if( ( !it->made_of( phase_id::LIQUID ) || ( it->made_of( phase_id::LIQUID ) &&
+                    it->is_frozen_liquid() ) ) && !it->is_favorite ) {
                 dropped.emplace_back( item_location( droplc.first, it ), it->count() );
             }
         }
@@ -2007,7 +2032,9 @@ drop_locations game_menus::inv::multidrop( avatar &you )
     you.inv->restack( you );
 
     const inventory_filter_preset preset( [ &you ]( const item_location & location ) {
-        return you.can_drop( *location ).success();
+        return you.can_drop( *location ).success() &&
+               ( !location.get_item()->is_frozen_liquid() || !location.has_parent() ||
+                 location.get_item()->has_flag( flag_SHREDDED ) );
     } );
 
     inventory_drop_selector inv_s( you, preset );

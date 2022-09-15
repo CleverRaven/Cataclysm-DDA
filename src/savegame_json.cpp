@@ -155,6 +155,8 @@ static const ter_str_id ter_t_rubble( "t_rubble" );
 static const ter_str_id ter_t_wreckage( "t_wreckage" );
 
 static const vpart_id vpart_turret_mount( "turret_mount" );
+static const vproto_id vehicle_prototype_bicycle( "bicycle" );
+static const vproto_id vehicle_prototype_bicycle_folding( "bicycle_folding" );
 
 static const std::array<std::string, static_cast<size_t>( object_type::NUM_OBJECT_TYPES )>
 obj_type_name = { { "OBJECT_NONE", "OBJECT_ITEM", "OBJECT_ACTOR", "OBJECT_PLAYER",
@@ -2889,7 +2891,7 @@ void item::io( Archive &archive )
     archive.io( "is_favorite", is_favorite, false );
     archive.io( "item_counter", item_counter, static_cast<decltype( item_counter )>( 0 ) );
     archive.io( "wetness", wetness, 0 );
-    archive.io( "dropped_from", dropped_from, cata::optional<harvest_drop_type_id>() );
+    archive.io( "dropped_from", dropped_from, harvest_drop_type_id::NULL_ID() );
     archive.io( "rot", rot, 0_turns );
     archive.io( "last_temp_check", last_temp_check, calendar::start_of_cataclysm );
     archive.io( "current_phase", cur_phase, static_cast<int>( type->phase ) );
@@ -3172,13 +3174,7 @@ void vehicle_part::deserialize( const JsonObject &data )
     vpart_id pid;
     data.read( "id", pid );
 
-    const std::map<vpart_id, vpart_id> &deprecated = vpart_migration::get_migrations();
-
-    const auto dep = deprecated.find( pid );
-    if( dep != deprecated.end() ) {
-        DebugLog( D_INFO, D_GAME ) << "Replacing vpart " << pid.str() << " with " << dep->second;
-        pid = vpart_id( dep->second );
-    }
+    pid = vpart_migration::migrate( pid );
 
     std::tie( pid, variant ) = get_vpart_id_variant( pid );
 
@@ -3216,11 +3212,32 @@ void vehicle_part::deserialize( const JsonObject &data )
         precalc[0].z = z_offset;
         precalc[1].z = z_offset;
     }
+
+    // load legacy bike rack data
     JsonArray ja = data.get_array( "carry" );
     // count down from size - 1, then stop after unsigned long 0 - 1 becomes MAX_INT
+    static constexpr int name_offset = 7;
     for( size_t index = ja.size() - 1; index < ja.size(); index-- ) {
-        carry_names.push( ja.get_string( index ) );
+        const std::string raw = ja.get_string( index );
+        const bool migrate_x_axis = raw[0] == 'X';
+        const int mount_offset = std::stoi( raw.substr( 1, 3 ) );
+        carried_stack.push( {
+            tripoint( mount_offset, 0, 0 ),
+            units::from_degrees( std::stoi( raw.substr( 4, 3 ) ) ),
+            raw.substr( name_offset ),
+            migrate_x_axis,
+        } );
     }
+
+    // load new bike rack data
+    JsonArray ja_carried = data.get_array( "carried_stack" );
+    // count down from size - 1, then stop after unsigned long 0 - 1 becomes MAX_INT
+    for( size_t index = ja_carried.size() - 1; index < ja_carried.size(); index-- ) {
+        vehicle_part::carried_part_data it;
+        ja_carried.read( index, it );
+        carried_stack.push( it );
+    }
+
     data.read( "crew_id", crew_id );
     data.read( "items", items );
     data.read( "target_first_x", target.first.x );
@@ -3262,13 +3279,13 @@ void vehicle_part::serialize( JsonOut &json ) const
     json.member( "blood", blood );
     json.member( "enabled", enabled );
     json.member( "flags", flags );
-    if( !carry_names.empty() ) {
-        std::stack<std::string, std::vector<std::string> > carry_copy = carry_names;
-        json.member( "carry" );
+    if( !carried_stack.empty() ) {
+        std::stack<vehicle_part::carried_part_data> carried_copy = carried_stack;
+        json.member( "carried_stack" );
         json.start_array();
-        while( !carry_copy.empty() ) {
-            json.write( carry_copy.top() );
-            carry_copy.pop();
+        while( !carried_copy.empty() ) {
+            json.write( carried_copy.top() );
+            carried_copy.pop();
         }
         json.end_array();
     }
@@ -3289,6 +3306,28 @@ void vehicle_part::serialize( JsonOut &json ) const
         json.member( "target_second_z", target.second.z );
     }
     json.member( "ammo_pref", ammo_pref );
+    json.end_object();
+}
+
+void vehicle_part::carried_part_data::deserialize( const JsonObject &data )
+{
+    data.read( "veh_name", veh_name );
+    face_dir = units::from_degrees( data.get_int( "face_dir" ) );
+    data.read( "mount_x", mount.x );
+    data.read( "mount_y", mount.y );
+    data.read( "mount_z", mount.z );
+    data.read( "migrate_x_axis", migrate_x_axis );
+}
+
+void vehicle_part::carried_part_data::serialize( JsonOut &json ) const
+{
+    json.start_object();
+    json.member( "veh_name", veh_name );
+    json.member( "face_dir", std::lround( to_degrees( face_dir ) ) );
+    json.member( "mount_x", mount.x );
+    json.member( "mount_y", mount.y );
+    json.member( "mount_z", mount.z );
+    json.member( "migrate_x_axis", migrate_x_axis, false );
     json.end_object();
 }
 
@@ -3428,9 +3467,6 @@ void vehicle::deserialize( const JsonObject &data )
         auto it = vp.part().items.begin();
         auto end = vp.part().items.end();
         for( ; it != end; ++it ) {
-            if( it->needs_processing() ) {
-                active_items.add( *it, vp.mount() );
-            }
             // remove after 0.F
             if( savegame_loading_version < 33 ) {
                 migrate_item_charges( *it );
@@ -3452,12 +3488,46 @@ void vehicle::deserialize( const JsonObject &data )
         }
     }
 
-    refresh();
-
     data.read( "tags", tags );
-    data.read( "fuel_remainder", fuel_remainder );
-    data.read( "fuel_used_last_turn", fuel_used_last_turn );
     data.read( "labels", labels );
+
+    if( data.has_string( "fuel_remainder" ) ) {
+        data.read( "fuel_remainder", fuel_remainder );
+    } else {
+        // Compatibility with 0.F
+        // It is a small and not important number so just ignore it.
+    }
+
+    if( data.has_string( "fuel_used_last_turn" ) ) {
+        data.read( "fuel_used_last_turn", fuel_used_last_turn );
+    } else {
+        // Compatibility with 0.F
+        // It is a small and not important number so just ignore it.
+    }
+
+    // TODO: Remove after enough time passes for save games to migrate.
+    // This migrates old "convertible" vehicles to new generic "folding" ones
+    if( has_tag( "convertible" ) ) {
+        // remove tags starting from "convertible"
+        for( auto it = tags.begin(); it != tags.end(); ) {
+            if( it->rfind( "convertible", 0 ) == 0 ) {
+                it = tags.erase( it );
+            } else {
+                ++it;
+            }
+        }
+
+        // Special case convertible folding bicycles as they had non-foldable parts
+        // as part of their vehicle prototype. Other in-tree "convertibles"
+        // (wheelchair, inflatable boat) can just have their tags removed as their
+        // vehicles were made from foldable parts already
+        if( type == vehicle_prototype_bicycle ) {
+            type = vehicle_prototype_bicycle_folding;
+            parts = type.obj().blueprint->parts;
+        }
+    }
+
+    refresh();
 
     point p;
     zone_data zd;
@@ -4574,7 +4644,7 @@ void stats_tracker::deserialize( const JsonObject &jo )
 void submap::store( JsonOut &jsout ) const
 {
     jsout.member( "turn_last_touched", last_touched );
-    jsout.member( "temperature", temperature );
+    jsout.member( "temperature", temperature_mod );
 
     // Terrain is saved using a simple RLE scheme.  Legacy saves don't have
     // this feature but the algorithm is backward compatible.
@@ -4796,7 +4866,7 @@ void submap::load( JsonIn &jsin, const std::string &member_name, int version )
     if( member_name == "turn_last_touched" ) {
         last_touched = time_point( jsin.get_int() );
     } else if( member_name == "temperature" ) {
-        temperature = jsin.get_int();
+        temperature_mod = jsin.get_int();
     } else if( member_name == "terrain" ) {
         // TODO: try block around this to error out if we come up short?
         jsin.start_array();

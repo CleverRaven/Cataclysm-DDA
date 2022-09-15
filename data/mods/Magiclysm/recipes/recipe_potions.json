@@ -137,7 +137,15 @@
     "batch_time_factors": [ 50, 4 ],
     "book_learn": [ [ "alchemy_basic", 4 ] ],
     "qualities": [ { "id": "CHEM", "level": 2 }, { "id": "CONCENTRATE", "level": 1 }, { "id": "MANA_FOCUS", "level": 1 } ],
-    "tools": [ [ [ "surface_heat", 10, "LIST" ] ], [ [ "rune_alchemist", -1 ], [ "rune_magus", -1 ], [ "rune_magus_weapon", -1 ] ] ],
+    "tools": [
+      [ [ "surface_heat", 10, "LIST" ] ],
+      [
+        [ "rune_alchemist", -1 ],
+        [ "rune_magus", -1 ],
+        [ "rune_magus_weapon", -1 ],
+        [ "rune_magus_weapon_adept", -1 ]
+      ]
+    ],
     "proficiencies": [ { "proficiency": "prof_alchemy" } ],
     "components": [
       [ [ "potion_starter", 5 ] ],
@@ -172,7 +180,15 @@
     "batch_time_factors": [ 50, 4 ],
     "book_learn": [ [ "alchemy_basic", 4 ] ],
     "qualities": [ { "id": "CHEM", "level": 2 }, { "id": "CONCENTRATE", "level": 1 }, { "id": "MANA_FOCUS", "level": 1 } ],
-    "tools": [ [ [ "surface_heat", 10, "LIST" ] ], [ [ "rune_alchemist", -1 ], [ "rune_magus", -1 ], [ "rune_magus_weapon", -1 ] ] ],
+    "tools": [
+      [ [ "surface_heat", 10, "LIST" ] ],
+      [
+        [ "rune_alchemist", -1 ],
+        [ "rune_magus", -1 ],
+        [ "rune_magus_weapon", -1 ],
+        [ "rune_magus_weapon_adept", -1 ]
+      ]
+    ],
     "components": [ [ [ "potion_starter", 5 ] ], [ [ "sinew", 40 ] ], [ [ "adrenal_gland_large", 2 ] ] ]
   },
   {
@@ -189,7 +205,15 @@
     "batch_time_factors": [ 50, 4 ],
     "book_learn": [ [ "alchemy_basic", 4 ] ],
     "qualities": [ { "id": "CHEM", "level": 2 }, { "id": "CONCENTRATE", "level": 1 }, { "id": "MANA_FOCUS", "level": 1 } ],
-    "tools": [ [ [ "surface_heat", 10, "LIST" ] ], [ [ "rune_alchemist", -1 ], [ "rune_magus", -1 ], [ "rune_magus_weapon", -1 ] ] ],
+    "tools": [
+      [ [ "surface_heat", 10, "LIST" ] ],
+      [
+        [ "rune_alchemist", -1 ],
+        [ "rune_magus", -1 ],
+        [ "rune_magus_weapon", -1 ],
+        [ "rune_magus_weapon_adept", -1 ]
+      ]
+    ],
     "components": [
       [ [ "potion_starter", 5 ] ],
       [
@@ -239,7 +263,15 @@
     "batch_time_factors": [ 50, 4 ],
     "book_learn": [ [ "alchemy_basic", 4 ] ],
     "qualities": [ { "id": "CHEM", "level": 2 }, { "id": "CONCENTRATE", "level": 1 }, { "id": "MANA_FOCUS", "level": 1 } ],
-    "tools": [ [ [ "surface_heat", 10, "LIST" ] ], [ [ "rune_alchemist", -1 ], [ "rune_magus", -1 ], [ "rune_magus_weapon", -1 ] ] ],
+    "tools": [
+      [ [ "surface_heat", 10, "LIST" ] ],
+      [
+        [ "rune_alchemist", -1 ],
+        [ "rune_magus", -1 ],
+        [ "rune_magus_weapon", -1 ],
+        [ "rune_magus_weapon_adept", -1 ]
+      ]
+    ],
     "components": [
       [ [ "potion_starter", 5 ] ],
       [ [ "brain", 2 ], [ "brain_cooked", 2 ] ],
@@ -270,7 +302,12 @@
     "qualities": [ { "id": "CHEM", "level": 2 }, { "id": "CONCENTRATE", "level": 1 }, { "id": "MANA_FOCUS", "level": 1 } ],
     "tools": [
       [ [ "surface_heat", 10, "LIST" ] ],
-      [ [ "rune_alchemist", -1 ], [ "rune_animist", -1 ], [ "rune_animist_weapon", -1 ] ]
+      [
+        [ "rune_alchemist", -1 ],
+        [ "rune_animist", -1 ],
+        [ "rune_animist_weapon", -1 ],
+        [ "rune_animist_weapon_adept", -1 ]
+      ]
     ],
     "components": [ [ [ "potion_starter", 5 ] ], [ [ "edible_blood", 3, "LIST" ] ], [ [ "slime_scrap", 4 ], [ "meat_tainted", 12 ] ] ]
   },
@@ -289,7 +326,10 @@
     "batch_time_factors": [ 50, 4 ],
     "book_learn": [ [ "necro_basic", 5 ] ],
     "qualities": [ { "id": "CHEM", "level": 2 }, { "id": "CONCENTRATE", "level": 1 }, { "id": "MANA_FOCUS", "level": 1 } ],
-    "tools": [ [ [ "surface_heat", 10, "LIST" ] ], [ [ "rune_animist", -1 ], [ "rune_animist_weapon", -1 ] ] ],
+    "tools": [
+      [ [ "surface_heat", 10, "LIST" ] ],
+      [ [ "rune_animist", -1 ], [ "rune_animist_weapon", -1 ], [ "rune_animist_weapon_adept", -1 ] ]
+    ],
     "components": [
       [ [ "potion_starter", 5 ] ],
       [ [ "edible_blood", 5, "LIST" ] ],

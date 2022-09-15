@@ -17,8 +17,7 @@
     "size": 2000,
     "item": "fridge",
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
+      "removal": { "time": "2 m" },
       "repair": {
         "skills": [ [ "mechanics", 4 ] ],
         "time": "60 m",
@@ -96,7 +95,7 @@
     "damage_reduction": { "all": 30 },
     "durability": 80,
     "flags": [ "CARGO", "OBSTACLE", "COVERED", "FLAT_SURF", "APPLIANCE" ],
-    "pseudo_tools": [ { "id": "hotplate", "hotkey": "h" }, { "id": "fake_oven" } ],
+    "pseudo_tools": [ { "id": "pseudo_app_oven_hotplate", "hotkey": "h" } ],
     "//": "Doesn't draw power at baseline, only when cooking.",
     "epower": 0,
     "item": "oven",
@@ -123,7 +122,7 @@
     "damage_reduction": { "all": 30 },
     "durability": 60,
     "flags": [ "OBSTACLE", "APPLIANCE" ],
-    "pseudo_tools": [ { "id": "water_purifier_tool" } ],
+    "pseudo_tools": [ { "id": "pseudo_water_purifier", "hotkey": "p" } ],
     "epower": 0,
     "item": "stationary_water_purifier",
     "looks_like": "f_water_purifier",
@@ -175,8 +174,10 @@
     "description": "An electric forge for metalworking.  When plugged in and powered you could use this for metalworking.  If you attempt to craft an item that needs a forge, you will be given the option of selecting it as a tool.",
     "item": "forge",
     "flags": [ "CARGO", "OBSTACLE", "APPLIANCE" ],
-    "copy-from": "veh_forge",
-    "requirements": { "removal": { "time": "6 m" } }
+    "copy-from": "veh_forge_abstract",
+    "looks_like": "veh_forge",
+    "requirements": { "removal": { "time": "6 m" } },
+    "pseudo_tools": [ { "id": "pseudo_app_forge" } ]
   },
   {
     "type": "vehicle_part",
@@ -185,7 +186,8 @@
     "description": "Assembled from a set of instructions you found in an old book of DIY projects, the *FOODCO kitchen buddy* claims to be *the perfect solution to all your home-cooking needs!*.  While it is surprisingly handy for vacuum-sealing as well as dehydrating food, the cheery sales pitch neglected to mention A - how awkward the damn thing is, B - That you still need a normal kitchen and C - how it doesn't take batteries.  You're going to have to weld it to a vehicle, or something else with a supply of electricity, if you want to use it.  In addition to the food preservation features, it also has a food processor, a water-purification system, a drawer for holding extra tools, and for some insane reason, a press and die set for hand-loading ammunition.",
     "item": "craftrig",
     "flags": [ "CARGO", "OBSTACLE", "APPLIANCE" ],
-    "copy-from": "craft_rig"
+    "looks_like": "craft_rig",
+    "copy-from": "craft_rig_abstract"
   },
   {
     "type": "vehicle_part",
@@ -216,11 +218,21 @@
   },
   {
     "type": "vehicle_part",
+    "id": "ap_weldkit",
+    "name": { "str": "welding kit rig" },
+    "description": "A welding rig combined with a fireproof insulating blanket allows for advanced welds and repairs to tempered steels that draws power from the vehicle's batteries.  You still need glare protection.  'e'xamine the tile with the rig to use it to repair items in your inventory.  If you attempt to craft an item or perform a repair that requires a welder, you will be given the option of using the welding rig.",
+    "item": "welding_kit",
+    "flags": [ "CARGO", "OBSTACLE", "APPLIANCE" ],
+    "copy-from": "welding_rig"
+  },
+  {
+    "type": "vehicle_part",
     "id": "ap_kiln",
     "description": "An electric kiln for baking brick or clay.  When plugged in and powered you could use this to harden bricks or clay.  If you attempt to craft an item that needs a kiln, you will be given the option of selecting it as a tool.",
     "flags": [ "CARGO", "OBSTACLE", "APPLIANCE" ],
     "item": "kiln",
-    "copy-from": "veh_kiln"
+    "copy-from": "veh_kiln",
+    "pseudo_tools": [ { "id": "pseudo_app_kiln" } ]
   },
   {
     "type": "vehicle_part",
@@ -662,6 +674,7 @@
     "flags": [ "SOLAR_PANEL", "OBSTACLE", "APPLIANCE" ],
     "description": "A solar panel mounted on a frame and ready to power other appliances.",
     "copy-from": "solar_panel",
+    "proportional": { "epower": 1.2 },
     "requirements": { "removal": { "time": "3 m", "using": [ [ "vehicle_wrench_2", 1 ] ] } }
   },
   {
@@ -673,6 +686,7 @@
     "flags": [ "SOLAR_PANEL", "OBSTACLE", "APPLIANCE" ],
     "description": "A reinforced solar panel mounted on a frame and ready to power other appliances.",
     "copy-from": "reinforced_solar_panel",
+    "proportional": { "epower": 1.2 },
     "requirements": { "removal": { "time": "3 m", "using": [ [ "vehicle_wrench_2", 1 ] ] } }
   },
   {
@@ -684,6 +698,7 @@
     "flags": [ "SOLAR_PANEL", "OBSTACLE", "APPLIANCE" ],
     "description": "A high-performance solar panel mounted on a frame and ready to power other appliances.",
     "copy-from": "solar_panel_v2",
+    "proportional": { "epower": 1.2 },
     "requirements": { "removal": { "time": "3 m", "using": [ [ "vehicle_wrench_2", 1 ] ] } }
   },
   {
@@ -695,6 +710,7 @@
     "flags": [ "SOLAR_PANEL", "OBSTACLE", "APPLIANCE" ],
     "description": "A high-performance reinforced solar panel mounted on a frame and ready to power other appliances.",
     "copy-from": "reinforced_solar_panel_v2",
+    "proportional": { "epower": 1.2 },
     "requirements": { "removal": { "time": "3 m", "using": [ [ "vehicle_wrench_2", 1 ] ] } }
   },
   {
@@ -877,5 +893,48 @@
     ],
     "damage_reduction": { "all": 5 },
     "requirements": { "removal": { "time": "6 m" } }
+  },
+  {
+    "type": "vehicle_part",
+    "id": "ap_compact_ASRG_containment",
+    "name": { "str": "Compact Advanced Sterling Radioisotope Generator" },
+    "looks_like": "f_compact_ASRG_containment",
+    "symbol": "0",
+    "categories": [ "energy" ],
+    "color": "green_white",
+    "broken_symbol": "#",
+    "broken_color": "blue",
+    "location": "structure",
+    "damage_modifier": 80,
+    "durability": 500,
+    "description": "A military-grade ASRG covered in heavy plating.  Provides constant power when plugged in to your power grid.",
+    "epower": 130,
+    "size": 1800,
+    "item": "compact_ASRG_containment",
+    "requirements": {
+      "repair": {
+        "skills": [ [ "mechanics", 7 ] ],
+        "time": "60 m",
+        "using": [ [ "repair_welding_standard", 5 ], [ "soldering_standard", 5 ] ]
+      }
+    },
+    "flags": [
+      "CARGO",
+      "OBSTACLE",
+      "LEAK_DAM",
+      "RADIOACTIVE",
+      "COVERED",
+      "ENABLED_DRAINS_EPOWER",
+      "APPLIANCE",
+      "PERPETUAL",
+      "REACTOR"
+    ],
+    "breaks_into": [
+      { "item": "scrap", "count": [ 4, 16 ] },
+      { "item": "steel_chunk", "count": [ 1, 6 ] },
+      { "item": "plutonium", "charges": [ 0, 3 ] },
+      { "item": "lead", "charges": [ 12, 18 ] }
+    ],
+    "damage_reduction": { "all": 80 }
   }
 ]

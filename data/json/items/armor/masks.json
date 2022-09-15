@@ -145,7 +145,7 @@
     "warmth": 10,
     "material_thickness": 4,
     "environmental_protection": 1,
-    "flags": [ "WATER_FRIENDLY", "STURDY" ],
+    "flags": [ "WATER_FRIENDLY", "STURDY", "PADDED" ],
     "armor": [ { "encumbrance": 20, "coverage": 100, "covers": [ "eyes", "mouth" ] } ]
   },
   {
@@ -167,7 +167,7 @@
     "material_thickness": 0.1,
     "environmental_protection": 3,
     "flags": [ "VARSIZE", "SKINTIGHT" ],
-    "armor": [ { "encumbrance": 10, "coverage": 100, "covers": [ "mouth" ] } ],
+    "armor": [ { "encumbrance": 1, "coverage": 100, "covers": [ "mouth" ] } ],
     "variant_type": "generic",
     "variants": [
       {

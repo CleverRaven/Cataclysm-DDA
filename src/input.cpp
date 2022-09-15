@@ -42,7 +42,6 @@
 #include "ui_manager.h"
 
 using std::min; // from <algorithm>
-using std::max;
 
 static const std::string default_context_id( "default" );
 
@@ -1291,7 +1290,7 @@ cata::optional<tripoint> input_context::get_direction( const std::string &action
         rotate_direction_cw( p.x, p.y );
         return p;
     } );
-    const auto transform = iso_mode && tile_iso && use_tiles ? rotate : noop;
+    const auto transform = iso_mode && g->is_tileset_isometric() ? rotate : noop;
 
     if( action == "UP" ) {
         return transform( tripoint_north );
@@ -1376,7 +1375,6 @@ action_id input_context::display_menu( const bool permit_execute_action )
 
     ui_adaptor ui;
     int width = 0;
-    int height = 0;
     catacurses::window w_help;
     size_t display_height = 0;
     size_t legwidth = 0;
@@ -1388,15 +1386,10 @@ action_id input_context::display_menu( const bool permit_execute_action )
         } );
     }
     const auto recalc_size = [&]( ui_adaptor & ui ) {
-        int maxwidth = std::max( FULL_SCREEN_WIDTH, TERMX );
-        width = min( 80, maxwidth );
-        int maxheight = std::max( FULL_SCREEN_HEIGHT, TERMY );
-        height = min( maxheight, static_cast<int>( hotkeys.size() ) + LEGEND_HEIGHT + BORDER_SPACE );
-
-        w_help = catacurses::newwin( height - 2, width - 2,
-                                     point( maxwidth / 2 - width / 2, maxheight / 2 - height / 2 ) );
+        width = TERMX >= 100 ? 100 : 80;
+        w_help = catacurses::newwin( TERMY, width - 2, point( TERMX / 2 - width / 2, 0 ) );
         // height of the area usable for display of keybindings, excludes headers & borders
-        display_height = height - LEGEND_HEIGHT - BORDER_SPACE; // -2 for the border
+        display_height = TERMY - LEGEND_HEIGHT;
         const point filter_pos( 4, 8 );
         // width of the legend
         legwidth = width - filter_pos.x * 2 - BORDER_SPACE;
@@ -1492,7 +1485,7 @@ action_id input_context::display_menu( const bool permit_execute_action )
                 col = global_key;
             }
             mvwprintz( w_help, point( 4, i + 10 ), col, "%s:", get_action_name( action_id ) );
-            mvwprintz( w_help, point( 52, i + 10 ), col, "%s", get_desc( action_id ) );
+            mvwprintz( w_help, point( TERMX >= 100 ? 62 : 52, i + 10 ), col, "%s", get_desc( action_id ) );
         }
 
         // spopup.query_string() will call wnoutrefresh( w_help )
@@ -1736,7 +1729,8 @@ bool gamepad_available()
     return false;
 }
 
-cata::optional<tripoint> input_context::get_coordinates( const catacurses::window &capture_win )
+cata::optional<tripoint> input_context::get_coordinates( const catacurses::window &capture_win,
+        const point &offset, const bool center_cursor ) const
 {
     if( !coordinate_input_received ) {
         return cata::nullopt;
@@ -1749,12 +1743,15 @@ cata::optional<tripoint> input_context::get_coordinates( const catacurses::windo
         return cata::nullopt;
     }
 
-    point view_offset;
-    if( capture_win == g->w_terrain ) {
-        view_offset = g->ter_view_p.xy();
+    point p = coordinate + offset;
+    // If no offset is specified, account for the window location
+    if( offset == point_zero ) {
+        p -= win_min;
     }
-
-    const point p = view_offset - ( view_size / 2 - coordinate );
+    // Some windows (notably the overmap) want 0,0 to be the center of the screen
+    if( center_cursor ) {
+        p -= view_size / 2;
+    }
     return tripoint( p, get_map().get_abs_sub().z() );
 }
 #endif
@@ -1763,8 +1760,12 @@ cata::optional<point> input_context::get_coordinates_text( const catacurses::win
         &capture_win ) const
 {
 #if !defined( TILES )
-    ( void ) capture_win;
-    return cata::nullopt;
+    cata::optional<tripoint> coord3d = get_coordinates( capture_win );
+    if( coord3d.has_value() ) {
+        return get_coordinates( capture_win )->xy();
+    } else {
+        return cata::nullopt;
+    }
 #else
     if( !coordinate_input_received ) {
         return cata::nullopt;

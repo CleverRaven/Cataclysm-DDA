@@ -328,7 +328,9 @@
       { "item": "stanag30", "prob": 10, "charges": [ 0, 30 ] },
       { "item": "stanag40", "prob": 3, "charges": [ 0, 40 ] },
       { "item": "ar10mag_20rd", "prob": 30, "charges": [ 0, 20 ] },
-      { "item": "akmag30", "prob": 25, "charges": [ 0, 30 ] }
+      { "item": "akmag30", "prob": 25, "charges": [ 0, 30 ] },
+      { "item": "zpap85mag", "prob": 25, "charges": [ 0, 30 ] },
+      { "item": "papm77mag_10rd", "prob": 25, "charges": [ 0, 10 ] }
     ]
   },
   {
@@ -359,7 +361,10 @@
       { "item": "stanag40", "prob": 3 },
       { "item": "ar10mag_20rd", "prob": 30 },
       { "item": "akmag30", "prob": 5 },
-      { "item": "m1carbinemag", "prob": 15 }
+      { "item": "m1carbinemag", "prob": 15 },
+      { "item": "zpap85mag", "prob": 5 },
+      { "item": "papm77mag_10rd", "prob": 5 },
+      { "item": "papm77mag", "prob": 5 }
     ]
   },
   {

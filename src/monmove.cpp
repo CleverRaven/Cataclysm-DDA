@@ -950,7 +950,7 @@ void monster::move()
     point new_d( destination.xy() - pos().xy() );
 
     // toggle facing direction for sdl flip
-    if( !tile_iso ) {
+    if( !g->is_tileset_isometric() ) {
         if( new_d.x < 0 ) {
             facing = FacingDirection::LEFT;
         } else if( new_d.x > 0 ) {
@@ -1225,6 +1225,10 @@ void monster::nursebot_operate( Character *dragged_foe )
 // and create a sound in the monsters location when they move
 void monster::footsteps( const tripoint &p )
 {
+    if( is_hallucination() ) {
+        return;
+    }
+
     if( made_footstep ) {
         return;
     }
@@ -1781,6 +1785,9 @@ bool monster::move_to( const tripoint &p, bool force, bool step_on_critter,
             here.ter_set( pos(), t_dirtmound );
         }
     }
+
+
+
     // Acid trail monsters leave... a trail of acid
     if( has_flag( MF_ACIDTRAIL ) ) {
         here.add_field( pos(), fd_acid, 3 );
@@ -1808,22 +1815,25 @@ bool monster::move_to( const tripoint &p, bool force, bool step_on_critter,
         }
     }
 
-    if( has_flag( MF_DRIPS_NAPALM ) ) {
-        if( one_in( 10 ) ) {
-            // if it has more napalm, drop some and reduce ammo in tank
-            if( ammo[itype_pressurized_tank] > 0 ) {
-                here.add_item_or_charges( pos(), item( "napalm", calendar::turn, 50 ) );
-                ammo[itype_pressurized_tank] -= 50;
-            } else {
-                // TODO: remove MF_DRIPS_NAPALM flag since no more napalm in tank
-                // Not possible for now since flag check is done on type, not individual monster
+    // Don't leave any kind of liquids on water tiles
+    if( !here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, destination ) ) {
+        if( has_flag( MF_DRIPS_NAPALM ) ) {
+            if( one_in( 10 ) ) {
+                // if it has more napalm, drop some and reduce ammo in tank
+                if( ammo[itype_pressurized_tank] > 0 ) {
+                    here.add_item_or_charges( pos(), item( "napalm", calendar::turn, 50 ) );
+                    ammo[itype_pressurized_tank] -= 50;
+                } else {
+                    // TODO: remove MF_DRIPS_NAPALM flag since no more napalm in tank
+                    // Not possible for now since flag check is done on type, not individual monster
+                }
             }
         }
-    }
-    if( has_flag( MF_DRIPS_GASOLINE ) ) {
-        if( one_in( 5 ) ) {
-            // TODO: use same idea that limits napalm dripping
-            here.add_item_or_charges( pos(), item( "gasoline" ) );
+        if( has_flag( MF_DRIPS_GASOLINE ) ) {
+            if( one_in( 5 ) ) {
+                // TODO: use same idea that limits napalm dripping
+                here.add_item_or_charges( pos(), item( "gasoline" ) );
+            }
         }
     }
     return true;

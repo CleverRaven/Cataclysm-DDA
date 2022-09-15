@@ -1621,6 +1621,11 @@ void options_manager::add_options_interface()
          false
        );
 
+    add( "AIM_AFTER_FIRING", "interface", to_translation( "Reaim after firing" ),
+         to_translation( "If true, after firing automatically aim again if targets are available." ),
+         true
+       );
+
     add( "QUERY_DISASSEMBLE", "interface", to_translation( "Query on disassembly while butchering" ),
          to_translation( "If true, will query before disassembling items while butchering." ),
          true
@@ -2085,9 +2090,15 @@ void options_manager::add_options_graphics()
 
     get_option( "USE_TILES_OVERMAP" ).setPrerequisite( "USE_TILES" );
 
+    std::vector<options_manager::id_and_option> om_tilesets = build_tilesets_list();
+    // filter out SmashButton_iso from overmap tilesets
+    om_tilesets.erase( std::remove_if( om_tilesets.begin(), om_tilesets.end(), []( const auto & it ) {
+        return it.first == "SmashButton_iso";
+    } ), om_tilesets.end() );
+
     add( "OVERMAP_TILES", "graphics", to_translation( "Choose overmap tileset" ),
          to_translation( "Choose the overmap tileset you want to use." ),
-         build_tilesets_list(), "retrodays", COPT_CURSES_HIDE
+         om_tilesets, "retrodays", COPT_CURSES_HIDE
        ); // populate the options dynamically
 
     get_option( "OVERMAP_TILES" ).setPrerequisite( "USE_TILES_OVERMAP" );
@@ -2211,6 +2222,16 @@ void options_manager::add_options_graphics()
     add( "PIXEL_MINIMAP_BLINK", "graphics", to_translation( "Hostile creature beacon blink speed" ),
          to_translation( "Controls how fast the hostile creature beacons blink on the pixel minimap.  Value is multiplied by 200ms.  0 = disabled." ),
          0, 50, 10, COPT_CURSES_HIDE
+       );
+
+    get_option( "PIXEL_MINIMAP_BLINK" ).setPrerequisite( "PIXEL_MINIMAP" );
+
+    add( "PIXEL_MINIMAP_BG", "graphics", to_translation( "Background color" ),
+         to_translation( "What color the minimap background should be.  Either based on color theme or (0,0,0) black." ),
+    {
+        { "theme", to_translation( "Theme" ) },
+        { "black", to_translation( "Black" ) }
+    }, "black", COPT_CURSES_HIDE
        );
 
     get_option( "PIXEL_MINIMAP_BLINK" ).setPrerequisite( "PIXEL_MINIMAP" );
@@ -2517,6 +2538,26 @@ void options_manager::add_options_debug()
          to_translation( "How many levels up and down the experimental 3D field of vision reaches.  (This many levels up, this many levels down.)  3D vision of the full height of the world can slow the game down a lot.  Seeing fewer Z-levels is faster." ),
          0, OVERMAP_LAYERS, 4
        );
+
+    add_empty_line();
+
+    add( "RETRACT_ISO_WALLS", "debug", to_translation( "Draw walls retracted in ISO tile-sets" ),
+    to_translation( "Draw walls normal, retracted, or automatically retracting near player." ), {
+        { 0, to_translation( "Normal" ) }, { 1, to_translation( "Retracted" ) },
+        { 2, to_translation( "Auto" ) }
+    }, 0, 0
+       );
+
+    add( "RETRACT_DIST_MIN", "debug", to_translation( "Minimum distance for auto-retracting walls" ),
+         to_translation( "Minimum distance for auto-retracting walls.  Values above zero overwrite tileset settings." ),
+         0.0, 60.0, 0.0, 0.1
+       );
+
+    add( "RETRACT_DIST_MAX", "debug", to_translation( "Maximum distance for auto-retracting walls" ),
+         to_translation( "Maximum distance for auto-retracting walls.  Values above zero overwrite tileset settings." ),
+         0.0, 60.0, 0.0, 0.1
+       );
+
 
     get_option( "FOV_3D_Z_RANGE" ).setPrerequisite( "FOV_3D" );
 }
@@ -3178,7 +3219,7 @@ std::string options_manager::show( bool ingame, const bool world_options_only, b
             bool found_opt = false;
             sel_worldgen_tab = 1;
             cata::optional<point> coord = ctxt.get_coordinates_text( w_options_border );
-            if( world_options_only && with_tabs && !!coord ) {
+            if( world_options_only && with_tabs && coord.has_value() ) {
                 // worldgen tabs
                 found_opt = run_for_point_in<size_t, point>( worldgen_tab_map, *coord,
                 [&sel_worldgen_tab]( const std::pair<size_t, inclusive_rectangle<point>> &p ) {
@@ -3188,15 +3229,17 @@ std::string options_manager::show( bool ingame, const bool world_options_only, b
                     return sel_worldgen_tab == 0 ? "PREV_TAB" : "NEXT_TAB";
                 }
             }
-            if( !found_opt && !!coord ) {
+            coord = ctxt.get_coordinates_text( w_options_header );
+            if( !found_opt && coord.has_value() ) {
                 // option category tabs
-                coord = ctxt.get_coordinates_text( w_options_header );
                 bool new_val = false;
                 const int psize = pages_.size();
                 found_opt = run_for_point_in<int, point>( opt_tab_map, *coord,
                 [&iCurrentPage, &new_val, &psize]( const std::pair<int, inclusive_rectangle<point>> &p ) {
-                    new_val = true;
-                    iCurrentPage = clamp<int>( p.first, 0, psize - 1 );
+                    if( p.first != iCurrentPage ) {
+                        new_val = true;
+                        iCurrentPage = clamp<int>( p.first, 0, psize - 1 );
+                    }
                 } ) > 0;
                 if( new_val ) {
                     iCurrentLine = 0;
@@ -3205,18 +3248,16 @@ std::string options_manager::show( bool ingame, const bool world_options_only, b
                     sfx::play_variant_sound( "menu_move", "default", 100 );
                 }
             }
-            if( !found_opt ) {
+            coord = ctxt.get_coordinates_text( w_options );
+            if( !found_opt && coord.has_value() ) {
                 // option lines
-                coord = ctxt.get_coordinates_text( w_options );
-                if( !!coord ) {
-                    const int psize = page_items.size();
-                    found_opt = run_for_point_in<int, point>( opt_line_map, *coord,
-                    [&iCurrentLine, &psize]( const std::pair<int, inclusive_rectangle<point>> &p ) {
-                        iCurrentLine = clamp<int>( p.first, 0, psize - 1 );
-                    } ) > 0;
-                    if( found_opt && action == "SELECT" ) {
-                        action = "CONFIRM";
-                    }
+                const int psize = page_items.size();
+                found_opt = run_for_point_in<int, point>( opt_line_map, *coord,
+                [&iCurrentLine, &psize]( const std::pair<int, inclusive_rectangle<point>> &p ) {
+                    iCurrentLine = clamp<int>( p.first, 0, psize - 1 );
+                } ) > 0;
+                if( found_opt && action == "SELECT" ) {
+                    action = "CONFIRM";
                 }
             }
         }
@@ -3506,6 +3547,11 @@ static void update_options_cache()
     // cache to global due to heavy usage.
     trigdist = ::get_option<bool>( "CIRCLEDIST" );
     use_tiles = ::get_option<bool>( "USE_TILES" );
+
+    tile_retracted = ::get_option<int>( "RETRACT_ISO_WALLS" );
+    tile_retract_dist_min = ::get_option<float>( "RETRACT_DIST_MIN" );
+    tile_retract_dist_max = ::get_option<float>( "RETRACT_DIST_MAX" );
+
     // if the tilesets are identical don't duplicate
     use_far_tiles = ::get_option<bool>( "USE_DISTANT_TILES" ) ||
                     get_option<std::string>( "TILES" ) == get_option<std::string>( "DISTANT_TILES" );

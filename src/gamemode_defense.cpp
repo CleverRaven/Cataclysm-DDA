@@ -115,7 +115,7 @@ defense_game::defense_game()
 bool defense_game::init()
 {
     calendar::turn = calendar::turn_zero + 12_hours; // Start at noon
-    get_weather().temperature = 65;
+    get_weather().temperature = units::from_fahrenheit( 65 );
     avatar &player_character = get_avatar();
     if( !player_character.create( character_type::CUSTOM ) ) {
         return false;
@@ -878,8 +878,8 @@ std::string defense_location_description( defense_location location )
 
 void defense_game::caravan() const
 {
-    std::vector<itype_id> items[NUM_CARAVAN_CATEGORIES];
-    std::vector<int> item_count[NUM_CARAVAN_CATEGORIES];
+    std::array<std::vector<itype_id>, NUM_CARAVAN_CATEGORIES> items;
+    std::array<std::vector<int>, NUM_CARAVAN_CATEGORIES> item_count;
 
     // Init the items for each category
     for( int i = 0; i < NUM_CARAVAN_CATEGORIES; i++ ) {

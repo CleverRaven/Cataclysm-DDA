@@ -292,6 +292,7 @@ static const json_character_flag json_flag_CLIMATE_CONTROL( "CLIMATE_CONTROL" );
 static const json_character_flag json_flag_COLD_IMMUNE( "COLD_IMMUNE" );
 static const json_character_flag json_flag_CUT_IMMUNE( "CUT_IMMUNE" );
 static const json_character_flag json_flag_DEAF( "DEAF" );
+static const json_character_flag json_flag_ECTOTHERM( "ECTOTHERM" );
 static const json_character_flag json_flag_ELECTRIC_IMMUNE( "ELECTRIC_IMMUNE" );
 static const json_character_flag json_flag_ENHANCED_VISION( "ENHANCED_VISION" );
 static const json_character_flag json_flag_EYE_MEMBRANE( "EYE_MEMBRANE" );
@@ -360,8 +361,10 @@ static const proficiency_id proficiency_prof_trapsetting( "prof_trapsetting" );
 static const proficiency_id proficiency_prof_wound_care( "prof_wound_care" );
 static const proficiency_id proficiency_prof_wound_care_expert( "prof_wound_care_expert" );
 
+static const quality_id qual_DRILL( "DRILL" );
 static const quality_id qual_HAMMER( "HAMMER" );
 static const quality_id qual_LIFT( "LIFT" );
+static const quality_id qual_SCREW( "SCREW" );
 
 static const scenttype_id scent_sc_human( "sc_human" );
 
@@ -392,7 +395,6 @@ static const trait_id trait_CF_HAIR( "CF_HAIR" );
 static const trait_id trait_CHEMIMBALANCE( "CHEMIMBALANCE" );
 static const trait_id trait_CHLOROMORPH( "CHLOROMORPH" );
 static const trait_id trait_CLUMSY( "CLUMSY" );
-static const trait_id trait_COLDBLOOD4( "COLDBLOOD4" );
 static const trait_id trait_DEBUG_BIONIC_POWER( "DEBUG_BIONIC_POWER" );
 static const trait_id trait_DEBUG_CLOAK( "DEBUG_CLOAK" );
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
@@ -405,7 +407,6 @@ static const trait_id trait_DEFT( "DEFT" );
 static const trait_id trait_DISRESISTANT( "DISRESISTANT" );
 static const trait_id trait_DOWN( "DOWN" );
 static const trait_id trait_EATHEALTH( "EATHEALTH" );
-static const trait_id trait_ELECTRORECEPTORS( "ELECTRORECEPTORS" );
 static const trait_id trait_ELFA_FNV( "ELFA_FNV" );
 static const trait_id trait_ELFA_NV( "ELFA_NV" );
 static const trait_id trait_FAT( "FAT" );
@@ -577,7 +578,6 @@ Character::Character() :
     last_item = itype_null;
     sight_max = 9999;
     last_batch = 0;
-    lastconsumed = itype_null;
     death_drops = true;
     nv_cached = false;
     volume = 0;
@@ -1085,7 +1085,7 @@ double Character::aim_per_move( const item &gun, double recoil,
     return std::min( aim_speed, recoil - limit );
 }
 
-int Character::sight_range( int light_level ) const
+int Character::sight_range( float light_level ) const
 {
     if( light_level == 0 ) {
         return 1;
@@ -1101,9 +1101,9 @@ int Character::sight_range( int light_level ) const
      * log(LIGHT_AMBIENT_LOW / light_level) <= LIGHT_TRANSPARENCY_OPEN_AIR * distance
      * log(LIGHT_AMBIENT_LOW / light_level) * (1 / LIGHT_TRANSPARENCY_OPEN_AIR) <= distance
      */
-    int range = static_cast<int>( -std::log( get_vision_threshold( static_cast<int>
-                                  ( get_map().ambient_light_at( pos() ) ) ) / static_cast<float>( light_level ) ) *
-                                  ( 1.0 / LIGHT_TRANSPARENCY_OPEN_AIR ) );
+
+    int range = static_cast<int>( -std::log( get_vision_threshold( get_map().ambient_light_at(
+                                      pos() ) ) / light_level ) / LIGHT_TRANSPARENCY_OPEN_AIR );
 
     // Clamp to [1, sight_max].
     return clamp( range, 1, sight_max );
@@ -1136,7 +1136,7 @@ bool Character::overmap_los( const tripoint_abs_omt &omt, int sight_points ) con
     return true;
 }
 
-int Character::overmap_sight_range( int light_level ) const
+int Character::overmap_sight_range( float light_level ) const
 {
     int sight = sight_range( light_level );
     if( sight < SEEX ) {
@@ -2060,6 +2060,7 @@ void Character::process_turn()
         drop_invalid_inventory();
     }
     process_items();
+    leak_items();
     // Didn't just pick something up
     last_item = itype_null;
 
@@ -2334,8 +2335,7 @@ float Character::get_vision_threshold( float light_level ) const
 
     // As light_level goes from LIGHT_AMBIENT_MINIMAL to LIGHT_AMBIENT_LIT,
     // dimming goes from 1.0 to 2.0.
-    const float dimming_from_light = 1.0 + ( ( static_cast<float>( light_level ) -
-                                     LIGHT_AMBIENT_MINIMAL ) /
+    const float dimming_from_light = 1.0f + ( ( light_level - LIGHT_AMBIENT_MINIMAL ) /
                                      ( LIGHT_AMBIENT_LIT - LIGHT_AMBIENT_MINIMAL ) );
 
     float range = get_per() / 3.0f;
@@ -2356,7 +2356,7 @@ float Character::get_vision_threshold( float light_level ) const
     // Clamp range to 1+, so that we can always see where we are
     range = std::max( 1.0f, range * get_limb_score( limb_score_night_vis ) );
 
-    return std::min( static_cast<float>( LIGHT_AMBIENT_LOW ),
+    return std::min( LIGHT_AMBIENT_LOW,
                      threshold_for_range( range ) * dimming_from_light );
 }
 
@@ -4686,7 +4686,8 @@ needs_rates Character::calc_needs_rates() const
 
     if( has_trait( trait_TRANSPIRATION ) ) {
         // Transpiration, the act of moving nutrients with evaporating water, can take a very heavy toll on your thirst when it's really hot.
-        rates.thirst *= ( ( get_weather().get_temperature( pos() ) - 32.5f ) / 40.0f );
+        rates.thirst *= ( ( units::to_fahrenheit( get_weather().get_temperature(
+                                pos() ) ) - 32.5f ) / 40.0f );
     }
 
     if( is_npc() ) {
@@ -5279,19 +5280,43 @@ bool Character::is_immune_field( const field_type_id &fid ) const
     }
     // Check to see if we are immune
     const field_type &ft = fid.obj();
-    for( const trait_id &t : ft.immunity_data_traits ) {
-        if( has_trait( t ) ) {
+    for( const json_character_flag &flag : ft.immunity_data_flags ) {
+        if( has_flag( flag ) ) {
             return true;
         }
     }
     bool immune_by_body_part_resistance = !ft.immunity_data_body_part_env_resistance.empty();
-    for( const std::pair<bodypart_str_id, int> &fide : ft.immunity_data_body_part_env_resistance ) {
-        immune_by_body_part_resistance = immune_by_body_part_resistance &&
-                                         get_env_resist( fide.first.id() ) >= fide.second;
+    for( const std::pair<body_part_type::type, int> &fide :
+         ft.immunity_data_body_part_env_resistance ) {
+        for( const bodypart_id &bp : get_all_body_parts_of_type( fide.first ) ) {
+            if( get_env_resist( bp ) < fide.second ) {
+                // If any one of a bodypart type is unprotected disregard this immunity type
+                // TODO: mitigate effect strength based on protected:unprotected ratio?
+                immune_by_body_part_resistance = false;
+                break;
+            }
+        }
     }
     if( immune_by_body_part_resistance ) {
         return true;
     }
+
+    bool immune_by_worn_flags = !ft.immunity_data_part_item_flags.empty();
+    for( const std::pair<body_part_type::type, flag_id> &fide :
+         ft.immunity_data_part_item_flags ) {
+        for( const bodypart_id &bp : get_all_body_parts_of_type( fide.first ) ) {
+            if( !worn_with_flag( fide.second, bp ) ) {
+                // If any one of a bodypart type is unprotected disregard this immunity type
+                // TODO: mitigate effect strength based on protected:unprotected ratio?
+                immune_by_worn_flags = false;
+                break;
+            }
+        }
+    }
+    if( immune_by_worn_flags ) {
+        return true;
+    }
+
     if( ft.has_elec ) {
         return is_elec_immune();
     }
@@ -5512,8 +5537,9 @@ float Character::active_light() const
 
 bool Character::sees_with_specials( const Creature &critter ) const
 {
-    // electroreceptors grants vision of robots and electric monsters through walls
-    if( has_trait( trait_ELECTRORECEPTORS ) && critter.is_electrical() ) {
+    const double sight_range_electric = calculate_by_enchantment( 0.0,
+                                        enchant_vals::mod::SIGHT_RANGE_ELECTRIC );
+    if( critter.is_electrical() && rl_dist_exact( pos(), critter.pos() ) <= sight_range_electric ) {
         return true;
     }
 
@@ -6498,19 +6524,26 @@ bool Character::invoke_item( item *used, const std::string &method, const tripoi
         moves = pre_obtain_moves;
         return false;
     }
+
     if( charges_used.value() == 0 ) {
+        // Not really used.
+        // The item may also have been deleted
         return false;
     }
-    // Prevent accessing the item as it may have been deleted by the invoked iuse function.
-    if( used->is_tool() || actually_used->is_medication() ) {
-        return consume_charges( *actually_used, charges_used.value() );
-    } else if( used->is_bionic() || used->is_deployable() || method == "place_trap" ) {
-        i_rem( used );
-        return true;
-    } else if( used->is_comestible() ) {
+
+
+    if( actually_used->is_comestible() ) {
         const bool ret = consume_effects( *used );
-        consume_charges( *used, charges_used.value() );
+        actually_used->activation_consume( charges_used.value(), pt, this );
         return ret;
+    }
+
+    actually_used->activation_consume( charges_used.value(), pt, this );
+
+    if( actually_used->has_flag( flag_SINGLE_USE ) || actually_used->is_bionic() ||
+        actually_used->is_deployable() ) {
+        i_rem( actually_used );
+        return true;
     }
 
     return false;
@@ -7055,6 +7088,15 @@ void Character::recalculate_enchantment_cache()
         }
     }
 
+    for( const auto &elem : *effects ) {
+        for( const enchantment_id &ench_id : elem.first->enchantments ) {
+            const enchantment &ench = ench_id.obj();
+            if( ench.is_active( *this, true ) ) {
+                enchantment_cache->force_add( ench );
+            }
+        }
+    }
+
     if( enchantment_cache->modifies_bodyparts() ) {
         recalculate_bodyparts();
     }
@@ -7106,8 +7148,11 @@ ret_val<void> Character::can_wield( const item &it ) const
         return ret_val<void>::make_failure(
                    _( "You need at least one arm available to even consider wielding something." ) );
     }
-    if( it.made_of_from_type( phase_id::LIQUID ) ) {
+    if( it.made_of( phase_id::LIQUID ) ) {
         return ret_val<void>::make_failure( _( "Can't wield spilt liquids." ) );
+    }
+    if( it.is_frozen_liquid() && !it.has_flag( flag_SHREDDED ) ) {
+        return ret_val<void>::make_failure( _( "Can't wield unbroken frozen liquids." ) );
     }
     if( it.has_flag( flag_NO_UNWIELD ) ) {
         if( get_wielded_item() && get_wielded_item().get_item() == &it ) {
@@ -7223,7 +7268,7 @@ std::string Character::weapname_mode() const
         }
         return gunmode;
     } else {
-        return _( "" );
+        return "";
     }
 }
 
@@ -7268,7 +7313,7 @@ std::string Character::weapname_ammo() const
         return mag_ammo;
 
     } else {
-        return _( "" );
+        return "";
     }
 }
 
@@ -8940,29 +8985,92 @@ const pathfinding_settings &Character::get_pathfinding_settings() const
     return *path_settings;
 }
 
+ret_val<crush_tool_type> Character::can_crush_frozen_liquid( item_location loc ) const
+{
+    crush_tool_type tool_type = CRUSH_NO_TOOL;
+    bool success = false;
+    if( !loc.has_parent() || !loc.parent_item()->contained_where( *loc )->get_pocket_data()->rigid ) {
+        tool_type = CRUSH_HAMMER;
+        success = has_quality( qual_HAMMER );
+    } else {
+        bool enough_quality = false;
+        tool_type = CRUSH_DRILL_OR_HAMMER_AND_SCREW;
+        if( has_quality( qual_DRILL ) ) {
+            enough_quality = true;
+        } else if( has_quality( qual_HAMMER ) && has_quality( qual_SCREW ) ) {
+            std::list<item_location> screw_tools;
+            std::vector<item_location> hammer_tools;
+            for( item_location &tool : const_cast<Character *>( this )->all_items_loc() ) {
+                if( tool->has_quality( qual_HAMMER ) ) {
+                    hammer_tools.emplace_back( tool );
+                }
+                if( tool->has_quality( qual_SCREW ) ) {
+                    screw_tools.emplace_back( tool );
+                }
+            }
+            if( !screw_tools.empty() && !hammer_tools.empty() ) {
+                for( item_location &hammer : hammer_tools ) {
+                    screw_tools.remove( hammer );
+                }
+                if( !screw_tools.empty() ) {
+                    enough_quality = true;
+                }
+            }
+        }
+        success = enough_quality;
+    }
+    if( success ) {
+        return ret_val<crush_tool_type>::make_success( tool_type );
+    } else {
+        return ret_val<crush_tool_type>::make_failure( tool_type,
+                _( "You don't have the tools to crush frozen liquids." ) );;
+    }
+}
+
 bool Character::crush_frozen_liquid( item_location loc )
 {
-    if( has_quality( qual_HAMMER ) ) {
-        item hammering_item = item_with_best_of_quality( qual_HAMMER, true );
-        //~ %1$s: item to be crushed, %2$s: hammer name
-        if( query_yn( _( "Do you want to crush up %1$s with your %2$s?\n"
-                         "<color_red>Be wary of fragile items nearby!</color>" ),
-                      loc.get_item()->display_name(), hammering_item.tname() ) ) {
+    ret_val<crush_tool_type> can_crush = can_crush_frozen_liquid( loc );
+    bool done_crush = false;
+    if( can_crush.success() ) {
+        done_crush = true;
+        if( can_crush.value() == CRUSH_HAMMER ) {
+            item hammering_item = item_with_best_of_quality( qual_HAMMER, true );
+            //~ %1$s: item to be crushed, %2$s: hammer name
+            if( query_yn( _( "Do you want to crush up %1$s with your %2$s?\n"
+                             "<color_red>Be wary of fragile items nearby!</color>" ),
+                          loc.get_item()->display_name(), hammering_item.tname() ) ) {
 
-            //Risk smashing tile with hammering tool, risk is lower with higher dex, damage lower with lower strength
-            if( one_in( 1 + dex_cur / 4 ) ) {
-                add_msg_if_player( colorize( _( "You swing your %s wildly!" ), c_red ),
-                                   hammering_item.tname() );
-                int smashskill = get_arm_str() + hammering_item.damage_melee( damage_type::BASH );
-                get_map().bash( loc.position(), smashskill );
+                //Risk smashing tile with hammering tool, risk is lower with higher dex, damage lower with lower strength
+                if( one_in( 1 + dex_cur / 4 ) ) {
+                    add_msg_if_player( colorize( _( "You swing your %s wildly!" ), c_red ),
+                                       hammering_item.tname() );
+                    const int smashskill = get_arm_str() + hammering_item.damage_melee( damage_type::BASH );
+                    get_map().bash( loc.position(), smashskill );
+                }
+            } else {
+                done_crush = false;
             }
-            add_msg_if_player( _( "You crush up and gather %s" ), loc.get_item()->display_name() );
-            return true;
         }
     } else {
-        popup( _( "You need a hammering tool to crush up frozen liquids!" ) );
+        std::string need_str = _( "somethings" );
+
+        switch( can_crush.value() ) {
+            case CRUSH_HAMMER:
+                need_str = _( "a hammering tool" );
+                break;
+            case CRUSH_DRILL_OR_HAMMER_AND_SCREW:
+                need_str = _( "a drill or both hammering tool and screwdriver" );
+                break;
+            default:
+                break;
+        }
+        add_msg_if_player( string_format( _( "You need %s to crush up frozen liquids in rigid container!" ),
+                                          need_str ) );
     }
-    return false;
+    if( done_crush ) {
+        add_msg_if_player( _( "You crush up %s." ), loc.get_item()->display_name() );
+    }
+    return done_crush;
 }
 
 float Character::power_rating() const
@@ -9226,17 +9334,14 @@ bool Character::sees_with_infrared( const Creature &critter ) const
     }
 
     map &here = get_map();
-    // Use range based on default daylight, not actual current light, since
-    // we're seeing in infra red not via light.
-    int range = sight_range( default_daylight_level() );
 
     if( is_avatar() || critter.is_avatar() ) {
         // Players should not use map::sees
         // Likewise, players should not be "looked at" with map::sees, not to break symmetry
-        return here.pl_line_of_sight( critter.pos(), range );
+        return here.pl_line_of_sight( critter.pos(), unimpaired_range() );
     }
 
-    return here.sees( pos(), critter.pos(), range );
+    return here.sees( pos(), critter.pos(), unimpaired_range() );
 }
 
 bool Character::is_visible_in_range( const Creature &critter, const int range ) const
@@ -10656,9 +10761,9 @@ void Character::recalc_speed_bonus()
         }
         const float temperature_speed_modifier = mutation_value( "temperature_speed_modifier" );
         if( temperature_speed_modifier != 0 ) {
-            const int player_local_temp = get_weather().get_temperature( pos() );
-            if( has_trait( trait_COLDBLOOD4 ) || player_local_temp < 65 ) {
-                mod_speed_bonus( ( player_local_temp - 65 ) * temperature_speed_modifier );
+            const units::temperature player_local_temp = get_weather().get_temperature( pos() );
+            if( has_flag( json_flag_ECTOTHERM ) || player_local_temp < units::from_fahrenheit( 65 ) ) {
+                mod_speed_bonus( ( units::to_fahrenheit( player_local_temp ) - 65 ) * temperature_speed_modifier );
             }
         }
     }
@@ -11115,6 +11220,35 @@ void Character::siphon( vehicle &veh, const itype_id &desired_liquid )
 void Character::on_worn_item_transform( const item &old_it, const item &new_it )
 {
     morale->on_worn_item_transform( old_it, new_it );
+}
+
+void Character::leak_items()
+{
+    std::vector<item_location> removed_items;
+    if( weapon.is_container() ) {
+        if( weapon.leak( get_map(), this, pos() ) ) {
+            weapon.spill_contents( pos() );
+        }
+    } else if( weapon.made_of( phase_id::LIQUID ) ) {
+        if( weapon.leak( get_map(), this, pos() ) ) {
+            get_map().add_item_or_charges( pos(), weapon );
+            removed_items.emplace_back( *this, &weapon );
+            add_msg_if_player( m_warning, _( "%s spilled from your hand." ), weapon.tname() );
+        }
+    }
+
+    for( item_location it : top_items_loc() ) {
+        if( !it || ( !it->is_container() && !it->made_of( phase_id::LIQUID ) ) ) {
+            continue;
+        }
+        if( it->leak( get_map(), this, pos() ) ) {
+            it->spill_contents( pos() );
+            removed_items.push_back( it );
+        }
+    }
+    for( item_location removed : removed_items ) {
+        removed.remove_item();
+    }
 }
 
 void Character::process_items()

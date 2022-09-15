@@ -1243,7 +1243,7 @@ void Character::modify_morale( item &food, const int nutr )
         const bool sapiovore = has_trait( trait_SAPIOVORE );
         const bool spiritual = has_trait( trait_SPIRITUAL );
         const bool numb = has_trait( trait_NUMB );
-        if( ( cannibal || sapiovore ) && psycho && spiritual ) {
+        if( cannibal && psycho && spiritual ) {
             add_msg_if_player( m_good,
                                _( "You feast upon the human flesh, and in doing so, devour their spirit." ) );
             // You're not really consuming anything special; you just think you are.
@@ -1251,19 +1251,24 @@ void Character::modify_morale( item &food, const int nutr )
         } else if( cannibal && psycho ) {
             add_msg_if_player( m_good, _( "You feast upon the human flesh." ) );
             add_morale( MORALE_CANNIBAL, 15, 200 );
-        } else if( ( cannibal || sapiovore ) && spiritual ) {
+        } else if( cannibal && spiritual ) {
             add_msg_if_player( m_good, _( "You consume the sacred human flesh." ) );
             // Boosted because you understand the philosophical implications of your actions, and YOU LIKE THEM.
             add_morale( MORALE_CANNIBAL, 15, 200 );
+        } else if( sapiovore && spiritual ) {
+            add_msg_if_player( m_good, _( "You eat the human flesh, and in doing so, devour their spirit." ) );
+            add_morale( MORALE_CANNIBAL, 10, 50 );
         } else if( cannibal ) {
             add_msg_if_player( m_good, _( "You indulge your shameful hunger." ) );
             add_morale( MORALE_CANNIBAL, 10, 50 );
-        } else if( ( psycho || sapiovore ) && spiritual ) {
+        } else if( psycho && spiritual ) {
             add_msg_if_player( _( "You greedily devour the taboo meat." ) );
             // Small bonus for violating a taboo.
             add_morale( MORALE_CANNIBAL, 5, 50 );
-        } else if( psycho || sapiovore ) {
+        } else if( psycho ) {
             add_msg_if_player( _( "Meh.  You've eaten worse." ) );
+        } else if( sapiovore ) {
+            add_msg_if_player( _( "Mmh.  Tastes like venison." ) );
         } else if( spiritual ) {
             add_msg_if_player( m_bad,
                                _( "This is probably going to count against you if there's still an afterlife." ) );
@@ -1628,19 +1633,16 @@ int Character::get_acquirable_energy( const item &it ) const
     }
     const bionic_id &bid = get_most_efficient_bionic( bids );
     int to_consume;
-    int to_charge = 0;
+    units::energy energy_per_charge;
+    item fuel;
     if( it.type->magazine ) {
-        item ammo = item( it.ammo_current() );
-        to_consume = std::min( it.ammo_remaining(), bid->fuel_capacity );
-        to_charge = ammo.fuel_energy() * to_consume * bid->fuel_efficiency;
-    } else if( it.flammable() ) {
-        to_consume = std::min( units::to_milliliter( it.volume() ), bid->fuel_capacity );
-        to_charge = it.get_base_material().id->get_fuel_data().energy * to_consume * bid->fuel_efficiency;
+        fuel = it.loaded_ammo();
     } else {
-        to_consume = std::min( it.charges, bid->fuel_capacity );
-        to_charge = it.fuel_energy() * to_consume * bid->fuel_efficiency;
+        fuel = it;
     }
-    return to_charge;
+    energy_per_charge = fuel.fuel_energy() / fuel.charges;
+    to_consume = std::min( fuel.charges, bid->fuel_capacity );
+    return units::to_kilojoule( energy_per_charge * to_consume * bid->fuel_efficiency );
 }
 
 bool Character::can_estimate_rot() const

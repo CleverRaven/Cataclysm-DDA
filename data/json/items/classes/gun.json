@@ -9,8 +9,7 @@
     "symbol": "(",
     "color": "light_gray",
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
-    "ranged_damage": { "damage_type": "bullet", "amount": 0 },
-    "qualities": [ [ "GUN", 1 ] ]
+    "ranged_damage": { "damage_type": "bullet", "amount": 0 }
   },
   {
     "abstract": "flamethrower_base",
@@ -48,7 +47,6 @@
     "sight_dispersion": 60,
     "//": "default handling for anything without a stock",
     "handling": 10,
-    "qualities": [ [ "GUN", 1 ], [ "PISTOL", 1 ] ],
     "valid_mod_locations": [
       [ "accessories", 2 ],
       [ "barrel", 1 ],
@@ -150,7 +148,6 @@
     "type": "GUN",
     "name": { "str": "base rifle" },
     "skill": "rifle",
-    "qualities": [ [ "GUN", 1 ], [ "RIFLE", 1 ] ],
     "valid_mod_locations": [
       [ "accessories", 4 ],
       [ "barrel", 1 ],
@@ -212,7 +209,6 @@
     "name": { "str": "base shotgun" },
     "skill": "shotgun",
     "ammo": [ "shot" ],
-    "qualities": [ [ "GUN", 1 ], [ "SHOTGUN", 1 ] ],
     "valid_mod_locations": [
       [ "accessories", 4 ],
       [ "barrel", 1 ],
@@ -266,7 +262,6 @@
     "copy-from": "gun_base",
     "type": "GUN",
     "name": { "str": "base SMG" },
-    "skill": "smg",
-    "qualities": [ [ "GUN", 1 ], [ "SMG", 1 ] ]
+    "skill": "smg"
   }
 ]
