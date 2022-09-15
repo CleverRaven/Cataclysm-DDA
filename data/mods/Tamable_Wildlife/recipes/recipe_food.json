@@ -8,8 +8,9 @@
     "skill_used": "cooking",
     "difficulty": 1,
     "skills_required": [ "survival", 1 ],
-    "time": "2 m",
+    "time": "10 m",
     "autolearn": true,
+    "tools": [ [ [ "surface_heat", 4, "LIST" ] ] ],
     "components": [ [ [ "sugar_standard", 3, "LIST" ] ] ]
   }
 ]
