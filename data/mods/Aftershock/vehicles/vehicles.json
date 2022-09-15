@@ -241,7 +241,7 @@
       { "x": 3, "y": 1, "parts": [ "hdframe_vertical_2", "cam_control", "plating_military" ] },
       { "x": 3, "y": 1, "part": "tank_small", "fuel": "diesel" },
       { "x": 3, "y": 1, "parts": [ "seat", "seatbelt_heavyduty", "turret_mount" ] },
-      { "x": 3, "y": 1, "part": "mounted_browning", "ammo": 60, "ammo_qty": [ 10, 100 ] },
+      { "x": 3, "y": 1, "part": "turret_m2browning", "ammo": 60, "ammo_qty": [ 10, 100 ] },
       { "x": 3, "y": 2, "parts": [ "hdframe_vertical", "hdboard_vertical_right" ] },
       { "x": 3, "y": 2, "parts": [ "wheel_mount_heavy_steerable", "wheel_armor", "omnicam", "plating_military" ] },
       { "x": 4, "y": -1, "parts": [ "hdframe_horizontal", "reinforced_windshield" ] },

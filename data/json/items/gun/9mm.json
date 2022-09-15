@@ -306,7 +306,7 @@
         }
       ]
     },
-    "flags": [ "OVERSIZE", "RELOAD_EJECT", "BELTED", "RESTRICT_HANDS" ],
+    "flags": [ "OVERSIZE", "RELOAD_EJECT", "BELTED", "RESTRICT_HANDS", "NO_TURRET" ],
     "valid_mod_locations": [  ],
     "pocket_data": [
       {

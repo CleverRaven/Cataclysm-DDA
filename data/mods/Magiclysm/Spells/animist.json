@@ -89,9 +89,9 @@
     "min_aoe": 2,
     "max_aoe": 2,
     "flags": [ "SOMATIC", "VERBAL", "CONCENTRATE" ],
-    "min_duration": 30000,
-    "max_duration": 150000,
-    "duration_increment": 4000,
+    "min_duration": 36000,
+    "max_duration": 1080000,
+    "duration_increment": 36000,
     "learn_spells": { "summon_tough_zombie": 20 }
   },
   {
@@ -119,9 +119,9 @@
     "min_aoe": 2,
     "max_aoe": 2,
     "flags": [ "SOMATIC", "VERBAL", "CONCENTRATE" ],
-    "min_duration": 30000,
-    "max_duration": 150000,
-    "duration_increment": 4000
+    "min_duration": 36000,
+    "max_duration": 1080000,
+    "duration_increment": 36000
   },
   {
     "id": "summon_skeleton",
@@ -148,9 +148,9 @@
     "min_aoe": 2,
     "max_aoe": 2,
     "flags": [ "SOMATIC", "VERBAL", "CONCENTRATE" ],
-    "min_duration": 30000,
-    "max_duration": 150000,
-    "duration_increment": 4000
+    "min_duration": 36000,
+    "max_duration": 1080000,
+    "duration_increment": 36000
   },
   {
     "id": "summon_decayed_pouncer",
@@ -177,9 +177,9 @@
     "min_aoe": 2,
     "max_aoe": 2,
     "flags": [ "SOMATIC", "VERBAL", "CONCENTRATE" ],
-    "min_duration": 30000,
-    "max_duration": 150000,
-    "duration_increment": 4000,
+    "min_duration": 36000,
+    "max_duration": 1080000,
+    "duration_increment": 36000,
     "learn_spells": { "summon_zougar_hunter": 20 }
   },
   {
@@ -207,9 +207,9 @@
     "min_aoe": 2,
     "max_aoe": 2,
     "flags": [ "SOMATIC", "VERBAL", "CONCENTRATE" ],
-    "min_duration": 30000,
-    "max_duration": 150000,
-    "duration_increment": 4000
+    "min_duration": 36000,
+    "max_duration": 1080000,
+    "duration_increment": 36000
   },
   {
     "id": "necrotic_gaze",
@@ -448,14 +448,42 @@
     "max_level": 15,
     "min_damage": 1,
     "max_damage": 1,
-    "min_duration": 30000,
-    "max_duration": 120000,
-    "duration_increment": 6000,
+    "min_duration": 24000,
+    "max_duration": 360000,
+    "duration_increment": 24000,
     "spell_class": "ANIMIST",
     "base_casting_time": 400,
     "base_energy_cost": 6,
     "energy_source": "HP",
+    "learn_spells": { "animist_summon_decaying_boneclub_plus": 20 },
     "difficulty": 6
+  },
+  {
+    "id": "animist_summon_decaying_boneclub_plus",
+    "type": "SPELL",
+    "name": { "str": "Improved Decaying Boneclub" },
+    "description": "This spell links your live blood to the dead blood & bones, creating a club hungry for the flesh of the living.  Now you know this spell like the back of your hand, and start to design your own version.",
+    "effect": "spawn_item",
+    "effect_str": "decaying_boneclub",
+    "shape": "blast",
+    "valid_targets": [ "self" ],
+    "flags": [ "SOMATIC", "VERBAL" ],
+    "components": "spell_components_decayingboneclub",
+    "max_level": 25,
+    "min_damage": 1,
+    "max_damage": 1,
+    "min_duration": 360000,
+    "max_duration": 2160000,
+    "duration_increment": 72000,
+    "spell_class": "ANIMIST",
+    "base_casting_time": 400,
+    "final_casting_time": 100,
+    "casting_time_increment": -12,
+    "base_energy_cost": 6,
+    "final_energy_cost": 3,
+    "energy_increment": -0.2,
+    "energy_source": "HP",
+    "difficulty": 7
   },
   {
     "id": "rupture",
