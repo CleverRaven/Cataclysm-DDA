@@ -174,6 +174,7 @@ static const material_id material_lc_steel( "lc_steel" );
 static const material_id material_mc_steel( "mc_steel" );
 static const material_id material_qt_steel( "qt_steel" );
 static const material_id material_steel( "steel" );
+static const material_id material_muscle( "muscle" );
 
 static const requirement_id requirement_data_anesthetic( "anesthetic" );
 
@@ -3249,14 +3250,13 @@ void Character::introduce_into_anesthesia( const time_duration &duration, Charac
     }
 }
 
-std::vector<bionic_id> Character::get_bionic_fueled_with( const item &it ) const
+std::vector<bionic_id> Character::get_bionic_fueled_with_muscle() const
 {
     std::vector<bionic_id> bionics;
 
     for( const bionic_id &bid : get_bionics() ) {
         for( const material_id &fuel : bid->fuel_opts ) {
-            if( fuel == it.get_base_material().id ||
-                ( it.type->magazine && fuel == item( it.ammo_current() ).get_base_material().id ) ) {
+            if( fuel == material_muscle ) {
                 bionics.emplace_back( bid );
             }
         }

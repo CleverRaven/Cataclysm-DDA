@@ -393,6 +393,7 @@ TEST_CASE( "fueled bionics", "[bionics] [item]" )
         // Dirty way of getting the gasoline bionic
         bionic_id gas_bionic = dummy.get_bionics()[1];
         bionic &bio = dummy.bionic_at_index( 1 );
+        item_location gasoline_tank = dummy.top_items_loc().front();
 
 
         // There should be no fuel available, can't turn bionic on and no power is produced
@@ -406,7 +407,6 @@ TEST_CASE( "fueled bionics", "[bionics] [item]" )
 
         // Add fuel. Now it turns on and generates power.
         item gasoline = item( "gasoline" );
-        item_location gasoline_tank = dummy.top_items_loc().front();
         REQUIRE( gasoline_tank->can_reload_with( gasoline, true ) );
         gasoline_tank->put_in( gasoline, item_pocket::pocket_type::CONTAINER );
         CHECK( dummy.activate_bionic( bio ) );
@@ -417,8 +417,10 @@ TEST_CASE( "fueled bionics", "[bionics] [item]" )
 
     SECTION( "bio_batteries" ) {
         dummy.add_bionic( bio_batteries );
+        // Dirty way of getting the gasoline bionic
         bionic_id bat_bionic = dummy.get_bionics()[1];
-        bionic &bio = dummy.bionic_at_index( 1 );
+        bionic& bio = dummy.bionic_at_index( 1 );
+        item_location bat_compartment = dummy.top_items_loc().front();
 
         // There should be no fuel available, can't turn bionic on and no power is produced
         CHECK( dummy.get_bionic_fuels( bat_bionic ).empty() );
@@ -432,7 +434,6 @@ TEST_CASE( "fueled bionics", "[bionics] [item]" )
         // Add fuel. Now it turns on and generates power.
         item battery = item( "light_battery_cell" );
         battery.ammo_set( battery.ammo_default(), 10 );
-        item_location bat_compartment = dummy.top_items_loc().front();
         REQUIRE( bat_compartment->can_reload_with( battery, true ) );
         bat_compartment->put_in( battery, item_pocket::pocket_type::MAGAZINE_WELL );
         CHECK( dummy.activate_bionic( bio ) );
@@ -442,6 +443,5 @@ TEST_CASE( "fueled bionics", "[bionics] [item]" )
     }
 
     clear_bionics( dummy );
-    // TODO: bio_cable bio_reactor
-    // TODO: (pick from stuff with power_source)
+    // TODO: bio_cable
 }
