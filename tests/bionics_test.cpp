@@ -419,7 +419,7 @@ TEST_CASE( "fueled bionics", "[bionics] [item]" )
         dummy.add_bionic( bio_batteries );
         // Dirty way of getting the gasoline bionic
         bionic_id bat_bionic = dummy.get_bionics()[1];
-        bionic& bio = dummy.bionic_at_index( 1 );
+        bionic &bio = dummy.bionic_at_index( 1 );
         item_location bat_compartment = dummy.top_items_loc().front();
 
         // There should be no fuel available, can't turn bionic on and no power is produced
