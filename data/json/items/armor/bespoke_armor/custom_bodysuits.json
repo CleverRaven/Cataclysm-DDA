@@ -538,7 +538,7 @@
     "flags": [ "VARSIZE", "WATER_FRIENDLY", "POCKETS", "HOOD", "RAINPROOF", "STURDY", "SKINTIGHT", "NORMAL" ]
   },
   {
-    "id": "thick_xs_h20survivor_jumpsuit",
+    "id": "xs_thick_h20survivor_jumpsuit",
     "type": "ARMOR",
     "name": { "str": "XS thick Kevlar wetsuit" },
     "copy-from": "thick_h20survivor_jumpsuit",
@@ -546,7 +546,7 @@
     "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
-    "id": "xl_h20survivor_jumpsuit",
+    "id": "xl_thick_h20survivor_jumpsuit",
     "type": "ARMOR",
     "name": { "str": "XL thick Kevlar wetsuit" },
     "copy-from": "thick_h20survivor_jumpsuit",
