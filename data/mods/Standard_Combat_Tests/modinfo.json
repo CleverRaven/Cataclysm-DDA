@@ -63,21 +63,20 @@
     "method": "json",
     "update_mapgen_id": "mx_sct_day1",
     "object": {
-        "place_terrain": [
-          { "ter": "t_utility_light", "x": 5, "y": 10 },
-          { "ter": "t_utility_light", "x": 7, "y": 22 },
-          { "ter": "t_utility_light", "x": 17, "y": 9 },
-          { "ter": "t_utility_light", "x": 17, "y": 22 }
-        ],
-        "place_loot":
-        [
-            { "item": "makeshift_machete", "x": 11, "y": 10 , "chance": 100 },
-            { "item": "mace_pipe", "x": 12, "y": 10, "chance": 100 },
-            { "item": "spear_knife", "x": 13, "y": 10, "chance": 100 },
-            { "item": "glock_17", "x": 14, "y": 10, "ammo": 100, "magazine": 100, "chance": 100 },
-            { "item": "glock17_17", "x": 14, "y": 10, "ammo": 100, "chance": 100 }
-        ]
-        }
+      "place_terrain": [
+        { "ter": "t_utility_light", "x": 5, "y": 10 },
+        { "ter": "t_utility_light", "x": 7, "y": 22 },
+        { "ter": "t_utility_light", "x": 17, "y": 9 },
+        { "ter": "t_utility_light", "x": 17, "y": 22 }
+      ],
+      "place_loot": [
+        { "item": "makeshift_machete", "x": 11, "y": 10, "chance": 100 },
+        { "item": "mace_pipe", "x": 12, "y": 10, "chance": 100 },
+        { "item": "spear_knife", "x": 13, "y": 10, "chance": 100 },
+        { "item": "glock_17", "x": 14, "y": 10, "ammo": 100, "magazine": 100, "chance": 100 },
+        { "item": "glock17_17", "x": 14, "y": 10, "ammo": 100, "chance": 100 }
+      ]
+    }
   },
   {
     "id": "mx_sct_mid",
@@ -92,21 +91,20 @@
     "method": "json",
     "update_mapgen_id": "mx_sct_mid",
     "object": {
-        "place_terrain": [
-          { "ter": "t_utility_light", "x": 5, "y": 10 },
-          { "ter": "t_utility_light", "x": 7, "y": 22 },
-          { "ter": "t_utility_light", "x": 17, "y": 9 },
-          { "ter": "t_utility_light", "x": 17, "y": 22 }
-        ],
-        "place_loot":
-        [
-            { "item": "fire_ax", "x": 11, "y": 10 , "chance": 100 },
-            { "item": "shillelagh", "x": 12, "y": 10, "chance": 100 },
-            { "item": "knife_combat", "x": 13, "y": 10, "chance": 100 },
-            { "item": "ar15", "x": 14, "y": 10, "ammo": 100, "magazine": 100, "chance": 100 },
-            { "item": "stanag30", "x": 14, "y": 10, "ammo": 100, "chance": 100 }
-        ]
-        }
+      "place_terrain": [
+        { "ter": "t_utility_light", "x": 5, "y": 10 },
+        { "ter": "t_utility_light", "x": 7, "y": 22 },
+        { "ter": "t_utility_light", "x": 17, "y": 9 },
+        { "ter": "t_utility_light", "x": 17, "y": 22 }
+      ],
+      "place_loot": [
+        { "item": "fire_ax", "x": 11, "y": 10, "chance": 100 },
+        { "item": "shillelagh", "x": 12, "y": 10, "chance": 100 },
+        { "item": "knife_combat", "x": 13, "y": 10, "chance": 100 },
+        { "item": "ar15", "x": 14, "y": 10, "ammo": 100, "magazine": 100, "chance": 100 },
+        { "item": "stanag30", "x": 14, "y": 10, "ammo": 100, "chance": 100 }
+      ]
+    }
   },
   {
     "id": "mx_sct_late",
@@ -121,24 +119,23 @@
     "method": "json",
     "update_mapgen_id": "mx_sct_late",
     "object": {
-        "place_terrain": [
-          { "ter": "t_utility_light", "x": 5, "y": 10 },
-          { "ter": "t_utility_light", "x": 7, "y": 22 },
-          { "ter": "t_utility_light", "x": 17, "y": 9 },
-          { "ter": "t_utility_light", "x": 17, "y": 22 }
-        ],
-        "place_loot":
-        [
-            { "item": "nodachi", "x": 11, "y": 10 , "chance": 100 },
-            { "item": "broadsword", "x": 11, "y": 10 , "chance": 100 },
-            { "item": "mace", "x": 12, "y": 10, "chance": 100 },
-            { "item": "lucern_hammer", "x": 12, "y": 10, "chance": 100 },
-            { "item": "pike", "x": 13, "y": 10, "chance": 100 },
-            { "item": "rapier", "x": 13, "y": 10, "chance": 100 },
-            { "item": "m107a1", "x": 14, "y": 10, "ammo": 100, "chance": 100 },
-            { "item": "m107a1mag", "x": 14, "y": 10, "ammo": 100, "chance": 100 }
-        ]
-        }
+      "place_terrain": [
+        { "ter": "t_utility_light", "x": 5, "y": 10 },
+        { "ter": "t_utility_light", "x": 7, "y": 22 },
+        { "ter": "t_utility_light", "x": 17, "y": 9 },
+        { "ter": "t_utility_light", "x": 17, "y": 22 }
+      ],
+      "place_loot": [
+        { "item": "nodachi", "x": 11, "y": 10, "chance": 100 },
+        { "item": "broadsword", "x": 11, "y": 10, "chance": 100 },
+        { "item": "mace", "x": 12, "y": 10, "chance": 100 },
+        { "item": "lucern_hammer", "x": 12, "y": 10, "chance": 100 },
+        { "item": "pike", "x": 13, "y": 10, "chance": 100 },
+        { "item": "rapier", "x": 13, "y": 10, "chance": 100 },
+        { "item": "m107a1", "x": 14, "y": 10, "ammo": 100, "chance": 100 },
+        { "item": "m107a1mag", "x": 14, "y": 10, "ammo": 100, "chance": 100 }
+      ]
+    }
   },
   {
     "type": "profession",
@@ -165,17 +162,8 @@
     ],
     "items": {
       "both": {
-        "items": [
-          "socks",
-          "bunker_pants",
-          "gambeson",
-          "boots_combat",
-          "gloves_tactical",
-          "tac_helmet"
-        ],
-        "entries": [
-          { "group": "us_ballistic_vest_pristine" }
-        ]
+        "items": [ "socks", "bunker_pants", "gambeson", "boots_combat", "gloves_tactical", "tac_helmet" ],
+        "entries": [ { "group": "us_ballistic_vest_pristine" } ]
       },
       "male": [ "boxer_shorts" ],
       "female": [ "bra", "boy_shorts" ]
@@ -200,15 +188,15 @@
     "items": {
       "both": {
         "items": [
-        "robofac_kevlar_vambraces",
-        "robofac_kevlar_greaves",
-        "armor_nomad_heavyplate",
-        "nomad_bodyglove_2",
+          "robofac_kevlar_vambraces",
+          "robofac_kevlar_greaves",
+          "armor_nomad_heavyplate",
+          "nomad_bodyglove_2",
           "boots_combat",
           "hc_helm_close",
           "hc_demi_gaunt"
         ]
+      }
     }
-}
-}
+  }
 ]
