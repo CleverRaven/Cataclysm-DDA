@@ -390,7 +390,7 @@ TEST_CASE( "fueled bionics", "[bionics] [item]" )
 
     SECTION( "bio_fuel_cell_gasoline" ) {
         dummy.add_bionic( bio_fuel_cell_gasoline );
-        // Dirty way of getting the gasoline bionic
+        // Dirty way of getting the bionic
         bionic_id gas_bionic = dummy.get_bionics()[1];
         bionic &bio = dummy.bionic_at_index( 1 );
         item_location gasoline_tank = dummy.top_items_loc().front();
@@ -417,7 +417,7 @@ TEST_CASE( "fueled bionics", "[bionics] [item]" )
 
     SECTION( "bio_batteries" ) {
         dummy.add_bionic( bio_batteries );
-        // Dirty way of getting the gasoline bionic
+        // Dirty way of getting the bionic
         bionic_id bat_bionic = dummy.get_bionics()[1];
         bionic &bio = dummy.bionic_at_index( 1 );
         item_location bat_compartment = dummy.top_items_loc().front();
