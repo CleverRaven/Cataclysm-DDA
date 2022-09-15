@@ -7974,6 +7974,15 @@ void map::actualize( const tripoint &grid )
         return;
     }
 
+    for( const std::unique_ptr<vehicle> &veh : tmpsub->vehicles ) {
+        // spill out items too large, MIGRATION pockets etc from vehicle parts
+        for( const vpart_reference &vp : veh->get_all_parts() ) {
+            const item &base_const = vp.part().get_base();
+            const_cast<item &>( base_const ).overflow( vp.pos() );
+        }
+        veh->refresh();
+    }
+
     const time_duration time_since_last_actualize = calendar::turn - tmpsub->last_touched;
     const bool do_funnels = grid.z >= 0;
 

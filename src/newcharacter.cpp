@@ -579,6 +579,14 @@ void avatar::randomize( const bool random_scenario, bool play_now )
         }
     }
 
+    randomize_cosmetics();
+
+    // Restart cardio accumulator
+    reset_cardio_acc();
+}
+
+void avatar::randomize_cosmetics()
+{
     randomize_cosmetic_trait( type_hair_style );
     randomize_cosmetic_trait( type_skin_tone );
     randomize_cosmetic_trait( type_eye_color );
@@ -586,9 +594,6 @@ void avatar::randomize( const bool random_scenario, bool play_now )
     if( male && one_in( 2 ) ) {
         randomize_cosmetic_trait( type_facial_hair );
     }
-
-    // Restart cardio accumulator
-    reset_cardio_acc();
 }
 
 void avatar::add_profession_items()
@@ -672,6 +677,7 @@ bool avatar::create( character_type type, const std::string &tempname )
 
     switch( type ) {
         case character_type::CUSTOM:
+            randomize_cosmetics();
             break;
         case character_type::RANDOM:
             //random scenario, default name if exist

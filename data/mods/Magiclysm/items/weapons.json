@@ -46,7 +46,7 @@
     "copy-from": "fake_item",
     "name": { "str": "barbed javelin" },
     "description": "Fake gun that fires barbed javelins.",
-    "flags": [ "NEVER_JAMS", "NONCONDUCTIVE", "NO_REPAIR", "WATERPROOF_GUN", "NO_SALVAGE", "NO_UNLOAD" ],
+    "flags": [ "NEVER_JAMS", "NONCONDUCTIVE", "NO_REPAIR", "WATERPROOF_GUN", "NO_SALVAGE", "NO_UNLOAD", "NO_TURRET" ],
     "skill": "rifle",
     "durability": 10,
     "range": 10,
