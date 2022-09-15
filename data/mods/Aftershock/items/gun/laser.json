@@ -37,7 +37,7 @@
     "copy-from": "afs_sentinel_laser",
     "name": { "str": "wrist-trilaser" },
     "ups_charges": 0,
-    "flags": [ "NEVER_JAMS", "NO_UNLOAD", "NON_FOULING", "NEEDS_NO_LUBE" ]
+    "flags": [ "NEVER_JAMS", "NO_UNLOAD", "NON_FOULING", "NEEDS_NO_LUBE", "NO_TURRET" ]
   },
   {
     "id": "laser_cannon_xray",
@@ -82,7 +82,7 @@
     "copy-from": "laser_cannon_xray",
     "name": { "str": "mounted x-ray cannon" },
     "ups_charges": 0,
-    "flags": [ "NEVER_JAMS", "NO_UNLOAD", "NON_FOULING", "NEEDS_NO_LUBE" ]
+    "flags": [ "NEVER_JAMS", "NO_UNLOAD", "NON_FOULING", "NEEDS_NO_LUBE", "NO_TURRET" ]
   },
   {
     "id": "laser_rifle_cheap",

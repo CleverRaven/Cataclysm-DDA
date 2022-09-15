@@ -946,20 +946,23 @@ void veh_interact::do_install()
     std::string filter; // The user specified filter
     std::vector<vpart_category> &tab_list = install_info->tab_list = {};
     std::vector <std::function<bool( const vpart_info * )>> tab_filters;
+    const static auto obsolete_filter = []( const vpart_info * vpi ) {
+        return !vpi->has_flag( "OBSOLETE" );
+    };
 
     for( const vpart_category &cat : vpart_category::all() ) {
         tab_list.push_back( cat );
         if( cat.get_id() == "_all" ) {
-            tab_filters.emplace_back( []( const vpart_info * ) {
-                return true;
+            tab_filters.emplace_back( []( const vpart_info * p ) {
+                return obsolete_filter( p );
             } );
         } else if( cat.get_id() == "_filter" ) {
             tab_filters.emplace_back( [&filter]( const vpart_info * p ) {
-                return lcmatch( p->name(), filter );
+                return lcmatch( p->name(), filter ) && obsolete_filter( p );
             } );
         } else {
-            tab_filters.emplace_back( [ &, cat = cat.get_id()]( const vpart_info * p ) {
-                return p->has_category( cat );
+            tab_filters.emplace_back( [ cat = cat.get_id()]( const vpart_info * p ) {
+                return p->has_category( cat ) && obsolete_filter( p );
             } );
         }
     }

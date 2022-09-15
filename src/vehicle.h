@@ -48,6 +48,7 @@ class nc_color;
 class npc;
 class vehicle;
 class vehicle_part_range;
+class veh_menu;
 class vpart_info;
 class vpart_position;
 class zone_data;
@@ -564,6 +565,9 @@ class turret_data
         item_location base();
         item_location base() const;
 
+        /** @returns true if turret is using vehicle tanks or batteries */
+        bool uses_vehicle_tanks_or_batteries() const;
+
         /** Quantity of ammunition available for use */
         int ammo_remaining() const;
 
@@ -932,11 +936,6 @@ class vehicle
         autodrive_result do_autodrive( Character &driver );
         // Stop any kind of automatic vehicle control and apply the brakes.
         void stop_autodriving( bool apply_brakes = true );
-        /**
-         *  Operate vehicle controls
-         *  @param pos location of physical controls to operate (ignored during remote operation)
-         */
-        void use_controls( const tripoint &pos );
 
         item init_cord( const tripoint &pos );
         void plug_in( const tripoint &pos );
@@ -1814,19 +1813,8 @@ class vehicle
         // for destroying any terrain around vehicle part. Automated mining tool.
         void crash_terrain_around();
         void transform_terrain();
-        void add_toggle_to_opts( std::vector<uilist_entry> &options,
-                                 std::vector<std::function<void()>> &actions,
-                                 const std::string &name,
-                                 const input_event &key,
-                                 const std::string &flag );
-        void set_electronics_menu_options( std::vector<uilist_entry> &options,
-                                           std::vector<std::function<void()>> &actions );
-        //main method for the control of multiple electronics
-        void control_electronics();
         //main method for the control of individual engines
         void control_engines();
-        // shows ui menu to select an engine
-        int select_engine();
         //returns whether the engine is enabled or not, and has fueltype
         bool is_engine_type_on( int e, const itype_id &ft ) const;
         //returns whether the engine is enabled or not
@@ -1903,10 +1891,12 @@ class vehicle
         void use_washing_machine( int p );
         void use_dishwasher( int p );
         void use_monster_capture( int part, const tripoint &pos );
-        void use_bike_rack( int part );
         void use_harness( int part, const tripoint &pos );
 
-        void interact_with( const vpart_position &vp, bool with_pickup = false );
+        void build_electronics_menu( veh_menu &menu );
+        void build_bike_rack_menu( veh_menu &menu, int part );
+        void build_interact_menu( veh_menu &menu, const tripoint &p, bool with_pickup );
+        void interact_with( const tripoint &p, bool with_pickup = false );
 
         std::string disp_name() const;
 

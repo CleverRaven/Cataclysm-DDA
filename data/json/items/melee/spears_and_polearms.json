@@ -295,6 +295,7 @@
     "price": 200,
     "price_postapoc": 10,
     "flags": [ "SPEAR" ],
+    "weapon_category": [ "FENCING_WEAPONRY" ],
     "techniques": [ "WBLOCK_1" ],
     "qualities": [ [ "COOK", 1 ] ]
   },

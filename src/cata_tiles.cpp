@@ -2435,16 +2435,6 @@ bool cata_tiles::draw_from_id_string( const std::string &id, TILE_CATEGORY categ
 bool cata_tiles::draw_sprite_at(
     const tile_type &tile, const weighted_int_list<std::vector<int>> &svlist,
     const point &p, unsigned int loc_rand, bool rota_fg, int rota, lit_level ll,
-    bool apply_night_vision_goggles, int retract )
-{
-    int nullint = 0;
-    return cata_tiles::draw_sprite_at( tile, svlist, p, loc_rand, rota_fg, rota, ll,
-                                       apply_night_vision_goggles, retract, nullint );
-}
-
-bool cata_tiles::draw_sprite_at(
-    const tile_type &tile, const weighted_int_list<std::vector<int>> &svlist,
-    const point &p, unsigned int loc_rand, bool rota_fg, int rota, lit_level ll,
     bool apply_night_vision_goggles, int retract, int &height_3d )
 {
     const std::vector<int> *picked = svlist.pick( loc_rand );
@@ -2599,8 +2589,9 @@ bool cata_tiles::draw_tile_at(
     const tile_type &tile, const point &p, unsigned int loc_rand, int rota,
     lit_level ll, bool apply_night_vision_goggles, int retract, int &height_3d )
 {
+    int fake_int = height_3d;
     draw_sprite_at( tile, tile.bg, p, loc_rand, /*fg:*/ false, rota, ll,
-                    apply_night_vision_goggles, retract );
+                    apply_night_vision_goggles, retract, fake_int );
     draw_sprite_at( tile, tile.fg, p, loc_rand, /*fg:*/ true, rota, ll,
                     apply_night_vision_goggles, retract, height_3d );
     return true;
