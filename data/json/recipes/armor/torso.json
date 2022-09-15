@@ -1502,7 +1502,7 @@
     "skill_used": "tailor",
     "time": "6 m",
     "autolearn": true,
-    "byproducts": [ [ "canvas_patch", 4 ] ],
+    "byproducts": [ [ "canvas_patch", 8 ] ],
     "qualities": [ { "id": "CUT", "level": 2 } ],
     "flags": [ "NO_RESIZE" ],
     "components": [ [ [ "trenchcoat", 1 ] ] ]
@@ -1519,7 +1519,7 @@
     "time": "6 h",
     "autolearn": true,
     "reversible": true,
-    "using": [ [ "tailoring_canvas_patchwork", 24 ], [ "fastener_large", 1 ] ],
+    "using": [ [ "tailoring_canvas_patchwork", 27 ], [ "fastener_large", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_closures_waterproofing" } ]
   },
   {
@@ -1884,7 +1884,7 @@
     "time": "6 h",
     "autolearn": true,
     "reversible": true,
-    "using": [ [ "tailoring_canvas_patchwork", 36 ], [ "fastener_large", 1 ] ],
+    "using": [ [ "tailoring_canvas_patchwork", 30 ], [ "fastener_large", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_closures_waterproofing" }, { "proficiency": "prof_closures" } ]
   },
   {
