@@ -1,10 +1,10 @@
 [
   {
     "id": "sweet_goop",
-	"type": "COMESTIBLE",
-	"comestible_type": "FOOD",
+    "type": "COMESTIBLE",
+    "comestible_type": "FOOD",
     "name": { "str_sp": "sweet goop" },
-	"looks_like": "birdfood",
+    "looks_like": "birdfood",
     "description": "A bunch of sweet stuff with a wet, goopy consistency.  Normal bugs would die for this, just hope the mutants will like it as well.",
     "weight": "60 g",
     "volume": "250 ml",
