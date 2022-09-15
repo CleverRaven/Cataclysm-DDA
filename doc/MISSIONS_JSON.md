@@ -129,12 +129,13 @@ If any of these optional fields are present they can be objects with the followi
 ### origin
 This determines how the player can be given this mission. There are a number of different options for this as follows.
 
-string ID             | Usage
-`ORIGIN_GAME_START`   | Given when the game starts
-`ORIGIN_OPENER_NPC`   | NPC comes up to you when the game starts
-`ORIGIN_ANY_NPC`      | Any NPC
-`ORIGIN_SECONDARY`    | Given at the end of another mission
-`ORIGIN_COMPUTER`     | Taken after reading investigation provoking entries in computer terminal
+| string ID             | Usage
+| ---                   | ---
+| `ORIGIN_GAME_START`   | Given when the game starts
+| `ORIGIN_OPENER_NPC`   | NPC comes up to you when the game starts
+| `ORIGIN_ANY_NPC`      | Any NPC
+| `ORIGIN_SECONDARY`    | Given at the end of another mission
+| `ORIGIN_COMPUTER`     | Taken after reading investigation provoking entries in computer terminal
 
 #### effect
 This is an effects array, exactly as defined in [NPCs.md](./NPCs.md), and can use any of the values from
