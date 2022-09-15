@@ -586,7 +586,7 @@
     "time": "14 h",
     "using": [ [ "carbon", 8 ] ],
     "book_learn": [ [ "textbook_armwest", 6 ], [ "welding_book", 6 ] ],
-    "components": [ [ "armor_metal_sheets_heavy", 1 ] ],
+    "components": [ [ [ "armor_metal_sheets_heavy", 1 ] ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing" },
@@ -666,7 +666,7 @@
     "time": "16 h",
     "book_learn": [ [ "textbook_armwest", 6 ], [ "welding_book", 6 ] ],
     "using": [ [ "carbon", 10 ] ],
-    "components": [ [ "armor_metal_sheets_chain", 1 ] ],
+    "components": [ [ [ "armor_metal_sheets_chain", 1 ] ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
     "qualities": [ { "id": "HAMMER", "level": 2 } ],
     "tools": [ [ [ "forge", 256 ] ], [ [ "metalworking_tongs", -1 ] ] ]
@@ -682,7 +682,7 @@
     "time": "16 h",
     "book_learn": [ [ "textbook_armwest", 6 ], [ "welding_book", 6 ] ],
     "using": [ [ "carbon", 8 ] ],
-    "components": [ [ "armor_metal_sheets_chain_heavy", 1 ] ],
+    "components": [ [ [ "armor_metal_sheets_chain_heavy", 1 ] ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
     "qualities": [ { "id": "HAMMER", "level": 2 } ],
     "tools": [ [ [ "forge", 312 ] ], [ [ "metalworking_tongs", -1 ] ] ]
