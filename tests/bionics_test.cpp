@@ -8,8 +8,10 @@
 #include "bionics.h"
 #include "calendar.h"
 #include "cata_catch.h"
+#include "game.h"
 #include "item.h"
 #include "item_pocket.h"
+#include "map_helpers.h"
 #include "npc.h"
 #include "pimpl.h"
 #include "player_helpers.h"
@@ -490,6 +492,38 @@ TEST_CASE( "fueled bionics", "[bionics] [item]" )
         CHECK( ups->ammo_remaining() == 499 );
     }
 
+    SECTION( "bio_cable solar" ) {
+        dummy.add_bionic( bio_cable );
+        // Dirty way of getting the bionic
+        bionic_id cable_bionic = dummy.get_bionics()[1];
+        bionic &bio = dummy.bionic_at_index( 1 );
+
+        // Midday for solar test
+        clear_map();
+        g->reset_light_level();
+        calendar::turn = calendar::turn_zero + 12_hours;
+        REQUIRE( g->is_in_sunlight( dummy.pos() ) );
+
+        // Connect solar backpack
+        dummy.worn.wear_item( dummy, item( "pants_cargo" ), false, false );
+        dummy.worn.wear_item( dummy, item( "solarpack_on" ), false, false );
+        // Unsafe way to get the worn solar backpack
+        item_location solar_pack = dummy.top_items_loc()[1];
+        CHECK( solar_pack->type_name() == "solar backpack (unfolded)" );
+        item_location cable = dummy.i_add( item( "jumper_cable" ) );
+        cable->set_var( "state", "solar_pack_link" );
+        solar_pack->set_var( "cable", "plugged_in" );
+        cable->active = true;
+
+        CHECK( dummy.get_bionic_fuels( cable_bionic ).empty() );
+        CHECK( dummy.get_cable_ups().empty() );
+        CHECK_FALSE( dummy.get_cable_solar().empty() );
+        CHECK( dummy.get_cable_vehicle().empty() );
+        CHECK( dummy.activate_bionic( bio ) );
+        dummy.suffer();
+        CHECK( units::to_millijoule( dummy.get_power_level() ) == 37525 );
+    }
+
     clear_bionics( dummy );
-    // TODO: bio_cable
+    calendar::turn = calendar::turn_zero;
 }

@@ -1601,7 +1601,7 @@ class Character : public Creature, public visitable
         void process_items();
         /** Search surrounding squares for traps (and maybe other things in the future). */
         void search_surroundings();
-        /** Returns battery from UPS connected to cable charger bionic */
+        /** Returns ammo from UPS connected to cable charger bionic */
         std::vector<item *> get_cable_ups();
         /** Returns solar items connected to cable charger bionic */
         std::vector<item *> get_cable_solar();
