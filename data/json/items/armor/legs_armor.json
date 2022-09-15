@@ -1569,6 +1569,6 @@
     ],
     "warmth": 25,
     "material_thickness": 2.0,
-    "flags": [ "VARSIZE" ]
+    "flags": [ "VARSIZE", "WATERPROOF", "STURDY" ]
   }
 ]
