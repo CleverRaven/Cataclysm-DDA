@@ -13,7 +13,7 @@
     "passive_pseudo_items": [ "integrated_blood_bank" ]
   },
   {
-    "id": "integrated_blod_bank",
+    "id": "integrated_blood_bank",
     "type": "GENERIC",
     "category": "container",
     "name": { "str": "internal blood bank" },
