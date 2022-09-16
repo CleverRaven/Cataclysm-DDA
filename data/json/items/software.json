@@ -236,15 +236,6 @@
     "price_postapoc": 0
   },
   {
-    "id": "software_train_data",
-    "copy-from": "software",
-    "type": "GENERIC",
-    "name": { "str_sp": "train data" },
-    "description": "Logistical data on subterranean train routes and schedules.",
-    "price": 200,
-    "price_postapoc": 0
-  },
-  {
     "id": "software_electronics_reference",
     "copy-from": "software",
     "type": "GENERIC",

@@ -599,6 +599,7 @@
       { "item": "sewing_kit", "prob": 120, "charges-min": 0 },
       { "item": "shed_stick", "prob": 5 },
       { "item": "tailors_kit", "prob": 10, "charges-min": 0 },
+      { "item": "electric_spinwheel", "prob": 10, "charges-min": 0 },
       [ "knitting_needles", 20 ],
       [ "kevlar_shears", 100 ]
     ]
