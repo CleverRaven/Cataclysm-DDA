@@ -1286,7 +1286,7 @@
       [ [ "qt_chainmail_arms", 1 ] ],
       [ [ "qt_chainmail_legs", 1 ] ],
       [ [ "qt_chainmail_hands", 1 ] ],
-      [ [ "qt_chainmail_sheet", 2 ], [ "qt_chainmail_feet", 1 ] ],
+      [ [ "qt_link_sheet", 2 ], [ "qt_chainmail_feet", 1 ] ],
       [ [ "qt_chain_link", 500 ] ],
       [ [ "cable", 250 ] ],
       [ [ "qt_wire", 5 ] ]
@@ -1304,7 +1304,7 @@
       [ [ "xs_qt_chainmail_arms", 1 ] ],
       [ [ "xs_qt_chainmail_legs", 1 ] ],
       [ [ "xs_qt_chainmail_hands", 1 ] ],
-      [ [ "qt_chainmail_sheet", 2 ], [ "xs_qt_chainmail_feet", 1 ] ],
+      [ [ "qt_link_sheet", 2 ], [ "xs_qt_chainmail_feet", 1 ] ],
       [ [ "qt_chain_link", 375 ] ],
       [ [ "cable", 200 ] ],
       [ [ "qt_wire", 3 ] ]
@@ -1321,7 +1321,7 @@
       [ [ "xl_qt_chainmail_arms", 1 ] ],
       [ [ "xl_qt_chainmail_legs", 1 ] ],
       [ [ "xl_qt_chainmail_hands", 1 ] ],
-      [ [ "qt_chainmail_sheet", 4 ], [ "xl_qt_chainmail_feet", 1 ] ],
+      [ [ "qt_link_sheet", 4 ], [ "xl_qt_chainmail_feet", 1 ] ],
       [ [ "qt_chain_link", 750 ] ],
       [ [ "cable", 300 ] ],
       [ [ "qt_wire", 5 ] ]
