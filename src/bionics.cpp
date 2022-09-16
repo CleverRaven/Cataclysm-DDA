@@ -3108,13 +3108,13 @@ void bionic::toggle_safe_fuel_mod()
             case 4:
                 set_safe_fuel_thresh( 0.50f );
                 break;
-			case 5:
+            case 5:
                 set_safe_fuel_thresh( 0.30f );
                 break;
-			case 6:
+            case 6:
                 set_safe_fuel_thresh( 0.10f );
                 break;
-			case 7:
+            case 7:
                 set_safe_fuel_thresh( -1.0f );
                 break;
             default:
