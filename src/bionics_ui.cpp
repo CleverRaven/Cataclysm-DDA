@@ -289,7 +289,7 @@ static void draw_bionics_titlebar( const catacurses::window &window, avatar *p,
 }
 
 //builds the power usage string of a given bionic
-static std::string build_bionic_poweronly_string( const bionic &bio )
+static std::string build_bionic_poweronly_string( const bionic &bio, avatar *p )
 {
     const bionic_data &bio_data = bio.id.obj();
     std::vector<std::string> properties;
@@ -318,21 +318,26 @@ static std::string build_bionic_poweronly_string( const bionic &bio )
     if( bio.incapacitated_time > 0_turns ) {
         properties.emplace_back( _( "(incapacitated)" ) );
     }
-    if( bio.is_safe_fuel_on() && ( !bio.info().fuel_opts.empty() ||
-                                   bio.info().is_remote_fueled ) ) {
+
+    if( bio.is_safe_fuel_on() ) {
         const std::string label = string_format( _( "(fuel saving ON > %d %%)" ),
                                   static_cast<int>( bio.get_safe_fuel_thresh() * 100 ) );
         properties.push_back( label );
+
+        if( bio.powered &&
+            bio.get_safe_fuel_thresh() * p->get_max_power_level() - 1_kJ <= p->get_power_level() ) {
+            properties.emplace_back( _( "(inactive)" ) );
+        }
     }
 
     return enumerate_as_string( properties, enumeration_conjunction::none );
 }
 
 //generates the string that show how much power a bionic uses
-static std::string build_bionic_powerdesc_string( const bionic &bio )
+static std::string build_bionic_powerdesc_string( const bionic &bio, avatar *p )
 {
     std::string power_desc;
-    const std::string power_string = build_bionic_poweronly_string( bio );
+    const std::string power_string = build_bionic_poweronly_string( bio, p );
     power_desc += bio.id->name.translated();
     if( !power_string.empty() ) {
         power_desc += ", " + power_string;
@@ -369,11 +374,11 @@ static void draw_bionics_tabs( const catacurses::window &win, const size_t activ
 }
 
 static void draw_description( const catacurses::window &win, const bionic &bio,
-                              const int num_of_bp )
+                              const int num_of_bp, avatar *p )
 {
     werase( win );
     const int width = getmaxx( win );
-    const std::string poweronly_string = build_bionic_poweronly_string( bio );
+    const std::string poweronly_string = build_bionic_poweronly_string( bio, p );
     int ypos = fold_and_print( win, point_zero, width, c_white, "%s", bio.id->name );
     if( !poweronly_string.empty() ) {
         ypos += fold_and_print( win, point( 0, ypos ), width, c_light_gray,
@@ -683,7 +688,7 @@ void avatar::power_bionics()
                                      is_highlighted );
                 const std::string desc = string_format( "%c %s", ( *current_bionic_list )[i]->invlet,
                                                         build_bionic_powerdesc_string(
-                                                                *( *current_bionic_list )[i] ).c_str() );
+                                                                *( *current_bionic_list )[i], this ).c_str() );
                 trim_and_print( wBio, point( 2, list_start_y + i - scroll_position ), WIDTH - 3, col,
                                 desc );
                 if( is_highlighted && menu_mode != EXAMINING && get_option < bool >( "CBM_SLOTS_ENABLED" ) ) {
@@ -708,7 +713,8 @@ void avatar::power_bionics()
 
         draw_bionics_titlebar( w_title, this, menu_mode );
         if( menu_mode == EXAMINING && !current_bionic_list->empty() ) {
-            draw_description( w_description, *( *current_bionic_list )[cursor], get_all_body_parts().size() );
+            draw_description( w_description, *( *current_bionic_list )[cursor], get_all_body_parts().size(),
+                              this );
         }
     } );
 
@@ -725,7 +731,7 @@ void avatar::power_bionics()
         ctxt.get_registered_manual_keys().clear();
         for( size_t i = 0; i < current_bionic_list->size(); i++ ) {
             ctxt.register_manual_key( ( *current_bionic_list )[i]->invlet,
-                                      build_bionic_powerdesc_string( *( *current_bionic_list )[i] ).c_str() );
+                                      build_bionic_powerdesc_string( *( *current_bionic_list )[i] ).c_str(), this );
         }
 #endif
 

@@ -3086,11 +3086,13 @@ void bionic::toggle_safe_fuel_mod()
     if( !info().fuel_opts.empty() || info().is_remote_fueled ) {
         uilist tmenu;
         tmenu.text = _( "Stop power generation at" );
-        tmenu.addentry( 1, true, 'o', _( "Full Power" ) );
-        tmenu.addentry( 2, true, 't', _( "Above 80 %%" ) );
-        tmenu.addentry( 3, true, 'f', _( "Above 55 %%" ) );
-        tmenu.addentry( 4, true, 's', _( "Above 30 %%" ) );
-        tmenu.addentry( 5, true, 'd', _( "Disabled" ) );
+        tmenu.addentry( 1, true, '1', _( "100 %%" ) );
+        tmenu.addentry( 2, true, '2', _( "90 %%" ) );
+        tmenu.addentry( 3, true, '3', _( "70 %%" ) );
+        tmenu.addentry( 4, true, '4', _( "50 %%" ) );
+        tmenu.addentry( 5, true, '5', _( "30 %%" ) );
+        tmenu.addentry( 6, true, '6', _( "10 %%" ) );
+        tmenu.addentry( 7, true, 'd', _( "Disabled" ) );
         tmenu.query();
 
         switch( tmenu.ret ) {
@@ -3098,16 +3100,23 @@ void bionic::toggle_safe_fuel_mod()
                 set_safe_fuel_thresh( 1.0f );
                 break;
             case 2:
-                set_safe_fuel_thresh( 0.80f );
+                set_safe_fuel_thresh( 0.90f );
                 break;
             case 3:
-                set_safe_fuel_thresh( 0.55f );
+                set_safe_fuel_thresh( 0.70f );
                 break;
             case 4:
+                set_safe_fuel_thresh( 0.50f );
+                break;
+			case 5:
                 set_safe_fuel_thresh( 0.30f );
                 break;
-            case 5:
+			case 6:
+                set_safe_fuel_thresh( 0.10f );
+                break;
+			case 7:
                 set_safe_fuel_thresh( -1.0f );
+                break;
             default:
                 break;
         }
