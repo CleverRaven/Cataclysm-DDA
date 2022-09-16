@@ -209,22 +209,20 @@ static void draw_bionics_titlebar( const catacurses::window &window, avatar *p,
             found_fuel = true;
             fuel_string += fuel->tname() + ": " + colorize( std::to_string( fuel->charges ), c_green ) + " ";
         }
-        for( const item *fuel : p->get_cable_ups() ) {
+    }
+    for( const item *fuel : p->get_cable_ups() ) {
+        found_fuel = true;
+        fuel_string += fuel->tname() + ": " + colorize( std::to_string( fuel->charges ), c_green ) + " ";
+    }
+    for( vehicle *veh : p->get_cable_vehicle() ) {
+        int64_t charges = veh->connected_battery_power_level().first;
+        if( charges > 0 ) {
             found_fuel = true;
-            fuel_string += fuel->tname() + ": " + colorize( std::to_string( fuel->charges ), c_green ) + " ";
-        }
-        if( bio.info().is_remote_fueled ) {
-            for( vehicle *veh : p->get_cable_vehicle() ) {
-                int64_t charges = veh->connected_battery_power_level().first;
-                if( charges > 0 ) {
-                    found_fuel = true;
-                    fuel_string += item( itype_battery ).tname() + ": " + colorize( std::to_string( charges ),
-                                   c_green ) + " ";
-                }
-            }
-
+            fuel_string += item( itype_battery ).tname() + ": " + colorize( std::to_string( charges ),
+                           c_green ) + " ";
         }
     }
+
     if( !found_fuel ) {
         fuel_string.clear();
     }
