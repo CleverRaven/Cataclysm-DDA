@@ -2248,8 +2248,8 @@
       "xs_h20survivor_jumpsuit",
       "xl_h20survivor_jumpsuit",
       "thick_h20survivor_jumpsuit",
-      "thick_xs_h20survivor_jumpsuit",
-      "thick_xl_h20survivor_jumpsuit"
+      "xs_thick_h20survivor_jumpsuit",
+      "xl_thick_h20survivor_jumpsuit"
     ],
     "difficulty": 7
   },
