@@ -110,7 +110,11 @@
         [ "egg_lady_bug", 4 ],
         [ "egg_mole_cricket", 4 ],
         [ "egg_mantis", 4 ],
-        [ "egg_stag_beetle", 1 ]
+        [ "egg_stag_beetle", 1 ],
+        [ "egg_water_beetle", 4 ],
+        [ "egg_water_bug", 4 ],
+        [ "egg_butterfly", 1 ],
+        [ "egg_cicada", 1 ]
       ]
     ]
   },
