@@ -3539,7 +3539,20 @@
       "box_medium_crafted",
       "box_large_crafted",
       "box_large_reinforced",
-      "box_oversize_crafted",
+      "box_oversize_crafted"
+    ],
+    "difficulty": 1
+  },
+  {
+    "id": "nested_cardboard_boxes_assembly",
+    "type": "nested_category",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "assembled cardboard boxes",
+    "description": "Recipes related to assembling cardboard boxes.",
+    "skill_used": "fabrication",
+    "nested_category_data": [
       "box_small_assembly",
       "box_medium_assembly",
       "box_large_assembly",
@@ -3579,7 +3592,7 @@
     "name": "boxes",
     "description": "Recipes related to constructing boxes.",
     "skill_used": "fabrication",
-    "nested_category_data": [ "nested_cardboard_boxes", "nested_wooden_boxes", "nested_metal_boxes" ]
+    "nested_category_data": [ "nested_cardboard_boxes", "nested_cardboard_boxes_assembly", "nested_wooden_boxes", "nested_metal_boxes" ]
   },
   {
     "id": "nested_sheet_patchwork",
