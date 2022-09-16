@@ -43,6 +43,7 @@ struct tile_type {
     int height_3d = 0;
     point offset = point_zero;
     point offset_retracted = point_zero;
+    float pixelscale;
 
     std::vector<std::string> available_subtiles;
 };
@@ -258,6 +259,7 @@ class tileset_cache::loader
 
         point sprite_offset;
         point sprite_offset_retracted;
+        float sprite_pixelscale;
 
         int sprite_width = 0;
         int sprite_height = 0;
