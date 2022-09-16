@@ -474,7 +474,7 @@ TEST_CASE( "fueled bionics", "[bionics] [item]" )
         dummy.suffer();
         REQUIRE( !dummy.has_power() );
 
-        // Connect to empty ups. UPS is seen but won't work
+        // Connect to empty ups. Bionic shouldn't work
         dummy.worn.wear_item( dummy, item( "backpack" ), false, false );
         item_location ups = dummy.i_add( item( "UPS_off" ) );
         item_location cable = dummy.i_add( item( "jumper_cable" ) );
@@ -491,12 +491,18 @@ TEST_CASE( "fueled bionics", "[bionics] [item]" )
         dummy.suffer();
         REQUIRE( !dummy.has_power() );
 
-        // Put battery into ups. Charger works now
+        // Put empty battery into ups. Still does not work.
         item ups_mag( ups->magazine_default() );
-        ups_mag.ammo_set( ups_mag.ammo_default(), 500 );
         ups->put_in( ups_mag, item_pocket::pocket_type::MAGAZINE_WELL );
-        REQUIRE( ups->ammo_remaining() == 500 );
+        REQUIRE( ups->ammo_remaining() == 0 );
+        CHECK( dummy.get_bionic_fuels( cable_bionic ).empty() );
+        CHECK_FALSE( dummy.activate_bionic( bio ) );
+        dummy.suffer();
+        REQUIRE( !dummy.has_power() );
 
+        // Fill the battery. Works now.
+        ups->magazine_current()->ammo_set( ups_mag.ammo_default(), 500 );
+        REQUIRE( ups->ammo_remaining() == 500 );
         CHECK( dummy.activate_bionic( bio ) );
         CHECK_FALSE( dummy.get_cable_ups().empty() );
         dummy.suffer();
