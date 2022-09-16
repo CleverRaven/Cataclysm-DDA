@@ -1286,9 +1286,9 @@
       [ [ "qt_chainmail_arms", 1 ] ],
       [ [ "qt_chainmail_legs", 1 ] ],
       [ [ "qt_chainmail_hands", 1 ] ],
-      [ [ "boots_rubber", 1 ] ],
+      [ [ "qt_chainmail_sheet", 2 ], [ "qt_chainmail_feet", 1 ] ],
       [ [ "qt_chain_link", 500 ] ],
-      [ [ "cable", 200 ] ],
+      [ [ "cable", 250 ] ],
       [ [ "qt_wire", 5 ] ]
     ]
   },
@@ -1304,9 +1304,9 @@
       [ [ "qt_xs_chainmail_arms", 1 ] ],
       [ [ "qt_xs_chainmail_legs", 1 ] ],
       [ [ "qt_xs_chainmail_hands", 1 ] ],
-      [ [ "boots_rubber", 1 ] ],
+      [ [ "qt_chainmail_sheet", 2 ], [ "qt_xs_chainmail_feet", 1 ] ],
       [ [ "qt_chain_link", 375 ] ],
-      [ [ "cable", 170 ] ],
+      [ [ "cable", 200 ] ],
       [ [ "qt_wire", 3 ] ]
     ]
   },
@@ -1321,7 +1321,7 @@
       [ [ "qt_xl_chainmail_arms", 1 ] ],
       [ [ "qt_xl_chainmail_legs", 1 ] ],
       [ [ "qt_xl_chainmail_hands", 1 ] ],
-      [ [ "boots_rubber", 1 ] ],
+      [ [ "qt_chainmail_sheet", 4 ], [ "qt_xl_chainmail_feet", 1 ] ],
       [ [ "qt_chain_link", 750 ] ],
       [ [ "cable", 300 ] ],
       [ [ "qt_wire", 5 ] ]
