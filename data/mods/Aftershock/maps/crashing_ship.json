@@ -1,0 +1,74 @@
+[
+  {
+    "type": "palette",
+    "id": "aftershock_crashing_ship",
+    "terrain": { "0": "t_floor_warped", "1": "t_wall_warped", "a": "t_grass_alien", "G": "t_grass" }
+  },
+  {
+    "//": "Aftershock crashing ship barracks. Top Left: locker room, meant to store work clothes and small tools/trinkets. Top Right: armory, stores weapons and armor. Mid Left: Bathroom/showers. Mid Right: Sleeping quarters. Lockers in corner will have emergency supplies. Bottom: Cafeteria.",
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "crashing_ship_barracks" ],
+    "weight": 100,
+    "object": {
+      "fill_ter": "t_metal_floor_olight",
+      "rows": [
+        "MMMMMMMMMMMDDMMMMMMMMMMM",
+        "MLLLLLLLM......MeeeeeeeM",
+        "M.......M......M......eM",
+        "M.bbbbb.M.....7M..www.eM",
+        "M.......D......D..www.eM",
+        "M.bbbbb.M6.....M..www.eM",
+        "M.......M......M......eM",
+        "MLLLLLLLM......MeeeeeeeM",
+        "MMMMMMMMM......MMMMMMMMM",
+        "Ms.s.s.sM......ML.B.B.BM",
+        "Mg.g.g.gM......M..B.B.BM",
+        "Ms......M......M..f.f.fM",
+        "Ms......D......D.......M",
+        "Ms......M......M..f.f.fM",
+        "Mg.g.g.gM......M..B.B.BM",
+        "Mt.t.t.tM......ML.B.B.BM",
+        "MMMMMMMMM......MMMMMMMMM",
+        "MVVVVVVVV......VVVVVVVVM",
+        "M......................M",
+        "M.bbbbbbbbb..bbbbbbbbb.M",
+        "M.ttttttttt..ttttttttt.M",
+        "M.bbbbbbbbb..bbbbbbbbb.M",
+        "M......................M",
+        "MMMMMMMMMMMMMMMMMMMMMMMM"
+      ],
+      "palettes": [ "aftershock_crashing_ship" ],
+      "furniture": { "L": "f_locker" "e": "f_gunsafe_el", "B": "f_bunkbed", "f": "f_foot_locker", "b": "f_bench", "s": "f_shower", "w": "f_workbench", "S": "f_sink", "t": "f_table", "V": "f_vending_reinforced" },
+      "terrain": { "7": "t_console", "*": "t_metal_floor_olight" , "M": "t_wall_metal", "D": "t_door_metal_lab_c", "g": "t_door_glass_frosted_c" },
+      "mapping": {
+        "l": { "items": [ { "item": "gear_soldier_sidearm", "chance": 33 } ] },
+        "]": { "items": [ { "item": "book_military", "chance": 20 } ] },
+        "t": { "items": [ { "item": "book_military", "chance": 10 } ] },
+        "d": { "items": [ { "item": "office", "chance": 50 } ] },
+        "r": {
+          "items": [
+            { "item": "afs_tools_scavenging", "chance": 60 },
+            { "item": "afs_tools_robot_maintenance", "chance": 10 },
+            { "item": "afs_tools_electric_repair", "chance": 10 }
+          ]
+        },
+        "*": { "items": [ { "item": "casings", "chance": 10 } ] }
+      },
+      "computers": {
+        "6": {
+          "name": "Locker Room",
+          "security": 3,
+          "options": [ { "name": "UNLOCK ENTRANCE", "action": "unlock", "security": 5 } ],
+          "failures": [ { "action": "damage" }, { "action": "shutdown" } ]
+        },
+        "7": {
+          "name": "Armory Entrance",
+          "security": 6,
+          "options": [ { "name": "UNLOCK ENTRANCE", "action": "unlock_disarm", "security": 7 } ],
+          "failures": [ { "action": "damage" }, { "action": "shutdown" } ]
+        }
+      }
+    }
+  }
+]
