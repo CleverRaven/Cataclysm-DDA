@@ -1483,7 +1483,6 @@
       "type": "transform"
     },
     "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB" ]
-   
   },
   {
     "id": "homemade_demolition_charge_act",
