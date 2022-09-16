@@ -409,14 +409,23 @@ TEST_CASE( "fueled bionics", "[bionics] [item]" )
 
         // Add fuel. Now it turns on and generates power.
         item gasoline = item( "gasoline" );
+        gasoline.charges = 2;
         CHECK( gasoline_tank->can_reload_with( gasoline, true ) );
         gasoline_tank->put_in( gasoline, item_pocket::pocket_type::CONTAINER );
-        REQUIRE( gasoline_tank->only_item().charges == 250 );
+        REQUIRE( gasoline_tank->only_item().charges == 2 );
         CHECK( dummy.activate_bionic( bio ) );
         CHECK_FALSE( dummy.get_bionic_fuels( gas_bionic ).empty() );
         dummy.suffer();
         CHECK( units::to_joule( dummy.get_power_level() ) == 8550 );
-        CHECK( gasoline_tank->only_item().charges == 249 );
+        CHECK( gasoline_tank->only_item().charges == 1 );
+
+        dummy.suffer();
+        CHECK( units::to_joule( dummy.get_power_level() ) == 17100 );
+        CHECK( gasoline_tank->only_item().charges == 0 );
+
+        // Run out of fuel
+        dummy.suffer();
+        CHECK( units::to_joule( dummy.get_power_level() ) == 17100 );
     }
 
     SECTION( "bio_batteries" ) {
@@ -450,13 +459,21 @@ TEST_CASE( "fueled bionics", "[bionics] [item]" )
         REQUIRE( !dummy.has_power() );
 
         // Add fuel. Now it turns on and generates power.
-        bat_compartment->magazine_current()->ammo_set( battery.ammo_default(), 10 );
+        bat_compartment->magazine_current()->ammo_set( battery.ammo_default(), 2 );
         REQUIRE( bat_compartment->ammo_remaining() == 10 );
         CHECK( dummy.activate_bionic( bio ) );
         CHECK_FALSE( dummy.get_bionic_fuels( bat_bionic ).empty() );
         dummy.suffer();
         CHECK( units::to_joule( dummy.get_power_level() ) == 1000 );
-        CHECK( bat_compartment->ammo_remaining() == 9 );
+        CHECK( bat_compartment->ammo_remaining() == 1 );
+
+        dummy.suffer();
+        CHECK( units::to_joule( dummy.get_power_level() ) == 2000 );
+        CHECK( bat_compartment->ammo_remaining() == 0 );
+
+        // Run out of ammo
+        dummy.suffer();
+        CHECK( units::to_joule( dummy.get_power_level() ) == 2000 );
     }
 
     SECTION( "bio_cable ups" ) {
@@ -501,13 +518,21 @@ TEST_CASE( "fueled bionics", "[bionics] [item]" )
         REQUIRE( !dummy.has_power() );
 
         // Fill the battery. Works now.
-        ups->magazine_current()->ammo_set( ups_mag.ammo_default(), 500 );
+        ups->magazine_current()->ammo_set( ups_mag.ammo_default(), 2 );
         REQUIRE( ups->ammo_remaining() == 500 );
         CHECK( dummy.activate_bionic( bio ) );
         CHECK_FALSE( dummy.get_cable_ups().empty() );
         dummy.suffer();
         CHECK( units::to_joule( dummy.get_power_level() ) == 1000 );
-        CHECK( ups->ammo_remaining() == 499 );
+        CHECK( ups->ammo_remaining() == 1 );
+
+        dummy.suffer();
+        CHECK( ups->ammo_remaining() == 0 );
+        CHECK( units::to_joule( dummy.get_power_level() ) == 2000 );
+
+        // Run out of fuel
+        dummy.suffer();
+        CHECK( units::to_joule( dummy.get_power_level() ) == 2000 );
     }
 
     SECTION( "bio_cable solar" ) {
