@@ -242,7 +242,7 @@
     "subcategory": "CSC_ELECTRONIC_COMPONENTS",
     "skill_used": "electronics",
     "time": "3 m",
-    "book_learn": [ [ "radio_book", 1 ], [ "textbook_anarch", 1 ] ],
+    "autolearn": true,
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
     "components": [ [ [ "steel_chunk", 1 ], [ "scrap", 3 ], [ "knife_butter", 2 ] ] ]
   }
