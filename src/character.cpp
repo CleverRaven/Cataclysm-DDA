@@ -5906,18 +5906,18 @@ void Character::mod_base_age( int mod )
     init_age += mod;
 }
 
-int Character::age() const
+int Character::age( const time_point when ) const
 {
-    int years_since_cataclysm = to_turns<int>( calendar::turn - calendar::turn_zero ) /
+    int years_since_cataclysm = to_turns<int>( when - calendar::turn_zero ) /
                                 to_turns<int>( calendar::year_length() );
     return init_age + years_since_cataclysm;
 }
 
-std::string Character::age_string() const
+std::string Character::age_string( const time_point when ) const
 {
     //~ how old the character is in years. try to limit number of characters to fit on the screen
     std::string unformatted = _( "%d years" );
-    return string_format( unformatted, age() );
+    return string_format( unformatted, age( when ) );
 }
 
 

@@ -56,10 +56,14 @@ class scenario
         cata::optional<achievement_id> _requirement;
 
         bool _custom_start_date = false;
+        bool _is_random_hour = false;
         int _start_hour = 8;
+        bool _is_random_day = false;
         int _start_day = 0;
         season_type _start_season = SPRING;
+        bool _is_random_year = false;
         int _start_year = 1;
+        time_point _start_of_cataclysm;
 
         vproto_id _starting_vehicle = vproto_id::NULL_ID();
 
@@ -98,16 +102,18 @@ class scenario
         cata::optional<achievement_id> get_requirement() const;
 
         bool custom_start_date() const;
+        void rerandomize() const;
         bool is_random_hour() const;
         bool is_random_day() const;
         bool is_random_year() const;
         int start_hour() const;
         // Returns day of the season this scenario starts on
-        int day_of_season() const;
-        // Returns the day of the year this scenario starts on
         int start_day() const;
         season_type start_season() const;
         int start_year() const;
+
+        time_point start_of_cataclysm() const;
+        time_point start_of_game() const;
 
         vproto_id vehicle() const;
 

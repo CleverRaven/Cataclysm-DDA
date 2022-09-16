@@ -12111,31 +12111,8 @@ void game::autosave()
 
 void game::start_calendar()
 {
-    time_duration initial_days;
-    // Initial day is the time of the Cataclysm. Limit it to occur on the first year.
-    if( get_option<int>( "INITIAL_DAY" )  == -1 ) {
-        initial_days = 1_days * rng( 0, get_option<int>( "SEASON_LENGTH" ) * 4 - 1 );
-    } else {
-        initial_days = 1_days * std::min( get_option<int>( "INITIAL_DAY" ),
-                                          get_option<int>( "SEASON_LENGTH" ) * 4 );
-    }
-    calendar::start_of_cataclysm = calendar::turn_zero + initial_days;
-
-    if( scen->custom_start_date() ) {
-        calendar::start_of_game = calendar::turn_zero
-                                  + 1_hours * scen->start_hour()
-                                  + 1_days * scen->start_day();
-        if( calendar::start_of_game < calendar::start_of_cataclysm ) {
-            // If the Cataclysm has been set to happen late or the scenario has random start it may try to start before the Cataclysm happens.
-            // That is unacceptable. So lets just jump to same day on next year.
-            calendar::start_of_game += calendar::year_length();
-        }
-    } else {
-        calendar::start_of_game = calendar::start_of_cataclysm
-                                  + 1_hours * get_option<int>( "INITIAL_TIME" )
-                                  + 1_days * get_option<int>( "SPAWN_DELAY" );
-    }
-
+    calendar::start_of_cataclysm = scen->start_of_cataclysm();
+    calendar::start_of_game = scen->start_of_game();
     calendar::turn = calendar::start_of_game;
     calendar::initial_season = static_cast<season_type>( ( to_days<int>( calendar::start_of_game -
                                calendar::turn_zero ) / get_option<int>( "SEASON_LENGTH" ) ) % 4 );
@@ -12453,6 +12430,7 @@ const scenario *get_scenario()
 }
 void set_scenario( const scenario *new_scenario )
 {
+    new_scenario->rerandomize();
     g->scen = new_scenario;
 }
 
