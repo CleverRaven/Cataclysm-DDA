@@ -605,7 +605,7 @@ void basecamp::query_new_name( const bool force )
         input_popup.title( _( "Name this camp" ) )
         .width( 40 )
         .max_length( 25 )
-        .query();        
+        .query();
         if( input_popup.canceled() || input_popup.text().empty() ) {
             if( name.empty() || force ) {
                 popup( _( "You need to input the base camp name." ) );
