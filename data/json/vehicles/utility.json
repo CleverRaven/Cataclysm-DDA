@@ -148,23 +148,57 @@
       [ "o|o-" ]
     ],
     "parts": [
-      { "x": 0, "y": 0, "parts": [ "frame_vertical_T_left", "seat", "roof", "controls" ] },
+      { "x": 0, "y": 0, "parts": [ "hdframe_vertical_T_left", "seat", "hdroof", "controls" ] },
       { "x": 0, "y": 0, "part": "dashboard" },
-      { "x": 0, "y": 1, "parts": [ "frame_vertical_T_right", "engine_electric", "roof" ] },
-      { "x": 0, "y": 1, "parts": [ "halfboard_vertical_right", "storage_battery" ] },
-      { "x": 1, "y": 0, "parts": [ "frame_nw", "halfboard_nw", "wheel_mount_light_steerable" ] },
-      { "x": 1, "y": 0, "part": "wheel_small" },
-      { "x": 1, "y": 1, "parts": [ "frame_ne", "halfboard_ne", "wheel_mount_light_steerable" ] },
-      { "x": 1, "y": 1, "part": "wheel_small" },
+      { "x": 0, "y": 1, "parts": [ "hdframe_vertical_T_right", "engine_electric", "hdroof" ] },
+      { "x": 0, "y": 1, "parts": [ "hdhalfboard_vertical_right", "storage_battery" ] },
+      { "x": 1, "y": 0, "parts": [ "hdframe_nw", "hdhalfboard_nw", "wheel_mount_medium" ] },
+      { "x": 1, "y": 0, "parts": [ "wheel", "headlight" ] },
+      { "x": 1, "y": 1, "parts": [ "hdframe_ne", "hdhalfboard_ne", "wheel_mount_medium" ] },
+      { "x": 1, "y": 1, "parts": [ "wheel", "headlight" ] },
       { "x": 2, "y": 0, "part": "forklift_fork_horizontal_front" },
       { "x": 2, "y": 1, "part": "forklift_fork_horizontal_front" },
-      { "x": -1, "y": 0, "parts": [ "frame_sw", "halfboard_sw", "wheel_mount_light_steerable" ] },
+      { "x": -1, "y": 0, "parts": [ "hdframe_sw", "counterweight_sw", "wheel_mount_light_steerable" ] },
       { "x": -1, "y": 0, "part": "wheel_small" },
-      { "x": -1, "y": 1, "parts": [ "frame_se", "halfboard_se", "wheel_mount_light_steerable" ] },
+      { "x": -1, "y": 1, "parts": [ "hdframe_se", "counterweight_se", "wheel_mount_light_steerable" ] },
       { "x": -1, "y": 1, "part": "wheel_small" }
     ],
     "items": [
       { "x": 0, "y": 0, "chance": 5, "items": [ "hat_hard" ] },
+      { "x": 0, "y": 0, "chance": 8, "items": [ "vest" ] },
+      { "x": 2, "y": 0, "chance": 10, "items": [ "2x4" ] },
+      { "x": 2, "y": 1, "chance": 10, "items": [ "2x4" ] }
+    ]
+  },
+  {
+    "type": "vehicle",
+    "id": "forklift_diesel",
+    "name": "Forklift",
+    "blueprint": [
+      [ "o#o-" ],
+      [ "o|o-" ]
+    ],
+    "parts": [
+      { "x": 0, "y": 0, "parts": [ "hdframe_vertical_T_left", "seat", "hdroof", "controls" ] },
+      { "x": 0, "y": 0, "part": "dashboard" },
+      { "x": 0, "y": 1, "parts": [ "hdframe_vertical_T_right", "hdhalfboard_vertical_right", "hdroof" ] },
+      { "x": 0, "y": 1, "parts": [ "diesel_engine_inline4", "alternator_car", "battery_car" ] },
+      { "x": 1, "y": 0, "parts": [ "hdframe_nw", "hdhalfboard_nw", "wheel_mount_medium" ] },
+      { "x": 1, "y": 0, "parts": [ "wheel", "headlight" ] },
+      { "x": 1, "y": 1, "parts": [ "hdframe_ne", "hdhalfboard_ne", "wheel_mount_medium" ] },
+      { "x": 1, "y": 1, "parts": [ "wheel", "headlight" ] },
+      { "x": 2, "y": 0, "part": "forklift_fork_horizontal_front" },
+      { "x": 2, "y": 1, "part": "forklift_fork_horizontal_front" },
+      { "x": -1, "y": 0, "parts": [ "hdframe_sw", "counterweight_sw", "wheel_mount_light_steerable" ] },
+      { "x": -1, "y": 0, "part": "wheel_small" },
+      { "x": -1, "y": 0, "part": "tank_medium", "fuel": "diesel" },
+      { "x": -1, "y": 1, "parts": [ "hdframe_se", "counterweight_se", "wheel_mount_light_steerable" ] },
+      { "x": -1, "y": 1, "parts": [ "wheel_small", "muffler" ] },
+      { "x": -1, "y": 1, "part": "tank_medium", "fuel": "diesel" }
+    ],
+    "items": [
+      { "x": 0, "y": 0, "chance": 5, "items": [ "hat_hard" ] },
+      { "x": 0, "y": 0, "chance": 8, "items": [ "vest" ] },
       { "x": 2, "y": 0, "chance": 10, "items": [ "2x4" ] },
       { "x": 2, "y": 1, "chance": 10, "items": [ "2x4" ] }
     ]
