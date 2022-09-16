@@ -10,7 +10,7 @@
     "exothermic_power_gen": true,
     "time": "6 s",
     "flags": [ "BIONIC_TOGGLED", "BIONIC_POWER_SOURCE" ],
-    "passive_pseudo_items": [ "integrated_blod_bank" ]
+    "passive_pseudo_items": [ "integrated_blood_bank" ]
   },
   {
     "id": "integrated_blod_bank",
