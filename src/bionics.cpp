@@ -1485,97 +1485,6 @@ void Character::burn_fuel( bionic &bio )
     here.emit_field( pos(), bio.info().power_gen_emission );
 }
 
-std::vector<item *> Character::get_cable_ups()
-{
-    std::vector<item *> stored_fuels;
-
-    const std::vector<item *> cables = items_with( []( const item & it ) {
-        return it.get_var( "state" ) == "UPS_link";
-    } );
-    int n = cables.size();
-    if( n == 0 ) {
-        return stored_fuels;
-    }
-
-    // There is no way to check which cable is connected to which ups
-    // So if there are multiple cables and some of them are only partially connected this may add wrong ups
-    for( item_location it : all_items_loc() ) {
-        if( it->has_flag( flag_IS_UPS ) && it->get_var( "cable" ) == "plugged_in" &&
-            it->ammo_remaining() ) {
-            stored_fuels.emplace_back( &it->first_ammo() );
-            n--;
-        }
-        if( n == 0 ) {
-            break;
-        }
-    }
-
-    if( n > 0 && weapon.has_flag( flag_IS_UPS ) && weapon.get_var( "cable" ) == "plugged_in" &&
-        weapon.ammo_remaining() ) {
-        stored_fuels.emplace_back( &weapon.first_ammo() );
-    }
-
-    return stored_fuels;
-}
-
-std::vector<item *> Character::get_cable_solar()
-{
-    std::vector<item *> solar_sources;
-
-    const std::vector<item *> cables = items_with( []( const item & it ) {
-        return it.get_var( "state" ) == "solar_pack_link";
-    } );
-    int n = cables.size();
-    if( n == 0 ) {
-        return solar_sources;
-    }
-
-    // There is no way to check which cable is connected to which ups
-    // So if there are multiple cables and some of them are only partially connected this may add wrong solar pack
-    for( item_location it : all_items_loc() ) {
-        if( it->has_flag( flag_SOLARPACK_ON ) && it->get_var( "cable" ) == "plugged_in" ) {
-            solar_sources.emplace_back( it.get_item() );
-            n--;
-        }
-        if( n == 0 ) {
-            break;
-        }
-    }
-
-    if( n > 0 && weapon.has_flag( flag_SOLARPACK_ON ) && weapon.get_var( "cable" ) == "plugged_in" ) {
-        solar_sources.emplace_back( &weapon );
-    }
-
-    return solar_sources;
-}
-
-std::vector<vehicle *> Character::get_cable_vehicle()
-{
-    std::vector<vehicle *> remote_vehicles;
-
-    const std::vector<item *> cables = items_with( []( const item & it ) {
-        return it.get_var( "state" ) == "cable_charger_link";
-    } );
-    int n = cables.size();
-    if( n == 0 ) {
-        return remote_vehicles;
-    }
-
-    map &here = get_map();
-
-    for( const item *cable : cables ) {
-        const cata::optional<tripoint> target = cable->get_cable_target( this, pos() );
-        if( target ) {
-            const optional_vpart_position vp = here.veh_at( *target );
-            if( vp ) {
-                remote_vehicles.emplace_back( &vp->vehicle() );
-            }
-        }
-    }
-
-    return remote_vehicles;
-}
-
 void Character::heat_emission( const bionic &bio, units::energy fuel_energy )
 {
     if( !bio.info().exothermic_power_gen ) {
@@ -3347,6 +3256,97 @@ std::vector<item *> Character::get_bionic_fuels( const bionic_id &bio )
     }
 
     return stored_fuels;
+}
+
+std::vector<item *> Character::get_cable_ups()
+{
+    std::vector<item *> stored_fuels;
+
+    const std::vector<item *> cables = items_with( []( const item & it ) {
+        return it.get_var( "state" ) == "UPS_link";
+    } );
+    int n = cables.size();
+    if( n == 0 ) {
+        return stored_fuels;
+    }
+
+    // There is no way to check which cable is connected to which ups
+    // So if there are multiple cables and some of them are only partially connected this may add wrong ups
+    for( item_location it : all_items_loc() ) {
+        if( it->has_flag( flag_IS_UPS ) && it->get_var( "cable" ) == "plugged_in" &&
+            it->ammo_remaining() ) {
+            stored_fuels.emplace_back( &it->first_ammo() );
+            n--;
+        }
+        if( n == 0 ) {
+            break;
+        }
+    }
+
+    if( n > 0 && weapon.has_flag( flag_IS_UPS ) && weapon.get_var( "cable" ) == "plugged_in" &&
+        weapon.ammo_remaining() ) {
+        stored_fuels.emplace_back( &weapon.first_ammo() );
+    }
+
+    return stored_fuels;
+}
+
+std::vector<item *> Character::get_cable_solar()
+{
+    std::vector<item *> solar_sources;
+
+    const std::vector<item *> cables = items_with( []( const item & it ) {
+        return it.get_var( "state" ) == "solar_pack_link";
+    } );
+    int n = cables.size();
+    if( n == 0 ) {
+        return solar_sources;
+    }
+
+    // There is no way to check which cable is connected to which ups
+    // So if there are multiple cables and some of them are only partially connected this may add wrong solar pack
+    for( item_location it : all_items_loc() ) {
+        if( it->has_flag( flag_SOLARPACK_ON ) && it->get_var( "cable" ) == "plugged_in" ) {
+            solar_sources.emplace_back( it.get_item() );
+            n--;
+        }
+        if( n == 0 ) {
+            break;
+        }
+    }
+
+    if( n > 0 && weapon.has_flag( flag_SOLARPACK_ON ) && weapon.get_var( "cable" ) == "plugged_in" ) {
+        solar_sources.emplace_back( &weapon );
+    }
+
+    return solar_sources;
+}
+
+std::vector<vehicle *> Character::get_cable_vehicle()
+{
+    std::vector<vehicle *> remote_vehicles;
+
+    const std::vector<item *> cables = items_with( []( const item & it ) {
+        return it.get_var( "state" ) == "cable_charger_link";
+    } );
+    int n = cables.size();
+    if( n == 0 ) {
+        return remote_vehicles;
+    }
+
+    map &here = get_map();
+
+    for( const item *cable : cables ) {
+        const cata::optional<tripoint> target = cable->get_cable_target( this, pos() );
+        if( target ) {
+            const optional_vpart_position vp = here.veh_at( *target );
+            if( vp ) {
+                remote_vehicles.emplace_back( &vp->vehicle() );
+            }
+        }
+    }
+
+    return remote_vehicles;
 }
 
 int Character::get_mod_stat_from_bionic( const character_stat &Stat ) const
