@@ -159,6 +159,7 @@ static const itype_id itype_water_clean( "water_clean" );
 
 static const json_character_flag json_flag_BIONIC_GUN( "BIONIC_GUN" );
 static const json_character_flag json_flag_BIONIC_NPC_USABLE( "BIONIC_NPC_USABLE" );
+static const json_character_flag json_flag_BIONIC_POWER_SOURCE( "BIONIC_POWER_SOURCE" );
 static const json_character_flag json_flag_BIONIC_TOGGLED( "BIONIC_TOGGLED" );
 static const json_character_flag json_flag_BIONIC_WEAPON( "BIONIC_WEAPON" );
 static const json_character_flag json_flag_ENHANCED_VISION( "ENHANCED_VISION" );
@@ -1588,7 +1589,7 @@ void Character::process_bionic( bionic &bio )
     bio.charge_timer = std::max( 0_turns, bio.charge_timer - discharge_rate );
     if( bio.charge_timer <= 0_turns ) {
         if( bio.info().charge_time > 0_turns ) {
-            if( bio.info().has_flag( STATIC( json_character_flag( "BIONIC_POWER_SOURCE" ) ) ) ) {
+            if( bio.info().has_flag( json_flag_BIONIC_POWER_SOURCE ) ) {
                 // Convert fuel to bionic power
                 burn_fuel( bio );
                 // Reset timer
@@ -3039,7 +3040,7 @@ float bionic::get_safe_fuel_thresh() const
 
 bool bionic::is_safe_fuel_on() const
 {
-    return !info().fuel_opts.empty() && get_safe_fuel_thresh() > -1.f;
+    return info().has_flag( json_flag_BIONIC_POWER_SOURCE ) && get_safe_fuel_thresh() > -1.f;
 }
 
 void bionic::set_safe_fuel_thresh( float val )
