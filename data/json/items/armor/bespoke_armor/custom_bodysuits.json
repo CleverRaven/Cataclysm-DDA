@@ -493,7 +493,7 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "thick Kevlar wetsuit" },
-    "description": "A hand-built combination armor made from a thick wetsuit padded with layers of Kevlar.  While smotheringly warm and hard to move in it provides substantial protection from harm and from the elements.",
+    "description": "A hand-built combination armor made from a thick wetsuit padded with layers of Kevlar.  While uncomfortably warm and hard to move in it provides substantial protection from harm and from the elements.",
     "weight": "14905 g",
     "volume": "15000 ml",
     "price_postapoc": 5000,
