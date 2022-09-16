@@ -1442,9 +1442,9 @@ class Character : public Creature, public visitable
         /**Returns bionic_id of first remote fueled bionic found*/
         bionic_id get_remote_fueled_bionic() const;
 
-        /**Return list of available fuel for this bionic*/
+        /**Return list of available fuel sources that are not empty for this bionic*/
         std::vector<item *> get_bionic_fuels( const bionic_id &bio );
-        /** Returns ammo from UPS connected to cable charger bionic */
+        /** Returns not-empty UPS connected to cable charger bionic */
         std::vector<item *> get_cable_ups();
         /** Returns solar items connected to cable charger bionic */
         std::vector<item *> get_cable_solar();

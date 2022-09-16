@@ -460,7 +460,7 @@ TEST_CASE( "fueled bionics", "[bionics] [item]" )
 
         // Add fuel. Now it turns on and generates power.
         bat_compartment->magazine_current()->ammo_set( battery.ammo_default(), 2 );
-        REQUIRE( bat_compartment->ammo_remaining() == 10 );
+        REQUIRE( bat_compartment->ammo_remaining() == 2 );
         CHECK( dummy.activate_bionic( bio ) );
         CHECK_FALSE( dummy.get_bionic_fuels( bat_bionic ).empty() );
         dummy.suffer();
@@ -519,7 +519,7 @@ TEST_CASE( "fueled bionics", "[bionics] [item]" )
 
         // Fill the battery. Works now.
         ups->magazine_current()->ammo_set( ups_mag.ammo_default(), 2 );
-        REQUIRE( ups->ammo_remaining() == 500 );
+        REQUIRE( ups->ammo_remaining() == 2 );
         CHECK( dummy.activate_bionic( bio ) );
         CHECK_FALSE( dummy.get_cable_ups().empty() );
         dummy.suffer();

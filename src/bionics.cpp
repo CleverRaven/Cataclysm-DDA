@@ -1415,7 +1415,14 @@ void Character::burn_fuel( bionic &bio )
         // Bionic that uses fuel items from some external connected source.
 
         for( item *fuel_source : result.connected_fuel ) {
-            energy_gain = fuel_source->fuel_energy() / fuel_source->charges;
+            item *fuel;
+            // Fuel may be ammo or in container
+            if( fuel_source->ammo_remaining() ) {
+                fuel = &fuel_source->first_ammo();
+            } else {
+                fuel = *fuel_source->all_items_top().begin();
+            }
+            energy_gain = fuel->fuel_energy() / fuel->charges;
 
             if( bio.is_safe_fuel_on() &&
                 get_power_level() + energy_gain * efficiency >= get_max_power_level() * std::min( 1.0f,
@@ -1423,7 +1430,11 @@ void Character::burn_fuel( bionic &bio )
                 // Do not waste fuel charging over limit.
                 return;
             }
-            fuel_source->charges--;
+            //fuel_source->ammo_consume(1, pos(), this);
+            fuel->charges--;
+            if( fuel->charges == 0 ) {
+                i_rem( fuel );
+            }
         }
     }
 
@@ -3244,12 +3255,13 @@ std::vector<item *> Character::get_bionic_fuels( const bionic_id &bio )
         for( const material_id &mat : bio->fuel_opts ) {
             if( it->ammo_remaining() && it->first_ammo().made_of( mat ) ) {
                 // Ammo from magazines
-                stored_fuels.emplace_back( &it->first_ammo() );
+                stored_fuels.emplace_back( it.get_item() );
             } else {
                 for( item *cit : it->all_items_top() ) {
                     // Fuel from containers
                     if( cit->made_of( mat ) ) {
-                        stored_fuels.emplace_back( cit );
+                        stored_fuels.emplace_back( it.get_item() );
+                        break;
                     }
                 }
             }
@@ -3276,7 +3288,7 @@ std::vector<item *> Character::get_cable_ups()
     for( item_location it : all_items_loc() ) {
         if( it->has_flag( flag_IS_UPS ) && it->get_var( "cable" ) == "plugged_in" &&
             it->ammo_remaining() ) {
-            stored_fuels.emplace_back( &it->first_ammo() );
+            stored_fuels.emplace_back( it.get_item() );
             n--;
         }
         if( n == 0 ) {

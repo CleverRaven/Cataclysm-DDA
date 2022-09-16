@@ -205,13 +205,20 @@ static void draw_bionics_titlebar( const catacurses::window &window, avatar *p,
     bool found_fuel = false;
     fuel_string = _( "Available Fuel: " );
     for( const bionic &bio : *p->my_bionics ) {
-        for( const item *fuel : p->get_bionic_fuels( bio.id ) ) {
+        for( const item *fuel_source : p->get_bionic_fuels( bio.id ) ) {
+            const item *fuel;
+            if( fuel_source->ammo_remaining() ) {
+                fuel = &fuel_source->first_ammo();
+            } else {
+                fuel = *fuel_source->all_items_top().begin();
+            }
             found_fuel = true;
             fuel_string += fuel->tname() + ": " + colorize( std::to_string( fuel->charges ), c_green ) + " ";
         }
     }
-    for( const item *fuel : p->get_cable_ups() ) {
+    for( const item *ups : p->get_cable_ups() ) {
         found_fuel = true;
+        const item *fuel = &ups->first_ammo();
         fuel_string += fuel->tname() + ": " + colorize( std::to_string( fuel->charges ), c_green ) + " ";
     }
     for( vehicle *veh : p->get_cable_vehicle() ) {
