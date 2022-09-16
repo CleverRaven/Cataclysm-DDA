@@ -711,7 +711,7 @@
     "time": "60 m",
     "autolearn": true,
     "qualities": [ { "id": "SEW", "level": 2 }, { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "canvas_patch", 8 ] ], [ [ "filament_durable", 15, "LIST" ] ] ]
+    "components": [ [ [ "canvas_patch", 8 ] ], [ [ "filament_canvas", 15, "LIST" ] ] ]
   },
   {
     "result": "canvas_patch",
@@ -723,7 +723,7 @@
     "time": "20 m",
     "autolearn": true,
     "qualities": [ { "id": "SEW", "level": 2 }, { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "scrap_canvas", 4 ] ], [ [ "filament_durable", 15, "LIST" ] ] ]
+    "components": [ [ [ "scrap_canvas", 4 ] ], [ [ "filament_canvas", 15, "LIST" ] ] ]
   },
   {
     "result": "sheet_neoprene_patchwork",
