@@ -1646,10 +1646,14 @@ static bool attempt_recharge( Character &p, bionic &bio, units::energy &amount )
 
 void Character::process_bionic( bionic &bio )
 {
-    bionic_fuels result = bionic_fuel_check( bio, false );
+    bionic_fuels result;
 
     // Only powered bionics should be processed
     if( !bio.powered ) {
+        if( get_effective_efficiency( bio, bio.info().passive_fuel_efficiency ) == 0 ) {
+            return;
+        }
+        result = bionic_fuel_check( bio, false );
         burn_fuel( bio, result );
         return;
     }
@@ -1678,6 +1682,7 @@ void Character::process_bionic( bionic &bio )
 
     bio.charge_timer = std::max( 0_turns, bio.charge_timer - discharge_rate );
     if( bio.charge_timer <= 0_turns ) {
+        result = bionic_fuel_check( bio, false );
         if( bio.info().charge_time > 0_turns ) {
             if( bio.info().has_flag( STATIC( json_character_flag( "BIONIC_POWER_SOURCE" ) ) ) ) {
                 // Convert fuel to bionic power
