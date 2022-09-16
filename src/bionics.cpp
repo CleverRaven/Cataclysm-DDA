@@ -1361,7 +1361,7 @@ Character::bionic_fuels Character::bionic_fuel_check( bionic &bio,
     return result;
 }
 
-void Character::burn_fuel( bionic &bio, bionic_fuels &result )
+void Character::burn_fuel( bionic &bio )
 {
     float efficiency;
     if( !bio.powered ) {
@@ -1388,6 +1388,7 @@ void Character::burn_fuel( bionic &bio, bionic_fuels &result )
         return;
     }
 
+    bionic_fuels result = bionic_fuel_check( bio, false );
 
     units::energy energy_gain = 0_kJ;
     map &here = get_map();
@@ -1646,11 +1647,10 @@ static bool attempt_recharge( Character &p, bionic &bio, units::energy &amount )
 
 void Character::process_bionic( bionic &bio )
 {
-    bionic_fuels result = bionic_fuel_check( bio, false );
 
     // Only powered bionics should be processed
     if( !bio.powered ) {
-        burn_fuel( bio, result );
+        burn_fuel( bio );
         return;
     }
 
@@ -1681,7 +1681,7 @@ void Character::process_bionic( bionic &bio )
         if( bio.info().charge_time > 0_turns ) {
             if( bio.info().has_flag( STATIC( json_character_flag( "BIONIC_POWER_SOURCE" ) ) ) ) {
                 // Convert fuel to bionic power
-                burn_fuel( bio, result );
+                burn_fuel( bio );
                 // Reset timer
                 bio.charge_timer = bio.info().charge_time;
             } else {
