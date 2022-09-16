@@ -4980,16 +4980,17 @@ void Character::get_sick()
     // Health is in the range [-200,200].
     // Diseases are half as common for every 50 health you gain.
     float health_factor = std::pow( 2.0f, get_lifestyle() / 50.0f );
+    float env_factor = std::pow( 0.3f, get_env_resist( body_part_mouth ) );
 
-    int disease_rarity = static_cast<int>( checks_per_year * health_factor / base_diseases_per_year );
+    int disease_rarity = static_cast<int>( checks_per_year * health_factor * env_factor / base_diseases_per_year );
     add_msg_debug( debugmode::DF_CHAR_HEALTH, "disease_rarity = %d", disease_rarity );
     if( one_in( disease_rarity ) ) {
         if( one_in( 6 ) ) {
             // The flu typically lasts 3-10 days.
-            add_env_effect( effect_flu, body_part_mouth, 3, rng( 3_days, 10_days ) );
+            add_effect( effect_flu, rng( 3_days, 10_days ) );
         } else {
             // A cold typically lasts 1-14 days.
-            add_env_effect( effect_common_cold, body_part_mouth, 3, rng( 1_days, 14_days ) );
+            add_effect( effect_common_cold, rng( 1_days, 14_days ) );
         }
     }
 }
