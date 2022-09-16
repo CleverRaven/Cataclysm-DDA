@@ -136,6 +136,10 @@ static const anatomy_id anatomy_human_anatomy( "human_anatomy" );
 
 static const efftype_id effect_riding( "riding" );
 
+static const itype_id itype_internal_battery_compartment( "internal_battery_compartment" );
+static const itype_id itype_internal_ethanol_tank( "internal_ethanol_tank" );
+static const itype_id itype_internal_gasoline_tank( "internal_gasoline_tank" );
+static const itype_id itype_internal_oil_tank( "internal_oil_tank" );
 static const itype_id itype_rad_badge( "rad_badge" );
 static const itype_id itype_radio( "radio" );
 static const itype_id itype_radio_on( "radio_on" );
@@ -1168,6 +1172,54 @@ void Character::load( const JsonObject &data )
         for( const bionic_id &bid : bio.id->included_bionics ) {
             if( !has_bionic( bid ) ) {
                 add_bionic( bid, bio.get_uid() );
+            }
+        }
+    }
+
+    // Add missing pseudoitems
+    std::vector<item_location> items = top_items_loc();
+    for( const bionic &bio : *my_bionics ) {
+        for( const itype_id &b_it : bio.id->passive_pseudo_items ) {
+            bool pseudo_found = false;
+            for( item_location it : items ) {
+                if( it->typeId() == b_it ) {
+                    pseudo_found = true;
+                    break;
+                }
+            }
+            if( !pseudo_found ) {
+                // No pseudoitem was found so add it.
+                item pseudo( b_it );
+
+                if( pseudo.has_flag( flag_INTEGRATED ) ) {
+                    // Migrate old fuels to new system.
+                    // Needed to be compatible with 0.F
+                    if( b_it == itype_internal_gasoline_tank && !get_value( "gasoline" ).empty() ) {
+                        item gasoline( "gasoline" );
+                        gasoline.charges = std::stoi( get_value( "gasoline" ) );
+                        remove_value( "gasoline" );
+                        pseudo.put_in( gasoline, item_pocket::pocket_type::CONTAINER );
+                    } else if( b_it == itype_internal_ethanol_tank && !get_value( "alcohol" ).empty() ) {
+                        item ethanol( "chem_ethanol" );
+                        ethanol.charges = std::stoi( get_value( "alcohol" ) );
+                        remove_value( "alcohol" );
+                        pseudo.put_in( ethanol, item_pocket::pocket_type::CONTAINER );
+                    } else if( b_it == itype_internal_oil_tank && !get_value( "motor_oil" ).empty() ) {
+                        item oil( "motor_oil" );
+                        oil.charges = std::stoi( get_value( "motor_oil" ) );
+                        remove_value( "motor_oil" );
+                        pseudo.put_in( oil, item_pocket::pocket_type::CONTAINER );
+                    } else if( b_it == itype_internal_battery_compartment && !get_value( "battery" ).empty() ) {
+                        item battery( "medium_battery_cell" );
+                        item battery_charge( "battery" );
+                        battery_charge.charges = std::min( 500, std::stoi( get_value( "battery" ) ) );
+                        battery.put_in( battery_charge, item_pocket::pocket_type::MAGAZINE );
+                        remove_value( "battery" );
+                        pseudo.put_in( battery, item_pocket::pocket_type::MAGAZINE_WELL );
+                    }
+
+                    wear_item( pseudo, false );
+                }
             }
         }
     }

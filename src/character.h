@@ -1435,25 +1435,14 @@ class Character : public Creature, public visitable
         bool has_active_bionic( const bionic_id &b ) const;
         /**Returns true if the player has any bionic*/
         bool has_any_bionic() const;
-        /**Returns true if the character can fuel a bionic with the item*/
-        bool can_fuel_bionic_with( const item &it ) const;
         /**Return bionic_id of bionics able to use it as fuel*/
-        std::vector<bionic_id> get_bionic_fueled_with( const item &it ) const;
-        std::vector<bionic_id> get_bionic_fueled_with( const material_id &mat ) const;
+        std::vector<bionic_id> get_bionic_fueled_with_muscle() const;
         /**Return bionic_id of fueled bionics*/
         std::vector<bionic_id> get_fueled_bionics() const;
         /**Returns bionic_id of first remote fueled bionic found*/
         bionic_id get_remote_fueled_bionic() const;
-        /**Return bionic_id of bionic of most fuel efficient bionic*/
-        bionic_id get_most_efficient_bionic( const std::vector<bionic_id> &bids ) const;
         /**Return list of available fuel for this bionic*/
-        std::vector<material_id> get_fuel_available( const bionic_id &bio ) const;
-        /**Return available space to store specified fuel*/
-        int get_fuel_capacity( const material_id &fuel ) const;
-        /**Return total space to store specified fuel*/
-        int get_total_fuel_capacity( const material_id &fuel ) const;
-        /**Updates which bionic contain fuel and which is empty*/
-        void update_fuel_storage( const material_id &fuel );
+        std::vector<item *> get_bionic_fuels( const bionic_id &bio );
         /**Get stat bonus from bionic*/
         int get_mod_stat_from_bionic( const character_stat &Stat ) const;
         // route for overmap-scale traveling
@@ -1549,12 +1538,12 @@ class Character : public Creature, public visitable
         /** Used for eating object at a location. Removes item if all of it was consumed.
         *   @returns trinary enum NONE, SOME or ALL amount consumed.
         */
-        trinary consume( item_location loc, bool force = false, bool refuel = false );
+        trinary consume( item_location loc, bool force = false );
 
         /** Used for eating a particular item that doesn't need to be in inventory.
          *  @returns trinary enum NONE, SOME or ALL (doesn't remove).
          */
-        trinary consume( item &target, bool force = false, bool refuel = false );
+        trinary consume( item &target, bool force = false );
 
         /**
          * Stores an item inside another consuming moves proportional to weapon skill and volume.
@@ -1630,13 +1619,12 @@ class Character : public Creature, public visitable
         void leak_items();
         /** Search surrounding squares for traps (and maybe other things in the future). */
         void search_surroundings();
-        /**Passively produce power from PERPETUAL fuel*/
-        void passive_power_gen( const bionic &bio );
-        /**Find fuel used by remote powered bionic*/
-        material_id find_remote_fuel( bool look_only = false );
-        /**Consume fuel used by remote powered bionic, return amount of request unfulfilled (0 if totally successful).*/
-        int consume_remote_fuel( int amount );
-        void reset_remote_fuel();
+        /** Returns ammo from UPS connected to cable charger bionic */
+        std::vector<item *> get_cable_ups();
+        /** Returns solar items connected to cable charger bionic */
+        std::vector<item *> get_cable_solar();
+        /** Returns vehicles connected to cable charger bionic */
+        std::vector<vehicle *> get_cable_vehicle();
         /**Handle heat from exothermic power generation*/
         void heat_emission( const bionic &bio, units::energy fuel_energy );
         /**Applies modifier to fuel_efficiency and returns the resulting efficiency*/
@@ -2915,8 +2903,6 @@ class Character : public Creature, public visitable
         int nutrition_for( const item &comest ) const;
         /** Can the food be [theoretically] eaten no matter the consequences? */
         ret_val<edible_rating> can_eat( const item &food ) const;
-        /** Can the fuel be [theoretically] eaten? */
-        ret_val<edible_rating> can_consume_fuel( const item &fuel ) const;
         /**
          * Same as @ref can_eat, but takes consequences into account.
          * Asks about them if @param interactive is true, refuses otherwise.
@@ -2927,11 +2913,6 @@ class Character : public Creature, public visitable
         */
         int get_acquirable_energy( const item &it ) const;
 
-        /**
-        * Recharge CBMs whenever possible.
-        * @return true when recharging was successful.
-        */
-        bool fuel_bionic_with( item &it );
         /** Used to apply stimulation modifications from food and medication **/
         void modify_stimulation( const islot_comestible &comest );
         /** Used to apply fatigue modifications from food and medication **/
@@ -3508,17 +3489,22 @@ class Character : public Creature, public visitable
          */
         bool is_visible_in_range( const Creature &critter, int range ) const;
 
-        struct auto_toggle_bionic_result;
+        struct bionic_fuels;
 
         /**
-         * Automatically turn bionic on or off according to remaining fuel and
-         * user settings, and return info of the first burnable fuel.
+         * Check fuel for the bionic.
+         * Returns fuels available for the bionic.
+         * @param bio the bionic
+         * @param start true if player is trying to turn the bionic on
          */
-        auto_toggle_bionic_result auto_toggle_bionic( bionic &bio, bool start );
+        bionic_fuels bionic_fuel_check( bionic &bio, bool start );
+
         /**
-         *Convert fuel to bionic power
+         * Convert fuel to bionic power. Handles both active and passive bionics
+         * @param bio the bionic
+         * @param result contains fuel source info
          */
-        void burn_fuel( bionic &bio, const auto_toggle_bionic_result &result );
+        void burn_fuel( bionic &bio, bionic_fuels &result );
 
         player_activity destination_activity;
         /// A unique ID number, assigned by the game class. Values should never be reused.

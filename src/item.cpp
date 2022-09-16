@@ -10459,6 +10459,9 @@ const material_type &item::get_base_material() const
     }
     // Material portions all equal / not specified. Select first material.
     if( portion == 1 ) {
+        if( is_corpse() ) {
+            return corpse->mat.begin()->first.obj();
+        }
         return *type->default_mat;
     }
     return *m;

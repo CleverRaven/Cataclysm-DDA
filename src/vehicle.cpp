@@ -3503,10 +3503,11 @@ int vehicle::consumption_per_hour( const itype_id &ftype, units::energy fuel_per
         return 0;
     }
 
-    units::energy energy_per_h = fuel_per_s * 3600;
-    units::energy energy_per_liter = fuel.get_base_material().get_fuel_data().energy;
-
-    return -1000 * energy_per_h / energy_per_liter;
+    // constant is 3600 sec/hr * 1000 ml/L
+    // fuel_per_s is energy per second
+    // fuel energy is energy per L
+    // Returns mL/hr
+    return -3600 * 1000 * fuel_per_s / fuel.get_base_material().get_fuel_data().energy;
 }
 
 int vehicle::total_power_w( const bool fueled, const bool safe ) const
@@ -4697,7 +4698,7 @@ void vehicle::consume_fuel( int load, bool idling )
         base_burn = std::max( eff_load / 3, base_burn );
         //charge bionics when using muscle engine
         const item muscle( "muscle" );
-        for( const bionic_id &bid : player_character.get_bionic_fueled_with( muscle ) ) {
+        for( const bionic_id &bid : player_character.get_bionic_fueled_with_muscle() ) {
             if( player_character.has_active_bionic( bid ) ) { // active power gen
                 // more pedaling = more power
                 player_character.mod_power_level( muscle.fuel_energy() *
