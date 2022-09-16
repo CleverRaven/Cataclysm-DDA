@@ -25,6 +25,7 @@
       "I": "t_region_tree_shade",
       "+": "t_door_c",
       "D": "t_door_metal_c",
+      "!": "t_door_metal_locked",
       "E": "t_elevator",
       "G": "t_door_glass_c",
       "H": "t_wall_glass",
