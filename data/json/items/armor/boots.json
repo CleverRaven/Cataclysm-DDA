@@ -750,7 +750,17 @@
     "name": { "str": "pair of case hardened sheet metal sabatons", "str_pl": "pairs of case hardened sheet metal sabatons" },
     "description": "Sabatons made of sheet metal, case hardened to protect your feet if you drop something heavy on them.  No relation to the band, aside from being very metal.",
     "material": [ "ch_steel" ],
-    "extend": { "flags": [ "STURDY" ] }
+    "extend": { "flags": [ "STURDY" ] },
+    "armor": [
+      {
+        "material": [ { "type": "ch_steel", "covered_by_mat": 100, "thickness": 1.5 } ],
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [ "foot_toes_r", "foot_toes_l", "foot_heel_r", "foot_heel_l", "foot_arch_r", "foot_arch_l" ],
+        "coverage": 95,
+        "encumbrance": 15,
+        "layers": [ "OUTER" ]
+      }
+    ]
   },
   {
     "id": "boots_steel",

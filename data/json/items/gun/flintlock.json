@@ -29,7 +29,7 @@
     "copy-from": "carbine_flintlock",
     "type": "GUN",
     "name": { "str": "handmade double-barrel flintlock" },
-    "description": "This is a compact muzzle-loading rifle combining a pair of rudimentary flintlock actions and two barrels.  Whereas an antique multiple-barrel flintlock is an intricate work of gunsmithing, this weapon is simpler yet still serviceable.",
+    "description": "A compact muzzle-loading rifle combining a pair of rudimentary flintlock actions and two barrels.  Whereas an antique multiple-barrel flintlock is an intricate work of gunsmithing, this weapon is simpler yet still serviceable.",
     "clip_size": 2,
     "price": 43000,
     "price_postapoc": 2750,

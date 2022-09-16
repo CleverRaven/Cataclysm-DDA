@@ -561,8 +561,14 @@ class vpart_migration
         /** Clears migration list */
         static void reset();
 
+        /** Finalizes migrations */
+        static void finalize();
+
         /** Map of deprecated vpart_id to their replacement vpart_id */
         static const std::map<vpart_id, vpart_id> &get_migrations();
+
+        /** Find vpart_id with all migrations applied. */
+        static vpart_id migrate( const vpart_id &original );
 };
 
 #endif // CATA_SRC_VEH_TYPE_H

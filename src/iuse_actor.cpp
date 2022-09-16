@@ -617,7 +617,7 @@ cata::optional<int> explosion_iuse::use( Character &p, item &it, bool t, const t
     }
 
     if( explosion.power >= 0.0f ) {
-        explosion_handler::explosion( pos, explosion );
+        explosion_handler::explosion( &p, pos, explosion );
     }
 
     if( draw_explosion_radius >= 0 ) {

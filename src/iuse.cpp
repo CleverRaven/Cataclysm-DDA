@@ -3798,7 +3798,7 @@ cata::optional<int> iuse::grenade_inc_act( Character *p, item *it, bool t, const
                 here.add_field( flame, fd_fire, rng( 0, 2 ) );
             }
         }
-        explosion_handler::explosion( pos, 8, 0.8, true );
+        explosion_handler::explosion( p, pos, 8, 0.8, true );
         for( const tripoint &dest : here.points_in_radius( pos, 2 ) ) {
             here.add_field( dest, fd_incendiary, 3 );
         }
@@ -8038,9 +8038,9 @@ cata::optional<int> iuse::remoteveh( Character *p, item *it, bool t, const tripo
         const auto rctrl_parts = veh->get_avail_parts( "REMOTE_CONTROLS" );
         // Revert to original behavior if we can't find remote controls.
         if( empty( rctrl_parts ) ) {
-            veh->use_controls( pos );
+            veh->interact_with( pos );
         } else {
-            veh->use_controls( rctrl_parts.begin()->pos() );
+            veh->interact_with( rctrl_parts.begin()->pos() );
         }
     }
 

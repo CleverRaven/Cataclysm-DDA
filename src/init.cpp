@@ -714,6 +714,7 @@ void DynamicDataLoader::finalize_loaded_data( loading_ui &ui )
             { _( "Overmap locations" ), &overmap_locations::finalize },
             { _( "Cities" ), &city::finalize },
             { _( "Start locations" ), &start_locations::finalize_all },
+            { _( "Vehicle part migrations" ), &vpart_migration::finalize },
             { _( "Vehicle prototypes" ), &vehicle_prototype::finalize },
             { _( "Mapgen weights" ), &calculate_mapgen_weights },
             { _( "Mapgen parameters" ), &overmap_specials::finalize_mapgen_parameters },

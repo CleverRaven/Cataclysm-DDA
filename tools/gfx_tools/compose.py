@@ -25,6 +25,9 @@ from pathlib import Path
 from typing import Any, Optional, Tuple, Union
 
 try:
+    vips_path = os.getenv("LIBVIPS_PATH")
+    if vips_path is not None and vips_path != "":
+        os.environ["PATH"] += ";" + os.path.join(vips_path, "bin")
     import pyvips
     Vips = pyvips
 except ImportError:
@@ -255,6 +258,8 @@ class Tileset:
         self.sprite_height = 16
         self.pixelscale = 1
         self.iso = False
+        self.retract_dist_min = -1.0
+        self.retract_dist_max = 1.0
         self.info = [{}]
 
         if not os.access(info_path, os.R_OK):
@@ -265,6 +270,10 @@ class Tileset:
             self.sprite_width = self.info[0].get('width', self.sprite_width)
             self.sprite_height = self.info[0].get('height', self.sprite_height)
             self.pixelscale = self.info[0].get('pixelscale', self.pixelscale)
+            self.retract_dist_min = self.info[0].get('retract_dist_min',
+                                                     self.retract_dist_min)
+            self.retract_dist_max = self.info[0].get('retract_dist_max',
+                                                     self.retract_dist_max)
             self.iso = self.info[0].get('iso', self.iso)
 
     def determine_conffile(self) -> str:
@@ -456,6 +465,8 @@ class Tileset:
                 'width': self.sprite_width,
                 'height': self.sprite_height,
                 'iso': self.iso,
+                'retract_dist_min': self.retract_dist_min,
+                'retract_dist_max': self.retract_dist_max
             }],
             'tiles-new': tiles_new
         }

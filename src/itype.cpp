@@ -38,6 +38,8 @@ std::string enum_to_string<condition_type>( condition_type data )
             return "FLAG";
         case condition_type::COMPONENT_ID:
             return "COMPONENT_ID";
+        case condition_type::COMPONENT_ID_SUBSTRING:
+            return "COMPONENT_ID_SUBSTRING";
         case condition_type::VAR:
             return "VAR";
         case condition_type::SNIPPET_ID:
