@@ -4010,6 +4010,14 @@ std::unique_ptr<activity_actor> insert_item_activity_actor::deserialize( JsonVal
     return actor.clone();
 }
 
+reload_activity_actor::reload_activity_actor( item::reload_option &&opt, int extra_moves )
+{
+    moves_total = opt.moves() + extra_moves;
+    quantity = opt.qty();
+    reload_targets.emplace_back( std::move( opt.target ) );
+    reload_targets.emplace_back( std::move( opt.ammo ) );
+}
+
 bool reload_activity_actor::can_reload() const
 {
     if( reload_targets.size() != 2 || quantity <= 0 ) {

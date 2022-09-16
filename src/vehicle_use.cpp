@@ -1887,9 +1887,7 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint &p, bool with_
             item::reload_option opt = get_player_character().select_ammo( loc, true );
             if( opt )
             {
-                const int moves = opt.moves();
-                std::vector<item_location> targets { { opt.target, std::move( opt.ammo ) } };
-                reload_activity_actor reload_act( moves, opt.qty(), targets );
+                reload_activity_actor reload_act( std::move( opt ) );
                 get_player_character().assign_activity( player_activity( reload_act ) );
             }
         } );

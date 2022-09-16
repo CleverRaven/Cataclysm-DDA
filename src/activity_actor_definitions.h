@@ -1059,11 +1059,7 @@ class harvest_activity_actor : public activity_actor
 class reload_activity_actor : public activity_actor
 {
     public:
-        reload_activity_actor() = default;
-        reload_activity_actor( int moves, int qty,
-                               std::vector<item_location> &targets ) : moves_total( moves ), quantity( qty ),
-            reload_targets( targets ) {
-        }
+        explicit reload_activity_actor( item::reload_option &&opt, int extra_moves = 0 );
 
         activity_id get_type() const override {
             return activity_id( "ACT_RELOAD" );
@@ -1082,6 +1078,7 @@ class reload_activity_actor : public activity_actor
         static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
 
     private:
+        explicit reload_activity_actor() = default;
         int moves_total{};
         int quantity{};
         std::vector<item_location> reload_targets{};

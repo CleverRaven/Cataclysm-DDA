@@ -2591,12 +2591,8 @@ cata::optional<int> ammobelt_actor::use( Character &p, item &, bool, const tripo
 
     item_location loc = p.i_add( mag );
     item::reload_option opt = p.select_ammo( loc, true );
-    std::vector<item_location> targets;
     if( opt ) {
-        const int moves = opt.moves();
-        targets.push_back( loc );
-        targets.push_back( std::move( opt.ammo ) );
-        p.assign_activity( player_activity( reload_activity_actor( moves, opt.qty(), targets ) ) );
+        p.assign_activity( player_activity( reload_activity_actor( std::move( opt ) ) ) );
     } else {
         loc.remove_item();
     }

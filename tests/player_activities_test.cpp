@@ -1723,7 +1723,7 @@ static std::vector<player_activity> get_test_activities( avatar &dummy, map &m )
         player_activity( play_with_pet_activity_actor() ),
         //player_activity( prying_activity_actor( p, loc ) ),
         //player_activity( read_activity_actor() ),
-        player_activity( reload_activity_actor( 1, 0, locs ) ),
+        //player_activity( reload_activity_actor( 1, 0, locs ) ),
         player_activity( safecracking_activity_actor( north ) ),
         player_activity( shave_activity_actor() ),
         //player_activity( shearing_activity_actor( north ) ),
