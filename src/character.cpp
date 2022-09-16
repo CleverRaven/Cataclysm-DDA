@@ -4982,7 +4982,8 @@ void Character::get_sick()
     float health_factor = std::pow( 2.0f, get_lifestyle() / 50.0f );
     float env_factor = 1.0f + std::pow( 0.3f, get_env_resist( body_part_mouth ) );
 
-    int disease_rarity = static_cast<int>( checks_per_year * health_factor * env_factor / base_diseases_per_year );
+    int disease_rarity = static_cast<int>( checks_per_year * health_factor * env_factor /
+                                           base_diseases_per_year );
     add_msg_debug( debugmode::DF_CHAR_HEALTH, "disease_rarity = %d", disease_rarity );
     if( one_in( disease_rarity ) ) {
         if( one_in( 6 ) ) {
