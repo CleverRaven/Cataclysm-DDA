@@ -243,65 +243,184 @@ Everywhere else   | Predominately 9mm and 223. Always with standard magazine  | 
 Bow damage is based on the momentum achieved in the projectile.  Since arrows and bolts have sharp cutting surfaces, the penetration and therefore damage achieved is based on the projectile's capacity for slicing through tissues.  The arrow has a modifier based on construction, material and design, most critically centered around the effectiveness of the head.  Base damage is calculated from momentum by taking momentum in Slug-foot-seconds, multiplying by 150 and subtracting 32. This was arrived at by taking well-regarded bowhunting guidelines and determining the damage numbers necessary for a kill of various game on a critical hit, see tests/archery_damage_test.cpp for details.
 
 ## Ammo stats
-The damage (**Dmg**) of firearm ammunition is the square root of a round's muzzle energy in joules (**Energy, J**) rounded to the nearest integer with an arbitrary increase or decrease to account for terminal ballistics. Damage of handloaded ammo is set to 92% (rounded down) of their factory counterparts. A similar system for calculating recoil is planned but not currently being worked on. The figures used to calculate stats and any other relevant information are presented in table below.
+The damage (**Dmg**) of of a given **caliber** shot through a normal firearm is the square root of a round's muzzle energy in joules (**M.E.**), rounded to the nearest integer with an arbitrary increase or decrease to account for terminal ballistics of different projectiles. Normal in this case is full/total metal jacketed, lead core projectiles, including slugs out of shotguns. Damage of handloaded ammo is set to 92% (rounded down) of their factory counterparts. Damage of smokeless cartridges loaded with black powder is set to 76% (rounded down) of their factory counterparts, and damage of smokeless cartridges with bullet diameter less than .30 inches loaded with black powder is set to 57% (rounded down) of their factory counterparts. A table calculating a given round's damage has been prepared and is provided below.
 
-Each cartridge also has a Base Barrel Length (**Base Brl**) listed; this determines the damage for the connected guns. A firearm has its damage modifier determined by its real life barrel length; for every three inches between it and the listed baseline here, the gun takes a 1 point bonus or penalty, rounding to the nearest modifier. For example, a .45 ACP gun with a 7 inch barrel would get a +1 bonus (against a baseline of 5 inches).
+Each cartridge also has a base barrel length (**Brl**) listed determined based on cartridge length, **OAL**, (with some exceptions).
 
-Ammo ID            | Description                 | Energy, J | Dmg | Base Brl | Applied Modifiers / Comments |
--------------------|-----------------------------|-----------|-----|----------|-------------------------------
-.22 CB             | 18gr CB bullet              | 39        | 6   | 7.87in   |                              |
-.22LR              | 40gr unjacketed bullet      | 141       | 12  | 6in      |                              |
-.22LR FMJ          | 30gr FMJ bullet             | 277       | 17  | 6in      |                              |
-.32 ACP            | 60gr JHP bullet             | 218       | 15  | 4in      |                              |
-7.62x25mm          | 85gr JHP bullet             | 544       | 23  | 4.7in    |                              |
-7.62x25mm Type P   | 120gr bullet                | 245       | 15  | 9.6in    | Fired from the Type 64 SMG; need more data here |
-9x18mm 57-N-181S   | 93gr FMJ bullet             | 251       | 16  | 3.8in    |                              |
-9x18mm SP-7        | 93gr bullet                 | 417       | 20  | 3.8in    |                              |
-9x18mm RG028       | 93gr hardened steel core bullet | 317   | 18  | 3.8in    |          damage reduced by 4 |
-9x19mm FMJ         | 115gr FMJ bullet            | 420       | 24  | 5.9in    |                              |
-9x19mm JHP         | 115gr JHP bullet            | 533       | 23  | 5.9in    |damage increased by 3         |
-9x19mm +P          | 115gr JHP bullet            | 632       | 25  | 5.9in    |                              |
-9x19mm +P+         | 115gr JHP bullet            | 678       | 26  | 5.9in    |                              |
-.38 Special        | 130gr FMJ bullet            | 256       | 16  | 4in      |                              |
-.38 FMJ            | 130gr FMJ bullet            | 256       | 16  | 4in      |                              |
-.38 Super          | 147gr JHP bullet            | 660       | 26  | 4in      |                              |
-10mm Auto          | 180gr FMJ bullet            | 799       | 28  | 5in      |                              |
-.40 S&W            | 135gr JHP bullet            | 575       | 24  | 4in      |                              |
-.40 FMJ            | 180gr FMJ bullet            | 598       | 24  | 4in      |                              |
-.44 Magnum         | 240gr JHP bullet            | 1570      | 40  | 7.5in    |                              |
-.45 ACP JHP        | 185gr JHP bullet            | 614       | 25  | 5in      |                              |
-.45 ACP FMJ        | 230gr FMJ bullet            | 447       | 21  | 5in      |                              |
-.45 ACP +P         | 200gr JHP bullet            | 702       | 26  | 5in      |                              |
-.454 Casull        | 300gr JSP bullet            | 2459      | 50  | 7.5in    |                              |
-.45 Colt JHP       | 250gr JHP bullet            | 610       | 25  | 7.5in    |                              |
-.500 S&W Magnum    | 500gr bullet                | 3056      | 55  | 8.4in    |                              |
-4.6x30mm           | 31gr copper plated steel bullet | 505   | 22  | 7.1in    |        damage reduced by 4   |
-5.7x28mm SS190     | 31gr AP FMJ bullet          | 534       | 23  | 10.4in   |        damage reduced by 3   |
-7.62x39mm          | 123gr FMJ bullet            | 2179      | 46  | 16.3in   |                              |
-7.62x39mm 57-N-231 | 121.9gr steel core FMJ bullet | 2036      | 45  | 16.3in   |                              |
-7.62x39mm M67      | 123gr FMJ bullet            | 2141      | 46  | 16.3in   |         TODO                 |
-5.45x39mm 7N10     | 56gr FMJ bullet             | 1402      | 37  | 16.3in   |        damage increased by 3 |
-5.45x39mm 7N22     | 57gr steel core FMJ bullet  | 1461      | 38  | 16.3in   |                              |
-.223 Remington     | 36gr JHP bullet             | 1524      | 39  | 20in     |Uses 5.56 NATO barrel baseline; damage increased by 5 |
-5.56x45mm M855A1   | 62gr copper core FMJBT bullet | 1843      | 43  | 20in     |                              |
-.300BLK supersonic | 125gr OTM                   | 1840      | 43  | 16in     |
-,300BLK subsonic   | 220gr OTM                   | 675       | 26  | 16in     |  subsonic
-7.62x54mmR         | 150gr FMJ bullet            | 3629      | 60  | 28in     |                              |
-.308 Winchester    | 168gr hollow point bullet   | 3570      | 60  | 24in     |                              |
-7.62 NATO M80      | 147gr FMJ bullet            | 3304      | 57  | 24in     |                              |
-7.62 NATO M62      | 142gr tracer bullet         | 3232      | 57  | 24in     |  Belt with 1/5 tracer rounds |
-.270 Winchester    | 130gr soft point bullet     | 3663      | 61  | 24in     |                              |
-.30-06 Springfield | 165gr soft point bullet     | 3894      | 62  | 24in     |        damage increased by 4 |
-.30-06 M2          | 165.7gr AP bullet           | 3676      | 60  | 24in     |         damage reduced by 10 |
-.30-06 M14A1       | Incendiary ammunition       | 3894      | 62  | 24in     |         damage reduced by 10 |
-.45-70 Govt.       | 300gr soft point bullet     | 3867      | 66  | 24in     |        damage increased by 4 |
-.300 Winchester Magnum | 220gr JHP bullet        | 5299      | 73  | 24in     |        damage increased by 5 |
-.700 NX            | 1000gr JSP bullet           | 12100     | 110 | 28in     |                              |
-.50 BMG Ball       | 750gr FMJ-BT bullet         | 17083     | 131 | 45in     |                              |
-.50 BMG M33 Ball   | 706.7gr bullet              | 18013     | 134 | 45in     |                              |
-.50 BMG M903 SLAP  | 355gr tungsten AP bullet    | 17083     | 131 | 45in     |  Can't be used with M107A1   |
-.410 000 shot      | 5 000 pellets               | 1530      | 39  | 18in     |                              |
-.70 blunderbuss shot | 400gr lead ball           | 1200      | 41  | 16in     |  Very generous FPS           |
+Each cartridge has had a curve plotted for barrel length vs damage for standard loads, sourced from reloading manuals, manufacturers' load data, and/or wikipedia, and modelled with interior ballistics software. Each curve had a logarithmic regression fit to it, and the generic formula to reproduce it is **Dmg** = ( **A** x Ln( **Brl** ) )+ **B**. For each cartridge, the **default damage** has been calculated using its **A** coefficient and **B** offset and **Brl**. For firearms whose barrel lengths differ from **Brl**, a corresponding damage modifier should be calculated using the formula and the provided **default damage**.
+
+Friction losses were not modelled. Plugging in optimistically long barrel lengths will not yield accurate data. Real world barrels should provide useful estimates for determining modifiers. 
+
+Any cartridge more energetic than 20mm, or otherwise dissimilar to these cartridges (a baseball, anything faster than 6190 FPS, etc) is not appropriate to consider with just the square root of its muzzle energy.
+
+For reference, each cartridge's bullet diameter, **dia**  and weight, **Proj. wt**, have been provided.
+
+
+| **Caliber**             | **Brl** | **Dam** | **M.E.**  | **A**  | **B**   | **OAL**  | **Dia**   | **Proj. Wt** |
+|-------------------------|---------|---------|-----------|--------|---------|----------|-----------|--------------|
+| .25 ACP                 | 6.0 in  | 11.5    | 132.0 J   | 1.8941 | 8.096   | 0.902 in | 0.251 in  | 50 gr        |
+| .22 LR                  | 6.0 in  | 12.3    | 150.1 J   | 3.7059 | 5.613   | 1 in     | 0.22 in   | 31 gr        |
+| 8 mm LebelRevolver      | 6.0 in  | 12.4    | 154.8 J   | 2.6618 | 7.671   | 1.456 in | 0.327 in  | 120 gr       |
+| .32 SW                  | 6.0 in  | 12.5    | 157.2 J   | 3.5661 | 6.149   | 1.28 in  | 0.312 in  | 71 gr        |
+| .32 ACP                 | 6.0 in  | 12.7    | 160.9 J   | 2.6885 | 7.868   | 0.984 in | 0.312 in  | 71 gr        |
+| .17 HornadyMagRimfire   | 6.0 in  | 13.1    | 171.2 J   | 4.6416 | 4.768   | 1.365 in | 0.172 in  | 17 gr        |
+| .22 WMR                 | 6.0 in  | 15.2    | 231.9 J   | 4.29   | 7.541   | 1.35 in  | 0.223 in  | 40 gr        |
+| 7.62 NagantRuss.        | 6.0 in  | 15.5    | 241.7 J   | 3.3784 | 9.492   | 1.53 in  | 0.308 in  | 95 gr        |
+| .455 Webley             | 6.0 in  | 15.7    | 245.3 J   | 3.4003 | 9.569   | 1.26 in  | 0.454 in  | 200 gr       |
+| .44 SWSpecial           | 6.0 in  | 17.3    | 299.6 J   | 4.6001 | 9.068   | 1.615 in | 0.429 in  | 225 gr       |
+| .380 Auto               | 6.0 in  | 17.4    | 302.4 J   | 3.7784 | 10.62   | 0.984 in | 0.355 in  | 95 gr        |
+| .32 HRMagnum            | 6.0 in  | 17.5    | 304.9 J   | 4.9173 | 8.652   | 1.35 in  | 0.312 in  | 71 gr        |
+| .25-20 Win. CF          | 6.0 in  | 17.5    | 305.0 J   | 5.5441 | 7.53    | 1.592 in | 0.257 in  | 87 gr        |
+| .32-20 Win.             | 6.0 in  | 17.5    | 306.6 J   | 6.2949 | 6.23    | 1.592 in | 0.312 in  | 100 gr       |
+| .38 Special             | 6.0 in  | 17.7    | 314.3 J   | 5.3041 | 8.225   | 1.55 in  | 0.357 in  | 140 gr       |
+| .30 Luger               | 6.0 in  | 17.9    | 321.4 J   | 3.665  | 11.36   | 1.175 in | 0.308 in  | 90 gr        |
+| 9 mm Makarov            | 6.0 in  | 18.0    | 323.2 J   | 3.8329 | 11.11   | 0.984 in | 0.364 in  | 95 gr        |
+| .44 SWRussian           | 6.0 in  | 18.6    | 346.8 J   | 4.5498 | 10.47   | 1.43 in  | 0.429 in  | 200 gr       |
+| 8 mm Nambu              | 6.0 in  | 18.7    | 349.4 J   | 5.3701 | 9.071   | 1.25 in  | 0.32 in   | 100 gr       |
+| .38 SW                  | 6.0 in  | 19.1    | 363.6 J   | 3.767  | 12.32   | 1.24 in  | 0.357 in  | 121 gr       |
+| 4.6 x30 HK              | 6.0 in  | 19.7    | 388.7 J   | 6.7641 | 7.597   | 1.516 in | 0.183 in  | 42 gr        |
+| .218 Bee                | 6.0 in  | 21.0    | 442.9 J   | 8.5183 | 5.782   | 1.68 in  | 0.223 in  | 40 gr        |
+| 7.62 x25 Tokarev        | 6.0 in  | 21.1    | 444.2 J   | 4.753  | 12.56   | 1.39 in  | 0.308 in  | 90 gr        |
+| .45 SWSchofield         | 6.0 in  | 21.4    | 456.7 J   | 4.8278 | 12.72   | 1.43 in  | 0.451 in  | 230 gr       |
+| .45 ACP                 | 6.0 in  | 21.7    | 472.2 J   | 4.6379 | 13.42   | 1.275 in | 0.451 in  | 230 gr       |
+| .41 Act. Exp.           | 6.0 in  | 22.0    | 483.9 J   | 3.6826 | 15.4    | 1.15 in  | 0.41 in   | 180 gr       |
+| .38 SuperAuto           | 6.0 in  | 22.1    | 489.6 J   | 4.8588 | 13.42   | 1.28 in  | 0.355 in  | 124 gr       |
+| .38-40 Win. CF          | 6.0 in  | 22.8    | 518.5 J   | 6.7429 | 10.69   | 1.59 in  | 0.4 in    | 175 gr       |
+| 9 mm Luger              | 6.0 in  | 23.5    | 552.9 J   | 4.4284 | 15.58   | 1.169 in | 0.355 in  | 115 gr       |
+| 5.7 x28 FN              | 6.0 in  | 23.5    | 554.0 J   | 6.1092 | 12.59   | 1.594 in | 0.224 in  | 40 gr        |
+| 9 x21                   | 6.0 in  | 24.0    | 575.2 J   | 4.3384 | 16.21   | 1.171 in | 0.355 in  | 124 gr       |
+| 4.73 x33 Caseless       | 6.0 in  | 24.0    | 577.2 J   | 10.816 | 4.645   | 1.293 in | 0.185 in  | 51 gr        |
+| .45 Colt                | 6.0 in  | 24.9    | 617.6 J   | 6.9275 | 12.44   | 1.6 in   | 0.451 in  | 225 gr       |
+| .50 GI                  | 6.0 in  | 25.2    | 632.6 J   | 3.8964 | 18.17   | 1.256 in | 0.5 in    | 275 gr       |
+| .44-40 Win. CF          | 6.0 in  | 25.6    | 656.1 J   | 7.5595 | 12.07   | 1.59 in  | 0.429 in  | 200 gr       |
+| .40 SW                  | 6.0 in  | 26.3    | 690.2 J   | 5.0626 | 17.2    | 1.135 in | 0.4 in    | 165 gr       |
+| .357 SIG                | 6.0 in  | 27.0    | 726.8 J   | 4.8888 | 18.2    | 1.14 in  | 0.355 in  | 124 gr       |
+| .357 Magnum             | 6.0 in  | 27.4    | 748.9 J   | 6.3938 | 15.91   | 1.59 in  | 0.357 in  | 140 gr       |
+| .327 FederalMagnum      | 6.0 in  | 27.6    | 761.8 J   | 7.6295 | 13.93   | 1.475 in | 0.312 in  | 100 gr       |
+| 8 x40 Caseless (CDDA)   | 6.0 in  | 27.7    | 765.4 J   | 14.317 | 2.013   | 1.575 in | 0.323 in  | 127 gr       |
+| .30 Carbine             | 6.0 in  | 27.9    | 777.4 J   | 7.6922 | 14.1    | 1.68 in  | 0.308 in  | 110 gr       |
+| 10 mm Auto              | 6.0 in  | 28.4    | 807.6 J   | 5.7868 | 18.05   | 1.26 in  | 0.4 in    | 165 gr       |
+| .410 Bore 3in           | 18.0 in | 31.0    | 961.0 J   | 9.4303 | 3.699   | 89 in    | 0.408 in  | 109.3 gr     |
+| .44 Rem. Mag.           | 6.0 in  | 32.8    | 1077.6 J  | 9.0901 | 16.54   | 1.61 in  | 0.429 in  | 240 gr       |
+| .454 Casull             | 6.0 in  | 32.8    | 1078.4 J  | 7.8628 | 18.75   | 1.68 in  | 0.452 in  | 250 gr       |
+| 28 Gauge 2.75in         | 18.0 in | 33.5    | 1123.3 J  | 10.195 | 4.048   | 2.56 in  | 0.54 in   | 194 gr       |
+| .41 Rem. Mag.           | 6.0 in  | 33.7    | 1139.1 J  | 8.8293 | 17.93   | 1.585 in | 0.41 in   | 210 gr       |
+| .222 Rem. Mag.          | 16.0 in | 34.2    | 1171.4 J  | 11.962 | 1.06    | 2.28 in  | 0.224 in  | 55 gr        |
+| .222 Rem.               | 16.0 in | 36.3    | 1315.9 J  | 12.302 | 2.167   | 2.13 in  | 0.224 in  | 55 gr        |
+| .22 PPC USA             | 16.0 in | 36.5    | 1331.9 J  | 12.269 | 2.478   | 2.105 in | 0.224 in  | 55 gr        |
+| 5.45 x39 mm             | 16.0 in | 36.9    | 1358.4 J  | 12.849 | 1.2319  | 2.25 in  | 0.222 in  | 53 gr        |
+| .224 Weath. Mag.        | 16.0 in | 37.9    | 1439.9 J  | 12.85  | 2.318   | 2.33 in  | 0.224 in  | 55 gr        |
+| .220 Swift              | 16.0 in | 37.9    | 1440.2 J  | 15.58  | -5.247  | 2.68 in  | 0.224 in  | 55 gr        |
+| .45 Win. Mag.           | 6.0 in  | 38.2    | 1461.6 J  | 10.582 | 19.27   | 1.575 in | 0.451 in  | 230 gr       |
+| .243 Win.               | 16.0 in | 38.5    | 1484.2 J  | 15.444 | -4.294  | 2.71 in  | 0.243 in  | 80 gr        |
+| .460 Rowland            | 6.0 in  | 38.6    | 1490.0 J  | 9.5775 | 21.44   | 1.225 in | 0.451 in  | 200 gr       |
+| 6 mm PPC                | 16.0 in | 39.3    | 1544.6 J  | 12.783 | 3.859   | 2.193 in | 0.243 in  | 70 gr        |
+| .224 Valkyrie           | 16.0 in | 39.4    | 1550.4 J  | 12.1   | 5.827   | 2.16 in  | 0.224 in  | 77 gr        |
+| .223 Rem.               | 16.0 in | 39.4    | 1553.3 J  | 13.454 | 2.11    | 2.26 in  | 0.224 in  | 55 gr        |
+| .50 A. E.               | 6.0 in  | 39.6    | 1570.2 J  | 10.256 | 21.25   | 1.575 in | 0.5 in    | 325 gr       |
+| .225 Win.               | 16.0 in | 39.7    | 1576.2 J  | 16.008 | -4.682  | 2.5 in   | 0.224 in  | 55 gr        |
+| .375 Win.               | 16.0 in | 40.1    | 1605.0 J  | 11.074 | 9.359   | 2.56 in  | 0.377 in  | 255 gr       |
+| 6.5 x52 Carcano         | 16.0 in | 40.2    | 1616.0 J  | 15.01  | -1.385  | 13 in    | 0.267 in  | 160 gr       |
+| .300 AACBlackout        | 16.0 in | 40.3    | 1624.3 J  | 9.6958 | 13.42   | 2.16 in  | 0.308 in  | 135 gr       |
+| .480 Ruger              | 6.0 in  | 40.3    | 1624.5 J  | 8.9883 | 24.2    | 1.65 in  | 0.475 in  | 325 gr       |
+| .22-250 Rem.            | 16.0 in | 40.8    | 1666.0 J  | 14.664 | 0.16    | 2.35 in  | 0.224 in  | 55 gr        |
+| 6 mm Rem.               | 16.0 in | 41.3    | 1709.4 J  | 16.29  | -3.82   | 2.825 in | 0.243 in  | 80 gr        |
+| .257 Roberts            | 16.0 in | 41.5    | 1719.4 J  | 16.218 | -3.5    | 2.775 in | 0.257 in  | 87 gr        |
+| 6.5 x50 Arisaka         | 16.0 in | 41.5    | 1722.3 J  | 15.189 | -0.603  | 12 in    | 0.264 in  | 139 gr       |
+| 6.5 Grendel             | 16.0 in | 42.1    | 1774.4 J  | 12.435 | 7.647   | 2.26 in  | 0.264 in  | 107 gr       |
+| .250 Savage             | 16.0 in | 43.0    | 1846.9 J  | 16.213 | -1.976  | 2.515 in | 0.257 in  | 87 gr        |
+| 7.35 x52 Carcano        | 16.0 in | 43.5    | 1892.3 J  | 16.04  | -0.936  | 13 in    | 0.298 in  | 128 gr       |
+| 7.62 x39                | 16.0 in | 43.5    | 1893.2 J  | 13.431 | 6.272   | 2.2 in   | 0.31 in   | 123 gr       |
+| .240 Weath. Mag.        | 16.0 in | 44.5    | 1983.9 J  | 18.671 | -7.226  | 3.1 in   | 0.243 in  | 85 gr        |
+| 16 Gauge 2in            | 18.0 in | 44.7    | 1997.1 J  | 10.763 | 13.58   | 2.48 in  | 0.66 in   | 448 gr       |
+| .30-30 Win.             | 16.0 in | 44.7    | 2001.1 J  | 14.388 | 4.842   | 2.55 in  | 0.308 in  | 150 gr       |
+| .38-55 Win.             | 16.0 in | 44.8    | 2006.2 J  | 11.419 | 13.13   | 2.51 in  | 0.377 in  | 255 gr       |
+| .40-65 Win.             | 16.0 in | 44.9    | 2016.8 J  | 11.202 | 13.85   | 2.48 in  | 0.41 in   | 400 gr       |
+| 6.5 x55 Swedish         | 16.0 in | 45.3    | 2056.0 J  | 17.872 | -4.209  | 3.15 in  | 0.264 in  | 129 gr       |
+| .35 Rem.                | 16.0 in | 46.0    | 2116.0 J  | 14.667 | 5.334   | 2.525 in | 0.358 in  | 200 gr       |
+| .270 WSM                | 16.0 in | 46.3    | 2141.2 J  | 18.229 | -4.268  | 2.86 in  | 0.277 in  | 130 gr       |
+| .350 Legend             | 16.0 in | 46.3    | 2147.1 J  | 13.378 | 9.245   | 2.26 in  | 0.355 in  | 147 gr       |
+| .40-70 Sharps Straight  | 16.0 in | 46.5    | 2163.6 J  | 14.549 | 6.176   | 3.26 in  | 0.408 in  | 400 gr       |
+| .25-06 Rem.             | 16.0 in | 46.6    | 2168.8 J  | 19.427 | -7.293  | 3.25 in  | 0.257 in  | 100 gr       |
+| .32 Win. Spec.          | 16.0 in | 46.6    | 2173.0 J  | 15.378 | 3.979   | 2.565 in | 0.321 in  | 170 gr       |
+| 7-30 Waters             | 16.0 in | 46.9    | 2195.5 J  | 14.605 | 6.362   | 2.55 in  | 0.284 in  | 139 gr       |
+| 20 Gauge 2.75in         | 18.0 in | 47.2    | 2225.3 J  | 11.228 | 14.72   | 2.55 in  | 0.61 in   | 398 gr       |
+| .30-40 Krag             | 16.0 in | 47.8    | 2287.6 J  | 16.672 | 1.604   | 3.089 in | 0.308 in  | 180 gr       |
+| .257 Weath. Mag         | 16.0 in | 48.9    | 2389.9 J  | 21.697 | -11.27  | 3.17 in  | 0.257 in  | 87 gr        |
+| .300 Savage             | 16.0 in | 49.0    | 2396.6 J  | 15.767 | 5.24    | 2.6 in   | 0.308 in  | 150 gr       |
+| .260 Rem                | 16.0 in | 49.3    | 2425.8 J  | 16.959 | 2.232   | 2.8 in   | 0.264 in  | 140 gr       |
+| 6.5 Creedmoor           | 16.0 in | 49.4    | 2441.5 J  | 18.697 | -2.428  | 2.8 in   | 0.264 in  | 120 gr       |
+| 7 x57 mm                | 16.0 in | 49.5    | 2451.7 J  | 16.293 | 4.341   | 3.071 in | 0.284 in  | 175 gr       |
+| .303 British            | 16.0 in | 50.9    | 2594.5 J  | 20.002 | -4.521  | 3.075 in | 0.312 in  | 174 gr       |
+| 7 mm -08 Rem.           | 16.0 in | 51.0    | 2597.2 J  | 17.061 | 3.66    | 2.8 in   | 0.284 in  | 154 gr       |
+| 12 Gauge 2.75in         | 18.0 in | 51.0    | 2601.0 J  | 13.794 | 11.13   | 1.97 in  | 0.73 in   | 520 gr       |
+| 7.62 x54 R              | 16.0 in | 51.0    | 2602.8 J  | 20.641 | -6.211  | 3.04 in  | 0.312 in  | 150 gr       |
+| .458 Socom              | 16.0 in | 51.2    | 2624.9 J  | 12.394 | 16.87   | 2.04 in  | 0.458 in  | 350 gr       |
+| 10 Gauge 3.75in         | 18.0 in | 51.7    | 2675.0 J  | 17.226 | 1.931   | 3.29 in  | 0.775 in  | 765 gr       |
+| 7.7 mm x58 Arisaka      | 16.0 in | 52.0    | 2704.0 J  | 18.587 | 0.456   | 12 in    | 0.312 in  | 165 gr       |
+| 12 Gauge 3in            | 18.0 in | 52.3    | 2739.3 J  | 14.669 | 9.939   | 2.76 in  | 0.73 in   | 601 gr       |
+| 7.65 x53 Arg. Belg.     | 16.0 in | 52.6    | 2765.6 J  | 19.906 | -2.602  | 2.992 in | 0.312 in  | 174 gr       |
+| 8 x57 IS                | 16.0 in | 52.8    | 2790.5 J  | 18.978 | 0.207   | 2.85 in  | 0.323 in  | 170 gr       |
+| .284 Win.               | 16.0 in | 53.1    | 2819.9 J  | 18.773 | 1.053   | 2.8 in   | 0.284 in  | 139 gr       |
+| 7 mm Rem. Mag.          | 16.0 in | 53.6    | 2875.3 J  | 21.967 | -7.284  | 3.29 in  | 0.284 in  | 154 gr       |
+| .348 Win.               | 16.0 in | 54.1    | 2927.7 J  | 17.61  | 5.283   | 2.795 in | 0.348 in  | 200 gr       |
+| .50 Beowulf             | 16.0 in | 54.1    | 2927.8 J  | 17.126 | 6.626   | 2.25 in  | 0.5 in    | 335 gr       |
+| .308 Win.               | 16.0 in | 54.1    | 2928.0 J  | 16.982 | 7.027   | 2.8 in   | 0.308 in  | 168 gr       |
+| .444 Marlin             | 16.0 in | 54.2    | 2933.5 J  | 15.535 | 11.09   | 2.57 in  | 0.429 in  | 240 gr       |
+| .270 Weath. Mag.        | 16.0 in | 54.5    | 2970.2 J  | 21.818 | -5.993  | 3.295 in | 0.277 in  | 140 gr       |
+| 20 x66 caseless  (CDDA) | 16.0 in | 55.3    | 3061.3 J  | 19.641 | 0.873   | 2.598 in | 0.775 in  | 765 gr       |
+| 7 mm WSM                | 16.0 in | 55.5    | 3080.6 J  | 21.035 | -2.818  | 2.86 in  | 0.284 in  | 139 gr       |
+| 7 mm RemSA              | 16.0 in | 55.7    | 3099.3 J  | 19.124 | 2.648   | 2.82 in  | 0.284 in  | 150 gr       |
+| .450 Bushmaster         | 16.0 in | 55.9    | 3124.0 J  | 14.666 | 15.23   | 2.26 in  | 0.452 in  | 250 gr       |
+| .358 Win.               | 16.0 in | 55.9    | 3125.5 J  | 17.741 | 6.718   | 2.78 in  | 0.358 in  | 220 gr       |
+| 1.23Ln (8mm -06) (CDDA) | 16.0 in | 56.8    | 3222.1 J  | 18.643 | 5.074   | 3.175 in | 0.323 in  | 213 gr       |
+| .45-70 Govt.            | 16.0 in | 57.0    | 3247.2 J  | 17.198 | 9.301   | 2.55 in  | 0.458 in  | 400 gr       |
+| .500 WyomingExpress     | 16.0 in | 57.6    | 3314.9 J  | 11.053 | 26.93   | 1.75 in  | 0.5 in    | 400 gr       |
+| .300 RemSAUltra         | 16.0 in | 57.7    | 3324.8 J  | 20.241 | 1.541   | 2.825 in | 0.308 in  | 180 gr       |
+| .300 WSM                | 16.0 in | 58.0    | 3364.5 J  | 20.172 | 2.076   | 2.86 in  | 0.308 in  | 190 gr       |
+| .264 Win. Mag.          | 26.0 in | 58.0    | 3368.4 J  | 20.447 | -8.58   | 3.34 in  | 0.264 in  | 140 gr       |
+| .30-06 Spring.          | 26.0 in | 58.8    | 3453.8 J  | 19.926 | -6.152  | 3.34 in  | 0.308 in  | 150 gr       |
+| .280 Rem.               | 26.0 in | 59.1    | 3487.4 J  | 19.654 | -4.98   | 3.33 in  | 0.284 in  | 162 gr       |
+| .500 SWMagnum           | 16.0 in | 59.2    | 3505.6 J  | 10.823 | 29.2    | 2.292 in | 0.5 in    | 375 gr       |
+| .45-90 Win. WM          | 16.0 in | 59.2    | 3509.4 J  | 14.041 | 20.31   | 2.8 in   | 0.458 in  | 400 gr       |
+| .270 Win.               | 26.0 in | 59.8    | 3575.0 J  | 20.266 | -6.237  | 3.34 in  | 0.277 in  | 100 gr       |
+| .460 SWMagnum           | 16.0 in | 62.8    | 3946.4 J  | 15.949 | 18.6    | 2.208 in | 0.452 in  | 300 gr       |
+| .277 Fury               | 16.0 in | 63.3    | 4010.3 J  | 23.596 | -2.095  | 2.825 in | 0.277 in  | 135 gr       |
+| .450 Raptor             | 16.0 in | 63.5    | 4035.4 J  | 15.709 | 19.97   | 2.3 in   | 0.452 in  | 300 gr       |
+| 7 mm STW                | 26.0 in | 65.3    | 4261.9 J  | 23.081 | -9.917  | 3.65 in  | 0.284 in  | 150 gr       |
+| 7 mm Weath. Mag.        | 26.0 in | 66.2    | 4388.2 J  | 21.83  | -4.881  | 3.36 in  | 0.284 in  | 150 gr       |
+| 7 mm RemUltra           | 26.0 in | 68.4    | 4676.3 J  | 25.875 | -15.92  | 3.6 in   | 0.284 in  | 162 gr       |
+| .300 H. H. Mag.         | 26.0 in | 68.4    | 4682.3 J  | 22.744 | -5.675  | 3.6 in   | 0.308 in  | 165 gr       |
+| 8 mm Rem. Mag.          | 26.0 in | 69.8    | 4866.4 J  | 23.501 | -6.809  | 3.6 in   | 0.323 in  | 180 gr       |
+| .35 Whelen              | 26.0 in | 70.1    | 4913.5 J  | 20.823 | 2.253   | 3.34 in  | 0.358 in  | 225 gr       |
+| .300 Win. Mag.          | 26.0 in | 70.6    | 4982.1 J  | 23.479 | -5.913  | 3.34 in  | 0.308 in  | 180 gr       |
+| .300 Weath. Mag.        | 26.0 in | 70.9    | 5024.7 J  | 24.25  | -8.124  | 3.56 in  | 0.308 in  | 180 gr       |
+| .45-110 SharpsStraight  | 26.0 in | 72.2    | 5218.1 J  | 19.261 | 9.482   | 3.355 in | 0.458 in  | 500 gr       |
+| .338 WinMag.            | 26.0 in | 72.4    | 5244.0 J  | 22.354 | -0.416  | 3.34 in  | 0.338 in  | 210 gr       |
+| .300 RemUltraMag        | 26.0 in | 72.9    | 5313.9 J  | 25.415 | -9.908  | 3.598 in | 0.308 in  | 200 gr       |
+| .375 H. H. Mag.         | 26.0 in | 73.9    | 5467.6 J  | 22.934 | -0.778  | 3.6 in   | 0.375 in  | 285 gr       |
+| .338 RemUltraMag        | 26.0 in | 74.5    | 5546.5 J  | 24.681 | -5.938  | 3.6 in   | 0.338 in  | 225 gr       |
+| .30-378 Weath. Mag.     | 26.0 in | 75.1    | 5634.9 J  | 28.626 | -18.2   | 3.655 in | 0.308 in  | 180 gr       |
+| .338-378 Weath. Mag.    | 26.0 in | 75.8    | 5752.7 J  | 26.717 | -11.2   | 3.75 in  | 0.338 in  | 210 gr       |
+| .378 Weath. Mag.        | 26.0 in | 76.5    | 5855.8 J  | 27.778 | -13.98  | 3.655 in | 0.375 in  | 235 gr       |
+| .416 Rigby              | 26.0 in | 80.1    | 6413.6 J  | 26.908 | -7.584  | 3.75 in  | 0.416 in  | 350 gr       |
+| .375 RemUltraMag        | 26.0 in | 81.0    | 6563.2 J  | 25.988 | -3.658  | 3.6 in   | 0.375 in  | 285 gr       |
+| .470 Nitro Exp.         | 26.0 in | 82.6    | 6829.5 J  | 26.399 | -3.37   | 3.875 in | 0.474 in  | 500 gr       |
+| .416 Rem. Mag.          | 26.0 in | 83.2    | 6916.3 J  | 24.774 | 2.448   | 3.6 in   | 0.416 in  | 350 gr       |
+| .458 Win. Mag.          | 26.0 in | 87.3    | 7629.0 J  | 24.043 | 9.01    | 3.34 in  | 0.458 in  | 350 gr       |
+| .500 Nitro Exp. 3in     | 26.0 in | 91.4    | 8362.6 J  | 25.554 | 8.19    | 3.74 in  | 0.51 in   | 570 gr       |
+| .577 Nitro Exp. 3in     | 26.0 in | 95.2    | 9060.9 J  | 27.24  | 6.438   | 3.7 in   | 0.583 in  | 750 gr       |
+| .600 Nitro Exp.         | 26.0 in | 99.0    | 9800.1 J  | 27.84  | 8.29    | 3.7 in   | 0.62 in   | 900 gr       |
+| .460 Weath. Mag.        | 26.0 in | 99.4    | 9886.8 J  | 28.8   | 5.599   | 3.75 in  | 0.458 in  | 500 gr       |
+| 7.92 x94 M318           | 46.0 in | 106.2   | 11275.2 J | 38.767 | -42.24  | 4 in     | 0.323 in  | 220 gr       |
+| .700 Nitro Exp. 3in     | 26.0 in | 108.3   | 11722.3 J | 37.488 | -13.87  | 3.7 in   | 0.7 in    | 1000 gr      |
+| .50 BMG                 | 46.0 in | 141.5   | 20024.0 J | 45.425 | -32.41  | 5.425 in | 0.51 in   | 650 gr       |
+| 14.5 x114 Russ.         | 46.0 in | 179.5   | 32218.9 J | 64.296 | -66.67  | 6.14 in  | 0.588 in  | 978 gr       |
+| 20 mm x138              | 46.0 in | 198.3   | 39338.8 J | 78.524 | -102.3  | 7.98 in  | 0.7874 in | 1852 gr      |
+| 20 mm x102              | 46.0 in | 209.3   | 43806.5 J | 63.381 | - 33.41 | 12 in    | 0.82 in   | 1521 gr      |
+
+
+
 
 # LIQUIDS:
 Multi-charge items are weighed by the charge/use.  If you have an item that contains 40 uses, it'll weigh 40x as much (when found in-game) as you entered in the JSON. Liquids are priced by the 250mL unit, but handled in containers.  This can cause problems if you create something that comes in (say) a gallon jug (15 charges) and price it at the cost of a jug's worth: it'll be 15x as expensive as intended.
