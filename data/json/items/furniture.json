@@ -86,7 +86,7 @@
   {
     "type": "GENERIC",
     "id": "chair_plywood",
-    "name": { "str": "chair" },
+    "name": { "str": "plywood chair" },
     "description": "A simple chair made of plywood on a steel frame.  Quite uncomfortable but works for sleeping if it's the only option available.",
     "symbol": "#",
     "color": "brown",
