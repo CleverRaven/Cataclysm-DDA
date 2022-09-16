@@ -185,6 +185,7 @@ Use the `Home` key to return to the top.
       - [`name`](#name-1)
       - [`flags`](#flags-1)
       - [`connects_to`](#connects_to)
+        - [Connect groups](#connect-groups)
       - [`rotates_to` and `rotates_to_member`](#rotates_to-and-rotates_to_member)
       - [`symbol`](#symbol)
       - [`comfort`](#comfort)
