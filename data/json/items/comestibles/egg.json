@@ -384,7 +384,7 @@
     "color": "green",
     "symbol": "%",
     "spoils_in": "13 days",
-    "description": "Praying mantis eggs glued to each other inside a strange-looking case.  It resembles a trilobite or woodlouse.",
+    "description": "Praying mantis eggs glued to each other inside a strange-looking case.  It resembles a trilobite or a woodlouse.",
     "rot_spawn": "GROUP_EGG_MANTIS",
     "rot_spawn_chance": 50
   },

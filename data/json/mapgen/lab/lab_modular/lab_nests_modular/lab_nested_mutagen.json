@@ -948,10 +948,8 @@
           [ "t_grass_tall", 5 ],
           [ "t_grass_dead", 4 ],
           [ "t_stump", 3 ],
-          [ "t_tree_dead", 3 ],
           [ "t_trunk", 3 ],
-          [ "t_tree_deadpine", 2 ],
-          [ "t_tree_hickory_dead", 2 ],
+          [ "t_region_tree_dead", 7 ],
           [ "t_grass_long", 5 ],
           [ "t_water_sh", 25 ],
           [ "t_swater_sh", 50 ],
@@ -1002,7 +1000,13 @@
         "X": "t_laminated_glass",
         "-": "t_reinforced_door_glass_lab_c",
         "<": "t_stairs_up",
-        ".": [ [ "t_region_groundcover_forest", 20 ], [ "t_region_tree", 3 ], [ "t_water_sh", 1 ], [ "t_region_shrub", 4 ] ]
+        ".": [
+          [ "t_region_groundcover_forest", 20 ],
+          [ "t_region_tree", 2 ],
+          "t_region_tree_dead",
+          [ "t_water_sh", 1 ],
+          [ "t_region_shrub", 4 ]
+        ]
       },
       "furniture": { "d": [ [ "f_boulder_small", 5 ], [ "f_boulder_medium", 4 ], [ "f_boulder_large", 3 ], [ "f_region_weed", 10 ] ] },
       "place_monsters": [ { "monster": "GROUP_FOREST", "x": [ 0, 6 ], "y": [ 0, 6 ], "density": 0.1, "repeat": [ 1, 3 ] } ]

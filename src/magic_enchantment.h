@@ -56,6 +56,7 @@ enum class mod : int {
     SHOUT_NOISE,
     FOOTSTEP_NOISE,
     SIGHT_RANGE,
+    SIGHT_RANGE_ELECTRIC,
     CARRY_WEIGHT,
     WEAPON_DISPERSION,
     SOCIAL_LIE,
@@ -88,6 +89,7 @@ enum class mod : int {
     EXTRA_ELEC,
     EXTRA_ACID,
     EXTRA_BIO,
+    EXTRA_ELEC_PAIN,
     RECOIL_MODIFIER, //affects recoil when shooting a gun
     // effects for the item that has the enchantment
     ITEM_DAMAGE_PURE,

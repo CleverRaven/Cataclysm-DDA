@@ -1796,6 +1796,9 @@ void scrolling_text_view::draw( const nc_color &base_color )
         viewport_size( height ).
         scroll_to_last( false ).
         apply( w_ );
+        scrollbar_area = inclusive_rectangle<point>( point( getbegx( w_ ), getbegy( w_ ) ),
+                         point( getbegx( w_ ), getbegy( w_ ) + height ) );
+
     } else {
         // No scrollbar; we need to draw the window edge instead
         for( int i = 0; i < height; i++ ) {
@@ -1811,6 +1814,66 @@ void scrolling_text_view::draw( const nc_color &base_color )
     }
 
     wnoutrefresh( w_ );
+}
+
+bool scrolling_text_view::handle_navigation( const std::string &action, input_context &ctxt )
+{
+    cata::optional<point> coord = ctxt.get_coordinates_text( catacurses::stdscr );
+    inclusive_rectangle<point> mouseover_area( point( getbegx( w_ ), getbegy( w_ ) ),
+            point( getmaxx( w_ ) + getbegx( w_ ), getmaxy( w_ ) + getbegy( w_ ) ) );
+    bool mouse_in_window = coord.has_value() && mouseover_area.contains( coord.value() );
+    bool mouse_over_scrollbar = coord.has_value() && scrollbar_area.contains( coord.value() );
+
+    if( action != "MOUSE_MOVE" ) {
+        dragging = false;
+    }
+
+    if( action == scroll_up_action || ( action == "SCROLL_UP" && mouse_in_window ) ) {
+        scroll_up();
+    } else if( action == scroll_down_action || ( action == "SCROLL_DOWN" && mouse_in_window ) ) {
+        scroll_down();
+    } else if( paging_enabled && action == "PAGE_UP" ) {
+        page_up();
+    } else if( paging_enabled && action == "PAGE_DOWN" ) {
+        page_down();
+    } else if( action == "CLICK_AND_DRAG" && mouse_over_scrollbar && !dragging ) {
+        dragging = true;
+    } else if( action == "MOUSE_MOVE" && coord.has_value() && dragging ) {
+        int y_position = ( coord->y - getbegy( w_ ) ) * max_offset() / getmaxy( w_ );
+        offset_ = clamp( y_position, 0, max_offset() );
+    } else if( action == "SELECT" && mouse_over_scrollbar ) {
+        int y_position = ( coord->y - getbegy( w_ ) ) * max_offset() / getmaxy( w_ );
+        offset_ = clamp( y_position, 0, max_offset() );
+    } else {
+        return false;
+    }
+    return true;
+}
+
+void scrolling_text_view::set_up_navigation( input_context &ctxt, const scrolling_key_scheme scheme,
+        const bool enable_paging )
+{
+    ctxt.register_action( "CLICK_AND_DRAG" );
+    ctxt.register_action( "MOUSE_MOVE" );
+    ctxt.register_action( "SCROLL_UP" );
+    ctxt.register_action( "SCROLL_DOWN" );
+    ctxt.register_action( "SELECT" );
+    if( scheme != scrolling_key_scheme::no_scheme ) {
+        if( scheme == scrolling_key_scheme::angle_bracket_scroll ) {
+            scroll_up_action = "SCROLL_INFOBOX_UP";
+            scroll_down_action = "SCROLL_INFOBOX_DOWN";
+        } else if( scheme == scrolling_key_scheme::arrow_scroll ) {
+            scroll_up_action = "UP";
+            scroll_down_action = "DOWN";
+        }
+        ctxt.register_action( scroll_up_action );
+        ctxt.register_action( scroll_down_action );
+    }
+    if( enable_paging ) {
+        paging_enabled = true;
+        ctxt.register_action( "PAGE_UP" );
+        ctxt.register_action( "PAGE_DOWN" );
+    }
 }
 
 int scrolling_text_view::text_width()

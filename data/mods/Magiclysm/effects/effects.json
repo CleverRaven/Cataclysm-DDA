@@ -460,5 +460,21 @@
     "name": [ "Lightness" ],
     "desc": [ "You feel yourself a bit lighter.  You doubt you can lose weight from this." ],
     "base_mods": { "speed_mod": [ 15 ] }
+  },
+  {
+    "id": "flask_regeneration",
+    "type": "effect_type",
+    "name": [ "Regeneration" ],
+    "desc": [ "Slowly regenerate your damaged body." ],
+    "apply_message": "Your flesh and bones start to regenerate before your eyes.",
+    "remove_message": "Your regeneration slows down.",
+    "rating": "good",
+    "show_intensity": false,
+    "enchantments": [
+      {
+        "condition": { "not": "ALWAYS" },
+        "intermittent_activation": { "effects": [ { "frequency": "30 seconds", "spell_effects": [ { "id": "flask_regeneration_effect" } ] } ] }
+      }
+    ]
   }
 ]

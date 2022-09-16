@@ -48,6 +48,7 @@ class nc_color;
 class npc;
 class vehicle;
 class vehicle_part_range;
+class veh_menu;
 class vpart_info;
 class vpart_position;
 class zone_data;
@@ -260,9 +261,18 @@ struct vehicle_part {
          */
         std::string name( bool with_prefix = true ) const;
 
-        static constexpr int name_offset = 7;
-        /** Stack of the containing vehicle's name, when it it stored as part of another vehicle */
-        std::stack<std::string, std::vector<std::string> > carry_names;
+        struct carried_part_data {
+            tripoint mount;        // if value is tripoint_zero this is the pivot
+            units::angle face_dir; // direction relative to the carrier vehicle
+            std::string veh_name;  // carried vehicle name this part belongs to
+            bool migrate_x_axis;   // migrate carried vehicles to x-axis ( for legacy saves only )
+
+            void deserialize( const JsonObject &data );
+            void serialize( JsonOut &json ) const;
+        };
+
+        // each time this vehicle part is racked this will push the data required to unrack to stack
+        std::stack<carried_part_data> carried_stack;
 
         /** Specific type of fuel, charges or ammunition currently contained by a part */
         itype_id ammo_current() const;
@@ -555,6 +565,9 @@ class turret_data
         item_location base();
         item_location base() const;
 
+        /** @returns true if turret is using vehicle tanks or batteries */
+        bool uses_vehicle_tanks_or_batteries() const;
+
         /** Quantity of ammunition available for use */
         int ammo_remaining() const;
 
@@ -828,6 +841,9 @@ class vehicle
         //Refresh all caches and re-locate all parts
         void refresh( bool remove_fakes = true );
 
+        // Refresh active_item cache for vehicle parts
+        void refresh_active_item_cache();
+
         /**
          * Set stat for part constrained by range [0,durability]
          * @note does not invoke base @ref item::on_damage callback
@@ -920,11 +936,6 @@ class vehicle
         autodrive_result do_autodrive( Character &driver );
         // Stop any kind of automatic vehicle control and apply the brakes.
         void stop_autodriving( bool apply_brakes = true );
-        /**
-         *  Operate vehicle controls
-         *  @param pos location of physical controls to operate (ignored during remote operation)
-         */
-        void use_controls( const tripoint &pos );
 
         item init_cord( const tripoint &pos );
         void plug_in( const tripoint &pos );
@@ -963,9 +974,26 @@ class vehicle
         int install_part( const point &dp, const vpart_id &id, item &&obj,
                           const std::string &variant = "", bool force = false );
 
-        // find a single tile wide vehicle adjacent to a list of part indices
-        bool try_to_rack_nearby_vehicle( std::vector<std::vector<int>> &list_of_racks,
-                                         bool do_not_rack = false );
+        struct rackable_vehicle {
+            std::string name;
+            vehicle *veh;
+            std::vector<int> racks;
+        };
+
+        struct unrackable_vehicle {
+            std::string name;
+            std::vector<int> racks;
+            std::vector<int> parts;
+        };
+
+        // attempts to find any nearby vehicles that can be racked on any of the list_of_racks
+        // @returns vector of structs with data required to rack each vehicle
+        std::vector<rackable_vehicle> find_vehicles_to_rack( int rack ) const;
+
+        // attempts to find any racked vehicles that can be unracked on any of the list_of_racks
+        // @returns vector of structs with data required to unrack each vehicle
+        std::vector<unrackable_vehicle> find_vehicles_to_unrack( int rack ) const;
+
         // merge a previously found single tile vehicle into this vehicle
         bool merge_rackable_vehicle( vehicle *carry_veh, const std::vector<int> &rack_parts );
         // merges vehicles together by copying parts, does not account for any vehicle complexities
@@ -984,12 +1012,8 @@ class vehicle
         // also called by remove_fake_parts
         bool do_remove_part_actual();
 
-        // remove the carried flag from a vehicle after it has been removed from a rack
-        void remove_carried_flag();
-        // remove the tracked flag from a tracked vehicle after it has been removed from a rack
-        void remove_tracked_flag();
         // remove a vehicle specified by a list of part indices
-        bool remove_carried_vehicle( const std::vector<int> &carried_parts );
+        bool remove_carried_vehicle( const std::vector<int> &carried_parts, const std::vector<int> &racks );
         // split the current vehicle into up to four vehicles if they have no connection other
         // than the structure part at exclude
         bool find_and_split_vehicles( map &here, int exclude );
@@ -1135,7 +1159,7 @@ class vehicle
         int get_next_shifted_index( int original_index, Character &you ) const;
         // Given a part and a flag, returns the indices of all contiguously adjacent parts
         // with the same flag on the X and Y Axis
-        std::vector<std::vector<int>> find_lines_of_parts( int part, const std::string &flag );
+        std::vector<std::vector<int>> find_lines_of_parts( int part, const std::string &flag ) const;
 
         // returns true if given flag is present for given part index
         bool part_flag( int p, const std::string &f ) const;
@@ -1744,8 +1768,6 @@ class vehicle
         // opens/closes doors or multipart doors
         void open( int part_index );
         void close( int part_index );
-        // returns whether the door is open or not
-        bool is_open( int part_index ) const;
 
         bool can_close( int part_index, Character &who );
 
@@ -1755,8 +1777,6 @@ class vehicle
         time_duration folding_time() const;
         // @returns how long should unfolding activity take
         time_duration unfolding_time() const;
-        // assigns folding activity to player avatar
-        void start_folding_activity();
         // @returns item of this vehicle folded
         item get_folded_item() const;
         // restores vehicle parts from a folded item
@@ -1789,19 +1809,8 @@ class vehicle
         // for destroying any terrain around vehicle part. Automated mining tool.
         void crash_terrain_around();
         void transform_terrain();
-        void add_toggle_to_opts( std::vector<uilist_entry> &options,
-                                 std::vector<std::function<void()>> &actions,
-                                 const std::string &name,
-                                 const input_event &key,
-                                 const std::string &flag );
-        void set_electronics_menu_options( std::vector<uilist_entry> &options,
-                                           std::vector<std::function<void()>> &actions );
-        //main method for the control of multiple electronics
-        void control_electronics();
         //main method for the control of individual engines
         void control_engines();
-        // shows ui menu to select an engine
-        int select_engine();
         //returns whether the engine is enabled or not, and has fueltype
         bool is_engine_type_on( int e, const itype_id &ft ) const;
         //returns whether the engine is enabled or not
@@ -1878,11 +1887,12 @@ class vehicle
         void use_washing_machine( int p );
         void use_dishwasher( int p );
         void use_monster_capture( int part, const tripoint &pos );
-        void use_bike_rack( int part );
-        void clear_bike_racks( std::vector<int> &racks );
         void use_harness( int part, const tripoint &pos );
 
-        void interact_with( const vpart_position &vp, bool with_pickup = false );
+        void build_electronics_menu( veh_menu &menu );
+        void build_bike_rack_menu( veh_menu &menu, int part );
+        void build_interact_menu( veh_menu &menu, const tripoint &p, bool with_pickup );
+        void interact_with( const tripoint &p, bool with_pickup = false );
 
         std::string disp_name() const;
 
@@ -1930,13 +1940,6 @@ class vehicle
         tripoint get_abs_diff( const tripoint &one, const tripoint &two ) const;
         bool should_enable_fake( const tripoint &fake_precalc, const tripoint &parent_precalc,
                                  const tripoint &neighbor_precalc ) const;
-        /**
-        *  checks carried_vehicles param for duplicate entries of bike racks/vehicle parts
-        * this eliminates edge cases caused by overlapping bike_rack lanes
-        * @param carried_vehicles is a set of either vehicle_parts or bike_racks that need duplicate entries accross the vector<vector>s rows removed
-        */
-        void validate_carried_vehicles( std::vector<std::vector<int>> &carried_vehicles );
-
     public:
         // Number of parts contained in this vehicle
         int part_count( bool no_fake = false ) const;

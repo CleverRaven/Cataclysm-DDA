@@ -224,6 +224,44 @@ item_location Character::i_add( item it, bool /* should_stack */, const item *av
     }
 }
 
+ret_val<item_location> Character::i_add_or_fill( item &it, bool should_stack, const item *avoid,
+        const item *original_inventory_item, const bool allow_drop,
+        const bool allow_wield, bool ignore_pkt_settings )
+{
+    item_location loc = item_location::nowhere;
+    bool success = false;
+    if( it.count_by_charges() && it.charges >= 2 && !ignore_pkt_settings ) {
+        const int last_charges = it.charges;
+        int new_charge = last_charges;
+        this->worn.add_stash( *this, it, new_charge, false );
+
+        if( new_charge < last_charges ) {
+            it.charges = new_charge;
+            success = true;
+        } else {
+            success = false;
+        }
+        if( new_charge >= 1 ) {
+            if( !allow_wield || !wield( it ) ) {
+                if( allow_drop ) {
+                    loc = item_location( map_cursor( pos() ), &get_map().add_item_or_charges( pos(), it ) );
+                }
+            } else {
+                loc = item_location( *this, &weapon );
+            }
+        }
+        if( success ) {
+            return ret_val<item_location>::make_success( loc );
+        } else {
+            return ret_val<item_location>::make_failure( loc );
+        }
+    } else {
+        loc = i_add( it, should_stack, avoid, original_inventory_item, allow_drop, allow_wield,
+                     ignore_pkt_settings );
+        return ret_val<item_location>::make_success( loc );
+    }
+}
+
 // Negative positions indicate weapon/clothing, 0 & positive indicate inventory
 const item &Character::i_at( int position ) const
 {

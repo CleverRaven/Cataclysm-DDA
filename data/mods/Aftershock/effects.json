@@ -50,7 +50,7 @@
     "outdoor_age_speedup": "3 minutes",
     "dirty_transparency_cache": true,
     "has_fume": true,
-    "immunity_data": { "body_part_env_resistance": [ [ "mouth", 15 ] ], "traits": [ "MIGO_BREATHE" ] },
+    "immunity_data": { "body_part_env_resistance": [ [ "mouth", 15 ] ], "flags": [ "MIGO_IMMUNE" ] },
     "priority": 8,
     "half_life": "10 minutes",
     "phase": "gas"

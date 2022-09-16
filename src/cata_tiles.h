@@ -67,6 +67,14 @@ enum class TILE_CATEGORY {
     last
 };
 
+enum class NEIGHBOUR {
+    SOUTH = 1,
+    EAST = 2,
+    WEST = 4,
+    NORTH = 8,
+    last
+};
+
 class tile_lookup_res
 {
         // references are stored as pointers to support copy assignment of the class
@@ -132,6 +140,9 @@ class tileset
         int tile_width = 0;
         int tile_height = 0;
 
+        float retract_dist_min = 0.0;
+        float retract_dist_max = 0.0;
+
         // multiplier for pixel-doubling tilesets
         float tile_pixelscale = 1.0f;
 
@@ -175,6 +186,12 @@ class tileset
         }
         float get_tile_pixelscale() const {
             return tile_pixelscale;
+        }
+        float get_retract_dist_min() const {
+            return retract_dist_min;
+        }
+        float get_retract_dist_max() const {
+            return retract_dist_max;
         }
         const std::string &get_tileset_id() const {
             return tileset_id;
@@ -357,6 +374,8 @@ using color_block_overlay_container = std::pair<SDL_BlendMode, std::multimap<poi
 
 class cata_tiles
 {
+        friend class cata_tiles_test_helper;
+
     public:
         cata_tiles( const SDL_Renderer_Ptr &render, const GeometryRenderer_Ptr &geometry,
                     tileset_cache &cache );
@@ -424,28 +443,28 @@ class cata_tiles
         bool draw_sprite_at(
             const tile_type &tile, const weighted_int_list<std::vector<int>> &svlist,
             const point &, unsigned int loc_rand, bool rota_fg, int rota, lit_level ll,
-            bool apply_night_vision_goggles );
-        bool draw_sprite_at(
-            const tile_type &tile, const weighted_int_list<std::vector<int>> &svlist,
-            const point &, unsigned int loc_rand, bool rota_fg, int rota, lit_level ll,
-            bool apply_night_vision_goggles, int &height_3d );
+            bool apply_night_vision_goggles, int retract, int &height_3d );
         bool draw_tile_at( const tile_type &tile, const point &, unsigned int loc_rand, int rota,
-                           lit_level ll, bool apply_night_vision_goggles, int &height_3d );
+                           lit_level ll, bool apply_night_vision_goggles, int retract, int &height_3d );
 
         /* Tile Picking */
         void get_tile_values( int t, const std::array<int, 4> &tn, int &subtile, int &rotation );
         // as get_tile_values, but for unconnected tiles, infer rotation from surrounding walls
         void get_tile_values_with_ter( const tripoint &p, int t, const std::array<int, 4> &tn,
                                        int &subtile, int &rotation );
-        void get_connect_values( const tripoint &p, int &subtile, int &rotation, int connect_group,
-                                 const std::map<tripoint, ter_id> &ter_override );
-        void get_furn_connect_values( const tripoint &p, int &subtile, int &rotation,
-                                      int connect_group,
-                                      const std::map<tripoint, furn_id> &furn_override );
+        static void get_connect_values( const tripoint &p, int &subtile, int &rotation, int connect_group,
+                                        int rotate_to_group, const std::map<tripoint, ter_id> &ter_override );
+        static void get_furn_connect_values( const tripoint &p, int &subtile, int &rotation,
+                                             int connect_group, int rotate_to_group,
+                                             const std::map<tripoint, furn_id> &furn_override );
         void get_terrain_orientation( const tripoint &p, int &rota, int &subtile,
                                       const std::map<tripoint, ter_id> &ter_override,
                                       const std::array<bool, 5> &invisible );
-        void get_rotation_and_subtile( char val, int &rota, int &subtile );
+
+        static void get_rotation_and_subtile( char val, char rot_to, int &rota, int &subtile );
+        static int get_rotation_unconnected( char rot_to );
+        static int get_rotation_edge_ns( char rot_to );
+        static int get_rotation_edge_ew( char rot_to );
 
         /** Map memory */
         bool has_memory_at( const tripoint &p ) const;

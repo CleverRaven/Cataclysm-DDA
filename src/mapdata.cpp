@@ -267,7 +267,7 @@ std::string enum_to_string<ter_furn_flag>( ter_furn_flag data )
 } // namespace io
 
 static const std::unordered_map<std::string, ter_connects> ter_connects_map = { {
-        { "WALL",                     TERCONN_WALL },         // implied by ter_furn_flag::TFLAG_CONNECT_TO_WALL, ter_furn_flag::TFLAG_AUTO_WALL_SYMBOL or ter_furn_flag::TFLAG_WALL
+        { "WALL",                     TERCONN_WALL },         // implied for connects_to by ter_furn_flag::TFLAG_CONNECT_TO_WALL, ter_furn_flag::TFLAG_AUTO_WALL_SYMBOL or ter_furn_flag::TFLAG_WALL
         { "CHAINFENCE",               TERCONN_CHAINFENCE },
         { "WOODFENCE",                TERCONN_WOODFENCE },
         { "RAILING",                  TERCONN_RAILING },
@@ -287,7 +287,8 @@ static const std::unordered_map<std::string, ter_connects> ter_connects_map = { 
         { "ROCKFLOOR",                TERCONN_ROCKFLOOR },
         { "MULCHFLOOR",               TERCONN_MULCHFLOOR },
         { "METALFLOOR",               TERCONN_METALFLOOR },
-        { "WOODFLOOR",               TERCONN_WOODFLOOR },
+        { "WOODFLOOR",                TERCONN_WOODFLOOR },
+        { "INDOORFLOOR",              TERCONN_INDOORFLOOR },         // implied for rotates_to by ter_furn_flag::WINDOW, and for rotates_to_member by ter_furn_flag::INDOORS
     }
 };
 
@@ -630,6 +631,14 @@ void map_data_common_t::extraprocess_flags( const ter_furn_flag flag )
     if( flag == ter_furn_flag::TFLAG_WALL || flag == ter_furn_flag::TFLAG_CONNECT_TO_WALL ) {
         set_connects( "WALL" );
     }
+    // rotates_to check for JSON backwards compatibility
+    if( flag == ter_furn_flag::TFLAG_WINDOW || flag == ter_furn_flag::TFLAG_DOOR ) {
+        set_rotates_to( "INDOORFLOOR" );
+    }
+    // rotates_to_member check for JSON backwards compatibility
+    if( flag == ter_furn_flag::TFLAG_INDOORS ) {
+        set_rotates_to_member( "INDOORFLOOR" );
+    }
 }
 
 void map_data_common_t::set_flag( const std::string &flag )
@@ -659,10 +668,39 @@ void map_data_common_t::set_connects( const std::string &connect_group_string )
     }
 }
 
+void map_data_common_t::set_rotates_to( const std::string &towards_group_string )
+{
+    const auto it = ter_connects_map.find( towards_group_string );
+    if( it != ter_connects_map.end() ) {
+        rotate_to_group = it->second;
+    } else { // arbitrary rotates towards groups are a bad idea for optimization reasons
+        debugmsg( "can't find terrain rotates towards group %s", towards_group_string.c_str() );
+    }
+}
+
+void map_data_common_t::set_rotates_to_member( const std::string &towards_group_string )
+{
+    const auto it = ter_connects_map.find( towards_group_string );
+    if( it != ter_connects_map.end() ) {
+        rotate_to_group_member = it->second;
+    } else { // arbitrary rotates towards groups are a bad idea for optimization reasons
+        debugmsg( "can't find terrain rotates towards group %s", towards_group_string.c_str() );
+    }
+}
+
 bool map_data_common_t::connects( int &ret ) const
 {
     if( connect_group != TERCONN_NONE ) {
         ret = connect_group;
+        return true;
+    }
+    return false;
+}
+
+bool map_data_common_t::rotates( int &ret ) const
+{
+    if( rotate_to_group != TERCONN_NONE ) {
+        ret = rotate_to_group;
         return true;
     }
     return false;
@@ -811,6 +849,7 @@ void set_ter_ids()
     t_pit_glass_covered = ter_id( "t_pit_glass_covered" );
     t_rock_floor = ter_id( "t_rock_floor" );
     t_grass = ter_id( "t_grass" );
+    t_grass_dead = ter_id( "t_grass_dead" );
     t_grass_long = ter_id( "t_grass_long" );
     t_grass_tall = ter_id( "t_grass_tall" );
     t_moss = ter_id( "t_moss" );
@@ -1381,6 +1420,8 @@ void ter_t::load( const JsonObject &jo, const std::string &src )
     trap = tr_null;
     transparent = false;
     connect_group = TERCONN_NONE;
+    rotate_to_group = TERCONN_NONE;
+    rotate_to_group_member = TERCONN_NONE;
 
     for( auto &flag : jo.get_string_array( "flags" ) ) {
         set_flag( flag );
@@ -1390,6 +1431,12 @@ void ter_t::load( const JsonObject &jo, const std::string &src )
     // but can be overridden by explicit connections in JSON.
     if( jo.has_member( "connects_to" ) ) {
         set_connects( jo.get_string( "connects_to" ) );
+    }
+    if( jo.has_member( "rotates_to" ) ) {
+        set_rotates_to( jo.get_string( "rotates_to" ) );
+    }
+    if( jo.has_member( "rotates_to_member" ) ) {
+        set_rotates_to_member( jo.get_string( "rotates_to_member" ) );
     }
 
     optional( jo, was_loaded, "allowed_template_ids", allowed_template_id );
@@ -1551,12 +1598,20 @@ void furn_t::load( const JsonObject &jo, const std::string &src )
 
     // see the comment in ter_id::load for connect_group handling
     connect_group = TERCONN_NONE;
+    rotate_to_group = TERCONN_NONE;
+    rotate_to_group_member = TERCONN_NONE;
     for( auto &flag : jo.get_string_array( "flags" ) ) {
         set_flag( flag );
     }
 
     if( jo.has_member( "connects_to" ) ) {
         set_connects( jo.get_string( "connects_to" ) );
+    }
+    if( jo.has_member( "rotates_to" ) ) {
+        set_rotates_to( jo.get_string( "rotates_to" ) );
+    }
+    if( jo.has_member( "rotates_to_member" ) ) {
+        set_rotates_to_member( jo.get_string( "rotates_to_member" ) );
     }
 
     optional( jo, was_loaded, "open", open, string_id_reader<furn_t> {}, furn_str_id::NULL_ID() );
