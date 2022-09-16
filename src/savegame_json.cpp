@@ -3174,13 +3174,7 @@ void vehicle_part::deserialize( const JsonObject &data )
     vpart_id pid;
     data.read( "id", pid );
 
-    const std::map<vpart_id, vpart_id> &deprecated = vpart_migration::get_migrations();
-
-    const auto dep = deprecated.find( pid );
-    if( dep != deprecated.end() ) {
-        DebugLog( D_INFO, D_GAME ) << "Replacing vpart " << pid.str() << " with " << dep->second;
-        pid = vpart_id( dep->second );
-    }
+    pid = vpart_migration::migrate( pid );
 
     std::tie( pid, variant ) = get_vpart_id_variant( pid );
 
