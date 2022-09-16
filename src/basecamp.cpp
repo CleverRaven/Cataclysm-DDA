@@ -596,7 +596,7 @@ comp_list basecamp::get_mission_workers( const mission_id &miss_id, bool contain
     return available;
 }
 
-void basecamp::query_new_name( const bool force )
+void basecamp::query_new_name( bool force )
 {
     string_input_popup input_popup;
     bool done = false;
