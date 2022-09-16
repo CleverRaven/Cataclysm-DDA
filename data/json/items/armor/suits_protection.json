@@ -1935,11 +1935,11 @@
     "type": "ARMOR",
     "copy-from": "qt_chainmail_suit",
     "name": { "str": "faraday chainmail suit" },
-    "description": "A fully customized chainmail suit with integrated rubber boots that can be worn over your normal clothing.  The suit is conductively interconnected, protecting against electricity.",
+    "description": "A fully customized chainmail suit that can be worn over your normal clothing.  The suit is conductively interconnected, protecting against electricity.",
     "armor": [
       {
         "material": [ { "type": "qt_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
-        "covers": [ "torso", "arm_l", "arm_r", "hand_l", "hand_r" ],
+        "covers": [ "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r" ],
         "coverage": 100,
         "encumbrance": 20
       },
@@ -1962,20 +1962,6 @@
         "encumbrance": 1
       },
       {
-        "material": [ { "type": "qt_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
-        "covers": [ "leg_l", "leg_r" ],
-        "specifically_covers": [ "leg_upper_l", "leg_knee_l", "leg_hip_l", "leg_upper_r", "leg_knee_r", "leg_hip_r" ],
-        "coverage": 100,
-        "encumbrance": 20
-      },
-      {
-        "material": [ { "type": "rubber", "covered_by_mat": 100, "thickness": 3.0 }, { "type": "qt_steel", "covered_by_mat": 100, "thickness": 1.2 } ],
-        "covers": [ "leg_l", "leg_r" ],
-        "specifically_covers": [ "leg_lower_l", "leg_lower_r" ],
-        "coverage": 100,
-        "encumbrance": 3
-      },
-      {
         "covers": [ "foot_l", "foot_r" ],
         "specifically_covers": [
           "foot_toes_r",
@@ -1987,16 +1973,8 @@
           "foot_arch_r",
           "foot_arch_l"
         ],
-        "material": [ { "type": "rubber", "covered_by_mat": 100, "thickness": 3.0 }, { "type": "qt_steel", "covered_by_mat": 100, "thickness": 1.2 } ],
-        "layers": [ "NORMAL" ],
-        "encumbrance": 40,
-        "coverage": 100
-      },
-      {
-        "covers": [ "foot_l", "foot_r" ],
-        "specifically_covers": [ "foot_sole_r", "foot_sole_l" ],
-        "material": [ { "type": "rubber", "covered_by_mat": 100, "thickness": 6.0 } ],
-        "layers": [ "NORMAL" ],
+        "material": [ { "type": "qt_steel", "covered_by_mat": 100, "thickness": 1.2 } ],
+        "encumbrance": 10,
         "coverage": 100
       }
     ],
