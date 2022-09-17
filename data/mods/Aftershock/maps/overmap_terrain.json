@@ -310,7 +310,7 @@
   },
   {
     "type": "overmap_terrain",
-	"id": [ "crashing_ship_barracks" ],
+    "id": [ "crashing_ship_barracks" ],
     "sym": "+",
     "color": "i_red",
     "see_cost": 2,
