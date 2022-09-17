@@ -1240,13 +1240,14 @@
       "loffice_tower_12",
       "loffice_tower_13",
       "loffice_tower_14",
-      "loffice_tower_15"
+      "loffice_tower_15",
+      "loffice_tower_16"
     ],
     "copy-from": "generic_large_office_tower"
   },
   {
     "type": "overmap_terrain",
-    "id": [ "loffice_tower_16", "loffice_tower_17", "loffice_tower_18", "loffice_tower_19", "loffice_tower_20" ],
+    "id": [ "loffice_tower_17", "loffice_tower_18", "loffice_tower_19", "loffice_tower_20" ],
     "name": "open air",
     "sym": ".",
     "color": "blue"
