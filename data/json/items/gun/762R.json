@@ -124,7 +124,7 @@
     "name": { "str": "PSL" },
     "description": "The Romanian PSL is a designated marksman's rifle developed by Romania after political tensions with Soviet Russia forced them to develop their own alternative to the SVD.",
     "weight": "4100 g",
-    "volume": "2167 ml",
+    "volume": "7339 ml",
     "longest_side": "1150 mm",
     "price": 290000,
     "price_postapoc": 4000,
@@ -151,7 +151,7 @@
       [ "stock accessory", 2 ],
       [ "underbarrel mount", 1 ]
     ],
-	"default_mods": [ "sights_mount" ],
+    "default_mods": [ "sights_mount" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "pslmag5", "pslmag10" ] } ]
   }
 ]
