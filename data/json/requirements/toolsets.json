@@ -61,6 +61,22 @@
     ]
   },
   {
+    "id": "gun_repair",
+    "type": "requirement",
+    "//": "Gun repair",
+    "tools": [ [ [ "soldering_iron", 25 ], [ "toolset", 25 ] ] ],
+    "components": [ [ [ "solder_wire", 25 ] ], [ [ "scrap", 1 ] ] ],
+    "qualities": [
+      { "id": "HAMMER_FINE", "level": 1 },
+      { "id": "SAW_M_FINE", "level": 1 },
+      { "id": "WRENCH_FINE", "level": 1 },
+      { "id": "SCREW_FINE", "level": 1 },
+      { "id": "SCREW", "level": 1 },
+      { "id": "CHISEL", "level": 3 },
+      { "id": "CHISEL_WOOD", "level": 3 }
+    ]
+  },
+  {
     "id": "earthenware_firing",
     "type": "requirement",
     "//": "Firing various clay shapes to make earthenware",
