@@ -3642,5 +3642,22 @@
     "rating": "bad",
     "show_intensity": false,
     "enchantments": [ { "condition": { "not": "ALWAYS" }, "values": [ { "value": "CARRY_WEIGHT", "multiply": -0.25 } ] } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "berserk_crash",
+    "name": [ "Post-Berserk Crash" ],
+    "desc": [ "Your whole body aches." ],
+    "miss_messages": [ [ "You feel dead inside.", 2 ] ],
+    "rating": "bad",
+    "base_mods": {
+      "per_mod": [ -3 ],
+      "dex_mod": [ -3 ],
+      "str_mod": [ -5 ],
+      "speed_mod": [ -20 ],
+      "pain_min": [ 2 ],
+      "pain_chance": [ 100, 500 ]
+    },
+    "show_in_info": true
   }
 ]
