@@ -106,7 +106,7 @@
     "price": 1,
     "to_hit": 1,
     "bashing": 14,
-    "material": [ "steel" ],
+    "material": [ "magic_ice" ],
     "symbol": "[",
     "color": "light_gray",
     "sided": true,
@@ -125,7 +125,7 @@
     "price": 1,
     "to_hit": -2,
     "bashing": 6,
-    "material": [ "steel" ],
+    "material": [ "magic_ice" ],
     "symbol": "[",
     "color": "brown",
     "warmth": 30,
@@ -481,13 +481,13 @@
     "description": "A thin layer of magical ice, covering the entire body.",
     "weight": "5000 g",
     "volume": "5 L",
-    "material": [ "steel" ],
+    "material": [ "magic_ice" ],
     "symbol": "[",
     "color": "light_gray",
     "warmth": 0,
     "material_thickness": 2,
     "environmental_protection": 2,
-    "flags": [ "SEMITANGIBLE", "ONLY_ONE", "OVERSIZE", "TRADER_AVOID", "PERSONAL", "STURDY", "NO_TAKEOFF", "NONCONDUCTIVE" ],
+    "flags": [ "ONLY_ONE", "OVERSIZE", "TRADER_AVOID", "PERSONAL", "STURDY", "NO_TAKEOFF", "PADDED" ],
     "armor": [
       {
         "encumbrance": 10,
@@ -510,7 +510,7 @@
     "warmth": 5,
     "material_thickness": 2,
     "environmental_protection": 2,
-    "flags": [ "ONLY_ONE", "OVERSIZE", "PERSONAL", "STURDY" ],
+    "flags": [ "ONLY_ONE", "OVERSIZE", "TRADER_AVOID", "PERSONAL", "STURDY", "NO_TAKEOFF", "PADDED" ],
     "armor": [
       {
         "encumbrance": 20,
