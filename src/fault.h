@@ -25,6 +25,7 @@ struct mending_method {
     requirement_id requirements;
     cata::optional<fault_id> turns_into;
     cata::optional<fault_id> also_mends;
+    cata::optional<int> heal_stages;
 };
 
 class fault

@@ -63,6 +63,7 @@ void fault::load_fault( const JsonObject &jo )
 
         optional( jo_method, false, "turns_into", m.turns_into, cata::nullopt );
         optional( jo_method, false, "also_mends", m.also_mends, cata::nullopt );
+        optional( jo_method, false, "heal_stages", m.heal_stages, cata::nullopt );
 
         f.mending_methods_.emplace( m.id, m );
     }
