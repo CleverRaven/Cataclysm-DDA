@@ -243,20 +243,20 @@ Everywhere else   | Predominately 9mm and 223. Always with standard magazine  | 
 Bow damage is based on the momentum achieved in the projectile.  Since arrows and bolts have sharp cutting surfaces, the penetration and therefore damage achieved is based on the projectile's capacity for slicing through tissues.  The arrow has a modifier based on construction, material and design, most critically centered around the effectiveness of the head.  Base damage is calculated from momentum by taking momentum in Slug-foot-seconds, multiplying by 150 and subtracting 32. This was arrived at by taking well-regarded bowhunting guidelines and determining the damage numbers necessary for a kill of various game on a critical hit, see tests/archery_damage_test.cpp for details.
 
 ## Ammo stats
-The damage (**Dmg**) of of a given **caliber** shot through a normal firearm is the square root of a round's muzzle energy in joules (**M.E.**), rounded to the nearest integer with an arbitrary increase or decrease to account for terminal ballistics of different projectiles. Normal in this case is full/total metal jacketed, lead core projectiles, including slugs out of shotguns. Damage of handloaded ammo is set to 92% (rounded down) of their factory counterparts. Damage of smokeless cartridges loaded with black powder is set to 76% (rounded down) of their factory counterparts, and damage of smokeless cartridges with bullet diameter less than .30 inches loaded with black powder is set to 57% (rounded down) of their factory counterparts. A table calculating a given round's damage has been prepared and is provided below.
+The default damage, (**Dmg**) of a given **Cartridge** shot through a normal firearm is the square root of a round's muzzle energy in joules, (**M.E.**), rounded to the nearest integer with an arbitrary increase or decrease to account for terminal ballistics of different projectiles. Normal in this case is full/total metal jacketed, lead core projectiles, including slugs out of shotguns. Damage of handloaded ammo is set to 92% (rounded down) of their factory counterparts. Damage of smokeless cartridges loaded with black powder is set to 76% (rounded down) of their factory counterparts, and damage of smokeless cartridges with bullet diameter less than .30 inches loaded with black powder is set to 57% (rounded down) of their factory counterparts. A table calculating a given round's damage has been prepared and is provided below.
 
-Each cartridge also has a base barrel length (**Brl**) listed determined based on cartridge length, **OAL**, (with some exceptions).
+Each cartridge also has a base barrel length (**Brl**) listed determined based loosely on cartridge length, (**OAL**), (with some exceptions). What is given here as **OAL** is not truly the OAL of the cartridge, but the physical Overall Length - the seating depth of the cartridge, as a measure of the portion of the barrel that does not contribute to imparting velocity on the projectile.  Barrel lengths less than the overall length of the cartridge, (**OAL**), should default to 0 ballistic damage.
 
-Each cartridge has had a curve plotted for barrel length vs damage for standard loads, sourced from reloading manuals, manufacturers' load data, and/or wikipedia, and modelled with interior ballistics software. Each curve had a logarithmic regression fit to it, and the generic formula to reproduce it is **Dmg** = ( **A** x Ln( **Brl** ) )+ **B**. For each cartridge, the **default damage** has been calculated using its **A** coefficient and **B** offset and **Brl**. For firearms whose barrel lengths differ from **Brl**, a corresponding damage modifier should be calculated using the formula and the provided **default damage**.
+Each cartridge has had a curve plotted for barrel length vs damage for standard loads, sourced from reloading manuals, manufacturers' load data, and/or wikipedia, and modelled with interior ballistics software. Each curve had a logarithmic regression fit to it, and the generic formula to reproduce it is **Dmg** = ( **A** x Ln( **Brl** ) )+ **B**. For each cartridge, the default damage, **Dmg** has been calculated using its **A** coefficient and **B** offset and **Brl**. For firearms whose barrel lengths differ from **Brl**, a corresponding damage modifier should be calculated using the formula and the provided default damage.
 
-Friction losses were not modelled. Plugging in optimistically long barrel lengths will not yield accurate data. Real world barrels should provide useful estimates for determining modifiers. 
+Friction losses were not modelled. Plugging in optimistically long barrel lengths will not yield accurate data. Real world barrels should provide useful estimates for determining modifiers. Any barrel featuring a separate chamber (e.g. revolvers, the HK G11, etc) should have the length of this chamber added to the barrel length as part of these calculations.
 
-Any cartridge more energetic than 20mm, or otherwise dissimilar to these cartridges (a baseball, anything faster than 6190 FPS, etc) is not appropriate to consider with just the square root of its muzzle energy.
+Any cartridge more energetic than 20mmx102, or otherwise dissimilar to these cartridges (a baseball, anything faster than 6190 FPS, etc) is not appropriate to consider with just the square root of its muzzle energy.
 
-For reference, each cartridge's bullet diameter, **dia**  and weight, **Proj. wt**, have been provided.
+For reference, each cartridge's bullet diameter, **Dia**  and weight, **Proj. wt**, have been provided.
 
 
-| **Caliber**             | **Brl** | **Dam** | **M.E.**  | **A**  | **B**   | **OAL**  | **Dia**   | **Proj. Wt** |
+| **Cartridge**           | **Brl** | **Dmg** | **M.E.**  | **A**  | **B**   | **OAL**  | **Dia**   | **Proj. Wt** |
 |-------------------------|---------|---------|-----------|--------|---------|----------|-----------|--------------|
 | .25 ACP                 | 6.0 in  | 11.5    | 132.0 J   | 1.8941 | 8.096   | 0.902 in | 0.251 in  | 50 gr        |
 | .22 LR                  | 6.0 in  | 12.3    | 150.1 J   | 3.7059 | 5.613   | 1 in     | 0.22 in   | 31 gr        |
@@ -300,7 +300,7 @@ For reference, each cartridge's bullet diameter, **dia**  and weight, **Proj. wt
 | 8 x40 Caseless (CDDA)   | 6.0 in  | 27.7    | 765.4 J   | 14.317 | 2.013   | 1.575 in | 0.323 in  | 127 gr       |
 | .30 Carbine             | 6.0 in  | 27.9    | 777.4 J   | 7.6922 | 14.1    | 1.68 in  | 0.308 in  | 110 gr       |
 | 10 mm Auto              | 6.0 in  | 28.4    | 807.6 J   | 5.7868 | 18.05   | 1.26 in  | 0.4 in    | 165 gr       |
-| .410 Bore 3in           | 18.0 in | 31.0    | 961.0 J   | 9.4303 | 3.699   | 89 in    | 0.408 in  | 109.3 gr     |
+| .410 Bore 3in           | 18.0 in | 31.0    | 961.0 J   | 9.4303 | 3.699   | 2.9 in    | 0.408 in  | 109.3 gr     |
 | .44 Rem. Mag.           | 6.0 in  | 32.8    | 1077.6 J  | 9.0901 | 16.54   | 1.61 in  | 0.429 in  | 240 gr       |
 | .454 Casull             | 6.0 in  | 32.8    | 1078.4 J  | 7.8628 | 18.75   | 1.68 in  | 0.452 in  | 250 gr       |
 | 28 Gauge 2.75in         | 18.0 in | 33.5    | 1123.3 J  | 10.195 | 4.048   | 2.56 in  | 0.54 in   | 194 gr       |
@@ -350,10 +350,10 @@ For reference, each cartridge's bullet diameter, **dia**  and weight, **Proj. wt
 | .300 Savage             | 16.0 in | 49.0    | 2396.6 J  | 15.767 | 5.24    | 2.6 in   | 0.308 in  | 150 gr       |
 | .260 Rem                | 16.0 in | 49.3    | 2425.8 J  | 16.959 | 2.232   | 2.8 in   | 0.264 in  | 140 gr       |
 | 6.5 Creedmoor           | 16.0 in | 49.4    | 2441.5 J  | 18.697 | -2.428  | 2.8 in   | 0.264 in  | 120 gr       |
+| 12 Gauge 2.75in         | 18.0 in | 49.5    | 2450.0 J  | 13.794 | 11.13   | 1.97 in  | 0.73 in   | 437.5 gr     |
 | 7 x57 mm                | 16.0 in | 49.5    | 2451.7 J  | 16.293 | 4.341   | 3.071 in | 0.284 in  | 175 gr       |
 | .303 British            | 16.0 in | 50.9    | 2594.5 J  | 20.002 | -4.521  | 3.075 in | 0.312 in  | 174 gr       |
 | 7 mm -08 Rem.           | 16.0 in | 51.0    | 2597.2 J  | 17.061 | 3.66    | 2.8 in   | 0.284 in  | 154 gr       |
-| 12 Gauge 2.75in         | 18.0 in | 51.0    | 2601.0 J  | 13.794 | 11.13   | 1.97 in  | 0.73 in   | 520 gr       |
 | 7.62 x54 R              | 16.0 in | 51.0    | 2602.8 J  | 20.641 | -6.211  | 3.04 in  | 0.312 in  | 150 gr       |
 | .458 Socom              | 16.0 in | 51.2    | 2624.9 J  | 12.394 | 16.87   | 2.04 in  | 0.458 in  | 350 gr       |
 | 10 Gauge 3.75in         | 18.0 in | 51.7    | 2675.0 J  | 17.226 | 1.931   | 3.29 in  | 0.775 in  | 765 gr       |
@@ -417,7 +417,7 @@ For reference, each cartridge's bullet diameter, **dia**  and weight, **Proj. wt
 | .50 BMG                 | 46.0 in | 141.5   | 20024.0 J | 45.425 | -32.41  | 5.425 in | 0.51 in   | 650 gr       |
 | 14.5 x114 Russ.         | 46.0 in | 179.5   | 32218.9 J | 64.296 | -66.67  | 6.14 in  | 0.588 in  | 978 gr       |
 | 20 mm x138              | 46.0 in | 198.3   | 39338.8 J | 78.524 | -102.3  | 7.98 in  | 0.7874 in | 1852 gr      |
-| 20 mm x102              | 46.0 in | 209.3   | 43806.5 J | 63.381 | - 33.41 | 12 in    | 0.82 in   | 1521 gr      |
+| 20 mm x102              | 46.0 in | 209.3   | 43806.5 J | 63.381 | -33.41  | 12 in    | 0.82 in   | 1521 gr      |
 
 
 
