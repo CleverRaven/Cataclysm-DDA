@@ -305,6 +305,7 @@
     "acid_resist": 7,
     "fire_resist": 3,
     "chip_resist": 20,
+    "soft": true,
     "dmg_adj": [ "scratched", "cut", "cracked", "shattered" ],
     "bash_dmg_verb": "cracked",
     "cut_dmg_verb": "chipped"
