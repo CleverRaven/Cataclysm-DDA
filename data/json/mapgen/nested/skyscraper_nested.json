@@ -465,5 +465,74 @@
       ],
       "monsters": { ".": { "monster": "GROUP_GROCERY", "chance": 10 } }
     }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "skyscraper_shopping_0_ul_pet_supply_1",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "     HHH   HH   HHH     ",
+        "    R.D.d.t..uu.]..U    ",
+        "   HR.D.d.t..uu.cbS.    ",
+        "   HR.D.d.t..uu.cc$c ^  ",
+        "    ~~~~~~~~~~~~~~~~G   ",
+        "   H.RRRRRR..RRRRRR. ^  ",
+        "   H................    ",
+        "  s!.CCCCCC..CCCCCC.    ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "set": [ { "square": "terrain", "id": "t_floor", "x": 4, "y": 5, "x2": 19, "y2": 11 } ],
+      "terrain": {
+        ".": "t_floor",
+        "!": "t_door_metal_locked",
+        "s": "t_sidewalk",
+        "~": "t_carpet_green",
+        "G": "t_door_glass_c",
+        "H": "t_wall_glass"
+      },
+      "furniture": {
+        "^": [ "f_indoor_plant", "f_indoor_plant_y" ],
+        "]": "f_counter_gate_c",
+        "c": "f_counter",
+        "$": "f_counter",
+        "R": "f_rack",
+        "C": "f_counter",
+        "d": "f_counter",
+        "D": "f_counter",
+        "u": "f_counter",
+        "t": "f_table",
+        "S": "f_stool",
+        "U": "f_trashcan"
+      },
+      "items": {
+        "b": { "item": "behindcounter", "chance": 60 },
+        "$": { "item": "cash_register_random", "chance": 100 },
+        "R": { "item": "petstore_shelves", "chance": 70, "repeat": [ 2, 8 ] },
+        "C": { "item": "petstore_misc", "chance": 70, "repeat": [ 2, 8 ] },
+        "d": { "item": "vet_softdrug", "chance": 70, "repeat": [ 1, 2 ] },
+        "D": { "item": "vet_hardrug", "chance": 20 },
+        "u": { "item": "vet_utility", "chance": 85, "repeat": [ 1, 4 ] },
+        "t": { "item": "magazines", "chance": 70, "repeat": [ 1, 6 ] },
+        "U": { "item": "trash", "chance": 70, "repeat": [ 2, 5 ] }
+      },
+      "monsters": { ".": { "monster": "GROUP_VANILLA", "chance": 80 }, "~": { "monster": "GROUP_VANILLA", "chance": 80 } }
+    }
   }
 ]
