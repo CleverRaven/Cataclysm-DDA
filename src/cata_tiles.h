@@ -259,7 +259,7 @@ class tileset_cache::loader
 
         point sprite_offset;
         point sprite_offset_retracted;
-        float sprite_pixelscale;
+        float sprite_pixelscale = 1.0;
 
         int sprite_width = 0;
         int sprite_height = 0;
