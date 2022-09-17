@@ -3651,10 +3651,10 @@
     "miss_messages": [ [ "You feel dead inside.", 2 ] ],
     "rating": "bad",
     "base_mods": {
-      "per_mod": [ -3 ],
-      "dex_mod": [ -3 ],
-      "str_mod": [ -5 ],
-      "speed_mod": [ -20 ],
+      "per_mod": [ -6 ],
+      "dex_mod": [ -6 ],
+      "str_mod": [ -8 ],
+      "speed_mod": [ -30 ],
       "pain_min": [ 2 ],
       "pain_chance": [ 100, 500 ]
     },
