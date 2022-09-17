@@ -7350,16 +7350,22 @@ std::vector<map_item_stack> game::find_nearby_items( int iRadius )
         return ret;
     }
 
-    for( tripoint &points_p_it : closest_points_first( u.pos(), iRadius ) ) {
-        if( points_p_it.y >= u.posy() - iRadius && points_p_it.y <= u.posy() + iRadius &&
-            u.sees( points_p_it ) &&
-            m.sees_some_items( points_p_it, u ) ) {
+    int range = fov_3d ? fov_3d_z_range : 0;
+    int center_z = u.pos().z;
 
-            for( item &elem : m.i_at( points_p_it ) ) {
+    for( int i = 0; i <= range * 2; i++ ) {
+        int z = i % 2 ? center_z - i / 2 : center_z + i / 2;
+        for( tripoint &points_p_it : closest_points_first( {u.pos().xy(), z}, iRadius ) ) {
+            if( points_p_it.y >= u.posy() - iRadius && points_p_it.y <= u.posy() + iRadius &&
+                u.sees( points_p_it ) &&
+                m.sees_some_items( points_p_it, u ) ) {
+
+                for( auto &elem : m.i_at( points_p_it ) ) {
                 const std::string name = elem.tname();
                 const tripoint relative_pos = points_p_it - u.pos();
 
                 add_item_recursive( item_order, temp_items, &elem, relative_pos );
+                }
             }
         }
     }

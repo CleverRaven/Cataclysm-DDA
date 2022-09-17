@@ -11,6 +11,7 @@
 #include "color.h"
 #include "options.h"
 #include "sdl_wrappers.h"
+#include "cached_options.h"
 
 using color_pixel_function_pointer = SDL_Color( * )( const SDL_Color &color );
 using color_pixel_function_map = std::unordered_map<std::string, color_pixel_function_pointer>;
@@ -67,6 +68,14 @@ inline SDL_Color color_pixel_custom( const SDL_Color &color )
     const SDL_Color dark = { static_cast<Uint8>( get_option<int>( "MEMORY_RGB_DARK_RED" ) ), static_cast<Uint8>( get_option<int>( "MEMORY_RGB_DARK_GREEN" ) ), static_cast<Uint8>( get_option<int>( "MEMORY_RGB_DARK_BLUE" ) ), color.a };
     const SDL_Color light = { static_cast<Uint8>( get_option<int>( "MEMORY_RGB_BRIGHT_RED" ) ), static_cast<Uint8>( get_option<int>( "MEMORY_RGB_BRIGHT_GREEN" ) ), static_cast<Uint8>( get_option<int>( "MEMORY_RGB_BRIGHT_BLUE" ) ), color.a };
     return color_pixel_mixer( color, get_option<float>( "MEMORY_GAMMA" ), dark, light );
+}
+
+inline SDL_Color color_pixel_z_overlay( const SDL_Color &color )
+{
+    if( static_z_effect ) {
+        return mix_colors( color, {128, 255, 255, color.a}, color.a / 8 );
+    }
+    return { 128, 255, 255, color.a };
 }
 
 SDL_Color curses_color_to_SDL( const nc_color &color );

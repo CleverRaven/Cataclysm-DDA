@@ -1188,7 +1188,7 @@ class vehicle
 
         // get symbol for map
         char part_sym( int p, bool exact = false, bool include_fake = true ) const;
-        std::string part_id_string( int p, char &part_mod ) const;
+        std::string part_id_string( int p, bool roof, char &part_mod ) const;
 
         // get color for map
         nc_color part_color( int p, bool exact = false, bool include_fake = true ) const;

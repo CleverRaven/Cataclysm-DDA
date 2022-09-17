@@ -58,4 +58,14 @@ extern check_plural_t check_plural;
 constexpr check_plural_t check_plural = check_plural_t::none;
 #endif
 
+/** Using isometric tileset. */
+extern bool tile_iso;
+
+/** Static z level effect. */
+extern bool static_z_effect;
+
+/**
+ * Whether to show the pixel minimap. Always false for ncurses build,
+ * but can be toggled during game in sdl build.
+*/
 #endif // CATA_SRC_CACHED_OPTIONS_H

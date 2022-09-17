@@ -1,7 +1,12 @@
 #include "cached_options.h"
 
+int message_cooldown;
+bool trigdist;
 bool fov_3d;
+bool static_z_effect = false;
 int fov_3d_z_range;
+bool tile_iso;
+bool pixel_minimap_option = false;
 bool keycode_mode;
 bool log_from_top;
 int message_ttl;
