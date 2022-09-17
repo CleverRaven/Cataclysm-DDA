@@ -142,7 +142,7 @@
         { "chunks": [ "skyscraper_shopping_0_mr_lower_electronics_1" ], "x": 24, "y": 24 },
         { "chunks": [ "skyscraper_shopping_0_lr_laundromat_1" ], "x": 24, "y": 24 }
       ],
-      "monsters": { ":": { "monster": "GROUP_ZOMBIE", "chance": 40 } },
+      "monsters": { ":": { "monster": "GROUP_ZOMBIE", "chance": 100 } },
       "palettes": [ "skyscraper_shopping_palette" ]
     }
   },
