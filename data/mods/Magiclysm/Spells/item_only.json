@@ -359,5 +359,18 @@
     "shape": "blast",
     "min_damage": 2400,
     "max_damage": 2400
+  },
+  {
+    "id": "flask_regeneration_effect",
+    "type": "SPELL",
+    "name": "Renovamen Healing Effect",
+    "description": "Heals the target.",
+    "valid_targets": [ "self" ],
+    "min_damage": -1,
+    "max_damage": -1,
+    "message": "",
+    "effect": "attack",
+    "shape": "blast",
+    "flags": [ "SILENT", "NO_EXPLOSION_SFX" ]
   }
 ]

@@ -1697,6 +1697,7 @@
     "id": "motorbike_boots",
     "repairs_like": "boots_survivor",
     "type": "ARMOR",
+    "category": "armor",
     "name": { "str": "pair of motorcycle boots", "str_pl": "pairs of motorcycle boots" },
     "description": "A pair of durable boots used by dirt bikers and motorcyclists.",
     "weight": "2125 g",

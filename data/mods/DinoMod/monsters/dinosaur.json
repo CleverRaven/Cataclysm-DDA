@@ -30,7 +30,7 @@
     "special_attacks": [ [ "GRAB", 10 ], { "type": "bite", "cooldown": 10 } ],
     "extend": { "flags": [ "SWARMS", "GROUP_MORALE" ] },
     "death_drops": {  },
-    "harvest": "dino_feather_leather",
+    "harvest": "dino_pred_feather_leather",
     "anger_triggers": [ "STALK", "PLAYER_WEAK", "HURT", "PLAYER_CLOSE" ],
     "fear_triggers": [ "FRIEND_DIED" ]
   },
@@ -64,7 +64,7 @@
     "biosignature": { "biosig_item": "feces_dino", "biosig_timer": 2 },
     "special_attacks": [ [ "GRAB", 10 ], { "type": "bite", "cooldown": 10 } ],
     "flags": [ "SEES", "SMELLS", "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "KEENNOSE", "WARM", "SWIMS" ],
-    "harvest": "dino_large_feather_pred",
+    "harvest": "dino_med_feather_pred",
     "anger_triggers": [ "STALK", "PLAYER_WEAK", "HURT", "PLAYER_CLOSE" ],
     "fear_triggers": [ "FRIEND_DIED" ],
     "categories": [ "DINOSAUR", "WILDLIFE" ]
@@ -516,7 +516,7 @@
       "SWARMS",
       "GROUP_MORALE"
     ],
-    "harvest": "mammal_leather",
+    "harvest": "dino_pred_feather_leather",
     "anger_triggers": [ "PLAYER_WEAK", "HURT" ],
     "fear_triggers": [ "PLAYER_CLOSE", "FRIEND_DIED" ],
     "categories": [ "DINOSAUR", "WILDLIFE" ]
@@ -770,7 +770,7 @@
     "baby_flags": [ "SPRING", "SUMMER" ],
     "biosignature": { "biosig_item": "feces_dino", "biosig_timer": 66 },
     "flags": [ "SEES", "SMELLS", "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "KEENNOSE", "WARM", "CLIMBS" ],
-    "harvest": "dino_feather_leather",
+    "harvest": "dino_pred_feather_leather",
     "dissect": "dissect_raptor_sample_single",
     "anger_triggers": [ "FRIEND_ATTACKED", "PLAYER_WEAK", "HURT" ],
     "fear_triggers": [ "FRIEND_DIED", "PLAYER_CLOSE" ],
@@ -824,7 +824,7 @@
       "CAN_OPEN_DOORS",
       "PRIORITIZE_TARGETS"
     ],
-    "harvest": "dino_feather_leather",
+    "harvest": "dino_pred_feather_leather",
     "dissect": "dissect_raptor_sample_single",
     "anger_triggers": [ "FRIEND_ATTACKED", "PLAYER_WEAK", "PLAYER_CLOSE", "HURT", "STALK" ],
     "fear_triggers": [ "FRIEND_DIED" ],
@@ -867,7 +867,7 @@
     "baby_flags": [ "SPRING", "SUMMER" ],
     "biosignature": { "biosig_item": "feces_dino", "biosig_timer": 2 },
     "flags": [ "SEES", "SMELLS", "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "KEENNOSE", "WARM", "CLIMBS" ],
-    "harvest": "dino_large_feather_pred",
+    "harvest": "dino_med_feather_pred",
     "dissect": "dissect_raptor_sample_small",
     "anger_triggers": [ "FRIEND_ATTACKED", "PLAYER_WEAK", "PLAYER_CLOSE", "HURT", "STALK", "SOUND" ],
     "fear_triggers": [ "FRIEND_DIED" ],
