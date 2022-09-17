@@ -1510,6 +1510,7 @@ reckonin
 recolherem
 recrafted
 recursively
+recurve 
 redcaps
 redear
 redits
@@ -2122,3 +2123,5 @@ zuul
 zygomaticus
 zzz
 zzzzchzzzzchurzzzpileus
+trilobite
+woodlouse

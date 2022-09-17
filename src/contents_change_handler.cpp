@@ -42,7 +42,7 @@ void contents_change_handler::serialize( JsonOut &jsout ) const
     jsout.write( unsealed );
 }
 
-void contents_change_handler::deserialize( JsonIn &jsin )
+void contents_change_handler::deserialize( const JsonValue &jsin )
 {
     jsin.read( unsealed );
 }

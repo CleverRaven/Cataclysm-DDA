@@ -20,22 +20,6 @@
   },
   {
     "type": "GENERIC",
-    "id": "sheet_metal_lit",
-    "name": { "str_sp": "wired sheet metal" },
-    "description": "Sheet metal that has had housing for lights wired into it.",
-    "weight": "6200 g",
-    "to_hit": -2,
-    "color": "light_cyan",
-    "symbol": "]",
-    "material": [ "steel", "plastic" ],
-    "volume": "1250 ml",
-    "bashing": 5,
-    "category": "veh_parts",
-    "price": 7500,
-    "price_postapoc": 250
-  },
-  {
-    "type": "GENERIC",
     "id": "wood_plate",
     "name": { "str": "wooden armor kit" },
     "description": "A bundle of planks prepared to be used as vehicle armor.",

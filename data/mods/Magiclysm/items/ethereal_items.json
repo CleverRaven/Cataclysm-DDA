@@ -278,7 +278,18 @@
     "color": "green",
     "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "25 L", "max_contains_weight": "75 kg", "moves": 60 } ],
     "material_thickness": 3,
-    "flags": [ "BELTED", "TRADER_AVOID", "WATERPROOF", "STURDY", "NO_UNWIELD", "ONLY_ONE", "NO_REPAIR", "NO_SALVAGE" ],
+    "flags": [
+      "BELTED",
+      "TRADER_AVOID",
+      "WATERPROOF",
+      "STURDY",
+      "OVERSIZE",
+      "NO_TAKEOFF",
+      "ONLY_ONE",
+      "NO_REPAIR",
+      "NO_SALVAGE",
+      "ZERO_WEIGHT"
+    ],
     "armor": [ { "encumbrance": [ 5, 10 ], "coverage": 40, "covers": [ "torso" ] } ]
   },
   {
@@ -625,7 +636,7 @@
     "cutting": 2,
     "to_hit": 2,
     "relic_data": {
-      "passive_effects": [ { "has": "WIELD", "condition": "ALWAYS", "values": [ { "value": "ITEM_DAMAGE_HEAT", "add": 8 } ] } ]
+      "passive_effects": [ { "has": "WIELD", "condition": "ALWAYS", "values": [ { "value": "ITEM_DAMAGE_HEAT", "add": 28 } ] } ]
     }
   },
   {

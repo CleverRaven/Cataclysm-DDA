@@ -1660,8 +1660,8 @@
         "#": "t_rock_wall",
         "B": "t_grass",
         "b": "t_grass",
-        "I": "t_tree_maple",
-        "i": "t_tree_young"
+        "I": [ "t_tree_maple", "t_tree_dead_warped" ],
+        "i": [ "t_tree_young", "t_tree_dead_warped" ]
       },
       "furniture": { "B": "f_boulder_medium", "b": "f_boulder_small" },
       "palettes": [ "lab_surface_palette" ]
@@ -1694,8 +1694,8 @@
         ".": [ "t_grass", "t_grass_long", "t_grass_tall" ],
         "#": "t_rock_wall",
         "B": "t_grass",
-        "I": "t_tree_maple",
-        "i": "t_tree_young"
+        "I": [ "t_tree_maple", "t_tree_dead_warped" ],
+        "i": [ "t_tree_young", "t_tree_dead_warped" ]
       },
       "furniture": { "B": "f_boulder_small" },
       "palettes": [ "lab_surface_palette" ]

@@ -1,5 +1,7 @@
 #if defined(TILES)
 #include "sdl_font.h"
+
+#include "font_loader.h"
 #include "output.h"
 
 #if defined(_WIN32)
