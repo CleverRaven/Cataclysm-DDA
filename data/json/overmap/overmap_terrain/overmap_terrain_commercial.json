@@ -1254,6 +1254,13 @@
   },
   {
     "type": "overmap_terrain",
+    "id": [ "loffice_tower_16", "loffice_tower_17", "loffice_tower_18", "loffice_tower_19", "loffice_tower_20" ],
+    "name": "open air",
+    "sym": ".",
+    "color": "blue"
+  },
+  {
+    "type": "overmap_terrain",
     "id": [
       "office_skyscraper_1",
       "office_skyscraper_2",
@@ -1279,21 +1286,14 @@
       "office_skyscraper_12",
       "office_skyscraper_13",
       "office_skyscraper_14",
-      "office_skyscraper_15"
+      "office_skyscraper_15",
+      "office_skyscraper_16"
     ],
     "copy-from": "generic_office_skyscraper"
   },
   {
     "type": "overmap_terrain",
-    "id": [ "loffice_tower_16", "loffice_tower_17", "loffice_tower_18", "loffice_tower_19", "loffice_tower_20" ],
-    "name": "open air",
-    "sym": ".",
-    "color": "blue"
-  },
-  {
-    "type": "overmap_terrain",
     "id": [
-      "office_skyscraper_16",
       "office_skyscraper_17",
       "office_skyscraper_18",
       "office_skyscraper_19",
