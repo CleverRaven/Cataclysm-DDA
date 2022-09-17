@@ -806,5 +806,10 @@
     "type": "recipe",
     "result": "filter_paper_quantitative",
     "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "sheet_metal_lit",
+    "obsolete": true
   }
 ]

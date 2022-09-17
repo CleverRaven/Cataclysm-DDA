@@ -1,6 +1,11 @@
 [
   {
     "type": "vehicle_part_migration",
+    "from": "lit_aisle",
+    "to": "aisle"
+  },
+  {
+    "type": "vehicle_part_migration",
     "from": "laser_gun",
     "to": "laser_rifle"
   },
