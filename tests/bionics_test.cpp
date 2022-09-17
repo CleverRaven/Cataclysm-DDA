@@ -27,6 +27,7 @@ static const bionic_id bio_earplugs( "bio_earplugs" );
 static const bionic_id bio_ears( "bio_ears" );
 static const bionic_id bio_fuel_cell_gasoline( "bio_fuel_cell_gasoline" );
 static const bionic_id bio_power_storage( "bio_power_storage" );
+static const bionic_id bio_fuel_wood( "bio_fuel_wood" );
 // Change to some other weapon CBM if bio_surgical_razor is ever removed
 static const bionic_id bio_surgical_razor( "bio_surgical_razor" );
 // Any item that can be wielded
@@ -565,6 +566,53 @@ TEST_CASE( "fueled bionics", "[bionics] [item]" )
         CHECK( dummy.activate_bionic( bio ) );
         dummy.suffer();
         CHECK( units::to_millijoule( dummy.get_power_level() ) == 37525 );
+    }
+
+    SECTION( "bio_wood_burner" ) {
+        // Test bionic fueled with fuel that is not counted by charge
+        // wood_bionic is test only thing
+        dummy.add_bionic( bio_fuel_wood );
+        // Dirty way of getting the bionic
+        bionic_id wood_bionic = dummy.get_bionics()[1];
+        bionic &bio = dummy.bionic_at_index( 1 );
+        item_location woodshed = dummy.top_items_loc().front();
+
+        // Turn safe fuel off since log produces too much energy
+        bio.set_safe_fuel_thresh( -1.0f );
+        // And to still avoid hitting limit add more storage
+        dummy.add_bionic( bio_power_storage );
+        dummy.add_bionic( bio_power_storage );
+
+        // There should be no fuel available, can't turn bionic on and no power is produced
+        CHECK( dummy.get_bionic_fuels( wood_bionic ).empty() );
+        CHECK( dummy.get_cable_ups().empty() );
+        CHECK( dummy.get_cable_solar().empty() );
+        CHECK( dummy.get_cable_vehicle().empty() );
+        CHECK_FALSE( dummy.activate_bionic( bio ) );
+        dummy.suffer();
+        REQUIRE( !dummy.has_power() );
+
+        // Add two splints. Now it turns on and generates power.
+        item wood = item( "splinter" );
+        item wood_2 = item( "splinter" );
+        REQUIRE_FALSE( wood.count_by_charges() );
+        woodshed->put_in( wood, item_pocket::pocket_type::CONTAINER );
+        woodshed->put_in( wood_2, item_pocket::pocket_type::CONTAINER );
+        //REQUIRE( woodshed->all_known_contents().size() == 2 );
+        REQUIRE( woodshed->all_items_ptr().size() == 2 );
+        CHECK( dummy.activate_bionic( bio ) );
+        CHECK_FALSE( dummy.get_bionic_fuels( wood_bionic ).empty() );
+        dummy.suffer();
+        CHECK( units::to_joule( dummy.get_power_level() ) == 62500 );
+        CHECK( woodshed->all_items_ptr().size() == 1 );
+
+        dummy.suffer();
+        CHECK( units::to_joule( dummy.get_power_level() ) == 125000 );
+        CHECK( woodshed->empty_container() );
+
+        // Run out of fuel
+        dummy.suffer();
+        CHECK( units::to_joule( dummy.get_power_level() ) == 125000 );
     }
 
     clear_bionics( dummy );
