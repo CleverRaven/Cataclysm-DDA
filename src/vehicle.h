@@ -1768,8 +1768,6 @@ class vehicle
         // opens/closes doors or multipart doors
         void open( int part_index );
         void close( int part_index );
-        // returns whether the door is open or not
-        bool is_open( int part_index ) const;
 
         bool can_close( int part_index, Character &who );
 
@@ -1779,8 +1777,6 @@ class vehicle
         time_duration folding_time() const;
         // @returns how long should unfolding activity take
         time_duration unfolding_time() const;
-        // assigns folding activity to player avatar
-        void start_folding_activity();
         // @returns item of this vehicle folded
         item get_folded_item() const;
         // restores vehicle parts from a folded item

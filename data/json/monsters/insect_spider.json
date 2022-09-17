@@ -2420,7 +2420,7 @@
   {
     "id": "mon_mantis_nymph",
     "type": "MONSTER",
-    "name": { "str": "mantis nymph" },
+    "name": { "str": "praying mantis nymph" },
     "description": "A mantis nymph about the size of a dog.  Even though its far smaller than the adults, you have a feeling it wouldn't take kindly to you coming too close.",
     "default_faction": "mantis",
     "bodytype": "insect",
@@ -2882,7 +2882,7 @@
   {
     "id": "mon_antlion_larva",
     "type": "MONSTER",
-    "name": { "str": "giant antlion larva" },
+    "name": { "str": "giant antlion larva", "str_pl": "giant antlion larvae" },
     "description": "This huge grub has powerful mandibles and a hungry look.  It hides in the dirt and awaits its prey.",
     "default_faction": "antlion_grub",
     "bodytype": "insect",
