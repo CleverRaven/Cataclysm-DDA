@@ -315,7 +315,7 @@
     ],
     "warmth": 25,
     "environmental_protection": 3,
-    "flags": [ "VARSIZE", "POCKETS", "HOOD", "RAINPROOF", "STURDY" ]
+    "flags": [ "VARSIZE", "POCKETS", "HOOD", "RAINPROOF", "STURDY", "NORMAL" ]
   },
   {
     "id": "xl_hsurvivor_jumpsuit",
