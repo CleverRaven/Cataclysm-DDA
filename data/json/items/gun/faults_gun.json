@@ -12,6 +12,7 @@
         "time": "50 m",
         "skills": [ { "id": "mechanics", "level": 1 } ],
         "turns_into": "fault_gun_unlubricated",
+        "set_variables": { "dirt": "0" },
         "requirements": {
           "qualities": [ { "id": "SCREW", "level": 1 } ],
           "tools": [ [ [ "pipe_cleaner", -1 ], [ "small_repairkit", -1 ], [ "large_repairkit", -1 ] ] ],
@@ -43,6 +44,7 @@
         "time": "55 m",
         "skills": [ { "id": "mechanics", "level": 1 } ],
         "also_mends": "fault_gun_unlubricated",
+        "set_variables": { "dirt": "0" },
         "requirements": {
           "qualities": [ { "id": "SCREW", "level": 1 } ],
           "tools": [ [ [ "pipe_cleaner", -1 ], [ "small_repairkit", -1 ], [ "large_repairkit", -1 ] ] ],
@@ -125,6 +127,7 @@
         "time": "50 m",
         "skills": [ { "id": "mechanics", "level": 1 } ],
         "turns_into": "fault_gun_unlubricated",
+        "set_variables": { "dirt": "0" },
         "requirements": {
           "qualities": [ { "id": "SCREW", "level": 1 } ],
           "tools": [ [ [ "pipe_cleaner", -1 ], [ "small_repairkit", -1 ], [ "large_repairkit", -1 ] ] ],
@@ -156,6 +159,7 @@
         "time": "55 m",
         "skills": [ { "id": "mechanics", "level": 1 } ],
         "also_mends": "fault_gun_unlubricated",
+        "set_variables": { "dirt": "0" },
         "requirements": {
           "qualities": [ { "id": "SCREW", "level": 1 } ],
           "tools": [ [ [ "pipe_cleaner", -1 ], [ "small_repairkit", -1 ], [ "large_repairkit", -1 ] ] ],

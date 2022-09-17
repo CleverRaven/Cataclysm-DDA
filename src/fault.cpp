@@ -46,6 +46,7 @@ void fault::load_fault( const JsonObject &jo )
         optional( jo_method, false, "description", m.description, f.description_ );
         mandatory( jo_method, false, "success_msg", m.success_msg );
         mandatory( jo_method, false, "time", m.time );
+        optional( jo_method, false, "set_variables", m.set_variables );
 
         for( const JsonObject jo_skill : jo_method.get_array( "skills" ) ) {
             skill_id sk_id;

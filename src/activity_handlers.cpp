@@ -2439,8 +2439,8 @@ void activity_handlers::mend_item_finish( player_activity *act, Character *you )
     if( method->also_mends ) {
         target->faults.erase( *method->also_mends );
     }
-    if( act->name == "fault_gun_blackpowder" || act->name == "fault_gun_dirt" ) {
-        target->set_var( "dirt", 0 );
+    for( const std::pair<const std::string, std::string> &pair : method->set_variables ) {
+        target->set_var( pair.first, pair.second );
     }
 
     const std::string start_durability = target->durability_indicator( true );

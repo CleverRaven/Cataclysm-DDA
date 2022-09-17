@@ -21,6 +21,7 @@ struct mending_method {
     translation description;
     translation success_msg;
     time_duration time;
+    std::map<std::string, std::string> set_variables;
     std::map<skill_id, int> skills;
     requirement_id requirements;
     cata::optional<fault_id> turns_into;
