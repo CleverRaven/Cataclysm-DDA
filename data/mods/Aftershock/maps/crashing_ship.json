@@ -41,7 +41,7 @@
       "palettes": [ "aftershock_crashing_ship" ],
       "furniture": {
         "L": "f_locker",
-        "e": "f_gunsafe_el",
+        "e": "f_gunsafe_ml",
         "B": "f_bunkbed",
         "f": "f_foot_locker",
         "b": "f_bench",

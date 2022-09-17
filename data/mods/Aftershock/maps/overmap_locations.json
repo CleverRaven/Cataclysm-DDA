@@ -9,5 +9,10 @@
     "type": "overmap_location",
     "id": "ravine_edge",
     "terrains": [ "ravine_edge" ]
+  },
+  {
+    "type": "overmap_location",
+    "id": "sloc_crashing_ship",
+    "terrains": [ "crashing_ship_barracks" ]
   }
 ]
