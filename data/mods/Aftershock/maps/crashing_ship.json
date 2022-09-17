@@ -11,41 +11,43 @@
     "om_terrain": [ "crashing_ship_barracks" ],
     "weight": 100,
     "object": {
-      "fill_ter": "t_metal_floor_olight",
+      "fill_ter": "t_metal_floor",
       "rows": [
         "MMMMMMMMMMMDDMMMMMMMMMMM",
+        "MLLLLLLLM*....*MeeeeeeeM",
+        "M...*...M......M...*..eM",
+        "M.bbbbb.M.....7M..w.w.eM",
+        "M.......D......D..w.w.eM",
+        "M.bbbbb.M6.....M..w.w.eM",
+        "M...*...M......M...*..eM",
         "MLLLLLLLM......MeeeeeeeM",
-        "M.......M......M......eM",
-        "M.bbbbb.M.....7M..www.eM",
-        "M.......D......D..www.eM",
-        "M.bbbbb.M6.....M..www.eM",
-        "M.......M......M......eM",
-        "MLLLLLLLM......MeeeeeeeM",
-        "MMMMMMMMM......MMMMMMMMM",
-        "Ms.s.s.sM......ML.B.B.BM",
-        "Mg.g.g.gM......M..B.B.BM",
-        "Ms......M......M..f.f.fM",
-        "Ms......D......D.......M",
-        "Ms......M......M..f.f.fM",
-        "Mg.g.g.gM......M..B.B.BM",
-        "Mt.t.t.tM......ML.B.B.BM",
-        "MMMMMMMMM......MMMMMMMMM",
+        "MMMMMMMMM*....*MMMMMMMMM",
+        "MsMsMsMsM......ME.B.B.BM",
+        "MgMgMgMgM......M..B.B.BM",
+        "MS......M......M..f.f.fM",
+        "MS.*.*..D......D...*...M",
+        "MS......M......M..f.f.fM",
+        "MgMgMgMgM......M..B.B.BM",
+        "MTMTMTMTM......ME.B.B.BM",
+        "MMMMMMMMM*....*MMMMMMMMM",
         "MVVVVVVVV......VVVVVVVVM",
-        "M......................M",
+        "M.....*..........*.....M",
         "M.bbbbbbbbb..bbbbbbbbb.M",
         "M.ttttttttt..ttttttttt.M",
         "M.bbbbbbbbb..bbbbbbbbb.M",
-        "M......................M",
+        "M.....*..........*.....M",
         "MMMMMMMMMMMMMMMMMMMMMMMM"
       ],
       "palettes": [ "aftershock_crashing_ship" ],
       "furniture": {
         "L": "f_locker",
+        "E": "f_locker",
         "e": "f_gunsafe_ml",
         "B": "f_bunkbed",
         "f": "f_foot_locker",
         "b": "f_bench",
         "s": "f_shower",
+        "T": "f_toilet",
         "w": "f_workbench",
         "S": "f_sink",
         "t": "f_table",
@@ -63,7 +65,14 @@
           "items": [
             { "item": "gear_soldier_sidearm", "chance": 33 },
             { "item": "book_military", "chance": 20 },
-            { "item": "office", "chance": 50 }
+            { "item": "afs_plastic_armor_g", "chance": 33 },
+            { "item": "afs_carbide_raider_armor_g", "chance": 10 },
+            { "item": "mil_armor", "chance": 10 },
+            { "item": "shirts_unisex_afs", "chance": 50 },
+            { "item": "pants_unisex_afs", "chance": 50 },
+            { "item": "shoes_unisex_afs", "chance": 50 },
+            { "item": "drugs_soldier", "chance": 25 },
+            { "item": "afs_dead_survivor", "chance": 5 }
           ]
         },
         "r": {
@@ -73,6 +82,15 @@
             { "item": "afs_tools_electric_repair", "chance": 10 }
           ]
         },
+        "E": {
+          "items": [
+            { "item": "fireman_cabinet", "chance": 100 },
+            { "item": "full_1st_aid", "chance": 55 },
+            { "item": "full_ifak", "chance": 55 },
+            { "item": "reactor_gear", "chance": 25 }
+          ]
+        },
+        "V": { "items": [ { "item": "afs_vending_false_meals", "chance": 100 } ] },
         "w": { "items": [ { "item": "casings", "chance": 10 } ] }
       },
       "computers": {
