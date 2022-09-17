@@ -240,6 +240,7 @@
         "t": { "item": "magazines", "chance": 100, "repeat": [ 2, 4 ] },
         "&": { "item": "trash", "chance": 70, "repeat": [ 2, 5 ] }
       },
+      "monsters": { ".": { "monster": "GROUP_ZOMBIE", "chance": 60 } },
       "place_monster": [ { "monster": "mon_feral_granny", "x": 15, "y": 9, "chance": 100 } ]
     }
   },
