@@ -40,7 +40,6 @@
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
     },
-    "extend": { "flags": [ "FOLDABLE" ] },
     "damage_reduction": { "all": 60 }
   }
 ]

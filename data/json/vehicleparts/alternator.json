@@ -33,7 +33,6 @@
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_screw", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "adhesive", 1 ], [ "vehicle_screw", 1 ] ] }
     },
-    "extend": { "flags": [ "FOLDABLE" ] },
     "damage_reduction": { "all": 12 }
   },
   {
@@ -62,7 +61,6 @@
         "using": [ [ "adhesive", 1 ], [ "soldering_standard", 3 ], [ "vehicle_screw", 1 ] ]
       }
     },
-    "extend": { "flags": [ "FOLDABLE" ] },
     "damage_reduction": { "all": 12 }
   },
   {

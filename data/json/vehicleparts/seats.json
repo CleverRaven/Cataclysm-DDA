@@ -171,7 +171,7 @@
         "using": [ [ "repair_welding_standard", 1 ], [ "sewing_standard", 4 ] ]
       }
     },
-    "flags": [ "SEAT", "BOARDABLE", "FOLDABLE", "NONBELTABLE" ],
+    "flags": [ "SEAT", "BOARDABLE", "NONBELTABLE" ],
     "breaks_into": [ { "item": "leather", "prob": 50 }, { "item": "scrap", "count": [ 1, 2 ] } ]
   },
   {
@@ -200,7 +200,7 @@
         "using": [ [ "repair_welding_standard", 1 ], [ "sewing_standard", 3 ] ]
       }
     },
-    "flags": [ "SEAT", "BOARDABLE", "FOLDABLE", "NONBELTABLE" ],
+    "flags": [ "SEAT", "BOARDABLE", "NONBELTABLE" ],
     "breaks_into": [ { "item": "cotton_patchwork", "count": [ 1, 6 ] } ]
   },
   {

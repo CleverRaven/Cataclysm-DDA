@@ -19,7 +19,7 @@
       "removal": { "skills": [ [ "fabrication", 2 ] ], "time": "15 m", "using": [ [ "vehicle_nail_removal", 1 ] ] },
       "repair": { "skills": [ [ "fabrication", 2 ] ], "time": "30 m", "using": [ [ "adhesive", 2 ] ] }
     },
-    "flags": [ "CARGO", "BOARDABLE", "COVERED", "FOLDABLE" ],
+    "flags": [ "CARGO", "BOARDABLE", "COVERED" ],
     "breaks_into": "ig_vp_cloth"
   },
   {
@@ -110,7 +110,7 @@
         "using": [ [ "repair_welding_standard", 1 ] ]
       }
     },
-    "flags": [ "CARGO", "OBSTACLE", "FOLDABLE" ],
+    "flags": [ "CARGO", "OBSTACLE" ],
     "damage_reduction": { "all": 4 }
   },
   {
@@ -138,7 +138,7 @@
         "using": [ [ "repair_welding_standard", 1 ] ]
       }
     },
-    "flags": [ "CARGO", "BOARDABLE", "FOLDABLE" ],
+    "flags": [ "CARGO", "BOARDABLE" ],
     "damage_reduction": { "all": 6 }
   },
   {
