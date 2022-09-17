@@ -25,7 +25,9 @@
     "exothermic_power_gen": true,
     "time": "1 s",
     "flags": [ "BIONIC_TOGGLED", "BIONIC_POWER_SOURCE" ],
-    "passive_pseudo_items": [ "internal_woodshed" ]
+    "passive_pseudo_items": [ "internal_woodshed" ],
+    "included": true,
+    "//": "not actually included, this is a trick to not have to add an item version."
   },
   {
     "id": "internal_woodshed",
