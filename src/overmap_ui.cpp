@@ -30,6 +30,7 @@
 #ifdef TILES
 #include "cata_tiles.h"
 #endif // TILES
+#include "cata_scope_helpers.h"
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "character.h"

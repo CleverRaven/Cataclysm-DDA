@@ -303,7 +303,7 @@ class tileset_cache::loader
          *        executing if you set it to true.
          * @throw std::exception If the image can not be loaded.
          */
-        void load_tileset( const std::string &path, bool pump_events );
+        void load_tileset( const cata_path &path, bool pump_events );
         /**
          * Load tiles from json data.This expects a "tiles" array in
          * <B>config</B>. That array should contain all the tile definition that
@@ -323,8 +323,8 @@ class tileset_cache::loader
          *        executing if you set it to true.
          * @throw std::exception On any error.
          */
-        void load_internal( const JsonObject &config, const std::string &tileset_root,
-                            const std::string &img_path, bool pump_events );
+        void load_internal( const JsonObject &config, const cata_path &tileset_root,
+                            const cata_path &img_path, bool pump_events );
 
         /**
          * Helper function to load layering data.

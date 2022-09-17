@@ -18,6 +18,7 @@
 #include "translations.h"
 
 enum action_id : int;
+class cata_path;
 class hotkey_queue;
 
 namespace cata
@@ -484,7 +485,7 @@ class input_manager
          * Load keybindings from a json file, override existing bindings.
          * Throws std::string on errors
          */
-        void load( const std::string &file_name, bool is_user_preferences );
+        void load( const cata_path &file_name, bool is_user_preferences );
 
         int input_timeout;
 
