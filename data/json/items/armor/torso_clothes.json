@@ -14,7 +14,7 @@
     "delete": { "flags": [ "WATER_FRIENDLY" ] },
     "armor": [
       { "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ], "coverage": 100, "encumbrance": [ 1, 1 ] },
-      { "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_draped_l", "leg_draped_r ], "coverage": 70, "encumbrance": 2, "volume_encumber_modifier": 0.3 }
+      { "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_draped_l", "leg_draped_r" ], "coverage": 70, "encumbrance": 2, "volume_encumber_modifier": 0.3 }
     ],
     "variant_type": "generic",
     "variants": [
@@ -116,7 +116,7 @@
       {
         "covers": [ "leg_l", "leg_r" ],
         "coverage": 22,
-        "specifically_covers": [ "leg_draped_l", "leg_draped_r ],
+        "specifically_covers": [ "leg_draped_l", "leg_draped_r" ],
         "encumbrance": 0,
         "volume_encumber_modifier": 0.3
       }
@@ -319,7 +319,7 @@
         "covers": [ "leg_l", "leg_r" ],
         "coverage": 42,
         "encumbrance": [ 1, 1 ],
-        "specifically_covers": [ "leg_draped_l", "leg_draped_r ]
+        "specifically_covers": [ "leg_draped_l", "leg_draped_r" ]
       }
     ],
     "pocket_data": [
