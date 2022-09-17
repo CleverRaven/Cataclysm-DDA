@@ -262,6 +262,7 @@
       "furniture": { "S": "f_sink", "T": "f_toilet", "a": "f_trashcan" },
       "set": [ { "square": "terrain", "id": "t_linoleum_white", "x": 0, "y": 0, "x2": 6, "y2": 2 } ],
       "items": { "a": { "item": "trash", "chance": 70, "repeat": [ 2, 5 ] } },
+      "monsters": { ".": { "monster": "GROUP_ZOMBIE", "chance": 25 } },
       "toilets": { "T": {  } }
     }
   },
@@ -284,6 +285,7 @@
       "furniture": { "S": "f_sink", "T": "f_toilet", "a": "f_trashcan" },
       "set": [ { "square": "terrain", "id": "t_linoleum_white", "x": 0, "y": 0, "x2": 6, "y2": 2 } ],
       "items": { "a": { "item": "trash", "chance": 70, "repeat": [ 2, 5 ] } },
+      "monsters": { ".": { "monster": "GROUP_ZOMBIE", "chance": 25 } },
       "toilets": { "T": {  } }
     }
   },
