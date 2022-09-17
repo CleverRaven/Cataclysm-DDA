@@ -2144,7 +2144,7 @@
     "required_skills": [ [ "fabrication", 2 ] ],
     "time": "25 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
-    "components": [ [ [ "2x4", 3 ] ], [ [ "nail", 8 ] ] ],
+    "components": [ [ [ "2x4", 2 ] ], [ [ "stick_long", 1 ] ], [ [ "nail", 8 ] ] ],
     "pre_special": "check_empty",
     "post_terrain": "f_rack_coat"
   },
