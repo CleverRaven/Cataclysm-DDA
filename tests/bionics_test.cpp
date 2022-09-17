@@ -421,7 +421,7 @@ TEST_CASE( "fueled bionics", "[bionics] [item]" )
 
         dummy.suffer();
         CHECK( units::to_joule( dummy.get_power_level() ) == 17100 );
-        CHECK( gasoline_tank->only_item().charges == 0 );
+        CHECK( gasoline_tank->empty_container() );
 
         // Run out of fuel
         dummy.suffer();
