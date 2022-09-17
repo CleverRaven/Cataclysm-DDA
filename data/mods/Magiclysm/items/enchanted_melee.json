@@ -857,6 +857,7 @@
     "to_hit": 3,
     "category": "weapons",
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 8 ] ],
+    "weapon_category": [ "MEDIEVAL_SWORDS", "MEDIUM_SWORDS" ],
     "use_action": [
       { "type": "cast_spell", "spell_id": "frost_spray", "no_fail": true, "level": 10, "need_wielding": true },
       "WEATHER_TOOL"

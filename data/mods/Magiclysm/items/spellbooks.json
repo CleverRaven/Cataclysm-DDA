@@ -63,7 +63,7 @@
     "type": "BOOK",
     "category": "manuals",
     "name": { "str": "Wizarding Guide to Backpacking", "str_pl": "copies of Wizarding Guide to Backpacking" },
-    "//": "2 Magus, 1 Biomancer, 1, Kelvinist, 1 classless spell",
+    "//": "2 Magus, 1 Biomancer, 1 Kelvinist, 1 Druid, 1 classless spell",
     "description": "This appears to be the spell version of a guide for what things to take with you when backpacking.  It's a little bulky, but will certainly prove useful.",
     "weight": "1 kg",
     "volume": "1250 ml",
@@ -73,7 +73,7 @@
     "color": "red",
     "use_action": {
       "type": "learn_spell",
-      "spells": [ "phase_door", "create_lighter", "pain_split", "protection_aura", "magus_force_jar" ]
+      "spells": [ "phase_door", "create_lighter", "pain_split", "protection_aura", "magus_force_jar", "druid_healing_herb" ]
     }
   },
   {
@@ -249,7 +249,15 @@
     "color": "green",
     "use_action": {
       "type": "learn_spell",
-      "spells": [ "druid_woodshaft", "druid_veggrasp", "druid_rootstrike", "druid_naturebow1", "druid_natures_commune" ]
+      "spells": [
+        "druid_woodshaft",
+        "druid_veggrasp",
+        "druid_rootstrike",
+        "druid_naturebow1",
+        "druid_natures_commune",
+        "druid_healing_herb",
+        "druid_healing"
+      ]
     }
   },
   {
@@ -267,7 +275,7 @@
     "color": "light_blue",
     "use_action": {
       "type": "learn_spell",
-      "spells": [ "recover_mana", "recover_bionic_power", "recover_pain", "recover_fatigue", "recover_stamina" ]
+      "spells": [ "recover_mana", "recover_bionic_power", "recover_pain", "recover_fatigue", "recover_stamina", "druid_healing" ]
     }
   },
   {
