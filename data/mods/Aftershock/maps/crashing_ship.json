@@ -54,15 +54,18 @@
       "terrain": {
         "7": "t_console",
         "*": "t_metal_floor_olight",
-        "M": "t_wall_metal",
-        "D": "t_door_metal_lab_c",
+        "M": "t_afs_space_ship_hull_wall",
+        "D": "t_afs_space_ship_hatch_c",
         "g": "t_door_glass_frosted_c"
       },
       "mapping": {
-        "l": { "items": [ { "item": "gear_soldier_sidearm", "chance": 33 } ] },
-        "]": { "items": [ { "item": "book_military", "chance": 20 } ] },
-        "t": { "items": [ { "item": "book_military", "chance": 10 } ] },
-        "d": { "items": [ { "item": "office", "chance": 50 } ] },
+        "L": {
+          "items": [
+            { "item": "gear_soldier_sidearm", "chance": 33 },
+            { "item": "book_military", "chance": 20 },
+            { "item": "office", "chance": 50 }
+          ]
+        },
         "r": {
           "items": [
             { "item": "afs_tools_scavenging", "chance": 60 },
@@ -70,7 +73,7 @@
             { "item": "afs_tools_electric_repair", "chance": 10 }
           ]
         },
-        "*": { "items": [ { "item": "casings", "chance": 10 } ] }
+        "w": { "items": [ { "item": "casings", "chance": 10 } ] }
       },
       "computers": {
         "6": {

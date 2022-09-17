@@ -307,5 +307,13 @@
     "see_cost": 2,
     "mondensity": 2,
     "flags": [ "RISK_HIGH" ]
+  },
+  {
+    "type": "overmap_terrain",
+	"id": [ "crashing_ship_barracks" ],
+    "sym": "+",
+    "color": "i_red",
+    "see_cost": 2,
+    "flags": [ "SOURCE_FOOD", "SOURCE_GUN", "SOURCE_AMMO" ]
   }
 ]

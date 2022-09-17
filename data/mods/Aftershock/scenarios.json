@@ -175,7 +175,7 @@
     "name": "Emergency Evacuation",
     "points": 1,
     "description": "Description goes here.",
-    "allowed_locs": [ "crashing_ship" ],
+    "allowed_locs": [ "sloc_crashing_ship" ],
     "professions": [ "afs_espatier", "afs_rating" ],
     "flags": [ "LONE_START" ],
     "start_name": "Crashing Ship"

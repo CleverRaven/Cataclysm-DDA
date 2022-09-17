@@ -11,8 +11,9 @@
     "terrains": [ "ravine_edge" ]
   },
   {
-    "type": "overmap_location",
+    "type": "start_location",
     "id": "sloc_crashing_ship",
-    "terrains": [ "crashing_ship_barracks" ]
+	"name": "Crashing ship barracks",
+    "terrain": [ "crashing_ship_barracks" ]
   }
 ]

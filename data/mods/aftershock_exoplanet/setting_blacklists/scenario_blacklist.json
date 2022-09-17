@@ -2,6 +2,6 @@
   {
     "type": "SCENARIO_BLACKLIST",
     "subtype": "whitelist",
-    "scenarios": [ "escape_pod" ]
+    "scenarios": [ "escape_pod", "crashing_ship" ]
   }
 ]
