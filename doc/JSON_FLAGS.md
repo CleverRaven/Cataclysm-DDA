@@ -5,28 +5,23 @@
   - [Inheritance](#inheritance)
   - [TODO](#todo)
   - [Ammo](#ammo)
-    - [Ammo type](#ammo-type)
     - [Effects](#ammo-effects)
-    - [Flags](#flags)
   - [Armor](#armor)
-    - [Covers](#covers)
-    - [Flags](#flags-1)
+    - [Layers](#layers)
   - [Bionics](#bionics)
   - [Bodyparts](#bodyparts)
   - [Books](#books)
   - [Character - (Bionic/Mutation/Effect)](#character)
   - [Comestibles](#comestibles)
-    - [Comestible type](#comestible-type)
     - [Addiction type](#addiction-type)
+    - [Comestible type](#comestible-type)
     - [Use action](#use-action)
-    - [Flags](#flags-2)
   - [Effects](#effects)
   - [Furniture and Terrain](#furniture-and-terrain)
-    - [Flags](#flags-3)
-    - [Fungal Conversions Only](#fungal-conversions-only)
-    - [Furniture Only](#furniture-only)
+    - [Furniture only](#furniture-only)
+    - [Terrain only](#terrain-only)
+    - [Fungal conversions only](#fungal-conversions-only)
   - [Generic](#generic)
-    - [Flags](#flags-4)
   - [Guns](#guns)
     - [Firing modes](#firing-modes)
   - [Magazines](#magazines)
@@ -65,6 +60,7 @@
     - [Flags](#flags-12)
     - [Flags that apply to items](#flags-that-apply-to-items)
     - [Use actions](#use-actions)
+  - [Traps](#traps)
   - [Vehicle Parts](#vehicle-parts)
     - [Flags](#flags-13)
     - [Fuel types](#fuel-types)
@@ -75,7 +71,7 @@
 ## Notes
 
 - Some flags (items, effects, vehicle parts) have to be defined in `flags.json` or `vp_flags.json` (with type: `json_flag`) to work correctly.
-- Many of the flags intended for one category or item type, can be used in other categories or item types. Experiment to see where else flags can be used.
+- Many of the flags intended for one category or item type, can be used in other categories or item types.  Experiment to see where else flags can be used.
 - Offensive and defensive flags can be used on any item type that can be wielded.
 
 
@@ -86,83 +82,11 @@ When an item is crafted, it can inherit flags from the components that were used
 
 ## TODO
 
-- `Ammo type` table is very old and doesn't include many new ammo types. Consider updating it or removing altogether, as ammo types ain't no json flags at all.
+- Some ammo effects (`LASER`, `NEVER_MISFIRES`) can be set as ammo `"effects"`, ammo `"flags"` or as the gun's `"ammo_effects"`.  Clarify this.
+- Remove the Use action subsection from Comestibles or move it to JSON_INFO.md, not flags.
 
 
 ## Ammo
-
-### Ammo type
-
-These are handled through `ammo_types.json`.  You can tag a weapon with these to have it chamber existing ammo, or make your own ammo there.  The first column in this list is the tag's "id", the internal identifier DDA uses to track the tag, and the second is a brief description of the ammo tagged.  Use the id to search for ammo listings, as ids are constant throughout DDA's code.  Happy chambering!  :-)
-
-- ```120mm``` 120mm HEAT
-- ```12mm``` 12mm
-- ```20x66mm``` 20x66mm Shot (and relatives)
-- ```223``` .223 Remington (and 5.56 NATO)
-- ```22``` .22LR (and relatives)
-- ```3006``` 30.06
-- ```300``` .300 WinMag
-- ```308``` .308 Winchester (and relatives)
-- ```32``` .32 ACP
-- ```36paper``` .36 cap & ball
-- ```38``` .38 Special
-- ```40``` 10mm
-- ```40mm``` 40mm Grenade
-- ```44``` .44 Magnum
-- ```44paper``` .44 cap & ball
-- ```454``` .454 Casull
-- ```45``` .45 ACP (and relatives)
-- ```46``` 46mm
-- ```500``` .500 Magnum
-- ```50``` .50 BMG
-- ```57``` 57mm
-- ```5x50``` 5x50 Dart
-- ```66mm``` 66mm HEAT
-- ```700nx``` .700 Nitro Express
-- ```762R``` 7.62x54mm
-- ```762``` 7.62x39mm
-- ```762x25``` 7.62x25mm
-- ```84x246mm``` 84x246mm HE
-- ```8x40mm``` 8mm Caseless
-- ```9mm``` 9x19mm Luger (and relatives)
-- ```9x18``` 9x18mm
-- ```BB``` BB
-- ```RPG-7``` RPG-7
-- ```UPS``` UPS charges
-- ```ammo_flintlock``` Flintlock ammo
-- ```ampoule``` Ampoule
-- ```arrow``` Arrow
-- ```battery``` Battery
-- ```blunderbuss``` Blunderbuss
-- ```bolt``` Bolt
-- ```charcoal``` Charcoal
-- ```components``` Components
-- ```dart``` Dart
-- ```diesel``` Diesel
-- ```fish_bait``` Fish bait
-- ```fishspear``` Speargun spear
-- ```fusion``` Laser Pack
-- ```gasoline``` Gasoline
-- ```homebrew_rocket``` homebrew rocket
-- ```lamp_oil``` Lamp oil
-- ```laser_capacitor``` Charge
-- ```m235``` M235 TPA (66mm Incendiary Rocket)
-- ```metal_rail``` Rebar Rail
-- ```money``` Cents
-- ```muscle``` Muscle
-- ```nail``` Nail
-- ```pebble``` Pebble
-- ```plasma``` Plasma
-- ```plutonium``` Plutonium Cell
-- ```rebreather_filter``` Rebreather filter
-- ```shot``` Shotshell
-- ```signal_flare``` Signal Flare
-- ```tape``` Duct tape
-- ```thread``` Thread
-- ```thrown``` Thrown
-- ```unfinished_char``` Semi-charred fuel
-- ```water``` Water
-- ```paper``` Paper
 
 ### Ammo effects
 
@@ -174,11 +98,12 @@ These are handled through `ammo_types.json`.  You can tag a weapon with these to
 - ```BLINDS_EYES``` Blinds the target if it hits the head (ranged projectiles can't actually hit the eyes at the moment).
 - ```BOUNCE``` Inflicts target with `bounced` effect and rebounds to a nearby target without this effect.
 - ```BURST``` Spills the contents on hit.
+- ```CASELESS_ROUNDS``` Rounds that cannot be disassembled or reloaded.
 - ```COOKOFF``` Explodes when lit on fire.
-- ```CUSTOM_EXPLOSION``` Explosion as specified in ```"explosion"``` field of used ammo. See `JSON_INFO.md`.
+- ```CUSTOM_EXPLOSION``` Explosion as specified in `explosion` field of used ammo. See `JSON_INFO.md`.
 - ```DRAW_AS_LINE``` Doesn't go through regular bullet animation; instead draws a line and the bullet on its end for one frame.
 - ```DRAW_LASER_BEAM``` Creates a trail of laser (the field type).
-- ```EMP``` Damages "electronic" terrain types (such as consoles or card readers) In rare cases might make card readers open doors. Damages and destroys robotic enemies. Drains bionic power and power from any electronic equipment in player possession.
+- ```EMP``` Damages "electronic" terrain types (such as consoles or card readers) In rare cases might make card readers open doors.  Damages and destroys robotic enemies. Drains bionic power and power from any electronic equipment in player possession.
 - ```EXPLOSIVE```                           -
 - ```EXPLOSIVE_120mmHEAT```                 -
 - ```EXPLOSIVE_20x66```                     -
@@ -254,119 +179,55 @@ These are handled through `ammo_types.json`.  You can tag a weapon with these to
 - ```TRAIL``` Creates a trail of smoke.
 - ```WIDE``` Prevents `HARDTOSHOOT` monster flag from having any effect. Implied by ```SHOT``` or liquid ammo.
 
-### Flags
-
-- ```CASELESS_ROUNDS``` Caseless rounds that cannot be disassembled or reloaded.
-
-## Traps
-
-- ```AVATAR_ONLY``` Only the player character will trigger this trap.
-- ```CONVECTS_TEMPERATURE``` This trap convects temperature, like lava.
-- ```PIT``` This trap is a version of the pit terrain.
-- ```SONAR_DETECTABLE``` This trap can be identified with ground-penetrating SONAR.
-- ```UNCONSUMED``` If this trap is a spell type it will not be removed after activation.
-- ```UNDODGEABLE``` This trap can't be dodged.
 
 ## Armor
 
-### Covers
-
-- ```ARMS``` ... same as ```ARM_L``` and ```ARM_R```
-- ```ARM_L```
-- ```ARM_R```
-- ```EYES```
-- ```FEET``` ... same as ```FOOT_L``` and ```FOOT_R```
-- ```FOOT_L```
-- ```FOOT_R```
-- ```HANDS``` ... same as ```HAND_L``` and ```HAND_R```
-- ```HAND_L```
-- ```HAND_R```
-- ```HEAD```
-- ```LEGS``` ... same as ```LEG_L``` and ```LEG_R```
-- ```LEG_L```
-- ```LEG_R```
-- ```MOUTH```
-- ```TORSO```
-
-### Specifically Covers
-
-- ```torso_upper```
-- ```torso_neck```
-- ```torso_lower```
-- ```torso_hanging_front```
-- ```torso_hanging_back```
-- ```arm_shoulder_r```
-- ```arm_upper_r```
-- ```arm_elbow_r```
-- ```arm_lower_r```
-- ```arm_shoulder_l```
-- ```arm_upper_l```
-- ```arm_elbow_l```
-- ```arm_lower_l```
-- ```leg_hip_r```
-- ```leg_upper_r```
-- ```leg_knee_r```
-- ```leg_lower_r```
-- ```leg_hip_l```
-- ```leg_upper_l```
-- ```leg_knee_l```
-- ```leg_lower_l```
-
-
-### Flags
-
-Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other item types. Experiment to find which flags work elsewhere.
+Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other item types.  Experiment to find which flags work elsewhere.
 
 - ```ABLATIVE_LARGE``` This item fits in large ablative pockets.
 - ```ABLATIVE_MEDIUM``` This item fits in medium ablative pockets.
 - ```ACTIVE_CLOAKING``` While active, drains UPS to provide invisibility.
 - ```ALARMCLOCK``` Has an alarm-clock feature.
 - ```ALLOWS_NATURAL_ATTACKS``` Doesn't prevent any natural attacks or similar benefits from mutations, fingertip razors, etc., like most items covering the relevant body part would.
-- ```AURA``` This item goes in the outer aura layer, intended for metaphysical effects.
 - ```BAROMETER``` This gear is equipped with an accurate barometer (which is used to measure atmospheric pressure).
-- ```BELTED``` Layer for backpacks and things worn over outerwear.
-- ```BLIND``` Blinds the wearer while worn, and provides nominal protection v. flashbang flashes.
+- ```BLIND``` Blinds the wearer while worn, and provides nominal protection against flashbang flashes.
 - ```BLOCK_WHILE_WORN``` Allows worn armor or shields to be used for blocking attacks.
 - ```BULLET_IMMUNE``` Wearing an item with this flag makes you immune to bullet damage
 - ```CANT_WEAR``` This item can't be worn directly.
 - ```CLIMATE_CONTROL``` This piece of clothing has climate control of some sort, keeping you warmer or cooler depending on ambient and bodily temperature.
 - ```COLLAR``` This piece of clothing has a wide collar that can keep your mouth warm.
-- ```COMBAT_TOGGLEABLE``` This item is meant to be toggled during combat. Used by NPCs to determine if they will toggle it on during combat. This only supports simple "transform" actions.
+- ```COMBAT_TOGGLEABLE``` This item is meant to be toggled during combat.  Used by NPCs to determine if they will toggle it on during combat.  This only supports simple `transform` actions.
 - ```DECAY_EXPOSED_ATMOSPHERE``` Consumable will go bad once exposed to the atmosphere (such as MREs).
 - ```DEAF``` Makes the player deaf.
 - ```MUTE``` Makes the player mute.
 - ```ELECTRIC_IMMUNE``` This gear completely protects you from electric discharges.
-- ```FANCY``` Wearing this clothing gives a morale bonus if the player has the `Stylish` trait.
+- ```FANCY``` Wearing this clothing gives a morale bonus if the player has the `Stylish` trait.  See also `SUPER_FANCY`.
 - ```FIX_FARSIGHT``` This gear corrects farsightedness.
 - ```FIX_NEARSIGHT``` This gear corrects nearsightedness.
-- ```FLOTATION``` Prevents the player from drowning in deep water. Also prevents diving underwater.
+- ```FLOTATION``` Prevents the player from drowning in deep water.  Also prevents diving underwater.
 - ```FRAGILE``` This gear is less resistant to damage than normal.
 - ```HOOD``` Allow this clothing to conditionally cover the head, for additional warmth or water protection, if the player's head isn't encumbered
 - ```HYGROMETER``` This gear is equipped with an accurate hygrometer (which is used to measure humidity).
 - ```INTEGRATED``` This item represents a part of you granted by mutations or bionics.  It will always fit, cannot be unequipped (aside from losing the source), and won't drop on death, but otherwise behaves like normal armor with regards to function, encumbrance, layer conflicts and so on.
-- ```NORMAL``` Items worn like normal clothing. This is assumed as default.
 - ```NO_TAKEOFF``` Item with that flag can't be taken off.
 - ```NO_QUICKDRAW``` Don't offer to draw items from this holster when the fire key is pressed whilst the players hands are empty
 - ```NO_WEAR_EFFECT``` This gear doesn't provide any effects when worn (most jewelry).
 - ```ONLY_ONE``` You can wear only one.
-- ```OUTER```  Outer garment layer.
 - ```OVERSIZE``` Can always be worn no matter what encumbrance/mutations/bionics/etc, but prevents any other clothing being worn over this.
 - ```PADDED``` This armor counts as comfortable even if none of the specific materials are soft.
 - ```PARTIAL_DEAF``` Reduces the volume of sounds to a safe level.
-- ```PERSONAL``` This item goes in the personal aura layer, intended for metaphysical effects.
 - ```POCKETS``` Increases warmth for hands if the player's hands are cold and the player is wielding nothing.
 - ```POWERARMOR_COMPATIBLE``` Makes item compatible with power armor despite other parameters causing failure.
 - ```PSYSHIELD_PARTIAL``` 25% chance to protect against `fear_paralyze` monster attack when worn.
 - ```RAD_PROOF``` This piece of clothing completely protects you from radiation.
 - ```RAD_RESIST``` This piece of clothing partially (75%) protects you from radiation.
 - ```RAINPROOF``` Prevents the covered body-part(s) from getting wet in the rain.
-- ```REQUIRES_BALANCE``` Gear that requires a certain balance to be steady with. If the player is hit while wearing, they have a chance to be downed.
+- ```REQUIRES_BALANCE``` Gear that requires a certain balance to be steady with.  If the player is hit while wearing, they have a chance to be downed.
 - ```RESTRICT_HANDS``` Prevents the player from wielding a weapon two-handed, forcing one-handed use if the weapon permits it.
 - ```ROLLER_ONE``` A less stable and slower version of `ROLLER_QUAD`, still allows the player to move faster than walking speed.
 - ```ROLLER_QUAD```The medium choice between `ROLLER_INLINE` and `ROLLER_ONE`, while it is more stable, and moves faster, it also has a harsher non-flat terrain penalty than `ROLLER_ONE`.
 - ```ROLLER_INLINE``` Faster, but less stable overall, the penalty for non-flat terrain is even harsher.
 - ```SEMITANGIBLE``` Prevents the item from participating in the encumbrance system when worn.
-- ```SKINTIGHT``` Undergarment layer.
 - ```SLOWS_MOVEMENT``` This piece of clothing multiplies move cost by 1.1.
 - ```SLOWS_THIRST``` This piece of clothing multiplies the rate at which the player grows thirsty by 0.70.
 - ```STURDY``` This clothing is a lot more resistant to damage than normal.
@@ -381,17 +242,30 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```WATER_FRIENDLY``` Prevents the item from making the body part count as unfriendly to water and thus reducing morale from being wet.
 
 
+### Layers
+
+Additionally, the following flags declare which clothing layer the armor item goes to.  These are in order:
+
+- ```PERSONAL``` Your personal aura, this is primarily for magiclysm and sci-fi stuff.  Intended for metaphysical effects.
+- ```SKINTIGHT``` Underwear, things that are incredibly thin, less than 1 mm.
+- ```NORMAL``` Everyday clothes, pants, sweaters, loose shirts, jumpsuits.  This is assumed by default.
+- ```WAIST``` Things worn as belts.  Note: this is an old legacy solution designed for having belts not conflict with backpacks.  Use it **only** for belts on torso.
+- ```OUTER``` Outerwear, things like winter coats, trench coats, all hard armor.
+- ```BELTED``` Backpacks, pouches, rifle slings, holsters, backpacks all go on this layer.
+- ```AURA``` Outer aura, again magiclysm and sci-fi, not really used in core.  Intended for metaphysical effects.
+
+
 ## Bionics
 
 - ```BIONIC_ARMOR_INTERFACE``` This bionic can provide power to powered armor.
 - ```BIONIC_FAULTY``` This bionic is a "faulty" bionic.
 - ```BIONIC_GUN``` This bionic is a gun bionic and activating it will fire it.  Prevents all other activation effects.
 - ```BIONIC_NPC_USABLE``` The NPC AI knows how to use this CBM, and it can be installed on an NPC.
-- ```BIONIC_POWER_SOURCE``` This bionic is a power source bionic.
+- ```BIONIC_POWER_SOURCE``` This bionic is a source of bionic power.
+- ```BIONIC_SHOCKPROOF``` This bionic can't be incapacitated by electrical attacks.
 - ```BIONIC_SLEEP_FRIENDLY``` This bionic won't prompt the user to turn it off if they try to sleep while it's active.
 - ```BIONIC_TOGGLED``` This bionic only has a function when activated, else it causes its effect every turn.
 - ```BIONIC_WEAPON``` This bionic is a weapon bionic and activating it will create (or destroy) bionic's fake_item in user's hands.  Prevents all other activation effects.
-- ```BIONIC_SHOCKPROOF``` This bionic can't be incapacitated by electrical attacks.
 - ```USES_BIONIC_POWER``` If present, items attached to this bionic will inherit the `USES_BIONIC_POWER` flag automatically.
 
 
@@ -399,26 +273,57 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 
 - ```ALWAYS_BLOCK``` This nonstandard bodypart is always eligible to block in unarmed combat even if your martial arts don't allow such blocks.
 - ```ALWAYS_HEAL``` This bodypart regenerates every regen tick (5 minutes, currently) regardless if the part would have healed normally.
-- ```HEAL_OVERRIDE``` This bodypart will always regenerate its `heal_bonus` HP instead of it modifying the base healing step. Without `ALWAYS_HEAL` this still only happens when the part would have healed non-zero amount of damage.
+- ```HEAL_OVERRIDE``` This bodypart will always regenerate its `heal_bonus` HP instead of it modifying the base healing step.  Without `ALWAYS_HEAL` this still only happens when the part would have healed non-zero amount of damage.
 - ```IGNORE_TEMP``` This bodypart is ignored for temperature calculations
 - ```LIMB_LOWER``` This bodypart is close to the ground, and as such has a higher chance to be attacked by small monsters - hitsize is tripled for creatures that can't attack upper limbs.
-- ```LIMB_UPPER``` This bodypart is high off the ground, and as such can't be attacked by small monsters - unless they have the `FLIES` or have `ATTACK_UPPER` flags`
+- ```LIMB_UPPER``` This bodypart is high off the ground, and as such can't be attacked by small monsters - unless they have the `FLIES` or have `ATTACK_UPPER` flags`.
 - ```MEND_LIMB``` This bodypart can heal from being broken without needing a splint.
-- ```NONSTANDARD_BLOCK``` This limb is different enough that martial arts' arm/leg blocks aren't applicable - blocking with this limb is unlocked by reaching the MA's `nonstandard_block` level, unless the limb also has `ALWAYS_BLOCK`. Either block flag is **required** for non-arm / non-leg limbs to be eligible to block.
+- ```NONSTANDARD_BLOCK``` This limb is different enough that martial arts' arm/leg blocks aren't applicable - blocking with this limb is unlocked by reaching the MA's `nonstandard_block` level, unless the limb also has `ALWAYS_BLOCK`.  Either block flag is **required** for non-arm / non-leg limbs to be eligible to block.
 
 
 ## Books
 
-- ```INSPIRATIONAL``` Reading this book grants bonus morale to characters with the `SPIRITUAL` trait.
 - ```BINDER_ADD_RECIPE``` Add recipe to a book binder.
+- ```INSPIRATIONAL``` Reading this book grants bonus morale to characters with the `SPIRITUAL` trait.
+
 
 ## Comestibles
 
-### Comestible type
+- ```ACID``` When consumed using the `BLECH` function, penalties are reduced if character has `ACIDPROOF` or `ACIDBLOOD` traits.
+- ```CARNIVORE_OK``` Can be eaten by characters with the `CARNIVORE` mutation.
+- ```CANT_HEAL_EVERYONE``` This med can't be used by everyone, it requires a special mutation.  See `can_heal_with` in mutation.
+- ```CORROSIVE``` when consumed using the `BLECH` function, causes the same penalties as `ACID` but is not affected by `ACIDPROOF` or `ACIDBLOOD` traits.
+- ```EATEN_COLD``` Morale bonus for eating cold.
+- ```EATEN_HOT``` Morale bonus for eating hot.
+- ```EDIBLE_FROZEN``` Being frozen doesn't prevent eating it.  No morale bonus.
+- ```INEDIBLE``` Inedible by default, enabled to eat when in conjunction with (mutation threshold) flags: `BIRD`, `CATTLE`.
+- ```FERTILIZER``` Works as fertilizer for farming, of if this consumed with the `PLANTBLECH` function penalties will be reversed for plants.
+- ```FREEZERBURN``` First thaw is `MUSHY`, second is rotten.
+- ```FUNGAL_VECTOR``` Will give a fungal infection when consumed.
+- ```HIDDEN_HALLU``` Food causes hallucinations, visible only with a certain survival skill level.
+- ```HIDDEN_POISON``` Food displays as poisonous with a certain survival skill level. Note that this doesn't make items poisonous on its own, consider adding `"use_action": [ "POISON" ]` as well, or using `FORAGE_POISON` instead.
+- ```MELTS``` Provides half fun unless frozen.  Edible when frozen.
+- ```MILLABLE``` Can be placed inside a mill, to turn into flour.
+- ```MUTAGEN_CATALYST``` Injecting it will jumpstart mutation.
+- ```MUTAGEN_PRIMER``` Injecting it will prime your body for mutation.
+- ```MYCUS_OK``` Can be eaten by post-threshold Mycus characters.  Only applies to Mycus fruits by default.
+- ```NEGATIVE_MONOTONY_OK``` Allows `negative_monotony` property to lower comestible fun to negative values.
+- ```NO_AUTO_CONSUME``` Consumables with this flag would not get consumed in auto-eat/auto-drink zone.
+- ```NO_INGEST``` Administered by some means other than oral intake.
+- ```NUTRIENT_OVERRIDE``` When you craft an item, game checks if it's a comestible, and if it is, it stores the components the item was created from.  The `NUTRIENT_OVERRIDE` flag will skip this step.
+- ```PKILL_1``` Minor painkiller.
+- ```PKILL_2``` Moderate painkiller.
+- ```PKILL_3``` Heavy painkiller.
+- ```PKILL_L``` Slow-release painkiller.
+- ```RAD_STERILIZED``` Irradiated food that is safe to eat, but is not edible forever (such as MREs).
+- ```RAD_STERILIZED_EDIBLE_FOREVER``` Irradiated food that is safe to eat and remains edible forever.
+- ```RAW``` Reduces kcal by 25%, until cooked (that is, used in a recipe that requires a heat source).  Should be added to *all* uncooked food, unless that food derives more than 50% of its calories from sugars (i.e. many fruits, some veggies) or fats (i.e. butchered fat, coconut).  TODO: Make a unit test for these criteria after fat/protein/carbs are added.
+- ```SMOKABLE``` Accepted by smoking rack.
+- ```SMOKED``` Not accepted by smoking rack (product of smoking).
+- ```USE_EAT_VERB``` "You drink your %s." or "You eat your %s.".
+- ```USE_ON_NPC``` Can be used on NPCs (not necessarily by them).
+- ```ZOOM``` Zoom items can increase your overmap sight range.
 
-- ```DRINK```
-- ```FOOD```
-- ```MED```
 
 ### Addiction type
 
@@ -431,12 +336,20 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```opiate```
 - ```sleeping pill```
 
+
+### Comestible type
+
+- ```DRINK```
+- ```FOOD```
+- ```MED```
+
+
 ### Use action
 
-- ```ALCOHOL_STRONG``` Greatly increases drunkenness. Adds disease `drunk`.
-- ```ALCOHOL_WEAK``` Slightly increases drunkenness. Adds disease `drunk`
-- ```ALCOHOL``` Increases drunkenness. Adds disease `drunk`.
-- ```ANTIBIOTIC``` Helps fight infections. Removes disease `infected` and adds disease `recover`.
+- ```ALCOHOL_STRONG``` Greatly increases drunkenness.  Adds disease `drunk`.
+- ```ALCOHOL_WEAK``` Slightly increases drunkenness.  Adds disease `drunk`
+- ```ALCOHOL``` Increases drunkenness.  Adds disease `drunk`.
+- ```ANTIBIOTIC``` Helps fight infections.  Removes disease `infected` and adds disease `recover`.
 - ```BANDAGE``` Stop bleeding.
 - ```BIRDFOOD``` Makes a small bird friendly.
 - ```BLECH``` Causes vomiting, adds disease `poison`, adds pain and hurts torso.
@@ -444,9 +357,9 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```CATFOOD``` Makes a cat friendly.
 - ```CATTLEFODDER``` Makes a large herbivore friendly.
 - ```CHEW``` Displays message "You chew your %s.", but otherwise does nothing.
-- ```CIG``` Alleviates nicotine cravings. Adds disease `cig`.
-- ```COKE``` Decreases hunger. Adds disease `high`.
-- ```CRACK``` Decreases hunger. Adds disease `high`.
+- ```CIG``` Alleviates nicotine cravings.  Adds disease `cig`.
+- ```COKE``` Decreases hunger.  Adds disease `high`.
+- ```CRACK``` Decreases hunger.  Adds disease `high`.
 - ```DISINFECTANT``` Prevents infections.
 - ```DOGFOOD``` Makes a dog friendly.
 - ```FIRSTAID``` Heals.
@@ -460,103 +373,52 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```MARLOSS``` "As you eat the berry, you have a near-religious experience, feeling at one with your surroundings..."
 - ```METH``` Adds disease `meth`.
 - ```NONE``` "You can't do anything of interest with your [x]."
-- ```PKILL``` Reduces pain. Adds disease `pkill[n]` where `[n]` is the level of flag `PKILL_[n]` used on this comestible.
+- ```PKILL``` Reduces pain.  Adds disease `pkill[n]` where `[n]` is the level of flag `PKILL_[n]` used on this comestible.
 - ```PLANTBLECH``` Activates `BLECH` iuse action if player does not have plant mutations.
 - ```POISON``` Adds diseases `poison` and `foodpoison`.
 - ```PROZAC``` Adds disease `took_prozac` if not currently present, otherwise acts as a minor stimulant. Rarely has the `took_prozac_bad` adverse effect.
 - ```PURIFIER``` Removes random number of negative mutations.
 - ```SEWAGE``` Causes vomiting.
 - ```SLEEP``` Greatly increases fatigue.
-- ```THORAZINE``` Removes diseases `hallu`, `visuals`, `high`. Additionally removes disease `formication` if disease `dermatik` isn't also present. Has a chance of a negative reaction which increases fatigue.
+- ```THORAZINE``` Removes diseases `hallu`, `visuals`, `high`. Additionally removes disease `formication` if disease `dermatik` isn't also present.  Has a chance of a negative reaction which increases fatigue.
 - ```VITAMINS``` Increases healthiness (not to be confused with HP).
-- ```WEED``` Makes you roll with Cheech & Chong. Adds disease `weed_high`.
-- ```XANAX``` Alleviates anxiety. Adds disease `took_xanax`.
-
-### Flags
-
-- ```ACID``` When consumed using the `BLECH` function, penalties are reduced if character has `ACIDPROOF` or `ACIDBLOOD` traits.
-- ```CARNIVORE_OK``` Can be eaten by characters with the Carnivore mutation.
-- ```CANT_HEAL_EVERYONE``` This med can't be used by everyone, it requires a special mutation. See `can_heal_with` in mutation.
-- ```CORROSIVE``` when consumed using the `BLECH` function, causes the same penalties as `ACID` but is not affected by `ACIDPROOF` or `ACIDBLOOD` traits.
-- ```EATEN_COLD``` Morale bonus for eating cold.
-- ```EATEN_HOT``` Morale bonus for eating hot.
-- ```EDIBLE_FROZEN``` Being frozen doesn't prevent eating it. No morale bonus.
-- ```INEDIBLE``` Inedible by default, enabled to eat when in conjunction with (mutation threshold) flags: `BIRD`, `CATTLE`.
-- ```FERTILIZER``` Works as fertilizer for farming, of if this consumed with the `PLANTBLECH` function penalties will be reversed for plants.
-- ```FREEZERBURN``` First thaw is `MUSHY`, second is rotten.
-- ```FUNGAL_VECTOR``` Will give a fungal infection when consumed.
-- ```HIDDEN_HALLU``` Food causes hallucinations, visible only with a certain survival skill level.
-- ```HIDDEN_POISON``` Food displays as poisonous with a certain survival skill level. Note that this doesn't make items poisonous on its own, consider adding `"use_action": [ "POISON" ]` as well, or using `FORAGE_POISON` instead.
-- ```MELTS``` Provides half fun unless frozen. Edible when frozen.
-- ```MILLABLE``` Can be placed inside a mill, to turn into flour.
-- ```MUTAGEN_CATALYST``` Injecting it will jumpstart mutation.
-- ```MUTAGEN_PRIMER``` Injecting it will prime your body for mutation.
-- ```MYCUS_OK``` Can be eaten by post-threshold Mycus characters. Only applies to Mycus fruits by default.
-- ```NEGATIVE_MONOTONY_OK``` Allows ```negative_monotony``` property to lower comestible fun to negative values.
-- ```NO_AUTO_CONSUME``` Consumables with this flag would not get consumed in auto-eat/auto-drink zone.
-- ```NO_INGEST``` Administered by some means other than oral intake.
-- ```NUTRIENT_OVERRIDE``` When you craft an item, game checks if it's a comestible, and if it is, it stores the components the item was created from. The "NUTRIENT_OVERRIDE" flag will skip this step.
-- ```PKILL_1``` Minor painkiller.
-- ```PKILL_2``` Moderate painkiller.
-- ```PKILL_3``` Heavy painkiller.
-- ```PKILL_L``` Slow-release painkiller.
-- ```RAD_STERILIZED``` Irradiated food that is safe to eat, but is not edible forever (such as MREs).
-- ```RAD_STERILIZED_EDIBLE_FOREVER``` Irradiated food that is safe to eat and remains edible forever.
-- ```RAW``` Reduces kcal by 25%, until cooked (that is, used in a recipe that requires a heat source). Should be added to *all* uncooked food, unless that food derives more than 50% of its calories from sugars (i.e. many fruits, some veggies) or fats (i.e. butchered fat, coconut). TODO: Make a unit test for these criteria after fat/protein/carbs are added.
-- ```SMOKABLE``` Accepted by smoking rack.
-- ```SMOKED``` Not accepted by smoking rack (product of smoking).
-- ```USE_EAT_VERB``` "You drink your %s." or "You eat your %s."
-- ```USE_ON_NPC``` Can be used on NPCs (not necessarily by them).
-- ```ZOOM``` Zoom items can increase your overmap sight range.
+- ```WEED``` Makes you roll with Cheech & Chong.  Adds disease `weed_high`.
+- ```XANAX``` Alleviates anxiety.  Adds disease `took_xanax`.
 
 
 ## Effects
-Effect flags. These are checked by hardcode for monsters (introducing new flags will require C++ changes), but for characters are considered "character flags", meaning new ones can be implemented in JSON alone - see Character Flags.
 
-### Flags
+These are checked by hardcode for monsters (introducing new flags will require C++ changes), but for characters are considered "character flags", meaning new ones can be implemented in JSON alone - see [Character Flags](#Character).
 
 - ```DISABLE_FLIGHT``` Monsters affected by an effect with this flag will never count as flying (even if they have the `FLIES` flag).
-- ```EFFECT_IMPEDING``` Character affected by an effect with this flag can't move until they break free from the effect.  Breaking free requires a strength check: `x_in_y( STR * limb lifting score * limb grip score, 6 * get_effect_int( eff_id )`
+- ```EFFECT_IMPEDING``` Character affected by an effect with this flag can't move until they break free from the effect.  Breaking free requires a strength check: `x_in_y( STR * limb lifting score * limb grip score, 6 * get_effect_int( eff_id )`.
+
 
 ## Furniture and Terrain
 
 List of known flags, used in both `terrain.json` and `furniture.json`.
 
-### Flags
-
 - ```ALARMED``` Sets off an alarm if smashed.
-- ```ALIGN_WORKBENCH``` (only for furniture) A hint to the tiles display that the sprite for this furniture should face toward any adjacent tile with a workbench quality.
 - ```ALLOW_FIELD_EFFECT``` Apply field effects to items inside `SEALED` terrain/furniture.
 - ```ALLOW_ON_OPEN_AIR``` Don't warn when this furniture is placed on `t_open_air` or similar 'open air' terrains which lack a floor.
 - ```AMMOTYPE_RELOAD``` Furniture reloads by ammotype so player can choose from more than one fuel type.
-- ```AUTO_WALL_SYMBOL``` (only for terrain) The symbol of this terrain will be one of the line drawings (corner, T-intersection, straight line etc.) depending on the adjacent terrains.
-
-    Example: `-` and `|` are both terrain with the `CONNECT_TO_WALL` flag. `O` does not have the flag, while `X` and `Y` have the `AUTO_WALL_SYMBOL` flag.
-
-    `X` terrain will be drawn as a T-intersection (connected to west, south and east), `Y` will be drawn as horizontal line (going from west to east, no connection to south).
-    ```
-    -X-    -Y-
-     |      O
-    ```
-
-- ```BARRICADABLE_DOOR_DAMAGED```
-- ```BARRICADABLE_DOOR_REINFORCED_DAMAGED```
-- ```BARRICADABLE_DOOR_REINFORCED```
+- ```BARRICADABLE_DOOR_DAMAGED``` 
+- ```BARRICADABLE_DOOR_REINFORCED_DAMAGED``` 
+- ```BARRICADABLE_DOOR_REINFORCED``` 
 - ```BARRICADABLE_DOOR``` Door that can be barricaded.
-- ```BARRICADABLE_WINDOW_CURTAINS```
+- ```BARRICADABLE_WINDOW_CURTAINS``` 
 - ```BARRICADABLE_WINDOW``` Window that can be barricaded.
 - ```BLOCK_WIND``` This terrain will block the effects of wind.
 - ```BURROWABLE``` Burrowing monsters can travel under this terrain, while most others can't (e.g. graboid will traverse under the chain link fence, while ordinary zombie will be stopped by it).
-- ```BUTCHER_EQ``` Butcher's equipment - required for full butchery of corpses.
-- ```CAN_SIT``` Furniture the player can sit on. Player sitting near furniture with the `FLAT_SURF` tag will get mood bonus for eating.
+- ```BUTCHER_EQ``` Butcher's equipment.  Required for full butchery of corpses.
+- ```CAN_SIT``` Furniture the player can sit on.  Player sitting near furniture with the `FLAT_SURF` tag will get mood bonus for eating.
 - ```CHIP``` Used in construction menu to determine if wall can have paint chipped off.
 - ```COLLAPSES``` Has a roof that can collapse.
-- ```CONNECT_TO_WALL``` (only for terrain) This flag has been superseded by the JSON entry `connects_to`, but is retained for backward compatibility.
 - ```CONSOLE``` Used as a computer.
 - ```CONTAINER``` Items on this square are hidden until looted by the player.
 - ```CURRENT``` This water is flowing.
 - ```DEEP_WATER``` This is water that can submerge the player.
-- ```DESTROY_ITEM``` Items that land here are destroyed. See also `NOITEM`.
+- ```DESTROY_ITEM``` Items that land here are destroyed.  See also `NOITEM`.
 - ```DIFFICULT_Z``` Most zombies will not be able to follow you up this terrain (i.e a ladder).
 - ```DIGGABLE_CAN_DEEPEN``` Diggable location can be dug again to make deeper (e.g. shallow pit to deep pit).
 - ```DIGGABLE``` Digging monsters, seeding monster, digging with shovel, etc.
@@ -568,16 +430,16 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 - ```FLAMMABLE_ASH``` Burns to ash rather than rubble.
 - ```FLAMMABLE_HARD``` Harder to light on fire, but still possible.
 - ```FLAMMABLE``` Can be lit on fire.
-- ```FLAT_SURF``` Furniture or terrain with a flat hard surface (e.g. table, but not chair; tree stump, etc.).
+- ```FLAT_SURF``` Furniture or terrain with a flat hard surface (e.g. table, but not chair; tree stump, etc.).  See also `CAN_SIT`.
 - ```FLAT``` Player can build and move furniture on.
 - ```FORAGE_HALLU``` This item can be found with the `HIDDEN_HALLU` flag when found through foraging.
 - ```FORAGE_POISION``` This item can be found with the `HIDDEN_POISON` flag when found through foraging.
-- ```FRESH_WATER``` Source of fresh water. Will spawn fresh water (once) on terrains with `SPAWN_WITH_LIQUID` flag.
-- ```GOES_DOWN``` Can use <kbd>></kbd> to go down a level.
-- ```GOES_UP``` Can use <kbd><</kbd> to go up a level.
-- ```GROWTH_SEEDLING``` This plant is in its seedling stage of growth.
-- ```GROWTH_MATURE``` This plant is in a mature stage of a growth.
+- ```FRESH_WATER``` Source of fresh water.  Will spawn fresh water (once) on terrains with `SPAWN_WITH_LIQUID` flag.
+- ```GOES_DOWN``` Can use `>` to go down a level.
+- ```GOES_UP``` Can use `<` to go up a level.
 - ```GROWTH_HARVEST``` This plant is ready for harvest.
+- ```GROWTH_MATURE``` This plant is in a mature stage of a growth.
+- ```GROWTH_SEEDLING``` This plant is in its seedling stage of growth.
 - ```HARVESTED``` Marks the harvested version of a terrain type (e.g. harvesting an apple tree turns it into a harvested tree, which later becomes an apple tree again).
 - ```HIDE_PLACE``` Creatures on this tile can't be seen by creatures not standing on adjacent tiles.
 - ```INDOORS``` Has a roof over it; blocks rain, sunlight, etc.
@@ -588,9 +450,9 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 - ```MOUNTABLE``` Suitable for guns with the `MOUNTED_GUN` flag.
 - ```MURKY``` Liquid taken from tiles with this flag is badly poisoned (almost on par with sewage).
 - ```NOCOLLIDE``` Feature that simply doesn't collide with vehicles at all.
-- ```NOITEM``` Items cannot be added here but may overflow to adjacent tiles. See also `DESTROY_ITEM`.
+- ```NOITEM``` Items cannot be added here but may overflow to adjacent tiles.  See also `DESTROY_ITEM`.
 - ```NO_FLOOR``` Things should fall when placed on this tile.
-- ```NO_PICKUP_ON_EXAMINE``` Examining this tile (<kbd>e</kbd> by default) won't open Pick Up menu even if there are items here.
+- ```NO_PICKUP_ON_EXAMINE``` Examining this tile won't open Pick Up menu even if there are items here.
 - ```NO_SIGHT``` Creature on this tile have their sight reduced to one tile.
 - ```NO_SCENT``` This tile cannot have scent values, which prevents scent diffusion through this tile.
 - ```NO_SHOOT``` Terrain with this flag cannot be damaged by ranged attacks, and ranged attacks will not pass through it.
@@ -601,42 +463,68 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 - ```PICKABLE``` This terrain/furniture could be picked with lockpicks.
 - ```PIT_FILLABLE``` This terrain can be filled with dirt like a shallow pit.
 - ```PLACE_ITEM``` Valid terrain for `place_item()` to put items on.
-- ```PLANT``` A 'furniture' that grows and fruits.
+- ```PLANT``` A furniture entity that grows and produces fruit.
 - ```PLANTABLE``` This terrain or furniture can have seeds planted in it.
 - ```PLOWABLE``` Terrain can be plowed.
 - ```RAMP_END``` Technical flag for proper work of ramps mechanics.
 - ```RAMP``` Can be used to move up a z-level.
-- ```REDUCE_SCENT``` Reduces scent diffusion (not total amount of scent in area); only works if also bashable.
+- ```REDUCE_SCENT``` Reduces scent diffusion (not total amount of scent in area).  Note: only works if it's also bashable.
 - ```ROAD``` Flat and hard enough to drive or skate (with rollerblades) on.
 - ```ROUGH``` May hurt the player's feet.
 - ```RUG``` Enables the `Remove Carpet` Construction entry.
-- ```SALT_WATER``` Source of salt water (works for terrains with examine action "water_source").
-- ```SEALED``` Can't use <kbd>e</kbd> to retrieve items; must smash them open first.
-- ```SEEN_FROM_ABOVE``` Visible from a higher level (provided the tile above has no floor)
+- ```SALT_WATER``` Source of salt water (works for terrains with examine action `water_source`).
+- ```SEALED``` Can't Examine to retrieve items, must smash them open first.
+- ```SEEN_FROM_ABOVE``` Visible from a higher level (provided the tile above has no floor).
 - ```SHALLOW_WATER``` This is water that is not deep enough to submerge the player.
 - ```SHARP``` May do minor damage to players/monsters passing through it.
-- ```SHORT``` Feature too short to collide with vehicle protrusions. (mirrors, blades).
+- ```SHORT``` Feature too short to collide with vehicle protrusions (mirrors, blades).
 - ```SIGN``` Show written message on examine.
 - ```SMALL_PASSAGE``` This terrain or furniture is too small for large or huge creatures to pass through.
-- ```SPAWN_WITH_LIQUID``` This terrain will place liquid (once) on its own spawn. Type of liquid is defined by other flags. For example, it spawns fresh water via `FRESH_WATER` flag.
-- ```SUN_ROOF_ABOVE``` This furniture (terrain is not supported currently) has a "fake roof" above, that blocks sunlight. Special hack for #44421, to be removed later.
+- ```SPAWN_WITH_LIQUID``` This terrain will place liquid (once) on its own spawn.  Type of liquid is defined by other flags. For example, it spawns fresh water via `FRESH_WATER` flag.
 - ```SUPPORTS_ROOF``` Used as a boundary for roof construction.
-- ```SUPPRESS_SMOKE``` Prevents smoke from fires; used by ventilated wood stoves, etc.
+- ```SUPPRESS_SMOKE``` Prevents smoke from fires.  Used by ventilated wood stoves, etc.
 - ```SWIMMABLE``` Player and monsters can swim through it.
-- ```THIN_OBSTACLE``` Passable by players and monsters; vehicles destroy it.
-- ```TINY``` Feature too short to collide with vehicle undercarriage. Vehicles drive over them with no damage, unless a wheel hits them.
+- ```THIN_OBSTACLE``` Passable by players and monsters.  Vehicles destroy it.
+- ```TINY``` Feature too short to collide with vehicle undercarriage.  Vehicles drive over them with no damage, unless a wheel hits them.
 - ```TOILET_WATER``` Liquid taken from tiles with this flag is rather dirty and may poison you.
-- ```TRANSPARENT``` Players and monsters can see through/past it. Also sets ter_t.transparent.
+- ```TRANSPARENT``` Players and monsters can see through/past it.  Also sets ter_t.transparent.
 - ```TRANSPARENT_FLOOR``` This terrain allows light to the z-level below.
 - ```UNSTABLE``` Walking here cause the bouldering effect on the character.
 - ```USABLE_FIRE``` This terrain or furniture counts as a nearby fire for crafting.
-- ```WALL``` This terrain is an upright obstacle. Used for fungal conversion, and also implies `CONNECT_TO_WALL`.
+- ```WALL``` This terrain is an upright obstacle.  Used for fungal conversion, and also implies `CONNECT_TO_WALL`.
 - ```WINDOW``` This terrain is a window, though it may be closed, broken, or covered up.  Used by the tiles code to align furniture sprites away from the window.
-- ```WIRED_WALL``` This terrain is a wall with electric wires inside. Allows the `Reveal wall wirings` construction.
-- ```WORKOUT_LEGS``` This furniture is for training your legs. Needed for checks like `is_limb_broken()`.
-- ```WORKOUT_ARMS``` This furniture is for training your arms. Needed for checks like `is_limb_broken()`.
+- ```WIRED_WALL``` This terrain is a wall with electric wires inside.  Allows the `Reveal wall wirings` construction.
+- ```WORKOUT_LEGS``` This furniture is for training your legs.  Needed for checks like `is_limb_broken()`.
+- ```WORKOUT_ARMS``` This furniture is for training your arms.  Needed for checks like `is_limb_broken()`.
 
-### Fungal Conversions Only
+
+### Furniture only
+
+- ```ALIGN_WORKBENCH``` A hint to the tiles display that the sprite for this furniture should face toward any adjacent tile with a workbench quality.
+- ```AUTODOC``` This furniture can be an Autodoc console, it also needs the `autodoc` examine action.
+- ```AUTODOC_COUCH``` This furniture can be a couch for a furniture with the `autodoc` examine action.
+- ```BLOCKSDOOR``` This will boost map terrain's resistance to bashing if `str_*_blocked` is set (see `map_bash_info`).
+- ```BRIDGE``` If this furniture is placed over water tiles, it prevents player from becoming wet.
+- ```SUN_ROOF_ABOVE``` This furniture (terrain is not supported currently) has a "fake roof" above, that blocks sunlight.  Special hack for #44421, to be removed later.
+
+
+### Terrain only
+
+- ```AUTO_WALL_SYMBOL``` The symbol of this terrain will be one of the line drawings (corner, T-intersection, straight line etc.) depending on the adjacent terrain.
+
+    Example: `-` and `|` are both terrain with the `CONNECT_TO_WALL` flag. `O` does not have the flag, while `X` and `Y` have the `AUTO_WALL_SYMBOL` flag.
+    
+    `X` terrain will be drawn as a T-intersection (connected to west, south and east), `Y` will be drawn as horizontal line (going from west to east, no connection to south).
+
+```
+    -X-    -Y-
+     |      O
+```
+
+- ```CONNECT_TO_WALL``` This flag has been superseded by the JSON entry `connects_to`, but is retained for backward compatibility.
+
+
+### Fungal conversions only
 
 - ```FLOWER``` This furniture is a flower.
 - ```FUNGUS``` Fungal covered.
@@ -645,80 +533,63 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 - ```TREE``` This terrain is a tree.
 - ```YOUNG``` This terrain is a young tree.
 
-### Furniture Only
-
-- ```AUTODOC``` This furniture can be an Autodoc console, it also needs the `autodoc` examine action.
-- ```AUTODOC_COUCH``` This furniture can be a couch for a furniture with the `autodoc` examine action.
-- ```BLOCKSDOOR``` This will boost map terrain's resistance to bashing if `str_*_blocked` is set (see `map_bash_info`).
-- ```BRIDGE``` If this furniture is placed over water tiles, it prevents player from becoming wet.
-
 
 ## Generic
 
 These flags can be applied via JSON item definition to most items.  Not to be confused with the set of flags listed under Tools > Flags that apply to items, which cannot be assigned via JSON.
 
-### Flags
-
-- ```BIONIC_NPC_USABLE``` ... Safe CBMs that NPCs can use without extensive NPC rewrites to utilize toggle CBMs.
-- ```BIONIC_TOGGLED``` ... This bionic only has a function when activated, instead of causing its effect every turn.
-- ```BIONIC_POWER_SOURCE``` ... This bionic is a source of bionic power.
-- ```BIONIC_SHOCKPROOF``` ... This bionic can't be incapacitated by electrical attacks.
-- ```BIONIC_FAULTY``` ... This bionic is a "faulty" bionic.
-- ```BIONIC_WEAPON``` ... This bionic is a weapon bionic and activating it will create (or destroy) its fake_item in the user's hands. Prevents all other activation effects.
-- ```BIONIC_ARMOR_INTERFACE``` ... This bionic can provide power to powered armor.
-- ```BIONIC_SLEEP_FRIENDLY``` ... This bionic won't provide a warning if the player tries to sleep while it's active.
-- ```BIONIC_GUN``` ... This bionic is a gun bionic and activating it will fire it. Prevents all other activation effects.
-- ```CONDUCTIVE``` ... Item is considered as conducting electricity, even if material it's made of is non-conductive. Opposite of `NONCONDUCTIVE`.
-- ```CORPSE``` ... Flag used to spawn various human corpses during the mapgen.
-- ```CRUTCHES``` ... Item with this flag helps characters not to fall down if their legs are broken.
-- ```DANGEROUS``` ... NPCs will not accept this item. Explosion iuse actor implies this flag. Implies `NPC_THROW_NOW`.
-- ```DETERGENT``` ... This item can be used as a detergent in a washing machine.
-- ```DURABLE_MELEE``` ... Item is made to hit stuff and it does it well, so it's considered to be a lot tougher than other weapons made of the same materials.
-- ```FAKE_MILL``` ... Item is a fake item, to denote a partially milled product by @ref Item::process_fake_mill, where conditions for its removal are set.
-- ```FAKE_SMOKE``` ... Item is a fake item generating smoke, recognizable by @ref item::process_fake_smoke, where conditions for its removal are set.
-- ```FIREWOOD``` ... This item can serve as a firewood. Items with this flag are sorted out to "Loot: Wood" zone
-- ```FRAGILE_MELEE``` ... Fragile items that fall apart easily when used as a weapon due to poor construction quality and will break into components when broken.
-- ```GAS_DISCOUNT``` ... Discount cards for the automated gas stations.
-- ```ITEM_BROKEN``` ... Item was broken and won't activate anymore.
-- ```IS_PET_ARMOR``` ... Is armor for a pet monster, not armor for a person.
-- ```LEAK_ALWAYS``` ... Leaks (may be combined with `RADIOACTIVE`).
-- ```LEAK_DAM``` ... Leaks when damaged (may be combined with `RADIOACTIVE`).
-- ```MOP``` ... This item could be used to mop up spilled liquids like blood or water.
-- ```NEEDS_UNFOLD``` ... Has an additional time penalty upon wielding. For melee weapons and guns this is offset by the relevant skill. Stacks with `SLOW_WIELD`.
-- ```NO_PACKED``` ... This item is not protected against contamination and won't stay sterile.  Only applies to CBMs.
-- ```NO_REPAIR``` ... Prevents repairing of this item even if otherwise suitable tools exist.
-- ```NO_SALVAGE``` ... Item cannot be broken down through a salvage process. Best used when something should not be able to be broken down (i.e. base components like leather patches).
-- ```NO_STERILE``` ... This item is not sterile.  Only applies to CBMs.
-- ```NPC_ACTIVATE``` ... NPCs can activate this item as an alternative attack. Currently done by throwing it right after activation. Implied by `BOMB`.
-- ```NPC_ALT_ATTACK``` ... Shouldn't be set directly. Implied by `NPC_ACTIVATE` and `NPC_THROWN`.
-- ```NPC_THROWN``` ... NPCs will throw this item (without activating it first) as an alternative attack.
-- ```NPC_THROW_NOW``` ... NPCs will try to throw this item away, preferably at enemies. Implies `TRADER_AVOID` and `NPC_THROWN`.
-- ```OLD_CURRENCY``` ... Paper bills and coins that used to be legal tender before the Cataclysm and may still be accepted by some automated systems.
-- ```PERFECT_LOCKPICK``` ... Item is a perfect lockpick. Takes only 5 seconds to pick a lock and never fails, but using it grants only a small amount of lock picking xp. The item should have `LOCKPICK` quality of at least 1.
-- ```PRESERVE_SPAWN_OMT``` ... This item will store the OMT that it spawns in, in the `spawn_location_omt` item var.
-- ```PSEUDO``` ... Used internally to mark items that are referred to in the crafting inventory but are not actually items. They can be used as tools, but not as components. Implies `TRADER_AVOID`.
-- ```RADIOACTIVE``` ... Is radioactive (can be used with `LEAK_*`).
-- ```RAIN_PROTECT``` ... Protects from sunlight and from rain when wielded.
-- ```REDUCED_BASHING``` ... Gunmod flag; reduces the item's bashing damage by 50%.
-- ```REDUCED_WEIGHT``` ... Gunmod flag; reduces the item's base weight by 25%.
-- ```REQUIRES_TINDER``` ... Requires tinder to be present on the tile this item tries to start a fire on.
-- ```SINGLE_USE``` ... This item is deleted after being used. Items that count by charge do not need this as they are deleted when charges run out.
-- ```SLEEP_AID``` ... This item helps in sleeping.
-- ```SLEEP_AID_CONTAINER``` ... This item allows sleep aids inside of it to help in sleeping. (E.g. this is a pillowcase).
-- ```SLEEP_IGNORE``` ... This item is not shown as before-sleep warning.
-- ```SLOW_WIELD``` ... Has an additional time penalty upon wielding. For melee weapons and guns this is offset by the relevant skill. Stacks with `NEEDS_UNFOLD`.
-- ```TACK``` ... Item can be used as tack for a mount.
-- ```TARDIS``` ... Container item with this flag bypasses internal checks for pocket data, so inside it could be bigger than on the outside, and could hold items that otherwise won't fit its dimensions.
-- ```TIE_UP``` ... Item can be used to tie up a creature.
-- ```TINDER``` ... This item can be used as tinder for lighting a fire with a `REQUIRES_TINDER` flagged firestarter.
-- ```TRADER_AVOID``` ... NPCs will not start with this item. Use this for active items (e.g. flashlight (on)), dangerous items (e.g. active bomb), fake items or unusual items (e.g. unique quest item).
-- ```TRADER_KEEP``` ... NPCs will not trade this item away under any circumstances.
-- ```TRADER_KEEP_EQUIPPED``` ... NPCs will only trade this item if they aren't currently wearing or wielding it.
-- ```UNBREAKABLE_MELEE``` ... Never gets damaged when used as melee weapon.
-- ```UNRECOVERABLE``` ... Cannot be recovered from a disassembly.
-- ```WATER_BREAK``` ... Item is broken in water.
-- ```WATER_BREAK_ACTIVE``` ... Item can get wet and is broken in water if active.
-- ```WATER_DISSOLVE``` ... Item is dissolved in water.
+- ```CONDUCTIVE``` Item is considered as conducting electricity, even if material it's made of is non-conductive.  Opposite of `NONCONDUCTIVE`.
+- ```CORPSE``` Flag used to spawn various human corpses during the mapgen.
+- ```CRUTCHES``` Item with this flag helps characters not to fall down if their legs are broken.
+- ```DANGEROUS``` NPCs will not accept this item. Explosion iuse actor implies this flag.  Implies `NPC_THROW_NOW`.
+- ```DETERGENT``` This item can be used as a detergent in a washing machine.
+- ```DURABLE_MELEE``` Item is made to hit stuff and it does it well, so it's considered to be a lot tougher than other weapons made of the same materials.
+- ```FAKE_MILL``` Item is a fake item, to denote a partially milled product by @ref Item::process_fake_mill, where conditions for its removal are set.
+- ```FAKE_SMOKE``` Item is a fake item generating smoke, recognizable by @ref item::process_fake_smoke, where conditions for its removal are set.
+- ```FIREWOOD``` This item can serve as a firewood. Items with this flag are sorted out to "Loot: Wood" zone.
+- ```FRAGILE_MELEE``` Fragile items that fall apart easily when used as a weapon due to poor construction quality and will break into components when broken.
+- ```GAS_DISCOUNT``` Discount cards for the automated gas stations.
+- ```ITEM_BROKEN``` Item was broken and won't activate anymore.
+- ```IS_PET_ARMOR``` Is armor for a pet monster, not armor for a person.
+- ```LEAK_ALWAYS``` Leaks (may be combined with `RADIOACTIVE`).
+- ```LEAK_DAM``` Leaks when damaged (may be combined with `RADIOACTIVE`).
+- ```MAGIC_FOCUS``` Used by Magyclism, and related magic-based mods.  This item doesn't impede spell casting when held.
+- ```MOP``` This item could be used to mop up spilled liquids like blood or water.
+- ```NEEDS_UNFOLD``` Has an additional time penalty upon wielding. For melee weapons and guns this is offset by the relevant skill.  Stacks with `SLOW_WIELD`.
+- ```NO_PACKED``` This item is not protected against contamination and won't stay sterile.  Only applies to CBMs.
+- ```NO_REPAIR``` Prevents repairing of this item even if otherwise suitable tools exist.
+- ```NO_SALVAGE``` Item cannot be broken down through a salvage process.  Best used when something should not be able to be broken down (i.e. base components like leather patches).
+- ```NO_STERILE``` This item is not sterile.  Only applies to CBMs.
+- ```NPC_ACTIVATE``` NPCs can activate this item as an alternative attack.  Currently done by throwing it right after activation.  Implied by `BOMB`.
+- ```NPC_ALT_ATTACK``` Shouldn't be set directly.  Implied by `NPC_ACTIVATE` and `NPC_THROWN`.
+- ```NPC_THROWN``` NPCs will throw this item (without activating it first) as an alternative attack.
+- ```NPC_THROW_NOW``` NPCs will try to throw this item away, preferably at enemies.  Implies `TRADER_AVOID` and `NPC_THROWN`.
+- ```OLD_CURRENCY``` Paper bills and coins that used to be legal tender before the Cataclysm and may still be accepted by some automated systems.
+- ```PERFECT_LOCKPICK``` Item is a perfect lockpick.  Takes only 5 seconds to pick a lock and never fails, but using it grants only a small amount of lock picking xp.  Note: the item should have `LOCKPICK` quality of at least 1.
+- ```PRESERVE_SPAWN_OMT``` This item will store the OMT that it spawns in, in the `spawn_location_omt` item var.
+- ```PSEUDO``` Used internally to mark items that are referred to in the crafting inventory but are not actually items.  They can be used as tools, but not as components.  Implies `TRADER_AVOID`.
+- ```RADIOACTIVE``` Is radioactive (can be used with `LEAK_ALWAYS` and `LEAK_DAM`).
+- ```RAIN_PROTECT``` Protects from sunlight and from rain when wielded.
+- ```REDUCED_BASHING``` Gunmod flag.  Reduces the item's bashing damage by 50%.
+- ```REDUCED_WEIGHT``` Gunmod flag.  Reduces the item's base weight by 25%.
+- ```REQUIRES_TINDER``` Requires tinder to be present on the tile this item tries to start a fire on.
+- ```SINGLE_USE``` This item is deleted after being used.  Items that count by charge do not need this as they are deleted when charges run out.
+- ```SLEEP_AID``` This item helps in sleeping.
+- ```SLEEP_AID_CONTAINER``` This item allows sleep aids inside of it to help in sleeping (e.g. this is a pillowcase).
+- ```SLEEP_IGNORE``` This item is not shown as before-sleep warning.
+- ```SLOW_WIELD``` Has an additional time penalty upon wielding.  For melee weapons and guns this is offset by the relevant skill.  Stacks with `NEEDS_UNFOLD`.
+- ```TACK``` Item can be used as tack for a mount.
+- ```TARDIS``` Container item with this flag bypasses internal checks for pocket data, so inside it could be bigger than on the outside, and could hold items that otherwise won't fit its dimensions.
+- ```TIE_UP``` Item can be used to tie up a creature.
+- ```TINDER``` This item can be used as tinder for lighting a fire with a `REQUIRES_TINDER` flagged firestarter.
+- ```TRADER_AVOID``` NPCs will not start with this item.  Use this for active items (e.g. flashlight (on)), dangerous items (e.g. active bomb), fake items or unusual items (e.g. unique quest item).
+- ```TRADER_KEEP``` NPCs will not trade this item away under any circumstances.
+- ```TRADER_KEEP_EQUIPPED``` NPCs will only trade this item if they aren't currently wearing or wielding it.
+- ```UNBREAKABLE_MELEE``` Never gets damaged when used as melee weapon.
+- ```UNRECOVERABLE``` Cannot be recovered from a disassembly.
+- ```WATER_BREAK``` Item is broken in water.
+- ```WATER_BREAK_ACTIVE``` Item can get wet and is broken in water if active.
+- ```WATER_DISSOLVE``` Item is dissolved in water.
 - ```ZERO_WEIGHT``` Normally items with zero weight will generate an error. Use this flag to indicate that zero weight is intentional and suppress that error.
 
 
@@ -726,15 +597,16 @@ These flags can be applied via JSON item definition to most items.  Not to be co
 
 - ```BACKBLAST``` Causes a small explosion behind the person firing the weapon. Currently not implemented?
 - ```BIPOD``` Handling bonus only applies on `MOUNTABLE` map/vehicle tiles. Does not include wield time penalty (see `SLOW_WIELD`).
-- ```CHARGE``` Has to be charged to fire. Higher charges do more damage.
-- ```COLLAPSIBLE_STOCK``` Reduces weapon volume proportional to the base size of the gun (excluding any mods). Does not include wield time penalty (see `NEEDS_UNFOLD`).
-- ```CONSUMABLE``` Makes a gunpart have a chance to get damaged depending on ammo fired, and definable fields 'consume_chance' and 'consume_divisor'.
+- ```CHARGE``` Has to be charged to fire.  Higher charges do more damage.
+- ```COLLAPSIBLE_STOCK``` Reduces weapon volume proportional to the base size of the gun (excluding any mods).  Does not include wield time penalty (see `NEEDS_UNFOLD`).
+- ```CONSUMABLE``` Makes a gunpart have a chance to get damaged depending on ammo fired, and the definable fields `consume_chance` and `consume_divisor`.
 - ```DISABLE_SIGHTS``` Prevents use of the base weapon sights.
 - ```FIRE_TWOHAND``` Gun can only be fired if player has two free hands.
-- ```IRREMOVABLE``` Makes so that the gunmod cannot be removed.
+- ```IRREMOVABLE``` Gunmod cannot be removed.
 - ```MECH_BAT``` This is an exotic battery designed to power military mechs.
-- ```MOUNTED_GUN``` Gun can only be used on terrain / furniture with the `MOUNTABLE` flag.
+- ```MOUNTED_GUN``` Gun can only be used on terrain/furniture with the `MOUNTABLE` flag.
 - ```NEVER_JAMS``` Never malfunctions.
+- ```NON_FOULING``` Gun does not become dirty or blackpowder fouled.
 - ```NO_TURRET``` Prevents generation of a vehicle turret prototype for this gun.
 - ```NO_UNLOAD``` Cannot be unloaded.
 - ```PRIMITIVE_RANGED_WEAPON``` Allows using non-gunsmith tools to repair (but not reinforce) it.
@@ -747,20 +619,20 @@ These flags can be applied via JSON item definition to most items.  Not to be co
 - ```STR_RELOAD``` Reload speed is affected by strength.
 - ```UNDERWATER_GUN``` Gun is optimized for usage underwater, does perform badly outside of water.
 - ```WATERPROOF_GUN``` Gun does not rust and can be used underwater.
-- ```NON_FOULING``` Gun does not become dirty or blackpowder fouled.
+
 
 ### Firing modes
 
 - ```MELEE``` Melee attack using properties of the gun or auxiliary gunmod.
 - ```NPC_AVOID``` NPCs will not attempt to use this mode.
-- ```SIMULTANEOUS``` All rounds fired concurrently (not sequentially) with recoil added only once (at the end).
+- ```SIMULTANEOUS``` All rounds fired concurrently (not sequentially) with recoil added only once at the end.
 
 
 ## Magazines
 
 - ```MAG_BULKY``` Can be stashed in an appropriate oversize ammo pouch (intended for bulky or awkwardly shaped magazines).
 - ```MAG_COMPACT``` Can be stashed in an appropriate ammo pouch (intended for compact magazines).
-- ```MAG_DESTROY``` Magazine is destroyed when the last round is consumed (intended for ammo belts). Has precedence over `MAG_EJECT`.
+- ```MAG_DESTROY``` Magazine is destroyed when the last round is consumed (intended for ammo belts).  Has precedence over `MAG_EJECT`.
 - ```MAG_EJECT``` Magazine is ejected from the gun/tool when the last round is consumed.
 - ```SPEEDLOADER``` Acts like a magazine, except it transfers rounds to the target gun instead of being inserted into it.
 
@@ -1292,7 +1164,18 @@ Those flags are added by the game code to specific items (for example, that spec
 - ```USE_UPS``` The tool has the UPS mod and is charged from an UPS.
 - ```WARM``` A hidden flag used to track an item's journey to/from hot, buffers between HOT and cold.
 - ```WET``` Item is wet and will slowly dry off (e.g. towel).
-    
+
+
+## Traps
+
+- ```AVATAR_ONLY``` Only the player character will trigger this trap.
+- ```CONVECTS_TEMPERATURE``` This trap convects temperature, like lava.
+- ```PIT``` This trap is a version of the pit terrain.
+- ```SONAR_DETECTABLE``` This trap can be identified with ground-penetrating SONAR.
+- ```UNCONSUMED``` If this trap is a spell type it will not be removed after activation.
+- ```UNDODGEABLE``` This trap can't be dodged.
+
+
 ### Use actions
 
 These flags apply to the `use_action` field, instead of the `flags` field.
