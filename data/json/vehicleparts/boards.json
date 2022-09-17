@@ -218,8 +218,8 @@
     "description": "A half-height heavy metal wall.  Commonly used in forklifts to balance them when lifting heavy things.",
     "breaks_into": "ig_vp_hdframe",
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "welding_standard", 10 ] ] },
-      "removal": { "skills": [ [ "mechanics", 3 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
+      "install": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "qualities": [ { "id": "WRENCH", "level": 1 } ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "qualities": [ { "id": "WRENCH", "level": 1 } ] },
       "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "repair_welding_standard", 3 ] ] }
     },
     "damage_reduction": { "all": 20 },
