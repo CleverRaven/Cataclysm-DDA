@@ -370,5 +370,97 @@
         { "monster": "GROUP_ROACH", "x": 1, "y": [ 0, 3 ], "chance": 20 }
       ]
     }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "skyscraper_shopping_0_ml_upper_grocer_1",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "    RG..........]..U    ",
+        "    RG..tttttt..cbS.    ",
+        "    RG..------..cc$c ^  ",
+        "    --..rrrrrr......G   ",
+        "   H................G   ",
+        "   H.ffffff.r|t.r|G# ^  ",
+        "   H.------.r|t.r|.A    ",
+        "  d .rrrrrr.r|t.r|.A    ",
+        "  d ........            ",
+        "  s!.BBBBBB.            ",
+        "                        "
+      ],
+      "set": [
+        { "square": "terrain", "id": "t_linoleum_white", "x": 4, "y": 13, "x2": 11, "y2": 22 },
+        { "square": "terrain", "id": "t_linoleum_white", "x": 12, "y": 13, "x2": 19, "y2": 20 }
+      ],
+      "terrain": {
+        ".": "t_linoleum_white",
+        "R": "t_thconc_floor",
+        "!": "t_door_metal_locked",
+        "-": "t_wall_w",
+        "|": "t_wall_w",
+        "#": "t_brick_wall",
+        "A": "t_atm",
+        "s": "t_sidewalk",
+        "d": "t_region_groundcover_forest",
+        "G": "t_door_glass_c",
+        "H": "t_wall_glass"
+      },
+      "furniture": {
+        "^": [ "f_indoor_plant", "f_indoor_plant_y" ],
+        "$": "f_counter",
+        "c": "f_counter",
+        "]": "f_counter_gate_c",
+        "f": "f_glass_fridge",
+        "B": "f_bookcase",
+        "r": "f_rack",
+        "R": "f_rack",
+        "t": "f_table",
+        "d": "f_dumpster",
+        "S": "f_stool",
+        "U": "f_trashcan"
+      },
+      "items": {
+        "b": { "item": "behindcounter", "chance": 60 },
+        "$": { "item": "cash_register_random", "chance": 100 },
+        "U": { "item": "trash", "chance": 70, "repeat": [ 2, 5 ] }
+      },
+      "place_items": [
+        { "item": "magazines", "x": [ 5, 7 ], "y": 22, "chance": 80, "repeat": [ 3, 10 ] },
+        { "item": "novels", "x": [ 8, 10 ], "y": 22, "chance": 80, "repeat": [ 2, 6 ] },
+        { "item": "behindcounter", "x": 16, "y": 18, "chance": 80, "repeat": [ 1, 8 ] },
+        { "item": "softdrugs", "x": 16, "y": 19, "chance": 80, "repeat": [ 1, 8 ] },
+        { "item": "cleaning", "x": 16, "y": 20, "chance": 80, "repeat": [ 1, 8 ] },
+        { "item": "groce_premade", "x": [ 5, 10 ], "y": 18, "chance": 80, "repeat": [ 1, 8 ] },
+        { "item": "alcohol", "x": 14, "y": [ 18, 20 ], "chance": 80, "repeat": [ 1, 6 ] },
+        { "item": "groce_pasta", "x": 12, "y": 18, "chance": 80, "repeat": [ 1, 8 ] },
+        { "item": "groce_ingredient", "x": 12, "y": [ 19, 20 ], "chance": 80, "repeat": [ 1, 8 ] },
+        { "item": "groce_frozen", "x": 4, "y": 13, "chance": 80, "repeat": [ 1, 8 ] },
+        { "item": "groce_meat", "x": 4, "y": 14, "chance": 80, "repeat": [ 1, 8 ] },
+        { "item": "groce_dairyegg", "x": 4, "y": 15, "chance": 80, "repeat": [ 1, 8 ] },
+        { "item": "groce_cereal", "x": [ 5, 6 ], "y": 20, "chance": 80, "repeat": [ 1, 8 ] },
+        { "item": "groce_bread", "x": [ 7, 8 ], "y": 20, "chance": 80, "repeat": [ 1, 8 ] },
+        { "item": "snacks", "x": [ 9, 10 ], "y": 20, "chance": 80, "repeat": [ 1, 12 ] },
+        { "item": "groce_softdrink", "x": [ 8, 10 ], "y": 14, "chance": 80, "repeat": [ 1, 8 ] },
+        { "item": "groce_condiment", "x": [ 8, 10 ], "y": 16, "chance": 80, "repeat": [ 1, 8 ] },
+        { "item": "produce", "x": [ 11, 13 ], "y": 14, "chance": 85, "repeat": [ 1, 10 ] },
+        { "item": "cannedfood", "x": [ 11, 13 ], "y": 16, "chance": 80, "repeat": [ 1, 8 ] }
+      ],
+      "monsters": { ".": { "monster": "GROUP_GROCERY", "chance": 10 } }
+    }
   }
 ]
