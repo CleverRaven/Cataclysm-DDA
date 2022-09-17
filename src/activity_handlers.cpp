@@ -2417,8 +2417,8 @@ void activity_handlers::mend_item_finish( player_activity *act, Character *you )
         return;
     }
 
-    const inventory inv = you->crafting_inventory();
-    const requirement_data &reqs = method->requirements.obj();
+    const inventory &inv = you->crafting_inventory();
+    const requirement_data reqs = method->get_requirements();
     if( !reqs.can_make_with_inventory( inv, is_crafting_component ) ) {
         add_msg( m_info, _( "You are currently unable to mend the %s." ), target->tname() );
         return;

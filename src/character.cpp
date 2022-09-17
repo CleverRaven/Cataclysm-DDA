@@ -6075,7 +6075,7 @@ void Character::mend_item( item_location &&obj, bool interactive )
                 }
             }
             opt.doable = opt.doable &&
-                         m.second.requirements->can_make_with_inventory( inv, is_crafting_component );
+                         m.second.get_requirements().can_make_with_inventory( inv, is_crafting_component );
             mending_options.emplace_back( opt );
         }
     }
@@ -6115,7 +6115,7 @@ void Character::mend_item( item_location &&obj, bool interactive )
             const mending_method &method = opt.method;
             const nc_color col = opt.doable ? c_white : c_light_gray;
 
-            requirement_data reqs = method.requirements.obj();
+            requirement_data reqs = method.get_requirements();
             auto tools = reqs.get_folded_tools_list( fold_width, col, inv );
             auto comps = reqs.get_folded_components_list( fold_width, col, inv, is_crafting_component );
 
