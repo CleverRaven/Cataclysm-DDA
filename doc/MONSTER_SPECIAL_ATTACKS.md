@@ -195,9 +195,9 @@ These special attacks are defined in [JSON](/data/json/monster_special_attacks),
 | `forbidden_effects_all`     | Array of effect ids, if the monster has every effect the attack can't trigger.
 | `required_effects_any`      | Array of effect ids, the monster needs any one for the attack to trigger.
 | `required_effects_all`      | Array of effect ids, the monster needs every effect for the attack to trigger.
-| `attack_upper`		      | Boolean, default true. If false the attack can't target any bodyparts with the `UPPER_LIMB` flag with the regular attack rolls(provided the bodypart is not explicitly targeted).
+| `attack_upper`		      | Boolean, default true. If false the attack can't target any bodyparts with the `UPPER_LIMB` flag with the regular attack rolls (provided the bodypart is not explicitly targeted).
 | `range`       		      | Integer, range of the attack in tiles (Default 1, this equals melee range). Melee attacks require unobstructed straight paths.
-| `hitsize_min`               | Integer, lower bound of limb size this attack can target ( if no bodypart targets are explicitly defined )
+| `hitsize_min`               | Integer, lower bound of limb size this attack can target (if no bodypart targets are explicitly defined)
 | `hitsize_max`               | Integer, upper bound of limb size this attack can target.
 | `no_adjacent`			      | Boolean, default false. The attack can't target adjacent creatures.
 | `dodgeable`                 | Boolean, default true. The attack can be dodged normally.
