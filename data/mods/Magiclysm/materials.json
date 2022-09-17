@@ -293,5 +293,20 @@
     "dmg_adj": [ "scratched", "cut", "shredded", "tattered" ],
     "bash_dmg_verb": "ripped",
     "cut_dmg_verb": "sliced"
+  },
+  {
+    "type": "material",
+    "id": "magic_ice",
+    "name": "Manainfused Ice",
+    "density": 0.9,
+    "bash_resist": 6,
+    "cut_resist": 6,
+    "bullet_resist": 3,
+    "acid_resist": 7,
+    "fire_resist": 3,
+    "chip_resist": 20,
+    "dmg_adj": [ "scratched", "cut", "cracked", "shattered" ],
+    "bash_dmg_verb": "cracked",
+    "cut_dmg_verb": "chipped"
   }
 ]
