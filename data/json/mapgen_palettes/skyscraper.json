@@ -18,6 +18,7 @@
       "<": "t_stairs_up",
       "'": "t_thconc_floor",
       ".": "t_floor",
+      ":": "t_floor",
       " ": "t_region_groundcover_urban",
       ",": "t_pavement_y",
       "_": "t_pavement",
