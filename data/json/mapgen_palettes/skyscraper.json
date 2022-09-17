@@ -6,7 +6,7 @@
       "carpet_type": {
         "type": "ter_str_id",
         "default": {
-          "distribution": [ [ "t_carpet_yellow", 2 ], [ "t_carpet_green", 2 ], [ "t_carpet_purple", 1 ], [ "t_carpet_red", 2 ], [ "t_floor", 3 ] ]
+          "distribution": [ [ "t_carpet_yellow", 2 ], [ "t_carpet_green", 2 ], [ "t_carpet_purple", 1 ], [ "t_carpet_red", 2 ] ]
         }
       }
     },
