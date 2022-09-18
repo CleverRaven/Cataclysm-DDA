@@ -285,7 +285,7 @@
     "end": {
       "effect": [
         { "u_spawn_item": "signed_chit", "count": 100 },
-        { "mapgen_update": "valahllist_remove_raiding_party", "om_terrain": "pagan_cult_henge" }
+        { "mapgen_update": "valhallist_remove_raiding_party", "om_terrain": "pagan_cult_henge" }
       ]
     },
     "followup": "MISSION_VALHALLISTS_GET_SPIRAL_STONE",
