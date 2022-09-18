@@ -1518,16 +1518,16 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
                 }
                 point tile_pos = player_to_screen( point( temp_x, temp_y ) );
 
-                                                   // color overlay
-                                                   SDL_Color color = lighting_colors[std::min( std::max( 0, color_hue ), 10 )];
-                                                   color.a = 100;
-                                                   color_blocks.first = SDL_BLENDMODE_BLEND;
-                                                   color_blocks.second.emplace( tile_pos, color );
+                // color overlay
+                SDL_Color color = lighting_colors[std::min( std::max( 0, color_hue ), 10 )];
+                color.a = 100;
+                color_blocks.first = SDL_BLENDMODE_BLEND;
+                color_blocks.second.emplace( tile_pos, color );
 
-                                                   // string overlay
-                                                   overlay_strings.emplace(
-                                                       tile_pos + quarter_tile,
-                                                       formatted_text( text, catacurses::black, direction::NORTH ) );
+                // string overlay
+                overlay_strings.emplace(
+                    tile_pos + quarter_tile,
+                    formatted_text( text, catacurses::black, direction::NORTH ) );
             };
 
             if( g->display_overlay_state( ACTION_DISPLAY_LIGHTING ) ) {
