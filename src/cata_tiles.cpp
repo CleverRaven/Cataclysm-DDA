@@ -1503,7 +1503,7 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
 
                 // overlay string
                 std::string visibility_str = visibility ? "+" : "-";
-                overlay_strings.emplace( player_to_screen( point( temp.x, temp.y ) + quarter_tile),
+                overlay_strings.emplace( player_to_screen( point( temp.x, temp.y ) + quarter_tile ),
                                          formatted_text( visibility_str, catacurses::black,
                                                  direction::NORTH ) );
             }
