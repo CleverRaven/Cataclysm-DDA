@@ -31,7 +31,9 @@
 #    define WIN32_LEAN_AND_MEAN
 #  endif
 #  ifndef NOMINMAX
+#  if !defined(__MINGW32__)
 #    define NOMINMAX
+#  endif
 #  endif
 #  ifdef _MSC_VER
 #    include <crtdbg.h>
