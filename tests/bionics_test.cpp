@@ -26,8 +26,8 @@ static const bionic_id bio_cable( "bio_cable" );
 static const bionic_id bio_earplugs( "bio_earplugs" );
 static const bionic_id bio_ears( "bio_ears" );
 static const bionic_id bio_fuel_cell_gasoline( "bio_fuel_cell_gasoline" );
-static const bionic_id bio_power_storage( "bio_power_storage" );
 static const bionic_id bio_fuel_wood( "bio_fuel_wood" );
+static const bionic_id bio_power_storage( "bio_power_storage" );
 // Change to some other weapon CBM if bio_surgical_razor is ever removed
 static const bionic_id bio_surgical_razor( "bio_surgical_razor" );
 // Any item that can be wielded
@@ -585,9 +585,6 @@ TEST_CASE( "fueled bionics", "[bionics] [item]" )
 
         // There should be no fuel available, can't turn bionic on and no power is produced
         CHECK( dummy.get_bionic_fuels( wood_bionic ).empty() );
-        CHECK( dummy.get_cable_ups().empty() );
-        CHECK( dummy.get_cable_solar().empty() );
-        CHECK( dummy.get_cable_vehicle().empty() );
         CHECK_FALSE( dummy.activate_bionic( bio ) );
         dummy.suffer();
         REQUIRE( !dummy.has_power() );
