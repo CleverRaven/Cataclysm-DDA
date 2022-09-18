@@ -998,7 +998,8 @@
     "price": 4000,
     "price_postapoc": 1500,
     "material": [ "steel", "plastic" ],
-    "flags": [ "LIGHT_200", "LEAK_DAM", "RADIOACTIVE", "STURDY", "OVERSIZE", "BELTED", "PADDED", "ALLOWS_NATURAL_ATTACKS", "SPAWN_ACTIVE" ],
+    "flags": [ "LIGHT_200", "LEAK_DAM", "RADIOACTIVE", "STURDY", "OVERSIZE", "BELTED", "PADDED", "ALLOWS_NATURAL_ATTACKS", "
+    SPAWN_ACTIVE" ],
     "weight": "1 kg",
     "volume": "1500 ml",
     "bashing": 2,
