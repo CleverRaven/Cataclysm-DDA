@@ -468,7 +468,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_berserk_crash",
-    "recurrence": [ "20 seconds", "50 seconds" ],
+    "recurrence": [ "30 minutes", "1 minute" ],
     "condition": { "u_has_trait": "ADRENALINE2_active" },
     "deactivate_condition": { "not": { "u_has_trait": "ADRENALINE2_active" } },
     "effect": [
