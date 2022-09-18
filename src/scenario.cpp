@@ -497,7 +497,7 @@ void scenario::rerandomize() const
         hack->_start_of_cataclysm += 1_days * rng( 0, get_option<int>( "SEASON_LENGTH" ) * 4 - 1 );
     } else {
         hack->_start_of_cataclysm += 1_days * std::min( get_option<int>( "INITIAL_DAY" ),
-                                          get_option<int>( "SEASON_LENGTH" ) * 4 );
+                                     get_option<int>( "SEASON_LENGTH" ) * 4 );
     }
 }
 
