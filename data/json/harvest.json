@@ -278,7 +278,7 @@
   {
     "id": "cottonwood_harv",
     "type": "harvest",
-    "entries": [ { "drop": "scrap_cotton", "base_num": [ 3, 6 ], "scale_num": [ 0, 0.5 ] } ]
+    "entries": [ { "drop": "cottonwood_tree_boll", "base_num": [ 3, 6 ], "scale_num": [ 0, 0.5 ] } ]
   },
   {
     "id": "beech_harv",
