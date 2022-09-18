@@ -13,7 +13,7 @@
 #include "path_info.h"
 #include "cata_utility.h"
 
-void ensure_unifont_loaded( std::vector<std::string> &font_list );
+extern void ensure_unifont_loaded( std::vector<std::string> &font_list );
 
 class font_loader
 {
@@ -33,8 +33,8 @@ class font_loader
         int overmap_fontsize = 16;
 
     private:
-        void load_throws( const std::string &path );
-        void save( const std::string &path ) const;
+        void load_throws( const cata_path &path );
+        void save( const cata_path &path ) const;
 
     public:
         /// @throws std::exception upon any kind of error.

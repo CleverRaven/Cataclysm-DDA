@@ -53,8 +53,8 @@
 #include <sstream>
 #include <string>
 
-std::map<std::string, std::string> TILESETS; // All found tilesets: <name, tileset_dir>
-std::map<std::string, std::string> SOUNDPACKS; // All found soundpacks: <name, soundpack_dir>
+std::map<std::string, cata_path> TILESETS; // All found tilesets: <name, tileset_dir>
+std::map<std::string, cata_path> SOUNDPACKS; // All found soundpacks: <name, soundpack_dir>
 
 namespace
 {
@@ -1100,6 +1100,53 @@ static std::vector<options_manager::id_and_option> build_resource_list(
     return resource_names;
 }
 
+static std::vector<options_manager::id_and_option> build_resource_list(
+    std::map<std::string, cata_path> &resource_option, const std::string &operation_name,
+    const cata_path &dirname, const std::string &filename )
+{
+    std::vector<options_manager::id_and_option> resource_names;
+
+    resource_option.clear();
+    const auto resource_dirs = get_directories_with( filename, dirname, true );
+
+    for( const cata_path &resource_dir : resource_dirs ) {
+        read_from_file( resource_dir / filename, [&]( std::istream & fin ) {
+            std::string resource_name;
+            std::string view_name;
+            // should only have 2 values inside it, otherwise is going to only load the last 2 values
+            while( !fin.eof() ) {
+                std::string sOption;
+                fin >> sOption;
+
+                if( sOption.empty() || sOption[0] == '#' ) {
+                    getline( fin, sOption );  // Empty line or comment, chomp it
+                } else {
+                    if( sOption.find( "NAME" ) != std::string::npos ) {
+                        resource_name.clear();
+                        getline( fin, resource_name );
+                        resource_name = trim( resource_name );
+                    } else if( sOption.find( "VIEW" ) != std::string::npos ) {
+                        view_name.clear();
+                        getline( fin, view_name );
+                        view_name = trim( view_name );
+                        break;
+                    }
+                }
+            }
+            resource_names.emplace_back( resource_name,
+                                         view_name.empty() ? no_translation( resource_name ) : to_translation( view_name ) );
+            if( resource_option.count( resource_name ) != 0 ) {
+                debugmsg( "Found \"%s\" duplicate with name \"%s\" (new definition will be ignored)",
+                          operation_name, resource_name );
+            } else {
+                resource_option.insert( std::pair<std::string, cata_path>( resource_name, resource_dir ) );
+            }
+        } );
+    }
+
+    return resource_names;
+}
+
 void options_manager::search_resource(
     std::map<std::string, std::string> &storage, std::vector<id_and_option> &option_list,
     const std::vector<std::string> &search_paths, const std::string &resource_name,
@@ -1129,11 +1176,41 @@ void options_manager::search_resource(
     }
 }
 
+void options_manager::search_resource(
+    std::map<std::string, cata_path> &storage, std::vector<id_and_option> &option_list,
+    const std::vector<cata_path> &search_paths, const std::string &resource_name,
+    const std::string &resource_filename )
+{
+    // Clear the result containers.
+    storage.clear();
+    option_list.clear();
+
+    // Loop through each search path and add its resources.
+    for( const cata_path &search_path : search_paths ) {
+        // Get the resource list from the search path.
+        std::map<std::string, cata_path> resources;
+        std::vector<id_and_option> resource_names = build_resource_list( resources, resource_name,
+                search_path, resource_filename );
+
+        // Add any new resources from this path to the result containers.
+        // First, add to the resource mapping.
+        storage.insert( resources.begin(), resources.end() );
+        // Next, add to the option list.
+        for( const id_and_option &name : resource_names ) {
+            // Only add if not a duplicate.
+            if( std::find( option_list.begin(), option_list.end(), name ) == option_list.end() ) {
+                option_list.emplace_back( name );
+            }
+        }
+    }
+}
+
 std::vector<options_manager::id_and_option> options_manager::build_tilesets_list()
 {
     std::vector<id_and_option> result;
 
-    search_resource( TILESETS, result, { PATH_INFO::user_gfx(), PATH_INFO::gfxdir() }, "tileset",
+    search_resource( TILESETS, result, { PATH_INFO::user_gfx(), PATH_INFO::gfxdir() },
+                     "tileset",
                      PATH_INFO::tileset_conf() );
 
     // Default values
@@ -3508,11 +3585,9 @@ void options_manager::serialize( JsonOut &json ) const
     json.end_array();
 }
 
-void options_manager::deserialize( JsonIn &jsin )
+void options_manager::deserialize( const JsonArray &ja )
 {
-    jsin.start_array();
-    while( !jsin.end_array() ) {
-        JsonObject joOptions = jsin.get_object();
+    for( JsonObject joOptions : ja ) {
         joOptions.allow_omitted_members();
 
         const std::string name = migrateOptionName( joOptions.get_string( "name" ) );
@@ -3566,7 +3641,7 @@ static void update_options_cache()
 
 bool options_manager::save() const
 {
-    const auto savefile = PATH_INFO::options();
+    const cata_path savefile = PATH_INFO::options();
 
     update_options_cache();
 
@@ -3580,8 +3655,8 @@ bool options_manager::save() const
 
 void options_manager::load()
 {
-    const auto file = PATH_INFO::options();
-    read_from_file_optional_json( file, [&]( JsonIn & jsin ) {
+    const cata_path file = PATH_INFO::options();
+    read_from_file_optional_json( file, [&]( const JsonArray & jsin ) {
         deserialize( jsin );
     } );
 

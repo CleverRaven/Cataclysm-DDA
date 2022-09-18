@@ -20,6 +20,7 @@
 #include "cached_options.h"
 #include "calendar.h"
 #include "cata_assert.h"
+#include "cata_scope_helpers.h"
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "color.h"
@@ -2435,7 +2436,7 @@ bool Item_factory::load_definition( const JsonObject &jo, const std::string &src
         return true;
     }
 
-    deferred.emplace_back( jo.get_source_location(), src );
+    deferred.emplace_back( jo, src );
     jo.allow_omitted_members();
     return false;
 }

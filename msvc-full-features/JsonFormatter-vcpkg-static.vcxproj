@@ -119,12 +119,10 @@
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="..\src\messages.h" />
     <ClInclude Include="..\tools\format\*.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\tools\format\format_main.cpp" />
-    <ClCompile Include="..\src\messages.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\msvc-full-features\Cataclysm-lib-vcpkg-static.vcxproj">
