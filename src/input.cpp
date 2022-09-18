@@ -28,6 +28,7 @@
 #include "game.h"
 #include "help.h"
 #include "json.h"
+#include "json_loader.h"
 #include "map.h"
 #include "optional.h"
 #include "options.h"
@@ -259,26 +260,24 @@ void input_manager::init()
 
 static constexpr int current_keybinding_version = 2;
 
-void input_manager::load( const std::string &file_name, bool is_user_preferences )
+void input_manager::load( const cata_path &file_name, bool is_user_preferences )
 {
-    cata::ifstream data_file( fs::u8path( file_name ), std::ifstream::in | std::ifstream::binary );
+    cata::optional<JsonValue> jsin_opt = json_loader::from_path_opt( file_name );
 
-    if( !data_file.good() ) {
+    if( !jsin_opt.has_value() ) {
         // Only throw if this is the first file to load, that file _must_ exist,
         // otherwise the keybindings can not be read at all.
         if( action_contexts.empty() ) {
-            throw std::runtime_error( std::string( "Could not read " ) + file_name );
+            throw std::runtime_error( std::string( "Could not read " ) + file_name.generic_u8string() );
         }
         return;
     }
 
-    JsonIn jsin( data_file, file_name );
+    JsonArray actions_json = *jsin_opt;
 
     //Crawl through once and create an entry for every definition
-    jsin.start_array();
-    while( !jsin.end_array() ) {
+    for( JsonObject action : actions_json ) {
         // JSON object representing the action
-        JsonObject action = jsin.get_object();
 
         int version = current_keybinding_version;
         if( is_user_preferences ) {
@@ -290,7 +289,7 @@ void input_manager::load( const std::string &file_name, bool is_user_preferences
         const std::string type = action.get_string( "type", "keybinding" );
         if( type != "keybinding" ) {
             debugmsg( "Only objects of type 'keybinding' (not %s) should appear in the "
-                      "keybindings file '%s'", type, file_name );
+                      "keybindings file '%s'", type, file_name.generic_u8string() );
             continue;
         }
 

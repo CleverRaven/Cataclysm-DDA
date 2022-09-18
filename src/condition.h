@@ -352,10 +352,18 @@ struct conditional_t {
 extern template struct conditional_t<dialogue>;
 extern template void read_condition<dialogue>( const JsonObject &jo, const std::string &member_name,
         std::function<bool( const dialogue & )> &condition, bool default_val );
+
+extern template duration_or_var<dialogue> get_duration_or_var( const JsonObject &jo,
+        std::string member,
+        bool required, time_duration default_val );
+extern template std::string get_talk_varname<dialogue>( const JsonObject &jo,
+        const std::string &member,
+        bool check_value, int_or_var<dialogue> &default_val );
 extern template struct conditional_t<mission_goal_condition_context>;
 extern template void read_condition<mission_goal_condition_context>( const JsonObject &jo,
         const std::string &member_name,
         std::function<bool( const mission_goal_condition_context & )> &condition, bool default_val );
+extern template struct talk_effect_fun_t<dialogue>;
 #endif
 
 #endif // CATA_SRC_CONDITION_H

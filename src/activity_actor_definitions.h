@@ -31,7 +31,6 @@
 
 class Character;
 class Creature;
-class JsonIn;
 class JsonOut;
 class avatar;
 class npc;
