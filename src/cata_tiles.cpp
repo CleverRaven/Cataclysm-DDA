@@ -1516,7 +1516,7 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
                     SDL_Color blue = { 0, 0, 255, 255 };
                     lighting_colors = color_linear_interpolate( white, blue, 9 );
                 }
-                point tile_pos = player_to_screen( point( temp_x, temp_y );
+                point tile_pos = player_to_screen( point( temp_x, temp_y ) );
 
                                                    // color overlay
                                                    SDL_Color color = lighting_colors[std::min( std::max( 0, color_hue ), 10 )];
