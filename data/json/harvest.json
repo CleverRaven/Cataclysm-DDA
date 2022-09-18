@@ -1001,7 +1001,7 @@
       { "drop": "down_feather", "type": "skin", "mass_ratio": 0.005 }
     ]
   },
-   {
+  {
     "id": "bird_large",
     "type": "harvest",
     "entries": [
