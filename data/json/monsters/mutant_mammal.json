@@ -96,7 +96,7 @@
     "melee_dice_sides": 6,
     "melee_damage": [ { "damage_type": "cut", "amount": 6 } ],
     "dodge": 3,
-    "harvest": "bird_large",
+    "harvest": "mutant_bird_flightless",
     "anger_triggers": [ "PLAYER_CLOSE", "HURT" ],
     "fear_triggers": [ "SOUND" ],
     "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "SWIMS", "WARM" ]
