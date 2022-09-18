@@ -45,7 +45,7 @@
     "max_range": 17,
     "range_increment": 0.5,
     "extra_effects": [ { "id": "gravitymage_graviton_damage" }, { "id": "gravitymage_graviton_centerdamage" } ],
-    "flags": [ "SOMATIC", "VERBAL", "CONCENTRATE", "NO_PROJECTILE", "IGNORE_WALLS", "LOUD" ],
+    "flags": [ "SOMATIC", "VERBAL", "CONCENTRATE", "NO_PROJECTILE", "IGNORE_WALLS", "LOUD", "MUST_HAVE_CLASS_TO_LEARN" ],
     "sound_description": "a crack"
   },
   {
@@ -75,7 +75,7 @@
     "name": "Gravity Leap",
     "description": "Decrease your mass at the minimum, and use mana flow to jump out of your enemies on really huge distance.",
     "valid_targets": [ "ground" ],
-    "flags": [ "SILENT", "NO_LEGS", "NO_HANDS" ],
+    "flags": [ "SILENT", "NO_LEGS", "NO_HANDS", "MUST_HAVE_CLASS_TO_LEARN" ],
     "effect": "dash",
     "shape": "cone",
     "damage_type": "bash",
@@ -102,7 +102,7 @@
     "effect": "attack",
     "effect_str": "gravity_mage_melee",
     "shape": "blast",
-    "flags": [ "NO_LEGS", "SILENT", "NO_EXPLOSION_SFX" ],
+    "flags": [ "NO_LEGS", "SILENT", "NO_EXPLOSION_SFX", "MUST_HAVE_CLASS_TO_LEARN" ],
     "spell_class": "GRAVITY_MAGE",
     "energy_source": "MANA",
     "difficulty": 7,
