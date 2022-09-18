@@ -1422,12 +1422,7 @@ void Character::burn_fuel( bionic &bio )
             } else {
                 fuel = fuel_source->all_items_ptr( item_pocket::pocket_type::CONTAINER ).front();
             }
-            // Fuel may be counted by charges or not
-            if( fuel->count_by_charges() ) {
-                energy_gain = fuel->fuel_energy() / fuel->charges;
-            } else {
-                energy_gain = fuel->fuel_energy();
-            }
+            energy_gain = fuel->fuel_energy();
 
             if( bio.is_safe_fuel_on() &&
                 get_power_level() + energy_gain * efficiency >= get_max_power_level() * std::min( 1.0f,
