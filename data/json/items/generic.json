@@ -37,7 +37,7 @@
     "price": 1,
     "price_postapoc": 1,
     "material": [ "wood" ],
-    "volume": "250 ml",
+    "volume": "250 ml"
   },
   {
     "type": "GENERIC",
