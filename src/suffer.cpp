@@ -311,7 +311,7 @@ void suffer::while_grabbed( Character &you )
     int grab_intensity = you.get_effect_int( effect_grabbed, body_part_torso );
 
     // you should have trouble breathing as you get swarmed by zombies grabbing you
-    if ( grab_intensity < 2 ) {
+    if( grab_intensity < 2 ) {
         return;
     } else if( grab_intensity == 2 ) {
         // only a chance to lose breath at low grab chance, none with only a single zombie
