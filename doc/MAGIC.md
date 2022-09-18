@@ -722,7 +722,7 @@ The following is a list of possible `values`:
 | `SPEED` | 
 | `EFFECTIVE_HEALTH_MOD` | If this is anything other than zero (which it defaults to) you will use it instead of your actual health mod.
 | `EXTRA_ACID` | 
-| `EXTRA_BASH` | Increases amount of pain when receiving bash damage.
+| `EXTRA_BASH` | Increases bash damage received.
 | `EXTRA_BIO` | 
 | `EXTRA_BULLET` | 
 | `EXTRA_COLD` | 
