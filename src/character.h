@@ -1362,7 +1362,7 @@ class Character : public Creature, public visitable
         void mutate( );
         /** Returns true if the player doesn't have the mutation or a conflicting one and it complies with the allowed typing */
         bool mutation_ok( const trait_id &mutation, bool allow_good, bool allow_bad, bool allow_neutral,
-                          const vitamin_id &mut_vit, const bool &terminal ) const;
+                          const vitamin_id &mut_vit ) const;
         bool mutation_ok( const trait_id &mutation, bool allow_good, bool allow_bad,
                           bool allow_neutral ) const;
         /** Roll, based on instability, whether next mutation should be good or bad */

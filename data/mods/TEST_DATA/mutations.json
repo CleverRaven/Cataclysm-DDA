@@ -1,6 +1,31 @@
 [
   {
     "type": "mutation",
+    "id": "TEST_DUMMY",
+    "name": { "str": "Human Dummy" },
+    "points": 0,
+    "player_display": false,
+    "dummy": true,
+    "category": [ "HUMAN" ],
+    "cancels": [
+      "TEST_ENCH_MUTATION",
+      "TEST_GOOD1",
+      "TEST_GOOD2",
+      "TEST_GOOD3",
+      "TEST_GOOD4",
+      "TEST_GOOD5",
+      "TEST_GOOD6",
+      "TEST_BAD1",
+      "TEST_BAD2",
+      "TEST_BAD3",
+      "TEST_BAD4",
+      "TEST_BAD5",
+      "TEST_BAD6"
+    ],
+    "description": "For legal reasons, you are the regular amount of human."
+  },
+  {
+    "type": "mutation",
     "id": "TEST_ENCH_MUTATION",
     "name": "Ink glands",
     "points": 1,

@@ -1676,6 +1676,11 @@ void options_manager::add_options_interface()
     },
     "WORN" );
 
+    add( "MUTATION_POPUPS", "interface", to_translation( "Show popups when mutating" ),
+         to_translation( "Shows popups to catch your attention when gaining or losing new mutations.  If disabled, mutation messages will only appear in the log." ),
+         true
+       );
+
     add_empty_line();
 
     add( "SDL_KEYBOARD_MODE", "interface", to_translation( "Use key code input mode" ),

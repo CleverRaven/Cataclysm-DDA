@@ -152,7 +152,7 @@ TEST_CASE( "Having all mutations give correct highest category", "[mutations][st
             continue;
         }
         // Unfinished mutation category.
-        if( cur_cat.wip ) {
+        if( cur_cat.skip_test || cur_cat.wip ) {
             continue;
         }
 
@@ -207,7 +207,7 @@ TEST_CASE( "Having all pre-threshold mutations gives a sensible threshold breach
             continue;
         }
         // Unfinished mutation category.
-        if( cur_cat.wip ) {
+        if( cur_cat.skip_test || cur_cat.wip ) {
             continue;
         }
 
@@ -424,6 +424,42 @@ TEST_CASE( "The various type of triggers work", "[mutations]" )
         }
     }
 
+}
+
+TEST_CASE( "All valid mutations can be purified", "[mutations][purifier]" )
+{
+    std::vector<trait_id> dummies;
+    std::vector<trait_id> valid_traits;
+    for( const mutation_branch &mbra : mutation_branch::get_all() ) {
+        if( mbra.dummy ) {
+            dummies.push_back( mbra.id );
+        } else if( !mbra.debug && mbra.valid && mbra.purifiable && !mbra.category.empty() ) {
+            valid_traits.push_back( mbra.id );
+        }
+    }
+    REQUIRE( !dummies.empty() );
+    for( const trait_id &checked : valid_traits ) {
+        bool is_removable = false;
+        GIVEN( "mutation of ID " + checked.str() + " is valid and removable" ) {
+            THEN( "a dummy mutation should cancel it or have the same type" ) {
+                for( const trait_id &dummy : dummies ) {
+                    // First, check if the dummy mutation directly cancels us out
+                    if( std::find( dummy->cancels.begin(), dummy->cancels.end(), checked ) != dummy->cancels.end() ) {
+                        is_removable = true;
+                        break;
+                    }
+                    // If it doesn't, then check to see if we have a conflicting type
+                    for( const std::string &type : dummy->types ) {
+                        if( checked->types.count( type ) != 0 ) {
+                            is_removable = true;
+                            break;
+                        }
+                    }
+                }
+                CHECK( is_removable );
+            }
+        }
+    }
 }
 
 //The chance of a mutation being bad is a function of instability, see

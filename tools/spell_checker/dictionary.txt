@@ -298,6 +298,7 @@ cegamente
 centerdamage
 centric
 cepa
+cephalopod
 cephalothorax
 ceratopsian
 ceratosaurus
@@ -375,6 +376,7 @@ consecrator
 consistence
 const
 constabulario
+contorts
 controllability
 conversando
 cookin
@@ -854,6 +856,7 @@ hrmmm
 hsh
 hsss
 https
+hued
 hulled
 humaniform
 humaniforms
@@ -1319,6 +1322,7 @@ pachycephalosaurus
 pachyrhinosaurus
 packable
 paf
+palpably
 papyrifera
 parabellum
 parabolan
