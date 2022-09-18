@@ -1322,8 +1322,10 @@ void suffer::from_radiation( Character &you )
         }
     }
 
-    if( !radiogenic && you.get_rad() > 0 ) {
-        you.mod_daily_health( -you.get_rad(), -200 );
+    if( calendar::once_every( 1_days ) ) {
+        if( !radiogenic && you.get_rad() > 0 ) {
+            you.mod_daily_health( -you.get_rad(), -200 );
+        }
     }
 
     if( you.get_rad() > 200 && calendar::once_every( 10_minutes ) && x_in_y( you.get_rad(), 1000 ) ) {
