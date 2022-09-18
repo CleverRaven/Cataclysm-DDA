@@ -407,6 +407,8 @@ class Tileset:
                             sheet.offset_x_retracted
                         FALLBACK['sprite_offset_y_retracted'] = \
                             sheet.offset_y_retracted
+                    if sheet.pixelscale != 1.0:
+                        FALLBACK['pixelscale'] = sheet.pixelscale
                 continue
             if sheet.is_filler and not main_finished:
                 create_tile_entries_for_unused(
@@ -438,6 +440,8 @@ class Tileset:
                         sheet.offset_x_retracted
                     sheet_conf['sprite_offset_y_retracted'] = \
                         sheet.offset_y_retracted
+                if sheet.pixelscale != 1.0:
+                    sheet_conf['pixelscale'] = sheet.pixelscale
 
             sheet_conf['tiles'] = sheet_entries
 
@@ -525,6 +529,8 @@ class Tilesheet:
         self.offset_y_retracted = \
             specs.get('sprite_offset_y_retracted', self.offset_y)
 
+        self.pixelscale = specs.get('pixelscale', 1.0)
+
         self.sprites_across = specs.get('sprites_across', 16)
         self.exclude = specs.get('exclude', tuple())
 
@@ -559,6 +565,8 @@ class Tilesheet:
         if self.sprite_width != self.tileset.sprite_width:
             return False
         if self.sprite_height != self.tileset.sprite_height:
+            return False
+        if self.pixelscale != 1.0:
             return False
         return True
 

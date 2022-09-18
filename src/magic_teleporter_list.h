@@ -10,7 +10,6 @@
 #include "optional.h"
 
 class Character;
-class JsonIn;
 class JsonObject;
 class JsonOut;
 struct tripoint;

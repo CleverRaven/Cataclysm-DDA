@@ -16,6 +16,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Cataclysm-lib-vcpkg-static"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "JsonFormatter-lib-vcpkg-static", "..\msvc-full-features\JsonFormatter-lib-vcpkg-static.vcxproj", "{534A4E38-96A1-40E4-BDA7-8D17607F0270}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "flatbuffers", "..\msvc-full-features\flatbuffers.vcxproj", "{8A533A64-435D-4D4F-9FF0-1E97AACE9374}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -48,6 +50,14 @@ Global
 		{534A4E38-96A1-40E4-BDA7-8D17607F0270}.Release|x64.Build.0 = Release|x64
 		{534A4E38-96A1-40E4-BDA7-8D17607F0270}.Release|x86.ActiveCfg = Release|Win32
 		{534A4E38-96A1-40E4-BDA7-8D17607F0270}.Release|x86.Build.0 = Release|Win32
+		{8A533A64-435D-4D4F-9FF0-1E97AACE9374}.Debug|x64.ActiveCfg = Debug|x64
+		{8A533A64-435D-4D4F-9FF0-1E97AACE9374}.Debug|x64.Build.0 = Debug|x64
+		{8A533A64-435D-4D4F-9FF0-1E97AACE9374}.Debug|x86.ActiveCfg = Debug|Win32
+		{8A533A64-435D-4D4F-9FF0-1E97AACE9374}.Debug|x86.Build.0 = Debug|Win32
+		{8A533A64-435D-4D4F-9FF0-1E97AACE9374}.Release|x64.ActiveCfg = Release|x64
+		{8A533A64-435D-4D4F-9FF0-1E97AACE9374}.Release|x64.Build.0 = Release|x64
+		{8A533A64-435D-4D4F-9FF0-1E97AACE9374}.Release|x86.ActiveCfg = Release|Win32
+		{8A533A64-435D-4D4F-9FF0-1E97AACE9374}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -558,11 +558,6 @@ void vehicle::connect( const tripoint &source_pos, const tripoint &target_pos )
     target_veh->install_part( vcoords, target_part );
 }
 
-void vehicle::start_folding_activity()
-{
-    get_avatar().assign_activity( player_activity( vehicle_folding_activity_actor( *this ) ) );
-}
-
 double vehicle::engine_cold_factor( const int e ) const
 {
     if( !part_info( engines[e] ).has_flag( "E_COLD_START" ) ) {
@@ -1204,11 +1199,6 @@ void vehicle::close( int part_index )
     }
 }
 
-bool vehicle::is_open( int part_index ) const
-{
-    return parts[part_index].open;
-}
-
 bool vehicle::can_close( int part_index, Character &who )
 {
     creature_tracker &creatures = get_creature_tracker();
@@ -1719,7 +1709,7 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint &p, bool with_
     const bool controls_here = has_part_here( "CONTROLS" );
     const bool player_is_driving = get_player_character().controlling_vehicle;
 
-    if( !has_tag( flag_APPLIANCE ) && !player_is_driving ) {
+    if( !has_tag( flag_APPLIANCE ) ) {
         menu.add( _( "Examine vehicle" ) )
         .skip_theft_check()
         .skip_locked_check()
@@ -1897,8 +1887,9 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint &p, bool with_
             item::reload_option opt = get_player_character().select_ammo( loc, true );
             if( opt )
             {
+                const int moves = opt.moves();
                 std::vector<item_location> targets { { opt.target, std::move( opt.ammo ) } };
-                reload_activity_actor reload_act( opt.moves(), opt.qty(), targets );
+                reload_activity_actor reload_act( moves, opt.qty(), targets );
                 get_player_character().assign_activity( player_activity( reload_act ) );
             }
         } );
@@ -2100,7 +2091,10 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint &p, bool with_
     if( is_foldable() && !remote ) {
         menu.add( string_format( _( "Fold %s" ), name ) )
         .hotkey( "FOLD_VEHICLE" )
-        .on_submit( [this] { start_folding_activity(); } );
+        .on_submit( [this] {
+            vehicle_folding_activity_actor folding_act( *this );
+            get_avatar().assign_activity( player_activity( folding_act ) );
+        } );
     }
 }
 

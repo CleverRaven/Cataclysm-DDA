@@ -220,6 +220,7 @@
     "symbol": ".",
     "color": "dark_gray",
     "move_cost": 2,
+    "rotates_to_member": "PAVEMENT",
     "flags": [ "TRANSPARENT", "FLAT", "ROAD", "MINEABLE" ],
     "bash": {
       "ter_set": "t_null",

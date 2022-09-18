@@ -855,6 +855,7 @@
     "move_cost_mod": -1,
     "coverage": 40,
     "required_str": 32,
+    "rotates_to": "PAVEMENT",
     "flags": [ "TRANSPARENT" ],
     "bash": {
       "str_min": 30,
