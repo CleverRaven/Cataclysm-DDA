@@ -2382,7 +2382,6 @@ void veh_interact::move_cursor( const point &d, int dstart_at )
 
     need_repair.clear();
     parts_here.clear();
-    wheel = nullptr;
     if( cpart >= 0 ) {
         parts_here = veh->parts_at_relative( veh->part( cpart ).mount, true );
         for( size_t i = 0; i < parts_here.size(); i++ ) {
@@ -2390,9 +2389,6 @@ void veh_interact::move_cursor( const point &d, int dstart_at )
 
             if( pt.base.damage() > pt.base.damage_floor( false ) && pt.info().is_repairable() ) {
                 need_repair.push_back( i );
-            }
-            if( pt.info().has_flag( "WHEEL" ) ) {
-                wheel = &pt;
             }
         }
     }

@@ -1172,8 +1172,7 @@ static activity_reason_info can_do_activity_there( const activity_id &act, Chara
                     continue;
                 }
                 // If repairing this part would make the vehicle non-flyable, avoid it
-                if( veh->would_repair_prevent_flyable( *part_elem,
-                                                       player_character ) ) {
+                if( veh->would_repair_prevent_flyable( *part_elem, player_character ) ) {
                     return activity_reason_info::fail( do_activity_reason::WOULD_PREVENT_VEH_FLYING );
                 }
                 if( std::find( already_working_indexes.begin(), already_working_indexes.end(),
