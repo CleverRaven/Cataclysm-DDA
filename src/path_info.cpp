@@ -149,7 +149,7 @@ void PATH_INFO::set_standard_filenames()
         dir = std::string( user_dir ) + "/.config/cataclysm-dda/";
     }
     config_dir_value = dir;
-    config_dir_path_value = cata_path{ cata_path::rootpath::config, fs::path{} };
+    config_dir_path_value = cata_path{ cata_path::root_path::config, fs::path{} };
 #else
     config_dir_value = user_dir_value + "config/";
     config_dir_path_value = user_dir_path_value / "config";
