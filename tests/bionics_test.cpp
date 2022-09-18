@@ -32,6 +32,7 @@ static const bionic_id bio_power_storage( "bio_power_storage" );
 static const bionic_id bio_surgical_razor( "bio_surgical_razor" );
 // Any item that can be wielded
 static const flag_id json_flag_PSEUDO( "PSEUDO" );
+static const itype_id itype_solarpack_on( "solarpack_on" );
 static const itype_id itype_test_backpack( "test_backpack" );
 
 static void clear_bionics( Character &you )
@@ -377,19 +378,10 @@ TEST_CASE( "fueled bionics", "[bionics] [item]" )
 {
     avatar &dummy = get_avatar();
     clear_avatar();
-
-    // one section failing shouldn't affect the rest
     clear_bionics( dummy );
 
-    // Could be a SECTION, but prerequisite for many tests.
-    INFO( "no power capacity at first" );
-    CHECK( !dummy.has_max_power() );
-
     dummy.add_bionic( bio_power_storage );
-
-    INFO( "adding Power Storage CBM only increases capacity" );
-    CHECK( !dummy.has_power() );
-
+    REQUIRE( !dummy.has_power() );
     REQUIRE( dummy.has_max_power() );
 
     SECTION( "bio_fuel_cell_gasoline" ) {
@@ -550,10 +542,10 @@ TEST_CASE( "fueled bionics", "[bionics] [item]" )
 
         // Connect solar backpack
         dummy.worn.wear_item( dummy, item( "pants_cargo" ), false, false );
-        dummy.worn.wear_item( dummy, item( "solarpack_on" ), false, false );
+        dummy.worn.wear_item( dummy, item( itype_solarpack_on ), false, false );
         // Unsafe way to get the worn solar backpack
         item_location solar_pack = dummy.top_items_loc()[1];
-        REQUIRE( solar_pack->type_name() == "solar backpack (unfolded)" );
+        REQUIRE( solar_pack->typeId() == itype_solarpack_on );
         item_location cable = dummy.i_add( item( "jumper_cable" ) );
         cable->set_var( "state", "solar_pack_link" );
         solar_pack->set_var( "cable", "plugged_in" );
@@ -595,7 +587,6 @@ TEST_CASE( "fueled bionics", "[bionics] [item]" )
         REQUIRE_FALSE( wood.count_by_charges() );
         woodshed->put_in( wood, item_pocket::pocket_type::CONTAINER );
         woodshed->put_in( wood_2, item_pocket::pocket_type::CONTAINER );
-        //REQUIRE( woodshed->all_known_contents().size() == 2 );
         REQUIRE( woodshed->all_items_ptr().size() == 2 );
         CHECK( dummy.activate_bionic( bio ) );
         CHECK_FALSE( dummy.get_bionic_fuels( wood_bionic ).empty() );
