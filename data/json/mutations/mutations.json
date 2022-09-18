@@ -888,7 +888,7 @@
     "id": "ADRENALINE2",
     "name": { "str": "Berserk" },
     "points": 3,
-    "description": "When you are in great danger, you may flip a chemical switch in your brain and for a cost in hunger, fatigue, and thirst your strength will be greatly increased for a random time between 2 and 5 minutes.  However, your mind will become so clouded that dodging will become impossible, and the process will take a toll on your body.  The crash will last 10 minutes.",
+    "description": "When you are in great danger, you may flip a chemical switch in your brain and for a cost in hunger, fatigue, and thirst your strength will be greatly increased for a random time between 2 and 5 minutes.  However, your mind will become so clouded that dodging and blocking will become impossible, and the process will take a toll on your body.  The crash will last 10 minutes.",
     "prereqs": [ "ADRENALINE" ],
     "category": [ "BEAST" ],
     "active": true,
@@ -906,10 +906,11 @@
     "description": "A red film covers your vision, and your mind is empty except for one thought: Kill.  Kill.  Kill.  Kill.  Kill.  Kill.  Kill.",
     "prereqs": [ "ADRENALINE" ],
     "category": [ "BEAST" ],
-    "dodge_modifier": -20,
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "BONUS_BLOCK", "add": -20 }, { "value": "BONUS_DODGE", "add": -20 } ] } ],
     "movecost_modifier": 0.7,
     "passive_mods": { "str_mod": 14, "int_mod": -20 },
-	"initial_ma_styles": [ "style_berserk" ]
+	"initial_ma_styles": [ "style_berserk" ],
+	"valid": false
   },
   {
     "type": "mutation",
