@@ -146,9 +146,8 @@ player_activity veh_interact::serialize_activity()
             if( pt != nullptr ) {
                 if( pt->is_broken() ) {
                     time = vp->install_time( player_character );
-                } else if( pt->base.max_damage() > 0 ) {
-                    time = vp->repair_time( player_character ) * ( pt->base.damage() - pt->base.damage_floor(
-                                false ) ) / pt->base.max_damage();
+                } else if( pt->is_repairable() ) {
+                    time = vp->repair_time( player_character ) * pt->repairable_levels();
                 }
             }
             break;
@@ -1199,7 +1198,7 @@ void veh_interact::do_repair()
 
     if( reason == task_reason::INVALID_TARGET ) {
         vehicle_part *most_repairable = get_most_repairable_part();
-        if( most_repairable && most_repairable->damage_percent() ) {
+        if( most_repairable && most_repairable->is_repairable() ) {
             move_cursor( ( most_repairable->mount + dd ).rotate( 3 ) );
             return;
         }
@@ -1263,17 +1262,15 @@ void veh_interact::do_repair()
 
 
         } else {
-            if( vp.has_flag( "NO_REPAIR" ) || vp.repair_requirements().is_empty() ||
-                pt.base.max_damage() <= 0 ) {
+            if( !pt.is_repairable() ) {
                 nmsg += colorize( _( "This part cannot be repaired.\n" ), c_light_red );
                 ok = false;
             } else if( veh->has_part( "NO_MODIFY_VEHICLE" ) && !vp.has_flag( "SIMPLE_PART" ) ) {
                 nmsg += colorize( _( "This vehicle cannot be repaired.\n" ), c_light_red );
                 ok = false;
             } else {
-                ok = format_reqs( nmsg, vp.repair_requirements() * pt.base.damage_level(), vp.repair_skills,
-                                  vp.repair_time( player_character ) * ( pt.base.damage() - pt.base.damage_floor(
-                                              false ) ) / pt.base.max_damage() );
+                ok = format_reqs( nmsg, vp.repair_requirements() * pt.repairable_levels(), vp.repair_skills,
+                                  vp.repair_time( player_character ) * pt.repairable_levels() );
             }
         }
 
@@ -2387,7 +2384,7 @@ void veh_interact::move_cursor( const point &d, int dstart_at )
         for( size_t i = 0; i < parts_here.size(); i++ ) {
             vehicle_part &pt = veh->part( parts_here[i] );
 
-            if( pt.base.damage() > pt.base.damage_floor( false ) && pt.info().is_repairable() ) {
+            if( pt.is_repairable() ) {
                 need_repair.push_back( i );
             }
         }
