@@ -237,7 +237,7 @@ Spells may have any number of flags, for example:
 | `IGNITE_FLAMMABLE` | If the spell area has anything flammable, a fire will be produced
 | `IGNORE_WALLS` | Spell's aoe goes through walls.
 | `LOUD` | Spell makes extra noise at target.
-| `MUST_HAVE_CLASS_TO_LEARN` | The spell can't be learned unless you are/have `spell_class`.
+| `MUST_HAVE_CLASS_TO_LEARN` | The spell is autolearned when you have `spell_class`, and removed when you lost it.
 | `MUTATE_TRAIT` | Overrides the `mutate` spell effect to use a specific trait_id instead of a category.
 | `NO_EXPLOSION_SFX` | The spell will not generate a visual explosion effect.
 | `NO_FAIL` | This spell cannot fail when cast.
