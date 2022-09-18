@@ -7361,10 +7361,10 @@ std::vector<map_item_stack> game::find_nearby_items( int iRadius )
                 m.sees_some_items( points_p_it, u ) ) {
 
                 for( auto &elem : m.i_at( points_p_it ) ) {
-                const std::string name = elem.tname();
-                const tripoint relative_pos = points_p_it - u.pos();
+                    const std::string name = elem.tname();
+                    const tripoint relative_pos = points_p_it - u.pos();
 
-                add_item_recursive( item_order, temp_items, &elem, relative_pos );
+                    add_item_recursive( item_order, temp_items, &elem, relative_pos );
                 }
             }
         }

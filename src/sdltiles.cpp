@@ -898,15 +898,11 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
             const lit_level ll = overmap_buffer.is_explored( omp ) ? lit_level::LOW : lit_level::LIT;
             // light level is now used for choosing between grayscale filter and normal lit tiles.
             draw_from_id_string( id, TILE_CATEGORY::OVERMAP_TERRAIN, "overmap_terrain", omp.raw(),
-                                 subtile, rotation, ll, false, height_3d );
+                                 subtile, rotation, ll, false, height_3d, 0 );
             if( !mx.is_empty() && mx->autonote ) {
                 draw_from_id_string( mx.str(), TILE_CATEGORY::MAP_EXTRA, "map_extra", omp.raw(),
-                                     0, 0, ll, false );
+                                     0, 0, ll, false, 0 );
             }
-            const lit_level ll = overmap_buffer.is_explored( omp ) ? lit_level::LOW : lit_level::LIT;
-            // light level is now used for choosing between grayscale filter and normal lit tiles.
-            draw_from_id_string( id, TILE_CATEGORY::C_OVERMAP_TERRAIN, "overmap_terrain", omp.raw(),
-                                 subtile, rotation, ll, false, height_3d, 0 );
 
             if( see ) {
                 if( blink && uistate.overmap_debug_mongroup ) {

@@ -2122,16 +2122,6 @@ void options_manager::add_options_graphics()
 
     add_empty_line();
 
-
-    add( "MEMORY_MAP_MODE", "graphics", to_translation( "Memory map drawing mode" ),
-    to_translation( "Specified the mode in which the memory map is drawn." ), {
-        { "color_pixel_darken", to_translation( "Darkened" ) },
-        { "color_pixel_sepia", to_translation( "Sepia" ) }
-    }, "color_pixel_sepia", COPT_CURSES_HIDE
-       );
-
-	add_empty_line();
-
     add( "STATICZEFFECT", "graphics", to_translation( "Static z level effect" ),
          to_translation( "If true, lower z levels will look the same no matter how far down they are.  Increases rendering performance." ),
          false, COPT_CURSES_HIDE
@@ -2845,7 +2835,7 @@ void options_manager::add_options_android()
 
 #if defined(TILES)
 // Helper method to isolate #ifdeffed tiles code.
-static void refresh_tiles( bool used_tiles_changed, bool pixel_minimap_height_changed, bool ingame ,
+static void refresh_tiles( bool used_tiles_changed, bool pixel_minimap_height_changed, bool ingame,
                            bool force_tile_change )
 {
     if( used_tiles_changed ) {
@@ -3425,7 +3415,8 @@ std::string options_manager::show( bool ingame, const bool world_options_only, b
                 pixel_minimap_changed = true;
 
             } else if( iter.first == "TILES" || iter.first == "USE_TILES" || iter.first == "DISTANT_TILES" ||
-                       iter.first == "STATICZEFFECT" || iter.first == "MEMORY_MAP_MODE"|| iter.first == "USE_DISTANT_TILES" || iter.first == "OVERMAP_TILES" ) {
+                       iter.first == "STATICZEFFECT" || iter.first == "MEMORY_MAP_MODE" ||
+                       iter.first == "USE_DISTANT_TILES" || iter.first == "OVERMAP_TILES" ) {
                 used_tiles_changed = true;
                 if( iter.first == "STATICZEFFECT" || iter.first == "MEMORY_MAP_MODE" ) {
                     force_tile_change = true;
