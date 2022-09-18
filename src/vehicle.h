@@ -437,7 +437,10 @@ struct vehicle_part {
         int max_damage() const;
         /** Current damage floor of the part base */
         int damage_floor( bool allow_negative ) const;
-
+        // @returns the maximum damage levels possible to repair, accounting for part degradation
+        int repairable_levels() const;
+        // @returns true if part can be repaired, accounting for part degradation
+        bool is_repairable() const;
         /** Current part damage level in same units as item::damage_level */
         int damage_level( int dmg = INT_MIN ) const;
 
