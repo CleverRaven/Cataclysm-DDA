@@ -418,7 +418,7 @@
     "end": {
       "effect": [
         { "u_spawn_item": "signed_chit", "count": 150 },
-        { "mapgen_update": "valahllist_remove_slaves", "om_terrain": "pagan_cult_henge" }
+        { "mapgen_update": "valhallist_remove_slaves", "om_terrain": "pagan_cult_henge" }
       ]
     },
     "origins": [ "ORIGIN_SECONDARY" ],
