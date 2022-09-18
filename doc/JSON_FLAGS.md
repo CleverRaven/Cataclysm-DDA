@@ -93,7 +93,7 @@ When an item is crafted, it can inherit flags from the components that were used
 - ```HEAL_OVERRIDE``` This bodypart will always regenerate its `heal_bonus` HP instead of it modifying the base healing step.  Without `ALWAYS_HEAL` this still only happens when the part would have healed non-zero amount of damage.
 - ```IGNORE_TEMP``` This bodypart is ignored for temperature calculations
 - ```LIMB_LOWER``` This bodypart is close to the ground, and as such has a higher chance to be attacked by small monsters - hitsize is tripled for creatures that can't attack upper limbs.
-- ```LIMB_UPPER``` This bodypart is high off the ground, and as such can't be attacked by small monsters - unless they have the `FLIES` or have `ATTACK_UPPER` flags`.
+- ```LIMB_UPPER``` This bodypart is high off the ground, and as such can't be attacked by small monsters - unless they have the `FLIES` or have `ATTACK_UPPER` flags.
 - ```MEND_LIMB``` This bodypart can heal from being broken without needing a splint.
 - ```NONSTANDARD_BLOCK``` This limb is different enough that martial arts' arm/leg blocks aren't applicable - blocking with this limb is unlocked by reaching the MA's `nonstandard_block` level, unless the limb also has `ALWAYS_BLOCK`.  Either block flag is **required** for non-arm / non-leg limbs to be eligible to block.
 
