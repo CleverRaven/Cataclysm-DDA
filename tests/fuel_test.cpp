@@ -23,7 +23,7 @@ TEST_CASE( "Fuel energy", "[energy]" )
         battery.charges = 200;
         gasoline.charges = 200;
 
-        CHECK( units::to_millijoule( gasoline.fuel_energy() ) == gasoline_per_charge ); // 6840 kJ
-        CHECK( units::to_millijoule( battery.fuel_energy() ) == battery_per_charge ); // 200 kJ
+        CHECK( units::to_millijoule( gasoline.fuel_energy() ) == gasoline_per_charge );
+        CHECK( units::to_millijoule( battery.fuel_energy() ) == battery_per_charge );
     }
 }
