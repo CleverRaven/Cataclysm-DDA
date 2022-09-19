@@ -217,7 +217,7 @@ inline std::string IntToStringHex(int i, int xdigits) {
 // Use locale independent functions {strtod_l, strtof_l, strtoll_l, strtoull_l}.
 #if defined(FLATBUFFERS_LOCALE_INDEPENDENT) && (FLATBUFFERS_LOCALE_INDEPENDENT > 0)
   class ClassicLocale {
-    #ifdef _MSC_VER
+    #ifdef _WIN32
       typedef _locale_t locale_type;
     #else
       typedef locale_t locale_type;  // POSIX.1-2008 locale_t type
