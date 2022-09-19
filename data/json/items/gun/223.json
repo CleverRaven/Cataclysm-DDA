@@ -446,7 +446,7 @@
     "price_postapoc": 1250,
     "to_hit": 1,
     "bashing": 6,
-    "material": [ "steel", "plastic" ],
+    "material": [ "steel" ],
     "symbol": "(",
     "color": "dark_gray",
     "ammo": [ "223" ],
