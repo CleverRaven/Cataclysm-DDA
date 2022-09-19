@@ -32,6 +32,8 @@
 #include "translations.h"
 #include "units_fwd.h"
 
+class input_context;
+
 struct input_event;
 
 namespace catacurses
