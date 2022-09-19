@@ -499,7 +499,7 @@
       [ "sling", 1 ],
       [ "sights", 1 ],
     ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "stanag30", "stanag30ranger" ] } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "m4_surv_mag" ] } ]
   },
   {
     "id": "m16a4",
