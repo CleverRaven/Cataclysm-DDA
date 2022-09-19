@@ -3,7 +3,7 @@
     "id": "glacier_mage_push_attacks",
     "type": "SPELL",
     "name": "Glacier Mage Push",
-    "description": "Deal some bash damage around the player.",
+    "description": "Push enemies when you attack them in melee.",
     "valid_targets": [ "hostile" ],
     "flags": [ "SILENT", "NO_PROJECTILE", "RANDOM_DAMAGE", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
     "effect": "directed_push",
