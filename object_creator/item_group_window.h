@@ -54,6 +54,9 @@ namespace creator
         QLabel* comment_label;
         QLineEdit* comment_box;
 
+        nested_group_container* group_container;
+        simple_property_widget* ammo_frame;
+
         QComboBox* subtype;
         QLineEdit* containerItem;
         QComboBox* overflow;
@@ -68,7 +71,7 @@ namespace creator
 
         //Top-level frame to hold the distributionCollections and/or entrieslist
         QScrollArea* scrollArea;
-        nested_group_container* group_container;
+
 
 
     protected:
@@ -136,6 +139,7 @@ namespace creator
     {
     public:
         explicit nested_group_container( QWidget* parent, item_group_window* top_parent );
+        void get_json( JsonOut &jo );
     private:
         void add_distribution();
         void add_collection();

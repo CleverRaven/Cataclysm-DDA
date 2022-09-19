@@ -53,6 +53,12 @@ creator::item_group_window::item_group_window( QWidget *parent, Qt::WindowFlags 
     comment_box->setToolTip( tooltipText );
     QObject::connect( comment_box, &QLineEdit::textChanged, [&]() { write_json(); } );
 
+    ammo_frame = new simple_property_widget( this, QString( "ammo" ), 
+                                            property_type::NUMBER, this );
+    tooltipText = "specifies the percent chance that the entries will spawn fully loaded";
+    tooltipText += "\n (if it needs a magazine, it will be added for you).";
+    ammo_frame->setToolTip( tooltipText );
+
     QLabel* subtype_label = new QLabel( "Subtype" );
     subtype = new QComboBox;
     tooltipText = "In a Collection each entry is chosen independently from the other\n";
@@ -103,14 +109,15 @@ creator::item_group_window::item_group_window( QWidget *parent, Qt::WindowFlags 
     basicInfoLayout->addWidget( id_box, 0, 1 );
     basicInfoLayout->addWidget( comment_label, 1, 0 );
     basicInfoLayout->addWidget( comment_box, 1, 1 );
-    basicInfoLayout->addWidget( subtype_label, 2, 0 );
-    basicInfoLayout->addWidget( subtype, 2, 1 );
-    basicInfoLayout->addWidget( containerItem_label, 3, 0 );
-    basicInfoLayout->addWidget( containerItem, 3, 1 );
-    basicInfoLayout->addWidget( overflow_label, 4, 0 );
-    basicInfoLayout->addWidget( overflow, 4, 1 );
-    basicInfoLayout->addWidget( item_search_label, 5, 0 );
-    basicInfoLayout->addWidget( item_search_box, 5, 1 );
+    basicInfoLayout->addWidget( ammo_frame, 2, 0, 1, 2 );
+    basicInfoLayout->addWidget( subtype_label, 3, 0 );
+    basicInfoLayout->addWidget( subtype, 3, 1 );
+    basicInfoLayout->addWidget( containerItem_label, 4, 0 );
+    basicInfoLayout->addWidget( containerItem, 4, 1 );
+    basicInfoLayout->addWidget( overflow_label, 5, 0 );
+    basicInfoLayout->addWidget( overflow, 5, 1 );
+    basicInfoLayout->addWidget( item_search_label, 6, 0 );
+    basicInfoLayout->addWidget( item_search_box, 6, 1 );
     mainColumn1->addLayout( basicInfoLayout );
 
     item_list_total_box = new ListWidget_Drag;
@@ -169,12 +176,13 @@ void creator::item_group_window::write_json()
     JsonOut jo( stream );
 
     jo.start_object();
-
     jo.member( "type", "item_group" );
     jo.member( "id", id_box->text().toStdString() );
     if( comment_box->text().size() > 0 ) {
         jo.member( "//", comment_box->text().toStdString() );
     }
+    this->ammo_frame->get_json( jo );
+
     std::string sub = subtype->currentText().toStdString();
     if( sub != "none" ) {
         jo.member( "subtype", subtype->currentText().toStdString() );
@@ -184,20 +192,7 @@ void creator::item_group_window::write_json()
         jo.member( "overflow", overflow->currentText().toStdString() );
     }
 
-    jo.member( "entries" );
-    jo.start_array();
-    QObjectList entriesChildren = group_container->children();
-    for ( QObject* i : entriesChildren ) {
-        itemGroupEntry* ent = dynamic_cast<creator::itemGroupEntry*>( i );
-        if ( ent != nullptr ) {
-            ent->get_json( jo );
-        }
-        distributionCollection* dis = dynamic_cast<creator::distributionCollection*>( i );
-        if ( dis != nullptr ) {
-            dis->get_json( jo );
-        }
-    }
-    jo.end_array();
+    group_container->get_json( jo );
     jo.end_object();
 
     std::istringstream in_stream( stream.str() );
@@ -207,9 +202,7 @@ void creator::item_group_window::write_json()
     JsonOut window_jo( window_out, true );
 
     formatter::format( jsin, window_jo );
-
     QString output_json{ window_out.str().c_str() };
-
     item_group_json.setText( output_json );
 }
 
@@ -319,7 +312,9 @@ void creator::item_group_window::set_item_tooltip( QListWidgetItem* new_item,
 
 bool creator::item_group_window::event( QEvent* event )
 {
-    if( event->type() == item_group_changed::eventType ) {
+
+    if( event->type() == item_group_changed::eventType || 
+        event->type() == property_changed::eventType ) {
         write_json();
         return true;
     }
@@ -618,6 +613,23 @@ void creator::nested_group_container::dropEvent( QDropEvent* event )
     event->acceptProposedAction();
 }
 
+void creator::nested_group_container::get_json( JsonOut &jo ) {
+    jo.member( "entries" );
+    jo.start_array();
+    QObjectList entriesChildren = this->children();
+    for ( QObject* i : entriesChildren ) {
+        itemGroupEntry* ent = dynamic_cast<creator::itemGroupEntry*>( i );
+        if ( ent != nullptr ) {
+            ent->get_json( jo );
+        }        
+        distributionCollection* dis = dynamic_cast<creator::distributionCollection*>( i );
+        if ( dis != nullptr ) {
+            dis->get_json( jo );
+        }
+    }
+    jo.end_array();
+}
+
 creator::itemGroupEntry::itemGroupEntry( QWidget* parent, QString entryText, bool group, 
                             item_group_window* top_parent ) : QFrame( parent )
 {
@@ -645,7 +657,7 @@ creator::itemGroupEntry::itemGroupEntry( QWidget* parent, QString entryText, boo
 
 
 
-    prob_frame = new simple_property_widget(this, QString( "prob"), 
+    prob_frame = new simple_property_widget( this, QString( "prob" ), 
                                             property_type::NUMBER, this );
     QString tooltipText = "A probability of 0 (or negative) means the entry is never chosen;";
     tooltipText += "\na probability of 100 % means it's always chosen. The default is 100,";
@@ -656,7 +668,7 @@ creator::itemGroupEntry::itemGroupEntry( QWidget* parent, QString entryText, boo
     prob_frame->allow_hiding( true );
 
 
-    count_frame = new simple_property_widget(this, QString( "count"), 
+    count_frame = new simple_property_widget( this, QString( "count" ), 
                                             property_type::MINMAX, this );
     count_frame->hide();
     count_frame->allow_hiding( true );
@@ -674,7 +686,7 @@ creator::itemGroupEntry::itemGroupEntry( QWidget* parent, QString entryText, boo
     tooltipText += "\nIf only count-max is set, the JSON value will simply be count: <number>";
     count_frame->setToolTip( tooltipText );
 
-    charges_frame = new simple_property_widget(this, QString( "charges"), 
+    charges_frame = new simple_property_widget( this, QString( "charges" ), 
                                             property_type::MINMAX, this );
     charges_frame->hide();
     charges_frame->allow_hiding( true );
@@ -682,7 +694,7 @@ creator::itemGroupEntry::itemGroupEntry( QWidget* parent, QString entryText, boo
     tooltipText += "a greater value then 0";
     charges_frame->setToolTip( tooltipText );
 
-    containerItem_frame = new simple_property_widget(this, QString( "container-item"), 
+    containerItem_frame = new simple_property_widget( this, QString( "container-item" ), 
                                             property_type::LINEEDIT, this );
     containerItem_frame->hide();
     containerItem_frame->allow_hiding( true );
