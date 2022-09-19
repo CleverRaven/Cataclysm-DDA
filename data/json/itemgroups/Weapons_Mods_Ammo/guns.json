@@ -435,6 +435,7 @@
       { "item": "aksemi", "prob": 2, "charges-min": 0, "charges-max": 30 },
       { "item": "mk47", "prob": 1, "charges-min": 0, "charges-max": 30 },
       { "item": "m1carbine", "prob": 1, "charges-min": 0, "charges-max": 15 },
+      { "item": "m4_survival_rifle", "prob": 2, "charges-min": 0, "charges-max": 4 },
       { "item": "ak556", "prob": 2, "charges-min": 0, "charges-max": 30 },
       { "item": "ak556", "variant": "zpapm90", "prob": 1, "charges-min": 0, "charges-max": 30 }
     ]
