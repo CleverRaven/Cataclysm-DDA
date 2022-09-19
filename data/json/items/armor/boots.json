@@ -346,6 +346,7 @@
     "weight": "1220 g",
     "volume": "3 L",
     "price": 50000,
+    "price_postapoc": 7000,
     "warmth": 10,
     "material": [ "steel", "nomex" ],
     "repairs_like": "boots_survivor",

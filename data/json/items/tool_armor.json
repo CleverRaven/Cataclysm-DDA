@@ -1104,6 +1104,7 @@
     "weight": "5600 g",
     "volume": "4 L",
     "price": 150000,
+    "price_postapoc": 10000,
     "armor": [
       { "covers": [ "head" ], "coverage": 100, "encumbrance": 20 },
       { "covers": [ "eyes" ], "rigid_layer_only": true, "coverage": 100, "encumbrance": 10 },
