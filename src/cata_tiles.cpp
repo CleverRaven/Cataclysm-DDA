@@ -660,7 +660,7 @@ void tileset_cache::loader::load( const std::string &tileset_id, const bool prec
     for( const JsonObject curr_info : config.get_array( "tile_info" ) ) {
         ts.tile_height = curr_info.get_int( "height" );
         ts.tile_width = curr_info.get_int( "width" );
-        ts.is_isometric() = curr_info.get_bool( "iso", false );
+        ts.tile_isometric = curr_info.get_bool( "iso", false );
         ts.tile_pixelscale = curr_info.get_float( "pixelscale", 1.0f );
         ts.retract_dist_min = curr_info.get_float( "retract_dist_min", -1.0f );
         ts.retract_dist_max = curr_info.get_float( "retract_dist_max", 0.0f );
@@ -1386,21 +1386,6 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
             // invisible to normal eyes
             std::array<bool, 5> invisible;
             invisible[0] = false;
-
-            if( y < min_visible.y || y > max_visible.y || x < min_visible.x || x > max_visible.x ) {
-                if( has_memory_at( pos ) ) {
-                    ll = lit_level::MEMORIZED;
-                    invisible[0] = true;
-                } else if( has_draw_override( pos ) ) {
-                    ll = lit_level::DARK;
-                    invisible[0] = true;
-                } else {
-                    apply_vision_effects( pos, offscreen_type );
-                    continue;
-                }
-            } else {
-                ll = ch.visibility_cache[x][y];
-            }
 
             // Add scent value to the overlay_strings list for every visible tile when
             // displaying scent
