@@ -7142,7 +7142,11 @@ static bool item_read_extended_photos( item &it, std::vector<extended_photo_def>
                                        const std::string &var_name, bool insert_at_begin )
 {
     bool result = false;
-    JsonValue json = json_loader::from_string( it.get_var( var_name ) );
+    cata::optional<JsonValue> json_opt = json_loader::from_string_opt( it.get_var( var_name ) );
+    if( !json_opt.has_value() ) {
+        return result;
+    }
+    JsonValue &json = *json_opt;
     if( insert_at_begin ) {
         std::vector<extended_photo_def> temp_vec;
         result = json.read( temp_vec );
