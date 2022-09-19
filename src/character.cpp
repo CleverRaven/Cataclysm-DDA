@@ -8494,21 +8494,12 @@ int Character::bodytemp_modifier_traits_floor() const
 int Character::temp_corrected_by_climate_control( int temperature ) const
 {
     const int variation = static_cast<int>( BODYTEMP_NORM * 0.5 );
-    if( temperature < BODYTEMP_SCORCHING + variation &&
-        temperature > BODYTEMP_FREEZING - variation ) {
-        if( temperature > BODYTEMP_SCORCHING ) {
-            temperature = BODYTEMP_VERY_HOT;
-        } else if( temperature > BODYTEMP_VERY_HOT ) {
-            temperature = BODYTEMP_HOT;
-        } else if( temperature < BODYTEMP_FREEZING ) {
-            temperature = BODYTEMP_VERY_COLD;
-        } else if( temperature < BODYTEMP_VERY_COLD ) {
-            temperature = BODYTEMP_COLD;
-        } else {
-            temperature = BODYTEMP_NORM;
-        }
+
+    if( temperature > BODYTEMP_NORM ) {
+        return std::max( BODYTEMP_NORM, temperature - variation );
+    } else {
+        return std::min( BODYTEMP_NORM, temperature + variation );
     }
-    return temperature;
 }
 
 bool Character::in_sleep_state() const
