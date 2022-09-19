@@ -106,6 +106,7 @@
         "|": "t_strconc_wall",
         "G": "t_floor_noroof",
         "K": "t_floor_noroof",
+        "¶": "t_door_glass_c",
         "$": "t_floor_noroof"
       },
       "furniture": { "$": "f_table" },
