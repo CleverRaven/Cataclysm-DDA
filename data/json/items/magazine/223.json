@@ -37,6 +37,31 @@
     ]
   },
   {
+    "looks_like": "stanag30",
+    "id": "m4_surv_mag",
+    "type": "MAGAZINE",
+    "name": { "str": "M4 Survival Rifle Magazine" },
+    "description": "A tiny 4-round box magazine for the M4 Survival Rifle.  Pathetic ammo capacity, but light and easy to reload.",
+    "weight": "60 g",
+    "volume": "80 ml",
+    "longest_side": "60 mm",
+    "price": 5000,
+    "price_postapoc": 100,
+    "material": [ "steel" ],
+    "symbol": "#",
+    "color": "light_gray",
+    "ammo_type": [ "223" ],
+    "flags": [ "MAG_COMPACT" ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE",
+        "rigid": true,
+        "allowed_speedloaders": [ "clip223_10rd" ],
+        "ammo_restriction": { "223": 4 }
+      }
+    ]
+  },
+  {
     "id": "ruger5",
     "looks_like": "stanag30",
     "type": "MAGAZINE",
