@@ -46,7 +46,7 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_GIVE_SOUL_PRESSURE_OFF",
+    "id": "EOC_GIVE_FROZEN_PRESSURE_OFF",
     "recurrence": [ "60 s", "60 s" ],
     "condition": {
       "and": [
