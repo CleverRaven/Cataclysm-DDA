@@ -416,7 +416,7 @@
     "id": "t_tree_cottonwood",
     "name": "cottonwood tree",
     "looks_like": "t_tree",
-    "description": "A large tree belonging to the 'Populus' genus, commonly found throughout the New England region. You see some cottonwood tree bolls that can be harvested.",
+    "description": "A large tree belonging to the 'Populus' genus, commonly found throughout the New England region. You see some cottonwood tree boll that can be harvested.",
     "symbol": "7",
     "color": [ "green", "green", "green", "brown" ],
     "//": "Do something cool with this and have it spread cotton around the area or something.",
