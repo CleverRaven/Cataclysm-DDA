@@ -56,6 +56,7 @@ namespace creator
 
         nested_group_container* group_container;
         simple_property_widget* ammo_frame;
+        simple_property_widget* magazine_frame;
 
         QComboBox* subtype;
         QLineEdit* containerItem;

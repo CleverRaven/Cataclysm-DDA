@@ -55,9 +55,15 @@ creator::item_group_window::item_group_window( QWidget *parent, Qt::WindowFlags 
 
     ammo_frame = new simple_property_widget( this, QString( "ammo" ), 
                                             property_type::NUMBER, this );
-    tooltipText = "specifies the percent chance that the entries will spawn fully loaded";
-    tooltipText += "\n (if it needs a magazine, it will be added for you).";
+    tooltipText = "specifies the percent chance that the entries will spawn fully loaded(if it";
+    tooltipText += "\nneeds a magazine, it will be added for you). Defaults to 0 if unspecified.";
     ammo_frame->setToolTip( tooltipText );
+
+    magazine_frame = new simple_property_widget( this, QString( "magazine" ), 
+                                            property_type::NUMBER, this );
+    tooltipText = "specifies the percent chance that the entries will spawn with a";
+    tooltipText += "\nmagazine. Defaults to 0 if unspecified.";
+    magazine_frame->setToolTip( tooltipText );
 
     QLabel* subtype_label = new QLabel( "Subtype" );
     subtype = new QComboBox;
@@ -110,14 +116,15 @@ creator::item_group_window::item_group_window( QWidget *parent, Qt::WindowFlags 
     basicInfoLayout->addWidget( comment_label, 1, 0 );
     basicInfoLayout->addWidget( comment_box, 1, 1 );
     basicInfoLayout->addWidget( ammo_frame, 2, 0, 1, 2 );
-    basicInfoLayout->addWidget( subtype_label, 3, 0 );
-    basicInfoLayout->addWidget( subtype, 3, 1 );
-    basicInfoLayout->addWidget( containerItem_label, 4, 0 );
-    basicInfoLayout->addWidget( containerItem, 4, 1 );
-    basicInfoLayout->addWidget( overflow_label, 5, 0 );
-    basicInfoLayout->addWidget( overflow, 5, 1 );
-    basicInfoLayout->addWidget( item_search_label, 6, 0 );
-    basicInfoLayout->addWidget( item_search_box, 6, 1 );
+    basicInfoLayout->addWidget( magazine_frame, 3, 0, 1, 2 );
+    basicInfoLayout->addWidget( subtype_label, 4, 0 );
+    basicInfoLayout->addWidget( subtype, 4, 1 );
+    basicInfoLayout->addWidget( containerItem_label, 5, 0 );
+    basicInfoLayout->addWidget( containerItem, 5, 1 );
+    basicInfoLayout->addWidget( overflow_label, 6, 0 );
+    basicInfoLayout->addWidget( overflow, 6, 1 );
+    basicInfoLayout->addWidget( item_search_label, 7, 0 );
+    basicInfoLayout->addWidget( item_search_box, 7, 1 );
     mainColumn1->addLayout( basicInfoLayout );
 
     item_list_total_box = new ListWidget_Drag;
@@ -182,6 +189,8 @@ void creator::item_group_window::write_json()
         jo.member( "//", comment_box->text().toStdString() );
     }
     this->ammo_frame->get_json( jo );
+    this->magazine_frame->get_json( jo );
+    
 
     std::string sub = subtype->currentText().toStdString();
     if( sub != "none" ) {
