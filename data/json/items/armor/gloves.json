@@ -1252,7 +1252,7 @@
     "weight": "800 g",
     "volume": "1500 ml",
     "price": 70000,
-    "price_postapoc":  8000,
+    "price_postapoc": 8000,
     "warmth": 40,
     "material": [ "kevlar_layered", "nomex" ],
     "symbol": "[",
