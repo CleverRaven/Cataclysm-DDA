@@ -224,14 +224,14 @@ std::vector<std::pair<snippet_id, std::string>> snippet_library::get_snippets_by
     if( !has_category( cat ) ) {
         return ret;
     }
-    auto snipp_cat = snippets_by_category.find( cat );
+    std::unordered_map<std::string, category_snippets>::iterator snipp_cat = snippets_by_category.find(
+                cat );
     if( snipp_cat != snippets_by_category.end() ) {
         category_snippets snipps = snipp_cat->second;
         if( add_null_id && !snipps.ids.empty() ) {
             ret.emplace_back( snippet_id::NULL_ID(), "" );
         }
-        for( std::string::size_type i = 0; i < snipps.ids.size(); ++i ) {
-            snippet_id id = snipps.ids[i];
+        for( snippet_id id : snipps.ids ) {
             std::string desc = get_snippet_ref_by_id( id ).translated();
             ret.emplace_back( id, desc );
         }

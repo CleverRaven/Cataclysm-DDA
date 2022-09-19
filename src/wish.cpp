@@ -777,7 +777,7 @@ class wish_item_callback: public uilist_callback
                             snipp_query.desc_lines_hint = 2;
                             snipp_query.desc_enabled = true;
                             int cnt = 0;
-                            for( std::pair<snippet_id, std::string> elem : snippes ) {
+                            for( const std::pair<snippet_id, std::string> &elem : snippes ) {
                                 std::string desc = elem.second;
                                 snipp_query.addentry_desc( cnt, true, -1, elem.first.str(), desc );
                                 cnt ++;
@@ -925,10 +925,10 @@ void debug_menu::wishitem( Character *you, const tripoint &pos )
         item ity( std::get<1>( opts[i] ), calendar::turn_zero );
         std::string i_name = std::get<0>( opts[i] );
         if( std::get<2>( opts[i] ) != nullptr ) {
-            i_name = i_name + "<color_dark_gray>(V)</color>";
+            i_name += "<color_dark_gray>(V)</color>";
         }
         if( !std::get<1>( opts[i] )->snippet_category.empty() ) {
-            i_name = i_name + "<color_yellow>(S)</color>";
+            i_name += "<color_yellow>(S)</color>";
         }
 
         wmenu.addentry( i, true, 0, i_name );
