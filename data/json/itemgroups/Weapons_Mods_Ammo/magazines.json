@@ -60,6 +60,7 @@
     "//": "Obsolete military magazines no longer in common use.",
     "items": [
       [ "3006_clip", 5 ],
+      [ "m4_surv_mag", 10 ],
       [ "pressurized_tank", 5 ],
       [ "falmag", 20 ],
       [ "g3mag", 15 ],
