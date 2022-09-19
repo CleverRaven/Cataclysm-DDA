@@ -2,6 +2,7 @@
 #define CATA_TESTS_MAPGEN_HELPERS_H
 
 #include "cached_options.h"
+#include "cata_scope_helpers.h"
 #include "coordinates.h"
 #include "type_id.h"
 

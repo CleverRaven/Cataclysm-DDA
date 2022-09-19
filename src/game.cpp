@@ -49,6 +49,7 @@
 #include "butchery_requirements.h"
 #include "cached_options.h"
 #include "cata_assert.h"
+#include "cata_scope_helpers.h"
 #include "cata_utility.h"
 #include "cata_variant.h"
 #include "catacharset.h"
@@ -555,7 +556,7 @@ void game::load_core_data( loading_ui &ui )
     load_data_from_dir( PATH_INFO::jsondir(), "core", ui );
 }
 
-void game::load_data_from_dir( const std::string &path, const std::string &src, loading_ui &ui )
+void game::load_data_from_dir( const cata_path &path, const std::string &src, loading_ui &ui )
 {
     DynamicDataLoader::get_instance().load_data_from_path( path, src, ui );
 }
@@ -2707,9 +2708,9 @@ void game::move_save_to_graveyard()
 
 void game::load_master()
 {
-    const auto datafile = PATH_INFO::world_base_save_path() + "/" + SAVE_MASTER;
-    read_from_file_optional( datafile, [this]( std::istream & is ) {
-        unserialize_master( is );
+    const cata_path datafile = PATH_INFO::world_base_save_path_path() / SAVE_MASTER;
+    read_from_file_optional( datafile, [this, &datafile]( std::istream & is ) {
+        unserialize_master( datafile, is );
     } );
 }
 
@@ -2745,17 +2746,16 @@ bool game::load( const save_t &name )
     ui_manager::redraw();
     refresh_display();
 
-    const std::string worldpath = PATH_INFO::world_base_save_path() + "/";
-    const std::string playerpath = worldpath + name.base_path();
+    const cata_path worldpath = PATH_INFO::world_base_save_path_path();
+    const cata_path save_file_path = PATH_INFO::world_base_save_path_path() /
+                                     ( name.base_path() + SAVE_EXTENSION );
 
     // Now load up the master game data; factions (and more?)
     load_master();
     u = avatar();
     u.set_save_id( name.decoded_name() );
-    const std::string save_filename = playerpath + SAVE_EXTENSION;
-    if( !read_from_file( save_filename,
-    [this, &save_filename]( std::istream & is ) {
-    unserialize( is, save_filename );
+    if( !read_from_file( save_file_path, [this, &save_file_path]( std::istream & is ) {
+    unserialize( is, save_file_path );
     } ) ) {
         return false;
     }
@@ -2763,17 +2763,16 @@ bool game::load( const save_t &name )
     u.load_map_memory();
     u.get_avatar_diary()->load();
 
-    const std::string log_filename = worldpath + name.base_path() + SAVE_EXTENSION_LOG;
-    read_from_file_optional( log_filename,
-    [this, &log_filename]( std::istream & is ) {
-        memorial().load( is, log_filename );
+    const cata_path log_filename = worldpath / ( name.base_path() + SAVE_EXTENSION_LOG );
+    read_from_file_optional( log_filename.get_unrelative_path(), [this]( std::istream & is ) {
+        memorial().load( is );
     } );
 
 #if defined(__ANDROID__)
-    const std::string shortcuts_filename = worldpath + name.base_path() + SAVE_EXTENSION_SHORTCUTS;
-    read_from_file_optional( shortcuts_filename, [this, &shortcuts_filename]( std::istream & is ) {
-        load_shortcuts( is, shortcuts_filename );
-    } );
+    const cata_path shortcuts_filename = worldpath / ( name.base_path() + SAVE_EXTENSION_SHORTCUTS );
+    if( file_exist( shortcuts_filename ) ) {
+        load_shortcuts( shortcuts_filename );
+    }
 #endif
 
     // Now that the player's worn items are updated, their sight limits need to be
@@ -2792,9 +2791,8 @@ bool game::load( const save_t &name )
     get_auto_notes_settings().load( true ); // Load character auto notes settings
     get_safemode().load_character(); // Load character safemode rules
     zone_manager::get_manager().load_zones(); // Load character world zones
-    read_from_file_optional( PATH_INFO::world_base_save_path() + "/uistate.json", [](
-    std::istream & stream ) {
-        JsonIn jsin( stream );
+    read_from_file_optional_json( PATH_INFO::world_base_save_path_path() / "uistate.json", [](
+    const JsonValue & jsin ) {
         uistate.deserialize( jsin.get_object() );
     } );
     reload_npcs();
@@ -2880,7 +2878,7 @@ void game::load_world_modfiles( loading_ui &ui )
     load_packs( _( "Loading files" ), mods, ui );
 
     // Load additional mods from that world-specific folder
-    load_data_from_dir( PATH_INFO::world_base_save_path() + "/mods", "custom", ui );
+    load_data_from_dir( PATH_INFO::world_base_save_path_path() / "mods", "custom", ui );
 
     DynamicDataLoader::get_instance().finalize_loaded_data( ui );
 }
@@ -12267,12 +12265,25 @@ std::string PATH_INFO::player_base_save_path()
     return PATH_INFO::world_base_save_path() + "/" + base64_encode( get_avatar().get_save_id() );
 }
 
+cata_path PATH_INFO::player_base_save_path_path()
+{
+    return PATH_INFO::world_base_save_path_path() / base64_encode( get_avatar().get_save_id() );
+}
+
 std::string PATH_INFO::world_base_save_path()
 {
     if( world_generator->active_world == nullptr ) {
         return PATH_INFO::savedir();
     }
     return world_generator->active_world->folder_path();
+}
+
+cata_path PATH_INFO::world_base_save_path_path()
+{
+    if( world_generator->active_world == nullptr ) {
+        return PATH_INFO::savedir_path();
+    }
+    return world_generator->active_world->folder_path_path();
 }
 
 void game::shift_destination_preview( const point &delta )

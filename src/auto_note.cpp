@@ -22,9 +22,9 @@
 
 namespace auto_notes
 {
-std::string auto_note_settings::build_save_path() const
+cata_path auto_note_settings::build_save_path() const
 {
-    return PATH_INFO::player_base_save_path() + ".ano.json";
+    return PATH_INFO::player_base_save_path_path() + ".ano.json";
 }
 
 void auto_note_settings::clear()
@@ -38,7 +38,7 @@ bool auto_note_settings::save( bool bCharacter )
     if( bCharacter && !file_exist( PATH_INFO::player_base_save_path() + ".sav" ) ) {
         return true;
     }
-    std::string sGlobalFile = PATH_INFO::autonote();
+    cata_path sGlobalFile = PATH_INFO::autonote();
     return write_to_file( bCharacter ? build_save_path() : sGlobalFile, [ &,
     bCharacter]( std::ostream & fstr ) {
         JsonOut jout{ fstr, true };
@@ -103,34 +103,30 @@ void auto_note_settings::load( bool bCharacter )
 {
     clear();
 
-    const auto parseJson = [ &, bCharacter]( JsonIn & jin ) {
-        jin.start_object();
+    const auto parseJson = [ &, bCharacter ]( const JsonValue & jv ) {
+        JsonObject jo = jv;
 
-        while( !jin.end_object() ) {
-            const std::string name = jin.get_member_name();
+        for( JsonMember member : jo ) {
+            const std::string name = member.name();
 
             if( name == "enabled" ) {
-                jin.start_array();
-                while( !jin.end_array() ) {
-                    const std::string entry = jin.get_string();
+                JsonArray enabled_notes = member;
+                for( std::string entry : enabled_notes ) {
                     character_autoNoteEnabled.insert( map_extra_id{ entry } );
                 }
             } else if( name == "disabled" ) {
-                jin.start_array();
-                while( !jin.end_array() ) {
-                    const std::string entry = jin.get_string();
+                JsonArray disabled_notes = member;
+                for( std::string entry : disabled_notes ) {
                     global_autoNoteDisabled.insert( map_extra_id{ entry } );
                 }
             } else if( name == "discovered" ) {
-                jin.start_array();
-                while( !jin.end_array() ) {
-                    const std::string entry = jin.get_string();
-                    discovered.insert( map_extra_id {entry} );
+                JsonArray discovered_array = member;
+                for( std::string entry : discovered_array ) {
+                    discovered.insert( map_extra_id {std::move( entry )} );
                 }
             } else if( name == "custom_symbols" ) {
-                jin.start_array();
-                while( !jin.end_array() ) {
-                    JsonObject joSymbols = jin.get_object();
+                JsonArray symbols_json = member;
+                for( JsonObject joSymbols : symbols_json ) {
                     const std::string entry = joSymbols.get_string( "map_extra" );
                     const std::string custom_symbol_str = joSymbols.get_string( "symbol" );
                     const std::string custom_color = joSymbols.get_string( "color" );
@@ -140,10 +136,7 @@ void auto_note_settings::load( bool bCharacter )
                     ( bCharacter ? character_custom_symbols : global_custom_symbols ).insert( std::make_pair(
                                 map_extra_id {entry}, sym ) );
                 }
-            } else {
-                jin.skip_value();
             }
-
         }
     };
 
@@ -153,7 +146,7 @@ void auto_note_settings::load( bool bCharacter )
             save( true );
         }
     } else {
-        std::string sGlobalFile = PATH_INFO::autonote();
+        cata_path sGlobalFile = PATH_INFO::autonote();
         read_from_file_optional_json( sGlobalFile, parseJson );
     }
 }

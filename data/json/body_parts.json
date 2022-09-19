@@ -284,7 +284,7 @@
     "drench_capacity": 1100,
     "smash_message": "You bring your knee down on the %s, smashing it.",
     "bionic_slots": 30,
-    "sub_parts": [ "leg_hip_l", "leg_upper_l", "leg_knee_l", "leg_lower_l" ],
+    "sub_parts": [ "leg_hip_l", "leg_upper_l", "leg_knee_l", "leg_lower_l", "leg_draped_l" ],
     "flags": [ "LIMB_LOWER" ]
   },
   {
@@ -319,7 +319,7 @@
     "drench_capacity": 1100,
     "smash_message": "You bring your knee down on the %s, smashing it.",
     "bionic_slots": 30,
-    "sub_parts": [ "leg_hip_r", "leg_upper_r", "leg_knee_r", "leg_lower_r" ],
+    "sub_parts": [ "leg_hip_r", "leg_upper_r", "leg_knee_r", "leg_lower_r", "leg_draped_r" ],
     "flags": [ "LIMB_LOWER" ]
   },
   {
@@ -472,6 +472,28 @@
     "name": "back torso (hang)",
     "opposite": "torso_hanging_front",
     "name_multiple": "item hangs off you"
+  },
+  {
+    "id": "leg_draped_l",
+    "type": "sub_body_part",
+    "max_coverage": 100,
+    "parent": "leg_l",
+    "side": 1,
+    "secondary": true,
+    "opposite": "leg_draped_r",
+    "name_multiple": "legs (draped)",
+    "name": "left leg (draped)"
+  },
+  {
+    "id": "leg_draped_r",
+    "type": "sub_body_part",
+    "max_coverage": 100,
+    "parent": "leg_r",
+    "side": 2,
+    "secondary": true,
+    "opposite": "leg_draped_l",
+    "name_multiple": "legs (draped)",
+    "name": "right leg (draped)"
   },
   {
     "id": "torso_waist",

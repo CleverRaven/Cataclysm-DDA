@@ -1435,18 +1435,19 @@ void zone_data::deserialize( const JsonObject &data )
 
 namespace
 {
-std::string _savefile( std::string const &suffix, bool player )
+cata_path _savefile( std::string const &suffix, bool player )
 {
-    return string_format( "%szones%s.json",
-                          player ? PATH_INFO::player_base_save_path() + "."
-                          : PATH_INFO::world_base_save_path() + "/",
-                          suffix );
+    if( player ) {
+        return PATH_INFO::player_base_save_path_path() + string_format( ".zones%s.json", suffix );
+    } else {
+        return PATH_INFO::world_base_save_path_path() / string_format( "zones%s.json", suffix );
+    }
 }
 } // namespace
 
 bool zone_manager::save_zones( std::string const &suffix )
 {
-    std::string const savefile = _savefile( suffix, true );
+    cata_path const savefile = _savefile( suffix, true );
 
     added_vzones.clear();
     changed_vzones.clear();
@@ -1460,13 +1461,12 @@ bool zone_manager::save_zones( std::string const &suffix )
 
 void zone_manager::load_zones( std::string const &suffix )
 {
-    std::string const savefile = _savefile( suffix, true );
+    cata_path const savefile = _savefile( suffix, true );
 
-    const auto reader = [this]( std::istream & fin ) {
-        JsonIn jsin( fin );
-        deserialize( jsin.get_value() );
+    const auto reader = [this]( const JsonValue & jv ) {
+        deserialize( jv );
     };
-    if( !read_from_file_optional( savefile, reader ) ) {
+    if( !read_from_file_optional_json( savefile, reader ) ) {
         // If no such file or failed to load, clear zones.
         zones.clear();
     }
@@ -1482,7 +1482,7 @@ void zone_manager::load_zones( std::string const &suffix )
 
 bool zone_manager::save_world_zones( std::string const &suffix )
 {
-    std::string const savefile = _savefile( suffix, false );
+    cata_path const savefile = _savefile( suffix, false );
     std::vector<zone_data> tmp;
     std::copy_if( zones.begin(), zones.end(), std::back_inserter( tmp ), []( const zone_data & z ) {
         return z.get_faction() != faction_your_followers;
@@ -1495,10 +1495,9 @@ bool zone_manager::save_world_zones( std::string const &suffix )
 
 void zone_manager::load_world_zones( std::string const &suffix )
 {
-    std::string const savefile = _savefile( suffix, false );
+    cata_path const savefile = _savefile( suffix, false );
     std::vector<zone_data> tmp;
-    read_from_file_optional( savefile, [&]( std::istream & fin ) {
-        JsonIn jsin( fin );
+    read_from_file_optional_json( savefile, [&]( const JsonValue & jsin ) {
         jsin.read( tmp );
         for( auto it = tmp.begin(); it != tmp.end(); ) {
             const zone_type_id zone_type = it->get_type();

@@ -32,6 +32,7 @@
 #include "item_factory.h"
 #include "itype.h"
 #include "json.h"
+#include "json_loader.h"
 #include "kill_tracker.h"
 #include "magic.h"
 #include "martialarts.h"
@@ -138,7 +139,7 @@ void memorial_logger::add( const std::string &male_msg,
  * In new format the entries are stored as json.
  * @param fin The stream to read the memorial entries from.
  */
-void memorial_logger::load( std::istream &fin, const std::string &path )
+void memorial_logger::load( std::istream &fin )
 {
     log.clear();
     if( fin.peek() == '|' ) {
@@ -153,7 +154,14 @@ void memorial_logger::load( std::istream &fin, const std::string &path )
             log.emplace_back( entry );
         }
     } else {
-        JsonIn jsin( fin, path );
+        // Unittests do not write data to a file first.
+        std::string memorial_data;
+        fin.seekg( 0, std::ios_base::end );
+        size_t size = fin.tellg();
+        fin.seekg( 0, std::ios_base::beg );
+        memorial_data.resize( size );
+        fin.read( &memorial_data[0], size );
+        JsonValue jsin = json_loader::from_string( memorial_data );
         if( !jsin.read( log ) ) {
             debugmsg( "Error reading JSON memorial log" );
         }

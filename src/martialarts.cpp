@@ -339,7 +339,7 @@ void load_martial_art( const JsonObject &jo, const std::string &src )
 class ma_buff_reader : public generic_typed_reader<ma_buff_reader>
 {
     public:
-        mabuff_id get_next( JsonValue jin ) const {
+        mabuff_id get_next( const JsonValue &jin ) const {
             if( jin.test_string() ) {
                 return mabuff_id( jin.get_string() );
             }
@@ -2125,7 +2125,10 @@ bool ma_style_callback::key( const input_context &ctxt, const input_event &event
         } );
         ui.mark_resize();
 
+        scrollbar sb;
+
         input_context ict;
+        sb.set_draggable( ict );
         ict.register_action( "UP" );
         ict.register_action( "DOWN" );
         ict.register_action( "PAGE_UP" );
@@ -2137,7 +2140,14 @@ bool ma_style_callback::key( const input_context &ctxt, const input_event &event
             werase( w );
             fold_and_print_from( w, point( 2, 1 ), width, selected, c_light_gray, text );
             draw_border( w, BORDER_COLOR, string_format( _( " Style: %s " ), ma.name ) );
-            draw_scrollbar( w, selected, height, iLines, point_south, BORDER_COLOR, true );
+            sb.offset_x( 0 )
+            .offset_y( 1 )
+            .content_size( iLines )
+            .viewport_pos( selected )
+            .viewport_size( height )
+            .slot_color( BORDER_COLOR )
+            .scroll_to_last( false )
+            .apply( w );
             wnoutrefresh( w );
         } );
 
@@ -2154,6 +2164,9 @@ bool ma_style_callback::key( const input_context &ctxt, const input_event &event
 
             if( action == "QUIT" ) {
                 break;
+            } else if( sb.handle_dragging( action, ict.get_coordinates_text( catacurses::stdscr ),
+                                           selected ) ) {
+                // Scrollbar has handled action
             } else if( action == "DOWN" ) {
                 selected++;
             } else if( action == "UP" ) {

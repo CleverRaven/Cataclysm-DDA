@@ -3521,7 +3521,8 @@
       "bundle_pipe",
       "bundle_copper_pipe",
       "bundle_branch",
-      "bundle_branch_long"
+      "bundle_branch_long",
+      "bundle_javelin"
     ],
     "difficulty": 1
   },

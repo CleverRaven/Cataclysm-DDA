@@ -7042,7 +7042,8 @@ units::volume item::volume( bool integral, bool ignore_contents, int charges_in_
             for( const item &it : components ) {
                 ret += it.volume();
             }
-            craft_data_->cached_volume = ret;
+            // 1 mL minimum craft volume to avoid 0 volume errors from practices or hammerspace
+            craft_data_->cached_volume = std::max( ret, 1_ml );
         }
         return *craft_data_->cached_volume;
     }

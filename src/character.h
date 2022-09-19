@@ -59,7 +59,6 @@
 #include "weighted_list.h"
 
 class Character;
-class JsonIn;
 class JsonObject;
 class JsonOut;
 class SkillLevel;
