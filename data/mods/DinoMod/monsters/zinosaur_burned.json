@@ -484,6 +484,21 @@
   },
   {
     "type": "MONSTER",
+    "id": "mon_zanchisaurus_scorched",
+    "name": { "str": "scorched anchisaurus zombie" },
+    "copy-from": "mon_zapatosaurus_scorched",
+    "looks_like": "mon_zissi",
+    "speed": 45,
+    "attack_cost": 45,
+    "melee_dice_sides": 4,
+    "melee_damage": [ { "damage_type": "bash", "amount": 1 } ],
+    "hp": 30,
+    "fungalize_into": "mon_zanchisaurus_fungus",
+    "description": "Heavily-burned four-legged zombie dinosaur sauropod that still reeks of charred meat.  Its flesh has mended into a leathery shell.",
+    "color": "white"
+  },
+  {
+    "type": "MONSTER",
     "id": "mon_zissi_scorched",
     "name": { "str": "scorched issi zombie" },
     "copy-from": "mon_zapatosaurus_scorched",
@@ -563,6 +578,18 @@
     "armor_bash": 7,
     "hp": 245,
     "fungalize_into": "mon_ziplodocus_fungus"
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zarosaurus_scorched",
+    "name": { "str": "scorched barosaurus zombie" },
+    "copy-from": "mon_zapatosaurus_scorched",
+    "looks_like": "mon_zarosaurus",
+    "speed": 40,
+    "attack_cost": 40,
+    "armor_bash": 7,
+    "hp": 250,
+    "fungalize_into": "mon_zarosaurus_fungus"
   },
   {
     "type": "MONSTER",
