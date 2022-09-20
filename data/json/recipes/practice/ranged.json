@@ -243,7 +243,7 @@
     "practice_data": { "min_difficulty": 0, "max_difficulty": 1, "skill_limit": 2 },
     "autolearn": [ [ "launcher", 0 ] ],
     "tools": [
-      [ [ "air_launcher", -1] ],
+      [ [ "air_launcher", -1 ] ],
       [ [ "golf_ball", -1 ], [ "baseball", -1 ], [ "magic_8_ball", -1 ], [ "pool_ball", -1 ] ],
       [ [ "hand_pump", -1 ] ],
       [ [ "hose", -1 ] ],
