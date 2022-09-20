@@ -620,7 +620,7 @@ static void set_up_butchery( player_activity &act, Character &you, butcher_type 
     }
 }
 
-    act.moves_left = butcher_time_to_cut( you, corpse_item, action ) * butchery_requirements.first;
+act.moves_left = butcher_time_to_cut( you, corpse_item, action ) * butchery_requirements.first;
 
     // We have a valid target, so preform the full finish function
     // instead of just selecting the next valid target
