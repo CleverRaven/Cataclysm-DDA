@@ -1192,6 +1192,23 @@
   },
   {
     "type": "MONSTER",
+    "id": "mon_barosaurus",
+    "name": { "str_sp": "barosaurus" },
+    "copy-from": "mon_diplodocus",
+    "//": "When large weights and volumes are fixed this should be 16000 L and 16000 kg",
+    "hp": 460,
+    "speed": 60,
+    "zombify_into": "mon_zarosaurus",
+    "description": "Huge, long-necked, four-legged dinosaur with a long, whip-like tail and one large claw on each foreleg.",
+    "special_attacks": [
+      { "id": "stomp_DinoMod", "cooldown": 10, "damage_max_instance": [ { "damage_type": "cut", "amount": 14 } ] },
+      [ "tailsmash_DinoMod", 40 ],
+      [ "EAT_CROP", 5 ]
+    ],
+    "reproduction": { "baby_egg": "egg_barosaurus", "baby_count": 3, "baby_timer": 24 }
+  },
+  {
+    "type": "MONSTER",
     "id": "mon_camarasaurus",
     "name": { "str_sp": "camarasaurus" },
     "copy-from": "mon_apatosaurus",
