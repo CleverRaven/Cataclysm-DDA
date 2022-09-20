@@ -32,7 +32,6 @@
 #include "mtype.h"
 #include "mutation.h"
 #include "optional.h"
-#include "options.h"
 #include "output.h"
 #include "point.h"
 #include "proficiency.h"
@@ -689,7 +688,6 @@ class wish_item_callback: public uilist_callback
     public:
         bool incontainer;
         bool spawn_everything;
-        bool invoke_snippet;
         bool renew_snippet;
         std::string msg;
         std::string flags;
@@ -701,7 +699,7 @@ class wish_item_callback: public uilist_callback
 
         explicit wish_item_callback( const std::vector<const itype *> &ids,
                                      const std::vector<const itype_variant_data *> &variants, std::string &snippet_ids ) :
-            incontainer( false ), spawn_everything( false ), invoke_snippet( false ),
+            incontainer( false ), spawn_everything( false ),
             standard_itype_ids( ids ), itype_variants( variants ),
             last_snippet_id( snippet_ids ) {
         }
@@ -787,7 +785,7 @@ class wish_item_callback: public uilist_callback
                                 case UILIST_CANCEL:
                                     break;
                                 default:
-                                    chosen_snippet_id = {entnum, snippes[snipp_query.ret].first.str()};
+                                    chosen_snippet_id = { entnum, snippes[snipp_query.ret].first.str() };
                                     break;
                             }
                         }
