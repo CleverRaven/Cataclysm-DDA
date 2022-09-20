@@ -703,15 +703,14 @@ creator::itemGroupEntry::itemGroupEntry( QWidget* parent, QString entryText, boo
     tooltipText += "a greater value then 0";
     charges_frame->setToolTip( tooltipText );
 
-    containerItem_frame = new simple_property_widget( this, QString( "container-item" ), 
+    contentsItem_frame = new simple_property_widget( this, QString( "contents-item" ), 
                                             property_type::LINEEDIT, this );
-    containerItem_frame->hide();
-    containerItem_frame->allow_hiding( true );
-
-
+    contentsItem_frame->hide();
+    contentsItem_frame->allow_hiding( true );
     tooltipText = "The item will be spawned inside this container";
     tooltipText += "\nYou can type the item ID, or drag it from the item list";
-    containerItem_frame->setToolTip( tooltipText );
+    contentsItem_frame->setToolTip( tooltipText );
+
     if( !group ) {
         variant_frame = new simple_property_widget( this, QString( "variant" ), 
                                                 property_type::LINEEDIT, this );
@@ -744,7 +743,8 @@ creator::itemGroupEntry::itemGroupEntry( QWidget* parent, QString entryText, boo
     flowLayout->addWidget( prob_frame );
     flowLayout->addWidget( count_frame );
     flowLayout->addWidget( charges_frame );
-    flowLayout->addWidget( containerItem_frame );
+    flowLayout->addWidget( contentsItem_frame );
+
     //Variant only applies to items, not groups
     if ( !group ) {
         flowLayout->addWidget( variant_frame );
@@ -800,8 +800,8 @@ void creator::itemGroupEntry::add_property_changed() {
         count_frame->show();
     } else if ( prop == "charges" ){
         charges_frame->show();
-    } else if ( prop == "container-item" ){
-        containerItem_frame->show();
+    } else if ( prop == "contents-item" ){
+        contentsItem_frame->show();
     } else if ( prop == "variant" ){
         variant_frame->show();
     }
@@ -845,8 +845,9 @@ void creator::itemGroupEntry::get_json( JsonOut &jo ) {
     if( !charges_frame->isHidden() ) {
         charges_frame->get_json( jo );
     }
-    if( !containerItem_frame->isHidden() ) {
-        containerItem_frame->get_json( jo );
+    if( !contentsItem_frame->isHidden() ) {
+        contentsItem_frame->get_json( jo );
+    }
     if( this->objectName() == "item" ) {
         if( !variant_frame->isHidden() ) {
             variant_frame->get_json( jo );
