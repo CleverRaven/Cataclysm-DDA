@@ -569,7 +569,7 @@ static void set_up_butchery( player_activity &act, Character &you, butcher_type 
                                                           you.has_flag( json_flag_PSYCHOPATH ) ||
                                                           you.has_flag( json_flag_SAPIOVORE ) ) ) {
 
-        if( you.has_proficiency( prof_physiology ) ){
+        if( you.has_proficiency( prof_physiology ) ) {
             //you're either trained for this, densensitized, or both. doesn't bother you.
             if( you.is_avatar() ) {
                 switch( rng( 1, 3 ) ) {
