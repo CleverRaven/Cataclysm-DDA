@@ -403,7 +403,7 @@ void Character::update_bodytemp()
     const units::temperature player_local_temp = weather_man.get_temperature( pos() );
     // NOTE : visit weather.h for some details on the numbers used
     // Converts temperature to Celsius/10
-    int Ctemperature = static_cast<int>( 100 * units::to_celcius( player_local_temp ) );
+    int Ctemperature = static_cast<int>( 100 * units::to_celsius( player_local_temp ) );
     const w_point weather = *weather_man.weather_precise;
     int vehwindspeed = 0;
     map &here = get_map();
@@ -453,7 +453,7 @@ void Character::update_bodytemp()
     const int best_fire = get_best_fire( pos() );
 
     const int lying_warmth = use_floor_warmth ? floor_warmth( pos() ) : 0;
-    const int water_temperature = 100 * units::to_celcius(
+    const int water_temperature = 100 * units::to_celsius(
                                       get_weather().get_cur_weather_gen().get_water_temperature() );
 
     // Correction of body temperature due to traits and mutations
