@@ -747,8 +747,9 @@ static void layer_item( std::map<bodypart_id, encumbrance_data> &vals, const ite
          * Setting layering_encumbrance to 0 at this point makes the item cease to exist
          * for the purposes of the layer penalty system. (normally an item has a minimum
          * layering_encumbrance of 2 )
+         * Personal layer items and semitangible items do not conflict.
          */
-        if( it.has_flag( flag_SEMITANGIBLE ) ) {
+        if( it.has_flag( flag_SEMITANGIBLE ) || it.has_flag( flag_PERSONAL ) ) {
             encumber_val = 0;
             layering_encumbrance = 0;
         }
@@ -833,7 +834,7 @@ void outfit::item_encumb( std::map<bodypart_id, encumbrance_data> &vals,
 
         for( const layer_details &cur_layer : elem.layer_penalty_details ) {
             // only apply the layers penalty to the limb if it is conflicting
-            if( cur_layer.is_conflicting && cur_layer.layer != 0) {
+            if( cur_layer.is_conflicting ) {
                 elem.layer_penalty += cur_layer.total;
             }
         }
