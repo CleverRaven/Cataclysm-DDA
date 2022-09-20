@@ -191,7 +191,7 @@ cata_path find_translated_file( const cata_path &base_path, const std::string &e
     const std::string loc_name = language_option.empty() ? SystemLocale::Language().value_or( "" ) :
                                  language_option;
     if( !loc_name.empty() ) {
-        cata_path local_path = base_path / loc_name / extension;
+        cata_path local_path = base_path / ( loc_name + extension );
         if( file_exist( local_path ) ) {
             return local_path;
         }
