@@ -589,7 +589,7 @@ static void set_up_butchery( player_activity &act, Character &you, butcher_type 
                         break;
                     case 3:
                         you.add_msg_if_player( m_good,
-                                               _( "As long as you're not cutting the corpse up for meat, it's OK... right?" ) );
+                                               _( "Hopefully whatever you can glean from this autopsy is worth the effort." ) );
                         break;
                 }
             }
