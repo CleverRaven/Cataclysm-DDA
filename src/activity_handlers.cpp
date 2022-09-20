@@ -511,9 +511,9 @@ static void set_up_butchery( player_activity &act, Character &you, butcher_type 
                           !corpse.in_species( species_ZOMBIE ) );
 
     if( is_human && action != butcher_type::DISSECT && !( you.has_flag( json_flag_CANNIBAL ) ||
-                                                           you.has_flag( json_flag_PSYCHOPATH ) ||
-                                                           you.has_flag( json_flag_SAPIOVORE ) ) ) {
-        if( you.has_proficiency( prof_physiology ) ){
+            you.has_flag( json_flag_PSYCHOPATH ) ||
+            you.has_flag( json_flag_SAPIOVORE ) ) ) {
+        if( you.has_proficiency( prof_physiology ) ) {
             if( you.is_avatar() ) {
                 if( query_yn( _( "Really desecrate the mortal remains of a fellow human being for meat?" ) ) ) {
                     switch( rng( 1, 3 ) ) {
