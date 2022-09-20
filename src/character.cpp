@@ -9273,7 +9273,7 @@ void Character::place_corpse()
     }
     std::vector<item *> tmp = inv_dump();
     item body = item::make_corpse( mtype_id::NULL_ID(), calendar::turn, get_name() );
-    body.set_item_temperature( units::from_celcius( 37 ) );
+    body.set_item_temperature( units::from_celsius( 37 ) );
     map &here = get_map();
     for( item *itm : tmp ) {
         here.add_item_or_charges( pos(), *itm );
