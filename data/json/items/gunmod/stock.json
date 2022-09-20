@@ -218,7 +218,7 @@
     "id": "cheek_pad",
     "type": "GUNMOD",
     "name": { "str": "cheek pad" },
-    "description": "A stock accessory for sniper rifles and DMRs, considerably improves eye relief efficiency, prevents slipping, and reduces recoil to the neck and cheek.",
+    "description": "A stock accessory for sniper rifles and DMRs, this considerably improves eye relief efficiency, prevents slipping, and reduces recoil to the neck and cheek.",
     "weight": "300 g",
     "volume": "250 ml",
     "integral_volume": "0 ml",
