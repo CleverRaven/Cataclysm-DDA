@@ -896,7 +896,7 @@
     "id": "air_launcher",
     "type": "TOOL",
     "name": { "str": "novelty pneumatic launcher" },
-    "description": "This toy uses compressed air to launch small objects for the amusement of children. It is very tiring to reload, and completely ineffective as a weapon. Pump sold separately.",
+    "description": "This toy uses compressed air to launch small objects for the amusement of children.  It is very tiring to reload, and completely ineffective as a weapon.  Pump sold separately.",
     "looks_like": "m79",
     "weight": "1850 g",
     "volume": "3850 ml",
