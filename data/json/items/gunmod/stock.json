@@ -175,7 +175,7 @@
     "id": "pistol_stock",
     "type": "GUNMOD",
     "name": { "str": "pistol stock" },
-    "description": "An add-on stock for handguns, considerably improves control of recoil.",
+    "description": "An add-on stock for handguns, this considerably improves control of recoil.",
     "weight": "350 g",
     "volume": "500 ml",
     "integral_longest_side": "30 cm",
