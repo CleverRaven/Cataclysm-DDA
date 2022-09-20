@@ -96,7 +96,7 @@ ret_val<void> Character::can_wear( const item &it, bool with_equip_change ) cons
             }
         }
         if( it.covers( body_part_head ) && !it.has_flag( flag_SEMITANGIBLE ) &&
-            !it.is_rigid() &&
+            it.is_rigid() &&
             ( has_trait( trait_HORNS_POINTED ) || has_trait( trait_ANTENNAE ) ||
               has_trait( trait_ANTLERS ) ) ) {
             return ret_val<void>::make_failure( _( "Cannot wear a helmet over %s." ),
