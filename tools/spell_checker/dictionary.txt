@@ -114,6 +114,7 @@ attuning
 atwixt
 augmentations
 ausgegangen
+autoclave
 autoclaving
 autodoc
 autodrive
@@ -241,6 +242,7 @@ breatharians
 brennt
 brewable
 brimless
+broadswords
 bronchodilator
 bronchospasm
 bubblicious
@@ -302,6 +304,7 @@ ceratosaurus
 cere
 cerium
 cestus
+chainmail
 chamberings
 champed
 channnnce
@@ -414,6 +417,7 @@ curasse
 currywurst
 cushiony
 customization
+cutlasses
 cuvette
 cuvettes
 cybercop
@@ -425,6 +429,7 @@ d
 dagnabbit
 dambreaker
 danceable
+dao
 daspletosaurus
 datasheet
 datasheets
@@ -569,6 +574,7 @@ espatiers
 esque
 esters
 estoc
+estocs
 ethereally
 eusocial
 evacs
@@ -599,6 +605,8 @@ faewild
 fakkin
 falcata
 fallfish
+falx
+falxes
 familiaris
 famoso
 fance
@@ -716,6 +724,7 @@ gallimimus
 gallore
 gambeson
 garghoul
+gargoyleosaurus
 garou
 garried
 gasbomb
@@ -975,6 +984,8 @@ kosmoceratops
 krabgek
 kreck
 krick
+kriegsmesser
+kriegsmessers
 kshhhsk
 kshhssk
 kshssssssk
@@ -1034,6 +1045,7 @@ lockpicking
 longarm
 longear
 longsword
+longswords
 lopes
 lorekeeper
 lorica
@@ -1093,6 +1105,8 @@ mesenterium
 meshwork
 metalloid
 metalsmithing
+metalworker
+metalworkers
 metatopography
 methacola
 methothexazole
@@ -1443,6 +1457,7 @@ pyrolusite
 pyrophoric
 pyrrolidone
 q
+qiang
 qianzhousaurus
 qt
 quadcopter
@@ -1495,6 +1510,7 @@ reckonin
 recolherem
 recrafted
 recursively
+recurve 
 redcaps
 redear
 redits
@@ -1582,6 +1598,7 @@ sapience
 sarahsaurus
 sarracenia
 satirizes
+sauropelta
 sauropod
 saurornitholestes
 sautered
@@ -1591,6 +1608,7 @@ sawblades
 sawteeth
 sayig
 scatterer
+scimitars
 scissorlimbs
 sclerotin
 scrabblin
@@ -1905,6 +1923,7 @@ uhhh
 uistate
 ultracapacitor
 ultratech
+unarmored
 uncleaned
 uncoils
 underbarrel
@@ -2093,12 +2112,16 @@ zombear
 zombeaver
 zombiespawn
 zombiethustra
+zombified
 zomborg
 zombull
 zombullfrog
 zombullfrogs
 zpzzzzpzz
 zubon
+zuul
 zygomaticus
 zzz
 zzzzchzzzzchurzzzpileus
+trilobite
+woodlouse

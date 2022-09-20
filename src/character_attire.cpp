@@ -1081,7 +1081,8 @@ ret_val<void> outfit::power_armor_conflicts( const item &clothing ) const
         for( const item &elem : worn ) {
             // Allow power armor with compatible parts and integrated (Subdermal CBM and mutant skin armor)
             if( elem.get_covered_body_parts().make_intersection( clothing.get_covered_body_parts() ).any() &&
-                !elem.has_flag( flag_POWERARMOR_COMPATIBLE ) && !elem.has_flag( flag_INTEGRATED ) ) {
+                !elem.has_flag( flag_POWERARMOR_COMPATIBLE ) && !elem.has_flag( flag_INTEGRATED ) &&
+                !elem.has_flag( flag_AURA ) ) {
                 return ret_val<void>::make_failure( _( "Can't wear power armor over other gear!" ) );
             }
         }
@@ -1109,6 +1110,7 @@ ret_val<void> outfit::power_armor_conflicts( const item &clothing ) const
         // You can't wear headgear if power armor helmet is already sitting on your head.
         bool has_helmet = false;
         if( !clothing.get_covered_body_parts().none() && !clothing.has_flag( flag_POWERARMOR_COMPATIBLE ) &&
+            !clothing.has_flag( flag_AURA ) &&
             ( is_wearing_power_armor( &has_helmet ) &&
               ( has_helmet || !( clothing.covers( body_part_head ) || clothing.covers( body_part_mouth ) ||
                                  clothing.covers( body_part_eyes ) ) ) ) ) {
@@ -1429,7 +1431,9 @@ int outfit::sum_filthy_cover( bool ranged, bool melee, bodypart_id bp ) const
 void outfit::inv_dump( std::vector<item *> &ret )
 {
     for( item &i : worn ) {
-        ret.push_back( &i );
+        if( !i.has_flag( flag_INTEGRATED ) ) {
+            ret.push_back( &i );
+        }
     }
 }
 
@@ -1749,10 +1753,8 @@ void outfit::absorb_damage( Character &guy, damage_unit &elem, bodypart_id bp,
     // if this body part has sub part locations roll one
     if( !bp->sub_parts.empty() ) {
         sbp = bp->random_sub_part( false );
-        // the torso has a second layer of hanging body parts
-        if( bp == body_part_torso ) {
-            secondary_sbp = bp->random_sub_part( true );
-        }
+        // the torso nad legs has a second layer of hanging body parts
+        secondary_sbp = bp->random_sub_part( true );
     }
 
     // generate a single roll for determining if hit
@@ -1796,7 +1798,7 @@ void outfit::absorb_damage( Character &guy, damage_unit &elem, bodypart_id bp,
                 // if this armor has sublocation data test against it instead of just a generic roll
                 destroy = guy.armor_absorb( elem, armor, bp, sbp, roll );
                 // for the torso we also need to consider if it hits anything hanging off the character or their neck
-                if( bp == body_part_torso ) {
+                if( secondary_sbp != sub_bodypart_id() ) {
                     destroy = guy.armor_absorb( elem, armor, bp, secondary_sbp, roll );
                 }
 
@@ -2229,6 +2231,73 @@ void outfit::pickup_stash( const item &newit, int &remaining_charges, bool ignor
             const int used_charges =
                 i.fill_with( newit, remaining_charges, false, false, ignore_pkt_settings );
             remaining_charges -= used_charges;
+        }
+    }
+}
+
+void outfit::add_stash( Character &guy, const item &newit, int &remaining_charges,
+                        bool ignore_pkt_settings )
+{
+    if( ignore_pkt_settings ) {
+        // Crawl all pockets regardless of priority
+        // Crawl First : wielded item
+        item_location carried_item = guy.get_wielded_item();
+        if( carried_item && !carried_item->has_pocket_type( item_pocket::pocket_type::MAGAZINE ) &&
+            carried_item->can_contain_partial( newit ) ) {
+            int used_charges = carried_item->fill_with( newit, remaining_charges, false, false, false );
+            remaining_charges -= used_charges;
+        }
+        // Crawl Next : worn items
+        pickup_stash( newit, remaining_charges, ignore_pkt_settings );
+    } else {
+        item_pocket *found_pocket;
+        std::vector<item_pocket *> pockets;
+        item temp_it = item( newit );
+        temp_it.charges = 1;
+
+        // Collect all pockets
+        std::list<item *> items;
+        item_location carried_item = guy.get_wielded_item();
+        if( carried_item != item_location::nowhere ) {
+            items.emplace_back( &*carried_item );
+        }
+        for( item &i : worn ) {
+            items.emplace_back( &i );
+        }
+        for( item *i : items ) {
+            for( const item_pocket *pocket : i->get_all_contained_pockets() ) {
+                if( pocket->can_contain( temp_it ).success() ) {
+                    // Top-level( wielded, worn ) pockets may be stored
+                    found_pocket = const_cast<item_pocket *>( pocket );
+                    pockets.emplace_back( found_pocket );
+                }
+                for( const item *contained : pocket->all_items_ptr( item_pocket::pocket_type::CONTAINER ) ) {
+                    for( const item_pocket *pocket_nest : contained->get_all_contained_pockets() ) {
+                        if( pocket_nest->can_contain( temp_it ).success() && pocket_nest->rigid() ) {
+                            // Nested pocket with rigid() can only be stored
+                            found_pocket = const_cast<item_pocket *>( pocket_nest );
+                            pockets.emplace_back( found_pocket );
+                        }
+                    }
+                }
+            }
+        }
+
+        // Sort by item_pocket::better_pocket
+        std::sort( pockets.begin(), pockets.end(), [newit, temp_it]( item_pocket * lhs,
+        item_pocket * rhs ) {
+            return rhs->better_pocket( *lhs, newit, false );
+        } );
+
+        int amount = remaining_charges;
+        int num_contained = 0;
+        for( item_pocket *&pocket : pockets ) {
+            if( amount <= num_contained || remaining_charges <= 0 ) {
+                break;
+            }
+            const int filled_count = pocket->fill_with( newit, remaining_charges, false, false );
+            num_contained += filled_count;
+            remaining_charges -= filled_count;
         }
     }
 }

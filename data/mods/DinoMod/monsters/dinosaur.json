@@ -30,7 +30,7 @@
     "special_attacks": [ [ "GRAB", 10 ], { "type": "bite", "cooldown": 10 } ],
     "extend": { "flags": [ "SWARMS", "GROUP_MORALE" ] },
     "death_drops": {  },
-    "harvest": "dino_feather_leather",
+    "harvest": "dino_pred_feather_leather",
     "anger_triggers": [ "STALK", "PLAYER_WEAK", "HURT", "PLAYER_CLOSE" ],
     "fear_triggers": [ "FRIEND_DIED" ]
   },
@@ -64,7 +64,7 @@
     "biosignature": { "biosig_item": "feces_dino", "biosig_timer": 2 },
     "special_attacks": [ [ "GRAB", 10 ], { "type": "bite", "cooldown": 10 } ],
     "flags": [ "SEES", "SMELLS", "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "KEENNOSE", "WARM", "SWIMS" ],
-    "harvest": "dino_large_feather_pred",
+    "harvest": "dino_med_feather_pred",
     "anger_triggers": [ "STALK", "PLAYER_WEAK", "HURT", "PLAYER_CLOSE" ],
     "fear_triggers": [ "FRIEND_DIED" ],
     "categories": [ "DINOSAUR", "WILDLIFE" ]
@@ -516,7 +516,7 @@
       "SWARMS",
       "GROUP_MORALE"
     ],
-    "harvest": "mammal_leather",
+    "harvest": "dino_pred_feather_leather",
     "anger_triggers": [ "PLAYER_WEAK", "HURT" ],
     "fear_triggers": [ "PLAYER_CLOSE", "FRIEND_DIED" ],
     "categories": [ "DINOSAUR", "WILDLIFE" ]
@@ -770,7 +770,7 @@
     "baby_flags": [ "SPRING", "SUMMER" ],
     "biosignature": { "biosig_item": "feces_dino", "biosig_timer": 66 },
     "flags": [ "SEES", "SMELLS", "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "KEENNOSE", "WARM", "CLIMBS" ],
-    "harvest": "dino_feather_leather",
+    "harvest": "dino_pred_feather_leather",
     "dissect": "dissect_raptor_sample_single",
     "anger_triggers": [ "FRIEND_ATTACKED", "PLAYER_WEAK", "HURT" ],
     "fear_triggers": [ "FRIEND_DIED", "PLAYER_CLOSE" ],
@@ -824,7 +824,7 @@
       "CAN_OPEN_DOORS",
       "PRIORITIZE_TARGETS"
     ],
-    "harvest": "dino_feather_leather",
+    "harvest": "dino_pred_feather_leather",
     "dissect": "dissect_raptor_sample_single",
     "anger_triggers": [ "FRIEND_ATTACKED", "PLAYER_WEAK", "PLAYER_CLOSE", "HURT", "STALK" ],
     "fear_triggers": [ "FRIEND_DIED" ],
@@ -867,7 +867,7 @@
     "baby_flags": [ "SPRING", "SUMMER" ],
     "biosignature": { "biosig_item": "feces_dino", "biosig_timer": 2 },
     "flags": [ "SEES", "SMELLS", "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "KEENNOSE", "WARM", "CLIMBS" ],
-    "harvest": "dino_large_feather_pred",
+    "harvest": "dino_med_feather_pred",
     "dissect": "dissect_raptor_sample_small",
     "anger_triggers": [ "FRIEND_ATTACKED", "PLAYER_WEAK", "PLAYER_CLOSE", "HURT", "STALK", "SOUND" ],
     "fear_triggers": [ "FRIEND_DIED" ],
@@ -1252,7 +1252,7 @@
     "zombify_into": "mon_ztegosaurus",
     "special_attacks": [
       { "id": "stomp_DinoMod", "cooldown": 10, "damage_max_instance": [ { "damage_type": "bash", "amount": 12 } ] },
-      [ "tailsmash_DinoMod", 30 ],
+      [ "tailsmash_ankyl_DinoMod", 30 ],
       [ "EAT_CROP", 20 ]
     ],
     "description": "A huge slow quadruped dinosaur with two rows of tall plates on its back, and a spiked tail.",
@@ -1278,11 +1278,87 @@
     "zombify_into": "mon_zesperosaurus",
     "special_attacks": [
       { "id": "stomp_DinoMod", "cooldown": 10, "damage_max_instance": [ { "damage_type": "bash", "amount": 15 } ] },
-      [ "tailsmash_DinoMod", 30 ],
+      [ "tailsmash_ankyl_DinoMod", 30 ],
       [ "EAT_CROP", 20 ]
     ],
     "description": "A huge slow quadruped dinosaur with two rows of long plates on its back, and a spiked tail.",
     "reproduction": { "baby_egg": "egg_hesperosaurus", "baby_count": 3, "baby_timer": 24 }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_gargoyleosaurus",
+    "name": { "str_sp": "gargoyleosaurus" },
+    "copy-from": "mon_nodosaurus",
+    "volume": "415 L",
+    "weight": "500 kg",
+    "hp": 125,
+    "speed": 50,
+    "attack_cost": 50,
+    "//": "Speed is a guess based on the lighter armor and smaller weight",
+    "armor_bash": 10,
+    "armor_cut": 10,
+    "armor_bullet": 5,
+    "zombify_into": "mon_zargoyleosaurus",
+    "description": "This lightly armored four legged dinosaur has a rigid spiked tail, a beak, and sturdy spikes along the sides.",
+    "reproduction": { "baby_egg": "egg_gargoyleosaurus", "baby_count": 3, "baby_timer": 24 },
+    "petfood": { "food": [ "DINOFOOD_C" ] }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_sauropelta",
+    "name": { "str_sp": "sauropelta" },
+    "copy-from": "mon_nodosaurus",
+    "//": "When large weights and volumes are fixed this should be 1650 L and 2000 kg",
+    "hp": 200,
+    "armor_cut": 30,
+    "zombify_into": "mon_zauropelta",
+    "description": "This heavily armored four legged dinosaur has a beak, a long tail, and long wicked-looking spikes jutting out of the neck.",
+    "reproduction": { "baby_egg": "egg_sauropelta", "baby_count": 3, "baby_timer": 24 },
+    "petfood": { "food": [ "DINOFOOD_C" ] }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_nodosaurus",
+    "name": { "str_sp": "nodosaurus" },
+    "copy-from": "mon_dyoplosaurus",
+    "//": "When large weights and volumes are fixed this should be 2900 L and 3500 kg",
+    "hp": 270,
+    "zombify_into": "mon_zodosaurus",
+    "armor_cut": 20,
+    "armor_bullet": 10,
+    "special_attacks": [ [ "EAT_CROP", 40 ] ],
+    "description": "This heavily armored dinosaur looks like a giant prehistoric armadillo.",
+    "reproduction": { "baby_egg": "egg_nodosaurus", "baby_count": 3, "baby_timer": 24 },
+    "petfood": { "food": [ "DINOFOOD_C" ] }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_edmontonia",
+    "name": { "str_sp": "edmontonia" },
+    "copy-from": "mon_ankylosaurus",
+    "//": "When large weights and volumes are fixed this should be 2500 L and 3000 kg",
+    "hp": 365,
+    "zombify_into": "mon_zedmontonia",
+    "melee_damage": [ { "damage_type": "stab", "amount": 10 } ],
+    "armor_bash": 20,
+    "armor_cut": 20,
+    "armor_bullet": 10,
+    "special_attacks": [ [ "EAT_CROP", 40 ] ],
+    "description": "This heavily armored dinosaur is covered with small ridged bony plates with long bony spikes.",
+    "reproduction": { "baby_egg": "egg_edmontonia", "baby_count": 3, "baby_timer": 24 },
+    "petfood": { "food": [ "DINOFOOD_C" ] }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zuul",
+    "name": { "str_sp": "zuul" },
+    "copy-from": "mon_dyoplosaurus",
+    "//": "When large weights and volumes are fixed this should be 2000 L and 2500 kg",
+    "hp": 225,
+    "zombify_into": "mon_zzuul",
+    "description": "This four-legged armored dinosaur has horns on the head and large spikes in rows along the back and side.  Its spiked tail ends in a similarly pointy club of bone.",
+    "reproduction": { "baby_egg": "egg_zuul", "baby_count": 3, "baby_timer": 24 },
+    "petfood": { "food": [ "DINOFOOD_C" ] }
   },
   {
     "type": "MONSTER",
@@ -1294,7 +1370,7 @@
     "zombify_into": "mon_zyoplosaurus",
     "special_attacks": [
       { "id": "stomp_DinoMod", "cooldown": 10, "damage_max_instance": [ { "damage_type": "bash", "amount": 8 } ] },
-      [ "tailsmash_DinoMod", 30 ],
+      [ "tailsmash_ankyl_DinoMod", 30 ],
       [ "EAT_CROP", 40 ]
     ],
     "description": "This armored dinosaur looks like a giant prehistoric armadillo.  Its tail ends in a spiked club of bone.",
@@ -1334,7 +1410,7 @@
     "zombify_into": "mon_zankylosaurus",
     "special_attacks": [
       { "id": "stomp_DinoMod", "cooldown": 10, "damage_max_instance": [ { "damage_type": "bash", "amount": 12 } ] },
-      [ "tailsmash_DinoMod", 30 ],
+      [ "tailsmash_ankyl_DinoMod", 30 ],
       [ "EAT_CROP", 40 ]
     ],
     "description": "This armored dinosaur looks like a giant prehistoric armadillo.  Its tail ends in a massive spiked club of bone.",
@@ -1347,38 +1423,6 @@
     "dissect": "dissect_stego_sample_large",
     "anger_triggers": [ "HURT", "FRIEND_ATTACKED", "PLAYER_NEAR_BABY" ],
     "categories": [ "DINOSAUR", "WILDLIFE" ]
-  },
-  {
-    "type": "MONSTER",
-    "id": "mon_nodosaurus",
-    "name": { "str_sp": "nodosaurus" },
-    "copy-from": "mon_dyoplosaurus",
-    "//": "When large weights and volumes are fixed this should be 2900 L and 3500 kg",
-    "hp": 270,
-    "zombify_into": "mon_zodosaurus",
-    "armor_cut": 20,
-    "armor_bullet": 10,
-    "special_attacks": [ [ "EAT_CROP", 40 ] ],
-    "description": "This heavily armored dinosaur looks like a giant prehistoric armadillo.",
-    "reproduction": { "baby_egg": "egg_nodosaurus", "baby_count": 3, "baby_timer": 24 },
-    "petfood": { "food": [ "DINOFOOD_C" ] }
-  },
-  {
-    "type": "MONSTER",
-    "id": "mon_edmontonia",
-    "name": { "str_sp": "edmontonia" },
-    "copy-from": "mon_ankylosaurus",
-    "//": "When large weights and volumes are fixed this should be 2500 L and 3000 kg",
-    "hp": 365,
-    "zombify_into": "mon_zedmontonia",
-    "melee_damage": [ { "damage_type": "stab", "amount": 10 } ],
-    "armor_bash": 20,
-    "armor_cut": 20,
-    "armor_bullet": 10,
-    "special_attacks": [ [ "EAT_CROP", 40 ] ],
-    "description": "This heavily armored dinosaur is covered with small ridged bony plates with long bony spikes.",
-    "reproduction": { "baby_egg": "egg_edmontonia", "baby_count": 3, "baby_timer": 24 },
-    "petfood": { "food": [ "DINOFOOD_C" ] }
   },
   {
     "type": "MONSTER",

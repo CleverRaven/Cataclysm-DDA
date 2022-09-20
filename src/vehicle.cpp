@@ -47,6 +47,7 @@
 #include "item_pocket.h"
 #include "itype.h"
 #include "json.h"
+#include "json_loader.h"
 #include "make_static.h"
 #include "map.h"
 #include "map_iterator.h"
@@ -1575,6 +1576,21 @@ std::vector<vehicle::unrackable_vehicle> vehicle::find_vehicles_to_unrack( int r
                 return; // not valid unrackable
             }
 
+            const bool migrate_x_axis = std::any_of( unrackable.parts.begin(), unrackable.parts.end(),
+            [this]( const int p ) {
+                return part( p ).carried_stack.top().migrate_x_axis;
+            } );
+
+            if( migrate_x_axis ) {
+                for( const int p : unrackable.parts ) {
+                    std::stack<vehicle_part::carried_part_data> cs = part( p ).carried_stack;
+                    vehicle_part::carried_part_data cpd = cs.top();
+                    cs.pop();
+                    cpd.mount = tripoint( cpd.mount.y, cpd.mount.x, cpd.mount.z );
+                    cs.push( cpd );
+                }
+            }
+
             // 2 results with same name is either a bug or this rack is a "corner" that scanned
             // the vehicle twice: once on correct axis and once on wrong axis resulting in a 1 tile
             // slice see #47374 for more details. Keep the longest of the two "slices".
@@ -1628,6 +1644,17 @@ std::vector<vehicle::unrackable_vehicle> vehicle::find_vehicles_to_unrack( int r
         commit_vehicle();
     }
 
+    // collect total number of parts for each racked vehicle
+    std::map<std::string, size_t> racked_parts_per_veh;
+    for( const vehicle_part &vp : real_parts() ) {
+        racked_parts_per_veh[vp.carried_name()]++;
+    }
+    // filter out not vehicles not fully "located" on the given rack (corner-scanned)
+    unrackables.erase( std::remove_if( unrackables.begin(), unrackables.end(),
+    [&racked_parts_per_veh]( const unrackable_vehicle & unrackable ) {
+        return unrackable.parts.size() != racked_parts_per_veh[unrackable.name];
+    } ), unrackables.end() );
+
     return unrackables;
 }
 
@@ -1664,14 +1691,6 @@ bool vehicle::merge_rackable_vehicle( vehicle *carry_veh, const std::vector<int>
     std::vector<int> carry_veh_structs = carry_veh->all_parts_at_location( part_location_structure );
     std::vector<mapping> carry_data;
     carry_data.reserve( carry_veh_structs.size() );
-
-    //X is forward/backward, Y is left/right
-    std::string axis = "X";
-    for( const int &carry_part : carry_veh_structs ) {
-        if( carry_veh->parts[ carry_part ].mount.x || carry_veh->parts[ carry_part ].mount.y ) {
-            axis = carry_veh->parts[ carry_part ].mount.x ? "X" : "Y";
-        }
-    }
 
     units::angle relative_dir = normalize( carry_veh->face.dir() - face.dir() );
     units::angle relative_180 = units::fmod( relative_dir, 180_degrees );
@@ -1747,10 +1766,10 @@ bool vehicle::merge_rackable_vehicle( vehicle *carry_veh, const std::vector<int>
                 vehicle_part &carried_part = parts.back();
                 carried_part.mount = carry_map.carry_mount;
                 carried_part.carried_stack.push( {
-                    axis == "X" ? tripoint( carry_map.old_mount.x, 0, 0 ) : tripoint( 0, carry_map.old_mount.y, 0 ),
-                    axis == "X",
+                    tripoint( carry_map.old_mount, 0 ),
                     relative_dir,
                     carry_veh->name,
+                    false,
                 } );
                 carried_part.enabled = false;
                 carried_part.set_flag( vehicle_part::carried_flag );
@@ -4160,14 +4179,14 @@ bool vehicle::can_float() const
 
 double vehicle::lift_thrust_of_rotorcraft( const bool fuelled, const bool safe ) const
 {
-    int total_diameter = 0;
+    int rotor_area_in_feet = 0;
     for( const int rotor : rotors ) {
-        total_diameter += parts[ rotor ].info().rotor_diameter();
+        double rotor_diameter_in_feet = parts[ rotor ].info().rotor_diameter() * 3.28084;
+        rotor_area_in_feet += ( M_PI / 4 ) * std::pow( rotor_diameter_in_feet, 2 );
     }
     int total_engine_w = total_power_w( fuelled, safe );
     // take off 15 % due to the imaginary tail rotor power.
     double engine_power_in_hp = total_engine_w * 0.00134102;
-    int rotor_area_in_feet = ( M_PI / 4 ) * std::pow( total_diameter * 3.28084, 2 );
     // lift_thrust in lbthrust
     double lift_thrust = ( 8.8658 * std::pow( engine_power_in_hp / rotor_area_in_feet,
                            -0.3107 ) ) * engine_power_in_hp;
@@ -5760,6 +5779,20 @@ void vehicle::enable_refresh()
     refresh();
 }
 
+void vehicle::refresh_active_item_cache()
+{
+    // Need to manually backfill the active item cache since the part loader can't call its vehicle.
+    for( const vpart_reference &vp : get_any_parts( VPFLAG_CARGO ) ) {
+        auto it = vp.part().items.begin();
+        auto end = vp.part().items.end();
+        for( ; it != end; ++it ) {
+            if( it->needs_processing() ) {
+                active_items.add( *it, vp.mount() );
+            }
+        }
+    }
+}
+
 /**
  * Refreshes all caches and refinds all parts. Used after the vehicle has had a part added or removed.
  * Makes indices of different part types so they're easy to find. Also calculates power drain.
@@ -6046,6 +6079,7 @@ void vehicle::refresh( const bool remove_fakes )
     zones_dirty = true;
     invalidate_mass();
     occupied_cache_pos = { -1, -1, -1 };
+    refresh_active_item_cache();
 }
 
 vpart_edge_info vehicle::get_edge_info( const point &mount ) const
@@ -6976,7 +7010,7 @@ bool vehicle::explode_fuel( int p, damage_type type )
                                               ( parts[p].ammo_remaining() * data.fuel_size_factor ) ) );
         //debugmsg( "damage check dmg=%d pow=%d amount=%d", dmg, pow, parts[p].amount );
 
-        explosion_handler::explosion( global_part_pos3( p ), pow, 0.7, data.fiery_explosion );
+        explosion_handler::explosion( nullptr, global_part_pos3( p ), pow, 0.7, data.fiery_explosion );
         mod_hp( parts[p], 0 - parts[ p ].hp(), damage_type::HEAT );
         parts[p].ammo_unset();
     }
@@ -7189,10 +7223,10 @@ bool vehicle::restore_folded_parts( const item &it )
     const std::string data = it.has_var( "folding_bicycle_parts" )
                              ? it.get_var( "folding_bicycle_parts" )
                              : it.get_var( "folded_parts" );
-    std::istringstream veh_data( data );
     try {
+        JsonValue json = json_loader::from_string( data );
         parts.clear();
-        JsonIn( veh_data ).read( parts );
+        json.read( parts );
     } catch( const JsonError &e ) {
         debugmsg( "Error restoring folded vehicle parts: %s", e.c_str() );
         return false;

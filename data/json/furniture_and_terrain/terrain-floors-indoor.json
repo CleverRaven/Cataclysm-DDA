@@ -723,6 +723,81 @@
   },
   {
     "type": "terrain",
+    "id": "t_carpet_base_wood",
+    "name": "carpet",
+    "description": "Base carpet!",
+    "symbol": ".",
+    "color": "red",
+    "move_cost": 2,
+    "comfort": 1,
+    "roof": "t_flat_roof",
+    "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "RUG", "EASY_DECONSTRUCT" ],
+    "bash": {
+      "sound": "SMASH!",
+      "ter_set": "t_floor",
+      "str_min": 5,
+      "str_max": 15,
+      "str_min_supported": 100,
+      "items": [ { "item": "cotton_patchwork", "count": [ 10, 20 ] }, { "item": "nail", "charges": [ 1, 3 ] } ]
+    },
+    "deconstruct": { "items": [ { "item": "r_carpet", "count": 1 }, { "item": "nail", "charges": [ 2, 5 ] } ], "ter_set": "t_floor" }
+  },
+  {
+    "type": "terrain",
+    "id": "t_carpet_wood_red",
+    "copy-from": "t_carpet_base_wood",
+    "name": "carpet",
+    "looks_like": "t_carpet_red",
+    "symbol": ".",
+    "color": "red",
+    "connects_to": "CARPET",
+    "move_cost": 2,
+    "roof": "t_flat_roof",
+    "description": "Soft red carpet.",
+    "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "RUG", "EASY_DECONSTRUCT" ],
+    "deconstruct": { "ter_set": "t_floor", "items": [ { "item": "r_carpet", "charges": 1 }, { "item": "nail", "charges": 5 } ] }
+  },
+  {
+    "type": "terrain",
+    "id": "t_carpet_wood_yellow",
+    "copy-from": "t_carpet_base_wood",
+    "name": "yellow carpet",
+    "looks_like": "t_carpet_yellow",
+    "description": "Soft yellow carpet.",
+    "symbol": ".",
+    "color": "yellow",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "RUG", "EASY_DECONSTRUCT" ],
+    "deconstruct": { "items": [ { "item": "y_carpet", "charges": 1 }, { "item": "nail", "charges": 5 } ], "ter_set": "t_floor" }
+  },
+  {
+    "type": "terrain",
+    "id": "t_carpet_wood_green",
+    "copy-from": "t_carpet_base_wood",
+    "name": "green carpet",
+    "looks_like": "t_carpet_green",
+    "description": "Soft green carpet.",
+    "symbol": ".",
+    "color": "green",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "RUG", "EASY_DECONSTRUCT" ],
+    "deconstruct": { "items": [ { "item": "g_carpet", "charges": 1 }, { "item": "nail", "charges": 5 } ], "ter_set": "t_floor" }
+  },
+  {
+    "type": "terrain",
+    "id": "t_carpet_wood_purple",
+    "copy-from": "t_carpet_base_wood",
+    "name": "purple carpet",
+    "looks_like": "t_carpet_purple",
+    "description": "Soft purple carpet.",
+    "symbol": ".",
+    "color": "magenta",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "RUG", "EASY_DECONSTRUCT" ],
+    "deconstruct": { "items": [ { "item": "p_carpet", "charges": 1 }, { "item": "nail", "charges": 5 } ], "ter_set": "t_floor" }
+  },
+  {
+    "type": "terrain",
     "id": "t_carpet_base_concrete",
     "name": "Carpet",
     "symbol": ".",
@@ -737,9 +812,9 @@
       "str_min": 5,
       "str_max": 15,
       "str_min_supported": 100,
-      "items": [ { "item": "cotton_patchwork", "count": [ 10, 20 ] }, { "item": "nail", "charges": [ 1, 3 ] } ]
+      "items": [ { "item": "cotton_patchwork", "count": [ 10, 20 ] } ]
     },
-    "deconstruct": { "items": [ { "item": "r_carpet", "charges": 1 }, { "item": "nail", "charges": 5 } ], "ter_set": "t_thconc_floor" }
+    "deconstruct": { "items": [ { "item": "r_carpet", "charges": 1 } ], "ter_set": "t_thconc_floor" }
   },
   {
     "type": "terrain",
@@ -765,7 +840,7 @@
     "move_cost": 2,
     "looks_like": "t_carpet_yellow",
     "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "RUG", "EASY_DECONSTRUCT" ],
-    "deconstruct": { "items": [ { "item": "y_carpet", "charges": 1 }, { "item": "nail", "charges": 5 } ], "ter_set": "t_thconc_floor" }
+    "deconstruct": { "items": [ { "item": "y_carpet", "charges": 1 } ], "ter_set": "t_thconc_floor" }
   },
   {
     "type": "terrain",
@@ -778,7 +853,7 @@
     "move_cost": 2,
     "looks_like": "t_carpet_green",
     "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "RUG", "EASY_DECONSTRUCT" ],
-    "deconstruct": { "items": [ { "item": "g_carpet", "charges": 1 }, { "item": "nail", "charges": 5 } ], "ter_set": "t_thconc_floor" }
+    "deconstruct": { "items": [ { "item": "g_carpet", "charges": 1 } ], "ter_set": "t_thconc_floor" }
   },
   {
     "type": "terrain",
@@ -791,7 +866,7 @@
     "move_cost": 2,
     "looks_like": "t_carpet_purple",
     "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "RUG", "EASY_DECONSTRUCT" ],
-    "deconstruct": { "items": [ { "item": "p_carpet", "charges": 1 }, { "item": "nail", "charges": 5 } ], "ter_set": "t_thconc_floor" }
+    "deconstruct": { "items": [ { "item": "p_carpet", "charges": 1 } ], "ter_set": "t_thconc_floor" }
   },
   {
     "type": "terrain",
@@ -809,9 +884,9 @@
       "str_min": 5,
       "str_max": 15,
       "str_min_supported": 100,
-      "items": [ { "item": "cotton_patchwork", "count": [ 10, 20 ] }, { "item": "nail", "charges": [ 1, 3 ] } ]
+      "items": [ { "item": "cotton_patchwork", "count": [ 10, 20 ] } ]
     },
-    "deconstruct": { "items": [ { "item": "r_carpet", "charges": 1 }, { "item": "nail", "charges": 5 } ], "ter_set": "t_metal_floor" }
+    "deconstruct": { "items": [ { "item": "r_carpet", "charges": 1 } ], "ter_set": "t_metal_floor" }
   },
   {
     "type": "terrain",
@@ -824,7 +899,7 @@
     "looks_like": "t_carpet_red",
     "description": "Firm, low-pile, totally non-flammable carpet in a red color, with an insulation layer beneath.",
     "flags": [ "TRANSPARENT", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "RUG", "EASY_DECONSTRUCT" ],
-    "deconstruct": { "items": [ { "item": "r_carpet", "charges": 1 }, { "item": "nail", "charges": 5 } ], "ter_set": "t_metal_floor" }
+    "deconstruct": { "items": [ { "item": "r_carpet", "charges": 1 } ], "ter_set": "t_metal_floor" }
   },
   {
     "type": "terrain",
@@ -838,7 +913,7 @@
     "move_cost": 2,
     "looks_like": "t_carpet_yellow",
     "flags": [ "TRANSPARENT", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "RUG", "EASY_DECONSTRUCT" ],
-    "deconstruct": { "items": [ { "item": "y_carpet", "charges": 1 }, { "item": "nail", "charges": 5 } ], "ter_set": "t_metal_floor" }
+    "deconstruct": { "items": [ { "item": "y_carpet", "charges": 1 } ], "ter_set": "t_metal_floor" }
   },
   {
     "type": "terrain",
@@ -851,7 +926,7 @@
     "move_cost": 2,
     "looks_like": "t_carpet_green",
     "flags": [ "TRANSPARENT", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "RUG", "EASY_DECONSTRUCT" ],
-    "deconstruct": { "items": [ { "item": "g_carpet", "charges": 1 }, { "item": "nail", "charges": 5 } ], "ter_set": "t_metal_floor" }
+    "deconstruct": { "items": [ { "item": "g_carpet", "charges": 1 } ], "ter_set": "t_metal_floor" }
   },
   {
     "type": "terrain",
@@ -864,7 +939,367 @@
     "move_cost": 2,
     "looks_like": "t_carpet_purple",
     "flags": [ "TRANSPARENT", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "RUG", "EASY_DECONSTRUCT" ],
-    "deconstruct": { "items": [ { "item": "p_carpet", "charges": 1 }, { "item": "nail", "charges": 5 } ], "ter_set": "t_metal_floor" }
+    "deconstruct": { "items": [ { "item": "p_carpet", "charges": 1 } ], "ter_set": "t_metal_floor" }
+  },
+  {
+    "type": "terrain",
+    "id": "t_carpet_base_strconcrete",
+    "name": "Carpet",
+    "symbol": ".",
+    "color": "red",
+    "move_cost": 2,
+    "copy-from": "t_carpet_base",
+    "description": "Base concrete carpet!",
+    "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "RUG", "EASY_DECONSTRUCT" ],
+    "bash": {
+      "sound": "SMASH!",
+      "ter_set": "t_strconc_floor",
+      "str_min": 5,
+      "str_max": 15,
+      "str_min_supported": 100,
+      "items": [ { "item": "cotton_patchwork", "count": [ 10, 20 ] } ]
+    },
+    "deconstruct": { "items": [ { "item": "r_carpet", "charges": 1 } ], "ter_set": "t_strconc_floor" }
+  },
+  {
+    "type": "terrain",
+    "id": "t_carpet_strconcrete_red",
+    "copy-from": "t_carpet_base_strconcrete",
+    "name": "industrial red carpet",
+    "alias": "t_carpet_concrete",
+    "looks_like": "t_carpet_red",
+    "symbol": ".",
+    "color": "red",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "RUG", "EASY_DECONSTRUCT" ],
+    "description": "Firm, low-pile, high-durability carpet in a red color, for laying down on bare concrete."
+  },
+  {
+    "type": "terrain",
+    "id": "t_carpet_strconcrete_yellow",
+    "copy-from": "t_carpet_base_strconcrete",
+    "name": "industrial yellow carpet",
+    "description": "Firm, low-pile, high-durability carpet in a yellow color, for laying down on bare concrete.",
+    "symbol": ".",
+    "color": "yellow",
+    "move_cost": 2,
+    "looks_like": "t_carpet_yellow",
+    "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "RUG", "EASY_DECONSTRUCT" ],
+    "deconstruct": { "items": [ { "item": "y_carpet", "charges": 1 } ], "ter_set": "t_strconc_floor" }
+  },
+  {
+    "type": "terrain",
+    "id": "t_carpet_strconcrete_green",
+    "copy-from": "t_carpet_base_strconcrete",
+    "name": "industrial green carpet",
+    "description": "Firm, low-pile, high-durability carpet in a green color, for laying down on bare concrete.",
+    "symbol": ".",
+    "color": "green",
+    "move_cost": 2,
+    "looks_like": "t_carpet_green",
+    "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "RUG", "EASY_DECONSTRUCT" ],
+    "deconstruct": { "items": [ { "item": "g_carpet", "charges": 1 } ], "ter_set": "t_strconc_floor" }
+  },
+  {
+    "type": "terrain",
+    "id": "t_carpet_strconcrete_purple",
+    "copy-from": "t_carpet_base_strconcrete",
+    "name": "industrial purple carpet",
+    "description": "Firm, low-pile, high-durability carpet in a purple color, for laying down on bare concrete.",
+    "symbol": ".",
+    "color": "magenta",
+    "move_cost": 2,
+    "looks_like": "t_carpet_purple",
+    "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "RUG", "EASY_DECONSTRUCT" ],
+    "deconstruct": { "items": [ { "item": "p_carpet", "charges": 1 } ], "ter_set": "t_strconc_floor" }
+  },
+  {
+    "type": "terrain",
+    "id": "t_carpet_base_rock",
+    "name": "Carpet",
+    "symbol": ".",
+    "color": "red",
+    "move_cost": 2,
+    "copy-from": "t_carpet_base",
+    "description": "Base rock carpet!",
+    "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "RUG", "EASY_DECONSTRUCT" ],
+    "bash": {
+      "sound": "SMASH!",
+      "ter_set": "t_rock_floor",
+      "str_min": 5,
+      "str_max": 15,
+      "str_min_supported": 100,
+      "items": [ { "item": "cotton_patchwork", "count": [ 10, 20 ] }, { "item": "nail", "charges": [ 1, 3 ] } ]
+    },
+    "deconstruct": { "items": [ { "item": "r_carpet", "charges": 1 }, { "item": "nail", "charges": 5 } ], "ter_set": "t_rock_floor" }
+  },
+  {
+    "type": "terrain",
+    "id": "t_carpet_rock_red",
+    "copy-from": "t_carpet_base_rock",
+    "name": "red carpet",
+    "alias": "t_carpet_rock",
+    "looks_like": "t_carpet_red",
+    "symbol": ".",
+    "color": "red",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "RUG", "EASY_DECONSTRUCT" ],
+    "description": "Soft red carpet."
+  },
+  {
+    "type": "terrain",
+    "id": "t_carpet_rock_yellow",
+    "copy-from": "t_carpet_base_rock",
+    "name": "yellow carpet",
+    "description": "Soft yellow carpet.",
+    "symbol": ".",
+    "color": "yellow",
+    "move_cost": 2,
+    "looks_like": "t_carpet_yellow",
+    "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "RUG", "EASY_DECONSTRUCT" ],
+    "deconstruct": { "items": [ { "item": "y_carpet", "charges": 1 }, { "item": "nail", "charges": 5 } ], "ter_set": "t_rock_floor" }
+  },
+  {
+    "type": "terrain",
+    "id": "t_carpet_rock_green",
+    "copy-from": "t_carpet_base_rock",
+    "name": "green carpet",
+    "description": "Soft green carpet.",
+    "symbol": ".",
+    "color": "green",
+    "move_cost": 2,
+    "looks_like": "t_carpet_green",
+    "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "RUG", "EASY_DECONSTRUCT" ],
+    "deconstruct": { "items": [ { "item": "g_carpet", "charges": 1 }, { "item": "nail", "charges": 5 } ], "ter_set": "t_rock_floor" }
+  },
+  {
+    "type": "terrain",
+    "id": "t_carpet_rock_purple",
+    "copy-from": "t_carpet_base_rock",
+    "name": "purple carpet",
+    "description": "Soft purple carpet.",
+    "symbol": ".",
+    "color": "magenta",
+    "move_cost": 2,
+    "looks_like": "t_carpet_purple",
+    "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "RUG", "EASY_DECONSTRUCT" ],
+    "deconstruct": { "items": [ { "item": "p_carpet", "charges": 1 }, { "item": "nail", "charges": 5 } ], "ter_set": "t_rock_floor" }
+  },
+  {
+    "type": "terrain",
+    "id": "t_carpet_base_primitive",
+    "name": "Carpet",
+    "symbol": ".",
+    "color": "red",
+    "move_cost": 2,
+    "copy-from": "t_carpet_base",
+    "description": "Base primitive floor carpet!",
+    "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "RUG", "EASY_DECONSTRUCT" ],
+    "bash": {
+      "sound": "SMASH!",
+      "ter_set": "t_floor_primitive",
+      "str_min": 5,
+      "str_max": 15,
+      "str_min_supported": 100,
+      "items": [ { "item": "cotton_patchwork", "count": [ 10, 20 ] }, { "item": "nail", "charges": [ 1, 3 ] } ]
+    },
+    "deconstruct": { "items": [ { "item": "r_carpet", "charges": 1 }, { "item": "nail", "charges": 5 } ], "ter_set": "t_floor_primitive" }
+  },
+  {
+    "type": "terrain",
+    "id": "t_carpet_primitive_red",
+    "copy-from": "t_carpet_base_primitive",
+    "name": "red carpet",
+    "alias": "t_carpet_primitive",
+    "looks_like": "t_carpet_red",
+    "symbol": ".",
+    "color": "red",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "RUG", "EASY_DECONSTRUCT" ],
+    "description": "Soft red carpet."
+  },
+  {
+    "type": "terrain",
+    "id": "t_carpet_primitive_yellow",
+    "copy-from": "t_carpet_base_primitive",
+    "name": "yellow carpet",
+    "description": "Soft yellow carpet.",
+    "symbol": ".",
+    "color": "yellow",
+    "move_cost": 2,
+    "looks_like": "t_carpet_yellow",
+    "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "RUG", "EASY_DECONSTRUCT" ],
+    "deconstruct": { "items": [ { "item": "y_carpet", "charges": 1 }, { "item": "nail", "charges": 5 } ], "ter_set": "t_floor_primitive" }
+  },
+  {
+    "type": "terrain",
+    "id": "t_carpet_primitive_green",
+    "copy-from": "t_carpet_base_primitive",
+    "name": "green carpet",
+    "description": "Soft green carpet.",
+    "symbol": ".",
+    "color": "green",
+    "move_cost": 2,
+    "looks_like": "t_carpet_green",
+    "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "RUG", "EASY_DECONSTRUCT" ],
+    "deconstruct": { "items": [ { "item": "g_carpet", "charges": 1 }, { "item": "nail", "charges": 5 } ], "ter_set": "t_floor_primitive" }
+  },
+  {
+    "type": "terrain",
+    "id": "t_carpet_primitive_purple",
+    "copy-from": "t_carpet_base_primitive",
+    "name": "purple carpet",
+    "description": "Soft purple carpet.",
+    "symbol": ".",
+    "color": "magenta",
+    "move_cost": 2,
+    "looks_like": "t_carpet_purple",
+    "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "RUG", "EASY_DECONSTRUCT" ],
+    "deconstruct": { "items": [ { "item": "p_carpet", "charges": 1 }, { "item": "nail", "charges": 5 } ], "ter_set": "t_floor_primitive" }
+  },
+  {
+    "type": "terrain",
+    "id": "t_carpet_base_linoleum_gray",
+    "name": "Carpet",
+    "symbol": ".",
+    "color": "red",
+    "move_cost": 2,
+    "copy-from": "t_carpet_base",
+    "description": "Base gray linoleum floor carpet!",
+    "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "RUG", "EASY_DECONSTRUCT" ],
+    "bash": {
+      "sound": "SMASH!",
+      "ter_set": "t_linoleum_gray",
+      "str_min": 5,
+      "str_max": 15,
+      "str_min_supported": 100,
+      "items": [ { "item": "cotton_patchwork", "count": [ 10, 20 ] }, { "item": "nail", "charges": [ 1, 3 ] } ]
+    },
+    "deconstruct": { "items": [ { "item": "r_carpet", "charges": 1 }, { "item": "nail", "charges": 5 } ], "ter_set": "t_linoleum_gray" }
+  },
+  {
+    "type": "terrain",
+    "id": "t_carpet_linoleum_gray_red",
+    "copy-from": "t_carpet_base_linoleum_gray",
+    "name": "red carpet",
+    "alias": "t_carpet_linoleum_gray",
+    "looks_like": "t_carpet_red",
+    "symbol": ".",
+    "color": "red",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "RUG", "EASY_DECONSTRUCT" ],
+    "description": "Soft red carpet."
+  },
+  {
+    "type": "terrain",
+    "id": "t_carpet_linoleum_gray_yellow",
+    "copy-from": "t_carpet_base_linoleum_gray",
+    "name": "yellow carpet",
+    "description": "Soft yellow carpet.",
+    "symbol": ".",
+    "color": "yellow",
+    "move_cost": 2,
+    "looks_like": "t_carpet_yellow",
+    "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "RUG", "EASY_DECONSTRUCT" ],
+    "deconstruct": { "items": [ { "item": "y_carpet", "charges": 1 }, { "item": "nail", "charges": 5 } ], "ter_set": "t_linoleum_gray" }
+  },
+  {
+    "type": "terrain",
+    "id": "t_carpet_linoleum_gray_green",
+    "copy-from": "t_carpet_base_linoleum_gray",
+    "name": "green carpet",
+    "description": "Soft green carpet.",
+    "symbol": ".",
+    "color": "green",
+    "move_cost": 2,
+    "looks_like": "t_carpet_green",
+    "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "RUG", "EASY_DECONSTRUCT" ],
+    "deconstruct": { "items": [ { "item": "g_carpet", "charges": 1 }, { "item": "nail", "charges": 5 } ], "ter_set": "t_linoleum_gray" }
+  },
+  {
+    "type": "terrain",
+    "id": "t_carpet_linoleum_gray_purple",
+    "copy-from": "t_carpet_base_linoleum_gray",
+    "name": "purple carpet",
+    "description": "Soft purple carpet.",
+    "symbol": ".",
+    "color": "magenta",
+    "move_cost": 2,
+    "looks_like": "t_carpet_purple",
+    "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "RUG", "EASY_DECONSTRUCT" ],
+    "deconstruct": { "items": [ { "item": "p_carpet", "charges": 1 }, { "item": "nail", "charges": 5 } ], "ter_set": "t_linoleum_gray" }
+  },
+  {
+    "type": "terrain",
+    "id": "t_carpet_base_linoleum_white",
+    "name": "Carpet",
+    "symbol": ".",
+    "color": "red",
+    "move_cost": 2,
+    "copy-from": "t_carpet_base",
+    "description": "Base white linoleum floor carpet!",
+    "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "RUG", "EASY_DECONSTRUCT" ],
+    "bash": {
+      "sound": "SMASH!",
+      "ter_set": "t_linoleum_white",
+      "str_min": 5,
+      "str_max": 15,
+      "str_min_supported": 100,
+      "items": [ { "item": "cotton_patchwork", "count": [ 10, 20 ] }, { "item": "nail", "charges": [ 1, 3 ] } ]
+    },
+    "deconstruct": { "items": [ { "item": "r_carpet", "charges": 1 }, { "item": "nail", "charges": 5 } ], "ter_set": "t_linoleum_white" }
+  },
+  {
+    "type": "terrain",
+    "id": "t_carpet_linoleum_white_red",
+    "copy-from": "t_carpet_base_linoleum_white",
+    "name": "red carpet",
+    "alias": "t_carpet_linoleum_white",
+    "looks_like": "t_carpet_red",
+    "symbol": ".",
+    "color": "red",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "RUG", "EASY_DECONSTRUCT" ],
+    "description": "Soft red carpet."
+  },
+  {
+    "type": "terrain",
+    "id": "t_carpet_linoleum_white_yellow",
+    "copy-from": "t_carpet_base_linoleum_white",
+    "name": "yellow carpet",
+    "description": "Soft yellow carpet.",
+    "symbol": ".",
+    "color": "yellow",
+    "move_cost": 2,
+    "looks_like": "t_carpet_yellow",
+    "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "RUG", "EASY_DECONSTRUCT" ],
+    "deconstruct": { "items": [ { "item": "y_carpet", "charges": 1 }, { "item": "nail", "charges": 5 } ], "ter_set": "t_linoleum_white" }
+  },
+  {
+    "type": "terrain",
+    "id": "t_carpet_linoleum_white_green",
+    "copy-from": "t_carpet_base_linoleum_white",
+    "name": "green carpet",
+    "description": "Soft green carpet.",
+    "symbol": ".",
+    "color": "green",
+    "move_cost": 2,
+    "looks_like": "t_carpet_green",
+    "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "RUG", "EASY_DECONSTRUCT" ],
+    "deconstruct": { "items": [ { "item": "g_carpet", "charges": 1 }, { "item": "nail", "charges": 5 } ], "ter_set": "t_linoleum_white" }
+  },
+  {
+    "type": "terrain",
+    "id": "t_carpet_linoleum_white_purple",
+    "copy-from": "t_carpet_base_linoleum_white",
+    "name": "purple carpet",
+    "description": "Soft purple carpet.",
+    "symbol": ".",
+    "color": "magenta",
+    "move_cost": 2,
+    "looks_like": "t_carpet_purple",
+    "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "RUG", "EASY_DECONSTRUCT" ],
+    "deconstruct": { "items": [ { "item": "p_carpet", "charges": 1 }, { "item": "nail", "charges": 5 } ], "ter_set": "t_linoleum_white" }
   },
   {
     "type": "terrain",

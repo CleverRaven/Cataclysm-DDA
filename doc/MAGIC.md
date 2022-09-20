@@ -667,11 +667,12 @@ If your enchantment is relatively small, you can write it right in the same JSON
 
 The following is a list of possible `values`:
 
-| Character status value      | Description
+| Character status value | Description
 |---                          |---
 | `ARMOR_ACID` | 
 | `ARMOR_BASH` | 
 | `ARMOR_BIO` | 
+| `ARMOR_BULLET` | 
 | `ARMOR_COLD` | 
 | `ARMOR_CUT` | 
 | `ARMOR_ELEC` | 
@@ -679,12 +680,11 @@ The following is a list of possible `values`:
 | `ARMOR_STAB` | 
 | `ATTACK_COST` | 
 | `ATTACK_NOISE` | 
-| `ATTACK_SPEED` | 
+| `ATTACK_SPEED` | affects attack speed of item even if it's not the one you're wielding
 | `BIONIC_POWER` |
 | `BONUS_BLOCK` | 
 | `BONUS_DODGE` | 
 | `BONUS_DAMAGE` | 
-| `CARRY_VOLUME` | 
 | `CARRY_WEIGHT` | 
 | `DEXTERITY` | 
 | `INTELLIGENCE` | 
@@ -692,6 +692,16 @@ The following is a list of possible `values`:
 | `STRENGTH` | 
 | `SPEED` | 
 | `EFFECTIVE_HEALTH_MOD` | If this is anything other than zero (which it defaults to) you will use it instead of your actual health mod.
+| `EXTRA_ACID` | EXTRA_TYPE apply some amount of damage of picked type on target
+| `EXTRA_BASH` | 
+| `EXTRA_BIO` | 
+| `EXTRA_BULLET` | 
+| `EXTRA_COLD` | 
+| `EXTRA_CUT` | 
+| `EXTRA_ELEC` | 
+| `EXTRA_HEAT` | 
+| `EXTRA_STAB` | 
+| `EXTRA_ELEC_PAIN` | Multiplier on electric damage received, the result is applied as extra pain.
 | `FATIGUE` | 
 | `FOOTSTEP_NOISE` | 
 | `HUNGER` | 
@@ -700,6 +710,7 @@ The following is a list of possible `values`:
 | `MAX_HP` | 
 | `MAX_MANA` | 
 | `MAX_STAMINA` | 
+| `MELEE_DAMAGE` | 
 | `METABOLISM` | 
 | `MAP_MEMORY` | How many map tiles you can remember.
 | `MOD_HEALTH` | If this is anything other than zero (which it defaults to) you will to mod your health to a max/min of `MOD_HEALTH_CAP` every half hour.
@@ -708,13 +719,14 @@ The following is a list of possible `values`:
 | `PAIN` | 
 | `SHOUT_NOISE` | 
 | `SIGHT_RANGE` | 
+| `SIGHT_RANGE_ELECTRIC` | How many tiles away is_electric() creatures are visible from
 | `SKILL_RUST_RESIST` | Chance / 100 to resist skill rust.
 | `SLEEPY` | The higher this the easier you fall asleep.
 | `SOCIAL_INTIMIDATE` | 
 | `SOCIAL_LIE` | 
 | `SOCIAL_PERSUADE` | 
-| `SPELL_NOISE` | 
 | `READING_EXP` | Changes the minimum you learn from each reading increment.
+| `RECOIL_MODIFIER` | affects recoil when shooting a gun
 | `REGEN_HP` | 
 | `REGEN_MANA` | 
 | `REGEN_STAMINA` | 
@@ -722,11 +734,12 @@ The following is a list of possible `values`:
 | `WEAPON_DISPERSION` | 
 
 
-| Enchanted item value        | Description
+| Melee-only enchantment values | Description
 |---                          |---
 | `ITEM_DAMAGE_ACID` | 
 | `ITEM_DAMAGE_BASH` | 
 | `ITEM_DAMAGE_BIO` | 
+| `ITEM_DAMAGE_BULLET` | 
 | `ITEM_DAMAGE_COLD` | 
 | `ITEM_DAMAGE_CUT` | 
 | `ITEM_DAMAGE_ELEC` | 
@@ -735,20 +748,20 @@ The following is a list of possible `values`:
 | `ITEM_DAMAGE_STAB` | 
 
 
-| Melee-only enchantment values  | Description
+| Enchanted item value | Description
 |---                             |---
 | `ITEM_ARMOR_ACID` | 
 | `ITEM_ARMOR_BASH` | 
 | `ITEM_ARMOR_BIO` | 
+| `ITEM_ARMOR_BULLET` | 
 | `ITEM_ARMOR_COLD` | 
 | `ITEM_ARMOR_CUT` | 
 | `ITEM_ARMOR_ELEC` | 
 | `ITEM_ARMOR_HEAT` | 
-| `ITEM_ARMOR_PURE` | 
 | `ITEM_ARMOR_STAB` | 
 | `ITEM_ATTACK_SPEED` | 
 | `ITEM_COVERAGE` | 
-| `ITEM_DAMAGE_AP` | 
+| `ITEM_DAMAGE_AP` | Armor Piercing. Doesn't work currently
 | `ITEM_ENCUMBRANCE` | 
 | `ITEM_VOLUME` | 
 | `ITEM_WEIGHT` | 

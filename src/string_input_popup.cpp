@@ -2,6 +2,7 @@
 
 #include <cctype>
 
+#include "cata_scope_helpers.h"
 #include "catacharset.h"
 #include "input.h"
 #include "output.h"

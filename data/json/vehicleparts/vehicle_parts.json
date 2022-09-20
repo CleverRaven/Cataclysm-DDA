@@ -3299,5 +3299,25 @@
     "flags": [ "FLOATS" ],
     "breaks_into": "ig_vp_sheet_metal",
     "damage_reduction": { "all": 18 }
+  },
+  {
+    "id": "plugged_3in_ordnance_rifle",
+    "type": "vehicle_part",
+    "name": { "str": "plugged 3-inch ordnance rifle" },
+    "symbol": "t",
+    "description": "Unfortunately, some responsible killjoy poured concrete in the barrel of this historic cannon to make it safe for display.",
+    "durability": 400,
+    "damage_modifier": 80,
+    "location": "on_roof",
+    "categories": [ "warfare" ],
+    "item": "cannon_3in_ordnance",
+    "color": "dark_gray",
+    "broken_color": "dark_gray",
+    "breaks_into": [ { "item": "scrap", "count": 72 }, { "item": "steel_chunk", "count": 30 }, { "item": "steel_lump", "count": 10 } ],
+    "requirements": {
+      "install": { "time": "100 s", "skills": [ [ "mechanics", 3 ], [ "launcher", 1 ] ] },
+      "removal": { "time": "50 s", "skills": [ [ "mechanics", 2 ] ] }
+    },
+    "flags": [  ]
   }
 ]

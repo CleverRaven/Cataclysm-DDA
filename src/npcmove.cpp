@@ -4058,8 +4058,10 @@ void npc::mug_player( Character &mark )
     }
     double best_value = minimum_item_value() * value_mod;
     item *to_steal = nullptr;
-    const auto inv_valuables = mark.items_with( [this]( const item & itm ) {
-        return value( itm ) > 0;
+    std::vector<const item *> pseudo_items = mark.get_pseudo_items();
+    const auto inv_valuables = mark.items_with( [this, pseudo_items]( const item & itm ) {
+        return std::find( pseudo_items.begin(), pseudo_items.end(), &itm ) == pseudo_items.end() &&
+               value( itm ) > 0;
     } );
     for( item *it : inv_valuables ) {
         item &front_stack = *it; // is this safe?

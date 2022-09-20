@@ -339,24 +339,20 @@ int vehicle_part::ammo_consume( int qty, const tripoint &pos )
 
 units::energy vehicle_part::consume_energy( const itype_id &ftype, units::energy wanted_energy )
 {
-    if( base.empty() || !is_fuel_store() ) {
+    if( !is_fuel_store() ) {
         return 0_J;
     }
 
-    item &fuel = base.legacy_front();
-    if( fuel.typeId() == ftype ) {
-        cata_assert( fuel.is_fuel() );
-
-        units::energy energy_per_charge = fuel.fuel_energy() / fuel.charges;
-        int charges_to_use = wanted_energy / energy_per_charge;
-        if( !charges_to_use ) {
-            return 0_J;
+    for( item *const fuel : base.all_items_top() ) {
+        if( fuel->typeId() != ftype || !fuel->is_fuel() ) {
+            continue;
         }
-        if( charges_to_use >= fuel.charges ) {
-            charges_to_use = fuel.charges;
-            base.clear_items();
-        } else {
-            fuel.charges -= charges_to_use;
+        const units::energy energy_per_charge = fuel->fuel_energy() / fuel->charges;
+        const int charges_wanted = static_cast<int>( wanted_energy / energy_per_charge );
+        const int charges_to_use = std::min( charges_wanted, fuel->charges );
+        fuel->charges -= charges_to_use;
+        if( fuel->charges == 0 ) {
+            base.remove_item( *fuel );
         }
 
         return charges_to_use * energy_per_charge;

@@ -21,6 +21,7 @@
 #include "faction.h"
 #include "hash_utils.h"
 #include "json.h"
+#include "json_loader.h"
 #include "kill_tracker.h"
 #include "map.h"
 #include "messages.h"
@@ -177,7 +178,7 @@ std::string scent_map::serialize( bool is_type ) const
     return rle_out.str();
 }
 
-static void chkversion( std::istream &fin )
+static size_t chkversion( std::istream &fin )
 {
     if( fin.peek() == '#' ) {
         std::string vline;
@@ -191,20 +192,21 @@ static void chkversion( std::istream &fin )
             savegame_loading_version = savedver;
         }
     }
+    return fin.tellg();
 }
 
 /*
  * Parse an open .sav file.
  */
-void game::unserialize( std::istream &fin, const std::string &path )
+void game::unserialize( std::istream &fin, const cata_path &path )
 {
-    chkversion( fin );
+    size_t json_file_offset = chkversion( fin );
     int tmpturn = 0;
     int tmpcalstart = 0;
     int tmprun = 0;
     tripoint_om_sm lev;
     point_abs_om com;
-    JsonIn jsin( fin, path );
+    JsonValue jsin = json_loader::from_path_at_offset( path, json_file_offset );
     try {
         JsonObject data = jsin.get_object();
 
@@ -308,10 +310,10 @@ void scent_map::deserialize( const std::string &data, bool is_type )
 
 #if defined(__ANDROID__)
 ///// quick shortcuts
-void game::load_shortcuts( std::istream &fin, const std::string &path )
+void game::load_shortcuts( const cata_path &path )
 {
-    JsonIn jsin( fin, path );
     try {
+        JsonValue jsin = json_loader::from_path( path );
         JsonObject data = jsin.get_object();
 
         if( get_option<bool>( "ANDROID_SHORTCUT_PERSISTENCE" ) ) {
@@ -486,60 +488,79 @@ void overmap::convert_terrain(
     generate_bridgeheads( bridge_points );
 }
 
-void overmap::load_monster_groups( JsonIn &jsin )
+void overmap::load_monster_groups( const JsonArray &jsin )
 {
-    jsin.start_array();
-    while( !jsin.end_array() ) {
-        jsin.start_array();
-
+    for( JsonArray mongroup_with_tripoints : jsin ) {
         mongroup new_group;
-        new_group.deserialize( jsin.get_object() );
+        new_group.deserialize( mongroup_with_tripoints.next_object() );
 
-        jsin.start_array();
+        JsonArray tripoints_json = mongroup_with_tripoints.next_array();
         tripoint_om_sm temp;
-        while( !jsin.end_array() ) {
-            temp.deserialize( jsin );
+        for( JsonValue tripoint_json : tripoints_json ) {
+            temp.deserialize( tripoint_json );
             new_group.abs_pos = project_combine( pos(), temp );
             add_mon_group( new_group );
         }
 
-        jsin.end_array();
+        if( mongroup_with_tripoints.has_more() ) {
+            mongroup_with_tripoints.throw_error( 2, "Unexpected value for mongroups json" );
+        }
     }
 }
 
-void overmap::load_legacy_monstergroups( JsonIn &jsin )
+void overmap::load_legacy_monstergroups( const JsonArray &jsin )
 {
-    jsin.start_array();
-    while( !jsin.end_array() ) {
+    for( JsonObject mongroup_json : jsin ) {
         mongroup new_group;
-        new_group.deserialize_legacy( jsin );
+        new_group.deserialize_legacy( mongroup_json );
         add_mon_group( new_group );
     }
 }
 
 // throws std::exception
-void overmap::unserialize( std::istream &fin )
+void overmap::unserialize( const cata_path &file_name, std::istream &fin )
 {
-    chkversion( fin );
-    JsonIn jsin( fin );
-    jsin.start_object();
-    while( !jsin.end_object() ) {
-        const std::string name = jsin.get_member_name();
+    size_t json_offset = chkversion( fin );
+    JsonValue jsin = json_loader::from_path_at_offset( file_name, json_offset );
+    unserialize( jsin.get_object() );
+}
+
+void overmap::unserialize( const JsonObject &jsobj )
+{
+    // These must be read in this order.
+    if( jsobj.has_member( "mapgen_arg_storage" ) ) {
+        jsobj.read( "mapgen_arg_storage", mapgen_arg_storage, true );
+    }
+    if( jsobj.has_member( "mapgen_arg_index" ) ) {
+        std::vector<std::pair<tripoint_om_omt, int>> flat_index;
+        jsobj.read( "mapgen_arg_index", flat_index, true );
+        for( const std::pair<tripoint_om_omt, int> &p : flat_index ) {
+            auto it = mapgen_arg_storage.get_iterator_from_index( p.second );
+            mapgen_args_index.emplace( p.first, &*it );
+        }
+    }
+    for( JsonMember om_member : jsobj ) {
+        const std::string name = om_member.name();
         if( name == "layers" ) {
             std::unordered_map<tripoint_om_omt, std::string> needs_conversion;
-            jsin.start_array();
+            JsonArray layers_json = om_member;
+
             for( int z = 0; z < OVERMAP_LAYERS; ++z ) {
-                jsin.start_array();
+                JsonArray layer_json = layers_json.next_array();
                 int count = 0;
                 std::string tmp_ter;
                 oter_id tmp_otid( 0 );
                 for( int j = 0; j < OMAPY; j++ ) {
                     for( int i = 0; i < OMAPX; i++ ) {
                         if( count == 0 ) {
-                            jsin.start_array();
-                            jsin.read( tmp_ter );
-                            jsin.read( count );
-                            jsin.end_array();
+                            {
+                                JsonArray rle_terrain = layer_json.next_array();
+                                tmp_ter = rle_terrain.next_string();
+                                count = rle_terrain.next_int();
+                                if( rle_terrain.has_more() ) {
+                                    rle_terrain.throw_error( 2, "Unexpected value in RLE encoding" );
+                                }
+                            }
                             if( obsolete_terrain( tmp_ter ) ) {
                                 for( int p = i; p < i + count; p++ ) {
                                     needs_conversion.emplace(
@@ -557,13 +578,11 @@ void overmap::unserialize( std::istream &fin )
                         layer[z].terrain[i][j] = tmp_otid;
                     }
                 }
-                jsin.end_array();
             }
-            jsin.end_array();
             convert_terrain( needs_conversion );
         } else if( name == "region_id" ) {
             std::string new_region_id;
-            jsin.read( new_region_id );
+            om_member.read( new_region_id );
             if( settings->id != new_region_id ) {
                 t_regional_settings_map_citr rit = region_settings_map.find( new_region_id );
                 if( rit != region_settings_map.end() ) {
@@ -572,68 +591,65 @@ void overmap::unserialize( std::istream &fin )
                 }
             }
         } else if( name == "mongroups" ) {
-            load_legacy_monstergroups( jsin );
+            load_legacy_monstergroups( om_member );
         } else if( name == "monster_groups" ) {
-            load_monster_groups( jsin );
+            load_monster_groups( om_member );
         } else if( name == "cities" ) {
-            jsin.start_array();
-            while( !jsin.end_array() ) {
-                jsin.start_object();
+            JsonArray cities_json = om_member;
+            for( JsonObject city_json : cities_json ) {
                 city new_city;
-                while( !jsin.end_object() ) {
-                    std::string city_member_name = jsin.get_member_name();
+                for( JsonMember city_member : city_json ) {
+                    std::string city_member_name = city_member.name();
                     if( city_member_name == "name" ) {
-                        jsin.read( new_city.name );
+                        city_member.read( new_city.name );
                     } else if( city_member_name == "id" ) {
-                        jsin.read( new_city.id );
+                        city_member.read( new_city.id );
                     } else if( city_member_name == "database_id" ) {
-                        jsin.read( new_city.database_id );
+                        city_member.read( new_city.database_id );
                     } else if( city_member_name == "pos" ) {
-                        jsin.read( new_city.pos );
+                        city_member.read( new_city.pos );
                     } else if( city_member_name == "pos_om" ) {
-                        jsin.read( new_city.pos_om );
+                        city_member.read( new_city.pos_om );
                     } else if( city_member_name == "x" ) {
-                        jsin.read( new_city.pos.x() );
+                        city_member.read( new_city.pos.x() );
                     } else if( city_member_name == "y" ) {
-                        jsin.read( new_city.pos.y() );
+                        city_member.read( new_city.pos.y() );
                     } else if( city_member_name == "population" ) {
-                        jsin.read( new_city.population );
+                        city_member.read( new_city.population );
                     } else if( city_member_name == "size" ) {
-                        jsin.read( new_city.size );
+                        city_member.read( new_city.size );
                     }
                 }
                 cities.push_back( new_city );
             }
         } else if( name == "connections_out" ) {
-            jsin.read( connections_out );
+            om_member.read( connections_out );
         } else if( name == "roads_out" ) {
             // Legacy data, superseded by that stored in the "connections_out" member. A load and save
             // cycle will migrate this to "connections_out".
             std::vector<tripoint_om_omt> &roads_out =
                 connections_out[overmap_connection_local_road];
-            jsin.start_array();
-            while( !jsin.end_array() ) {
-                jsin.start_object();
+            JsonArray roads_json = om_member;
+            for( JsonObject road_json : roads_json ) {
                 tripoint_om_omt new_road;
-                while( !jsin.end_object() ) {
-                    std::string road_member_name = jsin.get_member_name();
+                for( JsonMember road_member : road_json ) {
+                    std::string road_member_name = road_member.name();
                     if( road_member_name == "x" ) {
-                        jsin.read( new_road.x() );
+                        road_member.read( new_road.x() );
                     } else if( road_member_name == "y" ) {
-                        jsin.read( new_road.y() );
+                        road_member.read( new_road.y() );
                     }
                 }
                 roads_out.push_back( new_road );
             }
         } else if( name == "radios" ) {
-            jsin.start_array();
-            while( !jsin.end_array() ) {
-                jsin.start_object();
+            JsonArray radios_json = om_member;
+            for( JsonObject radio_json : radios_json ) {
                 radio_tower new_radio{ point_om_sm( point_min ) };
-                while( !jsin.end_object() ) {
-                    const std::string radio_member_name = jsin.get_member_name();
+                for( JsonMember radio_member : radio_json ) {
+                    const std::string radio_member_name = radio_member.name();
                     if( radio_member_name == "type" ) {
-                        const std::string radio_name = jsin.get_string();
+                        const std::string radio_name = radio_member.get_string();
                         const auto mapping =
                             find_if( radio_type_names.begin(), radio_type_names.end(),
                         [radio_name]( const std::pair<radio_type, std::string> &p ) {
@@ -643,114 +659,110 @@ void overmap::unserialize( std::istream &fin )
                             new_radio.type = mapping->first;
                         }
                     } else if( radio_member_name == "x" ) {
-                        jsin.read( new_radio.pos.x() );
+                        radio_member.read( new_radio.pos.x() );
                     } else if( radio_member_name == "y" ) {
-                        jsin.read( new_radio.pos.y() );
+                        radio_member.read( new_radio.pos.y() );
                     } else if( radio_member_name == "strength" ) {
-                        jsin.read( new_radio.strength );
+                        radio_member.read( new_radio.strength );
                     } else if( radio_member_name == "message" ) {
-                        jsin.read( new_radio.message );
+                        radio_member.read( new_radio.message );
                     } else if( radio_member_name == "frequency" ) {
-                        jsin.read( new_radio.frequency );
+                        radio_member.read( new_radio.frequency );
                     }
                 }
                 radios.push_back( new_radio );
             }
         } else if( name == "monster_map" ) {
-            jsin.start_array();
-            while( !jsin.end_array() ) {
+            JsonArray monster_map_json = om_member;
+            while( monster_map_json.has_more() ) {
                 tripoint_om_sm monster_location;
                 monster new_monster;
-                monster_location.deserialize( jsin );
-                new_monster.deserialize( jsin.get_object(), project_combine( loc, monster_location ) );
+                monster_location.deserialize( monster_map_json.next_value() );
+                new_monster.deserialize( monster_map_json.next_object(), project_combine( loc, monster_location ) );
                 monster_map.insert( std::make_pair( monster_location,
                                                     std::move( new_monster ) ) );
             }
         } else if( name == "tracked_vehicles" ) {
-            jsin.start_array();
-            while( !jsin.end_array() ) {
-                jsin.start_object();
+            JsonArray tracked_vehicles_json = om_member;
+            for( JsonObject tracked_vehicle_json : tracked_vehicles_json ) {
                 om_vehicle new_tracker;
                 int id;
-                while( !jsin.end_object() ) {
-                    std::string tracker_member_name = jsin.get_member_name();
+                for( JsonMember tracker_member : tracked_vehicle_json ) {
+                    std::string tracker_member_name = tracker_member.name();
                     if( tracker_member_name == "id" ) {
-                        jsin.read( id );
+                        tracker_member.read( id );
                     } else if( tracker_member_name == "x" ) {
-                        jsin.read( new_tracker.p.x() );
+                        tracker_member.read( new_tracker.p.x() );
                     } else if( tracker_member_name == "y" ) {
-                        jsin.read( new_tracker.p.y() );
+                        tracker_member.read( new_tracker.p.y() );
                     } else if( tracker_member_name == "name" ) {
-                        jsin.read( new_tracker.name );
+                        tracker_member.read( new_tracker.name );
                     }
                 }
                 vehicles[id] = new_tracker;
             }
         } else if( name == "scent_traces" ) {
-            jsin.start_array();
-            while( !jsin.end_array() ) {
-                jsin.start_object();
+            JsonArray scents_json = om_member;
+            for( JsonObject scent_json : scents_json ) {
                 tripoint_abs_omt pos;
                 time_point time = calendar::before_time_starts;
                 int strength = 0;
-                while( !jsin.end_object() ) {
-                    std::string scent_member_name = jsin.get_member_name();
+                for( JsonMember scent_member : scent_json ) {
+                    std::string scent_member_name = scent_member.name();
                     if( scent_member_name == "pos" ) {
-                        jsin.read( pos );
+                        scent_member.read( pos );
                     } else if( scent_member_name == "time" ) {
-                        jsin.read( time );
+                        scent_member.read( time );
                     } else if( scent_member_name == "strength" ) {
-                        jsin.read( strength );
+                        scent_member.read( strength );
                     }
                 }
                 scents[pos] = scent_trace( time, strength );
             }
         } else if( name == "npcs" ) {
-            jsin.start_array();
-            while( !jsin.end_array() ) {
+            JsonArray npcs_json = om_member;
+            for( JsonObject npc_json : npcs_json ) {
                 shared_ptr_fast<npc> new_npc = make_shared_fast<npc>();
-                new_npc->deserialize( jsin.get_object() );
+                new_npc->deserialize( npc_json );
                 if( !new_npc->get_fac_id().str().empty() ) {
                     new_npc->set_fac( new_npc->get_fac_id() );
                 }
                 npcs.push_back( new_npc );
             }
         } else if( name == "camps" ) {
-            jsin.start_array();
-            while( !jsin.end_array() ) {
+            JsonArray camps_json = om_member;
+            for( JsonObject camp_json : camps_json ) {
                 basecamp new_camp;
-                new_camp.deserialize( jsin.get_object() );
+                new_camp.deserialize( camp_json );
                 camps.push_back( new_camp );
             }
         } else if( name == "overmap_special_placements" ) {
-            jsin.start_array();
-            while( !jsin.end_array() ) {
-                jsin.start_object();
+            JsonArray special_placements_json = om_member;
+            for( JsonObject special_placement_json : special_placements_json ) {
                 overmap_special_id s;
                 bool is_safe_zone = false;
-                while( !jsin.end_object() ) {
-                    std::string name = jsin.get_member_name();
-                    if( name == "special" ) {
-                        jsin.read( s );
-                        s = overmap_special_migration::migrate( s );
-                        if( !s.is_null() ) {
-                            is_safe_zone = s->has_flag( "SAFE_AT_WORLDGEN" );
-                        }
-                    } else if( name == "placements" ) {
-                        jsin.start_array();
-                        while( !jsin.end_array() ) {
-                            jsin.start_object();
-                            while( !jsin.end_object() ) {
-                                std::string name = jsin.get_member_name();
+                if( special_placement_json.has_member( "special" ) ) {
+                    special_placement_json.read( "special", s );
+                    s = overmap_special_migration::migrate( s );
+                    if( !s.is_null() ) {
+                        is_safe_zone = s->has_flag( "SAFE_AT_WORLDGEN" );
+                    }
+                }
+                for( JsonMember special_placement_member : special_placement_json ) {
+                    std::string name = special_placement_member.name();
+                    if( name == "placements" ) {
+                        JsonArray placements_json = special_placement_member;
+                        for( JsonObject placement_json : placements_json ) {
+                            for( JsonMember placement_member : placement_json ) {
+                                std::string name = placement_member.name();
                                 if( name == "points" ) {
-                                    jsin.start_array();
-                                    while( !jsin.end_array() ) {
-                                        jsin.start_object();
+                                    JsonArray points_json = placement_member;
+                                    for( JsonObject point_json : points_json ) {
                                         tripoint_om_omt p;
-                                        while( !jsin.end_object() ) {
-                                            std::string name = jsin.get_member_name();
+                                        for( JsonMember point_member : point_json ) {
+                                            std::string name = point_member.name();
                                             if( name == "p" ) {
-                                                jsin.read( p );
+                                                point_member.read( p );
                                                 if( !s.is_null() ) {
                                                     overmap_special_placements[p] = s;
                                                     if( is_safe_zone ) {
@@ -766,24 +778,15 @@ void overmap::unserialize( std::istream &fin )
                     }
                 }
             }
-        } else if( name == "mapgen_arg_storage" ) {
-            jsin.read( mapgen_arg_storage, true );
-        } else if( name == "mapgen_arg_index" ) {
-            std::vector<std::pair<tripoint_om_omt, int>> flat_index;
-            jsin.read( flat_index, true );
-            for( const std::pair<tripoint_om_omt, int> &p : flat_index ) {
-                auto it = mapgen_arg_storage.get_iterator_from_index( p.second );
-                mapgen_args_index.emplace( p.first, &*it );
-            }
         } else if( name == "joins_used" ) {
             std::vector<std::pair<om_pos_dir, std::string>> flat_index;
-            jsin.read( flat_index, true );
+            om_member.read( flat_index, true );
             for( const std::pair<om_pos_dir, std::string> &p : flat_index ) {
                 joins_used.insert( p );
             }
         } else if( name == "predecessors" ) {
             std::vector<std::pair<tripoint_om_omt, std::vector<oter_id>>> flattened_predecessors;
-            jsin.read( flattened_predecessors, true );
+            om_member.read( flattened_predecessors, true );
             for( std::pair<tripoint_om_omt, std::vector<oter_id>> &p : flattened_predecessors ) {
                 predecessors_.insert( std::move( p ) );
             }
@@ -792,9 +795,8 @@ void overmap::unserialize( std::istream &fin )
 }
 
 // throws std::exception
-void overmap::unserialize_omap( std::istream &fin )
+void overmap::unserialize_omap( const JsonValue &jsin, const cata_path &json_path )
 {
-    JsonIn jsin( fin );
     JsonArray ja = jsin.get_array();
     JsonObject jo = ja.next_object();
 
@@ -814,7 +816,7 @@ void overmap::unserialize_omap( std::istream &fin )
         std::unordered_map<tripoint_om_omt, std::string> needs_conversion;
         if( om_pos != pos() ) {
             debugmsg( "Loaded invalid overmap from omap file %s. Loaded %s, expected %s",
-                      *jsin.get_path(), om_pos.to_string(), pos().to_string() );
+                      json_path.generic_u8string(), om_pos.to_string(), pos().to_string() );
         } else {
             int count = 0;
             std::string tmp_ter;
@@ -908,7 +910,7 @@ void overmap::unserialize_omap( std::istream &fin )
 }
 
 template<typename MdArray>
-static void unserialize_array_from_compacted_sequence( JsonIn &jsin, MdArray &array )
+static void unserialize_array_from_compacted_sequence( JsonArray &ja, MdArray &array )
 {
     int count = 0;
     using Value = typename MdArray::value_type;
@@ -916,10 +918,12 @@ static void unserialize_array_from_compacted_sequence( JsonIn &jsin, MdArray &ar
     for( size_t j = 0; j < MdArray::size_y; ++j ) {
         for( size_t i = 0; i < MdArray::size_x; ++i ) {
             if( count == 0 ) {
-                jsin.start_array();
-                jsin.read( value );
-                jsin.read( count );
-                jsin.end_array();
+                JsonArray sequence = ja.next_array();
+                sequence.read_next( value );
+                sequence.read_next( count );
+                if( sequence.size() > 2 ) {
+                    sequence.throw_error( "Too many values for compacted sequence" );
+                }
             }
             count--;
             array[i][j] = value;
@@ -928,67 +932,84 @@ static void unserialize_array_from_compacted_sequence( JsonIn &jsin, MdArray &ar
 }
 
 // throws std::exception
-void overmap::unserialize_view( std::istream &fin )
+void overmap::unserialize_view( const cata_path &file_name, std::istream &fin )
 {
-    chkversion( fin );
-    JsonIn jsin( fin );
-    jsin.start_object();
-    while( !jsin.end_object() ) {
-        const std::string name = jsin.get_member_name();
+    size_t json_offset = chkversion( fin );
+    JsonValue jsin = json_loader::from_path_at_offset( file_name, json_offset );
+    unserialize_view( jsin.get_object() );
+}
+
+void overmap::unserialize_view( const JsonObject &jsobj )
+{
+    for( JsonMember view_member : jsobj ) {
+        const std::string name = view_member.name();
         if( name == "visible" ) {
-            jsin.start_array();
+            JsonArray visible_json = view_member;
             for( int z = 0; z < OVERMAP_LAYERS; ++z ) {
-                jsin.start_array();
-                unserialize_array_from_compacted_sequence( jsin, layer[z].visible );
-                jsin.end_array();
+                JsonArray visible_by_z_json = visible_json.next_array();
+                unserialize_array_from_compacted_sequence( visible_by_z_json, layer[z].visible );
+                if( visible_by_z_json.has_more() ) {
+                    visible_by_z_json.throw_error( "Too many sequences for z visible view" );
+                }
             }
-            jsin.end_array();
+            if( visible_json.has_more() ) {
+                visible_json.throw_error( "Too many views by z count" );
+            }
         } else if( name == "explored" ) {
-            jsin.start_array();
+            JsonArray explored_json = view_member;
             for( int z = 0; z < OVERMAP_LAYERS; ++z ) {
-                jsin.start_array();
-                unserialize_array_from_compacted_sequence( jsin, layer[z].explored );
-                jsin.end_array();
+                JsonArray explored_by_z_json = explored_json.next_array();
+                unserialize_array_from_compacted_sequence( explored_by_z_json, layer[z].explored );
+                if( explored_by_z_json.has_more() ) {
+                    explored_by_z_json.throw_error( "Too many sequences for z explored view" );
+                }
             }
-            jsin.end_array();
+            if( explored_json.has_more() ) {
+                explored_json.throw_error( "Too many views by z count" );
+            }
         } else if( name == "notes" ) {
-            jsin.start_array();
+            JsonArray notes_json = view_member;
             for( int z = 0; z < OVERMAP_LAYERS; ++z ) {
-                jsin.start_array();
-                while( !jsin.end_array() ) {
+                JsonArray notes_by_z_json = notes_json.next_array();
+                for( JsonArray note_json : notes_by_z_json ) {
                     om_note tmp;
-                    jsin.start_array();
-                    jsin.read( tmp.p.x() );
-                    jsin.read( tmp.p.y() );
-                    jsin.read( tmp.text );
-                    jsin.read( tmp.dangerous );
-                    jsin.read( tmp.danger_radius );
-                    jsin.end_array();
+                    note_json.read_next( tmp.p.x() );
+                    note_json.read_next( tmp.p.y() );
+                    note_json.read_next( tmp.text );
+                    note_json.read_next( tmp.dangerous );
+                    note_json.read_next( tmp.danger_radius );
+                    if( note_json.size() > 5 ) {
+                        note_json.throw_error( "Too many values for note" );
+                    }
 
                     layer[z].notes.push_back( tmp );
                 }
             }
-            jsin.end_array();
+            if( notes_json.has_more() ) {
+                notes_json.throw_error( "Too many notes by z count" );
+            }
         } else if( name == "extras" ) {
-            jsin.start_array();
+            JsonArray extras_json = view_member;
             for( int z = 0; z < OVERMAP_LAYERS; ++z ) {
-                jsin.start_array();
-                while( !jsin.end_array() ) {
+                JsonArray extras_by_z = extras_json.next_array();
+                for( JsonArray extra_json : extras_by_z ) {
                     om_map_extra tmp;
-                    jsin.start_array();
-                    jsin.read( tmp.p.x() );
-                    jsin.read( tmp.p.y() );
-                    jsin.read( tmp.id );
-                    jsin.end_array();
+                    extra_json.read_next( tmp.p.x() );
+                    extra_json.read_next( tmp.p.y() );
+                    extra_json.read_next( tmp.id );
+                    if( extra_json.has_more() ) {
+                        extra_json.throw_error( "Too many values for extra" );
+                    }
 
                     layer[z].extras.push_back( tmp );
                 }
             }
-            jsin.end_array();
+            if( extras_json.has_more() ) {
+                extras_json.throw_error( "Too many extras by z count" );
+            }
         }
     }
 }
-
 template<typename MdArray>
 static void serialize_array_to_compacted_sequence( JsonOut &json, const MdArray &array )
 {
@@ -1367,11 +1388,10 @@ void mongroup::serialize( JsonOut &json ) const
     const_cast<mongroup *>( this )->io( archive );
 }
 
-void mongroup::deserialize_legacy( JsonIn &json )
+void mongroup::deserialize_legacy( const JsonObject &jo )
 {
-    json.start_object();
-    while( !json.end_object() ) {
-        std::string name = json.get_member_name();
+    for( JsonMember json : jo ) {
+        std::string name = json.name();
         if( name == "type" ) {
             type = mongroup_id( json.get_string() );
         } else if( name == "abs_pos" ) {
@@ -1391,10 +1411,10 @@ void mongroup::deserialize_legacy( JsonIn &json )
         } else if( name == "horde_behaviour" ) {
             json.read( behaviour );
         } else if( name == "monsters" ) {
-            json.start_array();
-            while( !json.end_array() ) {
+            JsonArray ja = json;
+            for( JsonObject monster_json : ja ) {
                 monster new_monster;
-                new_monster.deserialize( json.get_object() );
+                new_monster.deserialize( monster_json );
                 monsters.push_back( new_monster );
             }
         }
@@ -1407,49 +1427,49 @@ void mongroup::deserialize_legacy( JsonIn &json )
 ///////////////////////////////////////////////////////////////////////////////////////
 ///// SAVE_MASTER (i.e. master.gsav)
 
-void mission::unserialize_all( JsonIn &jsin )
+void mission::unserialize_all( const JsonArray &ja )
 {
-    jsin.start_array();
-    while( !jsin.end_array() ) {
+    for( JsonObject jo : ja ) {
         mission mis;
-        mis.deserialize( jsin.get_object() );
+        mis.deserialize( jo );
         add_existing( mis );
     }
 }
 
-void game::unserialize_master( std::istream &fin )
+void game::unserialize_master( const cata_path &file_name, std::istream &fin )
 {
     savegame_loading_version = 0;
-    chkversion( fin );
+    size_t json_offset = chkversion( fin );
     try {
-        // single-pass parsing example
-        JsonIn jsin( fin );
-        jsin.start_object();
-        while( !jsin.end_object() ) {
-            std::string name = jsin.get_member_name();
-            if( name == "next_mission_id" ) {
-                next_mission_id = jsin.get_int();
-            } else if( name == "next_npc_id" ) {
-                next_npc_id.deserialize( jsin.get_int() );
-            } else if( name == "active_missions" ) {
-                mission::unserialize_all( jsin );
-            } else if( name == "factions" ) {
-                jsin.read( *faction_manager_ptr );
-            } else if( name == "seed" ) {
-                jsin.read( seed );
-            } else if( name == "weather" ) {
-                weather_manager::unserialize_all( jsin );
-            } else if( name == "timed_events" ) {
-                timed_event_manager::unserialize_all( jsin );
-            } else if( name == "placed_unique_specials" ) {
-                overmap_buffer.deserialize_placed_unique_specials( jsin );
-            } else {
-                // silently ignore anything else
-                jsin.skip_value();
-            }
-        }
+        JsonValue jv = json_loader::from_path_at_offset( file_name, json_offset );
+        unserialize_master( jv );
     } catch( const JsonError &e ) {
         debugmsg( "error loading %s: %s", SAVE_MASTER, e.c_str() );
+    }
+}
+
+void game::unserialize_master( const JsonValue &jv )
+{
+    JsonObject game_json = jv;
+    for( JsonMember jsin : game_json ) {
+        std::string name = jsin.name();
+        if( name == "next_mission_id" ) {
+            next_mission_id = jsin.get_int();
+        } else if( name == "next_npc_id" ) {
+            next_npc_id.deserialize( jsin );
+        } else if( name == "active_missions" ) {
+            mission::unserialize_all( jsin );
+        } else if( name == "factions" ) {
+            jsin.read( *faction_manager_ptr );
+        } else if( name == "seed" ) {
+            jsin.read( seed );
+        } else if( name == "weather" ) {
+            weather_manager::unserialize_all( jsin );
+        } else if( name == "timed_events" ) {
+            timed_event_manager::unserialize_all( jsin );
+        } else if( name == "placed_unique_specials" ) {
+            overmap_buffer.deserialize_placed_unique_specials( jsin );
+        }
     }
 }
 
@@ -1462,9 +1482,8 @@ void mission::serialize_all( JsonOut &json )
     json.end_array();
 }
 
-void weather_manager::unserialize_all( JsonIn &jsin )
+void weather_manager::unserialize_all( const JsonObject &w )
 {
-    JsonObject w = jsin.get_object();
     w.read( "lightning", get_weather().lightning_active );
     w.read( "weather_id", get_weather().weather_id );
     w.read( "next_weather", get_weather().nextweather );
@@ -1480,11 +1499,9 @@ void global_variables::unserialize( JsonObject &jo )
     jo.read( "global_vals", global_values );
 }
 
-void timed_event_manager::unserialize_all( JsonIn &jsin )
+void timed_event_manager::unserialize_all( const JsonArray &ja )
 {
-    jsin.start_array();
-    while( !jsin.end_array() ) {
-        JsonObject jo = jsin.get_object();
+    for( JsonObject jo : ja ) {
         int type;
         time_point when;
         int faction_id;
@@ -1599,15 +1616,15 @@ void timed_event_manager::serialize_all( JsonOut &jsout )
     jsout.end_array();
 }
 
-void faction_manager::deserialize( JsonIn &jsin )
+void faction_manager::deserialize( const JsonValue &jv )
 {
-    if( jsin.test_object() ) {
+    if( jv.test_object() ) {
         // whoops - this recovers factions saved under the wrong format.
-        jsin.start_object();
-        while( !jsin.end_object() ) {
+        JsonObject jo = jv;
+        for( JsonMember jm : jo ) {
             faction add_fac;
-            add_fac.id = faction_id( jsin.get_member_name() );
-            jsin.read( add_fac );
+            add_fac.id = faction_id( jm.name() );
+            jm.read( add_fac );
             faction *old_fac = get( add_fac.id, false );
             if( old_fac ) {
                 *old_fac = add_fac;
@@ -1617,12 +1634,12 @@ void faction_manager::deserialize( JsonIn &jsin )
                 factions[add_fac.id] = add_fac;
             }
         }
-    } else if( jsin.test_array() ) {
+    } else if( jv.test_array() ) {
         // how it should have been serialized.
-        jsin.start_array();
-        while( !jsin.end_array() ) {
+        JsonArray ja = jv;
+        for( JsonValue jav : ja ) {
             faction add_fac;
-            jsin.read( add_fac );
+            jav.read( add_fac );
             faction *old_fac = get( add_fac.id, false );
             if( old_fac ) {
                 *old_fac = add_fac;
@@ -1635,15 +1652,14 @@ void faction_manager::deserialize( JsonIn &jsin )
     }
 }
 
-void creature_tracker::deserialize( JsonIn &jsin )
+void creature_tracker::deserialize( const JsonArray &ja )
 {
     monsters_list.clear();
     monsters_by_location.clear();
-    jsin.start_array();
-    while( !jsin.end_array() ) {
+    for( JsonValue jv : ja ) {
         // TODO: would be nice if monster had a constructor using JsonIn or similar, so this could be one statement.
         shared_ptr_fast<monster> mptr = make_shared_fast<monster>();
-        jsin.read( *mptr );
+        jv.read( *mptr );
         add( mptr );
     }
 }
@@ -1662,11 +1678,11 @@ void overmapbuffer::serialize_placed_unique_specials( JsonOut &json ) const
     json.write_as_array( placed_unique_specials );
 }
 
-void overmapbuffer::deserialize_placed_unique_specials( JsonIn &jsin )
+void overmapbuffer::deserialize_placed_unique_specials( const JsonValue &jsin )
 {
     placed_unique_specials.clear();
-    jsin.start_array();
-    while( !jsin.end_array() ) {
-        placed_unique_specials.emplace( jsin.get_string() );
+    JsonArray ja = jsin.get_array();
+    for( const JsonValue &special : ja ) {
+        placed_unique_specials.emplace( special.get_string() );
     }
 }

@@ -203,6 +203,8 @@ class outfit
         void on_item_wear( Character &guy );
         // used in the pickup code in the STASH section
         void pickup_stash( const item &newit, int &remaining_charges, bool ignore_pkt_settings = false );
+        void add_stash( Character &guy, const item &newit, int &remaining_charges,
+                        bool ignore_pkt_settings = false );
         // used for npc generation
         void set_fitted();
         std::vector<item> available_pockets() const;

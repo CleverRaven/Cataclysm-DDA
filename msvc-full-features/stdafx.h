@@ -73,6 +73,8 @@
 #include <utility>
 #include <vector>
 
+#include <flatbuffers/flexbuffers.h>
+
 #include "../src/platform_win.h"
 
 #if defined(TILES)
