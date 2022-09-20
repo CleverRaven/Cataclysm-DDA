@@ -275,6 +275,16 @@
     "upgrades": { "age_grow": 40, "into": "mon_sarahsaurus_juvenile" }
   },
   {
+    "id": "mon_anchisaurus_hatchling",
+    "type": "MONSTER",
+    "name": "anchisaurus hatchling",
+    "copy-from": "mon_gallimimus_hatchling",
+    "weight": "2 kg",
+    "volume": "2 L",
+    "petfood": { "food": [ "DINOFOOD_C" ] },
+    "upgrades": { "age_grow": 20, "into": "mon_anchisaurus_juvenile" }
+  },
+  {
     "id": "mon_issi_hatchling",
     "type": "MONSTER",
     "name": "issi hatchling",
@@ -322,6 +332,12 @@
     "type": "MONSTER",
     "copy-from": "mon_apatosaurus_hatchling",
     "upgrades": { "age_grow": 40, "into": "mon_diplodocus_juvenile" }
+  },
+  {
+    "id": "mon_barosaurus_hatchling",
+    "type": "MONSTER",
+    "copy-from": "mon_apatosaurus_hatchling",
+    "upgrades": { "age_grow": 40, "into": "mon_barosaurus_juvenile" }
   },
   {
     "id": "mon_camarasaurus_hatchling",
