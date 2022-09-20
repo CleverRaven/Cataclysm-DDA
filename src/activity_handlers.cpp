@@ -607,6 +607,7 @@ static void set_up_butchery( player_activity &act, Character &you, butcher_type 
                     act.targets.pop_back();
                     return;
                 }
+                get_player_character().add_morale( MORALE_BUTCHER, -40, 0, 1_day, 2_hours );
             } else {
                 you.add_morale( MORALE_BUTCHER, -40, 0, 1_day, 2_hours );
             }
