@@ -731,7 +731,7 @@
     "color": "light_gray",
     "warmth": 5,
     "environmental_protection": 1,
-    "flags": [ "STURDY", "OUTER" ],
+    "flags": [ "STURDY", "OUTER", "DURABLE_MELEE" ],
     "armor": [
       {
         "material": [ { "type": "lc_steel", "covered_by_mat": 100, "thickness": 1.5 } ],
@@ -750,7 +750,6 @@
     "name": { "str": "pair of case hardened sheet metal sabatons", "str_pl": "pairs of case hardened sheet metal sabatons" },
     "description": "Sabatons made of sheet metal, case hardened to protect your feet if you drop something heavy on them.  No relation to the band, aside from being very metal.",
     "material": [ "ch_steel" ],
-    "extend": { "flags": [ "STURDY" ] },
     "armor": [
       {
         "material": [ { "type": "ch_steel", "covered_by_mat": 100, "thickness": 1.5 } ],
@@ -2288,7 +2287,7 @@
     "to_hit": -1,
     "symbol": "[",
     "color": "light_red",
-    "flags": [ "VARSIZE", "STURDY", "OUTER" ],
+    "flags": [ "VARSIZE", "STURDY", "OUTER", "DURABLE_MELEE" ],
     "armor": [
       {
         "covers": [ "foot_l", "foot_r" ],
@@ -2331,7 +2330,7 @@
     "material": [ "lc_steel_chain" ],
     "symbol": "[",
     "color": "light_red",
-    "flags": [ "VARSIZE", "STURDY", "OUTER" ],
+    "flags": [ "VARSIZE", "STURDY", "OUTER", "DURABLE_MELEE" ],
     "armor": [
       {
         "covers": [ "foot_l", "foot_r" ],
@@ -2902,7 +2901,7 @@
     "warmth": 0,
     "sided": true,
     "environmental_protection": 1,
-    "flags": [ "STURDY", "OUTER" ],
+    "flags": [ "STURDY", "OUTER", "DURABLE_MELEE" ],
     "armor": [
       {
         "material": [ { "type": "lc_steel", "covered_by_mat": 100, "thickness": 1.25 } ],
