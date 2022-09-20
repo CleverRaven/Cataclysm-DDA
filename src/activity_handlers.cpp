@@ -506,16 +506,17 @@ static void set_up_butchery( player_activity &act, Character &you, butcher_type 
         }
     }
 
-    // applies to all butchery actions except for dissections
     const bool is_human = corpse.id == mtype_id::NULL_ID() || ( corpse.in_species( species_HUMAN ) &&
                           !corpse.in_species( species_ZOMBIE ) );
 
-    if( is_human && action != butcher_type::DISSECT && !( you.has_flag( json_flag_CANNIBAL ) ||
-            you.has_flag( json_flag_PSYCHOPATH ) ||
-            you.has_flag( json_flag_SAPIOVORE ) ) ) {
+    // applies to all butchery actions except for dissections
+    if( is_human && action != butcher_type::DISSECT && !( you.has_flag( json_flag_CANNIBAL ) || you.has_flag( json_flag_PSYCHOPATH ) || you.has_flag( json_flag_SAPIOVORE ) ) ) {
+        //first determine if the butcherer has the physiology proficiency.
         if( you.has_proficiency( proficiency_prof_physiology ) ) {
+            //if it's player doing the butchery, ask them first.
             if( you.is_avatar() ) {
                 if( query_yn( _( "Really desecrate the mortal remains of a fellow human being for meat?" ) ) ) {
+                    //give the player a random message showing their disgust and cause morale penalty.
                     switch( rng( 1, 3 ) ) {
                         case 1:
                             you.add_msg_if_player( m_bad, _( "You clench your teeth at the prospect of this gruesome job." ) );
@@ -530,16 +531,20 @@ static void set_up_butchery( player_activity &act, Character &you, butcher_type 
                     }
                     get_player_character().add_morale( MORALE_BUTCHER, -50, 0, 2_days, 3_hours );
                 } else {
+                    //player has the physiology prof, so they're familiar with dissection. reference this in their refusal to butcher
                     you.add_msg_if_player( m_good, _( "You were trained for autopsies, not butchery." ) );
                     act.targets.pop_back();
                     return;
                 }
             } else {
+                //if not the avatar, don't ask, just do it and suffer without comment
                 you.add_morale( MORALE_BUTCHER, -50, 0, 2_days, 3_hours );
             }
         } else {
+            //this runs if the butcherer does NOT have physiology
             if( you.is_avatar() ) {
                 if( query_yn( _( "Would you dare desecrate the mortal remains of a fellow human being?" ) ) ) {
+                    //random message and morale penalty
                     switch( rng( 1, 3 ) ) {
                         case 1:
                             you.add_msg_if_player( m_bad, _( "You clench your teeth at the prospect of this gruesome job." ) );
@@ -554,24 +559,24 @@ static void set_up_butchery( player_activity &act, Character &you, butcher_type 
                     }
                     get_player_character().add_morale( MORALE_BUTCHER, -50, 0, 2_days, 3_hours );
                 } else {
+                    //player doesn't have physiology, so just give a regular refusal to mess with the corpse
                     you.add_msg_if_player( m_good, _( "It needs a coffin, not a knife." ) );
                     act.targets.pop_back();
                     return;
                 }
             } else {
+                //again, don't complain about it, or inform about it, just do it
                 you.add_morale( MORALE_BUTCHER, -50, 0, 2_days, 3_hours );
             }
         }
     }
 
     // applies to only dissections, so that physiology training makes a difference.
-    if( is_human && action == butcher_type::DISSECT && !( you.has_flag( json_flag_CANNIBAL ) ||
-            you.has_flag( json_flag_PSYCHOPATH ) ||
-            you.has_flag( json_flag_SAPIOVORE ) ) ) {
-
+    if( is_human && action == butcher_type::DISSECT && !( you.has_flag( json_flag_CANNIBAL ) || you.has_flag( json_flag_PSYCHOPATH ) || you.has_flag( json_flag_SAPIOVORE ) ) ) {
         if( you.has_proficiency( proficiency_prof_physiology ) ) {
             //you're either trained for this, densensitized, or both. doesn't bother you.
             if( you.is_avatar() ) {
+                //this is a dissection, and we are trained for dissection, so no morale penalty, and lighter flavor text.
                 switch( rng( 1, 3 ) ) {
                     case 1:
                         you.add_msg_if_player( m_good, _( "You grit your teeth and get to work." ) );
@@ -586,9 +591,12 @@ static void set_up_butchery( player_activity &act, Character &you, butcher_type 
                         break;
                 }
             }
+            //if we're not the avatar, we aren't getting a morale penalty as usual, and no message, so nothing happens
         } else {
+            //we don't have physiology but are trying to dissect anyways.
             if( you.is_avatar() ) {
                 if( query_yn( _( "Really dissect the remains of a fellow human being?" ) ) ) {
+                    //give us a message indicating we are dissecting without the stomach for it, but not actually butchering. lower morale penalty.
                     switch( rng( 1, 3 ) ) {
                         case 1:
                             you.add_msg_if_player( m_bad,
@@ -604,18 +612,15 @@ static void set_up_butchery( player_activity &act, Character &you, butcher_type 
                     }
                     get_player_character().add_morale( MORALE_BUTCHER, -40, 0, 1_day, 2_hours );
                 } else {
+                    //standard refusal to butcher
                     you.add_msg_if_player( m_good, _( "It needs a coffin, not a knife." ) );
                     act.targets.pop_back();
                     return;
                 }
-                get_player_character().add_morale( MORALE_BUTCHER, -40, 0, 1_day, 2_hours );
             } else {
-                you.add_msg_if_player( m_good, _( "It needs a coffin, not a knife." ) );
-                act.targets.pop_back();
-                return;
+                //if we're not player and don't have physiology, just add morale penalty.
+                you.add_morale( MORALE_BUTCHER, -40, 0, 1_day, 2_hours );
             }
-        } else {
-            you.add_morale( MORALE_BUTCHER, -40, 0, 1_day, 2_hours );
         }
     }
 }
