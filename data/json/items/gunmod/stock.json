@@ -385,7 +385,7 @@
     "id": "m26_mass_stock",
     "type": "GUNMOD",
     "name": { "str": "MASS compatible stock" },
-    "description": "A specially designed adjustable stock with a grip, to convert the M26-MASS to a standalone configuration.",
+    "description": "A specially designed adjustable stock with an integrated grip to convert the M26-MASS to a standalone configuration.",
     "weight": "960 g",
     "volume": "500 ml",
     "integral_volume": "0 ml",
