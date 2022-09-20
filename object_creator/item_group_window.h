@@ -96,6 +96,7 @@ namespace creator
         QLabel* title_label;
         simple_property_widget* variant_frame;
         simple_property_widget* contentsItem_frame;
+        simple_property_widget* contentsGroup_frame;
         simple_property_widget* charges_frame;
         simple_property_widget* count_frame;
         simple_property_widget* prob_frame;

@@ -707,9 +707,20 @@ creator::itemGroupEntry::itemGroupEntry( QWidget* parent, QString entryText, boo
                                             property_type::LINEEDIT, this );
     contentsItem_frame->hide();
     contentsItem_frame->allow_hiding( true );
-    tooltipText = "The item will be spawned inside this container";
-    tooltipText += "\nYou can type the item ID, or drag it from the item list";
+    tooltipText = "is added as contents of the created item. It is not checked if they can be";
+    tooltipText += "\nput into the item. This allows water, that contains a book, that contains";
+    tooltipText += "\na steel frame, that contains a corpse.";
     contentsItem_frame->setToolTip( tooltipText );
+
+    contentsGroup_frame = new simple_property_widget( this, QString( "contents-group" ), 
+                                            property_type::LINEEDIT, this );
+    contentsGroup_frame->hide();
+    contentsGroup_frame->allow_hiding( true );
+    tooltipText = "is added as contents of the created item. It is not checked if they can be";
+    tooltipText += "\nput into the item. This allows water, that contains a book, that contains";
+    tooltipText += "\na steel frame, that contains a corpse.";
+    contentsGroup_frame->setToolTip( tooltipText );
+    
 
     if( !group ) {
         variant_frame = new simple_property_widget( this, QString( "variant" ), 
@@ -724,9 +735,11 @@ creator::itemGroupEntry::itemGroupEntry( QWidget* parent, QString entryText, boo
     add_property->setToolTip( tooltipText );
     //Variant only applies to items, not groups
     if ( group ) {
-        add_property->addItems( QStringList{ "Add property", "count", "charges", "contents-item" } );
+        add_property->addItems( QStringList{ "Add property", "count", "charges", "contents-item",
+                                                                "contents-group" } );
     } else {
-        add_property->addItems( QStringList{ "Add property", "count", "charges", "contents-item", "variant" } );
+        add_property->addItems( QStringList{ "Add property", "count", "charges", "contents-item", 
+                                                                "contents-group", "variant" } );
     }
     add_property->setMaximumWidth( 60 );
     connect( add_property, QOverload<int>::of( &QComboBox::activated ), 
@@ -744,6 +757,7 @@ creator::itemGroupEntry::itemGroupEntry( QWidget* parent, QString entryText, boo
     flowLayout->addWidget( count_frame );
     flowLayout->addWidget( charges_frame );
     flowLayout->addWidget( contentsItem_frame );
+    flowLayout->addWidget( contentsGroup_frame );
 
     //Variant only applies to items, not groups
     if ( !group ) {
@@ -802,6 +816,8 @@ void creator::itemGroupEntry::add_property_changed() {
         charges_frame->show();
     } else if ( prop == "contents-item" ){
         contentsItem_frame->show();
+    } else if ( prop == "contents-group" ){
+        contentsGroup_frame->show();
     } else if ( prop == "variant" ){
         variant_frame->show();
     }
@@ -847,6 +863,9 @@ void creator::itemGroupEntry::get_json( JsonOut &jo ) {
     }
     if( !contentsItem_frame->isHidden() ) {
         contentsItem_frame->get_json( jo );
+    }
+    if( !contentsGroup_frame->isHidden() ) {
+        contentsGroup_frame->get_json( jo );
     }
     if( this->objectName() == "item" ) {
         if( !variant_frame->isHidden() ) {
