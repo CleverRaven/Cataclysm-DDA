@@ -18,11 +18,11 @@
         "M...*...M......M......eM",
         "M.bbbbb.M.....7M......eM",
         "M...*...D......D...*..eM",
-        "M.bbbbb.M6.....M......eM",
-        "M...*...M......M......eM",
-        "MLLLLLLLM......MeeeeeeeM",
-        "MMMMMMMMM*....*MMMMMMMMM",
-        "MsMsMsMsM......ME.B.B.BM",
+        "M.bbbbb.M6....FM......eM",
+        "M...*...MFFFF..M......eM",
+        "MLLLLLLLMF.FFFFMeeeeeeeM",
+        "MMMMMMMMM*..F.*MMMMMMMMM",
+        "MsMsMsMsM.F..F.ME.B.B.BM",
         "MgMgMgMgM......M..B.B.BM",
         "MS......M......M..f.f.fM",
         "MS..*...D......D...*...M",
@@ -108,5 +108,6 @@
         }
       }
     }
+	"fields": { "F": {"field": "fd_fire", "intensity": 3, "age", 1 }
   }
 ]
