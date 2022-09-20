@@ -42,6 +42,13 @@ namespace creator
         void get_json( JsonOut &jo );
         void allow_hiding( bool allow );
         QString get_propertyName();
+        /* Set the minimum and maximum limits for the MINMAX property
+        * @param min_min: The minimum possible value for the minimum box
+        * @param min_max: The maximum possible value for the minimum box
+        * @param max_min: The minimum possible value for the maximum box
+        * @param max_max: The maximum possible value for the maximum box
+        */
+        void set_minmax_limits( int min_min, int min_max, int max_min, int max_max );
 
     private:
         void change_notify_widget();

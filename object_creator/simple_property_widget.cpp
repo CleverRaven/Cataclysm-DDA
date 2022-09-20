@@ -126,6 +126,13 @@ void creator::simple_property_widget::allow_hiding( bool allow ) {
     }
 }
 
+void creator::simple_property_widget::set_minmax_limits( int min_min, int min_max, int max_min, int max_max ) {
+    prop_min->setMinimum( min_min );
+    prop_min->setMaximum( min_max );
+    prop_max->setMinimum( max_min );
+    prop_max->setMaximum( max_max );
+}
+
 void creator::simple_property_widget::min_changed() {
     int max = prop_max->value();
     int min = prop_min->value();

@@ -703,6 +703,14 @@ creator::itemGroupEntry::itemGroupEntry( QWidget* parent, QString entryText, boo
     tooltipText += "a greater value then 0";
     charges_frame->setToolTip( tooltipText );
 
+    damage_frame = new simple_property_widget( this, QString( "damage" ), 
+                                            property_type::MINMAX, this );
+    damage_frame->hide();
+    damage_frame->allow_hiding( true );
+    tooltipText = "The amount of damage this item has taken. 0 means undamaged, 3 means maximum damage";
+    damage_frame->set_minmax_limits( 0, 3, 0, 3 );
+    damage_frame->setToolTip( tooltipText );
+
     contentsItem_frame = new simple_property_widget( this, QString( "contents-item" ), 
                                             property_type::LINEEDIT, this );
     contentsItem_frame->hide();
@@ -735,11 +743,11 @@ creator::itemGroupEntry::itemGroupEntry( QWidget* parent, QString entryText, boo
     add_property->setToolTip( tooltipText );
     //Variant only applies to items, not groups
     if ( group ) {
-        add_property->addItems( QStringList{ "Add property", "count", "charges", "contents-item",
-                                                                "contents-group" } );
+        add_property->addItems( QStringList{ "Add property", "count", "charges", "damage",
+                                                    "contents-item", "contents-group" } );
     } else {
-        add_property->addItems( QStringList{ "Add property", "count", "charges", "contents-item", 
-                                                                "contents-group", "variant" } );
+        add_property->addItems( QStringList{ "Add property", "count", "charges", "damage",
+                                            "contents-item", "contents-group", "variant" } );
     }
     add_property->setMaximumWidth( 60 );
     connect( add_property, QOverload<int>::of( &QComboBox::activated ), 
@@ -756,6 +764,7 @@ creator::itemGroupEntry::itemGroupEntry( QWidget* parent, QString entryText, boo
     flowLayout->addWidget( prob_frame );
     flowLayout->addWidget( count_frame );
     flowLayout->addWidget( charges_frame );
+    flowLayout->addWidget( damage_frame );
     flowLayout->addWidget( contentsItem_frame );
     flowLayout->addWidget( contentsGroup_frame );
 
@@ -814,6 +823,8 @@ void creator::itemGroupEntry::add_property_changed() {
         count_frame->show();
     } else if ( prop == "charges" ){
         charges_frame->show();
+    } else if ( prop == "damage" ){
+        damage_frame->show();
     } else if ( prop == "contents-item" ){
         contentsItem_frame->show();
     } else if ( prop == "contents-group" ){
@@ -860,6 +871,9 @@ void creator::itemGroupEntry::get_json( JsonOut &jo ) {
     }
     if( !charges_frame->isHidden() ) {
         charges_frame->get_json( jo );
+    }
+    if( !damage_frame->isHidden() ) {
+        damage_frame->get_json( jo );
     }
     if( !contentsItem_frame->isHidden() ) {
         contentsItem_frame->get_json( jo );
