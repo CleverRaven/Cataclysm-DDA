@@ -56,6 +56,7 @@
 #include "veh_interact.h"
 #include "veh_type.h"
 #include "veh_utils.h"
+#include "vehicle_selector.h"
 #include "vpart_position.h"
 #include "vpart_range.h"
 #include "weather.h"
@@ -2025,14 +2026,12 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint &p, bool with_
             .skip_locked_check()
             .on_submit( [this, vp_tank_idx] {
                 vehicle_part &vp_tank = parts[vp_tank_idx];
-                item &water = vp_tank.base.only_item();
-                item water_copy = water;
-                const consume_activity_actor consume_act( water_copy );
+                // this is not "proper" use of vehicle_cursor, but should be good enough for reducing
+                // charges and deleting the liquid on last charge drained, for more details see #61164
+                item_location base_loc( vehicle_cursor( *this, vp_tank_idx ), &vp_tank.base );
+                item_location water_loc( base_loc, &vp_tank.base.only_item() );
+                const consume_activity_actor consume_act( water_loc );
                 get_player_character().assign_activity( player_activity( consume_act ) );
-                if( --water.charges <= 0 )
-                {
-                    vp_tank.base.clear_items();
-                }
             } );
         }
     }
