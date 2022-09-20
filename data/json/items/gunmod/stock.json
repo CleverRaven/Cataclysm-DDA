@@ -285,7 +285,7 @@
     "id": "under_folding_stock",
     "type": "GUNMOD",
     "name": { "str": "under folding stock" },
-    "description": "A light wire-framed stock with a push button release catch on the side, which lets it fold and be stored away under the weapon’s receiver.  Its wire construction means that it’s naturally more uncomfortable to shoulder than a regular fixed attachment.  The stock is currently locked in the open position.",
+    "description": "A light wire-framed stock with a push button release catch on the side  which allows it to fold and be stored away under the weapon's receiver.  The wire construction means that it’s less comfortable to shoulder than a regular fixed attachment.  The stock is currently locked in the open position.",
     "weight": "100 g",
     "volume": "300 ml",
     "integral_volume": "100 ml",
