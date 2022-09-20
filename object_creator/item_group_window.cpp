@@ -712,11 +712,23 @@ creator::itemGroupEntry::itemGroupEntry( QWidget* parent, QString entryText, boo
     tooltipText = "The item will be spawned inside this container";
     tooltipText += "\nYou can type the item ID, or drag it from the item list";
     containerItem_frame->setToolTip( tooltipText );
+    if( !group ) {
+        variant_frame = new simple_property_widget( this, QString( "variant" ), 
+                                                property_type::LINEEDIT, this );
+        variant_frame->hide();
+        variant_frame->allow_hiding( true );
+        variant_frame->setToolTip( "A valid itype variant id for this item." );
+    }
 
     add_property = new QComboBox;
     tooltipText = "Add new property to this entry";
     add_property->setToolTip( tooltipText );
-    add_property->addItems( QStringList{ "Add property", "count", "charges", "container-item" } );
+    //Variant only applies to items, not groups
+    if ( group ) {
+        add_property->addItems( QStringList{ "Add property", "count", "charges", "contents-item" } );
+    } else {
+        add_property->addItems( QStringList{ "Add property", "count", "charges", "contents-item", "variant" } );
+    }
     add_property->setMaximumWidth( 60 );
     connect( add_property, QOverload<int>::of( &QComboBox::activated ), 
                                     [=](){ add_property_changed(); }) ;
@@ -733,6 +745,10 @@ creator::itemGroupEntry::itemGroupEntry( QWidget* parent, QString entryText, boo
     flowLayout->addWidget( count_frame );
     flowLayout->addWidget( charges_frame );
     flowLayout->addWidget( containerItem_frame );
+    //Variant only applies to items, not groups
+    if ( !group ) {
+        flowLayout->addWidget( variant_frame );
+    } 
     entryLayout->addLayout( flowLayout );
     entryLayout->addWidget( add_property );
     entryLayout->addWidget( btnDeleteThis );
@@ -786,6 +802,8 @@ void creator::itemGroupEntry::add_property_changed() {
         charges_frame->show();
     } else if ( prop == "container-item" ){
         containerItem_frame->show();
+    } else if ( prop == "variant" ){
+        variant_frame->show();
     }
 
     add_property->removeItem( add_property->currentIndex() );
@@ -829,6 +847,10 @@ void creator::itemGroupEntry::get_json( JsonOut &jo ) {
     }
     if( !containerItem_frame->isHidden() ) {
         containerItem_frame->get_json( jo );
+    if( this->objectName() == "item" ) {
+        if( !variant_frame->isHidden() ) {
+            variant_frame->get_json( jo );
+        }
     }
     jo.end_object();
 }
