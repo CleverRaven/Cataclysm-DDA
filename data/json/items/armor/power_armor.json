@@ -11,7 +11,7 @@
     "price": 70000,
     "price_postapoc": 15000,
     "to_hit": 1,
-    "bashing": 1,
+    "bashing": 7,
     "material": [ "steel" ],
     "symbol": "[",
     "looks_like": "power_armor_basic",
@@ -91,7 +91,7 @@
     "warmth": 50,
     "material_thickness": 8,
     "environmental_protection": 6,
-    "flags": [ "WATERPROOF", "STURDY" ],
+    "flags": [ "WATERPROOF", "STURDY", "DURABLE_MELEE" ],
     "armor": [
       {
         "encumbrance": 40,
@@ -111,7 +111,7 @@
     "price": 30000,
     "price_postapoc": 5000,
     "to_hit": 1,
-    "bashing": 1,
+    "bashing": 7,
     "material": [ "steel" ],
     "symbol": "[",
     "looks_like": "power_armor_helmet_basic",
@@ -120,7 +120,7 @@
     "material_thickness": 8,
     "environmental_protection": 6,
     "qualities": [ [ "GLARE", 1 ] ],
-    "flags": [ "WATERPROOF", "STURDY", "SUN_GLASSES" ],
+    "flags": [ "WATERPROOF", "STURDY", "SUN_GLASSES", "DURABLE_MELEE" ],
     "armor": [ { "encumbrance": 40, "coverage": 95, "covers": [ "head", "eyes", "mouth" ] } ]
   },
   {
@@ -134,7 +134,7 @@
     "price": 7000000,
     "price_postapoc": 30000,
     "to_hit": 1,
-    "bashing": 1,
+    "bashing": 7,
     "material": [ "qt_steel", "hyperweave_off", "kevlar_rigid" ],
     "symbol": "[",
     "looks_like": "depowered_armor",
@@ -217,7 +217,7 @@
     "environmental_protection": 16,
     "ammo": "battery",
     "use_action": { "type": "transform", "msg": "The %s engages.", "target": "power_armor_basic_on", "active": true },
-    "flags": [ "WATERPROOF", "STURDY", "ELECTRIC_IMMUNE", "COMBAT_TOGGLEABLE" ],
+    "flags": [ "WATERPROOF", "STURDY", "ELECTRIC_IMMUNE", "COMBAT_TOGGLEABLE", "DURABLE_MELEE" ],
     "armor": [
       {
         "encumbrance": 50,
@@ -322,7 +322,7 @@
     "price": 11500000,
     "price_postapoc": 40000,
     "to_hit": 1,
-    "bashing": 1,
+    "bashing": 7,
     "material": [ "qt_steel", "hyperweave_off", "kevlar_rigid" ],
     "symbol": "[",
     "looks_like": "power_armor_basic",
@@ -405,7 +405,7 @@
     "environmental_protection": 16,
     "ammo": "battery",
     "use_action": { "type": "transform", "msg": "The %s engages.", "target": "power_armor_heavy_on", "active": true },
-    "flags": [ "WATERPROOF", "STURDY", "ELECTRIC_IMMUNE", "COMBAT_TOGGLEABLE" ],
+    "flags": [ "WATERPROOF", "STURDY", "ELECTRIC_IMMUNE", "COMBAT_TOGGLEABLE", "DURABLE_MELEE" ],
     "armor": [
       {
         "encumbrance": 60,
@@ -445,7 +445,7 @@
     "price": 2500000,
     "price_postapoc": 7500,
     "to_hit": 1,
-    "bashing": 1,
+    "bashing": 7,
     "material": [ "qt_steel", "hyperweave_off", "kevlar_rigid" ],
     "symbol": "[",
     "looks_like": "depowered_helmet",
@@ -463,7 +463,7 @@
     "material_thickness": 14,
     "environmental_protection": 16,
     "qualities": [ [ "GLARE", 1 ] ],
-    "flags": [ "WATCH", "WATERPROOF", "STURDY", "PARTIAL_DEAF", "THERMOMETER", "SUN_GLASSES", "COMBAT_TOGGLEABLE" ],
+    "flags": [ "WATCH", "WATERPROOF", "STURDY", "PARTIAL_DEAF", "THERMOMETER", "SUN_GLASSES", "COMBAT_TOGGLEABLE", "DURABLE_MELEE" ],
     "armor": [ { "encumbrance": 50, "coverage": 100, "covers": [ "head", "eyes", "mouth" ] } ]
   },
   {
@@ -491,7 +491,7 @@
     "price": 3750000,
     "price_postapoc": 10000,
     "to_hit": 1,
-    "bashing": 1,
+    "bashing": 7,
     "material": [ "qt_steel", "hyperweave_off", "kevlar_rigid" ],
     "symbol": "[",
     "looks_like": "power_armor_helmet_basic",
@@ -509,7 +509,7 @@
       "target": "power_armor_helmet_heavy_on",
       "active": true
     },
-    "flags": [ "WATCH", "WATERPROOF", "STURDY", "PARTIAL_DEAF", "THERMOMETER", "SUN_GLASSES", "COMBAT_TOGGLEABLE" ],
+    "flags": [ "WATCH", "WATERPROOF", "STURDY", "PARTIAL_DEAF", "THERMOMETER", "SUN_GLASSES", "COMBAT_TOGGLEABLE", "DURABLE_MELEE" ],
     "armor": [ { "encumbrance": 60, "coverage": 100, "covers": [ "head", "eyes", "mouth" ] } ]
   },
   {
@@ -537,7 +537,7 @@
     "price": 3750000,
     "price_postapoc": 10000,
     "to_hit": 1,
-    "bashing": 1,
+    "bashing": 7,
     "material": [ "qt_steel", "kevlar", "kevlar_rigid" ],
     "symbol": "[",
     "looks_like": "power_armor_helmet_basic",
@@ -554,7 +554,7 @@
     },
     "material_thickness": 8,
     "environmental_protection": 16,
-    "flags": [ "WATCH", "WATERPROOF", "STURDY", "THERMOMETER", "SUN_GLASSES", "SWIM_GOGGLES", "COMBAT_TOGGLEABLE" ],
+    "flags": [ "WATCH", "WATERPROOF", "STURDY", "THERMOMETER", "SUN_GLASSES", "SWIM_GOGGLES", "COMBAT_TOGGLEABLE", "DURABLE_MELEE" ],
     "armor": [ { "encumbrance": 40, "coverage": 100, "covers": [ "head", "eyes", "mouth" ] } ]
   },
   {
@@ -582,7 +582,7 @@
     "price": 11500000,
     "price_postapoc": 40000,
     "to_hit": 1,
-    "bashing": 1,
+    "bashing": 7,
     "material": [ "qt_steel", "kevlar", "kevlar_rigid" ],
     "symbol": "[",
     "looks_like": "depowered_armor",
@@ -665,7 +665,7 @@
     "environmental_protection": 16,
     "ammo": "battery",
     "use_action": { "type": "transform", "msg": "The %s engages.", "target": "power_armor_light_on", "active": true },
-    "flags": [ "WATERPROOF", "STURDY", "ELECTRIC_IMMUNE", "COMBAT_TOGGLEABLE" ],
+    "flags": [ "WATERPROOF", "STURDY", "ELECTRIC_IMMUNE", "COMBAT_TOGGLEABLE", "DURABLE_MELEE" ],
     "armor": [
       {
         "encumbrance": 40,
