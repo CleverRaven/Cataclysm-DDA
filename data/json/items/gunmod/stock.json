@@ -115,7 +115,7 @@
     "id": "wire_stock",
     "type": "GUNMOD",
     "name": { "str": "collapsing wire stock" },
-    "description": "A collapsing wire stock which collapses into the body of the gun very compactly, reducing length and volume.",
+    "description": "A collapsing wire stock which folds closely against the body of the weapon, reducing length and volume.",
     "weight": "170 g",
     "volume": "250 ml",
     "integral_volume": "0 ml",
