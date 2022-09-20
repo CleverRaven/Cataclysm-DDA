@@ -82,7 +82,7 @@
     "//": "based on stuff like magpull and high end hand guards for AR-15s",
     "//2": "even though these do accept front grips, we don't handle selecting which way to fire so going to assume that if you like your modern sleek hand guard you use that.",
     "name": { "str": "high end hand guard" },
-    "description": "A comfortable, high end hand guard with a set of optional mounts for accessories and equipment.  When installed, this replaces the original factory hand guard for the weapon, cutting down on excessive rails and weight.  This allows for comfortable, controlled firing of a weapon while keeping a sleek profile and avoiding bulky foregrips.",
+    "description": "A comfortable, high end hand guard with a set of optional mounts for accessories and equipment.  When installed, this replaces the original factory hand guard for the weapon, cutting down on excessive rails and weight.  This allows for comfortable, controlled firing of the weapon while keeping a sleek profile and avoiding bulky foregrips.",
     "weight": "220 g",
     "volume": "500 ml",
     "integral_volume": "0 ml",
