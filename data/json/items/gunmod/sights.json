@@ -66,7 +66,7 @@
     "type": "GUNMOD",
     "name": { "str": "holographic sight" },
     "//": "EOTech XPS3",
-    "description": "An advanced firearm optic with an adjustable circular hologram reticle imposed on the field of view.  Used extensively by military forces, it increases accuracy and weight.  This is a step up from a red dot sight.",
+    "description": "An advanced optic with an adjustable circular hologram reticle superimposed on the field of view.  Used extensively by military forces, it increases accuracy and weight.  This is a step up from a red dot sight.",
     "weight": "255 g",
     "volume": "290 ml",
     "price": 68000,
