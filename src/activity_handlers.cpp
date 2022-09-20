@@ -510,7 +510,8 @@ static void set_up_butchery( player_activity &act, Character &you, butcher_type 
                           !corpse.in_species( species_ZOMBIE ) );
 
     // applies to all butchery actions except for dissections
-    if( is_human && action != butcher_type::DISSECT && !( you.has_flag( json_flag_CANNIBAL ) || you.has_flag( json_flag_PSYCHOPATH ) || you.has_flag( json_flag_SAPIOVORE ) ) ) {
+    if( is_human && action != butcher_type::DISSECT && !( you.has_flag( json_flag_CANNIBAL ) ||
+            you.has_flag( json_flag_PSYCHOPATH ) || you.has_flag( json_flag_SAPIOVORE ) ) ) {
         //first determine if the butcherer has the physiology proficiency.
         if( you.has_proficiency( proficiency_prof_physiology ) ) {
             //if it's player doing the butchery, ask them first.
