@@ -217,7 +217,7 @@ inline std::string IntToStringHex(int i, int xdigits) {
 // Use locale independent functions {strtod_l, strtof_l, strtoll_l, strtoull_l}.
 #if defined(FLATBUFFERS_LOCALE_INDEPENDENT) && (FLATBUFFERS_LOCALE_INDEPENDENT > 0)
   class ClassicLocale {
-    #ifdef _MSC_VER
+    #ifdef _WIN32
       typedef _locale_t locale_type;
     #else
       typedef locale_t locale_type;  // POSIX.1-2008 locale_t type
@@ -232,11 +232,15 @@ inline std::string IntToStringHex(int i, int xdigits) {
     }
   };
 
-  #ifdef _MSC_VER
+  #ifdef _WIN32
     #define __strtoull_impl(s, pe, b) _strtoui64_l(s, pe, b, ClassicLocale::Get())
     #define __strtoll_impl(s, pe, b) _strtoi64_l(s, pe, b, ClassicLocale::Get())
     #define __strtod_impl(s, pe) _strtod_l(s, pe, ClassicLocale::Get())
-    #define __strtof_impl(s, pe) _strtof_l(s, pe, ClassicLocale::Get())
+    #ifndef __MINGW32__
+      #define __strtof_impl(s, pe) _strtof_l(s, pe, ClassicLocale::Get())
+    #else
+      #define __strtof_impl(s, pe) static_cast<float>(_strtod_l(s, pe, ClassicLocale::Get()))
+    #endif
   #else
     #define __strtoull_impl(s, pe, b) strtoull_l(s, pe, b, ClassicLocale::Get())
     #define __strtoll_impl(s, pe, b) strtoll_l(s, pe, b, ClassicLocale::Get())
@@ -244,6 +248,7 @@ inline std::string IntToStringHex(int i, int xdigits) {
     #define __strtof_impl(s, pe) strtof_l(s, pe, ClassicLocale::Get())
   #endif
 #else
+  #error CDDA requires locale independent number parsing.
   #define __strtod_impl(s, pe) strtod(s, pe)
   #define __strtof_impl(s, pe) static_cast<float>(strtod(s, pe))
   #ifdef _MSC_VER

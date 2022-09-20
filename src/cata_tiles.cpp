@@ -692,7 +692,7 @@ void tileset_cache::loader::load( const std::string &tileset_id, const bool prec
         dbg( D_INFO ) << "Attempting to Load JSON file " << json_path;
         cata::optional<JsonValue> mod_config_json_opt = json_loader::from_path_opt( json_path );
 
-        if( mod_config_json_opt.has_value() ) {
+        if( !mod_config_json_opt.has_value() ) {
             throw std::runtime_error( std::string( "Failed to open tile info json: " ) +
                                       json_path.generic_u8string() );
         }
