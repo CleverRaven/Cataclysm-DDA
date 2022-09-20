@@ -130,7 +130,7 @@
     "id": "red_dot_sight",
     "type": "GUNMOD",
     "name": { "str": "red dot sight" },
-    "description": "A red dot optic meant to be attached to the top of your gun, replacing the iron sights.  Increases accuracy and weight.",
+    "description": "A red dot optic meant to be attached to the top of the weapon, replacing the iron sights.  Increases accuracy and weight.",
     "weight": "150 g",
     "volume": "80 ml",
     "price": 68000,
