@@ -241,7 +241,7 @@
     "id": "butt_hook",
     "type": "GUNMOD",
     "name": { "str": "butt hook" },
-    "description": "An attachment to the butt of the gun that is put under the armpit, allowing for greater stability.",
+    "description": "An attachment to the butt of the gun that is held under the armpit, improving stability.",
     "weight": "100 g",
     "volume": "100 ml",
     "integral_longest_side": "4 cm",
