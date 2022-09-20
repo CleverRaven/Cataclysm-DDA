@@ -3407,20 +3407,6 @@ int vehicle::fuel_capacity( const itype_id &ftype ) const
     } );
 }
 
-units::specific_energy vehicle::fuel_specific_energy( const itype_id &ftype ) const
-{
-    float total_energy = 0.0f; // J
-    float total_mass = 0.0f; // g
-    for( const vpart_reference &vpr : get_all_parts() ) {
-        if( vpr.part().is_tank() && vpr.part().ammo_current() == ftype &&
-            vpr.part().base.only_item().made_of( phase_id::LIQUID ) ) {
-            total_energy += vpr.part().base.only_item().get_item_thermal_energy();
-            total_mass += to_gram( vpr.part().base.only_item().weight() );
-        }
-    }
-    return units::from_joule_per_gram( total_energy / total_mass );
-}
-
 int vehicle::drain( const itype_id &ftype, int amount,
                     const std::function<bool( vehicle_part & )> &filter )
 {
