@@ -609,7 +609,9 @@ static void set_up_butchery( player_activity &act, Character &you, butcher_type 
                 }
                 get_player_character().add_morale( MORALE_BUTCHER, -40, 0, 1_day, 2_hours );
             } else {
-                you.add_morale( MORALE_BUTCHER, -40, 0, 1_day, 2_hours );
+                you.add_msg_if_player( m_good, _( "It needs a coffin, not a knife." ) );
+                act.targets.pop_back();
+                return;
             }
         } else {
             you.add_morale( MORALE_BUTCHER, -40, 0, 1_day, 2_hours );
