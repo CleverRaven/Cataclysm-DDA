@@ -591,7 +591,7 @@ static void set_up_butchery( player_activity &act, Character &you, butcher_type 
                 if( query_yn( _( "Really dissect the remains of a fellow human being?" ) ) ) {
                     switch( rng( 1, 3 ) ) {
                         case 1:
-                            you.add_msg_if_player( m_bad, 
+                            you.add_msg_if_player( m_bad,
                                                    _( "This is nothing like dissecting a frog in biology class.  You feel sick inside." ) );
                             break;
                         case 2:
