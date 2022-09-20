@@ -171,7 +171,7 @@
     "id": "inter_bayonet",
     "type": "GUNMOD",
     "name": { "str": "integrated bayonet" },
-    "description": "The bayonet integrated in the firearm.",
+    "description": "The weapon's integrated bayonet.",
     "weight": "1 g",
     "volume": "92 ml",
     "longest_side": "22 cm",
