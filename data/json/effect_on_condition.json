@@ -464,5 +464,18 @@
         }
       }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_berserk_crash",
+    "recurrence": [ "30 minutes", "1 minute" ],
+    "condition": { "u_has_trait": "ADRENALINE2_active" },
+    "deactivate_condition": { "not": { "u_has_trait": "ADRENALINE2_active" } },
+    "effect": [
+      { "u_message": "You feel drained...", "type": "bad" },
+      { "u_add_effect": "berserk_crash", "duration": "10 minutes" },
+	  { "u_lose_trait": "ADRENALINE2_active" },
+	  { "u_add_trait": "ADRENALINE2" }
+    ]
   }
 ]
