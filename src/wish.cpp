@@ -794,7 +794,7 @@ class wish_item_callback: public uilist_callback
                 return true;
             }
             if( cur_key == KEY_LEFT || cur_key == KEY_RIGHT ) {
-                // For Renew snippet_id
+                // For Renew snippet_id.
                 renew_snippet = true;
                 return true;
             }
@@ -850,7 +850,7 @@ class wish_item_callback: public uilist_callback
             msg.erase();
             input_context ctxt( menu->input_category, keyboard_mode::keycode );
             mvwprintw( menu->window, point( startx, menu->w_height - 2 ),
-                       _( "[%s] find, [%s] container, [%s] flag, [%s] everything, [%s] snippet [%s] quit" ),
+                       _( "[%s] find, [%s] container, [%s] flag, [%s] everything, [%s] snippet, [%s] quit" ),
                        ctxt.get_desc( "FILTER" ), ctxt.get_desc( "CONTAINER" ),
                        ctxt.get_desc( "FLAG" ), ctxt.get_desc( "EVERYTHING" ),
                        ctxt.get_desc( "SNIPPET" ),
