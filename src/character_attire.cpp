@@ -833,7 +833,7 @@ void outfit::item_encumb( std::map<bodypart_id, encumbrance_data> &vals,
 
         for( const layer_details &cur_layer : elem.layer_penalty_details ) {
             // only apply the layers penalty to the limb if it is conflicting
-            if( cur_layer.is_conflicting && !cur_layer.layer::PERSONAL ) {
+            if( cur_layer.is_conflicting && cur_layer.layer != 0) {
                 elem.layer_penalty += cur_layer.total;
             }
         }
