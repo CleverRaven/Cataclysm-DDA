@@ -1131,7 +1131,7 @@
         "condition": "ACTIVE",
         "values": [
           { "value": "READING_EXP", "add": 2 },
-          { "value": "SKILL_RUST_RESIST", "add": 20 },
+          { "value": "SKILL_RUST_RESIST", "add": 100 },
           { "value": "LEARNING_FOCUS", "add": 10 }
         ]
       }
