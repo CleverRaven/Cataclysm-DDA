@@ -1079,9 +1079,10 @@ class reload_activity_actor : public activity_actor
 
     private:
         explicit reload_activity_actor() = default;
-        int moves_total{};
-        int quantity{};
-        std::vector<item_location> reload_targets{};
+        int moves_total = 0;
+        int quantity = 0;
+        item_location target_loc;
+        item_location ammo_loc;
 
         bool can_reload() const;
         static void make_reload_sound( Character &who, item &reloadable );
