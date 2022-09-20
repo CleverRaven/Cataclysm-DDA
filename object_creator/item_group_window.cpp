@@ -700,14 +700,15 @@ creator::itemGroupEntry::itemGroupEntry( QWidget* parent, QString entryText, boo
     charges_frame->hide();
     charges_frame->allow_hiding( true );
     tooltipText = "The minimum amount of charges. Only shows up in JSON if max has ";
-    tooltipText += "a greater value then 0";
+    tooltipText += "\na greater value then 0";
     charges_frame->setToolTip( tooltipText );
 
     damage_frame = new simple_property_widget( this, QString( "damage" ), 
                                             property_type::MINMAX, this );
     damage_frame->hide();
     damage_frame->allow_hiding( true );
-    tooltipText = "The amount of damage this item has taken. 0 means undamaged, 3 means maximum damage";
+    tooltipText = "The amount of damage this item has taken. 0 means undamaged, 3 means maximum damage.";
+    tooltipText += "\nIf both min and max are set, a random damage value between those two is selected.";
     damage_frame->set_minmax_limits( 0, 3, 0, 3 );
     damage_frame->setToolTip( tooltipText );
 
