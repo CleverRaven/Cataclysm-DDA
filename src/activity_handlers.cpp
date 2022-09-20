@@ -612,7 +612,7 @@ static void set_up_butchery( player_activity &act, Character &you, butcher_type 
                                                    _( "The grim nature of your task deeply upsets you, leaving you feeling disgusted with yourself." ) );
                             break;
                     }
-                    get_player_character().add_morale( MORALE_BUTCHER, -40, 0, 1_day, 2_hours );
+                    get_player_character().add_morale( MORALE_BUTCHER, -40, 0, 1_days, 2_hours );
                 } else {
                     //standard refusal to butcher
                     you.add_msg_if_player( m_good, _( "It needs a coffin, not a knife." ) );
@@ -621,7 +621,7 @@ static void set_up_butchery( player_activity &act, Character &you, butcher_type 
                 }
             } else {
                 //if we're not player and don't have physiology, just add morale penalty.
-                you.add_morale( MORALE_BUTCHER, -40, 0, 1_day, 2_hours );
+                you.add_morale( MORALE_BUTCHER, -40, 0, 1_days, 2_hours );
             }
         }
     }
