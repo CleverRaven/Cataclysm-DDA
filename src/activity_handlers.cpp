@@ -577,7 +577,8 @@ static void set_up_butchery( player_activity &act, Character &you, butcher_type 
                         you.add_msg_if_player( m_good, _( "You grit your teeth and get to work." ) );
                         break;
                     case 2:
-                        you.add_msg_if_player( m_good, _( "The task at hand is unpleasant, but you steel your nerves regardless." ) );
+                        you.add_msg_if_player( m_good,
+                                               _( "The task at hand is unpleasant, but you steel your nerves regardless." ) );
                         break;
                     case 3:
                         you.add_msg_if_player( m_good,
