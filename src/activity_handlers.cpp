@@ -513,7 +513,7 @@ static void set_up_butchery( player_activity &act, Character &you, butcher_type 
     if( is_human && action != butcher_type::DISSECT && !( you.has_flag( json_flag_CANNIBAL ) ||
             you.has_flag( json_flag_PSYCHOPATH ) ||
             you.has_flag( json_flag_SAPIOVORE ) ) ) {
-        if( you.has_proficiency( prof_physiology ) ) {
+        if( you.has_proficiency( proficiency_prof_physiology ) ) {
             if( you.is_avatar() ) {
                 if( query_yn( _( "Really desecrate the mortal remains of a fellow human being for meat?" ) ) ) {
                     switch( rng( 1, 3 ) ) {
@@ -569,7 +569,7 @@ static void set_up_butchery( player_activity &act, Character &you, butcher_type 
             you.has_flag( json_flag_PSYCHOPATH ) ||
             you.has_flag( json_flag_SAPIOVORE ) ) ) {
 
-        if( you.has_proficiency( prof_physiology ) ) {
+        if( you.has_proficiency( proficiency_prof_physiology ) ) {
             //you're either trained for this, densensitized, or both. doesn't bother you.
             if( you.is_avatar() ) {
                 switch( rng( 1, 3 ) ) {
@@ -591,7 +591,8 @@ static void set_up_butchery( player_activity &act, Character &you, butcher_type 
                 if( query_yn( _( "Really dissect the remains of a fellow human being?" ) ) ) {
                     switch( rng( 1, 3 ) ) {
                         case 1:
-                            you.add_msg_if_player( m_bad, _( "This is nothing like dissecting a frog in biology class.  You feel sick inside." ) );
+                            you.add_msg_if_player( m_bad, 
+                                                   _( "This is nothing like dissecting a frog in biology class.  You feel sick inside." ) );
                             break;
                         case 2:
                             you.add_msg_if_player( m_bad, _( "You wonder how anyone manages to do this ghastly work." ) );
