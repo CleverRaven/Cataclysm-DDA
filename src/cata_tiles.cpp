@@ -1392,7 +1392,7 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
             if( g->display_overlay_state( ACTION_DISPLAY_SCENT ) && !invis ) {
                 const int scent_value = get_scent().get( pos );
                 if( scent_value > 0 ) {
-                    overlay_strings.emplace( player_to_screen( point( temp ) ) + half_tile,
+                    overlay_strings.emplace( player_to_screen( temp ) + half_tile,
                                              formatted_text( std::to_string( scent_value ),
                                                      8 + catacurses::yellow, direction::NORTH ) );
                 }
@@ -1403,7 +1403,7 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
             if( g->display_overlay_state( ACTION_DISPLAY_SCENT_TYPE ) && !invis ) {
                 const scenttype_id scent_type = get_scent().get_type( pos );
                 if( !scent_type.is_empty() ) {
-                    overlay_strings.emplace( player_to_screen( point( temp ) ) + half_tile,
+                    overlay_strings.emplace( player_to_screen( temp ) + half_tile,
                                              formatted_text( scent_type.c_str(),
                                                      8 + catacurses::yellow, direction::NORTH ) );
                 }
@@ -1420,7 +1420,7 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
                     } else {
                         col = catacurses::cyan;
                     }
-                    overlay_strings.emplace( player_to_screen( point( temp ) ) + half_tile,
+                    overlay_strings.emplace( player_to_screen( temp ) + half_tile,
                                              formatted_text( std::to_string( rad_value ),
                                                      8 + col, direction::NORTH ) );
                 }
@@ -1437,7 +1437,7 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
                     } else {
                         color = catacurses::white;
                     }
-                    overlay_strings.emplace( player_to_screen( point( temp ) + half_tile,
+                    overlay_strings.emplace( player_to_screen( temp + half_tile,
                                              formatted_text( std::to_string( val ), color,
                                                      direction::NORTH ) );
                 }
@@ -1470,7 +1470,7 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
                     temp_str = std::to_string( units::to_kelvin( temp_value ) );
 
                 }
-                overlay_strings.emplace( player_to_screen( point( temp ) ) + half_tile,
+                overlay_strings.emplace( player_to_screen( temp ) + half_tile,
                                          formatted_text( temp_str, color,
                                                  direction::NORTH ) );
             }
@@ -1484,11 +1484,11 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
                                         SDL_Color{ 192, 192, 192, 255 };
                 block_color.a = 100;
                 color_blocks.first = SDL_BLENDMODE_BLEND;
-                color_blocks.second.emplace( player_to_screen( point( temp ) ), block_color );
+                color_blocks.second.emplace( player_to_screen( temp ), block_color );
 
                 // overlay string
                 std::string visibility_str = visibility ? "+" : "-";
-                overlay_strings.emplace( player_to_screen( point( temp ) + quarter_tile ),
+                overlay_strings.emplace( player_to_screen( temp + quarter_tile ),
                                          formatted_text( visibility_str, catacurses::black,
                                                  direction::NORTH ) );
             }
@@ -1501,7 +1501,7 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
                     SDL_Color blue = { 0, 0, 255, 255 };
                     lighting_colors = color_linear_interpolate( white, blue, 9 );
                 }
-                point tile_pos = player_to_screen( point( temp ) );
+                point tile_pos = player_to_screen( temp );
 
                 // color overlay
                 SDL_Color color = lighting_colors[std::min( std::max( 0, color_hue ), 10 )];
