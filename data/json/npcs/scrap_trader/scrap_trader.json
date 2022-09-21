@@ -23,10 +23,6 @@
       { "group": "Appearance_demographics" },
       { "trait": "STRONGBACK" },
       { "trait": "OUTDOORSMAN" },
-      { "trait": "HEAVYSLEEPER" },
-      { "trait": "TERRIFYING" },
-      { "trait": "MOODSWINGS" },
-      { "trait": "BADTEMPER" },
       { "trait": "STRONGSTOMACH" },
       { "trait": "PAINRESIST" }
     ],
@@ -46,34 +42,29 @@
         "group": "SCRAPPER_Shop_Specialty_Metals",
         "rigid": true,
         "condition": { "npc_has_var": "specific_metal_tradeable", "type": "dialogue", "context": "trade", "value": "yes" }
-      },
-      {
-        "group": "SCRAP_MERCHANT_carried",
-        "rigid": true,
-        "condition": { "npc_has_var": "always_false", "type": "bool", "context": "never", "value": "yes" }
       }
     ],
     "shopkeeper_consumption_rates": "basic_shop_rates",
     "shopkeeper_price_rules": [
-      { "item": "scrap", "price": 20, "fixed_adj": 0 },
-      { "item": "sheet_metal_small", "price": 50 },
-      { "item": "steel_chunk", "price": 100 },
-      { "item": "steel_lump", "price": 300 },
-      { "item": "sheet_metal", "price": 500 },
-      { "item": "lc_steel_lump", "price": 600 },
-      { "item": "mc_steel_lump", "price": 800 },
-      { "item": "hc_steel_lump", "price": 1000 },
-      { "item": "scrap_aluminum", "price": 300 },
-      { "item": "scrap_bronze", "price": 500 },
-      { "item": "bismuth", "price": 10 },
-      { "item": "zinc_metal", "price": 10 },
-      { "item": "lead", "price": 12 },
-      { "item": "scrap_copper", "price": 140 },
-      { "item": "tin", "price": 18 },
-      { "item": "magnesium", "price": 20 },
-      { "item": "silver_small", "price": 28 },
-      { "item": "gold_small", "price": 100 },
-      { "item": "platinum_small", "price": 150 }
+      { "item": "scrap", "price": 200, "fixed_adj": 0 },
+      { "item": "sheet_metal_small", "price": 400, "fixed_adj": 0 },
+      { "item": "steel_chunk", "price": 400, "fixed_adj": 0 },
+      { "item": "steel_lump", "price": 600, "fixed_adj": 0 },
+      { "item": "sheet_metal", "price": 500, "fixed_adj": 0 },
+      { "item": "lc_steel_lump", "price": 1200, "fixed_adj": 0 },
+      { "item": "mc_steel_lump", "price": 1600, "fixed_adj": 0},
+      { "item": "hc_steel_lump", "price": 2000, "fixed_adj": 0},
+      { "item": "scrap_aluminum", "price": 30, "fixed_adj": 0},
+      { "item": "scrap_bronze", "price": 500, "fixed_adj": 0 },
+      { "item": "bismuth", "price": 2000, "fixed_adj": 0 },
+      { "item": "zinc_metal", "price": 2000, "fixed_adj": 0 },
+      { "item": "lead", "price": 2400, "fixed_adj": 0 },
+      { "item": "scrap_copper", "price": 140, "fixed_adj": 0 },
+      { "item": "tin", "price": 3600, "fixed_adj": 0 },
+      { "item": "magnesium", "price": 2000, "fixed_adj": 0 },
+      { "item": "silver_small", "price": 5600, "fixed_adj": 0 },
+      { "item": "gold_small", "price": 20000, "fixed_adj": 0 },
+      { "item": "platinum_small", "price": 30000, "fixed_adj": 0 }
     ]
   },
   {
@@ -118,14 +109,14 @@
     "id": "SCRAPPER_Shop",
     "subtype": "collection",
     "items": [
-      { "item": "scrap", "count": [ 200, 300 ] },
-      { "item": "sheet_metal_small", "count": [ 50, 100 ] },
-      { "item": "steel_chunk", "count": [ 100, 200 ] },
-      { "item": "steel_lump", "count": [ 50, 100 ] },
-      { "item": "sheet_metal", "count": [ 25, 50 ] },
-      { "item": "lc_steel_lump", "count": [ 25, 50 ] },
-      { "item": "mc_steel_lump", "count": [ 25, 50 ] },
-      { "item": "hc_steel_lump", "count": [ 25, 50 ] }
+      { "item": "scrap", "count": 100 },
+      { "item": "sheet_metal_small", "count": 100 },
+      { "item": "steel_chunk", "count": 100 },
+      { "item": "steel_lump", "count": 100 },
+      { "item": "sheet_metal", "count": 100 },
+      { "item": "lc_steel_lump", "count": 100 },
+      { "item": "mc_steel_lump", "count": 100 },
+      { "item": "hc_steel_lump", "count": 100 }
     ]
   },
   {
@@ -133,17 +124,17 @@
     "id": "SCRAPPER_Shop_Specialty_Metals",
     "subtype": "collection",
     "items": [
-      { "item": "scrap_aluminum", "count": [ 100, 200 ] },
-      { "item": "scrap_bronze", "count": [ 20, 50 ] },
-      { "item": "bismuth", "count": [ 0, 3 ], "container-item": "bag_zipper", "charges": 100 },
-      { "item": "zinc_metal", "count": [ 0, 3 ], "container-item": "jar_glass_sealed", "charges": 100 },
-      { "item": "lead", "count": [ 0, 3 ], "container-item": "bag_zipper", "charges": 100 },
-      { "item": "scrap_copper", "count": [ 100, 200 ] },
-      { "item": "tin", "count": [ 0, 3 ], "container-item": "bag_zipper", "charges": 100 },
-      { "item": "magnesium", "count": [ 0, 3 ], "container-item": "bag_zipper", "charges": 100 },
-      { "item": "silver_small", "count": [ 0, 3 ], "container-item": "bag_zipper", "charges": 100 },
-      { "item": "gold_small", "count": [ 0, 3 ], "container-item": "bag_zipper", "charges": 100 },
-      { "item": "platinum_small", "count": [ 0, 3 ], "container-item": "jar_glass_sealed", "charges": 100 }
+      { "item": "scrap_aluminum", "count": 100 },
+      { "item": "scrap_bronze", "count": 100 },
+      { "item": "bismuth", "count": 2, "container-item": "bag_zipper", "charges": 100 },
+      { "item": "zinc_metal", "count": 2, "container-item": "jar_glass_sealed", "charges": 100 },
+      { "item": "lead", "count": 2, "container-item": "bag_zipper", "charges": 100 },
+      { "item": "scrap_copper", "count": 100 },
+      { "item": "tin", "count": 2, "container-item": "bag_zipper", "charges": 100 },
+      { "item": "magnesium", "count": 2, "container-item": "bag_zipper", "charges": 100 },
+      { "item": "silver_small", "count": 2, "container-item": "bag_zipper", "charges": 100 },
+      { "item": "gold_small", "count": 2, "container-item": "bag_zipper", "charges": 100 },
+      { "item": "platinum_small", "count": 2, "container-item": "jar_glass_sealed", "charges": 100 }
     ]
   },
   {
