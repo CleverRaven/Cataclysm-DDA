@@ -245,11 +245,12 @@
   {
     "name": "GROUP_EGG_BUTTERFLY",
     "type": "monstergroup",
-    "default": "mon_caterpillar",
-    "monsters": [
-      { "monster": "mon_caterpillar_giant", "freq": 25, "cost_multiplier": 1, "starts": "28 days" },
-      { "monster": "mon_caterpillar", "freq": 100, "cost_multiplier": 1 }
-    ]
+    "monsters": [ { "monster": "mon_caterpillar_butterfly" } ]
+  },
+  {
+    "name": "GROUP_EGG_MOTH",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_caterpillar_moth" } ]
   },
   {
     "name": "GROUP_EGG_TROUT",
