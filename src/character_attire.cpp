@@ -749,11 +749,13 @@ static void layer_item( std::map<bodypart_id, encumbrance_data> &vals, const ite
          * layering_encumbrance of 2 )
          * Personal layer items and semitangible items do not conflict.
          */
-        if( it.has_flag( flag_SEMITANGIBLE ) || it.has_flag( flag_PERSONAL ) ) {
+        if( it.has_flag( flag_SEMITANGIBLE ) ) {
             encumber_val = 0;
             layering_encumbrance = 0;
         }
-
+        if( it.has_flag( flag_PERSONAL ) ) {
+            layering_encumbrance = 0;
+        }
         for( layer_level item_layer : item_layers ) {
             // do the sublayers of this armor conflict
             bool conflicts = false;
