@@ -305,7 +305,15 @@
     ],
     "ammo": "battery",
     "flags": [ "USE_UPS", "STURDY", "WATERPROOF", "ELECTRIC_IMMUNE", "COMBAT_TOGGLEABLE", "OUTER", "MUNDANE", "DEAF" ],
-    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ACTIVE", "values": [ { "value": "STRENGTH", "add": 10 } ] } ] },
+    "relic_data": {
+      "passive_effects": [
+        {
+          "has": "WORN",
+          "condition": "ACTIVE",
+          "values": [ { "value": "STRENGTH", "add": 10 }, { "value": "CLIMATE_CONTROL", "add": 50 } ]
+        }
+      ]
+    },
     "use_action": [
       {
         "target": "modular_exosuit_on",
@@ -333,7 +341,6 @@
       "ELECTRIC_IMMUNE",
       "COMBAT_TOGGLEABLE",
       "OUTER",
-      "CLIMATE_CONTROL",
       "PARTIAL_DEAF",
       "SUN_GLASSES",
       "FLASH_PROTECTION"

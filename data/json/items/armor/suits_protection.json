@@ -3042,7 +3042,12 @@
       }
     ],
     "extend": { "flags": [ "NORMAL", "MUNDANE", "USES_BIONIC_POWER" ] },
-    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "mutations": [ "well_distributed" ] } ] },
+    "relic_data": {
+      "passive_effects": [
+        { "has": "WORN", "condition": "ALWAYS", "mutations": [ "well_distributed" ] },
+        { "has": "WORN", "condition": "ACTIVE", "values": [ { "value": "CLIMATE_CONTROL", "add": 50 } ] }
+      ]
+    },
     "use_action": {
       "type": "transform",
       "msg": "You turn the climate control on.",
@@ -3059,7 +3064,6 @@
     "type": "TOOL_ARMOR",
     "name": { "str": "nomad plate armor (on)", "str_pl": "nomad plate armors (on)" },
     "revert_to": "armor_nomad_plate",
-    "extend": { "flags": [ "CLIMATE_CONTROL" ] },
     "power_draw": "100 J",
     "use_action": {
       "ammo_scale": 0,
@@ -3110,7 +3114,12 @@
       }
     ],
     "extend": { "flags": [ "NORMAL", "MUNDANE", "USES_BIONIC_POWER" ] },
-    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "mutations": [ "well_distributed" ] } ] },
+    "relic_data": {
+      "passive_effects": [
+        { "has": "WORN", "condition": "ALWAYS", "mutations": [ "well_distributed" ] },
+        { "has": "WORN", "condition": "ACTIVE", "values": [ { "value": "CLIMATE_CONTROL", "add": 50 } ] }
+      ]
+    },
     "use_action": {
       "type": "transform",
       "msg": "You turn the climate control on.",
@@ -3127,7 +3136,6 @@
     "type": "TOOL_ARMOR",
     "name": { "str": "nomad light plate armor (on)", "str_pl": "nomad light plate armors (on)" },
     "revert_to": "armor_nomad_lightplate",
-    "extend": { "flags": [ "CLIMATE_CONTROL" ] },
     "power_draw": "100 J",
     "use_action": {
       "ammo_scale": 0,
@@ -3178,7 +3186,12 @@
       }
     ],
     "extend": { "flags": [ "NORMAL", "MUNDANE", "USES_BIONIC_POWER" ] },
-    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "mutations": [ "well_distributed" ] } ] },
+    "relic_data": {
+      "passive_effects": [
+        { "has": "WORN", "condition": "ALWAYS", "mutations": [ "well_distributed" ] },
+        { "has": "WORN", "condition": "ACTIVE", "values": [ { "value": "CLIMATE_CONTROL", "add": 50 } ] }
+      ]
+    },
     "use_action": {
       "type": "transform",
       "msg": "You turn the climate control on.",
@@ -3195,7 +3208,6 @@
     "type": "TOOL_ARMOR",
     "name": { "str": "nomad heavy plate armor (on)", "str_pl": "nomad heavy plate armors (on)" },
     "revert_to": "armor_nomad_heavyplate",
-    "extend": { "flags": [ "CLIMATE_CONTROL" ] },
     "power_draw": "100 J",
     "use_action": {
       "ammo_scale": 0,

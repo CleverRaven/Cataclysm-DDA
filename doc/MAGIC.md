@@ -684,7 +684,8 @@ The following is a list of possible `values`:
 | `BONUS_BLOCK` | 
 | `BONUS_DODGE` | 
 | `BONUS_DAMAGE` | 
-| `CARRY_WEIGHT` | 
+| `CARRY_WEIGHT` |
+| `CLIMATE_CONTROL` | Moves body temperature towards comfortable by number of warmth units up to value.
 | `DEXTERITY` | 
 | `INTELLIGENCE` | 
 | `PERCEPTION` | 

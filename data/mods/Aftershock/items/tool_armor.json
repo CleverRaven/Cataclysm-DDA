@@ -15,6 +15,9 @@
     "volume": "4500 ml",
     "charges_per_use": 5,
     "ammo": "battery",
+    "relic_data": {
+      "passive_effects": [ { "has": "WORN", "condition": "ACTIVE", "values": [ { "value": "CLIMATE_CONTROL", "add": 50 } ] } ]
+    },
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -54,6 +57,6 @@
     "power_draw": "90 J",
     "revert_to": "afs_cryopod_bodyglove",
     "use_action": { "type": "transform", "menu_text": "Turn off", "msg": "Your %s deactivates.", "target": "afs_cryopod_bodyglove" },
-    "flags": [ "STURDY", "WATERPROOF", "THERMOMETER", "RAINPROOF", "CLIMATE_CONTROL" ]
+    "flags": [ "STURDY", "WATERPROOF", "THERMOMETER", "RAINPROOF" ]
   }
 ]

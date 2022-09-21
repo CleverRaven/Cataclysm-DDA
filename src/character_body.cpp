@@ -423,7 +423,7 @@ void Character::update_bodytemp()
     const bool has_heatsink = has_flag( json_flag_HEATSINK ) || is_wearing( itype_rm13_armor_on ) ||
                               heat_immune;
     const bool has_common_cold = has_effect( effect_common_cold );
-    const bool has_climate_control = in_climate_control();
+    const int climate_control = climate_control_strength();
     const bool use_floor_warmth = can_use_floor_warmth();
     const furn_id furn_at_pos = here.furn( pos() );
     const cata::optional<vpart_reference> boardable = vp.part_with_feature( "BOARDABLE", true );
@@ -579,8 +579,9 @@ void Character::update_bodytemp()
         temp_equalizer( bp, bp->main_part );
 
         // Climate Control eases the effects of high and low ambient temps
-        if( has_climate_control ) {
-            set_part_temp_conv( bp, temp_corrected_by_climate_control( get_part_temp_conv( bp ) ) );
+        if( climate_control ) {
+            set_part_temp_conv( bp, temp_corrected_by_climate_control( get_part_temp_conv( bp ),
+                                climate_control ) );
         }
 
         // FINAL CALCULATION : Increments current body temperature towards convergent.

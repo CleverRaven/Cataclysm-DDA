@@ -602,7 +602,7 @@
     "react_cost": "100 J",
     "time": "1 s",
     "flags": [ "BIONIC_TOGGLED" ],
-    "active_flags": [ "CLIMATE_CONTROL" ]
+    "enchantments": [ { "condition": "ACTIVE", "values": [ { "value": "CLIMATE_CONTROL", "add": 50 } ] } ]
   },
   {
     "id": "bio_cloak",

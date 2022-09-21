@@ -252,23 +252,16 @@
     "price_postapoc": 50000,
     "material": [ "superalloy", "kevlar" ],
     "material_thickness": 2,
+    "relic_data": {
+      "passive_effects": [ { "has": "WORN", "condition": "ACTIVE", "values": [ { "value": "CLIMATE_CONTROL", "add": 50 } ] } ]
+    },
     "pocket_data": [
       { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "3 kg", "moves": 80 },
       { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "3 kg", "moves": 80 }
     ],
     "warmth": 20,
     "environmental_protection": 5,
-    "flags": [
-      "CLIMATE_CONTROL",
-      "ELECTRIC_IMMUNE",
-      "RAD_PROOF",
-      "WATERPROOF",
-      "COLLAR",
-      "THERMOMETER",
-      "ONLY_ONE",
-      "OUTER",
-      "STURDY"
-    ],
+    "flags": [ "ELECTRIC_IMMUNE", "RAD_PROOF", "WATERPROOF", "COLLAR", "THERMOMETER", "ONLY_ONE", "OUTER", "STURDY" ],
     "looks_like": "depowered_armor",
     "armor": [
       {

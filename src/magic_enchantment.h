@@ -120,6 +120,7 @@ enum class mod : int {
     ITEM_COVERAGE,
     ITEM_ATTACK_SPEED,
     ITEM_WET_PROTECTION,
+    CLIMATE_CONTROL,
     NUM_MOD
 };
 } // namespace enchant_vals

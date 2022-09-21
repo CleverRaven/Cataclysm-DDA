@@ -289,7 +289,6 @@ static const json_character_flag json_flag_BLIND( "BLIND" );
 static const json_character_flag json_flag_BULLET_IMMUNE( "BULLET_IMMUNE" );
 static const json_character_flag json_flag_CLAIRVOYANCE( "CLAIRVOYANCE" );
 static const json_character_flag json_flag_CLAIRVOYANCE_PLUS( "CLAIRVOYANCE_PLUS" );
-static const json_character_flag json_flag_CLIMATE_CONTROL( "CLIMATE_CONTROL" );
 static const json_character_flag json_flag_COLD_IMMUNE( "COLD_IMMUNE" );
 static const json_character_flag json_flag_CUT_IMMUNE( "CUT_IMMUNE" );
 static const json_character_flag json_flag_DEAF( "DEAF" );
@@ -3501,21 +3500,23 @@ units::mass Character::get_weight() const
     return ret;
 }
 
-bool Character::in_climate_control()
+int Character::climate_control_strength()
 {
-    bool regulated_area = false;
-    // Check
-    if( has_flag( json_flag_CLIMATE_CONTROL ) ) {
-        return true;
+    // In warmth points
+    const int DEFAULT_STRENGTH = 50;
+
+    int ench_power = enchantment_cache->get_value_add( enchant_vals::mod::CLIMATE_CONTROL );
+    if( ench_power > 0 ) {
+        return ench_power;
     }
+
     map &here = get_map();
     if( has_trait( trait_M_SKIN3 ) && here.has_flag_ter_or_furn( ter_furn_flag::TFLAG_FUNGUS, pos() ) &&
         in_sleep_state() ) {
-        return true;
+        return DEFAULT_STRENGTH;
     }
-    if( worn.in_climate_control() ) {
-        return true;
-    }
+
+    bool regulated_area = false;
     if( calendar::turn >= next_climate_control_check ) {
         // save CPU and simulate acclimation.
         next_climate_control_check = calendar::turn + 20_turns;
@@ -3542,9 +3543,10 @@ bool Character::in_climate_control()
             next_climate_control_check += 40_turns;
         }
     } else {
-        return last_climate_control_ret;
+        return last_climate_control_ret ? DEFAULT_STRENGTH : 0;
     }
-    return regulated_area;
+
+    return regulated_area ? DEFAULT_STRENGTH : 0;
 }
 
 std::map<bodypart_id, int> Character::get_wind_resistance( const std::map <bodypart_id,
@@ -8491,9 +8493,10 @@ int Character::bodytemp_modifier_traits_floor() const
     return mod;
 }
 
-int Character::temp_corrected_by_climate_control( int temperature ) const
+int Character::temp_corrected_by_climate_control( int temperature,
+        int climate_control_strength ) const
 {
-    const int variation = static_cast<int>( BODYTEMP_NORM * 0.5 );
+    const int variation = static_cast<int>( BODYTEMP_NORM * ( climate_control_strength / 100.0f ) );
 
     if( temperature > BODYTEMP_NORM ) {
         return std::max( BODYTEMP_NORM, temperature - variation );
