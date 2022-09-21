@@ -145,13 +145,6 @@
     "description": "Precise step-by-step instructions and other required data for installation of Weather Reader CBM, stored on a data card of proprietary form-factor, designed to be used extensively by an Autodoc, and allowing bionic installation with minimal failure chance.  Integrated security subroutine renders it unusable after installation."
   },
   {
-    "id": "AID_bio_railgun",
-    "type": "GENERIC",
-    "copy-from": "AID_abstract",
-    "name": { "str_sp": "Railgun CBM installation data" },
-    "description": "Precise step-by-step instructions and other required data for installation of Railgun CBM, stored on a data card of proprietary form-factor, designed to be used extensively by an Autodoc, and allowing bionic installation with minimal failure chance.  Integrated security subroutine renders it unusable after installation."
-  },
-  {
     "id": "AID_bio_ups",
     "type": "GENERIC",
     "copy-from": "AID_abstract",

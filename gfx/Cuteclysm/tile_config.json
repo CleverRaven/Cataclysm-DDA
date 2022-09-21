@@ -1031,7 +1031,6 @@
         { "id": "bio_probability_travel", "fg": 1373, "rotates": false, "multitile": false },
         { "id": "bio_purifier", "fg": 1373, "rotates": false, "multitile": false },
         { "id": "bio_radscrubber", "fg": 1373, "rotates": false, "multitile": false },
-        { "id": "bio_railgun", "fg": 1373, "rotates": false, "multitile": false },
         { "id": "bio_razors", "fg": 1373, "rotates": false, "multitile": false },
         { "id": "bio_recycler", "fg": 1373, "rotates": false, "multitile": false },
         { "id": "bio_remote", "fg": 1373, "rotates": false, "multitile": false },

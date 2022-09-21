@@ -279,7 +279,6 @@
       [ "bio_chain_lightning", 15 ],
       [ "bio_emp", 1 ],
       [ "bio_emp_armgun", 1 ],
-      [ "bio_railgun", 15 ],
       [ "bio_shockwave", 10 ]
     ]
   },
