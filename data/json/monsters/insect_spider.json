@@ -3193,7 +3193,6 @@
     "families": [ "prof_wp_basic_bug" ],
     "biosignature": { "biosig_item": "insect_dust", "biosig_timer": 3 },
     "reproduction": { "baby_egg": "egg_moth", "baby_count": 1, "baby_timer": 15 },
-    "baby_flags": [ "SPRING", "SUMMER" ],
     "fear_triggers": [ "HURT", "FIRE" ],
     "flags": [ "SEES", "HEARS", "FLIES", "STUMBLES" ]
   },
@@ -3249,7 +3248,7 @@
     "hp": 100,
     "harvest": "arachnid",
     "dissect": "dissect_insect_sample_large",
-    "upgrades": { "age_grow": 50, "into_group": "mon_butterfly_giant" },
+    "upgrades": { "age_grow": 50, "into": "mon_butterfly_giant" },
     "flags": [ "IMMOBILE" ]
   },
   {
@@ -3291,7 +3290,7 @@
     "hp": 100,
     "harvest": "arachnid",
     "dissect": "dissect_insect_sample_large",
-    "upgrades": { "age_grow": 50, "into_group": "mon_moth_giant" },
+    "upgrades": { "age_grow": 50, "into": "mon_moth_giant" },
     "flags": [ "IMMOBILE" ]
   },
   {
