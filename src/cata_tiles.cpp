@@ -1376,7 +1376,7 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
 
             bool invis = ( temp.y < min_visible.y || temp.y > max_visible.y || temp.x < min_visible.x ||
                            temp.x > max_visible.x ) &&
-                         ( has_memory_at( {temp.x, temp.y, center.z} ) || has_draw_override( {temp.x, temp.y, center.z} ) );
+                         ( has_memory_at( pos ) || has_draw_override( pos ) );
 
             const tripoint pos( temp, center.z );
             const int &x = pos.x;
@@ -1390,9 +1390,9 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
             // Add scent value to the overlay_strings list for every visible tile when
             // displaying scent
             if( g->display_overlay_state( ACTION_DISPLAY_SCENT ) && !invis ) {
-                const int scent_value = get_scent().get( {temp.x, temp.y, center.z} );
+                const int scent_value = get_scent().get( pos );
                 if( scent_value > 0 ) {
-                    overlay_strings.emplace( player_to_screen( point( temp.x, temp.y ) ) + half_tile,
+                    overlay_strings.emplace( player_to_screen( point( temp ) ) + half_tile,
                                              formatted_text( std::to_string( scent_value ),
                                                      8 + catacurses::yellow, direction::NORTH ) );
                 }
@@ -1401,26 +1401,26 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
             // Add scent type to the overlay_strings list for every visible tile when
             // displaying scent
             if( g->display_overlay_state( ACTION_DISPLAY_SCENT_TYPE ) && !invis ) {
-                const scenttype_id scent_type = get_scent().get_type( {temp.x, temp.y, center.z} );
+                const scenttype_id scent_type = get_scent().get_type( pos );
                 if( !scent_type.is_empty() ) {
-                    overlay_strings.emplace( player_to_screen( point( temp.x, temp.y ) ) + half_tile,
+                    overlay_strings.emplace( player_to_screen( point( temp ) ) + half_tile,
                                              formatted_text( scent_type.c_str(),
                                                      8 + catacurses::yellow, direction::NORTH ) );
                 }
             }
 
             if( g->display_overlay_state( ACTION_DISPLAY_RADIATION ) ) {
-                const auto rad_override = radiation_override.find( {temp.x, temp.y, center.z} );
+                const auto rad_override = radiation_override.find( pos );
                 const bool rad_overridden = rad_override != radiation_override.end();
                 if( rad_overridden || !invis ) {
-                    const int rad_value = rad_overridden ? rad_override->second : here.get_radiation( {temp.x, temp.y, center.z} );
+                    const int rad_value = rad_overridden ? rad_override->second : here.get_radiation( pos );
                     catacurses::base_color col;
                     if( rad_value > 0 ) {
                         col = catacurses::green;
                     } else {
                         col = catacurses::cyan;
                     }
-                    overlay_strings.emplace( player_to_screen( point( temp.x, temp.y ) ) + half_tile,
+                    overlay_strings.emplace( player_to_screen( point( temp ) ) + half_tile,
                                              formatted_text( std::to_string( rad_value ),
                                                      8 + col, direction::NORTH ) );
                 }
@@ -1437,7 +1437,7 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
                     } else {
                         color = catacurses::white;
                     }
-                    overlay_strings.emplace( player_to_screen( point( temp.x, temp.y ) + half_tile,
+                    overlay_strings.emplace( player_to_screen( point( temp ) + half_tile,
                                              formatted_text( std::to_string( val ), color,
                                                      direction::NORTH ) );
                 }
@@ -1446,7 +1446,7 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
             // Add temperature value to the overlay_strings list for every visible tile when
             // displaying temperature
             if( g->display_overlay_state( ACTION_DISPLAY_TEMPERATURE ) && !invis ) {
-                units::temperature temp_value = get_weather().get_temperature( {temp.x, temp.y, center.z} );
+                units::temperature temp_value = get_weather().get_temperature( pos );
                 short color;
                 const short bold = 8;
                 if( temp_value > units::from_celcius( 40 ) ) {
@@ -1470,25 +1470,25 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
                     temp_str = std::to_string( units::to_kelvin( temp_value ) );
 
                 }
-                overlay_strings.emplace( player_to_screen( point( temp.x, temp.y ) ) + half_tile,
+                overlay_strings.emplace( player_to_screen( point( temp ) ) + half_tile,
                                          formatted_text( temp_str, color,
                                                  direction::NORTH ) );
             }
 
             if( g->display_overlay_state( ACTION_DISPLAY_VISIBILITY ) &&
                 g->displaying_visibility_creature && !invis ) {
-                const bool visibility = g->displaying_visibility_creature->sees( {temp.x, temp.y, center.z} );
+                const bool visibility = g->displaying_visibility_creature->sees( pos );
 
                 // color overlay.
                 SDL_Color block_color = visibility ? windowsPalette[catacurses::green] :
                                         SDL_Color{ 192, 192, 192, 255 };
                 block_color.a = 100;
                 color_blocks.first = SDL_BLENDMODE_BLEND;
-                color_blocks.second.emplace( player_to_screen( point( temp.x, temp.y ) ), block_color );
+                color_blocks.second.emplace( player_to_screen( point( temp ) ), block_color );
 
                 // overlay string
                 std::string visibility_str = visibility ? "+" : "-";
-                overlay_strings.emplace( player_to_screen( point( temp.x, temp.y ) + quarter_tile ),
+                overlay_strings.emplace( player_to_screen( point( temp ) + quarter_tile ),
                                          formatted_text( visibility_str, catacurses::black,
                                                  direction::NORTH ) );
             }
@@ -1501,7 +1501,7 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
                     SDL_Color blue = { 0, 0, 255, 255 };
                     lighting_colors = color_linear_interpolate( white, blue, 9 );
                 }
-                point tile_pos = player_to_screen( point( temp.x, temp.y ) );
+                point tile_pos = player_to_screen( point( temp ) );
 
                 // color overlay
                 SDL_Color color = lighting_colors[std::min( std::max( 0, color_hue ), 10 )];
@@ -1517,7 +1517,7 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
 
             if( g->display_overlay_state( ACTION_DISPLAY_LIGHTING ) ) {
                 if( g->displaying_lighting_condition == 0 ) {
-                    const float light = here.ambient_light_at( {temp.x, temp.y, center.z} );
+                    const float light = here.ambient_light_at( pos );
                     // note: lighting will be constrained in the [1.0, 11.0] range.
                     int intensity =
                         static_cast<int>( std::max( 1.0, LIGHT_AMBIENT_LIT - light + 1.0 ) ) - 1;
@@ -1526,7 +1526,7 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
             }
 
             if( g->display_overlay_state( ACTION_DISPLAY_TRANSPARENCY ) ) {
-                const float tr = here.light_transparency( {temp.x, temp.y, center.z} );
+                const float tr = here.light_transparency( pos );
                 int intensity =  tr <= LIGHT_TRANSPARENCY_SOLID ? 10 :  static_cast<int>
                                  ( ( tr - LIGHT_TRANSPARENCY_OPEN_AIR ) * 8 );
                 draw_debug_tile( intensity, string_format( "%.2f", tr ) );
@@ -1546,7 +1546,7 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
             for( int z = center.z; z > -OVERMAP_DEPTH; z-- ) {
                 const auto &ch = here.access_cache( z );
 
-                const tripoint pos( temp.x, temp.y, z );
+                const tripoint pos( temp, z );
                 const int &x = pos.x;
                 const int &y = pos.y;
 
