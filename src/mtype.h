@@ -212,7 +212,7 @@ struct pet_food_data {
 
     bool was_loaded = false;
     void load( const JsonObject &jo );
-    void deserialize( JsonIn &jsin );
+    void deserialize( const JsonObject &data );
 };
 
 enum class mdeath_type {
