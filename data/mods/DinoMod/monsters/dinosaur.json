@@ -1561,6 +1561,7 @@
     "name": { "str_sp": "parasaurolophus" },
     "copy-from": "mon_hadrosaurus",
     "//": "When large weights and volumes are fixed this should be 4000 L and 4000 kg",
+    "bodytype": "bear",
     "dodge": 3,
     "armor_bash": 5,
     "armor_cut": 5,
