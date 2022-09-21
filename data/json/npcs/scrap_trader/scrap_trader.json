@@ -48,7 +48,7 @@
         "condition": { "npc_has_var": "specific_metal_tradeable", "type": "dialogue", "context": "trade", "value": "yes" }
       },
       {
-        "group": "SCRAP_MERCHANT_carried", "rigid": true, "trust": 20 
+        "group": "SCRAP_MERCHANT_carried", "rigid": true, "condition": { "npc_has_var": "always_false", "type": "bool", "context": "never", "value": "yes" }
       }
     ],
     "shopkeeper_consumption_rates": "basic_shop_rates",
