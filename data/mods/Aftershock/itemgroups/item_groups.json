@@ -399,5 +399,20 @@
     "type": "item_group",
     "subtype": "collection",
     "items": [ [ "combat_wetsuit_cecalia", 20 ], [ "wetsuit_cecalia", 70 ], [ "trident", 70 ], [ "dive_bag", 100 ] ]
+  },
+  {
+    "id": "gear_afs_sidearm",
+    "type": "item_group",
+    "//": "Sidearm and appropriate holster or sheath for soldiers or other paramilitary forces.",
+    "items": [
+      {
+        "distribution": [
+          { "item": "PR24-retracted", "prob": 20 },
+          { "collection": [ { "item": "knife_rm42" }, { "item": "sheath" } ], "prob": 30 },
+          { "collection": [ { "item": "afs_10mm_caseless_FMJ": 40 }, { "item": "afs_84k_20mag" } ], "prob": 60 },
+          { "collection": [ { "item": "afs_seyfert_84K" }, { "item": "holster" } ], "prob": 50 }
+        ]
+      }
+    ]
   }
 ]
