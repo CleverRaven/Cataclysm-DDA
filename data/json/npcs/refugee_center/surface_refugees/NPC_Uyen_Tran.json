@@ -7,7 +7,7 @@
     "name_suffix": "refugee",
     "class": "NC_REFUGEE_Uyen",
     "attitude": 0,
-    "mission": 7,
+    "mission": 3,
     "chat": "TALK_REFUGEE_Uyen_1",
     "faction": "free_merchants",
     "mission_offered": "MISSION_REFUGEE_Uyen_1"

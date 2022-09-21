@@ -109,14 +109,14 @@
     "id": "SCRAPPER_Shop",
     "subtype": "collection",
     "items": [
-      { "item": "scrap", "count": 100 },
-      { "item": "sheet_metal_small", "count": 100 },
-      { "item": "steel_chunk", "count": 100 },
-      { "item": "steel_lump", "count": 100 },
-      { "item": "sheet_metal", "count": 100 },
-      { "item": "lc_steel_lump", "count": 100 },
-      { "item": "mc_steel_lump", "count": 100 },
-      { "item": "hc_steel_lump", "count": 100 }
+      { "item": "scrap", "count": [250, 500] },
+      { "item": "sheet_metal_small", "count": [50, 100] },
+      { "item": "steel_chunk", "count": [100, 200] },
+      { "item": "steel_lump", "count": [50, 100] },
+      { "item": "sheet_metal", "count": [25, 50] },
+      { "item": "lc_steel_lump", "count": [25, 50] },
+      { "item": "mc_steel_lump", "count": [25, 50] },
+      { "item": "hc_steel_lump", "count": [25, 50] }
     ]
   },
   {
@@ -124,17 +124,17 @@
     "id": "SCRAPPER_Shop_Specialty_Metals",
     "subtype": "collection",
     "items": [
-      { "item": "scrap_aluminum", "count": 100 },
-      { "item": "scrap_bronze", "count": 100 },
-      { "item": "bismuth", "count": 2, "container-item": "bag_zipper", "charges": 100 },
-      { "item": "zinc_metal", "count": 2, "container-item": "jar_glass_sealed", "charges": 100 },
-      { "item": "lead", "count": 2, "container-item": "bag_zipper", "charges": 100 },
-      { "item": "scrap_copper", "count": 100 },
-      { "item": "tin", "count": 2, "container-item": "bag_zipper", "charges": 100 },
-      { "item": "magnesium", "count": 2, "container-item": "bag_zipper", "charges": 100 },
-      { "item": "silver_small", "count": 2, "container-item": "bag_zipper", "charges": 100 },
-      { "item": "gold_small", "count": 2, "container-item": "bag_zipper", "charges": 100 },
-      { "item": "platinum_small", "count": 2, "container-item": "jar_glass_sealed", "charges": 100 }
+      { "item": "scrap_aluminum", "count": [100, 200] },
+      { "item": "scrap_bronze", "count": [20, 50] },
+      { "item": "bismuth", "count": [0, 3], "container-item": "bag_zipper", "charges": 100 },
+      { "item": "zinc_metal", "count": [0, 3], "container-item": "jar_glass_sealed", "charges": 100 },
+      { "item": "lead", "count": [0, 3], "container-item": "bag_zipper", "charges": 100 },
+      { "item": "scrap_copper", "count": [100, 200] },
+      { "item": "tin", "count": [0, 3], "container-item": "bag_zipper", "charges": 100 },
+      { "item": "magnesium", "count": [0, 3], "container-item": "bag_zipper", "charges": 100 },
+      { "item": "silver_small", "count": [0, 3], "container-item": "bag_zipper", "charges": 100 },
+      { "item": "gold_small", "count": [0, 3], "container-item": "bag_zipper", "charges": 100 },
+      { "item": "platinum_small", "count": [0, 3], "container-item": "jar_glass_sealed", "charges": 100 }
     ]
   },
   {
