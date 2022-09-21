@@ -9,9 +9,10 @@
     "//": "Barracks (Top Left): Top Left: locker room, meant to store work clothes and small tools/trinkets. Top Right: armory, stores weapons and armor. Mid Left: Bathroom/showers. Mid Right: Sleeping quarters. Lockers in corner will have emergency supplies. Bottom: Cafeteria.",
     "//": "Cargo (Top Center): Six shipping containers with crates of misc equipment and supplies.",
     "//": "Workshop (Top Right): Toolshop and light manufacturing. Shelves with spare parts for vehicles and individual equipment, some broken/damaged.",
+    "//": "Corridor (Center): Access to the various rooms, hallways are sealed due to breaches on either end of the ship.",
     "//": "Shuttle Bay (Bottom Left): Berthing for small shuttles.",
     "//": "Launch Bay (Bottom Center): A long launch bay with a ramp for ground vehicles to embark/disembark.",
-    "//": "Vehicle Bay (Bottom Right): Storage for ground vehicles.",
+    "//": "Vehicle Bay (Bottom Right): Escape pod bays are near the central coridor. Storage for ground vehicles.",
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "crashing_ship" ],
@@ -48,43 +49,43 @@
         "M........................a....................a........................M",
         "MMMMMMMMMMMMMMMMMMMMMMMMMddddddddddDDddddddddddMMMMMMMMMMMMMDDMMMMMMMMMM",
         "M........................a....................aMM......................M",
-        "M..YYYYYYYYYYYYYYYYYY..........................MM......................M",
+        "M..YYYYYYYYYYYYYYYYYY..........................MM.MMM..............YYY.M",
+        "M..............................................MM.MFD..*........*..YYY.M",
+        "M..............................................MM.MMM..............YYY.M",
+        "M..............................................MM......................M",
+        "M..............................................MM.YYY..............YYY.M",
+        "M..............................................MM.YYY..*........*..YYY.M",
+        "M..YYYYYYYYYYYYYYYYYY..........................MM.YYY..............YYY.M",
+        "M..............................................MM......................M",
+        "M..YYYYYYYYYYYYYYYYYY..........................MM.YYY..............YYY.M",
+        "M..............................................MM.YYY..*........*..YYY.M",
+        "M..............................................MM.YYY..............YYY.M",
+        "M..............................................MM......................M",
+        "M..............................................MM.YYY..............MMM.M",
+        "M..............................................MM.YYY..*........*..DzM.M",
+        "M..YYYYYYYYYYYYYYYYYY..........................MM.YYY..............MMM.M",
+        "M..............................................MM......................M",
+        "M..............................................MMMMMMMMMMMMMDDMMMMMMMMMM",
+        "M..............................................MM......................M",
+        "M..............................................MM......................M",
+        "M..............................................MM......................M",
+        "M..YYYYYYYYYYYYYYYYYY..........................MM..YYYYYYYYYYYYYYYYYY..M",
         "M..............................................MM......................M",
         "M..............................................MM......................M",
         "M..............................................MM......................M",
         "M..............................................MM......................M",
         "M..............................................MM......................M",
-        "M..YYYYYYYYYYYYYYYYYY..........................MM......................M",
+        "M..YYYYYYYYYYYYYYYYYY..........................MM..YYYYYYYYYYYYYYYYYY..M",
         "M..............................................MM......................M",
         "M..............................................MM......................M",
         "M..............................................MM......................M",
-        "M..YYYYYYYYYYYYYYYYYY..........................MM......................M",
-        "M..............................................MM......................M",
-        "M..............................................MM......................M",
-        "M..............................................MM......................M",
-        "M..............................................MM......................M",
-        "M..............................................MM......................M",
-        "M..YYYYYYYYYYYYYYYYYY..........................MM......................M",
-        "M..............................................MM......................M",
-        "M..............................................MM......................M",
-        "M..............................................MM......................M",
-        "M..YYYYYYYYYYYYYYYYYY..........................MM......................M",
+        "M..YYYYYYYYYYYYYYYYYY..........................MM..YYYYYYYYYYYYYYYYYY..M",
         "M..............................................MM......................M",
         "M..............................................MM......................M",
         "M..............................................MM......................M",
         "M..............................................MM......................M",
         "M..............................................MM......................M",
-        "M..YYYYYYYYYYYYYYYYYY..........................MM......................M",
-        "M..............................................MM......................M",
-        "M..............................................MM......................M",
-        "M..............................................MM......................M",
-        "M..............................................MM......................M",
-        "M..............................................MM......................M",
-        "M..YYYYYYYYYYYYYYYYYY..........................MM......................M",
-        "M..............................................MM......................M",
-        "M..............................................MM......................M",
-        "M..............................................MM......................M",
-        "M..............................................MM......................M",
+        "M..YYYYYYYYYYYYYYYYYY..........................MM..YYYYYYYYYYYYYYYYYY..M",
         "M..............................................MM......................M",
         "M..............................................MM......................M",
         "M..............................................MM......................M",
@@ -114,66 +115,69 @@
         "5": "f_machinery_electronic",
         "6": "f_machinery_light",
         "7": "f_machinery_heavy",
-        "8": "f_machinery_old"
+        "8": "f_machinery_old",
+        "z": "f_afs_escape_pod_seat"
       },
-      "terrain": {
-        "Y": "t_bridge",
-        "!": "t_console",
-        "#": "t_console",
-        "*": "t_metal_floor_olight",
-        "M": "t_afs_space_ship_hull_wall",
-        "D": "t_afs_space_ship_hatch_c",
-        "g": "t_door_glass_frosted_c",
-        "d": "t_door_metal_locked",
-        "a": "t_gates_mech_control"
+      "items": { "z": { "item": "afs_escape_pod_suppliesII", "chance": 100 } }
+    },
+    "terrain": {
+      "Y": "t_bridge",
+      "!": "t_console",
+      "#": "t_console",
+      "*": "t_metal_floor_olight",
+      "M": "t_afs_space_ship_hull_wall",
+      "D": "t_afs_space_ship_hatch_c",
+      "g": "t_door_glass_frosted_c",
+      "d": "t_door_metal_locked",
+      "a": "t_gates_mech_control"
+    },
+    "mapping": {
+      "z": { "item": "afs_escape_pod_suppliesII", "chance": 100 },
+      "L": {
+        "items": [
+          { "item": "gear_soldier_sidearm", "chance": 33 },
+          { "item": "book_military", "chance": 20 },
+          { "item": "afs_plastic_armor_g", "chance": 33 },
+          { "item": "afs_carbide_raider_armor_g", "chance": 10 },
+          { "item": "mil_armor", "chance": 10 },
+          { "item": "shirts_unisex_afs", "chance": 50 },
+          { "item": "pants_unisex_afs", "chance": 50 },
+          { "item": "shoes_unisex_afs", "chance": 50 },
+          { "item": "drugs_soldier", "chance": 25 },
+          { "item": "afs_dead_survivor", "chance": 5 }
+        ]
       },
-      "mapping": {
-        "L": {
-          "items": [
-            { "item": "gear_soldier_sidearm", "chance": 33 },
-            { "item": "book_military", "chance": 20 },
-            { "item": "afs_plastic_armor_g", "chance": 33 },
-            { "item": "afs_carbide_raider_armor_g", "chance": 10 },
-            { "item": "mil_armor", "chance": 10 },
-            { "item": "shirts_unisex_afs", "chance": 50 },
-            { "item": "pants_unisex_afs", "chance": 50 },
-            { "item": "shoes_unisex_afs", "chance": 50 },
-            { "item": "drugs_soldier", "chance": 25 },
-            { "item": "afs_dead_survivor", "chance": 5 }
-          ]
-        },
-        "r": {
-          "items": [
-            { "item": "afs_tools_scavenging", "chance": 60 },
-            { "item": "afs_tools_robot_maintenance", "chance": 10 },
-            { "item": "afs_tools_electric_repair", "chance": 10 }
-          ]
-        },
-        "E": {
-          "items": [
-            { "item": "fireman_cabinet", "chance": 100 },
-            { "item": "full_1st_aid", "chance": 55 },
-            { "item": "full_ifak", "chance": 55 },
-            { "item": "reactor_gear", "chance": 25 }
-          ]
-        },
-        "V": { "items": [ { "item": "afs_vending_false_meals", "chance": 100 } ] },
-        "w": { "items": [ { "item": "casings", "chance": 10 } ] }
+      "r": {
+        "items": [
+          { "item": "afs_tools_scavenging", "chance": 60 },
+          { "item": "afs_tools_robot_maintenance", "chance": 10 },
+          { "item": "afs_tools_electric_repair", "chance": 10 }
+        ]
       },
-      "fields": { "F": { "field": "fd_fire", "intensity": 3, "age": 1 } },
-      "computers": {
-        "!": {
-          "name": "Locker Room",
-          "security": 3,
-          "options": [ { "name": "UNLOCK ENTRANCE", "action": "unlock", "security": 5 } ],
-          "failures": [ { "action": "damage" }, { "action": "shutdown" } ]
-        },
-        "#": {
-          "name": "Armory Entrance",
-          "security": 6,
-          "options": [ { "name": "UNLOCK ENTRANCE", "action": "unlock_disarm", "security": 7 } ],
-          "failures": [ { "action": "damage" }, { "action": "shutdown" } ]
-        }
+      "E": {
+        "items": [
+          { "item": "fireman_cabinet", "chance": 100 },
+          { "item": "full_1st_aid", "chance": 55 },
+          { "item": "full_ifak", "chance": 55 },
+          { "item": "reactor_gear", "chance": 25 }
+        ]
+      },
+      "V": { "items": [ { "item": "afs_vending_false_meals", "chance": 100 } ] },
+      "w": { "items": [ { "item": "casings", "chance": 10 } ] }
+    },
+    "fields": { "F": { "field": "fd_fire", "intensity": 3, "age": 1 } },
+    "computers": {
+      "!": {
+        "name": "Locker Room",
+        "security": 3,
+        "options": [ { "name": "UNLOCK ENTRANCE", "action": "unlock", "security": 5 } ],
+        "failures": [ { "action": "damage" }, { "action": "shutdown" } ]
+      },
+      "#": {
+        "name": "Armory Entrance",
+        "security": 6,
+        "options": [ { "name": "UNLOCK ENTRANCE", "action": "unlock_disarm", "security": 7 } ],
+        "failures": [ { "action": "damage" }, { "action": "shutdown" } ]
       }
     }
   }
