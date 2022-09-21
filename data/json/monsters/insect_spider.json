@@ -3166,7 +3166,6 @@
     "weakpoint_sets": [ "wps_arthropod", "wps_arthropod_flying" ],
     "families": [ "prof_wp_basic_bug" ],
     "upgrades": { "age_grow": 30, "into": "mon_moth_giant" },
-    "baby_flags": [ "SPRING", "SUMMER" ],
     "fear_triggers": [ "HURT", "FIRE" ],
     "flags": [ "SEES", "HEARS", "FLIES", "STUMBLES" ]
   },
@@ -3193,6 +3192,7 @@
     "families": [ "prof_wp_basic_bug" ],
     "biosignature": { "biosig_item": "insect_dust", "biosig_timer": 3 },
     "reproduction": { "baby_egg": "egg_moth", "baby_count": 1, "baby_timer": 15 },
+    "baby_flags": [ "SPRING", "SUMMER" ],
     "fear_triggers": [ "HURT", "FIRE" ],
     "flags": [ "SEES", "HEARS", "FLIES", "STUMBLES" ]
   },
