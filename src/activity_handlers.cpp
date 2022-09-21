@@ -1362,6 +1362,11 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act, Character *yo
         switch( source_type ) {
             case liquid_source_type::VEHICLE:
                 if( part_num != -1 ) {
+                    const vehicle_part &pt = source_veh->part( part_num );
+                    if( pt.is_leaking() && !pt.ammo_remaining() ) {
+                        act_ref.set_to_null(); // leaky tank spilled while we were transferring
+                        return;
+                    }
                     source_veh->drain( part_num, removed_charges );
                     liquid.charges = veh_charges - removed_charges;
                     // If there's no liquid left in this tank we're done, otherwise
