@@ -3230,7 +3230,7 @@
     "dissect": "dissect_insect_sample_large",
     "upgrades": { "age_grow": 20, "into": "mon_butterfly_cocoon" },
     "fear_triggers": [ "HURT", "FIRE" ],
-    "flags": [ "SEES", "SMELLS", "CLIMBS", "HEARS", "STUMBLES", "LARVA", "PATH_AVOID_FIRE" ]
+    "flags": [ "SEES", "SMELLS", "CLIMBS", "HEARS", "STUMBLES", "PATH_AVOID_FIRE" ]
   },
   {
     "id": "mon_butterfly_cocoon",
@@ -3272,7 +3272,7 @@
     "dissect": "dissect_insect_sample_large",
     "upgrades": { "age_grow": 30, "into": "mon_moth_cocoon" },
     "fear_triggers": [ "HURT", "FIRE" ],
-    "flags": [ "SEES", "SMELLS", "CLIMBS", "HEARS", "STUMBLES", "LARVA", "PATH_AVOID_FIRE" ]
+    "flags": [ "SEES", "SMELLS", "CLIMBS", "HEARS", "STUMBLES", "PATH_AVOID_FIRE" ]
   },
   {
     "id": "mon_moth_cocoon",
