@@ -19,10 +19,10 @@
     "common": true,
     "sells_belongings": false,
     "bonus_str": 4,
-    "traits": [ 
+    "traits": [
       { "group": "Appearance_demographics" },
       { "trait": "STRONGBACK" },
-      { "trait": "OUTDOORSMAN"},
+      { "trait": "OUTDOORSMAN" },
       { "trait": "HEAVYSLEEPER" },
       { "trait": "TERRIFYING" },
       { "trait": "MOODSWINGS" },
@@ -48,12 +48,14 @@
         "condition": { "npc_has_var": "specific_metal_tradeable", "type": "dialogue", "context": "trade", "value": "yes" }
       },
       {
-        "group": "SCRAP_MERCHANT_carried", "rigid": true, "condition": { "npc_has_var": "always_false", "type": "bool", "context": "never", "value": "yes" }
+        "group": "SCRAP_MERCHANT_carried",
+        "rigid": true,
+        "condition": { "npc_has_var": "always_false", "type": "bool", "context": "never", "value": "yes" }
       }
     ],
     "shopkeeper_consumption_rates": "basic_shop_rates",
     "shopkeeper_price_rules": [
-      { "item": "scrap", "price": 20, "fixed_adj": 0  },
+      { "item": "scrap", "price": 20, "fixed_adj": 0 },
       { "item": "sheet_metal_small", "price": 50 },
       { "item": "steel_chunk", "price": 100 },
       { "item": "steel_lump", "price": 300 },
@@ -91,19 +93,19 @@
       { "item": "socks" },
       { "item": "boots" },
       { "item": "gold_ring" },
-      { "item": "ar15", "ammo-item": "223", "charges": 30,  "container-item": "back_holster" }
+      { "item": "ar15", "ammo-item": "223", "charges": 30, "container-item": "back_holster" }
     ]
   },
   {
     "type": "item_group",
     "id": "SCRAP_MERCHANT_carried",
     "subtype": "collection",
-    "items": [ 
+    "items": [
       { "item": "flashlight", "charges": [ 0, 300 ] },
       { "item": "multitool" },
       { "item": "hammer" },
       { "item": "boltcutters" }
-     ]
+    ]
   },
   {
     "type": "item_group",
@@ -133,15 +135,15 @@
     "items": [
       { "item": "scrap_aluminum", "count": [ 100, 200 ] },
       { "item": "scrap_bronze", "count": [ 20, 50 ] },
-      { "item": "bismuth", "count": [0, 3], "container-item": "bag_zipper", "charges": 100 },
-      { "item": "zinc_metal", "count": [0, 3], "container-item": "jar_glass_sealed", "charges": 100 },
-      { "item": "lead", "count": [0, 3], "container-item": "bag_zipper", "charges": 100 },
+      { "item": "bismuth", "count": [ 0, 3 ], "container-item": "bag_zipper", "charges": 100 },
+      { "item": "zinc_metal", "count": [ 0, 3 ], "container-item": "jar_glass_sealed", "charges": 100 },
+      { "item": "lead", "count": [ 0, 3 ], "container-item": "bag_zipper", "charges": 100 },
       { "item": "scrap_copper", "count": [ 100, 200 ] },
-      { "item": "tin", "count": [0, 3], "container-item": "bag_zipper", "charges": 100 },
-      { "item": "magnesium", "count": [0, 3], "container-item": "bag_zipper", "charges": 100 },
-      { "item": "silver_small", "count": [0, 3], "container-item": "bag_zipper", "charges": 100 },
-      { "item": "gold_small", "count": [0, 3], "container-item": "bag_zipper", "charges": 100 },
-      { "item": "platinum_small", "count": [0, 3], "container-item": "jar_glass_sealed", "charges": 100 }
+      { "item": "tin", "count": [ 0, 3 ], "container-item": "bag_zipper", "charges": 100 },
+      { "item": "magnesium", "count": [ 0, 3 ], "container-item": "bag_zipper", "charges": 100 },
+      { "item": "silver_small", "count": [ 0, 3 ], "container-item": "bag_zipper", "charges": 100 },
+      { "item": "gold_small", "count": [ 0, 3 ], "container-item": "bag_zipper", "charges": 100 },
+      { "item": "platinum_small", "count": [ 0, 3 ], "container-item": "jar_glass_sealed", "charges": 100 }
     ]
   },
   {
