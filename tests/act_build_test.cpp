@@ -102,6 +102,7 @@ void run_test_case( Character &u )
     scoped_weather_override weather_clear( WEATHER_CLEAR );
     clear_avatar();
     map &here = get_map();
+    g->reset_light_level();
 
     u.wear_item( item( "test_backpack" ), false, false );
     u.wear_item( item( "wearable_atomic_light" ), false, true );
@@ -208,8 +209,7 @@ void run_test_case( Character &u )
             setup_testcase( u, "constr_door", tri_window, tripoint_bub_ms() );
         here.ter_set( tri_window, ter_id( build.pre_terrain ) );
         REQUIRE( u.sees( tri_window ) );
-        // TODO: fix point types
-        REQUIRE( route_adjacent( u, tri_window.raw() ).empty() );
+        REQUIRE( route_adjacent( u, tri_window ).empty() );
         run_activities( u, build.time * 10 );
         REQUIRE( here.ter( tri_window ) == ter_id( build.pre_terrain ) );
     }

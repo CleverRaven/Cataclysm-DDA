@@ -45,6 +45,7 @@
 
 static const faction_id faction_your_followers( "your_followers" );
 
+static const item_category_id item_category_container( "container" );
 static const item_category_id item_category_food( "food" );
 
 static const itype_id itype_disassembly( "disassembly" );
@@ -891,15 +892,19 @@ bool zone_manager::custom_loot_has( const tripoint_abs_ms &where, const item *it
     if( zones.empty() || !it ) {
         return false;
     }
+    item const *const check_it =
+        it->type->category_force == item_category_container && it->num_item_stacks() == 1
+        ? &it->only_item()
+        : it;
     for( zone_data const *zone : zones ) {
         loot_options const &options = dynamic_cast<const loot_options &>( zone->get_options() );
         std::string const filter_string = options.get_mark();
         bool has = false;
         if( ztype == zone_type_LOOT_CUSTOM ) {
             auto const z = item_filter_from_string( filter_string );
-            has = z( *it );
+            has = z( *check_it );
         } else if( ztype == zone_type_LOOT_ITEM_GROUP ) {
-            has = item_group::group_contains_item( item_group_id( filter_string ), it->typeId() );
+            has = item_group::group_contains_item( item_group_id( filter_string ), check_it->typeId() );
         }
         if( has ) {
             return true;
@@ -1430,18 +1435,19 @@ void zone_data::deserialize( const JsonObject &data )
 
 namespace
 {
-std::string _savefile( std::string const &suffix, bool player )
+cata_path _savefile( std::string const &suffix, bool player )
 {
-    return string_format( "%szones%s.json",
-                          player ? PATH_INFO::player_base_save_path() + "."
-                          : PATH_INFO::world_base_save_path() + "/",
-                          suffix );
+    if( player ) {
+        return PATH_INFO::player_base_save_path_path() + string_format( ".zones%s.json", suffix );
+    } else {
+        return PATH_INFO::world_base_save_path_path() / string_format( "zones%s.json", suffix );
+    }
 }
 } // namespace
 
 bool zone_manager::save_zones( std::string const &suffix )
 {
-    std::string const savefile = _savefile( suffix, true );
+    cata_path const savefile = _savefile( suffix, true );
 
     added_vzones.clear();
     changed_vzones.clear();
@@ -1455,13 +1461,12 @@ bool zone_manager::save_zones( std::string const &suffix )
 
 void zone_manager::load_zones( std::string const &suffix )
 {
-    std::string const savefile = _savefile( suffix, true );
+    cata_path const savefile = _savefile( suffix, true );
 
-    const auto reader = [this]( std::istream & fin ) {
-        JsonIn jsin( fin );
-        deserialize( jsin.get_value() );
+    const auto reader = [this]( const JsonValue & jv ) {
+        deserialize( jv );
     };
-    if( !read_from_file_optional( savefile, reader ) ) {
+    if( !read_from_file_optional_json( savefile, reader ) ) {
         // If no such file or failed to load, clear zones.
         zones.clear();
     }
@@ -1477,7 +1482,7 @@ void zone_manager::load_zones( std::string const &suffix )
 
 bool zone_manager::save_world_zones( std::string const &suffix )
 {
-    std::string const savefile = _savefile( suffix, false );
+    cata_path const savefile = _savefile( suffix, false );
     std::vector<zone_data> tmp;
     std::copy_if( zones.begin(), zones.end(), std::back_inserter( tmp ), []( const zone_data & z ) {
         return z.get_faction() != faction_your_followers;
@@ -1490,10 +1495,9 @@ bool zone_manager::save_world_zones( std::string const &suffix )
 
 void zone_manager::load_world_zones( std::string const &suffix )
 {
-    std::string const savefile = _savefile( suffix, false );
+    cata_path const savefile = _savefile( suffix, false );
     std::vector<zone_data> tmp;
-    read_from_file_optional( savefile, [&]( std::istream & fin ) {
-        JsonIn jsin( fin );
+    read_from_file_optional_json( savefile, [&]( const JsonValue & jsin ) {
         jsin.read( tmp );
         for( auto it = tmp.begin(); it != tmp.end(); ) {
             const zone_type_id zone_type = it->get_type();

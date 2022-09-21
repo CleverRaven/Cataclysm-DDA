@@ -683,8 +683,14 @@ void talk_function::start_camp( npc &p )
     for( const auto &om_near : om_building_region( omt_pos, 3 ) ) {
         const oter_id &om_type = oter_id( om_near.first );
         if( is_ot_match( "faction_base", om_type, ot_match_type::contains ) ) {
-            popup( _( "You are too close to another camp!" ) );
-            return;
+            tripoint_abs_omt const &building_omt_pos = om_near.second;
+            std::vector<basecamp> const &camps = overmap_buffer.get_om_global( building_omt_pos ).om->camps;
+            if( std::any_of( camps.cbegin(), camps.cend(), [&building_omt_pos]( const basecamp & camp ) {
+            return camp.camp_omt_pos() == building_omt_pos;
+            } ) ) {
+                popup( _( "You are too close to another camp!" ) );
+                return;
+            }
         }
     }
     const recipe &making = camp_type.obj();
@@ -2530,16 +2536,15 @@ static const double diagonal_salt_pipe_cost = std::sqrt( 2.0 );
 static const double salt_pipe_legal = 0.0;
 static const double salt_pipe_illegal = -0.1;
 static const double salt_pipe_swamp = -0.2;
+static constexpr size_t path_map_size = 2 * max_salt_water_pipe_distance + 1;
+using PathMap = cata::mdarray<double, point, path_map_size, path_map_size>;
 
-//  The logic discourages diagonal connections when there are horizontal ones of the same number of tiles, as the original approach
-//  resulted in rather odd paths. At the time of this writing there is no corresponding construction cost difference, though, as that
-//  doesn't match with the fixed recipe approach taken.
-static point check_salt_pipe_neighbors( double path_map[2 * max_salt_water_pipe_distance + 1][2 *
-                                        max_salt_water_pipe_distance + 1],
-                                        point pt );  //  Uglified to point parameter by demand from clang-tidy
-
-point check_salt_pipe_neighbors( double path_map[2 * max_salt_water_pipe_distance + 1][2 *
-                                 max_salt_water_pipe_distance + 1], point pt )
+//  The logic discourages diagonal connections when there are horizontal ones
+//  of the same number of tiles, as the original approach resulted in rather
+//  odd paths. At the time of this writing there is no corresponding
+//  construction cost difference, though, as that doesn't match with the fixed
+//  recipe approach taken.
+static point check_salt_pipe_neighbors( PathMap &path_map, point pt )
 {
     point found = { -999, -999 };
     double lowest_found = -10000.0;
@@ -2749,7 +2754,7 @@ void basecamp::start_salt_water_pipe( const mission_id &miss_id )
         std::vector<std::string> allowed_locations = {
             "forest", "forest_thick", "forest_trail", "field", "road"
         };
-        double path_map[2 * max_salt_water_pipe_distance + 1][2 * max_salt_water_pipe_distance + 1];
+        PathMap path_map;
 
         for( int i = -max_salt_water_pipe_distance; i <= max_salt_water_pipe_distance; i++ ) {
             for( int k = -max_salt_water_pipe_distance; k <= max_salt_water_pipe_distance; k++ ) {
@@ -3006,9 +3011,9 @@ void basecamp::start_crafting( const std::string &type, const mission_id &miss_i
             components.consume_components();
             for( const item &results : making.create_results( batch_size ) ) {
                 comp->companion_mission_inv.add_item( results );
-                for( const item &byproducts : making.create_byproducts( batch_size ) ) {
-                    comp->companion_mission_inv.add_item( byproducts );
-                }
+            }
+            for( const item &byproducts : making.create_byproducts( batch_size ) ) {
+                comp->companion_mission_inv.add_item( byproducts );
             }
         }
         return;

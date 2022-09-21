@@ -20,22 +20,6 @@
   },
   {
     "type": "GENERIC",
-    "id": "sheet_metal_lit",
-    "name": { "str_sp": "wired sheet metal" },
-    "description": "Sheet metal that has had housing for lights wired into it.",
-    "weight": "6200 g",
-    "to_hit": -2,
-    "color": "light_cyan",
-    "symbol": "]",
-    "material": [ "steel", "plastic" ],
-    "volume": "1250 ml",
-    "bashing": 5,
-    "category": "veh_parts",
-    "price": 7500,
-    "price_postapoc": 250
-  },
-  {
-    "type": "GENERIC",
     "id": "wood_plate",
     "name": { "str": "wooden armor kit" },
     "description": "A bundle of planks prepared to be used as vehicle armor.",
@@ -177,5 +161,23 @@
     "description": "Durable silica-coated chitin plating made for a vehicle.",
     "material": [ "acidchitin" ],
     "proportional": { "price": 1.333, "weight": 1.2, "volume": 1.18, "bashing": 1.25 }
+  },
+  {
+    "type": "GENERIC",
+    "id": "counterweight",
+    "name": { "str": "counterweight" },
+    "description": "A heavy block of steel used in balancing other heavy things.",
+    "weight": "750000 g",
+    "to_hit": -10,
+    "color": "dark_gray",
+    "symbol": "]",
+    "material": [ "iron" ],
+    "volume": "330 L",
+    "longest_side": "110 cm",
+    "bashing": 25,
+    "price": 12000,
+    "price_postapoc": 250,
+    "category": "veh_parts",
+    "qualities": [ [ "ANVIL", 1 ] ]
   }
 ]

@@ -77,7 +77,9 @@ std::list<item> npc_trading::transfer_items( trade_selector::select_t &stuff, Ch
             // No escrow in use. Items moving from giver to receiver.
         } else if( ip.first->count_by_charges() ) {
             gift.charges = ip.second;
-            receiver.i_add( gift );
+            item newit = item( gift );
+            ret_val<item_location> ret = receiver.i_add_or_fill( newit, true, nullptr, &gift,
+                                         /*allow_drop=*/true, /*allow_wield=*/true, false );
         } else {
             for( int i = 0; i < ip.second; i++ ) {
                 receiver.i_add( gift );
@@ -164,8 +166,7 @@ int npc_trading::adjusted_price( item const *it, int amount, Character const &bu
     npc const *faction_party = buyer.is_npc() ? buyer.as_npc() : seller.as_npc();
     faction_price_rule const *const fpr = faction_party->get_price_rules( *it );
 
-    double price =
-        fpr != nullptr && fpr->price ? *fpr->price : it->price_no_contents( true );
+    double price = it->price_no_contents( true, fpr != nullptr ? fpr->price : cata::nullopt );
     if( fpr != nullptr ) {
         price *= fpr->premium;
         if( seller.is_npc() ) {

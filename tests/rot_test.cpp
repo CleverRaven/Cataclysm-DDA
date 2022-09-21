@@ -9,7 +9,7 @@
 
 static const flag_id json_flag_FROZEN( "FROZEN" );
 
-static void set_map_temperature( int new_temperature )
+static void set_map_temperature( units::temperature new_temperature )
 {
     get_weather().temperature = new_temperature;
     get_weather().clear_temp_cache();
@@ -37,7 +37,7 @@ TEST_CASE( "Rate of rotting", "[rot]" )
         item sealed_item( "offal_canned" );
         sealed_item = sealed_item.in_its_container();
 
-        set_map_temperature( 65 ); // 18,3 C
+        set_map_temperature( units::from_fahrenheit( 65 ) ); // 18,3 C
 
         normal_item.process( get_map(), nullptr, tripoint_zero, 1, temperature_flag::NORMAL );
         sealed_item.process( get_map(), nullptr, tripoint_zero, 1, temperature_flag::NORMAL );
@@ -104,13 +104,13 @@ TEST_CASE( "Hourly rotpoints", "[rot]" )
     item normal_item( "meat_cooked" );
 
     // No rot below 32F/0C
-    CHECK( normal_item.calc_hourly_rotpoints_at_temp( units::from_celcius( 0 ) ) == 0 );
+    CHECK( normal_item.calc_hourly_rotpoints_at_temp( units::from_celsius( 0 ) ) == 0 );
 
     // No rot above 145F/63C
-    CHECK( normal_item.calc_hourly_rotpoints_at_temp( units::from_celcius( 63 ) ) == 0 );
+    CHECK( normal_item.calc_hourly_rotpoints_at_temp( units::from_celsius( 63 ) ) == 0 );
 
     // Make sure no off by one error at the border
-    CHECK( normal_item.calc_hourly_rotpoints_at_temp( units::from_celcius( 62 ) ) == Approx(
+    CHECK( normal_item.calc_hourly_rotpoints_at_temp( units::from_celsius( 62 ) ) == Approx(
                20364.67 ) );
 
     // 3200 point/h at 65F/18C

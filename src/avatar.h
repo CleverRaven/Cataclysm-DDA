@@ -62,11 +62,11 @@ struct monster_visible_info {
     // 7 0 1    unique_types uses these indices;
     // 6 8 2    0-7 are provide by direction_from()
     // 5 4 3    8 is used for local monsters (for when we explain them below)
-    std::vector<npc *> unique_types[9];
-    std::vector<std::pair<const mtype *, int>> unique_mons[9];
+    std::array<std::vector<npc *>, 9> unique_types;
+    std::array<std::vector<std::pair<const mtype *, int>>, 9> unique_mons;
 
     // If the monster visible in this direction is dangerous
-    bool dangerous[8] = {};
+    std::array<bool, 8> dangerous = {};
 };
 
 class avatar : public Character
@@ -92,6 +92,7 @@ class avatar : public Character
         bool create( character_type type, const std::string &tempname = "" );
         void add_profession_items();
         void randomize( bool random_scenario, bool play_now = false );
+        void randomize_cosmetics();
         bool load_template( const std::string &template_name, pool_type & );
         void save_template( const std::string &name, pool_type );
         void character_to_template( const std::string &name );
@@ -185,7 +186,7 @@ class avatar : public Character
 
         // Dialogue and bartering--see npctalk.cpp
         void talk_to( std::unique_ptr<talker> talk_with, bool radio_contact = false,
-                      bool is_computer = false );
+                      bool is_computer = false, bool is_not_conversation = false );
 
         /**
          * Try to disarm the NPC. May result in fail attempt, you receiving the weapon and instantly wielding it,
@@ -266,6 +267,8 @@ class avatar : public Character
 
         // Cycles to the next move mode.
         void cycle_move_mode();
+        // Cycles to the previous move mode.
+        void cycle_move_mode_reverse();
         // Resets to walking.
         void reset_move_mode();
         // Toggles running on/off.
@@ -427,7 +430,7 @@ class avatar : public Character
         std::unique_ptr<npc> shadow_npc;
 
         // true when the space is still visible when aiming
-        bool aim_cache[MAPSIZE_X][MAPSIZE_Y];
+        cata::mdarray<bool, point_bub_ms> aim_cache;
 };
 
 avatar &get_avatar();

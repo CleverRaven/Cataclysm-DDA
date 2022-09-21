@@ -27,8 +27,9 @@
 #include "visitable.h"
 
 class Character;
-class JsonIn;
+class JsonArray;
 class JsonOut;
+class JsonValue;
 class item_stack;
 class map;
 class npc;
@@ -213,8 +214,8 @@ class inventory : public visitable
         // returns all items that need processing
         std::vector<item *> active_items();
 
-        void json_load_invcache( JsonIn &jsin );
-        void json_load_items( JsonIn &jsin );
+        void json_load_invcache( const JsonValue &jsin );
+        void json_load_items( const JsonArray &ja );
 
         void json_save_invcache( JsonOut &json ) const;
         void json_save_items( JsonOut &json ) const;
@@ -241,7 +242,7 @@ class inventory : public visitable
         void copy_invlet_of( const inventory &other );
 
         // gets a singular enchantment that is an amalgamation of all items that have active enchantments
-        enchantment get_active_enchantment_cache( const Character &owner ) const;
+        enchant_cache get_active_enchantment_cache( const Character &owner ) const;
 
         int count_item( const itype_id &item_type ) const;
 

@@ -693,6 +693,17 @@ void game::draw_line( const tripoint &p, const tripoint &center,
 }
 #endif
 
+void game::draw_line( const tripoint_bub_ms &p, const tripoint_bub_ms &center,
+                      const std::vector<tripoint_bub_ms> &points, bool noreveal )
+{
+    std::vector<tripoint> raw_points;
+    std::transform( points.begin(), points.end(), std::back_inserter( raw_points ),
+    []( const tripoint_bub_ms & t ) {
+        return t.raw();
+    } );
+    draw_line( p.raw(), center.raw(), raw_points, noreveal );
+}
+
 namespace
 {
 void draw_line_curses( game &g, const std::vector<tripoint> &points )

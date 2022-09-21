@@ -92,8 +92,8 @@ jobs:
             title: Basic Build and Test (Clang 6, Ubuntu, Curses)
             # ~190MB in a clean build
             # ~30MB compressed
-            # .16 : 1 -> max ~485MB
-            ccache_limit: 3G
+            # observed usage: 3.0GB -> 300MB
+            ccache_limit: 2G
 
           - compiler: g++-9
             os: ubuntu-latest
@@ -109,8 +109,8 @@ jobs:
             title: GCC 9, Curses, LTO
             # ~850MB in a clean build
             # ~370MB compressed
-            # .44 : 1 -> max ~1.8G
-            ccache_limit: 4G
+            # observed usage: 4.0GB -> 1.5GB
+            ccache_limit: 3G
 
           - compiler: clang++-12
             os: ubuntu-latest
@@ -126,8 +126,8 @@ jobs:
             title: Clang 12, Ubuntu, Tiles, ASan
             # ~390MB in a clean build
             # ~50MB compressed
-            # .13 : 1 -> max ~540MB
-            ccache_limit: 4G
+            # observed usage: 4.0GB -> 400MB
+            ccache_limit: 3G
 
           - compiler: g++-11
             os: ubuntu-latest
@@ -141,8 +141,8 @@ jobs:
             title: GCC 11, Ubuntu, Curses, ASan
             # ~480MB in a clean build
             # ~50MB compressed
-            # .10 : 1 -> max ~530MB
-            ccache_limit: 5G
+            # observed usage: 4.4GB -> 400MB
+            ccache_limit: 4G
 
           - compiler: clang++
             os: macos-10.15
@@ -156,7 +156,7 @@ jobs:
             title: Clang 12, macOS 10.15, Tiles, Sound, UBSan
             # ~880MB ccache-compressed in a clean build
             # ~100 compressed
-            # .11 : 1 -> max ~450MB
+            # observed usage: 3.85GB -> 500MB
             ccache_limit: 4G
 
           - compiler: g++
@@ -174,8 +174,8 @@ jobs:
             wine: wine
             # ~285MB in a clean build
             # ~36MB compressed
-            # .12 : 1 -> max ~390MB
-            ccache_limit: 3G
+            # observed usage: 3.0GB -> 350MB
+            ccache_limit: 2G
 
           - compiler: g++-7
             os: ubuntu-18.04
@@ -188,8 +188,13 @@ jobs:
             title: GCC 7, Ubuntu, Tiles, Sound, CMake
             # ~180MB in a clean build
             # ~25MB compressed
-            # .14 : 1 -> max ~430MB
-            ccache_limit: 3G
+            # observed usage: 3.0GB -> 300MB
+            ccache_limit: 2G
+
+          # Reserving space for msvc ccache & vcpkg cache
+            # observed usage:
+            # vcpkg: ??? -> 500MB
+            # ccache: 8GB -> 1.0GB
 
     name: ${{ matrix.title }}
     runs-on: ${{ matrix.os }}

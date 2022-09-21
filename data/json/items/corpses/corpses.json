@@ -130,7 +130,7 @@
     "id": "corpse_oldwoman_jewelry",
     "copy-from": "corpse",
     "name": { "str": "corpse" },
-    "description": "A dead body of an old woman.  Both of her earlobes are torn, several fingers on her hands have been chopped off, and several teeth have been knocked out.",
+    "description": "A dead body of an old woman.  Both of her earlobes are torn, several of her fingers have been chopped off, and several of her teeth have been knocked out.",
     "//": "Implied that someone hacked off her body parts for jewelry.",
     "looks_like": "corpse_generic_human",
     "volume": "40 L",
@@ -151,7 +151,7 @@
     "id": "corpse_painful",
     "copy-from": "corpse",
     "name": { "str": "corpse" },
-    "description": "A dead body with a frightful grimace.  He appears to have been horribly mangled prior to his death.",
+    "description": "A dead body with a frightful grimace on its face.  He appears to have been horribly mangled prior to his death.",
     "looks_like": "corpse_generic_human",
     "material": [ "hflesh" ]
   },
@@ -180,7 +180,7 @@
       },
       {
         "id": "generic_stabbed_03",
-        "text": "The dead body of a person.  They look to have been skewered through with a large sharp implement."
+        "text": "The dead body of a person.  They look to have been skewered with a large, sharp implement."
       },
       {
         "id": "generic_stabbed_04",
@@ -208,7 +208,7 @@
     "id": "corpse_halved_upper",
     "copy-from": "corpse",
     "name": { "str": "corpse" },
-    "description": "The upper half of a dead body, as if torn apart with enormous force.  Some organs are hanging out.",
+    "description": "The upper half of a dead body, as if it was torn apart with enormous force.  Some organs are hanging out.",
     "looks_like": "corpse_generic_human",
     "volume": "30 L",
     "weight": "40 kg",
@@ -242,16 +242,16 @@
       },
       {
         "id": "generic_gunned_02",
-        "text": "The corpse of a young blond woman shot several times in the back with a low-caliber weapon."
+        "text": "The corpse of a young blonde woman shot several times in the back with a low-caliber weapon."
       },
       {
         "id": "generic_gunned_03",
-        "text": "An androgynous-looking corpse gored by arms fire chest to thighs, leaving the face eerily pristine."
+        "text": "An androgynous-looking corpse gored by bullet wounds from chest to thighs, leaving the face eerily pristine."
       },
       {
         "id": "generic_gunned_04",
         "//": "canoeing",
-        "text": "The corpse of a seemingly older male.  He appears to have been shot in the forehead at a very close range leaving you a good view of his brain matter."
+        "text": "The corpse of a seemingly older man.  He appears to have been shot in the forehead at very close range, leaving you a good view of his brain matter."
       },
       {
         "id": "generic_gunned_05",
@@ -263,7 +263,7 @@
       },
       {
         "id": "generic_gunned_07",
-        "text": "The corpse of a tall woman unblemished but for the bloody hole atop her head, its thick black hair intermixed now with brain, viscera and shotgun pellets."
+        "text": "The corpse of a tall woman unblemished but for the bloody hole atop her head, her thick black hair intermixed now with brain, viscera and shotgun pellets."
       }
     ]
   }

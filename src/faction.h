@@ -32,9 +32,9 @@ std::string fac_wealth_text( int val, int size );
 std::string fac_combat_ability_text( int val );
 
 class item;
-class JsonIn;
 class JsonObject;
 class JsonOut;
+class JsonValue;
 class faction;
 class npc;
 
@@ -73,7 +73,7 @@ struct faction_price_rule: public icg_entry {
     double markup = 1.0;
     double premium = 1.0;
     cata::optional<double> fixed_adj = cata::nullopt;
-    cata::optional<double> price = cata::nullopt;
+    cata::optional<int> price = cata::nullopt;
 
     faction_price_rule() = default;
     faction_price_rule( itype_id const &id, double m, double f )
@@ -154,7 +154,7 @@ class faction_manager
         std::map<faction_id, faction> factions;
 
     public:
-        void deserialize( JsonIn &jsin );
+        void deserialize( const JsonValue &jv );
         void serialize( JsonOut &jsout ) const;
 
         void clear();

@@ -39,11 +39,12 @@ static const itype_id fuel_type_muscle( "muscle" );
 // Cache for the overmap widget string
 static disp_overmap_cache disp_om_cache;
 // Cache for the bodygraph widget string
-static disp_bodygraph_cache disp_bg_cache[] = {
-    disp_bodygraph_cache( bodygraph_var::hp ),
-    disp_bodygraph_cache( bodygraph_var::temp ),
-    disp_bodygraph_cache( bodygraph_var::encumb ),
-    disp_bodygraph_cache( bodygraph_var::status )
+static std::array<disp_bodygraph_cache, 4> disp_bg_cache = { {
+        disp_bodygraph_cache( bodygraph_var::hp ),
+        disp_bodygraph_cache( bodygraph_var::temp ),
+        disp_bodygraph_cache( bodygraph_var::encumb ),
+        disp_bodygraph_cache( bodygraph_var::status )
+    }
 };
 
 disp_overmap_cache::disp_overmap_cache()
@@ -856,6 +857,37 @@ std::pair<std::string, nc_color> display::weight_text_color( const Character &u 
     return std::make_pair( _( weight_string ), weight_color );
 }
 
+std::pair<std::string, nc_color> display::health_text_color( const Character &u )
+{
+    const int health = u.get_lifestyle();
+    std::string health_string;
+    nc_color health_color = c_light_gray;
+
+    if( health > character_health_category::great ) {
+        health_string = translate_marker( "Feel Great" );
+        health_color = c_green;
+    } else if( health > character_health_category::very_good ) {
+        health_string = translate_marker( "Feel Very Good" );
+        health_color = c_green;
+    } else if( health > character_health_category::good ) {
+        health_string = translate_marker( "Feel Good" );
+        health_color = c_green;
+    } else if( health > character_health_category::fine ) {
+        health_string = translate_marker( "Feel Fine" );
+        health_color = c_light_gray;
+    } else if( health > character_health_category::bad ) {
+        health_string = translate_marker( "Feel Bad" );
+        health_color = c_red;
+    } else if( health > character_health_category::very_bad ) {
+        health_string = translate_marker( "Feel Very Bad" );
+        health_color = c_red;
+    } else {
+        health_string = translate_marker( "Feel Awful" );
+        health_color = c_red;
+    }
+    return std::make_pair( _( health_string ), health_color );
+}
+
 std::string display::weight_long_description( const Character &u )
 {
     const float bmi = u.get_bmi();
@@ -882,6 +914,12 @@ std::string display::weight_string( const Character &u )
 {
     std::pair<std::string, nc_color> weight_pair = display::weight_text_color( u );
     return colorize( weight_pair.first, weight_pair.second );
+}
+
+std::string display::health_string( const Character &u )
+{
+    std::pair<std::string, nc_color> health_pair = display::health_text_color( u );
+    return colorize( health_pair.first, health_pair.second );
 }
 
 std::pair<std::string, nc_color> display::fatigue_text_color( const Character &u )
@@ -1710,7 +1748,7 @@ void display::print_mon_info( const avatar &u, const catacurses::window &w, int 
             }
         }
     }
-    std::vector<std::pair<const mtype *, int>> mons_at[9];
+    std::array<std::vector<std::pair<const mtype *, int>>, 9> mons_at;
     for( const std::pair<const mtype *const, nearest_loc_and_cnt> &mon : all_mons ) {
         mons_at[mon.second.nearest_loc].emplace_back( mon.first, mon.second.cnt );
     }

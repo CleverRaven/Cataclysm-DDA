@@ -32,9 +32,10 @@
 #include "rng.h"
 #include "type_id.h"
 
-class JsonIn;
+class JsonArray;
 class JsonObject;
 class JsonOut;
+class cata_path;
 class character_id;
 class map_extra;
 class npc;
@@ -128,9 +129,9 @@ struct radio_tower {
 };
 
 struct map_layer {
-    cata::mdarray<oter_id, point_om_omt, OMAPX, OMAPY> terrain;
-    cata::mdarray<bool, point_om_omt, OMAPX, OMAPY> visible;
-    cata::mdarray<bool, point_om_omt, OMAPX, OMAPY> explored;
+    cata::mdarray<oter_id, point_om_omt> terrain;
+    cata::mdarray<bool, point_om_omt> visible;
+    cata::mdarray<bool, point_om_omt> explored;
     std::vector<om_note> notes;
     std::vector<om_map_extra> extras;
 };
@@ -199,7 +200,7 @@ struct pos_dir {
     pos_dir opposite() const;
 
     void serialize( JsonOut &jsout ) const;
-    void deserialize( JsonIn &jsin );
+    void deserialize( const JsonArray &ja );
 
     bool operator==( const pos_dir &r ) const;
     bool operator<( const pos_dir &r ) const;
@@ -433,11 +434,13 @@ class overmap
         std::unordered_multimap<tripoint_om_sm, monster> monster_map;
 
         // parse data in an opened overmap file
-        void unserialize( std::istream &fin );
+        void unserialize( const cata_path &file_name, std::istream &fin );
+        void unserialize( const JsonObject &jsobj );
         // parse data in an opened omap file
-        void unserialize_omap( std::istream &fin );
+        void unserialize_omap( const JsonValue &jsin, const cata_path &json_path );
         // Parse per-player overmap view data.
-        void unserialize_view( std::istream &fin );
+        void unserialize_view( const cata_path &file_name, std::istream &fin );
+        void unserialize_view( const JsonObject &jsobj );
         // Save data in an opened overmap file
         void serialize( std::ostream &fout ) const;
         // Save per-player overmap view data.
@@ -563,11 +566,12 @@ class overmap
         void place_radios();
 
         void add_mon_group( const mongroup &group );
+        void add_mon_group( const mongroup &group, int radius );
         // Spawns a new mongroup (to be called by worldgen code)
-        void spawn_mon_group( const mongroup &group );
+        void spawn_mon_group( const mongroup &group, int radius );
 
-        void load_monster_groups( JsonIn &jsin );
-        void load_legacy_monstergroups( JsonIn &jsin );
+        void load_monster_groups( const JsonArray &jsin );
+        void load_legacy_monstergroups( const JsonArray &jsin );
         void save_monster_groups( JsonOut &jo ) const;
     public:
         static void load_obsolete_terrains( const JsonObject &jo );

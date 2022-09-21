@@ -782,6 +782,12 @@
         "W": "t_bridge"
       },
       "furniture": { "w": "f_table", "F": "f_rack", "7": "f_machinery_light", "8": "f_machinery_heavy", "&": "f_machinery_electronic" },
+      "place_vehicles": [
+        { "vehicle": "train_car_passenger", "chance": 90, "y": 6, "x": 15, "status": 0, "faction": "robofac" },
+        { "vehicle": "train_car_passenger", "chance": 90, "y": 6, "x": 32, "status": 0, "faction": "robofac" },
+        { "vehicle": "train_car_passenger", "chance": 90, "y": 17, "x": 32, "status": 0, "faction": "robofac" },
+        { "vehicle": "train_car_passenger", "chance": 90, "y": 17, "x": 15, "status": 0, "faction": "robofac" }
+      ],
       "items": {
         "l": [ { "item": "NC_ROBOFAC_FIELD_RESEARCHER_worn", "chance": 50 }, { "item": "NC_ROBOFAC_SCIENTIST_worn", "chance": 50 } ],
         "F": { "item": "tools_construction", "chance": 90, "repeat": 3 },

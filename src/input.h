@@ -18,6 +18,7 @@
 #include "translations.h"
 
 enum action_id : int;
+class cata_path;
 class hotkey_queue;
 
 namespace cata
@@ -484,7 +485,7 @@ class input_manager
          * Load keybindings from a json file, override existing bindings.
          * Throws std::string on errors
          */
-        void load( const std::string &file_name, bool is_user_preferences );
+        void load( const cata_path &file_name, bool is_user_preferences );
 
         int input_timeout;
 
@@ -782,12 +783,9 @@ class input_context
 
         /**
          * Get the coordinates associated with the last mouse click (if any).
-         *
-         * TODO: This right now is more or less specific to the map window,
-         *       and returns the absolute map coordinate.
-         *       Eventually this should be made more flexible.
          */
-        cata::optional<tripoint> get_coordinates( const catacurses::window &capture_win_ );
+        cata::optional<tripoint> get_coordinates( const catacurses::window &capture_win_,
+                const point &offset = point_zero, bool center_cursor = false ) const;
 
         // Below here are shortcuts for registering common key combinations.
         void register_directions();

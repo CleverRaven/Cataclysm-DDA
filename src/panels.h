@@ -14,7 +14,7 @@
 #include "translations.h"
 #include "widget.h"
 
-class JsonIn;
+class JsonArray;
 class JsonOut;
 class avatar;
 class Character;
@@ -150,7 +150,7 @@ class panel_manager
         bool save();
         bool load();
         void serialize( JsonOut &json );
-        void deserialize( JsonIn &jsin );
+        void deserialize( const JsonArray &ja );
         // update the screen offsets so the game knows how to adjust the main window
         void update_offsets( int x );
 

@@ -102,7 +102,7 @@ int_or_var_part<T> get_int_or_var_part( const JsonValue &jv, const std::string &
             arith.set_arithmetic( jo, "arithmetic", true );
             ret_val.arithmetic_val = arith;
         } else {
-            ret_val.var_val = read_var_info( jo, true );
+            ret_val.var_val = read_var_info( jo );
         }
     } else if( required ) {
         jv.throw_error( "No valid value for " + member );
@@ -119,8 +119,8 @@ int_or_var<T> get_int_or_var( const JsonObject &jo, std::string member, bool req
     int_or_var<T> ret_val;
     if( jo.has_array( member ) ) {
         JsonArray ja = jo.get_array( member );
-        ret_val.min = get_int_or_var_part<T>( ja.next(), member );
-        ret_val.max = get_int_or_var_part<T>( ja.next(), member );
+        ret_val.min = get_int_or_var_part<T>( ja.next_value(), member );
+        ret_val.max = get_int_or_var_part<T>( ja.next_value(), member );
         ret_val.pair = true;
     } else if( required ) {
         ret_val.min = get_int_or_var_part<T>( jo.get_member( member ), member, required, default_val );
@@ -155,7 +155,7 @@ duration_or_var_part<T> get_duration_or_var_part( const JsonValue &jv, const std
             arith.set_arithmetic( jo, "arithmetic", true );
             ret_val.arithmetic_val = arith;
         } else {
-            ret_val.var_val = read_var_info( jo, true );
+            ret_val.var_val = read_var_info( jo );
         }
     } else if( required ) {
         jv.throw_error( "No valid value for " + member );
@@ -172,8 +172,8 @@ duration_or_var<T> get_duration_or_var( const JsonObject &jo, std::string member
     duration_or_var<T> ret_val;
     if( jo.has_array( member ) ) {
         JsonArray ja = jo.get_array( member );
-        ret_val.min = get_duration_or_var_part<T>( ja.next(), member );
-        ret_val.max = get_duration_or_var_part<T>( ja.next(), member );
+        ret_val.min = get_duration_or_var_part<T>( ja.next_value(), member );
+        ret_val.max = get_duration_or_var_part<T>( ja.next_value(), member );
         ret_val.pair = true;
     } else if( required ) {
         ret_val.min = get_duration_or_var_part<T>( jo.get_member( member ), member, required, default_val );
@@ -195,7 +195,8 @@ str_or_var<T> get_str_or_var( const JsonValue &jv, const std::string &member, bo
     if( jv.test_string() ) {
         ret_val.str_val = jv.get_string();
     } else if( jv.test_object() ) {
-        ret_val.var_val = read_var_info( jv.get_object(), true );
+        ret_val.var_val = read_var_info( jv.get_object() );
+        ret_val.default_val = default_val;
     } else if( required ) {
         jv.throw_error( "No valid value for " + member );
     } else {
@@ -217,7 +218,7 @@ tripoint_abs_ms get_tripoint_from_var( cata::optional<var_info> var, const T &d 
     return target_pos;
 }
 
-var_info read_var_info( const JsonObject &jo, bool require_default )
+var_info read_var_info( const JsonObject &jo )
 {
     std::string default_val;
     int_or_var<dialogue> empty;
@@ -234,8 +235,6 @@ var_info read_var_info( const JsonObject &jo, bool require_default )
         time_duration max_time;
         mandatory( jo, false, "default_time", max_time );
         default_val = std::to_string( to_turns<int>( max_time ) );
-    } else if( require_default ) {
-        jo.throw_error( "No default value provided." );
     }
 
     if( jo.has_string( "var_name" ) ) {
@@ -1281,12 +1280,12 @@ void conditional_t<T>::set_compare_string( const JsonObject &jo, const std::stri
     }
 
     if( objects.has_object( 0 ) ) {
-        first = get_str_or_var<T>( objects.next(), member, true );
+        first = get_str_or_var<T>( objects.next_value(), member, true );
     } else {
         first.str_val = objects.next_string();
     }
     if( objects.has_object( 1 ) ) {
-        second = get_str_or_var<T>( objects.next(), member, true );
+        second = get_str_or_var<T>( objects.next_value(), member, true );
     } else {
         second.str_val = objects.next_string();
     }
@@ -1396,7 +1395,7 @@ std::function<int( const T & )> conditional_t<T>::get_get_int( const JsonObject 
         std::string weather_aspect = jo.get_string( "weather" );
         if( weather_aspect == "temperature" ) {
             return []( const T & ) {
-                return static_cast<int>( get_weather().weather_precise->temperature );
+                return static_cast<int>( units::to_fahrenheit( get_weather().weather_precise->temperature ) );
             };
         } else if( weather_aspect == "windpower" ) {
             return []( const T & ) {
@@ -1489,18 +1488,17 @@ std::function<int( const T & )> conditional_t<T>::get_get_int( const JsonObject 
                 return target.is_null() ? -1 : target.get_intensity();
             };
         } else if( checked_value == "var" ) {
-            var_info info = read_var_info( jo, false );
+            var_info info = read_var_info( jo );
             return [info]( const T & d ) {
                 std::string var = read_var_value( info, d );
                 if( !var.empty() ) {
-                    return std::stoi( var );
-                } else {
-                    try {
-                        return std::stoi( info.default_val );
-                    } catch( const std::exception & ) {
-                        return 0;
-                    }
+                    // NOLINTNEXTLINE(cert-err34-c)
+                    return std::atoi( var.c_str() );
+                } else if( !info.default_val.empty() ) {
+                    // NOLINTNEXTLINE(cert-err34-c)
+                    return std::atoi( info.default_val.c_str() );
                 }
+                return 0;
             };
         } else if( checked_value == "time_since_var" ) {
             int_or_var<dialogue> empty;
@@ -1761,7 +1759,7 @@ std::function<int( const T & )> conditional_t<T>::get_get_int( const JsonObject 
         } else if( checked_value == "monsters_nearby" ) {
             cata::optional<var_info> target_var;
             if( jo.has_object( "target_var" ) ) {
-                read_var_info( jo.get_member( "target_var" ), false );
+                read_var_info( jo.get_member( "target_var" ) );
             }
             str_or_var<T> id;
             if( jo.has_member( "id" ) ) {
@@ -1791,7 +1789,7 @@ std::function<int( const T & )> conditional_t<T>::get_get_int( const JsonObject 
                     }
                     return false;
                 } );
-                return targets.size();
+                return static_cast<int>( targets.size() );
             };
         }
     } else if( jo.has_member( "moon" ) ) {
@@ -1914,8 +1912,8 @@ static std::function<void( const T &, int )> get_set_int( const JsonObject &jo,
         if( weather_aspect == "temperature" ) {
             return [min, max]( const T & d, int input ) {
                 const int new_temperature = handle_min_max<T>( d, input, min, max );
-                get_weather().weather_precise->temperature = new_temperature;
-                get_weather().temperature = new_temperature;
+                get_weather().weather_precise->temperature = units::from_fahrenheit( new_temperature );
+                get_weather().temperature = units::from_fahrenheit( new_temperature );
                 get_weather().clear_temp_cache();
             };
         } else if( weather_aspect == "windpower" ) {
@@ -2188,6 +2186,10 @@ static std::function<void( const T &, int )> get_set_int( const JsonObject &jo,
     return []( const T &, int ) {};
 }
 
+#if defined(__GNUC__) && defined(__MINGW32__) && !defined(__clang__)
+#pragma GCC push_options
+#pragma GCC optimize("no-ipa-sra")
+#endif
 template<class T>
 void talk_effect_fun_t<T>::set_arithmetic( const JsonObject &jo, const std::string &member,
         bool no_result )
@@ -2367,6 +2369,9 @@ void talk_effect_fun_t<T>::set_arithmetic( const JsonObject &jo, const std::stri
         return;
     }
 }
+#if defined(__GNUC__) && defined(__MINGW32__) && !defined(__clang__)
+#pragma GCC pop_options
+#endif
 
 
 template<class T>
@@ -2931,3 +2936,4 @@ template struct conditional_t<mission_goal_condition_context>;
 template void read_condition<mission_goal_condition_context>( const JsonObject &jo,
         const std::string &member_name,
         std::function<bool( const mission_goal_condition_context & )> &condition, bool default_val );
+template struct talk_effect_fun_t<dialogue>;

@@ -17,11 +17,13 @@ jobs:
       - name: "Generate PR body/tileset update changelog"
         id: pr-changelog
         run: |
-          printf '#### Summary\nNone\n\nAutomatic tilesets updates in:\n\nhttps://github.com/I-am-Erk/CDDA-Tilesets\n' >> pr-body
+          printf '#### Summary\nNone\n\nAutomatic tilesets updates from:\n\n#### https://github.com/I-am-Erk/CDDA-Tilesets\n' >> pr-body
           gh release view -R I-am-Erk/CDDA-Tilesets --json body --jq .body >> pr-body
-          printf 'https://github.com/pixel-32/CDDA-tileset\n' >> pr-body
+          echo "---" >> pr-body
+          printf '#### https://github.com/pixel-32/CDDA-tileset\n' >> pr-body
           gh release view -R pixel-32/CDDA-tileset --json body --jq .body >> pr-body
           sed -i "s/## What's Changed/**What's Changed**/g" pr-body
+          sed -i "s/## New Contributors/**New Contributors**/g" pr-body
           sed -i '/Full Changelog/d' pr-body
 
           CHANGELOG=$(cat pr-body)

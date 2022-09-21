@@ -1204,7 +1204,13 @@ std::string widget::color_text_function_string( const avatar &ava, unsigned int 
         _height = _height_max; // reset height
     }
     // Colorize if applicable
-    ret += apply_color ? colorize( desc.first, desc.second ) : desc.first;
+    if( !_colors.empty() ) {
+        ret += colorize( desc.first, _colors.front() );
+    } else if( apply_color ) {
+        ret += colorize( desc.first, desc.second );
+    } else {
+        ret += desc.first;
+    }
     return ret;
 }
 
@@ -1276,8 +1282,13 @@ nc_color widget::value_color( int value )
         // If value is within defined _var_norm range, the color is c_white
         if( normal_defined && _var_norm.first <= value && value <= _var_norm.second ) {
             return c_white;
-
-        } else if( _var_min <= value && value <= _var_max ) {
+        } else if( value <= _var_min ) {
+            // If smaller than lower limit, return first color
+            return _colors.front();
+        } else if( value >= _var_max ) {
+            // If larger than upper limit, return last color
+            return _colors.back();
+        } else {
             // If value is within the range, map it to an appropriate color
             // Scale value offset within range from [0, 1] to map color range
             const double scale = static_cast<double>( value_offset ) / var_range;
@@ -1285,9 +1296,6 @@ nc_color widget::value_color( int value )
             // (without the offset, only the max value gets the top color)
             const int color_index = std::floor( scale * color_max + 0.5 );
             return _colors[color_index];
-        } else {
-            // Default if value outside of range: Last color
-            return _colors.back();
         }
     }
     // No scaling by min-max range; assume colors map to 0, 1, 2 ...
@@ -1470,8 +1478,10 @@ std::string widget::graph( int value ) const
 {
     // graph "depth is equal to the number of nonzero symbols
     int depth = utf8_width( _symbols ) - 1;
+    // Number of graph characters
+    const int w = _arrange == "rows" ? _height : _width;
     // Max integer value this graph can show
-    int max_graph_val = _width * depth;
+    int max_graph_val = w * depth;
     // Scale value range to current graph resolution (width x depth)
     if( _var_max > 0 && _var_max != max_graph_val ) {
         // Scale max source value to max graph value
@@ -1498,32 +1508,45 @@ std::string widget::graph( int value ) const
         // Full cells at the front
         ret += std::wstring( quot, syms.back() );
         // Any partly-full cells?
-        if( _width > quot ) {
+        if( w > quot ) {
             // Current partly-full cell
             ret += syms[rem];
             // Any more zero cells at the end
-            if( _width > quot + 1 ) {
-                ret += std::wstring( _width - quot - 1, syms[0] );
+            if( w > quot + 1 ) {
+                ret += std::wstring( w - quot - 1, syms[0] );
             }
         }
     } else if( _fill == "pool" ) {
-        quot = value / _width; // baseline depth of the pool
-        rem = value % _width;  // number of cells at next depth
+        quot = value / w; // baseline depth of the pool
+        rem = value % w;  // number of cells at next depth
         // Most-filled cells come first
         if( rem > 0 ) {
             ret += std::wstring( rem, syms[quot + 1] );
             // Less-filled cells may follow
-            if( _width > rem ) {
-                ret += std::wstring( _width - rem, syms[quot] );
+            if( w > rem ) {
+                ret += std::wstring( w - rem, syms[quot] );
             }
         } else {
             // All cells at the same level
-            ret += std::wstring( _width, syms[quot] );
+            ret += std::wstring( w, syms[quot] );
         }
     } else {
         debugmsg( "Unknown widget fill type %s", _fill );
         return "";
     }
+
+    // Re-arrange characters to a vertical bar graph
+    if( _arrange == "rows" ) {
+        std::wstring temp = ret;
+        ret = std::wstring();
+        for( int i = temp.size() - 1; i >= 0; i-- ) {
+            ret += temp[i];
+            if( i > 0 ) {
+                ret += '\n';
+            }
+        }
+    }
+
     return wstr_to_utf8( ret );
 }
 
@@ -1785,7 +1808,7 @@ std::string widget::layout( const avatar &ava, unsigned int max_width, int label
                                 has_flag( json_flag_W_LABEL_NONE ) ? translation() : _label,
                                 row_num == 0 && _pad_labels ? label_width : 0, _separator, _text_align, _label_align, skip_pad );
         }
-        if( ret.back() == '\n' ) {
+        if( !ret.empty() && ret.back() == '\n' ) {
             ret.pop_back();
         }
     }

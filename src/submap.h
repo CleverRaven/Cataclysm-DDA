@@ -23,10 +23,10 @@
 #include "game_constants.h"
 #include "item.h"
 #include "mapgen.h"
+#include "mdarray.h"
 #include "point.h"
 #include "type_id.h"
 
-class JsonIn;
 class JsonOut;
 class basecamp;
 class map;
@@ -51,28 +51,26 @@ struct spawn_point {
         mission_id( MIS ), friendly( F ), name( N ), data( SD ) {}
 };
 
-template<int sx, int sy>
 // Suppression due to bug in clang-tidy 12
 // NOLINTNEXTLINE(bugprone-reserved-identifier,cert-dcl37-c,cert-dcl51-cpp)
 struct maptile_soa {
-    ter_id             ter[sx][sy];  // Terrain on each square
-    furn_id            frn[sx][sy];  // Furniture on each square
-    std::uint8_t       lum[sx][sy];  // Number of items emitting light on each square
-    cata::colony<item> itm[sx][sy];  // Items on each square
-    field              fld[sx][sy];  // Field on each square
-    trap_id            trp[sx][sy];  // Trap on each square
-    int                rad[sx][sy];  // Irradiation of each square
+    cata::mdarray<ter_id, point_sm_ms>             ter; // Terrain on each square
+    cata::mdarray<furn_id, point_sm_ms>            frn; // Furniture on each square
+    cata::mdarray<std::uint8_t, point_sm_ms>       lum; // Num items emitting light on each square
+    cata::mdarray<cata::colony<item>, point_sm_ms> itm; // Items on each square
+    cata::mdarray<field, point_sm_ms>              fld; // Field on each square
+    cata::mdarray<trap_id, point_sm_ms>            trp; // Trap on each square
+    cata::mdarray<int, point_sm_ms>                rad; // Irradiation of each square
 
     void swap_soa_tile( const point &p1, const point &p2 );
 };
 
-template<int sx, int sy>
 struct maptile_revert {
-    ter_id             ter[sx][sy];  // Terrain on each square
-    furn_id            frn[sx][sy];  // Furniture on each square
-    trap_id            trp[sx][sy];  // Trap on each square
+    cata::mdarray<ter_id, point_sm_ms>             ter; // Terrain on each square
+    cata::mdarray<furn_id, point_sm_ms>            frn; // Furniture on each square
+    cata::mdarray<trap_id, point_sm_ms>            trp; // Trap on each square
 };
-class submap_revert : maptile_revert<SEEX, SEEY>
+class submap_revert : maptile_revert
 {
 
     public:
@@ -101,7 +99,7 @@ class submap_revert : maptile_revert<SEEX, SEEY>
         }
 };
 
-class submap : maptile_soa<SEEX, SEEY>
+class submap : maptile_soa
 {
     public:
         submap();
@@ -216,12 +214,12 @@ class submap : maptile_soa<SEEX, SEEY>
             cosmetics.push_back( ins );
         }
 
-        int get_temperature() const {
-            return temperature;
+        units::temperature get_temperature() const {
+            return units::from_kelvin( temperature_mod / 1.8 );
         }
 
-        void set_temperature( int new_temperature ) {
-            temperature = new_temperature;
+        void set_temperature_mod( units::temperature new_temperature_mod ) {
+            temperature_mod = units::to_kelvin( new_temperature_mod ) * 1.8;
         }
 
         bool has_graffiti( const point &p ) const;
@@ -254,7 +252,7 @@ class submap : maptile_soa<SEEX, SEEY>
         void mirror( bool horizontally );
 
         void store( JsonOut &jsout ) const;
-        void load( JsonIn &jsin, const std::string &member_name, int version );
+        void load( const JsonValue &jv, const std::string &member_name, int version );
 
         // If is_uniform is true, this submap is a solid block of terrain
         // Uniform submaps aren't saved/loaded, because regenerating them is faster
@@ -279,7 +277,7 @@ class submap : maptile_soa<SEEX, SEEY>
     private:
         std::map<point, computer> computers;
         std::unique_ptr<computer> legacy_computer;
-        int temperature = 0;
+        int temperature_mod = 0; // delta in F
 
         void update_legacy_computer();
 

@@ -156,9 +156,9 @@
     "description": "A roughly 6 inch square patch of leather, could be used to repair clothing and make smaller leather crafts.",
     "price": 2000,
     "price_postapoc": 25,
-    "material": [ "leather", "flesh" ],
+    "material": [ "leather" ],
     "flags": [ "NO_SALVAGE" ],
-    "weight": "37 g",
+    "weight": "25 g",
     "volume": "23 ml",
     "category": "spare_parts"
   },

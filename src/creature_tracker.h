@@ -17,7 +17,7 @@
 
 class Creature;
 class game;
-class JsonIn;
+class JsonArray;
 class JsonOut;
 class monster;
 class npc;
@@ -96,12 +96,18 @@ class creature_tracker
          * but it's not of the requested type, returns nullptr.
          * @param allow_hallucination Whether to return monsters that are actually hallucinations.
          */
+        // TODO: fix point types (remove the first overload)
         template<typename T = Creature>
         T * creature_at( const tripoint &p, bool allow_hallucination = false );
         template<typename T = Creature>
+        T * creature_at( const tripoint_bub_ms &p, bool allow_hallucination = false );
+        template<typename T = Creature>
         T * creature_at( const tripoint_abs_ms &p, bool allow_hallucination = false );
+        // TODO: fix point types (remove the first overload)
         template<typename T = Creature>
         const T * creature_at( const tripoint &p, bool allow_hallucination = false ) const;
+        template<typename T = Creature>
+        const T * creature_at( const tripoint_bub_ms &p, bool allow_hallucination = false ) const;
         template<typename T = Creature>
         const T * creature_at( const tripoint_abs_ms &p, bool allow_hallucination = false ) const;
 
@@ -110,7 +116,7 @@ class creature_tracker
         }
 
         void serialize( JsonOut &jsout ) const;
-        void deserialize( JsonIn &jsin );
+        void deserialize( const JsonArray &ja );
 
         const decltype( monster_faction_map_ ) &factions() const {
             return monster_faction_map_;

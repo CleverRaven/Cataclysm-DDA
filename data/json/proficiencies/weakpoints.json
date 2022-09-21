@@ -34,6 +34,18 @@
   },
   {
     "type": "proficiency",
+    "id": "prof_wp_demihuman",
+    "category": "prof_weakpoint",
+    "name": { "str": "Principles of Near Human Biology" },
+    "description": "Very basic familiarity with various types of demihuman creatures.",
+    "can_learn": true,
+    "time_to_learn": "6 h",
+    "required_proficiencies": [ "prof_intro_biology" ],
+    "default_weakpoint_bonus": 2,
+    "default_weakpoint_penalty": 0
+  },
+  {
+    "type": "proficiency",
     "id": "prof_wp_syn_armored",
     "category": "prof_weakpoint",
     "name": { "str": "Synthetic Armors" },
