@@ -2050,6 +2050,37 @@ bool cata_tiles::draw_from_id_string( const std::string &id, TILE_CATEGORY categ
     const tile_type *tt = nullptr;
     cata::optional<tile_lookup_res> res;
 
+
+    // translate from player-relative to screen relative tile position
+    const point screen_pos = player_to_screen( pos.xy() );
+
+    int retract;
+    if( tile_retracted == 0 ) {
+        retract = 0;
+    } else if( tile_retracted == 1 ) {
+        retract = 100;
+    } else {
+        const float distance = o.distance( pos.xy() );
+        const float d_min = tile_retract_dist_min > 0.0 ? tile_retract_dist_min :
+                            tileset_ptr->get_retract_dist_min();
+        const float d_max = tile_retract_dist_max > 0.0 ? tile_retract_dist_max :
+                            tileset_ptr->get_retract_dist_max();
+
+        const float d_range = d_max - d_min;
+        const float d_slope = d_range <= 0.0f ? 100.0 : 1.0 / d_range;
+
+        retract = static_cast<int>( 100.0 * ( 1.0 - clamp( ( distance - d_min ) * d_slope, 0.0f, 1.0f ) ) );
+    }
+
+    if( retract > 50 ) {
+        res = find_tile_looks_like( id + "_transparent", category, variant );
+        if( res ) {
+            tt = &res -> tile();
+        }
+    }
+
+    retract = 0;
+
     // check if there is an available intensity tile and if there is use that instead of the basic tile
     // this is only relevant for fields
     if( intensity_level > 0 ) {
@@ -2274,27 +2305,6 @@ bool cata_tiles::draw_from_id_string( const std::string &id, TILE_CATEGORY categ
                        found_id + "_" + multitile_keys[subtile], category, subcategory, pos, -1, rota, ll,
                        nv_color_active, height_3d );
         }
-    }
-
-    // translate from player-relative to screen relative tile position
-    const point screen_pos = player_to_screen( pos.xy() );
-
-    int retract;
-    if( tile_retracted == 0 ) {
-        retract = 0;
-    } else if( tile_retracted == 1 ) {
-        retract = 100;
-    } else {
-        const float distance = o.distance( pos.xy() );
-        const float d_min = tile_retract_dist_min > 0.0 ? tile_retract_dist_min :
-                            tileset_ptr->get_retract_dist_min();
-        const float d_max = tile_retract_dist_max > 0.0 ? tile_retract_dist_max :
-                            tileset_ptr->get_retract_dist_max();
-
-        const float d_range = d_max - d_min;
-        const float d_slope = d_range <= 0.0f ? 100.0 : 1.0 / d_range;
-
-        retract = static_cast<int>( 100.0 * ( 1.0 - clamp( ( distance - d_min ) * d_slope, 0.0f, 1.0f ) ) );
     }
 
     auto simple_point_hash = []( const auto & p ) {
