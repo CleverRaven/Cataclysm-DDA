@@ -225,7 +225,7 @@ std::string AbsolutePath(const std::string &filepath) {
     (FLATBUFFERS_LOCALE_INDEPENDENT > 0)
 
 // clang-format off
-#ifdef _MSC_VER
+#ifdef _WIN32
   ClassicLocale::ClassicLocale()
     : locale_(_create_locale(LC_ALL, "C")) {}
   ClassicLocale::~ClassicLocale() { _free_locale(locale_); }

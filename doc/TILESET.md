@@ -358,7 +358,7 @@ Each JSON file can have either a single object or an array of one or more object
   {                         // default sprite size
     "width": 32,
     "height": 32,
-    "pixelscale": 1
+    "pixelscale": 1         //  Optional. Sets a multiplier for resizing a tileset. Defaults to 1.
   }, {
     "tiles.png": {}         // Each tilesheet directory must have a corresponding object
   }, {                      // with a single key, which will become the tilesheet output filename.
@@ -369,6 +369,7 @@ Each JSON file can have either a single object or an array of one or more object
       "sprite_height": 80,
       "sprite_offset_x": -16,
       "sprite_offset_y": -48,
+      "pixelscale": 2,      // Optional. Sets a multiplier for resizing tiles. Multiplied/on top of by tileset pixelscale. Defaults to 1.
       "sprites_across": 4   // Change the sheet width, default is 16. Reducing empty space in the end helps a bit with CDDA memory consumption
     }
   }, {
