@@ -56,7 +56,7 @@
       { "proficiency": "prof_polymerworking" },
       { "proficiency": "prof_elastics" }
     ],
-    "components": [ [ [ "wetsuit", 1 ] ], [ [ "silicone", 10 ] ] ]
+    "components": [ [ [ "wetsuit", 1 ] ], [ [ "rubber_cement", 3 ] ] ]
   },
   {
     "result": "xs_h20survivor_jumpsuit",
@@ -65,7 +65,7 @@
     "activity_level": "LIGHT_EXERCISE",
     "time": "11 h",
     "using": [ [ "sewing_kevlar", 150 ], [ "tailoring_neoprene_patchwork", 20 ], [ "fastener_large", 1 ], [ "clasps", 8 ] ],
-    "components": [ [ [ "wetsuit", 1 ] ], [ [ "silicone", 8 ] ] ]
+    "components": [ [ [ "wetsuit", 1 ] ], [ [ "rubber_cement", 3 ] ] ]
   },
   {
     "result": "xl_h20survivor_jumpsuit",
@@ -74,7 +74,7 @@
     "activity_level": "LIGHT_EXERCISE",
     "time": "14 h",
     "using": [ [ "sewing_kevlar", 300 ], [ "tailoring_neoprene_patchwork", 45 ], [ "fastener_large", 1 ], [ "clasps", 8 ] ],
-    "components": [ [ [ "wetsuit", 1 ] ], [ [ "silicone", 14 ] ] ]
+    "components": [ [ [ "wetsuit", 1 ] ], [ [ "rubber_cement", 4 ] ] ]
   },
   {
     "result": "thick_h20survivor_jumpsuit",
@@ -93,7 +93,7 @@
       { "proficiency": "prof_polymerworking" },
       { "proficiency": "prof_elastics" }
     ],
-    "components": [ [ [ "wetsuit_thick", 1 ] ], [ [ "silicone", 15 ] ] ]
+    "components": [ [ [ "wetsuit_thick", 1 ] ], [ [ "rubber_cement", 4 ] ] ]
   },
   {
     "result": "xs_thick_h20survivor_jumpsuit",
@@ -102,7 +102,7 @@
     "activity_level": "LIGHT_EXERCISE",
     "time": "11 h",
     "using": [ [ "sewing_kevlar", 300 ], [ "tailoring_neoprene_patchwork", 28 ], [ "fastener_large", 2 ], [ "clasps", 12 ] ],
-    "components": [ [ [ "wetsuit_thick", 1 ] ], [ [ "silicone", 12 ] ] ]
+    "components": [ [ [ "wetsuit_thick", 1 ] ], [ [ "rubber_cement", 3 ] ] ]
   },
   {
     "result": "xl_thick_h20survivor_jumpsuit",
@@ -111,7 +111,7 @@
     "activity_level": "LIGHT_EXERCISE",
     "time": "14 h",
     "using": [ [ "sewing_kevlar", 600 ], [ "tailoring_neoprene_patchwork", 63 ], [ "fastener_large", 2 ], [ "clasps", 12 ] ],
-    "components": [ [ [ "wetsuit_thick", 1 ] ], [ [ "silicone", 22 ] ] ]
+    "components": [ [ [ "wetsuit_thick", 1 ] ], [ [ "rubber_cement", 6 ] ] ]
   },
   {
     "result": "lsurvivor_jumpsuit",
