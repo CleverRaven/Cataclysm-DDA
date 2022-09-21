@@ -6317,7 +6317,7 @@ void Character::burn_move_stamina( int moves )
     }
 
     int burn_ratio = get_option<int>( "PLAYER_BASE_STAMINA_BURN_RATE" );
-    for( const bionic_id &bid : get_bionic_fueled_with( item( "muscle" ) ) ) {
+    for( const bionic_id &bid : get_bionic_fueled_with_muscle() ) {
         if( has_active_bionic( bid ) ) {
             burn_ratio = burn_ratio * 2 - 3;
         }

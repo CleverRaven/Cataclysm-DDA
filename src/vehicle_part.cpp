@@ -361,7 +361,7 @@ units::energy vehicle_part::consume_energy( const itype_id &ftype, units::energy
         if( fuel->typeId() != ftype || !fuel->is_fuel() ) {
             continue;
         }
-        const units::energy energy_per_charge = fuel->fuel_energy() / fuel->charges;
+        const units::energy energy_per_charge = fuel->fuel_energy();
         const int charges_wanted = static_cast<int>( wanted_energy / energy_per_charge );
         const int charges_to_use = std::min( charges_wanted, fuel->charges );
         fuel->charges -= charges_to_use;
