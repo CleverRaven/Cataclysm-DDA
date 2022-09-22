@@ -12,8 +12,9 @@
   },
   {
     "type": "start_location",
+    "id": "sloc_crashing_ship",
     "name": "crashing ship",
-    "id": [
+    "terrain": [
       "crashing_ship_3",
       "crashing_ship_2",
       "crashing_ship_1",

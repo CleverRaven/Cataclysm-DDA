@@ -420,7 +420,7 @@
     "type": "item_group",
     "subtype": "collection",
     "entries": [
-      { "item": "afs_seyfert_84K", "charges": [ 15, 19 ], "ammo-item": "afs_10mm" },
+      { "item": "afs_seyfert_84K", "charges": [ 15, 19 ], "ammo-item": "afs_10mm_caseless_FMJ" },
       { "item": "corpse" },
       { "group": "afs_plastic_armor_g", "chance": 33 },
       { "group": "afs_carbide_raider_armor_g", "chance": 10 },
