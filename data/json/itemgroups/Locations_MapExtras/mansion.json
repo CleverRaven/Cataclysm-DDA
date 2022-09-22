@@ -684,6 +684,7 @@
       { "group": "toy_makerspace_kit", "prob": 8 },
       { "group": "toy_robot_kit", "prob": 8 },
       { "group": "toy_engine_kit", "prob": 8 },
+      { "item": "air_launcher", "prob": 5 },
       [ "orangesoda", 30 ],
       [ "magic_8_ball", 10 ],
       [ "hairpin", 30 ],
