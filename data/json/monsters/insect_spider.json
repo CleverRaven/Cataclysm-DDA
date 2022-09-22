@@ -3212,7 +3212,7 @@
   {
     "id": "mon_caterpillar_butterfly",
     "type": "MONSTER",
-    "name": { "str": "caterpillar" },
+    "name": { "str": "giant caterpillar" },
     "description": "The larval stage of a butterfly or a moth.  This one appears to be about your size so you can only imagine the size of the insect that it will grow into.",
     "default_faction": "insect",
     "bodytype": "snake",
@@ -3235,7 +3235,7 @@
   {
     "id": "mon_butterfly_cocoon",
     "type": "MONSTER",
-    "name": { "str": "cocoon" },
+    "name": { "str": "giant cocoon" },
     "description": "A caterpillar undergoing a metamorphosis.  Considering the size of the cocoon you have a feeling the emerging adult will be massive as well.",
     "symbol": "0",
     "color": "light_gray",
@@ -3254,7 +3254,7 @@
   {
     "id": "mon_caterpillar_moth",
     "type": "MONSTER",
-    "name": { "str": "caterpillar" },
+    "name": { "str": "giant caterpillar" },
     "description": "The larval stage of a butterfly or a moth.  This one appears to be about your size so you can only imagine the size of the insect that it will grow into.",
     "default_faction": "insect",
     "bodytype": "snake",
@@ -3277,7 +3277,7 @@
   {
     "id": "mon_moth_cocoon",
     "type": "MONSTER",
-    "name": { "str": "cocoon" },
+    "name": { "str": "giant cocoon" },
     "description": "A caterpillar undergoing a metamorphosis.  Considering the size of the cocoon you have a feeling the emerging adult will be massive as well.",
     "symbol": "0",
     "color": "light_gray",
