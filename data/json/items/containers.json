@@ -3005,7 +3005,7 @@
         "airtight": true,
         "watertight": true,
         "rigid": true,
-        "ammo_restriction": { "propane": 30 }
+        "ammo_restriction": { "propane": 3750 }
       }
     ],
     "charges_per_use": 1,
@@ -3033,7 +3033,7 @@
         "airtight": true,
         "watertight": true,
         "rigid": true,
-        "ammo_restriction": { "propane": 75 }
+        "ammo_restriction": { "propane": 18750 }
       }
     ],
     "charges_per_use": 1,
@@ -3061,7 +3061,7 @@
         "airtight": true,
         "watertight": true,
         "rigid": true,
-        "ammo_restriction": { "propane": 302 }
+        "ammo_restriction": { "propane": 75000 }
       }
     ],
     "charges_per_use": 1,
@@ -3089,7 +3089,7 @@
         "airtight": true,
         "watertight": true,
         "rigid": true,
-        "ammo_restriction": { "propane": 1510 }
+        "ammo_restriction": { "propane": 375000 }
       }
     ],
     "charges_per_use": 1,
