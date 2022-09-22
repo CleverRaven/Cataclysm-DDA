@@ -43,6 +43,7 @@
         [ "egg_zuul", 1 ],
         [ "egg_dyoplosaurus", 1 ],
         [ "egg_ankylosaurus", 1 ],
+        [ "egg_tenontosaurus", 1 ],
         [ "egg_camptosaurus", 1 ],
         [ "egg_hadrosaurus", 1 ],
         [ "egg_parasaurolophus", 1 ],
