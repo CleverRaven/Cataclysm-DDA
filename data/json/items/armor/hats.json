@@ -993,7 +993,7 @@
     "looks_like": "hat_cotton",
     "warmth": 5,
     "color": "yellow",
-    "flags": [ "PSYSHIELD_PARTIAL", "SKINTIGHT", "TRADER_AVOID", "SOFT" ],
+    "flags": [ "PSYSHIELD_PARTIAL", "SKINTIGHT", "TRADER_AVOID", "NO_REPAIR", "SOFT" ],
     "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 90, "covers": [ "head" ] } ]
   },
   {
