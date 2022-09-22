@@ -431,7 +431,7 @@
     "type": "MONSTER",
     "copy-from": "mon_scutellosaurus_hatchling",
     "name": "light green and yellow hatchling",
-    "upgrades": { "age_grow": 30, "into": "mon_tenontosaurus" }
+    "upgrades": { "age_grow": 30, "into": "mon_tenontosaurus_juvenile" }
   },
   {
     "id": "mon_dryosaurus_hatchling",
