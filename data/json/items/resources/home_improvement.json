@@ -169,7 +169,7 @@
     "description": "A metal cylinder with a small lens inside intended to be installed on a door.",
     "price": 12000,
     "price_postapoc": 50,
-    "material": [ "aluminum", "glass" ],
+    "material": [ "brass", "glass" ],
     "weight": "5 g",
     "volume": "250 ml",
     "to_hit": -3
