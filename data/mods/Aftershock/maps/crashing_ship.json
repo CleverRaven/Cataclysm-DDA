@@ -16,15 +16,9 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [
-      "crashing_ship_01",
-      "crashing_ship_02",
-      "crashing_ship_03",
-      "crashing_ship_04",
-      "crashing_ship_05",
-      "crashing_ship_06",
-      "crashing_ship_07",
-      "crashing_ship_08",
-      "crashing_ship_09"
+      [ "crashing_ship_01", "crashing_ship_02", "crashing_ship_03" ],
+      [ "crashing_ship_04", "crashing_ship_05", "crashing_ship_06" ],
+      [ "crashing_ship_07", "crashing_ship_08", "crashing_ship_09" ]
     ],
     "weight": 100,
     "object": {
@@ -114,7 +108,8 @@
         { "text": "Shuttle Bay 01", "x": 24, "y": 27 },
         { "text": "Shuttle Bay 01", "x": 47, "y": 27 },
         { "text": "Escape Pods & Vehicle Bay", "x": 59, "y": 27 },
-        { "text": "Escape Pods & Vehicle Bay", "x": 62, "y": 27 } ],
+        { "text": "Escape Pods & Vehicle Bay", "x": 62, "y": 27 }
+      ],
       "furniture": {
         "L": "f_locker",
         "E": "f_locker",
