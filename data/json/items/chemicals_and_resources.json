@@ -776,14 +776,14 @@
     "name": { "str_sp": "hexamine" },
     "symbol": "=",
     "color": "red",
-    "description": "A handful of waxy hexamine tablets.  This ubiquitous fuel was used to start up almost every garden grill, and no 'real' camping trip could do its cooking without it, until the Cataclysm.  Nowadays, it is even more valuable than before, being the key component in the preparation of several military-grade explosives.",
+    "description": "A handful of waxy hexamine tablets which could be broken up into smaller crumbs if needed.  This ubiquitous fuel was used to start up almost every garden grill, and no 'real' camping trip could do its cooking without it, until the Cataclysm.  Nowadays, it is even more valuable than before, being the key component in the preparation of several military-grade explosives.",
     "material": [ "powder" ],
     "volume": "250 ml",
-    "weight": "16625 mg",
+    "weight": "1330 mg",
     "bashing": 1,
     "ammo_type": "esbit",
     "container": "box_small",
-    "count": 20
+    "count": 250
   },
   {
     "type": "AMMO",
