@@ -58,11 +58,11 @@
         "M......................................................................M",
         "M........................a....................a........................M",
         "MMMMMMMMMMMMMMMMMMMMMMMMMddddddddddDDddddddddddMMMMMMMMMMMMMDDMMMMMMMMMM",
-        "M........................a....................aMM......................M",
+        "M........................a....................aMM.....c................M",
         "M..YYYYYYYYYYYYYYYYYY..........................MM.MMM..............YYY.M",
         "M..............................................MM.MFD..*........*..YYY.M",
         "M..............................................MM.MMM..............YYY.M",
-        "M..............................................MM......................M",
+        "M..............................................MM...c..................M",
         "M..............................................MM.YYY..............YYY.M",
         "M..............................................MM.YYY..*........*..YYY.M",
         "M..YYYYYYYYYYYYYYYYYY..........................MM.YYY..............YYY.M",
@@ -141,6 +141,7 @@
       "D": "t_afs_space_ship_hatch_c",
       "g": "t_door_glass_frosted_c",
       "d": "t_door_metal_locked",
+      "c": "t_metal_floor",
       "a": "t_gates_mech_control"
     },
     "mapping": {
@@ -166,6 +167,7 @@
           { "item": "afs_tools_electric_repair", "chance": 10 }
         ]
       },
+      "c": { "items": [ { "item": "afs_escapepod_shootout", "chance": 100 } ] },
       "E": {
         "items": [
           { "item": "fireman_cabinet", "chance": 100 },
@@ -177,7 +179,6 @@
       "V": { "items": [ { "item": "afs_vending_false_meals", "chance": 100 } ] },
       "w": { "items": [ { "item": "casings", "chance": 10 } ] }
     },
-    "place_item": [ { "x": 54, "y": 28, "item": "corpse" }, { "x": 52, "y": 32, "item": "corpse" } ],
     "fields": { "F": { "field": "fd_fire", "intensity": 3, "age": 1 } },
     "computers": {
       "!": {
