@@ -310,7 +310,7 @@
   },
   {
     "type": "overmap_terrain",
-	"name": "Crashing Ship",
+    "name": "Crashing Ship",
     "id": [
       "crashing_ship_3",
       "crashing_ship_2",
