@@ -1,5 +1,5 @@
 [
-    {
+  {
     "type": "vehicle_part",
     "id": "tracker",
     "name": { "str": "tracking device" },
