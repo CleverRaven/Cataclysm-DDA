@@ -84,6 +84,7 @@
       { "item": "socks" },
       { "item": "boots" },
       { "item": "gold_ring" },
+      { "item": "tool_belt" },
       { "item": "ar15", "ammo-item": "223", "charges": 30, "container-item": "back_holster" }
     ]
   },
