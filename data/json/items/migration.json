@@ -1823,5 +1823,10 @@
     "type": "MIGRATION",
     "replace": "folded_inflatable_boat",
     "reset_item_vars": true
+  },
+  {
+    "id": "veh_tracker",
+    "type": "MIGRATION",
+    "replace": "vehicle_dashboard"
   }
 ]
