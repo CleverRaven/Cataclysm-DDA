@@ -338,7 +338,7 @@
     "symbol": ";",
     "color": "light_gray",
     "ammo": [ "esbit" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "esbit": 50 } } ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "esbit": 100 } } ],
     "charges_per_use": 1,
     "use_action": [ "HOTPLATE", "HEAT_FOOD" ]
   },
@@ -467,7 +467,35 @@
     "color": "green",
     "flags": [ "WATER_BREAK" ],
     "ammo": [ "battery" ],
-    "charges_per_use": 5,
+    "charges_per_use": 20,
+    "use_action": [ "HOTPLATE" ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "flag_restriction": [ "BATTERY_MEDIUM" ],
+        "default_magazine": "medium_battery_cell"
+      }
+    ]
+  },
+  {
+    "id": "hotplate_induction",
+    "type": "TOOL",
+    "name": { "str": "induction hotplate" },
+    "description": "This is a high end hotplate that utilizes induction coils.  It is far more efficient than a standard hotplate.",
+    "weight": "862 g",
+    "volume": "2 L",
+    "longest_side": "35 cm",
+    "price": 60000,
+    "price_postapoc": 1000,
+    "to_hit": -1,
+    "bashing": 4,
+    "material": [ "aluminum", "plastic" ],
+    "symbol": ";",
+    "color": "green",
+    "flags": [ "WATER_BREAK" ],
+    "ammo": [ "battery" ],
+    "charges_per_use": 10,
     "use_action": [ "HOTPLATE" ],
     "pocket_data": [
       {
@@ -1072,5 +1100,28 @@
     ],
     "charges_per_use": 1,
     "use_action": [ "HOTPLATE", "HEAT_FOOD" ]
+  },
+  {
+    "type": "TOOL",
+    "id": "microwave",
+    "symbol": ",",
+    "color": "light_gray",
+    "name": { "str": "microwave" },
+    "description": "A home microwave, has probably seen its share of baked beans.  While usually meant to be plugged in, it can run on a backup battery too.",
+    "price": 1000,
+    "price_postapoc": 10,
+    "material": [ "steel", "plastic" ],
+    "weight": "11339 g",
+    "volume": "9 L",
+    "use_action": [ "HOTPLATE", "HEAT_FOOD" ],
+    "flags": [ "WATER_BREAK" ],
+    "charges_per_use": 15,
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "flag_restriction": [ "BATTERY_HEAVY" ]
+      }
+    ]
   }
 ]
