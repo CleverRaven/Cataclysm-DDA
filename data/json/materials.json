@@ -193,7 +193,7 @@
     "fire_resist": 2,
     "conductive": true,
     "chip_resist": 10,
-    "repaired_with": "scrap_aluminum",
+    "repaired_with": "welding_wire_alloy",
     "dmg_adj": [ "dented", "bent", "smashed", "destroyed" ],
     "bash_dmg_verb": "dented",
     "cut_dmg_verb": "scratched"
