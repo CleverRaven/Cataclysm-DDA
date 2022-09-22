@@ -296,7 +296,7 @@
     "copy-from": "seed",
     "name": { "str_sp": "cactus seeds" },
     "color": "green",
-	"looks_like": "seed_flower",
+    "looks_like": "seed_flower",
     "description": "Some cactus seeds.",
     "seed_data": { "plant_name": "cactus", "fruit": "cactus_pad", "grow": "91 days" }
   },
@@ -327,7 +327,7 @@
     "price": 50,
     "name": { "str_sp": "carrot seeds" },
     "description": "Some carrot seeds.",
-	"looks_like": "seed_flower",
+    "looks_like": "seed_flower",
     "seed_data": { "plant_name": "carrot", "fruit": "carrot", "byproducts": [ "withered" ], "grow": "65 days" }
   },
   {
@@ -337,7 +337,7 @@
     "price": 50,
     "name": { "str_sp": "corn seeds" },
     "description": "Some corn seeds.",
-	"looks_like": "seed_flower",
+    "looks_like": "seed_flower",
     "seed_data": { "plant_name": "corn", "fruit": "corn", "byproducts": [ "withered" ], "grow": "80 days" }
   },
   {
@@ -348,7 +348,7 @@
     "name": { "str_sp": "chili pepper seeds" },
     "color": "white",
     "description": "Some chili pepper seeds.",
-	"looks_like": "seed_flower",
+    "looks_like": "seed_flower",
     "seed_data": { "plant_name": "chili pepper", "fruit": "chili_pepper", "byproducts": [ "withered" ], "grow": "65 days" }
   },
   {
@@ -357,7 +357,7 @@
     "copy-from": "seed",
     "price": 50,
     "name": { "str_sp": "cucumber seeds" },
-	"looks_like": "seed_flower",
+    "looks_like": "seed_flower",
     "description": "Some cucumber seeds.",
     "seed_data": { "plant_name": "cucumber", "fruit": "cucumber", "byproducts": [ "withered" ], "grow": "60 days" }
   },
@@ -367,7 +367,7 @@
     "copy-from": "seed",
     "price": 50,
     "name": { "str": "seed potato", "str_pl": "seed potatoes" },
-	"looks_like": "seed_flower",
+    "looks_like": "seed_flower",
     "description": "A raw potato, cut into pieces, separating each bud for planting.",
     "weight": "20 g",
     "stack_size": 10,
@@ -382,7 +382,7 @@
     "use_action": [ "SEED" ],
     "quench": -1,
     "calories": 17,
-	"looks_like": "seed_flower",
+    "looks_like": "seed_flower",
     "description": "Seeds of the cannabis plant.  Filled with vitamins, they can be roasted or eaten raw.",
     "price": 100,
     "weight": "2 g",
@@ -397,7 +397,7 @@
     "price": 100,
     "name": { "str_sp": "fungal seeds" },
     "color": "dark_gray",
-	"looks_like": "seed_flower",
+    "looks_like": "seed_flower",
     "description": "Some fungal seeds.",
     "ammo_type": "NULL",
     "stack_size": 8,
@@ -418,7 +418,7 @@
     "healthy": -10,
     "addiction_potential": 5,
     "calories": 174,
-	"looks_like": "seed_flower",
+    "looks_like": "seed_flower",
     "description": "This looks like a sunflower seed the size of your palm.  It has a strong but delicious aroma, but is clearly either mutated or of alien origin.  You could probably plant it.",
     "price": 0,
     "material": [ "fruit" ],
@@ -436,7 +436,7 @@
     "name": { "str_sp": "bean seeds" },
     "weight": "1940 mg",
     "symbol": "%",
-	"looks_like": "seed_flower",
+    "looks_like": "seed_flower",
     "description": "Raw, uncooked beans, ready for planting.",
     "charges": 2,
     "price": 90,
@@ -450,7 +450,7 @@
     "weight": "1600 mg",
     "symbol": ".",
     "color": "yellow",
-	"looks_like": "seed_flower",
+    "looks_like": "seed_flower",
     "description": "Some soybean seeds.",
     "price": 90,
     "seed_data": { "plant_name": "soybean", "fruit": "soybean", "byproducts": [ "withered", "raw_edamame" ], "grow": "91 days" }
@@ -462,7 +462,7 @@
     "name": { "str_sp": "raw lentils" },
     "weight": "1940 mg",
     "symbol": "%",
-	"looks_like": "seed_flower",
+    "looks_like": "seed_flower",
     "description": "Raw, uncooked lentils, ready for planting.",
     "charges": 2,
     "price": 90,
@@ -475,7 +475,7 @@
     "price": 120,
     "name": { "str_sp": "thyme seeds" },
     "color": "green",
-	"looks_like": "seed_flower",
+    "looks_like": "seed_flower",
     "description": "Some thyme seeds.",
     "charges": 2,
     "seed_data": { "plant_name": "thyme", "fruit": "thyme", "grow": "91 days" }
@@ -486,7 +486,7 @@
     "copy-from": "seed",
     "name": { "str_sp": "canola seeds" },
     "color": "green",
-	"looks_like": "seed_flower",
+    "looks_like": "seed_flower",
     "description": "Some canola seeds.  You could press them into oil.",
     "charges": 2,
     "seed_data": { "plant_name": "canola", "fruit": "seed_canola", "byproducts": [ "withered" ], "grow": "91 days" }
@@ -496,7 +496,7 @@
     "id": "seed_watermelon",
     "copy-from": "seed_fruit",
     "name": { "str_sp": "watermelon seeds" },
-	"looks_like": "seed_flower",
+    "looks_like": "seed_flower",
     "description": "Some watermelon seeds.",
     "seed_data": { "plant_name": "watermelon", "fruit": "watermelon", "fruit_div": 3, "byproducts": [ "withered" ], "grow": "91 days" }
   },
@@ -509,7 +509,7 @@
     "color": "green",
     "use_action": [ "SEED" ],
     "calories": 17,
-	"looks_like": "seed_flower",
+    "looks_like": "seed_flower",
     "description": "Some raw pumpkin seeds.  Could be fried and eaten.",
     "price": 100,
     "charges": 2,
@@ -524,7 +524,7 @@
     "color": "green",
     "use_action": [ "SEED" ],
     "calories": 17,
-	"looks_like": "seed_flower",
+    "looks_like": "seed_flower",
     "description": "Some raw sunflower seeds.  Could be pressed into oil.",
     "price": 100,
     "charges": 2,
@@ -536,7 +536,7 @@
     "copy-from": "seed",
     "name": { "str_sp": "dogbane seeds" },
     "color": "green",
-	"looks_like": "seed_flower",
+    "looks_like": "seed_flower",
     "description": "Some dogbane seeds.",
     "charges": 2,
     "seed_data": { "plant_name": "dogbane", "fruit": "dogbane", "byproducts": [ "withered" ], "grow": "91 days" }
@@ -547,7 +547,7 @@
     "copy-from": "seed",
     "name": { "str_sp": "bee balm seeds" },
     "color": "green",
-	"looks_like": "seed_flower",
+    "looks_like": "seed_flower",
     "description": "Some bee balm seeds.",
     "charges": 2,
     "seed_data": { "plant_name": "bee balm", "fruit": "bee_balm", "byproducts": [ "withered" ], "grow": "91 days" }
@@ -558,7 +558,7 @@
     "copy-from": "seed",
     "name": { "str_sp": "mugwort seeds" },
     "color": "green",
-	"looks_like": "seed_flower",
+    "looks_like": "seed_flower",
     "description": "Some mugwort seeds.",
     "charges": 2,
     "seed_data": { "plant_name": "mugwort", "fruit": "mugwort", "grow": "91 days" }
@@ -569,7 +569,7 @@
     "copy-from": "seed",
     "name": { "str_sp": "buckwheat seeds" },
     "color": "green",
-	"looks_like": "seed_flower",
+    "looks_like": "seed_flower",
     "description": "Some buckwheat seeds.",
     "charges": 2,
     "seed_data": { "plant_name": "buckwheat", "fruit": "buckwheat", "byproducts": [ "withered" ], "grow": "91 days" }
@@ -580,7 +580,7 @@
     "copy-from": "seed",
     "name": { "str_sp": "wild herb seeds" },
     "color": "green",
-	"looks_like": "seed_flower",
+    "looks_like": "seed_flower",
     "description": "Some seeds harvested from wild herbs.",
     "charges": 2,
     "seed_data": { "plant_name": "wild herb", "fruit": "wild_herbs", "grow": "91 days" }
@@ -591,7 +591,7 @@
     "copy-from": "seed",
     "name": { "str_sp": "wild vegetable stems" },
     "color": "green",
-	"looks_like": "seed_flower",
+    "looks_like": "seed_flower",
     "description": "Some wild vegetable stems.",
     "charges": 2,
     "seed_data": { "plant_name": "wild vegetable", "fruit": "veggy_wild", "byproducts": [ "withered" ], "grow": "91 days" }
@@ -602,7 +602,7 @@
     "copy-from": "seed",
     "name": { "str_sp": "dandelion seeds" },
     "color": "green",
-	"looks_like": "seed_flower",
+    "looks_like": "seed_flower",
     "description": "Some dandelion seeds.",
     "charges": 2,
     "seed_data": { "plant_name": "dandelion", "fruit": "raw_dandelion", "grow": "91 days" }
@@ -613,7 +613,7 @@
     "copy-from": "seed",
     "name": { "str_sp": "burdock seeds" },
     "color": "green",
-	"looks_like": "seed_flower",
+    "looks_like": "seed_flower",
     "description": "Some burdock seeds.",
     "charges": 2,
     "seed_data": { "plant_name": "burdock", "fruit": "raw_burdock", "grow": "91 days" }
@@ -637,7 +637,7 @@
     "id": "seed_jerusalem_artichoke",
     "copy-from": "seed",
     "name": { "str_sp": "Jerusalem artichoke seeds" },
-	"looks_like": "seed_flower",
+    "looks_like": "seed_flower",
     "description": "Some Jerusalem artichoke seeds.",
     "charges": 2,
     "seed_data": { "plant_name": "Jerusalem artichoke", "fruit": "jerusalem_artichoke", "byproducts": [ "withered" ], "grow": "91 days" }
@@ -647,7 +647,7 @@
     "id": "seed_maianthemum_stellatum",
     "copy-from": "seed",
     "name": { "str_sp": "starry false Solomon's seal seeds" },
-	"looks_like": "seed_flower",
+    "looks_like": "seed_flower",
     "description": "Some starry false Solomon's seal seeds.",
     "charges": 2,
     "seed_data": {
@@ -662,7 +662,7 @@
     "id": "seed_wild_sarsaparilla",
     "copy-from": "seed",
     "name": { "str_sp": "wild sarsaparilla seeds" },
-	"looks_like": "seed_flower",
+    "looks_like": "seed_flower",
     "description": "Some wild sarsaparilla seeds.",
     "charges": 2,
     "seed_data": {
@@ -677,7 +677,7 @@
     "id": "seed_mayapple",
     "copy-from": "seed",
     "name": { "str_sp": "mayapple seeds" },
-	"looks_like": "seed_flower",
+    "looks_like": "seed_flower",
     "description": "Some mayapple seeds.",
     "charges": 2,
     "seed_data": { "plant_name": "mayapple", "fruit": "mayapple", "byproducts": [ "withered" ], "grow": "91 days" }
@@ -687,7 +687,7 @@
     "id": "seed_wintergreen",
     "copy-from": "seed",
     "name": { "str_sp": "wintergreen seeds" },
-	"looks_like": "seed_flower",
+    "looks_like": "seed_flower",
     "description": "Some wintergreen seeds.",
     "charges": 2,
     "seed_data": {
@@ -702,7 +702,7 @@
     "id": "seed_groundnut",
     "copy-from": "seed",
     "name": { "str_sp": "groundnut seeds" },
-	"looks_like": "seed_flower",
+    "looks_like": "seed_flower",
     "description": "Some groundnut seeds.",
     "charges": 2,
     "seed_data": { "plant_name": "groundnut", "fruit": "groundnut", "byproducts": [ "withered" ], "grow": "91 days" }
@@ -712,7 +712,7 @@
     "id": "seed_wild_garlic",
     "copy-from": "seed",
     "name": { "str_sp": "wild garlic seeds" },
-	"looks_like": "seed_flower",
+    "looks_like": "seed_flower",
     "description": "Some wild garlic seeds.",
     "charges": 2,
     "seed_data": { "plant_name": "wild garlic", "fruit": "wild_garlic", "byproducts": [ "withered" ], "grow": "91 days" }
@@ -723,7 +723,7 @@
     "copy-from": "seed",
     "name": { "str_sp": "bamboo seeds" },
     "color": "green",
-	"looks_like": "seed_flower",
+    "looks_like": "seed_flower",
     "description": "Some bamboo seeds.",
     "charges": 2,
     "seed_data": { "plant_name": "bamboo", "fruit": "raw_bamboo", "grow": "91 days" }
@@ -734,7 +734,7 @@
     "copy-from": "seed",
     "name": { "str_sp": "rhubarb stems" },
     "color": "green",
-	"looks_like": "seed_flower",
+    "looks_like": "seed_flower",
     "description": "Some rhubarb stems.",
     "charges": 2,
     "seed_data": { "plant_name": "rhubarb", "fruit": "rhubarb", "byproducts": [ "withered" ], "grow": "91 days" }
@@ -744,7 +744,7 @@
     "id": "seed_mushroom",
     "copy-from": "seed_mushroom_base",
     "name": { "str_sp": "mushroom spores" },
-	"looks_like": "seed_flower",
+    "looks_like": "seed_flower",
     "seed_data": { "plant_name": "mushroom", "fruit": "mushroom", "grow": "91 days" }
   },
   {
@@ -752,7 +752,7 @@
     "id": "seed_mushroom_morel",
     "copy-from": "seed_mushroom_base",
     "name": { "str_sp": "morel mushroom spores" },
-	"looks_like": "seed_flower",
+    "looks_like": "seed_flower",
     "description": "Some morel mushroom spores.",
     "seed_data": { "plant_name": "morel mushroom", "fruit": "mushroom_morel", "grow": "91 days" }
   },
@@ -762,7 +762,7 @@
     "copy-from": "seed",
     "comestible_type": "MED",
     "name": { "str_sp": "datura seeds" },
-	"looks_like": "seed_flower",
+    "looks_like": "seed_flower",
     "description": "Small, dark seeds from the spiny pods of a datura plant.  Full of powerful psychoactive chemicals, these tiny seeds are a potent analgesic and deliriant, and can be deadly in cases of overdose.",
     "weight": "2 g",
     "price": 0,
@@ -778,7 +778,7 @@
     "copy-from": "seed",
     "price": 50,
     "name": { "str_sp": "celery seeds" },
-	"looks_like": "seed_flower",
+    "looks_like": "seed_flower",
     "description": "Some celery seeds.",
     "seed_data": { "plant_name": "celery", "fruit": "celery", "byproducts": [ "withered" ], "grow": "130 days" }
   },
@@ -788,7 +788,7 @@
     "copy-from": "seed",
     "price": 50,
     "name": { "str_sp": "oat seeds" },
-	"looks_like": "seed_flower",
+    "looks_like": "seed_flower",
     "description": "Some oat seeds.",
     "material": [ "wheat" ],
     "primary_material": "dried_vegetable",
@@ -801,7 +801,7 @@
     "copy-from": "seed",
     "type": "COMESTIBLE",
     "name": { "str_sp": "wheat seeds" },
-	"looks_like": "seed_flower",
+    "looks_like": "seed_flower",
     "description": "Some wheat seeds.",
     "weight": "5 g",
     "price": 50,
@@ -820,7 +820,7 @@
     "comestible_type": "FOOD",
     "symbol": "%",
     "calories": 78,
-	"looks_like": "seed_flower",
+    "looks_like": "seed_flower",
     "description": "Some fried seeds of a sunflower, pumpkin or other plant.  Quite nutritious and tasty.",
     "price": 80,
     "price_postapoc": 50,
@@ -894,7 +894,7 @@
     "copy-from": "seed",
     "looks_like": "seed_raw_dandelion",
     "name": { "str_sp": "chamomile seeds" },
-	"looks_like": "seed_flower",
+    "looks_like": "seed_flower",
     "description": "Some chamomile seeds.",
     "seed_data": { "plant_name": "chamomile", "fruit": "chamomile", "byproducts": [ "withered" ], "grow": "91 days" }
   },
@@ -904,7 +904,7 @@
     "copy-from": "seed",
     "looks_like": "seed_raw_dandelion",
     "name": { "str_sp": "spurge seeds" },
-	"looks_like": "seed_flower",
+    "looks_like": "seed_flower",
     "description": "Some spurge seeds.",
     "seed_data": { "plant_name": "spurge", "fruit": "spurge", "byproducts": [ "withered" ], "grow": "91 days" }
   },
@@ -913,7 +913,7 @@
     "id": "seed_popcorn",
     "copy-from": "seed",
     "name": { "str_sp": "popcorn seeds" },
-	"looks_like": "seed_flower",
+    "looks_like": "seed_flower",
     "description": "Some popcorn seeds.",
     "seed_data": { "plant_name": "popcorn", "fruit": "popcorn_raw", "byproducts": [ "withered" ], "grow": "91 days" }
   },
@@ -922,7 +922,7 @@
     "id": "seed_horseradish",
     "copy-from": "seed",
     "name": { "str_sp": "horseradish seeds" },
-	"looks_like": "seed_flower",
+    "looks_like": "seed_flower",
     "description": "Some horseradish seeds.",
     "seed_data": { "plant_name": "horseradish", "fruit": "horseradish_root", "byproducts": [ "horseradish_greens" ], "grow": "91 days" }
   },
@@ -935,7 +935,7 @@
     "color": "yellow",
     "use_action": [ "SEED" ],
     "fun": -3,
-	"looks_like": "seed_flower",
+    "looks_like": "seed_flower",
     "description": "Some mustard seeds.  Could be ground into mustard powder.",
     "price": 100,
     "charges": 2,
@@ -947,7 +947,7 @@
     "copy-from": "seed",
     "price": 50,
     "name": { "str_sp": "bell pepper seeds" },
-	"looks_like": "seed_flower",
+    "looks_like": "seed_flower",
     "description": "Some bell pepper seeds.",
     "seed_data": { "plant_name": "bell pepper", "fruit": "bell_pepper", "byproducts": [ "withered" ], "grow": "70 days" }
   }
