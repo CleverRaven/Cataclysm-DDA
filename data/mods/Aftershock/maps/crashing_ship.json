@@ -122,13 +122,13 @@
         "6": "f_machinery_light",
         "7": "f_machinery_heavy",
         "8": "f_machinery_old",
+        "$": "f_console_broken",
         "z": "f_afs_escape_pod_seat"
       },
       "terrain": {
         "Y": "t_bridge",
         "!": "t_console",
         "#": "t_console",
-        "$": "t_console",
         "%": "t_console",
         "^": "t_console",
         "&": "t_console",
@@ -164,7 +164,7 @@
             { "item": "afs_tools_electric_repair", "chance": 10 }
           ]
         },
-        "T": { "items": [ { "item": "skull_human", "chance": 1 } ] },
+        "T": { "items": [ { "item": "afs_todd_howard", "chance": 1 } ] },
         "c": { "items": [ { "item": "afs_escapepod_shootout", "chance": 100, "container-item": "corpse" } ] },
         "E": {
           "items": [
@@ -175,7 +175,7 @@
           ]
         },
         "t": { "items": [ { "item": "afs_mess_hall", "chance": 80 } ] },
-        "V": { "items": [ { "item": "afs_vending_false_meals", "chance": 100 } ] },
+        "V": { "items": [ { "item": "afs_vending_false_meals", "chance": 100 } ] }
       },
       "place_graffiti": [
         { "text": "Barracks", "x": 10, "y": 23 },
@@ -189,7 +189,9 @@
         { "text": "Escape Pods & Vehicle Bay", "x": 59, "y": 27 },
         { "text": "Escape Pods & Vehicle Bay", "x": 62, "y": 27 }
       ],
-      "fields": [ { "F": { "field": "fd_fire", "intensity": 3, "age": 1 } }, { "x": { "field": "fd_blood", "intensity": 3 } } ],
+      "fields":
+	  { "F": { "field": "fd_fire", "intensity": 3, "age": 1 },
+	  "x": { "field": "fd_blood", "intensity": 3 } },
       "computers": {
         "!": {
           "name": "Cargo Bay 01",
