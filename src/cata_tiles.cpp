@@ -1450,15 +1450,15 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
                 units::temperature temp_value = get_weather().get_temperature( pos );
                 short color;
                 const short bold = 8;
-                if( temp_value > units::from_celcius( 40 ) ) {
+                if( temp_value > units::from_celsius( 40 ) ) {
                     color = catacurses::red;
-                } else if( temp_value > units::from_celcius( 25 ) ) {
+                } else if( temp_value > units::from_celsius( 25 ) ) {
                     color = catacurses::yellow + bold;
-                } else if( temp_value > units::from_celcius( 10 ) ) {
+                } else if( temp_value > units::from_celsius( 10 ) ) {
                     color = catacurses::green + bold;
-                } else if( temp_value > units::from_celcius( 0 ) ) {
+                } else if( temp_value > units::from_celsius( 0 ) ) {
                     color = catacurses::white + bold;
-                } else if( temp_value > units::from_celcius( -10 ) ) {
+                } else if( temp_value > units::from_celsius( -10 ) ) {
                     color = catacurses::cyan + bold;
                 } else {
                     color = catacurses::blue + bold;
@@ -1466,7 +1466,7 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
 
                 std::string temp_str;
                 if( get_option<std::string>( "USE_CELSIUS" ) == "celsius" ) {
-                    temp_str = std::to_string( units::to_celcius( temp_value ) );
+                    temp_str = std::to_string( units::to_celsius( temp_value ) );
                 } else if( get_option<std::string>( "USE_CELSIUS" ) == "kelvin" ) {
                     temp_str = std::to_string( units::to_kelvin( temp_value ) );
 

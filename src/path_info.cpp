@@ -158,6 +158,7 @@ void PATH_INFO::set_standard_filenames()
     options_path_value = config_dir_path_value / "options.json";
     keymap_value = config_dir_value + "keymap.txt";
     autopickup_value = config_dir_value + "auto_pickup.json";
+    autopickup_path_value = config_dir_path_value / "auto_pickup.json";
     autonote_value = config_dir_value + "auto_note.json";
     autonote_path_value = config_dir_path_value / "auto_note.json";
 }
@@ -190,7 +191,7 @@ cata_path find_translated_file( const cata_path &base_path, const std::string &e
     const std::string loc_name = language_option.empty() ? SystemLocale::Language().value_or( "" ) :
                                  language_option;
     if( !loc_name.empty() ) {
-        cata_path local_path = base_path / loc_name / extension;
+        cata_path local_path = base_path / ( loc_name + extension );
         if( file_exist( local_path ) ) {
             return local_path;
         }
@@ -563,6 +564,7 @@ void PATH_INFO::set_keymap( const std::string &keymap )
 void PATH_INFO::set_autopickup( const std::string &autopickup )
 {
     autopickup_value = autopickup;
+    autopickup_path_value = cata_path{ cata_path::root_path::unknown, autopickup_value };
 }
 
 void PATH_INFO::set_motd( const std::string &motd )
