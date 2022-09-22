@@ -193,31 +193,31 @@
 			"name": "Cargo Bay 01",
 		"security": 3,
 		"options": [ { "name": "Open Cargo Bay 01", "action": "unlock" } ], 
-		"failures:" [ { "action": "shutdown" }, { "action": "alarm" } ]
+		"failures": [ { "action": "shutdown" }, { "action": "alarm" } ]
 		},
         "#": {
 			"name": "Workshop",
 		"security": 3,
 		"options": [ { "name": "Open Workshop", "action": "unlock" } ], 
-		"failures:" [ { "action": "shutdown" }, { "action": "alarm" } ]
+		"failures": [ { "action": "shutdown" }, { "action": "alarm" } ]
 		},
         "$": {
 			"name": "Shuttle Bay 01",
 		"security": 3,
 		"options": [ { "name": "Open Shuttle Bay 01", "action": "unlock" } ], 
-		"failures:" [ { "action": "shutdown" }, { "action": "alarm" } ]
+		"failures": [ { "action": "shutdown" }, { "action": "alarm" } ]
 		},
         "%": {
 			"name": "Vehicle Bay 01",
 		"security": 3,
 		"options": [ { "name": "Open Vehicle Bay", "action": "unlock" } ], 
-		"failures:" [ { "action": "shutdown" }, { "action": "alarm" } ]
+		"failures": [ { "action": "shutdown" }, { "action": "alarm" } ]
 		},
         "^": {
 			"name": "Escape Pod",
 		"security": 3,
 		"options": [ { "name": "Activate Escape Pod", "action": "unlock" } ], 
-		"failures:" [ { "action": "shutdown" }, { "action": "alarm" } ] }
+		"failures": [ { "action": "shutdown" }, { "action": "alarm" } ] }
       }
     }
   }
