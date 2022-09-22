@@ -3178,7 +3178,7 @@ void game::disp_NPC_epilogues()
 
 void game::display_faction_epilogues()
 {
-    for( const auto &elem : faction_manager_ptr->all() ) {
+    for( const item &elem : faction_manager_ptr->all() ) {
         if( elem.second.known_by_u ) {
             const std::vector<std::string> epilogue = elem.second.epilogue();
             if( !epilogue.empty() ) {

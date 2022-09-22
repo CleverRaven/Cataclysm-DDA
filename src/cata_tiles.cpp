@@ -1374,13 +1374,14 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
                 temp.y = row + o.y;
             }
 
-            bool invis = ( temp.y < min_visible.y || temp.y > max_visible.y || temp.x < min_visible.x ||
-                           temp.x > max_visible.x ) &&
-                         ( has_memory_at( pos ) || has_draw_override( pos ) );
 
             const tripoint pos( temp, center.z );
             const int &x = pos.x;
             const int &y = pos.y;
+
+            bool invis = ( temp.y < min_visible.y || temp.y > max_visible.y || temp.x < min_visible.x ||
+                           temp.x > max_visible.x ) &&
+                         ( has_memory_at( pos ) || has_draw_override( pos ) );
 
             lit_level ll;
             // invisible to normal eyes
@@ -1437,7 +1438,7 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
                     } else {
                         color = catacurses::white;
                     }
-                    overlay_strings.emplace( player_to_screen( temp + half_tile,
+                    overlay_strings.emplace( player_to_screen( temp ) + half_tile,
                                              formatted_text( std::to_string( val ), color,
                                                      direction::NORTH ) );
                 }
