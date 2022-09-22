@@ -594,6 +594,20 @@
   },
   {
     "type": "MONSTER",
+    "id": "mon_zanchisaurus",
+    "name": { "str_sp": "anchisaurus zombie" },
+    "copy-from": "mon_zissi",
+    "volume": "30 L",
+    "weight": "30 kg",
+    "hp": 60,
+    "description": "Long-necked, four-legged dinosaur corpse.  The neck is bent at a disturbing angle and leaking black ichor.",
+    "burn_into": "mon_zanchisaurus_scorched",
+    "fungalize_into": "mon_zanchisaurus_fungus",
+    "upgrades": { "half_life": 30, "into_group": "GROUP_zanchisaurus_UPGRADE" },
+    "special_attacks": [ [ "scratch", 10 ], [ "GRAB", 20 ], { "type": "bite", "cooldown": 10 } ]
+  },
+  {
+    "type": "MONSTER",
     "id": "mon_zissi",
     "name": { "str_sp": "issi zombie" },
     "copy-from": "mon_zapatosaurus",
@@ -727,6 +741,22 @@
     "burn_into": "mon_ziplodocus_scorched",
     "fungalize_into": "mon_ziplodocus_fungus",
     "upgrades": { "half_life": 30, "into_group": "GROUP_ziplodocus_UPGRADE" }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zarosaurus",
+    "name": { "str": "barosaurus zombie" },
+    "copy-from": "mon_ziplodocus",
+    "looks_like": "mon_apatosaurus",
+    "//": "When large weights and volumes are fixed this should be 16000 L and 16000 kg",
+    "special_attacks": [
+      { "id": "stomp_DinoMod", "cooldown": 10, "damage_max_instance": [ { "damage_type": "cut", "amount": 14 } ] },
+      [ "tailsmash_DinoMod", 50 ]
+    ],
+    "description": "Huge, long-necked, four-legged dinosaur corpse with a long, whip-like tail.  There is a large claw on each foreleg.",
+    "burn_into": "mon_zamarasaurus_scorched",
+    "fungalize_into": "mon_zamarasaurus_fungus",
+    "upgrades": { "half_life": 30, "into_group": "GROUP_zamarasaurus_UPGRADE" }
   },
   {
     "type": "MONSTER",
@@ -1565,6 +1595,16 @@
     "burn_into": "mon_ziplodocus_scorched",
     "fungalize_into": "mon_ziplodocus_fungus",
     "upgrades": { "half_life": 30, "into": "mon_ziplodocus" }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zarosaurus_juvenile",
+    "name": { "str": "juvenile sauropod zombie" },
+    "copy-from": "mon_zapatosaurus_juvenile",
+    "looks_like": "mon_apatosaurus",
+    "burn_into": "mon_zarosaurus_scorched",
+    "fungalize_into": "mon_zarosaurus_fungus",
+    "upgrades": { "half_life": 30, "into": "mon_zarosaurus" }
   },
   {
     "type": "MONSTER",

@@ -566,7 +566,7 @@
         { "vehicle": "military_vehicles", "x": 79, "y": 42, "chance": 25, "status": 1, "rotation": 90 },
         { "vehicle": "military_vehicles", "x": 86, "y": 13, "chance": 25, "status": 1, "rotation": 270 },
         { "vehicle": "military_vehicles", "x": 79, "y": 54, "chance": 25, "status": 1, "rotation": 270 },
-        { "vehicle": "forklift", "x": 62, "y": 62, "chance": 80, "status": 0, "rotation": 90 }
+        { "vehicle": "forklift_vehicles", "x": 62, "y": 62, "chance": 80, "status": 0, "rotation": 90 }
       ]
     }
   },

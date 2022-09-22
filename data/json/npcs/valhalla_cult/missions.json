@@ -18,7 +18,7 @@
         { "u_add_var": "u_joined_valhallists", "type": "general", "context": "meeting", "value": "yes" }
       ]
     },
-    "origins": [ "ORIGIN_OPENER_NPC" ],
+    "origins": [ "ORIGIN_SECONDARY" ],
     "has_generic_rewards": false,
     "dialogue": {
       "describe": "Kill a giant mole rat to join the Valhallists.",
@@ -54,7 +54,7 @@
       "effect": [ { "u_spawn_item": "molotov", "count": 5 } ]
     },
     "end": { "effect": [ { "u_spawn_item": "signed_chit", "count": 80 } ] },
-    "origins": [ "ORIGIN_OPENER_NPC" ],
+    "origins": [ "ORIGIN_SECONDARY" ],
     "has_generic_rewards": false,
     "followup": "MISSION_VALHALLISTS_KILL_300_Z",
     "dialogue": {
@@ -115,7 +115,7 @@
       "update_mapgen": { "place_monster": [ { "monster": "mon_mi_go", "x": [ 1, 21 ], "y": [ 1, 21 ], "target": true } ] }
     },
     "end": { "effect": [ { "u_spawn_item": "signed_chit", "count": 120 } ] },
-    "origins": [ "ORIGIN_OPENER_NPC" ],
+    "origins": [ "ORIGIN_SECONDARY" ],
     "has_generic_rewards": false,
     "dialogue": {
       "describe": "Clear out a mi-go tower for the Valhallists.",
@@ -239,7 +239,7 @@
     "count": 1,
     "difficulty": 30,
     "value": 20000,
-    "origins": [ "ORIGIN_OPENER_NPC" ],
+    "origins": [ "ORIGIN_SECONDARY" ],
     "start": { "assign_mission_target": { "om_terrain": "evac_center_18", "om_special": "evac_center", "reveal_radius": 0 } },
     "has_generic_rewards": true,
     "dialogue": {
@@ -285,11 +285,11 @@
     "end": {
       "effect": [
         { "u_spawn_item": "signed_chit", "count": 100 },
-        { "mapgen_update": "valahllist_remove_raiding_party", "om_terrain": "pagan_cult_henge" }
+        { "mapgen_update": "valhallist_remove_raiding_party", "om_terrain": "pagan_cult_henge" }
       ]
     },
     "followup": "MISSION_VALHALLISTS_GET_SPIRAL_STONE",
-    "origins": [ "ORIGIN_OPENER_NPC" ],
+    "origins": [ "ORIGIN_SECONDARY" ],
     "has_generic_rewards": false,
     "deadline_low": 3,
     "deadline_high": 7,
@@ -418,10 +418,10 @@
     "end": {
       "effect": [
         { "u_spawn_item": "signed_chit", "count": 150 },
-        { "mapgen_update": "valahllist_remove_slaves", "om_terrain": "pagan_cult_henge" }
+        { "mapgen_update": "valhallist_remove_slaves", "om_terrain": "pagan_cult_henge" }
       ]
     },
-    "origins": [ "ORIGIN_OPENER_NPC" ],
+    "origins": [ "ORIGIN_SECONDARY" ],
     "has_generic_rewards": false,
     "dialogue": {
       "describe": "Emancipate slaves for the Valhallists.",

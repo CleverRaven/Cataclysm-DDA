@@ -3630,7 +3630,7 @@
     "remove_message": "Reality reasserts itself and your gravity returns to normal.",
     "rating": "good",
     "show_intensity": false,
-    "enchantments": [ { "condition": { "not": "ALWAYS" }, "values": [ { "value": "CARRY_WEIGHT", "multiply": 1.25 } ] } ]
+    "enchantments": [ { "values": [ { "value": "CARRY_WEIGHT", "multiply": 1.25 } ] } ]
   },
   {
     "id": "strengthened_gravity",
@@ -3641,6 +3641,23 @@
     "remove_message": "Reality reasserts itself and your gravity returns to normal.",
     "rating": "bad",
     "show_intensity": false,
-    "enchantments": [ { "condition": { "not": "ALWAYS" }, "values": [ { "value": "CARRY_WEIGHT", "multiply": -0.25 } ] } ]
+    "enchantments": [
+      {
+        "values": [ { "value": "CARRY_WEIGHT", "multiply": { "global_val": "var", "var_name": "portal_dungeon_carry_strength" } } ]
+      }
+    ]
+  },
+  {
+    "id": "slowed_time",
+    "type": "effect_type",
+    "name": [ "Slowed Time" ],
+    "desc": [ "Something is wrong with local spacetime and everything around seems to move faster than you." ],
+    "apply_message": "Time around you is damaged and everything near you seems to move faster.",
+    "remove_message": "Reality reasserts itself and your time returns to normal.",
+    "rating": "bad",
+    "show_intensity": false,
+    "enchantments": [
+      { "values": [ { "value": "SPEED", "multiply": { "global_val": "var", "var_name": "portal_dungeon_slow_strength" } } ] }
+    ]
   }
 ]

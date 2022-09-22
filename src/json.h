@@ -18,6 +18,7 @@
 
 #include "colony.h"
 #include "enum_conversions.h"
+#include "json_error.h"
 #include "int_id.h"
 #include "memory_fast.h"
 #include "string_id.h"
@@ -26,20 +27,20 @@
  * copyright CC-BY-SA-3.0 2013 CleverRaven
  *
  * Consists of four JSON manipulation tools:
- * JsonIn - for low-level parsing of an input JSON stream
+ * TextJsonIn - for low-level parsing of an input JSON stream
  * JsonOut - for outputting JSON
- * JsonObject - convenience-wrapper for reading JSON objects from a JsonIn
- * JsonArray - convenience-wrapper for reading JSON arrays from a JsonIn
+ * TextJsonObject - convenience-wrapper for reading JSON objects from a TextJsonIn
+ * TextJsonArray - convenience-wrapper for reading JSON arrays from a TextJsonIn
  *
  * Further documentation can be found below.
  */
 
 template<typename E>
 class enum_bitset;
-class JsonArray;
-class JsonIn;
-class JsonObject;
-class JsonValue;
+class TextJsonArray;
+class TextJsonIn;
+class TextJsonObject;
+class TextJsonValue;
 class item;
 
 namespace cata
@@ -47,15 +48,6 @@ namespace cata
 template<typename T>
 class optional;
 } // namespace cata
-
-class JsonError : public std::runtime_error
-{
-    public:
-        explicit JsonError( const std::string &msg );
-        const char *c_str() const noexcept {
-            return what();
-        }
-};
 
 template<typename T, typename Enable = void>
 struct key_from_json_string;
@@ -101,16 +93,16 @@ struct json_source_location {
     int offset = 0;
 };
 
-class JsonValue
+class TextJsonValue
 {
     private:
-        JsonIn &jsin_;
+        TextJsonIn &jsin_;
         int pos_;
 
-        JsonIn &seek() const;
+        TextJsonIn &seek() const;
 
     public:
-        JsonValue( JsonIn &jsin, int pos ) : jsin_( jsin ), pos_( pos ) { }
+        TextJsonValue( TextJsonIn &jsin, int pos ) : jsin_( jsin ), pos_( pos ) { }
 
         // NOLINTNEXTLINE(google-explicit-constructor)
         operator std::string() const;
@@ -121,9 +113,9 @@ class JsonValue
         // NOLINTNEXTLINE(google-explicit-constructor)
         operator double() const;
         // NOLINTNEXTLINE(google-explicit-constructor)
-        operator JsonObject() const;
+        operator TextJsonObject() const;
         // NOLINTNEXTLINE(google-explicit-constructor)
-        operator JsonArray() const;
+        operator TextJsonArray() const;
         template<typename T>
         bool read( T &t, bool throw_on_error = false ) const;
 
@@ -139,61 +131,39 @@ class JsonValue
         int get_int() const;
         bool get_bool() const;
         double get_float() const;
-        JsonObject get_object() const;
-        JsonArray get_array() const;
+        TextJsonObject get_object() const;
+        TextJsonArray get_array() const;
+        // Consumes null value in the underlying JsonIn.
+        void get_null() const;
 
         [[noreturn]] void string_error( const std::string &err ) const;
         [[noreturn]] void string_error( int offset, const std::string &err ) const;
         [[noreturn]] void throw_error( const std::string &err ) const;
         [[noreturn]] void throw_error( int offset, const std::string &err ) const;
+        [[noreturn]] void throw_error_after( const std::string &err ) const;
 };
 
-
-namespace detail
-{
-// A c++11 compatible older compiler compatible implementation of void_t
-template<typename... Ts> struct make_void {
-    using type = void;
-};
-template<typename... Ts> using void_t = typename make_void<Ts...>::type;
-
-template<class, typename = void>
-struct IsJsonInDeserializable : std::false_type {};
-
-template<class T>
-struct IsJsonInDeserializable<T, void_t<decltype( std::declval<T>().deserialize( std::declval<JsonIn &>() ) )>> :
-std::true_type {};
-
-template<class, typename = void>
-struct IsJsonValueDeserializable : std::false_type {};
-
-template<class T>
-struct IsJsonValueDeserializable<T, void_t<decltype( std::declval<T>().deserialize( std::declval<const JsonValue &>() ) )>> :
-std::true_type {};
-} // namespace detail
-
-
-/* JsonIn
+/* TextJsonIn
  * ======
  *
- * The JsonIn class provides a wrapper around a std::istream,
+ * The TextJsonIn class provides a wrapper around a std::istream,
  * with methods for reading JSON data directly from the stream.
  *
- * JsonObject and JsonArray provide higher-level wrappers,
+ * TextJsonObject and TextJsonArray provide higher-level wrappers,
  * and are a little easier to use in most cases,
  * but have the small overhead of indexing the members or elements before use.
  *
- * Typical JsonIn usage might be something like the following:
+ * Typical TextJsonIn usage might be something like the following:
  *
- *     JsonIn jsin(myistream);
+ *     TextJsonIn jsin(myistream);
  *     // expecting an array of objects
  *     jsin.start_array(); // throws JsonError if array not found
  *     while (!jsin.end_array()) { // end_array returns false if not the end
- *         JsonObject jo = jsin.get_object();
- *         ... // load object using JsonObject methods
+ *         TextJsonObject jo = jsin.get_object();
+ *         ... // load object using TextJsonObject methods
  *     }
  *
- * The array could have been loaded into a JsonArray for convenience.
+ * The array could have been loaded into a TextJsonArray for convenience.
  * Not doing so saves one full pass of the data,
  * as the element positions don't have to be read beforehand.
  *
@@ -205,12 +175,12 @@ std::true_type {};
  * Single-Pass Loading
  * -------------------
  *
- * A JsonIn can also be used for single-pass loading,
+ * A TextJsonIn can also be used for single-pass loading,
  * by passing off members as they arrive according to their names.
  *
  * Typical usage might be:
  *
- *     JsonIn jsin(&myistream);
+ *     TextJsonIn jsin(&myistream);
  *     // expecting an array of objects, to be mapped by id
  *     std::map<std::string,my_data_type> myobjects;
  *     jsin.start_array();
@@ -251,9 +221,9 @@ std::true_type {};
  * explicitly skipping them.
  *
  * If an if;else if;... is missing the "else", it /will/ cause bugs,
- * so preindexing as a JsonObject is safer, as well as tidier.
+ * so preindexing as a TextJsonObject is safer, as well as tidier.
  */
-class JsonIn
+class TextJsonIn
 {
     private:
         std::istream *stream;
@@ -266,11 +236,11 @@ class JsonIn
         void end_value();
 
     public:
-        explicit JsonIn( std::istream &s );
-        JsonIn( std::istream &s, const std::string &path );
-        JsonIn( std::istream &s, const json_source_location &loc );
-        JsonIn( const JsonIn & ) = delete;
-        JsonIn &operator=( const JsonIn & ) = delete;
+        explicit TextJsonIn( std::istream &s );
+        TextJsonIn( std::istream &s, const std::string &path );
+        TextJsonIn( std::istream &s, const json_source_location &loc );
+        TextJsonIn( const TextJsonIn & ) = delete;
+        TextJsonIn &operator=( const TextJsonIn & ) = delete;
 
         shared_ptr_fast<std::string> get_path() const {
             return path;
@@ -313,9 +283,9 @@ class JsonIn
         bool get_bool(); // get the next value as a bool
         double get_float(); // get the next value as a double
         std::string get_member_name(); // also strips the ':'
-        JsonObject get_object();
-        JsonArray get_array();
-        JsonValue get_value(); // just returns a JsonValue at the current position.
+        TextJsonObject get_object();
+        TextJsonArray get_array();
+        TextJsonValue get_value(); // just returns a TextJsonValue at the current position.
 
         template<typename E, typename = typename std::enable_if<std::is_enum<E>::value>::type>
         E get_enum_value() {
@@ -390,12 +360,12 @@ class JsonIn
             return true;
         }
 
-        /// Overload that calls a global function `deserialize(T&,JsonIn&)`, if available.
+        /// Overload that calls a global function `deserialize(T&, const TextJsonValue&)`, if available.
         template<typename T>
         auto read( T &v, bool throw_on_error = false ) ->
-        decltype( deserialize( v, *this ), true ) {
+        decltype( deserialize( v, std::declval<const TextJsonValue &>() ), true ) {
             try {
-                deserialize( v, *this );
+                deserialize( v, this->get_value() );
                 return true;
             } catch( const JsonError & ) {
                 if( throw_on_error ) {
@@ -405,29 +375,10 @@ class JsonIn
             }
         }
 
-        /// Overload that calls a member function `T::deserialize(JsonIn&)`, if available.
-        /// And also that `T::deserialize(const JsonValue&)` is not available.
+        /// Overload that calls a member function `T::deserialize(const TextJsonValue&)`, if available.
         template<typename T>
-        auto read( T &v, bool throw_on_error = false ) -> typename std::enable_if <
-        detail::IsJsonInDeserializable<T>::value &&
-        !detail::IsJsonValueDeserializable<T>::value, bool >::type {
-            try {
-                v.deserialize( *this );
-                return true;
-            } catch( const JsonError & ) {
-                if( throw_on_error ) {
-                    throw;
-                }
-                return false;
-            }
-        }
-
-        /// Overload that calls a member function `T::deserialize(const JsonValue&)`, if available.
-        /// But only if `T::deserialize(JsonIn&)` is not available.
-        template<typename T>
-        auto read( T &v, bool throw_on_error = false ) -> typename std::enable_if <
-        !detail::IsJsonInDeserializable<T>::value &&
-        detail::IsJsonValueDeserializable<T>::value, bool >::type {
+        auto read( T &v, bool throw_on_error = false ) -> decltype( v.deserialize(
+                    std::declval<const TextJsonValue &>() ), true ) {
             try {
                 v.deserialize( this->get_value() );
                 return true;
@@ -987,22 +938,22 @@ class JsonOut
         }
 };
 
-/* JsonObject
+/* TextJsonObject
  * ==========
  *
- * The JsonObject class provides easy access to incoming JSON object data.
+ * The TextJsonObject class provides easy access to incoming JSON object data.
  *
- * JsonObject maps member names to the byte offset of the paired value,
- * given an underlying JsonIn stream.
+ * TextJsonObject maps member names to the byte offset of the paired value,
+ * given an underlying TextJsonIn stream.
  *
  * It provides data by seeking the stream to the relevant position,
- * and calling the correct JsonIn method to read the value from the stream.
+ * and calling the correct TextJsonIn method to read the value from the stream.
  *
  *
  * General Usage
  * -------------
  *
- *     JsonObject jo(jsin);
+ *     TextJsonObject jo(jsin);
  *     std::string id = jo.get_string("id");
  *     std::string name = _(jo.get_string("name"));
  *     std::string description = _(jo.get_string("description"));
@@ -1011,7 +962,7 @@ class JsonOut
  *     my_object_type myobject(id, name, description, points, tags);
  *
  * Here the "id", "name" and "description" members are required.
- * JsonObject will throw a JsonError if they are not found,
+ * TextJsonObject will throw a JsonError if they are not found,
  * identifying the problem and the current position in the input stream.
  *
  * Note that "name" and "description" are passed to gettext for translating.
@@ -1040,7 +991,7 @@ class JsonOut
  *
  * read() returns true on success, false on failure.
  *
- *     JsonObject jo(jsin);
+ *     TextJsonObject jo(jsin);
  *     std::vector<std::string> messages;
  *     if (!jo.read("messages", messages)) {
  *         DebugLog() << "No messages.";
@@ -1050,7 +1001,7 @@ class JsonOut
  * Automatic error checking
  * ------------------------
  *
- * By default, when a JsonObject is destroyed (or when you call finish) it will
+ * By default, when a TextJsonObject is destroyed (or when you call finish) it will
  * check to see whether every member of the object was referenced in some way
  * (even simply checking for the existence of the member is sufficient).
  *
@@ -1058,10 +1009,10 @@ class JsonOut
  * log (which in particular will cause the tests to fail).
  *
  * If you don't want this behavior, then call allow_omitted_members() before
- * the JsonObject is destroyed.  Calling str() also suppresses it (on the basis
+ * the TextJsonObject is destroyed.  Calling str() also suppresses it (on the basis
  * that you may be intending to re-parse that string later).
  */
-class JsonObject
+class TextJsonObject
 {
     private:
         std::map<std::string, int> positions;
@@ -1076,19 +1027,19 @@ class JsonObject
         void mark_visited( const std::string &name ) const;
         void report_unvisited() const;
 
-        JsonIn *jsin;
+        TextJsonIn *jsin;
         int verify_position( const std::string &name,
                              bool throw_exception = true ) const;
 
     public:
-        explicit JsonObject( JsonIn &jsin );
-        JsonObject() :
+        explicit TextJsonObject( TextJsonIn &jsin );
+        TextJsonObject() :
             start( 0 ), end_( 0 ), final_separator( false ), jsin( nullptr ) {}
-        JsonObject( const JsonObject & ) = default;
-        JsonObject( JsonObject && ) = default;
-        JsonObject &operator=( const JsonObject & ) = default;
-        JsonObject &operator=( JsonObject && ) = default;
-        ~JsonObject() {
+        TextJsonObject( const TextJsonObject & ) = default;
+        TextJsonObject( TextJsonObject && ) = default;
+        TextJsonObject &operator=( const TextJsonObject & ) = default;
+        TextJsonObject &operator=( TextJsonObject && ) = default;
+        ~TextJsonObject() {
             finish();
         }
 
@@ -1104,17 +1055,17 @@ class JsonObject
         bool empty() const;
 
         void allow_omitted_members() const;
-        // If we're making a copy of the JsonObject (because it is required) to pass to a function,
+        // If we're making a copy of the TextJsonObject (because it is required) to pass to a function,
         // use this to count the members visited on that one as visited on this one
         // See item::deserialize for a use case
-        void copy_visited_members( const JsonObject &rhs ) const;
+        void copy_visited_members( const TextJsonObject &rhs ) const;
         bool has_member( const std::string &name ) const; // true iff named member exists
         std::string str() const; // copy object json as string
         [[noreturn]] void throw_error( const std::string &err ) const;
         [[noreturn]] void throw_error_at( const std::string &name, const std::string &err ) const;
-        // seek to a value and return a pointer to the JsonIn (member must exist)
-        JsonIn *get_raw( const std::string &name ) const;
-        JsonValue get_member( const std::string &name ) const;
+        // seek to a value and return a pointer to the TextJsonIn (member must exist)
+        TextJsonIn *get_raw( const std::string &name ) const;
+        TextJsonValue get_member( const std::string &name ) const;
         json_source_location get_source_location() const;
 
         // values by name
@@ -1147,11 +1098,11 @@ class JsonObject
 
         // containers by name
         // get_array returns empty array if the member is not found
-        JsonArray get_array( const std::string &name ) const;
+        TextJsonArray get_array( const std::string &name ) const;
         std::vector<int> get_int_array( const std::string &name ) const;
         std::vector<std::string> get_string_array( const std::string &name ) const;
         // get_object returns empty object if not found
-        JsonObject get_object( const std::string &name ) const;
+        TextJsonObject get_object( const std::string &name ) const;
 
         // get_tags returns empty set if none found
         template<typename T = std::string, typename Res = std::set<T>>
@@ -1193,16 +1144,16 @@ class JsonObject
         std::string line_number() const; // for occasional use only
 };
 
-/* JsonArray
+/* TextJsonArray
  * =========
  *
- * The JsonArray class provides easy access to incoming JSON array data.
+ * The TextJsonArray class provides easy access to incoming JSON array data.
  *
- * JsonArray stores only the byte offset of each element in the JsonIn stream,
+ * TextJsonArray stores only the byte offset of each element in the TextJsonIn stream,
  * and iterates or accesses according to these offsets.
  *
  * It provides data by seeking the stream to the relevant position,
- * and calling the correct JsonIn method to read the value from the stream.
+ * and calling the correct TextJsonIn method to read the value from the stream.
  *
  * Arrays can be iterated over,
  * or accessed directly by element index.
@@ -1214,7 +1165,7 @@ class JsonObject
  * Iterative Access
  * ----------------
  *
- *     JsonArray ja = jo.get_array("some_array_member");
+ *     TextJsonArray ja = jo.get_array("some_array_member");
  *     std::vector<int> myarray;
  *     while (ja.has_more()) {
  *         myarray.push_back(ja.next_int());
@@ -1228,7 +1179,7 @@ class JsonObject
  * has_more() will return false and the loop will terminate.
  *
  * If the next element is not an integer,
- * JsonArray will throw a JsonError indicating the problem,
+ * TextJsonArray will throw a JsonError indicating the problem,
  * and the position in the input stream.
  *
  * To handle arrays with elements of indeterminate type,
@@ -1236,13 +1187,13 @@ class JsonObject
  *
  * Note that this style of iterative access requires an element to be read,
  * or else the index will not be incremented, resulting in an infinite loop.
- * Unwanted elements can be skipped with JsonArray::skip_value().
+ * Unwanted elements can be skipped with TextJsonArray::skip_value().
  *
  *
  * Positional Access
  * -----------------
  *
- *     JsonArray ja = jo.get_array("xydata");
+ *     TextJsonArray ja = jo.get_array("xydata");
  *     point xydata(ja.get_int(0), ja.get_int(1));
  *
  * Arrays also provide has_int(index) etc., for positional type testing,
@@ -1256,14 +1207,14 @@ class JsonObject
  * such as maps, sets, vectors, and classes using a deserialize routine,
  * using the read_next() and read() methods.
  *
- *     JsonArray ja = jo.get_array("custom_datatype_array");
+ *     TextJsonArray ja = jo.get_array("custom_datatype_array");
  *     while (ja.has_more()) {
  *         MyDataType mydata;
  *         ja.read_next(mydata);
  *         process(mydata);
  *     }
  */
-class JsonArray
+class TextJsonArray
 {
     private:
         std::vector<size_t> positions;
@@ -1271,17 +1222,17 @@ class JsonArray
         size_t index;
         int end_;
         bool final_separator;
-        JsonIn *jsin;
+        TextJsonIn *jsin;
         void verify_index( size_t i ) const;
 
     public:
-        explicit JsonArray( JsonIn &jsin );
-        JsonArray( const JsonArray &ja );
-        JsonArray() : start( 0 ), index( 0 ), end_( 0 ), final_separator( false ), jsin( nullptr ) {}
-        ~JsonArray() {
+        explicit TextJsonArray( TextJsonIn &jsin );
+        TextJsonArray( const TextJsonArray &ja );
+        TextJsonArray() : start( 0 ), index( 0 ), end_( 0 ), final_separator( false ), jsin( nullptr ) {}
+        ~TextJsonArray() {
             finish();
         }
-        JsonArray &operator=( const JsonArray & );
+        TextJsonArray &operator=( const TextJsonArray & );
 
         void finish(); // move the stream position to the end of the array
 
@@ -1292,17 +1243,16 @@ class JsonArray
         [[noreturn]] void throw_error( const std::string &err ) const;
         [[noreturn]] void throw_error( int idx, const std::string &err ) const;
         // See JsonIn::string_error
-        [[noreturn]] void string_error( int idx, int offset, const std::string &err );
+        [[noreturn]] void string_error( int idx, int offset, const std::string &err ) const;
 
         // iterative access
-        JsonValue next();
+        TextJsonValue next_value();
         bool next_bool();
         int next_int();
         double next_float();
         std::string next_string();
-        JsonArray next_array();
-        JsonObject next_object();
-        JsonValue next_value();
+        TextJsonArray next_array();
+        TextJsonObject next_object();
         void skip_value(); // ignore whatever is next
 
         // static access
@@ -1310,8 +1260,8 @@ class JsonArray
         int get_int( size_t index ) const;
         double get_float( size_t index ) const;
         std::string get_string( size_t index ) const;
-        JsonArray get_array( size_t index ) const;
-        JsonObject get_object( size_t index ) const;
+        TextJsonArray get_array( size_t index ) const;
+        TextJsonObject get_object( size_t index ) const;
 
         // get_tags returns empty set if none found
         template<typename T = std::string, typename Res = std::set<T>>
@@ -1366,110 +1316,115 @@ class JsonArray
 };
 
 // NOLINTNEXTLINE(google-explicit-constructor)
-inline JsonValue::operator std::string() const
+inline TextJsonValue::operator std::string() const
 {
     return seek().get_string();
 }
 // NOLINTNEXTLINE(google-explicit-constructor)
-inline JsonValue::operator int() const
+inline TextJsonValue::operator int() const
 {
     return seek().get_int();
 }
 // NOLINTNEXTLINE(google-explicit-constructor)
-inline JsonValue::operator bool() const
+inline TextJsonValue::operator bool() const
 {
     return seek().get_bool();
 }
 // NOLINTNEXTLINE(google-explicit-constructor)
-inline JsonValue::operator double() const
+inline TextJsonValue::operator double() const
 {
     return seek().get_float();
 }
 // NOLINTNEXTLINE(google-explicit-constructor)
-inline JsonValue::operator JsonObject() const
+inline TextJsonValue::operator TextJsonObject() const
 {
     return seek().get_object();
 }
 // NOLINTNEXTLINE(google-explicit-constructor)
-inline JsonValue::operator JsonArray() const
+inline TextJsonValue::operator TextJsonArray() const
 {
     return seek().get_array();
 }
 template<typename T>
-inline bool JsonValue::read( T &t, bool throw_on_error ) const
+inline bool TextJsonValue::read( T &t, bool throw_on_error ) const
 {
     return seek().read( t, throw_on_error );
 }
 
-inline bool JsonValue::test_string() const
+inline bool TextJsonValue::test_string() const
 {
     return seek().test_string();
 }
-inline bool JsonValue::test_int() const
+inline bool TextJsonValue::test_int() const
 {
     return seek().test_int();
 }
-inline bool JsonValue::test_bool() const
+inline bool TextJsonValue::test_bool() const
 {
     return seek().test_bool();
 }
-inline bool JsonValue::test_float() const
+inline bool TextJsonValue::test_float() const
 {
     return seek().test_float();
 }
-inline bool JsonValue::test_object() const
+inline bool TextJsonValue::test_object() const
 {
     return seek().test_object();
 }
-inline bool JsonValue::test_array() const
+inline bool TextJsonValue::test_array() const
 {
     return seek().test_array();
 }
-inline bool JsonValue::test_null() const
+inline bool TextJsonValue::test_null() const
 {
     return seek().test_null();
 }
-inline std::string JsonValue::get_string() const
+
+inline std::string TextJsonValue::get_string() const
 {
     return seek().get_string();
 }
-inline int JsonValue::get_int() const
+inline int TextJsonValue::get_int() const
 {
     return seek().get_int();
 }
-inline bool JsonValue::get_bool() const
+inline bool TextJsonValue::get_bool() const
 {
     return seek().get_bool();
 }
-inline double JsonValue::get_float() const
+inline double TextJsonValue::get_float() const
 {
     return seek().get_float();
 }
-inline JsonObject JsonValue::get_object() const
+inline TextJsonObject TextJsonValue::get_object() const
 {
     return seek().get_object();
 }
-inline JsonArray JsonValue::get_array() const
+inline TextJsonArray TextJsonValue::get_array() const
 {
     return seek().get_array();
 }
+inline void TextJsonValue::get_null() const
+{
+    seek().skip_null();
+}
 
-class JsonArray::const_iterator
+class TextJsonArray::const_iterator
 {
     private:
-        JsonArray array_;
+        TextJsonArray array_;
         size_t index_;
 
     public:
-        const_iterator( const JsonArray &array, size_t index ) : array_( array ), index_( index ) { }
+        const_iterator( const TextJsonArray &array, size_t index ) : array_( array ), index_( index ) { }
 
         const_iterator &operator++() {
             index_++;
             return *this;
         }
-        JsonValue operator*() const {
+        TextJsonValue operator*() const {
             array_.verify_index( index_ );
-            return JsonValue( *array_.jsin, array_.positions[index_] );
+            return TextJsonValue( *array_.jsin, array_.positions[index_] );
         }
 
         friend bool operator==( const const_iterator &lhs, const const_iterator &rhs ) {
@@ -1480,32 +1435,32 @@ class JsonArray::const_iterator
         }
 };
 
-inline JsonArray::const_iterator JsonArray::begin() const
+inline TextJsonArray::const_iterator TextJsonArray::begin() const
 {
     return const_iterator( *this, 0 );
 }
 
-inline JsonArray::const_iterator JsonArray::end() const
+inline TextJsonArray::const_iterator TextJsonArray::end() const
 {
     return const_iterator( *this, size() );
 }
 /**
- * Represents a member of a @ref JsonObject. This is returned when one iterates over
- * a JsonObject.
- * It *is* @ref JsonValue, which is the value of the member, which allows one to write:
+ * Represents a member of a @ref TextJsonObject. This is returned when one iterates over
+ * a TextJsonObject.
+ * It *is* @ref TextJsonValue, which is the value of the member, which allows one to write:
 <code>
-for( const JsonMember &member : some_json_object )
-    JsonArray array = member.get_array();
+for( const TextJsonMember &member : some_json_object )
+    TextJsonArray array = member.get_array();
 }
 </code>
  */
-class JsonMember : public JsonValue
+class TextJsonMember : public TextJsonValue
 {
     private:
         const std::string &name_;
 
     public:
-        JsonMember( const std::string &name, const JsonValue &value ) : JsonValue( value ),
+        TextJsonMember( const std::string &name, const TextJsonValue &value ) : TextJsonValue( value ),
             name_( name ) { }
 
         const std::string &name() const {
@@ -1521,23 +1476,23 @@ class JsonMember : public JsonValue
         }
 };
 
-class JsonObject::const_iterator
+class TextJsonObject::const_iterator
 {
     private:
-        const JsonObject &object_;
-        decltype( JsonObject::positions )::const_iterator iter_;
+        const TextJsonObject &object_;
+        decltype( TextJsonObject::positions )::const_iterator iter_;
 
     public:
-        const_iterator( const JsonObject &object, const decltype( iter_ ) &iter ) : object_( object ),
+        const_iterator( const TextJsonObject &object, const decltype( iter_ ) &iter ) : object_( object ),
             iter_( iter ) { }
 
         const_iterator &operator++() {
             iter_++;
             return *this;
         }
-        JsonMember operator*() const {
+        TextJsonMember operator*() const {
             object_.mark_visited( iter_->first );
-            return JsonMember( iter_->first, JsonValue( *object_.jsin, iter_->second ) );
+            return TextJsonMember( iter_->first, TextJsonValue( *object_.jsin, iter_->second ) );
         }
 
         friend bool operator==( const const_iterator &lhs, const const_iterator &rhs ) {
@@ -1548,18 +1503,18 @@ class JsonObject::const_iterator
         }
 };
 
-inline JsonObject::const_iterator JsonObject::begin() const
+inline TextJsonObject::const_iterator TextJsonObject::begin() const
 {
     return const_iterator( *this, positions.begin() );
 }
 
-inline JsonObject::const_iterator JsonObject::end() const
+inline TextJsonObject::const_iterator TextJsonObject::end() const
 {
     return const_iterator( *this, positions.end() );
 }
 
 template <typename T, typename Res>
-Res JsonArray::get_tags( const size_t index ) const
+Res TextJsonArray::get_tags( const size_t index ) const
 {
     Res res;
 
@@ -1582,7 +1537,7 @@ Res JsonArray::get_tags( const size_t index ) const
 }
 
 template <typename T, typename Res>
-Res JsonObject::get_tags( const std::string &name ) const
+Res TextJsonObject::get_tags( const std::string &name ) const
 {
     Res res;
     int pos = verify_position( name, false );
@@ -1612,7 +1567,8 @@ Res JsonObject::get_tags( const std::string &name ) const
  * Get an array member from json with name name.  For each element of that
  * array (which should be a string) add it to the given set.
  */
-void add_array_to_set( std::set<std::string> &, const JsonObject &json, const std::string &name );
+void add_array_to_set( std::set<std::string> &, const TextJsonObject &json,
+                       const std::string &name );
 
 std::ostream &operator<<( std::ostream &stream, const JsonError &err );
 
@@ -1627,24 +1583,18 @@ void serialize( const cata::optional<T> &obj, JsonOut &jsout )
 }
 
 template<typename T>
-void deserialize( cata::optional<T> &obj, const JsonValue &jsin )
+void deserialize( cata::optional<T> &obj, const TextJsonValue &jsin )
 {
     if( jsin.test_null() ) {
         obj.reset();
+        // Temporary to manage internal mutable state correctly.
+        jsin.get_null();
     } else {
         obj.emplace();
         jsin.read( *obj, true );
     }
 }
 
-template<typename T>
-void deserialize( cata::optional<T> &obj, JsonIn &jsin )
-{
-    if( jsin.read_null() ) {
-        obj.reset();
-    } else {
-        deserialize( obj, jsin.get_value() );
-    }
-}
+#include "flexbuffer_json.h"
 
 #endif // CATA_SRC_JSON_H

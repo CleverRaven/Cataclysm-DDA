@@ -295,7 +295,7 @@ class vpart_info
         /** Requirements for repair of this component (per level of damage) */
         requirement_data repair_requirements() const;
 
-        /** Returns whether or not the part is repairable  */
+        /** Returns whether or not the part type is repairable */
         bool is_repairable() const;
 
         /** Repair time (in moves) to fully repair this component, accounting for player skills */
@@ -561,8 +561,14 @@ class vpart_migration
         /** Clears migration list */
         static void reset();
 
+        /** Finalizes migrations */
+        static void finalize();
+
         /** Map of deprecated vpart_id to their replacement vpart_id */
         static const std::map<vpart_id, vpart_id> &get_migrations();
+
+        /** Find vpart_id with all migrations applied. */
+        static vpart_id migrate( const vpart_id &original );
 };
 
 #endif // CATA_SRC_VEH_TYPE_H

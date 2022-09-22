@@ -34,5 +34,17 @@
         "prob": 100
       }
     ]
+  },
+  {
+    "type": "item_group",
+    "id": "strange_temple_artifacts",
+    "subtype": "distribution",
+    "entries": [
+      {
+        "group": "amigara_items",
+        "artifact": { "procgen_id": "cult", "rules": { "power_level": 750, "max_attributes": 4, "max_negative_power": -1000 } },
+        "prob": 100
+      }
+    ]
   }
 ]

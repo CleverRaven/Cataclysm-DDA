@@ -988,9 +988,6 @@ class npc : public Character
          */
         void activate_combat_cbms();
         void deactivate_combat_cbms();
-        // find items that can be used to fuel CBM rechargers
-        // can't use can_feed_*_with because they're private to player and too general
-        bool consume_cbm_items( const std::function<bool( const item & )> &filter );
         // returns true if fuel resources are consumed
         bool recharge_cbm();
         // power is below the requested levels

@@ -40,6 +40,7 @@ class JsonObject;
 class JsonOut;
 class book_proficiency_bonuses;
 class enchantment;
+class enchant_cache;
 class faction;
 class gun_type_type;
 class gunmod_location;
@@ -1423,6 +1424,8 @@ class item : public visitable
         bool process( map &here, Character *carrier, const tripoint &pos, float insulation = 1,
                       temperature_flag flag = temperature_flag::NORMAL, float spoil_multiplier_parent = 1.0f );
 
+        bool leak( map &here, Character *carrier, const tripoint &pos, item_pocket *pocke = nullptr );
+
         /**
          * Gets the point (vehicle tile) the cable is connected to.
          * Returns nothing if not connected to anything.
@@ -1526,7 +1529,7 @@ class item : public visitable
         /** Returns the total area of this wheel or 0 if it isn't one. */
         int wheel_area() const;
 
-        /** Returns energy of this item as fuel for an engine. */
+        /** Returns energy of single unit of this item as fuel for an engine. */
         units::energy fuel_energy() const;
         /** Returns the string of the id of the terrain that pumps this fuel, if any. */
         std::string fuel_pump_terrain() const;
@@ -2661,11 +2664,12 @@ class item : public visitable
         void set_cached_tool_selections( const std::vector<comp_selection<tool_comp>> &selections );
         const std::vector<comp_selection<tool_comp>> &get_cached_tool_selections() const;
 
-        std::vector<enchantment> get_enchantments() const;
+        std::vector<enchant_cache> get_enchantments() const;
         double calculate_by_enchantment( const Character &owner, double modify, enchant_vals::mod value,
                                          bool round_value = false ) const;
         // calculates the enchantment value as if this item were wielded.
-        double calculate_by_enchantment_wield( double modify, enchant_vals::mod value,
+        double calculate_by_enchantment_wield( double modify,
+                                               enchant_vals::mod value,
                                                bool round_value = false ) const;
 
         /**

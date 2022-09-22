@@ -47,6 +47,7 @@
 #include "item_pocket.h"
 #include "itype.h"
 #include "json.h"
+#include "json_loader.h"
 #include "make_static.h"
 #include "map.h"
 #include "map_iterator.h"
@@ -4223,7 +4224,7 @@ int vehicle::get_z_change() const
     return requested_z_change;
 }
 
-bool vehicle::would_install_prevent_flyable( const vpart_info &vpinfo, Character &pc ) const
+bool vehicle::would_install_prevent_flyable( const vpart_info &vpinfo, const Character &pc ) const
 {
     if( flyable && !rotors.empty() && !( vpinfo.has_flag( "SIMPLE_PART" ) ||
                                          vpinfo.has_flag( "AIRCRAFT_REPAIRABLE_NOPROF" ) ) ) {
@@ -4233,7 +4234,7 @@ bool vehicle::would_install_prevent_flyable( const vpart_info &vpinfo, Character
     }
 }
 
-bool vehicle::would_repair_prevent_flyable( vehicle_part &vp, Character &pc ) const
+bool vehicle::would_repair_prevent_flyable( const vehicle_part &vp, const Character &pc ) const
 {
     if( flyable && !rotors.empty() ) {
         if( vp.info().has_flag( "SIMPLE_PART" ) ||
@@ -4249,7 +4250,7 @@ bool vehicle::would_repair_prevent_flyable( vehicle_part &vp, Character &pc ) co
     }
 }
 
-bool vehicle::would_removal_prevent_flyable( vehicle_part &vp, Character &pc ) const
+bool vehicle::would_removal_prevent_flyable( const vehicle_part &vp, const Character &pc ) const
 {
     if( flyable && !rotors.empty() && !vp.info().has_flag( "SIMPLE_PART" ) ) {
         return !pc.has_proficiency( proficiency_prof_aircraft_mechanic );
@@ -4697,7 +4698,7 @@ void vehicle::consume_fuel( int load, bool idling )
         base_burn = std::max( eff_load / 3, base_burn );
         //charge bionics when using muscle engine
         const item muscle( "muscle" );
-        for( const bionic_id &bid : player_character.get_bionic_fueled_with( muscle ) ) {
+        for( const bionic_id &bid : player_character.get_bionic_fueled_with_muscle() ) {
             if( player_character.has_active_bionic( bid ) ) { // active power gen
                 // more pedaling = more power
                 player_character.mod_power_level( muscle.fuel_energy() *
@@ -7222,10 +7223,10 @@ bool vehicle::restore_folded_parts( const item &it )
     const std::string data = it.has_var( "folding_bicycle_parts" )
                              ? it.get_var( "folding_bicycle_parts" )
                              : it.get_var( "folded_parts" );
-    std::istringstream veh_data( data );
     try {
+        JsonValue json = json_loader::from_string( data );
         parts.clear();
-        JsonIn( veh_data ).read( parts );
+        json.read( parts );
     } catch( const JsonError &e ) {
         debugmsg( "Error restoring folded vehicle parts: %s", e.c_str() );
         return false;

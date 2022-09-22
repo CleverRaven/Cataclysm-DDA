@@ -58,6 +58,7 @@ ampersand
 amphibole
 amt
 analogues
+anchisaurus
 andom
 anglerfish
 anglic
@@ -114,6 +115,7 @@ attuning
 atwixt
 augmentations
 ausgegangen
+autoclave
 autoclaving
 autodoc
 autodrive
@@ -146,6 +148,7 @@ barding
 barebones
 barghest
 barkin
+barosaurus
 basecamp
 basecamps
 baselard
@@ -677,6 +680,7 @@ foodplace
 footgear
 foregrip
 foregrips
+foreleg
 forestock
 forgemaster
 forgnottedn
@@ -1509,6 +1513,7 @@ reckonin
 recolherem
 recrafted
 recursively
+recurve 
 redcaps
 redear
 redits
@@ -2121,3 +2126,5 @@ zuul
 zygomaticus
 zzz
 zzzzchzzzzchurzzzpileus
+trilobite
+woodlouse

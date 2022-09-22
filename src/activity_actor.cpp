@@ -2535,12 +2535,7 @@ void consume_activity_actor::start( player_activity &act, Character &guy )
     Character &player_character = get_player_character();
     if( consume_location ) {
         ret_val<edible_rating> ret = ret_val<edible_rating>::make_success();
-        if( refuel ) {
-            ret = player_character.can_consume_fuel( *consume_location );
-        } else {
-            ret = player_character.will_eat( *consume_location, true );
-        }
-
+        ret = player_character.will_eat( *consume_location, true );
         if( !ret.success() ) {
             canceled = true;
             consume_menu_selections = std::vector<int>();
@@ -2551,11 +2546,7 @@ void consume_activity_actor::start( player_activity &act, Character &guy )
         }
     } else if( !consume_item.is_null() ) {
         ret_val<edible_rating> ret = ret_val<edible_rating>::make_success();
-        if( refuel ) {
-            ret = player_character.can_consume_fuel( consume_item );
-        } else {
-            ret = player_character.will_eat( consume_item, true );
-        }
+        ret = player_character.will_eat( consume_item, true );
         if( !ret.success() ) {
             canceled = true;
             consume_menu_selections = std::vector<int>();
@@ -2591,9 +2582,9 @@ void consume_activity_actor::finish( player_activity &act, Character & )
     avatar &player_character = get_avatar();
     if( !canceled ) {
         if( consume_loc ) {
-            player_character.consume( consume_loc, /*force=*/true, refuel );
+            player_character.consume( consume_loc, /*force=*/true );
         } else if( !consume_item.is_null() ) {
-            player_character.consume( consume_item, /*force=*/true, refuel );
+            player_character.consume( consume_item, /*force=*/true );
         } else {
             debugmsg( "Item location/name to be consumed should not be null." );
         }
@@ -2641,7 +2632,6 @@ void consume_activity_actor::serialize( JsonOut &jsout ) const
     jsout.member( "consume_menu_filter", consume_menu_filter );
     jsout.member( "canceled", canceled );
     jsout.member( "type", type );
-    jsout.member( "refuel", refuel );
 
     jsout.end_object();
 }
@@ -2660,7 +2650,6 @@ std::unique_ptr<activity_actor> consume_activity_actor::deserialize( JsonValue &
     data.read( "consume_menu_filter", actor.consume_menu_filter );
     data.read( "canceled", actor.canceled );
     data.read( "type", actor.type );
-    data.read( "refuel", actor.refuel );
 
     return actor.clone();
 }
@@ -4196,7 +4185,7 @@ void milk_activity_actor::finish( player_activity &act, Character &who )
         return;
     }
     item milk( milked_item->first, calendar::turn, milked_item->second );
-    milk.set_item_temperature( units::from_celcius( 38.6 ) );
+    milk.set_item_temperature( units::from_celsius( 38.6 ) );
     if( liquid_handler::handle_liquid( milk, nullptr, 1, nullptr, nullptr, -1, source_mon ) ) {
         milked_item->second = 0;
         if( milk.charges > 0 ) {
@@ -6811,7 +6800,7 @@ void serialize( const cata::clone_ptr<activity_actor> &actor, JsonOut &jsout )
     }
 }
 
-void deserialize( cata::clone_ptr<activity_actor> &actor, JsonIn &jsin )
+void deserialize( cata::clone_ptr<activity_actor> &actor, const JsonValue &jsin )
 {
     if( jsin.test_null() ) {
         actor = nullptr;

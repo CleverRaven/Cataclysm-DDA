@@ -20,6 +20,7 @@
 #include "cached_options.h"
 #include "calendar.h"
 #include "cata_assert.h"
+#include "cata_scope_helpers.h"
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "color.h"
@@ -1886,7 +1887,8 @@ void Item_factory::check_definitions() const
             }
 
             // check the hanging location aren't being used on the non strapped layer
-            if( !type->has_flag( flag_BELTED ) ) {
+            if( std::find( type->armor->all_layers.begin(), type->armor->all_layers.end(),
+                           layer_level::BELTED ) == type->armor->all_layers.end() ) {
                 for( const armor_portion_data &portion : type->armor->sub_data ) {
                     for( const sub_bodypart_str_id &sbp : portion.sub_coverage ) {
                         if( sbp->secondary ) {
@@ -2434,7 +2436,7 @@ bool Item_factory::load_definition( const JsonObject &jo, const std::string &src
         return true;
     }
 
-    deferred.emplace_back( jo.get_source_location(), src );
+    deferred.emplace_back( jo, src );
     jo.allow_omitted_members();
     return false;
 }

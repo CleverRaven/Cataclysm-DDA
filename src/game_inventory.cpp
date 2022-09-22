@@ -63,7 +63,6 @@
 
 static const activity_id ACT_CONSUME_DRINK_MENU( "ACT_CONSUME_DRINK_MENU" );
 static const activity_id ACT_CONSUME_FOOD_MENU( "ACT_CONSUME_FOOD_MENU" );
-static const activity_id ACT_CONSUME_FUEL_MENU( "ACT_CONSUME_FUEL_MENU" );
 static const activity_id ACT_CONSUME_MEDS_MENU( "ACT_CONSUME_MEDS_MENU" );
 static const activity_id ACT_EAT_MENU( "ACT_EAT_MENU" );
 
@@ -143,8 +142,7 @@ static item_location inv_internal( Character &u, const inventory_selector_preset
         ACT_EAT_MENU,
         ACT_CONSUME_FOOD_MENU,
         ACT_CONSUME_DRINK_MENU,
-        ACT_CONSUME_MEDS_MENU,
-        ACT_CONSUME_FUEL_MENU };
+        ACT_CONSUME_MEDS_MENU };
 
     u.inv->restack( u );
 
@@ -483,11 +481,35 @@ class pickup_inventory_preset : public inventory_selector_preset
 
         std::string get_denial( const item_location &loc ) const override {
             if( !you.has_item( *loc ) ) {
-                if( loc->made_of_from_type( phase_id::LIQUID ) ) {
+                if( loc->made_of_from_type( phase_id::LIQUID ) && !loc->is_frozen_liquid() ) {
                     if( loc.has_parent() ) {
                         return _( "Can't pick up liquids." );
                     } else {
                         return _( "Can't pick up spilt liquids." );
+                    }
+                } else if( loc->is_frozen_liquid() ) {
+                    ret_val<crush_tool_type> can_crush = you.can_crush_frozen_liquid( loc );
+
+                    if( loc->has_flag( flag_SHREDDED ) ) { // NOLINT(bugprone-branch-clone)
+                        return std::string();
+                    } else if( !can_crush.success() ) {
+                        return can_crush.str();
+                    } else if( !you.can_pickVolume_partial( *loc, false, nullptr, false ) ) {
+                        item item_copy( *loc );
+                        item_copy.charges = 1;
+                        item_copy.set_flag( flag_SHREDDED );
+                        std::pair<item_location, item_pocket *> pocke = const_cast<Character &>( you ).best_pocket(
+                                    item_copy, nullptr, false );
+
+                        item_pocket *ip = pocke.second;
+                        if( ip == nullptr || ( ip &&
+                                               ( !ip->can_contain( item_copy ).success() ||
+                                                 !ip->front().can_combine( item_copy ) ||
+                                                 item_copy.typeId() != ip->front().typeId() ) ) ) {
+                            return _( "Does not have any pocket for frozen liquids!" );
+                        }
+                    } else {
+                        return std::string();
                     }
                 } else if( !you.can_pickVolume_partial( *loc, false, nullptr, false ) &&
                            ( skip_wield_check || you.has_wield_conflicts( *loc ) ) ) {
@@ -811,186 +833,6 @@ class comestible_inventory_preset : public inventory_selector_preset
         const Character &you;
 };
 
-class fuel_inventory_preset : public inventory_selector_preset
-{
-    public:
-        explicit fuel_inventory_preset( const Character &you ) : you( you ) {
-
-            _indent_entries = false;
-
-            append_cell( []( const item_location & loc ) {
-                const time_duration spoils = loc->is_comestible() ? loc->get_comestible()->spoils :
-                                             calendar::INDEFINITELY_LONG_DURATION;
-                if( spoils > 0_turns ) {
-                    return to_string_clipped( spoils );
-                }
-                //~ Used for permafood shelf life in the Eat menu
-                return std::string( _( "indefinite" ) );
-            }, _( "SHELF LIFE" ) );
-
-            append_cell( []( const item_location & loc ) {
-                const item &it = *loc;
-
-                int converted_volume_scale = 0;
-                const int charges = std::max( it.charges, 1 );
-                const double converted_volume = round_up( convert_volume( it.volume().value() / charges,
-                                                &converted_volume_scale ), 2 );
-
-                //~ Eat menu Volume: <num><unit>
-                return string_format( _( "%.2f%s" ), converted_volume, volume_units_abbr() );
-            }, _( "VOLUME" ) );
-
-            Character &player_character = get_player_character();
-            append_cell( [&player_character]( const item_location & loc ) {
-                time_duration time = player_character.get_consume_time( *loc );
-                return string_format( "%s", to_string( time, true ) );
-            }, _( "CONSUME TIME" ) );
-
-            append_cell( [this, &player_character]( const item_location & loc ) {
-                std::string sealed;
-                if( loc.has_parent() ) {
-                    item_pocket *pocket = loc.parent_item()->contained_where( *loc.get_item() );
-                    sealed = pocket->sealed() ? _( "sealed" ) : std::string();
-                }
-                if( player_character.can_estimate_rot() ) {
-                    if( loc->is_comestible() && loc->get_comestible()->spoils > 0_turns ) {
-                        return sealed + ( sealed.empty() ? "" : " " ) + get_freshness( loc );
-                    }
-                    return std::string( "---" );
-                }
-                return sealed;
-            }, _( "FRESHNESS" ) );
-
-            append_cell( [this, &player_character]( const item_location & loc ) {
-                if( player_character.can_estimate_rot() ) {
-                    if( loc->is_comestible() && loc->get_comestible()->spoils > 0_turns ) {
-                        if( !loc->rotten() ) {
-                            return get_time_left_rounded( loc );
-                        }
-                    }
-                    return std::string( "---" );
-                }
-                return std::string();
-            }, _( "SPOILS IN" ) );
-            append_cell( [&you]( const item_location & loc ) {
-                std::string cbm_name;
-
-                std::vector<bionic_id> bids = you.get_bionic_fueled_with( *loc );
-                if( !bids.empty() ) {
-                    bionic_id bid = you.get_most_efficient_bionic( bids );
-                    cbm_name = bid->name.translated();
-                }
-
-                if( !cbm_name.empty() ) {
-                    return string_format( "<color_cyan>%s</color>", cbm_name );
-                }
-
-                return std::string();
-            }, _( "CBM" ) );
-
-            append_cell( [&you]( const item_location & loc ) {
-                return good_bad_none( you.get_acquirable_energy( *loc ) );
-            }, _( "ENERGY (kJ)" ) );
-        }
-
-        bool is_shown( const item_location &loc ) const override {
-            return you.can_fuel_bionic_with( *loc );
-        }
-
-        std::string get_denial( const item_location &loc ) const override {
-
-            if( loc->made_of_from_type( phase_id::LIQUID ) && loc.where() != item_location::type::container ) {
-                return _( "Can't use spilt liquids." );
-            }
-
-            std::string item_name = loc->tname();
-            material_id mat_type = loc->get_base_material().id;
-            if( loc->type->magazine ) {
-                const item ammo = item( loc->ammo_current() );
-                item_name = ammo.tname();
-                mat_type = ammo.get_base_material().id;
-            }
-            if( you.get_fuel_capacity( mat_type ) <= 0 ) {
-                return _( "No space to store more" );
-            }
-
-            return inventory_selector_preset::get_denial( loc );
-        }
-
-        bool sort_compare( const inventory_entry &lhs, const inventory_entry &rhs ) const override {
-            time_duration time_a = get_time_left( lhs.any_item() );
-            time_duration time_b = get_time_left( rhs.any_item() );
-            int order_a = get_order( lhs.any_item(), time_a );
-            int order_b = get_order( rhs.any_item(), time_b );
-
-            return order_a < order_b
-                   || ( order_a == order_b && time_a < time_b )
-                   || ( order_a == order_b && time_a == time_b &&
-                        inventory_selector_preset::sort_compare( lhs, rhs ) );
-        }
-
-    protected:
-        int get_order( const item_location &loc, const time_duration &time ) const {
-            if( loc->rotten() || time == 0_turns ) {
-                return 2;
-            } else {
-                return 1;
-            }
-        }
-
-        time_duration get_time_left( const item_location &loc ) const {
-            time_duration time_left = 0_turns;
-            const time_duration shelf_life = loc->is_comestible() ? loc->get_comestible()->spoils :
-                                             calendar::INDEFINITELY_LONG_DURATION;
-            if( shelf_life > 0_turns ) {
-                const item &it = *loc;
-                const double relative_rot = it.get_relative_rot();
-                time_left = shelf_life - shelf_life * relative_rot;
-
-                // Correct for an estimate that exceeds shelf life -- this happens especially with
-                // fresh items.
-                if( time_left > shelf_life ) {
-                    time_left = shelf_life;
-                }
-            }
-
-            return time_left;
-        }
-
-        std::string get_time_left_rounded( const item_location &loc ) const {
-            const item &it = *loc;
-            if( it.is_going_bad() ) {
-                return _( "soon!" );
-            }
-
-            time_duration time_left = get_time_left( loc );
-            return to_string_approx( time_left );
-        }
-
-        std::string get_freshness( const item_location &loc ) {
-            const item &it = *loc;
-            const double rot_progress = it.get_relative_rot();
-            if( it.is_fresh() ) {
-                return _( "fresh" );
-            } else if( rot_progress < 0.3 ) {
-                return _( "quite fresh" );
-            } else if( rot_progress < 0.5 ) {
-                return _( "near midlife" );
-            } else if( rot_progress < 0.7 ) {
-                return _( "past midlife" );
-            } else if( rot_progress < 0.9 ) {
-                return _( "getting older" );
-            } else if( !it.rotten() ) {
-                return _( "old" );
-            } else {
-                return _( "rotten" );
-            }
-        }
-
-    private:
-        const Character &you;
-};
-
 static std::string get_consume_needs_hint( Character &you )
 {
     auto hint = std::string();
@@ -1167,18 +1009,6 @@ item_location game_menus::inv::consume_meds( avatar &you )
     _( "Consume medication" ), 1,
     none_message,
     get_consume_needs_hint( you ) );
-}
-
-item_location game_menus::inv::consume_fuel( avatar &you )
-{
-    if( !you.has_activity( ACT_CONSUME_FUEL_MENU ) ) {
-        you.assign_activity( ACT_CONSUME_FUEL_MENU );
-    }
-    std::string none_message = you.activity.str_values.size() == 2 ?
-                               _( "You have no more fuel to consume." ) : _( "You have no fuel to consume." );
-    return inv_internal( you, fuel_inventory_preset( you ),
-                         _( "Consume fuel" ), 1,
-                         none_message );
 }
 
 class activatable_inventory_preset : public pickup_inventory_preset
@@ -1791,7 +1621,8 @@ drop_locations game_menus::inv::unload_container( avatar &you )
     for( drop_location &droplc : insert_menu.execute() ) {
         for( item *it : droplc.first->all_items_top( item_pocket::pocket_type::CONTAINER, true ) ) {
             // no liquids and no items marked as favorite
-            if( !it->made_of( phase_id::LIQUID ) && !it->is_favorite ) {
+            if( ( !it->made_of( phase_id::LIQUID ) || ( it->made_of( phase_id::LIQUID ) &&
+                    it->is_frozen_liquid() ) ) && !it->is_favorite ) {
                 dropped.emplace_back( item_location( droplc.first, it ), it->count() );
             }
         }
@@ -2007,7 +1838,9 @@ drop_locations game_menus::inv::multidrop( avatar &you )
     you.inv->restack( you );
 
     const inventory_filter_preset preset( [ &you ]( const item_location & location ) {
-        return you.can_drop( *location ).success();
+        return you.can_drop( *location ).success() &&
+               ( !location.get_item()->is_frozen_liquid() || !location.has_parent() ||
+                 location.get_item()->has_flag( flag_SHREDDED ) );
     } );
 
     inventory_drop_selector inv_s( you, preset );

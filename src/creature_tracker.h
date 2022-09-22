@@ -17,7 +17,7 @@
 
 class Creature;
 class game;
-class JsonIn;
+class JsonArray;
 class JsonOut;
 class monster;
 class npc;
@@ -116,7 +116,7 @@ class creature_tracker
         }
 
         void serialize( JsonOut &jsout ) const;
-        void deserialize( JsonIn &jsin );
+        void deserialize( const JsonArray &ja );
 
         const decltype( monster_faction_map_ ) &factions() const {
             return monster_faction_map_;
