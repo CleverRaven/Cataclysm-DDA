@@ -13,7 +13,7 @@
   {
     "type": "start_location",
     "id": "sloc_crashing_ship",
-    "name": "Crashing ship barracks",
-    "terrain": [ "crashing_ship_barracks" ]
+    "name": "Crashing ship",
+    "terrain": [ "crashing_ship" ]
   }
 ]

@@ -15,7 +15,17 @@
     "//7": "Vehicle Bay (Bottom Right): Escape pod bays are near the central coridor. Storage for ground vehicles.",
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "crashing_ship" ],
+    "om_terrain": [
+      "crashing_ship_01",
+      "crashing_ship_02",
+      "crashing_ship_03",
+      "crashing_ship_04",
+      "crashing_ship_05",
+      "crashing_ship_06",
+      "crashing_ship_07",
+      "crashing_ship_08",
+      "crashing_ship_09"
+    ],
     "weight": 100,
     "object": {
       "fill_ter": "t_metal_floor",
@@ -86,6 +96,8 @@
         "M..............................................MM......................M",
         "M..............................................MM......................M",
         "M..YYYYYYYYYYYYYYYYYY..........................MM..YYYYYYYYYYYYYYYYYY..M",
+        "M..............................................MM......................M",
+        "M..............................................MM......................M",
         "M..............................................MM......................M",
         "M..............................................MM......................M",
         "M..............................................MM......................M",
@@ -165,6 +177,7 @@
       "V": { "items": [ { "item": "afs_vending_false_meals", "chance": 100 } ] },
       "w": { "items": [ { "item": "casings", "chance": 10 } ] }
     },
+    "place_item": [ { "x": 54, "y": 28, "item": "corpse" } ],
     "fields": { "F": { "field": "fd_fire", "intensity": 3, "age": 1 } },
     "computers": {
       "!": {

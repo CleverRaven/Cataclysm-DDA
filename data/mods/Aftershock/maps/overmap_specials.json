@@ -111,5 +111,25 @@
       { "point": [ 0, 0, 1 ], "overmap": "robot_dispatch_second_north" }
     ],
     "flags": [ "MAN_MADE", "EXOPLANET" ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "afs_crashing_ship",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "crashing_ship_01" },
+      { "point": [ 1, 0, 0 ], "overmap": "crashing_ship_02" },
+      { "point": [ 2, 0, 0 ], "overmap": "crashing_ship_03" },
+      { "point": [ 0, 1, 0 ], "overmap": "crashing_ship_04" },
+      { "point": [ 1, 1, 0 ], "overmap": "crashing_ship_05" },
+      { "point": [ 2, 1, 0 ], "overmap": "crashing_ship_06" },
+      { "point": [ 0, 2, 0 ], "overmap": "crashing_ship_07" },
+      { "point": [ 1, 2, 0 ], "overmap": "crashing_ship_08" },
+      { "point": [ 2, 2, 0 ], "overmap": "crashing_ship_09" }
+    ],
+    "locations": [ "land" ],
+    "city_distance": [ 5, -1 ],
+    "city_sizes": [ 0, -1 ],
+    "occurrences": [ 0, 1 ],
+    "flags": [ "MAN_MADE" ]
   }
 ]
