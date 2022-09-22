@@ -106,8 +106,6 @@ static const faction_id faction_amf( "amf" );
 static const faction_id faction_no_faction( "no_faction" );
 static const faction_id faction_your_followers( "your_followers" );
 
-static const item_category_id item_category_container( "container" );
-
 static const item_group_id Item_spawn_data_guns_pistol_common( "guns_pistol_common" );
 static const item_group_id Item_spawn_data_guns_rifle_common( "guns_rifle_common" );
 static const item_group_id Item_spawn_data_guns_shotgun_common( "guns_shotgun_common" );
@@ -2002,7 +2000,8 @@ ret_val<void> npc::wants_to_sell( const item_location &it, int at_price,
         if( ig.can_sell( *this ) ) {
             continue;
         }
-        if( item_group::group_contains_item( ig.id, it->typeId() ) ) {
+        item const *const check_it = it->this_or_single_content();
+        if( item_group::group_contains_item( ig.id, check_it->typeId() ) ) {
             return ret_val<void>::make_failure( ig.get_refusal() );
         }
     }
