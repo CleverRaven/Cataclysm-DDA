@@ -728,11 +728,11 @@
     "flags": [ "SEES", "SMELLS", "POISON", "STUMBLES", "NO_BREATHE", "FILTHY", "BASHES" ]
   },
   {
-    "id": "mon_zenantosaurus_fungus",
+    "id": "mon_zenontosaurus_fungus",
     "type": "MONSTER",
-    "name": { "str": "fungal tenantosaurus zombie" },
+    "name": { "str": "fungal tenontosaurus zombie" },
     "description": "This was once a feathered, four-legged dinosaur with a beak and a broad long tail.  Fungal tendrils now sprout from its mouth, eyes, and other orifices, holding together an enormous shambling mass of mold-covered feathers.",
-    "copy-from": "mon_zenantosaurus",
+    "copy-from": "mon_zenontosaurus",
     "default_faction": "fungus",
     "species": [ "FUNGUS" ],
     "diff": 2,
