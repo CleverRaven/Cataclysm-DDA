@@ -310,7 +310,7 @@
     "volume": "20 ml",
     "price": 1200,
     "price_postapoc": 0,
-    "material": [ "aluminum" ],
+    "material": [ "steel" ],
     "symbol": "o",
     "color": "light_gray",
     "flags": [ "NO_REPAIR" ]
