@@ -4,6 +4,9 @@
     "//": "North American dinos not theropods at least 50 kg and not largest",
     "type": "monstergroup",
     "monsters": [
+      { "monster": "mon_sarahsaurus_hatchling", "weight": 5 },
+      { "monster": "mon_anchisaurus_hatchling", "weight": 5 },
+      { "monster": "mon_issi_hatchling", "weight": 5 },
       { "monster": "mon_stegosaurus_hatchling", "weight": 5 },
       { "monster": "mon_gargoyleosaurus_hatchling", "weight": 5 },
       { "monster": "mon_sauropelta_hatchling", "weight": 5 },
@@ -50,6 +53,7 @@
       { "monster": "mon_apatosaurus_hatchling", "weight": 10 },
       { "monster": "mon_brontosaurus_hatchling", "weight": 10 },
       { "monster": "mon_diplodocus_hatchling", "weight": 20 },
+      { "monster": "mon_barosaurus_hatchling", "weight": 20 },
       { "monster": "mon_camarasaurus_hatchling", "weight": 20 },
       { "monster": "mon_brachiosaurus_hatchling", "weight": 20 },
       { "monster": "mon_alamosaurus_hatchling", "weight": 20 }
@@ -255,6 +259,11 @@
     "monsters": [ { "monster": "mon_sarahsaurus_hatchling" } ]
   },
   {
+    "name": "GROUP_EGG_anchisaurus",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_anchisaurus_hatchling" } ]
+  },
+  {
     "name": "GROUP_EGG_issi",
     "type": "monstergroup",
     "monsters": [ { "monster": "mon_issi_hatchling" } ]
@@ -283,6 +292,11 @@
     "name": "GROUP_EGG_diplodocus",
     "type": "monstergroup",
     "monsters": [ { "monster": "mon_diplodocus_hatchling" } ]
+  },
+  {
+    "name": "GROUP_EGG_barosaurus",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_barosaurus_hatchling" } ]
   },
   {
     "name": "GROUP_EGG_camarasaurus",
