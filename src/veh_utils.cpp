@@ -64,43 +64,43 @@ vehicle_part &most_repairable_part( vehicle &veh, Character &who, bool only_repa
     };
     std::map<const vehicle_part *, repairable_status> repairable_cache;
     for( const vpart_reference &vpr : veh.get_all_parts() ) {
+        const vehicle_part &vp = vpr.part();
         const vpart_info &info = vpr.info();
-        repairable_cache[ &vpr.part() ] = repairable_status::not_repairable;
-        if( vpr.part().removed || vpr.part().damage() <= vpr.part().degradation() ) {
+        repairable_cache[&vp] = repairable_status::not_repairable;
+        if( vp.removed || !vp.is_repairable() ) {
             continue;
         }
 
-        if( veh.would_repair_prevent_flyable( vpr.part(), who ) ) {
+        if( veh.would_repair_prevent_flyable( vp, who ) ) {
             continue;
         }
 
-        if( vpr.part().is_broken() ) {
+        if( vp.is_broken() ) {
             if( who.meets_skill_requirements( info.install_skills ) &&
                 info.install_requirements().can_make_with_inventory( inv, is_crafting_component ) ) {
-                repairable_cache[ &vpr.part()] = repairable_status::need_replacement;
+                repairable_cache[&vp] = repairable_status::need_replacement;
             }
 
             continue;
         }
 
-        if( info.is_repairable() &&
-            who.meets_skill_requirements( info.repair_skills ) &&
-            ( info.repair_requirements() * ( vpr.part().damage_level() - vpr.part().damage_level(
-                    vpr.part().damage_floor( false ) ) ) ).can_make_with_inventory( inv, is_crafting_component ) ) {
-            repairable_cache[ &vpr.part()] = repairable_status::repairable;
+        if( vp.is_repairable() && who.meets_skill_requirements( info.repair_skills ) ) {
+            const requirement_data reqs = info.repair_requirements() * vp.repairable_levels();
+            if( reqs.can_make_with_inventory( inv, is_crafting_component ) ) {
+                repairable_cache[&vp] = repairable_status::repairable;
+            }
         }
     }
 
-    const auto part_damage_comparison = [&repairable_cache]( const vpart_reference & a,
-    const vpart_reference & b ) {
-        return ( repairable_cache[ &b.part() ] > repairable_cache[ &a.part()] ) ||
-               ( repairable_cache[ &b.part()] == repairable_cache[ &a.part()] &&
-                 b.part().damage() > a.part().damage() );
-    };
     const vehicle_part_range vp_range = veh.get_all_parts();
-    const auto high_damage_iterator = std::max_element( vp_range.begin(),
-                                      vp_range.end(),
-                                      part_damage_comparison );
+    const auto high_damage_iterator = std::max_element( vp_range.begin(), vp_range.end(),
+    [&repairable_cache]( const vpart_reference & a, const vpart_reference & b ) {
+        const vehicle_part &vpa = a.part();
+        const vehicle_part &vpb = b.part();
+        return ( repairable_cache[&vpb] > repairable_cache[&vpa] ) ||
+               ( repairable_cache[&vpb] == repairable_cache[&vpa] &&
+                 vpb.repairable_levels() > vpa.repairable_levels() );
+    } );
     if( high_damage_iterator == vp_range.end() ||
         high_damage_iterator->part().removed ||
         !high_damage_iterator->info().is_repairable() ||
@@ -118,9 +118,9 @@ bool repair_part( vehicle &veh, vehicle_part &pt, Character &who, const std::str
     int part_index = veh.index_of_part( &pt );
     const vpart_info &vp = pt.info();
 
-    // TODO: Expose base part damage somewhere, don't recalculate it here
-    const requirement_data reqs = pt.is_broken() ? vp.install_requirements() :
-                                  vp.repair_requirements() * ( pt.damage_level() - pt.damage_level( pt.damage_floor( false ) ) );
+    const requirement_data reqs = pt.is_broken()
+                                  ? vp.install_requirements()
+                                  : vp.repair_requirements() * pt.repairable_levels();
 
     const inventory &inv = who.crafting_inventory( who.pos(), PICKUP_RANGE, !who.is_npc() );
     inventory map_inv;

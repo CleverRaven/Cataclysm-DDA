@@ -217,6 +217,28 @@ snippet_id snippet_library::migrate_hash_to_id( const int old_hash )
     return it->second;
 }
 
+std::vector<std::pair<snippet_id, std::string>> snippet_library::get_snippets_by_category(
+            const std::string &cat, bool add_null_id )
+{
+    std::vector<std::pair<snippet_id, std::string>> ret;
+    if( !has_category( cat ) ) {
+        return ret;
+    }
+    std::unordered_map<std::string, category_snippets>::iterator snipp_cat = snippets_by_category.find(
+                cat );
+    if( snipp_cat != snippets_by_category.end() ) {
+        category_snippets snipps = snipp_cat->second;
+        if( add_null_id && !snipps.ids.empty() ) {
+            ret.emplace_back( snippet_id::NULL_ID(), "" );
+        }
+        for( snippet_id id : snipps.ids ) {
+            std::string desc = get_snippet_ref_by_id( id ).translated();
+            ret.emplace_back( id, desc );
+        }
+    }
+    return ret;
+}
+
 template<> const translation &snippet_id::obj() const
 {
     return SNIPPET.get_snippet_ref_by_id( *this );

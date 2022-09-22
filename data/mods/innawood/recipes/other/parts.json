@@ -219,6 +219,22 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "foot_crank",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "skills_required": [ "mechanics", 2 ],
+    "difficulty": 4,
+    "time": "2 h",
+    "autolearn": true,
+    "qualities": [ { "id": "SAW_M_FINE", "level": 1 }, { "id": "SCREW_FINE", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
+    "proficiencies": [ { "proficiency": "prof_metalworking", "required": false, "time_multiplier": 1.5 } ],
+    "tools": [ [ [ "metal_file", -1 ] ] ],
+    "components": [ [ [ "simple_crank", 2 ] ], [ [ "sheet_metal", 1 ] ], [ [ "chain", 3 ] ] ]
+  },
+  {
+    "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "result": "power_supply",
     "category": "CC_ELECTRONIC",

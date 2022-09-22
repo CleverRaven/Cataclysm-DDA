@@ -180,6 +180,7 @@ std::string enum_to_string<debug_menu::debug_menu_index>( debug_menu::debug_menu
         case debug_menu::debug_menu_index::DISPLAY_WEATHER: return "DISPLAY_WEATHER";
         case debug_menu::debug_menu_index::DISPLAY_SCENTS: return "DISPLAY_SCENTS";
         case debug_menu::debug_menu_index::CHANGE_TIME: return "CHANGE_TIME";
+        case debug_menu::debug_menu_index::FORCE_TEMP: return "FORCE_TEMP";
         case debug_menu::debug_menu_index::SET_AUTOMOVE: return "SET_AUTOMOVE";
         case debug_menu::debug_menu_index::SHOW_MUT_CAT: return "SHOW_MUT_CAT";
         case debug_menu::debug_menu_index::OM_EDITOR: return "OM_EDITOR";
@@ -404,6 +405,7 @@ static int map_uilist()
         { uilist_entry( debug_menu_index::GEN_SOUND, true, 'S', _( "Generate sound" ) ) },
         { uilist_entry( debug_menu_index::KILL_MONS, true, 'K', _( "Kill all monsters" ) ) },
         { uilist_entry( debug_menu_index::CHANGE_TIME, true, 't', _( "Change time" ) ) },
+        { uilist_entry( debug_menu_index::FORCE_TEMP, true, 'T', _( "Force temperature" ) ) },
         { uilist_entry( debug_menu_index::OM_EDITOR, true, 'O', _( "Overmap editor" ) ) },
         { uilist_entry( debug_menu_index::MAP_EXTRA, true, 'm', _( "Spawn map extra" ) ) },
         { uilist_entry( debug_menu_index::NESTED_MAPGEN, true, 'n', _( "Spawn nested mapgen" ) ) },
@@ -2415,6 +2417,60 @@ static void debug_menu_change_time()
     } while( smenu.ret != UILIST_CANCEL );
 }
 
+static void debug_menu_force_temperature()
+{
+    uilist tempmenu;
+    cata::optional<units::temperature> &forced_temp = get_weather().forced_temperature;
+
+    tempmenu.addentry( 0, forced_temp.has_value(), MENU_AUTOASSIGN, _( "Reset" ) );
+    tempmenu.addentry( 1, true, MENU_AUTOASSIGN, _( "Set" ) );
+    tempmenu.query();
+    if( tempmenu.ret == 0 ) {
+        forced_temp.reset();
+    } else {
+        string_input_popup pop;
+
+        auto ask = [&pop]( const std::string & unit, cata::optional<int> current ) {
+            int ret = pop.title( string_format( _( "Set temperature to?  [%s]" ), unit ) )
+                      .width( 20 )
+                      .text( current ? std::to_string( *current ) : "" )
+                      .only_digits( true )
+                      .query_int();
+
+            return pop.canceled() ? current : cata::optional<int>( ret );
+        };
+
+        cata::optional<int> current;
+        std::string option = get_option<std::string>( "USE_CELSIUS" );
+
+        if( option == "celsius" ) {
+            if( forced_temp ) {
+                current = units::to_celsius( *forced_temp );
+            }
+            cata::optional<int> ret = ask( "C", current );
+            if( ret ) {
+                forced_temp = units::from_celsius( *ret );
+            }
+        } else if( option == "kelvin" ) {
+            if( forced_temp ) {
+                current = units::to_kelvin( *forced_temp );
+            }
+            cata::optional<int> ret = ask( "K", current );
+            if( ret ) {
+                forced_temp = units::from_kelvin( *ret );
+            }
+        } else {
+            if( forced_temp ) {
+                current = units::to_fahrenheit( *forced_temp );
+            }
+            cata::optional<int> ret = ask( "F", current );
+            if( ret ) {
+                forced_temp = units::from_fahrenheit( *ret );
+            }
+        }
+    }
+}
+
 void debug()
 {
     bool debug_menu_has_hotkey = hotkey_for_action( ACTION_DEBUG,
@@ -2857,6 +2913,9 @@ void debug()
             break;
         case debug_menu_index::CHANGE_TIME:
             debug_menu_change_time();
+            break;
+        case debug_menu_index::FORCE_TEMP:
+            debug_menu_force_temperature();
             break;
         case debug_menu_index::SET_AUTOMOVE: {
             const cata::optional<tripoint> dest = g->look_around();
