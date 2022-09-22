@@ -177,7 +177,7 @@
       "V": { "items": [ { "item": "afs_vending_false_meals", "chance": 100 } ] },
       "w": { "items": [ { "item": "casings", "chance": 10 } ] }
     },
-    "place_item": [ { "x": 54, "y": 28, "item": "corpse" } ],
+    "place_item": [ { "x": 54, "y": 28, "item": "corpse" }, { "x": 52, "y": 32, "item": "corpse" } ],
     "fields": { "F": { "field": "fd_fire", "intensity": 3, "age": 1 } },
     "computers": {
       "!": {
