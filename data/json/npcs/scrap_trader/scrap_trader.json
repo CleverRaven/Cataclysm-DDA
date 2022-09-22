@@ -64,7 +64,13 @@
       { "item": "magnesium", "price": 2000, "fixed_adj": 0 },
       { "item": "silver_small", "price": 5600, "fixed_adj": 0 },
       { "item": "gold_small", "price": 20000, "fixed_adj": 0 },
-      { "item": "platinum_small", "price": 30000, "fixed_adj": 0 }
+      { "item": "platinum_small", "price": 30000, "fixed_adj": 0 },
+      { "item": "ar15", "price": 50000, "fixed_adj": 0 },
+      { "item": "flashlight", "price": 10000, "fixed_adj": 0 },
+      { "item": "multitool", "price": 10000, "fixed_adj": 0 },
+      { "item": "hammer", "price": 10000, "fixed_adj": 0 },
+      { "item": "boltcutters", "price": 10000, "fixed_adj": 0 },
+      { "item": "cash_register", "price": 20000, "fixed_adj": 0 }
     ]
   },
   {
