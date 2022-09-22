@@ -46,17 +46,17 @@
         "M.bbbbbbbbb..bbbbbbbbb.MM.MCCM.MCCM..MCCM.MCCM.MM......................M",
         "M.ttttttttt..ttttttttt.MM.MCCM.MCCM..MCCM.MCCM.MM......................M",
         "M.bbbbbbbbb..bbbbbbbbb.MM.MDDM.MDDM..MDDM.MDDM.MM......................M",
-        "M.....*..........*.....MM......................MM.............#........M",
-        "MMMMMMMMMMMDDMMMMMMMMMMMMddddddddddddddddddddddMMMMMMMMMMMMMddMMMMMMMMMM",
-        "M.......................!......................!...........#...........M",
+        "M.....*..........*.....MM.....................aMM......................M",
+        "MMMMMMMMMMMDDMMMMMMMMMMMMddddddddddMMddddddddddMMMMMMMMMMMMMDDMMMMMMMMMM",
+        "M........................a.............................................M",
         "M.....*.....*.....*.....*.....*....**....*.....*.....*.....*.....*.....M",
-        "M..............................................$.......................M",
-        "MMMMMMMMMMMMMMMMMMMMMMMMMddddddddddddddddddddddMMMMMMMMMMMMMDDMMMMMMMMMM",
-        "M.*..................*..$.*..................*.MM.....c................M",
-        "M..YYYYYYYYYYYYYYYYYY..........................MM.MMM.............&YYY.M",
-        "M..............................................MM.MFD..*........*..YYY.M",
-        "M..............................................MM.MMM&.............YYY.M",
-        "M..............................................MM...c..................M",
+        "M.............................................a........................M",
+        "MMMMMMMMMMMMMMMMMMMMMMMMMddddddddddMMddddddddddMMMMMMMMMMMMMDDMMMMMMMMMM",
+        "M.*..................*...a*..................*.MM.....cx...............M",
+        "M..YYYYYYYYYYYYYYYYYY..........................MM.MMM..x..........&YYY.M",
+        "M..............................................MM.MFDxx*........*..YYY.M",
+        "M..............................................MM.MMM&x............YYY.M",
+        "M..............................................MM...cx.................M",
         "M..............................................MM.YYY.............&YYY.M",
         "M..............................................MM.YYY..*........*..YYY.M",
         "M..YYYYYYYYYYYYYYYYYY..........................MM.YYY&.............YYY.M",
@@ -68,9 +68,9 @@
         "M..............................................MM.YYY.............^MMM.M",
         "M..............................................MM.YYY..*........*..DzM.M",
         "M..............................................MM.YYY&.............MMM.M",
-        "M..............................................MM.............%........M",
-        "M..YYYYYYYYYYYYYYYYYY..........................MMMMMMMMMMMMMddMMMMMMMMMM",
-        "M..............................................MME.........%..........EM",
+        "M..............................................MM......................M",
+        "M..YYYYYYYYYYYYYYYYYY..........................MMMMMMMMMMMMMDDMMMMMMMMMM",
+        "M..............................................MME....................EM",
         "M.*..................*....*..................*.MME....................EM",
         "M..............................................MM.*Y....Y......Y....Y*.M",
         "M..YYYYYYYYYYYYYYYYYY..........................MM..Y....Y......Y....Y..M",
@@ -138,7 +138,8 @@
         "g": "t_door_glass_frosted_c",
         "d": "t_door_metal_locked",
         "c": "t_metal_floor",
-        "a": "t_gates_control_metal"
+        "a": "t_gates_control_metal",
+        "x": "t_metal_floor"
       },
       "mapping": {
         "z": { "items": [ { "item": "afs_escape_pod_suppliesII", "chance": 100 } ] },
@@ -163,7 +164,8 @@
             { "item": "afs_tools_electric_repair", "chance": 10 }
           ]
         },
-        "c": { "items": [ { "item": "afs_escapepod_shootout", "chance": 100 } ] },
+        "T": { "items": [ { "item": "skull_human", "chance": 1 } ] },
+        "c": { "items": [ { "item": "afs_escapepod_shootout", "chance": 100, "container-item": "corpse" } ] },
         "E": {
           "items": [
             { "item": "fireman_cabinet", "chance": 100 },
@@ -172,6 +174,7 @@
             { "item": "reactor_gear", "chance": 25 }
           ]
         },
+        "t": { "items": [ { "item": "meal_tray", "chance": 80 } ] },
         "V": { "items": [ { "item": "afs_vending_false_meals", "chance": 100 } ] },
         "w": { "items": [ { "item": "casings", "chance": 10 } ] }
       },
@@ -187,37 +190,38 @@
         { "text": "Escape Pods & Vehicle Bay", "x": 59, "y": 27 },
         { "text": "Escape Pods & Vehicle Bay", "x": 62, "y": 27 }
       ],
-      "fields": { "F": { "field": "fd_fire", "intensity": 3, "age": 1 } },
+      "fields": [ { "F": { "field": "fd_fire", "intensity": 3, "age": 1 } }, { "x": { "field": "fd_blood", "intensity": 3 } } ],
       "computers": {
         "!": {
-			"name": "Cargo Bay 01",
-		"security": 3,
-		"options": [ { "name": "Open Cargo Bay 01", "action": "unlock" } ], 
-		"failures": [ { "action": "shutdown" }, { "action": "alarm" } ]
-		},
+          "name": "Cargo Bay 01",
+          "security": 3,
+          "options": [ { "name": "Open Cargo Bay 01", "action": "unlock" } ],
+          "failures": [ { "action": "shutdown" }, { "action": "alarm" } ]
+        },
         "#": {
-			"name": "Workshop",
-		"security": 3,
-		"options": [ { "name": "Open Workshop", "action": "unlock" } ], 
-		"failures": [ { "action": "shutdown" }, { "action": "alarm" } ]
-		},
+          "name": "Workshop",
+          "security": 3,
+          "options": [ { "name": "Open Workshop", "action": "unlock" } ],
+          "failures": [ { "action": "shutdown" }, { "action": "alarm" } ]
+        },
         "$": {
-			"name": "Shuttle Bay 01",
-		"security": 3,
-		"options": [ { "name": "Open Shuttle Bay 01", "action": "unlock" } ], 
-		"failures": [ { "action": "shutdown" }, { "action": "alarm" } ]
-		},
+          "name": "Shuttle Bay 01",
+          "security": 3,
+          "options": [ { "name": "Open Shuttle Bay 01", "action": "unlock" } ],
+          "failures": [ { "action": "shutdown" }, { "action": "alarm" } ]
+        },
         "%": {
-			"name": "Vehicle Bay 01",
-		"security": 3,
-		"options": [ { "name": "Open Vehicle Bay", "action": "unlock" } ], 
-		"failures": [ { "action": "shutdown" }, { "action": "alarm" } ]
-		},
+          "name": "Vehicle Bay 01",
+          "security": 3,
+          "options": [ { "name": "Open Vehicle Bay", "action": "unlock" } ],
+          "failures": [ { "action": "shutdown" }, { "action": "alarm" } ]
+        },
         "^": {
-			"name": "Escape Pod",
-		"security": 3,
-		"options": [ { "name": "Activate Escape Pod", "action": "unlock" } ], 
-		"failures": [ { "action": "shutdown" }, { "action": "alarm" } ] }
+          "name": "Escape Pod",
+          "security": 3,
+          "options": [ { "name": "Activate Escape Pod", "action": "unlock" } ],
+          "failures": [ { "action": "shutdown" }, { "action": "alarm" } ]
+        }
       }
     }
   }
