@@ -16,9 +16,9 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [
-      [ "crashing_ship_01", "crashing_ship_02", "crashing_ship_03" ],
-      [ "crashing_ship_04", "crashing_ship_05", "crashing_ship_06" ],
-      [ "crashing_ship_07", "crashing_ship_08", "crashing_ship_09" ]
+      [ "crashing_ship_3", "crashing_ship_2", "crashing_ship_1" ],
+      [ "crashing_ship_6", "crashing_ship_5", "crashing_ship_4" ],
+      [ "crashing_ship_9", "crashing_ship_8", "crashing_ship_7" ]
     ],
     "weight": 100,
     "object": {
@@ -98,18 +98,6 @@
         "MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM"
       ],
       "palettes": [ "aftershock_crashing_ship" ],
-      "place_graffiti": [
-        { "text": "Barracks", "x": 10, "y": 23 },
-        { "text": "Barracks", "x": 13, "y": 23 },
-        { "text": "Cargo Bay 01", "x": 24, "y": 23 },
-        { "text": "Cargo Bay 01", "x": 47, "y": 23 },
-        { "text": "Workshop", "x": 63, "y": 23 },
-        { "text": "Workshop", "x": 63, "y": 23 },
-        { "text": "Shuttle Bay 01", "x": 24, "y": 27 },
-        { "text": "Shuttle Bay 01", "x": 47, "y": 27 },
-        { "text": "Escape Pods & Vehicle Bay", "x": 59, "y": 27 },
-        { "text": "Escape Pods & Vehicle Bay", "x": 62, "y": 27 }
-      ],
       "furniture": {
         "L": "f_locker",
         "E": "f_locker",
@@ -136,68 +124,79 @@
         "8": "f_machinery_old",
         "z": "f_afs_escape_pod_seat"
       },
-      "items": { "z": { "item": "afs_escape_pod_suppliesII", "chance": 100 } }
-    },
-    "terrain": {
-      "Y": "t_bridge",
-      "!": "t_console",
-      "#": "t_console",
-      "*": "t_metal_floor_olight",
-      "M": "t_afs_space_ship_hull_wall",
-      "D": "t_afs_space_ship_hatch_c",
-      "g": "t_door_glass_frosted_c",
-      "d": "t_door_metal_locked",
-      "c": "t_metal_floor",
-      "a": "t_gates_mech_control"
-    },
-    "mapping": {
-      "z": { "item": "afs_escape_pod_suppliesII", "chance": 100 },
-      "L": {
-        "items": [
-          { "item": "gear_soldier_sidearm", "chance": 33 },
-          { "item": "book_military", "chance": 20 },
-          { "item": "afs_plastic_armor_g", "chance": 33 },
-          { "item": "afs_carbide_raider_armor_g", "chance": 10 },
-          { "item": "mil_armor", "chance": 10 },
-          { "item": "shirts_unisex_afs", "chance": 50 },
-          { "item": "pants_unisex_afs", "chance": 50 },
-          { "item": "shoes_unisex_afs", "chance": 50 },
-          { "item": "drugs_soldier", "chance": 25 },
-          { "item": "afs_dead_survivor", "chance": 5 }
-        ]
+      "terrain": {
+        "Y": "t_bridge",
+        "!": "t_console",
+        "#": "t_console",
+        "*": "t_metal_floor_olight",
+        "M": "t_afs_space_ship_hull_wall",
+        "D": "t_afs_space_ship_hatch_c",
+        "g": "t_door_glass_frosted_c",
+        "d": "t_door_metal_locked",
+        "c": "t_metal_floor",
+        "a": "t_gates_mech_control"
       },
-      "r": {
-        "items": [
-          { "item": "afs_tools_scavenging", "chance": 60 },
-          { "item": "afs_tools_robot_maintenance", "chance": 10 },
-          { "item": "afs_tools_electric_repair", "chance": 10 }
-        ]
+      "mapping": {
+        "z": { "items": [ { "item": "afs_escape_pod_suppliesII", "chance": 100 } ] },
+        "L": {
+          "items": [
+            { "item": "gear_soldier_sidearm", "chance": 33 },
+            { "item": "book_military", "chance": 20 },
+            { "item": "afs_plastic_armor_g", "chance": 33 },
+            { "item": "afs_carbide_raider_armor_g", "chance": 10 },
+            { "item": "mil_armor", "chance": 10 },
+            { "item": "shirts_unisex_afs", "chance": 50 },
+            { "item": "pants_unisex_afs", "chance": 50 },
+            { "item": "shoes_unisex_afs", "chance": 50 },
+            { "item": "drugs_soldier", "chance": 25 },
+            { "item": "afs_dead_survivor", "chance": 5 }
+          ]
+        },
+        "r": {
+          "items": [
+            { "item": "afs_tools_scavenging", "chance": 60 },
+            { "item": "afs_tools_robot_maintenance", "chance": 10 },
+            { "item": "afs_tools_electric_repair", "chance": 10 }
+          ]
+        },
+        "c": { "items": [ { "item": "afs_escapepod_shootout", "chance": 100 } ] },
+        "E": {
+          "items": [
+            { "item": "fireman_cabinet", "chance": 100 },
+            { "item": "full_1st_aid", "chance": 55 },
+            { "item": "full_ifak", "chance": 55 },
+            { "item": "reactor_gear", "chance": 25 }
+          ]
+        },
+        "V": { "items": [ { "item": "afs_vending_false_meals", "chance": 100 } ] },
+        "w": { "items": [ { "item": "casings", "chance": 10 } ] }
       },
-      "c": { "items": [ { "item": "afs_escapepod_shootout", "chance": 100 } ] },
-      "E": {
-        "items": [
-          { "item": "fireman_cabinet", "chance": 100 },
-          { "item": "full_1st_aid", "chance": 55 },
-          { "item": "full_ifak", "chance": 55 },
-          { "item": "reactor_gear", "chance": 25 }
-        ]
-      },
-      "V": { "items": [ { "item": "afs_vending_false_meals", "chance": 100 } ] },
-      "w": { "items": [ { "item": "casings", "chance": 10 } ] }
-    },
-    "fields": { "F": { "field": "fd_fire", "intensity": 3, "age": 1 } },
-    "computers": {
-      "!": {
-        "name": "Locker Room",
-        "security": 3,
-        "options": [ { "name": "UNLOCK ENTRANCE", "action": "unlock", "security": 5 } ],
-        "failures": [ { "action": "damage" }, { "action": "shutdown" } ]
-      },
-      "#": {
-        "name": "Armory Entrance",
-        "security": 6,
-        "options": [ { "name": "UNLOCK ENTRANCE", "action": "unlock_disarm", "security": 7 } ],
-        "failures": [ { "action": "damage" }, { "action": "shutdown" } ]
+      "place_graffiti": [
+        { "text": "Barracks", "x": 10, "y": 23 },
+        { "text": "Barracks", "x": 13, "y": 23 },
+        { "text": "Cargo Bay 01", "x": 24, "y": 23 },
+        { "text": "Cargo Bay 01", "x": 47, "y": 23 },
+        { "text": "Workshop", "x": 63, "y": 23 },
+        { "text": "Workshop", "x": 63, "y": 23 },
+        { "text": "Shuttle Bay 01", "x": 24, "y": 27 },
+        { "text": "Shuttle Bay 01", "x": 47, "y": 27 },
+        { "text": "Escape Pods & Vehicle Bay", "x": 59, "y": 27 },
+        { "text": "Escape Pods & Vehicle Bay", "x": 62, "y": 27 }
+      ],
+      "fields": { "F": { "field": "fd_fire", "intensity": 3, "age": 1 } },
+      "computers": {
+        "!": {
+          "name": "Locker Room",
+          "security": 3,
+          "options": [ { "name": "UNLOCK ENTRANCE", "action": "unlock", "security": 5 } ],
+          "failures": [ { "action": "damage" }, { "action": "shutdown" } ]
+        },
+        "#": {
+          "name": "Armory Entrance",
+          "security": 6,
+          "options": [ { "name": "UNLOCK ENTRANCE", "action": "unlock_disarm", "security": 7 } ],
+          "failures": [ { "action": "damage" }, { "action": "shutdown" } ]
+        }
       }
     }
   }

@@ -422,13 +422,13 @@
     "entries": [
       { "item": "afs_seyfert_84K", "charges": [ 15, 19 ], "ammo-item": "afs_10mm" },
       { "item": "corpse" },
-      { "item": "afs_plastic_armor_g", "chance": 33 },
-      { "item": "afs_carbide_raider_armor_g", "chance": 10 },
-      { "item": "mil_armor", "chance": 10 },
-      { "item": "shirts_unisex_afs", "chance": 100 },
-      { "item": "pants_unisex_afs", "chance": 100 },
-      { "item": "shoes_unisex_afs", "chance": 100 },
-      { "item": "drugs_soldier", "chance": 25 }
+      { "group": "afs_plastic_armor_g", "chance": 33 },
+      { "group": "afs_carbide_raider_armor_g", "chance": 10 },
+      { "group": "mil_armor", "chance": 10 },
+      { "group": "shirts_unisex_afs", "chance": 100 },
+      { "group": "pants_unisex_afs", "chance": 100 },
+      { "group": "shoes_unisex_afs", "chance": 100 },
+      { "group": "drugs_soldier", "chance": 25 }
     ]
   }
 ]
