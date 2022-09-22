@@ -3102,7 +3102,7 @@ int vehicle::part_displayed_at( const point &dp, bool include_fake, bool below_r
     int hide_z_at_or_above = in_vehicle ? ON_ROOF_Z : INT_MAX;
 
     int top_part = -1;
-    int top_z_order = below_roof ? -1 : 8;
+    int top_z_order = ( below_roof ? 0 : ON_ROOF_Z ) - 1;
     for( size_t index = 0; index < parts_in_square.size(); index++ ) {
         int test_index = parts_in_square[index];
         if( parts.at( test_index ).is_fake && !parts.at( test_index ).is_active_fake ) {
