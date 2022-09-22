@@ -495,7 +495,11 @@ class cata_tiles
         bool draw_field_or_item( const tripoint &p, lit_level ll, int &height_3d,
                                  const std::array<bool, 5> &invisible );
         bool draw_vpart( const tripoint &p, lit_level ll, int &height_3d,
-                         const std::array<bool, 5> &invisible );
+                         const std::array<bool, 5> &invisible, bool roof );
+        bool draw_vpart_no_roof( const tripoint &p, lit_level ll, int &height_3d,
+                                 const std::array<bool, 5> &invisible );
+        bool draw_vpart_roof( const tripoint &p, lit_level ll, int &height_3d,
+                              const std::array<bool, 5> &invisible );
         bool draw_vpart_below( const tripoint &p, lit_level ll, int &height_3d,
                                const std::array<bool, 5> &invisible );
         bool draw_critter_at( const tripoint &p, lit_level ll, int &height_3d,
