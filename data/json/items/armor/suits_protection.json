@@ -3045,7 +3045,11 @@
     "relic_data": {
       "passive_effects": [
         { "has": "WORN", "condition": "ALWAYS", "mutations": [ "well_distributed" ] },
-        { "has": "WORN", "condition": "ACTIVE", "values": [ { "value": "CLIMATE_CONTROL", "add": 50 } ] }
+        {
+          "has": "WORN",
+          "condition": "ACTIVE",
+          "values": [ { "value": "CLIMATE_CONTROL_HEAT", "add": 50 }, { "value": "CLIMATE_CONTROL_CHILL", "add": 50 } ]
+        }
       ]
     },
     "use_action": {
@@ -3117,7 +3121,11 @@
     "relic_data": {
       "passive_effects": [
         { "has": "WORN", "condition": "ALWAYS", "mutations": [ "well_distributed" ] },
-        { "has": "WORN", "condition": "ACTIVE", "values": [ { "value": "CLIMATE_CONTROL", "add": 50 } ] }
+        {
+          "has": "WORN",
+          "condition": "ACTIVE",
+          "values": [ { "value": "CLIMATE_CONTROL_HEAT", "add": 50 }, { "value": "CLIMATE_CONTROL_CHILL", "add": 50 } ]
+        }
       ]
     },
     "use_action": {
@@ -3189,7 +3197,11 @@
     "relic_data": {
       "passive_effects": [
         { "has": "WORN", "condition": "ALWAYS", "mutations": [ "well_distributed" ] },
-        { "has": "WORN", "condition": "ACTIVE", "values": [ { "value": "CLIMATE_CONTROL", "add": 50 } ] }
+        {
+          "has": "WORN",
+          "condition": "ACTIVE",
+          "values": [ { "value": "CLIMATE_CONTROL_HEAT", "add": 50 }, { "value": "CLIMATE_CONTROL_CHILL", "add": 50 } ]
+        }
       ]
     },
     "use_action": {

@@ -3500,20 +3500,19 @@ units::mass Character::get_weight() const
     return ret;
 }
 
-int Character::climate_control_strength()
+std::pair<int, int> Character::climate_control_strength()
 {
     // In warmth points
     const int DEFAULT_STRENGTH = 50;
 
-    int ench_power = enchantment_cache->get_value_add( enchant_vals::mod::CLIMATE_CONTROL );
-    if( ench_power > 0 ) {
-        return ench_power;
-    }
+    int power_heat = enchantment_cache->get_value_add( enchant_vals::mod::CLIMATE_CONTROL_HEAT );
+    int power_chill = enchantment_cache->get_value_add( enchant_vals::mod::CLIMATE_CONTROL_CHILL );
 
     map &here = get_map();
     if( has_trait( trait_M_SKIN3 ) && here.has_flag_ter_or_furn( ter_furn_flag::TFLAG_FUNGUS, pos() ) &&
         in_sleep_state() ) {
-        return DEFAULT_STRENGTH;
+        power_heat += DEFAULT_STRENGTH;
+        power_chill += DEFAULT_STRENGTH;
     }
 
     bool regulated_area = false;
@@ -3543,10 +3542,15 @@ int Character::climate_control_strength()
             next_climate_control_check += 40_turns;
         }
     } else {
-        return last_climate_control_ret ? DEFAULT_STRENGTH : 0;
+        regulated_area = last_climate_control_ret;
     }
 
-    return regulated_area ? DEFAULT_STRENGTH : 0;
+    if( regulated_area ) {
+        power_heat += DEFAULT_STRENGTH;
+        power_chill += DEFAULT_STRENGTH;
+    }
+
+    return { power_heat, power_chill };
 }
 
 std::map<bodypart_id, int> Character::get_wind_resistance( const std::map <bodypart_id,
@@ -8494,14 +8498,15 @@ int Character::bodytemp_modifier_traits_floor() const
 }
 
 int Character::temp_corrected_by_climate_control( int temperature,
-        int climate_control_strength ) const
+        int heat_strength, int chill_strength ) const
 {
-    const int variation = static_cast<int>( BODYTEMP_NORM * ( climate_control_strength / 100.0f ) );
+    const int variation_heat = static_cast<int>( BODYTEMP_NORM * ( heat_strength / 100.0f ) );
+    const int variation_chill = static_cast<int>( BODYTEMP_NORM * ( chill_strength / 100.0f ) );
 
     if( temperature > BODYTEMP_NORM ) {
-        return std::max( BODYTEMP_NORM, temperature - variation );
+        return std::max( BODYTEMP_NORM, temperature - variation_chill );
     } else {
-        return std::min( BODYTEMP_NORM, temperature + variation );
+        return std::min( BODYTEMP_NORM, temperature + variation_heat );
     }
 }
 

@@ -37,7 +37,8 @@
           "values": [
             { "value": "ITEM_ENCUMBRANCE", "add": -10 },
             { "value": "ARMOR_COLD", "multiply": -0.25 },
-            { "value": "CLIMATE_CONTROL", "add": 50 }
+            { "value": "CLIMATE_CONTROL_HEAT", "add": 50 },
+            { "value": "CLIMATE_CONTROL_CHILL", "add": 50 }
           ]
         }
       ]
@@ -89,7 +90,8 @@
           "values": [
             { "value": "ITEM_ENCUMBRANCE", "add": -10 },
             { "value": "ARMOR_COLD", "multiply": -0.25 },
-            { "value": "CLIMATE_CONTROL", "add": 50 }
+            { "value": "CLIMATE_CONTROL_HEAT", "add": 50 },
+            { "value": "CLIMATE_CONTROL_CHILL", "add": 50 }
           ]
         }
       ]
@@ -143,7 +145,8 @@
           "values": [
             { "value": "ITEM_ENCUMBRANCE", "add": -10 },
             { "value": "ARMOR_COLD", "multiply": -0.25 },
-            { "value": "CLIMATE_CONTROL", "add": 50 }
+            { "value": "CLIMATE_CONTROL_HEAT", "add": 50 },
+            { "value": "CLIMATE_CONTROL_CHILL", "add": 50 }
           ]
         }
       ]
@@ -205,7 +208,8 @@
           "values": [
             { "value": "ITEM_ENCUMBRANCE", "add": -10 },
             { "value": "ARMOR_COLD", "multiply": -0.25 },
-            { "value": "CLIMATE_CONTROL", "add": 50 }
+            { "value": "CLIMATE_CONTROL_HEAT", "add": 50 },
+            { "value": "CLIMATE_CONTROL_CHILL", "add": 50 }
           ]
         }
       ]

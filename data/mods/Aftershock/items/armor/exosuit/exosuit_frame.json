@@ -310,7 +310,11 @@
         {
           "has": "WORN",
           "condition": "ACTIVE",
-          "values": [ { "value": "STRENGTH", "add": 10 }, { "value": "CLIMATE_CONTROL", "add": 50 } ]
+          "values": [
+            { "value": "STRENGTH", "add": 10 },
+            { "value": "CLIMATE_CONTROL_HEAT", "add": 50 },
+            { "value": "CLIMATE_CONTROL_CHILL", "add": 50 }
+          ]
         }
       ]
     },
