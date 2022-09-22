@@ -1197,5 +1197,20 @@
     "volume": "1 L",
     "weight": "600 g",
     "flags": [ "TRADER_AVOID" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "veh_tracker",
+    "name": { "str": "vehicle tracking device" },
+    "description": "A vehicle tracking device.  When installed on a vehicle it allows you track the vehicle.",
+    "weight": "400 g",
+    "color": "red",
+    "symbol": ";",
+    "material": [ "plastic", "aluminum" ],
+    "volume": "500 ml",
+    "bashing": 1,
+    "category": "veh_parts",
+    "price": 80000,
+    "price_postapoc": 750
   }
 ]
