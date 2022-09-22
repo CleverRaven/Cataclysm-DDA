@@ -5,7 +5,7 @@
     "category": "tools",
     "name": { "str": "atomic coffee maker" },
     "looks_like": "coffeemaker",
-    "description": "This is a Curie-G coffeemaker, by CuppaTech.  It famously uses a radioactive generator to heat water for coffee.  Normally the water is heated using energy stored in a capacitor, and makes ordinary coffee.  However, as a special feature, water from the RTG containment area can be used, giving the coffee a very special kick.  The Curie-G is illegal in most countries.",
+    "description": "This is a Curie-G coffeemaker, by CuppaTech.  It famously uses a radioactive generator to heat water for coffee, reducing the amount of total electricity it consumes.  Consumer safety concerns led to it being banned in the EU as well as many other countries, but don't let that stop you from brewing your morning Joe with the power of the atom™!",
     "weight": "6102 g",
     "volume": "1000 ml",
     "longest_side": "20 cm",
@@ -15,10 +15,20 @@
     "bashing": 5,
     "material": [ "plastic", "aluminum" ],
     "qualities": [ [ "BOIL", 1 ] ],
+    "ammo": [ "battery" ],
+    "charges_per_use": 20,
     "symbol": ",",
     "color": "light_green",
-    "use_action": [ "HOTPLATE_ATOMIC" ],
-    "flags": [ "LEAK_DAM", "RADIOACTIVE", "DURABLE_MELEE" ]
+    "use_action": [ "HOTPLATE" ],
+    "flags": [ "LEAK_DAM", "RADIOACTIVE", "DURABLE_MELEE", "WATER_BREAK" ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "flag_restriction": [ "BATTERY_MEDIUM" ],
+        "default_magazine": "medium_battery_cell"
+      }
+    ]
   },
   {
     "id": "butchering_kit",
@@ -260,7 +270,7 @@
     "color": "light_gray",
     "ammo": [ "battery" ],
     "flags": [ "WATER_BREAK" ],
-    "charges_per_use": 10,
+    "charges_per_use": 50,
     "qualities": [ [ "BOIL", 1 ] ],
     "use_action": [ "HOTPLATE" ],
     "pocket_data": [
