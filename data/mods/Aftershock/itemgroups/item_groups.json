@@ -431,5 +431,11 @@
       { "group": "shoes_unisex_afs", "chance": 100 },
       { "group": "drugs_soldier", "chance": 25 }
     ]
+  },
+  {
+    "id": "afs_mess_hall",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "plastic_fork" }, {"item": "plastic_spoon" }, { "item": "plastic_knife" }, { "item": "mess_tray" } ]
   }
 ]

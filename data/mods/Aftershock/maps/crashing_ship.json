@@ -174,9 +174,8 @@
             { "item": "reactor_gear", "chance": 25 }
           ]
         },
-        "t": { "items": [ { "item": "meal_tray", "chance": 80 } ] },
+        "t": { "items": [ { "item": "afs_mess_hall", "chance": 80 } ] },
         "V": { "items": [ { "item": "afs_vending_false_meals", "chance": 100 } ] },
-        "w": { "items": [ { "item": "casings", "chance": 10 } ] }
       },
       "place_graffiti": [
         { "text": "Barracks", "x": 10, "y": 23 },
