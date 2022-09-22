@@ -427,6 +427,13 @@
     "upgrades": { "age_grow": 30, "into": "mon_nodosaurus_juvenile" }
   },
   {
+    "id": "mon_tenontosaurus_hatchling",
+    "type": "MONSTER",
+    "copy-from": "mon_scutellosaurus_hatchling",
+    "name": "light green and yellow hatchling",
+    "upgrades": { "age_grow": 30, "into": "mon_tenontosaurus" }
+  },
+  {
     "id": "mon_dryosaurus_hatchling",
     "type": "MONSTER",
     "copy-from": "mon_scutellosaurus_hatchling",
