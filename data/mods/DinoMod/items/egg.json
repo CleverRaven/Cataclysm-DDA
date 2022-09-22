@@ -321,6 +321,13 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "egg_anchisaurus",
+    "name": "anchisaurus egg",
+    "copy-from": "egg_dino",
+    "rot_spawn": "GROUP_EGG_anchisaurus"
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "egg_issi",
     "name": "issi egg",
     "copy-from": "egg_dino",
@@ -360,6 +367,13 @@
     "name": "diplodocus egg",
     "copy-from": "egg_dino_large",
     "rot_spawn": "GROUP_EGG_diplodocus"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_barosaurus",
+    "name": "barosaurus egg",
+    "copy-from": "egg_dino_large",
+    "rot_spawn": "GROUP_EGG_barosaurus"
   },
   {
     "type": "COMESTIBLE",

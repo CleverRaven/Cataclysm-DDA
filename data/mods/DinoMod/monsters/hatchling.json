@@ -267,7 +267,7 @@
   {
     "id": "mon_sarahsaurus_hatchling",
     "type": "MONSTER",
-    "name": "sarahsaurus hatchling",
+    "name": "brown and magenta hatchling",
     "copy-from": "mon_gallimimus_hatchling",
     "weight": "2 kg",
     "volume": "2 L",
@@ -275,9 +275,19 @@
     "upgrades": { "age_grow": 40, "into": "mon_sarahsaurus_juvenile" }
   },
   {
+    "id": "mon_anchisaurus_hatchling",
+    "type": "MONSTER",
+    "name": "brown and magenta hatchling",
+    "copy-from": "mon_gallimimus_hatchling",
+    "weight": "2 kg",
+    "volume": "2 L",
+    "petfood": { "food": [ "DINOFOOD_C" ] },
+    "upgrades": { "age_grow": 20, "into": "mon_anchisaurus_juvenile" }
+  },
+  {
     "id": "mon_issi_hatchling",
     "type": "MONSTER",
-    "name": "issi hatchling",
+    "name": "brown and magenta hatchling",
     "copy-from": "mon_gallimimus_hatchling",
     "weight": "2 kg",
     "volume": "2 L",
@@ -287,7 +297,7 @@
   {
     "id": "mon_haplocanthosaurus_hatchling",
     "type": "MONSTER",
-    "name": "haplocanthosaurus hatchling",
+    "name": "brown and magenta hatchling",
     "copy-from": "mon_gallimimus_hatchling",
     "weight": "4 kg",
     "volume": "4 L",
@@ -297,7 +307,7 @@
   {
     "id": "mon_amargasaurus_hatchling",
     "type": "MONSTER",
-    "name": "amargasaurus hatchling",
+    "name": "brown and magenta hatchling",
     "copy-from": "mon_gallimimus_hatchling",
     "weight": "4 kg",
     "volume": "4 L",
@@ -308,7 +318,6 @@
     "id": "mon_apatosaurus_hatchling",
     "type": "MONSTER",
     "copy-from": "mon_amargasaurus_hatchling",
-    "name": "brown and magenta hatchling",
     "upgrades": { "age_grow": 50, "into": "mon_apatosaurus_juvenile" }
   },
   {
@@ -322,6 +331,12 @@
     "type": "MONSTER",
     "copy-from": "mon_apatosaurus_hatchling",
     "upgrades": { "age_grow": 40, "into": "mon_diplodocus_juvenile" }
+  },
+  {
+    "id": "mon_barosaurus_hatchling",
+    "type": "MONSTER",
+    "copy-from": "mon_apatosaurus_hatchling",
+    "upgrades": { "age_grow": 40, "into": "mon_barosaurus_juvenile" }
   },
   {
     "id": "mon_camarasaurus_hatchling",
