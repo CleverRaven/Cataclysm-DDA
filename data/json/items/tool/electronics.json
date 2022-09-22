@@ -110,7 +110,7 @@
     "price": 800,
     "price_postapoc": 250,
     "to_hit": 1,
-    "material": [ "aluminum" ],
+    "material": [ "copper", "wood" ],
     "symbol": ",",
     "color": "light_gray",
     "use_action": [ "DIRECTIONAL_ANTENNA" ]
