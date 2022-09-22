@@ -104,6 +104,26 @@
         "MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM"
       ],
       "palettes": [ "aftershock_crashing_ship" ],
+      "place_graffiti": [
+        { "text": "Barracks", "x": 10, "y": 23 },
+      "place_graffiti": [
+        { "text": "Barracks", "x": 13, "y": 23 },
+      "place_graffiti": [
+        { "text": "Cargo Bay 01", "x": 24, "y": 23 },
+      "place_graffiti": [
+        { "text": "Cargo Bay 01", "x": 47, "y": 23 },
+      "place_graffiti": [
+        { "text": "Workshop", "x": 63, "y": 23 },
+      "place_graffiti": [
+        { "text": "Workshop", "x": 63, "y": 23 },
+      "place_graffiti": [
+        { "text": "Shuttle Bay 01", "x": 24, "y": 27 },
+      "place_graffiti": [
+        { "text": "Shuttle Bay 01", "x": 47, "y": 27 },
+      "place_graffiti": [
+        { "text": "Escape Pods & Vehicle Bay", "x": 59, "y": 27 },
+      "place_graffiti": [
+        { "text": "Escape Pods & Vehicle Bay", "x": 62, "y": 27 },
       "furniture": {
         "L": "f_locker",
         "E": "f_locker",
