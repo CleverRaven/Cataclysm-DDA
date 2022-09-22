@@ -10791,10 +10791,10 @@ void game::on_move_effects()
     // TODO: Move this to a character method
     if( !u.is_mounted() ) {
         const item muscle( "muscle" );
-        for( const bionic_id &bid : u.get_bionic_fueled_with( muscle ) ) {
+        for( const bionic_id &bid : u.get_bionic_fueled_with_muscle() ) {
             if( u.has_active_bionic( bid ) ) {// active power gen
                 u.mod_power_level( muscle.fuel_energy() * bid->fuel_efficiency );
-            } else if( u.has_bionic( bid ) ) {// passive power gen
+            } else {// passive power gen
                 u.mod_power_level( muscle.fuel_energy() * bid->passive_fuel_efficiency );
             }
         }

@@ -10015,7 +10015,7 @@ int item::wheel_area() const
 units::energy item::fuel_energy() const
 {
     // The odd units and division are to avoid integer rounding errors.
-    return get_base_material().get_fuel_data().energy * units::to_milliliter( volume() ) / 1000;
+    return get_base_material().get_fuel_data().energy * units::to_milliliter( base_volume() ) / 1000;
 }
 
 std::string item::fuel_pump_terrain() const
@@ -10461,6 +10461,9 @@ const material_type &item::get_base_material() const
     }
     // Material portions all equal / not specified. Select first material.
     if( portion == 1 ) {
+        if( is_corpse() ) {
+            return corpse->mat.begin()->first.obj();
+        }
         return *type->default_mat;
     }
     return *m;

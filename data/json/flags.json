@@ -1834,7 +1834,8 @@
   },
   {
     "id": "GRENADE",
-    "type": "json_flag"
+    "type": "json_flag",
+    "restriction": "Item must be a grenade"
   },
   {
     "id": "JAVELIN",
@@ -2107,5 +2108,10 @@
     "id": "SINGLE_USE",
     "type": "json_flag",
     "info": "This item is removed after use."
+  },
+  {
+    "id": "BIONIC_FUEL_SOURCE",
+    "type": "json_flag",
+    "info": "Contents of this item are used for fueling bionics."
   }
 ]
