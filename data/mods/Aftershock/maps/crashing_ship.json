@@ -142,9 +142,9 @@
         "c": "t_metal_floor",
         "a": "t_gates_mech_control",
         "x": "t_metal_floor",
-        "F": "t_metal_floor"
+        "F": "t_metal_floor",
         "J": "t_chainfence",
-        "j": "t_chaingate_l",
+        "j": "t_chaingate_l"
       },
       "mapping": {
         "z": { "items": [ { "item": "afs_escape_pod_suppliesII", "chance": 100 } ] },
@@ -183,7 +183,7 @@
         "V": { "items": [ { "item": "afs_vending_false_meals", "chance": 100 } ] }
       },
       "place_loot": [
-        { "item": "crashing_ship_locker_card", "x": [ 16, 22 ], "y": [ 9, 15 ], "chance": 100 },
+        { "item": "crashing_ship_locker_card", "x": [ 16, 22 ], "y": [ 9, 15 ], "chance": 100 }
         { "item": "crashing_ship_armory_card", "x": [ 1, 7 ], "y": 1, "chance": 100 },
         { "item": "crashing_ship_exobay_card", "x": [ 16, 22 ], "y": [ 9, 15 ], "chance": 100 },
         { "group": "afs_escapepod_shootout", "x": 54, "y": 28, "chance": 100, "container-item": "corpse" },
