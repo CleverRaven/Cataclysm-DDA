@@ -4201,5 +4201,16 @@
     "description": "Recipes for making zweihänders.",
     "skill_used": "fabrication",
     "nested_category_data": [ "lc_zweihander", "mc_zweihander", "hc_zweihander", "ch_zweihander", "qt_zweihander" ]
+  },
+  {
+    "id": "nested_aluminum_scrap",
+    "type": "nested_category",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "name": "scrap aluminum",
+    "description": "Recipes related to creating scrap aluminum.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "scrap_aluminum_melted_foil", "scrap_aluminum_assorted_scrap" ]
   }
 ]
