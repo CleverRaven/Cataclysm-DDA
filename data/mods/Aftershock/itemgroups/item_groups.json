@@ -435,11 +435,7 @@
     "id": "afs_mess_hall",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [ { "item": "plastic_fork" },
-    { "item": "plastic_spoon" },
-    { "item": "plastic_knife" },
-    { "item": "mess_tray" }
-  ]
+    "entries": [ { "item": "plastic_fork" }, { "item": "plastic_spoon" }, { "item": "plastic_knife" }, { "item": "mess_tray" } ]
   },
   {
     "id": "afs_todd_howard",
