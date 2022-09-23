@@ -1240,11 +1240,11 @@
     "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "fabrication",
     "difficulty": 2,
-    "time": "15 m",
+    "time": "10 m",
     "batch_time_factors": [ 90, 4 ],
     "autolearn": true,
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
-    "components": [ [ [ "aluminum_foil", 37000 ] ] ]
+    "components": [ [ [ "aluminum_foil", 371 ] ] ]
   },
   {
     "result": "scrap_aluminum",
