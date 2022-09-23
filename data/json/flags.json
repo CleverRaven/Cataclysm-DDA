@@ -2136,7 +2136,7 @@
   {
     "id": "ELECTRONIC",
     "type": "json_flag"
-  ,
+  },
   {
 	  "id": "AFS_CS_LOCKER_CARD",
 	  "type": "json_flag",
