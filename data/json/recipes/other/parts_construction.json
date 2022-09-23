@@ -99,7 +99,7 @@
     "time": "10 m",
     "autolearn": true,
     "using": [ [ "power_saw_long", 5 ] ],
-    "byproducts": [ [ "plank_long", 8 ] ],
+    "result_mult": 8,
     "components": [ [ [ "wood_beam", 1 ] ] ]
   },
   {
@@ -113,7 +113,7 @@
     "time": "5 m",
     "autolearn": true,
     "qualities": [ { "id": "SAW_W", "level": 2 } ],
-    "byproducts": [ [ "2x4", 2 ] ],
+    "result_mult": 2,
     "components": [ [ [ "plank_long", 1 ] ] ]
   },
   {
@@ -127,7 +127,7 @@
     "time": "2 m",
     "autolearn": true,
     "using": [ [ "power_saw_long", 2 ] ],
-    "byproducts": [ [ "2x4", 2 ] ],
+    "result_mult": 2,
     "components": [ [ [ "plank_long", 1 ] ] ]
   },
   {
@@ -141,7 +141,7 @@
     "time": "15 m",
     "autolearn": true,
     "qualities": [ { "id": "SAW_W", "level": 2 } ],
-    "byproducts": [ [ "plank_short", 4 ] ],
+    "result_mult": 4,
     "components": [ [ [ "plank_long", 1 ] ] ]
   },
   {
@@ -155,7 +155,7 @@
     "time": "6 m",
     "autolearn": true,
     "using": [ [ "power_saw_long", 4 ] ],
-    "byproducts": [ [ "plank_short", 4 ] ],
+    "result_mult": 4,
     "components": [ [ [ "plank_long", 1 ] ] ]
   },
   {
@@ -169,7 +169,7 @@
     "time": "5 m",
     "autolearn": true,
     "qualities": [ { "id": "SAW_W", "level": 2 } ],
-    "byproducts": [ [ "plank_short", 2 ] ],
+    "result_mult": 2,
     "components": [ [ [ "2x4", 1 ] ] ]
   },
   {
@@ -183,7 +183,7 @@
     "time": "2 m",
     "autolearn": true,
     "using": [ [ "power_saw_long", 2 ] ],
-    "byproducts": [ [ "plank_short", 2 ] ],
+    "result_mult": 2,
     "components": [ [ [ "2x4", 1 ] ] ]
   },
   {
@@ -197,7 +197,7 @@
     "time": "10 m",
     "autolearn": true,
     "using": [ [ "power_saw_long", 4 ] ],
-    "byproducts": [ [ "wooden_post_long", 4 ] ],
+    "result_mult": 4,
     "components": [ [ [ "wood_beam", 1 ] ] ]
   },
   {
@@ -211,7 +211,7 @@
     "time": "5 m",
     "autolearn": true,
     "qualities": [ { "id": "SAW_W", "level": 2 } ],
-    "byproducts": [ [ "wooden_post", 2 ] ],
+    "result_mult": 2,
     "components": [ [ [ "wooden_post_long", 1 ] ] ]
   },
   {
@@ -225,7 +225,7 @@
     "time": "2 m",
     "autolearn": true,
     "using": [ [ "power_saw_long", 2 ] ],
-    "byproducts": [ [ "wooden_post", 2 ] ],
+    "result_mult": 2,
     "components": [ [ [ "wooden_post_long", 1 ] ] ]
   },
   {
@@ -239,7 +239,7 @@
     "time": "15 m",
     "autolearn": true,
     "qualities": [ { "id": "SAW_W", "level": 2 } ],
-    "byproducts": [ [ "wooden_post_short", 4 ] ],
+    "result_mult": 4,
     "components": [ [ [ "wooden_post_long", 1 ] ] ]
   },
   {
@@ -253,7 +253,7 @@
     "time": "6 m",
     "autolearn": true,
     "using": [ [ "power_saw_long", 4 ] ],
-    "byproducts": [ [ "wooden_post_short", 4 ] ],
+    "result_mult": 4,
     "components": [ [ [ "wooden_post_long", 1 ] ] ]
   },
   {
@@ -267,7 +267,7 @@
     "time": "5 m",
     "autolearn": true,
     "qualities": [ { "id": "SAW_W", "level": 2 } ],
-    "byproducts": [ [ "wooden_post_short", 2 ] ],
+    "result_mult": 2,
     "components": [ [ [ "wooden_post", 1 ] ] ]
   },
   {
@@ -281,7 +281,7 @@
     "time": "2 m",
     "autolearn": true,
     "using": [ [ "power_saw_long", 2 ] ],
-    "byproducts": [ [ "wooden_post_short", 2 ] ],
+    "result_mult": 2,
     "components": [ [ [ "wooden_post", 1 ] ] ]
   },
   {
@@ -294,7 +294,8 @@
     "time": "30 m",
     "autolearn": true,
     "qualities": [ { "id": "SAW_W", "level": 2 } ],
-    "byproducts": [ [ "wood_block", 4 ], [ "splinter", 13 ] ],
+    "result_mult": 4,
+    "byproducts": [ [ "splinter", 13 ] ],
     "components": [ [ [ "wooden_post_short", 1 ] ] ]
   },
   {
