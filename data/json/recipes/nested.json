@@ -546,7 +546,9 @@
     "description": "Recipes related to constructing durable leg guards from chitin.",
     "skill_used": "tailor",
     "nested_category_data": [ 
-      "legguard_chitin", 
+      "legguard_chitin",
+      "xs_legguard_chitin",
+      "xl_legguard_chitin",
       "legguard_acidchitin",
       "xs_legguard_acidchitin",
       "xl_legguard_acidchitin"
