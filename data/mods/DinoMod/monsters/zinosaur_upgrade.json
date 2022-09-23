@@ -1069,6 +1069,30 @@
   },
   {
     "type": "MONSTER",
+    "id": "mon_zamptosaurus_brute",
+    "name": { "str": "Crusher Camp" },
+    "copy-from": "mon_zamptosaurus",
+    "description": "The shuffling corpse of a large, feathered, bipedal dinosaur with grossly-bulging legs, massive hulking shoulders, and a vicious pointed beak.  Its tattered feathers are stained with black, sticky liquid.",
+    "diff": 2,
+    "color": "red",
+    "proportional": { "hp": 1.5, "speed": 1.5 },
+    "relative": {
+      "melee_dice": 1,
+      "melee_dice_sides": 5,
+      "melee_damage": [ { "damage_type": "bash", "amount": 2 } ],
+      "armor_bash": 4,
+      "armor_cut": 6,
+      "armor_bullet": 5,
+      "vision_night": 1
+    },
+    "bleed_rate": 50,
+    "upgrades": {  },
+    "special_attacks": [ [ "SMASH", 30 ] ],
+    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
+    "categories": [ "DINOSAUR" ]
+  },
+  {
+    "type": "MONSTER",
     "id": "mon_zadrosaurus_brute",
     "name": { "str": "Hulking Hadrosaur" },
     "copy-from": "mon_zadrosaurus",
