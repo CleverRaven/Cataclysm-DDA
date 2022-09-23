@@ -189,9 +189,7 @@
         { "text": "Escape Pods & Vehicle Bay", "x": 59, "y": 27 },
         { "text": "Escape Pods & Vehicle Bay", "x": 62, "y": 27 }
       ],
-      "fields":
-	  { "F": { "field": "fd_fire", "intensity": 3, "age": 1 },
-	  "x": { "field": "fd_blood", "intensity": 3 } },
+      "fields": { "F": { "field": "fd_fire", "intensity": 3, "age": 1 }, "x": { "field": "fd_blood", "intensity": 3 } },
       "computers": {
         "!": {
           "name": "Cargo Bay 01",
