@@ -1545,14 +1545,14 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
 
             lit_level ll = lit_level::BLANK;
             for( int z = center.z; z > -OVERMAP_DEPTH; z-- ) {
-                const auto &ch = here.access_cache( z );
+                const level_cache &ch = here.access_cache( z );
 
                 const tripoint pos( temp, z );
                 const int &x = pos.x;
                 const int &y = pos.y;
 
-                bool in_vis_bounds = ( y >= min_visible.y && y <= max_visible.y && x >= min_visible.x &&
-                                       x <= max_visible.x );
+                bool in_vis_bounds = y >= min_visible.y && y <= max_visible.y && x >= min_visible.x &&
+                                     x <= max_visible.x;
 
                 bool in_map_bounds = here.inbounds( pos );
 
@@ -1566,7 +1566,7 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
                     ( in_map_bounds && ( here.dont_draw_lower_floor( pos ) || has_memory_at( pos ) ) )
                     || ( !in_map_bounds && ( has_memory_at( pos ) || pos.z <= 0 ) ) ) {
                     // invisible to normal eyes
-                    bool invisible[5];
+                    std::array<bool, 5> invisible;
                     invisible[0] = false;
 
                     if( !in_vis_bounds ) {
@@ -1597,8 +1597,8 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
                         }
                         for( int cz = pos.z; !invisible[0] && cz <= -center.z; cz++ ) {
                             const Creature *critter = g->critter_at( {pos.xy(), cz}, true );
-                            if( critter && ( g->u.sees_with_infrared( *critter ) ||
-                                             g->u.sees_with_specials( *critter ) ) ) {
+                            if( critter && ( you.sees_with_infrared( *critter ) ||
+                                             you.sees_with_specials( *critter ) ) ) {
                                 invisible[0] = true;
                             }
                         }
@@ -1617,7 +1617,7 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
         }
     }
     auto compare_z = [&]( tile_render_info a, tile_render_info b ) -> bool {
-        return ( a.pos.z < b.pos.z );
+        return a.pos.z < b.pos.z;
     };
 
     std::stable_sort( draw_points.begin(), draw_points.end(), compare_z );
@@ -1648,7 +1648,7 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
                 if( p.pos.z > z ) {
                     break;
                 }
-                const auto &ch = here.access_cache( z );
+                const level_cache &ch = here.access_cache( z );
                 if( here.inbounds( p.pos ) && z != p.pos.z ) {
                     if( !f.hide_unseen || ch.visibility_cache[p.pos.x][p.pos.y] != lit_level::BLANK ) {
                         const bool ( invis )[5] = {false, false, false, false, false};

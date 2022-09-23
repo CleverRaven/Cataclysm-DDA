@@ -3178,7 +3178,7 @@ void game::disp_NPC_epilogues()
 
 void game::display_faction_epilogues()
 {
-    for( const item &elem : faction_manager_ptr->all() ) {
+    for( const const std::pair<const string_id<faction> &elem : faction_manager_ptr->all() ) {
         if( elem.second.known_by_u ) {
             const std::vector<std::string> epilogue = elem.second.epilogue();
             if( !epilogue.empty() ) {
@@ -7358,7 +7358,7 @@ std::vector<map_item_stack> game::find_nearby_items( int iRadius )
                 u.sees( points_p_it ) &&
                 m.sees_some_items( points_p_it, u ) ) {
 
-                for( auto &elem : m.i_at( points_p_it ) ) {
+                for( item &elem : m.i_at( points_p_it ) ) {
                     const std::string name = elem.tname();
                     const tripoint relative_pos = points_p_it - u.pos();
 
