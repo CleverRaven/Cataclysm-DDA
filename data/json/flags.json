@@ -2138,18 +2138,18 @@
     "type": "json_flag"
   },
   {
-	  "id": "AFS_CS_LOCKER_CARD",
-	  "type": "json_flag",
-	  "info": "ID card granting access to the crashing ship's locker room."
+    "id": "AFS_CS_LOCKER_CARD",
+    "type": "json_flag",
+    "info": "ID card granting access to the crashing ship's locker room."
   },
   {
-	  "id": "AFS_CS_ARMORY_CARD",
-	  "type": "json_flag",
-	  "info": "ID card granting access to the crashing ship's armory."
+    "id": "AFS_CS_ARMORY_CARD",
+    "type": "json_flag",
+    "info": "ID card granting access to the crashing ship's armory."
   },
   {
-	  "id": "AFS_CS_EXOBAY_CARD",
-	  "type": "json_flag",
-	  "info": "ID card granting access to the crashing ship's exobay."
+    "id": "AFS_CS_EXOBAY_CARD",
+    "type": "json_flag",
+    "info": "ID card granting access to the crashing ship's exobay."
   }
 ]
