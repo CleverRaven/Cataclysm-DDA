@@ -494,7 +494,7 @@
       { "item": "exo_torso_plastic", "chance": 90 },
       { "item": "exo_arm_plastic", "chance": 90 },
       { "item": "exo_leg_plastic", "chance": 90 },
-      { "group": "afs_exosuit_basic_power", "chance": 75 },
+      { "group": "afs_exo_basic_power", "chance": 75 },
       { "group": "afs_exo_basic_accessories", "chance": 75 },
       { "group": "afs_exo_basic_accessories", "chance": 75 },
       { "group": "afs_power_tools", "chance": 75 }

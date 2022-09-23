@@ -92,9 +92,9 @@
         "M..YYYYYYYYYYYYYYYYYY..........................MM..Y....Y......Y....Y..M",
         "M..............................................MM.*Y....Y......Y....Y*.M",
         "M.*..................*....*..................*.MM..Y....Y......Y....Y..M",
-        "M..............................................MM..Y....Y......Y....Y..M",
-        "M..............................................MM..Y....Y......Y....Y..M",
-        "M..............................................MM..Y....Y......Y....Y..M",
+        "MWWWWWWWWWWWWWWWWWWWW..........................MM..Y....Y......Y....Y..M",
+        "Mw$w$w$w$w$w$w$w$w$wW..........................MM..Y....Y......Y....Y..M",
+        "M...F*....*.F..*FF..D..........................MM..Y....Y......Y....Y..M",
         "MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM"
       ],
       "palettes": [ "aftershock_crashing_ship" ],
@@ -144,7 +144,8 @@
         "x": "t_metal_floor",
         "F": "t_metal_floor",
         "J": "t_chainfence",
-        "j": "t_chaingate_l"
+        "j": "t_chaingate_l",
+        "W": "t_reinforced_glass_shutter"
       },
       "mapping": {
         "z": { "items": [ { "item": "afs_escape_pod_suppliesII", "chance": 100 } ] },
@@ -179,6 +180,7 @@
             { "item": "reactor_gear", "chance": 25 }
           ]
         },
+        "w": { "items": [ { "group": "office_mess", "chance": 75 } ] },
         "t": { "items": [ { "item": "afs_mess_hall", "chance": 80 } ] },
         "V": { "items": [ { "item": "afs_vending_false_meals", "chance": 100 } ] }
       },
