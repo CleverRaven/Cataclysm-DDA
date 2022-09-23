@@ -16,6 +16,7 @@
       { "id": "CUT", "level": 1 }
     ],
     "proficiencies": [ { "proficiency": "prof_carpentry_basic" } ],
+    "byproducts": [ [ "splinter", 140 ] ],
     "components": [
       [ [ "2x4", 4 ] ],
       [ [ "wooden_post_short", 6 ] ],
@@ -35,6 +36,7 @@
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_W", "level": 2 }, { "id": "SCREW", "level": 1 } ],
     "proficiencies": [ { "proficiency": "prof_carpentry_basic" } ],
+    "byproducts": [ [ "splinter", 168 ] ],
     "components": [
       [ [ "wooden_post", 2 ] ],
       [ [ "wooden_post_short", 4 ] ],
@@ -55,6 +57,7 @@
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_W", "level": 2 }, { "id": "SCREW", "level": 1 } ],
     "proficiencies": [ { "proficiency": "prof_carpentry_basic" } ],
+    "byproducts": [ [ "splinter", 155 ] ],
     "components": [ [ [ "wooden_post_short", 5 ] ], [ [ "wood_panel", 1 ] ], [ [ "nuts_bolts", 10 ] ] ]
   },
   {
@@ -67,9 +70,8 @@
     "time": "25 m",
     "autolearn": true,
     "qualities": [ { "id": "AXE", "level": 3 } ],
-    "proficiencies": [ { "proficiency": "prof_carpentry_basic" } ],
     "components": [ [ [ "log", 1 ] ] ],
-    "byproducts": [ [ "stool_log", 1 ], [ "splinter", 750 ] ]
+    "byproducts": [ [ "splinter", 750 ] ]
   },
   {
     "result": "chair_wood_black",
