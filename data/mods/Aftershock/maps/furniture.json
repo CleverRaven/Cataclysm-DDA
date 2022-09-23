@@ -1097,5 +1097,33 @@
         { "item": "amplifier", "count": [ 1, 2 ] }
       ]
     }
+  },
+  {
+    "type": "furniture",
+    "id": "f_exo_gantry",
+    "name": "Exosuit gantry",
+    "symbol": "T",
+    "description": "A gantry for supporting an exosuit upright during maintenance and repair.  Includes the specialized tools needed for complex repairs and will also charge the suit's power when active.  This one is not currently functioning.",
+    "color": "light_cyan",
+    "looks_like": "f_robotic_arm",
+    "move_cost_mod": -1,
+    "coverage": 35,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT" ],
+    "deconstruct": {
+      "items": [
+        { "item": "afs_circuitry_3", "count": [ 1, 2 ] },
+        { "item": "afs_circuitry_2", "count": [ 4, 8 ] },
+        { "item": "cable", "charges": [ 4, 6 ] },
+        { "item": "small_lcd_screen", "count": [ 1, 2 ] },
+        { "item": "e_scrap", "count": [ 10, 16 ] },
+        { "item": "afs_circuitry_1", "count": [ 6, 10 ] },
+        { "item": "afs_energy_storage_2", "count": [ 2, 4 ] },
+        { "item": "afs_energy_storage_1", "count": [ 2, 4 ] },
+        { "item": "plastic_chunk", "count": [ 10, 12 ] },
+        { "item": "afs_material_1", "count": [ 6, 8 ] },
+        { "item": "afs_material_2", "count": [ 3, 7 ] }
+      ]
+    }
   }
 ]
