@@ -4310,40 +4310,40 @@ void cata_tiles::get_rotation_and_subtile( const char val, const char rot_to, in
             break;
         // end pieces
         case 8:
-            // vertical end piece
+            // vertical end piece S
             subtile = end_piece;
             if( no_rotation ) {
                 rotation = 2;
                 break;
             }
-            rotation = get_rotation_edge_ns( rot_to );
+            rotation = 2 + 4 * get_rotation_edge_ns( rot_to );
             break;
         case 4:
-            // horizontal end piece
+            // horizontal end piece E
             subtile = end_piece;
             if( no_rotation ) {
                 rotation = 3;
                 break;
             }
-            rotation = get_rotation_edge_ew( rot_to );
+            rotation = 3 + 4 * get_rotation_edge_ew( rot_to );
             break;
         case 2:
-            // horizontal end piece
+            // horizontal end piece W
             subtile = end_piece;
             if( no_rotation ) {
                 rotation = 1;
                 break;
             }
-            rotation = get_rotation_edge_ew( rot_to );
+            rotation = 1 + 4 * get_rotation_edge_ew( rot_to );
             break;
         case 1:
-            // vertical end piece
+            // vertical end piece N
             subtile = end_piece;
             if( no_rotation ) {
                 rotation = 0;
                 break;
             }
-            rotation = get_rotation_edge_ns( rot_to );
+            rotation = 4 * get_rotation_edge_ns( rot_to );
             break;
         // edges
         case 9:
@@ -4353,7 +4353,7 @@ void cata_tiles::get_rotation_and_subtile( const char val, const char rot_to, in
                 rotation = 0;
                 break;
             }
-            rotation = get_rotation_edge_ns( rot_to );
+            rotation = 2 * get_rotation_edge_ns( rot_to );
             break;
         case 6:
             // horizontal edge
@@ -4362,7 +4362,7 @@ void cata_tiles::get_rotation_and_subtile( const char val, const char rot_to, in
                 rotation = 1;
                 break;
             }
-            rotation = get_rotation_edge_ew( rot_to );
+            rotation = 1 + 2 * get_rotation_edge_ew( rot_to );
             break;
         // corners
         case 12:
@@ -4406,10 +4406,10 @@ int cata_tiles::get_rotation_edge_ns( const char rot_to )
     if( ( rot_to & static_cast<int>( NEIGHBOUR::EAST ) ) == static_cast<int>( NEIGHBOUR::EAST ) ) {
         if( ( rot_to & static_cast<int>( NEIGHBOUR::WEST ) ) == static_cast<int>( NEIGHBOUR::WEST ) ) {
             // EW
-            return 4;
+            return 2;
         } else {
             // Ew
-            return 2;
+            return 1;
         }
     } else { // east -
         if( ( rot_to & static_cast<int>( NEIGHBOUR::WEST ) ) == static_cast<int>( NEIGHBOUR::WEST ) ) {
@@ -4417,7 +4417,7 @@ int cata_tiles::get_rotation_edge_ns( const char rot_to )
             return 0;
         } else {
             // ew
-            return 6;
+            return 3;
         }
     }
 }
@@ -4427,7 +4427,7 @@ int cata_tiles::get_rotation_edge_ew( const char rot_to )
     if( ( rot_to & static_cast<int>( NEIGHBOUR::NORTH ) ) == static_cast<int>( NEIGHBOUR::NORTH ) ) {
         if( ( rot_to & static_cast<int>( NEIGHBOUR::SOUTH ) ) == static_cast<int>( NEIGHBOUR::SOUTH ) ) {
             // NS
-            return 7;
+            return 2;
         } else {
             // Ns
             return 1;
@@ -4435,10 +4435,10 @@ int cata_tiles::get_rotation_edge_ew( const char rot_to )
     } else { // north -
         if( ( rot_to & static_cast<int>( NEIGHBOUR::SOUTH ) ) == static_cast<int>( NEIGHBOUR::SOUTH ) ) {
             // nS
-            return 3;
+            return 0;
         } else {
             // ns
-            return 5;
+            return 3;
         }
     }
 }
