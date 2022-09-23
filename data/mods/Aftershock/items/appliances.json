@@ -13,4 +13,4 @@
     "weight": "50 kg",
     "pocket_data": [ { "pocket_type": "CONTAINER", "rigid": true, "max_contains_volume": "450 L", "max_contains_weight": "400 kg" } ]
   }
-  ]
+]
