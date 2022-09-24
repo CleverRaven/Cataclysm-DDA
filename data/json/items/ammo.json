@@ -150,6 +150,7 @@
     "weight": "135 mg",
     "//": "Density of 2.7 g/cm3",
     "ammo_type": "components",
+    "flags": [ "NO_REPAIR" ]
     "count": 200
   },
   {
