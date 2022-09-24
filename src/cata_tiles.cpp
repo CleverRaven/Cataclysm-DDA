@@ -1694,159 +1694,136 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
     }
 }
 }
-// tile overrides are already drawn in the previous code
-void_radiation_override();
-void_terrain_override();
-void_furniture_override();
-void_graffiti_override();
-void_trap_override();
-void_field_override();
-void_item_override();
-void_vpart_override();
-void_draw_below_override();
-void_monster_override();
+    // tile overrides are already drawn in the previous code
+    void_radiation_override();
+    void_terrain_override();
+    void_furniture_override();
+    void_graffiti_override();
+    void_trap_override();
+    void_field_override();
+    void_item_override();
+    void_vpart_override();
+    void_draw_below_override();
+    void_monster_override();
 
-//Memorize everything the character just saw even if it wasn't displayed.
-for( int mem_y = min_visible.y; mem_y <= max_visible.y; mem_y++ )
-{
-    for( int mem_x = min_visible.x; mem_x <= max_visible.x; mem_x++ ) {
-        half_open_rectangle<point> already_drawn(
-            point( min_col, min_row ), point( max_col, max_row ) );
-        if( is_isometric() ) {
-            // calculate the screen position according to the drawing code above
-            // (division rounded down):
+    //Memorize everything the character just saw even if it wasn't displayed.
+    for( int mem_y = min_visible.y; mem_y <= max_visible.y; mem_y++ ) {
+        for( int mem_x = min_visible.x; mem_x <= max_visible.x; mem_x++ ) {
+            half_open_rectangle<point> already_drawn(
+                point( min_col, min_row ), point( max_col, max_row ) );
+            if( is_isometric() ) {
+                // calculate the screen position according to the drawing code above
+                // (division rounded down):
 
-            // mem_x = ( col - row - sx / 2 + sy / 2 ) / 2 + o.x;
-            // mem_y = ( row + col - sy / 2 - sx / 2 ) / 2 + o.y;
-            // ( col - sx / 2 ) % 2 = ( row - sy / 2 ) % 2
-            // ||
-            // \/
-            const int col = mem_y + mem_x + s.x / 2 - o.y - o.x;
-            const int row = mem_y - mem_x + s.y / 2 - o.y + o.x;
-            if( already_drawn.contains( point( col, row ) ) ) {
-                continue;
-            }
-        } else {
-            // calculate the screen position according to the drawing code above:
-
-            // mem_x = col + o.x
-            // mem_y = row + o.y
-            // ||
-            // \/
-            // col = mem_x - o.x
-            // row = mem_y - o.y
-            if( already_drawn.contains( point( mem_x, mem_y ) - o ) ) {
-                continue;
-            }
-        }
-
-        lit_level lighting = here.access_cache( center.z ).visibility_cache[mem_x][mem_y];
-
-        int z = center.z;
-        for( ;  z > -OVERMAP_DEPTH; z-- ) {
-            const auto low_override = draw_below_override.find( {mem_x, mem_y, z} );
-            const bool low_overridden = low_override != draw_below_override.end();
-            if( low_overridden ? !low_override->second : ( here.dont_draw_lower_floor( {mem_x, mem_y, z} )
-                    || ( fov_3d && lighting != lit_level::BLANK &&
-                         here.access_cache( z - 1 ).visibility_cache[mem_x][mem_y] == lit_level::BLANK ) ) ) {
-                if( fov_3d ) {
-                    lighting = here.access_cache( z ).visibility_cache[mem_x][mem_y];
+                // mem_x = ( col - row - sx / 2 + sy / 2 ) / 2 + o.x;
+                // mem_y = ( row + col - sy / 2 - sx / 2 ) / 2 + o.y;
+                // ( col - sx / 2 ) % 2 = ( row - sy / 2 ) % 2
+                // ||
+                // \/
+                const int col = mem_y + mem_x + s.x / 2 - o.y - o.x;
+                const int row = mem_y - mem_x + s.y / 2 - o.y + o.x;
+                if( already_drawn.contains( point( col, row ) ) ) {
+                    continue;
                 }
-                break;
+            } else {
+                // calculate the screen position according to the drawing code above:
+
+                // mem_x = col + o.x
+                // mem_y = row + o.y
+                // ||
+                // \/
+                // col = mem_x - o.x
+                // row = mem_y - o.y
+                if( already_drawn.contains( point( mem_x, mem_y ) - o ) ) {
+                    continue;
+                }
+            }
+            const tripoint p( mem_x, mem_y, center.z );
+            lit_level lighting = ch.visibility_cache[p.x][p.y];
+            if( apply_vision_effects( p, here.get_visibility( lighting, cache ) ) ) {
+                continue;
+            }
+            int height_3d = 0;
+            std::array<bool, 5> invisible;
+            invisible[0] = false;
+            for( int i = 0; i < 4; i++ ) {
+                const tripoint np = p + neighborhood[i];
+                invisible[1 + i] = apply_visible( np, ch, here );
+            }
+            //calling draw to memorize everything.
+            //bypass cache check in case we learn something new about the terrain's connections
+            draw_terrain( p, lighting, height_3d, invisible, 0 );
+            if( here.check_seen_cache( p ) ) {
+                draw_furniture( p, lighting, height_3d, invisible, 0 );
+                draw_trap( p, lighting, height_3d, invisible, 0 );
+                draw_vpart( p, lighting, height_3d, invisible, 0 );
+                here.check_and_set_seen_cache( p, 0 );
             }
         }
+    }
 
+    in_animation = do_draw_explosion || do_draw_custom_explosion ||
+                   do_draw_bullet || do_draw_hit || do_draw_line ||
+                   do_draw_cursor || do_draw_highlight || do_draw_weather ||
+                   do_draw_sct || do_draw_zones;
 
-        const auto &ch = here.access_cache( z );
-        const tripoint p( mem_x, mem_y, z );
-
-        if( apply_vision_effects( p, here.get_visibility( lighting, cache ) ) ) {
-            continue;
+    draw_footsteps_frame( center );
+    if( in_animation ) {
+        if( do_draw_explosion ) {
+            draw_explosion_frame();
         }
-        int height_3d = 0;
-        std::array<bool, 5> invisible;
-        invisible[0] = false;
-        for( int i = 0; i < 4; i++ ) {
-            const tripoint np = p + neighborhood[i];
-            invisible[1 + i] = apply_visible( np, ch, here );
+        if( do_draw_custom_explosion ) {
+            draw_custom_explosion_frame();
         }
-        //calling draw to memorize everything.
-        //bypass cache check in case we learn something new about the terrain's connections
-        draw_terrain( p, lighting, height_3d, invisible, 0 );
-        if( here.check_seen_cache( p ) ) {
-            draw_furniture( p, lighting, height_3d, invisible, 0 );
-            draw_trap( p, lighting, height_3d, invisible, 0 );
-            draw_vpart( p, lighting, height_3d, invisible, 0 );
-            here.check_and_set_seen_cache( p );
+        if( do_draw_bullet ) {
+            draw_bullet_frame();
         }
-    }
-}
-
-in_animation = do_draw_explosion || do_draw_custom_explosion ||
-               do_draw_bullet || do_draw_hit || do_draw_line ||
-               do_draw_cursor || do_draw_highlight || do_draw_weather ||
-               do_draw_sct || do_draw_zones;
-
-draw_footsteps_frame( center );
-if( in_animation )
-{
-    if( do_draw_explosion ) {
-        draw_explosion_frame();
-    }
-    if( do_draw_custom_explosion ) {
-        draw_custom_explosion_frame();
-    }
-    if( do_draw_bullet ) {
-        draw_bullet_frame();
-    }
-    if( do_draw_hit ) {
-        draw_hit_frame();
-        void_hit();
-    }
-    if( do_draw_line ) {
-        draw_line();
-        void_line();
-    }
-    if( do_draw_weather ) {
-        draw_weather_frame();
-        void_weather();
-    }
-    if( do_draw_sct ) {
-        draw_sct_frame( overlay_strings );
-        void_sct();
-    }
-    if( do_draw_zones ) {
-        draw_zones_frame();
-        void_zones();
-    }
-    if( do_draw_cursor ) {
-        draw_cursor();
-        void_cursor();
-    }
-    if( do_draw_highlight ) {
-        draw_highlight();
-        void_highlight();
-    }
-} else if( you.view_offset != tripoint_zero && !you.in_vehicle )
-{
-    // check to see if player is located at ter
-    draw_from_id_string( "cursor", TILE_CATEGORY::NONE, empty_string,
-                         tripoint( g->ter_view_p.xy(), center.z ), 0, 0, lit_level::LIT,
-                         false, 0 );
-}
-if( you.controlling_vehicle )
-{
-    cata::optional<tripoint> indicator_offset = g->get_veh_dir_indicator_location( true );
-    if( indicator_offset ) {
+        if( do_draw_hit ) {
+            draw_hit_frame();
+            void_hit();
+        }
+        if( do_draw_line ) {
+            draw_line();
+            void_line();
+        }
+        if( do_draw_weather ) {
+            draw_weather_frame();
+            void_weather();
+        }
+        if( do_draw_sct ) {
+            draw_sct_frame( overlay_strings );
+            void_sct();
+        }
+        if( do_draw_zones ) {
+            draw_zones_frame();
+            void_zones();
+        }
+        if( do_draw_cursor ) {
+            draw_cursor();
+            void_cursor();
+        }
+        if( do_draw_highlight ) {
+            draw_highlight();
+            void_highlight();
+        }
+    } else if( you.view_offset != tripoint_zero && !you.in_vehicle ) {
+        // check to see if player is located at ter
         draw_from_id_string( "cursor", TILE_CATEGORY::NONE, empty_string,
-                             indicator_offset->xy() +
-                             tripoint( you.posx(), you.posy(), center.z ),
-                             0, 0, lit_level::LIT, false, 0 );
+                             tripoint( g->ter_view_p.xy(), center.z ), 0, 0, lit_level::LIT,
+                             false, overlay_count );
     }
-}
+    if( you.controlling_vehicle ) {
+        cata::optional<tripoint> indicator_offset = g->get_veh_dir_indicator_location( true );
+        if( indicator_offset ) {
+            draw_from_id_string( "cursor", TILE_CATEGORY::NONE, empty_string,
+                                 indicator_offset->xy() +
+                                 tripoint( you.posx(), you.posy(), center.z ),
+                                 0, 0, lit_level::LIT, false, overlay_count );
+        }
+    }
 
-printErrorIf( SDL_RenderSetClipRect( renderer.get(), nullptr ) != 0,
-              "SDL_RenderSetClipRect failed" );
+    printErrorIf( SDL_RenderSetClipRect( renderer.get(), nullptr ) != 0,
+                  "SDL_RenderSetClipRect failed" );
 }
 
 void cata_tiles::draw_minimap( const point &dest, const tripoint &center, int width, int height )
@@ -2315,13 +2292,13 @@ bool cata_tiles::draw_from_id_string( const std::string &id, TILE_CATEGORY categ
             }
             if( tileset_ptr->find_tile_type( generic_id ) ) {
                 return draw_from_id_string( generic_id, pos, subtile, rota,
-                                            ll, nv_color_active );
+                                            ll, nv_color_active, overlay_count );
             }
             // Try again without color this time (using default color).
             generic_id = get_ascii_tile_id( sym, -1, -1 );
             if( tileset_ptr->find_tile_type( generic_id ) ) {
                 return draw_from_id_string( generic_id, pos, subtile, rota,
-                                            ll, nv_color_active );
+                                            ll, nv_color_active, overlay_count );
             }
         }
     }
@@ -2652,7 +2629,7 @@ bool cata_tiles::draw_sprite_at(
                     // never rotate isometric tiles
                     ret = render( -90, SDL_FLIP_NONE );
                 } else {
-                    +                    ret = render( 0, SDL_FLIP_NONE );
+                    ret = render( 0, SDL_FLIP_NONE );
                 }
                 break;
             case 2:
@@ -3652,7 +3629,7 @@ bool cata_tiles::draw_critter_at( const tripoint &p, const lit_level, int &,
 }
 
 bool cata_tiles::draw_zone_mark( const tripoint &p, lit_level ll, int &height_3d,
-                                 const std::array<bool, 5> &invisible )
+                                 const std::array<bool, 5> &invisible, int z_drop )
 {
     if( invisible[0] ) {
         return false;
@@ -4274,7 +4251,7 @@ void cata_tiles::init_light()
 }
 
 void cata_tiles::get_terrain_orientation( const tripoint &p, int &rota, int &subtile,
-        const std::map<tripoint, ter_id> &ter_override, const std::array<bool, 5> &invisible )
+        const std::map<tripoint, ter_id> &ter_override, const std::array<bool, 5> &invisible, int z_drop )
 {
     map &here = get_map();
     const bool overridden = ter_override.find( p ) != ter_override.end();
