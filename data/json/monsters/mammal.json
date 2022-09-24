@@ -782,7 +782,7 @@
     "path_settings": { "max_dist": 10 },
     "anger_triggers": [ "STALK", "FRIEND_ATTACKED", "PLAYER_WEAK", "HURT" ],
     "fear_triggers": [ "SOUND" ],
-    "harvest": "mammal_fur",
+    "harvest": "mammal_fur_canis",
     "dissect": "dissect_lupine_sample_single",
     "families": [ "prof_intro_biology" ],
     "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "HIT_AND_RUN", "KEENNOSE" ]
@@ -1599,7 +1599,7 @@
     "melee_damage": [ { "damage_type": "cut", "amount": 5 } ],
     "dodge": 2,
     "vision_night": 6,
-    "harvest": "mammal_fur",
+    "harvest": "mammal_fur_canis",
     "reproduction": { "baby_monster": "mon_dog_gpyrenees_pup", "baby_count": 7, "baby_timer": 320 },
     "//2": "1-7 puppies & 300-320 days per-litter for size medium canines",
     "petfood": {
@@ -2770,7 +2770,7 @@
     "dodge": 4,
     "armor_bash": 1,
     "vision_night": 5,
-    "harvest": "mammal_fur",
+    "harvest": "mammal_fur_canis",
     "dissect": "dissect_lupine_sample_single",
     "families": [ "prof_intro_biology" ],
     "reproduction": { "baby_monster": "mon_wolf_pup", "baby_count": 6, "baby_timer": 365 },
