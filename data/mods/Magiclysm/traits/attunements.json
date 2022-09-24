@@ -651,7 +651,7 @@
     "purifiable": false,
     "valid": false,
     "description": "Through the fine manipulation of light, an Illusionist might craft deceptively convincing and dangerous illusions.  An Illusionist excels at avoiding direct confrontation, instead relying on decoys and traps to slip by undetected.",
-    "spells_learned": [ [ "spear_of_light", 5 ] ],
+    "spells_learned": [ [ "spear_of_light", 5 ], [ "illusionist_hologram", 5 ], [ "illusionist_transposition", 5 ] ],
     "prereqs": [ "MAGUS", "TECHNOMANCER" ],
     "cancels": [
       "ARTIFICER",
@@ -730,7 +730,7 @@
     "valid": false,
     "description": "",
     "prereqs": [ "KELVINIST", "MAGUS" ],
-    "spells_learned": [ [ "cold_energy", 5 ] ],
+    "spells_learned": [ [ "cold_energy", 5 ], [ "permafrost_mage_ice_age", 5 ] ],
     "cancels": [
       "ARTIFICER",
       "ALCHEMIST",
@@ -933,7 +933,7 @@
     "description": "You've used your knowledge of Biomancy to change your body into a form befitting a Stormshaper.  You can better withstand the power of electricity, and sparks leap from your skin when something hits you.  You're beginning to study spells that utilize your body's affinity for the electric.",
     "prereqs": [ "STORMSHAPER", "BIOMANCER" ],
     "enchantments": [ "STORM_ELEMENTAL" ],
-    "spells_learned": [ [ "storm_chain_master", 5 ] ],
+    "spells_learned": [ [ "storm_chain_master", 5 ], [ "storm_elemental_electric_melee", 5 ] ],
     "cancels": [
       "ARTIFICER",
       "BIOTEK",
@@ -973,6 +973,7 @@
     "valid": false,
     "description": "A stormcaller is a stormshaper with an additional affinity toward the weather in a localized area.  Historians agree that the druid requirement has something to do with the Druid's affinity for nature, just like their ability to summon animals.  You will know a stormcaller is in the room if your ears pop and your hair stands straight on end.  Stormcallers are not known for their subtlety.",
     "prereqs": [ "STORMSHAPER", "DRUID" ],
+    "spells_learned": [ [ "electric_demon", 5 ] ],
     "cancels": [
       "ARTIFICER",
       "BIOTEK",

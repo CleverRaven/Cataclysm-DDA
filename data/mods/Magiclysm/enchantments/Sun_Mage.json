@@ -21,7 +21,41 @@
     "type": "enchantment",
     "id": "SUN_MAGE",
     "condition": "ALWAYS",
-    "values": [ { "value": "PERCEPTION", "add": 5 } ],
     "hit_me_effect": [ { "id": "solar_blinding" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "SUN_MAGE_BUFF",
+    "recurrence": [ "30 m", "60 m" ],
+    "condition": {
+      "and": [
+        { "compare_int": [ "hour", ">", { "const": 6 } ] },
+        { "compare_int": [ "hour", "<", { "const": 21 } ] },
+        { "u_has_trait": "SUN_MAGE" },
+        "u_is_outside"
+      ]
+    },
+    "effect": [ { "u_add_effect": "sun_mage_buff", "intensity": 1, "duration": "60 minutes" } ]
+  },
+  {
+    "id": "sun_mage_buff",
+    "type": "effect_type",
+    "name": [ "Sol" ],
+    "desc": [ "You feel your mana connected to the Sun, and it makes you better than ever." ],
+    "remove_message": "You don't feel a sun energy in your body anymore.",
+    "rating": "good",
+    "max_duration": "60 m",
+    "show_intensity": false,
+    "enchantments": [
+      {
+        "condition": { "not": "ALWAYS" },
+        "values": [
+          { "value": "STRENGTH", "add": 1, "multiply": 0.25 },
+          { "value": "DEXTERITY", "add": 1, "multiply": 0.25 },
+          { "value": "INTELLIGENCE", "add": 1, "multiply": 0.25 },
+          { "value": "PERCEPTION", "add": 1, "multiply": 0.25 }
+        ]
+      }
+    ]
   }
 ]
