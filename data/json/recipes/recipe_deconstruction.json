@@ -3673,7 +3673,7 @@
       [ [ "plastic_chunk", 8 ] ],
       [ [ "receiver", 1 ] ],
       [ [ "e_scrap", 2 ] ],
-      [ [ "scrap", 3 ] ],
+      [ [ "scrap_aluminum", 3 ] ],
       [ [ "radio_car_wheel", 1 ] ]
     ]
   },
