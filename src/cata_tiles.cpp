@@ -4309,6 +4309,15 @@ void cata_tiles::get_rotation_and_subtile( const char val, const char rot_to, in
             rotation = 0;
             break;
         // end pieces
+        // rotations:
+        //
+        // --> edge index
+        // Nw, Ws, Sw, Es,
+        // Ne, Wn, Se, En,  |
+        // N+, W+, S+, E+,  V  get_rotation_... return index
+        // N-, W-, S-, E-
+        //
+        // (Nw = north end piece, rotated to west)
         case 8:
             // vertical end piece S
             subtile = end_piece;
@@ -4346,6 +4355,15 @@ void cata_tiles::get_rotation_and_subtile( const char val, const char rot_to, in
             rotation = 4 * get_rotation_edge_ns( rot_to );
             break;
         // edges
+        // rotations:
+        //
+        // --> edge index
+        // NSw, EWs,
+        // NSe, EWn,  |
+        // NS+, EW+,  V  get_rotation_... return index
+        // NS-, EW-,
+        //
+        // (NSw = north-south edge, rotated to west)
         case 9:
             // vertical edge
             subtile = edge;
