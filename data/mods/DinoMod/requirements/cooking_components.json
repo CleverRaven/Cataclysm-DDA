@@ -32,6 +32,7 @@
         [ "egg_deinonychus", 1 ],
         [ "egg_utahraptor", 1 ],
         [ "egg_sarahsaurus", 1 ],
+        [ "egg_anchisaurus", 1 ],
         [ "egg_issi", 1 ],
         [ "egg_stegosaurus", 1 ],
         [ "egg_hesperosaurus", 1 ],
@@ -103,6 +104,7 @@
         [ "egg_apatosaurus", 1 ],
         [ "egg_brontosaurus", 1 ],
         [ "egg_diplodocus", 1 ],
+        [ "egg_barosaurus", 1 ],
         [ "egg_camarasaurus", 1 ],
         [ "egg_brachiosaurus", 1 ],
         [ "egg_alamosaurus", 1 ]

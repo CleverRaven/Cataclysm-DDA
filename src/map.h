@@ -810,6 +810,21 @@ class map
         // as above, but for furniture
         uint8_t get_known_connections_f( const tripoint &p, int connect_group,
                                          const std::map<tripoint, furn_id> &override = {} ) const;
+
+        // Return a bitfield of the adjacent tiles which rotate towards the given
+        // connect_group.  From least-significant bit the order is south, east,
+        // west, north (because that's what cata_tiles expects).
+        // Returns CHAR_MAX if rotate_to_group is 0 (i.e. does not rotate).
+        // Based on the true terrain.
+        // Additional overrides can be passed in to override terrain
+        // at specific positions.
+        uint8_t get_known_rotates_to( const tripoint &p, int rotate_to_group,
+                                      const std::map<tripoint, ter_id> &override = {} ) const;
+        // as above, but for furniture (considers neighbouring terrain and furniture)
+        uint8_t get_known_rotates_to_f( const tripoint &p, int rotate_to_group,
+                                        const std::map<tripoint, ter_id> &override = {},
+                                        const std::map<tripoint, furn_id> &override_f = {} ) const;
+
         /**
          * Returns the full harvest list, for spawning.
          */
@@ -1867,8 +1882,6 @@ class map
         void draw_map( mapgendata &dat );
 
         void draw_lab( mapgendata &dat );
-        void draw_temple( const mapgendata &dat );
-        void draw_anthill( const mapgendata &dat );
         void draw_slimepit( const mapgendata &dat );
         void draw_connections( const mapgendata &dat );
 

@@ -121,7 +121,7 @@ class relic_procgen_data
         relic_procgen_id id;
         std::vector<std::pair<relic_procgen_id, mod_id>> src;
 
-        int power_level( const enchantment &ench ) const;
+        int power_level( const enchant_cache &ench ) const;
         // power level of the active spell
         int power_level( const fake_spell &sp ) const;
 
@@ -199,7 +199,7 @@ class relic
 {
     private:
         std::vector<fake_spell> active_effects;
-        std::vector<enchantment> passive_effects;
+        std::vector<enchant_cache> passive_effects;
 
         // the item's name will be replaced with this if the string is not empty
         translation item_name_override; // NOLINT(cata-serialize)
@@ -229,12 +229,11 @@ class relic
         void serialize( JsonOut &jsout ) const;
         void deserialize( const JsonObject &jobj );
 
-        void add_passive_effect( const enchantment &ench );
+        void add_passive_effect( const enchant_cache &ench );
         void add_active_effect( const fake_spell &sp );
 
-        std::vector<enchantment> get_enchantments() const;
+        std::vector<enchant_cache> get_enchantments() const;
 
-        int modify_value( enchant_vals::mod value_type, int value ) const;
         void overwrite_charge( const relic_charge_info &info );
 
         // what is the power level of this artifact, given a specific ruleset

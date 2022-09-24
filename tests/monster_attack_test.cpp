@@ -4,6 +4,7 @@
 #include "cached_options.h"
 #include "calendar.h"
 #include "cata_catch.h"
+#include "cata_scope_helpers.h"
 #include "character.h"
 #include "line.h"
 #include "map.h"

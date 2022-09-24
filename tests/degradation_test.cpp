@@ -466,11 +466,11 @@ TEST_CASE( "Gun repair with degradation", "[item][degradation]" )
             gun.set_degradation( 0 );
             REQUIRE( gun.damage() == 4000 );
             REQUIRE( gun.degradation() == 0 );
-            THEN( "Repaired to 3000 damage" ) {
+            THEN( "Repaired to 3999 damage" ) {
                 u.wield( gun );
                 item_location gun_loc( u, &gun );
                 ::gun_repair( &u, &gun, gun_loc );
-                CHECK( gun.damage() == 3000 );
+                CHECK( gun.damage() == 3999 );
             }
         }
 
@@ -505,11 +505,11 @@ TEST_CASE( "Gun repair with degradation", "[item][degradation]" )
             gun.set_degradation( 1000 );
             REQUIRE( gun.damage() == 4000 );
             REQUIRE( gun.degradation() == 1000 );
-            THEN( "Repaired to 3000 damage" ) {
+            THEN( "Repaired to 3999 damage" ) {
                 u.wield( gun );
                 item_location gun_loc( u, &gun );
                 ::gun_repair( &u, &gun, gun_loc );
-                CHECK( gun.damage() == 3000 );
+                CHECK( gun.damage() == 3999 );
             }
         }
 
@@ -531,11 +531,11 @@ TEST_CASE( "Gun repair with degradation", "[item][degradation]" )
             gun.set_degradation( 2000 );
             REQUIRE( gun.damage() == 2000 );
             REQUIRE( gun.degradation() == 2000 );
-            THEN( "Repaired to 1000 damage" ) {
+            THEN( "Repaired to 1333 damage" ) {
                 u.wield( gun );
                 item_location gun_loc( u, &gun );
                 ::gun_repair( &u, &gun, gun_loc );
-                CHECK( gun.damage() == 1000 );
+                CHECK( gun.damage() == 1333 );
             }
         }
 
@@ -544,11 +544,11 @@ TEST_CASE( "Gun repair with degradation", "[item][degradation]" )
             gun.set_degradation( 2000 );
             REQUIRE( gun.damage() == 4000 );
             REQUIRE( gun.degradation() == 2000 );
-            THEN( "Repaired to 3000 damage" ) {
+            THEN( "Repaired to 3999 damage" ) {
                 u.wield( gun );
                 item_location gun_loc( u, &gun );
                 ::gun_repair( &u, &gun, gun_loc );
-                CHECK( gun.damage() == 3000 );
+                CHECK( gun.damage() == 3999 );
             }
         }
 
@@ -570,11 +570,11 @@ TEST_CASE( "Gun repair with degradation", "[item][degradation]" )
             gun.set_degradation( 3000 );
             REQUIRE( gun.damage() == 3000 );
             REQUIRE( gun.degradation() == 3000 );
-            THEN( "Repaired to 2000 damage" ) {
+            THEN( "Repaired to 2666 damage" ) {
                 u.wield( gun );
                 item_location gun_loc( u, &gun );
                 ::gun_repair( &u, &gun, gun_loc );
-                CHECK( gun.damage() == 2000 );
+                CHECK( gun.damage() == 2666 );
             }
         }
 
@@ -583,11 +583,11 @@ TEST_CASE( "Gun repair with degradation", "[item][degradation]" )
             gun.set_degradation( 3000 );
             REQUIRE( gun.damage() == 4000 );
             REQUIRE( gun.degradation() == 3000 );
-            THEN( "Repaired to 3000 damage" ) {
+            THEN( "Repaired to 3999 damage" ) {
                 u.wield( gun );
                 item_location gun_loc( u, &gun );
                 ::gun_repair( &u, &gun, gun_loc );
-                CHECK( gun.damage() == 3000 );
+                CHECK( gun.damage() == 3999 );
             }
         }
 
@@ -609,11 +609,11 @@ TEST_CASE( "Gun repair with degradation", "[item][degradation]" )
             gun.set_degradation( 4000 );
             REQUIRE( gun.damage() == 4000 );
             REQUIRE( gun.degradation() == 4000 );
-            THEN( "Repaired to 3000 damage" ) {
+            THEN( "Repaired to 3999 damage" ) {
                 u.wield( gun );
                 item_location gun_loc( u, &gun );
                 ::gun_repair( &u, &gun, gun_loc );
-                CHECK( gun.damage() == 3000 );
+                CHECK( gun.damage() == 3999 );
             }
         }
     }

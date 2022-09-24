@@ -48,6 +48,7 @@ class nc_color;
 class npc;
 class vehicle;
 class vehicle_part_range;
+class veh_menu;
 class vpart_info;
 class vpart_position;
 class zone_data;
@@ -436,7 +437,10 @@ struct vehicle_part {
         int max_damage() const;
         /** Current damage floor of the part base */
         int damage_floor( bool allow_negative ) const;
-
+        // @returns the maximum damage levels possible to repair, accounting for part degradation
+        int repairable_levels() const;
+        // @returns true if part can be repaired, accounting for part degradation
+        bool is_repairable() const;
         /** Current part damage level in same units as item::damage_level */
         int damage_level( int dmg = INT_MIN ) const;
 
@@ -563,6 +567,9 @@ class turret_data
         /** Get base item location */
         item_location base();
         item_location base() const;
+
+        /** @returns true if turret is using vehicle tanks or batteries */
+        bool uses_vehicle_tanks_or_batteries() const;
 
         /** Quantity of ammunition available for use */
         int ammo_remaining() const;
@@ -932,11 +939,6 @@ class vehicle
         autodrive_result do_autodrive( Character &driver );
         // Stop any kind of automatic vehicle control and apply the brakes.
         void stop_autodriving( bool apply_brakes = true );
-        /**
-         *  Operate vehicle controls
-         *  @param pos location of physical controls to operate (ignored during remote operation)
-         */
-        void use_controls( const tripoint &pos );
 
         item init_cord( const tripoint &pos );
         void plug_in( const tripoint &pos );
@@ -1503,9 +1505,9 @@ class vehicle
         bool is_flyable() const;
         void set_flyable( bool val );
         // Would interacting with this part prevent the vehicle from being flyable?
-        bool would_install_prevent_flyable( const vpart_info &vpinfo, Character &pc ) const;
-        bool would_removal_prevent_flyable( vehicle_part &vp, Character &pc ) const;
-        bool would_repair_prevent_flyable( vehicle_part &vp, Character &pc ) const;
+        bool would_install_prevent_flyable( const vpart_info &vpinfo, const Character &pc ) const;
+        bool would_removal_prevent_flyable( const vehicle_part &vp, const Character &pc ) const;
+        bool would_repair_prevent_flyable( const vehicle_part &vp, const Character &pc ) const;
         /**
          * Traction coefficient of the vehicle.
          * 1.0 on road. Outside roads, depends on mass divided by wheel area
@@ -1769,8 +1771,6 @@ class vehicle
         // opens/closes doors or multipart doors
         void open( int part_index );
         void close( int part_index );
-        // returns whether the door is open or not
-        bool is_open( int part_index ) const;
 
         bool can_close( int part_index, Character &who );
 
@@ -1780,8 +1780,6 @@ class vehicle
         time_duration folding_time() const;
         // @returns how long should unfolding activity take
         time_duration unfolding_time() const;
-        // assigns folding activity to player avatar
-        void start_folding_activity();
         // @returns item of this vehicle folded
         item get_folded_item() const;
         // restores vehicle parts from a folded item
@@ -1814,19 +1812,8 @@ class vehicle
         // for destroying any terrain around vehicle part. Automated mining tool.
         void crash_terrain_around();
         void transform_terrain();
-        void add_toggle_to_opts( std::vector<uilist_entry> &options,
-                                 std::vector<std::function<void()>> &actions,
-                                 const std::string &name,
-                                 const input_event &key,
-                                 const std::string &flag );
-        void set_electronics_menu_options( std::vector<uilist_entry> &options,
-                                           std::vector<std::function<void()>> &actions );
-        //main method for the control of multiple electronics
-        void control_electronics();
         //main method for the control of individual engines
         void control_engines();
-        // shows ui menu to select an engine
-        int select_engine();
         //returns whether the engine is enabled or not, and has fueltype
         bool is_engine_type_on( int e, const itype_id &ft ) const;
         //returns whether the engine is enabled or not
@@ -1903,10 +1890,12 @@ class vehicle
         void use_washing_machine( int p );
         void use_dishwasher( int p );
         void use_monster_capture( int part, const tripoint &pos );
-        void use_bike_rack( int part );
         void use_harness( int part, const tripoint &pos );
 
-        void interact_with( const vpart_position &vp, bool with_pickup = false );
+        void build_electronics_menu( veh_menu &menu );
+        void build_bike_rack_menu( veh_menu &menu, int part );
+        void build_interact_menu( veh_menu &menu, const tripoint &p, bool with_pickup );
+        void interact_with( const tripoint &p, bool with_pickup = false );
 
         std::string disp_name() const;
 

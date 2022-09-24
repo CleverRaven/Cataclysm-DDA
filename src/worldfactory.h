@@ -17,7 +17,7 @@
 
 enum class special_game_type;
 
-class JsonIn;
+class JsonArray;
 class JsonObject;
 
 namespace catacurses
@@ -57,6 +57,7 @@ struct WORLD {
          * changing that will also change the result of this function.
          */
         std::string folder_path() const;
+        cata_path folder_path_path() const;
 
         std::string world_name;
         options_manager::options_container WORLD_OPTIONS;
@@ -76,7 +77,7 @@ struct WORLD {
 
         bool save( bool is_conversion = false ) const;
 
-        void load_options( JsonIn &jsin );
+        void load_options( const JsonArray &options_json );
         bool load_options();
 };
 
