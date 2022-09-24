@@ -130,7 +130,7 @@
     "color": "brown",
     "warmth": 30,
     "material_thickness": 3,
-	"use_action": {
+    "use_action": {
       "type": "transform",
       "menu_text": "Dispel ice coating",
       "target": "ice_gliders_off",
@@ -157,7 +157,7 @@
     "color": "brown",
     "warmth": 30,
     "material_thickness": 3,
-	"use_action": {
+    "use_action": {
       "type": "transform",
       "menu_text": "Conjure ice coating",
       "target": "ice_gliders_on",
