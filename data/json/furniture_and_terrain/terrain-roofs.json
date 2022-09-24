@@ -48,10 +48,7 @@
     "move_cost": 3,
     "flags": [ "TRANSPARENT", "NOITEM", "THIN_OBSTACLE", "MOUNTABLE", "TINY", "AUTO_WALL_SYMBOL", "UNSTABLE" ],
     "connects_to": "RAILING",
-    "deconstruct": {
-      "ter_set": "t_flat_roof",
-      "items": [ { "item": "scrap_aluminum", "count": 12 } ]
-    },
+    "deconstruct": { "ter_set": "t_flat_roof", "items": [ { "item": "scrap_aluminum", "count": 12 } ] },
     "bash": {
       "str_min": 5,
       "str_max": 12,
@@ -72,10 +69,7 @@
     "move_cost": 3,
     "flags": [ "TRANSPARENT", "NOITEM", "THIN_OBSTACLE", "MOUNTABLE", "TINY", "AUTO_WALL_SYMBOL", "UNSTABLE" ],
     "connects_to": "RAILING",
-    "deconstruct": {
-      "ter_set": "t_flat_roof",
-      "items": [ { "item": "scrap_aluminum", "count": 12 } ]
-    },
+    "deconstruct": { "ter_set": "t_flat_roof", "items": [ { "item": "scrap_aluminum", "count": 12 } ] },
     "bash": {
       "str_min": 5,
       "str_max": 12,
@@ -96,10 +90,7 @@
     "move_cost": 3,
     "flags": [ "TRANSPARENT", "NOITEM", "THIN_OBSTACLE", "MOUNTABLE", "TINY", "AUTO_WALL_SYMBOL", "UNSTABLE" ],
     "connects_to": "RAILING",
-    "deconstruct": {
-      "ter_set": "t_flat_roof",
-      "items": [ { "item": "scrap_aluminum", "count": 12 } ]
-    },
+    "deconstruct": { "ter_set": "t_flat_roof", "items": [ { "item": "scrap_aluminum", "count": 12 } ] },
     "bash": {
       "str_min": 5,
       "str_max": 12,
@@ -120,10 +111,7 @@
     "move_cost": 3,
     "flags": [ "TRANSPARENT", "NOITEM", "THIN_OBSTACLE", "MOUNTABLE", "TINY", "AUTO_WALL_SYMBOL", "UNSTABLE" ],
     "connects_to": "RAILING",
-    "deconstruct": {
-      "ter_set": "t_flat_roof",
-      "items": [ { "item": "scrap_aluminum", "count": 12 } ]
-    },
+    "deconstruct": { "ter_set": "t_flat_roof", "items": [ { "item": "scrap_aluminum", "count": 12 } ] },
     "bash": {
       "str_min": 5,
       "str_max": 12,
@@ -144,10 +132,7 @@
     "move_cost": 3,
     "flags": [ "TRANSPARENT", "NOITEM", "THIN_OBSTACLE", "MOUNTABLE", "TINY", "AUTO_WALL_SYMBOL", "UNSTABLE", "CLIMBABLE" ],
     "connects_to": "RAILING",
-    "deconstruct": {
-      "ter_set": "t_flat_roof",
-      "items": [ { "item": "scrap_aluminum", "count": 12 } ]
-    },
+    "deconstruct": { "ter_set": "t_flat_roof", "items": [ { "item": "scrap_aluminum", "count": 12 } ] },
     "bash": {
       "str_min": 5,
       "str_max": 12,
@@ -168,10 +153,7 @@
     "move_cost": 3,
     "trap": "tr_downspout_funnel",
     "flags": [ "TRANSPARENT", "THIN_OBSTACLE", "UNSTABLE", "CLIMBABLE" ],
-    "deconstruct": {
-      "ter_set": "t_flat_roof",
-      "items": [ { "item": "scrap_aluminum", "count": 12 } ]
-    },
+    "deconstruct": { "ter_set": "t_flat_roof", "items": [ { "item": "scrap_aluminum", "count": 12 } ] },
     "bash": {
       "str_min": 5,
       "str_max": 12,
