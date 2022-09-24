@@ -1109,20 +1109,14 @@
     "move_cost_mod": -1,
     "coverage": 35,
     "required_str": -1,
-    "flags": [ "TRANSPARENT" ],
+    "flags": [ "PLACE_ITEM", "TRANSPARENT" ],
+    "max_volume": "1750 L",
     "deconstruct": {
       "items": [
-        { "item": "afs_circuitry_3", "count": [ 1, 2 ] },
-        { "item": "afs_circuitry_2", "count": [ 4, 8 ] },
-        { "item": "cable", "charges": [ 4, 6 ] },
-        { "item": "small_lcd_screen", "count": [ 1, 2 ] },
-        { "item": "e_scrap", "count": [ 10, 16 ] },
-        { "item": "afs_circuitry_1", "count": [ 6, 10 ] },
-        { "item": "afs_energy_storage_2", "count": [ 2, 4 ] },
-        { "item": "afs_energy_storage_1", "count": [ 2, 4 ] },
-        { "item": "plastic_chunk", "count": [ 10, 12 ] },
-        { "item": "afs_material_1", "count": [ 6, 8 ] },
-        { "item": "afs_material_2", "count": [ 3, 7 ] }
+      { "item": "steel_lump", "count": [ 3, 6 ] },
+      { "item": "steel_chunk", "count": [ 3, 6 ] },
+      { "item": "scrap", "count": [ 3, 6 ] },
+      { "item": "welder", "charges": 0, "prob": 50 }
       ]
     }
   }

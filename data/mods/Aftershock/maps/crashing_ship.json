@@ -42,11 +42,11 @@
         "MTMTMTMTM......ME.B.B.BMM.....*..........*.....MM......................M",
         "MMMMMMMMM*....*MMMMMMMMMM.MDDM.MDDM..MDDM.MDDM.MM......................M",
         "MVVVVVVVV......VVVVVVVVMM.MCCM.MCCM..MCCM.MCCM.MM......................M",
-        "M.....*..........*.....MM.MCCM.MCCM..MCCM.MCCM.MMJJJJJJJJJJJ...JJJJJJJJM",
-        "M.bbbbbbbbb..bbbbbbbbb.MM.MCCM.MCCM..MCCM.MCCM.MM..........J...J.......M",
-        "M.ttttttttt..ttttttttt.MM.MCCM.MCCM..MCCM.MCCM.MM..........j...j.......M",
-        "M.bbbbbbbbb..bbbbbbbbb.MM.MDDM.MDDM..MDDM.MDDM.MM..........j...j.......M",
-        "M.....*..........*.....MM.....................aMMH.H.H.H.H.J...JH.H.H.HM",
+        "M.....*..........*.....MM.MCCM.MCCM..MCCM.MCCM.MMJJJJJJJJJJ..JJJJJJJJJJM",
+        "M.bbbbbbbbb..bbbbbbbbb.MM.MCCM.MCCM..MCCM.MCCM.MM.........J..J.........M",
+        "M.ttttttttt..ttttttttt.MM.MCCM.MCCM..MCCM.MCCM.MM.........j..j.........M",
+        "M.bbbbbbbbb..bbbbbbbbb.MM.MDDM.MDDM..MDDM.MDDM.MM.........j..j.........M",
+        "M.....*..........*.....MM.....................aMMH.H.H.H.HJ..JH.H.H.H.HM",
         "MMMMMMMMMMMDDMMMMMMMMMMMMddddddddddddddddddddddMMMMMMMMMMMMDDMMMMMMMMMMM",
         "M........................a.............................................M",
         "M.....*.....*.....*.....*.....*....**....*.....*.....*.....*.....*.....M",
@@ -180,9 +180,10 @@
             { "item": "reactor_gear", "chance": 25 }
           ]
         },
-        "w": { "items": [ { "group": "office_mess", "chance": 75 } ] },
+        "w": { "items": [ { "item": "office_mess", "chance": 75 } ] },
         "t": { "items": [ { "item": "afs_mess_hall", "chance": 80 } ] },
-        "V": { "items": [ { "item": "afs_vending_false_meals", "chance": 100 } ] }
+        "V": { "items": [ { "item": "afs_vending_false_meals", "chance": 100 } ] },
+        "H": { "items": [ { "item": "afs_exosuit_worker", "chance": 75 } ] }
       },
       "place_loot": [
         { "item": "crashing_ship_locker_card", "x": [ 16, 22 ], "y": [ 9, 15 ], "chance": 100 },
