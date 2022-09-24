@@ -329,7 +329,7 @@ TEST_CASE( "windows should connect to walls and rotate to indoor floor", "[multi
             cata_tiles_test_helper::get_connect_values( pos, subtile, rotation, TERCONN_WALL,
                     TERCONN_INDOORFLOOR );
             CHECK( subtile == edge );
-            CHECK( rotation == 1 );
+            CHECK( rotation == 3 );
         }
     }
     WHEN( "connecting neighbours north and south, and rotate to east" ) {
@@ -355,7 +355,7 @@ TEST_CASE( "windows should connect to walls and rotate to indoor floor", "[multi
             cata_tiles_test_helper::get_connect_values( pos, subtile, rotation, TERCONN_WALL,
                     TERCONN_INDOORFLOOR );
             CHECK( subtile == edge );
-            CHECK( rotation == 3 );
+            CHECK( rotation == 1 );
         }
     }
 
@@ -382,7 +382,7 @@ TEST_CASE( "windows should connect to walls and rotate to indoor floor", "[multi
             cata_tiles_test_helper::get_connect_values( pos, subtile, rotation, TERCONN_WALL,
                     TERCONN_INDOORFLOOR );
             CHECK( subtile == edge );
-            CHECK( rotation == 5 );
+            CHECK( rotation == 7 );
         }
     }
     WHEN( "connecting neighbours north and south, and nothing to rotate to" ) {
@@ -408,7 +408,7 @@ TEST_CASE( "windows should connect to walls and rotate to indoor floor", "[multi
             cata_tiles_test_helper::get_connect_values( pos, subtile, rotation, TERCONN_WALL,
                     TERCONN_INDOORFLOOR );
             CHECK( subtile == edge );
-            CHECK( rotation == 7 );
+            CHECK( rotation == 5 );
         }
     }
 }
