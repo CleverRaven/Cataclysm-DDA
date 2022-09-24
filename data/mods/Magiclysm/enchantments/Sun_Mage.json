@@ -26,15 +26,9 @@
   {
     "type": "effect_on_condition",
     "id": "SUN_MAGE_BUFF",
-    "recurrence": [ "30 m", "60 m" ],
-    "condition": {
-      "and": [
-        { "compare_int": [ "hour", ">", { "const": 6 } ] },
-        { "compare_int": [ "hour", "<", { "const": 21 } ] },
-        { "u_has_trait": "SUN_MAGE" },
-        "u_is_outside"
-      ]
-    },
+    "recurrence": [ "5 m", "5 m" ],
+    "condition": { "and": [ "is_day", "u_is_outside", { "u_has_trait": "SUN_MAGE" } ] },
+    "deactivate_condition": { "not": { "or": [ "is_day", "u_is_outside", { "u_has_trait": "SUN_MAGE" } ] } },
     "effect": [ { "u_add_effect": "sun_mage_buff", "intensity": 1, "duration": "60 minutes" } ]
   },
   {
