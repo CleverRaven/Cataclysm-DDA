@@ -52,8 +52,8 @@
         " |.............rr........||+||||||x||..ËËËËËË.v ",
         " |.......4.4.4.rr.55..55.|..^|þHH..g|.........v ",
         " |.cc$c..4.4.4.rr........|...|.....q|..ÏÏÏÏÏÏ.v ",
-        " |.......4.4.4.rr.55..55.|...|.pp..j|..ÏÏÏÏÏÏ.v ",
-        "<|.ààáá^.................|sgT|z.h...|.........v ",
+        " |.......4.4.4.rr.55..55.|g..|.pp..j|..ÏÏÏÏÏÏ.v ",
+        "<|.ààáá^.................|s.T|z.h...|.........v ",
         " ||||||||||||W|||||||W|||||||||X||x||ffffffffff ",
         "                                                "
       ],
@@ -232,7 +232,11 @@
           "chance": 100
         },
         "_": {
-          "item": { "subtype": "collection", "entries": [ { "item": "null", "prob": 150 }, { "group": "trash", "prob": 1 } ] },
+          "item": { "subtype": "collection", "entries": [ { "item": "null", "prob": 200 }, { "group": "trash", "prob": 1 } ] },
+          "chance": 100
+        },
+        ",": {
+          "item": { "subtype": "collection", "entries": [ { "item": "null", "prob": 200 }, { "group": "trash", "prob": 1 } ] },
           "chance": 100
         },
         "g": { "item": "trash", "chance": 70, "repeat": [ 0, 2 ] },
@@ -396,13 +400,13 @@
         " |........^rr^mVØØ..õõõõg^rr^.......|....úúúúùv ",
         " W.1.1.2.2.rr.............rr..ww.dd.|........ùv ",
         " |.1.1.2.2.rr..$..$..$..$.rr..oo.ee.|^...^^..ùv ",
-        " |.1.1.2.2.rr..c..c..c..c.rr........|^...ýý..ùv ",
-        " |.........rr.............rr........|^...üü..ùv ",
-        " |.rrrrrrrrrrrrrrrrrrrrrrrrr.00..00.|^...ÌÌ..ùv ",
+        " |.1.1.2.2.rr..c..c..c..c.rr........|^....ý..ùv ",
+        " |.........rr.............rr........|^...ü...ùv ",
+        " |.rrrrrrrrrrrrrrrrrrrrrrrrr.00..00.|^...Ì....v ",
         " |.rrrrrrrrrrrrrrrrrrrrrrrrr........|^........v ",
         " |.........rr.............rr.ÉÉÉÉÉÉ.|.........v ",
-        " W.3333333.rr.6.6..77..88.rr........|..ÁÁÁÁÁÁ.v ",
-        " |.........rr.6.6..77..88.rr.éééééé.|..ÓÓÓÓÓÓ.v ",
+        " W.3333333.rr.6.6..77..88.rr........|.....Á...v ",
+        " |.........rr.6.6..77..88.rr.éééééé.|.......Ó.v ",
         " |.3333333.rr.6.6.........rr........|.........v ",
         " |.........rr.......BBB...rr.êêêêêê.|..ÎÎÎÎÎÎ.v ",
         " |..g......rr.............rr........|..÷÷÷÷÷÷.v ",
@@ -415,8 +419,8 @@
         " |.............rr........||+||||||x||..ËËËËËË.v ",
         " |.......4.4.4.rr.55..55.|..^|þHH..g|.........v ",
         " |.cc$c..4.4.4.rr........|...|.....q|..ÏÏÏÏÏÏ.v ",
-        " |.......4.4.4.rr.55..55.|...|.pp..j|..ÏÏÏÏÏÏ.v ",
-        "<|.ààáá^.................|sgT|z.h...|.........v ",
+        " |.......4.4.4.rr.55..55.|g..|.pp..j|..ÏÏÏÏÏÏ.v ",
+        "<|.ààáá^.................|s.T|z.h...|.........v ",
         " ||||||||||||W|||||||W|||||||||X||x||ffffffffff ",
         "                                                "
       ],
@@ -587,15 +591,19 @@
         "þ": { "item": "SUS_fridge_breakroom", "chance": 5 },
         "q": { "item": "file_room", "chance": 40, "repeat": [ 1, 5 ] },
         ".": {
-          "item": { "subtype": "collection", "entries": [ { "item": "null", "prob": 50 }, { "group": "floor_trash", "prob": 1 } ] },
+          "item": { "subtype": "collection", "entries": [ { "item": "null", "prob": 80 }, { "group": "floor_trash", "prob": 1 }, { "group": "ammo_casings", "prob": 1 } ] },
           "chance": 100
         },
         "r": {
-          "item": { "subtype": "collection", "entries": [ { "item": "null", "prob": 50 }, { "group": "floor_trash", "prob": 1 } ] },
+          "item": { "subtype": "collection", "entries": [ { "item": "null", "prob": 80 }, { "group": "floor_trash", "prob": 1 } ] },
           "chance": 100
         },
         "_": {
-          "item": { "subtype": "collection", "entries": [ { "item": "null", "prob": 100 }, { "group": "trash", "prob": 1 } ] },
+          "item": { "subtype": "collection", "entries": [ { "item": "null", "prob": 150 }, { "group": "trash", "prob": 1 } ] },
+          "chance": 100
+        },
+        ",": {
+          "item": { "subtype": "collection", "entries": [ { "item": "null", "prob": 150 }, { "group": "trash", "prob": 1 } ] },
           "chance": 100
         },
         "g": { "item": "trash", "chance": 70, "repeat": [ 0, 2 ] },
@@ -632,40 +640,123 @@
           "chance": 100
         }
       },
-      "set": [
-        { "point": "bash", "x": [ 9, 23 ], "y": [ 17, 20 ], "repeat": [ 1, 3 ] },
-        { "point": "bash", "x": [ 24, 46 ], "y": [ 17, 20 ], "repeat": [ 1, 3 ] },
-        { "point": "bash", "x": [ 3, 9 ], "y": 23 , "repeat": [ 1, 3 ] },
-        { "point": "bash", "x": [ 3, 9 ], "y": [24,25] , "repeat": [ 1, 3 ] },
-        { "point": "bash", "x": [ 30, 34 ], "y": 23 , "repeat": [ 1, 3 ] },
-        { "point": "bash", "x": [ 30, 34 ], "y": 24 , "repeat": [ 1, 3 ] },
-        { "point": "bash", "x": [ 3, 9 ], "y": 30 , "repeat": [ 1, 3 ] },
-        { "point": "bash", "x": [ 3, 9 ], "y": 32 , "repeat": [ 1, 3 ] },
-        { "point": "bash", "x": 6, "y": [35, 37] , "repeat": [ 1, 3 ] },
-        { "point": "bash", "x": [8,9], "y": [35, 37] , "repeat": [ 1, 3 ] },
-        { "point": "bash", "x": 14, "y": [30, 32] , "repeat": [ 1, 3 ] },
-        { "point": "bash", "x": 16, "y": [30, 32] , "repeat": [ 1, 3 ] },
-        { "point": "bash", "x": 14, "y": [35, 37] , "repeat": [ 1, 3 ] },
-        { "point": "bash", "x": 16, "y": [35, 37] , "repeat": [ 1, 3 ] },
-        { "point": "bash", "x": 18, "y": [35, 37] , "repeat": [ 1, 3 ] },
-        { "point": "bash", "x": 20, "y": [35, 37] , "repeat": [ 1, 3 ] },
-        { "point": "bash", "x": 22, "y": [35, 37] , "repeat": [ 1, 3 ] },
-        { "point": "bash", "x": 24, "y": [35, 37] , "repeat": [ 1, 3 ] },
-        { "point": "bash", "x": [19, 20], "y": [30, 31] , "repeat": [ 1, 3 ] },
-        { "point": "bash", "x": 23, "y": [30, 31] , "repeat": [ 1, 3 ] },
-        { "point": "bash", "x": 24, "y": [30, 31] , "repeat": [ 1, 3 ] }
-      ],
       "vehicles": {
         "Ü": { "vehicle": "farm_vehicles", "chance": 50, "rotation": 180 },
         "Ú": { "vehicle": "parkinglotbasic", "chance": 15, "rotation": 90 },
         "Û": { "vehicle": "parkinglotbasic", "chance": 20, "rotation": 90, "status": 1 },
         "Ù": { "vehicle": "industrial_transport", "chance": 10, "rotation": 180 }
-      },      
+      },
       "place_liquids": [
-        { "liquid": "gasoline", "x": [0,23], "y": [0,17], "amount": [1, 50], "chance": 1 },        
-        { "liquid": "gasoline", "x": [24, 40], "y": [0,17], "amount": [1, 50], "chance": 1 }
+        { "liquid": "gasoline", "x": [ 0, 23 ], "y": [ 0, 17 ], "amount": [ 1, 50 ], "chance": 1 },
+        { "liquid": "gasoline", "x": [ 24, 40 ], "y": [ 0, 17 ], "amount": [ 1, 50 ], "chance": 1 }
       ],
-      "palettes": [ "farm_supply_palette" ]
+      "palettes": [ "farm_supply_palette" ],
+      "//": "These nested chunks perform dynamic furniture destruction.",
+      "place_nested": [
+        { "chunks": [ "farm_supply_destruction_nested_1" ], "x": 0, "y": 0 },
+        { "chunks": [ "farm_supply_destruction_nested_2" ], "x": 24, "y": 0 },
+        { "chunks": [ "farm_supply_destruction_nested_3" ], "x": 0, "y": 24 },
+        { "chunks": [ "farm_supply_destruction_nested_4" ], "x": 24, "y": 24 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "farm_supply_destruction_nested_1",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "set": [
+        { "point": "bash", "x": [ 14, 23 ], "y": [ 17, 20 ], "repeat": [ 0, 1 ] },
+        { "point": "bash", "x": [ 14, 23 ], "y": [ 17, 20 ], "repeat": [ 0, 1 ] },
+        { "point": "bash", "x": 3, "y": 23, "repeat": [ 0, 1 ] },
+        { "point": "bash", "x": 5, "y": 23, "repeat": [ 0, 1 ] },
+        { "point": "bash", "x": 7, "y": 23, "repeat": [ 0, 1 ] },
+        { "point": "bash", "x": 9, "y": 23, "repeat": [ 0, 1 ] }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "farm_supply_destruction_nested_2",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "set": [
+        { "point": "bash", "x": [ 5, 12 ], "y": [ 17, 20 ], "repeat": [ 0, 1 ] },
+        { "point": "bash", "x": [ 5, 12 ], "y": [ 17, 20 ], "repeat": [ 0, 1 ] },
+        { "point": "bash", "x": [ 17, 22 ], "y": [ 17, 20 ], "repeat": [ 0, 1 ] },
+        { "point": "bash", "x": [ 17, 22 ], "y": [ 17, 20 ], "repeat": [ 0, 1 ] },
+        { "point": "bash", "x": [ 6, 7 ], "y": 23, "repeat": [ 0, 1 ] },
+        { "point": "bash", "x": [ 9, 10 ], "y": 23, "repeat": [ 0, 1 ] }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "farm_supply_destruction_nested_3",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "set": [
+        { "point": "bash", "x": 3, "y": [ 0, 1 ], "repeat": [ 0, 1 ] },
+        { "point": "bash", "x": 5, "y": [ 0, 1 ], "repeat": [ 0, 1 ] },
+        { "point": "bash", "x": 7, "y": [ 0, 1 ], "repeat": [ 0, 1 ] },
+        { "point": "bash", "x": 9, "y": [ 0, 1 ], "repeat": [ 0, 1 ] },
+        { "point": "bash", "x": [ 3, 6 ], "y": 6, "repeat": [ 0, 1 ] },
+        { "point": "bash", "x": [ 7, 9 ], "y": 6, "repeat": [ 0, 1 ] },
+        { "point": "bash", "x": [ 3, 6 ], "y": 8, "repeat": [ 0, 1 ] },
+        { "point": "bash", "x": [ 7, 9 ], "y": 8, "repeat": [ 0, 1 ] },
+        { "point": "bash", "x": 6, "y": [ 11, 13 ], "repeat": [ 0, 1 ] },
+        { "point": "bash", "x": [ 8, 9 ], "y": 11, "repeat": [ 0, 1 ] },
+        { "point": "bash", "x": [ 8, 9 ], "y": 13, "repeat": [ 0, 1 ] },
+        { "point": "bash", "x": 14, "y": [ 6, 8 ], "repeat": [ 0, 1 ] },
+        { "point": "bash", "x": 16, "y": [ 6, 8 ], "repeat": [ 0, 1 ] },
+        { "point": "bash", "x": 14, "y": [ 11, 13 ], "repeat": [ 0, 1 ] },
+        { "point": "bash", "x": 16, "y": [ 11, 13 ], "repeat": [ 0, 1 ] },
+        { "point": "bash", "x": 18, "y": [ 11, 13 ], "repeat": [ 0, 1 ] },
+        { "point": "bash", "x": 20, "y": [ 11, 13 ], "repeat": [ 0, 1 ] },
+        { "point": "bash", "x": 22, "y": [ 11, 13 ], "repeat": [ 0, 1 ] },
+        { "point": "bash", "x": [ 19, 20 ], "y": [ 6, 7 ], "repeat": [ 0, 1 ] },
+        { "point": "bash", "x": 23, "y": [ 6, 7 ], "repeat": [ 0, 1 ] },
+        { "point": "bash", "x": [ 3, 4 ], "y": 21, "repeat": [ 1, 2 ] },
+        { "point": "bash", "x": [ 5, 6 ], "y": 21, "repeat": [ 1, 2 ] }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "farm_supply_destruction_nested_4",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "set": [
+        { "point": "bash", "x": [ 6, 7 ], "y": 0, "repeat": [ 0, 1 ] },
+        { "point": "bash", "x": [ 9, 10 ], "y": 0, "repeat": [ 0, 1 ] },
+        { "point": "bash", "x": 0, "y": [ 11, 13 ], "repeat": [ 0, 1 ] },
+        { "point": "bash", "x": 0, "y": [ 6, 7 ], "repeat": [ 0, 1 ] },
+        { "point": "bash", "x": [ 5, 6 ], "y": 3, "repeat": [ 0, 1 ] },
+        { "point": "bash", "x": [ 9, 10 ], "y": 3, "repeat": [ 0, 1 ] },
+        { "point": "bash", "x": [ 5, 7 ], "y": 5, "repeat": [ 0, 1 ] },
+        { "point": "bash", "x": [ 8, 10 ], "y": 5, "repeat": [ 0, 1 ] },
+        { "point": "bash", "x": [ 5, 10 ], "y": 7, "repeat": [ 0, 1 ] },
+        { "point": "bash", "x": [ 5, 10 ], "y": 9, "repeat": [ 0, 1 ] },
+        { "point": "bash", "x": [ 5, 7 ], "y": 11, "repeat": [ 0, 1 ] },
+        { "point": "bash", "x": [ 8, 10 ], "y": 11, "repeat": [ 0, 1 ] },
+        { "point": "bash", "x": [ 5, 7 ], "y": 13, "repeat": [ 0, 1 ] },
+        { "point": "bash", "x": [ 8, 10 ], "y": 13, "repeat": [ 0, 1 ] },
+        { "point": "bash", "x": 6, "y": 21, "repeat": [ 0, 1 ] },
+        { "point": "bash", "x": 13, "y": [ 0, 4 ], "repeat": [ 0, 1 ] },
+        { "point": "bash", "x": [ 15, 20 ], "y": 9, "repeat": [ 0, 1 ] },
+        { "point": "bash", "x": [ 15, 20 ], "y": 10, "repeat": [ 0, 1 ] },
+        { "point": "bash", "x": [ 15, 20 ], "y": 12, "repeat": [ 0, 1 ] },
+        { "point": "bash", "x": [ 15, 20 ], "y": 14, "repeat": [ 0, 1 ] },
+        { "point": "bash", "x": [ 15, 20 ], "y": 15, "repeat": [ 0, 1 ] },
+        { "point": "bash", "x": [ 15, 20 ], "y": 17, "repeat": [ 0, 1 ] },
+        { "point": "bash", "x": [ 15, 20 ], "y": 19, "repeat": [ 0, 1 ] },
+        { "point": "bash", "x": [ 15, 20 ], "y": 20, "repeat": [ 0, 1 ] },
+        { "point": "bash", "x": 22, "y": [ 0, 20 ], "repeat": [ 0, 1 ] }
+      ]
     }
   }
 ]
