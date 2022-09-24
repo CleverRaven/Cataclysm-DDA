@@ -24,8 +24,8 @@
     "range_increment": 1.0,
     "//": "duration is in moves",
     "min_duration": 6000,
-    "max_duration": 120000,
-    "duration_increment": 5700
+    "max_duration": 30000,
+    "duration_increment": 1200
   },
   {
     "id": "invisibility",
