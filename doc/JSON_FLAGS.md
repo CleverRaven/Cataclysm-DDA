@@ -966,7 +966,7 @@ Other monster flags.
 - ```DRIPS_NAPALM``` Occasionally drips napalm on move.
 - ```DROPS_AMMO``` This monster drops ammo. Should not be set for monsters that use pseudo ammo.
 - ```ELECTRIC``` Shocks unarmed attackers.
-- ```ELECTRIC_FIELD``` This monster is surrounded by an electrical field that ignites flammable liquids near it.
+- ```ELECTRIC_FIELD``` This monster is surrounded by an electrical field that ignites flammable liquids near it. It also deal damage to another monsters with this flag, with "The %s's disabled electrical field reverses polarity!" message
 - ```ELECTRONIC``` e.g. a robot; affected by emp blasts and other stuff.
 - ```FILTHY``` Any clothing it drops will be filthy.  The squeamish trait prevents wearing clothing with this flag, one can't craft anything from filthy components, and wearing filthy clothes may result in infection if hit in melee.
 - ```FIREPROOF``` Immune to fire.
