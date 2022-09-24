@@ -50,7 +50,7 @@
     "connects_to": "RAILING",
     "deconstruct": {
       "ter_set": "t_flat_roof",
-      "items": [ { "item": "sheet_metal_small", "count": 2 }, { "item": "scrap", "count": [ 2, 3 ] } ]
+      "items": [ { "item": "scrap_aluminum", "count": 12 } ]
     },
     "bash": {
       "str_min": 5,
@@ -58,7 +58,7 @@
       "sound": "clang!",
       "sound_fail": "clang.",
       "ter_set": "t_flat_roof",
-      "items": [ { "item": "sheet_metal_small", "count": 1, "prob": 20 }, { "item": "scrap", "count": [ 3, 6 ] } ]
+      "items": [ { "item": "scrap_aluminum", "count": [ 4, 7 ] } ]
     }
   },
   {
@@ -74,7 +74,7 @@
     "connects_to": "RAILING",
     "deconstruct": {
       "ter_set": "t_flat_roof",
-      "items": [ { "item": "sheet_metal_small", "count": 2 }, { "item": "scrap", "count": [ 2, 3 ] } ]
+      "items": [ { "item": "scrap_aluminum", "count": 12 } ]
     },
     "bash": {
       "str_min": 5,
@@ -82,7 +82,7 @@
       "sound": "clang!",
       "sound_fail": "clang.",
       "ter_set": "t_flat_roof",
-      "items": [ { "item": "sheet_metal_small", "count": 1, "prob": 20 }, { "item": "scrap", "count": [ 3, 6 ] } ]
+      "items": [ { "item": "scrap_aluminum", "count": [ 4, 7 ] } ]
     }
   },
   {
@@ -98,7 +98,7 @@
     "connects_to": "RAILING",
     "deconstruct": {
       "ter_set": "t_flat_roof",
-      "items": [ { "item": "sheet_metal_small", "count": 2 }, { "item": "scrap", "count": [ 2, 3 ] } ]
+      "items": [ { "item": "scrap_aluminum", "count": 12 } ]
     },
     "bash": {
       "str_min": 5,
@@ -106,7 +106,7 @@
       "sound": "clang!",
       "sound_fail": "clang.",
       "ter_set": "t_flat_roof",
-      "items": [ { "item": "sheet_metal_small", "count": 1, "prob": 20 }, { "item": "scrap", "count": [ 3, 6 ] } ]
+      "items": [ { "item": "scrap_aluminum", "count": [ 4, 7 ] } ]
     }
   },
   {
@@ -122,7 +122,7 @@
     "connects_to": "RAILING",
     "deconstruct": {
       "ter_set": "t_flat_roof",
-      "items": [ { "item": "sheet_metal_small", "count": 2 }, { "item": "scrap", "count": [ 2, 3 ] } ]
+      "items": [ { "item": "scrap_aluminum", "count": 12 } ]
     },
     "bash": {
       "str_min": 5,
@@ -130,7 +130,7 @@
       "sound": "clang!",
       "sound_fail": "clang.",
       "ter_set": "t_flat_roof",
-      "items": [ { "item": "sheet_metal_small", "count": 1, "prob": 20 }, { "item": "scrap", "count": [ 3, 6 ] } ]
+      "items": [ { "item": "scrap_aluminum", "count": [ 4, 7 ] } ]
     }
   },
   {
@@ -146,7 +146,7 @@
     "connects_to": "RAILING",
     "deconstruct": {
       "ter_set": "t_flat_roof",
-      "items": [ { "item": "sheet_metal_small", "count": 2 }, { "item": "scrap", "count": [ 2, 3 ] } ]
+      "items": [ { "item": "scrap_aluminum", "count": 12 } ]
     },
     "bash": {
       "str_min": 5,
@@ -154,7 +154,7 @@
       "sound": "clang!",
       "sound_fail": "clang.",
       "ter_set": "t_flat_roof",
-      "items": [ { "item": "sheet_metal_small", "count": 1, "prob": 20 }, { "item": "scrap", "count": [ 3, 6 ] } ]
+      "items": [ { "item": "scrap_aluminum", "count": [ 4, 7 ] } ]
     }
   },
   {
@@ -170,7 +170,7 @@
     "flags": [ "TRANSPARENT", "THIN_OBSTACLE", "UNSTABLE", "CLIMBABLE" ],
     "deconstruct": {
       "ter_set": "t_flat_roof",
-      "items": [ { "item": "sheet_metal_small", "count": 2 }, { "item": "scrap", "count": [ 2, 3 ] } ]
+      "items": [ { "item": "scrap_aluminum", "count": 12 } ]
     },
     "bash": {
       "str_min": 5,
@@ -178,7 +178,7 @@
       "sound": "clang!",
       "sound_fail": "clang.",
       "ter_set": "t_dirt",
-      "items": [ { "item": "sheet_metal_small", "count": 1, "prob": 20 }, { "item": "scrap", "count": [ 3, 6 ] } ]
+      "items": [ { "item": "scrap_aluminum", "count": [ 4, 7 ] } ]
     }
   },
   {
