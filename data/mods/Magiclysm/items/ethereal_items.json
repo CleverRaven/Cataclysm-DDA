@@ -479,7 +479,7 @@
     "category": "armor",
     "name": { "str_sp": "frost armor" },
     "description": "A thin layer of magical ice, covering the entire body.",
-    "weight": "5000 g",
+    "weight": "4500 g",
     "volume": "5 L",
     "material": [ "magic_ice" ],
     "symbol": "[",
