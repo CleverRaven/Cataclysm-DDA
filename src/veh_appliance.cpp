@@ -116,6 +116,10 @@ void place_appliance( const tripoint &p, const vpart_id &vpart, const std::optio
 
     veh->last_update = calendar::turn;
 
+    if( veh->is_powergrid() ) {
+        veh->add_tag( flag_CANT_DRAG );
+    }
+
     // Update the vehicle cache immediately,
     // or the appliance will be invisible for the first couple of turns.
     here.add_vehicle_to_cache( veh );
@@ -353,6 +357,19 @@ bool veh_app_interact::can_siphon()
     return false;
 }
 
+bool veh_app_interact::can_unplug()
+{
+    vehicle_part_range vpr = veh->get_all_parts();
+    return std::any_of( vpr.begin(), vpr.end(), []( const vpart_reference & ref ) {
+        return ref.info().has_flag( "POWER_TRANSFER" );
+    } );
+}
+
+bool veh_app_interact::can_merge()
+{
+    return veh->is_powergrid();
+}
+
 // Helper function for selecting a part in the parts list.
 // If only one part is available, don't prompt the player.
 static vehicle_part *pick_part( const std::vector<vehicle_part *> &parts,
@@ -571,6 +588,20 @@ void veh_app_interact::populate_app_actions()
     imenu.addentry( -1, true, ctxt.keys_bound_to( "PLUG" ).front(),
                     ctxt.get_action_name( "PLUG" ) );
 
+    // Unplug
+    app_actions.emplace_back( [this]() {
+        unplug();
+    } );
+    imenu.addentry( -1, can_unplug(), ctxt.keys_bound_to( "UNPLUG" ).front(),
+                    ctxt.get_action_name( "UNPLUG" ) );
+
+    // Merge
+    app_actions.emplace_back( [this]() {
+        merge();
+    } );
+    imenu.addentry( -1, can_merge(), ctxt.keys_bound_to( "MERGE" ).front(),
+                    ctxt.get_action_name( "MERGE" ) );
+
     /*************** Get part-specific actions ***************/
     veh_menu menu( veh, "IF YOU SEE THIS IT IS A BUG" );
     veh->build_interact_menu( menu, veh->mount_to_tripoint( a_point ), false );
@@ -582,6 +613,34 @@ void veh_app_interact::populate_app_actions()
         app_actions.emplace_back( it._on_submit );
     }
     imenu.setup();
+}
+
+void veh_app_interact::merge()
+{
+    const cata::optional<tripoint> dir = choose_direction(
+            _( "Merge the appliance into which grid?" ) );
+    if( !dir ) {
+        return;
+    }
+
+    const tripoint target_pos = get_player_character().pos() + *dir;
+    map &here = get_map();
+    const optional_vpart_position target_vp = here.veh_at( target_pos );
+    if( !target_vp ) {
+        return;
+    }
+    vehicle &target_veh = target_vp->vehicle();
+    if( !target_veh.has_tag( flag_APPLIANCE ) ) {
+        popup( _( "Target must be an appliance." ) );
+        return;
+    }
+    if( !target_veh.is_powergrid() ) {
+        popup( _( "A power grid must be wires, power generation or batteries." ) );
+        return;
+    }
+    veh->merge_appliance_into_grid( target_veh );
+
+    return;
 }
 
 shared_ptr_fast<ui_adaptor> veh_app_interact::create_or_get_ui_adaptor()
