@@ -58,7 +58,7 @@
     "id": "mon_electric_demon",
     "type": "MONSTER",
     "name": "electric demon",
-    "description": "Small, pure electric elemental, that .",
+    "description": "Small, pure electric elemental, it jumps from target to target, and attack anything on his sight.  Except of caster.",
     "default_faction": "player",
     "volume": "62500 ml",
     "weight": "81500 g",
