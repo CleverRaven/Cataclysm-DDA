@@ -973,7 +973,7 @@
     "valid": false,
     "description": "A stormcaller is a stormshaper with an additional affinity toward the weather in a localized area.  Historians agree that the druid requirement has something to do with the Druid's affinity for nature, just like their ability to summon animals.  You will know a stormcaller is in the room if your ears pop and your hair stands straight on end.  Stormcallers are not known for their subtlety.",
     "prereqs": [ "STORMSHAPER", "DRUID" ],
-    "spells_learned": [ [ "electric_demon", 5 ] ],
+    "spells_learned": [ [ "electric_demon", 5 ], [ "electric_turret", 5 ] ],
     "cancels": [
       "ARTIFICER",
       "BIOTEK",
