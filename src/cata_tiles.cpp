@@ -1596,7 +1596,7 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
                             invisible[0] = true;
                         }
                         for( int cz = pos.z; !invisible[0] && cz <= -center.z; cz++ ) {
-                            const Creature *critter = g->critter_at( {pos.xy(), cz}, true );
+                            const Creature *critter = get_creature_tracker().creature_at( {pos.xy(), cz}, true );
                             if( critter && ( you.sees_with_infrared( *critter ) ||
                                              you.sees_with_specials( *critter ) ) ) {
                                 invisible[0] = true;
@@ -3350,7 +3350,7 @@ bool cata_tiles::draw_field_or_item( const tripoint &p, const lit_level ll, int 
 
                             // if we have found info on the item go through and draw its stuff
                             draw_from_id_string( sprite_to_draw, TILE_CATEGORY::ITEM, layer_it_category, p, 0,
-                                                 0, layer_lit, layer_nv, height_3d, 0, "" );
+                                                 0, layer_lit, layer_nv, height_3d, 0, "", z_drop );
 
 
                             // if the top item is already being layered don't draw it later
@@ -3393,7 +3393,7 @@ bool cata_tiles::draw_field_or_item( const tripoint &p, const lit_level ll, int 
 
                                 // if we have found info on the item go through and draw its stuff
                                 draw_from_id_string( sprite_to_draw, TILE_CATEGORY::ITEM, layer_it_category, p, 0,
-                                                     0, layer_lit, layer_nv, height_3d, 0, "" );
+                                                     0, layer_lit, layer_nv, height_3d, 0, "", z_drop );
 
 
                                 // if the top item is already being layered don't draw it later
@@ -3472,7 +3472,7 @@ bool cata_tiles::draw_vpart( const tripoint &p, lit_level ll, int &height_3d,
         // with the vehicle part json ids
         // get the vpart_id
         char part_mod = 0;
-        const Creature *critter = g->critter_at( p, true );
+        const Creature *critter = get_creature_tracker().creature_at( p, true );
         const std::string &vp_id = veh.part_id_string( veh_part, z_drop > 0 &&
                                    critter == nullptr, part_mod );
         const int subtile = part_mod == 1 ? open_ : part_mod == 2 ? broken : 0;
