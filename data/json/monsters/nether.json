@@ -1000,7 +1000,7 @@
     "special_attacks": [
       {
         "type": "spell",
-        "spell_data": { "id": "shifting_mass", "min_level": 1 },
+        "spell_data": { "id": "shifting_mass_attack", "min_level": 1 },
         "cooldown": 1,
         "monster_message": "The shifting mass passes through you as if you were an illusion, and a slight wave of fatigue washes over you."
       }
@@ -1240,10 +1240,10 @@
     "death_drops": "ps_artifact_strong"
   },
   {
-    "id": "mon_endless_hunger",
+    "id": "mon_pale_reflection",
     "type": "MONSTER",
-    "name": { "str": "endless hunger" },
-    "description": "Your mind fills in large shifting images of predators to save you from its actual appearance.  You can feel it despite the distance as if it were connected to you.",
+    "name": { "str": "pale reflection" },
+    "description": "This looks nothing like you.  It's barely real.  So why does your mind keep mistaking it for you?",
     "default_faction": "nether",
     "species": [ "NETHER" ],
     "volume": "62500 ml",
@@ -1259,19 +1259,43 @@
     "melee_dice_sides": 2,
     "melee_damage": [ { "damage_type": "cut", "amount": 10 } ],
     "death_function": {
-      "effect": { "id": "mon_endless_hunger_revive", "hit_self": true },
+      "effect": { "id": "mon_reflection_revive", "hit_self": true },
       "corpse_type": "NO_CORPSE",
-      "message": "The %s vanishes but you can still feel it through your connection."
+      "message": "The %s vanishes but you can still feel it."
     },
     "special_attacks": [
       {
         "type": "spell",
-        "monster_message": "You can feel the endless hunger.",
-        "spell_data": { "id": "mon_endless_hunger_attack", "min_level": 1, "hit_self": false },
+        "monster_message": "You can feel the %s.",
+        "spell_data": { "id": "mon_reflection_attack", "min_level": 1, "hit_self": false },
         "cooldown": 5
       }
     ],
     "flags": [ "SEES", "HEARS", "NO_BREATHE", "PUSH_MON", "ALWAYS_VISIBLE", "ALWAYS_SEES_YOU" ]
+  },
+  {
+    "id": "mon_twisted_reflection",
+    "type": "MONSTER",
+    "name": { "str": "twisted reflection" },
+    "speed": 90,
+    "description": "This looks almost nothing like you.  It's form isn't even stable.  So why does your mind keep mistaking it for you?",
+    "copy-from": "mon_pale_reflection"
+  },
+  {
+    "id": "mon_dark_reflection",
+    "type": "MONSTER",
+    "name": { "str": "dark reflection" },
+    "speed": 100,
+    "description": "This only looks a little like you.  It's obviously not you.  So why does your mind keep mistaking it for you?",
+    "copy-from": "mon_pale_reflection"
+  },
+  {
+    "id": "mon_better_half",
+    "type": "MONSTER",
+    "name": { "str": "better half", "str_pl": "better halves" },
+    "speed": 110,
+    "description": "This doesn't look like you.  It looks like what you've dreamed you could be.  Why does your mind keep mistaking you for a bad copy of it?",
+    "copy-from": "mon_pale_reflection"
   },
   {
     "id": "mon_tainted_shadow",
@@ -1342,5 +1366,39 @@
       }
     ],
     "emit_fields": [ { "emit_id": "emit_clairvoyant", "delay": "1 s" } ]
+  },
+  {
+    "id": "mon_guilt",
+    "type": "MONSTER",
+    "name": { "str": "guilt" },
+    "description": "An animate blotch of conflicting shapes, when you look at or think of this, memories of your wrongdoings rise to the surface.",
+    "copy-from": "mon_shifting_mass",
+    "special_attacks": [
+      {
+        "type": "spell",
+        "spell_data": { "id": "guilt_attack", "min_level": 1 },
+        "cooldown": 1,
+        "monster_message": "The guilt makes no physical movement and yet you feel the force of its assault.  Everything feels heavier."
+      }
+    ],
+    "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s fades away." },
+    "flags": [ "SEES", "HEARS", "NO_BREATHE", "PUSH_MON", "ALWAYS_VISIBLE", "ALWAYS_SEES_YOU" ]
+  },
+  {
+    "id": "mon_sloth",
+    "type": "MONSTER",
+    "name": { "str": "sloth" },
+    "description": "An animate blotch of conflicting shapes, when you look at or think of this, a desire to stop moving rises.",
+    "copy-from": "mon_shifting_mass",
+    "special_attacks": [
+      {
+        "type": "spell",
+        "spell_data": { "id": "sloth_attack", "min_level": 1 },
+        "cooldown": 1,
+        "monster_message": "The sloth does nothing, and you feel time itself aiding your desire to do nothing."
+      }
+    ],
+    "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s fades away." },
+    "flags": [ "SEES", "HEARS", "NO_BREATHE", "PUSH_MON", "ALWAYS_VISIBLE", "ALWAYS_SEES_YOU" ]
   }
 ]

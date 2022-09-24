@@ -165,10 +165,8 @@
     "material": [ "paper" ],
     "symbol": "|",
     "color": "brown",
-    "flags": [ "NONCONDUCTIVE", "MAGIC_FOCUS", "TRADER_AVOID" ],
-    "use_action": { "type": "countdown", "name": "Tear", "message": "You tear the ticket apart." },
-    "countdown_destroy": true,
-    "countdown_action": { "type": "cast_spell", "spell_id": "rip_ticket", "no_fail": true, "level": 0, "need_wielding": true },
+    "flags": [ "NONCONDUCTIVE", "MAGIC_FOCUS", "TRADER_AVOID", "SINGLE_USE" ],
+    "use_action": { "type": "cast_spell", "spell_id": "rip_ticket", "no_fail": true, "level": 0, "need_wielding": true },
     "max_charges": 1,
     "charges_per_use": 1,
     "initial_charges": 1
