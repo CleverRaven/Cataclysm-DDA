@@ -3688,7 +3688,7 @@ bool cata_tiles::draw_zombie_revival_indicators( const tripoint &pos, const lit_
         for( item &i : here.i_at( pos ) ) {
             if( i.can_revive() ) {
                 return draw_from_id_string( ZOMBIE_REVIVAL_INDICATOR, TILE_CATEGORY::NONE,
-                                            empty_string, pos, 0, 0, lit_level::LIT, false );
+                                            empty_string, pos, 0, 0, lit_level::LIT, false, z_drop );
             }
         }
     }
@@ -4152,7 +4152,7 @@ void cata_tiles::draw_cursor()
 void cata_tiles::draw_highlight()
 {
     for( const tripoint &p : highlights ) {
-        draw_from_id_string( "highlight", p, 0, 0, lit_level::LIT, false );
+        draw_from_id_string( "highlight", p, 0, 0, lit_level::LIT, false, 0 );
     }
 }
 void cata_tiles::draw_weather_frame()
