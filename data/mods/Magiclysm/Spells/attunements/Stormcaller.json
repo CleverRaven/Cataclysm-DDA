@@ -39,8 +39,8 @@
     "damage_max_instance": [ { "damage_type": "electric", "amount": 40, "armor_penetration": 8, "armor_multiplier": 2.5 } ],
     "hitsize_min": 4,
     "effects": [ { "id": "stunned", "duration": 5 } ],
-    "hit_dmg_u": "Electric current stream throught your body!",
-    "hit_dmg_npc": "Electric current stream throught <npcname>!",
+    "hit_dmg_u": "Electric current stream through your body!",
+    "hit_dmg_npc": "Electric current stream through <npcname>!",
     "miss_msg_u": "The %1$s tries to hit you, but you dodge!",
     "miss_msg_npc": "The %1$s tries to hit <npcname>, but they dodge!",
     "no_dmg_msg_u": "The %1$s tries to hit you, but fails to penetrate your armor!",
@@ -85,7 +85,11 @@
       { "id": "shock_punch", "cooldown": 1 }
     ],
     "harvest": "exempt",
-    "death_function": { "effect": { "id": "stormshaper_ionization", "min_level": 30, "hit_self": true }, "message": "A %s explode!", "corpse_type": "NO_CORPSE" },
+    "death_function": {
+      "effect": { "id": "stormshaper_ionization", "min_level": 30, "hit_self": true },
+      "message": "A %s explode!",
+      "corpse_type": "NO_CORPSE"
+    },
     "flags": [
       "SEES",
       "HEARS",
