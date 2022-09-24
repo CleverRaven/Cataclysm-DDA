@@ -2,16 +2,25 @@
   {
     "id": "surface_heat",
     "type": "requirement",
-    "//": "Heat usable for heating a surface - for example a pot, pan, dutch oven, etc.",
+    "//": "Heat usable for heating a surface - for example a pot, pan, dutch oven, etc. Lowest unit of measurement is one scrap of meat (30 grams)",
+    "//1": "Roughly 75% efficiency for a microwave or induction hotplate, 37-40% for fossil fuel, 18-20% for an oven or charcoal, 50% for a regular electric cooker.",
+    "//2": "esbit has 40kJ/u, kerosene/gasoline 34 kJ/u, propane 25kJ/u, alcohol 20kJ/u, charcoal/coal 31/u. cut these in half for the purposes of cooking.",
     "tools": [
       [
-        [ "hotplate", 1 ],
-        [ "multi_cooker", 1 ],
-        [ "char_smoker", 1 ],
-        [ "toolset", 1 ],
-        [ "fake_oven", 1 ],
-        [ "fire", -1 ],
-        [ "propane_cooker", 1 ]
+        [ "hotplate_induction", 50 ],
+        [ "microwave", 50 ],
+        [ "hotplate", 75 ],
+        [ "multi_cooker", 75 ],
+        [ "char_smoker", 4 ],
+        [ "toolset", 75 ],
+        [ "fake_oven", 250 ],
+        [ "esbit_stove", 3 ],
+        [ "oil_cooker", 3 ],
+        [ "gasoline_cooker", 3 ],
+        [ "propane_cooker", 4 ],
+        [ "acetlyene_cooker", 2 ],
+        [ "popcan_stove", 5 ],
+        [ "fire", -1 ]
       ]
     ]
   },
@@ -21,13 +30,21 @@
     "//": "Power requirement to cook 100g of bread, expected efficiency of about 400kJ per 100g of bread in an oven",
     "tools": [
       [
-        [ "hotplate", 1 ],
-        [ "multi_cooker", 1 ],
-        [ "char_smoker", 1 ],
-        [ "toolset", 1 ],
-        [ "fake_oven", 1 ],
-        [ "fire", -1 ],
-        [ "propane_cooker", 1 ]
+        [ "hotplate_induction", 200 ],
+        [ "microwave", 200 ],
+        [ "hotplate", 75 ],
+        [ "multi_cooker", 75 ],
+        [ "char_smoker", 4 ],
+        [ "toolset", 75 ],
+        [ "fake_oven", 200 ],
+        [ "esbit_stove", 3 ],
+        [ "oil_cooker", 3 ],
+        [ "gasoline_cooker", 3 ],
+        [ "propane_cooker", 3 ],
+        [ "propane_cooker", 3 ],
+        [ "popcan_stove", 5 ],
+        [ "fire", -1 ]
+      ]
       ]
     ]
   },
@@ -104,6 +121,7 @@
     "tools": [
       [
         [ "coffeemaker", 135 ],
+        [ "hotplate_induction", 135 ],
         [ "hotplate", 200 ],
         [ "microwave", 250 ],
         [ "multi_cooker", 200 ],
@@ -115,7 +133,7 @@
         [ "popcan_stove", 20 ],
         [ "toolset", 250 ],
         [ "fake_oven", 250 ],
-        [ "atomic_coffeepot", -1 ],
+        [ "atomic_coffeepot", 100 ],
         [ "fire", -1 ]
       ]
     ]
