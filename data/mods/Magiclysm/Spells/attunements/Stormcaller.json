@@ -76,6 +76,7 @@
     "armor_bash": 3,
     "armor_cut": 3,
     "armor_bullet": 3,
+    "armor_elec": 50,
     "vision_day": 30,
     "vision_night": 30,
     "emit_fields": [ { "emit_id": "emit_electric_sparks", "delay": "1 s" } ],
@@ -100,8 +101,7 @@
       "NO_BREATHE",
       "NOGIB",
       "ATTACKMON",
-      "ELECTRIC",
-      "ELECTRIC_FIELD"
+      "ELECTRIC"
     ]
   },
   {
@@ -153,15 +153,31 @@
     "armor_bash": 7,
     "armor_cut": 7,
     "armor_bullet": 7,
+    "armor_elec": 50,
     "vision_day": 60,
     "vision_night": 60,
     "emit_fields": [ { "emit_id": "emit_electric_sparks", "delay": "1 s" } ],
     "special_attacks": [
       {
+        "id": "turret_1",
+        "type": "spell",
+        "spell_data": { "id": "shocking_lash", "min_level": 20 },
+        "monster_message": "",
+        "cooldown": 2
+      },
+      {
+        "id": "turret_2",
+        "type": "spell",
+        "spell_data": { "id": "electric_turret_line", "min_level": 0 },
+        "monster_message": "",
+        "cooldown": 13
+      },
+      {
+        "id": "turret_3",
         "type": "spell",
         "spell_data": { "id": "electric_turret_blast", "min_level": 0 },
         "monster_message": "",
-        "cooldown": 11
+        "cooldown": 9
       }
     ],
     "harvest": "exempt",
@@ -177,15 +193,14 @@
       "NOGIB",
       "ATTACKMON",
       "PACIFIST",
-      "ELECTRIC",
-      "ELECTRIC_FIELD"
+      "ELECTRIC"
     ]
   },
   {
     "id": "electric_turret_line",
     "type": "SPELL",
     "name": "Lightning Line Attack",
-    "description": "Line attack for stormcaller's thunder pillar.",
+    "description": "Line heat attack for stormcaller's thunder pillar.",
     "effect": "attack",
     "shape": "line",
     "valid_targets": [ "hostile", "ground" ],
@@ -200,14 +215,14 @@
     "min_field_intensity": 5,
     "max_field_intensity": 5,
     "field_chance": 1,
-    "damage_type": "electric",
+    "damage_type": "heat",
     "sound_description": "a crackle"
   },
   {
     "id": "electric_turret_blast",
     "type": "SPELL",
     "name": "Lightning Blast Attack",
-    "description": "Blast attack for stormcaller's thunder pillar.",
+    "description": "Blast electric attack for stormcaller's thunder pillar.",
     "effect": "attack",
     "shape": "blast",
     "valid_targets": [ "hostile", "ground" ],
