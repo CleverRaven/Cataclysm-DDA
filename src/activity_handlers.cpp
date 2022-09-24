@@ -111,7 +111,6 @@ static const activity_id ACT_BUTCHER( "ACT_BUTCHER" );
 static const activity_id ACT_BUTCHER_FULL( "ACT_BUTCHER_FULL" );
 static const activity_id ACT_CONSUME_DRINK_MENU( "ACT_CONSUME_DRINK_MENU" );
 static const activity_id ACT_CONSUME_FOOD_MENU( "ACT_CONSUME_FOOD_MENU" );
-static const activity_id ACT_CONSUME_FUEL_MENU( "ACT_CONSUME_FUEL_MENU" );
 static const activity_id ACT_CONSUME_MEDS_MENU( "ACT_CONSUME_MEDS_MENU" );
 static const activity_id ACT_DISMEMBER( "ACT_DISMEMBER" );
 static const activity_id ACT_DISSECT( "ACT_DISSECT" );
@@ -241,7 +240,6 @@ activity_handlers::do_turn_functions = {
     { ACT_CONSUME_FOOD_MENU, consume_food_menu_do_turn },
     { ACT_CONSUME_DRINK_MENU, consume_drink_menu_do_turn },
     { ACT_CONSUME_MEDS_MENU, consume_meds_menu_do_turn },
-    { ACT_CONSUME_FUEL_MENU, consume_fuel_menu_do_turn },
     { ACT_VIEW_RECIPE, view_recipe_do_turn },
     { ACT_MOVE_LOOT, move_loot_do_turn },
     { ACT_ADV_INVENTORY, adv_inventory_do_turn },
@@ -308,7 +306,6 @@ activity_handlers::finish_functions = {
     { ACT_CONSUME_FOOD_MENU, eat_menu_finish },
     { ACT_CONSUME_DRINK_MENU, eat_menu_finish },
     { ACT_CONSUME_MEDS_MENU, eat_menu_finish },
-    { ACT_CONSUME_FUEL_MENU, eat_menu_finish },
     { ACT_VIEW_RECIPE, view_recipe_finish },
     { ACT_WASH, washing_finish },
     { ACT_JACKHAMMER, jackhammer_finish },
@@ -1365,6 +1362,11 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act, Character *yo
         switch( source_type ) {
             case liquid_source_type::VEHICLE:
                 if( part_num != -1 ) {
+                    const vehicle_part &pt = source_veh->part( part_num );
+                    if( pt.is_leaking() && !pt.ammo_remaining() ) {
+                        act_ref.set_to_null(); // leaky tank spilled while we were transferring
+                        return;
+                    }
                     source_veh->drain( part_num, removed_charges );
                     liquid.charges = veh_charges - removed_charges;
                     // If there's no liquid left in this tank we're done, otherwise
@@ -2489,12 +2491,6 @@ void activity_handlers::consume_meds_menu_do_turn( player_activity *, Character 
 {
     avatar &player_character = get_avatar();
     avatar_action::eat( player_character, game_menus::inv::consume_meds( player_character ) );
-}
-
-void activity_handlers::consume_fuel_menu_do_turn( player_activity *, Character * )
-{
-    avatar &player_character = get_avatar();
-    avatar_action::eat( player_character, game_menus::inv::consume_fuel( player_character ), true );
 }
 
 void activity_handlers::view_recipe_do_turn( player_activity *act, Character *you )

@@ -4763,7 +4763,7 @@ bool game::find_nearby_spawn_point( const tripoint &target, const mtype_id &mt, 
     tripoint target_point;
     //find a legal outdoor place to spawn based on the specified radius,
     //we just try a bunch of random points and use the first one that works, it none do then no spawn
-    for( int attempts = 0; attempts < 15; attempts++ ) {
+    for( int attempts = 0; attempts < 75; attempts++ ) {
         target_point = target + tripoint( rng( -max_radius, max_radius ),
                                           rng( -max_radius, max_radius ), 0 );
         if( can_place_monster( monster( mt->id ), target_point ) &&
@@ -10791,10 +10791,10 @@ void game::on_move_effects()
     // TODO: Move this to a character method
     if( !u.is_mounted() ) {
         const item muscle( "muscle" );
-        for( const bionic_id &bid : u.get_bionic_fueled_with( muscle ) ) {
+        for( const bionic_id &bid : u.get_bionic_fueled_with_muscle() ) {
             if( u.has_active_bionic( bid ) ) {// active power gen
                 u.mod_power_level( muscle.fuel_energy() * bid->fuel_efficiency );
-            } else if( u.has_bionic( bid ) ) {// passive power gen
+            } else {// passive power gen
                 u.mod_power_level( muscle.fuel_energy() * bid->passive_fuel_efficiency );
             }
         }

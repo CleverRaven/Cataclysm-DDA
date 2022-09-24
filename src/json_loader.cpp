@@ -178,3 +178,14 @@ JsonValue json_loader::from_string( std::string const &data ) noexcept( false )
     flexbuffers::Reference buffer_root = flexbuffer_root_from_storage( buffer->get_storage() );
     return JsonValue( std::move( buffer ), buffer_root, nullptr, 0 );
 }
+
+cata::optional<JsonValue> json_loader::from_string_opt( std::string const &data ) noexcept( false )
+{
+    cata::optional<JsonValue> ret;
+    try {
+        ret = from_string( data );
+    } catch( JsonError &e ) {
+        ret = cata::nullopt;
+    }
+    return ret;
+}

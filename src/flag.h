@@ -42,6 +42,7 @@ extern const flag_id flag_BASH_IMMUNE;
 extern const flag_id flag_BELTED;
 extern const flag_id flag_BELT_CLIP;
 extern const flag_id flag_BIO_IMMUNE;
+extern const flag_id flag_BIONIC_FUEL_SOURCE;
 extern const flag_id flag_BIONIC_GUN;
 extern const flag_id flag_BIONIC_INSTALLATION_DATA;
 extern const flag_id flag_BIONIC_TOGGLED;
