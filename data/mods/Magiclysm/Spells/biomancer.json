@@ -337,7 +337,6 @@
     "energy_source": "MANA",
     "spell_class": "BIOMANCER",
     "difficulty": 4,
-    "base_casting_time": 400,
     "base_casting_time": 200,
     "base_energy_cost": 100,
     "max_level": 20,
