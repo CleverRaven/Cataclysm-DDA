@@ -827,11 +827,11 @@
     "copy-from": "armor_lightplate",
     "name": { "str_sp": "spiritual armor" },
     "description": "A summoned medieval armor.  It glows softly and looks sturdy.",
-    "material": [ "paper" ],
+    "material": [ "superalloy" ],
     "//": "I added a helmet to the summon",
     "warmth": 0,
     "material_thickness": 4,
-    "flags": [ "ONLY_ONE", "OVERSIZE", "VARSIZE", "NO_REPAIR", "LIGHT_2", "TRADER_AVOID" ],
+    "flags": [ "ONLY_ONE", "OVERSIZE", "PERSONAL", "VARSIZE", "STURDY", "NO_REPAIR", "NO_SALVAGE", "LIGHT_2", "TRADER_AVOID" ],
     "armor": [
       {
         "encumbrance": 5,
