@@ -449,7 +449,7 @@ TEST_CASE( "unconnected windows rotate to indoor floor", "[multitile][rotates]" 
             cata_tiles_test_helper::get_connect_values( pos, subtile, rotation, TERCONN_NONE,
                     TERCONN_INDOORFLOOR );
             CHECK( subtile == unconnected );
-            CHECK( rotation == 0 );
+            CHECK( rotation == 2 );
         }
     }
     WHEN( "indoor floor to the east" ) {
@@ -462,7 +462,7 @@ TEST_CASE( "unconnected windows rotate to indoor floor", "[multitile][rotates]" 
             cata_tiles_test_helper::get_connect_values( pos, subtile, rotation, TERCONN_NONE,
                     TERCONN_INDOORFLOOR );
             CHECK( subtile == unconnected );
-            CHECK( rotation == 1 );
+            CHECK( rotation == 3 );
         }
     }
     WHEN( "indoor floor to the south" ) {
@@ -475,7 +475,7 @@ TEST_CASE( "unconnected windows rotate to indoor floor", "[multitile][rotates]" 
             cata_tiles_test_helper::get_connect_values( pos, subtile, rotation, TERCONN_NONE,
                     TERCONN_INDOORFLOOR );
             CHECK( subtile == unconnected );
-            CHECK( rotation == 2 );
+            CHECK( rotation == 0 );
         }
     }
     WHEN( "indoor floor to the west" ) {
@@ -488,7 +488,7 @@ TEST_CASE( "unconnected windows rotate to indoor floor", "[multitile][rotates]" 
             cata_tiles_test_helper::get_connect_values( pos, subtile, rotation, TERCONN_NONE,
                     TERCONN_INDOORFLOOR );
             CHECK( subtile == unconnected );
-            CHECK( rotation == 3 );
+            CHECK( rotation == 1 );
         }
     }
 }

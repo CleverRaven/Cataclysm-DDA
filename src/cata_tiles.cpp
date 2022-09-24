@@ -4473,55 +4473,55 @@ int cata_tiles::get_rotation_unconnected( const char rot_to )
     switch( rot_to ) {
         // Catch no and all first for performance; these are the last sprites!
         case 0: // NONE
-            rotation = 14;
+            rotation = 15;
             break;
         case 15: // ALL
-            rotation = 15;
+            rotation = 12;
             break;
 
         // Cases for single tile to rotate to -> easy
         case static_cast<int>( NEIGHBOUR::NORTH ):
-            rotation = 0;
-            break;
-        case static_cast<int>( NEIGHBOUR::EAST ):
-            rotation = 1;
-            break;
-        case static_cast<int>( NEIGHBOUR::SOUTH ):
             rotation = 2;
             break;
-        case static_cast<int>( NEIGHBOUR::WEST ):
+        case static_cast<int>( NEIGHBOUR::EAST ):
             rotation = 3;
+            break;
+        case static_cast<int>( NEIGHBOUR::SOUTH ):
+            rotation = 0;
+            break;
+        case static_cast<int>( NEIGHBOUR::WEST ):
+            rotation = 1;
             break;
         // Two tiles, resulting in diagonal
         case 10: // NE
-            rotation = 4;
-            break;
-        case 3: // SE
-            rotation = 5;
-            break;
-        case 5: // SW
             rotation = 6;
             break;
-        case 12: // NW
+        case 3: // SE
             rotation = 7;
+            break;
+        case 5: // SW
+            rotation = 4;
+            break;
+        case 12: // NW
+            rotation = 5;
             break;
         // Cases for three tiles to rotate to -> easy
         // Arranged to fallback / modulo to fitting index 0-4
         case 14: // 3 but south --> modulo = north
-            rotation = 8;
-            break;
-        case 11: // 3 but west --> modulo = east
-            rotation = 9;
-            break;
-        case 7: // 3 but north --> modulo = south
             rotation = 10;
             break;
-        case 13: // 3 but east --> modulo = west
+        case 11: // 3 but west --> modulo = east
             rotation = 11;
+            break;
+        case 7: // 3 but north --> modulo = south
+            rotation = 8;
+            break;
+        case 13: // 3 but east --> modulo = west
+            rotation = 9;
             break;
         // Two opposing tiles, (No tiles, all tiles; see first cases)
         case 9: // N-S
-            rotation = 12;
+            rotation = 14;
             break;
         case 6: // E-W
             rotation = 13;
@@ -4630,7 +4630,7 @@ void cata_tiles::get_tile_values_with_ter(
             case 11:   // south opening T
             case 15:   // surrounded
             default:   // just in case
-                rotation = 0;
+                rotation = rotate_to_group == TERCONN_NONE ? 0 : 15;
                 break;
         }
 
