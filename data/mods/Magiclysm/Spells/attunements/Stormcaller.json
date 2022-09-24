@@ -59,7 +59,7 @@
     "type": "MONSTER",
     "name": "electric demon",
     "description": "Small, pure electric elemental, that .",
-    "default_faction": "factionless",
+    "default_faction": "player",
     "volume": "62500 ml",
     "weight": "81500 g",
     "hp": 70,
@@ -140,7 +140,7 @@
     "type": "MONSTER",
     "name": "thunder pillar",
     "description": "It looks like a giant floating stone shard, but it's intelligent creature, that can use electric branches as their own bodies.",
-    "default_faction": "factionless",
+    "default_faction": "player",
     "volume": "218500 ml",
     "weight": "240000 g",
     "hp": 100,
@@ -157,12 +157,6 @@
     "vision_night": 60,
     "emit_fields": [ { "emit_id": "emit_electric_sparks", "delay": "1 s" } ],
     "special_attacks": [
-      {
-        "type": "spell",
-        "spell_data": { "id": "electric_turret_line", "min_level": 0 },
-        "monster_message": "",
-        "cooldown": 5
-      },
       {
         "type": "spell",
         "spell_data": { "id": "electric_turret_blast", "min_level": 0 },
@@ -194,7 +188,7 @@
     "description": "Line attack for stormcaller's thunder pillar.",
     "effect": "attack",
     "shape": "line",
-    "valid_targets": [ "hostile" ],
+    "valid_targets": [ "hostile", "ground" ],
     "flags": [ "LOUD", "RANDOM_DAMAGE", "RANDOM_AOE" ],
     "min_damage": 55,
     "max_damage": 105,
@@ -216,7 +210,7 @@
     "description": "Blast attack for stormcaller's thunder pillar.",
     "effect": "attack",
     "shape": "blast",
-    "valid_targets": [ "hostile" ],
+    "valid_targets": [ "hostile", "ground" ],
     "flags": [ "LOUD", "RANDOM_DAMAGE", "RANDOM_AOE" ],
     "min_damage": 40,
     "max_damage": 65,
