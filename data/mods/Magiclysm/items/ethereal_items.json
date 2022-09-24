@@ -116,9 +116,9 @@
     "armor": [ { "encumbrance": 15, "coverage": 70, "covers": [ "arm_l", "arm_r", "hand_l", "hand_r" ] } ]
   },
   {
-    "id": "ice_gliders",
+    "id": "ice_gliders_on",
     "type": "ARMOR",
-    "name": { "str_sp": "slick icy coatings" },
+    "name": { "str_sp": "slick icy coatings (on)" },
     "description": "A magical slick icy coating on your feet.  While quite fast on flat floors, they make it difficult to move on rough terrain.",
     "weight": "1 g",
     "volume": "250 ml",
@@ -130,9 +130,42 @@
     "color": "brown",
     "warmth": 30,
     "material_thickness": 3,
+	"use_action": {
+      "type": "transform",
+      "menu_text": "Dispel ice coating",
+      "target": "ice_gliders_off",
+      "msg": "Ice coating flake off your feet.",
+      "moves": 200
+    },
     "environmental_protection": 2,
     "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "MOVE_COST", "add": -5 } ] } ] },
-    "flags": [ "OVERSIZE", "VARSIZE", "WATERPROOF", "ROLLER_QUAD", "BELTED" ],
+    "flags": [ "OVERSIZE", "VARSIZE", "WATERPROOF", "ROLLER_INLINE", "BELTED", "REQUIRES_BALANCE" ],
+    "armor": [ { "encumbrance": 0, "coverage": 100, "covers": [ "foot_l", "foot_r" ] } ]
+  },
+  {
+    "id": "ice_gliders_off",
+    "type": "ARMOR",
+    "name": { "str_sp": "slick icy coatings (off)" },
+    "description": "A magical slick icy coating on your feet.  While quite fast on flat floors, they make it difficult to move on rough terrain.",
+    "weight": "1 g",
+    "volume": "250 ml",
+    "price": 1,
+    "to_hit": -2,
+    "bashing": 6,
+    "material": [ "steel" ],
+    "symbol": "[",
+    "color": "brown",
+    "warmth": 30,
+    "material_thickness": 3,
+	"use_action": {
+      "type": "transform",
+      "menu_text": "Conjure ice coating",
+      "target": "ice_gliders_on",
+      "msg": "Ice coating covers your feet.",
+      "moves": 200
+    },
+    "environmental_protection": 2,
+    "flags": [ "OVERSIZE", "VARSIZE", "WATERPROOF", "BELTED" ],
     "armor": [ { "encumbrance": 0, "coverage": 100, "covers": [ "foot_l", "foot_r" ] } ]
   },
   {
