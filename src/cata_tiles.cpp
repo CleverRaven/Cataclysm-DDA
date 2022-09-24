@@ -2726,13 +2726,14 @@ bool cata_tiles::draw_terrain( const tripoint &p, const lit_level ll, int &heigh
         int subtile = 0;
         int rotation = 0;
         int connect_group = 0;
-        int rotate_group = 0;
-        if( t.obj().connects( connect_group ) | t.obj().rotates( rotate_group ) ) {
+        int rotate_group = t.obj().rotate_to_group;
+
+        if( t.obj().connects( connect_group ) ) {
             get_connect_values( p, subtile, rotation, connect_group, rotate_group, {} );
             // re-memorize previously seen terrain in case new connections have been seen
             here.set_memory_seen_cache_dirty( p );
         } else {
-            get_terrain_orientation( p, rotation, subtile, {}, invisible );
+            get_terrain_orientation( p, rotation, subtile, {}, invisible, rotate_group );
             // do something to get other terrain orientation values
         }
         const std::string &tname = t.id().str();
@@ -2754,11 +2755,12 @@ bool cata_tiles::draw_terrain( const tripoint &p, const lit_level ll, int &heigh
             int subtile = 0;
             int rotation = 0;
             int connect_group = 0;
-            int rotate_group = 0;
-            if( t2.obj().connects( connect_group ) | t2.obj().rotates( rotate_group ) ) {
+            int rotate_group = t2.obj().rotate_to_group;
+
+            if( t2.obj().connects( connect_group ) ) {
                 get_connect_values( p, subtile, rotation, connect_group, rotate_group, terrain_override );
             } else {
-                get_terrain_orientation( p, rotation, subtile, terrain_override, invisible );
+                get_terrain_orientation( p, rotation, subtile, terrain_override, invisible, rotate_group );
             }
             const std::string &tname = t2.id().str();
             // tile overrides are never memorized
@@ -2912,11 +2914,12 @@ bool cata_tiles::draw_furniture( const tripoint &p, const lit_level ll, int &hei
         int subtile = 0;
         int rotation = 0;
         int connect_group = 0;
-        int rotate_group = 0;
-        if( f.obj().connects( connect_group ) | f.obj().rotates( rotate_group ) ) {
+        int rotate_group = f.obj().rotate_to_group;
+
+        if( f.obj().connects( connect_group ) ) {
             get_furn_connect_values( p, subtile, rotation, connect_group, rotate_group, {} );
         } else {
-            get_tile_values_with_ter( p, f.to_i(), neighborhood, subtile, rotation );
+            get_tile_values_with_ter( p, f.to_i(), neighborhood, subtile, rotation, rotate_group );
         }
         const std::string &fname = f.id().str();
         if( !( you.get_grab_type() == object_type::FURNITURE
@@ -2950,13 +2953,14 @@ bool cata_tiles::draw_furniture( const tripoint &p, const lit_level ll, int &hei
             int subtile = 0;
             int rotation = 0;
             int connect_group = 0;
-            int rotate_group = 0;
-            if( f.obj().connects( connect_group ) | f.obj().rotates( rotate_group ) ) {
+            int rotate_group = f.obj().rotate_to_group;
+
+            if( f.obj().connects( connect_group ) ) {
                 get_furn_connect_values( p, subtile, rotation, connect_group, rotate_group, {} );
             } else {
-                get_tile_values_with_ter( p, f.to_i(), neighborhood, subtile, rotation );
+                get_tile_values_with_ter( p, f.to_i(), neighborhood, subtile, rotation, rotate_group );
             }
-            get_tile_values_with_ter( p, f2.to_i(), neighborhood, subtile, rotation );
+            get_tile_values_with_ter( p, f2.to_i(), neighborhood, subtile, rotation, TERCONN_NONE );
             const std::string &fname = f2.id().str();
             // tile overrides are never memorized
             // tile overrides are always shown with full visibility
@@ -3003,7 +3007,7 @@ bool cata_tiles::draw_trap( const tripoint &p, const lit_level ll, int &height_3
         };
         int subtile = 0;
         int rotation = 0;
-        get_tile_values( tr.loadid.to_i(), neighborhood, subtile, rotation );
+        get_tile_values( tr.loadid.to_i(), neighborhood, subtile, rotation, 0 );
         const std::string trname = tr.loadid.id().str();
         if( here.check_seen_cache( p ) ) {
             you.memorize_tile( here.getabs( p ), trname, subtile, rotation );
@@ -3034,7 +3038,7 @@ bool cata_tiles::draw_trap( const tripoint &p, const lit_level ll, int &height_3
             };
             int subtile = 0;
             int rotation = 0;
-            get_tile_values( tr2.to_i(), neighborhood, subtile, rotation );
+            get_tile_values( tr2.to_i(), neighborhood, subtile, rotation, 0 );
             const std::string &trname = tr2.id().str();
             // tile overrides are never memorized
             // tile overrides are always shown with full visibility
@@ -3111,7 +3115,7 @@ bool cata_tiles::draw_field_or_item( const tripoint &p, const lit_level ll, int 
 
                 int subtile = 0;
                 int rotation = 0;
-                get_tile_values( fld.to_i(), neighborhood, subtile, rotation );
+                get_tile_values( fld.to_i(), neighborhood, subtile, rotation, 0 );
 
                 //get field intensity
                 int intensity = fd_pr.second.get_field_intensity();
@@ -3209,7 +3213,7 @@ bool cata_tiles::draw_field_or_item( const tripoint &p, const lit_level ll, int 
 
             int subtile = 0;
             int rotation = 0;
-            get_tile_values( fld.to_i(), neighborhood, subtile, rotation );
+            get_tile_values( fld.to_i(), neighborhood, subtile, rotation, 0 );
 
             //get field intensity
             int intensity = fld_overridden ? 0 : here.field_at( p ).displayed_intensity();
@@ -4251,7 +4255,8 @@ void cata_tiles::init_light()
 }
 
 void cata_tiles::get_terrain_orientation( const tripoint &p, int &rota, int &subtile,
-        const std::map<tripoint, ter_id> &ter_override, const std::array<bool, 5> &invisible )
+        const std::map<tripoint, ter_id> &ter_override, const std::array<bool, 5> &invisible,
+        const int rotate_group )
 {
     map &here = get_map();
     const bool overridden = ter_override.find( p ) != ter_override.end();
@@ -4286,7 +4291,8 @@ void cata_tiles::get_terrain_orientation( const tripoint &p, int &rota, int &sub
         }
     }
 
-    get_rotation_and_subtile( val, CHAR_MAX, rota, subtile );
+    uint8_t rotation_targets = get_map().get_known_rotates_to( p, rotate_group, {} );
+    get_rotation_and_subtile( val, rotation_targets, rota, subtile );
 }
 
 void cata_tiles::get_rotation_and_subtile( const char val, const char rot_to, int &rotation,
@@ -4544,7 +4550,7 @@ void cata_tiles::get_furn_connect_values( const tripoint &p, int &subtile, int &
 }
 
 void cata_tiles::get_tile_values( const int t, const std::array<int, 4> &tn, int &subtile,
-                                  int &rotation )
+                                  int &rotation, const char rotation_targets )
 {
     std::array<bool, 4> connects;
     char val = 0;
@@ -4554,24 +4560,27 @@ void cata_tiles::get_tile_values( const int t, const std::array<int, 4> &tn, int
             val += 1 << i;
         }
     }
-    get_rotation_and_subtile( val, CHAR_MAX, rotation, subtile );
+    get_rotation_and_subtile( val, rotation_targets, rotation, subtile );
 }
 
 void cata_tiles::get_tile_values_with_ter(
-    const tripoint &p, const int t, const std::array<int, 4> &tn, int &subtile, int &rotation )
+    const tripoint &p, const int t, const std::array<int, 4> &tn, int &subtile, int &rotation,
+    const int rotate_to_group )
 {
     map &here = get_map();
+    uint8_t rotation_targets = get_map().get_known_rotates_to_f( p, rotate_to_group, {} );
     //check if furniture should connect to itself
     if( here.has_flag( ter_furn_flag::TFLAG_NO_SELF_CONNECT, p ) ||
         here.has_flag( ter_furn_flag::TFLAG_ALIGN_WORKBENCH, p ) ) {
         //if we don't ever connect to ourself just return unconnected to be used further
-        get_rotation_and_subtile( 0, CHAR_MAX, rotation, subtile );
+        get_rotation_and_subtile( 0, rotation_targets, rotation, subtile );
     } else {
         //if we do connect to ourself (tables, counters etc.) calculate based on neighbours
-        get_tile_values( t, tn, subtile, rotation );
+        get_tile_values( t, tn, subtile, rotation, rotation_targets );
     }
     // calculate rotation for unconnected tiles based on surrounding walls
-    if( subtile == unconnected ) {
+    // if not any rotates_to neighbours
+    if( subtile == unconnected && rotation_targets == 0 ) {
         int val = 0;
         bool use_furniture = false;
 
