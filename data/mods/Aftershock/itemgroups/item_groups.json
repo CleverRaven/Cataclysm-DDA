@@ -490,6 +490,7 @@
     "subtype": "collection",
     "entries": [
       { "item": "modular_exosuit", "chance": 100 },
+      { "item": "afs_exo_standard_underlayer", "chance": 90 },
       { "item": "exo_helmet_plastic", "chance": 90 },
       { "item": "exo_torso_plastic", "chance": 90 },
       { "item": "exo_arm_plastic", "chance": 90 },
