@@ -196,7 +196,7 @@
     "using": [ [ "cordage", 1 ] ],
     "qualities": [ { "id": "CUT", "level": 2 } ],
     "proficiencies": [ { "proficiency": "prof_carving" } ],
-    "components": [ [ [ "stick", 1 ], [ "2x4", 1 ] ], [ [ "cotton_patchwork", 4 ], ["fibercloth_patchwork", 4 ] ] ]
+    "components": [ [ [ "stick", 1 ], [ "2x4", 1 ] ], [ [ "cotton_patchwork", 4 ], [ "fibercloth_patchwork", 4 ] ] ]
   },
   {
     "type": "recipe",

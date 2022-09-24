@@ -232,7 +232,11 @@
     "autolearn": true,
     "using": [ [ "soldering_standard", 30 ] ],
     "proficiencies": [ { "proficiency": "prof_elec_soldering" }, { "proficiency": "prof_elec_circuits" } ],
-    "qualities": [ { "id": "SCREW", "level": 1, "amount": 1 }, { "id": "HAMMER", "level": 3, "amount": 1 }, { "id": "CUT_FINE", "level": 1, "amount": 1 } ],
+    "qualities": [
+      { "id": "SCREW", "level": 1, "amount": 1 },
+      { "id": "HAMMER", "level": 3, "amount": 1 },
+      { "id": "CUT_FINE", "level": 1, "amount": 1 }
+    ],
     "components": [
       [ [ "sheet_metal_small", 2 ] ],
       [ [ "steel_chunk", 4 ] ],
