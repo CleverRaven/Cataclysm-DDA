@@ -249,19 +249,19 @@ The full multitile would be defined like this:
     {
       "id": "edge",
       "fg": [
-        "w_NS_W", "w_EW_N",
-        "w_NS_E", "w_EW_S",
-        "w_NS_BOTH", "w_EW_NONE",
-        "w_NS_NONE", "w_EW_BOTH"
+        "w_NS_W", "w_EW_S",
+        "w_NS_E", "w_EW_N",
+        "w_NS_BOTH", "w_EW_BOTH",
+        "w_NS_NONE", "w_EW_NONE"
       ]
     },
     {
       "id": "end_piece",
       "fg": [
-        "w_NS_W", "w_EW_N",
-        "w_NS_E", "w_EW_S",
-        "w_NS_BOTH", "w_EW_NONE",
-        "w_NS_NONE", "w_EW_BOTH"
+        "w_NS_W", "w_EW_S",
+        "w_NS_E", "w_EW_N",
+        "w_NS_BOTH", "w_EW_BOTH",
+        "w_NS_NONE", "w_EW_NONE"
       ]
     },
     {
@@ -340,6 +340,14 @@ A minimal version using only the 4 cardinal directions can be achieved with only
 > Note: When drawing using the template, keep in mind that neighbours to rotate towards are where connections are.
 > The directions at the end of each generated file name are ***not*** the directions to rotate to!
 > Rather, they are the opposite.
+
+##### Full `rotates_to` template
+
+For terrain and furniture that connects as well as rotates, `slice_multitile.py` can be used on a 5x5 autotile template like this:
+
+<img width="352" src="./img/autotile_full_rotation.svg" />
+
+As for normal autotiles, the script also generates the requires JSON file. See there for the order of rotated elements.
 
 #### Multiple tile entries in the same file
 
