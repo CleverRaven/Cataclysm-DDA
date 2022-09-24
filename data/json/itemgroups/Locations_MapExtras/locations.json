@@ -2725,6 +2725,8 @@
     "type": "item_group",
     "items": [
       [ "bone_human", 70 ],
+      [ "skull_human", 40 ],
+      [ "skull_canis", 20 ],
       [ "holy_symbol", 50 ],
       [ "sheet", 20 ],
       [ "bag_body_bag", 20 ],
