@@ -1765,6 +1765,21 @@
     "material": [ "bone" ]
   },
   {
+    "type": "GENERIC",
+    "id": "skull_canis",
+    "name": { "str": "wolf skull" },
+    "description": "The skull of a wolf or dog.  Essential material for building an articulated wolf skeleton.",
+    "flags": [ "TRADER_AVOID" ],
+    "category": "spare_parts",
+    "weight": "500 g",
+    "volume": "700 ml",
+    "symbol": "@",
+    "color": "white",
+    "price": 0,
+    "price_postapoc": 5,
+    "material": [ "bone" ]
+  },
+  {
     "id": "meat_fried",
     "copy-from": "meat_cooked",
     "type": "COMESTIBLE",
