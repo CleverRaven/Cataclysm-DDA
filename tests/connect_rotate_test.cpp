@@ -435,7 +435,7 @@ TEST_CASE( "unconnected windows rotate to indoor floor", "[multitile][rotates]" 
             cata_tiles_test_helper::get_connect_values( pos, subtile, rotation, TERCONN_NONE,
                     TERCONN_INDOORFLOOR );
             CHECK( subtile == unconnected );
-            CHECK( rotation == 14 );
+            CHECK( rotation == 15 );
         }
     }
 

@@ -4580,7 +4580,7 @@ void cata_tiles::get_tile_values_with_ter(
     }
     // calculate rotation for unconnected tiles based on surrounding walls
     // if not any rotates_to neighbours
-    if( subtile == unconnected && rotation_targets == 0 ) {
+    if( subtile == unconnected && ( rotation_targets == 0 || rotation_targets == CHAR_MAX ) ) {
         int val = 0;
         bool use_furniture = false;
 
