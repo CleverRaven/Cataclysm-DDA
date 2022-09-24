@@ -1545,7 +1545,7 @@
       }
     ],
     "qualities": [ [ "BOIL", 1 ], [ "CONTAIN", 1 ] ],
-    "flags": [ "SOFT" ]
+    "flags": [ "SOFT", "NO_REPAIR" ]
   },
   {
     "id": "flask_glass",
@@ -2327,7 +2327,7 @@
     "color": "light_gray",
     "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "2500 ml", "max_contains_weight": "6 kg" } ],
     "qualities": [ [ "COOK", 1 ] ],
-    "flags": [ "SOFT" ]
+    "flags": [ "SOFT", "NO_REPAIR" ]
   },
   {
     "id": "wrapper_pr",
