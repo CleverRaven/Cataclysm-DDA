@@ -14,7 +14,7 @@
     "base_energy_cost": 100,
     "energy_source": "MANA",
     "spell_class": "TECHNOMANCER",
-    "difficulty": 2,
+    "difficulty": 5,
     "max_level": 20,
     "min_aoe": 0,
     "max_aoe": 5,
