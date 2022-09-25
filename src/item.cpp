@@ -6887,13 +6887,22 @@ units::mass item::weight( bool include_contents, bool integral ) const
         ret += links.weight();
     }
 
-    // reduce weight for sawn-off weapons capped to the apportioned weight of the barrel
+    // reduce weight for sawn-off barrel capped to the apportioned weight of the barrel
     if( gunmod_find( itype_barrel_small ) ) {
         const units::volume b = type->gun->barrel_volume;
         const units::mass max_barrel_weight = units::from_gram( to_milliliter( b ) );
         const units::mass barrel_weight = units::from_gram( b.value() * type->weight.value() /
                                           type->volume.value() );
         ret -= std::min( max_barrel_weight, barrel_weight );
+    }
+
+    // reduce weight for sawn-off stock
+    if( gunmod_find( itype_stock_none ) ) {
+        // Length taken from item::length(), height and width are "average" values
+        const float stock_dimensions = 0.26f * 0.11f * 0.04f; // length * height * width = 0.00114 m3.
+        // density of 'wood' material
+        const int density = 850;
+        ret -= units::from_kilogram( stock_dimensions * density );
     }
 
     return ret;
