@@ -4024,11 +4024,11 @@
   },
   {
     "type": "profession",
-    "id": "chemistry_teacher",
+    "id": "breaking_bad_heisenberg",
     "name": "Chemistry Teacher",
     "description": "After turning down a top job at a pharma company, you have chosen to use your talents to teach high schoolers.",
     "points": 0,
-    "skills": [ { "level": 3, "name": "speech" }, { "level": 2, "name": "chemistry" } ],
+    "skills": [ { "level": 3, "name": "speech" }, { "level": 6, "name": "chemistry" } ],
     "items": {
       "both": {
         "items": [ "briefs", "apron_cut_resistant", { "group": "full_gasmask" } ],

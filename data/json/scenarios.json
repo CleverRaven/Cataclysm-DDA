@@ -587,7 +587,7 @@
     "points": 0,
     "description": "While cooking your latest batch in your trusty RV, the world around you has descended in chaos.",
     "vehicle": "food_truck_delivery_mission",
-    "professions": [ "chemistry_teacher"],
+    "professions": [ "breaking_bad_heisenberg"],
     "start_name": "A Stop On a deserted Road",
     "allowed_locs": [ "sloc_road" ],
     "missions": [],
