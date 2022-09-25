@@ -468,6 +468,13 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "egg_tenontosaurus",
+    "name": "tenontosaurus egg",
+    "copy-from": "egg_dino",
+    "rot_spawn": "GROUP_EGG_tenontosaurus"
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "egg_dryosaurus",
     "name": "dryosaurus egg",
     "copy-from": "egg_dino_small",

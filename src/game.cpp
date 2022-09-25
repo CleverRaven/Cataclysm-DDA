@@ -9213,17 +9213,11 @@ void game::reload( item_location &loc, bool prompt, bool empty )
     }
 
     if( opt ) {
-        int moves = opt.moves();
-        if( loc->get_var( "dirt", 0 ) > 7800 ) {
+        const int extra_moves = loc->get_var( "dirt", 0 ) > 7800 ? 2500 : 0;
+        if( extra_moves > 0 ) {
             add_msg( m_warning, _( "You struggle to reload the fouled %s." ), loc->tname() );
-            moves += 2500;
         }
-        std::vector<item_location> targets;
-        targets.push_back( opt.target );
-        targets.push_back( std::move( opt.ammo ) );
-
-        u.assign_activity( player_activity( reload_activity_actor( moves, opt.qty(), targets ) ) );
-
+        u.assign_activity( player_activity( reload_activity_actor( std::move( opt ), extra_moves ) ) );
     }
 }
 
@@ -9308,16 +9302,14 @@ void game::reload_weapon( bool try_everything )
         return;
     }
     // If we make it here and haven't found anything to reload, start looking elsewhere.
-    vehicle *veh = veh_pointer_or_null( m.veh_at( u.pos() ) );
-    turret_data turret;
-    if( veh && ( turret = veh->turret_query( u.pos() ) ) && turret.can_reload() ) {
-        item::reload_option opt = u.select_ammo( turret.base(), true );
-        std::vector<item_location> targets;
-        if( opt ) {
-            const int moves = opt.moves();
-            targets.push_back( opt.target );
-            targets.push_back( std::move( opt.ammo ) );
-            u.assign_activity( player_activity( reload_activity_actor( moves, opt.qty(), targets ) ) );
+    const optional_vpart_position ovp = m.veh_at( u.pos() );
+    if( ovp ) {
+        const turret_data turret = ovp->vehicle().turret_query( ovp->pos() );
+        if( turret.can_reload() ) {
+            item::reload_option opt = u.select_ammo( turret.base(), true );
+            if( opt ) {
+                u.assign_activity( player_activity( reload_activity_actor( std::move( opt ) ) ) );
+            }
         }
         return;
     }

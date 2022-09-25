@@ -488,6 +488,15 @@
     "upgrades": { "age_grow": 365, "into": "mon_ankylosaurus" }
   },
   {
+    "id": "mon_tenontosaurus_juvenile",
+    "type": "MONSTER",
+    "name": "green and yellow four-legged juvenile",
+    "copy-from": "mon_stegosaurus_juvenile",
+    "color": "yellow",
+    "upgrades": { "age_grow": 133, "into": "mon_tenontosaurus" },
+    "extend": { "flags": [ "SWIMS" ] }
+  },
+  {
     "id": "mon_camptosaurus_juvenile",
     "type": "MONSTER",
     "name": "green and yellow four-legged juvenile",

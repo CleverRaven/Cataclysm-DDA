@@ -1216,8 +1216,7 @@ class vehicle
 
         // Pre-calculate mount points for (idir=0) - current direction or
         // (idir=1) - next turn direction
-        // return the set of all z-levels that the vehicle is on
-        std::set<int> precalc_mounts( int idir, const units::angle &dir, const point &pivot );
+        void precalc_mounts( int idir, const units::angle &dir, const point &pivot );
 
         // get a list of part indices where is a passenger inside
         std::vector<int> boarded_parts() const;
@@ -1271,9 +1270,6 @@ class vehicle
         itype_id engine_fuel_current( int e ) const;
         // Returns total vehicle fuel capacity for the given fuel type
         int fuel_capacity( const itype_id &ftype ) const;
-
-        // Returns the total specific energy (J/g) of this fuel type. Frozen is ignored.
-        units::specific_energy fuel_specific_energy( const itype_id &ftype ) const;
 
         // drains a fuel type (e.g. for the kitchen unit)
         // returns amount actually drained, does not engage reactor
