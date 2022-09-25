@@ -4024,6 +4024,21 @@
   },
   {
     "type": "profession",
+    "id": "chemistry_teacher",
+    "name": "Chemistry Teacher",
+    "description": "After turning down a top job at a pharma company, you have chosen to use your talents to teach high schoolers.",
+    "points": 0,
+    "skills": [ { "level": 3, "name": "speech" }, { "level": 2, "name": "chemistry" } ],
+    "items": {
+      "both": {
+        "items": [ "briefs", "apron_cut_resistant", { "group": "full_gasmask" } ],
+        "entries": [  ]
+      },
+      "male": [ "briefs" ]
+    }
+  },
+  {
+    "type": "profession",
     "id": "teacher",
     "name": "Teacher",
     "description": "You've been teaching kids all your life, experiencing the joy and aggravation of imparting knowledge to young minds.  If zombies have any interest in education, they're not showing it.",

@@ -582,6 +582,19 @@
   },
   {
     "type": "scenario",
+    "id": "breaking_bad",
+    "name": "Breaking Bad",
+    "points": 2,
+    "description": "While cooking your latest batch in your trustee RV, the world around you has descended in chaos.",
+    "vehicle": "food_truck_delivery_mission",
+    "professions": [ "chemistry_teacher", "unemployed" ],
+    "start_name": "A Stop On The Road",
+    "allowed_locs": [ "sloc_road" ],
+    "missions": [],
+    "flags": [ "LONE_START" ]
+  },
+  {
+    "type": "scenario",
     "id": "last_flight",
     "name": "Last Flight",
     "points": 2,
