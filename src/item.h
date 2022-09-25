@@ -1701,6 +1701,9 @@ class item : public visitable
          */
         void on_damage( int qty, damage_type dt );
 
+        // Callback invoked after the item's damage is changed or after deserialization
+        void on_damage_changed();
+
         bool use_relic( Character &guy, const tripoint &pos );
         bool has_relic_recharge() const;
         bool has_relic_activation() const;

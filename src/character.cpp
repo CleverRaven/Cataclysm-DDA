@@ -6076,7 +6076,7 @@ void Character::mend_item( item_location &&obj, bool interactive )
                 }
             }
             opt.doable = opt.doable &&
-                         m.second.requirements->can_make_with_inventory( inv, is_crafting_component );
+                         m.second.get_requirements().can_make_with_inventory( inv, is_crafting_component );
             mending_options.emplace_back( opt );
         }
     }
@@ -6116,11 +6116,14 @@ void Character::mend_item( item_location &&obj, bool interactive )
             const mending_method &method = opt.method;
             const nc_color col = opt.doable ? c_white : c_light_gray;
 
-            requirement_data reqs = method.requirements.obj();
+            requirement_data reqs = method.get_requirements();
             auto tools = reqs.get_folded_tools_list( fold_width, col, inv );
             auto comps = reqs.get_folded_components_list( fold_width, col, inv, is_crafting_component );
 
-            std::string descr;
+            std::string descr = word_rewrap( method.description.translated(), 80 ) + "\n\n";
+            if( method.heal_stages.value_or( 0 ) > 0 ) {
+                descr += string_format( _( "<color_green>Repairs</color> item damage.\n" ) );
+            }
             if( method.turns_into ) {
                 descr += string_format( _( "Turns into: <color_cyan>%s</color>\n" ),
                                         method.turns_into->obj().name() );
@@ -6160,8 +6163,7 @@ void Character::mend_item( item_location &&obj, bool interactive )
                 descr += line + "\n";
             }
 
-            const std::string desc = method.description + "\n\n" + colorize( descr, col );
-            menu.addentry_desc( -1, true, -1, method.name.translated(), desc );
+            menu.addentry_desc( -1, true, -1, method.name.translated(), colorize( descr, col ) );
         }
         menu.query();
         if( menu.ret < 0 ) {
