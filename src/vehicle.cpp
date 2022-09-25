@@ -1684,7 +1684,7 @@ bool vehicle::merge_rackable_vehicle( vehicle *carry_veh, const std::vector<int>
         // the mount point on the old vehicle (carry_veh) that will be destroyed
         point old_mount;
     };
-    remove_fake_parts();
+    remove_fake_parts( /* cleanup = */ false );
     invalidate_towing( true );
     // By structs, we mean all the parts of the carry vehicle that are at the structure location
     // of the vehicle (i.e. frames)
@@ -1802,6 +1802,8 @@ bool vehicle::merge_rackable_vehicle( vehicle *carry_veh, const std::vector<int>
         // Now that we've added zones to this vehicle, we need to make sure their positions
         // update when we next interact with them
         zones_dirty = true;
+        remove_fake_parts( /* cleanup = */ true );
+        refresh();
 
         map &here = get_map();
         //~ %1$s is the vehicle being loaded onto the bicycle rack
@@ -1810,7 +1812,6 @@ bool vehicle::merge_rackable_vehicle( vehicle *carry_veh, const std::vector<int>
         here.dirty_vehicle_list.insert( this );
         here.set_transparency_cache_dirty( sm_pos.z );
         here.set_seen_cache_dirty( tripoint_zero );
-        refresh();
         here.invalidate_map_cache( here.get_abs_sub().z() );
         here.rebuild_vehicle_level_caches();
     } else {
