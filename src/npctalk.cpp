@@ -3115,7 +3115,7 @@ void talk_effect_fun_t<T>::set_hp( const JsonObject &jo, const std::string &memb
     int_or_var<T> new_hp = get_int_or_var<T>( jo, member, true );
     cata::optional<str_or_var<T>> target_part;
     if( jo.has_string( "target_part" ) ) {
-        target_part = get_str_or_var<T>(jo.get_member("target_part"), "target_part", true);
+        target_part = get_str_or_var<T>( jo.get_member( "target_part" ), "target_part", true );
     }
     bool only_increase = jo.get_bool( "only_increase", false );
     function = [only_increase, new_hp, target_part, is_npc]( const T & d ) {
