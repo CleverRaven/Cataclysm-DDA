@@ -5,6 +5,7 @@ abso
 acausal
 accurize
 accurized
+achelousaurus
 acidball
 acrocanthosaurus
 acrylamide
@@ -311,6 +312,7 @@ chamberings
 champed
 channnnce
 chasin
+chasmosaurus
 chausses
 cheapshot
 cheescutter
@@ -538,6 +540,7 @@ edmontosaurus
 eeds
 efault
 eidolon
+einiosaurus
 elderberries
 electrochemistry
 electrohack
@@ -1776,6 +1779,7 @@ struthiomimus
 stungun
 stupidass
 stylette
+styracosaurus
 subcutis
 subgun
 sublethal
