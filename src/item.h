@@ -1701,6 +1701,9 @@ class item : public visitable
          */
         void on_damage( int qty, damage_type dt );
 
+        // Callback invoked after the item's damage is changed or after deserialization
+        void on_damage_changed();
+
         bool use_relic( Character &guy, const tripoint &pos );
         bool has_relic_recharge() const;
         bool has_relic_activation() const;
@@ -2703,6 +2706,8 @@ class item : public visitable
          *  if unloading is true it ignores items in pockets that are flagged to not unload
          */
         std::list<item *> all_items_top( item_pocket::pocket_type pk_type, bool unloading = false );
+
+        item const *this_or_single_content() const;
 
         /**
          * returns a list of pointers to all items inside recursively
