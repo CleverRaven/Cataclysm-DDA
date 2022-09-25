@@ -14204,6 +14204,12 @@ std::list<item *> item::all_items_top( item_pocket::pocket_type pk_type, bool un
     return contents.all_items_top( pk_type, unloading );
 }
 
+item const *item::this_or_single_content() const
+{
+    return type->category_force == item_category_container && num_item_stacks() == 1 ? &only_item()
+           : this;
+}
+
 std::list<const item *> item::all_items_ptr() const
 {
     std::list<const item *> all_items_internal;

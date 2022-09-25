@@ -37,6 +37,7 @@
     "id": "test_npc_trader_class",
     "name": "test_npc_trader",
     "job_description": "I am testing bugs",
+    "sells_belongings": false,
     "shopkeeper_consumption_rates": "test_shop_rates",
     "shopkeeper_item_group": [
       { "group": "test_event_item_spawn" },

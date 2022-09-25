@@ -2297,7 +2297,7 @@ class bionic_install_surgeon_preset : public inventory_selector_preset
             if( you.is_npc() ) {
                 int const price = npc_trading::bionic_install_price( you, pa, loc );
                 ret_val<void> const refusal =
-                    you.as_npc()->wants_to_sell( *loc, price, loc->price( true ) );
+                    you.as_npc()->wants_to_sell( loc, price, loc->price( true ) );
                 if( !refusal.success() ) {
                     return you.replace_with_npc_name( refusal.str() );
                 }
