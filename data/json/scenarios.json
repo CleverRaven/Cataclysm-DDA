@@ -583,12 +583,12 @@
   {
     "type": "scenario",
     "id": "breaking_bad",
-    "name": "Breaking Bad",
-    "points": 2,
-    "description": "While cooking your latest batch in your trustee RV, the world around you has descended in chaos.",
+    "name": "Breaking Bad: Dark Days Ahead",
+    "points": 0,
+    "description": "While cooking your latest batch in your trusty RV, the world around you has descended in chaos.",
     "vehicle": "food_truck_delivery_mission",
-    "professions": [ "chemistry_teacher", "unemployed" ],
-    "start_name": "A Stop On The Road",
+    "professions": [ "chemistry_teacher"],
+    "start_name": "A Stop On a deserted Road",
     "allowed_locs": [ "sloc_road" ],
     "missions": [],
     "flags": [ "LONE_START" ]
