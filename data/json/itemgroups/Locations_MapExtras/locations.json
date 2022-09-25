@@ -670,9 +670,10 @@
       { "item": "paper", "prob": 500, "count": [ 10, 60 ] },
       [ "wrapper", 150 ],
       [ "phonebook", 110 ],
-      [ "box_small", 400 ],
-      [ "box_medium", 400 ],
-      [ "box_large", 200 ],
+      [ "box_small_folded", 400 ],
+      [ "box_medium_folded", 400 ],
+      [ "box_large_folded", 200 ],
+      [ "box_oversize_folded", 200 ],
       { "group": "newspaper", "prob": 1000 }
     ]
   },
@@ -1479,6 +1480,7 @@
       [ "v2_combustion", 10 ],
       [ "i4_combustion", 10 ],
       [ "v6_combustion", 10 ],
+      [ "i4_diesel", 10 ],
       [ "v6_diesel", 10 ],
       [ "v8_combustion", 10 ],
       [ "1cyl_combustion_small", 10 ],
@@ -1739,6 +1741,26 @@
   },
   {
     "type": "item_group",
+    "id": "ambulance_drugs",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "morphine", "prob": 5, "count": [ 1, 4 ] },
+      { "item": "thorazine", "prob": 5, "count": [ 1, 4 ] },
+      { "item": "tramadol", "prob": 5, "count": [ 1, 4 ] },
+      { "item": "adrenaline_injector", "prob": 5, "count": [ 1, 4 ] },
+      { "item": "oxycodone", "prob": 5, "count": [ 1, 4 ] },
+      { "item": "quikclot", "prob": 10, "count": [ 1, 4 ] },
+      { "item": "antibiotics", "prob": 12, "count": [ 1, 4 ] },
+      { "item": "disinfectant", "prob": 15, "count": [ 1, 4 ] },
+      { "item": "aspirin", "prob": 15, "count": [ 1, 4 ] },
+      { "item": "bandages", "prob": 20, "count": [ 1, 4 ] },
+      { "item": "inhaler", "prob": 20, "charges": 100, "count": [ 1, 4 ] },
+      { "group": "full_1st_aid", "prob": 20, "count": [ 1, 2 ] },
+      { "group": "full_ifak", "prob": 20, "count": [ 1, 2 ] }
+    ]
+  },
+  {
+    "type": "item_group",
     "id": "church",
     "subtype": "distribution",
     "entries": [
@@ -1907,6 +1929,7 @@
       { "item": "ref_matches", "prob": 60, "charges": [ 0, 32 ] },
       { "item": "sewing_kit", "prob": 47, "charges-min": 0 },
       { "item": "tailors_kit", "prob": 3, "charges-min": 0 },
+      { "item": "electric_spinwheel", "prob": 3, "charges-min": 0 },
       [ "thread", 40 ],
       [ "scissors", 50 ],
       { "item": "soldering_iron", "prob": 70, "charges": [ 0, 50 ] },
@@ -2465,6 +2488,7 @@
       { "item": "ref_matches", "prob": 60, "charges": [ 0, 32 ] },
       { "item": "sewing_kit", "prob": 47, "charges-min": 0 },
       { "item": "tailors_kit", "prob": 3, "charges-min": 0 },
+      { "item": "electric_spinwheel", "prob": 3, "charges-min": 0 },
       { "item": "thread", "prob": 40, "charges": [ 1, 50 ] },
       [ "hammer", 35 ],
       { "item": "extinguisher", "prob": 20, "charges": 100 },
@@ -2683,8 +2707,9 @@
     "entries": [
       { "item": "bottle_plastic_small", "prob": 20 },
       { "item": "box_small", "prob": 40 },
-      { "item": "box_medium", "prob": 100 },
-      { "item": "box_large", "prob": 100 },
+      { "item": "box_medium_folded", "prob": 100 },
+      { "item": "box_large_folded", "prob": 100 },
+      { "item": "box_oversize_folded", "prob": 100 },
       { "item": "bag_iv", "prob": 60 },
       { "item": "bag_body_bag", "prob": 40 },
       { "item": "syringe", "prob": 30 },

@@ -62,6 +62,7 @@
 #include "itype.h"
 #include "iuse_actor.h" // For firestarter
 #include "json.h"
+#include "json_loader.h"
 #include "line.h"
 #include "make_static.h"
 #include "map.h"
@@ -4776,7 +4777,7 @@ cata::optional<int> iuse::blood_draw( Character *p, item *it, bool, const tripoi
     if( !drew_blood && query_yn( _( "Draw your own blood?" ) ) ) {
         p->add_msg_if_player( m_info, _( "You drew your own blood…" ) );
         drew_blood = true;
-        blood_temp = units::from_celcius( 37 );
+        blood_temp = units::from_celsius( 37 );
         if( p->has_trait( trait_ACIDBLOOD ) ) {
             acid_blood = true;
         }
@@ -5538,8 +5539,9 @@ cata::optional<int> iuse::gun_repair( Character *p, item *it, bool, const tripoi
         p->add_msg_if_player( m_info, _( "You need a mechanics skill of 2 to use this repair kit." ) );
         return cata::nullopt;
     }
-    item_location loc = game_menus::inv::titled_menu( get_avatar(),
-                        "Select the firearm to repair:" );
+    item_location loc = game_menus::inv::titled_filter_menu( []( const item_location & loc ) {
+        return loc->is_firearm() && !loc->has_flag( flag_NO_REPAIR );
+    }, get_avatar(), _( "Select the firearm to repair:" ) );
     if( !loc ) {
         p->add_msg_if_player( m_info, _( "You don't have that item!" ) );
         return cata::nullopt;
@@ -5550,12 +5552,8 @@ cata::optional<int> iuse::gun_repair( Character *p, item *it, bool, const tripoi
 cata::optional<int> gun_repair( Character *p, item *, item_location &loc )
 {
     item &fix = *loc;
-    if( !fix.is_firearm() ) {
-        p->add_msg_if_player( m_info, _( "That isn't a firearm!" ) );
-        return cata::nullopt;
-    }
-    if( fix.has_flag( flag_NO_REPAIR ) ) {
-        p->add_msg_if_player( m_info, _( "You can't repair your %s." ), fix.tname() );
+    if( p->fine_detail_vision_mod() > 4 ) {
+        p->add_msg_if_player( m_info, _( "You can't see to do that!" ) );
         return cata::nullopt;
     }
     if( fix.damage() <= fix.damage_floor( true ) ) {
@@ -5575,35 +5573,29 @@ cata::optional<int> gun_repair( Character *p, item *, item_location &loc )
                               _( "With a higher mechanics skill, you might be able to improve it." ) );
         return cata::nullopt;
     }
-    /** @EFFECT_MECHANICS >=8 allows accurizing ranged weapons */
     const std::string startdurability = fix.durability_indicator( true );
-    std::string resultdurability;
+    sounds::sound( p->pos(), 8, sounds::sound_t::activity, "crunch", true, "tool", "repair_kit" );
+    p->practice( skill_mechanics, 10 );
+    p->moves -= to_moves<int>( 20_seconds );
+
     if( fix.damage() <= 0 ) {
-        sounds::sound( p->pos(), 6, sounds::sound_t::activity, "crunch", true, "tool", "repair_kit" );
-        p->moves -= to_moves<int>( 20_seconds * p->fine_detail_vision_mod() );
-        p->practice( skill_mechanics, 10 );
+        /** @EFFECT_MECHANICS >=8 allows accurizing ranged weapons */
         fix.mod_damage( -itype::damage_scale );
         p->add_msg_if_player( m_good, _( "You accurize your %s." ), fix.tname( 1, false ) );
-
-    } else if( fix.damage() > itype::damage_scale ) {
-        sounds::sound( p->pos(), 8, sounds::sound_t::activity, "crunch", true, "tool", "repair_kit" );
-        p->moves -= to_moves<int>( 10_seconds * p->fine_detail_vision_mod() );
-        p->practice( skill_mechanics, 10 );
-        fix.mod_damage( -itype::damage_scale );
-        resultdurability = fix.durability_indicator( true );
-        p->add_msg_if_player( m_good, _( "You repair your %s!  ( %s-> %s)" ), fix.tname( 1, false ),
-                              startdurability, resultdurability );
-
-    } else {
-        sounds::sound( p->pos(), 8, sounds::sound_t::activity, "crunch", true, "tool", "repair_kit" );
-        p->moves -= to_moves<int>( 5_seconds * p->fine_detail_vision_mod() );
-        p->practice( skill_mechanics, 10 );
-        fix.set_damage( fix.damage_floor( false ) );
-        resultdurability = fix.durability_indicator( true );
-        p->add_msg_if_player( m_good, _( "You repair your %s completely!  ( %s-> %s)" ),
-                              fix.tname( 1, false ), startdurability, resultdurability );
-        // Do these need to use the %1$s syntax used elsewhere?
+        return 1;
     }
+
+    int dmg = fix.damage() + 1;
+    for( const int lvl = fix.damage_level(); lvl == fix.damage_level() && dmg != fix.damage(); ) {
+        dmg = fix.damage(); // break loop if clamped by degradation or no more repair needed
+        fix.mod_damage( -1 ); // scan for next damage indicator breakpoint, repairing that much damage
+    }
+
+    const std::string msg = fix.damage_level() == 0
+                            ? _( "You repair your %s completely!  ( %s-> %s)" )
+                            : _( "You repair your %s!  ( %s-> %s)" );
+    p->add_msg_if_player( m_good, msg, fix.tname( 1, false ), startdurability,
+                          fix.durability_indicator( true ) );
     return 1;
 }
 
@@ -7150,8 +7142,11 @@ static bool item_read_extended_photos( item &it, std::vector<extended_photo_def>
                                        const std::string &var_name, bool insert_at_begin )
 {
     bool result = false;
-    std::istringstream extended_photos_data( it.get_var( var_name ) );
-    JsonIn json( extended_photos_data );
+    cata::optional<JsonValue> json_opt = json_loader::from_string_opt( it.get_var( var_name ) );
+    if( !json_opt.has_value() ) {
+        return result;
+    }
+    JsonValue &json = *json_opt;
     if( insert_at_begin ) {
         std::vector<extended_photo_def> temp_vec;
         result = json.read( temp_vec );
@@ -8038,9 +8033,9 @@ cata::optional<int> iuse::remoteveh( Character *p, item *it, bool t, const tripo
         const auto rctrl_parts = veh->get_avail_parts( "REMOTE_CONTROLS" );
         // Revert to original behavior if we can't find remote controls.
         if( empty( rctrl_parts ) ) {
-            veh->use_controls( pos );
+            veh->interact_with( pos );
         } else {
-            veh->use_controls( rctrl_parts.begin()->pos() );
+            veh->interact_with( rctrl_parts.begin()->pos() );
         }
     }
 
@@ -8594,6 +8589,8 @@ cata::optional<int> iuse::cable_attach( Character *p, item *it, bool, const trip
 
     const std::string choose_ups = _( "Choose UPS:" );
     const std::string dont_have_ups = _( "You don't have any UPS." );
+    const std::string choose_solar = _( "Choose solar panel:" );
+    const std::string dont_have_solar = _( "You don't have any solar panels." );
 
     const auto set_cable_active = []( Character * p, item * it, const std::string & state ) {
         const std::string prev_state = it->get_var( "state" );
@@ -8601,11 +8598,6 @@ cata::optional<int> iuse::cable_attach( Character *p, item *it, bool, const trip
         it->active = true;
         it->process( get_map(), p, p->pos() );
         p->moves -= 15;
-
-        if( !prev_state.empty() && ( prev_state == "cable_charger" || ( prev_state != "attach_first" &&
-                                     ( state == "cable_charger_link" || state == "cable_charger" ) ) ) ) {
-            p->find_remote_fuel();
-        }
     };
     map &here = get_map();
     if( initial_state == "attach_first" ) {
@@ -8630,6 +8622,18 @@ cata::optional<int> iuse::cable_attach( Character *p, item *it, bool, const trip
                 p->add_msg_if_player( m_info, _( "You attach the cable to your Cable Charger System." ) );
                 return 0;
             } else if( choice == 2 ) {
+                auto solar_filter = [&]( const item & itm ) {
+                    return itm.has_flag( flag_SOLARPACK_ON );
+                };
+                if( you != nullptr )                     {
+                    loc = game_menus::inv::titled_filter_menu( solar_filter, *you, choose_solar, dont_have_solar );
+                }
+                if( !loc ) {
+                    add_msg( _( "Never mind" ) );
+                    return cata::nullopt;
+                }
+                item &chosen = *loc;
+                chosen.set_var( "cable", "plugged_in" );
                 set_cable_active( p, it, "solar_pack" );
                 p->add_msg_if_player( m_info, _( "You attach the cable to the solar pack." ) );
                 return 0;
@@ -8714,7 +8718,6 @@ cata::optional<int> iuse::cable_attach( Character *p, item *it, bool, const trip
         if( choice < 0 ) {
             return cata::nullopt; // we did nothing.
         } else if( choice == 0 ) { // unconnect & respool
-            p->reset_remote_fuel();
             it->reset_cable( p );
             return 0;
         } else if( choice == 2 ) { // connect self while other end already connected
@@ -8740,6 +8743,18 @@ cata::optional<int> iuse::cable_attach( Character *p, item *it, bool, const trip
             return 0;
         } else if( choice == 3 ) {
             // connecting self to solar backpack
+            auto solar_filter = [&]( const item & itm ) {
+                return itm.has_flag( flag_SOLARPACK_ON );
+            };
+            if( you != nullptr )                     {
+                loc = game_menus::inv::titled_filter_menu( solar_filter, *you, choose_solar, dont_have_solar );
+            }
+            if( !loc ) {
+                add_msg( _( "Never mind" ) );
+                return cata::nullopt;
+            }
+            item &chosen = *loc;
+            chosen.set_var( "cable", "plugged_in" );
             set_cable_active( p, it, "solar_pack_link" );
             p->add_msg_if_player( m_good, _( "You are now plugged to the solar backpack." ) );
             return 0;
@@ -8836,11 +8851,6 @@ cata::optional<int> iuse::cord_attach( Character *p, item *it, bool, const tripo
         it->active = true;
         it->process( get_map(), p, p->pos() );
         p->moves -= 15;
-
-        if( !prev_state.empty() && ( prev_state == "cable_charger" || ( prev_state != "attach_first" &&
-                                     ( state == "cable_charger_link" || state == "cable_charger" ) ) ) ) {
-            p->find_remote_fuel();
-        }
     };
     map &here = get_map();
     if( initial_state == "attach_first" ) {
@@ -8893,7 +8903,6 @@ cata::optional<int> iuse::cord_attach( Character *p, item *it, bool, const tripo
         if( choice < 0 ) {
             return cata::nullopt; // we did nothing.
         } else if( choice == 0 ) { // unconnect & respool
-            p->reset_remote_fuel();
             it->reset_cable( p );
             return 0;
         }

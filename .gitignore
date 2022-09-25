@@ -13,9 +13,11 @@
 /bindist/
 /build/
 /build-start-time
+/cache/
 /cmake-build-debug/
 /config/
 /data/*.template
+/data/cache/
 /data/mods/user-default-mods.json
 /dep/
 /doxygen_doc/html/*

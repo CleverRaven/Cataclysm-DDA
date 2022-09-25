@@ -25,9 +25,6 @@ static const flag_id json_flag_ONE_PER_LAYER( "ONE_PER_LAYER" );
 
 static const itype_id itype_shoulder_strap( "shoulder_strap" );
 
-static const material_id material_cotton( "cotton" );
-static const material_id material_leather( "leather" );
-static const material_id material_nomex( "nomex" );
 static const material_id material_wool( "wool" );
 
 static const trait_id trait_ANTENNAE( "ANTENNAE" );
@@ -99,8 +96,7 @@ ret_val<void> Character::can_wear( const item &it, bool with_equip_change ) cons
             }
         }
         if( it.covers( body_part_head ) && !it.has_flag( flag_SEMITANGIBLE ) &&
-            !it.made_of( material_wool ) && !it.made_of( material_cotton ) &&
-            !it.made_of( material_nomex ) && !it.made_of( material_leather ) &&
+            it.is_rigid() &&
             ( has_trait( trait_HORNS_POINTED ) || has_trait( trait_ANTENNAE ) ||
               has_trait( trait_ANTLERS ) ) ) {
             return ret_val<void>::make_failure( _( "Cannot wear a helmet over %s." ),
@@ -1753,10 +1749,8 @@ void outfit::absorb_damage( Character &guy, damage_unit &elem, bodypart_id bp,
     // if this body part has sub part locations roll one
     if( !bp->sub_parts.empty() ) {
         sbp = bp->random_sub_part( false );
-        // the torso has a second layer of hanging body parts
-        if( bp == body_part_torso ) {
-            secondary_sbp = bp->random_sub_part( true );
-        }
+        // the torso nad legs has a second layer of hanging body parts
+        secondary_sbp = bp->random_sub_part( true );
     }
 
     // generate a single roll for determining if hit
@@ -1800,7 +1794,7 @@ void outfit::absorb_damage( Character &guy, damage_unit &elem, bodypart_id bp,
                 // if this armor has sublocation data test against it instead of just a generic roll
                 destroy = guy.armor_absorb( elem, armor, bp, sbp, roll );
                 // for the torso we also need to consider if it hits anything hanging off the character or their neck
-                if( bp == body_part_torso ) {
+                if( secondary_sbp != sub_bodypart_id() ) {
                     destroy = guy.armor_absorb( elem, armor, bp, secondary_sbp, roll );
                 }
 
@@ -2233,6 +2227,73 @@ void outfit::pickup_stash( const item &newit, int &remaining_charges, bool ignor
             const int used_charges =
                 i.fill_with( newit, remaining_charges, false, false, ignore_pkt_settings );
             remaining_charges -= used_charges;
+        }
+    }
+}
+
+void outfit::add_stash( Character &guy, const item &newit, int &remaining_charges,
+                        bool ignore_pkt_settings )
+{
+    if( ignore_pkt_settings ) {
+        // Crawl all pockets regardless of priority
+        // Crawl First : wielded item
+        item_location carried_item = guy.get_wielded_item();
+        if( carried_item && !carried_item->has_pocket_type( item_pocket::pocket_type::MAGAZINE ) &&
+            carried_item->can_contain_partial( newit ) ) {
+            int used_charges = carried_item->fill_with( newit, remaining_charges, false, false, false );
+            remaining_charges -= used_charges;
+        }
+        // Crawl Next : worn items
+        pickup_stash( newit, remaining_charges, ignore_pkt_settings );
+    } else {
+        item_pocket *found_pocket;
+        std::vector<item_pocket *> pockets;
+        item temp_it = item( newit );
+        temp_it.charges = 1;
+
+        // Collect all pockets
+        std::list<item *> items;
+        item_location carried_item = guy.get_wielded_item();
+        if( carried_item != item_location::nowhere ) {
+            items.emplace_back( &*carried_item );
+        }
+        for( item &i : worn ) {
+            items.emplace_back( &i );
+        }
+        for( item *i : items ) {
+            for( const item_pocket *pocket : i->get_all_contained_pockets() ) {
+                if( pocket->can_contain( temp_it ).success() ) {
+                    // Top-level( wielded, worn ) pockets may be stored
+                    found_pocket = const_cast<item_pocket *>( pocket );
+                    pockets.emplace_back( found_pocket );
+                }
+                for( const item *contained : pocket->all_items_ptr( item_pocket::pocket_type::CONTAINER ) ) {
+                    for( const item_pocket *pocket_nest : contained->get_all_contained_pockets() ) {
+                        if( pocket_nest->can_contain( temp_it ).success() && pocket_nest->rigid() ) {
+                            // Nested pocket with rigid() can only be stored
+                            found_pocket = const_cast<item_pocket *>( pocket_nest );
+                            pockets.emplace_back( found_pocket );
+                        }
+                    }
+                }
+            }
+        }
+
+        // Sort by item_pocket::better_pocket
+        std::sort( pockets.begin(), pockets.end(), [newit, temp_it]( item_pocket * lhs,
+        item_pocket * rhs ) {
+            return rhs->better_pocket( *lhs, newit, false );
+        } );
+
+        int amount = remaining_charges;
+        int num_contained = 0;
+        for( item_pocket *&pocket : pockets ) {
+            if( amount <= num_contained || remaining_charges <= 0 ) {
+                break;
+            }
+            const int filled_count = pocket->fill_with( newit, remaining_charges, false, false );
+            num_contained += filled_count;
+            remaining_charges -= filled_count;
         }
     }
 }

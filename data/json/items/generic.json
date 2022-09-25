@@ -550,6 +550,22 @@
     "color": "brown"
   },
   {
+    "id": "bundle_javelin",
+    "type": "GENERIC",
+    "category": "other",
+    "name": { "str": "bundle of javelins", "str_pl": "bundles of javelins" },
+    "description": "Five wooden javelins securely tied together for easier transport.  Disassemble to untie them.",
+    "//": "total volume is greater than 5 wooden javelins, since they are rough lumber and do not stack perfectly",
+    "volume": "7 L",
+    "weight": "3 kg",
+    "longest_side": "140 cm",
+    "price": 20000,
+    "price_postapoc": 1250,
+    "material": [ "wood" ],
+    "symbol": "H",
+    "color": "brown"
+  },
+  {
     "type": "GENERIC",
     "id": "sample_t_substrate",
     "category": "spare_parts",

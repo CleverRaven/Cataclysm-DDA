@@ -482,6 +482,16 @@
   },
   {
     "type": "terrain",
+    "id": "t_tree_dead_warped",
+    "copy-from": "t_tree_dead",
+    "looks_like": "t_tree_dead",
+    "symbol": "G",
+    "color": "brown",
+    "name": "warped dead tree",
+    "description": "This deciduous tree's branches are warped into a spiral.  This appears to have killed it."
+  },
+  {
+    "type": "terrain",
     "id": "t_tree_young",
     "name": "young tree",
     "looks_like": "t_tree",
@@ -1120,6 +1130,16 @@
       "ter_set": "t_dirt",
       "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ]
     }
+  },
+  {
+    "type": "terrain",
+    "id": "t_tree_deadpine_warped",
+    "name": "warped dead pine tree",
+    "copy-from": "t_tree_deadpine",
+    "looks_like": "t_tree_deadpine",
+    "symbol": "Y",
+    "color": "brown",
+    "description": "The branches of this dead pine have been twisted into a shape that remind you of Sierpinski triangles.  It did not survive getting warped like this."
   },
   {
     "type": "terrain",

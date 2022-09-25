@@ -51,7 +51,7 @@ trade_preset::trade_preset( Character const &you, Character const &trader )
 bool trade_preset::is_shown( item_location const &loc ) const
 {
     return !loc->has_var( VAR_TRADE_IGNORE ) && inventory_selector_preset::is_shown( loc ) &&
-           loc->is_owned_by( _u ) && loc->made_of( phase_id::SOLID ) &&
+           loc->is_owned_by( _u ) && loc->made_of( phase_id::SOLID ) && !loc->is_frozen_liquid() &&
            ( !_u.is_wielding( *loc ) || !loc->has_flag( json_flag_NO_UNWIELD ) );
 }
 

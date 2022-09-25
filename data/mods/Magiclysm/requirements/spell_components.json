@@ -50,6 +50,11 @@
     ]
   },
   {
+    "id": "spell_components_healing_herb",
+    "type": "requirement",
+    "components": [ [ [ "horn_moss_capsule", 1 ] ] ]
+  },
+  {
     "id": "spell_components_impactsling",
     "type": "requirement",
     "//": "Sling for the Impact Sling spell",

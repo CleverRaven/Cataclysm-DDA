@@ -109,9 +109,9 @@ void relic::add_active_effect( const fake_spell &sp )
     active_effects.emplace_back( sp );
 }
 
-void relic::add_passive_effect( const enchantment &nench )
+void relic::add_passive_effect( const enchant_cache &nench )
 {
-    for( enchantment &ench : passive_effects ) {
+    for( enchant_cache &ench : passive_effects ) {
         if( ench.add( nench ) ) {
             return;
         }
@@ -343,10 +343,10 @@ void relic::load( const JsonObject &jo )
     }
     if( jo.has_array( "passive_effects" ) ) {
         for( JsonObject jobj : jo.get_array( "passive_effects" ) ) {
-            enchantment ench;
+            enchant_cache ench;
             ench.load( jobj );
             if( !ench.id.is_empty() ) {
-                ench = ench.id.obj();
+                //ench = ench.id.obj();
             }
             add_passive_effect( ench );
         }
@@ -375,7 +375,7 @@ void relic::serialize( JsonOut &jsout ) const
     if( !passive_effects.empty() ) {
         jsout.member( "passive_effects" );
         jsout.start_array();
-        for( const enchantment &ench : passive_effects ) {
+        for( const enchant_cache &ench : passive_effects ) {
             ench.serialize( jsout );
         }
         jsout.end_array();
@@ -534,30 +534,12 @@ void relic::overwrite_charge( const relic_charge_info &info )
     charge = info;
 }
 
-int relic::modify_value( const enchant_vals::mod value_type, const int value ) const
-{
-    int add_modifier = 0;
-    double multiply_modifier = 0.0;
-    for( const enchantment &ench : passive_effects ) {
-        add_modifier += ench.get_value_add( value_type );
-        multiply_modifier += ench.get_value_multiply( value_type );
-    }
-    multiply_modifier = std::max( multiply_modifier + 1.0, 0.0 );
-    int modified_value;
-    if( multiply_modifier < 1.0 ) {
-        modified_value = std::floor( multiply_modifier * value );
-    } else {
-        modified_value = std::ceil( multiply_modifier * value );
-    }
-    return modified_value + add_modifier;
-}
-
 std::string relic::name() const
 {
     return item_name_override.translated();
 }
 
-std::vector<enchantment> relic::get_enchantments() const
+std::vector<enchant_cache> relic::get_enchantments() const
 {
     return passive_effects;
 }
@@ -565,7 +547,7 @@ std::vector<enchantment> relic::get_enchantments() const
 int relic::power_level( const relic_procgen_id &ruleset ) const
 {
     int total_power_level = 0;
-    for( const enchantment &ench : passive_effects ) {
+    for( const enchant_cache &ench : passive_effects ) {
         total_power_level += ruleset->power_level( ench );
     }
     for( const fake_spell &sp : active_effects ) {
@@ -580,7 +562,7 @@ bool relic::has_activation() const
     return !active_effects.empty();
 }
 
-int relic_procgen_data::power_level( const enchantment &ench ) const
+int relic_procgen_data::power_level( const enchant_cache &ench ) const
 {
     int power = 0;
 
@@ -661,7 +643,7 @@ relic relic_procgen_data::generate( const relic_procgen_data::generation_rules &
             case relic_procgen_data::type::passive_enchantment_add: {
                 const relic_procgen_data::enchantment_value_passive<int> *add = passive_add_procgen_values.pick();
                 if( add != nullptr ) {
-                    enchantment ench;
+                    enchant_cache ench;
                     int value = rng( add->min_value, add->max_value );
                     if( value == 0 ) {
                         break;
@@ -690,7 +672,7 @@ relic relic_procgen_data::generate( const relic_procgen_data::generation_rules &
                 const relic_procgen_data::enchantment_value_passive<float> *mult =
                     passive_mult_procgen_values.pick();
                 if( mult != nullptr ) {
-                    enchantment ench;
+                    enchant_cache ench;
                     float value = rng( mult->min_value, mult->max_value );
                     ench.add_value_mult( mult->type, value );
                     int negative_ench_attribute = power_level( ench );
@@ -718,7 +700,7 @@ relic relic_procgen_data::generate( const relic_procgen_data::generation_rules &
                     fake_spell active_sp;
                     active_sp.id = active->activated_spell;
                     active_sp.level = rng( active->min_level, active->max_level );
-                    enchantment ench;
+                    enchant_cache ench;
                     ench.add_hit_me( active_sp );
                     int power = power_level( ench );
                     if( power < 0 ) {
@@ -745,7 +727,7 @@ relic relic_procgen_data::generate( const relic_procgen_data::generation_rules &
                     fake_spell active_sp;
                     active_sp.id = active->activated_spell;
                     active_sp.level = rng( active->min_level, active->max_level );
-                    enchantment ench;
+                    enchant_cache ench;
                     ench.add_hit_you( active_sp );
                     int power = power_level( ench );
                     if( power < 0 ) {

@@ -51,6 +51,7 @@
 #include "item_pocket.h"
 #include "itype.h"
 #include "json.h"
+#include "json_loader.h"
 #include "line.h"
 #include "magic.h"
 #include "map.h"
@@ -206,6 +207,8 @@ void iuse_transform::load( const JsonObject &obj )
     obj.read( "need_worn", need_worn );
     obj.read( "need_wielding", need_wielding );
 
+    obj.read( "need_empty", need_empty );
+
     obj.read( "qualities_needed", qualities_needed );
 
     obj.read( "menu_text", menu_text );
@@ -233,6 +236,10 @@ cata::optional<int> iuse_transform::use( Character &p, item &it, bool t, const t
     }
     if( possess && need_wielding && !p.is_wielding( it ) ) {
         p.add_msg_if_player( m_info, _( "You need to wield the %1$s before activating it." ), it.tname() );
+        return cata::nullopt;
+    }
+    if( need_empty && !it.empty() ) {
+        p.add_msg_if_player( m_info, _( "You need to empty the %1$s before activating it." ), it.tname() );
         return cata::nullopt;
     }
 
@@ -3124,7 +3131,13 @@ repair_item_actor::attempt_hint repair_item_actor::repair( Character &pl, item &
             const std::string startdurability = fix->durability_indicator( true );
             const int damage = fix->damage();
             handle_components( pl, *fix, false, false );
-            fix->mod_damage( -std::min( static_cast<int>( itype::damage_scale ), damage ) );
+
+            int dmg = fix->damage() + 1;
+            for( const int lvl = fix->damage_level(); lvl == fix->damage_level() && dmg != fix->damage(); ) {
+                dmg = fix->damage(); // break loop if clamped by degradation or no more repair needed
+                fix->mod_damage( -1 ); // scan for next damage indicator breakpoint, repairing that much damage
+            }
+
             const std::string resultdurability = fix->durability_indicator( true );
             if( damage > itype::damage_scale ) {
                 pl.add_msg_if_player( m_good, _( "You repair your %s!  ( %s-> %s)" ), fix->tname( 1, false ),

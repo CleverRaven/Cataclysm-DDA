@@ -1,9 +1,33 @@
 [
   {
     "id": "dino_feather_leather",
-    "//": "drops regular stomach",
+    "//": "drops regular stomach and small skull",
     "type": "harvest",
     "entries": [
+      { "drop": "skull_dino_small", "type": "bone", "scale_num": [ 1, 1 ], "max": 1 },
+      { "drop": "meat", "type": "flesh", "mass_ratio": 0.3 },
+      { "drop": "animal_blood", "type": "blood", "mass_ratio": 0.1 },
+      { "drop": "meat_scrap", "type": "flesh", "mass_ratio": 0.03 },
+      { "drop": "lung", "type": "flesh", "mass_ratio": 0.0035 },
+      { "drop": "liver", "type": "offal", "mass_ratio": 0.01 },
+      { "drop": "brain", "type": "flesh", "mass_ratio": 0.005 },
+      { "drop": "sweetbread", "type": "flesh", "mass_ratio": 0.002 },
+      { "drop": "kidney", "type": "offal", "mass_ratio": 0.002 },
+      { "drop": "stomach", "scale_num": [ 1, 1 ], "max": 1, "type": "offal" },
+      { "drop": "bone", "type": "bone", "mass_ratio": 0.15 },
+      { "drop": "sinew", "type": "bone", "mass_ratio": 0.00035 },
+      { "drop": "raw_leather", "type": "skin", "mass_ratio": 0.02 },
+      { "drop": "fat", "type": "flesh", "mass_ratio": 0.07 },
+      { "drop": "feather", "type": "skin", "mass_ratio": 0.002 },
+      { "drop": "down_feather", "type": "skin", "mass_ratio": 0.001 }
+    ]
+  },
+  {
+    "id": "dino_pred_feather_leather",
+    "//": "drops regular stomach and small skull",
+    "type": "harvest",
+    "entries": [
+      { "drop": "skull_dino_pred_small", "type": "bone", "scale_num": [ 1, 1 ], "max": 1 },
       { "drop": "meat", "type": "flesh", "mass_ratio": 0.3 },
       { "drop": "animal_blood", "type": "blood", "mass_ratio": 0.1 },
       { "drop": "meat_scrap", "type": "flesh", "mass_ratio": 0.03 },
@@ -23,9 +47,10 @@
   },
   {
     "id": "dino_large_feather",
-    "//": "drops large stomach",
+    "//": "drops large stomach and regular skull",
     "type": "harvest",
     "entries": [
+      { "drop": "skull_dino_med", "type": "bone", "scale_num": [ 1, 1 ], "max": 1 },
       { "drop": "meat", "type": "flesh", "mass_ratio": 0.32 },
       { "drop": "animal_blood", "type": "blood", "mass_ratio": 0.1 },
       { "drop": "meat_scrap", "type": "flesh", "mass_ratio": 0.01 },
@@ -45,9 +70,10 @@
   },
   {
     "id": "dino_sauropod",
-    "//": "drops sauropod stomach",
+    "//": "drops sauropod stomach and medium skull",
     "type": "harvest",
     "entries": [
+      { "drop": "skull_dino_med", "type": "bone", "scale_num": [ 1, 1 ], "max": 1 },
       { "drop": "meat", "type": "flesh", "mass_ratio": 0.32 },
       { "drop": "animal_blood", "type": "blood", "mass_ratio": 0.1 },
       { "drop": "meat_scrap", "type": "flesh", "mass_ratio": 0.01 },
@@ -65,9 +91,10 @@
   },
   {
     "id": "dino_large_pred",
-    "//": "drops large stomach",
+    "//": "drops large stomach and skull",
     "type": "harvest",
     "entries": [
+      { "drop": "skull_dino_pred_large", "type": "bone", "scale_num": [ 1, 1 ], "max": 1 },
       { "drop": "meat", "type": "flesh", "mass_ratio": 0.32 },
       { "drop": "animal_blood", "type": "blood", "mass_ratio": 0.1 },
       { "drop": "meat_scrap", "type": "flesh", "mass_ratio": 0.01 },
@@ -84,10 +111,34 @@
     ]
   },
   {
-    "id": "dino_large_feather_pred",
-    "//": "drops large stomach",
+    "id": "dino_med_feather_pred",
+    "//": "drops large stomach and medium skull",
     "type": "harvest",
     "entries": [
+      { "drop": "skull_dino_pred_med", "type": "bone", "scale_num": [ 1, 1 ], "max": 1 },
+      { "drop": "meat", "type": "flesh", "mass_ratio": 0.32 },
+      { "drop": "animal_blood", "type": "blood", "mass_ratio": 0.1 },
+      { "drop": "meat_scrap", "type": "flesh", "mass_ratio": 0.01 },
+      { "drop": "lung", "type": "flesh", "mass_ratio": 0.0035 },
+      { "drop": "liver", "type": "offal", "mass_ratio": 0.01 },
+      { "drop": "brain", "type": "flesh", "mass_ratio": 0.005 },
+      { "drop": "sweetbread", "type": "flesh", "mass_ratio": 0.002 },
+      { "drop": "kidney", "type": "offal", "mass_ratio": 0.002 },
+      { "drop": "stomach_large", "scale_num": [ 1, 1 ], "max": 1, "type": "offal" },
+      { "drop": "bone", "type": "bone", "mass_ratio": 0.15 },
+      { "drop": "sinew", "type": "bone", "mass_ratio": 0.00035 },
+      { "drop": "raw_leather", "type": "skin", "mass_ratio": 0.02 },
+      { "drop": "fat", "type": "flesh", "mass_ratio": 0.07 },
+      { "drop": "feather", "type": "skin", "mass_ratio": 0.002 },
+      { "drop": "down_feather", "type": "skin", "mass_ratio": 0.001 }
+    ]
+  },
+  {
+    "id": "dino_large_feather_pred",
+    "//": "drops large stomach and skull",
+    "type": "harvest",
+    "entries": [
+      { "drop": "skull_dino_pred_large", "type": "bone", "scale_num": [ 1, 1 ], "max": 1 },
       { "drop": "meat", "type": "flesh", "mass_ratio": 0.32 },
       { "drop": "animal_blood", "type": "blood", "mass_ratio": 0.1 },
       { "drop": "meat_scrap", "type": "flesh", "mass_ratio": 0.01 },
