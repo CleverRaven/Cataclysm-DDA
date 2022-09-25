@@ -2400,7 +2400,7 @@
     "id": "qt_rapier",
     "type": "TOOL",
     "copy-from": "lc_rapier",
-    "name": { "str": "high steel rapier" },
+    "name": { "str": "tempered rapier" },
     "description": "This is a thin sword with an ornate hand guard.  It looks like the preferred weapon of gentlemen and swashbucklers.  Light and quick, it makes any battle a stylish battle.  Features a blade of tempered steel and a non-conductive grip of kevlar reinforced with tough plastic resin to fit your hand better.",
     "weight": "1065 g",
     "cutting": 34,
