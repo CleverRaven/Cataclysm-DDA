@@ -3999,19 +3999,27 @@ std::unique_ptr<activity_actor> insert_item_activity_actor::deserialize( JsonVal
     return actor.clone();
 }
 
+reload_activity_actor::reload_activity_actor( item::reload_option &&opt, int extra_moves )
+{
+    moves_total = opt.moves() + extra_moves;
+    quantity = opt.qty();
+    target_loc = std::move( opt.target );
+    ammo_loc = std::move( opt.ammo );
+}
+
 bool reload_activity_actor::can_reload() const
 {
-    if( reload_targets.size() != 2 || quantity <= 0 ) {
+    if( quantity <= 0 ) {
         debugmsg( "invalid arguments to ACT_RELOAD" );
         return false;
     }
 
-    if( !reload_targets[0] ) {
+    if( !target_loc ) {
         debugmsg( "reload target is null, failed to reload" );
         return false;
     }
 
-    if( !reload_targets[1] ) {
+    if( !ammo_loc ) {
         debugmsg( "ammo target is null, failed to reload" );
         return false;
     }
@@ -4042,15 +4050,15 @@ void reload_activity_actor::finish( player_activity &act, Character &who )
         return;
     }
 
-    item &reloadable = *reload_targets[ 0 ];
-    item &ammo = *reload_targets[ 1 ];
+    item &reloadable = *target_loc;
+    item &ammo = *ammo_loc;
     const std::string reloadable_name = reloadable.tname();
     // cache check results because reloading deletes the ammo item
     const std::string ammo_name = ammo.tname();
     const bool ammo_is_filthy = ammo.is_filthy();
     const bool ammo_uses_speedloader = ammo.has_flag( flag_SPEEDLOADER );
 
-    if( !reloadable.reload( who, std::move( reload_targets[ 1 ] ), quantity ) ) {
+    if( !reloadable.reload( who, std::move( ammo_loc ), quantity ) ) {
         add_msg( m_info, _( "Can't reload the %s." ), reloadable_name );
         return;
     }
@@ -4078,7 +4086,7 @@ void reload_activity_actor::finish( player_activity &act, Character &who )
 
     who.recoil = MAX_RECOIL;
 
-    item_location loc = reload_targets[0];
+    item_location loc = target_loc;
     // Reload may have caused the item to increase in size more than the pocket/location can contain.
     // We want to avoid this because items will be deleted on a save/load.
     if( loc.check_parent_capacity_recursive() ) {
@@ -4139,7 +4147,8 @@ void reload_activity_actor::serialize( JsonOut &jsout ) const
 
     jsout.member( "moves_total", moves_total );
     jsout.member( "qty", quantity );
-    jsout.member( "reload_targets", reload_targets );
+    jsout.member( "target_loc", target_loc );
+    jsout.member( "ammo_loc", ammo_loc );
 
     jsout.end_object();
 }
@@ -4152,7 +4161,8 @@ std::unique_ptr<activity_actor> reload_activity_actor::deserialize( JsonValue &j
 
     data.read( "moves_total", actor.moves_total );
     data.read( "qty", actor.quantity );
-    data.read( "reload_targets", actor.reload_targets );
+    data.read( "target_loc", actor.target_loc );
+    data.read( "ammo_loc", actor.ammo_loc );
     return actor.clone();
 }
 

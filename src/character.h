@@ -2281,10 +2281,6 @@ class Character : public Creature, public visitable
         int impact( int force, const tripoint &pos ) override;
         /** Knocks the player to a specified tile */
         void knock_back_to( const tripoint &to ) override;
-        /** Siphons fuel (if available) from the specified vehicle into container or
-         * similar via @ref game::handle_liquid. May start a player activity.
-         */
-        void siphon( vehicle &veh, const itype_id &desired_liquid );
 
         /** Returns overall % of HP remaining */
         int hp_percentage() const override;

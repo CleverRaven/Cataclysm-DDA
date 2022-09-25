@@ -1844,7 +1844,7 @@ void Character::test_crossing_threshold( const mutation_category_id &mutation_ca
     // Threshold-breaching
     int breach_power = mutation_category_level[mutation_category];
     // You're required to have hit third-stage dreams first.
-    if( breach_power > 30 ) {
+    if( breach_power >= 30 ) {
         if( breach_power >= 100 || x_in_y( breach_power, 100 ) ) {
             const mutation_branch &thrdata = mutation_thresh.obj();
             if( vitamin_get( m_category.vitamin ) >= thrdata.vitamin_cost ) {
