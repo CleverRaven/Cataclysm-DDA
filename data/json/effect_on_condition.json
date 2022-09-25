@@ -388,7 +388,7 @@
       { "arithmetic": [ { "u_val": "pain" }, "=", { "const": 0 } ] },
       { "arithmetic": [ { "u_val": "fatigue" }, "=", { "const": 0 } ] },
       {
-        "u_message": "For an instant that is also an eternity, you exist only in an empty void.  Then you feel something vast, alien and merciless reache through a preexisting connection to give you just enough energy to exist.  It's motives for doing so are not likely to be benign.",
+        "u_message": "For an instant that is also an eternity, you exist only in an empty void.  Then you feel something vast, alien and merciless reach through a preexisting connection to give you just enough energy to exist.  It's motives for doing so are not likely to be benign.",
         "popup": true
       }
     ]
