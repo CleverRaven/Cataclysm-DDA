@@ -2727,7 +2727,7 @@ bool cata_tiles::draw_terrain( const tripoint &p, const lit_level ll, int &heigh
         int rotation = 0;
         int connect_group = 0;
         int rotate_group = 0;
-        if( t.obj().connects( connect_group ) | t.obj().rotates( rotate_group ) ) {
+        if( t.obj().connects( connect_group ) || t.obj().rotates( rotate_group ) ) {
             get_connect_values( p, subtile, rotation, connect_group, rotate_group, {} );
             // re-memorize previously seen terrain in case new connections have been seen
             here.set_memory_seen_cache_dirty( p );
@@ -2755,7 +2755,7 @@ bool cata_tiles::draw_terrain( const tripoint &p, const lit_level ll, int &heigh
             int rotation = 0;
             int connect_group = 0;
             int rotate_group = 0;
-            if( t2.obj().connects( connect_group ) | t2.obj().rotates( rotate_group ) ) {
+            if( t2.obj().connects( connect_group ) || t2.obj().rotates( rotate_group ) ) {
                 get_connect_values( p, subtile, rotation, connect_group, rotate_group, terrain_override );
             } else {
                 get_terrain_orientation( p, rotation, subtile, terrain_override, invisible );
@@ -2913,7 +2913,7 @@ bool cata_tiles::draw_furniture( const tripoint &p, const lit_level ll, int &hei
         int rotation = 0;
         int connect_group = 0;
         int rotate_group = 0;
-        if( f.obj().connects( connect_group ) | f.obj().rotates( rotate_group ) ) {
+        if( f.obj().connects( connect_group ) || f.obj().rotates( rotate_group ) ) {
             get_furn_connect_values( p, subtile, rotation, connect_group, rotate_group, {} );
         } else {
             get_tile_values_with_ter( p, f.to_i(), neighborhood, subtile, rotation );
@@ -2951,7 +2951,7 @@ bool cata_tiles::draw_furniture( const tripoint &p, const lit_level ll, int &hei
             int rotation = 0;
             int connect_group = 0;
             int rotate_group = 0;
-            if( f.obj().connects( connect_group ) | f.obj().rotates( rotate_group ) ) {
+            if( f.obj().connects( connect_group ) || f.obj().rotates( rotate_group ) ) {
                 get_furn_connect_values( p, subtile, rotation, connect_group, rotate_group, {} );
             } else {
                 get_tile_values_with_ter( p, f.to_i(), neighborhood, subtile, rotation );
