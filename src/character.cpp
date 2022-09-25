@@ -7059,9 +7059,14 @@ void Character::recalculate_enchantment_cache()
     *enchantment_cache = inv->get_active_enchantment_cache( *this );
 
     visit_items( [&]( const item * it, item * ) {
-        for( const enchant_cache &ench : it->get_enchantments() ) {
+        for( const enchant_cache &ench : it->get_proc_enchantments() ) {
             if( ench.is_active( *this, *it ) ) {
                 enchantment_cache->force_add( ench );
+            }
+        }
+        for( const enchantment &ench : it->get_defined_enchantments() ) {
+            if( ench.is_active( *this, *it ) ) {
+                enchantment_cache->force_add( ench, *this );
             }
         }
         return VisitResponse::NEXT;
