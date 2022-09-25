@@ -112,6 +112,9 @@ class snippet_library
          */
         snippet_id migrate_hash_to_id( int hash );
 
+        std::vector<std::pair<snippet_id, std::string>> get_snippets_by_category( const std::string &cat,
+                bool add_null_id = false );
+
     private:
         std::unordered_map<snippet_id, translation> snippets_by_id;
         // front facing name

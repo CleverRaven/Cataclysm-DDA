@@ -612,9 +612,8 @@ Depending on their effects on the user, enchantments can behave like blessings, 
 | `hit_you_effect`            | A spell that activates when you `melee_attack` a creature.  The spell is centered on the location of the creature unless `"hit_self": true`, then it is centered on your location.  Follows the template for defining `fake_spell`.
 | `hit_me_effect`             | A spell that activates when you are hit by a creature.  The spell is centered on your location.  Follows the template for defining `fake_spell`
 | `intermittent_activation`   | Spells that activate centered on you depending on the duration.  The spells follow the `fake_spell` template.
-| `values`                    | Anything that is a number that can be modified.  The ID field is required, `add` and `multiply` are optional.  A `multiply` value of -1 is -100% and 2.5 is +250%.  `add` is always applied before `multiply`.  Allowed id values are shown below.
-| `mutations`                    | Grants the mutation/trait id.  Note: enchantments added this way won't stack, due how mutations work.
-
+| `values`                    | Anything that is a number that can be modified.  The ID field is required, `add` and `multiply` are optional.  A `multiply` value of -1 is -100% and 2.5 is +250%.  `add` is always applied before `multiply`.  Allowed ID values are shown below.  Either "add" or "multiply" can be a variable_object/arithmetic expression(see [NPCs](NPCs.md)).  If a "multiply" value is a variable_object/arithmetic it will be multiplied by .01 before use as decimals cannot be variable values.  So a variable with 100 would become 1, it is treated as a percent effectively.
+| `mutations`                 | Grants the mutation/trait id.  Note: enchantments effects added this way won't stack, due how mutations work.
 
 There are two syntaxes, the first is by defining the effect/spell within the enchantment, the second is by using ids:
 
@@ -695,7 +694,7 @@ Similarly as before, if the enchantment is relatively small, it can be written i
 
 The following is a list of possible `values`:
 
-| Character status value      | Description
+| Character status value | Description
 |---                          |---
 | `ARMOR_ACID` | 
 | `ARMOR_BASH` | 
@@ -708,12 +707,11 @@ The following is a list of possible `values`:
 | `ARMOR_STAB` | 
 | `ATTACK_COST` | 
 | `ATTACK_NOISE` | 
-| `ATTACK_SPEED` | 
+| `ATTACK_SPEED` | affects attack speed of item even if it's not the one you're wielding
 | `BIONIC_POWER` |
 | `BONUS_BLOCK` | 
 | `BONUS_DODGE` | 
 | `BONUS_DAMAGE` | 
-| `CARRY_VOLUME` | 
 | `CARRY_WEIGHT` | 
 | `DEXTERITY` | 
 | `INTELLIGENCE` | 
@@ -721,16 +719,16 @@ The following is a list of possible `values`:
 | `STRENGTH` | 
 | `SPEED` | 
 | `EFFECTIVE_HEALTH_MOD` | If this is anything other than zero (which it defaults to) you will use it instead of your actual health mod.
-| `EXTRA_ACID` | 
-| `EXTRA_BASH` | Increases bash damage received.
+| `EXTRA_ACID` | EXTRA_TYPE increases received damage of the selected type.
+| `EXTRA_BASH` | 
 | `EXTRA_BIO` | 
 | `EXTRA_BULLET` | 
 | `EXTRA_COLD` | 
 | `EXTRA_CUT` | 
 | `EXTRA_ELEC` | 
-| `EXTRA_ELEC_PAIN` | Multiplier on electric damage received, the result is applied as extra pain.
 | `EXTRA_HEAT` | 
 | `EXTRA_STAB` | 
+| `EXTRA_ELEC_PAIN` | Multiplier on electric damage received, the result is applied as extra pain.
 | `FATIGUE` | 
 | `FOOTSTEP_NOISE` | 
 | `HUNGER` | 
@@ -739,6 +737,7 @@ The following is a list of possible `values`:
 | `MAX_HP` | 
 | `MAX_MANA` | 
 | `MAX_STAMINA` | 
+| `MELEE_DAMAGE` | 
 | `METABOLISM` | 
 | `MAP_MEMORY` | How many map tiles you can remember.
 | `MOD_HEALTH` | If this is anything other than zero (which it defaults to) you will to mod your health to a max/min of `MOD_HEALTH_CAP` every half hour.
@@ -753,8 +752,8 @@ The following is a list of possible `values`:
 | `SOCIAL_INTIMIDATE` | 
 | `SOCIAL_LIE` | 
 | `SOCIAL_PERSUADE` | 
-| `SPELL_NOISE` | 
 | `READING_EXP` | Changes the minimum you learn from each reading increment.
+| `RECOIL_MODIFIER` | affects recoil when shooting a gun
 | `REGEN_HP` | 
 | `REGEN_MANA` | 
 | `REGEN_STAMINA` | 
@@ -762,7 +761,7 @@ The following is a list of possible `values`:
 | `WEAPON_DISPERSION` | 
 
 
-| Enchanted item value        | Description
+| Melee-only enchantment values | Description
 |---                          |---
 | `ITEM_DAMAGE_ACID` | 
 | `ITEM_DAMAGE_AP` | Armor piercing.
@@ -777,7 +776,7 @@ The following is a list of possible `values`:
 | `ITEM_DAMAGE_STAB` | 
 
 
-| Melee-only enchantment values  | Description
+| Enchanted item value | Description
 |---                             |---
 | `ITEM_ARMOR_ACID` | 
 | `ITEM_ARMOR_BASH` | 
@@ -787,11 +786,10 @@ The following is a list of possible `values`:
 | `ITEM_ARMOR_CUT` | 
 | `ITEM_ARMOR_ELEC` | 
 | `ITEM_ARMOR_HEAT` | 
-| `ITEM_ARMOR_PURE` | 
 | `ITEM_ARMOR_STAB` | 
 | `ITEM_ATTACK_SPEED` | 
 | `ITEM_COVERAGE` | 
-| `ITEM_DAMAGE_AP` | 
+| `ITEM_DAMAGE_AP` | Armor Piercing. Doesn't work currently
 | `ITEM_ENCUMBRANCE` | 
 | `ITEM_VOLUME` | 
 | `ITEM_WEIGHT` | 

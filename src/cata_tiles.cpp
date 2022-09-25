@@ -690,7 +690,7 @@ void tileset_cache::loader::load( const std::string &tileset_id, const bool prec
         dbg( D_INFO ) << "Attempting to Load JSON file " << json_path;
         cata::optional<JsonValue> mod_config_json_opt = json_loader::from_path_opt( json_path );
 
-        if( mod_config_json_opt.has_value() ) {
+        if( !mod_config_json_opt.has_value() ) {
             throw std::runtime_error( std::string( "Failed to open tile info json: " ) +
                                       json_path.generic_u8string() );
         }
@@ -790,6 +790,7 @@ void tileset_cache::loader::load_internal( const JsonObject &config,
             sprite_offset.y = tile_part_def.get_int( "sprite_offset_y", 0 );
             sprite_offset_retracted.x = tile_part_def.get_int( "sprite_offset_x_retracted", sprite_offset.x );
             sprite_offset_retracted.y = tile_part_def.get_int( "sprite_offset_y_retracted", sprite_offset.y );
+            sprite_pixelscale = tile_part_def.get_float( "pixelscale", 1.0 );
             // First load the tileset image to get the number of available tiles.
             dbg( D_INFO ) << "Attempting to Load Tileset file " << tileset_image_path;
             load_tileset( tileset_image_path, pump_events );
@@ -809,6 +810,7 @@ void tileset_cache::loader::load_internal( const JsonObject &config,
         sprite_height = ts.tile_height;
         sprite_offset = point_zero;
         sprite_offset_retracted = point_zero;
+        sprite_pixelscale = 1.0;
         R = -1;
         G = -1;
         B = -1;
@@ -997,6 +999,7 @@ void tileset_cache::loader::load_ascii_set( const JsonObject &entry )
         tile_type curr_tile;
         curr_tile.offset = sprite_offset;
         curr_tile.offset_retracted = sprite_offset_retracted;
+        curr_tile.pixelscale = sprite_pixelscale;
         auto &sprites = *curr_tile.fg.add( std::vector<int>( {index_in_image + offset} ), 1 );
         switch( ascii_char ) {
             // box bottom/top side (horizontal line)
@@ -1075,6 +1078,7 @@ void tileset_cache::loader::load_tilejson_from_file( const JsonObject &config )
             tile_type &curr_tile = load_tile( entry, t_id );
             curr_tile.offset = sprite_offset;
             curr_tile.offset_retracted = sprite_offset_retracted;
+            curr_tile.pixelscale = sprite_pixelscale;
             bool t_multi = entry.get_bool( "multitile", false );
             bool t_rota = entry.get_bool( "rotates", t_multi );
             int t_h3d = entry.get_int( "height_3d", 0 );
@@ -1086,6 +1090,7 @@ void tileset_cache::loader::load_tilejson_from_file( const JsonObject &config )
                     tile_type &curr_subtile = load_tile( subentry, m_id );
                     curr_subtile.offset = sprite_offset;
                     curr_subtile.offset_retracted = sprite_offset_retracted;
+                    curr_subtile.pixelscale = sprite_pixelscale;
                     curr_subtile.rotates = true;
                     curr_subtile.height_3d = t_h3d;
                     curr_subtile.animated = subentry.get_bool( "animated", false );
@@ -1454,15 +1459,15 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
                 units::temperature temp_value = get_weather().get_temperature( pos );
                 short color;
                 const short bold = 8;
-                if( temp_value > units::from_celcius( 40 ) ) {
+                if( temp_value > units::from_celsius( 40 ) ) {
                     color = catacurses::red;
-                } else if( temp_value > units::from_celcius( 25 ) ) {
+                } else if( temp_value > units::from_celsius( 25 ) ) {
                     color = catacurses::yellow + bold;
-                } else if( temp_value > units::from_celcius( 10 ) ) {
+                } else if( temp_value > units::from_celsius( 10 ) ) {
                     color = catacurses::green + bold;
-                } else if( temp_value > units::from_celcius( 0 ) ) {
+                } else if( temp_value > units::from_celsius( 0 ) ) {
                     color = catacurses::white + bold;
-                } else if( temp_value > units::from_celcius( -10 ) ) {
+                } else if( temp_value > units::from_celsius( -10 ) ) {
                     color = catacurses::cyan + bold;
                 } else {
                     color = catacurses::blue + bold;
@@ -1470,7 +1475,7 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
 
                 std::string temp_str;
                 if( get_option<std::string>( "USE_CELSIUS" ) == "celsius" ) {
-                    temp_str = std::to_string( units::to_celcius( temp_value ) );
+                    temp_str = std::to_string( units::to_celsius( temp_value ) );
                 } else if( get_option<std::string>( "USE_CELSIUS" ) == "kelvin" ) {
                     temp_str = std::to_string( units::to_kelvin( temp_value ) );
 
@@ -2504,8 +2509,8 @@ bool cata_tiles::draw_sprite_at(
     destination.x = p.x + offset.x * tile_width / tileset_ptr->get_tile_width();
     destination.y = p.y + ( offset.y - height_3d ) *
                     tile_width / tileset_ptr->get_tile_width();
-    destination.w = width * tile_width / tileset_ptr->get_tile_width();
-    destination.h = height * tile_height / tileset_ptr->get_tile_height();
+    destination.w = width * tile_width * tile.pixelscale / tileset_ptr->get_tile_width();
+    destination.h = height * tile_height * tile.pixelscale / tileset_ptr->get_tile_height();
 
     if( rotate_sprite ) {
         switch( rota ) {
