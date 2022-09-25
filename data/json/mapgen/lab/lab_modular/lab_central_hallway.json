@@ -206,12 +206,8 @@
       "computers": {
         "¢": {
           "name": "Laboratory Train Controls",
-          "security": 2,
-          "options": [
-            { "name": "Request Subway Train", "action": "disconnect", "security": 0 },
-            { "name": "View Subway Routes", "action": "map_subway", "security": 0 }
-          ],
-          "failures": [ { "action": "damage" }, { "action": "alarm" }, { "action": "manhacks" } ]
+          "eocs": [ "EOC_TRAIN_DATA_COMPUTER" ],
+          "chat_topics": [ "COMP_TRAIN_DATA_MAIN" ]
         }
       }
     }

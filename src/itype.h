@@ -107,7 +107,7 @@ struct islot_tool {
     int charge_factor = 1;
     int charges_per_use = 0;
     int turns_per_charge = 0;
-    int power_draw = 0;
+    units::energy power_draw = 0_J;
 
     std::vector<int> rand_charges;
 };
@@ -518,10 +518,10 @@ struct islot_book {
      */
     int intel = 0;
     /**
-     * How long in minutes it takes to read.
+     * How long it takes to read.
      * "To read" means getting 1 skill point, not all of them.
      */
-    int time = 0;
+    time_duration time = 0_turns;
     /**
      * Fun books have chapters; after all are read, the book is less fun.
      */
@@ -822,7 +822,7 @@ struct islot_gunmod : common_ranged_data {
     /** Increases base gun UPS consumption by this many times per shot */
     float ups_charges_multiplier = 1.0f;
 
-    /** Increases base gun UPS consumption by this value per shot */
+    /** Increases base gun UPS consumption by this value (kJ) per shot */
     int ups_charges_modifier = 0;
 
     /** Increases base gun ammo to fire by this many times per shot */
@@ -885,6 +885,9 @@ struct islot_magazine {
 
     /** For ammo belts one linkage (of given type) is dropped for each unit of ammo consumed */
     cata::optional<itype_id> linkage;
+
+    /** Map of [magazine type id] -> [set of gun itype_ids that accept the mag type ] */
+    static std::map<itype_id, std::set<itype_id>> compatible_guns;
 };
 
 struct islot_battery {
@@ -1037,6 +1040,7 @@ struct islot_seed {
 enum condition_type {
     FLAG,
     COMPONENT_ID,
+    COMPONENT_ID_SUBSTRING,
     VAR,
     SNIPPET_ID,
     num_condition_types
@@ -1171,13 +1175,18 @@ struct itype {
         // Tool qualities that work only when the tool has charges_to_use charges remaining
         std::map<quality_id, int> charged_qualities;
 
+        // Properties are assigned to the type (belong to the item definition)
         std::map<std::string, std::string> properties;
+
+        // Item vars are loaded from the type, but assigned and de/serialized with the item itself
+        std::map<std::string, std::string> item_variables;
 
         // What we're made of (material names). .size() == made of nothing.
         // First -> the material
         // Second -> the portion of item covered by the material (portion / total portions)
         // MATERIALS WORK IN PROGRESS.
         std::map<material_id, int> materials;
+        std::set<material_id> repairs_with;
 
         // This stores the first inserted material so that it can be used if all materials
         // are equivalent in proportion as a default
@@ -1188,7 +1197,7 @@ struct itype {
         std::map<std::string, use_function> use_methods;
 
         /** The factor of ammo consumption indexed by action type*/
-        std::map<std::string, float> ammo_scale;
+        std::map<std::string, int> ammo_scale;
 
         /** Fields to emit when item is in active state */
         std::set<emit_id> emits;
@@ -1339,24 +1348,7 @@ struct itype {
             return count_by_charges() ? 0 : degrade_increments_;
         }
 
-        std::string get_item_type_string() const {
-            if( tool ) {
-                return "TOOL";
-            } else if( comestible ) {
-                return "FOOD";
-            } else if( armor ) {
-                return "ARMOR";
-            } else if( book ) {
-                return "BOOK";
-            } else if( gun ) {
-                return "GUN";
-            } else if( bionic ) {
-                return "BIONIC";
-            } else if( ammo ) {
-                return "AMMO";
-            }
-            return "misc";
-        }
+        std::string get_item_type_string() const;
 
         // Returns the name of the item type in the correct language and with respect to its grammatical number,
         // based on quantity (example: item type “anvil”, nname(4) would return “anvils” (as in “4 anvils”).
@@ -1371,23 +1363,9 @@ struct itype {
             return stackable_ || ammo || comestible;
         }
 
-        int charges_default() const {
-            if( tool ) {
-                return tool->def_charges;
-            } else if( comestible ) {
-                return comestible->def_charges;
-            } else if( ammo ) {
-                return ammo->def_charges;
-            }
-            return count_by_charges() ? 1 : 0;
-        }
+        int charges_default() const;
 
-        int charges_to_use() const {
-            if( tool ) {
-                return static_cast<int>( tool->charges_per_use );
-            }
-            return 1;
-        }
+        int charges_to_use() const;
 
         // for tools that sub another tool, but use a different ratio of charges
         int charge_factor() const {
@@ -1433,5 +1411,12 @@ struct itype {
 
 void load_charge_removal_blacklist( const JsonObject &jo, const std::string &src );
 void load_charge_migration_blacklist( const JsonObject &jo, const std::string &src );
+// can be removed once all known bad items got fixed
+class known_bad_density
+{
+    public:
+        static std::set<itype_id> known_bad;
+        static void load( const JsonObject &jo );
+};
 
 #endif // CATA_SRC_ITYPE_H

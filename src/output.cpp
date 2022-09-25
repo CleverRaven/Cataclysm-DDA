@@ -28,6 +28,7 @@
 #include "item.h"
 #include "line.h"
 #include "name.h"
+#include "game.h"
 #include "options.h"
 #include "point.h"
 #include "popup.h"
@@ -65,6 +66,52 @@ int OVERMAP_WINDOW_TERM_HEIGHT;
 int OVERMAP_LEGEND_WIDTH;
 
 scrollingcombattext SCT;
+
+std::string string_from_int( const catacurses::chtype ch )
+{
+    catacurses::chtype charcode = ch;
+    // LINE_NESW  - X for on, O for off
+    switch( ch ) {
+        case LINE_XOXO:
+            charcode = LINE_XOXO_C;
+            break;
+        case LINE_OXOX:
+            charcode = LINE_OXOX_C;
+            break;
+        case LINE_XXOO:
+            charcode = LINE_XXOO_C;
+            break;
+        case LINE_OXXO:
+            charcode = LINE_OXXO_C;
+            break;
+        case LINE_OOXX:
+            charcode = LINE_OOXX_C;
+            break;
+        case LINE_XOOX:
+            charcode = LINE_XOOX_C;
+            break;
+        case LINE_XXOX:
+            charcode = LINE_XXOX_C;
+            break;
+        case LINE_XXXO:
+            charcode = LINE_XXXO_C;
+            break;
+        case LINE_XOXX:
+            charcode = LINE_XOXX_C;
+            break;
+        case LINE_OXXX:
+            charcode = LINE_OXXX_C;
+            break;
+        case LINE_XXXX:
+            charcode = LINE_XXXX_C;
+            break;
+        default:
+            break;
+    }
+    // NOLINTNEXTLINE(modernize-avoid-c-arrays)
+    char buffer[2] = { static_cast<char>( charcode ), '\0' };
+    return buffer;
+}
 
 // utf8 version
 std::vector<std::string> foldstring( const std::string &str, int width, const char split )
@@ -222,24 +269,40 @@ void trim_and_print( const catacurses::window &w, const point &begin,
     print_colored_text( w, begin, dummy, base_color, sText, color_error );
 }
 
-std::string trim_by_length( const std::string  &text, int width )
+std::string trim_by_length( const std::string &text, int width )
 {
+    if( width <= 0 ) {
+        debugmsg( "Unable to trim string '%s' to width %d.  Returning empty string.", text, width );
+        return "";
+    }
     std::string sText;
+    sText.reserve( width );
     if( utf8_width( remove_color_tags( text ) ) > width ) {
 
         int iLength = 0;
         std::string sTempText;
+        sTempText.reserve( width );
         std::string sColor;
+        std::string sColorClose;
+        std::string sEllipsis = "\u2026";
 
-        const auto color_segments = split_by_color( text );
-        for( const std::string &seg : color_segments ) {
+        const std::vector<std::string> color_segments = split_by_color( text );
+        for( size_t i = 0; i < color_segments.size() ; ++i ) {
+            std::string seg = color_segments[i];
+            if( seg.empty() ) {
+                // TODO: Check is required right now because, for a fully-color-tagged string, split_by_color
+                // returns an empty string first
+                continue;
+            }
             sColor.clear();
+            sColorClose.clear();
 
             if( !seg.empty() && ( seg.substr( 0, 7 ) == "<color_" || seg.substr( 0, 7 ) == "</color" ) ) {
                 sTempText = rm_prefix( seg );
 
                 if( seg.substr( 0, 7 ) == "<color_" ) {
                     sColor = seg.substr( 0, seg.find( '>' ) + 1 );
+                    sColorClose = "</color>";
                 }
             } else {
                 sTempText = seg;
@@ -247,20 +310,30 @@ std::string trim_by_length( const std::string  &text, int width )
 
             const int iTempLen = utf8_width( sTempText );
             iLength += iTempLen;
+            int next_char_width = 0;
+            if( i + 1 < color_segments.size() ) {
+                next_char_width = mk_wcwidth( UTF8_getch( remove_color_tags( color_segments[i + 1] ) ) );
+            }
 
-            if( iLength > width ) {
-                int pos = 0;
+            int pos = 0;
+            bool trimmed = false;
+            if( iLength > width || ( iLength == width && i + 1 < color_segments.size() ) ) {
+                // This segment won't fit OR
+                // This segment just fits and there's another segment coming
                 cursorx_to_position( sTempText.c_str(), iTempLen - ( iLength - width ) - 1, &pos, -1 );
-                sTempText = sTempText.substr( 0, pos ) + "\u2026";
+                sTempText = sColor.append( sTempText.substr( 0, pos ) ).append( sEllipsis ).append( sColorClose );
+                trimmed = true;
+            } else if( iLength + next_char_width >= width ) {
+                // This segments fits, but the next segment starts with a wide character
+                sTempText = sColor.append( sTempText ).append( sColorClose ).append( sEllipsis );
+                trimmed = true;
             }
 
-            sText += sColor + sTempText;
-            if( !sColor.empty() ) {
-                sText += "</color>";
-            }
-
-            if( iLength > width ) {
+            if( trimmed ) {
+                sText += sTempText; // Color tags were handled when the segment was trimmed
                 break;
+            } else { // This segment fits, and the next one has room to start
+                sText += sColor.append( sTempText ).append( sColorClose );
             }
         }
     } else {
@@ -874,8 +947,7 @@ input_event draw_item_info( const int iLeft, const int iWidth, const int iTop, c
     wclear( win );
     wnoutrefresh( win );
 
-    const input_event result = draw_item_info( win, data );
-    return result;
+    return draw_item_info( win, data );
 }
 
 std::string string_replace( std::string text, const std::string &before, const std::string &after )
@@ -1072,6 +1144,7 @@ input_event draw_item_info( const std::function<catacurses::window()> &init_wind
     int width = 0;
     int height = 0;
     std::vector<std::string> folded;
+    scrollbar item_info_bar;
 
     const auto init = [&]() {
         win = init_window();
@@ -1081,7 +1154,7 @@ input_event draw_item_info( const std::function<catacurses::window()> &init_wind
         if( *data.ptr_selected < 0 || height < 0 ||
             folded.size() < static_cast<size_t>( height ) ) {
             *data.ptr_selected = 0;
-        } else if( static_cast<size_t>( *data.ptr_selected + height ) >= folded.size() ) {
+        } else if( static_cast<size_t>( *data.ptr_selected ) + height >= folded.size() ) {
             *data.ptr_selected = static_cast<int>( folded.size() ) - height;
         }
     };
@@ -1100,9 +1173,12 @@ input_event draw_item_info( const std::function<catacurses::window()> &init_wind
                 }
             }
         }
-        draw_scrollbar( win, *data.ptr_selected, height, folded.size(),
-                        point( data.scrollbar_left ? 0 : getmaxx( win ) - 1,
-                               ( data.without_border && data.use_full_win ? 0 : 1 ) ), BORDER_COLOR, true );
+        item_info_bar.offset_x( data.scrollbar_left ? 0 : getmaxx( win ) - 1 )
+        .offset_y( data.without_border && data.use_full_win ? 0 : 1 )
+        .content_size( folded.size() ).viewport_size( height )
+        .viewport_pos( *data.ptr_selected )
+        .scroll_to_last( false )
+        .apply( win );
         if( !data.without_border ) {
             draw_custom_border( win, buffer.empty() );
         }
@@ -1129,6 +1205,7 @@ input_event draw_item_info( const std::function<catacurses::window()> &init_wind
     if( data.handle_scrolling ) {
         ctxt.register_action( "PAGE_UP" );
         ctxt.register_action( "PAGE_DOWN" );
+        item_info_bar.set_draggable( ctxt );
     }
     ctxt.register_action( "CONFIRM" );
     ctxt.register_action( "QUIT" );
@@ -1141,13 +1218,17 @@ input_event draw_item_info( const std::function<catacurses::window()> &init_wind
     while( true ) {
         ui_manager::redraw();
         action = ctxt.handle_input();
-        if( data.handle_scrolling && action == "PAGE_UP" ) {
+        cata::optional<point> coord = ctxt.get_coordinates_text( catacurses::stdscr );
+
+        if( data.handle_scrolling && item_info_bar.handle_dragging( action, coord, *data.ptr_selected ) ) {
+            // No action required, the scrollbar has handled it
+        } else if( data.handle_scrolling && action == "PAGE_UP" ) {
             if( *data.ptr_selected > 0 ) {
                 --*data.ptr_selected;
             }
         } else if( data.handle_scrolling && action == "PAGE_DOWN" ) {
             if( *data.ptr_selected < 0 ||
-                ( height > 0 && static_cast<size_t>( *data.ptr_selected + height ) < folded.size() ) ) {
+                ( height > 0 && static_cast<size_t>( *data.ptr_selected ) + height < folded.size() ) ) {
                 ++*data.ptr_selected;
             }
         } else if( action == "CONFIRM" || action == "QUIT" ||
@@ -1397,9 +1478,9 @@ void draw_tab( const catacurses::window &w, int iOffsetX, const std::string &sTe
     }
 }
 
-void draw_subtab( const catacurses::window &w, int iOffsetX, const std::string &sText,
-                  bool bSelected,
-                  bool bDecorate, bool bDisabled )
+inclusive_rectangle<point> draw_subtab( const catacurses::window &w, int iOffsetX,
+                                        const std::string &sText,  bool bSelected,
+                                        bool bDecorate, bool bDisabled )
 {
     int iOffsetXRight = iOffsetX + utf8_width( sText ) + 1;
 
@@ -1422,10 +1503,12 @@ void draw_subtab( const catacurses::window &w, int iOffsetX, const std::string &
             mvwputch( w, point( i, 1 ), c_black, ' ' );
         }
     }
+    return inclusive_rectangle<point>( point( iOffsetX, 0 ), point( iOffsetXRight, 0 ) );
 }
 
 std::map<size_t, inclusive_rectangle<point>> draw_tabs( const catacurses::window &w,
-        const std::vector<std::string> &tab_texts, size_t current_tab )
+        const std::vector<std::string> &tab_texts,
+        const size_t current_tab, const size_t offset )
 {
     std::map<size_t, inclusive_rectangle<point>> tab_map;
 
@@ -1443,7 +1526,8 @@ std::map<size_t, inclusive_rectangle<point>> draw_tabs( const catacurses::window
         const std::string &tab_text = tab_texts[i];
         draw_tab( w, x, tab_text, i == current_tab );
         const int txt_width = utf8_width( tab_text, true );
-        tab_map.emplace( i, inclusive_rectangle<point>( point( x, 1 ), point( x + txt_width, 1 ) ) );
+        tab_map.emplace( i + offset, inclusive_rectangle<point>( point( x, 1 ), point( x + txt_width,
+                         1 ) ) );
         x += txt_width + tab_step;
     }
 
@@ -1513,65 +1597,43 @@ best_fit find_best_fit_in_size( const std::vector<int> &size_of_items_to_fit, co
     return returnVal;
 }
 
-std::vector<std::string> simple_fit_tabs_to_width( const size_t max_width,
-        const std::string &current_tab,
-        const std::map<std::string, std::string> &tab_names,
-        const std::vector<std::string> &original_tab_list, bool translate )
-{
-    std::pair<std::vector<std::string>, size_t> placeholder_result;
-    placeholder_result = fit_tabs_to_width( max_width, current_tab, tab_names,
-                                            original_tab_list, translate );
-    return placeholder_result.first;
-}
-
 std::pair<std::vector<std::string>, size_t> fit_tabs_to_width( const size_t max_width,
-        const std::string &current_tab, const std::map<std::string, std::string> &tab_names,
-        const std::vector<std::string> &original_tab_list,  bool translate )
+        const int current_tab,
+        const std::vector<std::string> &original_tab_list )
 {
     const int tab_step = 3; // Step between tabs, two for tab border
     size_t available_width = max_width - 1;
-    std::pair<std::vector<std::string>, size_t> tab_list_and_index;
+    std::pair<std::vector<std::string>, size_t> tab_list_and_offset;
     std::vector<int> tab_width;
-    tab_width.resize( original_tab_list.size() );
+    tab_width.reserve( original_tab_list.size() );
 
-    for( size_t i = 0; i < original_tab_list.size(); ++i ) {
-        auto tab_name_it = tab_names.find( original_tab_list[i] );
-        cata_assert( tab_name_it != tab_names.end() );
-        tab_width[i] = utf8_width( ( *tab_name_it ).second, true );
-        if( original_tab_list[i] == current_tab ) {
-            tab_list_and_index.second = i;
-        }
+    for( const std::string &tab : original_tab_list ) {
+        tab_width.emplace_back( utf8_width( tab, true ) );
     }
 
-    best_fit tabs_to_print = find_best_fit_in_size( tab_width, tab_list_and_index.second,
+    best_fit tabs_to_print = find_best_fit_in_size( tab_width, current_tab,
                              available_width, tab_step, 1 );
 
     //Assemble list to return
     if( tabs_to_print.start != 0 ) { //Signify that the list continues left
-        tab_list_and_index.first.emplace_back( "<" );
+        tab_list_and_offset.first.emplace_back( "<" );
     }
     for( int i = tabs_to_print.start; i < static_cast<int>( original_tab_list.size() ); ++i ) {
         if( i < tabs_to_print.start + tabs_to_print.length ) {
-            //Update tab_list_and_index to suit new list:
-            if( i == static_cast<int>( tab_list_and_index.second ) ) {
-                tab_list_and_index.second = tab_list_and_index.first.size();
-            }
-            //Assemble the string vector
-            if( translate ) {
-                auto tab_name_it = tab_names.find( original_tab_list[i] );
-                cata_assert( tab_name_it != tab_names.end() );
-                tab_list_and_index.first.push_back( ( *tab_name_it ).second );
-            } else {
-                tab_list_and_index.first.push_back( original_tab_list[i] );
-            }
+            tab_list_and_offset.first.emplace_back( original_tab_list[i] );
         }
     }
     if( tabs_to_print.start + tabs_to_print.length != static_cast<int>( original_tab_list.size() ) ) {
         //Signify that the list continues right
-        tab_list_and_index.first.emplace_back( ">" );
+        tab_list_and_offset.first.emplace_back( ">" );
     }
-
-    return tab_list_and_index;
+    //Mark down offset
+    if( tabs_to_print.start > 0 ) {
+        tab_list_and_offset.second = tabs_to_print.start - 1;
+    } else {
+        tab_list_and_offset.second = tabs_to_print.start;
+    }
+    return tab_list_and_offset;
 }
 
 /**
@@ -1671,6 +1733,9 @@ scrollbar &scrollbar::scroll_to_last( bool scr2last )
 
 void scrollbar::apply( const catacurses::window &window )
 {
+    scrollbar_area = inclusive_rectangle<point>( point( getbegx( window ) + offset_x_v,
+                     getbegy( window ) + offset_y_v ), point( getbegx( window ) + offset_x_v,
+                             getbegy( window ) + offset_y_v + viewport_size_v ) );
     if( viewport_size_v >= content_size_v || content_size_v <= 0 ) {
         // scrollbar not needed, fill output area with borders
         for( int i = offset_y_v; i < offset_y_v + viewport_size_v; ++i ) {
@@ -1693,14 +1758,56 @@ void scrollbar::apply( const catacurses::window &window )
             bar_start = slot_size - bar_size;
         }
         int bar_end = bar_start + bar_size;
+        nc_color temp_bar_color = dragging ? c_magenta_magenta : bar_color_v;
 
         for( int i = 0; i < slot_size; ++i ) {
             if( i >= bar_start && i < bar_end ) {
-                mvwputch( window, point( offset_x_v, offset_y_v + 1 + i ), bar_color_v, LINE_XOXO );
+                mvwputch( window, point( offset_x_v, offset_y_v + 1 + i ), temp_bar_color, LINE_XOXO );
             } else {
                 mvwputch( window, point( offset_x_v, offset_y_v + 1 + i ), slot_color_v, LINE_XOXO );
             }
         }
+    }
+}
+
+scrollbar &scrollbar::set_draggable( input_context &ctxt )
+{
+    ctxt.register_action( "MOUSE_MOVE" );
+    ctxt.register_action( "CLICK_AND_DRAG" );
+    ctxt.register_action( "SELECT" ); // Not directly used yet, but required for mouse-up reaction
+    return *this;
+}
+
+bool scrollbar::handle_dragging( const std::string &action, const cata::optional<point> &coord,
+                                 int &position )
+{
+    if( ( action != "MOUSE_MOVE" && action != "CLICK_AND_DRAG" ) && dragging ) {
+        // Stopped dragging the scrollbar
+        dragging = false;
+
+        // We don't want to accidentally select something on mouse-up after dragging the scrollbar, so if
+        // there's a mouse-up event, tell the UI that we've handled it
+        return action == "SELECT";
+    } else  if( action == "CLICK_AND_DRAG" && coord.has_value() &&
+                scrollbar_area.contains( coord.value() ) ) {
+        // Started dragging the scrollbar
+        dragging = true;
+        return true;
+    } else if( action == "MOUSE_MOVE" && coord.has_value() && dragging ) {
+        // Currently dragging the scrollbar.  Clamp cursor position to scrollbar area, then interpolate
+        int clamped_cursor_pos = clamp( coord->y - scrollbar_area.p_min.y, 0,
+                                        scrollbar_area.p_max.y - scrollbar_area.p_min.y - 1 );
+        viewport_pos_v = clamped_cursor_pos * ( content_size_v - viewport_size_v ) /
+                         ( scrollbar_area.p_max.y - scrollbar_area.p_min.y - 1 );
+        position = viewport_pos_v;
+#if !defined(TILES)
+        // Tiles builds seem to trigger "SELECT" on mouse button-up (clearing "dragging") but curses does not
+        dragging = false;
+#endif //TILES
+        return true;
+    } else {
+        // Not doing anything related to the scrollbar
+        return false;
     }
 }
 
@@ -1741,13 +1848,13 @@ void scrolling_text_view::draw( const nc_color &base_color )
     const int height = getmaxy( w_ );
 
     if( max_offset() > 0 ) {
-        scrollbar().
-        content_size( text_.size() ).
+        text_view_scrollbar.content_size( text_.size() ).
         viewport_pos( offset_ ).
         viewport_size( height ).
         scroll_to_last( false ).
         apply( w_ );
     } else {
+        text_view_scrollbar = scrollbar();
         // No scrollbar; we need to draw the window edge instead
         for( int i = 0; i < height; i++ ) {
             mvwputch( w_, point( 0, i ), BORDER_COLOR, LINE_XOXO );
@@ -1762,6 +1869,57 @@ void scrolling_text_view::draw( const nc_color &base_color )
     }
 
     wnoutrefresh( w_ );
+}
+
+bool scrolling_text_view::handle_navigation( const std::string &action, input_context &ctxt )
+{
+    cata::optional<point> coord = ctxt.get_coordinates_text( catacurses::stdscr );
+    inclusive_rectangle<point> mouseover_area( point( getbegx( w_ ), getbegy( w_ ) ),
+            point( getmaxx( w_ ) + getbegx( w_ ), getmaxy( w_ ) + getbegy( w_ ) ) );
+    bool mouse_in_window = coord.has_value() && mouseover_area.contains( coord.value() );
+
+    if( text_view_scrollbar.handle_dragging( action, coord, offset_ ) ) {
+        // No action required, the scrollbar has handled it
+    } else if( action == scroll_up_action || ( action == "SCROLL_UP" && mouse_in_window ) ) {
+        scroll_up();
+    } else if( action == scroll_down_action || ( action == "SCROLL_DOWN" && mouse_in_window ) ) {
+        scroll_down();
+    } else if( paging_enabled && action == "PAGE_UP" ) {
+        page_up();
+    } else if( paging_enabled && action == "PAGE_DOWN" ) {
+        page_down();
+    } else {
+        return false;
+    }
+    return true;
+}
+
+void scrolling_text_view::set_up_navigation( input_context &ctxt,
+        const scrolling_key_scheme scheme,
+        const bool enable_paging )
+{
+    ctxt.register_action( "CLICK_AND_DRAG" );
+    ctxt.register_action( "MOUSE_MOVE" );
+    ctxt.register_action( "SCROLL_UP" );
+    ctxt.register_action( "SCROLL_DOWN" );
+    ctxt.register_action( "SELECT" );
+    if( scheme != scrolling_key_scheme::no_scheme ) {
+        if( scheme == scrolling_key_scheme::angle_bracket_scroll ) {
+            scroll_up_action = "SCROLL_INFOBOX_UP";
+            scroll_down_action = "SCROLL_INFOBOX_DOWN";
+        } else if( scheme == scrolling_key_scheme::arrow_scroll ) {
+            scroll_up_action = "UP";
+            scroll_down_action = "DOWN";
+        }
+        ctxt.register_action( scroll_up_action );
+        ctxt.register_action( scroll_down_action );
+    }
+    if( enable_paging ) {
+        paging_enabled = true;
+        ctxt.register_action( "PAGE_UP" );
+        ctxt.register_action( "PAGE_DOWN" );
+    }
+    text_view_scrollbar.set_draggable( ctxt );
 }
 
 int scrolling_text_view::text_width()
@@ -2156,7 +2314,7 @@ get_bar( const float cur, const float max,
     if( !std::isfinite( status ) || colors.empty() ) {
         col = c_red_red;
     } else {
-        int ind = static_cast<int>( ( 1 - status ) * colors.size() );
+        int ind = std::floor( ( 1.0 - status ) * ( colors.size() - 1 ) + 0.5 );
         ind = clamp<int>( ind, 0, colors.size() - 1 );
         col = colors[ind];
     }
@@ -2239,7 +2397,8 @@ std::pair<std::string, nc_color> rad_badge_color( const int rad )
     return std::pair<std::string, nc_color>( _( values[i].second.first ), values[i].second.second );
 }
 
-std::string get_labeled_bar( const double val, const int width, const std::string &label, char c )
+std::string get_labeled_bar( const double val, const int width, const std::string &label,
+                             char c )
 {
     const std::array<std::pair<double, char>, 1> ratings =
     {{ std::make_pair( 1.0, c ) }};
@@ -2355,12 +2514,9 @@ scrollingcombattext::cSCT::cSCT( const point &p_pos, const direction p_oDir,
     sType = p_sType;
     oDir = p_oDir;
 
+    iso_mode = g->is_tileset_isometric();
+
     // translate from player relative to screen relative direction
-#if defined(TILES)
-    iso_mode = tile_iso && use_tiles;
-#else
-    iso_mode = false;
-#endif
     oUp = iso_mode ? direction::NORTHEAST : direction::NORTH;
     oUpRight = iso_mode ? direction::EAST : direction::NORTHEAST;
     oRight = iso_mode ? direction::SOUTHEAST : direction::EAST;
@@ -2405,10 +2561,10 @@ void scrollingcombattext::add( const point &pos, direction p_oDir,
         int iCurStep = 0;
 
         bool tiled = false;
-        bool iso_mode = false;
+        bool iso_mode = g->is_tileset_isometric();
+
 #if defined(TILES)
         tiled = use_tiles;
-        iso_mode = tile_iso && use_tiles;
 #endif
 
         if( p_sType == "hp" ) {

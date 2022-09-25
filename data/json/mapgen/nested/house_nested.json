@@ -1049,7 +1049,11 @@
           { "item": "SUS_dishes", "chance": 100 },
           { "item": "SUS_silverware", "chance": 100 }
         ],
-        "2": [ { "item": "SUS_breakfast_cupboard", "chance": 30 }, { "item": "SUS_coffee_cupboard", "chance": 50 } ],
+        "2": [
+          { "item": "SUS_breakfast_cupboard", "chance": 30 },
+          { "item": "SUS_coffee_cupboard", "chance": 50 },
+          { "item": "SUS_spice_collection", "chance": 100 }
+        ],
         "3": [ { "item": "SUS_utensils", "chance": 50 }, { "item": "SUS_knife_drawer", "chance": 50 } ],
         "~": { "item": "SUS_junk_drawer", "chance": 100 }
       }
@@ -1083,7 +1087,11 @@
           { "item": "SUS_dishes", "chance": 100 },
           { "item": "SUS_silverware", "chance": 100 }
         ],
-        "2": [ { "item": "SUS_breakfast_cupboard", "chance": 30 }, { "item": "SUS_coffee_cupboard", "chance": 50 } ],
+        "2": [
+          { "item": "SUS_breakfast_cupboard", "chance": 30 },
+          { "item": "SUS_coffee_cupboard", "chance": 50 },
+          { "item": "SUS_spice_collection", "chance": 100 }
+        ],
         "3": [ { "item": "SUS_utensils", "chance": 50 }, { "item": "SUS_knife_drawer", "chance": 50 } ],
         "~": { "item": "SUS_junk_drawer", "chance": 100 }
       }
@@ -1117,7 +1125,11 @@
           { "item": "SUS_dishes", "chance": 100 },
           { "item": "SUS_silverware", "chance": 100 }
         ],
-        "2": [ { "item": "SUS_breakfast_cupboard", "chance": 30 }, { "item": "SUS_coffee_cupboard", "chance": 50 } ],
+        "2": [
+          { "item": "SUS_breakfast_cupboard", "chance": 30 },
+          { "item": "SUS_coffee_cupboard", "chance": 50 },
+          { "item": "SUS_spice_collection", "chance": 100 }
+        ],
         "3": [ { "item": "SUS_utensils", "chance": 50 }, { "item": "SUS_knife_drawer", "chance": 50 } ],
         "~": { "item": "SUS_junk_drawer", "chance": 100 }
       }
@@ -1151,7 +1163,11 @@
           { "item": "SUS_dishes", "chance": 100 },
           { "item": "SUS_silverware", "chance": 100 }
         ],
-        "2": [ { "item": "SUS_breakfast_cupboard", "chance": 30 }, { "item": "SUS_coffee_cupboard", "chance": 50 } ],
+        "2": [
+          { "item": "SUS_breakfast_cupboard", "chance": 30 },
+          { "item": "SUS_coffee_cupboard", "chance": 50 },
+          { "item": "SUS_spice_collection", "chance": 100 }
+        ],
         "3": [ { "item": "SUS_utensils", "chance": 50 }, { "item": "SUS_knife_drawer", "chance": 50 } ],
         "~": { "item": "SUS_junk_drawer", "chance": 100 }
       }
@@ -1185,7 +1201,11 @@
           { "item": "SUS_dishes", "chance": 100 },
           { "item": "SUS_silverware", "chance": 100 }
         ],
-        "2": [ { "item": "SUS_breakfast_cupboard", "chance": 30 }, { "item": "SUS_coffee_cupboard", "chance": 50 } ],
+        "2": [
+          { "item": "SUS_breakfast_cupboard", "chance": 30 },
+          { "item": "SUS_coffee_cupboard", "chance": 50 },
+          { "item": "SUS_spice_collection", "chance": 100 }
+        ],
         "3": [ { "item": "SUS_utensils", "chance": 50 }, { "item": "SUS_knife_drawer", "chance": 50 } ],
         "~": { "item": "SUS_junk_drawer", "chance": 100 }
       }
@@ -1219,7 +1239,11 @@
           { "item": "SUS_dishes", "chance": 100 },
           { "item": "SUS_silverware", "chance": 100 }
         ],
-        "2": [ { "item": "SUS_breakfast_cupboard", "chance": 30 }, { "item": "SUS_coffee_cupboard", "chance": 50 } ],
+        "2": [
+          { "item": "SUS_breakfast_cupboard", "chance": 30 },
+          { "item": "SUS_coffee_cupboard", "chance": 50 },
+          { "item": "SUS_spice_collection", "chance": 100 }
+        ],
         "3": [ { "item": "SUS_utensils", "chance": 50 }, { "item": "SUS_knife_drawer", "chance": 50 } ]
       }
     }
@@ -1252,7 +1276,11 @@
           { "item": "SUS_dishes", "chance": 100 },
           { "item": "SUS_silverware", "chance": 100 }
         ],
-        "2": [ { "item": "SUS_breakfast_cupboard", "chance": 30 }, { "item": "SUS_coffee_cupboard", "chance": 50 } ],
+        "2": [
+          { "item": "SUS_breakfast_cupboard", "chance": 30 },
+          { "item": "SUS_coffee_cupboard", "chance": 50 },
+          { "item": "SUS_spice_collection", "chance": 100 }
+        ],
         "3": [ { "item": "SUS_utensils", "chance": 50 }, { "item": "SUS_knife_drawer", "chance": 50 } ],
         "~": { "item": "SUS_junk_drawer", "chance": 100 }
       }
@@ -1286,7 +1314,11 @@
           { "item": "SUS_dishes", "chance": 100 },
           { "item": "SUS_silverware", "chance": 100 }
         ],
-        "2": [ { "item": "SUS_breakfast_cupboard", "chance": 30 }, { "item": "SUS_coffee_cupboard", "chance": 50 } ],
+        "2": [
+          { "item": "SUS_breakfast_cupboard", "chance": 30 },
+          { "item": "SUS_coffee_cupboard", "chance": 50 },
+          { "item": "SUS_spice_collection", "chance": 100 }
+        ],
         "3": [ { "item": "SUS_utensils", "chance": 50 }, { "item": "SUS_knife_drawer", "chance": 50 } ],
         "~": { "item": "SUS_junk_drawer", "chance": 100 }
       }
@@ -1320,7 +1352,11 @@
           { "item": "SUS_dishes", "chance": 100 },
           { "item": "SUS_silverware", "chance": 100 }
         ],
-        "2": [ { "item": "SUS_breakfast_cupboard", "chance": 30 }, { "item": "SUS_coffee_cupboard", "chance": 50 } ],
+        "2": [
+          { "item": "SUS_breakfast_cupboard", "chance": 30 },
+          { "item": "SUS_coffee_cupboard", "chance": 50 },
+          { "item": "SUS_spice_collection", "chance": 100 }
+        ],
         "3": [ { "item": "SUS_utensils", "chance": 50 }, { "item": "SUS_knife_drawer", "chance": 50 } ],
         "~": { "item": "SUS_junk_drawer", "chance": 100 }
       }
@@ -1354,7 +1390,11 @@
           { "item": "SUS_dishes", "chance": 100 },
           { "item": "SUS_silverware", "chance": 100 }
         ],
-        "2": [ { "item": "SUS_breakfast_cupboard", "chance": 30 }, { "item": "SUS_coffee_cupboard", "chance": 50 } ],
+        "2": [
+          { "item": "SUS_breakfast_cupboard", "chance": 30 },
+          { "item": "SUS_coffee_cupboard", "chance": 50 },
+          { "item": "SUS_spice_collection", "chance": 100 }
+        ],
         "3": [ { "item": "SUS_utensils", "chance": 50 }, { "item": "SUS_knife_drawer", "chance": 50 } ],
         "~": { "item": "SUS_junk_drawer", "chance": 100 }
       }

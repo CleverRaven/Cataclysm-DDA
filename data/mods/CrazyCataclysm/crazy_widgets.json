@@ -1,8 +1,7 @@
 [
   {
-    "//": "Extend the vanilla weight_desc widget to change the text descriptions",
-    "id": "weight_desc",
-    "copy-from": "weight_desc",
+    "//": "Replaces the vanilla weight_desc widget to change the text descriptions",
+    "id": "weight_desc_label",
     "type": "widget",
     "label": "Weight",
     "style": "text",
@@ -109,5 +108,11 @@
         "condition": { "compare_int": [ { "u_val": "bmi_permil" }, ">", { "const": 50000 } ] }
       }
     ]
+  },
+  {
+    "id": "weight_desc_no_label",
+    "type": "widget",
+    "copy-from": "weight_desc_label",
+    "flags": [ "W_LABEL_NONE" ]
   }
 ]

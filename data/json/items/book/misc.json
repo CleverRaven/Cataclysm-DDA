@@ -244,7 +244,7 @@
     "type": "BOOK",
     "name": { "str": "crime novel" },
     "copy-from": "novel_crime",
-    "description": "A story about three people in the fictional city of Los Santos, a gangster, an upper-class man, and a psychopath, eventually banding together to pull-off the biggest heist in the city's history",
+    "description": "A story about three people in the fictional city of Los Santos: a gangster, an upper-class man, and a psychopath.  They eventually band together to pull off the biggest heist in the city's history",
     "time": "18 m",
     "relative": { "chapters": -3 }
   },
@@ -777,7 +777,7 @@
     "id": "record_accounting",
     "type": "BOOK",
     "name": { "str": "corporate accounting ledger" },
-    "description": "If you knew what to look for something might stand out…",
+    "description": "If you knew what to look for, something might stand out…",
     "weight": "566 g",
     "volume": "1250 ml",
     "price": 2000,

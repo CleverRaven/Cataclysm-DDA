@@ -32,6 +32,8 @@
 #include "translations.h"
 #include "units_fwd.h"
 
+class input_context;
+
 struct input_event;
 
 namespace catacurses
@@ -91,50 +93,7 @@ using chtype = int;
 #define LINE_XXXX_UNICODE 0x253C
 
 // Supports line drawing
-inline std::string string_from_int( const catacurses::chtype ch )
-{
-    catacurses::chtype charcode = ch;
-    // LINE_NESW  - X for on, O for off
-    switch( ch ) {
-        case LINE_XOXO:
-            charcode = LINE_XOXO_C;
-            break;
-        case LINE_OXOX:
-            charcode = LINE_OXOX_C;
-            break;
-        case LINE_XXOO:
-            charcode = LINE_XXOO_C;
-            break;
-        case LINE_OXXO:
-            charcode = LINE_OXXO_C;
-            break;
-        case LINE_OOXX:
-            charcode = LINE_OOXX_C;
-            break;
-        case LINE_XOOX:
-            charcode = LINE_XOOX_C;
-            break;
-        case LINE_XXOX:
-            charcode = LINE_XXOX_C;
-            break;
-        case LINE_XXXO:
-            charcode = LINE_XXXO_C;
-            break;
-        case LINE_XOXX:
-            charcode = LINE_XOXX_C;
-            break;
-        case LINE_OXXX:
-            charcode = LINE_OXXX_C;
-            break;
-        case LINE_XXXX:
-            charcode = LINE_XXXX_C;
-            break;
-        default:
-            break;
-    }
-    char buffer[2] = { static_cast<char>( charcode ), '\0' };
-    return buffer;
-}
+std::string string_from_int( catacurses::chtype ch );
 
 // a consistent border color
 #define BORDER_COLOR c_light_gray
@@ -325,7 +284,8 @@ inline int fold_and_print_from( const catacurses::window &w, const point &begin,
 }
 /**
  * Prints a single line of text. The text is automatically trimmed to fit into the given
- * width. The function handles @ref color_tags correctly.
+ * width. The function handles @ref color_tags correctly.  It does not handle any other
+ * tags, and does not handle line breaks.
  *
  * @param w Window we are printing in
  * @param begin The coordinates of line start (curses coordinates)
@@ -801,9 +761,9 @@ std::string get_labeled_bar( double val, int width, const std::string &label, ch
 
 void draw_tab( const catacurses::window &w, int iOffsetX, const std::string &sText,
                bool bSelected );
-void draw_subtab( const catacurses::window &w, int iOffsetX, const std::string &sText,
-                  bool bSelected,
-                  bool bDecorate = true, bool bDisabled = false );
+inclusive_rectangle<point> draw_subtab( const catacurses::window &w, int iOffsetX,
+                                        const std::string &sText, bool bSelected,
+                                        bool bDecorate = true, bool bDisabled = false );
 
 // Draws multiple tabs, with the titles specified in tab_texts.
 // Also draws the line beneath the tabs and corners at the ends.
@@ -813,7 +773,7 @@ void draw_subtab( const catacurses::window &w, int iOffsetX, const std::string &
 //   │ TAB1 │ │ TAB2 │
 // ┌─┴──────┴─┘      └───────────┐
 std::map<size_t, inclusive_rectangle<point>> draw_tabs( const catacurses::window &,
-        const std::vector<std::string> &tab_texts, size_t current_tab );
+        const std::vector<std::string> &tab_texts, size_t current_tab, size_t offset = 0 );
 // As above, but specify current tab by its label rather than position
 std::map<std::string, inclusive_rectangle<point>> draw_tabs( const catacurses::window &,
         const std::vector<std::string> &tab_texts, const std::string &current_tab );
@@ -885,23 +845,15 @@ std::map<CurrentTab, inclusive_rectangle<point>> draw_tabs( const catacurses::wi
  * tab names, the translated strings can be returned instead of the generic identifiers.
  * @param max_width The maximum width available for display of the tabs.  Currently assumes
  * that this value includes a border.
- * @param current_tab The generic identifier for the currently selected tab
- * @param tab_names A map of translated tab names (generic identifier, translated name)
- * @param original_tab_list a list of the generic identifiers of all tabs that we want
- * to display
- * @param translate Whether or not translated strings should be returned by the function.
- * False by default.
+ * @param current_tab The index of the currently selected tab
+ * @param original_tab_list a list of the translated tab names to display
  * @return Return 1: A vector of tab identifiers or names that will fit within max_width and contain
  * current_tab.
- * @return Return 2 (optional): The index of the currently selected tab within return 1
+ * @return Return 2: The offset of the displayed tabs to be passed into draw_tabs
  */
 std::pair<std::vector<std::string>, size_t> fit_tabs_to_width( size_t max_width,
-        const std::string &current_tab, const std::map<std::string, std::string> &tab_names,
-        const std::vector<std::string> &original_tab_list, bool translate = false );
-std::vector<std::string> simple_fit_tabs_to_width( size_t max_width,
-        const std::string &current_tab,
-        const std::map<std::string, std::string> &tab_names,
-        const std::vector<std::string> &original_tab_list, bool translate = false );
+        int current_tab,
+        const std::vector<std::string> &original_tab_list );
 
 struct best_fit {
     int start;
@@ -952,31 +904,51 @@ class scrollbar
         scrollbar &bar_color( nc_color bar_c );
         // can viewport_pos go beyond (content_size - viewport_size)?
         scrollbar &scroll_to_last( bool scr2last );
+        // Sets up ability for the scrollbar to be dragged with the mouse
+        scrollbar &set_draggable( input_context &ctxt );
         // draw the scrollbar to the window
         void apply( const catacurses::window &window );
+        // Checks if the user is dragging the scrollbar with the mouse (set_draggable first)
+        bool handle_dragging( const std::string &action, const cata::optional<point> &coord,
+                              int &position );
     private:
         int offset_x_v, offset_y_v;
         int content_size_v, viewport_pos_v, viewport_size_v;
         nc_color border_color_v, arrow_color_v, slot_color_v, bar_color_v;
         bool scroll_to_last_v;
+        bool dragging = false;
+        inclusive_rectangle<point> scrollbar_area;
 };
 
-// A simple scrolling view onto some text.  Given a window, it will use the
-// leftmost column for the scrollbar and fill the rest with text.  When the
-// scrollbar is not needed it prints a vertical border in place of it, so the
-// expectation is that the given window will overlap the left edge of a
-// bordered window if one exists.
-// (Options to e.g. not print the border would be easy to add if needed).
-// Update the text with set_text (it will be wrapped for you).
-// scroll_up and scroll_down are expected to be called from handlers for the
-// keys used for that purpose.
-// Call draw when drawing related UI stuff.  draw calls werase/wnoutrefresh for its
-// window internally.
+/** A simple scrolling view onto some text.  Given a window, it will use the
+ * leftmost column for the scrollbar and fill the rest with text.  When the
+ * scrollbar is not needed it prints a vertical border in place of it, so the
+ * expectation is that the given window will overlap the left edge of a
+ * bordered window if one exists.
+ * (Options to e.g. not print the border would be easy to add if needed).
+ * Update the text with set_text (it will be wrapped for you).
+ * scroll_up and scroll_down are expected to be called from handlers for the
+ * keys used for that purpose.
+ * Call draw when drawing related UI stuff.  draw calls werase/wnoutrefresh for its
+ * window internally.
+ * Has some built-in default navigation options, including mousewheel scrolling
+ * when the mouse is over the window (tiles only) and a click-and-drag scrollbar
+ * (technically works in curses, but is smoother in tiles).
+ **/
+enum scrolling_key_scheme : int {
+    no_scheme,
+    angle_bracket_scroll,
+    arrow_scroll,
+    page_page
+};
 class scrolling_text_view
 {
     public:
         explicit scrolling_text_view( catacurses::window &w ) : w_( w ) {}
 
+        bool handle_navigation( const std::string &action, input_context &ctxt );
+        void set_up_navigation( input_context &ctxt,
+                                scrolling_key_scheme scheme = scrolling_key_scheme::no_scheme, bool enable_paging = false );
         void set_text( const std::string & );
         void scroll_up();
         void scroll_down();
@@ -991,6 +963,10 @@ class scrolling_text_view
         catacurses::window &w_;
         std::vector<std::string> text_;
         int offset_ = 0;
+        std::string scroll_up_action;
+        std::string scroll_down_action;
+        bool paging_enabled = false;
+        scrollbar text_view_scrollbar;
 };
 
 class scrollingcombattext
@@ -1155,5 +1131,47 @@ std::string colorize_symbols( const std::string &str, F color_of )
 
     return res;
 }
+
+// More specialized list_circularizer (see cata_utility.h) to allow jumping to a specific tab
+class tab_list
+{
+    private:
+        size_t _index = 0;
+        std::vector<std::string> *_list;
+    public:
+        explicit tab_list( std::vector<std::string> &_list ) : _list( &_list ) {
+        }
+
+        void last() {
+            if( !_list->empty() ) {
+                _index = _list->size() - 1;
+            }
+        }
+
+        void next() {
+            _index = ( _index == _list->size() - 1 ? 0 : _index + 1 );
+        }
+
+        void prev() {
+            _index = ( _index == 0 ? _list->size() - 1 : _index - 1 );
+        }
+
+        int cur_index() const {
+            return static_cast<int>( _index );
+        }
+
+        std::string cur() const {
+            if( _list->empty() ) {
+                return std::string( "" );
+            }
+            return ( *_list )[_index];
+        }
+
+        void set_index( const size_t new_index ) {
+            if( new_index < _list->size() ) {
+                _index = new_index;
+            }
+        }
+};
 
 #endif // CATA_SRC_OUTPUT_H

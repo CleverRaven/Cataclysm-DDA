@@ -190,12 +190,12 @@ int vehicle::print_part_list( const catacurses::window &win, int y1, const int m
                 if( vp.ammo_current() == itype_battery ) {
                     partname += string_format( _( " (%s/%s charge)" ), vp.ammo_remaining(),
                                                vp.ammo_capacity( ammo_battery ) );
-                } else {
+                } else if( vp.ammo_current()->stack_size > 0 ) {
                     const itype *pt_ammo_cur = item::find_type( vp.ammo_current() );
                     auto stack = units::legacy_volume_factor / pt_ammo_cur->stack_size;
                     partname += string_format( _( " (%.1fL %s)" ),
-                                               round_up( units::to_liter( vp.ammo_remaining() * stack ),
-                                                         1 ), item::nname( vp.ammo_current() ) );
+                                               round_up( units::to_liter( vp.ammo_remaining() * stack ), 1 ),
+                                               item::nname( vp.ammo_current() ) );
                 }
             } else {
                 partname += string_format( " (%s)", item::nname( vp.ammo_current() ) );
@@ -335,7 +335,8 @@ void vehicle::print_vparts_descs( const catacurses::window &win, int max_y, int 
 std::vector<itype_id> vehicle::get_printable_fuel_types() const
 {
     std::set<itype_id> opts;
-    for( const vehicle_part &pt : parts ) {
+    for( const vpart_reference &vpr : get_all_parts() ) {
+        const vehicle_part &pt = vpr.part();
         if( !pt.has_flag( vehicle_part::carried_flag ) && pt.is_fuel_store() &&
             !pt.ammo_current().is_null() ) {
             opts.emplace( pt.ammo_current() );
@@ -412,16 +413,16 @@ void vehicle::print_fuel_indicators( const catacurses::window &win, const point 
 void vehicle::print_fuel_indicator( const catacurses::window &win, const point &p,
                                     const itype_id &fuel_type, bool verbose, bool desc )
 {
-    std::map<itype_id, float> fuel_usages;
+    std::map<itype_id, units::energy> fuel_usages;
     print_fuel_indicator( win, p, fuel_type, fuel_usages, verbose, desc );
 }
 
 void vehicle::print_fuel_indicator( const catacurses::window &win, const point &p,
                                     const itype_id &fuel_type,
-                                    std::map<itype_id, float> fuel_usages,
+                                    std::map<itype_id, units::energy> fuel_usages,
                                     bool verbose, bool desc )
 {
-    const char fsyms[5] = { 'E', '\\', '|', '/', 'F' };
+    static constexpr std::array<char, 5> fsyms = { 'E', '\\', '|', '/', 'F' };
     nc_color col_indf1 = c_light_gray;
     int cap = fuel_capacity( fuel_type );
     int f_left = fuel_left( fuel_type );
@@ -479,7 +480,7 @@ void vehicle::print_fuel_indicator( const catacurses::window &win, const point &
 
             if( debug_mode ) {
                 wprintz( win, tank_color, _( ", %d %s(%4.2f%%)/hour, %s until %s" ),
-                         rate, units, 100.0 * rate  / cap, to_string_clipped( estimate ), tank_goal );
+                         rate, units, 100.0 * rate / cap, to_string_clipped( estimate ), tank_goal );
             } else {
                 wprintz( win, tank_color, _( ", %3.1f%% / hour, %s until %s" ),
                          100.0 * rate  / cap, to_string_clipped( estimate ), tank_goal );
@@ -488,7 +489,7 @@ void vehicle::print_fuel_indicator( const catacurses::window &win, const point &
     }
 }
 
-void vehicle::print_speed_gauge( const catacurses::window &win, const point &p, int spacing )
+void vehicle::print_speed_gauge( const catacurses::window &win, const point &p, int spacing ) const
 {
     if( spacing < 0 ) {
         spacing = 0;

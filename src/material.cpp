@@ -108,6 +108,7 @@ void material_type::load( const JsonObject &jsobj, const std::string & )
     optional( jsobj, was_loaded, "edible", _edible, false );
     optional( jsobj, was_loaded, "rotting", _rotting, false );
     optional( jsobj, was_loaded, "soft", _soft, false );
+    optional( jsobj, was_loaded, "uncomfortable", _uncomfortable, false );
     optional( jsobj, was_loaded, "reinforces", _reinforces, false );
 
     for( JsonArray pair : jsobj.get_array( "vitamins" ) ) {
@@ -336,6 +337,11 @@ bool material_type::soft() const
     return _soft;
 }
 
+bool material_type::uncomfortable() const
+{
+    return _uncomfortable;
+}
+
 bool material_type::reinforces() const
 {
     return _reinforces;
@@ -409,7 +415,7 @@ void fuel_data::deserialize( const JsonObject &jo )
     load( jo );
 }
 
-bool fuel_explosion_data::is_empty()
+bool fuel_explosion_data::is_empty() const
 {
     return explosion_chance_cold == 0 && explosion_chance_hot == 0 && explosion_factor == 0.0f &&
            !fiery_explosion && fuel_size_factor == 0.0f;

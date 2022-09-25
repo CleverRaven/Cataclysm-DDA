@@ -3,7 +3,7 @@
     "id": "book_nonf_hard_homemk_anythingcan",
     "type": "BOOK",
     "name": { "str": "Anything Can Be Beautiful", "str_pl": "copies of Anything Can Be Beautiful" },
-    "description": "Stylist, designer, and glitter goddess, Tiffynie Blust looks at the world one mantra in mind: anything can be beautiful.",
+    "description": "Stylist, designer, and glitter goddess Tiffynie Blust looks at the world with one mantra in mind: anything can be beautiful.",
     "weight": "771 g",
     "copy-from": "book_nonf_hard_homemk_tpl"
   },

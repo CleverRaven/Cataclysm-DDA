@@ -1,0 +1,145 @@
+[
+  {
+    "id": "blurred_aura",
+    "type": "ARMOR",
+    "name": "blurred aura",
+    "description": "Your edges blur and expand and contract in ways that don't reflect reality.  Allows you to dodge two extra attacks in a given turn.",
+    "weight": "1g",
+    "volume": "1ml",
+    "price": 3646,
+    "symbol": "o",
+    "color": "white",
+    "material": [ "dreamstuff" ],
+    "flags": [ "AURA", "SEMITANGIBLE", "OVERSIZE", "ONLY_ONE", "TRADER_AVOID", "NO_TAKEOFF", "NONCONDUCTIVE" ],
+    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "BONUS_DODGE", "add": 2 } ] } ] },
+    "armor": [
+      {
+        "encumbrance": 0,
+        "coverage": 100,
+        "covers": [ "leg_l", "leg_r", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "head", "foot_l", "foot_r", "mouth", "eyes" ]
+      }
+    ]
+  },
+  {
+    "id": "rapier_dreamdross",
+    "type": "TOOL",
+    "name": { "str": "dreamdross rapier" },
+    "description": "This is a thin ephemeral sword with an ornate hand guard.  It looks like the preferred weapon of gentlemen and swashbucklers.  Light and quick, it makes any battle a stylish battle.",
+    "weight": "500 g",
+    "volume": "1500 ml",
+    "longest_side": "100 cm",
+    "price": 98000,
+    "price_postapoc": 2500,
+    "bashing": 2,
+    "cutting": 31,
+    "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "good" },
+    "material": [ "dreamstuff" ],
+    "symbol": "/",
+    "color": "light_gray",
+    "techniques": [ "RAPID", "WBLOCK_2", "PRECISE" ],
+    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 9 ] ],
+    "flags": [
+      "STAB",
+      "UNBREAKABLE_MELEE",
+      "NONCONDUCTIVE",
+      "NO_REPAIR",
+      "NO_SALVAGE",
+      "MAGIC_FOCUS",
+      "TRADER_AVOID",
+      "SHEATH_SWORD"
+    ],
+    "weapon_category": [ "FENCING_WEAPONRY" ],
+    "relic_data": {
+      "passive_effects": [ { "has": "WIELD", "condition": "ALWAYS", "values": [ { "value": "ITEM_DAMAGE_COLD", "add": 10 } ] } ]
+    },
+    "category": "weapons"
+  },
+  {
+    "id": "dagger_dreamdross",
+    "type": "TOOL",
+    "name": { "str": "dreamdross fighting knife", "str_pl": "dreamdross fighting knives" },
+    "description": "This ephemeral dagger is 15 inches long from the hilt to the tip, the blade itself is a pearly white color and is extremely sharp double edged blade.",
+    "weight": "145 g",
+    "volume": "250 ml",
+    "longest_side": "38 cm",
+    "price": 4000,
+    "price_postapoc": 750,
+    "to_hit": { "grip": "weapon", "length": "hand", "surface": "point", "balance": "good" },
+    "cutting": 16,
+    "material": [ "dreamstuff" ],
+    "symbol": "/",
+    "color": "light_gray",
+    "techniques": [ "RAPID", "WBLOCK_1", "PRECISE" ],
+    "qualities": [ [ "CUT", 2 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 5 ] ],
+    "flags": [
+      "STAB",
+      "UNBREAKABLE_MELEE",
+      "NONCONDUCTIVE",
+      "NO_REPAIR",
+      "NO_SALVAGE",
+      "MAGIC_FOCUS",
+      "TRADER_AVOID",
+      "SHEATH_KNIFE"
+    ],
+    "weapon_category": [ "KNIVES" ],
+    "relic_data": {
+      "passive_effects": [ { "has": "WIELD", "condition": "ALWAYS", "values": [ { "value": "ITEM_DAMAGE_COLD", "add": 8 } ] } ]
+    },
+    "category": "weapons"
+  },
+  {
+    "id": "armor_dreamdross",
+    "type": "ARMOR",
+    "category": "armor",
+    "copy-from": "armor_lightplate",
+    "name": { "str_sp": "dream armor" },
+    "description": "A summoned medieval armor made from dreamdross.  It shimmers in the light and provides some protection.",
+    "material": [ "dreamstuff" ],
+    "warmth": 0,
+    "material_thickness": 5,
+    "flags": [ "ONLY_ONE", "OVERSIZE", "PERSONAL", "VARSIZE", "STURDY", "NO_REPAIR", "NO_SALVAGE", "TRADER_AVOID" ],
+    "armor": [
+      {
+        "encumbrance": 5,
+        "coverage": 100,
+        "covers": [ "head", "mouth", "eyes", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ]
+      }
+    ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "xe_oneiric_hammer",
+    "name": { "str": "Oneiric Hammer" },
+    "description": "The platonic embodiment of a blacksmiths hammer.  This hammer is necessary to forge or repair items made of forged dreamstuff.",
+    "weight": "1337 g",
+    "to_hit": -1,
+    "color": "brown",
+    "symbol": "/",
+    "material": [ "dreamstuff" ],
+    "flags": [
+      "NONCONDUCTIVE",
+      "BELT_CLIP",
+      "LIGHT_15",
+      "TRADER_AVOID",
+      "UNBREAKABLE_MELEE",
+      "NO_REPAIR",
+      "NO_SALVAGE",
+      "MAGIC_FOCUS"
+    ],
+    "volume": "1250 ml",
+    "bashing": 30,
+    "price": 0,
+    "qualities": [ [ "DREAM_HAMMER", 1 ] ],
+    "use_action": [
+      {
+        "type": "repair_item",
+        "item_action_type": "repair_metal",
+        "materials": [ "forged_dreamstuff" ],
+        "skill": "survival",
+        "tool_quality": 0,
+        "cost_scaling": 0.1,
+        "move_cost": 100
+      }
+    ]
+  }
+]

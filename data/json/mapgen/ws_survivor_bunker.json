@@ -42,8 +42,7 @@
         "                        "
       ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
-      "terrain": { ".": "t_region_groundcover", ">": "t_ladder_down", "p": "t_region_groundcover" },
-      "traps": { "p": [ [ "tr_spike_pit", 5 ], "tr_null" ] }
+      "terrain": { ".": "t_region_groundcover", ">": "t_ladder_down", "p": [ [ "t_pit_spiked", 5 ], "t_region_groundcover" ] }
     }
   },
   {

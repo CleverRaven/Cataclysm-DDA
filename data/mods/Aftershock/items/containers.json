@@ -24,5 +24,12 @@
     "symbol": "0",
     "color": "light_red",
     "pocket_data": [ { "max_contains_volume": "28 L", "max_contains_weight": "40 kg", "max_item_length": "170 cm", "rigid": true } ]
+  },
+  {
+    "id": "pressure_tank",
+    "type": "TOOL",
+    "copy-from": "pressure_tank",
+    "name": { "str": "pressurized tank" },
+    "flags": [ "NO_UNLOAD", "MAG_BULKY" ]
   }
 ]

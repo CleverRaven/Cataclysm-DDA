@@ -170,7 +170,8 @@
       { "item": "helmet_ball", "prob": 30 },
       { "item": "hat_ball", "prob": 10 },
       { "item": "hat_golf", "prob": 5 },
-      { "item": "helmet_bike", "prob": 80 }
+      { "item": "helmet_bike", "prob": 70 },
+      { "group": "helmet_bike_modified", "prob": 10 }
     ]
   },
   {

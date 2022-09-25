@@ -7,7 +7,7 @@
     "subcategory": "CSC_ARMOR_TORSO",
     "skill_used": "tailor",
     "difficulty": 1,
-    "time": 10000,
+    "time": "100 s",
     "autolearn": true,
     "reversible": true,
     "using": [ [ "sewing_standard", 14 ] ],

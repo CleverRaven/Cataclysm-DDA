@@ -8,6 +8,7 @@
 #include <unordered_set>
 
 #include "dialogue.h"
+#include "dialogue_helpers.h"
 #include "mission.h"
 
 class JsonObject;
@@ -40,7 +41,7 @@ const std::unordered_set<std::string> complex_conds = { {
         "npc_role_nearby", "npc_allies", "npc_allies_global", "npc_service",
         "u_has_cash", "u_are_owed", "u_query", "npc_query", "u_has_item_with_flag", "npc_has_item_with_flag",
         "npc_aim_rule", "npc_engagement_rule", "npc_rule", "npc_override", "u_has_hp", "npc_has_hp",
-        "npc_cbm_reserve_rule", "npc_cbm_recharge_rule", "u_has_faction_trust",
+        "u_has_part_temp", "npc_has_part_temp", "npc_cbm_reserve_rule", "npc_cbm_recharge_rule", "u_has_faction_trust",
         "days_since_cataclysm", "is_season", "mission_goal", "u_has_var", "npc_has_var",
         "u_has_skill", "npc_has_skill", "u_know_recipe", "u_compare_var", "npc_compare_var",
         "u_compare_time_since_var", "npc_compare_time_since_var", "is_weather", "one_in_chance", "x_in_y_chance",
@@ -68,129 +69,13 @@ static dialogue copy_dialogue( const T &d )
 }
 
 template<class T>
-struct str_or_var {
-    cata::optional<std::string> str_val;
-    cata::optional<var_info> var_val;
-    cata::optional<std::string> default_val;
-    std::string evaluate( const T &d ) const {
-        if( str_val.has_value() ) {
-            return str_val.value();
-        } else if( var_val.has_value() ) {
-            std::string val = read_var_value( var_val.value(), d );
-            if( !val.empty() ) {
-                return std::string( val );
-            }
-            return default_val.value();
-        } else {
-            debugmsg( "No valid value." );
-            return "";
-        }
-    }
-};
-
-template<class T>
-struct int_or_var_part {
-    cata::optional<int> int_val;
-    cata::optional<var_info> var_val;
-    cata::optional<int> default_val;
-    cata::optional<talk_effect_fun_t<T>> arithmetic_val;
-    int evaluate( const T &d ) const {
-        if( int_val.has_value() ) {
-            return int_val.value();
-        } else if( var_val.has_value() ) {
-            std::string val = read_var_value( var_val.value(), d );
-            if( !val.empty() ) {
-                return std::stoi( val );
-            }
-            return default_val.value();
-        } else if( arithmetic_val.has_value() ) {
-            arithmetic_val.value()( d );
-            var_info info = var_info( var_type::global, "temp_var" );
-            std::string val = read_var_value( info, d );
-            if( !val.empty() ) {
-                return std::stoi( val );
-            } else {
-                debugmsg( "No valid value." );
-                return 0;
-            }
-        } else {
-            debugmsg( "No valid value." );
-            return 0;
-        }
-    }
-};
-
-template<class T>
-struct int_or_var {
-    bool pair = false;
-    int_or_var_part<T> min;
-    int_or_var_part<T> max;
-    int evaluate( const T &d ) const {
-        if( pair ) {
-            return rng( min.evaluate( d ), max.evaluate( d ) );
-        } else {
-            return min.evaluate( d );
-        }
-    }
-};
-
-template<class T>
-struct duration_or_var_part {
-    cata::optional<time_duration> dur_val;
-    cata::optional<var_info> var_val;
-    cata::optional<time_duration> default_val;
-    cata::optional<talk_effect_fun_t<T>> arithmetic_val;
-    time_duration evaluate( const T &d ) const {
-        if( dur_val.has_value() ) {
-            return dur_val.value();
-        } else if( var_val.has_value() ) {
-            std::string val = read_var_value( var_val.value(), d );
-            if( !val.empty() ) {
-                time_duration ret_val;
-                ret_val = time_duration::from_turns( std::stoi( val ) );
-                return ret_val;
-            }
-            return default_val.value();
-        } else if( arithmetic_val.has_value() ) {
-            arithmetic_val.value()( d );
-            var_info info = var_info( var_type::global, "temp_var" );
-            std::string val = read_var_value( info, d );
-            if( !val.empty() ) {
-                time_duration ret_val;
-                ret_val = time_duration::from_turns( std::stoi( val ) );
-                return ret_val;
-            } else {
-                debugmsg( "No valid value." );
-                return 0_seconds;
-            }
-        } else {
-            debugmsg( "No valid value." );
-            return 0_seconds;
-        }
-    }
-};
-
-template<class T>
-struct duration_or_var {
-    bool pair = false;
-    duration_or_var_part<dialogue> min;
-    duration_or_var_part<dialogue> max;
-    time_duration evaluate( const T &d ) const {
-        if( pair ) {
-            return rng( min.evaluate( d ), max.evaluate( d ) );
-        } else {
-            return min.evaluate( d );
-        }
-    }
-};
-template<class T>
-str_or_var<T> get_str_or_var( const JsonValue &jv, std::string member, bool required = true,
-                              std::string default_val = "" );
+str_or_var<T> get_str_or_var( const JsonValue &jv, const std::string &member, bool required = true,
+                              const std::string &default_val = "" );
 template<class T>
 int_or_var<T> get_int_or_var( const JsonObject &jo, std::string member, bool required = true,
                               int default_val = 0 );
 template<class T>
-int_or_var_part<T> get_int_or_var_part( const JsonValue &jv, std::string member,
+int_or_var_part<T> get_int_or_var_part( const JsonValue &jv, const std::string &member,
                                         bool required = true,
                                         int default_val = 0 );
 template<class T>
@@ -198,16 +83,19 @@ duration_or_var<T> get_duration_or_var( const JsonObject &jo, std::string member
                                         bool required = true,
                                         time_duration default_val = 0_seconds );
 template<class T>
-duration_or_var_part<T> get_duration_or_var_part( const JsonValue &jv, std::string member,
+duration_or_var_part<T> get_duration_or_var_part( const JsonValue &jv, const std::string &member,
         bool required = true,
         time_duration default_val = 0_seconds );
 template<class T>
 tripoint_abs_ms get_tripoint_from_var( cata::optional<var_info> var, const T &d );
-var_info read_var_info( const JsonObject &jo, bool require_default );
-void write_var_value( var_type type, std::string name, talker *talk, std::string value );
+var_info read_var_info( const JsonObject &jo );
+void write_var_value( var_type type, const std::string &name, talker *talk,
+                      const std::string &value );
 template<class T>
 std::string get_talk_varname( const JsonObject &jo, const std::string &member,
                               bool check_value, int_or_var<T> &default_val );
+std::string get_talk_var_basename( const JsonObject &jo, const std::string &member,
+                                   bool check_value );
 // the truly awful declaration for the conditional_t loading helper_function
 template<class T>
 void read_condition( const JsonObject &jo, const std::string &member_name,
@@ -248,6 +136,7 @@ struct conditional_t {
         void set_has_intelligence( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_has_perception( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_has_hp( const JsonObject &jo, const std::string &member, bool is_npc = false );
+        void set_has_part_temp( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_is_deaf( bool is_npc = false );
         void set_is_on_terrain( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_is_in_field( const JsonObject &jo, const std::string &member, bool is_npc = false );
@@ -319,7 +208,8 @@ struct conditional_t {
         void set_compare_string( const JsonObject &jo, const std::string &member );
         void set_compare_int( const JsonObject &jo, const std::string &member );
         static std::function<int( const T & )> get_get_int( const JsonObject &jo );
-        static std::function<int( const T & )> get_get_int( std::string value, const JsonObject &jo );
+        static std::function<int( const T & )> get_get_int( const std::string &value,
+                const JsonObject &jo );
         bool operator()( const T &d ) const {
             if( !condition ) {
                 return false;
@@ -332,10 +222,18 @@ struct conditional_t {
 extern template struct conditional_t<dialogue>;
 extern template void read_condition<dialogue>( const JsonObject &jo, const std::string &member_name,
         std::function<bool( const dialogue & )> &condition, bool default_val );
+
+extern template duration_or_var<dialogue> get_duration_or_var( const JsonObject &jo,
+        std::string member,
+        bool required, time_duration default_val );
+extern template std::string get_talk_varname<dialogue>( const JsonObject &jo,
+        const std::string &member,
+        bool check_value, int_or_var<dialogue> &default_val );
 extern template struct conditional_t<mission_goal_condition_context>;
 extern template void read_condition<mission_goal_condition_context>( const JsonObject &jo,
         const std::string &member_name,
         std::function<bool( const mission_goal_condition_context & )> &condition, bool default_val );
+extern template struct talk_effect_fun_t<dialogue>;
 #endif
 
 #endif // CATA_SRC_CONDITION_H

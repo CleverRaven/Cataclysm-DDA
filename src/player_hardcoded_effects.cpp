@@ -34,6 +34,7 @@
 #include "string_formatter.h"
 #include "teleport.h"
 #include "translations.h"
+#include "uistate.h"
 #include "units.h"
 #include "vitamin.h"
 #include "weather.h"
@@ -79,6 +80,7 @@ static const efftype_id effect_narcosis( "narcosis" );
 static const efftype_id effect_onfire( "onfire" );
 static const efftype_id effect_paincysts( "paincysts" );
 static const efftype_id effect_panacea( "panacea" );
+static const efftype_id effect_pet( "pet" );
 static const efftype_id effect_rat( "rat" );
 static const efftype_id effect_recover( "recover" );
 static const efftype_id effect_redcells_anemia( "redcells_anemia" );
@@ -591,10 +593,12 @@ static void eff_fun_teleglow( Character &u, effect &it )
                 if( here.impassable( dest ) ) {
                     here.make_rubble( dest, f_rubble_rock, true );
                 }
-                MonsterGroupResult spawn_details = MonsterGroupManager::GetResultFromGroup(
-                                                       GROUP_NETHER );
-                g->place_critter_at( spawn_details.name, dest );
-                if( player_character.sees( dest ) ) {
+                std::vector<MonsterGroupResult> spawn_details =
+                    MonsterGroupManager::GetResultFromGroup( GROUP_NETHER );
+                for( const MonsterGroupResult &mgr : spawn_details ) {
+                    g->place_critter_at( mgr.name, dest );
+                }
+                if( uistate.distraction_hostile_spotted && player_character.sees( dest ) ) {
                     g->cancel_activity_or_ignore_query( distraction_type::hostile_spotted_far,
                                                         _( "A monster appears nearby!" ) );
                     add_msg( m_warning, _( "A portal opens nearby, and a monster crawls through!" ) );
@@ -996,8 +1000,7 @@ static void eff_fun_sleep( Character &u, effect &it )
         here.is_outside( u.pos() ) ) {
         if( u.has_trait( trait_CHLOROMORPH ) ) {
             // Hunger and thirst fall before your Chloromorphic physiology!
-            if( g->natural_light_level( u.posz() ) >= 12 &&
-                get_weather().weather_id->sun_intensity >= sun_intensity_type::light ) {
+            if( incident_sun_irradiance( get_weather().weather_id, calendar::turn ) > irradiance::low ) {
                 if( u.has_active_mutation( trait_CHLOROMORPH ) && ( u.get_fatigue() <= 25 ) ) {
                     u.set_fatigue( 25 );
                 }
@@ -1246,6 +1249,7 @@ void Character::hardcoded_effects( effect &it )
                 if( monster *const grub = g->place_critter_around( mon_dermatik_larva, pos(), 1 ) ) {
                     if( one_in( 3 ) ) {
                         grub->friendly = -1;
+                        grub->add_effect( effect_pet, 1_turns, true );
                     }
                 }
             }
@@ -1299,10 +1303,12 @@ void Character::hardcoded_effects( effect &it )
                 if( here.impassable( dest ) ) {
                     here.make_rubble( dest, f_rubble_rock, true );
                 }
-                MonsterGroupResult spawn_details = MonsterGroupManager::GetResultFromGroup(
-                                                       GROUP_NETHER );
-                g->place_critter_at( spawn_details.name, dest );
-                if( player_character.sees( dest ) ) {
+                std::vector<MonsterGroupResult> spawn_details =
+                    MonsterGroupManager::GetResultFromGroup( GROUP_NETHER );
+                for( const MonsterGroupResult &mgr : spawn_details ) {
+                    g->place_critter_at( mgr.name, dest );
+                }
+                if( uistate.distraction_hostile_spotted && player_character.sees( dest ) ) {
                     g->cancel_activity_or_ignore_query( distraction_type::hostile_spotted_far,
                                                         _( "A monster appears nearby!" ) );
                     add_msg_if_player( m_warning, _( "A portal opens nearby, and a monster crawls through!" ) );
@@ -1672,7 +1678,7 @@ void Character::hardcoded_effects( effect &it )
                         mod_dex_bonus( -8 );
                         recoil = MAX_RECOIL;
                     } else if( limb == "hand" ) {
-                        if( is_armed() && can_drop( get_wielded_item() ).success() ) {
+                        if( is_armed() && can_drop( *get_wielded_item() ).success() ) {
                             if( dice( 4, 4 ) > get_dex() ) {
                                 cancel_activity();  //Prevent segfaults from activities trying to access missing item
                                 put_into_vehicle_or_drop( *this, item_drop_reason::tumbling, { remove_weapon() } );

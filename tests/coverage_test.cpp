@@ -25,7 +25,7 @@ static constexpr tripoint dude_pos( HALF_MAPSIZE_X + 4, HALF_MAPSIZE_Y, 0 );
 static constexpr tripoint mon_pos( HALF_MAPSIZE_X + 3, HALF_MAPSIZE_Y, 0 );
 static constexpr tripoint badguy_pos( HALF_MAPSIZE_X + 1, HALF_MAPSIZE_Y, 0 );
 
-static void check_near( std::string subject, float actual, const float expected,
+static void check_near( const std::string &subject, float actual, const float expected,
                         const float tolerance )
 {
     THEN( string_format( "%s is about %.1f (+/- %.2f) with val %.1f", subject, expected, tolerance,
@@ -34,7 +34,7 @@ static void check_near( std::string subject, float actual, const float expected,
     }
 }
 
-static void check_not_near( std::string subject, float actual, const float undesired,
+static void check_not_near( const std::string &subject, float actual, const float undesired,
                             const float tolerance )
 {
     THEN( string_format( "%s is not about %.1f (+/- %.1f)  with val %.1f", subject, undesired,
@@ -43,7 +43,7 @@ static void check_not_near( std::string subject, float actual, const float undes
     }
 }
 
-static float get_avg_melee_dmg( std::string clothing_id, bool infect_risk = false )
+static float get_avg_melee_dmg( const std::string &clothing_id, bool infect_risk = false )
 {
     monster zed( mon_manhack, mon_pos );
     standard_npc dude( "TestCharacter", dude_pos, {}, 0, 8, 8, 8, 8 );
@@ -114,7 +114,7 @@ static float get_avg_melee_dmg( item cloth, bool infect_risk = false )
     return static_cast<float>( dam_acc ) / num_hits;
 }
 
-static float get_avg_bullet_dmg( std::string clothing_id )
+static float get_avg_bullet_dmg( const std::string &clothing_id )
 {
     clear_map();
     std::unique_ptr<standard_npc> badguy = std::make_unique<standard_npc>( "TestBaddie", badguy_pos,

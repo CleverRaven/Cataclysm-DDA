@@ -158,6 +158,11 @@ tripoint Creature::pos() const
     return get_map().getlocal( location );
 }
 
+tripoint_bub_ms Creature::pos_bub() const
+{
+    return get_map().bub_from_abs( location );
+}
+
 void Creature::setpos( const tripoint &p )
 {
     const tripoint_abs_ms old_loc = get_location();
@@ -320,10 +325,11 @@ bool Creature::sees( const Creature &critter ) const
 
     map &here = get_map();
 
-    if( critter.has_flag( MF_ALWAYS_VISIBLE ) ) {
-        // You always see this
+    if( critter.has_flag( MF_ALWAYS_VISIBLE ) || ( has_flag( MF_ALWAYS_SEES_YOU ) &&
+            critter.is_avatar() ) ) {
         return true;
     }
+
     // player can use mirrors, so `has_potential_los` cannot be used
     if( !is_avatar() && !here.has_potential_los( pos(), critter.pos() ) ) {
         return false;
@@ -345,6 +351,11 @@ bool Creature::sees( const Creature &critter ) const
 
     const Character *ch = critter.as_character();
     const int wanted_range = rl_dist( pos(), critter.pos() );
+
+    if( this->has_flag( MF_ALL_SEEING ) ) {
+        const monster *m = this->as_monster();
+        return wanted_range < std::max( m->type->vision_day, m->type->vision_night );
+    }
 
     // Can always see adjacent monsters on the same level.
     // We also bypass lighting for vertically adjacent monsters, but still check for floors.
@@ -453,6 +464,11 @@ bool Creature::sees( const tripoint &t, bool is_avatar, int range_mod ) const
     } else {
         return false;
     }
+}
+
+bool Creature::sees( const tripoint_bub_ms &t, bool is_avatar, int range_mod ) const
+{
+    return sees( t.raw(), is_avatar, range_mod );
 }
 
 // Helper function to check if potential area of effect of a weapon overlaps vehicle
@@ -1211,6 +1227,15 @@ void Creature::deal_damage_handle_type( const effect_source &source, const damag
                 const int duration = std::max( adjusted_damage / 10.0 * multiplier, 2.0 );
                 add_effect( source, effect_zapped, 1_turns * duration );
             }
+
+            if( Character *ch = as_character() ) {
+                const double pain_mult = ch->calculate_by_enchantment( 1.0, enchant_vals::mod::EXTRA_ELEC_PAIN );
+                div /= pain_mult;
+                if( pain_mult > 1.0 ) {
+                    ch->add_msg_player_or_npc( m_bad, _( "You're painfully electrocuted!" ),
+                                               _( "<npcname> is shocked!" ) );
+                }
+            }
             break;
         }
 
@@ -1239,7 +1264,7 @@ void Creature::heal_bp( bodypart_id /* bp */, int /* dam */ )
 {
 }
 
-void Creature::longpull( const std::string name, const tripoint &p )
+void Creature::longpull( const std::string &name, const tripoint &p )
 {
     if( pos() == p ) {
         add_msg_if_player( _( "You try to pull yourself together." ) );
@@ -1725,6 +1750,11 @@ std::string Creature::get_value( const std::string &key ) const
 {
     auto it = values.find( key );
     return ( it == values.end() ) ? "" : it->second;
+}
+
+void Creature::clear_values()
+{
+    values.clear();
 }
 
 void Creature::mod_pain( int npain )

@@ -246,7 +246,7 @@
     "path_settings": { "max_dist": 5 },
     "special_attacks": [ { "id": "tentacle" }, { "id": "smash" } ],
     "regen_morale": true,
-    "flags": [ "SMELLS", "HEARS", "BASHES", "FLIES", "COLDPROOF", "CHITIN", "NOHEAD", "NOGIB", "NO_BREATHE", "STUN_IMMUNE" ]
+    "flags": [ "SMELLS", "HEARS", "BASHES", "FLIES", "COLDPROOF", "NOHEAD", "NOGIB", "NO_BREATHE", "STUN_IMMUNE" ]
   },
   {
     "id": "mon_nightgaunt",

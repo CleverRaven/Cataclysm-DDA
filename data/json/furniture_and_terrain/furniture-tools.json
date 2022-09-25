@@ -686,7 +686,7 @@
   {
     "type": "furniture",
     "id": "f_ladder",
-    "name": "stepladder",
+    "name": "wooden stepladder",
     "looks_like": "t_ladder_up",
     "description": "A short, foldable ladder.  Can help you climb to a rooftop, or maybe slow something down.",
     "symbol": "H",
@@ -706,6 +706,27 @@
         { "item": "nail", "charges": [ 10, 30 ] },
         { "item": "splinter", "count": [ 5, 10 ] }
       ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_aluminum_stepladder",
+    "name": "aluminum stepladder",
+    "description": "A short, foldable ladder.  Can help you climb to a rooftop, or maybe slow something down.",
+    "symbol": "H",
+    "color": "light_gray",
+    "move_cost_mod": 3,
+    "required_str": 6,
+    "flags": [ "LADDER", "TRANSPARENT", "SEEN_FROM_ABOVE", "DIFFICULT_Z" ],
+    "examine_action": "deployed_furniture",
+    "looks_like": "f_ladder",
+    "deployed_item": "aluminum_stepladder",
+    "bash": {
+      "str_min": 6,
+      "str_max": 40,
+      "sound": "smash!",
+      "sound_fail": "whump.",
+      "items": [ { "item": "scrap_aluminum", "count": [ 15, 285 ] } ]
     }
   },
   {
@@ -1551,5 +1572,52 @@
       "sound_fail": "twang.",
       "items": [ { "item": "rope_30", "count": [ 1, 1 ] } ]
     }
+  },
+  {
+    "type": "furniture",
+    "id": "f_hoist_rope",
+    "name": "rope hoist",
+    "description": "A loop of rope hangs here, using a sturdy horizontal support as a basic pulley.  While crude, it gives you some mechanical advantage for lifting things.",
+    "symbol": "|",
+    "color": "yellow",
+    "move_cost_mod": 0,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "EASY_DECONSTRUCT" ],
+    "examine_action": "deployed_furniture",
+    "deployed_item": "rope_30",
+    "deconstruct": { "items": [ { "item": "rope_30", "count": 1 } ] },
+    "crafting_pseudo_item": "fake_lift_light"
+  },
+  {
+    "type": "furniture",
+    "id": "f_hoist_pulley",
+    "name": "rope and tackle hoist",
+    "looks_like": "f_hoist_rope",
+    "description": "A loop of rope hangs here, looped through a quality tackle to give a significant mechanical advantage while lifting heavy objects.",
+    "symbol": "|",
+    "color": "white",
+    "move_cost_mod": 0,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT" ],
+    "deconstruct": {
+      "items": [ { "item": "block_and_tackle", "count": 1 }, { "item": "rope_30", "count": 1 }, { "item": "spike", "count": 1 } ]
+    },
+    "crafting_pseudo_item": "fake_lift_medium"
+  },
+  {
+    "type": "furniture",
+    "id": "f_hoist_chain",
+    "name": "chain hoist",
+    "looks_like": "f_hoist_rope",
+    "description": "A sturdy chain and heavy tackle hang well-supported from the ceiling here, ready to lift most heavy items you could think of using mechanical advantage.",
+    "symbol": "|",
+    "color": "dark_gray",
+    "move_cost_mod": 1,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT" ],
+    "deconstruct": {
+      "items": [ { "item": "chain", "count": 1 }, { "item": "block_and_tackle", "count": 1 }, { "item": "nuts_bolts", "count": 2 } ]
+    },
+    "crafting_pseudo_item": "fake_lift_heavy"
   }
 ]

@@ -303,8 +303,7 @@
       { "item": "38_fmj", "prob": 75, "charges": [ 44, 80 ] },
       { "item": "38_special", "prob": 75, "charges": [ 44, 80 ] },
       { "item": "38_fmj", "prob": 30, "charges": [ 88, 160 ] },
-      { "item": "38_special", "prob": 30, "charges": [ 88, 160 ] },
-      { "item": "38_super", "prob": 30, "charges": [ 1, 40 ] }
+      { "item": "38_special", "prob": 30, "charges": [ 88, 160 ] }
     ]
   },
   {

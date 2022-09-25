@@ -222,37 +222,5 @@
     "color": "red",
     "broken_color": "red",
     "extend": { "flags": [ "ODDTURN" ] }
-  },
-  {
-    "id": "lit_aisle",
-    "type": "vehicle_part",
-    "name": { "str": "aisle with lights" },
-    "item": "sheet_metal_lit",
-    "location": "center",
-    "symbols": { "horizontal": "#", "vertical": "H" },
-    "symbol": "=",
-    "broken_symbol": "#",
-    "categories": [ "hull", "passengers", "lighting" ],
-    "color": "white",
-    "durability": 400,
-    "epower": -10,
-    "bonus": 30,
-    "breaks_into": [
-      { "item": "steel_lump", "count": [ 4, 6 ] },
-      { "item": "steel_chunk", "count": [ 4, 6 ] },
-      { "item": "scrap", "count": [ 4, 6 ] },
-      { "item": "cable", "charges": [ 2, 4 ] },
-      { "item": "plastic_chunk", "count": [ 1, 3 ] }
-    ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
-      "repair": {
-        "skills": [ [ "mechanics", 2 ] ],
-        "time": "60 m",
-        "using": [ [ "repair_welding_standard", 1 ], [ "soldering_standard", 4 ] ]
-      }
-    },
-    "flags": [ "AISLE", "BOARDABLE", "AISLE_LIGHT", "ENABLED_DRAINS_EPOWER" ]
   }
 ]

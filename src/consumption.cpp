@@ -213,6 +213,14 @@ static std::map<vitamin_id, int> compute_default_effective_vitamins(
 
     std::map<vitamin_id, int> res = it.get_comestible()->default_nutrition.vitamins;
 
+    // for actual vitamins convert RDA to a internal value
+    for( std::pair<const vitamin_id, int> &vit : res ) {
+        if( vit.first->type() != vitamin_type::VITAMIN ) {
+            continue;
+        }
+        vit.second = vit.first->RDA_to_default( vit.second );
+    }
+
     for( const trait_id &trait : you.get_mutations() ) {
         const mutation_branch &mut = trait.obj();
         // make sure to iterate over every material defined for vitamin absorption
@@ -561,6 +569,15 @@ int Character::vitamin_mod( const vitamin_id &vit, int qty )
         it->second = std::min( it->second + qty, v.max() );
         update_vitamins( vit );
 
+        // update the daily trackers too while here
+        // prevent overflow
+        constexpr int daily_vitamins_max = std::numeric_limits<int>::max();
+        if( daily_vitamins_max - daily_vitamins[vit].second >= qty ) {
+            daily_vitamins[vit].second += qty;
+        } else {
+            daily_vitamins[vit].second = daily_vitamins_max;
+        }
+
     } else if( qty < 0 ) {
         it->second = std::max( it->second + qty, v.min() );
         update_vitamins( vit );
@@ -589,15 +606,37 @@ int Character::vitamin_get( const vitamin_id &vit ) const
     return v != vitamin_levels.end() ? v->second : 0;
 }
 
-bool Character::vitamin_set( const vitamin_id &vit, int qty )
+int Character::get_daily_vitamin( const vitamin_id &vit, bool actual ) const
+{
+    if( get_option<bool>( "NO_VITAMINS" ) && vit->type() == vitamin_type::VITAMIN ) {
+        return 0;
+    }
+
+    const auto &v = daily_vitamins.find( vit );
+    // we didn't find it
+    if( v == daily_vitamins.end() ) {
+        return 0;
+    }
+    // if we should get the guess or the real value
+    return actual ? v->second.second : v->second.first;
+}
+
+void Character::reset_daily_vitamin( const vitamin_id &vit )
+{
+    if( get_option<bool>( "NO_VITAMINS" ) && vit->type() == vitamin_type::VITAMIN ) {
+        return;
+    }
+
+    daily_vitamins[vit] = { 0, 0 };
+}
+
+void Character::vitamin_set( const vitamin_id &vit, int qty )
 {
     auto v = vitamin_levels.find( vit );
     if( v == vitamin_levels.end() ) {
-        return false;
+        v = vitamin_levels.emplace( vit, 0 ).first;
     }
     vitamin_mod( vit, qty - v->second );
-
-    return true;
 }
 
 float Character::metabolic_rate_base() const
@@ -637,8 +676,8 @@ morale_type Character::allergy_type( const item &food ) const
 {
     using allergy_tuple = std::tuple<trait_id, flag_id, morale_type>;
     static const std::array<allergy_tuple, 8> allergy_tuples = {{
-            std::make_tuple( trait_VEGETARIAN, flag_ALLERGEN_MEAT, MORALE_VEGETARIAN ),
-            std::make_tuple( trait_MEATARIAN, flag_ALLERGEN_VEGGY, MORALE_MEATARIAN ),
+            std::make_tuple( trait_VEGETARIAN, flag_ALLERGEN_MEAT, MORALE_ANTIMEAT ),
+            std::make_tuple( trait_MEATARIAN, flag_ALLERGEN_VEGGY, MORALE_ANTIVEGGY ),
             std::make_tuple( trait_LACTOSE, flag_ALLERGEN_MILK, MORALE_LACTOSE ),
             std::make_tuple( trait_ANTIFRUIT, flag_ALLERGEN_FRUIT, MORALE_ANTIFRUIT ),
             std::make_tuple( trait_ANTIJUNK, flag_ALLERGEN_JUNK, MORALE_ANTIJUNK ),
@@ -777,29 +816,9 @@ ret_val<edible_rating> Character::can_eat( const item &food ) const
     return ret_val<edible_rating>::make_success();
 }
 
-ret_val<edible_rating> Character::can_consume_fuel( const item &fuel ) const
-{
-    if( !can_fuel_bionic_with( fuel ) ) {
-        return ret_val<edible_rating>::make_failure( _( "That doesn't look useable as fuel." ) );
-    } else {
-        std::string item_name = fuel.tname();
-        material_id mat_type = fuel.get_base_material().id;
-        if( fuel.type->magazine ) {
-            const item ammo = item( fuel.ammo_current() );
-            item_name = ammo.tname();
-            mat_type = ammo.get_base_material().id;
-        }
-        if( get_fuel_capacity( mat_type ) <= 0 ) {
-            return ret_val<edible_rating>::make_failure( _( "No space to store more %s" ), item_name );
-        }
-
-    }
-    return ret_val<edible_rating>::make_success();
-}
-
 ret_val<edible_rating> Character::will_eat( const item &food, bool interactive ) const
 {
-    const auto ret = can_eat( food );
+    ret_val<edible_rating> ret = can_eat( food );
     if( !ret.success() ) {
         if( interactive ) {
             add_msg_if_player( m_info, "%s", ret.c_str() );
@@ -1167,7 +1186,7 @@ void Character::modify_morale( item &food, const int nutr )
         food.get_comestible()->comesttype != "MED" &&
         food.get_comestible()->comesttype != comesttype_DRINK ) {
         map &here = get_map();
-        if( here.has_nearby_chair( pos(), 1 ) && here.has_nearby_table( pos(), 1 ) ) {
+        if( here.has_nearby_chair( pos(), 1 ) && here.has_nearby_table( pos_bub(), 1 ) ) {
             if( has_trait( trait_TABLEMANNERS ) ) {
                 rem_morale( MORALE_ATE_WITHOUT_TABLE );
                 if( !food.rotten() ) {
@@ -1204,7 +1223,7 @@ void Character::modify_morale( item &food, const int nutr )
         const bool sapiovore = has_trait( trait_SAPIOVORE );
         const bool spiritual = has_trait( trait_SPIRITUAL );
         const bool numb = has_trait( trait_NUMB );
-        if( ( cannibal || sapiovore ) && psycho && spiritual ) {
+        if( cannibal && psycho && spiritual ) {
             add_msg_if_player( m_good,
                                _( "You feast upon the human flesh, and in doing so, devour their spirit." ) );
             // You're not really consuming anything special; you just think you are.
@@ -1212,19 +1231,24 @@ void Character::modify_morale( item &food, const int nutr )
         } else if( cannibal && psycho ) {
             add_msg_if_player( m_good, _( "You feast upon the human flesh." ) );
             add_morale( MORALE_CANNIBAL, 15, 200 );
-        } else if( ( cannibal || sapiovore ) && spiritual ) {
+        } else if( cannibal && spiritual ) {
             add_msg_if_player( m_good, _( "You consume the sacred human flesh." ) );
             // Boosted because you understand the philosophical implications of your actions, and YOU LIKE THEM.
             add_morale( MORALE_CANNIBAL, 15, 200 );
+        } else if( sapiovore && spiritual ) {
+            add_msg_if_player( m_good, _( "You eat the human flesh, and in doing so, devour their spirit." ) );
+            add_morale( MORALE_CANNIBAL, 10, 50 );
         } else if( cannibal ) {
             add_msg_if_player( m_good, _( "You indulge your shameful hunger." ) );
             add_morale( MORALE_CANNIBAL, 10, 50 );
-        } else if( ( psycho || sapiovore ) && spiritual ) {
+        } else if( psycho && spiritual ) {
             add_msg_if_player( _( "You greedily devour the taboo meat." ) );
             // Small bonus for violating a taboo.
             add_morale( MORALE_CANNIBAL, 5, 50 );
-        } else if( psycho || sapiovore ) {
+        } else if( psycho ) {
             add_msg_if_player( _( "Meh.  You've eaten worse." ) );
+        } else if( sapiovore ) {
+            add_msg_if_player( _( "Mmh.  Tastes like venison." ) );
         } else if( spiritual ) {
             add_msg_if_player( m_bad,
                                _( "This is probably going to count against you if there's still an afterlife." ) );
@@ -1271,7 +1295,7 @@ void Character::modify_morale( item &food, const int nutr )
     if( !food.has_flag( flag_NO_INGEST ) ) {
         const auto allergy = allergy_type( food );
         if( allergy != MORALE_NULL ) {
-            add_msg_if_player( m_bad, _( "Yuck!  How can anybody eat this stuff?" ) );
+            add_msg_if_player( m_bad, _( "Your stomach begins gurgling and you feel bloated and ill." ) );
             add_morale( allergy, -75, -400, 30_minutes, 24_minutes );
         }
         if( food.has_flag( flag_ALLERGEN_JUNK ) ) {
@@ -1514,87 +1538,18 @@ bool Character::consume_effects( item &food )
 
     // GET IN MAH BELLY!
     stomach.ingest( ingested );
+
+    // update speculative values
     get_avatar().add_ingested_kcal( ingested.nutr.calories / 1000 );
+    for( const auto &v : ingested.nutr.vitamins ) {
+        // update the estimated values for daily vitamins
+        // actual vitamins happen during digestion
+        daily_vitamins[v.first].first += v.second;
+    }
+
     return true;
 }
 
-bool Character::fuel_bionic_with( item &it )
-{
-    if( !can_fuel_bionic_with( it ) ) {
-        return false;
-    }
-
-    if( it.is_favorite &&
-        !get_avatar().query_yn( _( "Are you sure you want to eat your favorited %s?" ), it.tname() ) ) {
-        return false;
-    }
-
-    const bionic_id bio = get_most_efficient_bionic( get_bionic_fueled_with( it ) );
-
-    const bool is_magazine = !!it.type->magazine;
-    int loadable;
-    material_id mat = it.get_base_material().id;
-
-    if( is_magazine ) {
-        const item ammo = item( it.ammo_current() );
-        mat = ammo.get_base_material().id;
-        loadable = std::min( it.ammo_remaining(), get_fuel_capacity( mat ) );
-        it.ammo_set( ammo.typeId(), it.ammo_remaining() - loadable );
-    } else if( it.flammable() ) {
-        // This a special case for items that are not fuels and don't have charges
-        loadable = std::min( units::to_milliliter( it.volume() ), get_fuel_capacity( mat ) );
-        it.charges -= it.charges_per_volume( units::from_milliliter( loadable ) );
-    } else {
-        loadable = std::min( it.charges, get_fuel_capacity( mat ) );
-        it.charges -= loadable;
-    }
-
-    const std::string str_loaded  = get_value( mat.str() );
-    int loaded = 0;
-    if( !str_loaded.empty() ) {
-        loaded = std::stoi( str_loaded );
-    }
-
-    const std::string new_charge = std::to_string( loadable + loaded );
-
-    // Type and amount of fuel
-    set_value( mat.str(), new_charge );
-    update_fuel_storage( mat );
-    add_msg_player_or_npc( m_info,
-                           //~ %1$i: charge number, %2$s: item name, %3$s: bionics name
-                           n_gettext( "You load %1$i charge of %2$s in your %3$s.",
-                                      "You load %1$i charges of %2$s in your %3$s.", loadable ),
-                           //~ %1$i: charge number, %2$s: item name, %3$s: bionics name
-                           n_gettext( "<npcname> load %1$i charge of %2$s in their %3$s.",
-                                      "<npcname> load %1$i charges of %2$s in their %3$s.", loadable ), loadable, mat->name(),
-                           bio->name );
-
-    // Return false for magazines because only their ammo is consumed
-    return !is_magazine;
-}
-
-int Character::get_acquirable_energy( const item &it ) const
-{
-    const std::vector<bionic_id> &bids = get_bionic_fueled_with( it );
-    if( bids.empty() ) {
-        return 0;
-    }
-    const bionic_id &bid = get_most_efficient_bionic( bids );
-    int to_consume;
-    int to_charge = 0;
-    if( it.type->magazine ) {
-        item ammo = item( it.ammo_current() );
-        to_consume = std::min( it.ammo_remaining(), bid->fuel_capacity );
-        to_charge = ammo.fuel_energy() * to_consume * bid->fuel_efficiency;
-    } else if( it.flammable() ) {
-        to_consume = std::min( units::to_milliliter( it.volume() ), bid->fuel_capacity );
-        to_charge = it.get_base_material().id->get_fuel_data().energy * to_consume * bid->fuel_efficiency;
-    } else {
-        to_consume = std::min( it.charges, bid->fuel_capacity );
-        to_charge = it.fuel_energy() * to_consume * bid->fuel_efficiency;
-    }
-    return to_charge;
-}
 
 bool Character::can_estimate_rot() const
 {
@@ -1631,7 +1586,7 @@ item &Character::get_consumable_from( item &it ) const
     return null_comestible;
 }
 
-time_duration Character::get_consume_time( const item &it )
+time_duration Character::get_consume_time( const item &it ) const
 {
     const int charges = std::max( it.charges, 1 );
     int volume = units::to_milliliter( it.volume() ) / charges;
@@ -1767,7 +1722,7 @@ static bool consume_med( item &target, Character &you )
     return true;
 }
 
-trinary Character::consume( item &target, bool force, bool refuel )
+trinary Character::consume( item &target, bool force )
 {
     if( target.is_null() ) {
         add_msg_if_player( m_info, _( "You do not have that item." ) );
@@ -1789,10 +1744,6 @@ trinary Character::consume( item &target, bool force, bool refuel )
         return trinary::NONE;
     }
 
-    if( refuel ) {
-        return fuel_bionic_with( target ) && target.charges <= 0 ? trinary::ALL : trinary::SOME;
-    }
-
     if( consume_med( target, *this ) || eat( target, *this, force ) ) {
 
         get_event_bus().send<event_type::character_consumes_item>( getID(), target.typeId() );
@@ -1804,7 +1755,7 @@ trinary Character::consume( item &target, bool force, bool refuel )
     return trinary::NONE;
 }
 
-trinary Character::consume( item_location loc, bool force, bool refuel )
+trinary Character::consume( item_location loc, bool force )
 {
     if( !loc ) {
         debugmsg( "Null loc to consume." );
@@ -1812,7 +1763,7 @@ trinary Character::consume( item_location loc, bool force, bool refuel )
     }
     contents_change_handler handler;
     item &target = *loc;
-    trinary result = consume( target, force, refuel );
+    trinary result = consume( target, force );
     if( result != trinary::NONE ) {
         handler.unseal_pocket_containing( loc );
     }

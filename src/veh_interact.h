@@ -8,6 +8,7 @@
 #include <map>
 #include <memory>
 #include <string>
+#include <utility>
 #include <vector>
 
 #include "color.h"
@@ -187,13 +188,15 @@ class veh_interact
         struct part_option {
             part_option( const std::string &key, vehicle_part *part, bool selectable, const input_event &hotkey,
                          std::function<void( const vehicle_part &pt, const catacurses::window &w, int y )> details ) :
-                key( key ), part( part ), selectable( selectable ), hotkey( hotkey ), details( details ) {}
+                key( key ), part( part ), selectable( selectable ), hotkey( hotkey ),
+                details( std::move( details ) ) {}
 
             part_option( const std::string &key, vehicle_part *part, bool selectable, const input_event &hotkey,
                          std::function<void( const vehicle_part &pt, const catacurses::window &w, int y )> details,
                          std::function<void( const vehicle_part &pt )> message ) :
-                key( key ), part( part ), selectable( selectable ), hotkey( hotkey ), details( details ),
-                message( message ) {}
+                key( key ), part( part ), selectable( selectable ), hotkey( hotkey ),
+                details( std::move( details ) ),
+                message( std::move( message ) ) {}
 
             std::string key;
             vehicle_part *part;
@@ -277,9 +280,6 @@ class veh_interact
          * Can be converted to a vector<vehicle_part>.
          * Updated whenever the cursor moves. */
         std::vector<int> parts_here;
-
-        /* Refers to the wheel (if any) in the currently selected square. */
-        struct vehicle_part *wheel;
 
         /* called by exec() */
         void cache_tool_availability();

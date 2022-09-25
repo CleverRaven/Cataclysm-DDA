@@ -16,6 +16,15 @@
     "flags": [ "W_LABEL_NONE", "W_DISABLED_BY_DEFAULT" ]
   },
   {
+    "id": "sundial_time_desc_no_label",
+    "type": "widget",
+    "label": "Sundial",
+    "style": "text",
+    "var": "sundial_time_text",
+    "width": 0,
+    "flags": [ "W_LABEL_NONE", "W_DISABLED_BY_DEFAULT" ]
+  },
+  {
     "id": "time_desc_no_label",
     "type": "widget",
     "copy-from": "time_desc_label",

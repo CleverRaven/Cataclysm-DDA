@@ -11,7 +11,7 @@
         "s!sss       sssssssssssssssssssss       ssssssssssssssss       sssssssssssssssssssss       sss!s",
         "ss          ~    ~    ~    ~    ~                              ~    ~    ~    ~    ~          ss",
         "ss          ~    ~    ~    ~    ~                              ~    ~    ~    ~    ~          ss",
-        "ss          ~ 4  ~ 4  ~ 4  ~ 4  ~                              ~ 4  ~ 4  ~ 4  ~ 4  ~          ss",
+        "ss          ~ 4  ~ 4  ~    ~ 4  ~                              ~ 4  ~    ~ 4  ~ 4  ~          ss",
         "ss          ~    ~    ~    ~    ~                              ~    ~    ~    ~    ~          ss",
         "ss          ~    ~    ~    ~    ~                              ~    ~    ~    ~    ~          ss",
         "ss          ~    ~    ~    ~    ~                              ~    ~    ~    ~    ~          ss",
@@ -27,7 +27,7 @@
         "ss~    ~    ~    ~    ~    ~    ~    ~~~ssssssssssssssss~~~    ~    ~    ~    ~    ~    ~     ss",
         "ss~    ~    ~    ~    ~    ~    ~    ~ ~sBssssssssssssBs~ ~    ~    ~    ~    ~    ~    ~     ss",
         "ss~    ~    ~    ~    ~    ~    ~    ~~ sBssssssssssssBs ~~    ~    ~    ~    ~    ~    ~    ~ss",
-        "ss~  5 ~  5 ~  5 ~  5 ~  5 ~  5 ~  5 ~ ~sBssssssssssssBs~ ~  5 ~  5 ~  5 ~  5 ~  5 ~  5 ~  5 ~ss",
+        "ss~  5 ~  5 ~  5 ~  5 ~    ~  5 ~  5 ~ ~sBssssssssssssBs~ ~  5 ~  5 ~    ~  5 ~  5 ~  5 ~  5 ~ss",
         "ss~    ~    ~    ~    ~    ~    ~    ~~ s&ssssssssssss&s ~~    ~    ~    ~    ~    ~    ~    ~ss",
         "ss~    ~    ~    ~    ~    ~    ~    ~ ~ssssssssssssssss~ ~    ~    ~    ~    ~    ~    ~    ~ss",
         "s!ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss!s"

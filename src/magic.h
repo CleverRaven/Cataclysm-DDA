@@ -45,6 +45,7 @@ template <typename E> struct enum_traits;
 
 enum class spell_flag : int {
     PERMANENT, // items or creatures spawned with this spell do not disappear and die as normal
+    PERMANENT_ALL_LEVELS, // items spawned with this spell do not disappear even if the spell is not max level
     PERCENTAGE_DAMAGE, //the spell deals damage based on the targets current hp.
     IGNORE_WALLS, // spell's aoe goes through walls
     NO_PROJECTILE, // spell's original targeting area can be targeted through walls
@@ -54,6 +55,7 @@ enum class spell_flag : int {
     POLYMORPH_GROUP, // polymorph spell chooses a monster from a group
     FRIENDLY_POLY, // polymorph spell makes the monster friendly
     SILENT, // spell makes no noise at target
+    NO_EXPLOSION_SFX, // spell has no visual explosion
     LOUD, // spell makes extra noise at target
     VERBAL, // spell makes noise at caster location, mouth encumbrance affects fail %
     SOMATIC, // arm encumbrance affects fail % and casting time (slightly)
@@ -69,6 +71,7 @@ enum class spell_flag : int {
     RANDOM_CRITTER, // same as RANDOM_TARGET but ignores ground
     MUTATE_TRAIT, // overrides the mutate spell_effect to use a specific trait_id instead of a category
     WONDER, // instead of casting each of the extra_spells, it picks N of them and casts them (where N is std::min( damage(), number_of_spells ))
+    EXTRA_EFFECTS_FIRST, // the extra effects are cast before the main spell.
     PAIN_NORESIST, // pain altering spells can't be resisted (like with the deadened trait)
     NO_FAIL, // this spell cannot fail when you cast it
     WITH_CONTAINER, // items spawned with container
@@ -578,6 +581,8 @@ class spell
         void cast_spell_effect( Creature &source, const tripoint &target ) const;
         // goes through the spell effect and all of its internal spells
         void cast_all_effects( Creature &source, const tripoint &target ) const;
+        // goes through the spell effect and all of its internal spells
+        void cast_extra_spell_effects( Creature &source, const tripoint &target ) const;
         // uses up the components in @guy's inventory
         void use_components( Character &guy ) const;
         // checks if the spell's component is in the @guy's hand
@@ -712,7 +717,7 @@ void noise( const spell &sp, Creature &, const tripoint &target );
 void vomit( const spell &sp, Creature &caster, const tripoint &target );
 // intended to be a spell version of Character::longpull
 void pull_to_caster( const spell &sp, Creature &caster, const tripoint &target );
-void explosion( const spell &sp, Creature &, const tripoint &target );
+void explosion( const spell &sp, Creature &caster, const tripoint &target );
 void flashbang( const spell &sp, Creature &caster, const tripoint &target );
 void mod_moves( const spell &sp, Creature &caster, const tripoint &target );
 void map( const spell &sp, Creature &caster, const tripoint & );

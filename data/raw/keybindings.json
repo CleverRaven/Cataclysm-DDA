@@ -371,6 +371,20 @@
   },
   {
     "type": "keybinding",
+    "id": "QUIT",
+    "category": "AUTO_PICKUP",
+    "name": "Quit",
+    "bindings": [
+      { "input_method": "keyboard_any", "key": "ESC" },
+      { "input_method": "keyboard_any", "key": "q" },
+      { "input_method": "keyboard_char", "key": "Q" },
+      { "input_method": "keyboard_code", "key": "q", "mod": [ "shift" ] },
+      { "input_method": "keyboard_any", "key": "SPACE" },
+      { "input_method": "mouse", "key": "MOUSE_RIGHT" }
+    ]
+  },
+  {
+    "type": "keybinding",
     "id": "ADD_DEFAULT_RULESET",
     "category": "SAFEMODE",
     "name": "Add default ruleset",
@@ -480,6 +494,20 @@
       { "input_method": "keyboard_any", "key": "s" },
       { "input_method": "keyboard_char", "key": "S" },
       { "input_method": "keyboard_code", "key": "s", "mod": [ "shift" ] }
+    ]
+  },
+  {
+    "type": "keybinding",
+    "id": "QUIT",
+    "category": "SAFEMODE",
+    "name": "Quit",
+    "bindings": [
+      { "input_method": "keyboard_any", "key": "ESC" },
+      { "input_method": "keyboard_any", "key": "q" },
+      { "input_method": "keyboard_char", "key": "Q" },
+      { "input_method": "keyboard_code", "key": "q", "mod": [ "shift" ] },
+      { "input_method": "keyboard_any", "key": "SPACE" },
+      { "input_method": "mouse", "key": "MOUSE_RIGHT" }
     ]
   },
   {
@@ -870,6 +898,17 @@
   {
     "type": "keybinding",
     "id": "PICK_RANDOM_WORLDNAME",
+    "category": "STRING_INPUT",
+    "name": "Pick random world name",
+    "bindings": [
+      { "input_method": "keyboard_char", "key": "*" },
+      { "input_method": "keyboard_code", "key": "KEYPAD_MULTIPLY" },
+      { "input_method": "keyboard_code", "key": "8", "mod": [ "shift" ] }
+    ]
+  },
+  {
+    "type": "keybinding",
+    "id": "PICK_RANDOM_WORLDNAME",
     "category": "WORLDGEN_CONFIRM_DIALOG",
     "name": "Pick random world name",
     "bindings": [
@@ -908,11 +947,44 @@
     "type": "keybinding",
     "id": "ADVANCED_SETTINGS",
     "category": "WORLDGEN_CONFIRM_DIALOG",
-    "name": "Pick random world name",
+    "name": "View advanced world settings",
     "bindings": [
       { "input_method": "keyboard_any", "key": "s" },
       { "input_method": "keyboard_char", "key": "S" },
       { "input_method": "keyboard_code", "key": "s", "mod": [ "shift" ] }
+    ]
+  },
+  {
+    "type": "keybinding",
+    "id": "FINALIZE",
+    "category": "WORLDGEN_CONFIRM_DIALOG",
+    "name": "Finalize world creation",
+    "bindings": [
+      { "input_method": "keyboard_any", "key": "f" },
+      { "input_method": "keyboard_char", "key": "F" },
+      { "input_method": "keyboard_code", "key": "f", "mod": [ "shift" ] }
+    ]
+  },
+  {
+    "type": "keybinding",
+    "id": "RANDOMIZE",
+    "category": "WORLDGEN_CONFIRM_DIALOG",
+    "name": "Randomize world settings",
+    "bindings": [
+      { "input_method": "keyboard_any", "key": "a" },
+      { "input_method": "keyboard_char", "key": "A" },
+      { "input_method": "keyboard_code", "key": "a", "mod": [ "shift" ] }
+    ]
+  },
+  {
+    "type": "keybinding",
+    "id": "RESET",
+    "category": "WORLDGEN_CONFIRM_DIALOG",
+    "name": "Reset world settings and mods",
+    "bindings": [
+      { "input_method": "keyboard_any", "key": "r" },
+      { "input_method": "keyboard_char", "key": "R" },
+      { "input_method": "keyboard_code", "key": "r", "mod": [ "shift" ] }
     ]
   },
   {
@@ -1247,6 +1319,12 @@
   },
   {
     "type": "keybinding",
+    "id": "CLICK_AND_DRAG",
+    "name": "Click and drag with mouse",
+    "bindings": [ { "input_method": "mouse", "key": "MOUSE_LEFT_PRESSED" } ]
+  },
+  {
+    "type": "keybinding",
     "id": "SEC_SELECT",
     "name": "Secondary select",
     "bindings": [ { "input_method": "mouse", "key": "MOUSE_RIGHT" } ]
@@ -1526,6 +1604,20 @@
     "category": "APP_INTERACT",
     "name": "Take down appliance",
     "bindings": [ { "input_method": "keyboard_any", "key": "r" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "PLUG",
+    "category": "APP_INTERACT",
+    "name": "Plug in appliance",
+    "bindings": [ { "input_method": "keyboard_any", "key": "g" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "UNPLUG",
+    "category": "APP_INTERACT",
+    "name": "Unplug power connections",
+    "bindings": [ { "input_method": "keyboard_any", "key": "u" } ]
   },
   {
     "type": "keybinding",
@@ -2206,14 +2298,14 @@
   },
   {
     "type": "keybinding",
-    "name": "Eat",
+    "name": "Consume item (all items)",
     "category": "DEFAULTMODE",
     "id": "eat",
     "bindings": [ { "input_method": "keyboard_char", "key": "E" }, { "input_method": "keyboard_code", "key": "e", "mod": [ "shift" ] } ]
   },
   {
     "type": "keybinding",
-    "name": "Consume item",
+    "name": "Consume item (by type)",
     "category": "DEFAULTMODE",
     "id": "open_consume"
   },
@@ -2783,6 +2875,12 @@
   },
   {
     "type": "keybinding",
+    "name": "Distractions manager",
+    "category": "DEFAULTMODE",
+    "id": "open_distraction_manager"
+  },
+  {
+    "type": "keybinding",
     "name": "Color manager",
     "category": "DEFAULTMODE",
     "id": "open_color"
@@ -2799,6 +2897,12 @@
     "category": "DEFAULTMODE",
     "id": "cycle_move",
     "bindings": [ { "input_method": "gamepad", "key": "JOY_10" } ]
+  },
+  {
+    "type": "keybinding",
+    "name": "Cycle movement mode reverse",
+    "category": "DEFAULTMODE",
+    "id": "cycle_move_reverse"
   },
   {
     "type": "keybinding",
@@ -3614,6 +3718,20 @@
   },
   {
     "type": "keybinding",
+    "id": "QUIT",
+    "category": "COLORS",
+    "name": "Quit",
+    "bindings": [
+      { "input_method": "keyboard_any", "key": "ESC" },
+      { "input_method": "keyboard_any", "key": "q" },
+      { "input_method": "keyboard_char", "key": "Q" },
+      { "input_method": "keyboard_code", "key": "q", "mod": [ "shift" ] },
+      { "input_method": "keyboard_any", "key": "SPACE" },
+      { "input_method": "mouse", "key": "MOUSE_RIGHT" }
+    ]
+  },
+  {
+    "type": "keybinding",
     "id": "YES",
     "category": "YESNO",
     "name": "Yes",
@@ -3772,6 +3890,17 @@
   },
   {
     "type": "keybinding",
+    "id": "MANAGER",
+    "category": "CANCEL_ACTIVITY_OR_IGNORE_QUERY",
+    "name": "Open manager",
+    "bindings": [
+      { "input_method": "keyboard_char", "key": "M" },
+      { "input_method": "keyboard_code", "key": "m", "mod": [ "shift" ] },
+      { "input_method": "keyboard_any", "key": "m" }
+    ]
+  },
+  {
+    "type": "keybinding",
     "id": "YES0",
     "category": "YES_QUERY",
     "name": "Yes, I will!",
@@ -3857,7 +3986,8 @@
       { "input_method": "keyboard_any", "key": "ESC" },
       { "input_method": "keyboard_any", "key": "SPACE" },
       { "input_method": "keyboard_any", "key": "RETURN" },
-      { "input_method": "keyboard_any", "key": "KEYPAD_ENTER" }
+      { "input_method": "keyboard_any", "key": "KEYPAD_ENTER" },
+      { "input_method": "mouse", "key": "MOUSE_RIGHT" }
     ]
   },
   {
@@ -4009,6 +4139,13 @@
   },
   {
     "type": "keybinding",
+    "category": "WISH_ITEM",
+    "id": "SNIPPET",
+    "name": "Choose snippet",
+    "bindings": [ { "input_method": "keyboard_any", "key": "S" }, { "input_method": "keyboard_code", "key": "s", "mod": [ "shift" ] } ]
+  },
+  {
+    "type": "keybinding",
     "category": "DIALOGUE_CHOOSE_RESPONSE",
     "id": "LOOK_AT",
     "name": "Look at",
@@ -4048,6 +4185,12 @@
     "category": "NEW_CHAR_TRAITS",
     "name": "Sort traits list",
     "bindings": [ { "input_method": "keyboard_any", "key": "s" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "SELECT_TRAIT_VARIANT",
+    "name": "Select variant for trait",
+    "bindings": [ { "input_method": "keyboard_char", "key": "S" }, { "input_method": "keyboard_code", "key": "s", "mod": [ "shift" ] } ]
   },
   {
     "type": "keybinding",

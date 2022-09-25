@@ -10,6 +10,7 @@
 #include "DeterminismCheck.h"
 #include "HeaderGuardCheck.h"
 #include "JsonTranslationInputCheck.h"
+#include "LargeInlineFunctionCheck.h"
 #include "LargeStackObjectCheck.h"
 #include "NoLongCheck.h"
 #include "NoStaticTranslationCheck.h"
@@ -31,6 +32,7 @@
 #include "UnsequencedCallsCheck.h"
 #include "UnusedStaticsCheck.h"
 #include "UseLocalizedSortingCheck.h"
+#include "UseMdarrayCheck.h"
 #include "UseNamedPointConstantsCheck.h"
 #include "UsePointApisCheck.h"
 #include "UsePointArithmeticCheck.h"
@@ -71,6 +73,7 @@ class CataModule : public ClangTidyModule
             CheckFactories.registerCheck<DeterminismCheck>( "cata-determinism" );
             CheckFactories.registerCheck<CataHeaderGuardCheck>( "cata-header-guard" );
             CheckFactories.registerCheck<JsonTranslationInputCheck>( "cata-json-translation-input" );
+            CheckFactories.registerCheck<LargeInlineFunctionCheck>( "cata-large-inline-function" );
             CheckFactories.registerCheck<LargeStackObjectCheck>( "cata-large-stack-object" );
             CheckFactories.registerCheck<NoLongCheck>( "cata-no-long" );
             CheckFactories.registerCheck<NoStaticTranslationCheck>( "cata-no-static-translation" );
@@ -99,6 +102,7 @@ class CataModule : public ClangTidyModule
             CheckFactories.registerCheck<UnsequencedCallsCheck>( "cata-unsequenced-calls" );
             CheckFactories.registerCheck<UnusedStaticsCheck>( "cata-unused-statics" );
             CheckFactories.registerCheck<UseLocalizedSortingCheck>( "cata-use-localized-sorting" );
+            CheckFactories.registerCheck<UseMdarrayCheck>( "cata-use-mdarray" );
             CheckFactories.registerCheck<UseNamedPointConstantsCheck>(
                 "cata-use-named-point-constants" );
             CheckFactories.registerCheck<UsePointApisCheck>( "cata-use-point-apis" );

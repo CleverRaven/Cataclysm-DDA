@@ -78,6 +78,7 @@ static const zone_type_id zone_type_VEHICLE_DECONSTRUCT( "VEHICLE_DECONSTRUCT" )
 static const zone_type_id zone_type_VEHICLE_PATROL( "VEHICLE_PATROL" );
 static const zone_type_id zone_type_VEHICLE_REPAIR( "VEHICLE_REPAIR" );
 static const zone_type_id zone_type_zone_disassemble( "zone_disassemble" );
+static const zone_type_id zone_type_zone_unload_all( "zone_unload_all" );
 
 zone_manager::zone_manager()
 {
@@ -200,6 +201,8 @@ shared_ptr_fast<zone_options> zone_options::create( const zone_type_id &type )
         return make_shared_fast<blueprint_options>();
     } else if( type == zone_type_LOOT_CUSTOM || type == zone_type_LOOT_ITEM_GROUP ) {
         return make_shared_fast<loot_options>();
+    } else if( type == zone_type_zone_unload_all ) {
+        return make_shared_fast<unload_options>();
     }
 
     return make_shared_fast<zone_options>();
@@ -213,6 +216,8 @@ bool zone_options::is_valid( const zone_type_id &type, const zone_options &optio
         return dynamic_cast<const blueprint_options *>( &options ) != nullptr;
     } else if( type == zone_type_LOOT_CUSTOM || type == zone_type_LOOT_ITEM_GROUP ) {
         return dynamic_cast<const loot_options *>( &options ) != nullptr;
+    } else if( type == zone_type_zone_unload_all ) {
+        return dynamic_cast<const unload_options *>( &options ) != nullptr;
     }
 
     // ensure options is not derived class for the rest of zone types
@@ -284,6 +289,15 @@ loot_options::query_loot_result loot_options::query_loot()
     return changed;
 }
 
+unload_options::query_unload_result unload_options::query_unload()
+{
+    molle = query_yn( _( "Detach MOLLE attached pouches" ) );
+    mods = query_yn( _( "Detach mods from weapons" ) );
+    always_unload = query_yn(
+                        _( "Always unload (even if the container has a valid sorting location)" ) );
+    return changed;
+}
+
 plot_options::query_seed_result plot_options::query_seed()
 {
     Character &player_character = get_player_character();
@@ -346,9 +360,19 @@ bool loot_options::query_at_creation()
     return query_loot() != canceled;
 }
 
+bool unload_options::query_at_creation()
+{
+    return query_unload() != canceled;
+}
+
 bool loot_options::query()
 {
     return query_loot() == changed;
+}
+
+bool unload_options::query()
+{
+    return query_unload() == changed;
 }
 
 std::string loot_options::get_zone_name_suggestion() const
@@ -359,11 +383,28 @@ std::string loot_options::get_zone_name_suggestion() const
     return _( "Loot: Custom: No Filter" );
 }
 
+std::string unload_options::get_zone_name_suggestion() const
+{
+    return string_format( "%s%s%s%s", _( "Unload: " ), mods ? _( "mods, " ) : "",
+                          molle ? _( "MOLLE, " ) : "",
+                          always_unload ? _( "unload all" ) : _( "unload unmatched" ) );
+}
+
 std::vector<std::pair<std::string, std::string>> loot_options::get_descriptions() const
 {
     std::vector<std::pair<std::string, std::string>> options;
     options.emplace_back( std::make_pair( _( "Loot: Custom: " ),
                                           !mark.empty() ? mark : _( "No filter" ) ) );
+
+    return options;
+}
+
+std::vector<std::pair<std::string, std::string>> unload_options::get_descriptions() const
+{
+    std::vector<std::pair<std::string, std::string>> options;
+    options.emplace_back( std::make_pair( _( "Unload: " ),
+                                          string_format( "%s%s%s", mods ? _( "mods " ) : "",  molle ? _( "MOLLE " ) : "",
+                                                  always_unload ? _( "unload all" ) : _( "unload unmatched" ) ) ) );
 
     return options;
 }
@@ -376,6 +417,22 @@ void loot_options::serialize( JsonOut &json ) const
 void loot_options::deserialize( const JsonObject &jo_zone )
 {
     jo_zone.read( "mark", mark );
+}
+
+void unload_options::serialize( JsonOut &json ) const
+{
+    json.member( "mark", mark );
+    json.member( "mods", mods );
+    json.member( "molle", molle );
+    json.member( "always_unload", always_unload );
+}
+
+void unload_options::deserialize( const JsonObject &jo_zone )
+{
+    jo_zone.read( "mark", mark );
+    jo_zone.read( "mods", mods );
+    jo_zone.read( "molle", molle );
+    jo_zone.read( "always_unload", always_unload );
 }
 
 bool blueprint_options::query_at_creation()
@@ -834,15 +891,16 @@ bool zone_manager::custom_loot_has( const tripoint_abs_ms &where, const item *it
     if( zones.empty() || !it ) {
         return false;
     }
+    item const *const check_it = it->this_or_single_content();
     for( zone_data const *zone : zones ) {
         loot_options const &options = dynamic_cast<const loot_options &>( zone->get_options() );
         std::string const filter_string = options.get_mark();
         bool has = false;
         if( ztype == zone_type_LOOT_CUSTOM ) {
             auto const z = item_filter_from_string( filter_string );
-            has = z( *it );
+            has = z( *check_it );
         } else if( ztype == zone_type_LOOT_ITEM_GROUP ) {
-            has = item_group::group_contains_item( item_group_id( filter_string ), it->typeId() );
+            has = item_group::group_contains_item( item_group_id( filter_string ), check_it->typeId() );
         }
         if( has ) {
             return true;
@@ -1373,18 +1431,19 @@ void zone_data::deserialize( const JsonObject &data )
 
 namespace
 {
-std::string _savefile( std::string const &suffix, bool player )
+cata_path _savefile( std::string const &suffix, bool player )
 {
-    return string_format( "%szones%s.json",
-                          player ? PATH_INFO::player_base_save_path() + "."
-                          : PATH_INFO::world_base_save_path() + "/",
-                          suffix );
+    if( player ) {
+        return PATH_INFO::player_base_save_path_path() + string_format( ".zones%s.json", suffix );
+    } else {
+        return PATH_INFO::world_base_save_path_path() / string_format( "zones%s.json", suffix );
+    }
 }
 } // namespace
 
 bool zone_manager::save_zones( std::string const &suffix )
 {
-    std::string const savefile = _savefile( suffix, true );
+    cata_path const savefile = _savefile( suffix, true );
 
     added_vzones.clear();
     changed_vzones.clear();
@@ -1398,13 +1457,12 @@ bool zone_manager::save_zones( std::string const &suffix )
 
 void zone_manager::load_zones( std::string const &suffix )
 {
-    std::string const savefile = _savefile( suffix, true );
+    cata_path const savefile = _savefile( suffix, true );
 
-    const auto reader = [this]( std::istream & fin ) {
-        JsonIn jsin( fin );
-        deserialize( jsin.get_value() );
+    const auto reader = [this]( const JsonValue & jv ) {
+        deserialize( jv );
     };
-    if( !read_from_file_optional( savefile, reader ) ) {
+    if( !read_from_file_optional_json( savefile, reader ) ) {
         // If no such file or failed to load, clear zones.
         zones.clear();
     }
@@ -1420,7 +1478,7 @@ void zone_manager::load_zones( std::string const &suffix )
 
 bool zone_manager::save_world_zones( std::string const &suffix )
 {
-    std::string const savefile = _savefile( suffix, false );
+    cata_path const savefile = _savefile( suffix, false );
     std::vector<zone_data> tmp;
     std::copy_if( zones.begin(), zones.end(), std::back_inserter( tmp ), []( const zone_data & z ) {
         return z.get_faction() != faction_your_followers;
@@ -1433,10 +1491,9 @@ bool zone_manager::save_world_zones( std::string const &suffix )
 
 void zone_manager::load_world_zones( std::string const &suffix )
 {
-    std::string const savefile = _savefile( suffix, false );
+    cata_path const savefile = _savefile( suffix, false );
     std::vector<zone_data> tmp;
-    read_from_file_optional( savefile, [&]( std::istream & fin ) {
-        JsonIn jsin( fin );
+    read_from_file_optional_json( savefile, [&]( const JsonValue & jsin ) {
         jsin.read( tmp );
         for( auto it = tmp.begin(); it != tmp.end(); ) {
             const zone_type_id zone_type = it->get_type();

@@ -171,7 +171,8 @@
       },
       "item": { "e": { "item": "microwave", "chance": 70 }, "T": { "item": "militarymap", "chance": 30 } },
       "toilets": { "&": {  } },
-      "monster": { ".": { "monster": "mon_zombie_soldier", "chance": 10 } }
+      "monster": { ".": { "monster": "mon_zombie_soldier", "chance": 10 } },
+      "liquids": { "W": { "liquid": "water_clean", "amount": [ 0, 80 ] } }
     }
   },
   {
@@ -269,7 +270,8 @@
       "place_loot": [ { "group": "bunker_basement_suicide", "x": 18, "y": 1 } ],
       "place_fields": [ { "field": "fd_blood", "x": 17, "y": 1 }, { "field": "fd_blood", "x": 18, "y": 1 } ],
       "toilets": { "&": {  } },
-      "monster": { ",": { "monster": "mon_zombie_scientist", "chance": 10 } }
+      "monster": { ",": { "monster": "mon_zombie_scientist", "chance": 10 } },
+      "liquids": { "W": { "liquid": "water_clean", "amount": [ 0, 80 ] } }
     }
   },
   {
@@ -429,7 +431,8 @@
         ]
       },
       "place_graffiti": [ { "text": "Warning!  Automatic security measures engaged due to the lockdown order!", "x": 17, "y": 20 } ],
-      "monster": { ",": { "monster": "mon_turret_rifle" } }
+      "monster": { ",": { "monster": "mon_turret_rifle" } },
+      "liquids": { "W": { "liquid": "water_clean", "amount": [ 0, 80 ] } }
     }
   },
   {

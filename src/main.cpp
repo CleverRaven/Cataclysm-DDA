@@ -24,6 +24,7 @@
 #include <csignal>
 #endif
 #include "cached_options.h"
+#include "cata_path.h"
 #include "color.h"
 #include "compatibility.h"
 #include "crash.h"
@@ -42,6 +43,7 @@
 #include "memory_fast.h"
 #include "options.h"
 #include "output.h"
+#include "help.h"
 #include "ordered_static_globals.h"
 #include "path_info.h"
 #include "rng.h"
@@ -562,6 +564,26 @@ cli_opts parse_commandline( int argc, const char **argv )
     return result;
 }
 
+bool assure_essential_dirs_exist()
+{
+    using namespace PATH_INFO;
+    std::vector<std::string> essential_paths{
+        config_dir(),
+        savedir(),
+        templatedir(),
+        user_font(),
+        user_sound().get_unrelative_path().u8string(),
+        user_gfx().get_unrelative_path().u8string()
+    };
+    for( const std::string &path : essential_paths ) {
+        if( !assure_dir_exist( path ) ) {
+            popup( _( "Unable to make directory \"%s\".  Check permissions." ), path );
+            return false;
+        }
+    }
+    return true;
+}
+
 }  // namespace
 
 #if defined(USE_WINMAIN)
@@ -701,6 +723,7 @@ int main( int argc, const char *argv[] )
     game_ui::init_ui();
 
     g = std::make_unique<game>();
+
     // First load and initialize everything that does not
     // depend on the mods.
     try {
@@ -751,18 +774,19 @@ int main( int argc, const char *argv[] )
 #endif
     replay_buffered_debugmsg_prompts();
 
-    while( true ) {
-        if( !cli.world.empty() ) {
-            if( !g->load( cli.world ) ) {
-                break;
-            }
-            cli.world.clear(); // ensure quit returns to opening screen
+    if( !assure_essential_dirs_exist() ) {
+        exit_handler( -999 );
+        return 0;
+    }
 
-        } else {
-            main_menu menu;
-            if( !menu.opening_screen() ) {
-                break;
-            }
+    main_menu::queued_world_to_load = std::move( cli.world );
+
+    get_help().load();
+
+    while( true ) {
+        main_menu menu;
+        if( !menu.opening_screen() ) {
+            break;
         }
 
         shared_ptr_fast<ui_adaptor> ui = g->create_or_get_main_ui_adaptor();

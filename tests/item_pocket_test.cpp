@@ -213,7 +213,7 @@ TEST_CASE( "max item length", "[pocket][max_item_length]" )
 
             REQUIRE( box.is_container_empty() );
             std::string dmsg = capture_debugmsg_during( [&box, &rod_15]() {
-                ret_val<bool> result = box.put_in( rod_15, item_pocket::pocket_type::CONTAINER );
+                ret_val<void> result = box.put_in( rod_15, item_pocket::pocket_type::CONTAINER );
                 CHECK_FALSE( result.success() );
             } );
             CHECK_THAT( dmsg, Catch::EndsWith( "item is too long" ) );
@@ -1753,21 +1753,21 @@ static void test_pickup_autoinsert_results( Character &u, bool wear, const item_
         CHECK( m.i_at( u.pos() ).size() == on_ground );
     }
     if( !wear ) {
-        CHECK( !u.get_wielded_item().is_null() );
+        CHECK( !!u.get_wielded_item() );
         if( count_by_charges ) {
             size_t charges_in_top = -1;
-            for( item *it : u.get_wielded_item().all_items_top() ) {
+            for( item *it : u.get_wielded_item()->all_items_top() ) {
                 if( !nested || it->typeId() != nested->typeId() ) {
                     charges_in_top = it->charges;
                 }
             }
             CHECK( charges_in_top == in_top );
         } else {
-            CHECK( u.get_wielded_item().all_items_top().size() == in_top );
+            CHECK( u.get_wielded_item()->all_items_top().size() == in_top );
         }
         CHECK( u.top_items_loc().empty() );
     } else {
-        CHECK( u.get_wielded_item().is_null() );
+        CHECK( !u.get_wielded_item() );
         CHECK( u.top_items_loc().size() == 1 );
         if( count_by_charges ) {
             size_t charges_in_top = -1;
@@ -1791,7 +1791,7 @@ static void test_pickup_autoinsert_results( Character &u, bool wear, const item_
         } else {
             CHECK( nested->all_items_top().size() == in_nested );
         }
-        item *top_it = wear ? &u.worn.front() : &u.get_wielded_item();
+        item *top_it = wear ? &u.worn.front() : &*u.get_wielded_item();
         // top-level container still contains nested container
         CHECK( !!top_it->contained_where( *nested.get_item() ) );
     }
@@ -1833,16 +1833,16 @@ static void test_pickup_autoinsert_sub_sub( bool autopickup, bool wear, bool sof
         pack = item_location( u.top_items_loc().front() );
         REQUIRE( pack.get_item() != nullptr );
         REQUIRE( m.i_at( u.pos() ).size() == 4 );
-        REQUIRE( u.get_wielded_item().is_null() );
+        REQUIRE( !u.get_wielded_item() );
         REQUIRE( u.top_items_loc().size() == 1 );
         REQUIRE( u.top_items_loc().front()->all_items_top().empty() );
     } else {
         u.wield( cont_top_soft );
-        pack = item_location( u, &u.get_wielded_item() );
+        pack = u.get_wielded_item();
         REQUIRE( pack.get_item() != nullptr );
         REQUIRE( m.i_at( u.pos() ).size() == 4 );
-        REQUIRE( !u.get_wielded_item().is_null() );
-        REQUIRE( u.get_wielded_item().all_items_top().empty() );
+        REQUIRE( !!u.get_wielded_item() );
+        REQUIRE( u.get_wielded_item()->all_items_top().empty() );
         REQUIRE( u.top_items_loc().empty() );
     }
 
@@ -2464,7 +2464,7 @@ TEST_CASE( "best pocket for pocket-holster mix", "[pocket][item]" )
     GIVEN( "character wearing a tool belt" ) {
         clear_avatar();
         u.wield( flashlight );
-        item_location fl( u, &u.get_wielded_item() );
+        item_location fl = u.get_wielded_item();
         item_location tb( u, & **u.wear_item( tool_belt, false ) );
         REQUIRE( !!tb.get_item() );
         REQUIRE( tb->typeId() == tool_belt.typeId() );
@@ -2657,5 +2657,27 @@ TEST_CASE( "Sawed off fits in large holster", "[item][pocket]" )
     double_barrel.put_in( item( "barrel_small", calendar::turn ), item_pocket::pocket_type::MOD );
 
     CHECK( large_holster.can_contain( double_barrel ).success() );
+
+}
+
+// this tests for cases where we try to find a nested pocket for items (when a parent pocket has some restrictions) and find a massive bag inside the parent pocket
+// need to make sure we don't try to fit things larger than the parent pockets remaining volume inside the child pocket if it is non-rigid
+TEST_CASE( "bag with restrictions and nested bag doesn't fit too large items", "[item][pocket]" )
+{
+    item backpack( "test_backpack" );
+    item backpack_two( "test_backpack" );
+    item mini_backpack( "test_mini_backpack" );
+
+    mini_backpack.put_in( backpack, item_pocket::pocket_type::CONTAINER );
+    REQUIRE( !mini_backpack.is_container_empty() );
+    REQUIRE( mini_backpack.only_item().typeId() == backpack.typeId() );
+
+    // need to set a setting on the pocket for this to work since that's when nesting starts trying weird stuff
+    mini_backpack.get_contents().get_all_standard_pockets().front()->settings.set_disabled( true );
+
+    // check if the game thinks the mini bag can contain the second bag (it can't)
+    // but that the bag could otherwise fit if not in the parent pocket
+    CHECK( backpack.can_contain( backpack_two ).success() );
+    CHECK( !mini_backpack.can_contain( backpack_two ).success() );
 
 }

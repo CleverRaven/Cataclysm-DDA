@@ -38,6 +38,7 @@
 
 class Character;
 class creature_tracker;
+class JsonValue;
 class item;
 class location;
 class spell_events;
@@ -96,8 +97,7 @@ struct WORLD;
 struct special_game;
 template<typename Tripoint>
 class tripoint_range;
-
-using WORLDPTR = WORLD *;
+class exosuit_interact;
 class live_view;
 class loading_ui;
 class overmap;
@@ -149,6 +149,7 @@ class game
         friend class editmap;
         friend class advanced_inventory;
         friend class main_menu;
+        friend class exosuit_interact;
         friend achievements_tracker &get_achievements();
         friend event_bus &get_event_bus();
         friend map &get_map();
@@ -204,13 +205,14 @@ class game
 
     protected:
         /** Loads dynamic data from the given directory. May throw. */
-        void load_data_from_dir( const std::string &path, const std::string &src, loading_ui &ui );
+        void load_data_from_dir( const cata_path &path, const std::string &src, loading_ui &ui );
     public:
         void setup();
         /** Saving and loading functions. */
         void serialize( std::ostream &fout ); // for save
-        void unserialize( std::istream &fin, const std::string &path ); // for load
-        void unserialize_master( std::istream &fin ); // for load
+        void unserialize( std::istream &fin, const cata_path &path ); // for load
+        void unserialize_master( const cata_path &file_name, std::istream &fin ); // for load
+        void unserialize_master( const JsonValue &jv ); // for load
 
         /** write statistics to stdout and @return true if successful */
         bool dump_stats( const std::string &what, dump_mode mode, const std::vector<std::string> &opts );
@@ -225,7 +227,7 @@ class game
         shared_ptr_fast<ui_adaptor> create_or_get_main_ui_adaptor();
         void invalidate_main_ui_adaptor() const;
         void mark_main_ui_adaptor_resize() const;
-        void draw();
+        void draw( ui_adaptor &ui );
         void draw_ter( bool draw_sounds = true );
         void draw_ter( const tripoint &center, bool looking = false, bool draw_sounds = true );
 
@@ -462,7 +464,9 @@ class game
         Creature *get_creature_if( const std::function<bool( const Creature & )> &pred );
 
         /** Returns true if there is no player, NPC, or monster on the tile and move_cost > 0. */
+        // TODO: fix point types (remove the first overload)
         bool is_empty( const tripoint &p );
+        bool is_empty( const tripoint_bub_ms &p );
         /** Returns true if p is outdoors and it is sunny. */
         bool is_in_sunlight( const tripoint &p );
         /** Returns true if p is indoors, underground, or in a car. */
@@ -500,7 +504,7 @@ class game
         /** Find the npc with the given ID. Returns NULL if the npc could not be found. Searches all loaded overmaps. */
         npc *find_npc( character_id id );
         /** Find the npc with the given unique ID. Returns NULL if the npc could not be found. Searches all loaded overmaps. */
-        npc *find_npc_by_unique_id( std::string unique_id );
+        npc *find_npc_by_unique_id( const std::string &unique_id );
         /** Makes any nearby NPCs on the overmap active. */
         void load_npcs();
     private:
@@ -642,7 +646,8 @@ class game
         special_game_type gametype() const;
 
         void toggle_fullscreen();
-        void toggle_pixel_minimap();
+        void toggle_pixel_minimap() const;
+        bool is_tileset_isometric() const;
         void reload_tileset();
         void temp_exit_fullscreen();
         void reenter_fullscreen();
@@ -710,16 +715,19 @@ class game
                           char bullet );
         void draw_hit_mon( const tripoint &p, const monster &m, bool dead = false );
         void draw_hit_player( const Character &p, int dam );
+        // TODO: fix point types (remove the first overload)
         void draw_line( const tripoint &p, const tripoint &center_point,
                         const std::vector<tripoint> &points, bool noreveal = false );
+        void draw_line( const tripoint_bub_ms &p, const tripoint_bub_ms &center_point,
+                        const std::vector<tripoint_bub_ms> &points, bool noreveal = false );
         void draw_line( const tripoint &p, const std::vector<tripoint> &points );
-        void draw_weather( const weather_printable &wPrint );
-        void draw_sct();
-        void draw_zones( const tripoint &start, const tripoint &end, const tripoint &offset );
+        void draw_weather( const weather_printable &wPrint ) const;
+        void draw_sct() const;
+        void draw_zones( const tripoint &start, const tripoint &end, const tripoint &offset ) const;
         // Draw critter (if visible!) on its current position into w_terrain.
         // @param center the center of view, same as when calling map::draw
         void draw_critter( const Creature &critter, const tripoint &center );
-        void draw_cursor( const tripoint &p );
+        void draw_cursor( const tripoint &p ) const;
         // Draw a highlight graphic at p, for example when examining something.
         // TILES only, in curses this does nothing
         void draw_highlight( const tripoint &p );
@@ -787,7 +795,7 @@ class game
         bool load( const save_t &name ); // Load a player-specific save file
         void load_master(); // Load the master data file, with factions &c
 #if defined(__ANDROID__)
-        void load_shortcuts( std::istream &fin, const std::string &path );
+        void load_shortcuts( const cata_path &path );
 #endif
         bool start_game(); // Starts a new game in the active world
 
@@ -922,8 +930,8 @@ class game
         bool do_regular_action( action_id &act, avatar &player_character,
                                 const cata::optional<tripoint> &mouse_target );
         bool handle_action();
-        bool try_get_right_click_action( action_id &act, const tripoint &mouse_target );
-        bool try_get_left_click_action( action_id &act, const tripoint &mouse_target );
+        bool try_get_right_click_action( action_id &act, const tripoint_bub_ms &mouse_target );
+        bool try_get_left_click_action( action_id &act, const tripoint_bub_ms &mouse_target );
         // If loc is empty then use all the items in character inventory including bionics.
         void item_action_menu( item_location loc = item_location() ); // Displays item action menu
 
@@ -947,12 +955,11 @@ class game
         void autosave();         // automatic quicksaves - Performs some checks before calling quicksave()
     public:
         void quicksave();        // Saves the game without quitting
+        void quickload();        // Loads the previously saved game if it exists
         void disp_NPCs();        // Currently for debug use.  Lists global NPCs.
 
         void list_missions();       // Listed current, completed and failed missions (mission_ui.cpp)
     private:
-        void quickload();        // Loads the previously saved game if it exists
-
         // Input related
         // Handles box showing items under mouse
         bool handle_mouseview( input_context &ctxt, std::string &action );
@@ -995,7 +1002,6 @@ class game
         void move_save_to_graveyard();
         bool save_player_data();
         // ########################## DATA ################################
-    private:
         // May be a bit hacky, but it's probably better than the header spaghetti
         pimpl<map> map_ptr; // NOLINT(cata-serialize)
         pimpl<avatar> u_ptr; // NOLINT(cata-serialize)
@@ -1025,10 +1031,10 @@ class game
         global_variables global_variables_instance;
         std::unordered_map<std::string, point_abs_om> unique_npcs;
     public:
-        void update_unique_npc_location( std::string id, point_abs_om loc );
-        point_abs_om get_unique_npc_location( std::string id );
-        bool unique_npc_exists( std::string id );
-        void unique_npc_despawn( std::string id );
+        void update_unique_npc_location( const std::string &id, point_abs_om loc );
+        point_abs_om get_unique_npc_location( const std::string &id );
+        bool unique_npc_exists( const std::string &id );
+        void unique_npc_despawn( const std::string &id );
         std::vector<effect_on_condition_id> inactive_global_effect_on_condition_vector;
         std::priority_queue<queued_eoc, std::vector<queued_eoc>, eoc_compare>
         queued_global_effect_on_conditions;
@@ -1089,7 +1095,6 @@ class game
         // tracks time since last monster seen to allow automatically
         // reactivating safe mode.
         time_duration turnssincelastmon = 0_turns;
-
     private:
         weather_manager weather; // NOLINT(cata-serialize)
 
@@ -1117,7 +1122,7 @@ class game
         // NOLINTNEXTLINE(cata-serialize)
         std::chrono::time_point<std::chrono::steady_clock> time_of_last_load;
         int moves_since_last_save = 0; // NOLINT(cata-serialize)
-        time_t last_save_timestamp = 0; // NOLINT(cata-serialize)
+        std::time_t last_save_timestamp = 0; // NOLINT(cata-serialize)
 
         mutable std::array<float, OVERMAP_LAYERS> latest_lightlevels; // NOLINT(cata-serialize)
         // remoteveh() cache
@@ -1145,7 +1150,7 @@ class game
         unsigned int seed = 0; // NOLINT(cata-serialize)
 
         // Preview for auto move route
-        std::vector<tripoint> destination_preview; // NOLINT(cata-serialize)
+        std::vector<tripoint_bub_ms> destination_preview; // NOLINT(cata-serialize)
 
         // NOLINTNEXTLINE(cata-serialize)
         std::chrono::time_point<std::chrono::steady_clock> last_mouse_edge_scroll;
@@ -1183,11 +1188,12 @@ class game
 
 // Returns temperature modifier from direct heat radiation of nearby sources
 // @param location Location affected by heat sources
-// @param direct forces return of heat intensity (and not temperature modifier) of
-// adjacent hottest heat source
-int get_heat_radiation( const tripoint &location, bool direct );
+units::temperature get_heat_radiation( const tripoint &location );
+
+// Returns heat intensity of adjecent fires
+int get_best_fire( const tripoint &location );
 // Returns temperature modifier from hot air fields of given location
-int get_convection_temperature( const tripoint &location );
+units::temperature get_convection_temperature( const tripoint &location );
 
 namespace cata_event_dispatch
 {

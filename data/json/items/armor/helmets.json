@@ -62,7 +62,59 @@
     "material_thickness": 9,
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "VARSIZE", "WATERPROOF", "STURDY", "PADDED" ],
-    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 85, "covers": [ "head" ] } ]
+    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 85, "covers": [ "head" ] } ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "500 ml",
+        "max_contains_weight": "500 g",
+        "moves": 250,
+        "description": "Pocket for a face shield or a shield visor.",
+        "flag_restriction": [ "HELMET_FACE_SHIELD" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "500 ml",
+        "max_contains_weight": "400 g",
+        "moves": 250,
+        "description": "Pocket for an ear attachment.",
+        "flag_restriction": [ "HELMET_EAR_ATTACHMENT" ],
+        "inherits_flags": true
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "500 ml",
+        "max_contains_weight": "250 g",
+        "moves": 250,
+        "description": "Pocket for a nape protector.",
+        "flag_restriction": [ "HELMET_NAPE_PROTECTOR" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "500 ml",
+        "max_contains_weight": "400 g",
+        "moves": 250,
+        "description": "Pocket for a strapped mandible guard.",
+        "flag_restriction": [ "HELMET_MANDIBLE_GUARD_STRAPPED" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "400 ml",
+        "max_contains_weight": "400 g",
+        "moves": 250,
+        "description": "Pocket for a counterweight pouch.",
+        "flag_restriction": [ "HELMET_BACK_POUCH" ]
+      }
+    ]
   },
   {
     "id": "tac_fullhelmet",
@@ -98,7 +150,7 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "tactical helmet" },
-    "description": "A lightweight black helmet that provides excellent protection from all sorts of damage.",
+    "description": "A lightweight black helmet that provides excellent protection from all sorts of damage.  It has a military rail system for attachments.",
     "weight": "1180 g",
     "volume": "1850 ml",
     "price": 20000,
@@ -113,7 +165,59 @@
     "material_thickness": 8,
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "VARSIZE", "WATERPROOF", "STURDY", "PADDED" ],
-    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 95, "covers": [ "head" ] } ]
+    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 95, "covers": [ "head" ] } ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "500 ml",
+        "max_contains_weight": "500 g",
+        "moves": 250,
+        "description": "Pocket for a face shield or a shield visor.",
+        "flag_restriction": [ "HELMET_FACE_SHIELD" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "500 ml",
+        "max_contains_weight": "400 g",
+        "moves": 250,
+        "description": "Pocket for an ear attachment.",
+        "flag_restriction": [ "HELMET_EAR_ATTACHMENT" ],
+        "inherits_flags": true
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "500 ml",
+        "max_contains_weight": "250 g",
+        "moves": 250,
+        "description": "Pocket for a nape protector.",
+        "flag_restriction": [ "HELMET_NAPE_PROTECTOR" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "500 ml",
+        "max_contains_weight": "400 g",
+        "moves": 250,
+        "description": "Pocket for a rail-mounted mandible guard.",
+        "flag_restriction": [ "HELMET_MANDIBLE_GUARD" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "400 ml",
+        "max_contains_weight": "400 g",
+        "moves": 250,
+        "description": "Pocket for a counterweight pouch.",
+        "flag_restriction": [ "HELMET_BACK_POUCH" ]
+      }
+    ]
   },
   {
     "id": "firehelmet",
@@ -225,7 +329,29 @@
     "material_thickness": 4,
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "PADDED" ],
-    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 75, "covers": [ "head" ] } ]
+    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 75, "covers": [ "head" ] } ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "200 ml",
+        "max_contains_weight": "50 g",
+        "moves": 250,
+        "description": "Pocket for a shield visor.",
+        "flag_restriction": [ "HELMET_FACE_SHIELD" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "500 ml",
+        "max_contains_weight": "400 g",
+        "moves": 250,
+        "description": "Pocket for a strapped mandible guard.",
+        "flag_restriction": [ "HELMET_MANDIBLE_GUARD_STRAPPED" ]
+      }
+    ]
   },
   {
     "id": "helmet_chitin",
@@ -687,7 +813,7 @@
     "material_thickness": 5,
     "environmental_protection": 1,
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "VARSIZE", "STURDY", "HELMET_COMPAT" ]
+    "flags": [ "VARSIZE", "STURDY" ]
   },
   {
     "id": "xl_helmet_plate",
@@ -706,7 +832,7 @@
     "name": { "str": "XS great helm" },
     "description": "A medieval helmet that provides excellent protection to the entire head, at the cost of great encumbrance.  Smaller than average.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "flags": [ "VARSIZE", "STURDY", "HELMET_COMPAT", "UNDERSIZE" ]
+    "flags": [ "VARSIZE", "STURDY", "UNDERSIZE" ]
   },
   {
     "id": "helmet_kettle",
@@ -790,6 +916,135 @@
     "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
+    "id": "helmet_metal_sheets_full",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "sheet metal great helm" },
+    "description": "Massively heavy, extremely uncomfortable, very crude, and looks like a bucket with a slit cut out the front, but it'll keep zombie claws off your face.  Comes with a bevor to help spread the weight out onto your shoulders and protect your neck, and some cloth padding to keep your bell from being rung.",
+    "weight": "4570 g",
+    "//": "The weight assumes one large sheet of about 75cm x 40cm x 1.5mm and one circular sheet with a diameter of 24cm as the crown, and one gambeson hood.",
+    "volume": "2 L",
+    "price": 4500,
+    "price_postapoc": 50,
+    "bashing": 18,
+    "material": [ "lc_steel", "cotton" ],
+    "repairs_with": [ "steel" ],
+    "symbol": "[",
+    "looks_like": "helmet_plate",
+    "color": "light_gray",
+    "warmth": 40,
+    "material_thickness": 6.5,
+    "techniques": [ "WBLOCK_1" ],
+    "flags": [ "PADDED" ],
+    "armor": [
+      {
+        "material": [
+          { "type": "lc_steel", "covered_by_mat": 100, "thickness": 1.5 },
+          { "type": "cotton", "covered_by_mat": 100, "thickness": 5 }
+        ],
+        "covers": [ "head" ],
+        "coverage": 100,
+        "encumbrance_modifiers": [ "RESTRICTS_NECK", "WELL_SUPPORTED" ]
+      },
+      {
+        "material": [ { "type": "lc_steel", "covered_by_mat": 100, "thickness": 1.5 } ],
+        "covers": [ "eyes" ],
+        "coverage": 100,
+        "encumbrance": 25
+      },
+      {
+        "material": [ { "type": "lc_steel", "covered_by_mat": 100, "thickness": 1.5 } ],
+        "covers": [ "mouth" ],
+        "coverage": 100,
+        "encumbrance": 10
+      }
+    ]
+  },
+  {
+    "id": "ch_helmet_metal_sheets_full",
+    "type": "ARMOR",
+    "copy-from": "helmet_metal_sheets_full",
+    "name": { "str": "case hardened sheet metal great helm" },
+    "description": "It still looks like a bucket, but this crude great helm has at least been case hardened for extra protection.",
+    "material": [ "ch_steel", "cotton" ],
+    "extend": { "flags": [ "STURDY" ] },
+    "armor": [
+      {
+        "material": [
+          { "type": "ch_steel", "covered_by_mat": 100, "thickness": 1.5 },
+          { "type": "cotton", "covered_by_mat": 100, "thickness": 5 }
+        ],
+        "covers": [ "head" ],
+        "coverage": 100,
+        "encumbrance_modifiers": [ "RESTRICTS_NECK", "WELL_SUPPORTED" ]
+      },
+      {
+        "material": [ { "type": "ch_steel", "covered_by_mat": 100, "thickness": 1.5 } ],
+        "covers": [ "eyes" ],
+        "coverage": 100,
+        "encumbrance": 25
+      },
+      {
+        "material": [ { "type": "ch_steel", "covered_by_mat": 100, "thickness": 1.5 } ],
+        "covers": [ "mouth" ],
+        "coverage": 100,
+        "encumbrance": 10
+      }
+    ]
+  },
+  {
+    "id": "helmet_metal_sheets",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "sheet metal helmet" },
+    "description": "A helmet that looks like a crude bucket with the face cut out.  It comes with a bevor to distribute some of the weight to your shoulders, as well as cloth padding to keep your bell from being rung.",
+    "weight": "3690 g",
+    "//": "The weight assumes one large sheet of about 75cm x 40cm x 1.5mm and one circular sheet with a diameter of 24cm as the crown, and one gambeson hood, but minus the weight of a 25cm x 30cm face cut out.",
+    "volume": "2 L",
+    "price": 4500,
+    "price_postapoc": 50,
+    "bashing": 16,
+    "material": [ "lc_steel", "cotton" ],
+    "repairs_with": [ "steel" ],
+    "symbol": "[",
+    "looks_like": "helmet_barbute",
+    "color": "light_gray",
+    "warmth": 35,
+    "material_thickness": 6.5,
+    "techniques": [ "WBLOCK_1" ],
+    "armor": [
+      {
+        "material": [
+          { "type": "lc_steel", "covered_by_mat": 100, "thickness": 1.5 },
+          { "type": "cotton", "covered_by_mat": 100, "thickness": 5 }
+        ],
+        "covers": [ "head" ],
+        "coverage": 100,
+        "encumbrance_modifiers": [ "RESTRICTS_NECK", "WELL_SUPPORTED" ]
+      }
+    ]
+  },
+  {
+    "id": "ch_helmet_metal_sheets",
+    "type": "ARMOR",
+    "copy-from": "helmet_metal_sheets",
+    "name": { "str": "case hardened sheet metal helmet" },
+    "description": "While the design is crude, this helmet has been case hardened for added protection, while still leaving your face open so you can see properly.",
+    "material": [ "ch_steel", "cotton" ],
+    "extend": { "flags": [ "STURDY" ] },
+    "armor": [
+      {
+        "material": [
+          { "type": "ch_steel", "covered_by_mat": 100, "thickness": 1.5 },
+          { "type": "cotton", "covered_by_mat": 100, "thickness": 5 }
+        ],
+        "covers": [ "head" ],
+        "coverage": 100,
+        "encumbrance_modifiers": [ "RESTRICTS_NECK", "WELL_SUPPORTED" ]
+      }
+    ]
+  },
+  {
     "id": "helmet_skid",
     "repairs_like": "helmet_barbute",
     "type": "ARMOR",
@@ -831,7 +1086,29 @@
     "warmth": 15,
     "material_thickness": 3,
     "flags": [ "STAB", "PADDED" ],
-    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 70, "covers": [ "head" ] } ]
+    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 70, "covers": [ "head" ] } ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "500 ml",
+        "max_contains_weight": "250 g",
+        "moves": 250,
+        "description": "Pocket for a nape protector.",
+        "flag_restriction": [ "HELMET_NAPE_PROTECTOR" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "500 ml",
+        "max_contains_weight": "400 g",
+        "moves": 250,
+        "description": "Pocket for a strapped mandible guard.",
+        "flag_restriction": [ "HELMET_MANDIBLE_GUARD_STRAPPED" ]
+      }
+    ]
   },
   {
     "id": "helmet_corinthian",

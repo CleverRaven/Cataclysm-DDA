@@ -672,14 +672,14 @@
     "damage_modifier": 50,
     "breaks_into": [ { "item": "2x4", "count": [ 0, 4 ] }, { "item": "nail", "charges": [ 5, 15 ] } ],
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "5 m", "using": [ [ "vehicle_wrench_1", 1 ] ] },
-      "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "5 m", "using": [ [ "vehicle_wrench_1", 1 ] ] },
+      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "5 m", "using": [ [ "vehicle_nail_install", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "5 m", "using": [ [ "vehicle_nail_removal", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "50 s", "using": [ [ "adhesive", 1 ] ] }
     },
     "rolling_resistance": 2.15,
     "wheel_type": "rigid",
     "contact_area": 60,
-    "flags": [ "WHEEL", "UNSTABLE_WHEEL", "NEEDS_JACKING" ],
+    "flags": [ "WHEEL", "UNSTABLE_WHEEL", "NEEDS_JACKING", "NEEDS_WHEEL_MOUNT_LIGHT" ],
     "damage_reduction": { "all": 14 }
   },
   {

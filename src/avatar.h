@@ -62,11 +62,11 @@ struct monster_visible_info {
     // 7 0 1    unique_types uses these indices;
     // 6 8 2    0-7 are provide by direction_from()
     // 5 4 3    8 is used for local monsters (for when we explain them below)
-    std::vector<npc *> unique_types[9];
-    std::vector<std::pair<const mtype *, int>> unique_mons[9];
+    std::array<std::vector<npc *>, 9> unique_types;
+    std::array<std::vector<std::pair<const mtype *, int>>, 9> unique_mons;
 
     // If the monster visible in this direction is dangerous
-    bool dangerous[8] = {};
+    std::array<bool, 8> dangerous = {};
 };
 
 class avatar : public Character
@@ -76,7 +76,7 @@ class avatar : public Character
         avatar( const avatar & ) = delete;
         // NOLINTNEXTLINE(performance-noexcept-move-constructor)
         avatar( avatar && );
-        ~avatar();
+        ~avatar() override;
         avatar &operator=( const avatar & ) = delete;
         // NOLINTNEXTLINE(performance-noexcept-move-constructor)
         avatar &operator=( avatar && );
@@ -92,6 +92,7 @@ class avatar : public Character
         bool create( character_type type, const std::string &tempname = "" );
         void add_profession_items();
         void randomize( bool random_scenario, bool play_now = false );
+        void randomize_cosmetics();
         bool load_template( const std::string &template_name, pool_type & );
         void save_template( const std::string &name, pool_type );
         void character_to_template( const std::string &name );
@@ -127,7 +128,7 @@ class avatar : public Character
         bool query_yn( const std::string &mes ) const override;
 
         void toggle_map_memory();
-        bool should_show_map_memory();
+        bool should_show_map_memory() const;
         void prepare_map_memory_region( const tripoint &p1, const tripoint &p2 );
         /** Memorizes a given tile in tiles mode; finalize_tile_memory needs to be called after it */
         void memorize_tile( const tripoint &pos, const std::string &ter, int subtile,
@@ -178,12 +179,14 @@ class avatar : public Character
          */
         void on_mission_finished( mission &cur_mission );
 
+        void remove_active_mission( mission &cur_mission );
+
         //return avatar diary
         diary *get_avatar_diary();
 
         // Dialogue and bartering--see npctalk.cpp
         void talk_to( std::unique_ptr<talker> talk_with, bool radio_contact = false,
-                      bool is_computer = false );
+                      bool is_computer = false, bool is_not_conversation = false );
 
         /**
          * Try to disarm the NPC. May result in fail attempt, you receiving the weapon and instantly wielding it,
@@ -220,7 +223,7 @@ class avatar : public Character
         /**
          * Opens the targeting menu to pull a nearby creature towards the character.
          * @param name Name of the implement used to pull the creature. */
-        void longpull( std::string name );
+        void longpull( const std::string &name );
 
         void wake_up() override;
         // Grab furniture / vehicle
@@ -264,6 +267,8 @@ class avatar : public Character
 
         // Cycles to the next move mode.
         void cycle_move_mode();
+        // Cycles to the previous move mode.
+        void cycle_move_mode_reverse();
         // Resets to walking.
         void reset_move_mode();
         // Toggles running on/off.
@@ -356,6 +361,11 @@ class avatar : public Character
 
         int movecounter = 0;
 
+        // bionic power in the last turn
+        units::energy power_prev_turn = 0_kJ;
+        // balance/net power generation/loss during the last turn
+        units::energy power_balance = 0_kJ;
+
         // amount of turns since last check for pocket noise
         time_point last_pocket_noise = time_point( 0 );
 
@@ -420,7 +430,7 @@ class avatar : public Character
         std::unique_ptr<npc> shadow_npc;
 
         // true when the space is still visible when aiming
-        bool aim_cache[MAPSIZE_X][MAPSIZE_Y];
+        cata::mdarray<bool, point_bub_ms> aim_cache;
 };
 
 avatar &get_avatar();

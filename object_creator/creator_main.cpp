@@ -110,10 +110,10 @@ int main( int argc, char *argv[] )
     PATH_INFO::set_standard_filenames();
 
     MAP_SHARING::setDefaults();
-    
+
     QSettings settings( QSettings::IniFormat, QSettings::UserScope,
-        "CleverRaven", "Cataclysm - DDA" );
-        
+                        "CleverRaven", "Cataclysm - DDA" );
+
 
     cli_opts cli;
 
@@ -149,8 +149,7 @@ int main( int argc, char *argv[] )
     mods.push_back( mod_id( "dda" ) );
     if( settings.contains( "mods/include" ) ) {
         QStringList modlist = settings.value( "mods/include" ).value<QStringList>();
-        for( const QString& i : modlist )
-        {
+        for( const QString &i : modlist ) {
             mods.push_back( mod_id( i.toStdString() ) );
         }
     }

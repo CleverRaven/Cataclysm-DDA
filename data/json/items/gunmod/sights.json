@@ -81,7 +81,8 @@
     "aim_speed_modifier": 10,
     "field_of_view": 720,
     "min_skills": [ [ "weapon", 2 ], [ "gun", 3 ] ],
-    "flags": [ "DISABLE_SIGHTS" ]
+    "flags": [ "DISABLE_SIGHTS" ],
+    "add_mod": [ [ "magnifier", 1 ] ]
   },
   {
     "id": "improve_sights",
@@ -169,6 +170,29 @@
     "flags": [ "DISABLE_SIGHTS", "ZOOM" ]
   },
   {
+    "id": "rifle_scope_high_end_mount",
+    "type": "GUNMOD",
+    "name": { "str": "high end rifle scope" },
+    "//": "Leupold Mark 6",
+    "description": "A 3-18x44 rifle scope.  It is adjustable for windage and elevation in 1/10th mrad increments and is remarkably small and light for its magnification.  This one has an additional rail on the top of its ring mounts for an additional backup optic.",
+    "weight": "700 g",
+    "volume": "485 ml",
+    "price": 68000,
+    "price_postapoc": 750,
+    "material": [ "aluminum", "glass" ],
+    "symbol": ":",
+    "color": "dark_gray",
+    "location": "sights",
+    "mod_targets": [ "rifle", "crossbow", "launcher" ],
+    "install_time": "5 m",
+    "sight_dispersion": 0,
+    "aim_speed_modifier": -1,
+    "field_of_view": 270,
+    "min_skills": [ [ "weapon", 2 ], [ "gun", 4 ] ],
+    "flags": [ "DISABLE_SIGHTS", "ZOOM" ],
+    "add_mod": [ [ "sights", 1 ] ]
+  },
+  {
     "id": "rifle_scope_mod",
     "copy-from": "rifle_scope",
     "type": "GUNMOD",
@@ -194,6 +218,28 @@
     "sight_dispersion": 8,
     "field_of_view": 270,
     "min_skills": [ [ "weapon", 2 ], [ "gun", 4 ] ],
+    "flags": [ "DISABLE_SIGHTS", "ZOOM" ]
+  },
+  {
+    "id": "holo_magnifier",
+    "type": "GUNMOD",
+    "//": "based on the EOTECH G43",
+    "name": { "str": "sight magnifier" },
+    "description": "A sleek compact 3x magnifier designed to sit behind a modern holographic sight.  Mounted on a lever to quickly flip in and out of the sights picture, the magnifier allows the full functionality of a high end close quarters sight while also allowing you to engage targets at range.",
+    "weight": "320 g",
+    "volume": "390 ml",
+    "price": 66900,
+    "price_postapoc": 750,
+    "material": [ "steel", "glass" ],
+    "symbol": ":",
+    "color": "dark_gray",
+    "location": "magnifier",
+    "mod_targets": [ "smg", "rifle", "shotgun", "crossbow", "launcher" ],
+    "install_time": "5 m",
+    "sight_dispersion": 13,
+    "field_of_view": 270,
+    "aim_speed_modifier": 5,
+    "min_skills": [ [ "weapon", 2 ], [ "gun", 3 ] ],
     "flags": [ "DISABLE_SIGHTS", "ZOOM" ]
   },
   {

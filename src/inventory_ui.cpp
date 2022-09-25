@@ -106,6 +106,16 @@ bool always_yes( const inventory_entry & )
     return true;
 }
 
+bool return_item( const inventory_entry &entry )
+{
+    return entry.is_item();
+}
+
+bool is_container( const item_location &loc )
+{
+    return loc.where() == item_location::type::container;
+}
+
 } // namespace
 
 bool is_worn_ablative( item_location const &container, item_location const &child )
@@ -155,7 +165,7 @@ struct container_data {
     units::mass total_capacity_weight;
     units::length max_containable_length;
 
-    std::string to_formatted_string( const bool compact = true ) {
+    std::string to_formatted_string( const bool compact = true ) const {
         std::string string_to_format;
         if( compact ) {
             string_to_format = _( "%s/%s : %s/%s : max %s" );
@@ -171,7 +181,7 @@ struct container_data {
 
 static int contained_offset( const item_location &loc )
 {
-    if( loc.where() != item_location::type::container ) {
+    if( !is_container( loc ) ) {
         return 0;
     }
     return 2 + contained_offset( loc.parent_item() );
@@ -215,7 +225,7 @@ class selection_column_preset : public inventory_selector_preset
         nc_color get_color( const inventory_entry &entry ) const override {
             Character &player_character = get_player_character();
             if( entry.is_item() ) {
-                if( &*entry.any_item() == &player_character.get_wielded_item() ) {
+                if( entry.any_item() == player_character.get_wielded_item() ) {
                     return c_light_blue;
                 } else if( player_character.is_worn( *entry.any_item() ) ) {
                     return c_cyan;
@@ -267,27 +277,181 @@ void load_inv_state( const JsonObject &jo )
     jo.read( "inventory_ui_state", inventory_ui_default_state );
 }
 
+void uistatedata::serialize( JsonOut &json ) const
+{
+    const unsigned int input_history_save_max = 25;
+    json.start_object();
+
+    transfer_save.serialize( json, "transfer_save_" );
+    save_inv_state( json );
+
+    /**** if you want to save whatever so it's whatever when the game is started next, declare here and.... ****/
+    // non array stuffs
+    json.member( "ags_pay_gas_selected_pump", ags_pay_gas_selected_pump );
+    json.member( "adv_inv_container_location", adv_inv_container_location );
+    json.member( "adv_inv_container_index", adv_inv_container_index );
+    json.member( "adv_inv_container_in_vehicle", adv_inv_container_in_vehicle );
+    json.member( "adv_inv_container_type", adv_inv_container_type );
+    json.member( "adv_inv_container_content_type", adv_inv_container_content_type );
+    json.member( "editmap_nsa_viewmode", editmap_nsa_viewmode );
+    json.member( "overmap_blinking", overmap_blinking );
+    json.member( "overmap_show_overlays", overmap_show_overlays );
+    json.member( "overmap_show_map_notes", overmap_show_map_notes );
+    json.member( "overmap_show_land_use_codes", overmap_show_land_use_codes );
+    json.member( "overmap_show_city_labels", overmap_show_city_labels );
+    json.member( "overmap_show_hordes", overmap_show_hordes );
+    json.member( "overmap_show_forest_trails", overmap_show_forest_trails );
+    json.member( "vmenu_show_items", vmenu_show_items );
+    json.member( "list_item_sort", list_item_sort );
+    json.member( "list_item_filter_active", list_item_filter_active );
+    json.member( "list_item_downvote_active", list_item_downvote_active );
+    json.member( "list_item_priority_active", list_item_priority_active );
+    json.member( "construction_filter", construction_filter );
+    json.member( "last_construction", last_construction );
+    json.member( "construction_tab", construction_tab );
+    json.member( "hidden_recipes", hidden_recipes );
+    json.member( "favorite_recipes", favorite_recipes );
+    json.member( "expanded_recipes", expanded_recipes );
+    json.member( "read_recipes", read_recipes );
+    json.member( "recent_recipes", recent_recipes );
+    json.member( "bionic_ui_sort_mode", bionic_sort_mode );
+    json.member( "overmap_debug_weather", overmap_debug_weather );
+    json.member( "overmap_visible_weather", overmap_visible_weather );
+    json.member( "overmap_debug_mongroup", overmap_debug_mongroup );
+    json.member( "distraction_noise", distraction_noise );
+    json.member( "distraction_pain", distraction_pain );
+    json.member( "distraction_attack", distraction_attack );
+    json.member( "distraction_hostile_close", distraction_hostile_close );
+    json.member( "distraction_hostile_spotted", distraction_hostile_spotted );
+    json.member( "distraction_conversation", distraction_conversation );
+    json.member( "distraction_asthma", distraction_asthma );
+    json.member( "distraction_dangerous_field", distraction_dangerous_field );
+    json.member( "distraction_weather_change", distraction_weather_change );
+    json.member( "distraction_hunger", distraction_hunger );
+    json.member( "distraction_thirst", distraction_thirst );
+    json.member( "distraction_temperature", distraction_temperature );
+
+    json.member( "input_history" );
+    json.start_object();
+    for( const auto &e : input_history ) {
+        json.member( e.first );
+        const std::vector<std::string> &history = e.second;
+        json.start_array();
+        int save_start = 0;
+        if( history.size() > input_history_save_max ) {
+            save_start = history.size() - input_history_save_max;
+        }
+        for( std::vector<std::string>::const_iterator hit = history.begin() + save_start;
+             hit != history.end(); ++hit ) {
+            json.write( *hit );
+        }
+        json.end_array();
+    }
+    json.end_object(); // input_history
+
+    json.member( "lastreload", lastreload );
+
+    json.end_object();
+}
+
+void uistatedata::deserialize( const JsonObject &jo )
+{
+    jo.allow_omitted_members();
+
+    transfer_save.deserialize( jo, "transfer_save_" );
+    load_inv_state( jo );
+    // the rest
+    jo.read( "ags_pay_gas_selected_pump", ags_pay_gas_selected_pump );
+    jo.read( "adv_inv_container_location", adv_inv_container_location );
+    jo.read( "adv_inv_container_index", adv_inv_container_index );
+    jo.read( "adv_inv_container_in_vehicle", adv_inv_container_in_vehicle );
+    jo.read( "adv_inv_container_type", adv_inv_container_type );
+    jo.read( "adv_inv_container_content_type", adv_inv_container_content_type );
+    jo.read( "editmap_nsa_viewmode", editmap_nsa_viewmode );
+    jo.read( "overmap_blinking", overmap_blinking );
+    jo.read( "overmap_show_overlays", overmap_show_overlays );
+    jo.read( "overmap_show_map_notes", overmap_show_map_notes );
+    jo.read( "overmap_show_land_use_codes", overmap_show_land_use_codes );
+    jo.read( "overmap_show_city_labels", overmap_show_city_labels );
+    jo.read( "overmap_show_hordes", overmap_show_hordes );
+    jo.read( "overmap_show_forest_trails", overmap_show_forest_trails );
+    jo.read( "hidden_recipes", hidden_recipes );
+    jo.read( "favorite_recipes", favorite_recipes );
+    jo.read( "expanded_recipes", expanded_recipes );
+    jo.read( "read_recipes", read_recipes );
+    jo.read( "recent_recipes", recent_recipes );
+    jo.read( "bionic_ui_sort_mode", bionic_sort_mode );
+    jo.read( "overmap_debug_weather", overmap_debug_weather );
+    jo.read( "overmap_visible_weather", overmap_visible_weather );
+    jo.read( "overmap_debug_mongroup", overmap_debug_mongroup );
+    jo.read( "distraction_noise", distraction_noise );
+    jo.read( "distraction_pain", distraction_pain );
+    jo.read( "distraction_attack", distraction_attack );
+    jo.read( "distraction_hostile_close", distraction_hostile_close );
+    jo.read( "distraction_hostile_spotted", distraction_hostile_spotted );
+    jo.read( "distraction_conversation", distraction_conversation );
+    jo.read( "distraction_asthma", distraction_asthma );
+    jo.read( "distraction_dangerous_field", distraction_dangerous_field );
+    jo.read( "distraction_weather_change", distraction_weather_change );
+    jo.read( "distraction_hunger", distraction_hunger );
+    jo.read( "distraction_thirst", distraction_thirst );
+    jo.read( "distraction_temperature", distraction_temperature );
+
+    if( !jo.read( "vmenu_show_items", vmenu_show_items ) ) {
+        // This is an old save: 1 means view items, 2 means view monsters,
+        // -1 means uninitialized
+        vmenu_show_items = jo.get_int( "list_item_mon", -1 ) != 2;
+    }
+
+    jo.read( "list_item_sort", list_item_sort );
+    jo.read( "list_item_filter_active", list_item_filter_active );
+    jo.read( "list_item_downvote_active", list_item_downvote_active );
+    jo.read( "list_item_priority_active", list_item_priority_active );
+
+    jo.read( "construction_filter", construction_filter );
+    jo.read( "last_construction", last_construction );
+    jo.read( "construction_tab", construction_tab );
+
+    for( const JsonMember member : jo.get_object( "input_history" ) ) {
+        std::vector<std::string> &v = gethistory( member.name() );
+        v.clear();
+        for( const std::string line : member.get_array() ) {
+            v.push_back( line );
+        }
+    }
+    // fetch list_item settings from input_history
+    if( !gethistory( "item_filter" ).empty() ) {
+        list_item_filter = gethistory( "item_filter" ).back();
+    }
+    if( !gethistory( "list_item_downvote" ).empty() ) {
+        list_item_downvote = gethistory( "list_item_downvote" ).back();
+    }
+    if( !gethistory( "list_item_priority" ).empty() ) {
+        list_item_priority = gethistory( "list_item_priority" ).back();
+    }
+
+    jo.read( "lastreload", lastreload );
+}
+
 static const selection_column_preset selection_preset{};
 
 bool inventory_entry::is_hidden() const
 {
-    if( !is_item() ) {
+    // non-items and entries not added recursively (from a container) can't be hidden
+    if( !is_item() || topmost_parent == nullptr ) {
         return false;
     }
-    item_location it = locations.front();
-    bool hidden = false;
-    if( topmost_parent != nullptr ) {
-        while( it.has_parent() ) {
-            item_location const prnt = it.parent_item();
-            hidden |= prnt.get_item()->contained_where( *it )->settings.is_collapsed();
-            if( prnt.get_item() == topmost_parent ) {
-                break;
-            }
-            it = prnt;
-        }
-    }
 
-    return hidden;
+    item_location item = locations.front();
+    while( item.has_parent() && item.get_item() != topmost_parent ) {
+        item_location parent = item.parent_item();
+        if( parent.get_item()->contained_where( *item )->settings.is_collapsed() ) {
+            return true;
+        }
+        item = parent;
+    }
+    // no parent container was collapsed
+    return false;
 }
 
 int inventory_entry::get_total_charges() const
@@ -554,9 +718,12 @@ bool inventory_holster_preset::is_shown( const item_location &contained ) const
     if( contained.eventually_contains( holster ) || holster.eventually_contains( contained ) ) {
         return false;
     }
-    if( contained.where() != item_location::type::container
-        && contained->made_of( phase_id::LIQUID ) ) {
+    if( !is_container( contained ) && contained->made_of( phase_id::LIQUID ) &&
+        !contained->is_frozen_liquid() ) {
         // spilt liquid cannot be picked up
+        return false;
+    }
+    if( contained->made_of( phase_id::LIQUID ) && !holster->is_watertight_container() ) {
         return false;
     }
     item item_copy( *contained );
@@ -1089,10 +1256,6 @@ void inventory_column::prepare_paging( const std::string &filter )
         return;
     }
 
-    // Recalculate all the widths.
-    for( inventory_entry *e : get_entries( always_yes ) ) {
-        expand_to_fit( *e );
-    }
     const auto filter_fn = filter_from_string<inventory_entry>(
     filter, [this]( const std::string & filter ) {
         return preset.get_filter( filter );
@@ -1109,6 +1272,13 @@ void inventory_column::prepare_paging( const std::string &filter )
     move_if( entries_hidden, entries, is_visible );
     // remove entries hidden by SHOW_HIDE_CONTENTS
     move_if( entries, entries_hidden, is_not_visible );
+
+    // Recalculate all the widths.
+    // This must go AFTER moving the hidden entries so that
+    // cell widths are calculated with up-to-date visible entries
+    for( inventory_entry *e : get_entries( always_yes ) ) {
+        expand_to_fit( *e );
+    }
 
     // Then sort them with respect to categories
     std::stable_sort( entries.begin(), entries.end(),
@@ -1577,11 +1747,10 @@ void inventory_selector::add_contained_ebooks( item_location &container )
 
 void inventory_selector::add_character_items( Character &character )
 {
-    item &weapon = character.get_wielded_item();
+    item_location weapon = character.get_wielded_item();
     bool const hierarchy = _uimode == uimode::hierarchy;
-    if( !weapon.is_null() ) {
-        item_location loc( character, &weapon );
-        add_entry_rec( own_gear_column, hierarchy ? own_gear_column : own_inv_column, loc,
+    if( weapon ) {
+        add_entry_rec( own_gear_column, hierarchy ? own_gear_column : own_inv_column, weapon,
                        &item_category_WEAPON_HELD.obj(),
                        hierarchy ? &item_category_WEAPON_HELD.obj() : nullptr );
     }
@@ -2056,7 +2225,7 @@ void inventory_selector::refresh_window()
     wnoutrefresh( w_inv );
 }
 
-std::pair< bool, std::string > inventory_selector::query_string( std::string val )
+std::pair< bool, std::string > inventory_selector::query_string( const std::string &val )
 {
     spopup = std::make_unique<string_input_popup>();
     spopup->max_length( 256 )
@@ -2446,73 +2615,100 @@ bool inventory_selector::is_overflown( size_t client_width ) const
     return get_columns_occupancy_ratio( client_width ) > 1.0;
 }
 
+void inventory_selector::_categorize( inventory_column &col )
+{
+    // Remove custom category and allow entries to categorize by their item's category
+    for( inventory_entry *entry : col.get_entries( return_item, true ) ) {
+        const item_location loc = entry->any_item();
+        const item_category *custom_category = nullptr;
+
+        // ensure top-level equipped entries don't lose their special categories
+        if( loc == u.get_wielded_item() ) {
+            custom_category = &item_category_WEAPON_HELD.obj();
+        } else if( u.is_worn( *loc ) ) {
+            custom_category = &item_category_ITEMS_WORN.obj();
+        }
+
+        entry->set_custom_category( custom_category );
+    }
+    col.set_indent_entries_override( false );
+    col.invalidate_paging();
+}
+
+void inventory_selector::_uncategorize( inventory_column &col )
+{
+    for( inventory_entry *entry : col.get_entries( return_item, true ) ) {
+        // find the topmost parent of the entry's item and categorize it by that
+        // to form the hierarchy
+        item_location ancestor = entry->any_item();
+        while( ancestor.has_parent() ) {
+            ancestor = ancestor.parent_item();
+        }
+
+        const item_category *custom_category = nullptr;
+        if( ancestor.where() != item_location::type::character ) {
+            const std::string name = to_upper_case( remove_color_tags( ancestor.describe() ) );
+            const item_category map_cat( name, no_translation( name ), 100 );
+            custom_category = naturalize_category( map_cat, ancestor.position() );
+        } else if( ancestor == u.get_wielded_item() ) {
+            custom_category = &item_category_WEAPON_HELD.obj();
+        } else if( u.is_worn( *ancestor ) ) {
+            custom_category = &item_category_ITEMS_WORN.obj();
+        }
+
+        entry->set_custom_category( custom_category );
+    }
+    col.clear_indent_entries_override();
+    col.invalidate_paging();
+}
+
 void inventory_selector::toggle_categorize_contained()
 {
-    const auto return_item = []( const inventory_entry & entry ) {
-        return entry.is_item();
-    };
     std::vector<item_location> highlighted;
     if( get_highlighted().is_item() ) {
         highlighted = get_highlighted().locations;
     }
+
     if( _uimode == uimode::hierarchy ) {
         inventory_column replacement_column;
-        for( inventory_entry *entry : own_gear_column.get_entries( return_item, true ) ) {
-            item_location const loc = entry->locations.front();
-            if( entry->any_item().where() == item_location::type::container &&
-                !is_worn_ablative( loc.parent_item(), loc ) ) {
-                item_location ancestor = entry->any_item();
-                while( ancestor.has_parent() ) {
-                    ancestor = ancestor.parent_item();
-                }
-                const item_category *custom_category = nullptr;
-                if( ancestor.where() != item_location::type::character ) {
-                    // might have been merged from the map column
-                    custom_category = entry->get_category_ptr();
-                }
-                inventory_entry *ret =
-                    add_entry( own_inv_column, std::move( entry->locations ), custom_category,
-                               entry->chosen_count, entry->topmost_parent, entry->chevron );
-                ret->generation = entry->generation;
 
-            } else {
-                replacement_column.add_entry( *entry );
-            }
+        // split entries into either worn/held gear or contained items
+        for( inventory_entry *entry : own_gear_column.get_entries( return_item, true ) ) {
+            const item_location loc = entry->any_item();
+            inventory_column *col = is_container( loc ) && !is_worn_ablative( loc.parent_item(), loc ) ?
+                                    &own_inv_column : &replacement_column;
+            col->add_entry( *entry );
         }
         own_gear_column.clear();
         replacement_column.move_entries_to( own_gear_column );
-        own_inv_column.set_indent_entries_override( false );
+
+        for( inventory_column *col : columns ) {
+            _categorize( *col );
+        }
         _uimode = uimode::categories;
     } else {
-        for( inventory_entry *entry : own_inv_column.get_entries( return_item, true ) ) {
-            item_location ancestor = entry->any_item();
-            while( ancestor.has_parent() ) {
-                ancestor = ancestor.parent_item();
-            }
-            const item_category *custom_category = nullptr;
-            if( ancestor.where() != item_location::type::character ) {
-                // might have been merged from the map column
-                custom_category = entry->get_category_ptr();
-            } else if( &*ancestor == &u.get_wielded_item() ) {
-                custom_category = &item_category_WEAPON_HELD.obj();
-            } else if( u.is_worn( *ancestor ) ) {
-                custom_category = &item_category_ITEMS_WORN.obj();
-            }
-            inventory_entry *ret =
-                add_entry( own_gear_column, std::move( entry->locations ), custom_category,
-                           entry->chosen_count, entry->topmost_parent, entry->chevron );
-            ret->generation = entry->generation;
+        // move all entries into one big gear column and turn into hierarchy
+        own_inv_column.move_entries_to( own_gear_column );
+        for( inventory_column *col : columns ) {
+            _uncategorize( *col );
         }
-        own_inv_column.clear();
         _uimode = uimode::hierarchy;
     }
+
     if( !highlighted.empty() ) {
         highlight_one_of( highlighted );
     }
 
+    // needs to be called now so that new invlets can be assigned
+    // and subclasses w/ selection columns can then re-populate entries
+    // using the new invlets
+    prepare_layout();
+
+    // invalidate, but dont mark resize, to avoid re-calling prepare_layout()
+    // and as a consequence reassign_custom_invlets()
     shared_ptr_fast<ui_adaptor> current_ui = ui.lock();
     if( current_ui ) {
-        current_ui->mark_resize();
+        current_ui->invalidate_ui();
     }
 }
 
@@ -2600,7 +2796,7 @@ item_location inventory_pick_selector::execute()
     }
 }
 
-void inventory_selector::action_examine( const item_location sitem )
+void inventory_selector::action_examine( const item_location &sitem )
 {
     // Code below pulled from the action_examine function in advanced_inv.cpp
     std::vector<iteminfo> vThisItem;
@@ -2621,9 +2817,6 @@ void inventory_selector::action_examine( const item_location sitem )
 
 void inventory_selector::highlight()
 {
-    const auto return_item = []( const inventory_entry & entry ) {
-        return entry.is_item();
-    };
     const inventory_entry &selected = get_active_column().get_highlighted();
     if( !selected.is_item() ) {
         return;
@@ -2721,7 +2914,7 @@ void inventory_multiselector::set_chosen_count( inventory_entry &entry, size_t c
     } else {
         entry.chosen_count = std::min( {count, max_chosen_count, entry.get_available_count() } );
         if( it->count_by_charges() ) {
-            auto iter = find_if( to_use.begin(), to_use.end(), [&it]( drop_location drop ) {
+            auto iter = find_if( to_use.begin(), to_use.end(), [&it]( const drop_location & drop ) {
                 return drop.first == it;
             } );
             if( iter == to_use.end() ) {
@@ -2732,7 +2925,7 @@ void inventory_multiselector::set_chosen_count( inventory_entry &entry, size_t c
                 if( count == 0 ) {
                     break;
                 }
-                auto iter = find_if( to_use.begin(), to_use.end(), [&loc]( drop_location drop ) {
+                auto iter = find_if( to_use.begin(), to_use.end(), [&loc]( const drop_location & drop ) {
                     return drop.first == loc;
                 } );
                 if( iter == to_use.end() ) {
@@ -2979,9 +3172,38 @@ void inventory_multiselector::deselect_contained_items()
     for( inventory_column *col : get_all_columns() ) {
         for( inventory_entry *selected : col->get_entries(
         []( const inventory_entry & entry ) {
-        return entry.is_item() && entry.chosen_count > 0 && entry.locations.front()->is_frozen_liquid();
+        return entry.is_item() && entry.chosen_count > 0 && entry.locations.front()->is_frozen_liquid() &&
+                   //Frozen liquids can be selected if it have the SHREDDED flag.
+                   !entry.locations.front()->has_flag( STATIC( flag_id( "SHREDDED" ) ) ) &&
+                   (
+                       ( //Frozen liquids on the map are not selectable if they can't be crushed.
+                           entry.locations.front().where() == item_location::type::map &&
+                           !get_player_character().can_crush_frozen_liquid( entry.locations.front() ).success() ) ||
+                       ( //Weapon in hand is can selectable.
+                           entry.locations.front().where() == item_location::type::character &&
+                           !entry.locations.front().has_parent() &&
+                           entry.locations.front() != get_player_character().used_weapon() ) ||
+                       ( //Frozen liquids are unselectable if they don't have SHREDDED flag and can't be crushed in a container.
+                           entry.locations.front().has_parent() &&
+                           entry.locations.front().where() == item_location::type::container &&
+                           !get_player_character().can_crush_frozen_liquid( entry.locations.front() ).success() )
+                   );
         } ) ) {
             set_chosen_count( *selected, 0 );
+        }
+    }
+}
+
+void inventory_multiselector::toggle_categorize_contained()
+{
+    selection_col->clear();
+    inventory_selector::toggle_categorize_contained();
+
+    for( inventory_column *col : get_all_columns() ) {
+        for( inventory_entry *entry : col->get_entries( return_item, true ) ) {
+            if( entry->chosen_count > 0 ) {
+                toggle_entry( *entry, entry->chosen_count );
+            }
         }
     }
 }
@@ -3015,6 +3237,8 @@ void inventory_multiselector::on_input( const inventory_input &input )
                                 ? count < max ? count + 1 : max
                                 : count > 1 ? count - 1 : 0;
         toggle_entry( entry, newcount );
+    } else if( input.action == "VIEW_CATEGORY_MODE" ) {
+        toggle_categorize_contained();
     } else {
         inventory_selector::on_input( input );
     }
@@ -3052,7 +3276,8 @@ drop_locations inventory_drop_selector::execute()
 
     for( const std::pair<item_location, int> &drop_pair : to_use ) {
         bool should_drop = true;
-        if( drop_pair.first->made_of_from_type( phase_id::LIQUID ) ) {
+        if( drop_pair.first->made_of_from_type( phase_id::LIQUID ) &&
+            !drop_pair.first->is_frozen_liquid() ) {
             if( should_drop_liquid == drop_liquid::ask ) {
                 if( !warn_liquid || query_yn(
                         _( "You are dropping liquid from its container.  You might not be able to pick it back up.  Really do so?" ) ) ) {
@@ -3251,7 +3476,7 @@ bool inventory_examiner::check_parent_item()
     return !( parent_item->is_container_empty() || empty() );
 }
 
-int inventory_examiner::cleanup()
+int inventory_examiner::cleanup() const
 {
     if( changes_made ) {
         return EXAMINED_CONTENTS_WITH_CHANGES;

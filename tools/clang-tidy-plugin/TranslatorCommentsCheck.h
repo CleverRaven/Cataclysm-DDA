@@ -24,7 +24,7 @@ class TranslatorCommentsCheck : public ClangTidyCheck
 {
     public:
         TranslatorCommentsCheck( StringRef Name, ClangTidyContext *Context );
-        ~TranslatorCommentsCheck();
+        ~TranslatorCommentsCheck() override;
 
         void registerPPCallbacks( const SourceManager &, Preprocessor *, Preprocessor * ) override;
         void registerMatchers( ast_matchers::MatchFinder *Finder ) override;

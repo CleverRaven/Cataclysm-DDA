@@ -1,5 +1,7 @@
 #if defined(TILES)
 #include "sdl_font.h"
+
+#include "font_loader.h"
 #include "output.h"
 
 #if defined(_WIN32)
@@ -22,12 +24,12 @@ static int test_face_size( const std::string &f, int size, int faceIndex )
 {
     const TTF_Font_Ptr fnt( TTF_OpenFontIndex( f.c_str(), size, faceIndex ) );
     if( fnt ) {
-        char *style = TTF_FontFaceStyleName( fnt.get() );
+        const char *style = TTF_FontFaceStyleName( fnt.get() );
         if( style != nullptr ) {
             int faces = TTF_FontFaces( fnt.get() );
             for( int i = faces - 1; i >= 0; i-- ) {
                 const TTF_Font_Ptr tf( TTF_OpenFontIndex( f.c_str(), size, i ) );
-                char *ts = nullptr;
+                const char *ts = nullptr;
                 if( tf ) {
                     if( nullptr != ( ts = TTF_FontFaceStyleName( tf.get() ) ) ) {
                         if( 0 == strcasecmp( ts, style ) && TTF_FontHeight( tf.get() ) <= size ) {
@@ -389,7 +391,7 @@ BitmapFont::BitmapFont(
     }
     Uint32 key = SDL_MapRGB( asciiload->format, 0xFF, 0, 0xFF );
     SDL_SetColorKey( asciiload.get(), SDL_TRUE, key );
-    SDL_Surface_Ptr ascii_surf[std::tuple_size<decltype( ascii )>::value];
+    std::array<SDL_Surface_Ptr, std::tuple_size<decltype( ascii )>::value> ascii_surf;
     ascii_surf[0].reset( SDL_ConvertSurface( asciiload.get(), format.get(), 0 ) );
     SDL_SetSurfaceRLE( ascii_surf[0].get(), 1 );
     asciiload.reset();

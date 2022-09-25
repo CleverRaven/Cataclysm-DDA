@@ -28,7 +28,7 @@ class ostream;
 
 #endif // CATA_NO_STL
 
-class JsonIn;
+class JsonArray;
 class JsonOut;
 
 // NOLINTNEXTLINE(cata-xy)
@@ -88,27 +88,16 @@ struct point {
      * by @param dim
      * By default rotates around the origin (0, 0).
      * NOLINTNEXTLINE(cata-use-named-point-constants) */
-    point rotate( int turns, const point &dim = { 1, 1 } ) const {
-        cata_assert( turns >= 0 );
-        cata_assert( turns <= 4 );
+    point rotate( int turns, const point &dim = { 1, 1 } ) const;
 
-        switch( turns ) {
-            case 1:
-                return { dim.y - y - 1, x };
-            case 2:
-                return { dim.x - x - 1, dim.y - y - 1 };
-            case 3:
-                return { y, dim.x - x - 1 };
-        }
-
-        return *this;
-    }
+    float distance( const point &rhs ) const;
+    int distance_manhattan( const point &rhs ) const;
 
     std::string to_string() const;
     std::string to_string_writable() const;
 
     void serialize( JsonOut &jsout ) const;
-    void deserialize( JsonIn &jsin );
+    void deserialize( const JsonArray &jsin );
 
     friend inline constexpr bool operator<( const point &a, const point &b ) {
         return a.x < b.x || ( a.x == b.x && a.y < b.y );
@@ -240,7 +229,7 @@ struct tripoint {
     std::string to_string_writable() const;
 
     void serialize( JsonOut &jsout ) const;
-    void deserialize( JsonIn &jsin );
+    void deserialize( const JsonArray &jsin );
 
 #ifndef CATA_NO_STL
     friend std::ostream &operator<<( std::ostream &, const tripoint & );
@@ -253,19 +242,11 @@ struct tripoint {
     friend inline constexpr bool operator!=( const tripoint &a, const tripoint &b ) {
         return !( a == b );
     }
-
+#ifndef CATA_NO_STL
     friend inline bool operator<( const tripoint &a, const tripoint &b ) {
-        if( a.x != b.x ) {
-            return a.x < b.x;
-        }
-        if( a.y != b.y ) {
-            return a.y < b.y;
-        }
-        if( a.z != b.z ) {
-            return a.z < b.z;
-        }
-        return false;
+        return std::tie( a.x, a.y, a.z ) < std::tie( b.x, b.y, b.z );
     }
+#endif
 };
 
 inline tripoint multiply_xy( const tripoint &p, int f )

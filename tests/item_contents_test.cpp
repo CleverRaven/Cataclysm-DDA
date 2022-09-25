@@ -31,10 +31,10 @@ TEST_CASE( "item_contents" )
     item wrench( "wrench_pocket_test" );
     item crowbar( "crowbar_pocket_test" );
 
-    ret_val<bool> i1 = tool_belt.put_in( hammer, item_pocket::pocket_type::CONTAINER );
-    ret_val<bool> i2 = tool_belt.put_in( tongs, item_pocket::pocket_type::CONTAINER );
-    ret_val<bool> i3 = tool_belt.put_in( wrench, item_pocket::pocket_type::CONTAINER );
-    ret_val<bool> i4 = tool_belt.put_in( crowbar, item_pocket::pocket_type::CONTAINER );
+    ret_val<void> i1 = tool_belt.put_in( hammer, item_pocket::pocket_type::CONTAINER );
+    ret_val<void> i2 = tool_belt.put_in( tongs, item_pocket::pocket_type::CONTAINER );
+    ret_val<void> i3 = tool_belt.put_in( wrench, item_pocket::pocket_type::CONTAINER );
+    ret_val<void> i4 = tool_belt.put_in( crowbar, item_pocket::pocket_type::CONTAINER );
 
     {
         CAPTURE( i1.str() );

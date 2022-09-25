@@ -12,6 +12,7 @@
 #include <utility>
 #include <vector>
 
+#include "coordinates.h"
 #include "game_constants.h"
 #include "item.h"
 #include "optional.h"
@@ -81,12 +82,12 @@ struct construction {
         bool vehicle_start = false;
 
         // Custom constructibility check
-        std::function<bool( const tripoint & )> pre_special;
+        bool ( *pre_special )( const tripoint_bub_ms & );
         // Custom after-effects
-        std::function<void( const tripoint &, Character & )> post_special;
-        std::function<void( const tripoint &, Character & )> do_turn_special;
+        void ( *post_special )( const tripoint_bub_ms &, Character & );
+        void ( *do_turn_special )( const tripoint_bub_ms &, Character & );
         // Custom error message display
-        std::function<void( const tripoint & )> explain_failure;
+        void ( *explain_failure )( const tripoint_bub_ms & );
         // Whether it's furniture or terrain
         bool pre_is_furniture = false;
         // Whether it's furniture or terrain
@@ -121,7 +122,7 @@ void reset_constructions();
 construction_id construction_menu( bool blueprint );
 void complete_construction( Character *you );
 bool can_construct_furn_ter( const construction &con, furn_id const &furn, ter_id const &ter );
-bool can_construct( const construction &con, const tripoint &p );
+bool can_construct( const construction &con, const tripoint_bub_ms &p );
 bool player_can_build( Character &you, const read_only_visitable &inv, const construction &con,
                        bool can_construct_skip = false );
 std::vector<construction *> constructions_by_group( const construction_group_str_id &group );

@@ -25,7 +25,7 @@
     "looks_like": "motor_small",
     "durability": 80,
     "power": 800,
-    "energy_consumption": 1000,
+    "energy_consumption": "1 kJ",
     "damage_modifier": 80,
     "folded_volume": "250 ml",
     "requirements": {
@@ -49,7 +49,7 @@
     "item": "motor_small",
     "durability": 120,
     "power": 7040,
-    "energy_consumption": 8000,
+    "energy_consumption": "8 kJ",
     "damage_modifier": 80,
     "folded_volume": "250 ml",
     "requirements": {
@@ -78,7 +78,7 @@
     "item": "motor",
     "durability": 200,
     "power": 36000,
-    "energy_consumption": 40000,
+    "energy_consumption": "40 kJ",
     "damage_modifier": 80,
     "folded_volume": "1500 ml",
     "requirements": {
@@ -115,7 +115,7 @@
     "item": "motor_large",
     "durability": 400,
     "power": 150000,
-    "energy_consumption": 163000,
+    "energy_consumption": "163 kJ",
     "damage_modifier": 80,
     "requirements": {
       "install": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
@@ -151,7 +151,7 @@
     "item": "motor_enhanced",
     "durability": 200,
     "power": 282000,
-    "energy_consumption": 300000,
+    "energy_consumption": "300 kJ",
     "damage_modifier": 80,
     "requirements": {
       "install": { "skills": [ [ "mechanics", 4 ] ], "time": "60 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
@@ -187,7 +187,7 @@
     "item": "motor_super",
     "durability": 400,
     "power": 475000,
-    "energy_consumption": 500000,
+    "energy_consumption": "500 kJ",
     "damage_modifier": 80,
     "requirements": {
       "install": { "skills": [ [ "mechanics", 5 ] ], "time": "60 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
@@ -218,12 +218,12 @@
     "id": "engine_electric_train",
     "copy-from": "engine_motor",
     "type": "vehicle_part",
-    "name": { "str": "1300hp electric train engine" },
+    "name": { "str": "1,300 HP electric train engine" },
     "description": "An enormous and heavy electric traction motor, powerful enough to pull a train.",
     "item": "motor_train1300",
     "durability": 500,
     "power": 1000000,
-    "energy_consumption": 1050000,
+    "energy_consumption": "1050 kJ",
     "damage_modifier": 80,
     "requirements": {
       "install": { "skills": [ [ "mechanics", 8 ] ], "time": "60 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },

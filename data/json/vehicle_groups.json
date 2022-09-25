@@ -4,8 +4,10 @@
     "id": "city_vehicles",
     "vehicles": [
       [ "car", 2000 ],
+      [ "car_diesel", 1000 ],
       [ "car_anmlcmpt", 250 ],
       [ "car_hatch", 1000 ],
+      [ "car_hatch_diesel", 500 ],
       [ "car_luxury", 400 ],
       [ "electric_car", 500 ],
       [ "car_sports", 300 ],
@@ -97,11 +99,18 @@
   },
   {
     "type": "vehicle_group",
+    "id": "trains_and_cars",
+    "vehicles": [ [ "train_car_passenger", 250 ], [ "train_electrical_loco1300", 500 ] ]
+  },
+  {
+    "type": "vehicle_group",
     "id": "city_pileup",
     "vehicles": [
       [ "car", 7000 ],
+      [ "car_diesel", 3500 ],
       [ "car_anmlcmpt", 600 ],
       [ "car_hatch", 3500 ],
+      [ "car_hatch_diesel", 1400 ],
       [ "car_luxury", 1400 ],
       [ "electric_car", 1000 ],
       [ "car_sports", 500 ],
@@ -134,8 +143,10 @@
     "id": "highway",
     "vehicles": [
       [ "car", 3000 ],
+      [ "car_diesel", 1500 ],
       [ "car_anmlcmpt", 250 ],
       [ "car_hatch", 1000 ],
+      [ "car_hatch_diesel", 500 ],
       [ "car_luxury", 600 ],
       [ "electric_car", 500 ],
       [ "car_hybrid", 500 ],
@@ -187,9 +198,11 @@
     "//": "Do not add vehicles over 8 tiles long or 4 wide. This is for indoor garages/spaces",
     "vehicles": [
       [ "car", 1000 ],
+      [ "car_diesel", 500 ],
       [ "car_rack", 700 ],
       [ "car_anmlcmpt", 150 ],
       [ "car_hatch", 500 ],
+      [ "car_hatch_diesel", 250 ],
       [ "car_hatch_rack", 500 ],
       [ "car_luxury", 300 ],
       [ "car_mini", 250 ],
@@ -227,6 +240,7 @@
     "//": "Do not add vehicles over 5 tiles long or 4 wide. This is for compact car garages/spaces",
     "vehicles": [
       [ "car_hatch", 500 ],
+      [ "car_hatch_diesel", 250 ],
       [ "car_hatch_rack", 500 ],
       [ "car_mini", 250 ],
       [ "beetle", 300 ],
@@ -264,13 +278,8 @@
     "type": "vehicle_group",
     "id": "parkinglot",
     "vehicles": [
-      [ "military_cargo_truck", 100 ],
       [ "humvee", 100 ],
       [ "humvee_gl", 50 ],
-      [ "apc", 100 ],
-      [ "apc-gl", 50 ],
-      [ "aapc-mg", 50 ],
-      [ "aapc-gl", 25 ],
       [ "rv", 200 ],
       [ "limousine", 100 ],
       [ "schoolbus", 200 ],
@@ -282,7 +291,6 @@
       [ "policesuv_k9", 1 ],
       [ "car_sports_electric", 100 ],
       [ "quad_bike", 100 ],
-      [ "truck_trailer", 500 ],
       [ "semi_truck", 500 ],
       [ "cube_van", 1000 ],
       [ "fridge_van", 800 ],
@@ -290,8 +298,10 @@
       [ "car_mini", 375 ],
       [ "beetle", 750 ],
       [ "car", 1000 ],
+      [ "car_diesel", 500 ],
       [ "car_anmlcmpt", 100 ],
       [ "car_hatch", 500 ],
+      [ "car_hatch_diesel", 250 ],
       [ "car_luxury", 200 ],
       [ "electric_car", 750 ],
       [ "car_hybrid", 500 ],
@@ -324,7 +334,9 @@
     "type": "vehicle_group",
     "vehicles": [
       [ "car", 5 ],
+      [ "car_diesel", 2 ],
       [ "car_hatch", 2 ],
+      [ "car_hatch_diesel", 1 ],
       [ "car_chassis", 20 ],
       [ "engine_crane", 40 ],
       [ "motorcycle", 10 ],
@@ -382,7 +394,13 @@
     "id": "warehouse_vehicles",
     "type": "vehicle_group",
     "//": "Lifting and hauling vehicles for warehouses, loading bays, and similar locations",
-    "vehicles": [ [ "engine_crane", 50 ], [ "handjack", 150 ], [ "wheelbarrow", 100 ], [ "forklift", 100 ] ]
+    "vehicles": [ [ "engine_crane", 50 ], [ "handjack", 150 ], [ "wheelbarrow", 100 ], [ "forklift", 100 ], [ "forklift_diesel", 100 ] ]
+  },
+  {
+    "id": "forklift_vehicles",
+    "type": "vehicle_group",
+    "//": "Forklifts for locations requiring them",
+    "vehicles": [ [ "forklift", 100 ], [ "forklift_diesel", 100 ] ]
   },
   {
     "id": "school_vehicles",
@@ -401,7 +419,9 @@
     "id": "junkyard_vehicles",
     "vehicles": [
       [ "car", 1500 ],
+      [ "car_diesel", 750 ],
       [ "car_hatch", 750 ],
+      [ "car_hatch_diesel", 400 ],
       [ "car_luxury", 100 ],
       [ "car_chassis", 2000 ],
       [ "electric_car", 400 ],
@@ -427,7 +447,9 @@
     "id": "dumpsite_vehicles",
     "vehicles": [
       [ "car", 1000 ],
+      [ "car_diesel", 500 ],
       [ "car_hatch", 500 ],
+      [ "car_hatch_diesel", 250 ],
       [ "car_luxury", 100 ],
       [ "car_chassis", 1200 ],
       [ "car_sports", 200 ],
@@ -450,7 +472,9 @@
     "id": "campground_vehicles",
     "vehicles": [
       [ "car", 950 ],
+      [ "car_diesel", 475 ],
       [ "car_hatch", 475 ],
+      [ "car_hatch_diesel", 225 ],
       [ "car_anmlcmpt", 150 ],
       [ "electric_car", 100 ],
       [ "car_hybrid", 100 ],
@@ -477,7 +501,9 @@
     "id": "forgotten_vehicles",
     "vehicles": [
       [ "car", 1000 ],
+      [ "car_diesel", 500 ],
       [ "car_hatch", 500 ],
+      [ "car_hatch_diesel", 250 ],
       [ "car_luxury", 100 ],
       [ "car_anmlcmpt", 100 ],
       [ "suv", 400 ],
@@ -500,7 +526,9 @@
       [ "car_mini", 375 ],
       [ "beetle", 750 ],
       [ "car", 1000 ],
+      [ "car_diesel", 500 ],
       [ "car_hatch", 500 ],
+      [ "car_hatch_diesel", 250 ],
       [ "car_luxury", 200 ],
       [ "car_anmlcmpt", 150 ],
       [ "electric_car", 750 ],
@@ -671,7 +699,9 @@
     "//": "for cs_car_dealership",
     "vehicles": [
       [ "car", 2000 ],
+      [ "car_diesel", 1000 ],
       [ "car_hatch", 1000 ],
+      [ "car_hatch_diesel", 500 ],
       [ "car_luxury", 1000 ],
       [ "electric_car", 500 ],
       [ "car_hybrid", 500 ],
@@ -708,7 +738,9 @@
       [ "car_hybrid", 200 ],
       [ "beetle", 750 ],
       [ "car", 1500 ],
+      [ "car_diesel", 750 ],
       [ "car_hatch", 750 ],
+      [ "car_hatch_diesel", 400 ],
       [ "car_luxury", 500 ],
       [ "suv", 800 ],
       [ "suv_electric", 100 ],
@@ -729,6 +761,29 @@
   },
   {
     "type": "vehicle_group",
+    "id": "parking_garage_short",
+    "//": "Like parking_garage, but excluding vehicles which extend more than 3 tiles backwards from the anchor point, for smaller parking spaces",
+    "vehicles": [
+      [ "car_sports_electric", 100 ],
+      [ "car_mini", 375 ],
+      [ "car_hybrid", 200 ],
+      [ "beetle", 750 ],
+      [ "car", 1500 ],
+      [ "car_diesel", 750 ],
+      [ "car_hatch", 750 ],
+      [ "car_hatch_diesel", 400 ],
+      [ "car_luxury", 500 ],
+      [ "car_anmlcmpt", 150 ],
+      [ "electric_car", 750 ],
+      [ "motorcycle", 500 ],
+      [ "motorcycle_enduro", 50 ],
+      [ "superbike", 50 ],
+      [ "motorcycle_sidecart", 50 ],
+      [ "car_sports", 30 ]
+    ]
+  },
+  {
+    "type": "vehicle_group",
     "id": "trains_draisine",
     "vehicles": [ [ "motorized_draisine_6seats", 500 ], [ "motorized_draisine_2seats", 2000 ] ]
   },
@@ -738,7 +793,9 @@
     "//": "for ws_regional_dump",
     "vehicles": [
       [ "car", 1000 ],
+      [ "car_diesel", 500 ],
       [ "car_hatch", 500 ],
+      [ "car_hatch_diesel", 250 ],
       [ "car_luxury", 100 ],
       [ "electric_car", 500 ],
       [ "car_hybrid", 400 ],
@@ -777,8 +834,10 @@
     "id": "oa_vg_ts_vehicles",
     "vehicles": [
       [ "car", 2000 ],
+      [ "car_diesel", 1000 ],
       [ "car_luxury", 200 ],
       [ "car_hatch", 1000 ],
+      [ "car_hatch_diesel", 500 ],
       [ "electric_car", 500 ],
       [ "car_hybrid", 400 ],
       [ "suv", 800 ],
@@ -805,8 +864,10 @@
     "type": "vehicle_group",
     "vehicles": [
       [ "car", 2000 ],
+      [ "car_diesel", 1000 ],
       [ "car_luxury", 400 ],
       [ "car_hatch", 1000 ],
+      [ "car_hatch_diesel", 500 ],
       [ "electric_car", 500 ],
       [ "car_hybrid", 400 ],
       [ "car_mini", 250 ],
@@ -828,6 +889,7 @@
     "id": "dealership",
     "vehicles": [
       [ "car", 500 ],
+      [ "car_diesel", 250 ],
       [ "car_luxury", 500 ],
       [ "electric_car", 100 ],
       [ "car_hybrid", 100 ],

@@ -62,7 +62,7 @@ all about widgets: what they do, and how to use them.
 
 All "custom" sidebar UI elements are defined in objects called widgets. A widget can display a
 variety of player character attributes in numeric or text form, or as a bar graph of arbitrary
-width. A widget can also group other widgets together in a horizontal or vertical layout.
+width or height. A widget can also group other widgets together in a horizontal or vertical layout.
 
 Widget instances are defined by JSON data, with the main game sidebar widgets and layouts being in
 `data/json/ui/sidebar.json`. You may customize yours by editing this file, or by loading a mod that
@@ -119,11 +119,12 @@ linked sections:
 
 | field                   | type                  | description
 | --                      | --                    | --
-| arrange                 | string                | For "layout" style, display child widgets as "rows", "columns" or "minimum_columns"
+| arrange                 | string                | For "layout" style, display child widgets as "rows", "columns" or "minimum_columns"; for ["graph style"](#graph-style) draw vertical ("rows") or horizontal ("columns")
 | bodypart                | string                | For "bp_*" variables, body part id like "leg_r" or "torso"
 | separator               | string                | The string used to separate the label from the widget data. Children will inherit if this is not defined. Mandatory if style is "sidebar".
 | padding                 | int                   | Amount of padding between columns for this widget. Children will inherit if this is not defined. Mandatory if style is "sidebar".
-| [colors](#colors)       | list of strings       | Color names in a spectrum across variable range
+| [colors](#colors)       | list of strings       | Color names in a spectrum across variable range, or a single color for text widgets
+| [breaks](#breaks)       | list of integers      | Color breaks as percentages in the variable range. Optional, overwrites default algorithm.                                                 |
 | [direction](#direction) | string                | Cardinal compass direction like "N" or "SE"
 | [fill](#fill)           | string                | For [graph style](#graph-style), fill using ike "bucket" or "pool"
 | [flags](#flags)         |                       | list of strings | Optional toggles
@@ -137,6 +138,7 @@ linked sections:
 | widgets                 | list of strings       | For "layout" and "sidebar" style, list of string IDs of child widgets.
 | width                   | integer               | Total width in characters or symbols.
 | [label_align and text_align](#text_align-and-label_align) | string | How to orient the label and value: "left", "center", or "right"
+| [pad_labels](#pad_labels) | bool                | Aligns values in layouts by padding to the longest label
 
 See [Fields](#fields) for details.
 
@@ -424,6 +426,24 @@ are determined.
 
 Also see [Graph widgets](#graph-widgets) for some predefined ones you can use or extend.
 
+#### Vertical graphs
+
+By setting the `arrange` property to `rows`, graphs can be displayed vertically.
+For vertical graphs, `height` should be used instead of `width`.
+
+```json
+{
+  "arrange": "rows",
+  "height": 5,
+  "width": 1,
+  "symbols": ".▁▂▃▄▅▆▇█"
+}
+```
+
+> Note: As with other multi-line widgets, the `width` needs to be set to achieve narrow packing.
+
+Vertical graphs do not work well with the `label` property.
+Best to disable labels, and make a custom `text` style widget to place above or below bars.
 
 ### Text style
 
@@ -722,6 +742,26 @@ Comfort: Cozy
 
 Values may be "left", "right", or "center". The default is "left" alignment for both labels and text.
 
+## pad_labels
+
+In layouts, values can be aligned to match the longest label:
+
+```plaintext
+Mood:     :)
+Morale:   95
+Activity: Brisk
+```
+
+`pad_labels` can be used on layouts to enable/disable label padding of child widgets.
+It can also be used on non-layout widgets, to disable alignment individually.
+
+```json
+{
+  "pad_labels": true
+}
+```
+
+Defaults to `true` for row layouts and all non-layout widgets. Defaults to `false` for column layouts.
 
 ## colors
 
@@ -768,6 +808,45 @@ The number of colors you use is arbitrary; the [range of possible values](#varia
 mapped as closely as possible to the spectrum of colors, with one exception - variables with a
 "normal" value or range always use white (`c_white`) when the value is within normal.
 
+The color scale can be further customized using [`breaks`](#breaks).
+
+Widgets with "text" style can specify a single-element list of colors to overwrite the text color.
+Here is an example of colored place test:
+
+```json
+{
+  "id": "place_green",
+  "type": "widget",
+  "style": "text",
+  "label": "Place",
+  "var": "place_text",
+  "colors": [ "c_green" ]
+}
+```
+
+## breaks
+
+Color scales for widgets with "number" or "graph" style can be further customized by defining `breaks`.
+There must be one break less than the number of colors.
+
+For example, you may want the stamina bar to turn red at much higher values already, as a warning sign:
+
+```json
+{
+  "id": "stamina_graph_classic",
+  "type": "widget",
+  "label": "Stam",
+  "var": "stamina",
+  "style": "graph",
+  "width": 5,
+  "symbols": ".\\|",
+  "colors": [ "c_red", "c_light_red", "c_yellow", "c_light_green", "c_green" ],
+  "breaks":[ 50, 70, 90, 95 ]
+}
+```
+
+Breaks are percentages in the spectrum across the widget's values (`var_min` to `var_max`).
+So, 0 stands for `var_min` and 100 for `var_max`. Values <0 and >100 are allowed.
 
 ## flags
 
@@ -792,7 +871,7 @@ Here are the flags that can be included:
 | `W_DISABLED_BY_DEFAULT` | Makes this widget disabled by default (only applies to top-level widgets/layouts)
 | `W_DISABLED_WHEN_EMPTY` | Automatically hides this widget when the widget's text is empty
 | `W_DYNAMIC_HEIGHT`      | Allows certain multi-line widgets to dynamically adjust their height
-| `W_NO_PADDING`          | Removes extra padding added between columns for alignment (applies recursively to sub-widgets). This will remove all excess whitespace, including whitespace that is explicitly defined by the developer.
+| `W_NO_PADDING`          | Prevents the sidebar from doing any sort of whitespace-based alignment. All widgets are packed as tightly as possible. Use this flag only if you plan to align things yourself.
 
 
 # Clauses and conditions
@@ -823,6 +902,7 @@ which provides text and color definitions for different bodypart status conditio
 | `sym`       | A shortened symbol representing the text.
 | `color`     | Defines the color for the text derived from this "clause".
 | `value`     | A numeric value for this "clause", which may be interpreted differently based on the context of the parent widget.
+| `widgets`   | For "layout" style widgets, the child widgets used for this "clause".
 | `condition` | A dialogue condition (see [Dialogue conditions](NPCs.md#dialogue-conditions)) that dictates whether this clause will be used or not. If the condition is true (or when no condition is defined), the clause can be used to its text/symbol/color in the widget's value.
 
 

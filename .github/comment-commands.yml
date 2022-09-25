@@ -23,7 +23,14 @@ users:
     - Inglonias
     - GuardianDll
     - hexagonrecursion
+    - ANickelN
+    - a-chancey
+    - Cimanyd0
+    - LyranRenegade
+    - Stadler76
+    - sonphantrung
+    - sadenar
 
 keywords:
   - name: confirm-bug
-    value: '^\/confirmed.*'
+    value: '\/(C|c)onfirm.*'

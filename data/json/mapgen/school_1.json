@@ -99,7 +99,7 @@
         { "group": "GROUP_SCHOOL", "x": [ 25, 46 ], "y": [ 49, 70 ], "repeat": [ 5, 10 ] },
         { "group": "GROUP_SCHOOL", "x": [ 49, 70 ], "y": [ 49, 70 ], "repeat": [ 5, 10 ] }
       ],
-      "place_vehicles": [ { "vehicle": "school_vehicles", "x": 9, "y": 7, "chance": 25, "rotation": 0 } ]
+      "place_vehicles": [ { "vehicle": "school_vehicles", "x": 11, "y": 7, "chance": 25, "rotation": 0 } ]
     }
   },
   {

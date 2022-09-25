@@ -119,6 +119,7 @@ std::string enum_to_string<spell_flag>( spell_flag data )
 {
     switch( data ) {
         case spell_flag::PERMANENT: return "PERMANENT";
+        case spell_flag::PERMANENT_ALL_LEVELS: return "PERMANENT_ALL_LEVELS";
         case spell_flag::PERCENTAGE_DAMAGE: return "PERCENTAGE_DAMAGE";
         case spell_flag::IGNORE_WALLS: return "IGNORE_WALLS";
         case spell_flag::NO_PROJECTILE: return "NO_PROJECTILE";
@@ -127,6 +128,7 @@ std::string enum_to_string<spell_flag>( spell_flag data )
         case spell_flag::FRIENDLY_POLY: return "FRIENDLY_POLY";
         case spell_flag::POLYMORPH_GROUP: return "POLYMORPH_GROUP";
         case spell_flag::SILENT: return "SILENT";
+        case spell_flag::NO_EXPLOSION_SFX: return "NO_EXPLOSION_SFX";
         case spell_flag::LOUD: return "LOUD";
         case spell_flag::VERBAL: return "VERBAL";
         case spell_flag::SOMATIC: return "SOMATIC";
@@ -148,6 +150,7 @@ std::string enum_to_string<spell_flag>( spell_flag data )
         case spell_flag::IGNITE_FLAMMABLE: return "IGNITE_FLAMMABLE";
         case spell_flag::NO_FAIL: return "NO_FAIL";
         case spell_flag::WONDER: return "WONDER";
+        case spell_flag::EXTRA_EFFECTS_FIRST: return "EXTRA_EFFECTS_FIRST";
         case spell_flag::MUST_HAVE_CLASS_TO_LEARN: return "MUST_HAVE_CLASS_TO_LEARN";
         case spell_flag::SPAWN_WITH_DEATH_DROPS: return "SPAWN_WITH_DEATH_DROPS";
         case spell_flag::NON_MAGICAL: return "NON_MAGICAL";
@@ -851,7 +854,8 @@ std::string spell::duration_string() const
     if( has_flag( spell_flag::RANDOM_DURATION ) ) {
         return string_format( "%s - %s", moves_to_string( min_leveled_duration() ),
                               moves_to_string( type->max_duration ) );
-    } else if( has_flag( spell_flag::PERMANENT ) && ( is_max_level() || effect() == "summon" ) ) {
+    } else if( ( has_flag( spell_flag::PERMANENT ) && ( is_max_level() || effect() == "summon" ) ) ||
+               has_flag( spell_flag::PERMANENT_ALL_LEVELS ) ) {
         return _( "Permanent" );
     } else {
         return moves_to_string( duration() );
@@ -981,7 +985,7 @@ bool spell::check_if_component_in_hand( Character &guy ) const
     const requirement_data &spell_components = type->spell_components.obj();
 
     if( guy.has_weapon() ) {
-        if( spell_components.can_make_with_inventory( guy.get_wielded_item(), return_true<item> ) ) {
+        if( spell_components.can_make_with_inventory( *guy.get_wielded_item(), return_true<item> ) ) {
             return true;
         }
     }
@@ -1410,7 +1414,7 @@ int spell::casting_exp( const Character &guy ) const
     // the amount of xp you would get with no modifiers
     const int base_casting_xp = 75;
 
-    return std::round( guy.adjust_for_focus( base_casting_xp * exp_modifier( guy ) ) / 100.0 );
+    return std::round( guy.adjust_for_focus( base_casting_xp * exp_modifier( guy ) ) );
 }
 
 std::string spell::enumerate_targets() const
@@ -1553,21 +1557,30 @@ void spell::cast_all_effects( Creature &source, const tripoint &target ) const
             }
         }
     } else {
-        // first call the effect of the main spell
-        cast_spell_effect( source, target );
-        for( const fake_spell &extra_spell : type->additional_spells ) {
-            spell sp = extra_spell.get_spell( get_level() );
-            if( sp.has_flag( spell_flag::RANDOM_TARGET ) ) {
-                if( const cata::optional<tripoint> new_target = sp.random_valid_target( source,
-                        extra_spell.self ? source.pos() : target ) ) {
-                    sp.cast_all_effects( source, *new_target );
-                }
+        if( has_flag( spell_flag::EXTRA_EFFECTS_FIRST ) ) {
+            cast_extra_spell_effects( source, target );
+            cast_spell_effect( source, target );
+        } else {
+            cast_spell_effect( source, target );
+            cast_extra_spell_effects( source, target );
+        }
+    }
+}
+
+void spell::cast_extra_spell_effects( Creature &source, const tripoint &target ) const
+{
+    for( const fake_spell &extra_spell : type->additional_spells ) {
+        spell sp = extra_spell.get_spell( get_level() );
+        if( sp.has_flag( spell_flag::RANDOM_TARGET ) ) {
+            if( const cata::optional<tripoint> new_target = sp.random_valid_target( source,
+                    extra_spell.self ? source.pos() : target ) ) {
+                sp.cast_all_effects( source, *new_target );
+            }
+        } else {
+            if( extra_spell.self ) {
+                sp.cast_all_effects( source, source.pos() );
             } else {
-                if( extra_spell.self ) {
-                    sp.cast_all_effects( source, source.pos() );
-                } else {
-                    sp.cast_all_effects( source, target );
-                }
+                sp.cast_all_effects( source, target );
             }
         }
     }
@@ -2170,7 +2183,8 @@ void spellcasting_callback::draw_spell_info( const spell &sp, const uilist *menu
     // todo: damage over time here, when it gets implemented
 
     // Show duration for spells that endure
-    if( sp.duration() > 0 || sp.has_flag( spell_flag::PERMANENT ) ) {
+    if( sp.duration() > 0 || sp.has_flag( spell_flag::PERMANENT ) ||
+        sp.has_flag( spell_flag::PERMANENT_ALL_LEVELS ) ) {
         print_colored_text( w_menu, point( h_col1, line++ ), gray, gray,
                             string_format( "%s: %s", _( "Duration" ), sp.duration_string() ) );
     }

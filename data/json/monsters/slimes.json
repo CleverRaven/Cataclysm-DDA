@@ -209,7 +209,7 @@
       "effect": { "id": "death_slimespring", "min_level": 2 },
       "corpse_type": "NO_CORPSE"
     },
-    "flags": [ "SEES", "HEARS", "SMELLS", "GOODHEARING", "NOHEAD", "POISON", "VENOM", "WARM", "ACIDPROOF", "GUILT" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "GOODHEARING", "NOHEAD", "POISON", "VENOM", "WARM", "ACIDPROOF" ]
   },
   {
     "id": "mon_slime_ocularium",
@@ -245,6 +245,6 @@
       "effect": { "id": "death_slimespring", "min_level": 2 },
       "corpse_type": "NO_CORPSE"
     },
-    "flags": [ "IMMOBILE", "SEES", "NOHEAD", "POISON", "WARM", "ACIDPROOF", "GUILT" ]
+    "flags": [ "IMMOBILE", "SEES", "NOHEAD", "POISON", "WARM", "ACIDPROOF" ]
   }
 ]

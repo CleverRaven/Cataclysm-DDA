@@ -270,12 +270,16 @@ void field_type::load( const JsonObject &jo, const std::string & )
     }
 
     JsonObject jid = jo.get_object( "immunity_data" );
-    for( const std::string id : jid.get_array( "traits" ) ) {
-        immunity_data_traits.emplace_back( id );
+    for( const std::string id : jid.get_array( "flags" ) ) {
+        immunity_data_flags.emplace_back( id );
     }
     for( JsonArray jao : jid.get_array( "body_part_env_resistance" ) ) {
-        immunity_data_body_part_env_resistance.emplace_back( std::make_pair( bodypart_str_id(
-                    jao.get_string( 0 ) ), jao.get_int( 1 ) ) );
+        immunity_data_body_part_env_resistance.emplace_back( std::make_pair(
+                    io::string_to_enum<body_part_type::type>( jao.get_string( 0 ) ), jao.get_int( 1 ) ) );
+    }
+    for( JsonArray jao : jid.get_array( "immunity_flags_worn" ) ) {
+        immunity_data_part_item_flags.emplace_back( std::make_pair(
+                    io::string_to_enum<body_part_type::type>( jao.get_string( 0 ) ), jao.get_string( 1 ) ) );
     }
 
     optional( jo, was_loaded, "immune_mtypes", immune_mtypes );

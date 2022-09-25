@@ -171,6 +171,19 @@ inline tripoint_range<Tripoint> points_in_radius_circ( const Tripoint &center, c
     } );
 }
 
+template<typename Tripoint>
+inline tripoint_range<Tripoint> points_on_radius_circ( const Tripoint &center, const int radius,
+        const int radiusz = 0 )
+{
+    static_assert( Tripoint::dimension == 3, "Requires tripoint type" );
+    const tripoint offset( radius, radius, radiusz );
+    return tripoint_range<Tripoint>( center - offset,
+    center + offset, [center, radius]( const Tripoint & pt ) {
+        float r = trig_dist( center, pt );
+        return radius - 0.5f < r && r < radius + 0.5f;
+    } );
+}
+
 /* Template vodoo to allow passing lambdas to the below function without a compiler complaint
  * Courtesy of
  * https://stackoverflow.com/questions/13358672/how-to-convert-a-lambda-to-an-stdfunction-using-templates#13359347

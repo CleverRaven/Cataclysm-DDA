@@ -17,7 +17,8 @@
 #include "translations.h"
 #include "type_id.h"
 
-class JsonIn;
+class cata_path;
+class JsonArray;
 class JsonOut;
 class JsonObject;
 
@@ -40,6 +41,10 @@ class options_manager
         static void search_resource(
             std::map<std::string, std::string> &storage, std::vector<id_and_option> &option_list,
             const std::vector<std::string> &search_paths, const std::string &resource_name,
+            const std::string &resource_filename );
+        static void search_resource(
+            std::map<std::string, cata_path> &storage, std::vector<id_and_option> &option_list,
+            const std::vector<cata_path> &search_paths, const std::string &resource_name,
             const std::string &resource_filename );
         static std::vector<id_and_option> build_tilesets_list();
         static std::vector<id_and_option> build_soundpacks_list();
@@ -199,14 +204,14 @@ class options_manager
         void add_options_debug();
         void add_options_android();
         void load();
-        bool save();
+        bool save() const;
         std::string show( bool ingame = false, bool world_options_only = false, bool with_tabs = true );
 
         void add_value( const std::string &lvar, const std::string &lval,
                         const translation &lvalname );
 
         void serialize( JsonOut &json ) const;
-        void deserialize( JsonIn &jsin );
+        void deserialize( const JsonArray &ja );
 
         std::string migrateOptionName( const std::string &name ) const;
         std::string migrateOptionValue( const std::string &name, const std::string &val ) const;
@@ -340,17 +345,7 @@ struct option_slider {
                     _opts.emplace_back( opt, type, val );
                 }
 
-                bool remove( const std::string &opt ) {
-                    auto iter = std::find_if( _opts.begin(), _opts.end(), [&opt]( const opt_slider_option & o ) {
-                        return o._opt == opt;
-                    } );
-                    if( iter == _opts.end() ) {
-                        return false;
-                    }
-                    _opts.erase( iter );
-                    return true;
-                }
-
+                bool remove( const std::string &opt );
                 void apply_opts( options_manager::options_container &OPTIONS ) const;
                 void deserialize( const JsonObject &jo );
         };
@@ -427,12 +422,12 @@ bool use_narrow_sidebar(); // short-circuits to on if terminal is too small
  * Firsts string is tileset NAME from config.
  * Second string is directory that contain tileset.
  */
-extern std::map<std::string, std::string> TILESETS;
+extern std::map<std::string, cata_path> TILESETS;
 /** A mapping(string:string) that stores all soundpack values.
  * Firsts string is soundpack NAME from config.
  * Second string is directory that contains soundpack.
  */
-extern std::map<std::string, std::string> SOUNDPACKS;
+extern std::map<std::string, cata_path> SOUNDPACKS;
 
 options_manager &get_options();
 

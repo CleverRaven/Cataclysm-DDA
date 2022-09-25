@@ -48,7 +48,7 @@ struct bionic_data {
     /** Amount of free energy the bionic generates each turn regardless of activation state*/
     units::energy power_trickle = 0_kJ;
     /** How often a bionic draws or produces power while active in turns */
-    int charge_time = 0;
+    time_duration charge_time = 0_turns;
     /** Power bank size **/
     units::energy capacity = 0_kJ;
     /** If true multiples of this can be installed */
@@ -71,8 +71,6 @@ struct bionic_data {
     bool is_remote_fueled = false;
     /**Fuel types that can be used by this bionic*/
     std::vector<material_id> fuel_opts;
-    /**How much fuel this bionic can hold*/
-    int fuel_capacity = 0;
     /**Fraction of fuel energy converted to bionic power*/
     float fuel_efficiency = 0.0f;
     /**Fraction of fuel energy passively converted to bionic power*/
@@ -197,7 +195,7 @@ struct bionic {
         using bionic_uid = unsigned int;
 
         bionic_id id;
-        int         charge_timer  = 0;
+        time_duration         charge_timer  = 0_turns;
         char        invlet  = 'a';
         bool        powered = false;
         /* An amount of time during which this bionic has been rendered inoperative. */
@@ -236,23 +234,17 @@ struct bionic {
 
         bool is_this_fuel_powered( const material_id &this_fuel ) const;
         void toggle_safe_fuel_mod();
-        void toggle_auto_start_mod();
-
-        void set_auto_start_thresh( float val );
-        float get_auto_start_thresh() const;
-        bool is_auto_start_on() const;
 
         void set_safe_fuel_thresh( float val );
         float get_safe_fuel_thresh() const;
         bool is_safe_fuel_on() const;
-        bool activate_spell( Character &caster );
+        bool activate_spell( Character &caster ) const;
 
         void serialize( JsonOut &json ) const;
         void deserialize( const JsonObject &jo );
     private:
         // generic bionic specific flags
         cata::flat_set<std::string> bionic_tags;
-        float auto_start_threshold = -1.0f;
         float safe_fuel_threshold = 1.0f;
         item weapon;
         std::vector<item> toggled_pseudo_items; // NOLINT(cata-serialize)

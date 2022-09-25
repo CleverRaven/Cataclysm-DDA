@@ -29,7 +29,7 @@
         { "monster": "GROUP_PARK_ANIMAL", "x": [ 30, 46 ], "y": [ 31, 46 ], "repeat": [ 0, 2 ] }
       ],
       "place_vehicles": [
-        { "chance": 25, "fuel": 15, "rotation": 270, "status": -1, "vehicle": "campground_vehicles", "x": 16, "y": 2 },
+        { "chance": 25, "fuel": 15, "rotation": 270, "status": -1, "vehicle": "campground_vehicles", "x": 16, "y": 3 },
         { "chance": 25, "fuel": -1, "rotation": 180, "status": -1, "vehicle": "campground_vehicles", "x": 5, "y": 19 },
         { "chance": 50, "fuel": 20, "rotation": 0, "vehicle": "lux_rv", "x": 43, "y": 18 },
         {
@@ -38,7 +38,7 @@
           "rotation": 180,
           "status": -1,
           "vehicle": "campground_vehicles",
-          "x": 26,
+          "x": 27,
           "y": 14
         },
         {

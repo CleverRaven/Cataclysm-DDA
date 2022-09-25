@@ -21,7 +21,11 @@ struct iteminfo;
 struct tripoint;
 template<typename T> class ret_val;
 
-// iuse methods returning a bool indicating whether to consume a charge of the item being used.
+// iuse methods return the number of charges expended, which is usually "1", or no value.
+// Returning 0 indicates the item has not been used up, though it may have been successfully activated.
+// 0 may also mean that the consumption and time progress was handled within iuse action.
+// If the item is destroyed here the return value must be 0.
+// A return of cata::nullopt means it was not used at all.
 namespace iuse
 {
 
@@ -60,7 +64,6 @@ cata::optional<int> purify_smart( Character *, item *, bool, const tripoint & );
 cata::optional<int> sewage( Character *, item *, bool, const tripoint & );
 cata::optional<int> smoking( Character *, item *, bool, const tripoint & );
 cata::optional<int> thorazine( Character *, item *, bool, const tripoint & );
-cata::optional<int> vaccine( Character *, item *, bool, const tripoint & );
 cata::optional<int> weed_cake( Character *, item *, bool, const tripoint & );
 cata::optional<int> xanax( Character *, item *, bool, const tripoint & );
 
@@ -136,7 +139,7 @@ cata::optional<int> hotplate( Character *, item *, bool, const tripoint & );
 cata::optional<int> hotplate_atomic( Character *, item *, bool, const tripoint & );
 cata::optional<int> jackhammer( Character *, item *, bool, const tripoint & );
 cata::optional<int> jet_injector( Character *, item *, bool, const tripoint & );
-cata::optional<int> ladder( Character *, item *, bool, const tripoint & );
+cata::optional<int> ladder( Character *, item *it, bool, const tripoint & );
 cata::optional<int> lumber( Character *, item *, bool, const tripoint & );
 cata::optional<int> ma_manual( Character *, item *, bool, const tripoint & );
 cata::optional<int> magic_8_ball( Character *, item *, bool, const tripoint & );
@@ -206,6 +209,7 @@ cata::optional<int> weak_antibiotic( Character *, item *, bool, const tripoint &
 cata::optional<int> weather_tool( Character *, item *, bool, const tripoint & );
 cata::optional<int> sextant( Character *, item *, bool, const tripoint & );
 cata::optional<int> lux_meter( Character *, item *, bool, const tripoint & );
+cata::optional<int> dbg_lux_meter( Character *, item *, bool, const tripoint & );
 cata::optional<int> calories_intake_tracker( Character *p, item *, bool, const tripoint & );
 
 // MACGUFFINS
@@ -271,7 +275,7 @@ class iuse_actor
         virtual ~iuse_actor() = default;
         virtual void load( const JsonObject &jo ) = 0;
         virtual cata::optional<int> use( Character &, item &, bool, const tripoint & ) const = 0;
-        virtual ret_val<bool> can_use( const Character &, const item &, bool, const tripoint & ) const;
+        virtual ret_val<void> can_use( const Character &, const item &, bool, const tripoint & ) const;
         virtual void info( const item &, std::vector<iteminfo> & ) const {}
         /**
          * Returns a deep copy of this object. Example implementation:
@@ -294,6 +298,10 @@ class iuse_actor
          */
         virtual std::string get_name() const;
         /**
+         * Returns the translated description of the action. It is used for the item action menu.
+         */
+        virtual std::string get_description() const;
+        /**
          * Finalizes the actor. Must be called after all items are loaded.
          */
         virtual void finalize( const itype_id &/*my_item_type*/ ) { }
@@ -309,7 +317,7 @@ struct use_function {
         explicit use_function( std::unique_ptr<iuse_actor> f ) : actor( std::move( f ) ) {}
 
         cata::optional<int> call( Character &, item &, bool, const tripoint & ) const;
-        ret_val<bool> can_call( const Character &, const item &, bool t, const tripoint &pos ) const;
+        ret_val<void> can_call( const Character &, const item &, bool t, const tripoint &pos ) const;
 
         iuse_actor *get_actor_ptr() {
             return actor.get();
@@ -327,6 +335,8 @@ struct use_function {
         std::string get_type() const;
         /** @return See @ref iuse_actor::get_name */
         std::string get_name() const;
+        /** @return See @ref iuse_actor::get_description */
+        std::string get_description() const;
         /** @return Used by @ref item::info to get description of the actor */
         void dump_info( const item &, std::vector<iteminfo> & ) const;
 };

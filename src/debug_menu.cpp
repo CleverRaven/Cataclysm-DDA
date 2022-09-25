@@ -180,6 +180,7 @@ std::string enum_to_string<debug_menu::debug_menu_index>( debug_menu::debug_menu
         case debug_menu::debug_menu_index::DISPLAY_WEATHER: return "DISPLAY_WEATHER";
         case debug_menu::debug_menu_index::DISPLAY_SCENTS: return "DISPLAY_SCENTS";
         case debug_menu::debug_menu_index::CHANGE_TIME: return "CHANGE_TIME";
+        case debug_menu::debug_menu_index::FORCE_TEMP: return "FORCE_TEMP";
         case debug_menu::debug_menu_index::SET_AUTOMOVE: return "SET_AUTOMOVE";
         case debug_menu::debug_menu_index::SHOW_MUT_CAT: return "SHOW_MUT_CAT";
         case debug_menu::debug_menu_index::OM_EDITOR: return "OM_EDITOR";
@@ -198,6 +199,7 @@ std::string enum_to_string<debug_menu::debug_menu_index>( debug_menu::debug_menu
         case debug_menu::debug_menu_index::PRINT_FACTION_INFO: return "PRINT_FACTION_INFO";
         case debug_menu::debug_menu_index::PRINT_NPC_MAGIC: return "PRINT_NPC_MAGIC";
         case debug_menu::debug_menu_index::QUIT_NOSAVE: return "QUIT_NOSAVE";
+        case debug_menu::debug_menu_index::QUICKLOAD: return "QUICKLOAD";
         case debug_menu::debug_menu_index::TEST_WEATHER: return "TEST_WEATHER";
         case debug_menu::debug_menu_index::WRITE_GLOBAL_EOCS: return "WRITE_GLOBAL_EOCS";
         case debug_menu::debug_menu_index::WRITE_GLOBAL_VARS: return "WRITE_GLOBAL_VARS";
@@ -345,6 +347,7 @@ static int game_uilist()
         { uilist_entry( debug_menu_index::CRASH_GAME, true, 'C', _( "Crash game (test crash handling)" ) ) },
         { uilist_entry( debug_menu_index::ACTIVATE_EOC, true, 'E', _( "Activate EOC" ) ) },
         { uilist_entry( debug_menu_index::QUIT_NOSAVE, true, 'Q', _( "Quit to main menu" ) )  },
+        { uilist_entry( debug_menu_index::QUICKLOAD, true, 'q', _( "Quickload" ) )  },
     };
 
     return uilist( _( "Game…" ), uilist_initializer );
@@ -402,6 +405,7 @@ static int map_uilist()
         { uilist_entry( debug_menu_index::GEN_SOUND, true, 'S', _( "Generate sound" ) ) },
         { uilist_entry( debug_menu_index::KILL_MONS, true, 'K', _( "Kill all monsters" ) ) },
         { uilist_entry( debug_menu_index::CHANGE_TIME, true, 't', _( "Change time" ) ) },
+        { uilist_entry( debug_menu_index::FORCE_TEMP, true, 'T', _( "Force temperature" ) ) },
         { uilist_entry( debug_menu_index::OM_EDITOR, true, 'O', _( "Overmap editor" ) ) },
         { uilist_entry( debug_menu_index::MAP_EXTRA, true, 'm', _( "Spawn map extra" ) ) },
         { uilist_entry( debug_menu_index::NESTED_MAPGEN, true, 'n', _( "Spawn nested mapgen" ) ) },
@@ -505,7 +509,7 @@ static void spell_description(
 
     // Class: Spell Class
     description << string_format( _( "Class: %1$s" ), colorize( spl.spell_class() == trait_NONE ?
-                                  _( "Classless" ) : spl.spell_class()->name(),
+                                  _( "Classless" ) : chrc.mutation_name( spl.spell_class() ),
                                   yellow ) ) << "\n";
 
     // Spell description
@@ -1310,7 +1314,8 @@ static void character_edit_needs_menu( Character &you )
 
     const auto &vits = vitamin::all();
     for( const auto &v : vits ) {
-        smenu.addentry( -1, true, 0, "%s: %d", v.second.name(), you.vitamin_get( v.first ) );
+        smenu.addentry( -1, true, 0, _( "%s: daily %d, overall %d" ), v.second.name(),
+                        you.get_daily_vitamin( v.first ), you.vitamin_get( v.first ) );
     }
 
     smenu.query();
@@ -1750,7 +1755,7 @@ static void character_edit_menu()
             } else if( !to_wear.is_null() ) {
                 you.set_wielded_item( to_wear );
                 get_event_bus().send<event_type::character_wields_item>( you.getID(),
-                        you.get_wielded_item().typeId() );
+                        you.get_wielded_item()->typeId() );
             }
         }
         break;
@@ -2412,6 +2417,60 @@ static void debug_menu_change_time()
     } while( smenu.ret != UILIST_CANCEL );
 }
 
+static void debug_menu_force_temperature()
+{
+    uilist tempmenu;
+    cata::optional<units::temperature> &forced_temp = get_weather().forced_temperature;
+
+    tempmenu.addentry( 0, forced_temp.has_value(), MENU_AUTOASSIGN, _( "Reset" ) );
+    tempmenu.addentry( 1, true, MENU_AUTOASSIGN, _( "Set" ) );
+    tempmenu.query();
+    if( tempmenu.ret == 0 ) {
+        forced_temp.reset();
+    } else {
+        string_input_popup pop;
+
+        auto ask = [&pop]( const std::string & unit, cata::optional<int> current ) {
+            int ret = pop.title( string_format( _( "Set temperature to?  [%s]" ), unit ) )
+                      .width( 20 )
+                      .text( current ? std::to_string( *current ) : "" )
+                      .only_digits( true )
+                      .query_int();
+
+            return pop.canceled() ? current : cata::optional<int>( ret );
+        };
+
+        cata::optional<int> current;
+        std::string option = get_option<std::string>( "USE_CELSIUS" );
+
+        if( option == "celsius" ) {
+            if( forced_temp ) {
+                current = units::to_celsius( *forced_temp );
+            }
+            cata::optional<int> ret = ask( "C", current );
+            if( ret ) {
+                forced_temp = units::from_celsius( *ret );
+            }
+        } else if( option == "kelvin" ) {
+            if( forced_temp ) {
+                current = units::to_kelvin( *forced_temp );
+            }
+            cata::optional<int> ret = ask( "K", current );
+            if( ret ) {
+                forced_temp = units::from_kelvin( *ret );
+            }
+        } else {
+            if( forced_temp ) {
+                current = units::to_fahrenheit( *forced_temp );
+            }
+            cata::optional<int> ret = ask( "F", current );
+            if( ret ) {
+                forced_temp = units::from_fahrenheit( *ret );
+            }
+        }
+    }
+}
+
 void debug()
 {
     bool debug_menu_has_hotkey = hotkey_for_action( ACTION_DEBUG,
@@ -2468,7 +2527,7 @@ void debug()
             for( int i = 0; i < OMAPX; i++ ) {
                 for( int j = 0; j < OMAPY; j++ ) {
                     for( int k = -OVERMAP_DEPTH; k <= OVERMAP_HEIGHT; k++ ) {
-                        cur_om.seen( { i, j, k } ) = true;
+                        cur_om.set_seen( { i, j, k }, true );
                     }
                 }
             }
@@ -2623,6 +2682,14 @@ void debug()
             if( weather_menu.ret >= 0 &&
                 static_cast<size_t>( weather_menu.ret ) < weather_types::get_all().size() ) {
                 const weather_type_id selected_weather = weather_types::get_all()[weather_menu.ret].id;
+                if( weather.weather_id->debug_leave_eoc.has_value() ) {
+                    dialogue d( get_talker_for( get_avatar() ), nullptr );
+                    effect_on_condition_id( weather.weather_id->debug_leave_eoc.value() )->activate( d );
+                }
+                if( selected_weather->debug_cause_eoc.has_value() ) {
+                    dialogue d( get_talker_for( get_avatar() ), nullptr );
+                    effect_on_condition_id( selected_weather->debug_cause_eoc.value() )->activate( d );
+                }
                 weather.weather_override = selected_weather;
                 weather.set_nextweather( calendar::turn );
             }
@@ -2847,13 +2914,18 @@ void debug()
         case debug_menu_index::CHANGE_TIME:
             debug_menu_change_time();
             break;
+        case debug_menu_index::FORCE_TEMP:
+            debug_menu_force_temperature();
+            break;
         case debug_menu_index::SET_AUTOMOVE: {
             const cata::optional<tripoint> dest = g->look_around();
             if( !dest || *dest == player_character.pos() ) {
                 break;
             }
 
-            auto rt = here.route( player_character.pos(), *dest, player_character.get_pathfinding_settings(),
+            // TODO: fix point types
+            auto rt = here.route( player_character.pos_bub(), tripoint_bub_ms( *dest ),
+                                  player_character.get_pathfinding_settings(),
                                   player_character.get_path_avoid() );
             if( !rt.empty() ) {
                 player_character.set_destination( rt );
@@ -2996,6 +3068,12 @@ void debug()
                     _( "Quit without saving?  This may cause issues such as duplicated or missing items and vehicles!" ) ) ) {
                 player_character.moves = 0;
                 g->uquit = QUIT_NOSAVED;
+            }
+            break;
+        case debug_menu_index::QUICKLOAD:
+            if( query_yn(
+                    _( "Quickload without saving?  This may cause issues such as duplicated or missing items and vehicles!" ) ) ) {
+                g->quickload();
             }
             break;
         case debug_menu_index::TEST_WEATHER: {

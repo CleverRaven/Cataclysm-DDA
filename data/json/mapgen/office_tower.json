@@ -826,8 +826,8 @@
       "place_vehicles": [
         { "vehicle": "car", "x": 6, "y": 7, "rotation": 270, "chance": 25 },
         { "vehicle": "car", "x": 11, "y": 7, "rotation": 270, "chance": 25 },
-        { "vehicle": "motorcycle", "x": 16, "y": 7, "rotation": 270, "chance": 25 },
-        { "vehicle": "beetle", "x": 23, "y": 7, "rotation": 270, "chance": 25 },
+        { "vehicle": "beetle", "x": 16, "y": 7, "rotation": 270, "chance": 25 },
+        { "vehicle": "motorcycle", "x": 23, "y": 7, "rotation": 270, "chance": 25 },
         { "vehicle": "car_luxury", "x": 14, "y": 29, "rotation": 270, "chance": 25 },
         { "vehicle": "car", "x": 19, "y": 29, "rotation": 270, "chance": 25 },
         { "vehicle": "car_hybrid", "x": 27, "y": 29, "rotation": 270, "chance": 25 },

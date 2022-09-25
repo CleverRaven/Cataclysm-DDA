@@ -30,7 +30,20 @@ static const trait_id trait_TEST_TRIGGER_active( "TEST_TRIGGER_active" );
 static const trait_id trait_UGLY( "UGLY" );
 static const trait_id trait_UNOBSERVANT( "UNOBSERVANT" );
 
+static const vitamin_id vitamin_instability( "instability" );
+static const vitamin_id vitamin_mutagen_test( "mutagen_test" );
+
 static std::string get_mutations_as_string( const Character &you );
+
+static void verify_mutation_flag( Character &you, const std::string &trait_name,
+                                  const std::string &flag_name )
+{
+    clear_avatar();
+    set_single_trait( you, trait_name );
+    GIVEN( "trait: " + trait_name + ", flag: " + flag_name ) {
+        CHECK( you.has_flag( flag_id( flag_name ) ) );
+    }
+}
 
 static mutation_category_id get_highest_category( const Character &you )
 {
@@ -412,3 +425,101 @@ TEST_CASE( "The various type of triggers work", "[mutations]" )
     }
 
 }
+
+//The chance of a mutation being bad is a function of instability, see
+//Character::roll_bad_mutation. This can't be easily tested on in-game
+//mutations, because exceptions exist - e.g., you can roll a good mutation, but
+//end up mutating a bad one, because the bad mutation is a prerequisite for the one
+//you actually rolled.
+//For this reason, this tests on an artificial category that doesn't
+//mix good and bad mutations within trees. Additionally, it doesn't contain
+//neutral mutations, because those are always allowed.
+//This also incidentally tests that, given available mutations and enough mutagen,
+//Character::mutate always succeeds to give exactly one mutation.
+TEST_CASE( "Chance of bad mutations vs instability", "[mutations][instability]" )
+{
+    Character &dummy = get_player_character();
+
+    static const std::vector<std::pair<int, float>> bad_chance_by_inst = {
+        {0, 0.0f},
+        {500, 0.0f},
+        {1000, 0.062f},
+        {1500, 0.268f},
+        {2000, 0.386f},
+        {2500, 0.464f},
+        {3000, 0.521f},
+        {4000, 0.598f},
+        {5000, 0.649f},
+        {6000, 0.686f},
+        {8000, 0.737f},
+        {10000, 0.770f}
+    };
+
+    const int tries = 1000;
+    const int muts_per_try = 5;
+    const float margin = 0.05f;
+
+    for( const std::pair<int, float> &ilevel : bad_chance_by_inst ) {
+        int bad = 0;
+        for( int i = 0; i < tries; i++ ) {
+            clear_avatar();
+            dummy.vitamin_set( vitamin_mutagen_test, 10000 );
+            for( int ii = 0; ii < muts_per_try; ii++ ) {
+                dummy.vitamin_set( vitamin_instability, ilevel.first );
+                dummy.mutate( 0, true );
+            }
+
+            std::vector<trait_id> muts = dummy.get_mutations();
+            REQUIRE( muts.size() == static_cast<size_t>( muts_per_try ) );
+            for( const trait_id &m : muts ) {
+                REQUIRE( m.obj().points != 0 );
+                if( m.obj().points < 0 ) {
+                    bad += 1;
+                }
+            }
+        }
+
+        INFO( "Current instability: " << ilevel.first );
+        if( ilevel.second == 0.0f ) {
+            CHECK( bad == 0 );
+        } else {
+            float lower = ilevel.second - margin;
+            float upper = ilevel.second + margin;
+            float frac_bad = static_cast<float>( bad ) / ( tries * muts_per_try );
+
+            CHECK( frac_bad > lower );
+            CHECK( frac_bad < upper );
+        }
+    }
+}
+
+// Verify that flags linked to core mutations are still there.
+// If has_trait( trait_XXX )-checks for a certain trait have been 'flagified' to check for
+// has_flag( json_flag_XXX ) instead the check should be added here and it's recommended to
+// reference to the PR that changes it.
+TEST_CASE( "The mutation flags are associated to the corresponding base mutations",
+           "[mutations][flags]" )
+{
+    Character &dummy = get_player_character();
+
+    // From Allow size flags for custom size changing mutations - PR #48850
+    verify_mutation_flag( dummy, "LARGE", "LARGE" );
+    verify_mutation_flag( dummy, "LARGE_OK", "LARGE" );
+    verify_mutation_flag( dummy, "HUGE", "HUGE" );
+    verify_mutation_flag( dummy, "HUGE_OK", "HUGE" );
+    verify_mutation_flag( dummy, "SMALL", "SMALL" );
+    verify_mutation_flag( dummy, "SMALL2", "TINY" );
+    verify_mutation_flag( dummy, "SMALL_OK", "TINY" );
+
+    // From Finetuning batrachian mutation (with intended sideeffects) - PR #59458
+    verify_mutation_flag( dummy, "WEBBED", "WEBBED_HANDS" );
+    verify_mutation_flag( dummy, "WEBBED_FEET", "WEBBED_FEET" );
+    verify_mutation_flag( dummy, "SEESLEEP", "SEESLEEP" );
+
+    // From Flagify COLDBLOOD mutations - PR #60052
+    verify_mutation_flag( dummy, "COLDBLOOD", "COLDBLOOD" );
+    verify_mutation_flag( dummy, "COLDBLOOD2", "COLDBLOOD2" );
+    verify_mutation_flag( dummy, "COLDBLOOD3", "COLDBLOOD3" );
+    verify_mutation_flag( dummy, "COLDBLOOD4", "ECTOTHERM" );
+}
+

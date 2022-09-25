@@ -1,6 +1,14 @@
 [
   {
-    "id": "pain_num",
+    "id": "pain_num_label",
+    "type": "widget",
+    "label": "Pain",
+    "var": "pain",
+    "style": "number",
+    "colors": [ "c_white", "c_yellow", "c_light_red", "c_red" ]
+  },
+  {
+    "id": "pain_num_no_label",
     "type": "widget",
     "label": "Pain",
     "var": "pain",

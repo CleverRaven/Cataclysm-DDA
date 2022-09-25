@@ -213,7 +213,7 @@
       "place_vehicles": [
         { "vehicle": "parkinglotbasic", "x": 9, "y": 10, "chance": 20, "rotation": 0, "status": 1 },
         { "vehicle": "parkinglotbasic", "x": 9, "y": 15, "chance": 20, "rotation": 0, "status": 1 },
-        { "vehicle": "parkinglotbasic", "x": 9, "y": 20, "chance": 20, "rotation": 0, "status": 1 },
+        { "vehicle": "parkinglotbasic", "x": 9, "y": 19, "chance": 20, "rotation": 0, "status": 1 },
         { "vehicle": "parkinglotbasic", "x": 17, "y": 20, "chance": 20, "rotation": 180, "status": 1 },
         { "vehicle": "parkinglotbasic", "x": 17, "y": 20, "chance": 20, "rotation": 180, "status": 1 },
         { "vehicle": "parkinglotbasic", "x": 17, "y": 20, "chance": 20, "rotation": 180, "status": 1 }
@@ -255,12 +255,12 @@
       ],
       "palettes": [ "p_resort_palette_main_floor" ],
       "place_vehicles": [
-        { "vehicle": "parkinglotbasic", "x": 9, "y": 0, "chance": 20, "rotation": 0, "status": 1 },
+        { "vehicle": "parkinglotbasic", "x": 9, "y": 2, "chance": 20, "rotation": 0, "status": 1 },
         { "vehicle": "parkinglotbasic", "x": 9, "y": 11, "chance": 20, "rotation": 0, "status": -1 },
         { "vehicle": "parkinglotbasic", "x": 9, "y": 16, "chance": 20, "rotation": 0, "status": 1 },
-        { "vehicle": "parkinglotbasic", "x": 17, "y": 0, "chance": 20, "rotation": 180, "status": 1 },
-        { "vehicle": "parkinglotbasic", "x": 17, "y": 11, "chance": 20, "rotation": 180, "status": 1 },
-        { "vehicle": "parkinglotbasic", "x": 17, "y": 16, "chance": 20, "rotation": 180, "status": 1 }
+        { "vehicle": "parkinglotbasic", "x": 17, "y": 4, "chance": 20, "rotation": 180, "status": 1 },
+        { "vehicle": "parkinglotbasic", "x": 17, "y": 13, "chance": 20, "rotation": 180, "status": 1 },
+        { "vehicle": "parkinglotbasic", "x": 17, "y": 18, "chance": 20, "rotation": 180, "status": 1 }
       ]
     }
   },
@@ -610,7 +610,7 @@
       "place_vehicles": [
         { "vehicle": "parkinglotbasic", "x": 7, "y": 10, "chance": 20, "rotation": 0, "status": -1 },
         { "vehicle": "parkinglotbasic", "x": 7, "y": 15, "chance": 20, "rotation": 0, "status": 1 },
-        { "vehicle": "parkinglotbasic", "x": 7, "y": 20, "chance": 20, "rotation": 0, "status": 1 },
+        { "vehicle": "parkinglotbasic", "x": 7, "y": 19, "chance": 20, "rotation": 0, "status": 1 },
         { "vehicle": "parkinglotbasic", "x": 15, "y": 20, "chance": 20, "rotation": 180, "status": 1 },
         { "vehicle": "parkinglotbasic", "x": 15, "y": 20, "chance": 20, "rotation": 180, "status": -1 },
         { "vehicle": "parkinglotbasic", "x": 15, "y": 20, "chance": 20, "rotation": 180, "status": 1 }
@@ -674,12 +674,12 @@
       ],
       "palettes": [ "p_resort_palette_main_floor" ],
       "place_vehicles": [
-        { "vehicle": "parkinglotbasic", "x": 7, "y": 0, "chance": 20, "rotation": 0, "status": 1 },
+        { "vehicle": "parkinglotbasic", "x": 7, "y": 2, "chance": 20, "rotation": 0, "status": 1 },
         { "vehicle": "parkinglotbasic", "x": 7, "y": 11, "chance": 20, "rotation": 0, "status": 1 },
         { "vehicle": "parkinglotbasic", "x": 7, "y": 16, "chance": 20, "rotation": 0, "status": 1 },
-        { "vehicle": "parkinglotbasic", "x": 15, "y": 0, "chance": 20, "rotation": 180, "status": -1 },
-        { "vehicle": "parkinglotbasic", "x": 15, "y": 11, "chance": 20, "rotation": 180, "status": 1 },
-        { "vehicle": "parkinglotbasic", "x": 15, "y": 16, "chance": 20, "rotation": 180, "status": 1 }
+        { "vehicle": "parkinglotbasic", "x": 15, "y": 4, "chance": 20, "rotation": 180, "status": -1 },
+        { "vehicle": "parkinglotbasic", "x": 15, "y": 13, "chance": 20, "rotation": 180, "status": 1 },
+        { "vehicle": "parkinglotbasic", "x": 15, "y": 18, "chance": 20, "rotation": 180, "status": 1 }
       ]
     }
   },

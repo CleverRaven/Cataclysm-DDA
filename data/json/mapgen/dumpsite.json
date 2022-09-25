@@ -138,8 +138,8 @@
       "place_vehicles": [
         {
           "vehicle": "dumpsite_vehicles",
-          "x": [ 7, 15 ],
-          "y": [ 7, 15 ],
+          "x": [ 8, 15 ],
+          "y": [ 8, 15 ],
           "rotation": [ 0, 90, 180, 270 ],
           "chance": 20,
           "fuel": 0
@@ -231,8 +231,8 @@
       "place_vehicles": [
         {
           "vehicle": "dumpsite_vehicles",
-          "x": [ 7, 15 ],
-          "y": [ 7, 15 ],
+          "x": [ 8, 15 ],
+          "y": [ 8, 15 ],
           "rotation": [ 0, 90, 180, 270 ],
           "chance": 10,
           "fuel": 0

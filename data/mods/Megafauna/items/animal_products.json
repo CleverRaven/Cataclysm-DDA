@@ -8,6 +8,7 @@
     "color": "white",
     "symbol": ")",
     "description": "A huge curved tusk of a mammoth.",
+    "comestible_type": "FOOD",
     "price": 0,
     "price_postapoc": 10,
     "material": [ "bone" ],

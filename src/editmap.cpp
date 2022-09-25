@@ -17,6 +17,7 @@
 #include "avatar.h"
 #include "cached_options.h" // IWYU pragma: keep
 #include "calendar.h"
+#include "cata_scope_helpers.h"
 #include "cata_utility.h"
 #include "character.h"
 #include "colony.h"
@@ -531,7 +532,7 @@ void editmap::draw_main_ui_overlay()
 #ifdef TILES
     // give some visual indication of different cursor moving modes
     if( use_tiles && altblink ) {
-        point p[2] = { origin.xy(), target.xy() };
+        std::array<point, 2> p = { origin.xy(), target.xy() };
         if( editshape == editmap_rect || editshape == editmap_rect_filled || p[0] == p[1] ) {
             if( p[0] == p[1] ) {
                 // ensure more than one cursor is drawn to differ from resizing mode
@@ -1577,7 +1578,7 @@ void editmap::edit_critter( Creature &critter )
     }
 }
 
-void editmap::edit_veh()
+void editmap::edit_veh() const
 {
     edit_json( get_map().veh_at( target )->vehicle() );
 }
@@ -1648,9 +1649,9 @@ static int limited_shift( int var, int &shift, int min, int max )
     if( var + shift < min ) {
         shift = min - var;
     } else if( var + shift >= max ) {
-        shift = shift + ( max - 1 - ( var + shift ) );
+        shift = max - 1 - var;
     }
-    return var += shift;
+    return var + shift;
 }
 
 /*
@@ -2218,7 +2219,7 @@ void editmap::edit_mapgen()
 /*
  * Special voodoo sauce required to cleanse vehicles and caches to prevent debugmsg loops when re-applying mapgen.
  */
-void editmap::cleartmpmap( tinymap &tmpmap )
+void editmap::cleartmpmap( tinymap &tmpmap ) const
 {
     for( submap *&smap : tmpmap.grid ) {
         delete smap;

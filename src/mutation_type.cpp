@@ -32,6 +32,23 @@ std::vector<trait_id> get_mutations_in_type( const std::string &id )
     return ret;
 }
 
+std::vector<trait_and_var> mutations_var_in_type( const std::string &id )
+{
+    std::vector<trait_and_var> ret;
+    for( const mutation_branch &it : mutation_branch::get_all() ) {
+        if( it.types.find( id ) != it.types.end() ) {
+            if( it.variants.empty() ) {
+                ret.emplace_back( it.id, "" );
+                continue;
+            }
+            for( const std::pair<const std::string, mutation_variant> &var : it.variants ) {
+                ret.emplace_back( it.id, var.second.id );
+            }
+        }
+    }
+    return ret;
+}
+
 std::vector<trait_id> get_mutations_in_types( const std::set<std::string> &ids )
 {
     std::vector<trait_id> ret;

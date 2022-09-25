@@ -152,7 +152,7 @@
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ { "distribution": [ [ "cabin_palette", 1 ], [ "cabin_palette_abandoned", 1 ] ] }, "cabin_lakeside_floor_palette" ],
       "terrain": { "-": "t_railing" },
-      "place_vehicles": [ { "chance": 75, "rotation": 270, "vehicle": "canoe", "x": [ 9, 16 ], "y": [ 1, 4 ] } ]
+      "place_vehicles": [ { "chance": 75, "rotation": 270, "vehicle": "canoe", "x": [ 9, 16 ], "y": [ 2, 4 ] } ]
     }
   },
   {
@@ -312,7 +312,7 @@
       "palettes": [ { "distribution": [ [ "cabin_palette", 1 ], [ "cabin_palette_abandoned", 1 ] ] }, "cabin_lakeside_floor_palette" ],
       "terrain": { "-": "t_railing" },
       "place_monsters": [ { "monster": "GROUP_BEACH", "x": 14, "y": 11 } ],
-      "place_vehicles": [ { "chance": 75, "rotation": 90, "vehicle": "raft", "x": [ 0, 5 ], "y": [ 10, 15 ] } ]
+      "place_vehicles": [ { "chance": 75, "rotation": 90, "vehicle": "raft", "x": [ 1, 5 ], "y": [ 10, 15 ] } ]
     }
   },
   {
@@ -471,7 +471,7 @@
         { "chance": 5, "item": "clutter_bedroom", "x": 13, "y": 12 },
         { "chance": 5, "item": "clutter_bedroom", "x": 12, "y": 9 }
       ],
-      "place_vehicles": [ { "chance": 75, "rotation": 90, "vehicle": "raft", "x": [ 0, 4 ], "y": [ 12, 16 ] } ],
+      "place_vehicles": [ { "chance": 75, "rotation": 90, "vehicle": "raft", "x": [ 1, 4 ], "y": [ 12, 16 ] } ],
       "place_monsters": [
         { "monster": "GROUP_ZOMBIE", "x": [ 17, 18 ], "y": [ 21, 22 ] },
         { "monster": "GROUP_ZOMBIE", "x": [ 3, 4 ], "y": [ 20, 21 ] }

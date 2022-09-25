@@ -416,7 +416,7 @@ inline constexpr value_type to_kelvin( const
 constexpr temperature freezing_point = from_kelvin( 273.150f );
 
 template<typename value_type>
-inline constexpr quantity<units::temperature::value_type, temperature_in_kelvin_tag> from_celcius(
+inline constexpr quantity<units::temperature::value_type, temperature_in_kelvin_tag> from_celsius(
     const value_type v )
 {
     return from_kelvin( v ) + freezing_point;
@@ -431,7 +431,7 @@ from_fahrenheit(
 }
 
 template<typename value_type>
-inline constexpr value_type to_celcius( const
+inline constexpr value_type to_celsius( const
                                         quantity<value_type, temperature_in_kelvin_tag> &v )
 {
     return ( v - freezing_point ).value();
@@ -690,21 +690,7 @@ inline std::string quantity_to_string( const quantity<value_type, tag_type> &v )
     return os.str();
 }
 
-inline std::string display( const units::energy v )
-{
-    const int kj = units::to_kilojoule( v );
-    const int j = units::to_joule( v );
-    // at least 1 kJ and there is no fraction
-    if( kj >= 1 && static_cast<float>( j ) / kj == 1000 ) {
-        return std::to_string( kj ) + ' ' + pgettext( "energy unit: kilojoule", "kJ" );
-    }
-    const int mj = units::to_millijoule( v );
-    // at least 1 J and there is no fraction
-    if( j >= 1 && static_cast<float>( mj ) / j  == 1000 ) {
-        return std::to_string( j ) + ' ' + pgettext( "energy unit: joule", "J" );
-    }
-    return std::to_string( mj ) + ' ' + pgettext( "energy unit: millijoule", "mJ" );
-}
+std::string display( units::energy v );
 
 } // namespace units
 
