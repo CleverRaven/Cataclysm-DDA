@@ -3115,7 +3115,7 @@ void talk_effect_fun_t<T>::set_hp( const JsonObject &jo, const std::string &memb
     int_or_var<T> new_hp = get_int_or_var<T>( jo, member, true );
     cata::optional<str_or_var<T>> target_part;
     if( jo.has_string( "target_part" ) ) {
-        target_part = get_str_or_var( jo, "target_part", true );
+        target_part = get_str_or_var<T>(jo.get_member("target_part"), "target_part", true);
     }
     bool only_increase = jo.get_bool( "only_increase", false );
     function = [only_increase, new_hp, target_part, is_npc]( const T & d ) {
@@ -3123,8 +3123,8 @@ void talk_effect_fun_t<T>::set_hp( const JsonObject &jo, const std::string &memb
         for( const bodypart_id &part : target->get_all_body_parts() ) {
             if( ( !target_part.has_value() || bodypart_id( target_part.value().evaluate( d ) ) == part ) &&
                 ( !only_increase ||
-                  target->get_part_hp_cur( part ) <= new_hp ) ) {
-                target->set_part_hp_cur( part, new_hp );
+                  target->get_part_hp_cur( part ) <= new_hp.evaluate( d ) ) ) {
+                target->set_part_hp_cur( part, new_hp.evaluate( d ) );
             }
         }
     };
