@@ -132,7 +132,7 @@ void place_appliance( const tripoint &p, const vpart_id &vpart, const std::optio
             continue;
         }
         vehicle &veh_target = vp->vehicle();
-        if( veh_target.has_tag( flag_APPLIANCE ) || veh_target.has_tag( flag_WIRING ) ) {
+        if( veh_target.has_tag( flag_APPLIANCE ) ) {
             if( veh->is_powergrid() && veh_target.is_powergrid() ) {
                 veh->merge_appliance_into_grid( veh_target );
                 continue;

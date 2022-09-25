@@ -1899,7 +1899,8 @@ class vehicle
         bool assign_seat( vehicle_part &pt, const npc &who );
 
         // Update the set of occupied points and return a reference to it
-        const std::set<tripoint> &get_points( bool force_refresh = false ) const;
+        const std::set<tripoint> &get_points( const bool force_refresh = false,
+                                              const bool no_fake = false ) const;
 
         /**
         * Consumes specified charges (or fewer) from the vehicle part
@@ -2045,7 +2046,7 @@ class vehicle
         // Called by map.cpp to make sure the real position of each zone_data is accurate
         bool refresh_zones();
 
-        bounding_box get_bounding_box( bool use_precalc = true );
+        bounding_box get_bounding_box( bool use_precalc = true, bool no_fake = false );
         // Retroactively pass time spent outside bubble
         // Funnels, solar panels
         void update_time( const time_point &update_to );

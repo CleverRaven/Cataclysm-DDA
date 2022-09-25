@@ -1776,6 +1776,9 @@ bool vehicle::merge_rackable_vehicle( vehicle *carry_veh, const std::vector<int>
 bool vehicle::merge_vehicle_parts( vehicle *veh )
 {
     for( const vehicle_part &part : veh->parts ) {
+        if( part.is_fake || part.removed ) {
+            continue;
+        }
         point part_loc = veh->mount_to_tripoint( part.mount ).xy();
 
         parts.push_back( part );
@@ -1796,13 +1799,14 @@ void vehicle::merge_appliance_into_grid( vehicle &veh_target )
     if( &veh_target == this ) {
         return;
     }
+    veh_target.shift_parts( get_map(), veh_target.pivot_displacement() );
 
-    bounding_box vehicle_box = get_bounding_box( false );
+    bounding_box vehicle_box = get_bounding_box( true, true );
     point size;
     size.x = std::abs( ( vehicle_box.p2 - vehicle_box.p1 ).x ) + 1;
     size.y = std::abs( ( vehicle_box.p2 - vehicle_box.p1 ).y ) + 1;
 
-    bounding_box target_vehicle_box = veh_target.get_bounding_box( false );
+    bounding_box target_vehicle_box = veh_target.get_bounding_box( true, true );
 
     point target_size;
     target_size.x = std::abs( ( target_vehicle_box.p2 - target_vehicle_box.p1 ).x ) + 1;
@@ -7394,7 +7398,7 @@ bool vehicle::restore_folded_parts( const item &it )
     return true;
 }
 
-const std::set<tripoint> &vehicle::get_points( const bool force_refresh ) const
+const std::set<tripoint> &vehicle::get_points( const bool force_refresh, const bool no_fake ) const
 {
     if( force_refresh || occupied_cache_pos != global_pos3() ||
         occupied_cache_direction != face.dir() ) {
@@ -7402,6 +7406,10 @@ const std::set<tripoint> &vehicle::get_points( const bool force_refresh ) const
         occupied_cache_direction = face.dir();
         occupied_points.clear();
         for( const std::pair<const point, std::vector<int>> &part_location : relative_parts ) {
+            if( no_fake && part( part_location.second.front() ).is_fake ) {
+                continue;
+
+            }
             occupied_points.insert( global_part_pos3( part_location.second.front() ) );
         }
     }
@@ -7718,7 +7726,7 @@ void vehicle::calc_mass_center( bool use_precalc ) const
     }
 }
 
-bounding_box vehicle::get_bounding_box( bool use_precalc )
+bounding_box vehicle::get_bounding_box( bool use_precalc, bool no_fake )
 {
     int min_x = INT_MAX;
     int max_x = INT_MIN;
@@ -7729,7 +7737,7 @@ bounding_box vehicle::get_bounding_box( bool use_precalc )
 
     precalc_mounts( 0, turn_dir, point() );
 
-    for( const tripoint &p : get_points( true ) ) {
+    for( const tripoint &p : get_points( true, no_fake ) ) {
         point pt;
         if( use_precalc ) {
             const int i_use = 0;
