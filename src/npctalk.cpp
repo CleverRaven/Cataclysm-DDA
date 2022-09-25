@@ -3109,6 +3109,28 @@ void talk_effect_fun_t<T>::set_mod_healthy( const JsonObject &jo, const std::str
 }
 
 template<class T>
+void talk_effect_fun_t<T>::set_hp( const JsonObject &jo, const std::string &member,
+                                   bool is_npc )
+{
+    int_or_var<T> new_hp = get_int_or_var<T>( jo, member, true );
+    cata::optional<str_or_var<T>> target_part;
+    if( jo.has_string( "target_part" ) ) {
+        target_part = get_str_or_var( jo, "target_part", true );
+    }
+    bool only_increase = jo.get_bool( "only_increase", false );
+    function = [only_increase, new_hp, target_part, is_npc]( const T & d ) {
+        talker *target = d.actor( is_npc );
+        for( const bodypart_id &part : target->get_all_body_parts() ) {
+            if( ( !target_part.has_value() || bodypart_id( target_part.value().evaluate( d ) ) == part ) &&
+                ( !only_increase ||
+                  target->get_part_hp_cur( part ) <= new_hp ) ) {
+                target->set_part_hp_cur( part, new_hp );
+            }
+        }
+    };
+}
+
+template<class T>
 void talk_effect_fun_t<T>::set_cast_spell( const JsonObject &jo, const std::string &member,
         bool is_npc, bool targeted )
 {
@@ -4077,6 +4099,10 @@ void talk_effect_t<T>::parse_sub_effect( const JsonObject &jo )
         subeffect_fun.set_location_variable( jo, "u_location_variable", false );
     } else if( jo.has_object( "npc_location_variable" ) ) {
         subeffect_fun.set_location_variable( jo, "npc_location_variable", true );
+    } else if( jo.has_int( "u_set_hp" ) ) {
+        subeffect_fun.set_hp( jo, "u_set_hp", false );
+    } else if( jo.has_int( "npc_set_hp" ) ) {
+        subeffect_fun.set_hp( jo, "npc_set_hp", true );
     } else if( jo.has_string( "u_buy_monster" ) ) {
         const std::string &monster_type_id = jo.get_string( "u_buy_monster" );
         const int cost = jo.get_int( "cost", 0 );
