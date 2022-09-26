@@ -3877,7 +3877,7 @@ cata::optional<int> place_trap_actor::use( Character &p, item &it, bool, const t
     }
     const place_trap_actor::data &data = bury ? buried_data : unburied_data;
 
-    p.add_msg_if_player( m_info, data.done_message.translated(), distance_to_trap_center );
+    p.add_msg_if_player( m_info, data.done_message.translated(), here.tername( pos ) );
     p.practice( skill_traps, data.practice );
     p.practice_proficiency( proficiency_prof_traps, time_duration::from_seconds( data.practice * 30 ) );
     p.practice_proficiency( proficiency_prof_trapsetting,
