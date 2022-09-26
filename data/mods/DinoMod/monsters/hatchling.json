@@ -519,7 +519,7 @@
     "upgrades": { "age_grow": 30, "into": "mon_zuniceratops_juvenile" }
   },
   {
-    "id": "mmon_styracosaurus_hatchling",
+    "id": "mon_styracosaurus_hatchling",
     "type": "MONSTER",
     "copy-from": "mon_leptoceratops_hatchling",
     "upgrades": { "age_grow": 30, "into": "mon_styracosaurus_juvenile" }
