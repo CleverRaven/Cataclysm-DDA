@@ -166,26 +166,26 @@
           "chance": 80,
           "repeat": [ 0, 3 ]
         },
-        "é": { "item": "tools_tailor", "chance": 60, "repeat": [ 0, 2 ] },
+        "é": { "item": "tools_tailor", "chance": 60, "repeat": [ 0, 3 ] },
         "ê": {
           "item": {
             "subtype": "collection",
             "entries": [ { "group": "tools_plumbing", "prob": 70 }, { "group": "plumbing_bulk", "prob": 30 } ]
           },
           "chance": 80,
-          "repeat": [ 0, 2 ]
+          "repeat": [ 0, 3 ]
         },
-        "ë": { "item": "tools_carpentry", "chance": 80, "repeat": [ 0, 2 ] },
-        "È": { "item": "tools_mechanic", "chance": 80, "repeat": [ 0, 2 ] },
+        "ë": { "item": "tools_carpentry", "chance": 80, "repeat": [ 0, 3 ] },
+        "È": { "item": "tools_mechanic", "chance": 80, "repeat": [ 0, 3 ] },
         "Ë": {
           "item": {
             "subtype": "collection",
             "entries": [ { "group": "tools_earthworking", "prob": 90 }, { "group": "tools_entry", "prob": 10 } ]
           },
           "chance": 80,
-          "repeat": [ 0, 2 ]
+          "repeat": [ 0, 3 ]
         },
-        "æ": { "item": "farming_tools", "chance": 100, "repeat": [ 0, 2 ] },
+        "æ": { "item": "farming_tools", "chance": 100, "repeat": [ 0, 3 ] },
         "÷": { "item": "farming_seeds", "chance": 100, "repeat": [ 1, 6 ] },
         "Î": {
           "item": { "subtype": "collection", "entries": [ { "group": "fertilizers", "prob": 80 }, { "item": "fungicide", "prob": 20 } ] },

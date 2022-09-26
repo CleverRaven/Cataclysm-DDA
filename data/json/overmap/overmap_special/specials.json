@@ -8235,7 +8235,7 @@
       { "point": [ 1, 1, 0 ], "overmap": "farm_supply_looted_4_north" },
       { "point": [ 1, 1, 1 ], "overmap": "farm_supply_roof_4_north" }
     ],
-    "occurrences": [ 40, 100 ],
+    "occurrences": [ 50, 100 ],
     "connections": [
       { "point": [ 0, -1, 0 ], "terrain": "road", "from": [ 0, 0, 0 ] },
       { "point": [ 1, -1, 0 ], "terrain": "road", "from": [ 1, 0, 0 ] }
