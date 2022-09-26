@@ -371,7 +371,7 @@
           "y": [ 40, 44 ]
         },
         {
-          "chunks": [ [ "null", 20 ], [ "roof_2x2_infrastructure", 40 ], [ "roof_2x2_infrastructure_2", 40 ] ],
+          "chunks": [ [ "roof_2x2_infrastructure", 50 ], [ "roof_2x2_infrastructure_2", 50 ] ],
           "x": [ 26, 30 ],
           "y": [ 25, 35 ]
         },
