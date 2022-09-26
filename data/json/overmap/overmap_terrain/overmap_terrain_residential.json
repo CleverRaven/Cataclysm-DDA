@@ -43,6 +43,8 @@
     "id": [
       "2storyModern01_first",
       "2storyModern01_second",
+      "2storyModern02_1",
+      "2storyModern02_2",
       "duplex",
       "garden_house_1_floor_1",
       "garden_house_1_floor_2",
@@ -312,6 +314,7 @@
     "type": "overmap_terrain",
     "id": [
       "2storyModern01_roof",
+      "2storyModern02_roof",
       "duplex_roof",
       "garden_house_1_roof",
       "house_01_roof",
@@ -412,6 +415,7 @@
     "type": "overmap_terrain",
     "id": [
       "2storyModern01_basement",
+      "2storyModern02_basement",
       "basement_bionic",
       "basement_bionic_decoy",
       "basement_chem",
@@ -643,5 +647,34 @@
     "see_cost": 5,
     "extras": "build",
     "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "prefab",
+    "name": "mobile home",
+    "copy-from": "generic_city_house_no_sidewalk",
+    "spawns": { "group": "GROUP_NULL", "population": [ 1, 1 ], "chance": 100 }
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "prefab_roof",
+    "name": "mobile home roof",
+    "copy-from": "generic_city_house_roof"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "trailer_hub_10",
+    "name": "administration building",
+    "sym": "A",
+    "color": "cyan",
+    "copy-from": "generic_city_house_no_sidewalk"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "trailer_hub_10_roof",
+    "name": "administration building roof",
+    "sym": "A",
+    "color": "cyan",
+    "copy-from": "generic_city_house_roof"
   }
 ]

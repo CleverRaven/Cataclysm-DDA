@@ -281,7 +281,7 @@ item *make_mon_corpse( monster &z, int damageLvl )
     // All corpses are at 37 C at time of death
     // This may not be true but anything better would be way too complicated
     if( z.is_warm() ) {
-        corpse.set_item_temperature( units::from_celcius( 37 ) );
+        corpse.set_item_temperature( units::from_celsius( 37 ) );
     }
     corpse.set_damage( damageLvl );
     if( z.has_effect( effect_no_ammo ) ) {

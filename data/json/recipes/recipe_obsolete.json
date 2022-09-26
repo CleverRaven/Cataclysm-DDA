@@ -809,6 +809,11 @@
   },
   {
     "type": "recipe",
+    "result": "sheet_metal_lit",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
     "result": "2x4_from wooden beams",
     "obsolete": true
   },

@@ -60,6 +60,8 @@ static const itype_id itype_water( "water" );
 
 static const morale_type morale_food_good( "morale_food_good" );
 
+static const proficiency_id proficiency_prof_carving( "prof_carving" );
+
 static const quality_id qual_ANVIL( "ANVIL" );
 static const quality_id qual_BOIL( "BOIL" );
 static const quality_id qual_CHISEL( "CHISEL" );
@@ -81,6 +83,8 @@ static const recipe_id recipe_blanket( "blanket" );
 static const recipe_id recipe_brew_mead( "brew_mead" );
 static const recipe_id recipe_brew_rum( "brew_rum" );
 static const recipe_id recipe_carver_off( "carver_off" );
+static const recipe_id recipe_cudgel_simple( "cudgel_simple" );
+static const recipe_id recipe_cudgel_slow( "cudgel_slow" );
 static const recipe_id recipe_dry_meat( "dry_meat" );
 static const recipe_id recipe_fishing_hook_basic( "fishing_hook_basic" );
 static const recipe_id recipe_helmet_kabuto( "helmet_kabuto" );
@@ -427,10 +431,7 @@ static void prep_craft( const recipe_id &rid, const std::vector<item> &tools,
 static time_point midnight = calendar::turn_zero + 0_hours;
 static time_point midday = calendar::turn_zero + 12_hours;
 
-// This tries to actually run the whole craft activity, which is more thorough,
-// but slow
-static int actually_test_craft( const recipe_id &rid, int interrupt_after_turns,
-                                int skill_level = -1 )
+static void setup_test_craft( const recipe_id &rid )
 {
     set_time( midday ); // Ensure light for crafting
     avatar &player_character = get_avatar();
@@ -448,10 +449,20 @@ static int actually_test_craft( const recipe_id &rid, int interrupt_after_turns,
     player_character.make_craft( rid, 1 );
     REQUIRE( player_character.activity );
     REQUIRE( player_character.activity.id() == ACT_CRAFT );
+}
+
+// This tries to actually run the whole craft activity, which is more thorough,
+// but slow
+static int actually_test_craft( const recipe_id &rid, int interrupt_after_turns,
+                                int skill_level = -1 )
+{
+    setup_test_craft( rid );
+    avatar &player_character = get_avatar();
+
     int turns = 0;
     while( player_character.activity.id() == ACT_CRAFT ) {
         if( turns >= interrupt_after_turns ||
-            ( skill_level >= 0 && player_character.get_skill_level( rec.skill_used ) > skill_level ) ) {
+            ( skill_level >= 0 && player_character.get_skill_level( rid->skill_used ) > skill_level ) ) {
             set_time( midnight ); // Kill light to interrupt crafting
         }
         ++turns;
@@ -462,6 +473,85 @@ static int actually_test_craft( const recipe_id &rid, int interrupt_after_turns,
         }
     }
     return turns;
+}
+
+static int test_craft_for_prof( const recipe_id &rid, const proficiency_id &prof,
+                                float target_progress )
+{
+    setup_test_craft( rid );
+    avatar &player_character = get_avatar();
+
+    int turns = 0;
+    while( player_character.activity.id() == ACT_CRAFT ) {
+        if( player_character.get_proficiency_practice( prof ) >= target_progress ) {
+            set_time( midnight );
+        }
+
+        player_character.moves = 100;
+        player_character.set_focus( 100 );
+        player_character.activity.do_turn( player_character );
+        ++turns;
+    }
+
+    return turns;
+}
+
+// Test gaining proficiency by repeatedly crafting short recipe
+TEST_CASE( "proficiency_gain_short_crafts", "[crafting][proficiency]" )
+{
+    std::vector<item> tools = { item( "2x4" ) };
+
+    const recipe_id &rec = recipe_cudgel_simple;
+    prep_craft( rec, tools, true );
+    avatar &ch = get_avatar();
+    // Set skill above requirement so that skill training doesn't steal any focus
+    ch.set_skill_level( skill_fabrication, 1 );
+    REQUIRE( rec->get_skill_cap() < ch.get_skill_level( rec->skill_used ) );
+
+    REQUIRE( ch.get_proficiency_practice( proficiency_prof_carving ) == 0.0f );
+
+    int turns_taken = 0;
+    const int max_turns = 100'000;
+
+    float time_malus = rec->proficiency_time_maluses( ch );
+
+    // Proficiency progress is checked every 5% of craft progress, so up to 5% of one craft worth can be wasted depending on timing
+    // Rounding effects account for another tiny bit
+    time_duration overrun = time_duration::from_turns( 466 );
+
+    do {
+        turns_taken += test_craft_for_prof( rec, proficiency_prof_carving, 1.0f );
+        give_tools( tools );
+
+        // Escape door to avoid infinite loop if there is no progress
+        REQUIRE( turns_taken < max_turns );
+    } while( !ch.has_proficiency( proficiency_prof_carving ) );
+
+    time_duration expected_time = proficiency_prof_carving->time_to_learn() * time_malus + overrun;
+    CHECK( time_duration::from_turns( turns_taken ) == expected_time );
+}
+
+// Test gaining proficiency all at once after finishing 5% of a very long recipe
+TEST_CASE( "proficiency_gain_long_craft", "[crafting][proficiency]" )
+{
+    std::vector<item> tools = { item( "2x4" ) };
+    const recipe_id &rec = recipe_cudgel_slow;
+    prep_craft( rec, tools, true );
+    avatar &ch = get_avatar();
+    // Set skill above requirement so that skill training doesn't steal any focus
+    ch.set_skill_level( skill_fabrication, 1 );
+    REQUIRE( rec->get_skill_cap() < ch.get_skill_level( rec->skill_used ) );
+    REQUIRE( ch.get_proficiency_practice( proficiency_prof_carving ) == 0.0f );
+
+    test_craft_for_prof( rec, proficiency_prof_carving, 1.0f );
+
+    const item_location &craft = ch.get_wielded_item();
+
+    // Check exactly one 5% tick has passed
+    // 500k counter = 5% progress
+    // If counter is 0, this means the craft finished before we gained the proficiency
+    CHECK( craft->item_counter >= 500'000 );
+    CHECK( craft->item_counter < 501'000 );
 }
 
 TEST_CASE( "UPS shows as a crafting component", "[crafting][ups]" )
@@ -885,7 +975,7 @@ TEST_CASE( "crafting_skill_gain", "[skill],[crafting],[slow]" )
             test_skill_progression( recipe_blanket, 174, 0, true );
         }
         GIVEN( "high morale" ) {
-            test_skill_progression( recipe_blanket, 172, 50, true );
+            test_skill_progression( recipe_blanket, 173, 50, true );
         }
         GIVEN( "very high morale" ) {
             test_skill_progression( recipe_blanket, 172, 100, true );
@@ -896,7 +986,7 @@ TEST_CASE( "crafting_skill_gain", "[skill],[crafting],[slow]" )
             test_skill_progression( recipe_2byarm_guard, 2140, 0, true );
         }
         GIVEN( "high morale" ) {
-            test_skill_progression( recipe_2byarm_guard, 1842, 50, true );
+            test_skill_progression( recipe_2byarm_guard, 1843, 50, true );
         }
         GIVEN( "very high morale" ) {
             test_skill_progression( recipe_2byarm_guard, 1737, 100, true );
@@ -904,10 +994,10 @@ TEST_CASE( "crafting_skill_gain", "[skill],[crafting],[slow]" )
     }
     SECTION( "lvl 2 -> lvl 3" ) {
         GIVEN( "nominal morale" ) {
-            test_skill_progression( recipe_vambrace_larmor, 6298, 0, true );
+            test_skill_progression( recipe_vambrace_larmor, 6299, 0, true );
         }
         GIVEN( "high morale" ) {
-            test_skill_progression( recipe_vambrace_larmor, 5236, 50, true );
+            test_skill_progression( recipe_vambrace_larmor, 5237, 50, true );
         }
         GIVEN( "very high morale" ) {
             test_skill_progression( recipe_vambrace_larmor, 4841, 100, true );
@@ -929,7 +1019,7 @@ TEST_CASE( "crafting_skill_gain", "[skill],[crafting],[slow]" )
             test_skill_progression( recipe_armguard_metal, 19638, 0, true );
         }
         GIVEN( "high morale" ) {
-            test_skill_progression( recipe_armguard_metal, 16125, 50, true );
+            test_skill_progression( recipe_armguard_metal, 16126, 50, true );
         }
         GIVEN( "very high morale" ) {
             test_skill_progression( recipe_armguard_metal, 14805, 100, true );
@@ -937,7 +1027,7 @@ TEST_CASE( "crafting_skill_gain", "[skill],[crafting],[slow]" )
     }
     SECTION( "lvl 5 -> 6" ) {
         GIVEN( "nominal morale" ) {
-            test_skill_progression( recipe_armguard_chitin, 28817, 0, true );
+            test_skill_progression( recipe_armguard_chitin, 28818, 0, true );
         }
         GIVEN( "high morale" ) {
             test_skill_progression( recipe_armguard_chitin, 23613, 50, true );
@@ -951,7 +1041,7 @@ TEST_CASE( "crafting_skill_gain", "[skill],[crafting],[slow]" )
             test_skill_progression( recipe_armguard_acidchitin, 39651, 0, true );
         }
         GIVEN( "high morale" ) {
-            test_skill_progression( recipe_armguard_acidchitin, 32470, 50, true );
+            test_skill_progression( recipe_armguard_acidchitin, 32471, 50, true );
         }
         GIVEN( "very high morale" ) {
             test_skill_progression( recipe_armguard_acidchitin, 29755, 100, true );
@@ -962,29 +1052,29 @@ TEST_CASE( "crafting_skill_gain", "[skill],[crafting],[slow]" )
             test_skill_progression( recipe_armguard_lightplate, 52138, 0, true );
         }
         GIVEN( "high morale" ) {
-            test_skill_progression( recipe_armguard_lightplate, 42656, 50, true );
+            test_skill_progression( recipe_armguard_lightplate, 42657, 50, true );
         }
         GIVEN( "very high morale" ) {
-            test_skill_progression( recipe_armguard_lightplate, 39078, 100, true );
+            test_skill_progression( recipe_armguard_lightplate, 39079, 100, true );
         }
     }
     SECTION( "lvl 8 -> 9" ) {
         GIVEN( "nominal morale" ) {
-            test_skill_progression( recipe_helmet_scavenger, 66243, 0, true );
+            test_skill_progression( recipe_helmet_scavenger, 66244, 0, true );
         }
         GIVEN( "high morale" ) {
-            test_skill_progression( recipe_helmet_scavenger, 54170, 50, true );
+            test_skill_progression( recipe_helmet_scavenger, 54171, 50, true );
         }
         GIVEN( "very high morale" ) {
-            test_skill_progression( recipe_helmet_scavenger, 49609, 100, true );
+            test_skill_progression( recipe_helmet_scavenger, 49610, 100, true );
         }
     }
     SECTION( "lvl 9 -> 10" ) {
         GIVEN( "nominal morale" ) {
-            test_skill_progression( recipe_helmet_kabuto, 82489, 0, true );
+            test_skill_progression( recipe_helmet_kabuto, 82490, 0, true );
         }
         GIVEN( "high morale" ) {
-            test_skill_progression( recipe_helmet_kabuto, 67364, 50, true );
+            test_skill_progression( recipe_helmet_kabuto, 67365, 50, true );
         }
         GIVEN( "very high morale" ) {
             test_skill_progression( recipe_helmet_kabuto, 61584, 100, true );
@@ -992,15 +1082,15 @@ TEST_CASE( "crafting_skill_gain", "[skill],[crafting],[slow]" )
     }
     SECTION( "long craft with proficiency delays" ) {
         GIVEN( "nominal morale" ) {
-            test_skill_progression( recipe_longbow, 71187, 0, false );
-            test_skill_progression( recipe_longbow, 28804, 0, true );
+            test_skill_progression( recipe_longbow, 71192, 0, false );
+            test_skill_progression( recipe_longbow, 28805, 0, true );
         }
         GIVEN( "high morale" ) {
             test_skill_progression( recipe_longbow, 56945, 50, false );
-            test_skill_progression( recipe_longbow, 23608, 50, true );
+            test_skill_progression( recipe_longbow, 23609, 50, true );
         }
         GIVEN( "very high morale" ) {
-            test_skill_progression( recipe_longbow, 52222, 100, false );
+            test_skill_progression( recipe_longbow, 52211, 100, false );
             test_skill_progression( recipe_longbow, 21651, 100, true );
         }
     }
@@ -1009,7 +1099,7 @@ TEST_CASE( "crafting_skill_gain", "[skill],[crafting],[slow]" )
             test_skill_progression( recipe_fishing_hook_basic, 174, 0, true );
         }
         GIVEN( "high morale" ) {
-            test_skill_progression( recipe_fishing_hook_basic, 172, 50, true );
+            test_skill_progression( recipe_fishing_hook_basic, 173, 50, true );
         }
         GIVEN( "very high morale" ) {
             test_skill_progression( recipe_fishing_hook_basic, 172, 100, true );

@@ -10,6 +10,7 @@
 #include "avatar.h"
 #include "cached_options.h"
 #include "cata_catch.h"
+#include "cata_scope_helpers.h"
 #include "character.h"
 #include "colony.h"
 #include "contents_change_handler.h"

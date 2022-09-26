@@ -1330,6 +1330,7 @@ void set_traits( tab_manager &tabs, avatar &u, pool_type pool )
     bool recalc_traits = false;
     // pointer for memory footprint reasons
     std::array<std::vector<const trait_and_var *>, 3> sorted_traits;
+    std::array<scrollbar, 3> trait_sbs;
     std::string filterstring;
 
     for( int i = 0; i < 3; i++ ) {
@@ -1396,6 +1397,9 @@ void set_traits( tab_manager &tabs, avatar &u, pool_type pool )
 
     input_context ctxt( "NEW_CHAR_TRAITS" );
     tabs.set_up_tab_navigation( ctxt );
+    for( scrollbar &sb : trait_sbs ) {
+        sb.set_draggable( ctxt );
+    }
     ctxt.register_cardinal();
     ctxt.register_action( "PAGE_UP", to_translation( "Fast scroll up" ) );
     ctxt.register_action( "PAGE_DOWN", to_translation( "Fast scroll down" ) );
@@ -1523,8 +1527,7 @@ void set_traits( tab_manager &tabs, avatar &u, pool_type pool )
                            page_width - 2 ) );
             }
 
-            scrollbar()
-            .offset_x( page_width * iCurrentPage )
+            trait_sbs[iCurrentPage].offset_x( page_width * iCurrentPage )
             .offset_y( 5 )
             .content_size( traits_size[iCurrentPage] )
             .viewport_pos( start )
@@ -1593,8 +1596,23 @@ void set_traits( tab_manager &tabs, avatar &u, pool_type pool )
 
         ui_manager::redraw();
         const std::string action = ctxt.handle_input();
+        std::array< int, 3> cur_sb_pos = iStartPos;
+        bool scrollbar_handled = false;
+        for( int i = 0; i < static_cast<int>( trait_sbs.size() ); ++i ) {
+            if( trait_sbs[i].handle_dragging( action, ctxt.get_coordinates_text( catacurses::stdscr ),
+                                              cur_sb_pos[i] ) ) {
+                if( cur_sb_pos[i] != iStartPos[i] ) {
+                    iStartPos[i] = cur_sb_pos[i];
+                    iCurrentLine[i] = iStartPos[i] + ( iContentHeight - 1 ) / 2;
+                }
+                scrollbar_handled = true;
+            }
+        }
+
         if( tabs.handle_input( action, ctxt ) ) {
             break; // Tab has changed or user has quit the screen
+        } else if( scrollbar_handled ) {
+            // No action required, scrollbar has handled it
         } else if( action == "LEFT" ) {
             iCurWorkingPage = next_avail_page( true );
         } else if( action == "RIGHT" ) {
@@ -1926,6 +1944,7 @@ void set_profession( tab_manager &tabs, avatar &u, pool_type pool )
     scrolling_text_view details( w_details_pane );
     bool details_recalc = true;
     const int iHeaderHeight = 5;
+    scrollbar list_sb;
     const auto init_windows = [&]( ui_adaptor & ui ) {
         iContentHeight = TERMY - iHeaderHeight - 1;
         w = catacurses::newwin( TERMY, TERMX, point_zero );
@@ -1940,6 +1959,7 @@ void set_profession( tab_manager &tabs, avatar &u, pool_type pool )
     input_context ctxt( "NEW_CHAR_PROFESSIONS" );
     tabs.set_up_tab_navigation( ctxt );
     details.set_up_navigation( ctxt, scrolling_key_scheme::angle_bracket_scroll );
+    list_sb.set_draggable( ctxt );
     ctxt.register_cardinal();
     ctxt.register_action( "PAGE_UP", to_translation( "Fast scroll up" ) );
     ctxt.register_action( "PAGE_DOWN", to_translation( "Fast scroll down" ) );
@@ -2028,8 +2048,7 @@ void set_profession( tab_manager &tabs, avatar &u, pool_type pool )
                        sorted_profs[i]->gender_appropriate_name( u.male ) );
         }
 
-        scrollbar()
-        .offset_x( 0 )
+        list_sb.offset_x( 0 )
         .offset_y( 5 )
         .content_size( profs_length )
         .viewport_pos( iStartPos )
@@ -2082,11 +2101,18 @@ void set_profession( tab_manager &tabs, avatar &u, pool_type pool )
         const int recmax = profs_length;
         const int scroll_rate = recmax > 20 ? 10 : 2;
         const int id_for_curr_description = cur_id;
+        int scrollbar_pos = iStartPos;
 
         if( tabs.handle_input( action, ctxt ) ) {
             break; // Tab has changed or user has quit the screen
         } else if( details.handle_navigation( action, ctxt ) ) {
             //NO FURTHER ACTION REQUIRED
+        } else if( list_sb.handle_dragging( action, ctxt.get_coordinates_text( catacurses::stdscr ),
+                                            scrollbar_pos ) ) {
+            if( scrollbar_pos != iStartPos ) {
+                iStartPos = scrollbar_pos;
+                cur_id = iStartPos + ( iContentHeight - 1 ) / 2;
+            }
         } else if( action == "DOWN" ) {
             cur_id++;
             if( cur_id > recmax - 1 ) {
@@ -2279,6 +2305,7 @@ void set_hobbies( tab_manager &tabs, avatar &u, pool_type pool )
     scrolling_text_view details( w_details_pane );
     bool details_recalc = true;
     const int iHeaderHeight = 5;
+    scrollbar list_sb;
 
     const auto init_windows = [&]( ui_adaptor & ui ) {
         iContentHeight = TERMY - iHeaderHeight - 1;
@@ -2294,6 +2321,7 @@ void set_hobbies( tab_manager &tabs, avatar &u, pool_type pool )
     input_context ctxt( "NEW_CHAR_PROFESSIONS" );
     tabs.set_up_tab_navigation( ctxt );
     details.set_up_navigation( ctxt, scrolling_key_scheme::angle_bracket_scroll );
+    list_sb.set_draggable( ctxt );
     ctxt.register_cardinal();
     ctxt.register_action( "PAGE_UP", to_translation( "Fast scroll up" ) );
     ctxt.register_action( "PAGE_DOWN", to_translation( "Fast scroll down" ) );
@@ -2372,8 +2400,7 @@ void set_hobbies( tab_manager &tabs, avatar &u, pool_type pool )
                        sorted_hobbies[i]->gender_appropriate_name( u.male ) );
         }
 
-        scrollbar()
-        .offset_x( 0 )
+        list_sb.offset_x( 0 )
         .offset_y( 5 )
         .content_size( profs_length )
         .viewport_pos( iStartPos )
@@ -2416,11 +2443,18 @@ void set_hobbies( tab_manager &tabs, avatar &u, pool_type pool )
         const std::string action = ctxt.handle_input();
         const int recmax = profs_length;
         const int scroll_rate = recmax > 20 ? 10 : 2;
+        int scrollbar_pos = iStartPos;
 
         if( tabs.handle_input( action, ctxt ) ) {
             break; // Tab has changed or user has quit the screen
         } else if( details.handle_navigation( action, ctxt ) ) {
             //NO FURTHER ACTION REQUIRED
+        } else if( list_sb.handle_dragging( action, ctxt.get_coordinates_text( catacurses::stdscr ),
+                                            scrollbar_pos ) ) {
+            if( scrollbar_pos != iStartPos ) {
+                iStartPos = scrollbar_pos;
+                cur_id = iStartPos + ( iContentHeight - 1 ) / 2;
+            }
         } else if( action == "DOWN" ) {
             cur_id++;
             if( cur_id > recmax - 1 ) {
@@ -2617,8 +2651,10 @@ void set_skills( tab_manager &tabs, avatar &u, pool_type pool )
     std::vector<std::string> keybinding_hint;
     int iContentHeight = 0;
     const int iHeaderHeight = 5;
+    scrollbar list_sb;
     input_context ctxt( "NEW_CHAR_SKILLS" );
     details.set_up_navigation( ctxt, scrolling_key_scheme::angle_bracket_scroll );
+    list_sb.set_draggable( ctxt );
     ctxt.register_cardinal();
     ctxt.register_action( "PAGE_UP", to_translation( "Fast scroll up" ) );
     ctxt.register_action( "PAGE_DOWN", to_translation( "Fast scroll down" ) );
@@ -2800,8 +2836,7 @@ void set_skills( tab_manager &tabs, avatar &u, pool_type pool )
             }
         }
 
-        scrollbar()
-        .offset_x( 0 )
+        list_sb.offset_x( 0 )
         .offset_y( 5 )
         .content_size( num_skills )
         .viewport_pos( cur_offset )
@@ -2818,11 +2853,22 @@ void set_skills( tab_manager &tabs, avatar &u, pool_type pool )
         ui_manager::redraw();
         const std::string action = ctxt.handle_input();
         const int pos_for_curr_description = cur_pos;
+        int scrollbar_pos = cur_offset;
 
         if( tabs.handle_input( action, ctxt ) ) {
             break; // Tab has changed or user has quit the screen
         } else if( details.handle_navigation( action, ctxt ) ) {
             // NO FURTHER ACTION REQUIRED
+        } else if( list_sb.handle_dragging( action, ctxt.get_coordinates_text( catacurses::stdscr ),
+                                            scrollbar_pos ) ) {
+            if( scrollbar_pos != cur_offset ) {
+                cur_offset = scrollbar_pos;
+                cur_pos = cur_offset + ( iContentHeight - 1 ) / 2; // Get approximate location
+                get_next( false, false ); // Then make sure it's a skill rather than a heading
+                if( cur_pos < num_skills / 2 ) {
+                    get_next( true, false ); // Go back to where we were to ensure we can drag to the top
+                }
+            }
         } else if( action == "DOWN" ) {
             get_next( false, false );
         } else if( action == "UP" ) {
@@ -3017,6 +3063,7 @@ void set_scenario( tab_manager &tabs, avatar &u, pool_type pool )
     scrolling_text_view details( w_details_pane );
     bool details_recalc = true;
     const int iHeaderHeight = 5;
+    scrollbar list_sb;
 
     const auto init_windows = [&]( ui_adaptor & ui ) {
         iContentHeight = TERMY - iHeaderHeight - 1;
@@ -3033,6 +3080,7 @@ void set_scenario( tab_manager &tabs, avatar &u, pool_type pool )
     input_context ctxt( "NEW_CHAR_SCENARIOS" );
     tabs.set_up_tab_navigation( ctxt );
     details.set_up_navigation( ctxt, scrolling_key_scheme::angle_bracket_scroll );
+    list_sb.set_draggable( ctxt );
     ctxt.register_cardinal();
     ctxt.register_action( "PAGE_UP", to_translation( "Fast scroll up" ) );
     ctxt.register_action( "PAGE_DOWN", to_translation( "Fast scroll down" ) );
@@ -3122,8 +3170,8 @@ void set_scenario( tab_manager &tabs, avatar &u, pool_type pool )
 
         }
 
-        scrollbar()
-        .offset_x( 0 )
+
+        list_sb.offset_x( 0 )
         .offset_y( 5 )
         .content_size( scens_length )
         .viewport_pos( iStartPos )
@@ -3183,11 +3231,18 @@ void set_scenario( tab_manager &tabs, avatar &u, pool_type pool )
         const std::string action = ctxt.handle_input();
         const int scroll_rate = scens_length > 20 ? 5 : 2;
         const int id_for_curr_description = cur_id;
+        int scrollbar_pos = iStartPos;
 
         if( tabs.handle_input( action, ctxt ) ) {
             break; // Tab has changed or user has quit the screen
         } else if( details.handle_navigation( action, ctxt ) ) {
             // NO FURTHER ACTION REQUIRED
+        } else if( list_sb.handle_dragging( action, ctxt.get_coordinates_text( catacurses::stdscr ),
+                                            scrollbar_pos ) ) {
+            if( scrollbar_pos != iStartPos ) {
+                iStartPos = scrollbar_pos;
+                cur_id = iStartPos + ( iContentHeight - 1 ) / 2;
+            }
         } else if( action == "DOWN" ) {
             cur_id++;
             if( cur_id > scens_length - 1 ) {
@@ -4330,18 +4385,18 @@ void avatar::save_template( const std::string &name, pool_type pool )
 
 bool avatar::load_template( const std::string &template_name, pool_type &pool )
 {
-    return read_from_file_json( PATH_INFO::templatedir() + template_name +
-    ".template", [&]( JsonIn & jsin ) {
-
-        if( jsin.test_array() ) {
+    return read_from_file_json( PATH_INFO::templatedir_path() / ( template_name + ".template" ), [&](
+    const JsonValue & jv ) {
+        // Legacy templates are an object. Current templates are an array of 0, 1, or 2 objects.
+        JsonObject legacy_template;
+        if( jv.test_array() ) {
             // not a legacy template
-            jsin.start_array();
-
-            if( jsin.end_array() ) {
+            JsonArray template_array = jv;
+            if( template_array.empty() ) {
                 return;
             }
 
-            JsonObject jobj = jsin.get_object();
+            JsonObject jobj = template_array.get_object( 0 );
 
             jobj.get_int( "stat_points", 0 );
             jobj.get_int( "trait_points", 0 );
@@ -4361,12 +4416,13 @@ bool avatar::load_template( const std::string &template_name, pool_type &pool )
                 }
             }
 
-            if( jsin.end_array() ) {
+            if( template_array.size() == 1 ) {
                 return;
             }
+            legacy_template = template_array.get_object( 1 );
         }
 
-        deserialize( jsin.get_object() );
+        deserialize( legacy_template );
 
         // If stored_calories the template is under a million (kcals < 1000), assume it predates the
         // kilocalorie-to-literal-calorie conversion and is off by a factor of 1000.
