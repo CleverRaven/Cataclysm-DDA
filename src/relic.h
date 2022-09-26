@@ -200,7 +200,7 @@ class relic
     private:
         std::vector<fake_spell> active_effects;
         std::vector<enchant_cache> proc_passive_effects;
-        std::vector<enchantment> defined_passive_effects;
+        std::vector<enchantment> defined_passive_effects; // NOLINT(cata-serialize)
 
         // the item's name will be replaced with this if the string is not empty
         translation item_name_override; // NOLINT(cata-serialize)
