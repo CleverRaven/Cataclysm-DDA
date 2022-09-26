@@ -131,6 +131,9 @@ static const efftype_id effect_shakes( "shakes" );
 static const efftype_id effect_sleep( "sleep" );
 static const efftype_id effect_weed_high( "weed_high" );
 
+const static fault_id fault_gun_damaged( "fault_gun_damaged" );
+const static fault_id fault_gun_unaccurized( "fault_gun_unaccurized" );
+
 static const furn_str_id furn_f_metal_smoking_rack_active( "f_metal_smoking_rack_active" );
 static const furn_str_id furn_f_smoking_rack_active( "f_smoking_rack_active" );
 static const furn_str_id furn_f_water_mill_active( "f_water_mill_active" );
@@ -279,6 +282,7 @@ item::item() : bday( calendar::start_of_cataclysm )
     charges = 0;
     contents = item_contents( type->pockets );
     select_itype_variant();
+    on_damage_changed();
 }
 
 item::item( const itype *type, time_point turn, int qty ) : type( type ), bday( turn )
@@ -324,6 +328,7 @@ item::item( const itype *type, time_point turn, int qty ) : type( type ), bday( 
     }
 
     select_itype_variant();
+    on_damage_changed();
     if( type->gun ) {
         for( const itype_id &mod : type->gun->built_in_mods ) {
             item it( mod, turn, qty );
@@ -818,6 +823,7 @@ item &item::set_damage( int qty )
 {
     damage_ = std::max( std::min( qty, max_damage() ), min_damage() );
     degradation_ = std::max( std::min( damage_ - min_damage(), degradation_ ), 0 );
+    on_damage_changed();
     return *this;
 }
 
@@ -6214,6 +6220,20 @@ void item::on_damage( int, damage_type )
 
 }
 
+void item::on_damage_changed()
+{
+    if( is_firearm() && !has_flag( flag_NO_REPAIR ) ) {
+        faults.erase( fault_gun_damaged );
+        faults.erase( fault_gun_unaccurized );
+        if( damage_level() == -1 ) { // gun is fully repaired and accurized
+        } else if( damage_level() == 0 ) { // repaired but not accurized (++) yet
+            faults.emplace( fault_gun_unaccurized );
+        } else { // can be repaired
+            faults.emplace( fault_gun_damaged );
+        }
+    }
+}
+
 std::string item::dirt_symbol() const
 {
     const int dirt_level = get_var( "dirt", 0 ) / 2000;
@@ -9056,6 +9076,8 @@ bool item::mod_damage( int qty, damage_type dt )
             degradation_ += degrade * ( max_damage() - min_damage() ) / incr;
         }
     }
+
+    on_damage_changed();
 
     return destroy;
 }
@@ -14180,6 +14202,12 @@ std::list<const item *> item::all_items_top( item_pocket::pocket_type pk_type ) 
 std::list<item *> item::all_items_top( item_pocket::pocket_type pk_type, bool unloading )
 {
     return contents.all_items_top( pk_type, unloading );
+}
+
+item const *item::this_or_single_content() const
+{
+    return type->category_force == item_category_container && num_item_stacks() == 1 ? &only_item()
+           : this;
 }
 
 std::list<const item *> item::all_items_ptr() const

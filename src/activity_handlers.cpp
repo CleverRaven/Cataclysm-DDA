@@ -1362,6 +1362,11 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act, Character *yo
         switch( source_type ) {
             case liquid_source_type::VEHICLE:
                 if( part_num != -1 ) {
+                    const vehicle_part &pt = source_veh->part( part_num );
+                    if( pt.is_leaking() && !pt.ammo_remaining() ) {
+                        act_ref.set_to_null(); // leaky tank spilled while we were transferring
+                        return;
+                    }
                     source_veh->drain( part_num, removed_charges );
                     liquid.charges = veh_charges - removed_charges;
                     // If there's no liquid left in this tank we're done, otherwise
@@ -2396,10 +2401,10 @@ void activity_handlers::mend_item_finish( player_activity *act, Character *you )
     }
 
     item_location &target = act->targets[ 0 ];
+    const fault_id fault( act->name );
 
-    const auto f = target->faults.find( fault_id( act->name ) );
-    if( f == target->faults.end() ) {
-        debugmsg( "item %s does not have fault %s", target->tname(), act->name );
+    if( target->faults.count( fault ) == 0 ) {
+        debugmsg( "item %s does not have fault %s", target->tname(), fault.str() );
         return;
     }
 
@@ -2408,16 +2413,17 @@ void activity_handlers::mend_item_finish( player_activity *act, Character *you )
         return;
     }
 
-    const mending_method *method = fault_id( act->name )->find_mending_method( act->str_values[0] );
+    const mending_method *method = fault->find_mending_method( act->str_values[0] );
     if( !method ) {
         debugmsg( "invalid mending_method id for ACT_MEND_ITEM." );
         return;
     }
 
-    const inventory inv = you->crafting_inventory();
-    const requirement_data &reqs = method->requirements.obj();
+    const inventory &inv = you->crafting_inventory();
+    const requirement_data reqs = method->get_requirements();
     if( !reqs.can_make_with_inventory( inv, is_crafting_component ) ) {
         add_msg( m_info, _( "You are currently unable to mend the %s." ), target->tname() );
+        return;
     }
     for( const auto &e : reqs.get_components() ) {
         you->consume_items( e );
@@ -2427,7 +2433,7 @@ void activity_handlers::mend_item_finish( player_activity *act, Character *you )
     }
     you->invalidate_crafting_inventory();
 
-    target->faults.erase( *f );
+    target->faults.erase( fault );
     if( method->turns_into ) {
         target->faults.emplace( *method->turns_into );
     }
@@ -2435,8 +2441,18 @@ void activity_handlers::mend_item_finish( player_activity *act, Character *you )
     if( method->also_mends ) {
         target->faults.erase( *method->also_mends );
     }
-    if( act->name == "fault_gun_blackpowder" || act->name == "fault_gun_dirt" ) {
-        target->set_var( "dirt", 0 );
+    for( const std::pair<const std::string, std::string> &pair : method->set_variables ) {
+        target->set_var( pair.first, pair.second );
+    }
+
+    const std::string start_durability = target->durability_indicator( true );
+    item &fix = *target.get_item();
+    for( int i = 0; i < method->heal_stages.value_or( 0 ); i++ ) {
+        int dmg = fix.damage() + 1;
+        for( const int lvl = fix.damage_level(); lvl == fix.damage_level() && dmg != fix.damage(); ) {
+            dmg = fix.damage(); // break loop if clamped by degradation or no more repair needed
+            fix.mod_damage( -1 ); // scan for next damage indicator breakpoint, repairing that much damage
+        }
     }
 
     //get skill list from mending method, iterate through and give xp
@@ -2444,7 +2460,8 @@ void activity_handlers::mend_item_finish( player_activity *act, Character *you )
         you->practice( e.first, 10, static_cast<int>( e.second * 1.25 ) );
     }
 
-    add_msg( m_good, method->success_msg.translated(), target->tname() );
+    add_msg( m_good, method->success_msg.translated(), target->tname( 1, false ),
+             start_durability, target->durability_indicator( true ) );
 }
 
 void activity_handlers::toolmod_add_finish( player_activity *act, Character *you )

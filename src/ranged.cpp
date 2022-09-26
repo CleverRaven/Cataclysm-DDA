@@ -562,7 +562,7 @@ int Character::gun_engagement_moves( const item &gun, int target, int start,
 
     while( penalty > target ) {
         double adj = aim_per_move( gun, penalty, attributes );
-        if( adj <= 0 ) {
+        if( adj <= MIN_RECOIL_IMPROVEMENT ) {
             break;
         }
         penalty -= adj;
@@ -1553,11 +1553,12 @@ static recoil_prediction predict_recoil( const Character &you, const item &weapo
 
     // next loop simulates aiming until either aim mode threshold or sight_dispersion is reached
     do {
-        double aim_amount = you.aim_per_move( weapon, predicted_recoil, target );
-        if( aim_amount > 0 ) {
-            predicted_delay++;
-            predicted_recoil = std::max( predicted_recoil - aim_amount, 0.0 );
+        const double aim_amount = you.aim_per_move( weapon, predicted_recoil, target );
+        if( aim_amount <= MIN_RECOIL_IMPROVEMENT ) {
+            break;
         }
+        predicted_delay++;
+        predicted_recoil = std::max( predicted_recoil - aim_amount, 0.0 );
     } while( predicted_recoil > aim_mode.threshold && predicted_recoil > sight_dispersion );
 
     return { predicted_recoil, predicted_delay };

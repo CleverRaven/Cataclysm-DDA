@@ -647,5 +647,34 @@
     "see_cost": 5,
     "extras": "build",
     "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "prefab",
+    "name": "mobile home",
+    "copy-from": "generic_city_house_no_sidewalk",
+    "spawns": { "group": "GROUP_NULL", "population": [ 1, 1 ], "chance": 100 }
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "prefab_roof",
+    "name": "mobile home roof",
+    "copy-from": "generic_city_house_roof"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "trailer_hub_10",
+    "name": "administration building",
+    "sym": "A",
+    "color": "cyan",
+    "copy-from": "generic_city_house_no_sidewalk"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "trailer_hub_10_roof",
+    "name": "administration building roof",
+    "sym": "A",
+    "color": "cyan",
+    "copy-from": "generic_city_house_roof"
   }
 ]
