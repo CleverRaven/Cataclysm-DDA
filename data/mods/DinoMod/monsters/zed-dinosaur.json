@@ -1389,7 +1389,7 @@
     "armor_cut": 9,
     "armor_bash": 8,
     "hp": 210,
-    "description": "A massive, shambling, rhino-like dinosaur corpse with a tall, bony crest from which four long horns and a short nose horn emerge.  Its eyes ooze black, putrid tears.",
+    "description": "A massive, shambling, rhino-like dinosaur corpse with a tall bony crest from which three short horns emerge above the eyes and beak.  Its eyes ooze black, putrid tears.",
     "burn_into": "mon_zasmosaurus_scorched",
     "fungalize_into": "mon_zasmosaurus_fungus",
     "upgrades": { "half_life": 30, "into_group": "GROUP_zasmosaurus_UPGRADE" }
