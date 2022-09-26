@@ -5051,7 +5051,7 @@
     "description": "You are smarter.  +2 Intelligence.",
     "types": [ "INT" ],
     "prereqs": [ "INT_UP" ],
-    "changes_to": [ "INT_UP_3", "INT_ALPHA", ],
+    "changes_to": [ "INT_UP_3", "INT_ALPHA" ],
     "category": [ "CEPHALOPOD", "ALPHA" ],
     "passive_mods": { "int_mod": 2 }
   },
