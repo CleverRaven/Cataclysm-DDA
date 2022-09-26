@@ -1080,7 +1080,7 @@ double Character::aim_per_move( const item &gun, double recoil,
     aim_speed *= 2.4;
 
     // Minimum improvement is 0.01MoA.  This is just to prevent data anomalies
-    aim_speed = std::max( aim_speed, 0.01 );
+    aim_speed = std::max( aim_speed, MIN_RECOIL_IMPROVEMENT );
 
     // Never improve by more than the currently used sights permit.
     return std::min( aim_speed, recoil - limit );
