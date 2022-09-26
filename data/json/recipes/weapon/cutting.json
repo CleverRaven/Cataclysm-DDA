@@ -930,7 +930,7 @@
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing" },
       { "proficiency": "prof_bladesmith" },
-      { "proficiency": "prof_case_hardening" }
+      { "proficiency": "prof_quenching" }
     ],
     "using": [ [ "blacksmithing_standard", 12 ], [ "lc_steel_standard", 4 ], [ "carbon", 1 ] ],
     "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "GRIND", "level": 2 } ],
@@ -1637,7 +1637,7 @@
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing" },
       { "proficiency": "prof_bladesmith" },
-      { "proficiency": "prof_case_hardening" }
+      { "proficiency": "prof_quenching" }
     ],
     "using": [ [ "blacksmithing_standard", 12 ], [ "lc_steel_standard", 2 ], [ "carbon", 1 ] ],
     "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "GRIND", "level": 2 } ],
