@@ -612,7 +612,7 @@
     "id": "mon_achelousaurus_juvenile",
     "type": "MONSTER",
     "name": "achelousaurus juvenile",
-    "description": "A four-legged plant-eating dinosaur juvenile with tall bony crest with two curved spikes and three rough bosses above the eyes and nose as well as a short tail and hooked beak.",
+    "description": "A four-legged plant-eating dinosaur juvenile with a tall bony crest with two curved spikes and three rough bosses above the eyes and nose as well as a short tail and hooked beak.",
     "copy-from": "mon_achelousaurus",
     "hp": 125,
     "upgrades": { "age_grow": 365, "into": "mon_achelousaurus" },
