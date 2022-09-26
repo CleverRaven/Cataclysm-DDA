@@ -187,7 +187,14 @@
         },
         "æ": { "item": "farming_tools", "chance": 100, "repeat": [ 0, 2 ] },
         "÷": { "item": "farming_seeds", "chance": 100, "repeat": [ 0, 5 ] },
-        "Î": { "item": "fertilizers", "chance": 100, "repeat": [ 0, 5 ] },
+        "Î": {
+          "item": {
+            "subtype": "collection",
+            "entries": [ { "group": "fertilizers", "prob": 80 }, { "item": "fungicide", "prob": 20 } ]
+          },
+          "chance": 100,
+          "repeat": [ 0, 5 ]
+        },
         "ù": { "item": "farm_supply_soil_and_sand", "chance": 100, "repeat": [ 1, 5 ] },
         "ú": { "item": "farm_supply_rocks", "chance": 100, "repeat": [ 1, 5 ] },
         "Ï": { "item": "farm_supply_quicklime_and_saltpetre", "chance": 40, "repeat": [ 1, 3 ] },
@@ -335,9 +342,9 @@
         " ?............................................? ",
         " ?............................................? ",
         " ?............................................? ",
-        " ?............................................? ",
-        ">.............................................? ",
-        " ?--------------------------------------------? "
+        ">?............................................? ",
+        " ?--------------------------------------------? ",
+        "                                                "
       ],
       "terrain": {
         ".": "t_flat_roof",
@@ -359,7 +366,7 @@
           "y": [ 40, 44 ]
         },
         {
-          "chunks": [ [ "null", 75 ], [ "roof_3x3_wine", 15 ], [ "roof_6x6_survivor", 10 ] ],
+          "chunks": [ [ "null", 70 ], [ "roof_3x3_wine", 15 ], [ "roof_6x6_survivor", 15 ] ],
           "x": [ 4, 9 ],
           "y": [ 26, 40 ]
         }
@@ -554,13 +561,20 @@
         },
         "æ": { "item": "farming_tools", "chance": 5, "repeat": [ 0, 2 ] },
         "÷": { "item": "farming_seeds", "chance": 5, "repeat": [ 0, 4 ] },
-        "Î": { "item": "fertilizers", "chance": 5, "repeat": [ 0, 4 ] },
-        "ù": { "item": "farm_supply_soil_and_sand", "chance": 10, "repeat": [ 0, 5 ] },
-        "ú": { "item": "farm_supply_rocks", "chance": 10, "repeat": [ 0, 5 ] },
-        "Ï": { "item": "farm_supply_quicklime_and_saltpetre", "chance": 5, "repeat": [ 0, 3 ] },
+        "Î": {
+          "item": {
+            "subtype": "collection",
+            "entries": [ { "group": "fertilizers", "prob": 80 }, { "item": "fungicide", "prob": 20 } ]
+          },
+          "chance": 15,
+          "repeat": [ 0, 4 ]
+        },
+        "ù": { "item": "farm_supply_soil_and_sand", "chance": 15, "repeat": [ 0, 5 ] },
+        "ú": { "item": "farm_supply_rocks", "chance": 15, "repeat": [ 0, 5 ] },
+        "Ï": { "item": "farm_supply_quicklime_and_saltpetre", "chance": 10, "repeat": [ 0, 3 ] },
         "Ø": {
           "item": { "subtype": "collection", "entries": [ { "group": "hardware_books", "prob": 80 }, { "group": "novels", "prob": 20 } ] },
-          "chance": 10,
+          "chance": 15,
           "repeat": [ 0, 4 ]
         },
         "õ": {
@@ -572,7 +586,7 @@
               { "item": "stick", "prob": 20, "count": [ 5, 10 ] }
             ]
           },
-          "chance": 5,
+          "chance": 15,
           "repeat": [ 0, 2 ]
         },
         "p": {
@@ -584,7 +598,7 @@
               { "group": "office", "prob": 10 }
             ]
           },
-          "chance": 10,
+          "chance": 25,
           "repeat": [ 0, 2 ]
         },
         "s": { "item": "coffee_bathroom", "chance": 10 },
@@ -608,7 +622,7 @@
         },
         "g": { "item": "trash", "chance": 70, "repeat": [ 0, 2 ] },
         "D": { "item": "trash", "chance": 70, "repeat": [ 0, 3 ] },
-        "$": { "item": "cash_register_looted", "chance": 60 },
+        "$": { "item": "cash_register_looted", "chance": 50 },
         "V": { "item": "vending_drink_items", "chance": 10, "repeat": [ 0, 8 ] },
         "c": {
           "item": {
@@ -619,7 +633,7 @@
               { "group": "supplies_hardware", "prob": 10 }
             ]
           },
-          "chance": 5
+          "chance": 10
         },
         "z": {
           "item": {
@@ -630,7 +644,7 @@
               { "group": "my_precious", "prob": 5 }
             ]
           },
-          "chance": 5
+          "chance": 30
         },
         "O": {
           "item": {
@@ -650,7 +664,7 @@
         { "liquid": "gasoline", "x": [ 0, 23 ], "y": [ 0, 17 ], "amount": [ 1, 50 ], "chance": 1 },
         { "liquid": "gasoline", "x": [ 24, 40 ], "y": [ 0, 17 ], "amount": [ 1, 50 ], "chance": 1 }
       ],
-      "palettes": [ "farm_supply_palette" ],
+      "palettes": [ "farm_supply_palette", "farm_supply_looted_palette" ],
       "//": "These nested chunks perform dynamic furniture destruction.",
       "place_nested": [
         { "chunks": [ "farm_supply_destruction_nested_1" ], "x": 0, "y": 0 },

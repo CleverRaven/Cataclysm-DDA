@@ -89,6 +89,13 @@
     "toilets": { "T": {  } }
   },
   {
+    "type": "palette",
+    "id": "farm_supply_looted_palette",
+    "nested": {
+      "|": { "chunks": [ [ "shelter_graffiti", 2 ], [ "general_graffiti", 8 ], [ "null", 90 ] ] }
+    }
+  },
+  {
     "id": "farm_supply_soil_and_sand",
     "type": "item_group",
     "subtype": "collection",
