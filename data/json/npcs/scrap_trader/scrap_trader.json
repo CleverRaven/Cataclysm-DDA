@@ -42,6 +42,12 @@
         "group": "SCRAPPER_Shop_Specialty_Metals",
         "rigid": true,
         "condition": { "npc_has_var": "specific_metal_tradeable", "type": "dialogue", "context": "trade", "value": "yes" }
+      },
+      {
+        "group": "cash_register",
+        "rigid": true,
+        "condition": { "compare_int": [ { "npc_val": "var", "var_name": "NEVER" }, "==", { "const": 1 } ] },
+        "refusal": "<npcname> will never sell this"
       }
     ],
     "shopkeeper_consumption_rates": "basic_shop_rates",
@@ -65,11 +71,6 @@
       { "item": "silver_small", "price": 5600, "fixed_adj": 0 },
       { "item": "gold_small", "price": 20000, "fixed_adj": 0 },
       { "item": "platinum_small", "price": 30000, "fixed_adj": 0 },
-      { "item": "ar15", "price": 50000, "fixed_adj": 0 },
-      { "item": "flashlight", "price": 10000, "fixed_adj": 0 },
-      { "item": "multitool", "price": 10000, "fixed_adj": 0 },
-      { "item": "hammer", "price": 10000, "fixed_adj": 0 },
-      { "item": "boltcutters", "price": 10000, "fixed_adj": 0 },
       { "item": "cash_register", "price": 20000, "fixed_adj": 0 }
     ]
   },
@@ -110,6 +111,12 @@
     "id": "SCRAP_MERCHANT_weapon",
     "subtype": "collection",
     "items": [ { "item": "heavy_crowbar" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "cash_register",
+    "subtype": "collection",
+    "items": [ {"item": "cash_register"} ]
   },
   {
     "type": "item_group",
@@ -234,7 +241,7 @@
     "dynamic_line": [ "Anything else you need?" ],
     "responses": [
       { "text": "No, that's all.", "topic": "TALK_DONE" },
-      { "text": "Yes, actually.", "topic": "TALK_SCRAP_TRADER_BULK_SELL_END", "effect": "start_trade" }
+      { "text": "Can I have another look?", "topic": "TALK_SCRAP_TRADER_BULK_SELL_END", "effect": "start_trade" }
     ]
   }
 ]
