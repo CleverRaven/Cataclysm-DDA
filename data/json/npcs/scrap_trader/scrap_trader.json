@@ -116,7 +116,7 @@
     "type": "item_group",
     "id": "cash_register",
     "subtype": "collection",
-    "items": [ {"item": "cash_register"} ]
+    "items": [ { "item": "cash_register" } ]
   },
   {
     "type": "item_group",
