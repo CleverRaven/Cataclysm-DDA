@@ -70,8 +70,7 @@
       { "item": "magnesium", "price": 2000, "fixed_adj": 0 },
       { "item": "silver_small", "price": 5600, "fixed_adj": 0 },
       { "item": "gold_small", "price": 20000, "fixed_adj": 0 },
-      { "item": "platinum_small", "price": 30000, "fixed_adj": 0 },
-      { "item": "cash_register", "price": 20000, "fixed_adj": 0 }
+      { "item": "platinum_small", "price": 30000, "fixed_adj": 0 }
     ]
   },
   {
