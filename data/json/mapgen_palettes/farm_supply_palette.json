@@ -18,10 +18,10 @@
       "f": "t_chainfence_h",
       "v": "t_chainfence_v",
       "F": "t_chaingate_l",
-      "!": [ "t_door_glass_c","t_door_glass_o" ],
-      "+": [ "t_door_c","t_door_o" ],
+      "!": [ "t_door_glass_c", "t_door_glass_o" ],
+      "+": [ "t_door_c", "t_door_o" ],
       "%": "t_door_locked_interior",
-      "x": [ "t_door_metal_pickable", "t_door_metal_c"],
+      "x": [ "t_door_metal_pickable", "t_door_metal_c" ],
       "=": "t_wall_glass",
       ".": "t_thconc_floor",
       "r": "t_carpet_red",
@@ -91,9 +91,7 @@
   {
     "type": "palette",
     "id": "farm_supply_looted_palette",
-    "nested": {
-      "|": { "chunks": [ [ "shelter_graffiti", 2 ], [ "general_graffiti", 8 ], [ "null", 90 ] ] }
-    }
+    "nested": { "|": { "chunks": [ [ "shelter_graffiti", 1 ], [ "general_graffiti", 6 ], [ "null", 93 ] ] } }
   },
   {
     "id": "farm_supply_soil_and_sand",
