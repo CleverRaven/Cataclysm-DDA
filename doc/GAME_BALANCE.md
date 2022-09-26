@@ -79,11 +79,11 @@ Average speed: 70 (average critter, 3.5 km/h, can be walked away from; most basi
 
 Notable speed: 100+ (unusually fast, over 5 km/h, can be run away from; feral human, bee, mi-go, zombie brute, zombie predator, jabberwock, manhack)
 
-Very high speed: ~200 (supernaturally fast, about 10 km/h; moose, zombie hulk, hulking horror, gracken, jabberwock)
+Very high speed: ~200 (extremely fast, about 10 km/h; moose, zombie hulk, hulking horror, gracken, jabberwock)
 
 Maximal speed: 300 (highest for balance purposes; flying polyp)
 
-Zombies are a bit faster than "shambling". Zombified versions of fast critters will remain fast, but in general the process slows the undead version. Further, under no circumstances should a zed be more than 50% faster than base character speed. Currently, this means "capped at 150". attack_cost flag should be used for monsters with speeds faster or slower than 100 unless faster or slower attacks are intended
+Zombies are a bit faster than "shambling". Zombified versions of fast critters will remain fast, but in general the process slows the undead version. Further, under no circumstances should a zed be more than 100% faster than base character speed. Currently, this means "capped at 200". attack_cost flag should be used for monsters with speeds faster or slower than 100 unless faster or slower attacks are intended
 
 
 # Dodge System assumptions:
