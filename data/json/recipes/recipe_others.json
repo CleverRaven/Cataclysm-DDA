@@ -2247,7 +2247,7 @@
     "difficulty": 1,
     "time": "6 m",
     "autolearn": true,
-    "components": [ [ [ "dogbane", 1 ], [ "cattail_stalk", 1 ] ] ]
+    "components": [ [ [ "dogbane", 1 ], [ "cattail_stalk", 1 ], [ "cottonwood_tree_boll", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -2262,7 +2262,7 @@
     "batch_time_factors": [ 50, 2 ],
     "autolearn": true,
     "tools": [ [ [ "scutcheritem", -1 ] ] ],
-    "components": [ [ [ "dogbane", 8 ], [ "cattail_stalk", 8 ], [ "stick_fiber", 1 ] ] ],
+    "components": [ [ [ "dogbane", 8 ], [ "cattail_stalk", 8 ], [ "stick_fiber", 1 ], [ "cottonwood_tree_boll", 1 ] ] ],
     "charges": 80
   },
   {
@@ -2565,6 +2565,19 @@
     "autolearn": true,
     "reversible": true,
     "components": [ [ [ "stick", 10 ] ], [ [ "rope_any_short", 1, "LIST" ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "bundle_javelin",
+    "type": "recipe",
+    "activity_level": "fake",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "fabrication",
+    "time": "1 m",
+    "autolearn": true,
+    "reversible": true,
+    "components": [ [ [ "javelin", 5 ] ], [ [ "rope_any_short", 2, "LIST" ] ] ],
     "flags": [ "BLIND_EASY" ]
   },
   {

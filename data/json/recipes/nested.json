@@ -3521,7 +3521,8 @@
       "bundle_pipe",
       "bundle_copper_pipe",
       "bundle_branch",
-      "bundle_branch_long"
+      "bundle_branch_long",
+      "bundle_javelin"
     ],
     "difficulty": 1
   },
@@ -3534,8 +3535,19 @@
     "name": "cardboard boxes",
     "description": "Recipes related to constructing cardboard boxes.",
     "skill_used": "fabrication",
-    "nested_category_data": [ "box_small", "box_medium", "box_large", "box_large_reinforced", "box_oversize" ],
+    "nested_category_data": [ "box_small_crafted", "box_medium_crafted", "box_large_crafted", "box_large_reinforced", "box_oversize_crafted" ],
     "difficulty": 1
+  },
+  {
+    "id": "nested_cardboard_boxes_assembly",
+    "type": "nested_category",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "assembled cardboard boxes",
+    "description": "Recipes related to assembling cardboard boxes.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "box_small_assembly", "box_medium_assembly", "box_large_assembly", "box_oversize_assembly" ]
   },
   {
     "id": "nested_wooden_boxes",
@@ -3570,8 +3582,7 @@
     "name": "boxes",
     "description": "Recipes related to constructing boxes.",
     "skill_used": "fabrication",
-    "nested_category_data": [ "nested_cardboard_boxes", "nested_wooden_boxes", "nested_metal_boxes" ],
-    "difficulty": 1
+    "nested_category_data": [ "nested_cardboard_boxes", "nested_cardboard_boxes_assembly", "nested_wooden_boxes", "nested_metal_boxes" ]
   },
   {
     "id": "nested_sheet_patchwork",
@@ -3625,7 +3636,7 @@
     "name": "short strings",
     "description": "Recipes related to constructing short strings.",
     "skill_used": "tailor",
-    "nested_category_data": [ "string_6", "string_6_spinwheel" ],
+    "nested_category_data": [ "string_6", "string_6_spinwheel", "string_6_electric_spinwheel" ],
     "difficulty": 1
   },
   {
@@ -3639,10 +3650,13 @@
     "skill_used": "tailor",
     "nested_category_data": [
       "rope_6_spinwheel_string",
+      "rope_6_electric_spinwheel_string",
       "rope_6_from_filament",
       "rope_6_spinwheel_filament",
+      "rope_6_electric_spinwheel_filament",
       "rope_6_from_cloth",
       "rope_6_spinwheel_cloth",
+      "rope_6_electric_spinwheel_cloth",
       "rope_6_from_string"
     ],
     "difficulty": 1
@@ -3656,7 +3670,7 @@
     "name": "long strings",
     "description": "Recipes related to constructing long strings.",
     "skill_used": "tailor",
-    "nested_category_data": [ "string_36", "string_36_spinwheel" ],
+    "nested_category_data": [ "string_36", "string_36_spinwheel", "string_36_electric_spinwheel" ],
     "difficulty": 1
   },
   {
@@ -3671,12 +3685,16 @@
     "nested_category_data": [
       "rope_30",
       "rope_30_spinwheel_ropes",
+      "rope_30_electric_spinwheel_ropes",
       "rope_30_from_cloth",
       "rope_30_spinwheel_cloth",
+      "rope_30_electric_spinwheel_cloth",
       "rope_30_from_string",
       "rope_30_spinwheel_string",
+      "rope_30_electric_spinwheel_string",
       "rope_30_from_filament",
-      "rope_30_spinwheel_filament"
+      "rope_30_spinwheel_filament",
+      "rope_30_electric_spinwheel_filament"
     ],
     "difficulty": 1
   },
@@ -3689,7 +3707,7 @@
     "name": "short cordage pieces",
     "description": "Recipes related to constructing short cordage pieces.",
     "skill_used": "tailor",
-    "nested_category_data": [ "cordage_6", "cordage_6_spinwheel_plant" ],
+    "nested_category_data": [ "cordage_6", "cordage_6_spinwheel_plant", "cordage_6_electric_spinwheel_plant" ],
     "difficulty": 1
   },
   {
@@ -3701,7 +3719,14 @@
     "name": "long cordage pieces",
     "description": "Recipes related to constructing long cordage pieces.",
     "skill_used": "tailor",
-    "nested_category_data": [ "cordage_36", "cordage_36_spinwheel_plant", "cordage_36_from_cordage_6", "cordage_36_spinwheel_ropes" ],
+    "nested_category_data": [
+      "cordage_36",
+      "cordage_36_spinwheel_plant",
+      "cordage_36_from_cordage_6",
+      "cordage_36_spinwheel_ropes",
+      "cordage_36_electric_spinwheel_ropes",
+      "cordage_36_electric_spinwheel_plant"
+    ],
     "difficulty": 1
   },
   {
@@ -3725,7 +3750,7 @@
     "name": "short cordage ropes",
     "description": "Recipes related to constructing short cordage ropes.",
     "skill_used": "tailor",
-    "nested_category_data": [ "rope_makeshift_6", "rope_makeshift_6_spinwheel_cordages" ],
+    "nested_category_data": [ "rope_makeshift_6", "rope_makeshift_6_spinwheel_cordages", "rope_makeshift_6_electric_spinwheel_cordages" ],
     "difficulty": 1
   },
   {
@@ -3740,8 +3765,10 @@
     "nested_category_data": [
       "rope_makeshift_30",
       "rope_makeshift_30_spinwheel_cordages",
+      "rope_makeshift_30_electric_spinwheel_cordages",
       "rope_makeshift_30_from_rope_makeshift_6",
       "rope_makeshift_30_spinwheel_ropes",
+      "rope_makeshift_30_electric_spinwheel_ropes",
       "rope_makeshift_30_from_cordage"
     ],
     "difficulty": 1

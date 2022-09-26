@@ -208,6 +208,7 @@
     "durability": 9,
     "clip_size": 1,
     "loudness": 300,
+    "flags": [ "NO_TURRET" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "120mm": 1 } } ]
   },
   {

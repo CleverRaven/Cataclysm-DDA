@@ -431,7 +431,7 @@ recipe &recipe_dictionary::load( const JsonObject &jo, const std::string &src,
     if( jo.has_string( "copy-from" ) ) {
         auto base = recipe_id( jo.get_string( "copy-from" ) );
         if( !out.count( base ) ) {
-            deferred.emplace_back( jo.get_source_location(), src );
+            deferred.emplace_back( jo, src );
             jo.allow_omitted_members();
             return null_recipe;
         }

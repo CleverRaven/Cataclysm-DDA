@@ -91,7 +91,7 @@ static size_t absolute_playlist_at = 0;
 static std::vector<std::size_t> playlist_indexes;
 static bool sound_init_success = false;
 static std::map<std::string, music_playlist> playlists;
-static std::string current_soundpack_path;
+static cata_path current_soundpack_path;
 
 static std::unordered_map<std::string, int> unique_paths;
 static sfx_resources_t sfx_resources;
@@ -166,7 +166,7 @@ static void play_music_file( const std::string &filename, int volume )
         return;
     }
 
-    const std::string path = ( current_soundpack_path + "/" + filename );
+    const std::string path = ( current_soundpack_path / filename ).get_unrelative_path().u8string();
     current_music = Mix_LoadMUS( path.c_str() );
     if( current_music == nullptr ) {
         dbg( D_ERROR ) << "Failed to load audio file " << path << ": " << Mix_GetError();
@@ -328,8 +328,8 @@ static Mix_Chunk *get_sfx_resource( int resource_id )
 {
     sound_effect_resource &resource = sfx_resources.resource[ resource_id ];
     if( !resource.chunk ) {
-        std::string path = ( current_soundpack_path + "/" + resource.path );
-        resource.chunk.reset( load_chunk( path ) );
+        cata_path path = current_soundpack_path / resource.path;
+        resource.chunk.reset( load_chunk( path.generic_u8string() ) );
     }
     return resource.chunk.get();
 }
@@ -720,10 +720,10 @@ void sfx::play_ambient_variant_sound( const std::string &id, const std::string &
 
 void load_soundset()
 {
-    const std::string default_path = PATH_INFO::defaultsounddir();
+    const cata_path default_path = PATH_INFO::defaultsounddir();
     const std::string default_soundpack = "basic";
     std::string current_soundpack = get_option<std::string>( "SOUNDPACKS" );
-    std::string soundpack_path;
+    cata_path soundpack_path;
 
     // Get current soundpack and it's directory path.
     if( current_soundpack.empty() ) {

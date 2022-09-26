@@ -26,7 +26,7 @@
       "w": "t_gates_control_brick",
       "]": "t_sidewalk",
       "*": "t_region_shrub_decorative",
-      "?": [ "t_region_shrub_decorative", "t_region_tree_shade" ],
+      "?": [ "t_region_shrub_decorative", "t_region_tree_shade", "t_tree_dead_warped" ],
       "A": "t_atm",
       "<": "t_stairs_up",
       ">": "t_stairs_down",

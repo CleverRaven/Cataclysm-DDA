@@ -9,7 +9,6 @@
 
 #include "units_fwd.h"
 
-class JsonIn;
 class JsonOut;
 class JsonValue;
 struct lat_long;

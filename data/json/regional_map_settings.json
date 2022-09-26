@@ -61,12 +61,9 @@
         "t_region_shrub_decorative": { "t_shrub": 3, "t_fern": 1, "t_shrub_rose": 2, "t_shrub_hydrangea": 2, "t_shrub_lilac": 2, "t_bamboo_long": 1 },
         "t_region_tree_forest_dense": {
           "t_tree": 18,
-          "t_tree_dead": 2,
           "t_tree_blackjack": 10,
           "t_tree_hickory": 18,
-          "t_tree_hickory_dead": 2,
           "t_tree_pine": 9,
-          "t_tree_deadpine": 1,
           "t_tree_maple": 7,
           "t_tree_birch": 7,
           "t_tree_beech": 7,
@@ -74,6 +71,7 @@
           "t_tree_elm": 4,
           "t_tree_cherry": 4,
           "t_tree_plum": 2,
+          "t_region_tree_dead": 5,
           "t_region_tree_forest_other": 5
         },
         "t_region_tree_forest_other": {
@@ -119,9 +117,7 @@
           "t_tree_plum": 2,
           "t_tree_elderberry": 2,
           "t_tree_mulberry": 2,
-          "t_tree_deadpine": 16,
-          "t_tree_hickory_dead": 16,
-          "t_tree_dead": 16
+          "t_region_tree_dead": 48
         },
         "t_region_tree_shade": {
           "t_tree": 64,
@@ -152,6 +148,13 @@
           "t_tree_elderberry": 2,
           "t_tree_mulberry": 2,
           "t_tree_dead": 4
+        },
+        "t_region_tree_dead": {
+          "t_tree_hickory_dead": 8,
+          "t_tree_dead": 7,
+          "t_tree_dead_warped": 1,
+          "t_tree_deadpine": 3,
+          "t_tree_deadpine_warped": 1
         },
         "t_region_tree_nut": {
           "t_tree_hickory": 16,
@@ -289,9 +292,7 @@
         "t_tree_plum": 0.02,
         "t_tree_elderberry": 0.02,
         "t_tree_mulberry": 0.02,
-        "t_tree_deadpine": 0.05,
-        "t_tree_hickory_dead": 0.05,
-        "t_tree_dead": 0.05,
+        "t_region_tree_dead": 0.15,
         "t_shrub_blueberry": 8.0,
         "t_shrub_strawberry": 5.0,
         "t_shrub_blackberry": 5.0,
@@ -547,9 +548,7 @@
               "t_tree_plum": 2,
               "t_tree_elderberry": 2,
               "t_tree_mulberry": 2,
-              "t_tree_deadpine": 30,
-              "t_tree_hickory_dead": 30,
-              "t_tree_dead": 30
+              "t_region_tree_dead": 90
             }
           },
           "shrubs_and_flowers": { "sequence": 1, "chance": 15, "clear_types": false, "types": { "t_region_shrub": 80, "f_region_forest_water": 30 } },
@@ -831,6 +830,7 @@
       "park_sigma": 80,
       "houses": {
         "2storyModern01": 5,
+        "2storyModern02": 50,
         "house_w_1": 50,
         "house_two_story_basement": 50,
         "multi_unit_two_story_basement": 40,

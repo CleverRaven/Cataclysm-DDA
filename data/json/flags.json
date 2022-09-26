@@ -284,7 +284,7 @@
     "id": "HELMET_MANDIBLE_GUARD",
     "type": "json_flag",
     "info": "This item is attachable as a mandible guard in military <info>helmets</info> or headgear specifically adapted with rails for attachments.",
-    "restriction": "Item must be some kind of mandible guard"
+    "restriction": "Item must be some kind of rail-mounted mandible guard"
   },
   {
     "id": "HELMET_MANDIBLE_GUARD_STRAPPED",
@@ -1529,6 +1529,11 @@
     "type": "json_flag"
   },
   {
+    "id": "NO_TURRET",
+    "type": "json_flag",
+    "//": "This flag should only be applied to GUN definitions, it will prevent generation of a turret vehicle part for the gun.  This blocks fake guns, or player unobtainable ones from appearing in turret list."
+  },
+  {
     "id": "NO_UNLOAD",
     "type": "json_flag",
     "inherit": false
@@ -1829,7 +1834,8 @@
   },
   {
     "id": "GRENADE",
-    "type": "json_flag"
+    "type": "json_flag",
+    "restriction": "Item must be a grenade"
   },
   {
     "id": "JAVELIN",
@@ -2090,8 +2096,22 @@
     "info": "This tool can test for voltage."
   },
   {
+    "id": "SHREDDED",
+    "type": "json_flag",
+    "info": "This is a small fragment."
+  },
+  {
+    "id": "FROM_FROZEN_LIQUID",
+    "type": "json_flag"
+  },
+  {
     "id": "SINGLE_USE",
     "type": "json_flag",
     "info": "This item is removed after use."
+  },
+  {
+    "id": "BIONIC_FUEL_SOURCE",
+    "type": "json_flag",
+    "info": "Contents of this item are used for fueling bionics."
   }
 ]
