@@ -278,6 +278,7 @@
     "diff": 5,
     "hp": 145,
     "speed": 135,
+    "attack_cost": 135,
     "color": "light_gray_yellow",
     "melee_skill": 4,
     "melee_dice": 3,
