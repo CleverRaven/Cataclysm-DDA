@@ -5,6 +5,7 @@
 
 #include "calendar.h"
 #include "cata_catch.h"
+#include "cata_scope_helpers.h"
 #include "options_helpers.h"
 #include "point.h"
 #include "type_id.h"

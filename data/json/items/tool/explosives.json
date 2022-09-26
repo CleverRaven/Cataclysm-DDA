@@ -706,7 +706,7 @@
   },
   {
     "id": "LAW_Packed",
-    "type": "TOOL",
+    "type": "GENERIC",
     "category": "guns",
     "name": { "str": "packed M72 LAW" },
     "description": "This is a M72 LAW, packed in its storage form.  Use it to pop it out and make it ready to fire.  Once it is activated, it cannot be repacked.",
@@ -724,6 +724,7 @@
       "target_charges": 1,
       "target_ammo": "66mm_HEAT",
       "menu_text": "Activate",
+      "need_wielding": true,
       "type": "transform"
     }
   },
@@ -1481,7 +1482,8 @@
       "need_fire": 1,
       "menu_text": "Light fuse",
       "type": "transform"
-    }
+    },
+    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB" ]
   },
   {
     "id": "homemade_demolition_charge_act",

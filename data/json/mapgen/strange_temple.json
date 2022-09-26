@@ -1,0 +1,308 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "temple_stairs",
+    "object": {
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "           ##           ",
+        "           ##           ",
+        "             o          ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "terrain": { " ": "t_region_groundcover", "#": "t_grate", "o": "t_pedestal_temple" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "temple_underground_1",
+    "object": {
+      "fill_ter": "t_rock_floor",
+      "rows": [
+        "           >>           ",
+        "           !!           ",
+        "                        ",
+        "                   ~~   ",
+        "    ~~             ~~   ",
+        "    ~~             ~~   ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "    ~~~            ~~   ",
+        "    ~~~            ~~   ",
+        "                        ",
+        "###########..###########",
+        "###########<<###########"
+      ],
+      "terrain": { "~": "t_water_dp", "#": "t_soil", "<": "t_stairs_up", ">": "t_stairs_down", "!": "t_grate" },
+      "traps": { ".": "tr_temple_flood" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "temple_underground_2",
+    "object": {
+      "fill_ter": "t_rock_floor",
+      "rows": [
+        "           >>           ",
+        "           ..           ",
+        "           !!           ",
+        "           !!           ",
+        "           !!           ",
+        "           !!           ",
+        "           !!           ",
+        "           !!           ",
+        "           !!           ",
+        "           !!           ",
+        "           !!           ",
+        "           !!           ",
+        "           !!           ",
+        "           !!           ",
+        "           !!           ",
+        "           !!           ",
+        "           !!           ",
+        "           !!           ",
+        "           !!           ",
+        "           !!           ",
+        "           ..           ",
+        "           ..           ",
+        "           ..           ",
+        "           <<           "
+      ],
+      "nested": { "!": { "chunks": [ "fire_vent" ] } },
+      "terrain": { " ": "t_rock", "<": "t_stairs_up", ">": "t_stairs_down" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fire_vent",
+    "object": { "mapgensize": [ 1, 1 ], "place_fields": [ { "field": "fd_fire_vent", "x": 0, "y": 0, "intensity": 1 } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fire_vent",
+    "object": { "mapgensize": [ 1, 1 ], "place_fields": [ { "field": "fd_fire_vent", "x": 0, "y": 0, "intensity": 2 } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fire_vent",
+    "object": { "mapgensize": [ 1, 1 ], "place_fields": [ { "field": "fd_fire_vent", "x": 0, "y": 0, "intensity": 3 } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "temple_underground_3",
+    "object": {
+      "fill_ter": "t_rock_floor",
+      "rows": [
+        "###########>>###########",
+        "###########!!###########",
+        "########        ########",
+        "########        ########",
+        "########        ########",
+        "########        ########",
+        "########        ########",
+        "########        ########",
+        "########        ########",
+        "########        ########",
+        "########        ########",
+        "########        ########",
+        "########        ########",
+        "########        ########",
+        "########        ########",
+        "########        ########",
+        "########        ########",
+        "########        ########",
+        "########        ########",
+        "########        ########",
+        "########        ########",
+        "########        ########",
+        "###########!!###########",
+        "###########<<###########"
+      ],
+      "nested": { " ": { "chunks": [ [ "color_wall", 1 ], [ "color_floor", 1 ] ] }, "!": { "chunks": [ "color_floor" ] } },
+      "terrain": { "#": "t_rock", "<": "t_stairs_up", ">": "t_stairs_down" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "color_wall",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "place_terrain": [ { "ter": "t_rock_red", "x": 0, "y": 0 } ],
+      "place_traps": [ { "trap": "tr_temple_toggle", "x": 0, "y": 0 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "color_wall",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "place_terrain": [ { "ter": "t_rock_green", "x": 0, "y": 0 } ],
+      "place_traps": [ { "trap": "tr_temple_toggle", "x": 0, "y": 0 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "color_wall",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "place_terrain": [ { "ter": "t_rock_blue", "x": 0, "y": 0 } ],
+      "place_traps": [ { "trap": "tr_temple_toggle", "x": 0, "y": 0 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "color_floor",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "place_terrain": [ { "ter": "t_floor_red", "x": 0, "y": 0 } ],
+      "place_traps": [ { "trap": "tr_temple_toggle", "x": 0, "y": 0 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "color_floor",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "place_terrain": [ { "ter": "t_floor_green", "x": 0, "y": 0 } ],
+      "place_traps": [ { "trap": "tr_temple_toggle", "x": 0, "y": 0 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "color_floor",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "place_terrain": [ { "ter": "t_floor_blue", "x": 0, "y": 0 } ],
+      "place_traps": [ { "trap": "tr_temple_toggle", "x": 0, "y": 0 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "temple_underground_4",
+    "object": {
+      "fill_ter": "t_rock_floor",
+      "rows": [
+        "###########>>###########",
+        "          #**1234       ",
+        "          #&&!          ",
+        "          #^^!          ",
+        "          #%%!          ",
+        "          #$$!          ",
+        "          #@@!          ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "###########  ###########",
+        "###########<<###########"
+      ],
+      "terrain": {
+        "1": "t_switch_rg",
+        "2": "t_switch_gb",
+        "3": "t_switch_rb",
+        "4": "t_switch_even",
+        "@": "t_floor_blue",
+        "$": "t_floor_green",
+        "%": "t_floor_red",
+        "^": "t_rock_blue",
+        "&": "t_rock_green",
+        "*": "t_rock_red",
+        "#": "t_rock",
+        "<": "t_stairs_up",
+        ">": "t_stairs_down",
+        "!": "t_bars"
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "temple_finale",
+    "object": {
+      "fill_ter": "t_rock_floor",
+      "rows": [
+        "                        ",
+        "         ......         ",
+        "         ......         ",
+        "         ...D..         ",
+        "         ......         ",
+        "           ..           ",
+        "           ..           ",
+        "           ..           ",
+        "           ..           ",
+        "           ..           ",
+        "           ..           ",
+        "           ..           ",
+        "           ..           ",
+        "           ..           ",
+        "           ..           ",
+        "           ..           ",
+        "           ..           ",
+        "           ..           ",
+        "           ..           ",
+        "           ..           ",
+        "           ..           ",
+        "           ..           ",
+        "           ..           ",
+        "           <<           "
+      ],
+      "terrain": { " ": "t_rock", "<": "t_stairs_up" },
+      "items": { "D": { "item": "strange_temple_artifacts", "chance": 100 } }
+    }
+  }
+]

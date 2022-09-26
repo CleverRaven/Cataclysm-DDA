@@ -108,11 +108,14 @@
     "weight": "4240 mg",
     "volume": "10ml",
     "longest_side": "10 cm",
+    "cutting": 1,
+    "to_hit": { "grip": "none", "length": "hand", "surface": "point", "balance": "neutral" },
     "price": 2500,
     "price_postapoc": 10,
     "material": [ "plastic" ],
     "symbol": ",",
-    "color": "white"
+    "color": "white",
+    "flags": [ "FRAGILE_MELEE", "STAB" ]
   },
   {
     "id": "thermometer",

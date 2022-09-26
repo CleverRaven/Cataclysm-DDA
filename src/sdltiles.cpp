@@ -35,6 +35,7 @@
 #include "avatar.h"
 #include "cached_options.h"
 #include "cata_assert.h"
+#include "cata_scope_helpers.h"
 #include "cata_tiles.h"
 #include "cata_utility.h"
 #include "catacharset.h"
@@ -780,7 +781,7 @@ std::string cata_tiles::get_omt_id_rotation_and_subtile(
             }
         }
 
-        get_rotation_and_subtile( val, rota, subtile );
+        get_rotation_and_subtile( val, -1, rota, subtile );
     } else {
         // 'Regular', nonlinear terrain only needs to worry about rotation, not
         // subtile
@@ -2807,12 +2808,12 @@ static void CheckMessages()
                                     actions.insert( ACTION_CONTROL_VEHICLE );
                                 }
                                 const int openablepart = veh->part_with_feature( veh_part, "OPENABLE", true );
-                                if( openablepart >= 0 && veh->is_open( openablepart ) && ( dx != 0 ||
+                                if( openablepart >= 0 && veh->part( openablepart ).open && ( dx != 0 ||
                                         dy != 0 ) ) { // an open door adjacent to us
                                     actions.insert( ACTION_CLOSE );
                                 }
                                 const int curtainpart = veh->part_with_feature( veh_part, "CURTAIN", true );
-                                if( curtainpart >= 0 && veh->is_open( curtainpart ) && ( dx != 0 || dy != 0 ) ) {
+                                if( curtainpart >= 0 && veh->part( curtainpart ).open && ( dx != 0 || dy != 0 ) ) {
                                     actions.insert( ACTION_CLOSE );
                                 }
                                 const int cargopart = veh->part_with_feature( veh_part, "CARGO", true );

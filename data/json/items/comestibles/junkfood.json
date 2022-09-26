@@ -672,7 +672,8 @@
     "quench": -1,
     "healthy": -1,
     "calories": 229,
-    "description": "Salty, deep-fried potatoes from a fast food restaurant.  Somehow, they're still edible.",
+    "spoils_in": "1 days",
+    "description": "Salty, deep-fried potatoes from a fast food restaurant.",
     "price": 120,
     "price_postapoc": 50,
     "material": [ "junk" ],
@@ -687,7 +688,6 @@
     "name": { "str_sp": "French fries" },
     "conditional_names": [ { "type": "COMPONENT_ID", "condition": "groundnut_prepared", "name": { "str_sp": "ground nut fries" } } ],
     "copy-from": "fries",
-    "spoils_in": "3 days",
     "description": "Homemade deep-fried potatoes or other tubers, with a touch of salt.  Crunchy and delicious.",
     "fun": 3
   },

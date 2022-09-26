@@ -39,10 +39,16 @@
 
 class npc;
 
+static const ammotype ammo_battery( "battery" );
+
 static const itype_id itype_null( "null" );
 
 static const quality_id qual_JACK( "JACK" );
 static const quality_id qual_LIFT( "LIFT" );
+
+static const skill_id skill_launcher( "launcher" );
+
+static const vpart_id vpart_turret_generic( "turret_generic" );
 
 static std::unordered_map<vproto_id, vehicle_prototype> vtypes;
 
@@ -373,7 +379,7 @@ void vpart_info::load( const JsonObject &jo, const std::string &src )
             }
             def.categories = ab->second.categories;
         } else {
-            deferred.emplace_back( jo.get_source_location(), src );
+            deferred.emplace_back( jo, src );
             jo.allow_omitted_members();
             return;
         }
@@ -558,9 +564,163 @@ const std::set<std::string> &vpart_info::get_categories() const
     return this->categories;
 }
 
+// @returns true for "valid" gun items which can be mounted as vehicle turret
+static bool mountable_gun_filter( const itype &guntype )
+{
+    static const std::vector<flag_id> bad_flags {
+        flag_BIONIC_WEAPON,
+        flag_NO_TURRET,
+        flag_NO_UNWIELD,
+        flag_PSEUDO,
+        flag_RELOAD_AND_SHOOT,
+        flag_STR_DRAW,
+    };
+
+    if( !guntype.gun || guntype.gunmod ) {
+        return false;
+    }
+
+    return std::none_of( bad_flags.cbegin(), bad_flags.cend(), [&guntype]( const flag_id & flag ) {
+        return guntype.has_flag( flag );
+    } );
+}
+
+// @returns true if itype uses liquid ammo directly or has a magwell + magazine pocket that accepts liquid ammo
+static bool gun_uses_liquid_ammo( const itype &guntype )
+{
+    for( const ammotype &at : guntype.gun->ammo ) {
+        if( at->default_ammotype()->phase == phase_id::LIQUID ) {
+            return true;
+        }
+    }
+    for( const pocket_data &maybe_magwell : guntype.pockets ) {
+        for( const itype_id &restricted_types : maybe_magwell.item_id_restriction ) {
+            for( const pocket_data &maybe_mag : restricted_types.obj().pockets ) {
+                for( const std::pair<const ammotype, int> &res : maybe_mag.ammo_restriction ) {
+                    if( res.first->default_ammotype()->phase == phase_id::LIQUID ) {
+                        return true;
+                    }
+                }
+            }
+        }
+    }
+    return false;
+}
+
+// @returns Amount of battery drained on default gunmode if itype uses magwell+mag with battery ammo
+static int gun_battery_mags_drain( const itype &guntype )
+{
+    int charges_used = 0;
+    for( const pocket_data &maybe_mag_well : guntype.pockets ) {
+        for( const itype_id &restricted_type : maybe_mag_well.item_id_restriction ) {
+            for( const pocket_data &maybe_mag : restricted_type.obj().pockets ) {
+                for( const std::pair<const ammotype, int> &res : maybe_mag.ammo_restriction ) {
+                    if( res.first == ammo_battery ) {
+                        charges_used = std::max( charges_used, guntype.gun->ammo_to_fire );
+                    }
+                }
+            }
+        }
+    }
+    if( guntype.gun->ups_charges > 0 && charges_used > 0 ) {
+        debugmsg( "%s uses both UPS charges and battery magazines", guntype.nname( 1 ) );
+    }
+    return charges_used;
+}
+
+static std::string get_looks_like( const vpart_info &vpi, const itype &it )
+{
+    static const auto has_light_ammo = []( const std::set<ammotype> &ats ) {
+        for( const ammotype &at : ats ) {
+            if( !at->default_ammotype() ) {
+                continue;
+            }
+            const auto at_weight = at->default_ammotype()->weight;
+            if( 15_gram > at_weight && at_weight > 3_gram ) {
+                return true; // detects g80 and coil gun
+            }
+        }
+        return false;
+    };
+
+    if( it.gun->ups_charges > 0 && has_light_ammo( it.gun->ammo ) ) {
+        return "mounted_hk_g80"; // railguns
+    } else if( vpi.has_flag( "USE_BATTERIES" ) || it.gun->ups_charges > 0 ) {
+        return "laser_rifle"; // generic energy weapons
+    } else if( vpi.has_flag( "USE_TANKS" ) ) {
+        return "watercannon"; // liquid sprayers (flamethrower, foam gun etc)
+    } else if( it.gun->skill_used == skill_launcher ) {
+        return "tow_launcher"; // launchers
+    } else {
+        return "mounted_m249"; // machine guns and also default for any unknown
+    }
+}
+
 void vpart_info::finalize()
 {
     DynamicDataLoader::get_instance().load_deferred( deferred );
+
+    for( const itype *const item : item_controller->find( mountable_gun_filter ) ) {
+        vpart_info new_part = vpart_info_all[vpart_turret_generic]; // copy from generic
+        const itype_id item_id = item->get_id();
+
+        new_part.id = vpart_id( "turret_" + item_id.str() );
+        new_part.base_item = item_id;
+        new_part.description = item->description;
+        new_part.color = item->color;
+
+        // calculate requirements for install/removal by gross estimate
+        int primary_req = 3; // 3 in whatever gun's skill is set to
+        int mechanics_req = 3 + static_cast<int>( item->weight / 10_kilogram );
+        int electronics_req = 0; // calculated below
+
+        // mark turrets with migrated-from or blacklisted items obsolete
+        if( item_id != item_controller->migrate_id( item_id ) ||
+            item_is_blacklisted( item->get_id() ) ) {
+            new_part.set_flag( "OBSOLETE" );
+        }
+
+        if( gun_uses_liquid_ammo( *item ) ) {
+            new_part.set_flag( "USE_TANKS" );
+            // +1 mechanics level for liquid plumbing
+            mechanics_req++;
+        }
+
+        const int battery_mags_drain = gun_battery_mags_drain( *item );
+        if( battery_mags_drain ) {
+            // USE_BATTERIES for afs cartridge-like batteries
+            new_part.set_flag( "USE_BATTERIES" );
+            // +1 electronics level per 15 battery charges used for electric plumbing
+            electronics_req += static_cast<int>( std::ceil( battery_mags_drain / 15.0 ) );
+        }
+
+        // cap all skills at 8
+        primary_req = std::min( 8, primary_req );
+        mechanics_req = std::min( 8, mechanics_req );
+        electronics_req = std::min( 8, electronics_req );
+
+        new_part.install_skills.emplace( item->gun->skill_used, primary_req );
+        new_part.removal_skills.emplace( item->gun->skill_used, primary_req / 2 );
+
+        new_part.install_skills.emplace( "mechanics", mechanics_req );
+        new_part.removal_skills.emplace( "mechanics", mechanics_req / 2 );
+
+        if( electronics_req > 0 ) {
+            new_part.install_skills.emplace( "electronics", electronics_req );
+            new_part.removal_skills.emplace( "electronics", electronics_req / 2 );
+        }
+
+        int difficulty = primary_req + mechanics_req + electronics_req * 2;
+        time_duration install_time = 10_minutes * difficulty;
+        time_duration removal_time = 10_minutes * difficulty / 2;
+
+        new_part.install_moves = to_moves<int>( install_time );
+        new_part.removal_moves = to_moves<int>( removal_time );
+
+        new_part.looks_like = get_looks_like( new_part, *item );
+
+        vpart_info_all.emplace( new_part.id, new_part );
+    }
 
     for( auto &e : vpart_info_all ) {
         if( e.second.folded_volume > 0_ml ) {
@@ -831,11 +991,14 @@ const std::map<vpart_id, vpart_info> &vpart_info::all()
 
 std::string vpart_info::name() const
 {
-    if( name_.empty() ) {
-        return item::nname( base_item );
-    } else {
-        return name_.translated();
+    std::string res = name_.translated();
+    if( res.empty() ) {
+        res = item::nname( base_item ); // fallback to base item's translation
     }
+    if( has_flag( "TURRET" ) ) {
+        res = string_format( pgettext( "mounted turret prefix", "mounted %s" ), res );
+    }
+    return res;
 }
 
 int vpart_info::format_description( std::string &msg, const nc_color &format_color,
@@ -943,7 +1106,7 @@ requirement_data vpart_info::repair_requirements() const
 
 bool vpart_info::is_repairable() const
 {
-    return !repair_requirements().is_empty();
+    return !has_flag( "NO_REPAIR" ) && !repair_requirements().is_empty();
 }
 
 static int scale_time( const std::map<skill_id, int> &sk, int mv, const Character &you )
@@ -1145,7 +1308,6 @@ void vehicle_prototype::load( const JsonObject &jo )
         part_def pt;
         pt.pos = pos;
         std::tie( pt.part, pt.variant ) = get_vpart_id_variant( part.get_string( "part" ) );
-        const std::string parts = part.get_string( "part" );
 
         assign( part, "ammo", pt.with_ammo, true, 0, 100 );
         assign( part, "ammo_types", pt.ammo_types, true );
@@ -1268,6 +1430,7 @@ void vehicle_prototype::finalize()
 
         blueprint.suspend_refresh();
         for( part_def &pt : proto.parts ) {
+            pt.part = vpart_migration::migrate( pt.part );
             const itype *base = item::find_type( pt.part->base_item );
 
             if( !pt.part.is_valid() ) {
@@ -1411,7 +1574,35 @@ void vpart_migration::reset()
     vpart_migrations.clear();
 }
 
+void vpart_migration::finalize()
+{
+    DynamicDataLoader::get_instance().load_deferred( deferred );
+
+    // erase the generic turret prototype vpart
+    vpart_info_all.erase( vpart_turret_generic );
+}
+
 const std::map<vpart_id, vpart_id> &vpart_migration::get_migrations()
 {
     return vpart_migrations;
+}
+
+vpart_id vpart_migration::migrate( const vpart_id &original )
+{
+    vpart_id pid = original;
+
+    // limit up to 10 migrations per vpart (guard in case of accidental loops)
+    for( int i = 0; i < 10; i++ ) {
+        const auto &migration_it = vpart_migrations.find( pid );
+        if( migration_it == vpart_migrations.cend() ) {
+            break;
+        }
+        pid = migration_it->second;
+    }
+
+    if( pid != original ) {
+        DebugLog( D_WARNING, D_MAIN ) << "Migrating vpart " << original.str() << " to " << pid.str();
+    }
+
+    return pid;
 }

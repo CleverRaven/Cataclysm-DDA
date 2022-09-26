@@ -1607,6 +1607,13 @@
   },
   {
     "type": "keybinding",
+    "id": "PLUG",
+    "category": "APP_INTERACT",
+    "name": "Plug in appliance",
+    "bindings": [ { "input_method": "keyboard_any", "key": "g" } ]
+  },
+  {
+    "type": "keybinding",
     "id": "UNPLUG",
     "category": "APP_INTERACT",
     "name": "Unplug power connections",
@@ -4129,6 +4136,13 @@
     "id": "EVERYTHING",
     "name": "Toggle spawning everything",
     "bindings": [ { "input_method": "keyboard_char", "key": "E" }, { "input_method": "keyboard_code", "key": "e", "mod": [ "shift" ] } ]
+  },
+  {
+    "type": "keybinding",
+    "category": "WISH_ITEM",
+    "id": "SNIPPET",
+    "name": "Choose snippet",
+    "bindings": [ { "input_method": "keyboard_any", "key": "S" }, { "input_method": "keyboard_code", "key": "s", "mod": [ "shift" ] } ]
   },
   {
     "type": "keybinding",

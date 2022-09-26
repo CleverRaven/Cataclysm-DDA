@@ -22,6 +22,12 @@
     "id": "SUN_MAGE",
     "condition": "ALWAYS",
     "values": [ { "value": "PERCEPTION", "add": 5 } ],
-    "hit_me_effect": [ { "id": "solar_blinding" } ]
+    "hit_me_effect": [
+      {
+        "id": "solar_blinding",
+        "message": "A brilliant light radiates from where you've been hit.",
+        "npc_message": "%1$s's body is enveloped in a bright glare."
+      }
+    ]
   }
 ]

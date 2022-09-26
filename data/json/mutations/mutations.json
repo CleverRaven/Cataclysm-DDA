@@ -4181,7 +4181,7 @@
     "social_modifiers": { "intimidate": 2 },
     "types": [ "DURABILITY" ],
     "prereqs": [ "LARGE_OK", "HUGE_OK", "STR_UP_3", "STR_UP_4" ],
-    "threshreq": [ "THRESH_URSINE", "THRESH_CATTLE", "THRESH_CHIMERA", "THRESH_MEDICAL", "THRESH_LIZARD", "THRESH_BEAST" ],
+    "threshreq": [ "THRESH_URSINE", "THRESH_CATTLE", "THRESH_CHIMERA", "THRESH_LIZARD", "THRESH_BEAST" ],
     "changes_to": [ "MUT_TOUGH2" ],
     "category": [ "URSINE", "CATTLE", "CHIMERA", "BEAST", "LIZARD" ],
     "hp_modifier_secondary": 0.2
@@ -4195,7 +4195,7 @@
     "social_modifiers": { "intimidate": 3 },
     "types": [ "DURABILITY" ],
     "prereqs": [ "MUT_TOUGH" ],
-    "threshreq": [ "THRESH_URSINE", "THRESH_CATTLE", "THRESH_CHIMERA", "THRESH_MEDICAL" ],
+    "threshreq": [ "THRESH_URSINE", "THRESH_CATTLE", "THRESH_CHIMERA" ],
     "changes_to": [ "MUT_TOUGH3" ],
     "category": [ "URSINE", "CATTLE", "CHIMERA" ],
     "hp_modifier_secondary": 0.3
