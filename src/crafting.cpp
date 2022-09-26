@@ -1010,7 +1010,7 @@ float Character::get_recipe_weighted_skill_average( const recipe &making ) const
     // weight added by the required level.
     const float weighted_skill_average =
         ( ( 2.0f * making.difficulty * get_skill_level( making.skill_used ) ) + secondary_skill_total ) /
-        ( 2.0f * making.difficulty + secondary_difficulty );
+        std::max( ( 2.0f * making.difficulty + secondary_difficulty ), 1.0f );
     add_msg_debug( debugmode::DF_CHARACTER, "Weighted skill average: %f", weighted_skill_average );
 
     float total_skill_modifiers = 0.0f;
