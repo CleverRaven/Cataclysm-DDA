@@ -44,6 +44,8 @@ std::string enum_to_string<weather_sound_category>( weather_sound_category data 
             return "flurries";
         case weather_sound_category::rainy:
             return "rainy";
+        case weather_sound_category::rainstorm:
+            return "rainstorm";
         case weather_sound_category::snow:
             return "snow";
         case weather_sound_category::snowstorm:
