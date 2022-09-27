@@ -231,7 +231,7 @@
     "name": "caltrops",
     "color": "dark_gray",
     "memorial_male": { "ctxt": "memorial_male", "str": "Stepped on a caltrop." },
-    "memorial_female": { "ctxt": "memorial_female", "str": "stepped on a caltrop." },
+    "memorial_female": { "ctxt": "memorial_female", "str": "Stepped on a caltrop." },
     "symbol": "_",
     "visibility": 4,
     "avoidance": 6,
