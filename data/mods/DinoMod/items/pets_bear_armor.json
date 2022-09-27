@@ -83,28 +83,27 @@
     "material_thickness": 6,
     "snippet_category": [
       {
-        "id": "kelly",
-        "text": "A full barding for ostriches, consisting of boiled leather with cloth underneath.  This caparison depicts four men in heavy metal armor riddled with bullet marks.  You could put this on a friendly ostrich."
+        "id": "honeyeater",
+        "text": "A full barding for bears, consisting of boiled leather with cloth underneath.  This caparison depicts a large brown bear being swarmed by bees as it devours a honeycomb.  You could put this on a friendly bear."
       },
       {
-        "id": "raac",
-        "text": "A full barding for ostriches, consisting of boiled leather with cloth underneath.  This caparison depicts a crown floating above an armored tank in profile above the word AUSTRALIA.  You could put this on a friendly ostrich."
+        "id": "mormont",
+        "text": "A full barding for bears, consisting of boiled leather with cloth underneath.  This caparison depicts a warrior-woman holding a baby in one arm and a battleaxe in the other.  You could put this on a friendly bear."
       },
       {
-        "id": "emuwar",
-        "text": "A full barding for ostriches, consisting of boiled leather with cloth underneath.  This caparison depicts several charging emus trampling enemy machine gunners and a field of wheat.  You could put this on a friendly ostrich."
+        "id": "maidenfair",
+        "text": "A full barding for bears, consisting of boiled leather with cloth underneath.  This caparison depicts a bear dancing with a golden-haired maiden.  You could put this on a friendly bear."
+      {
+        "id": "wight",
+        "text": "A full barding for bears, consisting of boiled leather with cloth underneath.  This caparison depicts a zombified bear with cold blue eyes fighting alongside an undead army.  You could put this on a friendly bear."
       },
       {
-        "id": "ostrichking",
-        "text": "A full barding for ostriches, consisting of boiled leather with cloth underneath.  This caparison depicts a man wearing a crown of ostrich feathers and fields with many ostriches.  You could put this on a friendly ostrich."
+        "id": "beorn",
+        "text": "A full barding for bears, consisting of boiled leather with cloth underneath.  This caparison depicts a tall man transforming into a giant bear and leaping into battle.  You could put this on a friendly bear."
       },
       {
-        "id": "marie",
-        "text": "A full barding for ostriches, consisting of boiled leather with cloth underneath.  This caparison depicts a woman in rich blue velvet garments with white ostrich feathers flaring dramatically from her pouf hairstyle.  You could put this on a friendly ostrich."
-      },
-      {
-        "id": "tyrannosaurus",
-        "text": "A full barding for ostriches, consisting of boiled leather with cloth underneath.  This caparison depicts a fierce tyrannosaurus rex bursting out the side of a 1970s-era van.  You could put this on a friendly ostrich."
+        "id": "stegosaurus",
+        "text": "A full barding for bears, consisting of boiled leather with cloth underneath.  This caparison depicts a fierce stegosaurus bursting out the side of a 1970s-era van.  You could put this on a friendly bear."
       }
     ]
   },
