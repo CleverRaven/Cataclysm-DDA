@@ -2215,9 +2215,12 @@ bool vehicle::find_and_split_vehicles( map &here, std::set<int> exclude )
     if( !all_vehicles.empty() ) {
         const std::vector<vehicle *> null_vehicles( all_vehicles.size(), nullptr );
         const std::vector<std::vector<point>> null_mounts( all_vehicles.size(), std::vector<point>() );
-        if( split_vehicles( here, all_vehicles, null_vehicles, null_mounts ) ) {
-            // update the active cache
-            shift_parts( here, point_zero );
+        std::vector<vehicle *> mark_wreckage { this };
+        if( split_vehicles( here, all_vehicles, null_vehicles, null_mounts, &mark_wreckage ) ) {
+            for( vehicle *veh : mark_wreckage ) {
+                veh->add_tag( "wreckage" ); // wreckages don't get fake parts added
+            }
+            shift_parts( here, point_zero ); // update the active cache
             return true;
         }
     }
@@ -2251,8 +2254,6 @@ bool vehicle::split_vehicles( map &here,
         }
         std::vector<point> split_mounts = new_mounts[ i ];
         did_split = true;
-        // Once a vehicle is split, we treat it differently, mostly for fake parts.
-        add_tag( "wreckage" );
 
         vehicle *new_vehicle = nullptr;
         if( i < new_vehicles.size() ) {
@@ -2297,7 +2298,6 @@ bool vehicle::split_vehicles( map &here,
             new_vehicle->tracking_on = tracking_on;
             new_vehicle->camera_on = camera_on;
         }
-        new_vehicle->add_tag( "wreckage" );
 
         std::vector<Character *> passengers;
         for( size_t new_part = 0; new_part < split_parts.size(); new_part++ ) {
