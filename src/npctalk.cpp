@@ -1552,7 +1552,7 @@ void parse_tags( std::string &phrase, const Character &u, const Character &me,
         }
 
         const item_location u_weapon = u.get_wielded_item();
-        const item_location me_weapon = me.get_wielded_item();
+        const item_location me_weapon = ( &me != NULL ) ? me.get_wielded_item() : item_location();
         // Special, dynamic tags go here
         if( tag == "<yrwp>" ) {
             phrase.replace( fa, l, remove_color_tags( u_weapon->tname() ) );
@@ -1631,6 +1631,14 @@ void parse_tags( std::string &phrase, const Character &u, const Character &me,
             var.pop_back();
             global_variables &globvars = get_globals();
             phrase.replace( fa, l, globvars.get_global_value( "npctalk_var_" + var ) );
+        } else if( tag.find( "<city>" ) != std::string::npos ) {
+            std::string cityname = "nowhere";
+            tripoint_abs_sm abs_sub = get_map().get_abs_sub();
+            const city *c = overmap_buffer.closest_city( abs_sub ).city;
+            if( c != nullptr ) {
+                cityname = c->name;
+            }
+            phrase.replace( fa, l, cityname );
         } else if( !tag.empty() ) {
             debugmsg( "Bad tag.  '%s' (%d - %d)", tag.c_str(), fa, fb );
             phrase.replace( fa, fb - fa + 1, "????" );
@@ -1852,7 +1860,7 @@ talk_topic dialogue::opt( dialogue_window &d_win, const talk_topic &topic )
     generate_response_lines();
 
     ui.on_redraw( [&]( const ui_adaptor & ) {
-        d_win.draw( actor( true )->disp_name(), response_lines );
+        d_win.draw( d_win.is_not_conversation ? "" : actor( true )->disp_name(), response_lines );
     } );
 
     size_t response_ind = response_hotkeys.size();
