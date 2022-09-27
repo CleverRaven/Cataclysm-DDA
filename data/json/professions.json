@@ -2906,7 +2906,7 @@
     "items": {
       "both": {
         "items": [ "bondage_suit", "bondage_mask", "boots", "gloves_leather", "leather_belt" ],
-        "entries": [ { "group": "charged_matches" } ]
+        "entries": [ { "group": "charged_matches", "custom-flags": [ "auto_wield" ] } ]
       }
     },
     "missions": [ "MISSION_LOST_SUB" ]
@@ -5039,14 +5039,14 @@
           "diamond_ring",
           "diamond_gold_pendant_necklace",
           "cigar_cutter",
-          "gold_bracelet",
-          "knuckle_brass"
+          "gold_bracelet"
         ],
         "entries": [
           { "group": "charged_cell_phone" },
           { "item": "cigar", "container-item": "case_cigar", "charges": 2 },
           { "item": "deagle_44", "ammo-item": "44fmj", "container-item": "holster", "charges": 8 },
-          { "item": "deaglemag", "ammo-item": "44fmj", "charges": 8, "count": 2 }
+          { "item": "deaglemag", "ammo-item": "44fmj", "charges": 8, "count": 2 },
+          { "item": "knuckle_brass", "container-item": "tux" }
         ]
       },
       "male": [ "boxer_shorts", "diamond_gold_cufflinks" ],

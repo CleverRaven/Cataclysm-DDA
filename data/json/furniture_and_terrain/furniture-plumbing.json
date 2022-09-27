@@ -65,6 +65,7 @@
     "required_str": -1,
     "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "CONTAINER", "PLACE_ITEM", "MOUNTABLE" ],
     "connects_to": "COUNTER",
+    "rotates_to": "INDOORFLOOR",
     "bash": {
       "str_min": 8,
       "str_max": 30,

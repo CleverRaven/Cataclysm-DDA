@@ -738,7 +738,7 @@ void avatar::power_bionics()
         ctxt.get_registered_manual_keys().clear();
         for( size_t i = 0; i < current_bionic_list->size(); i++ ) {
             ctxt.register_manual_key( ( *current_bionic_list )[i]->invlet,
-                                      build_bionic_powerdesc_string( *( *current_bionic_list )[i] ).c_str(), this );
+                                      build_bionic_powerdesc_string( *( *current_bionic_list )[i], this ) );
         }
 #endif
 
