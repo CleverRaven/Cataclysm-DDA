@@ -121,6 +121,8 @@ enum class mod : int {
     ITEM_ATTACK_SPEED,
     ITEM_WET_PROTECTION,
     NUM_MOD
+    //tracker for artifact carrying penalties
+    ARTIFACT_RESONANCE
 };
 } // namespace enchant_vals
 
