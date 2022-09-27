@@ -345,8 +345,9 @@
     "result": "xl_cestus",
     "type": "recipe",
     "copy-from": "cestus",
-    "time": "10 h 10 m",
+    "time": "30 m",
     "using": [ [ "sewing_standard", 5 ] ],
+    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
     "components": [ [ [ "leather", 6 ] ], [ [ "scrap", 10 ] ] ]
   },
   {
