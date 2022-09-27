@@ -3,7 +3,7 @@
     "id": "electric_demon",
     "type": "SPELL",
     "name": { "str": "Electric Demon" },
-    "description": "Summon a small electric imp - fast as lightning, and same deadly.",
+    "description": "Summon a small electric imp - fast as lightning, and just as deadly.",
     "valid_targets": [ "ground" ],
     "flags": [ "SOMATIC", "VERBAL", "CONCENTRATE", "RANDOM_TARGET" ],
     "effect": "summon",
