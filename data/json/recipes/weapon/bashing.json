@@ -342,6 +342,13 @@
     "components": [ [ [ "leather", 4 ] ], [ [ "scrap", 8 ] ] ]
   },
   {
+    "result": "xl_cestus",
+    "type": "recipe",
+    "copy-from": "cestus",
+    "time": "10 h 10 m",
+    "using": [ [ "sewing_standard", 7 ] ]
+  },
+  {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "result": "rock_sock",
