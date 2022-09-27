@@ -454,6 +454,7 @@
     "coverage": 90,
     "required_str": 9,
     "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR" ],
+    "rotates_to": "INDOORFLOOR",
     "deconstruct": {
       "items": [
         { "item": "sheet_metal", "count": [ 1, 2 ] },
