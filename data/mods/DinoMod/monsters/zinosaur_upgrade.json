@@ -3987,33 +3987,6 @@
   },
   {
     "type": "MONSTER",
-    "id": "mon_sentrosaurus",
-    "name": { "str_sp": "armored centrosaurus" },
-    "copy-from": "mon_zentrosaurus",
-    "color": "white",
-    "material": [ "bone" ],
-    "armor_bash": 0,
-    "description": "This large, four-legged dinosaur corpse with a beak and long horn above the nose has grown dense bone armor over the rest of its body.",
-    "proportional": { "hp": 0.4, "speed": 0.875 },
-    "relative": {
-      "melee_dice": 9,
-      "melee_dice_sides": 5,
-      "melee_damage": [ { "damage_type": "bash", "amount": 7 } ],
-      "armor_cut": 22,
-      "armor_bullet": 30,
-      "armor_stab": 30,
-      "armor_acid": 3,
-      "vision_day": -20
-    },
-    "bleed_rate": 50,
-    "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_wp_skeleton" ],
-    "upgrades": {  },
-    "extend": { "flags": [ "HARDTOSHOOT" ] },
-    "harvest": "mr_bones",
-    "categories": [ "DINOSAUR" ]
-  },
-  {
-    "type": "MONSTER",
     "id": "mon_sktyracosaurus",
     "name": { "str_sp": "shielded styracosaurus" },
     "copy-from": "mon_ztyracosaurus",
