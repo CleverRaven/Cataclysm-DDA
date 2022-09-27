@@ -820,6 +820,7 @@ hauberk
 hauberks
 hbhbh
 hdd
+headwear
 heartlike
 heatsink
 heatsinks
