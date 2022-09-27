@@ -40,6 +40,7 @@
     "coverage": 80,
     "required_str": 10,
     "flags": [ "FLAMMABLE", "PLACE_ITEM", "ORGANIC", "BLOCKSDOOR" ],
+    "rotates_to": "INDOORFLOOR",
     "deconstruct": {
       "items": [ { "item": "2x4", "count": 14 }, { "item": "wood_panel", "count": 2 }, { "item": "nail", "charges": [ 12, 20 ] } ]
     },
