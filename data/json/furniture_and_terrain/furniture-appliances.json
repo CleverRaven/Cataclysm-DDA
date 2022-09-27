@@ -202,7 +202,7 @@
     "move_cost_mod": -1,
     "coverage": 90,
     "required_str": 10,
-    "flags": [ "PLACE_ITEM", "BLOCKSDOOR" ],
+    "flags": [ "PLACE_ITEM", "BLOCKSDOOR", "NO_SELF_CONNECT" ],
     "deconstruct": {
       "items": [
         { "item": "sheet_metal", "count": [ 2, 5 ] },
