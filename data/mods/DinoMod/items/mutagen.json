@@ -64,7 +64,7 @@
       "type": "consume_drug",
       "activation_message": "You inject the horns mutagenic primer.",
       "tools_needed": { "syringe": -1 },
-      "vitamins": [ [ "cerat", 450, 550 ] ]
+      "vitamins": [ [ "mutagen_horns", 450, 550 ] ]
     }
   },
   {
@@ -75,6 +75,6 @@
     "description": "An extremely rare mutagen cocktail containing a mix of biological samples, spiked with rum.",
     "color": "light_green",
     "price": 500000,
-    "vitamins": [ [ "mutagen_cerat", 175 ], [ "mutagen", 125 ] ]
+    "vitamins": [ [ "mutagen_horns", 175 ], [ "mutagen", 125 ] ]
   }
 ]
