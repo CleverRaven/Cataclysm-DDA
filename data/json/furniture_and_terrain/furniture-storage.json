@@ -790,6 +790,7 @@
     "id": "f_metal_trashcan",
     "name": "metal trash can",
     "symbol": "&",
+    "looks_like": "f_trashcan",
     "description": "A crude metal bin typically used to dispose of waste.",
     "//": "The constructed trash can variant, deliberately looks like the original. Does not spawn naturally, although feel free to add it to worldgen.",
     "color": "light_cyan",
