@@ -1554,7 +1554,7 @@ void parse_tags( std::string &phrase, const Character &u, const Character &me,
         const item_location u_weapon = u.get_wielded_item();
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wtautological-compare"
-#pragma clang diagnostic ignored "-Wzero-as-null-pointer-constant"        
+#pragma clang diagnostic ignored "-Wzero-as-null-pointer-constant"
         const item_location me_weapon = ( &me != NULL ) ? me.get_wielded_item() : item_location();
 #pragma clang diagnostic pop
         // Special, dynamic tags go here
