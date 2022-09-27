@@ -20,6 +20,7 @@
 #include "debug.h"
 #include "enum_conversions.h"
 #include "field.h"
+#include "flag.h"
 #include "game.h"
 #include "generic_factory.h"
 #include "global_vars.h"
@@ -1104,6 +1105,15 @@ void conditional_t<T>::set_can_stow_weapon( bool is_npc )
     condition = [is_npc]( const T & d ) {
         const talker *actor = d.actor( is_npc );
         return !actor->unarmed_attack() && actor->can_stash_weapon();
+    };
+}
+
+template<class T>
+void conditional_t<T>::set_can_drop_weapon( bool is_npc )
+{
+    condition = [is_npc]( const T & d ) {
+        const talker *actor = d.actor( is_npc );
+        return !actor->unarmed_attack() && !actor->wielded_with_flag( flag_NO_UNWIELD );
     };
 }
 
@@ -2871,6 +2881,10 @@ conditional_t<T>::conditional_t( const std::string &type )
         set_can_stow_weapon();
     } else if( type == "npc_can_stow_weapon" ) {
         set_can_stow_weapon( is_npc );
+    } else if( type == "u_can_drop_weapon" ) {
+        set_can_drop_weapon();
+    } else if( type == "npc_can_drop_weapon" ) {
+        set_can_drop_weapon( is_npc );
     } else if( type == "u_has_weapon" ) {
         set_has_weapon();
     } else if( type == "npc_has_weapon" ) {
