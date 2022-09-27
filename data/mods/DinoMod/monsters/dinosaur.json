@@ -1820,7 +1820,8 @@
     "reproduction": { "baby_egg": "egg_aquilops", "baby_count": 20, "baby_timer": 40 },
     "special_attacks": [ [ "EAT_CROP", 30 ] ],
     "flags": [ "SEES", "SMELLS", "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "CANPLAY" ],
-    "harvest": "mammal_tiny"
+    "harvest": "mammal_tiny",
+    "dissect": "dissect_horns_sample_single"
   },
   {
     "type": "MONSTER",
@@ -2049,6 +2050,7 @@
     "petfood": { "food": [ "DINOFOOD_C" ] },
     "flags": [ "SEES", "SMELLS", "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "PET_MOUNTABLE", "BASHES" ],
     "harvest": "mammal_large_leather",
+    "dissect": "dissect_horns_sample_large",
     "anger_triggers": [ "HURT", "FRIEND_ATTACKED", "PLAYER_NEAR_BABY" ],
     "fear_triggers": [ "FRIEND_DIED" ],
     "categories": [ "DINOSAUR", "WILDLIFE" ]
