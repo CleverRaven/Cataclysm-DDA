@@ -62,7 +62,7 @@
     "threshold_mut": "THRESH_HORNS",
     "mutagen_message": "You feel your face, scalp, and neck stretch and change into something greater.",
     "memorial_message": "Got the horns.",
-    "vitamin": "mutagen_cerat"
+    "vitamin": "mutagen_horns"
   },
   {
     "type": "mutation",
