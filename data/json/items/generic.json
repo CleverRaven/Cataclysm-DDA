@@ -27,6 +27,20 @@
   },
   {
     "type": "GENERIC",
+    "id": "cottonwood_tree_boll",
+    "name": { "str": "cottonwood tree boll" },
+    "category": "other",
+    "weight": "5g",
+    "color": "white",
+    "symbol": "%",
+    "description": "A fluffy white seed.  While it looks like the common cotton, it is too weak and short to be turned into clothing.",
+    "price": 1,
+    "price_postapoc": 1,
+    "material": [ "wood" ],
+    "volume": "250 ml"
+  },
+  {
+    "type": "GENERIC",
     "//": "pseudo item, used as fuel type for engines that are human-powered",
     "id": "muscle",
     "symbol": "?",

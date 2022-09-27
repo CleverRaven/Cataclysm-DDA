@@ -352,7 +352,7 @@ void enchant_cache::load( const JsonObject &jo, const std::string &,
         for( const JsonObject value_obj : jo.get_array( "values" ) ) {
             const enchant_vals::mod value = io::string_to_enum<enchant_vals::mod>
                                             ( value_obj.get_string( "value" ) );
-            const double add = value_obj.get_int( "add", 0 );
+            const int add = value_obj.get_int( "add", 0 );
             const double mult = value_obj.get_float( "multiply", 0.0 );
             if( add != 0 ) {
                 values_add.emplace( value, add );

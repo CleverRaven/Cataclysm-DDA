@@ -149,6 +149,14 @@
   },
   {
     "type": "overmap_terrain",
+    "id": [ "trailer_public_00", "trailer_public_00_roof" ],
+    "copy-from": "generic_city_building_no_sidewalk",
+    "name": "garbage collection point",
+    "sym": "D",
+    "color": "i_brown"
+  },
+  {
+    "type": "overmap_terrain",
     "id": [ "recyclecenter", "recyclecenter_1", "recyclecenter_2" ],
     "copy-from": "generic_city_building",
     "name": "recycle center",

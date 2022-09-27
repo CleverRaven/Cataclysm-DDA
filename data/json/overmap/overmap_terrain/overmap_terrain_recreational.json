@@ -126,7 +126,15 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "pavilion_roof", "pavilion_roof_1" ],
+    "id": "trailer_public_10",
+    "copy-from": "generic_city_building_no_sidewalk",
+    "name": "pavilion",
+    "sym": "A",
+    "color": "i_green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "pavilion_roof", "pavilion_roof_1", "trailer_public_10_roof" ],
     "copy-from": "generic_city_building",
     "name": "pavilion roof",
     "sym": "A",

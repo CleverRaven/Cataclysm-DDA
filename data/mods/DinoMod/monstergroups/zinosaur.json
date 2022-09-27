@@ -52,6 +52,8 @@
       { "monster": "mon_zzuul", "weight": 50, "cost_multiplier": 40, "starts": "3 days" },
       { "monster": "mon_zyoplosaurus", "weight": 50, "cost_multiplier": 40, "starts": "3 days" },
       { "monster": "mon_zankylosaurus", "weight": 50, "cost_multiplier": 40, "starts": "3 days" },
+      { "monster": "mon_zenontosaurus", "weight": 200, "starts": "3 days", "pack_size": [ 1, 2 ] },
+      { "monster": "mon_zryosaurus", "weight": 200, "starts": "3 days", "pack_size": [ 1, 2 ] },
       { "monster": "mon_zamptosaurus", "weight": 200, "starts": "3 days", "pack_size": [ 1, 2 ] },
       { "monster": "mon_zadrosaurus", "weight": 200, "cost_multiplier": 20, "starts": "3 days" },
       { "monster": "mon_zarasaurolophus", "weight": 200, "cost_multiplier": 20, "starts": "3 days" },
@@ -114,6 +116,8 @@
       { "monster": "mon_zzuul_scorched", "weight": 50, "cost_multiplier": 40, "starts": "3 days" },
       { "monster": "mon_zyoplosaurus_scorched", "weight": 50, "cost_multiplier": 40, "starts": "3 days" },
       { "monster": "mon_zankylosaurus_scorched", "weight": 50, "cost_multiplier": 40, "starts": "3 days" },
+      { "monster": "mon_zenontosaurus_scorched", "weight": 200, "starts": "3 days", "pack_size": [ 1, 2 ] },
+      { "monster": "mon_zryosaurus_scorched", "weight": 200, "starts": "3 days", "pack_size": [ 1, 2 ] },
       { "monster": "mon_zamptosaurus_scorched", "weight": 200, "starts": "3 days", "pack_size": [ 1, 2 ] },
       { "monster": "mon_zadrosaurus_scorched", "weight": 200, "cost_multiplier": 20, "starts": "3 days" },
       { "monster": "mon_zarasaurolophus_scorched", "weight": 200, "cost_multiplier": 20, "starts": "3 days" },
@@ -442,6 +446,16 @@
   },
   {
     "type": "monstergroup",
+    "name": "GROUP_zenontosaurus_UPGRADE",
+    "monsters": [ { "monster": "mon_senontosaurus", "weight": 600 }, { "monster": "mon_zenontosaurus_brute", "weight": 400 } ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_zryosaurus_UPGRADE",
+    "monsters": [ { "monster": "mon_sryosaurus", "weight": 600 }, { "monster": "mon_zryosaurus_brute", "weight": 400 } ]
+  },
+  {
+    "type": "monstergroup",
     "name": "GROUP_zamptosaurus_UPGRADE",
     "monsters": [ { "monster": "mon_samptosaurus", "weight": 600 }, { "monster": "mon_zamptosaurus_brute", "weight": 400 } ]
   },
@@ -584,6 +598,8 @@
       { "monster": "mon_zargoyleosaurus", "starts": "3 days" },
       { "monster": "mon_zauropelta", "starts": "3 days" },
       { "monster": "mon_zzuul", "starts": "3 days" },
+      { "monster": "mon_zenontosaurus", "starts": "3 days" },
+      { "monster": "mon_zryosaurus", "starts": "3 days" },
       { "monster": "mon_zeptoceratops", "starts": "3 days" },
       { "monster": "mon_zzuniceratops", "starts": "3 days" },
       { "monster": "mon_zescelosaurus", "starts": "3 days" }
