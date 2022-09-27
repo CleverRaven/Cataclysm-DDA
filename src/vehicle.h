@@ -1032,9 +1032,11 @@ class vehicle
         // @param new_mounts vector of vector of mount points. must have one vector for every vehicle*
         // in new_vehicles, and forces the part indices in new_vehs to be mounted on the new vehicle
         // at those mount points
+        // @param added_vehicles if not nullptr any newly added vehicles will be appended to the vector
         bool split_vehicles( map &here, const std::vector<std::vector <int>> &new_vehs,
                              const std::vector<vehicle *> &new_vehicles,
-                             const std::vector<std::vector <point>> &new_mounts );
+                             const std::vector<std::vector<point>> &new_mounts,
+                             std::vector<vehicle *> *added_vehicles = nullptr );
 
         /** Get handle for base item of part */
         item_location part_base( int p );

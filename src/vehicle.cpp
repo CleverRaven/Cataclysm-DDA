@@ -2239,7 +2239,8 @@ void vehicle::relocate_passengers( const std::vector<Character *> &passengers ) 
 bool vehicle::split_vehicles( map &here,
                               const std::vector<std::vector <int>> &new_vehs,
                               const std::vector<vehicle *> &new_vehicles,
-                              const std::vector<std::vector <point>> &new_mounts )
+                              const std::vector<std::vector<point>> &new_mounts,
+                              std::vector<vehicle *> *added_vehicles )
 {
     bool did_split = false;
     size_t i = 0;
@@ -2281,6 +2282,9 @@ bool vehicle::split_vehicles( map &here,
             if( new_vehicle == nullptr ) {
                 // the split part was out of the map bounds.
                 continue;
+            }
+            if( added_vehicles != nullptr ) {
+                added_vehicles->emplace_back( new_vehicle );
             }
             new_vehicle->name = name;
             new_vehicle->move = move;
