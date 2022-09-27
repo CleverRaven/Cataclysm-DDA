@@ -346,7 +346,8 @@
     "type": "recipe",
     "copy-from": "cestus",
     "time": "10 h 10 m",
-    "using": [ [ "sewing_standard", 5 ] ]
+    "using": [ [ "sewing_standard", 5 ] ],
+    "components": [ [ [ "leather", 6 ] ], [ [ "scrap", 10 ] ] ]
   },
   {
     "type": "recipe",
