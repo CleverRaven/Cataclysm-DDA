@@ -1080,7 +1080,7 @@ double Character::aim_per_move( const item &gun, double recoil,
     aim_speed *= 2.4;
 
     // Minimum improvement is 0.01MoA.  This is just to prevent data anomalies
-    aim_speed = std::max( aim_speed, 0.01 );
+    aim_speed = std::max( aim_speed, MIN_RECOIL_IMPROVEMENT );
 
     // Never improve by more than the currently used sights permit.
     return std::min( aim_speed, recoil - limit );
@@ -2431,7 +2431,7 @@ bool Character::practice( const skill_id &id, int amount, int cap, bool suppress
     const bool isSavant = has_trait( trait_SAVANT );
     const skill_id savantSkill = isSavant ? highest_skill() : skill_id::NULL_ID();
 
-    amount = adjust_for_focus( amount );
+    amount = adjust_for_focus( std::min( 1000, amount ) ) * 100.0f;
 
     if( has_trait( trait_PACIFIST ) && skill.is_combat_skill() ) {
         amount /= 3.0f;
@@ -7059,9 +7059,14 @@ void Character::recalculate_enchantment_cache()
     *enchantment_cache = inv->get_active_enchantment_cache( *this );
 
     visit_items( [&]( const item * it, item * ) {
-        for( const enchant_cache &ench : it->get_enchantments() ) {
+        for( const enchant_cache &ench : it->get_proc_enchantments() ) {
             if( ench.is_active( *this, *it ) ) {
                 enchantment_cache->force_add( ench );
+            }
+        }
+        for( const enchantment &ench : it->get_defined_enchantments() ) {
+            if( ench.is_active( *this, *it ) ) {
+                enchantment_cache->force_add( ench, *this );
             }
         }
         return VisitResponse::NEXT;
@@ -8958,7 +8963,7 @@ std::unordered_set<trait_id> Character::get_opposite_traits( const trait_id &fla
     return traits;
 }
 
-int Character::adjust_for_focus( int amount ) const
+float Character::adjust_for_focus( float amount ) const
 {
     int effective_focus = get_focus();
     effective_focus = enchantment_cache->modify_value( enchant_vals::mod::LEARNING_FOCUS,
@@ -8966,7 +8971,7 @@ int Character::adjust_for_focus( int amount ) const
     effective_focus += ( get_int() - get_option<int>( "INT_BASED_LEARNING_BASE_VALUE" ) ) *
                        get_option<int>( "INT_BASED_LEARNING_FOCUS_ADJUSTMENT" );
     effective_focus = std::max( effective_focus, 1 );
-    return effective_focus * std::min( amount, 1000 );
+    return amount * ( effective_focus / 100.0f );
 }
 
 std::set<tripoint> Character::get_path_avoid() const
