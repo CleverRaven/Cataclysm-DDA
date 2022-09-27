@@ -615,6 +615,12 @@
   },
   {
     "type": "mutation",
+    "id": "LIGHTEATER",
+    "copy-from": "LIGHTEATER",
+    "extend": { "category": [ "HORNS", "STEGO" ] }
+  },
+  {
+    "type": "mutation",
     "id": "GIZZARD",
     "copy-from": "GIZZARD",
     "extend": { "category": [ "HORNS" ] }
