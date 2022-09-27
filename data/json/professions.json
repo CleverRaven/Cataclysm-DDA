@@ -2906,7 +2906,7 @@
     "items": {
       "both": {
         "items": [ "bondage_suit", "bondage_mask", "boots", "gloves_leather", "leather_belt" ],
-        "entries": [ { "group": "charged_matches" } ]
+        "entries": [ { "group": "charged_matches", "custom-flags": [ "auto_wield" ] } ]
       }
     },
     "missions": [ "MISSION_LOST_SUB" ]
