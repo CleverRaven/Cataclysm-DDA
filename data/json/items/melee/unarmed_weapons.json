@@ -44,6 +44,14 @@
     ]
   },
   {
+    "id": "xl_cestus",
+    "type": "ARMOR",
+    "name": { "str": "cestus", "str_pl": "cestuses" },
+    "copy-from": "cestus",
+    "proportional": { "weight": 1.5, "volume": 1.5 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
     "type": "ARMOR",
     "id": "knuckle_brass",
     "symbol": "3",
