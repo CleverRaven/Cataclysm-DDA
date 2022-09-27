@@ -588,6 +588,7 @@ exchangeable
 exodii
 exosuit
 exosuits
+expansionary
 explodin
 explosivity
 extensible
