@@ -58,7 +58,7 @@
     "name": { "str": "horns mutagenic primer" },
     "description": "A super-concentrated mutagenic primer containing refined and purified biological samples, spiked with rum.",
     "price": 1000000,
-    "color": "orange",
+    "color": "light_green",
     "healthy": -4,
     "use_action": {
       "type": "consume_drug",
@@ -73,7 +73,7 @@
     "type": "COMESTIBLE",
     "name": { "str": "horns mutagen" },
     "description": "An extremely rare mutagen cocktail containing a mix of biological samples, spiked with rum.",
-    "color": "orange",
+    "color": "light_green",
     "price": 500000,
     "vitamins": [ [ "mutagen_cerat", 175 ], [ "mutagen", 125 ] ]
   }
