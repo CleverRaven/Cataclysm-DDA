@@ -510,6 +510,7 @@
     "type": "MONSTER",
     "copy-from": "mon_pachycephalosaurus_hatchling",
     "name": "light green and magenta hatchling",
+    "dissect": "dissect_horns_sample_single",
     "upgrades": { "age_grow": 30, "into": "mon_leptoceratops_juvenile" }
   },
   {
