@@ -1834,7 +1834,8 @@
   },
   {
     "id": "GRENADE",
-    "type": "json_flag"
+    "type": "json_flag",
+    "restriction": "Item must be a grenade"
   },
   {
     "id": "JAVELIN",

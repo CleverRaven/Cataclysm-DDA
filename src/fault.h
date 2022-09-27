@@ -16,15 +16,22 @@
 class JsonObject;
 
 struct mending_method {
-    std::string id;
-    translation name;
-    translation description;
-    translation success_msg;
-    time_duration time;
-    std::map<skill_id, int> skills;
-    requirement_id requirements;
-    cata::optional<fault_id> turns_into;
-    cata::optional<fault_id> also_mends;
+    public:
+        std::string id;
+        translation name;
+        translation description;
+        translation success_msg;
+        time_duration time;
+        std::map<std::string, std::string> set_variables;
+        std::map<skill_id, int> skills;
+        cata::optional<fault_id> turns_into;
+        cata::optional<fault_id> also_mends;
+        cata::optional<int> heal_stages;
+
+        requirement_data get_requirements() const;
+    private:
+        friend class fault;
+        std::vector<std::pair<requirement_id, int>> requirements;
 };
 
 class fault

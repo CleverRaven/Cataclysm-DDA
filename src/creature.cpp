@@ -1752,6 +1752,11 @@ std::string Creature::get_value( const std::string &key ) const
     return ( it == values.end() ) ? "" : it->second;
 }
 
+void Creature::clear_values()
+{
+    values.clear();
+}
+
 void Creature::mod_pain( int npain )
 {
     mod_pain_noresist( npain );
