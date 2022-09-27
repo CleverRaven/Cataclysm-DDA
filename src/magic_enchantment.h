@@ -30,7 +30,7 @@ namespace enchant_vals
 // either the item directly or the Character, whichever is more appropriate
 enum class mod : int {
     //tracker for artifact carrying penalties
-    ARTIFACT_RESONANCE
+    ARTIFACT_RESONANCE,
     // effects for the Character
     STRENGTH,
     DEXTERITY,
