@@ -629,7 +629,7 @@ void map_data_common_t::extraprocess_flags( const ter_furn_flag flag )
     }
     // wall connection check for JSON backwards compatibility
     if( flag == ter_furn_flag::TFLAG_WALL || flag == ter_furn_flag::TFLAG_CONNECT_TO_WALL ) {
-        set_connects( "WALL" );
+        set_connects_with( "WALL" );
     }
     // rotates_to check for JSON backwards compatibility
     if( flag == ter_furn_flag::TFLAG_WINDOW || flag == ter_furn_flag::TFLAG_DOOR ) {
@@ -658,11 +658,32 @@ void map_data_common_t::set_flag( const ter_furn_flag flag )
     extraprocess_flags( flag );
 }
 
-void map_data_common_t::set_connects( const std::string &connect_group_string )
+void map_data_common_t::set_connects_to( const std::string &connect_group_string )
 {
     const auto it = ter_connects_map.find( connect_group_string );
     if( it != ter_connects_map.end() ) {
-        connect_group = it->second;
+        connect_to_group = it->second;
+    } else { // arbitrary connect groups are a bad idea for optimization reasons
+        debugmsg( "can't find terrain connection group %s", connect_group_string.c_str() );
+    }
+}
+
+void map_data_common_t::set_connects_to_member( const std::string &connect_group_string )
+{
+    const auto it = ter_connects_map.find( connect_group_string );
+    if( it != ter_connects_map.end() ) {
+        connect_to_group_member = it->second;
+    } else { // arbitrary connect groups are a bad idea for optimization reasons
+        debugmsg( "can't find terrain connection group %s", connect_group_string.c_str() );
+    }
+}
+
+void map_data_common_t::set_connects_with( const std::string &connect_group_string )
+{
+    const auto it = ter_connects_map.find( connect_group_string );
+    if( it != ter_connects_map.end() ) {
+        connect_to_group = it->second;
+        connect_to_group_member = it->second;
     } else { // arbitrary connect groups are a bad idea for optimization reasons
         debugmsg( "can't find terrain connection group %s", connect_group_string.c_str() );
     }
@@ -690,8 +711,8 @@ void map_data_common_t::set_rotates_to_member( const std::string &towards_group_
 
 bool map_data_common_t::connects( int &ret ) const
 {
-    if( connect_group != TERCONN_NONE ) {
-        ret = connect_group;
+    if( connect_to_group != TERCONN_NONE ) {
+        ret = connect_to_group;
         return true;
     }
     return false;
@@ -1419,19 +1440,36 @@ void ter_t::load( const JsonObject &jo, const std::string &src )
 
     trap = tr_null;
     transparent = false;
-    connect_group = TERCONN_NONE;
+    connect_to_group = TERCONN_NONE;
+    connect_to_group_member = TERCONN_NONE;
     rotate_to_group = TERCONN_NONE;
     rotate_to_group_member = TERCONN_NONE;
 
     for( auto &flag : jo.get_string_array( "flags" ) ) {
         set_flag( flag );
     }
-    // connect_group is initialized to none, then terrain flags are set, then finally
+    // connect_to_group is initialized to none, then terrain flags are set, then finally
     // connections from JSON are set. This is so that wall flags can set wall connections
     // but can be overridden by explicit connections in JSON.
+    bool asymmetric_set = false;
     if( jo.has_member( "connects_to" ) ) {
-        set_connects( jo.get_string( "connects_to" ) );
+        set_connects_to( jo.get_string( "connects_to" ) );
+        asymmetric_set = true;
     }
+    if( jo.has_member( "connects_to_member" ) ) {
+        set_connects_to_member( jo.get_string( "connects_to_member" ) );
+        asymmetric_set = true;
+    }
+    if( jo.has_member( "connects_with" ) ) {
+        if( asymmetric_set ) {
+            debugmsg( "Can use only either 'connects_with', or 'connects_to' and 'connects_to_member' in %s!",
+                      name_ );
+        } else {
+            const std::string g = jo.get_string( "connects_with" );
+            set_connects_with( g );
+        }
+    }
+
     if( jo.has_member( "rotates_to" ) ) {
         set_rotates_to( jo.get_string( "rotates_to" ) );
     }
@@ -1597,16 +1635,33 @@ void furn_t::load( const JsonObject &jo, const std::string &src )
     optional( jo, was_loaded, "light_emitted", light_emitted );
 
     // see the comment in ter_id::load for connect_group handling
-    connect_group = TERCONN_NONE;
+    connect_to_group = TERCONN_NONE;
+    connect_to_group_member = TERCONN_NONE;
     rotate_to_group = TERCONN_NONE;
     rotate_to_group_member = TERCONN_NONE;
     for( auto &flag : jo.get_string_array( "flags" ) ) {
         set_flag( flag );
     }
 
+    bool asymmetric_set = false;
     if( jo.has_member( "connects_to" ) ) {
-        set_connects( jo.get_string( "connects_to" ) );
+        set_connects_to( jo.get_string( "connects_to" ) );
+        asymmetric_set = true;
     }
+    if( jo.has_member( "connects_to_member" ) ) {
+        set_connects_to_member( jo.get_string( "connects_to_member" ) );
+        asymmetric_set = true;
+    }
+    if( jo.has_member( "connects_with" ) ) {
+        if( asymmetric_set ) {
+            debugmsg( "Can use only either 'connects_with', or 'connects_to' and 'connects_to_member' in %s!",
+                      name_ );
+        } else {
+            const std::string g = jo.get_string( "connects_with" );
+            set_connects_with( g );
+        }
+    }
+
     if( jo.has_member( "rotates_to" ) ) {
         set_rotates_to( jo.get_string( "rotates_to" ) );
     }

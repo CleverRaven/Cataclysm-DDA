@@ -539,15 +539,22 @@ struct map_data_common_t {
 
         void set_flag( ter_furn_flag flag );
 
-        // Terrain group to connects with; symmetric relation (i.e. both neighbours have the same value)
-        int connect_group = 0;
+        // Terrain group to connect to; not symmetric, target of active part
+        int connect_to_group = 0;
+        // Terrain group of this type, for others to connect to; not symmetric, passive part
+        int connect_to_group_member = 0;
         // Terrain group rotate towards; not symmetric, target of active part
         int rotate_to_group = 0;
         // Terrain group of this type, for others to rotate towards; not symmetric, passive part
         int rotate_to_group_member = 0;
 
-        // Set connection group
-        void set_connects( const std::string &connect_group_string );
+        // Set target connection group
+        void set_connects_to( const std::string &connect_group_string );
+        // Set to be member of a connection target group
+        void set_connects_to_member( const std::string &connect_group_string );
+        // Set bidirectional connection group
+        void set_connects_with( const std::string &connect_group_string );
+
         // Set target group to rotate towards
         void set_rotates_to( const std::string &towards_group_string );
         // Set to be member of a rotation target group
@@ -556,8 +563,8 @@ struct map_data_common_t {
         bool connects( int &ret ) const;
         bool rotates( int &ret ) const;
 
-        bool connects_to( int test_connect_group ) const {
-            return connect_group != TERCONN_NONE && connect_group == test_connect_group;
+        bool in_connects_to( int test_connect_group ) const {
+            return connect_to_group_member != TERCONN_NONE && connect_to_group_member == test_connect_group;
         }
 
         // Tests if the type is a member of a rotares_towards group

@@ -1809,7 +1809,7 @@ uint8_t map::get_known_connections( const tripoint &p, int connect_group,
         if( may_connect ) {
             const ter_t &neighbour_terrain = neighbour_overridden ?
                                              neighbour_override->second.obj() : ter( neighbour ).obj();
-            if( neighbour_terrain.connects_to( connect_group ) ) {
+            if( neighbour_terrain.in_connects_to( connect_group ) ) {
                 val += 1 << i;
             }
         }
@@ -1893,7 +1893,7 @@ uint8_t map::get_known_connections_f( const tripoint &p, int connect_group,
         if( may_connect ) {
             const furn_t &neighbour_furn = neighbour_overridden ?
                                            neighbour_override->second.obj() : furn( pt ).obj();
-            if( neighbour_furn.connects_to( connect_group ) ) {
+            if( neighbour_furn.in_connects_to( connect_group ) ) {
                 val += 1 << i;
             }
         }
@@ -8560,7 +8560,7 @@ bool map::has_graffiti_at( const tripoint &p ) const
 
 int map::determine_wall_corner( const tripoint &p ) const
 {
-    int test_connect_group = ter( p ).obj().connect_group;
+    int test_connect_group = ter( p ).obj().connect_to_group;
     uint8_t connections = get_known_connections( p, test_connect_group );
     // The bits in connections are SEWN, whereas the characters in LINE_
     // constants are NESW, so we want values in 8 | 2 | 1 | 4 order.
