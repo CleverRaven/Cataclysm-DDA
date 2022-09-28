@@ -269,7 +269,7 @@
     "color": "red",
     "move_cost": 2,
     "roof": "t_flat_roof",
-    "connects_to": "RAIL",
+    "connects_with": "RAIL",
     "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "RUG" ],
     "bash": {
       "sound": "SMASH!",
@@ -291,7 +291,7 @@
     "move_cost": 2,
     "light_emitted": 120,
     "roof": "t_flat_roof",
-    "connects_to": "RAIL",
+    "connects_with": "RAIL",
     "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "RUG" ],
     "bash": {
       "str_min": 4,
@@ -313,7 +313,7 @@
     "color": "light_gray",
     "move_cost": 2,
     "roof": "t_flat_roof",
-    "connects_to": "RAIL",
+    "connects_with": "RAIL",
     "flags": [ "TRANSPARENT", "INDOORS", "COLLAPSES", "SUPPORTS_ROOF", "FLAT", "ROAD" ],
     "bash": { "ter_set": "t_null", "str_min": 75, "str_max": 400, "str_min_supported": 100, "bash_below": true }
   },
@@ -327,7 +327,7 @@
     "looks_like": "t_rock_floor",
     "move_cost": 2,
     "light_emitted": 120,
-    "connects_to": "RAIL",
+    "connects_with": "RAIL",
     "roof": "t_flat_roof",
     "flags": [ "TRANSPARENT", "INDOORS", "COLLAPSES", "SUPPORTS_ROOF", "FLAT", "ROAD" ],
     "bash": { "ter_set": "t_null", "str_min": 75, "str_max": 400, "str_min_supported": 100, "bash_below": true }

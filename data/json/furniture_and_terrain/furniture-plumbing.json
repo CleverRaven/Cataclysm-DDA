@@ -64,7 +64,7 @@
     "coverage": 60,
     "required_str": -1,
     "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "CONTAINER", "PLACE_ITEM", "MOUNTABLE" ],
-    "connects_to": "COUNTER",
+    "connects_with": "COUNTER",
     "rotates_to": "INDOORFLOOR",
     "bash": {
       "str_min": 8,

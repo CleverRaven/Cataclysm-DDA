@@ -20,7 +20,7 @@
       "TRANSPARENT",
       "THIN_OBSTACLE"
     ],
-    "connects_to": "WALL",
+    "connects_with": "WALL",
     "bash": {
       "str_min": 48,
       "str_max": 80,
@@ -52,7 +52,7 @@
       "TRANSPARENT",
       "THIN_OBSTACLE"
     ],
-    "connects_to": "WALL",
+    "connects_with": "WALL",
     "bash": {
       "str_min": 32,
       "str_max": 60,
@@ -83,7 +83,7 @@
       "TRANSPARENT",
       "THIN_OBSTACLE"
     ],
-    "connects_to": "WALL",
+    "connects_with": "WALL",
     "bash": {
       "str_min": 64,
       "str_max": 150,
@@ -114,7 +114,7 @@
       "TRANSPARENT",
       "THIN_OBSTACLE"
     ],
-    "connects_to": "WALL",
+    "connects_with": "WALL",
     "bash": {
       "str_min": 10,
       "str_max": 75,
@@ -151,7 +151,7 @@
       "TRANSPARENT",
       "THIN_OBSTACLE"
     ],
-    "connects_to": "WALL",
+    "connects_with": "WALL",
     "bash": {
       "str_min": 12,
       "str_max": 90,
@@ -187,7 +187,7 @@
       "TRANSPARENT",
       "THIN_OBSTACLE"
     ],
-    "connects_to": "WALL",
+    "connects_with": "WALL",
     "bash": {
       "str_min": 48,
       "str_max": 90,
@@ -219,7 +219,7 @@
       "TRANSPARENT",
       "THIN_OBSTACLE"
     ],
-    "connects_to": "WALL",
+    "connects_with": "WALL",
     "bash": {
       "str_min": 52,
       "str_max": 120,
@@ -280,7 +280,7 @@
       "TRANSPARENT",
       "THIN_OBSTACLE"
     ],
-    "connects_to": "WALL",
+    "connects_with": "WALL",
     "bash": {
       "str_min": 72,
       "str_max": 175,
