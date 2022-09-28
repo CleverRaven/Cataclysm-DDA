@@ -1,4 +1,4 @@
-
+[
   {
     "result": "hollow_cane",
     "type": "recipe",
@@ -370,6 +370,7 @@
     "copy-from": "knuckle_brass",
     "time": "1 h",
     "using": [ [ "blacksmithing_standard", 4 ] ],
+    "tools": [ [ [ "drift", -1 ] ] ],
     "components": [ [ [ "copper", 150 ] ], [ [ "chem_zinc_powder", 600 ] ] ]
   },
   {
@@ -378,6 +379,7 @@
     "copy-from": "knuckle_brass",
     "time": "1 h",
     "using": [ [ "blacksmithing_standard", 4 ] ],
+    "tools": [ [ [ "drift", -1 ] ] ],
     "components": [ [ [ "copper", 80 ] ], [ [ "chem_zinc_powder", 400 ] ] ]
   },
   {
@@ -833,15 +835,13 @@
     "type": "recipe",
     "copy-from": "knuckle_impact",
     "time": "4h",
-    "using": [ [ "blacksmithing_standard", 5 ], [ "steel_standard", 1 ] ],
-    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SAW_M", "level": 1 } ]
+    "using": [ [ "blacksmithing_standard", 5 ], [ "steel_standard", 1 ] ]
   },
   {
     "result": "xs_knuckle_impact",
     "type": "recipe",
     "copy-from": "knuckle_impact",
     "time": "4h",
-    "using": [ [ "blacksmithing_standard", 5 ], [ "steel_standard", 1 ] ],
-    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SAW_M", "level": 1 } ]
+    "using": [ [ "blacksmithing_standard", 5 ], [ "steel_standard", 1 ] ]
   }
 ]
