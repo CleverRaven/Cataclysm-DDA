@@ -4358,5 +4358,22 @@
     "id": "salon",
     "locations": [ "land" ],
     "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "salon_south" }, { "point": [ 0, 0, 1 ], "overmap": "salon_roof_south" } ]
+  },
+  {
+    "type": "city_building",
+    "id": "strip_mall",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 4, 0, 0 ], "overmap": "strip_mall_1_south" },
+      { "point": [ 3, 0, 0 ], "overmap": "strip_mall_2_south" },
+      { "point": [ 2, 0, 0 ], "overmap": "strip_mall_3_south" },
+      { "point": [ 1, 0, 0 ], "overmap": "strip_mall_4_south" },
+      { "point": [ 0, 0, 0 ], "overmap": "strip_mall_5_south" },
+      { "point": [ 4, 0, 1 ], "overmap": "strip_mall_roof_1_south" },
+      { "point": [ 3, 0, 1 ], "overmap": "strip_mall_roof_2_south" },
+      { "point": [ 2, 0, 1 ], "overmap": "strip_mall_roof_3_south" },
+      { "point": [ 1, 0, 1 ], "overmap": "strip_mall_roof_4_south" },
+      { "point": [ 0, 0, 1 ], "overmap": "strip_mall_roof_5_south" }
+    ]
   }
 ]
