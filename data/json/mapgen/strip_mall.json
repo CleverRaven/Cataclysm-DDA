@@ -46,6 +46,7 @@
       },
       "furniture": { "L": "f_street_light", "b": "f_bench", "D": "f_dumpster" },
       "nested": {
+        "0": { "chunks": [ [ "strip_mall_sign", 100 ] ] },
         "1": { "chunks": [ [ "strip_mall_shop_a", 100 ] ] },
         "2": { "chunks": [ [ "strip_mall_shop_b", 100 ] ] },
         "3": { "chunks": [ [ "strip_mall_shop_c", 100 ] ] },
