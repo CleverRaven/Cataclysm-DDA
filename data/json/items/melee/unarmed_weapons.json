@@ -256,7 +256,7 @@
     "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
-    "id": "knuckle_icmpat",
+    "id": "knuckle_impact",
     "type": "ARMOR",
     "name": { "str_sp": "impact knuckles" },
     "description": "A pair of thick steel plates covering your proximal phalange.  They are strapped to your hands with metal braces.",
@@ -281,7 +281,7 @@
     ]
   },
   {
-    "id": "xl_knuckle_icmpat",
+    "id": "xl_knuckle_impact",
     "type": "ARMOR",
     "name": { "str_sp": "XL impact knuckles" },
     "copy-from": "gloves_studded",
@@ -289,7 +289,7 @@
     "extend": { "flags": [ "OVERSIZE" ] }
   },
   { 
-    "id": "xs_knuckle_icmpat",
+    "id": "xs_knuckle_impact",
     "type": "ARMOR",
     "name": { "str_sp": "XS impact knuckles" },
     "copy-from": "knuckle_icmpat",
