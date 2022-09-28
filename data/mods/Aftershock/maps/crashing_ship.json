@@ -174,10 +174,7 @@
         "c": { "items": [ { "item": "afs_escapepod_shootout", "chance": 100, "container-item": "corpse" } ] },
         "E": {
           "items": [
-            { "item": "fireman_cabinet", "chance": 100 },
-            { "item": "full_1st_aid", "chance": 55 },
-            { "item": "full_ifak", "chance": 55 },
-            { "item": "reactor_gear", "chance": 25 }
+            { "item": "afs_tools_space_emergency", "chance": 100 }
           ]
         },
         "w": { "items": [ { "item": "office_mess", "chance": 75 } ] },
