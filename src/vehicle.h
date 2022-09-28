@@ -1183,7 +1183,8 @@ class vehicle
 
         // Seek a vehicle part which obstructs tile with given coordinates relative to vehicle position
         int part_at( const point &dp ) const;
-        int part_displayed_at( const point &dp, bool include_fake = false ) const;
+        int part_displayed_at( const point &dp, bool include_fake = false,
+                               bool below_roof = true, bool roof = true ) const;
         int roof_at_part( int p ) const;
 
         // Given a part, finds its index in the vehicle
@@ -1191,7 +1192,7 @@ class vehicle
 
         // get symbol for map
         char part_sym( int p, bool exact = false, bool include_fake = true ) const;
-        std::string part_id_string( int p, char &part_mod ) const;
+        std::string part_id_string( int p, char &part_mod, bool below_roof = true, bool roof = true ) const;
 
         // get color for map
         nc_color part_color( int p, bool exact = false, bool include_fake = true ) const;
