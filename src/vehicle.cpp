@@ -3063,9 +3063,12 @@ int vehicle::index_of_part( const vehicle_part *const part, const bool check_rem
  * displayed for the given square. Returns -1 if there are no parts in that
  * square.
  * @param dp The local coordinate.
+ * @param below_roof Include parts below roof.
+ * @param roof Include roof parts.
  * @return The index of the part that will be displayed.
  */
-int vehicle::part_displayed_at( const point &dp, bool include_fake ) const
+int vehicle::part_displayed_at( const point &dp, bool include_fake, bool below_roof,
+                                bool roof ) const
 {
     // Z-order is implicitly defined in game::load_vehiclepart, but as
     // numbers directly set on parts rather than constants that can be
@@ -3079,16 +3082,20 @@ int vehicle::part_displayed_at( const point &dp, bool include_fake ) const
         return -1;
     }
 
-    Character &player_character = get_player_character();
-    bool in_vehicle = player_character.in_vehicle;
-    if( in_vehicle ) {
-        // They're in a vehicle, but are they in /this/ vehicle?
-        std::vector<int> psg_parts = boarded_parts();
-        in_vehicle = false;
-        for( const int &psg_part : psg_parts ) {
-            if( get_passenger( psg_part ) == &player_character ) {
-                in_vehicle = true;
-                break;
+    bool in_vehicle = !roof;
+
+    if( roof ) {
+        Character &player_character = get_player_character();
+        in_vehicle = player_character.in_vehicle;
+        if( in_vehicle ) {
+            // They're in a vehicle, but are they in /this/ vehicle?
+            std::vector<int> psg_parts = boarded_parts();
+            in_vehicle = false;
+            for( const int &psg_part : psg_parts ) {
+                if( get_passenger( psg_part ) == &player_character ) {
+                    in_vehicle = true;
+                    break;
+                }
             }
         }
     }
@@ -3096,7 +3103,7 @@ int vehicle::part_displayed_at( const point &dp, bool include_fake ) const
     int hide_z_at_or_above = in_vehicle ? ON_ROOF_Z : INT_MAX;
 
     int top_part = -1;
-    int top_z_order = -1;
+    int top_z_order = ( below_roof ? 0 : ON_ROOF_Z ) - 1;
     for( size_t index = 0; index < parts_in_square.size(); index++ ) {
         int test_index = parts_in_square[index];
         if( parts.at( test_index ).is_fake && !parts.at( test_index ).is_active_fake ) {
