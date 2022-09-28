@@ -9568,6 +9568,8 @@ bool item::has_itype_variant( bool check_option ) const
     switch( type->variant_kind ) {
         case itype_variant_kind::gun:
             return get_option<bool>( "SHOW_GUN_VARIANTS" );
+        case itype_variant_kind::drug:
+            return get_option<bool>("SHOW_DRUG_VARIANTS");
         default:
             return true;
     }

@@ -642,6 +642,7 @@ struct islot_wheel {
 enum class itype_variant_kind : int {
     gun,
     generic,
+    drug,
     last
 };
 
