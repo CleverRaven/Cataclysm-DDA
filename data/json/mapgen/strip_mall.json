@@ -34,35 +34,31 @@
       ],
       "terrain": {
         ";": "t_rock_wall_half",
-		"!": "t_region_tree_shade",
+        "!": "t_region_tree_shade",
         "|": "t_brick_wall",
         "b": "t_sidewalk",
         "p": "t_pavement",
         "y": "t_pavement_y",
-		"D": "t_pavement_y",
+        "D": "t_pavement_y",
         "s": "t_sidewalk",
         "L": "t_sidewalk",
         "Я": "t_gutter_downspout"
       },
-      "furniture": { 
-	  "L": "f_street_light",
-	  "b": "f_bench",
-      "D": "f_dumpster" 	  
-	  },
-      "nested": { 
-	  "0": { "chunks": [ [ "strip_mall_sign", 100 ] ] }, 
-	  "1": { "chunks": [ [ "strip_mall_shop_a", 100 ] ] }, 
-	  "2": { "chunks": [ [ "strip_mall_shop_b", 100 ] ] }, 
-	  "3": { "chunks": [ [ "strip_mall_shop_c", 100 ] ] }, 
-	  "4": { "chunks": [ [ "strip_mall_shop_d", 100 ] ] } 
-    },
-	"items": {"D": { "item": "trash", "chance": 100, "repeat": [ 3, 8 ] } },
-	 "place_vehicles": [
+      "furniture": { "L": "f_street_light", "b": "f_bench", "D": "f_dumpster" },
+      "nested": {
+        "0": { "chunks": [ [ "strip_mall_sign", 100 ] ] },
+        "1": { "chunks": [ [ "strip_mall_shop_a", 100 ] ] },
+        "2": { "chunks": [ [ "strip_mall_shop_b", 100 ] ] },
+        "3": { "chunks": [ [ "strip_mall_shop_c", 100 ] ] },
+        "4": { "chunks": [ [ "strip_mall_shop_d", 100 ] ] }
+      },
+      "items": { "D": { "item": "trash", "chance": 100, "repeat": [ 3, 8 ] } },
+      "place_vehicles": [
         { "chance": 15, "rotation": 180, "vehicle": "parking_garage", "x": 102, "y": 6 },
-		{ "chance": 15, "rotation": 180, "vehicle": "parking_garage", "x": 102, "y": 13 },
-		{ "chance": 15, "rotation": 180, "vehicle": "parking_garage", "x": 102, "y": 20 }
-		]
-  }
+        { "chance": 15, "rotation": 180, "vehicle": "parking_garage", "x": 102, "y": 13 },
+        { "chance": 15, "rotation": 180, "vehicle": "parking_garage", "x": 102, "y": 20 }
+      ]
+    }
   },
   {
     "type": "mapgen",
