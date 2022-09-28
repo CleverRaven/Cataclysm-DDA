@@ -2371,6 +2371,12 @@ void talk_effect_fun_t<T>::set_arithmetic( const JsonObject &jo, const std::stri
                 return false;
             };
         }
+    } else if( objects.size() == 1 && no_result ) {
+        std::function<int( const T & )> get_first_int = conditional_t< T >::get_get_int(
+                    objects.get_object( 0 ) );
+        function = [get_first_int, set_int]( const T & d ) {
+            set_int( d, get_first_int( d ) );
+        };
     } else {
         jo.throw_error( "Invalid number of args in " + jo.str() );
         function = []( const T & ) {
@@ -2382,7 +2388,6 @@ void talk_effect_fun_t<T>::set_arithmetic( const JsonObject &jo, const std::stri
 #if defined(__GNUC__) && defined(__MINGW32__) && !defined(__clang__)
 #pragma GCC pop_options
 #endif
-
 
 template<class T>
 void conditional_t<T>::set_u_has_camp()

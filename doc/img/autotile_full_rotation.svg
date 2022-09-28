@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="svg5" width="176" height="176" version="1.1" viewBox="0 0 176 176" xmlns="http://www.w3.org/2000/svg">
+  <g id="layer1" fill="#434343">
+    <rect id="rect1829" x="80" y="16" width="80" height="16" stop-color="#000000"/>
+    <rect id="rect1829-80" x="16" y="16" width="16" height="16" stop-color="#000000"/>
+    <rect id="rect1829-80-4" x="48" y="16" width="16" height="16" stop-color="#000000"/>
+    <rect id="rect1829-80-1" x="16" y="48" width="16" height="16" stop-color="#000000"/>
+    <rect id="rect1829-80-7" x="48" y="48" width="16" height="16" stop-color="#000000"/>
+    <rect id="rect1829-8" x="80" y="48" width="80" height="16" stop-color="#000000"/>
+    <rect id="rect1829-8-5" transform="rotate(90)" x="80" y="-32" width="80" height="16" stop-color="#000000"/>
+    <rect id="rect1829-8-5-7" transform="rotate(90)" x="80" y="-64" width="80" height="16" stop-color="#000000"/>
+    <rect id="rect1829-8-5-7-5" transform="rotate(90)" x="80" y="-160" width="80" height="80" stop-color="#000000"/>
+  </g>
+  <g fill="#2a9d00" stroke-width="0">
+    <path id="rect1829-80-3" d="m24 20 4 8h-8z" stop-color="#000000"/>
+    <path id="rect1829-80-3-1" d="m88 20 4 8h-8z" stop-color="#000000"/>
+    <path id="rect1829-80-3-0" d="m152 20 4 8h-8z" stop-color="#000000"/>
+    <path id="rect1829-80-3-7" d="m88 60 4-8h-8z" stop-color="#000000"/>
+    <path id="rect1829-80-3-7-33" d="m56 60 4-8h-8z" stop-color="#000000"/>
+    <path id="rect1829-80-3-7-3" d="m120 60 4-8h-8z" stop-color="#000000"/>
+    <path id="rect1829-80-3-7-3-8" d="m152 60 4-8h-8z" stop-color="#000000"/>
+    <path id="rect1829-80-3-7-3-8-1" d="m20 88 8 4v-8z" stop-color="#000000"/>
+    <path id="rect1829-80-3-7-3-8-1-8" d="m20 56 8 4v-8z" stop-color="#000000"/>
+    <path id="rect1829-80-3-7-3-8-1-9" d="m20 120 8 4v-8z" stop-color="#000000"/>
+    <path id="rect1829-80-3-7-3-8-1-9-1" d="m20 152 8 4v-8z" stop-color="#000000"/>
+    <path id="rect1829-80-3-7-3-8-1-9-1-5" d="m60 88-8-4v8z" stop-color="#000000"/>
+    <path id="rect1829-80-3-7-3-8-1-9-1-5-6" d="m60 24-8-4v8z" stop-color="#000000"/>
+    <path id="rect1829-80-3-7-3-8-1-9-1-5-8" d="m60 120-8-4v8z" stop-color="#000000"/>
+    <path id="rect1829-80-3-7-3-8-1-9-1-5-8-5" d="m60 152-8-4v8z" stop-color="#000000"/>
+    <path id="rect1829-80-3-2" d="m120 20 4 8h-8z" stop-color="#000000"/>
+  </g>
+  <g id="layer2" fill="none" stroke="#000" stroke-linejoin="round">
+    <rect id="rect234" x="8" y="8" width="32" height="32" stop-color="#000000"/>
+    <rect id="rect234-7" x="40" y="8" width="32" height="32" stop-color="#000000"/>
+    <rect id="rect234-2" x="72" y="8" width="32" height="32" stop-color="#000000"/>
+    <rect id="rect234-6" x="104" y="8" width="32" height="32" stop-color="#000000"/>
+    <rect id="rect234-4" x="136" y="8" width="32" height="32" stop-color="#000000"/>
+    <rect id="rect234-8" x="8" y="40" width="32" height="32" stop-color="#000000"/>
+    <rect id="rect234-7-0" x="40" y="40" width="32" height="32" stop-color="#000000"/>
+    <rect id="rect234-2-9" x="72" y="40" width="32" height="32" stop-color="#000000"/>
+    <rect id="rect234-6-8" x="104" y="40" width="32" height="32" stop-color="#000000"/>
+    <rect id="rect234-4-8" x="136" y="40" width="32" height="32" stop-color="#000000"/>
+    <rect id="rect234-8-9" x="8" y="72" width="32" height="32" stop-color="#000000"/>
+    <rect id="rect234-7-0-2" x="40" y="72" width="32" height="32" stop-color="#000000"/>
+    <rect id="rect234-2-9-3" x="72" y="72" width="32" height="32" stop-color="#000000"/>
+    <rect id="rect234-6-8-6" x="104" y="72" width="32" height="32" stop-color="#000000"/>
+    <rect id="rect234-4-8-1" x="136" y="72" width="32" height="32" stop-color="#000000"/>
+    <rect id="rect234-8-5" x="8" y="104" width="32" height="32" stop-color="#000000"/>
+    <rect id="rect234-7-0-5" x="40" y="104" width="32" height="32" stop-color="#000000"/>
+    <rect id="rect234-2-9-1" x="72" y="104" width="32" height="32" stop-color="#000000"/>
+    <rect id="rect234-6-8-5" x="104" y="104" width="32" height="32" stop-color="#000000"/>
+    <rect id="rect234-4-8-8" x="136" y="104" width="32" height="32" stop-color="#000000"/>
+    <rect id="rect234-8-0" x="8" y="136" width="32" height="32" stop-color="#000000"/>
+    <rect id="rect234-7-0-3" x="40" y="136" width="32" height="32" stop-color="#000000"/>
+    <rect id="rect234-2-9-37" x="72" y="136" width="32" height="32" stop-color="#000000"/>
+    <rect id="rect234-6-8-7" x="104" y="136" width="32" height="32" stop-color="#000000"/>
+    <rect id="rect234-4-8-6" x="136" y="136" width="32" height="32" stop-color="#000000"/>
+  </g>
+</svg>
