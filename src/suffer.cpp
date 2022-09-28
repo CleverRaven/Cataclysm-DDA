@@ -55,6 +55,7 @@
 #include "sounds.h"
 #include "stomach.h"
 #include "string_formatter.h"
+#include "teleport.h"
 #include "text_snippets.h"
 #include "translations.h"
 #include "type_id.h"
@@ -204,6 +205,7 @@ static void without_sleep( Character &you, int sleep_deprivation );
 static void from_tourniquet( Character &you );
 static void from_pain( Character &you );
 static void from_nyctophobia( Character &you );
+static void from_artifact_resonance( Character &you );
 } // namespace suffer
 
 static float addiction_scaling( float at_min, float at_max, float add_lvl )
@@ -1713,6 +1715,99 @@ void suffer::from_nyctophobia( Character &you )
             you.mod_moves( -4 * you.get_speed() );
         }
     }
+}
+
+void suffer::from_tourniquet( Character &you )
+{
+    // shortcut for the most common scenario.
+    if( !you.worn_with_flag( flag_TOURNIQUET ) ) {
+        return;
+    }
+    for( const bodypart_id &bp : you.get_all_body_parts( get_body_part_flags::only_main ) ) {
+        if( you.worn_with_flag( flag_TOURNIQUET, bp ) && one_turn_in( 30_seconds ) ) {
+            you.mod_pain( 1 );
+            you.apply_damage( nullptr, bp, 1, true );
+            you.add_msg_player_or_npc( m_bad, _( "Your tourniquet hurts you." ),
+                                       _( "<npcname> is hurting from the tourniquet." ) );
+        }
+    }
+}
+
+void suffer::from_pain( Character &you )
+{
+    if( one_turn_in( 10_minutes ) ) {
+        if( you.has_trait( trait_PAINREC1 ) ) {
+            you.mod_pain( -30 );
+        } else if( you.has_trait( trait_PAINREC2 ) ) {
+            you.mod_pain( -40 );
+        } else if( you.has_trait( trait_PAINREC3 ) ) {
+            you.mod_pain( -50 );
+        }
+    }
+}
+
+void suffer::from_artifact_resonance( Character &you )
+{
+    int resonance_factor = enchantment_cache->get_value_add( enchant_vals::mod::ARTIFACT_RESONANCE );
+    int rng_outcome;
+    if( rng( 0, 1000 + std::round( resonance_factor / 1000 ) ) > 1000 ) {
+        if( resonance_factor > 5000 && one_in( 2 ) ){
+            //deadly effects from way too high resonance
+            rng_outcome = rng( 1, 3 );
+            if( rng_outcome == 1 ) {
+                you.add_msg_player_or_npc( m_bad, _( "You attract the attention of something horrible." ),
+                                           _( "<npcname> attracts the attention of something horrible." ) );
+            } else if( rng_outcome == 2 ) {
+                you.add_msg_player_or_npc( m_bad, _( "Reality gives way under your feet like rotten scaffolding." ),
+                                           _( "Reality gives way under <npcname>'s feet like rotten scaffolding." ) );
+            else if( rng_outcome == 3 ) {
+                you.add_msg_player_or_npc( m_bad, _( "You suddenly lose all substance and corporeality." ),
+                                           _( "<npcname> suddenly loses all substance and corporeality." ) );
+            }
+        } else if( resonance_factor > 3000 && one_in( 2 ) ) {
+            //severe effects from very high resonance
+            rng_outcome = rng( 1, 3 );
+            if( rng_outcome == 1 ) {
+                you.add_msg_player_or_npc( m_bad, _( "You are suddenly beset with agonizing, unbearable pain." ),
+                                           _( "<npcname> suddenly cries out in agony." ) );
+               you.mod_pain( 200 );
+            } else if( rng_outcome == 2 ) {
+                you.add_msg_player_or_npc( m_bad, _( "The air folds and distorts around you." ),
+                                           _( "The air folds and distorts around <npcname>." ) );
+                teleport::teleport( you );
+            else if( rng_outcome == 3 ) {
+                you.add_msg_player_or_npc( m_bad, _( "You're bombarded with radioactive energy!" ),
+                                           _( "<npcname> is bombarded with radioactive energy!" ) );
+            }
+        } else if( resonance_factor > 2000 && one_in( 2 ) ) {
+            //bad effects from moderately high resonance
+            rng_outcome = rng( 1, 3 );
+            if( rng_outcome == 1  && !you.driving() ) {
+                you.add_msg_player_or_npc( m_bad, _( "You suddenly shift slightly." ),
+                                           _( "<npcname> suddenly shifts slightly." ) );
+                teleport::teleport( you, 1, 1, safe, false );
+            } else if( rng_outcome == 2 ) {
+                you.add_msg_player_or_npc( m_bad, _( "You hear a painfully loud grinding noise from your location." ),
+                                           _( "A painfully loud grinding noise suddenly blares from the location of <npcname>." ) );
+                sounds::sound( you.pos(), 1000, sounds::sound_t::movement, _( "A horribly loud grinding sound!" ), true, "misc", "scraping" );
+            else if( rng_outcome == 3 ) {
+                you.add_msg_player_or_npc( m_bad, _( "You suddenly get an uncomfortable pins-and-needles sensation." ),
+                                           _( "The air suddenly prickles around <npcname>." ) );
+            }
+        } else {
+            //mild effects from somewhat high resonance
+            rng_outcome = rng( 1, 3 );
+            if( rng_outcome == 1 ) {
+                you.add_msg_if_player( m_bad,
+                                       _( "You suddenly feel a sharp, stabbing pain with no apparent source." ) );
+                you.mod_pain( 10 );
+            } else if( rng_outcome == 2 ) {
+                you.add_msg_if_player( m_bad,
+                                       _( "Your vision suddenly becomes blurry and hard to decipher." ) );
+            else if( rng_outcome == 3 ) {
+                you.add_msg_if_player( m_bad, _( "You suddenly feel very queasy." ) );
+            }
+        }
 }
 
 void Character::suffer()
