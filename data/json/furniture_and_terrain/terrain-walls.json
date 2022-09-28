@@ -493,7 +493,7 @@
     "coverage": 100,
     "roof": "t_concrete_roof",
     "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
-    "connects_to": "WALL",
+    "connects_with": "WALL",
     "bash": {
       "str_min": 120,
       "str_max": 460,
@@ -516,7 +516,7 @@
     "coverage": 100,
     "roof": "t_concrete_roof",
     "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
-    "connects_to": "WALL",
+    "connects_with": "WALL",
     "bash": {
       "str_min": 120,
       "str_max": 460,
@@ -539,7 +539,7 @@
     "coverage": 100,
     "roof": "t_concrete_roof",
     "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
-    "connects_to": "WALL",
+    "connects_with": "WALL",
     "bash": {
       "str_min": 120,
       "str_max": 460,
@@ -562,7 +562,7 @@
     "coverage": 100,
     "roof": "t_concrete_roof",
     "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
-    "connects_to": "WALL",
+    "connects_with": "WALL",
     "bash": {
       "str_min": 120,
       "str_max": 460,
@@ -585,7 +585,7 @@
     "coverage": 100,
     "roof": "t_concrete_roof",
     "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
-    "connects_to": "WALL",
+    "connects_with": "WALL",
     "bash": {
       "str_min": 120,
       "str_max": 460,
@@ -608,7 +608,7 @@
     "coverage": 100,
     "roof": "t_concrete_roof",
     "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
-    "connects_to": "WALL",
+    "connects_with": "WALL",
     "bash": {
       "str_min": 120,
       "str_max": 460,
@@ -631,7 +631,7 @@
     "coverage": 100,
     "roof": "t_concrete_roof",
     "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
-    "connects_to": "WALL",
+    "connects_with": "WALL",
     "bash": {
       "str_min": 120,
       "str_max": 460,
@@ -654,7 +654,7 @@
     "coverage": 100,
     "roof": "t_concrete_roof",
     "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
-    "connects_to": "WALL",
+    "connects_with": "WALL",
     "bash": {
       "str_min": 90,
       "str_max": 350,
@@ -677,7 +677,7 @@
     "coverage": 100,
     "roof": "t_concrete_roof",
     "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
-    "connects_to": "WALL",
+    "connects_with": "WALL",
     "bash": {
       "str_min": 90,
       "str_max": 350,
@@ -700,7 +700,7 @@
     "coverage": 100,
     "roof": "t_concrete_roof",
     "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
-    "connects_to": "WALL",
+    "connects_with": "WALL",
     "bash": {
       "str_min": 90,
       "str_max": 350,
@@ -723,7 +723,7 @@
     "coverage": 100,
     "roof": "t_concrete_roof",
     "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
-    "connects_to": "WALL",
+    "connects_with": "WALL",
     "bash": {
       "str_min": 90,
       "str_max": 350,
@@ -746,7 +746,7 @@
     "coverage": 100,
     "roof": "t_concrete_roof",
     "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
-    "connects_to": "WALL",
+    "connects_with": "WALL",
     "bash": {
       "str_min": 90,
       "str_max": 350,
@@ -769,7 +769,7 @@
     "coverage": 100,
     "roof": "t_concrete_roof",
     "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
-    "connects_to": "WALL",
+    "connects_with": "WALL",
     "bash": {
       "str_min": 90,
       "str_max": 350,
@@ -792,7 +792,7 @@
     "coverage": 100,
     "roof": "t_concrete_roof",
     "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
-    "connects_to": "WALL",
+    "connects_with": "WALL",
     "bash": {
       "str_min": 90,
       "str_max": 350,
