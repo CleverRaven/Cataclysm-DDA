@@ -238,10 +238,17 @@
     "skills": [ { "level": 6, "name": "speech" }, { "level": 6, "name": "computer" } ],
     "items": {
       "both": {
-        "items": [ "tux", "dress_shoes", "socks", "gold_watch", "undershirt", "gasdiscount_platinum" ],
+        "items": [ "tux", "dress_shoes", "socks", "gold_watch", "undershirt", "gasdiscount_platinum", "afs_10mm_smart_template" ],
         "entries": [
           { "item": "cash_card", "charges": 200000000 },
           { "item": "cash_card", "charges": 200000000 },
+          {
+            "item": "afs_silvergram_pistol",
+            "ammo-item": "afs_10mm_smart",
+            "charges": 22,
+            "container-item": "holster"
+          },
+          { "item": "afs_silvergram_22mag", "ammo-item": "afs_10mm_smart", "charges": 22 },
           { "item": "afs_wraitheon_smartphone" }
         ]
       },

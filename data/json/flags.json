@@ -929,6 +929,11 @@
     "info": "This clothing has a wool lining sewn into it to <good>increase</good> its overall <info>warmth</info>."
   },
   {
+    "id": "WONT_TRAIN_MARKSMANSHIP",
+    "type": "json_flag",
+    "//": "This gun wont train marksmanship when fired.  Used in Aftershock smart guns."
+  },
+  {
     "id": "UNARMED_WEAPON",
     "type": "json_flag",
     "//": "Allows wielding with unarmed fighting styles and trains unarmed when used.",

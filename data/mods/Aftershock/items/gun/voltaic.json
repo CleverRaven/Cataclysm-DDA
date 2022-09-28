@@ -24,5 +24,34 @@
     ],
     "ammo_effects": [ "ELECTRO_ANOMALY" ],
     "flags": [ "NEVER_JAMS", "NON_FOULING", "NEEDS_NO_LUBE" ]
+  },
+  {
+    "id": "afs_wm14_volt",
+    "type": "GUN",
+    "copy-from": "laser_rifle",
+    "name": { "str": "WM-14 Volt" },
+    "description": "pulsed electic discharges common with both public and private security outfits.",
+    "price": "200 kUSD",
+    "price_postapoc": "200 kUSD",
+    "ammo": [ "battery" ],
+    "ammo_to_fire": 10,
+    "ups_charges": 0,
+    "weight": "2300 g",
+    "volume": "4451 ml",
+    "longest_side": "452 mm",
+    "modes": [ [ "DEFAULT", "Pulse ", 1 ], [ "AUTO", "auto", 3 ] ],
+    "ranged_damage": [ { "damage_type": "electric", "amount": 8 } ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "magazine_well": "75 ml",
+        "item_restriction": [ "afs_voltaic_cartridge" ]
+      }
+    ],
+    "ammo_effects": [ "BEANBAG", "" ],
+    "flags": [ "NEVER_JAMS", "NON_FOULING", "NEEDS_NO_LUBE" ]
   }
 ]

@@ -44,5 +44,28 @@
     "aim_speed_modifier": 15,
     "min_skills": [ [ "weapon", 2 ], [ "gun", 1 ] ],
     "flags": [ "DISABLE_SIGHTS" ]
+  },
+  {
+    "id": "afs_smart_scope",
+    "type": "GUNMOD",
+    "name": { "str_sp": "ballistic computer" },
+    "description": "An integrated ballistic computer completely replaces the sights of this weapon.  Aiming depends on a small glass screen on which targets are automatically highlighted.",
+    "weight": "60 g",
+    "volume": "250 ml",
+    "integral_volume": "0 ml",
+    "integral_weight": "0 g",
+    "price": "10 kUSD",
+    "price_postapoc": "10 kUSD",
+    "install_time": "10 m",
+    "material": [ "steel" ],
+    "symbol": ":",
+    "color": "dark_gray",
+    "location": "sights",
+    "mod_targets": [ "smartgun" ],
+    "sight_dispersion": 0,
+    "field_of_view": 3000,
+    "aim_speed_modifier": 5000,
+    "min_skills": [ [ "weapon", 2 ], [ "gun", 1 ] ],
+    "flags": [ "DISABLE_SIGHTS" ]
   }
 ]

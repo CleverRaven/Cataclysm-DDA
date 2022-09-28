@@ -81,5 +81,37 @@
     ],
     "flags": [ "NEVER_JAMS", "RELOAD_EJECT" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "afs_25mm": 1 } } ]
+  },
+  {
+    "id": "afs_wa2519",
+    "looks_like": "m79",
+    "type": "GUN",
+    "reload_noise_volume": 10,
+    "name": { "str": "Wraitheon Armory 2519" },
+    "description": "The much feared 2519 smart sniper platform leverages advanced ballistic targeting and guidance computers to deliver heavy munitions with unerring precision.  Its undisputed lethality makes it a rare sight outside of the company's max security divisions.",
+    "weight": "3500 g",
+    "volume": "450 ml",
+    "longest_side": "95 cm",
+    "barrel_volume": "1170 ml",
+    "price": "1500 USD",
+    "to_hit": -3,
+    "bashing": 10,
+    "material": [ "superalloy", "wood" ],
+    "built_in_mods": [ "afs_smart_scope" ],
+    "symbol": "(",
+    "color": "cyan",
+    "skill": "smartgun",
+    "modes": [ [ "DEFAULT", "single shot", 1 ] ],
+    "dispersion": 0,
+    "durability": 9,
+    "ammo": [ "afs_25mm_smart" ],
+    "clip_size": 1,
+    "reload": 1000,
+    "valid_mod_locations": [ [ "sights", 1 ], [ "sling", 1 ] ],
+    "flags": [ "NEVER_JAMS", "RELOAD_EJECT", "MUNDANE", "WONT_TRAIN_MARKSMANSHIP" ],
+    "relic_data": {
+      "passive_effects": [ { "has": "WIELD", "condition": "ALWAYS", "values": [ { "value": "WEAPON_DISPERSION", "multiply": -0.9 } ] } ]
+    },
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "afs_25mm_smart": 1 } } ]
   }
 ]
