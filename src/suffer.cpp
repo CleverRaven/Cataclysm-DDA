@@ -1751,7 +1751,7 @@ void suffer::from_artifact_resonance( Character &you )
     int resonance_factor = enchantment_cache->get_value_add( enchant_vals::mod::ARTIFACT_RESONANCE );
     int rng_outcome;
     if( rng( 0, 1000 + std::round( resonance_factor / 1000 ) ) > 1000 ) {
-        if( resonance_factor > 5000 && one_in( 2 ) ){
+        if( resonance_factor > 5000 && one_in( 2 ) ) {
             //deadly effects from way too high resonance
             rng_outcome = rng( 1, 3 );
             if( rng_outcome == 1 ) {
@@ -1760,7 +1760,7 @@ void suffer::from_artifact_resonance( Character &you )
             } else if( rng_outcome == 2 ) {
                 you.add_msg_player_or_npc( m_bad, _( "Reality gives way under your feet like rotten scaffolding." ),
                                            _( "Reality gives way under <npcname>'s feet like rotten scaffolding." ) );
-            else if( rng_outcome == 3 ) {
+            } else if( rng_outcome == 3 ) {
                 you.add_msg_player_or_npc( m_bad, _( "You suddenly lose all substance and corporeality." ),
                                            _( "<npcname> suddenly loses all substance and corporeality." ) );
             }
@@ -1775,7 +1775,7 @@ void suffer::from_artifact_resonance( Character &you )
                 you.add_msg_player_or_npc( m_bad, _( "The air folds and distorts around you." ),
                                            _( "The air folds and distorts around <npcname>." ) );
                 teleport::teleport( you );
-            else if( rng_outcome == 3 ) {
+            } else if( rng_outcome == 3 ) {
                 you.add_msg_player_or_npc( m_bad, _( "You're bombarded with radioactive energy!" ),
                                            _( "<npcname> is bombarded with radioactive energy!" ) );
             }
@@ -1790,7 +1790,7 @@ void suffer::from_artifact_resonance( Character &you )
                 you.add_msg_player_or_npc( m_bad, _( "You hear a painfully loud grinding noise from your location." ),
                                            _( "A painfully loud grinding noise suddenly blares from the location of <npcname>." ) );
                 sounds::sound( you.pos(), 1000, sounds::sound_t::movement, _( "A horribly loud grinding sound!" ), true, "misc", "scraping" );
-            else if( rng_outcome == 3 ) {
+            } else if( rng_outcome == 3 ) {
                 you.add_msg_player_or_npc( m_bad, _( "You suddenly get an uncomfortable pins-and-needles sensation." ),
                                            _( "The air suddenly prickles around <npcname>." ) );
             }
@@ -1804,7 +1804,7 @@ void suffer::from_artifact_resonance( Character &you )
             } else if( rng_outcome == 2 ) {
                 you.add_msg_if_player( m_bad,
                                        _( "Your vision suddenly becomes blurry and hard to decipher." ) );
-            else if( rng_outcome == 3 ) {
+            } else if( rng_outcome == 3 ) {
                 you.add_msg_if_player( m_bad, _( "You suddenly feel very queasy." ) );
             }
         }
