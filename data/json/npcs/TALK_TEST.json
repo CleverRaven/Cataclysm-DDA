@@ -1531,6 +1531,31 @@
         "text": "Sets stored_kcal_percentage to 50.",
         "topic": "TALK_DONE",
         "effect": { "arithmetic": [ { "u_val": "stored_kcal_percentage" }, "=", { "const": 50 } ] }
+      },
+      {
+        "text": "Sets pew pew's level to 0.",
+        "topic": "TALK_DONE",
+        "effect": { "arithmetic": [ { "u_val": "spell_level", "spell": "test_spell_pew" }, "=", { "const": 0 } ] }
+      },
+      {
+        "text": "Sets pew pew's level to 4.",
+        "topic": "TALK_DONE",
+        "effect": { "arithmetic": [ { "u_val": "spell_level", "spell": "test_spell_pew" }, "=", { "const": 4 } ] }
+      },
+      {
+        "text": "Sets Test Proficiency learning done to 12 hours total.",
+        "topic": "TALK_DONE",
+        "effect": { "arithmetic": [ { "u_val": "proficiency", "proficiency_id": "prof_test", "format": "time_spent" }, "=", { "time": "12h" } ] }
+      },
+      {
+        "text": "Sets Test Proficiency learning done to -1.",
+        "topic": "TALK_DONE",
+        "effect": { "arithmetic": [ { "u_val": "proficiency", "proficiency_id": "prof_test", "format": "time_spent" }, "=", { "const": "-1" } ] }
+      },
+      {
+        "text": "Sets Test Proficiency learning done to 24h.",
+        "topic": "TALK_DONE",
+        "effect": { "arithmetic": [ { "u_val": "proficiency", "proficiency_id": "prof_test", "format": "time_spent" }, "=", { "time": "12h" } ] }
       }
     ]
   },

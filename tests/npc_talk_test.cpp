@@ -1385,7 +1385,7 @@ TEST_CASE( "npc_arithmetic", "[npc_talk]" )
     Character &player_character = get_avatar();
 
     d.add_topic( "TALK_TEST_ARITHMETIC" );
-    gen_response_lines( d, 25 );
+    gen_response_lines( d, 30 );
 
     calendar::turn = calendar::turn_zero;
     REQUIRE( calendar::turn == time_point( 0 ) );
@@ -1535,7 +1535,6 @@ TEST_CASE( "npc_arithmetic", "[npc_talk]" )
     effects = d.responses[ 24 ].success;
     effects.apply( d );
     CHECK( player_character.get_stored_kcal() == 550000 / 2 );
-
     // Teardown
     player_character.remove_value( var_name );
 }
