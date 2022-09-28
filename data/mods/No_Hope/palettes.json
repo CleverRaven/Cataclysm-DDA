@@ -93,6 +93,7 @@
       "|": "t_wall_w",
       "#": "t_brick_wall",
       ":": "t_wall_glass",
+	  "¶": "t_door_glass_c",
       "-": "t_sidewalk",
       "o": [
         [ "t_window_frame", 5 ],
