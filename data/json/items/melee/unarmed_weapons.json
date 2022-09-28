@@ -127,7 +127,7 @@
     "type": "ARMOR",
     "name": { "str": "pair of XL nail knuckles", "str_pl": "pairs of XL nail knuckles" },
     "copy-from": "knuckle_nail",
-    "proportional": { "weight": 1.5, "volume": 1.5 },
+    "proportional": { "weight": 1.0, "volume": 1.0 },
     "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
@@ -135,7 +135,7 @@
     "type": "ARMOR",
     "name": { "str": "pair of XS nail knuckles", "str_pl": "pairs of XS nail knuckles" },
     "copy-from": "knuckle_nail",
-    "proportional": { "weight": 0.75, "volume": 0.75 },
+    "proportional": { "weight": 1.0, "volume": 1.0 },
     "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
