@@ -1761,9 +1761,9 @@ void suffer::from_artifact_resonance( Character &you )
                 you.add_msg_player_or_npc( m_bad, _( "You're bombarded with radioactive energy!" ),
                                            _( "<npcname> is bombarded with radioactive energy!" ) );
                 you.irradiate( 50, true );
-                you.irradiate( 200, false ):
-                }
-            } else if( resonance_factor > 3000 && one_in( 2 ) ) {
+                you.irradiate( 200, false );
+            }
+        } else if( resonance_factor > 3000 && one_in( 2 ) ) {
             //bad effects from moderately high resonance
             rng_outcome = rng( 1, 3 );
             if( rng_outcome == 1  && !you.in_vehicle() ) {
