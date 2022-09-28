@@ -1380,7 +1380,7 @@
       },
       "items": {
         "m": { "item": "underwear_womens", "chance": 100 },
-        "C": { "item": "underwear_womens", "chance": 60, "repeat": [ 3, 4 ] },
+        "C": { "item": "underwear_womens", "chance": 80, "repeat": [ 4, 8 ] },
         "k": { "item": "SUS_toilet", "chance": 100 },
         "c": { "item": "ss_merch_1", "chance": 65, "repeat": [ 3, 4 ] },
         "b": { "item": "ss_merch_2", "chance": 70, "repeat": [ 3, 4 ] },
@@ -2932,6 +2932,7 @@
         "b": "t_linoleum_white",
         "c": "t_linoleum_white",
         "d": "t_linoleum_white",
+        "f": "t_linoleum_white",
         "F": "t_linoleum_white",
         "H": "t_linoleum_white",
         "L": "t_linoleum_white",
