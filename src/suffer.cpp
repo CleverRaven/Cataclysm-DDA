@@ -205,7 +205,7 @@ static void without_sleep( Character &you, int sleep_deprivation );
 static void from_tourniquet( Character &you );
 static void from_pain( Character &you );
 static void from_nyctophobia( Character &you );
-static void from_artifact_resonance( Character &you );
+static void from_artifact_resonance( Character &you, int amt );
 } // namespace suffer
 
 static float addiction_scaling( float at_min, float at_max, float add_lvl )
@@ -393,9 +393,10 @@ void suffer::while_awake( Character &you, const int current_stim )
             you.fall_asleep( 20_minutes );
         }
     }
-    
-    if( you.enchantment_cache->get_value_add( enchant_vals::mod::ARTIFACT_RESONANCE ) > 0 ) {
-        suffer::from_artifact_resonance( you );
+
+    int resonance = you.enchantment_cache->get_value_add( enchant_vals::mod::ARTIFACT_RESONANCE );
+    if( resonance > 0 ) {
+        suffer::from_artifact_resonance( you, resonance );
     }
 
     if( you.has_trait( trait_JITTERY ) && !you.has_effect( effect_shakes ) ) {
@@ -1721,10 +1722,9 @@ void suffer::from_nyctophobia( Character &you )
     }
 }
 
-void suffer::from_artifact_resonance( Character &you )
+void suffer::from_artifact_resonance( Character &you, int amt )
 {
-    int resonance_factor = you.enchantment_cache->get_value_add(
-                               enchant_vals::mod::ARTIFACT_RESONANCE );
+    int resonance_factor = amt;
     int rng_outcome;
     if( rng( 0, 1800 + std::round( resonance_factor / 1000 ) ) > 1800 ) {
         if( resonance_factor > 10000 && one_in( 2 ) ) {
