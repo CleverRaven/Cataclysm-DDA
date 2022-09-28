@@ -947,7 +947,7 @@ void item_location::set_should_stack( bool should_stack ) const
     ptr->should_stack = should_stack;
 }
 
-bool item_location::held_by( Character &who ) const
+bool item_location::held_by( Character const &who ) const
 {
     if( where() == type::character &&
         get_creature_tracker().creature_at<Character>( position() ) == &who ) {

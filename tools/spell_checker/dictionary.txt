@@ -58,6 +58,7 @@ ampersand
 amphibole
 amt
 analogues
+anchisaurus
 andom
 anglerfish
 anglic
@@ -147,6 +148,7 @@ barding
 barebones
 barghest
 barkin
+barosaurus
 basecamp
 basecamps
 baselard
@@ -678,6 +680,7 @@ foodplace
 footgear
 foregrip
 foregrips
+foreleg
 forestock
 forgemaster
 forgnottedn
@@ -1834,6 +1837,7 @@ telepad
 telepads
 temaki
 tems
+tenontosaurus
 tenuously
 terpenes
 terranean
@@ -2123,3 +2127,5 @@ zuul
 zygomaticus
 zzz
 zzzzchzzzzchurzzzpileus
+trilobite
+woodlouse

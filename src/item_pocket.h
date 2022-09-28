@@ -325,6 +325,10 @@ class item_pocket
         void add( const item &it, item **ret = nullptr );
         bool can_unload_liquid() const;
 
+        int fill_with( const item &contained, int amount = 0,
+                       bool allow_unseal = false,
+                       bool ignore_settings = false );
+
         /**
         * @brief Check contents of pocket to see if it contains a valid item/pocket to store the given item.
         * @param ret Used to cache and return a pocket if a valid one was found.
@@ -515,6 +519,8 @@ class pocket_data
         // items stored are restricted to these item ids.
         // this takes precedence over the other two restrictions
         cata::flat_set<itype_id> item_id_restriction;
+        // Restricts items by their material.
+        cata::flat_set<material_id> material_restriction;
         cata::flat_set<itype_id> allowed_speedloaders;
         // the first in the json array for item_id_restriction when loaded
         itype_id default_magazine = itype_id::NULL_ID();

@@ -20,6 +20,7 @@
 #include "debug.h"
 #include "enum_conversions.h"
 #include "field.h"
+#include "flag.h"
 #include "game.h"
 #include "generic_factory.h"
 #include "global_vars.h"
@@ -119,8 +120,8 @@ int_or_var<T> get_int_or_var( const JsonObject &jo, std::string member, bool req
     int_or_var<T> ret_val;
     if( jo.has_array( member ) ) {
         JsonArray ja = jo.get_array( member );
-        ret_val.min = get_int_or_var_part<T>( ja.next(), member );
-        ret_val.max = get_int_or_var_part<T>( ja.next(), member );
+        ret_val.min = get_int_or_var_part<T>( ja.next_value(), member );
+        ret_val.max = get_int_or_var_part<T>( ja.next_value(), member );
         ret_val.pair = true;
     } else if( required ) {
         ret_val.min = get_int_or_var_part<T>( jo.get_member( member ), member, required, default_val );
@@ -172,8 +173,8 @@ duration_or_var<T> get_duration_or_var( const JsonObject &jo, std::string member
     duration_or_var<T> ret_val;
     if( jo.has_array( member ) ) {
         JsonArray ja = jo.get_array( member );
-        ret_val.min = get_duration_or_var_part<T>( ja.next(), member );
-        ret_val.max = get_duration_or_var_part<T>( ja.next(), member );
+        ret_val.min = get_duration_or_var_part<T>( ja.next_value(), member );
+        ret_val.max = get_duration_or_var_part<T>( ja.next_value(), member );
         ret_val.pair = true;
     } else if( required ) {
         ret_val.min = get_duration_or_var_part<T>( jo.get_member( member ), member, required, default_val );
@@ -1108,6 +1109,15 @@ void conditional_t<T>::set_can_stow_weapon( bool is_npc )
 }
 
 template<class T>
+void conditional_t<T>::set_can_drop_weapon( bool is_npc )
+{
+    condition = [is_npc]( const T & d ) {
+        const talker *actor = d.actor( is_npc );
+        return !actor->unarmed_attack() && !actor->wielded_with_flag( flag_NO_UNWIELD );
+    };
+}
+
+template<class T>
 void conditional_t<T>::set_has_weapon( bool is_npc )
 {
     condition = [is_npc]( const T & d ) {
@@ -1280,12 +1290,12 @@ void conditional_t<T>::set_compare_string( const JsonObject &jo, const std::stri
     }
 
     if( objects.has_object( 0 ) ) {
-        first = get_str_or_var<T>( objects.next(), member, true );
+        first = get_str_or_var<T>( objects.next_value(), member, true );
     } else {
         first.str_val = objects.next_string();
     }
     if( objects.has_object( 1 ) ) {
-        second = get_str_or_var<T>( objects.next(), member, true );
+        second = get_str_or_var<T>( objects.next_value(), member, true );
     } else {
         second.str_val = objects.next_string();
     }
@@ -2186,6 +2196,10 @@ static std::function<void( const T &, int )> get_set_int( const JsonObject &jo,
     return []( const T &, int ) {};
 }
 
+#if defined(__GNUC__) && defined(__MINGW32__) && !defined(__clang__)
+#pragma GCC push_options
+#pragma GCC optimize("no-ipa-sra")
+#endif
 template<class T>
 void talk_effect_fun_t<T>::set_arithmetic( const JsonObject &jo, const std::string &member,
         bool no_result )
@@ -2357,6 +2371,12 @@ void talk_effect_fun_t<T>::set_arithmetic( const JsonObject &jo, const std::stri
                 return false;
             };
         }
+    } else if( objects.size() == 1 && no_result ) {
+        std::function<int( const T & )> get_first_int = conditional_t< T >::get_get_int(
+                    objects.get_object( 0 ) );
+        function = [get_first_int, set_int]( const T & d ) {
+            set_int( d, get_first_int( d ) );
+        };
     } else {
         jo.throw_error( "Invalid number of args in " + jo.str() );
         function = []( const T & ) {
@@ -2365,7 +2385,9 @@ void talk_effect_fun_t<T>::set_arithmetic( const JsonObject &jo, const std::stri
         return;
     }
 }
-
+#if defined(__GNUC__) && defined(__MINGW32__) && !defined(__clang__)
+#pragma GCC pop_options
+#endif
 
 template<class T>
 void conditional_t<T>::set_u_has_camp()
@@ -2864,6 +2886,10 @@ conditional_t<T>::conditional_t( const std::string &type )
         set_can_stow_weapon();
     } else if( type == "npc_can_stow_weapon" ) {
         set_can_stow_weapon( is_npc );
+    } else if( type == "u_can_drop_weapon" ) {
+        set_can_drop_weapon();
+    } else if( type == "npc_can_drop_weapon" ) {
+        set_can_drop_weapon( is_npc );
     } else if( type == "u_has_weapon" ) {
         set_has_weapon();
     } else if( type == "npc_has_weapon" ) {
@@ -2929,3 +2955,4 @@ template struct conditional_t<mission_goal_condition_context>;
 template void read_condition<mission_goal_condition_context>( const JsonObject &jo,
         const std::string &member_name,
         std::function<bool( const mission_goal_condition_context & )> &condition, bool default_val );
+template struct talk_effect_fun_t<dialogue>;

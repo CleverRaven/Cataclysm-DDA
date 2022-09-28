@@ -446,7 +446,7 @@ TEST_CASE( "vehicle_efficiency", "[vehicle] [engine]" )
     test_vehicle( "quad_bike", 275845, 107440, 107440, 44021, 44021 );
     test_vehicle( "scooter", 60441, 200399, 195512, 150909, 147555 );
     test_vehicle( "superbike", 231585, 103010, 65307, 41575, 24945 );
-    test_vehicle( "ambulance", 1716913, 562028, 498800, 81698, 68622 );
+    test_vehicle( "ambulance", 1716993, 562028, 498800, 81698, 68622 );
     test_vehicle( "fire_engine", 2096246, 1844300, 1844300, 419617, 419617 );
     test_vehicle( "fire_truck", 6185223, 398080, 88578, 19710, 4700 );
     test_vehicle( "truck_swat", 6501129, 600602, 93345, 27794, 5999 );

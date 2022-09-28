@@ -56,6 +56,7 @@
 #include "veh_interact.h"
 #include "veh_type.h"
 #include "veh_utils.h"
+#include "vehicle_selector.h"
 #include "vpart_position.h"
 #include "vpart_range.h"
 #include "weather.h"
@@ -556,11 +557,6 @@ void vehicle::connect( const tripoint &source_pos, const tripoint &target_pos )
     target_part.target.first = here.getabs( source_global );
     target_part.target.second = source_veh->global_square_location().raw();
     target_veh->install_part( vcoords, target_part );
-}
-
-void vehicle::start_folding_activity()
-{
-    get_avatar().assign_activity( player_activity( vehicle_folding_activity_actor( *this ) ) );
 }
 
 double vehicle::engine_cold_factor( const int e ) const
@@ -1204,11 +1200,6 @@ void vehicle::close( int part_index )
     }
 }
 
-bool vehicle::is_open( int part_index ) const
-{
-    return parts[part_index].open;
-}
-
 bool vehicle::can_close( int part_index, Character &who )
 {
     creature_tracker &creatures = get_creature_tracker();
@@ -1719,7 +1710,7 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint &p, bool with_
     const bool controls_here = has_part_here( "CONTROLS" );
     const bool player_is_driving = get_player_character().controlling_vehicle;
 
-    if( !has_tag( flag_APPLIANCE ) && !player_is_driving ) {
+    if( !has_tag( flag_APPLIANCE ) ) {
         menu.add( _( "Examine vehicle" ) )
         .skip_theft_check()
         .skip_locked_check()
@@ -1897,8 +1888,7 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint &p, bool with_
             item::reload_option opt = get_player_character().select_ammo( loc, true );
             if( opt )
             {
-                std::vector<item_location> targets { { opt.target, std::move( opt.ammo ) } };
-                reload_activity_actor reload_act( opt.moves(), opt.qty(), targets );
+                reload_activity_actor reload_act( std::move( opt ) );
                 get_player_character().assign_activity( player_activity( reload_act ) );
             }
         } );
@@ -2005,23 +1995,43 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint &p, bool with_
         } );
     }
 
-    if( vp.part_with_tool( itype_water_faucet ) && fuel_left( itype_water_clean ) > 0 ) {
-        menu.add( _( "Fill a container with water" ) )
-        .hotkey( "FAUCET_FILL" )
-        .skip_locked_check()
-        .on_submit( [this] { get_player_character().siphon( *this, itype_water_clean ); } );
-
-        menu.add( _( "Have a drink" ) )
-        .hotkey( "FAUCET_DRINK" )
-        .skip_locked_check()
-        .on_submit( [this] {
-            const item water( itype_water_clean, calendar::turn_zero );
-            if( get_player_character().can_consume_as_is( water ) )
-            {
-                get_player_character().assign_activity( player_activity( consume_activity_actor( water ) ) );
-                drain( itype_water_clean, 1 );
+    if( vp.part_with_tool( itype_water_faucet ) ) {
+        int vp_tank_idx = -1;
+        item *water_item = nullptr;
+        for( const int i : fuel_containers ) {
+            vehicle_part &part = parts[i];
+            if( part.ammo_current() == itype_water_clean &&
+                part.base.only_item().made_of( phase_id::LIQUID ) ) {
+                vp_tank_idx = i;
+                water_item = &part.base.only_item();
+                break;
             }
-        } );
+        }
+
+        if( vp_tank_idx != -1 && water_item != nullptr ) {
+            menu.add( _( "Fill a container with water" ) )
+            .hotkey( "FAUCET_FILL" )
+            .skip_locked_check()
+            .on_submit( [this, vp_tank_idx] {
+                item &vp_tank_item = parts[vp_tank_idx].base;
+                item &water = vp_tank_item.only_item();
+                liquid_handler::handle_liquid( water, &vp_tank_item, 1, nullptr, this, vp_tank_idx );
+            } );
+
+            menu.add( _( "Have a drink" ) )
+            .enable( get_player_character().will_eat( *water_item ).success() )
+            .hotkey( "FAUCET_DRINK" )
+            .skip_locked_check()
+            .on_submit( [this, vp_tank_idx] {
+                vehicle_part &vp_tank = parts[vp_tank_idx];
+                // this is not "proper" use of vehicle_cursor, but should be good enough for reducing
+                // charges and deleting the liquid on last charge drained, for more details see #61164
+                item_location base_loc( vehicle_cursor( *this, vp_tank_idx ), &vp_tank.base );
+                item_location water_loc( base_loc, &vp_tank.base.only_item() );
+                const consume_activity_actor consume_act( water_loc );
+                get_player_character().assign_activity( player_activity( consume_act ) );
+            } );
+        }
     }
 
     if( vp.part_with_tool( itype_pseudo_water_purifier ) ) {
@@ -2100,7 +2110,10 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint &p, bool with_
     if( is_foldable() && !remote ) {
         menu.add( string_format( _( "Fold %s" ), name ) )
         .hotkey( "FOLD_VEHICLE" )
-        .on_submit( [this] { start_folding_activity(); } );
+        .on_submit( [this] {
+            vehicle_folding_activity_actor folding_act( *this );
+            get_avatar().assign_activity( player_activity( folding_act ) );
+        } );
     }
 }
 

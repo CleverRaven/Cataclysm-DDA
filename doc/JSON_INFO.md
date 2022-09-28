@@ -185,6 +185,8 @@ Use the `Home` key to return to the top.
       - [`name`](#name-1)
       - [`flags`](#flags-1)
       - [`connects_to`](#connects_to)
+        - [Connect groups](#connect-groups)
+      - [`rotates_to` and `rotates_to_member`](#rotates_to-and-rotates_to_member)
       - [`symbol`](#symbol)
       - [`comfort`](#comfort)
       - [`floor_bedding_warmth`](#floor_bedding_warmth)
@@ -2816,7 +2818,7 @@ Vehicle components when installed on a vehicle.
   { "id": "hotplate", "hotkey": "h" },
   { "id": "pot" }
 ],
-"folded_volume": "750 ml", // volume this vpart takes in folded form
+"folded_volume": "750 ml", // volume this vpart takes in folded form, undefined or null disables folding
 "folding_tools": [ "needle_curved" ], // tool itype_ids required for folding
 "folding_time": "100 seconds", // time to fold this part
 "unfolding_tools": [ "hand_pump" ], // tool itype_ids required for unfolding
@@ -3623,7 +3625,8 @@ Any Item can be a container. To add the ability to contain things to an item, yo
     "ammo_restriction": { "ammotype": count }, // Restrict pocket to a given ammo type and count.  This overrides mandatory volume, weight, watertight and airtight to use the given ammo type instead.  A pocket can contain any number of unique ammo types each with different counts, and the container will only hold one type (as of now).  If this is left out, it will be empty.
     "flag_restriction": [ "FLAG1", "FLAG2" ],  // Items can only be placed into this pocket if they have a flag that matches one of these flags.
     "item_restriction": [ "item_id" ],         // Only these item IDs can be placed into this pocket. Overrides ammo and flag restrictions.
-	// If both "flag_restriction" and "item_restriction" are used simultaneously then any item that matches either of them will be accepted.
+    "material_restriction": [ "material_id" ], // Only items that are mainly made of this material can enter.
+	// If multiple of "flag_restriction", "material_restriction" and "item_restriction" are used simultaneously then any item that matches any of them will be accepted.
 
     "sealed_data": { "spoil_multiplier": 0.0 } // If a pocket has sealed_data, it will be sealed when the item spawns.  The sealed version of the pocket will override the unsealed version of the same datatype.
   }
@@ -4557,6 +4560,8 @@ Strength required to move the furniture around. Negative values indicate an unmo
     "max_volume": "1000 L",
     "flags": ["TRANSPARENT", "DIGGABLE"],
     "connects_to" : "WALL",
+    "rotates_to" : "INDOORFLOOR",
+    "rotates_to_member" : "INDOORFLOOR",
     "close": "t_foo_closed",
     "open": "t_foo_open",
     "lockpick_result": "t_door_unlocked",
@@ -4765,17 +4770,24 @@ Displayed name of the object. This will be translated.
 
 (Optional) The group of terrains to which this terrain connects. This affects tile rotation and connections, and the ASCII symbol drawn by terrain with the flag "AUTO_WALL_SYMBOL".
 
-Current values:
-- `WALL`
-- `CHAINFENCE`
-- `WOODFENCE`
-- `RAILING`
-- `WATER`
-- `POOLWATER`
-- `PAVEMENT`
-- `RAIL`
+Available groups are:
 
+##### Connect groups
 
+```
+NONE                 PIT_DEEP
+WALL                 LINOLEUM
+CHAINFENCE           CARPET
+WOODFENCE            CONCRETE
+RAILING              CLAY
+POOLWATER            DIRT
+WATER                ROCKFLOOR
+PAVEMENT             MULCHFLOOR
+RAIL                 METALFLOOR
+COUNTER              WOODFLOOR
+CANVAS_WALL          INDOORFLOOR
+SAND
+```
 
 Example: `-` , `|` , `X` and `Y` are terrain which share the same `connects_to` value. `O` does not have it. `X` and `Y` also have the `AUTO_WALL_SYMBOL` flag. `X` will be drawn as a T-intersection (connected to west, south and east), `Y` will be drawn as a horizontal line (going from west to east, no connection to south).
 
@@ -4783,6 +4795,18 @@ Example: `-` , `|` , `X` and `Y` are terrain which share the same `connects_to` 
 -X-    -Y-
  |      O
 ```
+
+#### `rotates_to` and `rotates_to_member`
+
+(Optional) `rotates_to` specifies the group of terrain (or furniture) towards which this terrain (or furniture) rotates.
+`rotates_to_member` adds the terrain (or furniture) to a group, as rotation target.
+See [Connect groups](#Connect-groups) for available values.
+
+In contrast to `connects_to`, this is not symmetric.
+Only the terrain or furniture with `rotates_to` will rotate.
+Terrain can only rotate depending on terrain, while funiture can rotate depending on terrain and on other funiture.
+
+The parameters can e.g. be used to have window curtains on the indoor side only, or to orient traffic lights depending on the pavement.
 
 #### `symbol`
 
@@ -5316,11 +5340,12 @@ Fields can exist on top of terrain/furniture, and support different intensity le
         "scent_neutralization": 3, // Reduce scents at the field's position by this value        
     ],
     "npc_complain": { "chance": 20, "issue": "weed_smoke", "duration": "10 minutes", "speech": "<weed_smoke>" }, // NPCs in this field will complain about being in it once per <duration> if a 1-in-<chance> roll succeeds, giving off a <speech> bark that supports snippets
-    "immunity_data": {
-      { "flags": [ "WEBWALK" ] },
-      { "body_part_env_resistance": [ [ "mouth", 15 ], [ "sensor", 10 ] ] },
-      "immunity_flags_worn": [ [ "sensor", "FLASH_PROTECTION" ] ]
-      }, // If the character in the field has the defined character flags (see Character Flags), necessary env resistance or worn item flags on ALL bodyparts of the defined type they will be considered immune to the field's effects -- in this example a player is immune if they have the WEBWALK flag, wear flash protection on their eyes or have both their eyes and mouth covered
+    "immunity_data": {  // Array containing the necessary conditions for immunity to this field.  Any one fulfilled condition confers immunity:
+      { "flags": [ "WEBWALK" ] },  // Immune if the character has any of the defined character flags (see Character flags)
+      { "body_part_env_resistance": [ [ "mouth", 15 ], [ "sensor", 10 ] ] }, // Immune if ALL bodyparts of the defined types have the defined amount of env protection
+      "immunity_flags_worn": [ [ "sensor", "FLASH_PROTECTION" ] ], // Immune if ALL parts of the defined types wear an item with the defined flag
+      "immunity_flags_worn_any": [ [ "sensor": "BLIND" ], [ "hand": "PADDED" ] ], Immune if ANY part of the defined type wears an item with the corresponding flag -- in this example either a blindfold OR padded gloves confer immunity
+      },
     "decay_amount_factor": 2, // The field's rain decay amount is divided by this when processing the field, the rain decay is a function of the weather type's precipitation class: very_light = 5s, light = 15s, heavy = 45 s
     "half_life": "3 minutes", // If above 0 the field will disappear after two half-lifes on average
     "underwater_age_speedup": "25 minutes", // Increase the field's age by this time every tick if it's on a terrain with the SWIMMABLE flag

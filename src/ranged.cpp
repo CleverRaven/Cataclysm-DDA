@@ -21,6 +21,7 @@
 #include "ballistics.h"
 #include "cached_options.h"
 #include "calendar.h"
+#include "cata_scope_helpers.h"
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "character.h"
@@ -561,7 +562,7 @@ int Character::gun_engagement_moves( const item &gun, int target, int start,
 
     while( penalty > target ) {
         double adj = aim_per_move( gun, penalty, attributes );
-        if( adj <= 0 ) {
+        if( adj <= MIN_RECOIL_IMPROVEMENT ) {
             break;
         }
         penalty -= adj;
@@ -983,7 +984,7 @@ int throw_cost( const Character &c, const item &to_throw )
     // Differences:
     // Dex is more (2x) important for throwing speed
     // At 10 skill, the cost is down to 0.75%, not 0.66%
-    const int base_move_cost = to_throw.attack_time() / 2;
+    const int base_move_cost = to_throw.attack_time( c ) / 2;
     const int throw_skill = std::min( MAX_SKILL, c.get_skill_level( skill_throw ) );
     ///\EFFECT_THROW increases throwing speed
     const int skill_cost = static_cast<int>( ( base_move_cost * ( 20 - throw_skill ) / 20 ) );
@@ -1552,11 +1553,12 @@ static recoil_prediction predict_recoil( const Character &you, const item &weapo
 
     // next loop simulates aiming until either aim mode threshold or sight_dispersion is reached
     do {
-        double aim_amount = you.aim_per_move( weapon, predicted_recoil, target );
-        if( aim_amount > 0 ) {
-            predicted_delay++;
-            predicted_recoil = std::max( predicted_recoil - aim_amount, 0.0 );
+        const double aim_amount = you.aim_per_move( weapon, predicted_recoil, target );
+        if( aim_amount <= MIN_RECOIL_IMPROVEMENT ) {
+            break;
         }
+        predicted_delay++;
+        predicted_recoil = std::max( predicted_recoil - aim_amount, 0.0 );
     } while( predicted_recoil > aim_mode.threshold && predicted_recoil > sight_dispersion );
 
     return { predicted_recoil, predicted_delay };

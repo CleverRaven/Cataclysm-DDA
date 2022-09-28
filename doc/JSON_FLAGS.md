@@ -1439,7 +1439,6 @@ These flags apply to the `use_action` field, instead of the `flags` field.
 - ```E_HIGHER_SKILL``` Is an engine that is more difficult to install as more engines are installed.
 - ```E_STARTS_INSTANTLY``` Is an engine that starts instantly, like food pedals.
 - ```FLAT_SURF``` Part with a flat hard surface (e.g. table).
-- ```FOLDABLE``` Part can be folded to a smaller volume.
 - ```FREEZER``` Can freeze items in below zero degrees Celsius temperature.
 - ```FRIDGE``` Can refrigerate items.
 - ```FUNNEL``` If installed over a vehicle tank, can collect rainwater during rains.

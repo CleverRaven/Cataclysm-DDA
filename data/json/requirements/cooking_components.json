@@ -77,7 +77,15 @@
         [ "egg_goose_canadian", 1 ],
         [ "egg_turkey", 1 ],
         [ "egg_pheasant", 1 ],
-        [ "egg_cockatrice", 1 ]
+        [ "egg_cockatrice", 1 ],
+        [ "egg_goose", 1 ],
+        [ "egg_goose_golden", 1 ],
+        [ "egg_hummingbird", 5 ],
+        [ "egg_woodpecker", 5 ],
+        [ "egg_coot", 1 ],
+        [ "egg_cormorant", 1 ],
+        [ "egg_moorhen", 1 ],
+        [ "egg_grebe", 1 ]
       ]
     ]
   },
@@ -102,7 +110,11 @@
         [ "egg_lady_bug", 4 ],
         [ "egg_mole_cricket", 4 ],
         [ "egg_mantis", 4 ],
-        [ "egg_stag_beetle", 1 ]
+        [ "egg_stag_beetle", 1 ],
+        [ "egg_water_beetle", 4 ],
+        [ "egg_water_bug", 4 ],
+        [ "egg_butterfly", 1 ],
+        [ "egg_cicada", 1 ]
       ]
     ]
   },

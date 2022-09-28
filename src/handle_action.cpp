@@ -305,7 +305,7 @@ input_context game::get_player_input( std::string &action )
                 Location to add rain drop animation bits! Since it refreshes w_terrain it can be added to the animation section easily
                 Get tile information from above's weather information:
                 WEATHER_ACID_DRIZZLE | WEATHER_ACID_RAIN = "weather_acid_drop"
-                WEATHER_DRIZZLE | WEATHER_LIGHT_DRIZZLE | WEATHER_RAINY | WEATHER_THUNDER | WEATHER_LIGHTNING = "weather_rain_drop"
+                WEATHER_DRIZZLE | WEATHER_LIGHT_DRIZZLE | WEATHER_RAINY | WEATHER_RAINSTORM | WEATHER_THUNDER | WEATHER_LIGHTNING = "weather_rain_drop"
                 WEATHER_FLURRIES | WEATHER_SNOW | WEATHER_SNOWSTORM = "weather_snowflake"
                 */
                 invalidate_main_ui_adaptor();
@@ -709,7 +709,7 @@ static void smash()
         }
     }
     const int move_cost = !player_character.is_armed() ? 80 :
-                          player_character.get_wielded_item()->attack_time() *
+                          player_character.get_wielded_item()->attack_time( player_character ) *
                           0.8;
     bool mech_smash = false;
     int smashskill;
@@ -1685,7 +1685,6 @@ void game::open_consume_item_menu()
     as_m.entries.emplace_back( 0, true, 'f', _( "Food" ) );
     as_m.entries.emplace_back( 1, true, 'd', _( "Drink" ) );
     as_m.entries.emplace_back( 2, true, 'm', _( "Medication" ) );
-    as_m.entries.emplace_back( 3, true, 'u', _( "Fuel" ) );
     as_m.query();
 
     avatar &player_character = get_avatar();
@@ -1698,9 +1697,6 @@ void game::open_consume_item_menu()
             break;
         case 2:
             avatar_action::eat( player_character, game_menus::inv::consume_meds( player_character ) );
-            break;
-        case 3:
-            avatar_action::eat( player_character, game_menus::inv::consume_fuel( get_avatar() ), true );
             break;
         default:
             break;
