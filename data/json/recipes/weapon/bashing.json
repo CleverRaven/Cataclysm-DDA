@@ -327,7 +327,7 @@
     "result": "xl_knuckle_steel_forged",
     "type": "recipe",
     "copy-from": "knuckle_steel_forged",
-    "time": "1 hm",
+    "time": "1 h",
     "using": [ [ "blacksmithing_standard", 4 ] ],
     "qualities": [ { "id": "GRIND", "level": 2 } ],
     "tools": [ [ [ "drift", -1 ] ] ],
