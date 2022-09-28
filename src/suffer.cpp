@@ -393,6 +393,10 @@ void suffer::while_awake( Character &you, const int current_stim )
             you.fall_asleep( 20_minutes );
         }
     }
+    
+    if( you.enchantment_cache->get_value_add( enchant_vals::mod::ARTIFACT_RESONANCE ) {
+        suffer::from_artifact_resonance( you );
+    }
 
     if( you.has_trait( trait_JITTERY ) && !you.has_effect( effect_shakes ) ) {
         if( current_stim > 50 && one_in( to_turns<int>( 30_minutes ) - ( current_stim * 6 ) ) ) {
@@ -1753,6 +1757,7 @@ void suffer::from_artifact_resonance( Character &you )
                 you.add_msg_player_or_npc( m_bad, _( "You are suddenly beset with agonizing, unbearable pain." ),
                                            _( "<npcname> suddenly cries out in agony." ) );
                 you.mod_pain( 200 );
+                you.shout();
             } else if( rng_outcome == 2 ) {
                 you.add_msg_player_or_npc( m_bad, _( "The air folds and distorts around you." ),
                                            _( "The air folds and distorts around <npcname>." ) );
