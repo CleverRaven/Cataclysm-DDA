@@ -1766,10 +1766,10 @@ void suffer::from_artifact_resonance( Character &you )
         } else if( resonance_factor > 3000 && one_in( 2 ) ) {
             //bad effects from moderately high resonance
             rng_outcome = rng( 1, 3 );
-            if( rng_outcome == 1  && !you.in_vehicle() ) {
+            if( rng_outcome == 1  && !you.in_vehicle ) {
                 you.add_msg_player_or_npc( m_bad, _( "You suddenly shift slightly." ),
                                            _( "<npcname> suddenly shifts slightly." ) );
-                teleport::teleport( you, 1, 1, safe, false );
+                teleport::teleport( you, 1, 1, true, false );
             } else if( rng_outcome == 2 ) {
                 you.add_msg_player_or_npc( m_bad,
                                            _( "You hear a painfully loud grinding noise from your location." ),
