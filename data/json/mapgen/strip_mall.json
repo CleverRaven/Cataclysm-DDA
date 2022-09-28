@@ -126,7 +126,7 @@
         { "signage": "<city> Discount Shops", "x": 0, "y": 0 },
         { "signage": "<family_name>'s Discount Shops", "x": 0, "y": 0 },
         { "signage": "The <family_name> Strip", "x": 0, "y": 0 },
-		    { "signage": "The <city> Strip", "x": 0, "y": 0 }
+        { "signage": "The <city> Strip", "x": 0, "y": 0 }
       ]
     }
   }
