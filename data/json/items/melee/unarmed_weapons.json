@@ -4,7 +4,7 @@
     "id": "cestus",
     "symbol": "3",
     "color": "light_gray",
-    "name": { "str": "cestus", "str_pl": "cestuses" },
+    "name": { "str": "cestus", "str_pl": "cesti" },
     "description": "A leather hand and arm wrap incorporating metal plates over the knuckles to improve punching power and defence.",
     "material": [ "leather", "steel" ],
     "volume": "100 ml",
@@ -46,7 +46,7 @@
   {
     "id": "xl_cestus",
     "type": "ARMOR",
-    "name": { "str": "XL cestus", "str_pl": "XL cestuses" },
+    "name": { "str": "XL cestus", "str_pl": "XL cesti" },
     "copy-from": "cestus",
     "proportional": { "weight": 1.5, "volume": 1.5 },
     "extend": { "flags": [ "OVERSIZE" ] }
@@ -54,7 +54,7 @@
   {
     "id": "xs_cestus",
     "type": "ARMOR",
-    "name": { "str": "XS cestus", "str_pl": "XS cestuses" },
+    "name": { "str": "XS cestus", "str_pl": "XS cesti" },
     "copy-from": "cestus",
     "proportional": { "weight": 0.75, "volume": 0.75 },
     "extend": { "flags": [ "UNDERSIZE" ] }
