@@ -1770,7 +1770,7 @@ void suffer::from_artifact_resonance( Character &you )
             if( rng_outcome == 1 ) {
                 you.add_msg_player_or_npc( m_bad, _( "You are suddenly beset with agonizing, unbearable pain." ),
                                            _( "<npcname> suddenly cries out in agony." ) );
-               you.mod_pain( 200 );
+                you.mod_pain( 200 );
             } else if( rng_outcome == 2 ) {
                 you.add_msg_player_or_npc( m_bad, _( "The air folds and distorts around you." ),
                                            _( "The air folds and distorts around <npcname>." ) );
@@ -1787,11 +1787,14 @@ void suffer::from_artifact_resonance( Character &you )
                                            _( "<npcname> suddenly shifts slightly." ) );
                 teleport::teleport( you, 1, 1, safe, false );
             } else if( rng_outcome == 2 ) {
-                you.add_msg_player_or_npc( m_bad, _( "You hear a painfully loud grinding noise from your location." ),
+                you.add_msg_player_or_npc( m_bad,
+                                           _( "You hear a painfully loud grinding noise from your location." ),
                                            _( "A painfully loud grinding noise suddenly blares from the location of <npcname>." ) );
-                sounds::sound( you.pos(), 1000, sounds::sound_t::movement, _( "A horribly loud grinding sound!" ), true, "misc", "scraping" );
+                sounds::sound( you.pos(), 1000, sounds::sound_t::movement, _( "A horribly loud grinding sound!" ),
+                               true, "misc", "scraping" );
             } else if( rng_outcome == 3 ) {
-                you.add_msg_player_or_npc( m_bad, _( "You suddenly get an uncomfortable pins-and-needles sensation." ),
+                you.add_msg_player_or_npc( m_bad,
+                                           _( "You suddenly get an uncomfortable pins-and-needles sensation." ),
                                            _( "The air suddenly prickles around <npcname>." ) );
             }
         } else {
@@ -1808,11 +1811,10 @@ void suffer::from_artifact_resonance( Character &you )
                 you.add_msg_if_player( m_bad, _( "You suddenly feel very queasy." ) );
             }
         }
-}
+    }
 
-void Character::suffer()
-{
-    const int current_stim = get_stim();
+    void Character::suffer() {
+        const int current_stim = get_stim();
 
     for( const bodypart_id &bp : get_all_body_parts( get_body_part_flags::only_main ) ) {
         if( is_limb_broken( bp ) ) {
