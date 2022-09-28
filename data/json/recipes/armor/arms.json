@@ -947,16 +947,19 @@
       [ "fabric_leather_fur_hide", 1 ],
       [ "blacksmithing_standard", 16 ],
       [ "lc_steel_standard", 2 ],
-      [ "armor_chainmail_assembling", 1 ]
+      [ "armor_chainmail_assembling", 1 ],
+      [ "carbon", 2 ]
     ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ],
     "proficiencies": [
-      { "proficiency": "prof_armorsmithing" },
-      { "proficiency": "prof_closures", "time_multiplier": 1.25, "fail_multiplier": 1.15 },
+      { "proficiency": "prof_leatherworking_basic", "fail_multiplier": 1.15, "time_multiplier": 1.1 },
+      { "proficiency": "prof_closures", "time_multiplier": 1.1 },
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing" },
-      { "proficiency": "prof_leatherworking_basic", "fail_multiplier": 1.15 }
+      { "proficiency": "prof_armorsmithing" },
+      { "proficiency": "prof_articulation" },
+      { "proficiency": "prof_case_hardening" }
     ]
   },
   {
@@ -968,7 +971,8 @@
       [ "fabric_leather_fur_hide", 2 ],
       [ "blacksmithing_standard", 22 ],
       [ "lc_steel_standard", 3 ],
-      [ "armor_chainmail_assembling", 2 ]
+      [ "armor_chainmail_assembling", 2 ],
+      [ "carbon", 3 ]
     ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ]
@@ -1148,16 +1152,19 @@
       [ "fabric_leather_fur_hide", 1 ],
       [ "blacksmithing_standard", 16 ],
       [ "lc_steel_standard", 3 ],
-      [ "armor_chainmail_assembling", 1 ]
+      [ "armor_chainmail_assembling", 1 ],
+      [ "carbon", 2 ]
     ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ],
     "proficiencies": [
-      { "proficiency": "prof_armorsmithing" },
-      { "proficiency": "prof_closures", "time_multiplier": 1.25, "fail_multiplier": 1.15 },
+      { "proficiency": "prof_leatherworking_basic", "fail_multiplier": 1.15, "time_multiplier": 1.1 },
+      { "proficiency": "prof_closures", "time_multiplier": 1.1 },
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing" },
-      { "proficiency": "prof_leatherworking_basic", "fail_multiplier": 1.15 }
+      { "proficiency": "prof_armorsmithing" },
+      { "proficiency": "prof_articulation" },
+      { "proficiency": "prof_case_hardening" }
     ]
   },
   {
@@ -1169,7 +1176,8 @@
       [ "fabric_leather_fur_hide", 2 ],
       [ "blacksmithing_standard", 22 ],
       [ "lc_steel_standard", 4 ],
-      [ "armor_chainmail_assembling", 2 ]
+      [ "armor_chainmail_assembling", 2 ],
+      [ "carbon", 3 ]
     ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ]
@@ -1349,16 +1357,19 @@
       [ "fabric_leather_fur_hide", 1 ],
       [ "blacksmithing_standard", 16 ],
       [ "lc_steel_standard", 4 ],
-      [ "armor_chainmail_assembling", 1 ]
+      [ "armor_chainmail_assembling", 1 ],
+      [ "carbon", 2 ]
     ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ],
     "proficiencies": [
-      { "proficiency": "prof_armorsmithing" },
-      { "proficiency": "prof_closures", "time_multiplier": 1.25, "fail_multiplier": 1.15 },
+      { "proficiency": "prof_leatherworking_basic", "fail_multiplier": 1.15, "time_multiplier": 1.1 },
+      { "proficiency": "prof_closures", "time_multiplier": 1.1 },
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing" },
-      { "proficiency": "prof_leatherworking_basic", "fail_multiplier": 1.15 }
+      { "proficiency": "prof_armorsmithing" },
+      { "proficiency": "prof_articulation" },
+      { "proficiency": "prof_case_hardening" }
     ]
   },
   {
@@ -1370,7 +1381,8 @@
       [ "fabric_leather_fur_hide", 2 ],
       [ "blacksmithing_standard", 22 ],
       [ "lc_steel_standard", 5 ],
-      [ "armor_chainmail_assembling", 2 ]
+      [ "armor_chainmail_assembling", 2 ],
+      [ "carbon", 3 ]
     ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ]
