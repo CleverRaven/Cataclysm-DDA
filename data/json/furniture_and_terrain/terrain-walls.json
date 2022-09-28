@@ -1125,6 +1125,7 @@
     "coverage": 30,
     "roof": "t_flat_roof",
     "flags": [ "TRANSPARENT", "NOITEM", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "BLOCK_WIND" ],
+    "rotates_to": "INDOORFLOOR",
     "bash": {
       "str_min": 4,
       "str_max": 12,
@@ -1150,6 +1151,7 @@
     "coverage": 30,
     "roof": "t_flat_roof",
     "flags": [ "TRANSPARENT", "ALARMED", "NOITEM", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "BLOCK_WIND" ],
+    "rotates_to": "INDOORFLOOR",
     "bash": {
       "str_min": 4,
       "str_max": 12,
