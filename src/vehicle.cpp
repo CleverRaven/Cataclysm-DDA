@@ -7138,8 +7138,8 @@ bool vehicle::is_foldable() const
     if( has_tag( flag_APPLIANCE ) ) {
         return false;
     }
-    for( const vpart_reference &vp : get_all_parts() ) {
-        if( !vp.has_feature( "FOLDABLE" ) ) {
+    for( const vehicle_part &vp : real_parts() ) {
+        if( !vp.info().folded_volume ) {
             return false;
         }
     }
@@ -7180,11 +7180,8 @@ item vehicle::get_folded_item() const
     units::volume folded_volume = 0_ml;
     double sum_of_damage = 0;
     int num_of_parts = 0;
-    for( const vehicle_part &vp : parts ) {
-        if( vp.removed ) {
-            continue;
-        }
-        folded_volume += vp.info().folded_volume;
+    for( const vehicle_part &vp : real_parts() ) {
+        folded_volume += vp.info().folded_volume.value_or( 0_ml );
         sum_of_damage += vp.damage_percent();
         num_of_parts++;
     }
