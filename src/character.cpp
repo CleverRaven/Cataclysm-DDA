@@ -5303,6 +5303,7 @@ bool Character::is_immune_field( const field_type_id &fid ) const
     }
 
     bool immune_by_worn_flags = !ft.immunity_data_part_item_flags.empty();
+    // Check if all worn flags are fulfilled
     for( const std::pair<body_part_type::type, flag_id> &fide :
          ft.immunity_data_part_item_flags ) {
         for( const bodypart_id &bp : get_all_body_parts_of_type( fide.first ) ) {
@@ -5314,8 +5315,20 @@ bool Character::is_immune_field( const field_type_id &fid ) const
             }
         }
     }
+
     if( immune_by_worn_flags ) {
         return true;
+    }
+
+    // Check if the optional worn flags are fulfilled
+    for( const std::pair<body_part_type::type, flag_id> &fide :
+         ft.immunity_data_part_item_flags_any ) {
+        for( const bodypart_id &bp : get_all_body_parts_of_type( fide.first ) ) {
+            if( worn_with_flag( fide.second, bp ) ) {
+                // For now a single flag will protect all limbs, TODO: handle optional flags for multiples of the same limb type
+                return true;
+            }
+        }
     }
 
     if( ft.has_elec ) {
