@@ -623,7 +623,7 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 - ```SUPPORTS_ROOF``` Used as a boundary for roof construction.
 - ```SUPPRESS_SMOKE``` Prevents smoke from fires; used by ventilated wood stoves, etc.
 - ```SWIMMABLE``` Player and monsters can swim through it.
-- ```THIN_OBSTACLE``` Passable by players and monsters; vehicles destroy it.
+- ```THIN_OBSTACLE``` ```SPEAR``` attacks can go through this to hit something on the other side.
 - ```TINY``` Feature too short to collide with vehicle undercarriage. Vehicles drive over them with no damage, unless a wheel hits them.
 - ```TOILET_WATER``` Liquid taken from tiles with this flag is rather dirty and may poison you.
 - ```TRANSPARENT``` Players and monsters can see through/past it. Also sets ter_t.transparent.
