@@ -394,7 +394,7 @@ void suffer::while_awake( Character &you, const int current_stim )
         }
     }
     
-    if( you.enchantment_cache->get_value_add( enchant_vals::mod::ARTIFACT_RESONANCE > 0 ) {
+    if( you.enchantment_cache->get_value_add( enchant_vals::mod::ARTIFACT_RESONANCE ) > 0 ) {
         suffer::from_artifact_resonance( you );
     }
 
