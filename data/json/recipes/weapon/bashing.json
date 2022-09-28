@@ -1,4 +1,4 @@
-[
+
   {
     "result": "hollow_cane",
     "type": "recipe",
@@ -327,9 +327,10 @@
     "result": "xl_knuckle_steel_forged",
     "type": "recipe",
     "copy-from": "knuckle_steel_forged",
-    "time": "1 h",
+    "time": "1 hm",
     "using": [ [ "blacksmithing_standard", 4 ] ],
     "qualities": [ { "id": "GRIND", "level": 2 } ],
+    "tools": [ [ [ "drift", -1 ] ] ],
     "components": [ [ [ "steel_chunk", 2 ], [ "scrap", 7 ] ] ]
   },
   {
@@ -339,6 +340,7 @@
     "time": "1 h",
     "using": [ [ "blacksmithing_standard", 4 ] ],
     "qualities": [ { "id": "GRIND", "level": 2 } ],
+    "tools": [ [ [ "drift", -1 ] ] ],
     "components": [ [ [ "steel_chunk", 1 ], [ "scrap", 3 ] ] ]
   },
   {
@@ -827,17 +829,19 @@
     ]
   },
   {
-  "result": "xl_knuckle_impact",
+    "result": "xl_knuckle_impact",
     "type": "recipe",
     "copy-from": "knuckle_impact",
     "time": "4h",
-    "using": [ [ "blacksmithing_standard", 5 ], [ "steel_standard", 1 ] ]
+    "using": [ [ "blacksmithing_standard", 5 ], [ "steel_standard", 1 ] ],
+    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SAW_M", "level": 1 } ]
   },
   {
     "result": "xs_knuckle_impact",
     "type": "recipe",
     "copy-from": "knuckle_impact",
     "time": "4h",
-    "using": [ [ "blacksmithing_standard", 5 ], [ "steel_standard", 1 ] ]
+    "using": [ [ "blacksmithing_standard", 5 ], [ "steel_standard", 1 ] ],
+    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SAW_M", "level": 1 } ]
   }
 ]
