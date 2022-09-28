@@ -1719,7 +1719,8 @@ void suffer::from_nyctophobia( Character &you )
 
 void suffer::from_artifact_resonance( Character &you )
 {
-    int resonance_factor = you.enchantment_cache->get_value_add( enchant_vals::mod::ARTIFACT_RESONANCE );
+    int resonance_factor = you.enchantment_cache->get_value_add(
+                               enchant_vals::mod::ARTIFACT_RESONANCE );
     int rng_outcome;
     if( rng( 0, 1000 + std::round( resonance_factor / 1000 ) ) > 1000 ) {
         if( resonance_factor > 5000 && one_in( 2 ) ) {
