@@ -284,7 +284,7 @@
     "id": "xl_knuckle_impact",
     "type": "ARMOR",
     "name": { "str_sp": "XL impact knuckles" },
-    "copy-from": "gloves_studded",
+    "copy-from": "knuckle_impact",
     "proportional": { "weight": 1.5, "volume": 1.5 },
     "extend": { "flags": [ "OVERSIZE" ] }
   },
@@ -292,7 +292,7 @@
     "id": "xs_knuckle_impact",
     "type": "ARMOR",
     "name": { "str_sp": "XS impact knuckles" },
-    "copy-from": "knuckle_icmpat",
+    "copy-from": "knuckle_impact",
     "proportional": { "weight": 0.75, "volume": 0.75 },
     "extend": { "flags": [ "UNDERSIZE" ] }
   },
