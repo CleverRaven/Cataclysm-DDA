@@ -2515,7 +2515,7 @@ bool cata_tiles::draw_sprite_at(
     destination.h = height * tile_height * tile.pixelscale / tileset_ptr->get_tile_height();
 
     if( rotate_sprite ) {
-        switch( rota ) {
+        switch( rota % 4 ) {
             default:
             case 0:
                 // unrotated (and 180, with just two sprites)
@@ -2570,11 +2570,6 @@ bool cata_tiles::draw_sprite_at(
                                                       SDL_FLIP_NONE );
                 }
                 break;
-            case 4:
-                // flip horizontally
-                ret = sprite_tex->render_copy_ex(
-                          renderer, &destination, 0, nullptr,
-                          static_cast<SDL_RendererFlip>( SDL_FLIP_HORIZONTAL ) );
         }
     } else {
         // don't rotate, same as case 0 above
