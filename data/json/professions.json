@@ -5105,7 +5105,7 @@
     "type": "profession",
     "id": "portal_traveler",
     "name": "Portal Traveler",
-    "description": "You were abducted from your home, taken hostage and used as a test subject in a lab.  The last test soon came, you were dressed in strange clothes and sent to a room where you started to feel… different, you lost your conscience and woke up in this place.",
+    "description": "You were abducted from your home, taken hostage and used as a test subject in a lab.  The last test soon came, you were dressed in strange clothes and sent to a room where you started to feel… different, you lost consciousness and woke up in this place.",
     "points": 2,
     "items": {
       "both": {
