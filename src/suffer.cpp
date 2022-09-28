@@ -1725,8 +1725,8 @@ void suffer::from_nyctophobia( Character &you )
 void suffer::from_artifact_resonance( Character &you, int amt )
 {
     int rng_outcome;
-    if( rng( 0, 3600 + std::floor( amt / 1000 ) ) > 3600 ) {
-        if( amt > 12000 && one_in( 2 ) ) {
+    if( rng( 0, 3600 + std::floor( amt / 2000 ) ) > 3600 ) {
+        if( amt > 12500 && one_in( 2 ) ) {
             //deadly effects from way too high resonance
             rng_outcome = rng( 1, 3 );
             if( rng_outcome == 1 ) {
@@ -1749,7 +1749,7 @@ void suffer::from_artifact_resonance( Character &you, int amt )
                                            _( "<npcname> suddenly loses all substance and corporeality." ) );
                 you.add_effect( effect_incorporeal, 1_minutes );
             }
-        } else if( amt > 7000 && one_in( 2 ) ) {
+        } else if( amt > 7500 && one_in( 2 ) ) {
             //severe effects from very high resonance
             rng_outcome = rng( 1, 3 );
             if( rng_outcome == 1 ) {
@@ -1767,7 +1767,7 @@ void suffer::from_artifact_resonance( Character &you, int amt )
                 you.irradiate( 5, true );
                 you.irradiate( 45, false );
             }
-        } else if( amt > 3000 && one_in( 2 ) ) {
+        } else if( amt > 4500 && one_in( 2 ) ) {
             //bad effects from moderately high resonance
             rng_outcome = rng( 1, 3 );
             if( rng_outcome == 1  && !you.in_vehicle ) {
