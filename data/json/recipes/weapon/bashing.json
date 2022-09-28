@@ -407,7 +407,7 @@
     "time": "10 m",
     "using": [ [ "cordage", 4 ] ],
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "nail", 20 ] ], [ [ "stick", 1 ], [ "2x4", 1 ] ] ]
+    "components": [ [ [ "nail", 18 ] ], [ [ "stick", 1 ], [ "2x4", 1 ] ] ]
   },
   {
     "result": "xs_knuckle_nail",
@@ -416,7 +416,7 @@
     "time": "10 m",
     "using": [ [ "cordage", 4 ] ],
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "nail", 12 ] ], [ [ "stick", 1 ], [ "2x4", 1 ] ] ]
+    "components": [ [ [ "nail", 14 ] ], [ [ "stick", 1 ], [ "2x4", 1 ] ] ]
   },
   {
     "type": "recipe",
