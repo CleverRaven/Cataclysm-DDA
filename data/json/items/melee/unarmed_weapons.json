@@ -107,7 +107,7 @@
     "description": "A pair of knuckles consisting of two small squares of wood with several nails coming through them.  Useful in nasty street fights.",
     "material": [ "wood" ],
     "volume": "250 ml",
-    "weight": "430 g",
+    "weight": "270 g",
     "bashing": 2,
     "cutting": 3,
     "price_postapoc": 50,
