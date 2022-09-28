@@ -48,9 +48,9 @@
         "M.bbbbbbbbb..bbbbbbbbb.MM.MDDM.MDDM..MDDM.MDDM.MM.........j..j.........M",
         "M.....*..........*.....MM.....................aMMH.H.H.H.HJ..JH.H.H.H.HM",
         "MMMMMMMMMMMDDMMMMMMMMMMMMddddddddddddddddddddddMMMMMMMMMMMMDDMMMMMMMMMMM",
-        "M........................a.............................................M",
-        "M.....*.....*.....*.....*.....*....**....*.....*.....*.....*.....*.....M",
-        "M..............................................a.......................M",
+        "dPP......................a.............................................d",
+        "dP....*.....*.....*.....*.....*....**....*.....*.....*.....*.....*.....d",
+        "dPPP...........................................a.......................d",
         "MMMMMMMMMMMMMMMMMMMMMMMMMddddddddddddddddddddddMMMMMMMMMMMMMDDMMMMMMMMMM",
         "M.*..................*..a.*..................*.MM.....cx...............M",
         "M..YYYYYYYYYYYYYYYYYY..........................MM.MMM..x..........$YYY.M",
@@ -95,7 +95,7 @@
         "MWWWWWWWWWWWWWWWWWWWW..........................MM..Y....Y......Y....Y..M",
         "Mw$w$w$w$w$w$w$w$w$wW..........................MM..Y....Y......Y....Y..M",
         "M...F*....*.F..*FF..D..........................MM..Y....Y......Y....Y..M",
-        "MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM"
+        "MMMMMMMMMMMMMMMMMMMMMMMMMMddddddddddddddddddddMMMMddddddddddddddddddddMM"
       ],
       "palettes": [ "aftershock_crashing_ship" ],
       "furniture": {
@@ -145,7 +145,8 @@
         "F": "t_metal_floor",
         "J": "t_chainfence",
         "j": "t_chaingate_l",
-        "W": "t_reinforced_glass_shutter"
+        "W": "t_reinforced_glass_shutter",
+        "P": "t_foamcrete_wall"
       },
       "mapping": {
         "z": { "items": [ { "item": "afs_escape_pod_suppliesII", "chance": 100 } ] },
@@ -172,11 +173,15 @@
         },
         "T": { "items": [ { "item": "afs_todd_howard", "chance": 1 } ] },
         "c": { "items": [ { "item": "afs_escapepod_shootout", "chance": 100, "container-item": "corpse" } ] },
-        "E": {
+        "C": {
           "items": [
-            { "item": "afs_tools_space_emergency", "chance": 100 }
+            { "item": "hardware_bulk", "chance": 25 },
+            { "item": "plumbing_bulk", "chance": 25 },
+            { "item": "sports_bulk", "chance": 25 },
+            { "item": "cleaning_bulk", "chance": 25 }
           ]
         },
+        "E": { "items": [ { "item": "afs_tools_space_emergency", "chance": 100 }, { "item": "afs_oxygen_bomb", "chance": 25 } ] },
         "w": { "items": [ { "item": "office_mess", "chance": 75 } ] },
         "t": { "items": [ { "item": "afs_mess_hall", "chance": 80 } ] },
         "V": { "items": [ { "item": "afs_vending_false_meals", "chance": 100 } ] },
