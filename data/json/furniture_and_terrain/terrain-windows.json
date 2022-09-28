@@ -768,7 +768,7 @@
       "message": "You finish cutting the metal.",
       "byproducts": [ { "item": "rebar", "count": [ 1, 8 ] } ]
     },
-    "flags": [ "TRANSPARENT", "NOITEM", "CONNECT_TO_WALL", "WINDOW", "PERMEABLE", "SUPPORTS_ROOF" ],
+    "flags": [ "TRANSPARENT", "NOITEM", "CONNECT_TO_WALL", "WINDOW", "PERMEABLE", "SUPPORTS_ROOF", "THIN_OBSTACLE" ],
     "oxytorch": { "result": "t_window_empty", "duration": "9 seconds", "byproducts": [ { "item": "rebar", "count": [ 1, 2 ] } ] },
     "bash": {
       "str_min": 60,
@@ -1225,7 +1225,7 @@
     "color": "light_gray",
     "move_cost": 0,
     "roof": "t_flat_roof",
-    "flags": [ "TRANSPARENT", "NOITEM", "CONNECT_TO_WALL", "BARRICADABLE_WINDOW_CURTAINS", "PERMEABLE", "WINDOW", "SUPPORTS_ROOF" ],
+    "flags": [ "TRANSPARENT", "NOITEM", "CONNECT_TO_WALL", "BARRICADABLE_WINDOW_CURTAINS", "PERMEABLE", "WINDOW", "SUPPORTS_ROOF", "THIN_OBSTACLE" ],
     "oxytorch": {
       "result": "t_window_reinforced_noglass",
       "duration": "9 seconds",
