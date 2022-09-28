@@ -831,15 +831,13 @@
     "type": "recipe",
     "copy-from": "knuckle_impact",
     "time": "4h",
-    "using": [ [ "blacksmithing_standard", 5 ], [ "steel_standard", 1 ] ],
-    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SAW_M", "level": 1 } ]
+    "using": [ [ "blacksmithing_standard", 5 ], [ "steel_standard", 1 ] ]
   },
   {
     "result": "xs_knuckle_impact",
     "type": "recipe",
     "copy-from": "knuckle_impact",
     "time": "4h",
-    "using": [ [ "blacksmithing_standard", 5 ], [ "steel_standard", 1 ] ],
-    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SAW_M", "level": 1 } ]
+    "using": [ [ "blacksmithing_standard", 5 ], [ "steel_standard", 1 ] ]
   }
 ]
