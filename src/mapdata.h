@@ -338,6 +338,8 @@ enum ter_connects : int {
     TERCONN_METALFLOOR,
     TERCONN_WOODFLOOR,
     TERCONN_INDOORFLOOR,
+
+    NUM_TERCONN
 };
 
 struct activity_byproduct {
@@ -540,13 +542,13 @@ struct map_data_common_t {
         void set_flag( ter_furn_flag flag );
 
         // Terrain group to connect to; not symmetric, target of active part
-        int connect_to_group = 0;
+        std::bitset<NUM_TERCONN> connect_to_group;
         // Terrain group of this type, for others to connect to; not symmetric, passive part
-        int connect_to_group_member = 0;
+        std::bitset<NUM_TERCONN> connect_to_group_member;
         // Terrain group rotate towards; not symmetric, target of active part
-        int rotate_to_group = 0;
+        std::bitset<NUM_TERCONN> rotate_to_group;
         // Terrain group of this type, for others to rotate towards; not symmetric, passive part
-        int rotate_to_group_member = 0;
+        std::bitset<NUM_TERCONN> rotate_to_group_member;
 
         // Set target connection group
         void set_connects_to( const std::string &connect_group_string );
@@ -560,16 +562,13 @@ struct map_data_common_t {
         // Set to be member of a rotation target group
         void set_rotates_to_member( const std::string &towards_group_string );
 
-        bool connects( int &ret ) const;
-        bool rotates( int &ret ) const;
-
-        bool in_connects_to( int test_connect_group ) const {
-            return connect_to_group_member != TERCONN_NONE && connect_to_group_member == test_connect_group;
+        bool in_connects_to( const std::bitset<NUM_TERCONN> &test_connect_group ) const {
+            return ( connect_to_group_member & test_connect_group ).any();
         }
 
         // Tests if the type is a member of a rotares_towards group
-        bool in_rotates_to( int test_rotates_group ) const {
-            return rotate_to_group_member != TERCONN_NONE && rotate_to_group_member == test_rotates_group;
+        bool in_rotates_to( const std::bitset<NUM_TERCONN> &test_rotates_group ) const {
+            return ( rotate_to_group_member & test_rotates_group ).any();
         }
 
         int symbol() const;

@@ -662,7 +662,7 @@ void map_data_common_t::set_connects_to( const std::string &connect_group_string
 {
     const auto it = ter_connects_map.find( connect_group_string );
     if( it != ter_connects_map.end() ) {
-        connect_to_group = it->second;
+        connect_to_group.set( it->second );
     } else { // arbitrary connect groups are a bad idea for optimization reasons
         debugmsg( "can't find terrain connection group %s", connect_group_string.c_str() );
     }
@@ -672,7 +672,7 @@ void map_data_common_t::set_connects_to_member( const std::string &connect_group
 {
     const auto it = ter_connects_map.find( connect_group_string );
     if( it != ter_connects_map.end() ) {
-        connect_to_group_member = it->second;
+        connect_to_group_member.set( it->second );
     } else { // arbitrary connect groups are a bad idea for optimization reasons
         debugmsg( "can't find terrain connection group %s", connect_group_string.c_str() );
     }
@@ -682,8 +682,8 @@ void map_data_common_t::set_connects_with( const std::string &connect_group_stri
 {
     const auto it = ter_connects_map.find( connect_group_string );
     if( it != ter_connects_map.end() ) {
-        connect_to_group = it->second;
-        connect_to_group_member = it->second;
+        connect_to_group.set( it->second );
+        connect_to_group_member.set( it->second );
     } else { // arbitrary connect groups are a bad idea for optimization reasons
         debugmsg( "can't find terrain connection group %s", connect_group_string.c_str() );
     }
@@ -693,7 +693,7 @@ void map_data_common_t::set_rotates_to( const std::string &towards_group_string 
 {
     const auto it = ter_connects_map.find( towards_group_string );
     if( it != ter_connects_map.end() ) {
-        rotate_to_group = it->second;
+        rotate_to_group.set( it->second );
     } else { // arbitrary rotates towards groups are a bad idea for optimization reasons
         debugmsg( "can't find terrain rotates towards group %s", towards_group_string.c_str() );
     }
@@ -703,28 +703,10 @@ void map_data_common_t::set_rotates_to_member( const std::string &towards_group_
 {
     const auto it = ter_connects_map.find( towards_group_string );
     if( it != ter_connects_map.end() ) {
-        rotate_to_group_member = it->second;
+        rotate_to_group_member.set( it->second );
     } else { // arbitrary rotates towards groups are a bad idea for optimization reasons
         debugmsg( "can't find terrain rotates towards group %s", towards_group_string.c_str() );
     }
-}
-
-bool map_data_common_t::connects( int &ret ) const
-{
-    if( connect_to_group != TERCONN_NONE ) {
-        ret = connect_to_group;
-        return true;
-    }
-    return false;
-}
-
-bool map_data_common_t::rotates( int &ret ) const
-{
-    if( rotate_to_group != TERCONN_NONE ) {
-        ret = rotate_to_group;
-        return true;
-    }
-    return false;
 }
 
 ter_id t_null,

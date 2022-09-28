@@ -2729,10 +2729,10 @@ bool cata_tiles::draw_terrain( const tripoint &p, const lit_level ll, int &heigh
     if( t && !invisible[0] ) {
         int subtile = 0;
         int rotation = 0;
-        int connect_group = 0;
-        int rotate_group = t.obj().rotate_to_group;
+        const std::bitset<NUM_TERCONN> &connect_group = t.obj().connect_to_group;
+        const std::bitset<NUM_TERCONN> &rotate_group = t.obj().rotate_to_group;
 
-        if( t.obj().connects( connect_group ) ) {
+        if( connect_group.any() ) {
             get_connect_values( p, subtile, rotation, connect_group, rotate_group, {} );
             // re-memorize previously seen terrain in case new connections have been seen
             here.set_memory_seen_cache_dirty( p );
@@ -2758,10 +2758,10 @@ bool cata_tiles::draw_terrain( const tripoint &p, const lit_level ll, int &heigh
             // of the tile, so always re-calculate it.
             int subtile = 0;
             int rotation = 0;
-            int connect_group = 0;
-            int rotate_group = t2.obj().rotate_to_group;
+            const std::bitset<NUM_TERCONN> &connect_group = t2.obj().connect_to_group;
+            const std::bitset<NUM_TERCONN> &rotate_group = t2.obj().rotate_to_group;
 
-            if( t2.obj().connects( connect_group ) ) {
+            if( connect_group.any() ) {
                 get_connect_values( p, subtile, rotation, connect_group, rotate_group, terrain_override );
             } else {
                 get_terrain_orientation( p, rotation, subtile, terrain_override, invisible, rotate_group );
@@ -2917,10 +2917,10 @@ bool cata_tiles::draw_furniture( const tripoint &p, const lit_level ll, int &hei
         };
         int subtile = 0;
         int rotation = 0;
-        int connect_group = 0;
-        int rotate_group = f.obj().rotate_to_group;
+        const std::bitset<NUM_TERCONN> &connect_group = f.obj().connect_to_group;
+        const std::bitset<NUM_TERCONN> &rotate_group = f.obj().rotate_to_group;
 
-        if( f.obj().connects( connect_group ) ) {
+        if( connect_group.any() ) {
             get_furn_connect_values( p, subtile, rotation, connect_group, rotate_group, {} );
         } else {
             get_tile_values_with_ter( p, f.to_i(), neighborhood, subtile, rotation, rotate_group );
@@ -2956,10 +2956,10 @@ bool cata_tiles::draw_furniture( const tripoint &p, const lit_level ll, int &hei
             };
             int subtile = 0;
             int rotation = 0;
-            int connect_group = 0;
-            int rotate_group = f.obj().rotate_to_group;
+            const std::bitset<NUM_TERCONN> &connect_group = f.obj().connect_to_group;
+            const std::bitset<NUM_TERCONN> &rotate_group = f.obj().rotate_to_group;
 
-            if( f.obj().connects( connect_group ) ) {
+            if( connect_group.any() ) {
                 get_furn_connect_values( p, subtile, rotation, connect_group, rotate_group, {} );
             } else {
                 get_tile_values_with_ter( p, f.to_i(), neighborhood, subtile, rotation, rotate_group );
@@ -4285,7 +4285,7 @@ void cata_tiles::init_light()
 
 void cata_tiles::get_terrain_orientation( const tripoint &p, int &rota, int &subtile,
         const std::map<tripoint, ter_id> &ter_override, const std::array<bool, 5> &invisible,
-        const int rotate_group )
+        const std::bitset<NUM_TERCONN> &rotate_group )
 {
     map &here = get_map();
     const bool overridden = ter_override.find( p ) != ter_override.end();
@@ -4561,7 +4561,8 @@ int cata_tiles::get_rotation_unconnected( const char rot_to )
 }
 
 void cata_tiles::get_connect_values( const tripoint &p, int &subtile, int &rotation,
-                                     const int connect_group, const int rotate_to_group,
+                                     const std::bitset<NUM_TERCONN> &connect_group,
+                                     const std::bitset<NUM_TERCONN> &rotate_to_group,
                                      const std::map<tripoint, ter_id> &ter_override )
 {
     uint8_t connections = get_map().get_known_connections( p, connect_group, ter_override );
@@ -4570,8 +4571,8 @@ void cata_tiles::get_connect_values( const tripoint &p, int &subtile, int &rotat
 }
 
 void cata_tiles::get_furn_connect_values( const tripoint &p, int &subtile, int &rotation,
-        const int connect_group, const int rotate_to_group, const std::map<tripoint,
-        furn_id> &furn_override )
+        const std::bitset<NUM_TERCONN> &connect_group, const std::bitset<NUM_TERCONN> &rotate_to_group,
+        const std::map<tripoint, furn_id> &furn_override )
 {
     uint8_t connections = get_map().get_known_connections_f( p, connect_group, furn_override );
     uint8_t rotation_targets = get_map().get_known_rotates_to_f( p, rotate_to_group, {}, {} );
@@ -4594,7 +4595,7 @@ void cata_tiles::get_tile_values( const int t, const std::array<int, 4> &tn, int
 
 void cata_tiles::get_tile_values_with_ter(
     const tripoint &p, const int t, const std::array<int, 4> &tn, int &subtile, int &rotation,
-    const int rotate_to_group )
+    const std::bitset<NUM_TERCONN> &rotate_to_group )
 {
     map &here = get_map();
     uint8_t rotation_targets = get_map().get_known_rotates_to_f( p, rotate_to_group, {} );

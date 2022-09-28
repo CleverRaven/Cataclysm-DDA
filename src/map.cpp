@@ -1762,7 +1762,8 @@ ter_id map::ter( const tripoint_bub_ms &p ) const
     return ter( p.raw() );
 }
 
-uint8_t map::get_known_connections( const tripoint &p, int connect_group,
+uint8_t map::get_known_connections( const tripoint &p,
+                                    const std::bitset<NUM_TERCONN> &connect_group,
                                     const std::map<tripoint, ter_id> &override ) const
 {
     if( connect_group == TERCONN_NONE ) {
@@ -1818,7 +1819,8 @@ uint8_t map::get_known_connections( const tripoint &p, int connect_group,
     return val;
 }
 
-uint8_t map::get_known_rotates_to( const tripoint &p, int rotate_to_group,
+uint8_t map::get_known_rotates_to( const tripoint &p,
+                                   const std::bitset<NUM_TERCONN> &rotate_to_group,
                                    const std::map<tripoint, ter_id> &override ) const
 {
     if( rotate_to_group == TERCONN_NONE ) {
@@ -1846,10 +1848,11 @@ uint8_t map::get_known_rotates_to( const tripoint &p, int rotate_to_group,
     return val;
 }
 
-uint8_t map::get_known_connections_f( const tripoint &p, int connect_group,
+uint8_t map::get_known_connections_f( const tripoint &p,
+                                      const std::bitset<NUM_TERCONN> &connect_group,
                                       const std::map<tripoint, furn_id> &override ) const
 {
-    if( connect_group == TERCONN_NONE ) {
+    if( connect_group.none() ) {
         return 0;
     }
 
@@ -1902,11 +1905,12 @@ uint8_t map::get_known_connections_f( const tripoint &p, int connect_group,
     return val;
 }
 
-uint8_t map::get_known_rotates_to_f( const tripoint &p, int rotate_to_group,
+uint8_t map::get_known_rotates_to_f( const tripoint &p,
+                                     const std::bitset<NUM_TERCONN> &rotate_to_group,
                                      const std::map<tripoint, ter_id> &override,
                                      const std::map<tripoint, furn_id> &override_f ) const
 {
-    if( rotate_to_group == TERCONN_NONE ) {
+    if( rotate_to_group.none() ) {
         return CHAR_MAX;
     }
 
@@ -8560,7 +8564,7 @@ bool map::has_graffiti_at( const tripoint &p ) const
 
 int map::determine_wall_corner( const tripoint &p ) const
 {
-    int test_connect_group = ter( p ).obj().connect_to_group;
+    const std::bitset<NUM_TERCONN> &test_connect_group = ter( p ).obj().connect_to_group;
     uint8_t connections = get_known_connections( p, test_connect_group );
     // The bits in connections are SEWN, whereas the characters in LINE_
     // constants are NESW, so we want values in 8 | 2 | 1 | 4 order.
