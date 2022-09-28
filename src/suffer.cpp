@@ -1722,21 +1722,31 @@ void suffer::from_artifact_resonance( Character &you )
     int resonance_factor = you.enchantment_cache->get_value_add(
                                enchant_vals::mod::ARTIFACT_RESONANCE );
     int rng_outcome;
-    if( rng( 0, 1000 + std::round( resonance_factor / 1000 ) ) > 1000 ) {
-        if( resonance_factor > 5000 && one_in( 2 ) ) {
+    if( rng( 0, 1800 + std::round( resonance_factor / 1000 ) ) > 1800 ) {
+        if( resonance_factor > 10000 && one_in( 2 ) ) {
             //deadly effects from way too high resonance
             rng_outcome = rng( 1, 3 );
             if( rng_outcome == 1 ) {
                 you.add_msg_player_or_npc( m_bad, _( "You attract the attention of something horrible." ),
                                            _( "<npcname> attracts the attention of something horrible." ) );
+                map &here = get_map();
+                for( const tripoint &dest : here.points_in_radius( you.pos(), 12 ) ) {
+                    if( here.is_cornerfloor( dest ) ) {
+                        here.add_field( dest, fd_tindalos_rift, 3 );
+                        add_msg( m_info, _( "You hear a low-pitched echoing howl." ) );
+                    }
+                }
             } else if( rng_outcome == 2 ) {
                 you.add_msg_player_or_npc( m_bad, _( "Reality gives way under your feet like rotten scaffolding." ),
                                            _( "Reality gives way under <npcname>'s feet like rotten scaffolding." ) );
+                map &here = get_map();
+                here.add_field( you.pos(), fd_fatigue, 1 );
             } else if( rng_outcome == 3 ) {
                 you.add_msg_player_or_npc( m_bad, _( "You suddenly lose all substance and corporeality." ),
                                            _( "<npcname> suddenly loses all substance and corporeality." ) );
+                you.add_effect( effect_incorporeal, 1_minutes );
             }
-        } else if( resonance_factor > 3000 && one_in( 2 ) ) {
+        } else if( resonance_factor > 5000 && one_in( 2 ) ) {
             //severe effects from very high resonance
             rng_outcome = rng( 1, 3 );
             if( rng_outcome == 1 ) {
@@ -1750,8 +1760,10 @@ void suffer::from_artifact_resonance( Character &you )
             } else if( rng_outcome == 3 ) {
                 you.add_msg_player_or_npc( m_bad, _( "You're bombarded with radioactive energy!" ),
                                            _( "<npcname> is bombarded with radioactive energy!" ) );
+                you.irradiate( 50, true );
+                you.irradiate( 200, false ):
             }
-        } else if( resonance_factor > 2000 && one_in( 2 ) ) {
+        } else if( resonance_factor > 3000 && one_in( 2 ) ) {
             //bad effects from moderately high resonance
             rng_outcome = rng( 1, 3 );
             if( rng_outcome == 1  && !you.in_vehicle() ) {
@@ -1766,8 +1778,9 @@ void suffer::from_artifact_resonance( Character &you )
                                true, "misc", "scraping" );
             } else if( rng_outcome == 3 ) {
                 you.add_msg_player_or_npc( m_bad,
-                                           _( "You suddenly get an uncomfortable pins-and-needles sensation." ),
-                                           _( "The air suddenly prickles around <npcname>." ) );
+                                           _( "The air suddenly crackles around you." ),
+                                           _( "The air suddenly crackles around <npcname>." ) );
+                you.irradiate( 50, false );
             }
         } else {
             //mild effects from somewhat high resonance
@@ -1779,8 +1792,10 @@ void suffer::from_artifact_resonance( Character &you )
             } else if( rng_outcome == 2 ) {
                 you.add_msg_if_player( m_bad,
                                        _( "Your vision suddenly becomes blurry and hard to decipher." ) );
+                you.add_effect( effect_hallu, 10_minutes );
             } else if( rng_outcome == 3 ) {
                 you.add_msg_if_player( m_bad, _( "You suddenly feel very queasy." ) );
+                you.add_effect( effect_nausea, 2_minutes );
             }
         }
     }
