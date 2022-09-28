@@ -1552,11 +1552,7 @@ void parse_tags( std::string &phrase, const Character &u, const Character &me,
         }
 
         const item_location u_weapon = u.get_wielded_item();
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wtautological-compare"
-#pragma clang diagnostic ignored "-Wzero-as-null-pointer-constant"
-        const item_location me_weapon = ( &me != nullptr ) ? me.get_wielded_item() : item_location();
-#pragma clang diagnostic pop
+        const item_location me_weapon = me.get_wielded_item();
         // Special, dynamic tags go here
         if( tag == "<yrwp>" ) {
             phrase.replace( fa, l, remove_color_tags( u_weapon->tname() ) );
@@ -1719,8 +1715,13 @@ talk_data talk_response::create_option_line( const dialogue &d, const input_even
         ftext = string_format( pgettext( "talk option", "[%1$s %2$d%%] %3$s" ),
                                trial.name(), trial.calc_chance( d ), text );
     }
-    parse_tags( ftext, *d.actor( false )->get_character(), *d.actor( true )->get_npc(),
-                success.next_topic.item_type );
+    if( d.actor( true )->get_npc() ) {
+        parse_tags( ftext, *d.actor( false )->get_character(), *d.actor( true )->get_npc(),
+                    success.next_topic.item_type );
+    } else {
+        parse_tags( ftext, *d.actor( false )->get_character(), *d.actor( false )->get_character(),
+                    success.next_topic.item_type );
+    }
 
     nc_color color;
     std::set<dialogue_consequence> consequences = get_consequences( d );
@@ -1800,8 +1801,13 @@ talk_topic dialogue::opt( dialogue_window &d_win, const talk_topic &topic )
     }
 
     // Parse any tags in challenge
-    parse_tags( challenge, *actor( false )->get_character(), *actor( true )->get_npc(),
-                topic.item_type );
+    if( actor( true )->get_npc() ) {
+        parse_tags( challenge, *actor( false )->get_character(), *actor( true )->get_npc(),
+                    topic.item_type );
+    } else {
+        parse_tags( challenge, *actor( false )->get_character(), *actor( false )->get_character(),
+                    topic.item_type );
+    }
     challenge = uppercase_first_letter( challenge );
 
     d_win.clear_history_highlights();
