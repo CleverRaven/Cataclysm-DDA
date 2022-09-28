@@ -107,8 +107,6 @@ item_location consume_food( avatar &you );
 item_location consume_drink( avatar &you );
 /** Consuming a medication item via a custom menu. */
 item_location consume_meds( avatar &you );
-/** Consuming fuel item via a custom menu. */
-item_location consume_fuel( avatar &you );
 /** Choosing a container for liquid. */
 item_location container_for( Character &you, const item &liquid, int radius = 0,
                              const item *avoid = nullptr );

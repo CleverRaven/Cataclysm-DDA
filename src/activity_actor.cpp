@@ -911,7 +911,7 @@ void hotwire_car_activity_actor::start( player_activity &act, Character & )
     act.moves_left = moves_total;
 }
 
-void hotwire_car_activity_actor::do_turn( player_activity &act, Character & )
+void hotwire_car_activity_actor::do_turn( player_activity &act, Character &who )
 {
     map &here = get_map();
     if( calendar::once_every( 1_minutes ) ) {
@@ -919,6 +919,9 @@ void hotwire_car_activity_actor::do_turn( player_activity &act, Character & )
         if( lost ) {
             act.set_to_null();
             debugmsg( "Lost ACT_HOTWIRE_CAR target vehicle" );
+        }
+        if( calendar::once_every( 5_minutes ) ) {
+            who.practice( skill_mechanics, 1, 2, true );
         }
     }
 }
@@ -1402,8 +1405,8 @@ void read_activity_actor::read_book( Character &learner,
 
     min_ex = learner.enchantment_cache->modify_value( enchant_vals::mod::READING_EXP, min_ex );
 
-    min_ex = learner.adjust_for_focus( min_ex ) / 100;
-    max_ex = learner.adjust_for_focus( max_ex ) / 100;
+    min_ex = std::lround( learner.adjust_for_focus( min_ex ) );
+    max_ex = std::lround( learner.adjust_for_focus( max_ex ) );
 
     max_ex = clamp( max_ex, 2, 10 );
     max_ex = std::max( min_ex, max_ex );
@@ -2535,12 +2538,7 @@ void consume_activity_actor::start( player_activity &act, Character &guy )
     Character &player_character = get_player_character();
     if( consume_location ) {
         ret_val<edible_rating> ret = ret_val<edible_rating>::make_success();
-        if( refuel ) {
-            ret = player_character.can_consume_fuel( *consume_location );
-        } else {
-            ret = player_character.will_eat( *consume_location, true );
-        }
-
+        ret = player_character.will_eat( *consume_location, true );
         if( !ret.success() ) {
             canceled = true;
             consume_menu_selections = std::vector<int>();
@@ -2551,11 +2549,7 @@ void consume_activity_actor::start( player_activity &act, Character &guy )
         }
     } else if( !consume_item.is_null() ) {
         ret_val<edible_rating> ret = ret_val<edible_rating>::make_success();
-        if( refuel ) {
-            ret = player_character.can_consume_fuel( consume_item );
-        } else {
-            ret = player_character.will_eat( consume_item, true );
-        }
+        ret = player_character.will_eat( consume_item, true );
         if( !ret.success() ) {
             canceled = true;
             consume_menu_selections = std::vector<int>();
@@ -2591,9 +2585,9 @@ void consume_activity_actor::finish( player_activity &act, Character & )
     avatar &player_character = get_avatar();
     if( !canceled ) {
         if( consume_loc ) {
-            player_character.consume( consume_loc, /*force=*/true, refuel );
+            player_character.consume( consume_loc, /*force=*/true );
         } else if( !consume_item.is_null() ) {
-            player_character.consume( consume_item, /*force=*/true, refuel );
+            player_character.consume( consume_item, /*force=*/true );
         } else {
             debugmsg( "Item location/name to be consumed should not be null." );
         }
@@ -2641,7 +2635,6 @@ void consume_activity_actor::serialize( JsonOut &jsout ) const
     jsout.member( "consume_menu_filter", consume_menu_filter );
     jsout.member( "canceled", canceled );
     jsout.member( "type", type );
-    jsout.member( "refuel", refuel );
 
     jsout.end_object();
 }
@@ -2660,7 +2653,6 @@ std::unique_ptr<activity_actor> consume_activity_actor::deserialize( JsonValue &
     data.read( "consume_menu_filter", actor.consume_menu_filter );
     data.read( "canceled", actor.canceled );
     data.read( "type", actor.type );
-    data.read( "refuel", actor.refuel );
 
     return actor.clone();
 }
@@ -4010,19 +4002,27 @@ std::unique_ptr<activity_actor> insert_item_activity_actor::deserialize( JsonVal
     return actor.clone();
 }
 
+reload_activity_actor::reload_activity_actor( item::reload_option &&opt, int extra_moves )
+{
+    moves_total = opt.moves() + extra_moves;
+    quantity = opt.qty();
+    target_loc = std::move( opt.target );
+    ammo_loc = std::move( opt.ammo );
+}
+
 bool reload_activity_actor::can_reload() const
 {
-    if( reload_targets.size() != 2 || quantity <= 0 ) {
+    if( quantity <= 0 ) {
         debugmsg( "invalid arguments to ACT_RELOAD" );
         return false;
     }
 
-    if( !reload_targets[0] ) {
+    if( !target_loc ) {
         debugmsg( "reload target is null, failed to reload" );
         return false;
     }
 
-    if( !reload_targets[1] ) {
+    if( !ammo_loc ) {
         debugmsg( "ammo target is null, failed to reload" );
         return false;
     }
@@ -4053,15 +4053,15 @@ void reload_activity_actor::finish( player_activity &act, Character &who )
         return;
     }
 
-    item &reloadable = *reload_targets[ 0 ];
-    item &ammo = *reload_targets[ 1 ];
+    item &reloadable = *target_loc;
+    item &ammo = *ammo_loc;
     const std::string reloadable_name = reloadable.tname();
     // cache check results because reloading deletes the ammo item
     const std::string ammo_name = ammo.tname();
     const bool ammo_is_filthy = ammo.is_filthy();
     const bool ammo_uses_speedloader = ammo.has_flag( flag_SPEEDLOADER );
 
-    if( !reloadable.reload( who, std::move( reload_targets[ 1 ] ), quantity ) ) {
+    if( !reloadable.reload( who, std::move( ammo_loc ), quantity ) ) {
         add_msg( m_info, _( "Can't reload the %s." ), reloadable_name );
         return;
     }
@@ -4089,7 +4089,7 @@ void reload_activity_actor::finish( player_activity &act, Character &who )
 
     who.recoil = MAX_RECOIL;
 
-    item_location loc = reload_targets[0];
+    item_location loc = target_loc;
     // Reload may have caused the item to increase in size more than the pocket/location can contain.
     // We want to avoid this because items will be deleted on a save/load.
     if( loc.check_parent_capacity_recursive() ) {
@@ -4150,7 +4150,8 @@ void reload_activity_actor::serialize( JsonOut &jsout ) const
 
     jsout.member( "moves_total", moves_total );
     jsout.member( "qty", quantity );
-    jsout.member( "reload_targets", reload_targets );
+    jsout.member( "target_loc", target_loc );
+    jsout.member( "ammo_loc", ammo_loc );
 
     jsout.end_object();
 }
@@ -4163,7 +4164,8 @@ std::unique_ptr<activity_actor> reload_activity_actor::deserialize( JsonValue &j
 
     data.read( "moves_total", actor.moves_total );
     data.read( "qty", actor.quantity );
-    data.read( "reload_targets", actor.reload_targets );
+    data.read( "target_loc", actor.target_loc );
+    data.read( "ammo_loc", actor.ammo_loc );
     return actor.clone();
 }
 
@@ -5420,7 +5422,7 @@ void chop_logs_activity_actor::finish( player_activity &act, Character &who )
     int splint_quan;
     if( here.ter( pos ) == t_trunk ) {
         log_quan = rng( 2, 3 );
-        stick_quan = rng( 0, 1 );
+        stick_quan = rng( 0, 3 );
         splint_quan = 0;
     } else if( here.ter( pos ) == t_stump ) {
         log_quan = rng( 0, 2 );

@@ -2818,7 +2818,7 @@ Vehicle components when installed on a vehicle.
   { "id": "hotplate", "hotkey": "h" },
   { "id": "pot" }
 ],
-"folded_volume": "750 ml", // volume this vpart takes in folded form
+"folded_volume": "750 ml", // volume this vpart takes in folded form, undefined or null disables folding
 "folding_tools": [ "needle_curved" ], // tool itype_ids required for folding
 "folding_time": "100 seconds", // time to fold this part
 "unfolding_tools": [ "hand_pump" ], // tool itype_ids required for unfolding
@@ -3625,7 +3625,8 @@ Any Item can be a container. To add the ability to contain things to an item, yo
     "ammo_restriction": { "ammotype": count }, // Restrict pocket to a given ammo type and count.  This overrides mandatory volume, weight, watertight and airtight to use the given ammo type instead.  A pocket can contain any number of unique ammo types each with different counts, and the container will only hold one type (as of now).  If this is left out, it will be empty.
     "flag_restriction": [ "FLAG1", "FLAG2" ],  // Items can only be placed into this pocket if they have a flag that matches one of these flags.
     "item_restriction": [ "item_id" ],         // Only these item IDs can be placed into this pocket. Overrides ammo and flag restrictions.
-	// If both "flag_restriction" and "item_restriction" are used simultaneously then any item that matches either of them will be accepted.
+    "material_restriction": [ "material_id" ], // Only items that are mainly made of this material can enter.
+	// If multiple of "flag_restriction", "material_restriction" and "item_restriction" are used simultaneously then any item that matches any of them will be accepted.
 
     "sealed_data": { "spoil_multiplier": 0.0 } // If a pocket has sealed_data, it will be sealed when the item spawns.  The sealed version of the pocket will override the unsealed version of the same datatype.
   }
@@ -5339,11 +5340,12 @@ Fields can exist on top of terrain/furniture, and support different intensity le
         "scent_neutralization": 3, // Reduce scents at the field's position by this value        
     ],
     "npc_complain": { "chance": 20, "issue": "weed_smoke", "duration": "10 minutes", "speech": "<weed_smoke>" }, // NPCs in this field will complain about being in it once per <duration> if a 1-in-<chance> roll succeeds, giving off a <speech> bark that supports snippets
-    "immunity_data": {
-      { "flags": [ "WEBWALK" ] },
-      { "body_part_env_resistance": [ [ "mouth", 15 ], [ "sensor", 10 ] ] },
-      "immunity_flags_worn": [ [ "sensor", "FLASH_PROTECTION" ] ]
-      }, // If the character in the field has the defined character flags (see Character Flags), necessary env resistance or worn item flags on ALL bodyparts of the defined type they will be considered immune to the field's effects -- in this example a player is immune if they have the WEBWALK flag, wear flash protection on their eyes or have both their eyes and mouth covered
+    "immunity_data": {  // Array containing the necessary conditions for immunity to this field.  Any one fulfilled condition confers immunity:
+      { "flags": [ "WEBWALK" ] },  // Immune if the character has any of the defined character flags (see Character flags)
+      { "body_part_env_resistance": [ [ "mouth", 15 ], [ "sensor", 10 ] ] }, // Immune if ALL bodyparts of the defined types have the defined amount of env protection
+      "immunity_flags_worn": [ [ "sensor", "FLASH_PROTECTION" ] ], // Immune if ALL parts of the defined types wear an item with the defined flag
+      "immunity_flags_worn_any": [ [ "sensor": "BLIND" ], [ "hand": "PADDED" ] ], Immune if ANY part of the defined type wears an item with the corresponding flag -- in this example either a blindfold OR padded gloves confer immunity
+      },
     "decay_amount_factor": 2, // The field's rain decay amount is divided by this when processing the field, the rain decay is a function of the weather type's precipitation class: very_light = 5s, light = 15s, heavy = 45 s
     "half_life": "3 minutes", // If above 0 the field will disappear after two half-lifes on average
     "underwater_age_speedup": "25 minutes", // Increase the field's age by this time every tick if it's on a terrain with the SWIMMABLE flag
