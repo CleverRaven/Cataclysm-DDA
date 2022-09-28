@@ -551,16 +551,16 @@ struct map_data_common_t {
         std::bitset<NUM_TERCONN> rotate_to_group_member;
 
         // Set target connection group
-        void set_connects_to( const std::string &connect_group_string );
+        void set_connects_to( const std::vector<std::string> &connect_group_string );
         // Set to be member of a connection target group
-        void set_connects_to_member( const std::string &connect_group_string );
+        void set_connects_to_member( const std::vector<std::string> &connect_group_string );
         // Set bidirectional connection group
-        void set_connects_with( const std::string &connect_group_string );
+        void set_connects_with( const std::vector<std::string> &connect_group_string );
 
         // Set target group to rotate towards
-        void set_rotates_to( const std::string &towards_group_string );
+        void set_rotates_to( const std::vector<std::string> &towards_group_string );
         // Set to be member of a rotation target group
-        void set_rotates_to_member( const std::string &towards_group_string );
+        void set_rotates_to_member( const std::vector<std::string> &towards_group_string );
 
         bool in_connects_to( const std::bitset<NUM_TERCONN> &test_connect_group ) const {
             return ( connect_to_group_member & test_connect_group ).any();

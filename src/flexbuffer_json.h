@@ -629,6 +629,7 @@ class JsonObject : JsonWithPath
         // Sigh.
         std::vector<int> get_int_array( const std::string &name ) const;
         std::vector<std::string> get_string_array( const std::string &name ) const;
+        std::vector<std::string> get_as_string_array( const std::string &name ) const;
 
         bool has_member( const std::string &key ) const;
         bool has_member( const char *key ) const;
