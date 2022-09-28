@@ -1725,8 +1725,8 @@ void suffer::from_nyctophobia( Character &you )
 void suffer::from_artifact_resonance( Character &you, int amt )
 {
     int rng_outcome;
-    if( rng( 0, 1800 + std::floor( amt / 1000 ) ) > 1800 ) {
-        if( amt > 10000 && one_in( 2 ) ) {
+    if( rng( 0, 3600 + std::floor( amt / 1000 ) ) > 3600 ) {
+        if( amt > 12000 && one_in( 2 ) ) {
             //deadly effects from way too high resonance
             rng_outcome = rng( 1, 3 );
             if( rng_outcome == 1 ) {
@@ -1749,13 +1749,13 @@ void suffer::from_artifact_resonance( Character &you, int amt )
                                            _( "<npcname> suddenly loses all substance and corporeality." ) );
                 you.add_effect( effect_incorporeal, 1_minutes );
             }
-        } else if( amt > 5000 && one_in( 2 ) ) {
+        } else if( amt > 7000 && one_in( 2 ) ) {
             //severe effects from very high resonance
             rng_outcome = rng( 1, 3 );
             if( rng_outcome == 1 ) {
                 you.add_msg_player_or_npc( m_bad, _( "You are suddenly beset with agonizing, unbearable pain." ),
                                            _( "<npcname> suddenly cries out in agony." ) );
-                you.mod_pain( 200 );
+                you.mod_pain( 100 );
                 you.shout();
             } else if( rng_outcome == 2 ) {
                 you.add_msg_player_or_npc( m_bad, _( "The air folds and distorts around you." ),
@@ -1764,8 +1764,8 @@ void suffer::from_artifact_resonance( Character &you, int amt )
             } else if( rng_outcome == 3 ) {
                 you.add_msg_player_or_npc( m_bad, _( "You're bombarded with radioactive energy!" ),
                                            _( "<npcname> is bombarded with radioactive energy!" ) );
-                you.irradiate( 50, true );
-                you.irradiate( 200, false );
+                you.irradiate( 5, true );
+                you.irradiate( 45, false );
             }
         } else if( amt > 3000 && one_in( 2 ) ) {
             //bad effects from moderately high resonance
@@ -1778,13 +1778,13 @@ void suffer::from_artifact_resonance( Character &you, int amt )
                 you.add_msg_player_or_npc( m_bad,
                                            _( "You hear a painfully loud grinding noise from your location." ),
                                            _( "A painfully loud grinding noise suddenly blares from the location of <npcname>." ) );
-                sounds::sound( you.pos(), 1000, sounds::sound_t::movement, _( "A horribly loud grinding sound!" ),
+                sounds::sound( you.pos(), 5000, sounds::sound_t::movement, _( "A horribly loud grinding sound!" ),
                                true, "misc", "scraping" );
             } else if( rng_outcome == 3 ) {
                 you.add_msg_player_or_npc( m_bad,
                                            _( "The air suddenly crackles around you." ),
                                            _( "The air suddenly crackles around <npcname>." ) );
-                you.irradiate( 50, false );
+                you.irradiate( 10, false );
             }
         } else {
             //mild effects from somewhat high resonance
@@ -1792,14 +1792,14 @@ void suffer::from_artifact_resonance( Character &you, int amt )
             if( rng_outcome == 1 ) {
                 you.add_msg_if_player( m_bad,
                                        _( "You suddenly feel a sharp, stabbing pain with no apparent source." ) );
-                you.mod_pain( 10 );
+                you.mod_pain( 5 );
             } else if( rng_outcome == 2 ) {
                 you.add_msg_if_player( m_bad,
                                        _( "Your vision suddenly becomes blurry and hard to decipher." ) );
-                you.add_effect( effect_hallu, 10_minutes );
+                you.add_effect( effect_hallu, 5_minutes );
             } else if( rng_outcome == 3 ) {
                 you.add_msg_if_player( m_bad, _( "You suddenly feel very queasy." ) );
-                you.add_effect( effect_nausea, 2_minutes );
+                you.add_effect( effect_nausea, 1_minutes );
             }
         }
     }
