@@ -55,6 +55,7 @@
 #include "sounds.h"
 #include "stomach.h"
 #include "string_formatter.h"
+#include "teleport.h"
 #include "text_snippets.h"
 #include "translations.h"
 #include "type_id.h"
@@ -1752,7 +1753,7 @@ void suffer::from_artifact_resonance( Character &you )
         } else if( resonance_factor > 2000 && one_in( 2 ) ) {
             //bad effects from moderately high resonance
             rng_outcome = rng( 1, 3 );
-            if( rng_outcome == 1  && !you.driving() ) {
+            if( rng_outcome == 1  && !you.in_vehicle() ) {
                 you.add_msg_player_or_npc( m_bad, _( "You suddenly shift slightly." ),
                                            _( "<npcname> suddenly shifts slightly." ) );
                 teleport::teleport( you, 1, 1, safe, false );
