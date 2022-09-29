@@ -84,7 +84,7 @@
         "#S.#...+......+.......~]",
         "#T.#TSl#.rrrrr#HHtcCfl#]",
         "########~##############]",
-        " 4      ]]]]]]]]]]]]]]]]"
+        "g4gggggg]]]]]]]]]]]]]]]]"
       ],
       "palettes": [ "road", "gas" ],
       "terrain": { "Á": "t_concrete", "]": "t_concrete", ".": "t_thconc_floor", "4": "t_gutter_downspout" },

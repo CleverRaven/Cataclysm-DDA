@@ -83,7 +83,7 @@
         "#S.#...+......+.......~]",
         "#T.#TSl#.rrrrr#HHtcCfl#]",
         "########~##############]",
-        " 4      ]]]]]]]]]]]]]]]]"
+        "g4gggggg]]]]]]]]]]]]]]]]"
       ],
       "palettes": [ "road", "gas" ],
       "terrain": { "P": "t_sidewalk", "4": "t_gutter_downspout" },
