@@ -1421,12 +1421,15 @@ void ter_t::load( const JsonObject &jo, const std::string &src )
     // connections from JSON are set. This is so that wall flags can set wall connections
     // but can be overridden by explicit connections in JSON.
     if( jo.has_member( "connect_groups" ) ) {
+        connect_groups.reset();
         set_connect_groups( jo.get_as_string_array( "connect_groups" ) );
     }
     if( jo.has_member( "connects_to" ) ) {
+        connect_to_groups.reset();
         set_connects_to( jo.get_as_string_array( "connects_to" ) );
     }
     if( jo.has_member( "rotates_to" ) ) {
+        rotate_to_groups.reset();
         set_rotates_to( jo.get_as_string_array( "rotates_to" ) );
     }
 
@@ -1597,12 +1600,15 @@ void furn_t::load( const JsonObject &jo, const std::string &src )
     }
 
     if( jo.has_member( "connect_groups" ) ) {
+        connect_groups.reset();
         set_connect_groups( jo.get_as_string_array( "connect_groups" ) );
     }
     if( jo.has_member( "connects_to" ) ) {
+        connect_to_groups.reset();
         set_connects_to( jo.get_as_string_array( "connects_to" ) );
     }
     if( jo.has_member( "rotates_to" ) ) {
+        rotate_to_groups.reset();
         set_rotates_to( jo.get_as_string_array( "rotates_to" ) );
     }
 
