@@ -42,7 +42,7 @@
     "move_cost": 0,
     "coverage": 95,
     "roof": "t_flat_roof",
-    "flags": [ "FLAMMABLE", "NOITEM", "WALL", "CONNECT_TO_WALL", "BLOCK_WIND", "REDUCE_SCENT", "WINDOW", "SUPPORTS_ROOF" ],
+    "flags": [ "FLAMMABLE", "NOITEM", "WALL", "BLOCK_WIND", "REDUCE_SCENT", "WINDOW", "SUPPORTS_ROOF" ],
     "deconstruct": {
       "ter_set": "t_window_empty",
       "items": [ { "item": "glass_sheet", "count": 1 }, { "item": "duct_tape", "charges": [ 15, 25 ] } ]
@@ -920,7 +920,6 @@
       "SUPPORTS_ROOF",
       "WALL",
       "BARRICADABLE_WINDOW",
-      "CONNECT_TO_WALL",
       "MINEABLE",
       "BLOCK_WIND",
       "REDUCE_SCENT",
@@ -950,7 +949,6 @@
       "SUPPORTS_ROOF",
       "WALL",
       "BARRICADABLE_WINDOW",
-      "CONNECT_TO_WALL",
       "MINEABLE",
       "BLOCK_WIND",
       "REDUCE_SCENT",
@@ -980,7 +978,6 @@
       "SUPPORTS_ROOF",
       "WALL",
       "BARRICADABLE_WINDOW",
-      "CONNECT_TO_WALL",
       "MINEABLE",
       "BLOCK_WIND",
       "REDUCE_SCENT",
