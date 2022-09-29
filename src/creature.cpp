@@ -296,7 +296,7 @@ bool Creature::is_dangerous_fields( const field &fld ) const
 {
     // Else check each field to see if it's dangerous to us
     for( const auto &dfield : fld ) {
-        if( is_dangerous_field( dfield.second ) ) {
+        if( is_dangerous_field( dfield.second ) && !is_immune_field( dfield.first ) ) {
             return true;
         }
     }
