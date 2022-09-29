@@ -1766,7 +1766,7 @@ uint8_t map::get_known_connections( const tripoint &p,
                                     const std::bitset<NUM_TERCONN> &connect_group,
                                     const std::map<tripoint, ter_id> &override ) const
 {
-    if( connect_group == TERCONN_NONE ) {
+    if( connect_group.none() ) {
         return 0;
     }
 
@@ -1810,7 +1810,7 @@ uint8_t map::get_known_connections( const tripoint &p,
         if( may_connect ) {
             const ter_t &neighbour_terrain = neighbour_overridden ?
                                              neighbour_override->second.obj() : ter( neighbour ).obj();
-            if( neighbour_terrain.in_connects_to( connect_group ) ) {
+            if( neighbour_terrain.in_connect_groups( connect_group ) ) {
                 val += 1 << i;
             }
         }
@@ -1823,7 +1823,7 @@ uint8_t map::get_known_rotates_to( const tripoint &p,
                                    const std::bitset<NUM_TERCONN> &rotate_to_group,
                                    const std::map<tripoint, ter_id> &override ) const
 {
-    if( rotate_to_group == TERCONN_NONE ) {
+    if( rotate_to_group.none() ) {
         return CHAR_MAX;
     }
 
@@ -1840,7 +1840,7 @@ uint8_t map::get_known_rotates_to( const tripoint &p,
 
         const ter_t &neighbour_terrain = neighbour_overridden ?
                                          neighbour_override->second.obj() : ter( neighbour ).obj();
-        if( neighbour_terrain.in_rotates_to( rotate_to_group ) ) {
+        if( neighbour_terrain.in_connect_groups( rotate_to_group ) ) {
             val += 1 << i;
         }
     }
@@ -1896,7 +1896,7 @@ uint8_t map::get_known_connections_f( const tripoint &p,
         if( may_connect ) {
             const furn_t &neighbour_furn = neighbour_overridden ?
                                            neighbour_override->second.obj() : furn( pt ).obj();
-            if( neighbour_furn.in_connects_to( connect_group ) ) {
+            if( neighbour_furn.in_connect_groups( connect_group ) ) {
                 val += 1 << i;
             }
         }
@@ -1934,7 +1934,8 @@ uint8_t map::get_known_rotates_to_f( const tripoint &p,
         const furn_t &neighbour_f = neighbour_overridden_f ?
                                     neighbour_override_f->second.obj() : furn( pt ).obj();
 
-        if( neighbour.in_rotates_to( rotate_to_group ) || neighbour_f.in_rotates_to( rotate_to_group ) ) {
+        if( neighbour.in_connect_groups( rotate_to_group ) ||
+            neighbour_f.in_connect_groups( rotate_to_group ) ) {
             val += 1 << i;
         }
     }
@@ -8564,7 +8565,7 @@ bool map::has_graffiti_at( const tripoint &p ) const
 
 int map::determine_wall_corner( const tripoint &p ) const
 {
-    const std::bitset<NUM_TERCONN> &test_connect_group = ter( p ).obj().connect_to_group;
+    const std::bitset<NUM_TERCONN> &test_connect_group = ter( p ).obj().connect_to_groups;
     uint8_t connections = get_known_connections( p, test_connect_group );
     // The bits in connections are SEWN, whereas the characters in LINE_
     // constants are NESW, so we want values in 8 | 2 | 1 | 4 order.

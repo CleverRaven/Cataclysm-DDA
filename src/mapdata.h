@@ -542,34 +542,22 @@ struct map_data_common_t {
 
         void set_flag( ter_furn_flag flag );
 
-        // Terrain group to connect to; not symmetric, target of active part
-        std::bitset<NUM_TERCONN> connect_to_group;
-        // Terrain group of this type, for others to connect to; not symmetric, passive part
-        std::bitset<NUM_TERCONN> connect_to_group_member;
-        // Terrain group rotate towards; not symmetric, target of active part
-        std::bitset<NUM_TERCONN> rotate_to_group;
-        // Terrain group of this type, for others to rotate towards; not symmetric, passive part
-        std::bitset<NUM_TERCONN> rotate_to_group_member;
+        // Terrain groups of this type, for others to connect or rotate to; not symmetric, passive part
+        std::bitset<NUM_TERCONN> connect_groups;
+        // Terrain groups to connect to; not symmetric, target of active part
+        std::bitset<NUM_TERCONN> connect_to_groups;
+        // Terrain groups rotate towards; not symmetric, target of active part
+        std::bitset<NUM_TERCONN> rotate_to_groups;
 
+        // Set to be member of a connection target group
+        void set_connect_groups( const std::vector<std::string> &connect_group_string );
         // Set target connection group
         void set_connects_to( const std::vector<std::string> &connect_group_string );
-        // Set to be member of a connection target group
-        void set_connects_to_member( const std::vector<std::string> &connect_group_string );
-        // Set bidirectional connection group
-        void set_connects_with( const std::vector<std::string> &connect_group_string );
-
         // Set target group to rotate towards
         void set_rotates_to( const std::vector<std::string> &towards_group_string );
-        // Set to be member of a rotation target group
-        void set_rotates_to_member( const std::vector<std::string> &towards_group_string );
 
-        bool in_connects_to( const std::bitset<NUM_TERCONN> &test_connect_group ) const {
-            return ( connect_to_group_member & test_connect_group ).any();
-        }
-
-        // Tests if the type is a member of a rotares_towards group
-        bool in_rotates_to( const std::bitset<NUM_TERCONN> &test_rotates_group ) const {
-            return ( rotate_to_group_member & test_rotates_group ).any();
+        bool in_connect_groups( const std::bitset<NUM_TERCONN> &test_connect_group ) const {
+            return ( connect_groups & test_connect_group ).any();
         }
 
         int symbol() const;

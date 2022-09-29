@@ -630,8 +630,8 @@ void map_data_common_t::extraprocess_flags( const ter_furn_flag flag )
     }
     // wall connection check for JSON backwards compatibility
     if( flag == ter_furn_flag::TFLAG_WALL || flag == ter_furn_flag::TFLAG_CONNECT_TO_WALL ) {
-        set_connects_with( { "WALL" } );
-        set_rotates_to_member( { "WALL" } );
+        set_connect_groups( { "WALL" } );
+        set_connects_to( { "WALL" } );
     }
     // rotates_to check for JSON backwards compatibility
     if( flag == ter_furn_flag::TFLAG_WINDOW || flag == ter_furn_flag::TFLAG_DOOR ) {
@@ -639,8 +639,7 @@ void map_data_common_t::extraprocess_flags( const ter_furn_flag flag )
     }
     // rotates_to_member check for JSON backwards compatibility
     if( flag == ter_furn_flag::TFLAG_INDOORS ) {
-        set_connects_to_member( { "INDOORFLOOR" } );
-        set_rotates_to_member( { "INDOORFLOOR" } );
+        set_connect_groups( { "INDOORFLOOR" } );
     }
 }
 
@@ -661,38 +660,25 @@ void map_data_common_t::set_flag( const ter_furn_flag flag )
     extraprocess_flags( flag );
 }
 
-void map_data_common_t::set_connects_to( const std::vector<std::string> &connect_group_string )
-{
-    for( const std::string &group : connect_group_string ) {
-        const auto it = ter_connects_map.find( group );
-        if( it != ter_connects_map.end() ) {
-            connect_to_group.set( it->second );
-        } else { // arbitrary connect groups are a bad idea for optimization reasons
-            debugmsg( "can't find terrain connection group %s", group.c_str() );
-        }
-    }
-}
-
-void map_data_common_t::set_connects_to_member( const std::vector<std::string>
+void map_data_common_t::set_connect_groups( const std::vector<std::string>
         &connect_group_string )
 {
     for( const std::string &group : connect_group_string ) {
         const auto it = ter_connects_map.find( group );
         if( it != ter_connects_map.end() ) {
-            connect_to_group_member.set( it->second );
+            connect_groups.set( it->second );
         } else { // arbitrary connect groups are a bad idea for optimization reasons
             debugmsg( "can't find terrain connection group %s", group.c_str() );
         }
     }
 }
 
-void map_data_common_t::set_connects_with( const std::vector<std::string> &connect_group_string )
+void map_data_common_t::set_connects_to( const std::vector<std::string> &connect_group_string )
 {
     for( const std::string &group : connect_group_string ) {
         const auto it = ter_connects_map.find( group );
         if( it != ter_connects_map.end() ) {
-            connect_to_group.set( it->second );
-            connect_to_group_member.set( it->second );
+            connect_to_groups.set( it->second );
         } else { // arbitrary connect groups are a bad idea for optimization reasons
             debugmsg( "can't find terrain connection group %s", group.c_str() );
         }
@@ -704,20 +690,7 @@ void map_data_common_t::set_rotates_to( const std::vector<std::string> &towards_
     for( const std::string &group : towards_group_string ) {
         const auto it = ter_connects_map.find( group );
         if( it != ter_connects_map.end() ) {
-            rotate_to_group.set( it->second );
-        } else { // arbitrary rotates towards groups are a bad idea for optimization reasons
-            debugmsg( "can't find terrain rotates towards group %s", group.c_str() );
-        }
-    }
-}
-
-void map_data_common_t::set_rotates_to_member( const std::vector<std::string>
-        &towards_group_string )
-{
-    for( const std::string &group : towards_group_string ) {
-        const auto it = ter_connects_map.find( group );
-        if( it != ter_connects_map.end() ) {
-            rotate_to_group_member.set( it->second );
+            rotate_to_groups.set( it->second );
         } else { // arbitrary rotates towards groups are a bad idea for optimization reasons
             debugmsg( "can't find terrain rotates towards group %s", group.c_str() );
         }
@@ -1437,32 +1410,24 @@ void ter_t::load( const JsonObject &jo, const std::string &src )
 
     trap = tr_null;
     transparent = false;
-    connect_to_group = TERCONN_NONE;
-    connect_to_group_member = TERCONN_NONE;
-    rotate_to_group = TERCONN_NONE;
-    rotate_to_group_member = TERCONN_NONE;
+    connect_groups.reset();
+    connect_to_groups.reset();
+    rotate_to_groups.reset();
 
     for( auto &flag : jo.get_string_array( "flags" ) ) {
         set_flag( flag );
     }
-    // connect_to_group is initialized to none, then terrain flags are set, then finally
+    // connect_to_groups is initialized to none, then terrain flags are set, then finally
     // connections from JSON are set. This is so that wall flags can set wall connections
     // but can be overridden by explicit connections in JSON.
-    if( jo.has_member( "connects_with" ) ) {
-        set_connects_with( jo.get_as_string_array( "connects_with" ) );
+    if( jo.has_member( "connect_groups" ) ) {
+        set_connect_groups( jo.get_as_string_array( "connect_groups" ) );
     }
     if( jo.has_member( "connects_to" ) ) {
         set_connects_to( jo.get_as_string_array( "connects_to" ) );
     }
-    if( jo.has_member( "connects_to_member" ) ) {
-        set_connects_to_member( jo.get_as_string_array( "connects_to_member" ) );
-    }
-
     if( jo.has_member( "rotates_to" ) ) {
         set_rotates_to( jo.get_as_string_array( "rotates_to" ) );
-    }
-    if( jo.has_member( "rotates_to_member" ) ) {
-        set_rotates_to_member( jo.get_as_string_array( "rotates_to_member" ) );
     }
 
     optional( jo, was_loaded, "allowed_template_ids", allowed_template_id );
@@ -1623,29 +1588,22 @@ void furn_t::load( const JsonObject &jo, const std::string &src )
     optional( jo, was_loaded, "light_emitted", light_emitted );
 
     // see the comment in ter_id::load for connect_group handling
-    connect_to_group = TERCONN_NONE;
-    connect_to_group_member = TERCONN_NONE;
-    rotate_to_group = TERCONN_NONE;
-    rotate_to_group_member = TERCONN_NONE;
+    connect_groups.reset();
+    connect_to_groups.reset();
+    rotate_to_groups.reset();
+
     for( auto &flag : jo.get_string_array( "flags" ) ) {
         set_flag( flag );
     }
 
-    if( jo.has_member( "connects_with" ) ) {
-        set_connects_with( jo.get_as_string_array( "connects_with" ) );
+    if( jo.has_member( "connect_groups" ) ) {
+        set_connect_groups( jo.get_as_string_array( "connect_groups" ) );
     }
     if( jo.has_member( "connects_to" ) ) {
         set_connects_to( jo.get_as_string_array( "connects_to" ) );
     }
-    if( jo.has_member( "connects_to_member" ) ) {
-        set_connects_to_member( jo.get_as_string_array( "connects_to_member" ) );
-    }
-
     if( jo.has_member( "rotates_to" ) ) {
         set_rotates_to( jo.get_as_string_array( "rotates_to" ) );
-    }
-    if( jo.has_member( "rotates_to_member" ) ) {
-        set_rotates_to_member( jo.get_as_string_array( "rotates_to_member" ) );
     }
 
     optional( jo, was_loaded, "open", open, string_id_reader<furn_t> {}, furn_str_id::NULL_ID() );
