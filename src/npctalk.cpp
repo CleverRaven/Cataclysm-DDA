@@ -1631,6 +1631,14 @@ void parse_tags( std::string &phrase, const Character &u, const Character &me,
             var.pop_back();
             global_variables &globvars = get_globals();
             phrase.replace( fa, l, globvars.get_global_value( "npctalk_var_" + var ) );
+        } else if( tag.find( "<city>" ) != std::string::npos ) {
+            std::string cityname = "nowhere";
+            tripoint_abs_sm abs_sub = get_map().get_abs_sub();
+            const city *c = overmap_buffer.closest_city( abs_sub ).city;
+            if( c != nullptr ) {
+                cityname = c->name;
+            }
+            phrase.replace( fa, l, cityname );
         } else if( !tag.empty() ) {
             debugmsg( "Bad tag.  '%s' (%d - %d)", tag.c_str(), fa, fb );
             phrase.replace( fa, fb - fa + 1, "????" );
@@ -1707,8 +1715,13 @@ talk_data talk_response::create_option_line( const dialogue &d, const input_even
         ftext = string_format( pgettext( "talk option", "[%1$s %2$d%%] %3$s" ),
                                trial.name(), trial.calc_chance( d ), text );
     }
-    parse_tags( ftext, *d.actor( false )->get_character(), *d.actor( true )->get_npc(),
-                success.next_topic.item_type );
+    if( d.actor( true )->get_npc() ) {
+        parse_tags( ftext, *d.actor( false )->get_character(), *d.actor( true )->get_npc(),
+                    success.next_topic.item_type );
+    } else {
+        parse_tags( ftext, *d.actor( false )->get_character(), *d.actor( false )->get_character(),
+                    success.next_topic.item_type );
+    }
 
     nc_color color;
     std::set<dialogue_consequence> consequences = get_consequences( d );
@@ -1788,8 +1801,13 @@ talk_topic dialogue::opt( dialogue_window &d_win, const talk_topic &topic )
     }
 
     // Parse any tags in challenge
-    parse_tags( challenge, *actor( false )->get_character(), *actor( true )->get_npc(),
-                topic.item_type );
+    if( actor( true )->get_npc() ) {
+        parse_tags( challenge, *actor( false )->get_character(), *actor( true )->get_npc(),
+                    topic.item_type );
+    } else {
+        parse_tags( challenge, *actor( false )->get_character(), *actor( false )->get_character(),
+                    topic.item_type );
+    }
     challenge = uppercase_first_letter( challenge );
 
     d_win.clear_history_highlights();
@@ -1852,7 +1870,7 @@ talk_topic dialogue::opt( dialogue_window &d_win, const talk_topic &topic )
     generate_response_lines();
 
     ui.on_redraw( [&]( const ui_adaptor & ) {
-        d_win.draw( actor( true )->disp_name(), response_lines );
+        d_win.draw( d_win.is_not_conversation ? "" : actor( true )->disp_name(), response_lines );
     } );
 
     size_t response_ind = response_hotkeys.size();
@@ -3109,6 +3127,28 @@ void talk_effect_fun_t<T>::set_mod_healthy( const JsonObject &jo, const std::str
 }
 
 template<class T>
+void talk_effect_fun_t<T>::set_hp( const JsonObject &jo, const std::string &member,
+                                   bool is_npc )
+{
+    int_or_var<T> new_hp = get_int_or_var<T>( jo, member, true );
+    cata::optional<str_or_var<T>> target_part;
+    if( jo.has_string( "target_part" ) ) {
+        target_part = get_str_or_var<T>( jo.get_member( "target_part" ), "target_part", true );
+    }
+    bool only_increase = jo.get_bool( "only_increase", false );
+    function = [only_increase, new_hp, target_part, is_npc]( const T & d ) {
+        talker *target = d.actor( is_npc );
+        for( const bodypart_id &part : target->get_all_body_parts() ) {
+            if( ( !target_part.has_value() || bodypart_id( target_part.value().evaluate( d ) ) == part ) &&
+                ( !only_increase ||
+                  target->get_part_hp_cur( part ) <= new_hp.evaluate( d ) ) ) {
+                target->set_part_hp_cur( part, new_hp.evaluate( d ) );
+            }
+        }
+    };
+}
+
+template<class T>
 void talk_effect_fun_t<T>::set_cast_spell( const JsonObject &jo, const std::string &member,
         bool is_npc, bool targeted )
 {
@@ -4077,6 +4117,10 @@ void talk_effect_t<T>::parse_sub_effect( const JsonObject &jo )
         subeffect_fun.set_location_variable( jo, "u_location_variable", false );
     } else if( jo.has_object( "npc_location_variable" ) ) {
         subeffect_fun.set_location_variable( jo, "npc_location_variable", true );
+    } else if( jo.has_int( "u_set_hp" ) ) {
+        subeffect_fun.set_hp( jo, "u_set_hp", false );
+    } else if( jo.has_int( "npc_set_hp" ) ) {
+        subeffect_fun.set_hp( jo, "npc_set_hp", true );
     } else if( jo.has_string( "u_buy_monster" ) ) {
         const std::string &monster_type_id = jo.get_string( "u_buy_monster" );
         const int cost = jo.get_int( "cost", 0 );

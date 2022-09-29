@@ -1576,12 +1576,13 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
 
             draw_points.emplace_back( pos, height_3d, ll, invisible );
         }
-        const std::array<decltype( &cata_tiles::draw_furniture ), 11> drawing_layers = {{
+        const std::array<decltype( &cata_tiles::draw_furniture ), 12> drawing_layers = {{
                 &cata_tiles::draw_furniture, &cata_tiles::draw_graffiti, &cata_tiles::draw_trap,
                 &cata_tiles::draw_field_or_item, &cata_tiles::draw_vpart_below,
                 &cata_tiles::draw_critter_at_below, &cata_tiles::draw_terrain_below,
-                &cata_tiles::draw_vpart, &cata_tiles::draw_critter_at,
-                &cata_tiles::draw_zone_mark, &cata_tiles::draw_zombie_revival_indicators
+                &cata_tiles::draw_vpart_no_roof, &cata_tiles::draw_vpart_roof,
+                &cata_tiles::draw_critter_at, &cata_tiles::draw_zone_mark,
+                &cata_tiles::draw_zombie_revival_indicators
             }
         };
         // for each of the drawing layers in order, back to front ...
@@ -1674,7 +1675,8 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
             if( here.check_seen_cache( p ) ) {
                 draw_furniture( p, lighting, height_3d, invisible );
                 draw_trap( p, lighting, height_3d, invisible );
-                draw_vpart( p, lighting, height_3d, invisible );
+                draw_vpart_no_roof( p, lighting, height_3d, invisible );
+                draw_vpart_roof( p, lighting, height_3d, invisible );
                 here.check_and_set_seen_cache( p );
             }
         }
@@ -3385,12 +3387,25 @@ bool cata_tiles::draw_vpart_below( const tripoint &p, const lit_level /*ll*/, in
     int height_3d_below = 0;
     std::array<bool, 5> below_invisible;
     std::fill( below_invisible.begin(), below_invisible.end(), false );
-    return draw_vpart( pbelow, lit_level::LOW, height_3d_below, below_invisible );
+    return draw_vpart_no_roof( pbelow, lit_level::LOW, height_3d_below, below_invisible );
+}
+
+bool cata_tiles::draw_vpart_no_roof( const tripoint &p, lit_level ll, int &height_3d,
+                                     const std::array<bool, 5> &invisible )
+{
+    return draw_vpart( p, ll, height_3d, invisible, false );
+}
+
+bool cata_tiles::draw_vpart_roof( const tripoint &p, lit_level ll, int &height_3d,
+                                  const std::array<bool, 5> &invisible )
+{
+    return draw_vpart( p, ll, height_3d, invisible, true );
 }
 
 bool cata_tiles::draw_vpart( const tripoint &p, lit_level ll, int &height_3d,
-                             const std::array<bool, 5> &invisible )
+                             const std::array<bool, 5> &invisible, bool roof )
 {
+    ( void ) roof;
     const auto override = vpart_override.find( p );
     const bool overridden = override != vpart_override.end();
     map &here = get_map();
@@ -3403,28 +3418,30 @@ bool cata_tiles::draw_vpart( const tripoint &p, lit_level ll, int &height_3d,
         // with the vehicle part json ids
         // get the vpart_id
         char part_mod = 0;
-        const std::string &vp_id = veh.part_id_string( veh_part, part_mod );
-        const int subtile = part_mod == 1 ? open_ : part_mod == 2 ? broken : 0;
-        const int rotation = std::round( to_degrees( veh.face.dir() ) );
-        const std::string vpname = "vp_" + vp_id;
-        avatar &you = get_avatar();
-        if( !veh.forward_velocity() && !veh.player_in_control( you )
-            && !( you.get_grab_type() == object_type::VEHICLE
-                  && veh.get_points().count( you.pos() + you.grab_point ) )
-            && here.check_seen_cache( p ) ) {
-            you.memorize_tile( here.getabs( p ), vpname, subtile, rotation );
-        }
-        if( !overridden ) {
-            const cata::optional<vpart_reference> cargopart = vp.part_with_feature( "CARGO", true );
-            const bool draw_highlight = cargopart &&
-                                        !veh.get_items( cargopart->part_index() ).empty();
-            const bool ret =
-                draw_from_id_string( vpname, TILE_CATEGORY::VEHICLE_PART, empty_string, p,
-                                     subtile, rotation, ll, nv_goggles_activated, height_3d );
-            if( ret && draw_highlight ) {
-                draw_item_highlight( p );
+        const std::string &vp_id = veh.part_id_string( veh_part, part_mod, !roof, roof );
+        if( !vp_id.empty() ) {
+            const int subtile = part_mod == 1 ? open_ : part_mod == 2 ? broken : 0;
+            const int rotation = std::round( to_degrees( veh.face.dir() ) );
+            const std::string vpname = "vp_" + vp_id;
+            avatar &you = get_avatar();
+            if( !veh.forward_velocity() && !veh.player_in_control( you )
+                && !( you.get_grab_type() == object_type::VEHICLE
+                      && veh.get_points().count( you.pos() + you.grab_point ) )
+                && here.check_seen_cache( p ) ) {
+                you.memorize_tile( here.getabs( p ), vpname, subtile, rotation );
             }
-            return ret;
+            if( !overridden ) {
+                const cata::optional<vpart_reference> cargopart = vp.part_with_feature( "CARGO", true );
+                const bool draw_highlight = cargopart &&
+                                            !veh.get_items( cargopart->part_index() ).empty();
+                const bool ret =
+                    draw_from_id_string( vpname, TILE_CATEGORY::VEHICLE_PART, empty_string, p,
+                                         subtile, rotation, ll, nv_goggles_activated, height_3d );
+                if( ret && draw_highlight ) {
+                    draw_item_highlight( p );
+                }
+                return ret;
+            }
         }
     }
     if( overridden ) {
