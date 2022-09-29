@@ -1171,15 +1171,16 @@ TEST_CASE( "npc_compare_int", "[npc_talk]" )
     player_character.inv->add_item( item( itype_bottle_glass ) );
     cata::event e = cata::event::make<event_type::character_kills_monster>(
                         get_player_character().getID(), mon_zombie_bio_op );
-    get_event_bus().send(e);
-    player_character.magic->learn_spell("test_spell_json", player_character, false);
-    player_character.set_mutation(trait_id("test_trait")); // Give the player the scool trait with ID test_trait
-    player_character.magic->set_spell_level(spell_id("test_spell_json"), 1, &player_character);
-    player_character.magic->learn_spell("test_spell_pew", player_character, true);
-    player_character.magic->set_spell_level(spell_id("test_spell_pew"), 4, &player_character);
-    player_character.magic->learn_spell("test_spell_lava", player_character, true);
-    player_character.magic->set_spell_level(spell_id("test_spell_lava"), 12, &player_character);
-    player_character.set_proficiency_practice(proficiency_id("prof_test"), 12_hours);
+    get_event_bus().send( e );
+    player_character.magic->learn_spell( "test_spell_json", player_character, false );
+    player_character.set_mutation(
+        trait_id( "test_trait" ) ); // Give the player the scool trait with ID test_trait
+    player_character.magic->set_spell_level( spell_id( "test_spell_json" ), 1, &player_character );
+    player_character.magic->learn_spell( "test_spell_pew", player_character, true );
+    player_character.magic->set_spell_level( spell_id( "test_spell_pew" ), 4, &player_character );
+    player_character.magic->learn_spell( "test_spell_lava", player_character, true );
+    player_character.magic->set_spell_level( spell_id( "test_spell_lava" ), 12, &player_character );
+    player_character.set_proficiency_practice( proficiency_id( "prof_test" ), 12_hours );
     // Set focus after killing monster, since the character
     // gains weakpoint proficiency practice which lowers focus
     // (see kill_tracker::notify() -> weakpoint_families::practice_kill())
@@ -1188,7 +1189,7 @@ TEST_CASE( "npc_compare_int", "[npc_talk]" )
     player_character.dex_cur = 6;
     player_character.int_cur = 7;
     player_character.per_cur = 8;
-    player_character.magic->set_mana(25);
+    player_character.magic->set_mana( 25 );
 
     gen_response_lines( d, 52 );
     CHECK( d.responses[ 0 ].text == "This is a u_adjust_var test response that increments by 1." );
@@ -1537,60 +1538,70 @@ TEST_CASE( "npc_arithmetic", "[npc_talk]" )
     CHECK( player_character.get_stored_kcal() == 550000 / 2 );
 
     // Spell tests setup
-    const spell_id pew_id("test_spell_pew");
-    if (player_character.magic->knows_spell(pew_id)) {
-        player_character.magic->forget_spell(pew_id);
+    const spell_id pew_id( "test_spell_pew" );
+    if( player_character.magic->knows_spell( pew_id ) ) {
+        player_character.magic->forget_spell( pew_id );
     }
-    CHECK(player_character.magic->knows_spell(pew_id) == false);
+    CHECK( player_character.magic->knows_spell( pew_id ) == false );
 
     // "Sets pew pew's level to -1."
     effects = d.responses[25].success;
-    effects.apply(d);
-    CHECK(player_character.magic->knows_spell(pew_id) == false);
+    effects.apply( d );
+    CHECK( player_character.magic->knows_spell( pew_id ) == false );
 
     // "Sets pew pew's level to 4."
     effects = d.responses[26].success;
-    effects.apply(d);
-    CHECK(player_character.magic->knows_spell(pew_id) == true);
-    CHECK(player_character.magic->get_spell(pew_id).get_level() == 4);
+    effects.apply( d );
+    CHECK( player_character.magic->knows_spell( pew_id ) == true );
+    CHECK( player_character.magic->get_spell( pew_id ).get_level() == 4 );
 
     // "Sets pew pew's level to -1."
     effects = d.responses[25].success;
-    effects.apply(d);
-    CHECK(player_character.magic->knows_spell(pew_id) == false);
+    effects.apply( d );
+    CHECK( player_character.magic->knows_spell( pew_id ) == false );
 
     // Setup proficiency tests
-    const proficiency_id test_prof_id("prof_test");
-    if (player_character.has_proficiency(test_prof_id)) {
-        player_character.lose_proficiency(test_prof_id, true);
+    const proficiency_id test_prof_id( "prof_test" );
+    if( player_character.has_proficiency( test_prof_id ) ) {
+        player_character.lose_proficiency( test_prof_id, true );
     }
-    if (std::find(player_character.learning_proficiencies().begin(), player_character.learning_proficiencies().end(), test_prof_id) != player_character.learning_proficiencies().end()) {
-        player_character.set_proficiency_practiced_time(test_prof_id, -1);
+    if( std::find( player_character.learning_proficiencies().begin(),
+                   player_character.learning_proficiencies().end(),
+                   test_prof_id ) != player_character.learning_proficiencies().end() ) {
+        player_character.set_proficiency_practiced_time( test_prof_id, -1 );
     }
 
     // "Sets Test Proficiency learning done to -1."
     effects = d.responses[28].success;
-    effects.apply(d);
-    CHECK(player_character.has_proficiency(test_prof_id) == false);
-    CHECK(std::find(player_character.learning_proficiencies().begin(), player_character.learning_proficiencies().end(), test_prof_id) == player_character.learning_proficiencies().end());
+    effects.apply( d );
+    CHECK( player_character.has_proficiency( test_prof_id ) == false );
+    CHECK( std::find( player_character.learning_proficiencies().begin(),
+                      player_character.learning_proficiencies().end(),
+                      test_prof_id ) == player_character.learning_proficiencies().end() );
 
     // "Sets Test Proficiency learning done to 24h."
     effects = d.responses[29].success;
-    effects.apply(d);
-    CHECK(player_character.has_proficiency(test_prof_id) == true);
-    CHECK(std::find(player_character.learning_proficiencies().begin(), player_character.learning_proficiencies().end(), test_prof_id) == player_character.learning_proficiencies().end());
+    effects.apply( d );
+    CHECK( player_character.has_proficiency( test_prof_id ) == true );
+    CHECK( std::find( player_character.learning_proficiencies().begin(),
+                      player_character.learning_proficiencies().end(),
+                      test_prof_id ) == player_character.learning_proficiencies().end() );
 
     // "Sets Test Proficiency learning done to 12 hours total."
     effects = d.responses[27].success;
-    effects.apply(d);
-    CHECK(player_character.has_proficiency(test_prof_id) == false);
-    CHECK(std::find(player_character.learning_proficiencies().begin(), player_character.learning_proficiencies().end(), test_prof_id) != player_character.learning_proficiencies().end());
+    effects.apply( d );
+    CHECK( player_character.has_proficiency( test_prof_id ) == false );
+    CHECK( std::find( player_character.learning_proficiencies().begin(),
+                      player_character.learning_proficiencies().end(),
+                      test_prof_id ) != player_character.learning_proficiencies().end() );
 
     // "Sets Test Proficiency learning done to -1."
     effects = d.responses[28].success;
-    effects.apply(d);
-    CHECK(player_character.has_proficiency(test_prof_id) == false);
-    CHECK(std::find(player_character.learning_proficiencies().begin(), player_character.learning_proficiencies().end(), test_prof_id) == player_character.learning_proficiencies().end());
+    effects.apply( d );
+    CHECK( player_character.has_proficiency( test_prof_id ) == false );
+    CHECK( std::find( player_character.learning_proficiencies().begin(),
+                      player_character.learning_proficiencies().end(),
+                      test_prof_id ) == player_character.learning_proficiencies().end() );
 
 
     // Teardown

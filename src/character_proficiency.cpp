@@ -12,18 +12,18 @@ float Character::get_proficiency_practice( const proficiency_id &prof ) const
     return _proficiencies->pct_practiced( prof );
 }
 
-time_duration Character::get_proficiency_practiced_time(const proficiency_id& prof) const
+time_duration Character::get_proficiency_practiced_time( const proficiency_id &prof ) const
 {
-    return _proficiencies->pct_practiced_time(prof);
+    return _proficiencies->pct_practiced_time( prof );
 }
 
-void Character::set_proficiency_practiced_time(const proficiency_id& prof, int turns)
+void Character::set_proficiency_practiced_time( const proficiency_id &prof, int turns )
 {
-    if (turns < 0) {
-        _proficiencies->remove(prof);
+    if( turns < 0 ) {
+        _proficiencies->remove( prof );
         return;
     }
-    _proficiencies->set_time_practiced(prof, time_duration::from_turns(turns));
+    _proficiencies->set_time_practiced( prof, time_duration::from_turns( turns ) );
 }
 
 bool Character::has_prof_prereqs( const proficiency_id &prof ) const

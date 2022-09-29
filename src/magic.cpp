@@ -1749,26 +1749,22 @@ void known_magic::forget_spell( const spell_id &sp )
     spellbook.erase( sp );
 }
 
-void known_magic::set_spell_level(const spell_id& sp, int new_level, const Character* guy)
+void known_magic::set_spell_level( const spell_id &sp, int new_level, const Character *guy )
 {
-    spell temp_spell(sp->id);
-    if (!knows_spell(sp)) {
-        if (new_level >= 0) {
-            temp_spell.set_level(new_level);
-            spellbook.emplace(sp->id, spell(temp_spell));
-            get_event_bus().send<event_type::character_learns_spell>(guy->getID(), sp->id);
+    spell temp_spell( sp->id );
+    if( !knows_spell( sp ) ) {
+        if( new_level >= 0 ) {
+            temp_spell.set_level( new_level );
+            spellbook.emplace( sp->id, spell( temp_spell ) );
+            get_event_bus().send<event_type::character_learns_spell>( guy->getID(), sp->id );
         }
-    }
-    else {
-        if (new_level >= 0)
-        {
-            spell& temp_sp = get_spell(sp);
-            temp_sp.set_level(new_level);
-        }
-        else
-        {
-            get_event_bus().send<event_type::character_forgets_spell>(guy->getID(), sp->id);
-            spellbook.erase(sp);
+    } else {
+        if( new_level >= 0 ) {
+            spell &temp_sp = get_spell( sp );
+            temp_sp.set_level( new_level );
+        } else {
+            get_event_bus().send<event_type::character_forgets_spell>( guy->getID(), sp->id );
+            spellbook.erase( sp );
         }
     }
 }

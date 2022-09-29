@@ -296,27 +296,26 @@ bool proficiency_set::practice( const proficiency_id &practicing, const time_dur
     return false;
 }
 
-void proficiency_set::set_time_practiced(const proficiency_id& practicing, const time_duration& amount)
+void proficiency_set::set_time_practiced( const proficiency_id &practicing,
+        const time_duration &amount )
 {
-    if (amount >= practicing->time_to_learn()) {
-        for (std::vector<learning_proficiency>::iterator it = learning.begin(); it != learning.end(); ) {
-            if (it->id == practicing) {
-                it = learning.erase(it);
-            }
-            else {
+    if( amount >= practicing->time_to_learn() ) {
+        for( std::vector<learning_proficiency>::iterator it = learning.begin(); it != learning.end(); ) {
+            if( it->id == practicing ) {
+                it = learning.erase( it );
+            } else {
                 ++it;
             }
         }
-        learn(practicing);
+        learn( practicing );
         return;
+    } else if( known.count( practicing ) ) {
+        remove( practicing );
     }
-    else if (known.count(practicing)) {
-        remove(practicing);
+    if( !has_practiced( practicing ) ) {
+        learning.emplace_back( practicing, 0_seconds );
     }
-    if (!has_practiced(practicing)) {
-        learning.emplace_back(practicing, 0_seconds);
-    }
-    learning_proficiency& current = fetch_learning(practicing);
+    learning_proficiency &current = fetch_learning( practicing );
     current.practiced = amount;
 }
 
@@ -350,11 +349,10 @@ static std::set<proficiency_id> proficiencies_requiring(
 void proficiency_set::remove( const proficiency_id &lost )
 {
     // Removes from proficiencies you are learning
-    for (std::vector<learning_proficiency>::iterator it = learning.begin(); it != learning.end(); ) {
-        if (it->id == lost) {
-            it = learning.erase(it);
-        }
-        else {
+    for( std::vector<learning_proficiency>::iterator it = learning.begin(); it != learning.end(); ) {
+        if( it->id == lost ) {
+            it = learning.erase( it );
+        } else {
             ++it;
         }
     }
@@ -437,14 +435,14 @@ float proficiency_set::pct_practiced( const proficiency_id &query ) const
     return 0.0f;
 }
 
-time_duration proficiency_set::pct_practiced_time(const proficiency_id& query) const
+time_duration proficiency_set::pct_practiced_time( const proficiency_id &query ) const
 {
-    for (const learning_proficiency& prof : learning) {
-        if (prof.id == query) {
+    for( const learning_proficiency &prof : learning ) {
+        if( prof.id == query ) {
             return prof.practiced;
         }
     }
-    if (has_learned(query)) {
+    if( has_learned( query ) ) {
         return query->time_to_learn();
     }
     return 0_seconds;
