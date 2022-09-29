@@ -948,7 +948,8 @@ void mapgen_road( mapgendata &dat )
             if( mirror ) {
                 m->mirror( true, false, false );
                 std::swap( args.map["sidewalk_left"], args.map["sidewalk_right"] );
-                ( *mapgen_ptr )->nest( md3, point( 0, 0 ), "mapgen_road()" );
+                mapgendata md4( md3, args );
+                ( *mapgen_ptr )->nest( md4, point( 0, 0 ), "mapgen_road()" );
                 m->mirror( true, false, false );
             }
             if( dir > 0 ) {
