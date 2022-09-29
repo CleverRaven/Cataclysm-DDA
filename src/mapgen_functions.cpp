@@ -533,6 +533,10 @@ void mapgen_road( mapgendata &dat )
     std::array<int, 4> n_num_dirs = {};
     // N E S W
     for( int dir = 0; dir < 4; dir++ ) {
+        if( neighbor_sidewalks ) {
+            // use tight curves in cities
+            continue;
+        }
         if( !roads_nesw[dir] || dat.t_nesw[dir]->get_type_id().str() != "road" ) {
             continue;
         }
@@ -711,7 +715,7 @@ void mapgen_road( mapgendata &dat )
             }
             mapgendata md2( md, args );
 
-            if( curvedir_nesw[0] == -1 || curvedir_nesw[3] == 1 ) {
+            if( curvedir_nesw[0] == -1 || curvedir_nesw[3] == 1 || neighbor_sidewalks ) {
                 // tight curve that fits within a tile
                 mapgen_ptr = nested_mapgens[nested_mapgen_id( "road_curve" )].funcs().pick();
             } else {
