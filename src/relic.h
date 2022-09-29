@@ -94,6 +94,7 @@ class relic_procgen_data
             int max_attributes = INT_MAX;
 
             bool was_loaded = false;
+            bool resonant = false;
             void load( const JsonObject &jo );
             void deserialize( const JsonObject &jo );
         };
@@ -129,7 +130,6 @@ class relic_procgen_data
         relic generate( const generation_rules &rules, const itype_id &it_id ) const;
 
         bool was_loaded = false;
-        bool resonant = false;
 
         static const std::vector<relic_procgen_data> &get_all();
         static void load_relic_procgen_data( const JsonObject &jo, const std::string &src );
