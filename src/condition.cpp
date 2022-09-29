@@ -1790,7 +1790,7 @@ std::function<int( const T & )> conditional_t<T>::get_get_int( const JsonObject 
                     }
                     return false;
                 } );
-                return (int)targets.size();
+                return targets.size();
             };
         } else if( checked_value == "spell_level" ) {
             if( jo.has_member( "school" ) ) {
