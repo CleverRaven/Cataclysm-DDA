@@ -3375,7 +3375,7 @@ class Character : public Creature, public visitable
         /** age in years at character creation */
         int init_age = 25;
         /**height at character creation*/
-        int init_height = 175;
+        float init_height = 175;
         /** Size class of character. */
         creature_size size_class = creature_size::medium;
 

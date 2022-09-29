@@ -5964,7 +5964,15 @@ void Character::set_base_height( int height )
 
 void Character::mod_base_height( int mod )
 {
-    init_height += mod;
+
+   const bool metric = get_option<std::string>( "DISTANCE_UNITS" ) == "metric";
+
+   if(metric){
+       init_height += mod;
+    }
+   else{
+       init_height += mod*2.54;
+    }
 }
 
 std::string Character::height_string() const
