@@ -213,7 +213,7 @@ class talker
         virtual time_duration proficiency_practiced_time( const proficiency_id & ) const {
             return 0_seconds;
         }
-        virtual void set_proficiency_practiced_time( const proficiency_id &prof, int turns ) {}
+        virtual void set_proficiency_practiced_time( const proficiency_id &, int ) {}
         virtual std::vector<skill_id> skills_offered_to( const talker & ) const {
             return {};
         }
