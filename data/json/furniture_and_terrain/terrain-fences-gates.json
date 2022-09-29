@@ -26,7 +26,7 @@
     "symbol": ".",
     "color": "brown",
     "move_cost": 2,
-    "flags": [ "TRANSPARENT", "FLAMMABLE", "FLAT", "CONNECT_TO_WALL", "BURROWABLE" ],
+    "flags": [ "TRANSPARENT", "FLAMMABLE", "FLAT", "CONNECT_WITH_WALL", "BURROWABLE" ],
     "bash": {
       "str_min": 6,
       "str_max": 150,
@@ -44,7 +44,7 @@
     "symbol": "&",
     "color": "cyan",
     "move_cost": 0,
-    "flags": [ "TRANSPARENT", "NOITEM", "PERMEABLE", "CONNECT_TO_WALL", "MINEABLE", "BURROWABLE" ],
+    "flags": [ "TRANSPARENT", "NOITEM", "PERMEABLE", "CONNECT_WITH_WALL", "MINEABLE", "BURROWABLE" ],
     "bash": {
       "str_min": 60,
       "str_max": 210,
@@ -357,7 +357,7 @@
     "color": "brown",
     "looks_like": "t_chickenwire_gate_c",
     "move_cost": 0,
-    "flags": [ "TRANSPARENT", "DOOR", "PERMEABLE", "BURROWABLE", "CONNECT_TO_WALL" ],
+    "flags": [ "TRANSPARENT", "DOOR", "PERMEABLE", "BURROWABLE", "CONNECT_WITH_WALL" ],
     "open": "t_screen_door_o",
     "deconstruct": {
       "ter_set": "t_floor",
@@ -392,7 +392,7 @@
     "color": "brown",
     "looks_like": "t_chickenwire_gate_o",
     "move_cost": 2,
-    "flags": [ "TRANSPARENT", "PERMEABLE", "BURROWABLE", "CONNECT_TO_WALL" ],
+    "flags": [ "TRANSPARENT", "PERMEABLE", "BURROWABLE", "CONNECT_WITH_WALL" ],
     "close": "t_screen_door_c",
     "deconstruct": {
       "ter_set": "t_floor",

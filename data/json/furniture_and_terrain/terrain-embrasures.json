@@ -236,7 +236,7 @@
       "FLAMMABLE",
       "NOITEM",
       "SUPPORTS_ROOF",
-      "CONNECT_TO_WALL",
+      "CONNECT_WITH_WALL",
       "WALL",
       "MOUNTABLE",
       "PERMEABLE",
