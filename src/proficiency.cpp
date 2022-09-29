@@ -310,6 +310,9 @@ void proficiency_set::set_time_practiced(const proficiency_id& practicing, const
         learn(practicing);
         return;
     }
+    else if (known.count(practicing)) {
+        remove(practicing);
+    }
     if (!has_practiced(practicing)) {
         learning.emplace_back(practicing, 0_seconds);
     }
@@ -346,6 +349,16 @@ static std::set<proficiency_id> proficiencies_requiring(
 
 void proficiency_set::remove( const proficiency_id &lost )
 {
+    // Removes from proficiencies you are learning
+    for (std::vector<learning_proficiency>::iterator it = learning.begin(); it != learning.end(); ) {
+        if (it->id == lost) {
+            it = learning.erase(it);
+        }
+        else {
+            ++it;
+        }
+    }
+
     // No unintended side effects
     if( !known.count( lost ) ) {
         return;

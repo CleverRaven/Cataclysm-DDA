@@ -1535,6 +1535,64 @@ TEST_CASE( "npc_arithmetic", "[npc_talk]" )
     effects = d.responses[ 24 ].success;
     effects.apply( d );
     CHECK( player_character.get_stored_kcal() == 550000 / 2 );
+
+    // Spell tests setup
+    const spell_id pew_id("test_spell_pew");
+    if (player_character.magic->knows_spell(pew_id)) {
+        player_character.magic->forget_spell(pew_id);
+    }
+    CHECK(player_character.magic->knows_spell(pew_id) == false);
+
+    // "Sets pew pew's level to -1."
+    effects = d.responses[25].success;
+    effects.apply(d);
+    CHECK(player_character.magic->knows_spell(pew_id) == false);
+
+    // "Sets pew pew's level to 4."
+    effects = d.responses[26].success;
+    effects.apply(d);
+    CHECK(player_character.magic->knows_spell(pew_id) == true);
+    CHECK(player_character.magic->get_spell(pew_id).get_level() == 4);
+
+    // "Sets pew pew's level to -1."
+    effects = d.responses[25].success;
+    effects.apply(d);
+    CHECK(player_character.magic->knows_spell(pew_id) == false);
+
+    // Setup proficiency tests
+    const proficiency_id test_prof_id("prof_test");
+    if (player_character.has_proficiency(test_prof_id)) {
+        player_character.lose_proficiency(test_prof_id, true);
+    }
+    if (std::find(player_character.learning_proficiencies().begin(), player_character.learning_proficiencies().end(), test_prof_id) != player_character.learning_proficiencies().end()) {
+        player_character.set_proficiency_practiced_time(test_prof_id, -1);
+    }
+
+    // "Sets Test Proficiency learning done to -1."
+    effects = d.responses[28].success;
+    effects.apply(d);
+    CHECK(player_character.has_proficiency(test_prof_id) == false);
+    CHECK(std::find(player_character.learning_proficiencies().begin(), player_character.learning_proficiencies().end(), test_prof_id) == player_character.learning_proficiencies().end());
+
+    // "Sets Test Proficiency learning done to 24h."
+    effects = d.responses[29].success;
+    effects.apply(d);
+    CHECK(player_character.has_proficiency(test_prof_id) == true);
+    CHECK(std::find(player_character.learning_proficiencies().begin(), player_character.learning_proficiencies().end(), test_prof_id) == player_character.learning_proficiencies().end());
+
+    // "Sets Test Proficiency learning done to 12 hours total."
+    effects = d.responses[27].success;
+    effects.apply(d);
+    CHECK(player_character.has_proficiency(test_prof_id) == false);
+    CHECK(std::find(player_character.learning_proficiencies().begin(), player_character.learning_proficiencies().end(), test_prof_id) != player_character.learning_proficiencies().end());
+
+    // "Sets Test Proficiency learning done to -1."
+    effects = d.responses[28].success;
+    effects.apply(d);
+    CHECK(player_character.has_proficiency(test_prof_id) == false);
+    CHECK(std::find(player_character.learning_proficiencies().begin(), player_character.learning_proficiencies().end(), test_prof_id) == player_character.learning_proficiencies().end());
+
+
     // Teardown
     player_character.remove_value( var_name );
 }
