@@ -3346,7 +3346,6 @@ static void draw_height( const catacurses::window &w_height, const avatar &you,
     werase( w_height );
     mvwprintz( w_height, point_zero, highlight ? COL_SELECT : c_light_gray, _( "Height:" ) );
     unsigned height_pos = 1 + utf8_width( _( "Height:" ) );
-/*prints out height according to imperial or metric setting */
     mvwprintz( w_height, point( height_pos, 0 ), c_white, you.height_string() );
     wnoutrefresh( w_height );
 }
