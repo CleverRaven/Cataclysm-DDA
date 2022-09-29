@@ -1816,8 +1816,9 @@ std::function<int( const T & )> conditional_t<T>::get_get_int( const JsonObject 
             if( jo.has_int( "format" ) ) {
                 const int format = jo.get_int( "format" );
                 return [is_npc, format, the_proficiency_id]( const T & d ) {
-                    return static_cast<int>( ( d.actor( is_npc )->proficiency_practiced_time( the_proficiency_id ) * format ) /
-                                    the_proficiency_id->time_to_learn() );
+                    return static_cast<int>( ( d.actor( is_npc )->proficiency_practiced_time(
+                                                   the_proficiency_id ) * format ) /
+                                             the_proficiency_id->time_to_learn() );
                 };
             } else if( jo.has_member( "format" ) ) {
                 const std::string format = jo.get_string( "format" );
@@ -1827,13 +1828,15 @@ std::function<int( const T & )> conditional_t<T>::get_get_int( const JsonObject 
                     };
                 } else if( format == "percent" ) {
                     return [is_npc, the_proficiency_id]( const T & d ) {
-                        return static_cast<int>( ( d.actor( is_npc )->proficiency_practiced_time( the_proficiency_id ) * 100 ) /
-                                        the_proficiency_id->time_to_learn() );
+                        return static_cast<int>( ( d.actor( is_npc )->proficiency_practiced_time(
+                                                       the_proficiency_id ) * 100 ) /
+                                                 the_proficiency_id->time_to_learn() );
                     };
                 } else if( format == "permille" ) {
                     return [is_npc, the_proficiency_id]( const T & d ) {
-                        return static_cast<int>( ( d.actor( is_npc )->proficiency_practiced_time( the_proficiency_id ) * 1000 ) /
-                                        the_proficiency_id->time_to_learn() );
+                        return static_cast<int>( ( d.actor( is_npc )->proficiency_practiced_time(
+                                                       the_proficiency_id ) * 1000 ) /
+                                                 the_proficiency_id->time_to_learn() );
                     };
                 } else if( format == "total_time_required" ) {
                     return [the_proficiency_id]( const T & d ) {
