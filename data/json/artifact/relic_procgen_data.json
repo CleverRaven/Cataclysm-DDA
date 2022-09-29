@@ -2,7 +2,6 @@
   {
     "type": "relic_procgen_data",
     "id": "cult",
-    "resonant": "true",
     "charge_types": [
       {
         "weight": 100,
@@ -263,7 +262,6 @@
   {
     "type": "relic_procgen_data",
     "id": "netherum_tunnels",
-    "resonant": "true",
     "charge_types": [
       {
         "weight": 100,
@@ -524,7 +522,6 @@
   {
     "type": "relic_procgen_data",
     "id": "alien_reality",
-    "resonant": "true",
     "charge_types": [
       {
         "weight": 100,
@@ -785,7 +782,6 @@
   {
     "type": "relic_procgen_data",
     "id": "held_passive_bad",
-    "resonant": "true",
     "passive_add_procgen_values": [
       {
         "weight": 100,
@@ -868,7 +864,6 @@
   {
     "type": "relic_procgen_data",
     "id": "altered_object",
-    "resonant": "true",
     "charge_types": [
       {
         "weight": 100,
