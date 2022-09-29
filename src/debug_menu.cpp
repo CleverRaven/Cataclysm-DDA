@@ -1100,7 +1100,7 @@ static void spawn_artifact()
             && query_int( artifact_max_negative_value, _( "Enter negative power limit:" ) ) ) {
             if( const cata::optional<tripoint> center = g->look_around() ) {
                 here.spawn_artifact( *center, relic_list[relic_menu.ret], artifact_max_attributes,
-                                     artifact_power_level, artifact_max_negative_value, artifact_resonance );
+                                     artifact_power_level, artifact_max_negative_value, artifact_resonant );
             }
         }
     }
