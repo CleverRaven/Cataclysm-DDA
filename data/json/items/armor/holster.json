@@ -244,16 +244,16 @@
     "looks_like": "sheath",
     "color": "light_gray",
     "sided": true,
-    "material_thickness": 1,
+    "material_thickness": 2,
     "armor": [
       {
         "covers": [ "torso" ],
         "coverage": 50,
-        "specifically_covers": [ "torso_waist", "torso_lower" ],
+        "specifically_covers": [ "torso_waist"],
         "encumbrance": [ 1, 1 ],
         "material": [
-          { "type": "leather", "covered_by_mat": 100, "thickness": 0.75 },
-          { "type": "steel", "covered_by_mat": 100, "thickness": 0.75 }
+          { "type": "leather", "covered_by_mat": 100, "thickness": 2 },
+          { "type": "steel", "covered_by_mat": 10, "thickness": 0.5 }
         ]
       },
       {
