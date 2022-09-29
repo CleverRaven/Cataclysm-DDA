@@ -10,7 +10,6 @@
     "coverage": 100,
     "roof": "t_barkfloor",
     "flags": [ "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
-    "connects_with": "WALL",
     "bash": {
       "str_min": 60,
       "str_max": 180,
@@ -30,7 +29,6 @@
     "move_cost": 0,
     "coverage": 100,
     "flags": [ "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "WALL", "REDUCE_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
-    "connects_with": "WALL",
     "bash": {
       "str_min": 40,
       "str_max": 160,
@@ -69,7 +67,6 @@
     "coverage": 100,
     "roof": "t_barkfloor",
     "flags": [ "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
-    "connects_with": "WALL",
     "bash": {
       "str_min": 80,
       "str_max": 180,
@@ -145,13 +142,13 @@
     "type": "terrain",
     "id": "t_triffid_slope_up",
     "name": "upward root slope",
-    "connects_with": "WALL",
     "description": "An upward-facing slope of root-covered dirt.",
     "symbol": "<",
     "color": "brown",
     "roof": "t_barkfloor",
     "move_cost": 2,
-    "flags": [ "TRANSPARENT", "GOES_UP", "PLACE_ITEM", "SUPPORTS_ROOF" ]
+    "flags": [ "TRANSPARENT", "GOES_UP", "PLACE_ITEM", "SUPPORTS_ROOF" ],
+    "connects_with": "WALL"
   },
   {
     "type": "terrain",
