@@ -3,48 +3,13 @@
     "type": "palette",
     "id": "road",
     "parameters": {
-      "road_stripes": {
-        "type": "ter_str_id",
-        "default": {
-          "distribution": [ [ "t_pavement_y", 1 ] ]
-        }
-      },
-      "crosswalk": {
-        "type": "ter_str_id",
-        "default": {
-          "distribution": [ [ "t_zebra", 1 ] ]
-        }
-      },
-      "stop_line": {
-        "type": "ter_str_id",
-        "default": {
-          "distribution": [ [ "t_pavement_y", 1 ] ]
-        }
-      },
-      "sidewalk_left": {
-        "type": "ter_str_id",
-        "default": {
-          "distribution": [ [ "t_sidewalk", 1 ] ]
-        }
-      },
-      "sidewalk_right": {
-        "type": "ter_str_id",
-        "default": {
-          "distribution": [ [ "t_sidewalk", 1 ] ]
-        }
-      },
-      "street_light": {
-        "type": "furn_str_id",
-        "default": {
-          "distribution": [ [ "f_street_light", 1 ] ]
-        }
-      },
-      "traffic_light": {
-        "type": "furn_str_id",
-        "default": {
-          "distribution": [ [ "f_traffic_light", 1 ] ]
-        }
-      }
+      "road_stripes": { "type": "ter_str_id", "default": { "distribution": [ [ "t_pavement_y", 1 ] ] } },
+      "crosswalk": { "type": "ter_str_id", "default": { "distribution": [ [ "t_zebra", 1 ] ] } },
+      "stop_line": { "type": "ter_str_id", "default": { "distribution": [ [ "t_pavement_y", 1 ] ] } },
+      "sidewalk_left": { "type": "ter_str_id", "default": { "distribution": [ [ "t_sidewalk", 1 ] ] } },
+      "sidewalk_right": { "type": "ter_str_id", "default": { "distribution": [ [ "t_sidewalk", 1 ] ] } },
+      "street_light": { "type": "furn_str_id", "default": { "distribution": [ [ "f_street_light", 1 ] ] } },
+      "traffic_light": { "type": "furn_str_id", "default": { "distribution": [ [ "f_traffic_light", 1 ] ] } }
     },
     "terrain": {
       "g": [ [ "t_region_groundcover", 8 ], "t_region_shrub" ],
