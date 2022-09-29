@@ -2818,7 +2818,7 @@ Vehicle components when installed on a vehicle.
   { "id": "hotplate", "hotkey": "h" },
   { "id": "pot" }
 ],
-"folded_volume": "750 ml", // volume this vpart takes in folded form
+"folded_volume": "750 ml", // volume this vpart takes in folded form, undefined or null disables folding
 "folding_tools": [ "needle_curved" ], // tool itype_ids required for folding
 "folding_time": "100 seconds", // time to fold this part
 "unfolding_tools": [ "hand_pump" ], // tool itype_ids required for unfolding
@@ -5340,11 +5340,12 @@ Fields can exist on top of terrain/furniture, and support different intensity le
         "scent_neutralization": 3, // Reduce scents at the field's position by this value        
     ],
     "npc_complain": { "chance": 20, "issue": "weed_smoke", "duration": "10 minutes", "speech": "<weed_smoke>" }, // NPCs in this field will complain about being in it once per <duration> if a 1-in-<chance> roll succeeds, giving off a <speech> bark that supports snippets
-    "immunity_data": {
-      { "flags": [ "WEBWALK" ] },
-      { "body_part_env_resistance": [ [ "mouth", 15 ], [ "sensor", 10 ] ] },
-      "immunity_flags_worn": [ [ "sensor", "FLASH_PROTECTION" ] ]
-      }, // If the character in the field has the defined character flags (see Character Flags), necessary env resistance or worn item flags on ALL bodyparts of the defined type they will be considered immune to the field's effects -- in this example a player is immune if they have the WEBWALK flag, wear flash protection on their eyes or have both their eyes and mouth covered
+    "immunity_data": {  // Array containing the necessary conditions for immunity to this field.  Any one fulfilled condition confers immunity:
+      { "flags": [ "WEBWALK" ] },  // Immune if the character has any of the defined character flags (see Character flags)
+      { "body_part_env_resistance": [ [ "mouth", 15 ], [ "sensor", 10 ] ] }, // Immune if ALL bodyparts of the defined types have the defined amount of env protection
+      "immunity_flags_worn": [ [ "sensor", "FLASH_PROTECTION" ] ], // Immune if ALL parts of the defined types wear an item with the defined flag
+      "immunity_flags_worn_any": [ [ "sensor": "BLIND" ], [ "hand": "PADDED" ] ], Immune if ANY part of the defined type wears an item with the corresponding flag -- in this example either a blindfold OR padded gloves confer immunity
+      },
     "decay_amount_factor": 2, // The field's rain decay amount is divided by this when processing the field, the rain decay is a function of the weather type's precipitation class: very_light = 5s, light = 15s, heavy = 45 s
     "half_life": "3 minutes", // If above 0 the field will disappear after two half-lifes on average
     "underwater_age_speedup": "25 minutes", // Increase the field's age by this time every tick if it's on a terrain with the SWIMMABLE flag

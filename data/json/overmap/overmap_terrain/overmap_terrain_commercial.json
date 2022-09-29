@@ -197,6 +197,19 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "trailer_commercial_10",
+    "copy-from": "s_grocery",
+    "name": "convenience store",
+    "delete": { "flags": [ "SIDEWALK" ] }
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "trailer_commercial_10_roof",
+    "copy-from": "s_grocery_roof",
+    "name": "convenience store roof"
+  },
+  {
+    "type": "overmap_terrain",
     "id": [ "s_cosmetic" ],
     "copy-from": "generic_city_building",
     "looks_like": "s_grocery",
@@ -1155,6 +1168,17 @@
     "looks_like": "s_laundromat_roof",
     "name": "laundromat roof",
     "color": "white_white"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "trailer_commercial_00",
+    "copy-from": "s_laundromat",
+    "delete": { "flags": [ "SIDEWALK" ] }
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "trailer_commercial_00_roof",
+    "copy-from": "s_laundromat_roof"
   },
   {
     "type": "overmap_terrain",
