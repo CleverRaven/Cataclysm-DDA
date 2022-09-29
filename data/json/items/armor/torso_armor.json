@@ -974,8 +974,8 @@
     "repairs_like": "survivor_suit",
     "type": "ARMOR",
     "category": "armor",
-    "name": { "str": "Kevlar torso armor" },
-    "description": "A lightweight level II ballistic vest, suitable for wearing under a coat or other outerwear.",
+    "name": { "str": "Kevlar vest" },
+    "description": "A lightweight level II ballistic vest, suitable for wearing under a coat or other outer wear.",
     "weight": "1960 g",
     "volume": "4 L",
     "price": 35000,
@@ -993,7 +993,7 @@
       {
         "material": [
           { "type": "nylon", "covered_by_mat": 100, "thickness": 0.5 },
-          { "type": "kevlar", "covered_by_mat": 100, "thickness": 3.3 }
+          { "type": "kevlar", "covered_by_mat": 95, "thickness": 3.3 }
         ],
         "encumbrance": 3,
         "coverage": 94,
@@ -1004,7 +1004,7 @@
       {
         "material": [
           { "type": "nylon", "covered_by_mat": 100, "thickness": 0.5 },
-          { "type": "kevlar", "covered_by_mat": 100, "thickness": 3.3 }
+          { "type": "kevlar", "covered_by_mat": 95, "thickness": 3.3 }
         ],
         "//": "encumbrance handled above",
         "encumbrance": 0,
