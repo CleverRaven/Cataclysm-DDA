@@ -1019,17 +1019,24 @@ class vehicle
         bool remove_carried_vehicle( const std::vector<int> &carried_parts, const std::vector<int> &racks );
         // split the current vehicle into up to four vehicles if they have no connection other
         // than the structure part at exclude
-        bool find_and_split_vehicles( map &here, int exclude );
         bool find_and_split_vehicles( map &here, std::set<int> exclude );
         // relocate passengers to the same part on a new vehicle
         void relocate_passengers( const std::vector<Character *> &passengers ) const;
-        // remove a bunch of parts, specified by a vector indices, and move them to a new vehicle at
-        // the same global position
-        // optionally specify the new vehicle position and the mount points on the new vehicle
+        // Split a vehicle into an old vehicle and one or more new vehicles by moving vehicle_parts
+        // from one the old vehicle to the new vehicles. Some of the logic borrowed from remove_part
+        // skipped the grab, curtain, player activity, and engine checks because they deal with pos,
+        // not a vehicle pointer
+        // @param new_vehs vector of vectors of part indexes to move to new vehicles
+        // @param new_vehicles vector of vehicle pointers containing the new vehicles; if empty, new
+        // vehicles will be created
+        // @param new_mounts vector of vector of mount points. must have one vector for every vehicle*
+        // in new_vehicles, and forces the part indices in new_vehs to be mounted on the new vehicle
+        // at those mount points
+        // @param added_vehicles if not nullptr any newly added vehicles will be appended to the vector
         bool split_vehicles( map &here, const std::vector<std::vector <int>> &new_vehs,
                              const std::vector<vehicle *> &new_vehicles,
-                             const std::vector<std::vector <point>> &new_mounts );
-        bool split_vehicles( map &here, const std::vector<std::vector <int>> &new_vehs );
+                             const std::vector<std::vector<point>> &new_mounts,
+                             std::vector<vehicle *> *added_vehicles = nullptr );
 
         /** Get handle for base item of part */
         item_location part_base( int p );
