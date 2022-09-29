@@ -249,7 +249,7 @@
       {
         "covers": [ "torso" ],
         "coverage": 50,
-        "specifically_covers": [ "torso_waist"],
+        "specifically_covers": [ "torso_waist" ],
         "encumbrance": [ 1, 1 ],
         "material": [
           { "type": "leather", "covered_by_mat": 100, "thickness": 2 },
