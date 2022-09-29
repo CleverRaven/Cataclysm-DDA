@@ -130,7 +130,8 @@
     "type": "terrain",
     "id": "t_triffid_slope_down",
     "name": "downward root slope",
-    "connects_with": "PAVEMENT",
+    "connect_groups": "PAVEMENT",
+    "connects_to": "PAVEMENT",
     "description": "A downward-facing slope of root-covered dirt.",
     "symbol": ">",
     "color": "brown",
@@ -148,7 +149,8 @@
     "roof": "t_barkfloor",
     "move_cost": 2,
     "flags": [ "TRANSPARENT", "GOES_UP", "PLACE_ITEM", "SUPPORTS_ROOF" ],
-    "connects_with": "WALL"
+    "connect_groups": "WALL",
+    "connects_to": "WALL"
   },
   {
     "type": "terrain",

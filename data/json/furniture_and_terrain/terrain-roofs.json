@@ -47,7 +47,8 @@
     "color": "white",
     "move_cost": 3,
     "flags": [ "TRANSPARENT", "NOITEM", "THIN_OBSTACLE", "MOUNTABLE", "TINY", "AUTO_WALL_SYMBOL", "UNSTABLE" ],
-    "connects_with": "RAILING",
+    "connect_groups": "RAILING",
+    "connects_to": "RAILING",
     "deconstruct": {
       "ter_set": "t_flat_roof",
       "items": [ { "item": "sheet_metal_small", "count": 2 }, { "item": "scrap", "count": [ 2, 3 ] } ]
@@ -71,7 +72,8 @@
     "color": "white",
     "move_cost": 3,
     "flags": [ "TRANSPARENT", "NOITEM", "THIN_OBSTACLE", "MOUNTABLE", "TINY", "AUTO_WALL_SYMBOL", "UNSTABLE" ],
-    "connects_with": "RAILING",
+    "connect_groups": "RAILING",
+    "connects_to": "RAILING",
     "deconstruct": {
       "ter_set": "t_flat_roof",
       "items": [ { "item": "sheet_metal_small", "count": 2 }, { "item": "scrap", "count": [ 2, 3 ] } ]
@@ -95,7 +97,8 @@
     "color": "white",
     "move_cost": 3,
     "flags": [ "TRANSPARENT", "NOITEM", "THIN_OBSTACLE", "MOUNTABLE", "TINY", "AUTO_WALL_SYMBOL", "UNSTABLE" ],
-    "connects_with": "RAILING",
+    "connect_groups": "RAILING",
+    "connects_to": "RAILING",
     "deconstruct": {
       "ter_set": "t_flat_roof",
       "items": [ { "item": "sheet_metal_small", "count": 2 }, { "item": "scrap", "count": [ 2, 3 ] } ]
@@ -119,7 +122,8 @@
     "color": "white",
     "move_cost": 3,
     "flags": [ "TRANSPARENT", "NOITEM", "THIN_OBSTACLE", "MOUNTABLE", "TINY", "AUTO_WALL_SYMBOL", "UNSTABLE" ],
-    "connects_with": "RAILING",
+    "connect_groups": "RAILING",
+    "connects_to": "RAILING",
     "deconstruct": {
       "ter_set": "t_flat_roof",
       "items": [ { "item": "sheet_metal_small", "count": 2 }, { "item": "scrap", "count": [ 2, 3 ] } ]
@@ -143,7 +147,8 @@
     "color": "white",
     "move_cost": 3,
     "flags": [ "TRANSPARENT", "NOITEM", "THIN_OBSTACLE", "MOUNTABLE", "TINY", "AUTO_WALL_SYMBOL", "UNSTABLE", "CLIMBABLE" ],
-    "connects_with": "RAILING",
+    "connect_groups": "RAILING",
+    "connects_to": "RAILING",
     "deconstruct": {
       "ter_set": "t_flat_roof",
       "items": [ { "item": "sheet_metal_small", "count": 2 }, { "item": "scrap", "count": [ 2, 3 ] } ]

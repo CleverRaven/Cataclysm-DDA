@@ -11,7 +11,8 @@
     "coverage": 55,
     "required_str": -1,
     "flags": [ "FLAMMABLE_ASH", "CONTAINER", "PLACE_ITEM", "ORGANIC", "MOUNTABLE", "FLAT_SURF", "NO_SELF_CONNECT" ],
-    "connects_with": "COUNTER",
+    "connect_groups": "COUNTER",
+    "connects_to": "COUNTER",
     "deconstruct": {
       "items": [
         { "item": "plastic_chunk", "count": 3 },

@@ -47,7 +47,8 @@
     "coverage": 100,
     "roof": "t_flat_roof",
     "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
-    "connects_with": "WALL"
+    "connect_groups": "WALL",
+    "connects_to": "WALL"
   },
   {
     "type": "terrain",

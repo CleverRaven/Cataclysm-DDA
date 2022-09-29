@@ -54,7 +54,8 @@
         { "item": "scrap", "count": [ 3, 12 ] }
       ]
     },
-    "connects_with": "RAIL",
+    "connect_groups": "RAIL",
+    "connects_to": "RAIL",
     "flags": [ "RAIL", "TRANSPARENT" ]
   },
   {
@@ -85,7 +86,8 @@
         { "item": "scrap", "count": [ 3, 12 ] }
       ]
     },
-    "connects_with": "RAIL",
+    "connect_groups": "RAIL",
+    "connects_to": "RAIL",
     "flags": [ "RAIL", "TRANSPARENT" ]
   },
   {
@@ -116,7 +118,8 @@
         { "item": "scrap", "count": [ 3, 12 ] }
       ]
     },
-    "connects_with": "RAIL",
+    "connect_groups": "RAIL",
+    "connects_to": "RAIL",
     "flags": [ "RAIL", "TRANSPARENT" ]
   },
   {
@@ -147,7 +150,8 @@
         { "item": "scrap", "count": [ 3, 12 ] }
       ]
     },
-    "connects_with": "RAIL",
+    "connect_groups": "RAIL",
+    "connects_to": "RAIL",
     "flags": [ "RAIL", "TRANSPARENT" ]
   },
   {
@@ -178,7 +182,8 @@
         { "item": "scrap", "count": [ 3, 12 ] }
       ]
     },
-    "connects_with": "RAIL",
+    "connect_groups": "RAIL",
+    "connects_to": "RAIL",
     "flags": [ "RAIL", "TRANSPARENT" ]
   },
   {
@@ -209,7 +214,8 @@
         { "item": "scrap", "count": [ 3, 12 ] }
       ]
     },
-    "connects_with": "RAIL",
+    "connect_groups": "RAIL",
+    "connects_to": "RAIL",
     "flags": [ "RAIL", "TRANSPARENT" ]
   },
   {
@@ -232,7 +238,8 @@
       "ter_set": "t_rock_floor",
       "items": [ { "item": "log", "count": [ 0, 1 ] }, { "item": "splinter", "count": [ 10, 20 ] } ]
     },
-    "connects_with": "RAIL",
+    "connect_groups": "RAIL",
+    "connects_to": "RAIL",
     "flags": [ "TRANSPARENT" ]
   },
   {
@@ -255,7 +262,8 @@
       "ter_set": "t_rock_floor",
       "items": [ { "item": "log", "count": [ 0, 1 ] }, { "item": "splinter", "count": [ 10, 20 ] } ]
     },
-    "connects_with": "RAIL",
+    "connect_groups": "RAIL",
+    "connects_to": "RAIL",
     "flags": [ "TRANSPARENT" ]
   },
   {
@@ -278,7 +286,8 @@
       "ter_set": "t_rock_floor",
       "items": [ { "item": "log", "count": [ 0, 1 ] }, { "item": "splinter", "count": [ 10, 20 ] } ]
     },
-    "connects_with": "RAIL",
+    "connect_groups": "RAIL",
+    "connects_to": "RAIL",
     "flags": [ "TRANSPARENT" ]
   },
   {
@@ -301,7 +310,8 @@
       "ter_set": "t_rock_floor",
       "items": [ { "item": "log", "count": [ 0, 1 ] }, { "item": "splinter", "count": [ 10, 20 ] } ]
     },
-    "connects_with": "RAIL",
+    "connect_groups": "RAIL",
+    "connects_to": "RAIL",
     "flags": [ "TRANSPARENT" ]
   },
   {
@@ -335,7 +345,8 @@
         { "item": "splinter", "count": [ 10, 20 ] }
       ]
     },
-    "connects_with": "RAIL",
+    "connect_groups": "RAIL",
+    "connects_to": "RAIL",
     "flags": [ "RAIL", "TRANSPARENT" ]
   },
   {
@@ -369,7 +380,8 @@
         { "item": "splinter", "count": [ 10, 20 ] }
       ]
     },
-    "connects_with": "RAIL",
+    "connect_groups": "RAIL",
+    "connects_to": "RAIL",
     "flags": [ "RAIL", "TRANSPARENT" ]
   },
   {
@@ -403,7 +415,8 @@
         { "item": "splinter", "count": [ 10, 20 ] }
       ]
     },
-    "connects_with": "RAIL",
+    "connect_groups": "RAIL",
+    "connects_to": "RAIL",
     "flags": [ "RAIL", "TRANSPARENT" ]
   },
   {
@@ -437,7 +450,8 @@
         { "item": "splinter", "count": [ 10, 20 ] }
       ]
     },
-    "connects_with": "RAIL",
+    "connect_groups": "RAIL",
+    "connects_to": "RAIL",
     "flags": [ "RAIL", "TRANSPARENT" ]
   },
   {
@@ -478,7 +492,8 @@
       "ter_set": "t_rock_floor",
       "items": [ { "item": "log", "count": [ 0, 1 ] }, { "item": "splinter", "count": [ 10, 20 ] } ]
     },
-    "connects_with": "RAIL",
+    "connect_groups": "RAIL",
+    "connects_to": "RAIL",
     "flags": [ "TRANSPARENT" ]
   },
   {
@@ -501,7 +516,8 @@
       "ter_set": "t_rock_floor",
       "items": [ { "item": "log", "count": [ 0, 1 ] }, { "item": "splinter", "count": [ 10, 20 ] } ]
     },
-    "connects_with": "RAIL",
+    "connect_groups": "RAIL",
+    "connects_to": "RAIL",
     "flags": [ "TRANSPARENT" ]
   },
   {
@@ -599,7 +615,8 @@
         { "item": "splinter", "count": [ 6, 12 ] }
       ]
     },
-    "connects_with": "RAIL",
+    "connect_groups": "RAIL",
+    "connects_to": "RAIL",
     "flags": [ "RAIL", "TRANSPARENT" ]
   },
   {
@@ -633,7 +650,8 @@
         { "item": "splinter", "count": [ 6, 12 ] }
       ]
     },
-    "connects_with": "RAIL",
+    "connect_groups": "RAIL",
+    "connects_to": "RAIL",
     "flags": [ "RAIL", "TRANSPARENT" ]
   }
 ]
