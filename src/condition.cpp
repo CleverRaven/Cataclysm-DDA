@@ -1840,7 +1840,7 @@ std::function<int( const T & )> conditional_t<T>::get_get_int( const JsonObject 
                     };
                 } else if( format == "total_time_required" ) {
                     return [the_proficiency_id]( const T & d ) {
-                        static_cast<void>d;
+                        static_cast<void>(d);
                         return to_turns<int>( the_proficiency_id->time_to_learn() );
                     };
                 } else if( format == "time_left" ) {
