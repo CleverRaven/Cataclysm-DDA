@@ -304,11 +304,11 @@ void submap::rotate( int turns )
     computers = rot_comp;
 }
 
-void submap::mirror( bool horizontally )
+void submap::mirror( bool mirror_horizontal, bool mirror_vertical, bool mirror_diagonal )
 {
     std::map<point, computer> mirror_comp;
 
-    if( horizontally ) {
+    if( mirror_horizontal ) {
         for( int i = 0, ie = SEEX / 2; i < ie; i++ ) {
             for( int k = 0; k < SEEY; k++ ) {
                 swap_soa_tile( { i, k }, { SEEX - 1 - i, k } );
@@ -319,13 +319,12 @@ void submap::mirror( bool horizontally )
             elem.pos = point( -elem.pos.x, elem.pos.y ) + point( SEEX - 1, 0 );
         }
 
-        active_items.mirror( { SEEX, SEEY }, true );
-
         for( auto &elem : computers ) {
             mirror_comp.emplace( point( -elem.first.x, elem.first.y ) + point( SEEX - 1, 0 ), elem.second );
         }
         computers = mirror_comp;
-    } else {
+    }
+    if( mirror_vertical ) {
         for( int k = 0, ke = SEEY / 2; k < ke; k++ ) {
             for( int i = 0; i < SEEX; i++ ) {
                 swap_soa_tile( { i, k }, { i, SEEY - 1 - k } );
@@ -336,13 +335,28 @@ void submap::mirror( bool horizontally )
             elem.pos = point( elem.pos.x, -elem.pos.y ) + point( 0, SEEY - 1 );
         }
 
-        active_items.mirror( { SEEX, SEEY }, false );
-
         for( auto &elem : computers ) {
             mirror_comp.emplace( point( elem.first.x, -elem.first.y ) + point( 0, SEEY - 1 ), elem.second );
         }
         computers = mirror_comp;
     }
+    if( mirror_diagonal ) {
+        for( int k = 1; k < SEEY; k++ ) {
+            for( int i = 0; i < k; i++ ) {
+                swap_soa_tile( { i, k }, { k, i } );
+            }
+        }
+
+        for( submap::cosmetic_t &elem : cosmetics ) {
+            elem.pos = point( elem.pos.y, elem.pos.x );
+        }
+
+        for( auto &elem : computers ) {
+            mirror_comp.emplace( point( elem.first.y, elem.first.x ), elem.second );
+        }
+        computers = mirror_comp;
+    }
+    active_items.mirror( { SEEX, SEEY }, mirror_horizontal, mirror_vertical, mirror_diagonal );
 }
 
 void submap::revert_submap( submap_revert &sr )

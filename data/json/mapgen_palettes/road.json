@@ -2,39 +2,67 @@
   {
     "type": "palette",
     "id": "road",
+    "parameters": {
+      "road_stripes": {
+        "type": "ter_str_id",
+        "default": {
+          "distribution": [ [ "t_pavement_y", 1 ] ]
+        }
+      },
+      "crosswalk": {
+        "type": "ter_str_id",
+        "default": {
+          "distribution": [ [ "t_zebra", 1 ] ]
+        }
+      },
+      "stop_line": {
+        "type": "ter_str_id",
+        "default": {
+          "distribution": [ [ "t_pavement_y", 1 ] ]
+        }
+      },
+      "sidewalk_left": {
+        "type": "ter_str_id",
+        "default": {
+          "distribution": [ [ "t_sidewalk", 1 ] ]
+        }
+      },
+      "sidewalk_right": {
+        "type": "ter_str_id",
+        "default": {
+          "distribution": [ [ "t_sidewalk", 1 ] ]
+        }
+      },
+      "street_light": {
+        "type": "furn_str_id",
+        "default": {
+          "distribution": [ [ "f_street_light", 1 ] ]
+        }
+      },
+      "traffic_light": {
+        "type": "furn_str_id",
+        "default": {
+          "distribution": [ [ "f_traffic_light", 1 ] ]
+        }
+      }
+    },
     "terrain": {
-      " ": [ [ "t_region_groundcover", 8 ], "t_region_shrub" ],
+      "g": [ [ "t_region_groundcover", 8 ], "t_region_shrub" ],
       "_": "t_pavement",
-      "!": "t_pavement",
-      ".": "t_floor",
-      "#": "t_wall_w",
-      "+": "t_door_c",
-      "~": "t_door_locked",
-      "/": "t_door_glass_c",
-      "x": "t_wall_glass",
-      ":": "t_pavement_y",
-      "]": "t_sidewalk",
-      "*": "t_tree",
-      "A": "t_atm"
+      "Z": { "param": "crosswalk", "fallback": "t_zebra" },
+      ":": { "param": "road_stripes", "fallback": "t_pavement_y" },
+      ";": { "param": "stop_line", "fallback": "t_zebra" },
+      "[": { "param": "sidewalk_left", "fallback": "t_sidewalk" },
+      "]": { "param": "sidewalk_right", "fallback": "t_sidewalk" },
+      "L": { "param": "sidewalk_left", "fallback": "t_sidewalk" },
+      "l": { "param": "sidewalk_right", "fallback": "t_sidewalk" },
+      "T": { "param": "sidewalk_left", "fallback": "t_sidewalk" },
+      "*": "t_tree"
     },
     "furniture": {
-      "&": "f_trashcan",
-      "{": "f_glass_fridge",
-      "1": [ "f_indoor_plant", "f_indoor_plant_y" ],
-      "C": "f_counter",
-      "H": "f_sofa",
-      "c": "f_chair",
-      "s": "f_stool",
-      "t": "f_table",
-      "r": "f_rack",
-      "l": "f_locker",
-      "f": "f_fridge",
-      "o": "f_oven",
-      "S": "f_sink",
-      "T": "f_toilet"
-    },
-    "toilets": { "T": {  } },
-    "gaspumps": { "!": {  } },
-    "vendingmachines": { "D": { "item_group": "vending_drink" }, "F": { "item_group": "vending_food" } }
+      "L": { "param": "street_light", "fallback": "f_street_light" },
+      "l": { "param": "street_light", "fallback": "f_street_light" },
+      "T": { "param": "traffic_light", "fallback": "f_traffic_light" }
+    }
   }
 ]

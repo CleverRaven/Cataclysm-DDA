@@ -28,6 +28,8 @@ class JsonObject;
 tripoint rotate_point( const tripoint &p, int rotations );
 
 int terrain_type_to_nesw_array( oter_id terrain_type, std::array<bool, 4> &array );
+template<typename T, size_t N>
+void nesw_array_rotate( std::array<T, N> &array, size_t dist );
 
 using building_gen_pointer = void ( * )( mapgendata & );
 building_gen_pointer get_mapgen_cfunction( const std::string &ident );
@@ -77,7 +79,8 @@ void mremove_fields( map *m, const point & );
 mapgen_update_func add_mapgen_update_func( const JsonObject &jo, bool &defer );
 bool run_mapgen_update_func( const update_mapgen_id &, const tripoint_abs_omt &omt_pos,
                              mission *miss = nullptr, bool cancel_on_collision = true,
-                             bool mirror_horizontal = false, bool mirror_vertical = false, int rotation = 0 );
+                             bool mirror_horizontal = false, bool mirror_vertical = false,
+                             bool mirror_diagonal = false, int rotation = 0 );
 bool run_mapgen_update_func( const update_mapgen_id &, mapgendata &dat,
                              bool cancel_on_collision = true );
 bool run_mapgen_func( const std::string &mapgen_id, mapgendata &dat );

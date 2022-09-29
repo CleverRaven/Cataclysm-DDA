@@ -1793,8 +1793,8 @@ class map
         void rotate( int turns, bool setpos_safe = false );
 
         // Not protected/private for mapgen.cpp access
-        // Mirrors the current map horizontally and/or vertically (both is technically
-        // equivalent to a 180 degree rotation, while neither is a null operation).
+        // Mirrors the map horizontally, vertically (both is technically equivalent to
+        // a 180 degree rotation, and/or diagonally (while none is a null operation).
         // Intended to base recipe usage to allow recipes to specify the mirroring of
         // a common blueprint. Note that the operation is NOT safe to use for purposes
         // other than mirroring the map, place assets on it, and then mirroring it
@@ -1803,7 +1803,8 @@ class map
         // that the rotate operation above has to deal with.
         // @param mirror_horizontal causes horizontal mirroring of the map
         // @param mirror_vertical causes vertical mirroring of the map
-        void mirror( bool mirror_horizontal, bool mirror_vertical );
+        // @param mirror_diagonal causes vertical mirroring of the map
+        void mirror( bool mirror_horizontal, bool mirror_vertical, bool mirror_diagonal );
 
         // Monster spawning:
         /**

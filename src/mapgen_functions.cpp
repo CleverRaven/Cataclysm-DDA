@@ -498,16 +498,6 @@ void nesw_array_rotate( std::array<T, N> &array, size_t dist )
     }
 }
 
-// take x/y coordinates in a map and rotate them counterclockwise around the center
-static void coord_rotate_cw( int &x, int &y, int rot )
-{
-    for( ; rot--; ) {
-        int temp = y;
-        y = x;
-        x = ( SEEY * 2 - 1 ) - temp;
-    }
-}
-
 static bool compare_neswx( const std::array<bool, 8> &a1, std::initializer_list<int> a2 )
 {
     cata_assert( a1.size() == a2.size() );
@@ -536,11 +526,11 @@ void mapgen_road( mapgendata &dat )
     // which of the cardinal directions get roads?
     std::array<bool, 4> roads_nesw = {};
     int num_dirs = terrain_type_to_nesw_array( dat.terrain_type(), roads_nesw );
-    // if this is a dead end, extend past the middle of the tile
-    int dead_end_extension = num_dirs == 1 ? 8 : 0;
 
-    // which way should our roads curve, based on neighbor roads?
+    // which way should our straight(ish) roads curve, based on neighbor roads?
     std::array<int, 4> curvedir_nesw = {};
+    std::array<std::array<bool, 4>, 4> n_roads_nesw = {};
+    std::array<int, 4> n_num_dirs = {};
     // N E S W
     for( int dir = 0; dir < 4; dir++ ) {
         if( !roads_nesw[dir] || dat.t_nesw[dir]->get_type_id().str() != "road" ) {
@@ -548,19 +538,33 @@ void mapgen_road( mapgendata &dat )
         }
 
         // n_* contain details about the neighbor being considered
-        std::array<bool, 4> n_roads_nesw = {};
         // TODO: figure out how to call this function without creating a new oter_id object
-        int n_num_dirs = terrain_type_to_nesw_array( dat.t_nesw[dir], n_roads_nesw );
-        // if 2-way neighbor has a road facing us
-        if( n_num_dirs == 2 && n_roads_nesw[( dir + 2 ) % 4] ) {
-            // curve towards the direction the neighbor turns
-            // our road curves counterclockwise
-            if( n_roads_nesw[( dir - 1 + 4 ) % 4] ) {
-                curvedir_nesw[dir]--;
-            }
-            // our road curves clockwise
-            if( n_roads_nesw[( dir + 1 ) % 4] ) {
-                curvedir_nesw[dir]++;
+        n_num_dirs[dir] = terrain_type_to_nesw_array( dat.t_nesw[dir], n_roads_nesw[dir] );
+        if( n_num_dirs[dir] == 2 && n_roads_nesw[dir][( dir + 2 ) % 4] ) {
+            // 2-way neighbor has a road facing us
+            if( ! n_roads_nesw[dir][dir] ) {
+                // neighbor is a corner
+                int dir_to_nn = dir + 4; // N E S W -> NE SE SW NW
+                if( n_roads_nesw[dir][( dir + 3 ) % 4] ) {
+                    dir_to_nn = ( dir + 3 ) % 4 + 4; //  N E S W -> NW NE SE SW
+                }
+                // from here to n is dir, from here to nn is dir_to_nn
+                std::array<bool, 4> nn_roads_nesw = {};
+                // could put nn_num_dirs in n_num_dirs[dir_to_nn] instead but no later code needs that yet
+                int nn_num_dirs = terrain_type_to_nesw_array( dat.t_nesw[dir_to_nn], nn_roads_nesw );
+                if( nn_num_dirs == 2 && nn_roads_nesw[( dir + 2 ) % 4] ) {
+                    // n+nn make a u-turn, so they should be tight turns and this tile shouldn't curve toward n
+                    continue;
+                }
+                // curve towards the direction the neighbor turns
+                // our road curves counterclockwise
+                if( n_roads_nesw[dir][( dir - 1 + 4 ) % 4] ) {
+                    curvedir_nesw[dir]--;
+                }
+                // our road curves clockwise
+                if( n_roads_nesw[dir][( dir + 1 ) % 4] ) {
+                    curvedir_nesw[dir]++;
+                }
             }
         }
     }
@@ -597,52 +601,48 @@ void mapgen_road( mapgendata &dat )
             break;
         case 3:
             // tee
-            // E/S/W, rotate 180 degrees
+            // E/S/W, rotate 270 degrees
             if( !roads_nesw[0] ) {
-                rot = 2;
-                break;
-            }
-            // N/S/W, rotate 270 degrees
-            if( !roads_nesw[1] ) {
                 rot = 3;
-                break;
             }
-            // N/E/S, rotate  90 degrees
-            if( !roads_nesw[3] ) {
+            // N/E/S, rotate 180 degrees
+            else if( !roads_nesw[3] ) {
+                rot = 2;
+            }
+            // N/E/W, rotate 90 degrees
+            else if( !roads_nesw[2] ) {
                 rot = 1;
-                break;
             }
-            // N/E/W, don't rotate
+            // N/S/W, rotate 0 degrees
+            else {
+                rot = 3;
+            }
             break;
         case 2:
             // straight or diagonal
             // E/W, rotate  90 degrees
             if( roads_nesw[1] && roads_nesw[3] ) {
                 rot = 1;
-                break;
             }
-            // E/S, rotate  90 degrees
-            if( roads_nesw[1] && roads_nesw[2] ) {
+            // N/E, rotate 90 degrees
+            else if( roads_nesw[0] && roads_nesw[1] ) {
                 rot = 1;
                 diag = true;
-                break;
             }
-            // S/W, rotate 180 degrees
-            if( roads_nesw[2] && roads_nesw[3] ) {
+            // E/S, rotate 180 degrees
+            else if( roads_nesw[1] && roads_nesw[2] ) {
                 rot = 2;
                 diag = true;
-                break;
             }
-            // W/N, rotate 270 degrees
-            if( roads_nesw[3] && roads_nesw[0] ) {
+            // S/W, rotate 270 degrees
+            else if( roads_nesw[2] && roads_nesw[3] ) {
                 rot = 3;
                 diag = true;
-                break;
             }
-            // N/E, don't rotate
-            if( roads_nesw[0] && roads_nesw[1] ) {
+            // W/N, rotate 0 degrees
+            else if( roads_nesw[3] && roads_nesw[0] ) {
+                rot = 0;
                 diag = true;
-                break;
             }
             // N/S, don't rotate
             break;
@@ -671,280 +671,284 @@ void mapgen_road( mapgendata &dat )
     nesw_array_rotate( sidewalks_neswx, rot * 2 );
     nesw_array_rotate( roads_nesw,      rot );
     nesw_array_rotate( curvedir_nesw,   rot );
+    nesw_array_rotate( n_num_dirs,      rot );
 
-    // now we have only these shapes: '   |   '-   -'-   -|-
+    // now we have only these shapes: '   |   -'   -|   -|-
 
-    if( diag ) {
-        // diagonal roads get drawn differently from all other types
-        // draw sidewalks if a S/SW/W neighbor has_sidewalk
-        if( sidewalks_neswx[4] || sidewalks_neswx[5] || sidewalks_neswx[6] ) {
-            for( int y = 0; y < SEEY * 2; y++ ) {
-                for( int x = 0; x < SEEX * 2; x++ ) {
-                    if( x > y - 4 && ( x < 4 || y > SEEY * 2 - 5 || y >= x ) ) {
-                        m->ter_set( point( x, y ), t_sidewalk );
-                    }
-                }
-            }
-        }
-        // draw diagonal road
-        for( int y = 0; y < SEEY * 2; y++ ) {
-            for( int x = 0; x < SEEX * 2; x++ ) {
-                if( x > y && // definitely only draw in the upper right half of the map
-                    ( ( x > 3 && y < ( SEEY * 2 - 4 ) ) || // middle, for both corners and diagonals
-                      ( x < 4 && curvedir_nesw[0] < 0 ) || // diagonal heading northwest
-                      ( y > ( SEEY * 2 - 5 ) && curvedir_nesw[1] > 0 ) ) ) { // diagonal heading southeast
-                    if( ( x + rot / 2 ) % 4 && ( x - y == SEEX - 1 + ( 1 - ( rot / 2 ) ) ||
-                                                 x - y == SEEX + ( 1 - ( rot / 2 ) ) ) ) {
-                        m->ter_set( point( x, y ), t_pavement_y );
-                    } else {
-                        m->ter_set( point( x, y ), t_pavement );
-                    }
-                }
-            }
-        }
-    } else { // normal road drawing
-        bool cul_de_sac = false;
-        // dead ends become cul de sacs, 1/3 of the time, if a neighbor has_sidewalk
-        if( num_dirs == 1 && one_in( 3 ) && neighbor_sidewalks ) {
-            cul_de_sac = true;
-            fill_background( m, t_sidewalk );
-        }
-
-        // draw normal sidewalks
-        for( int dir = 0; dir < 4; dir++ ) {
-            if( roads_nesw[dir] ) {
-                // sidewalk west of north road, etc
-                if( sidewalks_neswx[( dir + 3 ) % 4     ] ||   // has_sidewalk west?
-                    sidewalks_neswx[( dir + 3 ) % 4 + 4 ] ||   // has_sidewalk northwest?
-                    sidewalks_neswx[   dir               ] ) { // has_sidewalk north?
-                    point p1;
-                    point p2( 3, SEEY - 1 + dead_end_extension );
-                    coord_rotate_cw( p1.x, p1.y, dir );
-                    coord_rotate_cw( p2.x, p2.y, dir );
-                    square( m, t_sidewalk, p1, p2 );
-                }
-                // sidewalk east of north road, etc
-                if( sidewalks_neswx[( dir + 1 ) % 4 ] ||   // has_sidewalk east?
-                    sidewalks_neswx[   dir + 4       ] ||  // has_sidewalk northeast?
-                    sidewalks_neswx[   dir           ] ) { // has_sidewalk north?
-                    point p12( SEEX * 2 - 5, 0 );
-                    point p22( SEEX * 2 - 1, SEEY - 1 + dead_end_extension );
-                    coord_rotate_cw( p12.x, p12.y, dir );
-                    coord_rotate_cw( p22.x, p22.y, dir );
-                    square( m, t_sidewalk, p12, p22 );
-                }
-            }
-        }
-
-        //draw dead end sidewalk
-        if( dead_end_extension > 0 && sidewalks_neswx[ 2 ] ) {
-            square( m, t_sidewalk, point( 0, SEEY + dead_end_extension ), point( SEEX * 2 - 1,
-                    SEEY + dead_end_extension + 4 ) );
-        }
-
-        // draw 16-wide pavement from the middle to the edge in each road direction
-        // also corner pieces to curve towards diagonal neighbors
-        for( int dir = 0; dir < 4; dir++ ) {
-            if( roads_nesw[dir] ) {
-                point p13( 4, 0 );
-                point p23( SEEX * 2 - 1 - 4, SEEY - 1 + dead_end_extension );
-                coord_rotate_cw( p13.x, p13.y, dir );
-                coord_rotate_cw( p23.x, p23.y, dir );
-                square( m, t_pavement, p13, p23 );
-                if( curvedir_nesw[dir] != 0 ) {
-                    for( int x = 1; x < 4; x++ ) {
-                        for( int y = 0; y < x; y++ ) {
-                            int ty = y;
-                            int tx = curvedir_nesw[dir] == -1 ? x : SEEX * 2 - 1 - x;
-                            coord_rotate_cw( tx, ty, dir );
-                            m->ter_set( point( tx, ty ), t_pavement );
-                        }
-                    }
-                }
-            }
-        }
-
-        // draw yellow dots on the pavement
-        for( int dir = 0; dir < 4; dir++ ) {
-            if( roads_nesw[dir] ) {
-                int max_y = SEEY;
-                if( num_dirs == 4 || ( num_dirs == 3 && dir == 0 ) ) {
-                    // dots don't extend into some intersections
-                    max_y = 4;
-                }
-                for( int x = SEEX - 1; x <= SEEX; x++ ) {
-                    for( int y = 0; y < max_y; y++ ) {
-                        if( ( y + ( ( dir + rot ) / 2 % 2 ) ) % 4 ) {
-                            point n( x, y );
-                            coord_rotate_cw( n.x, n.y, dir );
-                            m->ter_set( n, t_pavement_y );
-                        }
-                    }
-                }
-            }
-        }
-
-        // draw round pavement for cul de sac late, to overdraw the yellow dots
-        if( cul_de_sac ) {
-            circle( m, t_pavement, static_cast<double>( SEEX ) - 0.5, static_cast<double>( SEEY ) - 0.5, 11.0 );
-
-            // place streetlights for cul de sacs
-            m->furn_set( point( 0, SEEY ), f_street_light );
-            m->furn_set( point( SEEX * 2 - 1, SEEY ), f_street_light );
-            m->furn_set( point( 3, 4 ), f_street_light );
-            m->furn_set( point( 3, 19 ), f_street_light );
-            m->furn_set( point( 20, 4 ), f_street_light );
-            m->furn_set( point( 20, 19 ), f_street_light );
-        }
-
-        // overwrite part of intersection with rotary/plaza
-        if( plaza_dir > -1 ) {
-            if( plaza_dir == 8 ) {
-                // plaza center
-                fill_background( m, t_sidewalk );
-                // TODO: something interesting here
-            } else if( plaza_dir < 4 ) {
-                // plaza side
-                square( m, t_pavement, point( 0, SEEY - 10 ), point( SEEX * 2 - 1, SEEY - 1 ) );
-                square( m, t_sidewalk, point( 0, SEEY - 2 ), point( SEEX * 2 - 1, SEEY * 2 - 1 ) );
-                if( one_in( 3 ) ) {
-                    line( m, t_tree_young, point( 1, SEEY ), point( SEEX * 2 - 2, SEEY ) );
-                }
-                if( one_in( 3 ) ) {
-                    line_furn( m, f_bench, point( 2, SEEY + 2 ), point( 5, SEEY + 2 ) );
-                    line_furn( m, f_bench, point( 10, SEEY + 2 ), point( 13, SEEY + 2 ) );
-                    line_furn( m, f_bench, point( 18, SEEY + 2 ), point( 21, SEEY + 2 ) );
-                }
-            } else { // plaza corner
-                circle( m, t_pavement, point( 0, SEEY * 2 - 1 ), 21 );
-                circle( m, t_sidewalk, point( 0, SEEY * 2 - 1 ), 13 );
-                if( one_in( 3 ) ) {
-                    circle( m, t_tree_young, point( 0, SEEY * 2 - 1 ), 11 );
-                    circle( m, t_sidewalk,   point( 0, SEEY * 2 - 1 ), 10 );
-                }
-                if( one_in( 3 ) ) {
-                    circle( m, t_water_sh, point( 4, SEEY * 2 - 5 ), 3 );
-                }
-            }
-        }
-    }
-
-    // place street and traffic lights and draw stop lines
+    const tripoint_abs_ms abs_ms( tripoint( 0, 0, m->get_abs_sub().z() ) );
+    const tripoint_abs_omt abs_omt = project_to<coords::omt>( abs_ms );
+    mapgendata md( abs_omt, *m, 0.0f, calendar::turn, nullptr );
+    mapgen_arguments default_args;
+    // FIXME enumerate the parameters and null them all
+    // TODO find a better way to default to null in the json while still giving some indication of the expected non-null use
+    // TODO implement a way to put both options in the json and choose between them here
+    default_args.map["road_stripes"] = cata_variant( string_id<ter_t>( "t_pavement_y" ) );
+    default_args.map["crosswalk"] = cata_variant( string_id<ter_t>( "t_pavement" ) );
+    default_args.map["stop_line"] = cata_variant( string_id<ter_t>( "t_pavement" ) );
+    default_args.map["sidewalk_left"] = cata_variant( string_id<ter_t>( "t_null" ) );
+    default_args.map["sidewalk_right"] = cata_variant( string_id<ter_t>( "t_null" ) );
+    default_args.map["traffic_light"] = cata_variant( string_id<furn_t>( "f_null" ) );
     if( neighbor_sidewalks ) {
-        if( diag ) { // diagonal roads
-            if( m->ter( point( 12, 12 ) ) == t_sidewalk ) {
-                m->furn_set( point( 12, 12 ), f_street_light );
+        default_args.map["street_light"] = cata_variant( string_id<furn_t>( "f_street_light" ) );
+    } else {
+        default_args.map["street_light"] = cata_variant( string_id<furn_t>( "f_null" ) );
+    }
+    mapgen_arguments args( default_args );
+
+
+    const std::shared_ptr<mapgen_function_json_nested> *mapgen_ptr = nullptr;
+    if( num_dirs == 2 ) {
+        if( roads_nesw[0] && roads_nesw[3] ) {
+            // corner/diagonal
+
+            // draw sidewalk if a E/SE/S neighbor has_sidewalk
+            if( sidewalks_neswx[1] || sidewalks_neswx[5] || sidewalks_neswx[2] ) {
+                args.map["sidewalk_right"] = cata_variant( string_id<ter_t>( "t_sidewalk" ) );
             }
-        } else if( num_dirs == 3 ) { // tee-shaped intersections
-            if( m->ter( point( 12, 20 ) ) == t_sidewalk ) {
-                m->furn_set( point( 12, 20 ), f_street_light );
+            // draw corner sidewalk if a W/NW/N neighbor has_sidewalk
+            if( sidewalks_neswx[3] || sidewalks_neswx[7] || sidewalks_neswx[0] ) {
+                args.map["sidewalk_left"] = cata_variant( string_id<ter_t>( "t_sidewalk" ) );
             }
-        } else if( num_dirs == 2 || num_dirs == 1 ) { // ordinary roads and dead ends
-            if( m->ter( point( 3, 12 ) ) == t_sidewalk ) {
-                m->furn_set( point( 3, 12 ), f_street_light );
+            mapgendata md2( md, args );
+
+            if( curvedir_nesw[0] == -1 || curvedir_nesw[3] == 1 ) {
+                // tight curve that fits within a tile
+                mapgen_ptr = nested_mapgens[nested_mapgen_id( "road_curve" )].funcs().pick();
+            } else {
+                // draw west half
+                if( curvedir_nesw[3] < 0 || n_num_dirs[3] == 0 ) {
+                    mapgen_ptr = nested_mapgens[nested_mapgen_id( "road_diagonal_half" )].funcs().pick();
+                } else {
+                    mapgen_ptr = nested_mapgens[nested_mapgen_id( "road_diagonal_half_curve" )].funcs().pick();
+                }
+                ( *mapgen_ptr )->nest( md2, point( 0, 0 ), "mapgen_road()" );
+                // we just drew the west half of the map in the north half
+                // mirror diagonally to put it where it belongs
+                m->mirror( false, false, true );
+                // draw north half
+                if( curvedir_nesw[0] > 0 || n_num_dirs[0] == 0 ) {
+                    mapgen_ptr = nested_mapgens[nested_mapgen_id( "road_diagonal_half" )].funcs().pick();
+                } else {
+                    mapgen_ptr = nested_mapgens[nested_mapgen_id( "road_diagonal_half_curve" )].funcs().pick();
+                }
             }
-            if( m->ter( point( 20, 12 ) ) == t_sidewalk ) {
-                m->furn_set( point( 20, 12 ), f_street_light );
+            ( *mapgen_ptr )->nest( md2, point( 0, 0 ), "mapgen_road()" );
+        } else {
+            // straight
+            args.map["street_light"] = cata_variant( string_id<furn_t>( "f_null" ) );
+            // draw south half
+            if( curvedir_nesw[2] > 0 ) {
+                // curve clockwise to meet a curved diagonal
+                mapgen_ptr = nested_mapgens[nested_mapgen_id( "road_straight_half_curve" )].funcs().pick();
+                if( sidewalks_neswx[3] ) {
+                    args.map["sidewalk_right"] = cata_variant( string_id<ter_t>( "t_sidewalk" ) );
+                }
+                if( sidewalks_neswx[1] ) {
+                    args.map["sidewalk_left"] = cata_variant( string_id<ter_t>( "t_sidewalk" ) );
+                }
+                mapgendata md2( md, args );
+                ( *mapgen_ptr )->nest( md2, point( 0, 0 ), "mapgen_road()" );
+            } else if( curvedir_nesw[2] < 0 ) {
+                // curve counterclockwise to meet a curved diagonal
+                mapgen_ptr = nested_mapgens[nested_mapgen_id( "road_straight_half_curve" )].funcs().pick();
+                if( sidewalks_neswx[1] ) {
+                    args.map["sidewalk_right"] = cata_variant( string_id<ter_t>( "t_sidewalk" ) );
+                }
+                if( sidewalks_neswx[3] ) {
+                    args.map["sidewalk_left"] = cata_variant( string_id<ter_t>( "t_sidewalk" ) );
+                }
+                mapgendata md2( md, args );
+                ( *mapgen_ptr )->nest( md2, point( 0, 0 ), "mapgen_road()" );
+                m->mirror( true, false, false );
+            } else {
+                // just straight
+                mapgen_ptr = nested_mapgens[nested_mapgen_id( "road_straight_half_side" )].funcs().pick();
+                if( sidewalks_neswx[3] ) {
+                    args.map["sidewalk_left"] = cata_variant( string_id<ter_t>( "t_sidewalk" ) );
+                }
+                mapgendata md2( md, args );
+                ( *mapgen_ptr )->nest( md2, point( 0, 0 ), "mapgen_road()" );
+                m->mirror( true, false, false );
+                args = default_args;
+                args.map["street_light"] = cata_variant( string_id<furn_t>( "f_null" ) );
+                if( sidewalks_neswx[1] ) {
+                    args.map["sidewalk_left"] = cata_variant( string_id<ter_t>( "t_sidewalk" ) );
+                }
+                mapgendata md3( md, args );
+                ( *mapgen_ptr )->nest( md3, point( 0, 0 ), "mapgen_road()" );
+            }
+            // we just drew the south half of the map in the north half
+            args = default_args;
+            // rotate 180 degrees to put it where it belongs
+            m->mirror( true, true, false );
+            // draw north half
+            if( curvedir_nesw[0] > 0 ) {
+                // curve clockwise to meet a curved diagonal
+                mapgen_ptr = nested_mapgens[nested_mapgen_id( "road_straight_half_curve" )].funcs().pick();
+                if( sidewalks_neswx[1] ) {
+                    args.map["sidewalk_right"] = cata_variant( string_id<ter_t>( "t_sidewalk" ) );
+                }
+                if( sidewalks_neswx[3] ) {
+                    args.map["sidewalk_left"] = cata_variant( string_id<ter_t>( "t_sidewalk" ) );
+                }
+                mapgendata md2( md, args );
+                ( *mapgen_ptr )->nest( md2, point( 0, 0 ), "mapgen_road()" );
+            } else if( curvedir_nesw[0] < 0 ) {
+                // curve counterclockwise to meet a curved diagonal
+                mapgen_ptr = nested_mapgens[nested_mapgen_id( "road_straight_half_curve" )].funcs().pick();
+                m->mirror( true, false, false ); // need an even number of mirrors to preserve the other half
+                if( sidewalks_neswx[3] ) {
+                    args.map["sidewalk_right"] = cata_variant( string_id<ter_t>( "t_sidewalk" ) );
+                }
+                if( sidewalks_neswx[1] ) {
+                    args.map["sidewalk_left"] = cata_variant( string_id<ter_t>( "t_sidewalk" ) );
+                }
+                mapgendata md2( md, args );
+                ( *mapgen_ptr )->nest( md2, point( 0, 0 ), "mapgen_road()" );
+                m->mirror( true, false, false );
+            } else {
+                // just straight
+                mapgen_ptr = nested_mapgens[nested_mapgen_id( "road_straight_half_side" )].funcs().pick();
+                if( sidewalks_neswx[3] ) {
+                    args.map["sidewalk_left"] = cata_variant( string_id<ter_t>( "t_sidewalk" ) );
+                }
+                mapgendata md2( md, args );
+                ( *mapgen_ptr )->nest( md2, point( 0, 0 ), "mapgen_road()" );
+                m->mirror( true, false, false );
+                args = default_args;
+                if( sidewalks_neswx[1] ) {
+                    args.map["sidewalk_left"] = cata_variant( string_id<ter_t>( "t_sidewalk" ) );
+                }
+                mapgendata md3( md, args );
+                ( *mapgen_ptr )->nest( md3, point( 0, 0 ), "mapgen_road()" );
+                m->mirror( true, false, false );
             }
         }
+    } else if( num_dirs == 1 ) {
+        // dead ends become cul de sacs, 1/3 of the time, if a neighbor has_sidewalk
+        if( neighbor_sidewalks && one_in( 3 ) ) {
+            mapgen_ptr = nested_mapgens[nested_mapgen_id( "road_cul_de_sac" )].funcs().pick();
+            args.map["sidewalk_left"] = cata_variant( string_id<ter_t>( "t_sidewalk" ) );
+            args.map["sidewalk_right"] = cata_variant( string_id<ter_t>( "t_sidewalk" ) );
+            mapgendata md2( md, args );
+            ( *mapgen_ptr )->nest( md2, point( 0, 0 ), "mapgen_road()" );
+        } else {
+            mapgen_ptr = nested_mapgens[nested_mapgen_id( "road_dead_end_half_side" )].funcs().pick();
+            if( sidewalks_neswx[3] ) {
+                args.map["sidewalk_left"] = cata_variant( string_id<ter_t>( "t_sidewalk" ) );
+            }
+            mapgendata md2( md, args );
+            ( *mapgen_ptr )->nest( md2, point( 0, 0 ), "mapgen_road()" );
+            m->mirror( true, false, false );
+            if( sidewalks_neswx[1] ) {
+                args.map["sidewalk_left"] = cata_variant( string_id<ter_t>( "t_sidewalk" ) );
+            }
+            mapgendata md3( md, args );
+            ( *mapgen_ptr )->nest( md3, point( 0, 0 ), "mapgen_road()" );
+            m->mirror( false, true, false );
 
-        // four-way intersections
-        if( num_dirs == 4 ) {
-            if( one_in( 2 ) &&
-                m->ter( point( 3, 1 ) ) == t_sidewalk && m->ter( point( 20, 2 ) ) == t_sidewalk ) {
-                square( m, t_pavement, point( 11, 1 ), point( 12, 3 ) );
-                for( int i = 4; i < 20; i += 2 ) {
-                    m->ter_set( point( i, 1 ), t_zebra );
-                    m->ter_set( point( i, 2 ), t_zebra );
+
+            // big copy/paste from straight north code above, just md names changed
+            if( curvedir_nesw[0] > 0 ) {
+                // curve clockwise to meet a curved diagonal
+                mapgen_ptr = nested_mapgens[nested_mapgen_id( "road_straight_half_curve" )].funcs().pick();
+                if( sidewalks_neswx[1] ) {
+                    args.map["sidewalk_right"] = cata_variant( string_id<ter_t>( "t_sidewalk" ) );
                 }
-            }
-            if( one_in( 2 ) &&
-                m->ter( point( 21, 3 ) ) == t_sidewalk && m->ter( point( 22, 20 ) ) == t_sidewalk ) {
-                square( m, t_pavement, point( 20, 11 ), point( 23, 12 ) );
-                for( int i = 4; i < 20; i += 2 ) {
-                    m->ter_set( point( 21, i ), t_zebra );
-                    m->ter_set( point( 22, i ), t_zebra );
+                if( sidewalks_neswx[3] ) {
+                    args.map["sidewalk_left"] = cata_variant( string_id<ter_t>( "t_sidewalk" ) );
                 }
-            }
-            if( one_in( 2 ) &&
-                m->ter( point( 3, 21 ) ) == t_sidewalk && m->ter( point( 20, 22 ) ) == t_sidewalk ) {
-                square( m, t_pavement, point( 11, 21 ), point( 12, 22 ) );
-                for( int i = 4; i < 20; i += 2 ) {
-                    m->ter_set( point( i, 21 ), t_zebra );
-                    m->ter_set( point( i, 22 ), t_zebra );
+                mapgendata md4( md, args );
+                ( *mapgen_ptr )->nest( md4, point( 0, 0 ), "mapgen_road()" );
+            } else if( curvedir_nesw[0] < 0 ) {
+                // curve counterclockwise to meet a curved diagonal
+                mapgen_ptr = nested_mapgens[nested_mapgen_id( "road_straight_half_curve" )].funcs().pick();
+                m->mirror( true, false, false ); // need an even number of mirrors to preserve the other half
+                if( sidewalks_neswx[3] ) {
+                    args.map["sidewalk_right"] = cata_variant( string_id<ter_t>( "t_sidewalk" ) );
                 }
-            }
-            if( one_in( 2 ) &&
-                m->ter( point( 1, 3 ) ) == t_sidewalk && m->ter( point( 2, 20 ) ) == t_sidewalk ) {
-                square( m, t_pavement, point( 1, 11 ), point( 2, 12 ) );
-                for( int i = 4; i < 20; i += 2 ) {
-                    m->ter_set( point( 1, i ), t_zebra );
-                    m->ter_set( point( 2, i ), t_zebra );
+                if( sidewalks_neswx[1] ) {
+                    args.map["sidewalk_left"] = cata_variant( string_id<ter_t>( "t_sidewalk" ) );
                 }
+                mapgendata md4( md, args );
+                ( *mapgen_ptr )->nest( md4, point( 0, 0 ), "mapgen_road()" );
+                m->mirror( true, false, false );
+            } else {
+                // just straight
+                mapgen_ptr = nested_mapgens[nested_mapgen_id( "road_straight_half_side" )].funcs().pick();
+                if( sidewalks_neswx[3] ) {
+                    args.map["sidewalk_left"] = cata_variant( string_id<ter_t>( "t_sidewalk" ) );
+                }
+                mapgendata md4( md, args );
+                ( *mapgen_ptr )->nest( md4, point( 0, 0 ), "mapgen_road()" );
+                m->mirror( true, false, false );
+                args = default_args;
+                if( sidewalks_neswx[1] ) {
+                    args.map["sidewalk_left"] = cata_variant( string_id<ter_t>( "t_sidewalk" ) );
+                }
+                mapgendata md5( md, args );
+                ( *mapgen_ptr )->nest( md5, point( 0, 0 ), "mapgen_road()" );
+                m->mirror( true, false, false );
             }
 
-            if( one_in( 2 ) ) {
-                m->furn_set( point( 3, 3 ), f_traffic_light );
-                m->furn_set( point( 3, 20 ), f_traffic_light );
-                m->furn_set( point( 20, 3 ), f_traffic_light );
-                m->furn_set( point( 20, 20 ), f_traffic_light );
-
-                line( m, t_pavement_y, point( 4, 0 ), point( 10, 0 ) );
-                line( m, t_pavement_y, point( 23, 4 ), point( 23, 10 ) );
-                line( m, t_pavement_y, point( 13, 23 ), point( 19, 23 ) );
-                line( m, t_pavement_y, point( 0, 13 ), point( 0, 19 ) );
-            }
 
         }
-
-        // tee-shaped roads
-        if( num_dirs == 3 ) {
-            if( one_in( 2 ) &&
-                m->ter( point( 3, 1 ) ) == t_sidewalk && m->ter( point( 20, 2 ) ) == t_sidewalk ) {
-                square( m, t_pavement, point( 11, 1 ), point( 12, 3 ) );
-                for( int i = 4; i < 20; i += 2 ) {
-                    m->ter_set( point( i, 1 ), t_zebra );
-                    m->ter_set( point( i, 2 ), t_zebra );
+    } else if( num_dirs > 2 ) {
+        bool signaled = neighbor_sidewalks ? one_in( 2 ) : one_in( 20 );
+        // FIXME draw curves, maybe all exits, after sides, so pavement can overwrite sidewalk
+        for( int dir = 3; dir >= 0; dir-- ) {
+            args = default_args;
+            bool flip = false;
+            bool mirror = false;
+            if( roads_nesw[dir] ) {
+                if( sidewalks_neswx[dir] || sidewalks_neswx[( dir + 3 ) % 4 + 4] ) {
+                    args.map["sidewalk_left"] = cata_variant( string_id<ter_t>( "t_sidewalk" ) );
                 }
-            }
-            if( one_in( 2 ) &&
-                m->ter( point( 21, 3 ) ) == t_sidewalk && m->ter( point( 22, 20 ) ) == t_sidewalk ) {
-                square( m, t_pavement, point( 20, 11 ), point( 23, 13 ) );
-                for( int i = 4; i < 20; i += 2 ) {
-                    m->ter_set( point( 21, i ), t_zebra );
-                    m->ter_set( point( 22, i ), t_zebra );
+                if( sidewalks_neswx[dir] || sidewalks_neswx[dir + 4] ) {
+                    args.map["sidewalk_right"] = cata_variant( string_id<ter_t>( "t_sidewalk" ) );
                 }
-            }
-            if( one_in( 2 ) &&
-                m->ter( point( 1, 3 ) ) == t_sidewalk && m->ter( point( 2, 20 ) ) == t_sidewalk ) {
-                square( m, t_pavement, point( 1, 11 ), point( 2, 13 ) );
-                for( int i = 4; i < 20; i += 2 ) {
-                    m->ter_set( point( 1, i ), t_zebra );
-                    m->ter_set( point( 2, i ), t_zebra );
+                if( curvedir_nesw[dir] > 0 ) {
+                    mapgen_ptr = nested_mapgens[nested_mapgen_id( "road_intersection_exit_curve" )].funcs().pick();
+                } else if( curvedir_nesw[dir] < 0 ) {
+                    mapgen_ptr = nested_mapgens[nested_mapgen_id( "road_intersection_exit_curve" )].funcs().pick();
+                    std::swap( args.map["sidewalk_left"], args.map["sidewalk_right"] );
+                    flip = true;
+                } else {
+                    mapgen_ptr = nested_mapgens[nested_mapgen_id( "road_intersection_exit_side" )].funcs().pick();
+                    mirror = true;
                 }
+            } else {
+                if( sidewalks_neswx[dir] ) {
+                    args.map["sidewalk_left"] = cata_variant( string_id<ter_t>( "t_sidewalk" ) );
+                    args.map["sidewalk_right"] = cata_variant( string_id<ter_t>( "t_sidewalk" ) );
+                }
+                mapgen_ptr = nested_mapgens[nested_mapgen_id( "road_intersection_side_side" )].funcs().pick();
+                mirror = true;
             }
-
-            if( one_in( 2 ) ) {
-                m->furn_set( point( 3, 3 ), f_traffic_light );
-                m->furn_set( point( 20, 3 ), f_traffic_light );
-                m->furn_set( point( 3, 20 ), f_traffic_light );
-
-                line( m, t_pavement_y, point( 23, 4 ), point( 23, 10 ) );
-                line( m, t_pavement_y, point( 4, 0 ), point( 10, 0 ) );
-                line( m, t_pavement_y, point( 0, 13 ), point( 0, 19 ) );
+            if( neighbor_sidewalks && one_in( 2 ) ) {
+                args.map["crosswalk"] = cata_variant( string_id<ter_t>( "t_zebra" ) );
             }
-        }
-
-        // ordinary straight roads
-        if( num_dirs == 2 && !diag && one_in( 10 ) ) {
-            square( m, t_pavement, point( 4, 12 ), point( 19, 15 ) );
-            for( int i = 4; i < 20; i += 2 ) {
-                m->ter_set( point( i, 13 ), t_zebra );
-                m->ter_set( point( i, 14 ), t_zebra );
+            mapgendata md3( md, args );
+            if( signaled ) {
+                args.map["traffic_light"] = cata_variant( string_id<furn_t>( "f_traffic_light" ) );
+                args.map["stop_line"] = cata_variant( string_id<ter_t>( "t_pavement_y" ) );
             }
-            if( one_in( 2 ) ) {
-                m->furn_set( point( 3, 12 ), f_traffic_light );
-                m->furn_set( point( 20, 15 ), f_traffic_light );
+            mapgendata md2( md, args );
+            if( flip ) {
+                m->mirror( true, false, false );
+            }
+            ( *mapgen_ptr )->nest( md2, point( 0, 0 ), "mapgen_road()" );
+            if( flip ) { // FIXME avoid redundant double mirrors for flip+mirror
+                m->mirror( true, false, false );
+            }
+            if( mirror ) {
+                m->mirror( true, false, false );
+                std::swap( args.map["sidewalk_left"], args.map["sidewalk_right"] );
+                ( *mapgen_ptr )->nest( md3, point( 0, 0 ), "mapgen_road()" );
+                m->mirror( true, false, false );
+            }
+            if( dir > 0 ) {
+                m->rotate( 1 );
             }
         }
     }

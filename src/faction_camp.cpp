@@ -521,12 +521,14 @@ static bool extract_and_check_orientation_flags( const recipe_id recipe,
         const point &dir,
         bool &mirror_horizontal,
         bool &mirror_vertical,
+        bool &mirror_diagonal,
         int &rotation,
         const std::string base_error_message,
         const std::string actor )
 {
     mirror_horizontal = recipe->has_flag( "MAP_MIRROR_HORIZONTAL" );
     mirror_vertical = recipe->has_flag( "MAP_MIRROR_VERTICAL" );
+    mirror_diagonal = recipe->has_flag( "MAP_MIRROR_DIAGONAL" );
     rotation = 0;
     std::string dir_string;
 
@@ -596,6 +598,17 @@ static bool extract_and_check_orientation_flags( const recipe_id recipe,
             return false;
         }
         mirror_vertical = true;
+    }
+
+    if( recipe->has_flag( "MAP_MIRROR_DIAGONAL_IF_" + dir_string ) ) {
+        if( mirror_vertical ) {
+            debugmsg(
+                "%s, the blueprint specifies multiple concurrent vertical mirroring, which is not "
+                "supported",
+                string_format( base_error_message, actor, recipe->get_blueprint().str() ) );
+            return false;
+        }
+        mirror_diagonal = true;
     }
 
     if( !check_rotation( "MAP_ROTATE_90_IF_" + dir_string, 1 ) ) {
@@ -2672,8 +2685,11 @@ point connection_direction_of( const point &dir, const recipe &making )
     if( making.has_flag( "MAP_MIRROR_HORIZONTAL_IF_" + suffix ) ) {
         connection_dir.x = -connection_dir.x;
     }
-    if( making.has_flag( "MAP_MIRROR_VERTICALL_IF_" + suffix ) ) {
+    if( making.has_flag( "MAP_MIRROR_VERTICAL_IF_" + suffix ) ) {
         connection_dir.y = -connection_dir.y;
+    }
+    if( making.has_flag( "MAP_MIRROR_DIAGONAL_IF_" + suffix ) ) {
+        std::swap( connection_dir.x, connection_dir.y );
     }
 
     return connection_dir;
@@ -3380,12 +3396,14 @@ bool basecamp::upgrade_return( const mission_id &miss_id )
 
     bool mirror_horizontal;
     bool mirror_vertical;
+    bool mirror_diagonal;
     int rotation;
 
     if( !extract_and_check_orientation_flags( making.ident(),
             dir,
             mirror_horizontal,
             mirror_vertical,
+            mirror_diagonal,
             rotation,
             "%s failed to build the %s upgrade",
             companion_list ) ) {
@@ -3399,7 +3417,7 @@ bool basecamp::upgrade_return( const mission_id &miss_id )
     }
 
     if( !run_mapgen_update_func( making.get_blueprint(), upos, nullptr, true, mirror_horizontal,
-                                 mirror_vertical, rotation ) ) {
+                                 mirror_vertical, mirror_diagonal, rotation ) ) {
         popup( _( "%s failed to build the %s upgrade, perhaps there is a vehicle in the way." ),
                companion_list,
                making.get_blueprint().str() );
@@ -3557,11 +3575,12 @@ void basecamp::fortifications_return( const mission_id &miss_id )
 }
 
 static void salt_water_pipe_orientation_adjustment( const point &dir, bool &orthogonal,
-        bool &mirror_vertical, bool &mirror_horizontal, int &rotation )
+        bool &mirror_vertical, bool &mirror_horizontal, bool &mirror_diagonal, int &rotation )
 {
     orthogonal = true;
     mirror_horizontal = false;
     mirror_vertical = false;
+    mirror_diagonal = false;
     rotation = 0;
 
     switch( base_camps::all_directions.at( dir ).tab_order ) {
@@ -3640,19 +3659,20 @@ bool basecamp::salt_water_pipe_swamp_return( const mission_id &miss_id,
     bool orthogonal = true;
     bool mirror_horizontal = false;
     bool mirror_vertical = false;
+    bool mirror_diagonal = false;
     int rotation = 0;
 
     salt_water_pipe_orientation_adjustment( next_construction_direction, orthogonal, mirror_vertical,
-                                            mirror_horizontal, rotation );
+                                            mirror_horizontal, mirror_diagonal, rotation );
 
     if( orthogonal ) {
         const update_mapgen_id id{ faction_expansion_salt_water_pipe_swamp_N };
         run_mapgen_update_func( id, pipe->segments[segment_number].point, nullptr, true, mirror_horizontal,
-                                mirror_vertical, rotation );
+                                mirror_vertical, mirror_diagonal, rotation );
     } else {
         const update_mapgen_id id{ faction_expansion_salt_water_pipe_swamp_NE };
         run_mapgen_update_func( id, pipe->segments[segment_number].point, nullptr, true, mirror_horizontal,
-                                mirror_vertical, rotation );
+                                mirror_vertical, mirror_diagonal, rotation );
     }
 
     pipe->segments[segment_number].finished = true;
@@ -3734,32 +3754,33 @@ bool basecamp::salt_water_pipe_return( const mission_id &miss_id,
     bool orthogonal = true;
     bool mirror_horizontal = false;
     bool mirror_vertical = false;
+    bool mirror_diagonal = false;
     int rotation = 0;
 
     salt_water_pipe_orientation_adjustment( previous_construction_direction, orthogonal,
-                                            mirror_vertical, mirror_horizontal, rotation );
+                                            mirror_vertical, mirror_horizontal, mirror_diagonal, rotation );
 
     if( orthogonal ) {
         const update_mapgen_id id{ faction_expansion_salt_water_pipe_N };
         run_mapgen_update_func( id, pipe->segments[segment_number].point, nullptr, true, mirror_horizontal,
-                                mirror_vertical, rotation );
+                                mirror_vertical, mirror_diagonal, rotation );
     } else {
         const update_mapgen_id id{ faction_expansion_salt_water_pipe_NE };
         run_mapgen_update_func( id, pipe->segments[segment_number].point, nullptr, true, mirror_horizontal,
-                                mirror_vertical, rotation );
+                                mirror_vertical, mirror_diagonal, rotation );
     }
 
     salt_water_pipe_orientation_adjustment( next_construction_direction, orthogonal, mirror_vertical,
-                                            mirror_horizontal, rotation );
+                                            mirror_horizontal, mirror_diagonal, rotation );
 
     if( orthogonal ) {
         const update_mapgen_id id{ faction_expansion_salt_water_pipe_N };
         run_mapgen_update_func( id, pipe->segments[segment_number].point, nullptr, true, mirror_horizontal,
-                                mirror_vertical, rotation );
+                                mirror_vertical, mirror_diagonal, rotation );
     } else {
         const update_mapgen_id id{ faction_expansion_salt_water_pipe_NE };
         run_mapgen_update_func( id, pipe->segments[segment_number].point, nullptr, true, mirror_horizontal,
-                                mirror_vertical, rotation );
+                                mirror_vertical, mirror_diagonal, rotation );
     }
 
     pipe->segments[segment_number].finished = true;
@@ -3991,12 +4012,14 @@ bool basecamp::survey_return( const mission_id &miss_id )
 
     bool mirror_horizontal;
     bool mirror_vertical;
+    bool mirror_diagonal;
     int rotation;
 
     if( !extract_and_check_orientation_flags( expansion_type,
             dir,
             mirror_horizontal,
             mirror_vertical,
+            mirror_diagonal,
             rotation,
             "%s failed to build the %s expansion",
             comp->disp_name() ) ) {
@@ -4004,7 +4027,7 @@ bool basecamp::survey_return( const mission_id &miss_id )
     }
 
     if( !run_mapgen_update_func( update_mapgen_id( expansion_type.str() ), where, nullptr, true,
-                                 mirror_horizontal, mirror_vertical, rotation ) ) {
+                                 mirror_horizontal, mirror_vertical, mirror_diagonal, rotation ) ) {
         popup( _( "%s failed to add the %s expansion, perhaps there is a vehicle in the way." ),
                comp->disp_name(),
                expansion_type->blueprint_name() );

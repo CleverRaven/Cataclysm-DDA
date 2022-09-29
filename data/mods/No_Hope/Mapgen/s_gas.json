@@ -85,7 +85,7 @@
         "########~##############]",
         " 4      ]]]]]]]]]]]]]]]]"
       ],
-      "palettes": [ "road" ],
+      "palettes": [ "road", "gas" ],
       "terrain": { "P": "t_sidewalk", "4": "t_gutter_downspout" },
       "signs": { "P": { "signage": "Wide selection of storage batteries!  Discounts!" } },
       "items": { "l": { "item": "cleaning", "chance": 70 }, "&": { "item": "trash_cart", "chance": 50 } },

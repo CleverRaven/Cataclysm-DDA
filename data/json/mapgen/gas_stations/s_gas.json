@@ -86,7 +86,7 @@
         "########~##############]",
         " 4      ]]]]]]]]]]]]]]]]"
       ],
-      "palettes": [ "road" ],
+      "palettes": [ "road", "gas" ],
       "terrain": { "Á": "t_concrete", "]": "t_concrete", ".": "t_thconc_floor", "4": "t_gutter_downspout" },
       "furniture": { "Á": "f_rack" },
       "place_signs": [ { "signage": "Wide selection of storage batteries!  Discounts!", "x": 13, "y": 10 } ],

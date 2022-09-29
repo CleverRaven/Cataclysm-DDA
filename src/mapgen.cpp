@@ -6753,9 +6753,9 @@ void map::rotate( int turns, const bool setpos_safe )
  * Mirrors this map, and all of its contents along with all its contents in the
  * directions specified.
  */
-void map::mirror( bool mirror_horizontal, bool mirror_vertical )
+void map::mirror( bool mirror_horizontal, bool mirror_vertical, bool mirror_diagonal )
 {
-    if( !mirror_horizontal && !mirror_vertical ) {
+    if( !mirror_horizontal && !mirror_vertical && !mirror_diagonal ) {
         return;
     }
 
@@ -6785,6 +6785,9 @@ void map::mirror( bool mirror_horizontal, bool mirror_vertical )
         std::swap( *pz, *ps );
         std::swap( *pe, *pse );
     }
+    if( mirror_diagonal ) {
+        std::swap( *ps, *pe );
+    }
 
     // Then mirror them.
     for( int j = 0; j < 2; ++j ) {
@@ -6796,12 +6799,7 @@ void map::mirror( bool mirror_horizontal, bool mirror_vertical )
                 continue;
             }
 
-            if( mirror_horizontal ) {
-                sm->mirror( true );
-            }
-            if( mirror_vertical ) {
-                sm->mirror( false );
-            }
+            sm->mirror( mirror_horizontal, mirror_vertical, mirror_diagonal );
         }
     }
 }
@@ -7461,7 +7459,8 @@ bool update_mapgen_function_json::setup_internal( const JsonObject &/*jo*/ )
 }
 
 bool update_mapgen_function_json::update_map( const tripoint_abs_omt &omt_pos, const point &offset,
-        mission *miss, bool verify, bool mirror_horizontal, bool mirror_vertical, int rotation ) const
+        mission *miss, bool verify, bool mirror_horizontal, bool mirror_vertical, bool mirror_diagonal,
+        int rotation ) const
 {
     if( omt_pos == overmap::invalid_tripoint ) {
         debugmsg( "Mapgen update function called with overmap::invalid_tripoint" );
@@ -7474,12 +7473,12 @@ bool update_mapgen_function_json::update_map( const tripoint_abs_omt &omt_pos, c
 
     update_tmap.load( sm_pos, true );
     update_tmap.rotate( 4 - rotation );
-    update_tmap.mirror( mirror_horizontal, mirror_vertical );
+    update_tmap.mirror( mirror_horizontal, mirror_vertical, mirror_diagonal );
 
     mapgendata md( omt_pos, update_tmap, 0.0f, calendar::start_of_cataclysm, miss );
 
     bool const u = update_map( md, offset, verify );
-    update_tmap.mirror( mirror_horizontal, mirror_vertical );
+    update_tmap.mirror( mirror_horizontal, mirror_vertical, mirror_diagonal );
     update_tmap.rotate( rotation );
 
     if( get_map().inbounds( project_to<coords::ms>( sm_pos ) ) ) {
@@ -7555,7 +7554,8 @@ mapgen_update_func add_mapgen_update_func( const JsonObject &jo, bool &defer )
 
 bool run_mapgen_update_func(
     const update_mapgen_id &update_mapgen_id, const tripoint_abs_omt &omt_pos, mission *miss,
-    bool cancel_on_collision, bool mirror_horizontal, bool mirror_vertical, int rotation )
+    bool cancel_on_collision, bool mirror_horizontal, bool mirror_vertical, bool mirror_diagonal,
+    int rotation )
 {
     const auto update_function = update_mapgens.find( update_mapgen_id );
 
@@ -7564,7 +7564,7 @@ bool run_mapgen_update_func(
     }
     return update_function->second.funcs()[0]->update_map(
                omt_pos, point_zero, miss, cancel_on_collision, mirror_horizontal, mirror_vertical,
-               rotation );
+               mirror_diagonal, rotation );
 }
 
 bool run_mapgen_update_func( const update_mapgen_id &update_mapgen_id, mapgendata &dat,

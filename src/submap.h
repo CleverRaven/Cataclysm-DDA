@@ -249,7 +249,7 @@ class submap : maptile_soa
         bool is_open_air( const point & ) const;
 
         void rotate( int turns );
-        void mirror( bool horizontally );
+        void mirror( bool mirror_horizontal, bool mirror_vertical, bool mirror_diagonal );
 
         void store( JsonOut &jsout ) const;
         void load( const JsonValue &jv, const std::string &member_name, int version );
