@@ -20,7 +20,7 @@
       "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "100 s", "using": [ [ "vehicle_screw", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "20 s", "using": [ [ "adhesive", 1 ] ] }
     },
-    "flags": [ "VISION", "PROTRUSION", "UNMOUNT_ON_DAMAGE", "FOLDABLE" ],
+    "flags": [ "VISION", "PROTRUSION", "UNMOUNT_ON_DAMAGE" ],
     "breaks_into": [ { "item": "glass_shard", "count": [ 0, 16 ] } ]
   },
   {
@@ -43,7 +43,7 @@
       "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "100 s", "using": [ [ "vehicle_screw", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "20 s", "using": [ [ "adhesive", 1 ] ] }
     },
-    "flags": [ "VISION", "FOLDABLE" ],
+    "flags": [ "VISION" ],
     "breaks_into": [ { "item": "glass_shard", "count": [ 0, 16 ] } ]
   }
 ]

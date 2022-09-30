@@ -75,7 +75,7 @@
     "description": "A place to sit, and the backrest reclines to make it an uncomfortable bed.",
     "durability": 100,
     "flags": [ "BED", "SEAT", "BOARDABLE", "BELTABLE", "CARGO" ],
-    "floor_bedding_warmth": 250,
+    "floor_bedding_warmth": 350,
     "item": "seat",
     "location": "center",
     "looks_like": "seat",
@@ -171,7 +171,7 @@
         "using": [ [ "repair_welding_standard", 1 ], [ "sewing_standard", 4 ] ]
       }
     },
-    "flags": [ "SEAT", "BOARDABLE", "FOLDABLE", "NONBELTABLE" ],
+    "flags": [ "SEAT", "BOARDABLE", "NONBELTABLE" ],
     "breaks_into": [ { "item": "leather", "prob": 50 }, { "item": "scrap", "count": [ 1, 2 ] } ]
   },
   {
@@ -200,7 +200,7 @@
         "using": [ [ "repair_welding_standard", 1 ], [ "sewing_standard", 3 ] ]
       }
     },
-    "flags": [ "SEAT", "BOARDABLE", "FOLDABLE", "NONBELTABLE" ],
+    "flags": [ "SEAT", "BOARDABLE", "NONBELTABLE" ],
     "breaks_into": [ { "item": "cotton_patchwork", "count": [ 1, 6 ] } ]
   },
   {

@@ -1,7 +1,7 @@
 [
   {
     "id": "internal_gasoline_tank",
-    "type": "GENERIC",
+    "type": "TOOL_ARMOR",
     "category": "container",
     "name": { "str": "internal gasoline tank" },
     "description": "Internal tank for gasoline fuel cell bionic.",
@@ -26,7 +26,7 @@
   },
   {
     "id": "internal_ethanol_tank",
-    "type": "GENERIC",
+    "type": "TOOL_ARMOR",
     "category": "container",
     "name": { "str": "internal ethanol tank" },
     "description": "Internal ethanol tank for ethanol burner bionic.",
@@ -51,7 +51,7 @@
   },
   {
     "id": "internal_oil_tank",
-    "type": "GENERIC",
+    "type": "TOOL_ARMOR",
     "category": "container",
     "name": { "str": "internal oil tank" },
     "description": "Internal oil tank for oil generator bionic.",
@@ -76,7 +76,7 @@
   },
   {
     "id": "internal_battery_compartment",
-    "type": "TOOL",
+    "type": "TOOL_ARMOR",
     "name": { "str": "internal battery compartment" },
     "description": "Internal compartment for holding medium sized batteries for battery system bionic.",
     "volume": "750 ml",

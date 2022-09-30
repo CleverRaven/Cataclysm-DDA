@@ -23,6 +23,17 @@
   },
   {
     "type": "city_building",
+    "id": "2StoryModern03",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, -1 ], "overmap": "2StoryModern03_basement_north" },
+      { "point": [ 0, 0, 0 ], "overmap": "2StoryModern03_1_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "2StoryModern03_2_north" },
+      { "point": [ 0, 0, 2 ], "overmap": "2StoryModern03_roof_north" }
+    ]
+  },
+  {
+    "type": "city_building",
     "id": "urban_1_house",
     "overmaps": [
       { "point": [ 1, 0, 0 ], "overmap": "urban_1_1_south" },
