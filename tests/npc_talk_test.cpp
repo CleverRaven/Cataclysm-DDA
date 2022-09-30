@@ -1566,8 +1566,8 @@ TEST_CASE( "npc_arithmetic", "[npc_talk]" )
         player_character.lose_proficiency( test_prof_id, true );
     }
     if( std::count( player_character.learning_proficiencies().begin(),
-                   player_character.learning_proficiencies().end(),
-                   test_prof_id ) != 0 ) {
+                    player_character.learning_proficiencies().end(),
+                    test_prof_id ) != 0 ) {
         player_character.set_proficiency_practiced_time( test_prof_id, -1 );
     }
 
@@ -1576,32 +1576,32 @@ TEST_CASE( "npc_arithmetic", "[npc_talk]" )
     effects.apply( d );
     CHECK( player_character.has_proficiency( test_prof_id ) == false );
     CHECK( std::count( player_character.learning_proficiencies().begin(),
-                      player_character.learning_proficiencies().end(),
-                      test_prof_id ) == 0 );
+                       player_character.learning_proficiencies().end(),
+                       test_prof_id ) == 0 );
 
     // "Sets Test Proficiency learning done to 24h."
     effects = d.responses[29].success;
     effects.apply( d );
     CHECK( player_character.has_proficiency( test_prof_id ) == true );
     CHECK( std::count( player_character.learning_proficiencies().begin(),
-                      player_character.learning_proficiencies().end(),
-                      test_prof_id ) == 0 );
+                       player_character.learning_proficiencies().end(),
+                       test_prof_id ) == 0 );
 
     // "Sets Test Proficiency learning done to 12 hours total."
     effects = d.responses[27].success;
     effects.apply( d );
     CHECK( player_character.has_proficiency( test_prof_id ) == false );
     CHECK( std::count( player_character.learning_proficiencies().begin(),
-                      player_character.learning_proficiencies().end(),
-                      test_prof_id ) != 0 );
+                       player_character.learning_proficiencies().end(),
+                       test_prof_id ) != 0 );
 
     // "Sets Test Proficiency learning done to -1."
     effects = d.responses[28].success;
     effects.apply( d );
     CHECK( player_character.has_proficiency( test_prof_id ) == false );
     CHECK( std::count( player_character.learning_proficiencies().begin(),
-                      player_character.learning_proficiencies().end(),
-                      test_prof_id ) == 0 );
+                       player_character.learning_proficiencies().end(),
+                       test_prof_id ) == 0 );
 
 
     // Teardown
