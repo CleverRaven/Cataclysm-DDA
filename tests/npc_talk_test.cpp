@@ -1595,9 +1595,9 @@ TEST_CASE( "npc_arithmetic", "[npc_talk]" )
     effects.apply( d );
     CHECK( player_character.has_proficiency( prof_test ) == false );
     proficiencies_vector = player_character.learning_proficiencies();
-    if( std::count( proficiencies_vector.begin(),
-                    proficiencies_vector.end(),
-                    prof_test ) != 0 );
+    CHECK( std::count( proficiencies_vector.begin(),
+                       proficiencies_vector.end(),
+                       prof_test ) != 0 );
 
     // "Sets Test Proficiency learning done to -1."
     effects = d.responses[28].success;
