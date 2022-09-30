@@ -1577,18 +1577,18 @@ TEST_CASE( "npc_arithmetic", "[npc_talk]" )
     effects.apply( d );
     CHECK( player_character.has_proficiency( prof_test ) == false );
     proficiencies_vector = player_character.learning_proficiencies();
-    if( std::count( proficiencies_vector.begin(),
-                    proficiencies_vector.end(),
-                    prof_test ) == 0 );
+    CHECK( std::count( proficiencies_vector.begin(),
+                       proficiencies_vector.end(),
+                       prof_test ) == 0 );
 
     // "Sets Test Proficiency learning done to 24h."
     effects = d.responses[29].success;
     effects.apply( d );
     CHECK( player_character.has_proficiency( prof_test ) == true );
     proficiencies_vector = player_character.learning_proficiencies();
-    if( std::count( proficiencies_vector.begin(),
-                    proficiencies_vector.end(),
-                    prof_test ) == 0 );
+    CHECK( std::count( proficiencies_vector.begin(),
+                       proficiencies_vector.end(),
+                       prof_test ) == 0 );
 
     // "Sets Test Proficiency learning done to 12 hours total."
     effects = d.responses[27].success;
@@ -1604,9 +1604,9 @@ TEST_CASE( "npc_arithmetic", "[npc_talk]" )
     effects.apply( d );
     CHECK( player_character.has_proficiency( prof_test ) == false );
     proficiencies_vector = player_character.learning_proficiencies();
-    if( std::count( proficiencies_vector.begin(),
-                    proficiencies_vector.end(),
-                    prof_test ) == 0 );
+    CHECK( std::count( proficiencies_vector.begin(),
+                       proficiencies_vector.end(),
+                       prof_test ) == 0 );
 
 
     // Teardown
