@@ -38,13 +38,8 @@
     "//": "Power requirement to dehydrate 100g of food.",
     "tools": [
       [
-        [ "hotplate", 1 ],
-        [ "multi_cooker", 1 ],
-        [ "char_smoker", 1 ],
-        [ "toolset", 1 ],
-        [ "fake_oven", 1 ],
-        [ "fire", -1 ],
-        [ "propane_cooker", 1 ]
+        [ "dehydrator", 100 ],
+        [ "char_smoker", 100 ]
       ]
     ]
   },
@@ -62,7 +57,7 @@
     "//2": "Roughly 75-80% efficiency for induction, 25% for fossil fuel, 50% for a regular electric cooker, 40% for microwave, 10% for oven/charcoal.",
     "//3": "esbit has 40kJ/u, kerosene/gasoline 34 kJ/u, propane 25kJ/u, acetylene 50kJ/u alcohol 20kJ/u. needs 400kJ total.",
     "//4": "charcoal/coal 31/u, it is less efficient than other fossil fuels and is closer to an oven.",
-    "//5": "note that while microwaves are great for cooking food they're not great for boiling water.  Convection in general is inefficient for this process, however induction (heats the pan itself through magnetic coils) excels. 
+    "//5": "note that while microwaves are great for cooking food they're not great for boiling water.  Convection in general is inefficient for this process, however induction (heats the pan itself through magnetic coils) excels."
     "tools": [
       [
         [ "coffeemaker", 125 ],
