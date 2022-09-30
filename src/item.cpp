@@ -9611,7 +9611,7 @@ int item::get_reload_time() const
     }
     int reload_time = 0;
     if( is_gun() ) {
-        reload_time = type->gun->reload_time;
+        reload_time = ( type->gun->reload_time + type->ammo->loose_reload_time );
     } else if( type->magazine ) {
         reload_time = type->magazine->reload_time;
     } else {

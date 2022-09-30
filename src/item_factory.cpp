@@ -2458,6 +2458,7 @@ void islot_ammo::load( const JsonObject &jo )
     optional( jo, was_loaded, "casing", casing, cata::nullopt );
     optional( jo, was_loaded, "drop", drop, itype_id::NULL_ID() );
     assign( jo, "drop_chance", drop_chance, strict, 0.0f, 1.0f );
+	optional( jo, was_loaded, "loose_reload_time", loose_reload_time, 0);
     optional( jo, was_loaded, "drop_active", drop_active, true );
     optional( jo, was_loaded, "projectile_count", count, 1 );
     optional( jo, was_loaded, "shot_spread", shot_spread, 0 );

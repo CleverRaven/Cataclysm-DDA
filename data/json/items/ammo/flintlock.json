@@ -12,6 +12,7 @@
     "symbol": "=",
     "color": "white",
     "count": 30,
+	"loose_reload_time": 10000,
     "stack_size": 10,
     "ammo_type": "flintlock",
     "range": 6,

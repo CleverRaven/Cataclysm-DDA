@@ -909,6 +909,10 @@ struct islot_ammo : common_ranged_data {
      * Type id of casings, if any.
      */
     cata::optional<itype_id> casing;
+	/**
+     * Reload time, in moves, modifying the base reload defined by the gun. Only for breechloaders or muzzleloaders.
+     */
+    int loose_reload_time = 100;
 
     /**
      * Control chance for and state of any items dropped at ranged target
