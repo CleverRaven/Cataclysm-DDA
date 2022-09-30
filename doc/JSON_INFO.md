@@ -184,9 +184,9 @@ Use the `Home` key to return to the top.
       - [`id`](#id-1)
       - [`name`](#name-1)
       - [`flags`](#flags-1)
+      - [`connect_groups`](#connect_groups)
       - [`connects_to`](#connects_to)
-        - [Connect groups](#connect-groups)
-      - [`rotates_to` and `rotates_to_member`](#rotates_to-and-rotates_to_member)
+      - [`rotates_to`](#rotates_to)
       - [`symbol`](#symbol)
       - [`comfort`](#comfort)
       - [`floor_bedding_warmth`](#floor_bedding_warmth)
@@ -4559,9 +4559,9 @@ Strength required to move the furniture around. Negative values indicate an unmo
     "trap": "spike_pit",
     "max_volume": "1000 L",
     "flags": ["TRANSPARENT", "DIGGABLE"],
-    "connects_to" : "WALL",
-    "rotates_to" : "INDOORFLOOR",
-    "rotates_to_member" : "INDOORFLOOR",
+    "connect_groups" : [ "WALL" ],
+    "connects_to" : [ "WALL" ],
+    "rotates_to" : [ "INDOORFLOOR" ],
     "close": "t_foo_closed",
     "open": "t_foo_open",
     "lockpick_result": "t_door_unlocked",
@@ -4766,13 +4766,16 @@ Displayed name of the object. This will be translated.
 
 (Optional) Various additional flags, see "doc/JSON_FLAGS.md".
 
-#### `connects_to`
+#### `connect_groups`
 
-(Optional) The group of terrains to which this terrain connects. This affects tile rotation and connections, and the ASCII symbol drawn by terrain with the flag "AUTO_WALL_SYMBOL".
+(Optional) Makes the type a member of one or more [Connect groups](#connect-groups).
+
+Does not make the type connect or rotate itself, but serves as the passive side.
+For the active, connecting or rotating side, see [`connects_to`](#connects_to) and [`rotates_to`](#rotates_to).
 
 Available groups are:
 
-##### Connect groups
+##### Connection groups
 
 ```
 NONE                 PIT_DEEP
@@ -4789,24 +4792,34 @@ CANVAS_WALL          INDOORFLOOR
 SAND
 ```
 
-Example: `-` , `|` , `X` and `Y` are terrain which share the same `connects_to` value. `O` does not have it. `X` and `Y` also have the `AUTO_WALL_SYMBOL` flag. `X` will be drawn as a T-intersection (connected to west, south and east), `Y` will be drawn as a horizontal line (going from west to east, no connection to south).
+`WALL` is implied by the flags `WALL` and `CONNECT_WITH_WALL`.
+`INDOORFLOOR` is implied by the flag `INDOORS`.
+Implicit groups can be removed be using tilde `~` as prefix of the group name.
+
+#### `connects_to` and 
+
+(Optional) Makes the type connect to terrain types in the given groups (see [`connect_groups`](#connect_groups)). This affects tile rotation and connections, and the ASCII symbol drawn by terrain with the flag "AUTO_WALL_SYMBOL".
+
+Example: `-` , `|` , `X` and `Y` are terrain which share a group in `connect_groups` and `connects_to`. `O` does not have it. `X` and `Y` also have the `AUTO_WALL_SYMBOL` flag. `X` will be drawn as a T-intersection (connected to west, south and east), `Y` will be drawn as a horizontal line (going from west to east, no connection to south).
 
 ```
 -X-    -Y-
  |      O
 ```
 
-#### `rotates_to` and `rotates_to_member`
+Group `WALL` is implied by the flags `WALL` and `CONNECT_WITH_WALL`.
+Implicit groups can be removed be using tilde `~` as prefix of the group name.
 
-(Optional) `rotates_to` specifies the group of terrain (or furniture) towards which this terrain (or furniture) rotates.
-`rotates_to_member` adds the terrain (or furniture) to a group, as rotation target.
-See [Connect groups](#Connect-groups) for available values.
+#### `rotates_to`
 
-In contrast to `connects_to`, this is not symmetric.
-Only the terrain or furniture with `rotates_to` will rotate.
+(Optional) Makes the type rotate towards terrain types in the given groups (see [`connect_groups`](#connect_groups)).
+
 Terrain can only rotate depending on terrain, while funiture can rotate depending on terrain and on other funiture.
 
 The parameters can e.g. be used to have window curtains on the indoor side only, or to orient traffic lights depending on the pavement.
+
+Group `INDOORFLOOR` is implied by the flags `DOOR` and `WINDOW`.
+Implicit groups can be removed be using tilde `~` as prefix of the group name.
 
 #### `symbol`
 
