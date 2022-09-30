@@ -233,6 +233,7 @@
     "looks_like": "thread",
     "description": "Wool yarn, could be used to knit wool clothing.",
     "material": [ "wool" ],
+    "flags": [ "NO_SALVAGE" ],
     "volume": "250 ml",
     "weight": "1 g",
     "ammo_type": "thread",
