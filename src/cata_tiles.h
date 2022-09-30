@@ -116,6 +116,10 @@ class texture
             return SDL_RenderCopyEx( renderer.get(), sdl_texture_ptr.get(), &srcrect, dstrect, angle, center,
                                      flip );
         }
+
+        int set_alpha_mod( int mod ) const {
+            return SDL_SetTextureAlphaMod( sdl_texture_ptr.get(), mod );
+        }
 };
 
 class layer_variant
@@ -152,6 +156,7 @@ class tileset
         std::vector<texture> night_tile_values;
         std::vector<texture> overexposed_tile_values;
         std::vector<texture> memory_tile_values;
+        std::vector<texture> z_overlay_values;
 
         std::unordered_set<std::string> duplicate_ids;
 
@@ -196,6 +201,9 @@ class tileset
         }
         const std::string &get_tileset_id() const {
             return tileset_id;
+        }
+        const texture *get_z_overlay( const size_t index ) const {
+            return get_if_available( index, z_overlay_values );
         }
 
         const texture *get_tile( const size_t index ) const {
@@ -424,16 +432,16 @@ class cata_tiles
 
         bool draw_from_id_string( const std::string &id, const tripoint &pos, int subtile, int rota,
                                   lit_level ll,
-                                  bool apply_night_vision_goggles );
+                                  bool apply_night_vision_goggles, int overlay_count );
         bool draw_from_id_string( const std::string &id, TILE_CATEGORY category,
                                   const std::string &subcategory, const tripoint &pos, int subtile, int rota,
-                                  lit_level ll, bool apply_night_vision_goggles );
+                                  lit_level ll, bool apply_night_vision_goggles, int overlay_count );
         bool draw_from_id_string( const std::string &id, const tripoint &pos, int subtile, int rota,
                                   lit_level ll,
-                                  bool apply_night_vision_goggles, int &height_3d );
+                                  bool apply_night_vision_goggles, int &height_3d, int overlay_count );
         bool draw_from_id_string( const std::string &id, TILE_CATEGORY category,
                                   const std::string &subcategory, const tripoint &pos, int subtile, int rota,
-                                  lit_level ll, bool apply_night_vision_goggles, int &height_3d );
+                                  lit_level ll, bool apply_night_vision_goggles, int &height_3d, int overlay_count );
         bool draw_from_id_string( const std::string &id, TILE_CATEGORY category,
                                   const std::string &subcategory, const tripoint &pos, int subtile, int rota,
                                   lit_level ll, bool apply_night_vision_goggles, int &height_3d, int intensity_level );
@@ -441,13 +449,13 @@ class cata_tiles
         bool draw_from_id_string( const std::string &id, TILE_CATEGORY category,
                                   const std::string &subcategory, const tripoint &pos, int subtile, int rota,
                                   lit_level ll, bool apply_night_vision_goggles, int &height_3d, int intensity_level,
-                                  const std::string &variant );
+                                  const std::string &variant, int overlay_count );
         bool draw_sprite_at(
             const tile_type &tile, const weighted_int_list<std::vector<int>> &svlist,
             const point &, unsigned int loc_rand, bool rota_fg, int rota, lit_level ll,
-            bool apply_night_vision_goggles, int retract, int &height_3d );
+            bool apply_night_vision_goggles, int retract, int &height_3d, int overlay_count );
         bool draw_tile_at( const tile_type &tile, const point &, unsigned int loc_rand, int rota,
-                           lit_level ll, bool apply_night_vision_goggles, int retract, int &height_3d );
+                           lit_level ll, bool apply_night_vision_goggles, int retract, int &height_3d, int overlay_count );
 
         /* Tile Picking */
         void get_tile_values( int t, const std::array<int, 4> &tn, int &subtile, int &rotation,
@@ -462,7 +470,7 @@ class cata_tiles
                                              const std::map<tripoint, furn_id> &furn_override );
         void get_terrain_orientation( const tripoint &p, int &rota, int &subtile,
                                       const std::map<tripoint, ter_id> &ter_override,
-                                      const std::array<bool, 5> &invisible, int rotate_group );
+                                      const std::array<bool, 5> &invisible, int z_drop, int rotate_group );
 
         static void get_rotation_and_subtile( char val, char rot_to, int &rota, int &subtile );
         static int get_rotation_unconnected( char rot_to );
@@ -483,34 +491,37 @@ class cata_tiles
         /** Drawing Layers */
         bool would_apply_vision_effects( visibility_type visibility ) const;
         bool apply_vision_effects( const tripoint &pos, visibility_type visibility );
+
+        bool draw_block( const tripoint &p, SDL_Color color, int scale );
+
         bool draw_terrain( const tripoint &p, lit_level ll, int &height_3d,
-                           const std::array<bool, 5> &invisible );
+                           const std::array<bool, 5> &invisible, int z_drop );
         bool draw_terrain_below( const tripoint &p, lit_level ll, int &height_3d,
-                                 const std::array<bool, 5> &invisible );
+                                 const std::array<bool, 5> &invisible, int z_drop );
         bool draw_furniture( const tripoint &p, lit_level ll, int &height_3d,
-                             const std::array<bool, 5> &invisible );
+                             const std::array<bool, 5> &invisible, int z_drop );
         bool draw_graffiti( const tripoint &p, lit_level ll, int &height_3d,
-                            const std::array<bool, 5> &invisible );
+                            const std::array<bool, 5> &invisible, int z_drop );
         bool draw_trap( const tripoint &p, lit_level ll, int &height_3d,
-                        const std::array<bool, 5> &invisible );
+                        const std::array<bool, 5> &invisible, int z_drop );
         bool draw_field_or_item( const tripoint &p, lit_level ll, int &height_3d,
-                                 const std::array<bool, 5> &invisible );
+                                 const std::array<bool, 5> &invisible, int z_drop );
         bool draw_vpart( const tripoint &p, lit_level ll, int &height_3d,
-                         const std::array<bool, 5> &invisible, bool roof );
+                         const std::array<bool, 5> &invisible, int z_drop, bool roof );
         bool draw_vpart_no_roof( const tripoint &p, lit_level ll, int &height_3d,
-                                 const std::array<bool, 5> &invisible );
+                                 const std::array<bool, 5> &invisible, int z_drop );
         bool draw_vpart_roof( const tripoint &p, lit_level ll, int &height_3d,
-                              const std::array<bool, 5> &invisible );
+                              const std::array<bool, 5> &invisible, int z_drop );
         bool draw_vpart_below( const tripoint &p, lit_level ll, int &height_3d,
-                               const std::array<bool, 5> &invisible );
+                               const std::array<bool, 5> &invisible, int z_drop );
         bool draw_critter_at( const tripoint &p, lit_level ll, int &height_3d,
-                              const std::array<bool, 5> &invisible );
+                              const std::array<bool, 5> &invisible, int z_drop );
         bool draw_critter_at_below( const tripoint &p, lit_level ll, int &height_3d,
-                                    const std::array<bool, 5> &invisible );
+                                    const std::array<bool, 5> &invisible, int z_drop );
         bool draw_zone_mark( const tripoint &p, lit_level ll, int &height_3d,
-                             const std::array<bool, 5> &invisible );
+                             const std::array<bool, 5> &invisible, int z_drop );
         bool draw_zombie_revival_indicators( const tripoint &pos, lit_level ll, int &height_3d,
-                                             const std::array<bool, 5> &invisible );
+                                             const std::array<bool, 5> &invisible, int z_drop );
         void draw_entity_with_overlays( const Character &ch, const tripoint &p, lit_level ll,
                                         int &height_3d );
 

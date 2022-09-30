@@ -31,6 +31,7 @@ struct memorized_terrain_tile {
 /** Represent a submap-sized chunk of tile memory. */
 struct mm_submap {
     public:
+        friend class map_memory;
         static const memorized_terrain_tile default_tile;
         static const int default_symbol;
 

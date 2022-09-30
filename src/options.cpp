@@ -2197,6 +2197,11 @@ void options_manager::add_options_graphics()
     }, "color_pixel_sepia_light", COPT_CURSES_HIDE
        );
 
+    add( "STATICZEFFECT", "graphics", to_translation( "Static z level effect" ),
+         to_translation( "If true, lower z levels will look the same no matter how far down they are.  Increases rendering performance." ),
+         false, COPT_CURSES_HIDE
+       );
+
     add( "MEMORY_RGB_DARK_RED", "graphics", to_translation( "Custom dark color RGB overlay - RED" ),
          to_translation( "Specify RGB value for color RED for dark color overlay." ),
          0, 255, 39, COPT_CURSES_HIDE );
@@ -2903,7 +2908,8 @@ void options_manager::add_options_android()
 
 #if defined(TILES)
 // Helper method to isolate #ifdeffed tiles code.
-static void refresh_tiles( bool used_tiles_changed, bool pixel_minimap_height_changed, bool ingame )
+static void refresh_tiles( bool used_tiles_changed, bool pixel_minimap_height_changed, bool ingame,
+                           bool force_tile_change )
 {
     if( used_tiles_changed ) {
         // Disable UIs below to avoid accessing the tile context during loading.
@@ -2912,7 +2918,7 @@ static void refresh_tiles( bool used_tiles_changed, bool pixel_minimap_height_ch
         try {
             closetilecontext->reinit();
             closetilecontext->load_tileset( get_option<std::string>( "TILES" ),
-                                            /*precheck=*/false, /*force=*/false,
+                                            /*precheck=*/false, /*force=*/force_tile_change,
                                             /*pump_events=*/true );
             //game_ui::init_ui is called when zoom is changed
             g->reset_zoom();
@@ -2960,7 +2966,7 @@ static void refresh_tiles( bool used_tiles_changed, bool pixel_minimap_height_ch
     }
 }
 #else
-static void refresh_tiles( bool, bool, bool )
+static void refresh_tiles( bool, bool, bool, bool )
 {
 }
 #endif // TILES
@@ -3465,6 +3471,7 @@ std::string options_manager::show( bool ingame, const bool world_options_only, b
     bool used_tiles_changed = false;
     bool pixel_minimap_changed = false;
     bool terminal_size_changed = false;
+    bool force_tile_change = false;
 
     for( auto &iter : OPTIONS_OLD ) {
         if( iter.second != OPTIONS[iter.first] ) {
@@ -3481,9 +3488,13 @@ std::string options_manager::show( bool ingame, const bool world_options_only, b
                 pixel_minimap_changed = true;
 
             } else if( iter.first == "TILES" || iter.first == "USE_TILES" || iter.first == "DISTANT_TILES" ||
-                       iter.first == "USE_DISTANT_TILES" || iter.first == "OVERMAP_TILES" ) {
+                       iter.first == "USE_DISTANT_TILES" || iter.first == "OVERMAP_TILES" || iter.first == "STATICZEFFECT" ||
+                       iter.first == "MEMORY_MAP_MODE" ) {
                 used_tiles_changed = true;
 
+                if( iter.first == "STATICZEFFECT" || iter.first == "MEMORY_MAP_MODE" ) {
+                    force_tile_change = true;
+                }
             } else if( iter.first == "USE_LANG" ) {
                 lang_changed = true;
 
@@ -3552,7 +3563,7 @@ std::string options_manager::show( bool ingame, const bool world_options_only, b
     ( void ) terminal_size_changed;
 #endif
 
-    refresh_tiles( used_tiles_changed, pixel_minimap_changed, ingame );
+    refresh_tiles( used_tiles_changed, pixel_minimap_changed, ingame, force_tile_change );
 
     return "";
 }
@@ -3636,6 +3647,7 @@ static void update_options_cache()
     message_cooldown = ::get_option<int>( "MESSAGE_COOLDOWN" );
     fov_3d = ::get_option<bool>( "FOV_3D" );
     fov_3d_z_range = ::get_option<int>( "FOV_3D_Z_RANGE" );
+    static_z_effect = ::get_option<bool>( "STATICZEFFECT" );
     keycode_mode = ::get_option<std::string>( "SDL_KEYBOARD_MODE" ) == "keycode";
 }
 

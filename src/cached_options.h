@@ -8,6 +8,7 @@
 
 extern bool fov_3d;
 extern int fov_3d_z_range;
+extern bool static_z_effect;
 extern bool keycode_mode;
 extern bool log_from_top;
 extern int message_ttl;

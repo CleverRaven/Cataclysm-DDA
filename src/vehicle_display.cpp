@@ -77,7 +77,15 @@ std::string vehicle::part_id_string( const int p, char &part_mod, bool below_roo
         return "";
     }
 
-    int displayed_part = part_displayed_at( parts[p].mount, true, below_roof, roof );
+    int displayed_part = -1;
+
+    if( roof ) {
+        displayed_part = roof_at_part( p );
+    }
+    if( displayed_part < 0 || displayed_part >= static_cast<int>( parts.size() ) ||
+        parts[ displayed_part ].removed ) {
+        displayed_part = part_displayed_at( parts[p].mount );
+    }
     if( displayed_part < 0 || displayed_part >= static_cast<int>( parts.size() ) ||
         parts[ displayed_part ].removed ) {
         return "";

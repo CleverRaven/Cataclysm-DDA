@@ -10,8 +10,8 @@
 #include "path_info.h"
 #include "string_formatter.h"
 #include "translations.h"
-
-const memorized_terrain_tile mm_submap::default_tile{ "", 0, 0 };
+#include "map.h"
+const memorized_terrain_tile mm_submap::default_tile { "", 0, 0 };
 const int mm_submap::default_symbol = 0;
 
 #define MM_SIZE (MAPSIZE * 2)
@@ -131,7 +131,9 @@ bool map_memory::prepare_region( const tripoint &p1, const tripoint &p2 )
     tripoint sm_pos = sm_p1;
     point sm_size = sm_p2.xy() - sm_p1.xy();
 
-    if( sm_pos.z == cache_pos.z ) {
+    bool z_levels = get_map().has_zlevels();
+
+    if( sm_pos.z == cache_pos.z || z_levels ) {
         inclusive_rectangle<point> rect( cache_pos.xy(), cache_pos.xy() + cache_size );
         if( rect.contains( sm_p1.xy() ) && rect.contains( sm_p2.xy() ) ) {
             return false;
@@ -140,10 +142,14 @@ bool map_memory::prepare_region( const tripoint &p1, const tripoint &p2 )
 
     dbg( D_INFO ) << "Preparing memory map for area: pos: " << sm_pos << " size: " << sm_size;
 
+
+    int minz = z_levels ? -OVERMAP_DEPTH : p1.z;
+    int maxz = z_levels ? OVERMAP_HEIGHT : p1.z;
+
     cache_pos = sm_pos;
     cache_size = sm_size;
     cached.clear();
-    cached.reserve( static_cast<std::size_t>( cache_size.x ) * cache_size.y );
+    cached.reserve( static_cast<std::size_t>( cache_size.x ) * cache_size.y * ( maxz - minz + 1 ) );
     for( int dy = 0; dy < cache_size.y; dy++ ) {
         for( int dx = 0; dx < cache_size.x; dx++ ) {
             cached.push_back( fetch_submap( cache_pos + point( dx, dy ) ) );
@@ -198,6 +204,25 @@ shared_ptr_fast<mm_submap> map_memory::find_submap( const tripoint &sm_pos )
     }
 }
 
+//FIXME: This is to fix old (mid 2022) saves. It can be removed at some point.
+static void temp_remove_open_air( shared_ptr_fast<mm_submap> sm )
+{
+
+    if( sm->is_empty() ) {
+        return;
+    }
+    for( int x = 0; x < SEEX; x++ ) {
+        for( int y = 0; y < SEEY; y++ ) {
+            const memorized_terrain_tile &t = sm->tile( {x, y} );
+
+            if( !t.tile.empty() && t.tile == "t_open_air" ) {
+                sm->set_tile( {x, y}, mm_submap::default_tile );
+            }
+        }
+    }
+
+}
+
 shared_ptr_fast<mm_submap> map_memory::load_submap( const tripoint &sm_pos )
 {
     if( test_mode ) {
@@ -240,6 +265,9 @@ shared_ptr_fast<mm_submap> map_memory::load_submap( const tripoint &sm_pos )
             if( pos == sm_pos ) {
                 ret = sm;
             }
+
+            temp_remove_open_air( mmr.submaps[x][y] );
+
             submaps.insert( std::make_pair( pos, sm ) );
         }
     }
@@ -256,9 +284,12 @@ const mm_submap &map_memory::get_submap( const tripoint &sm_pos ) const
         debugmsg( "Called map_memory with an " );
         return invalid_mz_submap;
     }
+
+    int zoffset = get_map().has_zlevels() ? ( sm_pos.z + OVERMAP_DEPTH ) * cache_size.y * cache_size.x :
+                  0;
     const point idx = ( sm_pos - cache_pos ).xy();
     if( idx.x > 0 && idx.y > 0 && idx.x < cache_size.x && idx.y < cache_size.y ) {
-        return *cached[idx.y * cache_size.x + idx.x];
+        return *cached[idx.y * cache_size.x + idx.x + zoffset];
     } else {
         return null_mz_submap;
     }
@@ -269,9 +300,12 @@ mm_submap &map_memory::get_submap( const tripoint &sm_pos )
     if( cache_pos == tripoint_min ) {
         return invalid_mz_submap;
     }
+
+    int zoffset = get_map().has_zlevels() ? ( sm_pos.z + OVERMAP_DEPTH ) * cache_size.y * cache_size.x :
+                  0;
     const point idx = ( sm_pos - cache_pos ).xy();
     if( idx.x > 0 && idx.y > 0 && idx.x < cache_size.x && idx.y < cache_size.y ) {
-        return *cached[idx.y * cache_size.x + idx.x];
+        return *cached[idx.y * cache_size.x + idx.x + zoffset];
     } else {
         return null_mz_submap;
     }

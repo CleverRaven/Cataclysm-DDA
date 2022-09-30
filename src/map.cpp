@@ -6352,17 +6352,25 @@ void map::update_visibility_cache( const int zlev )
 
     cata::mdarray<int, point_bub_sm> sm_squares_seen = {};
 
-    auto &visibility_cache = get_cache( zlev ).visibility_cache;
+    int min_z = fov_3d ? -OVERMAP_DEPTH : zlev;
+    int max_z = fov_3d ? OVERMAP_HEIGHT : zlev;
 
-    tripoint p;
-    p.z = zlev;
-    int &x = p.x;
-    int &y = p.y;
-    for( x = 0; x < MAPSIZE_X; x++ ) {
-        for( y = 0; y < MAPSIZE_Y; y++ ) {
-            lit_level ll = apparent_light_at( p, visibility_variables_cache );
-            visibility_cache[x][y] = ll;
-            sm_squares_seen[ x / SEEX ][ y / SEEY ] += ( ll == lit_level::BRIGHT || ll == lit_level::LIT );
+    for( int z = min_z; z <= max_z; z++ ) {
+
+        auto &visibility_cache = get_cache( z ).visibility_cache;
+
+        tripoint p;
+        p.z = z;
+        int &x = p.x;
+        int &y = p.y;
+        for( x = 0; x < MAPSIZE_X; x++ ) {
+            for( y = 0; y < MAPSIZE_Y; y++ ) {
+                lit_level ll = apparent_light_at( p, visibility_variables_cache );
+                visibility_cache[x][y] = ll;
+                if( z == zlev ) {
+                    sm_squares_seen[ x / SEEX ][ y / SEEY ] += ( ll == lit_level::BRIGHT || ll == lit_level::LIT );
+                }
+            }
         }
     }
 
@@ -8910,8 +8918,9 @@ void map::build_map_cache( const int zlev, bool skip_lightmap )
     for( int z = minz; z <= maxz; z++ ) {
         do_vehicle_caching( z );
     }
-
-    seen_cache_dirty |= build_vision_transparency_cache( zlev );
+    for( int z = minz; z <= maxz; z++ ) {
+        seen_cache_dirty |= build_vision_transparency_cache( z );
+    }
 
     if( seen_cache_dirty ) {
         skew_vision_cache.clear();
