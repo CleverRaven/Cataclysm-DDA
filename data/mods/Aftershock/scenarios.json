@@ -174,10 +174,10 @@
     "id": "crashing_ship",
     "name": "Emergency Evacuation",
     "points": 1,
-    "description": "Description goes here.",
+    "description": "You must have hit your head when the first explosion happened.  You sit up and realize everyone is gone, that the air smells like smoke, and that the ship's computer is calmly announcing in a posh English voice 'Abandon the vessel immediately.', and then counting down from five minutes.  Time to grab what you can and find an escape pod.",
     "allowed_locs": [ "sloc_crashing_ship" ],
-    "professions": [ "afs_espatier", "afs_rating" ],
-    "flags": [ "LONE_START" ],
+    "professions": [ "afs_espatier", "afs_rating", "afs_ship_escape" ],
+    "flags": [ "LONE_START", "HELI_CRASH" ],
     "start_name": "Crashing Ship"
   }
 ]

@@ -31,8 +31,8 @@
         "M...*...d......d...*..eMM.MCCM.MCCM..MCCM.MCCM.MM......................M",
         "M.bbbbb.!.....FM......eMM.MCCM.MCCM..MCCM.MCCM.MM......................M",
         "M...*...MFFFF..M......eMM.MCCM.MCCM..MCCM.MCCM.MM......................M",
-        "MLLLLLLLMF.FFFFMeeeeeeeMM.MddM.MddM..MddM.MddM.MM......................M",
-        "MMMMMMMMM*..F.*MMMMMMMMMM.....*..........*.....MM......................M",
+        "MLLLLLLLMFvPPFFMeeeeeeeMM.MddM.MddM..MddM.MddM.MM......................M",
+        "MMMMMMMMM*..Fv*MMMMMMMMMM.....*..........*.....MM......................M",
         "MsMsMsMsM.F..F.ME.B.B.BMM.MddM.MddM..MddM.MddM.MM......................M",
         "MgMgMgMgM......M..B.B.BMM.MCCM.MCCM..MCCM.MCCM.MM......................M",
         "M.......M......M..f.f.fMM.MCCM.MCCM..MCCM.MCCM.MM......................M",
@@ -47,13 +47,13 @@
         "M.ttttttttt..ttttttttt.MM.MCCM.MCCM..MCCM.MCCM.MM.........j..j.........M",
         "M.bbbbbbbbb..bbbbbbbbb.MM.MddM.MddM..MddM.MddM.MM.........j..j.........M",
         "M.....*..........*.....MM.....................aMMH.H.H.H.HJ..JH.H.H.H.HM",
-        "MMMMMMMMMMMddMMMMMMMMMMMMddddddddddddddddddddddMMMMMMMMMMMMddMMMMMMMMMMM",
-        "dPPp.................................................................pPP",
-        "dPpp..*.....*.....*.....*.....*....**....*.....*.....*.....*.....*...pPP",
-        "dPPPp................................................................pPP",
-        "MPppMMMMMMMMMMMMMMMMMMMMMddddddddddddddddddddddMMMMMMMMMMMMddMMMMMMMMMMM",
-        "MPPP.................*....*..................*.MM.....cx...............M",
-        "MP.YYYYYYYYYYYYYYYYYY..........................MM.MMM..x..........$YYY.M",
+        "MMMMMMMMMMMDDMMMMMMMMMMMMddddddddddddddddddddddMMMMMMMMMMM#ddMMMMMMMMMMM",
+        "dPPpv................................................................pPP",
+        "dpppv.*.....*.....*.....*.....*....**....*.....*.....*.....*.....*...pPP",
+        "dPPPpv...............................................................pPP",
+        "MPppMMMMMMMMMMMMMMMMMMMMMddddddddddddddddddddddMMMMMMMMMMMMDDMMMMMMMMMMM",
+        "MPPPv................*....*..................*.MM.....cx...............M",
+        "MPvYYYYYYYYYYYYYYYYYY..........................MM.MMM..x..........$YYY.M",
         "M..............................................MM.MFDxx*........*..YYY.M",
         "M..............................................MM.MMM$x............YYY.M",
         "M..............................................MM...cx.................M",
@@ -69,7 +69,7 @@
         "M..............................................MM.YYY..*........*..DzM.M",
         "M..............................................MM.YYY$.............MMM.M",
         "M..............................................MM......................M",
-        "M..YYYYYYYYYYYYYYYYYY..........................MMMMMMMMMMMMMddMMMMMMMMMM",
+        "M..YYYYYYYYYYYYYYYYYY..........................MMMMMMMMMMMMMDDMMMMMMMMMM",
         "M..............................................MME....................EM",
         "M.*..................*....*..................*.MME....................EM",
         "M..............................................MM.*Y....Y......Y....Y*.M",
@@ -124,7 +124,8 @@
         "7": "f_machinery_heavy",
         "8": "f_machinery_old",
         "$": "f_console_broken",
-        "z": "f_afs_escape_pod_seat"
+        "z": "f_afs_escape_pod_seat",
+        "v": "f_wreckage"
       },
       "terrain": {
         "Y": "t_bridge",
@@ -136,7 +137,7 @@
         "^": "t_console",
         "*": "t_metal_floor_olight",
         "M": "t_afs_space_ship_hull_wall",
-        "D": "t_afs_space_ship_hatch_c",
+        "D": "t_door_metal_c",
         "g": "t_door_glass_frosted_c",
         "d": "t_door_metal_locked",
         "c": "t_metal_floor",
@@ -145,8 +146,8 @@
         "J": "t_chainfence",
         "j": "t_chaingate_l",
         "W": "t_reinforced_glass_shutter",
-        "P": "t_foamcrete_wall",
-        "p": "t_foamcrete_floor"
+        "P": "t_foamcrete_wall_seal",
+        "p": "t_foamcrete_floor_seal"
       },
       "mapping": {
         "z": { "items": [ { "item": "afs_escape_pod_suppliesII", "chance": 100 } ] },
@@ -161,7 +162,7 @@
             { "item": "pants_unisex_afs", "chance": 50 },
             { "item": "shoes_unisex_afs", "chance": 50 },
             { "item": "drugs_soldier", "chance": 25 },
-            { "item": "afs_dead_survivor", "chance": 5 }
+            { "item": "tools_survival", "chance": 60 }
           ]
         },
         "r": {
@@ -191,10 +192,11 @@
         { "item": "crashing_ship_locker_card", "x": [ 16, 22 ], "y": [ 9, 15 ], "chance": 100 },
         { "item": "crashing_ship_armory_card", "x": [ 1, 7 ], "y": 1, "chance": 100 },
         { "item": "crashing_ship_exobay_card", "x": [ 16, 22 ], "y": [ 9, 15 ], "chance": 100 },
-        { "item": "electrohack", "x": [ 1, 7 ], "y": [ 1, 1 ], "prob": 3, "charges": [ 0, 100 ] },
+        { "item": "electrohack", "x": [ 1, 7 ], "y": [ 1, 1 ], "prob": 3, "charges": [ 50, 100 ] },
         { "group": "afs_escapepod_shootout", "x": 54, "y": 28, "chance": 100, "container-item": "corpse" },
         { "group": "afs_escapepod_shootout", "x": 52, "y": 32, "chance": 100, "container-item": "corpse" }
       ],
+      "place_rubble": [ { "x": [ 1, 4 ], "y": [ 24, 29 ], "chance": 100 } ],
       "place_graffiti": [
         { "text": "Barracks", "x": 10, "y": 23 },
         { "text": "Barracks", "x": 13, "y": 23 },
