@@ -464,7 +464,7 @@ int terrain_type_to_nesw_array( oter_id terrain_type, std::array<bool, 4> &array
     const oter_t &oter( *terrain_type );
     int num_dirs = 0;
     for( const om_direction::type dir : om_direction::all ) {
-        num_dirs += ( array[static_cast<int>( dir )] = oter.has_connection( dir ) );
+        num_dirs += ( array[static_cast<int>( dir )] = oter.has_connection( dir ) && ( oter.get_type_id().str() == "road" || oter.get_type_id().str() == "road_nesw_manhole" ) );
     }
     return num_dirs;
 }
@@ -498,15 +498,6 @@ void nesw_array_rotate( std::array<T, N> &array, size_t dist )
     }
 }
 
-static bool compare_neswx( const std::array<bool, 8> &a1, std::initializer_list<int> a2 )
-{
-    cata_assert( a1.size() == a2.size() );
-    return std::equal( std::begin( a2 ), std::end( a2 ), std::begin( a1 ),
-    []( int a, bool b ) {
-        return static_cast<bool>( a ) == b;
-    } );
-}
-
 // mapgen_road replaces previous mapgen_road_straight _end _curved _tee _four_way
 void mapgen_road( mapgendata &dat )
 {
@@ -526,6 +517,8 @@ void mapgen_road( mapgendata &dat )
     // which of the cardinal directions get roads?
     std::array<bool, 4> roads_nesw = {};
     int num_dirs = terrain_type_to_nesw_array( dat.terrain_type(), roads_nesw );
+
+    // FIXME specials like Nursing Home contain roads but they don't detect as connected to adjacent roads
 
     // which way should our straight(ish) roads curve, based on neighbor roads?
     std::array<int, 4> curvedir_nesw = {};
@@ -558,15 +551,17 @@ void mapgen_road( mapgendata &dat )
                 int nn_num_dirs = terrain_type_to_nesw_array( dat.t_nesw[dir_to_nn], nn_roads_nesw );
                 if( nn_num_dirs == 2 && nn_roads_nesw[( dir + 2 ) % 4] ) {
                     // n+nn make a u-turn, so they should be tight turns and this tile shouldn't curve toward n
+                    // FIXME diagonal into a u-turn has some glitches
+                    // FIXME straight into right turn at fishing pond has glitch, straight curves but turn is tight with sidewalks?
                     continue;
                 }
                 // curve towards the direction the neighbor turns
                 // our road curves counterclockwise
-                if( n_roads_nesw[dir][( dir - 1 + 4 ) % 4] ) {
+                if( n_roads_nesw[dir][( dir + 3 ) % 4] && ! sidewalks_neswx[( dir + 3 ) % 4] ) {
                     curvedir_nesw[dir]--;
                 }
                 // our road curves clockwise
-                if( n_roads_nesw[dir][( dir + 1 ) % 4] ) {
+                else if( n_roads_nesw[dir][( dir + 1 ) % 4] && ! sidewalks_neswx[( dir + 1 ) % 4] ) {
                     curvedir_nesw[dir]++;
                 }
             }
@@ -695,10 +690,11 @@ void mapgen_road( mapgendata &dat )
 
             if( curvedir_nesw[0] == -1 || curvedir_nesw[3] == 1 || neighbor_sidewalks ) {
                 // tight curve that fits within a tile
+                // FIXME break curve mapgen in half so this can be half curve in the tight turn direction and half appropriately matching the other direction
                 mapgen_ptr = nested_mapgens[nested_mapgen_id( "road_curve" )].funcs().pick();
             } else {
                 // draw west half
-                if( curvedir_nesw[3] < 0 || n_num_dirs[3] == 0 ) {
+                if( curvedir_nesw[3] < 0 ) {
                     mapgen_ptr = nested_mapgens[nested_mapgen_id( "road_diagonal_half" )].funcs().pick();
                 } else {
                     mapgen_ptr = nested_mapgens[nested_mapgen_id( "road_diagonal_half_curve" )].funcs().pick();
@@ -708,7 +704,7 @@ void mapgen_road( mapgendata &dat )
                 // mirror diagonally to put it where it belongs
                 m->mirror( false, false, true );
                 // draw north half
-                if( curvedir_nesw[0] > 0 || n_num_dirs[0] == 0 ) {
+                if( curvedir_nesw[0] > 0 ) {
                     mapgen_ptr = nested_mapgens[nested_mapgen_id( "road_diagonal_half" )].funcs().pick();
                 } else {
                     mapgen_ptr = nested_mapgens[nested_mapgen_id( "road_diagonal_half_curve" )].funcs().pick();
@@ -895,6 +891,7 @@ void mapgen_road( mapgendata &dat )
                     mapgen_ptr = nested_mapgens[nested_mapgen_id( "road_intersection_exit_curve" )].funcs().pick();
                     std::swap( args.map["sidewalk_left"], args.map["sidewalk_right"] );
                     flip = true;
+                    // FIXME traffic light and stop sign on the wrong side
                 } else {
                     mapgen_ptr = nested_mapgens[nested_mapgen_id( "road_intersection_exit_side" )].funcs().pick();
                     mirror = true;
@@ -926,6 +923,8 @@ void mapgen_road( mapgendata &dat )
             if( mirror ) {
                 m->mirror( true, false, false );
                 std::swap( args.map["sidewalk_left"], args.map["sidewalk_right"] );
+                args.map["traffic_light"] = default_args.map["traffic_light"];
+                args.map["stop_line"] = default_args.map["stop_line"];
                 mapgendata md4( md3, args );
                 ( *mapgen_ptr )->nest( md4, point( 0, 0 ), "mapgen_road()" );
                 m->mirror( true, false, false );
