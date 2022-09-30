@@ -2,87 +2,33 @@
   {
     "id": "surface_heat",
     "type": "requirement",
-    "//": "Heat usable for heating a surface - for example a pot, pan, dutch oven, etc. Lowest unit of measurement is one scrap of meat (30 grams)",
-    "//1": "Roughly 75% efficiency for a microwave or induction hotplate, 37-40% for fossil fuel, 18-20% for an oven or charcoal, 50% for a regular electric cooker.",
-    "//2": "esbit has 40kJ/u, kerosene/gasoline 34 kJ/u, propane 25kJ/u, alcohol 20kJ/u, charcoal/coal 31/u. cut these in half for the purposes of cooking.",
+    "//": "Heat usable for heating a surface - for example a pot, pan, dutch oven, etc.",
+    "//1": "Roughly 75% efficiency for a microwave or induction hotplate, 37-40% for fossil fuel, 15% for an oven/charcoal, 50% for a regular electric cooker.  25% efficiency for improvised options like the toolkit or an arc welder.",
+    "//2": "esbit has 40kJ/u, kerosene/gasoline 34 kJ/u, propane 25kJ/u, acetylene 50kJ/u alcohol 20kJ/u. needs 2x total energy of induction.",
+    "//3": "charcoal/coal 31/u, it is less efficient than other fossil fuels and is closer to an oven.",
+    "//4": "Standards: 1 - bake one unit of flour, process 100g of fruit/veggy or caramelize 3 units of sugar, 2 - one scrap of meat, one unit of oatmeal one beans or one rice, 3 - scramble a chicken egg, 20 - chunk of meat",
+    "//5": "Note: recipies involving water may require water_boiling_heat because it can potentially use unclean water, such as energy needed to cook some noodles or an egg.  Others such as bread baking don't need it because the water hits boiling temp, even though it does not boil.",
+    "//6": "Canning food involves bringing water up to a boil and then keeping it there for a while.  For each 0.5L of canned goods that aren't meat, add 4 of these, and for each 0.5L of canned goods that are meat, add 6.",
+    "//7": "Ovens are terrible, this is intentional.  Typical oven uses 3x the wattage of a microwave, and bakes for often over 10x as long as the microwave does.  We cannot account for batch energy savings (multiple things in same oven) nor keeping the oven at temp (many kJ are wasted bringing it up to temp, unlike with a microwave) so efficiency is somewhat generously 0.2x that of microwave.",
+    "//8": "A good way to judge input needed is how many seconds it takes to microwave.  1kW is a good estimate for microwave power usage, and the ratios are relatively consistent between different foodstuffs.",
     "tools": [
       [
-        [ "hotplate_induction", 50 ],
-        [ "microwave", 50 ],
-        [ "hotplate", 75 ],
-        [ "multi_cooker", 75 ],
-        [ "char_smoker", 4 ],
+        [ "hotplate_induction", 25 ],
+        [ "microwave", 25 ],
+        [ "hotplate", 37 ],
+        [ "multi_cooker", 37 ],
+        [ "char_smoker", 6 ],
         [ "toolset", 75 ],
-        [ "fake_oven", 250 ],
-        [ "esbit_stove", 3 ],
-        [ "oil_cooker", 3 ],
-        [ "gasoline_cooker", 3 ],
-        [ "propane_cooker", 4 ],
-        [ "acetlyene_cooker", 2 ],
-        [ "popcan_stove", 5 ],
+        [ "welder", 75 ],
+        [ "welder_crude", 150 ],
+        [ "fake_oven", 125 ],
+        [ "esbit_stove", 2 ],
+        [ "oil_cooker", 2 ],
+        [ "gasoline_cooker", 2 ],
+        [ "propane_cooker", 2 ],
+        [ "acetylene_cooker", 1 ],
+        [ "popcan_stove", 3 ],
         [ "fire", -1 ]
-      ]
-    ]
-  },
-  {
-    "id": "baking_heat",
-    "type": "requirement",
-    "//": "Power requirement to cook 100g of bread, expected efficiency of about 400kJ per 100g of bread in an oven",
-    "tools": [
-      [
-        [ "hotplate_induction", 200 ],
-        [ "microwave", 200 ],
-        [ "hotplate", 75 ],
-        [ "multi_cooker", 75 ],
-        [ "char_smoker", 4 ],
-        [ "toolset", 75 ],
-        [ "fake_oven", 200 ],
-        [ "esbit_stove", 3 ],
-        [ "oil_cooker", 3 ],
-        [ "gasoline_cooker", 3 ],
-        [ "propane_cooker", 3 ],
-        [ "propane_cooker", 3 ],
-        [ "popcan_stove", 5 ],
-        [ "fire", -1 ]
-      ]
-      ]
-    ]
-  },
-  {
-    "id": "vacuum_sealing",
-    "type": "requirement",
-    "//": "Power requirement to seal a single plastic bag with a sealer",
-    "tools": [ [ [ "vacuum_sealer", 1 ] ] ]
-  },
-  {
-    "id": "soup_heat",
-    "type": "requirement",
-    "//": "Energy requirement to keep water at boiling temp for 1 minute.",
-    "tools": [
-      [
-        [ "hotplate", 1 ],
-        [ "multi_cooker", 1 ],
-        [ "char_smoker", 1 ],
-        [ "toolset", 1 ],
-        [ "fake_oven", 1 ],
-        [ "fire", -1 ],
-        [ "propane_cooker", 1 ]
-      ]
-    ]
-  },
-  {
-    "id": "canning_heat",
-    "type": "requirement",
-    "//": "Energy requirement to boil water long enough to seal one jar, not including the cost to raise it to temp.",
-    "tools": [
-      [
-        [ "hotplate", 1 ],
-        [ "multi_cooker", 1 ],
-        [ "char_smoker", 1 ],
-        [ "toolset", 1 ],
-        [ "fake_oven", 1 ],
-        [ "fire", -1 ],
-        [ "propane_cooker", 1 ]
       ]
     ]
   },
@@ -113,26 +59,25 @@
     "type": "requirement",
     "//": "Tools usable for providing heat usable for boiling water, but not necessarily for anything else.",
     "//1": "Hypothetical maximum efficiency to boil 0.25L of water (one unit) is around 100kJ, to heat in a basement and boil for 1 minute.",
-    "//2": "Assuming that induction stove/hotplates and coffee makers, operating on electricity alone, gives 75% efficiency.",
-    "//3": "Stovetop-type (assuming to have a lid) gives 20-27% efficiency for fossil fuels. ",
-    "//4": "Convection heating tool, such as a microwave or oven, is at about 40% efficiency.  50% efficiency for an electric hotplate, non induction.",
-    "//5": "1u charcoal = 11g/5mL = 330kJ || 1u hexamine = 16.5g/12.5ml = 500kJ || 1u kerosene = 0.81g = 35kJ || 1u propane = 3.3g = 166kJ.",
-    "//6": "1u gasoline = 0.75g = 34.2kJ || 1u conc alcohol = 0.78g = 21kJ || mess kit, military mess kit = hotplate",
+    "//2": "Roughly 75-80% efficiency for induction, 25% for fossil fuel, 50% for a regular electric cooker, 40% for microwave, 10% for oven/charcoal.",
+    "//3": "esbit has 40kJ/u, kerosene/gasoline 34 kJ/u, propane 25kJ/u, acetylene 50kJ/u alcohol 20kJ/u. needs 400kJ total.",
+    "//4": "charcoal/coal 31/u, it is less efficient than other fossil fuels and is closer to an oven.",
+    "//5": "note that while microwaves are great for cooking food they're not great for boiling water.  Convection in general is inefficient for this process, however induction (heats the pan itself through magnetic coils) excels. 
     "tools": [
       [
-        [ "coffeemaker", 135 ],
-        [ "hotplate_induction", 135 ],
+        [ "coffeemaker", 125 ],
+        [ "hotplate_induction", 125 ],
         [ "hotplate", 200 ],
         [ "microwave", 250 ],
         [ "multi_cooker", 200 ],
-        [ "char_smoker", 3 ],
-        [ "esbit_stove", 1 ],
+        [ "char_smoker", 40 ],
+        [ "esbit_stove", 10 ],
         [ "oil_cooker", 12 ],
         [ "gasoline_cooker", 12 ],
-        [ "propane_cooker", 3 ],
+        [ "propane_cooker", 16 ],
+        [ "acetylene_cooker", 8 ],
         [ "popcan_stove", 20 ],
-        [ "toolset", 250 ],
-        [ "fake_oven", 250 ],
+        [ "fake_oven", 1000 ],
         [ "atomic_coffeepot", 100 ],
         [ "fire", -1 ]
       ]
