@@ -661,7 +661,9 @@
     "price_postapoc": 50,
     "material": [ "egg" ],
     "fun": 2,
-    "flags": [ "FREEZERBURN" ]
+    "flags": [ "FREEZERBURN" ],
+    "rot_spawn": "GROUP_NULL",
+    "rot_spawn_chance": 0
   },
   {
     "type": "COMESTIBLE",
@@ -676,7 +678,9 @@
     "price_postapoc": 200,
     "material": [ "egg" ],
     "fun": 10,
-    "flags": [ "FREEZERBURN" ]
+    "flags": [ "FREEZERBURN" ],
+    "rot_spawn": "GROUP_NULL",
+    "rot_spawn_chance": 0
   },
   {
     "type": "COMESTIBLE",
@@ -691,6 +695,8 @@
     "price_postapoc": 300,
     "material": [ "egg" ],
     "fun": 20,
-    "flags": [ "FREEZERBURN" ]
+    "flags": [ "FREEZERBURN" ],
+    "rot_spawn": "GROUP_NULL",
+    "rot_spawn_chance": 0
   }
 ]
