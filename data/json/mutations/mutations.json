@@ -5750,6 +5750,7 @@
     "purifiable": false,
     "prereqs": [ "MANDIBLES" ],
     "category": [ "INSECT" ],
+    "threshreq": [ "THRESH_INSECT" ],
     "active": true,
     "restricts_gear": [ "mouth" ]
   },
@@ -6876,8 +6877,8 @@
     "types": [ "TORSO_ARMOR" ],
     "prereqs": [ "CHITIN", "THICKSKIN" ],
     "cancels": [ "CHITIN3" ],
-    "changes_to": [ "SHELL2" ],
-    "category": [ "CEPHALOPOD", "GASTROPOD" ],
+    "changes_to": [ "SHELL2", "SHELL4" ],
+    "category": [ "CEPHALOPOD", "GASTROPOD", "INSECT"  ],
     "wet_protection": [ { "part": "torso", "ignored": 26 } ],
     "integrated_armor": [ "integrated_shell" ]
   },
@@ -6919,6 +6920,23 @@
     "wet_protection": [ { "part": "torso", "ignored": 45 } ],
     "active": true,
     "integrated_armor": [ "integrated_shell3" ]
+  },
+  {
+    "type": "mutation",
+    "id": "SHELL4",
+    "name": { "str": "Sleek Shell" },
+    "points": -1,
+    "visibility": 10,
+    "ugliness": 1,
+    "mixed_effect": true,
+    "description": "Your protective shell has toughened considerably and become better shaped to the contours of your body.  Backpacks won't cause you trouble now.",
+    "types": [ "TORSO_ARMOR" ],
+    "prereqs": [ "SHELL2" ],
+    "threshreq": [ "THRESH_INSECT" ],
+    "category": [ "INSECT" ],
+    "wet_protection": [ { "part": "torso", "ignored": 26 } ],
+    "active": true,
+    "integrated_armor": [ "integrated_shell4" ]
   },
   {
     "type": "mutation",
