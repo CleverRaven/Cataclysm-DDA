@@ -1285,14 +1285,14 @@
         }
       },
       {
-        "text": "Mod load order for TESTING DATA is 1.",
-        "topic": "TALK_DONE",
-        "condition": { "compare_int": [ { "mod_load_order": "test_data" }, "==", { "const": 1 } ] }
-      },
-      {
         "text": "Mod load order for Innawood is -1.",
         "topic": "TALK_DONE",
         "condition": { "compare_int": [ { "mod_load_order": "innawood" }, "==", { "const": -1 } ] }
+      },
+      {
+        "text": "Mod load order for TESTING DATA is 1.",
+        "topic": "TALK_DONE",
+        "condition": { "compare_int": [ { "mod_load_order": "test_data" }, "==", { "const": 1 } ] }
       }
     ]
   },

@@ -37,6 +37,7 @@
 #include "point.h"
 #include "talker.h"
 #include "type_id.h"
+#include "worldfactory.h"
 
 static const bionic_id bio_ads( "bio_ads" );
 static const bionic_id bio_power_storage( "bio_power_storage" );
@@ -71,6 +72,7 @@ static const trait_id trait_SAPIOVORE( "SAPIOVORE" );
 static const trait_id trait_WEB_WEAVER( "WEB_WEAVER" );
 static const spell_id spell_test_spell_pew( "test_spell_pew" );
 static const proficiency_id proficiency_prof_test( "prof_test" );
+static const mod_id mod_test_data( "test_data" );
 
 static npc &create_test_talker( bool shopkeep = false )
 {
@@ -1125,6 +1127,11 @@ TEST_CASE( "npc_compare_int", "[npc_talk]" )
     if( player_character.magic->max_mana( player_character ) == 900 ) {
         expected_answers++;
     }
+    bool test_data_is_1 = true;
+    if( world_generator->active_world->active_mod_order[1] != mod_id( "test_data" ) ) {
+        expected_answers--;
+        test_data_is_1 = false;
+    }
 
     d.add_topic( "TALK_TEST_COMPARE_INT" );
     gen_response_lines( d, expected_answers );
@@ -1193,7 +1200,11 @@ TEST_CASE( "npc_compare_int", "[npc_talk]" )
     player_character.per_cur = 8;
     player_character.magic->set_mana( 25 );
 
-    gen_response_lines( d, 52 );
+    expected_answers = 52;
+    if( !test_data_is_1 ) {
+        expected_answers--;
+    }
+    gen_response_lines( d, expected_answers );
     CHECK( d.responses[ 0 ].text == "This is a u_adjust_var test response that increments by 1." );
     CHECK( d.responses[ 1 ].text == "This is an npc_adjust_var test response that increments by 2." );
     CHECK( d.responses[ 2 ].text == "PC strength is five." );
@@ -1245,12 +1256,14 @@ TEST_CASE( "npc_compare_int", "[npc_talk]" )
     CHECK( d.responses[ 47 ].text == "Test Proficiency learning is 500 permille learnt." );
     CHECK( d.responses[ 48 ].text == "Test Proficiency total learning time is 24 hours." );
     CHECK( d.responses[ 49 ].text == "Test Proficiency time lest to learn is 12h." );
-    CHECK( d.responses[ 50 ].text == "Mod load order for TESTING DATA is 1." );
-    CHECK( d.responses[ 51 ].text == "Mod load order for Innawood is -1." );
+    CHECK( d.responses[50].text == "Mod load order for Innawood is -1." );
+    if( test_data_is_1 ) {
+        CHECK( d.responses[ 51 ].text == "Mod load order for TESTING DATA is 1." );
+    }
 
     calendar::turn = calendar::turn + time_duration( 4_days );
-    gen_response_lines( d, 53 );
-
+    expected_answers++;
+    gen_response_lines( d, expected_answers );
     CHECK( d.responses[ 15 ].text == "This is a time since u_var test response for > 3_days." );
 
     // Teardown
