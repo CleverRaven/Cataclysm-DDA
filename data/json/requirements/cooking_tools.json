@@ -35,11 +35,12 @@
   {
     "id": "dehydrating_heat",
     "type": "requirement",
-    "//": "Power requirement to dehydrate 100g of food.",
+    "//": "Power requirement to dehydrate 10g of food. Electric food dehydrators are about 30-35% efficient",
+    "//1": "Estimate given by dehydrating 3 lbs of bananas at 500w for 6 hours.",
     "tools": [
       [
-        [ "dehydrator", 100 ],
-        [ "char_smoker", 100 ]
+        [ "dehydrator", 82 ],
+        [ "char_smoker", 7 ]
       ]
     ]
   },
