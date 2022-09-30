@@ -833,6 +833,10 @@ int Character::fire_gun( const tripoint &target, int shots, item &gun )
         const vehicle *in_veh = has_effect( effect_on_roof ) ? veh_pointer_or_null( here.veh_at(
                                     pos() ) ) : nullptr;
 
+        // Add gunshot noise
+        make_gun_sound_effect( *this, shots > 1, &gun );
+        sfx::generate_gun_sound( *this, gun );
+
         weakpoint_attack wp_attack;
         wp_attack.weapon = &gun;
         projectile proj = make_gun_projectile( gun );
@@ -898,8 +902,6 @@ int Character::fire_gun( const tripoint &target, int shots, item &gun )
         recoil += enchantment_cache->modify_value( enchant_vals::mod::RECOIL_MODIFIER, 5.0 ) *
                   ( qty * ( 1.0 - absorb ) );
 
-        make_gun_sound_effect( *this, shots > 1, &gun );
-        sfx::generate_gun_sound( *this, gun );
         const itype_id current_ammo = gun.ammo_current();
 
         if( has_trait( trait_PYROMANIA ) && !has_morale( MORALE_PYROMANIA_STARTFIRE ) ) {
@@ -2137,6 +2139,8 @@ void make_gun_sound_effect( const Character &p, bool burst, item *weapon )
         sounds::sound( p.pos(), data.volume, sounds::sound_t::combat,
                        data.sound.empty() ? _( "Bang!" ) : data.sound );
     }
+    p.add_msg_if_player( _( "You shoot your %1$s. %2$s" ), weapon->tname( 1, false, false ),
+                         uppercase_first_letter( data.sound ) );
 }
 
 item::sound_data item::gun_noise( const bool burst ) const
