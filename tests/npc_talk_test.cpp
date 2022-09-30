@@ -69,8 +69,8 @@ static const trait_id trait_PROF_SWAT( "PROF_SWAT" );
 static const trait_id trait_PSYCHOPATH( "PSYCHOPATH" );
 static const trait_id trait_SAPIOVORE( "SAPIOVORE" );
 static const trait_id trait_WEB_WEAVER( "WEB_WEAVER" );
-static const spell_id spell_pew( "test_spell_pew" );
-static const proficiency_id prof_test( "prof_test" );
+static const spell_id spell_test_spell_pew( "test_spell_pew" );
+static const proficiency_id proficiency_prof_test( "prof_test" );
 
 static npc &create_test_talker( bool shopkeep = false )
 {
@@ -1540,73 +1540,73 @@ TEST_CASE( "npc_arithmetic", "[npc_talk]" )
     CHECK( player_character.get_stored_kcal() == 550000 / 2 );
 
     // Spell tests setup
-    if( player_character.magic->knows_spell( spell_pew ) ) {
-        player_character.magic->forget_spell( spell_pew );
+    if( player_character.magic->knows_spell( spell_test_spell_pew ) ) {
+        player_character.magic->forget_spell( spell_test_spell_pew );
     }
-    CHECK( player_character.magic->knows_spell( spell_pew ) == false );
+    CHECK( player_character.magic->knows_spell( spell_test_spell_pew ) == false );
 
     // "Sets pew pew's level to -1."
     effects = d.responses[25].success;
     effects.apply( d );
-    CHECK( player_character.magic->knows_spell( spell_pew ) == false );
+    CHECK( player_character.magic->knows_spell( spell_test_spell_pew ) == false );
 
     // "Sets pew pew's level to 4."
     effects = d.responses[26].success;
     effects.apply( d );
-    CHECK( player_character.magic->knows_spell( spell_pew ) == true );
-    CHECK( player_character.magic->get_spell( spell_pew ).get_level() == 4 );
+    CHECK( player_character.magic->knows_spell( spell_test_spell_pew ) == true );
+    CHECK( player_character.magic->get_spell( spell_test_spell_pew ).get_level() == 4 );
 
     // "Sets pew pew's level to -1."
     effects = d.responses[25].success;
     effects.apply( d );
-    CHECK( player_character.magic->knows_spell( spell_pew ) == false );
+    CHECK( player_character.magic->knows_spell( spell_test_spell_pew ) == false );
 
     // Setup proficiency tests
-    if( player_character.has_proficiency( prof_test ) ) {
-        player_character.lose_proficiency( prof_test, true );
+    if( player_character.has_proficiency( proficiency_prof_test ) ) {
+        player_character.lose_proficiency( proficiency_prof_test, true );
     }
     std::vector<proficiency_id> proficiencies_vector = player_character.learning_proficiencies();
     if( std::count( proficiencies_vector.begin(),
                     proficiencies_vector.end(),
-                    prof_test ) != 0 ) {
-        player_character.set_proficiency_practiced_time( prof_test, -1 );
+                    proficiency_prof_test ) != 0 ) {
+        player_character.set_proficiency_practiced_time( proficiency_prof_test, -1 );
     }
 
     // "Sets Test Proficiency learning done to -1."
     effects = d.responses[28].success;
     effects.apply( d );
-    CHECK( player_character.has_proficiency( prof_test ) == false );
+    CHECK( player_character.has_proficiency( proficiency_prof_test ) == false );
     proficiencies_vector = player_character.learning_proficiencies();
     CHECK( std::count( proficiencies_vector.begin(),
                        proficiencies_vector.end(),
-                       prof_test ) == 0 );
+                       proficiency_prof_test ) == 0 );
 
     // "Sets Test Proficiency learning done to 24h."
     effects = d.responses[29].success;
     effects.apply( d );
-    CHECK( player_character.has_proficiency( prof_test ) == true );
+    CHECK( player_character.has_proficiency( proficiency_prof_test ) == true );
     proficiencies_vector = player_character.learning_proficiencies();
     CHECK( std::count( proficiencies_vector.begin(),
                        proficiencies_vector.end(),
-                       prof_test ) == 0 );
+                       proficiency_prof_test ) == 0 );
 
     // "Sets Test Proficiency learning done to 12 hours total."
     effects = d.responses[27].success;
     effects.apply( d );
-    CHECK( player_character.has_proficiency( prof_test ) == false );
+    CHECK( player_character.has_proficiency( proficiency_prof_test ) == false );
     proficiencies_vector = player_character.learning_proficiencies();
     CHECK( std::count( proficiencies_vector.begin(),
                        proficiencies_vector.end(),
-                       prof_test ) != 0 );
+                       proficiency_prof_test ) != 0 );
 
     // "Sets Test Proficiency learning done to -1."
     effects = d.responses[28].success;
     effects.apply( d );
-    CHECK( player_character.has_proficiency( prof_test ) == false );
+    CHECK( player_character.has_proficiency( proficiency_prof_test ) == false );
     proficiencies_vector = player_character.learning_proficiencies();
     CHECK( std::count( proficiencies_vector.begin(),
                        proficiencies_vector.end(),
-                       prof_test ) == 0 );
+                       proficiency_prof_test ) == 0 );
 
 
     // Teardown
