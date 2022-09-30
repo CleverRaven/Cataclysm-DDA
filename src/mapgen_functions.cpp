@@ -574,34 +574,12 @@ void mapgen_road( mapgendata &dat )
     }
 
     // calculate how far to rotate the map so we can work with just one orientation
-    // also keep track of diagonal roads and plazas
+    // also keep track of diagonal roads
     int rot = 0;
     bool diag = false;
-    int plaza_dir = -1;
-    std::array<bool, 8> fourways_neswx = {};
     // TODO: reduce amount of logical/conditional constructs here
-    // TODO: make plazas include adjacent tees
     switch( num_dirs ) {
         case 4:
-            // 4-way intersection
-            for( int dir = 0; dir < 8; dir++ ) {
-                fourways_neswx[dir] = ( dat.t_nesw[dir] == oter_road_nesw ||
-                                        dat.t_nesw[dir] == oter_road_nesw_manhole );
-            }
-            // is this the middle, or which side or corner, of a plaza?
-            plaza_dir = compare_neswx( fourways_neswx, {1, 1, 1, 1, 1, 1, 1, 1} ) ? 8 :
-                        compare_neswx( fourways_neswx, {0, 1, 1, 0, 0, 1, 0, 0} ) ? 7 :
-                        compare_neswx( fourways_neswx, {1, 1, 0, 0, 1, 0, 0, 0} ) ? 6 :
-                        compare_neswx( fourways_neswx, {1, 0, 0, 1, 0, 0, 0, 1} ) ? 5 :
-                        compare_neswx( fourways_neswx, {0, 0, 1, 1, 0, 0, 1, 0} ) ? 4 :
-                        compare_neswx( fourways_neswx, {1, 1, 1, 0, 1, 1, 0, 0} ) ? 3 :
-                        compare_neswx( fourways_neswx, {1, 1, 0, 1, 1, 0, 0, 1} ) ? 2 :
-                        compare_neswx( fourways_neswx, {1, 0, 1, 1, 0, 0, 1, 1} ) ? 1 :
-                        compare_neswx( fourways_neswx, {0, 1, 1, 1, 0, 1, 1, 0} ) ? 0 :
-                        -1;
-            if( plaza_dir > -1 ) {
-                rot = plaza_dir % 4;
-            }
             break;
         case 3:
             // tee
@@ -959,16 +937,14 @@ void mapgen_road( mapgendata &dat )
     }
 
     // spawn some vehicles
-    if( plaza_dir != 8 ) {
-        vspawn_id( neighbor_sidewalks ? "default_city" : "default_country" ).obj().apply(
-            *m,
-            num_dirs == 4 ? "road_four_way" :
-            num_dirs == 3 ? "road_tee"      :
-            num_dirs == 1 ? "road_end"      :
-            diag          ? "road_curved"   :
-            "road_straight"
-        );
-    }
+    vspawn_id( neighbor_sidewalks ? "default_city" : "default_country" ).obj().apply(
+        *m,
+        num_dirs == 4 ? "road_four_way" :
+        num_dirs == 3 ? "road_tee"      :
+        num_dirs == 1 ? "road_end"      :
+        diag          ? "road_curved"   :
+        "road_straight"
+    );
 
     // spawn some monsters
     if( neighbor_sidewalks ) {
@@ -981,9 +957,8 @@ void mapgen_road( mapgendata &dat )
     }
 
     // add some items
-    bool plaza = plaza_dir > -1;
-    m->place_items( item_group_id( plaza ? "trash" : "road" ), 5, point_zero,
-                    point( SEEX * 2 - 1, SEEX * 2 - 1 ), plaza, dat.when() );
+    m->place_items( item_group_id( "road" ), 5, point_zero,
+                    point( SEEX * 2 - 1, SEEX * 2 - 1 ), false, dat.when() );
 
     // add a manhole if appropriate
     if( dat.terrain_type() == oter_road_nesw_manhole ) {
