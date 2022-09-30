@@ -6878,7 +6878,7 @@
     "prereqs": [ "CHITIN", "THICKSKIN" ],
     "cancels": [ "CHITIN3" ],
     "changes_to": [ "SHELL2", "SHELL4" ],
-    "category": [ "CEPHALOPOD", "GASTROPOD", "INSECT"  ],
+    "category": [ "CEPHALOPOD", "GASTROPOD", "INSECT" ],
     "wet_protection": [ { "part": "torso", "ignored": 26 } ],
     "integrated_armor": [ "integrated_shell" ]
   },
