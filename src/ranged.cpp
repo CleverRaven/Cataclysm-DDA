@@ -940,8 +940,8 @@ int Character::fire_gun( const tripoint &target, int shots, item &gun )
     moves -= time_to_attack( *this, *gun_id );
 
     // Practice the base gun skill proportionally to number of hits, but always by one.
-    if (!gun.has_flag( flag_WONT_TRAIN_MARKSMANSHIP )) {
-      practice( skill_gun, ( hits + 1 ) * 5 );
+    if( !gun.has_flag( flag_WONT_TRAIN_MARKSMANSHIP ) ) {
+        practice( skill_gun, ( hits + 1 ) * 5 );
     }
     // launchers train weapon skill for both hits and misses.
     int practice_units = gun_skill == skill_launcher ? curshot : hits;

@@ -43,7 +43,7 @@
     "id": "afs_10mm_smart",
     "type": "AMMO",
     "name": { "str_sp": "10mm SDART" },
-    "description": "High precision 10mm microjet darts. These low velocity rounds can adjust mid-flight to exploit weaknesses in the target's defenses.",
+    "description": "High precision 10mm microjet darts.  These low velocity rounds can adjust mid-flight to exploit weaknesses in the target's defenses.",
     "//": "tiny guided rockets.",
     "weight": "7 g",
     "volume": "115 ml",

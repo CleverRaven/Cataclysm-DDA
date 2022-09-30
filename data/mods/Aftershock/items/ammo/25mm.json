@@ -59,7 +59,7 @@
     "id": "afs_25mm_smart",
     "type": "AMMO",
     "name": { "str_sp": "25mm SDART" },
-    "description": "High precision 25mm microjet darts. These low velocity rounds can adjust mid-flight to exploit weaknesses in the target's defenses.",
+    "description": "High precision 25mm microjet darts.  These low velocity rounds can adjust mid-flight to exploit weaknesses in the target's defenses.",
     "//": "tiny guided rockets.",
     "weight": "42 g",
     "volume": "60 ml",
