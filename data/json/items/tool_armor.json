@@ -1176,7 +1176,7 @@
       "NANOFAB_REPAIR",
       "PADDED",
       "USE_UPS",
-      "NO_UNLOAD"
+      "NO_UNLOAD",
       "COMBAT_TOGGLEABLE"
     ],
     "price": 50000000,
@@ -1272,7 +1272,7 @@
       "NANOFAB_REPAIR",
       "PADDED",
       "USE_UPS",
-      "NO_UNLOAD"
+      "NO_UNLOAD",
       "COMBAT_TOGGLEABLE"
     ],
     "material": [ "hyperweave_on", "carbide" ],
