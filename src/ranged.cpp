@@ -950,7 +950,7 @@ int Character::fire_gun( const tripoint &target, int shots, item &gun )
     if( !gun.is_gun() ) {
         // If we lose our gun as a side effect of firing it, skip the rest of the function.
         return curshot;
-    }\
+    }
 
     // apply shot counter to gun and its mods.
     gun.set_var( "shot_counter", gun.get_var( "shot_counter", 0 ) + curshot );
