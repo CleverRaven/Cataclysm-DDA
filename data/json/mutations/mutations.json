@@ -3192,6 +3192,7 @@
     "thirst_modifier": 0.75,
     "types": [ "THIRST" ],
     "leads_to": [ "BOMBADIER_BLAST" ],
+    "threshreq": [ "THRESH_INSECT" ],
     "category": [ "INSECT" ]
   },
   {
@@ -6925,13 +6926,12 @@
     "type": "mutation",
     "id": "SHELL4",
     "name": { "str": "Sleek Shell" },
-    "points": -1,
+    "points": 1,
     "visibility": 10,
     "ugliness": 1,
-    "mixed_effect": true,
     "description": "Your protective shell has toughened considerably and become better shaped to the contours of your body.  Backpacks won't cause you trouble now.",
     "types": [ "TORSO_ARMOR" ],
-    "prereqs": [ "SHELL2" ],
+    "prereqs": [ "SHELL" ],
     "threshreq": [ "THRESH_INSECT" ],
     "category": [ "INSECT" ],
     "wet_protection": [ { "part": "torso", "ignored": 26 } ],
