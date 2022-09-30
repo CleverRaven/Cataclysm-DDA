@@ -3563,7 +3563,7 @@
     "pre_note": "Build an earth ramp leading to the next z-level above, and the corresponding ramp down leading from the z-level above to this level.  It must be built next to a low end of a ramp to allow moving between z-levels in both directions.",
     "category": "DIG",
     "required_skills": [ [ "fabrication", 3 ] ],
-    "time": "150 m",
+    "time": "300 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "DIG", "level": 2 } ] ],
     "components": [ [ [ "material_soil", 50 ] ], [ [ "stick", 10 ], [ "2x4", 8 ] ], [ [ "rock", 20 ] ] ],
     "pre_special": "check_ramp_high",
