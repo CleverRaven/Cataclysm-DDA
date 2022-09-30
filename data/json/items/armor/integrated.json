@@ -788,6 +788,31 @@
     ]
   },
   {
+    "id": "integrated_shell4",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str_sp": "sleek shell" },
+    "description": "You have a sturdy shell that fits your exoskeleton snugly.",
+    "weight": "8650 g",
+    "volume": "9 L",
+    "price": 0,
+    "price_postapoc": 0,
+    "material": [ "sclerotin" ],
+    "symbol": "x",
+    "color": "magenta",
+    "warmth": 5,
+    "environmental_protection": 10,
+    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "OUTER", "WATERPROOF", "PADDED" ],
+    "armor": [
+      {
+        "material": [ { "type": "sclerotin", "covered_by_mat": 100, "thickness": 9 } ],
+        "covers": [ "torso" ],
+        "coverage": 100,
+        "encumbrance": 5
+      }
+    ]
+  },
+  {
     "id": "armor_bio_eyes",
     "//": "These do not preclude wearing glasses, but you'll get double-up penalties.  If you really needed to you could likely still situate the lenses in front of them.  You should probably just augment your eyes though.",
     "type": "ARMOR",
