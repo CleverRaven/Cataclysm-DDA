@@ -661,38 +661,44 @@ void map_data_common_t::set_flag( const ter_furn_flag flag )
 }
 
 void map_data_common_t::set_connect_groups( const std::vector<std::string>
-        &connect_group_string )
+        &connect_groups_vec )
 {
-    for( const std::string &group : connect_group_string ) {
-        const auto it = ter_connects_map.find( group );
-        if( it != ter_connects_map.end() ) {
-            connect_groups.set( it->second );
-        } else { // arbitrary connect groups are a bad idea for optimization reasons
-            debugmsg( "can't find terrain connection group %s", group.c_str() );
-        }
-    }
+    set_groups( connect_groups, connect_groups_vec );
 }
 
-void map_data_common_t::set_connects_to( const std::vector<std::string> &connect_group_string )
+void map_data_common_t::set_connects_to( const std::vector<std::string> &connect_groups_vec )
 {
-    for( const std::string &group : connect_group_string ) {
-        const auto it = ter_connects_map.find( group );
-        if( it != ter_connects_map.end() ) {
-            connect_to_groups.set( it->second );
-        } else { // arbitrary connect groups are a bad idea for optimization reasons
-            debugmsg( "can't find terrain connection group %s", group.c_str() );
-        }
-    }
+    set_groups( connect_to_groups, connect_groups_vec );
 }
 
-void map_data_common_t::set_rotates_to( const std::vector<std::string> &towards_group_string )
+void map_data_common_t::set_rotates_to( const std::vector<std::string> &connect_groups_vec )
 {
-    for( const std::string &group : towards_group_string ) {
-        const auto it = ter_connects_map.find( group );
+    set_groups( rotate_to_groups, connect_groups_vec );
+}
+
+void map_data_common_t::set_groups( std::bitset<NUM_TERCONN> &bits,
+                                    const std::vector<std::string> &connect_groups_vec )
+{
+    for( const std::string &group : connect_groups_vec ) {
+        if( group.empty() ) {
+            debugmsg( "Can't use empty string for terrain groups" );
+            continue;
+        }
+        std::string grp = group;
+        bool remove = false;
+        if( grp.at( 0 ) == '~' ) {
+            grp = grp.substr( 1 );
+            remove = true;
+        }
+        const auto it = ter_connects_map.find( grp );
         if( it != ter_connects_map.end() ) {
-            rotate_to_groups.set( it->second );
-        } else { // arbitrary rotates towards groups are a bad idea for optimization reasons
-            debugmsg( "can't find terrain rotates towards group %s", group.c_str() );
+            if( remove ) {
+                bits.reset( it->second );
+            } else {
+                bits.set( it->second );
+            }
+        } else {
+            debugmsg( "can't find terrain group %s", group.c_str() );
         }
     }
 }
@@ -1421,15 +1427,12 @@ void ter_t::load( const JsonObject &jo, const std::string &src )
     // connections from JSON are set. This is so that wall flags can set wall connections
     // but can be overridden by explicit connections in JSON.
     if( jo.has_member( "connect_groups" ) ) {
-        connect_groups.reset();
         set_connect_groups( jo.get_as_string_array( "connect_groups" ) );
     }
     if( jo.has_member( "connects_to" ) ) {
-        connect_to_groups.reset();
         set_connects_to( jo.get_as_string_array( "connects_to" ) );
     }
     if( jo.has_member( "rotates_to" ) ) {
-        rotate_to_groups.reset();
         set_rotates_to( jo.get_as_string_array( "rotates_to" ) );
     }
 
@@ -1600,15 +1603,12 @@ void furn_t::load( const JsonObject &jo, const std::string &src )
     }
 
     if( jo.has_member( "connect_groups" ) ) {
-        connect_groups.reset();
         set_connect_groups( jo.get_as_string_array( "connect_groups" ) );
     }
     if( jo.has_member( "connects_to" ) ) {
-        connect_to_groups.reset();
         set_connects_to( jo.get_as_string_array( "connects_to" ) );
     }
     if( jo.has_member( "rotates_to" ) ) {
-        rotate_to_groups.reset();
         set_rotates_to( jo.get_as_string_array( "rotates_to" ) );
     }
 
