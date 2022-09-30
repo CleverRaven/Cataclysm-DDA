@@ -3488,7 +3488,8 @@ std::string options_manager::show( bool ingame, const bool world_options_only, b
                 pixel_minimap_changed = true;
 
             } else if( iter.first == "TILES" || iter.first == "USE_TILES" || iter.first == "DISTANT_TILES" ||
-                       iter.first == "USE_DISTANT_TILES" || iter.first == "OVERMAP_TILES" || iter.first == "STATICZEFFECT" ||
+                       iter.first == "USE_DISTANT_TILES" || iter.first == "OVERMAP_TILES" ||
+                       iter.first == "STATICZEFFECT" ||
                        iter.first == "MEMORY_MAP_MODE" ) {
                 used_tiles_changed = true;
 
