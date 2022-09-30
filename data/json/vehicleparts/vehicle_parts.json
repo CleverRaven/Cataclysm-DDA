@@ -197,7 +197,7 @@
     "size": 200,
     "item": "mattress",
     "comfort": 4,
-    "floor_bedding_warmth": 300,
+    "floor_bedding_warmth": 700,
     "location": "center",
     "requirements": {
       "install": { "skills": [ [ "mechanics", 1 ] ], "time": "60 m", "using": [ [ "welding_standard", 2 ] ] },
