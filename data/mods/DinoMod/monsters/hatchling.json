@@ -455,22 +455,28 @@
     "upgrades": { "age_grow": 30, "into": "mon_hadrosaurus_juvenile" }
   },
   {
-    "id": "mon_parasaurolophus_hatchling",
-    "type": "MONSTER",
-    "copy-from": "mon_hadrosaurus_hatchling",
-    "upgrades": { "age_grow": 30, "into": "mon_parasaurolophus_juvenile" }
-  },
-  {
-    "id": "mon_corythosaurus_hatchling",
-    "type": "MONSTER",
-    "copy-from": "mon_hadrosaurus_hatchling",
-    "upgrades": { "age_grow": 40, "into": "mon_corythosaurus_juvenile" }
-  },
-  {
     "id": "mon_maiasaura_hatchling",
     "type": "MONSTER",
     "copy-from": "mon_hadrosaurus_hatchling",
-    "upgrades": { "age_grow": 30, "into": "mon_maiasaura_juvenile" }
+    "upgrades": { "age_grow": 40, "into": "mon_maiasaura_juvenile" }
+  },
+  {
+    "id": "mon_gryposaurus_hatchling",
+    "type": "MONSTER",
+    "copy-from": "mon_hadrosaurus_hatchling",
+    "upgrades": { "age_grow": 25, "into": "mon_gryposaurus_juvenile" }
+  },
+  {
+    "id": "mon_prosaurolophus_hatchling",
+    "type": "MONSTER",
+    "copy-from": "mon_hadrosaurus_hatchling",
+    "upgrades": { "age_grow": 30, "into": "mon_prosaurolophus_juvenile" }
+  },
+  {
+    "id": "mon_saurolophus_hatchling",
+    "type": "MONSTER",
+    "copy-from": "mon_hadrosaurus_hatchling",
+    "upgrades": { "age_grow": 30, "into": "mon_saurolophus_juvenile" }
   },
   {
     "id": "mon_edmontosaurus_hatchling",
@@ -479,10 +485,28 @@
     "upgrades": { "age_grow": 50, "into": "mon_edmontosaurus_juvenile" }
   },
   {
-    "id": "mon_gryposaurus_hatchling",
+    "id": "mon_parasaurolophus_hatchling",
     "type": "MONSTER",
     "copy-from": "mon_hadrosaurus_hatchling",
-    "upgrades": { "age_grow": 50, "into": "mon_gryposaurus_juvenile" }
+    "upgrades": { "age_grow": 30, "into": "mon_parasaurolophus_juvenile" }
+  },
+  {
+    "id": "mon_lambeosaurus_hatchling",
+    "type": "MONSTER",
+    "copy-from": "mon_hadrosaurus_hatchling",
+    "upgrades": { "age_grow": 30, "into": "mon_lambeosaurus_juvenile" }
+  },
+  {
+    "id": "mon_corythosaurus_hatchling",
+    "type": "MONSTER",
+    "copy-from": "mon_hadrosaurus_hatchling",
+    "upgrades": { "age_grow": 40, "into": "mon_corythosaurus_juvenile" }
+  },
+  {
+    "id": "mon_hypacrosaurus_hatchling",
+    "type": "MONSTER",
+    "copy-from": "mon_hadrosaurus_hatchling",
+    "upgrades": { "age_grow": 40, "into": "mon_hypacrosaurus_juvenile" }
   },
   {
     "id": "mon_stegoceras_hatchling",
