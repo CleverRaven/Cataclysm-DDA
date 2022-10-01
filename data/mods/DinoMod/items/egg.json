@@ -566,6 +566,13 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "egg_styracosaurus",
+    "name": "styracosaurus egg",
+    "copy-from": "egg_dino",
+    "rot_spawn": "GROUP_EGG_styracosaurus"
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "egg_centrosaurus",
     "name": "centrosaurus egg",
     "copy-from": "egg_dino",
@@ -573,10 +580,31 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "egg_einiosaurus",
+    "name": "einiosaurus egg",
+    "copy-from": "egg_dino",
+    "rot_spawn": "GROUP_EGG_einiosaurus"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_achelousaurus",
+    "name": "achelousaurus egg",
+    "copy-from": "egg_dino",
+    "rot_spawn": "GROUP_EGG_achelousaurus"
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "egg_pachyrhinosaurus",
     "name": "pachyrhinosaurus egg",
     "copy-from": "egg_dino",
     "rot_spawn": "GROUP_EGG_pachyrhinosaurus"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_chasmosaurus",
+    "name": "chasmosaurus egg",
+    "copy-from": "egg_dino",
+    "rot_spawn": "GROUP_EGG_chasmosaurus"
   },
   {
     "type": "COMESTIBLE",
