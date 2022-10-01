@@ -2101,7 +2101,7 @@
     "price_postapoc": 750,
     "material": [ "wood" ],
     "weight": "200 g",
-    "volume": "1531 ml",
+    "volume": "1532 ml",
     "longest_side": "80 cm",
     "bashing": 3,
     "to_hit": { "grip": "weapon", "length": "short", "surface": "any", "balance": "neutral" },
