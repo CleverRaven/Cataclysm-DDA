@@ -7275,6 +7275,7 @@
         [ "pepper", 1 ],
         [ "garlic_clove", 1 ],
         [ "wild_garlic", 2 ],
+        [ "garlic_powder", 1 ],
         [ "vinegar", 1 ],
         [ "seasoning_italian", 1 ]
       ]
@@ -7302,6 +7303,7 @@
         [ "soysauce", 1 ],
         [ "pepper", 1 ],
         [ "garlic_clove", 1 ],
+        [ "garlic_powder", 1 ],
         [ "vinegar", 1 ],
         [ "seasoning_italian", 1 ]
       ],
@@ -7310,6 +7312,7 @@
         [ "soysauce", 1 ],
         [ "pepper", 1 ],
         [ "garlic_clove", 1 ],
+        [ "garlic_powder", 1 ],
         [ "vinegar", 1 ],
         [ "seasoning_italian", 1 ]
       ]
@@ -8577,6 +8580,7 @@
         [ "seasoning_italian", 4 ],
         [ "wild_herbs", 4 ],
         [ "seasoning_salt", 4 ],
+        [ "garlic_powder", 4 ],
         [ "pepper", 4 ]
       ]
     ]
@@ -8644,6 +8648,7 @@
         [ "chem_black_powder", 94 ],
         [ "soysauce", 2 ],
         [ "seasoning_italian", 4 ],
+        [ "garlic_powder", 4 ],
         [ "wild_herbs", 4 ],
         [ "seasoning_salt", 4 ],
         [ "pepper", 4 ]
@@ -9448,6 +9453,7 @@
         [ "wild_herbs", 2 ],
         [ "seasoning_salt", 2 ],
         [ "wild_garlic", 1 ],
+        [ "garlic_powder" ],
         [ "pepper", 2 ]
       ]
     ]
@@ -9547,6 +9553,7 @@
         [ "seasoning_salt", 1 ],
         [ "garlic_clove", 1 ],
         [ "wild_garlic", 1 ],
+        [ "garlic_powder", 1 ],
         [ "tomato", 1 ]
       ],
       [ [ "water", 1 ], [ "water_clean", 1 ] ]
@@ -9567,7 +9574,7 @@
     "tools": [ [ [ "surface_heat", 2, "LIST" ] ] ],
     "components": [
       [ [ "gastropod_purged", 6 ] ],
-      [ [ "salt", 1 ], [ "seasoning_salt", 1 ], [ "garlic_clove", 1 ], [ "wild_garlic", 1 ] ],
+      [ [ "salt", 1 ], [ "seasoning_salt", 1 ], [ "garlic_clove", 1 ], [ "wild_garlic", 1 ], [ "garlic_powder", 1 ] ],
       [ [ "butter", 1 ] ],
       [ [ "wild_herbs", 6 ] ]
     ]
