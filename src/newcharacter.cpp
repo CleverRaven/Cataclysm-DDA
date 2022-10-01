@@ -3347,7 +3347,7 @@ static void draw_height( const catacurses::window &w_height, const avatar &you,
     mvwprintz( w_height, point_zero, highlight ? COL_SELECT : c_light_gray, _( "Height:" ) );
     unsigned height_pos = 1 + utf8_width( _( "Height:" ) );
     mvwprintz( w_height, point( height_pos, 0 ), c_white,
-              /* change */ you.height_string());
+                         you.height_string());
     wnoutrefresh( w_height );
 }
 
@@ -4117,14 +4117,27 @@ void set_description( tab_manager &tabs, avatar &you, const bool allow_reroll,
                     break;
                 }
                 case char_creation::HEIGHT: {
-                    popup.title( string_format( _( "Enter height in centimeters.  Minimum %d, maximum %d" ),
-                                                min_allowed_height,
-                                                max_allowed_height ) )
-                    .text( you.height_string() )
-                    .only_digits( true );
-                    const int result = popup.query_int();
-                    if( result != 0 ) {
-                        you.set_base_height( clamp( result, min_allowed_height, max_allowed_height ) );
+                    const bool metric = get_option<std::string>("DISTANCE_UNITS") == "metric";
+                    if (metric) {
+                        popup.title(string_format(_("Enter height in centimeters.  Minimum %d, maximum %d"),
+                            min_allowed_height,
+                            max_allowed_height))
+                            .text(you.height_string())
+                            .only_digits(true);
+                        const int result = popup.query_int();
+                        if (result != 0) {
+                            you.set_base_height(clamp(result, min_allowed_height, max_allowed_height));
+                        }
+                    }
+                    else {
+                        popup.title("Enter height in inches. Minimum 57 (4\'9\"), maximum 79 (6\'7\")")
+                            .text(you.height_string())
+                            .only_digits(true);
+                        const int iresult = popup.query_int();
+                        if (iresult != 0) {
+                            const int result = (iresult * 2.54);
+                            you.set_base_height(clamp(result, min_allowed_height, max_allowed_height));
+                        }
                     }
                     break;
                 }
