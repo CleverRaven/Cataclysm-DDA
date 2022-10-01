@@ -414,7 +414,7 @@
       "THINSKIN",
       "LIGHTFUR",
       "SCALES",
-      "PAWS",
+      "PAWS"
     ],
     "flags": [ "CHALLENGE", "LONE_START" ],
     "requirement": "achievement_crosses_mutation_threshold"
@@ -605,7 +605,7 @@
       "THINSKIN",
       "LIGHTFUR",
       "SCALES",
-      "PAWS",
+      "PAWS"
     ],
     "flags": [ "LONE_START" ],
     "requirement": "achievement_crosses_mutation_threshold"
