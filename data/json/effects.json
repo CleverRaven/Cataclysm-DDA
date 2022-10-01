@@ -3433,7 +3433,8 @@
     "type": "effect_type",
     "id": "incorporeal",
     "name": [ "Incorporeal" ],
-    "desc": [ "You lack substance, as if you aren't quite fully here." ]
+    "desc": [ "You lack substance, as if you aren't quite fully here." ],
+    "removes_effects": [ "grabbed", "bleed" ]
   },
   {
     "type": "effect_type",

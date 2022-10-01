@@ -8217,5 +8217,49 @@
     "city_sizes": [ 5, -1 ],
     "occurrences": [ 20, 100 ],
     "flags": [ "UNIQUE", "SIDEWALK", "GENERIC_LOOT", "URBAN" ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "Farm Supply Store",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "farm_supply_1_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "farm_supply_roof_1_north" },
+      { "point": [ 1, 0, 0 ], "overmap": "farm_supply_2_north" },
+      { "point": [ 1, 0, 1 ], "overmap": "farm_supply_roof_2_north" },
+      { "point": [ 0, 1, 0 ], "overmap": "farm_supply_3_north" },
+      { "point": [ 0, 1, 1 ], "overmap": "farm_supply_roof_3_north" },
+      { "point": [ 1, 1, 0 ], "overmap": "farm_supply_4_north" },
+      { "point": [ 1, 1, 1 ], "overmap": "farm_supply_roof_4_north" }
+    ],
+    "occurrences": [ 30, 100 ],
+    "connections": [
+      { "point": [ 0, -1, 0 ], "terrain": "road", "from": [ 0, 0, 0 ] },
+      { "point": [ 1, -1, 0 ], "terrain": "road", "from": [ 1, 0, 0 ] }
+    ],
+    "locations": [ "field" ],
+    "city_distance": [ 5, 40 ],
+    "flags": [ "CLASSIC", "MAN_MADE", "UNIQUE" ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "Farm Supply Store Looted",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "farm_supply_looted_1_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "farm_supply_roof_1_north" },
+      { "point": [ 1, 0, 0 ], "overmap": "farm_supply_looted_2_north" },
+      { "point": [ 1, 0, 1 ], "overmap": "farm_supply_roof_2_north" },
+      { "point": [ 0, 1, 0 ], "overmap": "farm_supply_looted_3_north" },
+      { "point": [ 0, 1, 1 ], "overmap": "farm_supply_roof_3_north" },
+      { "point": [ 1, 1, 0 ], "overmap": "farm_supply_looted_4_north" },
+      { "point": [ 1, 1, 1 ], "overmap": "farm_supply_roof_4_north" }
+    ],
+    "occurrences": [ 50, 100 ],
+    "connections": [
+      { "point": [ 0, -1, 0 ], "terrain": "road", "from": [ 0, 0, 0 ] },
+      { "point": [ 1, -1, 0 ], "terrain": "road", "from": [ 1, 0, 0 ] }
+    ],
+    "locations": [ "field" ],
+    "city_distance": [ 5, 40 ],
+    "flags": [ "CLASSIC", "MAN_MADE", "UNIQUE" ]
   }
 ]

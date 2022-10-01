@@ -377,6 +377,23 @@
     "effect": [ "take_control_menu" ]
   },
   {
+    "id": "EOC_PREVENT_DEATH",
+    "type": "effect_on_condition",
+    "eoc_type": "PREVENT_DEATH",
+    "condition": { "u_has_trait": "PORTAL_RESURRECTION" },
+    "effect": [
+      { "u_set_hp": 50, "only_increase": true },
+      { "u_add_effect": "incorporeal", "duration": [ "5 minutes", "10 minutes" ] },
+      { "u_lose_trait": "PORTAL_RESURRECTION" },
+      { "arithmetic": [ { "u_val": "pain" }, "=", { "const": 0 } ] },
+      { "arithmetic": [ { "u_val": "fatigue" }, "=", { "const": 0 } ] },
+      {
+        "u_message": "For an instant that is also an eternity, you exist only in an empty void.  Then you feel something vast, alien, and merciless reach through a preexisting connection to give you just enough energy to exist.  Its motives for doing so are not likely to be benign.",
+        "popup": true
+      }
+    ]
+  },
+  {
     "type": "effect_on_condition",
     "id": "record_portal_storm_data",
     "recurrence": "5 minutes",

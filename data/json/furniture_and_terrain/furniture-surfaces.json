@@ -37,6 +37,7 @@
     "required_str": -1,
     "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "CONTAINER", "PLACE_ITEM", "ORGANIC", "MOUNTABLE", "FLAT_SURF" ],
     "connects_to": "COUNTER",
+    "rotates_to": "INDOORFLOOR",
     "deconstruct": {
       "items": [ { "item": "2x4", "count": 3 }, { "item": "wood_panel", "count": 1 }, { "item": "nail", "charges": [ 6, 8 ] } ]
     },
@@ -112,6 +113,7 @@
     "required_str": 5,
     "crafting_pseudo_item": "medium_surface_pseudo",
     "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "CONTAINER", "PLACE_ITEM", "ORGANIC", "MOUNTABLE", "FLAT_SURF" ],
+    "rotates_to": "INDOORFLOOR",
     "deconstruct": {
       "items": [ { "item": "2x4", "count": 8 }, { "item": "wood_panel", "count": 1 }, { "item": "nail", "charges": [ 16, 24 ] } ]
     },
