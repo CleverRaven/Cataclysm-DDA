@@ -128,7 +128,7 @@
     "copy-from": "bear_armor",
     "color": "green",
     "name": { "str": "bear rain sheet" },
-    "description": "A thin plastic covering, adapted to protect an bear from acid zombie splashes and similar caustic substances.  You could put this on a friendly bear.",
+    "description": "A thin plastic covering, adapted to protect a bear from acid zombie splashes and similar caustic substances.  You could put this on a friendly bear.",
     "price": 15000,
     "price_postapoc": 1500,
     "material": [ "neoprene", "plastic" ],
