@@ -31,6 +31,7 @@
       [ "bipod", 20 ],
       [ "folding_stock", 60 ],
       [ "grip", 80 ],
+      [ "wooden_grip", 5 ],
       [ "waterproof_gunmod", 40 ],
       [ "gun_crossbow", 20 ],
       [ "stabilizer", 10 ],
