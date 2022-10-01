@@ -1,5 +1,6 @@
 [
   {
+    "TODO": "update road markings here, and find the entrance road json to update as well",
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ [ "evac_center_1", "evac_center_2", "evac_center_3", "evac_center_4", "evac_center_5" ] ],
