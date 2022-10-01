@@ -3346,8 +3346,8 @@ static void draw_height( const catacurses::window &w_height, const avatar &you,
     werase( w_height );
     mvwprintz( w_height, point_zero, highlight ? COL_SELECT : c_light_gray, _( "Height:" ) );
     unsigned height_pos = 1 + utf8_width( _( "Height:" ) );
-    mvwprintz( w_height, point( height_pos, 0 ), c_white, string_format( "%d cm",
-               you.base_height() ) );
+    mvwprintz( w_height, point( height_pos, 0 ), c_white,
+              /* change */ you.height_string());
     wnoutrefresh( w_height );
 }
 
@@ -4120,7 +4120,7 @@ void set_description( tab_manager &tabs, avatar &you, const bool allow_reroll,
                     popup.title( string_format( _( "Enter height in centimeters.  Minimum %d, maximum %d" ),
                                                 min_allowed_height,
                                                 max_allowed_height ) )
-                    .text( string_format( "%d", you.base_height() ) )
+                    .text( you.height_string() )
                     .only_digits( true );
                     const int result = popup.query_int();
                     if( result != 0 ) {
