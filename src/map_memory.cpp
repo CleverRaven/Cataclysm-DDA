@@ -11,7 +11,7 @@
 #include "string_formatter.h"
 #include "translations.h"
 #include "map.h"
-const memorized_terrain_tile mm_submap::default_tile { "", 0, 0 };
+const memorized_terrain_tile mm_submap::default_tile{ "", 0, 0 };
 const int mm_submap::default_symbol = 0;
 
 #define MM_SIZE (MAPSIZE * 2)
@@ -131,9 +131,7 @@ bool map_memory::prepare_region( const tripoint &p1, const tripoint &p2 )
     tripoint sm_pos = sm_p1;
     point sm_size = sm_p2.xy() - sm_p1.xy();
 
-    bool z_levels = get_map().has_zlevels();
-
-    if( sm_pos.z == cache_pos.z || z_levels ) {
+    if( sm_pos.z == cache_pos.z ) {
         inclusive_rectangle<point> rect( cache_pos.xy(), cache_pos.xy() + cache_size );
         if( rect.contains( sm_p1.xy() ) && rect.contains( sm_p2.xy() ) ) {
             return false;
@@ -142,14 +140,10 @@ bool map_memory::prepare_region( const tripoint &p1, const tripoint &p2 )
 
     dbg( D_INFO ) << "Preparing memory map for area: pos: " << sm_pos << " size: " << sm_size;
 
-
-    int minz = z_levels ? -OVERMAP_DEPTH : p1.z;
-    int maxz = z_levels ? OVERMAP_HEIGHT : p1.z;
-
     cache_pos = sm_pos;
     cache_size = sm_size;
     cached.clear();
-    cached.reserve( static_cast<std::size_t>( cache_size.x ) * cache_size.y * ( maxz - minz + 1 ) );
+    cached.reserve( static_cast<std::size_t>( cache_size.x ) * cache_size.y * ( OVERMAP_HEIGHT - -OVERMAP_DEPTH + 1 ) );
     for( int dy = 0; dy < cache_size.y; dy++ ) {
         for( int dx = 0; dx < cache_size.x; dx++ ) {
             cached.push_back( fetch_submap( cache_pos + point( dx, dy ) ) );
@@ -285,8 +279,7 @@ const mm_submap &map_memory::get_submap( const tripoint &sm_pos ) const
         return invalid_mz_submap;
     }
 
-    int zoffset = get_map().has_zlevels() ? ( sm_pos.z + OVERMAP_DEPTH ) * cache_size.y * cache_size.x :
-                  0;
+    int zoffset = ( sm_pos.z + OVERMAP_DEPTH ) * cache_size.y * cache_size.x;
     const point idx = ( sm_pos - cache_pos ).xy();
     if( idx.x > 0 && idx.y > 0 && idx.x < cache_size.x && idx.y < cache_size.y ) {
         return *cached[idx.y * cache_size.x + idx.x + zoffset];
@@ -301,8 +294,7 @@ mm_submap &map_memory::get_submap( const tripoint &sm_pos )
         return invalid_mz_submap;
     }
 
-    int zoffset = get_map().has_zlevels() ? ( sm_pos.z + OVERMAP_DEPTH ) * cache_size.y * cache_size.x :
-                  0;
+    int zoffset = ( sm_pos.z + OVERMAP_DEPTH ) * cache_size.y * cache_size.x;
     const point idx = ( sm_pos - cache_pos ).xy();
     if( idx.x > 0 && idx.y > 0 && idx.x < cache_size.x && idx.y < cache_size.y ) {
         return *cached[idx.y * cache_size.x + idx.x + zoffset];

@@ -1558,7 +1558,7 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
                     ( in_map_bounds && ( here.dont_draw_lower_floor( pos ) || has_memory_at( pos ) ) )
                     || ( !in_map_bounds && ( has_memory_at( pos ) || pos.z <= 0 ) ) ) {
                     // invisible to normal eyes
-                    bool invisible[5];
+                    std::array<bool, 5> invisible;
                     invisible[0] = false;
 
                     if( !in_vis_bounds ) {
@@ -1643,7 +1643,7 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
                 const auto &ch = here.access_cache( z );
                 if( here.inbounds( p.pos && z != p.pos.z ) ) {
                     if( !f.hide_unseen || ch.visibility_cache[p.pos.x][p.pos.y] != lit_level::BLANK ) {
-                        const bool ( invis )[5] = {false, false, false, false, false};
+                        const std::array<bool, 5> invis = {false, false, false, false, false};
                         ( this->*( f.function ) )( {p.pos.xy(), z}, p.ll, p.height_3d, invis, center.z - z );
                     }
                 } else {
@@ -2625,54 +2625,58 @@ bool cata_tiles::draw_sprite_at(
     };
 
     if( rotate_sprite ) {
-        switch( rota % 4 ) {
-            default:
-            case 0:
-                // unrotated (and 180, with just two sprites)
-                ret = render( 0, SDL_FLIP_NONE );
-                break;
-            case 1:
-                // 90 degrees (and 270, with just two sprites)
+        if( rota == -1 ) {
+            // flip horizontally
+            ret = render( 0, SDL_FLIP_HORIZONTAL );
+        } else {
+            switch( rota % 4 ) {
+                default:
+                case 0:
+                    // unrotated (and 180, with just two sprites)
+                    ret = render( 0, SDL_FLIP_NONE );
+                    break;
+                case 1:
+                    // 90 degrees (and 270, with just two sprites)
 #if defined(_WIN32) && defined(CROSS_LINUX)
-                // For an unknown reason, additional offset is required in direct3d mode
-                // for cross-compilation from Linux to Windows
-                if( direct3d_mode ) {
-                    destination.y -= 1;
-                }
+                    // For an unknown reason, additional offset is required in direct3d mode
+                    // for cross-compilation from Linux to Windows
+                    if( direct3d_mode ) {
+                        destination.y -= 1;
+                    }
 #endif
-                if( !is_isometric() ) {
-                    // never rotate isometric tiles
-                    ret = render( -90, SDL_FLIP_NONE );
-                    SDL_FLIP_NONE );
-                } else {
-                    ret = render( 0, SDL_FLIP_NONE );
-                }
-                break;
-            case 2:
-                // 180 degrees, implemented with flips instead of rotation
-                if( !is_isometric() ) {
-                    // never flip isometric tiles vertically
-                    ret = render( 0, static_cast<SDL_RendererFlip>( SDL_FLIP_HORIZONTAL | SDL_FLIP_VERTICAL ) );
-                } else {
-                    ret = render( 0, SDL_FLIP_NONE );
-                }
-                break;
-            case 3:
-                // 270 degrees
+                    if( !is_isometric() ) {
+                        // never rotate isometric tiles
+                        ret = render( -90, SDL_FLIP_NONE );
+                    } else {
+                        ret = render( 0, SDL_FLIP_NONE );
+                    }
+                    break;
+                case 2:
+                    // 180 degrees, implemented with flips instead of rotation
+                    if( !is_isometric() ) {
+                        // never flip isometric tiles vertically
+                        ret = render( 0, static_cast<SDL_RendererFlip>( SDL_FLIP_HORIZONTAL | SDL_FLIP_VERTICAL ) );
+                    } else {
+                        ret = render( 0, SDL_FLIP_NONE );
+                    }
+                    break;
+                case 3:
+                    // 270 degrees
 #if defined(_WIN32) && defined(CROSS_LINUX)
-                // For an unknown reason, additional offset is required in direct3d mode
-                // for cross-compilation from Linux to Windows
-                if( direct3d_mode ) {
-                    destination.x -= 1;
-                }
+                    // For an unknown reason, additional offset is required in direct3d mode
+                    // for cross-compilation from Linux to Windows
+                    if( direct3d_mode ) {
+                        destination.x -= 1;
+                    }
 #endif
-                if( !is_isometric() ) {
-                    // never rotate isometric tiles
-                    ret = render( 90, SDL_FLIP_NONE );
-                } else {
-                    ret = render( 0, SDL_FLIP_NONE );
-                }
-                break;
+                    if( !is_isometric() ) {
+                        // never rotate isometric tiles
+                        ret = render( 90, SDL_FLIP_NONE );
+                    } else {
+                        ret = render( 0, SDL_FLIP_NONE );
+                    }
+                    break;
+            }
         }
     } else {
         // don't rotate, same as case 0 above
@@ -3587,13 +3591,13 @@ bool cata_tiles::draw_critter_at( const tripoint &p, const lit_level, int &,
             }
             const int subtile = corner;
             // depending on the toggle flip sprite left or right
-            int rot_facing = -1;
+            int rot_facing = -2;
             if( m->facing == FacingDirection::RIGHT ) {
                 rot_facing = 0;
             } else if( m->facing == FacingDirection::LEFT ) {
-                rot_facing = 4;
+                rot_facing = -1;
             }
-            if( rot_facing >= 0 ) {
+            if( rot_facing >= -1 ) {
                 const auto ent_name = m->type->id;
                 std::string chosen_id = ent_name.str();
                 if( m->has_effect( effect_ridden ) ) {
@@ -3720,7 +3724,7 @@ void cata_tiles::draw_entity_with_overlays( const Character &ch, const tripoint 
         draw_from_id_string( ent_name, TILE_CATEGORY::NONE, "", p, corner, 0, ll, false,
                              height_3d, 0 );
     } else if( ch.facing == FacingDirection::LEFT ) {
-        draw_from_id_string( ent_name, TILE_CATEGORY::NONE, "", p, corner, 4, ll, false,
+        draw_from_id_string( ent_name, TILE_CATEGORY::NONE, "", p, corner, -1, ll, false,
                              height_3d, 0 );
     }
 
@@ -3734,7 +3738,7 @@ void cata_tiles::draw_entity_with_overlays( const Character &ch, const tripoint 
                 draw_from_id_string( draw_id, TILE_CATEGORY::NONE, "", p, corner, /*rota:*/ 0, ll,
                                      false, overlay_height_3d );
             } else if( ch.facing == FacingDirection::LEFT ) {
-                draw_from_id_string( draw_id, TILE_CATEGORY::NONE, "", p, corner, /*rota:*/ 4, ll,
+                draw_from_id_string( draw_id, TILE_CATEGORY::NONE, "", p, corner, /*rota:*/ -1, ll,
                                      false, overlay_height_3d );
             }
             // the tallest height-having overlay is the one that counts
