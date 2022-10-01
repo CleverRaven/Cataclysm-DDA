@@ -49,8 +49,7 @@
         "D": "t_carpet_red",
         "¤": "t_carpet_red"
       },
-      "items": { "¤": { "item": "nightstand", "chance": 30 } },
-      "furniture": { "!": "f_counter", "$": "f_bigmirror", "¤": "f_table" }
+      "furniture": { "!": "f_counter", "$": "f_bigmirror" }
     }
   },
   {
@@ -149,8 +148,8 @@
         ",": "t_floor_noroof",
         "₸": "t_floor_noroof"
       },
-      "furniture": { "!": "f_table", "₸": "f_deckchair", "¤": "f_table" },
-      "items": { "!": { "item": "table_foyer", "chance": 50 }, "¤": { "item": "nightstand", "chance": 30 } }
+      "furniture": { "!": "f_table", "₸": "f_deckchair" },
+      "items": { "!": { "item": "table_foyer", "chance": 50 } }
     }
   },
   {
