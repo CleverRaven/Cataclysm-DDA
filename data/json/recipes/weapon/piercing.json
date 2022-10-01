@@ -1178,5 +1178,19 @@
       { "proficiency": "prof_blacksmithing" },
       { "proficiency": "prof_articulation" }
     ]
+  },
+  {
+    "result": "xl_knuckle_skewer",
+    "type": "recipe",
+    "copy-from": "knuckle_skewer",
+    "time": "4h",
+    "using": [ [ "blacksmithing_standard", 6 ], [ "steel_standard", 1 ] ]
+  },
+  {
+    "result": "xs_knuckle_skewer",
+    "type": "recipe",
+    "copy-from": "knuckle_skewer",
+    "time": "4h",
+    "using": [ [ "blacksmithing_standard", 4 ], [ "steel_standard", 1 ] ]
   }
 ]

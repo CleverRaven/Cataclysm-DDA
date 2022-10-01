@@ -2142,16 +2142,6 @@ bool vehicle::remove_carried_vehicle( const std::vector<int> &carried_parts,
     }
 }
 
-// split the current vehicle into up to 3 new vehicles that do not connect to each other
-bool vehicle::find_and_split_vehicles( map &here, int exclude )
-{
-    std::vector<int> valid_parts = all_parts_at_location( part_location_structure );
-    std::set<int> checked_parts;
-    checked_parts.insert( exclude );
-
-    return find_and_split_vehicles( here, checked_parts );
-}
-
 bool vehicle::find_and_split_vehicles( map &here, std::set<int> exclude )
 {
     std::vector<int> valid_parts = all_parts_at_location( part_location_structure );
@@ -2223,10 +2213,14 @@ bool vehicle::find_and_split_vehicles( map &here, std::set<int> exclude )
     }
 
     if( !all_vehicles.empty() ) {
-        bool success = split_vehicles( here, all_vehicles );
-        if( success ) {
-            // update the active cache
-            shift_parts( here, point_zero );
+        const std::vector<vehicle *> null_vehicles( all_vehicles.size(), nullptr );
+        const std::vector<std::vector<point>> null_mounts( all_vehicles.size(), std::vector<point>() );
+        std::vector<vehicle *> mark_wreckage { this };
+        if( split_vehicles( here, all_vehicles, null_vehicles, null_mounts, &mark_wreckage ) ) {
+            for( vehicle *veh : mark_wreckage ) {
+                veh->add_tag( "wreckage" ); // wreckages don't get fake parts added
+            }
+            shift_parts( here, point_zero ); // update the active cache
             return true;
         }
     }
@@ -2245,21 +2239,11 @@ void vehicle::relocate_passengers( const std::vector<Character *> &passengers ) 
     }
 }
 
-// Split a vehicle into an old vehicle and one or more new vehicles by moving vehicle_parts
-// from one the old vehicle to the new vehicles.
-// some of the logic borrowed from remove_part
-// skipped the grab, curtain, player activity, and engine checks because they deal
-// with pos, not a vehicle pointer
-// @param new_vehs vector of vectors of part indexes to move to new vehicles
-// @param new_vehicles vector of vehicle pointers containing the new vehicles; if empty, new
-// vehicles will be created
-// @param new_mounts vector of vector of mount points. must have one vector for every vehicle*
-// in new_vehicles, and forces the part indices in new_vehs to be mounted on the new vehicle
-// at those mount points
 bool vehicle::split_vehicles( map &here,
                               const std::vector<std::vector <int>> &new_vehs,
                               const std::vector<vehicle *> &new_vehicles,
-                              const std::vector<std::vector <point>> &new_mounts )
+                              const std::vector<std::vector<point>> &new_mounts,
+                              std::vector<vehicle *> *added_vehicles )
 {
     bool did_split = false;
     size_t i = 0;
@@ -2270,8 +2254,6 @@ bool vehicle::split_vehicles( map &here,
         }
         std::vector<point> split_mounts = new_mounts[ i ];
         did_split = true;
-        // Once a vehicle is split, we treat it differently, mostly for fake parts.
-        add_tag( "wreckage" );
 
         vehicle *new_vehicle = nullptr;
         if( i < new_vehicles.size() ) {
@@ -2302,6 +2284,9 @@ bool vehicle::split_vehicles( map &here,
                 // the split part was out of the map bounds.
                 continue;
             }
+            if( added_vehicles != nullptr ) {
+                added_vehicles->emplace_back( new_vehicle );
+            }
             new_vehicle->name = name;
             new_vehicle->move = move;
             new_vehicle->turn_dir = turn_dir;
@@ -2313,7 +2298,6 @@ bool vehicle::split_vehicles( map &here,
             new_vehicle->tracking_on = tracking_on;
             new_vehicle->camera_on = camera_on;
         }
-        new_vehicle->add_tag( "wreckage" );
 
         std::vector<Character *> passengers;
         for( size_t new_part = 0; new_part < split_parts.size(); new_part++ ) {
@@ -2415,16 +2399,6 @@ bool vehicle::split_vehicles( map &here,
         }
     }
     return did_split;
-}
-
-bool vehicle::split_vehicles( map &here, const std::vector<std::vector <int>> &new_vehs )
-{
-    std::vector<vehicle *> null_vehicles;
-    std::vector<std::vector <point>> null_mounts;
-    std::vector<point> nothing;
-    null_vehicles.assign( new_vehs.size(), nullptr );
-    null_mounts.assign( new_vehs.size(), nothing );
-    return split_vehicles( here, new_vehs, null_vehicles, null_mounts );
 }
 
 item_location vehicle::part_base( int p )
@@ -6944,7 +6918,7 @@ int vehicle::break_off( map &here, int p, int dmg )
         add_msg_if_player_sees( pos, m_bad, _( "The %1$s's %2$s is destroyed!" ), name, parts[ p ].name() );
         scatter_parts( parts[p] );
         remove_part( p, *handler_ptr );
-        find_and_split_vehicles( here, p );
+        find_and_split_vehicles( here, { p } );
     } else {
         //Just break it off
         add_msg_if_player_sees( pos, m_bad, _( "The %1$s's %2$s is destroyed!" ), name, parts[ p ].name() );

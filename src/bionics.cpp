@@ -1476,7 +1476,7 @@ void Character::burn_fuel( bionic &bio )
             return;
         }
 
-        mod_stored_kcal( 1, true );
+        mod_stored_kcal( -1, true );
     }
 
     // There *could* be multiple fuel sources. But we just check first for solar.
