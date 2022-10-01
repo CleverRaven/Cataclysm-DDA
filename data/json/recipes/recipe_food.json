@@ -3987,6 +3987,7 @@
         [ "seasoning_salt", 1 ],
         [ "garlic_clove", 1 ],
         [ "wild_garlic", 1 ],
+        [ "garlic_powder", 1 ],
         [ "pepper", 1 ]
       ],
       [ [ "water", 1 ], [ "water_clean", 1 ] ]
@@ -9033,7 +9034,7 @@
         [ "cabbage", 2 ]
       ],
       [ [ "tomato", 1 ], [ "irradiated_tomato", 1 ], [ "can_tomato", 1 ], [ "onion", 1 ], [ "irradiated_onion", 1 ] ],
-      [ [ "pepper", 20 ], [ "chilly-p", 20 ], [ "garlic_clove", 6 ], [ "chili_pepper", 2 ] ]
+      [ [ "pepper", 20 ], [ "chilly-p", 20 ], [ "garlic_clove", 6 ], [ "garlic_powder", 20 ], [ "chili_pepper", 2 ] ]
     ]
   },
   {
