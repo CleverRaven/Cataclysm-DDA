@@ -3,7 +3,7 @@
     "id": "boots_fsurvivor",
     "type": "ARMOR",
     "category": "armor",
-    "name": { "str": "pair of survivor fireboots", "str_pl": "pairs of survivor fireboots" },
+    "name": { "str": "survivor fireboots", "str_pl": "pairs of survivor fireboots" },
     "description": "A pair of customized, Kevlar-armored Nomex boots.  These will keep you alive, even when knee-deep in the flames.",
     "weight": "1980 g",
     "volume": "3 L",
@@ -24,7 +24,7 @@
   {
     "id": "xl_boots_fsurvivor",
     "type": "ARMOR",
-    "name": { "str": "pair of XL survivor fireboots", "str_pl": "pairs of XL survivor fireboots" },
+    "name": { "str": "XL survivor fireboots", "str_pl": "pairs of XL survivor fireboots" },
     "copy-from": "boots_fsurvivor",
     "proportional": { "weight": 1.5, "volume": 1.5 },
     "extend": { "flags": [ "OVERSIZE" ] }
@@ -34,7 +34,7 @@
     "type": "ARMOR",
     "copy-from": "boots_fsurvivor",
     "looks_like": "boots_fsurvivor",
-    "name": { "str": "pair of XS survivor fireboots", "str_pl": "pairs of XS survivor fireboots" },
+    "name": { "str": "XS survivor fireboots", "str_pl": "pairs of XS survivor fireboots" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }
   },
@@ -42,7 +42,7 @@
     "id": "boots_hsurvivor",
     "type": "ARMOR",
     "category": "armor",
-    "name": { "str": "pair of heavy survivor boots", "str_pl": "pairs of heavy survivor boots" },
+    "name": { "str": "heavy survivor boots", "str_pl": "pairs of heavy survivor boots" },
     "description": "A pair of customized Kevlar boots that are heavily armored with steel.  Favoring protection over comfort, these will keep you alive, especially when knee-deep in the dead.",
     "weight": "2254 g",
     "volume": "3 L",
@@ -63,7 +63,7 @@
   {
     "id": "xl_boots_hsurvivor",
     "type": "ARMOR",
-    "name": { "str": "pair of XL heavy survivor boots", "str_pl": "pairs of XL heavy survivor boots" },
+    "name": { "str": "XL heavy survivor boots", "str_pl": "pairs of XL heavy survivor boots" },
     "copy-from": "boots_hsurvivor",
     "proportional": { "weight": 1.2, "volume": 1.2 },
     "extend": { "flags": [ "OVERSIZE" ] }
@@ -73,7 +73,7 @@
     "type": "ARMOR",
     "copy-from": "boots_hsurvivor",
     "looks_like": "boots_hsurvivor",
-    "name": { "str": "pair of XS heavy survivor boots", "str_pl": "pairs of XS heavy survivor boots" },
+    "name": { "str": "XS heavy survivor boots", "str_pl": "pairs of XS heavy survivor boots" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }
   },
@@ -81,7 +81,7 @@
     "id": "gloves_hsurvivor",
     "type": "ARMOR",
     "category": "armor",
-    "name": { "str": "pair of heavy survivor gloves", "str_pl": "pairs of heavy survivor gloves" },
+    "name": { "str": "heavy survivor gloves", "str_pl": "pairs of heavy survivor gloves" },
     "description": "A pair of customized, steel-backed Kevlar gloves.  These are designed for protection first.",
     "weight": "1344 g",
     "volume": "1 L",
@@ -101,7 +101,7 @@
   {
     "id": "xl_gloves_hsurvivor",
     "type": "ARMOR",
-    "name": { "str": "pair of XL heavy survivor gloves", "str_pl": "pairs of XL heavy survivor gloves" },
+    "name": { "str": "XL heavy survivor gloves", "str_pl": "pairs of XL heavy survivor gloves" },
     "copy-from": "gloves_hsurvivor",
     "proportional": { "weight": 1.5, "volume": 1.5 },
     "extend": { "flags": [ "OVERSIZE" ] }
@@ -111,7 +111,7 @@
     "type": "ARMOR",
     "copy-from": "gloves_hsurvivor",
     "looks_like": "gloves_hsurvivor",
-    "name": { "str": "pair of XS heavy survivor gloves", "str_pl": "pairs of XS heavy survivor gloves" },
+    "name": { "str": "XS heavy survivor gloves", "str_pl": "pairs of XS heavy survivor gloves" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }
   },
@@ -119,7 +119,7 @@
     "id": "gloves_fsurvivor",
     "type": "ARMOR",
     "category": "armor",
-    "name": { "str": "pair of survivor firegloves", "str_pl": "pairs of survivor firegloves" },
+    "name": { "str": "survivor firegloves", "str_pl": "pairs of survivor firegloves" },
     "description": "A pair of customized, Kevlar-armored Nomex gloves.  These are a post-apocalyptic extension of what firefighters wore pre-Cataclysm.",
     "weight": "410 g",
     "volume": "1 L",
@@ -139,7 +139,7 @@
   {
     "id": "xl_gloves_fsurvivor",
     "type": "ARMOR",
-    "name": { "str": "pair of XL survivor firegloves", "str_pl": "pairs of XL survivor firegloves" },
+    "name": { "str": "XL survivor firegloves", "str_pl": "pairs of XL survivor firegloves" },
     "copy-from": "gloves_fsurvivor",
     "proportional": { "weight": 1.5, "volume": 1.5 },
     "extend": { "flags": [ "OVERSIZE" ] }
@@ -149,7 +149,7 @@
     "type": "ARMOR",
     "copy-from": "gloves_fsurvivor",
     "looks_like": "gloves_fsurvivor",
-    "name": { "str": "pair of XS survivor firegloves", "str_pl": "pairs of XS survivor firegloves" },
+    "name": { "str": "XS survivor firegloves", "str_pl": "pairs of XS survivor firegloves" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }
   },

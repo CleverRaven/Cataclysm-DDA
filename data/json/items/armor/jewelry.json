@@ -27,7 +27,7 @@
   {
     "id": "bead_ear",
     "type": "ARMOR",
-    "name": { "str": "pair of beaded earrings", "str_pl": "pairs of beaded earrings" },
+    "name": { "str": "beaded earrings", "str_pl": "pairs of beaded earrings" },
     "description": "A simple pair of earrings made of string and wooden beads.",
     "weight": "600 mg",
     "volume": "1 ml",
@@ -308,7 +308,7 @@
   {
     "id": "copper_ear",
     "type": "ARMOR",
-    "name": { "str": "pair of copper earrings", "str_pl": "pairs of copper earrings" },
+    "name": { "str": "copper earrings", "str_pl": "pairs of copper earrings" },
     "description": "A pair of copper earrings.  They're pretty heavy.",
     "weight": "9 g",
     "volume": "1 ml",
@@ -392,7 +392,7 @@
   {
     "id": "cufflinks",
     "type": "ARMOR",
-    "name": { "str": "pair of cufflinks", "str_pl": "pairs of cufflinks" },
+    "name": { "str": "cufflinks", "str_pl": "pairs of cufflinks" },
     "description": "An unmarked pair of silver cufflinks.  Cufflinks are used to secure the cuffs of dress shirts - a must-have for men in formal wear.",
     "weight": "10 g",
     "volume": "1 ml",
@@ -406,7 +406,7 @@
   {
     "id": "cufflinks_intricate",
     "type": "ARMOR",
-    "name": { "str": "pair of intricate cufflinks", "str_pl": "pairs of intricate cufflinks" },
+    "name": { "str": "intricate cufflinks", "str_pl": "pairs of intricate cufflinks" },
     "description": "An expensive pair of silver cufflinks, stylized with detailed overlays of gold gears and fractal patterns.",
     "weight": "11 g",
     "volume": "1 ml",
@@ -886,7 +886,7 @@
   {
     "id": "gold_ear",
     "type": "ARMOR",
-    "name": { "str": "pair of gold earrings", "str_pl": "pairs of gold earrings" },
+    "name": { "str": "gold earrings", "str_pl": "pairs of gold earrings" },
     "description": "A pair of shiny gold earrings.",
     "weight": "19 g",
     "volume": "1 ml",
@@ -1057,7 +1057,7 @@
   {
     "id": "silver_ear",
     "type": "ARMOR",
-    "name": { "str": "pair of silver earrings", "str_pl": "pairs of silver earrings" },
+    "name": { "str": "silver earrings", "str_pl": "pairs of silver earrings" },
     "description": "A pair of beautiful silver earrings.",
     "weight": "10 g",
     "volume": "1 ml",
@@ -1213,7 +1213,7 @@
   {
     "id": "platinum_ear",
     "type": "ARMOR",
-    "name": { "str": "pair of platinum earrings", "str_pl": "pairs of platinum earrings" },
+    "name": { "str": "platinum earrings", "str_pl": "pairs of platinum earrings" },
     "description": "A pair of plain platinum earrings - if gold is getting boring, just use another rare metal.",
     "weight": "20 g",
     "volume": "1 ml",
@@ -1544,7 +1544,7 @@
   {
     "id": "fur_cat_ears",
     "type": "ARMOR",
-    "name": { "str": "pair of fuzzy cat ears", "str_pl": "pairs of fuzzy cat ears" },
+    "name": { "str": "fuzzy cat ears", "str_pl": "pairs of fuzzy cat ears" },
     "description": "A fuzzy pair of brownish cat ears on a headband.  It does nothing, but there's no reason not to look good even if no one's looking.",
     "weight": "100 g",
     "volume": "100 ml",
@@ -1559,7 +1559,7 @@
     "id": "faux_fur_cat_ears",
     "type": "ARMOR",
     "copy-from": "fur_cat_ears",
-    "name": { "str": "pair of faux fur cat ears", "str_pl": "pairs of faux fur cat ears" },
+    "name": { "str": "faux fur cat ears", "str_pl": "pairs of faux fur cat ears" },
     "description": "A fuzzy pair of garishly colored cat ears on a headband.  It does nothing, but there's no reason not to look good even if no one's looking.",
     "material": [ "faux_fur" ],
     "color": "pink"
@@ -1614,7 +1614,7 @@
   {
     "id": "leather_cat_ears",
     "type": "ARMOR",
-    "name": { "str": "pair of leather cat ears", "str_pl": "pairs of leather cat ears" },
+    "name": { "str": "leather cat ears", "str_pl": "pairs of leather cat ears" },
     "description": "A shiny pair of black cat ears on a headband.  It does nothing, but there's no reason not to look good even if no one's looking.",
     "weight": "100 g",
     "volume": "100 ml",
@@ -1644,7 +1644,7 @@
     "id": "diamond_gold_earring",
     "copy-from": "garnet_gold_earring",
     "type": "ARMOR",
-    "name": { "str": "pair of diamond and gold earrings", "str_pl": "pairs of diamond and gold earrings" },
+    "name": { "str": "diamond and gold earrings", "str_pl": "pairs of diamond and gold earrings" },
     "description": "A pair of shiny diamond and gold earrings.",
     "price": 13000,
     "price_postapoc": 50,
@@ -1654,7 +1654,7 @@
   {
     "id": "garnet_gold_earring",
     "type": "ARMOR",
-    "name": { "str": "pair of garnet and gold earrings", "str_pl": "pairs of garnet and gold earrings" },
+    "name": { "str": "garnet and gold earrings", "str_pl": "pairs of garnet and gold earrings" },
     "description": "A pair of shiny garnet and gold earrings.",
     "weight": "18 mg",
     "volume": "1 ml",
@@ -1670,7 +1670,7 @@
     "id": "amethyst_gold_earring",
     "copy-from": "garnet_gold_earring",
     "type": "ARMOR",
-    "name": { "str": "pair of amethyst and gold earrings", "str_pl": "pairs of amethyst and gold earrings" },
+    "name": { "str": "amethyst and gold earrings", "str_pl": "pairs of amethyst and gold earrings" },
     "description": "A pair of shiny amethyst and gold earrings.",
     "color": "blue"
   },
@@ -1678,7 +1678,7 @@
     "id": "aquamarine_gold_earring",
     "copy-from": "garnet_gold_earring",
     "type": "ARMOR",
-    "name": { "str": "pair of aquamarine and gold earrings", "str_pl": "pairs of aquamarine and gold earrings" },
+    "name": { "str": "aquamarine and gold earrings", "str_pl": "pairs of aquamarine and gold earrings" },
     "description": "A pair of shiny aquamarine and gold earrings.",
     "color": "light_blue"
   },
@@ -1686,7 +1686,7 @@
     "id": "emerald_gold_earring",
     "copy-from": "garnet_gold_earring",
     "type": "ARMOR",
-    "name": { "str": "pair of emerald and gold earrings", "str_pl": "pairs of emerald and gold earrings" },
+    "name": { "str": "emerald and gold earrings", "str_pl": "pairs of emerald and gold earrings" },
     "description": "A pair of shiny emerald and gold earrings.",
     "color": "green"
   },
@@ -1694,7 +1694,7 @@
     "id": "alexandrite_gold_earring",
     "copy-from": "garnet_gold_earring",
     "type": "ARMOR",
-    "name": { "str": "pair of alexandrite and gold earrings", "str_pl": "pairs of alexandrite and gold earrings" },
+    "name": { "str": "alexandrite and gold earrings", "str_pl": "pairs of alexandrite and gold earrings" },
     "description": "A pair of shiny alexandrite and gold earrings.",
     "color": "green"
   },
@@ -1702,14 +1702,14 @@
     "id": "ruby_gold_earring",
     "copy-from": "garnet_gold_earring",
     "type": "ARMOR",
-    "name": { "str": "pair of ruby and gold earrings", "str_pl": "pairs of ruby and gold earrings" },
+    "name": { "str": "ruby and gold earrings", "str_pl": "pairs of ruby and gold earrings" },
     "description": "A pair of shiny ruby and gold earrings."
   },
   {
     "id": "peridot_gold_earring",
     "copy-from": "garnet_gold_earring",
     "type": "ARMOR",
-    "name": { "str": "pair of peridot and gold earrings", "str_pl": "pairs of peridot and gold earrings" },
+    "name": { "str": "peridot and gold earrings", "str_pl": "pairs of peridot and gold earrings" },
     "description": "A pair of shiny peridot and gold earrings.",
     "color": "light_green"
   },
@@ -1717,7 +1717,7 @@
     "id": "sapphire_gold_earring",
     "copy-from": "garnet_gold_earring",
     "type": "ARMOR",
-    "name": { "str": "pair of sapphire and gold earrings", "str_pl": "pairs of sapphire and gold earrings" },
+    "name": { "str": "sapphire and gold earrings", "str_pl": "pairs of sapphire and gold earrings" },
     "description": "A pair of shiny sapphire and gold earrings.",
     "color": "blue"
   },
@@ -1725,7 +1725,7 @@
     "id": "tourmaline_gold_earring",
     "copy-from": "garnet_gold_earring",
     "type": "ARMOR",
-    "name": { "str": "pair of tourmaline and gold earrings", "str_pl": "pairs of tourmaline and gold earrings" },
+    "name": { "str": "tourmaline and gold earrings", "str_pl": "pairs of tourmaline and gold earrings" },
     "description": "A pair of shiny tourmaline and gold earrings.",
     "color": "light_red"
   },
@@ -1733,7 +1733,7 @@
     "id": "citrine_gold_earring",
     "copy-from": "garnet_gold_earring",
     "type": "ARMOR",
-    "name": { "str": "pair of citrine and gold earrings", "str_pl": "pairs of citrine and gold earrings" },
+    "name": { "str": "citrine and gold earrings", "str_pl": "pairs of citrine and gold earrings" },
     "description": "A pair of shiny citrine and gold earrings.",
     "color": "yellow"
   },
@@ -1741,7 +1741,7 @@
     "id": "blue_topaz_gold_earring",
     "copy-from": "garnet_gold_earring",
     "type": "ARMOR",
-    "name": { "str": "pair of blue topaz and gold earrings", "str_pl": "pairs of blue topaz and gold earrings" },
+    "name": { "str": "blue topaz and gold earrings", "str_pl": "pairs of blue topaz and gold earrings" },
     "description": "A pair of shiny blue topaz and gold earrings.",
     "color": "light_blue"
   },
@@ -1749,7 +1749,7 @@
     "id": "opal_gold_earring",
     "copy-from": "garnet_gold_earring",
     "type": "ARMOR",
-    "name": { "str": "pair of opal and gold earrings", "str_pl": "pairs of opal and gold earrings" },
+    "name": { "str": "opal and gold earrings", "str_pl": "pairs of opal and gold earrings" },
     "description": "A pair of shiny opal and gold earrings.",
     "color": "white"
   },
@@ -1757,7 +1757,7 @@
     "id": "pearl_gold_earring",
     "copy-from": "garnet_gold_earring",
     "type": "ARMOR",
-    "name": { "str": "pair of pearl and gold earrings", "str_pl": "pairs of pearl and gold earrings" },
+    "name": { "str": "pearl and gold earrings", "str_pl": "pairs of pearl and gold earrings" },
     "description": "A pair of shiny pearl and gold earrings.",
     "color": "white"
   },
@@ -1765,7 +1765,7 @@
     "id": "onyx_gold_earring",
     "copy-from": "garnet_gold_earring",
     "type": "ARMOR",
-    "name": { "str": "pair of onyx and gold earrings", "str_pl": "pairs of onyx and gold earrings" },
+    "name": { "str": "onyx and gold earrings", "str_pl": "pairs of onyx and gold earrings" },
     "description": "A pair of shiny onyx and gold earrings.",
     "color": "dark_gray"
   },
@@ -1773,7 +1773,7 @@
     "id": "diamond_silver_earring",
     "copy-from": "garnet_silver_earring",
     "type": "ARMOR",
-    "name": { "str": "pair of diamond and silver earrings", "str_pl": "pairs of diamond and silver earrings" },
+    "name": { "str": "diamond and silver earrings", "str_pl": "pairs of diamond and silver earrings" },
     "description": "A pair of shiny diamond and silver earrings.",
     "price": 8000,
     "price_postapoc": 2000,
@@ -1783,7 +1783,7 @@
   {
     "id": "garnet_silver_earring",
     "type": "ARMOR",
-    "name": { "str": "pair of garnet and silver earrings", "str_pl": "pairs of garnet and silver earrings" },
+    "name": { "str": "garnet and silver earrings", "str_pl": "pairs of garnet and silver earrings" },
     "description": "A pair of shiny garnet and silver earrings.",
     "weight": "10 mg",
     "volume": "1 ml",
@@ -1799,7 +1799,7 @@
     "id": "amethyst_silver_earring",
     "copy-from": "garnet_silver_earring",
     "type": "ARMOR",
-    "name": { "str": "pair of amethyst and silver earrings", "str_pl": "pairs of amethyst and silver earrings" },
+    "name": { "str": "amethyst and silver earrings", "str_pl": "pairs of amethyst and silver earrings" },
     "description": "A pair of shiny amethyst and silver earrings.",
     "color": "blue"
   },
@@ -1807,7 +1807,7 @@
     "id": "aquamarine_silver_earring",
     "copy-from": "garnet_silver_earring",
     "type": "ARMOR",
-    "name": { "str": "pair of aquamarine and silver earrings", "str_pl": "pairs of aquamarine and silver earrings" },
+    "name": { "str": "aquamarine and silver earrings", "str_pl": "pairs of aquamarine and silver earrings" },
     "description": "A pair of shiny aquamarine and silver earrings.",
     "color": "light_blue"
   },
@@ -1815,7 +1815,7 @@
     "id": "emerald_silver_earring",
     "copy-from": "garnet_silver_earring",
     "type": "ARMOR",
-    "name": { "str": "pair of emerald and silver earrings", "str_pl": "pairs of emerald and silver earrings" },
+    "name": { "str": "emerald and silver earrings", "str_pl": "pairs of emerald and silver earrings" },
     "description": "A pair of shiny emerald and silver earrings.",
     "color": "green"
   },
@@ -1823,7 +1823,7 @@
     "id": "alexandrite_silver_earring",
     "copy-from": "garnet_silver_earring",
     "type": "ARMOR",
-    "name": { "str": "pair of alexandrite and silver earrings", "str_pl": "pairs of alexandrite and silver earrings" },
+    "name": { "str": "alexandrite and silver earrings", "str_pl": "pairs of alexandrite and silver earrings" },
     "description": "A pair of shiny alexandrite and silver earrings.",
     "color": "green"
   },
@@ -1831,19 +1831,19 @@
     "id": "ruby_silver_earring",
     "copy-from": "garnet_silver_earring",
     "type": "ARMOR",
-    "name": { "str": "pair of ruby and silver earrings", "str_pl": "pairs of ruby and silver earrings" },
+    "name": { "str": "ruby and silver earrings", "str_pl": "pairs of ruby and silver earrings" },
     "description": "A pair of shiny ruby and silver earrings.",
     "variant_type": "generic",
     "variants": [
       {
         "id": "generic_ruby_silver_earring",
-        "name": { "str": "pair of ruby and silver earrings", "str_pl": "pairs of ruby and silver earrings" },
+        "name": { "str": "ruby and silver earrings", "str_pl": "pairs of ruby and silver earrings" },
         "description": "A pair of shiny ruby and silver earrings.",
         "weight": 99
       },
       {
         "id": "vampire_earring",
-        "name": { "str": "pair of vampire earrings", "str_pl": "pairs of vampire earrings" },
+        "name": { "str": "vampire earrings", "str_pl": "pairs of vampire earrings" },
         "description": "A pair of blood-red ruby and silver earrings, adorned with sinister motifs.",
         "weight": 1
       }
@@ -1853,7 +1853,7 @@
     "id": "peridot_silver_earring",
     "copy-from": "garnet_silver_earring",
     "type": "ARMOR",
-    "name": { "str": "pair of peridot and silver earrings", "str_pl": "pairs of peridot and silver earrings" },
+    "name": { "str": "peridot and silver earrings", "str_pl": "pairs of peridot and silver earrings" },
     "description": "A pair of shiny peridot and silver earrings.",
     "color": "light_green"
   },
@@ -1861,7 +1861,7 @@
     "id": "sapphire_silver_earring",
     "copy-from": "garnet_silver_earring",
     "type": "ARMOR",
-    "name": { "str": "pair of sapphire and silver earrings", "str_pl": "pairs of sapphire and silver earrings" },
+    "name": { "str": "sapphire and silver earrings", "str_pl": "pairs of sapphire and silver earrings" },
     "description": "A pair of shiny sapphire and silver earrings.",
     "color": "blue"
   },
@@ -1869,7 +1869,7 @@
     "id": "tourmaline_silver_earring",
     "copy-from": "garnet_silver_earring",
     "type": "ARMOR",
-    "name": { "str": "pair of tourmaline and silver earrings", "str_pl": "pairs of tourmaline and silver earrings" },
+    "name": { "str": "tourmaline and silver earrings", "str_pl": "pairs of tourmaline and silver earrings" },
     "description": "A pair of shiny tourmaline and silver earrings.",
     "color": "light_red"
   },
@@ -1877,7 +1877,7 @@
     "id": "citrine_silver_earring",
     "copy-from": "garnet_silver_earring",
     "type": "ARMOR",
-    "name": { "str": "pair of citrine and silver earrings", "str_pl": "pairs of citrine and silver earrings" },
+    "name": { "str": "citrine and silver earrings", "str_pl": "pairs of citrine and silver earrings" },
     "description": "A pair of shiny citrine and silver earrings.",
     "color": "yellow"
   },
@@ -1885,7 +1885,7 @@
     "id": "blue_topaz_silver_earring",
     "copy-from": "garnet_silver_earring",
     "type": "ARMOR",
-    "name": { "str": "pair of blue topaz and silver earrings", "str_pl": "pairs of blue topaz and silver earrings" },
+    "name": { "str": "blue topaz and silver earrings", "str_pl": "pairs of blue topaz and silver earrings" },
     "description": "A pair of shiny blue topaz and silver earrings.",
     "color": "light_blue"
   },
@@ -1893,7 +1893,7 @@
     "id": "opal_silver_earring",
     "copy-from": "garnet_silver_earring",
     "type": "ARMOR",
-    "name": { "str": "pair of opal and silver earrings", "str_pl": "pairs of opal and silver earrings" },
+    "name": { "str": "opal and silver earrings", "str_pl": "pairs of opal and silver earrings" },
     "description": "A pair of shiny opal and silver earrings.",
     "color": "white"
   },
@@ -1901,7 +1901,7 @@
     "id": "pearl_silver_earring",
     "copy-from": "garnet_silver_earring",
     "type": "ARMOR",
-    "name": { "str": "pair of pearl and silver earrings", "str_pl": "pairs of pearl and silver earrings" },
+    "name": { "str": "pearl and silver earrings", "str_pl": "pairs of pearl and silver earrings" },
     "description": "A pair of shiny pearl and silver earrings.",
     "color": "white"
   },
@@ -1909,19 +1909,19 @@
     "id": "onyx_silver_earring",
     "copy-from": "garnet_silver_earring",
     "type": "ARMOR",
-    "name": { "str": "pair of onyx and silver earrings", "str_pl": "pairs of onyx and silver earrings" },
+    "name": { "str": "onyx and silver earrings", "str_pl": "pairs of onyx and silver earrings" },
     "description": "A pair of shiny onyx and silver earrings.",
     "variant_type": "generic",
     "variants": [
       {
         "id": "generic_onyx_silver_earring",
-        "name": { "str": "pair of onyx and silver earrings", "str_pl": "pairs of onyx and silver earrings" },
+        "name": { "str": "onyx and silver earrings", "str_pl": "pairs of onyx and silver earrings" },
         "description": "A pair of shiny onyx and silver earrings.",
         "weight": 99
       },
       {
         "id": "dark_earring",
-        "name": { "str": "pair of dark earrings", "str_pl": "pairs of dark earrings" },
+        "name": { "str": "dark earrings", "str_pl": "pairs of dark earrings" },
         "description": "A pair of dark silver earrings featuring onyx in the shape of two dark hearts.",
         "weight": 1
       }
@@ -1932,7 +1932,7 @@
     "id": "diamond_platinum_earring",
     "copy-from": "garnet_platinum_earring",
     "type": "ARMOR",
-    "name": { "str": "pair of diamond and platinum earrings", "str_pl": "pairs of diamond and platinum earrings" },
+    "name": { "str": "diamond and platinum earrings", "str_pl": "pairs of diamond and platinum earrings" },
     "description": "A pair of shiny diamond and platinum earrings.",
     "price": 12000,
     "price_postapoc": 25,
@@ -1942,7 +1942,7 @@
   {
     "id": "garnet_platinum_earring",
     "type": "ARMOR",
-    "name": { "str": "pair of garnet and platinum earrings", "str_pl": "pairs of garnet and platinum earrings" },
+    "name": { "str": "garnet and platinum earrings", "str_pl": "pairs of garnet and platinum earrings" },
     "description": "A pair of shiny garnet and platinum earrings.",
     "weight": "19 mg",
     "volume": "1 ml",
@@ -1958,7 +1958,7 @@
     "id": "amethyst_platinum_earring",
     "copy-from": "garnet_platinum_earring",
     "type": "ARMOR",
-    "name": { "str": "pair of amethyst and platinum earrings", "str_pl": "pairs of amethyst and platinum earrings" },
+    "name": { "str": "amethyst and platinum earrings", "str_pl": "pairs of amethyst and platinum earrings" },
     "description": "A pair of shiny amethyst and platinum earrings.",
     "color": "blue"
   },
@@ -1966,7 +1966,7 @@
     "id": "aquamarine_platinum_earring",
     "copy-from": "garnet_platinum_earring",
     "type": "ARMOR",
-    "name": { "str": "pair of aquamarine and platinum earrings", "str_pl": "pairs of aquamarine and platinum earrings" },
+    "name": { "str": "aquamarine and platinum earrings", "str_pl": "pairs of aquamarine and platinum earrings" },
     "description": "A pair of shiny aquamarine and platinum earrings.",
     "color": "light_blue"
   },
@@ -1974,7 +1974,7 @@
     "id": "emerald_platinum_earring",
     "copy-from": "garnet_platinum_earring",
     "type": "ARMOR",
-    "name": { "str": "pair of emerald and platinum earrings", "str_pl": "pairs of emerald and platinum earrings" },
+    "name": { "str": "emerald and platinum earrings", "str_pl": "pairs of emerald and platinum earrings" },
     "description": "A pair of shiny emerald and platinum earrings.",
     "color": "green"
   },
@@ -1982,7 +1982,7 @@
     "id": "alexandrite_platinum_earring",
     "copy-from": "garnet_platinum_earring",
     "type": "ARMOR",
-    "name": { "str": "pair of alexandrite and platinum earrings", "str_pl": "pairs of alexandrite and platinum earrings" },
+    "name": { "str": "alexandrite and platinum earrings", "str_pl": "pairs of alexandrite and platinum earrings" },
     "description": "A pair of shiny alexandrite and platinum earrings.",
     "color": "green"
   },
@@ -1990,14 +1990,14 @@
     "id": "ruby_platinum_earring",
     "copy-from": "garnet_platinum_earring",
     "type": "ARMOR",
-    "name": { "str": "pair of ruby and platinum earrings", "str_pl": "pairs of ruby and platinum earrings" },
+    "name": { "str": "ruby and platinum earrings", "str_pl": "pairs of ruby and platinum earrings" },
     "description": "A pair of shiny ruby and platinum earrings."
   },
   {
     "id": "peridot_platinum_earring",
     "copy-from": "garnet_platinum_earring",
     "type": "ARMOR",
-    "name": { "str": "pair of peridot and platinum earrings", "str_pl": "pairs of peridot and platinum earrings" },
+    "name": { "str": "peridot and platinum earrings", "str_pl": "pairs of peridot and platinum earrings" },
     "description": "A pair of shiny peridot and platinum earrings.",
     "color": "light_green"
   },
@@ -2005,7 +2005,7 @@
     "id": "sapphire_platinum_earring",
     "copy-from": "garnet_platinum_earring",
     "type": "ARMOR",
-    "name": { "str": "pair of sapphire and platinum earrings", "str_pl": "pairs of sapphire and platinum earrings" },
+    "name": { "str": "sapphire and platinum earrings", "str_pl": "pairs of sapphire and platinum earrings" },
     "description": "A pair of shiny sapphire and platinum earrings.",
     "color": "blue"
   },
@@ -2013,7 +2013,7 @@
     "id": "tourmaline_platinum_earring",
     "copy-from": "garnet_platinum_earring",
     "type": "ARMOR",
-    "name": { "str": "pair of tourmaline and platinum earrings", "str_pl": "pairs of tourmaline and platinum earrings" },
+    "name": { "str": "tourmaline and platinum earrings", "str_pl": "pairs of tourmaline and platinum earrings" },
     "description": "A pair of shiny tourmaline and platinum earrings.",
     "color": "light_red"
   },
@@ -2021,7 +2021,7 @@
     "id": "citrine_platinum_earring",
     "copy-from": "garnet_platinum_earring",
     "type": "ARMOR",
-    "name": { "str": "pair of citrine and platinum earrings", "str_pl": "pairs of citrine and platinum earrings" },
+    "name": { "str": "citrine and platinum earrings", "str_pl": "pairs of citrine and platinum earrings" },
     "description": "A pair of shiny citrine and platinum earrings.",
     "color": "yellow"
   },
@@ -2029,7 +2029,7 @@
     "id": "blue_topaz_platinum_earring",
     "copy-from": "garnet_platinum_earring",
     "type": "ARMOR",
-    "name": { "str": "pair of blue topaz and platinum earrings", "str_pl": "pairs of blue topaz and platinum earrings" },
+    "name": { "str": "blue topaz and platinum earrings", "str_pl": "pairs of blue topaz and platinum earrings" },
     "description": "A pair of shiny blue topaz and platinum earrings.",
     "color": "light_blue"
   },
@@ -2037,7 +2037,7 @@
     "id": "opal_platinum_earring",
     "copy-from": "garnet_platinum_earring",
     "type": "ARMOR",
-    "name": { "str": "pair of opal and platinum earrings", "str_pl": "pairs of opal and platinum earrings" },
+    "name": { "str": "opal and platinum earrings", "str_pl": "pairs of opal and platinum earrings" },
     "description": "A pair of shiny opal and platinum earrings.",
     "color": "white"
   },
@@ -2045,7 +2045,7 @@
     "id": "pearl_platinum_earring",
     "copy-from": "garnet_platinum_earring",
     "type": "ARMOR",
-    "name": { "str": "pair of pearl and platinum earrings", "str_pl": "pairs of pearl and platinum earrings" },
+    "name": { "str": "pearl and platinum earrings", "str_pl": "pairs of pearl and platinum earrings" },
     "description": "A pair of shiny pearl and platinum earrings.",
     "color": "white"
   },
@@ -2053,7 +2053,7 @@
     "id": "onyx_platinum_earring",
     "copy-from": "garnet_platinum_earring",
     "type": "ARMOR",
-    "name": { "str": "pair of onyx and platinum earrings", "str_pl": "pairs of onyx and platinum earrings" },
+    "name": { "str": "onyx and platinum earrings", "str_pl": "pairs of onyx and platinum earrings" },
     "description": "A pair of shiny onyx and platinum earrings.",
     "color": "dark_gray"
   },

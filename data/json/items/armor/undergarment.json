@@ -2,7 +2,7 @@
   {
     "id": "arm_warmers",
     "type": "ARMOR",
-    "name": { "str": "pair of arm warmers", "str_pl": "pairs of arm warmers" },
+    "name": { "str": "arm warmers", "str_pl": "pairs of arm warmers" },
     "description": "Snug, soft cloth sleeves to keep your arms warm.",
     "weight": "32 g",
     "volume": "250 ml",
@@ -27,7 +27,7 @@
   {
     "id": "xl_arm_warmers",
     "type": "ARMOR",
-    "name": { "str": "pair of XL arm warmers", "str_pl": "pairs of XL arm warmers" },
+    "name": { "str": "XL arm warmers", "str_pl": "pairs of XL arm warmers" },
     "description": "Snug, soft cloth sleeves to keep your arms warm.  Made only for the largest of survivors.",
     "weight": "49 g",
     "volume": "350 ml",
@@ -39,7 +39,7 @@
     "type": "ARMOR",
     "copy-from": "arm_warmers",
     "looks_like": "arm_warmers",
-    "name": { "str": "pair of XS arm warmers", "str_pl": "pairs of XS arm warmers" },
+    "name": { "str": "XS arm warmers", "str_pl": "pairs of XS arm warmers" },
     "description": "Snug, soft cloth sleeves to keep your arms warm.  Made only for the smallest of survivors.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }
@@ -509,7 +509,7 @@
   {
     "id": "leg_warmers",
     "type": "ARMOR",
-    "name": { "str": "pair of leg warmers", "str_pl": "pairs of leg warmers" },
+    "name": { "str": "leg warmers", "str_pl": "pairs of leg warmers" },
     "description": "Snug, soft cloth sleeves to keep your legs warm.",
     "weight": "70 g",
     "volume": "500 ml",
@@ -534,7 +534,7 @@
   {
     "id": "leg_warmers_f",
     "type": "ARMOR",
-    "name": { "str": "pair of fur leggings", "str_pl": "pairs of fur leggings" },
+    "name": { "str": "fur leggings", "str_pl": "pairs of fur leggings" },
     "description": "Snug fur sleeves to keep your legs warm.  Simple yet effective since prehistoric times.",
     "weight": "700 g",
     "volume": "1500 ml",
@@ -559,7 +559,7 @@
   {
     "id": "leg_warmers_xlf",
     "type": "ARMOR",
-    "name": { "str": "pair of fetlock furs", "str_pl": "pairs of fetlock furs" },
+    "name": { "str": "fetlock furs", "str_pl": "pairs of fetlock furs" },
     "description": "Snug fur sleeves to keep your fetlocks warm.",
     "weight": "500 g",
     "volume": "750 ml",
@@ -579,7 +579,7 @@
     "type": "ARMOR",
     "copy-from": "leg_warmers_f",
     "looks_like": "leg_warmers_f",
-    "name": { "str": "pair of fetlock furs", "str_pl": "pairs of fetlock furs" },
+    "name": { "str": "fetlock furs", "str_pl": "pairs of fetlock furs" },
     "description": "Snug fur sleeves to keep your legs warm.  Simple yet effective since prehistoric times.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }
@@ -587,7 +587,7 @@
   {
     "id": "leg_warmers_xl",
     "type": "ARMOR",
-    "name": { "str": "pair of XL leg warmers", "str_pl": "pairs of XL leg warmers" },
+    "name": { "str": "XL leg warmers", "str_pl": "pairs of XL leg warmers" },
     "description": "Large, soft, snug cloth sleeves to keep your exotic anatomy warm.",
     "weight": "90 g",
     "volume": "750 ml",
@@ -614,7 +614,7 @@
     "type": "ARMOR",
     "copy-from": "leg_warmers",
     "looks_like": "leg_warmers",
-    "name": { "str": "pair of XS leg warmers", "str_pl": "pairs of XS leg warmers" },
+    "name": { "str": "XS leg warmers", "str_pl": "pairs of XS leg warmers" },
     "description": "Snug, soft cloth sleeves to keep your legs warm.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }
