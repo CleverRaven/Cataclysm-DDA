@@ -1669,6 +1669,68 @@
   },
   {
     "type": "MONSTER",
+    "id": "mon_maiasaura",
+    "name": { "str_sp": "maiasaura" },
+    "copy-from": "mon_hadrosaurus",
+    "//": "When large weights and volumes are fixed this should be 4000 L and 4000 kg",
+    "hp": 315,
+    "zombify_into": "mon_zaiasaura",
+    "description": "A huge scaly dinosaur with hooves and long heavy tail.  Has a flat beak, thick nose, and small spiky head crest.",
+    "special_attacks": [
+      { "type": "leap", "cooldown": 10, "max_range": 2, "allow_no_target": true },
+      { "id": "stomp_DinoMod", "cooldown": 20, "damage_max_instance": [ { "damage_type": "bash", "amount": 8 } ] },
+      [ "EAT_CROP", 20 ],
+      [ "SMASH", 30 ]
+    ],
+    "reproduction": { "baby_egg": "egg_maiasaura", "baby_count": 30, "baby_timer": 60 }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_gryposaurus",
+    "name": { "str_sp": "gryposaurus" },
+    "copy-from": "mon_edmontosaurus",
+    "//": "When large weights and volumes are fixed this should be 2500 L and 2500 kg",
+    "hp": 200,
+    "zombify_into": "mon_zryposaurus",
+    "description": "A huge scaly dinosaur with hooves and a broad toothless beak with a narrow arching nasal hump.",
+    "reproduction": { "baby_egg": "egg_gryposaurus", "baby_count": 30, "baby_timer": 60 }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_prosaurolophus",
+    "name": { "str_sp": "prosaurolophus" },
+    "copy-from": "mon_edmontosaurus",
+    "//": "When large weights and volumes are fixed this should be 3000 L and 3000 kg",
+    "hp": 250,
+    "zombify_into": "mon_zrosaurolophus",
+    "description": "A huge scaly dinosaur with hooves and a broad beak filled with hundreds of small teeth with a small nasal crest just above and in front of the eyes.",
+    "reproduction": { "baby_egg": "egg_prosaurolophus", "baby_count": 30, "baby_timer": 60 }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_saurolophus",
+    "name": { "str_sp": "saurolophus" },
+    "copy-from": "mon_edmontosaurus",
+    "//": "When large weights and volumes are fixed this should be 3000 L and 3000 kg",
+    "hp": 250,
+    "zombify_into": "mon_zaurolophus",
+    "description": "A huge scaly dinosaur with hooves and a broad beak filled with hundreds of small teeth with a spiky head crest at the top of the skull reaching behind.",
+    "reproduction": { "baby_egg": "egg_saurolophus", "baby_count": 30, "baby_timer": 60 }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_edmontosaurus",
+    "name": { "str_sp": "edmontosaurus" },
+    "copy-from": "mon_parasaurolophus",
+    "//": "When large weights and volumes are fixed this should be 5500 L and 5500 kg",
+    "hp": 350,
+    "armor_cut": 6,
+    "zombify_into": "mon_zedmontosaurus",
+    "description": "A huge scaly dinosaur with hooves and a broad toothless beak.  There are teeth deeper in the mouth.",
+    "reproduction": { "baby_egg": "egg_edmontosaurus", "baby_count": 30, "baby_timer": 60 }
+  },
+  {
+    "type": "MONSTER",
     "id": "mon_parasaurolophus",
     "name": { "str_sp": "parasaurolophus" },
     "copy-from": "mon_hadrosaurus",
@@ -1688,6 +1750,18 @@
   },
   {
     "type": "MONSTER",
+    "id": "mon_lambeosaurus",
+    "name": { "str_sp": "lambeosaurus" },
+    "copy-from": "mon_parasaurolophus",
+    "//": "When large weights and volumes are fixed this should be 3000 L and 3000 kg",
+    "hp": 250,
+    "zombify_into": "mon_zambeosaurus",
+    "description": "A huge scaly dinosaur with a long stiff tail and hooves.  Has a narrow beak and a tall head crest that looks like a mitten with the thumb pointed up.",
+    "reproduction": { "baby_egg": "egg_lambeosaurus", "baby_count": 30, "baby_timer": 60 },
+    "special_attacks": [ [ "SHRIEK", 10 ], [ "EAT_CROP", 30 ] ]
+  },
+  {
+    "type": "MONSTER",
     "id": "mon_corythosaurus",
     "name": { "str_sp": "corythosaurus" },
     "copy-from": "mon_parasaurolophus",
@@ -1695,49 +1769,22 @@
     "armor_cut": 6,
     "hp": 365,
     "zombify_into": "mon_zorythosaurus",
-    "description": "A huge scaly dinosaur with a thick neck and tail and hooves.  Has a short beak and a tall head crest.",
+    "description": "A huge scaly dinosaur with a thick neck and tail and hooves.  Has a short beak and a tall rounded head crest.",
     "reproduction": { "baby_egg": "egg_corythosaurus", "baby_count": 30, "baby_timer": 60 },
     "special_attacks": [ [ "SHRIEK", 10 ], [ "EAT_CROP", 30 ] ]
   },
   {
     "type": "MONSTER",
-    "id": "mon_maiasaura",
-    "name": { "str_sp": "maiasaura" },
-    "copy-from": "mon_hadrosaurus",
-    "//": "When large weights and volumes are fixed this should be 4000 L and 4000 kg",
-    "hp": 315,
-    "zombify_into": "mon_zaiasaura",
-    "description": "A huge scaly dinosaur with hooves and long heavy tail.  Has a flat beak, thick nose, and small spiky head crest.",
-    "special_attacks": [
-      { "type": "leap", "cooldown": 10, "max_range": 2, "allow_no_target": true },
-      { "id": "stomp_DinoMod", "cooldown": 20, "damage_max_instance": [ { "damage_type": "bash", "amount": 8 } ] },
-      [ "EAT_CROP", 20 ],
-      [ "SMASH", 30 ]
-    ],
-    "reproduction": { "baby_egg": "egg_maiasaura", "baby_count": 30, "baby_timer": 60 }
-  },
-  {
-    "type": "MONSTER",
-    "id": "mon_edmontosaurus",
-    "name": { "str_sp": "edmontosaurus" },
+    "id": "mon_hypacrosaurus",
+    "name": { "str_sp": "hypacrosaurus" },
     "copy-from": "mon_parasaurolophus",
-    "//": "When large weights and volumes are fixed this should be 5500 L and 5500 kg",
-    "hp": 350,
+    "//": "When large weights and volumes are fixed this should be 4000 L and 4000 kg",
     "armor_cut": 6,
-    "zombify_into": "mon_zedmontosaurus",
-    "description": "A huge scaly dinosaur with hooves and a broad toothless beak.",
-    "reproduction": { "baby_egg": "egg_edmontosaurus", "baby_count": 30, "baby_timer": 60 }
-  },
-  {
-    "type": "MONSTER",
-    "id": "mon_gryposaurus",
-    "name": { "str_sp": "gryposaurus" },
-    "copy-from": "mon_edmontosaurus",
-    "//": "When large weights and volumes are fixed this should be 2500 L and 2500 kg",
-    "hp": 200,
-    "zombify_into": "mon_zryposaurus",
-    "description": "A huge scaly dinosaur with hooves and a broad toothless beak with a narrow arching nasal hump.",
-    "reproduction": { "baby_egg": "egg_gryposaurus", "baby_count": 30, "baby_timer": 60 }
+    "hp": 365,
+    "zombify_into": "mon_zypacrosaurus",
+    "description": "A huge scaly dinosaur with a tall ridge down the back, a tail and hooves.  Has a short beak and a wide, rounded head crest.",
+    "reproduction": { "baby_egg": "egg_hypacrosaurus", "baby_count": 30, "baby_timer": 60 },
+    "special_attacks": [ [ "SHRIEK", 10 ], [ "EAT_CROP", 30 ] ]
   },
   {
     "type": "MONSTER",
