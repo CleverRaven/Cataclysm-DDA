@@ -3465,7 +3465,7 @@ bool cata_tiles::draw_vpart( const tripoint &p, lit_level ll, int &height_3d,
             }
             return ret;
         }
-    } else if( invisible[0] && has_vpart_memory_at( p ) ) {
+    } else if( !roof && invisible[0] && has_vpart_memory_at( p ) ) {
         // try drawing memory if invisible and not overridden
         const memorized_terrain_tile &t = get_vpart_memory_at( p );
         return draw_from_id_string(
