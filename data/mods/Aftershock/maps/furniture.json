@@ -1119,5 +1119,24 @@
         { "item": "welder", "charges": 0, "prob": 50 }
       ]
     }
+  },
+  {
+    "type": "furniture",
+    "id": "f_afs_shuttle_seat",
+    "name": "shuttle seat",
+    "copy-from": "f_seat_airplane",
+    "description": "The cushioned and upright facing seat of a short-ranged shuttle pod.  Has a locking bar that fits over your shoulders.",
+    "symbol": "H",
+    "color": "light_red",
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE", "CAN_SIT" ],
+    "move_cost_mod": 1,
+    "coverage": 45,
+    "comfort": 3,
+    "floor_bedding_warmth": 500,
+    "bonus_fire_warmth_feet": 1000,
+    "deconstruct": {
+      "items": [ { "item": "pipe", "count": 10 }, { "item": "cotton_patchwork", "count": [ 30, 33 ] }, { "item": "rope_6" } ]
+    },
+    "required_str": 20
   }
 ]
