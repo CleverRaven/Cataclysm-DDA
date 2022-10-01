@@ -72,7 +72,7 @@ static const trait_id trait_SAPIOVORE( "SAPIOVORE" );
 static const trait_id trait_WEB_WEAVER( "WEB_WEAVER" );
 static const spell_id spell_test_spell_pew( "test_spell_pew" );
 static const proficiency_id proficiency_prof_test( "prof_test" );
-static const mod_id mod_test_data( "test_data" );
+static const mod_id MOD_INFORMATION_test_data( "test_data" );
 
 static npc &create_test_talker( bool shopkeep = false )
 {
@@ -1128,7 +1128,7 @@ TEST_CASE( "npc_compare_int", "[npc_talk]" )
         expected_answers++;
     }
     bool test_data_is_1 = true;
-    if( world_generator->active_world->active_mod_order[1] != mod_id( "test_data" ) ) {
+    if( world_generator->active_world->active_mod_order[1] != MOD_INFORMATION_test_data ) {
         expected_answers--;
         test_data_is_1 = false;
     }
