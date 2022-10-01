@@ -444,7 +444,8 @@ class cata_tiles
                                   lit_level ll, bool apply_night_vision_goggles, int &height_3d, int overlay_count );
         bool draw_from_id_string( const std::string &id, TILE_CATEGORY category,
                                   const std::string &subcategory, const tripoint &pos, int subtile, int rota,
-                                  lit_level ll, bool apply_night_vision_goggles, int &height_3d, int intensity_level );
+                                  lit_level ll, bool apply_night_vision_goggles, int &height_3d, int intensity_level,
+                                  int overlay_count );
         // Add variant argument at end
         bool draw_from_id_string( const std::string &id, TILE_CATEGORY category,
                                   const std::string &subcategory, const tripoint &pos, int subtile, int rota,
@@ -470,7 +471,7 @@ class cata_tiles
                                              const std::map<tripoint, furn_id> &furn_override );
         void get_terrain_orientation( const tripoint &p, int &rota, int &subtile,
                                       const std::map<tripoint, ter_id> &ter_override,
-                                      const std::array<bool, 5> &invisible, int z_drop, int rotate_group );
+                                      const std::array<bool, 5> &invisible, int rotate_group );
 
         static void get_rotation_and_subtile( char val, char rot_to, int &rota, int &subtile );
         static int get_rotation_unconnected( char rot_to );
