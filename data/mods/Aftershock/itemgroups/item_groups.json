@@ -457,11 +457,11 @@
     "id": "afs_exo_advanced_power",
     "type": "item_group",
     "items": [
-      { "item": "exo_back_battery_rechargable", "chance": 50 },
-      { "item": "exo_back_fuelcell", "chance": 75 },
+      { "item": "exo_back_battery_rechargable", "chance": 50, "charges": [ 50, 100 ] },
+      { "item": "exo_back_fuelcell", "chance": 75, "charges": [ 50, 100 ] },
       { "item": "exo_asrg", "chance": 10 },
-      { "item": "exo_aux_power", "count": [ 0, 1 ], "chance": 25 },
-      { "item": "exo_small_aux_power", "chance": 25 }
+      { "item": "exo_aux_power", "count": [ 0, 1 ], "chance": 25, "charges": [ 50, 100 ] },
+      { "item": "exo_small_aux_power", "chance": 25, "charges": [ 50, 100 ] }
     ]
   },
   {
