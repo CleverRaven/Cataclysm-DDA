@@ -872,6 +872,7 @@ hunllef
 hydria
 hydrogel
 hygrometer
+hypacrosaurus
 hyperaggressive
 hypergeometric
 hypervitaminosis
@@ -1008,6 +1009,7 @@ l
 labbit
 lactobacillus
 lajatang
+lambeosaurus
 lamellar
 landshark
 langourous
@@ -1442,6 +1444,7 @@ proficiencies
 profusive
 promptus
 propyl
+prosaurolophus
 proten
 prybar
 pseudopods
@@ -1606,6 +1609,7 @@ sapience
 sarahsaurus
 sarracenia
 satirizes
+saurolophus
 sauropelta
 sauropod
 saurornitholestes
