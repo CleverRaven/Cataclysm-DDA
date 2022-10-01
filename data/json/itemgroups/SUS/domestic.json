@@ -643,6 +643,7 @@
       { "item": "sugar", "prob": 15 },
       { "item": "artificial_sweetener", "prob": 5 },
       { "item": "curry_powder", "prob": 25 },
+      { "item": "garlic_powder", "prob": 25 },
       { "item": "sprinkles", "prob": 10 },
       { "item": "thyme", "prob": 65 },
       { "item": "seasoning_italian", "prob": 50 },
