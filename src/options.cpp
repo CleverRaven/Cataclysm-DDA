@@ -1661,7 +1661,7 @@ void options_manager::add_options_interface()
     add_empty_line();
 
     add("SHOW_DRUG_VARIANTS", "interface", to_translation("Show drug brand names"),
-        to_translation("If true, show brand names for drugs, instead of generic descriptions = 'adderall' or 'dayquil' instead of 'Medical Grade stimulant...'."),
+        to_translation("If true, show brand names for drugs, instead of generic descriptions = 'adderall' or 'dayquil' instead of 'Medical Grade stimulant…'."),
         false);
 
     add_empty_line();
