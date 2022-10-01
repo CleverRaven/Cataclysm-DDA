@@ -4927,6 +4927,7 @@
         [ "chilly-p", 20 ],
         [ "curry_powder", 20 ],
         [ "mustard_powder", 20 ],
+        [ "garlic_powder", 20 ],
         [ "garlic_clove", 6 ],
         [ "wild_garlic", 3 ],
         [ "rehydrated_veggy", 1 ],
@@ -4951,7 +4952,12 @@
     "book_learn": [ [ "cookbook_italian", 2 ] ],
     "qualities": [ { "id": "CUT", "level": 2 }, { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 1, "LIST" ] ] ],
-    "components": [ [ [ "salt", 10 ] ], [ [ "garlic_clove", 3 ] ], [ [ "thyme", 1 ] ], [ [ "wild_herbs", 100 ] ] ]
+    "components": [
+      [ [ "salt", 10 ] ],
+      [ [ "garlic_clove", 3 ], [ "garlic_powder", 20 ] ],
+      [ [ "thyme", 1 ] ],
+      [ [ "wild_herbs", 100 ] ]
+    ]
   },
   {
     "type": "recipe",
