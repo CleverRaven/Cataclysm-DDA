@@ -1,0 +1,72 @@
+[
+  {
+    "type": "terrain",
+    "id": "t_metal_floor_olight2",
+    "copy-from": "t_metal_floor_olight",
+    "name": "metal floor, with overhead light",
+    "description": "High-quality and tough checkered flooring to reduce risk of slips and falls, with a still-functioning light attached to the ceiling above.",
+    "symbol": ".",
+    "color": "light_cyan",
+    "connects_to": "METALFLOOR",
+    "move_cost": 2,
+    "light_emitted": 120,
+    "roof": "t_metal_roof",
+    "flags": [ "TRANSPARENT", "INDOORS", "FLAT", "ROAD" ]
+  },
+  {
+    "type": "terrain",
+    "id": "t_metal_floor_olight3",
+    "copy-from": "t_metal_floor_olight",
+    "name": "metal floor, with overhead light",
+    "description": "High-quality and tough checkered flooring to reduce risk of slips and falls, with a still-functioning light attached to the ceiling above.",
+    "symbol": ".",
+    "color": "light_cyan",
+    "connects_to": "METALFLOOR",
+    "move_cost": 2,
+    "light_emitted": 120,
+    "roof": "t_metal_roof",
+    "flags": [ "TRANSPARENT", "INDOORS", "FLAT", "ROAD" ]
+  },
+  {
+    "type": "terrain",
+    "id": "t_metal_floor_olight_off",
+    "copy-from": "t_metal_floor_olight",
+    "name": "metal floor, with overhead light",
+    "description": "High-quality and tough checkered flooring to reduce risk of slips and falls, with a non-functioning light attached to the ceiling above.",
+    "symbol": ".",
+    "color": "light_cyan",
+    "connects_to": "METALFLOOR",
+    "move_cost": 2,
+    "light_emitted": 2,
+    "roof": "t_metal_roof",
+    "flags": [ "TRANSPARENT", "INDOORS", "FLAT", "ROAD" ]
+  },
+  {
+    "type": "terrain",
+    "id": "t_metal_floor_olight2_off",
+    "copy-from": "t_metal_floor_olight",
+    "name": "metal floor, with overhead light",
+    "description": "High-quality and tough checkered flooring to reduce risk of slips and falls, with a non-functioning light attached to the ceiling above.",
+    "symbol": ".",
+    "color": "light_cyan",
+    "connects_to": "METALFLOOR",
+    "move_cost": 2,
+    "light_emitted": 2,
+    "roof": "t_metal_roof",
+    "flags": [ "TRANSPARENT", "INDOORS", "FLAT", "ROAD" ]
+  },
+  {
+    "type": "terrain",
+    "id": "t_metal_floor_olight3_off",
+    "copy-from": "t_metal_floor_olight",
+    "name": "metal floor, with overhead light",
+    "description": "High-quality and tough checkered flooring to reduce risk of slips and falls, with a non-functioning light attached to the ceiling above.",
+    "symbol": ".",
+    "color": "light_cyan",
+    "connects_to": "METALFLOOR",
+    "move_cost": 2,
+    "light_emitted": 2,
+    "roof": "t_metal_roof",
+    "flags": [ "TRANSPARENT", "INDOORS", "FLAT", "ROAD" ]
+  }
+]

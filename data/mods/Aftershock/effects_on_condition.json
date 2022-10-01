@@ -65,5 +65,103 @@
       },
       { "u_teleport": { "global_val": "new_map" }, "force": true }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "afs_flickering_lights",
+    "recurrence": [ "15 seconds", "72 seconds" ],
+    "condition": { "and": [ { "one_in_chance": 3 }, { "not": "is_day" }, "u_can_see", { "is_weather": "clear" }, "u_is_inside" ] },
+    "effect": [ { "u_message": "The lights flicker off and on" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_FLICKERING_LIGHTS",
+    "global": true,
+    "effect": [
+      {
+        "arithmetic": [
+          { "global_val": "var", "var_name": "light_transform_radius" },
+          "=",
+          { "global_val": "var", "var_name": "ps_str" },
+          "+",
+          { "const": 5 }
+        ]
+      },
+      {
+        "u_location_variable": { "global_val": "light_transform" },
+        "min_radius": 15,
+        "max_radius": 60,
+        "indoor_only": true
+      },
+      {
+        "u_make_sound": "a warbling alarm.",
+        "target_var": { "global_val": "light_transform" },
+        "volume": 60,
+        "type": "alert"
+      },
+      {
+        "u_transform_radius": { "global_val": "light_transform_radius", "default": 5 },
+        "ter_furn_transform": "flickering_light_off_transform",
+        "target_var": { "global_val": "light_transform" }
+      },
+      {
+        "u_transform_radius": { "global_val": "light_transform_radius", "default": 5 },
+        "ter_furn_transform": "flickering_light_transform",
+        "target_var": { "global_val": "light_transform" },
+        "time_in_future": [ "5 seconds", "35 seconds" ]
+      },
+      {
+        "u_transform_radius": { "global_val": "light_transform_radius", "default": 5 },
+        "ter_furn_transform": "flickering_light2_off_transform",
+        "target_var": { "global_val": "light_transform" }
+      },
+      {
+        "u_transform_radius": { "global_val": "light_transform_radius", "default": 5 },
+        "ter_furn_transform": "flickering_light2_transform",
+        "target_var": { "global_val": "light_transform" },
+        "time_in_future": [ "5 seconds", "35 seconds" ]
+      },
+      {
+        "u_transform_radius": { "global_val": "light_transform_radius", "default": 5 },
+        "ter_furn_transform": "flickering_light3_off_transform",
+        "target_var": { "global_val": "light_transform" }
+      },
+      {
+        "u_transform_radius": { "global_val": "light_transform_radius", "default": 5 },
+        "ter_furn_transform": "flickering_light3_transform",
+        "target_var": { "global_val": "light_transform" },
+        "time_in_future": [ "5 seconds", "35 seconds" ]
+      }
+    ]
+  },
+  {
+    "type": "ter_furn_transform",
+    "id": "flickering_light_off_transform",
+    "terrain": [ { "result": [ "t_metal_floor_olight" ], "valid_terrain": [ "t_metal_floor_olight_off" ] } ]
+  },
+  {
+    "type": "ter_furn_transform",
+    "id": "flickering_light_transform",
+    "terrain": [ { "result": [ "t_metal_floor_olight_off" ], "valid_terrain": [ "t_metal_floor_olight" ] } ]
+  },
+  {
+    "type": "ter_furn_transform",
+    "id": "flickering_light2_off_transform",
+    "terrain": [ { "result": [ "t_metal_floor_olight2" ], "valid_terrain": [ "t_metal_floor_olight2_off" ] } ]
+  },
+  {
+    "type": "ter_furn_transform",
+    "id": "flickering_light2_transform",
+    "terrain": [ { "result": [ "t_metal_floor_olight2_off" ], "valid_terrain": [ "t_metal_floor_olight2" ] } ]
+  },
+  {
+    "type": "ter_furn_transform",
+    "id": "flickering_light3_off_transform",
+    "terrain": [ { "result": [ "t_metal_floor_olight3" ], "valid_terrain": [ "t_metal_floor_olight_off3" ] } ]
+  },
+  {
+    "type": "ter_furn_transform",
+    "id": "flickering_light3_transform",
+    "terrain": [ { "result": [ "t_metal_floor_olight3_off" ], "valid_terrain": [ "t_metal_floor_olight3" ] } ]
   }
 ]
