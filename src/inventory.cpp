@@ -952,14 +952,19 @@ std::vector<item *> inventory::active_items()
     return ret;
 }
 
-enchantment inventory::get_active_enchantment_cache( const Character &owner ) const
+enchant_cache inventory::get_active_enchantment_cache( const Character &owner ) const
 {
-    enchantment temp_cache;
+    enchant_cache temp_cache;
     for( const std::list<item> &elem : items ) {
         for( const item &check_item : elem ) {
-            for( const enchantment &ench : check_item.get_enchantments() ) {
+            for( const enchant_cache &ench : check_item.get_proc_enchantments() ) {
                 if( ench.is_active( owner, check_item ) ) {
                     temp_cache.force_add( ench );
+                }
+            }
+            for( const enchantment &ench : check_item.get_defined_enchantments() ) {
+                if( ench.is_active( owner, check_item ) ) {
+                    temp_cache.force_add( ench, owner );
                 }
             }
         }

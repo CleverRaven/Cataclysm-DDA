@@ -338,7 +338,7 @@ List of flags used by [terrain and furniture](/data/json/furniture_and_terrain).
 - ```SUPPORTS_ROOF``` Used as a boundary for roof construction.
 - ```SUPPRESS_SMOKE``` Prevents smoke from fires.  Used by ventilated wood stoves, etc.
 - ```SWIMMABLE``` Player and monsters can swim through it.
-- ```THIN_OBSTACLE``` Passable by players and monsters.  Vehicles destroy it.
+- ```THIN_OBSTACLE``` Passable by players and monsters, vehicles destroy it.  `SPEAR` attacks can go through this to hit something on the other side.
 - ```TINY``` Feature too short to collide with vehicle undercarriage.  Vehicles drive over them with no damage, unless a wheel hits them.
 - ```TOILET_WATER``` Liquid taken from tiles with this flag is rather dirty and may poison you.
 - ```TRANSPARENT``` Players and monsters can see through/past it.  Also sets ter_t.transparent.
@@ -734,7 +734,7 @@ Reminder, these flags are not limited to item type `GENERIC`, but can be used in
 - ```WATER_BREAK``` Item is broken in water.
 - ```WATER_BREAK_ACTIVE``` Item can get wet and is broken in water if active.
 - ```WATER_DISSOLVE``` Item is dissolved in water.
-- ```ZERO_WEIGHT``` Normally items with zero weight will generate an error. Use this flag to indicate that zero weight is intentional and suppress that error.
+- ```ZERO_WEIGHT``` Normally items with zero weight will generate an error.  Use this flag to indicate that zero weight is intentional and suppress that error.
 
 
 ### Guns
@@ -1088,7 +1088,7 @@ Flags used to describe monsters and define their properties and abilities.
 - ```DRIPS_NAPALM``` Occasionally drips napalm on move.
 - ```DROPS_AMMO``` This monster drops ammo.  Should not be set for monsters that use pseudo ammo.
 - ```ELECTRIC``` Shocks unarmed attackers.
-- ```ELECTRIC_FIELD``` This monster is surrounded by an electrical field that ignites flammable liquids near it.
+- ```ELECTRIC_FIELD``` This monster is surrounded by an electrical field that ignites flammable liquids near it.  It also deals damage to other monsters with this flag, with "The %s's disabled electrical field reverses polarity!" message.
 - ```ELECTRONIC``` e.g. a robot, affected by EMP blasts and similar stuff.
 - ```FILTHY``` Any clothing it drops will be filthy.  The `SQUEAMISH` trait prevents wearing clothing with this flag.  Additionally, items can't be crafted from filthy components, and wearing filthy clothes may result on an infection when hit in melee.
 - ```FIREPROOF``` Immune to fire.
@@ -1403,7 +1403,6 @@ different directions (and it is indeed the primary intended usage).
 - ```EVENTURN``` Only on during even turns.
 - ```EXTRA_DRAG``` Tells the vehicle that the part exerts engine power reduction.
 - ```FLAT_SURF``` Part with a flat hard surface (e.g. table).
-- ```FOLDABLE``` Part can be folded to a smaller volume.
 - ```FREEZER``` Can freeze items in below zero degrees Celsius temperature.
 - ```FRIDGE``` Can refrigerate items.
 - ```FUNNEL``` If installed over a vehicle tank, can collect rainwater during rains.

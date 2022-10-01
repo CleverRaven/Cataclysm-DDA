@@ -267,7 +267,7 @@
   {
     "id": "mon_sarahsaurus_hatchling",
     "type": "MONSTER",
-    "name": "sarahsaurus hatchling",
+    "name": "brown and magenta hatchling",
     "copy-from": "mon_gallimimus_hatchling",
     "weight": "2 kg",
     "volume": "2 L",
@@ -275,9 +275,19 @@
     "upgrades": { "age_grow": 40, "into": "mon_sarahsaurus_juvenile" }
   },
   {
+    "id": "mon_anchisaurus_hatchling",
+    "type": "MONSTER",
+    "name": "brown and magenta hatchling",
+    "copy-from": "mon_gallimimus_hatchling",
+    "weight": "2 kg",
+    "volume": "2 L",
+    "petfood": { "food": [ "DINOFOOD_C" ] },
+    "upgrades": { "age_grow": 20, "into": "mon_anchisaurus_juvenile" }
+  },
+  {
     "id": "mon_issi_hatchling",
     "type": "MONSTER",
-    "name": "issi hatchling",
+    "name": "brown and magenta hatchling",
     "copy-from": "mon_gallimimus_hatchling",
     "weight": "2 kg",
     "volume": "2 L",
@@ -287,7 +297,7 @@
   {
     "id": "mon_haplocanthosaurus_hatchling",
     "type": "MONSTER",
-    "name": "haplocanthosaurus hatchling",
+    "name": "brown and magenta hatchling",
     "copy-from": "mon_gallimimus_hatchling",
     "weight": "4 kg",
     "volume": "4 L",
@@ -297,7 +307,7 @@
   {
     "id": "mon_amargasaurus_hatchling",
     "type": "MONSTER",
-    "name": "amargasaurus hatchling",
+    "name": "brown and magenta hatchling",
     "copy-from": "mon_gallimimus_hatchling",
     "weight": "4 kg",
     "volume": "4 L",
@@ -308,7 +318,6 @@
     "id": "mon_apatosaurus_hatchling",
     "type": "MONSTER",
     "copy-from": "mon_amargasaurus_hatchling",
-    "name": "brown and magenta hatchling",
     "upgrades": { "age_grow": 50, "into": "mon_apatosaurus_juvenile" }
   },
   {
@@ -322,6 +331,12 @@
     "type": "MONSTER",
     "copy-from": "mon_apatosaurus_hatchling",
     "upgrades": { "age_grow": 40, "into": "mon_diplodocus_juvenile" }
+  },
+  {
+    "id": "mon_barosaurus_hatchling",
+    "type": "MONSTER",
+    "copy-from": "mon_apatosaurus_hatchling",
+    "upgrades": { "age_grow": 40, "into": "mon_barosaurus_juvenile" }
   },
   {
     "id": "mon_camarasaurus_hatchling",
@@ -412,6 +427,13 @@
     "upgrades": { "age_grow": 30, "into": "mon_nodosaurus_juvenile" }
   },
   {
+    "id": "mon_tenontosaurus_hatchling",
+    "type": "MONSTER",
+    "copy-from": "mon_scutellosaurus_hatchling",
+    "name": "light green and yellow hatchling",
+    "upgrades": { "age_grow": 30, "into": "mon_tenontosaurus_juvenile" }
+  },
+  {
     "id": "mon_dryosaurus_hatchling",
     "type": "MONSTER",
     "copy-from": "mon_scutellosaurus_hatchling",
@@ -488,28 +510,50 @@
     "type": "MONSTER",
     "copy-from": "mon_pachycephalosaurus_hatchling",
     "name": "light green and magenta hatchling",
+    "dissect": "dissect_horns_sample_single",
     "upgrades": { "age_grow": 30, "into": "mon_leptoceratops_juvenile" }
   },
   {
     "id": "mon_zuniceratops_hatchling",
     "type": "MONSTER",
-    "copy-from": "mon_pachycephalosaurus_hatchling",
-    "name": "light green and magenta hatchling",
+    "copy-from": "mon_leptoceratops_hatchling",
     "upgrades": { "age_grow": 30, "into": "mon_zuniceratops_juvenile" }
+  },
+  {
+    "id": "mon_styracosaurus_hatchling",
+    "type": "MONSTER",
+    "copy-from": "mon_leptoceratops_hatchling",
+    "upgrades": { "age_grow": 30, "into": "mon_styracosaurus_juvenile" }
   },
   {
     "id": "mon_centrosaurus_hatchling",
     "type": "MONSTER",
-    "copy-from": "mon_pachycephalosaurus_hatchling",
-    "name": "light green and magenta hatchling",
+    "copy-from": "mon_leptoceratops_hatchling",
     "upgrades": { "age_grow": 30, "into": "mon_centrosaurus_juvenile" }
+  },
+  {
+    "id": "mon_einiosaurus_hatchling",
+    "type": "MONSTER",
+    "copy-from": "mon_leptoceratops_hatchling",
+    "upgrades": { "age_grow": 30, "into": "mon_einiosaurus_juvenile" }
+  },
+  {
+    "id": "mon_achelousaurus_hatchling",
+    "type": "MONSTER",
+    "copy-from": "mon_leptoceratops_hatchling",
+    "upgrades": { "age_grow": 30, "into": "mon_achelousaurus_juvenile" }
   },
   {
     "id": "mon_pachyrhinosaurus_hatchling",
     "type": "MONSTER",
-    "copy-from": "mon_pachycephalosaurus_hatchling",
-    "name": "light green and magenta hatchling",
+    "copy-from": "mon_leptoceratops_hatchling",
     "upgrades": { "age_grow": 30, "into": "mon_pachyrhinosaurus_juvenile" }
+  },
+  {
+    "id": "mon_chasmosaurus_hatchling",
+    "type": "MONSTER",
+    "copy-from": "mon_pachyrhinosaurus_hatchling",
+    "upgrades": { "age_grow": 30, "into": "mon_chasmosaurus_juvenile" }
   },
   {
     "id": "mon_pentaceratops_hatchling",

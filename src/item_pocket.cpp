@@ -122,6 +122,7 @@ void pocket_data::load( const JsonObject &jo )
     optional( jo, was_loaded, "ammo_restriction", ammo_restriction );
     optional( jo, was_loaded, "flag_restriction", flag_restrictions );
     optional( jo, was_loaded, "item_restriction", item_id_restriction );
+    optional( jo, was_loaded, "material_restriction", material_restriction );
     optional( jo, was_loaded, "allowed_speedloaders", allowed_speedloaders );
     optional( jo, was_loaded, "default_magazine", default_magazine );
     optional( jo, was_loaded, "description", description );
@@ -1026,6 +1027,21 @@ void item_pocket::general_info( std::vector<iteminfo> &info, int pocket_number,
 
     info.emplace_back( base_type_str, _( "Base moves to remove item: " ),
                        "<num>", iteminfo::lower_is_better, data->moves );
+
+    if( !data->material_restriction.empty() ) {
+        std::string materials;
+        bool first = true;
+        for( material_id mat : data->material_restriction ) {
+            if( first ) {
+                materials += mat.obj().name();
+                first = false;
+            } else {
+                materials += ", " + mat.obj().name();
+            }
+        }
+        info.emplace_back( "DESCRIPTION", string_format( _( "Allowed materials: %s" ), materials ) );
+    }
+
     if( data->rigid ) {
         info.emplace_back( "DESCRIPTION", _( "This pocket is <info>rigid</info>." ) );
     }
@@ -1246,9 +1262,11 @@ ret_val<item_pocket::contain_code> item_pocket::is_compatible( const item &it ) 
         }
     }
 
-    if( !data->item_id_restriction.empty() || !data->get_flag_restrictions().empty() ) {
+    if( !data->item_id_restriction.empty() || !data->get_flag_restrictions().empty() ||
+        !data->material_restriction.empty() ) {
         if( data->item_id_restriction.count( it.typeId() ) == 0 &&
-            !it.has_any_flag( data->get_flag_restrictions() ) ) {
+            !it.has_any_flag( data->get_flag_restrictions() ) &&
+            !data->material_restriction.count( it.get_base_material().id ) ) {
             return ret_val<item_pocket::contain_code>::make_failure( contain_code::ERR_FLAG,
                     _( "holster does not accept this item type or form factor" ) );
         }

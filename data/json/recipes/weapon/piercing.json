@@ -1027,11 +1027,11 @@
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing" },
       { "proficiency": "prof_bladesmith" },
-      { "proficiency": "prof_case_hardening" }
+      { "proficiency": "prof_quenching" }
     ],
-    "using": [ [ "blacksmithing_standard", 12 ], [ "lc_steel_standard", 2 ], [ "carbon", 1 ] ],
+    "using": [ [ "blacksmithing_standard", 12 ], [ "mc_steel_standard", 2 ] ],
     "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "GRIND", "level": 2 } ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "hotcut", -1 ] ] ],
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "hotcut", -1 ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -120 ] ] ],
     "components": [ [ [ "scrap_kevlar", 2 ], [ "plastic_chunk", 1 ] ] ]
   },
   {
@@ -1178,5 +1178,19 @@
       { "proficiency": "prof_blacksmithing" },
       { "proficiency": "prof_articulation" }
     ]
+  },
+  {
+    "result": "xl_knuckle_skewer",
+    "type": "recipe",
+    "copy-from": "knuckle_skewer",
+    "time": "4h",
+    "using": [ [ "blacksmithing_standard", 6 ], [ "steel_standard", 1 ] ]
+  },
+  {
+    "result": "xs_knuckle_skewer",
+    "type": "recipe",
+    "copy-from": "knuckle_skewer",
+    "time": "4h",
+    "using": [ [ "blacksmithing_standard", 4 ], [ "steel_standard", 1 ] ]
   }
 ]

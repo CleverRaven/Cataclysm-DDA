@@ -8,6 +8,7 @@
 #include <unordered_set>
 
 #include "dialogue.h"
+#include "dialogue_helpers.h"
 #include "mission.h"
 
 class JsonObject;
@@ -23,7 +24,7 @@ const std::unordered_set<std::string> simple_string_conds = { {
         "npc_available", "npc_following", "npc_friend", "npc_hostile",
         "npc_train_skills", "npc_train_styles", "npc_train_spells",
         "at_safe_space", "is_day", "npc_has_activity", "is_outside", "u_is_outside", "npc_is_outside", "u_has_camp",
-        "u_can_stow_weapon", "npc_can_stow_weapon", "u_has_weapon", "npc_has_weapon",
+        "u_can_stow_weapon", "npc_can_stow_weapon", "u_can_drop_weapon", "npc_can_drop_weapon", "u_has_weapon", "npc_has_weapon",
         "u_driving", "npc_driving",
         "has_pickup_list", "is_by_radio", "has_reason"
     }
@@ -67,137 +68,6 @@ static dialogue copy_dialogue( const T &d )
            );
 }
 
-template<class T>
-struct str_or_var {
-    cata::optional<std::string> str_val;
-    cata::optional<var_info> var_val;
-    cata::optional<std::string> default_val;
-    std::string evaluate( const T &d ) const {
-        if( str_val.has_value() ) {
-            return str_val.value();
-        } else if( var_val.has_value() ) {
-            std::string val = read_var_value( var_val.value(), d );
-            if( !val.empty() ) {
-                return std::string( val );
-            }
-            if( default_val.has_value() ) {
-                return default_val.value();
-            } else {
-                debugmsg( "No default provided for str_or_var_part" );
-                return "";
-            }
-        } else {
-            debugmsg( "No valid value." );
-            return "";
-        }
-    }
-};
-
-template<class T>
-struct int_or_var_part {
-    cata::optional<int> int_val;
-    cata::optional<var_info> var_val;
-    cata::optional<int> default_val;
-    cata::optional<talk_effect_fun_t<T>> arithmetic_val;
-    int evaluate( const T &d ) const {
-        if( int_val.has_value() ) {
-            return int_val.value();
-        } else if( var_val.has_value() ) {
-            std::string val = read_var_value( var_val.value(), d );
-            if( !val.empty() ) {
-                return std::stoi( val );
-            }
-            if( default_val.has_value() ) {
-                return default_val.value();
-            } else {
-                debugmsg( "No default provided for int_or_var_part" );
-                return 0;
-            }
-        } else if( arithmetic_val.has_value() ) {
-            arithmetic_val.value()( d );
-            var_info info = var_info( var_type::global, "temp_var" );
-            std::string val = read_var_value( info, d );
-            if( !val.empty() ) {
-                return std::stoi( val );
-            } else {
-                debugmsg( "No valid value." );
-                return 0;
-            }
-        } else {
-            debugmsg( "No valid value." );
-            return 0;
-        }
-    }
-};
-
-template<class T>
-struct int_or_var {
-    bool pair = false;
-    int_or_var_part<T> min;
-    int_or_var_part<T> max;
-    int evaluate( const T &d ) const {
-        if( pair ) {
-            return rng( min.evaluate( d ), max.evaluate( d ) );
-        } else {
-            return min.evaluate( d );
-        }
-    }
-};
-
-template<class T>
-struct duration_or_var_part {
-    cata::optional<time_duration> dur_val;
-    cata::optional<var_info> var_val;
-    cata::optional<time_duration> default_val;
-    cata::optional<talk_effect_fun_t<T>> arithmetic_val;
-    time_duration evaluate( const T &d ) const {
-        if( dur_val.has_value() ) {
-            return dur_val.value();
-        } else if( var_val.has_value() ) {
-            std::string val = read_var_value( var_val.value(), d );
-            if( !val.empty() ) {
-                time_duration ret_val;
-                ret_val = time_duration::from_turns( std::stoi( val ) );
-                return ret_val;
-            }
-            if( default_val.has_value() ) {
-                return default_val.value();
-            } else {
-                debugmsg( "No default provided for duration_or_var_part" );
-                return 0_seconds;
-            }
-        } else if( arithmetic_val.has_value() ) {
-            arithmetic_val.value()( d );
-            var_info info = var_info( var_type::global, "temp_var" );
-            std::string val = read_var_value( info, d );
-            if( !val.empty() ) {
-                time_duration ret_val;
-                ret_val = time_duration::from_turns( std::stoi( val ) );
-                return ret_val;
-            } else {
-                debugmsg( "No valid value." );
-                return 0_seconds;
-            }
-        } else {
-            debugmsg( "No valid value." );
-            return 0_seconds;
-        }
-    }
-};
-
-template<class T>
-struct duration_or_var {
-    bool pair = false;
-    duration_or_var_part<dialogue> min;
-    duration_or_var_part<dialogue> max;
-    time_duration evaluate( const T &d ) const {
-        if( pair ) {
-            return rng( min.evaluate( d ), max.evaluate( d ) );
-        } else {
-            return min.evaluate( d );
-        }
-    }
-};
 template<class T>
 str_or_var<T> get_str_or_var( const JsonValue &jv, const std::string &member, bool required = true,
                               const std::string &default_val = "" );
@@ -320,6 +190,7 @@ struct conditional_t {
         void set_npc_train_spells( bool is_npc );
         void set_at_safe_space( bool is_npc );
         void set_can_stow_weapon( bool is_npc = false );
+        void set_can_drop_weapon( bool is_npc = false );
         void set_has_weapon( bool is_npc = false );
         void set_is_driving( bool is_npc = false );
         void set_is_day();

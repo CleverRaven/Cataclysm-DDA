@@ -562,7 +562,7 @@ int Character::gun_engagement_moves( const item &gun, int target, int start,
 
     while( penalty > target ) {
         double adj = aim_per_move( gun, penalty, attributes );
-        if( adj <= 0 ) {
+        if( adj <= MIN_RECOIL_IMPROVEMENT ) {
             break;
         }
         penalty -= adj;
@@ -833,6 +833,10 @@ int Character::fire_gun( const tripoint &target, int shots, item &gun )
         const vehicle *in_veh = has_effect( effect_on_roof ) ? veh_pointer_or_null( here.veh_at(
                                     pos() ) ) : nullptr;
 
+        // Add gunshot noise
+        make_gun_sound_effect( *this, shots > 1, &gun );
+        sfx::generate_gun_sound( *this, gun );
+
         weakpoint_attack wp_attack;
         wp_attack.weapon = &gun;
         projectile proj = make_gun_projectile( gun );
@@ -898,8 +902,6 @@ int Character::fire_gun( const tripoint &target, int shots, item &gun )
         recoil += enchantment_cache->modify_value( enchant_vals::mod::RECOIL_MODIFIER, 5.0 ) *
                   ( qty * ( 1.0 - absorb ) );
 
-        make_gun_sound_effect( *this, shots > 1, &gun );
-        sfx::generate_gun_sound( *this, gun );
         const itype_id current_ammo = gun.ammo_current();
 
         if( has_trait( trait_PYROMANIA ) && !has_morale( MORALE_PYROMANIA_STARTFIRE ) ) {
@@ -984,7 +986,7 @@ int throw_cost( const Character &c, const item &to_throw )
     // Differences:
     // Dex is more (2x) important for throwing speed
     // At 10 skill, the cost is down to 0.75%, not 0.66%
-    const int base_move_cost = to_throw.attack_time() / 2;
+    const int base_move_cost = to_throw.attack_time( c ) / 2;
     const int throw_skill = std::min( MAX_SKILL, c.get_skill_level( skill_throw ) );
     ///\EFFECT_THROW increases throwing speed
     const int skill_cost = static_cast<int>( ( base_move_cost * ( 20 - throw_skill ) / 20 ) );
@@ -1553,11 +1555,12 @@ static recoil_prediction predict_recoil( const Character &you, const item &weapo
 
     // next loop simulates aiming until either aim mode threshold or sight_dispersion is reached
     do {
-        double aim_amount = you.aim_per_move( weapon, predicted_recoil, target );
-        if( aim_amount > 0 ) {
-            predicted_delay++;
-            predicted_recoil = std::max( predicted_recoil - aim_amount, 0.0 );
+        const double aim_amount = you.aim_per_move( weapon, predicted_recoil, target );
+        if( aim_amount <= MIN_RECOIL_IMPROVEMENT ) {
+            break;
         }
+        predicted_delay++;
+        predicted_recoil = std::max( predicted_recoil - aim_amount, 0.0 );
     } while( predicted_recoil > aim_mode.threshold && predicted_recoil > sight_dispersion );
 
     return { predicted_recoil, predicted_delay };
@@ -2136,6 +2139,8 @@ void make_gun_sound_effect( const Character &p, bool burst, item *weapon )
         sounds::sound( p.pos(), data.volume, sounds::sound_t::combat,
                        data.sound.empty() ? _( "Bang!" ) : data.sound );
     }
+    p.add_msg_if_player( _( "You shoot your %1$s. %2$s" ), weapon->tname( 1, false, false ),
+                         uppercase_first_letter( data.sound ) );
 }
 
 item::sound_data item::gun_noise( const bool burst ) const

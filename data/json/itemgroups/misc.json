@@ -40,7 +40,14 @@
     "id": "butane_lighter_and_fuel",
     "//": "Used for shop spawns where unused cans of butane are stocked",
     "type": "item_group",
-    "items": [ { "collection": [ { "item": "ref_lighter_butane" }, { "item": "butane_can", "count": [ 1, 2 ] } ] } ]
+    "items": [ { "collection": [ { "item": "ref_lighter_butane" }, { "item": "butane_can", "count": [ 1, 2 ], "charges": 30 } ] } ]
+  },
+  {
+    "id": "butane_can_full",
+    "//": "Used for shop spawns where unused cans of butane are stocked",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [ { "item": "butane_can", "count": [ 1, 2 ], "charges": 30 } ]
   },
   {
     "id": "silverware",

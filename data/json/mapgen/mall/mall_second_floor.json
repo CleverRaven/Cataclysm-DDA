@@ -34,7 +34,7 @@
       "palettes": [ "mall_palette_2" ],
       "vehicles": {
         ")": { "vehicle": "golf_cart", "chance": 10, "rotation": 180 },
-        "]": { "vehicle": "forklift", "chance": 20, "rotation": 90 }
+        "]": { "vehicle": "forklift_vehicles", "chance": 20, "rotation": 90 }
       },
       "furniture": { "0": "f_shower", "%": "f_rack" },
       "place_loot": [ { "item": "microwave", "x": 6, "y": 14, "chance": 100 }, { "item": "toaster", "x": 6, "y": 15, "chance": 100 } ],
