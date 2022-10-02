@@ -10194,9 +10194,10 @@ std::vector<enchant_cache> item::get_proc_enchantments() const
 
 std::vector<enchantment> item::get_defined_enchantments() const
 {
-    if( !is_relic() ) {
+    if( !is_relic() || !type->relic_data ) {
         return std::vector<enchantment> {};
     }
+
     return type->relic_data->get_defined_enchantments();
 }
 
