@@ -355,8 +355,8 @@
     "type": "effect_type",
     "name": [ "Dodge" ],
     "desc": [ "Shun their attacks." ],
-    "apply_message": "You reaction speed is increased.",
-    "remove_message": "You reaction turn back to normal.",
+    "apply_message": "Your reaction speed is increased.",
+    "remove_message": "Your reaction speed turns back to normal.",
     "rating": "good",
     "show_intensity": false,
     "enchantments": [ { "condition": { "not": "ALWAYS" }, "values": [ { "value": "BONUS_DODGE", "add": 2 } ] } ]
@@ -383,7 +383,7 @@
     "name": [ "Physical Instrument" ],
     "desc": [ "Your body is a tool of destruction.  Use it effectively." ],
     "apply_message": "You can feel a bubbling energy in your muscles.",
-    "remove_message": "Your feelings turn back to normal.",
+    "remove_message": "The feelings in your muscles subside.",
     "rating": "good",
     "show_intensity": false,
     "enchantments": [
@@ -402,8 +402,8 @@
     "id": "spell_speed_eff",
     "name": [ "Rush" ],
     "desc": [ "A burst of speed and stamina." ],
-    "apply_message": "Your lungs seem to gain capacity and your legs feel longer",
-    "remove_message": "Your body shrinks back into it's normal space.",
+    "apply_message": "Your lungs seem to gain capacity and your legs feel longer.",
+    "remove_message": "Your body shrinks back into its normal space.",
     "max_intensity": 30,
     "int_add_val": 1,
     "show_intensity": false,
@@ -420,7 +420,7 @@
     "show_intensity": false,
     "max_intensity": 2,
     "int_add_val": 1,
-    "//": "The original idea was to make an enchantment, that add ARMOR_BASH enchantment value, so monster will take more damage when you attack them, but sadly enchantments now works only with player's avatar, and not with monsters.  So now its boring slowdown.",
+    "//": "The original idea was to make an enchantment, that adds ARMOR_BASH enchantment value, so monsters will take more damage when you attack them, but sadly enchantments now works only with player's avatar, and not with monsters.  So now it's a boring slowdown.",
     "base_mods": { "speed_mod": [ -33 ] },
     "scaling_mods": { "speed_mod": [ -33 ] }
   }
