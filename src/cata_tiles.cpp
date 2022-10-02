@@ -1393,7 +1393,7 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
             // Add scent type to the overlay_strings list for every visible tile when
             // displaying scent
             if( g->display_overlay_state( ACTION_DISPLAY_SCENT_TYPE ) && !invis ) {
-                const scenttype_id scent_type = get_scent().get_type( pos );
+                const scenttype_id scent_type = get_scent().get_type( {temp, center.z} );
                 if( !scent_type.is_empty() ) {
                     overlay_strings.emplace( player_to_screen( temp ) + half_tile,
                                              formatted_text( scent_type.c_str(),
@@ -1404,7 +1404,7 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
             if( g->display_overlay_state( ACTION_DISPLAY_RADIATION ) ) {
                 const auto rad_override = radiation_override.find( {temp, center.z} );
                 const bool rad_overridden = rad_override != radiation_override.end();
-                if( rad_overridden || !invisible[0] ) {
+                if( rad_overridden || !invis ) {
                     const int rad_value = rad_overridden ? rad_override->second :
                                           here.get_radiation( {temp, center.z} );
                     catacurses::base_color col;
@@ -1420,8 +1420,8 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
             }
 
             if( g->display_overlay_state( ACTION_DISPLAY_NPC_ATTACK_POTENTIAL ) ) {
-                if( npc_attack_rating_map.count( pos ) ) {
-                    const int val = npc_attack_rating_map.at( pos );
+                if( npc_attack_rating_map.count( {temp, center.z} ) ) {
+                    const int val = npc_attack_rating_map.at( {temp, center.z} );
                     short color;
                     if( val <= 0 ) {
                         color = catacurses::red;
@@ -1438,7 +1438,7 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
 
             // Add temperature value to the overlay_strings list for every visible tile when
             // displaying temperature
-            if( g->display_overlay_state( ACTION_DISPLAY_TEMPERATURE ) && !invisible[0] ) {
+            if( g->display_overlay_state( ACTION_DISPLAY_TEMPERATURE ) && !invis ) {
                 units::temperature temp_value = get_weather().get_temperature( {temp, center.z} );
                 short color;
                 const short bold = 8;
@@ -1469,7 +1469,7 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
             }
 
             if( g->display_overlay_state( ACTION_DISPLAY_VISIBILITY ) &&
-                g->displaying_visibility_creature && !invisible[0] ) {
+                g->displaying_visibility_creature && !invis ) {
                 const bool visibility = g->displaying_visibility_creature->sees( {temp, center.z} );
 
                 // color overlay.
@@ -1543,8 +1543,8 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
                 const int &x = pos.x;
                 const int &y = pos.y;
 
-                bool in_vis_bounds = ( y >= min_visible.y && y <= max_visible.y && x >= min_visible.x &&
-                                       x <= max_visible.x );
+                bool in_vis_bounds = y >= min_visible.y && y <= max_visible.y && x >= min_visible.x &&
+                                     x <= max_visible.x;
 
                 bool in_map_bounds = here.inbounds( pos );
 
@@ -1588,9 +1588,9 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
                             invisible[0] = true;
                         }
                         for( int cz = pos.z; !invisible[0] && cz <= -center.z; cz++ ) {
-                            const Creature *critter = g->critter_at( {pos.xy(), cz}, true );
-                            if( critter && ( g->u.sees_with_infrared( *critter ) ||
-                                             g->u.sees_with_specials( *critter ) ) ) {
+                            const Creature *critter = get_creature_tracker().creature_at( {pos.xy(), cz}, true );
+                            if( critter && ( you.sees_with_infrared( *critter ) ||
+                                             you.sees_with_specials( *critter ) ) ) {
                                 invisible[0] = true;
                             }
                         }

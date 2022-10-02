@@ -303,7 +303,7 @@ std::enable_if<std::is_same<typename std::decay<T>::type, time_duration>::value,
 
 template<typename T>
 inline bool assign( const JsonObject &jo, const std::string &name, cata::optional<T> &val,
-                    const bool strict = false )
+                    bool strict = false )
 {
     if( !jo.has_member( name ) ) {
         return false;
