@@ -224,6 +224,7 @@ void relic_procgen_data::generation_rules::load( const JsonObject &jo )
     mandatory( jo, was_loaded, "power_level", power_level );
     mandatory( jo, was_loaded, "max_attributes", max_attributes );
     optional( jo, was_loaded, "max_negative_power", max_negative_power, 0 );
+    optional( jo, was_loaded, "resonant", resonant, false );
 }
 
 void relic_procgen_data::generation_rules::deserialize( const JsonObject &jo )
@@ -772,6 +773,14 @@ relic relic_procgen_data::generate( const relic_procgen_data::generation_rules &
         }
     }
 
+    //add an optional enchantment of the value of ret's power (the artifact being created) - resonance is equal to its power (min zero)
+    if( rules.resonant ) {
+        enchant_cache resonance;
+        int value = std::max( 0, ret.power_level( id ) );
+        resonance.add_value_add( enchant_vals::mod::ARTIFACT_RESONANCE, value );
+        resonance.set_has( enchantment::has::HELD );
+        ret.add_passive_effect( resonance );
+    }
     return ret;
 }
 
