@@ -13,6 +13,7 @@
     "type": "COMESTIBLE",
     "name": { "str_sp": "garlic powder" },
     "description": "Garlic that has been dehydrated and ground into a powder.  A must-have seasoning in any pantry.",
+    "weight": "1 g",
     "color": "white"
   },
   {

@@ -4128,9 +4128,9 @@
     "autolearn": true,
     "book_learn": [ [ "cookbook_italian", 1 ] ],
     "batch_time_factors": [ 83, 3 ],
-    "charges": 200,
+    "charges": 50,
     "tools": [ [ [ "surface_heat", 3, "LIST" ] ], [ [ "rock_quern", -1 ], [ "clay_quern", -1 ] ] ],
-    "components": [ [ [ "garlic", 1 ], [ "garlic_clove", 6 ] ] ]
+    "components": [ [ [ "garlic_clove", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -4144,9 +4144,9 @@
     "autolearn": true,
     "book_learn": [ [ "cookbook_italian", 1 ] ],
     "batch_time_factors": [ 83, 3 ],
-    "charges": 200,
+    "charges": 50,
     "tools": [ [ [ "food_processor", 10 ] ] ],
-    "components": [ [ [ "garlic", 1 ], [ "garlic_clove", 6 ] ] ]
+    "components": [ [ [ "garlic_clove", 1 ] ] ]
   },
   {
     "type": "recipe",
