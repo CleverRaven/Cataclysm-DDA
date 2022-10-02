@@ -168,7 +168,7 @@
     "symbol": ",",
     "color": "white",
     "name": { "str": "felt patch", "str_pl": "felt patches" },
-    "description": "A small, 6 inch square patch of felt, could be disassembled for wool fiber.",
+    "description": "A small, 6 inch square patch of felt.",
     "price": 2000,
     "price_postapoc": 10,
     "material": [ "wool" ],
