@@ -442,7 +442,7 @@
     "dynamic_line": [
       {
         "days_since_cataclysm": 21,
-        "//": "Before the Cataclysm, the prepper was pretty sure it was a Chinese plot for American destabilization and control, maybe aided by elites across the world.  If you meet them early, they still sort of think this.  Later, once the portal storms ramp up, they decide it might be something more cosmic, possibly religious. The conversation from this point should allow the player to bounce ideas about what happened off of the prepper.",
+        "//": "Before the Cataclysm, the prepper was pretty sure it was a Chinese plot for American destabilization and control, maybe aided by elites across the world.  If you meet them early, they still sort of think this. American propaganda about 'Chinese mind control' also influenced them. Later, once the portal storms ramp up, they decide it might be something more cosmic, possibly religious. The conversation from this point should allow the player to bounce ideas about what happened off of the prepper.",
         "no": "It's an invasion.  Or, at least, I think that's what they were trying to do at first.  Sudden bouts of violence, undermining protests by putting agitators all over the news…  When they couldn't get what they wanted, they went full 'scorched earth'.  They decided to destroy everything instead.",
         "yes": "I thought I knew at one point.  There were so many signs of manipulation and control.  I thought maybe they were trying to discredit the protests, but when the violence broke out it seemed to be everywhere.  There was footage on the news of people fighting, destroying property, eating animals and… each other in the street.  I thought at some point they were going to sweep in and seize control, but it just never happened."
       }
@@ -465,14 +465,30 @@
         "topic": "BGSS_PREPPER_1_FOUND_LMOE9_GOVERNMENT"
       },
       {
-        "text": "I feel like this could definitely be some kind of divine punishment.",
+        "text": "[Spiritual] I feel like this could definitely be some kind of divine punishment.",
         "condition": { "u_has_trait": "SPIRITUAL" },
         "topic": "BGSS_PREPPER_1_FOUND_LMOE9_GOD"
       },
       {
         "text": "Maybe the explanation is more scientific.  Zombies and flesh-eating monsters only come from supervillains and gods in fiction.",
-        "condition": { "u_has_intelligence": 7 },
+        "condition": { "and": [ { "u_has_intelligence": 7 }, { "not": { "u_has_trait": "SPIRITUAL" }}]},
         "topic": "BGSS_PREPPER_1_FOUND_LMOE9_SKEPTIC"
+      },
+      {
+        "text": "[US Marshal] I actually used to be a US Marshal, and there were crazy rumors coming from all over back in the day.  Someone said China built a portal to another dimension.  Some thought it was a time machine.  Someone else said it was us who actually made it, and it was some kind of doomsday device.  There was a lot of money getting sunk into the Department of Energy, DARPA, military contractors…  We all knew something was up, but it was impossible to say what.",
+        "condition": { "u_has_any_trait": [ "PROF_FED" ]},
+        "topic": "BGSS_PREPPER_1_FOUND_LMOE9_FED"
+      },
+      {
+        "text": "[Hub 01 Ancillary] I have an idea what happened.  This might sound strange, I've been doing jobs for these people in a hidden bunker who gave me some high-tech armor and told me our reality… 'broke' somehow.  That's why those crazy portal storms keep happening.  They also told me it's probably going to get worse.",
+        "condition": { "u_has_any_trait": [ "PROF_HUB01_ANCILLIARY" ]},
+        "topic": "BGSS_PREPPER_1_FOUND_LMOE9_HUB01"
+      },
+      {
+        "text": "I met this woman who was… uh… obsessed with bones?  She said that since <the_cataclysm>, the bones of living things 'hum' with some kind of special power and that she wants to collect lots of them to either end the world or save the world.  I'm honestly still not entirely clear how or what's supposed to happen…  How about that idea?",
+        "//": "This option only shows if you've asked Brigitte LaCroix, the Boneseer, about her theory.",
+        "condition": { "u_has_var": "asked_about_song", "type": "dialogue", "context": "song", "value": "yes" },
+        "topic": "BGSS_PREPPER_1_FOUND_LMOE9_BONE_SEER"
       },
       {
         "text": "Honestly, it's probably aliens.  I can't really think of another reasonable explanation for all of this.",
@@ -487,19 +503,31 @@
   {
     "id": "BGSS_PREPPER_1_FOUND_LMOE9_GOVERNMENT",
     "type": "talk_topic",
-    "dynamic_line": "That's what I'm saying!  Everything that's going on wouldn't be possible without massive fuck-ups by people in power.  China has fusion reactors?  Well, I've never seen it!  America sinks trillions and trillions of dollars into secret military budgets with no explanation.  If you gave me a trillion dollars and the brain of a bureaucrat, I bet it wouldn't be that hard to completely fuck up reality either.",
+    "dynamic_line": "That's what I'm saying!  Everything that's going on wouldn't be possible without massive fuck-ups by people in power.  China has fusion reactors?  Well, I've never seen it!  America sinks trillions and trillions of dollars into secret military budgets with no explanation.  If you gave me a trillion dollars and the brain of a bureaucrat, I bet I could completely fuck up reality, too.",
     "responses": [ { "text": "…", "topic": "TALK_DONE" } ]
   },
   {
     "id": "BGSS_PREPPER_1_FOUND_LMOE9_GOD",
     "type": "talk_topic",
-    "dynamic_line": "I've been trying not to think about it, but you could be right.  The more that I see, the less I can explain.  I grew up around a lot of people who always talked about the Rapture, like they KNEW it would happen.  Before the internet stopped working, I saw people saying that sinners were becoming zombies.  'As above, so below' someone said, or something like that…",
+    "dynamic_line": "I've been trying not to think about it, but you could be right.  The more that I see, the less I can explain.  I grew up around a lot of people who always talked about the Rapture.  Hell itself opening up and everything.  It was like they KNEW it would happen.  Before the internet stopped working, I saw people saying that sinners were becoming zombies.  'As above, so below' someone said, or something like that…",
     "responses": [ { "text": "…", "topic": "TALK_DONE" } ]
   },
   {
     "id": "BGSS_PREPPER_1_FOUND_LMOE9_SKEPTIC",
     "type": "talk_topic",
     "dynamic_line": "Maybe.  I guess multiple things could be possible.  You really don't think that there's someone or something behind this?  Someone who flew a little too close to the sun?  Poked the beast?",
+    "responses": [ { "text": "…", "topic": "TALK_DONE" } ]
+  },
+  {
+    "id": "BGSS_PREPPER_1_FOUND_LMOE9_FED",
+    "type": "talk_topic",
+    "dynamic_line": "A Marshal, huh?  I could tell there was something a bit square about you.  Or… round, I suppose, ha!  In my experience, when people at that level start talking stuff like that, there's at least some truth to it.",
+    "responses": [ { "text": "…", "topic": "TALK_DONE" } ]
+  },
+  {
+    "id": "BGSS_PREPPER_1_FOUND_LMOE9_HUB01",
+    "type": "talk_topic",
+    "dynamic_line": "High-tech armor?  And there's a whole group of them down in a bunker?  Probably best to keep people like that on our good side.  What they're saying seems to check out.  Reality does seem pretty fucked.  Kinda makes me wonder how involved THEY were if they know all that, though.",
     "responses": [ { "text": "…", "topic": "TALK_DONE" } ]
   },
   {
@@ -510,6 +538,12 @@
   },
   {
     "id": "BGSS_PREPPER_1_FOUND_LMOE9_CHAOS",
+    "type": "talk_topic",
+    "dynamic_line": "I can't accept that.  Everything was just fine for a while, but the bad started some years ago, with bad people doing bad things.  I think we all knew it was gonna end one way or another.  But there's got to be some sort of deeper explanation for… this!  Someone is responsible!",
+    "responses": [ { "text": "…", "topic": "TALK_DONE" } ]
+  },
+  {
+    "id": "BGSS_PREPPER_1_FOUND_LMOE10_CHAOS",
     "type": "talk_topic",
     "dynamic_line": "I can't accept that.  Everything was just fine for a while, but the bad started some years ago, with bad people doing bad things.  I think we all knew it was gonna end one way or another.  But there's got to be some sort of deeper explanation for… this!  Someone is responsible!",
     "responses": [ { "text": "…", "topic": "TALK_DONE" } ]
