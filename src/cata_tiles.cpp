@@ -3499,9 +3499,14 @@ bool cata_tiles::draw_vpart( const tripoint &p, lit_level ll, int &height_3d,
                 const cata::optional<vpart_reference> cargopart = vp.part_with_feature( "CARGO", true );
                 const bool draw_highlight = cargopart &&
                                             !veh.get_items( cargopart->part_index() ).empty();
+
+                int height_3d_temp = 0;
                 const bool ret =
                     draw_from_id_string( vpname, TILE_CATEGORY::VEHICLE_PART, empty_string, p,
-                                         subtile, rotation, ll, nv_goggles_activated, height_3d, z_drop );
+                                         subtile, rotation, ll, nv_goggles_activated, height_3d_temp, z_drop );
+                if( !roof ) {
+                    height_3d = height_3d_temp;
+                }
                 if( ret && draw_highlight ) {
                     draw_item_highlight( p );
                 }
@@ -3520,20 +3525,33 @@ bool cata_tiles::draw_vpart( const tripoint &p, lit_level ll, int &height_3d,
             const std::string vpname = "vp_" + vp2.str();
             // tile overrides are never memorized
             // tile overrides are always shown with full visibility
+            int height_3d_temp = 0;
             const bool ret =
                 draw_from_id_string( vpname, TILE_CATEGORY::VEHICLE_PART, empty_string, p, subtile,
+<<<<<<< HEAD
                                      to_degrees( rotation ), lit_level::LIT, false, height_3d, z_drop );
+=======
+                                     to_degrees( rotation ), lit_level::LIT, false, height_3d_temp );
+            if( !roof ) {
+                height_3d = height_3d_temp;
+            }
+>>>>>>> origin/master
             if( ret && draw_highlight ) {
                 draw_item_highlight( p );
             }
             return ret;
         }
-    } else if( invisible[0] && has_vpart_memory_at( p ) ) {
+    } else if( !roof && invisible[0] && has_vpart_memory_at( p ) ) {
         // try drawing memory if invisible and not overridden
         const memorized_terrain_tile &t = get_vpart_memory_at( p );
+        int height_3d_temp = 0;
         return draw_from_id_string(
                    t.tile, TILE_CATEGORY::VEHICLE_PART, empty_string, p, t.subtile, t.rotation,
+<<<<<<< HEAD
                    lit_level::MEMORIZED, nv_goggles_activated, height_3d, z_drop );
+=======
+                   lit_level::MEMORIZED, nv_goggles_activated, height_3d_temp );
+>>>>>>> origin/master
     }
     return false;
 }
