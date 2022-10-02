@@ -111,7 +111,13 @@
     "color": "light_red",
     "material_thickness": 0.1,
     "flags": [ "VARSIZE", "SKINTIGHT", "WATER_FRIENDLY" ],
-    "armor": [ { "coverage": 75, "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_hip_l", "leg_hip_r" ] } ]
+    "armor": [
+      {
+        "coverage": 75,
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_hip_l", "leg_hip_r" ]
+      }
+    ]
   },
   {
     "id": "bikini_bottom_short",
@@ -129,7 +135,13 @@
     "color": "red",
     "material_thickness": 0.01,
     "flags": [ "VARSIZE", "SKINTIGHT", "WATER_FRIENDLY" ],
-    "armor": [ { "coverage": 25, "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_hip_l", "leg_hip_r" ] } ]
+    "armor": [
+      {
+        "coverage": 25,
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_hip_l", "leg_hip_r" ]
+      }
+    ]
   },
   {
     "id": "bikini_top",
@@ -138,7 +150,12 @@
     "description": "A simple bikini top.",
     "variant_type": "generic",
     "variants": [
-      { "id": "generic_bikini_top", "name": { "str": "bikini top" }, "description": "A simple bikini top.", "weight": 30 },
+      {
+        "id": "generic_bikini_top",
+        "name": { "str": "bikini top" },
+        "description": "A simple bikini top.",
+        "weight": 30
+      },
       {
         "id": "black_bikini_top",
         "name": { "str": "black bikini top" },
@@ -238,7 +255,13 @@
     "color": "light_red",
     "material_thickness": 0.1,
     "flags": [ "VARSIZE", "WATER_FRIENDLY", "SKINTIGHT" ],
-    "armor": [ { "coverage": 25, "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ] } ]
+    "armor": [
+      {
+        "coverage": 25,
+        "covers": [ "torso" ],
+        "specifically_covers": [ "torso_upper" ]
+      }
+    ]
   },
   {
     "id": "bikini_top_short",
@@ -256,7 +279,13 @@
     "color": "red",
     "material_thickness": 0.01,
     "flags": [ "VARSIZE", "WATER_FRIENDLY", "SKINTIGHT" ],
-    "armor": [ { "coverage": 15, "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ] } ]
+    "armor": [
+      {
+        "coverage": 15,
+        "covers": [ "torso" ],
+        "specifically_covers": [ "torso_upper" ]
+      }
+    ]
   },
   {
     "id": "flag_swimsuit",
@@ -269,19 +298,40 @@
     "volume": "750 ml",
     "price": 1150,
     "price_postapoc": 60,
-    "material": [ { "type": "nylon", "portion": 8 }, { "type": "lycra", "portion": 2 } ],
+    "material": [
+      {
+        "type": "nylon",
+        "portion": 8
+      },
+      {
+        "type": "lycra",
+        "portion": 2
+      }
+    ],
     "symbol": "[",
     "looks_like": "wetsuit_spring",
     "color": "light_red",
     "armor": [
-      { "covers": [ "torso" ], "coverage": 60 },
-      { "coverage": 75, "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_hip_l", "leg_hip_r" ] }
+      {
+        "covers": [ "torso" ],
+        "coverage": 60
+      },
+      {
+        "coverage": 75,
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_hip_l", "leg_hip_r" ]
+      }
     ],
     "material_thickness": 0.1,
     "flags": [ "VARSIZE", "WATER_FRIENDLY", "SKINTIGHT" ],
     "variant_type": "generic",
     "variants": [
-      { "id": "generic_swimsuit", "name": { "str": "swimsuit" }, "description": "A simple swimsuit.", "weight": 30 },
+      {
+        "id": "generic_swimsuit",
+        "name": { "str": "swimsuit" },
+        "description": "A simple swimsuit.",
+        "weight": 30
+      },
       {
         "id": "black_swimsuit",
         "name": { "str": "black swimsuit" },
@@ -383,13 +433,30 @@
     "price": 5250,
     "price_postapoc": 100,
     "to_hit": -2,
-    "material": [ { "type": "nylon", "portion": 8 }, { "type": "lycra", "portion": 2 } ],
+    "material": [
+      {
+        "type": "nylon",
+        "portion": 8
+      },
+      {
+        "type": "lycra",
+        "portion": 2
+      }
+    ],
     "symbol": "[",
     "looks_like": "longshirt",
     "color": "light_red",
     "armor": [
-      { "covers": [ "torso" ], "coverage": 100, "encumbrance": 6 },
-      { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": 6 }
+      {
+        "covers": [ "torso" ],
+        "coverage": 100,
+        "encumbrance": 6
+      },
+      {
+        "covers": [ "arm_l", "arm_r" ],
+        "coverage": 100,
+        "encumbrance": 6
+      }
     ],
     "warmth": 10,
     "material_thickness": 1,
@@ -513,11 +580,26 @@
     "volume": "250 ml",
     "price": 6000,
     "price_postapoc": 50,
-    "material": [ { "type": "nylon", "portion": 8 }, { "type": "lycra", "portion": 2 } ],
+    "material": [
+      {
+        "type": "nylon",
+        "portion": 8
+      },
+      {
+        "type": "lycra",
+        "portion": 2
+      }
+    ],
     "symbol": "[",
     "color": "dark_gray",
     "looks_like": "briefs",
-    "armor": [ { "covers": [ "leg_l", "leg_r" ], "coverage": 50, "specifically_covers": [ "leg_hip_l", "leg_hip_r" ] } ],
+    "armor": [
+      {
+        "covers": [ "leg_l", "leg_r" ],
+        "coverage": 50,
+        "specifically_covers": [ "leg_hip_l", "leg_hip_r" ]
+      }
+    ],
     "material_thickness": 0.1,
     "flags": [ "VARSIZE", "WATER_FRIENDLY", "SKINTIGHT" ]
   },
@@ -531,11 +613,26 @@
     "volume": "250 ml",
     "price": 6000,
     "price_postapoc": 50,
-    "material": [ { "type": "nylon", "portion": 8 }, { "type": "lycra", "portion": 2 } ],
+    "material": [
+      {
+        "type": "nylon",
+        "portion": 8
+      },
+      {
+        "type": "lycra",
+        "portion": 2
+      }
+    ],
     "looks_like": "briefs",
     "symbol": "[",
     "color": "blue",
-    "armor": [ { "covers": [ "leg_l", "leg_r" ], "coverage": 100, "specifically_covers": [ "leg_hip_l", "leg_hip_r" ] } ],
+    "armor": [
+      {
+        "covers": [ "leg_l", "leg_r" ],
+        "coverage": 100,
+        "specifically_covers": [ "leg_hip_l", "leg_hip_r" ]
+      }
+    ],
     "warmth": 5,
     "material_thickness": 0.2,
     "flags": [ "VARSIZE", "WATER_FRIENDLY", "SKINTIGHT" ]
@@ -571,7 +668,10 @@
     "id": "trunks",
     "repairs_like": "shorts",
     "type": "ARMOR",
-    "name": { "str": "pair of swimming trunks", "str_pl": "pairs of swimming trunks" },
+    "name": {
+      "str": "swimming trunks",
+      "str_pl": "pairs of swimming trunks"
+    },
     "description": "A pair of swimming trunks, with netting.",
     "weight": "210 g",
     "volume": "750 ml",
@@ -585,14 +685,25 @@
     "material_thickness": 0.1,
     "flags": [ "VARSIZE", "WATER_FRIENDLY" ],
     "armor": [
-      { "coverage": 100, "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_hip_l", "leg_hip_r" ] },
-      { "coverage": 50, "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_upper_l", "leg_upper_r" ] }
+      {
+        "coverage": 100,
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_hip_l", "leg_hip_r" ]
+      },
+      {
+        "coverage": 50,
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_upper_l", "leg_upper_r" ]
+      }
     ]
   },
   {
     "id": "wetsuit_booties",
     "type": "ARMOR",
-    "name": { "str": "pair of swimming booties", "str_pl": "pairs of swimming booties" },
+    "name": {
+      "str": "swimming booties",
+      "str_pl": "pairs of swimming booties"
+    },
     "description": "A pair of neoprene swimming booties, with individual toes.",
     "weight": "130 g",
     "volume": "1 L",
@@ -621,7 +732,13 @@
           "foot_sole_r",
           "foot_sole_l"
         ],
-        "material": [ { "type": "neoprene", "covered_by_mat": 100, "thickness": 3.0 } ],
+        "material": [
+          {
+            "type": "neoprene",
+            "covered_by_mat": 100,
+            "thickness": 3.0
+          }
+        ],
         "encumbrance": 15,
         "coverage": 100
       }
@@ -632,7 +749,10 @@
     "type": "ARMOR",
     "copy-from": "wetsuit_booties",
     "repairs_like": "wetsuit_booties",
-    "name": { "str": "pair of thick swimming booties", "str_pl": "pairs of thick swimming booties" },
+    "name": {
+      "str": "thick swimming booties",
+      "str_pl": "pairs of thick swimming booties"
+    },
     "description": "A pair of thick neoprene swimming booties, with individual toes.",
     "weight": "160 g",
     "warmth": 50,
@@ -654,7 +774,13 @@
           "foot_sole_r",
           "foot_sole_l"
         ],
-        "material": [ { "type": "neoprene", "covered_by_mat": 100, "thickness": 5.0 } ],
+        "material": [
+          {
+            "type": "neoprene",
+            "covered_by_mat": 100,
+            "thickness": 5.0
+          }
+        ],
         "encumbrance": 24,
         "coverage": 100
       }
@@ -675,7 +801,13 @@
     "color": "dark_gray",
     "armor": [
       {
-        "material": [ { "type": "neoprene", "covered_by_mat": 100, "thickness": 3 } ],
+        "material": [
+          {
+            "type": "neoprene",
+            "covered_by_mat": 100,
+            "thickness": 3
+          }
+        ],
         "covers": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r" ],
         "coverage": 100,
         "encumbrance": [ 15, 15 ]
@@ -712,12 +844,27 @@
     "price": 10000,
     "price_postapoc": 500,
     "to_hit": -3,
-    "material": [ { "type": "neoprene", "portion": 9 }, { "type": "nylon", "portion": 1 } ],
+    "material": [
+      {
+        "type": "neoprene",
+        "portion": 9
+      },
+      {
+        "type": "nylon",
+        "portion": 1
+      }
+    ],
     "material_thickness": 5,
     "symbol": "[",
     "color": "dark_gray",
     "looks_like": "wetsuit",
-    "armor": [ { "covers": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r" ], "coverage": 100, "encumbrance": [ 24, 24 ] } ],
+    "armor": [
+      {
+        "covers": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r" ],
+        "coverage": 100,
+        "encumbrance": [ 24, 24 ]
+      }
+    ],
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -755,7 +902,13 @@
     "material_thickness": 3,
     "environmental_protection": 3,
     "flags": [ "VARSIZE", "WATER_FRIENDLY", "SKINTIGHT" ],
-    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 100, "covers": [ "head" ] } ]
+    "armor": [
+      {
+        "encumbrance_modifiers": [ "NONE" ],
+        "coverage": 100,
+        "covers": [ "head" ]
+      }
+    ]
   },
   {
     "id": "wetsuit_hood_thick",
@@ -769,7 +922,13 @@
     "material_thickness": 5,
     "environmental_protection": 4,
     "extend": { "flags": [ "NORMAL" ] },
-    "armor": [ { "encumbrance_modifiers": [ "RESTRICTS_NECK" ], "coverage": 100, "covers": [ "head" ] } ]
+    "armor": [
+      {
+        "encumbrance_modifiers": [ "RESTRICTS_NECK" ],
+        "coverage": 100,
+        "covers": [ "head" ]
+      }
+    ]
   },
   {
     "id": "wetsuit_jacket",
@@ -787,8 +946,16 @@
     "looks_like": "jacket_light",
     "color": "dark_gray",
     "armor": [
-      { "covers": [ "torso" ], "coverage": 100, "encumbrance": 10 },
-      { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": 10 }
+      {
+        "covers": [ "torso" ],
+        "coverage": 100,
+        "encumbrance": 10
+      },
+      {
+        "covers": [ "arm_l", "arm_r" ],
+        "coverage": 100,
+        "encumbrance": 10
+      }
     ],
     "warmth": 20,
     "material_thickness": 2,
@@ -810,14 +977,22 @@
     "looks_like": "tshirt",
     "color": "dark_gray",
     "armor": [
-      { "covers": [ "torso" ], "coverage": 95, "encumbrance": 6 },
+      {
+        "covers": [ "torso" ],
+        "coverage": 95,
+        "encumbrance": 6
+      },
       {
         "covers": [ "arm_l", "arm_r" ],
         "coverage": 100,
         "specifically_covers": [ "arm_shoulder_l", "arm_shoulder_r" ],
         "encumbrance": 2
       },
-      { "covers": [ "arm_l", "arm_r" ], "coverage": 95, "specifically_covers": [ "arm_upper_l", "arm_upper_r" ] }
+      {
+        "covers": [ "arm_l", "arm_r" ],
+        "coverage": 95,
+        "specifically_covers": [ "arm_upper_l", "arm_upper_r" ]
+      }
     ],
     "warmth": 15,
     "material_thickness": 1,
@@ -840,8 +1015,16 @@
     "looks_like": "longshirt",
     "color": "dark_gray",
     "armor": [
-      { "covers": [ "torso" ], "coverage": 100, "encumbrance": 6 },
-      { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": 6 }
+      {
+        "covers": [ "torso" ],
+        "coverage": 100,
+        "encumbrance": 6
+      },
+      {
+        "covers": [ "arm_l", "arm_r" ],
+        "coverage": 100,
+        "encumbrance": 6
+      }
     ],
     "warmth": 15,
     "material_thickness": 1,
@@ -863,7 +1046,13 @@
     "symbol": "[",
     "color": "dark_gray",
     "looks_like": "pants",
-    "armor": [ { "covers": [ "leg_l", "leg_r" ], "coverage": 100, "encumbrance": 6 } ],
+    "armor": [
+      {
+        "covers": [ "leg_l", "leg_r" ],
+        "coverage": 100,
+        "encumbrance": 6
+      }
+    ],
     "warmth": 15,
     "material_thickness": 1,
     "environmental_protection": 1,
@@ -890,7 +1079,11 @@
         "encumbrance": 2,
         "specifically_covers": [ "leg_hip_l", "leg_hip_r" ]
       },
-      { "coverage": 50, "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_upper_l", "leg_upper_r" ] }
+      {
+        "coverage": 50,
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_upper_l", "leg_upper_r" ]
+      }
     ],
     "warmth": 8,
     "material_thickness": 1,
@@ -912,8 +1105,17 @@
     "looks_like": "wetsuit",
     "color": "pink",
     "armor": [
-      { "covers": [ "torso" ], "coverage": 95, "encumbrance": 6, "volume_encumber_modifier": 0.25 },
-      { "covers": [ "arm_l", "arm_r" ], "coverage": 95, "encumbrance": [ 6, 6 ] },
+      {
+        "covers": [ "torso" ],
+        "coverage": 95,
+        "encumbrance": 6,
+        "volume_encumber_modifier": 0.25
+      },
+      {
+        "covers": [ "arm_l", "arm_r" ],
+        "coverage": 95,
+        "encumbrance": [ 6, 6 ]
+      },
       {
         "covers": [ "leg_l", "leg_r" ],
         "coverage": 75,
@@ -958,7 +1160,11 @@
     "looks_like": "wetsuit_spring",
     "color": "blue",
     "armor": [
-      { "covers": [ "torso" ], "coverage": 90, "encumbrance": 6 },
+      {
+        "covers": [ "torso" ],
+        "coverage": 90,
+        "encumbrance": 6
+      },
       {
         "covers": [ "leg_l", "leg_r" ],
         "coverage": 75,
@@ -1025,7 +1231,10 @@
   {
     "id": "goggles_swim",
     "type": "ARMOR",
-    "name": { "str": "pair of swim goggles", "str_pl": "pairs of swim goggles" },
+    "name": {
+      "str": "swim goggles",
+      "str_pl": "pairs of swim goggles"
+    },
     "description": "A small pair of goggles made for swimming.",
     "weight": "81 g",
     "volume": "250 ml",
@@ -1040,12 +1249,22 @@
     "material_thickness": 1,
     "environmental_protection": 4,
     "flags": [ "WATER_FRIENDLY", "SWIM_GOGGLES", "SKINTIGHT" ],
-    "armor": [ { "encumbrance": 10, "coverage": 100, "covers": [ "eyes" ], "rigid_layer_only": true } ]
+    "armor": [
+      {
+        "encumbrance": 10,
+        "coverage": 100,
+        "covers": [ "eyes" ],
+        "rigid_layer_only": true
+      }
+    ]
   },
   {
     "id": "wetsuit_gloves",
     "type": "ARMOR",
-    "name": { "str": "pair of swimming gloves", "str_pl": "pairs of swimming gloves" },
+    "name": {
+      "str": "swimming gloves",
+      "str_pl": "pairs of swimming gloves"
+    },
     "description": "A pair of very flexible neoprene-silicone rubber gloves, suitable for underwater use.",
     "weight": "80 g",
     "volume": "500 ml",
@@ -1060,20 +1279,35 @@
     "material_thickness": 3,
     "environmental_protection": 3,
     "flags": [ "VARSIZE", "WATER_FRIENDLY", "SKINTIGHT" ],
-    "armor": [ { "encumbrance": 10, "coverage": 100, "covers": [ "hand_l", "hand_r" ] } ]
+    "armor": [
+      {
+        "encumbrance": 10,
+        "coverage": 100,
+        "covers": [ "hand_l", "hand_r" ]
+      }
+    ]
   },
   {
     "id": "wetsuit_gloves_thick",
     "repairs_like": "wetsuit_gloves",
     "type": "ARMOR",
     "copy-from": "wetsuit_gloves",
-    "name": { "str": "pair of thick swimming gloves", "str_pl": "pairs of thick swimming gloves" },
+    "name": {
+      "str": "thick swimming gloves",
+      "str_pl": "pairs of thick swimming gloves"
+    },
     "description": "A pair of thick neoprene-silicone rubber gloves, suitable for underwater use.",
     "weight": "90 g",
     "warmth": 50,
     "material_thickness": 5,
     "environmental_protection": 4,
     "extend": { "flags": [ "NORMAL" ] },
-    "armor": [ { "encumbrance": 16, "coverage": 100, "covers": [ "hand_l", "hand_r" ] } ]
+    "armor": [
+      {
+        "encumbrance": 16,
+        "coverage": 100,
+        "covers": [ "hand_l", "hand_r" ]
+      }
+    ]
   }
 ]

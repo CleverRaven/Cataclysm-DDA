@@ -2,7 +2,10 @@
   {
     "id": "bastsandals",
     "type": "ARMOR",
-    "name": { "str": "pair of cord sandals", "str_pl": "pairs of cord sandals" },
+    "name": {
+      "str": "cord sandals",
+      "str_pl": "pairs of cord sandals"
+    },
     "description": "Lightweight sandals made from wound cord.  They offer little in the way of protection, but keep you cool during warmer months.",
     "weight": "68 g",
     "volume": "250 ml",
@@ -28,14 +31,26 @@
           "foot_arch_r",
           "foot_arch_l"
         ],
-        "material": [ { "type": "cotton", "covered_by_mat": 100, "thickness": 2.0 } ],
+        "material": [
+          {
+            "type": "cotton",
+            "covered_by_mat": 100,
+            "thickness": 2.0
+          }
+        ],
         "encumbrance": 10,
         "coverage": 40
       },
       {
         "covers": [ "foot_l", "foot_r" ],
         "specifically_covers": [ "foot_sole_r", "foot_sole_l" ],
-        "material": [ { "type": "cotton", "covered_by_mat": 100, "thickness": 2.0 } ],
+        "material": [
+          {
+            "type": "cotton",
+            "covered_by_mat": 100,
+            "thickness": 2.0
+          }
+        ],
         "coverage": 100
       }
     ]
@@ -43,7 +58,10 @@
   {
     "id": "boots",
     "type": "ARMOR",
-    "name": { "str": "pair of boots", "str_pl": "pairs of boots" },
+    "name": {
+      "str": "boots",
+      "str_pl": "pairs of boots"
+    },
     "description": "Tough leather boots, for tough everyday work.",
     "weight": "1060 g",
     "volume": "2500 ml",
@@ -70,7 +88,13 @@
           "foot_arch_r",
           "foot_arch_l"
         ],
-        "material": [ { "type": "leather", "covered_by_mat": 100, "thickness": 2.5 } ],
+        "material": [
+          {
+            "type": "leather",
+            "covered_by_mat": 100,
+            "thickness": 2.5
+          }
+        ],
         "encumbrance": 12,
         "coverage": 100
       },
@@ -78,8 +102,16 @@
         "covers": [ "foot_l", "foot_r" ],
         "specifically_covers": [ "foot_sole_r", "foot_sole_l" ],
         "material": [
-          { "type": "leather", "covered_by_mat": 100, "thickness": 0.1 },
-          { "type": "rubber", "covered_by_mat": 100, "thickness": 6.0 }
+          {
+            "type": "leather",
+            "covered_by_mat": 100,
+            "thickness": 0.1
+          },
+          {
+            "type": "rubber",
+            "covered_by_mat": 100,
+            "thickness": 6.0
+          }
         ],
         "coverage": 100
       }
@@ -88,9 +120,15 @@
   {
     "id": "xl_boots",
     "type": "ARMOR",
-    "name": { "str": "pair of XL boots", "str_pl": "pairs of XL boots" },
+    "name": {
+      "str": "XL boots",
+      "str_pl": "pairs of XL boots"
+    },
     "copy-from": "boots",
-    "proportional": { "weight": 1.25, "volume": 1.25 },
+    "proportional": {
+      "weight": 1.25,
+      "volume": 1.25
+    },
     "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
@@ -98,15 +136,25 @@
     "type": "ARMOR",
     "copy-from": "boots",
     "looks_like": "boots",
-    "name": { "str": "pair of XS boots", "str_pl": "pairs of XS boots" },
-    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "name": {
+      "str": "XS boots",
+      "str_pl": "pairs of XS boots"
+    },
+    "proportional": {
+      "weight": 0.75,
+      "volume": 0.75,
+      "price": 0.5
+    },
     "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
     "id": "boots_bone",
     "type": "ARMOR",
     "category": "armor",
-    "name": { "str": "pair of occult boots", "str_pl": "pairs of occult boots" },
+    "name": {
+      "str": "occult boots",
+      "str_pl": "pairs of occult boots"
+    },
     "description": "Leather boots covered with tiny, finely-carved bones.  With each step, the bones collide with each other and produce a melodic clicking.",
     "weight": "1824 g",
     "volume": "4250 ml",
@@ -133,8 +181,16 @@
           "foot_arch_l"
         ],
         "material": [
-          { "type": "leather", "covered_by_mat": 100, "thickness": 2.0 },
-          { "type": "bone", "covered_by_mat": 80, "thickness": 1.0 }
+          {
+            "type": "leather",
+            "covered_by_mat": 100,
+            "thickness": 2.0
+          },
+          {
+            "type": "bone",
+            "covered_by_mat": 80,
+            "thickness": 1.0
+          }
         ],
         "encumbrance": 16,
         "coverage": 100
@@ -143,8 +199,16 @@
         "covers": [ "foot_l", "foot_r" ],
         "specifically_covers": [ "foot_sole_r", "foot_sole_l" ],
         "material": [
-          { "type": "rubber", "covered_by_mat": 100, "thickness": 6.0 },
-          { "type": "leather", "covered_by_mat": 100, "thickness": 0.1 }
+          {
+            "type": "rubber",
+            "covered_by_mat": 100,
+            "thickness": 6.0
+          },
+          {
+            "type": "leather",
+            "covered_by_mat": 100,
+            "thickness": 0.1
+          }
         ],
         "coverage": 100
       }
@@ -155,7 +219,10 @@
     "repairs_like": "boots_larmor",
     "type": "ARMOR",
     "category": "armor",
-    "name": { "str": "pair of turnout boots", "str_pl": "pairs of turnout boots" },
+    "name": {
+      "str": "turnout boots",
+      "str_pl": "pairs of turnout boots"
+    },
     "description": "A pair of steel-toed rubber boots, the sort worn by firefighters.",
     "weight": "1930 g",
     "volume": "3500 ml",
@@ -173,8 +240,16 @@
         "covers": [ "foot_l", "foot_r" ],
         "specifically_covers": [ "foot_ankle_r", "foot_ankle_l", "foot_heel_r", "foot_heel_l", "foot_arch_r", "foot_arch_l" ],
         "material": [
-          { "type": "rubber", "covered_by_mat": 100, "thickness": 2.25 },
-          { "type": "nomex", "covered_by_mat": 100, "thickness": 2.25 }
+          {
+            "type": "rubber",
+            "covered_by_mat": 100,
+            "thickness": 2.25
+          },
+          {
+            "type": "nomex",
+            "covered_by_mat": 100,
+            "thickness": 2.25
+          }
         ],
         "encumbrance": 40,
         "coverage": 100
@@ -183,9 +258,21 @@
         "covers": [ "foot_l", "foot_r" ],
         "specifically_covers": [ "foot_toes_r", "foot_toes_l" ],
         "material": [
-          { "type": "rubber", "covered_by_mat": 100, "thickness": 2.25 },
-          { "type": "nomex", "covered_by_mat": 100, "thickness": 2.25 },
-          { "type": "steel", "covered_by_mat": 100, "thickness": 0.5 }
+          {
+            "type": "rubber",
+            "covered_by_mat": 100,
+            "thickness": 2.25
+          },
+          {
+            "type": "nomex",
+            "covered_by_mat": 100,
+            "thickness": 2.25
+          },
+          {
+            "type": "steel",
+            "covered_by_mat": 100,
+            "thickness": 0.5
+          }
         ],
         "coverage": 100
       },
@@ -193,8 +280,16 @@
         "covers": [ "foot_l", "foot_r" ],
         "specifically_covers": [ "foot_sole_r", "foot_sole_l" ],
         "material": [
-          { "type": "rubber", "covered_by_mat": 100, "thickness": 6.0 },
-          { "type": "nomex", "covered_by_mat": 100, "thickness": 0.1 }
+          {
+            "type": "rubber",
+            "covered_by_mat": 100,
+            "thickness": 6.0
+          },
+          {
+            "type": "nomex",
+            "covered_by_mat": 100,
+            "thickness": 0.1
+          }
         ],
         "coverage": 100
       }
@@ -204,7 +299,10 @@
     "id": "boots_chitin",
     "type": "ARMOR",
     "category": "armor",
-    "name": { "str": "pair of chitinous boots", "str_pl": "pairs of chitinous boots" },
+    "name": {
+      "str": "chitinous boots",
+      "str_pl": "pairs of chitinous boots"
+    },
     "description": "Boots made from the exoskeletons of insects.",
     "weight": "1620 g",
     "volume": "4250 ml",
@@ -236,15 +334,25 @@
         "encumbrance": 14,
         "coverage": 95
       },
-      { "coverage": 75, "covers": [ "foot_l", "foot_r" ], "specifically_covers": [ "foot_ankle_l", "foot_ankle_r" ] }
+      {
+        "coverage": 75,
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [ "foot_ankle_l", "foot_ankle_r" ]
+      }
     ]
   },
   {
     "id": "xl_boots_chitin",
     "type": "ARMOR",
-    "name": { "str": "pair of XL chitinous boots", "str_pl": "pairs of XL chitinous boots" },
+    "name": {
+      "str": "XL chitinous boots",
+      "str_pl": "pairs of XL chitinous boots"
+    },
     "copy-from": "boots_chitin",
-    "proportional": { "weight": 1.25, "volume": 1.25 },
+    "proportional": {
+      "weight": 1.25,
+      "volume": 1.25
+    },
     "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
@@ -252,19 +360,35 @@
     "type": "ARMOR",
     "copy-from": "boots_chitin",
     "looks_like": "boots_chitin",
-    "name": { "str": "pair of XS chitinous boots", "str_pl": "pairs of XS chitinous boots" },
-    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "name": {
+      "str": "XS chitinous boots",
+      "str_pl": "pairs of XS chitinous boots"
+    },
+    "proportional": {
+      "weight": 0.75,
+      "volume": 0.75,
+      "price": 0.5
+    },
     "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
     "id": "boots_acidchitin",
     "copy-from": "boots_chitin",
     "type": "ARMOR",
-    "name": { "str": "pair of biosilicified chitin boots", "str_pl": "pairs of biosilicified chitin boots" },
+    "name": {
+      "str": "biosilicified chitin boots",
+      "str_pl": "pairs of biosilicified chitin boots"
+    },
     "description": "Boots crafted from the carefully cleaned and pruned biosilicified exoskeletons of acidic ants.  Acid-resistant but brittle.",
     "price_postapoc": 1750,
     "material": [ "acidchitin" ],
-    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25, "encumbrance": 1.5, "warmth": 1.5 },
+    "proportional": {
+      "weight": 1.125,
+      "volume": 1.13,
+      "price": 1.25,
+      "encumbrance": 1.5,
+      "warmth": 1.5
+    },
     "relative": { "bashing": 2 },
     "material_thickness": 5,
     "extend": { "flags": [ "NO_REPAIR" ] }
@@ -272,9 +396,15 @@
   {
     "id": "xl_boots_acidchitin",
     "type": "ARMOR",
-    "name": { "str": "pair of XL biosilicified chitin boots", "str_pl": "pairs of XL biosilicified chitin boots" },
+    "name": {
+      "str": "XL biosilicified chitin boots",
+      "str_pl": "pairs of XL biosilicified chitin boots"
+    },
     "copy-from": "boots_acidchitin",
-    "proportional": { "weight": 1.25, "volume": 1.25 },
+    "proportional": {
+      "weight": 1.25,
+      "volume": 1.25
+    },
     "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
@@ -282,8 +412,15 @@
     "type": "ARMOR",
     "copy-from": "boots_acidchitin",
     "looks_like": "boots_acidchitin",
-    "name": { "str": "pair of XS biosilicified chitin boots", "str_pl": "pairs of XS biosilicified chitin boots" },
-    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "name": {
+      "str": "XS biosilicified chitin boots",
+      "str_pl": "pairs of XS biosilicified chitin boots"
+    },
+    "proportional": {
+      "weight": 0.75,
+      "volume": 0.75,
+      "price": 0.5
+    },
     "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
@@ -291,7 +428,10 @@
     "repairs_like": "boots_survivor",
     "type": "ARMOR",
     "category": "armor",
-    "name": { "str": "pair of combat boots", "str_pl": "pairs of combat boots" },
+    "name": {
+      "str": "combat boots",
+      "str_pl": "pairs of combat boots"
+    },
     "description": "Modern reinforced tactical combat boots.  Very durable.",
     "weight": "1060 g",
     "volume": "2 L",
@@ -320,8 +460,16 @@
           "foot_arch_l"
         ],
         "material": [
-          { "type": "leather", "covered_by_mat": 100, "thickness": 1.25 },
-          { "type": "kevlar", "covered_by_mat": 100, "thickness": 1.25 }
+          {
+            "type": "leather",
+            "covered_by_mat": 100,
+            "thickness": 1.25
+          },
+          {
+            "type": "kevlar",
+            "covered_by_mat": 100,
+            "thickness": 1.25
+          }
         ],
         "encumbrance": 12,
         "coverage": 100
@@ -330,8 +478,16 @@
         "covers": [ "foot_l", "foot_r" ],
         "specifically_covers": [ "foot_sole_r", "foot_sole_l" ],
         "material": [
-          { "type": "leather", "covered_by_mat": 100, "thickness": 0.1 },
-          { "type": "rubber", "covered_by_mat": 100, "thickness": 6.0 }
+          {
+            "type": "leather",
+            "covered_by_mat": 100,
+            "thickness": 0.1
+          },
+          {
+            "type": "rubber",
+            "covered_by_mat": 100,
+            "thickness": 6.0
+          }
         ],
         "coverage": 100
       }
@@ -341,7 +497,10 @@
     "id": "foot_protectors_eod",
     "type": "ARMOR",
     "category": "armor",
-    "name": { "str": "pair of EOD foot protectors", "str_pl": "pairs of EOD foot protectors" },
+    "name": {
+      "str": "EOD foot protectors",
+      "str_pl": "pairs of EOD foot protectors"
+    },
     "description": "Armored foot protectors constructed from steel and Nomex for use by explosive ordnance disposal technicians.",
     "weight": "1220 g",
     "volume": "3 L",
@@ -354,12 +513,21 @@
     "environmental_protection": 2,
     "material_thickness": 7,
     "flags": [ "STURDY", "OUTER" ],
-    "armor": [ { "encumbrance": 40, "coverage": 100, "covers": [ "foot_l", "foot_r" ] } ]
+    "armor": [
+      {
+        "encumbrance": 40,
+        "coverage": 100,
+        "covers": [ "foot_l", "foot_r" ]
+      }
+    ]
   },
   {
     "id": "toecaps",
     "type": "ARMOR",
-    "name": { "str": "pair of toecaps", "str_pl": "pairs of toecaps" },
+    "name": {
+      "str": "toecaps",
+      "str_pl": "pairs of toecaps"
+    },
     "description": "Rubbery overshoes that cover your toes with sturdy, OSHA compliant steel toes.",
     "weight": "907 g",
     "volume": "1 L",
@@ -386,7 +554,10 @@
   {
     "id": "boots_fur",
     "type": "ARMOR",
-    "name": { "str": "pair of fur boots", "str_pl": "pairs of fur boots" },
+    "name": {
+      "str": "fur boots",
+      "str_pl": "pairs of fur boots"
+    },
     "description": "Boots lined with fur for warmth.",
     "weight": "1890 g",
     "volume": "4500 ml",
@@ -416,8 +587,16 @@
           "foot_arch_l"
         ],
         "material": [
-          { "type": "leather", "covered_by_mat": 100, "thickness": 1.5 },
-          { "type": "fur", "covered_by_mat": 100, "thickness": 1.5 }
+          {
+            "type": "leather",
+            "covered_by_mat": 100,
+            "thickness": 1.5
+          },
+          {
+            "type": "fur",
+            "covered_by_mat": 100,
+            "thickness": 1.5
+          }
         ],
         "encumbrance": 20,
         "coverage": 100
@@ -426,8 +605,16 @@
         "covers": [ "foot_l", "foot_r" ],
         "specifically_covers": [ "foot_sole_r", "foot_sole_l" ],
         "material": [
-          { "type": "leather", "covered_by_mat": 100, "thickness": 0.1 },
-          { "type": "rubber", "covered_by_mat": 100, "thickness": 4.0 }
+          {
+            "type": "leather",
+            "covered_by_mat": 100,
+            "thickness": 0.1
+          },
+          {
+            "type": "rubber",
+            "covered_by_mat": 100,
+            "thickness": 4.0
+          }
         ],
         "coverage": 100
       }
@@ -436,9 +623,15 @@
   {
     "id": "xl_boots_fur",
     "type": "ARMOR",
-    "name": { "str": "pair of XL fur boots", "str_pl": "pairs of XL fur boots" },
+    "name": {
+      "str": "XL fur boots",
+      "str_pl": "pairs of XL fur boots"
+    },
     "copy-from": "boots_fur",
-    "proportional": { "weight": 1.15, "volume": 1.15 },
+    "proportional": {
+      "weight": 1.15,
+      "volume": 1.15
+    },
     "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
@@ -446,15 +639,25 @@
     "type": "ARMOR",
     "copy-from": "boots_fur",
     "looks_like": "boots_fur",
-    "name": { "str": "pair of XS fur boots", "str_pl": "pairs of XS fur boots" },
-    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "name": {
+      "str": "XS fur boots",
+      "str_pl": "pairs of XS fur boots"
+    },
+    "proportional": {
+      "weight": 0.75,
+      "volume": 0.75,
+      "price": 0.5
+    },
     "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
     "id": "boots_hiking",
     "repairs_like": "boots_larmor",
     "type": "ARMOR",
-    "name": { "str": "pair of hiking boots", "str_pl": "pairs of hiking boots" },
+    "name": {
+      "str": "hiking boots",
+      "str_pl": "pairs of hiking boots"
+    },
     "description": "Tough yet light leather boots, intended for outdoor activity.",
     "weight": "960 g",
     "volume": "2 L",
@@ -482,7 +685,13 @@
           "foot_arch_r",
           "foot_arch_l"
         ],
-        "material": [ { "type": "leather", "covered_by_mat": 100, "thickness": 2.0 } ],
+        "material": [
+          {
+            "type": "leather",
+            "covered_by_mat": 100,
+            "thickness": 2.0
+          }
+        ],
         "encumbrance": 12,
         "coverage": 100
       },
@@ -490,8 +699,16 @@
         "covers": [ "foot_l", "foot_r" ],
         "specifically_covers": [ "foot_sole_r", "foot_sole_l" ],
         "material": [
-          { "type": "leather", "covered_by_mat": 100, "thickness": 0.1 },
-          { "type": "rubber", "covered_by_mat": 100, "thickness": 4.0 }
+          {
+            "type": "leather",
+            "covered_by_mat": 100,
+            "thickness": 0.1
+          },
+          {
+            "type": "rubber",
+            "covered_by_mat": 100,
+            "thickness": 4.0
+          }
         ],
         "coverage": 100
       }
@@ -501,7 +718,10 @@
     "id": "boots_larmor",
     "type": "ARMOR",
     "category": "armor",
-    "name": { "str": "pair of leather armor boots", "str_pl": "pairs of leather armor boots" },
+    "name": {
+      "str": "leather armor boots",
+      "str_pl": "pairs of leather armor boots"
+    },
     "description": "Thick leather boots made specifically to protect the feet.  Light yet tough.",
     "weight": "902 g",
     "volume": "2 L",
@@ -517,14 +737,26 @@
     "material_thickness": 5,
     "environmental_protection": 2,
     "flags": [ "VARSIZE", "WATERPROOF", "STURDY" ],
-    "armor": [ { "encumbrance": 18, "coverage": 100, "covers": [ "foot_l", "foot_r" ] } ]
+    "armor": [
+      {
+        "encumbrance": 18,
+        "coverage": 100,
+        "covers": [ "foot_l", "foot_r" ]
+      }
+    ]
   },
   {
     "id": "xl_boots_larmor",
     "type": "ARMOR",
-    "name": { "str": "pair of XL leather armor boots", "str_pl": "pairs of XL leather armor boots" },
+    "name": {
+      "str": "XL leather armor boots",
+      "str_pl": "pairs of XL leather armor boots"
+    },
     "copy-from": "boots_larmor",
-    "proportional": { "weight": 1.3, "volume": 1.3 },
+    "proportional": {
+      "weight": 1.3,
+      "volume": 1.3
+    },
     "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
@@ -532,15 +764,25 @@
     "type": "ARMOR",
     "copy-from": "boots_larmor",
     "looks_like": "boots_larmor",
-    "name": { "str": "pair of XS leather armor boots", "str_pl": "pairs of XS leather armor boots" },
-    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "name": {
+      "str": "XS leather armor boots",
+      "str_pl": "pairs of XS leather armor boots"
+    },
+    "proportional": {
+      "weight": 0.75,
+      "volume": 0.75,
+      "price": 0.5
+    },
     "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
     "id": "boots_plate",
     "type": "ARMOR",
     "category": "armor",
-    "name": { "str": "pair of armored boots", "str_pl": "pairs of armored boots" },
+    "name": {
+      "str": "armored boots",
+      "str_pl": "pairs of armored boots"
+    },
     "description": "An extremely heavy set of armor plated boots.",
     "weight": "1890 g",
     "volume": "3250 ml",
@@ -569,8 +811,16 @@
           "foot_sole_l"
         ],
         "material": [
-          { "type": "leather", "covered_by_mat": 100, "thickness": 2.0 },
-          { "type": "steel", "covered_by_mat": 100, "thickness": 2.0 }
+          {
+            "type": "leather",
+            "covered_by_mat": 100,
+            "thickness": 2.0
+          },
+          {
+            "type": "steel",
+            "covered_by_mat": 100,
+            "thickness": 2.0
+          }
         ],
         "encumbrance": 28,
         "coverage": 100
@@ -579,8 +829,16 @@
         "covers": [ "foot_l", "foot_r" ],
         "specifically_covers": [ "foot_ankle_r", "foot_ankle_l" ],
         "material": [
-          { "type": "leather", "covered_by_mat": 100, "thickness": 2.0 },
-          { "type": "steel", "covered_by_mat": 50, "thickness": 2.0 }
+          {
+            "type": "leather",
+            "covered_by_mat": 100,
+            "thickness": 2.0
+          },
+          {
+            "type": "steel",
+            "covered_by_mat": 50,
+            "thickness": 2.0
+          }
         ],
         "coverage": 100
       }
@@ -589,9 +847,15 @@
   {
     "id": "xl_boots_plate",
     "type": "ARMOR",
-    "name": { "str": "pair of XL armored boots", "str_pl": "pairs of XL armored boots" },
+    "name": {
+      "str": "XL armored boots",
+      "str_pl": "pairs of XL armored boots"
+    },
     "copy-from": "boots_plate",
-    "proportional": { "weight": 1.25, "volume": 1.25 },
+    "proportional": {
+      "weight": 1.25,
+      "volume": 1.25
+    },
     "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
@@ -599,15 +863,25 @@
     "type": "ARMOR",
     "copy-from": "boots_plate",
     "looks_like": "boots_plate",
-    "name": { "str": "pair of XS armored boots", "str_pl": "pairs of XS armored boots" },
-    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "name": {
+      "str": "XS armored boots",
+      "str_pl": "pairs of XS armored boots"
+    },
+    "proportional": {
+      "weight": 0.75,
+      "volume": 0.75,
+      "price": 0.5
+    },
     "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
     "id": "boots_rubber",
     "repairs_like": "boots",
     "type": "ARMOR",
-    "name": { "str": "pair of rubber boots", "str_pl": "pairs of rubber boots" },
+    "name": {
+      "str": "rubber boots",
+      "str_pl": "pairs of rubber boots"
+    },
     "description": "A pair of rubber boots, often used while cleaning with caustic materials.",
     "weight": "980 g",
     "volume": "3500 ml",
@@ -634,14 +908,26 @@
           "foot_arch_r",
           "foot_arch_l"
         ],
-        "material": [ { "type": "rubber", "covered_by_mat": 100, "thickness": 3.0 } ],
+        "material": [
+          {
+            "type": "rubber",
+            "covered_by_mat": 100,
+            "thickness": 3.0
+          }
+        ],
         "encumbrance": 30,
         "coverage": 100
       },
       {
         "covers": [ "foot_l", "foot_r" ],
         "specifically_covers": [ "foot_sole_r", "foot_sole_l" ],
-        "material": [ { "type": "rubber", "covered_by_mat": 100, "thickness": 6.0 } ],
+        "material": [
+          {
+            "type": "rubber",
+            "covered_by_mat": 100,
+            "thickness": 6.0
+          }
+        ],
         "coverage": 100
       }
     ]
@@ -650,7 +936,10 @@
     "id": "boots_scrap",
     "type": "ARMOR",
     "category": "armor",
-    "name": { "str": "pair of scrap boots", "str_pl": "pairs of scrap boots" },
+    "name": {
+      "str": "scrap boots",
+      "str_pl": "pairs of scrap boots"
+    },
     "description": "Boots made of random metal scraps attached to simple cloth wraps.  They're uncomfortable, but provide decent protection.",
     "weight": "1845 g",
     "volume": "3 L",
@@ -678,8 +967,16 @@
           "foot_arch_l"
         ],
         "material": [
-          { "type": "budget_steel", "covered_by_mat": 75, "thickness": 1.5 },
-          { "type": "cotton", "covered_by_mat": 100, "thickness": 1.0 }
+          {
+            "type": "budget_steel",
+            "covered_by_mat": 75,
+            "thickness": 1.5
+          },
+          {
+            "type": "cotton",
+            "covered_by_mat": 100,
+            "thickness": 1.0
+          }
         ],
         "encumbrance": 6,
         "coverage": 80
@@ -688,8 +985,16 @@
         "covers": [ "foot_l", "foot_r" ],
         "specifically_covers": [ "foot_sole_r", "foot_sole_l" ],
         "material": [
-          { "type": "budget_steel", "covered_by_mat": 75, "thickness": 1.5 },
-          { "type": "cotton", "covered_by_mat": 100, "thickness": 1.0 }
+          {
+            "type": "budget_steel",
+            "covered_by_mat": 75,
+            "thickness": 1.5
+          },
+          {
+            "type": "cotton",
+            "covered_by_mat": 100,
+            "thickness": 1.0
+          }
         ],
         "coverage": 80
       }
@@ -698,9 +1003,15 @@
   {
     "id": "xl_boots_scrap",
     "type": "ARMOR",
-    "name": { "str": "pair of XL scrap boots", "str_pl": "pairs of XL scrap boots" },
+    "name": {
+      "str": "XL scrap boots",
+      "str_pl": "pairs of XL scrap boots"
+    },
     "copy-from": "boots_scrap",
-    "proportional": { "weight": 1.3, "volume": 1.3 },
+    "proportional": {
+      "weight": 1.3,
+      "volume": 1.3
+    },
     "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
@@ -708,14 +1019,24 @@
     "type": "ARMOR",
     "copy-from": "boots_scrap",
     "looks_like": "boots_scrap",
-    "name": { "str": "pair of XS scrap boots", "str_pl": "pairs of XS scrap boots" },
-    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "name": {
+      "str": "XS scrap boots",
+      "str_pl": "pairs of XS scrap boots"
+    },
+    "proportional": {
+      "weight": 0.75,
+      "volume": 0.75,
+      "price": 0.5
+    },
     "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
     "id": "sabaton_metal_sheets",
     "type": "ARMOR",
-    "name": { "str": "pair of sheet metal sabatons", "str_pl": "pairs of sheet metal sabatons" },
+    "name": {
+      "str": "sheet metal sabatons",
+      "str_pl": "pairs of sheet metal sabatons"
+    },
     "description": "Some sheets of metal hammered to fit over the top of your foot and around your ankles, meant to be worn over boots.  They make walking a fair bit more awkward, but they'll keep your toes from being stomped on.",
     "//": "The weight assumes two small sheets of about 20cm x 10cm and two small sheets of about 30cm x 10 cm.",
     "weight": "1180 g",
@@ -734,7 +1055,13 @@
     "flags": [ "STURDY", "OUTER" ],
     "armor": [
       {
-        "material": [ { "type": "lc_steel", "covered_by_mat": 100, "thickness": 1.5 } ],
+        "material": [
+          {
+            "type": "lc_steel",
+            "covered_by_mat": 100,
+            "thickness": 1.5
+          }
+        ],
         "covers": [ "foot_l", "foot_r" ],
         "specifically_covers": [ "foot_toes_r", "foot_toes_l", "foot_heel_r", "foot_heel_l", "foot_arch_r", "foot_arch_l" ],
         "coverage": 95,
@@ -747,13 +1074,22 @@
     "id": "ch_sabaton_metal_sheets",
     "type": "ARMOR",
     "copy-from": "sabaton_metal_sheets",
-    "name": { "str": "pair of case hardened sheet metal sabatons", "str_pl": "pairs of case hardened sheet metal sabatons" },
+    "name": {
+      "str": "case hardened sheet metal sabatons",
+      "str_pl": "pairs of case hardened sheet metal sabatons"
+    },
     "description": "Sabatons made of sheet metal, case hardened to protect your feet if you drop something heavy on them.  No relation to the band, aside from being very metal.",
     "material": [ "ch_steel" ],
     "extend": { "flags": [ "STURDY" ] },
     "armor": [
       {
-        "material": [ { "type": "ch_steel", "covered_by_mat": 100, "thickness": 1.5 } ],
+        "material": [
+          {
+            "type": "ch_steel",
+            "covered_by_mat": 100,
+            "thickness": 1.5
+          }
+        ],
         "covers": [ "foot_l", "foot_r" ],
         "specifically_covers": [ "foot_toes_r", "foot_toes_l", "foot_heel_r", "foot_heel_l", "foot_arch_r", "foot_arch_l" ],
         "coverage": 95,
@@ -767,7 +1103,10 @@
     "repairs_like": "boots_larmor",
     "type": "ARMOR",
     "category": "armor",
-    "name": { "str": "pair of steeltoed boots", "str_pl": "pairs of steeltoed boots" },
+    "name": {
+      "str": "steeltoed boots",
+      "str_pl": "pairs of steeltoed boots"
+    },
     "description": "Leather boots with a steel toe, intended for use by workers.",
     "weight": "1320 g",
     "volume": "3 L",
@@ -785,7 +1124,13 @@
       {
         "covers": [ "foot_l", "foot_r" ],
         "specifically_covers": [ "foot_ankle_r", "foot_ankle_l", "foot_heel_r", "foot_heel_l", "foot_arch_r", "foot_arch_l" ],
-        "material": [ { "type": "leather", "covered_by_mat": 100, "thickness": 2.5 } ],
+        "material": [
+          {
+            "type": "leather",
+            "covered_by_mat": 100,
+            "thickness": 2.5
+          }
+        ],
         "encumbrance": 20,
         "coverage": 100
       },
@@ -793,8 +1138,16 @@
         "covers": [ "foot_l", "foot_r" ],
         "specifically_covers": [ "foot_toes_r", "foot_toes_l" ],
         "material": [
-          { "type": "leather", "covered_by_mat": 100, "thickness": 2.5 },
-          { "type": "steel", "covered_by_mat": 100, "thickness": 0.5 }
+          {
+            "type": "leather",
+            "covered_by_mat": 100,
+            "thickness": 2.5
+          },
+          {
+            "type": "steel",
+            "covered_by_mat": 100,
+            "thickness": 0.5
+          }
         ],
         "coverage": 100
       },
@@ -802,8 +1155,16 @@
         "covers": [ "foot_l", "foot_r" ],
         "specifically_covers": [ "foot_sole_r", "foot_sole_l" ],
         "material": [
-          { "type": "leather", "covered_by_mat": 100, "thickness": 0.1 },
-          { "type": "rubber", "covered_by_mat": 100, "thickness": 6.0 }
+          {
+            "type": "leather",
+            "covered_by_mat": 100,
+            "thickness": 0.1
+          },
+          {
+            "type": "rubber",
+            "covered_by_mat": 100,
+            "thickness": 6.0
+          }
         ],
         "coverage": 100
       }
@@ -814,7 +1175,10 @@
     "repairs_like": "boots",
     "type": "ARMOR",
     "category": "armor",
-    "name": { "str": "pair of steeltoed sneakers", "str_pl": "pairs of steeltoed sneakers" },
+    "name": {
+      "str": "steeltoed sneakers",
+      "str_pl": "pairs of steeltoed sneakers"
+    },
     "description": "A descendant of the classic steeltoed boot, this modern footwear has become popular amongst working class people over the last couple of decades.",
     "weight": "900 g",
     "volume": "1500 ml",
@@ -835,7 +1199,13 @@
       {
         "covers": [ "foot_l", "foot_r" ],
         "specifically_covers": [ "foot_heel_r", "foot_heel_l", "foot_arch_r", "foot_arch_l" ],
-        "material": [ { "type": "cotton", "covered_by_mat": 100, "thickness": 1 } ],
+        "material": [
+          {
+            "type": "cotton",
+            "covered_by_mat": 100,
+            "thickness": 1
+          }
+        ],
         "encumbrance": 8,
         "coverage": 100
       },
@@ -843,23 +1213,45 @@
         "covers": [ "foot_l", "foot_r" ],
         "specifically_covers": [ "foot_toes_r", "foot_toes_l" ],
         "material": [
-          { "type": "cotton", "covered_by_mat": 100, "thickness": 1.0 },
-          { "type": "steel", "covered_by_mat": 100, "thickness": 0.5 }
+          {
+            "type": "cotton",
+            "covered_by_mat": 100,
+            "thickness": 1.0
+          },
+          {
+            "type": "steel",
+            "covered_by_mat": 100,
+            "thickness": 0.5
+          }
         ],
         "coverage": 100
       },
       {
         "covers": [ "foot_l", "foot_r" ],
         "specifically_covers": [ "foot_ankle_r", "foot_ankle_l" ],
-        "material": [ { "type": "cotton", "covered_by_mat": 100, "thickness": 1.0 } ],
+        "material": [
+          {
+            "type": "cotton",
+            "covered_by_mat": 100,
+            "thickness": 1.0
+          }
+        ],
         "coverage": 60
       },
       {
         "covers": [ "foot_l", "foot_r" ],
         "specifically_covers": [ "foot_sole_r", "foot_sole_l" ],
         "material": [
-          { "type": "cotton", "covered_by_mat": 100, "thickness": 0.1 },
-          { "type": "rubber", "covered_by_mat": 100, "thickness": 4.0 }
+          {
+            "type": "cotton",
+            "covered_by_mat": 100,
+            "thickness": 0.1
+          },
+          {
+            "type": "rubber",
+            "covered_by_mat": 100,
+            "thickness": 4.0
+          }
         ],
         "coverage": 100
       }
@@ -869,16 +1261,34 @@
     "id": "boots_western",
     "copy-from": "boots",
     "type": "ARMOR",
-    "name": { "str": "pair of western boots", "str_pl": "pairs of western boots" },
+    "name": {
+      "str": "western boots",
+      "str_pl": "pairs of western boots"
+    },
     "description": "Stiff leather boots with intricate embroidery and one-inch heels.  They look good, but these boots are made for walking, not running for your life.  Each boot is large enough to conceal a small holdout pistol.",
     "price_postapoc": 750,
     "material": [ "leather" ],
     "material_thickness": 2.5,
     "environmental_protection": 2,
-    "proportional": { "weight": 1.2, "volume": 1.2, "price": 2, "encumbrance": 2 },
+    "proportional": {
+      "weight": 1.2,
+      "volume": 1.2,
+      "price": 2,
+      "encumbrance": 2
+    },
     "pocket_data": [
-      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "600 g", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "600 g", "moves": 80 }
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "250 ml",
+        "max_contains_weight": "600 g",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "250 ml",
+        "max_contains_weight": "600 g",
+        "moves": 80
+      }
     ],
     "use_action": { "type": "holster" },
     "extend": { "flags": [ "FANCY" ] },
@@ -895,7 +1305,13 @@
           "foot_arch_r",
           "foot_arch_l"
         ],
-        "material": [ { "type": "leather", "covered_by_mat": 100, "thickness": 2.0 } ],
+        "material": [
+          {
+            "type": "leather",
+            "covered_by_mat": 100,
+            "thickness": 2.0
+          }
+        ],
         "encumbrance": 12,
         "coverage": 100
       },
@@ -903,9 +1319,21 @@
         "covers": [ "foot_l", "foot_r" ],
         "specifically_covers": [ "foot_sole_r", "foot_sole_l" ],
         "material": [
-          { "type": "leather", "covered_by_mat": 100, "thickness": 0.1 },
-          { "type": "rubber", "covered_by_mat": 20, "thickness": 21.0 },
-          { "type": "rubber", "covered_by_mat": 100, "thickness": 4.0 }
+          {
+            "type": "leather",
+            "covered_by_mat": 100,
+            "thickness": 0.1
+          },
+          {
+            "type": "rubber",
+            "covered_by_mat": 20,
+            "thickness": 21.0
+          },
+          {
+            "type": "rubber",
+            "covered_by_mat": 100,
+            "thickness": 4.0
+          }
         ],
         "coverage": 100
       }
@@ -914,7 +1342,10 @@
   {
     "id": "boots_winter",
     "type": "ARMOR",
-    "name": { "str": "pair of winter boots", "str_pl": "pairs of winter boots" },
+    "name": {
+      "str": "winter boots",
+      "str_pl": "pairs of winter boots"
+    },
     "description": "Wool-lined boots designed for warmth.",
     "weight": "1640 g",
     "volume": "3500 ml",
@@ -933,8 +1364,16 @@
         "covers": [ "foot_l", "foot_r" ],
         "specifically_covers": [ "foot_ankle_r", "foot_ankle_l", "foot_arch_r", "foot_arch_l" ],
         "material": [
-          { "type": "plastic", "covered_by_mat": 100, "thickness": 2.5 },
-          { "type": "wool", "covered_by_mat": 100, "thickness": 2.5 }
+          {
+            "type": "plastic",
+            "covered_by_mat": 100,
+            "thickness": 2.5
+          },
+          {
+            "type": "wool",
+            "covered_by_mat": 100,
+            "thickness": 2.5
+          }
         ],
         "encumbrance": 25,
         "coverage": 100
@@ -943,8 +1382,16 @@
         "covers": [ "foot_l", "foot_r" ],
         "specifically_covers": [ "foot_toes_r", "foot_toes_l", "foot_heel_r", "foot_heel_l" ],
         "material": [
-          { "type": "rubber", "covered_by_mat": 100, "thickness": 2.5 },
-          { "type": "wool", "covered_by_mat": 100, "thickness": 2.5 }
+          {
+            "type": "rubber",
+            "covered_by_mat": 100,
+            "thickness": 2.5
+          },
+          {
+            "type": "wool",
+            "covered_by_mat": 100,
+            "thickness": 2.5
+          }
         ],
         "coverage": 100
       },
@@ -952,8 +1399,16 @@
         "covers": [ "foot_l", "foot_r" ],
         "specifically_covers": [ "foot_sole_r", "foot_sole_l" ],
         "material": [
-          { "type": "cotton", "covered_by_mat": 100, "thickness": 0.1 },
-          { "type": "rubber", "covered_by_mat": 100, "thickness": 6.0 }
+          {
+            "type": "cotton",
+            "covered_by_mat": 100,
+            "thickness": 0.1
+          },
+          {
+            "type": "rubber",
+            "covered_by_mat": 100,
+            "thickness": 6.0
+          }
         ],
         "coverage": 100
       }
@@ -962,9 +1417,15 @@
   {
     "id": "xl_boots_winter",
     "type": "ARMOR",
-    "name": { "str": "pair of XL winter boots", "str_pl": "pairs of XL winter boots" },
+    "name": {
+      "str": "XL winter boots",
+      "str_pl": "pairs of XL winter boots"
+    },
     "copy-from": "boots_winter",
-    "proportional": { "weight": 1.3, "volume": 1.3 },
+    "proportional": {
+      "weight": 1.3,
+      "volume": 1.3
+    },
     "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
@@ -972,15 +1433,25 @@
     "type": "ARMOR",
     "copy-from": "boots_winter",
     "looks_like": "boots_winter",
-    "name": { "str": "pair of XS winter boots", "str_pl": "pairs of XS winter boots" },
-    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "name": {
+      "str": "XS winter boots",
+      "str_pl": "pairs of XS winter boots"
+    },
+    "proportional": {
+      "weight": 0.75,
+      "volume": 0.75,
+      "price": 0.5
+    },
     "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
     "id": "cleats",
     "repairs_like": "boots_larmor",
     "type": "ARMOR",
-    "name": { "str": "pair of cleats", "str_pl": "pairs of cleats" },
+    "name": {
+      "str": "cleats",
+      "str_pl": "pairs of cleats"
+    },
     "description": "Sport shoes with hard undersides and studs on the bottom designed to dig into grass.",
     "weight": "860 g",
     "volume": "1500 ml",
@@ -999,8 +1470,16 @@
         "covers": [ "foot_l", "foot_r" ],
         "specifically_covers": [ "foot_toes_r", "foot_toes_l", "foot_heel_r", "foot_heel_l", "foot_arch_r", "foot_arch_l" ],
         "material": [
-          { "type": "leather", "covered_by_mat": 100, "thickness": 1.0 },
-          { "type": "cotton", "covered_by_mat": 100, "thickness": 1.0 }
+          {
+            "type": "leather",
+            "covered_by_mat": 100,
+            "thickness": 1.0
+          },
+          {
+            "type": "cotton",
+            "covered_by_mat": 100,
+            "thickness": 1.0
+          }
         ],
         "encumbrance": 15,
         "coverage": 100
@@ -1009,8 +1488,16 @@
         "covers": [ "foot_l", "foot_r" ],
         "specifically_covers": [ "foot_ankle_l", "foot_ankle_r" ],
         "material": [
-          { "type": "leather", "covered_by_mat": 100, "thickness": 1.0 },
-          { "type": "cotton", "covered_by_mat": 100, "thickness": 1.0 }
+          {
+            "type": "leather",
+            "covered_by_mat": 100,
+            "thickness": 1.0
+          },
+          {
+            "type": "cotton",
+            "covered_by_mat": 100,
+            "thickness": 1.0
+          }
         ],
         "coverage": 40
       },
@@ -1018,9 +1505,21 @@
         "covers": [ "foot_l", "foot_r" ],
         "specifically_covers": [ "foot_sole_r", "foot_sole_l" ],
         "material": [
-          { "type": "cotton", "covered_by_mat": 100, "thickness": 0.1 },
-          { "type": "rubber", "covered_by_mat": 100, "thickness": 2.0 },
-          { "type": "rubber", "covered_by_mat": 20, "thickness": 4.0 }
+          {
+            "type": "cotton",
+            "covered_by_mat": 100,
+            "thickness": 0.1
+          },
+          {
+            "type": "rubber",
+            "covered_by_mat": 100,
+            "thickness": 2.0
+          },
+          {
+            "type": "rubber",
+            "covered_by_mat": 20,
+            "thickness": 4.0
+          }
         ],
         "coverage": 100
       }
@@ -1030,7 +1529,10 @@
     "id": "golf_shoes",
     "repairs_like": "boots",
     "type": "ARMOR",
-    "name": { "str": "pair of golf shoes", "str_pl": "pairs of golf shoes" },
+    "name": {
+      "str": "golf shoes",
+      "str_pl": "pairs of golf shoes"
+    },
     "description": "Snug sport shoes with hard ridges on the bottom.",
     "weight": "820 g",
     "volume": "1500 ml",
@@ -1049,8 +1551,16 @@
         "covers": [ "foot_l", "foot_r" ],
         "specifically_covers": [ "foot_toes_r", "foot_toes_l", "foot_heel_r", "foot_heel_l", "foot_arch_r", "foot_arch_l" ],
         "material": [
-          { "type": "leather", "covered_by_mat": 100, "thickness": 1.0 },
-          { "type": "cotton", "covered_by_mat": 100, "thickness": 1.0 }
+          {
+            "type": "leather",
+            "covered_by_mat": 100,
+            "thickness": 1.0
+          },
+          {
+            "type": "cotton",
+            "covered_by_mat": 100,
+            "thickness": 1.0
+          }
         ],
         "encumbrance": 12,
         "coverage": 100
@@ -1059,8 +1569,16 @@
         "covers": [ "foot_l", "foot_r" ],
         "specifically_covers": [ "foot_ankle_r", "foot_ankle_l" ],
         "material": [
-          { "type": "leather", "covered_by_mat": 100, "thickness": 1.0 },
-          { "type": "cotton", "covered_by_mat": 100, "thickness": 1.0 }
+          {
+            "type": "leather",
+            "covered_by_mat": 100,
+            "thickness": 1.0
+          },
+          {
+            "type": "cotton",
+            "covered_by_mat": 100,
+            "thickness": 1.0
+          }
         ],
         "coverage": 60
       },
@@ -1068,8 +1586,16 @@
         "covers": [ "foot_l", "foot_r" ],
         "specifically_covers": [ "foot_sole_r", "foot_sole_l" ],
         "material": [
-          { "type": "leather", "covered_by_mat": 100, "thickness": 0.1 },
-          { "type": "rubber", "covered_by_mat": 100, "thickness": 4.0 }
+          {
+            "type": "leather",
+            "covered_by_mat": 100,
+            "thickness": 0.1
+          },
+          {
+            "type": "rubber",
+            "covered_by_mat": 100,
+            "thickness": 4.0
+          }
         ],
         "coverage": 100
       }
@@ -1078,7 +1604,10 @@
   {
     "id": "clogs",
     "type": "ARMOR",
-    "name": { "str": "pair of wooden clogs", "str_pl": "pairs of wooden clogs" },
+    "name": {
+      "str": "wooden clogs",
+      "str_pl": "pairs of wooden clogs"
+    },
     "description": "Known as klompen in the Netherlands and sabots in France, these wooden shoes have endured through the ages due to their simple design and durability.",
     "weight": "916 g",
     "volume": "1250 ml",
@@ -1098,21 +1627,39 @@
       {
         "covers": [ "foot_l", "foot_r" ],
         "specifically_covers": [ "foot_toes_r", "foot_toes_l" ],
-        "material": [ { "type": "wood", "covered_by_mat": 100, "thickness": 2.0 } ],
+        "material": [
+          {
+            "type": "wood",
+            "covered_by_mat": 100,
+            "thickness": 2.0
+          }
+        ],
         "encumbrance": 20,
         "coverage": 100
       },
       {
         "covers": [ "foot_l", "foot_r" ],
         "specifically_covers": [ "foot_arch_l", "foot_arch_r", "foot_heel_l", "foot_heel_r" ],
-        "material": [ { "type": "wood", "covered_by_mat": 100, "thickness": 2.0 } ],
+        "material": [
+          {
+            "type": "wood",
+            "covered_by_mat": 100,
+            "thickness": 2.0
+          }
+        ],
         "encumbrance": 20,
         "coverage": 80
       },
       {
         "covers": [ "foot_l", "foot_r" ],
         "specifically_covers": [ "foot_sole_r", "foot_sole_l" ],
-        "material": [ { "type": "wood", "covered_by_mat": 100, "thickness": 2.0 } ],
+        "material": [
+          {
+            "type": "wood",
+            "covered_by_mat": 100,
+            "thickness": 2.0
+          }
+        ],
         "coverage": 100
       }
     ]
@@ -1121,7 +1668,10 @@
     "id": "clownshoes",
     "repairs_like": "boots",
     "type": "ARMOR",
-    "name": { "str": "pair of clown shoes", "str_pl": "pairs of clown shoes" },
+    "name": {
+      "str": "clown shoes",
+      "str_pl": "pairs of clown shoes"
+    },
     "description": "Gigantic shoes fit for a clown.  Incredibly difficult to walk in.",
     "weight": "1140 g",
     "volume": "3500 ml",
@@ -1141,8 +1691,16 @@
         "covers": [ "foot_l", "foot_r" ],
         "specifically_covers": [ "foot_heel_r", "foot_heel_l", "foot_arch_r", "foot_arch_l", "foot_toes_l", "foot_toes_r" ],
         "material": [
-          { "type": "cotton", "covered_by_mat": 100, "thickness": 1.25 },
-          { "type": "leather", "covered_by_mat": 100, "thickness": 1.25 }
+          {
+            "type": "cotton",
+            "covered_by_mat": 100,
+            "thickness": 1.25
+          },
+          {
+            "type": "leather",
+            "covered_by_mat": 100,
+            "thickness": 1.25
+          }
         ],
         "encumbrance": 8,
         "coverage": 100
@@ -1151,8 +1709,16 @@
         "covers": [ "foot_l", "foot_r" ],
         "specifically_covers": [ "foot_ankle_r", "foot_ankle_l" ],
         "material": [
-          { "type": "cotton", "covered_by_mat": 100, "thickness": 1.25 },
-          { "type": "leather", "covered_by_mat": 100, "thickness": 1.25 }
+          {
+            "type": "cotton",
+            "covered_by_mat": 100,
+            "thickness": 1.25
+          },
+          {
+            "type": "leather",
+            "covered_by_mat": 100,
+            "thickness": 1.25
+          }
         ],
         "coverage": 60
       },
@@ -1160,8 +1726,16 @@
         "covers": [ "foot_l", "foot_r" ],
         "specifically_covers": [ "foot_sole_r", "foot_sole_l" ],
         "material": [
-          { "type": "cotton", "covered_by_mat": 100, "thickness": 0.1 },
-          { "type": "rubber", "covered_by_mat": 100, "thickness": 4.0 }
+          {
+            "type": "cotton",
+            "covered_by_mat": 100,
+            "thickness": 0.1
+          },
+          {
+            "type": "rubber",
+            "covered_by_mat": 100,
+            "thickness": 4.0
+          }
         ],
         "coverage": 100
       }
@@ -1170,7 +1744,10 @@
   {
     "id": "dance_shoes",
     "type": "ARMOR",
-    "name": { "str": "pair of dance shoes", "str_pl": "pairs of dance shoes" },
+    "name": {
+      "str": "dance shoes",
+      "str_pl": "pairs of dance shoes"
+    },
     "description": "Expensive black dance shoes with large heels.",
     "weight": "870 g",
     "volume": "1500 ml",
@@ -1190,23 +1767,47 @@
       {
         "covers": [ "foot_l", "foot_r" ],
         "specifically_covers": [ "foot_heel_r", "foot_heel_l", "foot_arch_r", "foot_arch_l", "foot_toes_r", "foot_toes_l" ],
-        "material": [ { "type": "cotton", "covered_by_mat": 100, "thickness": 1 } ],
+        "material": [
+          {
+            "type": "cotton",
+            "covered_by_mat": 100,
+            "thickness": 1
+          }
+        ],
         "encumbrance": 5,
         "coverage": 100
       },
       {
         "covers": [ "foot_l", "foot_r" ],
         "specifically_covers": [ "foot_ankle_r", "foot_ankle_l" ],
-        "material": [ { "type": "cotton", "covered_by_mat": 100, "thickness": 1.0 } ],
+        "material": [
+          {
+            "type": "cotton",
+            "covered_by_mat": 100,
+            "thickness": 1.0
+          }
+        ],
         "coverage": 20
       },
       {
         "covers": [ "foot_l", "foot_r" ],
         "specifically_covers": [ "foot_sole_r", "foot_sole_l" ],
         "material": [
-          { "type": "cotton", "covered_by_mat": 100, "thickness": 0.1 },
-          { "type": "rubber", "covered_by_mat": 20, "thickness": 8.0 },
-          { "type": "rubber", "covered_by_mat": 100, "thickness": 4.0 }
+          {
+            "type": "cotton",
+            "covered_by_mat": 100,
+            "thickness": 0.1
+          },
+          {
+            "type": "rubber",
+            "covered_by_mat": 20,
+            "thickness": 8.0
+          },
+          {
+            "type": "rubber",
+            "covered_by_mat": 100,
+            "thickness": 4.0
+          }
         ],
         "coverage": 100
       }
@@ -1216,7 +1817,10 @@
     "id": "dress_shoes",
     "repairs_like": "boots",
     "type": "ARMOR",
-    "name": { "str": "pair of dress shoes", "str_pl": "pairs of dress shoes" },
+    "name": {
+      "str": "dress shoes",
+      "str_pl": "pairs of dress shoes"
+    },
     "description": "Fancy patent leather shoes.  Not designed for running.",
     "weight": "870 g",
     "volume": "1500 ml",
@@ -1235,22 +1839,42 @@
       {
         "covers": [ "foot_l", "foot_r" ],
         "specifically_covers": [ "foot_heel_r", "foot_heel_l", "foot_arch_r", "foot_arch_l", "foot_toes_r", "foot_toes_l" ],
-        "material": [ { "type": "leather", "covered_by_mat": 100, "thickness": 2 } ],
+        "material": [
+          {
+            "type": "leather",
+            "covered_by_mat": 100,
+            "thickness": 2
+          }
+        ],
         "encumbrance": 15,
         "coverage": 100
       },
       {
         "covers": [ "foot_l", "foot_r" ],
         "specifically_covers": [ "foot_ankle_r", "foot_ankle_l" ],
-        "material": [ { "type": "leather", "covered_by_mat": 100, "thickness": 2.0 } ],
+        "material": [
+          {
+            "type": "leather",
+            "covered_by_mat": 100,
+            "thickness": 2.0
+          }
+        ],
         "coverage": 40
       },
       {
         "covers": [ "foot_l", "foot_r" ],
         "specifically_covers": [ "foot_sole_r", "foot_sole_l" ],
         "material": [
-          { "type": "leather", "covered_by_mat": 100, "thickness": 0.1 },
-          { "type": "rubber", "covered_by_mat": 100, "thickness": 4.0 }
+          {
+            "type": "leather",
+            "covered_by_mat": 100,
+            "thickness": 0.1
+          },
+          {
+            "type": "rubber",
+            "covered_by_mat": 100,
+            "thickness": 4.0
+          }
         ],
         "coverage": 100
       }
@@ -1259,7 +1883,10 @@
   {
     "id": "flip_flops",
     "type": "ARMOR",
-    "name": { "str": "pair of flip-flops", "str_pl": "pairs of flip-flops" },
+    "name": {
+      "str": "flip-flops",
+      "str_pl": "pairs of flip-flops"
+    },
     "description": "Simple sandals.  Somewhat difficult to run in.",
     "weight": "62 g",
     "volume": "250 ml",
@@ -1276,14 +1903,26 @@
       {
         "covers": [ "foot_l", "foot_r" ],
         "specifically_covers": [ "foot_arch_r", "foot_arch_l" ],
-        "material": [ { "type": "plastic", "covered_by_mat": 100, "thickness": 1 } ],
+        "material": [
+          {
+            "type": "plastic",
+            "covered_by_mat": 100,
+            "thickness": 1
+          }
+        ],
         "encumbrance": 15,
         "coverage": 40
       },
       {
         "covers": [ "foot_l", "foot_r" ],
         "specifically_covers": [ "foot_sole_r", "foot_sole_l" ],
-        "material": [ { "type": "plastic", "covered_by_mat": 100, "thickness": 4.0 } ],
+        "material": [
+          {
+            "type": "plastic",
+            "covered_by_mat": 100,
+            "thickness": 4.0
+          }
+        ],
         "coverage": 80
       }
     ]
@@ -1291,7 +1930,10 @@
   {
     "id": "flip_flops_exp",
     "type": "ARMOR",
-    "name": { "str": "pair of expensive flip-flops", "str_pl": "pairs of expensive flip-flops" },
+    "name": {
+      "str": "expensive flip-flops",
+      "str_pl": "pairs of expensive flip-flops"
+    },
     "description": "These are upmarket \"luxury\" flip-flops.  Very difficult to run in.",
     "weight": "170 g",
     "volume": "250 ml",
@@ -1311,14 +1953,26 @@
       {
         "covers": [ "foot_l", "foot_r" ],
         "specifically_covers": [ "foot_arch_r", "foot_arch_l" ],
-        "material": [ { "type": "leather", "covered_by_mat": 100, "thickness": 1 } ],
+        "material": [
+          {
+            "type": "leather",
+            "covered_by_mat": 100,
+            "thickness": 1
+          }
+        ],
         "encumbrance": 22,
         "coverage": 40
       },
       {
         "covers": [ "foot_l", "foot_r" ],
         "specifically_covers": [ "foot_sole_r", "foot_sole_l" ],
-        "material": [ { "type": "rubber", "covered_by_mat": 100, "thickness": 4.0 } ],
+        "material": [
+          {
+            "type": "rubber",
+            "covered_by_mat": 100,
+            "thickness": 4.0
+          }
+        ],
         "coverage": 80
       }
     ]
@@ -1326,7 +1980,10 @@
   {
     "id": "footrags",
     "type": "ARMOR",
-    "name": { "str": "pair of foot rags", "str_pl": "pairs of foot rags" },
+    "name": {
+      "str": "foot rags",
+      "str_pl": "pairs of foot rags"
+    },
     "description": "Rags tied around your feet.  Not much of an improvement over being barefoot, but still better than nothing.",
     "weight": "56 g",
     "volume": "250 ml",
@@ -1339,12 +1996,21 @@
     "warmth": 5,
     "material_thickness": 1.5,
     "flags": [ "SKINTIGHT", "OVERSIZE", "ALLOWS_NATURAL_ATTACKS" ],
-    "armor": [ { "encumbrance": 2, "coverage": 65, "covers": [ "foot_l", "foot_r" ] } ]
+    "armor": [
+      {
+        "encumbrance": 2,
+        "coverage": 65,
+        "covers": [ "foot_l", "foot_r" ]
+      }
+    ]
   },
   {
     "id": "footrags_fur",
     "type": "ARMOR",
-    "name": { "str": "pair of fur foot wraps", "str_pl": "pairs of fur foot wraps" },
+    "name": {
+      "str": "fur foot wraps",
+      "str_pl": "pairs of fur foot wraps"
+    },
     "description": "Fur pelts tied around your feet.  Not much of an improvement over being barefoot, but still better than nothing.",
     "weight": "135 g",
     "volume": "500 ml",
@@ -1357,12 +2023,21 @@
     "warmth": 20,
     "material_thickness": 1.5,
     "flags": [ "OVERSIZE", "ALLOWS_NATURAL_ATTACKS" ],
-    "armor": [ { "encumbrance": 5, "coverage": 65, "covers": [ "foot_l", "foot_r" ] } ]
+    "armor": [
+      {
+        "encumbrance": 5,
+        "coverage": 65,
+        "covers": [ "foot_l", "foot_r" ]
+      }
+    ]
   },
   {
     "id": "footrags_leather",
     "type": "ARMOR",
-    "name": { "str": "pair of leather foot wraps", "str_pl": "pairs of leather foot wraps" },
+    "name": {
+      "str": "leather foot wraps",
+      "str_pl": "pairs of leather foot wraps"
+    },
     "description": "Leather patches tied around your feet.  Not much of an improvement over being barefoot, but still better than nothing.",
     "weight": "120 g",
     "volume": "500 ml",
@@ -1375,12 +2050,21 @@
     "warmth": 10,
     "material_thickness": 1.5,
     "flags": [ "OVERSIZE", "ALLOWS_NATURAL_ATTACKS" ],
-    "armor": [ { "encumbrance": 5, "coverage": 65, "covers": [ "foot_l", "foot_r" ] } ]
+    "armor": [
+      {
+        "encumbrance": 5,
+        "coverage": 65,
+        "covers": [ "foot_l", "foot_r" ]
+      }
+    ]
   },
   {
     "id": "footrags_wool",
     "type": "ARMOR",
-    "name": { "str": "pair of wool foot wraps", "str_pl": "pairs of wool foot wraps" },
+    "name": {
+      "str": "wool foot wraps",
+      "str_pl": "pairs of wool foot wraps"
+    },
     "description": "Felt patches tied around your feet.  Not much of an improvement over being barefoot, but still better than nothing.",
     "weight": "56 g",
     "volume": "250 ml",
@@ -1393,12 +2077,21 @@
     "warmth": 15,
     "material_thickness": 1.5,
     "flags": [ "SKINTIGHT", "OVERSIZE", "ALLOWS_NATURAL_ATTACKS" ],
-    "armor": [ { "encumbrance": 5, "coverage": 65, "covers": [ "foot_l", "foot_r" ] } ]
+    "armor": [
+      {
+        "encumbrance": 5,
+        "coverage": 65,
+        "covers": [ "foot_l", "foot_r" ]
+      }
+    ]
   },
   {
     "id": "geta",
     "type": "ARMOR",
-    "name": { "str": "pair of geta", "str_pl": "pairs of geta" },
+    "name": {
+      "str": "geta",
+      "str_pl": "pairs of geta"
+    },
     "description": "Simple wooden geta.",
     "weight": "460 g",
     "volume": "1 L",
@@ -1416,7 +2109,13 @@
       {
         "covers": [ "foot_l", "foot_r" ],
         "specifically_covers": [ "foot_arch_r", "foot_arch_l" ],
-        "material": [ { "type": "cotton", "covered_by_mat": 100, "thickness": 2 } ],
+        "material": [
+          {
+            "type": "cotton",
+            "covered_by_mat": 100,
+            "thickness": 2
+          }
+        ],
         "encumbrance": 10,
         "coverage": 40
       },
@@ -1424,8 +2123,16 @@
         "covers": [ "foot_l", "foot_r" ],
         "specifically_covers": [ "foot_sole_r", "foot_sole_l" ],
         "material": [
-          { "type": "wood", "covered_by_mat": 100, "thickness": 2.0 },
-          { "type": "wood", "covered_by_mat": 40, "thickness": 4.0 }
+          {
+            "type": "wood",
+            "covered_by_mat": 100,
+            "thickness": 2.0
+          },
+          {
+            "type": "wood",
+            "covered_by_mat": 40,
+            "thickness": 4.0
+          }
         ],
         "coverage": 80
       }
@@ -1435,7 +2142,10 @@
     "id": "heels",
     "repairs_like": "boots",
     "type": "ARMOR",
-    "name": { "str": "pair of heels", "str_pl": "pairs of heels" },
+    "name": {
+      "str": "heels",
+      "str_pl": "pairs of heels"
+    },
     "description": "A pair of high heels.  Difficult to even walk in.",
     "weight": "640 g",
     "volume": "750 ml",
@@ -1453,14 +2163,26 @@
       {
         "covers": [ "foot_l", "foot_r" ],
         "specifically_covers": [ "foot_heel_r", "foot_heel_l", "foot_toes_r", "foot_toes_l" ],
-        "material": [ { "type": "leather", "covered_by_mat": 100, "thickness": 1 } ],
+        "material": [
+          {
+            "type": "leather",
+            "covered_by_mat": 100,
+            "thickness": 1
+          }
+        ],
         "encumbrance": 50,
         "coverage": 80
       },
       {
         "covers": [ "foot_l", "foot_r" ],
         "specifically_covers": [ "foot_sole_r", "foot_sole_l" ],
-        "material": [ { "type": "leather", "covered_by_mat": 100, "thickness": 2.0 } ],
+        "material": [
+          {
+            "type": "leather",
+            "covered_by_mat": 100,
+            "thickness": 2.0
+          }
+        ],
         "coverage": 90
       }
     ]
@@ -1469,7 +2191,10 @@
     "id": "knee_high_boots",
     "repairs_like": "boots_larmor",
     "type": "ARMOR",
-    "name": { "str": "pair of knee-high boots", "str_pl": "pairs of knee-high boots" },
+    "name": {
+      "str": "knee-high boots",
+      "str_pl": "pairs of knee-high boots"
+    },
     "description": "Very long leather boots that cover the lower legs, they are cumbersome to wear.",
     "weight": "1520 g",
     "volume": "3750 ml",
@@ -1490,8 +2215,16 @@
         "covers": [ "foot_l", "foot_r" ],
         "specifically_covers": [ "foot_sole_r", "foot_sole_l" ],
         "material": [
-          { "type": "leather", "covered_by_mat": 100, "thickness": 0.1 },
-          { "type": "rubber", "covered_by_mat": 100, "thickness": 4.0 }
+          {
+            "type": "leather",
+            "covered_by_mat": 100,
+            "thickness": 0.1
+          },
+          {
+            "type": "rubber",
+            "covered_by_mat": 100,
+            "thickness": 4.0
+          }
         ],
         "coverage": 100,
         "encumbrance": 20
@@ -1508,7 +2241,13 @@
           "foot_ankle_l",
           "foot_ankle_r"
         ],
-        "material": [ { "type": "leather", "covered_by_mat": 100, "thickness": 2.0 } ],
+        "material": [
+          {
+            "type": "leather",
+            "covered_by_mat": 100,
+            "thickness": 2.0
+          }
+        ],
         "coverage": 100
       },
       {
@@ -1523,7 +2262,10 @@
     "id": "motor_police_boots",
     "repairs_like": "boots_larmor",
     "type": "ARMOR",
-    "name": { "str": "pair of motorcycle police boots", "str_pl": "pairs of motorcycle police boots" },
+    "name": {
+      "str": "motorcycle police boots",
+      "str_pl": "pairs of motorcycle police boots"
+    },
     "description": "Custom-made knee-high leather boots issued to motor officers.  Warm, durable and quite tough.",
     "weight": "1520 g",
     "volume": "3750 ml",
@@ -1539,8 +2281,16 @@
         "covers": [ "foot_l", "foot_r" ],
         "specifically_covers": [ "foot_sole_r", "foot_sole_l" ],
         "material": [
-          { "type": "leather", "covered_by_mat": 100, "thickness": 0.1 },
-          { "type": "rubber", "covered_by_mat": 100, "thickness": 4.0 }
+          {
+            "type": "leather",
+            "covered_by_mat": 100,
+            "thickness": 0.1
+          },
+          {
+            "type": "rubber",
+            "covered_by_mat": 100,
+            "thickness": 4.0
+          }
         ],
         "coverage": 100,
         "encumbrance": 15
@@ -1557,7 +2307,13 @@
           "foot_ankle_l",
           "foot_ankle_r"
         ],
-        "material": [ { "type": "leather", "covered_by_mat": 100, "thickness": 2.0 } ],
+        "material": [
+          {
+            "type": "leather",
+            "covered_by_mat": 100,
+            "thickness": 2.0
+          }
+        ],
         "coverage": 100
       },
       {
@@ -1575,7 +2331,10 @@
   {
     "id": "leathersandals",
     "type": "ARMOR",
-    "name": { "str": "pair of leather sandals", "str_pl": "pairs of leather sandals" },
+    "name": {
+      "str": "leather sandals",
+      "str_pl": "pairs of leather sandals"
+    },
     "description": "Sturdy leather hiking sandals with a heel strap.  Offers little in the way of protection, but keeps you cool during warmer months.",
     "weight": "675 g",
     "//": "weight is based on an average of between 1 and 2 lbs for various hiking sandals IRL.",
@@ -1593,22 +2352,42 @@
       {
         "covers": [ "foot_l", "foot_r" ],
         "specifically_covers": [ "foot_heel_r", "foot_heel_l" ],
-        "material": [ { "type": "leather", "covered_by_mat": 100, "thickness": 1.5 } ],
+        "material": [
+          {
+            "type": "leather",
+            "covered_by_mat": 100,
+            "thickness": 1.5
+          }
+        ],
         "encumbrance": 8,
         "coverage": 40
       },
       {
         "covers": [ "foot_l", "foot_r" ],
         "specifically_covers": [ "foot_ankle_r", "foot_ankle_l", "foot_arch_r", "foot_arch_l", "foot_toes_r", "foot_toes_l" ],
-        "material": [ { "type": "leather", "covered_by_mat": 100, "thickness": 1.5 } ],
+        "material": [
+          {
+            "type": "leather",
+            "covered_by_mat": 100,
+            "thickness": 1.5
+          }
+        ],
         "coverage": 20
       },
       {
         "covers": [ "foot_l", "foot_r" ],
         "specifically_covers": [ "foot_sole_r", "foot_sole_l" ],
         "material": [
-          { "type": "leather", "covered_by_mat": 100, "thickness": 0.1 },
-          { "type": "rubber", "covered_by_mat": 100, "thickness": 4.0 }
+          {
+            "type": "leather",
+            "covered_by_mat": 100,
+            "thickness": 0.1
+          },
+          {
+            "type": "rubber",
+            "covered_by_mat": 100,
+            "thickness": 4.0
+          }
         ],
         "coverage": 95
       }
@@ -1618,7 +2397,10 @@
     "id": "lowtops",
     "repairs_like": "boots",
     "type": "ARMOR",
-    "name": { "str": "pair of lowtop tennis shoes", "str_pl": "pairs of lowtop tennis shoes" },
+    "name": {
+      "str": "lowtop tennis shoes",
+      "str_pl": "pairs of lowtop tennis shoes"
+    },
     "description": "Lightweight shoes made of cloth and rubber.",
     "weight": "114 g",
     "volume": "750 ml",
@@ -1635,21 +2417,41 @@
       {
         "covers": [ "foot_l", "foot_r" ],
         "specifically_covers": [ "foot_heel_r", "foot_heel_l", "foot_arch_r", "foot_arch_l", "foot_toes_r", "foot_toes_l" ],
-        "material": [ { "type": "cotton", "covered_by_mat": 100, "thickness": 1.5 } ],
+        "material": [
+          {
+            "type": "cotton",
+            "covered_by_mat": 100,
+            "thickness": 1.5
+          }
+        ],
         "coverage": 100
       },
       {
         "covers": [ "foot_l", "foot_r" ],
         "specifically_covers": [ "foot_ankle_r", "foot_ankle_l" ],
-        "material": [ { "type": "cotton", "covered_by_mat": 100, "thickness": 1.5 } ],
+        "material": [
+          {
+            "type": "cotton",
+            "covered_by_mat": 100,
+            "thickness": 1.5
+          }
+        ],
         "coverage": 10
       },
       {
         "covers": [ "foot_l", "foot_r" ],
         "specifically_covers": [ "foot_sole_r", "foot_sole_l" ],
         "material": [
-          { "type": "cotton", "covered_by_mat": 100, "thickness": 0.1 },
-          { "type": "rubber", "covered_by_mat": 100, "thickness": 4.0 }
+          {
+            "type": "cotton",
+            "covered_by_mat": 100,
+            "thickness": 0.1
+          },
+          {
+            "type": "rubber",
+            "covered_by_mat": 100,
+            "thickness": 4.0
+          }
         ],
         "coverage": 100
       }
@@ -1658,7 +2460,10 @@
   {
     "id": "mocassins",
     "type": "ARMOR",
-    "name": { "str": "pair of moccasins", "str_pl": "pairs of moccasins" },
+    "name": {
+      "str": "moccasins",
+      "str_pl": "pairs of moccasins"
+    },
     "description": "Simple shoes made from animal pelts.",
     "weight": "230 g",
     "volume": "500 ml",
@@ -1675,20 +2480,38 @@
       {
         "covers": [ "foot_l", "foot_r" ],
         "specifically_covers": [ "foot_toes_r", "foot_toes_l" ],
-        "material": [ { "type": "leather", "covered_by_mat": 100, "thickness": 1.0 } ],
+        "material": [
+          {
+            "type": "leather",
+            "covered_by_mat": 100,
+            "thickness": 1.0
+          }
+        ],
         "encumbrance": 2,
         "coverage": 100
       },
       {
         "covers": [ "foot_l", "foot_r" ],
         "specifically_covers": [ "foot_heel_r", "foot_heel_l", "foot_arch_r", "foot_arch_l" ],
-        "material": [ { "type": "leather", "covered_by_mat": 100, "thickness": 1.0 } ],
+        "material": [
+          {
+            "type": "leather",
+            "covered_by_mat": 100,
+            "thickness": 1.0
+          }
+        ],
         "coverage": 80
       },
       {
         "covers": [ "foot_l", "foot_r" ],
         "specifically_covers": [ "foot_sole_r", "foot_sole_l" ],
-        "material": [ { "type": "leather", "covered_by_mat": 100, "thickness": 4.0 } ],
+        "material": [
+          {
+            "type": "leather",
+            "covered_by_mat": 100,
+            "thickness": 4.0
+          }
+        ],
         "coverage": 100
       }
     ]
@@ -1698,7 +2521,10 @@
     "repairs_like": "boots_survivor",
     "type": "ARMOR",
     "category": "armor",
-    "name": { "str": "pair of motorcycle boots", "str_pl": "pairs of motorcycle boots" },
+    "name": {
+      "str": "motorcycle boots",
+      "str_pl": "pairs of motorcycle boots"
+    },
     "description": "A pair of durable boots used by dirt bikers and motorcyclists.",
     "weight": "2125 g",
     "volume": "2 L",
@@ -1718,8 +2544,16 @@
         "covers": [ "foot_l", "foot_r" ],
         "specifically_covers": [ "foot_sole_r", "foot_sole_l" ],
         "material": [
-          { "type": "cotton", "covered_by_mat": 100, "thickness": 0.1 },
-          { "type": "rubber", "covered_by_mat": 100, "thickness": 6.0 }
+          {
+            "type": "cotton",
+            "covered_by_mat": 100,
+            "thickness": 0.1
+          },
+          {
+            "type": "rubber",
+            "covered_by_mat": 100,
+            "thickness": 6.0
+          }
         ],
         "coverage": 100,
         "encumbrance": 30
@@ -1737,8 +2571,16 @@
           "foot_ankle_r"
         ],
         "material": [
-          { "type": "cotton", "covered_by_mat": 100, "thickness": 1.25 },
-          { "type": "kevlar", "covered_by_mat": 100, "thickness": 1.25 }
+          {
+            "type": "cotton",
+            "covered_by_mat": 100,
+            "thickness": 1.25
+          },
+          {
+            "type": "kevlar",
+            "covered_by_mat": 100,
+            "thickness": 1.25
+          }
         ],
         "coverage": 100
       }
@@ -1748,7 +2590,10 @@
     "id": "roller_blades",
     "repairs_like": "boots_larmor",
     "type": "ARMOR",
-    "name": { "str": "pair of rollerblades", "str_pl": "pairs of rollerblades" },
+    "name": {
+      "str": "rollerblades",
+      "str_pl": "pairs of rollerblades"
+    },
     "description": "A pair of inline skates.  Very fast on flat floors, but they make it hard to move on rough terrain, take hits, or dodge effectively.",
     "weight": "1640 g",
     "volume": "3750 ml",
@@ -1777,8 +2622,16 @@
           "foot_ankle_l"
         ],
         "material": [
-          { "type": "cotton", "covered_by_mat": 100, "thickness": 1.5 },
-          { "type": "plastic", "covered_by_mat": 95, "thickness": 1.5 }
+          {
+            "type": "cotton",
+            "covered_by_mat": 100,
+            "thickness": 1.5
+          },
+          {
+            "type": "plastic",
+            "covered_by_mat": 95,
+            "thickness": 1.5
+          }
         ],
         "encumbrance": 25,
         "coverage": 100
@@ -1787,8 +2640,16 @@
         "covers": [ "foot_l", "foot_r" ],
         "specifically_covers": [ "foot_sole_r", "foot_sole_l" ],
         "material": [
-          { "type": "cotton", "covered_by_mat": 100, "thickness": 0.1 },
-          { "type": "plastic", "covered_by_mat": 100, "thickness": 2.0 }
+          {
+            "type": "cotton",
+            "covered_by_mat": 100,
+            "thickness": 0.1
+          },
+          {
+            "type": "plastic",
+            "covered_by_mat": 100,
+            "thickness": 2.0
+          }
         ],
         "coverage": 100
       }
@@ -1798,7 +2659,10 @@
     "id": "rollerskates",
     "repairs_like": "boots_larmor",
     "type": "ARMOR",
-    "name": { "str": "pair of rollerskates", "str_pl": "pairs of rollerskates" },
+    "name": {
+      "str": "rollerskates",
+      "str_pl": "pairs of rollerskates"
+    },
     "description": "An old-fashioned pair of leather rollerskates with steel frames.  While quite fast on flat floors, they make it difficult to take hits or to move on rough terrain.",
     "weight": "2720 g",
     "volume": "3 L",
@@ -1828,8 +2692,16 @@
           "foot_ankle_l"
         ],
         "material": [
-          { "type": "cotton", "covered_by_mat": 100, "thickness": 1.5 },
-          { "type": "leather", "covered_by_mat": 100, "thickness": 1.5 }
+          {
+            "type": "cotton",
+            "covered_by_mat": 100,
+            "thickness": 1.5
+          },
+          {
+            "type": "leather",
+            "covered_by_mat": 100,
+            "thickness": 1.5
+          }
         ],
         "encumbrance": 25,
         "coverage": 100
@@ -1838,9 +2710,21 @@
         "covers": [ "foot_l", "foot_r" ],
         "specifically_covers": [ "foot_sole_r", "foot_sole_l" ],
         "material": [
-          { "type": "cotton", "covered_by_mat": 100, "thickness": 0.1 },
-          { "type": "wood", "covered_by_mat": 90, "thickness": 4.0 },
-          { "type": "steel", "covered_by_mat": 20, "thickness": 2.0 }
+          {
+            "type": "cotton",
+            "covered_by_mat": 100,
+            "thickness": 0.1
+          },
+          {
+            "type": "wood",
+            "covered_by_mat": 90,
+            "thickness": 4.0
+          },
+          {
+            "type": "steel",
+            "covered_by_mat": 20,
+            "thickness": 2.0
+          }
         ],
         "coverage": 100
       }
@@ -1849,7 +2733,10 @@
   {
     "id": "shoes_birchbark",
     "type": "ARMOR",
-    "name": { "str": "pair of birchbark shoes", "str_pl": "pairs of birchbark shoes" },
+    "name": {
+      "str": "birchbark shoes",
+      "str_pl": "pairs of birchbark shoes"
+    },
     "description": "Simple shoes woven from strips of birch bark.  Not very comfortable, but better than going barefoot.",
     "weight": "345 g",
     "volume": "500 ml",
@@ -1866,20 +2753,38 @@
       {
         "covers": [ "foot_l", "foot_r" ],
         "specifically_covers": [ "foot_toes_r", "foot_toes_l" ],
-        "material": [ { "type": "wood", "covered_by_mat": 100, "thickness": 1.0 } ],
+        "material": [
+          {
+            "type": "wood",
+            "covered_by_mat": 100,
+            "thickness": 1.0
+          }
+        ],
         "encumbrance": 15,
         "coverage": 100
       },
       {
         "covers": [ "foot_l", "foot_r" ],
         "specifically_covers": [ "foot_heel_r", "foot_heel_l", "foot_arch_r", "foot_arch_l" ],
-        "material": [ { "type": "wood", "covered_by_mat": 100, "thickness": 1.0 } ],
+        "material": [
+          {
+            "type": "wood",
+            "covered_by_mat": 100,
+            "thickness": 1.0
+          }
+        ],
         "coverage": 80
       },
       {
         "covers": [ "foot_l", "foot_r" ],
         "specifically_covers": [ "foot_sole_r", "foot_sole_l" ],
-        "material": [ { "type": "wood", "covered_by_mat": 100, "thickness": 1.0 } ],
+        "material": [
+          {
+            "type": "wood",
+            "covered_by_mat": 100,
+            "thickness": 1.0
+          }
+        ],
         "coverage": 100
       }
     ]
@@ -1888,7 +2793,10 @@
     "id": "shoes_bowling",
     "repairs_like": "boots",
     "type": "ARMOR",
-    "name": { "str": "pair of bowling shoes", "str_pl": "pairs of bowling shoes" },
+    "name": {
+      "str": "bowling shoes",
+      "str_pl": "pairs of bowling shoes"
+    },
     "description": "A pair of flat-soled shoes designed to give you a grip on slippery surfaces.",
     "weight": "840 g",
     "volume": "1500 ml",
@@ -1906,8 +2814,16 @@
         "covers": [ "foot_l", "foot_r" ],
         "specifically_covers": [ "foot_heel_r", "foot_heel_l", "foot_arch_r", "foot_arch_l", "foot_toes_r", "foot_toes_l" ],
         "material": [
-          { "type": "cotton", "covered_by_mat": 100, "thickness": 1 },
-          { "type": "leather", "covered_by_mat": 100, "thickness": 1 }
+          {
+            "type": "cotton",
+            "covered_by_mat": 100,
+            "thickness": 1
+          },
+          {
+            "type": "leather",
+            "covered_by_mat": 100,
+            "thickness": 1
+          }
         ],
         "encumbrance": 10,
         "coverage": 100
@@ -1916,8 +2832,16 @@
         "covers": [ "foot_l", "foot_r" ],
         "specifically_covers": [ "foot_ankle_r", "foot_ankle_l" ],
         "material": [
-          { "type": "cotton", "covered_by_mat": 100, "thickness": 1.0 },
-          { "type": "leather", "covered_by_mat": 100, "thickness": 1 }
+          {
+            "type": "cotton",
+            "covered_by_mat": 100,
+            "thickness": 1.0
+          },
+          {
+            "type": "leather",
+            "covered_by_mat": 100,
+            "thickness": 1
+          }
         ],
         "coverage": 20
       },
@@ -1925,8 +2849,16 @@
         "covers": [ "foot_l", "foot_r" ],
         "specifically_covers": [ "foot_sole_r", "foot_sole_l" ],
         "material": [
-          { "type": "cotton", "covered_by_mat": 100, "thickness": 0.1 },
-          { "type": "rubber", "covered_by_mat": 100, "thickness": 3.0 }
+          {
+            "type": "cotton",
+            "covered_by_mat": 100,
+            "thickness": 0.1
+          },
+          {
+            "type": "rubber",
+            "covered_by_mat": 100,
+            "thickness": 3.0
+          }
         ],
         "coverage": 100
       }
@@ -1936,7 +2868,10 @@
     "id": "slippers",
     "repairs_like": "boots",
     "type": "ARMOR",
-    "name": { "str": "pair of slippers", "str_pl": "pairs of slippers" },
+    "name": {
+      "str": "slippers",
+      "str_pl": "pairs of slippers"
+    },
     "description": "Soft shoes that keep your feet warm.  Not suitable for running.",
     "weight": "70 g",
     "volume": "250 ml",
@@ -1953,28 +2888,54 @@
       {
         "covers": [ "foot_l", "foot_r" ],
         "specifically_covers": [ "foot_toes_r", "foot_toes_l" ],
-        "material": [ { "type": "cotton", "covered_by_mat": 100, "thickness": 0.5 } ],
+        "material": [
+          {
+            "type": "cotton",
+            "covered_by_mat": 100,
+            "thickness": 0.5
+          }
+        ],
         "encumbrance": 30,
         "coverage": 100
       },
       {
         "covers": [ "foot_l", "foot_r" ],
         "specifically_covers": [ "foot_arch_r", "foot_arch_l" ],
-        "material": [ { "type": "cotton", "covered_by_mat": 100, "thickness": 0.5 } ],
+        "material": [
+          {
+            "type": "cotton",
+            "covered_by_mat": 100,
+            "thickness": 0.5
+          }
+        ],
         "coverage": 90
       },
       {
         "covers": [ "foot_l", "foot_r" ],
         "specifically_covers": [ "foot_heel_r", "foot_heel_l" ],
-        "material": [ { "type": "cotton", "covered_by_mat": 100, "thickness": 0.5 } ],
+        "material": [
+          {
+            "type": "cotton",
+            "covered_by_mat": 100,
+            "thickness": 0.5
+          }
+        ],
         "coverage": 10
       },
       {
         "covers": [ "foot_l", "foot_r" ],
         "specifically_covers": [ "foot_sole_r", "foot_sole_l" ],
         "material": [
-          { "type": "cotton", "covered_by_mat": 100, "thickness": 1.5 },
-          { "type": "rubber", "covered_by_mat": 100, "thickness": 2.0 }
+          {
+            "type": "cotton",
+            "covered_by_mat": 100,
+            "thickness": 1.5
+          },
+          {
+            "type": "rubber",
+            "covered_by_mat": 100,
+            "thickness": 2.0
+          }
         ],
         "coverage": 100
       }
@@ -1984,7 +2945,10 @@
     "id": "sneakers",
     "repairs_like": "boots",
     "type": "ARMOR",
-    "name": { "str": "pair of sneakers", "str_pl": "pairs of sneakers" },
+    "name": {
+      "str": "sneakers",
+      "str_pl": "pairs of sneakers"
+    },
     "description": "Guaranteed to make you run faster and jump higher!",
     "weight": "840 g",
     "volume": "1500 ml",
@@ -2001,22 +2965,42 @@
       {
         "covers": [ "foot_l", "foot_r" ],
         "specifically_covers": [ "foot_heel_r", "foot_heel_l", "foot_arch_r", "foot_arch_l", "foot_toes_r", "foot_toes_l" ],
-        "material": [ { "type": "cotton", "covered_by_mat": 100, "thickness": 1 } ],
+        "material": [
+          {
+            "type": "cotton",
+            "covered_by_mat": 100,
+            "thickness": 1
+          }
+        ],
         "encumbrance": 4,
         "coverage": 100
       },
       {
         "covers": [ "foot_l", "foot_r" ],
         "specifically_covers": [ "foot_ankle_r", "foot_ankle_l" ],
-        "material": [ { "type": "cotton", "covered_by_mat": 100, "thickness": 1.0 } ],
+        "material": [
+          {
+            "type": "cotton",
+            "covered_by_mat": 100,
+            "thickness": 1.0
+          }
+        ],
         "coverage": 60
       },
       {
         "covers": [ "foot_l", "foot_r" ],
         "specifically_covers": [ "foot_sole_r", "foot_sole_l" ],
         "material": [
-          { "type": "cotton", "covered_by_mat": 100, "thickness": 0.1 },
-          { "type": "rubber", "covered_by_mat": 100, "thickness": 4.0 }
+          {
+            "type": "cotton",
+            "covered_by_mat": 100,
+            "thickness": 0.1
+          },
+          {
+            "type": "rubber",
+            "covered_by_mat": 100,
+            "thickness": 4.0
+          }
         ],
         "coverage": 100
       }
@@ -2025,7 +3009,10 @@
   {
     "id": "straw_sandals",
     "type": "ARMOR",
-    "name": { "str": "pair of straw sandals", "str_pl": "pairs of straw sandals" },
+    "name": {
+      "str": "straw sandals",
+      "str_pl": "pairs of straw sandals"
+    },
     "description": "Sandals made from straw rope.  Not very comfortable, but can keep your feet safe.",
     "weight": "70 g",
     "volume": "500 ml",
@@ -2050,14 +3037,26 @@
           "foot_arch_r",
           "foot_arch_l"
         ],
-        "material": [ { "type": "paper", "covered_by_mat": 100, "thickness": 1.0 } ],
+        "material": [
+          {
+            "type": "paper",
+            "covered_by_mat": 100,
+            "thickness": 1.0
+          }
+        ],
         "encumbrance": 10,
         "coverage": 30
       },
       {
         "covers": [ "foot_l", "foot_r" ],
         "specifically_covers": [ "foot_sole_r", "foot_sole_l" ],
-        "material": [ { "type": "paper", "covered_by_mat": 100, "thickness": 1.0 } ],
+        "material": [
+          {
+            "type": "paper",
+            "covered_by_mat": 100,
+            "thickness": 1.0
+          }
+        ],
         "coverage": 100
       }
     ]
@@ -2065,7 +3064,10 @@
   {
     "id": "swim_fins",
     "type": "ARMOR",
-    "name": { "str": "pair of swim fins", "str_pl": "pairs of swim fins" },
+    "name": {
+      "str": "swim fins",
+      "str_pl": "pairs of swim fins"
+    },
     "description": "A pair of rubber flippers worn on the feet, which improve swimming speed while greatly impeding the wearer's ability to walk.",
     "weight": "680 g",
     "volume": "1250 ml",
@@ -2082,26 +3084,50 @@
       {
         "covers": [ "foot_l", "foot_r" ],
         "specifically_covers": [ "foot_toes_r", "foot_toes_l" ],
-        "material": [ { "type": "rubber", "covered_by_mat": 100, "thickness": 2.5 } ],
+        "material": [
+          {
+            "type": "rubber",
+            "covered_by_mat": 100,
+            "thickness": 2.5
+          }
+        ],
         "encumbrance": 25,
         "coverage": 100
       },
       {
         "covers": [ "foot_l", "foot_r" ],
         "specifically_covers": [ "foot_heel_r", "foot_heel_l" ],
-        "material": [ { "type": "rubber", "covered_by_mat": 100, "thickness": 2.5 } ],
+        "material": [
+          {
+            "type": "rubber",
+            "covered_by_mat": 100,
+            "thickness": 2.5
+          }
+        ],
         "coverage": 60
       },
       {
         "covers": [ "foot_l", "foot_r" ],
         "specifically_covers": [ "foot_arch_r", "foot_arch_l" ],
-        "material": [ { "type": "rubber", "covered_by_mat": 100, "thickness": 2.5 } ],
+        "material": [
+          {
+            "type": "rubber",
+            "covered_by_mat": 100,
+            "thickness": 2.5
+          }
+        ],
         "coverage": 80
       },
       {
         "covers": [ "foot_l", "foot_r" ],
         "specifically_covers": [ "foot_sole_r", "foot_sole_l" ],
-        "material": [ { "type": "rubber", "covered_by_mat": 100, "thickness": 2.5 } ],
+        "material": [
+          {
+            "type": "rubber",
+            "covered_by_mat": 100,
+            "thickness": 2.5
+          }
+        ],
         "coverage": 100
       }
     ]
@@ -2110,7 +3136,10 @@
     "id": "thigh_high_boots",
     "repairs_like": "boots_larmor",
     "type": "ARMOR",
-    "name": { "str": "pair of thigh-high boots", "str_pl": "pairs of thigh-high boots" },
+    "name": {
+      "str": "thigh-high boots",
+      "str_pl": "pairs of thigh-high boots"
+    },
     "description": "Very long leather boots that reach past the knees, they are cumbersome to wear.",
     "weight": "1540 g",
     "volume": "4250 ml",
@@ -2139,7 +3168,13 @@
           "foot_ankle_r",
           "foot_ankle_l"
         ],
-        "material": [ { "type": "leather", "covered_by_mat": 100, "thickness": 2 } ],
+        "material": [
+          {
+            "type": "leather",
+            "covered_by_mat": 100,
+            "thickness": 2
+          }
+        ],
         "encumbrance": 20,
         "coverage": 100
       },
@@ -2147,8 +3182,16 @@
         "covers": [ "foot_l", "foot_r" ],
         "specifically_covers": [ "foot_sole_r", "foot_sole_l" ],
         "material": [
-          { "type": "leather", "covered_by_mat": 100, "thickness": 0.1 },
-          { "type": "rubber", "covered_by_mat": 100, "thickness": 4.0 }
+          {
+            "type": "leather",
+            "covered_by_mat": 100,
+            "thickness": 0.1
+          },
+          {
+            "type": "rubber",
+            "covered_by_mat": 100,
+            "thickness": 4.0
+          }
         ],
         "coverage": 100
       },
@@ -2170,7 +3213,10 @@
     "id": "roller_shoes_off",
     "repairs_like": "boots",
     "type": "ARMOR",
-    "name": { "str": "pair of heelys (off)", "str_pl": "pairs of heelys (off)" },
+    "name": {
+      "str": "heelys (off)",
+      "str_pl": "pairs of heelys (off)"
+    },
     "description": "A pair of sneakers with integrated wheels.  Currently the wheels are retracted, making these essentially normal lace-up athletic shoes.",
     "weight": "840 g",
     "volume": "1500 ml",
@@ -2195,8 +3241,16 @@
         "covers": [ "foot_l", "foot_r" ],
         "specifically_covers": [ "foot_heel_r", "foot_heel_l", "foot_arch_r", "foot_arch_l", "foot_toes_r", "foot_toes_l" ],
         "material": [
-          { "type": "cotton", "covered_by_mat": 100, "thickness": 1.0 },
-          { "type": "leather", "covered_by_mat": 100, "thickness": 1.0 }
+          {
+            "type": "cotton",
+            "covered_by_mat": 100,
+            "thickness": 1.0
+          },
+          {
+            "type": "leather",
+            "covered_by_mat": 100,
+            "thickness": 1.0
+          }
         ],
         "encumbrance": 4,
         "coverage": 100
@@ -2205,8 +3259,16 @@
         "covers": [ "foot_l", "foot_r" ],
         "specifically_covers": [ "foot_ankle_r", "foot_ankle_l" ],
         "material": [
-          { "type": "cotton", "covered_by_mat": 100, "thickness": 1.0 },
-          { "type": "leather", "covered_by_mat": 100, "thickness": 1.0 }
+          {
+            "type": "cotton",
+            "covered_by_mat": 100,
+            "thickness": 1.0
+          },
+          {
+            "type": "leather",
+            "covered_by_mat": 100,
+            "thickness": 1.0
+          }
         ],
         "coverage": 60
       },
@@ -2214,8 +3276,16 @@
         "covers": [ "foot_l", "foot_r" ],
         "specifically_covers": [ "foot_sole_r", "foot_sole_l" ],
         "material": [
-          { "type": "cotton", "covered_by_mat": 100, "thickness": 0.1 },
-          { "type": "rubber", "covered_by_mat": 100, "thickness": 4.0 }
+          {
+            "type": "cotton",
+            "covered_by_mat": 100,
+            "thickness": 0.1
+          },
+          {
+            "type": "rubber",
+            "covered_by_mat": 100,
+            "thickness": 4.0
+          }
         ],
         "coverage": 100
       }
@@ -2224,7 +3294,10 @@
   {
     "id": "roller_shoes_on",
     "type": "ARMOR",
-    "name": { "str": "pair of heelys (on)", "str_pl": "pairs of heelys (on)" },
+    "name": {
+      "str": "heelys (on)",
+      "str_pl": "pairs of heelys (on)"
+    },
     "description": "A pair of sneakers with integrated wheels, currently the wheels are out, allowing you to swiftly roll around on flat terrain.  You should probably pop them back in before you try fighting or going off-road.",
     "weight": "840 g",
     "volume": "1500 ml",
@@ -2249,8 +3322,16 @@
         "covers": [ "foot_l", "foot_r" ],
         "specifically_covers": [ "foot_heel_r", "foot_heel_l", "foot_arch_r", "foot_arch_l", "foot_toes_r", "foot_toes_l" ],
         "material": [
-          { "type": "cotton", "covered_by_mat": 100, "thickness": 1.0 },
-          { "type": "leather", "covered_by_mat": 100, "thickness": 1.0 }
+          {
+            "type": "cotton",
+            "covered_by_mat": 100,
+            "thickness": 1.0
+          },
+          {
+            "type": "leather",
+            "covered_by_mat": 100,
+            "thickness": 1.0
+          }
         ],
         "encumbrance": 4,
         "coverage": 100
@@ -2259,8 +3340,16 @@
         "covers": [ "foot_l", "foot_r" ],
         "specifically_covers": [ "foot_ankle_r", "foot_ankle_l" ],
         "material": [
-          { "type": "cotton", "covered_by_mat": 100, "thickness": 1.0 },
-          { "type": "leather", "covered_by_mat": 100, "thickness": 1.0 }
+          {
+            "type": "cotton",
+            "covered_by_mat": 100,
+            "thickness": 1.0
+          },
+          {
+            "type": "leather",
+            "covered_by_mat": 100,
+            "thickness": 1.0
+          }
         ],
         "coverage": 60
       },
@@ -2268,8 +3357,16 @@
         "covers": [ "foot_l", "foot_r" ],
         "specifically_covers": [ "foot_sole_r", "foot_sole_l" ],
         "material": [
-          { "type": "cotton", "covered_by_mat": 100, "thickness": 0.1 },
-          { "type": "rubber", "covered_by_mat": 100, "thickness": 4.0 }
+          {
+            "type": "cotton",
+            "covered_by_mat": 100,
+            "thickness": 0.1
+          },
+          {
+            "type": "rubber",
+            "covered_by_mat": 100,
+            "thickness": 4.0
+          }
         ],
         "coverage": 100
       }
@@ -2279,7 +3376,10 @@
     "id": "chainmail_junk_feet",
     "type": "ARMOR",
     "category": "armor",
-    "name": { "str": "pair of chainmail chausses", "str_pl": "pairs of chainmail chausses" },
+    "name": {
+      "str": "chainmail chausses",
+      "str_pl": "pairs of chainmail chausses"
+    },
     "description": "Customized chainmail chausses that cover the feet, like booties made of chainmail.  The metal shows signs of rust and corrosion.",
     "weight": "2006 g",
     "volume": "500 ml",
@@ -2303,8 +3403,16 @@
           "foot_arch_l"
         ],
         "material": [
-          { "type": "leather", "covered_by_mat": 100, "thickness": 2.0 },
-          { "type": "budget_steel_chain", "covered_by_mat": 100, "thickness": 1.2 }
+          {
+            "type": "leather",
+            "covered_by_mat": 100,
+            "thickness": 2.0
+          },
+          {
+            "type": "budget_steel_chain",
+            "covered_by_mat": 100,
+            "thickness": 1.2
+          }
         ],
         "encumbrance": 20,
         "coverage": 100
@@ -2312,7 +3420,13 @@
       {
         "covers": [ "foot_l", "foot_r" ],
         "specifically_covers": [ "foot_sole_r", "foot_sole_l" ],
-        "material": [ { "type": "leather", "covered_by_mat": 100, "thickness": 4.0 } ],
+        "material": [
+          {
+            "type": "leather",
+            "covered_by_mat": 100,
+            "thickness": 4.0
+          }
+        ],
         "coverage": 100
       }
     ]
@@ -2321,7 +3435,10 @@
     "id": "lc_chainmail_feet",
     "type": "ARMOR",
     "category": "armor",
-    "name": { "str": "pair of mild steel chainmail chausses", "str_pl": "pairs of mild steel chainmail chausses" },
+    "name": {
+      "str": "mild steel chainmail chausses",
+      "str_pl": "pairs of mild steel chainmail chausses"
+    },
     "description": "Customized chainmail chausses that cover the feet, like booties made of chainmail.",
     "weight": "2006 g",
     "volume": "500 ml",
@@ -2346,8 +3463,16 @@
           "foot_arch_l"
         ],
         "material": [
-          { "type": "leather", "covered_by_mat": 100, "thickness": 2.0 },
-          { "type": "lc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 }
+          {
+            "type": "leather",
+            "covered_by_mat": 100,
+            "thickness": 2.0
+          },
+          {
+            "type": "lc_steel_chain",
+            "covered_by_mat": 100,
+            "thickness": 1.2
+          }
         ],
         "encumbrance": 20,
         "coverage": 100
@@ -2355,7 +3480,13 @@
       {
         "covers": [ "foot_l", "foot_r" ],
         "specifically_covers": [ "foot_sole_r", "foot_sole_l" ],
-        "material": [ { "type": "leather", "covered_by_mat": 100, "thickness": 4.0 } ],
+        "material": [
+          {
+            "type": "leather",
+            "covered_by_mat": 100,
+            "thickness": 4.0
+          }
+        ],
         "coverage": 100
       }
     ]
@@ -2364,8 +3495,14 @@
     "id": "xl_lc_chainmail_feet",
     "type": "ARMOR",
     "copy-from": "lc_chainmail_feet",
-    "name": { "str": "pair of XL mild steel chainmail chausses", "str_pl": "pairs of XL mild steel chainmail chausses" },
-    "proportional": { "weight": 2, "volume": 2 },
+    "name": {
+      "str": "XL mild steel chainmail chausses",
+      "str_pl": "pairs of XL mild steel chainmail chausses"
+    },
+    "proportional": {
+      "weight": 2,
+      "volume": 2
+    },
     "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
@@ -2373,8 +3510,15 @@
     "type": "ARMOR",
     "copy-from": "lc_chainmail_feet",
     "looks_like": "chainmail_feet",
-    "name": { "str": "pair of XS mild steel chainmail chausses", "str_pl": "pairs of XS mild steel chainmail chausses" },
-    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "name": {
+      "str": "XS mild steel chainmail chausses",
+      "str_pl": "pairs of XS mild steel chainmail chausses"
+    },
+    "proportional": {
+      "weight": 0.75,
+      "volume": 0.75,
+      "price": 0.5
+    },
     "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
@@ -2382,7 +3526,10 @@
     "type": "ARMOR",
     "copy-from": "lc_chainmail_feet",
     "material": [ "mc_steel_chain" ],
-    "name": { "str": "pair of medium steel chainmail chausses", "str_pl": "pairs of medium steel chainmail chausses" },
+    "name": {
+      "str": "medium steel chainmail chausses",
+      "str_pl": "pairs of medium steel chainmail chausses"
+    },
     "description": "Customized chainmail chausses that cover the feet, like booties made of chainmail.",
     "armor": [
       {
@@ -2398,8 +3545,16 @@
           "foot_arch_l"
         ],
         "material": [
-          { "type": "leather", "covered_by_mat": 100, "thickness": 2.0 },
-          { "type": "mc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 }
+          {
+            "type": "leather",
+            "covered_by_mat": 100,
+            "thickness": 2.0
+          },
+          {
+            "type": "mc_steel_chain",
+            "covered_by_mat": 100,
+            "thickness": 1.2
+          }
         ],
         "encumbrance": 20,
         "coverage": 100
@@ -2407,7 +3562,13 @@
       {
         "covers": [ "foot_l", "foot_r" ],
         "specifically_covers": [ "foot_sole_r", "foot_sole_l" ],
-        "material": [ { "type": "leather", "covered_by_mat": 100, "thickness": 4.0 } ],
+        "material": [
+          {
+            "type": "leather",
+            "covered_by_mat": 100,
+            "thickness": 4.0
+          }
+        ],
         "coverage": 100
       }
     ]
@@ -2416,8 +3577,14 @@
     "id": "xl_mc_chainmail_feet",
     "type": "ARMOR",
     "copy-from": "mc_chainmail_feet",
-    "name": { "str": "pair of XL medium steel chainmail chausses", "str_pl": "pairs of XL medium steel chainmail chausses" },
-    "proportional": { "weight": 2, "volume": 2 },
+    "name": {
+      "str": "XL medium steel chainmail chausses",
+      "str_pl": "pairs of XL medium steel chainmail chausses"
+    },
+    "proportional": {
+      "weight": 2,
+      "volume": 2
+    },
     "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
@@ -2425,8 +3592,15 @@
     "type": "ARMOR",
     "copy-from": "mc_chainmail_feet",
     "looks_like": "chainmail_feet",
-    "name": { "str": "pair of XS medium steel chainmail chausses", "str_pl": "pairs of XS medium steel chainmail chausses" },
-    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "name": {
+      "str": "XS medium steel chainmail chausses",
+      "str_pl": "pairs of XS medium steel chainmail chausses"
+    },
+    "proportional": {
+      "weight": 0.75,
+      "volume": 0.75,
+      "price": 0.5
+    },
     "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
@@ -2434,7 +3608,10 @@
     "type": "ARMOR",
     "copy-from": "lc_chainmail_feet",
     "material": [ "hc_steel_chain" ],
-    "name": { "str": "pair of high steel chainmail chausses", "str_pl": "pairs of high steel chainmail chausses" },
+    "name": {
+      "str": "high steel chainmail chausses",
+      "str_pl": "pairs of high steel chainmail chausses"
+    },
     "description": "Customized chainmail chausses that cover the feet, like booties made of chainmail.",
     "armor": [
       {
@@ -2450,8 +3627,16 @@
           "foot_arch_l"
         ],
         "material": [
-          { "type": "leather", "covered_by_mat": 100, "thickness": 2.0 },
-          { "type": "hc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 }
+          {
+            "type": "leather",
+            "covered_by_mat": 100,
+            "thickness": 2.0
+          },
+          {
+            "type": "hc_steel_chain",
+            "covered_by_mat": 100,
+            "thickness": 1.2
+          }
         ],
         "encumbrance": 20,
         "coverage": 100
@@ -2459,7 +3644,13 @@
       {
         "covers": [ "foot_l", "foot_r" ],
         "specifically_covers": [ "foot_sole_r", "foot_sole_l" ],
-        "material": [ { "type": "leather", "covered_by_mat": 100, "thickness": 4.0 } ],
+        "material": [
+          {
+            "type": "leather",
+            "covered_by_mat": 100,
+            "thickness": 4.0
+          }
+        ],
         "coverage": 100
       }
     ]
@@ -2468,16 +3659,29 @@
     "id": "xl_hc_chainmail_feet",
     "type": "ARMOR",
     "copy-from": "hc_chainmail_feet",
-    "name": { "str": "pair of XL high steel chainmail chausses", "str_pl": "pairs of XL high steel chainmail chausses" },
-    "proportional": { "weight": 2, "volume": 2 },
+    "name": {
+      "str": "XL high steel chainmail chausses",
+      "str_pl": "pairs of XL high steel chainmail chausses"
+    },
+    "proportional": {
+      "weight": 2,
+      "volume": 2
+    },
     "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
     "id": "xs_hc_chainmail_feet",
     "type": "ARMOR",
     "copy-from": "hc_chainmail_feet",
-    "name": { "str": "pair of XS high steel chainmail chausses", "str_pl": "pairs of XS high steel chainmail chausses" },
-    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "name": {
+      "str": "XS high steel chainmail chausses",
+      "str_pl": "pairs of XS high steel chainmail chausses"
+    },
+    "proportional": {
+      "weight": 0.75,
+      "volume": 0.75,
+      "price": 0.5
+    },
     "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
@@ -2485,7 +3689,10 @@
     "type": "ARMOR",
     "copy-from": "lc_chainmail_feet",
     "material": [ "ch_steel_chain" ],
-    "name": { "str": "pair of hardened steel chainmail chausses", "str_pl": "pairs of hardened steel chainmail chausses" },
+    "name": {
+      "str": "hardened steel chainmail chausses",
+      "str_pl": "pairs of hardened steel chainmail chausses"
+    },
     "description": "Customized chainmail chausses that cover the feet, like booties made of chainmail.",
     "armor": [
       {
@@ -2501,8 +3708,16 @@
           "foot_arch_l"
         ],
         "material": [
-          { "type": "leather", "covered_by_mat": 100, "thickness": 2.0 },
-          { "type": "ch_steel_chain", "covered_by_mat": 100, "thickness": 1.2 }
+          {
+            "type": "leather",
+            "covered_by_mat": 100,
+            "thickness": 2.0
+          },
+          {
+            "type": "ch_steel_chain",
+            "covered_by_mat": 100,
+            "thickness": 1.2
+          }
         ],
         "encumbrance": 20,
         "coverage": 100
@@ -2510,7 +3725,13 @@
       {
         "covers": [ "foot_l", "foot_r" ],
         "specifically_covers": [ "foot_sole_r", "foot_sole_l" ],
-        "material": [ { "type": "leather", "covered_by_mat": 100, "thickness": 4.0 } ],
+        "material": [
+          {
+            "type": "leather",
+            "covered_by_mat": 100,
+            "thickness": 4.0
+          }
+        ],
         "coverage": 100
       }
     ]
@@ -2519,16 +3740,29 @@
     "id": "xl_ch_chainmail_feet",
     "type": "ARMOR",
     "copy-from": "ch_chainmail_feet",
-    "name": { "str": "pair of XL hardened steel chainmail chausses", "str_pl": "pairs of XL hardened steel chainmail chausses" },
-    "proportional": { "weight": 2, "volume": 2 },
+    "name": {
+      "str": "XL hardened steel chainmail chausses",
+      "str_pl": "pairs of XL hardened steel chainmail chausses"
+    },
+    "proportional": {
+      "weight": 2,
+      "volume": 2
+    },
     "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
     "id": "xs_ch_chainmail_feet",
     "type": "ARMOR",
     "copy-from": "ch_chainmail_feet",
-    "name": { "str": "pair of XS hardened steel chainmail chausses", "str_pl": "pairs of XS hardened steel chainmail chausses" },
-    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "name": {
+      "str": "XS hardened steel chainmail chausses",
+      "str_pl": "pairs of XS hardened steel chainmail chausses"
+    },
+    "proportional": {
+      "weight": 0.75,
+      "volume": 0.75,
+      "price": 0.5
+    },
     "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
@@ -2536,7 +3770,10 @@
     "type": "ARMOR",
     "copy-from": "lc_chainmail_feet",
     "material": [ "qt_steel_chain" ],
-    "name": { "str": "pair of tempered steel chainmail chausses", "str_pl": "pairs of tempered steel chainmail chausses" },
+    "name": {
+      "str": "tempered steel chainmail chausses",
+      "str_pl": "pairs of tempered steel chainmail chausses"
+    },
     "description": "Customized chainmail chausses that cover the feet, like booties made of chainmail.",
     "armor": [
       {
@@ -2552,8 +3789,16 @@
           "foot_arch_l"
         ],
         "material": [
-          { "type": "leather", "covered_by_mat": 100, "thickness": 2.0 },
-          { "type": "qt_steel_chain", "covered_by_mat": 100, "thickness": 1.2 }
+          {
+            "type": "leather",
+            "covered_by_mat": 100,
+            "thickness": 2.0
+          },
+          {
+            "type": "qt_steel_chain",
+            "covered_by_mat": 100,
+            "thickness": 1.2
+          }
         ],
         "encumbrance": 20,
         "coverage": 100
@@ -2561,7 +3806,13 @@
       {
         "covers": [ "foot_l", "foot_r" ],
         "specifically_covers": [ "foot_sole_r", "foot_sole_l" ],
-        "material": [ { "type": "leather", "covered_by_mat": 100, "thickness": 4.0 } ],
+        "material": [
+          {
+            "type": "leather",
+            "covered_by_mat": 100,
+            "thickness": 4.0
+          }
+        ],
         "coverage": 100
       }
     ]
@@ -2570,22 +3821,38 @@
     "id": "xl_qt_chainmail_feet",
     "type": "ARMOR",
     "copy-from": "qt_chainmail_feet",
-    "name": { "str": "pair of XL tempered steel chainmail chausses", "str_pl": "pairs of XL tempered steel chainmail chausses" },
-    "proportional": { "weight": 2, "volume": 2 },
+    "name": {
+      "str": "XL tempered steel chainmail chausses",
+      "str_pl": "pairs of XL tempered steel chainmail chausses"
+    },
+    "proportional": {
+      "weight": 2,
+      "volume": 2
+    },
     "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
     "id": "xs_qt_chainmail_feet",
     "type": "ARMOR",
     "copy-from": "qt_chainmail_feet",
-    "name": { "str": "pair of XS tempered steel chainmail chausses", "str_pl": "pairs of XS tempered steel chainmail chausses" },
-    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "name": {
+      "str": "XS tempered steel chainmail chausses",
+      "str_pl": "pairs of XS tempered steel chainmail chausses"
+    },
+    "proportional": {
+      "weight": 0.75,
+      "volume": 0.75,
+      "price": 0.5
+    },
     "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
     "id": "nomex_socks",
     "type": "ARMOR",
-    "name": { "str": "pair of flame-resistant socks", "str_pl": "pairs of flame-resistant socks" },
+    "name": {
+      "str": "flame-resistant socks",
+      "str_pl": "pairs of flame-resistant socks"
+    },
     "description": "A snug-fitting pair of stockings made from thin and lightweight Nomex fabric.",
     "weight": "200 g",
     "volume": "750 ml",
@@ -2600,12 +3867,21 @@
     "material_thickness": 1,
     "environmental_protection": 2,
     "flags": [ "VARSIZE", "WATER_FRIENDLY", "SKINTIGHT", "STURDY" ],
-    "armor": [ { "encumbrance": 6, "coverage": 100, "covers": [ "foot_l", "foot_r" ] } ]
+    "armor": [
+      {
+        "encumbrance": 6,
+        "coverage": 100,
+        "covers": [ "foot_l", "foot_r" ]
+      }
+    ]
   },
   {
     "id": "xlnomex_socks",
     "type": "ARMOR",
-    "name": { "str": "pair of XL flame-resistant socks", "str_pl": "pairs of XL flame-resistant socks" },
+    "name": {
+      "str": "XL flame-resistant socks",
+      "str_pl": "pairs of XL flame-resistant socks"
+    },
     "description": "A snug-fitting pair of stockings made from thin and lightweight Nomex fabric.",
     "weight": "300 g",
     "volume": "1000 ml",
@@ -2617,15 +3893,25 @@
     "type": "ARMOR",
     "copy-from": "nomex_socks",
     "looks_like": "nomex_socks",
-    "name": { "str": "pair of XS flame-resistant socks", "str_pl": "pairs of XS flame-resistant socks" },
+    "name": {
+      "str": "XS flame-resistant socks",
+      "str_pl": "pairs of XS flame-resistant socks"
+    },
     "description": "A snug-fitting pair of stockings made from thin and lightweight Nomex fabric.",
-    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "proportional": {
+      "weight": 0.75,
+      "volume": 0.75,
+      "price": 0.5
+    },
     "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
     "id": "socks",
     "type": "ARMOR",
-    "name": { "str": "pair of socks", "str_pl": "pairs of socks" },
+    "name": {
+      "str": "socks",
+      "str_pl": "pairs of socks"
+    },
     "description": "Socks.  Put 'em on your feet.",
     "weight": "32 g",
     "volume": "250 ml",
@@ -2638,12 +3924,20 @@
     "warmth": 5,
     "material_thickness": 0.2,
     "flags": [ "VARSIZE", "SKINTIGHT" ],
-    "armor": [ { "coverage": 100, "covers": [ "foot_l", "foot_r" ] } ]
+    "armor": [
+      {
+        "coverage": 100,
+        "covers": [ "foot_l", "foot_r" ]
+      }
+    ]
   },
   {
     "id": "xlsocks",
     "type": "ARMOR",
-    "name": { "str": "pair of XL socks", "str_pl": "pairs of XL socks" },
+    "name": {
+      "str": "XL socks",
+      "str_pl": "pairs of XL socks"
+    },
     "description": "Socks.  Big ones.  Put 'em on your feet.",
     "weight": "58 g",
     "volume": "250 ml",
@@ -2655,15 +3949,25 @@
     "type": "ARMOR",
     "copy-from": "socks",
     "looks_like": "socks",
-    "name": { "str": "pair of XS socks", "str_pl": "pairs of XS socks" },
+    "name": {
+      "str": "XS socks",
+      "str_pl": "pairs of XS socks"
+    },
     "description": "Socks.  Put 'em on your feet.",
-    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "proportional": {
+      "weight": 0.75,
+      "volume": 0.75,
+      "price": 0.5
+    },
     "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
     "id": "socks_ankle",
     "type": "ARMOR",
-    "name": { "str": "pair of ankle socks", "str_pl": "pairs of ankle socks" },
+    "name": {
+      "str": "ankle socks",
+      "str_pl": "pairs of ankle socks"
+    },
     "description": "Short socks, commonly used for sports.  These are designed to protect your feet from friction, not temperature.",
     "weight": "25 g",
     "volume": "200 ml",
@@ -2688,13 +3992,25 @@
           "foot_sole_r",
           "foot_sole_l"
         ],
-        "material": [ { "type": "cotton", "covered_by_mat": 100, "thickness": 0.3 } ],
+        "material": [
+          {
+            "type": "cotton",
+            "covered_by_mat": 100,
+            "thickness": 0.3
+          }
+        ],
         "coverage": 100
       },
       {
         "covers": [ "foot_l", "foot_r" ],
         "specifically_covers": [ "foot_ankle_r", "foot_ankle_l" ],
-        "material": [ { "type": "cotton", "covered_by_mat": 100, "thickness": 0.3 } ],
+        "material": [
+          {
+            "type": "cotton",
+            "covered_by_mat": 100,
+            "thickness": 0.3
+          }
+        ],
         "coverage": 60
       }
     ]
@@ -2702,7 +4018,10 @@
   {
     "id": "socks_bag",
     "type": "ARMOR",
-    "name": { "str": "pair of bag socks", "str_pl": "pairs of bag socks" },
+    "name": {
+      "str": "bag socks",
+      "str_pl": "pairs of bag socks"
+    },
     "description": "A pair of disposable plastic bags, adapted to be used as socks.",
     "weight": "6 g",
     "volume": "250 ml",
@@ -2727,14 +4046,26 @@
           "foot_sole_r",
           "foot_sole_l"
         ],
-        "material": [ { "type": "plastic", "covered_by_mat": 100, "thickness": 0.01 } ],
+        "material": [
+          {
+            "type": "plastic",
+            "covered_by_mat": 100,
+            "thickness": 0.01
+          }
+        ],
         "encumbrance": 3,
         "coverage": 100
       },
       {
         "covers": [ "foot_l", "foot_r" ],
         "specifically_covers": [ "foot_ankle_r", "foot_ankle_l" ],
-        "material": [ { "type": "cotton", "covered_by_mat": 100, "thickness": 0.01 } ],
+        "material": [
+          {
+            "type": "cotton",
+            "covered_by_mat": 100,
+            "thickness": 0.01
+          }
+        ],
         "coverage": 20
       }
     ]
@@ -2743,7 +4074,10 @@
     "id": "socks_bowling",
     "repairs_like": "boots",
     "type": "ARMOR",
-    "name": { "str": "pair of disposable bowling socks", "str_pl": "pairs of disposable bowling socks" },
+    "name": {
+      "str": "disposable bowling socks",
+      "str_pl": "pairs of disposable bowling socks"
+    },
     "description": "Cheap socks designed to be worn once and then thrown away.  They keep your feet clean, but are too thin to give any protection.",
     "weight": "20 g",
     "volume": "250 ml",
@@ -2755,12 +4089,20 @@
     "color": "white",
     "warmth": 2,
     "flags": [ "SKINTIGHT" ],
-    "armor": [ { "coverage": 80, "covers": [ "foot_l", "foot_r" ] } ]
+    "armor": [
+      {
+        "coverage": 80,
+        "covers": [ "foot_l", "foot_r" ]
+      }
+    ]
   },
   {
     "id": "socks_wool",
     "type": "ARMOR",
-    "name": { "str": "pair of wool socks", "str_pl": "pairs of wool socks" },
+    "name": {
+      "str": "wool socks",
+      "str_pl": "pairs of wool socks"
+    },
     "description": "Warm socks made of wool.",
     "weight": "44 g",
     "volume": "250 ml",
@@ -2773,12 +4115,21 @@
     "warmth": 30,
     "material_thickness": 0.3,
     "flags": [ "VARSIZE", "SKINTIGHT" ],
-    "armor": [ { "encumbrance": 5, "coverage": 100, "covers": [ "foot_l", "foot_r" ] } ]
+    "armor": [
+      {
+        "encumbrance": 5,
+        "coverage": 100,
+        "covers": [ "foot_l", "foot_r" ]
+      }
+    ]
   },
   {
     "id": "xlsocks_wool",
     "type": "ARMOR",
-    "name": { "str": "pair of XL wool socks", "str_pl": "pairs of XL wool socks" },
+    "name": {
+      "str": "XL wool socks",
+      "str_pl": "pairs of XL wool socks"
+    },
     "description": "Warm socks made of wool for a human larger than previously thought possible.",
     "weight": "77 g",
     "volume": "500 ml",
@@ -2789,15 +4140,25 @@
     "id": "xssocks_wool",
     "type": "ARMOR",
     "copy-from": "socks_wool",
-    "name": { "str": "pair of XS wool socks", "str_pl": "pairs of XS wool socks" },
+    "name": {
+      "str": "XS wool socks",
+      "str_pl": "pairs of XS wool socks"
+    },
     "description": "Warm socks made of wool for a human smaller than previously thought possible.",
-    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "proportional": {
+      "weight": 0.75,
+      "volume": 0.75,
+      "price": 0.5
+    },
     "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
     "id": "stockings",
     "type": "ARMOR",
-    "name": { "str": "pair of stockings", "str_pl": "pairs of stockings" },
+    "name": {
+      "str": "stockings",
+      "str_pl": "pairs of stockings"
+    },
     "description": "Long cotton socks that reach above the knees to help protect from the cold.",
     "weight": "90 g",
     "volume": "250 ml",
@@ -2811,20 +4172,31 @@
     "material_thickness": 0.1,
     "flags": [ "VARSIZE", "SKINTIGHT" ],
     "armor": [
-      { "encumbrance": 5, "coverage": 100, "covers": [ "foot_l", "foot_r" ] },
+      {
+        "encumbrance": 5,
+        "coverage": 100,
+        "covers": [ "foot_l", "foot_r" ]
+      },
       {
         "covers": [ "leg_l", "leg_r" ],
         "specifically_covers": [ "leg_lower_l", "leg_lower_r", "leg_knee_l", "leg_knee_r" ],
         "coverage": 100,
         "encumbrance": 4
       },
-      { "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_upper_l", "leg_upper_r" ], "coverage": 60 }
+      {
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_upper_l", "leg_upper_r" ],
+        "coverage": 60
+      }
     ]
   },
   {
     "id": "stockings_tent_legs",
     "type": "ARMOR",
-    "name": { "str": "pair of tentacle stockings", "str_pl": "pairs of tentacle stockings" },
+    "name": {
+      "str": "tentacle stockings",
+      "str_pl": "pairs of tentacle stockings"
+    },
     "description": "Six long cotton tubes sized to fit over tentacles and help protect them from the cold.",
     "weight": "300 g",
     "volume": "1500 ml",
@@ -2838,7 +4210,11 @@
     "material_thickness": 0.1,
     "flags": [ "VARSIZE", "SKINTIGHT", "OVERSIZE" ],
     "armor": [
-      { "encumbrance": 10, "coverage": 100, "covers": [ "foot_l", "foot_r" ] },
+      {
+        "encumbrance": 10,
+        "coverage": 100,
+        "covers": [ "foot_l", "foot_r" ]
+      },
       {
         "covers": [ "leg_l", "leg_r" ],
         "specifically_covers": [ "leg_lower_l", "leg_lower_r", "leg_knee_l", "leg_knee_r", "leg_upper_l", "leg_upper_r" ],
@@ -2850,7 +4226,10 @@
   {
     "id": "tabi_dress",
     "type": "ARMOR",
-    "name": { "str": "pair of tabi", "str_pl": "pairs of tabi" },
+    "name": {
+      "str": "tabi",
+      "str_pl": "pairs of tabi"
+    },
     "description": "A pair of black tabi, as worn with traditional Japanese clothes.",
     "weight": "50 g",
     "volume": "250 ml",
@@ -2863,13 +4242,21 @@
     "warmth": 5,
     "material_thickness": 0.2,
     "flags": [ "VARSIZE", "SKINTIGHT" ],
-    "armor": [ { "coverage": 100, "covers": [ "foot_l", "foot_r" ] } ]
+    "armor": [
+      {
+        "coverage": 100,
+        "covers": [ "foot_l", "foot_r" ]
+      }
+    ]
   },
   {
     "id": "tabi_gi",
     "repairs_like": "boots",
     "type": "ARMOR",
-    "name": { "str": "pair of gi tabi", "str_pl": "pairs of gi tabi" },
+    "name": {
+      "str": "gi tabi",
+      "str_pl": "pairs of gi tabi"
+    },
     "description": "A pair of white tabi, as used by martial arts practitioners.",
     "weight": "50 g",
     "volume": "250 ml",
@@ -2882,7 +4269,12 @@
     "warmth": 5,
     "material_thickness": 0.2,
     "flags": [ "VARSIZE", "SKINTIGHT" ],
-    "armor": [ { "coverage": 100, "covers": [ "foot_l", "foot_r" ] } ]
+    "armor": [
+      {
+        "coverage": 100,
+        "covers": [ "foot_l", "foot_r" ]
+      }
+    ]
   },
   {
     "id": "lc_sabaton",
@@ -2905,7 +4297,13 @@
     "flags": [ "STURDY", "OUTER" ],
     "armor": [
       {
-        "material": [ { "type": "lc_steel", "covered_by_mat": 100, "thickness": 1.25 } ],
+        "material": [
+          {
+            "type": "lc_steel",
+            "covered_by_mat": 100,
+            "thickness": 1.25
+          }
+        ],
         "covers": [ "foot_l", "foot_r" ],
         "specifically_covers": [ "foot_toes_r", "foot_toes_l", "foot_heel_r", "foot_heel_l", "foot_arch_r", "foot_arch_l" ],
         "coverage": 100,
@@ -2919,7 +4317,10 @@
     "type": "ARMOR",
     "copy-from": "lc_sabaton",
     "name": { "str": "XL mild steel sabaton" },
-    "proportional": { "weight": 1.25, "volume": 1.25 },
+    "proportional": {
+      "weight": 1.25,
+      "volume": 1.25
+    },
     "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
@@ -2930,7 +4331,13 @@
     "name": { "str": "medium steel sabaton" },
     "armor": [
       {
-        "material": [ { "type": "mc_steel", "covered_by_mat": 100, "thickness": 1.25 } ],
+        "material": [
+          {
+            "type": "mc_steel",
+            "covered_by_mat": 100,
+            "thickness": 1.25
+          }
+        ],
         "covers": [ "foot_l", "foot_r" ],
         "specifically_covers": [ "foot_toes_r", "foot_toes_l", "foot_heel_r", "foot_heel_l", "foot_arch_r", "foot_arch_l" ],
         "coverage": 100,
@@ -2944,7 +4351,10 @@
     "type": "ARMOR",
     "copy-from": "mc_sabaton",
     "name": { "str": "XL medium steel sabaton" },
-    "proportional": { "weight": 1.25, "volume": 1.25 },
+    "proportional": {
+      "weight": 1.25,
+      "volume": 1.25
+    },
     "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
@@ -2955,7 +4365,13 @@
     "name": { "str": "high steel sabaton" },
     "armor": [
       {
-        "material": [ { "type": "hc_steel", "covered_by_mat": 100, "thickness": 1.25 } ],
+        "material": [
+          {
+            "type": "hc_steel",
+            "covered_by_mat": 100,
+            "thickness": 1.25
+          }
+        ],
         "covers": [ "foot_l", "foot_r" ],
         "specifically_covers": [ "foot_toes_r", "foot_toes_l", "foot_heel_r", "foot_heel_l", "foot_arch_r", "foot_arch_l" ],
         "coverage": 100,
@@ -2969,7 +4385,10 @@
     "type": "ARMOR",
     "copy-from": "hc_sabaton",
     "name": { "str": "XL high steel sabaton" },
-    "proportional": { "weight": 1.25, "volume": 1.25 },
+    "proportional": {
+      "weight": 1.25,
+      "volume": 1.25
+    },
     "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
@@ -2980,7 +4399,13 @@
     "name": { "str": "hardened steel sabaton" },
     "armor": [
       {
-        "material": [ { "type": "ch_steel", "covered_by_mat": 100, "thickness": 1.25 } ],
+        "material": [
+          {
+            "type": "ch_steel",
+            "covered_by_mat": 100,
+            "thickness": 1.25
+          }
+        ],
         "covers": [ "foot_l", "foot_r" ],
         "specifically_covers": [ "foot_toes_r", "foot_toes_l", "foot_heel_r", "foot_heel_l", "foot_arch_r", "foot_arch_l" ],
         "coverage": 100,
@@ -2994,7 +4419,10 @@
     "type": "ARMOR",
     "copy-from": "ch_sabaton",
     "name": { "str": "XL hardened steel sabaton" },
-    "proportional": { "weight": 1.25, "volume": 1.25 },
+    "proportional": {
+      "weight": 1.25,
+      "volume": 1.25
+    },
     "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
@@ -3005,7 +4433,13 @@
     "name": { "str": "tempered steel sabaton" },
     "armor": [
       {
-        "material": [ { "type": "qt_steel", "covered_by_mat": 100, "thickness": 1.25 } ],
+        "material": [
+          {
+            "type": "qt_steel",
+            "covered_by_mat": 100,
+            "thickness": 1.25
+          }
+        ],
         "covers": [ "foot_l", "foot_r" ],
         "specifically_covers": [ "foot_toes_r", "foot_toes_l", "foot_heel_r", "foot_heel_l", "foot_arch_r", "foot_arch_l" ],
         "coverage": 100,
@@ -3019,7 +4453,10 @@
     "type": "ARMOR",
     "copy-from": "qt_sabaton",
     "name": { "str": "XL tempered steel sabaton" },
-    "proportional": { "weight": 1.25, "volume": 1.25 },
+    "proportional": {
+      "weight": 1.25,
+      "volume": 1.25
+    },
     "extend": { "flags": [ "OVERSIZE" ] }
   }
 ]

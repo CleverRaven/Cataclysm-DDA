@@ -25,7 +25,13 @@
     "warmth": 8,
     "material_thickness": 0.3,
     "flags": [ "VARSIZE", "POCKETS" ],
-    "armor": [ { "encumbrance": [ 7, 11 ], "coverage": 90, "covers": [ "leg_l", "leg_r" ] } ]
+    "armor": [
+      {
+        "encumbrance": [ 7, 11 ],
+        "coverage": 90,
+        "covers": [ "leg_l", "leg_r" ]
+      }
+    ]
   },
   {
     "id": "b_shorts",
@@ -62,8 +68,16 @@
     "material_thickness": 0.1,
     "flags": [ "VARSIZE" ],
     "armor": [
-      { "coverage": 100, "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_hip_l", "leg_hip_r" ] },
-      { "coverage": 80, "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_upper_l", "leg_upper_r" ] }
+      {
+        "coverage": 100,
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_hip_l", "leg_hip_r" ]
+      },
+      {
+        "coverage": 80,
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_upper_l", "leg_upper_r" ]
+      }
     ]
   },
   {
@@ -83,7 +97,13 @@
     "warmth": 10,
     "material_thickness": 0.4,
     "flags": [ "VARSIZE" ],
-    "armor": [ { "encumbrance": 8, "coverage": 80, "covers": [ "leg_l", "leg_r" ] } ]
+    "armor": [
+      {
+        "encumbrance": 8,
+        "coverage": 80,
+        "covers": [ "leg_l", "leg_r" ]
+      }
+    ]
   },
   {
     "id": "cheerleader_skirt",
@@ -103,8 +123,16 @@
     "material_thickness": 0.1,
     "flags": [ "VARSIZE", "WATER_FRIENDLY" ],
     "armor": [
-      { "coverage": 100, "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_hip_l", "leg_hip_r" ] },
-      { "coverage": 75, "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_upper_l", "leg_upper_r" ] }
+      {
+        "coverage": 100,
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_hip_l", "leg_hip_r" ]
+      },
+      {
+        "coverage": 75,
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_upper_l", "leg_upper_r" ]
+      }
     ]
   },
   {
@@ -124,15 +152,26 @@
     "material_thickness": 0.1,
     "flags": [ "VARSIZE", "WATER_FRIENDLY" ],
     "armor": [
-      { "coverage": 100, "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_hip_l", "leg_hip_r" ] },
-      { "coverage": 25, "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_upper_l", "leg_upper_r" ] }
+      {
+        "coverage": 100,
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_hip_l", "leg_hip_r" ]
+      },
+      {
+        "coverage": 25,
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_upper_l", "leg_upper_r" ]
+      }
     ]
   },
   {
     "id": "fishing_waders",
     "repairs_like": "boots_larmor",
     "type": "ARMOR",
-    "name": { "str": "pair of fishing waders", "str_pl": "pairs of fishing waders" },
+    "name": {
+      "str": "fishing waders",
+      "str_pl": "pairs of fishing waders"
+    },
     "description": "Waterproof plastic fishing waders with a single large front pocket.",
     "weight": "1360 g",
     "volume": "9500 ml",
@@ -143,9 +182,21 @@
     "looks_like": "pants_ski",
     "color": "green",
     "armor": [
-      { "covers": [ "torso" ], "coverage": 100, "encumbrance": [ 19, 23 ] },
-      { "covers": [ "leg_l", "leg_r" ], "coverage": 100, "encumbrance": [ 19, 21 ] },
-      { "covers": [ "foot_l", "foot_r" ], "coverage": 100, "encumbrance": [ 19, 19 ] }
+      {
+        "covers": [ "torso" ],
+        "coverage": 100,
+        "encumbrance": [ 19, 23 ]
+      },
+      {
+        "covers": [ "leg_l", "leg_r" ],
+        "coverage": 100,
+        "encumbrance": [ 19, 21 ]
+      },
+      {
+        "covers": [ "foot_l", "foot_r" ],
+        "coverage": 100,
+        "encumbrance": [ 19, 19 ]
+      }
     ],
     "pocket_data": [
       {
@@ -208,7 +259,13 @@
     "warmth": 10,
     "material_thickness": 0.2,
     "flags": [ "VARSIZE", "POCKETS" ],
-    "armor": [ { "encumbrance": [ 6, 10 ], "coverage": 95, "covers": [ "leg_l", "leg_r" ] } ]
+    "armor": [
+      {
+        "encumbrance": [ 6, 10 ],
+        "coverage": 95,
+        "covers": [ "leg_l", "leg_r" ]
+      }
+    ]
   },
   {
     "id": "hot_pants",
@@ -225,7 +282,13 @@
     "color": "light_red",
     "material_thickness": 0.1,
     "flags": [ "VARSIZE", "WATER_FRIENDLY", "SKINTIGHT" ],
-    "armor": [ { "coverage": 75, "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_hip_l", "leg_hip_r" ] } ]
+    "armor": [
+      {
+        "coverage": 75,
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_hip_l", "leg_hip_r" ]
+      }
+    ]
   },
   {
     "id": "hot_pants_fur",
@@ -243,7 +306,13 @@
     "warmth": 10,
     "material_thickness": 0.2,
     "flags": [ "VARSIZE", "SKINTIGHT" ],
-    "armor": [ { "coverage": 75, "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_hip_l", "leg_hip_r" ] } ]
+    "armor": [
+      {
+        "coverage": 75,
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_hip_l", "leg_hip_r" ]
+      }
+    ]
   },
   {
     "id": "hot_pants_leather",
@@ -261,7 +330,13 @@
     "warmth": 5,
     "material_thickness": 0.1,
     "flags": [ "VARSIZE", "SKINTIGHT" ],
-    "armor": [ { "coverage": 75, "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_hip_l", "leg_hip_r" ] } ]
+    "armor": [
+      {
+        "coverage": 75,
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_hip_l", "leg_hip_r" ]
+      }
+    ]
   },
   {
     "id": "jeans",
@@ -311,16 +386,34 @@
     "material_thickness": 0.25,
     "flags": [ "VARSIZE", "POCKETS" ],
     "snippet_category": [
-      { "id": "jeans1", "text": "A pair of black jeans with two deep pockets." },
-      { "id": "jeans2", "text": "A pair of black skinny jeans." },
-      { "id": "jeans3", "text": "A stylish pair of bleached denim jeans." },
-      { "id": "jeans4", "text": "A pair of old baggy jeans.  The heels are all ripped up." },
+      {
+        "id": "jeans1",
+        "text": "A pair of black jeans with two deep pockets."
+      },
+      {
+        "id": "jeans2",
+        "text": "A pair of black skinny jeans."
+      },
+      {
+        "id": "jeans3",
+        "text": "A stylish pair of bleached denim jeans."
+      },
+      {
+        "id": "jeans4",
+        "text": "A pair of old baggy jeans.  The heels are all ripped up."
+      },
       {
         "id": "jeans5",
         "text": "An old pair of blue jeans.  You are not sure if they are faded through age or stone washed."
       }
     ],
-    "armor": [ { "encumbrance": [ 7, 11 ], "coverage": 95, "covers": [ "leg_l", "leg_r" ] } ]
+    "armor": [
+      {
+        "encumbrance": [ 7, 11 ],
+        "coverage": 95,
+        "covers": [ "leg_l", "leg_r" ]
+      }
+    ]
   },
   {
     "id": "jeans_red",
@@ -370,7 +463,13 @@
     "warmth": 10,
     "material_thickness": 0.25,
     "flags": [ "VARSIZE", "POCKETS" ],
-    "armor": [ { "encumbrance": [ 7, 11 ], "coverage": 95, "covers": [ "leg_l", "leg_r" ] } ]
+    "armor": [
+      {
+        "encumbrance": [ 7, 11 ],
+        "coverage": 95,
+        "covers": [ "leg_l", "leg_r" ]
+      }
+    ]
   },
   {
     "id": "kilt",
@@ -398,8 +497,16 @@
     "material_thickness": 0.3,
     "flags": [ "VARSIZE" ],
     "armor": [
-      { "coverage": 100, "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_hip_l", "leg_hip_r" ] },
-      { "coverage": 75, "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_upper_l", "leg_upper_r" ] }
+      {
+        "coverage": 100,
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_hip_l", "leg_hip_r" ]
+      },
+      {
+        "coverage": 75,
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_upper_l", "leg_upper_r" ]
+      }
     ]
   },
   {
@@ -428,8 +535,16 @@
     "material_thickness": 1.5,
     "flags": [ "VARSIZE" ],
     "armor": [
-      { "coverage": 100, "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_hip_l", "leg_hip_r" ] },
-      { "coverage": 75, "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_upper_l", "leg_upper_r" ] }
+      {
+        "coverage": 100,
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_hip_l", "leg_hip_r" ]
+      },
+      {
+        "coverage": 75,
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_upper_l", "leg_upper_r" ]
+      }
     ]
   },
   {
@@ -448,7 +563,12 @@
     "warmth": 20,
     "material_thickness": 0.1,
     "flags": [ "VARSIZE", "SKINTIGHT", "WATER_FRIENDLY" ],
-    "armor": [ { "coverage": 100, "covers": [ "leg_l", "leg_r" ] } ]
+    "armor": [
+      {
+        "coverage": 100,
+        "covers": [ "leg_l", "leg_r" ]
+      }
+    ]
   },
   {
     "id": "loincloth",
@@ -465,7 +585,13 @@
     "color": "brown",
     "material_thickness": 0.5,
     "flags": [ "VARSIZE", "SKINTIGHT", "OVERSIZE" ],
-    "armor": [ { "coverage": 25, "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_hip_l", "leg_hip_r" ] } ]
+    "armor": [
+      {
+        "coverage": 25,
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_hip_l", "leg_hip_r" ]
+      }
+    ]
   },
   {
     "id": "loincloth_fur",
@@ -483,7 +609,13 @@
     "warmth": 5,
     "material_thickness": 1,
     "flags": [ "VARSIZE", "SKINTIGHT", "OVERSIZE" ],
-    "armor": [ { "coverage": 25, "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_hip_l", "leg_hip_r" ] } ]
+    "armor": [
+      {
+        "coverage": 25,
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_hip_l", "leg_hip_r" ]
+      }
+    ]
   },
   {
     "id": "loincloth_leather",
@@ -500,7 +632,13 @@
     "color": "brown",
     "material_thickness": 1,
     "flags": [ "VARSIZE", "SKINTIGHT", "OVERSIZE" ],
-    "armor": [ { "coverage": 25, "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_hip_l", "leg_hip_r" ] } ]
+    "armor": [
+      {
+        "coverage": 25,
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_hip_l", "leg_hip_r" ]
+      }
+    ]
   },
   {
     "id": "loincloth_wool",
@@ -518,7 +656,13 @@
     "warmth": 5,
     "material_thickness": 1,
     "flags": [ "VARSIZE", "SKINTIGHT", "OVERSIZE" ],
-    "armor": [ { "coverage": 25, "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_hip_l", "leg_hip_r" ] } ]
+    "armor": [
+      {
+        "coverage": 25,
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_hip_l", "leg_hip_r" ]
+      }
+    ]
   },
   {
     "id": "nanoskirt",
@@ -536,7 +680,13 @@
     "color": "pink",
     "material_thickness": 0.5,
     "flags": [ "VARSIZE" ],
-    "armor": [ { "coverage": 35, "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_hip_l", "leg_hip_r" ] } ]
+    "armor": [
+      {
+        "coverage": 35,
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_hip_l", "leg_hip_r" ]
+      }
+    ]
   },
   {
     "id": "pants",
@@ -586,7 +736,13 @@
     "warmth": 15,
     "material_thickness": 0.2,
     "flags": [ "VARSIZE", "POCKETS" ],
-    "armor": [ { "encumbrance": [ 7, 11 ], "coverage": 95, "covers": [ "leg_l", "leg_r" ] } ]
+    "armor": [
+      {
+        "encumbrance": [ 7, 11 ],
+        "coverage": 95,
+        "covers": [ "leg_l", "leg_r" ]
+      }
+    ]
   },
   {
     "id": "pants_army",
@@ -598,7 +754,16 @@
     "volume": "2500 ml",
     "price": 3500,
     "price_postapoc": 250,
-    "material": [ { "type": "nylon", "portion": 7 }, { "type": "cotton", "portion": 3 } ],
+    "material": [
+      {
+        "type": "nylon",
+        "portion": 7
+      },
+      {
+        "type": "cotton",
+        "portion": 3
+      }
+    ],
     "symbol": "[",
     "looks_like": "pants_cargo",
     "color": "green",
@@ -671,7 +836,14 @@
     "warmth": 20,
     "material_thickness": 0.25,
     "flags": [ "VARSIZE", "POCKETS", "SOFT" ],
-    "armor": [ { "encumbrance": 3, "coverage": 95, "covers": [ "leg_l", "leg_r" ], "volume_encumber_modifier": 0.6 } ]
+    "armor": [
+      {
+        "encumbrance": 3,
+        "coverage": 95,
+        "covers": [ "leg_l", "leg_r" ],
+        "volume_encumber_modifier": 0.6
+      }
+    ]
   },
   {
     "id": "pants_cargo",
@@ -733,7 +905,14 @@
     "warmth": 15,
     "material_thickness": 0.25,
     "flags": [ "VARSIZE", "POCKETS" ],
-    "armor": [ { "encumbrance": 2, "coverage": 100, "covers": [ "leg_l", "leg_r" ], "volume_encumber_modifier": 0.6 } ]
+    "armor": [
+      {
+        "encumbrance": 2,
+        "coverage": 100,
+        "covers": [ "leg_l", "leg_r" ],
+        "volume_encumber_modifier": 0.6
+      }
+    ]
   },
   {
     "id": "pants_checkered",
@@ -782,7 +961,13 @@
     "warmth": 15,
     "material_thickness": 0.2,
     "flags": [ "VARSIZE" ],
-    "armor": [ { "encumbrance": [ 2, 5 ], "coverage": 95, "covers": [ "leg_l", "leg_r" ] } ]
+    "armor": [
+      {
+        "encumbrance": [ 2, 5 ],
+        "coverage": 95,
+        "covers": [ "leg_l", "leg_r" ]
+      }
+    ]
   },
   {
     "id": "pants_fur",
@@ -833,7 +1018,13 @@
     "valid_mods": [ "steel_padded" ],
     "environmental_protection": 3,
     "flags": [ "VARSIZE", "POCKETS" ],
-    "armor": [ { "encumbrance": [ 16, 20 ], "coverage": 95, "covers": [ "leg_l", "leg_r" ] } ]
+    "armor": [
+      {
+        "encumbrance": [ 16, 20 ],
+        "coverage": 95,
+        "covers": [ "leg_l", "leg_r" ]
+      }
+    ]
   },
   {
     "id": "pants_faux_fur",
@@ -861,7 +1052,13 @@
     "warmth": 8,
     "material_thickness": 0.2,
     "flags": [ "VARSIZE" ],
-    "armor": [ { "encumbrance": 5, "coverage": 100, "covers": [ "leg_l", "leg_r" ] } ]
+    "armor": [
+      {
+        "encumbrance": 5,
+        "coverage": 100,
+        "covers": [ "leg_l", "leg_r" ]
+      }
+    ]
   },
   {
     "id": "pants_leather",
@@ -897,7 +1094,13 @@
     "material_thickness": 0.75,
     "valid_mods": [ "steel_padded" ],
     "flags": [ "VARSIZE" ],
-    "armor": [ { "encumbrance": [ 15, 17 ], "coverage": 95, "covers": [ "leg_l", "leg_r" ] } ]
+    "armor": [
+      {
+        "encumbrance": [ 15, 17 ],
+        "coverage": 95,
+        "covers": [ "leg_l", "leg_r" ]
+      }
+    ]
   },
   {
     "id": "pants_ski",
@@ -947,7 +1150,13 @@
     "material_thickness": 1,
     "environmental_protection": 3,
     "flags": [ "VARSIZE", "POCKETS", "OUTER" ],
-    "armor": [ { "encumbrance": [ 6, 10 ], "coverage": 95, "covers": [ "leg_l", "leg_r" ] } ]
+    "armor": [
+      {
+        "encumbrance": [ 6, 10 ],
+        "coverage": 95,
+        "covers": [ "leg_l", "leg_r" ]
+      }
+    ]
   },
   {
     "id": "police_breeches",
@@ -964,12 +1173,38 @@
     "symbol": "[",
     "looks_like": "pants",
     "color": "dark_gray",
-    "armor": [ { "covers": [ "leg_l", "leg_r" ], "coverage": 95, "encumbrance": [ 2, 5 ] } ],
+    "armor": [
+      {
+        "covers": [ "leg_l", "leg_r" ],
+        "coverage": 95,
+        "encumbrance": [ 2, 5 ]
+      }
+    ],
     "pocket_data": [
-      { "pocket_type": "CONTAINER", "max_contains_volume": "350 ml", "max_contains_weight": "1 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "350 ml", "max_contains_weight": "1 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 100 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 100 }
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "350 ml",
+        "max_contains_weight": "1 kg",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "350 ml",
+        "max_contains_weight": "1 kg",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "250 ml",
+        "max_contains_weight": "1 kg",
+        "moves": 100
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "250 ml",
+        "max_contains_weight": "1 kg",
+        "moves": 100
+      }
     ],
     "warmth": 15,
     "material_thickness": 0.4,
@@ -1024,8 +1259,16 @@
     "material_thickness": 0.2,
     "flags": [ "VARSIZE" ],
     "armor": [
-      { "coverage": 100, "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_hip_l", "leg_hip_r" ] },
-      { "coverage": 50, "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_upper_l", "leg_upper_r" ] }
+      {
+        "coverage": 100,
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_hip_l", "leg_hip_r" ]
+      },
+      {
+        "coverage": 50,
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_upper_l", "leg_upper_r" ]
+      }
     ]
   },
   {
@@ -1052,7 +1295,11 @@
         "covers": [ "leg_l", "leg_r" ],
         "specifically_covers": [ "leg_hip_l", "leg_hip_r" ]
       },
-      { "coverage": 40, "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_upper_l", "leg_upper_r" ] }
+      {
+        "coverage": 40,
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_upper_l", "leg_upper_r" ]
+      }
     ]
   },
   {
@@ -1103,7 +1350,13 @@
     "material_thickness": 1,
     "environmental_protection": 2,
     "flags": [ "VARSIZE", "POCKETS" ],
-    "armor": [ { "encumbrance": [ 13, 17 ], "coverage": 95, "covers": [ "leg_l", "leg_r" ] } ]
+    "armor": [
+      {
+        "encumbrance": [ 13, 17 ],
+        "coverage": 95,
+        "covers": [ "leg_l", "leg_r" ]
+      }
+    ]
   },
   {
     "id": "shorts",
@@ -1159,7 +1412,11 @@
         "covers": [ "leg_l", "leg_r" ],
         "specifically_covers": [ "leg_hip_l", "leg_hip_r" ]
       },
-      { "coverage": 50, "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_upper_l", "leg_upper_r" ] }
+      {
+        "coverage": 50,
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_upper_l", "leg_upper_r" ]
+      }
     ]
   },
   {
@@ -1230,7 +1487,11 @@
         "covers": [ "leg_l", "leg_r" ],
         "specifically_covers": [ "leg_hip_l", "leg_hip_r" ]
       },
-      { "coverage": 50, "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_upper_l", "leg_upper_r" ] }
+      {
+        "coverage": 50,
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_upper_l", "leg_upper_r" ]
+      }
     ]
   },
   {
@@ -1264,9 +1525,18 @@
       }
     ],
     "snippet_category": [
-      { "id": "denim_shorts1", "text": "A pair of stone wash denim shorts." },
-      { "id": "denim_shorts2", "text": "An old pair of denim jeans that have been cut down into shorts." },
-      { "id": "denim_shorts3", "text": "A pair of brand-name black denim shorts." }
+      {
+        "id": "denim_shorts1",
+        "text": "A pair of stone wash denim shorts."
+      },
+      {
+        "id": "denim_shorts2",
+        "text": "An old pair of denim jeans that have been cut down into shorts."
+      },
+      {
+        "id": "denim_shorts3",
+        "text": "A pair of brand-name black denim shorts."
+      }
     ],
     "warmth": 5,
     "material_thickness": 0.25,
@@ -1278,7 +1548,11 @@
         "covers": [ "leg_l", "leg_r" ],
         "specifically_covers": [ "leg_hip_l", "leg_hip_r" ]
       },
-      { "coverage": 50, "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_upper_l", "leg_upper_r" ] }
+      {
+        "coverage": 50,
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_upper_l", "leg_upper_r" ]
+      }
     ]
   },
   {
@@ -1295,13 +1569,28 @@
     "symbol": "[",
     "looks_like": "kilt",
     "color": "dark_gray",
-    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 80 } ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "250 ml",
+        "max_contains_weight": "1 kg",
+        "moves": 80
+      }
+    ],
     "warmth": 5,
     "material_thickness": 0.1,
     "flags": [ "VARSIZE" ],
     "armor": [
-      { "coverage": 100, "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_hip_l", "leg_hip_r" ] },
-      { "coverage": 75, "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_upper_l", "leg_upper_r" ] }
+      {
+        "coverage": 100,
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_hip_l", "leg_hip_r" ]
+      },
+      {
+        "coverage": 75,
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_upper_l", "leg_upper_r" ]
+      }
     ]
   },
   {
@@ -1321,8 +1610,16 @@
     "material_thickness": 1,
     "flags": [ "VARSIZE", "OVERSIZE", "WATER_FRIENDLY" ],
     "armor": [
-      { "coverage": 100, "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_hip_l", "leg_hip_r" ] },
-      { "coverage": 38, "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_upper_l", "leg_upper_r" ] }
+      {
+        "coverage": 100,
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_hip_l", "leg_hip_r" ]
+      },
+      {
+        "coverage": 38,
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_upper_l", "leg_upper_r" ]
+      }
     ]
   },
   {
@@ -1349,7 +1646,11 @@
         "covers": [ "leg_l", "leg_r" ],
         "specifically_covers": [ "leg_hip_l", "leg_hip_r" ]
       },
-      { "coverage": 38, "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_upper_l", "leg_upper_r" ] }
+      {
+        "coverage": 38,
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_upper_l", "leg_upper_r" ]
+      }
     ]
   },
   {
@@ -1400,13 +1701,22 @@
     "warmth": 15,
     "material_thickness": 0.2,
     "flags": [ "VARSIZE", "POCKETS" ],
-    "armor": [ { "encumbrance": [ 2, 5 ], "coverage": 95, "covers": [ "leg_l", "leg_r" ] } ]
+    "armor": [
+      {
+        "encumbrance": [ 2, 5 ],
+        "coverage": 95,
+        "covers": [ "leg_l", "leg_r" ]
+      }
+    ]
   },
   {
     "id": "technician_pants_gray",
     "repairs_like": "jeans",
     "type": "ARMOR",
-    "name": { "str": "work pants", "str_pl": "pairs of work pants" },
+    "name": {
+      "str": "work pants",
+      "str_pl": "pairs of work pants"
+    },
     "description": "A pair of gray work pants.",
     "weight": "520 g",
     "volume": "2 L",
@@ -1450,12 +1760,27 @@
     "warmth": 15,
     "material_thickness": 0.3,
     "snippet_category": [
-      { "id": "technician_pants_blue", "text": "A pair of blue work pants." },
-      { "id": "technician_pants_gray", "text": "A pair of gray work pants." },
-      { "id": "technician_pants_lightblue", "text": "A pair of light-blue work pants." }
+      {
+        "id": "technician_pants_blue",
+        "text": "A pair of blue work pants."
+      },
+      {
+        "id": "technician_pants_gray",
+        "text": "A pair of gray work pants."
+      },
+      {
+        "id": "technician_pants_lightblue",
+        "text": "A pair of light-blue work pants."
+      }
     ],
     "flags": [ "VARSIZE", "POCKETS" ],
-    "armor": [ { "encumbrance": [ 2, 5 ], "coverage": 95, "covers": [ "leg_l", "leg_r" ] } ]
+    "armor": [
+      {
+        "encumbrance": [ 2, 5 ],
+        "coverage": 95,
+        "covers": [ "leg_l", "leg_r" ]
+      }
+    ]
   },
   {
     "id": "winter_pants_army",
@@ -1519,7 +1844,13 @@
     "material_thickness": 0.5,
     "valid_mods": [ "steel_padded" ],
     "flags": [ "VARSIZE", "POCKETS", "WATERPROOF" ],
-    "armor": [ { "encumbrance": [ 11, 22 ], "coverage": 95, "covers": [ "leg_l", "leg_r" ] } ]
+    "armor": [
+      {
+        "encumbrance": [ 11, 22 ],
+        "coverage": 95,
+        "covers": [ "leg_l", "leg_r" ]
+      }
+    ]
   },
   {
     "id": "zubon_gi",
@@ -1537,6 +1868,11 @@
     "warmth": 5,
     "material_thickness": 0.5,
     "flags": [ "VARSIZE", "STURDY" ],
-    "armor": [ { "coverage": 80, "covers": [ "leg_l", "leg_r" ] } ]
+    "armor": [
+      {
+        "coverage": 80,
+        "covers": [ "leg_l", "leg_r" ]
+      }
+    ]
   }
 ]

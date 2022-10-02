@@ -2,7 +2,10 @@
   {
     "id": "arm_warmers",
     "type": "ARMOR",
-    "name": { "str": "pair of arm warmers", "str_pl": "pairs of arm warmers" },
+    "name": {
+      "str": "arm warmers",
+      "str_pl": "pairs of arm warmers"
+    },
     "description": "Snug, soft cloth sleeves to keep your arms warm.",
     "weight": "32 g",
     "volume": "250 ml",
@@ -27,7 +30,10 @@
   {
     "id": "xl_arm_warmers",
     "type": "ARMOR",
-    "name": { "str": "pair of XL arm warmers", "str_pl": "pairs of XL arm warmers" },
+    "name": {
+      "str": "XL arm warmers",
+      "str_pl": "pairs of XL arm warmers"
+    },
     "description": "Snug, soft cloth sleeves to keep your arms warm.  Made only for the largest of survivors.",
     "weight": "49 g",
     "volume": "350 ml",
@@ -39,9 +45,16 @@
     "type": "ARMOR",
     "copy-from": "arm_warmers",
     "looks_like": "arm_warmers",
-    "name": { "str": "pair of XS arm warmers", "str_pl": "pairs of XS arm warmers" },
+    "name": {
+      "str": "XS arm warmers",
+      "str_pl": "pairs of XS arm warmers"
+    },
     "description": "Snug, soft cloth sleeves to keep your arms warm.  Made only for the smallest of survivors.",
-    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "proportional": {
+      "weight": 0.75,
+      "volume": 0.75,
+      "price": 0.5
+    },
     "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
@@ -60,7 +73,12 @@
     "color": "green",
     "material_thickness": 0.1,
     "flags": [ "VARSIZE", "WATER_FRIENDLY", "SKINTIGHT" ],
-    "armor": [ { "coverage": 60, "covers": [ "torso" ] } ]
+    "armor": [
+      {
+        "coverage": 60,
+        "covers": [ "torso" ]
+      }
+    ]
   },
   {
     "id": "bellyband",
@@ -78,7 +96,13 @@
     "warmth": 10,
     "material_thickness": 0.2,
     "flags": [ "SKINTIGHT", "OVERSIZE" ],
-    "armor": [ { "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_lower" ] } ]
+    "armor": [
+      {
+        "coverage": 100,
+        "covers": [ "torso" ],
+        "specifically_covers": [ "torso_lower" ]
+      }
+    ]
   },
   {
     "id": "bellywrap",
@@ -96,7 +120,13 @@
     "warmth": 3,
     "material_thickness": 0.2,
     "flags": [ "SKINTIGHT", "OVERSIZE" ],
-    "armor": [ { "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_lower" ] } ]
+    "armor": [
+      {
+        "coverage": 100,
+        "covers": [ "torso" ],
+        "specifically_covers": [ "torso_lower" ]
+      }
+    ]
   },
   {
     "id": "bellywrap_fur",
@@ -111,7 +141,14 @@
     "color": "brown",
     "warmth": 12,
     "material_thickness": 0.2,
-    "armor": [ { "encumbrance": 5, "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_lower" ] } ]
+    "armor": [
+      {
+        "encumbrance": 5,
+        "coverage": 100,
+        "covers": [ "torso" ],
+        "specifically_covers": [ "torso_lower" ]
+      }
+    ]
   },
   {
     "id": "bellywrap_leather",
@@ -126,7 +163,14 @@
     "color": "brown",
     "warmth": 6,
     "material_thickness": 0.5,
-    "armor": [ { "encumbrance": 5, "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_lower" ] } ]
+    "armor": [
+      {
+        "encumbrance": 5,
+        "coverage": 100,
+        "covers": [ "torso" ],
+        "specifically_covers": [ "torso_lower" ]
+      }
+    ]
   },
   {
     "id": "bellywrap_wool",
@@ -139,7 +183,14 @@
     "color": "blue",
     "warmth": 8,
     "material_thickness": 0.2,
-    "armor": [ { "encumbrance": 5, "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_lower" ] } ]
+    "armor": [
+      {
+        "encumbrance": 5,
+        "coverage": 100,
+        "covers": [ "torso" ],
+        "specifically_covers": [ "torso_lower" ]
+      }
+    ]
   },
   {
     "id": "bikini_top_fur",
@@ -157,7 +208,13 @@
     "warmth": 10,
     "material_thickness": 0.5,
     "flags": [ "VARSIZE", "SKINTIGHT" ],
-    "armor": [ { "coverage": 20, "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ] } ]
+    "armor": [
+      {
+        "coverage": 20,
+        "covers": [ "torso" ],
+        "specifically_covers": [ "torso_upper" ]
+      }
+    ]
   },
   {
     "id": "bikini_top_leather",
@@ -175,7 +232,13 @@
     "warmth": 5,
     "material_thickness": 0.5,
     "flags": [ "VARSIZE", "SKINTIGHT" ],
-    "armor": [ { "coverage": 20, "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ] } ]
+    "armor": [
+      {
+        "coverage": 20,
+        "covers": [ "torso" ],
+        "specifically_covers": [ "torso_upper" ]
+      }
+    ]
   },
   {
     "id": "boxer_briefs",
@@ -193,7 +256,13 @@
     "warmth": 5,
     "material_thickness": 0.1,
     "flags": [ "VARSIZE", "SKINTIGHT" ],
-    "armor": [ { "coverage": 100, "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_hip_l", "leg_hip_r" ] } ]
+    "armor": [
+      {
+        "coverage": 100,
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_hip_l", "leg_hip_r" ]
+      }
+    ]
   },
   {
     "id": "xlboxer_briefs",
@@ -212,7 +281,11 @@
     "looks_like": "boxer_briefs",
     "name": { "str_sp": "XS boxer briefs" },
     "description": "The age-old question, boxers or briefs?  Your answer?  Yes.",
-    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "proportional": {
+      "weight": 0.75,
+      "volume": 0.75,
+      "price": 0.5
+    },
     "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
@@ -232,8 +305,16 @@
     "material_thickness": 0.01,
     "flags": [ "VARSIZE", "SKINTIGHT" ],
     "armor": [
-      { "coverage": 100, "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_hip_l", "leg_hip_r" ] },
-      { "coverage": 20, "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_upper_l", "leg_upper_r" ] }
+      {
+        "coverage": 100,
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_hip_l", "leg_hip_r" ]
+      },
+      {
+        "coverage": 20,
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_upper_l", "leg_upper_r" ]
+      }
     ]
   },
   {
@@ -253,7 +334,11 @@
     "looks_like": "boxer_shorts",
     "name": { "str_sp": "XS boxer shorts" },
     "description": "Men's XS boxer shorts.  For the very short.  More fashionable than briefs and just as comfortable.",
-    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "proportional": {
+      "weight": 0.75,
+      "volume": 0.75,
+      "price": 0.5
+    },
     "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
@@ -273,8 +358,16 @@
     "material_thickness": 0.1,
     "flags": [ "VARSIZE", "SKINTIGHT" ],
     "armor": [
-      { "coverage": 100, "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_hip_l", "leg_hip_r" ] },
-      { "coverage": 20, "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_upper_l", "leg_upper_r" ] }
+      {
+        "coverage": 100,
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_hip_l", "leg_hip_r" ]
+      },
+      {
+        "coverage": 20,
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_upper_l", "leg_upper_r" ]
+      }
     ]
   },
   {
@@ -294,7 +387,11 @@
     "looks_like": "boy_shorts",
     "name": { "str_sp": "XS boy shorts" },
     "description": "Female underwear similar to men's boxer shorts, but much more close-fitting.",
-    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "proportional": {
+      "weight": 0.75,
+      "volume": 0.75,
+      "price": 0.5
+    },
     "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
@@ -313,7 +410,13 @@
     "warmth": 5,
     "material_thickness": 0.1,
     "flags": [ "VARSIZE", "SKINTIGHT" ],
-    "armor": [ { "coverage": 25, "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ] } ]
+    "armor": [
+      {
+        "coverage": 25,
+        "covers": [ "torso" ],
+        "specifically_covers": [ "torso_upper" ]
+      }
+    ]
   },
   {
     "id": "briefs",
@@ -331,7 +434,13 @@
     "warmth": 5,
     "material_thickness": 0.1,
     "flags": [ "VARSIZE", "SKINTIGHT" ],
-    "armor": [ { "coverage": 75, "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_hip_l", "leg_hip_r" ] } ]
+    "armor": [
+      {
+        "coverage": 75,
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_hip_l", "leg_hip_r" ]
+      }
+    ]
   },
   {
     "id": "camisole",
@@ -350,7 +459,12 @@
     "color": "light_blue",
     "material_thickness": 0.1,
     "flags": [ "VARSIZE", "SKINTIGHT" ],
-    "armor": [ { "coverage": 65, "covers": [ "torso" ] } ]
+    "armor": [
+      {
+        "coverage": 65,
+        "covers": [ "torso" ]
+      }
+    ]
   },
   {
     "id": "chestwrap",
@@ -368,7 +482,13 @@
     "warmth": 2,
     "material_thickness": 0.2,
     "flags": [ "SKINTIGHT", "OVERSIZE" ],
-    "armor": [ { "coverage": 40, "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ] } ]
+    "armor": [
+      {
+        "coverage": 40,
+        "covers": [ "torso" ],
+        "specifically_covers": [ "torso_upper" ]
+      }
+    ]
   },
   {
     "id": "chestwrap_fur",
@@ -386,7 +506,14 @@
     "warmth": 10,
     "material_thickness": 0.2,
     "flags": [ "SKINTIGHT", "OVERSIZE" ],
-    "armor": [ { "encumbrance": 5, "coverage": 40, "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ] } ]
+    "armor": [
+      {
+        "encumbrance": 5,
+        "coverage": 40,
+        "covers": [ "torso" ],
+        "specifically_covers": [ "torso_upper" ]
+      }
+    ]
   },
   {
     "id": "chestwrap_leather",
@@ -404,7 +531,14 @@
     "warmth": 5,
     "material_thickness": 0.5,
     "flags": [ "SKINTIGHT", "OVERSIZE" ],
-    "armor": [ { "encumbrance": 5, "coverage": 40, "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ] } ]
+    "armor": [
+      {
+        "encumbrance": 5,
+        "coverage": 40,
+        "covers": [ "torso" ],
+        "specifically_covers": [ "torso_upper" ]
+      }
+    ]
   },
   {
     "id": "chestwrap_wool",
@@ -422,7 +556,14 @@
     "warmth": 7,
     "material_thickness": 0.2,
     "flags": [ "SKINTIGHT", "OVERSIZE" ],
-    "armor": [ { "encumbrance": 5, "coverage": 40, "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ] } ]
+    "armor": [
+      {
+        "encumbrance": 5,
+        "coverage": 40,
+        "covers": [ "torso" ],
+        "specifically_covers": [ "torso_upper" ]
+      }
+    ]
   },
   {
     "id": "corset",
@@ -442,21 +583,46 @@
     "warmth": 25,
     "material_thickness": 3,
     "environmental_protection": 1,
-    "use_action": { "type": "transform", "msg": "You loosen your %s.", "target": "corset_loose", "menu_text": "Loosen" },
+    "use_action": {
+      "type": "transform",
+      "msg": "You loosen your %s.",
+      "target": "corset_loose",
+      "menu_text": "Loosen"
+    },
     "flags": [ "VARSIZE", "FANCY", "SKINTIGHT" ],
-    "armor": [ { "encumbrance": 15, "coverage": 75, "covers": [ "torso" ] } ]
+    "armor": [
+      {
+        "encumbrance": 15,
+        "coverage": 75,
+        "covers": [ "torso" ]
+      }
+    ]
   },
   {
     "id": "corset_loose",
     "copy-from": "corset",
     "type": "ARMOR",
-    "name": { "str": "leather corset (loose)", "str_pl": "leather corsets (loose)" },
+    "name": {
+      "str": "leather corset (loose)",
+      "str_pl": "leather corsets (loose)"
+    },
     "description": "A somewhat loose black leather corset.  Has no pockets, but its thick material provides good protection from harm.  Use it to wear it tighter and close to the skin.",
     "material_thickness": 3,
     "environmental_protection": 1,
-    "use_action": { "type": "transform", "msg": "You wrap your corset tighter.", "target": "corset", "menu_text": "Wrap tighter" },
+    "use_action": {
+      "type": "transform",
+      "msg": "You wrap your corset tighter.",
+      "target": "corset",
+      "menu_text": "Wrap tighter"
+    },
     "delete": { "flags": [ "SKINTIGHT" ] },
-    "armor": [ { "encumbrance": 12, "coverage": 75, "covers": [ "torso" ] } ]
+    "armor": [
+      {
+        "encumbrance": 12,
+        "coverage": 75,
+        "covers": [ "torso" ]
+      }
+    ]
   },
   {
     "id": "corset_waist",
@@ -469,14 +635,29 @@
     "copy-from": "corset",
     "material_thickness": 3,
     "environmental_protection": 1,
-    "use_action": { "type": "transform", "msg": "You loosen your %s.", "target": "corset_waist_loose", "menu_text": "Loosen" },
-    "armor": [ { "encumbrance": 8, "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_lower" ] } ]
+    "use_action": {
+      "type": "transform",
+      "msg": "You loosen your %s.",
+      "target": "corset_waist_loose",
+      "menu_text": "Loosen"
+    },
+    "armor": [
+      {
+        "encumbrance": 8,
+        "coverage": 100,
+        "covers": [ "torso" ],
+        "specifically_covers": [ "torso_lower" ]
+      }
+    ]
   },
   {
     "id": "corset_waist_loose",
     "copy-from": "corset_waist",
     "type": "ARMOR",
-    "name": { "str": "waist corset (loose)", "str_pl": "waist corsets (loose)" },
+    "name": {
+      "str": "waist corset (loose)",
+      "str_pl": "waist corsets (loose)"
+    },
     "description": "A somewhat loose black leather waist corset.  Works as a stylish solution for back pain.  Use it to wear it tighter and close to the skin.",
     "material_thickness": 3,
     "environmental_protection": 1,
@@ -487,7 +668,14 @@
       "menu_text": "Wrap tighter"
     },
     "delete": { "flags": [ "SKINTIGHT" ] },
-    "armor": [ { "encumbrance": 6, "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_lower" ] } ]
+    "armor": [
+      {
+        "encumbrance": 6,
+        "coverage": 100,
+        "covers": [ "torso" ],
+        "specifically_covers": [ "torso_lower" ]
+      }
+    ]
   },
   {
     "id": "garter_belt",
@@ -504,12 +692,22 @@
     "color": "dark_gray",
     "material_thickness": 0.1,
     "flags": [ "SKINTIGHT", "VARSIZE" ],
-    "armor": [ { "encumbrance": 1, "coverage": 38, "covers": [ "torso" ], "specifically_covers": [ "torso_lower" ] } ]
+    "armor": [
+      {
+        "encumbrance": 1,
+        "coverage": 38,
+        "covers": [ "torso" ],
+        "specifically_covers": [ "torso_lower" ]
+      }
+    ]
   },
   {
     "id": "leg_warmers",
     "type": "ARMOR",
-    "name": { "str": "pair of leg warmers", "str_pl": "pairs of leg warmers" },
+    "name": {
+      "str": "leg warmers",
+      "str_pl": "pairs of leg warmers"
+    },
     "description": "Snug, soft cloth sleeves to keep your legs warm.",
     "weight": "70 g",
     "volume": "500 ml",
@@ -534,7 +732,10 @@
   {
     "id": "leg_warmers_f",
     "type": "ARMOR",
-    "name": { "str": "pair of fur leggings", "str_pl": "pairs of fur leggings" },
+    "name": {
+      "str": "fur leggings",
+      "str_pl": "pairs of fur leggings"
+    },
     "description": "Snug fur sleeves to keep your legs warm.  Simple yet effective since prehistoric times.",
     "weight": "700 g",
     "volume": "1500 ml",
@@ -559,7 +760,10 @@
   {
     "id": "leg_warmers_xlf",
     "type": "ARMOR",
-    "name": { "str": "pair of fetlock furs", "str_pl": "pairs of fetlock furs" },
+    "name": {
+      "str": "fetlock furs",
+      "str_pl": "pairs of fetlock furs"
+    },
     "description": "Snug fur sleeves to keep your fetlocks warm.",
     "weight": "500 g",
     "volume": "750 ml",
@@ -572,22 +776,38 @@
     "warmth": 40,
     "material_thickness": 2,
     "flags": [ "VARSIZE", "OVERSIZE" ],
-    "armor": [ { "encumbrance": 7, "coverage": 60, "covers": [ "foot_l", "foot_r" ] } ]
+    "armor": [
+      {
+        "encumbrance": 7,
+        "coverage": 60,
+        "covers": [ "foot_l", "foot_r" ]
+      }
+    ]
   },
   {
     "id": "leg_warmers_xsf",
     "type": "ARMOR",
     "copy-from": "leg_warmers_f",
     "looks_like": "leg_warmers_f",
-    "name": { "str": "pair of fetlock furs", "str_pl": "pairs of fetlock furs" },
+    "name": {
+      "str": "fetlock furs",
+      "str_pl": "pairs of fetlock furs"
+    },
     "description": "Snug fur sleeves to keep your legs warm.  Simple yet effective since prehistoric times.",
-    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "proportional": {
+      "weight": 0.75,
+      "volume": 0.75,
+      "price": 0.5
+    },
     "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
     "id": "leg_warmers_xl",
     "type": "ARMOR",
-    "name": { "str": "pair of XL leg warmers", "str_pl": "pairs of XL leg warmers" },
+    "name": {
+      "str": "XL leg warmers",
+      "str_pl": "pairs of XL leg warmers"
+    },
     "description": "Large, soft, snug cloth sleeves to keep your exotic anatomy warm.",
     "weight": "90 g",
     "volume": "750 ml",
@@ -614,9 +834,16 @@
     "type": "ARMOR",
     "copy-from": "leg_warmers",
     "looks_like": "leg_warmers",
-    "name": { "str": "pair of XS leg warmers", "str_pl": "pairs of XS leg warmers" },
+    "name": {
+      "str": "XS leg warmers",
+      "str_pl": "pairs of XS leg warmers"
+    },
     "description": "Snug, soft cloth sleeves to keep your legs warm.",
-    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "proportional": {
+      "weight": 0.75,
+      "volume": 0.75,
+      "price": 0.5
+    },
     "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
@@ -635,7 +862,13 @@
     "warmth": 30,
     "material_thickness": 0.2,
     "flags": [ "VARSIZE", "SKINTIGHT" ],
-    "armor": [ { "encumbrance": 3, "coverage": 95, "covers": [ "leg_l", "leg_r" ] } ]
+    "armor": [
+      {
+        "encumbrance": 3,
+        "coverage": 95,
+        "covers": [ "leg_l", "leg_r" ]
+      }
+    ]
   },
   {
     "id": "long_undertop",
@@ -653,7 +886,13 @@
     "warmth": 30,
     "material_thickness": 0.2,
     "flags": [ "VARSIZE", "SKINTIGHT" ],
-    "armor": [ { "encumbrance": 3, "coverage": 95, "covers": [ "torso", "arm_l", "arm_r" ] } ]
+    "armor": [
+      {
+        "encumbrance": 3,
+        "coverage": 95,
+        "covers": [ "torso", "arm_l", "arm_r" ]
+      }
+    ]
   },
   {
     "id": "long_undertop_sleeveless",
@@ -671,7 +910,13 @@
     "warmth": 30,
     "material_thickness": 0.2,
     "flags": [ "VARSIZE", "SKINTIGHT" ],
-    "armor": [ { "encumbrance": 3, "coverage": 95, "covers": [ "torso" ] } ]
+    "armor": [
+      {
+        "encumbrance": 3,
+        "coverage": 95,
+        "covers": [ "torso" ]
+      }
+    ]
   },
   {
     "id": "panties",
@@ -689,7 +934,13 @@
     "warmth": 5,
     "material_thickness": 0.1,
     "flags": [ "VARSIZE", "SKINTIGHT" ],
-    "armor": [ { "coverage": 75, "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_hip_l", "leg_hip_r" ] } ]
+    "armor": [
+      {
+        "coverage": 75,
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_hip_l", "leg_hip_r" ]
+      }
+    ]
   },
   {
     "id": "thermal_shirt",
@@ -706,7 +957,12 @@
     "warmth": 20,
     "material_thickness": 0.1,
     "flags": [ "VARSIZE", "SKINTIGHT", "WATER_FRIENDLY" ],
-    "armor": [ { "coverage": 95, "covers": [ "torso", "arm_l", "arm_r" ] } ]
+    "armor": [
+      {
+        "coverage": 95,
+        "covers": [ "torso", "arm_l", "arm_r" ]
+      }
+    ]
   },
   {
     "id": "sports_bra",
@@ -724,7 +980,13 @@
     "warmth": 5,
     "material_thickness": 0.1,
     "flags": [ "VARSIZE", "WATER_FRIENDLY", "SKINTIGHT" ],
-    "armor": [ { "coverage": 50, "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ] } ]
+    "armor": [
+      {
+        "coverage": 50,
+        "covers": [ "torso" ],
+        "specifically_covers": [ "torso_upper" ]
+      }
+    ]
   },
   {
     "id": "xlsports_bra",
@@ -743,7 +1005,11 @@
     "looks_like": "sports_bra",
     "name": { "str": "XS sports bra" },
     "description": "A sturdy nylon bra to provide additional support during physical movement.  Typically worn when exercising, it clings to the skin and is easy to wear.",
-    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "proportional": {
+      "weight": 0.75,
+      "volume": 0.75,
+      "price": 0.5
+    },
     "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
@@ -761,7 +1027,12 @@
     "color": "light_gray",
     "material_thickness": 0.1,
     "flags": [ "VARSIZE", "WATER_FRIENDLY", "SKINTIGHT" ],
-    "armor": [ { "coverage": 60, "covers": [ "torso" ] } ]
+    "armor": [
+      {
+        "coverage": 60,
+        "covers": [ "torso" ]
+      }
+    ]
   },
   {
     "id": "tights",
@@ -780,7 +1051,12 @@
     "warmth": 10,
     "material_thickness": 0.1,
     "flags": [ "VARSIZE", "SKINTIGHT" ],
-    "armor": [ { "coverage": 100, "covers": [ "foot_l", "foot_r", "leg_r", "leg_l" ] } ]
+    "armor": [
+      {
+        "coverage": 100,
+        "covers": [ "foot_l", "foot_r", "leg_r", "leg_l" ]
+      }
+    ]
   },
   {
     "id": "under_armor",
@@ -798,7 +1074,12 @@
     "warmth": 20,
     "material_thickness": 0.05,
     "flags": [ "VARSIZE", "SKINTIGHT", "WATER_FRIENDLY" ],
-    "armor": [ { "coverage": 95, "covers": [ "torso" ] } ]
+    "armor": [
+      {
+        "coverage": 95,
+        "covers": [ "torso" ]
+      }
+    ]
   },
   {
     "id": "under_armor_shorts",
@@ -817,8 +1098,16 @@
     "material_thickness": 0.1,
     "flags": [ "VARSIZE", "SKINTIGHT", "WATER_FRIENDLY" ],
     "armor": [
-      { "coverage": 100, "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_hip_l", "leg_hip_r" ] },
-      { "coverage": 65, "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_upper_l", "leg_upper_r" ] }
+      {
+        "coverage": 100,
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_hip_l", "leg_hip_r" ]
+      },
+      {
+        "coverage": 65,
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_upper_l", "leg_upper_r" ]
+      }
     ]
   },
   {
@@ -837,7 +1126,12 @@
     "warmth": 10,
     "material_thickness": 0.1,
     "flags": [ "VARSIZE", "SKINTIGHT" ],
-    "armor": [ { "coverage": 80, "covers": [ "torso" ] } ]
+    "armor": [
+      {
+        "coverage": 80,
+        "covers": [ "torso" ]
+      }
+    ]
   },
   {
     "id": "unitard",
@@ -854,6 +1148,11 @@
     "warmth": 20,
     "material_thickness": 0.02,
     "flags": [ "VARSIZE", "SKINTIGHT", "WATER_FRIENDLY" ],
-    "armor": [ { "coverage": 90, "covers": [ "torso", "leg_l", "leg_r" ] } ]
+    "armor": [
+      {
+        "coverage": 90,
+        "covers": [ "torso", "leg_l", "leg_r" ]
+      }
+    ]
   }
 ]

@@ -27,7 +27,10 @@
   {
     "id": "bead_ear",
     "type": "ARMOR",
-    "name": { "str": "pair of beaded earrings", "str_pl": "pairs of beaded earrings" },
+    "name": {
+      "str": "beaded earrings",
+      "str_pl": "pairs of beaded earrings"
+    },
     "description": "A simple pair of earrings made of string and wooden beads.",
     "weight": "600 mg",
     "volume": "1 ml",
@@ -110,7 +113,12 @@
     "looks_like": "gold_dental_grill",
     "color": "yellow",
     "flags": [ "SKINTIGHT", "NO_WEAR_EFFECT" ],
-    "armor": [ { "encumbrance": 10, "covers": [ "mouth" ] } ]
+    "armor": [
+      {
+        "encumbrance": 10,
+        "covers": [ "mouth" ]
+      }
+    ]
   },
   {
     "id": "garnet_dental_grill",
@@ -123,12 +131,23 @@
     "price_postapoc": 100,
     "bashing": 3,
     "cutting": 3,
-    "material": [ { "type": "gold", "portion": 9 }, { "type": "gemstone" } ],
+    "material": [
+      {
+        "type": "gold",
+        "portion": 9
+      },
+      { "type": "gemstone" }
+    ],
     "symbol": "[",
     "looks_like": "gold_dental_grill",
     "color": "red",
     "flags": [ "SKINTIGHT", "NO_WEAR_EFFECT" ],
-    "armor": [ { "encumbrance": 10, "covers": [ "mouth" ] } ]
+    "armor": [
+      {
+        "encumbrance": 10,
+        "covers": [ "mouth" ]
+      }
+    ]
   },
   {
     "id": "amethyst_dental_grill",
@@ -232,7 +251,13 @@
     "volume": "1 ml",
     "price": 190000,
     "price_postapoc": 100,
-    "material": [ { "type": "gold", "portion": 9 }, { "type": "diamond" } ],
+    "material": [
+      {
+        "type": "gold",
+        "portion": 9
+      },
+      { "type": "diamond" }
+    ],
     "symbol": "[",
     "looks_like": "ring_engagement",
     "color": "yellow",
@@ -250,7 +275,10 @@
   {
     "id": "diving_watch",
     "type": "ARMOR",
-    "name": { "str": "diver's watch", "str_pl": "diver's watches" },
+    "name": {
+      "str": "diver's watch",
+      "str_pl": "diver's watches"
+    },
     "description": "A waterproof, self-winding watch on a stainless steel watchband.  Tells the time and current temperature.  Activate to check the digital thermometer.",
     "weight": "100 g",
     "volume": "90 ml",
@@ -264,7 +292,13 @@
     "sided": true,
     "use_action": [ "WEATHER_TOOL" ],
     "flags": [ "WATCH", "ALARMCLOCK", "WATER_FRIENDLY", "THERMOMETER", "BELTED", "ALLOWS_NATURAL_ATTACKS", "OVERSIZE" ],
-    "armor": [ { "coverage": 50, "covers": [ "hand_l", "hand_r" ], "specifically_covers": [ "hand_wrist_l", "hand_wrist_r" ] } ]
+    "armor": [
+      {
+        "coverage": 50,
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_wrist_l", "hand_wrist_r" ]
+      }
+    ]
   },
   {
     "id": "collarpin",
@@ -308,7 +342,10 @@
   {
     "id": "copper_ear",
     "type": "ARMOR",
-    "name": { "str": "pair of copper earrings", "str_pl": "pairs of copper earrings" },
+    "name": {
+      "str": "copper earrings",
+      "str_pl": "pairs of copper earrings"
+    },
     "description": "A pair of copper earrings.  They're pretty heavy.",
     "weight": "9 g",
     "volume": "1 ml",
@@ -392,7 +429,10 @@
   {
     "id": "cufflinks",
     "type": "ARMOR",
-    "name": { "str": "pair of cufflinks", "str_pl": "pairs of cufflinks" },
+    "name": {
+      "str": "cufflinks",
+      "str_pl": "pairs of cufflinks"
+    },
     "description": "An unmarked pair of silver cufflinks.  Cufflinks are used to secure the cuffs of dress shirts - a must-have for men in formal wear.",
     "weight": "10 g",
     "volume": "1 ml",
@@ -406,13 +446,25 @@
   {
     "id": "cufflinks_intricate",
     "type": "ARMOR",
-    "name": { "str": "pair of intricate cufflinks", "str_pl": "pairs of intricate cufflinks" },
+    "name": {
+      "str": "intricate cufflinks",
+      "str_pl": "pairs of intricate cufflinks"
+    },
     "description": "An expensive pair of silver cufflinks, stylized with detailed overlays of gold gears and fractal patterns.",
     "weight": "11 g",
     "volume": "1 ml",
     "price": 7000,
     "price_postapoc": 50,
-    "material": [ { "type": "silver", "portion": 8 }, { "type": "gold", "portion": 2 } ],
+    "material": [
+      {
+        "type": "silver",
+        "portion": 8
+      },
+      {
+        "type": "gold",
+        "portion": 2
+      }
+    ],
     "symbol": "[",
     "color": "light_gray",
     "flags": [ "FANCY", "NO_WEAR_EFFECT" ]
@@ -426,7 +478,13 @@
     "volume": "1 ml",
     "price": 3500,
     "price_postapoc": 50,
-    "material": [ { "type": "gold", "portion": 9 }, { "type": "gemstone" } ],
+    "material": [
+      {
+        "type": "gold",
+        "portion": 9
+      },
+      { "type": "gemstone" }
+    ],
     "looks_like": "cufflinks",
     "symbol": "[",
     "color": "red",
@@ -438,7 +496,13 @@
     "type": "ARMOR",
     "name": { "str_sp": "diamond and gold cufflinks" },
     "description": "A pair of cufflinks with inset diamonds.",
-    "material": [ { "type": "gold", "portion": 9 }, { "type": "diamond" } ],
+    "material": [
+      {
+        "type": "gold",
+        "portion": 9
+      },
+      { "type": "diamond" }
+    ],
     "color": "white"
   },
   {
@@ -553,7 +617,13 @@
     "volume": "1 ml",
     "price": 3500,
     "price_postapoc": 100,
-    "material": [ { "type": "silver", "portion": 9 }, { "type": "gemstone" } ],
+    "material": [
+      {
+        "type": "silver",
+        "portion": 9
+      },
+      { "type": "gemstone" }
+    ],
     "looks_like": "cufflinks",
     "symbol": "[",
     "color": "red",
@@ -565,7 +635,13 @@
     "type": "ARMOR",
     "name": { "str_sp": "diamond and silver cufflinks" },
     "description": "A pair of cufflinks with inset diamonds.",
-    "material": [ { "type": "silver", "portion": 9 }, { "type": "diamond" } ],
+    "material": [
+      {
+        "type": "silver",
+        "portion": 9
+      },
+      { "type": "diamond" }
+    ],
     "color": "white"
   },
   {
@@ -710,7 +786,13 @@
     "volume": "1 ml",
     "price": 3500,
     "price_postapoc": 100,
-    "material": [ { "type": "platinum", "portion": 9 }, { "type": "gemstone" } ],
+    "material": [
+      {
+        "type": "platinum",
+        "portion": 9
+      },
+      { "type": "gemstone" }
+    ],
     "looks_like": "cufflinks",
     "symbol": "[",
     "color": "red",
@@ -722,7 +804,13 @@
     "type": "ARMOR",
     "name": { "str_sp": "diamond and platinum cufflinks" },
     "description": "A pair of cufflinks with inset diamonds.",
-    "material": [ { "type": "platinum", "portion": 9 }, { "type": "diamond" } ],
+    "material": [
+      {
+        "type": "platinum",
+        "portion": 9
+      },
+      { "type": "diamond" }
+    ],
     "color": "white"
   },
   {
@@ -886,7 +974,10 @@
   {
     "id": "gold_ear",
     "type": "ARMOR",
-    "name": { "str": "pair of gold earrings", "str_pl": "pairs of gold earrings" },
+    "name": {
+      "str": "gold earrings",
+      "str_pl": "pairs of gold earrings"
+    },
     "description": "A pair of shiny gold earrings.",
     "weight": "19 g",
     "volume": "1 ml",
@@ -948,7 +1039,16 @@
     "volume": "25 ml",
     "price": 10000,
     "price_postapoc": 25,
-    "material": [ { "type": "gold", "portion": 1 }, { "type": "bronze", "portion": 4 } ],
+    "material": [
+      {
+        "type": "gold",
+        "portion": 1
+      },
+      {
+        "type": "bronze",
+        "portion": 4
+      }
+    ],
     "symbol": "[",
     "color": "brown",
     "flags": [ "NO_WEAR_EFFECT" ]
@@ -980,25 +1080,46 @@
     "symbol": "[",
     "color": "yellow",
     "sided": true,
-    "armor": [ { "coverage": 0, "covers": [ "hand_l", "hand_r" ], "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ] } ],
+    "armor": [
+      {
+        "coverage": 0,
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ]
+      }
+    ],
     "flags": [ "FANCY", "NO_WEAR_EFFECT", "SKINTIGHT" ]
   },
   {
     "id": "gold_watch",
     "type": "ARMOR",
-    "name": { "str": "gold watch", "str_pl": "gold watches" },
+    "name": {
+      "str": "gold watch",
+      "str_pl": "gold watches"
+    },
     "description": "A gold-plated steel self-winding wristwatch, suitable for a retirement present.  Tells the time and looks good.",
     "weight": "150 g",
     "volume": "90 ml",
     "price": 50000,
     "price_postapoc": 250,
     "to_hit": -1,
-    "material": [ { "type": "steel", "portion": 9 }, { "type": "gold" } ],
+    "material": [
+      {
+        "type": "steel",
+        "portion": 9
+      },
+      { "type": "gold" }
+    ],
     "symbol": "[",
     "color": "yellow",
     "sided": true,
     "flags": [ "WATCH", "ALARMCLOCK", "FANCY", "BELTED", "FRAGILE", "ALLOWS_NATURAL_ATTACKS", "OVERSIZE" ],
-    "armor": [ { "coverage": 50, "covers": [ "hand_l", "hand_r" ], "specifically_covers": [ "hand_wrist_l", "hand_wrist_r" ] } ]
+    "armor": [
+      {
+        "coverage": 50,
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_wrist_l", "hand_wrist_r" ]
+      }
+    ]
   },
   {
     "id": "tieclip",
@@ -1017,19 +1138,34 @@
   {
     "id": "silver_watch",
     "type": "ARMOR",
-    "name": { "str": "silver watch", "str_pl": "silver watches" },
+    "name": {
+      "str": "silver watch",
+      "str_pl": "silver watches"
+    },
     "description": "An elegant silver watch, crafted from silver-plated stainless steel.  It's much cheaper than other metal watches, but more classy than an ordinary wristwatch.",
     "weight": "130 g",
     "volume": "90 ml",
     "price": 18000,
     "price_postapoc": 100,
     "to_hit": -1,
-    "material": [ { "type": "steel", "portion": 9 }, { "type": "silver" } ],
+    "material": [
+      {
+        "type": "steel",
+        "portion": 9
+      },
+      { "type": "silver" }
+    ],
     "symbol": "[",
     "color": "light_gray",
     "sided": true,
     "flags": [ "WATCH", "ALARMCLOCK", "FANCY", "BELTED", "FRAGILE", "ALLOWS_NATURAL_ATTACKS", "WATER_FRIENDLY", "OVERSIZE" ],
-    "armor": [ { "coverage": 100, "covers": [ "hand_l", "hand_r" ], "specifically_covers": [ "hand_wrist_l", "hand_wrist_r" ] } ]
+    "armor": [
+      {
+        "coverage": 100,
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_wrist_l", "hand_wrist_r" ]
+      }
+    ]
   },
   {
     "id": "silver_bracelet",
@@ -1057,7 +1193,10 @@
   {
     "id": "silver_ear",
     "type": "ARMOR",
-    "name": { "str": "pair of silver earrings", "str_pl": "pairs of silver earrings" },
+    "name": {
+      "str": "silver earrings",
+      "str_pl": "pairs of silver earrings"
+    },
     "description": "A pair of beautiful silver earrings.",
     "weight": "10 g",
     "volume": "1 ml",
@@ -1071,7 +1210,10 @@
   {
     "id": "sf_watch",
     "type": "ARMOR",
-    "name": { "str": "fancy watch", "str_pl": "fancy watches" },
+    "name": {
+      "str": "fancy watch",
+      "str_pl": "fancy watches"
+    },
     "//": "That's about the midpoint for a rolex.",
     "description": "A rather large and expensively-made wristwatch.  Tells the time in elegantly wrought gold with silver detailing.  It's really the only timepiece suitable for someone of your exquisitely discerning tastes.",
     "weight": "150 g",
@@ -1084,7 +1226,13 @@
     "color": "yellow",
     "sided": true,
     "flags": [ "WATCH", "ALARMCLOCK", "SUPER_FANCY", "BELTED", "FRAGILE", "ALLOWS_NATURAL_ATTACKS", "WATER_FRIENDLY", "OVERSIZE" ],
-    "armor": [ { "coverage": 100, "covers": [ "hand_l", "hand_r" ], "specifically_covers": [ "hand_wrist_l", "hand_wrist_r" ] } ]
+    "armor": [
+      {
+        "coverage": 100,
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_wrist_l", "hand_wrist_r" ]
+      }
+    ]
   },
   {
     "id": "small_relic",
@@ -1095,7 +1243,16 @@
     "volume": "15 ml",
     "price": 1000,
     "price_postapoc": 1000,
-    "material": [ { "type": "bone", "portion": 8 }, { "type": "silver", "portion": 2 } ],
+    "material": [
+      {
+        "type": "bone",
+        "portion": 8
+      },
+      {
+        "type": "silver",
+        "portion": 2
+      }
+    ],
     "symbol": "[",
     "color": "white",
     "use_action": [ "MEDITATE" ],
@@ -1134,7 +1291,10 @@
   {
     "id": "jade_brooch",
     "type": "ARMOR",
-    "name": { "str": "jade brooch", "str_pl": "jade brooches" },
+    "name": {
+      "str": "jade brooch",
+      "str_pl": "jade brooches"
+    },
     "description": "A hand-crafted jade brooch of Oriental origin.",
     "weight": "2 g",
     "volume": "1 ml",
@@ -1162,7 +1322,10 @@
   {
     "id": "platinum_watch",
     "type": "ARMOR",
-    "name": { "str": "platinum watch", "str_pl": "platinum watches" },
+    "name": {
+      "str": "platinum watch",
+      "str_pl": "platinum watches"
+    },
     "description": "Flex on those gold-watch wearers with this rare, expensive, and superior platinum watch.  This one is made from solid platinum.",
     "weight": "180 g",
     "volume": "100 ml",
@@ -1175,7 +1338,13 @@
     "color": "white",
     "sided": true,
     "flags": [ "WATCH", "ALARMCLOCK", "SUPER_FANCY", "BELTED", "FRAGILE", "ALLOWS_NATURAL_ATTACKS", "OVERSIZE" ],
-    "armor": [ { "coverage": 50, "covers": [ "hand_l", "hand_r" ], "specifically_covers": [ "hand_wrist_l", "hand_wrist_r" ] } ]
+    "armor": [
+      {
+        "coverage": 50,
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_wrist_l", "hand_wrist_r" ]
+      }
+    ]
   },
   {
     "id": "platinum_bracelet",
@@ -1191,7 +1360,13 @@
     "color": "white",
     "sided": true,
     "flags": [ "FANCY", "BELTED", "NO_WEAR_EFFECT", "OVERSIZE" ],
-    "armor": [ { "coverage": 50, "covers": [ "hand_l", "hand_r" ], "specifically_covers": [ "hand_wrist_l", "hand_wrist_r" ] } ]
+    "armor": [
+      {
+        "coverage": 50,
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_wrist_l", "hand_wrist_r" ]
+      }
+    ]
   },
   {
     "id": "platinum_dental_grill",
@@ -1213,7 +1388,10 @@
   {
     "id": "platinum_ear",
     "type": "ARMOR",
-    "name": { "str": "pair of platinum earrings", "str_pl": "pairs of platinum earrings" },
+    "name": {
+      "str": "platinum earrings",
+      "str_pl": "pairs of platinum earrings"
+    },
     "description": "A pair of plain platinum earrings - if gold is getting boring, just use another rare metal.",
     "weight": "20 g",
     "volume": "1 ml",
@@ -1279,7 +1457,13 @@
     "symbol": "[",
     "color": "white",
     "sided": true,
-    "armor": [ { "coverage": 0, "covers": [ "hand_l", "hand_r" ], "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ] } ],
+    "armor": [
+      {
+        "coverage": 0,
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ]
+      }
+    ],
     "flags": [ "FANCY", "NO_WEAR_EFFECT", "SKINTIGHT" ]
   },
   {
@@ -1291,11 +1475,23 @@
     "volume": "1 ml",
     "price": 100000,
     "price_postapoc": 25,
-    "material": [ { "type": "gold", "portion": 9 }, { "type": "diamond" } ],
+    "material": [
+      {
+        "type": "gold",
+        "portion": 9
+      },
+      { "type": "diamond" }
+    ],
     "symbol": "[",
     "color": "yellow",
     "sided": true,
-    "armor": [ { "coverage": 0, "covers": [ "hand_l", "hand_r" ], "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ] } ],
+    "armor": [
+      {
+        "coverage": 0,
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ]
+      }
+    ],
     "flags": [ "FANCY", "NO_WEAR_EFFECT", "SKINTIGHT" ]
   },
   {
@@ -1311,7 +1507,13 @@
     "symbol": "[",
     "color": "light_gray",
     "sided": true,
-    "armor": [ { "coverage": 0, "covers": [ "hand_l", "hand_r" ], "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ] } ],
+    "armor": [
+      {
+        "coverage": 0,
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ]
+      }
+    ],
     "flags": [ "FANCY", "NO_WEAR_EFFECT", "SKINTIGHT" ]
   },
   {
@@ -1327,7 +1529,13 @@
     "symbol": "[",
     "color": "yellow",
     "sided": true,
-    "armor": [ { "coverage": 0, "covers": [ "hand_l", "hand_r" ], "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ] } ],
+    "armor": [
+      {
+        "coverage": 0,
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ]
+      }
+    ],
     "flags": [ "FANCY", "NO_WEAR_EFFECT", "SKINTIGHT" ]
   },
   {
@@ -1339,11 +1547,23 @@
     "volume": "2 ml",
     "price": 150000,
     "price_postapoc": 50,
-    "material": [ { "type": "gold", "portion": 9 }, { "type": "diamond" } ],
+    "material": [
+      {
+        "type": "gold",
+        "portion": 9
+      },
+      { "type": "diamond" }
+    ],
     "symbol": "[",
     "color": "yellow",
     "sided": true,
-    "armor": [ { "coverage": 0, "covers": [ "hand_l", "hand_r" ], "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ] } ],
+    "armor": [
+      {
+        "coverage": 0,
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ]
+      }
+    ],
     "flags": [ "SUPER_FANCY", "NO_WEAR_EFFECT", "SKINTIGHT" ]
   },
   {
@@ -1415,7 +1635,13 @@
     "symbol": "[",
     "color": "light_gray",
     "sided": true,
-    "armor": [ { "coverage": 0, "covers": [ "hand_l", "hand_r" ], "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ] } ],
+    "armor": [
+      {
+        "coverage": 0,
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ]
+      }
+    ],
     "flags": [ "FANCY", "NO_WEAR_EFFECT", "SKINTIGHT" ]
   },
   {
@@ -1435,7 +1661,10 @@
   {
     "id": "wristwatch",
     "type": "ARMOR",
-    "name": { "str": "wrist watch", "str_pl": "wrist watches" },
+    "name": {
+      "str": "wrist watch",
+      "str_pl": "wrist watches"
+    },
     "description": "A simple wristwatch on a plastic band.  Tells the time and has an alarm clock feature.",
     "weight": "100 g",
     "volume": "100 ml",
@@ -1448,7 +1677,13 @@
     "color": "dark_gray",
     "sided": true,
     "flags": [ "WATCH", "ALARMCLOCK", "BELTED", "FRAGILE", "ALLOWS_NATURAL_ATTACKS", "WATER_FRIENDLY", "OVERSIZE" ],
-    "armor": [ { "coverage": 50, "covers": [ "hand_l", "hand_r" ], "specifically_covers": [ "hand_wrist_l", "hand_wrist_r" ] } ]
+    "armor": [
+      {
+        "coverage": 50,
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_wrist_l", "hand_wrist_r" ]
+      }
+    ]
   },
   {
     "id": "rad_badge",
@@ -1544,7 +1779,10 @@
   {
     "id": "fur_cat_ears",
     "type": "ARMOR",
-    "name": { "str": "pair of fuzzy cat ears", "str_pl": "pairs of fuzzy cat ears" },
+    "name": {
+      "str": "fuzzy cat ears",
+      "str_pl": "pairs of fuzzy cat ears"
+    },
     "description": "A fuzzy pair of brownish cat ears on a headband.  It does nothing, but there's no reason not to look good even if no one's looking.",
     "weight": "100 g",
     "volume": "100 ml",
@@ -1559,7 +1797,10 @@
     "id": "faux_fur_cat_ears",
     "type": "ARMOR",
     "copy-from": "fur_cat_ears",
-    "name": { "str": "pair of faux fur cat ears", "str_pl": "pairs of faux fur cat ears" },
+    "name": {
+      "str": "faux fur cat ears",
+      "str_pl": "pairs of faux fur cat ears"
+    },
     "description": "A fuzzy pair of garishly colored cat ears on a headband.  It does nothing, but there's no reason not to look good even if no one's looking.",
     "material": [ "faux_fur" ],
     "color": "pink"
@@ -1614,7 +1855,10 @@
   {
     "id": "leather_cat_ears",
     "type": "ARMOR",
-    "name": { "str": "pair of leather cat ears", "str_pl": "pairs of leather cat ears" },
+    "name": {
+      "str": "leather cat ears",
+      "str_pl": "pairs of leather cat ears"
+    },
     "description": "A shiny pair of black cat ears on a headband.  It does nothing, but there's no reason not to look good even if no one's looking.",
     "weight": "100 g",
     "volume": "100 ml",
@@ -1644,23 +1888,41 @@
     "id": "diamond_gold_earring",
     "copy-from": "garnet_gold_earring",
     "type": "ARMOR",
-    "name": { "str": "pair of diamond and gold earrings", "str_pl": "pairs of diamond and gold earrings" },
+    "name": {
+      "str": "diamond and gold earrings",
+      "str_pl": "pairs of diamond and gold earrings"
+    },
     "description": "A pair of shiny diamond and gold earrings.",
     "price": 13000,
     "price_postapoc": 50,
-    "material": [ { "type": "gold", "portion": 9 }, { "type": "diamond" } ],
+    "material": [
+      {
+        "type": "gold",
+        "portion": 9
+      },
+      { "type": "diamond" }
+    ],
     "color": "white"
   },
   {
     "id": "garnet_gold_earring",
     "type": "ARMOR",
-    "name": { "str": "pair of garnet and gold earrings", "str_pl": "pairs of garnet and gold earrings" },
+    "name": {
+      "str": "garnet and gold earrings",
+      "str_pl": "pairs of garnet and gold earrings"
+    },
     "description": "A pair of shiny garnet and gold earrings.",
     "weight": "18 mg",
     "volume": "1 ml",
     "price": 10000,
     "price_postapoc": 25,
-    "material": [ { "type": "gold", "portion": 9 }, { "type": "gemstone" } ],
+    "material": [
+      {
+        "type": "gold",
+        "portion": 9
+      },
+      { "type": "gemstone" }
+    ],
     "looks_like": "gold_ear",
     "symbol": "[",
     "color": "red",
@@ -1670,7 +1932,10 @@
     "id": "amethyst_gold_earring",
     "copy-from": "garnet_gold_earring",
     "type": "ARMOR",
-    "name": { "str": "pair of amethyst and gold earrings", "str_pl": "pairs of amethyst and gold earrings" },
+    "name": {
+      "str": "amethyst and gold earrings",
+      "str_pl": "pairs of amethyst and gold earrings"
+    },
     "description": "A pair of shiny amethyst and gold earrings.",
     "color": "blue"
   },
@@ -1678,7 +1943,10 @@
     "id": "aquamarine_gold_earring",
     "copy-from": "garnet_gold_earring",
     "type": "ARMOR",
-    "name": { "str": "pair of aquamarine and gold earrings", "str_pl": "pairs of aquamarine and gold earrings" },
+    "name": {
+      "str": "aquamarine and gold earrings",
+      "str_pl": "pairs of aquamarine and gold earrings"
+    },
     "description": "A pair of shiny aquamarine and gold earrings.",
     "color": "light_blue"
   },
@@ -1686,7 +1954,10 @@
     "id": "emerald_gold_earring",
     "copy-from": "garnet_gold_earring",
     "type": "ARMOR",
-    "name": { "str": "pair of emerald and gold earrings", "str_pl": "pairs of emerald and gold earrings" },
+    "name": {
+      "str": "emerald and gold earrings",
+      "str_pl": "pairs of emerald and gold earrings"
+    },
     "description": "A pair of shiny emerald and gold earrings.",
     "color": "green"
   },
@@ -1694,7 +1965,10 @@
     "id": "alexandrite_gold_earring",
     "copy-from": "garnet_gold_earring",
     "type": "ARMOR",
-    "name": { "str": "pair of alexandrite and gold earrings", "str_pl": "pairs of alexandrite and gold earrings" },
+    "name": {
+      "str": "alexandrite and gold earrings",
+      "str_pl": "pairs of alexandrite and gold earrings"
+    },
     "description": "A pair of shiny alexandrite and gold earrings.",
     "color": "green"
   },
@@ -1702,14 +1976,20 @@
     "id": "ruby_gold_earring",
     "copy-from": "garnet_gold_earring",
     "type": "ARMOR",
-    "name": { "str": "pair of ruby and gold earrings", "str_pl": "pairs of ruby and gold earrings" },
+    "name": {
+      "str": "ruby and gold earrings",
+      "str_pl": "pairs of ruby and gold earrings"
+    },
     "description": "A pair of shiny ruby and gold earrings."
   },
   {
     "id": "peridot_gold_earring",
     "copy-from": "garnet_gold_earring",
     "type": "ARMOR",
-    "name": { "str": "pair of peridot and gold earrings", "str_pl": "pairs of peridot and gold earrings" },
+    "name": {
+      "str": "peridot and gold earrings",
+      "str_pl": "pairs of peridot and gold earrings"
+    },
     "description": "A pair of shiny peridot and gold earrings.",
     "color": "light_green"
   },
@@ -1717,7 +1997,10 @@
     "id": "sapphire_gold_earring",
     "copy-from": "garnet_gold_earring",
     "type": "ARMOR",
-    "name": { "str": "pair of sapphire and gold earrings", "str_pl": "pairs of sapphire and gold earrings" },
+    "name": {
+      "str": "sapphire and gold earrings",
+      "str_pl": "pairs of sapphire and gold earrings"
+    },
     "description": "A pair of shiny sapphire and gold earrings.",
     "color": "blue"
   },
@@ -1725,7 +2008,10 @@
     "id": "tourmaline_gold_earring",
     "copy-from": "garnet_gold_earring",
     "type": "ARMOR",
-    "name": { "str": "pair of tourmaline and gold earrings", "str_pl": "pairs of tourmaline and gold earrings" },
+    "name": {
+      "str": "tourmaline and gold earrings",
+      "str_pl": "pairs of tourmaline and gold earrings"
+    },
     "description": "A pair of shiny tourmaline and gold earrings.",
     "color": "light_red"
   },
@@ -1733,7 +2019,10 @@
     "id": "citrine_gold_earring",
     "copy-from": "garnet_gold_earring",
     "type": "ARMOR",
-    "name": { "str": "pair of citrine and gold earrings", "str_pl": "pairs of citrine and gold earrings" },
+    "name": {
+      "str": "citrine and gold earrings",
+      "str_pl": "pairs of citrine and gold earrings"
+    },
     "description": "A pair of shiny citrine and gold earrings.",
     "color": "yellow"
   },
@@ -1741,7 +2030,10 @@
     "id": "blue_topaz_gold_earring",
     "copy-from": "garnet_gold_earring",
     "type": "ARMOR",
-    "name": { "str": "pair of blue topaz and gold earrings", "str_pl": "pairs of blue topaz and gold earrings" },
+    "name": {
+      "str": "blue topaz and gold earrings",
+      "str_pl": "pairs of blue topaz and gold earrings"
+    },
     "description": "A pair of shiny blue topaz and gold earrings.",
     "color": "light_blue"
   },
@@ -1749,7 +2041,10 @@
     "id": "opal_gold_earring",
     "copy-from": "garnet_gold_earring",
     "type": "ARMOR",
-    "name": { "str": "pair of opal and gold earrings", "str_pl": "pairs of opal and gold earrings" },
+    "name": {
+      "str": "opal and gold earrings",
+      "str_pl": "pairs of opal and gold earrings"
+    },
     "description": "A pair of shiny opal and gold earrings.",
     "color": "white"
   },
@@ -1757,7 +2052,10 @@
     "id": "pearl_gold_earring",
     "copy-from": "garnet_gold_earring",
     "type": "ARMOR",
-    "name": { "str": "pair of pearl and gold earrings", "str_pl": "pairs of pearl and gold earrings" },
+    "name": {
+      "str": "pearl and gold earrings",
+      "str_pl": "pairs of pearl and gold earrings"
+    },
     "description": "A pair of shiny pearl and gold earrings.",
     "color": "white"
   },
@@ -1765,7 +2063,10 @@
     "id": "onyx_gold_earring",
     "copy-from": "garnet_gold_earring",
     "type": "ARMOR",
-    "name": { "str": "pair of onyx and gold earrings", "str_pl": "pairs of onyx and gold earrings" },
+    "name": {
+      "str": "onyx and gold earrings",
+      "str_pl": "pairs of onyx and gold earrings"
+    },
     "description": "A pair of shiny onyx and gold earrings.",
     "color": "dark_gray"
   },
@@ -1773,23 +2074,41 @@
     "id": "diamond_silver_earring",
     "copy-from": "garnet_silver_earring",
     "type": "ARMOR",
-    "name": { "str": "pair of diamond and silver earrings", "str_pl": "pairs of diamond and silver earrings" },
+    "name": {
+      "str": "diamond and silver earrings",
+      "str_pl": "pairs of diamond and silver earrings"
+    },
     "description": "A pair of shiny diamond and silver earrings.",
     "price": 8000,
     "price_postapoc": 2000,
-    "material": [ { "type": "silver", "portion": 9 }, { "type": "diamond" } ],
+    "material": [
+      {
+        "type": "silver",
+        "portion": 9
+      },
+      { "type": "diamond" }
+    ],
     "color": "white"
   },
   {
     "id": "garnet_silver_earring",
     "type": "ARMOR",
-    "name": { "str": "pair of garnet and silver earrings", "str_pl": "pairs of garnet and silver earrings" },
+    "name": {
+      "str": "garnet and silver earrings",
+      "str_pl": "pairs of garnet and silver earrings"
+    },
     "description": "A pair of shiny garnet and silver earrings.",
     "weight": "10 mg",
     "volume": "1 ml",
     "price": 6000,
     "price_postapoc": 1000,
-    "material": [ { "type": "silver", "portion": 9 }, { "type": "gemstone" } ],
+    "material": [
+      {
+        "type": "silver",
+        "portion": 9
+      },
+      { "type": "gemstone" }
+    ],
     "looks_like": "silver_ear",
     "symbol": "[",
     "color": "red",
@@ -1799,7 +2118,10 @@
     "id": "amethyst_silver_earring",
     "copy-from": "garnet_silver_earring",
     "type": "ARMOR",
-    "name": { "str": "pair of amethyst and silver earrings", "str_pl": "pairs of amethyst and silver earrings" },
+    "name": {
+      "str": "amethyst and silver earrings",
+      "str_pl": "pairs of amethyst and silver earrings"
+    },
     "description": "A pair of shiny amethyst and silver earrings.",
     "color": "blue"
   },
@@ -1807,7 +2129,10 @@
     "id": "aquamarine_silver_earring",
     "copy-from": "garnet_silver_earring",
     "type": "ARMOR",
-    "name": { "str": "pair of aquamarine and silver earrings", "str_pl": "pairs of aquamarine and silver earrings" },
+    "name": {
+      "str": "aquamarine and silver earrings",
+      "str_pl": "pairs of aquamarine and silver earrings"
+    },
     "description": "A pair of shiny aquamarine and silver earrings.",
     "color": "light_blue"
   },
@@ -1815,7 +2140,10 @@
     "id": "emerald_silver_earring",
     "copy-from": "garnet_silver_earring",
     "type": "ARMOR",
-    "name": { "str": "pair of emerald and silver earrings", "str_pl": "pairs of emerald and silver earrings" },
+    "name": {
+      "str": "emerald and silver earrings",
+      "str_pl": "pairs of emerald and silver earrings"
+    },
     "description": "A pair of shiny emerald and silver earrings.",
     "color": "green"
   },
@@ -1823,7 +2151,10 @@
     "id": "alexandrite_silver_earring",
     "copy-from": "garnet_silver_earring",
     "type": "ARMOR",
-    "name": { "str": "pair of alexandrite and silver earrings", "str_pl": "pairs of alexandrite and silver earrings" },
+    "name": {
+      "str": "alexandrite and silver earrings",
+      "str_pl": "pairs of alexandrite and silver earrings"
+    },
     "description": "A pair of shiny alexandrite and silver earrings.",
     "color": "green"
   },
@@ -1831,19 +2162,28 @@
     "id": "ruby_silver_earring",
     "copy-from": "garnet_silver_earring",
     "type": "ARMOR",
-    "name": { "str": "pair of ruby and silver earrings", "str_pl": "pairs of ruby and silver earrings" },
+    "name": {
+      "str": "ruby and silver earrings",
+      "str_pl": "pairs of ruby and silver earrings"
+    },
     "description": "A pair of shiny ruby and silver earrings.",
     "variant_type": "generic",
     "variants": [
       {
         "id": "generic_ruby_silver_earring",
-        "name": { "str": "pair of ruby and silver earrings", "str_pl": "pairs of ruby and silver earrings" },
+        "name": {
+          "str": "ruby and silver earrings",
+          "str_pl": "pairs of ruby and silver earrings"
+        },
         "description": "A pair of shiny ruby and silver earrings.",
         "weight": 99
       },
       {
         "id": "vampire_earring",
-        "name": { "str": "pair of vampire earrings", "str_pl": "pairs of vampire earrings" },
+        "name": {
+          "str": "vampire earrings",
+          "str_pl": "pairs of vampire earrings"
+        },
         "description": "A pair of blood-red ruby and silver earrings, adorned with sinister motifs.",
         "weight": 1
       }
@@ -1853,7 +2193,10 @@
     "id": "peridot_silver_earring",
     "copy-from": "garnet_silver_earring",
     "type": "ARMOR",
-    "name": { "str": "pair of peridot and silver earrings", "str_pl": "pairs of peridot and silver earrings" },
+    "name": {
+      "str": "peridot and silver earrings",
+      "str_pl": "pairs of peridot and silver earrings"
+    },
     "description": "A pair of shiny peridot and silver earrings.",
     "color": "light_green"
   },
@@ -1861,7 +2204,10 @@
     "id": "sapphire_silver_earring",
     "copy-from": "garnet_silver_earring",
     "type": "ARMOR",
-    "name": { "str": "pair of sapphire and silver earrings", "str_pl": "pairs of sapphire and silver earrings" },
+    "name": {
+      "str": "sapphire and silver earrings",
+      "str_pl": "pairs of sapphire and silver earrings"
+    },
     "description": "A pair of shiny sapphire and silver earrings.",
     "color": "blue"
   },
@@ -1869,7 +2215,10 @@
     "id": "tourmaline_silver_earring",
     "copy-from": "garnet_silver_earring",
     "type": "ARMOR",
-    "name": { "str": "pair of tourmaline and silver earrings", "str_pl": "pairs of tourmaline and silver earrings" },
+    "name": {
+      "str": "tourmaline and silver earrings",
+      "str_pl": "pairs of tourmaline and silver earrings"
+    },
     "description": "A pair of shiny tourmaline and silver earrings.",
     "color": "light_red"
   },
@@ -1877,7 +2226,10 @@
     "id": "citrine_silver_earring",
     "copy-from": "garnet_silver_earring",
     "type": "ARMOR",
-    "name": { "str": "pair of citrine and silver earrings", "str_pl": "pairs of citrine and silver earrings" },
+    "name": {
+      "str": "citrine and silver earrings",
+      "str_pl": "pairs of citrine and silver earrings"
+    },
     "description": "A pair of shiny citrine and silver earrings.",
     "color": "yellow"
   },
@@ -1885,7 +2237,10 @@
     "id": "blue_topaz_silver_earring",
     "copy-from": "garnet_silver_earring",
     "type": "ARMOR",
-    "name": { "str": "pair of blue topaz and silver earrings", "str_pl": "pairs of blue topaz and silver earrings" },
+    "name": {
+      "str": "blue topaz and silver earrings",
+      "str_pl": "pairs of blue topaz and silver earrings"
+    },
     "description": "A pair of shiny blue topaz and silver earrings.",
     "color": "light_blue"
   },
@@ -1893,7 +2248,10 @@
     "id": "opal_silver_earring",
     "copy-from": "garnet_silver_earring",
     "type": "ARMOR",
-    "name": { "str": "pair of opal and silver earrings", "str_pl": "pairs of opal and silver earrings" },
+    "name": {
+      "str": "opal and silver earrings",
+      "str_pl": "pairs of opal and silver earrings"
+    },
     "description": "A pair of shiny opal and silver earrings.",
     "color": "white"
   },
@@ -1901,7 +2259,10 @@
     "id": "pearl_silver_earring",
     "copy-from": "garnet_silver_earring",
     "type": "ARMOR",
-    "name": { "str": "pair of pearl and silver earrings", "str_pl": "pairs of pearl and silver earrings" },
+    "name": {
+      "str": "pearl and silver earrings",
+      "str_pl": "pairs of pearl and silver earrings"
+    },
     "description": "A pair of shiny pearl and silver earrings.",
     "color": "white"
   },
@@ -1909,19 +2270,28 @@
     "id": "onyx_silver_earring",
     "copy-from": "garnet_silver_earring",
     "type": "ARMOR",
-    "name": { "str": "pair of onyx and silver earrings", "str_pl": "pairs of onyx and silver earrings" },
+    "name": {
+      "str": "onyx and silver earrings",
+      "str_pl": "pairs of onyx and silver earrings"
+    },
     "description": "A pair of shiny onyx and silver earrings.",
     "variant_type": "generic",
     "variants": [
       {
         "id": "generic_onyx_silver_earring",
-        "name": { "str": "pair of onyx and silver earrings", "str_pl": "pairs of onyx and silver earrings" },
+        "name": {
+          "str": "onyx and silver earrings",
+          "str_pl": "pairs of onyx and silver earrings"
+        },
         "description": "A pair of shiny onyx and silver earrings.",
         "weight": 99
       },
       {
         "id": "dark_earring",
-        "name": { "str": "pair of dark earrings", "str_pl": "pairs of dark earrings" },
+        "name": {
+          "str": "dark earrings",
+          "str_pl": "pairs of dark earrings"
+        },
         "description": "A pair of dark silver earrings featuring onyx in the shape of two dark hearts.",
         "weight": 1
       }
@@ -1932,23 +2302,41 @@
     "id": "diamond_platinum_earring",
     "copy-from": "garnet_platinum_earring",
     "type": "ARMOR",
-    "name": { "str": "pair of diamond and platinum earrings", "str_pl": "pairs of diamond and platinum earrings" },
+    "name": {
+      "str": "diamond and platinum earrings",
+      "str_pl": "pairs of diamond and platinum earrings"
+    },
     "description": "A pair of shiny diamond and platinum earrings.",
     "price": 12000,
     "price_postapoc": 25,
-    "material": [ { "type": "platinum", "portion": 9 }, { "type": "diamond" } ],
+    "material": [
+      {
+        "type": "platinum",
+        "portion": 9
+      },
+      { "type": "diamond" }
+    ],
     "color": "white"
   },
   {
     "id": "garnet_platinum_earring",
     "type": "ARMOR",
-    "name": { "str": "pair of garnet and platinum earrings", "str_pl": "pairs of garnet and platinum earrings" },
+    "name": {
+      "str": "garnet and platinum earrings",
+      "str_pl": "pairs of garnet and platinum earrings"
+    },
     "description": "A pair of shiny garnet and platinum earrings.",
     "weight": "19 mg",
     "volume": "1 ml",
     "price": 10000,
     "price_postapoc": 25,
-    "material": [ { "type": "platinum", "portion": 9 }, { "type": "gemstone" } ],
+    "material": [
+      {
+        "type": "platinum",
+        "portion": 9
+      },
+      { "type": "gemstone" }
+    ],
     "looks_like": "platinum_ear",
     "symbol": "[",
     "color": "red",
@@ -1958,7 +2346,10 @@
     "id": "amethyst_platinum_earring",
     "copy-from": "garnet_platinum_earring",
     "type": "ARMOR",
-    "name": { "str": "pair of amethyst and platinum earrings", "str_pl": "pairs of amethyst and platinum earrings" },
+    "name": {
+      "str": "amethyst and platinum earrings",
+      "str_pl": "pairs of amethyst and platinum earrings"
+    },
     "description": "A pair of shiny amethyst and platinum earrings.",
     "color": "blue"
   },
@@ -1966,7 +2357,10 @@
     "id": "aquamarine_platinum_earring",
     "copy-from": "garnet_platinum_earring",
     "type": "ARMOR",
-    "name": { "str": "pair of aquamarine and platinum earrings", "str_pl": "pairs of aquamarine and platinum earrings" },
+    "name": {
+      "str": "aquamarine and platinum earrings",
+      "str_pl": "pairs of aquamarine and platinum earrings"
+    },
     "description": "A pair of shiny aquamarine and platinum earrings.",
     "color": "light_blue"
   },
@@ -1974,7 +2368,10 @@
     "id": "emerald_platinum_earring",
     "copy-from": "garnet_platinum_earring",
     "type": "ARMOR",
-    "name": { "str": "pair of emerald and platinum earrings", "str_pl": "pairs of emerald and platinum earrings" },
+    "name": {
+      "str": "emerald and platinum earrings",
+      "str_pl": "pairs of emerald and platinum earrings"
+    },
     "description": "A pair of shiny emerald and platinum earrings.",
     "color": "green"
   },
@@ -1982,7 +2379,10 @@
     "id": "alexandrite_platinum_earring",
     "copy-from": "garnet_platinum_earring",
     "type": "ARMOR",
-    "name": { "str": "pair of alexandrite and platinum earrings", "str_pl": "pairs of alexandrite and platinum earrings" },
+    "name": {
+      "str": "alexandrite and platinum earrings",
+      "str_pl": "pairs of alexandrite and platinum earrings"
+    },
     "description": "A pair of shiny alexandrite and platinum earrings.",
     "color": "green"
   },
@@ -1990,14 +2390,20 @@
     "id": "ruby_platinum_earring",
     "copy-from": "garnet_platinum_earring",
     "type": "ARMOR",
-    "name": { "str": "pair of ruby and platinum earrings", "str_pl": "pairs of ruby and platinum earrings" },
+    "name": {
+      "str": "ruby and platinum earrings",
+      "str_pl": "pairs of ruby and platinum earrings"
+    },
     "description": "A pair of shiny ruby and platinum earrings."
   },
   {
     "id": "peridot_platinum_earring",
     "copy-from": "garnet_platinum_earring",
     "type": "ARMOR",
-    "name": { "str": "pair of peridot and platinum earrings", "str_pl": "pairs of peridot and platinum earrings" },
+    "name": {
+      "str": "peridot and platinum earrings",
+      "str_pl": "pairs of peridot and platinum earrings"
+    },
     "description": "A pair of shiny peridot and platinum earrings.",
     "color": "light_green"
   },
@@ -2005,7 +2411,10 @@
     "id": "sapphire_platinum_earring",
     "copy-from": "garnet_platinum_earring",
     "type": "ARMOR",
-    "name": { "str": "pair of sapphire and platinum earrings", "str_pl": "pairs of sapphire and platinum earrings" },
+    "name": {
+      "str": "sapphire and platinum earrings",
+      "str_pl": "pairs of sapphire and platinum earrings"
+    },
     "description": "A pair of shiny sapphire and platinum earrings.",
     "color": "blue"
   },
@@ -2013,7 +2422,10 @@
     "id": "tourmaline_platinum_earring",
     "copy-from": "garnet_platinum_earring",
     "type": "ARMOR",
-    "name": { "str": "pair of tourmaline and platinum earrings", "str_pl": "pairs of tourmaline and platinum earrings" },
+    "name": {
+      "str": "tourmaline and platinum earrings",
+      "str_pl": "pairs of tourmaline and platinum earrings"
+    },
     "description": "A pair of shiny tourmaline and platinum earrings.",
     "color": "light_red"
   },
@@ -2021,7 +2433,10 @@
     "id": "citrine_platinum_earring",
     "copy-from": "garnet_platinum_earring",
     "type": "ARMOR",
-    "name": { "str": "pair of citrine and platinum earrings", "str_pl": "pairs of citrine and platinum earrings" },
+    "name": {
+      "str": "citrine and platinum earrings",
+      "str_pl": "pairs of citrine and platinum earrings"
+    },
     "description": "A pair of shiny citrine and platinum earrings.",
     "color": "yellow"
   },
@@ -2029,7 +2444,10 @@
     "id": "blue_topaz_platinum_earring",
     "copy-from": "garnet_platinum_earring",
     "type": "ARMOR",
-    "name": { "str": "pair of blue topaz and platinum earrings", "str_pl": "pairs of blue topaz and platinum earrings" },
+    "name": {
+      "str": "blue topaz and platinum earrings",
+      "str_pl": "pairs of blue topaz and platinum earrings"
+    },
     "description": "A pair of shiny blue topaz and platinum earrings.",
     "color": "light_blue"
   },
@@ -2037,7 +2455,10 @@
     "id": "opal_platinum_earring",
     "copy-from": "garnet_platinum_earring",
     "type": "ARMOR",
-    "name": { "str": "pair of opal and platinum earrings", "str_pl": "pairs of opal and platinum earrings" },
+    "name": {
+      "str": "opal and platinum earrings",
+      "str_pl": "pairs of opal and platinum earrings"
+    },
     "description": "A pair of shiny opal and platinum earrings.",
     "color": "white"
   },
@@ -2045,7 +2466,10 @@
     "id": "pearl_platinum_earring",
     "copy-from": "garnet_platinum_earring",
     "type": "ARMOR",
-    "name": { "str": "pair of pearl and platinum earrings", "str_pl": "pairs of pearl and platinum earrings" },
+    "name": {
+      "str": "pearl and platinum earrings",
+      "str_pl": "pairs of pearl and platinum earrings"
+    },
     "description": "A pair of shiny pearl and platinum earrings.",
     "color": "white"
   },
@@ -2053,7 +2477,10 @@
     "id": "onyx_platinum_earring",
     "copy-from": "garnet_platinum_earring",
     "type": "ARMOR",
-    "name": { "str": "pair of onyx and platinum earrings", "str_pl": "pairs of onyx and platinum earrings" },
+    "name": {
+      "str": "onyx and platinum earrings",
+      "str_pl": "pairs of onyx and platinum earrings"
+    },
     "description": "A pair of shiny onyx and platinum earrings.",
     "color": "dark_gray"
   },
@@ -2066,12 +2493,24 @@
     "volume": "1 ml",
     "price": 10000,
     "price_postapoc": 1800,
-    "material": [ { "type": "gold", "portion": 9 }, { "type": "gemstone" } ],
+    "material": [
+      {
+        "type": "gold",
+        "portion": 9
+      },
+      { "type": "gemstone" }
+    ],
     "looks_like": "gold_ring",
     "symbol": "[",
     "color": "red",
     "sided": true,
-    "armor": [ { "coverage": 0, "covers": [ "hand_l", "hand_r" ], "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ] } ],
+    "armor": [
+      {
+        "coverage": 0,
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ]
+      }
+    ],
     "flags": [ "FANCY", "NO_WEAR_EFFECT", "SKINTIGHT" ]
   },
   {
@@ -2185,7 +2624,13 @@
     "description": "A silver ring with a diamond mounted on top of it.",
     "price": 12000,
     "price_postapoc": 25,
-    "material": [ { "type": "silver", "portion": 9 }, { "type": "diamond" } ],
+    "material": [
+      {
+        "type": "silver",
+        "portion": 9
+      },
+      { "type": "diamond" }
+    ],
     "color": "white"
   },
   {
@@ -2197,13 +2642,25 @@
     "volume": "1 ml",
     "price": 10000,
     "price_postapoc": 25,
-    "material": [ { "type": "silver", "portion": 9 }, { "type": "gemstone" } ],
+    "material": [
+      {
+        "type": "silver",
+        "portion": 9
+      },
+      { "type": "gemstone" }
+    ],
     "looks_like": "silver_ring",
     "symbol": "[",
     "color": "red",
     "sided": true,
     "flags": [ "FANCY", "NO_WEAR_EFFECT" ],
-    "armor": [ { "coverage": 0, "covers": [ "hand_l", "hand_r" ], "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ] } ]
+    "armor": [
+      {
+        "coverage": 0,
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ]
+      }
+    ]
   },
   {
     "id": "amethyst_silver_ring",
@@ -2346,7 +2803,13 @@
     "description": "A platinum ring with a diamond mounted on top of it.",
     "price": 12000,
     "price_postapoc": 50,
-    "material": [ { "type": "platinum", "portion": 9 }, { "type": "diamond" } ],
+    "material": [
+      {
+        "type": "platinum",
+        "portion": 9
+      },
+      { "type": "diamond" }
+    ],
     "color": "white"
   },
   {
@@ -2358,13 +2821,25 @@
     "volume": "1 ml",
     "price": 10000,
     "price_postapoc": 25,
-    "material": [ { "type": "platinum", "portion": 9 }, { "type": "gemstone" } ],
+    "material": [
+      {
+        "type": "platinum",
+        "portion": 9
+      },
+      { "type": "gemstone" }
+    ],
     "looks_like": "platinum_ring",
     "symbol": "[",
     "color": "red",
     "sided": true,
     "flags": [ "FANCY", "NO_WEAR_EFFECT", "SKINTIGHT" ],
-    "armor": [ { "coverage": 0, "covers": [ "hand_l", "hand_r" ], "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ] } ]
+    "armor": [
+      {
+        "coverage": 0,
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ]
+      }
+    ]
   },
   {
     "id": "amethyst_platinum_ring",
@@ -2478,7 +2953,13 @@
     "price": 200000,
     "looks_like": "gold_bracelet",
     "price_postapoc": 25,
-    "material": [ { "type": "gold", "portion": 9 }, { "type": "diamond" } ],
+    "material": [
+      {
+        "type": "gold",
+        "portion": 9
+      },
+      { "type": "diamond" }
+    ],
     "color": "white"
   },
   {
@@ -2490,13 +2971,25 @@
     "volume": "10 ml",
     "price": 15000,
     "price_postapoc": 25,
-    "material": [ { "type": "gold", "portion": 9 }, { "type": "gemstone" } ],
+    "material": [
+      {
+        "type": "gold",
+        "portion": 9
+      },
+      { "type": "gemstone" }
+    ],
     "looks_like": "gold_bracelet",
     "symbol": "[",
     "color": "red",
     "sided": true,
     "flags": [ "FANCY", "NO_WEAR_EFFECT", "OVERSIZE" ],
-    "armor": [ { "coverage": 20, "covers": [ "hand_l", "hand_r" ], "specifically_covers": [ "hand_wrist_l", "hand_wrist_r" ] } ]
+    "armor": [
+      {
+        "coverage": 20,
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_wrist_l", "hand_wrist_r" ]
+      }
+    ]
   },
   {
     "id": "amethyst_gold_bracelet",
@@ -2610,7 +3103,13 @@
     "price": 200000,
     "looks_like": "silver_bracelet",
     "price_postapoc": 25,
-    "material": [ { "type": "silver", "portion": 9 }, { "type": "diamond" } ],
+    "material": [
+      {
+        "type": "silver",
+        "portion": 9
+      },
+      { "type": "diamond" }
+    ],
     "color": "white"
   },
   {
@@ -2622,13 +3121,25 @@
     "volume": "10 ml",
     "price": 15000,
     "price_postapoc": 25,
-    "material": [ { "type": "silver", "portion": 9 }, { "type": "gemstone" } ],
+    "material": [
+      {
+        "type": "silver",
+        "portion": 9
+      },
+      { "type": "gemstone" }
+    ],
     "looks_like": "silver_bracelet",
     "symbol": "[",
     "color": "red",
     "sided": true,
     "flags": [ "FANCY", "NO_WEAR_EFFECT", "OVERSIZE" ],
-    "armor": [ { "coverage": 20, "covers": [ "hand_l", "hand_r" ], "specifically_covers": [ "hand_wrist_l", "hand_wrist_r" ] } ]
+    "armor": [
+      {
+        "coverage": 20,
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_wrist_l", "hand_wrist_r" ]
+      }
+    ]
   },
   {
     "id": "amethyst_silver_bracelet",
@@ -2772,7 +3283,13 @@
     "price": 200000,
     "looks_like": "platinum_bracelet",
     "price_postapoc": 50,
-    "material": [ { "type": "platinum", "portion": 9 }, { "type": "diamond" } ],
+    "material": [
+      {
+        "type": "platinum",
+        "portion": 9
+      },
+      { "type": "diamond" }
+    ],
     "color": "white"
   },
   {
@@ -2784,13 +3301,25 @@
     "volume": "10 ml",
     "price": 15000,
     "price_postapoc": 25,
-    "material": [ { "type": "platinum", "portion": 9 }, { "type": "gemstone" } ],
+    "material": [
+      {
+        "type": "platinum",
+        "portion": 9
+      },
+      { "type": "gemstone" }
+    ],
     "looks_like": "platinum_bracelet",
     "symbol": "[",
     "color": "red",
     "sided": true,
     "flags": [ "FANCY", "BELTED", "NO_WEAR_EFFECT", "OVERSIZE" ],
-    "armor": [ { "coverage": 20, "covers": [ "hand_l", "hand_r" ], "specifically_covers": [ "hand_wrist_l", "hand_wrist_r" ] } ]
+    "armor": [
+      {
+        "coverage": 20,
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_wrist_l", "hand_wrist_r" ]
+      }
+    ]
   },
   {
     "id": "amethyst_platinum_bracelet",
@@ -2904,7 +3433,13 @@
     "volume": "15 ml",
     "price": 50000,
     "price_postapoc": 25,
-    "material": [ { "type": "gold", "portion": 9 }, { "type": "gemstone" } ],
+    "material": [
+      {
+        "type": "gold",
+        "portion": 9
+      },
+      { "type": "gemstone" }
+    ],
     "looks_like": "gold_necklace",
     "symbol": "[",
     "color": "red",
@@ -2916,7 +3451,13 @@
     "type": "ARMOR",
     "name": { "str": "diamond and gold pendant necklace" },
     "description": "A shiny, gold necklace adorned with a diamond pendant.",
-    "material": [ { "type": "gold", "portion": 9 }, { "type": "diamond" } ],
+    "material": [
+      {
+        "type": "gold",
+        "portion": 9
+      },
+      { "type": "diamond" }
+    ],
     "color": "white"
   },
   {
@@ -3031,7 +3572,13 @@
     "volume": "15 ml",
     "price": 50000,
     "price_postapoc": 25,
-    "material": [ { "type": "silver", "portion": 9 }, { "type": "gemstone" } ],
+    "material": [
+      {
+        "type": "silver",
+        "portion": 9
+      },
+      { "type": "gemstone" }
+    ],
     "looks_like": "silver_necklace",
     "symbol": "[",
     "color": "red",
@@ -3043,7 +3590,13 @@
     "type": "ARMOR",
     "name": { "str": "diamond and silver pendant necklace" },
     "description": "A shiny, silver necklace adorned with a diamond pendant.",
-    "material": [ { "type": "silver", "portion": 9 }, { "type": "diamond" } ],
+    "material": [
+      {
+        "type": "silver",
+        "portion": 9
+      },
+      { "type": "diamond" }
+    ],
     "color": "white"
   },
   {
@@ -3188,7 +3741,13 @@
     "volume": "15 ml",
     "price": 50000,
     "price_postapoc": 25,
-    "material": [ { "type": "platinum", "portion": 9 }, { "type": "gemstone" } ],
+    "material": [
+      {
+        "type": "platinum",
+        "portion": 9
+      },
+      { "type": "gemstone" }
+    ],
     "looks_like": "platinum_necklace",
     "symbol": "[",
     "color": "red",
@@ -3200,7 +3759,13 @@
     "type": "ARMOR",
     "name": { "str": "diamond and platinum pendant necklace" },
     "description": "A shiny, platinum necklace adorned with a diamond pendant.",
-    "material": [ { "type": "platinum", "portion": 9 }, { "type": "diamond" } ],
+    "material": [
+      {
+        "type": "platinum",
+        "portion": 9
+      },
+      { "type": "diamond" }
+    ],
     "color": "white"
   },
   {
@@ -3315,13 +3880,26 @@
     "volume": "100 ml",
     "price": 500000,
     "price_postapoc": 25,
-    "material": [ { "type": "platinum", "portion": 9 }, { "type": "gemstone" } ],
+    "material": [
+      {
+        "type": "platinum",
+        "portion": 9
+      },
+      { "type": "gemstone" }
+    ],
     "looks_like": "crown_golden",
     "symbol": "[",
     "color": "red",
     "material_thickness": 1,
     "flags": [ "SUPER_FANCY", "NO_WEAR_EFFECT" ],
-    "armor": [ { "encumbrance": 1, "coverage": 20, "covers": [ "head" ], "specifically_covers": [ "head_crown" ] } ]
+    "armor": [
+      {
+        "encumbrance": 1,
+        "coverage": 20,
+        "covers": [ "head" ],
+        "specifically_covers": [ "head_crown" ]
+      }
+    ]
   },
   {
     "id": "diamond_platinum_tiara",
@@ -3329,7 +3907,13 @@
     "type": "ARMOR",
     "name": { "str": "diamond and platinum tiara" },
     "description": "A shiny, platinum tiara adorned with diamonds.",
-    "material": [ { "type": "platinum", "portion": 9 }, { "type": "diamond" } ],
+    "material": [
+      {
+        "type": "platinum",
+        "portion": 9
+      },
+      { "type": "diamond" }
+    ],
     "color": "white"
   },
   {
@@ -3444,13 +4028,26 @@
     "volume": "100 ml",
     "price": 400000,
     "price_postapoc": 25,
-    "material": [ { "type": "gold", "portion": 9 }, { "type": "gemstone" } ],
+    "material": [
+      {
+        "type": "gold",
+        "portion": 9
+      },
+      { "type": "gemstone" }
+    ],
     "looks_like": "crown_golden",
     "symbol": "[",
     "color": "red",
     "material_thickness": 1,
     "flags": [ "SUPER_FANCY", "NO_WEAR_EFFECT" ],
-    "armor": [ { "encumbrance": 1, "coverage": 20, "covers": [ "head" ], "specifically_covers": [ "head_crown" ] } ]
+    "armor": [
+      {
+        "encumbrance": 1,
+        "coverage": 20,
+        "covers": [ "head" ],
+        "specifically_covers": [ "head_crown" ]
+      }
+    ]
   },
   {
     "id": "diamond_gold_tiara",
@@ -3458,7 +4055,13 @@
     "type": "ARMOR",
     "name": { "str": "diamond and gold tiara" },
     "description": "A shiny, gold tiara adorned with diamonds.",
-    "material": [ { "type": "gold", "portion": 9 }, { "type": "diamond" } ],
+    "material": [
+      {
+        "type": "gold",
+        "portion": 9
+      },
+      { "type": "diamond" }
+    ],
     "color": "white"
   },
   {
@@ -3573,13 +4176,26 @@
     "volume": "100 ml",
     "price": 200000,
     "price_postapoc": 25,
-    "material": [ { "type": "silver", "portion": 9 }, { "type": "gemstone" } ],
+    "material": [
+      {
+        "type": "silver",
+        "portion": 9
+      },
+      { "type": "gemstone" }
+    ],
     "looks_like": "crown_golden",
     "symbol": "[",
     "color": "red",
     "material_thickness": 1,
     "flags": [ "SUPER_FANCY", "NO_WEAR_EFFECT" ],
-    "armor": [ { "encumbrance": 1, "coverage": 20, "covers": [ "head" ], "specifically_covers": [ "head_crown" ] } ]
+    "armor": [
+      {
+        "encumbrance": 1,
+        "coverage": 20,
+        "covers": [ "head" ],
+        "specifically_covers": [ "head_crown" ]
+      }
+    ]
   },
   {
     "id": "diamond_silver_tiara",
@@ -3587,7 +4203,13 @@
     "type": "ARMOR",
     "name": { "str": "diamond and silver tiara" },
     "description": "A shiny, silver tiara adorned with diamonds.",
-    "material": [ { "type": "silver", "portion": 9 }, { "type": "diamond" } ],
+    "material": [
+      {
+        "type": "silver",
+        "portion": 9
+      },
+      { "type": "diamond" }
+    ],
     "color": "white"
   },
   {

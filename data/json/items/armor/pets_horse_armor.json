@@ -190,7 +190,7 @@
   {
     "id": "saddlebag",
     "type": "ARMOR",
-    "name": { "str": "pair of saddle bags", "str_pl": "pairs of saddle bags" },
+    "name": { "str": "saddle bags", "str_pl": "pairs of saddle bags" },
     "description": "A pair of covered pouches laid across the back of a horse behind the saddle.",
     "weight": "1 kg",
     "volume": "7500 ml",
