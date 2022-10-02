@@ -114,10 +114,9 @@
     "flags": [ "CARGO", "OBSTACLE", "COVERED", "FLAT_SURF" ],
     "pseudo_tools": [
       { "id": "water_faucet" },
-      { "id": "hotplate", "hotkey": "h" },
       { "id": "pot" },
       { "id": "pan" },
-      { "id": "chemistry_set" },
+      { "id": "chemistry_set", "hotkey": "h" },
       { "id": "electrolysis_kit" }
     ],
     "breaks_into": [
@@ -160,10 +159,9 @@
       { "id": "food_processor" },
       { "id": "press" },
       { "id": "puller" },
-      { "id": "hotplate", "hotkey": "h" },
       { "id": "pot" },
       { "id": "pan" },
-      { "id": "chemistry_set" },
+      { "id": "chemistry_set", "hotkey": "h" },
       { "id": "electrolysis_kit" },
       { "id": "water_purifier", "hotkey": "p" }
     ],
