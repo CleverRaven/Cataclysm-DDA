@@ -551,7 +551,7 @@
   {
     "id": "BGSS_PREPPER_1_FOUND_LMOE10_SKEPTIC",
     "type": "talk_topic",
-    "dynamic_line": "You're right, but I still think there's something bigger out there.  Something unexplainable and evil.  It doesn't matter whether science can explain it because it sure doesn't seem capable of defeating it.",
+    "dynamic_line": "You're right, but I still think there's something bigger out there.  Something unexplainable and evil.  It doesn't matter whether science can explain it because it sure doesn't seem like we're capable of defeating it.",
     "responses": [ { "text": "Indeed…", "topic": "TALK_DONE" } ]
   },
   {
