@@ -345,7 +345,7 @@
     "max_intensity": 30,
     "int_add_val": 1,
     "show_intensity": false,
-    "apply_message": "You feel a deep energy in your muscles, untired and jazzed.",
+    "apply_message": "You feel a deep energy in your muscles, exuberant and coiled.",
     "remove_message": "The energy in your body fades away.",
     "base_mods": { "stamina_min": [ 2 ] },
     "scaling_mods": { "stamina_min": [ 2 ] }
