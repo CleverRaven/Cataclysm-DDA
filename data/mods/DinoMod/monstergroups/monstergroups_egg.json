@@ -15,6 +15,7 @@
       { "monster": "mon_zuul_hatchling", "weight": 5 },
       { "monster": "mon_dyoplosaurus_hatchling", "weight": 5 },
       { "monster": "mon_ankylosaurus_hatchling", "weight": 5 },
+      { "monster": "mon_tenontosaurus_hatchling", "weight": 20 },
       { "monster": "mon_camptosaurus_hatchling", "weight": 20 },
       { "monster": "mon_hadrosaurus_hatchling", "weight": 20 },
       { "monster": "mon_parasaurolophus_hatchling", "weight": 20 },
@@ -24,8 +25,12 @@
       { "monster": "mon_pachycephalosaurus_hatchling", "weight": 20 },
       { "monster": "mon_leptoceratops_hatchling", "weight": 3 },
       { "monster": "mon_zuniceratops_hatchling", "weight": 3 },
+      { "monster": "mon_styracosaurus_hatchling", "weight": 3 },
       { "monster": "mon_centrosaurus_hatchling", "weight": 3 },
+      { "monster": "mon_einiosaurus_hatchling", "weight": 3 },
+      { "monster": "mon_achelousaurus_hatchling", "weight": 3 },
       { "monster": "mon_pachyrhinosaurus_hatchling", "weight": 3 },
+      { "monster": "mon_chasmosaurus_hatchling", "weight": 3 },
       { "monster": "mon_pentaceratops_hatchling", "weight": 3 },
       { "monster": "mon_torosaurus_hatchling", "weight": 3 },
       { "monster": "mon_triceratops_hatchling", "weight": 3 },
@@ -364,6 +369,11 @@
     "monsters": [ { "monster": "mon_ankylosaurus_hatchling" } ]
   },
   {
+    "name": "GROUP_EGG_tenontosaurus",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_tenontosaurus_hatchling" } ]
+  },
+  {
     "name": "GROUP_EGG_dryosaurus",
     "type": "monstergroup",
     "monsters": [ { "monster": "mon_dryosaurus_hatchling" } ]
@@ -429,14 +439,34 @@
     "monsters": [ { "monster": "mon_zuniceratops_hatchling" } ]
   },
   {
+    "name": "GROUP_EGG_styracosaurus",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_styracosaurus_hatchling" } ]
+  },
+  {
     "name": "GROUP_EGG_centrosaurus",
     "type": "monstergroup",
     "monsters": [ { "monster": "mon_centrosaurus_hatchling" } ]
   },
   {
+    "name": "GROUP_EGG_einiosaurus",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_einiosaurus_hatchling" } ]
+  },
+  {
+    "name": "GROUP_EGG_achelousaurus",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_achelousaurus_hatchling" } ]
+  },
+  {
     "name": "GROUP_EGG_pachyrhinosaurus",
     "type": "monstergroup",
     "monsters": [ { "monster": "mon_pachyrhinosaurus_hatchling" } ]
+  },
+  {
+    "name": "GROUP_EGG_chasmosaurus",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_chasmosaurus_hatchling" } ]
   },
   {
     "name": "GROUP_EGG_pentaceratops",

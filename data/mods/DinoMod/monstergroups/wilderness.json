@@ -110,6 +110,12 @@
         "conditions": [ "DUSK", "DAY", "DAWN", "SPRING", "SUMMER", "AUTUMN" ]
       },
       {
+        "monster": "mon_tenontosaurus",
+        "weight": 5,
+        "pack_size": [ 4, 12 ],
+        "conditions": [ "DUSK", "DAY", "DAWN", "SPRING", "SUMMER", "AUTUMN" ]
+      },
+      {
         "monster": "mon_dryosaurus",
         "weight": 5,
         "pack_size": [ 4, 12 ],
@@ -171,62 +177,88 @@
       },
       {
         "monster": "mon_aquilops",
-        "weight": 5,
+        "weight": 3,
         "pack_size": [ 4, 8 ],
         "conditions": [ "DUSK", "DAY", "DAWN", "SPRING", "SUMMER", "AUTUMN" ]
       },
       {
         "monster": "mon_leptoceratops",
-        "weight": 5,
-        "cost_multiplier": 20,
+        "weight": 3,
         "pack_size": [ 4, 8 ],
         "conditions": [ "DUSK", "DAY", "DAWN", "SPRING", "SUMMER", "AUTUMN" ]
       },
       {
         "monster": "mon_zuniceratops",
-        "weight": 5,
+        "weight": 3,
+        "pack_size": [ 4, 8 ],
+        "conditions": [ "DUSK", "DAY", "DAWN", "SPRING", "SUMMER", "AUTUMN" ]
+      },
+      {
+        "monster": "mon_styracosaurus",
+        "weight": 3,
         "cost_multiplier": 20,
         "pack_size": [ 4, 8 ],
         "conditions": [ "DUSK", "DAY", "DAWN", "SPRING", "SUMMER", "AUTUMN" ]
       },
       {
         "monster": "mon_centrosaurus",
-        "weight": 5,
+        "weight": 3,
+        "cost_multiplier": 20,
+        "pack_size": [ 4, 8 ],
+        "conditions": [ "DUSK", "DAY", "DAWN", "SPRING", "SUMMER", "AUTUMN" ]
+      },
+      {
+        "monster": "mon_einiosaurus",
+        "weight": 3,
+        "cost_multiplier": 20,
+        "pack_size": [ 4, 8 ],
+        "conditions": [ "DUSK", "DAY", "DAWN", "SPRING", "SUMMER", "AUTUMN" ]
+      },
+      {
+        "monster": "mon_achelousaurus",
+        "weight": 3,
         "cost_multiplier": 20,
         "pack_size": [ 4, 8 ],
         "conditions": [ "DUSK", "DAY", "DAWN", "SPRING", "SUMMER", "AUTUMN" ]
       },
       {
         "monster": "mon_pachyrhinosaurus",
-        "weight": 5,
+        "weight": 3,
         "cost_multiplier": 20,
         "pack_size": [ 4, 8 ],
         "conditions": [ "DUSK", "DAY", "DAWN", "SPRING", "SUMMER", "AUTUMN" ]
       },
       {
+        "monster": "mon_chasmosaurus",
+        "weight": 3,
+        "cost_multiplier": 25,
+        "pack_size": [ 4, 8 ],
+        "conditions": [ "DUSK", "DAY", "DAWN", "SPRING", "SUMMER", "AUTUMN" ]
+      },
+      {
         "monster": "mon_pentaceratops",
-        "weight": 5,
+        "weight": 3,
         "cost_multiplier": 25,
         "pack_size": [ 4, 8 ],
         "conditions": [ "DUSK", "DAY", "DAWN", "SPRING", "SUMMER", "AUTUMN" ]
       },
       {
         "monster": "mon_kosmoceratops",
-        "weight": 5,
+        "weight": 3,
         "cost_multiplier": 25,
         "pack_size": [ 4, 8 ],
         "conditions": [ "DUSK", "DAY", "DAWN", "SPRING", "SUMMER", "AUTUMN" ]
       },
       {
         "monster": "mon_torosaurus",
-        "weight": 5,
+        "weight": 3,
         "cost_multiplier": 25,
         "pack_size": [ 4, 8 ],
         "conditions": [ "DUSK", "DAY", "DAWN", "SPRING", "SUMMER", "AUTUMN" ]
       },
       {
         "monster": "mon_triceratops",
-        "weight": 5,
+        "weight": 3,
         "cost_multiplier": 30,
         "pack_size": [ 4, 8 ],
         "conditions": [ "DUSK", "DAY", "DAWN", "SPRING", "SUMMER", "AUTUMN" ]

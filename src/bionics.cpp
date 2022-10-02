@@ -1476,7 +1476,7 @@ void Character::burn_fuel( bionic &bio )
             return;
         }
 
-        mod_stored_kcal( 1, true );
+        mod_stored_kcal( -1, true );
     }
 
     // There *could* be multiple fuel sources. But we just check first for solar.
@@ -2644,12 +2644,13 @@ bool Character::has_bionic( const bionic_id &b ) const
 bool Character::has_active_bionic( const bionic_id &b ) const
 {
     for( const bionic &i : *my_bionics ) {
-        if( i.is_safe_fuel_on() &&
-            get_power_level() + 1_kJ > get_max_power_level() * std::min( 1.0f, i.get_safe_fuel_thresh() ) ) {
-            // Inactive due to fuel treshold
-            return false;
-        }
         if( i.id == b ) {
+            if( i.is_safe_fuel_on() &&
+                get_power_level() + 1_kJ > get_max_power_level() * std::min( 1.0f, i.get_safe_fuel_thresh() ) ) {
+                // Inactive due to fuel treshold
+                return false;
+            }
+
             return ( i.powered && i.incapacitated_time == 0_turns );
         }
     }

@@ -488,6 +488,15 @@
     "upgrades": { "age_grow": 365, "into": "mon_ankylosaurus" }
   },
   {
+    "id": "mon_tenontosaurus_juvenile",
+    "type": "MONSTER",
+    "name": "green and yellow four-legged juvenile",
+    "copy-from": "mon_stegosaurus_juvenile",
+    "color": "yellow",
+    "upgrades": { "age_grow": 133, "into": "mon_tenontosaurus" },
+    "extend": { "flags": [ "SWIMS" ] }
+  },
+  {
     "id": "mon_camptosaurus_juvenile",
     "type": "MONSTER",
     "name": "green and yellow four-legged juvenile",
@@ -568,6 +577,16 @@
     "extend": { "flags": [ "CANPLAY", "NO_BREED" ] }
   },
   {
+    "id": "mon_styracosaurus_juvenile",
+    "type": "MONSTER",
+    "name": "styracosaurus juvenile",
+    "description": "A huge four-legged plant-eating dinosaur juvenile with a beak, a bony crest with spikes, and a horn above the nose.",
+    "copy-from": "mon_styracosaurus",
+    "hp": 90,
+    "upgrades": { "age_grow": 365, "into": "mon_styracosaurus" },
+    "extend": { "flags": [ "CANPLAY", "NO_BREED" ] }
+  },
+  {
     "id": "mon_centrosaurus_juvenile",
     "type": "MONSTER",
     "name": "centrosaurus juvenile",
@@ -575,6 +594,28 @@
     "copy-from": "mon_centrosaurus",
     "hp": 90,
     "upgrades": { "age_grow": 365, "into": "mon_centrosaurus" },
+    "extend": { "flags": [ "CANPLAY", "NO_BREED" ] }
+  },
+  {
+    "id": "mon_einiosaurus_juvenile",
+    "type": "MONSTER",
+    "name": "einiosaurus juvenile",
+    "description": "A four-legged plant-eating dinosaur juvenile with a beak and a horn curved forward above the nose.",
+    "copy-from": "mon_einiosaurus",
+    "volume": "650 L",
+    "weight": "650 kg",
+    "hp": 75,
+    "upgrades": { "age_grow": 220, "into": "mon_einiosaurus" },
+    "extend": { "flags": [ "CANPLAY", "NO_BREED" ] }
+  },
+  {
+    "id": "mon_achelousaurus_juvenile",
+    "type": "MONSTER",
+    "name": "achelousaurus juvenile",
+    "description": "A four-legged plant-eating dinosaur juvenile with a tall bony crest with two curved spikes and three rough bosses above the eyes and nose as well as a short tail and hooked beak.",
+    "copy-from": "mon_achelousaurus",
+    "hp": 125,
+    "upgrades": { "age_grow": 365, "into": "mon_achelousaurus" },
     "extend": { "flags": [ "CANPLAY", "NO_BREED" ] }
   },
   {
@@ -588,16 +629,27 @@
     "extend": { "flags": [ "CANPLAY", "NO_BREED" ] }
   },
   {
+    "id": "mon_chasmosaurus_juvenile",
+    "type": "MONSTER",
+    "copy-from": "mon_triceratops_juvenile",
+    "hp": 90,
+    "upgrades": { "age_grow": 365, "into": "mon_chasmosaurus" }
+  },
+  {
     "id": "mon_pentaceratops_juvenile",
     "type": "MONSTER",
     "copy-from": "mon_triceratops_juvenile",
+    "hp": 115,
     "upgrades": { "age_grow": 365, "into": "mon_pentaceratops" }
   },
   {
     "id": "mon_kosmoceratops_juvenile",
     "type": "MONSTER",
     "copy-from": "mon_triceratops_juvenile",
-    "upgrades": { "age_grow": 365, "into": "mon_kosmoceratops" }
+    "volume": "600 L",
+    "weight": "600 kg",
+    "hp": 75,
+    "upgrades": { "age_grow": 200, "into": "mon_kosmoceratops" }
   },
   {
     "id": "mon_torosaurus_juvenile",

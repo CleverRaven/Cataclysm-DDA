@@ -21,6 +21,7 @@ enum eoc_type {
     AVATAR_DEATH,
     NPC_DEATH,
     OM_MOVE,
+    PREVENT_DEATH,
     NUM_EOC_TYPES
 };
 struct effect_on_condition {
@@ -82,6 +83,8 @@ void clear( Character &you );
 /** write out all queued eocs and inactive eocs to a file for testing */
 void write_eocs_to_file( Character &you );
 void write_global_eocs_to_file();
+/** Run all prevent death eocs */
+void prevent_death();
 /** Run all avatar death eocs */
 void avatar_death();
 /** Run all OM_MOVE eocs */

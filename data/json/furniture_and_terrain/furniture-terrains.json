@@ -856,7 +856,7 @@
     "coverage": 40,
     "required_str": 32,
     "rotates_to": "PAVEMENT",
-    "flags": [ "TRANSPARENT" ],
+    "flags": [ "TRANSPARENT", "NO_SELF_CONNECT" ],
     "bash": {
       "str_min": 30,
       "str_max": 100,
@@ -884,7 +884,7 @@
     "coverage": 40,
     "required_str": 32,
     "rotates_to": "PAVEMENT",
-    "flags": [ "TRANSPARENT" ],
+    "flags": [ "TRANSPARENT", "NO_SELF_CONNECT" ],
     "bash": {
       "str_min": 30,
       "str_max": 100,

@@ -728,6 +728,44 @@
     "flags": [ "SEES", "SMELLS", "POISON", "STUMBLES", "NO_BREATHE", "FILTHY", "BASHES" ]
   },
   {
+    "id": "mon_zenontosaurus_fungus",
+    "type": "MONSTER",
+    "name": { "str": "fungal tenontosaurus zombie" },
+    "description": "This was once a feathered, four-legged dinosaur with a beak and a broad long tail.  Fungal tendrils now sprout from its mouth, eyes, and other orifices, holding together an enormous shambling mass of mold-covered feathers.",
+    "copy-from": "mon_zenontosaurus",
+    "default_faction": "fungus",
+    "species": [ "FUNGUS" ],
+    "diff": 2,
+    "proportional": { "hp": 0.75, "speed": 0.65 },
+    "color": "light_gray",
+    "relative": { "melee_skill": -1, "melee_dice": -1, "melee_dice_sides": 3, "armor_bash": 3 },
+    "bleed_rate": 0,
+    "vision_day": 5,
+    "vision_night": 5,
+    "special_attacks": [ [ "FUNGUS", 200 ], [ "scratch", 10 ], { "type": "bite", "cooldown": 5 } ],
+    "upgrades": {  },
+    "flags": [ "SEES", "SMELLS", "POISON", "STUMBLES", "NO_BREATHE", "FILTHY", "BASHES" ]
+  },
+  {
+    "id": "mon_zryosaurus_fungus",
+    "type": "MONSTER",
+    "name": { "str": "fungal dryosaurus zombie" },
+    "description": "This was once a small feathered dinosaur with short arms, a long neck, and a horned beak.  Fungal tendrils now sprout from its mouth, eyes, and other orifices, holding together an enormous shambling mass of mold-covered feathers.",
+    "copy-from": "mon_zamptosaurus",
+    "default_faction": "fungus",
+    "species": [ "FUNGUS" ],
+    "diff": 2,
+    "proportional": { "hp": 0.75, "speed": 0.65 },
+    "color": "light_gray",
+    "relative": { "melee_skill": -1, "melee_dice": -1, "melee_dice_sides": 3, "armor_bash": 3 },
+    "bleed_rate": 0,
+    "vision_day": 5,
+    "vision_night": 5,
+    "special_attacks": [ [ "FUNGUS", 200 ], [ "scratch", 10 ], { "type": "bite", "cooldown": 5 } ],
+    "upgrades": {  },
+    "flags": [ "SEES", "SMELLS", "POISON", "STUMBLES", "NO_BREATHE", "FILTHY", "BASHES" ]
+  },
+  {
     "id": "mon_zamptosaurus_fungus",
     "type": "MONSTER",
     "name": { "str": "fungal camptosaurus zombie" },
@@ -859,6 +897,25 @@
     "flags": [ "SEES", "SMELLS", "POISON", "STUMBLES", "NO_BREATHE", "FILTHY", "PET_MOUNTABLE" ]
   },
   {
+    "id": "mon_ztyracosaurus_fungus",
+    "type": "MONSTER",
+    "name": { "str": "fungal styracosaurus zombie" },
+    "description": "This was once a stocky four-legged dinosaur with a bony crest with several long spikes and one large horn above the beak.  Fungal tendrils now sprout from its mouth, eyes, and other orifices, holding together a shambling mass of mold-covered flesh.",
+    "copy-from": "mon_ztyracosaurus",
+    "default_faction": "fungus",
+    "species": [ "FUNGUS" ],
+    "diff": 2,
+    "proportional": { "hp": 0.75, "speed": 0.65 },
+    "color": "light_gray",
+    "relative": { "melee_skill": -1, "melee_dice": -1, "melee_dice_sides": 3, "armor_bash": 3 },
+    "bleed_rate": 0,
+    "vision_day": 5,
+    "vision_night": 5,
+    "special_attacks": [ [ "FUNGUS", 200 ], [ "scratch", 10 ], { "type": "bite", "cooldown": 5 } ],
+    "upgrades": {  },
+    "flags": [ "SEES", "SMELLS", "POISON", "STUMBLES", "NO_BREATHE", "FILTHY", "PET_MOUNTABLE" ]
+  },
+  {
     "id": "mon_zentrosaurus_fungus",
     "type": "MONSTER",
     "name": { "str": "fungal centrosaurus zombie" },
@@ -878,6 +935,39 @@
     "flags": [ "SEES", "SMELLS", "POISON", "STUMBLES", "NO_BREATHE", "FILTHY", "PET_MOUNTABLE" ]
   },
   {
+    "id": "mon_zeiniosaurus_fungus",
+    "type": "MONSTER",
+    "name": { "str": "fungal einiosaurus zombie" },
+    "description": "This was once a stocky dinosaur with a tall bony crest and one large horn above the nose curving forward towards the beak.  Fungal tendrils now sprout from its mouth, eyes, and other orifices, holding together a shambling mass of mold-covered flesh.",
+    "copy-from": "mon_zeiniosaurus",
+    "default_faction": "fungus",
+    "species": [ "FUNGUS" ],
+    "diff": 2,
+    "proportional": { "hp": 0.75, "speed": 0.65 },
+    "color": "light_gray",
+    "relative": { "melee_skill": -1, "melee_dice": -1, "melee_dice_sides": 3, "armor_bash": 3 },
+    "bleed_rate": 0,
+    "vision_day": 5,
+    "vision_night": 5,
+    "special_attacks": [ [ "FUNGUS", 200 ], [ "scratch", 10 ], { "type": "bite", "cooldown": 5 } ],
+    "upgrades": {  },
+    "flags": [ "SEES", "SMELLS", "POISON", "STUMBLES", "NO_BREATHE", "FILTHY", "PET_MOUNTABLE" ]
+  },
+  {
+    "id": "mon_zachelousaurus_fungus",
+    "type": "MONSTER",
+    "name": { "str": "fungal achelousaurus zombie" },
+    "description": "This was once a stocky dinosaur with a tall bony crest with two long curved spikes and three rough bosses above the eyes and nose as well as a short tail and hooked beak.  Fungal tendrils now sprout from its mouth, eyes, and other orifices, holding together a shambling mass of mold-covered flesh.",
+    "copy-from": "mon_zriceratops_fungus",
+    "proportional": { "hp": 0.55 },
+    "special_attacks": [
+      [ "FUNGUS", 200 ],
+      { "id": "slam", "cooldown": 10, "damage_max_instance": [ { "damage_type": "bash", "amount": 12 } ] },
+      [ "SMASH", 30 ]
+    ],
+    "upgrades": {  }
+  },
+  {
     "id": "mon_zachyrhinosaurus_fungus",
     "type": "MONSTER",
     "name": { "str": "fungal pachyrhinosaurus zombie" },
@@ -889,6 +979,15 @@
       { "id": "slam", "cooldown": 10, "damage_max_instance": [ { "damage_type": "bash", "amount": 12 } ] },
       [ "SMASH", 30 ]
     ],
+    "upgrades": {  }
+  },
+  {
+    "id": "mon_zasmosaurus_fungus",
+    "type": "MONSTER",
+    "name": { "str": "fungal chasmosaurus zombie" },
+    "description": "This was once a four-legged dinosaur with a tall bony crest from which three short horns emerge above the eyes and beak.  Fungal tendrils now sprout from its mouth, eyes, and other orifices, holding together a shambling mass of mold-covered flesh.",
+    "copy-from": "mon_zriceratops_fungus",
+    "proportional": { "armor_bash": 2 },
     "upgrades": {  }
   },
   {

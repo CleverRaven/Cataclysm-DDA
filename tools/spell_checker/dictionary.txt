@@ -5,6 +5,7 @@ abso
 acausal
 accurize
 accurized
+achelousaurus
 acidball
 acrocanthosaurus
 acrylamide
@@ -305,12 +306,14 @@ ceratopsian
 ceratosaurus
 cere
 cerium
+cesti
 cestus
 chainmail
 chamberings
 champed
 channnnce
 chasin
+chasmosaurus
 chausses
 cheapshot
 cheescutter
@@ -538,6 +541,7 @@ edmontosaurus
 eeds
 efault
 eidolon
+einiosaurus
 elderberries
 electrochemistry
 electrohack
@@ -817,6 +821,7 @@ hauberk
 hauberks
 hbhbh
 hdd
+headwear
 heartlike
 heatsink
 heatsinks
@@ -1776,6 +1781,7 @@ struthiomimus
 stungun
 stupidass
 stylette
+styracosaurus
 subcutis
 subgun
 sublethal
@@ -1837,6 +1843,7 @@ telepad
 telepads
 temaki
 tems
+tenontosaurus
 tenuously
 terpenes
 terranean

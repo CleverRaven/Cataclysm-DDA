@@ -468,6 +468,13 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "egg_tenontosaurus",
+    "name": "tenontosaurus egg",
+    "copy-from": "egg_dino",
+    "rot_spawn": "GROUP_EGG_tenontosaurus"
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "egg_dryosaurus",
     "name": "dryosaurus egg",
     "copy-from": "egg_dino_small",
@@ -559,6 +566,13 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "egg_styracosaurus",
+    "name": "styracosaurus egg",
+    "copy-from": "egg_dino",
+    "rot_spawn": "GROUP_EGG_styracosaurus"
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "egg_centrosaurus",
     "name": "centrosaurus egg",
     "copy-from": "egg_dino",
@@ -566,10 +580,31 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "egg_einiosaurus",
+    "name": "einiosaurus egg",
+    "copy-from": "egg_dino",
+    "rot_spawn": "GROUP_EGG_einiosaurus"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_achelousaurus",
+    "name": "achelousaurus egg",
+    "copy-from": "egg_dino",
+    "rot_spawn": "GROUP_EGG_achelousaurus"
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "egg_pachyrhinosaurus",
     "name": "pachyrhinosaurus egg",
     "copy-from": "egg_dino",
     "rot_spawn": "GROUP_EGG_pachyrhinosaurus"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_chasmosaurus",
+    "name": "chasmosaurus egg",
+    "copy-from": "egg_dino",
+    "rot_spawn": "GROUP_EGG_chasmosaurus"
   },
   {
     "type": "COMESTIBLE",
@@ -654,7 +689,9 @@
     "price_postapoc": 50,
     "material": [ "egg" ],
     "fun": 2,
-    "flags": [ "FREEZERBURN" ]
+    "flags": [ "FREEZERBURN" ],
+    "rot_spawn": "GROUP_NULL",
+    "rot_spawn_chance": 0
   },
   {
     "type": "COMESTIBLE",
@@ -669,7 +706,9 @@
     "price_postapoc": 200,
     "material": [ "egg" ],
     "fun": 10,
-    "flags": [ "FREEZERBURN" ]
+    "flags": [ "FREEZERBURN" ],
+    "rot_spawn": "GROUP_NULL",
+    "rot_spawn_chance": 0
   },
   {
     "type": "COMESTIBLE",
@@ -684,6 +723,8 @@
     "price_postapoc": 300,
     "material": [ "egg" ],
     "fun": 20,
-    "flags": [ "FREEZERBURN" ]
+    "flags": [ "FREEZERBURN" ],
+    "rot_spawn": "GROUP_NULL",
+    "rot_spawn_chance": 0
   }
 ]
