@@ -308,6 +308,10 @@
         "trial": { "type": "LIE", "difficulty": 10, "mod": [ [ "TRUST", 2 ] ] },
         "success": { "topic": "BGSS_PREPPER_1_FOUND_LMOE4" },
         "failure": { "topic": "BGSS_PREPPER_1_FOUND_LMOE4_FAILLIE", "opinion": { "trust": -1 } }
+      },
+      {
+        "text": "I had no idea.  It's <the_cataclysm>.  I was just trying to survive.",
+        "topic": "BGSS_PREPPER_1_FOUND_LMOE4_BEHONEST"
       }
     ]
   },
@@ -363,6 +367,12 @@
     "type": "talk_topic",
     "dynamic_line": "Oh…  Yeah, that would definitely do it.  It's a shame someone already got in.  I had a lot of stuff saved up there.  But I suppose it wouldn't matter much now.",
     "responses": [ { "text": "Stick with me and we'll find plenty of stuff to replace it.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "id": "BGSS_PREPPER_1_FOUND_LMOE4_BEHONEST",
+    "type": "talk_topic",
+    "dynamic_line": "I guess I can't judge.  I've made some fucked up decisions, too.  Taken some things that aren't mine.",
+    "responses": [ { "text": "I'm sorry.  I'm sure we can find lots of stuff to replace whatever I took.", "topic": "TALK_DONE" } ]
   },
   {
     "id": "BGSS_PREPPER_1_FOUND_LMOE4_FAILLIE",
@@ -471,17 +481,17 @@
       },
       {
         "text": "Maybe the explanation is more scientific.  Zombies and flesh-eating monsters only come from supervillains and gods in fiction.",
-        "condition": { "and": [ { "u_has_intelligence": 7 }, { "not": { "u_has_trait": "SPIRITUAL" }}]},
+        "condition": { "and": [ { "u_has_intelligence": 7 }, { "not": { "u_has_trait": "SPIRITUAL" } } ] },
         "topic": "BGSS_PREPPER_1_FOUND_LMOE9_SKEPTIC"
       },
       {
         "text": "[US Marshal] I actually used to be a US Marshal, and there were crazy rumors coming from all over back in the day.  Someone said China built a portal to another dimension.  Some thought it was a time machine.  Someone else said it was us who actually made it, and it was some kind of doomsday device.  There was a lot of money getting sunk into the Department of Energy, DARPA, military contractors…  We all knew something was up, but it was impossible to say what.",
-        "condition": { "u_has_any_trait": [ "PROF_FED" ]},
+        "condition": { "u_has_any_trait": [ "PROF_FED" ] },
         "topic": "BGSS_PREPPER_1_FOUND_LMOE9_FED"
       },
       {
         "text": "[Hub 01 Ancillary] I have an idea what happened.  This might sound strange, I've been doing jobs for these people in a hidden bunker who gave me some high-tech armor and told me our reality… 'broke' somehow.  That's why those crazy portal storms keep happening.  They also told me it's probably going to get worse.",
-        "condition": { "u_has_any_trait": [ "PROF_HUB01_ANCILLIARY" ]},
+        "condition": { "u_has_any_trait": [ "PROF_HUB01_ANCILLIARY" ] },
         "topic": "BGSS_PREPPER_1_FOUND_LMOE9_HUB01"
       },
       {
@@ -504,49 +514,95 @@
     "id": "BGSS_PREPPER_1_FOUND_LMOE9_GOVERNMENT",
     "type": "talk_topic",
     "dynamic_line": "That's what I'm saying!  Everything that's going on wouldn't be possible without massive fuck-ups by people in power.  China has fusion reactors?  Well, I've never seen it!  America sinks trillions and trillions of dollars into secret military budgets with no explanation.  If you gave me a trillion dollars and the brain of a bureaucrat, I bet I could completely fuck up reality, too.",
-    "responses": [ { "text": "Well, let's get going.  I'm trying to stick it to 'The Man' while we've still got a chance.", "topic": "TALK_DONE" } ]
+    "responses": [
+      {
+        "text": "Well, let's get going.  I'm trying to stick it to 'The Man' while we've still got a chance.",
+        "topic": "TALK_DONE"
+      }
+    ]
   },
   {
     "id": "BGSS_PREPPER_1_FOUND_LMOE9_GOD",
     "type": "talk_topic",
     "dynamic_line": "I've been trying not to think about it, but you could be right.  The more that I see, the less I can explain.  I grew up around a lot of people who always talked about the Rapture.  Hell itself opening up and everything.  It was like they KNEW it would happen.  Before the internet stopped working, I saw people saying that sinners were becoming zombies.  'As above, so below' someone said, or something like that…",
-    "responses": [ { "text": "We should keep moving…  No sense dwelling on fate.  If those people are right, then this is all we've got: survival.", "topic": "TALK_DONE" } ]
+    "responses": [
+      {
+        "text": "We should keep moving…  No sense dwelling on fate.  If those people are right, then this is all we've got: survival.",
+        "topic": "TALK_DONE"
+      }
+    ]
   },
   {
     "id": "BGSS_PREPPER_1_FOUND_LMOE9_SKEPTIC",
     "type": "talk_topic",
     "dynamic_line": "Maybe.  I guess multiple things could be possible.  You really don't think that there's someone or something behind this?  Someone who flew a little too close to the sun?  Poked the beast?",
-    "responses": [ { "text": "I think it's possible, but ultimately unknowable.  What matters now is finding methods of survival and figuring out the most efficient ways to kill the horrible monsters that have taken over.  We shouldn't dwell on crazy theories.", "topic": "BGSS_PREPPER_1_FOUND_LMOE10_SKEPTIC" } ]
+    "responses": [
+      {
+        "text": "I think it's possible, but ultimately unknowable.  What matters now is finding methods of survival and figuring out the most efficient ways to kill the horrible monsters that have taken over.  We shouldn't dwell on crazy theories.",
+        "topic": "BGSS_PREPPER_1_FOUND_LMOE10_SKEPTIC"
+      }
+    ]
   },
   {
     "id": "BGSS_PREPPER_1_FOUND_LMOE9_FED",
     "type": "talk_topic",
     "dynamic_line": "A Marshal, huh?  I could tell there was something a bit square about you.  Or… round, I suppose, ha!  In my experience, when people at that level start talking stuff like that, there's at least some truth to it.",
-    "responses": [ { "text": "I might not have 'real' authority anymore, and we might not have a real 'society', but it's still not nice to make fat jokes…", "topic": "BGSS_PREPPER_1_FOUND_LMOE10_TAKE_BAIT" }, { "text": "They were talking a LOT in that time, that's for sure.", "topic": "BGSS_PREPPER_1_FOUND_LMOE10_IGNORE_BAIT" } ]
+    "responses": [
+      {
+        "text": "I might not have 'real' authority anymore, and we might not have a real 'society', but it's still not nice to make fat jokes…",
+        "topic": "BGSS_PREPPER_1_FOUND_LMOE10_TAKE_BAIT"
+      },
+      {
+        "text": "They were talking a LOT in that time, that's for sure.",
+        "topic": "BGSS_PREPPER_1_FOUND_LMOE10_IGNORE_BAIT"
+      }
+    ]
   },
   {
     "id": "BGSS_PREPPER_1_FOUND_LMOE9_HUB01",
     "type": "talk_topic",
     "dynamic_line": "High-tech armor?  And there's a whole group of them down in a bunker?  Probably best to keep people like that on our good side.  What they're saying seems to check out.  Reality does seem pretty fucked.  Kinda makes me wonder how involved THEY were if they know all that, though.",
-    "responses": [ { "text": "I'm not sure yet.  It's suspicious, yes, but they seem to be nearly as confused as we are about some things.  Almost like they're scared by what's happened.", "topic": "BGSS_PREPPER_1_FOUND_LMOE10_HUB01" } ]
+    "responses": [
+      {
+        "text": "I'm not sure yet.  It's suspicious, yes, but they seem to be nearly as confused as we are about some things.  Almost like they're scared by what's happened.",
+        "topic": "BGSS_PREPPER_1_FOUND_LMOE10_HUB01"
+      }
+    ]
   },
   {
     "id": "BGSS_PREPPER_1_FOUND_LMOE9_BONE_SEER",
     "type": "talk_topic",
     "dynamic_line": "She said it was… energy in bones?  Listen, I've heard a lot of crazy bullshit in my time and that's up there, for sure.  And I don't see how something like that explains all the crazy shit I've seen either.  But collecting bones to… save the world?  Fuck it, give it a shot.  Maybe that's something just YOU do, though.  I'm happy believing a lie if that's the truth, I'll be honest.",
-    "responses": [ { "text": "I didn't say it was a SOLID theory, but maybe she's onto something.  This is evil on a cosmic scale; I don't know how else to explain it.  Maybe she's right.  Maybe the bones really are 'singing'.", "topic": "TALK_DONE" } ]
+    "responses": [
+      {
+        "text": "I didn't say it was a SOLID theory, but maybe she's onto something.  This is evil on a cosmic scale; I don't know how else to explain it.  Maybe she's right.  Maybe the bones really are 'singing'.",
+        "topic": "TALK_DONE"
+      }
+    ]
   },
   {
     "id": "BGSS_PREPPER_1_FOUND_LMOE9_ALIENS",
     "type": "talk_topic",
     "dynamic_line": "I've been trying not to think about it, but you could be right.  The more that I see, the less I can explain.  I don't know why humans would want this, but if you're a brain-sucking alien, this is the place to be.",
-    "responses": [ { "text": "So… are you down to kick some alien ass with me?", "topic": "BGSS_PREPPER_1_FOUND_LMOE10_ALIENS" }, { "text": "Let's not dwell on it.  I'm ready to get a move on…", "topic": "TALK_DONE" } ]
+    "responses": [
+      { "text": "So… are you down to kick some alien ass with me?", "topic": "BGSS_PREPPER_1_FOUND_LMOE10_ALIENS" },
+      { "text": "Let's not dwell on it.  I'm ready to get a move on…", "topic": "TALK_DONE" }
+    ]
   },
   {
     "id": "BGSS_PREPPER_1_FOUND_LMOE9_CHAOS",
     "type": "talk_topic",
     "dynamic_line": "I can't accept that.  Everything was just fine for a while, but the bad started some years ago, with bad people doing bad things.  I think we all knew it was gonna end one way or another.  But there's got to be some sort of deeper explanation for… this!  Someone is responsible!",
-    "responses": [ { "text": "Possibly, but we can never know for sure.  Sometimes bad things gather into uncontrollable avalanches.", "topic": "BGSS_PREPPER_1_FOUND_LMOE10_CHAOS" }, { "text": "Those bad people are probably all dead now.  If bad things continue to happen, it's just the nature of the universe.  Entropy and chaos are the natural order of things.", "topic": "BGSS_PREPPER_1_FOUND_LMOE10_CHAOS" } ]
+    "responses": [
+      {
+        "text": "Possibly, but we can never know for sure.  Sometimes bad things gather into uncontrollable avalanches.",
+        "topic": "BGSS_PREPPER_1_FOUND_LMOE10_CHAOS"
+      },
+      {
+        "text": "Those bad people are probably all dead now.  If bad things continue to happen, it's just the nature of the universe.  Entropy and chaos are the natural order of things.",
+        "topic": "BGSS_PREPPER_1_FOUND_LMOE10_CHAOS"
+      }
+    ]
   },
   {
     "id": "BGSS_PREPPER_1_FOUND_LMOE10_SKEPTIC",
@@ -564,13 +620,20 @@
     "id": "BGSS_PREPPER_1_FOUND_LMOE10_IGNORE_BAIT",
     "type": "talk_topic",
     "dynamic_line": "That's always how it goes: someone knows someone else, they get drunk at some Virginia wine party for rich elites, and suddenly state secrets are leaking out.  'Oh, my Russian contacts got this covert intelligence'…  'My secret Chinese spies think this crazy thing is happening'…  Sometimes they know and sometimes they don't.  It's up to us to put the truth together.",
-    "responses": [ { "text": "I'm tired of talking.  Let's get moving and put that truth together for ourselves…", "topic": "TALK_DONE" } ]
+    "responses": [
+      { "text": "I'm tired of talking.  Let's get moving and put that truth together for ourselves…", "topic": "TALK_DONE" }
+    ]
   },
   {
     "id": "BGSS_PREPPER_1_FOUND_LMOE10_HUB01",
     "type": "talk_topic",
     "dynamic_line": "Scared?  Yeah, that's fair.  I wouldn't say it's a friendly world out here.  Still, it's best to be friends.  Anyone that prepared for the apocalypse is probably armed to the teeth anyway.",
-    "responses": [ { "text": "Let's get moving.  I feel like it's useless worrying who they are when they're some of the only friends we've got…", "topic": "TALK_DONE" } ]
+    "responses": [
+      {
+        "text": "Let's get moving.  I feel like it's useless worrying who they are when they're some of the only friends we've got…",
+        "topic": "TALK_DONE"
+      }
+    ]
   },
   {
     "id": "BGSS_PREPPER_1_FOUND_LMOE10_BONE_SEER",
@@ -588,7 +651,12 @@
     "id": "BGSS_PREPPER_1_FOUND_LMOE10_CHAOS",
     "type": "talk_topic",
     "dynamic_line": "I refuse to believe things are just random.  Especially this!  The dead don't start rising for no reason!",
-    "responses": [ { "text": "Let's keep moving.  This is a topic for another day, when we've actually found some answers…", "topic": "TALK_DONE" } ]
+    "responses": [
+      {
+        "text": "Let's keep moving.  This is a topic for another day, when we've actually found some answers…",
+        "topic": "TALK_DONE"
+      }
+    ]
   },
   {
     "id": "directions_prepper_1_SHELTER",
