@@ -200,7 +200,7 @@ shared_ptr_fast<mm_submap> map_memory::find_submap( const tripoint &sm_pos )
 }
 
 //FIXME: This is to fix old (mid 2022) saves. It can be removed at some point.
-static void temp_remove_open_air( shared_ptr_fast<mm_submap> sm )
+static void temp_remove_open_air( const shared_ptr_fast<mm_submap> &sm )
 {
 
     if( sm->is_empty() ) {

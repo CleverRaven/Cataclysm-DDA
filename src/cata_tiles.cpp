@@ -479,7 +479,7 @@ void tileset_cache::loader::create_textures_from_tile_atlas( const SDL_Surface_P
 }
 
 template<typename T>
-static void extend_vector_by( std::vector<T> &vec, const size_t additional_size )
+static void extend_vector_by( std::vector<T> &vec, size_t additional_size )
 {
     vec.resize( vec.size() + additional_size );
 }
@@ -1381,7 +1381,7 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
 
             // Add scent value to the overlay_strings list for every visible tile when
             // displaying scent
-            if( g->display_overlay_state( ACTION_DISPLAY_SCENT ) && !invisible[0] ) {
+            if( g->display_overlay_state( ACTION_DISPLAY_SCENT ) && !invis ) {
                 const int scent_value = get_scent().get( {temp, center.z} );
                 if( scent_value > 0 ) {
                     overlay_strings.emplace( player_to_screen( temp ) + half_tile,
@@ -1392,7 +1392,7 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
 
             // Add scent type to the overlay_strings list for every visible tile when
             // displaying scent
-            if( g->display_overlay_state( ACTION_DISPLAY_SCENT_TYPE ) && !invisible[0] ) {
+            if( g->display_overlay_state( ACTION_DISPLAY_SCENT_TYPE ) && !invis ) {
                 const scenttype_id scent_type = get_scent().get_type( pos );
                 if( !scent_type.is_empty() ) {
                     overlay_strings.emplace( player_to_screen( temp ) + half_tile,
@@ -1526,7 +1526,7 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
             }
 
             if( g->display_overlay_state( ACTION_DISPLAY_REACHABILITY_ZONES ) ) {
-                tripoint tile_pos( x, y, center.z );
+                tripoint tile_pos( temp, center.z );
                 int value = here.reachability_cache_value( tile_pos,
                             g->debug_rz_display.r_cache_vertical, g->debug_rz_display.quadrant );
                 // use color to denote reachability from you to the target tile according to the
@@ -1663,6 +1663,7 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
             ( this->*f )( {p.pos.xy(), center.z}, p.ll, p.height_3d, p.invisible, 0 );
         }
     }
+
     // display number of monsters to spawn in mapgen preview
     for( const tile_render_info &p : draw_points ) {
         const auto mon_override = monster_override.find( p.pos );
