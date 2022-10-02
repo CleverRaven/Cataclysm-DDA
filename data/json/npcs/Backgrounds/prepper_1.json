@@ -270,7 +270,7 @@
     "responses": [
       {
         "text": "I uh… found my way inside it a while ago.  The door was already open.  I kinda went through it already assuming whoever owned it was dead.",
-        "trial": { "type": "LIE", "difficulty": 25, "mod": [ [ "TRUST", 2 ] ] },
+        "trial": { "type": "LIE", "difficulty": 20, "mod": [ [ "TRUST", 2 ] ] },
         "success": { "topic": "BGSS_PREPPER_1_FOUND_LMOE2_BENICE" },
         "failure": { "topic": "BGSS_PREPPER_1_FOUND_LMOE2_FAILLIE" }
       },
@@ -305,7 +305,7 @@
       },
       {
         "text": "The whole front door had been blown off and everything had been looted.  Nothing left.  It seemed like something major had happened, that's all.",
-        "trial": { "type": "LIE", "difficulty": 10, "mod": [ [ "TRUST", 2 ] ] },
+        "trial": { "type": "LIE", "difficulty": -10, "mod": [ [ "TRUST", 2 ] ] },
         "success": { "topic": "BGSS_PREPPER_1_FOUND_LMOE4" },
         "failure": { "topic": "BGSS_PREPPER_1_FOUND_LMOE4_FAILLIE", "opinion": { "trust": -1 } }
       },
@@ -355,10 +355,10 @@
     "type": "talk_topic",
     "dynamic_line": "I suppose that's true.  Still not a very nice way to break the news to someone you accidentally robbed…",
     "responses": [
-      { "text": "You're right, sorry.", "topic": "TALK_DONE" },
+      { "text": "You're right, sorry.", "topic": "TALK_FRIEND" },
       {
         "text": "I'm just doing what I have to do.  Stick with me and we'll find plenty of stuff to replace it.",
-        "topic": "TALK_DONE"
+        "topic": "TALK_FRIEND"
       }
     ]
   },
@@ -366,13 +366,13 @@
     "id": "BGSS_PREPPER_1_FOUND_LMOE4",
     "type": "talk_topic",
     "dynamic_line": "Oh…  Yeah, that would definitely do it.  It's a shame someone already got in.  I had a lot of stuff saved up there.  But I suppose it wouldn't matter much now.",
-    "responses": [ { "text": "Stick with me and we'll find plenty of stuff to replace it.", "topic": "TALK_DONE" } ]
+    "responses": [ { "text": "Stick with me and we'll find plenty of stuff to replace it.", "topic": "TALK_FRIEND" } ]
   },
   {
     "id": "BGSS_PREPPER_1_FOUND_LMOE4_BEHONEST",
     "type": "talk_topic",
     "dynamic_line": "I guess I can't judge.  I've made some fucked up decisions, too.  Taken some things that aren't mine.",
-    "responses": [ { "text": "I'm sorry.  I'm sure we can find lots of stuff to replace whatever I took.", "topic": "TALK_DONE" } ]
+    "responses": [ { "text": "I'm sorry.  I'm sure we can find lots of stuff to replace whatever I took.", "topic": "TALK_FRIEND" } ]
   },
   {
     "id": "BGSS_PREPPER_1_FOUND_LMOE4_FAILLIE",
@@ -399,7 +399,7 @@
   {
     "id": "BGSS_PREPPER_1_FOUND_LMOE5",
     "type": "talk_topic",
-    "dynamic_line": "&<npc_name> inhales sharply and breaks eye contact.  \"I…  I mean, I can sympathize with someone who thinks that way…  The government lies all the time and they're probably out there somewhere STILL lying.  But nah, I wouldn't leave my computer laying around, unprotected.\"",
+    "dynamic_line": "&<npc_name> inhales sharply and breaks eye contact.\n\n\"I…  I mean, I can sympathize with someone who thinks that way…  The government lies all the time and they're probably out there somewhere STILL lying.  But nah, I wouldn't leave my computer laying around, unprotected.\"",
     "responses": [
       {
         "text": "Are you sure?  It kind of feels like it might be yours by the way you're acting…",
@@ -420,7 +420,7 @@
   {
     "id": "BGSS_PREPPER_1_FOUND_LMOE6_FAILLIE",
     "type": "talk_topic",
-    "dynamic_line": "Nope.  Not mine.  Listen, maybe we shouldn't talk about this.",
+    "dynamic_line": "Nope.  Not mine.  Listen, maybe we shouldn't talk about this right now.",
     "responses": [
       {
         "text": "Why not?  Now that it's all finally come to a head, maybe some of your theories are right.",
@@ -435,8 +435,8 @@
     "dynamic_line": [
       {
         "days_since_cataclysm": 21,
-        "no": "&<npc_name> sighs and pauses for a moment.  \"Listen…  I know what you think I am, but the threats are real.  The dead are walking, strange hellspawn crawling out of…  well, I can't even talk about it.  Whatever demonic, technological abomination, bio-weapon the communists unleashed on the world is definitely out of their control.  Look around you!  Isn't it obvious something bigger is going on?\"",
-        "yes": "&<npc_name> sighs and pauses for a moment.  \"It's been so long now.  I barely even remember what I was doing.  There was so much confusion and violence in those last days.  My family didn't understand the threat, even though I tried to tell them.  I know what you think I am, but look what's happened!  The dead are walking, the sky is cracking open, and…  well, I can't even talk about it.  Isn't it obvious something bigger is going on?\""
+        "no": "&<npc_name> sighs and pauses for a moment.\n\n\"Listen…  I know what you think I am, but the threats are real.  The dead are walking, strange hellspawn crawling out of…  well, I can't even talk about it.  Whatever demonic, technological abomination, bio-weapon the communists unleashed on the world is definitely out of their control.  Look around you!  Isn't it obvious something bigger is going on?\"",
+        "yes": "&<npc_name> sighs and pauses for a moment.\n\n\"It's been so long now.  I barely even remember what I was doing.  There was so much confusion and violence in those last days.  My family didn't understand the threat, even though I tried to tell them.  I know what you think I am, but look what's happened!  The dead are walking, the sky is cracking open, and…  well, I can't even talk about it.  Isn't it obvious something bigger is going on?\""
       }
     ],
     "responses": [
@@ -453,7 +453,7 @@
       {
         "days_since_cataclysm": 21,
         "//": "Before the Cataclysm, the prepper was pretty sure it was a Chinese plot for American destabilization and control, maybe aided by elites across the world.  If you meet them early, they still sort of think this. American propaganda about 'Chinese mind control' also influenced them. Later, once the portal storms ramp up, they decide it might be something more cosmic, possibly religious. The conversation from this point should allow the player to bounce ideas about what happened off of the prepper.",
-        "no": "It's an invasion.  Or, at least, I think that's what they were trying to do at first.  Sudden bouts of violence, undermining protests by putting agitators all over the news…  When they couldn't get what they wanted, they went full 'scorched earth'.  They decided to destroy everything instead.",
+        "no": "It's an invasion.  Or, at least, I think that's what they were trying to do at first.  Sudden bouts of violence, undermining protests by putting agitators up front, doing false flags with covert and overt agents alike…  When they couldn't get what they wanted, they went full 'scorched earth'.  They decided to destroy everything instead.",
         "yes": "I thought I knew at one point.  There were so many signs of manipulation and control.  I thought maybe they were trying to discredit the protests, but when the violence broke out it seemed to be everywhere.  There was footage on the news of people fighting, destroying property, eating animals and… each other in the street.  I thought at some point they were going to sweep in and seize control, but it just never happened."
       }
     ],
@@ -465,7 +465,7 @@
     "dynamic_line": [
       {
         "days_since_cataclysm": 21,
-        "no": "You know, the elites.  The ones who have always had control will continue having control, no matter what it costs.  If it means destroying everything to be king of the ashes, they'll do it.  I thought for sure it was China, but I'm not so sure anymore.  I figured they would probably be here by now, putting on their crown.  Maybe they're still waiting to make their move…",
+        "no": "You know, the elites.  The ones who have always had control will continue having control, no matter what it costs.  If it means destroying everything to be king of the ashes, they'll do it.  I used to think it was China, for sure, but I'm not so sure anymore.  I figured they would probably be here by now, putting on their crown.  Maybe they're still waiting to make their move…",
         "yes": "The government.  Whoever was left, really.  I don't know…  I'm starting to think that maybe some of those folks were right…  Maybe this is some kind of punishment for humanity.  Maybe some god decided they'd had enough of us.  Or maybe there's no answer.  I can't explain some of the things I've seen."
       }
     ],
@@ -485,12 +485,12 @@
         "topic": "BGSS_PREPPER_1_FOUND_LMOE9_SKEPTIC"
       },
       {
-        "text": "[US Marshal] I actually used to be a US Marshal, and there were crazy rumors coming from all over back in the day.  Someone said China built a portal to another dimension.  Some thought it was a time machine.  Someone else said it was us who actually made it, and it was some kind of doomsday device.  There was a lot of money getting sunk into the Department of Energy, DARPA, military contractors…  We all knew something was up, but it was impossible to say what.",
+        "text": "[US Marshal] I actually used to be a US Marshal, and there were crazy rumors coming from all over back in the day.  A buddy of mine heard that China built a portal to another dimension.  Or a time machine.  Someone else claimed it was America who made it, and it was actually some kind of doomsday device.  There was a lot of money getting sunk into the Department of Energy, DARPA, military contractors…  We all knew something was up, but it was impossible to say what.",
         "condition": { "u_has_any_trait": [ "PROF_FED" ] },
         "topic": "BGSS_PREPPER_1_FOUND_LMOE9_FED"
       },
       {
-        "text": "[Hub 01 Ancillary] I have an idea what happened.  This might sound strange, I've been doing jobs for these people in a hidden bunker who gave me some high-tech armor and told me our reality… 'broke' somehow.  That's why those crazy portal storms keep happening.  They also told me it's probably going to get worse.",
+        "text": "[Hub 01 Ancilliary] I have an idea what happened.  This might sound strange, I've been doing jobs for these people in a hidden bunker who gave me some high-tech armor and told me our reality… 'broke' somehow.  That's why those crazy portal storms keep happening.  They also told me it's probably going to get worse.",
         "condition": { "u_has_any_trait": [ "PROF_HUB01_ANCILLIARY" ] },
         "topic": "BGSS_PREPPER_1_FOUND_LMOE9_HUB01"
       },
@@ -538,7 +538,7 @@
     "dynamic_line": "Maybe.  I guess multiple things could be possible.  You really don't think that there's someone or something behind this?  Someone who flew a little too close to the sun?  Poked the beast?",
     "responses": [
       {
-        "text": "I think it's possible, but ultimately unknowable.  What matters now is finding methods of survival and figuring out the most efficient ways to kill the horrible monsters that have taken over.  We shouldn't dwell on crazy theories.",
+        "text": "I think it's possible, but ultimately unknowable.  What matters now is survival and actually fighting the monsters that are trying to kill us.  We shouldn't dwell on crazy theories.",
         "topic": "BGSS_PREPPER_1_FOUND_LMOE10_SKEPTIC"
       }
     ]
@@ -576,7 +576,7 @@
     "responses": [
       {
         "text": "I didn't say it was a SOLID theory, but maybe she's onto something.  This is evil on a cosmic scale; I don't know how else to explain it.  Maybe she's right.  Maybe the bones really are 'singing'.",
-        "topic": "TALK_DONE"
+        "topic": "BGSS_PREPPER_1_FOUND_LMOE10_BONE_SEER"
       }
     ]
   },
@@ -607,7 +607,7 @@
   {
     "id": "BGSS_PREPPER_1_FOUND_LMOE10_SKEPTIC",
     "type": "talk_topic",
-    "dynamic_line": "You're right, but I still think there's something bigger out there.  Something unexplainable and evil.  It doesn't matter whether science can explain it because it sure doesn't seem like we're capable of defeating it.",
+    "dynamic_line": "You're right, but I still think there's something bigger out there.  Something evil.  It doesn't matter whether science can explain it because it sure doesn't seem like we're capable of defeating it.",
     "responses": [ { "text": "Indeed…", "topic": "TALK_DONE" } ]
   },
   {
@@ -639,18 +639,18 @@
     "id": "BGSS_PREPPER_1_FOUND_LMOE10_BONE_SEER",
     "type": "talk_topic",
     "dynamic_line": "Once again, I'm staying out of the bone bullshit.  I hope the best for you and the bone woman.  You definitely seem like you have things under control.",
-    "responses": [ { "text": "I probably shouldn't have brought that up…  Let's get moving.", "topic": "TALK_DONE" } ]
+    "responses": [ { "text": "Maybe I shouldn't have mentioned it…  Let's just get moving.", "topic": "TALK_DONE" } ]
   },
   {
     "id": "BGSS_PREPPER_1_FOUND_LMOE10_ALIENS",
     "type": "talk_topic",
-    "dynamic_line": "Honestly, it doesn't matter who opened up what portal to wherever.  Extraterrestrial monster?  Engineered bio-weapon?  Three children standing on each others' shoulders in an alien Halloween costume?  It doesn't matter; I'll blast 'em either way.",
+    "dynamic_line": "Honestly, it doesn't matter who opened up what portal to wherever.  Extraterrestrial monster?  Engineered bio-weapon?  Three children standing on each others' shoulders in an alien Halloween costume?  I'll blast 'em either way.",
     "responses": [ { "text": "'War of the Worlds', baby!  That's what I like to hear!  Let's get moving…", "topic": "TALK_DONE" } ]
   },
   {
     "id": "BGSS_PREPPER_1_FOUND_LMOE10_CHAOS",
     "type": "talk_topic",
-    "dynamic_line": "I refuse to believe things are just random.  Especially this!  The dead don't start rising for no reason!",
+    "dynamic_line": "I refuse to believe things are just random.  Especially this!  The dead don't start rising all over the world for no reason!",
     "responses": [
       {
         "text": "Let's keep moving.  This is a topic for another day, when we've actually found some answers…",
