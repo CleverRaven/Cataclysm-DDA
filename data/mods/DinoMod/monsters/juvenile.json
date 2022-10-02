@@ -516,22 +516,28 @@
     "upgrades": { "age_grow": 365, "into": "mon_hadrosaurus" }
   },
   {
-    "id": "mon_parasaurolophus_juvenile",
-    "type": "MONSTER",
-    "copy-from": "mon_hadrosaurus_juvenile",
-    "upgrades": { "age_grow": 365, "into": "mon_parasaurolophus" }
-  },
-  {
-    "id": "mon_corythosaurus_juvenile",
-    "type": "MONSTER",
-    "copy-from": "mon_hadrosaurus_juvenile",
-    "upgrades": { "age_grow": 365, "into": "mon_corythosaurus" }
-  },
-  {
     "id": "mon_maiasaura_juvenile",
     "type": "MONSTER",
     "copy-from": "mon_hadrosaurus_juvenile",
     "upgrades": { "age_grow": 365, "into": "mon_maiasaura" }
+  },
+  {
+    "id": "mon_gryposaurus_juvenile",
+    "type": "MONSTER",
+    "copy-from": "mon_hadrosaurus_juvenile",
+    "upgrades": { "age_grow": 365, "into": "mon_gryposaurus" }
+  },
+  {
+    "id": "mon_prosaurolophus_juvenile",
+    "type": "MONSTER",
+    "copy-from": "mon_hadrosaurus_juvenile",
+    "upgrades": { "age_grow": 365, "into": "mon_prosaurolophus" }
+  },
+  {
+    "id": "mon_saurolophus_juvenile",
+    "type": "MONSTER",
+    "copy-from": "mon_hadrosaurus_juvenile",
+    "upgrades": { "age_grow": 365, "into": "mon_saurolophus" }
   },
   {
     "id": "mon_edmontosaurus_juvenile",
@@ -540,10 +546,28 @@
     "upgrades": { "age_grow": 365, "into": "mon_edmontosaurus" }
   },
   {
-    "id": "mon_gryposaurus_juvenile",
+    "id": "mon_parasaurolophus_juvenile",
     "type": "MONSTER",
     "copy-from": "mon_hadrosaurus_juvenile",
-    "upgrades": { "age_grow": 365, "into": "mon_gryposaurus" }
+    "upgrades": { "age_grow": 365, "into": "mon_parasaurolophus" }
+  },
+  {
+    "id": "mon_lambeosaurus_juvenile",
+    "type": "MONSTER",
+    "copy-from": "mon_hadrosaurus_juvenile",
+    "upgrades": { "age_grow": 365, "into": "mon_lambeosaurus" }
+  },
+  {
+    "id": "mon_corythosaurus_juvenile",
+    "type": "MONSTER",
+    "copy-from": "mon_hadrosaurus_juvenile",
+    "upgrades": { "age_grow": 365, "into": "mon_corythosaurus" }
+  },
+  {
+    "id": "mon_hypacrosaurus_juvenile",
+    "type": "MONSTER",
+    "copy-from": "mon_hadrosaurus_juvenile",
+    "upgrades": { "age_grow": 365, "into": "mon_hypacrosaurus" }
   },
   {
     "id": "mon_pachycephalosaurus_juvenile",
