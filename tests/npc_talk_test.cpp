@@ -77,6 +77,7 @@ static const trait_id trait_PROF_FED( "PROF_FED" );
 static const trait_id trait_PROF_SWAT( "PROF_SWAT" );
 static const trait_id trait_PSYCHOPATH( "PSYCHOPATH" );
 static const trait_id trait_SAPIOVORE( "SAPIOVORE" );
+static const trait_id trait_test_trait( "test_trait" );
 static const trait_id trait_WEB_WEAVER( "WEB_WEAVER" );
 
 static npc &create_test_talker( bool shopkeep = false )
@@ -1187,8 +1188,7 @@ TEST_CASE( "npc_compare_int", "[npc_talk]" )
                         get_player_character().getID(), mon_zombie_bio_op );
     get_event_bus().send( e );
     player_character.magic->learn_spell( spell_test_spell_json, player_character, false );
-    player_character.set_mutation(
-        trait_id( "test_trait" ) ); // Give the player the scool trait with ID test_trait
+    player_character.set_mutation( trait_test_trait ); // Give the player the spell scool test_trait
     player_character.magic->set_spell_level( spell_test_spell_json, 1, &player_character );
     player_character.magic->learn_spell( spell_test_spell_pew, player_character, true );
     player_character.magic->set_spell_level( spell_test_spell_pew, 4, &player_character );
