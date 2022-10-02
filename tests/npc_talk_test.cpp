@@ -63,6 +63,8 @@ static const mtype_id mon_zombie_bio_op( "mon_zombie_bio_op" );
 static const npc_class_id NC_NONE( "NC_NONE" );
 static const npc_class_id NC_TEST_CLASS( "NC_TEST_CLASS" );
 
+static const proficiency_id proficiency_prof_test( "prof_test" );
+
 static const skill_id skill_driving( "driving" );
 
 static const spell_id spell_test_spell_pew( "test_spell_pew" );
@@ -74,7 +76,6 @@ static const trait_id trait_PROF_SWAT( "PROF_SWAT" );
 static const trait_id trait_PSYCHOPATH( "PSYCHOPATH" );
 static const trait_id trait_SAPIOVORE( "SAPIOVORE" );
 static const trait_id trait_WEB_WEAVER( "WEB_WEAVER" );
-static const proficiency_id proficiency_prof_test( "prof_test" );
 
 static npc &create_test_talker( bool shopkeep = false )
 {
