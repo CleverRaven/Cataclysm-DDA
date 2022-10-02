@@ -1091,14 +1091,18 @@ static void spawn_artifact()
     relic_menu.query();
     int artifact_max_attributes;
     int artifact_power_level;
+    bool artifact_is_resonant = false;
     int artifact_max_negative_value;
     if( relic_menu.ret >= 0 && relic_menu.ret < static_cast<int>( relic_list.size() ) ) {
         if( query_int( artifact_max_attributes, _( "Enter max attributes:" ) )
             && query_int( artifact_power_level, _( "Enter power level:" ) )
             && query_int( artifact_max_negative_value, _( "Enter negative power limit:" ) ) ) {
             if( const cata::optional<tripoint> center = g->look_around() ) {
+                if( query_yn( _( "Is the artifact resonant?" ) ) ) {
+                    artifact_is_resonant = true;
+                }
                 here.spawn_artifact( *center, relic_list[relic_menu.ret], artifact_max_attributes,
-                                     artifact_power_level, artifact_max_negative_value );
+                                     artifact_power_level, artifact_max_negative_value, artifact_is_resonant );
             }
         }
     }
