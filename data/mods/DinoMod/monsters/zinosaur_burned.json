@@ -1058,13 +1058,13 @@
   },
   {
     "type": "MONSTER",
-    "id": "mon_zachyrhinosaurus_scorched",
-    "name": { "str": "scorched pachyrhinosaurus zombie" },
+    "id": "mon_ztyracosaurus_scorched",
+    "name": { "str": "scorched styracosaurus zombie" },
     "copy-from": "mon_zriceratops_scorched",
-    "looks_like": "mon_zachyrhinosaurus",
+    "looks_like": "mon_ztyracosaurus",
     "hp": 100,
-    "fungalize_into": "mon_zachyrhinosaurus_fungus",
-    "description": "A heavily-burned, four-legged zombie dinosaur with a broad bony nose; it still reeks of charred meat.  Its flesh has mended into a leathery shell."
+    "description": "A massive, shambling, rhino-like dinosaur corpse with a bony crest with several long spikes and one large horn above the beak and a short tail.  Its flesh has mended into a leathery shell.",
+    "fungalize_into": "mon_zentrosaurus_fungus"
   },
   {
     "type": "MONSTER",
@@ -1073,8 +1073,50 @@
     "copy-from": "mon_zriceratops_scorched",
     "looks_like": "mon_zentrosaurus",
     "hp": 100,
-    "description": "A massive, shambling, rhino-like dinosaur corpse with a beak and long horn above the nose.  Its eyes ooze black, putrid tears.",
+    "description": "A massive, shambling, rhino-like dinosaur corpse with a beak and long horn above the nose.  Its flesh has mended into a leathery shell.",
     "fungalize_into": "mon_zentrosaurus_fungus"
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zeiniosaurus_scorched",
+    "name": { "str": "scorched einiosaurus zombie" },
+    "copy-from": "mon_zriceratops_scorched",
+    "looks_like": "mon_zeiniosaurus",
+    "hp": 90,
+    "description": "A massive, shambling, four-legged dinosaur corpse with a tall bony crest and one large horn above the nose curving forward towards the beak.  Its flesh has mended into a leathery shell.",
+    "fungalize_into": "mon_zeiniosaurus_fungus"
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zachelousaurus_scorched",
+    "name": { "str": "scorched achelousaurus zombie" },
+    "copy-from": "mon_zriceratops_scorched",
+    "looks_like": "mon_zachelousaurus",
+    "hp": 100,
+    "fungalize_into": "mon_zachelousaurus_fungus",
+    "description": "A heavily-burned, four-legged dinosaur corpse with a tall bony crest with two long curved spikes and three rough bosses above the eyes and nose as well as a hooked beak.  Its flesh has mended into a leathery shell."
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zachyrhinosaurus_scorched",
+    "name": { "str": "scorched pachyrhinosaurus zombie" },
+    "copy-from": "mon_zriceratops_scorched",
+    "looks_like": "mon_zachyrhinosaurus",
+    "hp": 120,
+    "fungalize_into": "mon_zachyrhinosaurus_fungus",
+    "description": "A heavily-burned, four-legged dinosaur corpse with a broad bony nose; it still reeks of charred meat.  Its flesh has mended into a leathery shell."
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zasmosaurus_scorched",
+    "name": { "str": "scorched chasmosaurus zombie" },
+    "copy-from": "mon_zriceratops_scorched",
+    "looks_like": "mon_zasmosaurus",
+    "armor_cut": 18,
+    "armor_bash": 10,
+    "hp": 150,
+    "fungalize_into": "mon_zasmosaurus_fungus",
+    "description": "A heavily-burned, four-legged zombie dinosaur with a tall bony crest from which three short horns emerge above the eyes and beak; it still reeks of charred meat.  Its flesh has mended into a leathery shell."
   },
   {
     "type": "MONSTER",
