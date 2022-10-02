@@ -445,7 +445,7 @@ void Character::mutation_effect( const trait_id &mut, const bool worn_destroyed_
                 }
             }
         }
-        for( const enchantment &ench : armor.get_defined_enchantments() ) {
+        for( const enchantment &ench : armor.type->relic_data->get_defined_enchantments() ) {
             for( const trait_id &inner_mut : ench.get_mutations() ) {
                 if( mut == inner_mut ) {
                     return false;

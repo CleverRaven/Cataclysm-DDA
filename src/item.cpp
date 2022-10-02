@@ -10197,7 +10197,7 @@ std::vector<enchantment> item::get_defined_enchantments() const
     if( !is_relic() ) {
         return std::vector<enchantment> {};
     }
-    return relic_data->get_defined_enchantments();
+    return type->relic_data->get_defined_enchantments();
 }
 
 double item::calculate_by_enchantment( const Character &owner, double modify,
@@ -10211,7 +10211,7 @@ double item::calculate_by_enchantment( const Character &owner, double modify,
             mult_value += ench.get_value_multiply( value );
         }
     }
-    for( const enchantment &ench : get_defined_enchantments() ) {
+    for( const enchantment &ench : type->relic_data->get_defined_enchantments() ) {
         if( ench.is_active( owner, *this ) ) {
             add_value += ench.get_value_add( value, owner );
             mult_value += ench.get_value_multiply( value, owner );
@@ -10237,7 +10237,7 @@ double item::calculate_by_enchantment_wield( const Character &owner, double modi
             mult_value += ench.get_value_multiply( value );
         }
     }
-    for( const enchantment &ench : get_defined_enchantments() ) {
+    for( const enchantment &ench : type->relic_data->get_defined_enchantments() ) {
         if( ench.active_wield() ) {
             add_value += ench.get_value_add( value, owner );
             mult_value += ench.get_value_multiply( value, owner );
@@ -12923,7 +12923,7 @@ std::vector<trait_id> item::mutations_from_wearing( const Character &guy, bool r
         }
     }
 
-    for( const enchantment &ench : relic_data->get_defined_enchantments() ) {
+    for( const enchantment &ench : type->relic_data->get_defined_enchantments() ) {
         for( const trait_id &mut : ench.get_mutations() ) {
             // this may not be perfectly accurate due to conditions
             muts.push_back( mut );
