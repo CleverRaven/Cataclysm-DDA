@@ -18,10 +18,15 @@
       { "monster": "mon_tenontosaurus_hatchling", "weight": 20 },
       { "monster": "mon_camptosaurus_hatchling", "weight": 20 },
       { "monster": "mon_hadrosaurus_hatchling", "weight": 20 },
-      { "monster": "mon_parasaurolophus_hatchling", "weight": 20 },
-      { "monster": "mon_corythosaurus_hatchling", "weight": 20 },
       { "monster": "mon_maiasaura_hatchling", "weight": 20 },
+      { "monster": "mon_gryposaurus_hatchling", "weight": 20 },
+      { "monster": "mon_prosaurolophus_hatchling", "weight": 20 },
+      { "monster": "mon_saurolophus_hatchling", "weight": 20 },
       { "monster": "mon_edmontosaurus_hatchling", "weight": 20 },
+      { "monster": "mon_parasaurolophus_hatchling", "weight": 20 },
+      { "monster": "mon_lambeosaurus_hatchling", "weight": 20 },
+      { "monster": "mon_corythosaurus_hatchling", "weight": 20 },
+      { "monster": "mon_hypacrosaurus_hatchling", "weight": 20 },
       { "monster": "mon_pachycephalosaurus_hatchling", "weight": 20 },
       { "monster": "mon_leptoceratops_hatchling", "weight": 3 },
       { "monster": "mon_zuniceratops_hatchling", "weight": 3 },
@@ -389,19 +394,24 @@
     "monsters": [ { "monster": "mon_hadrosaurus_hatchling" } ]
   },
   {
-    "name": "GROUP_EGG_parasaurolophus",
-    "type": "monstergroup",
-    "monsters": [ { "monster": "mon_parasaurolophus_hatchling" } ]
-  },
-  {
-    "name": "GROUP_EGG_corythosaurus",
-    "type": "monstergroup",
-    "monsters": [ { "monster": "mon_corythosaurus_hatchling" } ]
-  },
-  {
     "name": "GROUP_EGG_maiasaura",
     "type": "monstergroup",
     "monsters": [ { "monster": "mon_maiasaura_hatchling" } ]
+  },
+  {
+    "name": "GROUP_EGG_gryposaurus",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_gryposaurus_hatchling" } ]
+  },
+  {
+    "name": "GROUP_EGG_prosaurolophus",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_prosaurolophus_hatchling" } ]
+  },
+  {
+    "name": "GROUP_EGG_saurolophus",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_saurolophus_hatchling" } ]
   },
   {
     "name": "GROUP_EGG_edmontosaurus",
@@ -409,9 +419,24 @@
     "monsters": [ { "monster": "mon_edmontosaurus_hatchling" } ]
   },
   {
-    "name": "GROUP_EGG_gryposaurus",
+    "name": "GROUP_EGG_parasaurolophus",
     "type": "monstergroup",
-    "monsters": [ { "monster": "mon_gryposaurus_hatchling" } ]
+    "monsters": [ { "monster": "mon_parasaurolophus_hatchling" } ]
+  },
+  {
+    "name": "GROUP_EGG_lambeosaurus",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_lambeosaurus_hatchling" } ]
+  },
+  {
+    "name": "GROUP_EGG_corythosaurus",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_corythosaurus_hatchling" } ]
+  },
+  {
+    "name": "GROUP_EGG_hypacrosaurus",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_hypacrosaurus_hatchling" } ]
   },
   {
     "name": "GROUP_EGG_stegoceras",
