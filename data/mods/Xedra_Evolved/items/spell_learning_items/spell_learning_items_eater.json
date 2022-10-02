@@ -147,7 +147,7 @@
   {
     "id": "ring_artifact",
     "type": "ARMOR",
-    "name": { "str": "ring of Gyges" },
+    "name": { "str": "ring of Gyges", "str_pl": "rings of Gyges" },
     "description": "Small ring.  There is nothing especial about it, except the word \"Republic\" embossed on it.",
     "weight": "9 g",
     "volume": "1 ml",
@@ -223,7 +223,7 @@
     "id": "artifact_muscle",
     "type": "GENERIC",
     "category": "artifacts",
-    "name": { "str": "muscles" },
+    "name": { "str_sp": "muscles" },
     "description": "Long fleshy tendon with joints on both sides.  They contract time to time.",
     "weight": "9 g",
     "volume": "12 ml",

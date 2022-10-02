@@ -432,7 +432,7 @@
     "id": "spell_speed_wonder",
     "type": "SPELL",
     "name": "Rush",
-    "description": "Lorem Ipsum.",
+    "description": "Run.  Run as fast as you can.  Don't stop.",
     "valid_targets": [ "self" ],
     "effect": "attack",
     "shape": "blast",
