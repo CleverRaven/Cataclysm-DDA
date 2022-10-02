@@ -67,6 +67,8 @@ static const proficiency_id proficiency_prof_test( "prof_test" );
 
 static const skill_id skill_driving( "driving" );
 
+static const spell_id spell_test_spell_json( "test_spell_json" );
+static const spell_id spell_test_spell_lava( "test_spell_lava" );
 static const spell_id spell_test_spell_pew( "test_spell_pew" );
 
 static const trait_id trait_ELFA_EARS( "ELFA_EARS" );
@@ -1184,15 +1186,15 @@ TEST_CASE( "npc_compare_int", "[npc_talk]" )
     cata::event e = cata::event::make<event_type::character_kills_monster>(
                         get_player_character().getID(), mon_zombie_bio_op );
     get_event_bus().send( e );
-    player_character.magic->learn_spell( "test_spell_json", player_character, false );
+    player_character.magic->learn_spell( spell_test_spell_json, player_character, false );
     player_character.set_mutation(
         trait_id( "test_trait" ) ); // Give the player the scool trait with ID test_trait
-    player_character.magic->set_spell_level( spell_id( "test_spell_json" ), 1, &player_character );
-    player_character.magic->learn_spell( "test_spell_pew", player_character, true );
-    player_character.magic->set_spell_level( spell_id( "test_spell_pew" ), 4, &player_character );
-    player_character.magic->learn_spell( "test_spell_lava", player_character, true );
-    player_character.magic->set_spell_level( spell_id( "test_spell_lava" ), 12, &player_character );
-    player_character.set_proficiency_practice( proficiency_id( "prof_test" ), 12_hours );
+    player_character.magic->set_spell_level( spell_test_spell_json, 1, &player_character );
+    player_character.magic->learn_spell( spell_test_spell_pew, player_character, true );
+    player_character.magic->set_spell_level( spell_test_spell_pew, 4, &player_character );
+    player_character.magic->learn_spell( spell_test_spell_lava, player_character, true );
+    player_character.magic->set_spell_level( spell_test_spell_lava, 12, &player_character );
+    player_character.set_proficiency_practice( proficiency_prof_test, 12_hours );
     // Set focus after killing monster, since the character
     // gains weakpoint proficiency practice which lowers focus
     // (see kill_tracker::notify() -> weakpoint_families::practice_kill())
