@@ -327,5 +327,101 @@
       "stamina_min": [ 40 ],
       "stamina_chance": [ 2 ]
     }
+  },
+  {
+    "type": "effect_type",
+    "id": "blind_rage",
+    "name": [ "Blind Rage" ],
+    "desc": [ "Perfect hatred" ],
+    "//": "Must limit the player's sight to 2-3 tiles (maybe real blind would be cool, but i dont really think its a good idea (and also i dont know how it interact with melee (and also the effect is pretty weak for total blindness))), but its hardcoded atm",
+    "apply_message": "AAAAARGH!!",
+    "base_mods": { "str_mod": [ 4 ], "dex_mod": [ 4 ], "per_mod": [ -8 ] }
+  },
+  {
+    "type": "effect_type",
+    "id": "spell_stamina_eff",
+    "name": [ "Circulatory" ],
+    "desc": [ "You can't get tired." ],
+    "max_intensity": 30,
+    "int_add_val": 1,
+    "show_intensity": false,
+    "apply_message": "You feel a deep energy in your muscles, untired and jazzed.",
+    "remove_message": "The energy in your body fades away.",
+    "base_mods": { "stamina_min": [ 2 ] },
+    "scaling_mods": { "stamina_min": [ 2 ] }
+  },
+  {
+    "id": "effect_dodge",
+    "type": "effect_type",
+    "name": [ "Dodge" ],
+    "desc": [ "Shun their attacks." ],
+    "apply_message": "You reaction speed is increased.",
+    "remove_message": "You reaction turn back to normal.",
+    "rating": "good",
+    "show_intensity": false,
+    "enchantments": [ { "condition": { "not": "ALWAYS" }, "values": [ { "value": "BONUS_DODGE", "add": 2 } ] } ]
+  },
+  {
+    "id": "effect_endurance",
+    "type": "effect_type",
+    "name": [ "Endurance" ],
+    "desc": [ "Take the blows.  Don’t let the world kill you." ],
+    "apply_message": "Your sense of touch is blunted for a bit, but your skin feels more dense.",
+    "remove_message": "The sturdy feeling is gone.",
+    "rating": "good",
+    "show_intensity": false,
+    "enchantments": [
+      {
+        "condition": { "not": "ALWAYS" },
+        "values": [ { "value": "ARMOR_BASH", "add": -12 }, { "value": "ARMOR_CUT", "add": -12 }, { "value": "ARMOR_STAB", "add": -12 } ]
+      }
+    ]
+  },
+  {
+    "id": "spell_melee_damage",
+    "type": "effect_type",
+    "name": [ "Physical Instrument" ],
+    "desc": [ "Your body is a tool of destruction.  Use it effectively." ],
+    "apply_message": "You can feel a bubbling energy in your muscles.",
+    "remove_message": "Your feelings turn back to normal.",
+    "rating": "good",
+    "show_intensity": false,
+    "enchantments": [
+      {
+        "condition": { "not": "ALWAYS" },
+        "values": [
+          { "value": "ATTACK_SPEED", "add": 20 },
+          { "value": "BONUS_DODGE", "add": 2 },
+          { "value": "MELEE_DAMAGE", "multiply": 0.5 }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "spell_speed_eff",
+    "name": [ "Rush" ],
+    "desc": [ "A burst of speed and stamina." ],
+    "apply_message": "Your lungs seem to gain capacity and your legs feel longer",
+    "remove_message": "Your body shrinks back into it's normal space.",
+    "max_intensity": 30,
+    "int_add_val": 1,
+    "show_intensity": false,
+    "rating": "good",
+    "base_mods": { "speed_mod": [ 3 ], "stamina_min": [ 1 ] },
+    "scaling_mods": { "speed_mod": [ 3 ], "stamina_min": [ 1 ] }
+  },
+  {
+    "id": "effect_weakening",
+    "type": "effect_type",
+    "name": [ "Weakness" ],
+    "desc": [ "Your body is slow." ],
+    "rating": "bad",
+    "show_intensity": false,
+    "max_intensity": 2,
+    "int_add_val": 1,
+    "//": "The original idea was to make an enchantment, that add ARMOR_BASH enchantment value, so monster will take more damage when you attack them, but sadly enchantments now works only with player's avatar, and not with monsters.  So now its boring slowdown.",
+    "base_mods": { "speed_mod": [ -33 ] },
+    "scaling_mods": { "speed_mod": [ -33 ] }
   }
 ]

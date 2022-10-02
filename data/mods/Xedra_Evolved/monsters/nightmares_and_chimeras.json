@@ -85,5 +85,29 @@
     "harvest": "exempt",
     "death_function": { "message": "The %s disintegrates!", "corpse_type": "NO_CORPSE" },
     "flags": [ "SEES", "SMELLS", "FLIES", "HARDTOSHOOT", "HIT_AND_RUN", "PATH_AVOID_FIRE", "LOUDMOVES" ]
+  },
+  {
+    "id": "mon_twin",
+    "type": "MONSTER",
+    "name": "twin",
+    "description": "Ethereal copy of you.",
+    "looks_like": "player",
+    "default_faction": "factionless",
+    "species": [ "HUMAN" ],
+    "volume": "62500 ml",
+    "weight": "81500 g",
+    "hp": 1,
+    "speed": 150,
+    "symbol": "@",
+    "color": "cyan",
+    "aggression": -99,
+    "morale": 2,
+    "luminance": 2,
+    "dodge": 10,
+    "harvest": "exempt",
+    "fear_triggers": [ "PLAYER_CLOSE" ],
+    "special_attacks": [ [ "DISAPPEAR", 1000 ] ],
+    "death_function": { "message": "", "corpse_type": "NO_CORPSE" },
+    "flags": [ "FLIES", "NO_BREATHE", "NOT_HALLUCINATION", "HARDTOSHOOT" ]
   }
 ]
