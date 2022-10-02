@@ -972,6 +972,14 @@ void talk_function::drop_weapon( npc &p )
 void talk_function::player_weapon_away( npc &/*p*/ )
 {
     Character &player_character = get_player_character();
+
+    cata::optional<bionic *> bionic_weapon = player_character.find_bionic_by_uid(
+                player_character.get_weapon_bionic_uid() );
+    if( bionic_weapon ) {
+        player_character.deactivate_bionic( **bionic_weapon );
+        return;
+    }
+
     player_character.i_add( player_character.remove_weapon() );
 }
 
