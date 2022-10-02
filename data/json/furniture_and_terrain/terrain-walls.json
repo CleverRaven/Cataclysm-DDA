@@ -328,6 +328,202 @@
   },
   {
     "type": "terrain",
+    "id": "t_wood_wall_b",
+    "alias": [ "t_wood_h_b", "t_wood_v_b" ],
+    "name": "blue wood wall",
+    "looks_like": "t_wall_b",
+    "description": "Wood wall painted blue.",
+    "symbol": "LINE_OXOX",
+    "color": "blue",
+    "move_cost": 0,
+    "coverage": 100,
+    "roof": "t_wood_roof",
+    "flags": [ "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "BLOCK_WIND" ],
+    "connects_to": "WALL",
+    "bash": {
+      "str_min": 12,
+      "str_max": 150,
+      "sound": "crunch!",
+      "sound_fail": "whump!",
+      "ter_set": "t_wall_wood_chipped",
+      "items": [
+        { "item": "2x4", "count": [ 0, 3 ] },
+        { "item": "wood_panel", "count": [ 0, 2 ] },
+        { "item": "nail", "charges": [ 1, 5 ] },
+        { "item": "splinter", "count": [ 1, 4 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_wood_wall_g",
+    "alias": [ "t_wood_h_g", "t_wood_v_g" ],
+    "name": "green wood wall",
+    "looks_like": "t_wall_g",
+    "description": "Wood wall painted green.",
+    "symbol": "LINE_OXOX",
+    "color": "green",
+    "move_cost": 0,
+    "coverage": 100,
+    "roof": "t_wood_roof",
+    "flags": [ "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "BLOCK_WIND" ],
+    "connects_to": "WALL",
+    "bash": {
+      "str_min": 12,
+      "str_max": 150,
+      "sound": "crunch!",
+      "sound_fail": "whump!",
+      "ter_set": "t_wall_wood_chipped",
+      "items": [
+        { "item": "2x4", "count": [ 0, 3 ] },
+        { "item": "wood_panel", "count": [ 0, 2 ] },
+        { "item": "nail", "charges": [ 1, 5 ] },
+        { "item": "splinter", "count": [ 1, 4 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_wood_wall_r",
+    "alias": [ "t_wood_h_r", "t_wood_v_r" ],
+    "name": "red wood wall",
+    "looks_like": "t_wall_r",
+    "description": "Wood wall painted red.",
+    "symbol": "LINE_OXOX",
+    "color": "red",
+    "move_cost": 0,
+    "coverage": 100,
+    "roof": "t_wood_roof",
+    "flags": [ "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "BLOCK_WIND" ],
+    "connects_to": "WALL",
+    "bash": {
+      "str_min": 12,
+      "str_max": 150,
+      "sound": "crunch!",
+      "sound_fail": "whump!",
+      "ter_set": "t_wall_wood_chipped",
+      "items": [
+        { "item": "2x4", "count": [ 0, 3 ] },
+        { "item": "wood_panel", "count": [ 0, 2 ] },
+        { "item": "nail", "charges": [ 1, 5 ] },
+        { "item": "splinter", "count": [ 1, 4 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_wood_wall_w",
+    "alias": [ "t_wood_h_w", "t_wood_v_w" ],
+    "name": "white wood wall",
+    "looks_like": "t_wall_w",
+    "description": "Wood wall painted white.",
+    "symbol": "LINE_OXOX",
+    "color": "white",
+    "move_cost": 0,
+    "coverage": 100,
+    "roof": "t_wood_roof",
+    "flags": [ "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "BLOCK_WIND" ],
+    "connects_to": "WALL",
+    "bash": {
+      "str_min": 12,
+      "str_max": 150,
+      "sound": "crunch!",
+      "sound_fail": "whump!",
+      "ter_set": "t_wall_wood_chipped",
+      "items": [
+        { "item": "2x4", "count": [ 0, 3 ] },
+        { "item": "wood_panel", "count": [ 0, 2 ] },
+        { "item": "nail", "charges": [ 1, 5 ] },
+        { "item": "splinter", "count": [ 1, 4 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_wood_wall_p",
+    "alias": [ "t_wood_h_p", "t_wood_v_p" ],
+    "name": "purple wood wall",
+    "looks_like": "t_wall_p",
+    "description": "Wood wall painted purple.",
+    "symbol": "LINE_OXOX",
+    "color": "magenta",
+    "move_cost": 0,
+    "coverage": 100,
+    "roof": "t_wood_roof",
+    "flags": [ "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "BLOCK_WIND" ],
+    "connects_to": "WALL",
+    "bash": {
+      "str_min": 12,
+      "str_max": 150,
+      "sound": "crunch!",
+      "sound_fail": "whump!",
+      "ter_set": "t_wall_wood_chipped",
+      "items": [
+        { "item": "2x4", "count": [ 0, 3 ] },
+        { "item": "wood_panel", "count": [ 0, 2 ] },
+        { "item": "nail", "charges": [ 1, 5 ] },
+        { "item": "splinter", "count": [ 1, 4 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_wood_wall_P",
+    "alias": [ "t_wood_h_P", "t_wood_v_P" ],
+    "name": "pink wood wall",
+    "looks_like": "t_wall_P",
+    "description": "Wood wall painted pink.",
+    "symbol": "LINE_OXOX",
+    "color": "pink",
+    "move_cost": 0,
+    "coverage": 100,
+    "roof": "t_wood_roof",
+    "flags": [ "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "BLOCK_WIND" ],
+    "connects_to": "WALL",
+    "bash": {
+      "str_min": 12,
+      "str_max": 150,
+      "sound": "crunch!",
+      "sound_fail": "whump!",
+      "ter_set": "t_wall_wood_chipped",
+      "items": [
+        { "item": "2x4", "count": [ 0, 3 ] },
+        { "item": "wood_panel", "count": [ 0, 2 ] },
+        { "item": "nail", "charges": [ 1, 5 ] },
+        { "item": "splinter", "count": [ 1, 4 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_wood_wall_y",
+    "alias": [ "t_wood_h_y", "t_wood_v_y" ],
+    "name": "yellow wood wall",
+    "looks_like": "t_wall_y",
+    "description": "Wood wall painted yellow.",
+    "symbol": "LINE_OXOX",
+    "color": "yellow",
+    "move_cost": 0,
+    "coverage": 100,
+    "roof": "t_wood_roof",
+    "flags": [ "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "BLOCK_WIND" ],
+    "connects_to": "WALL",
+    "bash": {
+      "str_min": 12,
+      "str_max": 150,
+      "sound": "crunch!",
+      "sound_fail": "whump!",
+      "ter_set": "t_wall_wood_chipped",
+      "items": [
+        { "item": "2x4", "count": [ 0, 3 ] },
+        { "item": "wood_panel", "count": [ 0, 2 ] },
+        { "item": "nail", "charges": [ 1, 5 ] },
+        { "item": "splinter", "count": [ 1, 4 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
     "id": "t_concrete_wall_b",
     "alias": [ "t_concrete_h_b", "t_concrete_v_b" ],
     "name": "blue concrete wall",
