@@ -945,8 +945,6 @@ static void expand_recipes( std::vector<const recipe *> &current,
                             recipe_subset available_recipes, std::set<recipe_id> hidden_recipes )
 {
     //TODO Make this more effecient
-    player_character.get_crafting_helpers();
-    player_character;
     for( size_t i = 0; i < current.size(); ++i ) {
         if( current[i]->is_nested() &&
             uistate.expanded_recipes.find( current[i]->ident() ) != uistate.expanded_recipes.end() ) {
