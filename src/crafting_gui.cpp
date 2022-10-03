@@ -891,7 +891,7 @@ static bool mouse_in_window( cata::optional<point> coord, const catacurses::wind
 static void recursively_expance_recipes( std::vector<const recipe *> &current,
         std::vector<int> &indent, std::map<const recipe *, availability> &availability_cache, int i,
         Character &player_character, bool unread_recipes_first, bool highlight_unread_recipes,
-        recipe_subset available_recipes, std::set<recipe_id> hidden_recipes )
+        const recipe_subset &available_recipes, const std::set<recipe_id> &hidden_recipes )
 {
     std::vector<const recipe *> tmp;
     for( const recipe_id &nested : current[i]->nested_category_data ) {
@@ -942,7 +942,7 @@ static void recursively_expance_recipes( std::vector<const recipe *> &current,
 static void expand_recipes( std::vector<const recipe *> &current,
                             std::vector<int> &indent, std::map<const recipe *, availability> &availability_cache,
                             Character &player_character, bool unread_recipes_first, bool highlight_unread_recipes,
-                            recipe_subset available_recipes, std::set<recipe_id> hidden_recipes )
+                            const recipe_subset &available_recipes, const std::set<recipe_id> &hidden_recipes )
 {
     //TODO Make this more effecient
     for( size_t i = 0; i < current.size(); ++i ) {
