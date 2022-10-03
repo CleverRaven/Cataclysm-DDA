@@ -53,6 +53,7 @@ namespace io
     std::string enum_to_string<enchant_vals::mod>( enchant_vals::mod data )
     {
         switch ( data ) {
+            case enchant_vals::mod::ARTIFACT_RESONANCE: return "ARTIFACT_RESONANCE";
             case enchant_vals::mod::STRENGTH: return "STRENGTH";
             case enchant_vals::mod::DEXTERITY: return "DEXTERITY";
             case enchant_vals::mod::PERCEPTION: return "PERCEPTION";

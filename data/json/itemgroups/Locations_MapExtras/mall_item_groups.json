@@ -138,6 +138,7 @@
       { "group": "toy_makerspace_kit", "prob": 10 },
       { "group": "toy_robot_kit", "prob": 10 },
       { "group": "toy_engine_kit", "prob": 10 },
+      { "item": "air_launcher", "prob": 5 },
       { "item": "wizard_cane_cheap", "prob": 5, "charges": [ 1, 100 ] },
       { "item": "wizard_cane", "prob": 1, "charges": [ 50, 100 ] },
       [ "sinister_cane", 5 ],

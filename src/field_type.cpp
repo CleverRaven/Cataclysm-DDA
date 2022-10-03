@@ -282,6 +282,11 @@ void field_type::load( const JsonObject &jo, const std::string & )
                     io::string_to_enum<body_part_type::type>( jao.get_string( 0 ) ), jao.get_string( 1 ) ) );
     }
 
+    for( JsonArray jao : jid.get_array( "immunity_flags_worn_any" ) ) {
+        immunity_data_part_item_flags_any.emplace_back( std::make_pair(
+                    io::string_to_enum<body_part_type::type>( jao.get_string( 0 ) ), jao.get_string( 1 ) ) );
+    }
+
     optional( jo, was_loaded, "immune_mtypes", immune_mtypes );
     optional( jo, was_loaded, "underwater_age_speedup", underwater_age_speedup, 0_turns );
     optional( jo, was_loaded, "outdoor_age_speedup", outdoor_age_speedup, 0_turns );
