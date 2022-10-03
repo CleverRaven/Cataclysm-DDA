@@ -126,7 +126,7 @@
         "$": "f_console_broken",
         "z": "f_afs_escape_pod_seat",
         "v": "f_wreckage",
-		"[": "f_afs_shuttle_seat"
+        "[": "f_afs_shuttle_seat"
       },
       "terrain": {
         "Y": "t_bridge",
@@ -137,8 +137,8 @@
         "%": "t_console",
         "^": "t_console",
         "*": "t_metal_floor_olight",
-		"u": "t_afs_space_ship_hatch_c",
-		"U": "t_afs_shuttlepod_g",
+        "u": "t_afs_space_ship_hatch_c",
+        "U": "t_afs_shuttlepod_g",
         "M": "t_afs_space_ship_hull_wall",
         "D": "t_door_metal_c",
         "g": "t_door_glass_frosted_c",
