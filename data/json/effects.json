@@ -1921,8 +1921,9 @@
     "int_decay_tick": 720,
     "int_add_val": 1,
     "main_parts_only": true,
-    "base_mods": { "speed_mod": [ -7 ] },
-    "scaling_mods": { "speed_mod": [ -3 ] }
+    "resist_traits": [ "M_IMMUNE" ],
+    "base_mods": { "speed_mod": [ -7, 0 ] },
+    "scaling_mods": { "speed_mod": [ -3, 0 ] }
   },
   {
     "type": "effect_type",
@@ -3433,7 +3434,8 @@
     "type": "effect_type",
     "id": "incorporeal",
     "name": [ "Incorporeal" ],
-    "desc": [ "You lack substance, as if you aren't quite fully here." ]
+    "desc": [ "You lack substance, as if you aren't quite fully here." ],
+    "removes_effects": [ "grabbed", "bleed" ]
   },
   {
     "type": "effect_type",
@@ -3630,7 +3632,7 @@
     "remove_message": "Reality reasserts itself and your gravity returns to normal.",
     "rating": "good",
     "show_intensity": false,
-    "enchantments": [ { "condition": { "not": "ALWAYS" }, "values": [ { "value": "CARRY_WEIGHT", "multiply": 1.25 } ] } ]
+    "enchantments": [ { "values": [ { "value": "CARRY_WEIGHT", "multiply": 1.25 } ] } ]
   },
   {
     "id": "strengthened_gravity",
@@ -3641,6 +3643,23 @@
     "remove_message": "Reality reasserts itself and your gravity returns to normal.",
     "rating": "bad",
     "show_intensity": false,
-    "enchantments": [ { "condition": { "not": "ALWAYS" }, "values": [ { "value": "CARRY_WEIGHT", "multiply": -0.25 } ] } ]
+    "enchantments": [
+      {
+        "values": [ { "value": "CARRY_WEIGHT", "multiply": { "global_val": "var", "var_name": "portal_dungeon_carry_strength" } } ]
+      }
+    ]
+  },
+  {
+    "id": "slowed_time",
+    "type": "effect_type",
+    "name": [ "Slowed Time" ],
+    "desc": [ "Something is wrong with local spacetime and everything around seems to move faster than you." ],
+    "apply_message": "Time around you is damaged and everything near you seems to move faster.",
+    "remove_message": "Reality reasserts itself and your time returns to normal.",
+    "rating": "bad",
+    "show_intensity": false,
+    "enchantments": [
+      { "values": [ { "value": "SPEED", "multiply": { "global_val": "var", "var_name": "portal_dungeon_slow_strength" } } ] }
+    ]
   }
 ]

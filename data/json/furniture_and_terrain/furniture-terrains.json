@@ -855,7 +855,8 @@
     "move_cost_mod": -1,
     "coverage": 40,
     "required_str": 32,
-    "flags": [ "TRANSPARENT" ],
+    "rotates_to": "PAVEMENT",
+    "flags": [ "TRANSPARENT", "NO_SELF_CONNECT" ],
     "bash": {
       "str_min": 30,
       "str_max": 100,
@@ -882,7 +883,8 @@
     "move_cost_mod": -1,
     "coverage": 40,
     "required_str": 32,
-    "flags": [ "TRANSPARENT" ],
+    "rotates_to": "PAVEMENT",
+    "flags": [ "TRANSPARENT", "NO_SELF_CONNECT" ],
     "bash": {
       "str_min": 30,
       "str_max": 100,

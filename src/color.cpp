@@ -7,6 +7,9 @@
 #include <utility>
 #include <vector>
 
+#include <ghc/fs_std_fwd.hpp>
+
+#include "cata_path.h"
 #include "cata_utility.h"
 #include "cursesdef.h"
 #include "debug.h"
@@ -475,7 +478,7 @@ void init_colors()
     init_pair( 71, cyan,       cyan );
 
     all_colors.load_default();
-    all_colors.load_custom();
+    all_colors.load_custom( {} );
 
     // The short color codes (e.g. "br") are intentionally untranslatable.
     color_by_string_map = {
@@ -559,7 +562,10 @@ nc_color color_from_string( const std::string &color,
         new_color = "c_" + new_color;
     }
 
-    const std::pair<std::string, std::string> pSearch[2] = { { "light_", "lt" }, { "dark_", "dk" } };
+    const std::array<std::pair<std::string, std::string>, 2> pSearch = { {
+            { "light_", "lt" }, { "dark_", "dk" }
+        }
+    };
     for( const auto &i : pSearch ) {
         size_t pos = 0;
         while( ( pos = new_color.find( i.second, pos ) ) != std::string::npos ) {
@@ -606,7 +612,10 @@ nc_color bgcolor_from_string( const std::string &color )
 
     std::string new_color = "i_" + color;
 
-    const std::pair<std::string, std::string> pSearch[2] = { { "light_", "lt" }, { "dark_", "dk" } };
+    const std::array<std::pair<std::string, std::string>, 2> pSearch = { {
+            { "light_", "lt" }, { "dark_", "dk" }
+        }
+    };
     for( const auto &i : pSearch ) {
         size_t pos = 0;
         while( ( pos = new_color.find( i.second, pos ) ) != std::string::npos ) {
@@ -657,7 +666,20 @@ std::string get_tag_from_color( const nc_color &color )
 
 std::string colorize( const std::string &text, const nc_color &color )
 {
-    return get_tag_from_color( color ) + text + "</color>";
+    const std::string tag = get_tag_from_color( color );
+    size_t strpos = text.find( '\n' );
+    if( strpos == std::string::npos ) {
+        return tag + text + "</color>";
+    }
+
+    size_t prevpos = 0;
+    std::string ret;
+    while( ( strpos = text.find( '\n', prevpos ) ) != std::string::npos ) {
+        ret += tag + text.substr( prevpos, strpos - prevpos ) + "</color>\n";
+        prevpos = strpos + 1;
+    }
+    ret += tag + text.substr( prevpos, text.size() - prevpos ) + "</color>";
+    return ret;
 }
 
 std::string colorize( const translation &text, const nc_color &color )
@@ -930,8 +952,8 @@ void color_manager::show_gui()
 
                 ui_templates.text = _( "Color templates:" );
 
-                for( const auto &filename : vFiles ) {
-                    ui_templates.addentry( filename.substr( filename.find_last_of( '/' ) + 1 ) );
+                for( const cata_path &file : vFiles ) {
+                    ui_templates.addentry( file.get_relative_path().filename().generic_u8string() );
                 }
 
                 ui_templates.query();
@@ -965,8 +987,8 @@ void color_manager::show_gui()
 
                 ui_templates.text = _( "Color themes:" );
 
-                for( const auto &filename : vFiles ) {
-                    ui_templates.addentry( filename.substr( filename.find_last_of( '/' ) + 1 ) );
+                for( const cata_path &filename : vFiles ) {
+                    ui_templates.addentry( filename.get_relative_path().filename().generic_u8string() );
                 }
 
                 ui_templates.query();
@@ -1052,25 +1074,26 @@ void color_manager::show_gui()
 
         clear();
         load_default();
-        load_custom();
+        load_custom( {} );
     }
 }
 
 bool color_manager::save_custom() const
 {
-    const auto savefile = PATH_INFO::custom_colors();
+    const cata_path savefile = PATH_INFO::custom_colors();
 
-    return write_to_file( savefile, [&]( std::ostream & fout ) {
+    return write_to_file( savefile.generic_u8string(), [&](
+    std::ostream & fout ) {
         JsonOut jsout( fout );
         serialize( jsout );
     }, _( "custom colors" ) );
 }
 
-void color_manager::load_custom( const std::string &sPath )
+void color_manager::load_custom( const cata_path &sPath )
 {
-    const auto file = sPath.empty() ? PATH_INFO::custom_colors() : sPath;
+    const cata_path file = sPath.empty() ? PATH_INFO::custom_colors() : sPath;
 
-    read_from_file_optional_json( file, [this]( JsonIn & jsonin ) {
+    read_from_file_optional_json( file, [this]( const JsonArray & jsonin ) {
         deserialize( jsonin );
     } );
     finalize(); // Need to finalize regardless of success
@@ -1094,12 +1117,9 @@ void color_manager::serialize( JsonOut &json ) const
     json.end_array();
 }
 
-void color_manager::deserialize( JsonIn &jsin )
+void color_manager::deserialize( const JsonArray &ja )
 {
-    jsin.start_array();
-    while( !jsin.end_array() ) {
-        JsonObject joColors = jsin.get_object();
-
+    for( JsonObject joColors : ja ) {
         const std::string name = joColors.get_string( "name" );
         const std::string name_custom = joColors.get_string( "custom" );
         const std::string name_invert_custom = joColors.get_string( "invertcustom" );

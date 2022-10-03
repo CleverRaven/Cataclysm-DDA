@@ -561,10 +561,10 @@ TEST_CASE( "weapon attack ratings and moves", "[iteminfo][weapon]" )
         // Those calculations are outside the scope of these tests, but we can at least ensure
         // they have expected values before checking the item info string.
         // If one of these fails, it suggests attack_time() changed:
-        REQUIRE( rock.attack_time() == 79 );
-        REQUIRE( halligan.attack_time() == 145 );
-        REQUIRE( mr_pointy.attack_time() == 100 );
-        REQUIRE( arrow.attack_time() == 65 );
+        REQUIRE( rock.attack_time( player_character ) == 79 );
+        REQUIRE( halligan.attack_time( player_character ) == 145 );
+        REQUIRE( mr_pointy.attack_time( player_character ) == 100 );
+        REQUIRE( arrow.attack_time( player_character ) == 65 );
 
         std::vector<iteminfo_parts> moves = { iteminfo_parts::BASE_MOVES };
 
@@ -2437,7 +2437,7 @@ TEST_CASE( "bionic info", "[iteminfo][bionic]" )
     CHECK( item_info_str( purifier, {} ) ==
            "--\n"
            "<color_c_white>Environmental Protection</color>: "
-           "mouth <color_c_yellow>9</color>" );
+           "mouth <color_c_yellow>15</color>" );
 }
 
 // Functions:

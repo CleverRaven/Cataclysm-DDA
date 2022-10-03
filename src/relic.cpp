@@ -109,14 +109,19 @@ void relic::add_active_effect( const fake_spell &sp )
     active_effects.emplace_back( sp );
 }
 
-void relic::add_passive_effect( const enchantment &nench )
+void relic::add_passive_effect( const enchant_cache &nench )
 {
-    for( enchantment &ench : passive_effects ) {
+    for( enchant_cache &ench : proc_passive_effects ) {
         if( ench.add( nench ) ) {
             return;
         }
     }
-    passive_effects.emplace_back( nench );
+    proc_passive_effects.emplace_back( nench );
+}
+
+void relic::add_passive_effect( const enchantment &nench )
+{
+    defined_passive_effects.emplace_back( nench );
 }
 
 template<typename T>
@@ -219,6 +224,7 @@ void relic_procgen_data::generation_rules::load( const JsonObject &jo )
     mandatory( jo, was_loaded, "power_level", power_level );
     mandatory( jo, was_loaded, "max_attributes", max_attributes );
     optional( jo, was_loaded, "max_negative_power", max_negative_power, 0 );
+    optional( jo, was_loaded, "resonant", resonant, false );
 }
 
 void relic_procgen_data::generation_rules::deserialize( const JsonObject &jo )
@@ -372,10 +378,10 @@ void relic::serialize( JsonOut &jsout ) const
     // item_name_override is not saved, in case the original json text changes:
     // in such case names read back from a save would no longer be properly translated.
 
-    if( !passive_effects.empty() ) {
+    if( !proc_passive_effects.empty() ) {
         jsout.member( "passive_effects" );
         jsout.start_array();
-        for( const enchantment &ench : passive_effects ) {
+        for( const enchant_cache &ench : proc_passive_effects ) {
             ench.serialize( jsout );
         }
         jsout.end_array();
@@ -534,38 +540,25 @@ void relic::overwrite_charge( const relic_charge_info &info )
     charge = info;
 }
 
-int relic::modify_value( const enchant_vals::mod value_type, const int value ) const
-{
-    int add_modifier = 0;
-    double multiply_modifier = 0.0;
-    for( const enchantment &ench : passive_effects ) {
-        add_modifier += ench.get_value_add( value_type );
-        multiply_modifier += ench.get_value_multiply( value_type );
-    }
-    multiply_modifier = std::max( multiply_modifier + 1.0, 0.0 );
-    int modified_value;
-    if( multiply_modifier < 1.0 ) {
-        modified_value = std::floor( multiply_modifier * value );
-    } else {
-        modified_value = std::ceil( multiply_modifier * value );
-    }
-    return modified_value + add_modifier;
-}
-
 std::string relic::name() const
 {
     return item_name_override.translated();
 }
 
-std::vector<enchantment> relic::get_enchantments() const
+std::vector<enchant_cache> relic::get_proc_enchantments() const
 {
-    return passive_effects;
+    return proc_passive_effects;
+}
+
+std::vector<enchantment> relic::get_defined_enchantments() const
+{
+    return defined_passive_effects;
 }
 
 int relic::power_level( const relic_procgen_id &ruleset ) const
 {
     int total_power_level = 0;
-    for( const enchantment &ench : passive_effects ) {
+    for( const enchant_cache &ench : proc_passive_effects ) {
         total_power_level += ruleset->power_level( ench );
     }
     for( const fake_spell &sp : active_effects ) {
@@ -580,7 +573,7 @@ bool relic::has_activation() const
     return !active_effects.empty();
 }
 
-int relic_procgen_data::power_level( const enchantment &ench ) const
+int relic_procgen_data::power_level( const enchant_cache &ench ) const
 {
     int power = 0;
 
@@ -661,7 +654,7 @@ relic relic_procgen_data::generate( const relic_procgen_data::generation_rules &
             case relic_procgen_data::type::passive_enchantment_add: {
                 const relic_procgen_data::enchantment_value_passive<int> *add = passive_add_procgen_values.pick();
                 if( add != nullptr ) {
-                    enchantment ench;
+                    enchant_cache ench;
                     int value = rng( add->min_value, add->max_value );
                     if( value == 0 ) {
                         break;
@@ -679,7 +672,7 @@ relic relic_procgen_data::generate( const relic_procgen_data::generation_rules &
                     } else if( is_armor ) {
                         ench.set_has( enchantment::has::WORN );
                     } else {
-                        ench.set_has( enchantment::has::WIELD );
+                        ench.set_has( enchantment::has::HELD );
                     }
                     num_attributes++;
                     ret.add_passive_effect( ench );
@@ -690,7 +683,7 @@ relic relic_procgen_data::generate( const relic_procgen_data::generation_rules &
                 const relic_procgen_data::enchantment_value_passive<float> *mult =
                     passive_mult_procgen_values.pick();
                 if( mult != nullptr ) {
-                    enchantment ench;
+                    enchant_cache ench;
                     float value = rng( mult->min_value, mult->max_value );
                     ench.add_value_mult( mult->type, value );
                     int negative_ench_attribute = power_level( ench );
@@ -705,7 +698,7 @@ relic relic_procgen_data::generate( const relic_procgen_data::generation_rules &
                     } else if( is_armor ) {
                         ench.set_has( enchantment::has::WORN );
                     } else {
-                        ench.set_has( enchantment::has::WIELD );
+                        ench.set_has( enchantment::has::HELD );
                     }
                     num_attributes++;
                     ret.add_passive_effect( ench );
@@ -718,7 +711,7 @@ relic relic_procgen_data::generate( const relic_procgen_data::generation_rules &
                     fake_spell active_sp;
                     active_sp.id = active->activated_spell;
                     active_sp.level = rng( active->min_level, active->max_level );
-                    enchantment ench;
+                    enchant_cache ench;
                     ench.add_hit_me( active_sp );
                     int power = power_level( ench );
                     if( power < 0 ) {
@@ -732,7 +725,7 @@ relic relic_procgen_data::generate( const relic_procgen_data::generation_rules &
                     } else if( is_armor ) {
                         ench.set_has( enchantment::has::WORN );
                     } else {
-                        ench.set_has( enchantment::has::WIELD );
+                        ench.set_has( enchantment::has::HELD );
                     }
                     num_attributes++;
                     ret.add_passive_effect( ench );
@@ -745,7 +738,7 @@ relic relic_procgen_data::generate( const relic_procgen_data::generation_rules &
                     fake_spell active_sp;
                     active_sp.id = active->activated_spell;
                     active_sp.level = rng( active->min_level, active->max_level );
-                    enchantment ench;
+                    enchant_cache ench;
                     ench.add_hit_you( active_sp );
                     int power = power_level( ench );
                     if( power < 0 ) {
@@ -759,7 +752,7 @@ relic relic_procgen_data::generate( const relic_procgen_data::generation_rules &
                     } else if( is_armor ) {
                         ench.set_has( enchantment::has::WORN );
                     } else {
-                        ench.set_has( enchantment::has::WIELD );
+                        ench.set_has( enchantment::has::HELD );
                     }
                     num_attributes++;
                     ret.add_passive_effect( ench );
@@ -780,6 +773,14 @@ relic relic_procgen_data::generate( const relic_procgen_data::generation_rules &
         }
     }
 
+    //add an optional enchantment of the value of ret's power (the artifact being created) - resonance is equal to its power (min zero)
+    if( rules.resonant ) {
+        enchant_cache resonance;
+        int value = std::max( 0, ret.power_level( id ) );
+        resonance.add_value_add( enchant_vals::mod::ARTIFACT_RESONANCE, value );
+        resonance.set_has( enchantment::has::HELD );
+        ret.add_passive_effect( resonance );
+    }
     return ret;
 }
 
@@ -793,10 +794,13 @@ bool operator==( const relic &source_relic, const relic &target_relic )
     is_the_same &= ( source_relic.max_charges() == target_relic.max_charges() );
     is_the_same &= ( source_relic.name() == target_relic.name() );
 
-    is_the_same &= ( source_relic.get_enchantments().size() == target_relic.get_enchantments().size() );
+    is_the_same &= ( source_relic.get_proc_enchantments().size() ==
+                     target_relic.get_proc_enchantments().size() );
+    is_the_same &= ( source_relic.get_defined_enchantments().size() ==
+                     target_relic.get_defined_enchantments().size() );
     if( is_the_same ) {
-        for( std::size_t i = 0; i < source_relic.get_enchantments().size(); i++ ) {
-            is_the_same &= source_relic.get_enchantments()[i] == target_relic.get_enchantments()[i];
+        for( std::size_t i = 0; i < source_relic.get_proc_enchantments().size(); i++ ) {
+            is_the_same &= source_relic.get_proc_enchantments()[i] == target_relic.get_proc_enchantments()[i];
         }
     }
     return is_the_same;

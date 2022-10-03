@@ -31,7 +31,6 @@
 
 class Character;
 class Creature;
-class JsonIn;
 class JsonOut;
 class avatar;
 class npc;
@@ -57,6 +56,8 @@ class aim_activity_actor : public activity_actor
         tripoint initial_view_offset;
         /** Target UI requested to abort aiming */
         bool aborted = false;
+        /** if true abort if no targets are available when re-entering aiming ui after shooting */
+        bool abort_if_no_targets = false;
         /**
          * Target UI requested to abort aiming and reload weapon
          * Implies aborted = true
@@ -301,13 +302,15 @@ class hotwire_car_activity_actor : public activity_actor
 class bikerack_racking_activity_actor : public activity_actor
 {
     private:
-        int moves_total;
-        vehicle &parent_vehicle;
-        std::vector<std::vector<int>> parts;
+        int moves_total = to_moves<int>( 5_minutes );
+        tripoint_bub_ms parent_vehicle_pos;
+        tripoint_bub_ms racked_vehicle_pos;
+        std::vector<int> racks;
+
+        explicit bikerack_racking_activity_actor() = default;
     public:
-        bikerack_racking_activity_actor( int moves_total, vehicle &parent_vehicle,
-                                         std::vector<std::vector<int>> parts ): moves_total( moves_total ),
-            parent_vehicle( parent_vehicle ), parts( std::move( parts ) ) {}
+        explicit bikerack_racking_activity_actor( const vehicle &parent_vehicle,
+                const vehicle &racked_vehicle, const std::vector<int> &racks );
 
         activity_id get_type() const override {
             return activity_id( "ACT_BIKERACK_RACKING" );
@@ -328,15 +331,15 @@ class bikerack_racking_activity_actor : public activity_actor
 class bikerack_unracking_activity_actor : public activity_actor
 {
     private:
-        int moves_total;
-        vehicle &parent_vehicle;
+        int moves_total = to_moves<int>( 5_minutes );
+        tripoint_bub_ms parent_vehicle_pos;
         std::vector<int> parts;
         std::vector<int> racks;
 
+        explicit bikerack_unracking_activity_actor() = default;
     public:
-        bikerack_unracking_activity_actor( int moves_total, vehicle &parent_vehicle,
-                                           std::vector<int> parts, std::vector<int> racks ) : moves_total( moves_total ),
-            parent_vehicle( parent_vehicle ), parts( std::move( parts ) ), racks( std::move( racks ) ) {}
+        explicit bikerack_unracking_activity_actor( const vehicle &parent_vehicle,
+                const std::vector<int> &parts, const std::vector<int> &racks );
 
         activity_id get_type() const override {
             return activity_id( "ACT_BIKERACK_UNRACKING" );
@@ -689,7 +692,6 @@ class consume_activity_actor : public activity_actor
         std::string consume_menu_filter;
         bool canceled = false;
         activity_id type;
-        bool refuel = false;
         /**
          * @pre @p other is a consume_activity_actor
          */
@@ -702,12 +704,12 @@ class consume_activity_actor : public activity_actor
         consume_activity_actor( const item_location &consume_location,
                                 std::vector<int> consume_menu_selections,
                                 const std::vector<item_location> &consume_menu_selected_items,
-                                const std::string &consume_menu_filter, activity_id type, bool refuel = false ) :
+                                const std::string &consume_menu_filter, activity_id type ) :
             consume_location( consume_location ),
             consume_menu_selections( std::move( consume_menu_selections ) ),
             consume_menu_selected_items( consume_menu_selected_items ),
             consume_menu_filter( consume_menu_filter ),
-            type( type ), refuel( refuel ) {}
+            type( type ) {}
 
         explicit consume_activity_actor( const item_location &consume_location ) :
             consume_location( consume_location ), consume_menu_selections( std::vector<int>() ) {}
@@ -1056,11 +1058,7 @@ class harvest_activity_actor : public activity_actor
 class reload_activity_actor : public activity_actor
 {
     public:
-        reload_activity_actor() = default;
-        reload_activity_actor( int moves, int qty,
-                               std::vector<item_location> &targets ) : moves_total( moves ), quantity( qty ),
-            reload_targets( targets ) {
-        }
+        explicit reload_activity_actor( item::reload_option &&opt, int extra_moves = 0 );
 
         activity_id get_type() const override {
             return activity_id( "ACT_RELOAD" );
@@ -1079,9 +1077,11 @@ class reload_activity_actor : public activity_actor
         static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
 
     private:
-        int moves_total{};
-        int quantity{};
-        std::vector<item_location> reload_targets{};
+        explicit reload_activity_actor() = default;
+        int moves_total = 0;
+        int quantity = 0;
+        item_location target_loc;
+        item_location ammo_loc;
 
         bool can_reload() const;
         static void make_reload_sound( Character &who, item &reloadable );
@@ -1470,6 +1470,73 @@ class haircut_activity_actor : public activity_actor
 
         void serialize( JsonOut & ) const override;
         static std::unique_ptr<activity_actor> deserialize( JsonValue & );
+};
+
+class vehicle_folding_activity_actor : public activity_actor
+{
+    private:
+        // position of vehicle; used to identify the vehicle
+        tripoint_bub_ms target_pos;
+        // time folding the vehicle should take
+        time_duration folding_time;
+        // This tries folding, optionally bailing early and only checking for errors
+        // @param check_only if true stops early, only checking if folding is possible
+        // @returns ( check_only && folding is possible ) || ( !check_only and successfully folded )
+        bool fold_vehicle( Character &p, bool check_only ) const;
+
+        // private empty constructor for deserialization
+        explicit vehicle_folding_activity_actor() = default;
+    public:
+        explicit vehicle_folding_activity_actor( const vehicle &target );
+
+        activity_id get_type() const override {
+            return activity_id( "ACT_VEHICLE_FOLD" );
+        }
+
+        void start( player_activity &act, Character &p ) override;
+        void do_turn( player_activity &act, Character &p ) override;
+        void finish( player_activity &act, Character &p ) override;
+
+        std::unique_ptr<activity_actor> clone() const override {
+            return std::make_unique<vehicle_folding_activity_actor>( *this );
+        }
+
+        void serialize( JsonOut &jsout ) const override;
+        static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
+};
+
+class vehicle_unfolding_activity_actor : public activity_actor
+{
+    private:
+        // folded item to restore from
+        item it;
+        // time unfolding the vehicle should take
+        time_duration unfolding_time;
+        // This tries unfolding, optionally bailing early and only checking for errors
+        // @param check_only if true stops early, only checking if unfolding is possible
+        // @returns ( check_only && unfolding is possible ) || ( !check_only and successfully unfolded )
+        bool unfold_vehicle( Character &p, bool check_only ) const;
+
+        // private empty constructor for deserialization
+        explicit vehicle_unfolding_activity_actor() = default;
+    public:
+        explicit vehicle_unfolding_activity_actor( const item &it );
+
+        activity_id get_type() const override {
+            return activity_id( "ACT_VEHICLE_UNFOLD" );
+        }
+
+        void start( player_activity &act, Character &p ) override;
+        void do_turn( player_activity &act, Character &p ) override;
+        void finish( player_activity &act, Character &p ) override;
+        void canceled( player_activity &act, Character &p ) override;
+
+        std::unique_ptr<activity_actor> clone() const override {
+            return std::make_unique<vehicle_unfolding_activity_actor>( *this );
+        }
+
+        void serialize( JsonOut &jsout ) const override;
+        static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
 };
 
 class wear_activity_actor : public activity_actor

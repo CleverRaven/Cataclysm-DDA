@@ -2,6 +2,7 @@
 
 #include <cctype>
 
+#include "cata_scope_helpers.h"
 #include "catacharset.h"
 #include "input.h"
 #include "output.h"
@@ -122,10 +123,6 @@ void string_input_popup::create_context()
 #endif
     ctxt->register_action( "TEXT.INPUT_FROM_FILE" );
     ctxt->register_action( "HELP_KEYBINDINGS" );
-    ctxt->register_action( "PAGE_UP" );
-    ctxt->register_action( "PAGE_DOWN" );
-    ctxt->register_action( "SCROLL_UP" );
-    ctxt->register_action( "SCROLL_DOWN" );
     ctxt->register_action( "ANY_INPUT" );
     for( const auto &act : custom_actions ) {
         ctxt->register_action( act.first, act.second );
@@ -251,11 +248,13 @@ void string_input_popup::draw( ui_adaptor *const ui, const utf8_wrapper &ret,
         draw_border( w_full );
         wnoutrefresh( w_full );
 
-        int pos_y = 0;
-        for( int i = 0; i < static_cast<int>( title_split.size() ) - 1; i++ ) {
-            mvwprintz( w_title_and_entry, point( i, pos_y++ ), _title_color, title_split[i] );
+        if( !_title.empty() ) {
+            int pos_y = 0;
+            for( int i = 0; i < static_cast<int>( title_split.size() ) - 1; i++ ) {
+                mvwprintz( w_title_and_entry, point( i, pos_y++ ), _title_color, title_split[i] );
+            }
+            trim_and_print( w_title_and_entry, point( 0, pos_y ), titlesize, _title_color, title_split.back() );
         }
-        trim_and_print( w_title_and_entry, point( 0, pos_y ), titlesize, _title_color, title_split.back() );
     }
 
     const int scrmax = _endx - _startx;
@@ -379,6 +378,10 @@ const std::string &string_input_popup::query_string( const bool loop, const bool
         create_context();
     }
 
+    if( desc_view_ptr ) {
+        desc_view_ptr->set_up_navigation( *ctxt, scrolling_key_scheme::no_scheme, true );
+    }
+
     _text_changed = false;
     utf8_wrapper ret( _text );
     utf8_wrapper edit( ctxt->get_edittext() );
@@ -470,7 +473,9 @@ const std::string &string_input_popup::query_string( const bool loop, const bool
             continue;
         }
 
-        if( action == "TEXT.QUIT" ) {
+        if( desc_view_ptr && desc_view_ptr->handle_navigation( action, *ctxt ) ) {
+            // NO FURTHER ACTION REQUIRED
+        } else if( action == "TEXT.QUIT" ) {
 #if defined(__ANDROID__)
             if( get_option<bool>( "ANDROID_AUTO_KEYBOARD" ) ) {
                 StopTextInput();
@@ -536,24 +541,6 @@ const std::string &string_input_popup::query_string( const bool loop, const bool
         } else if( action == "TEXT.DELETE" ) {
             if( _position < static_cast<int>( ret.size() ) ) {
                 ret.erase( _position, 1 );
-            }
-            /*Note: SCROLL_UP/SCROLL_DOWN should by default only trigger on mousewheel,
-             * since up/down arrow were handled above */
-        } else if( action == "SCROLL_UP" ) {
-            if( desc_view_ptr ) {
-                desc_view_ptr->scroll_up();
-            }
-        } else if( action == "SCROLL_DOWN" ) {
-            if( desc_view_ptr ) {
-                desc_view_ptr->scroll_down();
-            }
-        } else if( action == "PAGE_UP" ) {
-            if( desc_view_ptr ) {
-                desc_view_ptr->page_up();
-            }
-        } else if( action == "PAGE_DOWN" ) {
-            if( desc_view_ptr ) {
-                desc_view_ptr->page_down();
             }
         } else if( action == "TEXT.PASTE" || action == "TEXT.INPUT_FROM_FILE"
                    || ( action == "ANY_INPUT" && !ev.text.empty() ) ) {

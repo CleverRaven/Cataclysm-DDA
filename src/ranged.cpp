@@ -21,6 +21,7 @@
 #include "ballistics.h"
 #include "cached_options.h"
 #include "calendar.h"
+#include "cata_scope_helpers.h"
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "character.h"
@@ -131,6 +132,7 @@ static const skill_id skill_gun( "gun" );
 static const skill_id skill_launcher( "launcher" );
 static const skill_id skill_throw( "throw" );
 
+static const trait_id trait_BRAWLER( "BRAWLER" );
 static const trait_id trait_PYROMANIA( "PYROMANIA" );
 
 static const trap_str_id tr_practice_target( "tr_practice_target" );
@@ -424,6 +426,7 @@ target_handler::trajectory target_handler::mode_throw( avatar &you, item &releva
     ui.relevant = &relevant;
     ui.range = you.throw_range( relevant );
 
+    restore_on_out_of_scope<tripoint> view_offset_prev( you.view_offset );
     return ui.run();
 }
 
@@ -435,6 +438,7 @@ target_handler::trajectory target_handler::mode_reach( avatar &you, item_locatio
     ui.relevant = weapon.get_item();
     ui.range = weapon ? weapon->current_reach_range( you ) : 1;
 
+    restore_on_out_of_scope<tripoint> view_offset_prev( you.view_offset );
     return ui.run();
 }
 
@@ -448,6 +452,7 @@ target_handler::trajectory target_handler::mode_turret_manual( avatar &you, turr
     ui.range = turret.range();
     ui.ammo = turret.ammo_data();
 
+    restore_on_out_of_scope<tripoint> view_offset_prev( you.view_offset );
     return ui.run();
 }
 
@@ -477,6 +482,7 @@ target_handler::trajectory target_handler::mode_turrets( avatar &you, vehicle &v
     ui.vturrets = &turrets;
     ui.range = range_total;
 
+    restore_on_out_of_scope<tripoint> view_offset_prev( you.view_offset );
     return ui.run();
 }
 
@@ -491,6 +497,7 @@ target_handler::trajectory target_handler::mode_spell( avatar &you, spell &casti
     ui.no_fail = no_fail;
     ui.no_mana = no_mana;
 
+    restore_on_out_of_scope<tripoint> view_offset_prev( you.view_offset );
     return ui.run();
 }
 
@@ -555,7 +562,7 @@ int Character::gun_engagement_moves( const item &gun, int target, int start,
 
     while( penalty > target ) {
         double adj = aim_per_move( gun, penalty, attributes );
-        if( adj <= 0 ) {
+        if( adj <= MIN_RECOIL_IMPROVEMENT ) {
             break;
         }
         penalty -= adj;
@@ -826,6 +833,10 @@ int Character::fire_gun( const tripoint &target, int shots, item &gun )
         const vehicle *in_veh = has_effect( effect_on_roof ) ? veh_pointer_or_null( here.veh_at(
                                     pos() ) ) : nullptr;
 
+        // Add gunshot noise
+        make_gun_sound_effect( *this, shots > 1, &gun );
+        sfx::generate_gun_sound( *this, gun );
+
         weakpoint_attack wp_attack;
         wp_attack.weapon = &gun;
         projectile proj = make_gun_projectile( gun );
@@ -891,8 +902,6 @@ int Character::fire_gun( const tripoint &target, int shots, item &gun )
         recoil += enchantment_cache->modify_value( enchant_vals::mod::RECOIL_MODIFIER, 5.0 ) *
                   ( qty * ( 1.0 - absorb ) );
 
-        make_gun_sound_effect( *this, shots > 1, &gun );
-        sfx::generate_gun_sound( *this, gun );
         const itype_id current_ammo = gun.ammo_current();
 
         if( has_trait( trait_PYROMANIA ) && !has_morale( MORALE_PYROMANIA_STARTFIRE ) ) {
@@ -977,7 +986,7 @@ int throw_cost( const Character &c, const item &to_throw )
     // Differences:
     // Dex is more (2x) important for throwing speed
     // At 10 skill, the cost is down to 0.75%, not 0.66%
-    const int base_move_cost = to_throw.attack_time() / 2;
+    const int base_move_cost = to_throw.attack_time( c ) / 2;
     const int throw_skill = std::min( MAX_SKILL, c.get_skill_level( skill_throw ) );
     ///\EFFECT_THROW increases throwing speed
     const int skill_cost = static_cast<int>( ( base_move_cost * ( 20 - throw_skill ) / 20 ) );
@@ -1546,11 +1555,12 @@ static recoil_prediction predict_recoil( const Character &you, const item &weapo
 
     // next loop simulates aiming until either aim mode threshold or sight_dispersion is reached
     do {
-        double aim_amount = you.aim_per_move( weapon, predicted_recoil, target );
-        if( aim_amount > 0 ) {
-            predicted_delay++;
-            predicted_recoil = std::max( predicted_recoil - aim_amount, 0.0 );
+        const double aim_amount = you.aim_per_move( weapon, predicted_recoil, target );
+        if( aim_amount <= MIN_RECOIL_IMPROVEMENT ) {
+            break;
         }
+        predicted_delay++;
+        predicted_recoil = std::max( predicted_recoil - aim_amount, 0.0 );
     } while( predicted_recoil > aim_mode.threshold && predicted_recoil > sight_dispersion );
 
     return { predicted_recoil, predicted_delay };
@@ -2129,6 +2139,8 @@ void make_gun_sound_effect( const Character &p, bool burst, item *weapon )
         sounds::sound( p.pos(), data.volume, sounds::sound_t::combat,
                        data.sound.empty() ? _( "Bang!" ) : data.sound );
     }
+    p.add_msg_if_player( _( "You shoot your %1$s. %2$s" ), weapon->tname( 1, false, false ),
+                         uppercase_first_letter( data.sound ) );
 }
 
 item::sound_data item::gun_noise( const bool burst ) const
@@ -2429,7 +2441,6 @@ target_handler::trajectory target_ui::run()
     on_out_of_scope cleanup( [&here, &player_character]() {
         here.invalidate_map_cache( player_character.pos().z + player_character.view_offset.z );
     } );
-    restore_on_out_of_scope<tripoint> view_offset_prev( player_character.view_offset );
 
     shared_ptr_fast<game::draw_callback_t> target_ui_cb = make_shared_fast<game::draw_callback_t>(
     [&]() {
@@ -2475,6 +2486,14 @@ target_handler::trajectory target_ui::run()
     src = you->pos();
     update_target_list();
 
+    if( activity && activity->abort_if_no_targets && targets.empty() ) {
+        // this branch is taken when already shot once and re-entered
+        // aiming, if no targets are available we want to abort so
+        // players don't arrive at aiming ui with nothing to shoot at.
+        activity->aborted = true;
+        traj.clear();
+        return traj;
+    }
     tripoint initial_dst = src;
     if( reentered ) {
         if( !try_reacquire_target( resume_critter, initial_dst ) ) {
@@ -2868,8 +2887,7 @@ bool target_ui::set_cursor_pos( const tripoint &new_pos )
 
     // Make player's sprite flip to face the current target
     point d( dst.xy() - src.xy() );
-    if( !tile_iso ) {
-
+    if( !g->is_tileset_isometric() ) {
         if( d.x > 0 ) {
             you->facing = FacingDirection::RIGHT;
         } else if( d.x < 0 ) {
@@ -3906,6 +3924,11 @@ bool gunmode_checks_common( avatar &you, const map &m, std::vector<std::string> 
                             const gun_mode &gmode )
 {
     bool result = true;
+    if( you.has_trait( trait_BRAWLER ) ) {
+        messages.push_back( string_format( _( "Pfft.  You are a brawler; using %s is beneath you." ),
+                                           gmode->tname() ) );
+        result = false;
+    }
 
     // Check that passed gun mode is valid and we are able to use it
     if( !( gmode && you.can_use( *gmode ) ) ) {

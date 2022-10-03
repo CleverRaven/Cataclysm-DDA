@@ -403,7 +403,7 @@ void Character::update_bodytemp()
     const units::temperature player_local_temp = weather_man.get_temperature( pos() );
     // NOTE : visit weather.h for some details on the numbers used
     // Converts temperature to Celsius/10
-    int Ctemperature = static_cast<int>( 100 * units::to_celcius( player_local_temp ) );
+    int Ctemperature = static_cast<int>( 100 * units::to_celsius( player_local_temp ) );
     const w_point weather = *weather_man.weather_precise;
     int vehwindspeed = 0;
     map &here = get_map();
@@ -448,15 +448,12 @@ void Character::update_bodytemp()
                                0.0f ) );
 
     // Sunlight
-    const int sunlight_warmth = g->is_in_sunlight( pos() ) ?
-                                ( get_weather().weather_id->sun_intensity ==
-                                  sun_intensity_type::high ?
-                                  1000 :
-                                  500 ) : 0;
+    const int sunlight_warmth = !g->is_sheltered( pos() ) ? incident_sun_irradiance(
+                                    get_weather().weather_id, calendar::turn ) * 1.5 : 0;
     const int best_fire = get_best_fire( pos() );
 
     const int lying_warmth = use_floor_warmth ? floor_warmth( pos() ) : 0;
-    const int water_temperature = 100 * units::to_celcius(
+    const int water_temperature = 100 * units::to_celsius(
                                       get_weather().get_cur_weather_gen().get_water_temperature() );
 
     // Correction of body temperature due to traits and mutations
@@ -1145,11 +1142,14 @@ bodypart_id Character::body_window( const std::string &menu_header,
             desc += colorize( _( "It is broken.  It needs a splint or surgical attention." ), c_red ) + "\n";
             hp_str = "==%==";
         } else if( no_feeling ) {
-            if( current_hp < maximal_hp * 0.25 ) {
+            const float cur_hp_pcnt = current_hp / static_cast<float>( maximal_hp );
+            if( cur_hp_pcnt < 0.125f ) {
                 hp_str = colorize( _( "Very Bad" ), c_red );
-            } else if( current_hp < maximal_hp * 0.5 ) {
+            } else if( cur_hp_pcnt < 0.375f ) {
                 hp_str = colorize( _( "Bad" ), c_light_red );
-            } else if( current_hp < maximal_hp * 0.75 ) {
+            } else if( cur_hp_pcnt < 0.625f ) {
+                hp_str = colorize( _( "So-so" ), c_yellow );
+            } else if( cur_hp_pcnt < 0.875f ) {
                 hp_str = colorize( _( "Okay" ), c_light_green );
             } else {
                 hp_str = colorize( _( "Good" ), c_green );

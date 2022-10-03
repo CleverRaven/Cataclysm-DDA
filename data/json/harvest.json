@@ -276,6 +276,11 @@
     "entries": [ { "drop": "acorns", "base_num": [ 5, 12 ], "scale_num": [ 0, 0.5 ] } ]
   },
   {
+    "id": "cottonwood_harv",
+    "type": "harvest",
+    "entries": [ { "drop": "cottonwood_tree_boll", "base_num": [ 3, 6 ], "scale_num": [ 0, 0.5 ] } ]
+  },
+  {
     "id": "beech_harv",
     "type": "harvest",
     "entries": [ { "drop": "beech_nuts", "base_num": [ 5, 12 ], "scale_num": [ 0, 0.5 ] } ]
@@ -1005,13 +1010,47 @@
     "id": "bird_large",
     "type": "harvest",
     "entries": [
-      { "drop": "mutant_meat", "type": "flesh", "mass_ratio": 0.3 },
+      { "drop": "meat", "type": "flesh", "mass_ratio": 0.3 },
       { "drop": "animal_blood", "type": "blood", "mass_ratio": 0.1 },
-      { "drop": "mutant_meat_scrap", "type": "flesh", "mass_ratio": 0.03 },
-      { "drop": "mutant_fat", "type": "flesh", "mass_ratio": 0.18 },
+      { "drop": "meat_scrap", "type": "flesh", "mass_ratio": 0.03 },
+      { "drop": "fat", "type": "flesh", "mass_ratio": 0.18 },
       { "drop": "feather", "type": "skin", "mass_ratio": 0.02 },
       { "drop": "down_feather", "type": "skin", "mass_ratio": 0.01 },
       { "drop": "bone", "type": "bone", "mass_ratio": 0.1 }
+    ]
+  },
+  {
+    "id": "mutant_bird",
+    "type": "harvest",
+    "entries": [
+      { "drop": "mutant_meat", "type": "flesh", "mass_ratio": 0.3 },
+      { "drop": "mutant_blood", "type": "blood", "mass_ratio": 0.1 },
+      { "drop": "mutant_meat_scrap", "type": "flesh", "mass_ratio": 0.05 },
+      { "drop": "mutant_lung", "type": "offal", "mass_ratio": 0.0035 },
+      { "drop": "mutant_liver", "type": "offal", "mass_ratio": 0.01 },
+      { "drop": "mutant_brain", "type": "offal", "mass_ratio": 0.003 },
+      { "drop": "mutant_kidney", "type": "offal", "mass_ratio": 0.002 },
+      { "drop": "bone", "type": "bone", "mass_ratio": 0.05 },
+      { "drop": "feather", "type": "skin", "mass_ratio": 0.01 },
+      { "drop": "down_feather", "type": "skin", "mass_ratio": 0.005 }
+    ]
+  },
+  {
+    "id": "mutant_bird_flightless",
+    "//": "for mutant birds that are flightless: more fat, feathers & bone, since weight matters less for them",
+    "type": "harvest",
+    "entries": [
+      { "drop": "mutant_meat", "type": "flesh", "mass_ratio": 0.3 },
+      { "drop": "mutant_blood", "type": "blood", "mass_ratio": 0.1 },
+      { "drop": "mutant_meat_scrap", "type": "flesh", "mass_ratio": 0.03 },
+      { "drop": "mutant_lung", "type": "offal", "mass_ratio": 0.0035 },
+      { "drop": "mutant_liver", "type": "offal", "mass_ratio": 0.01 },
+      { "drop": "mutant_brain", "type": "offal", "mass_ratio": 0.003 },
+      { "drop": "mutant_kidney", "type": "offal", "mass_ratio": 0.002 },
+      { "drop": "mutant_fat", "type": "flesh", "mass_ratio": 0.18 },
+      { "drop": "bone", "type": "bone", "mass_ratio": 0.1 },
+      { "drop": "feather", "type": "skin", "mass_ratio": 0.02 },
+      { "drop": "down_feather", "type": "skin", "mass_ratio": 0.01 }
     ]
   },
   {

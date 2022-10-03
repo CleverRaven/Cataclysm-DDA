@@ -782,6 +782,7 @@
     "damage_type": "pure",
     "min_aoe": 4,
     "max_aoe": 4,
-    "flags": [ "LOUD", "RANDOM_DAMAGE" ]
+    "flags": [ "LOUD", "RANDOM_DAMAGE", "NO_EXPLOSION_SFX" ],
+    "message": ""
   }
 ]

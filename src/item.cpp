@@ -131,6 +131,9 @@ static const efftype_id effect_shakes( "shakes" );
 static const efftype_id effect_sleep( "sleep" );
 static const efftype_id effect_weed_high( "weed_high" );
 
+const static fault_id fault_gun_damaged( "fault_gun_damaged" );
+const static fault_id fault_gun_unaccurized( "fault_gun_unaccurized" );
+
 static const furn_str_id furn_f_metal_smoking_rack_active( "f_metal_smoking_rack_active" );
 static const furn_str_id furn_f_smoking_rack_active( "f_smoking_rack_active" );
 static const furn_str_id furn_f_water_mill_active( "f_water_mill_active" );
@@ -279,6 +282,7 @@ item::item() : bday( calendar::start_of_cataclysm )
     charges = 0;
     contents = item_contents( type->pockets );
     select_itype_variant();
+    on_damage_changed();
 }
 
 item::item( const itype *type, time_point turn, int qty ) : type( type ), bday( turn )
@@ -324,6 +328,7 @@ item::item( const itype *type, time_point turn, int qty ) : type( type ), bday( 
     }
 
     select_itype_variant();
+    on_damage_changed();
     if( type->gun ) {
         for( const itype_id &mod : type->gun->built_in_mods ) {
             item it( mod, turn, qty );
@@ -818,6 +823,7 @@ item &item::set_damage( int qty )
 {
     damage_ = std::max( std::min( qty, max_damage() ), min_damage() );
     degradation_ = std::max( std::min( damage_ - min_damage(), degradation_ ), 0 );
+    on_damage_changed();
     return *this;
 }
 
@@ -1559,6 +1565,22 @@ double item::get_var( const std::string &name, const double default_value ) cons
         return default_value;
     }
     if( end != &val[0] + val.size() ) {
+        if( *end == ',' ) {
+            // likely legacy format with localized ',' for fraction separator instead of '.'
+            std::string converted_val = val;
+            converted_val[end - &val[0]] = '.';
+            errno = 0;
+            double result = strtod( &converted_val[0], &end );
+            if( errno != 0 ) {
+                debugmsg( "Error parsing floating point value from %s in item::get_var: %s",
+                          val, strerror( errno ) );
+                return default_value;
+            }
+            if( end != &converted_val[0] + converted_val.size() ) {
+                debugmsg( "Stray characters at end of floating point value %s in item::get_var", val );
+            }
+            return result;
+        }
         debugmsg( "Stray characters at end of floating point value %s in item::get_var", val );
     }
     return result;
@@ -1894,7 +1916,7 @@ static void insert_separation_line( std::vector<iteminfo> &info )
  * attacks
  * data painstakingly looked up at http://onlinestatbook.com/2/calculators/normal_dist.html
  */
-static const double hits_by_accuracy[41] = {
+static constexpr std::array<double, 41> hits_by_accuracy = {
     0,    1,   2,   3,   7, // -20 to -16
     13,   26,  47,   82,  139, // -15 to -11
     228,   359,  548,  808, 1151, // -10 to -6
@@ -3894,7 +3916,7 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
             item tmp = *this;
 
             //no need to clutter the ui with inactive versions when the armor is already active
-            if( !( active || ( type->tool && type->tool->power_draw > 0 ) ) ) {
+            if( !( active || ( type->tool && type->tool->power_draw > 0_J ) ) ) {
                 bool print_prot = true;
                 if( parts->test( iteminfo_parts::ARMOR_PROTECTION ) ) {
                     print_prot = !tmp.armor_full_protection_info( info, parts );
@@ -4827,8 +4849,8 @@ void item::qualities_info( std::vector<iteminfo> &info, const iteminfo_query *pa
         // Tools with "charged_qualities" defined may have additional qualities when charged.
         // List them, and show whether there is enough charge to use those qualities.
         if( !type->charged_qualities.empty() && type->charges_to_use() > 0 ) {
-            // Use ammo_remaining() with player character to include bionic/UPS power
-            if( ammo_remaining( &get_player_character() ) >= type->charges_to_use() ) {
+            // Use ammo_sufficient() with player character to include bionic/UPS power
+            if( ammo_sufficient( &get_player_character() ) ) {
                 info.emplace_back( "QUALITIES", "", _( "<good>Has enough charges</good> for qualities:" ) );
             } else {
                 info.emplace_back( "QUALITIES", "",
@@ -5052,7 +5074,7 @@ void item::melee_combat_info( std::vector<iteminfo> &info, const iteminfo_query 
 
         if( base_moves ) {
             info.emplace_back( "BASE", _( "Base moves per attack: " ), "",
-                               iteminfo::lower_is_better, attack_time() );
+                               iteminfo::lower_is_better, attack_time( player_character ) );
         }
 
         if( base_dps ) {
@@ -6198,6 +6220,20 @@ void item::on_damage( int, damage_type )
 
 }
 
+void item::on_damage_changed()
+{
+    if( is_firearm() && !has_flag( flag_NO_REPAIR ) ) {
+        faults.erase( fault_gun_damaged );
+        faults.erase( fault_gun_unaccurized );
+        if( damage_level() == -1 ) { // gun is fully repaired and accurized
+        } else if( damage_level() == 0 ) { // repaired but not accurized (++) yet
+            faults.emplace( fault_gun_unaccurized );
+        } else { // can be repaired
+            faults.emplace( fault_gun_damaged );
+        }
+    }
+}
+
 std::string item::dirt_symbol() const
 {
     const int dirt_level = get_var( "dirt", 0 ) / 2000;
@@ -6851,13 +6887,22 @@ units::mass item::weight( bool include_contents, bool integral ) const
         ret += links.weight();
     }
 
-    // reduce weight for sawn-off weapons capped to the apportioned weight of the barrel
+    // reduce weight for sawn-off barrel capped to the apportioned weight of the barrel
     if( gunmod_find( itype_barrel_small ) ) {
         const units::volume b = type->gun->barrel_volume;
         const units::mass max_barrel_weight = units::from_gram( to_milliliter( b ) );
         const units::mass barrel_weight = units::from_gram( b.value() * type->weight.value() /
                                           type->volume.value() );
         ret -= std::min( max_barrel_weight, barrel_weight );
+    }
+
+    // reduce weight for sawn-off stock
+    if( gunmod_find( itype_stock_none ) ) {
+        // Length taken from item::length(), height and width are "average" values
+        const float stock_dimensions = 0.26f * 0.11f * 0.04f; // length * height * width = 0.00114 m3.
+        // density of 'wood' material
+        const int density = 850;
+        ret -= units::from_kilogram( stock_dimensions * density );
     }
 
     return ret;
@@ -7026,7 +7071,8 @@ units::volume item::volume( bool integral, bool ignore_contents, int charges_in_
             for( const item &it : components ) {
                 ret += it.volume();
             }
-            craft_data_->cached_volume = ret;
+            // 1 mL minimum craft volume to avoid 0 volume errors from practices or hammerspace
+            craft_data_->cached_volume = std::max( ret, 1_ml );
         }
         return *craft_data_->cached_volume;
     }
@@ -7086,10 +7132,10 @@ int item::lift_strength() const
     return std::max( mass / 10000, 1 );
 }
 
-int item::attack_time() const
+int item::attack_time( const Character &you ) const
 {
     int ret = 65 + ( volume() / 62.5_ml + weight() / 60_gram ) / count();
-    ret = calculate_by_enchantment_wield( ret, enchant_vals::mod::ITEM_ATTACK_SPEED,
+    ret = calculate_by_enchantment_wield( you, ret, enchant_vals::mod::ITEM_ATTACK_SPEED,
                                           true );
     return ret;
 }
@@ -7252,7 +7298,7 @@ bool item::has_flag( const flag_id &f, bool ignore_inherit ) const
         // if the pocket inherits flags
         if( pocket->inherits_flags() ) {
             for( const item *e : pocket->all_items_top() ) {
-                if( e->has_flag( f ) ) {
+                if( e->has_flag( f ) && f->inherit() ) {
                     return true;
                 }
             }
@@ -7347,8 +7393,7 @@ int item::get_quality( const quality_id &id, const bool strict_boiling ) const
 
     // If tool has charged qualities and enough charge to use at least once
     // (using ammo_remaining() with player character to include bionic/UPS power)
-    if( !type->charged_qualities.empty() && type->charges_to_use() > 0 &&
-        type->charges_to_use() <= ammo_remaining( &get_player_character() ) ) {
+    if( !type->charged_qualities.empty() && ammo_sufficient( &get_player_character() ) ) {
         // see if any charged qualities are better than the current one
         for( const std::pair<const quality_id, int> &quality : type->charged_qualities ) {
             if( quality.first == id ) {
@@ -9041,6 +9086,8 @@ bool item::mod_damage( int qty, damage_type dt )
         }
     }
 
+    on_damage_changed();
+
     return destroy;
 }
 
@@ -9732,9 +9779,9 @@ float item::get_latent_heat() const
 units::temperature item::get_freeze_point() const
 {
     if( is_comestible() ) {
-        return units::from_celcius( get_comestible()->freeze_point );
+        return units::from_celsius( get_comestible()->freeze_point );
     }
-    return units::from_celcius( made_of_types()[0]->freeze_point() );
+    return units::from_celsius( made_of_types()[0]->freeze_point() );
 }
 
 void item::set_mtype( const mtype *const m )
@@ -9928,7 +9975,7 @@ bool item::is_fuel() const
         return false;
     }
     // and this material has to produce energy
-    if( get_base_material().get_fuel_data().energy <= 0.0 ) {
+    if( get_base_material().get_fuel_data().energy <= 0_J ) {
         return false;
     }
     // and it needs to be have consumable charges
@@ -9996,9 +10043,10 @@ int item::wheel_area() const
     return is_wheel() ? type->wheel->diameter * type->wheel->width : 0;
 }
 
-float item::fuel_energy() const
+units::energy item::fuel_energy() const
 {
-    return get_base_material().get_fuel_data().energy;
+    // The odd units and division are to avoid integer rounding errors.
+    return get_base_material().get_fuel_data().energy * units::to_milliliter( base_volume() ) / 1000;
 }
 
 std::string item::fuel_pump_terrain() const
@@ -10136,12 +10184,20 @@ bool item::has_relic_activation() const
     return is_relic() && relic_data->has_activation();
 }
 
-std::vector<enchantment> item::get_enchantments() const
+std::vector<enchant_cache> item::get_proc_enchantments() const
+{
+    if( !is_relic() ) {
+        return std::vector<enchant_cache> {};
+    }
+    return relic_data->get_proc_enchantments();
+}
+
+std::vector<enchantment> item::get_defined_enchantments() const
 {
     if( !is_relic() ) {
         return std::vector<enchantment> {};
     }
-    return relic_data->get_enchantments();
+    return relic_data->get_defined_enchantments();
 }
 
 double item::calculate_by_enchantment( const Character &owner, double modify,
@@ -10149,10 +10205,16 @@ double item::calculate_by_enchantment( const Character &owner, double modify,
 {
     double add_value = 0.0;
     double mult_value = 1.0;
-    for( const enchantment &ench : get_enchantments() ) {
+    for( const enchant_cache &ench : get_proc_enchantments() ) {
         if( ench.is_active( owner, *this ) ) {
             add_value += ench.get_value_add( value );
             mult_value += ench.get_value_multiply( value );
+        }
+    }
+    for( const enchantment &ench : get_defined_enchantments() ) {
+        if( ench.is_active( owner, *this ) ) {
+            add_value += ench.get_value_add( value, owner );
+            mult_value += ench.get_value_multiply( value, owner );
         }
     }
     modify += add_value;
@@ -10163,15 +10225,22 @@ double item::calculate_by_enchantment( const Character &owner, double modify,
     return modify;
 }
 
-double item::calculate_by_enchantment_wield( double modify, enchant_vals::mod value,
+double item::calculate_by_enchantment_wield( const Character &owner, double modify,
+        enchant_vals::mod value,
         bool round_value ) const
 {
     double add_value = 0.0;
     double mult_value = 1.0;
-    for( const enchantment &ench : get_enchantments() ) {
+    for( const enchant_cache &ench : get_proc_enchantments() ) {
         if( ench.active_wield() ) {
             add_value += ench.get_value_add( value );
             mult_value += ench.get_value_multiply( value );
+        }
+    }
+    for( const enchantment &ench : get_defined_enchantments() ) {
+        if( ench.active_wield() ) {
+            add_value += ench.get_value_add( value, owner );
+            mult_value += ench.get_value_multiply( value, owner );
         }
     }
     modify += add_value;
@@ -10248,6 +10317,9 @@ ret_val<void> item::can_contain( const item &it, const bool nested,
             !pkt->get_pocket_data()->get_flag_restrictions().empty();
         for( const item *internal_it : pkt->all_items_top() ) {
             if( parent_it.where() != item_location::type::invalid && internal_it == parent_it.get_item() ) {
+                continue;
+            }
+            if( !internal_it->is_container() ) {
                 continue;
             }
             if( internal_it->can_contain( it, true, ignore_rigidity, ignore_pkt_settings,
@@ -10440,6 +10512,9 @@ const material_type &item::get_base_material() const
     }
     // Material portions all equal / not specified. Select first material.
     if( portion == 1 ) {
+        if( is_corpse() ) {
+            return corpse->mat.begin()->first.obj();
+        }
         return *type->default_mat;
     }
     return *m;
@@ -10495,12 +10570,12 @@ gun_type_type item::gun_type() const
 
 skill_id item::melee_skill() const
 {
-    if( !is_melee() ) {
-        return skill_id::NULL_ID();
+    if( is_unarmed_weapon() ) {
+        return skill_unarmed;
     }
 
-    if( has_flag( flag_UNARMED_WEAPON ) ) {
-        return skill_unarmed;
+    if( !is_melee() ) {
+        return skill_id::NULL_ID();
     }
 
     int hi = 0;
@@ -10793,10 +10868,6 @@ int item::ammo_capacity( const ammotype &ammo ) const
 
 int item::ammo_required() const
 {
-    if( is_tool() ) {
-        return std::max( type->charges_to_use(), 0 );
-    }
-
     if( is_gun() ) {
         if( type->gun->ammo.empty() ) {
             return 0;
@@ -10811,7 +10882,7 @@ int item::ammo_required() const
         }
     }
 
-    return 0;
+    return type->charges_to_use();
 }
 
 item &item::first_ammo()
@@ -10890,6 +10961,11 @@ int item::ammo_consume( int qty, const tripoint &pos, Character *carrier )
     }
 
     return wanted_qty - qty;
+}
+
+int item::activation_consume( int qty, const tripoint &pos, Character *carrier )
+{
+    return ammo_consume( qty * ammo_required(), pos, carrier );
 }
 
 const itype *item::ammo_data() const
@@ -11724,12 +11800,16 @@ bool item::getlight( float &luminance, units::angle &width, units::angle &direct
 int item::getlight_emit() const
 {
     float lumint = type->light_emission;
-    if( ammo_required() == 0 ||
-        ( has_flag( flag_USE_UPS ) && ammo_capacity( ammo_battery ) == 0 ) ||
+
+    if( lumint == 0 ) {
+        return 0;
+    }
+
+    if( ammo_required() == 0 || ( has_flag( flag_USE_UPS ) && ammo_capacity( ammo_battery ) == 0 ) ||
         has_flag( flag_USES_BIONIC_POWER ) ) {
         return lumint;
     }
-    if( lumint == 0 || ammo_remaining() == 0 ) {
+    if( ammo_remaining() == 0 ) {
         return 0;
     }
     if( has_flag( flag_CHARGEDIM ) && is_tool() && !has_flag( flag_USE_UPS ) ) {
@@ -12269,20 +12349,23 @@ bool item::will_explode_in_fire() const
 
 bool item::detonate( const tripoint &p, std::vector<item> &drops )
 {
+    const Creature *source = get_player_character().get_faction()->id == owner
+                             ? &get_player_character()
+                             : nullptr;
     if( type->explosion.power >= 0 ) {
-        explosion_handler::explosion( p, type->explosion );
+        explosion_handler::explosion( source, p, type->explosion );
         return true;
     } else if( type->ammo && ( type->ammo->special_cookoff || type->ammo->cookoff ) ) {
         int charges_remaining = charges;
         const int rounds_exploded = rng( 1, charges_remaining / 2 );
         if( type->ammo->special_cookoff ) {
             // If it has a special effect just trigger it.
-            apply_ammo_effects( p, type->ammo->ammo_effects );
+            apply_ammo_effects( nullptr, p, type->ammo->ammo_effects );
         }
         if( type->ammo->cookoff ) {
             // If ammo type can burn, then create an explosion proportional to quantity.
             float power = 3.0f * std::pow( rounds_exploded / 25.0f, 0.25f );
-            explosion_handler::explosion( p, power, 0.0f, false, 0 );
+            explosion_handler::explosion( nullptr, p, power, 0.0f, false, 0 );
         }
         charges_remaining -= rounds_exploded;
         if( charges_remaining > 0 ) {
@@ -12756,6 +12839,10 @@ void item::set_temp_flags( units::temperature new_temperature, float freeze_perc
             // Item melts and becomes mushy
             current_phase = type->phase;
             apply_freezerburn();
+            unset_flag( flag_SHREDDED );
+            if( made_of( phase_id::LIQUID ) ) {
+                set_flag( flag_FROM_FROZEN_LIQUID );
+            }
         }
     } else if( has_own_flag( flag_COLD ) ) {
         unset_flag( flag_COLD );
@@ -12791,12 +12878,13 @@ void item::heat_up()
 {
     unset_flag( flag_COLD );
     unset_flag( flag_FROZEN );
+    unset_flag( flag_SHREDDED );
     set_flag( flag_HOT );
     current_phase = type->phase;
     // Set item temperature to 60 C (333.15 K, 122 F)
     // Also set the energy to match
-    temperature = units::from_celcius( 60 );
-    specific_energy = get_specific_energy_from_temperature( units::from_celcius( 60 ) );
+    temperature = units::from_celsius( 60 );
+    specific_energy = get_specific_energy_from_temperature( units::from_celsius( 60 ) );
 
     reset_temp_check();
 }
@@ -12805,12 +12893,13 @@ void item::cold_up()
 {
     unset_flag( flag_HOT );
     unset_flag( flag_FROZEN );
+    unset_flag( flag_SHREDDED );
     set_flag( flag_COLD );
     current_phase = type->phase;
     // Set item temperature to 3 C (276.15 K, 37.4 F)
     // Also set the energy to match
-    temperature = units::from_celcius( 3 );
-    specific_energy = get_specific_energy_from_temperature( units::from_celcius( 3 ) );
+    temperature = units::from_celsius( 3 );
+    specific_energy = get_specific_energy_from_temperature( units::from_celsius( 3 ) );
 
     reset_temp_check();
 }
@@ -12827,7 +12916,14 @@ std::vector<trait_id> item::mutations_from_wearing( const Character &guy, bool r
     }
     std::vector<trait_id> muts;
 
-    for( const enchantment &ench : relic_data->get_enchantments() ) {
+    for( const enchant_cache &ench : relic_data->get_proc_enchantments() ) {
+        for( const trait_id &mut : ench.get_mutations() ) {
+            // this may not be perfectly accurate due to conditions
+            muts.push_back( mut );
+        }
+    }
+
+    for( const enchantment &ench : relic_data->get_defined_enchantments() ) {
         for( const trait_id &mut : ench.get_mutations() ) {
             // this may not be perfectly accurate due to conditions
             muts.push_back( mut );
@@ -12864,19 +12960,6 @@ void item::process_relic( Character *carrier, const tripoint &pos )
     }
 
     relic_data->try_recharge( *this, carrier, pos );
-
-    if( carrier == nullptr ) {
-        // return early; all of the rest of this function is character-specific
-        return;
-    }
-
-    std::vector<enchantment> active_enchantments;
-
-    for( const enchantment &ench : get_enchantments() ) {
-        if( ench.is_active( *carrier, *this ) ) {
-            active_enchantments.emplace_back( ench );
-        }
-    }
 }
 
 bool item::process_corpse( map &here, Character *carrier, const tripoint &pos )
@@ -13235,7 +13318,7 @@ bool item::process_tool( Character *carrier, const tripoint &pos )
 
     avatar &player_character = get_avatar();
     // if insufficient available charges shutdown the tool
-    if( ( type->tool->turns_per_charge > 0 || type->tool->power_draw > 0 ) &&
+    if( ( type->tool->turns_per_charge > 0 || type->tool->power_draw > 0_J ) &&
         ammo_remaining( carrier ) == 0 ) {
         if( carrier && has_flag( flag_USE_UPS ) ) {
             carrier->add_msg_if_player( m_info, _( "You need an UPS to run the %s!" ), tname() );
@@ -13259,11 +13342,12 @@ bool item::process_tool( Character *carrier, const tripoint &pos )
     if( type->tool->turns_per_charge > 0 &&
         to_turn<int>( calendar::turn ) % type->tool->turns_per_charge == 0 ) {
         energy = std::max( ammo_required(), 1 );
-    } else if( type->tool->power_draw > 0 ) {
-        // power_draw in mW / 1000000 to give kJ (battery unit) per second
-        energy = type->tool->power_draw / 1000000;
+    } else if( type->tool->power_draw > 0_J ) {
+        // kJ (battery unit) per second
+        energy = units::to_kilojoule( type->tool->power_draw );
         // energy_bat remainder results in chance at additional charge/discharge
-        energy += x_in_y( type->tool->power_draw % 1000000, 1000000 ) ? 1 : 0;
+        const int kj_in_mj = units::to_millijoule( 1_kJ );
+        energy += x_in_y( units::to_millijoule( type->tool->power_draw ) % kj_in_mj, kj_in_mj ) ? 1 : 0;
     }
 
     if( energy > 0 ) {
@@ -13292,6 +13376,24 @@ bool item::process( map &here, Character *carrier, const tripoint &pos, float in
     contents.process( here, carrier, pos, type->insulation_factor * insulation, flag,
                       spoil_multiplier_parent );
     return process_internal( here, carrier, pos, insulation, flag, spoil_multiplier_parent );
+}
+
+bool item::leak( map &here, Character *carrier, const tripoint &pos, item_pocket *pocke )
+{
+    if( is_container() ) {
+        contents.leak( here, carrier, pos, pocke );
+        return false;
+    } else if( this->made_of( phase_id::LIQUID ) && !this->is_frozen_liquid() ) {
+        if( pocke ) {
+            if( pocke->watertight() ) {
+                unset_flag( flag_FROM_FROZEN_LIQUID );
+                return false;
+            }
+            return true;
+        }
+        return true;
+    }
+    return false;
 }
 
 void item::set_last_temp_check( const time_point &pt )
@@ -13680,7 +13782,17 @@ std::string item::type_name( unsigned int quantity ) const
 
     // Apply conditional names, in order.
     for( const conditional_name &cname : type->conditional_names ) {
-        // Lambda for recursively searching for a item ID among all components.
+        // Lambda for searching for a item ID among all components.
+        std::function<bool( std::list<item> )> component_id_equals =
+        [&]( const std::list<item> &components ) {
+            for( const item &component : components ) {
+                if( component.typeId().str() == cname.condition ) {
+                    return true;
+                }
+            }
+            return false;
+        };
+        // Lambda for recursively searching for a item ID substring among all components.
         std::function<bool ( std::list<item> )> component_id_contains =
         [&]( const std::list<item> &components ) {
             for( const item &component : components ) {
@@ -13698,6 +13810,11 @@ std::string item::type_name( unsigned int quantity ) const
                 }
                 break;
             case condition_type::COMPONENT_ID:
+                if( component_id_equals( components ) ) {
+                    ret_name = string_format( cname.name.translated( quantity ), ret_name );
+                }
+                break;
+            case condition_type::COMPONENT_ID_SUBSTRING:
                 if( component_id_contains( components ) ) {
                     ret_name = string_format( cname.name.translated( quantity ), ret_name );
                 }
@@ -14121,6 +14238,12 @@ std::list<const item *> item::all_items_top( item_pocket::pocket_type pk_type ) 
 std::list<item *> item::all_items_top( item_pocket::pocket_type pk_type, bool unloading )
 {
     return contents.all_items_top( pk_type, unloading );
+}
+
+item const *item::this_or_single_content() const
+{
+    return type->category_force == item_category_container && num_item_stacks() == 1 ? &only_item()
+           : this;
 }
 
 std::list<const item *> item::all_items_ptr() const

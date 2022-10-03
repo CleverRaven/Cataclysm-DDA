@@ -226,5 +226,162 @@
     "name": "alien roe",
     "copy-from": "egg_fish",
     "description": "Common roe from an unknown alien creature."
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_salamander",
+    "name": { "str": "cluster of salamander eggs", "str_pl": "clusters of salamander eggs" },
+    "copy-from": "egg_frog",
+    "description": "A large clump of salamander eggs.  They're gelatinous and transparent.",
+    "rot_spawn": "GROUP_EGG_SALAMANDER"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_tadfish",
+    "name": { "str": "cluster of tadfish eggs", "str_pl": "clusters of tadfish eggs" },
+    "copy-from": "egg_frog",
+    "description": "A large clump of tadfish eggs.  Very similar to other amphibian eggs.",
+    "rot_spawn": "GROUP_EGG_TADFISH"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_lungfish",
+    "name": { "str_sp": "lungfish roe" },
+    "copy-from": "egg_fish",
+    "rot_spawn": "GROUP_EGG_LUNGFISH"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_eel_electric",
+    "name": { "str_sp": "electric eel roe" },
+    "copy-from": "egg_fish",
+    "rot_spawn": "GROUP_EGG_EEL_ELECTRIC"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_pacu",
+    "name": { "str_sp": "pacu roe" },
+    "copy-from": "egg_fish",
+    "rot_spawn": "GROUP_EGG_PACU"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_tambaqui",
+    "name": { "str_sp": "tambaqui roe" },
+    "copy-from": "egg_fish",
+    "rot_spawn": "GROUP_EGG_TAMBAQUI"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_piranha",
+    "name": { "str_sp": "piranha roe" },
+    "copy-from": "egg_fish",
+    "rot_spawn": "GROUP_EGG_PIRANHA"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_arowana",
+    "name": { "str_sp": "arowana roe" },
+    "copy-from": "egg_fish",
+    "rot_spawn": "GROUP_EGG_AROWANA"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_arapaima",
+    "name": { "str_sp": "arapaima roe" },
+    "copy-from": "egg_fish",
+    "rot_spawn": "GROUP_EGG_ARAPAIMA"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_piraiba",
+    "name": { "str_sp": "piraiba roe" },
+    "copy-from": "egg_fish",
+    "rot_spawn": "GROUP_EGG_PIRAIBA"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_pleco",
+    "name": { "str_sp": "pleco roe" },
+    "copy-from": "egg_fish",
+    "rot_spawn": "GROUP_EGG_PLECO"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_gar",
+    "name": { "str_sp": "gar roe" },
+    "copy-from": "egg_fish",
+    "//": "gar eggs seem to be poisonous to consume according to wikipedia, but poison tag didnt seem to work on this item",
+    "rot_spawn": "GROUP_EGG_GAR"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_tucunare",
+    "name": { "str_sp": "tucunare roe" },
+    "copy-from": "egg_fish",
+    "rot_spawn": "GROUP_EGG_TUCUNARE"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_discus",
+    "name": { "str_sp": "discus roe" },
+    "copy-from": "egg_fish",
+    "rot_spawn": "GROUP_EGG_DISCUS"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_angelfish",
+    "name": { "str_sp": "angelfish roe" },
+    "copy-from": "egg_fish",
+    "rot_spawn": "GROUP_EGG_ANGELFISH"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_goldfish",
+    "name": { "str_sp": "goldfish roe" },
+    "copy-from": "egg_fish",
+    "rot_spawn": "GROUP_EGG_GOLDFISH"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_koi",
+    "name": { "str_sp": "koi roe" },
+    "copy-from": "egg_fish",
+    "rot_spawn": "GROUP_EGG_KOI"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_tilapia",
+    "name": { "str_sp": "tilapia roe" },
+    "copy-from": "egg_fish",
+    "rot_spawn": "GROUP_EGG_TILAPIA"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_sabalo",
+    "name": { "str_sp": "sabalo roe" },
+    "copy-from": "egg_fish",
+    "rot_spawn": "GROUP_EGG_SABALO"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_oscar",
+    "name": { "str_sp": "oscar roe" },
+    "copy-from": "egg_fish",
+    "rot_spawn": "GROUP_EGG_OSCAR"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_guapote",
+    "name": { "str_sp": "guapote roe" },
+    "copy-from": "egg_fish",
+    "rot_spawn": "GROUP_EGG_GUAPOTE"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_mayaheros",
+    "name": { "str_sp": "mayaheros roe" },
+    "copy-from": "egg_fish",
+    "rot_spawn": "GROUP_EGG_MAYAHEROS"
   }
 ]

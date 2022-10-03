@@ -137,6 +137,7 @@ static const quality_id qual_CUT( "CUT" );
 
 static const skill_id skill_melee( "melee" );
 
+static const trait_id trait_BRAWLER( "BRAWLER" );
 static const trait_id trait_HIBERNATE( "HIBERNATE" );
 static const trait_id trait_PROF_CHURL( "PROF_CHURL" );
 static const trait_id trait_SHELL2( "SHELL2" );
@@ -265,7 +266,7 @@ input_context game::get_player_input( std::string &action )
                       -getmaxy( w_terrain ) / 2 + u.posy() ) );
 
 #if defined(TILES)
-        if( tile_iso && use_tiles ) {
+        if( g->is_tileset_isometric() ) {
             iStart.x = 0;
             iStart.y = 0;
             iEnd.x = MAPSIZE_X;
@@ -304,7 +305,7 @@ input_context game::get_player_input( std::string &action )
                 Location to add rain drop animation bits! Since it refreshes w_terrain it can be added to the animation section easily
                 Get tile information from above's weather information:
                 WEATHER_ACID_DRIZZLE | WEATHER_ACID_RAIN = "weather_acid_drop"
-                WEATHER_DRIZZLE | WEATHER_LIGHT_DRIZZLE | WEATHER_RAINY | WEATHER_THUNDER | WEATHER_LIGHTNING = "weather_rain_drop"
+                WEATHER_DRIZZLE | WEATHER_LIGHT_DRIZZLE | WEATHER_RAINY | WEATHER_RAINSTORM | WEATHER_THUNDER | WEATHER_LIGHTNING = "weather_rain_drop"
                 WEATHER_FLURRIES | WEATHER_SNOW | WEATHER_SNOWSTORM = "weather_snowflake"
                 */
                 invalidate_main_ui_adaptor();
@@ -708,7 +709,7 @@ static void smash()
         }
     }
     const int move_cost = !player_character.is_armed() ? 80 :
-                          player_character.get_wielded_item()->attack_time() *
+                          player_character.get_wielded_item()->attack_time( player_character ) *
                           0.8;
     bool mech_smash = false;
     int smashskill;
@@ -1480,11 +1481,19 @@ static void fire()
 
         turret_data turret;
         if( vp && ( turret = vp->vehicle().turret_query( player_character.pos() ) ) ) {
+            if( player_character.has_trait( trait_BRAWLER ) ) {
+                add_msg( m_bad, _( "You refuse to use the turret." ) );
+                return;
+            }
             avatar_action::fire_turret_manual( player_character, here, turret );
             return;
         }
 
         if( vp.part_with_feature( "CONTROLS", true ) ) {
+            if( player_character.has_trait( trait_BRAWLER ) ) {
+                add_msg( m_bad, _( "You refuse to use the turret." ) );
+                return;
+            }
             if( vp->vehicle().turrets_aim_and_fire_all_manual() ) {
                 return;
             }
@@ -1676,7 +1685,6 @@ void game::open_consume_item_menu()
     as_m.entries.emplace_back( 0, true, 'f', _( "Food" ) );
     as_m.entries.emplace_back( 1, true, 'd', _( "Drink" ) );
     as_m.entries.emplace_back( 2, true, 'm', _( "Medication" ) );
-    as_m.entries.emplace_back( 3, true, 'u', _( "Fuel" ) );
     as_m.query();
 
     avatar &player_character = get_avatar();
@@ -1689,9 +1697,6 @@ void game::open_consume_item_menu()
             break;
         case 2:
             avatar_action::eat( player_character, game_menus::inv::consume_meds( player_character ) );
-            break;
-        case 3:
-            avatar_action::eat( player_character, game_menus::inv::consume_fuel( get_avatar() ), true );
             break;
         default:
             break;
@@ -1857,8 +1862,9 @@ static void do_deathcam_action( const action_id &act, avatar &player_character )
                 { ACTION_SHIFT_NW, { point_north_west, point_north } },
             };
             int soffset = get_option<int>( "MOVE_VIEW_OFFSET" );
-            player_character.view_offset += use_tiles && tile_iso ?
-                                            shift_delta.at( act ).second * soffset : shift_delta.at( act ).first * soffset;
+            player_character.view_offset += g->is_tileset_isometric()
+                                            ? shift_delta.at( act ).second * soffset
+                                            : shift_delta.at( act ).first * soffset;
         }
         break;
 
@@ -2756,6 +2762,11 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
             handle_debug_mode();
             break;
 
+        case ACTION_DISPLAY_ISO_WALLS:
+            get_options().get_option( "RETRACT_ISO_WALLS" ).setNext();
+            get_options().save();
+            break;
+
         case ACTION_ZOOM_IN:
             zoom_in();
             mark_main_ui_adaptor_resize();
@@ -2867,6 +2878,11 @@ bool game::handle_action()
 
         if( can_action_change_worldstate( act ) ) {
             user_action_counter += 1;
+        }
+
+        if( act == ACTION_CLICK_AND_DRAG ) {
+            // Need to return false to avoid disrupting actions like character mouse movement that require two clicks
+            return false;
         }
 
         if( act == ACTION_SELECT || act == ACTION_SEC_SELECT ) {

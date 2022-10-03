@@ -28,7 +28,7 @@ class ostream;
 
 #endif // CATA_NO_STL
 
-class JsonIn;
+class JsonArray;
 class JsonOut;
 
 // NOLINTNEXTLINE(cata-xy)
@@ -90,11 +90,14 @@ struct point {
      * NOLINTNEXTLINE(cata-use-named-point-constants) */
     point rotate( int turns, const point &dim = { 1, 1 } ) const;
 
+    float distance( const point &rhs ) const;
+    int distance_manhattan( const point &rhs ) const;
+
     std::string to_string() const;
     std::string to_string_writable() const;
 
     void serialize( JsonOut &jsout ) const;
-    void deserialize( JsonIn &jsin );
+    void deserialize( const JsonArray &jsin );
 
     friend inline constexpr bool operator<( const point &a, const point &b ) {
         return a.x < b.x || ( a.x == b.x && a.y < b.y );
@@ -226,7 +229,7 @@ struct tripoint {
     std::string to_string_writable() const;
 
     void serialize( JsonOut &jsout ) const;
-    void deserialize( JsonIn &jsin );
+    void deserialize( const JsonArray &jsin );
 
 #ifndef CATA_NO_STL
     friend std::ostream &operator<<( std::ostream &, const tripoint & );

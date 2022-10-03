@@ -321,6 +321,20 @@
   },
   {
     "type": "overmap_special",
+    "id": "Locked LMOE Shelter",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "lmoe_prepperquest_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "lmoe_roof_north" },
+      { "point": [ 0, 0, -1 ], "overmap": "lmoe_under_empty_prepperquest_north" }
+    ],
+    "locations": [ "forest_without_trail" ],
+    "city_distance": [ 25, -1 ],
+    "city_sizes": [ 0, 12 ],
+    "occurrences": [ 80, 100 ],
+    "flags": [ "CLASSIC", "MAN_MADE", "UNIQUE" ]
+  },
+  {
+    "type": "overmap_special",
     "id": "Occupied LMOE Shelter",
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "lmoe_zombie_north" },
@@ -934,17 +948,16 @@
     "type": "overmap_special",
     "id": "Strangle Temple",
     "overmaps": [
-      { "point": [ 0, 0, 0 ], "overmap": "temple_stairs" },
-      { "point": [ 0, 0, -1 ], "overmap": "temple_stairs" },
-      { "point": [ 0, 0, -2 ], "overmap": "temple_stairs" },
-      { "point": [ 0, 0, -3 ], "overmap": "temple_stairs" },
-      { "point": [ 0, 0, -4 ], "overmap": "temple_stairs" },
-      { "point": [ 0, 0, -5 ], "overmap": "temple_finale" }
+      { "point": [ 0, 0, 0 ], "overmap": "temple_stairs_north" },
+      { "point": [ 0, 0, -1 ], "overmap": "temple_underground_1_north" },
+      { "point": [ 0, 0, -2 ], "overmap": "temple_underground_2_north" },
+      { "point": [ 0, 0, -3 ], "overmap": "temple_underground_3_north" },
+      { "point": [ 0, 0, -4 ], "overmap": "temple_underground_4_north" },
+      { "point": [ 0, 0, -5 ], "overmap": "temple_finale_north" }
     ],
     "locations": [ "forest" ],
     "city_distance": [ 40, -1 ],
     "occurrences": [ 10, 100 ],
-    "rotate": false,
     "flags": [ "WILDERNESS", "UNIQUE" ]
   },
   {
@@ -3685,6 +3698,25 @@
     "city_distance": [ 3, -1 ],
     "occurrences": [ 30, 100 ],
     "flags": [ "UNIQUE", "SAFE_AT_WORLDGEN", "MAN_MADE" ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "valhalla_cult",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "pagan_cult_henge_north" },
+      { "point": [ -1, 0, 0 ], "overmap": "pagan_cult_long_wall_north" },
+      { "point": [ 1, 0, 0 ], "overmap": "pagan_cult_long_wall_south" },
+      { "point": [ 0, -1, 0 ], "overmap": "pagan_cult_longhouse_north" },
+      { "point": [ 0, 1, 0 ], "overmap": "pagan_cult_enter_north" },
+      { "point": [ 1, -1, 0 ], "overmap": "pagan_cult_right_corner_up_north" },
+      { "point": [ -1, -1, 0 ], "overmap": "pagan_cult_left_corner_up_north" },
+      { "point": [ 1, 1, 0 ], "overmap": "pagan_cult_right_corner_north" },
+      { "point": [ -1, 1, 0 ], "overmap": "pagan_cult_left_corner_north" }
+    ],
+    "locations": [ "land" ],
+    "city_distance": [ 8, 30 ],
+    "occurrences": [ 30, 70 ],
+    "flags": [ "CLASSIC", "UNIQUE", "MAN_MADE" ]
   },
   {
     "type": "overmap_special",
@@ -8185,5 +8217,49 @@
     "city_sizes": [ 5, -1 ],
     "occurrences": [ 20, 100 ],
     "flags": [ "UNIQUE", "SIDEWALK", "GENERIC_LOOT", "URBAN" ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "Farm Supply Store",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "farm_supply_1_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "farm_supply_roof_1_north" },
+      { "point": [ 1, 0, 0 ], "overmap": "farm_supply_2_north" },
+      { "point": [ 1, 0, 1 ], "overmap": "farm_supply_roof_2_north" },
+      { "point": [ 0, 1, 0 ], "overmap": "farm_supply_3_north" },
+      { "point": [ 0, 1, 1 ], "overmap": "farm_supply_roof_3_north" },
+      { "point": [ 1, 1, 0 ], "overmap": "farm_supply_4_north" },
+      { "point": [ 1, 1, 1 ], "overmap": "farm_supply_roof_4_north" }
+    ],
+    "occurrences": [ 30, 100 ],
+    "connections": [
+      { "point": [ 0, -1, 0 ], "terrain": "road", "from": [ 0, 0, 0 ] },
+      { "point": [ 1, -1, 0 ], "terrain": "road", "from": [ 1, 0, 0 ] }
+    ],
+    "locations": [ "field" ],
+    "city_distance": [ 5, 40 ],
+    "flags": [ "CLASSIC", "MAN_MADE", "UNIQUE" ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "Farm Supply Store Looted",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "farm_supply_looted_1_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "farm_supply_roof_1_north" },
+      { "point": [ 1, 0, 0 ], "overmap": "farm_supply_looted_2_north" },
+      { "point": [ 1, 0, 1 ], "overmap": "farm_supply_roof_2_north" },
+      { "point": [ 0, 1, 0 ], "overmap": "farm_supply_looted_3_north" },
+      { "point": [ 0, 1, 1 ], "overmap": "farm_supply_roof_3_north" },
+      { "point": [ 1, 1, 0 ], "overmap": "farm_supply_looted_4_north" },
+      { "point": [ 1, 1, 1 ], "overmap": "farm_supply_roof_4_north" }
+    ],
+    "occurrences": [ 50, 100 ],
+    "connections": [
+      { "point": [ 0, -1, 0 ], "terrain": "road", "from": [ 0, 0, 0 ] },
+      { "point": [ 1, -1, 0 ], "terrain": "road", "from": [ 1, 0, 0 ] }
+    ],
+    "locations": [ "field" ],
+    "city_distance": [ 5, 40 ],
+    "flags": [ "CLASSIC", "MAN_MADE", "UNIQUE" ]
   }
 ]

@@ -19,7 +19,8 @@
     "min_max_zlevel": [ -1, 0 ],
     "sym": "c",
     "color": "light_red",
-    "autonote": true
+    "autonote": true,
+    "flags": [ "MAN_MADE" ]
   },
   {
     "id": "mx_drugdeal",
@@ -30,7 +31,8 @@
     "min_max_zlevel": [ -2, 0 ],
     "sym": "d",
     "color": "light_red",
-    "autonote": true
+    "autonote": true,
+    "flags": [ "MAN_MADE" ]
   },
   {
     "id": "mx_roadworks",
@@ -41,7 +43,8 @@
     "min_max_zlevel": [ 0, 0 ],
     "sym": "X",
     "color": "yellow",
-    "autonote": true
+    "autonote": true,
+    "flags": [ "MAN_MADE" ]
   },
   {
     "id": "mx_mayhem",
@@ -52,7 +55,8 @@
     "min_max_zlevel": [ 0, 0 ],
     "sym": "M",
     "color": "light_red",
-    "autonote": true
+    "autonote": true,
+    "flags": [ "MAN_MADE" ]
   },
   {
     "id": "mx_roadblock",
@@ -63,7 +67,8 @@
     "min_max_zlevel": [ 0, 0 ],
     "sym": "X",
     "color": "red",
-    "autonote": true
+    "autonote": true,
+    "flags": [ "MAN_MADE" ]
   },
   {
     "id": "mx_bandits_block",
@@ -74,7 +79,8 @@
     "min_max_zlevel": [ 0, 0 ],
     "sym": "X",
     "color": "red",
-    "autonote": true
+    "autonote": true,
+    "flags": [ "MAN_MADE" ]
   },
   {
     "id": "mx_minefield",
@@ -85,7 +91,8 @@
     "min_max_zlevel": [ 0, 0 ],
     "sym": "M",
     "color": "red",
-    "autonote": true
+    "autonote": true,
+    "flags": [ "MAN_MADE" ]
   },
   {
     "id": "mx_supplydrop",
@@ -96,7 +103,8 @@
     "min_max_zlevel": [ 0, 0 ],
     "sym": "C",
     "color": "yellow",
-    "autonote": true
+    "autonote": true,
+    "flags": [ "MAN_MADE" ]
   },
   {
     "id": "mx_military",
@@ -107,7 +115,8 @@
     "min_max_zlevel": [ -4, 5 ],
     "sym": "m",
     "color": "light_red",
-    "autonote": true
+    "autonote": true,
+    "flags": [ "MAN_MADE" ]
   },
   {
     "id": "mx_helicopter",
@@ -118,7 +127,8 @@
     "min_max_zlevel": [ 0, 0 ],
     "sym": "X",
     "color": "light_blue",
-    "autonote": true
+    "autonote": true,
+    "flags": [ "MAN_MADE" ]
   },
   {
     "id": "mx_science",
@@ -129,7 +139,8 @@
     "min_max_zlevel": [ -5, 0 ],
     "sym": "s",
     "color": "light_red",
-    "autonote": true
+    "autonote": true,
+    "flags": [ "MAN_MADE" ]
   },
   {
     "id": "mx_portal",
@@ -162,7 +173,8 @@
     "min_max_zlevel": [ 0, 0 ],
     "sym": "x",
     "color": "light_gray",
-    "autonote": true
+    "autonote": true,
+    "flags": [ "EXODII" ]
   },
   {
     "id": "mx_exocrash_2",
@@ -173,7 +185,8 @@
     "min_max_zlevel": [ 0, 0 ],
     "sym": "x",
     "color": "light_gray",
-    "autonote": true
+    "autonote": true,
+    "flags": [ "EXODII" ]
   },
   {
     "id": "mx_lab_concourse_area",
@@ -184,7 +197,8 @@
     "min_max_zlevel": [ 0, 0 ],
     "sym": "F",
     "color": "light_gray",
-    "autonote": true
+    "autonote": true,
+    "flags": [ "MAN_MADE" ]
   },
   {
     "id": "mx_house_spider",
@@ -217,7 +231,8 @@
     "min_max_zlevel": [ -1, 1 ],
     "sym": "c",
     "color": "light_red",
-    "autonote": true
+    "autonote": true,
+    "flags": [ "MAN_MADE" ]
   },
   {
     "id": "mx_spider",
@@ -387,7 +402,8 @@
     "min_max_zlevel": [ 0, 0 ],
     "sym": "^",
     "color": "dark_gray",
-    "autonote": true
+    "autonote": true,
+    "flags": [ "MAN_MADE" ]
   },
   {
     "id": "mx_clay_deposit",
@@ -464,7 +480,8 @@
     "min_max_zlevel": [ -5, 5 ],
     "sym": "c",
     "color": "dark_gray",
-    "autonote": true
+    "autonote": true,
+    "flags": [ "MAN_MADE" ]
   },
   {
     "id": "mx_looters",
@@ -472,7 +489,8 @@
     "name": { "str": "Looters" },
     "description": "Some looters gathering everything not nailed down.",
     "generator": { "generator_method": "map_extra_function", "generator_id": "mx_looters" },
-    "min_max_zlevel": [ -2, 0 ]
+    "min_max_zlevel": [ -2, 0 ],
+    "flags": [ "MAN_MADE" ]
   },
   {
     "id": "mx_corpses",
@@ -480,7 +498,8 @@
     "name": { "str": "Corpses" },
     "description": "Some unfortunates from the billions lost in the Cataclysm.",
     "generator": { "generator_method": "map_extra_function", "generator_id": "mx_corpses" },
-    "min_max_zlevel": [ -5, 0 ]
+    "min_max_zlevel": [ -5, 0 ],
+    "flags": [ "MAN_MADE" ]
   },
   {
     "id": "mx_nest_wasp",
@@ -510,7 +529,8 @@
     "name": { "str": "Prison Bus" },
     "description": "A prison bus.",
     "generator": { "generator_method": "update_mapgen", "generator_id": "mx_prison_bus" },
-    "min_max_zlevel": [ 0, 0 ]
+    "min_max_zlevel": [ 0, 0 ],
+    "flags": [ "MAN_MADE" ]
   },
   {
     "id": "mx_mass_grave",
@@ -521,7 +541,8 @@
     "min_max_zlevel": [ 0, 0 ],
     "sym": "X",
     "color": "yellow",
-    "autonote": true
+    "autonote": true,
+    "flags": [ "MAN_MADE" ]
   },
   {
     "id": "mx_grave",
@@ -529,7 +550,8 @@
     "name": { "str": "Grave" },
     "description": "A grave.",
     "generator": { "generator_method": "update_mapgen", "generator_id": "mx_grave" },
-    "min_max_zlevel": [ 0, 0 ]
+    "min_max_zlevel": [ 0, 0 ],
+    "flags": [ "MAN_MADE" ]
   },
   {
     "id": "mx_city_trap",
@@ -537,7 +559,8 @@
     "name": { "str": "Zombie Trap" },
     "description": "Zombie trap.",
     "generator": { "generator_method": "map_extra_function", "generator_id": "mx_city_trap" },
-    "min_max_zlevel": [ 0, 0 ]
+    "min_max_zlevel": [ 0, 0 ],
+    "flags": [ "MAN_MADE" ]
   },
   {
     "id": "mx_reed",
@@ -555,154 +578,176 @@
     "generator": { "generator_method": "update_mapgen", "generator_id": "mx_toxic_waste" },
     "sym": "D",
     "color": "magenta",
-    "autonote": true
+    "autonote": true,
+    "flags": [ "MAN_MADE" ]
   },
   {
     "id": "mx_sewer_round",
     "type": "map_extra",
     "name": { "str": "Sewer Roundabout" },
     "description": "Sewer roundabout.",
-    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_sewer_round" }
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_sewer_round" },
+    "flags": [ "MAN_MADE" ]
   },
   {
     "id": "mx_sewer_grid",
     "type": "map_extra",
     "name": { "str": "Sewer Grid" },
     "description": "Sewer grid.",
-    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_sewer_grid" }
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_sewer_grid" },
+    "flags": [ "MAN_MADE" ]
   },
   {
     "id": "mx_sewer_grid2",
     "type": "map_extra",
     "name": { "str": "Sewer Grid" },
     "description": "Sewer grid.",
-    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_sewer_grid2" }
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_sewer_grid2" },
+    "flags": [ "MAN_MADE" ]
   },
   {
     "id": "mx_sewer_mntE",
     "type": "map_extra",
     "name": { "str": "Sewer Maintenance" },
     "description": "Sewer maintenance.",
-    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_sewer_mntE" }
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_sewer_mntE" },
+    "flags": [ "MAN_MADE" ]
   },
   {
     "id": "mx_sewer_mntW",
     "type": "map_extra",
     "name": { "str": "Sewer Maintenance" },
     "description": "Sewer maintenance.",
-    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_sewer_mntW" }
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_sewer_mntW" },
+    "flags": [ "MAN_MADE" ]
   },
   {
     "id": "mx_sewer_mntN",
     "type": "map_extra",
     "name": { "str": "Sewer Maintenance" },
     "description": "Sewer maintenance.",
-    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_sewer_mntN" }
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_sewer_mntN" },
+    "flags": [ "MAN_MADE" ]
   },
   {
     "id": "mx_sewer_mntS",
     "type": "map_extra",
     "name": { "str": "Sewer Maintenance" },
     "description": "Sewer maintenance.",
-    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_sewer_mntS" }
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_sewer_mntS" },
+    "flags": [ "MAN_MADE" ]
   },
   {
     "id": "mx_sewer_grateE",
     "type": "map_extra",
     "name": { "str": "Sewer Grate" },
     "description": "Sewer grate.",
-    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_sewer_grateE" }
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_sewer_grateE" },
+    "flags": [ "MAN_MADE" ]
   },
   {
     "id": "mx_sewer_grateW",
     "type": "map_extra",
     "name": { "str": "Sewer Grate" },
     "description": "Sewer grate.",
-    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_sewer_grateW" }
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_sewer_grateW" },
+    "flags": [ "MAN_MADE" ]
   },
   {
     "id": "mx_sewer_grateN",
     "type": "map_extra",
     "name": { "str": "Sewer Grate" },
     "description": "Sewer grate.",
-    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_sewer_grateN" }
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_sewer_grateN" },
+    "flags": [ "MAN_MADE" ]
   },
   {
     "id": "mx_sewer_grateS",
     "type": "map_extra",
     "name": { "str": "Sewer Grate" },
     "description": "Sewer grate.",
-    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_sewer_grateS" }
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_sewer_grateS" },
+    "flags": [ "MAN_MADE" ]
   },
   {
     "id": "mx_sewer_pipesA",
     "type": "map_extra",
     "name": { "str": "Sewer Pipes" },
     "description": "Sewer pipes and pumps.",
-    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_sewer_pipesA" }
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_sewer_pipesA" },
+    "flags": [ "MAN_MADE" ]
   },
   {
     "id": "mx_sewer_pipesB",
     "type": "map_extra",
     "name": { "str": "Sewer Pipes" },
     "description": "Sewer pipes and pumps.",
-    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_sewer_pipesB" }
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_sewer_pipesB" },
+    "flags": [ "MAN_MADE" ]
   },
   {
     "id": "mx_sewer_pipesC",
     "type": "map_extra",
     "name": { "str": "Sewer Pipes" },
     "description": "Sewer pipes and pumps.",
-    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_sewer_pipesC" }
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_sewer_pipesC" },
+    "flags": [ "MAN_MADE" ]
   },
   {
     "id": "mx_sewer_pipesD",
     "type": "map_extra",
     "name": { "str": "Sewer Pipes" },
     "description": "Sewer pipes and pumps.",
-    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_sewer_pipesD" }
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_sewer_pipesD" },
+    "flags": [ "MAN_MADE" ]
   },
   {
     "id": "mx_sewer_pipesE",
     "type": "map_extra",
     "name": { "str": "Sewer Pipes" },
     "description": "Sewer pipes and pumps.",
-    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_sewer_pipesE" }
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_sewer_pipesE" },
+    "flags": [ "MAN_MADE" ]
   },
   {
     "id": "mx_sewer_pipesF",
     "type": "map_extra",
     "name": { "str": "Sewer Pipes" },
     "description": "Sewer pipes and pumps.",
-    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_sewer_pipesF" }
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_sewer_pipesF" },
+    "flags": [ "MAN_MADE" ]
   },
   {
     "id": "mx_sewer_pipesG",
     "type": "map_extra",
     "name": { "str": "Sewer Pipes" },
     "description": "Sewer pipes and pumps.",
-    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_sewer_pipesG" }
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_sewer_pipesG" },
+    "flags": [ "MAN_MADE" ]
   },
   {
     "id": "mx_sewer_pipesH",
     "type": "map_extra",
     "name": { "str": "Sewer Pipes" },
     "description": "Sewer pipes and pumps.",
-    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_sewer_pipesH" }
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_sewer_pipesH" },
+    "flags": [ "MAN_MADE" ]
   },
   {
     "id": "mx_sewer_pipesI",
     "type": "map_extra",
     "name": { "str": "Sewer Pipes" },
     "description": "Sewer pipes and pumps.",
-    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_sewer_pipesI" }
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_sewer_pipesI" },
+    "flags": [ "MAN_MADE" ]
   },
   {
     "id": "mx_sewer_pipesJ",
     "type": "map_extra",
     "name": { "str": "Sewer Pipes" },
     "description": "Sewer pipes and pumps.",
-    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_sewer_pipesJ" }
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_sewer_pipesJ" },
+    "flags": [ "MAN_MADE" ]
   },
   {
     "id": "mx_prison_van",
@@ -710,6 +755,7 @@
     "name": { "str": "Prison Van" },
     "description": "A violent escape.",
     "generator": { "generator_method": "update_mapgen", "generator_id": "mx_prison_van" },
-    "min_max_zlevel": [ 0, 0 ]
+    "min_max_zlevel": [ 0, 0 ],
+    "flags": [ "MAN_MADE" ]
   }
 ]

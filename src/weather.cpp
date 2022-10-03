@@ -98,8 +98,7 @@ void glare( const weather_type_id &w )
 {
     Character &player_character = get_player_character();//todo npcs, also
     //General prerequisites for glare
-    if( !is_creature_outside( player_character ) ||
-        !g->is_in_sunlight( player_character.pos() ) ||
+    if( g->is_sheltered( player_character.pos() ) ||
         player_character.in_sleep_state() ||
         player_character.worn_with_flag( json_flag_SUN_GLASSES ) ||
         player_character.has_flag( json_flag_GLARE_RESIST ) ||
@@ -110,15 +109,16 @@ void glare( const weather_type_id &w )
     time_duration dur = 0_turns;
     const efftype_id *effect = nullptr;
     season_type season = season_of_year( calendar::turn );
-    if( season == WINTER ) {
-        //Winter snow glare: for both clear & sunny weather
+    if( season == WINTER &&
+        incident_sun_irradiance( w, calendar::turn ) > irradiance::moderate ) {
+        // Winter snow glare happens at lower irradiance
         effect = &effect_snow_glare;
         dur = player_character.has_effect( *effect ) ? 1_turns : 2_turns;
-    } else if( w->sun_intensity == sun_intensity_type::high ) {
-        //Sun glare: only for bright sunny weather
+    } else if( incident_sun_irradiance( w, calendar::turn ) > irradiance::high ) {
         effect = &effect_glare;
         dur = player_character.has_effect( *effect ) ? 1_turns : 2_turns;
     }
+
     //apply final glare effect
     if( dur > 0_turns && effect != nullptr ) {
         //enhance/reduce by some traits
@@ -648,7 +648,7 @@ std::string print_temperature( units::temperature temperature, int decimals )
 
     if( get_option<std::string>( "USE_CELSIUS" ) == "celsius" ) {
         return string_format( pgettext( "temperature in Celsius", "%sC" ),
-                              text( units::to_celcius( temperature ) ) );
+                              text( units::to_celsius( temperature ) ) );
     } else if( get_option<std::string>( "USE_CELSIUS" ) == "kelvin" ) {
         return string_format( pgettext( "temperature in Kelvin", "%sK" ),
                               text( units::to_kelvin( temperature ) ) );
@@ -681,7 +681,7 @@ units::temperature get_local_windchill( units::temperature temperature, double h
 {
     double windchill_k = 0;
 
-    const double temperature_c = units::to_celcius( temperature );
+    const double temperature_c = units::to_celsius( temperature );
 
     if( temperature_c < 10 ) {
         /// Model 1, cold wind chill (only valid for temps below 50F/10C)
@@ -992,6 +992,10 @@ void weather_manager::set_nextweather( time_point t )
 
 units::temperature weather_manager::get_temperature( const tripoint &location )
 {
+    if( forced_temperature ) {
+        return *forced_temperature;
+    }
+
     const auto &cached = temperature_cache.find( location );
     if( cached != temperature_cache.end() ) {
         return cached->second;

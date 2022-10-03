@@ -37,7 +37,6 @@ static const activity_id ACT_CLEAR_RUBBLE( "ACT_CLEAR_RUBBLE" );
 static const activity_id ACT_CONSUME( "ACT_CONSUME" );
 static const activity_id ACT_CONSUME_DRINK_MENU( "ACT_CONSUME_DRINK_MENU" );
 static const activity_id ACT_CONSUME_FOOD_MENU( "ACT_CONSUME_FOOD_MENU" );
-static const activity_id ACT_CONSUME_FUEL_MENU( "ACT_CONSUME_FUEL_MENU" );
 static const activity_id ACT_CONSUME_MEDS_MENU( "ACT_CONSUME_MEDS_MENU" );
 static const activity_id ACT_EAT_MENU( "ACT_EAT_MENU" );
 static const activity_id ACT_FIRSTAID( "ACT_FIRSTAID" );
@@ -72,8 +71,7 @@ static const std::vector<activity_id> consuming {
     ACT_EAT_MENU,
     ACT_CONSUME_FOOD_MENU,
     ACT_CONSUME_DRINK_MENU,
-    ACT_CONSUME_MEDS_MENU,
-    ACT_CONSUME_FUEL_MENU };
+    ACT_CONSUME_MEDS_MENU };
 
 constexpr tripoint_abs_ms player_activity::invalid_place;
 
@@ -522,6 +520,17 @@ std::map<distraction_type, std::string> player_activity::get_distractions() cons
                 !is_distraction_ignored( distraction_type::thirst ) ) {
                 if( player_character.get_thirst() > 520 ) {
                     res.emplace( distraction_type::thirst, _( "You are dangerously dehydrated!" ) );
+                }
+            }
+        }
+        if( uistate.distraction_temperature && !is_distraction_ignored( distraction_type::temperature ) ) {
+            for( const bodypart_id &bp : get_avatar().get_all_body_parts() ) {
+                if( get_avatar().get_part_temp_cur( bp ) > BODYTEMP_VERY_HOT ) {
+                    res.emplace( distraction_type::temperature, _( "You are overheating!" ) );
+                    break;
+                } else if( get_avatar().get_part_temp_cur( bp ) < BODYTEMP_VERY_COLD ) {
+                    res.emplace( distraction_type::temperature, _( "You are freezing!" ) );
+                    break;
                 }
             }
         }

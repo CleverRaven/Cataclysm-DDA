@@ -121,8 +121,6 @@
       { "item": "polycarbonate_sheet", "prob": 30 },
       { "item": "closed_loop_extractor_large", "prob": 2 },
       { "item": "closed_loop_extractor_small", "prob": 2 },
-      { "item": "filter_paper_qualitative", "prob": 10 },
-      { "item": "filter_paper_quantitative", "prob": 10 },
       { "item": "gasket_plastic", "prob": 10 },
       { "item": "butane_tank", "prob": 15, "charges-min": 1 },
       { "item": "vac_oven_small", "prob": 5 },
@@ -458,6 +456,18 @@
       [ "anesthetic", 20 ],
       { "item": "rocuronium", "prob": 10, "count-min": 2, "count-max": 8 },
       { "item": "anesthetic_kit", "prob": 10, "charges-min": 0 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "yrax_scrap",
+    "items": [
+      [ "yrax_sensor", 5 ],
+      [ "yrax_robotics", 20 ],
+      [ "yrax_computer", 5 ],
+      [ "yrax_scrap", 40 ],
+      [ "yrax_metal", 40 ],
+      [ "yrax_electronics", 20 ]
     ]
   },
   {

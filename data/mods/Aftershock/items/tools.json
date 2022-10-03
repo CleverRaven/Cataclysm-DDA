@@ -276,6 +276,19 @@
     "flags": [ "ALWAYS_TWOHAND", "MESSY", "TRADER_AVOID", "NONCONDUCTIVE" ]
   },
   {
+    "type": "GENERIC",
+    "id": "afs_oxygen_candle",
+    "symbol": "*",
+    "color": "light_gray",
+    "name": { "str": "oxygen candle" },
+    "description": "An ignitable device that produces oxygen through an exothermic chemical reaction.  Often stocked as the last backup in case of total life support failure.  You could activate it, but that would just waste it.",
+    "material": [ "steel" ],
+    "weight": "840 g",
+    "volume": "500 ml",
+    "bashing": 5,
+    "to_hit": -1
+  },
+  {
     "id": "UPS_off",
     "type": "TOOL_ARMOR",
     "copy-from": "UPS_off",
@@ -364,7 +377,7 @@
     "copy-from": "control_laptop",
     "type": "TOOL",
     "name": { "str": "control laptop - lit screen", "str_pl": "control laptops - lit screen" },
-    "power_draw": 1000,
+    "power_draw": "1 J",
     "revert_to": "control_laptop",
     "use_action": { "target": "control_laptop", "msg": "You stop lighting up the screen.", "menu_text": "Turn off", "type": "transform" },
     "flags": [ "WATCH", "LIGHT_10", "TRADER_AVOID" ]
@@ -410,7 +423,7 @@
     "copy-from": "vr_laptop",
     "type": "TOOL_ARMOR",
     "name": { "str": "vr rig - holosuite deployed", "str_pl": "vr rigs - holosuite deployed" },
-    "power_draw": 1000,
+    "power_draw": "1 J",
     "revert_to": "vr_laptop",
     "use_action": { "target": "vr_laptop", "msg": "You power down the virtual overlay.", "menu_text": "Turn off", "type": "transform" },
     "flags": [ "WATCH", "TRADER_AVOID" ],
