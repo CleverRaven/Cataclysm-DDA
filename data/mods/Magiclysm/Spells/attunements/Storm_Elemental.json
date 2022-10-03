@@ -133,11 +133,6 @@
     "remove_message": "Your hands turn back to normal condition.",
     "rating": "good",
     "show_intensity": false,
-    "enchantments": [
-      {
-        "condition": { "not": "ALWAYS" },
-        "values": [ { "value": "ITEM_DAMAGE_ELEC", "add": 35 }, { "value": "MELEE_DAMAGE", "multiply": 0.4 } ]
-      }
-    ]
+    "enchantments": [ { "values": [ { "value": "ITEM_DAMAGE_ELEC", "add": 35 }, { "value": "MELEE_DAMAGE", "multiply": 0.4 } ] } ]
   }
 ]

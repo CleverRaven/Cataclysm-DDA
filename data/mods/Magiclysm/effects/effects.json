@@ -480,7 +480,6 @@
     "show_intensity": false,
     "enchantments": [
       {
-        "condition": { "not": "ALWAYS" },
         "intermittent_activation": { "effects": [ { "frequency": "30 seconds", "spell_effects": [ { "id": "flask_regeneration_effect" } ] } ] }
       }
     ]

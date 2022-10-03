@@ -33,7 +33,13 @@
     "type": "effect_on_condition",
     "id": "SUN_MAGE_BUFF",
     "recurrence": [ "5 m", "5 m" ],
-    "condition": { "and": [ "is_day", "u_is_outside", { "u_has_trait": "SUN_MAGE" } ] },
+    "condition": {
+      "or": [
+        { "and": [ "is_day", "u_is_outside", { "u_has_trait": "SUN_MAGE" } ] },
+        { "u_has_items": { "item": "pocket_sun", "count": 1 } },
+        { "u_has_items": { "item": "pocket_sun_cover", "count": 1 } }
+      ]
+    },
     "deactivate_condition": { "not": { "u_has_trait": "SUN_MAGE" } },
     "effect": [ { "u_add_effect": "sun_mage_buff", "intensity": 1, "duration": "60 minutes" } ]
   },
@@ -48,7 +54,6 @@
     "show_intensity": false,
     "enchantments": [
       {
-        "condition": { "not": "ALWAYS" },
         "values": [
           { "value": "STRENGTH", "add": 1, "multiply": 0.25 },
           { "value": "DEXTERITY", "add": 1, "multiply": 0.25 },
