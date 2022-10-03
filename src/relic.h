@@ -94,6 +94,7 @@ class relic_procgen_data
             int max_attributes = INT_MAX;
 
             bool was_loaded = false;
+            bool resonant = false;
             void load( const JsonObject &jo );
             void deserialize( const JsonObject &jo );
         };

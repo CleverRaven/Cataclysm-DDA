@@ -53,7 +53,10 @@
     "entries": [
       {
         "group": "minor_spark_artifacts",
-        "artifact": { "procgen_id": "spark_items", "rules": { "power_level": 500, "max_attributes": 2, "max_negative_power": -250 } },
+        "artifact": {
+          "procgen_id": "spark_items",
+          "rules": { "power_level": 500, "max_attributes": 2, "max_negative_power": -250, "resonant": true }
+        },
         "prob": 100
       }
     ]

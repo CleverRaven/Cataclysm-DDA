@@ -326,6 +326,11 @@
   },
   {
     "type": "construction_group",
+    "id": "build_high_end_of_an_earth_ramp",
+    "name": "Build High End of an Earth Ramp"
+  },
+  {
+    "type": "construction_group",
     "id": "build_high_end_of_a_concrete_ramp",
     "name": "Build High End of a Concrete Ramp"
   },
@@ -368,6 +373,11 @@
     "type": "construction_group",
     "id": "build_log_wall",
     "name": "Build Log Wall"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_low_end_of_an_earth_ramp",
+    "name": "Build Low End of an Earth Ramp"
   },
   {
     "type": "construction_group",

@@ -4734,12 +4734,13 @@ std::vector<item *> map::spawn_items( const tripoint_bub_ms &p, const std::vecto
 
 void map::spawn_artifact( const tripoint &p, const relic_procgen_id &id,
                           const int max_attributes,
-                          const int power_level, const int max_negative_power )
+                          const int power_level, const int max_negative_power, const bool is_resonant )
 {
     relic_procgen_data::generation_rules rules;
     rules.max_attributes = max_attributes;
     rules.power_level = power_level;
     rules.max_negative_power = max_negative_power;
+    rules.resonant = is_resonant;
 
     add_item_or_charges( p, id->create_item( rules ) );
 }

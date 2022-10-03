@@ -185,10 +185,21 @@ $ git pull --ff-only upstream master
 ```
 
  * Note: If this gives you an error, it means you have committed directly to your local `master` branch. [Click here for instructions on how to fix this issue](#why-does-git-pull---ff-only-result-in-an-error).
- 
+
+3. Pull new tags from the `upstream` remote repo.
+
+This step is not necessary to compile or contribute, but skipping it can result in outdated version numbers on your builds.
+
+```bash
+$ git fetch upstream --tags
+# gets new tags from the "upstream" remote
+```
+
+4. Optionally, push the synced master state to the `origin/master` branch.
+
 ```bash
 $ git push origin master
-# optionally, push the synced master state to your fork
+# push the synced master state to your fork
 ```
 
 #### Make your changes
@@ -385,7 +396,7 @@ $ git checkout new_branch
 
 #### Oh no! I've made my changes to `master` branch and have pushed it to my repo! What should I do now?
 Assuming `upstream` is `CleverRaven/Cataclysm-DDA` and `origin` is your fork, do the commands:
-```
+```bash
 git reset upstream/master
 git push --repo=origin --force
 ```
