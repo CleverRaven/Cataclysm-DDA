@@ -2350,8 +2350,10 @@ bool cata_tiles::draw_from_id_string( const std::string &id, TILE_CATEGORY categ
         case TILE_CATEGORY::TRAP:
         case TILE_CATEGORY::NONE:
             // graffiti
-            if( id == "graffiti" ) {
+            if( found_id == "graffiti" ) {
                 seed = std::hash<std::string> {}( here.graffiti_at( pos ) );
+            } else if( string_starts_with( found_id, "graffiti" ) ) {
+                seed = simple_point_hash( here.getabs( pos ) );
             }
             break;
         case TILE_CATEGORY::BULLET:
@@ -3078,8 +3080,11 @@ bool cata_tiles::draw_graffiti( const tripoint &p, const lit_level ll, int &heig
     }
     const lit_level lit = overridden ? lit_level::LIT : ll;
     const int rotation = here.passable( p ) ? 1 : 0;
-    return draw_from_id_string( "graffiti", TILE_CATEGORY::NONE, empty_string, p, 0,
-                                rotation, lit, false, height_3d );
+    const std::string tile = "graffiti_" +
+                             to_upper_case( string_replace( remove_punctuations( here.graffiti_at( p ).substr( 0, 32 ) ), " ",
+                                            "_" ) );
+    return draw_from_id_string( tileset_ptr->find_tile_type( tile ) ? tile : "graffiti",
+                                TILE_CATEGORY::NONE, empty_string, p, 0, rotation, lit, false, height_3d );
 }
 
 bool cata_tiles::draw_field_or_item( const tripoint &p, const lit_level ll, int &height_3d,
