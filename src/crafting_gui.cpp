@@ -891,11 +891,13 @@ static bool mouse_in_window( cata::optional<point> coord, const catacurses::wind
 static void recursively_expance_recipes( std::vector<const recipe *> &current,
         std::vector<int> &indent, std::map<const recipe *, availability> &availability_cache, int i,
         Character &player_character, bool unread_recipes_first, bool highlight_unread_recipes,
-        recipe_subset available_recipes )
+        recipe_subset available_recipes, std::set<recipe_id> hidden_recipes )
 {
     std::vector<const recipe *> tmp;
     for( const recipe_id &nested : current[i]->nested_category_data ) {
-        if( available_recipes.contains( &nested.obj() ) ) {
+
+        if( available_recipes.contains( &nested.obj() ) &&
+            hidden_recipes.find( nested ) == hidden_recipes.end() ) {
             // only do this if we can actually craft the recipe
             tmp.push_back( &nested.obj() );
             indent.insert( indent.begin() + i + 1, indent[i] + 2 );
@@ -940,7 +942,7 @@ static void recursively_expance_recipes( std::vector<const recipe *> &current,
 static void expand_recipes( std::vector<const recipe *> &current,
                             std::vector<int> &indent, std::map<const recipe *, availability> &availability_cache,
                             Character &player_character, bool unread_recipes_first, bool highlight_unread_recipes,
-                            recipe_subset available_recipes )
+                            recipe_subset available_recipes, std::set<recipe_id> hidden_recipes )
 {
     //TODO Make this more effecient
     player_character.get_crafting_helpers();
@@ -950,7 +952,7 @@ static void expand_recipes( std::vector<const recipe *> &current,
             uistate.expanded_recipes.find( current[i]->ident() ) != uistate.expanded_recipes.end() ) {
             // add all the recipes from the nests
             recursively_expance_recipes( current, indent, availability_cache, i, player_character,
-                                         unread_recipes_first, highlight_unread_recipes, available_recipes );
+                                         unread_recipes_first, highlight_unread_recipes, available_recipes, hidden_recipes );
         }
     }
 }
@@ -1491,7 +1493,7 @@ const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id goto_
                 // have to do this after we sort the list
                 indent.assign( current.size(), 0 );
                 expand_recipes( current, indent, availability_cache, player_character, unread_recipes_first,
-                                highlight_unread_recipes, available_recipes );
+                                highlight_unread_recipes, available_recipes, uistate.hidden_recipes );
 
                 std::transform( current.begin(), current.end(),
                 std::back_inserter( available ), [&]( const recipe * e ) {
