@@ -1609,7 +1609,7 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
         }
     }
     auto compare_z = [&]( tile_render_info a, tile_render_info b ) -> bool {
-        return ( a.pos.z < b.pos.z );
+        return a.pos.z < b.pos.z;
     };
 
     std::stable_sort( draw_points.begin(), draw_points.end(), compare_z );
@@ -1630,7 +1630,7 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
     };
 
     const std::array < zlevel_layer, 3 > zlevel_drawing_layers = {{
-            {true, &cata_tiles::draw_field_or_item}, {false, &cata_tiles::draw_vpart}, {true, &cata_tiles::draw_critter_at}
+            {true, &cata_tiles::draw_field_or_item}, {false, &cata_tiles::draw_vpart_roof}, {false, &cata_tiles::draw_vpart_no_roof}, {true, &cata_tiles::draw_critter_at}
         }
     };
 
@@ -1640,8 +1640,8 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
                 if( p.pos.z > z ) {
                     break;
                 }
-                const auto &ch = here.access_cache( z );
-                if( here.inbounds( p.pos && z != p.pos.z ) ) {
+                const level_cache &ch = here.access_cache( z );
+                if( static_cast<bool>( here.inbounds( p.pos && z != p.pos.z ) ) ) {
                     if( !f.hide_unseen || ch.visibility_cache[p.pos.x][p.pos.y] != lit_level::BLANK ) {
                         const std::array<bool, 5> invis = {false, false, false, false, false};
                         ( this->*( f.function ) )( {p.pos.xy(), z}, p.ll, p.height_3d, invis, center.z - z );
