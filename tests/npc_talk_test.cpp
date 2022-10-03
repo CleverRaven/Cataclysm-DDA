@@ -77,8 +77,8 @@ static const trait_id trait_PROF_FED( "PROF_FED" );
 static const trait_id trait_PROF_SWAT( "PROF_SWAT" );
 static const trait_id trait_PSYCHOPATH( "PSYCHOPATH" );
 static const trait_id trait_SAPIOVORE( "SAPIOVORE" );
-static const trait_id trait_test_trait( "test_trait" );
 static const trait_id trait_WEB_WEAVER( "WEB_WEAVER" );
+static const trait_id trait_test_trait("test_trait");
 
 static npc &create_test_talker( bool shopkeep = false )
 {
