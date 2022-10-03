@@ -3526,16 +3526,11 @@ bool cata_tiles::draw_vpart( const tripoint &p, lit_level ll, int &height_3d,
             // tile overrides are never memorized
             // tile overrides are always shown with full visibility
             int height_3d_temp = 0;
-            const bool ret =
-                draw_from_id_string( vpname, TILE_CATEGORY::VEHICLE_PART, empty_string, p, subtile,
-<<<<<<< HEAD
-                                     to_degrees( rotation ), lit_level::LIT, false, height_3d, z_drop );
-=======
-                                     to_degrees( rotation ), lit_level::LIT, false, height_3d_temp );
+            const bool ret = draw_from_id_string( vpname, TILE_CATEGORY::VEHICLE_PART, empty_string, p, subtile,
+                                                  to_degrees( rotation ), lit_level::LIT, false, height_3d_temp, z_drop );
             if( !roof ) {
                 height_3d = height_3d_temp;
             }
->>>>>>> origin/master
             if( ret && draw_highlight ) {
                 draw_item_highlight( p );
             }
@@ -3547,11 +3542,7 @@ bool cata_tiles::draw_vpart( const tripoint &p, lit_level ll, int &height_3d,
         int height_3d_temp = 0;
         return draw_from_id_string(
                    t.tile, TILE_CATEGORY::VEHICLE_PART, empty_string, p, t.subtile, t.rotation,
-<<<<<<< HEAD
-                   lit_level::MEMORIZED, nv_goggles_activated, height_3d, z_drop );
-=======
-                   lit_level::MEMORIZED, nv_goggles_activated, height_3d_temp );
->>>>>>> origin/master
+                   lit_level::MEMORIZED, nv_goggles_activated, height_3d_temp, z_drop );
     }
     return false;
 }
