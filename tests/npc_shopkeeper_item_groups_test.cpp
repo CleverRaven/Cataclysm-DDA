@@ -42,17 +42,30 @@ TEST_CASE( "npc_shopkeeper_item_groups", "[npc][trade]" )
         }
     }
 
-    GIVEN( "item in inventory with sell_belongings false" ) {
+    GIVEN( "item in inventory" ) {
         g->load_npcs();
         creature_tracker &creatures = get_creature_tracker();
         REQUIRE( creatures.creature_at<npc>( npc_pos ) != nullptr );
         item backpack( "test_backpack" );
-        guy.wear_item( backpack );
-        item_location const loc = guy.i_add( item( "scrap" ) );
-        REQUIRE( loc );
-
-        THEN( "item is not available for sale" ) {
-            REQUIRE( !guy.wants_to_sell( loc ) );
+        backpack.set_owner( guy );
+        REQUIRE( guy.wants_to_sell( { map_cursor{ tripoint_zero}, &backpack } ) );
+        WHEN( "backpack is worn - not available for sale" ) {
+            item &it = **guy.wear_item( backpack );
+            REQUIRE( !guy.wants_to_sell( { guy, &it } ) );
+            item scrap( "scrap" );
+            scrap.set_owner( guy );
+            REQUIRE( guy.wants_to_sell( { map_cursor{ tripoint_zero}, &scrap } ) );
+            item_location const scrap_inv = guy.i_add( scrap );
+            REQUIRE( scrap_inv );
+            THEN( "sell_belongings is true - item in inventory available for sale" ) {
+                guy.myclass = NC_NONE;
+                REQUIRE( guy.myclass->sells_belongings == true );
+                REQUIRE( guy.wants_to_sell( scrap_inv ) );
+            }
+            THEN( "sell_belongings is false - item in inventory is not available for sale" ) {
+                REQUIRE( guy.myclass->sells_belongings == false );
+                REQUIRE( !guy.wants_to_sell( scrap_inv ) );
+            }
         }
     }
 

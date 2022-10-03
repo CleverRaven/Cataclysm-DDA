@@ -831,6 +831,7 @@
       "houses": {
         "2storyModern01": 5,
         "2storyModern02": 50,
+        "2StoryModern03": 50,
         "house_w_1": 50,
         "house_two_story_basement": 50,
         "multi_unit_two_story_basement": 40,
@@ -1232,7 +1233,8 @@
         "cs_tire_shop": 100,
         "homeless_shelter": 100,
         "parking_garage": 200,
-        "salon": 500
+        "salon": 500,
+        "strip_mall": 750
       }
     },
     "weather": {
@@ -1249,6 +1251,7 @@
         "light_drizzle",
         "drizzle",
         "rain",
+        "rainstorm",
         "thunder",
         "lightning",
         "flurries",

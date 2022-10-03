@@ -62,7 +62,7 @@
       "repair": { "skills": [ [ "fabrication", 2 ] ], "time": "30 m", "using": [ [ "adhesive", 2 ] ] }
     },
     "damage_reduction": { "all": 0, "bash": 3 },
-    "flags": [ "CARGO", "OBSTACLE", "OPENABLE", "BOARDABLE", "DOOR", "FOLDABLE" ]
+    "flags": [ "CARGO", "OBSTACLE", "OPENABLE", "BOARDABLE", "DOOR" ]
   },
   {
     "copy-from": "cloth_door_abstract",

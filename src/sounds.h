@@ -102,6 +102,7 @@ enum class channel : int {
     outdoors_snow_env,
     outdoors_flurry_env,
     outdoors_thunderstorm_env,
+    outdoors_rainstorm_env,
     outdoors_rain_env,
     outdoors_drizzle_env,
     outdoor_blizzard,

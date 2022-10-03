@@ -602,7 +602,7 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
 
     int move_cost = attack_speed( cur_weap );
 
-    if( cur_weap.attack_time() > move_cost * 20 ) {
+    if( cur_weap.attack_time( *this ) > move_cost * 20 ) {
         add_msg( m_bad, _( "This weapon is too unwieldy to attack with!" ) );
         return false;
     }
@@ -2832,7 +2832,7 @@ void player_hit_message( Character *attacker, const std::string &message,
 
 int Character::attack_speed( const item &weap ) const
 {
-    const int base_move_cost = weap.attack_time() / 2;
+    const int base_move_cost = weap.attack_time( *this ) / 2;
     const int melee_skill = has_active_bionic( bionic_id( bio_cqb ) ) ? BIO_CQB_LEVEL : get_skill_level(
                                 skill_melee );
     /** @EFFECT_MELEE increases melee attack speed */

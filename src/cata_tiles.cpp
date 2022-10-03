@@ -1576,12 +1576,13 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
 
             draw_points.emplace_back( pos, height_3d, ll, invisible );
         }
-        const std::array<decltype( &cata_tiles::draw_furniture ), 11> drawing_layers = {{
+        const std::array<decltype( &cata_tiles::draw_furniture ), 12> drawing_layers = {{
                 &cata_tiles::draw_furniture, &cata_tiles::draw_graffiti, &cata_tiles::draw_trap,
                 &cata_tiles::draw_field_or_item, &cata_tiles::draw_vpart_below,
                 &cata_tiles::draw_critter_at_below, &cata_tiles::draw_terrain_below,
-                &cata_tiles::draw_vpart, &cata_tiles::draw_critter_at,
-                &cata_tiles::draw_zone_mark, &cata_tiles::draw_zombie_revival_indicators
+                &cata_tiles::draw_vpart_no_roof, &cata_tiles::draw_vpart_roof,
+                &cata_tiles::draw_critter_at, &cata_tiles::draw_zone_mark,
+                &cata_tiles::draw_zombie_revival_indicators
             }
         };
         // for each of the drawing layers in order, back to front ...
@@ -1674,7 +1675,8 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
             if( here.check_seen_cache( p ) ) {
                 draw_furniture( p, lighting, height_3d, invisible );
                 draw_trap( p, lighting, height_3d, invisible );
-                draw_vpart( p, lighting, height_3d, invisible );
+                draw_vpart_no_roof( p, lighting, height_3d, invisible );
+                draw_vpart_roof( p, lighting, height_3d, invisible );
                 here.check_and_set_seen_cache( p );
             }
         }
@@ -2513,66 +2515,68 @@ bool cata_tiles::draw_sprite_at(
     destination.h = height * tile_height * tile.pixelscale / tileset_ptr->get_tile_height();
 
     if( rotate_sprite ) {
-        switch( rota ) {
-            default:
-            case 0:
-                // unrotated (and 180, with just two sprites)
-                ret = sprite_tex->render_copy_ex( renderer, &destination, 0, nullptr,
-                                                  SDL_FLIP_NONE );
-                break;
-            case 1:
-                // 90 degrees (and 270, with just two sprites)
+        if( rota == -1 ) {
+            // flip horizontally
+            ret = sprite_tex->render_copy_ex(
+                      renderer, &destination, 0, nullptr,
+                      static_cast<SDL_RendererFlip>( SDL_FLIP_HORIZONTAL ) );
+        } else {
+            switch( rota % 4 ) {
+                default:
+                case 0:
+                    // unrotated (and 180, with just two sprites)
+                    ret = sprite_tex->render_copy_ex( renderer, &destination, 0, nullptr,
+                                                      SDL_FLIP_NONE );
+                    break;
+                case 1:
+                    // 90 degrees (and 270, with just two sprites)
 #if defined(_WIN32) && defined(CROSS_LINUX)
-                // For an unknown reason, additional offset is required in direct3d mode
-                // for cross-compilation from Linux to Windows
-                if( direct3d_mode ) {
-                    destination.y -= 1;
-                }
+                    // For an unknown reason, additional offset is required in direct3d mode
+                    // for cross-compilation from Linux to Windows
+                    if( direct3d_mode ) {
+                        destination.y -= 1;
+                    }
 #endif
-                if( !is_isometric() ) {
-                    // never rotate isometric tiles
-                    ret = sprite_tex->render_copy_ex( renderer, &destination, -90, nullptr,
-                                                      SDL_FLIP_NONE );
-                } else {
-                    ret = sprite_tex->render_copy_ex( renderer, &destination, 0, nullptr,
-                                                      SDL_FLIP_NONE );
-                }
-                break;
-            case 2:
-                // 180 degrees, implemented with flips instead of rotation
-                if( !is_isometric() ) {
-                    // never flip isometric tiles vertically
-                    ret = sprite_tex->render_copy_ex(
-                              renderer, &destination, 0, nullptr,
-                              static_cast<SDL_RendererFlip>( SDL_FLIP_HORIZONTAL | SDL_FLIP_VERTICAL ) );
-                } else {
-                    ret = sprite_tex->render_copy_ex( renderer, &destination, 0, nullptr,
-                                                      SDL_FLIP_NONE );
-                }
-                break;
-            case 3:
-                // 270 degrees
+                    if( !is_isometric() ) {
+                        // never rotate isometric tiles
+                        ret = sprite_tex->render_copy_ex( renderer, &destination, -90, nullptr,
+                                                          SDL_FLIP_NONE );
+                    } else {
+                        ret = sprite_tex->render_copy_ex( renderer, &destination, 0, nullptr,
+                                                          SDL_FLIP_NONE );
+                    }
+                    break;
+                case 2:
+                    // 180 degrees, implemented with flips instead of rotation
+                    if( !is_isometric() ) {
+                        // never flip isometric tiles vertically
+                        ret = sprite_tex->render_copy_ex(
+                                  renderer, &destination, 0, nullptr,
+                                  static_cast<SDL_RendererFlip>( SDL_FLIP_HORIZONTAL | SDL_FLIP_VERTICAL ) );
+                    } else {
+                        ret = sprite_tex->render_copy_ex( renderer, &destination, 0, nullptr,
+                                                          SDL_FLIP_NONE );
+                    }
+                    break;
+                case 3:
+                    // 270 degrees
 #if defined(_WIN32) && defined(CROSS_LINUX)
-                // For an unknown reason, additional offset is required in direct3d mode
-                // for cross-compilation from Linux to Windows
-                if( direct3d_mode ) {
-                    destination.x -= 1;
-                }
+                    // For an unknown reason, additional offset is required in direct3d mode
+                    // for cross-compilation from Linux to Windows
+                    if( direct3d_mode ) {
+                        destination.x -= 1;
+                    }
 #endif
-                if( !is_isometric() ) {
-                    // never rotate isometric tiles
-                    ret = sprite_tex->render_copy_ex( renderer, &destination, 90, nullptr,
-                                                      SDL_FLIP_NONE );
-                } else {
-                    ret = sprite_tex->render_copy_ex( renderer, &destination, 0, nullptr,
-                                                      SDL_FLIP_NONE );
-                }
-                break;
-            case 4:
-                // flip horizontally
-                ret = sprite_tex->render_copy_ex(
-                          renderer, &destination, 0, nullptr,
-                          static_cast<SDL_RendererFlip>( SDL_FLIP_HORIZONTAL ) );
+                    if( !is_isometric() ) {
+                        // never rotate isometric tiles
+                        ret = sprite_tex->render_copy_ex( renderer, &destination, 90, nullptr,
+                                                          SDL_FLIP_NONE );
+                    } else {
+                        ret = sprite_tex->render_copy_ex( renderer, &destination, 0, nullptr,
+                                                          SDL_FLIP_NONE );
+                    }
+                    break;
+            }
         }
     } else {
         // don't rotate, same as case 0 above
@@ -2726,13 +2730,14 @@ bool cata_tiles::draw_terrain( const tripoint &p, const lit_level ll, int &heigh
         int subtile = 0;
         int rotation = 0;
         int connect_group = 0;
-        int rotate_group = 0;
-        if( t.obj().connects( connect_group ) | t.obj().rotates( rotate_group ) ) {
+        int rotate_group = t.obj().rotate_to_group;
+
+        if( t.obj().connects( connect_group ) ) {
             get_connect_values( p, subtile, rotation, connect_group, rotate_group, {} );
             // re-memorize previously seen terrain in case new connections have been seen
             here.set_memory_seen_cache_dirty( p );
         } else {
-            get_terrain_orientation( p, rotation, subtile, {}, invisible );
+            get_terrain_orientation( p, rotation, subtile, {}, invisible, rotate_group );
             // do something to get other terrain orientation values
         }
         const std::string &tname = t.id().str();
@@ -2754,11 +2759,12 @@ bool cata_tiles::draw_terrain( const tripoint &p, const lit_level ll, int &heigh
             int subtile = 0;
             int rotation = 0;
             int connect_group = 0;
-            int rotate_group = 0;
-            if( t2.obj().connects( connect_group ) | t2.obj().rotates( rotate_group ) ) {
+            int rotate_group = t2.obj().rotate_to_group;
+
+            if( t2.obj().connects( connect_group ) ) {
                 get_connect_values( p, subtile, rotation, connect_group, rotate_group, terrain_override );
             } else {
-                get_terrain_orientation( p, rotation, subtile, terrain_override, invisible );
+                get_terrain_orientation( p, rotation, subtile, terrain_override, invisible, rotate_group );
             }
             const std::string &tname = t2.id().str();
             // tile overrides are never memorized
@@ -2912,11 +2918,12 @@ bool cata_tiles::draw_furniture( const tripoint &p, const lit_level ll, int &hei
         int subtile = 0;
         int rotation = 0;
         int connect_group = 0;
-        int rotate_group = 0;
-        if( f.obj().connects( connect_group ) | f.obj().rotates( rotate_group ) ) {
+        int rotate_group = f.obj().rotate_to_group;
+
+        if( f.obj().connects( connect_group ) ) {
             get_furn_connect_values( p, subtile, rotation, connect_group, rotate_group, {} );
         } else {
-            get_tile_values_with_ter( p, f.to_i(), neighborhood, subtile, rotation );
+            get_tile_values_with_ter( p, f.to_i(), neighborhood, subtile, rotation, rotate_group );
         }
         const std::string &fname = f.id().str();
         if( !( you.get_grab_type() == object_type::FURNITURE
@@ -2950,13 +2957,14 @@ bool cata_tiles::draw_furniture( const tripoint &p, const lit_level ll, int &hei
             int subtile = 0;
             int rotation = 0;
             int connect_group = 0;
-            int rotate_group = 0;
-            if( f.obj().connects( connect_group ) | f.obj().rotates( rotate_group ) ) {
+            int rotate_group = f.obj().rotate_to_group;
+
+            if( f.obj().connects( connect_group ) ) {
                 get_furn_connect_values( p, subtile, rotation, connect_group, rotate_group, {} );
             } else {
-                get_tile_values_with_ter( p, f.to_i(), neighborhood, subtile, rotation );
+                get_tile_values_with_ter( p, f.to_i(), neighborhood, subtile, rotation, rotate_group );
             }
-            get_tile_values_with_ter( p, f2.to_i(), neighborhood, subtile, rotation );
+            get_tile_values_with_ter( p, f2.to_i(), neighborhood, subtile, rotation, TERCONN_NONE );
             const std::string &fname = f2.id().str();
             // tile overrides are never memorized
             // tile overrides are always shown with full visibility
@@ -3003,7 +3011,7 @@ bool cata_tiles::draw_trap( const tripoint &p, const lit_level ll, int &height_3
         };
         int subtile = 0;
         int rotation = 0;
-        get_tile_values( tr.loadid.to_i(), neighborhood, subtile, rotation );
+        get_tile_values( tr.loadid.to_i(), neighborhood, subtile, rotation, 0 );
         const std::string trname = tr.loadid.id().str();
         if( here.check_seen_cache( p ) ) {
             you.memorize_tile( here.getabs( p ), trname, subtile, rotation );
@@ -3034,7 +3042,7 @@ bool cata_tiles::draw_trap( const tripoint &p, const lit_level ll, int &height_3
             };
             int subtile = 0;
             int rotation = 0;
-            get_tile_values( tr2.to_i(), neighborhood, subtile, rotation );
+            get_tile_values( tr2.to_i(), neighborhood, subtile, rotation, 0 );
             const std::string &trname = tr2.id().str();
             // tile overrides are never memorized
             // tile overrides are always shown with full visibility
@@ -3111,7 +3119,7 @@ bool cata_tiles::draw_field_or_item( const tripoint &p, const lit_level ll, int 
 
                 int subtile = 0;
                 int rotation = 0;
-                get_tile_values( fld.to_i(), neighborhood, subtile, rotation );
+                get_tile_values( fld.to_i(), neighborhood, subtile, rotation, 0 );
 
                 //get field intensity
                 int intensity = fd_pr.second.get_field_intensity();
@@ -3209,7 +3217,7 @@ bool cata_tiles::draw_field_or_item( const tripoint &p, const lit_level ll, int 
 
             int subtile = 0;
             int rotation = 0;
-            get_tile_values( fld.to_i(), neighborhood, subtile, rotation );
+            get_tile_values( fld.to_i(), neighborhood, subtile, rotation, 0 );
 
             //get field intensity
             int intensity = fld_overridden ? 0 : here.field_at( p ).displayed_intensity();
@@ -3381,12 +3389,25 @@ bool cata_tiles::draw_vpart_below( const tripoint &p, const lit_level /*ll*/, in
     int height_3d_below = 0;
     std::array<bool, 5> below_invisible;
     std::fill( below_invisible.begin(), below_invisible.end(), false );
-    return draw_vpart( pbelow, lit_level::LOW, height_3d_below, below_invisible );
+    return draw_vpart_no_roof( pbelow, lit_level::LOW, height_3d_below, below_invisible );
+}
+
+bool cata_tiles::draw_vpart_no_roof( const tripoint &p, lit_level ll, int &height_3d,
+                                     const std::array<bool, 5> &invisible )
+{
+    return draw_vpart( p, ll, height_3d, invisible, false );
+}
+
+bool cata_tiles::draw_vpart_roof( const tripoint &p, lit_level ll, int &height_3d,
+                                  const std::array<bool, 5> &invisible )
+{
+    return draw_vpart( p, ll, height_3d, invisible, true );
 }
 
 bool cata_tiles::draw_vpart( const tripoint &p, lit_level ll, int &height_3d,
-                             const std::array<bool, 5> &invisible )
+                             const std::array<bool, 5> &invisible, bool roof )
 {
+    ( void ) roof;
     const auto override = vpart_override.find( p );
     const bool overridden = override != vpart_override.end();
     map &here = get_map();
@@ -3399,28 +3420,35 @@ bool cata_tiles::draw_vpart( const tripoint &p, lit_level ll, int &height_3d,
         // with the vehicle part json ids
         // get the vpart_id
         char part_mod = 0;
-        const std::string &vp_id = veh.part_id_string( veh_part, part_mod );
-        const int subtile = part_mod == 1 ? open_ : part_mod == 2 ? broken : 0;
-        const int rotation = std::round( to_degrees( veh.face.dir() ) );
-        const std::string vpname = "vp_" + vp_id;
-        avatar &you = get_avatar();
-        if( !veh.forward_velocity() && !veh.player_in_control( you )
-            && !( you.get_grab_type() == object_type::VEHICLE
-                  && veh.get_points().count( you.pos() + you.grab_point ) )
-            && here.check_seen_cache( p ) ) {
-            you.memorize_tile( here.getabs( p ), vpname, subtile, rotation );
-        }
-        if( !overridden ) {
-            const cata::optional<vpart_reference> cargopart = vp.part_with_feature( "CARGO", true );
-            const bool draw_highlight = cargopart &&
-                                        !veh.get_items( cargopart->part_index() ).empty();
-            const bool ret =
-                draw_from_id_string( vpname, TILE_CATEGORY::VEHICLE_PART, empty_string, p,
-                                     subtile, rotation, ll, nv_goggles_activated, height_3d );
-            if( ret && draw_highlight ) {
-                draw_item_highlight( p );
+        const std::string &vp_id = veh.part_id_string( veh_part, part_mod, !roof, roof );
+        if( !vp_id.empty() ) {
+            const int subtile = part_mod == 1 ? open_ : part_mod == 2 ? broken : 0;
+            const int rotation = std::round( to_degrees( veh.face.dir() ) );
+            const std::string vpname = "vp_" + vp_id;
+            avatar &you = get_avatar();
+            if( !veh.forward_velocity() && !veh.player_in_control( you )
+                && !( you.get_grab_type() == object_type::VEHICLE
+                      && veh.get_points().count( you.pos() + you.grab_point ) )
+                && here.check_seen_cache( p ) ) {
+                you.memorize_tile( here.getabs( p ), vpname, subtile, rotation );
             }
-            return ret;
+            if( !overridden ) {
+                const cata::optional<vpart_reference> cargopart = vp.part_with_feature( "CARGO", true );
+                const bool draw_highlight = cargopart &&
+                                            !veh.get_items( cargopart->part_index() ).empty();
+
+                int height_3d_temp = 0;
+                const bool ret =
+                    draw_from_id_string( vpname, TILE_CATEGORY::VEHICLE_PART, empty_string, p,
+                                         subtile, rotation, ll, nv_goggles_activated, height_3d_temp );
+                if( !roof ) {
+                    height_3d = height_3d_temp;
+                }
+                if( ret && draw_highlight ) {
+                    draw_item_highlight( p );
+                }
+                return ret;
+            }
         }
     }
     if( overridden ) {
@@ -3434,20 +3462,25 @@ bool cata_tiles::draw_vpart( const tripoint &p, lit_level ll, int &height_3d,
             const std::string vpname = "vp_" + vp2.str();
             // tile overrides are never memorized
             // tile overrides are always shown with full visibility
+            int height_3d_temp = 0;
             const bool ret =
                 draw_from_id_string( vpname, TILE_CATEGORY::VEHICLE_PART, empty_string, p, subtile,
-                                     to_degrees( rotation ), lit_level::LIT, false, height_3d );
+                                     to_degrees( rotation ), lit_level::LIT, false, height_3d_temp );
+            if( !roof ) {
+                height_3d = height_3d_temp;
+            }
             if( ret && draw_highlight ) {
                 draw_item_highlight( p );
             }
             return ret;
         }
-    } else if( invisible[0] && has_vpart_memory_at( p ) ) {
+    } else if( !roof && invisible[0] && has_vpart_memory_at( p ) ) {
         // try drawing memory if invisible and not overridden
         const memorized_terrain_tile &t = get_vpart_memory_at( p );
+        int height_3d_temp = 0;
         return draw_from_id_string(
                    t.tile, TILE_CATEGORY::VEHICLE_PART, empty_string, p, t.subtile, t.rotation,
-                   lit_level::MEMORIZED, nv_goggles_activated, height_3d );
+                   lit_level::MEMORIZED, nv_goggles_activated, height_3d_temp );
     }
     return false;
 }
@@ -3558,13 +3591,13 @@ bool cata_tiles::draw_critter_at( const tripoint &p, lit_level ll, int &height_3
             }
             const int subtile = corner;
             // depending on the toggle flip sprite left or right
-            int rot_facing = -1;
+            int rot_facing = -2;
             if( m->facing == FacingDirection::RIGHT ) {
                 rot_facing = 0;
             } else if( m->facing == FacingDirection::LEFT ) {
-                rot_facing = 4;
+                rot_facing = -1;
             }
-            if( rot_facing >= 0 ) {
+            if( rot_facing >= -1 ) {
                 const auto ent_name = m->type->id;
                 std::string chosen_id = ent_name.str();
                 if( m->has_effect( effect_ridden ) ) {
@@ -3691,7 +3724,7 @@ void cata_tiles::draw_entity_with_overlays( const Character &ch, const tripoint 
         draw_from_id_string( ent_name, TILE_CATEGORY::NONE, "", p, corner, 0, ll, false,
                              height_3d );
     } else if( ch.facing == FacingDirection::LEFT ) {
-        draw_from_id_string( ent_name, TILE_CATEGORY::NONE, "", p, corner, 4, ll, false,
+        draw_from_id_string( ent_name, TILE_CATEGORY::NONE, "", p, corner, -1, ll, false,
                              height_3d );
     }
 
@@ -3705,7 +3738,7 @@ void cata_tiles::draw_entity_with_overlays( const Character &ch, const tripoint 
                 draw_from_id_string( draw_id, TILE_CATEGORY::NONE, "", p, corner, /*rota:*/ 0, ll,
                                      false, overlay_height_3d );
             } else if( ch.facing == FacingDirection::LEFT ) {
-                draw_from_id_string( draw_id, TILE_CATEGORY::NONE, "", p, corner, /*rota:*/ 4, ll,
+                draw_from_id_string( draw_id, TILE_CATEGORY::NONE, "", p, corner, /*rota:*/ -1, ll,
                                      false, overlay_height_3d );
             }
             // the tallest height-having overlay is the one that counts
@@ -4251,7 +4284,8 @@ void cata_tiles::init_light()
 }
 
 void cata_tiles::get_terrain_orientation( const tripoint &p, int &rota, int &subtile,
-        const std::map<tripoint, ter_id> &ter_override, const std::array<bool, 5> &invisible )
+        const std::map<tripoint, ter_id> &ter_override, const std::array<bool, 5> &invisible,
+        const int rotate_group )
 {
     map &here = get_map();
     const bool overridden = ter_override.find( p ) != ter_override.end();
@@ -4286,7 +4320,8 @@ void cata_tiles::get_terrain_orientation( const tripoint &p, int &rota, int &sub
         }
     }
 
-    get_rotation_and_subtile( val, CHAR_MAX, rota, subtile );
+    uint8_t rotation_targets = get_map().get_known_rotates_to( p, rotate_group, {} );
+    get_rotation_and_subtile( val, rotation_targets, rota, subtile );
 }
 
 void cata_tiles::get_rotation_and_subtile( const char val, const char rot_to, int &rotation,
@@ -4309,43 +4344,61 @@ void cata_tiles::get_rotation_and_subtile( const char val, const char rot_to, in
             rotation = 0;
             break;
         // end pieces
+        // rotations:
+        //
+        // --> edge index
+        // Nw, Ws, Sw, Es,
+        // Ne, Wn, Se, En,  |
+        // N+, W+, S+, E+,  V  get_rotation_... return index
+        // N-, W-, S-, E-
+        //
+        // (Nw = north end piece, rotated to west)
         case 8:
-            // vertical end piece
+            // vertical end piece S
             subtile = end_piece;
             if( no_rotation ) {
                 rotation = 2;
                 break;
             }
-            rotation = get_rotation_edge_ns( rot_to );
+            rotation = 2 + 4 * get_rotation_edge_ns( rot_to );
             break;
         case 4:
-            // horizontal end piece
+            // horizontal end piece E
             subtile = end_piece;
             if( no_rotation ) {
                 rotation = 3;
                 break;
             }
-            rotation = get_rotation_edge_ew( rot_to );
+            rotation = 3 + 4 * get_rotation_edge_ew( rot_to );
             break;
         case 2:
-            // horizontal end piece
+            // horizontal end piece W
             subtile = end_piece;
             if( no_rotation ) {
                 rotation = 1;
                 break;
             }
-            rotation = get_rotation_edge_ew( rot_to );
+            rotation = 1 + 4 * get_rotation_edge_ew( rot_to );
             break;
         case 1:
-            // vertical end piece
+            // vertical end piece N
             subtile = end_piece;
             if( no_rotation ) {
                 rotation = 0;
                 break;
             }
-            rotation = get_rotation_edge_ns( rot_to );
+            rotation = 4 * get_rotation_edge_ns( rot_to );
             break;
         // edges
+        // rotations:
+        //
+        // --> edge index
+        // NSw, EWs,
+        // NSe, EWn,  |
+        // NS+, EW+,  V  get_rotation_... return index
+        // NS-, EW-,
+        //
+        // (NSw = north-south edge, rotated to west)
         case 9:
             // vertical edge
             subtile = edge;
@@ -4353,7 +4406,7 @@ void cata_tiles::get_rotation_and_subtile( const char val, const char rot_to, in
                 rotation = 0;
                 break;
             }
-            rotation = get_rotation_edge_ns( rot_to );
+            rotation = 2 * get_rotation_edge_ns( rot_to );
             break;
         case 6:
             // horizontal edge
@@ -4362,7 +4415,7 @@ void cata_tiles::get_rotation_and_subtile( const char val, const char rot_to, in
                 rotation = 1;
                 break;
             }
-            rotation = get_rotation_edge_ew( rot_to );
+            rotation = 1 + 2 * get_rotation_edge_ew( rot_to );
             break;
         // corners
         case 12:
@@ -4406,10 +4459,10 @@ int cata_tiles::get_rotation_edge_ns( const char rot_to )
     if( ( rot_to & static_cast<int>( NEIGHBOUR::EAST ) ) == static_cast<int>( NEIGHBOUR::EAST ) ) {
         if( ( rot_to & static_cast<int>( NEIGHBOUR::WEST ) ) == static_cast<int>( NEIGHBOUR::WEST ) ) {
             // EW
-            return 4;
+            return 2;
         } else {
             // Ew
-            return 2;
+            return 1;
         }
     } else { // east -
         if( ( rot_to & static_cast<int>( NEIGHBOUR::WEST ) ) == static_cast<int>( NEIGHBOUR::WEST ) ) {
@@ -4417,7 +4470,7 @@ int cata_tiles::get_rotation_edge_ns( const char rot_to )
             return 0;
         } else {
             // ew
-            return 6;
+            return 3;
         }
     }
 }
@@ -4427,7 +4480,7 @@ int cata_tiles::get_rotation_edge_ew( const char rot_to )
     if( ( rot_to & static_cast<int>( NEIGHBOUR::NORTH ) ) == static_cast<int>( NEIGHBOUR::NORTH ) ) {
         if( ( rot_to & static_cast<int>( NEIGHBOUR::SOUTH ) ) == static_cast<int>( NEIGHBOUR::SOUTH ) ) {
             // NS
-            return 7;
+            return 2;
         } else {
             // Ns
             return 1;
@@ -4435,10 +4488,10 @@ int cata_tiles::get_rotation_edge_ew( const char rot_to )
     } else { // north -
         if( ( rot_to & static_cast<int>( NEIGHBOUR::SOUTH ) ) == static_cast<int>( NEIGHBOUR::SOUTH ) ) {
             // nS
-            return 3;
+            return 0;
         } else {
             // ns
-            return 5;
+            return 3;
         }
     }
 }
@@ -4449,55 +4502,55 @@ int cata_tiles::get_rotation_unconnected( const char rot_to )
     switch( rot_to ) {
         // Catch no and all first for performance; these are the last sprites!
         case 0: // NONE
-            rotation = 14;
+            rotation = 15;
             break;
         case 15: // ALL
-            rotation = 15;
+            rotation = 12;
             break;
 
         // Cases for single tile to rotate to -> easy
         case static_cast<int>( NEIGHBOUR::NORTH ):
-            rotation = 0;
-            break;
-        case static_cast<int>( NEIGHBOUR::EAST ):
-            rotation = 1;
-            break;
-        case static_cast<int>( NEIGHBOUR::SOUTH ):
             rotation = 2;
             break;
-        case static_cast<int>( NEIGHBOUR::WEST ):
+        case static_cast<int>( NEIGHBOUR::EAST ):
             rotation = 3;
+            break;
+        case static_cast<int>( NEIGHBOUR::SOUTH ):
+            rotation = 0;
+            break;
+        case static_cast<int>( NEIGHBOUR::WEST ):
+            rotation = 1;
             break;
         // Two tiles, resulting in diagonal
         case 10: // NE
-            rotation = 4;
-            break;
-        case 3: // SE
-            rotation = 5;
-            break;
-        case 5: // SW
             rotation = 6;
             break;
-        case 12: // NW
+        case 3: // SE
             rotation = 7;
+            break;
+        case 5: // SW
+            rotation = 4;
+            break;
+        case 12: // NW
+            rotation = 5;
             break;
         // Cases for three tiles to rotate to -> easy
         // Arranged to fallback / modulo to fitting index 0-4
         case 14: // 3 but south --> modulo = north
-            rotation = 8;
-            break;
-        case 11: // 3 but west --> modulo = east
-            rotation = 9;
-            break;
-        case 7: // 3 but north --> modulo = south
             rotation = 10;
             break;
-        case 13: // 3 but east --> modulo = west
+        case 11: // 3 but west --> modulo = east
             rotation = 11;
+            break;
+        case 7: // 3 but north --> modulo = south
+            rotation = 8;
+            break;
+        case 13: // 3 but east --> modulo = west
+            rotation = 9;
             break;
         // Two opposing tiles, (No tiles, all tiles; see first cases)
         case 9: // N-S
-            rotation = 12;
+            rotation = 14;
             break;
         case 6: // E-W
             rotation = 13;
@@ -4526,7 +4579,7 @@ void cata_tiles::get_furn_connect_values( const tripoint &p, int &subtile, int &
 }
 
 void cata_tiles::get_tile_values( const int t, const std::array<int, 4> &tn, int &subtile,
-                                  int &rotation )
+                                  int &rotation, const char rotation_targets )
 {
     std::array<bool, 4> connects;
     char val = 0;
@@ -4536,24 +4589,27 @@ void cata_tiles::get_tile_values( const int t, const std::array<int, 4> &tn, int
             val += 1 << i;
         }
     }
-    get_rotation_and_subtile( val, CHAR_MAX, rotation, subtile );
+    get_rotation_and_subtile( val, rotation_targets, rotation, subtile );
 }
 
 void cata_tiles::get_tile_values_with_ter(
-    const tripoint &p, const int t, const std::array<int, 4> &tn, int &subtile, int &rotation )
+    const tripoint &p, const int t, const std::array<int, 4> &tn, int &subtile, int &rotation,
+    const int rotate_to_group )
 {
     map &here = get_map();
+    uint8_t rotation_targets = get_map().get_known_rotates_to_f( p, rotate_to_group, {} );
     //check if furniture should connect to itself
     if( here.has_flag( ter_furn_flag::TFLAG_NO_SELF_CONNECT, p ) ||
         here.has_flag( ter_furn_flag::TFLAG_ALIGN_WORKBENCH, p ) ) {
         //if we don't ever connect to ourself just return unconnected to be used further
-        get_rotation_and_subtile( 0, CHAR_MAX, rotation, subtile );
+        get_rotation_and_subtile( 0, rotation_targets, rotation, subtile );
     } else {
         //if we do connect to ourself (tables, counters etc.) calculate based on neighbours
-        get_tile_values( t, tn, subtile, rotation );
+        get_tile_values( t, tn, subtile, rotation, rotation_targets );
     }
     // calculate rotation for unconnected tiles based on surrounding walls
-    if( subtile == unconnected ) {
+    // if not any rotates_to neighbours
+    if( subtile == unconnected && ( rotation_targets == 0 || rotation_targets == CHAR_MAX ) ) {
         int val = 0;
         bool use_furniture = false;
 
@@ -4603,7 +4659,7 @@ void cata_tiles::get_tile_values_with_ter(
             case 11:   // south opening T
             case 15:   // surrounded
             default:   // just in case
-                rotation = 0;
+                rotation = rotate_to_group == TERCONN_NONE ? 0 : 15;
                 break;
         }
 

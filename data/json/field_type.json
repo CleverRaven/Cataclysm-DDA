@@ -940,7 +940,7 @@
       { "//": "repeat last entry" }
     ],
     "description_affix": "illuminated_by",
-    "immunity_data": { "immunity_flags_worn": [ [ "sensor", "FLASH_PROTECTION" ] ] },
+    "immunity_data": { "immunity_flags_worn_any": [ [ "sensor", "FLASH_PROTECTION" ], [ "sensor", "BLIND" ] ], "flags": [ "BLIND" ] },
     "priority": 4,
     "half_life": "1 turns",
     "phase": "plasma",

@@ -1,3 +1,36 @@
 [
-  
+  {
+    "id": "mon_caterpillar",
+    "type": "MONSTER",
+    "name": { "str": "caterpillar" },
+    "description": "Caterpillars are the larval stage of butterflies and moths.  This one seems newly hatched from an egg but even now it is large as a cat.",
+    "default_faction": "ant",
+    "bodytype": "insect",
+    "species": [ "INSECT" ],
+    "volume": "5 L",
+    "weight": "6 kg",
+    "hp": 10,
+    "material": [ "iflesh" ],
+    "symbol": "c",
+    "color": "green",
+    "speed": 30,
+    "vision_day": 15,
+    "dodge": 2,
+    "harvest": "arachnid",
+    "upgrades": { "age_grow": 15, "into_group": "GROUP_BUTTERFLY" },
+    "flags": [ "SEES", "SMELLS", "CLIMBS", "HEARS", "STUMBLES", "PATH_AVOID_FIRE" ]
+  },
+  {
+    "id": "mon_caterpillar_giant",
+    "type": "MONSTER",
+    "name": { "str": "giant caterpillar" },
+    "description": "This caterpillar has reached the size of a person and it looks close to make a cocoon.  You can only imagine the size of the insect that will emerge.",
+    "copy-from": "mon_caterpillar",
+    "proportional": { "hp": 3, "speed": 1.1, "morale": 1.1, "melee_dice_sides": 1.1 },
+    "symbol": "C",
+    "volume": "60 L",
+    "weight": "75 kg",
+    "dissect": "dissect_insect_sample_large",
+    "upgrades": { "age_grow": 15, "into_group": "GROUP_BUTTERFLY_GIANT" }
+  }
 ]
