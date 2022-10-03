@@ -17,9 +17,77 @@
     "mod_targets": [ "ar15", "m4_carbine", "m16a4", "m16_auto_rifle", "m27_assault_rifle" ],
     "install_time": "1 m",
     "ammo_modifier": [ "300blk" ],
-    "magazine_adaptor": [ [ "300blk", [ "stanag30", "stanag50", "survivor223mag" ] ] ],
-    "min_skills": [ [ "weapon", 1 ] ],
-    "flags": [ "IRREMOVABLE" ]
+    "magazine_adaptor": [
+      [
+        "300blk",
+        [
+          "stanag30",
+          "stanag5",
+          "stanag5ranger",
+          "stanag10",
+          "stanag10ranger",
+          "stanag20",
+          "stanag20ranger",
+          "stanag30ranger",
+          "stanag40",
+          "stanag40ranger",
+          "stanag50",
+          "stanag60",
+          "stanag60drum",
+          "stanag90",
+          "stanag100",
+          "stanag100drum",
+          "stanag150",
+          "survivor223mag"
+        ]
+      ]
+    ],
+    "min_skills": [ [ "weapon", 1 ] ]
+  },
+  {
+    "id": "retool_ar15_223",
+    "type": "GUNMOD",
+    "name": { "str": ".223 AR-15 conversion kit" },
+    "description": "A complete AR-15 upper assembly with a .223/5.56x45mm barrel.",
+    "weight": "1000 g",
+    "volume": "500 ml",
+    "integral_volume": "0 ml",
+    "integral_weight": "0 g",
+    "price": 50000,
+    "price_postapoc": 1000,
+    "material": [ "steel" ],
+    "symbol": ":",
+    "color": "green",
+    "location": "bore",
+    "mod_targets": [ "ar15", "m4_carbine", "m16a4", "m16_auto_rifle", "m27_assault_rifle" ],
+    "install_time": "1 m",
+    "ammo_modifier": [ "223" ],
+    "magazine_adaptor": [
+      [
+        "223",
+        [
+          "stanag30",
+          "stanag5",
+          "stanag5ranger",
+          "stanag10",
+          "stanag10ranger",
+          "stanag20",
+          "stanag20ranger",
+          "stanag30ranger",
+          "stanag40",
+          "stanag40ranger",
+          "stanag50",
+          "stanag60",
+          "stanag60drum",
+          "stanag90",
+          "stanag100",
+          "stanag100drum",
+          "stanag150",
+          "survivor223mag"
+        ]
+      ]
+    ],
+    "min_skills": [ [ "weapon", 1 ] ]
   },
   {
     "id": "staff_sling_grenade_cradle",
