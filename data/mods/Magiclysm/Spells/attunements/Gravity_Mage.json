@@ -127,7 +127,6 @@
     "show_intensity": false,
     "enchantments": [
       {
-        "condition": { "not": "ALWAYS" },
         "values": [
           { "value": "ATTACK_SPEED", "add": 30 },
           { "value": "BONUS_BLOCK", "add": 2 },

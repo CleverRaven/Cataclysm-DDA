@@ -22,7 +22,6 @@
     "show_in_info": false,
     "enchantments": [
       {
-        "condition": { "not": "ALWAYS" },
         "values": [
           { "value": "ARMOR_BASH", "add": -20 },
           { "value": "ARMOR_CUT", "add": -20 },
