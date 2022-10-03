@@ -27,6 +27,33 @@
     ]
   },
   {
+    "id": "cdda_flag",
+    "repairs_like": "sheet",
+    "type": "ARMOR",
+    "name": { "str": "Cataclysm: Dark Days Ahead flag" },
+    "description": "With a black background, and a green hazard symbol, this flag represents... THE GAME ITSELF!?",
+    "weight": "3200 g",
+    "volume": "2 L",
+    "price": 5000,
+    "price_postapoc": 50,
+    "to_hit": -1,
+    "material": [ "cotton" ],
+    "symbol": "[",
+    "looks_like": "towel",
+    "color": "light_red",
+    "warmth": 20,
+    "material_thickness": 0.3,
+    "environmental_protection": 1,
+    "flags": [ "OVERSIZE", "OUTER", "ALLOWS_NATURAL_ATTACKS" ],
+    "armor": [
+      {
+        "encumbrance": 50,
+        "coverage": 60,
+        "covers": [ "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ]
+      }
+    ]
+  },
+  {
     "id": "pride_flag",
     "repairs_like": "sheet",
     "type": "ARMOR",

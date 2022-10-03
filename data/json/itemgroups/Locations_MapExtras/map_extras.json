@@ -30,6 +30,7 @@
       { "group": "college_camping", "prob": 50 },
       { "group": "college_camping", "prob": 80 },
       { "group": "SUS_book_nonf_soft", "prob": 20 },
+      { "item": "cdda_flag", "prob": 2 },
       { "item": "pride_flag", "prob": 5 },
       { "item": "corpse", "damage": 4 }
     ]
