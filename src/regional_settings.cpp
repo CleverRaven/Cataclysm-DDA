@@ -18,6 +18,9 @@
 #include "string_formatter.h"
 #include "translations.h"
 
+static bool loaded_all_region_overlay = false;
+static std::set<std::string> regions_applied_overlay;
+
 ter_furn_id::ter_furn_id() : ter( t_null ), furn( f_null ) { }
 
 template<typename T>
@@ -447,11 +450,18 @@ static void load_region_terrain_and_furniture_settings( const JsonObject &jo,
     }
 }
 
-void load_region_settings( const JsonObject &jo )
+void load_region_settings( const JsonObject &jo, const std::string &src )
 {
     regional_settings new_region;
     if( !jo.read( "id", new_region.id ) ) {
         jo.throw_error( "No 'id' field." );
+    }
+    bool overwrite_overlays = false;
+    optional( jo, false, "overwrite_overlays", overwrite_overlays, false );
+    if( ( regions_applied_overlay.count( new_region.id ) != 0 || loaded_all_region_overlay ) &&
+        !overwrite_overlays ) {
+        debugmsg( "Region settings for region %s (from %s) is loaded after an overlay for this region has been applied!"
+                  "  Adjust world mod load order to fix.", new_region.id, src );
     }
     bool strict = new_region.id == "default";
     mandatory( jo, false, "default_oter", new_region.default_oter );
@@ -650,6 +660,8 @@ void check_region_settings()
 void reset_region_settings()
 {
     region_settings_map.clear();
+    regions_applied_overlay.clear();
+    loaded_all_region_overlay = false;
 }
 
 /*
@@ -662,6 +674,7 @@ void load_region_overlay( const JsonObject &jo )
         JsonArray regions = jo.get_array( "regions" );
         for( const std::string regionid : regions ) {
             if( regionid == "all" ) {
+                loaded_all_region_overlay = true;
                 if( regions.size() != 1 ) {
                     jo.throw_error( "regions: More than one region is not allowed when \"all\" is used" );
                 }
@@ -670,6 +683,7 @@ void load_region_overlay( const JsonObject &jo )
                     apply_region_overlay( jo, itr.second );
                 }
             } else {
+                regions_applied_overlay.emplace( regionid );
                 auto itr = region_settings_map.find( regionid );
                 if( itr == region_settings_map.end() ) {
                     jo.throw_error( "region: " + regionid + " not found in region_settings_map" );
