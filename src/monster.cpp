@@ -524,6 +524,10 @@ void monster::refill_udders()
 
 void monster::try_biosignature()
 {
+    if( is_hallucination() ) {
+        return;
+    }
+
     if( !biosignatures ) {
         return;
     }
