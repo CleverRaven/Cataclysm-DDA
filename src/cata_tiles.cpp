@@ -2351,7 +2351,7 @@ bool cata_tiles::draw_from_id_string( const std::string &id, TILE_CATEGORY categ
         case TILE_CATEGORY::NONE:
             // graffiti
             if( id == "graffiti" ) {
-                seed = simple_point_hash( here.getabs( pos ) );
+                seed = std::hash<std::string> {}( here.graffiti_at( pos ) );
             }
             break;
         case TILE_CATEGORY::BULLET:
