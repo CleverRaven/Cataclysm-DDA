@@ -253,7 +253,6 @@ static const efftype_id effect_ridden( "ridden" );
 static const efftype_id effect_riding( "riding" );
 static const efftype_id effect_sleep( "sleep" );
 static const efftype_id effect_slept_through_alarm( "slept_through_alarm" );
-static const efftype_id effect_squeezed( "squeezed" );
 static const efftype_id effect_stunned( "stunned" );
 static const efftype_id effect_tapeworm( "tapeworm" );
 static const efftype_id effect_tied( "tied" );
@@ -3470,14 +3469,6 @@ void Character::calc_discomfort()
             add_effect( effect_chafing, 1_turns, bp, true, 1 );
         }
     }
-    // do the same for obesity conflicting with rigid armors
-    remove_effect( effect_squeezed );
-    for( const bodypart_id &bp : get_all_body_parts() ) {
-        if( get_bmi() > bp->bmi_rigid_problems_threshold &&
-            worn.wearing_something_rigid_on_most_of( bp ) ) {
-            add_effect( effect_squeezed, 1_turns, bp, true, 1 );
-        }
-    }
 }
 
 void Character::calc_encumbrance()
@@ -4092,7 +4083,6 @@ void Character::set_stored_calories( int cal )
         //need to check obesity penalties when this happens if BMI changed
         if( std::floor( get_bmi() ) != cached_bmi ) {
             calc_encumbrance();
-            calc_discomfort();
         }
     }
 }
