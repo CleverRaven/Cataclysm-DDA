@@ -42,7 +42,7 @@
     "default_faction": "nether",
     "species": [ "NETHER" ],
     "volume": "62500 ml",
-    "weight": "1 g",
+    "weight": "10 g",
     "hp": 35,
     "speed": 80,
     "symbol": "O",
