@@ -17,6 +17,21 @@
         "topic": "BGSS_PREPPER_1_FOUND_LMOE7",
         "condition": { "u_has_var": "prepper_1_asked_about_shelter", "type": "mission", "context": "BGSS", "value": "yes" }
       },
+      {
+        "text": "Hey, uh…  I noticed you left a computer down in your shelter.  I didn't intend to pry, but you said I could go through everything.  So, I read a little of what you wrote.  You wanna talk about it?",
+        "topic": "BGSS_PREPPER_1_FOUND_LMOE6",
+        "condition": {
+          "and": [
+            { "u_has_var": "prepper_1_found_computer", "type": "mission", "context": "BGSS", "value": "yes" },
+            {
+              "not": { "u_has_var": "prepper_1_asked_about_shelter", "type": "mission", "context": "BGSS", "value": "yes" }
+            },
+            {
+              "u_has_var": "prepper_1_finished_quest", "type": "mission", "context": "BGSS", "value": "yes" 
+            }
+          ]
+        }
+      },
       { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
       { "text": "<end_talking>", "topic": "TALK_DONE" }
     ]
@@ -109,6 +124,9 @@
             { "u_has_var": "prepper_1_found_computer", "type": "mission", "context": "BGSS", "value": "yes" },
             {
               "not": { "u_has_var": "prepper_1_asked_about_shelter", "type": "mission", "context": "BGSS", "value": "yes" }
+            },
+            {
+              "not": { "u_has_var": "prepper_1_finished_quest", "type": "mission", "context": "BGSS", "value": "yes" }
             }
           ]
         },
