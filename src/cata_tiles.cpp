@@ -1629,8 +1629,8 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
         decltype( &cata_tiles::draw_furniture ) function;
     };
 
-    const std::array < zlevel_layer, 3 > zlevel_drawing_layers = {{
-            {true, &cata_tiles::draw_field_or_item}, {false, &cata_tiles::draw_vpart_roof}, {false, &cata_tiles::draw_vpart_no_roof}, {true, &cata_tiles::draw_critter_at}
+    const std::array < zlevel_layer, 4 > zlevel_drawing_layers = {{
+            {true, &cata_tiles::draw_field_or_item}, {false, &cata_tiles::draw_vpart_no_roof}, {false, &cata_tiles::draw_vpart_roof}, {true, &cata_tiles::draw_critter_at}
         }
     };
 
@@ -1685,6 +1685,7 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
     }
 }
 }
+
 // tile overrides are already drawn in the previous code
 void_radiation_override();
 void_terrain_override();
