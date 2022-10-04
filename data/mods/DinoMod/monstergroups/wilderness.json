@@ -134,19 +134,25 @@
         "conditions": [ "DUSK", "DAY", "DAWN", "SPRING", "SUMMER", "AUTUMN" ]
       },
       {
-        "monster": "mon_parasaurolophus",
-        "weight": 5,
-        "pack_size": [ 4, 12 ],
-        "conditions": [ "DUSK", "DAY", "DAWN", "SPRING", "SUMMER", "AUTUMN" ]
-      },
-      {
-        "monster": "mon_corythosaurus",
-        "weight": 5,
-        "pack_size": [ 4, 12 ],
-        "conditions": [ "DUSK", "DAY", "DAWN", "SPRING", "SUMMER", "AUTUMN" ]
-      },
-      {
         "monster": "mon_maiasaura",
+        "weight": 5,
+        "pack_size": [ 4, 12 ],
+        "conditions": [ "DUSK", "DAY", "DAWN", "SPRING", "SUMMER", "AUTUMN" ]
+      },
+      {
+        "monster": "mon_gryposaurus",
+        "weight": 5,
+        "pack_size": [ 4, 12 ],
+        "conditions": [ "DUSK", "DAY", "DAWN", "SPRING", "SUMMER", "AUTUMN" ]
+      },
+      {
+        "monster": "mon_prosaurolophus",
+        "weight": 5,
+        "pack_size": [ 4, 12 ],
+        "conditions": [ "DUSK", "DAY", "DAWN", "SPRING", "SUMMER", "AUTUMN" ]
+      },
+      {
+        "monster": "mon_saurolophus",
         "weight": 5,
         "pack_size": [ 4, 12 ],
         "conditions": [ "DUSK", "DAY", "DAWN", "SPRING", "SUMMER", "AUTUMN" ]
@@ -158,7 +164,25 @@
         "conditions": [ "DUSK", "DAY", "DAWN", "SPRING", "SUMMER", "AUTUMN" ]
       },
       {
-        "monster": "mon_gryposaurus",
+        "monster": "mon_parasaurolophus",
+        "weight": 5,
+        "pack_size": [ 4, 12 ],
+        "conditions": [ "DUSK", "DAY", "DAWN", "SPRING", "SUMMER", "AUTUMN" ]
+      },
+      {
+        "monster": "mon_lambeosaurus",
+        "weight": 5,
+        "pack_size": [ 4, 12 ],
+        "conditions": [ "DUSK", "DAY", "DAWN", "SPRING", "SUMMER", "AUTUMN" ]
+      },
+      {
+        "monster": "mon_corythosaurus",
+        "weight": 5,
+        "pack_size": [ 4, 12 ],
+        "conditions": [ "DUSK", "DAY", "DAWN", "SPRING", "SUMMER", "AUTUMN" ]
+      },
+      {
+        "monster": "mon_hypacrosaurus",
         "weight": 5,
         "pack_size": [ 4, 12 ],
         "conditions": [ "DUSK", "DAY", "DAWN", "SPRING", "SUMMER", "AUTUMN" ]

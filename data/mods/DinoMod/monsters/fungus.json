@@ -794,12 +794,67 @@
     "upgrades": {  }
   },
   {
+    "id": "mon_zaiasaura_fungus",
+    "type": "MONSTER",
+    "name": { "str": "fungal maiasaura zombie" },
+    "description": "This was once a huge, four-legged dinosaur herbivore with hooves, a heavy tail, and a flat beak.  Fungal tendrils now sprout from its mouth, eyes, and other orifices, holding together a shambling mass of mold-covered flesh and bone.",
+    "copy-from": "mon_zamptosaurus_fungus",
+    "proportional": { "hp": 3 },
+    "upgrades": {  }
+  },
+  {
+    "id": "mon_zryposaurus_fungus",
+    "type": "MONSTER",
+    "name": { "str": "fungal gryposaurus zombie" },
+    "description": "Once a huge, four-legged dinosaur herbivore with a toothless beak and a narrow arching nasal hump, fungal tendrils now sprout from its mouth, eyes, and other orifices, holding together a shambling mass of mold-covered flesh and bone.",
+    "copy-from": "mon_zamptosaurus_fungus",
+    "proportional": { "hp": 4 },
+    "upgrades": {  }
+  },
+  {
+    "id": "mon_zrosaurolophus_fungus",
+    "type": "MONSTER",
+    "name": { "str": "fungal prosaurolophus zombie" },
+    "description": "Once a huge, four-legged dinosaur herbivore with hooves and a broad beak and a small nasal crest, fungal tendrils now sprout from its mouth, eyes, and other orifices, holding together a shambling mass of mold-covered flesh and bone.",
+    "copy-from": "mon_zamptosaurus_fungus",
+    "proportional": { "hp": 4 },
+    "upgrades": {  }
+  },
+  {
+    "id": "mon_zaurolophus_fungus",
+    "type": "MONSTER",
+    "name": { "str": "fungal saurolophus zombie" },
+    "description": "Once a huge, four-legged dinosaur herbivore with hooves and a broad beak and a spiky head crest, fungal tendrils now sprout from its mouth, eyes, and other orifices, holding together a shambling mass of mold-covered flesh and bone.",
+    "copy-from": "mon_zamptosaurus_fungus",
+    "proportional": { "hp": 4 },
+    "upgrades": {  }
+  },
+  {
+    "id": "mon_zedmontosaurus_fungus",
+    "type": "MONSTER",
+    "name": { "str": "fungal edmontosaurus zombie" },
+    "description": "Once a huge, four-legged dinosaur herbivore with a broad, toothless beak, fungal tendrils now sprout from its mouth, eyes, and other orifices, holding together a shambling mass of mold-covered flesh and bone.",
+    "copy-from": "mon_zamptosaurus_fungus",
+    "proportional": { "hp": 5 },
+    "upgrades": {  }
+  },
+  {
     "id": "mon_zarasaurolophus_fungus",
     "type": "MONSTER",
     "name": { "str": "fungal parasaurolophus zombie" },
     "description": "Once a huge, four-legged dinosaur herbivore with a blunt head crest, fungal tendrils now sprout from its mouth, eyes, and other orifices, holding together a shambling mass of mold-covered flesh and bone.",
     "copy-from": "mon_zamptosaurus_fungus",
     "proportional": { "hp": 4 },
+    "upgrades": {  }
+  },
+  {
+    "id": "mon_zambeosaurus_fungus",
+    "type": "MONSTER",
+    "name": { "str": "fungal lambeosaurus zombie" },
+    "description": "Once a huge, four-legged dinosaur herbivore with a long stiff tail, hooves, a narrow beak and a tall head crest, fungal tendrils now sprout from its mouth, eyes, and other orifices, holding together a shambling mass of mold-covered flesh and bone.",
+    "copy-from": "mon_zamptosaurus_fungus",
+    "proportional": { "hp": 4 },
+    "special_attacks": [ [ "FUNGUS", 200 ], [ "scratch", 10 ], { "type": "bite", "cooldown": 5 }, [ "SHRIEK", 5 ] ],
     "upgrades": {  }
   },
   {
@@ -813,30 +868,13 @@
     "upgrades": {  }
   },
   {
-    "id": "mon_zaiasaura_fungus",
+    "id": "mon_zypacrosaurus_fungus",
     "type": "MONSTER",
-    "name": { "str": "fungal maiasaura zombie" },
-    "description": "This was once a huge, four-legged dinosaur herbivore with hooves, a heavy tail, and a flat beak.  Fungal tendrils now sprout from its mouth, eyes, and other orifices, holding together a shambling mass of mold-covered flesh and bone.",
-    "copy-from": "mon_zamptosaurus_fungus",
-    "proportional": { "hp": 3 },
-    "upgrades": {  }
-  },
-  {
-    "id": "mon_zedmontosaurus_fungus",
-    "type": "MONSTER",
-    "name": { "str": "fungal edmontosaurus zombie" },
-    "description": "Once a huge, four-legged dinosaur herbivore with a broad, toothless beak, fungal tendrils now sprout from its mouth, eyes, and other orifices, holding together a shambling mass of mold-covered flesh and bone.",
-    "copy-from": "mon_zamptosaurus_fungus",
-    "proportional": { "hp": 5 },
-    "upgrades": {  }
-  },
-  {
-    "id": "mon_zryposaurus_fungus",
-    "type": "MONSTER",
-    "name": { "str": "fungal gryposaurus zombie" },
-    "description": "Once a huge, four-legged dinosaur herbivore with a toothless beak and a narrow arching nasal hump, fungal tendrils now sprout from its mouth, eyes, and other orifices, holding together a shambling mass of mold-covered flesh and bone.",
+    "name": { "str": "fungal hypacrosaurus zombie" },
+    "description": "Once a huge, four-legged dinosaur herbivore with a tall ridge down the back, a tail, hooves, a short beak and a wide, rounded head crest, fungal tendrils now sprout from its mouth, eyes, and other orifices, holding together a shambling mass of mold-covered flesh and bone.",
     "copy-from": "mon_zamptosaurus_fungus",
     "proportional": { "hp": 4 },
+    "special_attacks": [ [ "FUNGUS", 200 ], [ "scratch", 10 ], { "type": "bite", "cooldown": 5 }, [ "SHRIEK", 5 ] ],
     "upgrades": {  }
   },
   {

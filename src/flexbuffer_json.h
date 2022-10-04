@@ -27,7 +27,7 @@ struct JsonPath {
         // the json value at that location. Arrays as native indices, objects as an index
         // into the object's corresponding key vector.
 
-        using index_type = uint16_t;
+        using index_type = uint32_t;
 
         JsonPath() = default;
         JsonPath( const JsonPath & ) = default;
@@ -40,12 +40,12 @@ struct JsonPath {
             if( idx < std::numeric_limits<index_type>::max() ) {
                 path_.push_back( static_cast<index_type>( idx ) );
             } else {
-                throw std::runtime_error( "Json index out of range of uint16_t" );
+                throw std::runtime_error( "Json index out of range of uint32_t" );
             }
             return *this;
         }
 
-        uint16_t size() const {
+        uint8_t size() const {
             return path_.size();
         }
 
@@ -53,14 +53,14 @@ struct JsonPath {
             path_.pop_back();
         }
 
-        uint16_t &last() {
+        index_type &last() {
             return *path_.back();
         }
 
-        uint16_t const *begin() const {
+        index_type const *begin() const {
             return path_.begin();
         }
-        uint16_t const *end() const {
+        index_type const *end() const {
             return path_.end();
         }
 
