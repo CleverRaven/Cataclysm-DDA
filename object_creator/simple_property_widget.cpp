@@ -1,5 +1,5 @@
 #include "simple_property_widget.h"
-#include <QtWidgets>
+#include <QtWidgets/QtWidgets>
 
 creator::simple_property_widget::simple_property_widget( QWidget* parent, QString propertyText, 
                                 property_type prop_type, QObject* to_notify ) : QFrame( parent ) {
