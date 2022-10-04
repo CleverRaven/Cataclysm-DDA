@@ -26,9 +26,7 @@
             {
               "not": { "u_has_var": "prepper_1_asked_about_shelter", "type": "mission", "context": "BGSS", "value": "yes" }
             },
-            {
-              "u_has_var": "prepper_1_finished_quest", "type": "mission", "context": "BGSS", "value": "yes" 
-            }
+            { "u_has_var": "prepper_1_finished_quest", "type": "mission", "context": "BGSS", "value": "yes" }
           ]
         }
       },
