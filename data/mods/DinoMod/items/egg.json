@@ -489,13 +489,6 @@
   },
   {
     "type": "COMESTIBLE",
-    "id": "egg_euoplocephalus",
-    "name": "euoplocephalus egg",
-    "copy-from": "egg_dino",
-    "rot_spawn": "GROUP_EGG_euoplocephalus"
-  },
-  {
-    "type": "COMESTIBLE",
     "id": "egg_scolosaurus",
     "name": "scolosaurus egg",
     "copy-from": "egg_dino",
