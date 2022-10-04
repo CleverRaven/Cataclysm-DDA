@@ -954,16 +954,6 @@ bool outfit::wearing_something_on( const bodypart_id &bp ) const
     return false;
 }
 
-bool outfit::wearing_something_rigid_on_most_of( const bodypart_id &bp ) const
-{
-    for( const item &i : worn ) {
-        if( i.covers( bp ) && i.is_rigid() && i.get_coverage( bp ) > 33 ) {
-            return true;
-        }
-    }
-    return false;
-}
-
 int outfit::swim_modifier( const int swim_skill ) const
 {
     int ret = 0;
