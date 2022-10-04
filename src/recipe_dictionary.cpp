@@ -459,7 +459,8 @@ std::map<recipe_id, recipe>::const_iterator recipe_dictionary::end() const
     return recipes.end();
 }
 
-std::map<recipe_id, const recipe *> recipe_dictionary::find_obsoletes( const itype_id &item_id ) const
+std::map<recipe_id, const recipe *> recipe_dictionary::find_obsoletes(
+    const itype_id &item_id ) const
 {
     std::map<recipe_id, const recipe *> ret;
     auto p = obsoletes.equal_range( item_id );
