@@ -8,7 +8,7 @@
     "//3": "charcoal/coal 31/u, it is less efficient than other fossil fuels and is closer to an oven.",
     "//4": "Standards: 1 - bake one unit of flour, process 100g of fruit/veggy or caramelize 3 units of sugar, 2 - one scrap of meat, one unit of oatmeal one beans or one rice, 3 - scramble a chicken egg, 20 - chunk of meat",
     "//5": "Note: recipies involving water may require water_boiling_heat because it can potentially use unclean water, such as energy needed to cook some noodles or an egg.  Others such as bread baking don't need it because the water hits boiling temp, even though it does not boil.",
-    "//6": "Canning food involves bringing water up to a boil and then keeping it there for a while.  For each 0.5L of canned goods that aren't meat, add 4 of these, and for each 0.5L of canned goods that are meat, add 6.",
+    "//6": "Canning food involves bringing water up to a boil and then keeping it there for a while.  For each 0.5L of canned goods that aren't meat, add 4 of these, and for each 0.5L of canned goods that are meat, add 6.  Then, add a unit of boiling for each unit of water needed.",
     "//7": "Ovens are terrible, this is intentional.  Typical oven uses 3x the wattage of a microwave, and bakes for often over 10x as long as the microwave does.  We cannot account for batch energy savings (multiple things in same oven) nor keeping the oven at temp (many kJ are wasted bringing it up to temp, unlike with a microwave) so efficiency is somewhat generously 0.2x that of microwave.",
     "//8": "A good way to judge input needed is how many seconds it takes to microwave.  1kW is a good estimate for microwave power usage, and the ratios are relatively consistent between different foodstuffs.",
     "tools": [
@@ -39,10 +39,18 @@
     "//1": "Estimate given by dehydrating 3 lbs of bananas at 500w for 6 hours.",
     "tools": [
       [
-        [ "dehydrator", 82 ],
-        [ "char_smoker", 7 ]
+        [ "dehydrator", 80 ],
+        [ "char_smoker", 6 ]
       ]
     ]
+  },
+  {
+    "id": "vacuum_sealing_standard",
+    "type": "requirement",
+    "//": "Power requirement to seal one bag, 400w for 10 seconds.  Includes the bag.",
+    "//1": "Yes, they really are that cheap.",
+    "tools": [ [ [ "vac_sealer", 4 ], [ "makeshift_sealer", 8 ] ] ],
+    "components": [ [ [ "bag_plastic", 1 ], [ "plastic_bag_vac", 1 ] ] ],
   },
   {
     "id": "frying_oil",
