@@ -244,8 +244,6 @@ struct body_part_type {
         int bmi_encumbrance_threshold = 999;
         // Amount of encumbrance per point of BMI over the threshold
         float bmi_encumbrance_scalar = 0;
-        // Amount of BMI at which point wearing rigid items becomes difficult
-        int bmi_rigid_problems_threshold = 999;
         float smash_efficiency = 0.5f;
 
         //Morale parameters
@@ -466,7 +464,6 @@ class bodypart
         int get_temp_conv() const;
         int get_bmi_encumbrance_threshold() const;
         float get_bmi_encumbrance_scalar() const;
-        int get_bmi_rigid_problems_threshold() const;
 
         std::array<int, NUM_WATER_TOLERANCE> get_mut_drench() const;
 
