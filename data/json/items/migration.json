@@ -1802,6 +1802,11 @@
     "replace": "syringe"
   },
   {
+    "id": "sheet_metal_lit",
+    "type": "MIGRATION",
+    "replace": "sheet_metal"
+  },
+  {
     "id": "folding_bicycle",
     "type": "MIGRATION",
     "replace": "folded_bicycle",

@@ -295,6 +295,7 @@ void uilist::init()
     filtering_nocase = true; // ignore case when filtering
     max_entry_len = 0;
     max_column_len = 0;      // for calculating space for second column
+    uilist_scrollbar = std::make_unique<scrollbar>();
 
     input_category = "UILIST";
     additional_actions.clear();
@@ -322,6 +323,7 @@ input_context uilist::create_main_input_context() const
     ctxt.register_action( "UILIST.FILTER" );
     ctxt.register_action( "ANY_INPUT" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
+    uilist_scrollbar->set_draggable( ctxt );
     for( const auto &additional_action : additional_actions ) {
         ctxt.register_action( additional_action.first, additional_action.second );
     }
@@ -703,8 +705,7 @@ void uilist::apply_scrollbar()
         estart = 1;
     }
 
-    scrollbar()
-    .offset_x( sbside )
+    uilist_scrollbar->offset_x( sbside )
     .offset_y( estart )
     .content_size( fentries.size() )
     .viewport_pos( vshift )
@@ -955,6 +956,14 @@ uilist::handle_mouse_result_t uilist::handle_mouse( const input_context &ctxt,
         const bool loop )
 {
     handle_mouse_result_t result = handle_mouse_result_t::unhandled;
+    int temp_pos = vshift;
+    if( uilist_scrollbar->handle_dragging( ret_act, ctxt.get_coordinates_text( catacurses::stdscr ),
+                                           temp_pos ) ) {
+        scrollby( temp_pos - vshift );
+        vshift = temp_pos;
+        return handle_mouse_result_t::handled;
+    }
+
     // Only check MOUSE_MOVE when looping internally
     if( !fentries.empty() && ( ret_act == "SELECT" || ( loop && ret_act == "MOUSE_MOVE" ) ) ) {
         result = handle_mouse_result_t::handled;

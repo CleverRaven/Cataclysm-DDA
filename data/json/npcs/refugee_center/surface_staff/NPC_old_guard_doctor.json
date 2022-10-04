@@ -159,16 +159,26 @@
   {
     "id": "MISSION_SCIENCE_REP_5",
     "type": "mission_definition",
-    "name": { "str": "Find Lab Tunnels" },
-    "goal": "MGOAL_FIND_ANY_ITEM",
+    "name": "Find Lab Tunnels",
+    "goal": "MGOAL_FIND_ITEM",
     "difficulty": 5,
     "value": 50000,
-    "item": "software_train_data",
-    "start": "reveal_lab_train_depot",
+    "item": "train_data_card",
+    "start": {
+      "assign_mission_target": {
+        "om_terrain": "underground_lab_cargo_stationA",
+        "om_special": "Lab_CORE_2x1x3",
+        "reveal_radius": 1,
+        "random": false,
+        "search_range": 200,
+        "z": -4
+      },
+      "effect": [ { "u_spawn_item": "data_card" } ]
+    },
     "origins": [ "ORIGIN_SECONDARY" ],
     "dialogue": {
       "describe": "We need help…",
-      "offer": "In the data we found a major contract for tunneling and train equipment, ordered a long time ago.  It's the best lead we have.  Here's the address of the government lab where the equipment was delivered.  I want you to go there, find the tunnels that they dug, and download everything you can about the train network.",
+      "offer": "In the data we found a major contract for tunneling and train equipment, ordered eight months ago.  It's the best lead we have.  Here's the address of the government lab where the equipment was delivered.  I want you to go there, find the tunnels that they dug, and download everything you can about the train network.",
       "accepted": "So glad for your help.",
       "rejected": "Can't blame you, but come back if you change your mind.",
       "advice": "The equipment was rated for 50 feet underground, so that tunnel entrance is going to be deeper inside a lab than a normal subway.  Fifty feet would mean maybe four stories down.  Bring back anything you find on a USB drive.",

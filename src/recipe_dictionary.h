@@ -15,7 +15,7 @@
 #include "recipe.h"
 #include "type_id.h"
 
-class JsonIn;
+class JsonArray;
 class JsonObject;
 class JsonOut;
 
@@ -201,6 +201,6 @@ class recipe_subset
 };
 
 void serialize( const recipe_subset &value, JsonOut &jsout );
-void deserialize( recipe_subset &value, JsonIn &jsin );
+void deserialize( recipe_subset &value, const JsonArray &ja );
 
 #endif // CATA_SRC_RECIPE_DICTIONARY_H

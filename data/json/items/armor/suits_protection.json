@@ -353,6 +353,181 @@
     ]
   },
   {
+    "id": "armor_metal_sheets_chain",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "junkyard plate armor" },
+    "description": "A full set of steel armor made from sheet metal hammered into shape and attached with chainmail covering the gaps.  For the modern knight on a budget.",
+    "weight": "24300 g",
+    "volume": "17500 ml",
+    "price": 6000,
+    "price_postapoc": 1300,
+    "to_hit": -5,
+    "bashing": 8,
+    "material": [ "lc_steel", "lc_steel_chain" ],
+    "symbol": "[",
+    "looks_like": "armor_junk_lightplate",
+    "color": "light_gray",
+    "warmth": 10,
+    "longest_side": "120 cm",
+    "material_thickness": 1.5,
+    "flags": [ "OUTER", "BLOCK_WHILE_WORN" ],
+    "armor": [
+      {
+        "material": [
+          { "type": "lc_steel", "covered_by_mat": 95, "thickness": 0.3 },
+          { "type": "lc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 }
+        ],
+        "covers": [ "torso" ],
+        "coverage": 100,
+        "encumbrance": 20
+      },
+      {
+        "material": [
+          { "type": "lc_steel", "covered_by_mat": 95, "thickness": 0.3 },
+          { "type": "lc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 }
+        ],
+        "covers": [ "arm_l", "arm_r" ],
+        "coverage": 100,
+        "encumbrance": 23
+      },
+      {
+        "material": [
+          { "type": "lc_steel", "covered_by_mat": 95, "thickness": 0.3 },
+          { "type": "lc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 }
+        ],
+        "covers": [ "leg_l", "leg_r" ],
+        "coverage": 100,
+        "encumbrance": 25
+      }
+    ]
+  },
+  {
+    "id": "armor_metal_sheets_chain_heavy",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "heavy junkyard plate armor" },
+    "description": "A full set of steel armor made from sheet metal hammered into shape and attached with chainmail covering the gaps, with an extra-thick chestpiece.  About as heavy as a car but nowhere near as mobile, this suit is nonetheless quite protective.",
+    "weight": "33100 g",
+    "volume": "17500 ml",
+    "price": 6000,
+    "price_postapoc": 1300,
+    "to_hit": -5,
+    "bashing": 8,
+    "material": [ "lc_steel", "lc_steel_chain" ],
+    "symbol": "[",
+    "looks_like": "armor_junk_lightplate",
+    "color": "light_gray",
+    "warmth": 10,
+    "longest_side": "120 cm",
+    "material_thickness": 1.5,
+    "flags": [ "OUTER", "BLOCK_WHILE_WORN", "STURDY" ],
+    "armor": [
+      {
+        "material": [
+          { "type": "lc_steel", "covered_by_mat": 95, "thickness": 1.8 },
+          { "type": "lc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 }
+        ],
+        "covers": [ "torso" ],
+        "coverage": 100,
+        "encumbrance": 32
+      },
+      {
+        "material": [
+          { "type": "lc_steel", "covered_by_mat": 95, "thickness": 0.3 },
+          { "type": "lc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 }
+        ],
+        "covers": [ "arm_l", "arm_r" ],
+        "coverage": 100,
+        "encumbrance": 23
+      },
+      {
+        "material": [
+          { "type": "lc_steel", "covered_by_mat": 95, "thickness": 0.3 },
+          { "type": "lc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 }
+        ],
+        "covers": [ "leg_l", "leg_r" ],
+        "coverage": 100,
+        "encumbrance": 25
+      }
+    ]
+  },
+  {
+    "id": "armor_ch_metal_sheets_chain",
+    "type": "ARMOR",
+    "copy-from": "armor_metal_sheets_chain",
+    "name": { "str": "case hardened junkyard plate armor" },
+    "description": "A full set of steel armor made from sheet metal hammered into shape, attached with chainmail, and case-hardened for extra strength.  It might be crude and uncomfortably heavy, but it was clearly made by a skilled metalworker and offers excellent protection.",
+    "material": [ "ch_steel", "ch_steel_chain" ],
+    "armor": [
+      {
+        "material": [
+          { "type": "ch_steel", "covered_by_mat": 95, "thickness": 0.3 },
+          { "type": "ch_steel_chain", "covered_by_mat": 100, "thickness": 1.2 }
+        ],
+        "covers": [ "torso" ],
+        "coverage": 100,
+        "encumbrance": 20
+      },
+      {
+        "material": [
+          { "type": "ch_steel", "covered_by_mat": 95, "thickness": 0.3 },
+          { "type": "ch_steel_chain", "covered_by_mat": 100, "thickness": 1.2 }
+        ],
+        "covers": [ "arm_l", "arm_r" ],
+        "coverage": 100,
+        "encumbrance": 23
+      },
+      {
+        "material": [
+          { "type": "ch_steel", "covered_by_mat": 95, "thickness": 0.3 },
+          { "type": "ch_steel_chain", "covered_by_mat": 100, "thickness": 1.2 }
+        ],
+        "covers": [ "leg_l", "leg_r" ],
+        "coverage": 100,
+        "encumbrance": 25
+      }
+    ],
+    "extend": { "flags": [ "STURDY" ] }
+  },
+  {
+    "id": "armor_ch_metal_sheets_chain_heavy",
+    "type": "ARMOR",
+    "copy-from": "armor_metal_sheets_chain_heavy",
+    "name": { "str": "heavy case hardened junkyard plate armor" },
+    "description": "A full set of steel armor made from sheet metal hammered into shape, attached with chainmail, with a double-thick chestpiece, and case-hardened for extra strength.  Top-of-the-line in armor that looks like it was made from banged-up lockers, for the skilled metalworker that values protection over being able to move.",
+    "material": [ "ch_steel", "ch_steel_chain" ],
+    "armor": [
+      {
+        "material": [
+          { "type": "ch_steel", "covered_by_mat": 95, "thickness": 1.8 },
+          { "type": "ch_steel_chain", "covered_by_mat": 100, "thickness": 1.2 }
+        ],
+        "covers": [ "torso" ],
+        "coverage": 100,
+        "encumbrance": 32
+      },
+      {
+        "material": [
+          { "type": "ch_steel", "covered_by_mat": 95, "thickness": 0.3 },
+          { "type": "ch_steel_chain", "covered_by_mat": 100, "thickness": 1.2 }
+        ],
+        "covers": [ "arm_l", "arm_r" ],
+        "coverage": 100,
+        "encumbrance": 23
+      },
+      {
+        "material": [
+          { "type": "ch_steel", "covered_by_mat": 95, "thickness": 0.3 },
+          { "type": "ch_steel_chain", "covered_by_mat": 100, "thickness": 1.2 }
+        ],
+        "covers": [ "leg_l", "leg_r" ],
+        "coverage": 100,
+        "encumbrance": 25
+      }
+    ]
+  },
+  {
     "id": "armor_lc_lightplate",
     "type": "ARMOR",
     "category": "armor",

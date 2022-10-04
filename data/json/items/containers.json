@@ -636,7 +636,7 @@
     "type": "GENERIC",
     "category": "container",
     "name": { "str": "small cardboard box", "str_pl": "small cardboard boxes" },
-    "description": "A small cardboard box.  No bigger than a foot in dimension.",
+    "description": "A small cardboard box.  No bigger than a foot in dimension.  Can be folded.",
     "weight": "50 g",
     "volume": "2250 ml",
     "longest_side": "21 cm",
@@ -654,6 +654,30 @@
     "price_postapoc": 0,
     "material": [ "cardboard" ],
     "symbol": ")",
+    "color": "brown",
+    "use_action": {
+      "target": "box_small_folded",
+      "msg": "You fold the box.",
+      "menu_text": "Fold",
+      "type": "transform",
+      "moves": 500,
+      "need_empty": true
+    }
+  },
+  {
+    "id": "box_small_folded",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "small folded cardboard box", "str_pl": "small folded cardboard boxes" },
+    "description": "A small folded cardboard box.  No bigger than a foot in dimension.  Can be assembled.",
+    "weight": "50 g",
+    "volume": "900 ml",
+    "longest_side": "30 cm",
+    "//": "~1x27x30 or ~1x26x44",
+    "price": 0,
+    "price_postapoc": 0,
+    "material": [ "cardboard" ],
+    "symbol": ")",
     "color": "brown"
   },
   {
@@ -662,7 +686,7 @@
     "category": "container",
     "name": { "str": "cardboard box", "str_pl": "cardboard boxes" },
     "looks_like": "box_small",
-    "description": "A sturdy cardboard box, about the size of a banana box.  Great for packing.",
+    "description": "A sturdy cardboard box, about the size of a banana box.  Great for packing.  Can be folded.",
     "weight": "400 g",
     "volume": "51000 ml",
     "longest_side": "51 cm",
@@ -680,6 +704,30 @@
     ],
     "material": [ "cardboard" ],
     "symbol": ")",
+    "color": "brown",
+    "use_action": {
+      "target": "box_medium_folded",
+      "msg": "You fold the box.",
+      "menu_text": "Fold",
+      "type": "transform",
+      "moves": 1000,
+      "need_empty": true
+    }
+  },
+  {
+    "id": "box_medium_folded",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "folded cardboard box", "str_pl": "folded cardboard boxes" },
+    "description": "A sturdy folded cardboard box.  Great for packing.  Can be assembled.",
+    "weight": "400 g",
+    "volume": "6000 ml",
+    "longest_side": "80 cm",
+    "//": "(1x80x75)",
+    "price": 0,
+    "price_postapoc": 0,
+    "material": [ "cardboard" ],
+    "symbol": ")",
     "color": "brown"
   },
   {
@@ -688,7 +736,7 @@
     "category": "container",
     "name": { "str": "large cardboard box", "str_pl": "large cardboard boxes" },
     "looks_like": "box_medium",
-    "description": "A very large cardboard box, the sort children would have loved to hide in, when there were still children.",
+    "description": "A very large cardboard box, the sort children would have loved to hide in, when there were still children.  Can be folded.",
     "weight": "2 kg",
     "volume": "329000 ml",
     "longest_side": "91 cm",
@@ -707,7 +755,33 @@
         "max_item_length": "90 cm"
       }
     ],
-    "use_action": { "type": "deploy_furn", "furn_type": "f_cardboard_box" }
+    "use_action": [
+      { "type": "deploy_furn", "furn_type": "f_cardboard_box" },
+      {
+        "target": "box_large_folded",
+        "msg": "You fold the box.",
+        "menu_text": "Fold",
+        "type": "transform",
+        "moves": 1500,
+        "need_empty": true
+      }
+    ]
+  },
+  {
+    "id": "box_large_folded",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "large folded cardboard box", "str_pl": "large folded cardboard boxes" },
+    "description": "A very large folded cardboard box, the sort children would have loved to hide in, when there were still children.  Can be assembled.",
+    "weight": "2 kg",
+    "volume": "18000 ml",
+    "longest_side": "150 cm",
+    "//": "(1x150x120)",
+    "price": 0,
+    "price_postapoc": 10,
+    "material": [ "cardboard" ],
+    "symbol": ")",
+    "color": "brown"
   },
   {
     "id": "box_large_reinforced",
@@ -715,7 +789,7 @@
     "category": "container",
     "name": { "str": "reinforced large cardboard box", "str_pl": "reinforced large cardboard boxes" },
     "looks_like": "box_large",
-    "description": "A very large cardboard box, doubled up with a second layer of cardboard and lots of duct tape.",
+    "description": "A very large cardboard box, doubled up with a second layer of cardboard and lots of duct tape.  It can't be folded anymore.",
     "weight": "4 kg",
     "volume": "334000 ml",
     "longest_side": "91 cm",
@@ -742,7 +816,7 @@
     "category": "container",
     "name": { "str": "oversize cardboard box", "str_pl": "oversize cardboard boxes" },
     "looks_like": "box_small",
-    "description": "An oversize cardboard box, big enough to fit some longer items.  Great for storage.",
+    "description": "An oversize cardboard box, big enough to fit some longer items.  Great for storage.  Can be folded.",
     "weight": "2000 g",
     "volume": "205000 ml",
     "longest_side": "201 cm",
@@ -758,6 +832,30 @@
         "max_item_length": "200 cm"
       }
     ],
+    "material": [ "cardboard" ],
+    "symbol": ")",
+    "color": "brown",
+    "use_action": {
+      "target": "box_oversize_folded",
+      "msg": "You fold the box.",
+      "menu_text": "Fold",
+      "type": "transform",
+      "moves": 1500,
+      "need_empty": true
+    }
+  },
+  {
+    "id": "box_oversize_folded",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "oversize folded cardboard box", "str_pl": "oversize folded cardboard boxes" },
+    "description": "An oversize cardboard box, big enough to fit some longer items.  Great for storage.  Can be assembled.",
+    "weight": "2000 g",
+    "volume": "22000 ml",
+    "longest_side": "220 cm",
+    "//": "(220x100x1)",
+    "price": 0,
+    "price_postapoc": 10,
     "material": [ "cardboard" ],
     "symbol": ")",
     "color": "brown"

@@ -275,6 +275,33 @@
     "weapon_category": [ "SHIVS" ]
   },
   {
+    "id": "electric_spinwheel",
+    "type": "TOOL",
+    "name": { "str": "electric spinwheel" },
+    "description": "A spinning wheel is a device for spinning thread or yarn from fibres.  This particular model is electrically-powered and easily portable.",
+    "//": "Based roughly off an Ashford E-Spinner 3 because that was the first thing I looked at.",
+    "looks_like": "box_medium",
+    "weight": "5200 g",
+    "volume": "2700 ml",
+    "longest_side": "43 cm",
+    "price": 800,
+    "price_postapoc": 50,
+    "to_hit": -5,
+    "bashing": 2,
+    "material": [ "plastic", "steel" ],
+    "symbol": ";",
+    "color": "light_gray",
+    "ammo": [ "battery" ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "flag_restriction": [ "BATTERY_MEDIUM" ],
+        "default_magazine": "medium_battery_cell"
+      }
+    ]
+  },
+  {
     "id": "tailors_kit",
     "type": "TOOL",
     "name": { "str": "tailor's kit" },

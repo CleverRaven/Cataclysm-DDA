@@ -319,6 +319,24 @@
   {
     "type": "BOOK",
     "copy-from": "spell_scroll",
+    "id": "spell_scroll_druid_healing",
+    "//": "Druid spell",
+    "name": { "str": "Scroll of Restoration", "str_pl": "Scrolls of Restoration" },
+    "description": "Directed magic energy, that slowly heal your body from wounds.",
+    "use_action": { "type": "learn_spell", "spells": [ "druid_healing" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_druid_healing_herb",
+    "//": "Druid spell",
+    "name": { "str": "Scroll of Floral Healing", "str_pl": "Scrolls of Floral Healing" },
+    "description": "Using a magic energy from herbs allow you to heal yourself.",
+    "use_action": { "type": "learn_spell", "spells": [ "druid_healing_herb" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
     "id": "spell_scroll_stonefist",
     "//": "Earthshaper spell",
     "name": { "str": "Scroll of Stonefist", "str_pl": "Scrolls of Stonefist" },

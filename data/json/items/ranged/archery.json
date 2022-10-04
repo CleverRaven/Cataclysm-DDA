@@ -803,6 +803,7 @@
     "//2": "When taken down.",
     "price_postapoc": 2200,
     "bashing": 12,
+    "flags": [ "NO_TURRET" ],
     "modes": [ [ "DEFAULT", "disassembled", 0, [ "MELEE" ] ] ],
     "valid_mod_locations": [ [ "underbarrel", 1 ], [ "sights", 1 ], [ "accessories", 2 ], [ "stabilizer", 1 ], [ "dampening", 1 ] ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "arrow": 1 } } ],

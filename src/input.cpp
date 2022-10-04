@@ -28,6 +28,7 @@
 #include "game.h"
 #include "help.h"
 #include "json.h"
+#include "json_loader.h"
 #include "map.h"
 #include "optional.h"
 #include "options.h"
@@ -42,7 +43,6 @@
 #include "ui_manager.h"
 
 using std::min; // from <algorithm>
-using std::max;
 
 static const std::string default_context_id( "default" );
 
@@ -260,26 +260,24 @@ void input_manager::init()
 
 static constexpr int current_keybinding_version = 2;
 
-void input_manager::load( const std::string &file_name, bool is_user_preferences )
+void input_manager::load( const cata_path &file_name, bool is_user_preferences )
 {
-    cata::ifstream data_file( fs::u8path( file_name ), std::ifstream::in | std::ifstream::binary );
+    cata::optional<JsonValue> jsin_opt = json_loader::from_path_opt( file_name );
 
-    if( !data_file.good() ) {
+    if( !jsin_opt.has_value() ) {
         // Only throw if this is the first file to load, that file _must_ exist,
         // otherwise the keybindings can not be read at all.
         if( action_contexts.empty() ) {
-            throw std::runtime_error( std::string( "Could not read " ) + file_name );
+            throw std::runtime_error( std::string( "Could not read " ) + file_name.generic_u8string() );
         }
         return;
     }
 
-    JsonIn jsin( data_file, file_name );
+    JsonArray actions_json = *jsin_opt;
 
     //Crawl through once and create an entry for every definition
-    jsin.start_array();
-    while( !jsin.end_array() ) {
+    for( JsonObject action : actions_json ) {
         // JSON object representing the action
-        JsonObject action = jsin.get_object();
 
         int version = current_keybinding_version;
         if( is_user_preferences ) {
@@ -291,7 +289,7 @@ void input_manager::load( const std::string &file_name, bool is_user_preferences
         const std::string type = action.get_string( "type", "keybinding" );
         if( type != "keybinding" ) {
             debugmsg( "Only objects of type 'keybinding' (not %s) should appear in the "
-                      "keybindings file '%s'", type, file_name );
+                      "keybindings file '%s'", type, file_name.generic_u8string() );
             continue;
         }
 
@@ -1376,7 +1374,6 @@ action_id input_context::display_menu( const bool permit_execute_action )
 
     ui_adaptor ui;
     int width = 0;
-    int height = 0;
     catacurses::window w_help;
     size_t display_height = 0;
     size_t legwidth = 0;
@@ -1388,15 +1385,10 @@ action_id input_context::display_menu( const bool permit_execute_action )
         } );
     }
     const auto recalc_size = [&]( ui_adaptor & ui ) {
-        int maxwidth = std::max( FULL_SCREEN_WIDTH, TERMX );
-        width = min( 80, maxwidth );
-        int maxheight = std::max( FULL_SCREEN_HEIGHT, TERMY );
-        height = min( maxheight, static_cast<int>( hotkeys.size() ) + LEGEND_HEIGHT + BORDER_SPACE );
-
-        w_help = catacurses::newwin( height - 2, width - 2,
-                                     point( maxwidth / 2 - width / 2, maxheight / 2 - height / 2 ) );
+        width = TERMX >= 100 ? 100 : 80;
+        w_help = catacurses::newwin( TERMY, width - 2, point( TERMX / 2 - width / 2, 0 ) );
         // height of the area usable for display of keybindings, excludes headers & borders
-        display_height = height - LEGEND_HEIGHT - BORDER_SPACE; // -2 for the border
+        display_height = TERMY - LEGEND_HEIGHT;
         const point filter_pos( 4, 8 );
         // width of the legend
         legwidth = width - filter_pos.x * 2 - BORDER_SPACE;
@@ -1492,7 +1484,7 @@ action_id input_context::display_menu( const bool permit_execute_action )
                 col = global_key;
             }
             mvwprintz( w_help, point( 4, i + 10 ), col, "%s:", get_action_name( action_id ) );
-            mvwprintz( w_help, point( 52, i + 10 ), col, "%s", get_desc( action_id ) );
+            mvwprintz( w_help, point( TERMX >= 100 ? 62 : 52, i + 10 ), col, "%s", get_desc( action_id ) );
         }
 
         // spopup.query_string() will call wnoutrefresh( w_help )

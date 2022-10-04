@@ -1588,8 +1588,7 @@ void pet_food_data::load( const JsonObject &jo )
     optional( jo, was_loaded, "pet", pet );
 }
 
-void pet_food_data::deserialize( JsonIn &jsin )
+void pet_food_data::deserialize( const JsonObject &data )
 {
-    JsonObject data = jsin.get_object();
     load( data );
 }

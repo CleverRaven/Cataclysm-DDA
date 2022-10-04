@@ -321,6 +321,8 @@ class item_contents
         void process( map &here, Character *carrier, const tripoint &pos, float insulation = 1,
                       temperature_flag flag = temperature_flag::NORMAL, float spoil_multiplier_parent = 1.0f );
 
+        void leak( map &here, Character *carrier, const tripoint &pos, item_pocket *pocke = nullptr );
+
         bool item_has_uses_recursive() const;
         bool stacks_with( const item_contents &rhs ) const;
         bool same_contents( const item_contents &rhs ) const;

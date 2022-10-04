@@ -78,7 +78,7 @@
       }
     ],
     "description_affix": "covered_in",
-    "immunity_data": { "traits": [ "SHAPESHIFTER" ] },
+    "immunity_data": { "flags": [ "ALKAHEST_IMMUNE" ] },
     "underwater_age_speedup": "8 h",
     "priority": 2,
     "half_life": "8 h",
@@ -114,7 +114,7 @@
         "effects": [ { "effect_id": "ice_energy", "intensity": 3, "immune_in_vehicle": true, "is_environmental": false } ]
       }
     ],
-    "immunity_data": { "traits": [ "PERMAFROST_MAGE" ] },
+    "immunity_data": { "flags": [ "COLD_ENERGY_IMMUNE" ] },
     "half_life": "3 seconds"
   },
   {

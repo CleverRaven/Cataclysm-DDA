@@ -19,6 +19,7 @@
 #include "bodypart.h"
 #include "butchery_requirements.h"
 #include "cata_assert.h"
+#include "cata_scope_helpers.h"
 #include "cata_utility.h"
 #include "character_modifier.h"
 #include "clothing_mod.h"
@@ -47,6 +48,7 @@
 #include "item_factory.h"
 #include "itype.h"
 #include "json.h"
+#include "json_loader.h"
 #include "loading_ui.h"
 #include "lru_cache.h"
 #include "magic.h"
@@ -73,6 +75,7 @@
 #include "overmap.h"
 #include "overmap_connection.h"
 #include "overmap_location.h"
+#include "path_info.h"
 #include "profession.h"
 #include "proficiency.h"
 #include "recipe_dictionary.h"
@@ -117,8 +120,8 @@ DynamicDataLoader &DynamicDataLoader::get_instance()
 }
 
 void DynamicDataLoader::load_object( const JsonObject &jo, const std::string &src,
-                                     const std::string &base_path,
-                                     const std::string &full_path )
+                                     const cata_path &base_path,
+                                     const cata_path &full_path )
 {
     const std::string type = jo.get_string( "type" );
     const t_type_function_map::iterator it = type_function_map.find( type );
@@ -157,17 +160,11 @@ void DynamicDataLoader::load_deferred( deferred_json &data )
         const size_t n = data.size();
         auto it = data.begin();
         for( size_t idx = 0; idx != n; ++idx ) {
-            if( !it->first.path ) {
-                debugmsg( "JSON source location has null path, data may load incorrectly" );
-            } else {
-                try {
-                    shared_ptr_fast<std::istream> stream = get_cached_stream( *it->first.path );
-                    JsonIn jsin( *stream, it->first );
-                    JsonObject jo = jsin.get_object();
-                    load_object( jo, it->second );
-                } catch( const JsonError &err ) {
-                    debugmsg( "(json-error)\n%s", err.what() );
-                }
+            try {
+                JsonObject jo = it->first;
+                load_object( jo, it->second );
+            } catch( const JsonError &err ) {
+                debugmsg( "(json-error)\n%s", err.what() );
             }
             ++it;
             inp_mngr.pump_events();
@@ -175,16 +172,10 @@ void DynamicDataLoader::load_deferred( deferred_json &data )
         data.erase( data.begin(), it );
         if( data.size() == n ) {
             for( const auto &elem : data ) {
-                if( !elem.first.path ) {
-                    debugmsg( "JSON source location has null path when reporting circular dependency" );
-                } else {
-                    try {
-                        shared_ptr_fast<std::istream> stream = get_cached_stream( *it->first.path );
-                        JsonIn jsin( *stream, elem.first );
-                        jsin.error( "JSON contains circular dependency, this object is discarded" );
-                    } catch( const JsonError &err ) {
-                        debugmsg( "(json-error)\n%s", err.what() );
-                    }
+                try {
+                    elem.first.throw_error( "JSON contains circular dependency, this object is discarded" );
+                } catch( const JsonError &err ) {
+                    debugmsg( "(json-error)\n%s", err.what() );
                 }
                 inp_mngr.pump_events();
             }
@@ -203,7 +194,7 @@ static void load_ignored_type( const JsonObject &jo )
 }
 
 void DynamicDataLoader::add( const std::string &type,
-                             const std::function<void( const JsonObject &, const std::string &, const std::string &, const std::string & )>
+                             const std::function<void( const JsonObject &, const std::string &, const cata_path &, const cata_path & )>
                              &f )
 {
     const auto pair = type_function_map.emplace( type, f );
@@ -213,28 +204,31 @@ void DynamicDataLoader::add( const std::string &type,
 }
 
 void DynamicDataLoader::add( const std::string &type,
+                             const std::function<void( const JsonObject &, const std::string &, const std::string &, const std::string & )>
+                             &f )
+{
+    add( type, [f]( const JsonObject & obj, const std::string & src, const cata_path & base_path,
+    const cata_path & full_path ) {
+        f( obj, src, base_path.generic_u8string(), full_path.generic_u8string() );
+    } );
+}
+
+void DynamicDataLoader::add( const std::string &type,
                              const std::function<void( const JsonObject &, const std::string & )> &f )
 {
-    const auto pair = type_function_map.emplace( type, [f]( const JsonObject & obj,
-                      const std::string & src,
-    const std::string &, const std::string & ) {
+    add( type, [f]( const JsonObject & obj, const std::string & src, const cata_path &,
+    const cata_path & ) {
         f( obj, src );
     } );
-    if( !pair.second ) {
-        debugmsg( "tried to insert a second handler for type %s into the DynamicDataLoader", type.c_str() );
-    }
 }
 
 void DynamicDataLoader::add( const std::string &type,
                              const std::function<void( const JsonObject & )> &f )
 {
-    const auto pair = type_function_map.emplace( type, [f]( const JsonObject & obj, const std::string &,
-    const std::string &, const std::string & ) {
+    add( type, [f]( const JsonObject & obj, const std::string &,  const cata_path &,
+    const cata_path & ) {
         f( obj );
     } );
-    if( !pair.second ) {
-        debugmsg( "tried to insert a second handler for type %s into the DynamicDataLoader", type.c_str() );
-    }
 }
 
 void DynamicDataLoader::initialize()
@@ -484,7 +478,7 @@ void DynamicDataLoader::initialize()
 #endif
 }
 
-void DynamicDataLoader::load_data_from_path( const std::string &path, const std::string &src,
+void DynamicDataLoader::load_data_from_path( const cata_path &path, const std::string &src,
         loading_ui &ui )
 {
     cata_assert( !finalized &&
@@ -496,9 +490,9 @@ void DynamicDataLoader::load_data_from_path( const std::string &path, const std:
     // But not the other way round.
 
     // get a list of all files in the directory
-    str_vec files = get_files_from_path( ".json", path, true, true );
+    std::vector<cata_path> files = get_files_from_path( ".json", path, true, true );
     if( files.empty() ) {
-        cata::ifstream tmp( fs::u8path( path ), std::ios::in );
+        cata::ifstream tmp( path.get_unrelative_path(), std::ios::in );
         if( tmp ) {
             // path is actually a file, don't checking the extension,
             // assume we want to load this file anyway
@@ -506,12 +500,10 @@ void DynamicDataLoader::load_data_from_path( const std::string &path, const std:
         }
     }
     // iterate over each file
-    for( const std::string &file : files ) {
-        // and stuff it into ram
-        std::istringstream iss( read_entire_file( file ) );
+    for( const cata_path &file : files ) {
         try {
             // parse it
-            JsonIn jsin( iss, file );
+            JsonValue jsin = json_loader::from_path( file );
             load_all_from_json( jsin, src, ui, path, file );
         } catch( const JsonError &err ) {
             throw std::runtime_error( err.what() );
@@ -519,30 +511,23 @@ void DynamicDataLoader::load_data_from_path( const std::string &path, const std:
     }
 }
 
-void DynamicDataLoader::load_all_from_json( JsonIn &jsin, const std::string &src, loading_ui &,
-        const std::string &base_path, const std::string &full_path )
+void DynamicDataLoader::load_all_from_json( const JsonValue &jsin, const std::string &src,
+        loading_ui &,
+        const cata_path &base_path, const cata_path &full_path )
 {
     if( jsin.test_object() ) {
         // find type and dispatch single object
         JsonObject jo = jsin.get_object();
         load_object( jo, src, base_path, full_path );
-        jo.finish();
-        // if there's anything else in the file, it's an error.
-        jsin.eat_whitespace();
-        if( jsin.good() ) {
-            jsin.error( string_format( "expected single-object file but found '%c'", jsin.peek() ) );
-        }
     } else if( jsin.test_array() ) {
-        jsin.start_array();
+        JsonArray ja = jsin.get_array();
         // find type and dispatch each object until array close
-        while( !jsin.end_array() ) {
-            JsonObject jo = jsin.get_object();
+        for( JsonObject jo : ja ) {
             load_object( jo, src, base_path, full_path );
-            jo.finish();
         }
     } else {
         // not an object or an array?
-        jsin.error( "expected object or array" );
+        jsin.throw_error( "expected object or array" );
     }
     inp_mngr.pump_events();
 }
@@ -714,6 +699,7 @@ void DynamicDataLoader::finalize_loaded_data( loading_ui &ui )
             { _( "Overmap locations" ), &overmap_locations::finalize },
             { _( "Cities" ), &city::finalize },
             { _( "Start locations" ), &start_locations::finalize_all },
+            { _( "Vehicle part migrations" ), &vpart_migration::finalize },
             { _( "Vehicle prototypes" ), &vehicle_prototype::finalize },
             { _( "Mapgen weights" ), &calculate_mapgen_weights },
             { _( "Mapgen parameters" ), &overmap_specials::finalize_mapgen_parameters },

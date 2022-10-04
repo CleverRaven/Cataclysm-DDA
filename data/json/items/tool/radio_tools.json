@@ -70,7 +70,7 @@
     "type": "TOOL",
     "category": "spare_parts",
     "name": { "str": "radio activation mod" },
-    "description": "This small piece of electronics can be attached to certain items and activate them after receiving a radio signal.",
+    "description": "This small piece of electronics can be attached to certain items and activate them after receiving a radio signal from RC car controller.",
     "weight": "142 g",
     "volume": "250 ml",
     "price": 5000,
@@ -79,6 +79,7 @@
     "material": [ "steel" ],
     "symbol": ";",
     "color": "dark_gray",
+    "flags": [ "SINGLE_USE" ],
     "use_action": [ "RADIO_MOD" ]
   },
   {

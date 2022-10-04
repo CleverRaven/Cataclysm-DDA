@@ -32,6 +32,8 @@
 #include "translations.h"
 #include "units_fwd.h"
 
+class input_context;
+
 struct input_event;
 
 namespace catacurses
@@ -902,31 +904,51 @@ class scrollbar
         scrollbar &bar_color( nc_color bar_c );
         // can viewport_pos go beyond (content_size - viewport_size)?
         scrollbar &scroll_to_last( bool scr2last );
+        // Sets up ability for the scrollbar to be dragged with the mouse
+        scrollbar &set_draggable( input_context &ctxt );
         // draw the scrollbar to the window
         void apply( const catacurses::window &window );
+        // Checks if the user is dragging the scrollbar with the mouse (set_draggable first)
+        bool handle_dragging( const std::string &action, const cata::optional<point> &coord,
+                              int &position );
     private:
         int offset_x_v, offset_y_v;
         int content_size_v, viewport_pos_v, viewport_size_v;
         nc_color border_color_v, arrow_color_v, slot_color_v, bar_color_v;
         bool scroll_to_last_v;
+        bool dragging = false;
+        inclusive_rectangle<point> scrollbar_area;
 };
 
-// A simple scrolling view onto some text.  Given a window, it will use the
-// leftmost column for the scrollbar and fill the rest with text.  When the
-// scrollbar is not needed it prints a vertical border in place of it, so the
-// expectation is that the given window will overlap the left edge of a
-// bordered window if one exists.
-// (Options to e.g. not print the border would be easy to add if needed).
-// Update the text with set_text (it will be wrapped for you).
-// scroll_up and scroll_down are expected to be called from handlers for the
-// keys used for that purpose.
-// Call draw when drawing related UI stuff.  draw calls werase/wnoutrefresh for its
-// window internally.
+/** A simple scrolling view onto some text.  Given a window, it will use the
+ * leftmost column for the scrollbar and fill the rest with text.  When the
+ * scrollbar is not needed it prints a vertical border in place of it, so the
+ * expectation is that the given window will overlap the left edge of a
+ * bordered window if one exists.
+ * (Options to e.g. not print the border would be easy to add if needed).
+ * Update the text with set_text (it will be wrapped for you).
+ * scroll_up and scroll_down are expected to be called from handlers for the
+ * keys used for that purpose.
+ * Call draw when drawing related UI stuff.  draw calls werase/wnoutrefresh for its
+ * window internally.
+ * Has some built-in default navigation options, including mousewheel scrolling
+ * when the mouse is over the window (tiles only) and a click-and-drag scrollbar
+ * (technically works in curses, but is smoother in tiles).
+ **/
+enum scrolling_key_scheme : int {
+    no_scheme,
+    angle_bracket_scroll,
+    arrow_scroll,
+    page_page
+};
 class scrolling_text_view
 {
     public:
         explicit scrolling_text_view( catacurses::window &w ) : w_( w ) {}
 
+        bool handle_navigation( const std::string &action, input_context &ctxt );
+        void set_up_navigation( input_context &ctxt,
+                                scrolling_key_scheme scheme = scrolling_key_scheme::no_scheme, bool enable_paging = false );
         void set_text( const std::string & );
         void scroll_up();
         void scroll_down();
@@ -941,6 +963,10 @@ class scrolling_text_view
         catacurses::window &w_;
         std::vector<std::string> text_;
         int offset_ = 0;
+        std::string scroll_up_action;
+        std::string scroll_down_action;
+        bool paging_enabled = false;
+        scrollbar text_view_scrollbar;
 };
 
 class scrollingcombattext

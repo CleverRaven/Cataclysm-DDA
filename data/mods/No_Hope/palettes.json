@@ -65,6 +65,7 @@
       "8": "f_counter",
       "9": "f_shower",
       "@": "f_bed",
+      "¤": "f_table",
       "₸": "f_deckchair",
       "∞": "f_foot_locker",
       "≠": "f_chest",
@@ -93,6 +94,7 @@
       "|": "t_wall_w",
       "#": "t_brick_wall",
       ":": "t_wall_glass",
+      "¶": "t_door_glass_c",
       "-": "t_sidewalk",
       "o": [
         [ "t_window_frame", 5 ],

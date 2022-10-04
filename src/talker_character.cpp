@@ -767,3 +767,18 @@ std::string talker_character::skill_seminar_text( const skill_id &s ) const
     int lvl = me_chr->get_skill_level( s );
     return string_format( "%s (%d)", s.obj().name(), lvl );
 }
+
+std::vector<bodypart_id> talker_character::get_all_body_parts() const
+{
+    return me_chr->get_all_body_parts( get_body_part_flags::none );
+}
+
+int talker_character::get_part_hp_cur( const bodypart_id &id ) const
+{
+    return me_chr->get_part_hp_cur( id );
+}
+
+void talker_character::set_part_hp_cur( const bodypart_id &id, int set ) const
+{
+    me_chr->set_part_hp_cur( id, set );
+}

@@ -12,7 +12,7 @@
       "open_air",
       "open_air",
       "open_air",
-      "open_air",
+      "solid_earth",
       "backfloorchamber_north",
       "solid_earth",
       "empty_rock",
@@ -140,23 +140,22 @@
     },
     "map_extras": {
       "field": {
-        "chance": 40,
+        "chance": 20,
         "extras": {
           "mx_teleporter_node": 100,
           "mx_casings": 50,
           "mx_corpses": 50,
           "mx_collegekids": 25,
           "mx_spider": 20,
-          "mx_pond": 20,
           "mx_nest_dermatik": 20,
-          "mx_house_spider": 20,
           "mx_science": 20,
           "mx_crater": 10,
           "mx_nest_wasp": 10,
           "mx_house_wasp": 10,
-          "mx_military": 8,
-          "mx_drugdeal": 8,
-          "mx_supplydrop": 8,
+          "mx_pond": 10,
+          "mx_military": 10,
+          "mx_drugdeal": 10,
+          "mx_supplydrop": 10,
           "mx_portal": 3,
           "mx_portal_in": 3,
           "mx_jabberwock": 1,
@@ -200,6 +199,6 @@
         "snowstorm"
       ]
     },
-    "overmap_feature_flag_settings": { "clear_blacklist": false, "blacklist": [  ], "clear_whitelist": false, "whitelist": [ "BACKROOMS" ] }
+    "overmap_feature_flag_settings": { "clear_blacklist": false, "blacklist": [ "LAB" ], "clear_whitelist": false, "whitelist": [  ] }
   }
 ]

@@ -90,7 +90,7 @@ TEST_CASE( "vehicle_turret", "[vehicle][gun][magazine]" )
             const itype *base_itype = veh->part( turr_idx ).get_base().type;
             REQUIRE( base_itype );
             REQUIRE( base_itype->gun );
-            if( base_itype->gun->ups_charges > 0 ) {
+            if( base_itype->gun->ups_charges > 0 || turret_vpi->has_flag( "USE_BATTERIES" ) ) {
                 install_charged_battery( veh );
             }
 

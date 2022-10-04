@@ -2474,7 +2474,7 @@ void monster::process_turn()
                 const auto t = here.ter( zap );
                 if( t == ter_t_gas_pump || t == ter_t_gas_pump_a ) {
                     if( one_in( 4 ) ) {
-                        explosion_handler::explosion( pos(), 40, 0.8, true );
+                        explosion_handler::explosion( this, pos(), 40, 0.8, true );
                         add_msg_if_player_sees( zap, m_warning, _( "The %s explodes in a fiery inferno!" ),
                                                 here.tername( zap ) );
                     } else {

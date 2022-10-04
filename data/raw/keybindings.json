@@ -1319,6 +1319,12 @@
   },
   {
     "type": "keybinding",
+    "id": "CLICK_AND_DRAG",
+    "name": "Click and drag with mouse",
+    "bindings": [ { "input_method": "mouse", "key": "MOUSE_LEFT_PRESSED" } ]
+  },
+  {
+    "type": "keybinding",
     "id": "SEC_SELECT",
     "name": "Secondary select",
     "bindings": [ { "input_method": "mouse", "key": "MOUSE_RIGHT" } ]
@@ -1327,7 +1333,7 @@
     "type": "keybinding",
     "id": "MOUSE_MOVE",
     "name": "Mouse move",
-    "bindings": [ { "input_method": "mouse", "key": "MOUSE_MOVE" }, { "input_method": "mouse", "key": "MOUSE_LEFT_PRESSED" } ]
+    "bindings": [ { "input_method": "mouse", "key": "MOUSE_MOVE" } ]
   },
   {
     "type": "keybinding",
@@ -1598,6 +1604,13 @@
     "category": "APP_INTERACT",
     "name": "Take down appliance",
     "bindings": [ { "input_method": "keyboard_any", "key": "r" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "PLUG",
+    "category": "APP_INTERACT",
+    "name": "Plug in appliance",
+    "bindings": [ { "input_method": "keyboard_any", "key": "g" } ]
   },
   {
     "type": "keybinding",
@@ -4123,6 +4136,13 @@
     "id": "EVERYTHING",
     "name": "Toggle spawning everything",
     "bindings": [ { "input_method": "keyboard_char", "key": "E" }, { "input_method": "keyboard_code", "key": "e", "mod": [ "shift" ] } ]
+  },
+  {
+    "type": "keybinding",
+    "category": "WISH_ITEM",
+    "id": "SNIPPET",
+    "name": "Choose snippet",
+    "bindings": [ { "input_method": "keyboard_any", "key": "S" }, { "input_method": "keyboard_code", "key": "s", "mod": [ "shift" ] } ]
   },
   {
     "type": "keybinding",

@@ -106,6 +106,7 @@
       "8": "f_counter",
       "9": "f_null",
       "@": "f_bed",
+      "¤": "f_table",
       "₸": "f_deckchair",
       "∞": "f_foot_locker",
       "≠": "f_chest",
@@ -245,6 +246,7 @@
       ],
       "9": { "item": "shower", "chance": 30, "repeat": [ 1, 2 ] },
       "@": { "item": "bed", "chance": 50 },
+      "¤": { "item": "nightstand", "chance": 30 },
       "Z": { "item": "laundry", "chance": 100 },
       "W": { "item": "laundry", "chance": 50 },
       "z": [

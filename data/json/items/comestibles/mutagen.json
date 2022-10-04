@@ -68,6 +68,7 @@
     "name": { "str_sp": "alpha mutagenic primer" },
     "description": "A processed mutagenic primer strongly resembling blood.",
     "price": 2500000,
+    "looks_like": "iv_mutagen",
     "color": "red",
     "healthy": -4,
     "use_action": {
@@ -83,6 +84,7 @@
     "type": "COMESTIBLE",
     "name": { "str": "beast mutagenic primer" },
     "description": "A processed mutagenic primer as red as a matador's cape.",
+    "looks_like": "iv_mutagen",
     "color": "red",
     "use_action": {
       "type": "consume_drug",
@@ -97,6 +99,7 @@
     "type": "COMESTIBLE",
     "name": { "str": "bird mutagenic primer" },
     "description": "A processed mutagenic primer the color of the pre-Cataclysmic skies.",
+    "looks_like": "iv_mutagen",
     "color": "cyan",
     "use_action": {
       "type": "consume_drug",
@@ -111,6 +114,7 @@
     "type": "COMESTIBLE",
     "name": { "str": "cattle mutagenic primer" },
     "description": "A processed mutagenic primer the color of grass.",
+    "looks_like": "iv_mutagen",
     "color": "light_green",
     "use_action": {
       "type": "consume_drug",
@@ -125,6 +129,7 @@
     "type": "COMESTIBLE",
     "name": { "str": "cephalopod mutagenic primer" },
     "description": "A processed mutagenic primer as black as ink.",
+    "looks_like": "iv_mutagen",
     "color": "dark_gray",
     "use_action": {
       "type": "consume_drug",
@@ -140,6 +145,7 @@
     "name": { "str": "chimera mutagenic primer" },
     "description": "A processed mutagenic primer that churns with iridescence.",
     "price": 400000,
+    "looks_like": "iv_mutagen",
     "color": "red",
     "healthy": -15,
     "stim": -10,
@@ -158,6 +164,7 @@
     "name": { "str": "Elf-A mutagenic primer" },
     "description": "A processed mutagenic primer that's a striking sylvan green.",
     "price": 400000,
+    "looks_like": "iv_mutagen",
     "color": "light_green",
     "use_action": {
       "type": "consume_drug",
@@ -172,6 +179,7 @@
     "type": "COMESTIBLE",
     "name": { "str": "feline mutagenic primer" },
     "description": "A processed mutagenic primer, yellow and highly reflective.",
+    "looks_like": "iv_mutagen",
     "color": "yellow",
     "use_action": {
       "type": "consume_drug",
@@ -186,6 +194,7 @@
     "type": "COMESTIBLE",
     "name": { "str": "fish mutagenic primer" },
     "description": "A processed mutagenic primer the color of the ocean, with white foam at the top.",
+    "looks_like": "iv_mutagen",
     "color": "light_blue",
     "use_action": {
       "type": "consume_drug",
@@ -200,6 +209,7 @@
     "type": "COMESTIBLE",
     "name": { "str": "insect mutagenic primer" },
     "description": "A processed mutagenic primer that's a beautiful amber color.",
+    "looks_like": "iv_mutagen",
     "color": "yellow",
     "use_action": {
       "type": "consume_drug",
@@ -214,6 +224,7 @@
     "type": "COMESTIBLE",
     "name": { "str": "lizard mutagenic primer" },
     "description": "A processed mutagenic primer that shifts between various shades of green.",
+    "looks_like": "iv_mutagen",
     "color": "light_green",
     "use_action": {
       "type": "consume_drug",
@@ -228,6 +239,7 @@
     "type": "COMESTIBLE",
     "name": { "str": "lupine mutagenic primer" },
     "description": "A processed mutagenic primer as white as a full moon.",
+    "looks_like": "iv_mutagen",
     "color": "white",
     "use_action": {
       "type": "consume_drug",
@@ -243,6 +255,7 @@
     "name": { "str": "medical mutagenic primer" },
     "description": "A processed mutagenic primer that looks like a mixture of bodily fluids.",
     "price": 300000,
+    "looks_like": "iv_mutagen",
     "color": "light_red",
     "healthy": -4,
     "use_action": {
@@ -258,6 +271,7 @@
     "type": "COMESTIBLE",
     "name": { "str": "plant mutagenic primer" },
     "description": "A processed mutagenic primer that looks like pureed spinach.",
+    "looks_like": "iv_mutagen",
     "color": "green",
     "use_action": {
       "type": "consume_drug",
@@ -273,6 +287,7 @@
     "name": { "str": "raptor mutagenic primer" },
     "description": "A processed mutagenic primer that seems to shift slightly whenever you look at it.",
     "price": 400000,
+    "looks_like": "iv_mutagen",
     "color": "green",
     "use_action": {
       "type": "consume_drug",
@@ -287,6 +302,7 @@
     "type": "COMESTIBLE",
     "name": { "str": "rat mutagenic primer" },
     "description": "A processed mutagenic primer that's a rather unappealing beige.",
+    "looks_like": "iv_mutagen",
     "color": "brown",
     "use_action": {
       "type": "consume_drug",
@@ -301,6 +317,7 @@
     "type": "COMESTIBLE",
     "name": { "str": "slime mutagenic primer" },
     "description": "A processed mutagenic primer that looks very much like the black ooze in the zombies' eyes.",
+    "looks_like": "iv_mutagen",
     "color": "dark_gray",
     "use_action": {
       "type": "consume_drug",
@@ -315,6 +332,7 @@
     "type": "COMESTIBLE",
     "name": { "str": "spider mutagenic primer" },
     "description": "A processed mutagenic primer with pale filaments suspended in it.",
+    "looks_like": "iv_mutagen",
     "color": "light_gray",
     "use_action": {
       "type": "consume_drug",
@@ -329,6 +347,7 @@
     "type": "COMESTIBLE",
     "name": { "str": "snail mutagenic primer" },
     "description": "A processed mutagenic primer with the consistency of snot.",
+    "looks_like": "iv_mutagen",
     "color": "light_gray",
     "use_action": {
       "type": "consume_drug",
@@ -343,6 +362,7 @@
     "type": "COMESTIBLE",
     "name": { "str": "batrachian mutagenic primer" },
     "description": "A processed mutagenic primer that looks like pond water… are the shadows in it moving?",
+    "looks_like": "iv_mutagen",
     "color": "light_gray",
     "use_action": {
       "type": "consume_drug",
@@ -357,6 +377,7 @@
     "type": "COMESTIBLE",
     "name": { "str": "troglobite mutagenic primer" },
     "description": "A processed mutagenic primer that seems to recoil from the light.",
+    "looks_like": "iv_mutagen",
     "color": "dark_gray",
     "use_action": {
       "type": "consume_drug",
@@ -371,6 +392,7 @@
     "type": "COMESTIBLE",
     "name": { "str": "ursine mutagenic primer" },
     "description": "A processed mutagenic primer that's the color of honey, and is just as thick.",
+    "looks_like": "iv_mutagen",
     "color": "yellow",
     "use_action": {
       "type": "consume_drug",
@@ -385,6 +407,7 @@
     "type": "COMESTIBLE",
     "name": { "str": "mouse mutagenic primer" },
     "description": "A processed mutagenic primer resembling liquefied metal.",
+    "looks_like": "iv_mutagen",
     "color": "light_gray",
     "use_action": {
       "type": "consume_drug",
@@ -399,6 +422,7 @@
     "type": "COMESTIBLE",
     "name": { "str": "rabbit mutagenic primer" },
     "description": "An orange colored mutagenic primer.",
+    "looks_like": "iv_mutagen",
     "use_action": {
       "type": "consume_drug",
       "activation_message": "You inject the rabbit mutagenic primer.",
@@ -437,6 +461,7 @@
     "type": "COMESTIBLE",
     "name": { "str": "congealed blood" },
     "description": "A thick, soupy red liquid.  It looks and smells disgusting, and seems to bubble with an intelligence of its own…",
+    "looks_like": "mutagen",
     "color": "red",
     "addiction_potential": 0,
     "charges": 5,
@@ -451,6 +476,7 @@
     "name": { "str_sp": "alpha mutagen" },
     "description": "An extremely rare mutagen cocktail.",
     "price": 500000,
+    "looks_like": "mutagen",
     "//": "*May* have gotten a dose smuggled out.",
     "vitamins": [ [ "mutagen_alpha", 225 ], [ "mutagen", 125 ] ]
   },
@@ -459,6 +485,7 @@
     "copy-from": "mutagen_flavor",
     "type": "COMESTIBLE",
     "name": { "str": "beast mutagen" },
+    "looks_like": "mutagen",
     "vitamins": [ [ "mutagen_beast", 225 ], [ "mutagen", 125 ] ]
   },
   {
@@ -466,6 +493,7 @@
     "copy-from": "mutagen_flavor",
     "type": "COMESTIBLE",
     "name": { "str": "bird mutagen" },
+    "looks_like": "mutagen",
     "vitamins": [ [ "mutagen_bird", 225 ], [ "mutagen", 125 ] ]
   },
   {
@@ -473,6 +501,7 @@
     "copy-from": "mutagen_flavor",
     "type": "COMESTIBLE",
     "name": { "str": "cattle mutagen" },
+    "looks_like": "mutagen",
     "vitamins": [ [ "mutagen_cattle", 225 ], [ "mutagen", 125 ] ]
   },
   {
@@ -480,6 +509,7 @@
     "copy-from": "mutagen_flavor",
     "type": "COMESTIBLE",
     "name": { "str": "cephalopod mutagen" },
+    "looks_like": "mutagen",
     "vitamins": [ [ "mutagen_cephalopod", 225 ], [ "mutagen", 125 ] ]
   },
   {
@@ -489,6 +519,7 @@
     "name": { "str": "chimera mutagen" },
     "description": "An extremely rare mutagen cocktail.",
     "price": 200000,
+    "looks_like": "mutagen",
     "vitamins": [ [ "mutagen_chimera", 225 ], [ "mutagen", 125 ] ]
   },
   {
@@ -498,6 +529,7 @@
     "name": { "str": "Elf-A mutagen" },
     "description": "An extremely rare mutagen cocktail.",
     "price": 200000,
+    "looks_like": "mutagen",
     "vitamins": [ [ "mutagen_elfa", 225 ], [ "mutagen", 125 ] ]
   },
   {
@@ -505,6 +537,7 @@
     "copy-from": "mutagen_flavor",
     "type": "COMESTIBLE",
     "name": { "str": "feline mutagen" },
+    "looks_like": "mutagen",
     "vitamins": [ [ "mutagen_feline", 225 ], [ "mutagen", 125 ] ]
   },
   {
@@ -512,6 +545,7 @@
     "copy-from": "mutagen_flavor",
     "type": "COMESTIBLE",
     "name": { "str": "fish mutagen" },
+    "looks_like": "mutagen",
     "vitamins": [ [ "mutagen_fish", 225 ], [ "mutagen", 125 ] ]
   },
   {
@@ -519,6 +553,7 @@
     "copy-from": "mutagen_flavor",
     "type": "COMESTIBLE",
     "name": { "str": "insect mutagen" },
+    "looks_like": "mutagen",
     "vitamins": [ [ "mutagen_insect", 225 ], [ "mutagen", 125 ] ]
   },
   {
@@ -526,6 +561,7 @@
     "copy-from": "mutagen_flavor",
     "type": "COMESTIBLE",
     "name": { "str": "lizard mutagen" },
+    "looks_like": "mutagen",
     "vitamins": [ [ "mutagen_lizard", 225 ], [ "mutagen", 125 ] ]
   },
   {
@@ -533,6 +569,7 @@
     "copy-from": "mutagen_flavor",
     "type": "COMESTIBLE",
     "name": { "str": "lupine mutagen" },
+    "looks_like": "mutagen",
     "vitamins": [ [ "mutagen_lupine", 225 ], [ "mutagen", 125 ] ]
   },
   {
@@ -541,6 +578,7 @@
     "type": "COMESTIBLE",
     "name": { "str": "medical mutagen" },
     "price": 150000,
+    "looks_like": "mutagen",
     "//": "*May* have been considered for commercial trading.",
     "vitamins": [ [ "mutagen_medical", 225 ], [ "mutagen", 125 ] ]
   },
@@ -549,6 +587,7 @@
     "copy-from": "mutagen_flavor",
     "type": "COMESTIBLE",
     "name": { "str": "plant mutagen" },
+    "looks_like": "mutagen",
     "vitamins": [ [ "mutagen_plant", 225 ], [ "mutagen", 125 ] ]
   },
   {
@@ -558,6 +597,7 @@
     "name": { "str": "raptor mutagen" },
     "description": "An extremely rare mutagen cocktail.",
     "price": 200000,
+    "looks_like": "mutagen",
     "vitamins": [ [ "mutagen_raptor", 225 ], [ "mutagen", 125 ] ]
   },
   {
@@ -565,6 +605,7 @@
     "copy-from": "mutagen_flavor",
     "type": "COMESTIBLE",
     "name": { "str": "rat mutagen" },
+    "looks_like": "mutagen",
     "vitamins": [ [ "mutagen_rat", 225 ], [ "mutagen", 125 ] ]
   },
   {
@@ -572,6 +613,7 @@
     "copy-from": "mutagen_flavor",
     "type": "COMESTIBLE",
     "name": { "str": "slime mutagen" },
+    "looks_like": "mutagen",
     "vitamins": [ [ "mutagen_slime", 225 ], [ "mutagen", 125 ] ]
   },
   {
@@ -579,6 +621,7 @@
     "copy-from": "mutagen_flavor",
     "type": "COMESTIBLE",
     "name": { "str": "spider mutagen" },
+    "looks_like": "mutagen",
     "vitamins": [ [ "mutagen_spider", 225 ], [ "mutagen", 125 ] ]
   },
   {
@@ -587,6 +630,7 @@
     "type": "COMESTIBLE",
     "name": { "str": "batrachian mutagen" },
     "description": "A shadowy mutagen that looks like it might be full of tiny swimming tadpoles.",
+    "looks_like": "mutagen",
     "vitamins": [ [ "mutagen_batrachian", 225 ], [ "mutagen", 125 ] ]
   },
   {
@@ -595,6 +639,7 @@
     "type": "COMESTIBLE",
     "name": { "str": "snail mutagen" },
     "description": "A mutagen that looks awfully like the slime from an old children's network.",
+    "looks_like": "mutagen",
     "vitamins": [ [ "mutagen_gastropod", 225 ], [ "mutagen", 125 ] ]
   },
   {
@@ -602,6 +647,7 @@
     "copy-from": "mutagen_flavor",
     "type": "COMESTIBLE",
     "name": { "str": "troglobite mutagen" },
+    "looks_like": "mutagen",
     "vitamins": [ [ "mutagen_troglobite", 225 ], [ "mutagen", 125 ] ]
   },
   {
@@ -609,6 +655,7 @@
     "copy-from": "mutagen_flavor",
     "type": "COMESTIBLE",
     "name": { "str": "ursine mutagen" },
+    "looks_like": "mutagen",
     "vitamins": [ [ "mutagen_ursine", 225 ], [ "mutagen", 125 ] ]
   },
   {
@@ -616,6 +663,7 @@
     "copy-from": "mutagen_flavor",
     "type": "COMESTIBLE",
     "name": { "str": "mouse mutagen" },
+    "looks_like": "mutagen",
     "vitamins": [ [ "mutagen_mouse", 225 ], [ "mutagen", 125 ] ]
   },
   {
@@ -624,6 +672,7 @@
     "type": "COMESTIBLE",
     "name": { "str": "rabbit mutagen" },
     "description": "A white, clear colored mutagen.  You can drink it… if you really want to?",
+    "looks_like": "mutagen",
     "vitamins": [ [ "mutagen_rabbit", 225 ], [ "mutagen", 125 ] ]
   },
   {

@@ -16,8 +16,8 @@
 
 #include "enums.h"
 #include "json.h"
+#include "path_info.h"
 
-class JsonIn;
 class JsonOut;
 class JsonValue;
 class translation;
@@ -298,6 +298,9 @@ class list_circularizer
 bool write_to_file( const std::string &path, const std::function<void( std::ostream & )> &writer,
                     const char *fail_message );
 void write_to_file( const std::string &path, const std::function<void( std::ostream & )> &writer );
+bool write_to_file( const cata_path &path, const std::function<void( std::ostream & )> &writer,
+                    const char *fail_message );
+void write_to_file( const cata_path &path, const std::function<void( std::ostream & )> &writer );
 ///@}
 
 /**
@@ -320,15 +323,18 @@ void write_to_file( const std::string &path, const std::function<void( std::ostr
  */
 /**@{*/
 bool read_from_file( const std::string &path, const std::function<void( std::istream & )> &reader );
-bool read_from_file_json( const std::string &path, const std::function<void( JsonIn & )> &reader );
-bool read_from_file_json( const std::string &path,
+bool read_from_file( const fs::path &path, const std::function<void( std::istream & )> &reader );
+bool read_from_file( const cata_path &path, const std::function<void( std::istream & )> &reader );
+bool read_from_file_json( const cata_path &path,
                           const std::function<void( const JsonValue & )> &reader );
 
 bool read_from_file_optional( const std::string &path,
                               const std::function<void( std::istream & )> &reader );
-bool read_from_file_optional_json( const std::string &path,
-                                   const std::function<void( JsonIn & )> &reader );
-bool read_from_file_optional_json( const std::string &path,
+bool read_from_file_optional( const fs::path &path,
+                              const std::function<void( std::istream & )> &reader );
+bool read_from_file_optional( const cata_path &path,
+                              const std::function<void( std::istream & )> &reader );
+bool read_from_file_optional_json( const cata_path &path,
                                    const std::function<void( const JsonValue & )> &reader );
 /**@}*/
 
@@ -366,7 +372,7 @@ std::string obscure_message( const std::string &str, const std::function<char()>
  */
 /**@{*/
 std::string serialize_wrapper( const std::function<void( JsonOut & )> &callback );
-void deserialize_wrapper( const std::function<void( JsonIn & )> &callback,
+void deserialize_wrapper( const std::function<void( const JsonValue & )> &callback,
                           const std::string &data );
 
 template<typename T>
@@ -377,21 +383,11 @@ inline std::string serialize( const T &obj )
     } );
 }
 
-template < typename T, std::enable_if_t < detail::IsJsonInDeserializable<T>::value &&
-           !detail::IsJsonValueDeserializable<T>::value > * = nullptr >
+template<typename T>
 inline void deserialize_from_string( T &obj, const std::string &data )
 {
-    deserialize_wrapper( [&obj]( JsonIn & jsin ) {
+    deserialize_wrapper( [&obj]( const JsonValue & jsin ) {
         obj.deserialize( jsin );
-    }, data );
-}
-
-template < typename T, std::enable_if_t < !detail::IsJsonInDeserializable<T>::value &&
-           detail::IsJsonValueDeserializable<T>::value > * = nullptr >
-inline void deserialize_from_string( T &obj, const std::string &data )
-{
-    deserialize_wrapper( [&obj]( JsonIn & jsin ) {
-        obj.deserialize( jsin.get_value() );
     }, data );
 }
 /**@}*/
@@ -563,54 +559,6 @@ std::map<K, V> map_without_keys( const std::map<K, V> &original, const std::vect
 }
 
 int modulo( int v, int m );
-
-class on_out_of_scope
-{
-    private:
-        std::function<void()> func;
-    public:
-        explicit on_out_of_scope( const std::function<void()> &func ) : func( func ) {
-        }
-
-        on_out_of_scope( const on_out_of_scope & ) = delete;
-        on_out_of_scope( on_out_of_scope && ) = delete;
-        on_out_of_scope &operator=( const on_out_of_scope & ) = delete;
-        on_out_of_scope &operator=( on_out_of_scope && ) = delete;
-
-        ~on_out_of_scope() {
-            if( func ) {
-                func();
-            }
-        }
-
-        void cancel() {
-            func = nullptr;
-        }
-};
-
-template<typename T>
-class restore_on_out_of_scope
-{
-    private:
-        T &t;
-        T orig_t;
-        on_out_of_scope impl;
-    public:
-        // *INDENT-OFF*
-        explicit restore_on_out_of_scope( T &t_in ) : t( t_in ), orig_t( t_in ),
-            impl( [this]() { t = std::move( orig_t ); } ) {
-        }
-
-        explicit restore_on_out_of_scope( T &&t_in ) : t( t_in ), orig_t( std::move( t_in ) ),
-            impl( [this]() { t = std::move( orig_t ); } ) {
-        }
-        // *INDENT-ON*
-
-        restore_on_out_of_scope( const restore_on_out_of_scope<T> & ) = delete;
-        restore_on_out_of_scope( restore_on_out_of_scope<T> && ) = delete;
-        restore_on_out_of_scope &operator=( const restore_on_out_of_scope<T> & ) = delete;
-        restore_on_out_of_scope &operator=( restore_on_out_of_scope<T> && ) = delete;
-};
 
 /** Add elements from one set to another */
 template <typename T>

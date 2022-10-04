@@ -946,8 +946,8 @@ class npc : public Character
          */
         bool will_accept_from_player( const item &it ) const;
 
-        bool wants_to_sell( const item &it ) const;
-        ret_val<void> wants_to_sell( const item &/*it*/, int at_price, int market_price ) const;
+        bool wants_to_sell( const item_location &it ) const;
+        ret_val<void> wants_to_sell( const item_location &it, int at_price, int market_price ) const;
         bool wants_to_buy( const item &it ) const;
         ret_val<void> wants_to_buy( const item &/*it*/, int at_price, int /*market_price*/ ) const;
 
@@ -988,9 +988,6 @@ class npc : public Character
          */
         void activate_combat_cbms();
         void deactivate_combat_cbms();
-        // find items that can be used to fuel CBM rechargers
-        // can't use can_feed_*_with because they're private to player and too general
-        bool consume_cbm_items( const std::function<bool( const item & )> &filter );
         // returns true if fuel resources are consumed
         bool recharge_cbm();
         // power is below the requested levels

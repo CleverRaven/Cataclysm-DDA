@@ -43,6 +43,7 @@
 #define dbg(x) DebugLog((x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
 static const activity_id ACT_FILL_LIQUID( "ACT_FILL_LIQUID" );
+static const flag_id json_flag_FROM_FROZEN_LIQUID( "FROM_FROZEN_LIQUID" );
 
 // All serialize_liquid_source functions should add the same number of elements to the vectors of
 // the activity. This makes it easier to distinguish the values of the source and the values of the target.
@@ -466,14 +467,20 @@ bool handle_liquid( item &liquid, const item *const source, const int radius,
                     const vehicle *const source_veh, const int part_num,
                     const monster *const source_mon )
 {
+    bool success = false;
     if( !can_handle_liquid( liquid ) ) {
         return false;
     }
     struct liquid_dest_opt liquid_target;
     if( get_liquid_target( liquid, source, radius, source_pos, source_veh, source_mon,
                            liquid_target ) ) {
-        return perform_liquid_transfer( liquid, source_pos, source_veh, part_num, source_mon,
-                                        liquid_target );
+        success = perform_liquid_transfer( liquid, source_pos, source_veh, part_num, source_mon,
+                                           liquid_target );
+        if( success && ( ( liquid_target.dest_opt == LD_ITEM &&
+                           liquid_target.item_loc->is_watertight_container() ) || liquid_target.dest_opt == LD_KEG ) ) {
+            liquid.unset_flag( flag_id( json_flag_FROM_FROZEN_LIQUID ) );
+        }
+        return success;
     }
     return false;
 }

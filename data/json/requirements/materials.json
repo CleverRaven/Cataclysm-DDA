@@ -456,5 +456,11 @@
       ],
       [ [ "pebble", 10 ], [ "material_sand", 10 ] ]
     ]
+  },
+  {
+    "id": "carbon",
+    "type": "requirement",
+    "//": "Carbon resources, used for case hardening.",
+    "components": [ [ [ "charcoal", 25 ], [ "coal_lump", 25 ] ] ]
   }
 ]

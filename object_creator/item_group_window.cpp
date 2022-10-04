@@ -147,7 +147,7 @@ void creator::item_group_window::write_json()
     jo.end_object();
 
     std::istringstream in_stream( stream.str() );
-    JsonIn jsin( in_stream );
+    TextJsonIn jsin( in_stream );
 
     std::ostringstream window_out;
     JsonOut window_jo( window_out, true );

@@ -726,5 +726,54 @@
     "category": [ "DRAGON_BLACK" ],
     "threshreq": [ "THRESH_DRAGON_BLACK" ],
     "spells_learned": [ [ "acid_claw", 1 ] ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_GIVE_SOUL_PRESSURE_OFF",
+    "//": "Works only once, and give you a SOUL_PRESSURE_OFF mutation. Dont know how to optimise it, so left it as it is.",
+    "recurrence": [ "1 s", "1 s" ],
+    "condition": {
+      "and": [
+        { "u_has_trait": "SOULFIRE" },
+        {
+          "not": { "u_has_var": "u_got_soulfire_attunement", "type": "attunement", "context": "attunement", "value": "yes" }
+        }
+      ]
+    },
+    "deactivate_condition": { "not": { "u_has_trait": "SOULFIRE" } },
+    "effect": [
+      { "u_add_trait": "SOUL_PRESSURE_OFF" },
+      { "u_add_var": "u_got_soulfire_attunement", "type": "attunement", "context": "attunement", "value": "yes" }
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "SOUL_PRESSURE_OFF",
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "name": { "str": "Soul Pressure" },
+    "points": 0,
+    "active": true,
+    "description": "Your presence is so dangerous you can burn living creatures around you.  You suppress it now.",
+    "transform": {
+      "target": "SOUL_PRESSURE_ON",
+      "msg_transform": "Living creatures around you start to burn!",
+      "active": true,
+      "moves": 10
+    }
+  },
+  {
+    "type": "mutation",
+    "id": "SOUL_PRESSURE_ON",
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "active": true,
+    "name": { "str": "Soul Pressure (on)" },
+    "points": -1,
+    "description": "Your presence is so dangerous you can burn living creatures around you.",
+    "enchantments": [ "SOULFIRE" ],
+    "transform": { "target": "SOUL_PRESSURE_OFF", "msg_transform": "You suppress your soul pressure.", "active": false, "moves": 10 }
   }
 ]

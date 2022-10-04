@@ -1516,5 +1516,59 @@
     "copy-from": "armor_qt_heavy_leg_guard",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "survivor_adhoc_leather_pants",
+    "repairs_like": "jeans",
+    "type": "ARMOR",
+    "name": { "str": "leather-padded pants", "str_pl": "pairs of leather-padded pants" },
+    "description": "A pair of tough cotton pants with sections from leather pants affixed, excluding the joints.  Offers mild protection without compromising mobility too much, but a lot of the pockets have been removed to make room for the leather.",
+    "weight": "1450 g",
+    "volume": "2500 ml",
+    "price_postapoc": 1200,
+    "looks_like": "technician_pants_gray",
+    "to_hit": 1,
+    "material": [ "cotton", "leather" ],
+    "symbol": "[",
+    "color": "light_gray",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1080 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "165 mm",
+        "moves": 100
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1080 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "165 mm",
+        "moves": 100
+      }
+    ],
+    "armor": [
+      {
+        "material": [
+          { "type": "cotton", "covered_by_mat": 100, "thickness": 0.3 },
+          { "type": "leather", "covered_by_mat": 95, "thickness": 0.75 },
+          { "type": "leather", "covered_by_mat": 90, "thickness": 0.75 }
+        ],
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_upper_l", "leg_upper_r", "leg_lower_l", "leg_lower_r" ],
+        "coverage": 100,
+        "encumbrance": 6
+      },
+      {
+        "material": [ { "type": "cotton", "covered_by_mat": 100, "thickness": 0.3 } ],
+        "covers": [ "arm_l", "arm_r" ],
+        "specifically_covers": [ "leg_hip_l", "leg_hip_r", "leg_knee_l", "leg_knee_r" ],
+        "coverage": 100,
+        "encumbrance": 0
+      }
+    ],
+    "warmth": 25,
+    "material_thickness": 1.8,
+    "flags": [ "VARSIZE" ]
   }
 ]

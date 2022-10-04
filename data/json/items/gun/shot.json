@@ -195,7 +195,7 @@
     "type": "GUN",
     "name": { "str": "12 gauge combat shotgun" },
     "//": "Not exactly a combat shotgun, but I was hard-pressed to think of a name which wasn’t just, “12 gauge shotgun.” in its proper descriptions its referenced as often being used by militaries, there for I’m calling this a combat shotgun.",
-    "description": "The fateful friend of law-enforcement officers, military personnel, and zombie-hunting action heroes alike, this quaint firearm with its over 20 inch long barrel, 6-round magazine tube, and iconic pump-action design is as simple as it is effective.  One of the most popular firearm designs in all of history, this weapon can be reliably counted upon to do the job whether you’re simply looking to hunt, or to, with the right loads, turn the heads of the living dead into a chunky zombie puree.",
+    "description": "The faithful friend of law-enforcement officers, military personnel, and zombie-hunting action heroes alike, this quaint firearm with its over 20 inch long barrel, 6-round magazine tube, and iconic pump-action design is as simple as it is effective.  One of the most popular firearm designs in all of history, this weapon can be reliably counted upon to do the job whether you’re simply looking to hunt, or to, with the right loads, turn the heads of the living dead into a chunky zombie puree.",
     "variant_type": "gun",
     "variants": [
       {
@@ -264,7 +264,7 @@
     "copy-from": "shotgun_base",
     "type": "GUN",
     "name": { "str": "gas-operated semi-automatic shotgun" },
-    "description": "A semi-automatic smooth-bore shotgun, this weapon features respectable ergonomics and room for 8 shotshells within its tubular magazine.  Suitable both for competition shooting and offensive combat roles, this firearm is faster to shoot than a traditional pump-action model, with the caveat that its harder to maintain than its manually operated siblings as it relies on an internal gas system to cycle rounds rather than the user’s own physical input.",
+    "description": "A semi-automatic smooth-bore shotgun, this weapon features respectable ergonomics and room for 8 shotshells within its tubular magazine.  Suitable both for competition shooting and offensive combat roles, this firearm is faster to shoot than a traditional pump-action model, with the caveat that it's harder to maintain than its manually operated siblings as it relies on an internal gas system to cycle rounds rather than the user’s own physical input.",
     "variant_type": "gun",
     "variants": [
       {
@@ -423,7 +423,7 @@
       {
         "id": "remington_870_breacher",
         "name": { "str": "Remington 870 MCS" },
-        "description": "This Remington 870 Modular Combat System shotgun is currently setup for breaching operations, with a 10 inch barrel and no stock.  It is small enough to carry as a secondary weapon, specifically to pop open any pesky doors you might come across.  The grip's design makes for controllable yet unpleasant recoil, and the barrel lacks any sights.",
+        "description": "This Remington 870 Modular Combat System shotgun is currently set up for breaching operations, with a 10 inch barrel and no stock.  It is small enough to carry as a secondary weapon, specifically to pop open any pesky doors you might come across.  The grip's design makes for controllable yet unpleasant recoil, and the barrel lacks any sights.",
         "weight": 1
       }
     ],
@@ -463,7 +463,7 @@
     "copy-from": "remington_870",
     "type": "GUN",
     "name": { "str": "pump-action defense shotgun" },
-    "description": "A brother of more typical hunting style shotguns, this particular model was most often seen utilised for self-defence or law-enforcement purposes.  featuring a shortened 18.5 inch barrel and extended 7-round magazine tube, it’s a very versatile and reliable weapon.",
+    "description": "A brother of more typical hunting style shotguns, this particular model was most often seen utilised for self-defence or law-enforcement purposes.  Featuring a shortened 18.5 inch barrel and extended 7-round magazine tube, it’s a very versatile and reliable weapon.",
     "variant_type": "gun",
     "variants": [
       {
@@ -678,13 +678,13 @@
     "copy-from": "shotgun_base",
     "type": "GUN",
     "name": { "str": "gas-operated bullpup shotgun" },
-    "description": "Looking more like some form of sci-fi prop gun,than an actual firearm, this weapon uses a system of three tube magazines to field 15 shotshells within a comparatively compact design.  Each tube has to be loaded separately, but this offers the option of loading different ammunition for different situations.  In addition, As the weapon’s trigger assembly is situated forwards of the chamber and magazines in what is termed as a 'bullpup' design, the firearm’s notably more compact than its peers despite having a comparatively high capacity when compared against more classically designed shotguns.",
+    "description": "Looking more like some form of sci-fi prop gun than an actual firearm, this weapon uses a system of three tube magazines to field 15 shotshells within a comparatively compact design.  Each tube has to be loaded separately, but this offers the option of loading different ammunition for different situations.  In addition, as the weapon’s trigger assembly is situated forwards of the chamber and magazines in what is termed as a 'bullpup' design, the firearm’s notably more compact than its peers despite having a comparatively high capacity when compared against more classically designed shotguns.",
     "variant_type": "gun",
     "variants": [
       {
         "id": "tavor_12",
         "name": { "str": "Tavor TS12" },
-        "description": "This is a triple tube magazine fed, gas-operated bullpup shotgun of Israeli Weapon Industries make.  It is capable of loading 15 shells, all in a relatively small package.  Like many other modern IWI designs, this looks more like a sci-fi prop gun than a firearm.  An integral top rail is provided for mounting sights.",
+        "description": "A triple tube magazine fed, gas-operated bullpup shotgun of Israeli Weapon Industries make.  It is capable of loading 15 shells, all in a relatively small package.  Like many other modern IWI designs, this looks more like a sci-fi prop gun than a firearm.  An integral top rail is provided for mounting sights.",
         "weight": 1
       }
     ],
@@ -723,7 +723,7 @@
     "copy-from": "shotgun_base",
     "type": "GUN",
     "name": { "str": "bootleg lever-action shotgun" },
-    "description": "This is a lever-action shotgun with a very short barrel and no stock, with room for 6 rounds of 12 gauge shotshells.  Likely a bootlegged replica of a pre-nineteen hundred firearm, it would pair nicely with a motorcycle jacket and a Harley Davidson.",
+    "description": "A lever-action shotgun with a very short barrel and no stock, with room for 6 rounds of 12 gauge shotshells.  Likely a bootlegged replica of a pre-1900 firearm, it would pair nicely with a motorcycle jacket and a Harley Davidson.",
     "variant_type": "gun",
     "variants": [
       {
@@ -768,13 +768,13 @@
     "copy-from": "shotgun_base",
     "type": "GUN",
     "name": { "str": "pump-action trench shotgun" },
-    "description": "Whether or not you ever wondered what would happen if one was to attach a shotgun atop a sword, the result of such an enquiry stands now before you in all its glory.  Coming outfitted with a large 17 inch sword bayonet, and a wooden heat shield to protect the user’s hands from the barrel when it heats up during firing, this pump-action shotgun practically drips menace and looks like it’s coming straight out of the trenches of World War 1.  There aren't any more trenches to clear, so the next zombie-infested town will have to suffice.",
+    "description": "Whether or not you ever wondered what would happen if one was to attach a shotgun atop a sword, the result of such an inquiry now stands before you in all its glory.  Coming outfitted with a large 17 inch sword bayonet and a wooden heat shield to protect the user’s hands from the barrel when it heats up during firing, this pump-action shotgun practically drips menace and looks like it’s straight out of the trenches of World War I.  There aren't any more trenches to clear, so the next zombie-infested town will have to suffice.",
     "variant_type": "gun",
     "variants": [
       {
         "id": "winchester_1897",
         "name": { "str": "M1897 Trench Gun" },
-        "description": "The Winchester 1897 was one of the first commercially-successful pump-action shotguns.  In its 'trench' configuration it has become a heavily-romanticized American icon of World War 1.  With its barrel shroud, bayonet lug, and 17 inch bayonet, this shotgun is undeniably fearsome in appearance.  There aren't any more trenches to clear, so the next zombie-infested town will have to suffice.",
+        "description": "The Winchester 1897 was one of the first commercially-successful pump-action shotguns.  In its 'trench' configuration it has become a heavily-romanticized American icon of World War I.  With its barrel shroud, bayonet lug, and 17 inch bayonet, this shotgun is undeniably fearsome in appearance.  There aren't any more trenches to clear, so the next zombie-infested town will have to suffice.",
         "weight": 1
       }
     ],
@@ -811,7 +811,7 @@
     "copy-from": "shotgun_base",
     "type": "GUN",
     "name": { "str": "slam-fire pipe shotgun" },
-    "description": "A crude shotgun, composed of two thick steel pipes, an end cap and a nail.  The lack of sights make this weapon only useful at point-blank range.",
+    "description": "A crude shotgun, composed of two thick steel pipes, an end cap, and a nail.  The lack of sights make this weapon only useful at point-blank range.",
     "ascii_picture": "lg_pipe_gun",
     "weight": "3629 g",
     "volume": "2264 ml",
@@ -836,7 +836,7 @@
     "copy-from": "slamfire_shotgun",
     "type": "GUN",
     "name": { "str": "double slam-fire pipe shotgun" },
-    "description": "A crude shotgun, composed of four thick steel pipes, two end caps and two nails.  The lack of sights make this weapon only useful at point-blank range.",
+    "description": "A crude shotgun, composed of four thick steel pipes, two end caps, and two nails.  The lack of sights make this weapon only useful at point-blank range.",
     "ascii_picture": "db_pipe_gun",
     "weight": "7260 g",
     "volume": "4530 ml",
@@ -851,7 +851,7 @@
     "copy-from": "shotgun_base",
     "type": "GUN",
     "name": { "str": "M26-MASS standalone shotgun" },
-    "description": "Modular Accessory Shotgun System, an underbarrel bolt-action shotgun, inspired by \"Masterkey\", and fixed most of its problems.  This one was configured for a standalone usage.",
+    "description": "The Modular Accessory Shotgun System, an underbarrel bolt-action shotgun that was inspired by the \"Masterkey\", and fixed most of its predecessor's problems.  This one is configured for standalone usage.",
     "variant_type": "gun",
     "weight": "1900 g",
     "volume": "2390 ml",

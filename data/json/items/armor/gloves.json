@@ -559,7 +559,16 @@
     "name": { "str": "pair of case hardened sheet metal gauntlets", "str_pl": "pairs of case hardened sheet metal gauntlets" },
     "description": "These crude mitten gauntlets have been case hardened to keep the zombie dogs from biting your fingers off.",
     "material": [ "ch_steel" ],
-    "extend": { "flags": [ "STURDY" ] }
+    "extend": { "flags": [ "STURDY" ] },
+    "armor": [
+      {
+        "material": [ { "type": "ch_steel", "covered_by_mat": 100, "thickness": 1.5 } ],
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_wrist_l", "hand_wrist_r", "hand_fingers_l", "hand_fingers_r", "hand_back_l", "hand_back_r" ],
+        "coverage": 100,
+        "encumbrance": 25
+      }
+    ]
   },
   {
     "id": "gloves_fur",

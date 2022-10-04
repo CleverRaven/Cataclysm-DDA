@@ -635,6 +635,7 @@ class Creature : public viewer
         void set_value( const std::string &key, const std::string &value );
         void remove_value( const std::string &key );
         std::string get_value( const std::string &key ) const;
+        void clear_values();
 
         virtual units::mass get_weight() const = 0;
 

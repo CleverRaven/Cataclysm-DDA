@@ -92,7 +92,7 @@
     "volume": "50 ml",
     "comestible_type": "FOOD",
     "calories": 65,
-    "use_action": { "type": "cast_spell", "spell_id": "druidic_healing", "no_fail": true, "level": 0 },
+    "use_action": { "type": "cast_spell", "spell_id": "flask_regeneration_effect", "no_fail": true, "level": 0 },
     "looks_like": "mushroom",
     "vitamins": [ [ "iron", 7 ], [ "vitC", 5 ] ]
   },
