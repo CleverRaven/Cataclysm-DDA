@@ -94,7 +94,7 @@
         { "chance": 25, "item": "trash", "x": 19, "y": 17 },
         { "chance": 25, "item": "trash", "x": 15, "y": 13 },
         { "chance": 10, "item": "supplies_spares_vehicle", "x": 8, "y": 19 },
-        { "chance": 10, "item": "supplies_spares_vehicle", "x": 3, "y": 16 },
+        { "chance": 10, "item": "supplies_spares_vehicle", "x": 9, "y": 16 },
         { "chance": 10, "item": "supplies_spares_vehicle", "x": 16, "y": 15 },
         { "chance": 15, "item": "vehicle_scrapped", "x": 18, "y": 20 },
         { "chance": 15, "item": "vehicle_scrapped", "x": 16, "y": 20 },
@@ -103,7 +103,7 @@
         { "chance": 15, "item": "vehicle_scrapped", "x": 22, "y": 16 },
         { "chance": 15, "item": "vehicle_scrapped", "x": 14, "y": 16 },
         { "chance": 15, "item": "vehicle_scrapped", "x": 9, "y": 15 },
-        { "chance": 15, "item": "vehicle_scrapped", "x": 3, "y": 14 },
+        { "chance": 15, "item": "vehicle_scrapped", "x": 3, "y": 19 },
         { "chance": 10, "item": "tools_mechanic", "x": 5, "y": 5 }
       ],
       "place_loot": [
