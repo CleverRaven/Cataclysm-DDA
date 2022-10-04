@@ -1378,21 +1378,6 @@
   },
   {
     "type": "MONSTER",
-    "id": "mon_panoplosaurus",
-    "name": { "str_sp": "panoplosaurus" },
-    "copy-from": "mon_nodosaurus",
-    "//": "When large weights and volumes are fixed this should be 1330 L and 1600 kg",
-    "hp": 160,
-    "armor_bash": 10,
-    "armor_cut": 10,
-    "armor_bullet": 5,
-    "zombify_into": "mon_zanoplosaurus",
-    "description": "This heavily armored four legged dinosaur has a rigid spiked tail, a beak, and sturdy spikes along the sides.",
-    "reproduction": { "baby_egg": "egg_panoplosaurus", "baby_count": 3, "baby_timer": 24 },
-    "petfood": { "food": [ "DINOFOOD_C" ] }
-  },
-  {
-    "type": "MONSTER",
     "id": "mon_sauropelta",
     "name": { "str_sp": "sauropelta" },
     "copy-from": "mon_nodosaurus",
@@ -1417,6 +1402,21 @@
     "special_attacks": [ [ "EAT_CROP", 40 ] ],
     "description": "This heavily armored dinosaur looks like a giant prehistoric armadillo.",
     "reproduction": { "baby_egg": "egg_nodosaurus", "baby_count": 3, "baby_timer": 24 },
+    "petfood": { "food": [ "DINOFOOD_C" ] }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_panoplosaurus",
+    "name": { "str_sp": "panoplosaurus" },
+    "copy-from": "mon_nodosaurus",
+    "//": "When large weights and volumes are fixed this should be 1330 L and 1600 kg",
+    "hp": 160,
+    "armor_bash": 10,
+    "armor_cut": 10,
+    "armor_bullet": 5,
+    "zombify_into": "mon_zanoplosaurus",
+    "description": "This heavily armored four legged dinosaur has a rigid spiked tail, a beak, and sturdy spikes along the sides.",
+    "reproduction": { "baby_egg": "egg_panoplosaurus", "baby_count": 3, "baby_timer": 24 },
     "petfood": { "food": [ "DINOFOOD_C" ] }
   },
   {
