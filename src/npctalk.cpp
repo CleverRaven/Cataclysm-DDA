@@ -1730,9 +1730,8 @@ talk_data talk_response::create_option_line( const dialogue &d, const input_even
         color = c_red;
     } else if( text[0] == '*' || consequences.count( dialogue_consequence::helpless ) > 0 ) {
         color = c_light_red;
-    } else if( text[0] == '&' || consequences.count( dialogue_consequence::action ) > 0 ) {
-        color = c_green;
-    } else if( is_computer ) {
+    } else if( text[0] == '&' || consequences.count( dialogue_consequence::action ) > 0 ||
+               is_computer ) {
         color = c_green;
     } else {
         color = c_white;
