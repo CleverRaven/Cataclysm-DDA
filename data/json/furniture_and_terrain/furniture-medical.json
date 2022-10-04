@@ -167,7 +167,7 @@
     "required_str": 18,
     "max_volume": "1750 L",
     "looks_like": "f_fridge",
-    "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR" ],
+    "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "NO_SELF_CONNECT" ],
     "deconstruct": {
       "items": [
         { "item": "sheet_metal", "count": [ 2, 6 ] },

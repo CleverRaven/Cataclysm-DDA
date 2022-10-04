@@ -891,5 +891,22 @@
     "color": "light_gray",
     "qualities": [ [ "CUT_GLASS", 1 ] ],
     "flags": [ "BELT_CLIP" ]
+  },
+  {
+    "id": "air_launcher",
+    "type": "TOOL",
+    "name": { "str": "novelty pneumatic launcher" },
+    "description": "This toy uses compressed air to launch small objects for the amusement of children.  It is very tiring to reload, and completely ineffective as a weapon.  Pump sold separately.",
+    "looks_like": "m79",
+    "weight": "1850 g",
+    "volume": "3850 ml",
+    "price": 1500,
+    "price_postapoc": 100,
+    "to_hit": -1,
+    "bashing": 4,
+    "material": [ "steel", "plastic" ],
+    "symbol": "P",
+    "color": "blue",
+    "flags": [ "FRAGILE_MELEE" ]
   }
 ]

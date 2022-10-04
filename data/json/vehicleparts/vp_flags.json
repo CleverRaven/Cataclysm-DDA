@@ -355,10 +355,6 @@
     "type": "json_flag"
   },
   {
-    "id": "FOLDABLE",
-    "type": "json_flag"
-  },
-  {
     "id": "FREEZER",
     "type": "json_flag"
   },

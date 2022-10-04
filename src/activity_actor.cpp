@@ -911,7 +911,7 @@ void hotwire_car_activity_actor::start( player_activity &act, Character & )
     act.moves_left = moves_total;
 }
 
-void hotwire_car_activity_actor::do_turn( player_activity &act, Character & )
+void hotwire_car_activity_actor::do_turn( player_activity &act, Character &who )
 {
     map &here = get_map();
     if( calendar::once_every( 1_minutes ) ) {
@@ -919,6 +919,9 @@ void hotwire_car_activity_actor::do_turn( player_activity &act, Character & )
         if( lost ) {
             act.set_to_null();
             debugmsg( "Lost ACT_HOTWIRE_CAR target vehicle" );
+        }
+        if( calendar::once_every( 5_minutes ) ) {
+            who.practice( skill_mechanics, 1, 2, true );
         }
     }
 }
@@ -5419,7 +5422,7 @@ void chop_logs_activity_actor::finish( player_activity &act, Character &who )
     int splint_quan;
     if( here.ter( pos ) == t_trunk ) {
         log_quan = rng( 2, 3 );
-        stick_quan = rng( 0, 1 );
+        stick_quan = rng( 0, 3 );
         splint_quan = 0;
     } else if( here.ter( pos ) == t_stump ) {
         log_quan = rng( 0, 2 );

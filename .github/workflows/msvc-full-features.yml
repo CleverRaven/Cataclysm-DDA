@@ -135,8 +135,8 @@ jobs:
 
     - name: Build
       run: |
-          cd msvc-full-features
-          msbuild -m -p:Configuration=Release -p:Platform=x64 "-target:Cataclysm-vcpkg-static;Cataclysm-test-vcpkg-static;JsonFormatter-vcpkg-static;ObjectCreator-vcpkg-static" Cataclysm-vcpkg-static.sln
+          msbuild -m -p:Configuration=Release -p:Platform=x64 "-target:Cataclysm-vcpkg-static;Cataclysm-test-vcpkg-static;JsonFormatter-vcpkg-static" msvc-full-features/Cataclysm-vcpkg-static.sln
+          msbuild -m -p:Configuration=Release -p:Platform=x64 "-target:ObjectCreator-vcpkg-static" msvc-object_creator/ObjectCreator-vcpkg-static.sln
 
     - name: Post-build ccache manipulation
       if: ${{ !failure() }}
