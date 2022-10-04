@@ -1818,14 +1818,14 @@ bool scrollbar::handle_dragging( const std::string &action, const cata::optional
     }
 }
 
-void multiline_list::activate_entry( const size_t entry, const bool exclusive )
+void multiline_list::activate_entry( const size_t entry_pos, const bool exclusive )
 {
-    if( entry >= entries.size() ) {
-        debugmsg( "Unable to activate entry %d of %d", entry, entries.size() );
+    if( entry_pos >= entries.size() ) {
+        debugmsg( "Unable to activate entry %d of %d", entry_pos, entries.size() );
         return;
     }
 
-    const bool cur_value = entries[entry].active;
+    const bool cur_value = entries[entry_pos].active;
 
     if( exclusive ) {
         for( multiline_list_entry &entry : entries ) {
@@ -1833,7 +1833,7 @@ void multiline_list::activate_entry( const size_t entry, const bool exclusive )
         }
     }
 
-    entries[entry].active = exclusive ? true : !cur_value;
+    entries[entry_pos].active = exclusive ? true : !cur_value;
 }
 
 void multiline_list::add_entry( const multiline_list_entry &entry )

@@ -978,7 +978,7 @@ class multiline_list
             list_sb = std::make_unique<scrollbar>();
         }
 
-        void activate_entry( size_t entry, bool exclusive );
+        void activate_entry( size_t entry_pos, bool exclusive );
 
         template <typename T> void create_entries( const std::vector<T> &entry_data ) {
             create_entry_prep();
