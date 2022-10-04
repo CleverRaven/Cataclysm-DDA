@@ -2346,8 +2346,6 @@ bool cata_tiles::draw_from_id_string( const std::string &id, TILE_CATEGORY categ
         case TILE_CATEGORY::MAP_EXTRA:
             seed = simple_point_hash( pos );
             break;
-        case TILE_CATEGORY::ITEM:
-        case TILE_CATEGORY::TRAP:
         case TILE_CATEGORY::NONE:
             // graffiti
             if( found_id == "graffiti" ) {
@@ -2356,6 +2354,8 @@ bool cata_tiles::draw_from_id_string( const std::string &id, TILE_CATEGORY categ
                 seed = simple_point_hash( here.getabs( pos ) );
             }
             break;
+        case TILE_CATEGORY::ITEM:
+        case TILE_CATEGORY::TRAP:
         case TILE_CATEGORY::BULLET:
         case TILE_CATEGORY::HIT_ENTITY:
         case TILE_CATEGORY::WEATHER:
