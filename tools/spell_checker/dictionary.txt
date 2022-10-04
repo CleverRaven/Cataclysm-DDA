@@ -1758,6 +1758,7 @@ starrin
 std
 steeltoed
 steerable
+stego
 stegoceras
 stegosaurus
 stegosaurusfindsrobot
