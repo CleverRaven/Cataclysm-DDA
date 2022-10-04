@@ -703,6 +703,7 @@ bool monexamine::pet_menu( monster &z )
             amenu.addentry( mount, false, 'r', _( "You cannot pilot the mech whilst wielding something" ) );
         } else if( !z.battery_item ) {
             amenu.addentry( mount, false, 'r', _( "This mech has a dead battery and won't turn on" ) );
+        }
         if( z.battery_item ) {
             amenu.addentry( remove_bat, true, 'x', _( "Remove the mech's battery pack" ) );
         } else if( player_character.has_amount( z.type->mech_battery, 1 ) ) {
