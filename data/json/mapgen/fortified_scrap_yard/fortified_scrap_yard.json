@@ -6,28 +6,28 @@
     "object": {
       "fill_ter": "t_region_soil",
       "rows": [
-        "$$$$$$$$$       $$$$$$$$",
-        "$||||||||       |||||||$",
+        "$$$$$$$$$        $$$$$$$",
+        "$||||||||        ||||||$",
         "$|                  u |$",
         "$| ------          uuu|$",
-        "$| -_a__-         uu7u|$",
+        "$| -_avv-         uu7u|$",
         "$| -Ha__+           uu|$",
         "$| -~a__-        D uuu|$",
         "$| -____-        D uu |$",
         "$| -____b           u |$",
-        "$| -vv__-          uuu|$",
+        "$| -(___-          uuu|$",
         "$| ---b--          u7u|$",
         "$|                  uu|$",
         "$|                 u u|$",
-        "$|     o    #         |$",
-        "$|    #     #      #  |$",
-        "$|  9gw    ##  # wW  #|$",
-        "$|  #wh##{#wW&  DWV#l |$",
-        "$| #Bww9  #Ww# #oww#  |$",
-        "$|   dwe##iwW B##wd#f |$",
-        "$|  #Ww    wwf { Vw# #|$",
-        "$| {  ro# #ww#     e# |$",
-        "$|  ## # #  ##  # ## #|$",
+        "$| %%%%%    #         |$",
+        "$| %/))+    #B     #  |$",
+        "$| %))Q%   ##  # wW  #|$",
+        "$| %)^^b {#wW&  DWV#l |$",
+        "$| %%b%%  #Ww# #oww# 9|$",
+        "$|       #iwW B##wd#f |$",
+        "$|d #Ww##e wwf { Vw# #|$",
+        "$| {  ro# #ww#  9  e# |$",
+        "$|w ## # #  ##  # ## #|$",
         "$||||||||||||||||||||||$",
         "$$$$$$$$$$$$$$$$$$$$$$$$"
       ],
@@ -45,6 +45,7 @@
         "a": "t_thconc_floor",
         "v": "t_thconc_floor",
         "H": "t_thconc_floor",
+        "(": "t_thconc_floor",
         "b": "t_window_domestic",
         "d": "t_wall_metal",
         "g": "t_wall_metal",
@@ -52,7 +53,12 @@
         "u": "t_region_shrub",
         "w": "t_wall_metal",
         "$": "t_fence_barbed",
-        "|": "t_junk_palisade"
+        "|": "t_junk_palisade",
+        "%": "t_wall_wood",
+        ")": "t_floor",
+        "^": "t_floor",
+        "Q": "t_floor",
+        "/": "t_floor"
       },
       "furniture": {
         "#": "f_wreckage",
@@ -64,6 +70,7 @@
         "a": "f_counter",
         "d": "f_chair",
         "H": "f_chair",
+        "Q": "f_chair",
         "e": "f_bigmirror_b",
         "f": "f_washer",
         "g": "f_bigmirror_b",
@@ -74,11 +81,14 @@
         "r": "f_rack",
         "v": "f_vending_c",
         "w": "f_wreckage",
-        "{": "f_vending_o"
+        "{": "f_vending_o",
+        "^": "f_desk",
+        "(": "f_makeshift_bed"
       },
       "place_items": [
         { "chance": 100, "item": "cash_register_random", "x": 5, "y": [ 4, 6 ] },
-        { "chance": 25, "item": "vending_food", "x": 4, "y": 9 },
+        { "chance": 25, "item": "vending_food", "x": 6, "y": 4 },
+        { "chance": 25, "item": "vending_drink", "x": 7, "y": 4 },
         { "chance": 25, "item": "trash", "x": 11, "y": 20 },
         { "chance": 25, "item": "trash", "x": 2, "y": 19 },
         { "chance": 25, "item": "trash", "x": 19, "y": 17 },
@@ -86,7 +96,6 @@
         { "chance": 10, "item": "supplies_spares_vehicle", "x": 8, "y": 19 },
         { "chance": 10, "item": "supplies_spares_vehicle", "x": 3, "y": 16 },
         { "chance": 10, "item": "supplies_spares_vehicle", "x": 16, "y": 15 },
-        { "chance": 25, "item": "vending_drink", "x": 5, "y": 9 },
         { "chance": 15, "item": "vehicle_scrapped", "x": 18, "y": 20 },
         { "chance": 15, "item": "vehicle_scrapped", "x": 16, "y": 20 },
         { "chance": 15, "item": "vehicle_scrapped", "x": 4, "y": 19 },
@@ -96,6 +105,17 @@
         { "chance": 15, "item": "vehicle_scrapped", "x": 9, "y": 15 },
         { "chance": 15, "item": "vehicle_scrapped", "x": 3, "y": 14 },
         { "chance": 10, "item": "tools_mechanic", "x": 5, "y": 5 }
+      ],
+      "place_loot": [
+        { "item": "blanket", "x": 4, "y": 14, "chance": 100 },
+        { "item": "blanket", "x": 4, "y": 9, "chance": 100 },
+        { "item": "sleeping_bag", "x": 4, "y": 14, "chance": 100 }
+      ],
+      "mapping": { "/": { "traps": [ [ "tr_rollmat", 100 ] ] } },
+      "place_vehicles": [ { "vehicle": "underlift_tow_truck", "x": 12, "y": 5, "chance": 100, "fuel": 150, "status": -1, "rotation": 270 } ],
+      "place_zones": [
+        { "type": "LOOT_UNSORTED", "faction": "wasteland_scavengers", "x": [ 4, 4 ], "y": [ 4, 6 ] },
+        { "type": "LOOT_UNSORTED", "faction": "wasteland_scavengers", "x": [ 3, 7 ], "y": [ 13, 17 ] }
       ]
     }
   }
