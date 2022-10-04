@@ -46,21 +46,10 @@
   },
   {
     "id": "retool_ar15_223",
+    "copy-from": "retool_ar15_300blk",
     "type": "GUNMOD",
     "name": { "str": ".223 AR-15 conversion kit" },
     "description": "A complete AR-15 upper assembly with a .223/5.56x45mm barrel.",
-    "weight": "1000 g",
-    "volume": "500 ml",
-    "integral_volume": "0 ml",
-    "integral_weight": "0 g",
-    "price": 50000,
-    "price_postapoc": 1000,
-    "material": [ "steel" ],
-    "symbol": ":",
-    "color": "green",
-    "location": "bore",
-    "mod_targets": [ "ar15", "m4_carbine", "m16a4", "m16_auto_rifle", "m27_assault_rifle" ],
-    "install_time": "1 m",
     "ammo_modifier": [ "223" ],
     "magazine_adaptor": [
       [
@@ -88,6 +77,54 @@
       ]
     ],
     "min_skills": [ [ "weapon", 1 ] ]
+  },
+  {
+    "id": "retool_acr_223",
+    "copy-from": "retool_ar15_223",
+    "type": "GUNMOD",
+    "name": { "str": ".223 ACR conversion kit" },
+    "mod_targets": [ "acr", "acr_300blk" ],
+    "description": "A complete ACR .223/5.56x45mm conversion kit with barrel and gas system."
+  },
+  {
+    "id": "retool_tavor_223",
+    "copy-from": "retool_ar15_223",
+    "type": "GUNMOD",
+    "name": { "str": ".223 Tavor conversion kit" },
+    "mod_targets": [ "iwi_tavor_x95", "iwi_tavor_x95_300blk" ],
+    "description": "A complete Tavor .223/5.56x45mm conversion kit with barrel and gas system."
+  },
+  {
+    "id": "retool_mcx_223",
+    "copy-from": "retool_ar15_223",
+    "type": "GUNMOD",
+    "name": { "str": ".223 SIG MCX Rattler conversion kit" },
+    "mod_targets": [ "sig_mcx_rattler_sbr", "sig_mcx_rattler_sbr_300blk" ],
+    "description": "A complete SIG MCX Rattler .223/5.56x45mm conversion kit with barrel and gas system."
+  },
+  {
+    "id": "retool_acr_300blk",
+    "copy-from": "retool_ar15_300blk",
+    "type": "GUNMOD",
+    "name": { "str": ".300 AAC Blackout ACR conversion kit" },
+    "mod_targets": [ "acr", "acr_300blk" ],
+    "description": "A complete ACR .300 AAC Blackout conversion kit with barrel and gas system."
+  },
+  {
+    "id": "retool_tavor_300blk",
+    "copy-from": "retool_ar15_300blk",
+    "type": "GUNMOD",
+    "name": { "str": ".300 AAC Blackout Tavor conversion kit" },
+    "mod_targets": [ "iwi_tavor_x95", "iwi_tavor_x95_300blk" ],
+    "description": "A complete Tavor .300 AAC Blackout conversion kit with barrel and gas system."
+  },
+  {
+    "id": "retool_mcx_300blk",
+    "copy-from": "retool_ar15_300blk",
+    "type": "GUNMOD",
+    "name": { "str": ".300 AAC Blackout SIG MCX Rattler conversion kit" },
+    "mod_targets": [ "sig_mcx_rattler_sbr" ],
+    "description": "A complete SIG MCX Rattler .300 AAC Blackout conversion kit with barrel and gas system."
   },
   {
     "id": "staff_sling_grenade_cradle",

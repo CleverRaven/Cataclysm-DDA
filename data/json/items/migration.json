@@ -1179,17 +1179,16 @@
     "variant": "SPAS_12"
   },
   {
-    "id": "acr",
+    "id": "m16_auto_rifle",
+    "from_variant": "acr",
     "type": "MIGRATION",
-    "replace": "m16_auto_rifle",
-    "variant": "acr"
+    "replace": "acr"
   },
   {
     "id": "nato_assault_rifle",
     "from_variant": "acr",
     "type": "MIGRATION",
-    "replace": "m16_auto_rifle",
-    "variant": "acr"
+    "replace": "acr"
   },
   {
     "id": "h&k416a5",

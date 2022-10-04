@@ -64,7 +64,7 @@
     "material": [ "steel", "aluminum" ],
     "symbol": "(",
     "color": "dark_gray",
-    "ammo": [ "NULl" ],
+    "ammo": [ "NULL" ],
     "default_mods": [ "retool_ar15_223" ],
     "skill": "pistol",
     "range": -6,
@@ -508,14 +508,33 @@
         "name": { "str": "M16A3" },
         "description": "The M16 is a very common assault rifle descended from the AR-15, used by militaries across the world for over 50 years.  It is a gas-operated, rotating bolt rifle known for its accuracy and controllable recoil.  This one is a relatively rare M16A3, with full auto capability.",
         "weight": 1
-      },
-      {
-        "id": "acr",
-        "name": { "str": "Remington ACR" },
-        "description": "This carbine was developed for military use in the early 21st century.  It is damaging and accurate, though its rate of fire is a bit slower than competing carbines."
       }
     ],
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ]
+  },
+  {
+    "id": "acr",
+    "copy-from": "acr_300blk",
+    "type": "GUN",
+    "name": { "str": "Remington ACR" },
+    "description": "This carbine was developed for military use in the early 21st century.  It is damaging and accurate, though its rate of fire is a bit slower than competing carbines.",
+    "default_mods": [ "retool_acr_223" ]
+  },
+  {
+    "id": "iwi_tavor_x95",
+    "copy-from": "iwi_tavor_x95_300blk",
+    "type": "GUN",
+    "name": { "str": "IWI Tavor X95" },
+    "description": "The IWI Tavor X95 (also called Micro-Tavor or MTAR) is an Israeli bullpup assault rifle designed and produced by Israel Weapon Industries.  This is the semi-automatic only civilian version.",
+    "default_mods": [ "retool_tavor_223" ]
+  },
+  {
+    "id": "sig_mcx_rattler_sbr_223",
+    "copy-from": "sig_mcx_rattler_sbr",
+    "type": "GUN",
+    "name": { "str": "Remington ACR" },
+    "description": "This carbine was developed for military use in the early 21st century.  It is damaging and accurate, though its rate of fire is a bit slower than competing carbines.",
+    "default_mods": [ "retool_mcx_223" ]
   },
   {
     "id": "m231pfw",

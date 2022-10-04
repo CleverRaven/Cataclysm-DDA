@@ -1454,7 +1454,7 @@
     "subtype": "collection",
     "ammo": 100,
     "entries": [
-      { "item": "m16_auto_rifle", "variant": "acr", "charges-min": 0, "charges-max": 30 },
+      { "item": "acr", "charges-min": 0, "charges-max": 30 },
       { "item": "stanag10" },
       { "item": "stanag10", "prob": 50 },
       { "group": "on_hand_223" }
