@@ -70,12 +70,15 @@
       { "text": "Could you tell me that story again?", "topic": "BGSS_PREPPER_1_STORY1" },
       {
         "text": "We could go check out that shelter together if you like.  Might be better having another person to keep you safe?",
-        "//": "Checks to see if you have already started this quest (by extension, it applies to any future NPC with this background), whether you have read their notes from TALK_PREPPER_1_COMPUTER, and whether you have already asked them about this quest. The conditional checks here look a little crazy but they simply gate you out of this conversation for various reasons.",
+        "//": "Checks to see if you have already finished this quest (by extension, it applies to any future NPC with this background), whether you have read their notes from TALK_PREPPER_1_COMPUTER, and whether you have already asked them about this quest. The conditional checks here look a little crazy but they simply gate you out of this conversation for various reasons.",
         "condition": {
           "and": [
             { "not": "has_assigned_mission" },
             {
               "not": { "u_has_var": "prepper_1_found_computer", "type": "mission", "context": "BGSS", "value": "yes" }
+            },
+            {
+              "not": { "u_has_var": "prepper_1_finished_quest", "type": "mission", "context": "BGSS", "value": "yes" }
             },
             {
               "not": {
