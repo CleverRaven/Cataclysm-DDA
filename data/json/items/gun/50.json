@@ -91,10 +91,10 @@
       "volume": "-1500 ml",
       "price": -1210000,
       "ranged_damage": { "damage_type": "bullet", "amount": -4 },
-      "dispersion": 60,
-      "barrel_volume": "-250 ml"
+      "dispersion": 60
     },
     "blackpowder_tolerance": 24,
+    "barrel_volume": "1000 ml",
     "longest_side": "130 cm",
     "flags": [ "RELOAD_EJECT" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "50": 1 } } ]
