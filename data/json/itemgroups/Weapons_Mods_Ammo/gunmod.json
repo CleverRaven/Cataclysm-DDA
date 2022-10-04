@@ -156,6 +156,12 @@
     "entries": [ { "item": "suppressor" }, { "item": "rifle_scope" }, { "item": "bipod" } ]
   },
   {
+	  "type": "item_group",
+	  "id": "ar15_300blk_mods",
+	  "subtype": "collection",
+	  "entries": [ { "ar15_retool_300blk" } ] 
+  },
+  {
     "type": "item_group",
     "id": "vz58v_mods",
     "//": "Default mods for the vz. 58 V variant of the VZ combat rifle",
