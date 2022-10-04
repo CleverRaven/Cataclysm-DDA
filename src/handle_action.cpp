@@ -970,7 +970,7 @@ static void wait()
             durations.emplace( 12, 15_minutes ); // to hide it from showing
         }
         add_menu_item( 1, '1', !has_watch ? _( "Wait 10 heartbeats" ) : "", 10_seconds );
-        add_menu_item( 2, '2', !has_watch ? _( "Wait 60 heartbeats" ) : "", 60_seconds );
+        add_menu_item( 2, '2', !has_watch ? _( "Wait 60 heartbeats" ) : "", 1_minutes );
         add_menu_item( 3, '3', !has_watch ? _( "Wait 300 heartbeats" ) : "", 5_minutes );
         add_menu_item( 4, '4', !has_watch ? _( "Wait 1800 heartbeats" ) : "", 30_minutes );
 
