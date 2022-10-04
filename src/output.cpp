@@ -1828,8 +1828,8 @@ void multiline_list::activate_entry( const size_t entry, const bool exclusive )
     const bool cur_value = entries[entry].active;
 
     if( exclusive ) {
-        for( size_t i = 0; i < entries.size(); ++i ) {
-            entries[i].active = false;
+        for( multiline_list_entry &entry : entries ) {
+            entry.active = false;
         }
     }
 
@@ -1858,24 +1858,24 @@ void multiline_list::fold_entries()
     total_length = 0;
 
     std::vector<std::string> folded;
-    for( size_t i = 0; i < entries.size(); ++i ) {
-        entries[i].folded_text.clear();
+    for( multiline_list_entry &entry : entries ) {
+        entry.folded_text.clear();
         if( has_prefix ) {
             // Do a prefixed list (e.g. starting with a hotkey )
-            const int prefix_width = utf8_width( entries[i].prefix, true );
+            const int prefix_width = utf8_width( entry.prefix, true );
             const int fold_width = available_width - prefix_width;
-            folded = foldstring( entries[i].entry_text, fold_width );
+            folded = foldstring( entry.entry_text, fold_width );
             for( size_t j = 0; j < folded.size(); ++j ) {
                 if( j == 0 ) {
-                    entries[i].folded_text.emplace_back( entries[i].prefix + folded[j] );
+                    entry.folded_text.emplace_back( entry.prefix + folded[j] );
                 } else {
-                    entries[i].folded_text.emplace_back( std::string( prefix_width, ' ' ).append( folded[j] ) );
+                    entry.folded_text.emplace_back( std::string( prefix_width, ' ' ).append( folded[j] ) );
                 }
             }
         } else {
-            folded = foldstring( entries[i].entry_text, available_width );
-            for( size_t j = 0; j < folded.size(); ++j ) {
-                entries[i].folded_text.emplace_back( folded[j] );
+            folded = foldstring( entry.entry_text, available_width );
+            for( const std::string &line : folded ) {
+                entry.folded_text.emplace_back( line );
             }
         }
         entry_sizes.emplace_back( static_cast<int>( folded.size() ) );
