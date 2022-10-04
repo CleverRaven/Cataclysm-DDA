@@ -31,8 +31,7 @@
     "bionic_slots": 80,
     "sub_parts": [ "torso_upper", "torso_neck", "torso_lower", "torso_hanging_front", "torso_hanging_back", "torso_waist" ],
     "bmi_encumbrance_threshold": 27,
-    "bmi_encumbrance_scalar": 1,
-    "bmi_rigid_problems_threshold": 35
+    "bmi_encumbrance_scalar": 1
   },
   {
     "id": "head",
@@ -132,8 +131,7 @@
     "flags": [ "LIMB_UPPER" ],
     "sub_parts": [ "mouth_lips", "mouth_nose", "mouth_cheeks", "mouth_chin" ],
     "bmi_encumbrance_threshold": 27,
-    "bmi_encumbrance_scalar": 0.75,
-    "bmi_rigid_problems_threshold": 60
+    "bmi_encumbrance_scalar": 0.75
   },
   {
     "id": "arm_l",
@@ -168,8 +166,7 @@
     "bionic_slots": 20,
     "sub_parts": [ "arm_shoulder_l", "arm_upper_l", "arm_elbow_l", "arm_lower_l" ],
     "bmi_encumbrance_threshold": 27,
-    "bmi_encumbrance_scalar": 0.6,
-    "bmi_rigid_problems_threshold": 40
+    "bmi_encumbrance_scalar": 0.6
   },
   {
     "id": "arm_r",
@@ -203,8 +200,7 @@
     "bionic_slots": 20,
     "sub_parts": [ "arm_shoulder_r", "arm_upper_r", "arm_elbow_r", "arm_lower_r" ],
     "bmi_encumbrance_threshold": 27,
-    "bmi_encumbrance_scalar": 0.6,
-    "bmi_rigid_problems_threshold": 40
+    "bmi_encumbrance_scalar": 0.6
   },
   {
     "id": "hand_l",
@@ -235,8 +231,7 @@
     "bionic_slots": 5,
     "sub_parts": [ "hand_wrist_l", "hand_palm_l", "hand_back_l", "hand_fingers_l" ],
     "bmi_encumbrance_threshold": 36,
-    "bmi_encumbrance_scalar": 0.25,
-    "bmi_rigid_problems_threshold": 75
+    "bmi_encumbrance_scalar": 0.25
   },
   {
     "id": "hand_r",
@@ -267,8 +262,7 @@
     "bionic_slots": 5,
     "sub_parts": [ "hand_wrist_r", "hand_palm_r", "hand_back_r", "hand_fingers_r" ],
     "bmi_encumbrance_threshold": 36,
-    "bmi_encumbrance_scalar": 0.25,
-    "bmi_rigid_problems_threshold": 75
+    "bmi_encumbrance_scalar": 0.25
   },
   {
     "id": "leg_l",
@@ -305,8 +299,7 @@
     "sub_parts": [ "leg_hip_l", "leg_upper_l", "leg_knee_l", "leg_lower_l", "leg_draped_l" ],
     "flags": [ "LIMB_LOWER" ],
     "bmi_encumbrance_threshold": 27,
-    "bmi_encumbrance_scalar": 0.7,
-    "bmi_rigid_problems_threshold": 40
+    "bmi_encumbrance_scalar": 0.7
   },
   {
     "id": "leg_r",
@@ -343,8 +336,7 @@
     "sub_parts": [ "leg_hip_r", "leg_upper_r", "leg_knee_r", "leg_lower_r", "leg_draped_r" ],
     "flags": [ "LIMB_LOWER" ],
     "bmi_encumbrance_threshold": 27,
-    "bmi_encumbrance_scalar": 0.7,
-    "bmi_rigid_problems_threshold": 40
+    "bmi_encumbrance_scalar": 0.7
   },
   {
     "id": "foot_l",
@@ -377,8 +369,7 @@
     "sub_parts": [ "foot_sole_l", "foot_arch_l", "foot_toes_l", "foot_ankle_l", "foot_heel_l" ],
     "flags": [ "LIMB_LOWER" ],
     "bmi_encumbrance_threshold": 36,
-    "bmi_encumbrance_scalar": 0.25,
-    "bmi_rigid_problems_threshold": 80
+    "bmi_encumbrance_scalar": 0.25
   },
   {
     "id": "foot_r",
@@ -411,8 +402,7 @@
     "sub_parts": [ "foot_sole_r", "foot_arch_r", "foot_toes_r", "foot_ankle_r", "foot_heel_r" ],
     "flags": [ "LIMB_LOWER" ],
     "bmi_encumbrance_threshold": 36,
-    "bmi_encumbrance_scalar": 0.25,
-    "bmi_rigid_problems_threshold": 80
+    "bmi_encumbrance_scalar": 0.25
   },
   {
     "id": "debug_tail",
@@ -443,8 +433,7 @@
     "temp_mod": [ 500, 500 ],
     "technique_encumbrance_limit": 10,
     "bmi_encumbrance_threshold": 20,
-    "bmi_encumbrance_scalar": 0.5,
-    "bmi_rigid_problems_threshold": 60
+    "bmi_encumbrance_scalar": 0.5
   },
   {
     "id": "sub_limb_debug",
