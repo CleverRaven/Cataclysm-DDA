@@ -13,9 +13,10 @@
 
 class input_context;
 class multiline_list;
-class multiline_list_entry;
 class scrolling_text_view;
 class ui_adaptor;
+
+struct multiline_list_entry;
 
 struct talk_data {
     nc_color color;
