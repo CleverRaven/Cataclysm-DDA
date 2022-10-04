@@ -2048,7 +2048,7 @@ void multiline_list::set_entry_pos( const int entry_pos, const bool looping = fa
         const int list_size = static_cast<int>( entries.size() );
         if( new_position < 0 ) {
             // Ensure we have a positive position index by adding a multiple of the list_size to it
-            new_position += list_size * ( ( abs( new_position ) / list_size ) + 1 );
+            new_position += list_size * ( ( std::abs( new_position ) / list_size ) + 1 );
         }
         entry_position = new_position % static_cast<int>( entries.size() );
     } else {
