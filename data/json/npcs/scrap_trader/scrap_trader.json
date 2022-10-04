@@ -24,7 +24,15 @@
       { "trait": "STRONGBACK" },
       { "trait": "OUTDOORSMAN" },
       { "trait": "STRONGSTOMACH" },
-      { "trait": "PAINRESIST" }
+      { "trait": "PAINRESIST" },
+      { "trait": "NIGHTVISION" },
+      { "trait": "QUICK" },
+      { "trait": "GOODCARDIO" },
+      { "trait": "TOUGH" },
+      { "trait": "ADRENALINE"},
+      { "trait": "NARCOLEPTIC" },
+      { "trait": "PROJUNK" },
+      { "trait": "MOODSWINGS" }
     ],
     "skills": [
       { "skill": "ALL", "level": { "sum": [ { "dice": [ 3, 2 ] }, { "constant": -3 } ] } },
@@ -102,7 +110,8 @@
       { "item": "flashlight", "charges": [ 0, 300 ] },
       { "item": "multitool" },
       { "item": "hammer" },
-      { "item": "boltcutters" }
+      { "item": "boltcutters" },
+      { "item": "homemade_grenade", "count": [ 0, 2 ] }
     ]
   },
   {
