@@ -2823,7 +2823,7 @@ static int find_repair_difficulty( const Character &pl, const itype &it, bool tr
     const itype_id iid = it.get_id();
     recipe uncraft_recipe = recipe_dictionary::get_uncraft( iid );
 
-    if( it.recipes.size() == 0 && uncraft_recipe ) {
+    if( it.recipes.empty() && uncraft_recipe ) {
         int uncraft_difficulty = uncraft_recipe.difficulty;
         if( uncraft_difficulty == 0 ) {
             uncraft_difficulty = -1;
