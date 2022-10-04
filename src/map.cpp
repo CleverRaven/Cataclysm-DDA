@@ -111,6 +111,7 @@ static const diseasetype_id disease_bad_food( "bad_food" );
 
 static const efftype_id effect_boomered( "boomered" );
 static const efftype_id effect_crushed( "crushed" );
+static const efftype_id effect_pet( "pet" );
 
 static const field_type_str_id field_fd_clairvoyant( "fd_clairvoyant" );
 
@@ -8342,6 +8343,7 @@ void map::spawn_monsters_submap( const tripoint &gp, bool ignore_sight )
             }
             if( i.friendly ) {
                 tmp.friendly = -1;
+                tmp.add_effect( effect_pet, 1_turns, true );
             }
             if( !i.data.ammo.empty() ) {
                 for( std::pair<itype_id, jmapgen_int> ap : i.data.ammo ) {
