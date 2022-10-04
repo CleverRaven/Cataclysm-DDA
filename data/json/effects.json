@@ -2175,15 +2175,6 @@
   },
   {
     "type": "effect_type",
-    "id": "squeezed",
-    "name": [ "Uncomfortable" ],
-    "desc": [ "Your excess body weight is making it hard to wear hard armor on your %s." ],
-    "max_intensity": 1,
-    "part_descs": true,
-    "base_mods": { "speed_mod": [ -3 ], "pain_min": [ 1 ], "pain_chance": [ 8 ], "pain_max_val": [ 10 ] }
-  },
-  {
-    "type": "effect_type",
     "id": "hot",
     "name": [ "Warm", "Hot", "Scorching" ],
     "desc": [ "Your %s feels warm.", "Your %s is hot.", "Your %s is burning up!" ],
