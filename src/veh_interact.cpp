@@ -1265,11 +1265,9 @@ void veh_interact::do_repair()
                 reqs = vp.install_requirements();
             } else {
                 if( vp.has_flag( "NO_REPAIR" ) || vp.repair_requirements().is_empty() ||
-                    pt.base.max_damage() <= 0 ) {
-                    // Can't repair
-                    continue;
-                } else if( veh->has_part( "NO_MODIFY_VEHICLE" ) && !vp.has_flag( "SIMPLE_PART" ) ) {
-                    // Still can't repair
+                    pt.base.max_damage() <= 0  || // Can't repair part
+                    ( veh->has_part( "NO_MODIFY_VEHICLE" ) && !vp.has_flag( "SIMPLE_PART" ) ) // Can't repair vehicle
+                  ) {
                     continue;
                 } else {
                     reqs = vp.repair_requirements() * pt.base.damage_level();
