@@ -237,7 +237,7 @@
     "price": 40000,
     "price_postapoc": 0
   },
-    {
+  {
     "id": "AID_bio_pitch_perfect",
     "type": "GENERIC",
     "copy-from": "AID_abstract",
