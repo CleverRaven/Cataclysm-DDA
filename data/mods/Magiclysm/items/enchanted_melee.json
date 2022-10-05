@@ -356,7 +356,7 @@
     "id": "cavalry_sabre_plus_one",
     "copy-from": "qt_cavalry_sabre",
     "name": { "str": "cavalry sabre +1", "str_pl": "cavalry sabres +1" },
-    "proportional": { "price": 3.0, "price_postapoc": 3.0, "bashing": 1.1, "cutting": 1.1, "weight": 0.9 },
+    "proportional": { "bashing": 1.1, "cutting": 1.1, "weight": 0.9 },
     "relative": { "to_hit": 1 }
   },
   {
@@ -364,7 +364,7 @@
     "id": "cavalry_sabre_plus_two",
     "copy-from": "qt_cavalry_sabre",
     "name": { "str": "cavalry sabre +2", "str_pl": "cavalry sabres +2" },
-    "proportional": { "price": 6.0, "price_postapoc": 6.0, "bashing": 1.2, "cutting": 1.2, "weight": 0.8 },
+    "proportional": { "bashing": 1.2, "cutting": 1.2, "weight": 0.8 },
     "relative": { "to_hit": 2 }
   },
   {
