@@ -125,7 +125,7 @@
     "type": "item_group",
     "id": "no_sell",
     "subtype": "collection",
-    "items": [ 
+    "items": [
       { "item": "cash_register", "count": 0 },
       { "item": "wheel_wide", "count": 0 },
       { "group": "SUS_fridge_survivor", "count": 0 },
