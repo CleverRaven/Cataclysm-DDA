@@ -29,7 +29,7 @@
       { "trait": "QUICK" },
       { "trait": "GOODCARDIO" },
       { "trait": "TOUGH" },
-      { "trait": "ADRENALINE"},
+      { "trait": "ADRENALINE" },
       { "trait": "NARCOLEPTIC" },
       { "trait": "PROJUNK" },
       { "trait": "MOODSWINGS" }
@@ -52,7 +52,7 @@
         "condition": { "npc_has_var": "specific_metal_tradeable", "type": "dialogue", "context": "trade", "value": "yes" }
       },
       {
-        "group": "cash_register",
+        "group": "no_sell",
         "rigid": true,
         "condition": { "compare_int": [ { "npc_val": "var", "var_name": "NEVER" }, "==", { "const": 1 } ] },
         "refusal": "<npcname> will never sell this"
@@ -122,9 +122,24 @@
   },
   {
     "type": "item_group",
-    "id": "cash_register",
+    "id": "no_sell",
     "subtype": "collection",
-    "items": [ { "item": "cash_register", "count": 0 } ]
+    "items": [ 
+      { "item": "cash_register", "count": 0 },
+      { "item": "wheel_wide", "count": 0 },
+      { "group": "SUS_fridge_survivor", "count": 0 },
+      { "group": "SUS_utensils", "count": 0 },
+      { "item": "microwave", "count": 0 },
+      { "group": "used_1st_aid", "count": 0 },
+      { "item": "coffee", "count": 0 },
+      { "item": "hd_tow_cable", "count": 0 },
+      { "item": "roadmap", "count": 0 },
+      { "item": "folding_poncho", "count": 0 },
+      { "item": "rope_6", "count": 0 },
+      { "item": "handflare", "count": 0 },
+      { "item": "sm_extinguisher", "count": 0 },
+      { "item": "towel", "count": 0 }
+    ]
   },
   {
     "type": "item_group",
@@ -226,7 +241,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_NPC_SCRAP_TRADER_HOME_STAY",
-    "dynamic_line": "Sure, I'm fine with it.  There's a spare bed over there for anyone who needs it.  Just don't hog it.  Someone else might come along.",
+    "dynamic_line": "Sure, I'm fine with it.  There's a spare bed in the shed next door for anyone who needs it.  Just don't hog it.  Someone else might come along.",
     "responses": [ { "text": "Thanks, <name_g>.", "topic": "TALK_NPC_SCRAP_TRADER_INTRO" } ]
   },
   {
