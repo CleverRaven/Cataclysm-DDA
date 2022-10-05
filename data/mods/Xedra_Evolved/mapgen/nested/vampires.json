@@ -1,0 +1,13 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "update_mapgen_id": "nested_vampire_pack",
+    "object": {
+      "place_monster": [
+        { "monster": "mon_vampire_strigoi", "x": 12, "y": 12, "spawn_data": { "patrol": [ { "x": 12, "y": 12 } ] } },
+        { "monster": "mon_vampire_moroi", "x": 4, "y": 4, "repeat": [ 6, 10 ] }
+      ]
+    }
+  }
+]

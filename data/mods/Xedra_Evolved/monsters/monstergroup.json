@@ -53,24 +53,24 @@
     "name": "GROUP_PARK_SCENIC",
     "type": "monstergroup",
     "monsters": [
-      { "monster": "mon_vampire_moroi", "weight": 10, "conditions": [ "DAWN", "DUSK", "NIGHT" ] },
-      { "monster": "mon_vampire_strigoi", "weight": 1, "conditions": [ "DAWN", "DUSK", "NIGHT" ] }
+      { "monster": "mon_vampire_moroi", "weight": 10 },
+      { "monster": "mon_vampire_strigoi", "weight": 1 }
     ]
   },
   {
     "name": "GROUP_PARK_PLAYGROUND",
     "type": "monstergroup",
     "monsters": [
-      { "monster": "mon_vampire_moroi", "weight": 10, "conditions": [ "DAWN", "DUSK", "NIGHT" ] },
-      { "monster": "mon_vampire_strigoi", "weight": 1, "conditions": [ "DAWN", "DUSK", "NIGHT" ] }
+      { "monster": "mon_vampire_moroi", "weight": 10 },
+      { "monster": "mon_vampire_strigoi", "weight": 1 }
     ]
   },
   {
     "name": "GROUP_HOUSE",
     "type": "monstergroup",
     "monsters": [
-      { "monster": "mon_vampire_moroi", "weight": 5, "conditions": [ "DAWN", "DUSK", "NIGHT" ] },
-      { "monster": "mon_vampire_strigoi", "weight": 1, "conditions": [ "DAWN", "DUSK", "NIGHT" ] }
+      { "monster": "mon_vampire_moroi", "weight": 5 },
+      { "monster": "mon_vampire_strigoi", "weight": 1 }
     ]
   },
   {
@@ -82,24 +82,32 @@
     "name": "GROUP_HOSPITAL",
     "type": "monstergroup",
     "monsters": [
-      { "monster": "mon_vampire_moroi", "weight": 5, "conditions": [ "DAWN", "DUSK", "NIGHT" ] },
-      { "monster": "mon_vampire_strigoi", "weight": 1, "conditions": [ "DAWN", "DUSK", "NIGHT" ] }
+      { "monster": "mon_vampire_moroi", "weight": 5 },
+      { "monster": "mon_vampire_strigoi", "weight": 1 }
     ]
   },
   {
     "name": "FERAL_HUMANS",
     "type": "monstergroup",
     "monsters": [
-      { "monster": "mon_vampire_moroi", "weight": 5, "conditions": [ "DAWN", "DUSK", "NIGHT" ] },
-      { "monster": "mon_vampire_strigoi", "weight": 1, "conditions": [ "DAWN", "DUSK", "NIGHT" ] }
+      { "monster": "mon_vampire_moroi", "weight": 5 },
+      { "monster": "mon_vampire_strigoi", "weight": 1 }
     ]
   },
   {
     "name": "GROUP_RETIREMENT_COMMUNITY",
     "type": "monstergroup",
     "monsters": [
-      { "monster": "mon_vampire_moroi", "weight": 5, "conditions": [ "DAWN", "DUSK", "NIGHT" ] },
-      { "monster": "mon_vampire_strigoi", "weight": 1, "conditions": [ "DAWN", "DUSK", "NIGHT" ] }
+      { "monster": "mon_vampire_moroi", "weight": 5 },
+      { "monster": "mon_vampire_strigoi", "weight": 1 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_VAMPIRES",
+    "monsters": [
+      { "monster": "mon_vampire_moroi", "weight": 5 },
+      { "monster": "mon_vampire_strigoi", "weight": 1 }
     ]
   }
 ]
