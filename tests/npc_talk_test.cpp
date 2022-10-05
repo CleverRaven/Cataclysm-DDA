@@ -970,8 +970,7 @@ TEST_CASE( "npc_faction_trust", "[npc_talk]" )
 TEST_CASE( "test_talk_meta", "[npc_talk]" )
 {
     dialogue d;
-    npc &beta = prep_test( d, true );
-    Character &player_character = get_avatar();
+    prep_test( d );
 
     d.add_topic( "TALK_TEST_META" );
     gen_response_lines( d, 2 );
