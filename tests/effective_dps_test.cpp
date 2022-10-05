@@ -285,7 +285,7 @@ static void check_staves( const std::function<Approx( const std::string & )> &ca
 
 static void check_spears( const std::function<Approx( const std::string & )> &calc_expected_dps )
 {
-    SECTION( "spears" ) { // typical value around 24
+    SECTION( "spears" ) { // typical value around 30
         CHECK( calc_expected_dps( "spear_steel" ) == 23.19 );
         CHECK( calc_expected_dps( "pike" ) == 23.0 );
         CHECK( calc_expected_dps( "qiang" ) == 22.1 );
@@ -295,6 +295,7 @@ static void check_spears( const std::function<Approx( const std::string & )> &ca
         CHECK( calc_expected_dps( "spear_pipe" ) == 17.37 );
         CHECK( calc_expected_dps( "spear_knife_superior" ) == 17.9 );
         CHECK( calc_expected_dps( "spear_knife" ) == 17.9 );
+        CHECK( calc_expected_dps( "spear_knife_proper" ) == 24 );
         CHECK( calc_expected_dps( "pike_inferior" ) == 16.0 );
         CHECK( calc_expected_dps( "spear_wood" ) == 10.95 );
         CHECK( calc_expected_dps( "pitchfork" ) == 12.48 );
