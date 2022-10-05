@@ -47,6 +47,7 @@ static const itype_id itype_awl_bone( "awl_bone" );
 static const itype_id itype_candle( "candle" );
 static const itype_id itype_cash_card( "cash_card" );
 static const itype_id itype_chisel( "chisel" );
+static const itype_id itype_debug_battery( "debug_battery" );
 static const itype_id itype_hacksaw( "hacksaw" );
 static const itype_id itype_hammer( "hammer" );
 static const itype_id itype_kevlar_shears( "kevlar_shears" );
@@ -602,8 +603,8 @@ TEST_CASE( "tools use charge to craft", "[crafting][charge]" )
         // - 10 charges of surface heat
 
         WHEN( "each tool has enough charges" ) {
-            item hotplate = tool_with_ammo( "hotplate", 30 );
-            REQUIRE( hotplate.ammo_remaining() == 30 );
+            item hotplate = tool_with_ammo( "hotplate", 500 );
+            REQUIRE( hotplate.ammo_remaining() == 350 );
             tools.push_back( hotplate );
             item soldering = tool_with_ammo( "soldering_iron", 20 );
             REQUIRE( soldering.ammo_remaining() == 20 );
@@ -616,13 +617,13 @@ TEST_CASE( "tools use charge to craft", "[crafting][charge]" )
                 prep_craft( recipe_carver_off, tools, true );
                 int turns = actually_test_craft( recipe_carver_off, INT_MAX );
                 CAPTURE( turns );
-                CHECK( get_remaining_charges( "hotplate" ) == 10 );
+                CHECK( get_remaining_charges( "hotplate" ) == 150 );
                 CHECK( get_remaining_charges( "soldering_iron" ) == 10 );
             }
         }
 
         WHEN( "multiple tools have enough combined charges" ) {
-            tools.insert( tools.end(), 2, tool_with_ammo( "hotplate", 5 ) );
+            tools.insert( tools.end(), 2, tool_with_ammo( "hotplate", 200 ) );
             tools.insert( tools.end(), 2, tool_with_ammo( "soldering_iron", 5 ) );
             tools.insert( tools.end(), 1, tool_with_ammo( "vac_mold", 4 ) );
 
@@ -653,7 +654,7 @@ TEST_CASE( "tools use charge to craft", "[crafting][charge]" )
                 actually_test_craft( recipe_carver_off, INT_MAX );
                 CHECK( get_remaining_charges( "hotplate" ) == 0 );
                 CHECK( get_remaining_charges( "soldering_iron" ) == 0 );
-                CHECK( get_remaining_charges( "UPS_off" ) == 480 );
+                CHECK( get_remaining_charges( "UPS_off" ) == 150 );
             }
         }
 
@@ -683,7 +684,7 @@ TEST_CASE( "tool_use", "[crafting][tool]" )
 {
     SECTION( "clean_water" ) {
         std::vector<item> tools;
-        tools.push_back( tool_with_ammo( "hotplate", 20 ) );
+        tools.push_back( tool_with_ammo( "hotplate", 500 ) );
         item plastic_bottle( "bottle_plastic" );
         plastic_bottle.put_in(
             item( "water", calendar::turn_zero, 2 ), item_pocket::pocket_type::CONTAINER );
@@ -695,31 +696,31 @@ TEST_CASE( "tool_use", "[crafting][tool]" )
     }
     SECTION( "clean_water_in_loaded_mess_kit" ) {
         std::vector<item> tools;
-        tools.push_back( tool_with_ammo( "hotplate", 20 ) );
+        tools.push_back( tool_with_ammo( "hotplate", 500 ) );
         item plastic_bottle( "bottle_plastic" );
         plastic_bottle.put_in(
             item( "water", calendar::turn_zero, 2 ), item_pocket::pocket_type::CONTAINER );
         tools.push_back( plastic_bottle );
-        tools.push_back( tool_with_ammo( "mess_kit", 20 ) );
+        tools.push_back( tool_with_ammo( "mess_kit", 500 ) );
 
         // Can't actually test crafting here since crafting a liquid currently causes a ui prompt
         prep_craft( recipe_water_clean, tools, true );
     }
     SECTION( "clean_water_in_loaded_survivor_mess_kit" ) {
         std::vector<item> tools;
-        tools.push_back( tool_with_ammo( "hotplate", 20 ) );
+        tools.push_back( tool_with_ammo( "hotplate", 500 ) );
         item plastic_bottle( "bottle_plastic" );
         plastic_bottle.put_in(
             item( "water", calendar::turn_zero, 2 ), item_pocket::pocket_type::CONTAINER );
         tools.push_back( plastic_bottle );
-        tools.push_back( tool_with_ammo( "survivor_mess_kit", 20 ) );
+        tools.push_back( tool_with_ammo( "survivor_mess_kit", 500 ) );
 
         // Can't actually test crafting here since crafting a liquid currently causes a ui prompt
         prep_craft( recipe_water_clean, tools, true );
     }
     SECTION( "clean_water_in_occupied_cooking_vessel" ) {
         std::vector<item> tools;
-        tools.push_back( tool_with_ammo( "hotplate", 20 ) );
+        tools.push_back( tool_with_ammo( "hotplate", 500 ) );
         item plastic_bottle( "bottle_plastic" );
         plastic_bottle.put_in(
             item( "water", calendar::turn_zero, 2 ), item_pocket::pocket_type::CONTAINER );
@@ -734,7 +735,7 @@ TEST_CASE( "tool_use", "[crafting][tool]" )
     }
     SECTION( "clean_water with broken tool" ) {
         std::vector<item> tools;
-        tools.push_back( tool_with_ammo( "hotplate", 20 ) );
+        tools.push_back( tool_with_ammo( "hotplate", 500 ) );
         item plastic_bottle( "bottle_plastic" );
         plastic_bottle.put_in(
             item( "water", calendar::turn_zero, 2 ), item_pocket::pocket_type::CONTAINER );
@@ -1926,8 +1927,8 @@ TEST_CASE( "recipes inherit rot of components properly", "[crafting][rot]" )
 {
     Character &player_character = get_player_character();
     std::vector<item> tools;
-    tools.emplace_back( tool_with_ammo( "hotplate", 30 ) );
-    tools.emplace_back( tool_with_ammo( "dehydrator", 500 ) );
+    tools.emplace_back( tool_with_ammo( "hotplate", 500 ) );
+    tools.emplace_back( tool_with_ammo( "dehydrator", 5000 ) );
     tools.emplace_back( item( "pot_canning" ) );
     tools.emplace_back( item( "knife_butcher" ) );
 
