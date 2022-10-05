@@ -39,7 +39,8 @@
       { "skill": "bashing", "bonus": { "rng": [ 0, 3 ] } },
       { "skill": "melee", "bonus": { "rng": [ 0, 3 ] } },
       { "skill": "rifle", "bonus": { "rng": [ 2, 5 ] } },
-      { "skill": "gun", "bonus": { "rng": [ 2, 5 ] } }
+      { "skill": "gun", "bonus": { "rng": [ 2, 5 ] } },
+      { "skill": "mechanics", "bonus": { "rng": [ 6, 8 ] } }
     ],
     "worn_override": "SCRAP_MERCHANT_worn",
     "weapon_override": "SCRAP_MERCHANT_weapon",
