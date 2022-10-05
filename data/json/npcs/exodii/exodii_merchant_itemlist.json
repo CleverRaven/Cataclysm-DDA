@@ -228,7 +228,7 @@
   {
     "type": "item_group",
     "id": "EXODII_CBM_tier1_utility",
-    "items": [ [ "bio_watch", 10 ], [ "bio_alarm", 10 ], [ "bio_sunglasses", 10 ], [ "bio_meteorologist", 10 ] ]
+    "items": [ [ "bio_watch", 10 ], [ "bio_alarm", 10 ], [ "bio_sunglasses", 10 ], [ "bio_meteorologist", 10 ], [ "bio_perfect_pitch", 10 ] ]
   },
   {
     "type": "item_group",

@@ -1264,5 +1264,17 @@
     "price": 120000,
     "difficulty": 3,
     "installation_data": "AID_bio_trickle"
-  }
+  },
+  {
+    "id": "bio_pitch_perfect",
+    "copy-from": "bionic_general",
+    "type": "BIONIC_ITEM",
+    "name": { "str": "Throwing Assist CBM" },
+    "looks_like": "bio_int_enhancer",
+    "description": "Taken from a world that embraced cybernetics in their sports, this CBM links the eyes to a series of nerve stimulators along the arms and hands.  The result is a significant increase to throwing accuracy, and it turns out it works great with fragmentation grenades.",
+    "price": 220000,
+    "weight": "1000 g",
+    "difficulty": 3,
+    "installation_data": "AID_bio_pitch_perfect"
+  },
 ]

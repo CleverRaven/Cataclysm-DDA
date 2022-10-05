@@ -180,5 +180,15 @@
     "default_time_multiplier": 2,
     "default_fail_multiplier": 1.1,
     "time_to_learn": "8 h"
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_pitch_perfect",
+    "category": "prof_survival",
+    "name": { "str": "Perfect Pitch" },
+    "description": "Thanks to some extremely invasive surgery, you can now throw like a major league pitcher.",
+    "can_learn": false,
+    "bonuses": { "throwing": [ { "type": "strength", "value": 5 } ] },
+    "ignore_focus": true
   }
 ]
