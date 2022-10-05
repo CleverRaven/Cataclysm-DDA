@@ -60,7 +60,6 @@ const flag_id flag_CHALLENGE( "CHALLENGE" );
 const flag_id flag_CHARGEDIM( "CHARGEDIM" );
 const flag_id flag_CHOKE( "CHOKE" );
 const flag_id flag_CITY_START( "CITY_START" );
-const flag_id flag_CLIMATE_CONTROL( "CLIMATE_CONTROL" );
 const flag_id flag_COLD( "COLD" );
 const flag_id flag_COLD_IMMUNE( "COLD_IMMUNE" );
 const flag_id flag_COLLAPSED_STOCK( "COLLAPSED_STOCK" );

@@ -1267,7 +1267,6 @@
       "ELECTRIC_IMMUNE",
       "THERMOMETER",
       "TRADER_AVOID",
-      "CLIMATE_CONTROL",
       "NO_REPAIR",
       "NANOFAB_REPAIR",
       "PADDED",
@@ -1441,6 +1440,15 @@
       "NANOFAB_REPAIR",
       "PADDED"
     ],
+    "relic_data": {
+      "passive_effects": [
+        {
+          "has": "WORN",
+          "condition": "ACTIVE",
+          "values": [ { "value": "CLIMATE_CONTROL_HEAT", "add": 50 }, { "value": "CLIMATE_CONTROL_CHILL", "add": 50 } ]
+        }
+      ]
+    },
     "armor": [
       {
         "material": [ { "type": "lvl4ballisticglass", "covered_by_mat": 100, "thickness": 1.0 } ],
@@ -1537,7 +1545,6 @@
       "TRADER_AVOID",
       "PSYSHIELD_PARTIAL",
       "GNV_EFFECT",
-      "CLIMATE_CONTROL",
       "NO_REPAIR",
       "NANOFAB_REPAIR",
       "PADDED"
