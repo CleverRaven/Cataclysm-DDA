@@ -10,11 +10,11 @@
         "$|||||||||        |||||$",
         "$|                  u |$",
         "$| -------         uuu|$",
-        "$| -CavvL-        uu7u|$",
+        "$| -.avvL-        uu7u|$",
         "$| -Ha___+          uu|$",
         "$| -~a__R-        D uu|$",
         "$| -_____b        D uu|$",
-        "$| -Faa__-         uu |$",
+        "$| -Faa_C-         uu |$",
         "$| ----_A-          u |$",
         "$| -Z<-_Ib         uuu|$",
         "$| -T<+_(-         u7u|$",
@@ -68,7 +68,8 @@
         "L": "t_thconc_floor",
         "R": "t_thconc_floor",
         "I": "t_thconc_floor",
-        "A": "t_thconc_floor"
+        "A": "t_thconc_floor",
+        ".": "t_thconc_floor"
       },
       "furniture": {
         "#": "f_wreckage",
@@ -102,7 +103,8 @@
         "L": "f_bulletin",
         "R": "f_rack_coat",
         "I": "f_tourist_table",
-        "A": "f_camp_chair"
+        "A": "f_camp_chair",
+        ".": "f_utility_shelf"
       },
       "place_items": [
         { "chance": 100, "item": "cash_register_random", "x": 5, "y": [ 4, 6 ] },
@@ -145,7 +147,7 @@
         { "item": "towel", "x": 6, "y": 8, "chance": 30},
         { "item": "wheel_wide", "x": 6, "y": 8, "chance": 100, "repeat": 5 },
         { "item": "jack", "x": 6, "y": 8, "chance": 100 },
-        { "item": "wrench_large", "x": 6, "y": 8, "chance": 100 },
+        { "item": "wrench_large", "x": 6, "y": 8, "chance": 100 }
       ],
       "mapping": { "/": { "traps": [ [ "tr_rollmat", 100 ] ] } },
       "place_vehicles": [ { "vehicle": "underlift_tow_truck_lack_wheels", "x": 15, "y": 9, "chance": 100, "fuel": 70, "status": 0, "rotation": 90 } ],
@@ -155,17 +157,16 @@
           "filter": "SCRAPPER_Shop",
           "faction": "wasteland_scavengers",
           "x": 4,
-          "y": 6
+          "y": 4
         },
         {
           "type": "LOOT_ITEM_GROUP",
           "filter": "SCRAPPER_Shop_Specialty_Metals",
           "faction": "wasteland_scavengers",
           "x": 4,
-          "y": 6
+          "y": 4
         },
-        { "type": "LOOT_UNSORTED", "faction": "wasteland_scavengers", "x": [ 4, 6 ], "y": [ 8, 8 ] },
-        { "type": "LOOT_UNSORTED", "faction": "wasteland_scavengers", "x": [ 3, 3 ], "y": [ 14, 14 ] }
+        { "type": "LOOT_UNSORTED", "faction": "wasteland_scavengers", "x": [ 4, 4 ], "y": [ 6, 6 ] }
       ]
     }
   }
