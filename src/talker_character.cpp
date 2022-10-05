@@ -407,6 +407,12 @@ bool talker_character_const::unarmed_attack() const
 
 bool talker_character_const::can_stash_weapon() const
 {
+    cata::optional<bionic *> bionic_weapon = me_chr_const->find_bionic_by_uid(
+                me_chr_const->get_weapon_bionic_uid() );
+    if( bionic_weapon && me_chr_const->can_deactivate_bionic( **bionic_weapon ).success() ) {
+        return true;
+    }
+
     return me_chr_const->can_pickVolume( *me_chr_const->get_wielded_item() );
 }
 
@@ -766,4 +772,19 @@ std::string talker_character::skill_seminar_text( const skill_id &s ) const
 {
     int lvl = me_chr->get_skill_level( s );
     return string_format( "%s (%d)", s.obj().name(), lvl );
+}
+
+std::vector<bodypart_id> talker_character::get_all_body_parts() const
+{
+    return me_chr->get_all_body_parts( get_body_part_flags::none );
+}
+
+int talker_character::get_part_hp_cur( const bodypart_id &id ) const
+{
+    return me_chr->get_part_hp_cur( id );
+}
+
+void talker_character::set_part_hp_cur( const bodypart_id &id, int set ) const
+{
+    me_chr->set_part_hp_cur( id, set );
 }

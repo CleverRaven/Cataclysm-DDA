@@ -3183,6 +3183,8 @@ void item::deserialize( const JsonObject &data )
             select_itype_variant();
         }
     }
+
+    on_damage_changed();
 }
 
 void item::serialize( JsonOut &json ) const

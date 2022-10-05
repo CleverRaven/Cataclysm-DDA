@@ -1175,7 +1175,9 @@
       "NO_REPAIR",
       "NANOFAB_REPAIR",
       "PADDED",
-      "USE_UPS"
+      "USE_UPS",
+      "NO_UNLOAD",
+      "COMBAT_TOGGLEABLE"
     ],
     "price": 50000000,
     "price_postapoc": 10000,
@@ -1269,7 +1271,9 @@
       "NO_REPAIR",
       "NANOFAB_REPAIR",
       "PADDED",
-      "USE_UPS"
+      "USE_UPS",
+      "NO_UNLOAD",
+      "COMBAT_TOGGLEABLE"
     ],
     "material": [ "hyperweave_on", "carbide" ],
     "turns_per_charge": 6,
@@ -2851,7 +2855,6 @@
     "material": [ "plastic" ],
     "weight": "20 g",
     "volume": "200 ml",
-    "charges_per_use": 1,
     "ammo": "battery",
     "use_action": {
       "type": "transform",
@@ -2859,10 +2862,10 @@
       "target": "powered_earplugs_on",
       "active": true,
       "need_charges": 1,
-      "need_charges_msg": "The earplugs's batteries are dead."
+      "need_charges_msg": "The earplugs' batteries are dead."
     },
     "material_thickness": 1,
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 100 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 20 } } ]
   },
   {
     "id": "powered_earplugs_on",
@@ -2874,8 +2877,8 @@
     "name": { "str_sp": "shooter's ear plugs (on)" },
     "description": "A pair of in-ear drivers designed to dampen loud sounds and amplify quiet sounds.  Without batteries or when turned off, they function like normal earplugs and block most sound.  They will block sounds over a certain decibel amount when turned on.  The earplugs are currently on.",
     "flags": [ "OVERSIZE", "PARTIAL_DEAF", "USE_UPS", "NO_UNLOAD", "NO_RELOAD" ],
-    "//": "6-8 hours battery life",
-    "power_draw": "4 J",
+    "//": "same power draw as the earmuffs, much smaller internal battery",
+    "power_draw": "60 mJ",
     "revert_to": "powered_earplugs",
     "use_action": {
       "ammo_scale": 0,

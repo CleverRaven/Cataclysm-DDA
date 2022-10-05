@@ -182,5 +182,34 @@
       [ [ "duct_tape", 25 ], [ "medical_tape", 50 ], [ "paint", 25, "LIST" ], [ "charcoal", 10 ] ],
       [ [ "2x4", 4 ], [ "log", 1 ], [ "wood_beam", 1 ] ]
     ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "mop",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "time": "10 m",
+    "reversible": true,
+    "autolearn": true,
+    "using": [ [ "cordage", 1 ] ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "proficiencies": [ { "proficiency": "prof_carving" } ],
+    "components": [ [ [ "stick", 1 ], [ "2x4", 1 ] ], [ [ "cotton_patchwork", 4 ], [ "fibercloth_patchwork", 4 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "mirror",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "30 m",
+    "autolearn": true,
+    "proficiencies": [ { "proficiency": "prof_glassblowing", "required": false, "time_multiplier": 6 } ],
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "forge", 75 ] ] ],
+    "components": [ [ [ "glass_sheet", 1 ] ], [ [ "silver_small", 10 ] ] ]
   }
 ]

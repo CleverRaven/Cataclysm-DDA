@@ -137,9 +137,8 @@
     "durability": 80,
     "flags": [ "CARGO", "OBSTACLE", "COVERED" ],
     "pseudo_tools": [
-      { "id": "pseudo_veh_chemlab_chemset" },
+      { "id": "pseudo_veh_chemlab_chemset", "hotkey": "h" },
       { "id": "pseudo_veh_chemlab_electrolysis_kit" },
-      { "id": "pseudo_veh_chemlab_hotplate", "hotkey": "h" },
       { "id": "water_faucet" }
     ],
     "item": "chemlab",

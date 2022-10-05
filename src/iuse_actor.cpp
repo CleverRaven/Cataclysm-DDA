@@ -2597,12 +2597,8 @@ cata::optional<int> ammobelt_actor::use( Character &p, item &, bool, const tripo
 
     item_location loc = p.i_add( mag );
     item::reload_option opt = p.select_ammo( loc, true );
-    std::vector<item_location> targets;
     if( opt ) {
-        const int moves = opt.moves();
-        targets.push_back( loc );
-        targets.push_back( std::move( opt.ammo ) );
-        p.assign_activity( player_activity( reload_activity_actor( moves, opt.qty(), targets ) ) );
+        p.assign_activity( player_activity( reload_activity_actor( std::move( opt ) ) ) );
     } else {
         loc.remove_item();
     }
@@ -3881,7 +3877,7 @@ cata::optional<int> place_trap_actor::use( Character &p, item &it, bool, const t
     }
     const place_trap_actor::data &data = bury ? buried_data : unburied_data;
 
-    p.add_msg_if_player( m_info, data.done_message.translated(), distance_to_trap_center );
+    p.add_msg_if_player( m_info, data.done_message.translated(), here.tername( pos ) );
     p.practice( skill_traps, data.practice );
     p.practice_proficiency( proficiency_prof_traps, time_duration::from_seconds( data.practice * 30 ) );
     p.practice_proficiency( proficiency_prof_trapsetting,

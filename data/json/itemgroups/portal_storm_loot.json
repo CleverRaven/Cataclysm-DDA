@@ -30,7 +30,10 @@
     "entries": [
       {
         "group": "ps_artifacts",
-        "artifact": { "procgen_id": "netherum_tunnels", "rules": { "power_level": 500, "max_attributes": 3, "max_negative_power": -750 } },
+        "artifact": {
+          "procgen_id": "netherum_tunnels",
+          "rules": { "power_level": 500, "max_attributes": 3, "max_negative_power": -750, "resonant": true }
+        },
         "prob": 100
       }
     ]
@@ -42,7 +45,10 @@
     "entries": [
       {
         "group": "ps_artifacts",
-        "artifact": { "procgen_id": "netherum_tunnels", "rules": { "power_level": 750, "max_attributes": 4, "max_negative_power": -1000 } },
+        "artifact": {
+          "procgen_id": "netherum_tunnels",
+          "rules": { "power_level": 750, "max_attributes": 4, "max_negative_power": -1000, "resonant": true }
+        },
         "prob": 100
       }
     ]
@@ -54,7 +60,10 @@
     "entries": [
       {
         "group": "ps_artifacts",
-        "artifact": { "procgen_id": "netherum_tunnels", "rules": { "power_level": 1000, "max_attributes": 5, "max_negative_power": -1250 } },
+        "artifact": {
+          "procgen_id": "netherum_tunnels",
+          "rules": { "power_level": 1000, "max_attributes": 5, "max_negative_power": -1250, "resonant": true }
+        },
         "prob": 100
       }
     ]

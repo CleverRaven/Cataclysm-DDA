@@ -2281,10 +2281,6 @@ class Character : public Creature, public visitable
         int impact( int force, const tripoint &pos ) override;
         /** Knocks the player to a specified tile */
         void knock_back_to( const tripoint &to ) override;
-        /** Siphons fuel (if available) from the specified vehicle into container or
-         * similar via @ref game::handle_liquid. May start a player activity.
-         */
-        void siphon( vehicle &veh, const itype_id &desired_liquid );
 
         /** Returns overall % of HP remaining */
         int hp_percentage() const override;
@@ -2742,7 +2738,7 @@ class Character : public Creature, public visitable
 
         std::map<mutation_category_id, int> mutation_category_level;
 
-        int adjust_for_focus( int amount ) const;
+        float adjust_for_focus( float amount ) const;
         void update_type_of_scent( bool init = false );
         void update_type_of_scent( const trait_id &mut, bool gain = true );
         void set_type_of_scent( const scenttype_id &id );

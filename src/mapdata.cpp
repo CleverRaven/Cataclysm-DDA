@@ -288,7 +288,7 @@ static const std::unordered_map<std::string, ter_connects> ter_connects_map = { 
         { "MULCHFLOOR",               TERCONN_MULCHFLOOR },
         { "METALFLOOR",               TERCONN_METALFLOOR },
         { "WOODFLOOR",                TERCONN_WOODFLOOR },
-        { "INDOORFLOOR",              TERCONN_INDOORFLOOR },         // implied for rotates_to by ter_furn_flag::WINDOW, and for rotates_to_member by ter_furn_flag::INDOORS
+        { "INDOORFLOOR",              TERCONN_INDOORFLOOR },         // implied for rotates_to by ter_furn_flag::WINDOW and ter_furn_flag::DOOR, and for rotates_to_member by ter_furn_flag::INDOORS
     }
 };
 

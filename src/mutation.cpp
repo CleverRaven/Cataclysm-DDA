@@ -438,7 +438,14 @@ void Character::mutation_effect( const trait_id &mut, const bool worn_destroyed_
             return false;
         }
         // if an item gives an enchantment it shouldn't break or be shoved off
-        for( const enchant_cache &ench : armor.get_enchantments() ) {
+        for( const enchant_cache &ench : armor.get_proc_enchantments() ) {
+            for( const trait_id &inner_mut : ench.get_mutations() ) {
+                if( mut == inner_mut ) {
+                    return false;
+                }
+            }
+        }
+        for( const enchantment &ench : armor.get_defined_enchantments() ) {
             for( const trait_id &inner_mut : ench.get_mutations() ) {
                 if( mut == inner_mut ) {
                     return false;
@@ -1844,7 +1851,7 @@ void Character::test_crossing_threshold( const mutation_category_id &mutation_ca
     // Threshold-breaching
     int breach_power = mutation_category_level[mutation_category];
     // You're required to have hit third-stage dreams first.
-    if( breach_power > 30 ) {
+    if( breach_power >= 30 ) {
         if( breach_power >= 100 || x_in_y( breach_power, 100 ) ) {
             const mutation_branch &thrdata = mutation_thresh.obj();
             if( vitamin_get( m_category.vitamin ) >= thrdata.vitamin_cost ) {

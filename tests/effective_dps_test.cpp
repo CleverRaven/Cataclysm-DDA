@@ -298,7 +298,7 @@ static void check_spears( const std::function<Approx( const std::string & )> &ca
         CHECK( calc_expected_dps( "pike_inferior" ) == 16.0 );
         CHECK( calc_expected_dps( "spear_wood" ) == 10.95 );
         CHECK( calc_expected_dps( "pitchfork" ) == 12.48 );
-        CHECK( calc_expected_dps( "spear_stone" ) == 10.42 );
+        CHECK( calc_expected_dps( "spear_stone" ) == 18.61 );
         CHECK( calc_expected_dps( "spear_forked" ) == 12.15 );
         CHECK( calc_expected_dps( "pike_fake" ) == 7.55 );
     }

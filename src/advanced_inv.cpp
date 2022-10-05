@@ -1878,7 +1878,8 @@ bool advanced_inventory::move_content( item &src_container, item &dest_container
 
     std::string err;
     // TODO: Allow buckets here, but require them to be on the ground or wielded
-    const int amount = dest_container.get_remaining_capacity_for_liquid( src_contents, false, &err );
+    const int amount = std::min( src_contents.charges,
+                                 dest_container.get_remaining_capacity_for_liquid( src_contents, false, &err ) );
     if( !err.empty() ) {
         popup( err );
         return false;

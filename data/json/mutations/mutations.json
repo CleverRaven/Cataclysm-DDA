@@ -4965,7 +4965,7 @@
     "points": 1,
     "description": "You are a little nimbler.  +1 Dexterity.",
     "types": [ "DEX" ],
-    "changes_to": [ "DEX_UP_2", "DEX_ALPHA" ],
+    "changes_to": [ "DEX_UP_2" ],
     "category": [
       "INSECT",
       "ALPHA",
@@ -4991,8 +4991,8 @@
     "description": "You are nimbler.  +2 Dexterity.",
     "types": [ "DEX" ],
     "prereqs": [ "DEX_UP" ],
-    "changes_to": [ "DEX_UP_3" ],
-    "category": [ "LIZARD", "SPIDER", "CHIMERA", "RAPTOR", "MOUSE", "RABBIT", "BIRD", "ELFA", "FELINE", "CEPHALOPOD", "FISH" ],
+    "changes_to": [ "DEX_UP_3", "DEX_ALPHA" ],
+    "category": [ "LIZARD", "SPIDER", "CHIMERA", "RAPTOR", "MOUSE", "RABBIT", "BIRD", "ELFA", "FELINE", "CEPHALOPOD", "FISH", "ALPHA" ],
     "passive_mods": { "dex_mod": 2 }
   },
   {
@@ -5027,10 +5027,10 @@
     "points": 6,
     "description": "You're perfectly coordinated.",
     "types": [ "DEX" ],
-    "prereqs": [ "DEX_UP" ],
+    "prereqs": [ "DEX_UP_2" ],
     "threshreq": [ "THRESH_ALPHA" ],
     "category": [ "ALPHA" ],
-    "passive_mods": { "dex_mod": 1 }
+    "passive_mods": { "dex_mod": 2 }
   },
   {
     "type": "mutation",
@@ -5039,7 +5039,7 @@
     "points": 1,
     "description": "You are a little smarter.  +1 Intelligence.",
     "types": [ "INT" ],
-    "changes_to": [ "INT_UP_2", "INT_ALPHA", "INT_SLIME" ],
+    "changes_to": [ "INT_UP_2", "INT_SLIME" ],
     "category": [ "SLIME", "ALPHA", "ELFA", "CEPHALOPOD" ],
     "passive_mods": { "int_mod": 1 }
   },
@@ -5051,8 +5051,8 @@
     "description": "You are smarter.  +2 Intelligence.",
     "types": [ "INT" ],
     "prereqs": [ "INT_UP" ],
-    "changes_to": [ "INT_UP_3" ],
-    "category": [ "CEPHALOPOD" ],
+    "changes_to": [ "INT_UP_3", "INT_ALPHA" ],
+    "category": [ "CEPHALOPOD", "ALPHA" ],
     "passive_mods": { "int_mod": 2 }
   },
   {
@@ -5091,10 +5091,10 @@
     "points": 6,
     "description": "You understand almost everything about which you think, with minimal effort.",
     "types": [ "INT" ],
-    "prereqs": [ "INT_UP" ],
+    "prereqs": [ "INT_UP_2" ],
     "threshreq": [ "THRESH_ALPHA" ],
     "category": [ "ALPHA" ],
-    "passive_mods": { "int_mod": 1 }
+    "passive_mods": { "int_mod": 2 }
   },
   {
     "type": "mutation",
@@ -8091,5 +8091,14 @@
     "purifiable": false,
     "starting_trait": true,
     "flags": [ "NYCTOPHOBIA" ]
+  },
+  {
+    "type": "mutation",
+    "id": "PORTAL_RESURRECTION",
+    "name": { "str": "Marked" },
+    "description": "Sometimes when your mind wanders you can feel something inside yourself, deeper than any mere physical sensation.  Your mind wants to call it a lifeline or a tendril or a leash.  Whatever it is, something much bigger than you has an interest in your success.",
+    "points": 0,
+    "valid": false,
+    "purifiable": false
   }
 ]
