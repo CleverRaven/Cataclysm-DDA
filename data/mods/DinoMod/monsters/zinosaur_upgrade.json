@@ -1048,7 +1048,7 @@
     "id": "mon_zankylosaurus_brute",
     "name": { "str": "Dino Tank" },
     "copy-from": "mon_zankylosaurus",
-    "description": "Heavily-armored four leggednzombie dinosaur with a beak and a massive spiked tail of bone.  Its entire body bulges with distended muscles and swollen, festering wounds.",
+    "description": "Heavily-armored four legged zombie dinosaur with a beak and a massive spiked tail of bone.  Its entire body bulges with distended muscles and swollen, festering wounds.",
     "diff": 2,
     "color": "red",
     "proportional": { "hp": 1.5, "speed": 1.5 },
@@ -3882,7 +3882,7 @@
   {
     "type": "MONSTER",
     "id": "mon_sankylosaurus",
-    "name": { "str_sp": "armored anykylosaurus" },
+    "name": { "str_sp": "armored ankylosaurus" },
     "copy-from": "mon_zankylosaurus",
     "looks_like": "mon_ankylosaurus",
     "color": "white",
