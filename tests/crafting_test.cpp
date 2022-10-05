@@ -47,7 +47,6 @@ static const itype_id itype_awl_bone( "awl_bone" );
 static const itype_id itype_candle( "candle" );
 static const itype_id itype_cash_card( "cash_card" );
 static const itype_id itype_chisel( "chisel" );
-static const itype_id itype_debug_battery( "debug_battery" );
 static const itype_id itype_hacksaw( "hacksaw" );
 static const itype_id itype_hammer( "hammer" );
 static const itype_id itype_kevlar_shears( "kevlar_shears" );
@@ -604,7 +603,7 @@ TEST_CASE( "tools use charge to craft", "[crafting][charge]" )
 
         WHEN( "each tool has enough charges" ) {
             item hotplate = tool_with_ammo( "hotplate", 500 );
-            REQUIRE( hotplate.ammo_remaining() == 350 );
+            REQUIRE( hotplate.ammo_remaining() == 500 );
             tools.push_back( hotplate );
             item soldering = tool_with_ammo( "soldering_iron", 20 );
             REQUIRE( soldering.ammo_remaining() == 20 );
