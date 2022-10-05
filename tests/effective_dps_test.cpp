@@ -285,21 +285,24 @@ static void check_staves( const std::function<Approx( const std::string & )> &ca
 
 static void check_spears( const std::function<Approx( const std::string & )> &calc_expected_dps )
 {
-    SECTION( "spears" ) { // typical value around 24
-        CHECK( calc_expected_dps( "spear_steel" ) == 23.19 );
+    SECTION( "spears" ) { // typical value around 30
+        CHECK( calc_expected_dps( "spear_steel" ) == 30.58 );
         CHECK( calc_expected_dps( "pike" ) == 23.0 );
-        CHECK( calc_expected_dps( "qiang" ) == 22.1 );
-        CHECK( calc_expected_dps( "spear_dory" ) == 19.97 );
-        CHECK( calc_expected_dps( "spear_homemade_halfpike" ) == 18.4 );
-        CHECK( calc_expected_dps( "spear_copper" ) == 19.0 );
+        CHECK( calc_expected_dps( "qiang" ) == 30.68 );
+        CHECK( calc_expected_dps( "spear_dory" ) == 28.0 );
+        CHECK( calc_expected_dps( "spear_homemade_halfpike" ) == 15.41 );
+        CHECK( calc_expected_dps( "spear_steel_crude" ) == 22 );
+        CHECK( calc_expected_dps( "spear_copper" ) == 26.7 );
         CHECK( calc_expected_dps( "spear_pipe" ) == 17.37 );
-        CHECK( calc_expected_dps( "spear_knife_superior" ) == 17.9 );
-        CHECK( calc_expected_dps( "spear_knife" ) == 17.9 );
+        CHECK( calc_expected_dps( "spear_knife_superior" ) == 16.98 );
+        CHECK( calc_expected_dps( "spear_knife" ) == 16.98 );
+        CHECK( calc_expected_dps( "spear_knife_proper" ) == 24.59 );
         CHECK( calc_expected_dps( "pike_inferior" ) == 16.0 );
+        CHECK( calc_expected_dps( "spear_shaft_sharpened" ) == 18.0 );
         CHECK( calc_expected_dps( "spear_wood" ) == 10.95 );
         CHECK( calc_expected_dps( "pitchfork" ) == 12.48 );
-        CHECK( calc_expected_dps( "spear_stone" ) == 18.61 );
-        CHECK( calc_expected_dps( "spear_forked" ) == 12.15 );
+        CHECK( calc_expected_dps( "spear_stone" ) == 20.8 );
+        CHECK( calc_expected_dps( "spear_forked" ) == 13.8 );
         CHECK( calc_expected_dps( "pike_fake" ) == 7.55 );
     }
 }
