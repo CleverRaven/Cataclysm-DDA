@@ -3,7 +3,7 @@
     "id": "surface_heat",
     "type": "requirement",
     "//": "Heat usable for heating a surface - for example a pot, pan, dutch oven, etc.",
-    "//1": "Roughly 75% efficiency for a microwave or induction hotplate, 37-40% for fossil fuel, 15% for an oven/charcoal, 50% for a regular electric cooker.  25% efficiency for improvised options like the toolkit or an arc welder.",
+    "//1": "Roughly 75% efficiency for a microwave or induction hotplate, 37-40% for fossil fuel, 15% for an oven/charcoal, 50-60% for a regular electric cooker.  25% efficiency for improvised options like the toolkit or an arc welder.",
     "//2": "esbit has 40kJ/u, kerosene/gasoline 34 kJ/u, propane 25kJ/u, acetylene 50kJ/u alcohol 20kJ/u. needs 2x total energy of induction.",
     "//3": "charcoal/coal 31/u, it is less efficient than other fossil fuels and is closer to an oven.",
     "//4": "Standards: 1 - bake one unit of flour, process 100g of fruit/veggy or caramelize 3 units of sugar, 2 - one scrap of meat, one unit of oatmeal one beans or one rice, 3 - scramble a chicken egg, 20 - chunk of meat",
@@ -15,8 +15,8 @@
       [
         [ "hotplate_induction", 25 ],
         [ "microwave", 25 ],
-        [ "hotplate", 37 ],
-        [ "multi_cooker", 37 ],
+        [ "hotplate", 35 ],
+        [ "multi_cooker", 35 ],
         [ "char_smoker", 6 ],
         [ "toolset", 75 ],
         [ "welder", 75 ],
@@ -50,7 +50,7 @@
     "//": "Power requirement to seal one bag, 400w for 10 seconds.  Includes the bag.",
     "//1": "Yes, they really are that cheap.",
     "tools": [ [ [ "vac_sealer", 4 ], [ "makeshift_sealer", 8 ] ] ],
-    "components": [ [ [ "bag_plastic", 1 ], [ "plastic_bag_vac", 1 ] ] ],
+    "components": [ [ [ "bag_plastic", 1 ], [ "plastic_bag_vac", 1 ] ] ]
   },
   {
     "id": "frying_oil",
