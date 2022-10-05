@@ -1111,15 +1111,16 @@ units::energy vehicle::part_epower_w( const int index ) const
 
 int vehicle::power_to_energy_bat( const units::energy power, const time_duration &d ) const
 {
-	units::energy produced = power * to_seconds<int64_t>( d );
-	int produced_kj = units::to_kilojoule( produced );
-	
+    units::energy produced = power * to_seconds<int64_t>( d );
+    int produced_kj = units::to_kilojoule( produced );
+
     int extra = power >= 0_J ? 1 : -1;
-	
-	// Chance to round up or down
-	produced_kj += x_in_y( std::abs( units::to_millijoule(produced) % 1000000 ), 1000000 ) ? extra : 0;
-	
-	return produced_kj;
+
+    // Chance to round up or down
+    produced_kj += x_in_y( std::abs( units::to_millijoule( produced ) % 1000000 ),
+                           1000000 ) ? extra : 0;
+
+    return produced_kj;
 }
 
 int vehicle::vhp_to_watts( const int power_vhp )
@@ -3444,9 +3445,9 @@ int vehicle::basic_consumption( const itype_id &ftype ) const
     for( size_t e = 0; e < engines.size(); ++e ) {
         if( is_engine_type_on( e, ftype ) ) {
             if( parts[ engines[e] ].ammo_current() == fuel_type_battery &&
-                part_epower_w( engines[e] ) >= 0 ) {
+                part_epower_w( engines[e] ) >= 0_J ) {
                 // Electric engine - use epower instead
-                fcon -= part_epower_w( engines[e] );
+                fcon -= units::to_joule( part_epower_w( engines[e] ) );
 
             } else if( !is_perpetual_type( e ) ) {
                 fcon += part_vpower_w( engines[e] );
@@ -4874,7 +4875,7 @@ units::energy vehicle::net_battery_charge_rate_w( bool include_reactors ) const
 {
     return total_engine_epower_w() + total_alternator_epower_w() + total_accessory_epower_w() +
            total_solar_epower_w() + total_wind_epower_w() + total_water_wheel_epower_w() +
-           ( include_reactors ? active_reactor_epower_w( false ) : 0 );
+           ( include_reactors ? active_reactor_epower_w( false ) : 0_J );
 }
 
 units::energy vehicle::active_reactor_epower_w( bool connected_vehicles ) const
@@ -5030,7 +5031,7 @@ void vehicle::power_parts()
     if( delta_energy_bat > 0 ) {
         // store epower surplus in battery
         charge_battery( delta_energy_bat );
-    } else if( epower < 0 ) {
+    } else if( epower < 0_J ) {
         // draw epower deficit from battery
         battery_deficit = discharge_battery( std::abs( delta_energy_bat ) );
     }
@@ -5057,7 +5058,7 @@ void vehicle::power_parts()
         if( player_in_control( player_character ) || player_character.sees( global_pos3() ) ) {
             add_msg( _( "The %s's battery dies!" ), name );
         }
-        if( engine_epower < 0 ) {
+        if( engine_epower < 0_J ) {
             // Not enough epower to run gas engine ignition system
             engine_on = false;
             if( player_in_control( player_character ) || player_character.sees( global_pos3() ) ) {
@@ -5158,7 +5159,7 @@ int vehicle::traverse_vehicle_graph( Vehicle *start_veh, int amount, Func action
 
             // Add this connected vehicle to the queue of vehicles to search next,
             // but only if we haven't seen this one before (checked above)
-            int target_loss = current_loss + current_veh->part_info( p ).epower;
+            int target_loss = current_loss + units::to_kilojoule( current_veh->part_info( p ).epower );
             connected_vehs.push_back( std::make_pair( target_veh, target_loss ) );
             // current_veh could be invalid after this point
 
@@ -7380,7 +7381,7 @@ void vehicle::update_time( const time_point &update_to )
                 here.emit_field( exhaust_dest( exhaust_part ), e );
             }
         }
-        discharge_battery( pt.info().epower );
+        discharge_battery( units::to_kilojoule( pt.info().epower ) );
     }
 
     if( sm_pos.z < 0 ) {

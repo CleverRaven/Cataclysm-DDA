@@ -1021,13 +1021,14 @@ int vpart_info::format_description( std::string &msg, const nc_color &format_col
         } else if( flagid == "ENABLED_DRAINS_EPOWER" ||
                    flagid == "ENGINE" ) { // ENGINEs get the same description
             if( epower < 0_J ) {
-                append_desc( string_format( json_flag::get( "ENABLED_DRAINS_EPOWER" ).info(), -epower ) );
+                append_desc( string_format( json_flag::get( "ENABLED_DRAINS_EPOWER" ).info(),
+                                            -units::to_joule( epower ) ) );
             }
         } else if( flagid == "ALTERNATOR" ||
                    flagid == "SOLAR_PANEL" ||
                    flagid == "WATER_WHEEL" ||
                    flagid == "WIND_TURBINE" ) {
-            append_desc( string_format( json_flag::get( flagid ).info(), epower ) );
+            append_desc( string_format( json_flag::get( flagid ).info(), units::to_joule( epower ) ) );
         } else {
             append_desc( json_flag::get( flagid ).info() );
         }

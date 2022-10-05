@@ -768,7 +768,7 @@ class vehicle
         // get vpart powerinfo for part number, accounting for variable-sized parts and hps.
         int part_vpower_w( int index, bool at_full_hp = false ) const;
 
-		// Get part power consumption/production for part number.
+        // Get part power consumption/production for part number.
         units::energy part_epower_w( int index ) const;
 
         // convert watts over time to battery energy (kJ)

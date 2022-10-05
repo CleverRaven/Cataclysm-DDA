@@ -1432,7 +1432,7 @@ void veh_interact::calc_overview()
     overview_opts.clear();
     overview_headers.clear();
 
-    int epower_w = veh->net_battery_charge_rate_w();
+    units::energy epower_w = veh->net_battery_charge_rate_w();
     overview_headers["1_ENGINE"] = [this]( const catacurses::window & w, int y ) {
         trim_and_print( w, point( 1, y ), getmaxx( w ) - 2, c_light_gray,
                         string_format( _( "Engines: %sSafe %4d kW</color> %sMax %4d kW</color>" ),
@@ -1446,27 +1446,27 @@ void veh_interact::calc_overview()
     };
     overview_headers["3_BATTERY"] = [epower_w]( const catacurses::window & w, int y ) {
         std::string batt;
-        if( std::abs( epower_w ) < 10000 ) {
+        if( epower_w < 10_kJ || epower_w > 10_kJ ) {
             batt = string_format( _( "Batteries: %s%+4d W</color>" ),
-                                  health_color( epower_w >= 0 ), epower_w );
+                                  health_color( epower_w >= 0_J ), units::to_joule( epower_w ) );
         } else {
             batt = string_format( _( "Batteries: %s%+4.1f kW</color>" ),
-                                  health_color( epower_w >= 0 ), epower_w / 1000.0 );
+                                  health_color( epower_w >= 0_J ), units::to_joule( epower_w ) / 1000.0 );
         }
         trim_and_print( w, point( 1, y ), getmaxx( w ) - 2, c_light_gray, batt );
         right_print( w, y, 1, c_light_gray, _( "Capacity  Status" ) );
     };
     overview_headers["4_REACTOR"] = [this]( const catacurses::window & w, int y ) {
-        int reactor_epower_w = veh->max_reactor_epower_w();
+        units::energy reactor_epower_w = veh->max_reactor_epower_w();
         std::string reactor;
-        if( reactor_epower_w == 0 ) {
+        if( reactor_epower_w == 0_J ) {
             reactor = _( "Reactors" );
-        } else if( reactor_epower_w < 10000 ) {
+        } else if( reactor_epower_w < 10_kJ ) {
             reactor = string_format( _( "Reactors: Up to %s%+4d W</color>" ),
-                                     health_color( reactor_epower_w ), reactor_epower_w );
+                                     health_color( reactor_epower_w > 0_J ), units::to_joule( reactor_epower_w ) );
         } else {
             reactor = string_format( _( "Reactors: Up to %s%+4.1f kW</color>" ),
-                                     health_color( reactor_epower_w ), reactor_epower_w / 1000.0 );
+                                     health_color( reactor_epower_w > 0_J ), units::to_joule( reactor_epower_w ) / 1000.0 );
         }
         trim_and_print( w, point( 1, y ), getmaxx( w ) - 2, c_light_gray, reactor );
         right_print( w, y, 1, c_light_gray, _( "Contents     Qty" ) );
@@ -3025,11 +3025,11 @@ void veh_interact::display_details( const vpart_info *part )
                         whl ? whl->width : 0 );
     }
 
-    if( part->epower != 0 ) {
+    if( part->epower != 0_J ) {
         fold_and_print( w_details, point( col_2, line + 3 ), column_width, c_white,
                         "%s: <color_light_gray>%+4d</color>",
                         small_mode ? _( "Epwr" ) : _( "Electric Power" ),
-                        part->epower );
+                        units::to_joule( part->epower ) );
     }
 
     // line 4 [horizontal]: fuel_type (if applicable)

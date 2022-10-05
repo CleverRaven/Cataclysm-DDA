@@ -221,7 +221,7 @@ void vehicle::smart_controller_handle_turn( bool thrusting,
 
     int prev_mask = 0;
     // opt_ prefix denotes values for currently found "optimal" engine configuration
-    units::energy opt_net_echarge_rate = units::from_joule( net_battery_charge_rate_w() );
+    units::energy opt_net_echarge_rate = net_battery_charge_rate_w();
     // total engine fuel energy usage (J)
     units::energy opt_fuel_usage = 0_J;
 
@@ -293,7 +293,7 @@ void vehicle::smart_controller_handle_turn( bool thrusting,
         int safe_vel =  is_stationary ? 1 : safe_ground_velocity( true );
         int accel = is_stationary ? 1 : current_acceleration() * traction;
         units::energy fuel_usage = 0_J;
-        units::energy net_echarge_rate = units::from_joule( net_battery_charge_rate_w() );
+        units::energy net_echarge_rate = net_battery_charge_rate_w();
         float load_approx = static_cast<float>( std::min( accel_demand, accel ) ) / std::max( accel, 1 );
         update_alternator_load();
         float load_approx_alternator  = std::min( 0.01f, static_cast<float>( alternator_load ) / 1000 );
