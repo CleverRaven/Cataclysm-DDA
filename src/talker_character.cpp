@@ -294,10 +294,22 @@ int talker_character_const::get_highest_spell_level() const
     return spell_level;
 }
 
+int talker_character_const::get_spell_exp( const spell_id &spell_name ) const
+{
+    if( !me_chr_const->magic->knows_spell( spell_name ) ) {
+        return -1;
+    }
+    return me_chr_const->magic->get_spell( spell_name ).xp();
+}
 
 void talker_character::set_spell_level( const spell_id &sp, int new_level )
 {
     me_chr->magic->set_spell_level( sp, new_level, me_chr );
+}
+
+void talker_character::set_spell_exp( const spell_id &sp, int new_level )
+{
+    me_chr->magic->set_spell_exp( sp, new_level, me_chr );
 }
 
 bool talker_character_const::knows_proficiency( const proficiency_id &proficiency ) const

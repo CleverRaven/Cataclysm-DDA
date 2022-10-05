@@ -1245,6 +1245,16 @@
         "condition": { "compare_int": [ { "u_val": "spell_level" }, "==", { "const": 12 } ] }
       },
       {
+        "text": "Exp of Pew, Pew is -1.",
+        "topic": "TALK_DONE",
+        "condition": { "compare_int": [ { "u_val": "spell_exp", "spell": "test_spell_pew" }, "==", { "const": -1 } ] }
+      },
+      {
+        "text": "Exp of Pew, Pew is 11006.",
+        "topic": "TALK_DONE",
+        "condition": { "compare_int": [ { "u_val": "spell_exp", "spell": "test_spell_pew" }, "==", { "const": 11006 } ] }
+      },
+      {
         "text": "Test Proficiency learning is 5 out of 10.",
         "topic": "TALK_DONE",
         "condition": { "compare_int": [ { "u_val": "proficiency", "proficiency_id": "prof_test", "format": 10 }, "==", { "const": 5 } ] }
@@ -1283,16 +1293,6 @@
         "condition": {
           "compare_int": [ { "u_val": "proficiency", "proficiency_id": "prof_test", "format": "time_left" }, "==", { "time": "12h" } ]
         }
-      },
-      {
-        "text": "Mod load order for Innawood is -1.",
-        "topic": "TALK_DONE",
-        "condition": { "compare_int": [ { "mod_load_order": "innawood" }, "==", { "const": -1 } ] }
-      },
-      {
-        "text": "Mod load order for TESTING DATA is 1.",
-        "topic": "TALK_DONE",
-        "condition": { "compare_int": [ { "mod_load_order": "test_data" }, "==", { "const": 1 } ] }
       }
     ]
   },
@@ -1543,6 +1543,16 @@
         "effect": { "arithmetic": [ { "u_val": "spell_level", "spell": "test_spell_pew" }, "=", { "const": 4 } ] }
       },
       {
+        "text": "Sets pew pew's exp to -1.",
+        "topic": "TALK_DONE",
+        "effect": { "arithmetic": [ { "u_val": "spell_exp", "spell": "test_spell_pew" }, "=", { "const": -1 } ] }
+      },
+      {
+        "text": "Sets pew pew's exp to 11006.",
+        "topic": "TALK_DONE",
+        "effect": { "arithmetic": [ { "u_val": "spell_exp", "spell": "test_spell_pew" }, "=", { "const": 11006 } ] }
+      },
+      {
         "text": "Sets Test Proficiency learning done to 12 hours total.",
         "topic": "TALK_DONE",
         "effect": {
@@ -1612,6 +1622,16 @@
       { "text": "Faction trust is at least 20.", "topic": "TALK_DONE", "condition": { "u_has_faction_trust": 20 } },
       { "text": "Add 50 to faction trust.", "topic": "TALK_DONE", "effect": { "u_add_faction_trust": 50 } },
       { "text": "Start trade.", "topic": "TALK_DONE", "effect": "start_trade" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_TEST_META",
+    "dynamic_line": "This is a test conversation that shouldn't appear in the game.",
+    "responses": [
+      { "text": "This is a basic test response.", "topic": "TALK_DONE" },
+      { "text": "Mod TESTING DATA is loaded.", "topic": "TALK_DONE", "condition": { "mod_is_loaded": "test_data" } },
+      { "text": "Mod Innawood is loaded.", "topic": "TALK_DONE", "condition": { "mod_is_loaded": "innawood" } }
     ]
   },
   {

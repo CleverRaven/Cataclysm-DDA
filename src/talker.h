@@ -176,10 +176,14 @@ class talker
         virtual int get_spell_level( const spell_id & ) const {
             return 0;
         }
+        virtual int get_spell_exp( const spell_id & ) const {
+            return 0;
+        }
         virtual int get_highest_spell_level() const {
             return 0;
         }
         virtual void set_spell_level( const spell_id &, int ) {}
+        virtual void set_spell_exp( const spell_id &, int ) {}
         virtual void set_skill_level( const skill_id &, int ) {}
         virtual bool has_trait( const trait_id & ) const {
             return false;

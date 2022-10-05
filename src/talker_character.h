@@ -74,6 +74,7 @@ class talker_character_const: public talker
         int get_skill_level( const skill_id & ) const override;
         int get_spell_level( const trait_id & ) const override;
         int get_spell_level( const spell_id & ) const override;
+        int get_spell_exp( const spell_id & ) const override;
         int get_highest_spell_level() const override;
         bool knows_proficiency( const proficiency_id &proficiency ) const override;
         time_duration proficiency_practiced_time( const proficiency_id & ) const override;
@@ -180,6 +181,7 @@ class talker_character: public talker_character_const
         void set_power_cur( units::energy value ) override;
         void set_mana_cur( int value ) override;
         void set_spell_level( const spell_id &, int ) override;
+        void set_spell_exp( const spell_id &, int ) override;
         void set_proficiency_practiced_time( const proficiency_id &prof, int turns ) override;
         void mutate( const int &highest_cat_chance, const bool &use_vitamins ) override;
         void mutate_category( const mutation_category_id &mut_cat, const bool &use_vitamins ) override;

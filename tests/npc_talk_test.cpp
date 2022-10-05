@@ -37,7 +37,6 @@
 #include "point.h"
 #include "talker.h"
 #include "type_id.h"
-#include "worldfactory.h"
 
 static const bionic_id bio_ads( "bio_ads" );
 static const bionic_id bio_power_storage( "bio_power_storage" );
@@ -55,8 +54,6 @@ static const itype_id itype_beer( "beer" );
 static const itype_id itype_bottle_glass( "bottle_glass" );
 static const itype_id itype_dnd_handbook( "dnd_handbook" );
 static const itype_id itype_manual_speech( "manual_speech" );
-
-static const mod_id MOD_INFORMATION_test_data( "test_data" );
 
 static const mtype_id mon_zombie_bio_op( "mon_zombie_bio_op" );
 
@@ -970,6 +967,18 @@ TEST_CASE( "npc_faction_trust", "[npc_talk]" )
     CHECK( d.responses[3].text == "Start trade." );
 }
 
+TEST_CASE( "test_talk_meta", "[npc_talk]" )
+{
+    dialogue d;
+    npc &beta = prep_test( d, true );
+    Character &player_character = get_avatar();
+
+    d.add_topic( "TALK_TEST_META" );
+    gen_response_lines( d, 2 );
+    CHECK( d.responses[0].text == "This is a basic test response." );
+    CHECK( d.responses[1].text == "Mod TESTING DATA is loaded." );
+}
+
 TEST_CASE( "npc_talk_effects", "[npc_talk]" )
 {
     dialogue d;
@@ -1129,14 +1138,9 @@ TEST_CASE( "npc_compare_int", "[npc_talk]" )
     player_character.remove_value( "npctalk_var_test_var_time_test_test" );
     calendar::turn = calendar::turn_zero;
 
-    int expected_answers = 7;
+    int expected_answers = 6;
     if( player_character.magic->max_mana( player_character ) == 900 ) {
         expected_answers++;
-    }
-    bool test_data_is_1 = true;
-    if( world_generator->active_world->active_mod_order[1] != MOD_INFORMATION_test_data ) {
-        expected_answers--;
-        test_data_is_1 = false;
     }
 
     d.add_topic( "TALK_TEST_COMPARE_INT" );
@@ -1144,6 +1148,9 @@ TEST_CASE( "npc_compare_int", "[npc_talk]" )
     CHECK( d.responses[ 0 ].text == "This is a u_adjust_var test response that increments by 1." );
     CHECK( d.responses[ 1 ].text == "This is an npc_adjust_var test response that increments by 2." );
     CHECK( d.responses[ 2 ].text == "This is a u_add_var time test response." );
+    CHECK( d.responses[expected_answers - 2].text == "Exp of Pew, Pew is -1." );
+    CHECK( d.responses[expected_answers - 1].text ==
+           "Test Proficiency total learning time is 24 hours." );
 
     beta.str_cur = 9;
     beta.dex_cur = 10;
@@ -1205,10 +1212,7 @@ TEST_CASE( "npc_compare_int", "[npc_talk]" )
     player_character.per_cur = 8;
     player_character.magic->set_mana( 25 );
 
-    expected_answers = 52;
-    if( !test_data_is_1 ) {
-        expected_answers--;
-    }
+    expected_answers = 51;
     gen_response_lines( d, expected_answers );
     CHECK( d.responses[ 0 ].text == "This is a u_adjust_var test response that increments by 1." );
     CHECK( d.responses[ 1 ].text == "This is an npc_adjust_var test response that increments by 2." );
@@ -1255,16 +1259,13 @@ TEST_CASE( "npc_compare_int", "[npc_talk]" )
     CHECK( d.responses[ 41 ].text == "Highest spell level in school test_trait is 1." );
     CHECK( d.responses[ 42 ].text == "Spell level of Pew, Pew is 4." );
     CHECK( d.responses[ 43 ].text == "Spell level of highest spell is 12." );
-    CHECK( d.responses[ 44 ].text == "Test Proficiency learning is 5 out of 10." );
-    CHECK( d.responses[ 45 ].text == "Test Proficiency learning done is 12 hours total." );
-    CHECK( d.responses[ 46 ].text == "Test Proficiency learning is 50% learnt." );
-    CHECK( d.responses[ 47 ].text == "Test Proficiency learning is 500 permille learnt." );
-    CHECK( d.responses[ 48 ].text == "Test Proficiency total learning time is 24 hours." );
-    CHECK( d.responses[ 49 ].text == "Test Proficiency time lest to learn is 12h." );
-    CHECK( d.responses[50].text == "Mod load order for Innawood is -1." );
-    if( test_data_is_1 ) {
-        CHECK( d.responses[ 51 ].text == "Mod load order for TESTING DATA is 1." );
-    }
+    CHECK( d.responses[ 44 ].text == "Exp of Pew, Pew is 11006." );
+    CHECK( d.responses[ 45 ].text == "Test Proficiency learning is 5 out of 10." );
+    CHECK( d.responses[ 46 ].text == "Test Proficiency learning done is 12 hours total." );
+    CHECK( d.responses[ 47 ].text == "Test Proficiency learning is 50% learnt." );
+    CHECK( d.responses[ 48 ].text == "Test Proficiency learning is 500 permille learnt." );
+    CHECK( d.responses[ 49 ].text == "Test Proficiency total learning time is 24 hours." );
+    CHECK( d.responses[ 50 ].text == "Test Proficiency time lest to learn is 12h." );
 
     calendar::turn = calendar::turn + time_duration( 4_days );
     expected_answers++;
@@ -1406,7 +1407,7 @@ TEST_CASE( "npc_arithmetic", "[npc_talk]" )
     Character &player_character = get_avatar();
 
     d.add_topic( "TALK_TEST_ARITHMETIC" );
-    gen_response_lines( d, 30 );
+    gen_response_lines( d, 32 );
 
     calendar::turn = calendar::turn_zero;
     REQUIRE( calendar::turn == time_point( 0 ) );
@@ -1579,6 +1580,17 @@ TEST_CASE( "npc_arithmetic", "[npc_talk]" )
     effects.apply( d );
     CHECK( player_character.magic->knows_spell( spell_test_spell_pew ) == false );
 
+    // "Sets pew pew's exp to 11006."
+    effects = d.responses[28].success;
+    effects.apply( d );
+    CHECK( player_character.magic->knows_spell( spell_test_spell_pew ) == true );
+    CHECK( player_character.magic->get_spell( spell_test_spell_pew ).get_level() == 4 );
+
+    // "Sets pew pew's exp to -1."
+    effects = d.responses[27].success;
+    effects.apply( d );
+    CHECK( player_character.magic->knows_spell( spell_test_spell_pew ) == false );
+
     // Setup proficiency tests
     if( player_character.has_proficiency( proficiency_prof_test ) ) {
         player_character.lose_proficiency( proficiency_prof_test, true );
@@ -1591,7 +1603,7 @@ TEST_CASE( "npc_arithmetic", "[npc_talk]" )
     }
 
     // "Sets Test Proficiency learning done to -1."
-    effects = d.responses[28].success;
+    effects = d.responses[30].success;
     effects.apply( d );
     CHECK( player_character.has_proficiency( proficiency_prof_test ) == false );
     proficiencies_vector = player_character.learning_proficiencies();
@@ -1600,7 +1612,7 @@ TEST_CASE( "npc_arithmetic", "[npc_talk]" )
                        proficiency_prof_test ) == 0 );
 
     // "Sets Test Proficiency learning done to 24h."
-    effects = d.responses[29].success;
+    effects = d.responses[31].success;
     effects.apply( d );
     CHECK( player_character.has_proficiency( proficiency_prof_test ) == true );
     proficiencies_vector = player_character.learning_proficiencies();
@@ -1609,7 +1621,7 @@ TEST_CASE( "npc_arithmetic", "[npc_talk]" )
                        proficiency_prof_test ) == 0 );
 
     // "Sets Test Proficiency learning done to 12 hours total."
-    effects = d.responses[27].success;
+    effects = d.responses[29].success;
     effects.apply( d );
     CHECK( player_character.has_proficiency( proficiency_prof_test ) == false );
     proficiencies_vector = player_character.learning_proficiencies();
@@ -1618,7 +1630,7 @@ TEST_CASE( "npc_arithmetic", "[npc_talk]" )
                        proficiency_prof_test ) != 0 );
 
     // "Sets Test Proficiency learning done to -1."
-    effects = d.responses[28].success;
+    effects = d.responses[30].success;
     effects.apply( d );
     CHECK( player_character.has_proficiency( proficiency_prof_test ) == false );
     proficiencies_vector = player_character.learning_proficiencies();

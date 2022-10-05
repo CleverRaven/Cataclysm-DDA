@@ -1769,6 +1769,26 @@ void known_magic::set_spell_level( const spell_id &sp, int new_level, const Char
     }
 }
 
+void known_magic::set_spell_exp( const spell_id &sp, int new_exp, const Character *guy )
+{
+    spell temp_spell( sp->id );
+    if( !knows_spell( sp ) ) {
+        if( new_exp >= 0 ) {
+            temp_spell.set_exp( new_exp );
+            spellbook.emplace( sp->id, spell( temp_spell ) );
+            get_event_bus().send<event_type::character_learns_spell>( guy->getID(), sp->id );
+        }
+    } else {
+        if( new_exp >= 0 ) {
+            spell &temp_sp = get_spell( sp );
+            temp_sp.set_exp( new_exp );
+        } else {
+            get_event_bus().send<event_type::character_forgets_spell>( guy->getID(), sp->id );
+            spellbook.erase( sp );
+        }
+    }
+}
+
 bool known_magic::can_learn_spell( const Character &guy, const spell_id &sp ) const
 {
     const spell_type &sp_t = sp.obj();

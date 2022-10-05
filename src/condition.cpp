@@ -1206,6 +1206,20 @@ void conditional_t<T>::set_is_weather( const JsonObject &jo )
 }
 
 template<class T>
+void conditional_t<T>::set_mod_is_loaded( const JsonObject &jo )
+{
+    mod_id compared_mod = mod_id( jo.get_string( "mod_is_loaded" ) );
+    condition = [compared_mod]( const T & ) {
+        for( const mod_id &mod : world_generator->active_world->active_mod_order ) {
+            if( compared_mod == mod ) {
+                return true;
+            }
+        }
+        return false;
+    };
+}
+
+template<class T>
 void conditional_t<T>::set_has_faction_trust( const JsonObject &jo, const std::string &member )
 {
     int_or_var<T> iov = get_int_or_var<T>( jo, member );
@@ -1810,6 +1824,12 @@ std::function<int( const T & )> conditional_t<T>::get_get_int( const JsonObject 
                     return d.actor( is_npc )->get_highest_spell_level();
                 };
             }
+        } else if( checked_value == "spell_exp" ) {
+            const std::string spell_name = jo.get_string( "spell" );
+            const spell_id this_spell_id( spell_name );
+            return [is_npc, this_spell_id]( const T & d ) {
+                return d.actor( is_npc )->get_spell_exp( this_spell_id );
+            };
         } else if( checked_value == "proficiency" ) {
             const std::string proficiency_name = jo.get_string( "proficiency_id" );
             const proficiency_id the_proficiency_id( proficiency_name );
@@ -2258,6 +2278,12 @@ static std::function<void( const T &, int )> get_set_int( const JsonObject &jo,
             const spell_id this_spell_id( spell_name );
             return [is_npc, min, max, this_spell_id]( const T & d, int input ) {
                 d.actor( is_npc )->set_spell_level( this_spell_id, handle_min_max<T>( d, input, min, max ) );
+            };
+        } else if( checked_value == "spell_exp" ) {
+            const std::string spell_name = jo.get_string( "spell" );
+            const spell_id this_spell_id( spell_name );
+            return [is_npc, min, max, this_spell_id]( const T & d, int input ) {
+                d.actor( is_npc )->set_spell_exp( this_spell_id, handle_min_max<T>( d, input, min, max ) );
             };
         } else if( checked_value == "proficiency" ) {
             const std::string proficiency_name = jo.get_string( "proficiency_id" );
@@ -2880,6 +2906,8 @@ conditional_t<T>::conditional_t( const JsonObject &jo )
         set_has_move_mode( jo, "npc_has_move_mode", is_npc );
     } else if( jo.has_string( "is_weather" ) ) {
         set_is_weather( jo );
+    } else if( jo.has_string( "mod_is_loaded" ) ) {
+        set_mod_is_loaded( jo );
     } else if( jo.has_int( "u_has_faction_trust" ) || jo.has_object( "u_has_faction_trust" ) ) {
         set_has_faction_trust( jo, "u_has_faction_trust" );
     } else if( jo.has_member( "compare_int" ) ) {
