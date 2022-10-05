@@ -127,7 +127,7 @@
     "to_hit": { "grip": "none", "length": "long", "surface": "any", "balance": "uneven" },
     "price": 500,
     "price_postapoc": 10,
-    "flags": [ "FRAGILE_MELEE", "FIREWOOD" ]
+    "flags": [ "FIREWOOD" ]
   },
   {
     "type": "GENERIC",
@@ -183,7 +183,7 @@
     "to_hit": { "grip": "none", "length": "long", "surface": "any", "balance": "uneven" },
     "price": 1000,
     "price_postapoc": 10,
-    "flags": [ "FRAGILE_MELEE", "FIREWOOD" ]
+    "flags": [ "FIREWOOD" ]
   },
   {
     "type": "GENERIC",
@@ -201,7 +201,7 @@
     "to_hit": { "grip": "none", "length": "long", "surface": "any", "balance": "uneven" },
     "price": 500,
     "price_postapoc": 10,
-    "flags": [ "FRAGILE_MELEE", "FIREWOOD" ]
+    "flags": [ "FIREWOOD" ]
   },
   {
     "type": "GENERIC",
