@@ -2164,7 +2164,8 @@
     "time": "10 m",
     "reversible": true,
     "autolearn": true,
-    "components": [ [ [ "oil_lamp", 1 ] ], [ [ "pilot_light", 1 ] ], [ [ "scrap", 3 ] ], [ [ "duct_tape", 50 ] ] ]
+    "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "SCREW", "level": 1 } ],
+    "components": [ [ [ "oil_lamp", 1 ] ], [ [ "pilot_light", 1 ] ], [ [ "metal_tank_little", 1 ] ], [ [ "duct_tape", 50 ] ] ]
   },
   {
     "type": "recipe",
