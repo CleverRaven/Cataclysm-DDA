@@ -3531,7 +3531,7 @@ bool Character::in_climate_control()
                                  // Also check for a working alternator. Muscle or animal could be powering it.
                                  (
                                      vp->is_inside() &&
-                                     vp->vehicle().total_alternator_epower_w() > 0
+                                     vp->vehicle().total_alternator_epower_w() > 0_J
                                  )
                              );
         }

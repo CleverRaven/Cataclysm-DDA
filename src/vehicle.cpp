@@ -127,9 +127,6 @@ static const std::string flag_APPLIANCE( "APPLIANCE" );
 static bool is_sm_tile_outside( const tripoint &real_global_pos );
 static bool is_sm_tile_over_water( const tripoint &real_global_pos );
 
-// 1 kJ per battery charge
-static const int bat_energy_j = 1000;
-
 void DefaultRemovePartHandler::removed( vehicle &veh, const int part )
 {
     avatar &player_character = get_avatar();
@@ -1103,26 +1100,26 @@ int vehicle::part_vpower_w( const int index, const bool at_full_hp ) const
 // alternators, solar panels, reactors, and accessories all have epower.
 // alternators, solar panels, and reactors provide, whilst accessories consume.
 // for motor consumption see @ref vpart_info::energy_consumption instead
-int vehicle::part_epower_w( const int index ) const
+units::energy vehicle::part_epower_w( const int index ) const
 {
-    int e = part_info( index ).epower;
-    if( e < 0 ) {
+    units::energy e = part_info( index ).epower;
+    if( e < 0_J ) {
         return e; // Consumers always draw full power, even if broken
     }
     return e * parts[ index ].health_percent();
 }
 
-int vehicle::power_to_energy_bat( const int power_w, const time_duration &d ) const
+int vehicle::power_to_energy_bat( const units::energy power, const time_duration &d ) const
 {
-    // Integrate constant epower (watts) over time to get units of battery energy
-    // Thousands of watts over millions of seconds can happen, so 32-bit int
-    // insufficient.
-    int64_t energy_j = power_w * to_seconds<int64_t>( d );
-    int energy_bat = energy_j / bat_energy_j;
-    int sign = power_w >= 0 ? 1 : -1;
-    // energy_bat remainder results in chance at additional charge/discharge
-    energy_bat += x_in_y( std::abs( energy_j % bat_energy_j ), bat_energy_j ) ? sign : 0;
-    return energy_bat;
+	units::energy produced = power * to_seconds<int64_t>( d );
+	int produced_kj = units::to_kilojoule( produced );
+	
+    int extra = power >= 0_J ? 1 : -1;
+	
+	// Chance to round up or down
+	produced_kj += x_in_y( std::abs( units::to_millijoule(produced) % 1000000 ), 1000000 ) ? extra : 0;
+	
+	return produced_kj;
 }
 
 int vehicle::vhp_to_watts( const int power_vhp )
@@ -4701,9 +4698,9 @@ std::vector<vehicle_part *> vehicle::lights( bool active )
     return res;
 }
 
-int vehicle::total_accessory_epower_w() const
+units::energy vehicle::total_accessory_epower_w() const
 {
-    int epower = 0;
+    units::energy epower = 0_J;
     for( int part : accessories ) {
         const vehicle_part &vp = parts[part];
         if( vp.enabled ) {
@@ -4774,9 +4771,9 @@ bool vehicle::start_engine( int e, bool turn_on )
     return res;
 }
 
-int vehicle::total_alternator_epower_w() const
+units::energy vehicle::total_alternator_epower_w() const
 {
-    int epower = 0;
+    units::energy epower = 0_J;
     if( engine_on ) {
         // If the engine is on, the alternators are working.
         for( size_t p = 0; p < alternators.size(); ++p ) {
@@ -4788,9 +4785,9 @@ int vehicle::total_alternator_epower_w() const
     return epower;
 }
 
-int vehicle::total_engine_epower_w() const
+units::energy vehicle::total_engine_epower_w() const
 {
-    int epower = 0;
+    units::energy epower = 0_J;
 
     // Engines: can both produce (plasma) or consume (gas, diesel) epower.
     // Gas engines require epower to run for ignition system, ECU, etc.
@@ -4806,9 +4803,9 @@ int vehicle::total_engine_epower_w() const
     return epower;
 }
 
-int vehicle::total_solar_epower_w() const
+units::energy vehicle::total_solar_epower_w() const
 {
-    int epower_w = 0;
+    units::energy epower_w = 0_J;
     map &here = get_map();
     for( int part : solar_panels ) {
         if( parts[ part ].is_unavailable() ) {
@@ -4828,13 +4825,13 @@ int vehicle::total_solar_epower_w() const
     return epower_w * intensity;
 }
 
-int vehicle::total_wind_epower_w() const
+units::energy vehicle::total_wind_epower_w() const
 {
     map &here = get_map();
     const oter_id &cur_om_ter = overmap_buffer.ter( global_omt_location() );
     weather_manager &weather = get_weather();
     const w_point weatherPoint = *weather.weather_precise;
-    int epower_w = 0;
+    units::energy epower_w = 0_J;
     for( int part : wind_turbines ) {
         if( parts[ part ].is_unavailable() ) {
             continue;
@@ -4854,9 +4851,9 @@ int vehicle::total_wind_epower_w() const
     return epower_w;
 }
 
-int vehicle::total_water_wheel_epower_w() const
+units::energy vehicle::total_water_wheel_epower_w() const
 {
-    int epower_w = 0;
+    units::energy epower_w = 0_J;
     map &here = get_map();
     for( int part : water_wheels ) {
         if( parts[ part ].is_unavailable() ) {
@@ -4873,16 +4870,16 @@ int vehicle::total_water_wheel_epower_w() const
     return epower_w;
 }
 
-int vehicle::net_battery_charge_rate_w( bool include_reactors ) const
+units::energy vehicle::net_battery_charge_rate_w( bool include_reactors ) const
 {
     return total_engine_epower_w() + total_alternator_epower_w() + total_accessory_epower_w() +
            total_solar_epower_w() + total_wind_epower_w() + total_water_wheel_epower_w() +
            ( include_reactors ? active_reactor_epower_w( false ) : 0 );
 }
 
-int vehicle::active_reactor_epower_w( bool connected_vehicles ) const
+units::energy vehicle::active_reactor_epower_w( bool connected_vehicles ) const
 {
-    int reactor_w = 0;
+    units::energy reactor_w = 0_J;
 
     for( int elem : reactors ) {
         if( is_part_on( elem ) && !parts[elem].is_unavailable() &&
@@ -4892,7 +4889,7 @@ int vehicle::active_reactor_epower_w( bool connected_vehicles ) const
         }
     }
 
-    if( reactor_w > 0 ) {
+    if( reactor_w > 0_J ) {
         // The reactor is providing power, but not all of it will really be used.
         // Only count as much power as will be drawn from the reactor to fill the batteries.
         int total_battery_left;
@@ -4904,7 +4901,7 @@ int vehicle::active_reactor_epower_w( bool connected_vehicles ) const
         int batteries_need = std::max( 0, total_battery_capacity - total_battery_left );
 
         // How much battery are others adding/draining?
-        int others_w = net_battery_charge_rate_w( false );
+        units::energy others_w = net_battery_charge_rate_w( false );
         int others_bat = power_to_energy_bat( others_w, 1_turns );
 
         // How much battery will the reactors add?
@@ -4917,7 +4914,7 @@ int vehicle::active_reactor_epower_w( bool connected_vehicles ) const
             // Since the batteries will be filled up immediately,
             // the reactor will throttle, providing just enough to cancel out
             // any negative draw on the batteries.
-            return std::max( 1, -others_w );
+            return std::max( 1_kJ, -others_w );
         } else {
             // The reactor will not immediately fill up the batteries.
             // Thus it will provide full power.
@@ -4925,15 +4922,15 @@ int vehicle::active_reactor_epower_w( bool connected_vehicles ) const
         }
     } else {
         // No power provded by reactors, don't bother checking battery level.
-        return 0;
+        return 0_J;
     }
 }
 
-int vehicle::max_reactor_epower_w() const
+units::energy vehicle::max_reactor_epower_w() const
 {
-    int epower_w = 0;
+    units::energy epower_w = 0_J;
     for( int elem : reactors ) {
-        epower_w += is_part_on( elem ) ? part_epower_w( elem ) : 0;
+        epower_w += is_part_on( elem ) ? part_epower_w( elem ) : 0_J;
     }
     return epower_w;
 }
@@ -4967,8 +4964,8 @@ void vehicle::power_parts()
 {
     update_alternator_load();
     // Things that drain energy: engines and accessories.
-    int engine_epower = total_engine_epower_w();
-    int epower = engine_epower + total_accessory_epower_w() + total_alternator_epower_w();
+    units::energy engine_epower = total_engine_epower_w();
+    units::energy epower = engine_epower + total_accessory_epower_w() + total_alternator_epower_w();
 
     int delta_energy_bat = power_to_energy_bat( epower, 1_turns );
     Character &player_character = get_player_character();
@@ -5050,7 +5047,7 @@ void vehicle::power_parts()
 
         for( const vpart_reference &vp : get_enabled_parts( VPFLAG_ENABLED_DRAINS_EPOWER ) ) {
             vehicle_part &pt = vp.part();
-            if( pt.info().epower < 0 ) {
+            if( pt.info().epower < 0_J ) {
                 pt.enabled = false;
             }
         }
@@ -7454,7 +7451,7 @@ void vehicle::update_time( const time_point &update_to )
     }
 
     if( !solar_panels.empty() ) {
-        int epower_w = 0;
+        units::energy epower_w = 0_J;
         for( int part : solar_panels ) {
             if( parts[ part ].is_unavailable() ) {
                 continue;
@@ -7477,7 +7474,7 @@ void vehicle::update_time( const time_point &update_to )
     if( !wind_turbines.empty() ) {
         // TODO: use accum_weather wind data to backfill wind turbine
         // generation capacity.
-        int epower_w = total_wind_epower_w();
+        units::energy epower_w = total_wind_epower_w();
         int energy_bat = power_to_energy_bat( epower_w, elapsed );
         if( energy_bat > 0 ) {
             add_msg_debug( debugmode::DF_VEHICLE, "%s got %d kJ energy from wind turbines", name, energy_bat );
@@ -7485,7 +7482,7 @@ void vehicle::update_time( const time_point &update_to )
         }
     }
     if( !water_wheels.empty() ) {
-        int epower_w = total_water_wheel_epower_w();
+        units::energy epower_w = total_water_wheel_epower_w();
         int energy_bat = power_to_energy_bat( epower_w, elapsed );
         if( energy_bat > 0 ) {
             add_msg_debug( debugmode::DF_VEHICLE, "%s got %d kJ energy from water wheels", name, energy_bat );

@@ -63,7 +63,7 @@
     "item": "i6_diesel",
     "description": "An inline 6-cylinder diesel engine.  Somewhat more powerful but much larger than a V6, you might see an engine like this in a road roller or excavator.",
     "durability": 400,
-    "epower": -350,
+    "epower": "-350 J",
     "power": 223800,
     "energy_consumption": "559500 J",
     "breaks_into": [
@@ -89,7 +89,7 @@
     "item": "i4_diesel",
     "description": "A four-cylinder diesel engine, commonly found in small passenger cars and light trucks.",
     "durability": 300,
-    "epower": -200,
+    "epower": "-200 J",
     "power": 93250,
     "energy_consumption": "266000 J",
     "breaks_into": [
@@ -115,7 +115,7 @@
     "item": "v6_diesel",
     "description": "A powerful 6-cylinder diesel engine, typical of a bus, RV, large van, or armored personnel carrier.",
     "durability": 400,
-    "epower": -250,
+    "epower": "-250 J",
     "power": 149200,
     "energy_consumption": "373000 J",
     "breaks_into": [
@@ -141,7 +141,7 @@
     "item": "v8_diesel",
     "description": "A large 8-cylinder diesel engine, powerful enough for a semi truck, armored car, or Humvee.",
     "durability": 400,
-    "epower": -350,
+    "epower": "-350 J",
     "power": 242450,
     "energy_consumption": "606250 J",
     "breaks_into": [
@@ -168,7 +168,7 @@
     "//": "10 HP scooter engine",
     "description": "A small 1-cylinder gasoline engine delivering around 10 horsepower, enough for a scooter or motorized bicycle.",
     "durability": 150,
-    "epower": 0,
+    "epower": "0 J",
     "power": 7370,
     "energy_consumption": "18425 J",
     "folded_volume": "60 L",
@@ -196,7 +196,7 @@
     "//": "55 HP high-performance water-cooled single-cylinder engine",
     "description": "A hefty 1-cylinder gasoline engine of about 55 horsepower, normally found in a motocross or dirt bike.",
     "durability": 150,
-    "epower": 0,
+    "epower": "0 J",
     "power": 41000,
     "energy_consumption": "124500 J",
     "folded_volume": "90 L",
@@ -225,7 +225,7 @@
     "description": "A small 1-cylinder gasoline engine with only a few horsepower, suitable for a push lawn mower.",
     "fuel_type": "gasoline",
     "durability": 120,
-    "epower": 0,
+    "epower": "0 J",
     "power": 3728,
     "energy_consumption": "9320 J",
     "folded_volume": "629 ml",
@@ -251,7 +251,7 @@
     "type": "vehicle_part",
     "item": "aero_engine_light",
     "durability": 300,
-    "epower": -200,
+    "epower": "-200 J",
     "power": 111900,
     "energy_consumption": "373000 J",
     "breaks_into": [
@@ -277,7 +277,7 @@
     "item": "i4_combustion",
     "description": "A four-cylinder gasoline engine, commonly found in small passenger cars and light trucks.",
     "durability": 300,
-    "epower": -150,
+    "epower": "-150 J",
     "power": 93250,
     "energy_consumption": "311000 J",
     "breaks_into": [
@@ -303,7 +303,7 @@
     "item": "v12_combustion",
     "description": "A massive 12-cylinder gasoline engine, with the kind of power you might need in a sports car.",
     "durability": 600,
-    "epower": -350,
+    "epower": "-350 J",
     "power": 447600,
     "energy_consumption": "1492000 J",
     "breaks_into": [
@@ -329,7 +329,7 @@
     "item": "v12_diesel",
     "description": "A massive 12-cylinder diesel engine, typical of a heavy cargo truck.",
     "durability": 600,
-    "epower": -400,
+    "epower": "-400 J",
     "power": 447600,
     "energy_consumption": "1119000 J",
     "breaks_into": [
@@ -355,7 +355,7 @@
     "item": "v6_combustion",
     "description": "A powerful 6-cylinder gasoline engine strong enough for a pickup truck, SUV, or full-size van.",
     "durability": 400,
-    "epower": -200,
+    "epower": "-200 J",
     "power": 149200,
     "energy_consumption": "497500 J",
     "breaks_into": [
@@ -381,7 +381,7 @@
     "item": "v8_combustion",
     "description": "A heavy-duty 8-cylinder gasoline engine, like you might find in a fire truck, ambulance, or tow truck.",
     "durability": 400,
-    "epower": -250,
+    "epower": "-250 J",
     "power": 242450,
     "energy_consumption": "808200 J",
     "breaks_into": [
@@ -407,7 +407,7 @@
     "item": "v2_combustion",
     "description": "A 2-cylinder gasoline engine appropriate for a motorcycle or quad bike.",
     "durability": 200,
-    "epower": -50,
+    "epower": "-50 J",
     "power": 37300,
     "energy_consumption": "124500 J",
     "folded_volume": "109 L",
@@ -449,7 +449,7 @@
     "type": "vehicle_part",
     "item": "steam_watts_small",
     "durability": 200,
-    "epower": 0,
+    "epower": "0 J",
     "power": 55950,
     "energy_consumption": "112000 J",
     "breaks_into": [
@@ -475,7 +475,7 @@
     "type": "vehicle_part",
     "item": "steam_triple_small",
     "durability": 200,
-    "epower": 0,
+    "epower": "0 J",
     "power": 93250,
     "energy_consumption": "186500 J",
     "breaks_into": [
@@ -501,7 +501,7 @@
     "type": "vehicle_part",
     "item": "steam_triple_medium",
     "durability": 200,
-    "epower": -20,
+    "epower": "-20 J",
     "power": 149200,
     "energy_consumption": "298500 J",
     "breaks_into": [
@@ -528,7 +528,7 @@
     "item": "small_turbine_engine",
     "description": "A small but powerful gas turbine engine, suitable for powering a small one or two-seat helicopter.",
     "durability": 400,
-    "epower": -10,
+    "epower": "-10 J",
     "power": 1006695,
     "energy_consumption": "4026780 J",
     "breaks_into": [
@@ -582,7 +582,7 @@
     "item": "large_turbine_engine",
     "description": "A huge gas turbine engine, used to lift large military helicopters such as the V-22 Osprey.",
     "durability": 400,
-    "epower": -10,
+    "epower": "-10 J",
     "power": 4474199,
     "energy_consumption": "17896796 J",
     "breaks_into": [

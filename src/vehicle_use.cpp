@@ -644,7 +644,7 @@ bool vehicle::start_engine( const int e )
     }
 
     const double dmg = parts[engines[e]].damage_percent();
-    const int engine_power = std::abs( part_epower_w( engines[e] ) );
+    const units::energy engine_power = -part_epower_w( engines[e] );
     const double cold_factor = engine_cold_factor( e );
     const int start_moves = engine_start_time( e );
 

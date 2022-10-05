@@ -448,10 +448,10 @@ class vpart_info
         int dmg_mod = 100;
 
         /**
-         * Electrical power, flat rate (watts); positive for generation, negative for consumption
-         * For motor consumption scaled with powertrain demand see @ref energy_consumption instead
+         * Electrical power, flat rate energy(/per second) ; positive for generation, negative for consumption
+         * For electric motor consumption scaled with powertrain demand see @ref energy_consumption instead
          */
-        int epower = 0;
+        units::energy epower = 0_J;
 
         /**
          * Energy consumed per second by engines and motors when delivering max @ref power
