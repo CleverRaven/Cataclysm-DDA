@@ -3810,24 +3810,35 @@ std::vector<std::pair<itype_id, int>> get_items_for_requirements( const requirem
     for( const std::vector<quality_requirement> &quality_group : req.get_qualities() ) {
         for( const quality_requirement &quality_req : quality_group ) {
             options.clear();
+            pseudo_options.clear();
             for( const itype *i : item_controller->all() ) {
                 item temp_item( i, calendar::turn, min_charges_for_qual );
-                if( temp_item.get_quality( quality_req.type ) >= quality_req.level &&
-                    !temp_item.has_flag( flag_PSEUDO ) ) {
-                    // Only provide charged items if required for providing the quality
-                    temp_item.charges = 1;
-                    if( temp_item.get_quality( quality_req.type ) >= quality_req.level ) {
-                        options.emplace_back( i->get_id(), 1 );
+                if( temp_item.get_quality( quality_req.type ) >= quality_req.level ) {
+                    if( !temp_item.has_flag( flag_PSEUDO ) ) {
+                        // Only provide charged items if required for providing the quality
+                        temp_item.charges = 1;
+                        if( temp_item.get_quality( quality_req.type ) >= quality_req.level ) {
+                            options.emplace_back( i->get_id(), 1 );
+                        } else {
+                            options.emplace_back( i->get_id(), min_charges_for_qual );
+                        }
                     } else {
-                        options.emplace_back( i->get_id(), min_charges_for_qual );
+                        pseudo_options.emplace_back( i->get_id(), min_charges_for_qual );
                     }
                 }
             }
-            if( options.empty() ) {
+            if( options.empty() && pseudo_options.empty() ) {
                 debugmsg( string_format( _( "Unable to spawn %s" ), quality_req.to_string() ) );
             } else {
-                int selected = rng( 0, static_cast<int>( options.size() - 1 ) );
-                items_to_spawn.emplace_back( options[selected].first, options[selected].second );
+                if( !options.empty() ) {
+                    int selected = rng( 0, static_cast<int>( options.size() - 1 ) );
+                    items_to_spawn.emplace_back( options[selected].first, options[selected].second );
+                } else {
+                    debugmsg( _( "Recipe %s requires pseudo tools for quality %s" ), requirement_name,
+                              quality_req.to_string() );
+                    int selected = rng( 0, static_cast<int>( pseudo_options.size() - 1 ) );
+                    items_to_spawn.emplace_back( pseudo_options[selected].first, pseudo_options[selected].second );
+                }
             }
         }
     }

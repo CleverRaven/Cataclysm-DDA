@@ -2032,6 +2032,8 @@ std::pair<Character *, const recipe *> select_crafter_and_crafting_recipe( int &
                 std::string result_message = string_format( _( "Spawning materials for %s" ),
                                              current[line]->result_name() );
                 if( batch_size > 1 ) {
+                    // Mirror repeated message log behaviour without printing all those messages
+                    //NOLINTNEXTLINE
                     result_message.append( string_format( " x %i", batch_size ) );
                 }
                 add_msg( m_good, result_message );
