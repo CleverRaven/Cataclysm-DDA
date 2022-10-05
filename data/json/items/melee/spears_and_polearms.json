@@ -328,7 +328,7 @@
     "bashing": 4,
     "cutting": 28,
     "to_hit": { "grip": "weapon", "length": "long", "surface": "point", "balance": "good" },
-    "flags": [ "DURABLE_MELEE", "SPEAR", "REACH_ATTACK", "NONCONDUCTIVE", "SHEATH_SPEAR" ],
+    "flags": [ "SPEAR", "REACH_ATTACK", "NONCONDUCTIVE", "SHEATH_SPEAR" ],
     "weapon_category": [ "POLEARMS", "SPEARS" ],
     "price": 1400,
     "qualities": [ [ "COOK", 1 ] ]
