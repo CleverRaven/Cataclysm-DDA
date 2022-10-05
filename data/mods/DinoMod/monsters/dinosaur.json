@@ -1372,7 +1372,7 @@
     "armor_cut": 10,
     "armor_bullet": 5,
     "zombify_into": "mon_zastonia",
-    "description": "This heavily armored four legged dinosaur has a rigid spiked tail, a beak, and sturdy spikes along the sides.",
+    "description": "This heavily armored four legged dinosaur has a long tail, a beak, and large shoulder spikes.",
     "reproduction": { "baby_egg": "egg_gastonia", "baby_count": 3, "baby_timer": 24 },
     "petfood": { "food": [ "DINOFOOD_C" ] }
   },
@@ -1400,7 +1400,7 @@
     "armor_cut": 20,
     "armor_bullet": 10,
     "special_attacks": [ [ "EAT_CROP", 40 ] ],
-    "description": "This heavily armored dinosaur looks like a giant prehistoric armadillo.",
+    "description": "This heavily armored four legged dinosaur has a beak and large bony plates covering the back.",
     "reproduction": { "baby_egg": "egg_nodosaurus", "baby_count": 3, "baby_timer": 24 },
     "petfood": { "food": [ "DINOFOOD_C" ] }
   },
@@ -1408,14 +1408,11 @@
     "type": "MONSTER",
     "id": "mon_panoplosaurus",
     "name": { "str_sp": "panoplosaurus" },
-    "copy-from": "mon_nodosaurus",
+    "copy-from": "mon_edmontonia",
     "//": "When large weights and volumes are fixed this should be 1330 L and 1600 kg",
     "hp": 160,
-    "armor_bash": 10,
-    "armor_cut": 10,
-    "armor_bullet": 5,
     "zombify_into": "mon_zanoplosaurus",
-    "description": "This heavily armored four legged dinosaur has a rigid spiked tail, a beak, and sturdy spikes along the sides.",
+    "description": "This heavily armored four legged dinosaur has a lumpy armored head with a beak and thick plates protecting the cheeks, thick back armor, and small short spikes along the sides.",
     "reproduction": { "baby_egg": "egg_panoplosaurus", "baby_count": 3, "baby_timer": 24 },
     "petfood": { "food": [ "DINOFOOD_C" ] }
   },
@@ -1461,7 +1458,7 @@
       [ "tailsmash_ankyl_DinoMod", 30 ],
       [ "EAT_CROP", 40 ]
     ],
-    "description": "This armored dinosaur looks like a giant prehistoric armadillo.  Its tail ends in a spiked club of bone.",
+    "description": "This heavily armored four legged dinosaur has a beak and a long tail ending in a spiked club of bone.",
     "reproduction": { "baby_egg": "egg_dyoplosaurus", "baby_count": 3, "baby_timer": 24 },
     "petfood": { "food": [ "DINOFOOD_C" ] },
     "flags": [ "SEES", "SMELLS", "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "PET_MOUNTABLE", "PET_WONT_FOLLOW" ]
@@ -1501,7 +1498,7 @@
       [ "tailsmash_ankyl_DinoMod", 30 ],
       [ "EAT_CROP", 40 ]
     ],
-    "description": "This armored dinosaur looks like a giant prehistoric armadillo.  Its tail ends in a massive spiked club of bone.",
+    "description": "This heavily armored four legged dinosaur has a long tail ending in a massive spiked club of bone.",
     "reproduction": { "baby_egg": "egg_ankylosaurus", "baby_count": 3, "baby_timer": 24 },
     "baby_flags": [ "SPRING", "SUMMER" ],
     "biosignature": { "biosig_item": "feces_dino", "biosig_timer": 1 },
@@ -1525,7 +1522,7 @@
       [ "tailsmash_ankyl_DinoMod", 30 ],
       [ "EAT_CROP", 40 ]
     ],
-    "description": "This armored dinosaur looks like a giant prehistoric armadillo.  Its tail ends in a spiked club of bone.",
+    "description": "This heavily armored four legged dinosaur has a horny beak, two bony rings protecting the neck, and a long tail ending in a heavy club of bone.",
     "reproduction": { "baby_egg": "egg_euoplocephalus", "baby_count": 3, "baby_timer": 24 },
     "petfood": { "food": [ "DINOFOOD_C" ] },
     "flags": [ "SEES", "SMELLS", "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "PET_MOUNTABLE", "PET_WONT_FOLLOW" ]
@@ -1543,7 +1540,7 @@
       [ "tailsmash_ankyl_DinoMod", 30 ],
       [ "EAT_CROP", 40 ]
     ],
-    "description": "This armored dinosaur looks like a giant prehistoric armadillo.  Its tail ends in a spiked club of bone.",
+    "description": "This heavily armored four legged dinosaur has several long spikes along the back and a long spiked tail ending in a club of bone.",
     "reproduction": { "baby_egg": "egg_scolosaurus", "baby_count": 3, "baby_timer": 24 },
     "petfood": { "food": [ "DINOFOOD_C" ] },
     "flags": [ "SEES", "SMELLS", "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "PET_MOUNTABLE", "PET_WONT_FOLLOW" ]
