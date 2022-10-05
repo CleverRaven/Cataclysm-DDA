@@ -94,7 +94,7 @@
     "type": "GENERIC",
     "id": "spear_shaft_sharpened",
     "name": { "str": "sharpened spear shaft" },
-    "description": "You've gone through the effort of making a proper spear shaft, but instead of attaching something sharp to the end you just whittled a point into the wood.",
+    "description": "You've gone through the effort of making a proper spear shaft, but instead of attaching something sharp to the end you just whittled a point into the wood.  The peak of pointy stick technology.",
     "weight": "1000 g",
     "price_postapoc": 50,
     "color": "brown",
