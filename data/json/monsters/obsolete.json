@@ -34,7 +34,7 @@
     "upgrades": { "age_grow": 15, "into_group": "GROUP_BUTTERFLY_GIANT" }
   },
   {
-    "//": "This monster used to have a death function (mon_endless_hunger_revive) and a special attack (mon_endless_hunger_attack). //"
+    "//": "This monster used to have a death function (mon_endless_hunger_revive) and a special attack (mon_endless_hunger_attack). //",
     "id": "mon_endless_hunger",
     "type": "MONSTER",
     "name": { "str": "endless hunger" },
