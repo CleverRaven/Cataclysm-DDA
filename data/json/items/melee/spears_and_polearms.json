@@ -498,7 +498,7 @@
     "bashing": 8,
     "cutting": 43,
     "to_hit": { "grip": "weapon", "length": "long", "surface": "point", "balance": "neutral" },
-    "flags": [ "DURABLE_MELEE", "SPEAR", "REACH_ATTACK", "NONCONDUCTIVE", "SHEATH_SPEAR" ],
+    "flags": [ "DURABLE_MELEE", "SPEAR", "REACH_ATTACK", "NONCONDUCTIVE", "SHEATH_SPEAR", "POLEARM" ],
     "weapon_category": [ "POLEARMS", "SPEARS" ],
     "price": 80000,
     "qualities": [ [ "COOK", 1 ] ]
@@ -810,7 +810,7 @@
     "color": "yellow",
     "techniques": [ "WBLOCK_1", "IMPALE" ],
     "qualities": [ [ "COOK", 1 ] ],
-    "flags": [ "SPEAR", "REACH_ATTACK", "DURABLE_MELEE", "SHEATH_SPEAR", "NONCONDUCTIVE" ],
+    "flags": [ "SPEAR", "REACH_ATTACK", "DURABLE_MELEE", "SHEATH_SPEAR", "NONCONDUCTIVE", "POLEARM" ],
     "weapon_category": [ "POLEARMS", "SPEARS" ]
   },
   {
