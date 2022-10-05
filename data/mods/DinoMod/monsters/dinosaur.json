@@ -1344,6 +1344,21 @@
   },
   {
     "type": "MONSTER",
+    "id": "mon_gastonia",
+    "name": { "str_sp": "gastonia" },
+    "copy-from": "mon_nodosaurus",
+    "//": "When large weights and volumes are fixed this should be 1575 L and 1900 kg",
+    "hp": 190,
+    "armor_bash": 10,
+    "armor_cut": 10,
+    "armor_bullet": 5,
+    "zombify_into": "mon_zastonia",
+    "description": "This heavily armored four legged dinosaur has a long tail, a beak, and large shoulder spikes.",
+    "reproduction": { "baby_egg": "egg_gastonia", "baby_count": 3, "baby_timer": 24 },
+    "petfood": { "food": [ "DINOFOOD_C" ] }
+  },
+  {
+    "type": "MONSTER",
     "id": "mon_gargoyleosaurus",
     "name": { "str_sp": "gargoyleosaurus" },
     "copy-from": "mon_nodosaurus",
@@ -1359,21 +1374,6 @@
     "zombify_into": "mon_zargoyleosaurus",
     "description": "This lightly armored four legged dinosaur has a rigid spiked tail, a beak, and sturdy spikes along the sides.",
     "reproduction": { "baby_egg": "egg_gargoyleosaurus", "baby_count": 3, "baby_timer": 24 },
-    "petfood": { "food": [ "DINOFOOD_C" ] }
-  },
-  {
-    "type": "MONSTER",
-    "id": "mon_gastonia",
-    "name": { "str_sp": "gastonia" },
-    "copy-from": "mon_nodosaurus",
-    "//": "When large weights and volumes are fixed this should be 1575 L and 1900 kg",
-    "hp": 190,
-    "armor_bash": 10,
-    "armor_cut": 10,
-    "armor_bullet": 5,
-    "zombify_into": "mon_zastonia",
-    "description": "This heavily armored four legged dinosaur has a long tail, a beak, and large shoulder spikes.",
-    "reproduction": { "baby_egg": "egg_gastonia", "baby_count": 3, "baby_timer": 24 },
     "petfood": { "food": [ "DINOFOOD_C" ] }
   },
   {
