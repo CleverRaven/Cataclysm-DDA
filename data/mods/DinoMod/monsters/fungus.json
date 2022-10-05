@@ -646,21 +646,21 @@
     "flags": [ "SEES", "SMELLS", "POISON", "STUMBLES", "NO_BREATHE", "FILTHY", "BASHES" ]
   },
   {
-    "id": "mon_zargoyleosaurus_fungus",
-    "type": "MONSTER",
-    "name": { "str": "fungal gargoyleosaurus zombie" },
-    "description": "Once a lightly armored four legged dinosaur with a rigid spiked tail, a beak, and sturdy spikes along the sides, fungal tendrils now sprout from its mouth, eyes, and other orifices, holding together a shambling mass of mold-covered flesh and bone.",
-    "copy-from": "mon_zodosaurus_fungus",
-    "proportional": { "hp": 0.8 },
-    "upgrades": {  }
-  },
-  {
     "id": "mon_zastonia_fungus",
     "type": "MONSTER",
     "name": { "str": "fungal gastonia zombie" },
     "description": "Once a heavily armored four legged dinosaur with a long tail, a beak, and large shoulder spikes, fungal tendrils now sprout from its mouth, eyes, and other orifices, holding together a shambling mass of mold-covered flesh and bone.",
     "copy-from": "mon_zodosaurus_fungus",
     "proportional": { "hp": 0.7 },
+    "upgrades": {  }
+  },
+  {
+    "id": "mon_zargoyleosaurus_fungus",
+    "type": "MONSTER",
+    "name": { "str": "fungal gargoyleosaurus zombie" },
+    "description": "Once a lightly armored four legged dinosaur with a rigid spiked tail, a beak, and sturdy spikes along the sides, fungal tendrils now sprout from its mouth, eyes, and other orifices, holding together a shambling mass of mold-covered flesh and bone.",
+    "copy-from": "mon_zodosaurus_fungus",
+    "proportional": { "hp": 0.8 },
     "upgrades": {  }
   },
   {
