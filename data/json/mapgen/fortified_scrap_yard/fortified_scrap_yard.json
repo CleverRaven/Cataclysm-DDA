@@ -137,28 +137,32 @@
         { "item": "blanket", "x": 8, "y": 11, "chance": 100 },
         { "item": "sleeping_bag", "x": 3, "y": 14, "chance": 100 },
         { "item": "microwave", "x": 5, "y": 8, "chance": 100 },
-        { "item": "coffee", "x": 6, "y": 8, "chance": 50},
-        { "item": "hd_tow_cable", "x": 6, "y": 8, "chance": 100},
-        { "item": "roadmap", "x": 6, "y": 8, "chance": 10},
-        { "item": "folding_poncho", "x": 6, "y": 8, "chance": 30},
-        { "item": "rope_6", "x": 6, "y": 8, "chance": 50},
-        { "item": "handflare", "x": 6, "y": 8, "chance": 100},
-        { "item": "sm_extinguisher", "x": 6, "y": 8, "chance": 50},
-        { "item": "towel", "x": 6, "y": 8, "chance": 30},
+        { "item": "coffee", "x": 6, "y": 8, "chance": 50 },
+        { "item": "hd_tow_cable", "x": 6, "y": 8, "chance": 100 },
+        { "item": "roadmap", "x": 6, "y": 8, "chance": 10 },
+        { "item": "folding_poncho", "x": 6, "y": 8, "chance": 30 },
+        { "item": "rope_6", "x": 6, "y": 8, "chance": 50 },
+        { "item": "handflare", "x": 6, "y": 8, "chance": 100 },
+        { "item": "sm_extinguisher", "x": 6, "y": 8, "chance": 50 },
+        { "item": "towel", "x": 6, "y": 8, "chance": 30 },
         { "item": "wheel_wide", "x": 6, "y": 8, "chance": 100, "repeat": 5 },
         { "item": "jack", "x": 6, "y": 8, "chance": 100 },
         { "item": "wrench_large", "x": 6, "y": 8, "chance": 100 }
       ],
       "mapping": { "/": { "traps": [ [ "tr_rollmat", 100 ] ] } },
-      "place_vehicles": [ { "vehicle": "underlift_tow_truck_lack_wheels", "x": 15, "y": 9, "chance": 100, "fuel": 70, "status": 0, "rotation": 90 } ],
-      "place_zones": [
+      "place_vehicles": [
         {
-          "type": "LOOT_ITEM_GROUP",
-          "filter": "SCRAPPER_Shop",
-          "faction": "wasteland_scavengers",
-          "x": 4,
-          "y": 4
-        },
+          "vehicle": "underlift_tow_truck_lack_wheels",
+          "x": 15,
+          "y": 9,
+          "chance": 100,
+          "fuel": 70,
+          "status": 0,
+          "rotation": 90
+        }
+      ],
+      "place_zones": [
+        { "type": "LOOT_ITEM_GROUP", "filter": "SCRAPPER_Shop", "faction": "wasteland_scavengers", "x": 4, "y": 4 },
         {
           "type": "LOOT_ITEM_GROUP",
           "filter": "SCRAPPER_Shop_Specialty_Metals",
