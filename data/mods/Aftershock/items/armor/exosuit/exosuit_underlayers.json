@@ -83,7 +83,7 @@
     "volume": "3500 ml",
     "color": "brown",
     "material": [ "nomex", "nanoprinted_alloy" ],
-    "environmental_protection": 15,
+    "environmental_protection": 100,
     "armor": [
       {
         "material": [ { "type": "lvl4ballisticglass", "covered_by_mat": 100, "thickness": 3 } ],

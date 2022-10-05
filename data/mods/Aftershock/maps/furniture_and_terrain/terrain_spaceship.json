@@ -231,5 +231,13 @@
         { "item": "scrap", "count": [ 6, 24 ] }
       ]
     }
+  },
+  {
+    "type": "terrain",
+    "id": "hard_vacuum",
+    "name": "hard vacuum",
+    "description": "The cold inhospitable vacuum of space. Going this way without an EVA pack will end in either a long cold death as your life support fades or a long hot death as you drop into the planet's atmosphere.",
+    "flags": [ "DESTROY_ITEM" ],
+    "looks_like": " "
   }
 ]
