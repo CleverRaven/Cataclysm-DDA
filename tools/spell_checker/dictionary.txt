@@ -130,6 +130,7 @@ autoselect
 autoshotgun
 avin
 avy
+awared
 axolotl
 aztlani
 b
@@ -822,6 +823,7 @@ hauberks
 hbhbh
 hdd
 headwear
+healthiness
 heartlike
 heatsink
 heatsinks
@@ -1983,6 +1985,7 @@ unspecialized
 unstocked
 untampered
 untargeted
+untired
 untyped
 unwield
 unwieldiness
