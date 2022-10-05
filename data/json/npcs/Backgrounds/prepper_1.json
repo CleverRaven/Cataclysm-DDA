@@ -262,7 +262,7 @@
         "text": "Prepare to meet your end, <npc_name>.  *Attack <npc_name>.*",
         "topic": "TALK_DONE",
         "opinion": { "anger": 40, "value": -30, "trust": -30, "fear": -10 },
-        "effect": "hostile"
+        "effect": [ "hostile", "leave" ]
       }
     ]
   },
