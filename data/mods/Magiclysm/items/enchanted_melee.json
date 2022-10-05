@@ -821,7 +821,7 @@
     "//": "Flame-bladed sword covers half of Kelvinist's heat-cold theme.  Combat stats equivalent to cutlass +1 with BRUTAL technique.",
     "description": "A sword with an undulating blade, reminiscent of a flame.  There is a Kelvinist rune embedded in the pommel.",
     "proportional": { "bashing": 1.1, "cutting": 1.1, "weight": 0.9 },
-    "relative": { "to_hit": 1 }
+    "relative": { "to_hit": 1 },
     "price": 3900,
     "symbol": "/",
     "color": "light_gray",
@@ -844,7 +844,7 @@
     "price": 558000,
     "price_postapoc": 21000,
     "proportional": { "bashing": 1.2, "cutting": 1.2, "weight": 0.8 },
-    "relative": { "to_hit": 2 }
+    "relative": { "to_hit": 2 },
     "techniques": [ "WBLOCK_2", "WIDE" ],
     "category": "weapons",
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 8 ] ],
