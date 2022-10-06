@@ -47,7 +47,7 @@
       "trap": "tr_engine",
       "moves": 400,
       "practice": 12,
-      "done_message": "You set the blade trap %d squares away."
+      "done_message": "You set the blade trap 2 squares away."
     },
     "flags": [ "SINGLE_USE" ]
   },

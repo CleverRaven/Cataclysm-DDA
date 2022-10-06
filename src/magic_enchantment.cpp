@@ -53,6 +53,7 @@ namespace io
     std::string enum_to_string<enchant_vals::mod>( enchant_vals::mod data )
     {
         switch ( data ) {
+            case enchant_vals::mod::ARTIFACT_RESONANCE: return "ARTIFACT_RESONANCE";
             case enchant_vals::mod::STRENGTH: return "STRENGTH";
             case enchant_vals::mod::DEXTERITY: return "DEXTERITY";
             case enchant_vals::mod::PERCEPTION: return "PERCEPTION";
@@ -142,6 +143,8 @@ namespace io
             case enchant_vals::mod::ITEM_COVERAGE: return "ITEM_COVERAGE";
             case enchant_vals::mod::ITEM_ATTACK_SPEED: return "ITEM_ATTACK_SPEED";
             case enchant_vals::mod::ITEM_WET_PROTECTION: return "ITEM_WET_PROTECTION";
+            case enchant_vals::mod::CLIMATE_CONTROL_HEAT: return "CLIMATE_CONTROL_HEAT";
+            case enchant_vals::mod::CLIMATE_CONTROL_CHILL: return "CLIMATE_CONTROL_CHILL";
             case enchant_vals::mod::NUM_MOD: break;
         }
         cata_fatal( "Invalid enchant_vals::mod" );
@@ -352,7 +355,7 @@ void enchant_cache::load( const JsonObject &jo, const std::string &,
         for( const JsonObject value_obj : jo.get_array( "values" ) ) {
             const enchant_vals::mod value = io::string_to_enum<enchant_vals::mod>
                                             ( value_obj.get_string( "value" ) );
-            const double add = value_obj.get_int( "add", 0 );
+            const int add = value_obj.get_int( "add", 0 );
             const double mult = value_obj.get_float( "multiply", 0.0 );
             if( add != 0 ) {
                 values_add.emplace( value, add );

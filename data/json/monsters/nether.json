@@ -26,10 +26,12 @@
     "armor_bullet": 2,
     "vision_day": 5,
     "vision_night": 5,
+    "families": [ "prof_intro_biology", "prof_wp_basic_bird" ],
+    "weakpoint_sets": [ "wps_bird_body" ],
     "path_settings": { "max_dist": 5 },
     "special_attacks": [ { "type": "bite", "cooldown": 15 }, [ "impale", 20 ] ],
     "anger_triggers": [ "HURT", "FRIEND_DIED", "FRIEND_ATTACKED" ],
-    "harvest": "bird_large",
+    "harvest": "mutant_bird_flightless",
     "dissect": "dissect_bird_sample_large",
     "flags": [ "HEARS", "KEENNOSE", "GOODHEARING", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "SWIMS", "SUNDEATH" ]
   },

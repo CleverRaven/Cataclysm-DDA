@@ -2070,6 +2070,7 @@
       { "group": "toy_makerspace_kit", "prob": 1 },
       { "group": "toy_robot_kit", "prob": 1 },
       { "group": "toy_engine_kit", "prob": 1 },
+      { "item": "air_launcher", "prob": 1 },
       { "item": "radiocontrol", "prob": 10, "charges": [ 0, 50 ] },
       [ "scots_cookbook", 1 ],
       [ "scots_tailor", 1 ],
@@ -2725,6 +2726,8 @@
     "type": "item_group",
     "items": [
       [ "bone_human", 70 ],
+      [ "skull_human", 40 ],
+      [ "skull_canis", 20 ],
       [ "holy_symbol", 50 ],
       [ "sheet", 20 ],
       [ "bag_body_bag", 20 ],

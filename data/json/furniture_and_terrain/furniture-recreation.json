@@ -419,8 +419,7 @@
       "items": [
         { "item": "2x4", "count": 12 },
         { "item": "nail", "charges": [ 8, 12 ] },
-        { "item": "wire", "count": [ 2, 10 ] },
-        { "item": "string_36", "count": [ 2, 10 ] },
+        { "item": "qt_wire", "count": [ 10, 26 ] },
         { "item": "wheel_caster", "count": [ 0, 1 ] },
         { "item": "steel_chunk", "count": [ 0, 3 ] },
         { "item": "plastic_chunk", "count": [ 1, 10 ] }
@@ -433,7 +432,7 @@
       "sound_fail": "kerchang.",
       "items": [
         { "item": "2x4", "count": [ 4, 8 ] },
-        { "item": "wire", "count": [ 0, 3 ] },
+        { "item": "qt_wire", "count": [ 0, 5 ] },
         { "item": "nail", "charges": [ 6, 12 ] },
         { "item": "splinter", "count": 1 },
         { "item": "plastic_chunk", "count": [ 1, 5 ] }

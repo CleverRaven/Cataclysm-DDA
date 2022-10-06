@@ -1276,6 +1276,7 @@ void Character::load( const JsonObject &data )
         queued_effect_on_conditions.push( temp );
     }
     data.read( "inactive_eocs", inactive_effect_on_condition_vector );
+    update_enchantment_mutations();
 }
 
 /**
@@ -3183,6 +3184,8 @@ void item::deserialize( const JsonObject &data )
             select_itype_variant();
         }
     }
+
+    on_damage_changed();
 }
 
 void item::serialize( JsonOut &json ) const

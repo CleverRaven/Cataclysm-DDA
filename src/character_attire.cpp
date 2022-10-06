@@ -743,12 +743,15 @@ static void layer_item( std::map<bodypart_id, encumbrance_data> &vals, const ite
          * Setting layering_encumbrance to 0 at this point makes the item cease to exist
          * for the purposes of the layer penalty system. (normally an item has a minimum
          * layering_encumbrance of 2 )
+         * Personal layer items and semitangible items do not conflict.
          */
         if( it.has_flag( flag_SEMITANGIBLE ) ) {
             encumber_val = 0;
             layering_encumbrance = 0;
         }
-
+        if( it.has_flag( flag_PERSONAL ) ) {
+            layering_encumbrance = 0;
+        }
         for( layer_level item_layer : item_layers ) {
             // do the sublayers of this armor conflict
             bool conflicts = false;
@@ -1658,19 +1661,6 @@ void outfit::get_overlay_ids( std::vector<std::pair<std::string, std::string>> &
         const std::string variant = worn_item.has_itype_variant() ? worn_item.itype_variant().id : "";
         overlay_ids.emplace_back( "worn_" + worn_item.typeId().str(), variant );
     }
-}
-
-bool outfit::in_climate_control() const
-{
-    for( const item &w : worn ) {
-        if( w.active && w.is_power_armor() ) {
-            return true;
-        }
-        if( w.has_flag( flag_CLIMATE_CONTROL ) ) {
-            return true;
-        }
-    }
-    return false;
 }
 
 std::list<item>::iterator outfit::position_to_wear_new_item( const item &new_item )

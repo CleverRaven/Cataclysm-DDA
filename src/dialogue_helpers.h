@@ -55,6 +55,7 @@ struct talk_effect_fun_t {
                              bool targeted = false );
         void set_lightning();
         void set_next_weather();
+        void set_hp( const JsonObject &jo, const std::string &member, bool is_npc );
         void set_sound_effect( const JsonObject &jo, const std::string &member );
         void set_add_var( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_remove_var( const JsonObject &jo, const std::string &member, bool is_npc = false );

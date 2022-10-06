@@ -1145,6 +1145,7 @@ void sfx::do_ambient()
             channel::outdoors_snow_env,
             channel::outdoors_flurry_env,
             channel::outdoors_thunderstorm_env,
+            channel::outdoors_rainstorm_env,
             channel::outdoors_rain_env,
             channel::outdoors_drizzle_env,
             channel::outdoor_blizzard,
@@ -1181,6 +1182,11 @@ void sfx::do_ambient()
                     play_ambient_variant_sound( "environment", "WEATHER_RAINY", seas_str,
                                                 indoors, night, heard_volume,
                                                 channel::outdoors_rain_env, 1000 );
+                    break;
+                case weather_sound_category::rainstorm:
+                    play_ambient_variant_sound( "environment", "WEATHER_RAINSTORM", seas_str,
+                                                indoors, night, heard_volume,
+                                                channel::outdoors_rainstorm_env, 1000 );
                     break;
                 case weather_sound_category::thunder:
                     play_ambient_variant_sound( "environment", "WEATHER_THUNDER", seas_str,

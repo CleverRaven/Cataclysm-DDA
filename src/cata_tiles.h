@@ -450,10 +450,11 @@ class cata_tiles
                            lit_level ll, bool apply_night_vision_goggles, int retract, int &height_3d );
 
         /* Tile Picking */
-        void get_tile_values( int t, const std::array<int, 4> &tn, int &subtile, int &rotation );
+        void get_tile_values( int t, const std::array<int, 4> &tn, int &subtile, int &rotation,
+                              char rotation_targets );
         // as get_tile_values, but for unconnected tiles, infer rotation from surrounding walls
         void get_tile_values_with_ter( const tripoint &p, int t, const std::array<int, 4> &tn,
-                                       int &subtile, int &rotation );
+                                       int &subtile, int &rotation, int rotate_to_group );
         static void get_connect_values( const tripoint &p, int &subtile, int &rotation, int connect_group,
                                         int rotate_to_group, const std::map<tripoint, ter_id> &ter_override );
         static void get_furn_connect_values( const tripoint &p, int &subtile, int &rotation,
@@ -461,7 +462,7 @@ class cata_tiles
                                              const std::map<tripoint, furn_id> &furn_override );
         void get_terrain_orientation( const tripoint &p, int &rota, int &subtile,
                                       const std::map<tripoint, ter_id> &ter_override,
-                                      const std::array<bool, 5> &invisible );
+                                      const std::array<bool, 5> &invisible, int rotate_group );
 
         static void get_rotation_and_subtile( char val, char rot_to, int &rota, int &subtile );
         static int get_rotation_unconnected( char rot_to );
@@ -495,7 +496,11 @@ class cata_tiles
         bool draw_field_or_item( const tripoint &p, lit_level ll, int &height_3d,
                                  const std::array<bool, 5> &invisible );
         bool draw_vpart( const tripoint &p, lit_level ll, int &height_3d,
-                         const std::array<bool, 5> &invisible );
+                         const std::array<bool, 5> &invisible, bool roof );
+        bool draw_vpart_no_roof( const tripoint &p, lit_level ll, int &height_3d,
+                                 const std::array<bool, 5> &invisible );
+        bool draw_vpart_roof( const tripoint &p, lit_level ll, int &height_3d,
+                              const std::array<bool, 5> &invisible );
         bool draw_vpart_below( const tripoint &p, lit_level ll, int &height_3d,
                                const std::array<bool, 5> &invisible );
         bool draw_critter_at( const tripoint &p, lit_level ll, int &height_3d,

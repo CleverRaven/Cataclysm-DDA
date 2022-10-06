@@ -486,5 +486,52 @@
     "name": "parking lot",
     "sym": "O",
     "color": "dark_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "trailer_road", "trailer_road_1parkway", "trailer_road_2parkway" ],
+    "copy-from": "generic_transportation",
+    "extras": "road",
+    "name": "road",
+    "sym": "│",
+    "color": "light_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "trailer_hub_11",
+    "copy-from": "trailer_road",
+    "sym": "─"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "trailer_road_turn",
+    "copy-from": "trailer_road",
+    "sym": "┐"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "trailer_road_3way",
+    "copy-from": "trailer_road",
+    "sym": "┬"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "trailer_hub_01",
+    "copy-from": "trailer_road",
+    "name": "mobile home park entrance",
+    "sym": "┼"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "trailer_hub_00",
+    "copy-from": "s_lot",
+    "delete": { "flags": [ "SIDEWALK" ] }
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "trailer_caravan_00", "trailer_caravan_10", "trailer_caravan_01", "trailer_caravan_11" ],
+    "copy-from": "s_lot",
+    "name": "caravan parking",
+    "delete": { "flags": [ "SIDEWALK" ] }
   }
 ]

@@ -671,7 +671,7 @@ class item : public visitable
          * Base number of moves (@ref Creature::moves) that a single melee attack with this items
          * takes. The actual time depends heavily on the attacker, see melee.cpp.
          */
-        int attack_time() const;
+        int attack_time( const Character &you ) const;
 
         /** Damage of given type caused when this item is used as melee weapon */
         int damage_melee( damage_type dt ) const;
@@ -1701,6 +1701,9 @@ class item : public visitable
          */
         void on_damage( int qty, damage_type dt );
 
+        // Callback invoked after the item's damage is changed or after deserialization
+        void on_damage_changed();
+
         bool use_relic( Character &guy, const tripoint &pos );
         bool has_relic_recharge() const;
         bool has_relic_activation() const;
@@ -2664,11 +2667,12 @@ class item : public visitable
         void set_cached_tool_selections( const std::vector<comp_selection<tool_comp>> &selections );
         const std::vector<comp_selection<tool_comp>> &get_cached_tool_selections() const;
 
-        std::vector<enchant_cache> get_enchantments() const;
+        std::vector<enchant_cache> get_proc_enchantments() const;
+        std::vector<enchantment> get_defined_enchantments() const;
         double calculate_by_enchantment( const Character &owner, double modify, enchant_vals::mod value,
                                          bool round_value = false ) const;
         // calculates the enchantment value as if this item were wielded.
-        double calculate_by_enchantment_wield( double modify,
+        double calculate_by_enchantment_wield( const Character &owner, double modify,
                                                enchant_vals::mod value,
                                                bool round_value = false ) const;
 
@@ -2703,6 +2707,8 @@ class item : public visitable
          *  if unloading is true it ignores items in pockets that are flagged to not unload
          */
         std::list<item *> all_items_top( item_pocket::pocket_type pk_type, bool unloading = false );
+
+        item const *this_or_single_content() const;
 
         /**
          * returns a list of pointers to all items inside recursively

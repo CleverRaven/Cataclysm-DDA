@@ -766,9 +766,9 @@
     "difficulty": 3,
     "time": "30 m",
     "autolearn": true,
-    "using": [ [ "blacksmithing_standard", 2 ] ],
+    "using": [ [ "blacksmithing_standard", 2 ], [ "carbon", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
-    "components": [ [ [ "ch_steel_lump", 1 ] ] ]
+    "components": [ [ [ "lc_steel_lump", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -782,6 +782,7 @@
     "time": "20 m",
     "autolearn": true,
     "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 } ],
+    "using": [ [ "carbon", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
     "tools": [
       [ [ "tongs", -1 ] ],
@@ -789,7 +790,7 @@
       [ [ "forge", 40 ], [ "oxy_torch", 40 ] ],
       [ [ "wire_draw_machine", 100 ] ]
     ],
-    "components": [ [ [ "ch_steel_lump", 1 ] ] ]
+    "components": [ [ [ "lc_steel_lump", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -801,14 +802,14 @@
     "difficulty": 3,
     "time": "30 m",
     "autolearn": true,
-    "using": [ [ "blacksmithing_standard", 2 ] ],
+    "using": [ [ "blacksmithing_standard", 2 ], [ "carbon", 1 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing" },
       { "proficiency": "prof_quenching", "fail_multiplier": 2 }
     ],
     "tools": [ [ [ "swage", -1 ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -120 ] ] ],
-    "components": [ [ [ "steel_lump", 1 ], [ "steel_chunk", 4 ], [ "scrap", 20 ] ], [ [ "coal_lump", 22 ], [ "charcoal", 19 ] ] ]
+    "components": [ [ [ "steel_lump", 1 ], [ "steel_chunk", 4 ], [ "scrap", 20 ] ] ]
   },
   {
     "type": "recipe",
@@ -2247,7 +2248,7 @@
     "difficulty": 1,
     "time": "6 m",
     "autolearn": true,
-    "components": [ [ [ "dogbane", 1 ], [ "cattail_stalk", 1 ] ] ]
+    "components": [ [ [ "dogbane", 1 ], [ "cattail_stalk", 1 ], [ "cottonwood_tree_boll", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -2262,7 +2263,7 @@
     "batch_time_factors": [ 50, 2 ],
     "autolearn": true,
     "tools": [ [ [ "scutcheritem", -1 ] ] ],
-    "components": [ [ [ "dogbane", 8 ], [ "cattail_stalk", 8 ], [ "stick_fiber", 1 ] ] ],
+    "components": [ [ [ "dogbane", 8 ], [ "cattail_stalk", 8 ], [ "stick_fiber", 1 ], [ "cottonwood_tree_boll", 8 ] ] ],
     "charges": 80
   },
   {
