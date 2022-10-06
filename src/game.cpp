@@ -2831,7 +2831,8 @@ bool game::load( const save_t &name )
     calendar::set_eternal_day( ::get_option<std::string>( "ETERNAL_TIME_OF_DAY" ) == "day" );
 
     u.reset();
-
+    u.recalculate_enchantment_cache();
+    u.enchantment_cache->activate_passive( u );
     events().send<event_type::game_load>( getVersionString() );
     time_of_last_load = std::chrono::steady_clock::now();
     time_played_at_last_load = std::chrono::seconds( 0 );

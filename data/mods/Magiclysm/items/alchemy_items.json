@@ -376,54 +376,24 @@
     "color": "dark_gray",
     "use_action": {
       "type": "place_trap",
-      "bury_question": "Bury the alchemic mine?",
-      "bury": { "trap": "tr_alchemist_mine_buried", "moves": 275, "practice": 7, "done_message": "You bury the alchemic mine." },
       "trap": "tr_alchemist_mine",
-      "moves": 200,
-      "practice": 4,
+      "moves": 120,
+      "practice": 3,
       "done_message": "You set the alchemic mine."
     }
   },
   {
     "type": "trap",
-    "id": "tr_alchemist_mine_buried",
-    "trigger_weight": "200 g",
-    "name": "buried alchemical mine",
-    "color": "red",
-    "symbol": "_",
-    "visibility": 10,
-    "avoidance": 14,
-    "difficulty": 10,
-    "action": "landmine",
-    "drops": [ "alchemist_mine" ],
-    "vehicle_data": {
-      "do_explosion": true,
-      "damage": 1000,
-      "sound_volume": 10,
-      "sound": "Boom!",
-      "sound_type": "explosion",
-      "sound_variant": "default"
-    }
-  },
-  {
-    "type": "trap",
     "id": "tr_alchemist_mine",
-    "trigger_weight": "200 g",
+    "trigger_weight": "1 g",
     "name": "alchemical mine",
-    "color": "red",
+    "color": "yellow",
     "symbol": "^",
     "visibility": 1,
-    "avoidance": 14,
-    "difficulty": 10,
-    "action": "landmine",
-    "drops": [ "alchemist_mine" ],
-    "vehicle_data": {
-      "do_explosion": true,
-      "damage": 1000,
-      "sound_volume": 10,
-      "sound": "Boom!",
-      "sound_type": "explosion",
-      "sound_variant": "default"
-    }
+    "avoidance": 99,
+    "difficulty": 0,
+    "action": "spell",
+    "spell_data": { "id": "alchemist_mine_pull" },
+    "drops": [ "alchemist_mine" ]
   }
 ]
