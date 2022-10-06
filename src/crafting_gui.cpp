@@ -296,6 +296,23 @@ static std::string craft_success_chance_string( const recipe &recp, const Charac
     return string_format( _( "Minor Failure Chance: <color_%s>%2.2f</color>" ), color, chance );
 }
 
+static std::string cata_fail_chance_string( const recipe &recp, const Character &guy )
+{
+    float chance = 100.f * guy.item_destruction_chance( recp );
+    std::string color;
+    if( chance > 50 ) {
+        color = "i_red";
+    } else if( chance > 20 ) {
+        color = "red";
+    } else if( chance > 5 ) {
+        color = "yellow";
+    } else {
+        color = "light_gray";
+    }
+
+    return string_format( _( "Catastrophic Failure Chance: <color_%s>%2.2f</color>" ), color, chance );
+}
+
 
 static std::vector<std::string> recipe_info(
     const recipe &recp,
@@ -328,6 +345,7 @@ static std::vector<std::string> recipe_info(
     }
 
     oss << craft_success_chance_string( recp, guy ) << "\n";
+    oss << cata_fail_chance_string( recp, guy ) << "\n";
 
     if( !recp.is_nested() ) {
         const int expected_turns = guy.expected_time_to_craft( recp, batch_size )

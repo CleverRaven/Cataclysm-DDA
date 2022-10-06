@@ -3135,8 +3135,10 @@ class Character : public Creature, public visitable
          * @return a value >= 0.0 with >= 1.0 representing unequivocal success
          */
         float crafting_success_roll( const recipe &making ) const;
+        float crafting_failure_roll( const recipe &making ) const;
         float get_recipe_weighted_skill_average( const recipe &making ) const;
         float recipe_success_chance( const recipe &making ) const;
+        float item_destruction_chance( const recipe &making ) const;
         craft_roll_data recipe_success_roll_data( const recipe &making ) const;
         craft_roll_data recipe_failure_roll_data( const recipe &making ) const;
         void complete_craft( item &craft, const cata::optional<tripoint> &loc );

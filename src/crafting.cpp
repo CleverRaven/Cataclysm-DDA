@@ -1167,6 +1167,16 @@ Character::craft_roll_data Character::recipe_success_roll_data( const recipe &ma
     return ret;
 }
 
+Character::craft_roll_data Character::recipe_failure_roll_data( const recipe &making ) const
+{
+    craft_roll_data data = recipe_success_roll_data( making );
+    // Fund the numbers for the outcomes we want
+    data.final_difficulty -= 1;
+    data.final_difficulty *= 0.25;
+    data.stddev *= 0.5;
+    return data;
+}
+
 float Character::crafting_success_roll( const recipe &making ) const
 {
     craft_roll_data data = recipe_success_roll_data( making );
@@ -1176,6 +1186,17 @@ float Character::crafting_success_roll( const recipe &making ) const
                    data.final_difficulty );
 
     return std::max( craft_roll - data.final_difficulty, 0.0f );
+}
+
+float Character::crafting_failure_roll( const recipe &making ) const
+{
+    craft_roll_data data = recipe_failure_roll_data( making );
+    float craft_roll = std::max( normal_roll( data.center, data.stddev ), 0.0 );
+
+    add_msg_debug( debugmode::DF_CHARACTER, "Crafting skill roll: %f, final difficulty %g", craft_roll,
+                   data.final_difficulty );
+
+    return std::max( craft_roll, 0.0f );
 }
 
 // Returns the area under a curve with provided standard deviation and center
@@ -1218,8 +1239,17 @@ float Character::recipe_success_chance( const recipe &making ) const
     // If that result is above 1, there is no chance of failure.
     craft_roll_data data = recipe_success_roll_data( making );
 
-
     return normal_roll_chance( data.center, data.stddev, 1.f + data.final_difficulty );
+}
+
+float Character::item_destruction_chance( const recipe &making ) const
+{
+    // If a normal roll with these parameters rolls over 1, we will not have a catastrophic failure
+    // If we roll under one, we will
+    craft_roll_data data = recipe_failure_roll_data( making );
+
+    // normal_roll_chance returns the chance that we roll over, we want the chance we roll under
+    return 1.f - normal_roll_chance( data.center, data.stddev, 1.f + data.final_difficulty );
 }
 
 int item::get_next_failure_point() const
@@ -1272,7 +1302,7 @@ bool item::handle_craft_failure( Character &crafter )
         return false;
     }
 
-    const double success_roll = crafter.crafting_success_roll( get_making() );
+    const double success_roll = crafter.crafting_failure_roll( get_making() );
     const int starting_components = this->components.size();
     // Destroy at most 75% of the components, always a chance of losing 1 though
     const size_t max_destroyed = std::max<size_t>( 1, components.size() * 3 / 4 );
