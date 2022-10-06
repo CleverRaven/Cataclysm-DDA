@@ -5683,7 +5683,7 @@
     "attacks": {
       "attack_text_u": "You bite %s",
       "attack_text_npc": "%1$s bites %2$s",
-      "blocker_mutations": [ "FANGS" ],
+      "blocker_mutations": [ "FANGS", "CRUSHING_FANGS" ],
       "body_part": "mouth",
       "chance": 20,
       "base_damage": { "damage_type": "cut", "amount": 5 }
@@ -6110,8 +6110,8 @@
   {
    "type": "mutation",
     "id": "PAWS_HUGE",
-    "name": { "str": "Broad Paws" },
-    "points": -4,
+    "name": { "str": "Crushing Paws" },
+    "points": 2,
     "visibility": 6,
     "ugliness": 3,
     "mixed_effect": true,
@@ -6136,6 +6136,26 @@
     "prereqs": [ "PAWS_LARGE" ],
     "cancels": [ "TALONS" ],
     "category": [ "BEAST", "URSINE" ]
+  },
+  {
+    "type": "mutation",
+    "id": "CRUSHING_FANGS",
+    "name": { "str": "Crushing Fangs" },
+    "points": 4,
+    "visibility": 3,
+    "ugliness": 3,
+    "description": "Your big teeth have grown in.  You can easily tear meat apart.",
+    "types": [ "TEETH" ],
+    "prereqs": [ "MUZZLE_BEAR" ],
+    "threshreq": [ "THRESH_URSINE" ],
+    "category": [ "URSINE" ],
+    "attacks": {
+      "attack_text_u": "You bite into %s with your crushing fangs",
+      "attack_text_npc": "%1$s bites %2$s with their crushing fangs",
+      "body_part": "mouth",
+      "chance": 20,
+      "base_damage": [ { "damage_type": "cut", "amount": 10 }, { "damage_type": "bash", "amount": 10 } ]
+    }
   },
   { 
     "type": "mutation",
