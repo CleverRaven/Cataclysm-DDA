@@ -163,7 +163,7 @@
         "min_value": -0.75,
         "max_value": 2.5,
         "type": "FOOTSTEP_NOISE",
-        "increment": 0.25
+        "increment": 0.25,
         "power_per_increment": -50
       },
       {
@@ -171,7 +171,7 @@
         "min_value": -0.5,
         "max_value": 1.0,
         "type": "REGEN_STAMINA",
-        "increment": 0.1
+        "increment": 0.1,
         "power_per_increment": 100
       },
       {
@@ -179,7 +179,7 @@
         "min_value": -0.5,
         "max_value": 1.0,
         "type": "RECOIL_MODIFIER",
-        "increment": 0.1
+        "increment": 0.1,
         "power_per_increment": -50
       },
       {
@@ -187,7 +187,7 @@
         "min_value": -0.75,
         "max_value": 0.5,
         "type": "WEAPON_DISPERSION",
-        "increment": 0.05
+        "increment": 0.05,
         "power_per_increment": -50
       }
     ],
@@ -446,7 +446,7 @@
         "min_value": -0.75,
         "max_value": 2.5,
         "type": "FOOTSTEP_NOISE",
-        "increment": 0.25
+        "increment": 0.25,
         "power_per_increment": -50
       },
       {
@@ -454,7 +454,7 @@
         "min_value": -0.5,
         "max_value": 1.0,
         "type": "REGEN_STAMINA",
-        "increment": 0.1
+        "increment": 0.1,
         "power_per_increment": 100
       },
       {
@@ -462,7 +462,7 @@
         "min_value": -0.5,
         "max_value": 1.0,
         "type": "RECOIL_MODIFIER",
-        "increment": 0.1
+        "increment": 0.1,
         "power_per_increment": -50
       },
       {
@@ -470,7 +470,7 @@
         "min_value": -0.75,
         "max_value": 0.5,
         "type": "WEAPON_DISPERSION",
-        "increment": 0.05
+        "increment": 0.05,
         "power_per_increment": -50
       }
     ],
@@ -730,7 +730,7 @@
         "min_value": -0.75,
         "max_value": 2.5,
         "type": "FOOTSTEP_NOISE",
-        "increment": 0.25
+        "increment": 0.25,
         "power_per_increment": -50
       },
       {
@@ -738,7 +738,7 @@
         "min_value": -0.5,
         "max_value": 1.0,
         "type": "REGEN_STAMINA",
-        "increment": 0.1
+        "increment": 0.1,
         "power_per_increment": 100
       },
       {
@@ -746,7 +746,7 @@
         "min_value": -0.5,
         "max_value": 1.0,
         "type": "RECOIL_MODIFIER",
-        "increment": 0.1
+        "increment": 0.1,
         "power_per_increment": -50
       },
       {
@@ -754,7 +754,7 @@
         "min_value": -0.75,
         "max_value": 0.5,
         "type": "WEAPON_DISPERSION",
-        "increment": 0.05
+        "increment": 0.05,
         "power_per_increment": -50
       }
     ],
