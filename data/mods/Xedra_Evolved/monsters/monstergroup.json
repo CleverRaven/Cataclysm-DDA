@@ -104,10 +104,29 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_VAMPIRES",
+    "name": "GROUP_MOROI",
     "monsters": [
-      { "monster": "mon_vampire_moroi", "weight": 5 },
-      { "monster": "mon_vampire_strigoi", "weight": 1 }
+      { "monster": "mon_vampire_moroi", "weight": 35 },
+      { "monster": "mon_renfield", "weight": 50, "pack_size": [ 1, 2 ] }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_STRIGOI",
+    "monsters": [
+      { "monster": "mon_zombie", "weight": 50, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_vampire_strigoi", "weight": 25 },
+      { "monster": "mon_vampire_strigoi", "weight": 1, "pack_size": [ 2, 4 ] }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_VAMPIRES_MIXED",
+    "monsters": [
+      { "monster": "mon_zombie", "weight": 50, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_renfield", "weight": 50, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_vampire_moroi", "weight": 25 },
+      { "monster": "mon_vampire_strigoi", "weight": 15 }
     ]
   }
 ]
