@@ -433,8 +433,13 @@ void weakpoint::load( const JsonObject &jo )
 
     // Set the ID to the name, if not provided.
     if( !jo.has_string( "id" ) ) {
-        id = name;
+        assign( jo, "name", id );
     }
+}
+
+std::string weakpoint::get_name() const
+{
+    return name.translated();
 }
 
 void weakpoint::apply_to( resistances &resistances ) const
@@ -512,7 +517,7 @@ const weakpoint *weakpoints::select_weakpoint( const weakpoint_attack &attack ) 
         float hit_chance = new_reweighed - reweighed;
         add_msg_debug( debugmode::DF_MONSTER,
                        "Weakpoint Selection: weakpoint %s, hit_chance %.4f",
-                       weakpoint.name, hit_chance );
+                       weakpoint.id, hit_chance );
         if( idx < hit_chance ) {
             return &weakpoint;
         }

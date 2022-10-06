@@ -10,6 +10,7 @@
 
 #include "damage.h"
 #include "optional.h"
+#include "translation.h"
 #include "type_id.h"
 
 class Character;
@@ -117,7 +118,7 @@ struct weakpoint {
     // ID of the weakpoint. Equal to the name, if not provided.
     std::string id;
     // Name of the weakpoint. Can be empty.
-    std::string name;
+    translation name;
     // Percent chance of hitting the weakpoint. Can be increased by skill.
     float coverage = 100.0f;
     // Multiplier for existing armor values. Defaults to 1.
@@ -138,6 +139,8 @@ struct weakpoint {
     weakpoint_difficulty difficulty;
 
     weakpoint();
+    // Gets translated name
+    std::string get_name() const;
     // Apply the armor multipliers and offsets to a set of resistances.
     void apply_to( resistances &resistances ) const;
     // Apply the damage multipliers to a set of damage values.
