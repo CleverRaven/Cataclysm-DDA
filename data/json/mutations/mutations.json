@@ -6132,6 +6132,7 @@
     "bash_dmg_bonus": 15,
     "flags": [ "UNARMED_BONUS" ],
     "types": [ "HANDS" ],
+    "threshreq": [ "THRESH_URSINE" ],
     "prereqs": [ "PAWS_LARGE" ],
     "cancels": [ "TALONS" ],
     "category": [ "BEAST", "URSINE" ]
