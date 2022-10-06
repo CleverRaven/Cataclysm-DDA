@@ -256,6 +256,11 @@ weakpoint_effect::weakpoint_effect()  :
     intensity( 0, 0 ),
     damage_required( 0.0f, 100.0f ) {}
 
+std::string weakpoint_effect::get_message() const
+{
+    return message.translated();
+}
+
 void weakpoint_effect::apply_to( Creature &target, int total_damage,
                                  const weakpoint_attack &attack ) const
 {
@@ -273,8 +278,8 @@ void weakpoint_effect::apply_to( Creature &target, int total_damage,
                        time_duration::from_turns( rng( duration.first, duration.second ) ),
                        permanent, rng( intensity.first, intensity.second ) );
 
-    if( !message.empty() && attack.source != nullptr && attack.source->is_avatar() ) {
-        add_msg_if_player_sees( target, m_good, message, target.get_name() );
+    if( !get_message().empty() && attack.source != nullptr && attack.source->is_avatar() ) {
+        add_msg_if_player_sees( target, m_good, get_message(), target.get_name() );
     }
 }
 

@@ -68,9 +68,11 @@ struct weakpoint_effect {
     // The range of damage, as a percentage of max health, required to the effect.
     std::pair<float, float> damage_required;
     // The message to print, if the player causes the effect.
-    std::string message;
+    translation message;
 
     weakpoint_effect();
+    // Gets translated effect message
+    std::string get_message() const;
     // Maybe apply an effect to the target.
     void apply_to( Creature &target, int total_damage, const weakpoint_attack &attack ) const;
     void load( const JsonObject &jo );
