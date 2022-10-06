@@ -176,7 +176,11 @@
       "place_monsters": [ { "monster": "GROUP_STRIGOI", "x": 7, "y": 4 } ],
       "place_nested": [
         { "chunks": [ [ "lodge_game_6x6", 80 ], [ "lodge_dungeon_6x6", 20 ], [ "lodge_drug_6x6", 50 ] ], "x": 2, "y": 1 },
-        { "chunks": [ [ "5x5_corpse_pile_W", 30 ], [ "5x5_messy_nest_W", 10 ], [ "5x5_vamp_nest_W", 60 ] ], "x": 24, "y": 1 },
+        {
+          "chunks": [ [ "5x5_corpse_pile_W", 30 ], [ "5x5_messy_nest_W", 10 ], [ "5x5_vamp_nest_W", 60 ] ],
+          "x": 24,
+          "y": 1
+        },
         {
           "chunks": [ [ "room_6x6_woodworker", 5 ], [ "room_6x6_bike", 15 ], [ "room_6x6_office_E", 5 ] ],
           "x": 26,
