@@ -5680,14 +5680,23 @@
     "prereqs": [ "SNOUT" ],
     "category": [ "URSINE" ],
     "restricts_gear": [ "mouth" ],
-    "attacks": {
-      "attack_text_u": "You bite %s",
-      "attack_text_npc": "%1$s bites %2$s",
-      "blocker_mutations": [ "FANGS", "CRUSHING_FANGS" ],
-      "body_part": "mouth",
-      "chance": 20,
-      "base_damage": { "damage_type": "cut", "amount": 5 }
-    }
+    "attacks": [
+      {
+        "attack_text_u": "You bite %s",
+        "attack_text_npc": "%1$s bites %2$s",
+        "blocker_mutations": [ "FANGS", "CRUSHING_FANGS" ],
+        "body_part": "mouth",
+        "chance": 20,
+        "base_damage": { "damage_type": "cut", "amount": 5 }
+      },
+      {
+        "attack_text_u": "You bite into %s with your crushing fangs",
+        "attack_text_npc": "%1$s bites %2$s with their crushing fangs",
+        "body_part": "mouth",
+        "chance": 20,
+        "base_damage": [ { "damage_type": "cut", "amount": 10 }, { "damage_type": "bash", "amount": 10 } ]
+      }
+    ]
   },
   {
     "type": "mutation",
@@ -6108,7 +6117,7 @@
     "category": [ "BEAST", "URSINE" ]
   },
   {
-   "type": "mutation",
+    "type": "mutation",
     "id": "PAWS_HUGE",
     "name": { "str": "Crushing Paws" },
     "points": 2,
@@ -6148,16 +6157,9 @@
     "types": [ "TEETH" ],
     "prereqs": [ "MUZZLE_BEAR" ],
     "threshreq": [ "THRESH_URSINE" ],
-    "category": [ "URSINE" ],
-    "attacks": {
-      "attack_text_u": "You bite into %s with your crushing fangs",
-      "attack_text_npc": "%1$s bites %2$s with their crushing fangs",
-      "body_part": "mouth",
-      "chance": 20,
-      "base_damage": [ { "damage_type": "cut", "amount": 10 }, { "damage_type": "bash", "amount": 10 } ]
-    }
+    "category": [ "URSINE" ]
   },
-  { 
+  {
     "type": "mutation",
     "id": "BEAK",
     "name": { "str": "Beak" },
