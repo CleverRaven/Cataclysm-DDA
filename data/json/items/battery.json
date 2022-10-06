@@ -403,25 +403,5 @@
     "looks_like": "battery",
     "flags": [ "NO_SALVAGE", "NO_UNLOAD", "NO_RELOAD", "BATTERY_HEAVY" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 1000 } } ]
-  },
-  {
-    "id": "debug_battery",
-    "type": "MAGAZINE",
-    "category": "spare_parts",
-    "name": { "str": "debugging battery", "str_pl": "debugging batteries" },
-    "description": "Debug item.  If you see this, it was likely spawned in.",
-    "weight": "80 g",
-    "volume": "1 ml",
-    "price": 15000,
-    "price_postapoc": 200,
-    "material": [ "iron", "plastic" ],
-    "symbol": "=",
-    "color": "green",
-    "ammo_type": [ "battery" ],
-    "count": 100000,
-    "capacity": 100000,
-    "looks_like": "battery",
-    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "NO_RELOAD", "BATTERY_ULTRA_LIGHT", "BATTERY_LIGHT", "BATTERY_MEDIUM", "BATTERY_HEAVY" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 500 } } ]
   }
 ]
