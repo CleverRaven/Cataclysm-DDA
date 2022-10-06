@@ -145,7 +145,7 @@
         { "item": "handflare", "x": 6, "y": 8, "chance": 100 },
         { "item": "sm_extinguisher", "x": 6, "y": 8, "chance": 50 },
         { "item": "towel", "x": 6, "y": 8, "chance": 30 },
-        { "item": "wheel_wide", "x": 6, "y": 8, "chance": 100, "repeat": 5 },
+        { "item": "wheel_wide", "x": 6, "y": 8, "chance": 100, "repeat": 3 },
         { "item": "jack", "x": 6, "y": 8, "chance": 100 },
         { "item": "wrench_large", "x": 6, "y": 8, "chance": 100 }
       ],
