@@ -680,7 +680,7 @@ void game::chat()
     }
     std::string message;
     std::string yell_msg;
-    std::string think_msg;  
+    std::string think_msg;
     bool is_order = true;
     nmenu.query();
 
