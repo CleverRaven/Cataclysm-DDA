@@ -539,6 +539,22 @@
   },
   {
     "type": "profession",
+    "id": "youtuber",
+    "name": "YouTuber",
+    "description": "You're a YouTuber, you create content on YouTube.  Now most of your fans become undead, you may want to see if your social skills learnt from creating content help you somehow.",
+    "points": -2,
+    "skills": [ { "level": 3, "name": "speech" } ],
+    "items": {
+      "both": {
+        "items": [ "jeans", "longshirt", "socks", "sneakers", "backpack", "pockknife", "water_clean", "wearable_camera", "wristwatch" ],
+        "entries": [ { "group": "charged_smart_phone" }, { "group": "charged_laptop" }, { "group": "charged_matches" } ]
+      },
+      "male": [ "boxer_shorts" ],
+      "female": [ "bra", "panties" ]
+    }
+  },
+  {
+    "type": "profession",
     "id": "sheltered_survivor",
     "name": "Sheltered Survivor",
     "description": "At the start of the Cataclysm, you hunkered down in a bomb shelter.  You've spent the past months eating canned food, reading books, and tinkering with stuff in the bunker.  Now it is winter - time to face the world above.",
