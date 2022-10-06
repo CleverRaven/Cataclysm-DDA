@@ -1010,7 +1010,7 @@
     "weakpoint_sets": [ "wps_ankylosaurid_body" ],
     "hp": 375,
     "special_attacks": [ [ "scratch", 10 ], [ "GRAB", 10 ], { "type": "bite", "cooldown": 5 }, [ "tailsmash_ankyl_DinoMod", 30 ] ],
-    "description": "The shuffling corpse of a four legged dinosaur with peeling armored plates, a beak,  and black, glistening eyes.  Its tail ends in a massive spiked club of bone.",
+    "description": "The shuffling corpse of a four legged dinosaur with peeling armored plates, a beak, and black, glistening eyes.  Its tail ends in a massive spiked club of bone.",
     "burn_into": "mon_zankylosaurus_scorched",
     "fungalize_into": "mon_zankylosaurus_fungus",
     "upgrades": { "half_life": 30, "into_group": "GROUP_zankylosaurus_UPGRADE" },
