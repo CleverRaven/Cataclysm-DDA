@@ -5683,7 +5683,7 @@
     "attacks": {
       "attack_text_u": "You bite %s",
       "attack_text_npc": "%1$s bites %2$s",
-      "blocker_mutations": [ "FANGS" ],
+      "blocker_mutations": [ "FANGS", "CRUSHING_FANGS"   ],
       "body_part": "mouth",
       "chance": 20,
       "base_damage": { "damage_type": "cut", "amount": 5 }
