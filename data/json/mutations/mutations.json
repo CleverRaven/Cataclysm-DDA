@@ -3814,7 +3814,7 @@
     "points": 10,
     "purifiable": false,
     "description": "Your tough paws allow you to dig through dirt and rubble with ease.",
-    "prereqs": [ "PAWS", "PAWS_LARGE" ],
+    "prereqs": [ "PAWS", "PAWS_LARGE", "PAWS_HUGE" ],
     "threshreq": [ "THRESH_LUPINE", "THRESH_URSINE" ],
     "category": [ "LUPINE", "URSINE" ],
     "active": true
@@ -6104,9 +6104,39 @@
     "types": [ "HANDS" ],
     "prereqs": [ "PAWS" ],
     "cancels": [ "TALONS" ],
+    "changes_to": [ "PAWS_HUGE" ],
     "category": [ "BEAST", "URSINE" ]
   },
   {
+   "type": "mutation",
+    "id": "PAWS_HUGE",
+    "name": { "str": "Broad Paws" },
+    "points": -4,
+    "visibility": 6,
+    "ugliness": 3,
+    "mixed_effect": true,
+    "description": "Your broad paws are much larger now.  Manual dexterity is severely lower: permanent hand encumbrance of 40, serious problems crafting, and no gloves.  In return, though, you can swim better, and your hands can crush skulls.",
+    "craft_skill_bonus": [
+      [ "electronics", -6 ],
+      [ "tailor", -6 ],
+      [ "mechanics", -6 ],
+      [ "firstaid", -4 ],
+      [ "computer", -4 ],
+      [ "traps", -4 ],
+      [ "fabrication", -4 ],
+      [ "cooking", -4 ],
+      [ "survival", -4 ]
+    ],
+    "encumbrance_always": [ [ "hand_l", 40 ], [ "hand_r", 40 ] ],
+    "restricts_gear": [ "hand_l", "hand_r" ],
+    "bash_dmg_bonus": 15,
+    "flags": [ "UNARMED_BONUS" ],
+    "types": [ "HANDS" ],
+    "prereqs": [ "PAWS_LARGE" ],
+    "cancels": [ "TALONS" ],
+    "category": [ "BEAST", "URSINE" ]
+  },
+  { 
     "type": "mutation",
     "id": "BEAK",
     "name": { "str": "Beak" },
