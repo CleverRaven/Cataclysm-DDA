@@ -36,11 +36,18 @@
     ],
     "skills": [
       { "skill": "ALL", "level": { "sum": [ { "dice": [ 3, 2 ] }, { "constant": -3 } ] } },
+      { "skill": "unarmed", "bonus": { "rng": [ 0, 3 ] } },
       { "skill": "bashing", "bonus": { "rng": [ 0, 3 ] } },
       { "skill": "melee", "bonus": { "rng": [ 0, 3 ] } },
+      { "skill": "dodge", "bonus": { "rng": [ 0, 3 ] } },
       { "skill": "rifle", "bonus": { "rng": [ 2, 5 ] } },
       { "skill": "gun", "bonus": { "rng": [ 2, 5 ] } },
-      { "skill": "mechanics", "bonus": { "rng": [ 6, 8 ] } }
+      { "skill": "fabrication", "bonus": { "rng": [ 2, 5 ] } },
+      { "skill": "mechanics", "bonus": { "rng": [ 6, 8 ] } },
+      { "skill": "driving", "bonus": { "rng": [ 5, 6 ] } },
+      { "skill": "athletics", "bonus": { "rng": [ 3, 5 ] } },
+      { "skill": "swimming", "bonus": { "rng": [ 0, 3 ] } },
+      { "skill": "survival", "bonus": { "rng": [ 0, 3 ] } }
     ],
     "worn_override": "SCRAP_MERCHANT_worn",
     "weapon_override": "SCRAP_MERCHANT_weapon",
