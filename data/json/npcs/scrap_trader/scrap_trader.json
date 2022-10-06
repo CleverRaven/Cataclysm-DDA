@@ -45,8 +45,7 @@
       { "skill": "fabrication", "bonus": { "rng": [ 2, 5 ] } },
       { "skill": "mechanics", "bonus": { "rng": [ 6, 8 ] } },
       { "skill": "driving", "bonus": { "rng": [ 5, 6 ] } },
-      { "skill": "athletics", "bonus": { "rng": [ 3, 5 ] } },
-      { "skill": "swimming", "bonus": { "rng": [ 0, 3 ] } },
+      { "skill": "swimming", "bonus": { "rng": [ 3, 5 ] } },
       { "skill": "survival", "bonus": { "rng": [ 0, 3 ] } }
     ],
     "worn_override": "SCRAP_MERCHANT_worn",
