@@ -20,16 +20,7 @@
       },
       "exterior_wall_type": {
         "type": "ter_str_id",
-        "default": {
-          "distribution": [
-            [ "t_brick_wall", 6 ],
-            [ "t_rock_wall", 3 ],
-            [ "t_wall_wood", 3 ],
-            [ "t_drystone_wall", 2 ],
-            [ "t_adobe_brick_wall", 4 ],
-            [ "t_concrete_wall", 4 ]
-          ]
-        }
+        "default": { "distribution": [ [ "t_brick_wall", 6 ], [ "t_rock_wall", 3 ], [ "t_wall_wood", 3 ], [ "t_concrete_wall", 4 ] ] }
       },
       "window_type": {
         "type": "ter_str_id",
