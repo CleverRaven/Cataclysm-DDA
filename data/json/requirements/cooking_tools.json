@@ -62,6 +62,7 @@
     "//3": "esbit has 40kJ/u, kerosene/gasoline 34 kJ/u, propane 25kJ/u, acetylene 50kJ/u alcohol 20kJ/u. needs 400kJ total.",
     "//4": "charcoal/coal 31/u, it is less efficient than other fossil fuels and is closer to an oven.",
     "//5": "note that while microwaves are great for cooking food they're not great for boiling water.  Convection in general is inefficient for this process, however induction (heats the pan itself through magnetic coils) excels.",
+    "//6": "for each unit of water add an additional count of this per 15 minutes the water is kept boiling.",
     "tools": [
       [
         [ "coffeemaker", 125 ],
