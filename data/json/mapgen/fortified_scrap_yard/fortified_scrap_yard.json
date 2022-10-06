@@ -107,7 +107,7 @@
         ".": "f_utility_shelf"
       },
       "place_items": [
-        { "chance": 100, "item": "cash_register_random", "x": 5, "y": [ 4, 6 ] },
+        { "chance": 100, "item": "cash_register_random", "x": 5, "y": 5 },
         { "chance": 25, "item": "vending_food", "x": 6, "y": 4 },
         { "chance": 25, "item": "vending_drink", "x": 7, "y": 4 },
         { "chance": 100, "item": "SUS_fridge_survivor", "x": 4, "y": 8 },
@@ -130,7 +130,7 @@
         { "chance": 15, "item": "vehicle_scrapped", "x": 14, "y": 16 },
         { "chance": 15, "item": "vehicle_scrapped", "x": 9, "y": 15 },
         { "chance": 15, "item": "vehicle_scrapped", "x": 3, "y": 19 },
-        { "chance": 10, "item": "tools_mechanic", "x": 5, "y": 5 }
+        { "chance": 10, "item": "tools_mechanic", "x": 6, "y": 8 }
       ],
       "place_loot": [
         { "item": "blanket", "x": 3, "y": 14, "chance": 100 },
