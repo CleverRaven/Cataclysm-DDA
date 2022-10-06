@@ -5693,6 +5693,7 @@
         "attack_text_u": "You bite into %s with your crushing fangs",
         "attack_text_npc": "%1$s bites %2$s with their crushing fangs",
         "body_part": "mouth",
+        "required_mutations": [ "CRUSHING_FANGS" ],
         "chance": 20,
         "base_damage": [ { "damage_type": "cut", "amount": 10 }, { "damage_type": "bash", "amount": 10 } ]
       }
