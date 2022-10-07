@@ -1,0 +1,157 @@
+[
+ {
+    "id": "armor_lc_brigandine",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "brigandine with mild steel plates" },
+    "description": "",
+    "weight": "1800 g",
+    "volume": "2750 ml",
+    "price": 60000,
+    "price_postapoc": 12000,
+    "to_hit": -5,
+    "bashing": 8,
+    "symbol": "[",
+    "looks_like": "armor_larmor",
+    "color": "light_gray",
+    "warmth": 20,
+    "longest_side": "60 cm",
+    "material_thickness": 3.1,
+    "flags": [ "OUTER", "STURDY", "CONDUCTIVE", "ONLY_ONE" ],
+    "armor": [
+      {
+        "material": [
+          { "type": "lc_steel", "covered_by_mat": 90, "thickness": 0.6 },
+          { "type": "leather", "covered_by_mat": 100, "thickness": 2.5 }
+        ],
+        "covers": [ "torso" ],
+        "coverage": 100,
+        "encumbrance": 7
+      }
+    ]
+  },
+  {
+    "id": "armor_mc_brigandine",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "brigandine with medium steel plates" },
+    "description": "",
+    "weight": "1800 g",
+    "volume": "2750 ml",
+    "price": 60000,
+    "price_postapoc": 12000,
+    "to_hit": -5,
+    "bashing": 8,
+    "symbol": "[",
+    "looks_like": "armor_larmor",
+    "color": "light_gray",
+    "warmth": 20,
+    "longest_side": "60 cm",
+    "material_thickness": 3.1,
+    "flags": [ "OUTER", "STURDY", "CONDUCTIVE", "ONLY_ONE" ],
+    "armor": [
+      {
+        "material": [
+          { "type": "mc_steel", "covered_by_mat": 90, "thickness": 0.6 },
+          { "type": "leather", "covered_by_mat": 100, "thickness": 2.5 }
+        ],
+        "covers": [ "torso" ],
+        "coverage": 100,
+        "encumbrance": 7
+      }
+    ]
+  },
+  {
+    "id": "armor_hc_brigandine",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "brigandine with high steel plates" },
+    "description": "",
+    "weight": "1800 g",
+    "volume": "2750 ml",
+    "price": 60000,
+    "price_postapoc": 12000,
+    "to_hit": -5,
+    "bashing": 8,
+    "symbol": "[",
+    "looks_like": "armor_larmor",
+    "color": "light_gray",
+    "warmth": 20,
+    "longest_side": "60 cm",
+    "material_thickness": 3.1,
+    "flags": [ "OUTER", "STURDY", "CONDUCTIVE", "ONLY_ONE" ],
+    "armor": [
+      {
+        "material": [
+          { "type": "hc_steel", "covered_by_mat": 90, "thickness": 0.6 },
+          { "type": "leather", "covered_by_mat": 100, "thickness": 2.5 }
+        ],
+        "covers": [ "torso" ],
+        "coverage": 100,
+        "encumbrance": 7
+      }
+    ]
+  },
+  {
+    "id": "armor_ch_brigandine",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "brigandine with case hardened steel plates" },
+    "description": "",
+    "weight": "1800 g",
+    "volume": "2750 ml",
+    "price": 60000,
+    "price_postapoc": 12000,
+    "to_hit": -5,
+    "bashing": 8,
+    "symbol": "[",
+    "looks_like": "armor_larmor",
+    "color": "light_gray",
+    "warmth": 20,
+    "longest_side": "60 cm",
+    "material_thickness": 3.1,
+    "flags": [ "OUTER", "STURDY", "CONDUCTIVE", "ONLY_ONE" ],
+    "armor": [
+      {
+        "material": [
+          { "type": "ch_steel", "covered_by_mat": 90, "thickness": 0.6 },
+          { "type": "leather", "covered_by_mat": 100, "thickness": 2.5 }
+        ],
+        "covers": [ "torso" ],
+        "coverage": 100,
+        "encumbrance": 7
+      }
+    ]
+  },
+  {
+    "id": "armor_qt_brigandine",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "brigandine with tempered plates" },
+    "description": "",
+    "weight": "1800 g",
+    "volume": "2750 ml",
+    "price": 60000,
+    "price_postapoc": 12000,
+    "to_hit": -5,
+    "bashing": 8,
+    "symbol": "[",
+    "looks_like": "armor_larmor",
+    "color": "light_gray",
+    "warmth": 20,
+    "longest_side": "60 cm",
+    "material_thickness": 3.1,
+    "flags": [ "OUTER", "STURDY", "CONDUCTIVE", "ONLY_ONE" ],
+    "armor": [
+      {
+        "material": [
+          { "type": "qt_steel", "covered_by_mat": 90, "thickness": 0.6 },
+          { "type": "leather", "covered_by_mat": 100, "thickness": 2.5 }
+        ],
+        "covers": [ "torso" ],
+        "coverage": 100,
+        "encumbrance": 7
+      }
+    ]
+  }
+]
