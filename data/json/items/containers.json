@@ -192,7 +192,7 @@
     "type": "GENERIC",
     "category": "container",
     "name": { "str": "reinforced garbage bag" },
-    "looks_like": "bag_canvas",
+    "looks_like": "bag_garbage",
     "description": "Plastic bags placed within each other made to carry much heavier loads, could even carry a dead body inside, it dosent stop the smell though.",
     "weight": "400 g",
     "volume": "420 ml",
