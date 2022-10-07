@@ -443,7 +443,9 @@ An optional file called layering.json can be provided. this file defines layerin
       {
         "item": "laptop",
         "sprite": [{"id": "desk_laptop", "weight": 1}],
-        "layer": 90
+        "layer": 90,
+        "offset_x": 16,
+        "offset_y": -48
       },
       {
         "item": "pen",
@@ -454,7 +456,9 @@ An optional file called layering.json can be provided. this file defines layerin
     "field_variants": [
       {
         "field": "fd_fire",
-        "sprite": [{"id": "desk_fd_fire", "weight": 1}]
+        "sprite": [{"id": "desk_fd_fire", "weight": 1}],
+        "offset_x": 16,
+        "offset_y": -48
       }
     ]
   }
@@ -476,6 +480,8 @@ This entry sets it so that the f_desk furniture if it contains either a pen or a
 
 `"sprite": [{"id": "desk_pen_1", "weight": 2}, {"id": "desk_pen_2", "weight": 2}]` an array of the possible sprites that can display. For items multiple sprites can be provided with specific weights and will be selected at random.
 
+`"offset_x": 16`, `"offset_y": -48` optional sprite offset.
+
 ##### Fields
 
 `"field_variants":` the definitions for what fields will have a variant sprite.
@@ -484,7 +490,7 @@ This entry sets it so that the f_desk furniture if it contains either a pen or a
 
 `"sprite": [{"id": "desk_fd_fire", "weight": 1}]` A field can have at most one sprite.
 
-
+`"offset_x": 16`, `"offset_y": -48` optional sprite offset.
 
 ## `compose.py`
 
