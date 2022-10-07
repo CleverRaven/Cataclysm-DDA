@@ -54,6 +54,5 @@
     "melee_dice_sides": 2,
     "melee_damage": [ { "damage_type": "cut", "amount": 10 } ],
     "flags": [ "SEES", "HEARS", "NO_BREATHE", "PUSH_MON", "ALWAYS_VISIBLE", "ALWAYS_SEES_YOU" ]
-  }   
+  }
 ]
-
