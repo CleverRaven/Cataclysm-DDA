@@ -443,6 +443,7 @@
   {
     "id": "lc_cavalry_sabre",
     "type": "TOOL",
+    "looks_like": "cavalry_sabre",
     "category": "weapons",
     "symbol": "/",
     "color": "dark_gray",
@@ -594,6 +595,7 @@
   {
     "id": "lc_jian",
     "type": "TOOL",
+    "looks_like": "jian",
     "category": "weapons",
     "symbol": "/",
     "color": "light_gray",
@@ -737,6 +739,7 @@
   {
     "id": "lc_scimitar",
     "type": "TOOL",
+    "looks_like": "scimitar",
     "category": "weapons",
     "symbol": "/",
     "color": "light_gray",
@@ -881,6 +884,7 @@
   {
     "id": "lc_estoc",
     "type": "GENERIC",
+    "looks_like": "estoc",
     "category": "weapons",
     "symbol": "/",
     "color": "light_gray",
@@ -1026,6 +1030,7 @@
   {
     "id": "lc_longsword",
     "type": "TOOL",
+    "looks_like": "longsword",
     "category": "weapons",
     "symbol": "/",
     "color": "light_gray",
@@ -1169,6 +1174,7 @@
   {
     "id": "lc_arming_sword",
     "type": "TOOL",
+    "looks_like": "arming_sword",
     "category": "weapons",
     "symbol": "/",
     "color": "light_gray",
@@ -1507,6 +1513,7 @@
   {
     "id": "lc_wakizashi",
     "type": "TOOL",
+    "looks_like": "wakizashi",
     "category": "weapons",
     "symbol": "/",
     "color": "light_gray",
@@ -1624,6 +1631,7 @@
   {
     "id": "lc_zweihander",
     "type": "TOOL",
+    "looks_like": "zweihander",
     "category": "weapons",
     "symbol": "/",
     "color": "light_gray",
@@ -1818,6 +1826,7 @@
   {
     "id": "lc_nodachi",
     "type": "TOOL",
+    "looks_like": "nodachi",
     "category": "weapons",
     "symbol": "/",
     "color": "light_gray",
@@ -2168,6 +2177,7 @@
   {
     "id": "lc_broadsword",
     "type": "TOOL",
+    "looks_like": "broadsword",
     "category": "weapons",
     "symbol": "/",
     "color": "light_gray",
@@ -2323,6 +2333,7 @@
   {
     "id": "lc_rapier",
     "type": "TOOL",
+    "looks_like": "rapier",
     "category": "weapons",
     "symbol": "/",
     "color": "light_gray",
@@ -2441,6 +2452,7 @@
   {
     "id": "lc_katana",
     "type": "TOOL",
+    "looks_like": "katana",
     "category": "weapons",
     "symbol": "/",
     "ascii_picture": "katana",
@@ -2721,6 +2733,7 @@
   {
     "id": "lc_cutlass",
     "type": "TOOL",
+    "looks_like": "cutlass",
     "category": "weapons",
     "symbol": "/",
     "color": "dark_gray",
@@ -2816,6 +2829,7 @@
   {
     "id": "kriegsmesser",
     "type": "TOOL",
+    "looks_like": "scimitar",
     "symbol": "/",
     "color": "light_gray",
     "name": { "str": "kriegsmesser" },
@@ -2838,6 +2852,7 @@
   {
     "id": "lc_kriegsmesser",
     "type": "TOOL",
+    "looks_like": "kreigsmesser",
     "category": "weapons",
     "symbol": "/",
     "color": "light_gray",
