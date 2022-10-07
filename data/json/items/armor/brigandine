@@ -176,7 +176,7 @@
     "armor": [
       {
         "material": [
-          { "type": "lc_steel", "covered_by_mat": 90, "thickness": 0.3 },
+          { "type": "lc_steel", "covered_by_mat": 90, "thickness": 1.0 },
           { "type": "leather", "covered_by_mat": 100, "thickness": 2.0 }
         ],
         "covers": [ "arm_l", "arm_r" ],
@@ -208,7 +208,7 @@
     "armor": [
       {
       "material": [
-          { "type": "lc_steel", "covered_by_mat": 90, "thickness": 0.3 },
+          { "type": "lc_steel", "covered_by_mat": 90, "thickness": 1.0 },
           { "type": "leather", "covered_by_mat": 100, "thickness": 2.0 }
         ],
         "covers": [ "leg_l", "leg_r" ],
