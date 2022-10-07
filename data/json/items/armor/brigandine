@@ -153,5 +153,38 @@
         "encumbrance": 7
       }
     ]
-  }
+  },
+  {
+    "id": "armguard_metal",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "pair of mild splint arm guards", "str_pl": "pairs of mild brigandine arm guards" },
+    "description": "",
+    "weight": "500 g",
+    "//": "The weight assumes four sheets of about 25cm x 20cm x 1.5mm.",
+    "volume": "2750 ml",
+    "price": 30000,
+    "price_postapoc": 1000,
+    "to_hit": 1,
+    "symbol": "[",
+    "looks_like": "armguard_hard",
+    "color": "light_gray",
+    "warmth": 10,
+    "material_thickness": 2.3,
+    "environmental_protection": 1,
+    "flags": [ "OUTER", "BLOCK_WHILE_WORN", "WATER_FRIENDLY" ],
+    "armor": [
+      {
+        "material": [
+          { "type": "lc_steel", "covered_by_mat": 90, "thickness": 0.3 },
+          { "type": "leather", "covered_by_mat": 100, "thickness": 2.0 }
+        ],
+        "covers": [ "arm_l", "arm_r" ],
+        "encumbrance": 3,
+        "coverage": 95,
+        "cover_melee": 95,
+        "cover_ranged": 90,
+        "cover_vitals": 70,
+        "specifically_covers": [ "arm_lower_r", "arm_lower_l", "arm_upper_r", "arm_upper_l" ]
+  },
 ]
