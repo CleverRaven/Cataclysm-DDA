@@ -6,9 +6,9 @@
     "//1": "Roughly 75% efficiency for a microwave or induction hotplate, 37-40% for fossil fuel, 15% for an oven/charcoal, 50-60% for a regular electric cooker.  25% efficiency for improvised options like the toolkit or an arc welder.",
     "//2": "esbit has 40kJ/u, kerosene/gasoline 34 kJ/u, propane 25kJ/u, acetylene 50kJ/u alcohol 20kJ/u. needs 2x total energy of induction.",
     "//3": "charcoal/coal 31/u, it is less efficient than other fossil fuels and is closer to an oven.",
-    "//4": "Standards: 1 - bake one unit of flour, process 100g of fruit/veggy or caramelize 3 units of sugar, 2 - one scrap of meat, one unit of oatmeal one beans or one rice, 3 - scramble a chicken egg, 20 - chunk of meat",
-    "//5": "Note: recipies involving water may require water_boiling_heat because it can potentially use unclean water, such as energy needed to cook some noodles or an egg.  Others such as bread baking don't need it because the water hits boiling temp, even though it does not boil.",
-    "//6": "Canning food involves bringing water up to a boil and then keeping it there for a while.  For each 0.5L of canned goods that aren't meat, add 4 of these, and for each 0.5L of canned goods that are meat, add 6.  Then, add a unit of boiling for each unit of water needed.",
+    "//4": "Standards: 1 surface_heat - bake one unit of flour, process 2u of butter/oil, 1u of sugar_standard, make caramel out of 3u of sugar, cook a corn tortilla, process 100g of fruit.  2 surface_heats - cook a scrap of raw meat (30g), process 100g of veggy (treat starchy stuff like potatoes, roots, cattails, as flour).",
+    "//4": "More Standards: 3 surface_heats: cook oatmeal. 4 surface_heats: cook beans, rice, or lentils. 5 surface_heats: cook 1 unit of cornmeal. 6u surface_heats: roast nuts. 15u surface heat: process a chunk of fat or a unit of blood. 20u: cook a chunk of meat (300g)",
+    "//6": "Note: recipies involving water may require water_boiling_heat because it can potentially use unclean water, such as energy needed to cook some noodles or an egg.  Others such as bread baking don't need it because the water hits boiling temp, even though it does not boil.",
     "//7": "Ovens are terrible, this is intentional.  Typical oven uses 3x the wattage of a microwave, and bakes for often over 10x as long as the microwave does.  We cannot account for batch energy savings (multiple things in same oven) nor keeping the oven at temp (many kJ are wasted bringing it up to temp, unlike with a microwave) so efficiency is somewhat generously 0.2x that of microwave.",
     "//8": "A good way to judge input needed is how many seconds it takes to microwave.  1kW is a good estimate for microwave power usage, and the ratios are relatively consistent between different foodstuffs.",
     "tools": [
@@ -57,7 +57,7 @@
     "id": "water_boiling_heat",
     "type": "requirement",
     "//": "Tools usable for providing heat usable for boiling water, but not necessarily for anything else.",
-    "//1": "Hypothetical maximum efficiency to boil 0.25L of water (one unit) is around 100kJ, to heat in a basement and boil for 1 minute.",
+    "//1": "Hypothetical maximum efficiency to boil 0.25L of water (one unit) is around 100kJ, to heat in a basement and boil for 1 minute. In theory boiling water in the middle of a summer afternoon should use less power, but we cannot model that (yet)",
     "//2": "Roughly 75-80% efficiency for induction, 25% for fossil fuel, 50% for a regular electric cooker, 40% for microwave, 10% for oven/charcoal.",
     "//3": "esbit has 40kJ/u, kerosene/gasoline 34 kJ/u, propane 25kJ/u, acetylene 50kJ/u alcohol 20kJ/u. needs 400kJ total.",
     "//4": "charcoal/coal 31/u, it is less efficient than other fossil fuels and is closer to an oven.",
@@ -81,6 +81,31 @@
         [ "atomic_coffeepot", 100 ],
         [ "fire", -1 ]
       ]
+    ]
+  },
+  {
+    "id": "canning_standard",
+    "type": "requirement",
+    "//": "This is mostly similar to water_boiling_heat, because principally you are just boiling water.  However coffeepots are excluded because you need a lot of room for the cannning pot.",
+    "//": "Power usage is mostly the same.  For each 0.25L of water used in the canning process, add one of this, plus another of this for each 15 minutes the canning occurs, plus another of this if you are canning meat (needs higher temp)",
+    "//": "so to make a 0.5L jar of canned meat, would be 11u of water for 30 minutes, + meat tax = 44u of this total.  Canning ain't cheap!",
+    "tools": [
+      [
+        [ "hotplate_induction", 125 ],
+        [ "hotplate", 200 ],
+        [ "microwave", 250 ],
+        [ "multi_cooker", 200 ],
+        [ "char_smoker", 40 ],
+        [ "esbit_stove", 10 ],
+        [ "oil_cooker", 12 ],
+        [ "gasoline_cooker", 12 ],
+        [ "propane_cooker", 16 ],
+        [ "acetylene_cooker", 8 ],
+        [ "popcan_stove", 20 ],
+        [ "fake_oven", 1000 ],
+        [ "fire", -1 ]
+      ],
+      [ [ "pot_canning", -1 ], [ "pot_canning_clay", -1 ] ]
     ]
   }
 ]
