@@ -550,7 +550,12 @@ void mutation_branch::load( const JsonObject &jo, const std::string & )
     }
 
     for( const std::string line : jo.get_array( "restricts_gear" ) ) {
-        restricts_gear.insert( bodypart_str_id( line ) );
+        bodypart_str_id bp( line );
+        if( bp.is_valid() ) {
+            restricts_gear.insert( bp );
+        } else {
+            restricts_gear_subparts.insert( sub_bodypart_str_id( line ) );
+        }
     }
 
     for( const std::string line : jo.get_array( "allowed_items" ) ) {
