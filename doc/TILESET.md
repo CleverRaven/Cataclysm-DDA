@@ -385,10 +385,9 @@ Weighted variations are also possible, and can be combined with rotation:
 
 Variant selection is based on the graffiti's text, so the same text will always result in the same variant shown.
 
-<details>
-<summary><h5>More graffiti variants - Spoile warning!<h5></summary>
+##### Graffitis for specific texts
 
-It is possible to create graffitis for specifix texts. This is meant to be an easter egg for players.
+It is possible to create graffitis for specifix texts.
 
 The game looks up graffiti sprites by the pattern `graffiti_THE_GRAFFITI_TEXT`. If no such sprite is found, `graffiti` is used.
 
@@ -399,7 +398,6 @@ To create the sprite id, the graffiti's text is:
 * spaces are replaced by underscores
 
 So, e.g. all these texts would result in lookup for `graffiti_NO_FUTURE`: "no future", "No Future!!!", "no_future".
-</details>
 
 ### `tile_info.json`
 ```c++
