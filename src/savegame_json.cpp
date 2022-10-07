@@ -1122,6 +1122,7 @@ void Character::load( const JsonObject &data )
 
     item_location weapon = get_wielded_item();
     bool has_old_bionic_weapon = !is_using_bionic_weapon() && weapon &&
+                                 ( weapon->has_flag( flag_BIONIC_WEAPON ) || weapon->has_flag( flag_BIONIC_GUN ) ) &&
                                  weapon->has_flag( flag_NO_UNWIELD ) && !weapon->ethereal;
 
     const auto find_parent = [this]( bionic_id & bio_id ) {
