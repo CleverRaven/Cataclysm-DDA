@@ -824,7 +824,10 @@ void hacking_activity_actor::finish( player_activity &act, Character &who )
     act.set_to_null();
 }
 
-void hacking_activity_actor::serialize( JsonOut & ) const {}
+void hacking_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.write_null();
+}
 
 std::unique_ptr<activity_actor> hacking_activity_actor::deserialize( JsonValue & )
 {

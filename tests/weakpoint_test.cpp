@@ -143,19 +143,19 @@ TEST_CASE( "Check order of weakpoint set application", "[monster][weakpoint]" )
     for( const weakpoint &wp : mon_test_zombie_cop->weakpoints.weakpoint_list ) {
         if( wp.id == "test_head" ) {
             has_wp_head = true;
-            CHECK( wp.name == "inline head" );
+            CHECK( wp.get_name() == "inline head" );
         } else if( wp.id == "test_eye" ) {
             has_wp_eye = true;
-            CHECK( wp.name == "humanoid eye" );
+            CHECK( wp.get_name() == "humanoid eye" );
         } else if( wp.id == "test_neck" ) {
             has_wp_neck = true;
-            CHECK( wp.name == "special neck" );
+            CHECK( wp.get_name() == "special neck" );
         } else if( wp.id == "test_arm" ) {
             has_wp_arm = true;
-            CHECK( wp.name == "inline arm" );
+            CHECK( wp.get_name() == "inline arm" );
         } else if( wp.id == "test_leg" ) {
             has_wp_leg = true;
-            CHECK( wp.name == "inline leg" );
+            CHECK( wp.get_name() == "inline leg" );
         }
     }
     REQUIRE( has_wp_head );
