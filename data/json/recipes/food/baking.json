@@ -14,7 +14,8 @@
     "flags": [ "BLIND_HARD" ],
     "proficiencies": [ { "proficiency": "prof_food_prep" } ],
     "qualities": [ { "id": "OVEN", "level": 1 } ],
-    "tools": [ [ [ "rock_quern", -1 ], [ "clay_quern", -1 ] ], [ [ "surface_heat", 10, "LIST" ] ] ],
+    "tools": [ [ [ "rock_quern", -1 ], [ "clay_quern", -1 ] ], [ [ "surface_heat", 28, "LIST" ] ] ],
+    "//": "362g of cereal made of 406g of wheat, assuming the difference is chaff.  equivalent to 28u of flour by weight.",
     "components": [ [ [ "wheat", 2 ], [ "buckwheat", 2 ], [ "barley", 2 ] ] ]
   },
   {
@@ -33,7 +34,8 @@
     "flags": [ "BLIND_HARD" ],
     "proficiencies": [ { "proficiency": "prof_food_prep" } ],
     "qualities": [ { "id": "OVEN", "level": 1 } ],
-    "tools": [ [ [ "food_processor", 20 ] ], [ [ "surface_heat", 10, "LIST" ] ] ],
+    "tools": [ [ [ "food_processor", 20 ] ], [ [ "surface_heat", 28, "LIST" ] ] ],
+    "//": "362g of cereal made of 406g of wheat, assuming the difference is chaff.  equivalent to 28u of flour by weight.",
     "components": [ [ [ "wheat", 2 ], [ "buckwheat", 2 ], [ "barley", 2 ] ] ]
   },
   {
@@ -50,7 +52,8 @@
     "book_learn": [ [ "family_cookbook", 3 ], [ "baking_book", 2 ], [ "cookbook", 3 ] ],
     "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_baking" }, { "proficiency": "prof_baking_desserts_1" } ],
     "qualities": [ { "id": "OVEN", "level": 1 } ],
-    "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
+    "tools": [ [ [ "surface_heat", 18, "LIST" ] ] ],
+    "//": "flour: 4u power, apple: 2u, pumpkin: 4u, eggs: 6u, oil: 1u, other: 1u.",
     "components": [
       [ [ "flour_any", 4, "LIST" ] ],
       [ [ "yeast", 2 ] ],
