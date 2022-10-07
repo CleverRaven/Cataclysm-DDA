@@ -289,7 +289,6 @@ static const json_character_flag json_flag_BLIND( "BLIND" );
 static const json_character_flag json_flag_BULLET_IMMUNE( "BULLET_IMMUNE" );
 static const json_character_flag json_flag_CLAIRVOYANCE( "CLAIRVOYANCE" );
 static const json_character_flag json_flag_CLAIRVOYANCE_PLUS( "CLAIRVOYANCE_PLUS" );
-static const json_character_flag json_flag_CLIMATE_CONTROL( "CLIMATE_CONTROL" );
 static const json_character_flag json_flag_COLD_IMMUNE( "COLD_IMMUNE" );
 static const json_character_flag json_flag_CUT_IMMUNE( "CUT_IMMUNE" );
 static const json_character_flag json_flag_DEAF( "DEAF" );
@@ -3501,21 +3500,22 @@ units::mass Character::get_weight() const
     return ret;
 }
 
-bool Character::in_climate_control()
+std::pair<int, int> Character::climate_control_strength()
 {
-    bool regulated_area = false;
-    // Check
-    if( has_flag( json_flag_CLIMATE_CONTROL ) ) {
-        return true;
-    }
+    // In warmth points
+    const int DEFAULT_STRENGTH = 50;
+
+    int power_heat = enchantment_cache->get_value_add( enchant_vals::mod::CLIMATE_CONTROL_HEAT );
+    int power_chill = enchantment_cache->get_value_add( enchant_vals::mod::CLIMATE_CONTROL_CHILL );
+
     map &here = get_map();
     if( has_trait( trait_M_SKIN3 ) && here.has_flag_ter_or_furn( ter_furn_flag::TFLAG_FUNGUS, pos() ) &&
         in_sleep_state() ) {
-        return true;
+        power_heat += DEFAULT_STRENGTH;
+        power_chill += DEFAULT_STRENGTH;
     }
-    if( worn.in_climate_control() ) {
-        return true;
-    }
+
+    bool regulated_area = false;
     if( calendar::turn >= next_climate_control_check ) {
         // save CPU and simulate acclimation.
         next_climate_control_check = calendar::turn + 20_turns;
@@ -3542,9 +3542,15 @@ bool Character::in_climate_control()
             next_climate_control_check += 40_turns;
         }
     } else {
-        return last_climate_control_ret;
+        regulated_area = last_climate_control_ret;
     }
-    return regulated_area;
+
+    if( regulated_area ) {
+        power_heat += DEFAULT_STRENGTH;
+        power_chill += DEFAULT_STRENGTH;
+    }
+
+    return { power_heat, power_chill };
 }
 
 std::map<bodypart_id, int> Character::get_wind_resistance( const std::map <bodypart_id,
@@ -6550,7 +6556,11 @@ bool Character::invoke_item( item *used, const std::string &method, const tripoi
 
     if( actually_used->is_comestible() ) {
         const bool ret = consume_effects( *used );
-        actually_used->activation_consume( charges_used.value(), pt, this );
+        const int consumed = used->activation_consume( charges_used.value(), pt, this );
+        if( consumed == 0 ) {
+            // Nothing was consumed from within the item. "Eat" the item itself away.
+            i_rem( actually_used );
+        }
         return ret;
     }
 
@@ -8491,24 +8501,17 @@ int Character::bodytemp_modifier_traits_floor() const
     return mod;
 }
 
-int Character::temp_corrected_by_climate_control( int temperature ) const
+int Character::temp_corrected_by_climate_control( int temperature,
+        int heat_strength, int chill_strength ) const
 {
-    const int variation = static_cast<int>( BODYTEMP_NORM * 0.5 );
-    if( temperature < BODYTEMP_SCORCHING + variation &&
-        temperature > BODYTEMP_FREEZING - variation ) {
-        if( temperature > BODYTEMP_SCORCHING ) {
-            temperature = BODYTEMP_VERY_HOT;
-        } else if( temperature > BODYTEMP_VERY_HOT ) {
-            temperature = BODYTEMP_HOT;
-        } else if( temperature < BODYTEMP_FREEZING ) {
-            temperature = BODYTEMP_VERY_COLD;
-        } else if( temperature < BODYTEMP_VERY_COLD ) {
-            temperature = BODYTEMP_COLD;
-        } else {
-            temperature = BODYTEMP_NORM;
-        }
+    const int variation_heat = static_cast<int>( BODYTEMP_NORM * ( heat_strength / 100.0f ) );
+    const int variation_chill = static_cast<int>( BODYTEMP_NORM * ( chill_strength / 100.0f ) );
+
+    if( temperature > BODYTEMP_NORM ) {
+        return std::max( BODYTEMP_NORM, temperature - variation_chill );
+    } else {
+        return std::min( BODYTEMP_NORM, temperature + variation_heat );
     }
-    return temperature;
 }
 
 bool Character::in_sleep_state() const

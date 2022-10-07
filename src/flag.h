@@ -70,7 +70,6 @@ extern const flag_id flag_CHALLENGE;
 extern const flag_id flag_CHARGEDIM;
 extern const flag_id flag_CHOKE;
 extern const flag_id flag_CITY_START;
-extern const flag_id flag_CLIMATE_CONTROL;
 extern const flag_id flag_COLD;
 extern const flag_id flag_COLD_IMMUNE;
 extern const flag_id flag_COLLAPSED_STOCK;
