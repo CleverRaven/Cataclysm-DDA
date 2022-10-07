@@ -1,0 +1,5 @@
+# For more information on setting up a development team see:
+# https://help.apple.com/developer-account/#/devf2eb157f8
+
+settings:
+  DEVELOPMENT_TEAM: XXXXXXXXXX

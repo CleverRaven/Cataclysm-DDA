@@ -203,6 +203,7 @@ stage
 
 # Apple Xcode IDE
 Xcode/
+*.xcodeproj
 
 # gdb
 .gdb_history
@@ -232,4 +233,4 @@ weather.output
 Gemfile.lock
 
 # xcodegen developer id file
-development_team.yml
+xcode_dev_id.yml

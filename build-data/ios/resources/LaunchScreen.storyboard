@@ -16,7 +16,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="1194" height="834"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" image="escape.png" translatesAutoresizingMaskIntoConstraints="NO" id="jgb-MO-6eD">
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" image="LaunchScreen.png" translatesAutoresizingMaskIntoConstraints="NO" id="jgb-MO-6eD">
                                 <rect key="frame" x="0.0" y="-180" width="1194" height="1194"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="jgb-MO-6eD" secondAttribute="height" multiplier="1:1" id="0de-Cv-jhl"/>
@@ -39,6 +39,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="escape.png" width="1024" height="1024"/>
+        <image name="LaunchScreen.png" width="1024" height="1024"/>
     </resources>
 </document>

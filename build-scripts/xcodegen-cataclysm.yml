@@ -1,11 +1,13 @@
 name: CataclysmExperimental
 
 include:
-  # see development_team_example.yml 
-  - development_team.yml 
+  # see xcode_dev_id_example.yml
+  - xcode_dev_id.yml
 
 options:
   bundleIdPrefix: com.cataclysmdda.en.cataclysm
+  groupOrdering: 
+    - order: [Sources, Resources, Frameworks, Products]
   usesTabs: false
   indentWidth: 4
   tabWidth: 4
@@ -40,7 +42,8 @@ targets:
         UIFileSharingEnabled: true
         LSSupportsOpeningDocumentsInPlace: true
     sources:
-      - path: ../../src
+      - path: ../src
+        name: Sources
         buildPhase: sources
         includes: 
           - "*.cpp"
@@ -52,12 +55,22 @@ targets:
           - "*.cmake"
           - "**/third-party/**"
           - "**/chkjson/**"
-      - resources
-      - path: ../../data
-        type: folder
+      - path: ../build-data/ios/resources/LaunchScreen.storyboard
+        group: Resources
+      - path: ../build-data/ios/resources/AppIcon.icns
+        group: Resources
         buildPhase: resources
-      - path: ../../gfx
+      - path: ../build-data/ios/resources/LaunchScreen.png
+        group: Resources
+        buildPhase: resources
+      # TODO: Imitate cmake selection for data and gfx
+      - path: ../data
         type: folder
+        group: Resources
+        buildPhase: resources
+      - path: ../gfx
+        type: folder
+        group: Resources
         buildPhase: resources
     settings:
       base:
@@ -68,14 +81,13 @@ targets:
         CLANG_WARN_DOCUMENTATION_COMMENTS: false
         GCC_WARN_64_TO_32_BIT_CONVERSION: No
         HEADER_SEARCH_PATHS: 
-          - ../../src/third-party/**
-          - libs/headers
+          - ../src/third-party/**
+          - ../build-data/ios/libs/headers
         LIBRARY_SEARCH_PATHS:
+          - ../build-data/ios/libs/
           - $(inherited)
-          - libs
         GCC_PREPROCESSOR_DEFINITIONS: 
           - GIT_VERSION 
-          - RELEASE 
           - TILES 
           - BACKTRACE 
           - SDL_SOUND 
@@ -86,19 +98,21 @@ targets:
           - "-Wnon-virtual-dtor -Wold-style-cast -Woverloaded-virtual -Wpedantic -Wsuggest-override" 
           - "-Wunused-macros -Wzero-as-null-pointer-constant -Wno-unknown-warning-option -Wredundant-decls" 
           - "-fsigned-char"
-        Debug:
-          OTHER_CPLUSPLUSFLAGS:
-            - "-Og -pthread '-std=c++14'"
-        Release:
-          OTHER_CPLUSPLUSFLAGS:
-            - "-0s -DNDEBUG -pthread '-std=c++14'"
+      Debug:
+        OTHER_CPLUSPLUSFLAGS:
+          - "-Og -pthread '-std=c++14'"
+      Release:
+        GCC_PREPROCESSOR_DEFINITIONS: 
+          - RELEASE 
+        OTHER_CPLUSPLUSFLAGS:
+          - "-0s -DNDEBUG -pthread '-std=c++14'"
     dependencies:
       # TODO: build libcataclysm-tiles-common.a as it's own step again. Currently rolled in to single build
       # - framework: libs/libcataclysm-tiles-common.a
-      - framework: libs/libSDL2.a
-      - framework: libs/libSDL2_image.a
-      - framework: libs/libSDL2_mixer.a
-      - framework: libs/libSDL2_ttf.a
+      - framework: ../build-data/ios/libs/libSDL2.a
+      - framework: ../build-data/ios/libs/libSDL2_image.a
+      - framework: ../build-data/ios/libs/libSDL2_mixer.a
+      - framework: ../build-data/ios/libs/libSDL2_ttf.a
       - sdk: libllvm-flatbuffers.tbd
       - sdk: libz.tbd
       - sdk: libncurses.tbd
@@ -117,10 +131,10 @@ targets:
       - sdk: ImageIO.framework
       - sdk: Metal.framework
     configs:
-        Debug:
-          DEBUG_MODE: YES
-        Release:
-          DEBUG_MODE: NO
+      Debug:
+        DEBUG_MODE: YES
+      Release:
+        DEBUG_MODE: NO
 
 
 
