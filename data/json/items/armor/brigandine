@@ -10,6 +10,7 @@
     "price": 60000,
     "price_postapoc": 12000,
     "to_hit": -5,
+    "material": [ "lc_steel", "leather" ],
     "bashing": 8,
     "symbol": "[",
     "looks_like": "armor_larmor",
@@ -41,6 +42,7 @@
     "price": 60000,
     "price_postapoc": 12000,
     "to_hit": -5,
+    "material": [ "mc_steel", "leather" ],
     "bashing": 8,
     "symbol": "[",
     "looks_like": "armor_larmor",
@@ -72,6 +74,7 @@
     "price": 60000,
     "price_postapoc": 12000,
     "to_hit": -5,
+    "material": [ "hc_steel", "leather" ],
     "bashing": 8,
     "symbol": "[",
     "looks_like": "armor_larmor",
@@ -103,6 +106,7 @@
     "price": 60000,
     "price_postapoc": 12000,
     "to_hit": -5,
+    "material": [ "ch_steel", "leather" ],
     "bashing": 8,
     "symbol": "[",
     "looks_like": "armor_larmor",
@@ -134,6 +138,7 @@
     "price": 60000,
     "price_postapoc": 12000,
     "to_hit": -5,
+    "material": [ "qt_steel", "leather" ],
     "bashing": 8,
     "symbol": "[",
     "looks_like": "armor_larmor",
@@ -155,17 +160,18 @@
     ]
   },
   {
-    "id": "armguard_metal",
+    "id": "armguard_lc_brigandine",
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "pair of mild splint arm guards", "str_pl": "pairs of mild splint arm guards" },
     "description": "",
-    "weight": "350 g",
+    "weight": "600 g",
     "//": "The weight assumes four sheets of about 25cm x 20cm x 1.5mm.",
     "volume": "2750 ml",
     "price": 30000,
     "price_postapoc": 1000,
     "to_hit": 1,
+    "material": [ "lc_steel", "leather" ],
     "symbol": "[",
     "looks_like": "armguard_hard",
     "color": "light_gray",
@@ -188,16 +194,17 @@
         "specifically_covers": [ "arm_lower_r", "arm_lower_l", "arm_upper_r", "arm_upper_l" ]
   },
   {
-    "id": "legguard_metal_sheets",
+    "id": "legguard_lc_brigandine",
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "pair of mild splint leg guards", "str_pl": "pairs of mild splint leg guards" },
     "description": "",
-    "weight": "500 g",
+    "weight": "800 g",
     "volume": "2500 ml",
     "price": 40000,
     "price_postapoc": 1000,
     "to_hit": 1,
+    "material": [ "lc_steel", "leather" ],
     "symbol": "[",
     "looks_like": "legguard_lightplate",
     "color": "light_gray",
@@ -218,6 +225,65 @@
         "cover_ranged": 95,
         "cover_vitals": 70,
         "specifically_covers": [ "leg_lower_r", "leg_lower_l", "leg_upper_r", "leg_upper_l" ]
+      }
+    ]
+  },
+  {
+    "id": "lc_chainmail_hands",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "pair of mild steel chainmail gloves", "str_pl": "pairs of mild steel chainmail gloves" },
+    "description": "A pair of customized mild steel chainmail gloves that fully enclose the hands.",
+    "weight": "500 g",
+    "volume": "750 ml",
+    "price": 5012,
+    "price_postapoc": 2500,
+    "to_hit": -1,
+    "bashing": 6,
+    "material": [ "lc_steel_chain" ],
+    "symbol": "[",
+    "color": "light_red",
+    "material_thickness": 2.5,
+    "flags": [ "STURDY", "OUTER" ],
+    "armor": [
+      {
+        "encumbrance": 7,
+        "coverage": 100,
+        "material": [
+          { "type": "lc_steel", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "leather", "covered_by_mat": 100, "thickness": 1.5 }
+        ],
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_back_l", "hand_back_r" ]
+      },
+      {
+        "encumbrance": 0,
+        "coverage": 100,
+        "material": [
+          { "type": "lc_steel", "covered_by_mat": 50, "thickness": 1.0 },
+          { "type": "leather", "covered_by_mat": 100, "thickness": 1.5 }
+        ],
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_fingers_l", "hand_fingers_r", ]
+      },
+      {
+        "encumbrance": 0,
+        "coverage": 100,
+        "material": [
+          { "type": "lc_steel", "covered_by_mat": 90, "thickness": 1.0 },
+          { "type": "leather", "covered_by_mat": 100, "thickness": 1.5 }
+        ],
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_wrist_l", "hand_wrist_r", ]
+      },
+      {
+        "encumbrance": 0,
+        "coverage": 100,
+        "material": [
+          { "type": "leather", "covered_by_mat": 100, "thickness": 1.5 }
+        ],
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_palm_l", "hand_palm_r", ]
       }
     ]
   }
