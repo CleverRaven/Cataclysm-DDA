@@ -160,7 +160,7 @@
     "category": "armor",
     "name": { "str": "pair of mild splint arm guards", "str_pl": "pairs of mild brigandine arm guards" },
     "description": "",
-    "weight": "500 g",
+    "weight": "350 g",
     "//": "The weight assumes four sheets of about 25cm x 20cm x 1.5mm.",
     "volume": "2750 ml",
     "price": 30000,
