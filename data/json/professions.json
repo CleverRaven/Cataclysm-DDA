@@ -539,9 +539,9 @@
   },
   {
     "type": "profession",
-    "id": "youtuber",
-    "name": "YouTuber",
-    "description": "You're a YouTuber, you create content on YouTube.  Now most of your fans become undead, you may want to see if your social skills learnt from creating content help you somehow.",
+    "id": "vid_blogger",
+    "name": "Video Blogger",
+    "description": "You're a video blogger, you create video content and post it on various social medias.  Now most of your fans become undead, alongside your remaining equipments, you may want to see if your social skills learnt from creating content help you somehow.",
     "points": -2,
     "skills": [ { "level": 3, "name": "speech" } ],
     "items": {
