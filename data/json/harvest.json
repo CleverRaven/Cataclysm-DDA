@@ -1413,6 +1413,18 @@
     ]
   },
   {
+    "id": "zombie_acid",
+    "//": "acid blood zombie",
+    "type": "harvest",
+    "entries": [
+      { "drop": "meat_tainted", "type": "flesh", "mass_ratio": 0.25 },
+      { "drop": "chem_blood_acid", "type": "blood", "mass_ratio": 0.1 },
+      { "drop": "fat_tainted", "type": "flesh", "mass_ratio": 0.08 },
+      { "drop": "tainted_marrow", "type": "bone", "mass_ratio": 0.005 },
+      { "drop": "bone_tainted", "type": "bone", "mass_ratio": 0.1 }
+    ]
+  },
+  {
     "id": "zombie_thorny",
     "//": "mix of animal and plant",
     "type": "harvest",
