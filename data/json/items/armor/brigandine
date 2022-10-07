@@ -21,7 +21,7 @@
     "armor": [
       {
         "material": [
-          { "type": "lc_steel", "covered_by_mat": 90, "thickness": 0.6 },
+          { "type": "lc_steel", "covered_by_mat": 90, "thickness": 1.0 },
           { "type": "leather", "covered_by_mat": 100, "thickness": 2.5 }
         ],
         "covers": [ "torso" ],
@@ -52,7 +52,7 @@
     "armor": [
       {
         "material": [
-          { "type": "mc_steel", "covered_by_mat": 90, "thickness": 0.6 },
+          { "type": "mc_steel", "covered_by_mat": 90, "thickness": 1.0 },
           { "type": "leather", "covered_by_mat": 100, "thickness": 2.5 }
         ],
         "covers": [ "torso" ],
@@ -83,7 +83,7 @@
     "armor": [
       {
         "material": [
-          { "type": "hc_steel", "covered_by_mat": 90, "thickness": 0.6 },
+          { "type": "hc_steel", "covered_by_mat": 90, "thickness": 1.0 },
           { "type": "leather", "covered_by_mat": 100, "thickness": 2.5 }
         ],
         "covers": [ "torso" ],
@@ -114,7 +114,7 @@
     "armor": [
       {
         "material": [
-          { "type": "ch_steel", "covered_by_mat": 90, "thickness": 0.6 },
+          { "type": "ch_steel", "covered_by_mat": 90, "thickness": 1.0 },
           { "type": "leather", "covered_by_mat": 100, "thickness": 2.5 }
         ],
         "covers": [ "torso" ],
@@ -145,7 +145,7 @@
     "armor": [
       {
         "material": [
-          { "type": "qt_steel", "covered_by_mat": 90, "thickness": 0.6 },
+          { "type": "qt_steel", "covered_by_mat": 90, "thickness": 1.0 },
           { "type": "leather", "covered_by_mat": 100, "thickness": 2.5 }
         ],
         "covers": [ "torso" ],
