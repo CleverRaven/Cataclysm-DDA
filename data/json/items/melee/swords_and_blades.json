@@ -2852,7 +2852,7 @@
   {
     "id": "lc_kriegsmesser",
     "type": "TOOL",
-    "looks_like": "kreigsmesser",
+    "looks_like": "kriegsmesser",
     "category": "weapons",
     "symbol": "/",
     "color": "light_gray",
