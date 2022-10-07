@@ -111,11 +111,6 @@
     "info": "This item is a Compact Bionic Module.  You'll need to <info>use specialized machinery</info> or <info>ask a surgeon</info> to install it into your body."
   },
   {
-    "id": "CLIMATE_CONTROL",
-    "type": "json_flag",
-    "info": "This clothing has <info>built-in or attached climate control</info>, keeping you at a <good>comfortable temperature</good>."
-  },
-  {
     "id": "COLLAR",
     "type": "json_flag",
     "info": "This clothing has a <info>wide collar</info> that can keep your mouth warm if it is unencumbered."
@@ -927,6 +922,11 @@
     "id": "wooled",
     "type": "json_flag",
     "info": "This clothing has a wool lining sewn into it to <good>increase</good> its overall <info>warmth</info>."
+  },
+  {
+    "id": "WONT_TRAIN_MARKSMANSHIP",
+    "type": "json_flag",
+    "//": "This gun wont train marksmanship when fired.  Used in Aftershock smart guns."
   },
   {
     "id": "UNARMED_WEAPON",

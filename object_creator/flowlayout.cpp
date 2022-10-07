@@ -49,7 +49,7 @@
 ****************************************************************************/
 
 #include "flowlayout.h"
-#include <QtWidgets>
+#include <QtWidgets/QtWidgets>
 
 creator::FlowLayout::FlowLayout( QWidget *parent, int margin, int hSpacing, int vSpacing )
     : QLayout( parent ), m_hSpace( hSpacing ), m_vSpace( vSpacing ) {

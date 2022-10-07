@@ -360,6 +360,29 @@ Each JSON file can have either a single object or an array of one or more object
 ]
 ```
 
+#### Graffitis
+
+For graffitis, rotation can be used to distinguish between wall and floor drawings:
+
+```json
+{
+  "id": "graffiti",
+  "fg": [ "graffiti_wall", "graffiti_floor" ],
+}
+```
+
+Weighted variations are also possible, and can be combined with rotation:
+
+```json
+{
+  "id": "graffiti",
+  "fg": [ 
+    { "weight": 1, "sprite": [ "graffiti_01_wall", "graffiti_01_floor" ] },
+    { "weight": 1, "sprite": [ "graffiti_02_wall", "graffiti_02_floor" ] },
+  ],
+}
+```
+
 ### `tile_info.json`
 ```c++
 [

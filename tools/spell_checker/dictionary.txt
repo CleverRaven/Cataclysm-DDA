@@ -130,6 +130,7 @@ autoselect
 autoshotgun
 avin
 avy
+awared
 axolotl
 aztlani
 b
@@ -824,6 +825,7 @@ hauberks
 hbhbh
 hdd
 headwear
+healthiness
 heartlike
 heatsink
 heatsinks
@@ -1762,6 +1764,7 @@ starrin
 std
 steeltoed
 steerable
+stego
 stegoceras
 stegosaurus
 stegosaurusfindsrobot
@@ -1987,6 +1990,7 @@ unspecialized
 unstocked
 untampered
 untargeted
+untired
 untyped
 unwield
 unwieldiness
