@@ -6827,5 +6827,68 @@
     "time": "1 s",
     "components": [ [ [ "glass_shard", 1000 ] ] ],
     "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "skull_pig",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "10 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "bone", 2 ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "skull_sheep",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "10 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "bone", 2 ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "skull_goat",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "10 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "bone", 2 ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "skull_bovine",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "1 m",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "bone", 43 ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "skull_equine",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "1 m",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "bone", 43 ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "skull_cervid",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "10 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "bone", 2 ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "skull_moose",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "1 m",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "bone", 43 ] ] ],
+    "flags": [ "BLIND_EASY" ]
   }
 ]
