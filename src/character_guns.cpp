@@ -54,10 +54,12 @@ void find_ammo_helper( T &src, const item &obj, bool empty, Output out, bool nes
             // All speedloaders are accepted.
             // Ammo check is done somewhere else
             // Ammo check should probably happen here...
-            if( parent != nullptr ) {
-                out = item_location( item_location( src, parent ), node );
-            } else {
-                out = item_location( src, node );
+            if( obj.can_reload_with( *node, true ) ) {
+                if( parent != nullptr ) {
+                    out = item_location( item_location( src, parent ), node );
+                } else {
+                    out = item_location( src, node );
+                }
             }
             return VisitResponse::SKIP;
         }

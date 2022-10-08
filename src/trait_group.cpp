@@ -45,7 +45,7 @@ static Trait_group_tag get_unique_trait_group_id()
     // names should not be seen anywhere.
     static const std::string unique_prefix = "\u01F7 ";
     while( true ) {
-        const Trait_group_tag new_group( unique_prefix + std::to_string( next_id++ ) );
+        Trait_group_tag new_group( unique_prefix + std::to_string( next_id++ ) );
         if( !new_group.is_valid() ) {
             return new_group;
         }
@@ -58,7 +58,7 @@ Trait_group_tag trait_group::load_trait_group( const JsonValue &value,
     if( value.test_string() ) {
         return Trait_group_tag( value.get_string() );
     } else if( value.test_object() ) {
-        const Trait_group_tag group = get_unique_trait_group_id();
+        Trait_group_tag group = get_unique_trait_group_id();
 
         JsonObject jo = value.get_object();
         const std::string subtype = jo.get_string( "subtype", default_subtype );
@@ -67,7 +67,7 @@ Trait_group_tag trait_group::load_trait_group( const JsonValue &value,
 
         return group;
     } else if( value.test_array() ) {
-        const Trait_group_tag group = get_unique_trait_group_id();
+        Trait_group_tag group = get_unique_trait_group_id();
 
         if( default_subtype != "collection" && default_subtype != "distribution" ) {
             value.throw_error( "invalid subtype for trait group" );

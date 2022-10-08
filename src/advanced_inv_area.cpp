@@ -57,7 +57,7 @@ advanced_inv_area::advanced_inv_area( aim_location id, const point &h, tripoint 
     id( id ), hscreen( h ),
     off( off ), name( name ), shortname( shortname ),
     vstor( -1 ), volume( 0_ml ),
-    weight( 0_gram ), minimapname( minimapname ), actionname( actionname ),
+    weight( 0_gram ), minimapname( std::move( minimapname ) ), actionname( std::move( actionname ) ),
     relative_location( relative_location )
 {
 }
@@ -431,12 +431,12 @@ void advanced_inv_area::set_container_position()
 
 aim_location advanced_inv_area::offset_to_location() const
 {
-    static aim_location loc_array[3][3] = {
+    static constexpr cata::mdarray<aim_location, point, 3, 3> loc_array = {
         {AIM_NORTHWEST,     AIM_NORTH,      AIM_NORTHEAST},
         {AIM_WEST,          AIM_CENTER,     AIM_EAST},
         {AIM_SOUTHWEST,     AIM_SOUTH,      AIM_SOUTHEAST}
     };
-    return loc_array[off.y + 1][off.x + 1];
+    return loc_array[off.xy() + point_south_east];
 }
 
 bool advanced_inv_area::can_store_in_vehicle() const

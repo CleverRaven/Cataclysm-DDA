@@ -1,0 +1,60 @@
+[
+  {
+    "type": "npc",
+    "id": "NPC_lumbermill_logger",
+    "class": "NC_LUMBERJACK",
+    "name_suffix": "logger",
+    "attitude": 0,
+    "mission": 7,
+    "chat": "TALK_NPC_LUMBERMILL_LOGGER",
+    "faction": "wasteland_scavengers"
+  },
+  {
+    "type": "npc",
+    "id": "NPC_lumbermill_merchant",
+    "class": "NC_LUMBERJACK",
+    "name_suffix": "manager",
+    "attitude": 0,
+    "mission": 7,
+    "chat": "TALK_NPC_LUMBERMILL_MERCHANT",
+    "faction": "wasteland_scavengers",
+    "mission_offered": "MISSION_GET_DRIVEBELTS"
+  },
+  {
+    "type": "npc",
+    "id": "NPC_lumbermill_broker",
+    "class": "NC_LUMBERJACK",
+    "name_suffix": "broker",
+    "attitude": 0,
+    "mission": 7,
+    "chat": "TALK_NPC_LUMBERMILL_LOGGER",
+    "faction": "wasteland_scavengers"
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_LUMBERJACK",
+    "name": { "str": "Lumberjack" },
+    "job_description": "I felled trees before the apocalypse.  Zombies shouldn't be as tough.",
+    "traits": [ { "group": "BG_survival_story_RURAL" }, { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
+    "weapon_override": "NC_LUMBERJACK_tools",
+    "bonus_str": { "rng": [ 1, 2 ] },
+    "skills": [
+      { "skill": "ALL", "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "rng": [ 0, -4 ] } ] } ] } },
+      { "skill": "survival", "bonus": { "rng": [ 0, 2 ] } },
+      { "skill": "melee", "bonus": { "rng": [ 1, 2 ] } },
+      { "skill": "cutting", "bonus": { "rng": [ 1, 2 ] } },
+      { "skill": "dodge", "bonus": { "rng": [ 1, 2 ] } }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_LUMBERJACK_tools",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "ax", "prob": 70 },
+      { "item": "saw", "prob": 10 },
+      { "item": "can_beans", "prob": 10 },
+      { "item": "chainsaw_off", "prob": 10 }
+    ]
+  }
+]

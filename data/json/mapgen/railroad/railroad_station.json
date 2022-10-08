@@ -128,7 +128,7 @@
       },
       "place_vehicles": [
         { "vehicle": "train_electrical_loco1300", "x": 5, "y": 90, "chance": 10, "rotation": 90, "status": -1 },
-        { "vehicle": "train_electrical_loco1300", "x": 18, "y": 9, "chance": 24, "rotation": 270, "status": 1 }
+        { "vehicle": "trains_and_cars", "x": 18, "y": 9, "chance": 24, "rotation": 270, "status": 1 }
       ]
     }
   },

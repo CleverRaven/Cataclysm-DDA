@@ -89,7 +89,7 @@ class vpart_position
         // Returns a list of all tools provided by vehicle and their hotkey
         std::vector<std::pair<itype_id, int>> get_tools() const;
         // Forms inventory for inventory::form_from_map
-        void form_inventory( inventory &inv );
+        void form_inventory( inventory &inv ) const;
 
         /**
          * Returns the position of this part in the coordinates system that @ref game::m uses.

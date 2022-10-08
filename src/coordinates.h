@@ -14,6 +14,8 @@
 #include "point.h"
 #include "debug.h"
 
+class JsonValue;
+
 enum class direction : unsigned;
 
 namespace coords
@@ -75,6 +77,20 @@ constexpr origin origin_from_scale( scale s )
             return origin::overmap;
         default:
             constexpr_fatal( origin::abs, "Requested origin for scale %d", s );
+    }
+}
+
+constexpr scale scale_from_origin( origin o )
+{
+    switch( o ) {
+        case origin::submap:
+            return scale::submap;
+        case origin::overmap_terrain:
+            return scale::overmap_terrain;
+        case origin::overmap:
+            return scale::overmap;
+        default:
+            constexpr_fatal( ms, "Requested scale for origin %d", o );
     }
 }
 
@@ -150,8 +166,8 @@ class coord_point
         void serialize( JsonOut &jsout ) const {
             raw().serialize( jsout );
         }
-        void deserialize( JsonIn &jsin ) {
-            raw().deserialize( jsin );
+        void deserialize( const JsonValue &jv ) {
+            raw().deserialize( jv );
         }
 
         coord_point &operator+=( const coord_point<Point, origin::relative, Scale> &r ) {
@@ -293,6 +309,13 @@ template<typename Point, origin Origin, scale Scale>
 inline std::ostream &operator<<( std::ostream &os, const coord_point<Point, Origin, Scale> &p )
 {
     return os << p.raw();
+}
+
+template <typename Point, origin Origin, scale Scale>
+constexpr inline coord_point<Point, Origin, Scale>
+coord_min( const coord_point<Point, Origin, Scale> &l, const coord_point<Point, Origin, Scale> &r )
+{
+    return { std::min( l.x(), r.x() ), std::min( l.y(), r.y() ), std::min( l.z(), r.z() ) };
 }
 
 template<int ScaleUp, int ScaleDown, scale ResultScale>
@@ -679,14 +702,14 @@ struct real_coords {
 
     // helper functions to return abs_pos of submap/overmap tile/overmap's start
 
-    point begin_sub() {
+    point begin_sub() const {
         return point( abs_sub.x * tiles_in_sub, abs_sub.y * tiles_in_sub );
     }
-    point begin_om_pos() {
+    point begin_om_pos() const {
         return point( ( abs_om.x * subs_in_om * tiles_in_sub ) + ( om_pos.x * 2 * tiles_in_sub ),
                       ( abs_om.y * subs_in_om * tiles_in_sub ) + ( om_pos.y * 2 * tiles_in_sub ) );
     }
-    point begin_om() {
+    point begin_om() const {
         return point( abs_om.x * subs_in_om * tiles_in_sub, abs_om.y * subs_in_om * tiles_in_sub );
     }
 };

@@ -26,12 +26,24 @@
     "//": "Uses display::weary_malus_text_color"
   },
   {
+    "id": "weary_malus_desc_no_label",
+    "type": "widget",
+    "copy-from": "weary_malus_desc",
+    "flags": [ "W_LABEL_NONE" ]
+  },
+  {
     "id": "weariness_desc",
     "type": "widget",
     "label": "Weariness",
     "style": "text",
     "var": "weariness_text",
     "//": "Uses display::weariness_text_color"
+  },
+  {
+    "id": "weariness_desc_no_label",
+    "type": "widget",
+    "copy-from": "weariness_desc",
+    "flags": [ "W_LABEL_NONE" ]
   },
   {
     "id": "weariness_transition_graph",

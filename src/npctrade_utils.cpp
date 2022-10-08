@@ -63,7 +63,7 @@ bool _to_map( item const &it, map &here, tripoint const &dpoint_here )
     return true;
 }
 
-bool _to_veh( item const &it, cata::optional<vpart_reference> const vp )
+bool _to_veh( item const &it, cata::optional<vpart_reference> const &vp )
 {
     int const part = static_cast<int>( vp->part_index() );
     if( vp->vehicle().free_volume( part ) >= it.volume() ) {

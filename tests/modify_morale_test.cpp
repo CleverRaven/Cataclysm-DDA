@@ -108,7 +108,7 @@ TEST_CASE( "dining with table and chair", "[food][modify_morale][table][chair]" 
     };
 
     GIVEN( "no table or chair are nearby" ) {
-        REQUIRE_FALSE( here.has_nearby_table( dummy.pos(), 1 ) );
+        REQUIRE_FALSE( here.has_nearby_table( dummy.pos_bub(), 1 ) );
         REQUIRE_FALSE( here.has_nearby_chair( dummy.pos(), 1 ) );
 
         AND_GIVEN( "character has normal table manners" ) {
@@ -146,7 +146,7 @@ TEST_CASE( "dining with table and chair", "[food][modify_morale][table][chair]" 
     GIVEN( "a table and chair are nearby" ) {
         here.furn_set( avatar_pos + tripoint_north, furn_id( "f_table" ) );
         here.furn_set( avatar_pos + tripoint_east, furn_id( "f_chair" ) );
-        REQUIRE( here.has_nearby_table( dummy.pos(), 1 ) );
+        REQUIRE( here.has_nearby_table( dummy.pos_bub(), 1 ) );
         REQUIRE( here.has_nearby_chair( dummy.pos(), 1 ) );
 
         AND_GIVEN( "character has normal table manners" ) {
@@ -477,7 +477,7 @@ TEST_CASE( "food allergies and intolerances", "[food][modify_morale][allergy]" )
             REQUIRE( meat->has_flag( flag_ALLERGEN_MEAT ) );
             dummy.clear_morale();
             dummy.modify_morale( *meat );
-            CHECK( dummy.has_morale( MORALE_VEGETARIAN ) <= penalty );
+            CHECK( dummy.has_morale( MORALE_ANTIMEAT ) <= penalty );
         }
     }
 
@@ -517,7 +517,7 @@ TEST_CASE( "food allergies and intolerances", "[food][modify_morale][allergy]" )
             REQUIRE( veggy->has_flag( flag_ALLERGEN_VEGGY ) );
             dummy.clear_morale();
             dummy.modify_morale( *veggy );
-            CHECK( dummy.has_morale( MORALE_MEATARIAN ) <= penalty );
+            CHECK( dummy.has_morale( MORALE_ANTIVEGGY ) <= penalty );
         }
     }
 

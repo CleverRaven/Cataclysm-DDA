@@ -1,4 +1,5 @@
 #include <string>
+#include <utility>
 
 #include "avatar.h"
 #include "cata_catch.h"
@@ -19,7 +20,8 @@ struct weakpoint_report_item {
     std::string weakpoint;
     int totaldamage;
     int hits;
-    weakpoint_report_item( std::string wp, int dam ) : weakpoint{ wp }, totaldamage{ dam }, hits{ 1 } { }
+    weakpoint_report_item( std::string wp, int dam ) : weakpoint{ std::move( wp ) }, totaldamage{ dam },
+        hits{ 1 } { }
     weakpoint_report_item() : weakpoint_report_item( "", 0 ) { }
 };
 
@@ -27,7 +29,7 @@ struct weakpoint_report {
     int hits;
     std::map<std::string, weakpoint_report_item> items;
 
-    void Accumulate( dealt_damage_instance dd ) {
+    void Accumulate( const dealt_damage_instance &dd ) {
         if( items.find( dd.wp_hit ) == items.end() ) {
             items[dd.wp_hit] = weakpoint_report_item( dd.wp_hit, dd.total_damage() );
         } else {
@@ -37,7 +39,7 @@ struct weakpoint_report {
         hits += 1;
     }
 
-    float PercHits( std::string wp ) {
+    float PercHits( const std::string &wp ) {
         if( items.find( wp ) == items.end() || hits == 0 ) {
             return 0.0f;
         } else {
@@ -45,7 +47,7 @@ struct weakpoint_report {
         }
     }
 
-    float AveDam( std::string wp ) {
+    float AveDam( const std::string &wp ) {
         if( items.find( wp ) == items.end() ) {
             return 0.0f;
         } else {
@@ -141,19 +143,19 @@ TEST_CASE( "Check order of weakpoint set application", "[monster][weakpoint]" )
     for( const weakpoint &wp : mon_test_zombie_cop->weakpoints.weakpoint_list ) {
         if( wp.id == "test_head" ) {
             has_wp_head = true;
-            CHECK( wp.name == "inline head" );
+            CHECK( wp.get_name() == "inline head" );
         } else if( wp.id == "test_eye" ) {
             has_wp_eye = true;
-            CHECK( wp.name == "humanoid eye" );
+            CHECK( wp.get_name() == "humanoid eye" );
         } else if( wp.id == "test_neck" ) {
             has_wp_neck = true;
-            CHECK( wp.name == "special neck" );
+            CHECK( wp.get_name() == "special neck" );
         } else if( wp.id == "test_arm" ) {
             has_wp_arm = true;
-            CHECK( wp.name == "inline arm" );
+            CHECK( wp.get_name() == "inline arm" );
         } else if( wp.id == "test_leg" ) {
             has_wp_leg = true;
-            CHECK( wp.name == "inline leg" );
+            CHECK( wp.get_name() == "inline leg" );
         }
     }
     REQUIRE( has_wp_head );

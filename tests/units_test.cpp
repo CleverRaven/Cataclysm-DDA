@@ -6,6 +6,7 @@
 #include "cata_utility.h"
 #include "cata_catch.h"
 #include "json.h"
+#include "json_loader.h"
 #include "math_defines.h"
 #include "options_helpers.h"
 #include "units.h"
@@ -47,9 +48,8 @@ TEST_CASE( "units_have_correct_ratios", "[units]" )
 
 static units::energy parse_energy_quantity( const std::string &json )
 {
-    std::istringstream buffer( json );
-    JsonIn jsin( buffer );
-    return read_from_json_string<units::energy>( jsin.get_value(), units::energy_units );
+    JsonValue jsin = json_loader::from_string( json );
+    return read_from_json_string<units::energy>( jsin, units::energy_units );
 }
 
 TEST_CASE( "energy parsing from JSON", "[units]" )
@@ -72,9 +72,8 @@ TEST_CASE( "energy parsing from JSON", "[units]" )
 
 static time_duration parse_time_duration( const std::string &json )
 {
-    std::istringstream buffer( json );
-    JsonIn jsin( buffer );
-    return read_from_json_string<time_duration>( jsin.get_value(), time_duration::units );
+    JsonValue jsin = json_loader::from_string( json );
+    return read_from_json_string<time_duration>( jsin, time_duration::units );
 }
 
 TEST_CASE( "time_duration parsing from JSON", "[units]" )
@@ -253,9 +252,8 @@ TEST_CASE( "convert_velocity", "[units][convert][velocity]" )
 
 static units::angle parse_angle( const std::string &json )
 {
-    std::istringstream buffer( json );
-    JsonIn jsin( buffer );
-    return read_from_json_string<units::angle>( jsin.get_value(), units::angle_units );
+    JsonValue jsin = json_loader::from_string( json );
+    return read_from_json_string<units::angle>( jsin, units::angle_units );
 }
 
 TEST_CASE( "angle parsing from JSON", "[units]" )
@@ -303,16 +301,16 @@ TEST_CASE( "Temperatures", "[temperature]" )
 {
     SECTION( "Different units match" ) {
         CHECK( units::to_kelvin( units::from_kelvin( 273.150 ) ) == Approx( 273.150 ) );
-        CHECK( units::to_kelvin( units::from_celcius( 0.0 ) ) == Approx( 273.150 ) );
+        CHECK( units::to_kelvin( units::from_celsius( 0.0 ) ) == Approx( 273.150 ) );
         CHECK( units::to_kelvin( units::from_fahrenheit( 32.0 ) ) == Approx( 273.150 ) );
 
-        CHECK( units::to_kelvin( units::from_celcius( 0 ) ) == Approx( 273.150 ) );
+        CHECK( units::to_kelvin( units::from_celsius( 0 ) ) == Approx( 273.150 ) );
         CHECK( units::to_kelvin( units::from_fahrenheit( 32 ) ) == Approx( 273.150 ) );
 
         CHECK( units::to_kelvin( 273.150_K ) == Approx( 273.150 ) );
 
         CHECK( units::to_fahrenheit( units::from_kelvin( 100 ) ) == Approx( -279.67 ) );
-        CHECK( units::to_celcius( units::from_kelvin( 100 ) ) == Approx( -173.15 ) );
+        CHECK( units::to_celsius( units::from_kelvin( 100 ) ) == Approx( -173.15 ) );
     }
 }
 

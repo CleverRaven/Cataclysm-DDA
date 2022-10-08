@@ -56,7 +56,7 @@ class advanced_inventory_pane
             return viewing_cargo;
         }
         advanced_inv_pane_save_state *save_state;
-        void save_settings();
+        void save_settings() const;
         void load_settings( int saved_area_idx,
                             const std::array<advanced_inv_area, NUM_AIM_LOCATIONS> &squares, bool is_re_enter );
         /**

@@ -39,7 +39,6 @@
       [ "denat_alcohol", 60 ],
       [ "methed_alcohol", 40 ],
       [ "thermometer", 50 ],
-      [ "vaccine_shot", 50 ],
       [ "flu_shot", 50 ],
       [ "disinfectant", 35 ]
     ]
@@ -60,7 +59,7 @@
     "id": "drugs_misc",
     "type": "item_group",
     "//": "Drugs not contained within any other category",
-    "items": [ [ "bfipowder", 100 ], [ "dayquil", 50 ], [ "flu_shot", 50 ], [ "nyquil", 50 ], [ "vaccine_shot", 50 ] ]
+    "items": [ [ "bfipowder", 100 ], [ "dayquil", 50 ], [ "flu_shot", 50 ], [ "nyquil", 50 ] ]
   },
   {
     "id": "drugs_pharmacy",
@@ -160,7 +159,6 @@
       { "item": "nyquil", "prob": 70, "charges": [ 1, 5 ] },
       { "item": "alcohol_wipes", "prob": 75, "charges": [ 1, 40 ] },
       { "item": "disinfectant", "prob": 35, "charges": [ 1, 10 ] },
-      [ "vaccine_shot", 10 ],
       { "item": "homeopathic_pills", "prob": 10, "charges": [ 1, 20 ] },
       {
         "item": "protein_powder",

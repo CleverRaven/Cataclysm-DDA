@@ -204,5 +204,16 @@
       { "monster": "mon_boomer_claymore", "weight": 50 },
       { "monster": "mon_zombie_relax_gasbag", "weight": 50 }
     ]
+  },
+  {
+    "name": "GROUP_SKELETON_UPGRADE",
+    "type": "monstergroup",
+    "monsters": [
+      { "monster": "mon_skeleton", "weight": 720 },
+      { "monster": "mon_skeleton_brute", "weight": 80, "cost_multiplier": 2 },
+      { "monster": "mon_skeleton_brute", "weight": 80, "cost_multiplier": 2 },
+      { "monster": "mon_skeleton_master", "weight": 60, "cost_multiplier": 2 },
+      { "monster": "mon_skeleton_necro", "weight": 60, "cost_multiplier": 2 }
+    ]
   }
 ]

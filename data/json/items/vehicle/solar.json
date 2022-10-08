@@ -30,7 +30,7 @@
     "copy-from": "folding_solar_panel",
     "id": "folding_solar_panel_v2",
     "name": { "str": "advanced collapsible solar array" },
-    "description": "Electronic device that can convert solar radiation into electric power, mounted on a folding frame.  This one is a high-efficiency type made with monocrystalline silicon cells.",
+    "description": "Electronic device that can convert solar radiation into electric power, mounted on a folding frame.  This one is a high-performance type made with monocrystalline silicon cells.",
     "price": 220000,
     "price_postapoc": 3500
   },
@@ -51,7 +51,7 @@
     "type": "GENERIC",
     "id": "solar_panel_v2",
     "name": { "str": "advanced solar panel" },
-    "description": "Electronic device that can convert solar radiation into electric power.  This one is a high-efficiency type made with monocrystalline silicon cells.",
+    "description": "Electronic device that can convert solar radiation into electric power.  This one is a high-performance type made with monocrystalline silicon cells.",
     "price": 190000,
     "price_postapoc": 3000,
     "copy-from": "solar_panel"
@@ -82,7 +82,7 @@
     "type": "GENERIC",
     "id": "solar_cell_v2",
     "name": { "str": "advanced solar cell" },
-    "description": "A small electronic device that can convert solar radiation into electric power.  This one is a high-efficiency type made of monocrystalline silicon.",
+    "description": "A small electronic device that can convert solar radiation into electric power.  This one is a high-performance type made of monocrystalline silicon.",
     "price": 15000,
     "price_postapoc": 300,
     "copy-from": "solar_cell"

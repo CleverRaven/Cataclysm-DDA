@@ -9,7 +9,6 @@
       { "monster": "mon_dispatch", "weight": 10, "cost_multiplier": 50 },
       { "monster": "mon_dispatch_military", "weight": 5, "cost_multiplier": 80 },
       { "monster": "mon_talon_m202a1", "weight": 15, "cost_multiplier": 50 },
-      { "monster": "mon_zombie_flamer", "weight": 10, "cost_multiplier": 50 },
       { "monster": "mon_zombie_military_pilot", "weight": 0 },
       { "monster": "mon_feral_soldier", "weight": 15 }
     ]
@@ -20,7 +19,6 @@
     "monsters": [
       { "monster": "mon_zombie_soldier", "weight": 645 },
       { "monster": "mon_zombie_soldier", "weight": 150, "cost_multiplier": 2, "pack_size": [ 1, 4 ] },
-      { "monster": "mon_zombie_flamer", "weight": 200, "cost_multiplier": 30 },
       { "monster": "mon_zombie_military_pilot", "weight": 5 }
     ]
   },
@@ -31,7 +29,6 @@
       { "monster": "mon_zombie_soldier", "weight": 565 },
       { "monster": "mon_zombie_soldier", "weight": 100, "cost_multiplier": 2, "pack_size": [ 1, 4 ] },
       { "monster": "mon_zombie_soldier", "weight": 150, "cost_multiplier": 2, "pack_size": [ 2, 6 ] },
-      { "monster": "mon_zombie_flamer", "weight": 100, "cost_multiplier": 30 },
       { "monster": "mon_zombie_military_pilot", "weight": 5 },
       { "monster": "mon_zombie_bio_op", "weight": 50, "cost_multiplier": 5 },
       { "monster": "mon_zombie_bio_op2", "weight": 25, "cost_multiplier": 5, "starts": "60 days" },
@@ -47,7 +44,6 @@
       { "monster": "mon_zombie_soldier", "weight": 100, "cost_multiplier": 2 },
       { "monster": "mon_zombie_soldier_acid_1", "weight": 15, "cost_multiplier": 5 },
       { "monster": "mon_zombie_kevlar_1", "weight": 50, "cost_multiplier": 10 },
-      { "monster": "mon_zombie_flamer", "weight": 50, "cost_multiplier": 5 },
       { "monster": "mon_zombie_military_pilot", "weight": 5 },
       { "monster": "mon_zombie_milbase_personnel", "weight": 40 },
       { "monster": "mon_zombie_bio_op", "weight": 30, "cost_multiplier": 5 },
@@ -88,7 +84,6 @@
       { "monster": "mon_zombie_soldier", "weight": 200, "cost_multiplier": 2 },
       { "monster": "mon_zombie_milbase_personnel", "weight": 50 },
       { "monster": "mon_zombie_military_pilot", "weight": 5 },
-      { "monster": "mon_zombie_flamer", "weight": 1, "cost_multiplier": 30 },
       { "monster": "mon_feral_soldier", "weight": 75 }
     ]
   },
@@ -121,7 +116,6 @@
       { "monster": "mon_zombie_soldier", "weight": 322, "cost_multiplier": 2 },
       { "monster": "mon_zombie_milbase_personnel", "weight": 50 },
       { "monster": "mon_zombie_military_pilot", "weight": 20 },
-      { "monster": "mon_zombie_flamer", "weight": 1, "cost_multiplier": 30 },
       { "monster": "mon_zombie_scientist", "weight": 100 },
       { "monster": "mon_feral_soldier", "weight": 75 }
     ]
@@ -144,7 +138,6 @@
       { "monster": "mon_zombie_sailor", "weight": 18 },
       { "monster": "mon_zombie_military_pilot", "weight": 18 },
       { "monster": "mon_zombie_sailor", "weight": 6 },
-      { "monster": "mon_zombie_flamer", "weight": 12, "cost_multiplier": 2 },
       { "monster": "mon_zombie_military_pilot", "weight": 6 },
       { "monster": "mon_zombie_marine", "weight": 15, "cost_multiplier": 5, "pack_size": [ 2, 4 ] },
       { "monster": "mon_zombie_marine_upgrade", "weight": 2, "cost_multiplier": 10 },
@@ -182,7 +175,7 @@
     "//": "Lots of hazmats and burners.",
     "monsters": [
       { "monster": "mon_zombie_soldier", "weight": 10 },
-      { "monster": "mon_zombie_flamer", "weight": 20 },
+      { "monster": "mon_zombie_flamer", "weight": 20, "starts": "5 days" },
       { "monster": "mon_zombie_hazmat", "weight": 20 }
     ]
   }

@@ -18,6 +18,7 @@
 #include "color.h"
 #include "common_types.h"
 #include "coordinates.h"
+#include "cube_direction.h"
 #include "enum_bitset.h"
 #include "mapgen_parameter.h"
 #include "optional.h"
@@ -105,6 +106,8 @@ type random();
 
 /** Whether these directions are parallel. */
 bool are_parallel( type dir1, type dir2 );
+
+type from_cube( cube_direction, const std::string &error_msg );
 
 } // namespace om_direction
 
@@ -218,7 +221,6 @@ struct oter_type_t {
     public:
         static const oter_type_t null_type;
 
-    public:
         string_id<oter_type_t> id;
         std::vector<std::pair<string_id<oter_type_t>, mod_id>> src;
         translation name;
@@ -441,7 +443,7 @@ struct overmap_special_locations {
      * It's true if oter meets any of locations.
      */
     bool can_be_placed_on( const oter_id &oter ) const;
-    void deserialize( JsonIn &jsin );
+    void deserialize( const JsonArray &ja );
 };
 
 struct overmap_special_terrain : overmap_special_locations {
@@ -452,13 +454,13 @@ struct overmap_special_terrain : overmap_special_locations {
     oter_str_id terrain;
     std::set<std::string> flags;
 
-    void deserialize( JsonIn &jsin );
+    void deserialize( const JsonObject &om );
 };
 
 struct overmap_special_connection {
     tripoint p;
     cata::optional<tripoint> from;
-    om_direction::type initial_dir = om_direction::type::invalid; // NOLINT(cata-serialize)
+    cube_direction initial_dir = cube_direction::last; // NOLINT(cata-serialize)
     // TODO: Remove it.
     string_id<oter_type_t> terrain;
     string_id<overmap_connection> connection;

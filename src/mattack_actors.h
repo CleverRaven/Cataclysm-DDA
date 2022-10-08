@@ -61,6 +61,8 @@ class mon_spellcasting_actor : public mattack_actor
         std::vector<efftype_id> required_effects_any;
         std::vector<efftype_id> required_effects_all;
 
+        bool allow_no_target = false;
+
         mon_spellcasting_actor() = default;
         ~mon_spellcasting_actor() override = default;
 
@@ -97,8 +99,12 @@ class melee_actor : public mattack_actor
         bool no_adjacent = false;
         // Determines if a special attack can be dodged
         bool dodgeable = true;
+        // Determines if UNCANNY_DODGE (or the bionic) can be used to dodge this attack
+        bool uncanny_dodgeable = true;
         // Determines if a special attack can be blocked
         bool blockable = true;
+        // Determines if effects are only applied on damagin attacks
+        bool effects_require_dmg = true;
         // If non-zero, the attack will fling targets, 10 throw_strength = 1 tile range
         int throw_strength = 0;
         // Limits on target bodypart hit sizes
@@ -113,8 +119,12 @@ class melee_actor : public mattack_actor
          */
         weighted_float_list<bodypart_str_id> body_parts;
 
-        /** Extra effects applied on damaging hit. */
+        /** Extra effects applied on hit. */
         std::vector<mon_effect_data> effects;
+        // Set of effects applied to the monster itself on attack/hit/damage
+        std::vector<mon_effect_data> self_effects_always;
+        std::vector<mon_effect_data> self_effects_onhit;
+        std::vector<mon_effect_data> self_effects_ondmg;
 
         /** Message for missed attack against the player. */
         translation miss_msg_u;

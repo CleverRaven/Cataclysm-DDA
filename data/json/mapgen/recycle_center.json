@@ -167,7 +167,7 @@
         { "chance": 50, "repeat": [ 20, 120 ], "item": "recycle_electronic", "x": [ 13, 15 ], "y": [ 14, 15 ] },
         { "chance": 50, "repeat": [ 20, 150 ], "item": "recycle_glass", "x": [ 13, 15 ], "y": [ 10, 11 ] }
       ],
-      "place_vehicles": [ { "chance": 75, "fuel": 0, "rotation": 270, "status": -1, "vehicle": "forklift", "x": 16, "y": [ 7, 16 ] } ],
+      "place_vehicles": [ { "chance": 75, "fuel": 0, "rotation": 270, "status": -1, "vehicle": "forklift_vehicles", "x": 16, "y": [ 7, 16 ] } ],
       "rows": [
         "     cccc               ",
         "     cccc               ",

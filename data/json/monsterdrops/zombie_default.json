@@ -162,7 +162,13 @@
       { "item": "vibrator", "prob": 5, "charges-min": 0, "charges-max": 50 },
       { "item": "file", "prob": 10 },
       {
-        "distribution": [ { "item": "roadmap" }, { "item": "trailmap" }, { "item": "touristmap" }, { "item": "restaurantmap" } ],
+        "distribution": [
+          { "item": "roadmap" },
+          { "item": "trailmap" },
+          { "item": "touristmap" },
+          { "item": "restaurantmap" },
+          { "item": "urbexmap" }
+        ],
         "prob": 5
       },
       {
@@ -218,7 +224,11 @@
           { "item": "lighter", "prob": 100, "charges": [ 0, 100 ] },
           { "item": "ref_lighter", "prob": 40, "charges": [ 0, 50 ] },
           { "item": "matches", "prob": 20, "charges": [ 0, 20 ] },
-          { "item": "small_lighter", "prob": 20, "charges": [ 0, 50 ] }
+          { "item": "small_lighter", "prob": 20, "charges": [ 0, 50 ] },
+          {
+            "collection": [ { "item": "ref_lighter_butane" }, { "item": "butane_can", "charges": [ 1, 30 ] } ],
+            "prob": 5
+          }
         ],
         "prob": 30
       },

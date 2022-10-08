@@ -13,15 +13,13 @@
     "effect_str": "MANA",
     "shape": "blast",
     "spell_class": "EATER",
-    "energy_source": "HP",
     "skill": "deduction",
     "base_casting_time": 500,
     "base_energy_cost": 0,
-    "final_energy_cost": 0,
     "components": "spell_components_dreamdross",
-    "flags": [ "SOMATIC", "VERBAL", "SILENT", "NO_LEGS" ],
+    "flags": [ "SILENT", "NO_LEGS" ],
     "learn_spells": { "eat_more_dreamdross": 20 },
-    "difficulty": 1
+    "difficulty": 0
   },
   {
     "id": "eat_more_dreamdross",
@@ -38,12 +36,10 @@
     "shape": "blast",
     "skill": "deduction",
     "spell_class": "EATER",
-    "energy_source": "HP",
     "base_casting_time": 500,
     "base_energy_cost": 0,
-    "final_energy_cost": 0,
     "components": "spell_components_dreamdross2",
-    "flags": [ "SOMATIC", "VERBAL", "SILENT", "NO_LEGS" ],
+    "flags": [ "SILENT", "NO_LEGS" ],
     "learn_spells": { "eat_dreamdross_ingot": 20 },
     "difficulty": 1
   },
@@ -62,12 +58,10 @@
     "shape": "blast",
     "skill": "deduction",
     "spell_class": "EATER",
-    "energy_source": "HP",
     "base_casting_time": 500,
     "base_energy_cost": 0,
-    "final_energy_cost": 0,
     "components": "spell_components_dreamdross3",
-    "flags": [ "SOMATIC", "VERBAL", "SILENT", "NO_LEGS" ],
+    "flags": [ "SILENT", "NO_LEGS" ],
     "difficulty": 1
   },
   {

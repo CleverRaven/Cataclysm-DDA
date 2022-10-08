@@ -64,5 +64,41 @@
     ],
     "category": "STEGO",
     "strength": 4
+  },
+  {
+    "type": "dream",
+    "messages": [
+      "The warm sun upon your skin after escaping from a hard shell.",
+      "You dream of eating the largest fern you've ever seen."
+    ],
+    "category": "HORNS",
+    "strength": 1
+  },
+  {
+    "type": "dream",
+    "messages": [
+      "Large, you are becoming larger every day.  Majestic horns, to protect you from the world and show your power.  These are the gifts you are receiving.",
+      "You dream of before the Cataclysm, but you are different somehow.  The other humans all seem so flat and weak to you."
+    ],
+    "category": "HORNS",
+    "strength": 2
+  },
+  {
+    "type": "dream",
+    "messages": [
+      "Wandering peacefully through the woods with your family, easily knocking down anything in your path, fearing nothing.",
+      "Why is this world so cold compared to the one in your dreams?"
+    ],
+    "category": "HORNS",
+    "strength": 3
+  },
+  {
+    "type": "dream",
+    "messages": [
+      "Giant teeth come down on you, finding horns.  The screaming and blood is not yours.",
+      "While you are not the most feared, your majestic horns and powerful herd command respect."
+    ],
+    "category": "HORNS",
+    "strength": 4
   }
 ]

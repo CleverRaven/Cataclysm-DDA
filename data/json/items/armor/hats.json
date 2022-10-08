@@ -347,7 +347,7 @@
     "warmth": 15,
     "material_thickness": 0.1,
     "environmental_protection": 1,
-    "flags": [ "VARSIZE", "HELMET_COMPAT" ],
+    "flags": [ "VARSIZE" ],
     "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 65, "covers": [ "head" ] } ]
   },
   {
@@ -781,7 +781,7 @@
     "warmth": 45,
     "material_thickness": 0.5,
     "environmental_protection": 2,
-    "flags": [ "VARSIZE", "HELMET_COMPAT" ],
+    "flags": [ "VARSIZE" ],
     "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 95, "covers": [ "head" ] } ]
   },
   {
@@ -819,7 +819,7 @@
     "color": "dark_gray",
     "warmth": 5,
     "material_thickness": 0.1,
-    "flags": [ "DEAF", "HELMET_COMPAT" ],
+    "flags": [ "DEAF" ],
     "armor": [ { "encumbrance_modifiers": [ "IMBALANCED" ], "coverage": 5, "covers": [ "head" ] } ]
   },
   {
@@ -860,7 +860,6 @@
     "color": "blue",
     "warmth": 2,
     "material_thickness": 0.1,
-    "flags": [ "HELMET_COMPAT" ],
     "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 30, "covers": [ "head" ] } ]
   },
   {

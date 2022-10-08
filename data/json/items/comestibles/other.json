@@ -251,7 +251,7 @@
     "id": "gelatin_fresh",
     "name": { "str_sp": "fresh gelatin" },
     "conditional_names": [
-      { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str_sp": "abomination %s" } },
+      { "type": "COMPONENT_ID_SUBSTRING", "condition": "mutant", "name": { "str_sp": "abomination %s" } },
       { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str_sp": "amoral %s" } },
       { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": { "str_sp": "Orwell's %s" } }
     ],
@@ -723,7 +723,7 @@
     "color": "brown",
     "flags": [ "INEDIBLE", "CATTLE" ],
     "use_action": [ "PETFOOD" ],
-    "petfood": [ "CATTLEFOOD", "DINOFOOD_C" ]
+    "petfood": [ "CATTLEFOOD" ]
   },
   {
     "id": "birdfood",
@@ -769,7 +769,7 @@
     "color": "brown",
     "flags": [ "LUPINE" ],
     "use_action": [ "PETFOOD" ],
-    "petfood": [ "DOGFOOD", "DINOFOOD_A" ]
+    "petfood": [ "DOGFOOD" ]
   },
   {
     "id": "dogfood_dry",
@@ -794,7 +794,7 @@
     "color": "brown",
     "flags": [ "LUPINE" ],
     "use_action": [ "PETFOOD" ],
-    "petfood": [ "DOGFOOD", "DINOFOOD_A" ]
+    "petfood": [ "DOGFOOD" ]
   },
   {
     "id": "catfood",
@@ -818,7 +818,7 @@
     "color": "brown",
     "flags": [ "FELINE" ],
     "use_action": [ "PETFOOD" ],
-    "petfood": [ "CATFOOD", "DINOFOOD_B" ]
+    "petfood": [ "CATFOOD" ]
   },
   {
     "id": "catfood_dry",
@@ -844,7 +844,7 @@
     "color": "brown",
     "flags": [ "FELINE" ],
     "use_action": [ "PETFOOD" ],
-    "petfood": [ "CATFOOD", "DINOFOOD_B" ]
+    "petfood": [ "CATFOOD" ]
   },
   {
     "type": "COMESTIBLE",
@@ -1045,6 +1045,8 @@
     "comestible_type": "FOOD",
     "symbol": "%",
     "calories": 15,
+    "spoils_in": "15 days",
+    "rot_spawn": "GROUP_MUTATION_SNAIL",
     "description": "A small gastropod harvested from the bushes.  Dangerous to consume raw but can be prepared if you get enough of them.",
     "price": 0,
     "price_postapoc": 0,

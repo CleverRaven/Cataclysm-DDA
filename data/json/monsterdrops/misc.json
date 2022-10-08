@@ -53,7 +53,10 @@
     "entries": [
       {
         "group": "amigara_items",
-        "artifact": { "procgen_id": "netherum_tunnels", "rules": { "power_level": 750, "max_attributes": 4, "max_negative_power": -1000 } },
+        "artifact": {
+          "procgen_id": "netherum_tunnels",
+          "rules": { "power_level": 1000, "max_attributes": 4, "max_negative_power": -1000, "resonant": true }
+        },
         "prob": 100
       }
     ]

@@ -63,7 +63,7 @@ class unique_item
             }
         }
         // Construct item with given type and list of items contained inside item pocket.
-        unique_item( itype_id type, std::vector<const unique_item *> content ) {
+        unique_item( itype_id type, const std::vector<const unique_item *> &content ) {
             instance = item( type );
             instance.set_var( "uid", random_string( 10 ) );
             for( const unique_item *entry : content ) {
@@ -146,7 +146,7 @@ static void add_autopickup_rules( std::map<const unique_item *, bool> what )
 }
 
 // Add the given items to auto-pickup character rules and check rules
-static void add_autopickup_rules( std::vector<unique_item *> what, bool include )
+static void add_autopickup_rules( const std::vector<unique_item *> &what, bool include )
 {
     for( unique_item *it : what ) {
         add_autopickup_rule( it->get(), include );
@@ -161,7 +161,7 @@ static void simulate_auto_pickup( const tripoint &pos, avatar &they )
 }
 
 // Require that the given list of items be found contained in item.
-static void expect_to_find( const item &in, const std::list<const unique_item *> what )
+static void expect_to_find( const item &in, const std::list<const unique_item *> &what )
 {
     CHECK_FALSE( in.is_null() );
     CHECK( in.all_items_top().size() == what.size() );

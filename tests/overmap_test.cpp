@@ -10,6 +10,7 @@
 #include "game_constants.h"
 #include "global_vars.h"
 #include "map.h"
+#include "mapbuffer.h"
 #include "omdata.h"
 #include "overmap.h"
 #include "overmap_types.h"
@@ -416,9 +417,16 @@ TEST_CASE( "overmap_terrain_coverage", "[overmap][slow]" )
     // The second phase of this test is to perform the tile-level mapgen once
     // for each oter_type, in hopes of triggering any errors that might arise
     // with that.
+    int num_generated_since_last_clear = 0;
     for( const std::pair<const oter_type_id, omt_stats> &p : stats ) {
         const tripoint_abs_omt pos = p.second.first_observed;
         tinymap tm;
         tm.load( project_to<coords::sm>( pos ), false );
+
+        // Periodically clear the generated maps to save memory
+        if( ++num_generated_since_last_clear >= 64 ) {
+            MAPBUFFER.clear_outside_reality_bubble();
+            num_generated_since_last_clear = 0;
+        }
     }
 }

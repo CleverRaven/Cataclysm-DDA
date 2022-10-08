@@ -88,7 +88,7 @@
         "E": { "chunks": [ [ "tent_3x3_E", 10 ], [ "tent_5x5_E", 20 ], [ "null", 5 ] ] },
         "W": { "chunks": [ [ "tent_3x3_W", 10 ], [ "tent_5x5_W", 20 ], [ "null", 5 ] ] }
       },
-      "terrain": { "O": "t_pit_shallow", "p": "t_region_groundcover" },
+      "terrain": { "O": "t_pit_shallow", "p": [ "t_pit_spiked", "t_region_groundcover" ] },
       "furniture": { "O": "f_firering" },
       "items": {
         "c": { "item": "sc_loot_rare", "chance": 30 },
@@ -96,7 +96,6 @@
         "s": { "item": "sc_loot_equipment", "chance": 30 },
         "w": { "item": "stash_wood", "chance": 30 }
       },
-      "traps": { "p": [ "tr_spike_pit", "tr_null" ] },
       "place_monsters": [
         { "monster": "GROUP_PREPPER_HOUSE", "x": 11, "y": 10 },
         { "monster": "GROUP_PREPPER_HOUSE", "x": 10, "y": 9 },

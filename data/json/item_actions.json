@@ -917,11 +917,6 @@
   },
   {
     "type": "item_action",
-    "id": "VACCINE",
-    "name": { "str": "Inject" }
-  },
-  {
-    "type": "item_action",
     "id": "BLOOD_DRAW",
     "name": { "str": "Draw some blood" }
   },
@@ -1037,11 +1032,6 @@
   },
   {
     "type": "item_action",
-    "id": "unfold_vehicle",
-    "name": { "str": "Unfold" }
-  },
-  {
-    "type": "item_action",
     "id": "install_bionic",
     "name": { "str": "Install bionic" }
   },
@@ -1098,6 +1088,11 @@
   {
     "type": "item_action",
     "id": "LUX_METER",
+    "name": { "str": "Measure light level" }
+  },
+  {
+    "type": "item_action",
+    "id": "DBG_LUX_METER",
     "name": { "str": "Measure light level" }
   },
   {

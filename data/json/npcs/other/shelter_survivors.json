@@ -1,0 +1,62 @@
+[
+  {
+    "type": "npc",
+    "id": "NPC_evac_shelter_survivor",
+    "class": "NC_SCAVENGER",
+    "name_suffix": "scavenger",
+    "attitude": 1,
+    "mission": 8,
+    "chat": "TALK_NPC_EVAC_SURVIVOR",
+    "faction": "no_faction",
+    "mission_offered": "MISSION_LEARN_ABOUT_CATTAIL_JELLY"
+  },
+  {
+    "type": "npc",
+    "id": "NPC_homeless_survivor",
+    "class": "NC_SCAVENGER",
+    "name_suffix": "scavenger",
+    "attitude": 1,
+    "mission": 8,
+    "chat": "TALK_NPC_HOMELESS_SURVIVOR",
+    "faction": "no_faction",
+    "mission_offered": "MISSION_LEARN_ABOUT_CATTAIL_JELLY"
+  },
+  {
+    "type": "npc",
+    "id": "NPC_homeless_broker",
+    "class": "NC_HOMELESS_BROKER",
+    "name_suffix": "scavenger",
+    "attitude": 0,
+    "mission": 7,
+    "chat": "TALK_NPC_HOMELESS_BROKER",
+    "faction": "wasteland_scavengers",
+    "mission_offered": "MISSION_KILL_SLIMES"
+  },
+  {
+    "type": "npc",
+    "id": "NPC_homeless_group_survivor",
+    "class": "NC_SCAVENGER",
+    "name_suffix": "scavenger",
+    "attitude": 0,
+    "mission": 7,
+    "chat": "TALK_NPC_HOMELESS_GROUP_SURVIVOR",
+    "faction": "wasteland_scavengers"
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_HOMELESS_BROKER",
+    "name": { "str": "Scavenger" },
+    "job_description": "I'm just trying to survive.",
+    "common": false,
+    "shopkeeper_item_group": "homeless_broker_sell",
+    "worn_override": "NPC_homeless_worn",
+    "traits": [ { "group": "BG_survival_story_EVACUEE" }, { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
+    "skills": [
+      { "skill": "ALL", "level": { "sum": [ { "dice": [ 3, 2 ] }, { "constant": -3 } ] } },
+      { "skill": "gun", "bonus": { "rng": [ 2, 4 ] } },
+      { "skill": "pistol", "bonus": { "rng": [ 2, 5 ] } },
+      { "skill": "rifle", "bonus": { "rng": [ 0, 3 ] } },
+      { "skill": "archery", "bonus": { "rng": [ 0, 3 ] } }
+    ]
+  }
+]

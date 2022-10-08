@@ -27,7 +27,7 @@ class JsonObject;
  */
 tripoint rotate_point( const tripoint &p, int rotations );
 
-int terrain_type_to_nesw_array( oter_id terrain_type, bool array[4] );
+int terrain_type_to_nesw_array( oter_id terrain_type, std::array<bool, 4> &array );
 
 using building_gen_pointer = void ( * )( mapgendata & );
 building_gen_pointer get_mapgen_cfunction( const std::string &ident );
@@ -70,7 +70,7 @@ void mapgen_ravine_edge( mapgendata &dat );
 
 // Temporary wrappers
 void mremove_trap( map *m, const point &, trap_id type );
-void mtrap_set( map *m, const point &, trap_id type );
+void mtrap_set( map *m, const point &, trap_id type, bool avoid_creatures = false );
 void madd_field( map *m, const point &, field_type_id type, int intensity );
 void mremove_fields( map *m, const point & );
 

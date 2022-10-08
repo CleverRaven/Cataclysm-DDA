@@ -23,7 +23,7 @@
 <color_light_gray>Nel gioco, puoi accedere alle opzioni attraverso il menu principale (<color_yellow>Esc</color>).</color>
 
 <color_light_red>******************************************************************************</color>
-<color_light_red>Avvertenza per le build sperimentali:</color>
+<color_light_red>Avvertenza sulle build sperimentali e note sulla traduzione italiana di Cataclysm: Dark Days Ahead :</color>La traduzione italiana di C:DDA è un progetto portato avanti da pochissimi volontari che ha visto il susseguirsi del contributo non sempre continuo di più persone nel corso del tempo; questo comporta alcuni problemi: le traduzioni possono non essere accurate, in molti casi totalmente mancanti, possono essere presenti incoerenze di traduzione, errori grammaticali, traduzioni palesemente effettuate tramite copia-incolla da internet e via discorrendo. Anche se il desiderio di rendere C:DDA linguisticamente accessibile è molto forte, la carenza di volontari nel processo di traduzione rende questo processo molto lungo e difficile, soprattutto in virtù del fatto che viene svolto in modo volontario da persone che dedicano alla traduzione il poco tempo libero di cui dispongono. Se ti interessa contribuire al processo di traduzione, troverai tutte le informazioni necessarie sulla pagina Github di C:DDA: https://github.com/CleverRaven/Cataclysm-DDA/blob/master/doc/TRANSLATING.md. Se vuoi segnalare errori o hai bisogno di una mano per accedere a Transifex, manda una e-mail a: sniper27it@gmail.com
 <color_light_red>******************************************************************************</color>
 
 <color_white>D: </color><color_yellow>Cos'è una build sperimentale?</color>

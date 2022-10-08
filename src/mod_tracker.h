@@ -4,7 +4,7 @@
 
 #include <string>
 
-#include "cata_void.h"
+#include "cata_type_traits.h"
 #include "debug.h"
 #include "demangle.h"
 #include "type_id.h"

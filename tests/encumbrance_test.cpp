@@ -74,7 +74,7 @@ struct add_trait {
     explicit add_trait( const std::string &t ) : trait( t ) {}
     explicit add_trait( const trait_id &t ) : trait( t ) {}
 
-    void operator()( Character &p ) {
+    void operator()( Character &p ) const {
         p.toggle_trait( trait );
     }
 

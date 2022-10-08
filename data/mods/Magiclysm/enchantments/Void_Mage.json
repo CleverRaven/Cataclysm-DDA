@@ -22,6 +22,12 @@
     "type": "enchantment",
     "id": "VOID_MAGE",
     "condition": "ALWAYS",
-    "hit_you_effect": [ { "id": "void_claws" } ]
+    "hit_you_effect": [
+      {
+        "id": "void_claws",
+        "message": "Shadowy claws follow behind your strikes and the afterimage shrivels flesh as it passes through.",
+        "npc_message": "%1$s's attacks seems to have an afterimage of shadowy claws striking behind them about a half a second."
+      }
+    ]
   }
 ]
