@@ -23,7 +23,7 @@
         ".#sHHHR #`````{=~=~=~=#.",
         ".###o####.....}=~===~=#.",
         ".$^...........#=~===~=#.",
-        ".$.(((((&(&...}=~=~=~K#.",
+        ".$.(((((&(&.§.}=~=~=~K#.",
         ".$.&&&&&&&&...}/==~=~=#.",
         ".$.((&(%(((...}//==G=K#.",
         ".$.&&&&&&&&...#}}}#}}}#.",
@@ -57,13 +57,15 @@
         "{": "t_reinforced_door_glass_c",
         "}": "t_reinforced_glass_shutter",
         ")": "t_wall_glass",
-        "]": "t_door_metal_pickable"
+        "]": "t_door_metal_pickable",
+        "§": "t_region_groundcover_urban"
       },
-      "furniture": { "?": "f_beaded_door", "!": "f_region_flower", ",": "f_pinball_machine" },
+      "furniture": { "?": "f_beaded_door", "!": "f_region_flower", ",": "f_pinball_machine", "§": "f_wooden_flagpole" },
       "place_item": [
         { "item": "television", "repeat": 1, "x": 4, "y": 4 },
         { "item": "cannabis", "repeat": 1, "x": 18, "y": 14 },
-        { "item": "cannabis", "repeat": 1, "x": 18, "y": 15 }
+        { "item": "cannabis", "repeat": 1, "x": 18, "y": 15 },
+        { "item": "pride_flag", "chance": 50, "x": 12, "y": 16 }
       ],
       "place_items": [
         { "chance": 75, "item": "misc_smoking", "x": 4, "y": 13 },
