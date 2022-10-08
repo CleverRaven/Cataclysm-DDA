@@ -879,7 +879,7 @@
     "looks_like": "f_utility_pole",
     "description": "Signaling device positioned at road intersections and pedestrian crossings to control flows of traffic, but it's useless without electricity.",
     "symbol": "P",
-    "color": "light_gray",
+    "color": "white",
     "move_cost_mod": -1,
     "coverage": 40,
     "required_str": -1,
