@@ -443,6 +443,7 @@
   {
     "id": "lc_cavalry_sabre",
     "type": "TOOL",
+    "looks_like": "cavalry_sabre",
     "category": "weapons",
     "symbol": "/",
     "color": "dark_gray",
@@ -451,6 +452,8 @@
     "weight": "910 g",
     "volume": "1250 ml",
     "longest_side": "100 cm",
+    "price": 97000,
+    "price_postapoc": 4000,
     "bashing": 5,
     "cutting": 23,
     "to_hit": { "grip": "solid", "length": "long", "surface": "line", "balance": "neutral" },
@@ -469,6 +472,8 @@
     "description": "This is a curved sword associated with cavalry from the Early Modern period onwards.  Lightweight, but a deadly slashing weapon.  Features a blade of medium carbon steel and a grip of leather wrapped in wire to fit your hand better.",
     "weight": "1 kg",
     "cutting": 27,
+    "price": 97000,
+    "price_postapoc": 4000,
     "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "neutral" },
     "material": [ "mc_steel" ],
     "repairs_with": [ "mc_steel" ],
@@ -485,6 +490,8 @@
     "description": "This is a curved sword associated with cavalry from the Early Modern period onwards.  Lightweight, but a deadly slashing weapon.  Features a blade of high carbon steel and a grip of leather wrapped in wire to fit your hand better.",
     "weight": "1 kg",
     "cutting": 29,
+    "price": 97000,
+    "price_postapoc": 4000,
     "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "neutral" },
     "material": [ "hc_steel" ],
     "repairs_with": [ "hc_steel" ],
@@ -501,6 +508,8 @@
     "description": "This is a curved sword associated with cavalry from the Early Modern period onwards.  Lightweight, but a deadly slashing weapon.  Features a blade of hardened steel and a non-conductive grip of kevlar reinforced with tough plastic resin to fit your hand better.",
     "weight": "975 g",
     "cutting": 30,
+    "price": 97000,
+    "price_postapoc": 4000,
     "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "neutral" },
     "material": [ "ch_steel" ],
     "repairs_with": [ "ch_steel" ],
@@ -517,6 +526,8 @@
     "description": "This is a curved sword associated with cavalry from the Early Modern period onwards.  Lightweight, but a deadly slashing weapon.  Features a blade of tempered steel and a non-conductive grip of kevlar reinforced with tough plastic resin to fit your hand better.",
     "weight": "975 g",
     "cutting": 30,
+    "price": 97000,
+    "price_postapoc": 4000,
     "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "neutral" },
     "material": [ "qt_steel" ],
     "repairs_with": [ "qt_steel" ],
@@ -594,6 +605,7 @@
   {
     "id": "lc_jian",
     "type": "TOOL",
+    "looks_like": "jian",
     "category": "weapons",
     "symbol": "/",
     "color": "light_gray",
@@ -737,6 +749,7 @@
   {
     "id": "lc_scimitar",
     "type": "TOOL",
+    "looks_like": "scimitar",
     "category": "weapons",
     "symbol": "/",
     "color": "light_gray",
@@ -881,6 +894,7 @@
   {
     "id": "lc_estoc",
     "type": "GENERIC",
+    "looks_like": "estoc",
     "category": "weapons",
     "symbol": "/",
     "color": "light_gray",
@@ -1026,6 +1040,7 @@
   {
     "id": "lc_longsword",
     "type": "TOOL",
+    "looks_like": "longsword",
     "category": "weapons",
     "symbol": "/",
     "color": "light_gray",
@@ -1169,6 +1184,7 @@
   {
     "id": "lc_arming_sword",
     "type": "TOOL",
+    "looks_like": "arming_sword",
     "category": "weapons",
     "symbol": "/",
     "color": "light_gray",
@@ -1507,6 +1523,7 @@
   {
     "id": "lc_wakizashi",
     "type": "TOOL",
+    "looks_like": "wakizashi",
     "category": "weapons",
     "symbol": "/",
     "color": "light_gray",
@@ -1624,6 +1641,7 @@
   {
     "id": "lc_zweihander",
     "type": "TOOL",
+    "looks_like": "zweihander",
     "category": "weapons",
     "symbol": "/",
     "color": "light_gray",
@@ -1818,6 +1836,7 @@
   {
     "id": "lc_nodachi",
     "type": "TOOL",
+    "looks_like": "nodachi",
     "category": "weapons",
     "symbol": "/",
     "color": "light_gray",
@@ -2168,6 +2187,7 @@
   {
     "id": "lc_broadsword",
     "type": "TOOL",
+    "looks_like": "broadsword",
     "category": "weapons",
     "symbol": "/",
     "color": "light_gray",
@@ -2323,6 +2343,7 @@
   {
     "id": "lc_rapier",
     "type": "TOOL",
+    "looks_like": "rapier",
     "category": "weapons",
     "symbol": "/",
     "color": "light_gray",
@@ -2441,6 +2462,7 @@
   {
     "id": "lc_katana",
     "type": "TOOL",
+    "looks_like": "katana",
     "category": "weapons",
     "symbol": "/",
     "ascii_picture": "katana",
@@ -2721,6 +2743,7 @@
   {
     "id": "lc_cutlass",
     "type": "TOOL",
+    "looks_like": "cutlass",
     "category": "weapons",
     "symbol": "/",
     "color": "dark_gray",
@@ -2816,6 +2839,7 @@
   {
     "id": "kriegsmesser",
     "type": "TOOL",
+    "looks_like": "scimitar",
     "symbol": "/",
     "color": "light_gray",
     "name": { "str": "kriegsmesser" },
@@ -2838,6 +2862,7 @@
   {
     "id": "lc_kriegsmesser",
     "type": "TOOL",
+    "looks_like": "kriegsmesser",
     "category": "weapons",
     "symbol": "/",
     "color": "light_gray",
