@@ -542,8 +542,8 @@
     "id": "video_blogger",
     "name": "Video Blogger",
     "description": "You're a video blogger, creating and commenting video content and then posting it on various platforms.  Now most of your fans are dead, alongside your equipment. Maybe leading a fanbase, moderating myriads of comments and surviving shitstorms has taught you something valuable after all.",
-    "points": -2,
-    "skills": [ { "level": 3, "name": "speech" } ],
+    "points": 2,
+    "skills": [ { "level": 3, "name": "speech" }, { "level": 2, "name": "computer" } ],
     "items": {
       "both": {
         "items": [ "jeans", "longshirt", "socks", "sneakers", "backpack", "pockknife", "water_clean", "wearable_camera", "wristwatch" ],
