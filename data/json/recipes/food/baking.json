@@ -60,6 +60,7 @@
       [ [ "eggs_any_shape", 2, "LIST" ] ],
       [ [ "any_butter_or_oil", 2, "LIST" ] ],
       [ [ "salt", 2 ] ],
+      [ [ "chem_baking_soda", 1 ] ],
       [ [ "cinnamon", 2 ] ]
     ]
   }
