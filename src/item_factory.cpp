@@ -647,32 +647,6 @@ void Item_factory::finalize_post( itype &obj )
         return;
     }
 
-    // for each item iterate through potential repair tools
-    for( const auto &tool : repair_tools ) {
-
-        // check if item can be repaired with any of the actions?
-        for( const auto &act : repair_actions ) {
-            const use_function *func = m_templates[tool].get_use( act );
-            if( func == nullptr ) {
-                continue;
-            }
-
-            // tool has a possible repair action, check if the materials are compatible
-            const auto &opts = dynamic_cast<const repair_item_actor *>( func->get_actor_ptr() )->materials;
-            if( std::any_of( obj.materials.begin(),
-            obj.materials.end(), [&opts]( const std::pair<material_id, int> &m ) {
-            return opts.count( m.first ) > 0;
-            } ) ) {
-                obj.repair.insert( tool );
-            }
-        }
-    }
-
-    // go through each pocket and assign the name as a fallback definition
-    for( pocket_data &pocket : obj.pockets ) {
-        pocket.name = obj.name;
-    }
-
     if( obj.armor ) {
         // if this armor doesn't have material info should try to populate it with base item materials
         for( armor_portion_data &data : obj.armor->sub_data ) {
@@ -1194,6 +1168,32 @@ void Item_factory::finalize_post( itype &obj )
                 }
             }
         }
+    }
+
+    // for each item iterate through potential repair tools
+    for( const auto &tool : repair_tools ) {
+
+        // check if item can be repaired with any of the actions?
+        for( const auto &act : repair_actions ) {
+            const use_function *func = m_templates[tool].get_use( act );
+            if( func == nullptr ) {
+                continue;
+            }
+
+            // tool has a possible repair action, check if the materials are compatible
+            const auto &opts = dynamic_cast<const repair_item_actor *>( func->get_actor_ptr() )->materials;
+            if( std::any_of( obj.materials.begin(),
+            obj.materials.end(), [&opts]( const std::pair<material_id, int> &m ) {
+            return opts.count( m.first ) > 0;
+            } ) ) {
+                obj.repair.insert( tool );
+            }
+        }
+    }
+
+    // go through each pocket and assign the name as a fallback definition
+    for( pocket_data &pocket : obj.pockets ) {
+        pocket.name = obj.name;
     }
 
     if( obj.comestible ) {
