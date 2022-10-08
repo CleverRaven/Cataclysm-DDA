@@ -445,7 +445,7 @@
     "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_fermenting" }, { "proficiency": "prof_winemaking" } ],
     "qualities": [ { "id": "CUT", "level": 2 }, { "id": "BOIL", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 6, "LIST" ] ] ],
-    "//": "6u to heat water & activate the yeast, pineboughs don't appear to be roasted",  
+    "//": "6u to heat water & activate the yeast, pineboughs don't appear to be roasted",
     "components": [
       [ [ "water", 3 ], [ "water_clean", 3 ] ],
       [ [ "pine_bough", 5 ] ],
