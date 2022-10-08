@@ -539,7 +539,7 @@
   },
   {
     "type": "profession",
-    "id": "vid_blogger",
+    "id": "video_blogger",
     "name": "Video Blogger",
     "description": "You're a video blogger, you create video content and post it on various social medias.  Now most of your fans become undead, alongside your remaining equipments, you may want to see if your social skills learnt from creating content help you somehow.",
     "points": -2,
