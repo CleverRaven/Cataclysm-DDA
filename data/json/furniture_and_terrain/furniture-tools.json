@@ -303,14 +303,18 @@
     "coverage": 40,
     "required_str": -1,
     "crafting_pseudo_item": "screw_press",
-    "deconstruct": { "items": [ { "item": "screw_press", "count": 1 } ] },
+    "deconstruct": { "items": [ { "item": "screw_press_tool", "count": 1 } ] },
     "flags": [ "TRANSPARENT", "NOITEM", "EASY_DECONSTRUCT" ],
     "bash": {
       "str_min": 4,
       "str_max": 8,
       "sound": "crunch!",
       "sound_fail": "whump.",
-      "items": [ { "item": "screw_press", "count": 1 } ]
+      "items": [ 
+        { "item": "wood_beam", "count": [ 0, 2 ] },
+        { "item": "2x4", "count": [ 2, 6 ] },
+        { "item": "splinter", "count": [ 5, 20 ] }
+      ]
     }
   },
   {
