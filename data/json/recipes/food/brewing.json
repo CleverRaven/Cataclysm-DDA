@@ -467,10 +467,7 @@
     "book_learn": [ [ "brewing_cookbook", 4 ] ],
     "proficiencies": [ { "proficiency": "prof_food_prep" } ],
     "qualities": [ { "id": "CONTAIN", "level": 1 } ],
-    "components": [
-      [ [ "water_clean", 1 ] ],
-      [ [ "corn", 1 ], [ "barley", 1 ], [ "buckwheat", 1 ], [ "oats", 1 ], [ "wheat", 1 ] ]
-    ]
+    "components": [ [ [ "water_clean", 1 ] ], [ [ "corn", 1 ], [ "barley", 1 ], [ "buckwheat", 1 ], [ "oats", 1 ], [ "wheat", 1 ] ] ]
   },
   {
     "type": "recipe",
