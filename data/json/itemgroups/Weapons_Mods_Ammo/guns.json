@@ -157,7 +157,7 @@
       { "item": "ruger_redhawk", "prob": 25, "charges-min": 0, "charges-max": 0 },
       { "item": "sig_40", "prob": 15, "charges-min": 0, "charges-max": 0 },
       { "item": "sig_p230", "prob": 15, "charges-min": 0, "charges-max": 0 },
-      { "item": "sw_500", "prob": 15, "charges-min": 0, "charges-max": 0 },
+      { "item": "sw_500", "variant": "sw_500", "prob": 15, "charges-min": 0, "charges-max": 0 },
       { "item": "sw629", "prob": 15, "charges-min": 0, "charges-max": 0 },
       { "item": "usp_45", "prob": 15, "charges-min": 0, "charges-max": 0 },
       { "item": "usp_9mm", "prob": 35, "charges-min": 0, "charges-max": 0 },
@@ -397,7 +397,7 @@
       { "group": "nested_ruger_mini", "prob": 1 },
       { "group": "nested_sks", "prob": 1 },
       { "group": "nested_win70", "prob": 2 },
-      { "group": "nested_1895sbl", "prob": 1 },
+      { "group": "nested_189.5sbl", "prob": 1 },
       { "group": "nested_vz58ts", "prob": 1 },
       { "group": "nested_fn_ps90", "prob": 1 },
       { "group": "nested_aksemi", "prob": 2 },
@@ -506,7 +506,7 @@
     "items": [
       { "item": "colt_lightning", "prob": 10, "charges-min": 0, "charges-max": 0 },
       { "item": "henry_big_boy", "prob": 10, "charges-min": 0, "charges-max": 0 },
-      { "item": "bh_m89", "prob": 15 },
+      { "item": "bh_m89", "variant": "bh_m89", "prob": 15 },
       { "item": "m1903", "prob": 15, "charges-min": 0, "charges-max": 0 },
       { "item": "mosin44_ebr", "prob": 3, "charges-min": 0, "charges-max": 0 },
       { "item": "mosin91_30_ebr", "prob": 3, "charges-min": 0, "charges-max": 0 },
@@ -770,7 +770,7 @@
   },
   {
     "type": "item_group",
-    "id": "guns_shotgun_obscure",
+    "id": "guns_shotgun_obscure.",
     "//": "Imported or otherwise very obscure shotguns.",
     "//2": "Making the assumption any loaded gun will have additional ammo and mags with it.",
     "items": [
