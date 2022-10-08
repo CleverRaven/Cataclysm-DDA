@@ -211,7 +211,7 @@
     "charges": 5,
     "book_learn": [ [ "sweets_book", 1 ], [ "baking_book", 1 ], [ "mag_cooking", 3 ], [ "family_cookbook", 3 ] ],
     "qualities": [ { "id": "BOIL", "level": 1 }, { "id": "CONTAIN", "level": 1 } ],
-    "tools": [ [ [ "surface_heat", 10 "LIST" ] ] ],
+    "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
     "//": "1u for the sugar and 2u for the gelatin, 6u for water and juice, 1u for fruit",
     "components": [
       [ [ "water_clean", 1 ], [ "sweet_water", 1 ] ],
@@ -234,7 +234,7 @@
     "charges": 5,
     "book_learn": [ [ "sweets_book", 1 ], [ "baking_book", 1 ], [ "mag_cooking", 1 ], [ "family_cookbook", 1 ] ],
     "qualities": [ { "id": "BOIL", "level": 1 }, { "id": "CONTAIN", "level": 1 } ],
-    "tools": [ [ [ "surface_heat", 10 "LIST" ] ] ],
+    "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
     "//": "2u for the sugar and 2u for the agar, 6u for water and juice",
     "components": [
       [ [ "water_clean", 1 ], [ "sweet_water", 1 ] ],
@@ -256,7 +256,7 @@
     "charges": 5,
     "book_learn": [ [ "sweets_book", 1 ], [ "baking_book", 1 ], [ "mag_cooking", 1 ], [ "family_cookbook", 1 ] ],
     "qualities": [ { "id": "BOIL", "level": 1 }, { "id": "CONTAIN", "level": 1 } ],
-    "tools": [ [ [ "surface_heat", 10 "LIST" ] ] ],
+    "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
     "//": "1u for the sugar and 2u for the agar, 6u for water and juice, 1u for fruit",
     "components": [
       [ [ "water_clean", 1 ], [ "sweet_water", 1 ] ],
