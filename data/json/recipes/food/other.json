@@ -12,7 +12,7 @@
     "charges": 1,
     "autolearn": true,
     "qualities": [ { "id": "BOIL", "level": 2 } ],
-    "tools": [ [ [ "water_boiling_", 16, "LIST" ] ] ],
+    "tools": [ [ [ "water_boiling_heat", 16, "LIST" ] ] ],
     "components": [ [ [ "beet_syrup", 5 ] ] ]
   },
   {
