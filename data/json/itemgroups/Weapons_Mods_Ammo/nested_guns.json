@@ -1374,7 +1374,10 @@
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
     "ammo": 100,
-    "entries": [ { "item": "remington700_270", "charges-min": 0, "charges-max": 4 }, { "group": "on_hand_270win" } ]
+    "entries": [
+      { "item": "remington700_270", "variant": "remington700_270", "charges-min": 0, "charges-max": 4 },
+      { "group": "on_hand_270win" }
+    ]
   },
   {
     "id": "nested_remington_700",
