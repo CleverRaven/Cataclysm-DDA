@@ -2726,10 +2726,7 @@ void armor_portion_data::deserialize( const JsonObject &jo )
     if( covers.has_value() && sub_coverage.empty() ) {
         for( const bodypart_str_id &bp : covers.value() ) {
             for( const sub_bodypart_str_id &sbp : bp->sub_parts ) {
-                // only assume to add the non hanging locations
-                if( !sbp->secondary ) {
-                    sub_coverage.insert( sbp );
-                }
+                sub_coverage.insert( sbp );
             }
         }
     }
