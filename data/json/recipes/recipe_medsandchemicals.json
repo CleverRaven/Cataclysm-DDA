@@ -898,7 +898,7 @@
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "result": "chem_sulphuric_acid",
-    "id_suffix": "with blood",
+    "id_suffix": "with_blood",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_CHEMICALS",
     "skill_used": "chemistry",
