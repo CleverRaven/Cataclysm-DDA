@@ -82,9 +82,9 @@ targets:
         GCC_WARN_64_TO_32_BIT_CONVERSION: No
         HEADER_SEARCH_PATHS: 
           - ../src/third-party/**
-          - ../build-data/ios/libs/headers
+          - ../build/libs/headers
         LIBRARY_SEARCH_PATHS:
-          - ../build-data/ios/libs/
+          - ../build/libs/
           - $(inherited)
         GCC_PREPROCESSOR_DEFINITIONS: 
           - GIT_VERSION 
@@ -109,10 +109,10 @@ targets:
     dependencies:
       # TODO: build libcataclysm-tiles-common.a as it's own step again. Currently rolled in to single build
       # - framework: libs/libcataclysm-tiles-common.a
-      - framework: ../build-data/ios/libs/libSDL2.a
-      - framework: ../build-data/ios/libs/libSDL2_image.a
-      - framework: ../build-data/ios/libs/libSDL2_mixer.a
-      - framework: ../build-data/ios/libs/libSDL2_ttf.a
+      - framework: ../build/libs/libSDL2.a
+      - framework: ../build/libs/libSDL2_image.a
+      - framework: ../build/libs/libSDL2_mixer.a
+      - framework: ../build/libs/libSDL2_ttf.a
       - sdk: libllvm-flatbuffers.tbd
       - sdk: libz.tbd
       - sdk: libncurses.tbd

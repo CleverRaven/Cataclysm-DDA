@@ -22,6 +22,13 @@ if [ ! -d "../build" ]; then
     mkdir ../build
 fi
 
+echo "Checking for libs folder ..."
+if [ ! -d "../build/libs" ]; then
+    echo "Extracting zipped dependencies to build folder ..."
+    unzip ../build-data/ios/libs.zip -d ../build/
+fi
+
+
 if [ ! -f "xcode_dev_id.yml" ]; then
     echo "xcode_dev_id.yml not found -"
     echo "  You will need to manually specify your Development Team for signing in Xcode."
