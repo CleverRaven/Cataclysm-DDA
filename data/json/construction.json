@@ -267,6 +267,18 @@
   },
   {
     "type": "construction",
+    "id": "constr_fill_sewage",
+    "group": "fill_sewage_with_dirt",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "survival", 1 ] ],
+    "time": "60 m",
+    "qualities": [ [ { "id": "DIG", "level": 2 } ] ],
+    "components": [ [ [ "material_soil", 60 ] ] ],
+    "pre_terrain": "t_sewage",
+    "post_terrain": "t_dirt"
+  },
+  {
+    "type": "construction",
     "id": "constr_door_peep",
     "group": "build_door",
     "//": "Step 3: peephole",
