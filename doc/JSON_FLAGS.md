@@ -329,7 +329,6 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```BLOCK_WHILE_WORN``` Allows worn armor or shields to be used for blocking attacks.
 - ```BULLET_IMMUNE``` Wearing an item with this flag makes you immune to bullet damage
 - ```CANT_WEAR``` This item can't be worn directly.
-- ```CLIMATE_CONTROL``` This piece of clothing has climate control of some sort, keeping you warmer or cooler depending on ambient and bodily temperature.
 - ```COLLAR``` This piece of clothing has a wide collar that can keep your mouth warm.
 - ```COMBAT_TOGGLEABLE``` This item is meant to be toggled during combat. Used by NPCs to determine if they will toggle it on during combat. This only supports simple "transform" actions.
 - ```DECAY_EXPOSED_ATMOSPHERE``` Consumable will go bad once exposed to the atmosphere (such as MREs).
