@@ -87,7 +87,7 @@
     "id": "canning_standard",
     "type": "requirement",
     "//": "This is mostly similar to water_boiling_heat, because principally you are just boiling water.  However coffeepots are excluded because you need a lot of room for the cannning pot.",
-    "//1": "Canning uses basically the same amount of water regardless of the # of jars needed. about 6 3L jars fit in a canning pot or 12 0.5L jars 
+    "//1": "still trying to figure this out",
     "tools": [
       [
         [ "hotplate_induction", 125 ],
