@@ -310,7 +310,7 @@
       "str_max": 8,
       "sound": "crunch!",
       "sound_fail": "whump.",
-      "items": [ 
+      "items": [
         { "item": "wood_beam", "count": [ 0, 2 ] },
         { "item": "2x4", "count": [ 2, 6 ] },
         { "item": "splinter", "count": [ 5, 20 ] }
