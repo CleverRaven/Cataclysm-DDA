@@ -995,23 +995,24 @@ bool Character::craft_proficiency_gain( const item &craft, const time_duration &
 
 float Character::get_recipe_weighted_skill_average( const recipe &making ) const
 {
-    if( has_trait( trait_DEBUG_CNF ) ) {
-        return 1.0;
-    }
     int secondary_skill_total = 0;
     int secondary_difficulty = 0;
-    for( const auto &count_secondaries : making.required_skills ) {
+    for( const std::pair<const skill_id, int> &count_secondaries : making.required_skills ) {
         // the difficulty of each secondary skill, count_secondaries.second, adds weight:
         // skills required at a higher level count more.
         secondary_skill_total += get_skill_level( count_secondaries.first ) * count_secondaries.second;
         secondary_difficulty += count_secondaries.second;
     }
+    add_msg_debug( debugmode::DF_CRAFTING,
+                   "For craft %s, has %d secondary skills with difficulty sum %d", making.ident().str(),
+                   secondary_skill_total, secondary_difficulty );
     // The primary required skill counts extra compared to the secondary skills, before factoring in the
     // weight added by the required level.
     const float weighted_skill_average =
         ( ( 2.0f * making.difficulty * get_skill_level( making.skill_used ) ) + secondary_skill_total ) /
-        std::max( ( 2.0f * making.difficulty + secondary_difficulty ), 1.0f );
-    add_msg_debug( debugmode::DF_CHARACTER, "Weighted skill average: %f", weighted_skill_average );
+        // No DBZ
+        std::max( 1.f, ( 2.0f * making.difficulty + secondary_difficulty ) );
+    add_msg_debug( debugmode::DF_CRAFTING, "Weighted skill average: %g", weighted_skill_average );
 
     float total_skill_modifiers = 0.0f;
 
@@ -1041,6 +1042,8 @@ float Character::get_recipe_weighted_skill_average( const recipe &making ) const
     // For now let's just use Intelligence.  For the average intelligence of 8, give +2.  Inc/dec by 0.25 per stat point.
     // This ensures that at parity, where skill = difficulty, you have a roughly 85% chance of success at average intelligence.
     total_skill_modifiers += int_cur / 4.0f;
+    add_msg_debug( debugmode::DF_CRAFTING, "Total skill modifiers: %g (+%g from int)",
+                   total_skill_modifiers, int_cur / 4.f );
 
     // Missing proficiencies penalize skill level
     // At the time of writing this is currently called a fail multiplier.
@@ -1051,11 +1054,12 @@ float Character::get_recipe_weighted_skill_average( const recipe &making ) const
         }
     }
 
-    add_msg_debug( debugmode::DF_CHARACTER, "Total skill modifiers: %f", total_skill_modifiers );
+    add_msg_debug( debugmode::DF_CHARACTER, "Total skill modifiers after proficiencies: %g",
+                   total_skill_modifiers );
     return weighted_skill_average + total_skill_modifiers;
 }
 
-double Character::crafting_success_roll( const recipe &making ) const
+Character::craft_roll_data Character::recipe_success_roll_data( const recipe &making ) const
 {
     // We're going to use a sqrt( sum of squares ) method here to give diminishing returns for more low level helpers.
     float player_weighted_skill_average = get_recipe_weighted_skill_average( making );
@@ -1104,7 +1108,7 @@ double Character::crafting_success_roll( const recipe &making ) const
 
     int secondary_difficulty = 0;
     int secondary_level_count = 0;
-    for( const auto &count_secondaries : making.required_skills ) {
+    for( const std::pair<const skill_id, int> &count_secondaries : making.required_skills ) {
         secondary_level_count += count_secondaries.second;
         secondary_difficulty += std::pow( count_secondaries.second, 2 );
     }
@@ -1115,7 +1119,8 @@ double Character::crafting_success_roll( const recipe &making ) const
     // and then divided out again makes it a bit messy. Sorry, less mathy friends.
     const float final_difficulty =
         ( 2.0f * making.difficulty * making.difficulty + 1.0f * secondary_difficulty ) /
-        ( 2.0f * making.difficulty + 1.0f * secondary_level_count );
+        // NO DBZ
+        std::max( 1.f, ( 2.0f * making.difficulty + 1.0f * secondary_level_count ) );
     add_msg_debug( debugmode::DF_CHARACTER, "Final craft difficulty: %f", final_difficulty );
 
     // in the future we might want to make the standard deviation vary depending on some feature of the recipe.
@@ -1131,12 +1136,105 @@ double Character::crafting_success_roll( const recipe &making ) const
         // This means that luck plays less of a role the more overqualified you are.
         crafting_stddev -= std::min( ( weighted_skill_average - final_difficulty ) / 4, 1.0f );
     }
-    float craft_roll = std::max( normal_roll( weighted_skill_average, crafting_stddev ), 0.0 );
 
-    add_msg_debug( debugmode::DF_CHARACTER, "Crafting skill roll: %f", craft_roll );
+    // Let's just be careful, I don't want to touch a negative stddev
+    crafting_stddev = std::max( crafting_stddev, 0.f );
 
-    // TK: check all calls to crafting_success_roll, make sure they fit with the outputs this gives.
-    return std::max( craft_roll - final_difficulty + 1, 0.0f );
+    craft_roll_data ret;
+    ret.center = weighted_skill_average;
+    ret.stddev = crafting_stddev;
+    ret.final_difficulty = final_difficulty + 1;
+    if( has_trait( trait_DEBUG_CNF ) ) {
+        ret.center = 2.f;
+        ret.stddev = 0.f;
+        ret.final_difficulty = 0.f;
+    }
+    return ret;
+}
+
+Character::craft_roll_data Character::recipe_failure_roll_data( const recipe &making ) const
+{
+    craft_roll_data data = recipe_success_roll_data( making );
+    // Fund the numbers for the outcomes we want
+    data.final_difficulty -= 1;
+    data.final_difficulty *= 0.25;
+    data.stddev *= 0.5;
+    return data;
+}
+
+float Character::crafting_success_roll( const recipe &making ) const
+{
+    craft_roll_data data = recipe_success_roll_data( making );
+    float craft_roll = std::max( normal_roll( data.center, data.stddev ), 0.0 );
+
+    add_msg_debug( debugmode::DF_CHARACTER, "Crafting skill roll: %f, final difficulty %g", craft_roll,
+                   data.final_difficulty );
+
+    return std::max( craft_roll - data.final_difficulty, 0.0f );
+}
+
+float Character::crafting_failure_roll( const recipe &making ) const
+{
+    craft_roll_data data = recipe_failure_roll_data( making );
+    float craft_roll = std::max( normal_roll( data.center, data.stddev ), 0.0 );
+
+    add_msg_debug( debugmode::DF_CHARACTER, "Crafting skill roll: %f, final difficulty %g", craft_roll,
+                   data.final_difficulty );
+
+    return std::max( craft_roll, 0.0f );
+}
+
+// Returns the area under a curve with provided standard deviation and center
+// from difficulty to positive to infinity. That is, the chance that a normal roll on
+// said curve will return a value of difficulty or greater.
+static float normal_roll_chance( float center, float stddev, float difficulty )
+{
+    cata_assert( stddev >= 0.f );
+    // We're going to be using them a lot, so let's name our variables.
+    // M = the given "center" of the curve
+    // S = the given standard deviation of the curve
+    // A = the difficulty
+    // So, the equation of the normal curve is...
+    // y = (1.f/(S*std::sqrt(2 * M_PI))) * exp(-(std::pow(x - M, 2))/(2 * std::pow(S, 2)))
+    // Thanks to wolfram alpha, we know the integral of that from A to B to be
+    // 0.5 * (erf((M-A)/(std::sqrt(2) * S)) - erf((M-B)/(std::sqrt(2) * S)))
+    // And since we know B to be infinity, we can simplify that to
+    // 0.5 * (erfc((A-m)/(std::sqrt(2)* S))+sgn(S)-1) (as long as S != 0)
+    // Wait a second, what are erf, erfc and sgn?
+    // Oh, those are the error function, complementary error function, and sign function
+    // Luckily, erf() is provided to us in math.h, and erfc is just 1 - erf
+    // Sign is pretty obvious x > 0 ? x == 0 ? 0 : 1 : -1;
+    // Since we know S will always be > 0, that term vanishes.
+
+    // With no standard deviation, we will always return center
+    if( stddev == 0.f ) {
+        return ( center > difficulty ) ? 1.f : 0.f;
+    }
+
+    float numerator = difficulty - center;
+    float denominator = std::sqrt( 2 ) * stddev;
+    float compl_erf = 1.f - std::erf( numerator / denominator );
+    return 0.5 * compl_erf;
+}
+
+float Character::recipe_success_chance( const recipe &making ) const
+{
+    // We calculate the failure chance of a recipe by performing a normal roll with a given
+    // standard deviation and center, then subtracting a "final difficulty" score from that.
+    // If that result is above 1, there is no chance of failure.
+    craft_roll_data data = recipe_success_roll_data( making );
+
+    return normal_roll_chance( data.center, data.stddev, 1.f + data.final_difficulty );
+}
+
+float Character::item_destruction_chance( const recipe &making ) const
+{
+    // If a normal roll with these parameters rolls over 1, we will not have a catastrophic failure
+    // If we roll under one, we will
+    craft_roll_data data = recipe_failure_roll_data( making );
+
+    // normal_roll_chance returns the chance that we roll over, we want the chance we roll under
+    return 1.f - normal_roll_chance( data.center, data.stddev, 1.f + data.final_difficulty );
 }
 
 int item::get_next_failure_point() const
@@ -1156,9 +1254,16 @@ void item::set_next_failure_point( const Character &crafter )
     }
 
     const int percent = 10000000;
-    const int failure_point_delta = crafter.crafting_success_roll( get_making() ) * percent;
+    const float roll = crafter.crafting_success_roll( get_making() );
+    const int failure_point_delta = roll * percent;
 
     craft_data_->next_failure_point = item_counter + failure_point_delta;
+    // Accurately prints if we multiply by 100
+    const float percent_fp = static_cast<float>( percent ) * 100;
+    add_msg_debug( debugmode::DF_CRAFTING,
+                   "Set failure point: chose +%g%% for %s, will occur when progress hits %g%% (roll %g)",
+                   failure_point_delta / percent_fp, get_making().ident().str(),
+                   craft_data_->next_failure_point / percent_fp, roll );
 }
 
 static void destroy_random_component( item &craft, const Character &crafter )
@@ -1182,7 +1287,7 @@ bool item::handle_craft_failure( Character &crafter )
         return false;
     }
 
-    const double success_roll = crafter.crafting_success_roll( get_making() );
+    const double success_roll = crafter.crafting_failure_roll( get_making() );
     const int starting_components = this->components.size();
     // Destroy at most 75% of the components, always a chance of losing 1 though
     const size_t max_destroyed = std::max<size_t>( 1, components.size() * 3 / 4 );

@@ -290,6 +290,41 @@ struct availability {
 };
 } // namespace
 
+static std::string craft_success_chance_string( const recipe &recp, const Character &guy )
+{
+    float chance = 100.f * ( 1.f - guy.recipe_success_chance( recp ) );
+    std::string color;
+    if( chance > 75 ) {
+        color = "yellow";
+    } else if( chance > 50 ) {
+        color = "light_gray";
+    } else if( chance > 25 ) {
+        color = "green";
+    } else {
+        color = "cyan";
+    }
+
+    return string_format( _( "Minor Failure Chance: <color_%s>%2.2f</color>" ), color, chance );
+}
+
+static std::string cata_fail_chance_string( const recipe &recp, const Character &guy )
+{
+    float chance = 100.f * guy.item_destruction_chance( recp );
+    std::string color;
+    if( chance > 50 ) {
+        color = "i_red";
+    } else if( chance > 20 ) {
+        color = "red";
+    } else if( chance > 5 ) {
+        color = "yellow";
+    } else {
+        color = "light_gray";
+    }
+
+    return string_format( _( "Catastrophic Failure Chance: <color_%s>%2.2f</color>" ), color, chance );
+}
+
+
 static std::vector<std::string> recipe_info(
     const recipe &recp,
     const availability &avail,
@@ -319,6 +354,9 @@ static std::vector<std::string> recipe_info(
     if( !missing_profs.empty() ) {
         oss << string_format( _( "Proficiencies Missing: %s\n" ), missing_profs );
     }
+
+    oss << craft_success_chance_string( recp, guy ) << "\n";
+    oss << cata_fail_chance_string( recp, guy ) << "\n";
 
     const int expected_turns = guy.expected_time_to_craft( recp, batch_size )
                                / to_moves<int>( 1_turns );
