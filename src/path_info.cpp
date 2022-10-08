@@ -226,7 +226,7 @@ cata_path PATH_INFO::base_path_path()
 std::string PATH_INFO::cache_dir()
 {
 #if defined(TARGET_OS_IPHONE)
-    return std::string( getenv("HOME") ) + "/Library/Cache/"
+    return std::string( getenv( "HOME" ) ) + "/Library/Cache/"
 #else
     return datadir_value + "cache/";
 #endif
@@ -479,34 +479,34 @@ std::string PATH_INFO::title( const holiday current_holiday )
     }
 
     switch( current_holiday ) {
-    case holiday::new_year:
-        theme_extension = ".new_year";
-        theme_fallback = datadir_value + "title/" + "en.new_year";
-        break;
-    case holiday::easter:
-        theme_extension = ".easter";
-        theme_fallback = datadir_value + "title/" + "en.easter";
-        break;
-    case holiday::independence_day:
-        theme_extension = ".independence_day";
-        theme_fallback = datadir_value + "title/" + "en.independence_day";
-        break;
-    case holiday::halloween:
-        theme_extension = ".halloween";
-        theme_fallback = datadir_value + "title/" + "en.halloween";
-        break;
-    case holiday::thanksgiving:
-        theme_extension = ".thanksgiving";
-        theme_fallback = datadir_value + "title/" + "en.thanksgiving";
-        break;
-    case holiday::christmas:
-        theme_extension = ".christmas";
-        theme_fallback = datadir_value + "title/" + "en.christmas";
-        break;
-    case holiday::none:
-    case holiday::num_holiday:
-    default:
-        break;
+        case holiday::new_year:
+            theme_extension = ".new_year";
+            theme_fallback = datadir_value + "title/" + "en.new_year";
+            break;
+        case holiday::easter:
+            theme_extension = ".easter";
+            theme_fallback = datadir_value + "title/" + "en.easter";
+            break;
+        case holiday::independence_day:
+            theme_extension = ".independence_day";
+            theme_fallback = datadir_value + "title/" + "en.independence_day";
+            break;
+        case holiday::halloween:
+            theme_extension = ".halloween";
+            theme_fallback = datadir_value + "title/" + "en.halloween";
+            break;
+        case holiday::thanksgiving:
+            theme_extension = ".thanksgiving";
+            theme_fallback = datadir_value + "title/" + "en.thanksgiving";
+            break;
+        case holiday::christmas:
+            theme_extension = ".christmas";
+            theme_fallback = datadir_value + "title/" + "en.christmas";
+            break;
+        case holiday::none:
+        case holiday::num_holiday:
+        default:
+            break;
     }
     return find_translated_file( theme_basepath, theme_extension, theme_fallback );
 }
@@ -581,22 +581,22 @@ fs::path cata_path::get_logical_root_path() const
     const std::string &path_value = ( []( cata_path::root_path root ) -> const std::string& {
         switch( root )
         {
-        case cata_path::root_path::base:
-            return base_path_value;
-        case cata_path::root_path::config:
-            return config_dir_value;
-        case cata_path::root_path::data:
-            return datadir_value;
-        case cata_path::root_path::memorial:
-            return memorialdir_value;
-        case cata_path::root_path::save:
-            return savedir_value;
-        case cata_path::root_path::user:
-            return user_dir_value;
-        case cata_path::root_path::unknown:
-        default: {
-            return STATIC( std::string() );
-        }
+            case cata_path::root_path::base:
+                return base_path_value;
+            case cata_path::root_path::config:
+                return config_dir_value;
+            case cata_path::root_path::data:
+                return datadir_value;
+            case cata_path::root_path::memorial:
+                return memorialdir_value;
+            case cata_path::root_path::save:
+                return savedir_value;
+            case cata_path::root_path::user:
+                return user_dir_value;
+            case cata_path::root_path::unknown:
+            default: {
+                return STATIC( std::string() );
+            }
         }
     } )( logical_root_ );
     return fs::path{ path_value };

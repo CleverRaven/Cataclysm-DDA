@@ -307,7 +307,7 @@ static void WinCreate()
     // Fullscreen mode is now modified so it obeys terminal width/height, rather than
     // overwriting it with this calculation.
     if( window_flags & SDL_WINDOW_FULLSCREEN || window_flags & SDL_WINDOW_FULLSCREEN_DESKTOP
-            || window_flags & SDL_WINDOW_MAXIMIZED ) {
+        || window_flags & SDL_WINDOW_MAXIMIZED ) {
         SDL_GetWindowSize( ::window.get(), &WindowWidth, &WindowHeight );
         // Ignore previous values, use the whole window, but nothing more.
         TERMINAL_WIDTH = WindowWidth / fontwidth / scaling_factor;
@@ -394,7 +394,7 @@ static void WinCreate()
 #if defined(__ANDROID__)
     // TODO: Not too sure why this works to make fullscreen on Android behave. :/
     if( window_flags & SDL_WINDOW_FULLSCREEN || window_flags & SDL_WINDOW_FULLSCREEN_DESKTOP
-            || window_flags & SDL_WINDOW_MAXIMIZED ) {
+        || window_flags & SDL_WINDOW_MAXIMIZED ) {
         SDL_GetWindowSize( ::window.get(), &WindowWidth, &WindowHeight );
     }
 
@@ -763,7 +763,7 @@ std::string cata_tiles::get_omt_id_rotation_and_subtile(
         const oter_id &cur_ter = overmap_buffer.ter( p );
 
         if( !uistate.overmap_show_forest_trails &&
-                ( cur_ter->get_type_id() == oter_type_forest_trail ) ) {
+            ( cur_ter->get_type_id() == oter_type_forest_trail ) ) {
             return oter_id( "forest" );
         }
 
@@ -898,7 +898,7 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
             if( viewing_weather ) {
                 const tripoint_abs_omt omp_sky( omp.xy(), OVERMAP_HEIGHT );
                 if( uistate.overmap_debug_weather ||
-                        you.overmap_los( omp_sky, sight_points * 2 ) ) {
+                    you.overmap_los( omp_sky, sight_points * 2 ) ) {
                     id = overmap_ui::get_weather_at_point( omp_sky ).c_str();
                 } else {
                     id = "unexplored_terrain";
@@ -938,30 +938,30 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
                                              omp.raw(), 0, 0, lit_level::LIT, false );
                     } else {
                         switch( horde_size ) {
-                        case HORDE_VISIBILITY_SIZE:
-                            draw_from_id_string( "mon_zombie", omp.raw(), 0, 0, lit_level::LIT,
-                                                 false );
-                            break;
-                        case HORDE_VISIBILITY_SIZE + 1:
-                            draw_from_id_string( "mon_zombie_tough", omp.raw(), 0, 0,
-                                                 lit_level::LIT, false );
-                            break;
-                        case HORDE_VISIBILITY_SIZE + 2:
-                            draw_from_id_string( "mon_zombie_brute", omp.raw(), 0, 0,
-                                                 lit_level::LIT, false );
-                            break;
-                        case HORDE_VISIBILITY_SIZE + 3:
-                            draw_from_id_string( "mon_zombie_hulk", omp.raw(), 0, 0,
-                                                 lit_level::LIT, false );
-                            break;
-                        case HORDE_VISIBILITY_SIZE + 4:
-                            draw_from_id_string( "mon_zombie_necro", omp.raw(), 0, 0,
-                                                 lit_level::LIT, false );
-                            break;
-                        default:
-                            draw_from_id_string( "mon_zombie_master", omp.raw(), 0, 0,
-                                                 lit_level::LIT, false );
-                            break;
+                            case HORDE_VISIBILITY_SIZE:
+                                draw_from_id_string( "mon_zombie", omp.raw(), 0, 0, lit_level::LIT,
+                                                     false );
+                                break;
+                            case HORDE_VISIBILITY_SIZE + 1:
+                                draw_from_id_string( "mon_zombie_tough", omp.raw(), 0, 0,
+                                                     lit_level::LIT, false );
+                                break;
+                            case HORDE_VISIBILITY_SIZE + 2:
+                                draw_from_id_string( "mon_zombie_brute", omp.raw(), 0, 0,
+                                                     lit_level::LIT, false );
+                                break;
+                            case HORDE_VISIBILITY_SIZE + 3:
+                                draw_from_id_string( "mon_zombie_hulk", omp.raw(), 0, 0,
+                                                     lit_level::LIT, false );
+                                break;
+                            case HORDE_VISIBILITY_SIZE + 4:
+                                draw_from_id_string( "mon_zombie_necro", omp.raw(), 0, 0,
+                                                     lit_level::LIT, false );
+                                break;
+                            default:
+                                draw_from_id_string( "mon_zombie_master", omp.raw(), 0, 0,
+                                                     lit_level::LIT, false );
+                                break;
                         }
                     }
                 }
@@ -1097,7 +1097,7 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
                            0, 0 ) ).x() / 2;
 
         for( const city_reference &city : overmap_buffer.get_cities_near(
-                    project_to<coords::sm>( center_abs_omt ), radius ) ) {
+                 project_to<coords::sm>( center_abs_omt ), radius ) ) {
             const tripoint_abs_omt city_center = project_to<coords::omt>( city.abs_sm_pos );
             if( overmap_buffer.seen( city_center ) && overmap_area.contains( city_center.raw() ) ) {
                 label_bg( city.abs_sm_pos, city.city->name );
@@ -1105,7 +1105,7 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
         }
 
         for( const camp_reference &camp : overmap_buffer.get_camps_near(
-                    project_to<coords::sm>( center_abs_omt ), radius ) ) {
+                 project_to<coords::sm>( center_abs_omt ), radius ) ) {
             const tripoint_abs_omt camp_center = project_to<coords::omt>( camp.abs_sm_pos );
             if( overmap_buffer.seen( camp_center ) && overmap_area.contains( camp_center.raw() ) ) {
                 label_bg( camp.abs_sm_pos, camp.camp->name );
@@ -1344,45 +1344,45 @@ static bool draw_window( Font_Ptr &font, const catacurses::window &w, const poin
             bool use_draw_ascii_lines_routine = get_option<bool>( "USE_DRAW_ASCII_LINES_ROUTINE" );
             unsigned char uc = static_cast<unsigned char>( cell.ch[0] );
             switch( codepoint ) {
-            case LINE_XOXO_UNICODE:
-                uc = LINE_XOXO_C;
-                break;
-            case LINE_OXOX_UNICODE:
-                uc = LINE_OXOX_C;
-                break;
-            case LINE_XXOO_UNICODE:
-                uc = LINE_XXOO_C;
-                break;
-            case LINE_OXXO_UNICODE:
-                uc = LINE_OXXO_C;
-                break;
-            case LINE_OOXX_UNICODE:
-                uc = LINE_OOXX_C;
-                break;
-            case LINE_XOOX_UNICODE:
-                uc = LINE_XOOX_C;
-                break;
-            case LINE_XXXO_UNICODE:
-                uc = LINE_XXXO_C;
-                break;
-            case LINE_XXOX_UNICODE:
-                uc = LINE_XXOX_C;
-                break;
-            case LINE_XOXX_UNICODE:
-                uc = LINE_XOXX_C;
-                break;
-            case LINE_OXXX_UNICODE:
-                uc = LINE_OXXX_C;
-                break;
-            case LINE_XXXX_UNICODE:
-                uc = LINE_XXXX_C;
-                break;
-            case UNKNOWN_UNICODE:
-                use_draw_ascii_lines_routine = true;
-                break;
-            default:
-                use_draw_ascii_lines_routine = false;
-                break;
+                case LINE_XOXO_UNICODE:
+                    uc = LINE_XOXO_C;
+                    break;
+                case LINE_OXOX_UNICODE:
+                    uc = LINE_OXOX_C;
+                    break;
+                case LINE_XXOO_UNICODE:
+                    uc = LINE_XXOO_C;
+                    break;
+                case LINE_OXXO_UNICODE:
+                    uc = LINE_OXXO_C;
+                    break;
+                case LINE_OOXX_UNICODE:
+                    uc = LINE_OOXX_C;
+                    break;
+                case LINE_XOOX_UNICODE:
+                    uc = LINE_XOOX_C;
+                    break;
+                case LINE_XXXO_UNICODE:
+                    uc = LINE_XXXO_C;
+                    break;
+                case LINE_XXOX_UNICODE:
+                    uc = LINE_XXOX_C;
+                    break;
+                case LINE_XOXX_UNICODE:
+                    uc = LINE_XOXX_C;
+                    break;
+                case LINE_OXXX_UNICODE:
+                    uc = LINE_OXXX_C;
+                    break;
+                case LINE_XXXX_UNICODE:
+                    uc = LINE_XXXX_C;
+                    break;
+                case UNKNOWN_UNICODE:
+                    use_draw_ascii_lines_routine = true;
+                    break;
+                default:
+                    use_draw_ascii_lines_routine = false;
+                    break;
             }
             geometry->rect( renderer, draw, font->width * cw, font->height,
                             color_as_sdl( BG ) );
@@ -1482,7 +1482,7 @@ void cata_cursesport::curses_drawwindow( const catacurses::window &w )
 
                 // Clip to window bounds.
                 if( p.x < p0.x || p.x > p0.x + ( TERRAIN_WINDOW_TERM_WIDTH - 1 ) * font->width
-                        || p.y < p0.y || p.y > p0.y + ( TERRAIN_WINDOW_TERM_HEIGHT - 1 ) * font->height ) {
+                    || p.y < p0.y || p.y > p0.y + ( TERRAIN_WINDOW_TERM_HEIGHT - 1 ) * font->height ) {
                     continue;
                 }
 
@@ -1582,14 +1582,14 @@ static int end_alt_code()
 static SDL_Keycode sdl_keycode_opposite_arrow( SDL_Keycode key )
 {
     switch( key ) {
-    case SDLK_UP:
-        return SDLK_DOWN;
-    case SDLK_DOWN:
-        return SDLK_UP;
-    case SDLK_LEFT:
-        return SDLK_RIGHT;
-    case SDLK_RIGHT:
-        return SDLK_LEFT;
+        case SDLK_UP:
+            return SDLK_DOWN;
+        case SDLK_DOWN:
+            return SDLK_UP;
+        case SDLK_LEFT:
+            return SDLK_RIGHT;
+        case SDLK_RIGHT:
+            return SDLK_LEFT;
     }
     return 0;
 }
@@ -1602,14 +1602,14 @@ static bool sdl_keycode_is_arrow( SDL_Keycode key )
 static int arrow_combo_to_numpad( SDL_Keycode mod, SDL_Keycode key )
 {
     if( ( mod == SDLK_UP    && key == SDLK_RIGHT ) ||
-            ( mod == SDLK_RIGHT && key == SDLK_UP ) ) {
+        ( mod == SDLK_RIGHT && key == SDLK_UP ) ) {
         return KEY_NUM( 9 );
     }
     if( mod == SDLK_UP    && key == SDLK_UP ) {
         return KEY_NUM( 8 );
     }
     if( ( mod == SDLK_UP    && key == SDLK_LEFT ) ||
-            ( mod == SDLK_LEFT  && key == SDLK_UP ) ) {
+        ( mod == SDLK_LEFT  && key == SDLK_UP ) ) {
         return KEY_NUM( 7 );
     }
     if( mod == SDLK_RIGHT && key == SDLK_RIGHT ) {
@@ -1622,14 +1622,14 @@ static int arrow_combo_to_numpad( SDL_Keycode mod, SDL_Keycode key )
         return KEY_NUM( 4 );
     }
     if( ( mod == SDLK_DOWN  && key == SDLK_RIGHT ) ||
-            ( mod == SDLK_RIGHT && key == SDLK_DOWN ) ) {
+        ( mod == SDLK_RIGHT && key == SDLK_DOWN ) ) {
         return KEY_NUM( 3 );
     }
     if( mod == SDLK_DOWN  && key == SDLK_DOWN ) {
         return KEY_NUM( 2 );
     }
     if( ( mod == SDLK_DOWN  && key == SDLK_LEFT ) ||
-            ( mod == SDLK_LEFT  && key == SDLK_DOWN ) ) {
+        ( mod == SDLK_LEFT  && key == SDLK_DOWN ) ) {
         return KEY_NUM( 1 );
     }
     return 0;
@@ -1675,27 +1675,27 @@ static int sdl_keysym_to_curses( const SDL_Keysym &keysym )
         //Shift + Cursor Arrow (diagonal clockwise)
         if( keysym.mod & KMOD_SHIFT ) {
             switch( keysym.sym ) {
-            case SDLK_LEFT:
-                return inp_mngr.get_first_char_for_action( "LEFTUP" );
-            case SDLK_RIGHT:
-                return inp_mngr.get_first_char_for_action( "RIGHTDOWN" );
-            case SDLK_UP:
-                return inp_mngr.get_first_char_for_action( "RIGHTUP" );
-            case SDLK_DOWN:
-                return inp_mngr.get_first_char_for_action( "LEFTDOWN" );
+                case SDLK_LEFT:
+                    return inp_mngr.get_first_char_for_action( "LEFTUP" );
+                case SDLK_RIGHT:
+                    return inp_mngr.get_first_char_for_action( "RIGHTDOWN" );
+                case SDLK_UP:
+                    return inp_mngr.get_first_char_for_action( "RIGHTUP" );
+                case SDLK_DOWN:
+                    return inp_mngr.get_first_char_for_action( "LEFTDOWN" );
             }
         }
         //Ctrl + Cursor Arrow (diagonal counter-clockwise)
         if( keysym.mod & KMOD_CTRL ) {
             switch( keysym.sym ) {
-            case SDLK_LEFT:
-                return inp_mngr.get_first_char_for_action( "LEFTDOWN" );
-            case SDLK_RIGHT:
-                return inp_mngr.get_first_char_for_action( "RIGHTUP" );
-            case SDLK_UP:
-                return inp_mngr.get_first_char_for_action( "LEFTUP" );
-            case SDLK_DOWN:
-                return inp_mngr.get_first_char_for_action( "RIGHTDOWN" );
+                case SDLK_LEFT:
+                    return inp_mngr.get_first_char_for_action( "LEFTDOWN" );
+                case SDLK_RIGHT:
+                    return inp_mngr.get_first_char_for_action( "RIGHTUP" );
+                case SDLK_UP:
+                    return inp_mngr.get_first_char_for_action( "LEFTUP" );
+                case SDLK_DOWN:
+                    return inp_mngr.get_first_char_for_action( "RIGHTDOWN" );
             }
         }
     }
@@ -1704,19 +1704,19 @@ static int sdl_keysym_to_curses( const SDL_Keysym &keysym )
         //Shift + Cursor Left/RightArrow
         if( keysym.mod & KMOD_SHIFT ) {
             switch( keysym.sym ) {
-            case SDLK_LEFT:
-                return inp_mngr.get_first_char_for_action( "LEFTUP" );
-            case SDLK_RIGHT:
-                return inp_mngr.get_first_char_for_action( "RIGHTUP" );
+                case SDLK_LEFT:
+                    return inp_mngr.get_first_char_for_action( "LEFTUP" );
+                case SDLK_RIGHT:
+                    return inp_mngr.get_first_char_for_action( "RIGHTUP" );
             }
         }
         //Ctrl + Cursor Left/Right Arrow
         if( keysym.mod & KMOD_CTRL ) {
             switch( keysym.sym ) {
-            case SDLK_LEFT:
-                return inp_mngr.get_first_char_for_action( "LEFTDOWN" );
-            case SDLK_RIGHT:
-                return inp_mngr.get_first_char_for_action( "RIGHTDOWN" );
+                case SDLK_LEFT:
+                    return inp_mngr.get_first_char_for_action( "LEFTDOWN" );
+                case SDLK_RIGHT:
+                    return inp_mngr.get_first_char_for_action( "RIGHTDOWN" );
             }
         }
     }
@@ -1728,38 +1728,38 @@ static int sdl_keysym_to_curses( const SDL_Keysym &keysym )
                               s[SDL_SCANCODE_DOWN];
             if( count == 2 ) {
                 switch( keysym.sym ) {
-                case SDLK_LEFT:
-                    if( s[SDL_SCANCODE_UP] ) {
-                        return inp_mngr.get_first_char_for_action( "LEFTUP" );
-                    }
-                    if( s[SDL_SCANCODE_DOWN] ) {
-                        return inp_mngr.get_first_char_for_action( "LEFTDOWN" );
-                    }
-                    return 0;
-                case SDLK_RIGHT:
-                    if( s[SDL_SCANCODE_UP] ) {
-                        return inp_mngr.get_first_char_for_action( "RIGHTUP" );
-                    }
-                    if( s[SDL_SCANCODE_DOWN] ) {
-                        return inp_mngr.get_first_char_for_action( "RIGHTDOWN" );
-                    }
-                    return 0;
-                case SDLK_UP:
-                    if( s[SDL_SCANCODE_LEFT] ) {
-                        return inp_mngr.get_first_char_for_action( "LEFTUP" );
-                    }
-                    if( s[SDL_SCANCODE_RIGHT] ) {
-                        return inp_mngr.get_first_char_for_action( "RIGHTUP" );
-                    }
-                    return 0;
-                case SDLK_DOWN:
-                    if( s[SDL_SCANCODE_LEFT] ) {
-                        return inp_mngr.get_first_char_for_action( "LEFTDOWN" );
-                    }
-                    if( s[SDL_SCANCODE_RIGHT] ) {
-                        return inp_mngr.get_first_char_for_action( "RIGHTDOWN" );
-                    }
-                    return 0;
+                    case SDLK_LEFT:
+                        if( s[SDL_SCANCODE_UP] ) {
+                            return inp_mngr.get_first_char_for_action( "LEFTUP" );
+                        }
+                        if( s[SDL_SCANCODE_DOWN] ) {
+                            return inp_mngr.get_first_char_for_action( "LEFTDOWN" );
+                        }
+                        return 0;
+                    case SDLK_RIGHT:
+                        if( s[SDL_SCANCODE_UP] ) {
+                            return inp_mngr.get_first_char_for_action( "RIGHTUP" );
+                        }
+                        if( s[SDL_SCANCODE_DOWN] ) {
+                            return inp_mngr.get_first_char_for_action( "RIGHTDOWN" );
+                        }
+                        return 0;
+                    case SDLK_UP:
+                        if( s[SDL_SCANCODE_LEFT] ) {
+                            return inp_mngr.get_first_char_for_action( "LEFTUP" );
+                        }
+                        if( s[SDL_SCANCODE_RIGHT] ) {
+                            return inp_mngr.get_first_char_for_action( "RIGHTUP" );
+                        }
+                        return 0;
+                    case SDLK_DOWN:
+                        if( s[SDL_SCANCODE_LEFT] ) {
+                            return inp_mngr.get_first_char_for_action( "LEFTDOWN" );
+                        }
+                        if( s[SDL_SCANCODE_RIGHT] ) {
+                            return inp_mngr.get_first_char_for_action( "RIGHTDOWN" );
+                        }
+                        return 0;
                 }
             } else if( count > 0 ) {
                 return 0;
@@ -1772,92 +1772,92 @@ static int sdl_keysym_to_curses( const SDL_Keysym &keysym )
         return keysym.sym - 'a' + '\1';
     }
     switch( keysym.sym ) {
-    // This is special: allow entering a Unicode character with ALT+number
-    case SDLK_RALT:
-    case SDLK_LALT:
-        begin_alt_code();
-        return -1;
-    // The following are simple translations:
-    case SDLK_KP_ENTER:
-        return KEY_ENTER;
-    case SDLK_RETURN:
-    case SDLK_RETURN2:
-        return '\n';
-    case SDLK_BACKSPACE:
-    case SDLK_KP_BACKSPACE:
-        return KEY_BACKSPACE;
-    case SDLK_DELETE:
-        return KEY_DC;
-    case SDLK_ESCAPE:
-        return KEY_ESCAPE;
-    case SDLK_TAB:
-        if( keysym.mod & KMOD_SHIFT ) {
-            return KEY_BTAB;
-        }
-        return '\t';
-    case SDLK_LEFT:
-        return KEY_LEFT;
-    case SDLK_RIGHT:
-        return KEY_RIGHT;
-    case SDLK_UP:
-        return KEY_UP;
-    case SDLK_DOWN:
-        return KEY_DOWN;
-    case SDLK_PAGEUP:
-        return KEY_PPAGE;
-    case SDLK_PAGEDOWN:
-        return KEY_NPAGE;
-    case SDLK_HOME:
-        return KEY_HOME;
-    case SDLK_END:
-        return KEY_END;
-    case SDLK_F1:
-        return KEY_F( 1 );
-    case SDLK_F2:
-        return KEY_F( 2 );
-    case SDLK_F3:
-        return KEY_F( 3 );
-    case SDLK_F4:
-        return KEY_F( 4 );
-    case SDLK_F5:
-        return KEY_F( 5 );
-    case SDLK_F6:
-        return KEY_F( 6 );
-    case SDLK_F7:
-        return KEY_F( 7 );
-    case SDLK_F8:
-        return KEY_F( 8 );
-    case SDLK_F9:
-        return KEY_F( 9 );
-    case SDLK_F10:
-        return KEY_F( 10 );
-    case SDLK_F11:
-        return KEY_F( 11 );
-    case SDLK_F12:
-        return KEY_F( 12 );
-    case SDLK_F13:
-        return KEY_F( 13 );
-    case SDLK_F14:
-        return KEY_F( 14 );
-    case SDLK_F15:
-        return KEY_F( 15 );
-    // Every other key is ignored as there is no curses constant for it.
-    // TODO: add more if you find more.
-    default:
-        return 0;
+        // This is special: allow entering a Unicode character with ALT+number
+        case SDLK_RALT:
+        case SDLK_LALT:
+            begin_alt_code();
+            return -1;
+        // The following are simple translations:
+        case SDLK_KP_ENTER:
+            return KEY_ENTER;
+        case SDLK_RETURN:
+        case SDLK_RETURN2:
+            return '\n';
+        case SDLK_BACKSPACE:
+        case SDLK_KP_BACKSPACE:
+            return KEY_BACKSPACE;
+        case SDLK_DELETE:
+            return KEY_DC;
+        case SDLK_ESCAPE:
+            return KEY_ESCAPE;
+        case SDLK_TAB:
+            if( keysym.mod & KMOD_SHIFT ) {
+                return KEY_BTAB;
+            }
+            return '\t';
+        case SDLK_LEFT:
+            return KEY_LEFT;
+        case SDLK_RIGHT:
+            return KEY_RIGHT;
+        case SDLK_UP:
+            return KEY_UP;
+        case SDLK_DOWN:
+            return KEY_DOWN;
+        case SDLK_PAGEUP:
+            return KEY_PPAGE;
+        case SDLK_PAGEDOWN:
+            return KEY_NPAGE;
+        case SDLK_HOME:
+            return KEY_HOME;
+        case SDLK_END:
+            return KEY_END;
+        case SDLK_F1:
+            return KEY_F( 1 );
+        case SDLK_F2:
+            return KEY_F( 2 );
+        case SDLK_F3:
+            return KEY_F( 3 );
+        case SDLK_F4:
+            return KEY_F( 4 );
+        case SDLK_F5:
+            return KEY_F( 5 );
+        case SDLK_F6:
+            return KEY_F( 6 );
+        case SDLK_F7:
+            return KEY_F( 7 );
+        case SDLK_F8:
+            return KEY_F( 8 );
+        case SDLK_F9:
+            return KEY_F( 9 );
+        case SDLK_F10:
+            return KEY_F( 10 );
+        case SDLK_F11:
+            return KEY_F( 11 );
+        case SDLK_F12:
+            return KEY_F( 12 );
+        case SDLK_F13:
+            return KEY_F( 13 );
+        case SDLK_F14:
+            return KEY_F( 14 );
+        case SDLK_F15:
+            return KEY_F( 15 );
+        // Every other key is ignored as there is no curses constant for it.
+        // TODO: add more if you find more.
+        default:
+            return 0;
     }
 }
 
 static input_event sdl_keysym_to_keycode_evt( const SDL_Keysym &keysym )
 {
     switch( keysym.sym ) {
-    case SDLK_LCTRL:
-    case SDLK_LSHIFT:
-    case SDLK_LALT:
-    case SDLK_RCTRL:
-    case SDLK_RSHIFT:
-    case SDLK_RALT:
-        return input_event();
+        case SDLK_LCTRL:
+        case SDLK_LSHIFT:
+        case SDLK_LALT:
+        case SDLK_RCTRL:
+        case SDLK_RSHIFT:
+        case SDLK_RALT:
+            return input_event();
     }
     input_event evt;
     evt.type = input_event_t::keyboard_code;
@@ -1970,8 +1970,8 @@ input_context touch_input_context;
 std::string get_quick_shortcut_name( const std::string &category )
 {
     if( category == "DEFAULTMODE" &&
-            g->check_zone( zone_type_id( "NO_AUTO_PICKUP" ), get_player_character().pos() ) &&
-            get_option<bool>( "ANDROID_SHORTCUT_ZONE" ) ) {
+        g->check_zone( zone_type_id( "NO_AUTO_PICKUP" ), get_player_character().pos() ) &&
+        get_option<bool>( "ANDROID_SHORTCUT_ZONE" ) ) {
         return "DEFAULTMODE____SHORTCUTS";
     }
     return category;
@@ -2036,7 +2036,7 @@ input_event *get_quick_shortcut_under_finger( bool down = false )
     float finger_x = down ? finger_down_x : finger_curr_x;
     for( std::list<input_event>::iterator it = qsl.begin(); it != qsl.end(); ++it ) {
         if( ( i + 1 ) * width > WindowWidth * get_option<int>( "ANDROID_SHORTCUT_SCREEN_PERCENTAGE" ) *
-                0.01f ) {
+            0.01f ) {
             continue;
         }
         i++;
@@ -2261,7 +2261,7 @@ void draw_terminal_size_preview()
                                   ||
                                   preview_terminal_height != get_option<int>( "TERMINAL_Y" ) * fontheight;
     if( preview_terminal_dirty ||
-            ( preview_terminal_change_time > 0 && SDL_GetTicks() - preview_terminal_change_time < 1000 ) ) {
+        ( preview_terminal_change_time > 0 && SDL_GetTicks() - preview_terminal_change_time < 1000 ) ) {
         if( preview_terminal_dirty ) {
             preview_terminal_width = get_option<int>( "TERMINAL_X" ) * fontwidth;
             preview_terminal_height = get_option<int>( "TERMINAL_Y" ) * fontheight;
@@ -2279,10 +2279,10 @@ void draw_quick_shortcuts()
 {
 
     if( !quick_shortcuts_enabled ||
-            SDL_IsTextInputActive() ||
-            ( get_option<bool>( "ANDROID_HIDE_HOLDS" ) && !is_quick_shortcut_touch && finger_down_time > 0 &&
-              SDL_GetTicks() - finger_down_time >= static_cast<uint32_t>(
-                  get_option<int>( "ANDROID_INITIAL_DELAY" ) ) ) ) { // player is swipe + holding in a direction
+        SDL_IsTextInputActive() ||
+        ( get_option<bool>( "ANDROID_HIDE_HOLDS" ) && !is_quick_shortcut_touch && finger_down_time > 0 &&
+          SDL_GetTicks() - finger_down_time >= static_cast<uint32_t>(
+              get_option<int>( "ANDROID_INITIAL_DELAY" ) ) ) ) { // player is swipe + holding in a direction
         return;
     }
 
@@ -2308,7 +2308,7 @@ void draw_quick_shortcuts()
             // First process registered actions
             std::vector<std::string> &registered_actions = touch_input_context.get_registered_actions();
             for( std::vector<std::string>::iterator it = registered_actions.begin();
-                    it != registered_actions.end(); ++it ) {
+                 it != registered_actions.end(); ++it ) {
                 std::string &action = *it;
                 if( ignore_action_for_quick_shortcuts( action ) ) {
                     continue;
@@ -2340,7 +2340,7 @@ void draw_quick_shortcuts()
     int i = 0;
     for( std::list<input_event>::iterator it = qsl.begin(); it != qsl.end(); ++it ) {
         if( ( i + 1 ) * width > WindowWidth * get_option<int>( "ANDROID_SHORTCUT_SCREEN_PERCENTAGE" ) *
-                0.01f ) {
+            0.01f ) {
             continue;
         }
         input_event &event = *it;
@@ -2474,11 +2474,11 @@ void draw_virtual_joystick()
 
     // Bail out if we don't need to draw the joystick
     if( !get_option<bool>( "ANDROID_SHOW_VIRTUAL_JOYSTICK" ) ||
-            finger_down_time <= 0 ||
-            SDL_GetTicks() - finger_down_time <= static_cast<uint32_t>
-            ( get_option<int>( "ANDROID_INITIAL_DELAY" ) ) ||
-            is_quick_shortcut_touch ||
-            is_two_finger_touch ) {
+        finger_down_time <= 0 ||
+        SDL_GetTicks() - finger_down_time <= static_cast<uint32_t>
+        ( get_option<int>( "ANDROID_INITIAL_DELAY" ) ) ||
+        is_quick_shortcut_touch ||
+        is_two_finger_touch ) {
         return;
     }
 
@@ -2615,7 +2615,7 @@ void handle_finger_input( uint32_t ticks )
         }
     } else {
         if( ticks - finger_down_time >= static_cast<uint32_t>
-                ( get_option<int>( "ANDROID_INITIAL_DELAY" ) ) ) {
+            ( get_option<int>( "ANDROID_INITIAL_DELAY" ) ) ) {
             // Single tap (repeat) - held, so always treat this as a tap
             // We only allow repeats for waiting, not confirming in menus as that's a bit silly
             if( is_default_mode ) {
@@ -2624,7 +2624,7 @@ void handle_finger_input( uint32_t ticks )
             }
         } else {
             if( last_tap_time > 0 &&
-                    ticks - last_tap_time < static_cast<uint32_t>( get_option<int>( "ANDROID_INITIAL_DELAY" ) ) ) {
+                ticks - last_tap_time < static_cast<uint32_t>( get_option<int>( "ANDROID_INITIAL_DELAY" ) ) ) {
                 // Double tap
                 last_input = input_event( is_default_mode ? KEY_ESCAPE : KEY_ESCAPE, input_event_t::keyboard_char );
                 last_tap_time = 0;
@@ -2740,10 +2740,10 @@ static void CheckMessages()
 
             // If we were in an allow_text_entry input context, and text input is still active, and we're auto-managing keyboard, hide it.
             if( touch_input_context.allow_text_entry &&
-                    !new_input_context->allow_text_entry &&
-                    !is_string_input( *new_input_context ) &&
-                    SDL_IsTextInputActive() &&
-                    get_option<bool>( "ANDROID_AUTO_KEYBOARD" ) ) {
+                !new_input_context->allow_text_entry &&
+                !is_string_input( *new_input_context ) &&
+                SDL_IsTextInputActive() &&
+                get_option<bool>( "ANDROID_AUTO_KEYBOARD" ) ) {
                 StopTextInput();
             }
 
@@ -2938,8 +2938,8 @@ static void CheckMessages()
 
         // Toggle quick shortcuts on/off
         if( ac_back_down_time > 0 &&
-                ticks - ac_back_down_time > static_cast<uint32_t>
-                ( get_option<int>( "ANDROID_INITIAL_DELAY" ) ) ) {
+            ticks - ac_back_down_time > static_cast<uint32_t>
+            ( get_option<int>( "ANDROID_INITIAL_DELAY" ) ) ) {
             if( !quick_shortcuts_toggle_handled ) {
                 quick_shortcuts_enabled = !quick_shortcuts_enabled;
                 quick_shortcuts_toggle_handled = true;
@@ -2962,8 +2962,8 @@ static void CheckMessages()
 
         // Handle repeating inputs from touch + holds
         if( !is_quick_shortcut_touch && !is_two_finger_touch && finger_down_time > 0 &&
-                ticks - finger_down_time > static_cast<uint32_t>
-                ( get_option<int>( "ANDROID_INITIAL_DELAY" ) ) ) {
+            ticks - finger_down_time > static_cast<uint32_t>
+            ( get_option<int>( "ANDROID_INITIAL_DELAY" ) ) ) {
             if( ticks - finger_repeat_time > finger_repeat_delay ) {
                 handle_finger_input( ticks );
                 finger_repeat_time = ticks;
@@ -2985,8 +2985,8 @@ static void CheckMessages()
 
         // If we received a first tap and not another one within a certain period, this was a single tap, so trigger the input event
         if( !is_quick_shortcut_touch && !is_two_finger_touch && last_tap_time > 0 &&
-                ticks - last_tap_time >= static_cast<uint32_t>
-                ( get_option<int>( "ANDROID_INITIAL_DELAY" ) ) ) {
+            ticks - last_tap_time >= static_cast<uint32_t>
+            ( get_option<int>( "ANDROID_INITIAL_DELAY" ) ) ) {
             // Single tap
             last_tap_time = ticks;
             last_input = input_event( is_default_mode ? get_key_event_from_string(
@@ -2997,8 +2997,8 @@ static void CheckMessages()
 
         // ensure hint text pops up even if player doesn't move finger to trigger a FINGERMOTION event
         if( is_quick_shortcut_touch && finger_down_time > 0 &&
-                ticks - finger_down_time > static_cast<uint32_t>
-                ( get_option<int>( "ANDROID_INITIAL_DELAY" ) ) ) {
+            ticks - finger_down_time > static_cast<uint32_t>
+            ( get_option<int>( "ANDROID_INITIAL_DELAY" ) ) ) {
             needupdate = true;
         }
     }
@@ -3017,35 +3017,88 @@ static void CheckMessages()
 
     while( SDL_PollEvent( &ev ) ) {
         switch( ev.type ) {
-        case SDL_WINDOWEVENT:
-            switch( ev.window.event ) {
+            case SDL_WINDOWEVENT:
+                switch( ev.window.event ) {
 #if defined(__ANDROID__)
-            // SDL will send a focus lost event whenever the app loses focus (eg. lock screen, switch app focus etc.)
-            // If we detect it and the game seems in a saveable state, try and do a quicksave. This is a bit dodgy
-            // as the player could be ANYWHERE doing ANYTHING (a sub-menu, interacting with an NPC/computer etc.)
-            // but it seems to work so far, and the alternative is the player losing their progress as the app is likely
-            // to be destroyed pretty quickly when it goes out of focus due to memory usage.
-            case SDL_WINDOWEVENT_FOCUS_LOST:
-                if( world_generator &&
-                        world_generator->active_world &&
-                        g && g->uquit == QUIT_NO &&
-                        get_option<bool>( "ANDROID_QUICKSAVE" ) &&
-                        !std::uncaught_exception() ) {
-                    g->quicksave();
+                    // SDL will send a focus lost event whenever the app loses focus (eg. lock screen, switch app focus etc.)
+                    // If we detect it and the game seems in a saveable state, try and do a quicksave. This is a bit dodgy
+                    // as the player could be ANYWHERE doing ANYTHING (a sub-menu, interacting with an NPC/computer etc.)
+                    // but it seems to work so far, and the alternative is the player losing their progress as the app is likely
+                    // to be destroyed pretty quickly when it goes out of focus due to memory usage.
+                    case SDL_WINDOWEVENT_FOCUS_LOST:
+                        if( world_generator &&
+                            world_generator->active_world &&
+                            g && g->uquit == QUIT_NO &&
+                            get_option<bool>( "ANDROID_QUICKSAVE" ) &&
+                            !std::uncaught_exception() ) {
+                            g->quicksave();
+                        }
+                        break;
+                    // SDL sends a window size changed event whenever the screen rotates orientation
+                    case SDL_WINDOWEVENT_SIZE_CHANGED:
+                        WindowWidth = ev.window.data1;
+                        WindowHeight = ev.window.data2;
+                        SDL_Delay( 500 );
+                        SDL_GetWindowSurface( window.get() );
+                        refresh_display();
+                        needupdate = true;
+                        break;
+#else
+                    case SDL_WINDOWEVENT_FOCUS_LOST:
+                        window_focus = false;
+                        if( SDL_IsTextInputActive() ) {
+                            text_input_active_when_regaining_focus = true;
+                            // Stop text input to not intefere with other programs
+                            SDL_StopTextInput();
+                            // Clear uncommited IME text. TODO: commit IME text instead.
+                            last_input = input_event();
+                            last_input.type = input_event_t::keyboard_char;
+                            last_input.edit.clear();
+                            last_input.edit_refresh = true;
+                            text_refresh = true;
+                        } else {
+                            text_input_active_when_regaining_focus = false;
+                        }
+                        break;
+                    case SDL_WINDOWEVENT_FOCUS_GAINED:
+                        window_focus = true;
+                        // Restore text input status
+                        if( text_input_active_when_regaining_focus ) {
+                            SDL_StartTextInput();
+                        }
+                        break;
+#endif
+                    case SDL_WINDOWEVENT_SHOWN:
+                    case SDL_WINDOWEVENT_MINIMIZED:
+                        break;
+                    case SDL_WINDOWEVENT_EXPOSED:
+                        needupdate = true;
+                        break;
+                    case SDL_WINDOWEVENT_RESTORED:
+#if defined(__ANDROID__)
+                        needs_sdl_surface_visibility_refresh = true;
+                        if( android_is_hardware_keyboard_available() ) {
+                            StopTextInput();
+                            StartTextInput();
+                        }
+#endif
+                        break;
+                    case SDL_WINDOWEVENT_RESIZED:
+                        resize_dims = point( ev.window.data1, ev.window.data2 );
+                        break;
+                    default:
+                        break;
                 }
                 break;
-            // SDL sends a window size changed event whenever the screen rotates orientation
-            case SDL_WINDOWEVENT_SIZE_CHANGED:
-                WindowWidth = ev.window.data1;
-                WindowHeight = ev.window.data2;
-                SDL_Delay( 500 );
-                SDL_GetWindowSurface( window.get() );
-                refresh_display();
-                needupdate = true;
-                break;
-#else
-            case SDL_WINDOWEVENT_FOCUS_LOST:
-                window_focus = false;
+#if defined(TARGET_OS_IPHONE)
+            case SDL_APP_WILLENTERBACKGROUND:
+                if( world_generator &&
+                    world_generator->active_world &&
+                    g && g->uquit == QUIT_NO &&
+                    //get_option<bool>( "ANDROID_QUICKSAVE" ) &&
+                    !std::uncaught_exception() ) {
+                    g->quicksave();
+                }
                 if( SDL_IsTextInputActive() ) {
                     text_input_active_when_regaining_focus = true;
                     // Stop text input to not intefere with other programs
@@ -3060,7 +3113,14 @@ static void CheckMessages()
                     text_input_active_when_regaining_focus = false;
                 }
                 break;
-            case SDL_WINDOWEVENT_FOCUS_GAINED:
+            case SDL_APP_DIDENTERBACKGROUND:
+                window_focus = false;
+                break;
+            case SDL_APP_DIDENTERFOREGROUND:
+                /*if( !SDL_IsTextInputActive() ) {
+                    StopTextInput();
+                    StartTextInput();
+                } */
                 window_focus = true;
                 // Restore text input status
                 if( text_input_active_when_regaining_focus ) {
@@ -3068,423 +3128,363 @@ static void CheckMessages()
                 }
                 break;
 #endif
-            case SDL_WINDOWEVENT_SHOWN:
-            case SDL_WINDOWEVENT_MINIMIZED:
+            case SDL_RENDER_TARGETS_RESET:
+                render_target_reset = true;
                 break;
-            case SDL_WINDOWEVENT_EXPOSED:
-                needupdate = true;
-                break;
-            case SDL_WINDOWEVENT_RESTORED:
+            case SDL_KEYDOWN: {
 #if defined(__ANDROID__)
-                needs_sdl_surface_visibility_refresh = true;
-                if( android_is_hardware_keyboard_available() ) {
-                    StopTextInput();
-                    StartTextInput();
+                // Toggle virtual keyboard with Android back button. For some reason I get double inputs, so ignore everything once it's already down.
+                if( ev.key.keysym.sym == SDLK_AC_BACK && ac_back_down_time == 0 ) {
+                    ac_back_down_time = ticks;
+                    quick_shortcuts_toggle_handled = false;
                 }
 #endif
-                break;
-            case SDL_WINDOWEVENT_RESIZED:
-                resize_dims = point( ev.window.data1, ev.window.data2 );
-                break;
-            default:
-                break;
-            }
-            break;
-#if defined(TARGET_OS_IPHONE)
-        case SDL_APP_WILLENTERBACKGROUND:
-            if( world_generator &&
-                    world_generator->active_world &&
-                    g && g->uquit == QUIT_NO &&
-                    //get_option<bool>( "ANDROID_QUICKSAVE" ) &&
-                    !std::uncaught_exception() ) {
-                g->quicksave();
-            }
-            if( SDL_IsTextInputActive() ) {
-                text_input_active_when_regaining_focus = true;
-                // Stop text input to not intefere with other programs
-                SDL_StopTextInput();
-                // Clear uncommited IME text. TODO: commit IME text instead.
-                last_input = input_event();
-                last_input.type = input_event_t::keyboard_char;
-                last_input.edit.clear();
-                last_input.edit_refresh = true;
-                text_refresh = true;
-            } else {
-                text_input_active_when_regaining_focus = false;
-            }
-            break;
-        case SDL_APP_DIDENTERBACKGROUND:
-            window_focus = false;
-            break;
-        case SDL_APP_DIDENTERFOREGROUND:
-            /*if( !SDL_IsTextInputActive() ) {
-                StopTextInput();
-                StartTextInput();
-            } */
-            window_focus = true;
-            // Restore text input status
-            if( text_input_active_when_regaining_focus ) {
-                SDL_StartTextInput();
-            }
-            break;
-#endif
-        case SDL_RENDER_TARGETS_RESET:
-            render_target_reset = true;
-            break;
-        case SDL_KEYDOWN: {
-#if defined(__ANDROID__)
-            // Toggle virtual keyboard with Android back button. For some reason I get double inputs, so ignore everything once it's already down.
-            if( ev.key.keysym.sym == SDLK_AC_BACK && ac_back_down_time == 0 ) {
-                ac_back_down_time = ticks;
-                quick_shortcuts_toggle_handled = false;
-            }
-#endif
-            is_repeat = ev.key.repeat;
-            //hide mouse cursor on keyboard input
-            if( get_option<std::string>( "HIDE_CURSOR" ) != "show" && SDL_ShowCursor( -1 ) ) {
-                SDL_ShowCursor( SDL_DISABLE );
-            }
-            keyboard_mode mode = keyboard_mode::keychar;
+                is_repeat = ev.key.repeat;
+                //hide mouse cursor on keyboard input
+                if( get_option<std::string>( "HIDE_CURSOR" ) != "show" && SDL_ShowCursor( -1 ) ) {
+                    SDL_ShowCursor( SDL_DISABLE );
+                }
+                keyboard_mode mode = keyboard_mode::keychar;
 #if !defined(__ANDROID__) //&& !defined(TARGET_OS_IPHONE)
-            if( !SDL_IsTextInputActive() ) {
-                mode = keyboard_mode::keycode;
-            }
+                if( !SDL_IsTextInputActive() ) {
+                    mode = keyboard_mode::keycode;
+                }
 #endif
-            if( mode == keyboard_mode::keychar ) {
-                const int lc = sdl_keysym_to_curses( ev.key.keysym );
-                if( lc <= 0 ) {
-                    // a key we don't know in curses and won't handle.
-                    break;
-                } else if( add_alt_code( lc ) ) {
-                    // key was handled
-                } else {
-                    last_input = input_event( lc, input_event_t::keyboard_char );
+                if( mode == keyboard_mode::keychar ) {
+                    const int lc = sdl_keysym_to_curses( ev.key.keysym );
+                    if( lc <= 0 ) {
+                        // a key we don't know in curses and won't handle.
+                        break;
+                    } else if( add_alt_code( lc ) ) {
+                        // key was handled
+                    } else {
+                        last_input = input_event( lc, input_event_t::keyboard_char );
 #if defined(__ANDROID__)
-                    if( !android_is_hardware_keyboard_available() ) {
-                        if( !is_string_input( touch_input_context ) && !touch_input_context.allow_text_entry ) {
-                            if( get_option<bool>( "ANDROID_AUTO_KEYBOARD" ) ) {
-                                StopTextInput();
-                            }
+                        if( !android_is_hardware_keyboard_available() ) {
+                            if( !is_string_input( touch_input_context ) && !touch_input_context.allow_text_entry ) {
+                                if( get_option<bool>( "ANDROID_AUTO_KEYBOARD" ) ) {
+                                    StopTextInput();
+                                }
 
-                            // add a quick shortcut
-                            if( !last_input.text.empty() ||
+                                // add a quick shortcut
+                                if( !last_input.text.empty() ||
                                     !inp_mngr.get_keyname( lc, input_event_t::keyboard_char ).empty() ) {
+                                    qsl.remove( last_input );
+                                    add_quick_shortcut( qsl, last_input, false, true );
+                                    refresh_display();
+                                }
+                            } else if( lc == '\n' || lc == KEY_ESCAPE ) {
+                                if( get_option<bool>( "ANDROID_AUTO_KEYBOARD" ) ) {
+                                    StopTextInput();
+                                }
+                            }
+                        }
+#endif
+                    }
+                } else {
+                    last_input = sdl_keysym_to_keycode_evt( ev.key.keysym );
+                }
+            }
+            break;
+            case SDL_KEYUP: {
+#if defined(__ANDROID__)
+                // Toggle virtual keyboard with Android back button
+                if( ev.key.keysym.sym == SDLK_AC_BACK ) {
+                    if( ticks - ac_back_down_time <= static_cast<uint32_t>
+                        ( get_option<int>( "ANDROID_INITIAL_DELAY" ) ) ) {
+                        if( SDL_IsTextInputActive() ) {
+                            StopTextInput();
+                        } else {
+                            StartTextInput();
+                        }
+                    }
+                    ac_back_down_time = 0;
+                }
+#endif
+                keyboard_mode mode = keyboard_mode::keychar;
+#if !defined(__ANDROID__) //&& !defined(TARGET_OS_IPHONE)
+                if( !SDL_IsTextInputActive() ) {
+                    mode = keyboard_mode::keycode;
+                }
+#endif
+                is_repeat = ev.key.repeat;
+                if( mode == keyboard_mode::keychar ) {
+                    if( ev.key.keysym.sym == SDLK_LALT || ev.key.keysym.sym == SDLK_RALT ) {
+                        int code = end_alt_code();
+                        if( code ) {
+                            last_input = input_event( code, input_event_t::keyboard_char );
+                            last_input.text = utf32_to_utf8( code );
+                        }
+                    }
+                } else if( is_repeat ) {
+                    last_input = sdl_keysym_to_keycode_evt( ev.key.keysym );
+                }
+            }
+            break;
+            case SDL_TEXTINPUT:
+                if( !add_alt_code( *ev.text.text ) ) {
+                    if( strlen( ev.text.text ) > 0 ) {
+                        const unsigned lc = UTF8_getch( ev.text.text );
+                        last_input = input_event( lc, input_event_t::keyboard_char );
+#if defined(__ANDROID__)
+                        if( !android_is_hardware_keyboard_available() ) {
+                            if( !is_string_input( touch_input_context ) && !touch_input_context.allow_text_entry ) {
+                                if( get_option<bool>( "ANDROID_AUTO_KEYBOARD" ) ) {
+                                    StopTextInput();
+                                }
+
+                                quick_shortcuts_t &qsl = quick_shortcuts_map[get_quick_shortcut_name(
+                                                             touch_input_context.get_category() )];
                                 qsl.remove( last_input );
                                 add_quick_shortcut( qsl, last_input, false, true );
                                 refresh_display();
-                            }
-                        } else if( lc == '\n' || lc == KEY_ESCAPE ) {
-                            if( get_option<bool>( "ANDROID_AUTO_KEYBOARD" ) ) {
-                                StopTextInput();
+                            } else if( lc == '\n' || lc == KEY_ESCAPE ) {
+                                if( get_option<bool>( "ANDROID_AUTO_KEYBOARD" ) ) {
+                                    StopTextInput();
+                                }
                             }
                         }
-                    }
 #endif
-                }
-            } else {
-                last_input = sdl_keysym_to_keycode_evt( ev.key.keysym );
-            }
-        }
-        break;
-        case SDL_KEYUP: {
-#if defined(__ANDROID__)
-            // Toggle virtual keyboard with Android back button
-            if( ev.key.keysym.sym == SDLK_AC_BACK ) {
-                if( ticks - ac_back_down_time <= static_cast<uint32_t>
-                        ( get_option<int>( "ANDROID_INITIAL_DELAY" ) ) ) {
-                    if( SDL_IsTextInputActive() ) {
-                        StopTextInput();
                     } else {
-                        StartTextInput();
+                        // no key pressed in this event
+                        last_input = input_event();
+                        last_input.type = input_event_t::keyboard_char;
                     }
+                    last_input.text = ev.text.text;
+                    text_refresh = true;
                 }
-                ac_back_down_time = 0;
-            }
-#endif
-            keyboard_mode mode = keyboard_mode::keychar;
-#if !defined(__ANDROID__) //&& !defined(TARGET_OS_IPHONE)
-            if( !SDL_IsTextInputActive() ) {
-                mode = keyboard_mode::keycode;
-            }
-#endif
-            is_repeat = ev.key.repeat;
-            if( mode == keyboard_mode::keychar ) {
-                if( ev.key.keysym.sym == SDLK_LALT || ev.key.keysym.sym == SDLK_RALT ) {
-                    int code = end_alt_code();
-                    if( code ) {
-                        last_input = input_event( code, input_event_t::keyboard_char );
-                        last_input.text = utf32_to_utf8( code );
-                    }
-                }
-            } else if( is_repeat ) {
-                last_input = sdl_keysym_to_keycode_evt( ev.key.keysym );
-            }
-        }
-        break;
-        case SDL_TEXTINPUT:
-            if( !add_alt_code( *ev.text.text ) ) {
-                if( strlen( ev.text.text ) > 0 ) {
-                    const unsigned lc = UTF8_getch( ev.text.text );
+                break;
+            case SDL_TEXTEDITING: {
+                if( strlen( ev.edit.text ) > 0 ) {
+                    const unsigned lc = UTF8_getch( ev.edit.text );
                     last_input = input_event( lc, input_event_t::keyboard_char );
-#if defined(__ANDROID__)
-                    if( !android_is_hardware_keyboard_available() ) {
-                        if( !is_string_input( touch_input_context ) && !touch_input_context.allow_text_entry ) {
-                            if( get_option<bool>( "ANDROID_AUTO_KEYBOARD" ) ) {
-                                StopTextInput();
-                            }
-
-                            quick_shortcuts_t &qsl = quick_shortcuts_map[get_quick_shortcut_name(
-                                                         touch_input_context.get_category() )];
-                            qsl.remove( last_input );
-                            add_quick_shortcut( qsl, last_input, false, true );
-                            refresh_display();
-                        } else if( lc == '\n' || lc == KEY_ESCAPE ) {
-                            if( get_option<bool>( "ANDROID_AUTO_KEYBOARD" ) ) {
-                                StopTextInput();
-                            }
-                        }
-                    }
-#endif
                 } else {
                     // no key pressed in this event
                     last_input = input_event();
                     last_input.type = input_event_t::keyboard_char;
                 }
-                last_input.text = ev.text.text;
+                last_input.edit = ev.edit.text;
+                last_input.edit_refresh = true;
                 text_refresh = true;
             }
             break;
-        case SDL_TEXTEDITING: {
-            if( strlen( ev.edit.text ) > 0 ) {
-                const unsigned lc = UTF8_getch( ev.edit.text );
-                last_input = input_event( lc, input_event_t::keyboard_char );
-            } else {
-                // no key pressed in this event
-                last_input = input_event();
-                last_input.type = input_event_t::keyboard_char;
-            }
-            last_input.edit = ev.edit.text;
-            last_input.edit_refresh = true;
-            text_refresh = true;
-        }
-        break;
-        case SDL_CONTROLLERBUTTONDOWN:
-        case SDL_CONTROLLERBUTTONUP:
-            gamepad::handle_button_event( ev );
-            break;
-        case SDL_CONTROLLERAXISMOTION:
-            gamepad::handle_axis_event( ev );
-            break;
-        case SDL_GAMEPAD_SCHEDULER:
-            gamepad::handle_scheduler_event( ev );
-            break;
-        case SDL_MOUSEMOTION:
-            if( get_option<std::string>( "HIDE_CURSOR" ) == "show" ||
+            case SDL_CONTROLLERBUTTONDOWN:
+            case SDL_CONTROLLERBUTTONUP:
+                gamepad::handle_button_event( ev );
+                break;
+            case SDL_CONTROLLERAXISMOTION:
+                gamepad::handle_axis_event( ev );
+                break;
+            case SDL_GAMEPAD_SCHEDULER:
+                gamepad::handle_scheduler_event( ev );
+                break;
+            case SDL_MOUSEMOTION:
+                if( get_option<std::string>( "HIDE_CURSOR" ) == "show" ||
                     get_option<std::string>( "HIDE_CURSOR" ) == "hidekb" ) {
-                if( !SDL_ShowCursor( -1 ) ) {
-                    SDL_ShowCursor( SDL_ENABLE );
+                    if( !SDL_ShowCursor( -1 ) ) {
+                        SDL_ShowCursor( SDL_ENABLE );
+                    }
+
+                    // Only monitor motion when cursor is visible
+                    last_input = input_event( MouseInput::Move, input_event_t::mouse );
                 }
-
-                // Only monitor motion when cursor is visible
-                last_input = input_event( MouseInput::Move, input_event_t::mouse );
-            }
-            break;
-
-        case SDL_MOUSEBUTTONDOWN:
-            switch( ev.button.button ) {
-            case SDL_BUTTON_LEFT:
-                last_input = input_event( MouseInput::LeftButtonPressed, input_event_t::mouse );
                 break;
-            case SDL_BUTTON_RIGHT:
-                last_input = input_event( MouseInput::RightButtonPressed, input_event_t::mouse );
-                break;
-            }
-            break;
 
-        case SDL_MOUSEBUTTONUP:
-            switch( ev.button.button ) {
-            case SDL_BUTTON_LEFT:
-                last_input = input_event( MouseInput::LeftButtonReleased, input_event_t::mouse );
+            case SDL_MOUSEBUTTONDOWN:
+                switch( ev.button.button ) {
+                    case SDL_BUTTON_LEFT:
+                        last_input = input_event( MouseInput::LeftButtonPressed, input_event_t::mouse );
+                        break;
+                    case SDL_BUTTON_RIGHT:
+                        last_input = input_event( MouseInput::RightButtonPressed, input_event_t::mouse );
+                        break;
+                }
                 break;
-            case SDL_BUTTON_RIGHT:
-                last_input = input_event( MouseInput::RightButtonReleased, input_event_t::mouse );
-                break;
-            }
-            break;
 
-        case SDL_MOUSEWHEEL:
-            if( ev.wheel.y > 0 ) {
-                last_input = input_event( MouseInput::ScrollWheelUp, input_event_t::mouse );
-            } else if( ev.wheel.y < 0 ) {
-                last_input = input_event( MouseInput::ScrollWheelDown, input_event_t::mouse );
-            }
-            break;
+            case SDL_MOUSEBUTTONUP:
+                switch( ev.button.button ) {
+                    case SDL_BUTTON_LEFT:
+                        last_input = input_event( MouseInput::LeftButtonReleased, input_event_t::mouse );
+                        break;
+                    case SDL_BUTTON_RIGHT:
+                        last_input = input_event( MouseInput::RightButtonReleased, input_event_t::mouse );
+                        break;
+                }
+                break;
+
+            case SDL_MOUSEWHEEL:
+                if( ev.wheel.y > 0 ) {
+                    last_input = input_event( MouseInput::ScrollWheelUp, input_event_t::mouse );
+                } else if( ev.wheel.y < 0 ) {
+                    last_input = input_event( MouseInput::ScrollWheelDown, input_event_t::mouse );
+                }
+                break;
 
 #if defined(__ANDROID__)
-        case SDL_FINGERMOTION:
-            if( ev.tfinger.fingerId == 0 ) {
-                if( !is_quick_shortcut_touch ) {
-                    update_finger_repeat_delay();
-                }
-                needupdate = true; // ensure virtual joystick and quick shortcuts redraw as we interact
-                finger_curr_x = ev.tfinger.x * WindowWidth;
-                finger_curr_y = ev.tfinger.y * WindowHeight;
+            case SDL_FINGERMOTION:
+                if( ev.tfinger.fingerId == 0 ) {
+                    if( !is_quick_shortcut_touch ) {
+                        update_finger_repeat_delay();
+                    }
+                    needupdate = true; // ensure virtual joystick and quick shortcuts redraw as we interact
+                    finger_curr_x = ev.tfinger.x * WindowWidth;
+                    finger_curr_y = ev.tfinger.y * WindowHeight;
 
-                if( get_option<bool>( "ANDROID_VIRTUAL_JOYSTICK_FOLLOW" ) && !is_two_finger_touch ) {
-                    // If we've moved too far from joystick center, offset joystick center automatically
-                    float delta_x = finger_curr_x - finger_down_x;
-                    float delta_y = finger_curr_y - finger_down_y;
-                    float dist = std::sqrt( delta_x * delta_x + delta_y * delta_y );
-                    float max_dist = ( get_option<float>( "ANDROID_DEADZONE_RANGE" ) +
-                                       get_option<float>( "ANDROID_REPEAT_DELAY_RANGE" ) ) * std::max( WindowWidth, WindowHeight );
-                    if( dist > max_dist ) {
-                        float delta_ratio = ( dist / max_dist ) - 1.0f;
-                        finger_down_x += delta_x * delta_ratio;
-                        finger_down_y += delta_y * delta_ratio;
+                    if( get_option<bool>( "ANDROID_VIRTUAL_JOYSTICK_FOLLOW" ) && !is_two_finger_touch ) {
+                        // If we've moved too far from joystick center, offset joystick center automatically
+                        float delta_x = finger_curr_x - finger_down_x;
+                        float delta_y = finger_curr_y - finger_down_y;
+                        float dist = std::sqrt( delta_x * delta_x + delta_y * delta_y );
+                        float max_dist = ( get_option<float>( "ANDROID_DEADZONE_RANGE" ) +
+                                           get_option<float>( "ANDROID_REPEAT_DELAY_RANGE" ) ) * std::max( WindowWidth, WindowHeight );
+                        if( dist > max_dist ) {
+                            float delta_ratio = ( dist / max_dist ) - 1.0f;
+                            finger_down_x += delta_x * delta_ratio;
+                            finger_down_y += delta_y * delta_ratio;
+                        }
+                    }
+
+                } else if( ev.tfinger.fingerId == 1 ) {
+                    second_finger_curr_x = ev.tfinger.x * WindowWidth;
+                    second_finger_curr_y = ev.tfinger.y * WindowHeight;
+                }
+                break;
+            case SDL_FINGERDOWN:
+                if( ev.tfinger.fingerId == 0 ) {
+                    finger_down_x = finger_curr_x = ev.tfinger.x * WindowWidth;
+                    finger_down_y = finger_curr_y = ev.tfinger.y * WindowHeight;
+                    finger_down_time = ticks;
+                    finger_repeat_time = 0;
+                    is_quick_shortcut_touch = get_quick_shortcut_under_finger() != NULL;
+                    if( !is_quick_shortcut_touch ) {
+                        update_finger_repeat_delay();
+                    }
+                    needupdate = true; // ensure virtual joystick and quick shortcuts redraw as we interact
+                } else if( ev.tfinger.fingerId == 1 ) {
+                    if( !is_quick_shortcut_touch ) {
+                        second_finger_down_x = second_finger_curr_x = ev.tfinger.x * WindowWidth;
+                        second_finger_down_y = second_finger_curr_y = ev.tfinger.y * WindowHeight;
+                        is_two_finger_touch = true;
                     }
                 }
-
-            } else if( ev.tfinger.fingerId == 1 ) {
-                second_finger_curr_x = ev.tfinger.x * WindowWidth;
-                second_finger_curr_y = ev.tfinger.y * WindowHeight;
-            }
-            break;
-        case SDL_FINGERDOWN:
-            if( ev.tfinger.fingerId == 0 ) {
-                finger_down_x = finger_curr_x = ev.tfinger.x * WindowWidth;
-                finger_down_y = finger_curr_y = ev.tfinger.y * WindowHeight;
-                finger_down_time = ticks;
-                finger_repeat_time = 0;
-                is_quick_shortcut_touch = get_quick_shortcut_under_finger() != NULL;
-                if( !is_quick_shortcut_touch ) {
-                    update_finger_repeat_delay();
-                }
-                needupdate = true; // ensure virtual joystick and quick shortcuts redraw as we interact
-            } else if( ev.tfinger.fingerId == 1 ) {
-                if( !is_quick_shortcut_touch ) {
-                    second_finger_down_x = second_finger_curr_x = ev.tfinger.x * WindowWidth;
-                    second_finger_down_y = second_finger_curr_y = ev.tfinger.y * WindowHeight;
-                    is_two_finger_touch = true;
-                }
-            }
-            break;
-        case SDL_FINGERUP:
-            if( ev.tfinger.fingerId == 0 ) {
-                finger_curr_x = ev.tfinger.x * WindowWidth;
-                finger_curr_y = ev.tfinger.y * WindowHeight;
-                if( is_quick_shortcut_touch ) {
-                    input_event *quick_shortcut = get_quick_shortcut_under_finger();
-                    if( quick_shortcut ) {
-                        last_input = *quick_shortcut;
-                        if( get_option<bool>( "ANDROID_SHORTCUT_MOVE_FRONT" ) ) {
-                            quick_shortcuts_t &qsl = quick_shortcuts_map[get_quick_shortcut_name(
-                                                         touch_input_context.get_category() )];
-                            reorder_quick_shortcut( qsl, quick_shortcut->get_first_input(), false );
-                        }
-                        quick_shortcut->shortcut_last_used_action_counter = g->get_user_action_counter();
-                    } else {
-                        // Get the quick shortcut that was originally touched
-                        quick_shortcut = get_quick_shortcut_under_finger( true );
-                        if( quick_shortcut &&
+                break;
+            case SDL_FINGERUP:
+                if( ev.tfinger.fingerId == 0 ) {
+                    finger_curr_x = ev.tfinger.x * WindowWidth;
+                    finger_curr_y = ev.tfinger.y * WindowHeight;
+                    if( is_quick_shortcut_touch ) {
+                        input_event *quick_shortcut = get_quick_shortcut_under_finger();
+                        if( quick_shortcut ) {
+                            last_input = *quick_shortcut;
+                            if( get_option<bool>( "ANDROID_SHORTCUT_MOVE_FRONT" ) ) {
+                                quick_shortcuts_t &qsl = quick_shortcuts_map[get_quick_shortcut_name(
+                                                             touch_input_context.get_category() )];
+                                reorder_quick_shortcut( qsl, quick_shortcut->get_first_input(), false );
+                            }
+                            quick_shortcut->shortcut_last_used_action_counter = g->get_user_action_counter();
+                        } else {
+                            // Get the quick shortcut that was originally touched
+                            quick_shortcut = get_quick_shortcut_under_finger( true );
+                            if( quick_shortcut &&
                                 ticks - finger_down_time <= static_cast<uint32_t>( get_option<int>( "ANDROID_INITIAL_DELAY" ) )
                                 &&
                                 finger_curr_y < finger_down_y &&
                                 finger_down_y - finger_curr_y > std::abs( finger_down_x - finger_curr_x ) ) {
-                            // a flick up was detected, remove the quick shortcut!
-                            quick_shortcuts_t &qsl = quick_shortcuts_map[get_quick_shortcut_name(
-                                                         touch_input_context.get_category() )];
-                            qsl.remove( *quick_shortcut );
+                                // a flick up was detected, remove the quick shortcut!
+                                quick_shortcuts_t &qsl = quick_shortcuts_map[get_quick_shortcut_name(
+                                                             touch_input_context.get_category() )];
+                                qsl.remove( *quick_shortcut );
+                            }
                         }
-                    }
-                } else {
-                    if( is_two_finger_touch ) {
-                        // handle zoom in/out
-                        if( is_default_mode ) {
-                            float x1 = ( finger_curr_x - finger_down_x );
-                            float y1 = ( finger_curr_y - finger_down_y );
-                            float d1 = std::sqrt( x1 * x1 + y1 * y1 );
+                    } else {
+                        if( is_two_finger_touch ) {
+                            // handle zoom in/out
+                            if( is_default_mode ) {
+                                float x1 = ( finger_curr_x - finger_down_x );
+                                float y1 = ( finger_curr_y - finger_down_y );
+                                float d1 = std::sqrt( x1 * x1 + y1 * y1 );
 
-                            float x2 = ( second_finger_curr_x - second_finger_down_x );
-                            float y2 = ( second_finger_curr_y - second_finger_down_y );
-                            float d2 = std::sqrt( x2 * x2 + y2 * y2 );
+                                float x2 = ( second_finger_curr_x - second_finger_down_x );
+                                float y2 = ( second_finger_curr_y - second_finger_down_y );
+                                float d2 = std::sqrt( x2 * x2 + y2 * y2 );
 
-                            float longest_window_edge = std::max( WindowWidth, WindowHeight );
+                                float longest_window_edge = std::max( WindowWidth, WindowHeight );
 
-                            if( std::max( d1, d2 ) < get_option<float>( "ANDROID_DEADZONE_RANGE" ) * longest_window_edge ) {
-                                last_input = input_event( get_key_event_from_string(
-                                                              get_option<std::string>( "ANDROID_2_TAP_KEY" ) ), input_event_t::keyboard_char );
-                            } else {
-                                float dot = ( x1 * x2 + y1 * y2 ) / ( d1 * d2 ); // dot product of two finger vectors, -1 to +1
-                                if( dot > 0.0f ) { // both fingers mostly heading in same direction, check for double-finger swipe gesture
-                                    float dratio = d1 / d2;
-                                    const float dist_ratio = 0.3f;
-                                    if( dratio > dist_ratio &&
+                                if( std::max( d1, d2 ) < get_option<float>( "ANDROID_DEADZONE_RANGE" ) * longest_window_edge ) {
+                                    last_input = input_event( get_key_event_from_string(
+                                                                  get_option<std::string>( "ANDROID_2_TAP_KEY" ) ), input_event_t::keyboard_char );
+                                } else {
+                                    float dot = ( x1 * x2 + y1 * y2 ) / ( d1 * d2 ); // dot product of two finger vectors, -1 to +1
+                                    if( dot > 0.0f ) { // both fingers mostly heading in same direction, check for double-finger swipe gesture
+                                        float dratio = d1 / d2;
+                                        const float dist_ratio = 0.3f;
+                                        if( dratio > dist_ratio &&
                                             dratio < ( 1.0f /
                                                        dist_ratio ) ) { // both fingers moved roughly the same distance, so it's a double-finger swipe!
-                                        float xavg = 0.5f * ( x1 + x2 );
-                                        float yavg = 0.5f * ( y1 + y2 );
-                                        if( xavg > 0 && xavg > std::abs( yavg ) ) {
-                                            last_input = input_event( get_key_event_from_string(
-                                                                          get_option<std::string>( "ANDROID_2_SWIPE_LEFT_KEY" ) ), input_event_t::keyboard_char );
-                                        } else if( xavg < 0 && -xavg > std::abs( yavg ) ) {
-                                            last_input = input_event( get_key_event_from_string(
-                                                                          get_option<std::string>( "ANDROID_2_SWIPE_RIGHT_KEY" ) ), input_event_t::keyboard_char );
-                                        } else if( yavg > 0 && yavg > std::abs( xavg ) ) {
-                                            last_input = input_event( get_key_event_from_string(
-                                                                          get_option<std::string>( "ANDROID_2_SWIPE_DOWN_KEY" ) ), input_event_t::keyboard_char );
-                                        } else {
-                                            last_input = input_event( get_key_event_from_string(
-                                                                          get_option<std::string>( "ANDROID_2_SWIPE_UP_KEY" ) ), input_event_t::keyboard_char );
+                                            float xavg = 0.5f * ( x1 + x2 );
+                                            float yavg = 0.5f * ( y1 + y2 );
+                                            if( xavg > 0 && xavg > std::abs( yavg ) ) {
+                                                last_input = input_event( get_key_event_from_string(
+                                                                              get_option<std::string>( "ANDROID_2_SWIPE_LEFT_KEY" ) ), input_event_t::keyboard_char );
+                                            } else if( xavg < 0 && -xavg > std::abs( yavg ) ) {
+                                                last_input = input_event( get_key_event_from_string(
+                                                                              get_option<std::string>( "ANDROID_2_SWIPE_RIGHT_KEY" ) ), input_event_t::keyboard_char );
+                                            } else if( yavg > 0 && yavg > std::abs( xavg ) ) {
+                                                last_input = input_event( get_key_event_from_string(
+                                                                              get_option<std::string>( "ANDROID_2_SWIPE_DOWN_KEY" ) ), input_event_t::keyboard_char );
+                                            } else {
+                                                last_input = input_event( get_key_event_from_string(
+                                                                              get_option<std::string>( "ANDROID_2_SWIPE_UP_KEY" ) ), input_event_t::keyboard_char );
+                                            }
                                         }
-                                    }
-                                } else {
-                                    // both fingers heading in opposite direction, check for zoom gesture
-                                    float down_x = finger_down_x - second_finger_down_x;
-                                    float down_y = finger_down_y - second_finger_down_y;
-                                    float down_dist = std::sqrt( down_x * down_x + down_y * down_y );
+                                    } else {
+                                        // both fingers heading in opposite direction, check for zoom gesture
+                                        float down_x = finger_down_x - second_finger_down_x;
+                                        float down_y = finger_down_y - second_finger_down_y;
+                                        float down_dist = std::sqrt( down_x * down_x + down_y * down_y );
 
-                                    float curr_x = finger_curr_x - second_finger_curr_x;
-                                    float curr_y = finger_curr_y - second_finger_curr_y;
-                                    float curr_dist = std::sqrt( curr_x * curr_x + curr_y * curr_y );
+                                        float curr_x = finger_curr_x - second_finger_curr_x;
+                                        float curr_y = finger_curr_y - second_finger_curr_y;
+                                        float curr_dist = std::sqrt( curr_x * curr_x + curr_y * curr_y );
 
-                                    const float zoom_ratio = 0.9f;
-                                    if( curr_dist < down_dist * zoom_ratio ) {
-                                        last_input = input_event( get_key_event_from_string(
-                                                                      get_option<std::string>( "ANDROID_PINCH_IN_KEY" ) ), input_event_t::keyboard_char );
-                                    } else if( curr_dist > down_dist / zoom_ratio ) {
-                                        last_input = input_event( get_key_event_from_string(
-                                                                      get_option<std::string>( "ANDROID_PINCH_OUT_KEY" ) ), input_event_t::keyboard_char );
+                                        const float zoom_ratio = 0.9f;
+                                        if( curr_dist < down_dist * zoom_ratio ) {
+                                            last_input = input_event( get_key_event_from_string(
+                                                                          get_option<std::string>( "ANDROID_PINCH_IN_KEY" ) ), input_event_t::keyboard_char );
+                                        } else if( curr_dist > down_dist / zoom_ratio ) {
+                                            last_input = input_event( get_key_event_from_string(
+                                                                          get_option<std::string>( "ANDROID_PINCH_OUT_KEY" ) ), input_event_t::keyboard_char );
+                                        }
                                     }
                                 }
                             }
+                        } else if( ticks - finger_down_time <= static_cast<uint32_t>(
+                                       get_option<int>( "ANDROID_INITIAL_DELAY" ) ) ) {
+                            handle_finger_input( ticks );
                         }
-                    } else if( ticks - finger_down_time <= static_cast<uint32_t>(
-                                   get_option<int>( "ANDROID_INITIAL_DELAY" ) ) ) {
-                        handle_finger_input( ticks );
+                    }
+                    second_finger_down_x = second_finger_curr_x = finger_down_x = finger_curr_x = -1.0f;
+                    second_finger_down_y = second_finger_curr_y = finger_down_y = finger_curr_y = -1.0f;
+                    is_two_finger_touch = false;
+                    finger_down_time = 0;
+                    finger_repeat_time = 0;
+                    needupdate = true; // ensure virtual joystick and quick shortcuts are updated properly
+                    refresh_display(); // as above, but actually redraw it now as well
+                } else if( ev.tfinger.fingerId == 1 ) {
+                    if( is_two_finger_touch ) {
+                        // on second finger release, just remember the x/y position so we can calculate delta once first finger is done
+                        // is_two_finger_touch will be reset when first finger lifts (see above)
+                        second_finger_curr_x = ev.tfinger.x * WindowWidth;
+                        second_finger_curr_y = ev.tfinger.y * WindowHeight;
                     }
                 }
-                second_finger_down_x = second_finger_curr_x = finger_down_x = finger_curr_x = -1.0f;
-                second_finger_down_y = second_finger_curr_y = finger_down_y = finger_curr_y = -1.0f;
-                is_two_finger_touch = false;
-                finger_down_time = 0;
-                finger_repeat_time = 0;
-                needupdate = true; // ensure virtual joystick and quick shortcuts are updated properly
-                refresh_display(); // as above, but actually redraw it now as well
-            } else if( ev.tfinger.fingerId == 1 ) {
-                if( is_two_finger_touch ) {
-                    // on second finger release, just remember the x/y position so we can calculate delta once first finger is done
-                    // is_two_finger_touch will be reset when first finger lifts (see above)
-                    second_finger_curr_x = ev.tfinger.x * WindowWidth;
-                    second_finger_curr_y = ev.tfinger.y * WindowHeight;
-                }
-            }
 
-            break;
+                break;
 #endif
 
-        case SDL_QUIT:
-            quit = true;
-            break;
+            case SDL_QUIT:
+                quit = true;
+                break;
         }
         if( text_refresh && !is_repeat ) {
             break;
@@ -3587,7 +3587,7 @@ static void init_term_size_and_scaling_factor()
         }
 
         if( terminal.x * fontwidth > max_width ||
-                EVEN_MINIMUM_TERM_WIDTH * fontwidth * scaling_factor > max_width ) {
+            EVEN_MINIMUM_TERM_WIDTH * fontwidth * scaling_factor > max_width ) {
             if( EVEN_MINIMUM_TERM_WIDTH * fontwidth * scaling_factor > max_width ) {
                 dbg( D_WARNING ) << "SCALING_FACTOR set too high for display size, resetting to 1";
                 scaling_factor = 1;
@@ -3600,7 +3600,7 @@ static void init_term_size_and_scaling_factor()
         }
 
         if( terminal.y * fontheight > max_height ||
-                EVEN_MINIMUM_TERM_HEIGHT * fontheight * scaling_factor > max_height ) {
+            EVEN_MINIMUM_TERM_HEIGHT * fontheight * scaling_factor > max_height ) {
             if( EVEN_MINIMUM_TERM_HEIGHT * fontheight * scaling_factor > max_height ) {
                 dbg( D_WARNING ) << "SCALING_FACTOR set too high for display size, resetting to 1";
                 scaling_factor = 1;

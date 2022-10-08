@@ -631,7 +631,7 @@ int main( int argc, const char *argv[] )
 #if defined(__ANDROID__)
     PATH_INFO::init_user_dir( external_storage_path );
 #elif defined(TARGET_OS_IPHONE)
-    PATH_INFO::init_user_dir( std::string( getenv("HOME") ) + "/Documents/" );
+    PATH_INFO::init_user_dir( std::string( getenv( "HOME" ) ) + "/Documents/" );
 #elif defined(USE_HOME_DIR) || defined(USE_XDG_DIR)
     PATH_INFO::init_user_dir( "" );
 #else
@@ -809,9 +809,9 @@ int main( int argc, const char *argv[] )
 #undef main
 #endif
 
-int main(int argc, char *argv[])
+int main( int argc, char *argv[] )
 {
-    return SDL_UIKitRunApp(argc, argv, SDL_main);
+    return SDL_UIKitRunApp( argc, argv, SDL_main );
 }
 #endif /* !SDL_MAIN_HANDLED */
 #endif
