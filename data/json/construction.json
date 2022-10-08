@@ -268,7 +268,7 @@
   {
     "type": "construction",
     "id": "constr_fill_sewage",
-    "group": "fill_sewage_with_dirt",
+    "group": "fill_shallow_water_with_dirt",
     "category": "CONSTRUCT",
     "required_skills": [ [ "survival", 1 ] ],
     "time": "60 m",
