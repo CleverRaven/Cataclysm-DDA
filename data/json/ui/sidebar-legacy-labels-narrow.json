@@ -28,6 +28,35 @@
     "widgets": [ "ln_limbs_left_layout", "ln_limbs_right_layout" ]
   },
   {
+    "id": "ln_limbs_sa_left_layout",
+    "type": "widget",
+    "style": "layout",
+    "label": "Limbs",
+    "arrange": "rows",
+    "label_align": "left",
+    "text_align": "left",
+    "widgets": [ "status_hpn_layout_head", "status_hpn_layout_larm", "status_hpn_layout_lleg" ]
+  },
+  {
+    "id": "ln_limbs_sa_right_layout",
+    "type": "widget",
+    "style": "layout",
+    "label": "Limbs",
+    "arrange": "rows",
+    "label_align": "right",
+    "text_align": "right",
+    "widgets": [ "status_hpn_layout_torso", "status_hpn_layout_rarm", "status_hpn_layout_rleg" ]
+  },
+  {
+    "id": "ln_limbs_sa_layout",
+    "type": "widget",
+    "style": "layout",
+    "label": "Limbs (self-aware)",
+    "arrange": "columns",
+    "widgets": [ "ln_limbs_sa_left_layout", "ln_limbs_sa_right_layout" ],
+    "flags": [ "W_DISABLED_BY_DEFAULT" ]
+  },
+  {
     "id": "ln_focus_move_layout",
     "type": "widget",
     "style": "layout",
@@ -120,6 +149,14 @@
     "widgets": [ "hunger_desc_label", "thirst_desc_label", "fatigue_desc_label", "pain_desc_label", "body_temp_desc_label" ]
   },
   {
+    "id": "ln_needs_sa_layout",
+    "type": "widget",
+    "style": "layout",
+    "label": "Needs (self-aware)",
+    "arrange": "rows",
+    "widgets": [ "hunger_desc_label", "thirst_desc_label", "fatigue_desc_label", "pain_num_label", "body_temp_desc_label" ]
+  },
+  {
     "id": "legacy_labels_narrow_sidebar",
     "type": "widget",
     "style": "sidebar",
@@ -129,10 +166,12 @@
     "width": 32,
     "widgets": [
       "ln_limbs_layout",
+      "ln_limbs_sa_layout",
       "ln_movement_layout",
       "ln_stats_layout",
       "ln_weariness_layout",
       "ln_needs_layout",
+      "ln_needs_sa_layout",
       "all_location_info_rows_layout",
       "wind_temp_layout",
       "weapon_style_layout",

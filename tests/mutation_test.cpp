@@ -35,6 +35,16 @@ static const vitamin_id vitamin_mutagen_test( "mutagen_test" );
 
 static std::string get_mutations_as_string( const Character &you );
 
+static void verify_mutation_flag( Character &you, const std::string &trait_name,
+                                  const std::string &flag_name )
+{
+    clear_avatar();
+    set_single_trait( you, trait_name );
+    GIVEN( "trait: " + trait_name + ", flag: " + flag_name ) {
+        CHECK( you.has_flag( flag_id( flag_name ) ) );
+    }
+}
+
 static mutation_category_id get_highest_category( const Character &you )
 {
     int iLevel = 0;
@@ -142,7 +152,7 @@ TEST_CASE( "Having all mutations give correct highest category", "[mutations][st
             continue;
         }
         // Unfinished mutation category.
-        if( cur_cat.wip ) {
+        if( cur_cat.skip_test || cur_cat.wip ) {
             continue;
         }
 
@@ -197,7 +207,7 @@ TEST_CASE( "Having all pre-threshold mutations gives a sensible threshold breach
             continue;
         }
         // Unfinished mutation category.
-        if( cur_cat.wip ) {
+        if( cur_cat.skip_test || cur_cat.wip ) {
             continue;
         }
 
@@ -416,6 +426,42 @@ TEST_CASE( "The various type of triggers work", "[mutations]" )
 
 }
 
+TEST_CASE( "All valid mutations can be purified", "[mutations][purifier]" )
+{
+    std::vector<trait_id> dummies;
+    std::vector<trait_id> valid_traits;
+    for( const mutation_branch &mbra : mutation_branch::get_all() ) {
+        if( mbra.dummy ) {
+            dummies.push_back( mbra.id );
+        } else if( !mbra.debug && mbra.valid && mbra.purifiable && !mbra.category.empty() ) {
+            valid_traits.push_back( mbra.id );
+        }
+    }
+    REQUIRE( !dummies.empty() );
+    for( const trait_id &checked : valid_traits ) {
+        bool is_removable = false;
+        GIVEN( "mutation of ID " + checked.str() + " is valid and removable" ) {
+            THEN( "a dummy mutation should cancel it or have the same type" ) {
+                for( const trait_id &dummy : dummies ) {
+                    // First, check if the dummy mutation directly cancels us out
+                    if( std::find( dummy->cancels.begin(), dummy->cancels.end(), checked ) != dummy->cancels.end() ) {
+                        is_removable = true;
+                        break;
+                    }
+                    // If it doesn't, then check to see if we have a conflicting type
+                    for( const std::string &type : dummy->types ) {
+                        if( checked->types.count( type ) != 0 ) {
+                            is_removable = true;
+                            break;
+                        }
+                    }
+                }
+                CHECK( is_removable );
+            }
+        }
+    }
+}
+
 //The chance of a mutation being bad is a function of instability, see
 //Character::roll_bad_mutation. This can't be easily tested on in-game
 //mutations, because exceptions exist - e.g., you can roll a good mutation, but
@@ -481,5 +527,35 @@ TEST_CASE( "Chance of bad mutations vs instability", "[mutations][instability]" 
             CHECK( frac_bad < upper );
         }
     }
+}
+
+// Verify that flags linked to core mutations are still there.
+// If has_trait( trait_XXX )-checks for a certain trait have been 'flagified' to check for
+// has_flag( json_flag_XXX ) instead the check should be added here and it's recommended to
+// reference to the PR that changes it.
+TEST_CASE( "The mutation flags are associated to the corresponding base mutations",
+           "[mutations][flags]" )
+{
+    Character &dummy = get_player_character();
+
+    // From Allow size flags for custom size changing mutations - PR #48850
+    verify_mutation_flag( dummy, "LARGE", "LARGE" );
+    verify_mutation_flag( dummy, "LARGE_OK", "LARGE" );
+    verify_mutation_flag( dummy, "HUGE", "HUGE" );
+    verify_mutation_flag( dummy, "HUGE_OK", "HUGE" );
+    verify_mutation_flag( dummy, "SMALL", "SMALL" );
+    verify_mutation_flag( dummy, "SMALL2", "TINY" );
+    verify_mutation_flag( dummy, "SMALL_OK", "TINY" );
+
+    // From Finetuning batrachian mutation (with intended sideeffects) - PR #59458
+    verify_mutation_flag( dummy, "WEBBED", "WEBBED_HANDS" );
+    verify_mutation_flag( dummy, "WEBBED_FEET", "WEBBED_FEET" );
+    verify_mutation_flag( dummy, "SEESLEEP", "SEESLEEP" );
+
+    // From Flagify COLDBLOOD mutations - PR #60052
+    verify_mutation_flag( dummy, "COLDBLOOD", "COLDBLOOD" );
+    verify_mutation_flag( dummy, "COLDBLOOD2", "COLDBLOOD2" );
+    verify_mutation_flag( dummy, "COLDBLOOD3", "COLDBLOOD3" );
+    verify_mutation_flag( dummy, "COLDBLOOD4", "ECTOTHERM" );
 }
 

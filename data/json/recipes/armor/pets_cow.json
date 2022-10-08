@@ -1,0 +1,291 @@
+[
+  {
+    "result": "acidchitin_armor_cow",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "copy-from": "armor_acidchitin",
+    "category": "CC_ANIMALS",
+    "subcategory": "CSC_ANIMALS_CANINE ARMOR",
+    "skills_required": [ [ "survival", 4 ], [ "firstaid", 2 ], [ "fabrication", 4 ] ],
+    "time": "10 h 15 m",
+    "using": [ [ "cordage", 7 ] ],
+    "components": [ [ [ "acidchitin_piece", 100 ] ] ],
+    "proficiencies": [
+      { "proficiency": "prof_leatherworking_basic" },
+      { "proficiency": "prof_chitinworking" },
+      { "proficiency": "prof_closures" }
+    ]
+  },
+  {
+    "result": "chitin_armor_cow",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "copy-from": "armor_chitin",
+    "category": "CC_ANIMALS",
+    "subcategory": "CSC_ANIMALS_CANINE ARMOR",
+    "time": "10 h 15 m",
+    "book_learn": [ [ "textbook_tailor", 5 ], [ "tailor_portfolio", 5 ] ],
+    "skills_required": [ [ "fabrication", 4 ] ],
+    "using": [ [ "cordage", 7 ] ],
+    "components": [ [ [ "chitin_piece", 100 ] ] ],
+    "proficiencies": [
+      { "proficiency": "prof_leatherworking_basic" },
+      { "proficiency": "prof_chitinworking" },
+      { "proficiency": "prof_closures" }
+    ]
+  },
+  {
+    "result": "chainmail_armor_cow",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "copy-from": "lc_chainmail_vest",
+    "category": "CC_ANIMALS",
+    "subcategory": "CSC_ANIMALS_CANINE ARMOR",
+    "time": "7 h 45 m",
+    "reversible": true,
+    "using": [ [ "chainmail_standard", 7 ], [ "clasps", 5 ] ],
+    "components": [
+      [ [ "lc_link_sheet", 42 ] ],
+      [ [ "lc_chain_link", 1100 ] ],
+      [ [ "lc_wire", 8 ] ],
+      [ [ "fur", 50 ], [ "tanned_pelt", 8 ], [ "leather", 50 ], [ "tanned_hide", 8 ] ]
+    ],
+    "proficiencies": [
+      { "proficiency": "prof_chain_armour" },
+      { "proficiency": "prof_closures" },
+      { "proficiency": "prof_leatherworking_basic", "time_multiplier": 2, "fail_multiplier": 1.2 }
+    ]
+  },
+  {
+    "result": "kevlar_armor_cow",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ANIMALS",
+    "subcategory": "CSC_ANIMALS_CANINE ARMOR",
+    "skill_used": "tailor",
+    "difficulty": 6,
+    "time": "15 h",
+    "autolearn": true,
+    "using": [
+      [ "tailoring_leather_patchwork", 66 ],
+      [ "armor_kevlar_layered", 28 ],
+      [ "tailoring_cotton_patchwork", 171 ],
+      [ "clasps", 5 ]
+    ],
+    "proficiencies": [ { "proficiency": "prof_polymerworking" }, { "proficiency": "prof_closures" } ],
+    "//": "recipe composition is off of the item composition due to not wanting to require 280 cotton sheets for this."
+  },
+  {
+    "result": "leather_armor_cow",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ANIMALS",
+    "subcategory": "CSC_ANIMALS_CANINE ARMOR",
+    "skill_used": "tailor",
+    "difficulty": 3,
+    "time": "5 h 30 m",
+    "byproducts": [ [ "leather", 25 ] ],
+    "using": [ [ "sewing_standard", 36 ], [ "clasps", 5 ] ],
+    "components": [ [ [ "armor_blarmor", 3 ] ], [ [ "cotton_patchwork", 21 ] ] ],
+    "proficiencies": [
+      { "proficiency": "prof_leatherworking_basic" },
+      { "proficiency": "prof_closures" },
+      { "proficiency": "prof_leatherworking" }
+    ]
+  },
+  {
+    "result": "leather_armor_cow",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "copy-from": "armor_blarmor",
+    "id_suffix": "from_scratch",
+    "category": "CC_ANIMALS",
+    "subcategory": "CSC_ANIMALS_CANINE ARMOR",
+    "skills_required": [ "tailor", 6 ],
+    "time": "12 h 30 m",
+    "reversible": true,
+    "using": [ [ "tailoring_leather_patchwork", 66 ], [ "tailoring_cotton_patchwork", 66 ], [ "surface_heat", 60 ], [ "clasps", 5 ] ],
+    "components": [
+      [ [ "water", 36 ], [ "water_clean", 36 ] ],
+      [
+        [ "wax", 7 ],
+        [ "tallow", 28 ],
+        [ "mutant_tallow", 28 ],
+        [ "human_tallow", 28 ],
+        [ "demihuman_tallow", 28 ],
+        [ "tallow_tainted", 28 ],
+        [ "vinegar", 36 ],
+        [ "pine_bough", 66 ]
+      ],
+      [ [ "salt", 180 ] ]
+    ],
+    "proficiencies": [
+      { "proficiency": "prof_leatherworking_basic" },
+      { "proficiency": "prof_closures" },
+      { "proficiency": "prof_leatherworking" }
+    ]
+  },
+  {
+    "result": "leatherbone_armor_cow",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "copy-from": "leather_armor_cow",
+    "difficulty": 4,
+    "time": "7 h 45 m",
+    "using": [ [ "sewing_standard", 90 ], [ "clasps", 5 ] ],
+    "components": [ [ [ "bone", 46 ], [ "bone_human", 46 ], [ "bone_demihuman", 46 ] ], [ [ "armor_blarmor", 3 ] ] ],
+    "extend": { "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_carving" } ] }
+  },
+  {
+    "result": "leatherbone_armor_cow",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "id_suffix": "from_leatherarmor",
+    "category": "CC_ANIMALS",
+    "subcategory": "CSC_ANIMALS_CANINE ARMOR",
+    "skill_used": "tailor",
+    "difficulty": 4,
+    "time": "7 h 45 m",
+    "autolearn": true,
+    "byproducts": [ [ "leather", 7 ] ],
+    "using": [ [ "sewing_standard", 41 ], [ "clasps", 5 ] ],
+    "components": [ [ [ "bone_sturdy", 46, "LIST" ] ], [ [ "leather_armor_cow", 1 ] ] ],
+    "proficiencies": [
+      { "proficiency": "prof_leatherworking_basic" },
+      { "proficiency": "prof_closures" },
+      { "proficiency": "prof_carving" }
+    ]
+  },
+  {
+    "result": "leatherbone_armor_cow",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "id_suffix": "from_scratch",
+    "category": "CC_ANIMALS",
+    "subcategory": "CSC_ANIMALS_CANINE ARMOR",
+    "skill_used": "chemistry",
+    "difficulty": 4,
+    "skills_required": [ "tailor", 6 ],
+    "time": "15 h",
+    "reversible": true,
+    "book_learn": [
+      [ "textbook_tailor", 4 ],
+      [ "tailor_portfolio", 5 ],
+      [ "textbook_survival", 3 ],
+      [ "trappers_companion", 3 ],
+      [ "survival_book", 3 ],
+      [ "textbook_armwest", 6 ],
+      [ "textbook_armschina", 6 ]
+    ],
+    "using": [ [ "tailoring_leather_patchwork", 34 ], [ "clasps", 5 ] ],
+    "tools": [ [ [ "surface_heat", 60, "LIST" ] ] ],
+    "components": [
+      [ [ "water", 36 ], [ "water_clean", 36 ] ],
+      [ [ "wax", 7 ], [ "any_tallow", 28, "LIST" ], [ "vinegar", 36 ], [ "pine_bough", 72 ] ],
+      [ [ "salt", 180 ] ],
+      [ [ "bone_sturdy", 45, "LIST" ] ]
+    ],
+    "proficiencies": [
+      { "proficiency": "prof_leatherworking_basic" },
+      { "proficiency": "prof_closures" },
+      { "proficiency": "prof_leatherworking" },
+      { "proficiency": "prof_carving" }
+    ]
+  },
+  {
+    "result": "rubber_armor_cow",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ANIMALS",
+    "subcategory": "CSC_ANIMALS_CANINE ARMOR",
+    "skill_used": "tailor",
+    "difficulty": 4,
+    "skills_required": [ "fabrication", 3 ],
+    "time": "2 h 15 m",
+    "autolearn": true,
+    "using": [ [ "clasps", 5 ] ],
+    "qualities": [ { "id": "SEW", "level": 1 }, { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "duct_tape", 210 ] ], [ [ "coat_rain", 8 ] ] ],
+    "proficiencies": [ { "proficiency": "prof_closures_waterproofing" }, { "proficiency": "prof_closures" } ]
+  },
+  {
+    "result": "rubber_armor_cow",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "id_suffix": "from_scratch",
+    "category": "CC_ANIMALS",
+    "subcategory": "CSC_ANIMALS_CANINE ARMOR",
+    "skill_used": "tailor",
+    "difficulty": 5,
+    "skills_required": [ "fabrication", 3 ],
+    "time": "3 h 30 m",
+    "autolearn": true,
+    "using": [ [ "clasps", 5 ] ],
+    "qualities": [ { "id": "SEW", "level": 1 }, { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "duct_tape", 420 ] ], [ [ "plastic_sheet", 11 ] ], [ [ "cotton_patchwork", 84 ] ] ],
+    "proficiencies": [ { "proficiency": "prof_closures_waterproofing" }, { "proficiency": "prof_closures" } ]
+  },
+  {
+    "result": "iron_armor_cow",
+    "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
+    "copy-from": "armor_plarmor",
+    "category": "CC_ANIMALS",
+    "subcategory": "CSC_ANIMALS_CANINE ARMOR",
+    "skills_required": [ "tailor", 3 ],
+    "time": "28 h 45 m",
+    "book_learn": [ [ "textbook_tailor", 5 ], [ "tailor_portfolio", 5 ], [ "textbook_armwest", 4 ], [ "textbook_armschina", 4 ] ],
+    "using": [ [ "sewing_standard", 302 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_leatherworking_basic", "fail_multiplier": 1.15, "time_multiplier": 1.1 },
+      { "proficiency": "prof_closures", "time_multiplier": 1.1 },
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_blacksmithing" },
+      { "proficiency": "prof_armorsmithing" },
+      { "proficiency": "prof_articulation" }
+    ],
+    "components": [ [ [ "steel_chunk", 72 ], [ "scrap", 216 ] ], [ [ "leather_armor_cow", 1 ] ] ]
+  },
+  {
+    "result": "bronze_armor_cow",
+    "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
+    "copy-from": "cuirass_bronze",
+    "category": "CC_ANIMALS",
+    "subcategory": "CSC_ANIMALS_CANINE ARMOR",
+    "skills_required": [ "tailor", 3 ],
+    "time": "28 h 45 m",
+    "book_learn": [ [ "textbook_armwest", 4 ], [ "recipe_melee", 4 ] ],
+    "using": [ [ "forging_standard", 144 ], [ "bronzesmithing_tools", 12 ] ],
+    "components": [ [ [ "scrap_bronze", 72 ] ], [ [ "leather_armor_cow", 1 ] ] ],
+    "proficiencies": [
+      { "proficiency": "prof_leatherworking_basic", "fail_multiplier": 1.15, "time_multiplier": 1.1 },
+      { "proficiency": "prof_closures", "time_multiplier": 1.1 },
+      { "proficiency": "prof_armorsmithing" },
+      { "proficiency": "prof_redsmithing" },
+      { "proficiency": "prof_articulation" }
+    ]
+  },
+  {
+    "result": "steel_armor_cow",
+    "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
+    "copy-from": "armor_lightplate",
+    "category": "CC_ANIMALS",
+    "subcategory": "CSC_ANIMALS_CANINE ARMOR",
+    "skills_required": [ "tailor", 4 ],
+    "time": "115 h 15 m",
+    "book_learn": [ [ "textbook_armwest", 7 ] ],
+    "using": [ [ "blacksmithing_standard", 960 ], [ "steel_standard", 240 ], [ "fabric_leather_fur_hide", 36 ] ],
+    "qualities": [ { "id": "CHISEL", "level": 3 } ],
+    "proficiencies": [
+      { "proficiency": "prof_leatherworking_basic", "fail_multiplier": 1.15, "time_multiplier": 1.1 },
+      { "proficiency": "prof_closures", "time_multiplier": 1.1 },
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_blacksmithing" },
+      { "proficiency": "prof_armorsmithing" },
+      { "proficiency": "prof_articulation" }
+    ],
+    "tools": [ [ [ "swage", -1 ] ] ]
+  }
+]

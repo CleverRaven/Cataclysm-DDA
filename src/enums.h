@@ -329,7 +329,8 @@ enum class distraction_type : int {
     eoc,
     dangerous_field,
     hunger,
-    thirst
+    thirst,
+    temperature
 };
 
 enum game_message_type : int {

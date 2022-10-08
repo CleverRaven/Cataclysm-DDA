@@ -14,7 +14,7 @@ struct fragment_cloud {
         : velocity( initial_velocity ), density( initial_density ) {
     }
     fragment_cloud &operator=( const float &value );
-    bool operator==( const fragment_cloud &that );
+    bool operator==( const fragment_cloud &that ) const;
     /* Velocity is in m/sec. */
     float velocity;
     /* Density is a fuzzy count of number of fragments per cubic meter (one square). */

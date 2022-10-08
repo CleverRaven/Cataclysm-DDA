@@ -17,7 +17,7 @@
     "max_charges": 3,
     "initial_charges": 3,
     "use_action": [ "CABLE_ATTACH" ],
-    "flags": [ "CABLE_SPOOL" ]
+    "flags": [ "CABLE_SPOOL", "SINGLE_USE" ]
   },
   {
     "type": "TOOL",
@@ -27,7 +27,8 @@
     "copy-from": "jumper_cable",
     "max_charges": 10,
     "initial_charges": 10,
-    "use_action": [ "CORD_ATTACH" ]
+    "use_action": [ "CORD_ATTACH" ],
+    "flags": [ "CABLE_SPOOL", "SINGLE_USE" ]
   },
   {
     "type": "TOOL",
@@ -37,7 +38,8 @@
     "copy-from": "jumper_cable",
     "max_charges": 30,
     "initial_charges": 30,
-    "use_action": [ "CORD_ATTACH" ]
+    "use_action": [ "CORD_ATTACH" ],
+    "flags": [ "CABLE_SPOOL", "SINGLE_USE" ]
   },
   {
     "type": "TOOL",
@@ -58,7 +60,7 @@
     "initial_charges": 6,
     "use_action": [ "TOW_ATTACH" ],
     "qualities": [ [ "ROPE", 2 ] ],
-    "flags": [ "CABLE_SPOOL", "TOW_CABLE" ]
+    "flags": [ "CABLE_SPOOL", "TOW_CABLE", "SINGLE_USE" ]
   },
   {
     "type": "TOOL",

@@ -17,7 +17,7 @@
 
 enum class special_game_type;
 
-class JsonIn;
+class JsonArray;
 class JsonObject;
 
 namespace catacurses
@@ -57,6 +57,7 @@ struct WORLD {
          * changing that will also change the result of this function.
          */
         std::string folder_path() const;
+        cata_path folder_path_path() const;
 
         std::string world_name;
         options_manager::options_container WORLD_OPTIONS;
@@ -76,7 +77,7 @@ struct WORLD {
 
         bool save( bool is_conversion = false ) const;
 
-        void load_options( JsonIn &jsin );
+        void load_options( const JsonArray &options_json );
         bool load_options();
 };
 
@@ -113,12 +114,12 @@ class worldfactory
         std::string last_world_name;
         std::string last_character_name;
 
-        void save_last_world_info();
+        void save_last_world_info() const;
 
         mod_manager &get_mod_manager();
 
         void remove_world( const std::string &worldname );
-        bool valid_worldname( const std::string &name, bool automated = false );
+        bool valid_worldname( const std::string &name, bool automated = false ) const;
 
         /**
          * @param delete_folder If true: delete all the files and directories  of the given

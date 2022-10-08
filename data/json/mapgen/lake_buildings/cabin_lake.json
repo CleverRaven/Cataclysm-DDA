@@ -50,7 +50,7 @@
         "X": "f_sofa",
         "t": "f_table",
         "s": "f_sink",
-        "o": "f_oven",
+        "o": [ "f_oven", "f_gas_oven_microwave_combo" ],
         "f": "f_fridge",
         "n": "f_counter",
         "m": "f_cupboard",

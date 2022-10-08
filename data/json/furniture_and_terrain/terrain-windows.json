@@ -9,7 +9,16 @@
     "move_cost": 0,
     "coverage": 60,
     "roof": "t_flat_roof",
-    "flags": [ "TRANSPARENT", "FLAMMABLE", "NOITEM", "BARRICADABLE_WINDOW", "CONNECT_TO_WALL", "BLOCK_WIND", "WINDOW" ],
+    "flags": [
+      "TRANSPARENT",
+      "FLAMMABLE",
+      "NOITEM",
+      "BARRICADABLE_WINDOW",
+      "CONNECT_TO_WALL",
+      "BLOCK_WIND",
+      "WINDOW",
+      "SUPPORTS_ROOF"
+    ],
     "deconstruct": { "ter_set": "t_window_empty", "items": [ { "item": "glass_sheet", "count": 1 } ] },
     "bash": {
       "str_min": 3,
@@ -33,7 +42,7 @@
     "move_cost": 0,
     "coverage": 95,
     "roof": "t_flat_roof",
-    "flags": [ "FLAMMABLE", "NOITEM", "WALL", "CONNECT_TO_WALL", "BLOCK_WIND", "REDUCE_SCENT", "WINDOW" ],
+    "flags": [ "FLAMMABLE", "NOITEM", "WALL", "CONNECT_TO_WALL", "BLOCK_WIND", "REDUCE_SCENT", "WINDOW", "SUPPORTS_ROOF" ],
     "deconstruct": {
       "ter_set": "t_window_empty",
       "items": [ { "item": "glass_sheet", "count": 1 }, { "item": "duct_tape", "charges": [ 15, 25 ] } ]
@@ -54,7 +63,7 @@
     "type": "terrain",
     "id": "t_window_domestic",
     "name": "window with curtains",
-    "description": "A window with fancy curtains on the inside that can be drawn closed to block visibility and shut out any light.",
+    "description": "A closed window with fancy curtains on the inside that can be drawn closed to block visibility and shut out any light.",
     "symbol": "\"",
     "color": "light_gray",
     "move_cost": 0,
@@ -68,7 +77,8 @@
       "BARRICADABLE_WINDOW_CURTAINS",
       "CONNECT_TO_WALL",
       "BLOCK_WIND",
-      "WINDOW"
+      "WINDOW",
+      "SUPPORTS_ROOF"
     ],
     "curtain_transform": "t_window_no_curtains",
     "examine_action": "curtains",
@@ -116,7 +126,7 @@
     "type": "terrain",
     "id": "t_window_no_curtains",
     "name": "window without curtains",
-    "description": "A smaller window typically found in residential homes.  You could install a curtain rod and drapes if you had the supplies and skill.",
+    "description": "A closed smaller window typically found in residential homes.  You could install a curtain rod and drapes if you had the supplies and skill.",
     "symbol": "\"",
     "color": "white",
     "move_cost": 0,
@@ -130,7 +140,8 @@
       "BARRICADABLE_WINDOW",
       "CONNECT_TO_WALL",
       "BLOCK_WIND",
-      "WINDOW"
+      "WINDOW",
+      "SUPPORTS_ROOF"
     ],
     "examine_action": "locked_object",
     "open": "t_window_no_curtains_open",
@@ -178,7 +189,8 @@
       "THIN_OBSTACLE",
       "SMALL_PASSAGE",
       "PERMEABLE",
-      "WINDOW"
+      "WINDOW",
+      "SUPPORTS_ROOF"
     ],
     "close": "t_window_no_curtains",
     "deconstruct": { "ter_set": "t_window_empty", "items": [ { "item": "glass_sheet", "count": 1 } ] },
@@ -204,7 +216,7 @@
     "move_cost": 0,
     "coverage": 95,
     "roof": "t_flat_roof",
-    "flags": [ "FLAMMABLE", "NOITEM", "WALL", "BLOCK_WIND", "REDUCE_SCENT", "WINDOW" ],
+    "flags": [ "FLAMMABLE", "NOITEM", "WALL", "BLOCK_WIND", "REDUCE_SCENT", "WINDOW", "SUPPORTS_ROOF" ],
     "deconstruct": {
       "ter_set": "t_window_empty",
       "items": [ { "item": "glass_sheet", "count": 1 }, { "item": "duct_tape", "charges": [ 15, 25 ] } ]
@@ -232,7 +244,7 @@
     "move_cost": 0,
     "coverage": 95,
     "roof": "t_flat_roof",
-    "flags": [ "FLAMMABLE", "NOITEM", "WALL", "BLOCK_WIND", "REDUCE_SCENT", "WINDOW" ],
+    "flags": [ "FLAMMABLE", "NOITEM", "WALL", "BLOCK_WIND", "REDUCE_SCENT", "WINDOW", "SUPPORTS_ROOF" ],
     "curtain_transform": "t_window_no_curtains_taped",
     "deconstruct": {
       "ter_set": "t_window_empty",
@@ -283,7 +295,8 @@
       "THIN_OBSTACLE",
       "SMALL_PASSAGE",
       "PERMEABLE",
-      "WINDOW"
+      "WINDOW",
+      "SUPPORTS_ROOF"
     ],
     "curtain_transform": "t_window_no_curtains_open",
     "examine_action": "curtains",
@@ -318,13 +331,22 @@
     "type": "terrain",
     "id": "t_curtains",
     "name": "window with closed curtains",
-    "description": "A window with fancy curtains that have been drawn shut, blocking sunlight and visibility.  The curtains can only be opened on the inside.  If you examined the curtains more closely, you could peek through the drapes or tear down everything.  Or you could just smash the window open.",
+    "description": "A closed window with fancy curtains that have been drawn shut, blocking sunlight and visibility.  The curtains can only be opened on the inside.  If you examined the curtains more closely, you could peek through the drapes or tear down everything.  Or you could just smash the window open.",
     "symbol": "\"",
     "color": "dark_gray",
     "move_cost": 0,
     "coverage": 95,
     "roof": "t_flat_roof",
-    "flags": [ "FLAMMABLE", "NOITEM", "OPENCLOSE_INSIDE", "BARRICADABLE_WINDOW_CURTAINS", "CONNECT_TO_WALL", "BLOCK_WIND", "WINDOW" ],
+    "flags": [
+      "FLAMMABLE",
+      "NOITEM",
+      "OPENCLOSE_INSIDE",
+      "BARRICADABLE_WINDOW_CURTAINS",
+      "CONNECT_TO_WALL",
+      "BLOCK_WIND",
+      "WINDOW",
+      "SUPPORTS_ROOF"
+    ],
     "curtain_transform": "t_window_no_curtains",
     "open": "t_window_domestic",
     "examine_action": "curtains",
@@ -375,7 +397,17 @@
     "color": "light_cyan",
     "move_cost": 0,
     "roof": "t_flat_roof",
-    "flags": [ "TRANSPARENT", "FLAMMABLE", "ALARMED", "NOITEM", "BARRICADABLE_WINDOW", "CONNECT_TO_WALL", "BLOCK_WIND", "WINDOW" ],
+    "flags": [
+      "TRANSPARENT",
+      "FLAMMABLE",
+      "ALARMED",
+      "NOITEM",
+      "BARRICADABLE_WINDOW",
+      "CONNECT_TO_WALL",
+      "BLOCK_WIND",
+      "WINDOW",
+      "SUPPORTS_ROOF"
+    ],
     "bash": {
       "str_min": 3,
       "str_max": 6,
@@ -398,7 +430,17 @@
     "move_cost": 0,
     "coverage": 95,
     "roof": "t_flat_roof",
-    "flags": [ "FLAMMABLE", "NOITEM", "ALARMED", "WALL", "BARRICADABLE_WINDOW", "BLOCK_WIND", "REDUCE_SCENT", "WINDOW" ],
+    "flags": [
+      "FLAMMABLE",
+      "NOITEM",
+      "ALARMED",
+      "WALL",
+      "BARRICADABLE_WINDOW",
+      "BLOCK_WIND",
+      "REDUCE_SCENT",
+      "WINDOW",
+      "SUPPORTS_ROOF"
+    ],
     "bash": {
       "str_min": 6,
       "str_max": 12,
@@ -431,7 +473,8 @@
       "THIN_OBSTACLE",
       "SMALL_PASSAGE",
       "PERMEABLE",
-      "WINDOW"
+      "WINDOW",
+      "SUPPORTS_ROOF"
     ],
     "bash": {
       "str_min": 10,
@@ -475,7 +518,8 @@
       "CONNECT_TO_WALL",
       "SMALL_PASSAGE",
       "PERMEABLE",
-      "WINDOW"
+      "WINDOW",
+      "SUPPORTS_ROOF"
     ]
   },
   {
@@ -488,7 +532,7 @@
     "move_cost": 0,
     "coverage": 95,
     "roof": "t_flat_roof",
-    "flags": [ "FLAMMABLE", "NOITEM", "REDUCE_SCENT", "CONNECT_TO_WALL", "BLOCK_WIND", "WINDOW" ],
+    "flags": [ "FLAMMABLE", "NOITEM", "REDUCE_SCENT", "CONNECT_TO_WALL", "BLOCK_WIND", "WINDOW", "SUPPORTS_ROOF" ],
     "deconstruct": {
       "ter_set": "t_window_empty",
       "items": [ { "item": "2x4", "count": [ 3, 4 ] }, { "item": "nail", "charges": [ 6, 8 ] }, { "item": "glass_sheet", "count": 1 } ]
@@ -523,7 +567,7 @@
     "move_cost": 0,
     "coverage": 95,
     "roof": "t_flat_roof",
-    "flags": [ "FLAMMABLE", "NOITEM", "CONNECT_TO_WALL", "BLOCK_WIND", "PERMEABLE", "WINDOW" ],
+    "flags": [ "FLAMMABLE", "NOITEM", "CONNECT_TO_WALL", "BLOCK_WIND", "PERMEABLE", "WINDOW", "SUPPORTS_ROOF" ],
     "deconstruct": {
       "ter_set": "t_window_empty",
       "items": [ { "item": "2x4", "count": [ 3, 4 ] }, { "item": "nail", "charges": [ 6, 8 ] } ]
@@ -558,7 +602,7 @@
     "move_cost": 0,
     "coverage": 95,
     "roof": "t_flat_roof",
-    "flags": [ "FLAMMABLE", "NOITEM", "REDUCE_SCENT", "CONNECT_TO_WALL", "BLOCK_WIND", "WINDOW" ],
+    "flags": [ "FLAMMABLE", "NOITEM", "REDUCE_SCENT", "CONNECT_TO_WALL", "BLOCK_WIND", "WINDOW", "SUPPORTS_ROOF" ],
     "deconstruct": { "ter_set": "t_window", "items": [ { "item": "2x4", "count": [ 6, 8 ] }, { "item": "nail", "charges": [ 12, 16 ] } ] },
     "bash": {
       "str_min": 12,
@@ -581,7 +625,7 @@
     "move_cost": 0,
     "coverage": 95,
     "roof": "t_flat_roof",
-    "flags": [ "FLAMMABLE", "NOITEM", "REDUCE_SCENT", "CONNECT_TO_WALL", "BLOCK_WIND", "PERMEABLE", "WINDOW" ],
+    "flags": [ "FLAMMABLE", "NOITEM", "REDUCE_SCENT", "CONNECT_TO_WALL", "BLOCK_WIND", "PERMEABLE", "WINDOW", "SUPPORTS_ROOF" ],
     "deconstruct": {
       "ter_set": "t_window_empty",
       "items": [ { "item": "2x4", "count": [ 6, 8 ] }, { "item": "nail", "charges": [ 12, 16 ] } ]
@@ -613,7 +657,7 @@
       "message": "You finish cutting the metal.",
       "byproducts": [ { "item": "rebar", "count": [ 1, 4 ] } ]
     },
-    "flags": [ "NOITEM", "REDUCE_SCENT", "CONNECT_TO_WALL", "BLOCK_WIND", "WINDOW" ],
+    "flags": [ "NOITEM", "REDUCE_SCENT", "CONNECT_TO_WALL", "BLOCK_WIND", "WINDOW", "SUPPORTS_ROOF" ],
     "oxytorch": {
       "result": "t_window_empty",
       "duration": "4 seconds",
@@ -648,7 +692,7 @@
     "move_cost": 0,
     "coverage": 95,
     "roof": "t_flat_roof",
-    "flags": [ "NOITEM", "REDUCE_SCENT", "CONNECT_TO_WALL", "BLOCK_WIND", "PERMEABLE", "WINDOW" ],
+    "flags": [ "NOITEM", "REDUCE_SCENT", "CONNECT_TO_WALL", "BLOCK_WIND", "PERMEABLE", "WINDOW", "SUPPORTS_ROOF" ],
     "oxytorch": {
       "result": "t_window_empty",
       "duration": "4 seconds",
@@ -694,7 +738,7 @@
       "message": "You finish cutting the metal.",
       "byproducts": [ { "item": "rebar", "count": [ 1, 8 ] } ]
     },
-    "flags": [ "TRANSPARENT", "NOITEM", "CONNECT_TO_WALL", "THIN_OBSTACLE", "WINDOW" ],
+    "flags": [ "TRANSPARENT", "NOITEM", "CONNECT_TO_WALL", "THIN_OBSTACLE", "WINDOW", "SUPPORTS_ROOF" ],
     "oxytorch": { "result": "t_window", "duration": "9 seconds", "byproducts": [ { "item": "rebar", "count": [ 1, 2 ] } ] },
     "bash": {
       "str_min": 3,
@@ -724,7 +768,7 @@
       "message": "You finish cutting the metal.",
       "byproducts": [ { "item": "rebar", "count": [ 1, 8 ] } ]
     },
-    "flags": [ "TRANSPARENT", "NOITEM", "CONNECT_TO_WALL", "THIN_OBSTACLE", "WINDOW", "PERMEABLE" ],
+    "flags": [ "TRANSPARENT", "NOITEM", "CONNECT_TO_WALL", "WINDOW", "PERMEABLE", "SUPPORTS_ROOF", "THIN_OBSTACLE" ],
     "oxytorch": { "result": "t_window_empty", "duration": "9 seconds", "byproducts": [ { "item": "rebar", "count": [ 1, 2 ] } ] },
     "bash": {
       "str_min": 60,
@@ -755,7 +799,7 @@
       "message": "You finish cutting the metal.",
       "byproducts": [ { "item": "rebar", "count": [ 1, 8 ] } ]
     },
-    "flags": [ "TRANSPARENT", "NOITEM", "REDUCE_SCENT", "BLOCK_WIND", "ALARMED", "CONNECT_TO_WALL", "WINDOW" ],
+    "flags": [ "TRANSPARENT", "NOITEM", "REDUCE_SCENT", "BLOCK_WIND", "ALARMED", "CONNECT_TO_WALL", "WINDOW", "SUPPORTS_ROOF" ],
     "oxytorch": { "result": "t_window_alarm", "duration": "9 seconds", "byproducts": [ { "item": "rebar", "count": [ 1, 2 ] } ] },
     "bash": {
       "str_min": 3,
@@ -793,7 +837,8 @@
       "REDUCE_SCENT",
       "CONNECT_TO_WALL",
       "BLOCK_WIND",
-      "WINDOW"
+      "WINDOW",
+      "SUPPORTS_ROOF"
     ],
     "curtain_transform": "t_window_bars",
     "examine_action": "curtains",
@@ -818,7 +863,7 @@
     "type": "terrain",
     "id": "t_window_bars_domestic",
     "name": "window with metal bars and curtains",
-    "description": "A giant sheet of glass inserted into a window with thick security grilles, making it impossible to crawl through.  Typically installed for high-value stores, or at least stores in bad neighborhoods.  This one has been retrofitted with curtains.",
+    "description": "A giant sheet of glass inserted into a window with thick security grilles, making it impossible to crawl through.  Typically installed for high-value stores, or at least stores in bad neighborhoods.  This one has been retrofitted with curtains, which are currently open.",
     "symbol": "#",
     "looks_like": "t_window_bars",
     "color": "light_gray",
@@ -839,7 +884,8 @@
       "REDUCE_SCENT",
       "BLOCK_WIND",
       "CONNECT_TO_WALL",
-      "WINDOW"
+      "WINDOW",
+      "SUPPORTS_ROOF"
     ],
     "curtain_transform": "t_window_bars",
     "examine_action": "curtains",
@@ -878,7 +924,8 @@
       "MINEABLE",
       "BLOCK_WIND",
       "REDUCE_SCENT",
-      "WINDOW"
+      "WINDOW",
+      "SUPPORTS_ROOF"
     ],
     "bash": {
       "str_min": 80,
@@ -907,7 +954,8 @@
       "MINEABLE",
       "BLOCK_WIND",
       "REDUCE_SCENT",
-      "WINDOW"
+      "WINDOW",
+      "SUPPORTS_ROOF"
     ],
     "bash": {
       "str_min": 80,
@@ -936,7 +984,8 @@
       "MINEABLE",
       "BLOCK_WIND",
       "REDUCE_SCENT",
-      "WINDOW"
+      "WINDOW",
+      "SUPPORTS_ROOF"
     ],
     "bash": {
       "str_min": 80,
@@ -951,7 +1000,7 @@
     "type": "terrain",
     "id": "t_metal_grate_window",
     "name": "window with metal grate",
-    "description": "Metal bars made into a grate for a window, Highly durability and will stand against any foe",
+    "description": "Metal bars made into a grate for a window.  Highly durable and will stand against any foe.",
     "examine_action": "bars",
     "looks_like": "t_window_bars",
     "symbol": "#",
@@ -974,10 +1023,10 @@
       "NOITEM",
       "CONNECT_TO_WALL",
       "BARRICADABLE_WINDOW",
-      "THIN_OBSTACLE",
       "BLOCK_WIND",
       "REDUCE_SCENT",
-      "WINDOW"
+      "WINDOW",
+      "SUPPORTS_ROOF"
     ],
     "bash": {
       "str_min": 50,
@@ -997,7 +1046,7 @@
     "type": "terrain",
     "id": "t_metal_grate_window_with_curtain",
     "name": "window with metal grate",
-    "description": "Metal bars made into a grate for a window with a closed curtain, Highly durability and will stand against any foe",
+    "description": "Metal bars made into a grate for a window with a closed curtain.  Highly durable and will stand against any foe.",
     "looks_like": "t_window_bars_curtains",
     "symbol": "#",
     "color": "light_gray",
@@ -1014,7 +1063,7 @@
       "message": "You finish cutting the metal.",
       "byproducts": [ { "item": "pipe", "count": [ 1, 12 ] }, { "item": "sheet_metal", "count": 4 } ]
     },
-    "flags": [ "NOITEM", "CONNECT_TO_WALL", "THIN_OBSTACLE", "BARRICADABLE_WINDOW_CURTAINS", "BLOCK_WIND", "REDUCE_SCENT", "WINDOW" ],
+    "flags": [ "NOITEM", "CONNECT_TO_WALL", "BARRICADABLE_WINDOW_CURTAINS", "BLOCK_WIND", "REDUCE_SCENT", "WINDOW", "SUPPORTS_ROOF" ],
     "curtain_transform": "t_metal_grate_window",
     "examine_action": "curtains",
     "open": "t_metal_grate_window_with_curtain_open",
@@ -1036,7 +1085,7 @@
     "type": "terrain",
     "id": "t_metal_grate_window_with_curtain_open",
     "name": "window with metal grate",
-    "description": "Metal bars made into a grate for a window with a opened curtain, Highly durability and will stand against any foe",
+    "description": "Metal bars made into a grate for a window with an opened curtain.  Highly durable and will stand against any foe.",
     "looks_like": "t_window_bars_domestic",
     "symbol": "#",
     "color": "light_gray",
@@ -1046,12 +1095,12 @@
       "TRANSPARENT",
       "NOITEM",
       "CONNECT_TO_WALL",
-      "THIN_OBSTACLE",
       "BARRICADABLE_WINDOW_CURTAINS",
       "BLOCK_WIND",
       "REDUCE_SCENT",
       "PERMEABLE",
-      "WINDOW"
+      "WINDOW",
+      "SUPPORTS_ROOF"
     ],
     "oxytorch": {
       "result": "t_window_reinforced",
@@ -1085,14 +1134,23 @@
     "type": "terrain",
     "id": "t_metal_grate_window_noglass",
     "name": "window with metal grate",
-    "description": "Metal bars made into a grate for a window, Highly durability and will stand against any foe",
+    "description": "Metal bars made into a grate for a window.  Highly durable and will stand against any foe",
     "examine_action": "bars",
     "looks_like": "t_window_bars",
     "symbol": "#",
     "color": "light_gray",
     "move_cost": 0,
     "roof": "t_flat_roof",
-    "flags": [ "TRANSPARENT", "NOITEM", "CONNECT_TO_WALL", "BARRICADABLE_WINDOW", "THIN_OBSTACLE", "PERMEABLE", "WINDOW" ],
+    "flags": [
+      "TRANSPARENT",
+      "NOITEM",
+      "CONNECT_TO_WALL",
+      "BARRICADABLE_WINDOW",
+      "THIN_OBSTACLE",
+      "PERMEABLE",
+      "WINDOW",
+      "SUPPORTS_ROOF"
+    ],
     "oxytorch": {
       "result": "t_window_reinforced_noglass",
       "duration": "9 seconds",
@@ -1113,8 +1171,7 @@
       "items": [
         { "item": "steel_lump", "prob": 25 },
         { "item": "steel_chunk", "count": [ 1, 4 ] },
-        { "item": "scrap", "count": [ 1, 5 ] },
-        { "item": "glass_shard", "count": [ 75, 125 ] }
+        { "item": "scrap", "count": [ 1, 5 ] }
       ]
     }
   },
@@ -1122,13 +1179,13 @@
     "type": "terrain",
     "id": "t_metal_grate_window_with_curtain_noglass",
     "name": "window with metal grate",
-    "description": "Metal bars made into a grate for a window with a closed curtain, Highly durability and will stand against any foe",
+    "description": "Metal bars made into a grate for a window with a closed curtain.  Highly durable and will stand against any foe.",
     "looks_like": "t_window_bars_curtains",
     "symbol": "#",
     "color": "light_gray",
     "move_cost": 0,
     "roof": "t_flat_roof",
-    "flags": [ "NOITEM", "CONNECT_TO_WALL", "THIN_OBSTACLE", "BARRICADABLE_WINDOW_CURTAINS", "PERMEABLE", "WINDOW" ],
+    "flags": [ "NOITEM", "CONNECT_TO_WALL", "THIN_OBSTACLE", "BARRICADABLE_WINDOW_CURTAINS", "PERMEABLE", "WINDOW", "SUPPORTS_ROOF" ],
     "hacksaw": {
       "result": "t_window_reinforced_noglass",
       "duration": "10 minutes",
@@ -1152,8 +1209,7 @@
       "items": [
         { "item": "steel_lump", "prob": 25 },
         { "item": "steel_chunk", "count": [ 1, 4 ] },
-        { "item": "scrap", "count": [ 1, 5 ] },
-        { "item": "glass_shard", "count": [ 75, 125 ] }
+        { "item": "scrap", "count": [ 1, 5 ] }
       ]
     }
   },
@@ -1161,13 +1217,22 @@
     "type": "terrain",
     "id": "t_metal_grate_window_with_curtain_open_noglass",
     "name": "window with metal grate",
-    "description": "Metal bars made into a grate for a window with a opened curtain, Highly durability and will stand against any foe",
+    "description": "Metal bars made into a grate for a window with an opened curtain.  Highly durable and will stand against any foe.",
     "looks_like": "t_window_bars_domestic",
     "symbol": "#",
     "color": "light_gray",
     "move_cost": 0,
     "roof": "t_flat_roof",
-    "flags": [ "TRANSPARENT", "NOITEM", "CONNECT_TO_WALL", "BARRICADABLE_WINDOW_CURTAINS", "THIN_OBSTACLE", "PERMEABLE", "WINDOW" ],
+    "flags": [
+      "TRANSPARENT",
+      "NOITEM",
+      "CONNECT_TO_WALL",
+      "BARRICADABLE_WINDOW_CURTAINS",
+      "PERMEABLE",
+      "WINDOW",
+      "SUPPORTS_ROOF",
+      "THIN_OBSTACLE"
+    ],
     "oxytorch": {
       "result": "t_window_reinforced_noglass",
       "duration": "9 seconds",
@@ -1188,7 +1253,7 @@
         { "item": "pipe", "count": [ 10, 12 ] },
         { "item": "sheet_metal_small", "count": [ 30, 40 ] },
         { "item": "stick", "count": 1 },
-        { "item": "sheet", "count": 2 },
+        { "item": "sheet", "count": 1 },
         { "item": "nail", "charges": [ 3, 4 ] },
         { "item": "string_36", "count": 1 }
       ]
@@ -1202,8 +1267,7 @@
       "items": [
         { "item": "steel_lump", "prob": 25 },
         { "item": "steel_chunk", "count": [ 1, 4 ] },
-        { "item": "scrap", "count": [ 1, 5 ] },
-        { "item": "glass_shard", "count": [ 75, 125 ] }
+        { "item": "scrap", "count": [ 1, 5 ] }
       ]
     }
   },
@@ -1211,7 +1275,7 @@
     "type": "terrain",
     "id": "t_single_pane_glass",
     "name": "single glazed glass window",
-    "description": "A giant sheet of glass inserted into a window frame.",
+    "description": "A single glazed window.  Consists of a giant sheet of glass inserted into a window frame.  It's currently closed.",
     "looks_like": "t_window_no_curtains",
     "symbol": "\"",
     "color": "light_cyan",
@@ -1226,7 +1290,8 @@
       "BARRICADABLE_WINDOW",
       "CONNECT_TO_WALL",
       "BLOCK_WIND",
-      "WINDOW"
+      "WINDOW",
+      "SUPPORTS_ROOF"
     ],
     "examine_action": "locked_object",
     "open": "t_single_pane_glass_open",
@@ -1250,7 +1315,7 @@
     "type": "terrain",
     "id": "t_single_pane_glass_open",
     "name": "open single glazed glass window",
-    "description": "A giant sheet of glass inserted into a window frame.",
+    "description": "A single glazed window.  Consists of a giant sheet of glass inserted into a window frame.  It's open and can be crawled through.",
     "looks_like": "t_window_no_curtains_open",
     "symbol": "\"",
     "color": "light_cyan",
@@ -1268,7 +1333,8 @@
       "THIN_OBSTACLE",
       "SMALL_PASSAGE",
       "PERMEABLE",
-      "WINDOW"
+      "WINDOW",
+      "SUPPORTS_ROOF"
     ],
     "close": "t_single_pane_glass",
     "deconstruct": { "ter_set": "t_window_empty", "items": [ { "item": "glass_sheet", "count": 1 } ] },
@@ -1291,14 +1357,23 @@
     "type": "terrain",
     "id": "t_single_pane_glass_with_curtain",
     "name": "single glazed glass window with a curtain",
-    "description": "A glazed window with fancy curtains on the inside that is closed to block visibility and shut out any light.",
+    "description": "A closed single glazed window with a fancy curtain on the inside that is closed to block visibility and shut out any light.",
     "looks_like": "t_curtains",
     "symbol": "|",
     "color": "light_cyan",
     "move_cost": 0,
     "coverage": 60,
     "roof": "t_flat_roof",
-    "flags": [ "FLAMMABLE", "NOITEM", "OPENCLOSE_INSIDE", "BARRICADABLE_WINDOW_CURTAINS", "CONNECT_TO_WALL", "BLOCK_WIND", "WINDOW" ],
+    "flags": [
+      "FLAMMABLE",
+      "NOITEM",
+      "OPENCLOSE_INSIDE",
+      "BARRICADABLE_WINDOW_CURTAINS",
+      "CONNECT_TO_WALL",
+      "BLOCK_WIND",
+      "WINDOW",
+      "SUPPORTS_ROOF"
+    ],
     "curtain_transform": "t_single_pane_glass",
     "examine_action": "curtains",
     "open": "t_single_pane_glass_with_curtain_open_window_closed",
@@ -1306,7 +1381,7 @@
       "ter_set": "t_window_empty",
       "items": [
         { "item": "stick", "count": 1 },
-        { "item": "sheet", "count": 2 },
+        { "item": "sheet", "count": 1 },
         { "item": "glass_sheet", "count": 1 },
         { "item": "nail", "charges": [ 3, 4 ] },
         { "item": "string_36", "count": 1 }
@@ -1327,7 +1402,7 @@
     "type": "terrain",
     "id": "t_single_pane_glass_with_curtain_open_window_closed",
     "name": "single glazed glass window with a curtain",
-    "description": "A glazed window with fancy curtains on the inside that can be drawn closed to block visibility and shut out any light.",
+    "description": "A closed single glazed window with a fancy curtain on the inside that can be drawn closed to block visibility and shut out any light.",
     "looks_like": "t_window_domestic",
     "symbol": "|",
     "color": "light_cyan",
@@ -1342,7 +1417,8 @@
       "BARRICADABLE_WINDOW_CURTAINS",
       "CONNECT_TO_WALL",
       "BLOCK_WIND",
-      "WINDOW"
+      "WINDOW",
+      "SUPPORTS_ROOF"
     ],
     "curtain_transform": "t_single_pane_glass",
     "examine_action": "curtains",
@@ -1352,7 +1428,7 @@
       "ter_set": "t_window_empty",
       "items": [
         { "item": "stick", "count": 1 },
-        { "item": "sheet", "count": 2 },
+        { "item": "sheet", "count": 1 },
         { "item": "glass_sheet", "count": 1 },
         { "item": "nail", "charges": [ 3, 4 ] },
         { "item": "string_36", "count": 1 }
@@ -1373,7 +1449,7 @@
     "type": "terrain",
     "id": "t_single_pane_glass_with_curtain_open",
     "name": "single glazed glass window with a curtain",
-    "description": "A glazed window with fancy curtains on the inside that can be drawn closed to block visibility and shut out any light.",
+    "description": "A single glazed window with a fancy curtain on the inside that can be drawn closed to block visibility and shut out any light.  It's open and can be crawled through.",
     "looks_like": "t_window_open",
     "symbol": "|",
     "color": "light_cyan",
@@ -1391,7 +1467,8 @@
       "THIN_OBSTACLE",
       "SMALL_PASSAGE",
       "PERMEABLE",
-      "WINDOW"
+      "WINDOW",
+      "SUPPORTS_ROOF"
     ],
     "curtain_transform": "t_single_pane_glass",
     "examine_action": "curtains",
@@ -1400,7 +1477,7 @@
       "ter_set": "t_window_empty",
       "items": [
         { "item": "stick", "count": 1 },
-        { "item": "sheet", "count": 2 },
+        { "item": "sheet", "count": 1 },
         { "item": "glass_sheet", "count": 1 },
         { "item": "nail", "charges": [ 3, 4 ] },
         { "item": "string_36", "count": 1 }
@@ -1421,7 +1498,7 @@
     "type": "terrain",
     "id": "t_reinforced_single_pane_glass",
     "name": "reinforced single glazed glass window",
-    "description": "A giant sheet of reinforced glass inserted into a glazed window frame.",
+    "description": "A reinforced single glazed window.  Consists of giant sheet of reinforced glass inserted into a window frame.  It's currently closed.",
     "looks_like": "t_window_no_curtains",
     "symbol": "\"",
     "color": "light_cyan",
@@ -1437,7 +1514,8 @@
       "REDUCE_SCENT",
       "CONNECT_TO_WALL",
       "BLOCK_WIND",
-      "WINDOW"
+      "WINDOW",
+      "SUPPORTS_ROOF"
     ],
     "examine_action": "locked_object",
     "open": "t_reinforced_single_pane_glass_open",
@@ -1461,7 +1539,7 @@
     "type": "terrain",
     "id": "t_reinforced_single_pane_glass_open",
     "name": "open reinforced single glazed glass window",
-    "description": "A giant sheet of glass inserted into a window frame.",
+    "description": "A reinforced single glazed window.  Consists of a giant sheet of reinforced glass inserted into a window frame.  It's open and can be crawled through.",
     "looks_like": "t_window_no_curtains_open",
     "symbol": "\"",
     "color": "light_cyan",
@@ -1479,7 +1557,8 @@
       "THIN_OBSTACLE",
       "SMALL_PASSAGE",
       "PERMEABLE",
-      "WINDOW"
+      "WINDOW",
+      "SUPPORTS_ROOF"
     ],
     "close": "t_reinforced_single_pane_glass",
     "deconstruct": { "ter_set": "t_window_empty", "items": [ { "item": "reinforced_glass_sheet", "count": 1 } ] },
@@ -1502,7 +1581,7 @@
     "type": "terrain",
     "id": "t_reinforced_single_pane_glass_with_curtain",
     "name": "reinforced single glazed glass window with a curtain",
-    "description": "A window with fancy curtains on the inside that is drawn closed to block visibility and shut out any light.",
+    "description": "A closed reinforced single glazed window with a fancy curtain on the inside that is drawn closed to block visibility and shut out any light.",
     "looks_like": "t_curtains",
     "symbol": "|",
     "color": "light_cyan",
@@ -1517,7 +1596,8 @@
       "REDUCE_SCENT",
       "CONNECT_TO_WALL",
       "BLOCK_WIND",
-      "WINDOW"
+      "WINDOW",
+      "SUPPORTS_ROOF"
     ],
     "curtain_transform": "t_reinforced_single_pane_glass",
     "examine_action": "curtains",
@@ -1526,7 +1606,7 @@
       "ter_set": "t_window_empty",
       "items": [
         { "item": "stick", "count": 1 },
-        { "item": "sheet", "count": 2 },
+        { "item": "sheet", "count": 1 },
         { "item": "reinforced_glass_sheet", "count": 1 },
         { "item": "nail", "charges": [ 3, 4 ] },
         { "item": "string_36", "count": 1 }
@@ -1547,7 +1627,7 @@
     "type": "terrain",
     "id": "t_reinforced_single_pane_glass_with_curtain_open_window_closed",
     "name": "reinforced single glazed glass window with a curtain",
-    "description": "A reinforced window with fancy curtains on the inside that can be drawn closed to block visibility and shut out any light.",
+    "description": "A closed reinforced window with a fancy curtain on the inside that can be drawn closed to block visibility and shut out any light.",
     "looks_like": "t_window_domestic",
     "symbol": "|",
     "color": "light_cyan",
@@ -1563,7 +1643,8 @@
       "REDUCE_SCENT",
       "CONNECT_TO_WALL",
       "BLOCK_WIND",
-      "WINDOW"
+      "WINDOW",
+      "SUPPORTS_ROOF"
     ],
     "curtain_transform": "t_reinforced_single_pane_glass",
     "examine_action": "curtains",
@@ -1573,7 +1654,7 @@
       "ter_set": "t_window_empty",
       "items": [
         { "item": "stick", "count": 1 },
-        { "item": "sheet", "count": 2 },
+        { "item": "sheet", "count": 1 },
         { "item": "reinforced_glass_sheet", "count": 1 },
         { "item": "nail", "charges": [ 3, 4 ] },
         { "item": "string_36", "count": 1 }
@@ -1594,7 +1675,7 @@
     "type": "terrain",
     "id": "t_reinforced_single_pane_glass_with_curtain_open",
     "name": "reinforced single glazed glass window with a curtain",
-    "description": "A reinforced window with fancy curtains on the inside that can be drawn closed to block visibility and shut out any light.",
+    "description": "A reinforced window with a fancy curtain on the inside that can be drawn closed to block visibility and shut out any light.  It's open and can be crawled through.",
     "looks_like": "t_window_open",
     "symbol": "|",
     "color": "light_cyan",
@@ -1612,7 +1693,8 @@
       "THIN_OBSTACLE",
       "SMALL_PASSAGE",
       "PERMEABLE",
-      "WINDOW"
+      "WINDOW",
+      "SUPPORTS_ROOF"
     ],
     "curtain_transform": "t_reinforced_single_pane_glass",
     "examine_action": "curtains",
@@ -1621,7 +1703,7 @@
       "ter_set": "t_window_empty",
       "items": [
         { "item": "stick", "count": 1 },
-        { "item": "sheet", "count": 2 },
+        { "item": "sheet", "count": 1 },
         { "item": "reinforced_glass_sheet", "count": 1 },
         { "item": "nail", "charges": [ 3, 4 ] },
         { "item": "string_36", "count": 1 }
@@ -1642,7 +1724,7 @@
     "type": "terrain",
     "id": "t_double_pane_glass",
     "name": "double glazed glass window",
-    "description": "Two giant sheet of glass inserted into a window frame.",
+    "description": "A double glazed window.  Consists of two giant sheets of glass inserted into a window frame.  It's currently closed.",
     "looks_like": "t_window_no_curtains",
     "symbol": "\"",
     "color": "light_cyan",
@@ -1655,10 +1737,11 @@
       "NOITEM",
       "OPENCLOSE_INSIDE",
       "BARRICADABLE_WINDOW",
-      "REDUCE_SCENT",
       "CONNECT_TO_WALL",
       "BLOCK_WIND",
-      "WINDOW"
+      "REDUCE_SCENT",
+      "WINDOW",
+      "SUPPORTS_ROOF"
     ],
     "examine_action": "locked_object",
     "open": "t_double_pane_glass_open",
@@ -1689,7 +1772,7 @@
     "type": "terrain",
     "id": "t_double_pane_glass_open",
     "name": "open double glazed glass window",
-    "description": "Two giant sheet of glass inserted into a window frame.",
+    "description": "A double glazed window.  Consists of two giant sheets of glass inserted into a window frame.  It's open and can be crawled through.",
     "looks_like": "t_window_no_curtains_open",
     "symbol": "\"",
     "color": "light_cyan",
@@ -1707,7 +1790,8 @@
       "THIN_OBSTACLE",
       "SMALL_PASSAGE",
       "PERMEABLE",
-      "WINDOW"
+      "WINDOW",
+      "SUPPORTS_ROOF"
     ],
     "close": "t_double_pane_glass",
     "deconstruct": {
@@ -1737,7 +1821,7 @@
     "type": "terrain",
     "id": "t_double_pane_glass_with_curtain",
     "name": "double glazed glass window with a curtain",
-    "description": "A double glazed window with fancy curtains on the inside that is closed to block visibility and shut out any light.",
+    "description": "A closed double glazed window with a fancy curtain on the inside that is closed to block visibility and shut out any light.",
     "looks_like": "t_curtains",
     "symbol": "|",
     "color": "light_cyan",
@@ -1752,7 +1836,8 @@
       "REDUCE_SCENT",
       "CONNECT_TO_WALL",
       "BLOCK_WIND",
-      "WINDOW"
+      "WINDOW",
+      "SUPPORTS_ROOF"
     ],
     "curtain_transform": "t_double_pane_glass",
     "examine_action": "curtains",
@@ -1761,7 +1846,7 @@
       "ter_set": "t_window_empty",
       "items": [
         { "item": "stick", "count": 1 },
-        { "item": "sheet", "count": 2 },
+        { "item": "sheet", "count": 1 },
         { "item": "glass_sheet", "count": 2 },
         { "item": "nail", "charges": [ 3, 4 ] },
         { "item": "string_36", "count": 1 },
@@ -1784,7 +1869,7 @@
     "type": "terrain",
     "id": "t_double_pane_glass_with_curtain_open_window_closed",
     "name": "double glazed glass window with a curtain",
-    "description": "A double glazed window with fancy curtains on the inside that can be drawn closed to block visibility and shut out any light.",
+    "description": "A closed double glazed window with a fancy curtain on the inside that can be drawn closed to block visibility and shut out any light.",
     "looks_like": "t_window_domestic",
     "symbol": "|",
     "color": "light_cyan",
@@ -1800,7 +1885,8 @@
       "REDUCE_SCENT",
       "CONNECT_TO_WALL",
       "BLOCK_WIND",
-      "WINDOW"
+      "WINDOW",
+      "SUPPORTS_ROOF"
     ],
     "curtain_transform": "t_double_pane_glass",
     "examine_action": "curtains",
@@ -1810,7 +1896,7 @@
       "ter_set": "t_window_empty",
       "items": [
         { "item": "stick", "count": 1 },
-        { "item": "sheet", "count": 2 },
+        { "item": "sheet", "count": 1 },
         { "item": "glass_sheet", "count": 2 },
         { "item": "nail", "charges": [ 3, 4 ] },
         { "item": "string_36", "count": 1 },
@@ -1833,7 +1919,7 @@
     "type": "terrain",
     "id": "t_double_pane_glass_with_curtain_open",
     "name": "double glazed glass window with a curtain",
-    "description": "A double glazed window with fancy curtains on the inside that can be drawn closed to block visibility and shut out any light.",
+    "description": "A double glazed window with a fancy curtain on the inside that can be drawn closed to block visibility and shut out any light.  It's open and can be crawled through.",
     "looks_like": "t_window_open",
     "symbol": "|",
     "color": "light_cyan",
@@ -1851,7 +1937,8 @@
       "THIN_OBSTACLE",
       "SMALL_PASSAGE",
       "PERMEABLE",
-      "WINDOW"
+      "WINDOW",
+      "SUPPORTS_ROOF"
     ],
     "curtain_transform": "t_double_pane_glass",
     "examine_action": "curtains",
@@ -1860,7 +1947,7 @@
       "ter_set": "t_window_empty",
       "items": [
         { "item": "stick", "count": 1 },
-        { "item": "sheet", "count": 2 },
+        { "item": "sheet", "count": 1 },
         { "item": "glass_sheet", "count": 2 },
         { "item": "nail", "charges": [ 3, 4 ] },
         { "item": "string_36", "count": 1 },
@@ -1883,7 +1970,7 @@
     "type": "terrain",
     "id": "t_reinforced_double_pane_glass",
     "name": "reinforced double glazed glass window",
-    "description": "A reinforced, double-glazed window inserted into a frame.  For extra security, the outer layer is reinforced glass.",
+    "description": "A closed reinforced double glazed window.  Consists of two giant sheets of glass inserted into a window frame.  For extra security, the outer layer is reinforced glass.",
     "looks_like": "t_window_no_curtains",
     "symbol": "\"",
     "color": "light_cyan",
@@ -1899,7 +1986,8 @@
       "REDUCE_SCENT",
       "CONNECT_TO_WALL",
       "BLOCK_WIND",
-      "WINDOW"
+      "WINDOW",
+      "SUPPORTS_ROOF"
     ],
     "examine_action": "locked_object",
     "open": "t_reinforced_double_pane_glass_open",
@@ -1926,7 +2014,7 @@
     "type": "terrain",
     "id": "t_reinforced_double_pane_glass_open",
     "name": "open reinforced double glazed glass window",
-    "description": "A double glazed window with a giant sheet of reinforced glass inserted into a window frame.",
+    "description": "A reinforced double glazed window.  Consists of two giant sheets of glass inserted into a window frame.  For extra security, the outer layer is reinforced glass.  It's open and can be crawled through.",
     "looks_like": "t_window_no_curtains_open",
     "symbol": "\"",
     "color": "light_cyan",
@@ -1944,7 +2032,8 @@
       "THIN_OBSTACLE",
       "SMALL_PASSAGE",
       "PERMEABLE",
-      "WINDOW"
+      "WINDOW",
+      "SUPPORTS_ROOF"
     ],
     "close": "t_reinforced_double_pane_glass",
     "deconstruct": {
@@ -1970,7 +2059,7 @@
     "type": "terrain",
     "id": "t_reinforced_double_pane_glass_with_curtain",
     "name": "reinforced double glazed glass window with a curtain",
-    "description": "A double glazed window with fancy curtains on the inside that is closed to block visibility and shut out any light.",
+    "description": "A closed reinforced double glazed window with a fancy curtain on the inside that is closed to block visibility and shut out any light.",
     "looks_like": "t_curtains",
     "symbol": "|",
     "color": "light_cyan",
@@ -1985,7 +2074,8 @@
       "REDUCE_SCENT",
       "CONNECT_TO_WALL",
       "BLOCK_WIND",
-      "WINDOW"
+      "WINDOW",
+      "SUPPORTS_ROOF"
     ],
     "curtain_transform": "t_reinforced_double_pane_glass",
     "examine_action": "curtains",
@@ -1994,7 +2084,7 @@
       "ter_set": "t_window_empty",
       "items": [
         { "item": "stick", "count": 1 },
-        { "item": "sheet", "count": 2 },
+        { "item": "sheet", "count": 1 },
         { "item": "reinforced_glass_sheet", "count": 1 },
         { "item": "glass_sheet", "count": 1 },
         { "item": "nail", "charges": [ 3, 4 ] },
@@ -2016,7 +2106,7 @@
     "type": "terrain",
     "id": "t_reinforced_double_pane_glass_with_curtain_open_window_closed",
     "name": "reinforced double glazed glass window with a curtain",
-    "description": "A double glazed window with fancy curtains on the inside that can be drawn closed to block visibility and shut out any light.",
+    "description": "A closed reinforced double glazed window with a fancy curtain on the inside that can be drawn closed to block visibility and shut out any light.",
     "looks_like": "t_window_domestic",
     "symbol": "|",
     "color": "light_cyan",
@@ -2034,7 +2124,8 @@
       "THIN_OBSTACLE",
       "SMALL_PASSAGE",
       "PERMEABLE",
-      "WINDOW"
+      "WINDOW",
+      "SUPPORTS_ROOF"
     ],
     "curtain_transform": "t_reinforced_double_pane_glass",
     "examine_action": "curtains",
@@ -2044,7 +2135,7 @@
       "ter_set": "t_window_empty",
       "items": [
         { "item": "stick", "count": 1 },
-        { "item": "sheet", "count": 2 },
+        { "item": "sheet", "count": 1 },
         { "item": "reinforced_glass_sheet", "count": 1 },
         { "item": "glass_sheet", "count": 1 },
         { "item": "nail", "charges": [ 3, 4 ] },
@@ -2066,7 +2157,7 @@
     "type": "terrain",
     "id": "t_reinforced_double_pane_glass_with_curtain_open",
     "name": "reinforced double glazed glass window with a curtain",
-    "description": "A double glazed window with fancy curtains on the inside that can be drawn closed to block visibility and shut out any light.",
+    "description": "A reinforced double glazed window with a fancy curtain on the inside that can be drawn closed to block visibility and shut out any light.  It's open and can be crawled through.",
     "looks_like": "t_window_open",
     "symbol": "|",
     "color": "light_cyan",
@@ -2084,7 +2175,8 @@
       "THIN_OBSTACLE",
       "SMALL_PASSAGE",
       "PERMEABLE",
-      "WINDOW"
+      "WINDOW",
+      "SUPPORTS_ROOF"
     ],
     "curtain_transform": "t_reinforced_double_pane_glass",
     "examine_action": "curtains",
@@ -2093,7 +2185,7 @@
       "ter_set": "t_window_empty",
       "items": [
         { "item": "stick", "count": 1 },
-        { "item": "sheet", "count": 2 },
+        { "item": "sheet", "count": 1 },
         { "item": "reinforced_glass_sheet", "count": 1 },
         { "item": "glass_sheet", "count": 1 },
         { "item": "nail", "charges": [ 3, 4 ] },
@@ -2115,7 +2207,7 @@
     "type": "terrain",
     "id": "t_triple_pane_glass",
     "name": "triple glazed glass window",
-    "description": "Three giant sheet of glass inserted into a window frame.",
+    "description": "A closed triple glazed window.  Consists of three giant sheets of glass inserted into a window frame.",
     "looks_like": "t_window_no_curtains",
     "symbol": "|",
     "color": "light_cyan",
@@ -2131,7 +2223,8 @@
       "REDUCE_SCENT",
       "CONNECT_TO_WALL",
       "BLOCK_WIND",
-      "WINDOW"
+      "WINDOW",
+      "SUPPORTS_ROOF"
     ],
     "examine_action": "locked_object",
     "open": "t_triple_pane_glass_open",
@@ -2155,7 +2248,7 @@
     "type": "terrain",
     "id": "t_triple_pane_glass_open",
     "name": "triple glazed glass window",
-    "description": "A triple glazed giant sheet of glass inserted into a window frame.",
+    "description": "A triple glazed window.  Consists of three giant sheets of glass inserted into a window frame.  It's open and can be crawled through.",
     "looks_like": "t_window_no_curtains_open",
     "symbol": "|",
     "color": "light_cyan",
@@ -2173,7 +2266,8 @@
       "THIN_OBSTACLE",
       "SMALL_PASSAGE",
       "PERMEABLE",
-      "WINDOW"
+      "WINDOW",
+      "SUPPORTS_ROOF"
     ],
     "close": "t_triple_pane_glass",
     "deconstruct": { "ter_set": "t_window_empty", "items": [ { "item": "glass_sheet", "count": 3 } ] },
@@ -2196,7 +2290,7 @@
     "type": "terrain",
     "id": "t_triple_pane_glass_with_curtain",
     "name": "triple glazed glass window with a curtain",
-    "description": "A triple glazed window with fancy curtains on the inside that is closed to block visibility and shut out any light.",
+    "description": "A closed triple glazed window with a fancy curtain on the inside that is closed to block visibility and shut out any light.",
     "looks_like": "t_curtains",
     "symbol": "|",
     "color": "light_cyan",
@@ -2211,7 +2305,8 @@
       "REDUCE_SCENT",
       "CONNECT_TO_WALL",
       "BLOCK_WIND",
-      "WINDOW"
+      "WINDOW",
+      "SUPPORTS_ROOF"
     ],
     "curtain_transform": "t_triple_pane_glass",
     "examine_action": "curtains",
@@ -2220,7 +2315,7 @@
       "ter_set": "t_window_empty",
       "items": [
         { "item": "stick", "count": 1 },
-        { "item": "sheet", "count": 2 },
+        { "item": "sheet", "count": 1 },
         { "item": "glass_sheet", "count": 3 },
         { "item": "nail", "charges": [ 3, 4 ] },
         { "item": "string_36", "count": 1 }
@@ -2241,7 +2336,7 @@
     "type": "terrain",
     "id": "t_triple_pane_glass_with_curtain_open_window_closed",
     "name": "triple glazed glass window with a curtain",
-    "description": "A triple glazed window with fancy curtains on the inside that can be drawn closed to block visibility and shut out any light.",
+    "description": "A closed triple glazed window with fancy curtains on the inside that can be drawn closed to block visibility and shut out any light.",
     "looks_like": "t_window_domestic",
     "symbol": "|",
     "color": "light_cyan",
@@ -2257,7 +2352,8 @@
       "REDUCE_SCENT",
       "CONNECT_TO_WALL",
       "BLOCK_WIND",
-      "WINDOW"
+      "WINDOW",
+      "SUPPORTS_ROOF"
     ],
     "curtain_transform": "t_triple_pane_glass",
     "examine_action": "curtains",
@@ -2267,7 +2363,7 @@
       "ter_set": "t_window_empty",
       "items": [
         { "item": "stick", "count": 1 },
-        { "item": "sheet", "count": 2 },
+        { "item": "sheet", "count": 1 },
         { "item": "glass_sheet", "count": 3 },
         { "item": "nail", "charges": [ 3, 4 ] },
         { "item": "string_36", "count": 1 }
@@ -2288,7 +2384,7 @@
     "type": "terrain",
     "id": "t_triple_pane_glass_with_curtain_open",
     "name": "triple glazed glass window with a curtain",
-    "description": "A triple glazed window with fancy curtains on the inside that can be drawn closed to block visibility and shut out any light.",
+    "description": "A triple glazed window with fancy curtains on the inside that can be drawn closed to block visibility and shut out any light.  It's open and can be crawled through.",
     "looks_like": "t_window_open",
     "symbol": "|",
     "color": "light_cyan",
@@ -2306,7 +2402,8 @@
       "THIN_OBSTACLE",
       "SMALL_PASSAGE",
       "PERMEABLE",
-      "WINDOW"
+      "WINDOW",
+      "SUPPORTS_ROOF"
     ],
     "curtain_transform": "t_triple_pane_glass",
     "examine_action": "curtains",
@@ -2315,7 +2412,7 @@
       "ter_set": "t_window_empty",
       "items": [
         { "item": "stick", "count": 1 },
-        { "item": "sheet", "count": 2 },
+        { "item": "sheet", "count": 1 },
         { "item": "glass_sheet", "count": 3 },
         { "item": "nail", "charges": [ 3, 4 ] },
         { "item": "string_36", "count": 1 }
@@ -2336,7 +2433,7 @@
     "type": "terrain",
     "id": "t_reinforced_triple_pane_glass",
     "name": "reinforced triple glazed glass window",
-    "description": "Three glass sheets inserted as well as one reinforced glass sheet inserted into a window frame.",
+    "description": "A closed reinforced triple glazed window.  Consists of three giant glass sheets inserted into a window frame.  For extra security, the outer layer is reinforced glass.",
     "looks_like": "t_window_no_curtains",
     "symbol": "|",
     "color": "light_cyan",
@@ -2352,7 +2449,8 @@
       "REDUCE_SCENT",
       "CONNECT_TO_WALL",
       "BLOCK_WIND",
-      "WINDOW"
+      "WINDOW",
+      "SUPPORTS_ROOF"
     ],
     "examine_action": "locked_object",
     "open": "t_reinforced_triple_pane_glass_open",
@@ -2384,7 +2482,7 @@
     "type": "terrain",
     "id": "t_reinforced_triple_pane_glass_open",
     "name": "reinforced triple glazed glass window",
-    "description": "Three glass sheets inserted as well as one giant sheet of reinforced glass sheet inserted into a window frame.",
+    "description": "A reinforced triple glazed window.  Consists of three giant sheets of glass inserted inserted into a window frame.  For extra security, the outer layer is reinforced glass.  It's open and can be crawled through.",
     "looks_like": "t_window_no_curtains_open",
     "symbol": "|",
     "color": "light_cyan",
@@ -2402,7 +2500,8 @@
       "THIN_OBSTACLE",
       "SMALL_PASSAGE",
       "PERMEABLE",
-      "WINDOW"
+      "WINDOW",
+      "SUPPORTS_ROOF"
     ],
     "close": "t_reinforced_triple_pane_glass",
     "deconstruct": {
@@ -2433,7 +2532,7 @@
     "type": "terrain",
     "id": "t_reinforced_triple_pane_glass_with_curtain",
     "name": "reinforced triple glazed glass window with a curtain",
-    "description": "A triple glazed window with fancy curtains on the inside that is closed to block visibility and shut out any light.",
+    "description": "A closed reinforced triple glazed window with a fancy curtain on the inside that is closed to block visibility and shut out any light.",
     "looks_like": "t_curtains",
     "symbol": "|",
     "color": "light_cyan",
@@ -2448,7 +2547,8 @@
       "REDUCE_SCENT",
       "CONNECT_TO_WALL",
       "BLOCK_WIND",
-      "WINDOW"
+      "WINDOW",
+      "SUPPORTS_ROOF"
     ],
     "curtain_transform": "t_reinforced_triple_pane_glass",
     "examine_action": "curtains",
@@ -2457,7 +2557,7 @@
       "ter_set": "t_window_empty",
       "items": [
         { "item": "stick", "count": 1 },
-        { "item": "sheet", "count": 2 },
+        { "item": "sheet", "count": 1 },
         { "item": "reinforced_glass_sheet", "count": 1 },
         { "item": "glass_sheet", "count": 2 },
         { "item": "nail", "charges": [ 3, 4 ] },
@@ -2481,7 +2581,7 @@
     "type": "terrain",
     "id": "t_reinforced_triple_pane_glass_with_curtain_open_window_closed",
     "name": "reinforced triple glazed glass window with a curtain",
-    "description": "A triple glazed window with fancy curtains on the inside that can be drawn closed to block visibility and shut out any light.",
+    "description": "A closed reinforced triple glazed window with a fancy curtain on the inside that can be drawn closed to block visibility and shut out any light.",
     "looks_like": "t_window_domestic",
     "symbol": "|",
     "color": "light_cyan",
@@ -2493,11 +2593,12 @@
       "FLAMMABLE",
       "NOITEM",
       "OPENCLOSE_INSIDE",
-      "MOUNTABLE",
       "BARRICADABLE_WINDOW_CURTAINS",
+      "REDUCE_SCENT",
       "CONNECT_TO_WALL",
-      "THIN_OBSTACLE",
-      "WINDOW"
+      "BLOCK_WIND",
+      "WINDOW",
+      "SUPPORTS_ROOF"
     ],
     "curtain_transform": "t_reinforced_triple_pane_glass",
     "examine_action": "curtains",
@@ -2507,7 +2608,7 @@
       "ter_set": "t_window_empty",
       "items": [
         { "item": "stick", "count": 1 },
-        { "item": "sheet", "count": 2 },
+        { "item": "sheet", "count": 1 },
         { "item": "reinforced_glass_sheet", "count": 1 },
         { "item": "glass_sheet", "count": 2 },
         { "item": "nail", "charges": [ 3, 4 ] },
@@ -2531,7 +2632,7 @@
     "type": "terrain",
     "id": "t_reinforced_triple_pane_glass_with_curtain_open",
     "name": "reinforced triple glazed glass window with a curtain",
-    "description": "A triple glazed window with fancy curtains on the inside that can be drawn closed to block visibility and shut out any light.",
+    "description": "A reinforced triple glazed window with a fancy curtain on the inside that can be drawn closed to block visibility and shut out any light.  It's open and can be crawled through.",
     "looks_like": "t_window_open",
     "symbol": "|",
     "color": "light_cyan",
@@ -2549,7 +2650,8 @@
       "THIN_OBSTACLE",
       "SMALL_PASSAGE",
       "PERMEABLE",
-      "WINDOW"
+      "WINDOW",
+      "SUPPORTS_ROOF"
     ],
     "curtain_transform": "t_reinforced_triple_pane_glass",
     "examine_action": "curtains",
@@ -2558,7 +2660,7 @@
       "ter_set": "t_window_empty",
       "items": [
         { "item": "stick", "count": 1 },
-        { "item": "sheet", "count": 2 },
+        { "item": "sheet", "count": 1 },
         { "item": "reinforced_glass_sheet", "count": 1 },
         { "item": "nail", "charges": [ 3, 4 ] },
         { "item": "string_36", "count": 1 },
@@ -2581,7 +2683,7 @@
     "type": "terrain",
     "id": "t_quadruple_pane_glass",
     "name": "quadruple glazed glass window",
-    "description": "Four giant sheet of glass inserted into a window frame.",
+    "description": "A closed quadruple glazed window.  Consists of four giant sheets of glass inserted into a window frame.",
     "looks_like": "t_window_no_curtains",
     "symbol": "|",
     "color": "light_cyan",
@@ -2597,7 +2699,8 @@
       "REDUCE_SCENT",
       "CONNECT_TO_WALL",
       "BLOCK_WIND",
-      "WINDOW"
+      "WINDOW",
+      "SUPPORTS_ROOF"
     ],
     "examine_action": "locked_object",
     "open": "t_quadruple_pane_glass_open",
@@ -2628,7 +2731,7 @@
     "type": "terrain",
     "id": "t_quadruple_pane_glass_open",
     "name": "quadruple glazed glass window",
-    "description": "An open quadruple glazed window.",
+    "description": "A quadruple glazed window.  Consists of four giant sheets of glass inserted into a window frame.  It's open and can be crawled through.",
     "looks_like": "t_window_no_curtains_open",
     "symbol": "|",
     "color": "light_cyan",
@@ -2640,11 +2743,14 @@
       "FLAMMABLE",
       "NOITEM",
       "OPENCLOSE_INSIDE",
+      "MOUNTABLE",
       "BARRICADABLE_WINDOW",
-      "REDUCE_SCENT",
       "CONNECT_TO_WALL",
-      "BLOCK_WIND",
-      "WINDOW"
+      "THIN_OBSTACLE",
+      "SMALL_PASSAGE",
+      "PERMEABLE",
+      "WINDOW",
+      "SUPPORTS_ROOF"
     ],
     "close": "t_quadruple_pane_glass",
     "deconstruct": {
@@ -2674,7 +2780,7 @@
     "type": "terrain",
     "id": "t_quadruple_pane_glass_with_curtain",
     "name": "quadruple glazed glass window with a curtain",
-    "description": "A quadruple glazed window with fancy curtains on the inside that is closed to block visibility and shut out any light.",
+    "description": "A closed quadruple glazed window with a fancy curtain on the inside that is closed to block visibility and shut out any light.",
     "looks_like": "t_curtains",
     "symbol": "|",
     "color": "light_cyan",
@@ -2689,7 +2795,8 @@
       "REDUCE_SCENT",
       "CONNECT_TO_WALL",
       "BLOCK_WIND",
-      "WINDOW"
+      "WINDOW",
+      "SUPPORTS_ROOF"
     ],
     "curtain_transform": "t_quadruple_pane_glass",
     "examine_action": "curtains",
@@ -2698,7 +2805,7 @@
       "ter_set": "t_window_empty",
       "items": [
         { "item": "stick", "count": 1 },
-        { "item": "sheet", "count": 2 },
+        { "item": "sheet", "count": 1 },
         { "item": "glass_sheet", "count": 4 },
         { "item": "nail", "charges": [ 3, 4 ] },
         { "item": "string_36", "count": 1 },
@@ -2721,7 +2828,7 @@
     "type": "terrain",
     "id": "t_quadruple_pane_glass_with_curtain_open_window_closed",
     "name": "quadruple glazed glass window with a curtain",
-    "description": "A quadruple glazed window with fancy curtains on the inside that can be drawn closed to block visibility and shut out any light.",
+    "description": "A closed quadruple glazed window with a fancy curtain on the inside that can be drawn closed to block visibility and shut out any light.",
     "looks_like": "t_window_domestic",
     "symbol": "|",
     "color": "light_cyan",
@@ -2737,7 +2844,8 @@
       "REDUCE_SCENT",
       "CONNECT_TO_WALL",
       "BLOCK_WIND",
-      "WINDOW"
+      "WINDOW",
+      "SUPPORTS_ROOF"
     ],
     "curtain_transform": "t_quadruple_pane_glass",
     "examine_action": "curtains",
@@ -2747,7 +2855,7 @@
       "ter_set": "t_window_empty",
       "items": [
         { "item": "stick", "count": 1 },
-        { "item": "sheet", "count": 2 },
+        { "item": "sheet", "count": 1 },
         { "item": "glass_sheet", "count": 1 },
         { "item": "nail", "charges": [ 3, 4 ] },
         { "item": "string_36", "count": 1 },
@@ -2770,7 +2878,7 @@
     "type": "terrain",
     "id": "t_quadruple_pane_glass_with_curtain_open",
     "name": "quadruple glazed glass window with a curtain",
-    "description": "A quadruple glazed window with fancy curtains on the inside that can be drawn closed to block visibility and shut out any light.",
+    "description": "A quadruple glazed window with fancy curtains on the inside that can be drawn closed to block visibility and shut out any light.  It's open and can be crawled through.",
     "looks_like": "t_window_open",
     "symbol": "|",
     "color": "light_cyan",
@@ -2788,7 +2896,8 @@
       "THIN_OBSTACLE",
       "SMALL_PASSAGE",
       "PERMEABLE",
-      "WINDOW"
+      "WINDOW",
+      "SUPPORTS_ROOF"
     ],
     "curtain_transform": "t_quadruple_pane_glass",
     "examine_action": "curtains",
@@ -2797,7 +2906,7 @@
       "ter_set": "t_window_empty",
       "items": [
         { "item": "stick", "count": 1 },
-        { "item": "sheet", "count": 2 },
+        { "item": "sheet", "count": 1 },
         { "item": "glass_sheet", "count": 4 },
         { "item": "nail", "charges": [ 3, 4 ] },
         { "item": "string_36", "count": 1 },
@@ -2820,7 +2929,7 @@
     "type": "terrain",
     "id": "t_reinforced_quadruple_pane_glass",
     "name": "reinforced quadruple glazed glass window",
-    "description": "Three large sheets of glass and 1 reinforced sheet of glass inserted into a window frame.",
+    "description": "A closed quadruple glazed window.  Consists of Four giant sheets of glass inserted into a window frame.  For extra security, the outer layer is reinforced glass.",
     "looks_like": "t_window_no_curtains",
     "symbol": "|",
     "color": "light_cyan",
@@ -2836,7 +2945,8 @@
       "REDUCE_SCENT",
       "CONNECT_TO_WALL",
       "BLOCK_WIND",
-      "WINDOW"
+      "WINDOW",
+      "SUPPORTS_ROOF"
     ],
     "examine_action": "locked_object",
     "open": "t_reinforced_quadruple_pane_glass_open",
@@ -2868,7 +2978,7 @@
     "type": "terrain",
     "id": "t_reinforced_quadruple_pane_glass_open",
     "name": "reinforced quadruple glazed glass window",
-    "description": "Three giant sheet of glass inserted into a window frame.",
+    "description": "A quadruple glazed window.  Consists of four giant sheets of glass inserted into a window frame.  For extra security, the outer layer is reinforced glass.  It's open and can be crawled through.",
     "looks_like": "t_window_no_curtains_open",
     "symbol": "|",
     "color": "light_cyan",
@@ -2886,7 +2996,8 @@
       "THIN_OBSTACLE",
       "SMALL_PASSAGE",
       "PERMEABLE",
-      "WINDOW"
+      "WINDOW",
+      "SUPPORTS_ROOF"
     ],
     "close": "t_reinforced_quadruple_pane_glass",
     "deconstruct": {
@@ -2917,7 +3028,7 @@
     "type": "terrain",
     "id": "t_reinforced_quadruple_pane_glass_with_curtain",
     "name": "reinforced quadruple glazed glass window with a curtain",
-    "description": "A reinforced quadruple glazed window with fancy curtains on the inside that is closed to block visibility and shut out any light.",
+    "description": "A closed reinforced quadruple glazed window with a fancy curtain on the inside that is closed to block visibility and shut out any light.",
     "looks_like": "t_curtains",
     "symbol": "|",
     "color": "light_cyan",
@@ -2932,7 +3043,8 @@
       "REDUCE_SCENT",
       "CONNECT_TO_WALL",
       "BLOCK_WIND",
-      "WINDOW"
+      "WINDOW",
+      "SUPPORTS_ROOF"
     ],
     "curtain_transform": "t_reinforced_quadruple_pane_glass",
     "examine_action": "curtains",
@@ -2941,7 +3053,7 @@
       "ter_set": "t_window_empty",
       "items": [
         { "item": "stick", "count": 1 },
-        { "item": "sheet", "count": 2 },
+        { "item": "sheet", "count": 1 },
         { "item": "reinforced_glass_sheet", "count": 1 },
         { "item": "nail", "charges": [ 3, 4 ] },
         { "item": "string_36", "count": 1 },
@@ -2965,7 +3077,7 @@
     "type": "terrain",
     "id": "t_reinforced_quadruple_double_pane_glass_with_curtain_open_window_closed",
     "name": "reinforced quadruple glazed glass window with a curtain",
-    "description": "A reinforced quadruple glazed window with fancy curtains on the inside that can be drawn closed to block visibility and shut out any light.",
+    "description": "A closed reinforced quadruple glazed window with a fancy curtain on the inside that can be drawn closed to block visibility and shut out any light.",
     "looks_like": "t_window_domestic",
     "symbol": "|",
     "color": "light_cyan",
@@ -2977,11 +3089,12 @@
       "FLAMMABLE",
       "NOITEM",
       "OPENCLOSE_INSIDE",
-      "MOUNTABLE",
       "BARRICADABLE_WINDOW_CURTAINS",
+      "REDUCE_SCENT",
       "CONNECT_TO_WALL",
-      "THIN_OBSTACLE",
-      "WINDOW"
+      "BLOCK_WIND",
+      "WINDOW",
+      "SUPPORTS_ROOF"
     ],
     "curtain_transform": "t_reinforced_quadruple_pane_glass",
     "examine_action": "curtains",
@@ -2991,7 +3104,7 @@
       "ter_set": "t_window_empty",
       "items": [
         { "item": "stick", "count": 1 },
-        { "item": "sheet", "count": 2 },
+        { "item": "sheet", "count": 1 },
         { "item": "glass_sheet", "count": 2 },
         { "item": "nail", "charges": [ 3, 4 ] },
         { "item": "string_36", "count": 1 },
@@ -3015,7 +3128,7 @@
     "type": "terrain",
     "id": "t_reinforced_quadruple_pane_glass_with_curtain_open",
     "name": "reinforced quadruple glazed glass window with a curtain",
-    "description": "A reinforced quadruple glazed window with fancy curtains on the inside that can be drawn closed to block visibility and shut out any light.",
+    "description": "A reinforced quadruple glazed window with a fancy curtain on the inside that can be drawn closed to block visibility and shut out any light.  It's open and can be crawled through.",
     "looks_like": "t_window_open",
     "symbol": "|",
     "color": "light_cyan",
@@ -3033,7 +3146,8 @@
       "THIN_OBSTACLE",
       "SMALL_PASSAGE",
       "PERMEABLE",
-      "WINDOW"
+      "WINDOW",
+      "SUPPORTS_ROOF"
     ],
     "curtain_transform": "t_reinforced_quadruple_pane_glass",
     "examine_action": "curtains",
@@ -3042,7 +3156,7 @@
       "ter_set": "t_window_empty",
       "items": [
         { "item": "stick", "count": 1 },
-        { "item": "sheet", "count": 2 },
+        { "item": "sheet", "count": 1 },
         { "item": "glass_sheet", "count": 4 },
         { "item": "nail", "charges": [ 3, 4 ] },
         { "item": "string_36", "count": 1 },
@@ -3066,7 +3180,7 @@
     "type": "terrain",
     "id": "t_plastic_window",
     "name": "plastic window",
-    "description": "A makeshift window comprising a sheet of translucent, rigid plastic secured in a wooden frame.  It'll do in a pinch.",
+    "description": "A closed makeshift window comprising a sheet of translucent, rigid plastic secured in a wooden frame.  It'll do in a pinch.",
     "looks_like": "t_window_no_curtains",
     "symbol": "|",
     "color": "light_blue",
@@ -3081,7 +3195,8 @@
       "BARRICADABLE_WINDOW",
       "CONNECT_TO_WALL",
       "BLOCK_WIND",
-      "WINDOW"
+      "WINDOW",
+      "SUPPORTS_ROOF"
     ],
     "examine_action": "locked_object",
     "open": "t_plastic_window_open",
@@ -3108,7 +3223,7 @@
     "type": "terrain",
     "id": "t_plastic_window_open",
     "name": "plastic window",
-    "description": "An opened makeshift window comprising a sheet of translucent, rigid plastic secured in a wooden frame.  It'll do in a pinch.",
+    "description": "A makeshift window comprising a sheet of translucent, rigid plastic secured in a wooden frame.  It'll do in a pinch.  It's open and can be crawled through.",
     "looks_like": "t_window_no_curtains_open",
     "symbol": "|",
     "color": "light_blue",
@@ -3126,7 +3241,8 @@
       "THIN_OBSTACLE",
       "SMALL_PASSAGE",
       "PERMEABLE",
-      "WINDOW"
+      "WINDOW",
+      "SUPPORTS_ROOF"
     ],
     "close": "t_plastic_window",
     "deconstruct": {
@@ -3152,14 +3268,23 @@
     "type": "terrain",
     "id": "t_plastic_window_with_curtain",
     "name": "plastic window with a curtain",
-    "description": "A makeshift window with a closed curtain.  It's a sheet of translucent, rigid plastic secured in a wooden frame.  There are sheets drawn across it to block the light.  It'll do in a pinch.",
+    "description": "A closed makeshift window with a closed curtain.  It's a sheet of translucent, rigid plastic secured in a wooden frame.  There's a sheet drawn across it to block the light.  It'll do in a pinch.",
     "looks_like": "t_curtains",
     "symbol": "|",
     "color": "light_blue",
     "move_cost": 0,
     "coverage": 60,
     "roof": "t_flat_roof",
-    "flags": [ "FLAMMABLE", "NOITEM", "OPENCLOSE_INSIDE", "BARRICADABLE_WINDOW_CURTAINS", "CONNECT_TO_WALL", "BLOCK_WIND", "WINDOW" ],
+    "flags": [
+      "FLAMMABLE",
+      "NOITEM",
+      "OPENCLOSE_INSIDE",
+      "BARRICADABLE_WINDOW_CURTAINS",
+      "CONNECT_TO_WALL",
+      "BLOCK_WIND",
+      "WINDOW",
+      "SUPPORTS_ROOF"
+    ],
     "curtain_transform": "t_plastic_window",
     "examine_action": "curtains",
     "open": "t_plastic_window_with_curtain_open_window_closed",
@@ -3167,7 +3292,7 @@
       "ter_set": "t_window_empty",
       "items": [
         { "item": "stick", "count": 1 },
-        { "item": "sheet", "count": 2 },
+        { "item": "sheet", "count": 1 },
         { "item": "plastic_sheet", "count": 1 },
         { "item": "nail", "charges": [ 3, 4 ] },
         { "item": "string_36", "count": 1 },
@@ -3190,7 +3315,7 @@
     "type": "terrain",
     "id": "t_plastic_window_with_curtain_open_window_closed",
     "name": "plastic window with a curtain",
-    "description": "A makeshift window with a opened curtain.  It's a sheet of translucent, rigid plastic secured in a wooden frame, with sheets strung about it to block the light as required.  It'll do in a pinch.",
+    "description": "A closed makeshift window with an opened curtain.  It's a sheet of translucent, rigid plastic secured in a wooden frame, with a sheet strung about it to block the light as required.  It'll do in a pinch.",
     "looks_like": "t_window_domestic",
     "symbol": "|",
     "color": "light_blue",
@@ -3205,7 +3330,8 @@
       "BARRICADABLE_WINDOW_CURTAINS",
       "CONNECT_TO_WALL",
       "BLOCK_WIND",
-      "WINDOW"
+      "WINDOW",
+      "SUPPORTS_ROOF"
     ],
     "curtain_transform": "t_plastic_window",
     "examine_action": "curtains",
@@ -3215,7 +3341,7 @@
       "ter_set": "t_window_empty",
       "items": [
         { "item": "stick", "count": 1 },
-        { "item": "sheet", "count": 2 },
+        { "item": "sheet", "count": 1 },
         { "item": "plastic_sheet", "count": 1 },
         { "item": "nail", "charges": [ 3, 4 ] },
         { "item": "string_36", "count": 1 },
@@ -3237,8 +3363,8 @@
   {
     "type": "terrain",
     "id": "t_plastic_window_with_curtain_open",
-    "name": "plastic window with open curtains",
-    "description": "An open makeshift window with open curtains.  It's a sheet of translucent, rigid plastic secured in a wooden frame, with sheets strung about it to block the light as required.  It'll do in a pinch.",
+    "name": "plastic window with an open curtain",
+    "description": "A makeshift window an with an open curtain.  It's a sheet of translucent, rigid plastic secured in a wooden frame, with a sheet strung about it to block the light as required.  It'll do in a pinch.  It's open and can be crawled through.",
     "looks_like": "t_window_open",
     "symbol": "|",
     "color": "light_blue",
@@ -3256,7 +3382,8 @@
       "THIN_OBSTACLE",
       "SMALL_PASSAGE",
       "PERMEABLE",
-      "WINDOW"
+      "WINDOW",
+      "SUPPORTS_ROOF"
     ],
     "curtain_transform": "t_plastic_window",
     "examine_action": "curtains",
@@ -3265,7 +3392,7 @@
       "ter_set": "t_window_empty",
       "items": [
         { "item": "stick", "count": 1 },
-        { "item": "sheet", "count": 2 },
+        { "item": "sheet", "count": 1 },
         { "item": "plastic_sheet", "count": 1 },
         { "item": "nail", "charges": [ 3, 4 ] },
         { "item": "string_36", "count": 1 },
@@ -3288,7 +3415,7 @@
     "type": "terrain",
     "id": "t_reinforced_plastic_window",
     "name": "reinforced plastic window",
-    "description": "A makeshift window comprising three sheets of translucent, rigid plastic secured in a wooden frame.  It'll do in a pinch.",
+    "description": "A closed reinforced makeshift window comprising three sheets of translucent, rigid plastic secured in a wooden frame.  It'll do in a pinch.",
     "looks_like": "t_window_no_curtains",
     "symbol": "|",
     "color": "light_blue",
@@ -3304,7 +3431,8 @@
       "REDUCE_SCENT",
       "CONNECT_TO_WALL",
       "BLOCK_WIND",
-      "WINDOW"
+      "WINDOW",
+      "SUPPORTS_ROOF"
     ],
     "examine_action": "locked_object",
     "open": "t_reinforced_plastic_window_open",
@@ -3335,7 +3463,7 @@
     "type": "terrain",
     "id": "t_reinforced_plastic_window_open",
     "name": "reinforced plastic window",
-    "description": "An open makeshift window comprising three sheets of translucent, rigid plastic secured in a wooden frame.  It'll do in a pinch.",
+    "description": "A reinforced makeshift window comprising three sheets of translucent, rigid plastic secured in a wooden frame.  It'll do in a pinch.  It's open and can be crawled through.",
     "looks_like": "t_window_no_curtains_open",
     "symbol": "|",
     "color": "light_blue",
@@ -3353,7 +3481,8 @@
       "THIN_OBSTACLE",
       "SMALL_PASSAGE",
       "PERMEABLE",
-      "WINDOW"
+      "WINDOW",
+      "SUPPORTS_ROOF"
     ],
     "close": "t_reinforced_plastic_window",
     "deconstruct": {
@@ -3383,7 +3512,7 @@
     "type": "terrain",
     "id": "t_reinforced_plastic_window_with_curtain",
     "name": "reinforced plastic window with a curtain",
-    "description": "A makeshift reinforced window with a closed curtain.  It's three sheets of translucent, rigid plastic secured in a wooden frame.  There are sheets drawn across it to block the light.  It'll do in a pinch.",
+    "description": "A closed makeshift reinforced window with a closed curtain.  It's three sheets of translucent, rigid plastic secured in a wooden frame.  There's a sheet drawn across it to block the light.  It'll do in a pinch.",
     "looks_like": "t_curtains",
     "symbol": "|",
     "color": "light_blue",
@@ -3398,7 +3527,8 @@
       "REDUCE_SCENT",
       "CONNECT_TO_WALL",
       "BLOCK_WIND",
-      "WINDOW"
+      "WINDOW",
+      "SUPPORTS_ROOF"
     ],
     "curtain_transform": "t_reinforced_plastic_window",
     "examine_action": "curtains",
@@ -3407,7 +3537,7 @@
       "ter_set": "t_window_empty",
       "items": [
         { "item": "stick", "count": 1 },
-        { "item": "sheet", "count": 2 },
+        { "item": "sheet", "count": 1 },
         { "item": "rigid_plastic_sheet", "count": 3 },
         { "item": "nail", "charges": [ 3, 4 ] },
         { "item": "string_36", "count": 1 },
@@ -3434,7 +3564,7 @@
     "type": "terrain",
     "id": "t_reinforced_plastic_window_with_curtain_open_window_closed",
     "name": "reinforced plastic window with an open curtain",
-    "description": "A makeshift reinforced window with a opened curtain.  It's three sheets of translucent, rigid plastic secured in a wooden frame, with sheets strung about it to block the light as required.  It'll do in a pinch.",
+    "description": "A closed makeshift reinforced window with an opened curtain.  It's three sheets of translucent, rigid plastic secured in a wooden frame, with sheets strung about it to block the light as required.  It'll do in a pinch.",
     "looks_like": "t_window_domestic",
     "symbol": "|",
     "color": "light_blue",
@@ -3450,7 +3580,8 @@
       "REDUCE_SCENT",
       "CONNECT_TO_WALL",
       "BLOCK_WIND",
-      "WINDOW"
+      "WINDOW",
+      "SUPPORTS_ROOF"
     ],
     "curtain_transform": "t_reinforced_plastic_window",
     "examine_action": "curtains",
@@ -3460,7 +3591,7 @@
       "ter_set": "t_window_empty",
       "items": [
         { "item": "stick", "count": 1 },
-        { "item": "sheet", "count": 2 },
+        { "item": "sheet", "count": 1 },
         { "item": "rigid_plastic_sheet", "count": 3 },
         { "item": "nail", "charges": [ 3, 4 ] },
         { "item": "string_36", "count": 1 },
@@ -3487,7 +3618,7 @@
     "type": "terrain",
     "id": "t_reinforced_plastic_window_with_curtain_open",
     "name": "reinforced plastic window with an open curtain",
-    "description": "An open makeshift reinforced window with a opened curtain.  It's three sheets of translucent, rigid plastic secured in a wooden frame, with sheets strung about it to block the light as required.  It'll do in a pinch.",
+    "description": "A makeshift reinforced window with an opened curtain.  It's three sheets of translucent, rigid plastic secured in a wooden frame, with a sheet strung about it to block the light as required.  It'll do in a pinch.  It's open and can be crawled through.",
     "looks_like": "t_window_open",
     "symbol": "|",
     "color": "light_blue",
@@ -3505,7 +3636,8 @@
       "THIN_OBSTACLE",
       "SMALL_PASSAGE",
       "PERMEABLE",
-      "WINDOW"
+      "WINDOW",
+      "SUPPORTS_ROOF"
     ],
     "curtain_transform": "t_reinforced_plastic_window",
     "examine_action": "curtains",
@@ -3514,7 +3646,7 @@
       "ter_set": "t_window_empty",
       "items": [
         { "item": "stick", "count": 1 },
-        { "item": "sheet", "count": 2 },
+        { "item": "sheet", "count": 1 },
         { "item": "rigid_plastic_sheet", "count": 3 },
         { "item": "nail", "charges": [ 3, 4 ] },
         { "item": "string_36", "count": 1 },
@@ -3564,7 +3696,7 @@
     "type": "terrain",
     "id": "t_tempered_glass_window",
     "name": "tempered glass window",
-    "description": "A giant sheet of tempered glass inserted into a window frame.",
+    "description": "A closed tempered glass window.  Consists of a giant sheet of tempered glass inserted into a window frame.",
     "looks_like": "t_window_no_curtains",
     "symbol": "\"",
     "color": "light_cyan",
@@ -3580,7 +3712,8 @@
       "REDUCE_SCENT",
       "CONNECT_TO_WALL",
       "BLOCK_WIND",
-      "WINDOW"
+      "WINDOW",
+      "SUPPORTS_ROOF"
     ],
     "examine_action": "locked_object",
     "open": "t_tempered_glass_open",
@@ -3611,7 +3744,7 @@
     "type": "terrain",
     "id": "t_tempered_glass_open",
     "name": "open tempered glass window",
-    "description": "A giant sheet of tempered glass inserted into a window frame.",
+    "description": "A tempered glass window.  Consists of a giant sheet of tempered glass inserted into a window frame.  It's open and can be crawled through.",
     "looks_like": "t_window_no_curtains_open",
     "symbol": "\"",
     "color": "light_cyan",
@@ -3622,13 +3755,15 @@
       "TRANSPARENT",
       "FLAMMABLE",
       "NOITEM",
+      "BARRICADABLE_WINDOW",
       "OPENCLOSE_INSIDE",
       "MOUNTABLE",
       "CONNECT_TO_WALL",
       "THIN_OBSTACLE",
       "SMALL_PASSAGE",
       "PERMEABLE",
-      "WINDOW"
+      "WINDOW",
+      "SUPPORTS_ROOF"
     ],
     "close": "t_tempered_glass_window",
     "deconstruct": {
@@ -3658,7 +3793,7 @@
     "type": "terrain",
     "id": "t_tempered_glass_with_curtain",
     "name": "tempered glass window with a curtain",
-    "description": "A tempered window with fancy curtains on the inside that are closed to block visibility and shut out any light.",
+    "description": "A closed tempered window with a fancy curtain on the inside that is closed to block visibility and shut out any light.",
     "looks_like": "t_curtains",
     "symbol": "|",
     "color": "light_cyan",
@@ -3673,7 +3808,8 @@
       "REDUCE_SCENT",
       "CONNECT_TO_WALL",
       "BLOCK_WIND",
-      "WINDOW"
+      "WINDOW",
+      "SUPPORTS_ROOF"
     ],
     "curtain_transform": "t_tempered_glass_window",
     "examine_action": "curtains",
@@ -3682,7 +3818,7 @@
       "ter_set": "t_window_empty",
       "items": [
         { "item": "stick", "count": 1 },
-        { "item": "sheet", "count": 2 },
+        { "item": "sheet", "count": 1 },
         { "item": "nail", "charges": [ 3, 4 ] },
         { "item": "string_36", "count": 1 },
         { "item": "tempered_glass_sheet", "count": 1 },
@@ -3705,7 +3841,7 @@
     "type": "terrain",
     "id": "t_tempered_glass_with_curtain_open_window_closed",
     "name": "tempered glass window with a curtain",
-    "description": "A tempered window with fancy curtains on the inside that can be drawn closed to block visibility and shut out any light.",
+    "description": "A closed tempered window with a fancy curtain on the inside that can be drawn closed to block visibility and shut out any light.",
     "looks_like": "t_window_domestic",
     "symbol": "|",
     "color": "light_cyan",
@@ -3721,7 +3857,8 @@
       "REDUCE_SCENT",
       "CONNECT_TO_WALL",
       "BLOCK_WIND",
-      "WINDOW"
+      "WINDOW",
+      "SUPPORTS_ROOF"
     ],
     "curtain_transform": "t_tempered_glass_window",
     "examine_action": "curtains",
@@ -3731,7 +3868,7 @@
       "ter_set": "t_window_empty",
       "items": [
         { "item": "stick", "count": 1 },
-        { "item": "sheet", "count": 2 },
+        { "item": "sheet", "count": 1 },
         { "item": "nail", "charges": [ 3, 4 ] },
         { "item": "string_36", "count": 1 },
         { "item": "tempered_glass_sheet", "count": 1 },
@@ -3754,7 +3891,7 @@
     "type": "terrain",
     "id": "t_tempered_glass_with_curtain_open",
     "name": "tempered glass window with a curtain",
-    "description": "A tempered window with fancy curtains on the inside that can be drawn closed to block visibility and shut out any light.",
+    "description": "A tempered window with a fancy curtain on the inside that can be drawn closed to block visibility and shut out any light.  It's open and can be crawled through.",
     "looks_like": "t_window_open",
     "symbol": "|",
     "color": "light_cyan",
@@ -3772,7 +3909,8 @@
       "THIN_OBSTACLE",
       "SMALL_PASSAGE",
       "PERMEABLE",
-      "WINDOW"
+      "WINDOW",
+      "SUPPORTS_ROOF"
     ],
     "curtain_transform": "t_tempered_glass_window",
     "examine_action": "curtains",
@@ -3781,7 +3919,7 @@
       "ter_set": "t_window_empty",
       "items": [
         { "item": "stick", "count": 1 },
-        { "item": "sheet", "count": 2 },
+        { "item": "sheet", "count": 1 },
         { "item": "nail", "charges": [ 3, 4 ] },
         { "item": "string_36", "count": 1 },
         { "item": "tempered_glass_sheet", "count": 1 },
@@ -3810,7 +3948,7 @@
     "color": "light_gray",
     "move_cost": 0,
     "roof": "t_metal_flat_roof",
-    "flags": [ "TRANSPARENT", "NOITEM", "CONNECT_TO_WALL", "THIN_OBSTACLE", "BLOCK_WIND", "REDUCE_SCENT", "WINDOW" ],
+    "flags": [ "TRANSPARENT", "NOITEM", "CONNECT_TO_WALL", "THIN_OBSTACLE", "BLOCK_WIND", "REDUCE_SCENT", "WINDOW", "SUPPORTS_ROOF" ],
     "bash": {
       "str_min": 50,
       "str_max": 75,

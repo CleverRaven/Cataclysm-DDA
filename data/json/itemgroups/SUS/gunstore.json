@@ -137,7 +137,8 @@
       { "group": "ear_protection", "prob": 45 },
       { "item": "hat_boonie", "prob": 30 },
       { "item": "balclava", "prob": 30 },
-      { "item": "ballistic_vest_esapi", "prob": 5 }
+      { "item": "ballistic_vest_esapi", "prob": 5 },
+      { "item": "aim_game", "prob": 35 }
     ]
   }
 ]

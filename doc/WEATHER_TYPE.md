@@ -19,6 +19,8 @@ Each weather type is a type of weather that occurs, and what causes it. The only
 | `rains`                        | Whether said precipitation falls as rain.                             |
 | `acidic`                       | Whether said precipitation is acidic.                                 |
 | `tiles_animation`              | Optional, name of the tiles animation to use                          |
+| `debug_cause_eoc`               | Optional, id of effect_on_condition to be run when the debug menu selects this weather.                                              |
+| `debug_leave_eoc`               | Optional, id of effect_on_condition to be run when the debug menu is used to leave this weather.                                      
 | `sound_category`               | Optional, what sound effect to play. Valid values are: silent, drizzle, rainy, thunder, flurries, snowstorm and snow. |
 | `sun_intensity`                | Strength of the sun. Valid values are: none, light, normal, and high  |
 | `duration_min`                 | Optional, the lower bound on the amount of time this weather can last. Defaults to 5 minutes.

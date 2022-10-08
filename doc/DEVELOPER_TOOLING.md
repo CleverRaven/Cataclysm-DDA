@@ -26,7 +26,7 @@ make astyle
 If you have only `astyle` then use:
 
 ```BASH
-astyle --options=.astylerc --recursive src/*.cpp,*.h tests/*.cpp,*.h`
+astyle --options=.astylerc --recursive src/*.cpp,*.h tests/*.cpp,*.h
 ```
 
 On Windows, there is an [AStyle extension for Visual Studio](https://github.com/lukamicoder/astyle-extension).

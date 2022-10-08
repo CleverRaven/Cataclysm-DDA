@@ -61,7 +61,7 @@
         "topic": "MISSION_ROBOFAC_INTERCOM_ROBOT_SM_1_FAILED"
       },
       {
-        "text": "[Contract: Steal a dead man's last words]",
+        "text": "[Contract: Return to sender]",
         "condition": {
           "and": [
             { "not": { "u_has_mission": "MISSION_ROBOFAC_INTERCOM_2" } },
@@ -280,7 +280,7 @@
   {
     "id": "MISSION_ROBOFAC_INTERCOM_2",
     "type": "mission_definition",
-    "name": { "str": "Steal a dead man's last words" },
+    "name": { "str": "Return to sender" },
     "description": "Find the corpse of a Hub 01's AI researcher and retrieve the hard case they brought with them during the evacuation.",
     "goal": "MGOAL_NULL",
     "difficulty": 5,

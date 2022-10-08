@@ -30,10 +30,9 @@
     "name": "Manafusion Bomb",
     "description": "Oversaturates potion starter with mana to create a deadly mana explosion.",
     "valid_targets": [ "none" ],
-    "flags": [ "SOMATIC", "WONDER" ],
-    "effect": "recover_energy",
-    "effect_str": "STAMINA",
-    "//": "I almost forgot how i make this spell, so: you cast spell, main one give you a little of stamina, and call secondary spell that create bomb. I make it like that to avoid bug with activated items and timer mechanic incompability and fact that PERMANENT flag works only on max lvl spell.",
+    "flags": [ "SOMATIC", "PERMANENT_ALL_LEVELS" ],
+    "effect": "spawn_item",
+    "effect_str": "alchemist_bomb",
     "components": "spell_components_manabomb",
     "shape": "blast",
     "min_damage": 1,
@@ -48,21 +47,7 @@
     "base_energy_cost": 400,
     "final_energy_cost": 800,
     "energy_increment": 12,
-    "extra_effects": [ { "id": "alchemist_make_potion_bomb_create" } ],
-    "difficulty": 8
-  },
-  {
-    "id": "alchemist_make_potion_bomb_create",
-    "type": "SPELL",
-    "name": "Manafusion Bomb - Create",
-    "description": "Gives you a manafusion bomb.  Subspell; you aren't allowed to see it except in debug mode.",
-    "valid_targets": [ "none" ],
-    "flags": [ "PERMANENT" ],
-    "effect": "spawn_item",
-    "effect_str": "alchemist_bomb",
-    "shape": "blast",
-    "min_damage": 1,
-    "max_damage": 1
+    "difficulty": 5
   },
   {
     "id": "alchemist_make_potion_trap",
@@ -71,9 +56,9 @@
     "description": "Make a manafusion trap, stabilizing manafusion bombs and giving you some of the excess mana.",
     "//": "In perfect world there will be another spell that create already buried mine, making very effective trap in realtime. But not today.",
     "valid_targets": [ "none" ],
-    "flags": [ "SOMATIC", "WONDER" ],
-    "effect": "recover_energy",
-    "effect_str": "STAMINA",
+    "flags": [ "SOMATIC", "PERMANENT_ALL_LEVELS" ],
+    "effect": "spawn_item",
+    "effect_str": "alchemist_mine",
     "shape": "blast",
     "components": "spell_components_manatrap",
     "min_damage": 1,
@@ -88,20 +73,6 @@
     "base_energy_cost": 400,
     "final_energy_cost": 800,
     "energy_increment": 12,
-    "extra_effects": [ { "id": "alchemist_make_potion_trap_create" } ],
-    "difficulty": 8
-  },
-  {
-    "id": "alchemist_make_potion_trap_create",
-    "type": "SPELL",
-    "name": "Manafusion Trap - Create",
-    "description": "Gives you a manafusion trap.  Subspell; you aren't allowed to see it except in debug mode.",
-    "valid_targets": [ "none" ],
-    "flags": [ "PERMANENT" ],
-    "effect": "spawn_item",
-    "effect_str": "alchemist_mine",
-    "shape": "blast",
-    "min_damage": 1,
-    "max_damage": 1
+    "difficulty": 6
   }
 ]

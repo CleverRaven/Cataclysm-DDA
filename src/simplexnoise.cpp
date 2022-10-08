@@ -565,15 +565,15 @@ int fastfloor( const float x )
     return x > 0 ? static_cast<int>( x ) : static_cast<int>( x ) - 1;
 }
 
-float dot( const int *g, const float x, const float y )
+float dot( const std::array<int, 3> &g, const float x, const float y )
 {
     return g[0] * x + g[1] * y;
 }
-float dot( const int *g, const float x, const float y, const float z )
+float dot( const std::array<int, 3> &g, const float x, const float y, const float z )
 {
     return g[0] * x + g[1] * y + g[2] * z;
 }
-float dot( const int *g, const float x, const float y, const float z, const float w )
+float dot( const std::array<int, 4> &g, const float x, const float y, const float z, const float w )
 {
     return g[0] * x + g[1] * y + g[2] * z + g[3] * w;
 }

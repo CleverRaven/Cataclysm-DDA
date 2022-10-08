@@ -6,6 +6,11 @@
     "responses": [
       { "text": "What happened to you?", "topic": "BGSS_PREPPER_1_STORY2" },
       { "text": "What about your shelter?", "topic": "BGSS_PREPPER_1_LMOE" },
+      {
+        "text": "You said you could tell me more about the shelter if I wanted.  How did these things get built?",
+        "topic": "BGSS_PREPPER_1_LMOE2",
+        "condition": { "u_has_var": "prepper_1_finished_quest", "type": "mission", "context": "BGSS", "value": "yes" }
+      },
       { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
       { "text": "<end_talking>", "topic": "TALK_DONE" }
     ]
@@ -65,7 +70,7 @@
             }
           ]
         },
-        "trial": { "type": "PERSUADE", "difficulty": 60, "mod": [ [ "TRUST", 4 ], [ "VALUE", 2 ], [ "ANGER", -6 ] ] },
+        "trial": { "type": "PERSUADE", "difficulty": 10, "mod": [ [ "TRUST", 2 ], [ "VALUE", 2 ], [ "ANGER", -6 ] ] },
         "success": {
           "topic": "BGSS_PREPPER_1_SHELTERSUCCESS",
           "effect": [
@@ -91,6 +96,146 @@
     ]
   },
   {
+    "id": "BGSS_PREPPER_1_LMOE2",
+    "type": "talk_topic",
+    "dynamic_line": "The shelter?  I hired a contractor to build this but did the door myself.  Metal pin in the door frame.  Can't open unless you remove it.  There's a little pulley inside you have to pull up to reset.  They made dozens of these in the area, and I couldn't sleep knowing just any <name_b> at that company could waltz in as soon as shit hit the fan.  They'd know exactly where to go and what to do!  Nah… how do you think I've made it this long?  Always keep a trick up your sleeve.",
+    "responses": [
+      { "text": "A contractor?  How much does something like a survivalist shelter cost?", "topic": "BGSS_PREPPER_1_LMOE4" },
+      {
+        "text": "But we're good to go, right?  I mean… the door is the only trick you had?  No clever traps hidden in the walls or anything?",
+        "topic": "BGSS_PREPPER_1_LMOE3"
+      },
+      {
+        "text": "You wouldn't keep ALL your tricks and secrets from me, though, would you?  After everything we've been through?",
+        "condition": { "not": { "u_has_var": "prepper_1_asked_about_secrets", "type": "mission", "context": "BGSS", "value": "yes" } },
+        "//": "Even though material possessions have been made trivially easy to obtain in the apocalypse, the prepper still values their stash, hence the difficult trial here.",
+        "trial": { "type": "PERSUADE", "difficulty": -75, "mod": [ [ "TRUST", 1 ], [ "VALUE", 1 ], [ "ANGER", -8 ] ] },
+        "success": {
+          "topic": "BGSS_PREPPER_1_SHARELOOTSUCCESS",
+          "effect": { "u_add_var": "prepper_1_asked_about_secrets", "type": "mission", "context": "BGSS", "value": "yes" }
+        },
+        "failure": {
+          "topic": "BGSS_PREPPER_1_SHARELOOTFAILURE",
+          "effect": { "u_add_var": "prepper_1_asked_about_secrets", "type": "mission", "context": "BGSS", "value": "yes" },
+          "opinion": { "trust": -6, "value": -3, "anger": 5 }
+        }
+      },
+      { "text": "That's all I wanted to know.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "BGSS_PREPPER_1_LMOE3",
+    "type": "talk_topic",
+    "dynamic_line": "Nope, that's it.  Got the idea for the door from a book on medieval castles, in case you were wondering.  But instead of a counterweight holding a drawbridge up, I just ram a hex key in a hole.",
+    "responses": [ { "text": "Interesting…", "topic": "TALK_NONE" } ]
+  },
+  {
+    "id": "BGSS_PREPPER_1_LMOE4",
+    "type": "talk_topic",
+    "dynamic_line": "Almost as much as my house, in the end.  I think they realized they could make a lot of money as things got worse and worse.  But it's nicer than my house, too.  They said the ventilation system was built to withstand a month of anything: nuclear fallout, biological attack, you name it.  Concrete and soil above me to absorb radiation, appliances and supplies…  I even brought some old books I've never read.  I always knew it would come to this.",
+    "responses": [ { "text": "How many of these places did the company build?", "topic": "BGSS_PREPPER_1_LMOE5" } ]
+  },
+  {
+    "id": "BGSS_PREPPER_1_LMOE5",
+    "type": "talk_topic",
+    "dynamic_line": "Dozens, they told me.  Probably more by the end of it.  But they obviously didn't say where or who for.  It was kind of a hot business and I think they were some of the best doing it.",
+    "responses": [ { "text": "Right…", "topic": "BGSS_PREPPER_1_LMOE2" } ]
+  },
+  {
+    "id": "BGSS_PREPPER_1_SHARELOOTSUCCESS",
+    "type": "talk_topic",
+    "dynamic_line": "Okay, listen… across the hall from the bedroom… by the pillars… it's a fake wall.  Directly across the hall.  If you push in a little bit, the whole thing kinda slides aside.  I hid some guns back there and a handful of rounds, too.  I meant to bring a lot more - I had boxes on back order - but it started getting hard to buy past a certain point.  Might as well share now that we're here.  A spare bullet could save your life.",
+    "responses": [ { "text": "The wall thing is pretty nifty, I have to admit.", "topic": "BGSS_PREPPER_1_SHARELOOTSUCCESS2" } ]
+  },
+  {
+    "id": "BGSS_PREPPER_1_SHARELOOTSUCCESS2",
+    "type": "talk_topic",
+    "dynamic_line": "Yeah, but they put the secret room in their advertising.  Not really a secret then, is it?",
+    "responses": [ { "text": "Hmm, good point.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "id": "BGSS_PREPPER_1_SHARELOOTFAILURE",
+    "type": "talk_topic",
+    "dynamic_line": "What, like some secret Batcave?  Pull back the curtain and it turns out I'm the communist <name_b> who brewed up a demon bio-weapon in their basement?  I just gave you food, all the tools in my workshop, and the safest hole in the ground in the county.  If I've got any secrets left, they're mine to keep.",
+    "responses": [
+      { "text": "No, you're right!  I'm sorry for intruding!", "topic": "BGSS_PREPPER_1_SHARELOOTAPOLOGIZE" },
+      {
+        "text": "For all I know, you COULD have something to do with this.  Who really knows what happened?",
+        "topic": "BGSS_PREPPER_1_SHARELOOTFAILURE2",
+        "opinion": { "anger": 2 }
+      }
+    ]
+  },
+  {
+    "id": "BGSS_PREPPER_1_SHARELOOTFAILURE2",
+    "type": "talk_topic",
+    "dynamic_line": "Well, I certainly wouldn't tell you.  The way you talk… the questions you ask… they're extremely suspicious.  Why did you ask about the shelter anyway?  What do you want from me?",
+    "responses": [
+      {
+        "text": "I just wanted the loot, I'll be honest.",
+        "topic": "TALK_DONE",
+        "opinion": { "anger": 5, "value": -5, "trust": -8, "fear": -2 },
+        "effect": "insult_combat"
+      },
+      {
+        "text": "Well… I'm actually a government agent sent to assassinate you.  I just had to find out the location of your secret stash before I took you out!",
+        "topic": "BGSS_PREPPER_1_SHARELOOTFAILURE3"
+      },
+      {
+        "text": "I thought we could team up.  It sounded like a good place to stay safe.",
+        "topic": "BGSS_PREPPER_1_SHARELOOTAPOLOGIZE2",
+        "opinion": { "anger": -4 }
+      }
+    ]
+  },
+  {
+    "id": "BGSS_PREPPER_1_SHARELOOTFAILURE3",
+    "type": "talk_topic",
+    "dynamic_line": "*tenses up and stares in disbelief.  \"You're playing with me.  The government doesn't exist anymore…  You better be messing around or I-\"",
+    "responses": [
+      {
+        "text": "Why else would I ask about your shelter?  I don't need your gear.  I don't need your help.  Look around you!  I'm tracking down the last free thinkers who have been putting the puzzle pieces together.  It's YOU I'm after!",
+        "topic": "BGSS_PREPPER_1_SHARELOOTFAILURE4"
+      },
+      {
+        "text": "Yeah, I'm just messing with you, don't worry.  What, can't take a joke?",
+        "topic": "BGSS_PREPPER_1_SHARELOOTAPOLOGIZE3",
+        "opinion": { "trust": -3 }
+      }
+    ]
+  },
+  {
+    "id": "BGSS_PREPPER_1_SHARELOOTFAILURE4",
+    "type": "talk_topic",
+    "dynamic_line": "I knew it…  This whole time.  It was all part of the plan.  The riots, the storms…  You always had control…",
+    "responses": [
+      {
+        "text": "Prepare to meet your end, <npc_name>.  *Attack*",
+        "topic": "TALK_DONE",
+        "opinion": { "anger": 40, "value": -30, "trust": -30, "fear": -10 },
+        "effect": "hostile"
+      }
+    ]
+  },
+  {
+    "id": "BGSS_PREPPER_1_SHARELOOTAPOLOGIZE",
+    "type": "talk_topic",
+    "dynamic_line": "Yeah, listen, just keep your questions to yourself.  I don't trust you and you shouldn't trust me, either.",
+    "responses": [ { "text": "Sorry, I won't ask again.", "topic": "TALK_DONE", "opinion": { "anger": -1 } } ]
+  },
+  {
+    "id": "BGSS_PREPPER_1_SHARELOOTAPOLOGIZE2",
+    "type": "talk_topic",
+    "dynamic_line": "It IS a good place to stay safe.  Just don't go prying, okay?",
+    "responses": [ { "text": "You got it.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "id": "BGSS_PREPPER_1_SHARELOOTAPOLOGIZE3",
+    "type": "talk_topic",
+    "dynamic_line": "You think that's funny?!  Some of us watched the warning signs for years.  All the news, all the violence and the secret plots…  Now the dead are walking, reality itself is tearing apart, and you're making jokes like that?!",
+    "responses": [ { "text": "Yeah…?  I didn't realize it bothered you so much.", "topic": "TALK_DONE" } ]
+  },
+  {
     "id": "BGSS_PREPPER_1_SHELTERSUCCESS",
     "type": "talk_topic",
     "dynamic_line": "I marked the spot for you.  With everything I've seen out there, I suppose it's better to have someone on your side.  But I'll be watching to make sure you don't take anything…",
@@ -111,10 +256,21 @@
     "difficulty": 2,
     "value": 0,
     "start": {
-      "assign_mission_target": { "om_special": "LMOE Shelter", "om_terrain": "lmoe", "reveal_radius": 3, "search_range": 400 },
+      "assign_mission_target": { "om_special": "Locked LMOE Shelter", "om_terrain": "lmoe_prepperquest", "reveal_radius": 3, "search_range": 400 },
       "effect": { "u_add_var": "prepper_1_started_quest", "type": "mission", "context": "BGSS", "value": "yes" }
     },
-    "end": { "opinion": { "trust": 1, "value": 1 } },
+    "end": {
+      "opinion": { "trust": 1, "value": 1 },
+      "effect": [
+        {
+          "u_message": "<npc_name> walks up to the front door and pries back a thin piece of metal from the top of the doorframe, revealing an opening.  They reach inside, pull hard on something, and you hear a heavy metal *clunk*.",
+          "type": "good",
+          "popup": true
+        },
+        { "mapgen_update": "LMOE_unlock_door", "om_terrain": "lmoe_prepperquest" },
+        { "u_add_var": "prepper_1_finished_quest", "type": "mission", "context": "BGSS", "value": "yes" }
+      ]
+    },
     "origins": [ "ORIGIN_SECONDARY" ],
     "dialogue": {
       "describe": "…",
@@ -122,10 +278,16 @@
       "accepted": "…",
       "rejected": "…",
       "advice": "…",
-      "inquire": "Any luck finding the LMOE shelter?",
-      "success": "Thank you!  I'm so glad we made it.  I've tucked away some real loot back here.",
-      "success_lie": "Great!",
+      "inquire": "Any luck finding the LMOE shelter?  Don't forget to take me with you.  I changed the design and you sure as hell aren't getting in unless you know the trick.",
+      "success": "Damn, can't believe we finally made it.  I was smart enough not to store anything that might rot, so as long as nobody else already broke in, I bet there's at least two weeks of good food just sitting there.  Pristine workshop down there, too.  It cost me a pretty penny to get built.  I could tell you all about it sometime if you ever wanted.  Anyway, thanks for helping me get back here.  It sure ain't safe to travel on your own anymore.",
+      "success_lie": "…",
       "failure": "Not that surprising."
     }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "LMOE_unlock_door",
+    "method": "json",
+    "object": { "translate_ter": [ { "from": "t_door_metal_locked", "to": "t_door_metal_c", "x": 0, "y": 0 } ] }
   }
 ]

@@ -339,7 +339,7 @@ void load_martial_art( const JsonObject &jo, const std::string &src )
 class ma_buff_reader : public generic_typed_reader<ma_buff_reader>
 {
     public:
-        mabuff_id get_next( JsonValue jin ) const {
+        mabuff_id get_next( const JsonValue &jin ) const {
             if( jin.test_string() ) {
                 return mabuff_id( jin.get_string() );
             }
@@ -1352,7 +1352,7 @@ ma_technique character_martial_arts::get_miss_recovery( const Character &owner )
 
 
 std::string character_martial_arts::get_valid_attack_vector( const Character &user,
-        std::vector<std::string> attack_vectors ) const
+        const std::vector<std::string> &attack_vectors ) const
 {
     for( auto av : attack_vectors ) {
         if( can_use_attack_vector( user, av ) ) {
@@ -1363,7 +1363,8 @@ std::string character_martial_arts::get_valid_attack_vector( const Character &us
     return "NONE";
 }
 
-bool character_martial_arts::can_use_attack_vector( const Character &user, std::string av ) const
+bool character_martial_arts::can_use_attack_vector( const Character &user,
+        const std::string &av ) const
 {
     martialart ma = style_selected.obj();
     bool valid_weapon = ma.weapon_valid( user.get_wielded_item() );
@@ -2105,12 +2106,11 @@ bool ma_style_callback::key( const input_context &ctxt, const input_event &event
 
         ui_adaptor ui;
         ui.on_screen_resize( [&]( ui_adaptor & ui ) {
-            w = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
-                                    point( TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0,
-                                           TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0 ) );
+            w = catacurses::newwin( TERMY * 0.9, FULL_SCREEN_WIDTH,
+                                    point( TERMX - FULL_SCREEN_WIDTH, TERMY * 0.1 ) / 2 );
 
-            width = FULL_SCREEN_WIDTH - 4;
-            height = FULL_SCREEN_HEIGHT - 2;
+            width = catacurses::getmaxx( w ) - 4;
+            height = catacurses::getmaxy( w ) - 2;
 
             const auto vFolded = foldstring( text, width );
             iLines = vFolded.size();
@@ -2125,7 +2125,10 @@ bool ma_style_callback::key( const input_context &ctxt, const input_event &event
         } );
         ui.mark_resize();
 
+        scrollbar sb;
+
         input_context ict;
+        sb.set_draggable( ict );
         ict.register_action( "UP" );
         ict.register_action( "DOWN" );
         ict.register_action( "PAGE_UP" );
@@ -2137,7 +2140,14 @@ bool ma_style_callback::key( const input_context &ctxt, const input_event &event
             werase( w );
             fold_and_print_from( w, point( 2, 1 ), width, selected, c_light_gray, text );
             draw_border( w, BORDER_COLOR, string_format( _( " Style: %s " ), ma.name ) );
-            draw_scrollbar( w, selected, height, iLines, point_south, BORDER_COLOR, true );
+            sb.offset_x( 0 )
+            .offset_y( 1 )
+            .content_size( iLines )
+            .viewport_pos( selected )
+            .viewport_size( height )
+            .slot_color( BORDER_COLOR )
+            .scroll_to_last( false )
+            .apply( w );
             wnoutrefresh( w );
         } );
 
@@ -2154,6 +2164,9 @@ bool ma_style_callback::key( const input_context &ctxt, const input_event &event
 
             if( action == "QUIT" ) {
                 break;
+            } else if( sb.handle_dragging( action, ict.get_coordinates_text( catacurses::stdscr ),
+                                           selected ) ) {
+                // Scrollbar has handled action
             } else if( action == "DOWN" ) {
                 selected++;
             } else if( action == "UP" ) {

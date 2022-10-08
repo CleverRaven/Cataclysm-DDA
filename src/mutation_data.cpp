@@ -104,6 +104,7 @@ void mutation_category_trait::load( const JsonObject &jsobj )
 
     jsobj.get_member( "mutagen_message" ).read( new_category.raw_mutagen_message );
     new_category.wip = jsobj.get_bool( "wip", false );
+    new_category.skip_test = jsobj.get_bool( "skip_test", false );
     static_cast<void>( translate_marker_context( "memorial_male", "Crossed a threshold" ) );
     static_cast<void>( translate_marker_context( "memorial_female", "Crossed a threshold" ) );
     optional( jsobj, false, "memorial_message", new_category.raw_memorial_message,
@@ -320,7 +321,7 @@ void mutation_branch::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "destroys_gear", destroys_gear, false );
     optional( jo, was_loaded, "allow_soft_gear", allow_soft_gear, false );
     optional( jo, was_loaded, "cost", cost, 0 );
-    optional( jo, was_loaded, "time", cooldown, 0 );
+    optional( jo, was_loaded, "time", cooldown, 0_turns );
     optional( jo, was_loaded, "kcal", hunger, false );
     optional( jo, was_loaded, "thirst", thirst, false );
     optional( jo, was_loaded, "fatigue", fatigue, false );
@@ -361,11 +362,11 @@ void mutation_branch::load( const JsonObject &jo, const std::string & )
 
     optional( jo, was_loaded, "bodytemp_sleep", bodytemp_sleep, 0 );
     optional( jo, was_loaded, "threshold", threshold, false );
-    optional( jo, was_loaded, "terminus", terminus, false );
     optional( jo, was_loaded, "profession", profession, false );
     optional( jo, was_loaded, "debug", debug, false );
     optional( jo, was_loaded, "player_display", player_display, true );
     optional( jo, was_loaded, "vanity", vanity, false );
+    optional( jo, was_loaded, "dummy", dummy, false );
 
     for( JsonArray pair : jo.get_array( "vitamin_rates" ) ) {
         vitamin_rates.emplace( vitamin_id( pair.get_string( 0 ) ),
@@ -724,12 +725,18 @@ void mutation_branch::check_consistency()
             }
         }
         for( const trait_id &addition : mdata.additions ) {
+            if( mdata.category.empty() ) {
+                break;
+            }
             const mutation_branch &adata = addition.obj();
+            bool found = false;
             for( const mutation_category_id &cat : adata.category ) {
-                if( std::find( mdata.category.begin(), mdata.category.end(), cat ) == mdata.category.end() ) {
-                    debugmsg( "mutation %s lacks category %s present in additive mutation %s", mid.c_str(), cat.c_str(),
-                              addition.c_str() );
-                }
+                found = found ||
+                        std::find( mdata.category.begin(), mdata.category.end(), cat ) != mdata.category.end();
+            }
+            if( !found ) {
+                debugmsg( "categories in mutation %s don't match any category present in additive mutation %s",
+                          mid.c_str(), addition.c_str() );
             }
         }
 
@@ -783,8 +790,6 @@ nc_color mutation_branch::get_display_color() const
         return c_green;
     } else if( threshold || profession ) {
         return c_white;
-    } else if( terminus ) {
-        return c_red;
     } else if( debug ) {
         return c_light_cyan;
     } else if( mixed_effect ) {

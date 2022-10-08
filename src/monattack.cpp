@@ -1214,7 +1214,7 @@ void mattack::smash_specific( monster *z, Creature *target )
         return;
     }
     if( z->has_flag( MF_RIDEABLE_MECH ) ) {
-        z->use_mech_power( -5 );
+        z->use_mech_power( 5_kJ );
     }
     z->set_dest( target->get_location() );
     smash( z );
@@ -4985,17 +4985,20 @@ bool mattack::riotbot( monster *z )
 
     // Already arrested?
     // And yes, if the player has no hands, we are not going to arrest them.
-    if( foe != nullptr &&
-        ( foe->get_wielded_item()->typeId() == itype_e_handcuffs || !foe->has_two_arms_lifting() ) ) {
-        z->anger = 0;
+    if( foe != nullptr ) {
+        item_location foe_weapon = foe->get_wielded_item();
 
-        if( calendar::once_every( 25_turns ) ) {
-            sounds::sound( z->pos(), 10, sounds::sound_t::electronic_speech,
-                           _( "Halt and submit to arrest, citizen!  The police will be here any moment." ), false, "speech",
-                           z->type->id.str() );
+        if( foe_weapon && ( foe_weapon->typeId() == itype_e_handcuffs || !foe->has_two_arms_lifting() ) ) {
+            z->anger = 0;
+
+            if( calendar::once_every( 25_turns ) ) {
+                sounds::sound( z->pos(), 10, sounds::sound_t::electronic_speech,
+                               _( "Halt and submit to arrest, citizen!  The police will be here any moment." ), false, "speech",
+                               z->type->id.str() );
+            }
+
+            return true;
         }
-
-        return true;
     }
 
     if( z->anger < z->type->agro ) {
@@ -5066,8 +5069,11 @@ bool mattack::riotbot( monster *z )
                          _( "You deftly slip out of the handcuffs just as the robot closes them.  The robot didn't seem to notice!" ) );
                 foe->i_add( handcuffs );
             } else {
-                handcuffs.set_flag( flag_NO_UNWIELD );
                 foe->wield( *foe->i_add( handcuffs ) );
+                item_location wielded = foe->get_wielded_item();
+                if( wielded && wielded->type == handcuffs.type ) {
+                    wielded->set_flag( flag_NO_UNWIELD );
+                }
                 foe->moves -= 300;
                 add_msg( m_bad, _( "The robot puts handcuffs on you." ) );
             }

@@ -109,6 +109,13 @@ uilist_entry::uilist_entry( const int retval, const bool enabled, const int key,
 {
 }
 
+uilist_entry::uilist_entry( const int retval, const bool enabled,
+                            const cata::optional<input_event> &key, const std::string &txt, const std::string &desc )
+    : retval( retval ), enabled( enabled ), hotkey( key ), txt( txt ),
+      desc( desc ), text_color( c_red_red )
+{
+}
+
 uilist_entry::uilist_entry( const int retval, const bool enabled, const int key,
                             const std::string &txt, const std::string &desc,
                             const std::string &column )
@@ -288,6 +295,7 @@ void uilist::init()
     filtering_nocase = true; // ignore case when filtering
     max_entry_len = 0;
     max_column_len = 0;      // for calculating space for second column
+    uilist_scrollbar = std::make_unique<scrollbar>();
 
     input_category = "UILIST";
     additional_actions.clear();
@@ -315,6 +323,7 @@ input_context uilist::create_main_input_context() const
     ctxt.register_action( "UILIST.FILTER" );
     ctxt.register_action( "ANY_INPUT" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
+    uilist_scrollbar->set_draggable( ctxt );
     for( const auto &additional_action : additional_actions ) {
         ctxt.register_action( additional_action.first, additional_action.second );
     }
@@ -696,8 +705,7 @@ void uilist::apply_scrollbar()
         estart = 1;
     }
 
-    scrollbar()
-    .offset_x( sbside )
+    uilist_scrollbar->offset_x( sbside )
     .offset_y( estart )
     .content_size( fentries.size() )
     .viewport_pos( vshift )
@@ -713,7 +721,7 @@ void uilist::apply_scrollbar()
 /**
  * Generate and refresh output
  */
-void uilist::show()
+void uilist::show( ui_adaptor &ui )
 {
     if( !started ) {
         setup();
@@ -825,12 +833,12 @@ void uilist::show()
         }
     }
 
-    cata::optional<point> cursor_pos;
     if( filter_popup ) {
         mvwprintz( window, point( 2, w_height - 1 ), border_color, "< " );
         mvwprintz( window, point( w_width - 3, w_height - 1 ), border_color, " >" );
         filter_popup->query( /*loop=*/false, /*draw_only=*/true );
-        cursor_pos = point( getcurx( window ), getcury( window ) );
+        // Record cursor immediately after filter_popup drawing
+        ui.record_term_cursor();
     } else {
         if( !filter.empty() ) {
             mvwprintz( window, point( 2, w_height - 1 ), border_color, "< %s >", filter );
@@ -842,11 +850,6 @@ void uilist::show()
     wnoutrefresh( window );
     if( callback != nullptr ) {
         callback->refresh( this );
-    }
-
-    if( cursor_pos ) {
-        wmove( window, cursor_pos.value() );
-        wnoutrefresh( window );
     }
 }
 
@@ -937,8 +940,8 @@ shared_ptr_fast<ui_adaptor> uilist::create_or_get_ui_adaptor()
     shared_ptr_fast<ui_adaptor> current_ui = ui.lock();
     if( !current_ui ) {
         ui = current_ui = make_shared_fast<ui_adaptor>();
-        current_ui->on_redraw( [this]( const ui_adaptor & ) {
-            show();
+        current_ui->on_redraw( [this]( ui_adaptor & ui ) {
+            show( ui );
         } );
         current_ui->on_screen_resize( [this]( ui_adaptor & ui ) {
             reposition( ui );
@@ -953,6 +956,14 @@ uilist::handle_mouse_result_t uilist::handle_mouse( const input_context &ctxt,
         const bool loop )
 {
     handle_mouse_result_t result = handle_mouse_result_t::unhandled;
+    int temp_pos = vshift;
+    if( uilist_scrollbar->handle_dragging( ret_act, ctxt.get_coordinates_text( catacurses::stdscr ),
+                                           temp_pos ) ) {
+        scrollby( temp_pos - vshift );
+        vshift = temp_pos;
+        return handle_mouse_result_t::handled;
+    }
+
     // Only check MOUSE_MOVE when looping internally
     if( !fentries.empty() && ( ret_act == "SELECT" || ( loop && ret_act == "MOUSE_MOVE" ) ) ) {
         result = handle_mouse_result_t::handled;
@@ -1181,6 +1192,12 @@ void uilist::addentry_desc( const std::string &txt, const std::string &desc )
 
 void uilist::addentry_desc( int retval, bool enabled, int key, const std::string &txt,
                             const std::string &desc )
+{
+    entries.emplace_back( retval, enabled, key, txt, desc );
+}
+
+void uilist::addentry_desc( int retval, bool enabled, const cata::optional<input_event> &key,
+                            const std::string &txt, const std::string &desc )
 {
     entries.emplace_back( retval, enabled, key, txt, desc );
 }

@@ -363,7 +363,7 @@ npc_attack_rating npc_attack_melee::evaluate_critter( const npc &source,
     // TODO: Give bashing weapons a better
     // rating against armored targets
     double damage{ weapon.base_damage_melee().total_damage() };
-    damage *= 100.0 / weapon.attack_time();
+    damage *= 100.0 / weapon.attack_time( source );
     const int reach_range{ weapon.reach_range( source ) };
     const int distance_to_me = clamp( rl_dist( source.pos(), critter->pos() ) - reach_range, 0, 10 );
     // Multiplier of 0.5f to 1.5f based on distance
@@ -390,7 +390,9 @@ void npc_attack_gun::use( npc &source, const tripoint &location ) const
     }
 
     if( !gun.ammo_sufficient( &source ) ) {
-        source.do_reload( gun );
+        // todo: make gun an item_location instead of getting wielded item here
+        // but since wielding is required before this, it should be fine
+        source.do_reload( source.get_wielded_item() );
         add_msg_debug( debugmode::debug_filter::DF_NPC, "%s is reloading %s", source.disp_name(),
                        gun.display_name() );
         return;

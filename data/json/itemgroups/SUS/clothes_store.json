@@ -74,7 +74,8 @@
             ],
             "prob": 25
           },
-          { "item": "tailors_kit", "prob": 75, "charges-min": 0 }
+          { "item": "tailors_kit", "prob": 75, "charges-min": 0 },
+          { "item": "electric_spinwheel", "prob": 75, "charges-min": 0 }
         ]
       },
       { "item": "thread", "count": [ 2, 7 ], "prob": 75 },

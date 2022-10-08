@@ -44,6 +44,7 @@
     "type": "SPECIES",
     "id": "KRAKEN",
     "description": "a squid-like mutant",
+    "footsteps": "slithering.",
     "fear_triggers": [ "HURT", "FRIEND_ATTACKED" ],
     "bleeds": "fd_blood"
   },

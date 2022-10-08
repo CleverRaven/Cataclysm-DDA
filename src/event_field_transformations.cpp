@@ -7,6 +7,7 @@
 #include "mapdata.h"
 #include "mtype.h"
 #include "omdata.h"
+#include "overmapbuffer.h"
 #include "type_id.h"
 
 static std::vector<cata_variant> flags_of_itype( const cata_variant &v )
@@ -54,6 +55,17 @@ static std::vector<cata_variant> oter_type_of_oter( const cata_variant &v )
     return result;
 }
 
+static std::vector<cata_variant> overmap_special_at( const cata_variant &v )
+{
+    const tripoint_abs_omt p( v.get<tripoint>() );
+    cata::optional<overmap_special_id> special = overmap_buffer.overmap_special_at( p );
+    if( special ) {
+        return { cata_variant( *special ) };
+    } else {
+        return {};
+    }
+}
+
 static std::vector<cata_variant> species_of_monster( const cata_variant &v )
 {
     const std::set<species_id> &species = v.get<mtype_id>()->species;
@@ -85,6 +97,10 @@ const std::unordered_map<std::string, event_field_transformation> event_field_tr
     {
         "oter_type_of_oter",
         { oter_type_of_oter, cata_variant_type::oter_type_str_id, { cata_variant_type::oter_id } }
+    },
+    {
+        "overmap_special_at",
+        { overmap_special_at, cata_variant_type::overmap_special_id, { cata_variant_type::tripoint } }
     },
     {
         "species_of_monster",

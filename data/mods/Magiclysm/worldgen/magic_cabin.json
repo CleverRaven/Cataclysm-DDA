@@ -104,7 +104,7 @@
         "h": "f_chair",
         "V": "f_counter",
         "M": "f_rotary_clothesline",
-        "O": "f_oven",
+        "O": [ "f_oven", "f_gas_oven_microwave_combo" ],
         "F": "f_fridge",
         "U": "f_bench",
         "A": "f_air_conditioner",

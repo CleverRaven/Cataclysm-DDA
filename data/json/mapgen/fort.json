@@ -253,7 +253,7 @@
       "items": {  },
       "place_loot": [  ],
       "place_monsters": [  ],
-      "monster": { "Z": { "monster": "mon_zombie_brute" } },
+      "monster": { "Z": { "monster": "mon_zombie_tough" } },
       "vehicles": { "U": { "vehicle": "cannon_3in", "chance": 100 }, "Q": { "vehicle": "cannon_3in_plugged", "chance": 100 } }
     }
   }

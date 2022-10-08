@@ -127,6 +127,36 @@
     "flags": [ "TACK" ]
   },
   {
+    "//": "https://primeusascales.com/product/sls-single-animal-livestock-scales/",
+    "id": "livestock_scale",
+    "type": "TOOL",
+    "name": { "str": "livestock scale" },
+    "symbol": "_",
+    "looks_like": "tr_rollmat",
+    "color": "light_gray",
+    "description": "A giant electronic scale with a rubber mat meant for weighing a single horse, cow, or other large animal.  You could also weigh yourself with it.",
+    "weight": "52800 g",
+    "volume": "40000 ml",
+    "longest_side": "196 cm",
+    "price": 1200000,
+    "price_postapoc": 50,
+    "to_hit": -8,
+    "bashing": 16,
+    "material": [ "steel", "rubber" ],
+    "ammo": [ "battery" ],
+    "use_action": { "type": "weigh_self", "max_weight": "2300 kg" },
+    "flags": [ "ALLOWS_REMOTE_USE" ],
+    "charges_per_use": 1,
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "flag_restriction": [ "BATTERY_MEDIUM" ],
+        "default_magazine": "medium_battery_cell"
+      }
+    ]
+  },
+  {
     "id": "pet_carrier",
     "type": "TOOL",
     "name": { "str": "pet carrier" },

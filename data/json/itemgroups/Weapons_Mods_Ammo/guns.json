@@ -138,7 +138,8 @@
       { "group": "nested_ar_pistol", "prob": 25 },
       { "group": "nested_makarov", "prob": 15 },
       { "group": "nested_tokarev", "prob": 15 },
-      { "group": "nested_walther_ppk", "prob": 20 }
+      { "group": "nested_walther_ppk", "prob": 20 },
+      { "group": "nested_minidraco556", "prob": 20 }
     ]
   },
   {
@@ -222,7 +223,8 @@
       { "item": "af2011a1_38super", "prob": 25 },
       { "item": "draco", "prob": 30, "charges-min": 0, "charges-max": 0 },
       { "item": "ar_pistol", "prob": 35, "charges-min": 0, "charges-max": 0 },
-      { "group": "guns_pistol_collectible", "prob": 1 }
+      { "group": "guns_pistol_collectible", "prob": 1 },
+      { "item": "minidraco556", "prob": 30, "charges-min": 0, "charges-max": 0 }
     ]
   },
   {
@@ -399,7 +401,9 @@
       { "group": "nested_vz58ts", "prob": 1 },
       { "group": "nested_fn_ps90", "prob": 1 },
       { "group": "nested_aksemi", "prob": 2 },
-      { "group": "nested_m1carbine", "prob": 1 }
+      { "group": "nested_m1carbine", "prob": 1 },
+      { "group": "nested_ak556", "prob": 2 },
+      { "group": "nested_zpapm90", "prob": 1 }
     ]
   },
   {
@@ -430,7 +434,9 @@
       { "item": "1895sbl", "prob": 1, "charges-min": 0, "charges-max": 6 },
       { "item": "aksemi", "prob": 2, "charges-min": 0, "charges-max": 30 },
       { "item": "mk47", "prob": 1, "charges-min": 0, "charges-max": 30 },
-      { "item": "m1carbine", "prob": 1, "charges-min": 0, "charges-max": 15 }
+      { "item": "m1carbine", "prob": 1, "charges-min": 0, "charges-max": 15 },
+      { "item": "ak556", "prob": 2, "charges-min": 0, "charges-max": 30 },
+      { "item": "ak556", "variant": "zpapm90", "prob": 1, "charges-min": 0, "charges-max": 30 }
     ]
   },
   {
@@ -456,7 +462,9 @@
       { "item": "vz58ts", "prob": 10, "charges-min": 0, "charges-max": 0 },
       { "item": "fn_ps90", "prob": 5, "charges-min": 0, "charges-max": 0 },
       { "item": "aksemi", "prob": 15, "charges-min": 0, "charges-max": 0 },
-      { "item": "mk47", "prob": 10, "charges-min": 0, "charges-max": 0 }
+      { "item": "mk47", "prob": 10, "charges-min": 0, "charges-max": 0 },
+      { "item": "ak556", "prob": 15, "charges-min": 0, "charges-max": 0 },
+      { "item": "ak556", "variant": "zpapm90", "prob": 10, "charges-min": 0, "charges-max": 0 }
     ]
   },
   {
@@ -579,7 +587,9 @@
       { "group": "nested_vz58p", "prob": 35 },
       { "group": "nested_vz58v", "prob": 25 },
       { "group": "nested_iwi_tavor_x95_300blk", "prob": 10 },
-      { "group": "nested_acr_300blk", "prob": 15 }
+      { "group": "nested_acr_300blk", "prob": 15 },
+      { "group": "nested_ak308", "prob": 25 },
+      { "group": "nested_papm77", "prob": 15 }
     ]
   },
   {
@@ -610,7 +620,9 @@
       { "item": "fs2000", "prob": 6, "charges-min": 0, "charges-max": 0 },
       { "item": "acr_300blk", "prob": 15, "charges-min": 0, "charges-max": 0 },
       { "item": "hk417_13", "prob": 40, "charges-min": 0, "charges-max": 0 },
-      { "item": "m2carbine", "prob": 5, "charges-min": 0, "charges-max": 0 }
+      { "item": "m2carbine", "prob": 5, "charges-min": 0, "charges-max": 0 },
+      { "item": "ak308", "prob": 10, "charges-min": 0, "charges-max": 0 },
+      { "item": "ak308", "variant": "papm77", "prob": 5, "charges-min": 0, "charges-max": 0 }
     ]
   },
   {
@@ -1110,7 +1122,9 @@
       { "item": "remington700_270", "prob": 1, "charges-min": 0, "charges-max": 4 },
       { "item": "remington_700", "prob": 4, "charges-min": 0, "charges-max": 4 },
       { "item": "garand", "prob": 1, "charges-min": 0, "charges-max": 8 },
-      { "item": "mk47", "prob": 1, "charges-min": 0, "charges-max": 30 }
+      { "item": "mk47", "prob": 1, "charges-min": 0, "charges-max": 30 },
+      { "item": "ak556", "prob": 2, "charges-min": 0, "charges-max": 30 },
+      { "item": "ak556", "variant": "zpapm90", "prob": 1, "charges-min": 0, "charges-max": 0 }
     ]
   }
 ]

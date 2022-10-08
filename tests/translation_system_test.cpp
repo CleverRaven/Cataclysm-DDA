@@ -16,7 +16,7 @@ TEST_CASE( "TranslationDocument loads valid MO", "[translations]" )
 {
     const char *path = "./data/mods/TEST_DATA/lang/mo/ru/LC_MESSAGES/TEST_DATA.mo";
     CAPTURE( path );
-    REQUIRE( file_exist( path ) );
+    REQUIRE( file_exist( fs::u8path( path ) ) );
     REQUIRE_NOTHROW( LoadMODocument( path ) );
 }
 
@@ -24,7 +24,7 @@ TEST_CASE( "TranslationDocument rejects invalid MO", "[translations]" )
 {
     const char *path = "./data/mods/TEST_DATA/lang/mo/ru/LC_MESSAGES/INVALID_RAND.mo";
     CAPTURE( path );
-    REQUIRE( file_exist( path ) );
+    REQUIRE( file_exist( fs::u8path( path ) ) );
     REQUIRE_THROWS_AS( LoadMODocument( path ), InvalidTranslationDocumentException );
 }
 
@@ -88,7 +88,7 @@ TEST_CASE( "TranslationManager translate benchmark", "[.][benchmark][translation
     TranslationManager manager;
 
     // Russian
-    REQUIRE( file_exist( "./lang/mo/ru/LC_MESSAGES/cataclysm-dda.mo" ) );
+    REQUIRE( file_exist( fs::u8path( "./lang/mo/ru/LC_MESSAGES/cataclysm-dda.mo" ) ) );
     manager.LoadDocuments( std::vector<std::string> {"./lang/mo/ru/LC_MESSAGES/cataclysm-dda.mo"} );
     REQUIRE( strcmp( manager.Translate( "battery" ), "battery" ) != 0 );
     BENCHMARK( "Russian" ) {
@@ -96,7 +96,7 @@ TEST_CASE( "TranslationManager translate benchmark", "[.][benchmark][translation
     };
 
     // Chinese
-    REQUIRE( file_exist( "./lang/mo/zh_CN/LC_MESSAGES/cataclysm-dda.mo" ) );
+    REQUIRE( file_exist( fs::u8path( "./lang/mo/zh_CN/LC_MESSAGES/cataclysm-dda.mo" ) ) );
     manager.LoadDocuments( std::vector<std::string> {"./lang/mo/zh_CN/LC_MESSAGES/cataclysm-dda.mo"} );
     REQUIRE( strcmp( manager.Translate( "battery" ), "battery" ) != 0 );
     BENCHMARK( "Chinese" ) {

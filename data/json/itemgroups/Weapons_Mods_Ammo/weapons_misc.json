@@ -26,8 +26,8 @@
       [ "baton", 8 ],
       [ "blackjack", 10 ],
       [ "tazer", 3 ],
-      [ "rapier", 3 ],
-      [ "cavalry_sabre", 2 ],
+      [ "rapier_fake", 3 ],
+      [ "cavalry_sabre_fake", 2 ],
       [ "bat_metal", 60 ],
       [ "e_tool", 2 ],
       [ "knife_trench", 7 ],
@@ -36,9 +36,9 @@
       [ "tonfa_wood", 10 ],
       [ "shocktonfa_off", 5 ],
       [ "tanto", 7 ],
-      [ "wakizashi", 3 ],
-      [ "nodachi", 1 ],
-      [ "katana", 2 ],
+      [ "wakizashi_inferior", 3 ],
+      [ "nodachi_inferior", 1 ],
+      [ "katana_inferior", 2 ],
       [ "survnote", 1 ],
       [ "karambit", 1 ]
     ]

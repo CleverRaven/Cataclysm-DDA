@@ -157,17 +157,29 @@
     "flags": [ "W_LABEL_NONE" ]
   },
   {
-    "id": "body_temp_delta_desc",
+    "id": "body_temp_delta_desc_label",
     "type": "widget",
     "label": "Temp change",
     "style": "text",
     "copy-from": "body_temp_delta_template"
   },
   {
-    "id": "body_temp_delta_sym",
+    "id": "body_temp_delta_desc_no_label",
+    "type": "widget",
+    "copy-from": "body_temp_delta_desc_label",
+    "flags": [ "W_LABEL_NONE" ]
+  },
+  {
+    "id": "body_temp_delta_sym_label",
     "type": "widget",
     "label": "Temp change",
     "style": "symbol",
     "copy-from": "body_temp_delta_template"
+  },
+  {
+    "id": "body_temp_delta_sym_no_label",
+    "type": "widget",
+    "copy-from": "body_temp_delta_sym_label",
+    "flags": [ "W_LABEL_NONE" ]
   }
 ]
