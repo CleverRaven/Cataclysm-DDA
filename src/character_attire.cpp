@@ -1877,10 +1877,16 @@ std::unordered_set<bodypart_id> outfit::where_discomfort() const
 {
     // get all rigid body parts to begin with
     std::unordered_set<sub_bodypart_id> covered_sbps;
+    std::unordered_set<bodypart_id> covered_bps;
     std::unordered_set<bodypart_id> uncomfortable_bps;
 
     for( const item &i : worn ) {
         // check each sublimb individually
+        for( const bodypart_str_id &bp : i.get_covered_body_parts() ) {
+            if( i.is_bp_comfortable( bp.id() ) ) {
+                covered_bps.insert( bp.id() );
+            }
+        }
         for( const sub_bodypart_id &sbp : i.get_covered_sub_body_parts() ) {
             if( i.is_bp_comfortable( sbp ) ) {
                 covered_sbps.insert( sbp );
@@ -1889,7 +1895,8 @@ std::unordered_set<bodypart_id> outfit::where_discomfort() const
             // note anything selectively rigid reasonably can be assumed to support itself so we don't need to worry about this
             // items must also be somewhat heavy in order to cause discomfort
             if( !i.is_bp_rigid_selective( sbp ) && !i.is_bp_comfortable( sbp ) &&
-                covered_sbps.count( sbp ) != 1 && i.weight() > units::from_gram( 250 ) ) {
+                covered_sbps.count( sbp ) != 1 && covered_bps.count( sbp->parent.id() ) != 1 &&
+                i.weight() > units::from_gram( 250 ) ) {
                 uncomfortable_bps.insert( sbp->parent );
             }
         }
