@@ -541,7 +541,7 @@
     "type": "profession",
     "id": "video_blogger",
     "name": "Video Blogger",
-    "description": "You're a video blogger, you create video content and post it on various social medias.  Now most of your fans become undead, alongside your remaining equipments, you may want to see if your social skills learnt from creating content help you somehow.",
+    "description": "You're a video blogger, creating and commenting video content and then posting it on various platforms.  Now most of your fans are dead, alongside your equipment. Maybe leading a fanbase, moderating myriads of comments and surviving shitstorms has taught you something valuable after all.",
     "points": -2,
     "skills": [ { "level": 3, "name": "speech" } ],
     "items": {
