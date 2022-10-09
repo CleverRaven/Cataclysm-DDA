@@ -83,7 +83,7 @@
     "symbol": "!",
     "color": "brown",
     "name": { "str": "scrap greatsword" },
-    "description": "A large wooden sword with scrap metal hammered into something pretending to be an edge.  The extra weight almost completely frontloads the balance and it hurts your wrists just to wield.",
+    "description": "A large wooden sword with scrap metal hammered into something pretending to be an edge.  The extra weight almost completely front-loads the balance and it hurts your wrists just to wield.",
     "looks-like": "sword_crude",
     "material": [ "wood", "budget_steel" ],
     "volume": "3300 ml",
