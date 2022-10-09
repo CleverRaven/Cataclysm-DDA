@@ -1800,7 +1800,7 @@
     "type": "GENERIC",
     "id": "skull_feline_small",
     "name": { "str": "small feline skull" },
-    "description": "The skull of a small feline, likely a housecat.",
+    "description": "The skull of a small feline, likely a house cat.",
     "flags": [ "TRADER_AVOID" ],
     "category": "spare_parts",
     "weight": "40 g",
