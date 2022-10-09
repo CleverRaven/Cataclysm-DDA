@@ -419,6 +419,13 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "egg_gastonia",
+    "name": "gastonia egg",
+    "copy-from": "egg_dino",
+    "rot_spawn": "GROUP_EGG_gastonia"
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "egg_gargoyleosaurus",
     "name": "gargoyleosaurus egg",
     "copy-from": "egg_dino",
@@ -437,6 +444,13 @@
     "name": "nodosaurus egg",
     "copy-from": "egg_dino",
     "rot_spawn": "GROUP_EGG_nodosaurus"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_panoplosaurus",
+    "name": "panoplosaurus egg",
+    "copy-from": "egg_dino",
+    "rot_spawn": "GROUP_EGG_panoplosaurus"
   },
   {
     "type": "COMESTIBLE",
@@ -465,6 +479,20 @@
     "name": "ankylosaurus egg",
     "copy-from": "egg_dino",
     "rot_spawn": "GROUP_EGG_ankylosaurus"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_euoplocephalus",
+    "name": "euoplocephalus egg",
+    "copy-from": "egg_dino",
+    "rot_spawn": "GROUP_EGG_euoplocephalus"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_scolosaurus",
+    "name": "scolosaurus egg",
+    "copy-from": "egg_dino",
+    "rot_spawn": "GROUP_EGG_scolosaurus"
   },
   {
     "type": "COMESTIBLE",
