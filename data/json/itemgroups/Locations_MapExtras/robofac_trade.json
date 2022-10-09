@@ -63,7 +63,11 @@
       [ "robofac_rubber_greaves", 25 ],
       [ "robofac_nomex_greaves", 25 ],
       [ "robofac_kevlar_greaves", 25 ],
-      [ "robofac_armor_rig", 25 ]
+      [ "robofac_armor_rig", 25 ],
+      [ "robofac_rubber_helmet", 25 ],
+      [ "robofac_nomex_helmet", 25 ],
+      [ "robofac_kevlar_helmet", 25 ],
+      [ "robofac_head_rig", 25 ]
     ]
   },
   {
@@ -74,7 +78,8 @@
       [ "robofac_military_skirt", 10 ],
       [ "robofac_military_vambraces", 10 ],
       [ "robofac_military_greaves", 10 ],
-      [ "robofac_military_mantle", 10 ]
+      [ "robofac_military_mantle", 10 ],
+      [ "robofac_military_helmet", 10 ]
     ]
   },
   {
