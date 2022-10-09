@@ -133,7 +133,7 @@
     "category": "armor",
     "name": { "str": "pair of mild steel brigandine gloves", "str_pl": "pairs of mild steel brigandine gloves" },
     "description": "",
-    "weight": "500 g",
+    "weight": "575 g",
     "volume": "750 ml",
     "price": 5012,
     "price_postapoc": 2500,
@@ -168,7 +168,7 @@
         "coverage": 50,
         "cover_melee": 95,
         "cover_ranged": 90,
-         "//": "only outer side if hand and fingers is covered by plates, but it shoul be very hard to hit unprotected part of ypu holdibg somthing in youre hands",
+         "//": "only outer side if hand and fingers is covered by plates, but it shoul be very hard to hit unprotected part of you holdibg somthing in youre hands",
         "material": [
           { "type": "lc_steel", "covered_by_mat": 100, "thickness": 1.0 }
         ],
