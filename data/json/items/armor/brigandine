@@ -98,7 +98,7 @@
     "category": "armor",
     "name": { "str": "pair of mild splint leg guards", "str_pl": "pairs of mild splint leg guards" },
     "description": "",
-    "weight": "4176 g",
+    "weight": "3797 g",
     "volume": "2500 ml",
     "price": 40000,
     "price_postapoc": 1000,
