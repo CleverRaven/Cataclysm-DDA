@@ -2648,11 +2648,6 @@ void monster::die( Creature *nkiller )
             }
         }
     }
-    if( corpse ) {
-        for( item_pocket *pocket : corpse->get_all_contained_pockets() ) {
-            pocket->set_usability( false );
-        }
-    }
     if( death_drops ) {
         // Drop items stored in optionals
         move_special_item_to_inv( tack_item );

@@ -173,6 +173,7 @@ void pocket_data::load( const JsonObject &jo )
     optional( jo, was_loaded, "open_container", open_container, false );
     optional( jo, was_loaded, "transparent", transparent, false );
     optional( jo, was_loaded, "rigid", rigid, false );
+    optional( jo, was_loaded, "allowed", allowed, true );
     optional( jo, was_loaded, "holster", holster );
     optional( jo, was_loaded, "ablative", ablative );
     optional( jo, was_loaded, "inherits_flags", inherits_flags );
@@ -1833,12 +1834,7 @@ bool item_pocket::is_standard_type() const
 
 bool item_pocket::is_allowed() const
 {
-    return allowed;
-}
-
-void item_pocket::set_usability( bool show )
-{
-    allowed = show;
+    return data->allowed;
 }
 
 bool item_pocket::airtight() const
