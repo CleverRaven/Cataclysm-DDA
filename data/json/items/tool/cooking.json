@@ -506,7 +506,7 @@
     "material": [ "aluminum", "plastic" ],
     "symbol": ";",
     "color": "green",
-    "flags": [ "WATER_BREAK", "ELECTRONIC"  ],
+    "flags": [ "WATER_BREAK", "ELECTRONIC" ],
     "ammo": [ "battery" ],
     "charges_per_use": 20,
     "use_action": [ "HOTPLATE" ],
