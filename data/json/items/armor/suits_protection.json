@@ -407,7 +407,7 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "heavy junkyard plate armor" },
-    "description": "description": "A full set of steel armor made from sheet metal hammered into shape and attached with chainmail covering the gaps, with an extra-thick chestpiece.  About as heavy as a car but nowhere near as mobile, this suit is nonetheless quite protective.",
+    "description": "A full set of steel armor made from sheet metal hammered into shape and attached with chainmail covering the gaps, with an extra-thick chestpiece.  About as heavy as a car but nowhere near as mobile, this suit is nonetheless quite protective.",
     "weight": "33100 g",
     "volume": "17500 ml",
     "price": 6000,
