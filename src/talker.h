@@ -562,5 +562,12 @@ class talker
         virtual int get_body_temp_delta() const {
             return 0;
         }
+        virtual std::vector<bodypart_id> get_all_body_parts() const {
+            return std::vector<bodypart_id>();
+        }
+        virtual int get_part_hp_cur( const bodypart_id & ) const {
+            return 0;
+        }
+        virtual void set_part_hp_cur( const bodypart_id &, int ) const {}
 };
 #endif // CATA_SRC_TALKER_H

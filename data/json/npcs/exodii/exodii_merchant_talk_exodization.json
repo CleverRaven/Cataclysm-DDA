@@ -173,11 +173,11 @@
   {
     "id": "TALK_EXODII_MERCHANT_ExodizeMe1",
     "type": "talk_topic",
-    "dynamic_line": "Fine an' fine, an' fine an' fine!  Ha!  Us'll rubber up the ol' gristle mill.  Yer tassed wi' bringin' us a nip o' good tea.  Not 'tea', o'course.  I'm yarkin dockside Anglic here.  Us means the stuff what puts y'to sleep f'r a chirurgery.  The Great Grey says y'r assert for it is 'anus fetick'.  You bring us one liter of 'anus fetick', us'll fix'n ye up with a wire an' a tiff.",
-    "//~": "Great, great, great!!  Ha!  We'll fire up the old meat grinder.  Your job is to bring us a bit of good tea.  Not literally 'tea' of course.  That's my Anglic street slang.  I mean the stuff that puts you to sleep for surgery.  The Great Grey says your word for it is 'anesthetic'.  You bring us one liter of anesthetic, we'll fix you up with a wire and everything.",
+    "dynamic_line": "Fine an' fine, an' fine an' fine!  Ha!  Us'll rubber up the ol' gristle mill.  Yer tassed wi' bringin' us a nip o' good tea.  Not 'tea', o'course.  I'm yarkin dockside Anglic here.  Us means the stuff what puts y'to sleep f'r a chirurgery.  The Great Grey says y'r assert for it is 'anus fetick'.  You bring us a thousand unit of 'anus fetick', us'll fix'n ye up with a wire an' a tiff.",
+    "//~": "Great, great, great!!  Ha!  We'll fire up the old meat grinder.  Your job is to bring us a bit of good tea.  Not literally 'tea' of course.  That's my Anglic street slang.  I mean the stuff that puts you to sleep for surgery.  The Great Grey says your word for it is 'anesthetic'.  You bring us a thousand units of anesthetic, we'll fix you up with a wire and everything.",
     "responses": [
       {
-        "text": "One liter of, uh, anesthetic, coming up.  Can we talk about something else?",
+        "text": "One thousand units of, uh, anesthetic, coming up.  Can we talk about something else?",
         "condition": {
           "not": {
             "or": [
@@ -190,7 +190,7 @@
         "topic": "TALK_EXODII_MERCHANT_Talk"
       },
       {
-        "text": "One liter of, uh, anesthetic, coming up.  I'd better start looking.",
+        "text": "One thousand units of, uh, anesthetic, coming up.  I'd better start looking.",
         "condition": {
           "not": {
             "or": [

@@ -80,6 +80,9 @@ class iuse_transform : public iuse_actor
         /**does the item requires to be wielded to be activable*/
         bool need_wielding = false;
 
+        /** does the item require being empty to be activable */
+        bool need_empty = false;
+
         /** subtracted from @ref Creature::moves when transformation is successful */
         int moves = 0;
 

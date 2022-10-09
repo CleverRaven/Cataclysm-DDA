@@ -52,7 +52,7 @@
       "place_vehicles": [
         { "vehicle": "suburban_home", "x": [ 3, 8 ], "y": 22, "chance": 45, "rotation": 180 },
         { "vehicle": "parking_garage_short", "x": 15, "y": 20, "chance": 60, "rotation": -90 },
-        { "vehicle": "forklift", "x": 16, "y": 12, "chance": 20, "rotation": 90 }
+        { "vehicle": "forklift_vehicles", "x": 16, "y": 12, "chance": 20, "rotation": 90 }
       ]
     }
   },

@@ -1167,13 +1167,11 @@ static activity_reason_info can_do_activity_there( const activity_id &act, Chara
                 const vpart_info &vpinfo = part_elem->info();
                 int vpindex = veh->index_of_part( part_elem, true );
                 // if part is undamaged or beyond repair - can skip it.
-                if( part_elem->is_broken() || part_elem->damage() <= part_elem->degradation() ||
-                    part_elem->info().repair_requirements().is_empty() ) {
+                if( !part_elem->is_repairable() ) {
                     continue;
                 }
                 // If repairing this part would make the vehicle non-flyable, avoid it
-                if( veh->would_repair_prevent_flyable( *part_elem,
-                                                       player_character ) ) {
+                if( veh->would_repair_prevent_flyable( *part_elem, player_character ) ) {
                     return activity_reason_info::fail( do_activity_reason::WOULD_PREVENT_VEH_FLYING );
                 }
                 if( std::find( already_working_indexes.begin(), already_working_indexes.end(),

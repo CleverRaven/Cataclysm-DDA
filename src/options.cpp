@@ -893,7 +893,7 @@ void options_manager::cOpt::setNext()
         int iMenuTextLength = utf8_width( sMenuText.translated() );
         string_input_popup()
         .width( iMaxLength > 80 ? 80 : iMaxLength < iMenuTextLength ? iMenuTextLength : iMaxLength + 1 )
-        .description( sMenuText.translated() )
+        .title( sMenuText.translated() )
         .max_length( iMaxLength )
         .edit( sSet );
 

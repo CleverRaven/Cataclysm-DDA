@@ -1414,7 +1414,7 @@ int spell::casting_exp( const Character &guy ) const
     // the amount of xp you would get with no modifiers
     const int base_casting_xp = 75;
 
-    return std::round( guy.adjust_for_focus( base_casting_xp * exp_modifier( guy ) ) / 100.0 );
+    return std::round( guy.adjust_for_focus( base_casting_xp * exp_modifier( guy ) ) );
 }
 
 std::string spell::enumerate_targets() const

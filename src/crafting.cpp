@@ -1346,7 +1346,7 @@ void Character::complete_craft( item &craft, const cata::optional<tripoint> &loc
                 // forget byproducts below either when you fix this.
                 //
                 // Temperature is not functional for non-foods
-                food_contained.set_item_temperature( units::from_celcius( 20 ) );
+                food_contained.set_item_temperature( units::from_celsius( 20 ) );
             }
         }
 
@@ -1382,7 +1382,7 @@ void Character::complete_craft( item &craft, const cata::optional<tripoint> &loc
                 if( should_heat ) {
                     bp.heat_up();
                 } else {
-                    bp.set_item_temperature( units::from_celcius( 20 ) );
+                    bp.set_item_temperature( units::from_celsius( 20 ) );
                 }
             }
             bp.set_owner( get_faction()->id );

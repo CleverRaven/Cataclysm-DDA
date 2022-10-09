@@ -24,6 +24,8 @@ class json_loader
 
         // Like json_loader::from_path, except instead of parsing data from a file, will parse data from a string in memory.
         static JsonValue from_string( std::string const &data ) noexcept( false );
+        static cata::optional<JsonValue> from_string_opt( std::string const &data ) noexcept( false );
+
 };
 
 #endif // CATA_SRC_JSON_LOADER_H

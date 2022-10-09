@@ -20,6 +20,7 @@
 #include "debug.h"
 #include "enum_conversions.h"
 #include "field.h"
+#include "flag.h"
 #include "game.h"
 #include "generic_factory.h"
 #include "global_vars.h"
@@ -1104,6 +1105,15 @@ void conditional_t<T>::set_can_stow_weapon( bool is_npc )
     condition = [is_npc]( const T & d ) {
         const talker *actor = d.actor( is_npc );
         return !actor->unarmed_attack() && actor->can_stash_weapon();
+    };
+}
+
+template<class T>
+void conditional_t<T>::set_can_drop_weapon( bool is_npc )
+{
+    condition = [is_npc]( const T & d ) {
+        const talker *actor = d.actor( is_npc );
+        return !actor->unarmed_attack() && !actor->wielded_with_flag( flag_NO_UNWIELD );
     };
 }
 
@@ -2361,6 +2371,12 @@ void talk_effect_fun_t<T>::set_arithmetic( const JsonObject &jo, const std::stri
                 return false;
             };
         }
+    } else if( objects.size() == 1 && no_result ) {
+        std::function<int( const T & )> get_first_int = conditional_t< T >::get_get_int(
+                    objects.get_object( 0 ) );
+        function = [get_first_int, set_int]( const T & d ) {
+            set_int( d, get_first_int( d ) );
+        };
     } else {
         jo.throw_error( "Invalid number of args in " + jo.str() );
         function = []( const T & ) {
@@ -2372,7 +2388,6 @@ void talk_effect_fun_t<T>::set_arithmetic( const JsonObject &jo, const std::stri
 #if defined(__GNUC__) && defined(__MINGW32__) && !defined(__clang__)
 #pragma GCC pop_options
 #endif
-
 
 template<class T>
 void conditional_t<T>::set_u_has_camp()
@@ -2871,6 +2886,10 @@ conditional_t<T>::conditional_t( const std::string &type )
         set_can_stow_weapon();
     } else if( type == "npc_can_stow_weapon" ) {
         set_can_stow_weapon( is_npc );
+    } else if( type == "u_can_drop_weapon" ) {
+        set_can_drop_weapon();
+    } else if( type == "npc_can_drop_weapon" ) {
+        set_can_drop_weapon( is_npc );
     } else if( type == "u_has_weapon" ) {
         set_has_weapon();
     } else if( type == "npc_has_weapon" ) {

@@ -2631,14 +2631,6 @@
     "flags": [ "BLIND_EASY" ]
   },
   {
-    "result": "felt_patch",
-    "type": "uncraft",
-    "time": "5 m",
-    "activity_level": "NO_EXERCISE",
-    "qualities": [ { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "yarn", 50 ] ] ]
-  },
-  {
     "result": "file",
     "type": "uncraft",
     "activity_level": "NO_EXERCISE",

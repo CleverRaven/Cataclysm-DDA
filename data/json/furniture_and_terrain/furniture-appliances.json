@@ -95,7 +95,7 @@
     "required_str": 13,
     "max_volume": "120 L",
     "examine_action": { "type": "appliance_convert", "furn_set": "f_null", "item": "household_dishwasher" },
-    "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "FLAT_SURF", "MINEABLE", "EASY_DECONSTRUCT" ],
+    "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "FLAT_SURF", "MINEABLE", "EASY_DECONSTRUCT", "NO_SELF_CONNECT" ],
     "deconstruct": { "items": [ { "item": "household_dishwasher", "count": 1 } ] },
     "bash": {
       "str_min": 18,
@@ -202,7 +202,7 @@
     "move_cost_mod": -1,
     "coverage": 90,
     "required_str": 10,
-    "flags": [ "PLACE_ITEM", "BLOCKSDOOR" ],
+    "flags": [ "PLACE_ITEM", "BLOCKSDOOR", "NO_SELF_CONNECT" ],
     "deconstruct": {
       "items": [
         { "item": "sheet_metal", "count": [ 2, 5 ] },
@@ -358,7 +358,16 @@
     "required_str": 10,
     "examine_action": { "type": "appliance_convert", "furn_set": "f_null", "item": "oven" },
     "//": "TODO: Replace FIRE_CONTAINER with some flag choking out small files",
-    "flags": [ "PLACE_ITEM", "TRANSPARENT", "EASY_DECONSTRUCT", "FIRE_CONTAINER", "CONTAINER", "BLOCKSDOOR", "MOUNTABLE" ],
+    "flags": [
+      "PLACE_ITEM",
+      "TRANSPARENT",
+      "EASY_DECONSTRUCT",
+      "FIRE_CONTAINER",
+      "CONTAINER",
+      "BLOCKSDOOR",
+      "MOUNTABLE",
+      "NO_SELF_CONNECT"
+    ],
     "deconstruct": { "items": [ { "item": "oven", "count": 1 } ] },
     "max_volume": "120 L",
     "bash": {
@@ -390,7 +399,7 @@
     "coverage": 60,
     "required_str": 10,
     "examine_action": { "type": "appliance_convert", "furn_set": "f_null", "item": "oven" },
-    "flags": [ "PLACE_ITEM", "TRANSPARENT", "EASY_DECONSTRUCT", "CONTAINER", "BLOCKSDOOR", "MOUNTABLE" ],
+    "flags": [ "PLACE_ITEM", "TRANSPARENT", "EASY_DECONSTRUCT", "CONTAINER", "BLOCKSDOOR", "MOUNTABLE", "NO_SELF_CONNECT" ],
     "deconstruct": { "items": [ { "item": "microwave", "count": 1 } ] },
     "max_volume": "120 L",
     "bash": {
@@ -492,7 +501,7 @@
     "move_cost_mod": 5,
     "required_str": 6,
     "looks_like": "f_filing_cabinet",
-    "flags": [ "TRANSPARENT", "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR" ],
+    "flags": [ "TRANSPARENT", "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "NO_SELF_CONNECT" ],
     "deconstruct": {
       "items": [
         { "item": "scrap", "count": [ 2, 6 ] },

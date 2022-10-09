@@ -111,6 +111,7 @@ static const diseasetype_id disease_bad_food( "bad_food" );
 
 static const efftype_id effect_boomered( "boomered" );
 static const efftype_id effect_crushed( "crushed" );
+static const efftype_id effect_pet( "pet" );
 
 static const field_type_str_id field_fd_clairvoyant( "fd_clairvoyant" );
 
@@ -2464,7 +2465,7 @@ int map::climb_difficulty( const tripoint &p ) const
     }
 
     // TODO: Make this more sensible - check opposite sides, not just movement blocker count
-    return best_difficulty - blocks_movement;
+    return std::max( 0, best_difficulty - blocks_movement );
 }
 
 bool map::has_floor( const tripoint &p ) const
@@ -4734,12 +4735,13 @@ std::vector<item *> map::spawn_items( const tripoint_bub_ms &p, const std::vecto
 
 void map::spawn_artifact( const tripoint &p, const relic_procgen_id &id,
                           const int max_attributes,
-                          const int power_level, const int max_negative_power )
+                          const int power_level, const int max_negative_power, const bool is_resonant )
 {
     relic_procgen_data::generation_rules rules;
     rules.max_attributes = max_attributes;
     rules.power_level = power_level;
     rules.max_negative_power = max_negative_power;
+    rules.resonant = is_resonant;
 
     add_item_or_charges( p, id->create_item( rules ) );
 }
@@ -8341,6 +8343,7 @@ void map::spawn_monsters_submap( const tripoint &gp, bool ignore_sight )
             }
             if( i.friendly ) {
                 tmp.friendly = -1;
+                tmp.add_effect( effect_pet, 1_turns, true );
             }
             if( !i.data.ammo.empty() ) {
                 for( std::pair<itype_id, jmapgen_int> ap : i.data.ammo ) {

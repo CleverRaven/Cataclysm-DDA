@@ -1,0 +1,99 @@
+[
+  {
+    "id": "internal_gasoline_tank",
+    "type": "TOOL_ARMOR",
+    "category": "container",
+    "name": { "str": "internal gasoline tank" },
+    "description": "Internal tank for gasoline fuel cell bionic.",
+    "volume": "501 ml",
+    "weight": "1 g",
+    "price": 0,
+    "material": [ "plastic" ],
+    "symbol": "(",
+    "color": "magenta",
+    "flags": [ "INTEGRATED", "UNBREAKABLE", "PERSONAL", "NO_REPAIR", "ALLOWS_NATURAL_ATTACKS", "BIONIC_FUEL_SOURCE" ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "watertight": true,
+        "rigid": true,
+        "max_contains_volume": "500 ml",
+        "max_item_volume": "32 ml",
+        "max_contains_weight": "1 kg",
+        "material_restriction": [ "gasoline" ]
+      }
+    ]
+  },
+  {
+    "id": "internal_ethanol_tank",
+    "type": "TOOL_ARMOR",
+    "category": "container",
+    "name": { "str": "internal ethanol tank" },
+    "description": "Internal ethanol tank for ethanol burner bionic.",
+    "volume": "401 ml",
+    "weight": "1 g",
+    "price": 0,
+    "material": [ "plastic" ],
+    "symbol": "(",
+    "color": "magenta",
+    "flags": [ "INTEGRATED", "UNBREAKABLE", "PERSONAL", "NO_REPAIR", "ALLOWS_NATURAL_ATTACKS", "BIONIC_FUEL_SOURCE" ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "watertight": true,
+        "rigid": true,
+        "max_contains_volume": "400 ml",
+        "max_item_volume": "32 ml",
+        "max_contains_weight": "1 kg",
+        "material_restriction": [ "alcohol" ]
+      }
+    ]
+  },
+  {
+    "id": "internal_oil_tank",
+    "type": "TOOL_ARMOR",
+    "category": "container",
+    "name": { "str": "internal oil tank" },
+    "description": "Internal oil tank for oil generator bionic.",
+    "volume": "751 ml",
+    "weight": "1 g",
+    "price": 0,
+    "material": [ "plastic" ],
+    "symbol": "(",
+    "color": "magenta",
+    "flags": [ "INTEGRATED", "UNBREAKABLE", "PERSONAL", "NO_REPAIR", "ALLOWS_NATURAL_ATTACKS", "BIONIC_FUEL_SOURCE" ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "watertight": true,
+        "rigid": true,
+        "max_contains_volume": "750 ml",
+        "max_item_volume": "32 ml",
+        "max_contains_weight": "1 kg",
+        "material_restriction": [ "lamp_oil", "motor_oil" ]
+      }
+    ]
+  },
+  {
+    "id": "internal_battery_compartment",
+    "type": "TOOL_ARMOR",
+    "name": { "str": "internal battery compartment" },
+    "description": "Internal compartment for holding medium sized batteries for battery system bionic.",
+    "volume": "750 ml",
+    "weight": "1 g",
+    "price": 0,
+    "material": [ "plastic" ],
+    "symbol": "(",
+    "color": "magenta",
+    "flags": [ "INTEGRATED", "UNBREAKABLE", "PERSONAL", "NO_REPAIR", "ALLOWS_NATURAL_ATTACKS", "BIONIC_FUEL_SOURCE" ],
+    "ammo": [ "battery" ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "flag_restriction": [ "BATTERY_MEDIUM", "BATTERY_LIGHT" ],
+        "default_magazine": "medium_battery_cell"
+      }
+    ]
+  }
+]
