@@ -284,7 +284,7 @@
     ],
     "color": "dark_gray"
   },
-{
+  {
     "id": "heavy_punching_bag_sack",
     "type": "GENERIC",
     "category": "container",
@@ -299,6 +299,7 @@
     "to_hit": -5,
     "material": [ "leather" ],
     "symbol": ")",
+    "color": "brown",
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -307,9 +308,8 @@
         "max_item_length": "150 cm",
         "moves": 400
       }
-    ],
-    "color": "brown"
-},
+    ]
+  },
   {
     "id": "bag_iv",
     "type": "GENERIC",
