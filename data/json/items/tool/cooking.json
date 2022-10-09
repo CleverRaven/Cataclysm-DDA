@@ -58,7 +58,7 @@
     "name": { "str": "screw press", "str_pl": "screw presses" },
     "description": "This is a crafting_pseudo_item if you have it something is wrong.",
     "weight": "120000 g",
-    "volume": "9500 ml",
+    "volume": "100 L",
     "price": 20000,
     "price_postapoc": 100,
     "to_hit": -2,

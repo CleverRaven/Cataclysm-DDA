@@ -281,7 +281,7 @@
     "name": { "str": "screw press", "str_pl": "screw presses" },
     "description": "A large screw press for the purpose of manually pressing oil out of fruit or seed paste.  Needs to be placed via the construction menu.",
     "weight": "120000 g",
-    "volume": "9500 ml",
+    "volume": "100 L",
     "longest_side": "250 cm",
     "price": 100000,
     "price_postapoc": 1500,
