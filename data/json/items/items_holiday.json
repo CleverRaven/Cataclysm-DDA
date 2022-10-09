@@ -15,7 +15,7 @@
     "looks_like": "pumpkin",
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 100 } } ],
     "charges_per_use": 1,
-    "flags": [ "WATER_BREAK" ],
+    "flags": [ "WATER_BREAK", "ELECTRONIC" ],
     "ammo": [ "battery" ],
     "use_action": {
       "target": "plastic_jack_o_lantern_lit",
@@ -50,7 +50,7 @@
       "msg": "The LED winks out inside the lantern.",
       "menu_text": "Extinguish"
     },
-    "flags": [ "LIGHT_6", "TRADER_AVOID" ]
+    "flags": [ "LIGHT_6", "TRADER_AVOID", "ELECTRONIC" ]
   },
   {
     "id": "jackolantern",
