@@ -1438,18 +1438,6 @@
     ]
   },
   {
-    "id": "zombie_animal_acid",
-    "//": "any zombie animal without hide and acid blood.",
-    "type": "harvest",
-    "entries": [
-      { "drop": "meat_tainted", "type": "flesh", "mass_ratio": 0.25 },
-      { "drop": "fat_tainted", "type": "flesh", "mass_ratio": 0.08 },
-      { "drop": "blood_acid_zombie", "type": "blood", "mass_ratio": 0.1 },
-      { "drop": "bone_tainted", "type": "bone", "mass_ratio": 0.1 },
-      { "drop": "tainted_marrow", "type": "bone", "mass_ratio": 0.005 }
-    ]
-  },
-  {
     "id": "zombie_thorny",
     "//": "mix of animal and plant",
     "type": "harvest",
@@ -1654,6 +1642,17 @@
     ]
   },
   {
+    "id": "triffid_acid",
+    "//": "acid blood type for plant based creaturs.",
+    "type": "harvest",
+    "entries": [
+      { "drop": "blood_acid_plant", "type": "blood", "mass_ratio": 0.1 },
+      { "drop": "stick_fiber", "type": "bone", "mass_ratio": 0.5 },
+      { "drop": "veggy", "type": "flesh", "mass_ratio": 0.2 },
+      { "drop": "veggy", "type": "offal", "mass_ratio": 0.05 }
+    ]
+  },
+  {
     "id": "triffid_fungal_fighter",
     "type": "harvest",
     "entries": [
@@ -1674,6 +1673,17 @@
       { "drop": "veggy", "type": "flesh", "mass_ratio": 0.2 },
       { "drop": "veggy", "type": "offal", "mass_ratio": 0.05 },
       { "drop": "venom_paralytic", "type": "offal", "mass_ratio": 0.02 }
+    ]
+  },
+  {
+    "id": "ground_acid",
+    "//": "acid blood type for underground or digging based creaturs.",
+    "type": "harvest",
+    "entries": [
+      { "drop": "blood_acid_ground", "type": "blood", "mass_ratio": 0.1 },
+      { "drop": "mutant_meat", "type": "flesh", "mass_ratio": 0.4 },
+      { "drop": "mutant_fat", "type": "flesh", "mass_ratio": 0.1 },
+      { "drop": "mutant_fat", "type": "offal", "mass_ratio": 0.1 }
     ]
   }
 ]
