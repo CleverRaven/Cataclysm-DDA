@@ -6860,7 +6860,7 @@
     "type": "uncraft",
     "activity_level": "MODERATE_EXERCISE",
     "time": "1 m",
-    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "qualities": [ { "id": "HAMMER", "level": 2 } ],
     "components": [ [ [ "bone", 43 ] ] ],
     "flags": [ "BLIND_EASY" ]
   },
@@ -6869,7 +6869,7 @@
     "type": "uncraft",
     "activity_level": "MODERATE_EXERCISE",
     "time": "1 m",
-    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "qualities": [ { "id": "HAMMER", "level": 2 } ],
     "components": [ [ [ "bone", 43 ] ] ],
     "flags": [ "BLIND_EASY" ]
   },
@@ -6887,8 +6887,17 @@
     "type": "uncraft",
     "activity_level": "MODERATE_EXERCISE",
     "time": "1 m",
-    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "qualities": [ { "id": "HAMMER", "level": 2 } ],
     "components": [ [ [ "bone", 43 ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "skull_moose_tusked",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "1 m",
+    "qualities": [ { "id": "HAMMER", "level": 2 } ],
+    "components": [ [ [ "bone", 65 ] ] ],
     "flags": [ "BLIND_EASY" ]
   }
 ]
