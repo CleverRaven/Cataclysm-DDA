@@ -1175,7 +1175,6 @@ void Item_factory::finalize_post_armor( itype &obj )
     // calculate each body part breathability of the armor
     // breathability is the worst breathability of any material on that portion
     for( armor_portion_data &armor_data : obj.armor->data ) {
-
         // only recalculate the breathability when the value is not set in JSON
         // or when the value in JSON is invalid
         if( armor_data.breathability < 0 ) {
