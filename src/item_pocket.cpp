@@ -1125,6 +1125,9 @@ void item_pocket::general_info( std::vector<iteminfo> &info, int pocket_number,
 void item_pocket::contents_info( std::vector<iteminfo> &info, int pocket_number,
                                  bool disp_pocket_number ) const
 {
+    if( !is_allowed() ) {
+        return;
+    }
     const std::string space = "  ";
 
     insert_separation_line( info );
