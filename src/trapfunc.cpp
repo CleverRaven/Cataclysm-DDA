@@ -265,10 +265,23 @@ bool trapfunc::caltrops( const tripoint &, Creature *c, item * )
         c->deal_damage( nullptr, bodypart_id( "foot_r" ), damage_instance( damage_type::CUT, rng( 9,
                         15 ) ) );
     } else {
-        c->deal_damage( nullptr, bodypart_id( "foot_l" ), damage_instance( damage_type::CUT, rng( 9,
-                        30 ) ) );
-        c->deal_damage( nullptr, bodypart_id( "foot_r" ), damage_instance( damage_type::CUT, rng( 9,
-                        30 ) ) );
+        dealt_damage_instance dealt_dmg_l = c->deal_damage( nullptr, bodypart_id( "foot_l" ),
+                                            damage_instance( damage_type::CUT, rng( 9,
+                                                    30 ) ) );
+        dealt_damage_instance dealt_dmg_r = c->deal_damage( nullptr, bodypart_id( "foot_r" ),
+                                            damage_instance( damage_type::CUT, rng( 9,
+                                                    30 ) ) );
+
+        const int total_cut_dmg = dealt_dmg_l.type_damage( damage_type::CUT ) + dealt_dmg_l.type_damage(
+                                      damage_type::CUT );
+        Character *you = dynamic_cast<Character *>( c );
+        if( you != nullptr && !you->has_trait( trait_INFIMMUNE ) && total_cut_dmg > 0 ) {
+            const int chance_in = you->has_trait( trait_INFRESIST ) ? 256 : 35;
+            if( one_in( chance_in ) ) {
+                you->add_effect( effect_tetanus, 1_turns, true );
+            }
+        }
+
     }
     c->check_dead_state();
     return true;
