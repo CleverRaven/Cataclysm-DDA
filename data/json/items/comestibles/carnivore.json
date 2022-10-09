@@ -1941,6 +1941,22 @@
     "material": [ "bone" ]
   },
   {
+    "type": "GENERIC",
+    "id": "skull_moose_tusked",
+    "name": { "str": "moose skull" },
+    "description": "The skull of a moose, unmistakable thanks to the antler shape and... tusks?  Okay, maybe this did not belong to a normal moose after all.",
+    "flags": [ "TRADER_AVOID" ],
+    "category": "spare_parts",
+    "weight": "20 kg",
+    "volume": "125 L",
+    "longest_side": "120 cm",
+    "symbol": "@",
+    "color": "white",
+    "price": 0,
+    "price_postapoc": 5,
+    "material": [ "bone" ]
+  },
+  {
     "id": "meat_fried",
     "copy-from": "meat_cooked",
     "type": "COMESTIBLE",
