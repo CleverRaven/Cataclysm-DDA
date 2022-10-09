@@ -250,8 +250,8 @@
     "category": "armor",
     "name": { "str": "Hub 01 modular recon headgear" },
     "looks_like": "tac_helmet",
-    "description": "Heavy duty hooded headwear for the true frontier explorer, made with robust nylon sheeting reinforced with kevlar fibers. The top consists of a series of plastic plates with hooks and velcro strips, perhaps for attaching additional parts. On the forehead of the assembly is a bulky box visor on a mechanism to quickly pull it down over your eyes, with a cover on the side to insert standard batteries. Activate to lower the visor and use the light amplification functions.",
-    "//": "nv goggles weight 1020g. hub armor rig weight 960g for full body. figure this strikes a decent midpoint, esp. since weight here becomes head encumb. materials wise, same nylon/kevlar weave as the poncho; the visor is being handwaved per the riot helmet and motorcycle helmet visors as precedent.",
+    "description": "Heavy duty hooded headwear for the true frontier explorer, made with robust nylon sheeting reinforced with kevlar fibers.  The top consists of a series of plastic plates with hooks and velcro strips, perhaps for attaching additional parts.  On the forehead of the assembly is a bulky box visor on a mechanism to quickly pull it down over your eyes, with a cover on the side to insert standard batteries.  Activate to lower the visor and use the light amplification functions.",
+    "//": "nv goggles weight 1020g.  hub armor rig weight 960g for full body.  figure this strikes a decent midpoint, esp.  since weight here becomes head encumb.  materials wise, same nylon/kevlar weave as the poncho; the visor is being handwaved per the riot helmet and motorcycle helmet visors as precedent.",
     "weight": "1200 g",
     "volume": "1200 ml",
     "price": 10000,
@@ -300,9 +300,9 @@
   {
     "id": "robofac_head_rig_nv",
     "type": "TOOL_ARMOR",
-    "name": { "str": "Hub 01 modular recon headgear (NV)" },
+    "name": { "str_sp": "Hub 01 modular recon headgear (NV)" },
     "looks_like": "tac_fullhelmet",
-    "description": "Heavy duty hooded headwear for the true frontier explorer. The visor has been lowered over the eyes, and is drawing low power to provide light amplification by way of an infrared illuminator and detector. Activate to switch to full IR scanning.",
+    "description": "Heavy duty hooded headwear for the true frontier explorer.  The visor has been lowered over the eyes, and is drawing low power to provide light amplification by way of an infrared illuminator and detector.  Activate to switch to full IR scanning.",
     "copy-from": "robofac_head_rig",
     "extend": { "flags": [ "GNV_EFFECT" ] },
     "power_draw": "375 mJ",
@@ -337,9 +337,9 @@
   {
     "id": "robofac_head_rig_ir",
     "type": "TOOL_ARMOR",
-    "name": { "str": "Hub 01 modular recon headgear (IR)" },
+    "name": { "str_sp": "Hub 01 modular recon headgear (IR)" },
     "looks_like": "tac_fullhelmet",
-    "description": "Heavy duty hooded headwear for the true frontier explorer. The visor has been lowered over the eyes, and is drawing moderate power to provide full infra-red scanning, allowing you to see warm blooded creatures in the dark. Activate to turn the visor off again.",
+    "description": "Heavy duty hooded headwear for the true frontier explorer.  The visor has been lowered over the eyes, and is drawing moderate power to provide full infra-red scanning, allowing you to see warm blooded creatures in the dark.  Activate to turn the visor off again.",
     "copy-from": "robofac_head_rig",
     "extend": { "flags": [ "IR_EFFECT" ] },
     "power_draw": "1 J",
@@ -745,7 +745,7 @@
     "type": "ARMOR",
     "copy-from": "robofac_helmet",
     "name": "Hub 01 prototype helmet",
-    "description": "3D printed armor for the head, made of thick polymer plates woven with metallic fibers. Despite its rough finish, it's clear that a lot of thought has gone into the ergonomics and weight.  Designed to clip to some kind of attachment point, its interior reads \"ATTACH TO MODULAR HEADGEAR\".",
+    "description": "3D printed armor for the head, made of thick polymer plates woven with metallic fibers.  Despite its rough finish, it's clear that a lot of thought has gone into the ergonomics and weight.  Designed to clip to some kind of attachment point, its interior reads \"ATTACH TO MODULAR HEADGEAR\".",
     "material": [ { "type": "plastic", "portion": 3 }, { "type": "aluminum", "portion": 1 } ]
   },
   {
@@ -774,7 +774,7 @@
     "type": "ARMOR",
     "copy-from": "robofac_helmet",
     "name": "Hub 01 ballistic helmet",
-    "description": "3D printed armor for the head, made of thick polymer plates woven with metallic fibers. This one has extra kevlar and steel layering, to provide superior protection against small arms.  Designed to clip to some kind of attachment point, its interior reads \"ATTACH TO MODULAR HEADGEAR\".",
+    "description": "3D printed armor for the head, made of thick polymer plates woven with metallic fibers.  This one has extra kevlar and steel layering, to provide superior protection against small arms.  Designed to clip to some kind of attachment point, its interior reads \"ATTACH TO MODULAR HEADGEAR\".",
     "material": [ { "type": "plastic", "portion": 1 }, { "type": "steel", "portion": 1 }, { "type": "kevlar", "portion": 2 } ],
     "proportional": { "weight": 2.5 }
   },
