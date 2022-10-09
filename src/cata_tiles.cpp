@@ -2345,9 +2345,17 @@ bool cata_tiles::draw_from_id_string( const std::string &id, TILE_CATEGORY categ
         case TILE_CATEGORY::OVERMAP_TERRAIN:
         case TILE_CATEGORY::MAP_EXTRA:
             seed = simple_point_hash( pos );
+            break;
+        case TILE_CATEGORY::NONE:
+            // graffiti
+            if( found_id == "graffiti" ) {
+                seed = std::hash<std::string> {}( here.graffiti_at( pos ) );
+            } else if( string_starts_with( found_id, "graffiti" ) ) {
+                seed = simple_point_hash( here.getabs( pos ) );
+            }
+            break;
         case TILE_CATEGORY::ITEM:
         case TILE_CATEGORY::TRAP:
-        case TILE_CATEGORY::NONE:
         case TILE_CATEGORY::BULLET:
         case TILE_CATEGORY::HIT_ENTITY:
         case TILE_CATEGORY::WEATHER:
@@ -3064,14 +3072,19 @@ bool cata_tiles::draw_trap( const tripoint &p, const lit_level ll, int &height_3
 bool cata_tiles::draw_graffiti( const tripoint &p, const lit_level ll, int &height_3d,
                                 const std::array<bool, 5> &invisible )
 {
+    map &here = get_map();
     const auto override = graffiti_override.find( p );
     const bool overridden = override != graffiti_override.end();
-    if( overridden ? !override->second : ( invisible[0] || !get_map().has_graffiti_at( p ) ) ) {
+    if( overridden ? !override->second : ( invisible[0] || !here.has_graffiti_at( p ) ) ) {
         return false;
     }
     const lit_level lit = overridden ? lit_level::LIT : ll;
-    return draw_from_id_string( "graffiti", TILE_CATEGORY::NONE, empty_string, p, 0, 0, lit, false,
-                                height_3d );
+    const int rotation = here.passable( p ) ? 1 : 0;
+    const std::string tile = "graffiti_" +
+                             to_upper_case( string_replace( remove_punctuations( here.graffiti_at( p ).substr( 0, 32 ) ), " ",
+                                            "_" ) );
+    return draw_from_id_string( tileset_ptr->find_tile_type( tile ) ? tile : "graffiti",
+                                TILE_CATEGORY::NONE, empty_string, p, 0, rotation, lit, false, height_3d );
 }
 
 bool cata_tiles::draw_field_or_item( const tripoint &p, const lit_level ll, int &height_3d,
@@ -3436,9 +3449,14 @@ bool cata_tiles::draw_vpart( const tripoint &p, lit_level ll, int &height_3d,
                 const cata::optional<vpart_reference> cargopart = vp.part_with_feature( "CARGO", true );
                 const bool draw_highlight = cargopart &&
                                             !veh.get_items( cargopart->part_index() ).empty();
+
+                int height_3d_temp = 0;
                 const bool ret =
                     draw_from_id_string( vpname, TILE_CATEGORY::VEHICLE_PART, empty_string, p,
-                                         subtile, rotation, ll, nv_goggles_activated, height_3d );
+                                         subtile, rotation, ll, nv_goggles_activated, height_3d_temp );
+                if( !roof ) {
+                    height_3d = height_3d_temp;
+                }
                 if( ret && draw_highlight ) {
                     draw_item_highlight( p );
                 }
@@ -3457,20 +3475,25 @@ bool cata_tiles::draw_vpart( const tripoint &p, lit_level ll, int &height_3d,
             const std::string vpname = "vp_" + vp2.str();
             // tile overrides are never memorized
             // tile overrides are always shown with full visibility
+            int height_3d_temp = 0;
             const bool ret =
                 draw_from_id_string( vpname, TILE_CATEGORY::VEHICLE_PART, empty_string, p, subtile,
-                                     to_degrees( rotation ), lit_level::LIT, false, height_3d );
+                                     to_degrees( rotation ), lit_level::LIT, false, height_3d_temp );
+            if( !roof ) {
+                height_3d = height_3d_temp;
+            }
             if( ret && draw_highlight ) {
                 draw_item_highlight( p );
             }
             return ret;
         }
-    } else if( invisible[0] && has_vpart_memory_at( p ) ) {
+    } else if( !roof && invisible[0] && has_vpart_memory_at( p ) ) {
         // try drawing memory if invisible and not overridden
         const memorized_terrain_tile &t = get_vpart_memory_at( p );
+        int height_3d_temp = 0;
         return draw_from_id_string(
                    t.tile, TILE_CATEGORY::VEHICLE_PART, empty_string, p, t.subtile, t.rotation,
-                   lit_level::MEMORIZED, nv_goggles_activated, height_3d );
+                   lit_level::MEMORIZED, nv_goggles_activated, height_3d_temp );
     }
     return false;
 }

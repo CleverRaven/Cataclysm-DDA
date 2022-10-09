@@ -360,6 +360,45 @@ Each JSON file can have either a single object or an array of one or more object
 ]
 ```
 
+#### Graffitis
+
+For graffitis, rotation can be used to distinguish between wall and floor drawings:
+
+```json
+{
+  "id": "graffiti",
+  "fg": [ "graffiti_wall", "graffiti_floor" ],
+}
+```
+
+Weighted variations are also possible, and can be combined with rotation:
+
+```json
+{
+  "id": "graffiti",
+  "fg": [ 
+    { "weight": 1, "sprite": [ "graffiti_01_wall", "graffiti_01_floor" ] },
+    { "weight": 1, "sprite": [ "graffiti_02_wall", "graffiti_02_floor" ] },
+  ],
+}
+```
+
+Variant selection is based on the graffiti's text, so the same text will always result in the same variant shown.
+
+##### Graffitis for specific texts
+
+It is possible to create graffitis for specifix texts.
+
+The game looks up graffiti sprites by the pattern `graffiti_THE_GRAFFITI_TEXT`. If no such sprite is found, `graffiti` is used.
+
+To create the sprite id, the graffiti's text is:
+* truncated to 32 characters
+* converted to capital letters
+* all punctuation is removed
+* spaces are replaced by underscores
+
+So, e.g. all these texts would result in lookup for `graffiti_NO_FUTURE`: "no future", "No Future!!!", "no_future".
+
 ### `tile_info.json`
 ```c++
 [

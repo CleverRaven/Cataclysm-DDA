@@ -652,7 +652,7 @@ static std::string get_looks_like( const vpart_info &vpi, const itype &it )
     } else if( it.gun->skill_used == skill_launcher ) {
         return "tow_launcher"; // launchers
     } else {
-        return "mounted_m249"; // machine guns and also default for any unknown
+        return "m249"; // machine guns and also default for any unknown
     }
 }
 
