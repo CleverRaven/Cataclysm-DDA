@@ -252,7 +252,7 @@
     ],
     "weight": "15 g",
     "color": "red",
-    "spoils_in": "10 days",
+    "spoils_in": "180 days",
     "container": "jar_3l_glass_sealed",
     "comestible_type": "DRINK",
     "symbol": "~",
