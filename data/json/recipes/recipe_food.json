@@ -20,6 +20,7 @@
       [ [ "chocolate", 3 ] ],
       [ [ "any_butter_or_oil", 10, "LIST" ] ],
       [ [ "eggs_any_shape", 4, "LIST" ] ],
+      [ [ "chem_baking_soda", 2 ] ],
       [ [ "water", 1 ], [ "water_clean", 1 ] ]
     ]
   },
@@ -47,6 +48,7 @@
       [ [ "flour_any", 10, "LIST" ] ],
       [ [ "water", 1 ], [ "water_clean", 1 ] ],
       [ [ "salt", 1 ] ],
+      [ [ "chem_baking_soda", 1 ] ],
       [ [ "sugar", 5 ], [ "artificial_sweetener", 5 ] ]
     ]
   },
@@ -3442,6 +3444,7 @@
       [ [ "water", 1 ], [ "water_clean", 1 ] ],
       [ [ "any_butter_or_oil", 4, "LIST" ] ],
       [ [ "sugar_standard", 1, "LIST" ] ],
+      [ [ "chem_baking_soda", 1 ] ],
       [ [ "eggs_any_shape", 1, "LIST" ] ]
     ]
   },
@@ -4678,6 +4681,7 @@
       [ [ "flour", 1 ] ],
       [ [ "edible_blood", 2, "LIST" ] ],
       [ [ "sugar", 1 ], [ "artificial_sweetener", 1 ] ],
+      [ [ "chem_baking_soda", 1 ] ],
       [ [ "any_butter_or_oil", 1, "LIST" ] ],
       [ [ "water", 1 ], [ "water_clean", 1 ] ]
     ]
@@ -4699,6 +4703,7 @@
       [ [ "flour_wheat_free", 1 ] ],
       [ [ "edible_blood", 2, "LIST" ] ],
       [ [ "sugar", 1 ], [ "artificial_sweetener", 1 ] ],
+      [ [ "chem_baking_soda", 1 ] ],
       [ [ "any_butter_or_oil", 1, "LIST" ] ],
       [ [ "water", 1 ], [ "water_clean", 1 ] ]
     ]
@@ -4847,6 +4852,7 @@
         [ "can_coconut", 1 ],
         [ "honeycomb", 1 ]
       ],
+      [ [ "chem_baking_soda", 1 ] ],
       [ [ "water", 1 ], [ "water_clean", 1 ] ],
       [ [ "sweet_fruit_like", 1, "LIST" ], [ "choco_coffee_beans", 5 ], [ "chocolate", 1 ], [ "jam_fruit", 1 ] ]
     ]
