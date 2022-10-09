@@ -141,6 +141,14 @@
     ]
   },
   {
+    "id": "robofac_helmet_merc",
+    "type": "item_group",
+    "//": "a robofac headrig with kevlar insert",
+    "container-item": "robofac_head_rig",
+    "subtype": "collection",
+    "entries": [ { "item": "robofac_kevlar_helmet" } ]
+  },
+  {
     "id": "robofac_mantle_prototype",
     "type": "item_group",
     "//": "a robofac poncho with a few basic bits",
