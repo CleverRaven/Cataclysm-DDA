@@ -1895,7 +1895,7 @@ std::unordered_set<bodypart_id> outfit::where_discomfort( const Character &guy )
                 for( const sub_bodypart_id &under_sbp : sbp->locations_under ) {
                     if( covered_sbps.count( under_sbp ) != 1 ) {
                         guy.add_msg_if_player(
-                            string_format( "<bad>the %s rubs uncomfortably against your unpadded %s</bad>",
+                            string_format( "<color_c_red> the %s rubs uncomfortably against your unpadded %s </color>",
                                            i.display_name(), under_sbp->name ) );
                         uncomfortable_bps.insert( sbp->parent );
                     }
