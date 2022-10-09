@@ -250,7 +250,7 @@
     "category": "armor",
     "name": { "str": "Hub 01 modular recon headgear" },
     "looks_like": "tac_helmet",
-    "description": "Heavy duty hooded headwear for the true frontier explorer, made with robust nylon sheeting reinforced with kevlar fibers. The top consists of a series of plastic plates with hooks and velcro strips, perhaps for attaching additional parts. On the forehead of the assembly is a bulky box visor on a mechanism to quickly pull it down over your eyes, with a cover on the side to insert standard batteries. Activate to lower the visor and use the light amplification functions.",
+    "description": "Heavy duty hooded headwear for the true frontier explorer, made with robust Nylon sheeting reinforced with Kevlar fibers. The top consists of a series of plastic plates with hooks and velcro strips, perhaps for attaching additional parts. On the forehead of the assembly is a bulky box visor on a mechanism to quickly pull it down over your eyes, with a cover on the side to insert standard batteries. Activate to lower the visor and use the light amplification functions.",
     "//": "nv goggles weight 1020g. hub armor rig weight 960g for full body. figure this strikes a decent midpoint, esp. since weight here becomes head encumb. materials wise, same nylon/kevlar weave as the poncho; the visor is being handwaved per the riot helmet and motorcycle helmet visors as precedent.",
     "weight": "1200 g",
     "volume": "1200 ml",
