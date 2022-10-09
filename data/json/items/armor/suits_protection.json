@@ -407,7 +407,7 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "heavy junkyard plate armor" },
-    "description": "A full set of steel armor made from sheet metal hammered into shape and attached with chainmail covering the gaps, with an extra-thick chestpiece.  About as heavy as a car but nowhere near as mobile, this suit is nonetheless quite protective.",
+    "description": "A full set of steel armor made from sheet metal hammered into shape and attached with "leather", covering the gaps, with an extra-thick chestpiece.  About as heavy as a car but nowhere near as mobile, this suit is nonetheless quite protective.",
     "weight": "33100 g",
     "volume": "17500 ml",
     "price": 6000,
@@ -1543,7 +1543,7 @@
     "category": "armor",
     "name": { "str": "chainmail hauberk" },
     "description": "A fully customized chainmail outfit, leaving the head uncovered.  Combine with a gambeson or other padded layer for optimal protection.",
-    "weight": "14430 g",
+    "weight": "9760 g",
     "volume": "2750 ml",
     "price": 35988,
     "price_postapoc": 3000,
@@ -1557,7 +1557,7 @@
     "armor": [
       {
         "material": [ { "type": "budget_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
-        "covers": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r" ],
+        "covers": [ "torso", "arm_l", "arm_r" ],
         "coverage": 97,
         "encumbrance": 20
       }
@@ -1569,7 +1569,7 @@
     "category": "armor",
     "name": { "str": "low steel chainmail hauberk" },
     "description": "A fully customized low steel chainmail outfit, leaving the head uncovered.  Combine with a gambeson or other padded layer for optimal protection.",
-    "weight": "14430 g",
+    "weight": "9760 g",
     "volume": "2750 ml",
     "price": 35988,
     "price_postapoc": 3000,
@@ -1583,7 +1583,7 @@
     "armor": [
       {
         "material": [ { "type": "lc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
-        "covers": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r" ],
+        "covers": [ "torso", "arm_l", "arm_r" ],
         "coverage": 100,
         "encumbrance": 20
       }
@@ -1615,7 +1615,7 @@
     "armor": [
       {
         "material": [ { "type": "mc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
-        "covers": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r" ],
+        "covers": [ "torso", "arm_l", "arm_r" ],
         "coverage": 100,
         "encumbrance": 20
       }
@@ -1648,7 +1648,7 @@
     "armor": [
       {
         "material": [ { "type": "hc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
-        "covers": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r" ],
+        "covers": [ "torso", "arm_l", "arm_r" ],
         "coverage": 100,
         "encumbrance": 20
       }
@@ -1680,7 +1680,7 @@
     "armor": [
       {
         "material": [ { "type": "ch_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
-        "covers": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r" ],
+        "covers": [ "torso", "arm_l", "arm_r" ],
         "coverage": 100,
         "encumbrance": 20
       }
@@ -1712,7 +1712,7 @@
     "armor": [
       {
         "material": [ { "type": "qt_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
-        "covers": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r" ],
+        "covers": [ "torso", "arm_l", "arm_r" ],
         "coverage": 100,
         "encumbrance": 20
       }
@@ -1740,7 +1740,7 @@
     "category": "armor",
     "name": { "str": "chainmail armor" },
     "description": "A fully customized chainmail suit.  The metal shows signs of rust and corrosion.  Combine with a gambeson or other padded layer for optimal protection.",
-    "weight": "16436 g",
+    "weight": "15980 g",
     "volume": "3250 ml",
     "price": 45000,
     "price_postapoc": 8000,
@@ -1754,7 +1754,7 @@
     "armor": [
       {
         "material": [ { "type": "budget_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
-        "covers": [ "head", "torso", "leg_l", "leg_r", "arm_l", "arm_r" ],
+        "covers": [ "head", "torso", "arm_l", "arm_r" ],
         "coverage": 97,
         "encumbrance": 20
       }
@@ -1766,7 +1766,7 @@
     "category": "armor",
     "name": { "str": "low steel chainmail armor" },
     "description": "A fully customized low steel chainmail suit.  Combine with a gambeson or other padded layer for optimal protection.",
-    "weight": "16436 g",
+    "weight": "15980 g",
     "volume": "3250 ml",
     "price": 45000,
     "price_postapoc": 8000,
@@ -1780,7 +1780,7 @@
     "armor": [
       {
         "material": [ { "type": "lc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
-        "covers": [ "head", "torso", "leg_l", "leg_r", "arm_l", "arm_r" ],
+        "covers": [ "head", "torso", "arm_l", "arm_r" ],
         "coverage": 100,
         "encumbrance": 20
       }
@@ -1812,7 +1812,7 @@
     "armor": [
       {
         "material": [ { "type": "mc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
-        "covers": [ "head", "torso", "leg_l", "leg_r", "arm_l", "arm_r" ],
+        "covers": [ "head", "torso", "arm_l", "arm_r" ],
         "coverage": 100,
         "encumbrance": 20
       }
@@ -1844,7 +1844,7 @@
     "armor": [
       {
         "material": [ { "type": "hc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
-        "covers": [ "head", "torso", "leg_l", "leg_r", "arm_l", "arm_r" ],
+        "covers": [ "head", "torso", "arm_l", "arm_r" ],
         "coverage": 100,
         "encumbrance": 20
       }
@@ -1876,7 +1876,7 @@
     "armor": [
       {
         "material": [ { "type": "ch_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
-        "covers": [ "head", "torso", "leg_l", "leg_r", "arm_l", "arm_r" ],
+        "covers": [ "head", "torso", "arm_l", "arm_r" ],
         "coverage": 100,
         "encumbrance": 20
       }
@@ -1908,7 +1908,7 @@
     "armor": [
       {
         "material": [ { "type": "qt_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
-        "covers": [ "head", "torso", "leg_l", "leg_r", "arm_l", "arm_r" ],
+        "covers": [ "head", "torso", "arm_l", "arm_r" ],
         "coverage": 100,
         "encumbrance": 20
       }
