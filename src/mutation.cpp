@@ -445,10 +445,12 @@ void Character::mutation_effect( const trait_id &mut, const bool worn_destroyed_
                 }
             }
         }
-        for( const enchantment &ench : armor.get_defined_enchantments() ) {
-            for( const trait_id &inner_mut : ench.get_mutations() ) {
-                if( mut == inner_mut ) {
-                    return false;
+        if( armor.type->relic_data ) {
+            for( const enchantment &ench : armor.type->relic_data->get_defined_enchantments() ) {
+                for( const trait_id &inner_mut : ench.get_mutations() ) {
+                    if( mut == inner_mut ) {
+                        return false;
+                    }
                 }
             }
         }
@@ -891,13 +893,10 @@ trait_id Character::trait_by_invlet( const int ch ) const
 
 bool Character::mutation_ok( const trait_id &mutation, bool allow_good, bool allow_bad,
                              bool allow_neutral,
-                             const vitamin_id &mut_vit, const bool &terminal ) const
+                             const vitamin_id &mut_vit ) const
 {
     if( mut_vit != vitamin_id::NULL_ID() && vitamin_get( mut_vit ) < mutation->vitamin_cost ) {
         // We don't have the required mutagen vitamins
-        return false;
-    }
-    if( !terminal && mutation->terminus ) {
         return false;
     }
     return mutation_ok( mutation, allow_good, allow_bad, allow_neutral );
@@ -969,8 +968,6 @@ void Character::mutate( const int &true_random_chance, const bool use_vitamins )
     // Determine the highest mutation category
     mutation_category_id cat;
     weighted_int_list<mutation_category_id> cat_list = get_vitamin_weighted_categories();
-    const float instability = vitamin_get( vitamin_instability );
-    const bool terminal = instability >= 9500;
 
     //If we picked bad, mutation can be bad or neutral
     //Otherwise, can be good or neutral
@@ -992,6 +989,7 @@ void Character::mutate( const int &true_random_chance, const bool use_vitamins )
     }
 
     std::vector<trait_id> valid; // Valid mutations
+    std::vector<trait_id> dummies; // Dummy mutations
 
     do {
         // See if we should upgrade/extend an existing mutation...
@@ -1009,8 +1007,14 @@ void Character::mutate( const int &true_random_chance, const bool use_vitamins )
             const mutation_branch &base_mdata = traits_iter.obj();
 
             // ...those we don't have are valid.
-            if( base_mdata.valid && is_category_allowed( base_mdata.category ) ) {
+            if( base_mdata.valid && is_category_allowed( base_mdata.category ) &&
+                !has_trait( base_mutation ) && !base_mdata.dummy ) {
                 valid.push_back( base_mdata.id );
+            }
+
+            // ...dummy traits are cached.
+            if( base_mdata.dummy && is_category_allowed( base_mdata.category ) ) {
+                dummies.push_back( base_mdata.id );
             }
 
             // ...for those that we have...
@@ -1019,7 +1023,7 @@ void Character::mutate( const int &true_random_chance, const bool use_vitamins )
 
                 for( const trait_id &mutation : base_mdata.replacements ) {
                     if( mutation->valid &&
-                        mutation_ok( mutation, allow_good, allow_bad, allow_neutral, mut_vit, terminal ) &&
+                        mutation_ok( mutation, allow_good, allow_bad, allow_neutral, mut_vit ) &&
                         mutation_is_in_category( mutation, cat ) ) {
                         upgrades.push_back( mutation );
                     }
@@ -1028,7 +1032,7 @@ void Character::mutate( const int &true_random_chance, const bool use_vitamins )
                 // ...consider the mutations that add to it.
                 for( const trait_id &mutation : base_mdata.additions ) {
                     if( mutation->valid &&
-                        mutation_ok( mutation, allow_good, allow_bad, allow_neutral, mut_vit, terminal ) &&
+                        mutation_ok( mutation, allow_good, allow_bad, allow_neutral, mut_vit ) &&
                         mutation_is_in_category( mutation, cat ) ) {
                         upgrades.push_back( mutation );
                     }
@@ -1052,13 +1056,25 @@ void Character::mutate( const int &true_random_chance, const bool use_vitamins )
         // Remove anything we already have, that we have a child of, that
         // goes against our intention of a good/bad mutation, or that we lack resources for
         for( size_t i = 0; i < valid.size(); i++ ) {
-            if( ( !mutation_ok( valid[i], allow_good, allow_bad, allow_neutral, mut_vit, terminal ) ) ||
+            if( ( !mutation_ok( valid[i], allow_good, allow_bad, allow_neutral, mut_vit ) ) ||
                 ( !valid[i]->valid ) ) {
                 valid.erase( valid.begin() + i );
                 i--;
             }
         }
 
+        // Attempt to mutate towards any dummy traits
+        // We shuffle the list here, and try to find the first dummy trait that would be blocked by existing mutations
+        // If we find one, we mutate towards it and stop there
+        if( !dummies.empty() ) {
+            std::shuffle( dummies.begin(), dummies.end(), rng_get_engine() );
+            for( trait_id &tid : dummies ) {
+                if( has_conflicting_trait( tid ) && mutate_towards( tid, cat ) ) {
+                    add_msg_if_player( m_mixed, mutation_category_trait::get_category( cat ).mutagen_message() );
+                    return;
+                }
+            }
+        }
         if( valid.empty() ) {
             if( cat_list.get_weight() > 0 ) {
                 // try to pick again
@@ -1096,9 +1112,6 @@ void Character::mutate_category( const mutation_category_id &cat, const bool use
         return;
     }
 
-    const float instability = vitamin_get( vitamin_instability );
-    const bool terminal = instability >= 9500;
-
     bool picked_bad = roll_bad_mutation();
 
     bool allow_good = !picked_bad;
@@ -1114,7 +1127,7 @@ void Character::mutate_category( const mutation_category_id &cat, const bool use
     // Remove anything we already have, that we have a child of, or that
     // goes against our intention of a good/bad mutation
     for( size_t i = 0; i < valid.size(); i++ ) {
-        if( !mutation_ok( valid[i], allow_good, allow_bad, allow_neutral, mut_vit, terminal ) ) {
+        if( !mutation_ok( valid[i], allow_good, allow_bad, allow_neutral, mut_vit ) ) {
             valid.erase( valid.begin() + i );
             i--;
         }
@@ -1316,7 +1329,6 @@ bool Character::mutate_towards( const trait_id &mut, const mutation_category_id 
     if( mut_vit != vitamin_id::NULL_ID() ) {
         if( vitamin_get( mut_vit ) >= mdata.vitamin_cost ) {
             vitamin_mod( mut_vit, -mdata.vitamin_cost );
-            vitamin_mod( vitamin_instability, mdata.vitamin_cost );
         } else {
             return false;
         }
@@ -1481,8 +1493,13 @@ bool Character::mutate_towards( const trait_id &mut, const mutation_category_id 
         get_event_bus().send<event_type::gains_mutation>( getID(), mdata.id );
     }
 
-    set_mutation( mut, chosen_var );
 
+    // If the mutation is a dummy mutation, back out at the last minute
+    if( !mdata.dummy ) {
+        set_mutation( mut, chosen_var );
+    }
+
+    vitamin_mod( vitamin_instability, mdata.vitamin_cost );
     calc_mutation_levels();
     drench_mut_calc();
     return true;

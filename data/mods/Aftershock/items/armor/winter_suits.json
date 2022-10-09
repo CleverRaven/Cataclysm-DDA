@@ -29,6 +29,9 @@
       { "covers": [ "hand_l", "hand_r" ], "coverage": 100, "encumbrance": 10 },
       { "covers": [ "foot_l", "foot_r" ], "coverage": 100, "encumbrance": 15 }
     ],
+    "relic_data": {
+      "passive_effects": [ { "has": "WORN", "condition": "ACTIVE", "values": [ { "value": "CLIMATE_CONTROL_HEAT", "add": 50 } ] } ]
+    },
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 1000 } } ],
     "warmth": 20,
     "material_thickness": 2,
@@ -59,8 +62,7 @@
     "power_draw": "8170 mJ",
     "warmth": 150,
     "revert_to": "afs_magellan_suit",
-    "use_action": { "type": "transform", "menu_text": "Turn off", "msg": "Your %s deactivates.", "target": "afs_magellan_suit" },
-    "extend": { "flags": [ "CLIMATE_CONTROL" ] }
+    "use_action": { "type": "transform", "menu_text": "Turn off", "msg": "Your %s deactivates.", "target": "afs_magellan_suit" }
   },
   {
     "id": "afs_frontier_cryo",
@@ -93,6 +95,9 @@
       { "covers": [ "hand_l", "hand_r" ], "coverage": 100, "encumbrance": 25 },
       { "covers": [ "foot_l", "foot_r" ], "coverage": 100, "encumbrance": 15 }
     ],
+    "relic_data": {
+      "passive_effects": [ { "has": "WORN", "condition": "ACTIVE", "values": [ { "value": "CLIMATE_CONTROL_HEAT", "add": 50 } ] } ]
+    },
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -118,7 +123,6 @@
     "power_draw": "6944 mJ",
     "warmth": 150,
     "revert_to": "afs_frontier_cryo",
-    "use_action": { "type": "transform", "menu_text": "Turn off", "msg": "Your %s deactivates.", "target": "afs_frontier_cryo" },
-    "extend": { "flags": [ "CLIMATE_CONTROL" ] }
+    "use_action": { "type": "transform", "menu_text": "Turn off", "msg": "Your %s deactivates.", "target": "afs_frontier_cryo" }
   }
 ]

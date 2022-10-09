@@ -368,7 +368,7 @@
     "bashing": 2,
     "to_hit": { "grip": "weapon", "length": "short", "surface": "any", "balance": "neutral" },
     "price_postapoc": 20,
-    "extend": { "flags": [ "FRAGILE_MELEE", "WATER_BREAK_ACTIVE" ] },
+    "extend": { "flags": [ "FRAGILE_MELEE", "WATER_BREAK_ACTIVE", "ELECTRONIC" ] },
     "charges_per_use": 1,
     "ammo": [ "battery" ],
     "use_action": {
@@ -420,7 +420,7 @@
     "to_hit": { "grip": "weapon", "length": "short", "surface": "any", "balance": "neutral" },
     "bashing": 8,
     "price_postapoc": 150,
-    "extend": { "flags": [ "WATER_BREAK_ACTIVE" ] },
+    "extend": { "flags": [ "WATER_BREAK_ACTIVE", "ELECTRONIC" ] },
     "charges_per_use": 1,
     "ammo": [ "battery" ],
     "use_action": {
@@ -455,7 +455,7 @@
       "target": "wizard_cane",
       "ammo_scale": 0
     },
-    "extend": { "flags": [ "LIGHT_300", "CHARGEDIM", "TRADER_AVOID", "WATER_BREAK" ] },
+    "extend": { "flags": [ "LIGHT_300", "CHARGEDIM", "TRADER_AVOID", "WATER_BREAK", "ELECTRONIC" ] },
     "delete": { "flags": [ "WATER_BREAK_ACTIVE" ] }
   },
   {
@@ -1371,7 +1371,7 @@
     "qualities": [ [ "HAMMER", 1 ] ],
     "techniques": [ "WBLOCK_2", "RAPID", "SWEEP" ],
     "use_action": [ "TAZER" ],
-    "flags": [ "NONCONDUCTIVE", "SHEATH_SPEAR", "ALWAYS_TWOHAND", "WATER_BREAK" ],
+    "flags": [ "NONCONDUCTIVE", "SHEATH_SPEAR", "ALWAYS_TWOHAND", "WATER_BREAK", "ELECTRONIC" ],
     "weapon_category": [ "QUARTERSTAVES" ],
     "pocket_data": [
       {

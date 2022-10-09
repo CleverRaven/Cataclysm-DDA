@@ -130,6 +130,7 @@ autoselect
 autoshotgun
 avin
 avy
+awared
 axolotl
 aztlani
 b
@@ -301,6 +302,7 @@ cegamente
 centerdamage
 centric
 cepa
+cephalopod
 cephalothorax
 ceratopsian
 ceratosaurus
@@ -380,6 +382,7 @@ consecrator
 consistence
 const
 constabulario
+contorts
 controllability
 conversando
 cookin
@@ -582,6 +585,7 @@ esters
 estoc
 estocs
 ethereally
+euoplocephalus
 eusocial
 evacs
 everburning
@@ -738,6 +742,7 @@ gasbomb
 gasgun
 gasmask
 gastank
+gastonia
 gastrolith
 geddoff
 genecraft
@@ -822,6 +827,7 @@ hauberks
 hbhbh
 hdd
 headwear
+healthiness
 heartlike
 heatsink
 heatsinks
@@ -862,6 +868,7 @@ hrmmm
 hsh
 hsss
 https
+hued
 hulled
 humaniform
 humaniforms
@@ -1329,6 +1336,8 @@ pachycephalosaurus
 pachyrhinosaurus
 packable
 paf
+palpably
+panoplosaurus
 papyrifera
 parabellum
 parabolan
@@ -1623,6 +1632,7 @@ scatterer
 scimitars
 scissorlimbs
 sclerotin
+scolosaurus
 scrabblin
 screecher
 screechin
@@ -1758,6 +1768,7 @@ starrin
 std
 steeltoed
 steerable
+stego
 stegoceras
 stegosaurus
 stegosaurusfindsrobot
@@ -1983,6 +1994,7 @@ unspecialized
 unstocked
 untampered
 untargeted
+untired
 untyped
 unwield
 unwieldiness

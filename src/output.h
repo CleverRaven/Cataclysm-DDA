@@ -576,6 +576,8 @@ int special_symbol( char sym );
 std::string trim( const std::string &s );
 // Removes trailing periods and exclamation marks.
 std::string trim_trailing_punctuations( const std::string &s );
+// Removes all punctuation except underscore.
+std::string remove_punctuations( const std::string &s );
 // Converts the string to upper case.
 std::string to_upper_case( const std::string &s );
 

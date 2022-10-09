@@ -20,7 +20,7 @@
     "symbol": ",",
     "color": "light_green",
     "use_action": [ "HOTPLATE" ],
-    "flags": [ "LEAK_DAM", "RADIOACTIVE", "DURABLE_MELEE", "WATER_BREAK" ],
+    "flags": [ "LEAK_DAM", "RADIOACTIVE", "DURABLE_MELEE", "WATER_BREAK", "ELECTRONIC" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -97,7 +97,7 @@
     "ammo": [ "battery" ],
     "charges_per_use": 5,
     "use_action": [ "CARVER_OFF" ],
-    "flags": [ "SHEATH_SWORD", "NONCONDUCTIVE", "WATER_BREAK_ACTIVE" ],
+    "flags": [ "SHEATH_SWORD", "NONCONDUCTIVE", "WATER_BREAK_ACTIVE", "ELECTRONIC" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -120,7 +120,7 @@
     "revert_to": "carver_off",
     "qualities": [ [ "CUT", 2 ], [ "BUTCHER", 25 ] ],
     "use_action": [ "CARVER_ON" ],
-    "flags": [ "MESSY", "TRADER_AVOID", "NONCONDUCTIVE" ]
+    "flags": [ "MESSY", "TRADER_AVOID", "NONCONDUCTIVE", "ELECTRONIC" ]
   },
   {
     "id": "char_purifier",
@@ -179,7 +179,9 @@
     "symbol": ";",
     "color": "light_gray",
     "ammo": [ "charcoal" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "charcoal": 375 } } ],
+    "//": "contains up to 5 liters of charcoal",
+    "sub": "hotplate",
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "charcoal": 1000 } } ],
     "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
@@ -198,6 +200,7 @@
     "symbol": ";",
     "color": "green",
     "ammo": [ "charcoal" ],
+    "//": "contains up to 0.5 liters of charcoal",
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "charcoal": 50 } } ],
     "charges_per_use": 1,
     "use_action": [ "HOTPLATE" ]
@@ -269,7 +272,7 @@
     "symbol": ";",
     "color": "light_gray",
     "ammo": [ "battery" ],
-    "flags": [ "WATER_BREAK" ],
+    "flags": [ "WATER_BREAK", "ELECTRONIC" ],
     "charges_per_use": 50,
     "qualities": [ [ "BOIL", 1 ] ],
     "use_action": [ "HOTPLATE" ],
@@ -297,7 +300,7 @@
     "symbol": ";",
     "color": "blue",
     "ammo": [ "battery" ],
-    "flags": [ "ALLOWS_REMOTE_USE", "WATER_BREAK" ],
+    "flags": [ "ALLOWS_REMOTE_USE", "WATER_BREAK", "ELECTRONIC" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -397,7 +400,7 @@
     "symbol": "%",
     "color": "white",
     "ammo": [ "battery" ],
-    "flags": [ "ALLOWS_REMOTE_USE", "WATER_BREAK" ],
+    "flags": [ "ALLOWS_REMOTE_USE", "WATER_BREAK", "ELECTRONIC" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -475,9 +478,9 @@
     "material": [ "aluminum", "plastic" ],
     "symbol": ";",
     "color": "green",
-    "flags": [ "WATER_BREAK" ],
+    "flags": [ "WATER_BREAK", "ELECTRONIC" ],
     "ammo": [ "battery" ],
-    "charges_per_use": 20,
+    "charges_per_use": 30,
     "use_action": [ "HOTPLATE" ],
     "pocket_data": [
       {
@@ -492,7 +495,7 @@
     "id": "hotplate_induction",
     "type": "TOOL",
     "name": { "str": "induction hotplate" },
-    "description": "This is a high end hotplate that utilizes induction coils.  It is far more efficient than a standard hotplate.",
+    "description": "This is a high end hotplate that utilizes magnetic induction coils to heat ferrous cookware directly.  It is far more efficient than a standard hotplate.",
     "weight": "862 g",
     "volume": "2 L",
     "longest_side": "35 cm",
@@ -503,9 +506,9 @@
     "material": [ "aluminum", "plastic" ],
     "symbol": ";",
     "color": "green",
-    "flags": [ "WATER_BREAK" ],
+    "flags": [ "WATER_BREAK", "ELECTRONIC"  ],
     "ammo": [ "battery" ],
-    "charges_per_use": 10,
+    "charges_per_use": 20,
     "use_action": [ "HOTPLATE" ],
     "pocket_data": [
       {
@@ -532,7 +535,7 @@
     "symbol": ";",
     "color": "white",
     "ammo": [ "battery" ],
-    "flags": [ "ALLOWS_REMOTE_USE", "WATER_BREAK" ],
+    "flags": [ "ALLOWS_REMOTE_USE", "WATER_BREAK", "ELECTRONIC" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -558,9 +561,9 @@
     "symbol": ";",
     "color": "green",
     "ammo": [ "battery" ],
-    "flags": [ "WATER_BREAK" ],
+    "flags": [ "WATER_BREAK", "ELECTRONIC" ],
     "sub": "hotplate",
-    "charges_per_use": 5,
+    "charges_per_use": 30,
     "qualities": [ [ "COOK", 2 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
     "use_action": [ "HOTPLATE", "HEAT_FOOD" ],
     "pocket_data": [
@@ -693,7 +696,7 @@
     "symbol": ";",
     "color": "red",
     "ammo": [ "battery" ],
-    "flags": [ "WATER_BREAK" ],
+    "flags": [ "WATER_BREAK", "ELECTRONIC" ],
     "power_draw": "1500 J",
     "qualities": [ [ "CONTAIN", 1 ] ],
     "use_action": [ "MULTICOOKER" ],
@@ -1013,7 +1016,7 @@
     "symbol": ";",
     "color": "white",
     "ammo": [ "battery" ],
-    "flags": [ "ALLOWS_REMOTE_USE", "WATER_BREAK" ],
+    "flags": [ "ALLOWS_REMOTE_USE", "WATER_BREAK", "ELECTRONIC" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
