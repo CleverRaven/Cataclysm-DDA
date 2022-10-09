@@ -307,6 +307,20 @@
     ]
   },
   {
+    "id": "on_hand_357mag",
+    "type": "item_group",
+    "//": "a collection of ammo that would be found with a loaded gun.",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "357mag_jhp", "prob": 100, "charges": [ 1, 40 ] },
+      { "item": "357mag_jhp", "prob": 100, "charges": [ 1, 40 ] },
+      { "item": "357mag_fmj", "prob": 75, "charges": [ 44, 80 ] },
+      { "item": "357mag_jhp", "prob": 75, "charges": [ 44, 80 ] },
+      { "item": "357mag_fmj", "prob": 30, "charges": [ 88, 160 ] },
+      { "item": "357mag_jhp", "prob": 30, "charges": [ 88, 160 ] }
+    ]
+  },
+  {
     "id": "on_hand_22",
     "type": "item_group",
     "//": "a collection of ammo that would be found with a loaded gun.",
