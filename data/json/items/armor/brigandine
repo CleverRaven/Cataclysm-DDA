@@ -168,7 +168,7 @@
         "coverage": 50,
         "cover_melee": 95,
         "cover_ranged": 90,
-         "//": "only outer side if hand and fingers is covered by plates, but it should be very hard to hit unprotected part if you're holding something in your hands",
+         "//": "only outer side if hand and fingers are covered by plates, but it should be very hard to hit unprotected part if you're holding something in your hands",
         "material": [
           { "type": "lc_steel", "covered_by_mat": 100, "thickness": 1.0 }
         ],
