@@ -284,6 +284,32 @@
     ],
     "color": "dark_gray"
   },
+{
+    "id": "heavy_punching_bag_sack",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "heavy punching bag sack" },
+    "looks_like": "bag_canvas",
+    "description": "A five foot long cyllindrical leather sack, a foot in diameter, with attachment points at the top. With some bags of sand, some chains and a lot of scrap cloth you could hang it from the celing as a heavy punching bag.",
+    "weight": "3000 g",
+    "volume": "2260 ml",
+    "longest_side": "150 cm",
+    "price": 0,
+    "price_postapoc": 0,
+    "to_hit": -5,
+    "material": [ "leather" ],
+    "symbol": ")",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "160 L",
+        "max_contains_weight": "100 kg",
+        "max_item_length": "150 cm",
+        "moves": 400
+      }
+    ],
+    "color": "brown"
+},
   {
     "id": "bag_iv",
     "type": "GENERIC",
