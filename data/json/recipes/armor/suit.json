@@ -882,33 +882,21 @@
     "autolearn": true,
     "flags": [ "NO_RESIZE" ],
     "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_chain_armour" } ],
-    "components": [
-      [ [ "lc_chainmail_hood", 1 ] ],
-      [ [ "lc_chainmail_vest", 1 ] ],
-      [ [ "lc_chainmail_arms", 1 ] ]
-    ]
+    "components": [ [ [ "lc_chainmail_hood", 1 ] ], [ [ "lc_chainmail_vest", 1 ] ], [ [ "lc_chainmail_arms", 1 ] ] ]
   },
   {
     "result": "lc_chainmail_suit_xs",
     "type": "recipe",
     "copy-from": "lc_chainmail_suit",
     "time": "1 h 50 m",
-    "components": [
-      [ [ "lc_chainmail_hood", 1 ] ],
-      [ [ "lc_chainmail_vest", 1 ] ],
-      [ [ "lc_chainmail_arms", 1 ] ]
-    ]
+    "components": [ [ [ "lc_chainmail_hood", 1 ] ], [ [ "lc_chainmail_vest", 1 ] ], [ [ "lc_chainmail_arms", 1 ] ] ]
   },
   {
     "result": "xl_lc_chainmail_suit",
     "type": "recipe",
     "copy-from": "lc_chainmail_suit",
     "time": "1h 50m",
-    "components": [
-      [ [ "xl_lc_chainmail_hood", 1 ] ],
-      [ [ "xl_lc_chainmail_vest", 1 ] ],
-      [ [ "xl_lc_chainmail_arms", 1 ] ]
-    ]
+    "components": [ [ [ "xl_lc_chainmail_hood", 1 ] ], [ [ "xl_lc_chainmail_vest", 1 ] ], [ [ "xl_lc_chainmail_arms", 1 ] ] ]
   },
   {
     "result": "lc_chainmail_suit",
@@ -961,33 +949,21 @@
     "autolearn": true,
     "flags": [ "NO_RESIZE" ],
     "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_chain_armour" } ],
-    "components": [
-      [ [ "mc_chainmail_hood", 1 ] ],
-      [ [ "mc_chainmail_vest", 1 ] ],
-      [ [ "mc_chainmail_arms", 1 ] ]
-    ]
+    "components": [ [ [ "mc_chainmail_hood", 1 ] ], [ [ "mc_chainmail_vest", 1 ] ], [ [ "mc_chainmail_arms", 1 ] ] ]
   },
   {
     "result": "mc_chainmail_suit_xs",
     "type": "recipe",
     "copy-from": "mc_chainmail_suit",
     "time": "1 h 50 m",
-    "components": [
-      [ [ "mc_chainmail_hood", 1 ] ],
-      [ [ "mc_chainmail_vest", 1 ] ],
-      [ [ "mc_chainmail_arms", 1 ] ]
-    ]
+    "components": [ [ [ "mc_chainmail_hood", 1 ] ], [ [ "mc_chainmail_vest", 1 ] ], [ [ "mc_chainmail_arms", 1 ] ] ]
   },
   {
     "result": "xl_mc_chainmail_suit",
     "type": "recipe",
     "copy-from": "mc_chainmail_suit",
     "time": "1h 50m",
-    "components": [
-      [ [ "xl_mc_chainmail_hood", 1 ] ],
-      [ [ "xl_mc_chainmail_vest", 1 ] ],
-      [ [ "xl_mc_chainmail_arms", 1 ] ]
-    ]
+    "components": [ [ [ "xl_mc_chainmail_hood", 1 ] ], [ [ "xl_mc_chainmail_vest", 1 ] ], [ [ "xl_mc_chainmail_arms", 1 ] ] ]
   },
   {
     "result": "mc_chainmail_suit",
@@ -1040,33 +1016,21 @@
     "autolearn": true,
     "flags": [ "NO_RESIZE" ],
     "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_chain_armour" } ],
-    "components": [
-      [ [ "hc_chainmail_hood", 1 ] ],
-      [ [ "hc_chainmail_vest", 1 ] ],
-      [ [ "hc_chainmail_arms", 1 ] ]
-    ]
+    "components": [ [ [ "hc_chainmail_hood", 1 ] ], [ [ "hc_chainmail_vest", 1 ] ], [ [ "hc_chainmail_arms", 1 ] ] ]
   },
   {
     "result": "hc_chainmail_suit_xs",
     "type": "recipe",
     "copy-from": "hc_chainmail_suit",
     "time": "1 h 50 m",
-    "components": [
-      [ [ "hc_chainmail_hood", 1 ] ],
-      [ [ "hc_chainmail_vest", 1 ] ],
-      [ [ "hc_chainmail_arms", 1 ] ]
-    ]
+    "components": [ [ [ "hc_chainmail_hood", 1 ] ], [ [ "hc_chainmail_vest", 1 ] ], [ [ "hc_chainmail_arms", 1 ] ] ]
   },
   {
     "result": "xl_hc_chainmail_suit",
     "type": "recipe",
     "copy-from": "hc_chainmail_suit",
     "time": "1h 50m",
-    "components": [
-      [ [ "xl_hc_chainmail_hood", 1 ] ],
-      [ [ "xl_hc_chainmail_vest", 1 ] ],
-      [ [ "xl_hc_chainmail_arms", 1 ] ]
-    ]
+    "components": [ [ [ "xl_hc_chainmail_hood", 1 ] ], [ [ "xl_hc_chainmail_vest", 1 ] ], [ [ "xl_hc_chainmail_arms", 1 ] ] ]
   },
   {
     "result": "hc_chainmail_suit",
@@ -1119,33 +1083,21 @@
     "autolearn": true,
     "flags": [ "NO_RESIZE" ],
     "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_chain_armour" } ],
-    "components": [
-      [ [ "ch_chainmail_hood", 1 ] ],
-      [ [ "ch_chainmail_vest", 1 ] ],
-      [ [ "ch_chainmail_arms", 1 ] ]
-    ]
+    "components": [ [ [ "ch_chainmail_hood", 1 ] ], [ [ "ch_chainmail_vest", 1 ] ], [ [ "ch_chainmail_arms", 1 ] ] ]
   },
   {
     "result": "ch_chainmail_suit_xs",
     "type": "recipe",
     "copy-from": "ch_chainmail_suit",
     "time": "1 h 50 m",
-    "components": [
-      [ [ "ch_chainmail_hood", 1 ] ],
-      [ [ "ch_chainmail_vest", 1 ] ],
-      [ [ "ch_chainmail_arms", 1 ] ]
-    ]
+    "components": [ [ [ "ch_chainmail_hood", 1 ] ], [ [ "ch_chainmail_vest", 1 ] ], [ [ "ch_chainmail_arms", 1 ] ] ]
   },
   {
     "result": "xl_ch_chainmail_suit",
     "type": "recipe",
     "copy-from": "ch_chainmail_suit",
     "time": "1h 50m",
-    "components": [
-      [ [ "xl_ch_chainmail_hood", 1 ] ],
-      [ [ "xl_ch_chainmail_vest", 1 ] ],
-      [ [ "xl_ch_chainmail_arms", 1 ] ]
-    ]
+    "components": [ [ [ "xl_ch_chainmail_hood", 1 ] ], [ [ "xl_ch_chainmail_vest", 1 ] ], [ [ "xl_ch_chainmail_arms", 1 ] ] ]
   },
   {
     "result": "ch_chainmail_suit",
@@ -1198,33 +1150,21 @@
     "autolearn": true,
     "flags": [ "NO_RESIZE" ],
     "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_chain_armour" } ],
-    "components": [
-      [ [ "qt_chainmail_hood", 1 ] ],
-      [ [ "qt_chainmail_vest", 1 ] ],
-      [ [ "qt_chainmail_arms", 1 ] ]
-    ]
+    "components": [ [ [ "qt_chainmail_hood", 1 ] ], [ [ "qt_chainmail_vest", 1 ] ], [ [ "qt_chainmail_arms", 1 ] ] ]
   },
   {
     "result": "qt_chainmail_suit_xs",
     "type": "recipe",
     "copy-from": "qt_chainmail_suit",
     "time": "1 h 50 m",
-    "components": [
-      [ [ "qt_chainmail_hood", 1 ] ],
-      [ [ "qt_chainmail_vest", 1 ] ],
-      [ [ "qt_chainmail_arms", 1 ] ]
-    ]
+    "components": [ [ [ "qt_chainmail_hood", 1 ] ], [ [ "qt_chainmail_vest", 1 ] ], [ [ "qt_chainmail_arms", 1 ] ] ]
   },
   {
     "result": "xl_qt_chainmail_suit",
     "type": "recipe",
     "copy-from": "qt_chainmail_suit",
     "time": "1h 50m",
-    "components": [
-      [ [ "xl_qt_chainmail_hood", 1 ] ],
-      [ [ "xl_qt_chainmail_vest", 1 ] ],
-      [ [ "xl_qt_chainmail_arms", 1 ] ]
-    ]
+    "components": [ [ [ "xl_qt_chainmail_hood", 1 ] ], [ [ "xl_qt_chainmail_vest", 1 ] ], [ [ "xl_qt_chainmail_arms", 1 ] ] ]
   },
   {
     "result": "qt_chainmail_suit",
