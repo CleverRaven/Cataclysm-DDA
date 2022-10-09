@@ -2647,10 +2647,10 @@ void monster::die( Creature *nkiller )
                 get_map().add_item( pos(), it );
             }
         }
-        if( corpse ) {
-            for( item_pocket *pocket : corpse->get_all_contained_pockets() ) {
-                pocket->set_usability( false );
-            }
+    }
+    if( corpse ) {
+        for( item_pocket *pocket : corpse->get_all_contained_pockets() ) {
+            pocket->set_usability( false );
         }
     }
     if( death_drops ) {
