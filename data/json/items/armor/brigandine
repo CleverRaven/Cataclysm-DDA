@@ -5,7 +5,7 @@
     "category": "armor",
     "name": { "str": "brigandine with mild steel plates" },
     "description": "",
-    "weight": "3644 g",
+    "weight": "5675 g",
     "volume": "2750 ml",
     "price": 60000,
     "price_postapoc": 12000,
@@ -21,8 +21,8 @@
     "armor": [
       {
         "material": [
-          { "type": "lc_steel", "covered_by_mat": 100, "thickness": 1.5 },
-          { "type": "wool", "covered_by_mat": 100, "thickness": 2.5 }
+          { "type": "lc_steel", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "wool", "covered_by_mat": 100, "thickness": 2.0 }
         ],
         "covers": [ "torso" ],
         "coverage": 95,
