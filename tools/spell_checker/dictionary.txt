@@ -585,6 +585,7 @@ esters
 estoc
 estocs
 ethereally
+euoplocephalus
 eusocial
 evacs
 everburning
@@ -741,6 +742,7 @@ gasbomb
 gasgun
 gasmask
 gastank
+gastonia
 gastrolith
 geddoff
 genecraft
@@ -1335,6 +1337,7 @@ pachyrhinosaurus
 packable
 paf
 palpably
+panoplosaurus
 papyrifera
 parabellum
 parabolan
@@ -1629,6 +1632,7 @@ scatterer
 scimitars
 scissorlimbs
 sclerotin
+scolosaurus
 scrabblin
 screecher
 screechin
