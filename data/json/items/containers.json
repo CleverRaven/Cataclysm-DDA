@@ -190,7 +190,6 @@
   {
     "id": "bag_garbage_reinforced",
     "type": "GENERIC",
-    "category": "container",
     "name": { "str": "reinforced garbage bag" },
     "copy-from": "bag_garbage",
     "description": "Garbage bags layered within each other, made to carry a heavier load.",
