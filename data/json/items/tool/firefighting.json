@@ -17,7 +17,7 @@
     "longest_side": "40 cm",
     "bashing": 10,
     "cutting": 20,
-    "to_hit": -2,
+    "to_hit": { "grip": "weapon", "length": "short", "surface": "line", "balance": "neutral" },
     "flags": [ "DURABLE_MELEE", "BELT_CLIP", "NONCONDUCTIVE", "SHEATH_AXE" ],
     "weapon_category": [ "HAND_AXES" ],
     "use_action": [ "CROWBAR" ],
