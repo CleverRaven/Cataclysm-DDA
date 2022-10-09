@@ -178,7 +178,7 @@
   {
     "type": "GENERIC",
     "id": "sword_metal_large",
-    "name": { "str_sp": "metal greatsword" },
+    "name": { "str": "metal greatsword" },
     "description": "A large, crude forged blade.  It's too big to be called a sword.  Massive, thick, heavy, and far too rough.",
     "looks_like": "zweihander",
     "weight": "3300 g",
