@@ -5,157 +5,28 @@
     "category": "armor",
     "name": { "str": "brigandine with mild steel plates" },
     "description": "",
-    "weight": "7000 g",
+    "weight": "3644 g",
     "volume": "2750 ml",
     "price": 60000,
     "price_postapoc": 12000,
     "to_hit": -5,
-    "material": [ "lc_steel", "leather" ],
+    "material": [ "lc_steel", "wool" ],
     "bashing": 8,
     "symbol": "[",
     "looks_like": "armor_larmor",
     "color": "light_gray",
     "warmth": 20,
     "longest_side": "60 cm",
-    "material_thickness": 3.1,
-    "flags": [ "OUTER", "STURDY", "CONDUCTIVE", "ONLY_ONE" ],
+    "flags": [ "OUTER", "STURDY", "CONDUCTIVE" ],
     "armor": [
       {
         "material": [
-          { "type": "lc_steel", "covered_by_mat": 100, "thickness": 1.0 },
-          { "type": "leather", "covered_by_mat": 100, "thickness": 2.5 }
+          { "type": "lc_steel", "covered_by_mat": 100, "thickness": 1.5 },
+          { "type": "wool", "covered_by_mat": 100, "thickness": 2.5 }
         ],
         "covers": [ "torso" ],
         "coverage": 95,
-        "encumbrance": 7
-      }
-    ]
-  },
-  {
-    "id": "armor_mc_brigandine",
-    "type": "ARMOR",
-    "category": "armor",
-    "name": { "str": "brigandine with medium steel plates" },
-    "description": "",
-    "weight": "7000 g",
-    "volume": "2750 ml",
-    "price": 60000,
-    "price_postapoc": 12000,
-    "to_hit": -5,
-    "material": [ "mc_steel", "leather" ],
-    "bashing": 8,
-    "symbol": "[",
-    "looks_like": "armor_larmor",
-    "color": "light_gray",
-    "warmth": 20,
-    "longest_side": "60 cm",
-    "material_thickness": 3.1,
-    "flags": [ "OUTER", "STURDY", "CONDUCTIVE", "ONLY_ONE" ],
-    "armor": [
-      {
-        "material": [
-          { "type": "mc_steel", "covered_by_mat": 100, "thickness": 1.0 },
-          { "type": "leather", "covered_by_mat": 100, "thickness": 2.5 }
-        ],
-        "covers": [ "torso" ],
-        "coverage": 100,
-        "encumbrance": 7
-      }
-    ]
-  },
-  {
-    "id": "armor_hc_brigandine",
-    "type": "ARMOR",
-    "category": "armor",
-    "name": { "str": "brigandine with high steel plates" },
-    "description": "",
-    "weight": "7000 g",
-    "volume": "2750 ml",
-    "price": 60000,
-    "price_postapoc": 12000,
-    "to_hit": -5,
-    "material": [ "hc_steel", "leather" ],
-    "bashing": 8,
-    "symbol": "[",
-    "looks_like": "armor_larmor",
-    "color": "light_gray",
-    "warmth": 20,
-    "longest_side": "60 cm",
-    "material_thickness": 3.1,
-    "flags": [ "OUTER", "STURDY", "CONDUCTIVE", "ONLY_ONE" ],
-    "armor": [
-      {
-        "material": [
-          { "type": "hc_steel", "covered_by_mat": 100, "thickness": 1.0 },
-          { "type": "leather", "covered_by_mat": 100, "thickness": 2.5 }
-        ],
-        "covers": [ "torso" ],
-        "coverage": 100,
-        "encumbrance": 7
-      }
-    ]
-  },
-  {
-    "id": "armor_ch_brigandine",
-    "type": "ARMOR",
-    "category": "armor",
-    "name": { "str": "brigandine with case hardened steel plates" },
-    "description": "",
-    "weight": "7000 g",
-    "volume": "2750 ml",
-    "price": 60000,
-    "price_postapoc": 12000,
-    "to_hit": -5,
-    "material": [ "ch_steel", "leather" ],
-    "bashing": 8,
-    "symbol": "[",
-    "looks_like": "armor_larmor",
-    "color": "light_gray",
-    "warmth": 20,
-    "longest_side": "60 cm",
-    "material_thickness": 3.1,
-    "flags": [ "OUTER", "STURDY", "CONDUCTIVE", "ONLY_ONE" ],
-    "armor": [
-      {
-        "material": [
-          { "type": "ch_steel", "covered_by_mat": 100, "thickness": 1.0 },
-          { "type": "leather", "covered_by_mat": 100, "thickness": 2.5 }
-        ],
-        "covers": [ "torso" ],
-        "coverage": 100,
-        "encumbrance": 7
-      }
-    ]
-  },
-  {
-    "id": "armor_qt_brigandine",
-    "type": "ARMOR",
-    "category": "armor",
-    "name": { "str": "brigandine with tempered plates" },
-    "description": "",
-    "weight": "7000 g",
-    "volume": "2750 ml",
-    "price": 60000,
-    "price_postapoc": 12000,
-    "to_hit": -5,
-    "material": [ "qt_steel", "leather" ],
-    "bashing": 8,
-    "symbol": "[",
-    "looks_like": "armor_larmor",
-    "color": "light_gray",
-    "warmth": 20,
-    "longest_side": "60 cm",
-    "material_thickness": 3.1,
-    "flags": [ "OUTER", "STURDY", "CONDUCTIVE", "ONLY_ONE" ],
-    "armor": [
-      {
-        "material": [
-          { "type": "qt_steel", "covered_by_mat": 100, "thickness": 1.0 },
-          { "type": "leather", "covered_by_mat": 100, "thickness": 2.5 }
-        ],
-        "covers": [ "torso" ],
-        "coverage": 100,
-        "encumbrance": 7
+        "encumbrance": 6
       }
     ]
   },
@@ -165,32 +36,30 @@
     "category": "armor",
     "name": { "str": "pair of mild splint arm guards", "str_pl": "pairs of mild splint arm guards" },
     "description": "",
-    "weight": "600 g",
-    "//": "The weight assumes four sheets of about 25cm x 20cm x 1.5mm.",
+    "weight": "805 g",
     "volume": "2750 ml",
     "price": 30000,
     "price_postapoc": 1000,
     "to_hit": 1,
-    "material": [ "lc_steel", "leather" ],
+    "material": [ "lc_steel", "wool" ],
     "symbol": "[",
     "looks_like": "armguard_hard",
     "color": "light_gray",
     "warmth": 10,
-    "material_thickness": 2.3,
     "environmental_protection": 1,
     "flags": [ "OUTER", "BLOCK_WHILE_WORN", "WATER_FRIENDLY" ],
     "armor": [
       {
         "material": [
-          { "type": "lc_steel", "covered_by_mat": 90, "thickness": 1.0 },
-          { "type": "leather", "covered_by_mat": 100, "thickness": 2.0 }
+          { "type": "lc_steel", "covered_by_mat": 95, "thickness": 0.8 },
+          { "type": "wool", "covered_by_mat": 100, "thickness": 1.5 }
         ],
         "covers": [ "arm_l", "arm_r" ],
         "encumbrance": 4,
         "coverage": 95,
         "cover_melee": 95,
         "cover_ranged": 90,
-        "cover_vitals": 70,
+        "cover_vitals": 90,
         "specifically_covers": [ "arm_lower_r", "arm_lower_l", "arm_upper_r", "arm_upper_l" ]
   },
   {
@@ -229,12 +98,12 @@
     "category": "armor",
     "name": { "str": "pair of mild splint leg guards", "str_pl": "pairs of mild splint leg guards" },
     "description": "",
-    "weight": "800 g",
+    "weight": "1610 g",
     "volume": "2500 ml",
     "price": 40000,
     "price_postapoc": 1000,
     "to_hit": 1,
-    "material": [ "lc_steel", "leather" ],
+    "material": [ "lc_steel", "wool" ],
     "symbol": "[",
     "looks_like": "legguard_lightplate",
     "color": "light_gray",
@@ -245,8 +114,8 @@
     "armor": [
       {
       "material": [
-          { "type": "lc_steel", "covered_by_mat": 90, "thickness": 1.0 },
-          { "type": "leather", "covered_by_mat": 100, "thickness": 2.0 }
+          { "type": "lc_steel", "covered_by_mat": 95, "thickness": 0.8 },
+          { "type": "wool", "covered_by_mat": 100, "thickness": 1.5 }
         ],
         "covers": [ "leg_l", "leg_r" ],
         "encumbrance": 4,
@@ -259,21 +128,20 @@
     ]
   },
   {
-    "id": "lc_chainmail_hands",
+    "id": "lc_brigandine_hands",
     "type": "ARMOR",
     "category": "armor",
-    "name": { "str": "pair of mild steel chainmail gloves", "str_pl": "pairs of mild steel chainmail gloves" },
-    "description": "A pair of customized mild steel chainmail gloves that fully enclose the hands.",
+    "name": { "str": "pair of mild steel brigandine gloves", "str_pl": "pairs of mild steel brigandine gloves" },
+    "description": "",
     "weight": "500 g",
     "volume": "750 ml",
     "price": 5012,
     "price_postapoc": 2500,
     "to_hit": -1,
     "bashing": 6,
-    "material": [ "lc_steel_chain" ],
+    "material": [ "leather", "lc_steel" ],
     "symbol": "[",
     "color": "light_red",
-    "material_thickness": 2.5,
     "flags": [ "STURDY", "OUTER" ],
     "armor": [
       {
@@ -284,27 +152,7 @@
           { "type": "leather", "covered_by_mat": 100, "thickness": 1.5 }
         ],
         "covers": [ "hand_l", "hand_r" ],
-        "specifically_covers": [ "hand_back_l", "hand_back_r" ]
-      },
-      {
-        "encumbrance": 0,
-        "coverage": 100,
-        "material": [
-          { "type": "lc_steel", "covered_by_mat": 50, "thickness": 1.0 },
-          { "type": "leather", "covered_by_mat": 100, "thickness": 1.5 }
-        ],
-        "covers": [ "hand_l", "hand_r" ],
-        "specifically_covers": [ "hand_fingers_l", "hand_fingers_r", ]
-      },
-      {
-        "encumbrance": 0,
-        "coverage": 100,
-        "material": [
-          { "type": "lc_steel", "covered_by_mat": 90, "thickness": 1.0 },
-          { "type": "leather", "covered_by_mat": 100, "thickness": 1.5 }
-        ],
-        "covers": [ "hand_l", "hand_r" ],
-        "specifically_covers": [ "hand_wrist_l", "hand_wrist_r", ]
+        "specifically_covers": [ "hand_back_l", "hand_back_r", "hand_wrist_l", "hand_wrist_r" ]
       },
       {
         "encumbrance": 0,
@@ -313,7 +161,19 @@
           { "type": "leather", "covered_by_mat": 100, "thickness": 1.5 }
         ],
         "covers": [ "hand_l", "hand_r" ],
-        "specifically_covers": [ "hand_palm_l", "hand_palm_r", ]
+        "specifically_covers": [ "hand_fingers_l", "hand_fingers_r", "hand_palm_l", "hand_palm_r" ]
+      },
+      {
+        "encumbrance": 0,
+        "coverage": 50,
+        "cover_melee": 95,
+        "cover_ranged": 90,
+         "//": "only outer side if hand and fingers is covered by plates, but it shoul be very hard to hit unprotected part of ypu holdibg somthing in youre hands",
+        "material": [
+          { "type": "lc_steel", "covered_by_mat": 100, "thickness": 1.0 }
+        ],
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_fingers_l", "hand_fingers_r", "hand_palm_l", "hand_palm_r" ]
       }
     ]
   }
