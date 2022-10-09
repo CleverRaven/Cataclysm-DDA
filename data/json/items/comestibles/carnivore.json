@@ -1944,7 +1944,7 @@
     "type": "GENERIC",
     "id": "skull_moose_tusked",
     "name": { "str": "moose skull" },
-    "description": "The skull of a moose, unmistakable thanks to the antler shape and... tusks?  Okay, maybe this did not belong to a normal moose after all.",
+    "description": "The skull of a moose, unmistakable thanks to the antler shape and… tusks?  Okay, maybe this did not belong to a normal moose after all.",
     "flags": [ "TRADER_AVOID" ],
     "category": "spare_parts",
     "weight": "20 kg",
