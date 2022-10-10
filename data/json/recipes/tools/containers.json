@@ -1185,7 +1185,7 @@
     "autolearn": true,
     "qualities": [ { "id": "SEW", "level": 1 }, { "id": "LEATHER_AWL", "level": 1 }, { "id": "CUT", "level": 2 } ],
     "proficiencies": [ { "proficiency": "prof_leatherworking_basic", "time_multiplier": 2 } ],
-    "components": [ [ [ "tanned_hide", 8 ] ], [ [ "filament", 80, "LIST" ] ] ]
+    "components": [ [ [ "tanned_hide", 9 ] ], [ [ "filament", 80, "LIST" ] ] ]
   },
   {
     "type": "recipe",
