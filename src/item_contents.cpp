@@ -819,6 +819,9 @@ units::length item_contents::max_containable_length( const bool unrestricted_poc
 {
     units::length ret = 0_mm;
     for( const item_pocket &pocket : contents ) {
+        if( !pocket.is_allowed() ) {
+            continue;
+        }
         bool restriction_condition = !pocket.is_type( item_pocket::pocket_type::CONTAINER ) ||
                                      pocket.is_ablative() || pocket.holster_full();
         if( unrestricted_pockets_only ) {
@@ -866,6 +869,9 @@ units::volume item_contents::max_containable_volume( const bool unrestricted_poc
 {
     units::volume ret = 0_ml;
     for( const item_pocket &pocket : contents ) {
+        if( !pocket.is_allowed() ) {
+            continue;
+        }
         bool restriction_condition = !pocket.is_type( item_pocket::pocket_type::CONTAINER ) ||
                                      pocket.is_ablative() || pocket.holster_full() ||
                                      pocket.volume_capacity() >= pocket_data::max_volume_for_container;
@@ -1704,6 +1710,9 @@ const
     units::mass total_weight = 0_gram;
 
     for( const item_pocket &pocket : contents ) {
+        if( !pocket.is_allowed() ) {
+            continue;
+        }
         bool restriction_condition = pocket.is_type( item_pocket::pocket_type::CONTAINER ) &&
                                      !pocket.is_ablative() && pocket.weight_capacity() < pocket_data::max_weight_for_container;
         if( unrestricted_pockets_only ) {
@@ -1952,6 +1961,9 @@ units::volume item_contents::total_container_capacity( const bool unrestricted_p
 {
     units::volume total_vol = 0_ml;
     for( const item_pocket &pocket : contents ) {
+        if( !pocket.is_allowed() ) {
+            continue;
+        }
         bool restriction_condition = pocket.is_type( item_pocket::pocket_type::CONTAINER );
         if( unrestricted_pockets_only ) {
             restriction_condition = restriction_condition && !pocket.is_restricted();
@@ -1991,6 +2003,9 @@ const
 {
     units::volume total_vol = 0_ml;
     for( const item_pocket &pocket : contents ) {
+        if( !pocket.is_allowed() ) {
+            continue;
+        }
         bool restriction_condition = pocket.is_type( item_pocket::pocket_type::CONTAINER );
         if( unrestricted_pockets_only ) {
             restriction_condition = restriction_condition && !pocket.is_restricted();
@@ -2022,6 +2037,9 @@ units::mass item_contents::remaining_container_capacity_weight( const bool
 {
     units::mass total_weight = 0_gram;
     for( const item_pocket &pocket : contents ) {
+        if( !pocket.is_allowed() ) {
+            continue;
+        }
         bool restriction_condition = pocket.is_type( item_pocket::pocket_type::CONTAINER );
         if( unrestricted_pockets_only ) {
             restriction_condition = restriction_condition && !pocket.is_restricted();
