@@ -217,6 +217,12 @@
     "type": "vehicle_part"
   },
   {
+    "copy-from": "veh_forge_abstract",
+    "id": "veh_forge",
+    "symbol": "&",
+    "type": "vehicle_part"
+  },
+  {
     "copy-from": "veh_kiln_abstract",
     "id": "veh_kiln",
     "symbol": "&",
