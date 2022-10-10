@@ -395,7 +395,7 @@
       "items": [
         { "item": "heavy_punching_bag_sack", "count": 1 },
         { "item": "nuts_bolts", "charges": 4 },
-        { "item": "chain",  "count": 4 },
+        { "item": "chain", "count": 4 },
         { "item": "blanket", "count": 6 },
         { "item": "material_sand", "charges": 4000 },
         { "item": "bag_plastic", "count": 4 }
@@ -408,8 +408,8 @@
       "sound_fail": "whud.",
       "items": [
         { "item": "chain", "count": [ 1, 3 ] },
-        { "item": "leather", "count": [ 16,  32] },
-        { "item": "tanned_hide", "count": [ 0, 4 ]},
+        { "item": "leather", "count": [ 16, 32 ] },
+        { "item": "tanned_hide", "count": [ 0, 4 ] },
         { "item": "material_sand", "charges": 4000 },
         { "item": "cotton_patchwork", "count": [ 33, 66 ] }
       ]
