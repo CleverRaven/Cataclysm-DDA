@@ -6760,7 +6760,7 @@
     "category": "CONSTRUCT",
     "time": "30 m",
     "required_skills": [ [ "fabrication", 0 ] ],
-    "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "DIG", "level": 1 } ] ],
     "components": [
       [ [ "long_pole", 2 ] ],
       [ [ "rope_makeshift_6", 3 ], [ "rope_6", 3 ], [ "vine_6", 3 ] ],

@@ -918,8 +918,8 @@
       "sound": "metal screeching!",
       "sound_fail": "clang!",
       "items": [
-        { "item": "pipe", "count": [ 1, 7 ] },
-        { "item": "scrap", "count": [ 3, 12 ] },
+        { "item": "steel_chunk", "count": [ 6, 15 ] },
+        { "item": "scrap", "count": [ 5, 20 ] },
         { "item": "rope_6", "count": [ 1, 3 ] }
       ]
     }

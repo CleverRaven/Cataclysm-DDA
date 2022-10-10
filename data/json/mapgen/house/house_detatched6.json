@@ -1,5 +1,10 @@
 [
   {
+    "id": "flags_pride_and_other",
+    "type": "item_group",
+    "items": [ [ "pride_flag", 70 ], [ "american_flag", 20 ], [ "state_flag", 10 ] ]
+  },
+  {
     "method": "json",
     "om_terrain": "house_detatched6",
     "type": "mapgen",
@@ -64,8 +69,7 @@
       "place_item": [
         { "item": "television", "repeat": 1, "x": 4, "y": 4 },
         { "item": "cannabis", "repeat": 1, "x": 18, "y": 14 },
-        { "item": "cannabis", "repeat": 1, "x": 18, "y": 15 },
-        { "item": "pride_flag", "chance": 50, "x": 12, "y": 16 }
+        { "item": "cannabis", "repeat": 1, "x": 18, "y": 15 }
       ],
       "place_items": [
         { "chance": 75, "item": "misc_smoking", "x": 4, "y": 13 },
@@ -76,7 +80,8 @@
         { "chance": 35, "item": "tools_home", "x": 21, "y": 16 },
         { "chance": 50, "item": "stoner", "x": 4, "y": 11 },
         { "chance": 50, "item": "stoner", "x": 5, "y": [ 10, 11 ] },
-        { "chance": 50, "item": "stoner", "x": 4, "y": 5 }
+        { "chance": 50, "item": "stoner", "x": 4, "y": 5 },
+        { "chance": 50, "item": "flags_pride_and_other", "x": 12, "y": 16 }
       ],
       "sealed_item": {
         "~": { "item": { "item": "seed_weed" }, "furniture": "f_planter_harvest" },
