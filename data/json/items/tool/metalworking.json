@@ -172,7 +172,6 @@
     "symbol": ";",
     "color": "light_gray",
     "flags": [ "WATER_BREAK", "ELECTRONIC" ]
-    ]
   },
   {
     "id": "kiln_done",

@@ -668,7 +668,7 @@
       "place_loot": [
         { "item": "television", "x": 19, "y": 20, "chance": 50 },
         { "item": "craftrig", "x": 27, "y": 22, "chance": 35 },
-        { "item": "forgerig", "x": 28, "y": 22, "chance": 35 },
+        { "item": "forge", "x": 28, "y": 22, "chance": 35 },
         { "item": "kitchen_unit", "x": 30, "y": 22, "chance": 35 },
         { "item": "weldrig", "x": 31, "y": 22, "chance": 35 },
         { "item": "v_table", "x": 33, "y": 22, "chance": 35 },

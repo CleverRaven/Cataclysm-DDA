@@ -314,7 +314,7 @@
         { "item": "cargo_rack", "x": 22, "y": [ 10, 13 ], "chance": 10 },
         { "item": "animal_locker", "x": 22, "y": [ 10, 13 ], "chance": 15 },
         { "item": "craftrig", "x": 22, "y": [ 10, 13 ], "chance": 5 },
-        { "item": "forgerig", "x": 22, "y": [ 10, 13 ], "chance": 2 },
+        { "item": "forge", "x": 22, "y": [ 10, 13 ], "chance": 2 },
         { "item": "weldrig", "x": 22, "y": [ 10, 13 ], "chance": 5 },
         { "item": "v_table", "x": 22, "y": [ 10, 13 ], "chance": 7 },
         { "item": "towel_hanger", "x": 22, "y": [ 10, 13 ], "chance": 10 },

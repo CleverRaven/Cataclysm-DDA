@@ -159,40 +159,6 @@
     "type": "vehicle_part"
   },
   {
-    "abstract": "veh_forge_abstract",
-    "breaks_into": [
-      { "count": [ 4, 5 ], "item": "steel_lump" },
-      { "count": [ 4, 6 ], "item": "steel_chunk" },
-      { "count": [ 4, 6 ], "item": "scrap" }
-    ],
-    "broken_color": "light_gray",
-    "broken_symbol": "x",
-    "categories": [ "utility" ],
-    "color": "red",
-    "damage_modifier": 10,
-    "damage_reduction": { "all": 29 },
-    "description": "A electric forge for metalworking, powered by the vehicle's batteries.  With a hammer and other tools, you could use this for metalworking.  If you attempt to craft an item that needs a forge, you will be given the option of selecting it as a tool.",
-    "durability": 80,
-    "flags": [ "CARGO", "OBSTACLE" ],
-    "pseudo_tools": [ { "id": "pseudo_veh_forge" } ],
-    "item": "forgerig",
-    "location": "center",
-    "looks_like": "f_forge_rock",
-    "name": { "str": "mounted electric forge" },
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
-      "repair": {
-        "skills": [ [ "mechanics", 4 ] ],
-        "time": "60 m",
-        "using": [ [ "repair_welding_standard", 2 ], [ "soldering_standard", 15 ] ]
-      }
-    },
-    "size": 200,
-    "symbol": "&",
-    "type": "vehicle_part"
-  },
-  {
     "abstract": "veh_kiln_abstract",
     "breaks_into": [
       { "count": [ 4, 5 ], "item": "steel_lump" },
@@ -247,12 +213,6 @@
   {
     "copy-from": "chemlab_abstract",
     "id": "chemlab",
-    "symbol": "&",
-    "type": "vehicle_part"
-  },
-  {
-    "copy-from": "veh_forge_abstract",
-    "id": "veh_forge",
     "symbol": "&",
     "type": "vehicle_part"
   },

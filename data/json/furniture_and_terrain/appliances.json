@@ -175,7 +175,7 @@
     "item": "forge",
     "flags": [ "CARGO", "OBSTACLE", "APPLIANCE" ],
     "copy-from": "veh_forge_abstract",
-    "looks_like": "ap_forge",
+    "looks_like": "forge",
     "requirements": { "removal": { "time": "6 m" } },
     "pseudo_tools": [ { "id": "pseudo_app_forge" } ]
   },
