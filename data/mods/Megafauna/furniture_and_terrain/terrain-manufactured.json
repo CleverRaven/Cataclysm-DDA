@@ -18,7 +18,7 @@
         "sound": "crunch.",
         "sound_fail": "whump.",
         "ter_set": "t_pit_shallow",
-        "items": [ { "item": "stick", "count": [ 0, 1 ] }, { "item": "glypto_shell", "count": [ 1 ] } ]
+        "items": [ { "item": "stick", "count": [ 0, 1 ] }, { "item": "glypto_shell", "count": [ 1, 1 ] } ]
       }
     }
 ]   

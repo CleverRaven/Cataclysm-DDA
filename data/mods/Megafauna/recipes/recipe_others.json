@@ -18,7 +18,7 @@
         { "proficiency": "prof_closures_waterproofing" }
       ],
       "components": [
-        [ [ "large_bones", 8 ], [ "mammoth_tusk", 2 ] ],
+        [ [ "large_bone", 8 ], [ "mammoth_tusk", 2 ] ],
         [ [ "leather", 64 ], [ "sheet_leather_patchwork", 8 ], [ "tanned_hide", 8 ], [ "tanned_pelt", 8 ] ],
         [ [ "filament", 40, "LIST" ] ]
       ]
@@ -42,7 +42,7 @@
         { "proficiency": "prof_closures_waterproofing" }
       ],
       "components": [
-        [ [ "large_bones", 24 ], [ "mammoth_tusk", 6 ] ],
+        [ [ "large_bone", 24 ], [ "mammoth_tusk", 6 ] ],
         [ [ "leather", 192 ], [ "sheet_leather_patchwork", 24 ], [ "tanned_hide", 24 ], [ "tanned_pelt", 24 ] ],
         [ [ "filament", 120, "LIST" ] ]
       ]
