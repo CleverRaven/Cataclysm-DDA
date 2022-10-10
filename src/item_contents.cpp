@@ -62,7 +62,7 @@ void pocket_favorite_callback::refresh( uilist *menu )
         ++i;
     }
 
-    if( selected_pocket != nullptr && selected_pocket->is_allowed() ) {
+    if( selected_pocket != nullptr && !selected_pocket->is_forbidden() ) {
         std::vector<iteminfo> info;
         int starty = 5;
         const int startx = menu->w_width - menu->pad_right;
@@ -724,7 +724,7 @@ ret_val<item_pocket *> item_contents::insert_item( const item &it,
     if( !pocket.success() ) {
         return pocket;
     }
-    if( !pocket.value()->is_allowed() ) {
+    if( pocket.value()->is_forbidden() ) {
         return ret_val<item_pocket *>::make_failure( nullptr, _( "Can't store anything in this." ) );
     }
 
@@ -819,7 +819,7 @@ units::length item_contents::max_containable_length( const bool unrestricted_poc
 {
     units::length ret = 0_mm;
     for( const item_pocket &pocket : contents ) {
-        if( !pocket.is_allowed() ) {
+        if( pocket.is_forbidden() ) {
             continue;
         }
         bool restriction_condition = !pocket.is_type( item_pocket::pocket_type::CONTAINER ) ||
@@ -869,7 +869,7 @@ units::volume item_contents::max_containable_volume( const bool unrestricted_poc
 {
     units::volume ret = 0_ml;
     for( const item_pocket &pocket : contents ) {
-        if( !pocket.is_allowed() ) {
+        if( pocket.is_forbidden() ) {
             continue;
         }
         bool restriction_condition = !pocket.is_type( item_pocket::pocket_type::CONTAINER ) ||
@@ -939,7 +939,7 @@ ret_val<void> item_contents::can_contain( const item &it, const bool ignore_pkt_
 {
     ret_val<void> ret = ret_val<void>::make_failure( _( "is not a container" ) );
     for( const item_pocket &pocket : contents ) {
-        if( !pocket.is_allowed() ) {
+        if( pocket.is_forbidden() ) {
             continue;
         }
         // mod, migration, corpse, and software aren't regular pockets.
@@ -1713,7 +1713,7 @@ const
     units::mass total_weight = 0_gram;
 
     for( const item_pocket &pocket : contents ) {
-        if( !pocket.is_allowed() ) {
+        if( pocket.is_forbidden() ) {
             continue;
         }
         bool restriction_condition = pocket.is_type( item_pocket::pocket_type::CONTAINER ) &&
@@ -1964,7 +1964,7 @@ units::volume item_contents::total_container_capacity( const bool unrestricted_p
 {
     units::volume total_vol = 0_ml;
     for( const item_pocket &pocket : contents ) {
-        if( !pocket.is_allowed() ) {
+        if( pocket.is_forbidden() ) {
             continue;
         }
         bool restriction_condition = pocket.is_type( item_pocket::pocket_type::CONTAINER );
@@ -2006,7 +2006,7 @@ const
 {
     units::volume total_vol = 0_ml;
     for( const item_pocket &pocket : contents ) {
-        if( !pocket.is_allowed() ) {
+        if( pocket.is_forbidden() ) {
             continue;
         }
         bool restriction_condition = pocket.is_type( item_pocket::pocket_type::CONTAINER );
@@ -2040,7 +2040,7 @@ units::mass item_contents::remaining_container_capacity_weight( const bool
 {
     units::mass total_weight = 0_gram;
     for( const item_pocket &pocket : contents ) {
-        if( !pocket.is_allowed() ) {
+        if( pocket.is_forbidden() ) {
             continue;
         }
         bool restriction_condition = pocket.is_type( item_pocket::pocket_type::CONTAINER );
@@ -2305,7 +2305,7 @@ void item_contents::info( std::vector<iteminfo> &info, const iteminfo_query *par
 
         int idx = 0;
         for( const item_pocket &pocket : found_pockets ) {
-            if( !pocket.is_allowed() ) {
+            if( pocket.is_forbidden() ) {
                 continue;
             }
             insert_separation_line( info );
