@@ -1040,6 +1040,8 @@ void set_ter_ids()
     t_slope_up = ter_id( "t_slope_up" );
     t_rope_up = ter_id( "t_rope_up" );
     t_manhole_cover = ter_id( "t_manhole_cover" );
+    t_burrow = ter_id( "t_burrow" );
+    t_burrow_chamber = ter_id( "t_burrow_chamber" );
     t_card_science = ter_id( "t_card_science" );
     t_card_military = ter_id( "t_card_military" );
     t_card_industrial = ter_id( "t_card_industrial" );
