@@ -3405,6 +3405,7 @@ void smart_controller_config::deserialize( const JsonObject &data )
     data.allow_omitted_members();
     data.read( "bat_lo", battery_lo );
     data.read( "bat_hi", battery_hi );
+    data.read( "new_logic", use_new_logic );
 }
 
 void smart_controller_config::serialize( JsonOut &json ) const
@@ -3412,6 +3413,7 @@ void smart_controller_config::serialize( JsonOut &json ) const
     json.start_object();
     json.member( "bat_lo", battery_lo );
     json.member( "bat_hi", battery_hi );
+    json.member( "new_logic", use_new_logic );
     json.end_object();
 }
 

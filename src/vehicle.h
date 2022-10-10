@@ -121,6 +121,7 @@ struct smart_controller_cache {
 struct smart_controller_config {
     int battery_lo = 25;
     int battery_hi = 90;
+    bool use_new_logic = false;
 
     void deserialize( const JsonObject &data );
     void serialize( JsonOut &json ) const;
