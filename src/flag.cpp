@@ -89,6 +89,7 @@ const flag_id flag_EATEN_HOT( "EATEN_HOT" );
 const flag_id flag_EDIBLE_FROZEN( "EDIBLE_FROZEN" );
 const flag_id flag_EFFECT_IMPEDING( "EFFECT_IMPEDING" );
 const flag_id flag_ELECTRIC_IMMUNE( "ELECTRIC_IMMUNE" );
+const flag_id flag_ELECTRONIC( "ELECTRONIC" );
 const flag_id flag_ETHEREAL_ITEM( "ETHEREAL_ITEM" );
 const flag_id flag_EXO_ARM_PLATE( "EXO_ARM_PLATE" );
 const flag_id flag_EXO_BOOT_PLATE( "EXO_BOOT_PLATE" );

@@ -34,6 +34,21 @@
   },
   {
     "type": "city_building",
+    "id": "2StoryModern04",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, -1 ], "overmap": "2StoryModern04_basement_1_north" },
+      { "point": [ 1, 0, -1 ], "overmap": "2StoryModern04_basement_2_north" },
+      { "point": [ 0, 0, 0 ], "overmap": "2StoryModern04_1_1_north" },
+      { "point": [ 1, 0, 0 ], "overmap": "2StoryModern04_1_2_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "2StoryModern04_2_1_north" },
+      { "point": [ 1, 0, 1 ], "overmap": "2StoryModern04_2_2_north" },
+      { "point": [ 0, 0, 2 ], "overmap": "2StoryModern04_roof_1_north" },
+      { "point": [ 1, 0, 2 ], "overmap": "2StoryModern04_roof_2_north" }
+    ]
+  },
+  {
+    "type": "city_building",
     "id": "urban_1_house",
     "overmaps": [
       { "point": [ 1, 0, 0 ], "overmap": "urban_1_1_south" },
