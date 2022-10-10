@@ -500,7 +500,7 @@
     "type": "GENERIC",
     "id": "club_wooden_large",
     "name": { "str": "large wooden club" },
-    "description": "A long plank of wood with a crude handle whittled into one end.  It's too big to be called a club.  Massive, thick, heavy, and far too rough.",
+    "description": "A long plank of wood with a crude handle whittled into one end.  It's barely an improvement, but at least it is slightly easier to wield than just the plank on its own.",
     "weight": "2400 g",
     "price_postapoc": 10,
     "color": "brown",
