@@ -296,6 +296,31 @@
   },
   {
     "type": "furniture",
+    "id": "f_screw_press",
+    "name": "screw press",
+    "description": "A large screw press for the purpose of manually pressing oil out of fruit or seed paste.  The paste gets placed in wetted bags and gets pressed down by the force of the screw mechanism.",
+    "symbol": "T",
+    "color": "light_red",
+    "move_cost_mod": -1,
+    "coverage": 40,
+    "required_str": -1,
+    "crafting_pseudo_item": "screw_press",
+    "deconstruct": { "items": [ { "item": "screw_press_tool", "count": 1 } ] },
+    "flags": [ "TRANSPARENT", "NOITEM", "EASY_DECONSTRUCT" ],
+    "bash": {
+      "str_min": 4,
+      "str_max": 8,
+      "sound": "crunch!",
+      "sound_fail": "whump.",
+      "items": [
+        { "item": "wood_beam", "count": [ 0, 2 ] },
+        { "item": "2x4", "count": [ 2, 6 ] },
+        { "item": "splinter", "count": [ 5, 20 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
     "id": "f_kiln_empty",
     "name": "charcoal kiln",
     "looks_like": "f_fireplace",

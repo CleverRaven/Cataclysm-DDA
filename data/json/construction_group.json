@@ -1421,6 +1421,11 @@
   },
   {
     "type": "construction_group",
+    "id": "place_screw_press",
+    "name": "Place Screw Press"
+  },
+  {
+    "type": "construction_group",
     "id": "place_workbench",
     "name": "Place Workbench"
   },
