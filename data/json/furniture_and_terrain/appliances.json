@@ -171,6 +171,7 @@
     "type": "vehicle_part",
     "id": "ap_forge",
     "name": { "str": "electric forge" },
+    "symbol": "&",
     "description": "An electric forge for metalworking.  When plugged in and powered you could use this for metalworking.  If you attempt to craft an item that needs a forge, you will be given the option of selecting it as a tool.",
     "item": "forge",
     "flags": [ "CARGO", "OBSTACLE", "APPLIANCE" ],

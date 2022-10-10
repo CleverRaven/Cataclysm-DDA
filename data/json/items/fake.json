@@ -344,7 +344,6 @@
     "sub": "forge",
     "type": "TOOL",
     "extend": { "flags": [ "ALLOWS_REMOTE_USE", "PSEUDO", "ZERO_WEIGHT" ] },
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "default_magazine": "pseudo_battery" } ],
     "weight": "1 g",
     "volume": "1 ml",
     "symbol": "@",
