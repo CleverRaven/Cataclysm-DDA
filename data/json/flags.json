@@ -2113,5 +2113,9 @@
     "id": "BIONIC_FUEL_SOURCE",
     "type": "json_flag",
     "info": "Contents of this item are used for fueling bionics."
+  },
+  {
+    "id": "ELECTRONIC",
+    "type": "json_flag"
   }
 ]

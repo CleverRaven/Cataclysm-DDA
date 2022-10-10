@@ -446,6 +446,12 @@
     "upgrades": { "age_grow": 365, "into": "mon_hesperosaurus" }
   },
   {
+    "id": "mon_gastonia_juvenile",
+    "type": "MONSTER",
+    "copy-from": "mon_dyoplosaurus_juvenile",
+    "upgrades": { "age_grow": 316, "into": "mon_gastonia" }
+  },
+  {
     "id": "mon_gargoyleosaurus_juvenile",
     "type": "MONSTER",
     "copy-from": "mon_dyoplosaurus_juvenile",
@@ -462,6 +468,12 @@
     "type": "MONSTER",
     "copy-from": "mon_dyoplosaurus_juvenile",
     "upgrades": { "age_grow": 365, "into": "mon_nodosaurus" }
+  },
+  {
+    "id": "mon_panoplosaurus_juvenile",
+    "type": "MONSTER",
+    "copy-from": "mon_dyoplosaurus_juvenile",
+    "upgrades": { "age_grow": 266, "into": "mon_panoplosaurus" }
   },
   {
     "id": "mon_edmontonia_juvenile",
@@ -486,6 +498,18 @@
     "type": "MONSTER",
     "copy-from": "mon_dyoplosaurus_juvenile",
     "upgrades": { "age_grow": 365, "into": "mon_ankylosaurus" }
+  },
+  {
+    "id": "mon_euoplocephalus_juvenile",
+    "type": "MONSTER",
+    "copy-from": "mon_dyoplosaurus_juvenile",
+    "upgrades": { "age_grow": 333, "into": "mon_euoplocephalus" }
+  },
+  {
+    "id": "mon_scolosaurus_juvenile",
+    "type": "MONSTER",
+    "copy-from": "mon_dyoplosaurus_juvenile",
+    "upgrades": { "age_grow": 365, "into": "mon_scolosaurus" }
   },
   {
     "id": "mon_tenontosaurus_juvenile",
