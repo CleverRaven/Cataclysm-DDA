@@ -67,7 +67,6 @@ Additional information can also be found in the [newspaper snippets](https://git
 - **December 18**: Sample XE-037 is brought back to Earth from the netherum. It is about thirty grams of blob matter. Standard decontamination protocols are observed. However, standard protocols do not take into account the possibility of malicious, intelligent molecular-scale contaminants. Microscopic particles of XE-037 migrate from the contamination filters onto the skin of scientists and escape containment. Soon after, the Blob enters the groundwater and begins to spread at extremely low concentrations.
 
 #### Year -1
-- **March**: The first effects of the blob contamination become visible as bees two or even three times their size are sighted. They are non-aggressive and appear to cause more good than harm due to increased honey production.
 - **July**: Several smaller powered exoskeletons, including both the private defence contractor Rivtech's version and a US government one, are released for field use.
 - **November**: Laser weapons powered by new energy technology are made widely available to military procurement, albeit still in small numbers.
 
