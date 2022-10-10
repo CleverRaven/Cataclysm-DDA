@@ -1651,7 +1651,7 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
         const std::array<decltype( &cata_tiles::draw_furniture ), 2> final_drawing_layers = {{
                 &cata_tiles::draw_zone_mark, &cata_tiles::draw_zombie_revival_indicators
             }
-        }
+        };
 
         for( decltype( &cata_tiles::draw_furniture ) f : final_drawing_layers ) {
             for( tile_render_info &p : draw_points ) {
@@ -1852,7 +1852,7 @@ void cata_tiles::get_window_tile_counts( const int width, const int height, int 
 
 bool cata_tiles::draw_from_id_string( const std::string &id, const tripoint &pos, int subtile,
                                       int rota,
-                                      lit_level ll, bool apply_night_vision_goggles, 0 )
+                                      lit_level ll, bool apply_night_vision_goggles, int overlay_count )
 {
     int nullint = 0;
     return cata_tiles::draw_from_id_string( id, TILE_CATEGORY::NONE, empty_string, pos, subtile,
