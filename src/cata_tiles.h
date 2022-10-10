@@ -18,6 +18,7 @@
 #include "lightmap.h"
 #include "line.h"
 #include "map_memory.h"
+#include "mapdata.h"
 #include "options.h"
 #include "pimpl.h"
 #include "point.h"
@@ -454,15 +455,20 @@ class cata_tiles
                               char rotation_targets );
         // as get_tile_values, but for unconnected tiles, infer rotation from surrounding walls
         void get_tile_values_with_ter( const tripoint &p, int t, const std::array<int, 4> &tn,
-                                       int &subtile, int &rotation, int rotate_to_group );
-        static void get_connect_values( const tripoint &p, int &subtile, int &rotation, int connect_group,
-                                        int rotate_to_group, const std::map<tripoint, ter_id> &ter_override );
+                                       int &subtile, int &rotation,
+                                       const std::bitset<NUM_TERCONN> &rotate_to_group );
+        static void get_connect_values( const tripoint &p, int &subtile, int &rotation,
+                                        const std::bitset<NUM_TERCONN> &connect_group,
+                                        const std::bitset<NUM_TERCONN> &rotate_to_group,
+                                        const std::map<tripoint, ter_id> &ter_override );
         static void get_furn_connect_values( const tripoint &p, int &subtile, int &rotation,
-                                             int connect_group, int rotate_to_group,
+                                             const std::bitset<NUM_TERCONN> &connect_group,
+                                             const std::bitset<NUM_TERCONN> &rotate_to_group,
                                              const std::map<tripoint, furn_id> &furn_override );
         void get_terrain_orientation( const tripoint &p, int &rota, int &subtile,
                                       const std::map<tripoint, ter_id> &ter_override,
-                                      const std::array<bool, 5> &invisible, int rotate_group );
+                                      const std::array<bool, 5> &invisible,
+                                      const std::bitset<NUM_TERCONN> &rotate_group );
 
         static void get_rotation_and_subtile( char val, char rot_to, int &rota, int &subtile );
         static int get_rotation_unconnected( char rot_to );

@@ -11,7 +11,7 @@ class ListWidget_Drag : public QListWidget {
     public:
         using QListWidget::QListWidget;
     protected:
-        QMimeData* mimeData( const QList<QListWidgetItem*> items ) const;
+        QMimeData* mimeData( const QList<QListWidgetItem*> items ) const override;
 };
 }
 #endif

@@ -11,6 +11,7 @@
     "id": "HUMAN",
     "name": "Human",
     "threshold_mut": "",
+    "skip_test": true,
     "mutagen_message": "You feel the aberrance fade.",
     "vitamin": "mutagen_human"
   },

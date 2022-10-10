@@ -135,6 +135,7 @@
     "category": "veh_parts",
     "price": 16000,
     "price_postapoc": 750,
+    "flags": [ "NO_REPAIR" ],
     "qualities": [ [ "COOK", 1 ] ]
   },
   {

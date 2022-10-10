@@ -407,6 +407,12 @@ bool talker_character_const::unarmed_attack() const
 
 bool talker_character_const::can_stash_weapon() const
 {
+    cata::optional<bionic *> bionic_weapon = me_chr_const->find_bionic_by_uid(
+                me_chr_const->get_weapon_bionic_uid() );
+    if( bionic_weapon && me_chr_const->can_deactivate_bionic( **bionic_weapon ).success() ) {
+        return true;
+    }
+
     return me_chr_const->can_pickVolume( *me_chr_const->get_wielded_item() );
 }
 

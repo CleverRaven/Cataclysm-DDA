@@ -726,6 +726,8 @@
       { "item": "blood", "prob": 10, "container-item": "jar_3l_glass_sealed", "sealed": false },
       [ "bone_human", 10 ],
       [ "bowl_skull", 5 ],
+      [ "skull_human", 20 ],
+      [ "skull_canis", 10 ],
       [ "bondage_mask", 10 ],
       [ "zentai", 5 ],
       [ "bondage_suit", 5 ],

@@ -50,5 +50,10 @@
         [ "afs_plasma_torch", 1 ]
       ]
     ]
+  },
+  {
+    "id": "afs_nanofab_material_3",
+    "type": "requirement",
+    "components": [ [ [ "afs_material_3", 2 ] ] ]
   }
 ]
