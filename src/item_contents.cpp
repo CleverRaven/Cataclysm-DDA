@@ -939,6 +939,9 @@ ret_val<void> item_contents::can_contain( const item &it, const bool ignore_pkt_
 {
     ret_val<void> ret = ret_val<void>::make_failure( _( "is not a container" ) );
     for( const item_pocket &pocket : contents ) {
+        if( !pocket.is_allowed() ) {
+            continue;
+        }
         // mod, migration, corpse, and software aren't regular pockets.
         if( !pocket.is_standard_type() ) {
             continue;

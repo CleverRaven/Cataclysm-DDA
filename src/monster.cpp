@@ -2792,7 +2792,7 @@ void monster::drop_items_on_death( item *corpse )
 
         // add stuff that could be worn or strapped to the creature
         if( it.is_armor() ) {
-            corpse->put_in( it, item_pocket::pocket_type::CONTAINER );
+            corpse->force_insert_item( it, item_pocket::pocket_type::CONTAINER );
         }
     }
 
@@ -2815,7 +2815,7 @@ void monster::drop_items_on_death( item *corpse )
             if( current_best.second != nullptr ) {
                 current_best.second->insert_item( it );
             } else {
-                corpse->put_in( it, item_pocket::pocket_type::CONTAINER );
+                corpse->force_insert_item( it, item_pocket::pocket_type::CONTAINER );
             }
         }
     }
