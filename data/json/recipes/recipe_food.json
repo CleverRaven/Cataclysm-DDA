@@ -1803,7 +1803,7 @@
     "//": "Small amounts of oil will be absorbed by the batter, real fried food 8-25% by weight",
     "qualities": [ { "id": "COOK", "level": 2 }, { "id": "CUT", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
-    "//": "136g of dandelion + batter",
+    "//1": "136g of dandelion + batter",
     "proficiencies": [
       { "proficiency": "prof_food_prep" },
       { "proficiency": "prof_forage_cooking" },
