@@ -693,7 +693,7 @@
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
     "ammo": 100,
-    "entries": [ { "item": "sw_500", "variant": "sw_500", "charges-min": 0, "charges-max": 5 }, { "group": "on_hand_500" } ]
+    "entries": [ { "item": "sw_500", "charges-min": 0, "charges-max": 5 }, { "group": "on_hand_500" } ]
   },
   {
     "id": "nested_sw629",
@@ -1358,7 +1358,7 @@
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
     "ammo": 100,
-    "entries": [ { "item": "mosin44", "charges-min": 0, "charges-max": 5 }, { "group": "on_hand_762R" } ]
+    "entries": [ { "item": "mosin44", "variant": "mosin44", "charges-min": 0, "charges-max": 5 }, { "group": "on_hand_762R" } ]
   },
   {
     "id": "nested_mosin91_30",
@@ -1366,18 +1366,15 @@
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
     "ammo": 100,
-    "entries": [ { "item": "mosin91_30", "charges-min": 0, "charges-max": 5 }, { "group": "on_hand_762R" } ]
+    "entries": [ { "item": "mosin91_30", "variant": "mosin91_30", "charges-min": 0, "charges-max": 5 }, { "group": "on_hand_762R" } ]
   },
   {
     "id": "nested_remington700_270",
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
-    "ammo": 100,.
-    "entries": [
-      { "item": "remington700_270", "variant": "remington700_270", "charges-min": 0, "charges-max": 4 },
-      { "group": "on_hand_270win" }
-    ]
+    "ammo": 100,
+    "entries": [ { "item": "remington700_270", "charges-min": 0, "charges-max": 4 }, { "group": "on_hand_270win" } ]
   },
   {
     "id": "nested_remington_700",
@@ -1600,7 +1597,17 @@
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
     "ammo": 100,
-    "entries": [ { "item": "mosin44_ebr", "charges-min": 0, "charges-max": 5 }, { "group": "on_hand_762R" } ]
+    "entries": [
+      {
+        "item": "mosin44",
+        "variant": "mosin44_ebr",
+        "contents-group": "mosin_mods",
+        "prob": 1,
+        "charges-min": 0,
+        "charges-max": 5
+      },
+      { "group": "on_hand_762R" }
+    ]
   },
   {
     "id": "nested_mosin91_30_ebr",
@@ -1608,7 +1615,17 @@
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
     "ammo": 100,
-    "entries": [ { "item": "mosin91_30_ebr", "charges-min": 0, "charges-max": 5 }, { "group": "on_hand_762R" } ]
+    "entries": [
+      {
+        "item": "mosin91_30",
+        "variant": "mosin91_30_ebr",
+        "contents-group": "mosin_mods",
+        "prob": 1,
+        "charges-min": 0,
+        "charges-max": 5
+      },
+      { "group": "on_hand_762R" }
+    ]
   },
   {
     "id": "nested_savage_111f",
@@ -1948,7 +1965,7 @@
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
     "ammo": 100,
-    "entries": [ { "item": "bh_m89", "variant": "bh_m89", "charges-min": 0, "charges-max": 7 }, { "group": "on_hand_500" } ]
+    "entries": [ { "item": "bh_m89", "charges-min": 0, "charges-max": 7 }, { "group": "on_hand_500" } ]
   },
   {
     "id": "nested_bfg50",
