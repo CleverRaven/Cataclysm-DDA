@@ -157,14 +157,6 @@
     "entries": [ { "item": "robofac_basic_skirt" }, { "item": "robofac_basic_mantle" } ]
   },
   {
-    "id": "robofac_helmet_prototype",
-    "type": "item_group",
-    "//": "a robofac headrig with a proto insert",
-    "container-item": "robofac_head_rig",
-    "subtype": "collection",
-    "entries": [ { "item": "robofac_basic_helmet" } ]
-  },
-  {
     "id": "nano_templates",
     "type": "item_group",
     "//": "a group of nano templates for one of the missions",
