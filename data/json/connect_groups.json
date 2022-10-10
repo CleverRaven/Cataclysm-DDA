@@ -1,0 +1,121 @@
+[
+  { 
+    "type": "connect_group",
+    "id": "conn_WALL",
+    "name": "WALL",
+    "group_flags": [ "WALL", "CONNECT_WITH_WALL" ],
+    "connects_to_flags": [ "WALL", "CONNECT_WITH_WALL" ]
+  },
+  { 
+    "type": "connect_group",
+    "id": "conn_CHAINFENCE",
+    "name": "CHAINFENCE"
+  },
+  { 
+    "type": "connect_group",
+    "id": "conn_WOODFENCE",
+    "name": "WOODFENCE"
+  },
+  { 
+    "type": "connect_group",
+    "id": "conn_RAILING",
+    "name": "RAILING"
+  },
+  { 
+    "type": "connect_group",
+    "id": "conn_POOLWATER",
+    "name": "POOLWATER"
+  },
+  { 
+    "type": "connect_group",
+    "id": "conn_WATER",
+    "name": "WATER"
+  },
+  { 
+    "type": "connect_group",
+    "id": "conn_PAVEMENT",
+    "name": "PAVEMENT"
+  },
+  { 
+    "type": "connect_group",
+    "id": "conn_PAVEMENT_MARKING",
+    "name": "PAVEMENT_MARKING"
+  },
+  { 
+    "type": "connect_group",
+    "id": "conn_RAIL",
+    "name": "RAIL"
+  },
+  { 
+    "type": "connect_group",
+    "id": "conn_COUNTER",
+    "name": "COUNTER"
+  },
+  { 
+    "type": "connect_group",
+    "id": "conn_CANVAS_WALL",
+    "name": "CANVAS_WALL"
+  },
+  { 
+    "type": "connect_group",
+    "id": "conn_SAND",
+    "name": "SAND"
+  },
+  { 
+    "type": "connect_group",
+    "id": "conn_PIT_DEEP",
+    "name": "PIT_DEEP"
+  },
+  { 
+    "type": "connect_group",
+    "id": "conn_LINOLEUM",
+    "name": "LINOLEUM"
+  },
+  { 
+    "type": "connect_group",
+    "id": "conn_CARPET",
+    "name": "CARPET"
+  },
+  { 
+    "type": "connect_group",
+    "id": "conn_CONCRETE",
+    "name": "CONCRETE"
+  },
+  { 
+    "type": "connect_group",
+    "id": "conn_CLAY",
+    "name": "CLAY"
+  },
+  { 
+    "type": "connect_group",
+    "id": "conn_DIRT",
+    "name": "DIRT"
+  },
+  { 
+    "type": "connect_group",
+    "id": "conn_ROCKFLOOR",
+    "name": "ROCKFLOOR"
+  },
+  { 
+    "type": "connect_group",
+    "id": "conn_MULCHFLOOR",
+    "name": "MULCHFLOOR"
+  },
+  { 
+    "type": "connect_group",
+    "id": "conn_METALFLOOR",
+    "name": "METALFLOOR"
+  },
+  { 
+    "type": "connect_group",
+    "id": "conn_WOODFLOOR",
+    "name": "WOODFLOOR"
+  },
+  { 
+    "type": "connect_group",
+    "id": "conn_INDOORFLOOR",
+    "name": "INDOORFLOOR",
+    "group_flags": [ "INDOORS" ],
+    "rotates_to_flags": [ "WINDOW", "DOOR" ]
+  }
+]
