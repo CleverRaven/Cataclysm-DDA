@@ -1892,7 +1892,7 @@ std::unordered_set<bodypart_id> outfit::where_discomfort( const Character &guy )
                 i.weight() > units::from_gram( 250 ) ) {
 
                 // need to go through each locations under location to check if its covered, since secondary locations can cover multiple underlying locations
-                for( const sub_bodypart_id &under_sbp : sbp->locations_under ) {
+                for( const sub_bodypart_str_id &under_sbp : sbp->locations_under ) {
                     if( covered_sbps.count( under_sbp ) != 1 ) {
                         guy.add_msg_if_player(
                             string_format( "<color_c_red> the %s rubs uncomfortably against your unpadded %s </color>",
