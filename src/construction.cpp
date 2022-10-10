@@ -168,7 +168,8 @@ static void done_dig_grave_nospawn( const tripoint_bub_ms &p, Character & );
 static void done_dig_stair( const tripoint_bub_ms &, Character & );
 static void done_mine_downstair( const tripoint_bub_ms &, Character & );
 static void done_mine_upstair( const tripoint_bub_ms &, Character & );
-static void done_mine_upslope( const tripoint_bub_ms &, Character & );
+static void done_dig_upslope( const tripoint_bub_ms &, Character & );
+static void done_dig_slope( const tripoint_bub_ms &, Character & );
 static void done_wood_stairs( const tripoint_bub_ms &, Character & );
 static void done_window_curtains( const tripoint_bub_ms &, Character & );
 static void done_extract_maybe_revert_to_dirt( const tripoint_bub_ms &, Character & );
@@ -2104,8 +2105,8 @@ void load_construction( const JsonObject &jo )
             { "done_dig_stair", construct::done_dig_stair },
             { "done_mine_downstair", construct::done_mine_downstair },
 			{ "done_dig_slope", construct::done_dig_slope },
-            { "done_mine_upstair", construct::done_mine_upstair }
-            { "done_mine_upslope", construct::done_mine_upslope },
+            { "done_mine_upstair", construct::done_mine_upstair },
+            { "done_mine_upslope", construct::done_dig_upslope },
             { "done_wood_stairs", construct::done_wood_stairs },
             { "done_window_curtains", construct::done_window_curtains },
             { "done_extract_maybe_revert_to_dirt", construct::done_extract_maybe_revert_to_dirt },
