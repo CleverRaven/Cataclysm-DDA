@@ -239,7 +239,7 @@ void main_menu::display_sub_menu( int sel, const point &bottom_left, int sel_lin
     point top_left( bottom_left + point( 0, -( sub_opts.size() + 1 ) ) );
     int height = sub_opts.size();
     if( top_left.y < 0 ) {
-        height -= abs( top_left.y ); // abs unnecessary but more clear
+        height += top_left.y;
         top_left.y = 0;
     } else {
         sub_opt_off = 0;
