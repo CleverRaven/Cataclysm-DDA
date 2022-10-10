@@ -11,6 +11,7 @@
     "coverage": 50,
     "required_str": -1,
     "flags": [ "TRANSPARENT", "NOITEM", "INDOORS", "SHORT", "PERMEABLE" ],
+    "connect_groups": "COUNTER",
     "connects_to": "COUNTER",
     "deconstruct": {
       "furn_set": "f_counter",
@@ -60,6 +61,7 @@
     "required_str": -1,
     "light_emitted": 10,
     "flags": [ "TRANSPARENT", "CONSOLE", "NOITEM", "INDOORS", "SHORT", "PERMEABLE" ],
+    "connect_groups": "COUNTER",
     "connects_to": "COUNTER",
     "deconstruct": {
       "furn_set": "f_counter",
