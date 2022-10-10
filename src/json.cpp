@@ -412,6 +412,19 @@ std::vector<std::string> TextJsonObject::get_string_array( const std::string &na
     return ret;
 }
 
+std::vector<std::string> TextJsonObject::get_as_string_array( const std::string &name ) const
+{
+    std::vector<std::string> ret;
+    if( has_array( name ) ) {
+        for( const std::string entry : get_array( name ) ) {
+            ret.push_back( entry );
+        }
+    } else {
+        ret.push_back( get_string( name ) );
+    }
+    return ret;
+}
+
 TextJsonObject TextJsonObject::get_object( const std::string &name ) const
 {
     int pos = verify_position( name, false );
