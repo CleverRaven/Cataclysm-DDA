@@ -291,7 +291,7 @@
     "name": { "str": "heavy punching bag sack" },
     "looks_like": "bag_canvas",
     "description": "A nigh five foot long cylindrical leather sack, a foot in diameter, with attachment points at the top.  With some bags of sand, some chains and a bunch of blankets you could hang it from the ceiling as a heavy punching bag.",
-    "weight": "2600g",
+    "weight": "2500g",
     "volume": "2260 ml",
     "longest_side": "150 cm",
     "price": 0,
