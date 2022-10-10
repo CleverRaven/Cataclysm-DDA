@@ -318,14 +318,24 @@ const weakpoint *Character::absorb_hit( const weakpoint_attack &, const bodypart
         // The bio_ads CBM absorbs damage before hitting armor
         if( has_active_bionic( bio_ads ) ) {
             if( elem.amount > 0 && get_power_level() > 24_kJ ) {
+                // ADS requires 25 kJ to trigger
+                // Assuming it absorbs damage at 10% efficiency, it can absorb at most 2500 J of energy
+                // Taking muzzle energy of 5.56mm ammo as a reference, 1936 J is equal to 44 damage
+                // Having this in mind, let's make 2500 J equal to 50 damage, which will be the maximum damage ADS can absorb
+                const int max_absorption = 50;
+
+                // If damage is higher than maximum absorption capability, lower the damage by a flat amount of this capability
+                // Otherwise, divide the damage by X times, depending on damage type
                 if( elem.type == damage_type::BASH ) {
-                    elem.amount -= rng( 1, 2 );
+                    elem.amount = elem.amount > max_absorption ? elem.amount - max_absorption : elem.amount / 2;
                 } else if( elem.type == damage_type::CUT ) {
-                    elem.amount -= rng( 1, 4 );
+                    elem.amount = elem.amount > max_absorption ? elem.amount - max_absorption : elem.amount / 3;
                 } else if( elem.type == damage_type::STAB || elem.type == damage_type::BULLET ) {
-                    elem.amount -= rng( 1, 8 );
+                    elem.amount = elem.amount > max_absorption ? elem.amount - max_absorption : elem.amount / 4;
                 }
                 mod_power_level( -bio_ads->power_trigger );
+                add_msg_if_player( m_good,
+                                   _( "The defensive forcefield surrounding your body ripples as it reduces velocity of incoming attack." ) );
             }
             if( elem.amount < 0 ) {
                 elem.amount = 0;
