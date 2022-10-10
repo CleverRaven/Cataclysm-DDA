@@ -166,7 +166,7 @@ void main_menu::display_sub_menu( int sel, const point &bottom_left, int sel_lin
     main_menu_opts sel_o = static_cast<main_menu_opts>( sel );
     switch( sel_o ) {
         case main_menu_opts::CREDITS:
-            display_text( mmenu_credits, _( "Credits" ), sel_line );
+            //display_text( mmenu_credits, _( "Credits" ), sel_line );
             return;
         case main_menu_opts::MOTD:
             //~ Message Of The Day
@@ -357,6 +357,50 @@ std::vector<std::string> main_menu::load_file( const std::string &path,
     return result;
 }
 
+
+std::vector<link_string> main_menu::load_file_with_links(
+    const std::string &path,
+    const std::string &alt_text )
+{
+    std::string text;
+    read_from_file_optional( path, [&text, this]( std::istream & fin ) {
+        std::string line;
+        while( std::getline( fin, line ) ) {
+            if( !line.empty() && line[0] == '#' ) {
+                continue;
+            }
+            text += line + '\n';
+        }
+    } );
+    std::vector<link_string> result;
+    for( std::string &line : foldstring( text, FULL_SCREEN_WIDTH - 2 ) ) {
+        result.push_back( parse_links( line ) );
+    }
+    if( result.empty() ) {
+        result.push_back( link_string( alt_text, {} ) );
+    }
+    return result;
+}
+
+link_string main_menu::parse_links( std::string &line )
+{
+    const std::string link_open = "<link>";
+    const std::string link_close = "</link>";
+
+    std::size_t start_pos = line.find( link_open );
+    if( start_pos == std::string::npos ) {
+        return link_string( line, {} );
+    }
+    std::size_t end_pos = line.find( link_close );
+
+    line.erase( start_pos, link_open.length() );
+    line.erase( end_pos, link_open.length() );
+
+    inclusive_rectangle<point> link( point( start_pos, 0 ), point( end_pos, 0 ) );
+
+    return link_string( line, {link} );
+}
+
 holiday main_menu::get_holiday_from_time()
 {
     return ::get_holiday_from_time( 0, true );
@@ -394,14 +438,7 @@ void main_menu::init_strings()
     // ASCII Art
     mmenu_title = load_file( PATH_INFO::title( current_holiday ), _( "Cataclysm: Dark Days Ahead" ) );
     // MOTD
-    auto motd = load_file( PATH_INFO::motd(), _( "No message today." ) );
-
-    mmenu_motd.clear();
-    for( const std::string &line : motd ) {
-        mmenu_motd += ( line.empty() ? " " : line ) + "\n";
-    }
-    mmenu_motd = colorize( mmenu_motd, c_light_red );
-    mmenu_motd_len = foldstring( mmenu_motd, FULL_SCREEN_WIDTH - 2 ).size();
+    mmenu_motd = load_file_with_links( PATH_INFO::motd(), _( "No message today." ) );
 
     // Credits
     mmenu_credits.clear();
@@ -497,7 +534,8 @@ void main_menu::init_strings()
     vdaytip = SNIPPET.random_from_category( "tip" ).value_or( translation() ).translated();
 }
 
-void main_menu::display_text( const std::string &text, const std::string &title, int &selected )
+void main_menu::display_text( const std::vector<link_string> &text, const std::string &title,
+                              int &selected )
 {
     const int w_open_height = getmaxy( w_open );
     const int b_height = FULL_SCREEN_HEIGHT - clamp( ( FULL_SCREEN_HEIGHT - w_open_height ) + 4, 0, 4 );
@@ -511,14 +549,16 @@ void main_menu::display_text( const std::string &text, const std::string &title,
 
     draw_border( w_border, BORDER_COLOR, title );
 
-    int width = FULL_SCREEN_WIDTH - 2;
     int height = b_height - 2;
-    const auto vFolded = foldstring( text, width );
-    int iLines = vFolded.size();
 
-    fold_and_print_from( w_text, point_zero, width, selected, c_light_gray, text );
+    point currentLinePos = point_zero;
+    nc_color defaultColor = c_light_gray;
+    for( int y = selected; y < selected + height; y++ ) {
+        print_colored_text( w_text, currentLinePos, defaultColor, defaultColor, std::get<0>( text[y] ) );
+        currentLinePos.y += 1;
+    }
 
-    draw_scrollbar( w_border, selected, height, iLines, point_south, BORDER_COLOR, true );
+    draw_scrollbar( w_border, selected, height, text.size(), point_south, BORDER_COLOR, true );
     wnoutrefresh( w_border );
     wnoutrefresh( w_text );
 }
@@ -731,7 +771,7 @@ bool main_menu::opening_screen()
                     } else if( action == "DOWN" || action == "PAGE_DOWN" || action == "SCROLL_DOWN" ) {
                         int effective_height = sel_line + FULL_SCREEN_HEIGHT - 2;
                         if( ( opt == main_menu_opts::CREDITS && effective_height < mmenu_credits_len ) ||
-                            ( opt == main_menu_opts::MOTD && effective_height < mmenu_motd_len ) ) {
+                            ( opt == main_menu_opts::MOTD && effective_height < static_cast<int>( mmenu_motd.size() ) ) ) {
                             sel_line++;
                         }
                     }

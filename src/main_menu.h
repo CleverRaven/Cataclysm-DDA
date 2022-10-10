@@ -13,6 +13,8 @@
 #include "point.h"
 #include "worldfactory.h"
 
+using link_string = std::pair<std::string, std::vector<inclusive_rectangle<point>>>;
+
 class main_menu
 {
     public:
@@ -25,9 +27,8 @@ class main_menu
     private:
         // ASCII art that says "Cataclysm Dark Days Ahead"
         std::vector<std::string> mmenu_title;
-        std::string mmenu_motd;
+        std::vector<link_string> mmenu_motd;
         std::string mmenu_credits;
-        int mmenu_motd_len;
         int mmenu_credits_len;
         std::vector<std::string> vMenuItems; // MOTD, New Game, Load Game, etc.
         std::vector<std::string> vWorldSubItems;
@@ -48,6 +49,10 @@ class main_menu
         /** Helper function for @ref init_strings */
         std::vector<std::string> load_file( const std::string &path,
                                             const std::string &alt_text ) const;
+        std::vector<link_string> load_file_with_links( const std::string &path,
+                const std::string &alt_text );
+        /** Helper function that parses links froma string */
+        link_string parse_links( std::string &line );
 
         // Play a sound whenever the user moves left or right in the main menu or its tabs
         void on_move() const;
@@ -80,6 +85,7 @@ class main_menu
         std::vector<save_t> savegames;
         std::vector<std::pair<inclusive_rectangle<point>, std::pair<int, int>>> main_menu_sub_button_map;
         std::vector<std::pair<inclusive_rectangle<point>, int>> main_menu_button_map;
+        std::vector<std::pair<inclusive_rectangle<point>, std::string>> display_links_map;
 
         /**
          * Prints a horizontal list of options
@@ -105,7 +111,7 @@ class main_menu
          */
         void print_menu( const catacurses::window &w_open, int iSel, const point &offset, int sel_line );
 
-        void display_text( const std::string &text, const std::string &title, int &selected );
+        void display_text( const std::vector<link_string> &text, const std::string &title, int &selected );
 
         void display_sub_menu( int sel, const point &bottom_left, int sel_line );
 
