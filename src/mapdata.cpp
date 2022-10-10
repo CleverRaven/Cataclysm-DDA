@@ -266,7 +266,7 @@ std::string enum_to_string<ter_furn_flag>( ter_furn_flag data )
 
 } // namespace io
 
-static const std::unordered_map<std::string, ter_connects> ter_connects_map = { {
+static std::unordered_map<std::string, ter_connects> ter_connects_map = { {
         { "WALL",                     TERCONN_WALL },         // implied for connects_to by ter_furn_flag::TFLAG_CONNECT_WITH_WALL, ter_furn_flag::TFLAG_AUTO_WALL_SYMBOL or ter_furn_flag::TFLAG_WALL
         { "CHAINFENCE",               TERCONN_CHAINFENCE },
         { "WOODFENCE",                TERCONN_WOODFENCE },
@@ -292,6 +292,55 @@ static const std::unordered_map<std::string, ter_connects> ter_connects_map = { 
         { "INDOORFLOOR",              TERCONN_INDOORFLOOR },         // implied for rotates_to by ter_furn_flag::WINDOW and ter_furn_flag::DOOR, and for rotates_to_member by ter_furn_flag::INDOORS
     }
 };
+
+void connect_group::load( const JsonObject &jo, const std::string &src )
+{
+    ( void ) src;
+    connect_group result;
+
+    result.index = ter_connects_map.size();
+    result.id = connect_group_id( jo.get_string( "id" ) );
+    assign( jo, "name", result.name, true );
+
+    std::cout << result.id << " " << result.name << " " << result.index << std::endl;
+
+    if( jo.has_string( "group_flags" ) || jo.has_array( "group_flags" ) ) {
+        const std::vector<std::string> str_flags = jo.get_as_string_array( "group_flags" );
+        for( const std::string &flag : str_flags ) {
+            const ter_furn_flag f = io::string_to_enum<ter_furn_flag>( flag );
+            result.group_flags.insert( f );
+        }
+    }
+
+    if( jo.has_string( "connects_to_flags" ) || jo.has_array( "connects_to_flags" ) ) {
+        const std::vector<std::string> str_flags = jo.get_as_string_array( "connects_to_flags" );
+        for( const std::string &flag : str_flags ) {
+            const ter_furn_flag f = io::string_to_enum<ter_furn_flag>( flag );
+            result.connects_to_flags.insert( f );
+        }
+    }
+
+    if( jo.has_string( "rotates_to_flags" ) || jo.has_array( "rotates_to_flags" ) ) {
+        const std::vector<std::string> str_flags = jo.get_as_string_array( "rotates_to_flags" );
+        for( const std::string &flag : str_flags ) {
+            const ter_furn_flag f = io::string_to_enum<ter_furn_flag>( flag );
+            result.rotates_to_flags.insert( f );
+        }
+    }
+
+    // TODO Add to map
+}
+
+void connect_group::finalize_all()
+{
+
+}
+
+void connect_group::reset()
+{
+    // TODO
+    //ter_connects_map.clear();
+}
 
 static void load_map_bash_tent_centers( const JsonArray &ja, std::vector<furn_str_id> &centers )
 {

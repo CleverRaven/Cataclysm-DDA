@@ -343,6 +343,21 @@ enum ter_connects : int {
     NUM_TERCONN
 };
 
+struct connect_group {
+    public:
+        connect_group_id id;
+        std::string name;
+        int index;
+        std::set<ter_furn_flag> group_flags;
+        std::set<ter_furn_flag> connects_to_flags;
+        std::set<ter_furn_flag> rotates_to_flags;
+
+        bool was_loaded;
+        static void load( const JsonObject &jo, const std::string &src );
+        static void finalize_all();
+        static void reset();
+};
+
 struct activity_byproduct {
     itype_id item;
     int count      = 0;
