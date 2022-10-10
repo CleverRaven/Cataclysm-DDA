@@ -365,12 +365,6 @@
     "name": "kiln abstract"
   },
   {
-    "copy-from": "pseudo_forge_abstract",
-    "id": "pseudo_veh_forge",
-    "type": "TOOL",
-    "name": { "str": "mounted electric forge" }
-  },
-  {
     "copy-from": "pseudo_kiln_abstract",
     "id": "pseudo_veh_kiln",
     "type": "TOOL",
