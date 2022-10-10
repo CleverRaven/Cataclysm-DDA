@@ -2635,7 +2635,7 @@ void monster::die( Creature *nkiller )
     if( death_drops && !is_hallucination() ) {
         for( const item &it : inv ) {
             if( corpse ) {
-                corpse->put_in( it, item_pocket::pocket_type::CONTAINER );
+                corpse->force_insert_item( it, item_pocket::pocket_type::CONTAINER );
             } else {
                 get_map().add_item_or_charges( pos(), it );
             }
