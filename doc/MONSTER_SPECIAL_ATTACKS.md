@@ -203,7 +203,8 @@ The common type for JSON-defined attacks. Note, you don't have to declare it in 
 
 ### "bite"
 
-Makes monster use teeth to bite opponent, uses the same fields as "monster_attack" attacks. Monster bites can give infections if the target is grabbed at the same time.
+Makes monster use teeth to bite opponent, uses the same fields as "monster_attack" attacks. Monster bites can give infections, and for humanoid enemies (`human` bodytype) require the target being grabbed.
+If `hitsize_min` is undefined it will default to 1 (disqualifying bites on the eyes and mouth).
 
 | field                 | description
 | ---                   | ---

@@ -419,6 +419,13 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "egg_gastonia",
+    "name": "gastonia egg",
+    "copy-from": "egg_dino",
+    "rot_spawn": "GROUP_EGG_gastonia"
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "egg_gargoyleosaurus",
     "name": "gargoyleosaurus egg",
     "copy-from": "egg_dino",
@@ -437,6 +444,13 @@
     "name": "nodosaurus egg",
     "copy-from": "egg_dino",
     "rot_spawn": "GROUP_EGG_nodosaurus"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_panoplosaurus",
+    "name": "panoplosaurus egg",
+    "copy-from": "egg_dino",
+    "rot_spawn": "GROUP_EGG_panoplosaurus"
   },
   {
     "type": "COMESTIBLE",
@@ -468,6 +482,20 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "egg_euoplocephalus",
+    "name": "euoplocephalus egg",
+    "copy-from": "egg_dino",
+    "rot_spawn": "GROUP_EGG_euoplocephalus"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_scolosaurus",
+    "name": "scolosaurus egg",
+    "copy-from": "egg_dino",
+    "rot_spawn": "GROUP_EGG_scolosaurus"
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "egg_tenontosaurus",
     "name": "tenontosaurus egg",
     "copy-from": "egg_dino",
@@ -496,24 +524,31 @@
   },
   {
     "type": "COMESTIBLE",
-    "id": "egg_parasaurolophus",
-    "name": "parasaurolophus egg",
-    "copy-from": "egg_dino",
-    "rot_spawn": "GROUP_EGG_parasaurolophus"
-  },
-  {
-    "type": "COMESTIBLE",
-    "id": "egg_corythosaurus",
-    "name": "corythosaurus egg",
-    "copy-from": "egg_dino",
-    "rot_spawn": "GROUP_EGG_corythosaurus"
-  },
-  {
-    "type": "COMESTIBLE",
     "id": "egg_maiasaura",
     "name": "maiasaura egg",
     "copy-from": "egg_dino",
     "rot_spawn": "GROUP_EGG_maiasaura"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_gryposaurus",
+    "name": "gryposaurus egg",
+    "copy-from": "egg_dino",
+    "rot_spawn": "GROUP_EGG_gryposaurus"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_prosaurolophus",
+    "name": "prosaurolophus egg",
+    "copy-from": "egg_dino",
+    "rot_spawn": "GROUP_EGG_prosaurolophus"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_saurolophus",
+    "name": "saurolophus egg",
+    "copy-from": "egg_dino",
+    "rot_spawn": "GROUP_EGG_saurolophus"
   },
   {
     "type": "COMESTIBLE",
@@ -524,10 +559,31 @@
   },
   {
     "type": "COMESTIBLE",
-    "id": "egg_gryposaurus",
-    "name": "gryposaurus egg",
+    "id": "egg_parasaurolophus",
+    "name": "parasaurolophus egg",
     "copy-from": "egg_dino",
-    "rot_spawn": "GROUP_EGG_gryposaurus"
+    "rot_spawn": "GROUP_EGG_parasaurolophus"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_lambeosaurus",
+    "name": "lambeosaurus egg",
+    "copy-from": "egg_dino",
+    "rot_spawn": "GROUP_EGG_lambeosaurus"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_corythosaurus",
+    "name": "corythosaurus egg",
+    "copy-from": "egg_dino",
+    "rot_spawn": "GROUP_EGG_corythosaurus"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_hypacrosaurus",
+    "name": "hypacrosaurus egg",
+    "copy-from": "egg_dino",
+    "rot_spawn": "GROUP_EGG_hypacrosaurus"
   },
   {
     "type": "COMESTIBLE",
