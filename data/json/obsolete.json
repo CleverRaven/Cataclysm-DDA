@@ -1069,12 +1069,5 @@
     "size": 200,
     "symbol": "&",
     "type": "vehicle_part"
-  },
-  {
-    "id": "forgerig",
-    "copy-from": "vehicle_rig",
-    "type": "GENERIC",
-    "name": { "str": "vehicle forge rig" },
-    "description": "A forge rig made to run off a vehicle's storage battery with integrated tool storage for metalworking equipment."
   }
 ]
