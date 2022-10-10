@@ -3700,7 +3700,7 @@
     "book_learn": [ [ "family_cookbook", 5 ], [ "sweets_book", 4 ] ],
     "qualities": [ { "id": "BOIL", "level": 2 } ],
     "tools": [ [ [ "water_boiling_heat", 5, "LIST" ] ], [ [ "thermometer", -1 ] ] ],
-    "components": [ [ [ "syrup", 4 ] ], [ [ "any_butter", "LIST", 1 ] ] ]
+    "components": [ [ [ "syrup", 4 ] ], [ [ "any_butter", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
