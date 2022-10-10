@@ -1098,7 +1098,6 @@
     "time": "15 m",
     "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
     "components": [ [ [ "material_soil", 50 ] ] ],
-    //Shouldn't filling in a deep hole take more soil than finning in a shallow one?
     "dark_craftable": true,
     "pre_flags": "PIT_FILLABLE",
     "post_terrain": "t_dirt",
