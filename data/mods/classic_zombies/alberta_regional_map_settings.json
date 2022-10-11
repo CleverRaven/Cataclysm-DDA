@@ -142,11 +142,7 @@
           "t_tree_mulberry": 2,
           "t_tree_dead": 4
         },
-        "t_region_tree_dead": {
-          "t_tree_hickory_dead": 8,
-          "t_tree_dead": 7,
-          "t_tree_deadpine": 3
-        },
+        "t_region_tree_dead": { "t_tree_hickory_dead": 8, "t_tree_dead": 7, "t_tree_deadpine": 3 },
         "t_region_tree_nut": {
           "t_tree_hickory": 16,
           "t_tree_hickory_dead": 16,
@@ -735,15 +731,7 @@
           "mx_casings": 30
         }
       },
-      "research_facility_interior": {
-        "chance": 2,
-        "extras": {
-          "mx_military": 5,
-          "mx_crater": 300,
-          "mx_point_burned_ground": 125,
-          "mx_casings": 30
-        }
-      },
+      "research_facility_interior": { "chance": 2, "extras": { "mx_military": 5, "mx_crater": 300, "mx_point_burned_ground": 125, "mx_casings": 30 } },
       "river": { "chance": 3, "extras": { "mx_reed": 100 } },
       "lake_shore": { "chance": 2, "extras": { "mx_reed": 100 } },
       "sewer": {
