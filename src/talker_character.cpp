@@ -268,9 +268,63 @@ void talker_character::set_skill_level( const skill_id &skill, int value )
     me_chr->set_skill_level( skill, value );
 }
 
+int talker_character_const::get_spell_level( const trait_id &spell_school ) const
+{
+    int spell_level = -1;
+    for( const spell &sp : me_chr_const->spells_known_of_class( spell_school ) ) {
+        spell_level = std::max( sp.get_level(), spell_level );
+    }
+    return spell_level;
+}
+
+int talker_character_const::get_spell_level( const spell_id &spell_name ) const
+{
+    if( !me_chr_const->magic->knows_spell( spell_name ) ) {
+        return -1;
+    }
+    return me_chr_const->magic->get_spell( spell_name ).get_level();
+}
+
+int talker_character_const::get_highest_spell_level() const
+{
+    int spell_level = -1;
+    for( const spell *sp : me_chr_const->magic->get_spells() ) {
+        spell_level = std::max( sp->get_level(), spell_level );
+    }
+    return spell_level;
+}
+
+int talker_character_const::get_spell_exp( const spell_id &spell_name ) const
+{
+    if( !me_chr_const->magic->knows_spell( spell_name ) ) {
+        return -1;
+    }
+    return me_chr_const->magic->get_spell( spell_name ).xp();
+}
+
+void talker_character::set_spell_level( const spell_id &sp, int new_level )
+{
+    me_chr->magic->set_spell_level( sp, new_level, me_chr );
+}
+
+void talker_character::set_spell_exp( const spell_id &sp, int new_level )
+{
+    me_chr->magic->set_spell_exp( sp, new_level, me_chr );
+}
+
 bool talker_character_const::knows_proficiency( const proficiency_id &proficiency ) const
 {
     return me_chr_const->has_proficiency( proficiency );
+}
+
+time_duration talker_character_const::proficiency_practiced_time( const proficiency_id &prof ) const
+{
+    return me_chr_const->get_proficiency_practiced_time( prof );
+}
+
+void talker_character::set_proficiency_practiced_time( const proficiency_id &prof, int turns )
+{
+    me_chr->set_proficiency_practiced_time( prof, turns );
 }
 
 bool talker_character_const::has_effect( const efftype_id &effect_id, const bodypart_id &bp ) const
