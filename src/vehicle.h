@@ -121,7 +121,6 @@ struct smart_controller_cache {
 struct smart_controller_config {
     int battery_lo = 25;
     int battery_hi = 90;
-    bool use_new_logic = false;
 
     void deserialize( const JsonObject &data );
     void serialize( JsonOut &json ) const;
@@ -1568,6 +1567,9 @@ class vehicle
          */
         void smart_controller_handle_turn( bool thrusting = false,
                                            const cata::optional<float> &k_traction_cache = cata::nullopt );
+
+        bool has_available_electric_engine();
+        void disable_smart_controller_if_needed();
 
         //deceleration due to ground friction and air resistance
         int slowdown( int velocity ) const;

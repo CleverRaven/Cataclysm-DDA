@@ -1783,6 +1783,7 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint &p, bool with_
                     {
                         add_msg( _( "You let go of the controls." ) );
                     }
+                    disable_smart_controller_if_needed();
                     stop_engines();
                     get_player_character().controlling_vehicle = false;
                     g->setremoteveh( nullptr );
@@ -1794,6 +1795,7 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint &p, bool with_
                 .on_submit( [this] {
                     if( engine_on )
                     {
+                        disable_smart_controller_if_needed();
                         add_msg( _( "You turn the engine off." ) );
                         stop_engines();
                     } else
@@ -1858,8 +1860,7 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint &p, bool with_
             smart_controller_settings cfg_view = smart_controller_settings(
                 has_enabled_smart_controller,
                 smart_controller_cfg -> battery_lo,
-                smart_controller_cfg -> battery_hi,
-                smart_controller_cfg -> use_new_logic );
+                smart_controller_cfg -> battery_hi );
             smart_controller_ui( cfg_view ).control();
             for( const vpart_reference &vp : get_avail_parts( "SMART_ENGINE_CONTROLLER" ) )
             {

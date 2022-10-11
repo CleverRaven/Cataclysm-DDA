@@ -128,7 +128,7 @@ void vehicle::smart_controller_handle_turn( bool thrusting,
     // get settings or defaults
     smart_controller_config cfg = smart_controller_cfg.value_or( smart_controller_config() );
 
-    if( ( !cfg.use_new_logic && !engine_on ) || !has_enabled_smart_controller ) {
+    if( !has_enabled_smart_controller ) {
         smart_controller_state = cata::nullopt;
         return;
     }
@@ -140,11 +140,16 @@ void vehicle::smart_controller_handle_turn( bool thrusting,
     // controlled engines
     // note: contains indices of of elements in `engines` array, not the part ids
     std::vector<int> c_engines;
+    bool has_electric_engine = false;
     for( int i = 0; i < static_cast<int>( engines.size() ); ++i ) {
-        if( ( is_engine_type( i, fuel_type_battery ) || is_combustion_engine_type( i ) ) &&
+        const bool is_electric = is_engine_type( i, fuel_type_battery );
+        if( ( is_electric || is_combustion_engine_type( i ) ) &&
             ( ( parts[ engines[ i ] ].is_available() && engine_fuel_left( i ) > 0 ) ||
               is_part_on( engines[ i ] ) ) ) {
             c_engines.push_back( i );
+            if( is_electric ) {
+                has_electric_engine = true;
+            }
         }
     }
 
@@ -152,9 +157,9 @@ void vehicle::smart_controller_handle_turn( bool thrusting,
 
     Character &player_character = get_player_character();
 
-    int min_engine_count = cfg.use_new_logic ? 0 : 1;
-    if( rotorcraft || c_engines.size() <= min_engine_count ||
-        c_engines.size() > 5 ) { // bail and shut down
+    // bail and shut down
+    if( rotorcraft || c_engines.size() == 0 || ( has_electric_engine && c_engines.size() == 1 ) ||
+        c_engines.size() > 5 ) {
         for( const vpart_reference &vp : get_avail_parts( "SMART_ENGINE_CONTROLLER" ) ) {
             vp.part().enabled = false;
         }
@@ -162,14 +167,13 @@ void vehicle::smart_controller_handle_turn( bool thrusting,
         if( player_in_control( player_character ) ) {
             if( rotorcraft ) {
                 add_msg( _( "Smart controller does not support flying vehicles." ) );
-            } else if( c_engines.size() <= min_engine_count ) {
-                if( min_engine_count == 0 ) {
-                    //TODO: make translation
-                    add_msg( _( "Smart controller can not detect any controllable engine." ) );
-                } else {
-                    add_msg( _( "Smart controller detects only a single controllable engine." ) );
-                    add_msg( _( "Smart controller is designed to control more than one engine." ) );
-                }
+            } else if( c_engines.size() == 0 ) {
+                //TODO: make translation
+                add_msg( _( "Smart controller can not detect any controllable engine." ) );
+            } else if( c_engines.size() == 1 ) {
+                //TODO: make translation
+                add_msg( _( "Smart controller detects only a single electric engine." ) );
+                add_msg( _( "An electric engine does not need optimisation." ) );
             } else {
                 add_msg( _( "Smart controller does not support more than five engines." ) );
             }
@@ -237,11 +241,10 @@ void vehicle::smart_controller_handle_turn( bool thrusting,
     float cur_load_approx = static_cast<float>( std::min( accel_demand,
                             opt_accel ) )  / std::max( opt_accel, 1 );
     float cur_load_alternator = std::min( 0.01f, static_cast<float>( alternator_load ) / 1000 );
-    bool has_electric_engine = false;
 
     for( size_t i = 0; i < c_engines.size(); ++i ) {
-        bool is_electric = is_engine_type( c_engines[i], fuel_type_battery );
         if( is_engine_on( c_engines[i] ) ) {
+            bool is_electric = is_engine_type( c_engines[i], fuel_type_battery );
             prev_mask |= 1 << i;
             units::energy fu = engine_fuel_usage( c_engines[i] ) * ( cur_load_approx + ( is_electric ? 0 :
                                cur_load_alternator ) );
@@ -249,9 +252,6 @@ void vehicle::smart_controller_handle_turn( bool thrusting,
             if( is_electric ) {
                 opt_net_echarge_rate -= fu;
             }
-        }
-        if( is_electric ) {
-            has_electric_engine = true;
         }
     }
     cur_state.created = calendar::turn;
@@ -279,13 +279,15 @@ void vehicle::smart_controller_handle_turn( bool thrusting,
         return;
     }
 
-    if( cfg.use_new_logic && !has_electric_engine ) {
+    // turn on/off combustion engines when necessary
+    if( !has_electric_engine ) {
         Character &player_character = get_player_character();
         if( !discharge_forbidden_soft && is_stationary && engine_on && !autopilot_on &&
             !player_in_control( player_character ) ) {
             stop_engines();
             sfx::do_vehicle_engine_sfx();
-        } else if( discharge_forbidden_hard && !engine_on ) {
+            // temporary solution
+        } else if( discharge_forbidden_hard && !engine_on && cur_battery_level > 0 ) {
             engine_on = true;
             sfx::do_vehicle_engine_sfx();
         }

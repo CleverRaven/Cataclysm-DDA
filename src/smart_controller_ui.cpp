@@ -27,8 +27,7 @@ static catacurses::window init_window()
 }
 
 smart_controller_settings::smart_controller_settings( bool &enabled, int &battery_lo,
-        int &battery_hi, bool &use_new_logic ) : enabled(
-                enabled ), battery_lo( battery_lo ), battery_hi( battery_hi ), use_new_logic( use_new_logic ) {}
+        int &battery_hi ) : enabled( enabled ), battery_lo( battery_lo ), battery_hi( battery_hi ) {}
 
 smart_controller_ui::smart_controller_ui( smart_controller_settings initial_settings ) :
     win( init_window() ), input_ctx( "SMART_ENGINE_CONTROLLER" ), settings( initial_settings )
@@ -65,16 +64,6 @@ void smart_controller_ui::refresh()
     mvwprintz( win, point( LEFT_MARGIN + 4, y ),
                selection == smart_controller_ui_selection::enabled ? hilite( white ) : gray,
                _( "Enabled" ) );
-
-    //use new logic flag
-    y += MENU_ITEM_HEIGHT;
-    mvwprintz( win, point( LEFT_MARGIN, y ), gray,  "[ ]" );
-    if( settings.use_new_logic ) {
-        mvwprintz( win, point( LEFT_MARGIN + 1, y ), white, "X" );
-    }
-    mvwprintz( win, point( LEFT_MARGIN + 4, y ),
-               selection == smart_controller_ui_selection::use_new_logic ? hilite( white ) : gray,
-               _( "Use new logic" ) );
 
     // battery % slider
     y += MENU_ITEM_HEIGHT;
@@ -167,9 +156,6 @@ void smart_controller_ui::control()
             switch( selection ) {
                 case smart_controller_ui_selection::enabled:
                     settings.enabled = !settings.enabled;
-                    break;
-                case smart_controller_ui_selection::use_new_logic:
-                    settings.use_new_logic = !settings.use_new_logic;
                     break;
                 case smart_controller_ui_selection::lo_and_hi_slider:
                     slider = 1 - slider;

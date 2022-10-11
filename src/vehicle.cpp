@@ -1463,6 +1463,12 @@ int vehicle::install_part( const point &dp, const vehicle_part &new_part )
     bool enable = false;
     if( new_part.is_engine() ) {
         enable = true;
+        // if smart conntroller is enabled there is charge in battery, no need to test it
+        if( has_enabled_smart_controller && !engine_on && new_part.info().fuel_type == fuel_type_battery &&
+            !has_available_electric_engine() ) {
+            engine_on = true;
+            sfx::do_vehicle_engine_sfx();
+        }
     } else {
         // TODO: read toggle groups from JSON
         static const std::vector<std::string> enable_like = {{
@@ -5387,6 +5393,46 @@ void vehicle::slow_leak()
     }
 }
 
+bool vehicle::has_available_electric_engine()
+{
+    for( int i = 0; i < static_cast<int>( engines.size() ); ++i ) {
+        if( is_engine_type( i, fuel_type_battery ) && ( parts[engines[i]].is_available() ||
+                is_part_on( engines[i] ) ) ) {
+            return true;
+        }
+    }
+    return false;
+}
+
+void vehicle::disable_smart_controller_if_needed()
+{
+    const auto get_force_smart_controller_off_when_engine_stop = [] {
+        std::string force_stop_option = get_option<std::string>( "FORCE_SMART_CONTROLLER_OFF_ON_ENGINE_STOP" );
+        if( force_stop_option == "enabled" )
+        {
+            return true;
+        }
+        if( force_stop_option == "disabled" )
+        {
+            return false;
+        }
+        if( force_stop_option != "ask" )
+        {
+            debugmsg( "Unexpected option \"%s\" for \"FORCE_SMART_CONTROLLER_OFF_ON_ENGINE_STOP\"",
+                      force_stop_option );
+        }
+        return query_yn( _( "Smart controller engine may turn on engine back. Disable it?" ) );
+    };
+
+    if( has_enabled_smart_controller && !has_available_electric_engine() &&
+        get_force_smart_controller_off_when_engine_stop() ) {
+        for( const vpart_reference &vp : get_avail_parts( "SMART_ENGINE_CONTROLLER" ) ) {
+            vp.part().enabled = false;
+            add_msg( _( "Turned off %s." ), vp.part().name() );
+        }
+    }
+}
+
 // total volume of all the things
 units::volume vehicle::stored_volume( const int part ) const
 {
@@ -7675,9 +7721,9 @@ int vehicle::part_count( bool no_fake ) const
     return no_fake ? std::count_if( parts.begin(), parts.end(), []( const vehicle_part & vp ) {
         return !vp.is_fake;
     } ) : static_cast<int>( parts.size() );
-}
+    }
 
-std::vector<vehicle_part> vehicle::real_parts() const
+    std::vector<vehicle_part> vehicle::real_parts() const
 {
     std::vector<vehicle_part> ret;
     for( const vehicle_part &vp : parts ) {
