@@ -49,6 +49,24 @@
   },
   {
     "type": "city_building",
+    "id": "bungalow01",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "bungalow01_1_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "bungalow01_roof_north" }
+    ]
+  },
+  {
+    "type": "city_building",
+    "id": "bungalow02",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "bungalow02_1_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "bungalow02_roof_north" }
+    ]
+  },
+  {
+    "type": "city_building",
     "id": "urban_1_house",
     "overmaps": [
       { "point": [ 1, 0, 0 ], "overmap": "urban_1_1_south" },
