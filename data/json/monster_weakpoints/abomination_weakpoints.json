@@ -172,7 +172,7 @@
       {
         "id": "armor_thick",
         "name": "a thick part of its armor",
-        "armor_mult": { "all": 1.5 },
+        "armor_mult": { "all": 2.0 },
         "crit_mult": { "all": 0.75 },
         "coverage_mult": { "cut": 1.5 },
         "coverage": 20,
