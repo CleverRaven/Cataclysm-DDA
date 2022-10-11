@@ -50,10 +50,7 @@
       {
         "text": "Get bent, traitor!",
         "trial": { "type": "INTIMIDATE", "difficulty": 20, "mod": [ [ "FEAR", 3 ] ] },
-        "success": {
-          "topic": "TALK_EVAC_GUARD3_HOSTILE",
-          "effect": [ { "npc_change_faction": "hells_raiders" } ]
-        },
+        "success": { "topic": "TALK_EVAC_GUARD3_HOSTILE", "effect": [ { "npc_change_faction": "hells_raiders" } ] },
         "failure": { "topic": "TALK_EVAC_GUARD3_INSULT" }
       },
       {
