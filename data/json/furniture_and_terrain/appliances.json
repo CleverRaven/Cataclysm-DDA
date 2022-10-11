@@ -170,6 +170,7 @@
   {
     "type": "vehicle_part",
     "id": "ap_forge",
+    "categories": [ "utility" ],
     "name": { "str": "electric forge" },
     "symbol": "&",
     "damage_modifier": 10,
