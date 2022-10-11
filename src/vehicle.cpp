@@ -7721,9 +7721,9 @@ int vehicle::part_count( bool no_fake ) const
     return no_fake ? std::count_if( parts.begin(), parts.end(), []( const vehicle_part & vp ) {
         return !vp.is_fake;
     } ) : static_cast<int>( parts.size() );
-    }
+}
 
-    std::vector<vehicle_part> vehicle::real_parts() const
+std::vector<vehicle_part> vehicle::real_parts() const
 {
     std::vector<vehicle_part> ret;
     for( const vehicle_part &vp : parts ) {
