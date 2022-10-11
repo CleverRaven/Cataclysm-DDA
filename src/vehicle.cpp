@@ -1781,6 +1781,7 @@ bool vehicle::merge_vehicle_parts( vehicle *veh )
         }
         point part_loc = veh->mount_to_tripoint( part.mount ).xy();
 
+        remove_fake_parts();
         parts.push_back( part );
         vehicle_part &copied_part = parts.back();
         copied_part.mount = part_loc - global_pos3().xy();
