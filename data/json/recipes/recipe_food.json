@@ -75,8 +75,9 @@
     "subcategory": "CSC_FOOD_DRINKS",
     "skill_used": "cooking",
     "time": "9 s",
-    "//": "0.03 KwH per 2 liters in a RO filter = 14kJ for 1u of water",
-    "//1": "50g of charcoal for 1 liter of water = 12.5g of charcoal for 1u",
+    "//": "https://www.netsolwater.com/how-much-energy-does-an-ro-system-use.php?blog=484",
+    "//1": "Unclear if this is a RO filter but basing it off that.  0.03 KwH per 2 liters in a RO filter = 14kJ for 1u of water",
+    "//2": "50g of charcoal for 1 liter of water = 12.5g of charcoal for 1u",
     "autolearn": true,
     "tools": [
       [
@@ -147,12 +148,13 @@
     "skill_used": "cooking",
     "time": "15 m",
     "autolearn": true,
+    "charges": 2,
     "batch_time_factors": [ 67, 5 ],
     "qualities": [ { "id": "COOK", "level": 1 } ],
-    "tools": [ [ [ "surface_heat", 2, "LIST" ] ] ],
-    "//": "2u energy to roast a vegetable per standard",
+    "tools": [ [ [ "surface_heat", 3, "LIST" ] ] ],
+    "//": "standard is 2u energy per 100g veggy ish, mushroom is 70g",
     "proficiencies": [ { "proficiency": "prof_food_prep" } ],
-    "components": [ [ [ "mushroom", 1 ] ] ]
+    "components": [ [ [ "mushroom", 2 ] ] ]
   },
   {
     "type": "recipe",
@@ -166,7 +168,7 @@
     "batch_time_factors": [ 67, 5 ],
     "qualities": [ { "id": "COOK", "level": 2 }, { "id": "CUT", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 2, "LIST" ] ] ],
-    "//": "2u energy to roast a vegetable per standard",
+    "//": "2u energy to roast 100g vegetable per standard, bell pepper is 110g",
     "proficiencies": [ { "proficiency": "prof_food_prep" } ],
     "components": [ [ [ "bell_pepper", 1 ] ] ]
   },
@@ -241,7 +243,7 @@
     "autolearn": true,
     "batch_time_factors": [ 67, 5 ],
     "qualities": [ { "id": "COOK", "level": 2 } ],
-    "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
+    "tools": [ [ [ "surface_heat", 4, "LIST" ] ] ],
     "//": "4u heat to cook 60g of flesh",
     "proficiencies": [ { "proficiency": "prof_food_prep" } ],
     "components": [ [ [ "edible_bonemarrow", 1, "LIST" ] ] ]
@@ -260,8 +262,8 @@
     "autolearn": true,
     "batch_time_factors": [ 83, 5 ],
     "qualities": [ { "id": "COOK", "level": 1 } ],
-    "tools": [ [ [ "char_smoker", 15 ] ], [ [ "surface_heat", 7, "LIST" ] ] ],
-    "//": "bacon weighs 90g so 6u heat",
+    "tools": [ [ [ "char_smoker", 75 ] ], [ [ "surface_heat", 6, "LIST" ] ] ],
+    "//": "250g of raw cured meat, which is 16-17u surface_heat by weight + it is smoked, so treat it as half the smoke needed to dehydrate - half 150 per dehydrating_heat = 75u charcoal",
     "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_preservation" }, { "proficiency": "prof_food_curing" } ],
     "components": [ [ [ "raw_cured_fatty_meat", 1 ] ] ]
   },
@@ -371,8 +373,8 @@
     "autolearn": true,
     "batch_time_factors": [ 67, 5 ],
     "qualities": [ { "id": "BOIL", "level": 1 } ],
-    "tools": [ [ [ "surface_heat", 10, "LIST" ] ], [ [ "water_boiling_heat", 2, "LIST" ] ] ],
-    "//": "half the weight of a meat chunk at 144g so 10u heat plus the heat needed to boil the water.",
+    "tools": [ [ [ "water_boiling_heat", 3, "LIST" ] ] ],
+    "//": "2u for the water and boiling for 15 minutes, 1u for the weight of the stomach (144g, half a meat chunk)",
     "proficiencies": [ { "proficiency": "prof_food_prep" } ],
     "components": [ [ [ "stomach_large", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
   },
@@ -387,8 +389,8 @@
     "autolearn": true,
     "batch_time_factors": [ 67, 5 ],
     "qualities": [ { "id": "BOIL", "level": 1 } ],
-    "tools": [ [ [ "surface_heat", 10, "LIST" ] ], [ [ "water_boiling_heat", 2, "LIST" ] ] ],
-    "//": "half the weight of a meat chunk at 144g so 10u heat plus the heat needed to boil the water.",
+    "tools": [ [ [ "water_boiling_heat", 3, "LIST" ] ] ],
+    "//": "2u for the water and boiling for 15 minutes, 1u for the weight of the stomach (144g, half a meat chunk)",
     "proficiencies": [ { "proficiency": "prof_food_prep" } ],
     "components": [ [ [ "hstomach_large", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
   },
@@ -403,8 +405,8 @@
     "autolearn": true,
     "batch_time_factors": [ 67, 5 ],
     "qualities": [ { "id": "BOIL", "level": 1 } ],
-    "tools": [ [ [ "surface_heat", 5, "LIST" ] ], [ [ "water_boiling_heat", 2, "LIST" ] ] ],
-    "//": "half again the weight so 5u heat plus the heat needed to boil the water.",
+    "tools": [ [ [ "water_boiling_heat", 2, "LIST" ] ] ],
+    "//": "small stomach is half weight of large stomach (72g) plus doesn't boil for full 15 extra minutes, so 2u boiling",
     "proficiencies": [ { "proficiency": "prof_food_prep" } ],
     "components": [ [ [ "stomach", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
   },
@@ -419,8 +421,8 @@
     "autolearn": true,
     "batch_time_factors": [ 67, 5 ],
     "qualities": [ { "id": "BOIL", "level": 1 } ],
-    "tools": [ [ [ "surface_heat", 5, "LIST" ] ], [ [ "water_boiling_heat", 2, "LIST" ] ] ],
-    "//": "half again the weight so 5u heat plus the heat needed to boil the water.",
+    "tools": [ [ [ "water_boiling_heat", 2, "LIST" ] ] ],
+    "//": "small stomach is half weight of large stomach (72g) plus doesn't boil for full 15 extra minutes, so 2u boiling",
     "proficiencies": [ { "proficiency": "prof_food_prep" } ],
     "components": [ [ [ "hstomach", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
   },
@@ -533,12 +535,12 @@
     "skill_used": "cooking",
     "difficulty": 3,
     "time": "10 m",
-    "charges": 3,
+    "charges": 6,
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 2 }, { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 60, "LIST" ] ] ],
     "//": "this recipe is weird.  440g of fat and nothing else, presumably cut into cubes and cooked.  the recipe should have water, but then it's not clear why this is different from tallow.",
-    "//1": "for now I'm going to treat it as fat rendered without using water and the leftovers being turned into cracklins.  Power cost goes up as a result, compared to 30u for cracklins (which use same amt of fat).",
+    "//1": "for now I'm going to treat it as dry rendering fat and the leftovers being turned into cracklins.  Power cost goes up as a result, compared to 30u for cracklins (which use same amt of fat).",
     "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_knife_skills" } ],
     "components": [ [ [ "fat", 2 ] ] ]
   },
@@ -560,9 +562,6 @@
     "copy-from": "lard",
     "byproducts": [ [ "mutant_cracklins" ] ],
     "qualities": [ { "id": "CUT", "level": 2 }, { "id": "COOK", "level": 2 } ],
-    "tools": [ [ [ "surface_heat", 60, "LIST" ] ] ],
-    "//": "this recipe is weird.  440g of fat and nothing else, presumably cut into cubes and cooked.  the recipe should have water, but then it's not clear why this is different from tallow.",
-    "//1": "for now I'm going to treat it as fat rendered without using water and the leftovers being turned into cracklins.  Power cost goes up as a result, compared to 30u for cracklins (which use same amt of fat).",
     "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_knife_skills" } ],
     "components": [ [ [ "mutant_fat", 2 ] ] ]
   },
@@ -584,9 +583,6 @@
     "byproducts": [ [ "mutant_human_cracklins" ] ],
     "copy-from": "lard",
     "qualities": [ { "id": "CUT", "level": 2 }, { "id": "COOK", "level": 2 } ],
-    "tools": [ [ [ "surface_heat", 60, "LIST" ] ] ],
-    "//": "this recipe is weird.  440g of fat and nothing else, presumably cut into cubes and cooked.  the recipe should have water, but then it's not clear why this is different from tallow.",
-    "//1": "for now I'm going to treat it as fat rendered without using water and the leftovers being turned into cracklins.  Power cost goes up as a result, compared to 30u for cracklins (which use same amt of fat).",
     "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_knife_skills" } ],
     "components": [ [ [ "mutant_human_fat", 2 ] ] ]
   },
@@ -862,7 +858,7 @@
     "batch_time_factors": [ 83, 3 ],
     "qualities": [ { "id": "COOK", "level": 1 } ],
     "tools": [ [ [ "char_smoker", 120 ] ] ],
-    "//": "300g of meat would be 10u surface_heat, or 60u charcoal",
+    "//": "300g of meat would be 20u surface_heat, or 120u charcoal",
     "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_preservation" }, { "proficiency": "prof_food_curing" } ],
     "components": [ [ [ "meat_red_raw", 1, "LIST" ] ] ]
   },
@@ -8262,7 +8258,7 @@
     "using": [ [ "sewing_standard", 2 ] ],
     "qualities": [ { "id": "BOIL", "level": 1 }, { "id": "COOK", "level": 3 }, { "id": "CUT", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 37, "LIST" ] ] ],
-    "//": "12 for 4 oatmeal, 5u for 75g stomach, 20u for 300g of offal",
+    "//": "12 for 4 oatmeal, 5u for 72g stomach, 20u for 300g of offal",
     "components": [
       [ [ "water_clean", 1 ] ],
       [ [ "meat_stomach_small", 1, "LIST" ] ],
@@ -8287,7 +8283,7 @@
     "using": [ [ "sewing_standard", 4 ] ],
     "qualities": [ { "id": "BOIL", "level": 1 }, { "id": "COOK", "level": 3 }, { "id": "CUT", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 75, "LIST" ] ] ],
-    "//": "24u for 8 oatmeal, 10u for 150g stomach, 40u for 600g of offal",
+    "//": "24u for 8 oatmeal, 10u for 144g stomach, 40u for 600g of offal",
     "components": [
       [ [ "water_clean", 2 ] ],
       [ [ "meat_stomach_large", 1, "LIST" ] ],
@@ -9361,7 +9357,8 @@
     "autolearn": true,
     "batch_time_factors": [ 67, 5 ],
     "qualities": [ { "id": "BOIL", "level": 1 } ],
-    "//": "half the weight of a meat chunk at 144g so 10u heat plus the heat needed to boil the water.",
+    "tools": [ [ [ "water_boiling_heat", 3, "LIST" ] ] ],
+    "//": "2u for the water and boiling for 15 minutes, 1u for the weight of the stomach (144g, half a meat chunk)",
     "proficiencies": [ { "proficiency": "prof_food_prep" } ],
     "components": [ [ [ "demihuman_stomach_large", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
   },
@@ -9375,8 +9372,8 @@
     "time": "10 m",
     "autolearn": true,
     "batch_time_factors": [ 67, 5 ],
-    "tools": [ [ [ "surface_heat", 10, "LIST" ] ], [ [ "water_boiling_heat", 1, "LIST" ] ] ],
-    "//": "half the weight of a meat chunk at 144g so 10u heat plus the heat needed to boil the water.",
+    "tools": [ [ [ "water_boiling_heat", 2, "LIST" ] ] ],
+    "//": "small stomach is half weight of large stomach (72g) plus doesn't boil for full 15 extra minutes, so 2u boiling",
     "components": [ [ [ "demihuman_stomach", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
   },
   {
