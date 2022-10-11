@@ -44,7 +44,7 @@ const std::unordered_set<std::string> complex_conds = { {
         "u_has_part_temp", "npc_has_part_temp", "npc_cbm_reserve_rule", "npc_cbm_recharge_rule", "u_has_faction_trust",
         "days_since_cataclysm", "is_season", "mission_goal", "u_has_var", "npc_has_var",
         "u_has_skill", "npc_has_skill", "u_know_recipe", "u_compare_var", "npc_compare_var",
-        "u_compare_time_since_var", "npc_compare_time_since_var", "is_weather", "one_in_chance", "x_in_y_chance",
+        "u_compare_time_since_var", "npc_compare_time_since_var", "is_weather", "mod_is_loaded", "one_in_chance", "x_in_y_chance",
         "is_temperature", "is_windpower", "is_humidity", "is_pressure", "u_is_height", "npc_is_height",
         "u_has_worn_with_flag", "npc_has_worn_with_flag", "u_has_wielded_with_flag", "npc_has_wielded_with_flag",
         "u_has_pain", "npc_has_pain", "u_has_power", "npc_has_power", "u_has_focus", "npc_has_focus", "u_has_morale",
@@ -171,6 +171,7 @@ struct conditional_t {
         void set_days_since( const JsonObject &jo );
         void set_is_season( const JsonObject &jo );
         void set_is_weather( const JsonObject &jo );
+        void set_mod_is_loaded( const JsonObject &jo );
         void set_mission_goal( const JsonObject &jo, bool is_npc );
         void set_has_faction_trust( const JsonObject &jo, const std::string &member );
         void set_no_assigned_mission();
