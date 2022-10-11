@@ -1651,6 +1651,11 @@
   },
   {
     "type": "construction_group",
+    "id": "build_flagpole",
+    "name": "Build a Flagpole"
+  },
+  {
+    "type": "construction_group",
     "id": "build_clay_oven",
     "name": "Build Clay Oven"
   },
