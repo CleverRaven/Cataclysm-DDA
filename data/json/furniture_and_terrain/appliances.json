@@ -172,7 +172,10 @@
     "id": "ap_forge",
     "name": { "str": "electric forge" },
     "symbol": "&",
+    "damage_modifier": 10,
+    "damage_reduction": { "all": 25 },
     "description": "An electric forge for metalworking.  When plugged in and powered you could use this for metalworking.  If you attempt to craft an item that needs a forge, you will be given the option of selecting it as a tool.",
+    "durability": 80,
     "item": "forge",
     "flags": [ "CARGO", "OBSTACLE", "APPLIANCE" ],
     "breaks_into": [
