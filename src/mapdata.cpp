@@ -268,6 +268,11 @@ std::string enum_to_string<ter_furn_flag>( ter_furn_flag data )
 
 static std::unordered_map<std::string, connect_group> ter_connects_map;
 
+connect_group get_connect_group( const std::string &name )
+{
+    return ter_connects_map[name];
+}
+
 void connect_group::load( const JsonObject &jo )
 {
 
