@@ -227,7 +227,6 @@
     "copy-from": "mon_fish_large",
     "name": { "str": "brown trout" },
     "description": "A brown trout.  A fish made popular by father-son fishing trips, except for the part where you have to gut it.",
-    "volume": "16 L",
     "weight": "3 kg",
     "reproduction": { "baby_egg": "egg_brown_trout", "baby_count": 2, "baby_timer": 17 }
   },
@@ -261,7 +260,6 @@
     "copy-from": "mon_fish_large",
     "name": { "str": "lake trout" },
     "description": "A lake trout.  A fish made popular by father-son fishing trips, except for the part where you have to gut it.",
-    "volume": "16 L",
     "weight": "4 kg",
     "reproduction": { "baby_egg": "egg_lake_trout", "baby_count": 2, "baby_timer": 17 }
   },
@@ -295,7 +293,6 @@
     "copy-from": "mon_fish_large",
     "name": { "str": "atlantic salmon" },
     "description": "An Atlantic salmon.  A very fatty, nutritious fish.  Tastes great smoked.",
-    "volume": "16 L",
     "weight": "4 kg",
     "reproduction": { "baby_egg": "egg_salmon", "baby_count": 2, "baby_timer": 17 }
   },
