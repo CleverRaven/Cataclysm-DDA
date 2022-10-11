@@ -38,9 +38,9 @@
       "pond_swamp_east",
       "pond_swamp_south",
       "pond_swamp_west",
-      "bunker_basement",
       "temple_stairs",
-      "temple_finale"
+      "temple_finale",
+      "bunker_basement"
     ]
   }
 ]
