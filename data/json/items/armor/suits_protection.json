@@ -1764,7 +1764,7 @@
     "id": "lc_chainmail_suit",
     "type": "ARMOR",
     "category": "armor",
-    "name": { "str": "low steel chainmail armor" },
+    "name": { "str": "mild steel chainmail armor" },
     "description": "A fully customized mild steel chainmail suit.  Combine with a gambeson or other padded layer for optimal protection.",
     "weight": "11770 g",
     "volume": "3250 ml",
