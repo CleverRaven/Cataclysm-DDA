@@ -857,8 +857,8 @@
     "autolearn": true,
     "batch_time_factors": [ 83, 3 ],
     "qualities": [ { "id": "COOK", "level": 1 } ],
-    "tools": [ [ [ "char_smoker", 120 ] ] ],
-    "//": "300g of meat would be 20u surface_heat, or 120u charcoal",
+    "tools": [ [ [ "char_smoker", 80 ] ] ],
+    "//": "300g of meat would be 20u surface_heat, or 80u charcoal",
     "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_preservation" }, { "proficiency": "prof_food_curing" } ],
     "components": [ [ [ "meat_red_raw", 1, "LIST" ] ] ]
   },
@@ -875,8 +875,8 @@
     "autolearn": true,
     "batch_time_factors": [ 83, 3 ],
     "qualities": [ { "id": "COOK", "level": 1 } ],
-    "tools": [ [ [ "char_smoker", 60 ] ] ],
-    "//": "150g of meat would be 10u surface_heat, or 60u charcoal",
+    "tools": [ [ [ "char_smoker", 40 ] ] ],
+    "//": "150g of meat would be 10u surface_heat, or 40u charcoal",
     "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_preservation" }, { "proficiency": "prof_food_curing" } ],
     "components": [ [ [ "fish", 1 ] ] ]
   },
@@ -893,8 +893,8 @@
     "autolearn": true,
     "batch_time_factors": [ 83, 3 ],
     "qualities": [ { "id": "COOK", "level": 1 } ],
-    "tools": [ [ [ "char_smoker", 60 ] ] ],
-    "//": "150g of meat would be 10u surface_heat, or 60u charcoal",
+    "tools": [ [ [ "char_smoker", 40 ] ] ],
+    "//": "150g of meat would be 10u surface_heat, or 40u charcoal",
     "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_preservation" }, { "proficiency": "prof_food_curing" } ],
     "components": [ [ [ "lobster", 1 ] ] ]
   },
@@ -911,8 +911,8 @@
     "autolearn": true,
     "batch_time_factors": [ 83, 3 ],
     "qualities": [ { "id": "COOK", "level": 1 } ],
-    "tools": [ [ [ "char_smoker", 60 ] ] ],
-    "//": "150g of meat would be 10u surface_heat, or 60u charcoal",
+    "tools": [ [ [ "char_smoker", 40 ] ] ],
+    "//": "150g of meat would be 10u surface_heat, or 40u charcoal",
     "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_preservation" }, { "proficiency": "prof_food_curing" } ],
     "components": [ [ [ "mollusk", 1 ] ] ]
   },
@@ -1319,9 +1319,9 @@
     "book_learn": [ [ "family_cookbook", 2 ], [ "scots_cookbook", 2 ] ],
     "batch_time_factors": [ 83, 3 ],
     "qualities": [ { "id": "CUT", "level": 2 }, { "id": "COOK", "level": 1 } ],
-    "//": "820g of flesh would be 55u of surface_heat, or 330u of charcoal",
+    "//": "820g of flesh would be 55u of surface_heat, or 220u of charcoal",
     "tools": [
-      [ [ "char_smoker", 10 ] ],
+      [ [ "char_smoker", 220 ] ],
       [
         [ "funnel", -1 ],
         [ "makeshift_funnel", -1 ],
@@ -1533,9 +1533,9 @@
     "autolearn": true,
     "batch_time_factors": [ 83, 3 ],
     "qualities": [ { "id": "CUT", "level": 2 }, { "id": "COOK", "level": 1 } ],
-    "//": "600g meat being smoked, 40u of surface heat = 240u charcoal",
+    "//": "600g meat being smoked, 40u of surface heat = 160u charcoal",
     "tools": [
-      [ [ "char_smoker", 240 ] ],
+      [ [ "char_smoker", 160 ] ],
       [
         [ "funnel", -1 ],
         [ "makeshift_funnel", -1 ],
@@ -3782,9 +3782,9 @@
     "book_learn": [ [ "family_cookbook", 4 ] ],
     "batch_time_factors": [ 83, 3 ],
     "qualities": [ { "id": "CUT", "level": 2 }, { "id": "COOK", "level": 1 } ],
-    "//": "900g meat = 60u, fat = 15u, syrup = 1u, 76x6 = 456u charcoal",
+    "//": "900g meat = 60u, fat = 15u, syrup = 1u, 76x4 = 304u charcoal",
     "tools": [
-      [ [ "char_smoker", 456 ] ],
+      [ [ "char_smoker", 304 ] ],
       [
         [ "funnel", -1 ],
         [ "makeshift_funnel", -1 ],
@@ -8748,9 +8748,9 @@
     "autolearn": true,
     "batch_time_factors": [ 83, 3 ],
     "qualities": [ { "id": "CUT", "level": 2 }, { "id": "COOK", "level": 1 } ],
-    "//": "You are smoking roughly 600g of meat, so that would be 40u of surface_heat equaling 240u of charcoal.",
+    "//": "You are smoking roughly 600g of meat, so that would be 40u of surface_heat equaling 160u of charcoal.",
     "tools": [
-      [ [ "char_smoker", 240 ] ],
+      [ [ "char_smoker", 160 ] ],
       [
         [ "funnel", -1 ],
         [ "makeshift_funnel", -1 ],
@@ -8804,8 +8804,8 @@
     "autolearn": true,
     "batch_time_factors": [ 83, 6 ],
     "qualities": [ { "id": "CUT", "level": 2 }, { "id": "COOK", "level": 1 } ],
-    "tools": [ [ [ "char_smoker", 240 ] ] ],
-    "//": "You are smoking roughly 600g of meat, so that would be 40u of surface_heat equaling 240u of charcoal.",
+    "tools": [ [ [ "char_smoker", 160 ] ] ],
+    "//": "You are smoking roughly 600g of meat, so that would be 40u of surface_heat equaling 160u of charcoal.",
     "components": [ [ [ "sausage_wasteland_raw", 1 ] ] ]
   },
   {
@@ -9415,7 +9415,8 @@
     "autolearn": true,
     "charges": 1,
     "batch_time_factors": [ 67, 5 ],
-    "tools": [ [ [ "dehydrator", 25 ], [ "char_smoker", 25 ] ] ],
+    "tools": [ [ [ "dehydrating_heat", 15, "LIST" ] ] ],
+    "//": "153g of corn to be turned into kernels",
     "components": [ [ [ "popcorn_raw", 1 ] ] ]
   },
   {
