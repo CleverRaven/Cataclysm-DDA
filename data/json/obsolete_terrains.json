@@ -29,7 +29,16 @@
       "ants_queen",
       "ants_queen_acid",
       "pond_forest",
+      "pond_forest_north",
+      "pond_forest_east",
+      "pond_forest_south",
+      "pond_forest_west",
       "pond_swamp",
+      "pond_swamp_north",
+      "pond_swamp_east",
+      "pond_swamp_south",
+      "pond_swamp_west",
+      "bunker_basement",
       "temple_stairs",
       "temple_finale"
     ]
