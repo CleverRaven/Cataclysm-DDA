@@ -315,7 +315,7 @@
     "symbol": "=",
     "color": "green",
     "looks_like": "arrow_fire_hardened_fletched",
-    "description": "This arrow has a small IED strapped to its tip.  Horribly inaccurate, heavy, and bulky, not only does this contraption require expert hands to pull off a shot, it requires one to loose this with a small measure of confidence that the shooter won't be caught in the blast radius.",
+    "description": "This arrow has a small IED strapped to its tip.  Horribly inaccurate, heavy, and bulky; properly firing this contraption requires expert hands, and a measure of confidence that you won't be caught in the blast radius.",
     "material": [ "steel", "powder" ],
     "volume": "100 ml",
     "price_postapoc": 400,
