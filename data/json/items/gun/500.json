@@ -4,7 +4,7 @@
     "copy-from": "rifle_manual",
     "looks_like": "ar15",
     "type": "GUN",
-    "name": { "str": ".500 lever gun" },
+    "name": { "str": ".500 Magnum lever gun" },
     "description": "A finely put together rifle, constructed in the image of old west lever-guns, this weapon features an impressive chambering of .500 Magnum.  Less unmanageable and impractical than within a handgun platform, the power potential of the huge round is nevertheless preserved within this rifle sized package.  Capable of taking down most forms of game, including deer, boars, and small dinosaurs, this is a respectable weapon for only the most enthusiastic of large-calibre shooters.",
     "variant_type": "gun",
     "variants": [
@@ -52,7 +52,7 @@
     "copy-from": "pistol_revolver",
     "looks_like": "sw_619",
     "type": "GUN",
-    "name": { "str": ".500 magnum revolver" },
+    "name": { "str": ".500 Magnum revolver" },
     "description": "The definition of ‘overkill,’ this behemoth handgun puts large .44 calibre revolvers to shame with its sheer size, power, and immense chambering.  Firing the appropriately named .500 Magnum cartridge, the most powerful handgun round in the world, the weapon has seen work in both sport shooting and hunting roles.  A pistol for those of the ‘bigger is better’ mentality, a high recoil junky’s personal dream, and an all-around useless military sidearm, should the urge to assault the Cataclysm in fine style grip you, this giant provides you with 5 rounds with which to reduce a zombie into an afterthought.",
     "variant_type": "gun",
     "variants": [
