@@ -1507,6 +1507,35 @@
       "items": [ { "item": "glass_shard", "count": [ 68, 100 ] } ]
     }
   },
+    {
+    "type": "terrain",
+    "id": "t_single_pane_glass_taped",
+    "name": "taped window",
+    "description": "A single glazed window.  Consists of a giant sheet of glass inserted into a window frame.  It's currently closed.  This one has been blocked out with duct tape.  You could remove the duct tape by cutting it off.",
+    "looks_like": "t_window_no_curtains", 
+    "//": "Taped window without curtains",
+    "symbol": "\"",
+    "color": "dark_gray",
+    "move_cost": 0,
+    "coverage": 95,
+    "roof": "t_flat_roof",
+    "flags": [ "FLAMMABLE", "NOITEM", "WALL", "BLOCK_WIND", "REDUCE_SCENT", "WINDOW", "SUPPORTS_ROOF" ],
+    "deconstruct": {
+      "ter_set": "t_window_empty",
+      "items": [ { "item": "glass_sheet", "count": 1 }, { "item": "duct_tape", "charges": [ 15, 25 ] } ]
+    },
+    "bash": {
+      "str_min": 6,
+      "str_max": 12,
+      "sound": "glass breaking!",
+      "sound_fail": "whack!",
+      "sound_vol": 16,
+      "sound_fail_vol": 10,
+      "ter_set": "t_window_frame",
+      "items": [ { "item": "glass_shard", "count": [ 21, 29 ] } ]
+    },
+    "shoot": { "reduce_damage": [ 1, 6 ], "reduce_damage_laser": [ 2, 10 ], "destroy_damage": [ 2, 8 ], "no_laser_destroy": true }
+  },
   {
     "type": "terrain",
     "id": "t_reinforced_single_pane_glass",
@@ -1978,6 +2007,35 @@
       "ter_set": "t_window_frame",
       "items": [ { "item": "glass_shard", "count": [ 68, 100 ] } ]
     }
+  },
+    {
+    "type": "terrain",
+    "id": "t_double_pane_glass_taped",
+    "name": "taped window",
+    "description": "A double glazed window.  Consists of two giant sheets of glass inserted into a window frame.  It's currently closed.  This one has been blocked out with duct tape.  You could remove the duct tape by cutting it off.",
+    "looks_like": "t_window_no_curtains", 
+    "//": "Taped window without curtains",
+    "symbol": "\"",
+    "color": "dark_gray",
+    "move_cost": 0,
+    "coverage": 95,
+    "roof": "t_flat_roof",
+    "flags": [ "FLAMMABLE", "NOITEM", "WALL", "BLOCK_WIND", "REDUCE_SCENT", "WINDOW", "SUPPORTS_ROOF" ],
+    "deconstruct": {
+      "ter_set": "t_window_empty",
+      "items": [ { "item": "glass_sheet", "count": 2 }, { "item": "duct_tape", "charges": [ 15, 25 ] } ]
+    },
+    "bash": {
+      "str_min": 6,
+      "str_max": 12,
+      "sound": "glass breaking!",
+      "sound_fail": "whack!",
+      "sound_vol": 16,
+      "sound_fail_vol": 10,
+      "ter_set": "t_window_frame",
+      "items": [ { "item": "glass_shard", "count": [ 68, 100 ] } ]
+    },
+    "shoot": { "reduce_damage": [ 1, 6 ], "reduce_damage_laser": [ 2, 10 ], "destroy_damage": [ 2, 8 ], "no_laser_destroy": true }
   },
   {
     "type": "terrain",

@@ -6214,6 +6214,31 @@
   },
   {
     "type": "construction",
+    "id": "constr_single_pane_glass_taped",
+    "group": "tape_up_window",
+    "//": "Need a recipe for each type of window tapable due to how code works",
+    "category": "REINFORCE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "5 m",
+    "components": [ [ [ "duct_tape", 50 ] ] ],
+    "pre_terrain": "t_single_pane_glass",
+    "post_terrain": "t_single_pane_glass_taped"
+  },
+  {
+    "type": "construction",
+    "id": "constr_revert_single_pane_glass_taped",
+    "group": "remove_tape_from_window",
+    "//": "Need a recipe for each type of window tapable due to how code works",
+    "category": "REINFORCE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "2 m",
+    "qualities": [ [ { "id": "CUT", "level": 1 } ] ],
+    "byproducts": [ { "item": "duct_tape", "charges": [ 15, 25 ] } ],
+    "pre_terrain": "t_single_pane_glass_taped",
+    "post_terrain": "t_single_pane_glass"
+  },
+  {
+    "type": "construction",
     "id": "constr_reinforced_single_pane_glass",
     "group": "build_reinforced_single_glazed_glass_window",
     "//": "Step 1: Build reinforced single glazed glass window",
@@ -6237,6 +6262,31 @@
     "components": [ [ [ "nail", 4 ] ], [ [ "sheet", 1 ] ], [ [ "stick", 1 ] ], [ [ "string_36", 1 ] ] ],
     "pre_terrain": "t_reinforced_single_pane_glass",
     "post_terrain": "t_reinforced_single_pane_glass_with_curtain"
+  },
+  {
+    "type": "construction",
+    "id": "constr_double_pane_glass_taped",
+    "group": "tape_up_window",
+    "//": "Need a recipe for each type of window tapable due to how code works",
+    "category": "REINFORCE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "5 m",
+    "components": [ [ [ "duct_tape", 50 ] ] ],
+    "pre_terrain": "t_double_pane_glass",
+    "post_terrain": "t_double_pane_glass_taped"
+  },
+  {
+    "type": "construction",
+    "id": "constr_revert_double_pane_glass_taped",
+    "group": "remove_tape_from_window",
+    "//": "Need a recipe for each type of window tapable due to how code works",
+    "category": "REINFORCE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "2 m",
+    "qualities": [ [ { "id": "CUT", "level": 1 } ] ],
+    "byproducts": [ { "item": "duct_tape", "charges": [ 15, 25 ] } ],
+    "pre_terrain": "t_double_pane_glass_taped",
+    "post_terrain": "t_double_pane_glass"
   },
   {
     "type": "construction",
