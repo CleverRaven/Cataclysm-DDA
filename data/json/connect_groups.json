@@ -1,120 +1,97 @@
 [
   {
     "type": "connect_group",
-    "id": "conn_WALL",
-    "name": "WALL",
+    "id": "WALL",
     "group_flags": [ "WALL", "CONNECT_WITH_WALL" ],
     "connects_to_flags": [ "WALL", "CONNECT_WITH_WALL" ]
   },
   {
     "type": "connect_group",
-    "id": "conn_CHAINFENCE",
-    "name": "CHAINFENCE"
+    "id": "CHAINFENCE"
   },
   {
     "type": "connect_group",
-    "id": "conn_WOODFENCE",
-    "name": "WOODFENCE"
+    "id": "WOODFENCE"
   },
   {
     "type": "connect_group",
-    "id": "conn_RAILING",
-    "name": "RAILING"
+    "id": "RAILING"
   },
   {
     "type": "connect_group",
-    "id": "conn_POOLWATER",
-    "name": "POOLWATER"
+    "id": "POOLWATER"
   },
   {
     "type": "connect_group",
-    "id": "conn_WATER",
-    "name": "WATER"
+    "id": "WATER"
   },
   {
     "type": "connect_group",
-    "id": "conn_PAVEMENT",
-    "name": "PAVEMENT"
+    "id": "PAVEMENT"
   },
   {
     "type": "connect_group",
-    "id": "conn_PAVEMENT_MARKING",
-    "name": "PAVEMENT_MARKING"
+    "id": "PAVEMENT_MARKING"
   },
   {
     "type": "connect_group",
-    "id": "conn_RAIL",
-    "name": "RAIL"
+    "id": "RAIL"
   },
   {
     "type": "connect_group",
-    "id": "conn_COUNTER",
-    "name": "COUNTER"
+    "id": "COUNTER"
   },
   {
     "type": "connect_group",
-    "id": "conn_CANVAS_WALL",
-    "name": "CANVAS_WALL"
+    "id": "CANVAS_WALL"
   },
   {
     "type": "connect_group",
-    "id": "conn_SAND",
-    "name": "SAND"
+    "id": "SAND"
   },
   {
     "type": "connect_group",
-    "id": "conn_PIT_DEEP",
-    "name": "PIT_DEEP"
+    "id": "PIT_DEEP"
   },
   {
     "type": "connect_group",
-    "id": "conn_LINOLEUM",
-    "name": "LINOLEUM"
+    "id": "LINOLEUM"
   },
   {
     "type": "connect_group",
-    "id": "conn_CARPET",
-    "name": "CARPET"
+    "id": "CARPET"
   },
   {
     "type": "connect_group",
-    "id": "conn_CONCRETE",
-    "name": "CONCRETE"
+    "id": "CONCRETE"
   },
   {
     "type": "connect_group",
-    "id": "conn_CLAY",
-    "name": "CLAY"
+    "id": "CLAY"
   },
   {
     "type": "connect_group",
-    "id": "conn_DIRT",
-    "name": "DIRT"
+    "id": "DIRT"
   },
   {
     "type": "connect_group",
-    "id": "conn_ROCKFLOOR",
-    "name": "ROCKFLOOR"
+    "id": "ROCKFLOOR"
   },
   {
     "type": "connect_group",
-    "id": "conn_MULCHFLOOR",
-    "name": "MULCHFLOOR"
+    "id": "MULCHFLOOR"
   },
   {
     "type": "connect_group",
-    "id": "conn_METALFLOOR",
-    "name": "METALFLOOR"
+    "id": "METALFLOOR"
   },
   {
     "type": "connect_group",
-    "id": "conn_WOODFLOOR",
-    "name": "WOODFLOOR"
+    "id": "WOODFLOOR"
   },
   {
     "type": "connect_group",
-    "id": "conn_INDOORFLOOR",
-    "name": "INDOORFLOOR",
+    "id": "INDOORFLOOR",
     "group_flags": [ "INDOORS" ],
     "rotates_to_flags": [ "WINDOW", "DOOR" ]
   }

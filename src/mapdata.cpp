@@ -268,14 +268,20 @@ std::string enum_to_string<ter_furn_flag>( ter_furn_flag data )
 
 static std::unordered_map<std::string, connect_group> ter_connects_map;
 
-void connect_group::load( const JsonObject &jo, const std::string &src )
+void connect_group::load( const JsonObject &jo )
 {
-    ( void ) src;
+
+    // Check index overflow for bitsets
+    if( ter_connects_map.size() >= NUM_TERCONN ) {
+        debugmsg( "Exceeded current maximum of %d connection groups. Increase NUM_TERCONN to allow for more groups!",
+                  NUM_TERCONN );
+        return;
+    }
+
     connect_group result;
 
     result.index = ter_connects_map.size();
     result.id = connect_group_id( jo.get_string( "id" ) );
-    assign( jo, "name", result.name, true );
 
     if( jo.has_string( "group_flags" ) || jo.has_array( "group_flags" ) ) {
         const std::vector<std::string> str_flags = jo.get_as_string_array( "group_flags" );
@@ -301,7 +307,7 @@ void connect_group::load( const JsonObject &jo, const std::string &src )
         }
     }
 
-    ter_connects_map[ result.name ] = result;
+    ter_connects_map[ result.id.str() ] = result;
 }
 
 void connect_group::reset()
@@ -647,13 +653,13 @@ void map_data_common_t::extraprocess_flags( const ter_furn_flag flag )
 
     for( std::pair<const std::string, connect_group> &item : ter_connects_map ) {
         if( item.second.group_flags.find( flag ) != item.second.group_flags.end() ) {
-            set_connect_groups( { item.second.name } );
+            set_connect_groups( { item.second.id.str() } );
         }
         if( item.second.connects_to_flags.find( flag ) != item.second.connects_to_flags.end() ) {
-            set_connect_groups( { item.second.name } );
+            set_connect_groups( { item.second.id.str() } );
         }
         if( item.second.rotates_to_flags.find( flag ) != item.second.rotates_to_flags.end() ) {
-            set_connect_groups( { item.second.name } );
+            set_connect_groups( { item.second.id.str() } );
         }
     }
 }
