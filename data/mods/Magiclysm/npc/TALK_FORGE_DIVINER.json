@@ -1,0 +1,143 @@
+[
+  {
+    "type": "npc",
+    "id": "forge_lord_diviner",
+    "//": "The Diviner of the Forge of Wonders.",
+    "name_unique": "Diviner, A",
+    "name_suffix": "Forge Lord",
+    "class": "NC_FORGE_LORD_DIVINER",
+    "attitude": 0,
+    "mission": 3,
+    "gender": "female",
+    "chat": "TALK_FORGE_LORD_DIVINER",
+    "faction": "forge_lords"
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_FORGE_LORD_DIVINER",
+    "name": { "str": "Diviner" },
+    "job_description": "I see the past, the present, and the furure.",
+    "traits": [
+      { "trait": "VAULT_DEFENDER" },
+      { "trait": "LIBRARY_DEFENDER" },
+      { "group": "NPC_starting_traits" },
+      { "group": "Appearance_demographics" }
+    ],
+    "//": "This is a unique NPC who doesn't get randomly selected background traits",
+    "common": false,
+    "bonus_int": { "one_in": 4 },
+    "bonus_per": { "one_in": 4 },
+    "worn_override": "NC_FORGE_LIBRARIAN_clothes",
+    "skills": [
+      {
+        "skill": "ALL",
+        "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "constant": -2 }, { "one_in": 4 } ] } ] }
+      },
+      { "skill": "unarmed", "bonus": { "one_in": 2 } },
+      { "skill": "melee", "bonus": { "one_in": 2 } },
+      { "skill": "gun", "bonus": { "rng": [ 0, 2 ] } },
+      { "skill": "speech", "bonus": { "rng": [ 1, 3 ] } }
+    ]
+  },
+  {
+    "id": "TALK_FORGE_LORD_DIVINER",
+    "type": "talk_topic",
+    "dynamic_line": "Are you looking for something in particular?",
+    "responses": [
+      { "text": "Can you help me find something?", "topic": "TALK_FORGE_DIVINER_FIND_WHAT" },
+      { "text": "What are you doing here?", "topic": "TALK_FORGE_DIVINER_DOING" },
+      { "text": "Well, bye.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_FORGE_DIVINER_DOING",
+    "type": "talk_topic",
+    "dynamic_line": "I specialize in scrying.  I can help you find any number of things.",
+    "responses": [ { "text": "Let's talk business then.", "topic": "TALK_FORGE_LORD_DIVINER" } ]
+  },
+  {
+    "id": "TALK_FORGE_DIVINER_FIND_WHAT",
+    "type": "talk_topic",
+    "dynamic_line": "Perhaps.  What do you seek?",
+    "responses": [
+      { "text": "A dangerous location.", "topic": "TALK_FORGE_LORD_DIVINER_DANGEROUS" },
+      { "text": "A man made structure.", "topic": "TALK_FORGE_LORD_DIVINER_MAN_MADE" },
+      { "text": "A geological formation.", "topic": "TALK_FORGE_LORD_DIVINER_GEOLOGY" },
+      { "text": "A plant.", "topic": "TALK_FORGE_LORD_DIVINER_PLANT" },
+      { "text": "An animal.", "topic": "TALK_FORGE_LORD_DIVINER_ANIMAL" },
+      { "text": "Nevermind.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_FORGE_LORD_DIVINER_DANGEROUS",
+    "type": "talk_topic",
+    "dynamic_line": "A thrill seeker, are you?  So what will it be?",
+    "responses": [
+      { "text": "An ant nest.", "topic": "TALK_FORGE_LORD_DIVINER_ANT" },
+      { "text": "An acid ant nest.", "topic": "TALK_FORGE_LORD_DIVINER_ACID_ANT" },
+      { "text": "A dermatik nest.", "topic": "TALK_FORGE_LORD_DIVINER_DERMATIK" },
+      { "text": "Spiders.", "topic": "TALK_FORGE_LORD_DIVINER_SPIDERS" },
+      { "text": "A fungal growth.", "topic": "TALK_FORGE_LORD_DIVINER_FUNGAL" },
+      { "text": "A mi-go building.", "topic": "TALK_FORGE_LORD_DIVINER_MI_GO" },
+      { "text": "A trifid grove.", "topic": "TALK_FORGE_LORD_DIVINER_TRIFID" },
+      { "text": "A kraken cave.", "topic": "TALK_FORGE_LORD_DIVINER_KRAKEN" },
+      { "text": "A slime pit.", "topic": "TALK_FORGE_LORD_DIVINER_SLIME" },
+      { "text": "A goblin encampment.", "topic": "TALK_FORGE_LORD_DIVINER_GOBLIN" },
+      { "text": "An orc village.", "topic": "TALK_FORGE_LORD_DIVINER_ORC" },
+      { "text": "A swamp dragon cave!", "topic": "TALK_FORGE_LORD_DIVINER_SWAMP_DRAGON" },
+      { "text": "Demon spiders", "topic": "TALK_FORGE_LORD_DIVINER_SWAMP_DEMON_SPIDERS" },
+      { "text": "A balrog mine", "topic": "TALK_FORGE_LORD_DIVINER_SWAMP_DEMON_BALROG" },
+      { "text": "Nevermind.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_FORGE_LORD_DIVINER_MAN_MADE",
+    "type": "talk_topic",
+    "dynamic_line": "Seeking to pick around your civilization's corpse?",
+    "responses": [
+      { "text": "A lab.", "topic": "TALK_FORGE_LORD_DIVINER_LAB" },
+      { "text": "An exodii location.", "topic": "TALK_FORGE_LORD_DIVINER_EXODII" },
+      { "text": "A strange temple.", "topic": "TALK_FORGE_LORD_DIVINER_TEMPLE" },
+      { "text": "An attunement altar.", "topic": "TALK_FORGE_LORD_DIVINER_ATTUNEMENT" },
+      { "text": "A magic academy.", "topic": "TALK_FORGE_LORD_DIVINER_ACADEMY" },
+      { "text": "A wizard tower.", "topic": "TALK_FORGE_LORD_DIVINER_TOWER" },
+      { "text": "A goblin encampment.", "topic": "TALK_FORGE_LORD_DIVINER_GOBLIN" },
+      { "text": "An orc village.", "topic": "TALK_FORGE_LORD_DIVINER_ORC" },
+      { "text": "Nevermind.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_FORGE_LORD_DIVINER_GEOLOGY",
+    "type": "talk_topic",
+    "dynamic_line": "Sure.  Looking for a pretty vista, perhaps?",
+    "responses": [
+      { "text": "A river.", "topic": "TALK_FORGE_LORD_DIVINER_RIVER" },
+      { "text": "A clay deposit.", "topic": "TALK_FORGE_LORD_DIVINER_CLAY" },
+      { "text": "A hot spring.", "topic": "TALK_FORGE_LORD_DIVINER_SPRING" },
+      { "text": "A cave.", "topic": "TALK_FORGE_LORD_DIVINER_CAVE" },
+      { "text": "Nevermind.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_FORGE_LORD_DIVINER_PLANT",
+    "type": "talk_topic",
+    "dynamic_line": "A plant you say?  Which one?",
+    "responses": [
+      { "text": "A magical plant.", "topic": "TALK_FORGE_LORD_DIVINER_MAGIC_PLANT" },
+      { "text": "Nevermind.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_FORGE_LORD_DIVINER_ANIMAL",
+    "type": "talk_topic",
+    "dynamic_line": "Right.  What kind?",
+    "responses": [
+      { "text": "A cow.", "topic": "TALK_FORGE_LORD_DIVINER_COW" },
+      { "text": "A horse.", "topic": "TALK_FORGE_LORD_DIVINER_HORSE" },
+      { "text": "A sheep.", "topic": "TALK_FORGE_LORD_DIVINER_SHEEP" },
+      { "text": "A cow.", "topic": "TALK_FORGE_LORD_DIVINER_COW" },
+      { "text": "A hunllef ram.", "topic": "TALK_FORGE_LORD_DIVINER_HULLEF" },
+      { "text": "Nevermind.", "topic": "TALK_DONE" }
+    ]
+  }
+]
