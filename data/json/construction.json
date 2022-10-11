@@ -6403,7 +6403,7 @@
     "pre_terrain": "t_window_empty",
     "post_terrain": "t_triple_pane_glass"
   },
-   {
+  {
     "type": "construction",
     "id": "constr_triple_pane_glass_curtain",
     "group": "build_triple_glazed_glass_window",
