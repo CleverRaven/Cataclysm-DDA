@@ -116,6 +116,7 @@ parsers = {
     "comestible": parse_generic,
     "colordef": dummy_parser,
     "conduct": parse_achievement,
+    "connect_group": dummy_parser,
     "construction": parse_construction,
     "construction_category": parse_construction_category,
     "construction_group": parse_construction_group,
