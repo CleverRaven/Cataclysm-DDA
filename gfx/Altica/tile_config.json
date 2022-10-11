@@ -9360,8 +9360,10 @@
         { "id": "f_ladder", "fg": 6144 },
         { "id": "f_alien_gasper", "fg": 6154 },
         { "id": "f_utility_pole", "fg": 6176 },
-        { "id": "f_street_light", "fg": 6187 },
-        { "id": "f_traffic_light", "fg": 6188 }
+        { "id": "f_flagpole", "fg": 6187 },
+        { "id": "f_wooden_flagpole", "fg": 6188 },
+        { "id": "f_street_light", "fg": 6189 },
+        { "id": "f_traffic_light", "fg": 6190 }
       ]
     },
     {

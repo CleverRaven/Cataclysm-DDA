@@ -111,6 +111,7 @@ static const diseasetype_id disease_bad_food( "bad_food" );
 
 static const efftype_id effect_boomered( "boomered" );
 static const efftype_id effect_crushed( "crushed" );
+static const efftype_id effect_pet( "pet" );
 
 static const field_type_str_id field_fd_clairvoyant( "fd_clairvoyant" );
 
@@ -1762,10 +1763,11 @@ ter_id map::ter( const tripoint_bub_ms &p ) const
     return ter( p.raw() );
 }
 
-uint8_t map::get_known_connections( const tripoint &p, int connect_group,
+uint8_t map::get_known_connections( const tripoint &p,
+                                    const std::bitset<NUM_TERCONN> &connect_group,
                                     const std::map<tripoint, ter_id> &override ) const
 {
-    if( connect_group == TERCONN_NONE ) {
+    if( connect_group.none() ) {
         return 0;
     }
 
@@ -1809,7 +1811,7 @@ uint8_t map::get_known_connections( const tripoint &p, int connect_group,
         if( may_connect ) {
             const ter_t &neighbour_terrain = neighbour_overridden ?
                                              neighbour_override->second.obj() : ter( neighbour ).obj();
-            if( neighbour_terrain.connects_to( connect_group ) ) {
+            if( neighbour_terrain.in_connect_groups( connect_group ) ) {
                 val += 1 << i;
             }
         }
@@ -1818,10 +1820,11 @@ uint8_t map::get_known_connections( const tripoint &p, int connect_group,
     return val;
 }
 
-uint8_t map::get_known_rotates_to( const tripoint &p, int rotate_to_group,
+uint8_t map::get_known_rotates_to( const tripoint &p,
+                                   const std::bitset<NUM_TERCONN> &rotate_to_group,
                                    const std::map<tripoint, ter_id> &override ) const
 {
-    if( rotate_to_group == TERCONN_NONE ) {
+    if( rotate_to_group.none() ) {
         return CHAR_MAX;
     }
 
@@ -1838,7 +1841,7 @@ uint8_t map::get_known_rotates_to( const tripoint &p, int rotate_to_group,
 
         const ter_t &neighbour_terrain = neighbour_overridden ?
                                          neighbour_override->second.obj() : ter( neighbour ).obj();
-        if( neighbour_terrain.in_rotates_to( rotate_to_group ) ) {
+        if( neighbour_terrain.in_connect_groups( rotate_to_group ) ) {
             val += 1 << i;
         }
     }
@@ -1846,10 +1849,11 @@ uint8_t map::get_known_rotates_to( const tripoint &p, int rotate_to_group,
     return val;
 }
 
-uint8_t map::get_known_connections_f( const tripoint &p, int connect_group,
+uint8_t map::get_known_connections_f( const tripoint &p,
+                                      const std::bitset<NUM_TERCONN> &connect_group,
                                       const std::map<tripoint, furn_id> &override ) const
 {
-    if( connect_group == TERCONN_NONE ) {
+    if( connect_group.none() ) {
         return 0;
     }
 
@@ -1893,7 +1897,7 @@ uint8_t map::get_known_connections_f( const tripoint &p, int connect_group,
         if( may_connect ) {
             const furn_t &neighbour_furn = neighbour_overridden ?
                                            neighbour_override->second.obj() : furn( pt ).obj();
-            if( neighbour_furn.connects_to( connect_group ) ) {
+            if( neighbour_furn.in_connect_groups( connect_group ) ) {
                 val += 1 << i;
             }
         }
@@ -1902,11 +1906,12 @@ uint8_t map::get_known_connections_f( const tripoint &p, int connect_group,
     return val;
 }
 
-uint8_t map::get_known_rotates_to_f( const tripoint &p, int rotate_to_group,
+uint8_t map::get_known_rotates_to_f( const tripoint &p,
+                                     const std::bitset<NUM_TERCONN> &rotate_to_group,
                                      const std::map<tripoint, ter_id> &override,
                                      const std::map<tripoint, furn_id> &override_f ) const
 {
-    if( rotate_to_group == TERCONN_NONE ) {
+    if( rotate_to_group.none() ) {
         return CHAR_MAX;
     }
 
@@ -1930,7 +1935,8 @@ uint8_t map::get_known_rotates_to_f( const tripoint &p, int rotate_to_group,
         const furn_t &neighbour_f = neighbour_overridden_f ?
                                     neighbour_override_f->second.obj() : furn( pt ).obj();
 
-        if( neighbour.in_rotates_to( rotate_to_group ) || neighbour_f.in_rotates_to( rotate_to_group ) ) {
+        if( neighbour.in_connect_groups( rotate_to_group ) ||
+            neighbour_f.in_connect_groups( rotate_to_group ) ) {
             val += 1 << i;
         }
     }
@@ -2464,7 +2470,7 @@ int map::climb_difficulty( const tripoint &p ) const
     }
 
     // TODO: Make this more sensible - check opposite sides, not just movement blocker count
-    return best_difficulty - blocks_movement;
+    return std::max( 0, best_difficulty - blocks_movement );
 }
 
 bool map::has_floor( const tripoint &p ) const
@@ -8342,6 +8348,7 @@ void map::spawn_monsters_submap( const tripoint &gp, bool ignore_sight )
             }
             if( i.friendly ) {
                 tmp.friendly = -1;
+                tmp.add_effect( effect_pet, 1_turns, true );
             }
             if( !i.data.ammo.empty() ) {
                 for( std::pair<itype_id, jmapgen_int> ap : i.data.ammo ) {
@@ -8560,7 +8567,7 @@ bool map::has_graffiti_at( const tripoint &p ) const
 
 int map::determine_wall_corner( const tripoint &p ) const
 {
-    int test_connect_group = ter( p ).obj().connect_group;
+    const std::bitset<NUM_TERCONN> &test_connect_group = ter( p ).obj().connect_to_groups;
     uint8_t connections = get_known_connections( p, test_connect_group );
     // The bits in connections are SEWN, whereas the characters in LINE_
     // constants are NESW, so we want values in 8 | 2 | 1 | 4 order.

@@ -53,6 +53,21 @@
     "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
+    "id": "screw_press",
+    "type": "TOOL",
+    "name": { "str": "screw press", "str_pl": "screw presses" },
+    "description": "This is a crafting_pseudo_item if you have it something is wrong.",
+    "weight": "70000 g",
+    "volume": "100 L",
+    "price": 20000,
+    "price_postapoc": 100,
+    "to_hit": -2,
+    "bashing": 9,
+    "material": [ "wood" ],
+    "symbol": "T",
+    "color": "red"
+  },
+  {
     "id": "can_sealer",
     "type": "GENERIC",
     "category": "tools",
@@ -288,7 +303,7 @@
     "symbol": ";",
     "color": "blue",
     "ammo": [ "battery" ],
-    "flags": [ "ALLOWS_REMOTE_USE", "WATER_BREAK" ],
+    "flags": [ "ALLOWS_REMOTE_USE", "WATER_BREAK", "ELECTRONIC" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -389,7 +404,7 @@
     "symbol": "%",
     "color": "white",
     "ammo": [ "battery" ],
-    "flags": [ "ALLOWS_REMOTE_USE", "WATER_BREAK" ],
+    "flags": [ "ALLOWS_REMOTE_USE", "WATER_BREAK", "ELECTRONIC" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -658,7 +673,7 @@
     "symbol": ";",
     "color": "red",
     "ammo": [ "battery" ],
-    "flags": [ "WATER_BREAK" ],
+    "flags": [ "WATER_BREAK", "ELECTRONIC" ],
     "power_draw": "1500 J",
     "qualities": [ [ "CONTAIN", 1 ] ],
     "use_action": [ "MULTICOOKER" ],
