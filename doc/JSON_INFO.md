@@ -4621,7 +4621,7 @@ Displayed name of the object. This will be translated.
 
 #### `connect_groups`
 
-(Optional) Makes the type a member of one or more [Connect groups](#connect-groups).
+(Optional) Makes the type a member of one or more [Connection groups](#connection-groups).
 
 Does not make the type connect or rotate itself, but serves as the passive side.
 For the active, connecting or rotating side, see [`connects_to`](#connects_to) and [`rotates_to`](#rotates_to).

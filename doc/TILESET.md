@@ -148,27 +148,7 @@ For details, see JSON_INFO.md, sections [`connect_groups`](./JSON_INFO.md#connec
 
 Wall work out of the box without modifying terrain definitions, as the required group `WALL` is implied by the flags `WALL` and `CONNECT_WITH_WALL` for `connect_groups` as well as `connects_to` (i.e. symmetric relation).
 
-Available groups are:
-
-##### Connect groups
-
-Connect groups are defined by JSON types `connect_group`.
-Current connect groups are:
-
-```
-NONE                 SAND
-WALL                 PIT_DEEP
-CHAINFENCE           LINOLEUM
-WOODFENCE            CARPET
-RAILING              CONCRETE
-POOLWATER            CLAY
-WATER                DIRT
-PAVEMENT             ROCKFLOOR
-PAVEMENT_MARKING     MULCHFLOOR
-RAIL                 METALFLOOR
-COUNTER              WOODFLOOR
-CANVAS_WALL          INDOORFLOOR
-```
+For available connect groups, see [JSON_INFO.md, section Connection groups](./JSON_INFO.md#connection-groups).
 
 For the full multitile, the 16 sprite variants of this template are required:
 
@@ -228,11 +208,11 @@ Usage examples for terrain are doors and windows that look differently, seen fro
 An example for furniture are street lights that orient towards the pavement.
 
 The mechanism works like to `connects_to`, and can be combined with it.
-It also makes use of the same [Connect groups](#connect-groups), given by property `connect_groups`.
+It also makes use of the same [Connection group](./JSON_INFO.md#connection-groups), given by property `connect_groups`.
 Currently, however, auto-rotation is implemented only for `edge` and `end_piece` tiles (doors, windows, furniture) and `unconnected` tiles (e.g. street lights).
 
-For the active/rotating type, `rotates_to` specifies a [Connect group](#connect-groups) the terrain should rotate towards (or rather, depend on).
-For the passive/target type, `connect_groups` is used to add it to a [Connect group](#connect-groups).
+For the active/rotating type, `rotates_to` specifies a [Connection group](./JSON_INFO.md#connection-groups) the terrain should rotate towards (or rather, depend on).
+For the passive/target type, `connect_groups` is used to add it to a connection group.
 
 Terrain can only use terrain to rotate towards, while furniture can use both, terrain and furniture.
 
