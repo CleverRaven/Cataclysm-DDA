@@ -105,7 +105,7 @@
       { "item": "steel_chunk", "count": [ 3, 6 ] },
       { "item": "scrap", "count": [ 3, 6 ] },
       { "item": "welder", "charges": 0, "prob": 50 },
-      { "item": "forge", "charges": 0, "prob": 50 },
+      { "item": "forge", "prob": 50 },
       { "item": "kiln", "charges": 0, "prob": 50 }
     ]
   },
