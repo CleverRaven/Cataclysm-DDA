@@ -222,21 +222,6 @@
     "flags": [ "SEES", "SMELLS", "SWIMS", "AQUATIC", "WATER_CAMOUFLAGE" ]
   },
   {
-    "id": "mon_fish_trout",
-    "type": "MONSTER",
-    "copy-from": "mon_fish_medium",
-    "name": { "str": "trout" },
-    "description": "A trout.  A fish made popular by father-son fishing trips, except for the part where you have to gut it.",
-    "reproduction": { "baby_egg": "egg_trout", "baby_count": 2, "baby_timer": 17 }
-  },
-  {
-    "id": "mon_fry_trout",
-    "type": "MONSTER",
-    "copy-from": "mon_fry",
-    "upgrades": { "half_life": 14, "into": "mon_fish_trout" },
-    "name": { "str_sp": "fry" }
-  },
-  {
     "id": "mon_fish_brown_trout",
     "type": "MONSTER",
     "copy-from": "mon_fish_medium",
@@ -301,22 +286,6 @@
     "name": { "str_sp": "fry" }
   },
   {
-    "id": "mon_fish_steelhead_trout",
-    "type": "MONSTER",
-    "copy-from": "mon_fish_large",
-    "name": { "str": "steelhead trout" },
-    "looks_like": "mon_fish_trout",
-    "description": "A steelhead trout.  A fish made popular by father-son fishing trips, except for the part where you have to gut it.",
-    "reproduction": { "baby_egg": "egg_steelhead_trout", "baby_count": 2, "baby_timer": 17 }
-  },
-  {
-    "id": "mon_fry_steelhead_trout",
-    "type": "MONSTER",
-    "copy-from": "mon_fry",
-    "upgrades": { "half_life": 14, "into": "mon_fish_steelhead_trout" },
-    "name": { "str_sp": "fry" }
-  },
-  {
     "id": "mon_fish_salmon",
     "type": "MONSTER",
     "copy-from": "mon_fish_huge",
@@ -345,38 +314,6 @@
     "type": "MONSTER",
     "copy-from": "mon_fry",
     "upgrades": { "half_life": 14, "into": "mon_fish_kokanee_salmon" },
-    "name": { "str_sp": "fry" }
-  },
-  {
-    "id": "mon_fish_chinook_salmon",
-    "type": "MONSTER",
-    "copy-from": "mon_fish_huge",
-    "name": { "str": "chinook salmon" },
-    "looks_like": "mon_fish_salmon",
-    "description": "A Chinook salmon.  A very fatty, nutritious fish.  Tastes great smoked.",
-    "reproduction": { "baby_egg": "egg_chinook_salmon", "baby_count": 2, "baby_timer": 17 }
-  },
-  {
-    "id": "mon_fry_chinook_salmon",
-    "type": "MONSTER",
-    "copy-from": "mon_fry",
-    "upgrades": { "half_life": 14, "into": "mon_fish_chinook_salmon" },
-    "name": { "str_sp": "fry" }
-  },
-  {
-    "id": "mon_fish_coho_salmon",
-    "type": "MONSTER",
-    "copy-from": "mon_fish_large",
-    "name": { "str": "coho salmon" },
-    "looks_like": "mon_fish_salmon",
-    "description": "A Coho salmon.  A very fatty, nutritious fish.  Tastes great smoked.",
-    "reproduction": { "baby_egg": "egg_coho_salmon", "baby_count": 2, "baby_timer": 17 }
-  },
-  {
-    "id": "mon_fry_coho_salmon",
-    "type": "MONSTER",
-    "copy-from": "mon_fry",
-    "upgrades": { "half_life": 14, "into": "mon_fish_coho_salmon" },
     "name": { "str_sp": "fry" }
   },
   {
@@ -437,22 +374,6 @@
     "type": "MONSTER",
     "copy-from": "mon_fry",
     "upgrades": { "half_life": 14, "into": "mon_fish_pbass" },
-    "name": { "str_sp": "fry" }
-  },
-  {
-    "id": "mon_fish_white_bass",
-    "type": "MONSTER",
-    "copy-from": "mon_fish_tiny",
-    "name": { "str_sp": "white bass" },
-    "looks_like": "mon_fish_pbass",
-    "description": "A white bass.  Common to this region, it is a slab-sided and spiny-rayed little fish.",
-    "reproduction": { "baby_egg": "egg_white_bass", "baby_count": 2, "baby_timer": 17 }
-  },
-  {
-    "id": "mon_fry_white_bass",
-    "type": "MONSTER",
-    "copy-from": "mon_fry",
-    "upgrades": { "half_life": 14, "into": "mon_fish_white_bass" },
     "name": { "str_sp": "fry" }
   },
   {
@@ -563,38 +484,6 @@
     "type": "MONSTER",
     "copy-from": "mon_fry",
     "upgrades": { "half_life": 14, "into": "mon_fish_green_sunfish" },
-    "name": { "str_sp": "fry" }
-  },
-  {
-    "id": "mon_fish_longear_sunfish",
-    "type": "MONSTER",
-    "copy-from": "mon_fish_tiny",
-    "name": { "str_sp": "longear sunfish" },
-    "looks_like": "mon_fish_sunfish",
-    "description": "A longear sunfish.  A small fish related to bass and bluegill.",
-    "reproduction": { "baby_egg": "egg_longear_sunfish", "baby_count": 2, "baby_timer": 17 }
-  },
-  {
-    "id": "mon_fry_longear_sunfish",
-    "type": "MONSTER",
-    "copy-from": "mon_fry",
-    "upgrades": { "half_life": 14, "into": "mon_fish_longear_sunfish" },
-    "name": { "str_sp": "fry" }
-  },
-  {
-    "id": "mon_fish_redear_sunfish",
-    "type": "MONSTER",
-    "copy-from": "mon_fish_tiny",
-    "name": { "str_sp": "redear sunfish" },
-    "looks_like": "mon_fish_sunfish",
-    "description": "A redear sunfish.  A small fish related to bass and bluegill.",
-    "reproduction": { "baby_egg": "egg_redear_sunfish", "baby_count": 2, "baby_timer": 17 }
-  },
-  {
-    "id": "mon_fry_redear_sunfish",
-    "type": "MONSTER",
-    "copy-from": "mon_fry",
-    "upgrades": { "half_life": 14, "into": "mon_fish_redear_sunfish" },
     "name": { "str_sp": "fry" }
   },
   {
