@@ -368,7 +368,7 @@
     "bashing": 2,
     "to_hit": { "grip": "weapon", "length": "short", "surface": "any", "balance": "neutral" },
     "price_postapoc": 20,
-    "extend": { "flags": [ "FRAGILE_MELEE", "WATER_BREAK_ACTIVE", "ELECTRONIC" ] },
+    "extend": { "flags": [ "FRAGILE_MELEE", "WATER_BREAK_ACTIVE" ] },
     "charges_per_use": 1,
     "ammo": [ "battery" ],
     "use_action": {
@@ -420,7 +420,7 @@
     "to_hit": { "grip": "weapon", "length": "short", "surface": "any", "balance": "neutral" },
     "bashing": 8,
     "price_postapoc": 150,
-    "extend": { "flags": [ "WATER_BREAK_ACTIVE", "ELECTRONIC" ] },
+    "extend": { "flags": [ "WATER_BREAK_ACTIVE" ] },
     "charges_per_use": 1,
     "ammo": [ "battery" ],
     "use_action": {
@@ -455,7 +455,7 @@
       "target": "wizard_cane",
       "ammo_scale": 0
     },
-    "extend": { "flags": [ "LIGHT_300", "CHARGEDIM", "TRADER_AVOID", "WATER_BREAK", "ELECTRONIC" ] },
+    "extend": { "flags": [ "LIGHT_300", "CHARGEDIM", "TRADER_AVOID", "WATER_BREAK" ] },
     "delete": { "flags": [ "WATER_BREAK_ACTIVE" ] }
   },
   {
@@ -492,7 +492,7 @@
     "weapon_category": [ "MACES" ],
     "volume": "2200 ml",
     "longest_side": "65 cm",
-    "bashing": 14,
+    "bashing": 12,
     "to_hit": { "grip": "solid", "length": "short", "surface": "any", "balance": "neutral" },
     "price": 100
   },
@@ -500,7 +500,7 @@
     "type": "GENERIC",
     "id": "club_wooden_large",
     "name": { "str": "large wooden club" },
-    "description": "This is little more than a long plank of wood with a crude handle whittled into one end.  It's too big to be called a club.  Massive, thick, heavy, and far too rough.",
+    "description": "This is little more than a long plank of wood with a crude handle whittled into one end.  It's barely an improvement, but at least it is slightly easier to wield than just the plank on its own.",
     "weight": "2400 g",
     "price_postapoc": 10,
     "color": "brown",
@@ -512,7 +512,7 @@
     "techniques": [ "BRUTAL", "SWEEP" ],
     "volume": "4300 ml",
     "longest_side": "130 cm",
-    "bashing": 26,
+    "bashing": 16,
     "to_hit": { "grip": "solid", "length": "long", "surface": "any", "balance": "uneven" },
     "price": 100
   },
@@ -1371,7 +1371,7 @@
     "qualities": [ [ "HAMMER", 1 ] ],
     "techniques": [ "WBLOCK_2", "RAPID", "SWEEP" ],
     "use_action": [ "TAZER" ],
-    "flags": [ "NONCONDUCTIVE", "SHEATH_SPEAR", "ALWAYS_TWOHAND", "WATER_BREAK", "ELECTRONIC" ],
+    "flags": [ "NONCONDUCTIVE", "SHEATH_SPEAR", "ALWAYS_TWOHAND", "WATER_BREAK" ],
     "weapon_category": [ "QUARTERSTAVES" ],
     "pocket_data": [
       {

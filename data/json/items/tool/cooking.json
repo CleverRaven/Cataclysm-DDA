@@ -16,10 +16,10 @@
     "material": [ "plastic", "aluminum" ],
     "qualities": [ [ "BOIL", 1 ] ],
     "ammo": [ "battery" ],
-    "charges_per_use": 20,
     "symbol": ",",
     "color": "light_green",
-    "use_action": [ "HOTPLATE" ],
+    "use_action": [ "HOTPLATE_ATOMIC" ],
+    "//": "This now uses energy to heat food, the RTG is just a minor cost-saving element.  However in a pinch you could use just the RTG to unfreeze water",
     "flags": [ "LEAK_DAM", "RADIOACTIVE", "DURABLE_MELEE", "WATER_BREAK", "ELECTRONIC" ],
     "pocket_data": [
       {
@@ -63,6 +63,21 @@
     "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
+    "id": "screw_press",
+    "type": "TOOL",
+    "name": { "str": "screw press", "str_pl": "screw presses" },
+    "description": "This is a crafting_pseudo_item if you have it something is wrong.",
+    "weight": "70000 g",
+    "volume": "100 L",
+    "price": 20000,
+    "price_postapoc": 100,
+    "to_hit": -2,
+    "bashing": 9,
+    "material": [ "wood" ],
+    "symbol": "T",
+    "color": "red"
+  },
+  {
     "id": "can_sealer",
     "type": "GENERIC",
     "category": "tools",
@@ -97,7 +112,7 @@
     "ammo": [ "battery" ],
     "charges_per_use": 5,
     "use_action": [ "CARVER_OFF" ],
-    "flags": [ "SHEATH_SWORD", "NONCONDUCTIVE", "WATER_BREAK_ACTIVE", "ELECTRONIC" ],
+    "flags": [ "SHEATH_SWORD", "NONCONDUCTIVE", "WATER_BREAK_ACTIVE" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -120,7 +135,7 @@
     "revert_to": "carver_off",
     "qualities": [ [ "CUT", 2 ], [ "BUTCHER", 25 ] ],
     "use_action": [ "CARVER_ON" ],
-    "flags": [ "MESSY", "TRADER_AVOID", "NONCONDUCTIVE", "ELECTRONIC" ]
+    "flags": [ "MESSY", "TRADER_AVOID", "NONCONDUCTIVE" ]
   },
   {
     "id": "char_purifier",
@@ -201,7 +216,7 @@
     "ammo": [ "charcoal" ],
     "//": "contains up to 0.5 liters of charcoal",
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "charcoal": 50 } } ],
-    "charges_per_use": 1,
+    "charges_per_use": 3,
     "use_action": [ "HOTPLATE" ]
   },
   {
@@ -271,8 +286,8 @@
     "symbol": ";",
     "color": "light_gray",
     "ammo": [ "battery" ],
-    "flags": [ "WATER_BREAK", "ELECTRONIC" ],
-    "charges_per_use": 50,
+    "flags": [ "WATER_BREAK" ],
+    "charges_per_use": 25,
     "qualities": [ [ "BOIL", 1 ] ],
     "use_action": [ "HOTPLATE" ],
     "pocket_data": [
@@ -351,7 +366,7 @@
     "color": "light_gray",
     "ammo": [ "esbit" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "esbit": 100 } } ],
-    "charges_per_use": 1,
+    "charges_per_use": 2,
     "use_action": [ "HOTPLATE", "HEAT_FOOD" ]
   },
   {
@@ -425,7 +440,7 @@
     "color": "green",
     "ammo": [ "gasoline" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "gasoline": 500 }, "watertight": true, "rigid": true } ],
-    "charges_per_use": 1,
+    "charges_per_use": 2,
     "use_action": [ "HOTPLATE" ]
   },
   {
@@ -477,9 +492,9 @@
     "material": [ "aluminum", "plastic" ],
     "symbol": ";",
     "color": "green",
-    "flags": [ "WATER_BREAK", "ELECTRONIC" ],
+    "flags": [ "WATER_BREAK" ],
     "ammo": [ "battery" ],
-    "charges_per_use": 30,
+    "charges_per_use": 35,
     "use_action": [ "HOTPLATE" ],
     "pocket_data": [
       {
@@ -507,7 +522,7 @@
     "color": "green",
     "flags": [ "WATER_BREAK", "ELECTRONIC" ],
     "ammo": [ "battery" ],
-    "charges_per_use": 20,
+    "charges_per_use": 25,
     "use_action": [ "HOTPLATE" ],
     "pocket_data": [
       {
@@ -534,7 +549,7 @@
     "symbol": ";",
     "color": "white",
     "ammo": [ "battery" ],
-    "flags": [ "ALLOWS_REMOTE_USE", "WATER_BREAK", "ELECTRONIC" ],
+    "flags": [ "ALLOWS_REMOTE_USE", "WATER_BREAK" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -560,9 +575,9 @@
     "symbol": ";",
     "color": "green",
     "ammo": [ "battery" ],
-    "flags": [ "WATER_BREAK", "ELECTRONIC" ],
+    "flags": [ "WATER_BREAK" ],
     "sub": "hotplate",
-    "charges_per_use": 30,
+    "charges_per_use": 35,
     "qualities": [ [ "COOK", 2 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
     "use_action": [ "HOTPLATE", "HEAT_FOOD" ],
     "pocket_data": [
@@ -741,7 +756,7 @@
     "color": "green",
     "ammo": [ "lamp_oil" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "lamp_oil": 800 }, "watertight": true, "rigid": true } ],
-    "charges_per_use": 1,
+    "charges_per_use": 2,
     "use_action": [ "HOTPLATE" ]
   },
   {
@@ -846,7 +861,7 @@
     "color": "light_gray",
     "ammo": [ "conc_alcohol" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "conc_alcohol": 500 }, "watertight": true, "rigid": true } ],
-    "charges_per_use": 1,
+    "charges_per_use": 3,
     "use_action": [ "HOTPLATE" ]
   },
   {
@@ -976,7 +991,7 @@
     "ammo": [ "lamp_oil" ],
     "sub": "oil_cooker",
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "lamp_oil": 800 }, "watertight": true, "rigid": true } ],
-    "charges_per_use": 1,
+    "charges_per_use": 2,
     "qualities": [ [ "COOK", 3 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ], [ "CHEM", 1 ] ],
     "use_action": [ "HOTPLATE", "HEAT_FOOD" ]
   },
@@ -1014,7 +1029,7 @@
     "symbol": ";",
     "color": "white",
     "ammo": [ "battery" ],
-    "flags": [ "ALLOWS_REMOTE_USE", "WATER_BREAK", "ELECTRONIC" ],
+    "flags": [ "ALLOWS_REMOTE_USE", "WATER_BREAK" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -1084,7 +1099,7 @@
     "color": "green",
     "ammo": [ "propane" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "flag_restriction": [ "GAS_TANK" ], "default_magazine": "small_propane_tank" } ],
-    "charges_per_use": 10,
+    "charges_per_use": 2,
     "use_action": [ "HOTPLATE", "HEAT_FOOD" ]
   },
   {
@@ -1126,7 +1141,7 @@
     "volume": "9 L",
     "use_action": [ "HOTPLATE", "HEAT_FOOD" ],
     "flags": [ "WATER_BREAK" ],
-    "charges_per_use": 15,
+    "charges_per_use": 25,
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
