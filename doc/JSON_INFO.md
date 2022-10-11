@@ -4177,7 +4177,7 @@ Examples from the actual definitions:
 
 **`connects_to_flags`**: Flags that imply that terrain or furniture connects to this group.
 
-**`connects_to_flags`**: Flags that imply that terrain or furniture rotates to this group.
+**`rotates_to_flags`**: Flags that imply that terrain or furniture rotates to this group.
 
 ```json
 [
