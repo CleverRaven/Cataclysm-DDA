@@ -7,7 +7,7 @@
     "symbol": "(",
     "color": "brown",
     "name": { "str": "BB gun" },
-    "description": "Popular among children.  It's fairly accurate, but BBs deal nearly no damage.",
+    "description": "A toy gun with a spring-piston operating mechanism, modeled to look like a small lever-action rifle.  It's fairly accurate, but the BBs it fires deal nearly no damage.",
     "price": 8000,
     "price_postapoc": 250,
     "//": "You could get a Red Ryder at walmart for $32, but you'd shoot your eye out x_-",
