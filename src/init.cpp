@@ -668,7 +668,6 @@ void DynamicDataLoader::finalize_loaded_data( loading_ui &ui )
     using named_entry = std::pair<std::string, std::function<void()>>;
     const std::vector<named_entry> entries = {{
             { _( "Flags" ), &json_flag::finalize_all },
-            { _( "Connect groups" ), &connect_group::finalize_all },
             { _( "Option sliders" ), &option_slider::finalize_all },
             { _( "Body parts" ), &body_part_type::finalize_all },
             { _( "Sub body parts" ), &sub_body_part_type::finalize_all },

@@ -266,32 +266,7 @@ std::string enum_to_string<ter_furn_flag>( ter_furn_flag data )
 
 } // namespace io
 
-static std::unordered_map<std::string, ter_connects> ter_connects_map = { {
-        { "WALL",                     TERCONN_WALL },         // implied for connects_to by ter_furn_flag::TFLAG_CONNECT_WITH_WALL, ter_furn_flag::TFLAG_AUTO_WALL_SYMBOL or ter_furn_flag::TFLAG_WALL
-        { "CHAINFENCE",               TERCONN_CHAINFENCE },
-        { "WOODFENCE",                TERCONN_WOODFENCE },
-        { "RAILING",                  TERCONN_RAILING },
-        { "WATER",                    TERCONN_WATER },
-        { "POOLWATER",                TERCONN_POOLWATER },
-        { "PAVEMENT",                 TERCONN_PAVEMENT },
-        { "PAVEMENT_MARKING",         TERCONN_PAVEMENT_MARKING },
-        { "RAIL",                     TERCONN_RAIL },
-        { "COUNTER",                  TERCONN_COUNTER },
-        { "CANVAS_WALL",              TERCONN_CANVAS_WALL },
-        { "SAND",                     TERCONN_SAND },
-        { "PIT_DEEP",                 TERCONN_PIT_DEEP },
-        { "LINOLEUM",                 TERCONN_LINOLEUM },
-        { "CARPET",                   TERCONN_CARPET },
-        { "CONCRETE",                 TERCONN_CONCRETE },
-        { "CLAY",                     TERCONN_CLAY },
-        { "DIRT",                     TERCONN_DIRT },
-        { "ROCKFLOOR",                TERCONN_ROCKFLOOR },
-        { "MULCHFLOOR",               TERCONN_MULCHFLOOR },
-        { "METALFLOOR",               TERCONN_METALFLOOR },
-        { "WOODFLOOR",                TERCONN_WOODFLOOR },
-        { "INDOORFLOOR",              TERCONN_INDOORFLOOR },         // implied for rotates_to by ter_furn_flag::WINDOW and ter_furn_flag::DOOR, and for rotates_to_member by ter_furn_flag::INDOORS
-    }
-};
+static std::unordered_map<std::string, connect_group> ter_connects_map;
 
 void connect_group::load( const JsonObject &jo, const std::string &src )
 {
@@ -301,8 +276,6 @@ void connect_group::load( const JsonObject &jo, const std::string &src )
     result.index = ter_connects_map.size();
     result.id = connect_group_id( jo.get_string( "id" ) );
     assign( jo, "name", result.name, true );
-
-    std::cout << result.id << " " << result.name << " " << result.index << std::endl;
 
     if( jo.has_string( "group_flags" ) || jo.has_array( "group_flags" ) ) {
         const std::vector<std::string> str_flags = jo.get_as_string_array( "group_flags" );
@@ -328,18 +301,12 @@ void connect_group::load( const JsonObject &jo, const std::string &src )
         }
     }
 
-    // TODO Add to map
-}
-
-void connect_group::finalize_all()
-{
-
+    ter_connects_map[ result.name ] = result;
 }
 
 void connect_group::reset()
 {
-    // TODO
-    //ter_connects_map.clear();
+    ter_connects_map.clear();
 }
 
 static void load_map_bash_tent_centers( const JsonArray &ja, std::vector<furn_str_id> &centers )
@@ -677,18 +644,17 @@ void map_data_common_t::extraprocess_flags( const ter_furn_flag flag )
     if( !transparent && flag == ter_furn_flag::TFLAG_TRANSPARENT ) {
         transparent = true;
     }
-    // wall connection check for JSON backwards compatibility
-    if( flag == ter_furn_flag::TFLAG_WALL || flag == ter_furn_flag::TFLAG_CONNECT_WITH_WALL ) {
-        set_connect_groups( { "WALL" } );
-        set_connects_to( { "WALL" } );
-    }
-    // rotates_to check for JSON backwards compatibility
-    if( flag == ter_furn_flag::TFLAG_WINDOW || flag == ter_furn_flag::TFLAG_DOOR ) {
-        set_rotates_to( { "INDOORFLOOR" } );
-    }
-    // rotates_to_member check for JSON backwards compatibility
-    if( flag == ter_furn_flag::TFLAG_INDOORS ) {
-        set_connect_groups( { "INDOORFLOOR" } );
+
+    for( std::pair<const std::string, connect_group> &item : ter_connects_map ) {
+        if( item.second.group_flags.find( flag ) != item.second.group_flags.end() ) {
+            set_connect_groups( { item.second.name } );
+        }
+        if( item.second.connects_to_flags.find( flag ) != item.second.connects_to_flags.end() ) {
+            set_connect_groups( { item.second.name } );
+        }
+        if( item.second.rotates_to_flags.find( flag ) != item.second.rotates_to_flags.end() ) {
+            set_connect_groups( { item.second.name } );
+        }
     }
 }
 
@@ -742,9 +708,9 @@ void map_data_common_t::set_groups( std::bitset<NUM_TERCONN> &bits,
         const auto it = ter_connects_map.find( grp );
         if( it != ter_connects_map.end() ) {
             if( remove ) {
-                bits.reset( it->second );
+                bits.reset( it->second.index );
             } else {
-                bits.set( it->second );
+                bits.set( it->second.index );
             }
         } else {
             debugmsg( "can't find terrain group %s", group.c_str() );
