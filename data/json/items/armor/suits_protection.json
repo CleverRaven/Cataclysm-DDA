@@ -1567,7 +1567,7 @@
     "id": "lc_chainmail_hauberk",
     "type": "ARMOR",
     "category": "armor",
-    "name": { "str": "low steel chainmail hauberk" },
+    "name": { "str": "mild steel chainmail hauberk" },
     "description": "A fully customized mild steel chainmail outfit, leaving the head uncovered.  Combine with a gambeson or other padded layer for optimal protection.",
     "weight": "9760 g",
     "volume": "2750 ml",
