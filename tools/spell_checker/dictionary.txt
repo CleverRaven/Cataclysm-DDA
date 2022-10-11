@@ -1582,6 +1582,7 @@ rhytidomes
 ribbonlike
 ridged
 riendly
+rightmost
 rigida
 riotbot
 riskin
