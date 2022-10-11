@@ -1768,6 +1768,7 @@
     "name": "taped window",
     "description": "A reinforced single glazed window.  Consists of giant sheet of reinforced glass inserted into a window frame.  It's currently closed.  This one has been blocked out with duct tape.  You could remove the duct tape by cutting it off.",
     "//": "Taped window without curtains",
+    "looks_like": "t_window_no_curtains", 
     "symbol": "\"",
     "color": "dark_gray",
     "move_cost": 0,
