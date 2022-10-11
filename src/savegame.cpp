@@ -439,7 +439,7 @@ void overmap::convert_terrain(
         } else if( old == "temple_finale" ) {
             {
                 ter_set( pos, oter_id( "temple_finale_north" ) );
-                ter_set( pos + tripoint( 0, 0, 1 ), oter_id( "temple_underground_4_north" ) );
+                ter_set( pos + tripoint_above, oter_id( "temple_underground_4_north" ) );
                 ter_set( pos + tripoint( 0, 0, 2 ), oter_id( "temple_underground_3_north" ) );
                 ter_set( pos + tripoint( 0, 0, 3 ), oter_id( "temple_underground_2_north" ) );
                 ter_set( pos + tripoint( 0, 0, 4 ), oter_id( "temple_underground_1_north" ) );
