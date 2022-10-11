@@ -6367,19 +6367,6 @@
   },
   {
     "type": "construction",
-    "id": "constr_triple_pane_glass",
-    "group": "build_triple_glazed_glass_window",
-    "//": "Step 1: Build triple glazed glass window",
-    "category": "WINDOWS",
-    "required_skills": [ [ "fabrication", 3 ] ],
-    "time": "150 m",
-    "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_M", "level": 1 } ] ],
-    "components": [ [ [ "glass_sheet", 3 ] ] ],
-    "pre_terrain": "t_window_empty",
-    "post_terrain": "t_triple_pane_glass"
-  },
-  {
-    "type": "construction",
     "id": "constr_reinforced_double_pane_glass_taped",
     "group": "tape_up_window",
     "//": "Need a recipe for each type of window tapable due to how code works",
@@ -6405,6 +6392,19 @@
   },
   {
     "type": "construction",
+    "id": "constr_triple_pane_glass",
+    "group": "build_triple_glazed_glass_window",
+    "//": "Step 1: Build triple glazed glass window",
+    "category": "WINDOWS",
+    "required_skills": [ [ "fabrication", 3 ] ],
+    "time": "150 m",
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_M", "level": 1 } ] ],
+    "components": [ [ [ "glass_sheet", 3 ] ] ],
+    "pre_terrain": "t_window_empty",
+    "post_terrain": "t_triple_pane_glass"
+  },
+   {
+    "type": "construction",
     "id": "constr_triple_pane_glass_curtain",
     "group": "build_triple_glazed_glass_window",
     "//": "Step 2: Build curtain for triple glazed glass window",
@@ -6415,6 +6415,31 @@
     "components": [ [ [ "nail", 4 ] ], [ [ "sheet", 1 ] ], [ [ "stick", 1 ] ], [ [ "string_36", 1 ] ] ],
     "pre_terrain": "t_triple_pane_glass",
     "post_terrain": "t_triple_pane_glass_with_curtain"
+  },
+  {
+    "type": "construction",
+    "id": "constr_triple_pane_glass_taped",
+    "group": "tape_up_window",
+    "//": "Need a recipe for each type of window tapable due to how code works",
+    "category": "REINFORCE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "5 m",
+    "components": [ [ [ "duct_tape", 50 ] ] ],
+    "pre_terrain": "t_triple_pane_glass",
+    "post_terrain": "t_triple_pane_glass_taped"
+  },
+  {
+    "type": "construction",
+    "id": "constr_revert_triple_pane_glass_taped",
+    "group": "remove_tape_from_window",
+    "//": "Need a recipe for each type of window tapable due to how code works",
+    "category": "REINFORCE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "2 m",
+    "qualities": [ [ { "id": "CUT", "level": 1 } ] ],
+    "byproducts": [ { "item": "duct_tape", "charges": [ 15, 25 ] } ],
+    "pre_terrain": "t_triple_pane_glass_taped",
+    "post_terrain": "t_triple_pane_glass"
   },
   {
     "type": "construction",
@@ -6444,6 +6469,31 @@
   },
   {
     "type": "construction",
+    "id": "constr_reinforced_triple_pane_glass_taped",
+    "group": "tape_up_window",
+    "//": "Need a recipe for each type of window tapable due to how code works",
+    "category": "REINFORCE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "5 m",
+    "components": [ [ [ "duct_tape", 50 ] ] ],
+    "pre_terrain": "t_reinforced_triple_pane_glass",
+    "post_terrain": "t_reinforced_triple_pane_glass_taped"
+  },
+  {
+    "type": "construction",
+    "id": "constr_revert_reinforced_triple_pane_glass_taped",
+    "group": "remove_tape_from_window",
+    "//": "Need a recipe for each type of window tapable due to how code works",
+    "category": "REINFORCE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "2 m",
+    "qualities": [ [ { "id": "CUT", "level": 1 } ] ],
+    "byproducts": [ { "item": "duct_tape", "charges": [ 15, 25 ] } ],
+    "pre_terrain": "t_reinforced_triple_pane_glass_taped",
+    "post_terrain": "t_reinforced_triple_pane_glass"
+  },
+  {
+    "type": "construction",
     "id": "constr_quadruple_pane_glass",
     "group": "build_quadruple_glazed_glass_window",
     "//": "Step 1: Build quadruple glazed glass window",
@@ -6470,6 +6520,31 @@
   },
   {
     "type": "construction",
+    "id": "constr_quadruple_pane_glass_taped",
+    "group": "tape_up_window",
+    "//": "Need a recipe for each type of window tapable due to how code works",
+    "category": "REINFORCE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "5 m",
+    "components": [ [ [ "duct_tape", 50 ] ] ],
+    "pre_terrain": "t_quadruple_pane_glass",
+    "post_terrain": "t_quadruple_pane_glass_taped"
+  },
+  {
+    "type": "construction",
+    "id": "constr_revert_quadruple_pane_glass_taped",
+    "group": "remove_tape_from_window",
+    "//": "Need a recipe for each type of window tapable due to how code works",
+    "category": "REINFORCE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "2 m",
+    "qualities": [ [ { "id": "CUT", "level": 1 } ] ],
+    "byproducts": [ { "item": "duct_tape", "charges": [ 15, 25 ] } ],
+    "pre_terrain": "t_quadruple_pane_glass_taped",
+    "post_terrain": "t_quadruple_pane_glass"
+  },
+  {
+    "type": "construction",
     "id": "constr_reinforced_quadruple_pane_glass",
     "group": "build_reinforced_quadruple_glazed_glass_window",
     "//": "Step 1: Build reinforced quadruple glazed glass window",
@@ -6493,6 +6568,31 @@
     "components": [ [ [ "nail", 4 ] ], [ [ "sheet", 1 ] ], [ [ "stick", 1 ] ], [ [ "string_36", 1 ] ] ],
     "pre_terrain": "t_reinforced_quadruple_pane_glass",
     "post_terrain": "t_reinforced_quadruple_pane_glass_with_curtain"
+  },
+  {
+    "type": "construction",
+    "id": "constr_reinforced_quadruple_pane_glass_taped",
+    "group": "tape_up_window",
+    "//": "Need a recipe for each type of window tapable due to how code works",
+    "category": "REINFORCE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "5 m",
+    "components": [ [ [ "duct_tape", 50 ] ] ],
+    "pre_terrain": "t_reinforced_quadruple_pane_glass",
+    "post_terrain": "t_reinforced_quadruple_pane_glass_taped"
+  },
+  {
+    "type": "construction",
+    "id": "constr_revert_reinforced_quadruple_pane_glass_taped",
+    "group": "remove_tape_from_window",
+    "//": "Need a recipe for each type of window tapable due to how code works",
+    "category": "REINFORCE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "2 m",
+    "qualities": [ [ { "id": "CUT", "level": 1 } ] ],
+    "byproducts": [ { "item": "duct_tape", "charges": [ 15, 25 ] } ],
+    "pre_terrain": "t_reinforced_quadruple_pane_glass_taped",
+    "post_terrain": "t_reinforced_quadruple_pane_glass"
   },
   {
     "type": "construction",

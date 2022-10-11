@@ -2558,6 +2558,35 @@
       "items": [ { "item": "glass_shard", "count": [ 80, 120 ] } ]
     }
   },
+    {
+    "type": "terrain",
+    "id": "t_triple_pane_glass_taped",
+    "name": "taped window",
+    "description": "A triple glazed window.  Consists of three giant sheets of glass inserted into a window frame.  It's currently closed.  This one has been blocked out with duct tape.  You could remove the duct tape by cutting it off.",
+    "looks_like": "t_window_no_curtains", 
+    "//": "Taped window without curtains",
+    "symbol": "\"",
+    "color": "dark_gray",
+    "move_cost": 0,
+    "coverage": 95,
+    "roof": "t_flat_roof",
+    "flags": [ "FLAMMABLE", "NOITEM", "WALL", "BLOCK_WIND", "REDUCE_SCENT", "WINDOW", "SUPPORTS_ROOF" ],
+    "deconstruct": {
+      "ter_set": "t_window_empty",
+      "items": [ { "item": "glass_sheet", "count": 3 }, { "item": "duct_tape", "charges": [ 15, 25 ] } ]
+    },
+    "bash": {
+      "str_min": 6,
+      "str_max": 12,
+      "sound": "glass breaking!",
+      "sound_fail": "whack!",
+      "sound_vol": 16,
+      "sound_fail_vol": 10,
+      "ter_set": "t_window_frame",
+      "items": [ { "item": "glass_shard", "count": [ 68, 100 ] } ]
+    },
+    "shoot": { "reduce_damage": [ 1, 6 ], "reduce_damage_laser": [ 2, 10 ], "destroy_damage": [ 2, 8 ], "no_laser_destroy": true }
+  },
   {
     "type": "terrain",
     "id": "t_reinforced_triple_pane_glass",
@@ -2810,6 +2839,35 @@
   },
   {
     "type": "terrain",
+    "id": "t_reinforced_triple_pane_glass_taped",
+    "name": "taped window",
+    "description": "A reinforced triple glazed window.  Consists of three giant sheets of reinforced glass inserted into a window frame.  It's currently closed.  This one has been blocked out with duct tape.  You could remove the duct tape by cutting it off.",
+    "//": "Taped window without curtains",
+    "looks_like": "t_window_no_curtains", 
+    "symbol": "\"",
+    "color": "dark_gray",
+    "move_cost": 0,
+    "coverage": 95,
+    "roof": "t_flat_roof",
+    "flags": [ "FLAMMABLE", "NOITEM", "WALL", "BLOCK_WIND", "REDUCE_SCENT", "WINDOW", "SUPPORTS_ROOF" ],
+    "deconstruct": {
+      "ter_set": "t_window_empty",
+      "items": [ { "item": "reinforced_glass_sheet", "count": 3 }, { "item": "duct_tape", "charges": [ 15, 25 ] } ]
+    },
+    "bash": {
+      "str_min": 6,
+      "str_max": 12,
+      "sound": "glass breaking!",
+      "sound_fail": "whack!",
+      "sound_vol": 16,
+      "sound_fail_vol": 10,
+      "ter_set": "t_window_frame",
+      "items": [ { "item": "glass_shard", "count": [ 80, 120 ] } ]
+    },
+    "shoot": { "reduce_damage": [ 1, 6 ], "reduce_damage_laser": [ 2, 10 ], "destroy_damage": [ 2, 8 ], "no_laser_destroy": true }
+  },
+  {
+    "type": "terrain",
     "id": "t_quadruple_pane_glass",
     "name": "quadruple glazed glass window",
     "description": "A closed quadruple glazed window.  Consists of four giant sheets of glass inserted into a window frame.",
@@ -3053,6 +3111,35 @@
       "ter_set": "t_window_frame",
       "items": [ { "item": "glass_shard", "count": [ 100, 200 ] } ]
     }
+  },
+    {
+    "type": "terrain",
+    "id": "t_quadruple_pane_glass_taped",
+    "name": "taped window",
+    "description": "A quadruple glazed window.  Consists of four giant sheets of glass inserted into a window frame.  It's currently closed.  This one has been blocked out with duct tape.  You could remove the duct tape by cutting it off.",
+    "looks_like": "t_window_no_curtains", 
+    "//": "Taped window without curtains",
+    "symbol": "\"",
+    "color": "dark_gray",
+    "move_cost": 0,
+    "coverage": 95,
+    "roof": "t_flat_roof",
+    "flags": [ "FLAMMABLE", "NOITEM", "WALL", "BLOCK_WIND", "REDUCE_SCENT", "WINDOW", "SUPPORTS_ROOF" ],
+    "deconstruct": {
+      "ter_set": "t_window_empty",
+      "items": [ { "item": "glass_sheet", "count": 3 }, { "item": "duct_tape", "charges": [ 15, 25 ] } ]
+    },
+    "bash": {
+      "str_min": 6,
+      "str_max": 12,
+      "sound": "glass breaking!",
+      "sound_fail": "whack!",
+      "sound_vol": 16,
+      "sound_fail_vol": 10,
+      "ter_set": "t_window_frame",
+      "items": [ { "item": "glass_shard", "count": [ 68, 100 ] } ]
+    },
+    "shoot": { "reduce_damage": [ 1, 6 ], "reduce_damage_laser": [ 2, 10 ], "destroy_damage": [ 2, 8 ], "no_laser_destroy": true }
   },
   {
     "type": "terrain",
@@ -3304,6 +3391,35 @@
       "ter_set": "t_window_frame",
       "items": [ { "item": "glass_shard", "count": [ 100, 200 ] } ]
     }
+  },
+  {
+    "type": "terrain",
+    "id": "t_reinforced_quadruple_pane_glass_taped",
+    "name": "taped window",
+    "description": "A reinforced quadruple glazed window.  Consists of four giant sheets of reinforced glass inserted into a window frame.  It's currently closed.  This one has been blocked out with duct tape.  You could remove the duct tape by cutting it off.",
+    "//": "Taped window without curtains",
+    "looks_like": "t_window_no_curtains", 
+    "symbol": "\"",
+    "color": "dark_gray",
+    "move_cost": 0,
+    "coverage": 95,
+    "roof": "t_flat_roof",
+    "flags": [ "FLAMMABLE", "NOITEM", "WALL", "BLOCK_WIND", "REDUCE_SCENT", "WINDOW", "SUPPORTS_ROOF" ],
+    "deconstruct": {
+      "ter_set": "t_window_empty",
+      "items": [ { "item": "reinforced_glass_sheet", "count": 3 }, { "item": "duct_tape", "charges": [ 15, 25 ] } ]
+    },
+    "bash": {
+      "str_min": 6,
+      "str_max": 12,
+      "sound": "glass breaking!",
+      "sound_fail": "whack!",
+      "sound_vol": 16,
+      "sound_fail_vol": 10,
+      "ter_set": "t_window_frame",
+      "items": [ { "item": "glass_shard", "count": [ 80, 120 ] } ]
+    },
+    "shoot": { "reduce_damage": [ 1, 6 ], "reduce_damage_laser": [ 2, 10 ], "destroy_damage": [ 2, 8 ], "no_laser_destroy": true }
   },
   {
     "type": "terrain",
