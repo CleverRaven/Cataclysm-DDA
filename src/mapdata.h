@@ -864,7 +864,7 @@ extern furn_id f_null, f_clear,
        f_camp_chair,
        f_sign,
        f_gunsafe_ml, f_gunsafe_mj, f_gun_safe_el,
-       f_street_light, f_traffic_light,
+       f_street_light, f_traffic_light, f_flagpole, f_wooden_flagpole,
        f_console, f_console_broken;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
