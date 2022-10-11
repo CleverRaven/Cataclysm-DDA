@@ -219,7 +219,7 @@ enum class ter_furn_flag : int {
     TFLAG_HARVESTED,
     TFLAG_PERMEABLE,
     TFLAG_AUTO_WALL_SYMBOL,
-    TFLAG_CONNECT_TO_WALL,
+    TFLAG_CONNECT_WITH_WALL,
     TFLAG_CLIMBABLE,
     TFLAG_GOES_DOWN,
     TFLAG_GOES_UP,
@@ -323,6 +323,7 @@ enum ter_connects : int {
     TERCONN_POOLWATER,
     TERCONN_WATER,
     TERCONN_PAVEMENT,
+    TERCONN_PAVEMENT_MARKING,
     TERCONN_RAIL,
     TERCONN_COUNTER,
     TERCONN_CANVAS_WALL,
@@ -338,6 +339,8 @@ enum ter_connects : int {
     TERCONN_METALFLOOR,
     TERCONN_WOODFLOOR,
     TERCONN_INDOORFLOOR,
+
+    NUM_TERCONN
 };
 
 struct activity_byproduct {
@@ -539,30 +542,26 @@ struct map_data_common_t {
 
         void set_flag( ter_furn_flag flag );
 
-        // Terrain group to connects with; symmetric relation (i.e. both neighbours have the same value)
-        int connect_group = 0;
-        // Terrain group rotate towards; not symmetric, target of active part
-        int rotate_to_group = 0;
-        // Terrain group of this type, for others to rotate towards; not symmetric, passive part
-        int rotate_to_group_member = 0;
+        // Terrain groups of this type, for others to connect or rotate to; not symmetric, passive part
+        std::bitset<NUM_TERCONN> connect_groups;
+        // Terrain groups to connect to; not symmetric, target of active part
+        std::bitset<NUM_TERCONN> connect_to_groups;
+        // Terrain groups rotate towards; not symmetric, target of active part
+        std::bitset<NUM_TERCONN> rotate_to_groups;
 
-        // Set connection group
-        void set_connects( const std::string &connect_group_string );
+        // Set to be member of a connection target group
+        void set_connect_groups( const std::vector<std::string> &connect_groups_vec );
+        // Set target connection group
+        void set_connects_to( const std::vector<std::string> &connect_groups_vec );
         // Set target group to rotate towards
-        void set_rotates_to( const std::string &towards_group_string );
-        // Set to be member of a rotation target group
-        void set_rotates_to_member( const std::string &towards_group_string );
+        void set_rotates_to( const std::vector<std::string> &connect_groups_vec );
 
-        bool connects( int &ret ) const;
-        bool rotates( int &ret ) const;
+        // Set groups helper function
+        void set_groups( std::bitset<NUM_TERCONN> &bits,
+                         const std::vector<std::string> &connect_groups_vec );
 
-        bool connects_to( int test_connect_group ) const {
-            return connect_group != TERCONN_NONE && connect_group == test_connect_group;
-        }
-
-        // Tests if the type is a member of a rotares_towards group
-        bool in_rotates_to( int test_rotates_group ) const {
-            return rotate_to_group_member != TERCONN_NONE && rotate_to_group_member == test_rotates_group;
+        bool in_connect_groups( const std::bitset<NUM_TERCONN> &test_connect_group ) const {
+            return ( connect_groups & test_connect_group ).any();
         }
 
         int symbol() const;
@@ -865,7 +864,7 @@ extern furn_id f_null, f_clear,
        f_camp_chair,
        f_sign,
        f_gunsafe_ml, f_gunsafe_mj, f_gun_safe_el,
-       f_street_light, f_traffic_light,
+       f_street_light, f_traffic_light, f_flagpole, f_wooden_flagpole,
        f_console, f_console_broken;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////

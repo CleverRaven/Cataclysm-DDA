@@ -9,6 +9,9 @@ args.add_argument("dir", action="store", help="specify json directory")
 args.add_argument(
     "-f", "--format", default="md", dest="format", action="store",
     help="output format: 'md' for markdown, 'csv' for comma-separated")
+args.add_argument(
+    "-a", "--ammo", default="", dest="ammo", action="store",
+    help="ammotype filter - provide an ammotype id")
 args_dict = vars(args.parse_args())
 
 all_gun_jos = dict()
@@ -205,7 +208,6 @@ def extract_damage(jo):
         return str(jo[key]["amount"])
 
     for instance in jo[key]:
-        print(instance)
         ret += instance["amount"]
 
     return str(ret)
@@ -224,7 +226,8 @@ def print_stats(jo):
     out += insert_separator()
     out += extract_length(jo)
     out += insert_separator()
-    out += extract_ammo(jo)
+    ammo = extract_ammo(jo)
+    out += ammo
     out += insert_separator()
     out += extract_modes(jo)
     out += insert_separator()
@@ -236,6 +239,9 @@ def print_stats(jo):
     out += insert_separator()
     out += extract_damage(jo)
     out += insert_separator()
+
+    if args_dict["ammo"] != "" and args_dict["ammo"] not in ammo:
+        return
 
     print(out)
 

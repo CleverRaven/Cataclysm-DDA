@@ -622,6 +622,8 @@ class known_magic
         void learn_spell( const spell_type *sp, Character &guy, bool force = false );
         void forget_spell( const std::string &sp );
         void forget_spell( const spell_id &sp );
+        void set_spell_level( const spell_id &, int, const Character * );
+        void set_spell_exp( const spell_id &, int, const Character * );
         // time in moves for the Character to memorize the spell
         int time_to_learn_spell( const Character &guy, const spell_id &sp ) const;
         int time_to_learn_spell( const Character &guy, const std::string &str ) const;
