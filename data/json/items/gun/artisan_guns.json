@@ -19,8 +19,8 @@
       "barrel_volume": "-500 ml"
     },
     "valid_mod_locations": [ [ "mechanism", 4 ], [ "sling", 1 ] ],
-    "bashing": 20,
-    "to_hit": { "grip": "solid", "length": "hand", "surface": "any", "balance": "neutral" },
+    "bashing": 25,
+    "to_hit": { "grip": "bad", "length": "hand", "surface": "any", "balance": "uneven" },
     "qualities": [ [ "HAMMER", 1 ] ],
     "extend": { "flags": [ "DURABLE_MELEE" ] },
     "weapon_category": [ "MACES" ]
