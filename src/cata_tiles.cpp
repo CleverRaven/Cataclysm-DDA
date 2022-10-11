@@ -1856,7 +1856,7 @@ bool cata_tiles::draw_from_id_string( const std::string &id, const tripoint &pos
 {
     int nullint = 0;
     return cata_tiles::draw_from_id_string( id, TILE_CATEGORY::NONE, empty_string, pos, subtile,
-                                            rota, ll, apply_night_vision_goggles, nullint, 0, 0 );
+                                            rota, ll, apply_night_vision_goggles, nullint, 0, overlay_count );
 }
 
 bool cata_tiles::draw_from_id_string( const std::string &id, TILE_CATEGORY category,
@@ -1866,7 +1866,7 @@ bool cata_tiles::draw_from_id_string( const std::string &id, TILE_CATEGORY categ
 {
     int nullint = 0;
     return cata_tiles::draw_from_id_string( id, category, subcategory, pos, subtile, rota,
-                                            ll, apply_night_vision_goggles, nullint, 0, 0 );
+                                            ll, apply_night_vision_goggles, nullint, 0, overlay_count );
 }
 
 bool cata_tiles::draw_from_id_string( const std::string &id, const tripoint &pos, int subtile,
@@ -1875,7 +1875,7 @@ bool cata_tiles::draw_from_id_string( const std::string &id, const tripoint &pos
                                       int &height_3d, int overlay_count )
 {
     return cata_tiles::draw_from_id_string( id, TILE_CATEGORY::NONE, empty_string, pos, subtile,
-                                            rota, ll, apply_night_vision_goggles, height_3d, 0, 0 );
+                                            rota, ll, apply_night_vision_goggles, height_3d, 0, overlay_count );
 }
 
 bool cata_tiles::draw_from_id_string( const std::string &id, TILE_CATEGORY category,
@@ -1884,7 +1884,7 @@ bool cata_tiles::draw_from_id_string( const std::string &id, TILE_CATEGORY categ
                                       bool apply_night_vision_goggles, int &height_3d, int intensity, int overlay_count )
 {
     return cata_tiles::draw_from_id_string( id, category, subcategory, pos, subtile, rota,
-                                            ll, apply_night_vision_goggles, height_3d, intensity, "", 0 );
+                                            ll, apply_night_vision_goggles, height_3d, intensity, "", overlay_count );
 }
 
 bool cata_tiles::draw_from_id_string( const std::string &id, TILE_CATEGORY category,
@@ -1893,7 +1893,7 @@ bool cata_tiles::draw_from_id_string( const std::string &id, TILE_CATEGORY categ
                                       bool apply_night_vision_goggles, int &height_3d, int overlay_count )
 {
     return cata_tiles::draw_from_id_string( id, category, subcategory, pos, subtile, rota,
-                                            ll, apply_night_vision_goggles, height_3d, 0, "", 0 );
+                                            ll, apply_night_vision_goggles, height_3d, 0, "", overlay_count );
 }
 
 cata::optional<tile_lookup_res>
