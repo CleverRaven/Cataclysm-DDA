@@ -44,10 +44,11 @@ alkahest
 alkalis
 alkyl
 alleghaniensis
-allosaurus
 allosaurid
+allosaurus
 allucination
 alnico
+alquerque
 altamente
 alternators
 alumentum
@@ -316,6 +317,7 @@ champed
 channnnce
 chasin
 chasmosaurus
+chaturanga
 chausses
 cheapshot
 cheescutter
@@ -784,6 +786,7 @@ greatclubs
 greatsword
 greatswords
 greenways
+gridded
 grindle
 grinny
 grnd
@@ -853,6 +856,7 @@ hivemind
 hjklyubn
 hmm
 hmmm
+hnefatafl
 hollowpoint
 holybook
 homebrewing
@@ -941,6 +945,7 @@ j
 jabberwock
 jabberwocks
 jackolantern
+jackstraws
 jawless
 jerrypack
 jewelboxes
@@ -1022,6 +1027,7 @@ lambeosaurus
 lamellar
 landshark
 langourous
+latrunculi
 latticed
 lavrae
 lawd
@@ -1048,9 +1054,9 @@ lifestraw
 lightnin
 lightsource
 lightstrip
-limbed
 lilypad
 lilypads
+limbed
 listlessly
 lithely
 litheness
@@ -1315,6 +1321,7 @@ ornithomimid
 ornithomimus
 orrery
 oryctodromeus
+osho
 otes
 otha
 otherland
@@ -1376,6 +1383,7 @@ peytral
 phelloderm
 phelloderms
 phenotypes
+phenotypic
 phenotypical
 phenotypically
 phloem
@@ -1386,7 +1394,6 @@ photochromic
 photodiode
 photophore
 phthalocyanine
-phenotypic
 phyle
 physicochemical
 picatinny
@@ -1649,6 +1656,7 @@ seguiram
 semiaquatic
 sendin
 sendo
+senet
 serendipitously
 serrate
 servomotors
@@ -1671,6 +1679,7 @@ shlip
 shlop
 shoddiness
 shoggoth
+shogi
 shopkeep
 shoppette
 shorthair
@@ -1926,6 +1935,7 @@ tricorne
 trifacet
 trifacets
 trilaser
+trilobite
 tripcore
 troglobite
 troodon
@@ -1933,6 +1943,7 @@ troublin
 tryphillum
 tshirt
 tshk
+tsumi
 ttitude
 tumescences
 tundras
@@ -2016,12 +2027,12 @@ utilibot
 uttarasanga
 v
 vajra
+valhallist
 vambraces
 vantablack
 varanid
 vars
 vatgrown
-valhallist
 vaulters
 veggy
 venandi
@@ -2051,6 +2062,7 @@ wammles
 wanderin
 wantin
 warframe
+wargame
 warhammer
 warmouth
 wastebread
@@ -2097,6 +2109,7 @@ wk
 wolfshead
 woodchips
 woodcutting
+woodlouse
 woodsmanship
 workcycle
 workshifts
@@ -2154,5 +2167,3 @@ zweitimbers
 zygomaticus
 zzz
 zzzzchzzzzchurzzzpileus
-trilobite
-woodlouse
