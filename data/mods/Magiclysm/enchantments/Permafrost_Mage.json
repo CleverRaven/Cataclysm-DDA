@@ -15,8 +15,9 @@
   },
   {
     "type": "enchantment",
-    "id": "PERMAFROST_MAGE_MOVES_SUBSTRACT",
+    "id": "PERMAFROST_MAGE",
     "condition": "ALWAYS",
+    "values": [ { "value": "CLIMATE_CONTROL_HEAT", "add": 10 }, { "value": "CLIMATE_CONTROL_CHILL", "add": 30 } ],
     "hit_me_effect": [ { "id": "permafrost_mage_moves_substract" } ]
   }
 ]

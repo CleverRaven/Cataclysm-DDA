@@ -19,8 +19,9 @@
   },
   {
     "type": "enchantment",
-    "id": "GLACIER_MAGE_PUSH_ATTACKS",
+    "id": "GLACIER_MAGE",
     "condition": "ALWAYS",
+    "values": [ { "value": "CLIMATE_CONTROL_HEAT", "add": 10 }, { "value": "CLIMATE_CONTROL_CHILL", "add": 30 } ],
     "hit_you_effect": [ { "id": "glacier_mage_push_attacks", "once_in": 4 } ]
   },
   {

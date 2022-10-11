@@ -18,7 +18,12 @@
     "type": "enchantment",
     "id": "ICE_ELEMENTAL",
     "condition": "ALWAYS",
-    "values": [ { "value": "ARMOR_COLD", "multiply": -0.4 }, { "value": "ITEM_DAMAGE_COLD", "add": 9 } ],
+    "values": [
+      { "value": "ARMOR_COLD", "multiply": -0.4 },
+      { "value": "ITEM_DAMAGE_COLD", "add": 9 },
+      { "value": "CLIMATE_CONTROL_HEAT", "add": 10 },
+      { "value": "CLIMATE_CONTROL_CHILL", "add": 30 }
+    ],
     "hit_you_effect": [
       {
         "id": "ICE_ELEMENTAL_COLD_DAMAGE",

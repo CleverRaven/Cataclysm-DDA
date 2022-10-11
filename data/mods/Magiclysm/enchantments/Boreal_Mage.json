@@ -1,9 +1,13 @@
 [
   {
     "type": "enchantment",
-    "id": "BOREAL_MAGE_MELEE",
+    "id": "BOREAL_MAGE",
     "condition": "ALWAYS",
-    "values": [ { "value": "ITEM_DAMAGE_COLD", "add": 9 } ]
+    "values": [
+      { "value": "ITEM_DAMAGE_COLD", "add": 9 },
+      { "value": "CLIMATE_CONTROL_HEAT", "add": 10 },
+      { "value": "CLIMATE_CONTROL_CHILL", "add": 30 }
+    ]
   },
   {
     "id": "boreal_mage_cold_damage",
@@ -22,7 +26,7 @@
   },
   {
     "type": "enchantment",
-    "id": "BOREAL_MAGE",
+    "id": "BOREAL_MAGE_AURA",
     "condition": "ALWAYS",
     "intermittent_activation": { "effects": [ { "frequency": "5 seconds", "spell_effects": [ { "id": "boreal_mage_cold_damage" } ] } ] }
   },
@@ -66,7 +70,7 @@
     "name": { "str": "Cold Aura (on)" },
     "points": -1,
     "description": "Your attendance is so dangerous you can freeze everything around yourself.",
-    "enchantments": [ "BOREAL_MAGE" ],
+    "enchantments": [ "BOREAL_MAGE_AURA" ],
     "transform": { "target": "COLD_AURA_OFF", "msg_transform": "You suppress your frozen powers.", "active": false, "moves": 10 }
   }
 ]

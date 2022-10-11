@@ -1,5 +1,11 @@
 [
   {
+    "type": "enchantment",
+    "id": "TUNDRA_MAGE",
+    "condition": "ALWAYS",
+    "values": [ { "value": "CLIMATE_CONTROL_HEAT", "add": 10 }, { "value": "CLIMATE_CONTROL_CHILL", "add": 30 } ]
+  },
+  {
     "id": "tundra_mage_aoe",
     "type": "SPELL",
     "name": "Tundra Mage Slowdown DoT AoE",
