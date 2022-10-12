@@ -283,7 +283,7 @@ void connect_group::load( const JsonObject &jo )
                    ter_connects_map.size() : ter_connects_map[result.id.str()].index;
     // Check index overflow for bitsets
     if( result.index >= NUM_TERCONN ) {
-        debugmsg( "Exceeded current maximum of %d connection groups. Increase NUM_TERCONN to allow for more groups!",
+        debugmsg( "Exceeded current maximum of %d connection groups.  Increase NUM_TERCONN to allow for more groups!",
                   NUM_TERCONN );
         return;
     }
