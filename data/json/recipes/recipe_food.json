@@ -5683,9 +5683,24 @@
     "book_learn": [ [ "vacuum_sealing", 1 ] ],
     "qualities": [ { "id": "CUT", "level": 2 }, { "id": "COOK", "level": 3 } ],
     "using": [ [ "vacuum_sealing_standard", 1, "LIST" ] ],
-    "tools": [ [ "surface_heat", 40, "LIST" ] ],
     "//": "since vacuum sealed meat is cooked, need 40u surface_heat - sealing in salt is not sufficient to cook it",
-    "components": [ [ [ "meat_red_raw", 2, "LIST" ] ], [ [ "salt_preservation", 2, "LIST" ] ] ]
+    "components": [
+      [
+        [ "meat_cooked", 2 ],
+        [ "meat_fatty_cooked", 2 ],
+        [ "meat_scrap_cooked", 20 ],
+        [ "mutant_meat_cooked", 2 ],
+        [ "mutant_meat_scrap_cooked", 20 ],
+        [ "human_cooked", 2 ],
+        [ "mutant_human_cooked", 2 ],
+        [ "demihuman_cooked", 2 ],
+        [ "meat_pickled", 2 ],
+        [ "meat_smoked", 2 ],
+        [ "rehydrated_meat", 2 ],
+        [ "meat_fried", 2 ]
+      ],
+      [ [ "salt_preservation", 2, "LIST" ] ]
+    ]
   },
   {
     "type": "recipe",
