@@ -81,8 +81,8 @@
     "armor": [
       {
         "covers": [ "arm_l", "arm_r" ],
-        "encumbrance": 10,
-        "coverage": 95,
+        "encumbrance": 1,
+        "coverage": 80,
         "specifically_covers": [ "arm_shoulder_l", "arm_shoulder_r" ]
       }
     ]
