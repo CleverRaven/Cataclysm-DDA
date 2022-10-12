@@ -602,8 +602,8 @@ TEST_CASE( "tools use charge to craft", "[crafting][charge]" )
         // - 10 charges of surface heat
 
         WHEN( "each tool has enough charges" ) {
-            item hotplate = tool_with_ammo( "hotplate", 500 );
-            REQUIRE( hotplate.ammo_remaining() == 500 );
+            item hotplate = tool_with_ammo( "hotplate", 360 );
+            REQUIRE( hotplate.ammo_remaining() == 360 );
             tools.push_back( hotplate );
             item soldering = tool_with_ammo( "soldering_iron", 20 );
             REQUIRE( soldering.ammo_remaining() == 20 );
@@ -616,20 +616,20 @@ TEST_CASE( "tools use charge to craft", "[crafting][charge]" )
                 prep_craft( recipe_carver_off, tools, true );
                 int turns = actually_test_craft( recipe_carver_off, INT_MAX );
                 CAPTURE( turns );
-                CHECK( get_remaining_charges( "hotplate" ) == 4 );
+                CHECK( get_remaining_charges( "hotplate" ) == 10 );
                 CHECK( get_remaining_charges( "soldering_iron" ) == 10 );
             }
         }
 
         WHEN( "multiple tools have enough combined charges" ) {
-            tools.insert( tools.end(), 2, tool_with_ammo( "hotplate", 200 ) );
+            tools.insert( tools.end(), 2, tool_with_ammo( "hotplate", 175 ) );
             tools.insert( tools.end(), 2, tool_with_ammo( "soldering_iron", 5 ) );
             tools.insert( tools.end(), 1, tool_with_ammo( "vac_mold", 4 ) );
 
             THEN( "crafting succeeds, and uses charges from multiple tools" ) {
                 prep_craft( recipe_carver_off, tools, true );
                 actually_test_craft( recipe_carver_off, INT_MAX );
-                CHECK( get_remaining_charges( "hotplate" ) == 6 );
+                CHECK( get_remaining_charges( "hotplate" ) == 0 );
                 CHECK( get_remaining_charges( "soldering_iron" ) == 0 );
             }
         }
@@ -643,7 +643,7 @@ TEST_CASE( "tools use charge to craft", "[crafting][charge]" )
             tools.push_back( soldering_iron );
             item UPS( "UPS_off" );
             item UPS_mag( UPS.magazine_default() );
-            UPS_mag.ammo_set( UPS_mag.ammo_default(), 510 );
+            UPS_mag.ammo_set( UPS_mag.ammo_default(), 500 );
             UPS.put_in( UPS_mag, item_pocket::pocket_type::MAGAZINE_WELL );
             tools.emplace_back( UPS );
             tools.push_back( tool_with_ammo( "vac_mold", 4 ) );
