@@ -67,12 +67,7 @@ class ui_adaptor;
 #   endif
 #endif
 
-#if defined(__APPLE__)
-// For TARGET_OS_IPHONE macro to test if OS is iOS
-#include <TargetConditionals.h>
-#endif
-
-#if defined(__ANDROID__) || defined(TARGET_OS_IPHONE)
+#if defined(__ANDROID__) || defined(__IPHONEOS__)
 #include <SDL_system.h>
 #endif
 
@@ -600,7 +595,7 @@ int APIENTRY WinMain( _In_ HINSTANCE /* hInstance */, _In_opt_ HINSTANCE /* hPre
 {
     int argc = __argc;
     char **argv = __argv;
-#elif defined(__ANDROID__) || defined(TARGET_OS_IPHONE)
+#elif defined(__ANDROID__) || defined(__IPHONEOS__)
 extern "C" int SDL_main( int argc, char **argv ) {
 #else
 int main( int argc, const char *argv[] )
@@ -630,7 +625,7 @@ int main( int argc, const char *argv[] )
 
 #if defined(__ANDROID__)
     PATH_INFO::init_user_dir( external_storage_path );
-#elif defined(TARGET_OS_IPHONE)
+#elif defined(__IPHONEOS__)
     PATH_INFO::init_user_dir( std::string( getenv( "HOME" ) ) + "/Documents/" );
 #elif defined(USE_HOME_DIR) || defined(USE_XDG_DIR)
     PATH_INFO::init_user_dir( "" );
@@ -802,7 +797,7 @@ int main( int argc, const char *argv[] )
     return 0;
 }
 
-#if defined(TARGET_OS_IPHONE)
+#if defined(__IPHONEOS__)
 #ifndef SDL_MAIN_HANDLED
 #include <SDL_main.h>
 #ifdef main

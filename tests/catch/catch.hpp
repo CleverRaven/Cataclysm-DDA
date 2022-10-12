@@ -74,7 +74,7 @@
 #  if (defined(TARGET_OS_OSX) && TARGET_OS_OSX == 1) || \
       (defined(TARGET_OS_MAC) && TARGET_OS_MAC == 1)
 #    define CATCH_PLATFORM_MAC
-#  elif (defined(TARGET_OS_IPHONE) && TARGET_OS_IPHONE == 1)
+#  elif (defined(TARGET_OS_IPHONE) && TARGET_OS_IPHONE == 1) || defined(__IPHONEOS__)
 #    define CATCH_PLATFORM_IPHONE
 #  endif
 

@@ -97,7 +97,7 @@
 #include "worldfactory.h"
 #endif
 
-#if defined(TARGET_OS_IPHONE)
+#if defined(__IPHONEOS__)
 #include "worldfactory.h"
 #endif
 
@@ -181,7 +181,7 @@ static void InitSDL()
     SDL_SetHint( SDL_HINT_WINDOWS_DISABLE_THREAD_NAMING, "1" );
 #endif
 
-#if defined(TARGET_OS_IPHONE)
+#if defined(__IPHONEOS__)
 #if defined(SDL_HINT_IOS_HIDE_HOME_INDICATOR)
     SDL_SetHint( SDL_HINT_IOS_HIDE_HOME_INDICATOR, "1" );
 #endif
@@ -2663,7 +2663,7 @@ void android_vibrate()
 }
 #endif
 
-#if !defined(__ANDROID__) //|| !defined(TARGET_OS_IPHONE)
+#if !defined(__ANDROID__)
 static bool window_focus = false;
 static bool text_input_active_when_regaining_focus = false;
 #endif
@@ -2674,7 +2674,7 @@ void StartTextInput()
     if( SDL_IsTextInputActive() == SDL_TRUE ) {
         return;
     }
-#if defined(__ANDROID__) || defined(TARGET_OS_IPHONE)
+#if defined(__ANDROID__) || defined(__IPHONEOS__)
     SDL_StartTextInput();
 #else
     if( window_focus ) {
@@ -2687,7 +2687,7 @@ void StartTextInput()
 
 void StopTextInput()
 {
-#if defined(__ANDROID__) || defined(TARGET_OS_IPHONE)
+#if defined(__ANDROID__) || defined(__IPHONEOS__)
     SDL_StopTextInput();
 #else
     if( window_focus ) {
@@ -3004,10 +3004,10 @@ static void CheckMessages()
     }
 #endif
 
-#if defined(TARGET_OS_IPHONE)
-    /*if( !SDL_IsTextInputActive() ) {
+#if defined(IOS_KEYBOARD)
+    if( !SDL_IsTextInputActive() ) {
         StartTextInput();
-    }*/
+    }
 #endif
 
     last_input = input_event();
@@ -3090,16 +3090,16 @@ static void CheckMessages()
                         break;
                 }
                 break;
-#if defined(TARGET_OS_IPHONE)
+#if defined(__IPHONEOS__)
             case SDL_APP_WILLENTERBACKGROUND:
                 if( world_generator &&
                     world_generator->active_world &&
                     g && g->uquit == QUIT_NO &&
-                    //get_option<bool>( "ANDROID_QUICKSAVE" ) &&
                     !std::uncaught_exception() ) {
                     g->quicksave();
                 }
                 if( SDL_IsTextInputActive() ) {
+                    // TODO: Abstract common method with above usage
                     text_input_active_when_regaining_focus = true;
                     // Stop text input to not intefere with other programs
                     SDL_StopTextInput();
@@ -3145,7 +3145,7 @@ static void CheckMessages()
                     SDL_ShowCursor( SDL_DISABLE );
                 }
                 keyboard_mode mode = keyboard_mode::keychar;
-#if !defined(__ANDROID__) //&& !defined(TARGET_OS_IPHONE)
+#if !defined(__ANDROID__) && !defined(__IPHONEOS__)
                 if( !SDL_IsTextInputActive() ) {
                     mode = keyboard_mode::keycode;
                 }
@@ -3202,7 +3202,7 @@ static void CheckMessages()
                 }
 #endif
                 keyboard_mode mode = keyboard_mode::keychar;
-#if !defined(__ANDROID__) //&& !defined(TARGET_OS_IPHONE)
+#if !defined(__ANDROID__) && !defined(__IPHONEOS__)
                 if( !SDL_IsTextInputActive() ) {
                     mode = keyboard_mode::keycode;
                 }
@@ -3811,7 +3811,7 @@ input_event input_manager::get_input_event( const keyboard_mode preferred_keyboa
         throw std::runtime_error( "input_manager::get_input_event called in test mode" );
     }
 
-#if !defined(__ANDROID__) //&& !defined(TARGET_OS_IPHONE)
+#if !defined(__ANDROID__) && !defined(__IPHONEOS__)
     if( actual_keyboard_mode( preferred_keyboard_mode ) == keyboard_mode::keychar ) {
         StartTextInput();
     } else {

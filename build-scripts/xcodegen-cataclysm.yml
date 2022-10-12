@@ -90,7 +90,8 @@ targets:
           - GIT_VERSION 
           - TILES 
           - BACKTRACE 
-          - SDL_SOUND 
+          - SDL_SOUND
+          - IOS_KEYBOARD
           - $(inherited)
         OTHER_CPLUSPLUSFLAGS: 
           #- "-Werror"
