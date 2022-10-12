@@ -2124,9 +2124,6 @@ void npc::shop_restock()
             }
         }
     }
-    if( value_groups.empty() && rigid_groups.empty() ) {
-        return;
-    }
 
     std::list<item> ret;
     int shop_value = 75000;

@@ -302,6 +302,7 @@ cegamente
 centerdamage
 centric
 cepa
+cephalopod
 cephalothorax
 ceratopsian
 ceratosaurus
@@ -381,6 +382,7 @@ consecrator
 consistence
 const
 constabulario
+contorts
 controllability
 conversando
 cookin
@@ -583,6 +585,7 @@ esters
 estoc
 estocs
 ethereally
+euoplocephalus
 eusocial
 evacs
 everburning
@@ -739,6 +742,7 @@ gasbomb
 gasgun
 gasmask
 gastank
+gastonia
 gastrolith
 geddoff
 genecraft
@@ -777,6 +781,8 @@ greaseproof
 greatbow
 greatclub
 greatclubs
+greatsword
+greatswords
 greenways
 grindle
 grinny
@@ -864,6 +870,7 @@ hrmmm
 hsh
 hsss
 https
+hued
 hulled
 humaniform
 humaniforms
@@ -1212,6 +1219,7 @@ myrmidon
 mythologically
 n
 nable
+nagamaki
 nailboard
 nakha
 nanocompound
@@ -1331,6 +1339,8 @@ pachycephalosaurus
 pachyrhinosaurus
 packable
 paf
+palpably
+panoplosaurus
 papyrifera
 parabellum
 parabolan
@@ -1625,6 +1635,7 @@ scatterer
 scimitars
 scissorlimbs
 sclerotin
+scolosaurus
 scrabblin
 screecher
 screechin
@@ -1760,6 +1771,7 @@ starrin
 std
 steeltoed
 steerable
+stego
 stegoceras
 stegosaurus
 stegosaurusfindsrobot
@@ -2137,6 +2149,8 @@ zombullfrogs
 zpzzzzpzz
 zubon
 zuul
+zweitimber
+zweitimbers
 zygomaticus
 zzz
 zzzzchzzzzchurzzzpileus

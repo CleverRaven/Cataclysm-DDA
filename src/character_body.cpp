@@ -198,27 +198,7 @@ void Character::update_body( const time_point &from, const time_point &to )
     }
     update_stomach( from, to );
     recalculate_enchantment_cache();
-    // after recalcing the enchantment cache can properly remove and add mutations
-    const std::vector<trait_id> &current_traits = get_mutations();
-    for( const trait_id &mut : mutations_to_remove ) {
-        // check if the player still has a mutation
-        // since a trait from an item might be provided by another item as well
-        auto it = std::find( current_traits.begin(), current_traits.end(), mut );
-        if( it == current_traits.end() ) {
-            const mutation_branch &mut_b = *mut;
-            cached_mutations.erase( std::remove( cached_mutations.begin(), cached_mutations.end(), &mut_b ),
-                                    cached_mutations.end() );
-            mutation_loss_effect( mut );
-            enchantment_wear_change();
-        }
-    }
-    for( const trait_id &mut : mutations_to_add ) {
-        cached_mutations.push_back( &mut.obj() );
-        mutation_effect( mut, true );
-        enchantment_wear_change();
-    }
-    mutations_to_add.clear();
-    mutations_to_remove.clear();
+    update_enchantment_mutations();
     if( ticks_between( from, to, 3_minutes ) > 0 ) {
         magic->update_mana( *this, to_turns<float>( 3_minutes ) );
     }
@@ -297,8 +277,6 @@ void Character::update_body( const time_point &from, const time_point &to )
         }
     }
 
-
-
     for( const auto &v : vitamin::all() ) {
         const time_duration rate = vitamin_rate( v.first );
 
@@ -355,6 +333,31 @@ void Character::update_body( const time_point &from, const time_point &to )
     if( calendar::once_every( 24_hours ) ) {
         do_skill_rust();
     }
+}
+
+void Character::update_enchantment_mutations()
+{
+    // after recalcing the enchantment cache can properly remove and add mutations
+    const std::vector<trait_id> &current_traits = get_mutations();
+    for( const trait_id &mut : mutations_to_remove ) {
+        // check if the player still has a mutation
+        // since a trait from an item might be provided by another item as well
+        auto it = std::find( current_traits.begin(), current_traits.end(), mut );
+        if( it == current_traits.end() ) {
+            const mutation_branch &mut_b = *mut;
+            cached_mutations.erase( std::remove( cached_mutations.begin(), cached_mutations.end(), &mut_b ),
+                                    cached_mutations.end() );
+            mutation_loss_effect( mut );
+            enchantment_wear_change();
+        }
+    }
+    for( const trait_id &mut : mutations_to_add ) {
+        cached_mutations.push_back( &mut.obj() );
+        mutation_effect( mut, true );
+        enchantment_wear_change();
+    }
+    mutations_to_add.clear();
+    mutations_to_remove.clear();
 }
 
 /* Here lies the intended effects of body temperature
@@ -423,7 +426,9 @@ void Character::update_bodytemp()
     const bool has_heatsink = has_flag( json_flag_HEATSINK ) || is_wearing( itype_rm13_armor_on ) ||
                               heat_immune;
     const bool has_common_cold = has_effect( effect_common_cold );
-    const bool has_climate_control = in_climate_control();
+    const std::pair<int, int> climate_control = climate_control_strength();
+    const int climate_control_heat = climate_control.first;
+    const int climate_control_chill = climate_control.second;
     const bool use_floor_warmth = can_use_floor_warmth();
     const furn_id furn_at_pos = here.furn( pos() );
     const cata::optional<vpart_reference> boardable = vp.part_with_feature( "BOARDABLE", true );
@@ -579,8 +584,9 @@ void Character::update_bodytemp()
         temp_equalizer( bp, bp->main_part );
 
         // Climate Control eases the effects of high and low ambient temps
-        if( has_climate_control ) {
-            set_part_temp_conv( bp, temp_corrected_by_climate_control( get_part_temp_conv( bp ) ) );
+        if( climate_control_heat || climate_control_chill ) {
+            set_part_temp_conv( bp, temp_corrected_by_climate_control( get_part_temp_conv( bp ),
+                                climate_control_heat, climate_control_chill ) );
         }
 
         // FINAL CALCULATION : Increments current body temperature towards convergent.

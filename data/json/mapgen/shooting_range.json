@@ -8,7 +8,7 @@
       "rows": [
         "........................",
         "........................",
-        "..--W--.................",
+        "..--W--/................",
         "..W&Cf+.................",
         "..-ddXW...s..s..........",
         "..--W--.................",
@@ -63,7 +63,8 @@
         "X": "f_gunsafe_ml",
         "c": "f_counter",
         "d": "f_desk",
-        "s": "f_sign"
+        "s": "f_sign",
+        "/": "f_wooden_flagpole"
       },
       "terrain": {
         "#": "t_thconc_floor",
@@ -83,6 +84,7 @@
         "d": "t_floor",
         "f": "t_floor",
         "s": "t_grass",
+        "/": "t_grass",
         "w": "t_thconc_floor",
         "|": "t_wall_wood",
         "O": "t_dirtmound"
