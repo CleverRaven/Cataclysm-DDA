@@ -371,7 +371,7 @@
     "effects": [ "IGNITE" ],
     "flags": [ "TRADER_AVOID" ]
   },
- {
+  {
     "id": "selfbow",
     "looks_like": "longbow",
     "type": "GUN",
