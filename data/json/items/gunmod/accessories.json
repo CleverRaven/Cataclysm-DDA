@@ -18,7 +18,7 @@
     "dispersion_modifier": -20,
     "min_skills": [ [ "gun", 1 ] ]
   },
-    {
+  {
     "id": "arrowrest_wood",
     "type": "GUNMOD",
     "name": { "str": "wooden arrow rest" },
