@@ -3,7 +3,6 @@
     "id": "afs_dead_survivor",
     "type": "item_group",
     "subtype": "collection",
-    "on_overflow": "spill",
     "container-item": "afs_corpse_old",
     "//": "The corpse of someone who managed to survive the Discontinuity for a while. Can spawn common weapons and misc gear.",
     "entries": [
