@@ -21,7 +21,7 @@
     },
     "valid_mod_locations": [ [ "mechanism", 4 ], [ "sling", 1 ], [ "underbarrel mount", 1 ] ],
     "bashing": 30,
-    "to_hit": { "grip": "none", "length": "short", "surface": "any", "balance": "uneven" },
+    "to_hit": { "grip": "solid", "length": "short", "surface": "any", "balance": "uneven" },
     "qualities": [ [ "HAMMER", 1 ] ],
     "extend": { "flags": [ "DURABLE_MELEE" ] },
     "weapon_category": [ "MACES" ]
