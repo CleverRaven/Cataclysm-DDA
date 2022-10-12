@@ -5682,9 +5682,10 @@
     "autolearn": true,
     "book_learn": [ [ "vacuum_sealing", 1 ] ],
     "qualities": [ { "id": "CUT", "level": 2 }, { "id": "COOK", "level": 3 } ],
-    "using": [ [ "vacuum_sealing_standard", 1 ] ],
-    "//": "this used to use raw meat, but vacuum sealed meat is considered cooked, so the ingredient req is changed - sealing in salt is not sufficient to cook it",
-    "components": [ [ [ "meat_cooked", 2, "LIST" ] ], [ [ "salt_preservation", 2, "LIST" ] ] ]
+    "using": [ [ "vacuum_sealing_standard", 1, "LIST" ] ],
+    "tools": [ [ "surface_heat", 40, "LIST" ] ],
+    "//": "since vacuum sealed meat is cooked, need 40u surface_heat - sealing in salt is not sufficient to cook it",
+    "components": [ [ [ "meat_red_raw", 2, "LIST" ] ], [ [ "salt_preservation", 2, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -5702,7 +5703,7 @@
     "autolearn": true,
     "book_learn": [ [ "vacuum_sealing", 1 ] ],
     "qualities": [ { "id": "CUT", "level": 2 }, { "id": "COOK", "level": 3 } ],
-    "using": [ [ "vacuum_sealing_standard", 1 ] ],
+    "using": [ [ "vacuum_sealing_standard", 1, "LIST" ] ],
     "components": [ [ [ "curing_roe", 2 ] ] ]
   },
   {
@@ -5721,7 +5722,7 @@
     "autolearn": true,
     "book_learn": [ [ "vacuum_sealing", 1 ] ],
     "qualities": [ { "id": "CUT", "level": 2 }, { "id": "COOK", "level": 3 } ],
-    "using": [ [ "vacuum_sealing_standard", 1 ] ],
+    "using": [ [ "vacuum_sealing_standard", 1, "LIST" ] ],
     "components": [ [ [ "fish", 5 ] ], [ [ "salt_preservation", 5, "LIST" ] ] ]
   },
   {
@@ -5740,7 +5741,7 @@
     "autolearn": true,
     "book_learn": [ [ "vacuum_sealing", 1 ] ],
     "qualities": [ { "id": "CUT", "level": 2 }, { "id": "COOK", "level": 3 } ],
-    "using": [ [ "vacuum_sealing_standard", 1 ] ],
+    "using": [ [ "vacuum_sealing_standard", 1, "LIST" ] ],
     "components": [ [ [ "veggy_any_uncooked", 2, "LIST" ] ], [ [ "salt_preservation", 2, "LIST" ] ] ]
   },
   {
@@ -5759,7 +5760,7 @@
     "autolearn": true,
     "book_learn": [ [ "vacuum_sealing", 1 ] ],
     "qualities": [ { "id": "CUT", "level": 2 }, { "id": "COOK", "level": 3 } ],
-    "using": [ [ "vacuum_sealing_standard", 1 ] ],
+    "using": [ [ "vacuum_sealing_standard", 1, "LIST" ] ],
     "components": [ [ [ "water_clean", 1 ] ], [ [ "sweet_fruit", 4, "LIST" ] ], [ [ "sugar_standard", 1, "LIST" ] ] ]
   },
   {
