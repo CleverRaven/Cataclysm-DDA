@@ -1660,8 +1660,11 @@ void inventory_column::draw( const catacurses::window &win, const point &p,
         const std::string &denial = *entry.denial;
 
         if( !denial.empty() ) {
+            // Determine the width available for the first cell to print, then use that to trim the denial
+            const size_t first_cell_width = std::min( get_entry_cell_width( entry, 0 ),
+                                            x2 + cells[0].current_width - min_denial_gap );
             const size_t max_denial_width = std::max( static_cast<int>( get_width() - ( min_denial_gap +
-                                            get_entry_cell_width( entry, 0 ) ) ), 0 );
+                                            first_cell_width ) ), 0 );
             const size_t denial_width = std::min( max_denial_width, static_cast<size_t>( utf8_width( denial,
                                                   true ) ) );
 
