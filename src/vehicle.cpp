@@ -4799,7 +4799,7 @@ units::energy vehicle::total_engine_epower() const
 
 units::energy vehicle::total_solar_epower() const
 {
-    units::energy epower_w = 0_J;
+    units::energy epower = 0_J;
     map &here = get_map();
     for( int part : solar_panels ) {
         if( parts[ part ].is_unavailable() ) {
@@ -4810,13 +4810,13 @@ units::energy vehicle::total_solar_epower() const
             continue;
         }
 
-        epower_w += part_epower( part );
+        epower += part_epower( part );
     }
     // Weather doesn't change much across the area of the vehicle, so just
     // sample it once.
     weather_type_id wtype = current_weather( global_pos3() );
     const float intensity = incident_sun_irradiance( wtype, calendar::turn ) / max_sun_irradiance();
-    return epower_w * intensity;
+    return epower * intensity;
 }
 
 units::energy vehicle::total_wind_epower() const
@@ -4825,7 +4825,7 @@ units::energy vehicle::total_wind_epower() const
     const oter_id &cur_om_ter = overmap_buffer.ter( global_omt_location() );
     weather_manager &weather = get_weather();
     const w_point weatherPoint = *weather.weather_precise;
-    units::energy epower_w = 0_J;
+    units::energy epower = 0_J;
     for( int part : wind_turbines ) {
         if( parts[ part ].is_unavailable() ) {
             continue;
@@ -4840,14 +4840,14 @@ units::energy vehicle::total_wind_epower() const
         if( windpower <= ( weather.windspeed / 10.0 ) ) {
             continue;
         }
-        epower_w += part_epower( part ) * windpower;
+        epower += part_epower( part ) * windpower;
     }
-    return epower_w;
+    return epower;
 }
 
 units::energy vehicle::total_water_wheel_epower() const
 {
-    units::energy epower_w = 0_J;
+    units::energy epower = 0_J;
     map &here = get_map();
     for( int part : water_wheels ) {
         if( parts[ part ].is_unavailable() ) {
@@ -4858,10 +4858,10 @@ units::energy vehicle::total_water_wheel_epower() const
             continue;
         }
 
-        epower_w += part_epower( part );
+        epower += part_epower( part );
     }
     // TODO: river current intensity changes power - flat for now.
-    return epower_w;
+    return epower;
 }
 
 units::energy vehicle::net_battery_charge_rate( bool include_reactors ) const
@@ -4922,11 +4922,11 @@ units::energy vehicle::active_reactor_epower( bool connected_vehicles ) const
 
 units::energy vehicle::max_reactor_epower() const
 {
-    units::energy epower_w = 0_J;
+    units::energy epower = 0_J;
     for( int elem : reactors ) {
-        epower_w += is_part_on( elem ) ? part_epower( elem ) : 0_J;
+        epower += is_part_on( elem ) ? part_epower( elem ) : 0_J;
     }
-    return epower_w;
+    return epower;
 }
 
 void vehicle::update_alternator_load()
@@ -7445,7 +7445,7 @@ void vehicle::update_time( const time_point &update_to )
     }
 
     if( !solar_panels.empty() ) {
-        units::energy epower_w = 0_J;
+        units::energy epower = 0_J;
         for( int part : solar_panels ) {
             if( parts[ part ].is_unavailable() ) {
                 continue;
@@ -7455,11 +7455,11 @@ void vehicle::update_time( const time_point &update_to )
                 continue;
             }
 
-            epower_w += part_epower( part );
+            epower += part_epower( part );
         }
         double intensity = accum_weather.radiant_exposure / max_sun_irradiance() / to_seconds<float>
                            ( elapsed );
-        int energy_bat = power_to_energy_bat( epower_w * intensity, elapsed );
+        int energy_bat = power_to_energy_bat( epower * intensity, elapsed );
         if( energy_bat > 0 ) {
             add_msg_debug( debugmode::DF_VEHICLE, "%s got %d kJ energy from solar panels", name, energy_bat );
             charge_battery( energy_bat );
@@ -7468,16 +7468,16 @@ void vehicle::update_time( const time_point &update_to )
     if( !wind_turbines.empty() ) {
         // TODO: use accum_weather wind data to backfill wind turbine
         // generation capacity.
-        units::energy epower_w = total_wind_epower();
-        int energy_bat = power_to_energy_bat( epower_w, elapsed );
+        units::energy epower = total_wind_epower();
+        int energy_bat = power_to_energy_bat( epower, elapsed );
         if( energy_bat > 0 ) {
             add_msg_debug( debugmode::DF_VEHICLE, "%s got %d kJ energy from wind turbines", name, energy_bat );
             charge_battery( energy_bat );
         }
     }
     if( !water_wheels.empty() ) {
-        units::energy epower_w = total_water_wheel_epower();
-        int energy_bat = power_to_energy_bat( epower_w, elapsed );
+        units::energy epower = total_water_wheel_epower();
+        int energy_bat = power_to_energy_bat( epower, elapsed );
         if( energy_bat > 0 ) {
             add_msg_debug( debugmode::DF_VEHICLE, "%s got %d kJ energy from water wheels", name, energy_bat );
             charge_battery( energy_bat );
