@@ -769,7 +769,7 @@ class vehicle
         int part_vpower_w( int index, bool at_full_hp = false ) const;
 
         // Get part power consumption/production for part number.
-        units::energy part_epower_w( int index ) const;
+        units::energy part_epower( int index ) const;
 
         // convert watts over time to battery energy (kJ)
         int power_to_energy_bat( units::energy power, const time_duration &d ) const;
@@ -1318,24 +1318,24 @@ class vehicle
         void update_alternator_load();
 
         // Total drain or production of electrical power from engines.
-        units::energy total_engine_epower_w() const;
+        units::energy total_engine_epower() const;
         // Total production of electrical power from alternators.
-        units::energy total_alternator_epower_w() const;
+        units::energy total_alternator_epower() const;
         // Total power (W) currently being produced by all solar panels.
-        units::energy total_solar_epower_w() const;
+        units::energy total_solar_epower() const;
         // Total power currently being produced by all wind turbines.
-        units::energy total_wind_epower_w() const;
+        units::energy total_wind_epower() const;
         // Total power currently being produced by all water wheels.
-        units::energy total_water_wheel_epower_w() const;
+        units::energy total_water_wheel_epower() const;
         // Total power drain across all vehicle accessories.
-        units::energy total_accessory_epower_w() const;
+        units::energy total_accessory_epower() const;
         // Net power draw or drain on batteries.
-        units::energy net_battery_charge_rate_w( bool include_reactors = true ) const;
+        units::energy net_battery_charge_rate( bool include_reactors = true ) const;
         // Maximum available power available from all reactors. Power from
         // reactors is only drawn when batteries are empty.
-        units::energy max_reactor_epower_w() const;
+        units::energy max_reactor_epower() const;
         // Active power from reactors that is actually being drained by batteries.
-        units::energy active_reactor_epower_w( bool connected_vehicles ) const;
+        units::energy active_reactor_epower( bool connected_vehicles ) const;
         // Produce and consume electrical power, with excess power stored or
         // taken from batteries.
         void power_parts();

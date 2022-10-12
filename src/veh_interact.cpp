@@ -1432,7 +1432,7 @@ void veh_interact::calc_overview()
     overview_opts.clear();
     overview_headers.clear();
 
-    units::energy epower_w = veh->net_battery_charge_rate_w();
+    units::energy epower_w = veh->net_battery_charge_rate();
     overview_headers["1_ENGINE"] = [this]( const catacurses::window & w, int y ) {
         trim_and_print( w, point( 1, y ), getmaxx( w ) - 2, c_light_gray,
                         string_format( _( "Engines: %sSafe %4d kW</color> %sMax %4d kW</color>" ),
@@ -1457,7 +1457,7 @@ void veh_interact::calc_overview()
         right_print( w, y, 1, c_light_gray, _( "Capacity  Status" ) );
     };
     overview_headers["4_REACTOR"] = [this]( const catacurses::window & w, int y ) {
-        units::energy reactor_epower_w = veh->max_reactor_epower_w();
+        units::energy reactor_epower_w = veh->max_reactor_epower();
         std::string reactor;
         if( reactor_epower_w == 0_J ) {
             reactor = _( "Reactors" );

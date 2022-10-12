@@ -120,7 +120,7 @@ TEST_CASE( "Solar power", "[vehicle][power]" )
         WHEN( "30 minutes elapse" ) {
             veh_ptr->update_time( calendar::turn + 30_minutes );
             int power = veh_ptr->fuel_left( fuel_type_battery );
-            CHECK( power == Approx( 182 ).margin( 1 ) );
+            CHECK( power == Approx( 184 ).margin( 1 ) );
         }
     }
 
