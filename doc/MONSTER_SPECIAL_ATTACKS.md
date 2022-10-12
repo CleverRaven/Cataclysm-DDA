@@ -27,7 +27,7 @@ Depending on the intended effect, these can be valid `use_actions` for tools and
 
 ## Adding `special_attacks` to monsters
 
-Monster special attacks can be defined either as old style arrays, new style objects, or a combination of both.
+Monster special attacks can be defined either as old style arrays, new style objects, or a combination of both.  However, it is recommended to avoid the use of the old style in favor of the new style.
 
 
 ### Old style array
@@ -41,8 +41,8 @@ Generally [hardcoded special attacks](#hardcoded-special-attacks) are declared t
 ### New style object
 
 It contains either: 
-* A `type` member (string) plus a `cooldown` member (integer) pair, for [hardcoded special attacks](#hardcoded-special-attacks) or [partially hardcoded special attacks](#partially-hardcoded-special-attacks).
-* An `id` of an explicitly defined monster attack, for [JSON-declared attacks](/data/json/monster_special_attacks).
+* An `id` of a [hardcoded special attack](#hardcoded-special-attacks), or a [JSON-declared attacks](/data/json/monster_special_attacks).
+* A `type` member (string) plus a `cooldown` member (integer) pair, for [partially hardcoded special attacks](#partially-hardcoded-special-attacks).
 * A spell (see [MAGIC.md](MAGIC.md)).
 
 Depending on the kind of attack, it may contain additional required members.  Example:
@@ -100,7 +100,6 @@ These special attacks are mostly hardcoded in C++ and are generally not configur
 - ```DANCE``` Monster dances.
 - ```DARKMAN``` Can cause darkness and wraiths to spawn.
 - ```DERMATIK``` Attempts to lay dermatik eggs in the player.
-- ```DERMATIK_GROWTH``` Dermatik larva grows into an adult.  Note: obsoleted by them using `age_grow`.
 - ```DISAPPEAR``` Hallucination (or other unusual monster) disappears.
 - ```DOGTHING``` The dog _thing_ spawns into a tentacle dog.
 - ```EAT_CROP``` The monster eats an adjacent planted crop.
