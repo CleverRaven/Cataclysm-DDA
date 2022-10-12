@@ -86,7 +86,10 @@
     "type": "mutation",
     "id": "REGEN_LIZ",
     "copy-from": "REGEN_LIZ",
-    "extend": { "category": [ "DRAGON_BLACK" ], "threshreq": [ "THRESH_DRAGON_BLACK" ] }
+    "extend": {
+      "category": [ "DRAGON_BLACK" ],
+      "threshreq": [ "THRESH_DRAGON_BLACK" ]
+    }
   },
   {
     "type": "mutation",
@@ -104,7 +107,10 @@
     "type": "mutation",
     "id": "SCALES",
     "copy-from": "SCALES",
-    "extend": { "category": [ "DRAGON_BLACK" ], "changes_to": [ "DRAGON_SCALES_BLACK" ] }
+    "extend": {
+      "category": [ "DRAGON_BLACK" ],
+      "changes_to": [ "DRAGON_SCALES_BLACK" ]
+    }
   },
   {
     "type": "mutation",
@@ -120,16 +126,46 @@
     "threshreq": [ "THRESH_DRAGON_BLACK" ],
     "category": [ "DRAGON_BLACK" ],
     "wet_protection": [
-      { "part": "head", "ignored": 5 },
-      { "part": "leg_l", "ignored": 16 },
-      { "part": "leg_r", "ignored": 16 },
-      { "part": "foot_l", "ignored": 5 },
-      { "part": "foot_r", "ignored": 5 },
-      { "part": "arm_l", "ignored": 14 },
-      { "part": "arm_r", "ignored": 14 },
-      { "part": "hand_l", "ignored": 4 },
-      { "part": "hand_r", "ignored": 4 },
-      { "part": "torso", "ignored": 30 }
+      {
+        "part": "head",
+        "ignored": 5
+      },
+      {
+        "part": "leg_l",
+        "ignored": 16
+      },
+      {
+        "part": "leg_r",
+        "ignored": 16
+      },
+      {
+        "part": "foot_l",
+        "ignored": 5
+      },
+      {
+        "part": "foot_r",
+        "ignored": 5
+      },
+      {
+        "part": "arm_l",
+        "ignored": 14
+      },
+      {
+        "part": "arm_r",
+        "ignored": 14
+      },
+      {
+        "part": "hand_l",
+        "ignored": 4
+      },
+      {
+        "part": "hand_r",
+        "ignored": 4
+      },
+      {
+        "part": "torso",
+        "ignored": 30
+      }
     ],
     "encumbrance_always": [
       [ "torso", 10 ],
@@ -185,8 +221,14 @@
       "attack_text_u": "You slash %s with your clawed feet",
       "attack_text_npc": "%1$s slashes %2$s with their clawed feet",
       "chance": 20,
-      "base_damage": { "damage_type": "cut", "amount": 20 },
-      "strength_damage": { "damage_type": "cut", "amount": 0.25 }
+      "base_damage": {
+        "damage_type": "cut",
+        "amount": 20
+      },
+      "strength_damage": {
+        "damage_type": "cut",
+        "amount": 0.25
+      }
     },
     "movecost_modifier": 1.05,
     "enchantments": [ "dragon_leg_strength" ]
@@ -218,7 +260,11 @@
     "visibility": 1,
     "ugliness": 1,
     "mixed_effect": true,
-    "encumbrance_always": [ [ "torso", 10 ], [ "arm_l", 10 ], [ "arm_r", 10 ] ],
+    "encumbrance_always": [
+      [ "torso", 10 ],
+      [ "arm_l", 10 ],
+      [ "arm_r", 10 ]
+    ],
     "description": "You have grown noticeably taller, broader, and menacing.  Much of it is useful muscle mass (Strength +2), but you find it throws off your balance and you get in your own way (+10 torso and arm encumbrance), and you notice people are starting to treat you differently.",
     "types": [ "SIZE" ],
     "prereqs": [ "DRAGON_STR", "DRAGON_STR2", "DRAGON_STR3", "DRAGON_STR4" ],
@@ -295,7 +341,10 @@
     "prereqs": [ "DRAGON_STR" ],
     "changes_to": [ "DRAGON_STR3" ],
     "category": [ "DRAGON_BLACK" ],
-    "passive_mods": { "str_mod": 3, "dex_mod": -1 }
+    "passive_mods": {
+      "str_mod": 3,
+      "dex_mod": -1
+    }
   },
   {
     "type": "mutation",
@@ -308,7 +357,10 @@
     "prereqs": [ "DRAGON_STR2" ],
     "changes_to": [ "DRAGON_STR4" ],
     "category": [ "DRAGON_BLACK" ],
-    "passive_mods": { "str_mod": 5, "dex_mod": -2 }
+    "passive_mods": {
+      "str_mod": 5,
+      "dex_mod": -2
+    }
   },
   {
     "type": "mutation",
@@ -322,7 +374,10 @@
     "prereqs": [ "DRAGON_STR3" ],
     "category": [ "DRAGON_BLACK" ],
     "threshreq": [ "THRESH_DRAGON_BLACK" ],
-    "passive_mods": { "str_mod": 8, "dex_mod": -3 }
+    "passive_mods": {
+      "str_mod": 8,
+      "dex_mod": -3
+    }
   },
   {
     "type": "mutation",
@@ -350,7 +405,11 @@
     "type": "mutation",
     "id": "MUT_TOUGH",
     "copy-from": "MUT_TOUGH",
-    "extend": { "category": [ "DRAGON_BLACK" ], "prereqs": [ "LARGE_OK_DRAGON", "HUGE_OK_DRAGON" ], "threshreq": [ "THRESH_DRAGON_BLACK" ] }
+    "extend": {
+      "category": [ "DRAGON_BLACK" ],
+      "prereqs": [ "LARGE_OK_DRAGON", "HUGE_OK_DRAGON" ],
+      "threshreq": [ "THRESH_DRAGON_BLACK" ]
+    }
   },
   {
     "type": "mutation",
@@ -368,13 +427,19 @@
     "type": "mutation",
     "id": "INT_UP_3",
     "copy-from": "INT_UP_3",
-    "extend": { "category": [ "DRAGON_BLACK", "MANATOUCHED" ], "threshreq": [ "THRESH_DRAGON_BLACK", "THRESH_MANA" ] }
+    "extend": {
+      "category": [ "DRAGON_BLACK", "MANATOUCHED" ],
+      "threshreq": [ "THRESH_DRAGON_BLACK", "THRESH_MANA" ]
+    }
   },
   {
     "type": "mutation",
     "id": "INT_UP_4",
     "copy-from": "INT_UP_4",
-    "extend": { "category": [ "DRAGON_BLACK" ], "threshreq": [ "THRESH_DRAGON_BLACK" ] }
+    "extend": {
+      "category": [ "DRAGON_BLACK" ],
+      "threshreq": [ "THRESH_DRAGON_BLACK" ]
+    }
   },
   {
     "type": "mutation",
@@ -392,7 +457,10 @@
     "type": "mutation",
     "id": "HORNS",
     "copy-from": "HORNS",
-    "extend": { "category": [ "DRAGON_BLACK" ], "changes_to": [ "HORNS_DRAGON" ] }
+    "extend": {
+      "category": [ "DRAGON_BLACK" ],
+      "changes_to": [ "HORNS_DRAGON" ]
+    }
   },
   {
     "type": "mutation",
@@ -413,7 +481,10 @@
       "attack_text_u": "You headbutt %s with your draconic horns",
       "attack_text_npc": "%1$s headbutts %2$s with their draconic horns",
       "chance": 20,
-      "base_damage": { "damage_type": "bash", "amount": 16 }
+      "base_damage": {
+        "damage_type": "bash",
+        "amount": 16
+      }
     }
   },
   {
@@ -426,7 +497,10 @@
     "type": "mutation",
     "id": "WINGS_STUB",
     "copy-from": "WINGS_STUB",
-    "extend": { "category": [ "DRAGON_BLACK" ], "changes_to": [ "DRAGON_WINGS_BLACK" ] }
+    "extend": {
+      "category": [ "DRAGON_BLACK" ],
+      "changes_to": [ "DRAGON_WINGS_BLACK" ]
+    }
   },
   {
     "type": "mutation",
@@ -445,8 +519,14 @@
       "attack_text_u": "You bash %s with your powerful wings",
       "attack_text_npc": "%1$s bashes %2$s with their powerful wings",
       "chance": 20,
-      "base_damage": { "damage_type": "bash", "amount": 20 },
-      "strength_damage": { "damage_type": "bash", "amount": 0.5 }
+      "base_damage": {
+        "damage_type": "bash",
+        "amount": 20
+      },
+      "strength_damage": {
+        "damage_type": "bash",
+        "amount": 0.5
+      }
     },
     "spells_learned": [ [ "dragon_shell_black", 1 ] ],
     "anger_relations": [ [ "HUMAN", 5 ] ]
@@ -480,7 +560,16 @@
     "prereqs": [ "NAUSEA" ],
     "category": [ "DRAGON_BLACK", "SLIME" ],
     "metabolism_modifier": 0.5,
-    "vitamins_absorb_multi": [ [ "all", [ [ "vitC", 0.5 ], [ "calcium", 0.5 ], [ "iron", 0.5 ] ] ] ]
+    "vitamins_absorb_multi": [
+      [
+        "all",
+        [
+          [ "vitC", 0.5 ],
+          [ "calcium", 0.5 ],
+          [ "iron", 0.5 ]
+        ]
+      ]
+    ]
   },
   {
     "type": "mutation",
@@ -492,7 +581,10 @@
     "prereqs2": [ "DRAGON_MAW_BLACK" ],
     "category": [ "DRAGON_BLACK" ],
     "threshreq": [ "THRESH_DRAGON_BLACK" ],
-    "spells_learned": [ [ "dragon_spit_acid", 1 ], [ "dragon_breath_acid", 1 ] ]
+    "spells_learned": [
+      [ "dragon_spit_acid", 1 ],
+      [ "dragon_breath_acid", 1 ]
+    ]
   },
   {
     "type": "mutation",
@@ -582,7 +674,10 @@
     "category": [ "DRAGON_BLACK" ],
     "threshreq": [ "THRESH_DRAGON_BLACK" ],
     "prereqs": [ "DRAGON_MAGIC" ],
-    "spells_learned": [ [ "dragon_terror", 0 ], [ "dragon_boost", 1 ] ],
+    "spells_learned": [
+      [ "dragon_terror", 0 ],
+      [ "dragon_boost", 1 ]
+    ],
     "mana_modifier": 750,
     "passive_mods": { "int_mod": 4 }
   },
@@ -606,8 +701,14 @@
       "attack_text_npc": "%1$s bites a chunk out of %2$s",
       "body_part": "mouth",
       "chance": 15,
-      "base_damage": { "damage_type": "stab", "amount": 15 },
-      "strength_damage": { "damage_type": "stab", "amount": 0.1 }
+      "base_damage": {
+        "damage_type": "stab",
+        "amount": 15
+      },
+      "strength_damage": {
+        "damage_type": "stab",
+        "amount": 0.1
+      }
     }
   },
   {
@@ -630,8 +731,14 @@
       "attack_text_npc": "%1$s bites a chunk out of %2$s",
       "body_part": "mouth",
       "chance": 20,
-      "base_damage": { "damage_type": "stab", "amount": 25 },
-      "strength_damage": { "damage_type": "stab", "amount": 0.25 }
+      "base_damage": {
+        "damage_type": "stab",
+        "amount": 25
+      },
+      "strength_damage": {
+        "damage_type": "stab",
+        "amount": 0.25
+      }
     },
     "spells_learned": [ [ "acid_bite", 1 ] ]
   },
@@ -667,7 +774,10 @@
       "attack_text_u": "You whap %s with your tail",
       "attack_text_npc": "%1$s whaps %2$s with their tail",
       "chance": 20,
-      "base_damage": { "damage_type": "bash", "amount": 10 }
+      "base_damage": {
+        "damage_type": "bash",
+        "amount": 10
+      }
     }
   },
   {
@@ -688,8 +798,14 @@
       "attack_text_u": "You smash %s with your tail",
       "attack_text_npc": "%1$s smashes %2$s with their tail",
       "chance": 20,
-      "base_damage": { "damage_type": "bash", "amount": 15 },
-      "strength_damage": { "damage_type": "bash", "amount": 0.25 }
+      "base_damage": {
+        "damage_type": "bash",
+        "amount": 15
+      },
+      "strength_damage": {
+        "damage_type": "bash",
+        "amount": 0.25
+      }
     }
   },
   {
@@ -744,14 +860,24 @@
       "and": [
         { "u_has_trait": "SOULFIRE" },
         {
-          "not": { "u_has_var": "u_got_soulfire_attunement", "type": "attunement", "context": "attunement", "value": "yes" }
+          "not": {
+            "u_has_var": "u_got_soulfire_attunement",
+            "type": "attunement",
+            "context": "attunement",
+            "value": "yes"
+          }
         }
       ]
     },
     "deactivate_condition": { "not": { "u_has_trait": "SOULFIRE" } },
     "effect": [
       { "u_add_trait": "SOUL_PRESSURE_OFF" },
-      { "u_add_var": "u_got_soulfire_attunement", "type": "attunement", "context": "attunement", "value": "yes" }
+      {
+        "u_add_var": "u_got_soulfire_attunement",
+        "type": "attunement",
+        "context": "attunement",
+        "value": "yes"
+      }
     ]
   },
   {
@@ -782,6 +908,11 @@
     "points": -1,
     "description": "Your presence is so dangerous you can burn living creatures around you.",
     "enchantments": [ "SOULFIRE" ],
-    "transform": { "target": "SOUL_PRESSURE_OFF", "msg_transform": "You suppress your soul pressure.", "active": false, "moves": 10 }
+    "transform": {
+      "target": "SOUL_PRESSURE_OFF",
+      "msg_transform": "You suppress your soul pressure.",
+      "active": false,
+      "moves": 10
+    }
   }
 ]
