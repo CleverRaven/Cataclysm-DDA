@@ -420,6 +420,7 @@
     "sight_dispersion": 3000,
     "durability": 4,
     "clip_size": 1,
+    "valid_mod_locations": [ [ "dampening", 1 ], [ "accessories", 1 ] ],
     "reload": 50,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "arrow": 1 } } ]
   },
@@ -472,7 +473,59 @@
     "sight_dispersion": 3000,
     "durability": 6,
     "clip_size": 1,
-    "valid_mod_locations": [ [ "dampening", 1 ] ],
+    "valid_mod_locations": [ [ "dampening", 1 ], [ "accessories", 1 ] ],
+    "reload": 50,
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "arrow": 1 } } ]
+  },
+  {
+    "id": "longbow",
+    "type": "GUN",
+    "symbol": "(",
+    "color": "yellow",
+    "name": { "str": "longbow" },
+    "description": "A six-foot wooden hunting bow in the English style.  It can be used effectively by those of above-average strength.",
+    "price": 50000,
+    "//": "70in Yew Longbow at 28in, 70 lbs draw, 60J, 0.41 slugs with 30g arrow",
+    "material": [ "wood" ],
+    "flags": [
+      "FIRE_TWOHAND",
+      "RELOAD_AND_SHOOT",
+      "PRIMITIVE_RANGED_WEAPON",
+      "BELTED",
+      "WATER_FRIENDLY",
+      "SHEATH_BOW",
+      "WATERPROOF_GUN",
+      "NEVER_JAMS"
+    ],
+    "ammo_effects": [ "NEVER_MISFIRES" ],
+    "skill": "archery",
+    "min_strength": 9,
+    "ammo": [ "arrow" ],
+    "weight": "680 g",
+    "volume": "3500 ml",
+    "longest_side": "183 cm",
+    "price_postapoc": 3000,
+    "bashing": 10,
+    "armor_data": {
+      "armor": [
+        {
+          "material": [ { "type": "wood", "covered_by_mat": 100, "thickness": 1.0 } ],
+          "encumbrance": 20,
+          "coverage": 10,
+          "covers": [ "torso" ],
+          "specifically_covers": [ "torso_hanging_back" ]
+        }
+      ]
+    },
+    "reload_noise_volume": 3,
+    "loudness": 8,
+    "ranged_damage": { "damage_type": "stab", "amount": 6 },
+    "range": 18,
+    "dispersion": 1000,
+    "sight_dispersion": 3000,
+    "durability": 6,
+    "clip_size": 1,
+    "valid_mod_locations": [ [ "dampening", 1 ], [ "accessories", 1 ] ],
     "reload": 50,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "arrow": 1 } } ]
   },
@@ -815,58 +868,6 @@
       "msg": "You assemble your bow.",
       "moves": 1500
     }
-  },
-  {
-    "id": "longbow",
-    "type": "GUN",
-    "symbol": "(",
-    "color": "yellow",
-    "name": { "str": "longbow" },
-    "description": "A six-foot wooden hunting bow in the English style.  It can be used effectively by those of above-average strength.",
-    "price": 50000,
-    "//": "70in Yew Longbow at 28in, 70 lbs draw, 60J, 0.41 slugs with 30g arrow",
-    "material": [ "wood" ],
-    "flags": [
-      "FIRE_TWOHAND",
-      "RELOAD_AND_SHOOT",
-      "PRIMITIVE_RANGED_WEAPON",
-      "BELTED",
-      "WATER_FRIENDLY",
-      "SHEATH_BOW",
-      "WATERPROOF_GUN",
-      "NEVER_JAMS"
-    ],
-    "ammo_effects": [ "NEVER_MISFIRES" ],
-    "skill": "archery",
-    "min_strength": 9,
-    "ammo": [ "arrow" ],
-    "weight": "680 g",
-    "volume": "3500 ml",
-    "longest_side": "183 cm",
-    "price_postapoc": 3000,
-    "bashing": 10,
-    "armor_data": {
-      "armor": [
-        {
-          "material": [ { "type": "wood", "covered_by_mat": 100, "thickness": 1.0 } ],
-          "encumbrance": 20,
-          "coverage": 10,
-          "covers": [ "torso" ],
-          "specifically_covers": [ "torso_hanging_back" ]
-        }
-      ]
-    },
-    "reload_noise_volume": 3,
-    "loudness": 8,
-    "ranged_damage": { "damage_type": "stab", "amount": 6 },
-    "range": 18,
-    "dispersion": 1000,
-    "sight_dispersion": 3000,
-    "durability": 6,
-    "clip_size": 1,
-    "valid_mod_locations": [ [ "dampening", 1 ] ],
-    "reload": 50,
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "arrow": 1 } } ]
   },
   {
     "id": "woodgreatbow",
