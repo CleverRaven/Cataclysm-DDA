@@ -602,8 +602,8 @@ TEST_CASE( "tools use charge to craft", "[crafting][charge]" )
         // - 10 charges of surface heat
 
         WHEN( "each tool has enough charges" ) {
-            item hotplate = tool_with_ammo( "hotplate", 5000 );
-            REQUIRE( hotplate.ammo_remaining() == 5000 );
+            item hotplate = tool_with_ammo( "hotplate", 500 );
+            REQUIRE( hotplate.ammo_remaining() == 500 );
             tools.push_back( hotplate );
             item soldering = tool_with_ammo( "soldering_iron", 20 );
             REQUIRE( soldering.ammo_remaining() == 20 );
@@ -616,7 +616,7 @@ TEST_CASE( "tools use charge to craft", "[crafting][charge]" )
                 prep_craft( recipe_carver_off, tools, true );
                 int turns = actually_test_craft( recipe_carver_off, INT_MAX );
                 CAPTURE( turns );
-                CHECK( get_remaining_charges( "hotplate" ) == 4650 );
+                CHECK( get_remaining_charges( "hotplate" ) == 150 );
                 CHECK( get_remaining_charges( "soldering_iron" ) == 10 );
             }
         }
@@ -1923,12 +1923,13 @@ TEST_CASE( "tools with charges as components", "[crafting]" )
 // This test makes sure that rot is inherited properly when crafting. See the comments on
 // inherit_rot_from_components for a description of what "inheritied properly" means
 // using a default hotplate the macaroni uses 35x7 = 245 charges of hotplate, meat uses 35x20 = 700 charges of hotplate and 80x30 = 2400 charges of dehydrator
+// looks like tool_with_ammo cannot spawn a hotplate/dehydrator with more than 500 charges, so until the default battery is changed I'm giving player 10 of each
 TEST_CASE( "recipes inherit rot of components properly", "[crafting][rot]" )
 {
     Character &player_character = get_player_character();
     std::vector<item> tools;
-    tools.emplace_back( tool_with_ammo( "hotplate", 1000 ) );
-    tools.emplace_back( tool_with_ammo( "dehydrator", 2500 ) );
+    tools.insert( tools.end(), 10, tool_with_ammo( "hotplate", 500 ) );
+    tools.insert( tools.end(), 10, tool_with_ammo( "dehydrator", 500 ) );
     tools.emplace_back( item( "pot_canning" ) );
     tools.emplace_back( item( "knife_butcher" ) );
 
