@@ -1922,12 +1922,13 @@ TEST_CASE( "tools with charges as components", "[crafting]" )
 
 // This test makes sure that rot is inherited properly when crafting. See the comments on
 // inherit_rot_from_components for a description of what "inheritied properly" means
+// using a default hotplate the macaroni uses 35x7 = 245 charges of hotplate, meat uses 35x20 = 700 charges of hotplate and 80x30 = 2400 charges of dehydrator
 TEST_CASE( "recipes inherit rot of components properly", "[crafting][rot]" )
 {
     Character &player_character = get_player_character();
     std::vector<item> tools;
-    tools.emplace_back( tool_with_ammo( "hotplate", 500 ) );
-    tools.emplace_back( tool_with_ammo( "dehydrator", 5000 ) );
+    tools.emplace_back( tool_with_ammo( "hotplate", 1000 ) );
+    tools.emplace_back( tool_with_ammo( "dehydrator", 2500 ) );
     tools.emplace_back( item( "pot_canning" ) );
     tools.emplace_back( item( "knife_butcher" ) );
 
@@ -1935,14 +1936,14 @@ TEST_CASE( "recipes inherit rot of components properly", "[crafting][rot]" )
 
         item macaroni( "macaroni_raw" );
         item cheese( "cheese" );
-        item water( "water" );
+        item water_clean( "water_clean" );
 
         macaroni.set_rot( macaroni.get_shelf_life() - 1_hours );
         REQUIRE( cheese.get_shelf_life() - cheese.get_rot() > 1_hours );
 
         tools.insert( tools.end(), 1, macaroni );
         tools.insert( tools.end(), 1, cheese );
-        tools.insert( tools.end(), 1, water );
+        tools.insert( tools.end(), 1, water_clean );
 
         WHEN( "crafting the mac and cheese" ) {
             prep_craft( recipe_macaroni_cooked, tools, true );
@@ -1961,7 +1962,7 @@ TEST_CASE( "recipes inherit rot of components properly", "[crafting][rot]" )
     GIVEN( "fresh macaroni and fresh cheese" ) {
         item macaroni( "macaroni_raw" );
         item cheese( "cheese" );
-        item water( "water" );
+        item water_clean( "water_clean" );
 
         REQUIRE( macaroni.get_rot() == 0_turns );
         REQUIRE( cheese.get_rot() == 0_turns );
