@@ -216,7 +216,7 @@
     "ammo": [ "charcoal" ],
     "//": "contains up to 0.5 liters of charcoal",
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "charcoal": 50 } } ],
-    "charges_per_use": 3,
+    "charges_per_use": 4,
     "use_action": [ "HOTPLATE" ]
   },
   {
@@ -520,7 +520,7 @@
     "material": [ "aluminum", "plastic" ],
     "symbol": ";",
     "color": "green",
-    "flags": [ "WATER_BREAK", "ELECTRONIC" ],
+    "flags": [ "WATER_BREAK" ],
     "ammo": [ "battery" ],
     "charges_per_use": 25,
     "use_action": [ "HOTPLATE" ],
@@ -1071,7 +1071,7 @@
     "symbol": ";",
     "color": "light_blue",
     "ammo": [ "battery" ],
-    "charges_per_use": 20,
+    "charges_per_use": 14,
     "use_action": [ "WATER_PURIFIER" ],
     "flags": [ "ALLOWS_REMOTE_USE" ],
     "pocket_data": [
