@@ -174,7 +174,7 @@ TEST_CASE( "Daily solar power", "[vehicle][power]" )
         WHEN( "24 hours pass" ) {
             veh_ptr->update_time( calendar::turn + 24_hours );
             int power = veh_ptr->fuel_left( fuel_type_battery );
-            CHECK( power == Approx( 5184 ).margin( 1 ) );
+            CHECK( power == Approx( 5259 ).margin( 1 ) );
         }
     }
 
@@ -186,7 +186,7 @@ TEST_CASE( "Daily solar power", "[vehicle][power]" )
         WHEN( "24 hours pass" ) {
             veh_ptr->update_time( calendar::turn + 24_hours );
             int power = veh_ptr->fuel_left( fuel_type_battery );
-            CHECK( power == Approx( 7863 ).margin( 1 ) );
+            CHECK( power == Approx( 7925 ).margin( 1 ) );
         }
     }
 
@@ -198,7 +198,7 @@ TEST_CASE( "Daily solar power", "[vehicle][power]" )
         WHEN( "24 hours pass" ) {
             veh_ptr->update_time( calendar::turn + 24_hours );
             int power = veh_ptr->fuel_left( fuel_type_battery );
-            CHECK( power == Approx( 5098 ).margin( 1 ) );
+            CHECK( power == Approx( 5138 ).margin( 1 ) );
         }
     }
 
@@ -210,7 +210,7 @@ TEST_CASE( "Daily solar power", "[vehicle][power]" )
         WHEN( "24 hours pass" ) {
             veh_ptr->update_time( calendar::turn + 24_hours );
             int power = veh_ptr->fuel_left( fuel_type_battery );
-            CHECK( power == Approx( 2074 ).margin( 1 ) );
+            CHECK( power == Approx( 2137 ).margin( 1 ) );
         }
     }
 }

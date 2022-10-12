@@ -1112,14 +1112,7 @@ units::energy vehicle::part_epower_w( const int index ) const
 int vehicle::power_to_energy_bat( const units::energy power, const time_duration &d ) const
 {
     units::energy produced = power * to_seconds<int64_t>( d );
-    int produced_kj = units::to_kilojoule( produced );
-
-    int extra = power >= 0_J ? 1 : -1;
-
-    // Chance to round up or down
-    produced_kj += x_in_y( std::abs( units::to_millijoule( produced ) % 1000000 ),
-                           1000000 ) ? extra : 0;
-
+    int produced_kj = roll_remainder( units::to_millijoule( produced ) / 1000000.0 );
     return produced_kj;
 }
 
