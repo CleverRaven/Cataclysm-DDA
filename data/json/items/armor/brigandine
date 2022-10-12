@@ -47,7 +47,7 @@
     "color": "light_gray",
     "warmth": 10,
     "environmental_protection": 1,
-    "flags": [ "OUTER", "BLOCK_WHILE_WORN", "WATER_FRIENDLY" ],
+    "flags": [ "OUTER", "BLOCK_WHILE_WORN", "WATER_FRIENDLY", "STURDY" ],
     "armor": [
       {
         "material": [
@@ -66,23 +66,18 @@
     "id": "armguard_metal_sheets_shoulders",
     "type": "ARMOR",
     "category": "armor",
-    "name": { "str": "pair of sheet metal pauldrons", "str_pl": "pairs of sheet metal pauldrons" },
-    "description": "Two half-cylinders of sheet metal jutting out over your shoulders and two more underneath.  They make it impossible to raise your arms fully, but they'll keep your arms attached to you.",
-    "weight": "1400 g",
-    "//": "The weight assumes four sheets of about 15cm x 15cm x 1.5mm.",
-    "volume": "2 L",
+    "name": { "str": "pair of mild brigandine pauldrons", "str_pl": "pairs of mild brigandine pauldrons" },
+    "weight": "362 g",
+    "volume": "400 ml",
     "price": 500,
     "price_postapoc": 400,
     "to_hit": 1,
-    "material": [ "lc_steel" ],
-    "repairs_with": [ "steel" ],
     "symbol": "m",
     "color": "light_gray",
     "warmth": 5,
-    "longest_side": "50 cm",
-    "material_thickness": 1.5,
+    "longest_side": "20 cm",
     "environmental_protection": 1,
-    "flags": [ "OUTER", "WATER_FRIENDLY" ],
+    "flags": [ "OUTER", "WATER_FRIENDLY", "STURDY" ],
     "armor": [
       {
         "covers": [ "arm_l", "arm_r" ],
@@ -98,8 +93,8 @@
     "category": "armor",
     "name": { "str": "pair of mild splint leg guards", "str_pl": "pairs of mild splint leg guards" },
     "description": "",
-    "weight": "3797 g",
-    "volume": "2500 ml",
+    "weight": "2846 g",
+    "volume": "3000 ml",
     "price": 40000,
     "price_postapoc": 1000,
     "to_hit": 1,
@@ -108,9 +103,8 @@
     "looks_like": "legguard_lightplate",
     "color": "light_gray",
     "warmth": 10,
-    "material_thickness": 1.5,
     "environmental_protection": 1,
-    "flags": [ "OUTER", "WATER_FRIENDLY", "ALLOWS_TAIL" ],
+    "flags": [ "OUTER", "WATER_FRIENDLY", "ALLOWS_TAIL", "STURDY" ],
     "armor": [
       {
       "material": [
@@ -133,7 +127,7 @@
     "category": "armor",
     "name": { "str": "pair of mild steel brigandine gloves", "str_pl": "pairs of mild steel brigandine gloves" },
     "description": "",
-    "weight": "575 g",
+    "weight": "646 g",
     "volume": "750 ml",
     "price": 5012,
     "price_postapoc": 2500,
@@ -141,7 +135,8 @@
     "bashing": 6,
     "material": [ "leather", "lc_steel" ],
     "symbol": "[",
-    "color": "light_red",
+    "color": "light_gray",
+    "warmth": 15,
     "flags": [ "STURDY", "OUTER" ],
     "armor": [
       {
@@ -149,7 +144,7 @@
         "coverage": 100,
         "material": [
           { "type": "lc_steel", "covered_by_mat": 100, "thickness": 1.0 },
-          { "type": "leather", "covered_by_mat": 100, "thickness": 1.5 }
+          { "type": "leather", "covered_by_mat": 100, "thickness": 2.0 }
         ],
         "covers": [ "hand_l", "hand_r" ],
         "specifically_covers": [ "hand_back_l", "hand_back_r", "hand_wrist_l", "hand_wrist_r" ]
@@ -167,7 +162,7 @@
         "encumbrance": 0,
         "coverage": 50,
         "cover_melee": 95,
-        "cover_ranged": 90,
+        "cover_ranged": 95,
          "//": "only outer side if hand and fingers are covered by plates, but it should be very hard to hit unprotected part if you're holding something in your hands",
         "material": [
           { "type": "lc_steel", "covered_by_mat": 100, "thickness": 1.0 }
