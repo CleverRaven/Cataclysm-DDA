@@ -1969,7 +1969,7 @@ TEST_CASE( "recipes inherit rot of components properly", "[crafting][rot]" )
 
         tools.insert( tools.end(), 1, macaroni );
         tools.insert( tools.end(), 1, cheese );
-        tools.insert( tools.end(), 1, water );
+        tools.insert( tools.end(), 1, water_clean );
 
         WHEN( "crafting the mac and cheese" ) {
             prep_craft( recipe_macaroni_cooked, tools, true );
