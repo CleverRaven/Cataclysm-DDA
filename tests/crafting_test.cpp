@@ -56,7 +56,7 @@ static const itype_id itype_sheet_cotton( "sheet_cotton" );
 static const itype_id itype_test_cracklins( "test_cracklins" );
 static const itype_id itype_test_gum( "test_gum" );
 static const itype_id itype_thread( "thread" );
-static const itype_id itype_water( "water" );
+static const itype_id itype_water_clean( "water_clean" );
 
 static const morale_type morale_food_good( "morale_food_good" );
 
@@ -129,8 +129,8 @@ TEST_CASE( "recipe_subset" )
                 CHECK( cat_recipes.size() == 1 );
                 CHECK( std::find( cat_recipes.begin(), cat_recipes.end(), r ) != cat_recipes.end() );
             }
-            THEN( "it uses water" ) {
-                const auto &comp_recipes( subset.of_component( itype_water ) );
+            THEN( "it uses clean water" ) {
+                const auto &comp_recipes( subset.of_component( itype_water_clean ) );
 
                 CHECK( comp_recipes.size() == 1 );
                 CHECK( comp_recipes.find( r ) != comp_recipes.end() );
@@ -616,7 +616,7 @@ TEST_CASE( "tools use charge to craft", "[crafting][charge]" )
                 prep_craft( recipe_carver_off, tools, true );
                 int turns = actually_test_craft( recipe_carver_off, INT_MAX );
                 CAPTURE( turns );
-                CHECK( get_remaining_charges( "hotplate" ) == 150 );
+                CHECK( get_remaining_charges( "hotplate" ) == 4 );
                 CHECK( get_remaining_charges( "soldering_iron" ) == 10 );
             }
         }
@@ -629,7 +629,7 @@ TEST_CASE( "tools use charge to craft", "[crafting][charge]" )
             THEN( "crafting succeeds, and uses charges from multiple tools" ) {
                 prep_craft( recipe_carver_off, tools, true );
                 actually_test_craft( recipe_carver_off, INT_MAX );
-                CHECK( get_remaining_charges( "hotplate" ) == 0 );
+                CHECK( get_remaining_charges( "hotplate" ) == 6 );
                 CHECK( get_remaining_charges( "soldering_iron" ) == 0 );
             }
         }
