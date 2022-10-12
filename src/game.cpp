@@ -11234,7 +11234,7 @@ void game::vertical_move( int movez, bool force, bool peeking )
         return;
     }
 
-    if( !u.move_effects( false ) ) {
+    if( !u.move_effects( false ) && !force ) {
         u.moves -= 100;
         return;
     }

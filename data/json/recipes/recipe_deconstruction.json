@@ -6428,6 +6428,14 @@
     "qualities": [ { "id": "CUT", "level": 1 } ]
   },
   {
+    "result": "heavy_punching_bag_sack",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "30 m",
+    "components": [ [ [ "leather", 16 ] ], [ [ "tanned_hide", 8 ] ] ],
+    "qualities": [ { "id": "CUT", "level": 1 } ]
+  },
+  {
     "result": "sleeping_bag_fur_roll",
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
