@@ -30,11 +30,12 @@
       "BASHES",
       "DESTROYS",
       "PUSH_MON",
-      "SWIMS"
+      "SWIMS",
+      "NO_FUNG_DMG"
     ],
     "harvest": "mammal_large_leather",
-    "fear_triggers": [ "PLAYER_CLOSE", "HURT", "FRIEND_DIED" ],
-    "anger_triggers": [ "FRIEND_ATTACKED", "PLAYER_NEAR_BABY" ],
+    "fear_triggers": [ "FRIEND_DIED" ],
+    "anger_triggers": [ "HURT", "FRIEND_ATTACKED", "PLAYER_NEAR_BABY" ],
     "categories": [ "DINOSAUR", "WILDLIFE" ],
     "volume": "1000 L",
     "weight": "1000 kg",
