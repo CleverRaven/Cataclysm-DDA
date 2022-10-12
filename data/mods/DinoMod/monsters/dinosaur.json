@@ -1711,6 +1711,7 @@
     "copy-from": "mon_camptosaurus",
     "volume": "1000 L",
     "weight": "1000 kg",
+    "default_faction": "hadrosaur",
     "//": "When large weights and volumes are fixed this should be 3000 L and 3000 kg",
     "bodytype": "bear",
     "speed": 80,
