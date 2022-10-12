@@ -4818,7 +4818,7 @@
     "skill_used": "cooking",
     "difficulty": 3,
     "time": "12 m",
-    "charges": 4,
+    "charges": 6,
     "batch_time_factors": [ 50, 4 ],
     "book_learn": [ [ "cookbook_bloodforgood", 2 ] ],
     "qualities": [ { "id": "COOK", "level": 2 } ],
