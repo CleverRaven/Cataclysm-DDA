@@ -1126,7 +1126,7 @@
     "autolearn": true,
     "book_learn": [ [ "mag_archery", 2 ], [ "manual_archery", 1 ] ],
     "qualities": [ { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "splinter", 1 ] ], [ [ "cordage_6", 2 ], [ "cordage_6_leather", 2 ], [ "string_6", 2 ] ] ]
+    "components": [ [ [ "plastic_chunk", 1 ] ] ]
   },
   {
     "type": "recipe",
