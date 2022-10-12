@@ -15,7 +15,7 @@
     "handling": 10,
     "relative": {
       "range": -30,
-      "ranged_damage": { "damage_type": "bullet", "amount": -4 },
+      "ranged_damage": { "damage_type": "bullet", "amount": -17.3 },
       "dispersion": 180,
       "barrel_volume": "-500 ml"
     },
