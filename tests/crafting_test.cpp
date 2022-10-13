@@ -643,7 +643,7 @@ TEST_CASE( "tools use charge to craft", "[crafting][charge]" )
             tools.push_back( soldering_iron );
             item UPS( "UPS_off" );
             item UPS_mag( UPS.magazine_default() );
-            UPS_mag.ammo_set( UPS_mag.ammo_default(), 500 );
+            UPS_mag.ammo_set( UPS_mag.ammo_default(), 1000 );
             UPS.put_in( UPS_mag, item_pocket::pocket_type::MAGAZINE_WELL );
             tools.emplace_back( UPS );
             tools.push_back( tool_with_ammo( "vac_mold", 4 ) );
@@ -653,7 +653,7 @@ TEST_CASE( "tools use charge to craft", "[crafting][charge]" )
                 actually_test_craft( recipe_carver_off, INT_MAX );
                 CHECK( get_remaining_charges( "hotplate" ) == 0 );
                 CHECK( get_remaining_charges( "soldering_iron" ) == 0 );
-                CHECK( get_remaining_charges( "UPS_off" ) == 150 );
+                CHECK( get_remaining_charges( "UPS_off" ) == 290 );
             }
         }
 
