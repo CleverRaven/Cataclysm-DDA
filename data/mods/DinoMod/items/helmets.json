@@ -29,7 +29,7 @@
     "color": "dark_gray",
     "material_thickness": 3,
     "flags": [ "WATER_FRIENDLY" ],
-    "qualities": [ [ "COOKING", 1 ] ],
+    "qualities": [ [ "COOK", 1 ] ],
     "armor": [ { "encumbrance_modifiers": [ "IMBALANCED" ], "coverage": 85, "covers": [ "head" ] } ]
   },
   {
