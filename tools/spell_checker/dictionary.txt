@@ -1611,7 +1611,6 @@ safemode
 safewords
 sagely
 sallet
-salmons
 salsify
 saltpan
 saltworks
