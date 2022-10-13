@@ -158,7 +158,7 @@ void vehicle::smart_controller_handle_turn( bool thrusting,
     Character &player_character = get_player_character();
 
     // bail and shut down
-    if( rotorcraft || c_engines.size() == 0 || ( has_electric_engine && c_engines.size() == 1 ) ||
+    if( rotorcraft || c_engines.empty() || ( has_electric_engine && c_engines.size() == 1 ) ||
         c_engines.size() > 5 ) {
         for( const vpart_reference &vp : get_avail_parts( "SMART_ENGINE_CONTROLLER" ) ) {
             vp.part().enabled = false;
@@ -167,13 +167,13 @@ void vehicle::smart_controller_handle_turn( bool thrusting,
         if( player_in_control( player_character ) ) {
             if( rotorcraft ) {
                 add_msg( _( "Smart controller does not support flying vehicles." ) );
-            } else if( c_engines.size() == 0 ) {
+            } else if( c_engines.empty() ) {
                 //TODO: make translation
                 add_msg( _( "Smart controller can not detect any controllable engine." ) );
             } else if( c_engines.size() == 1 ) {
                 //TODO: make translation
                 add_msg( _( "Smart controller detects only a single electric engine." ) );
-                add_msg( _( "An electric engine does not need optimisation." ) );
+                add_msg( _( "An electric engine does not need optimization." ) );
             } else {
                 add_msg( _( "Smart controller does not support more than five engines." ) );
             }

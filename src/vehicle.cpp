@@ -5421,7 +5421,7 @@ void vehicle::disable_smart_controller_if_needed()
             debugmsg( "Unexpected option \"%s\" for \"FORCE_SMART_CONTROLLER_OFF_ON_ENGINE_STOP\"",
                       force_stop_option );
         }
-        return query_yn( _( "Smart controller engine may turn on engine back. Disable it?" ) );
+        return query_yn( _( "Smart controller engine may turn on engine back.  Disable it?" ) );
     };
 
     if( has_enabled_smart_controller && !has_available_electric_engine() &&
