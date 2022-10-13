@@ -344,6 +344,7 @@
     "copy-from": "mon_fish_medium",
     "name": { "str_sp": "largemouth bass" },
     "description": "A largemouth bass.  Very popular with sport fishermen.",
+    "volume": "6 L",
     "reproduction": { "baby_egg": "egg_lbass", "baby_count": 2, "baby_timer": 17 }
   },
   {
@@ -356,9 +357,11 @@
   {
     "id": "mon_fish_sbass",
     "type": "MONSTER",
-    "copy-from": "mon_fish_small",
+    "copy-from": "mon_fish_medium",
     "name": { "str_sp": "smallmouth bass" },
     "description": "A smallmouth bass.  Infamously intolerant to pollution, the presence of smallmouth bass is a good indicator of how clean a body of water is.",
+    "volume": "4 L",
+    "weight": "3 kg",
     "reproduction": { "baby_egg": "egg_sbass", "baby_count": 2, "baby_timer": 17 }
   },
   {
@@ -374,6 +377,8 @@
     "copy-from": "mon_fish_medium",
     "name": { "str_sp": "striped bass" },
     "description": "A striped bass.  Mostly a saltwater fish, they migrate to fresher water to spawn.",
+    "volume": "13500 ml",
+    "weight": "6500 g",
     "reproduction": { "baby_egg": "egg_pbass", "baby_count": 2, "baby_timer": 17 }
   },
   {
@@ -390,6 +395,8 @@
     "name": { "str": "perch", "str_pl": "perches" },
     "looks_like": "mon_fish_pickerel",
     "description": "A small, sprightly perch.  It is a very bony fish, still has some tasty meat on it though.",
+    "volume": "500 ml",
+    "weight": "150 g",
     "reproduction": { "baby_egg": "egg_perch", "baby_count": 2, "baby_timer": 17 }
   },
   {
@@ -406,6 +413,8 @@
     "name": { "str": "walleye" },
     "looks_like": "mon_fish_pbass",
     "description": "A walleye.  A green-brown medium-sized fish with a white belly.",
+    "volume": "4500 ml",
+    "weight": "3 kg",
     "reproduction": { "baby_egg": "egg_walleye", "baby_count": 2, "baby_timer": 17 }
   },
   {
