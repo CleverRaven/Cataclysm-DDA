@@ -342,7 +342,7 @@
     "name": { "str": "shogi set" },
     "description": "A wooden box containing all the pieces needed to play a game of shogi, and also a extremely small guide of how to play it, with some letters in Japanese.  Also known as Japanese chess, it is a strategy board game for two players.  It was once one of the most popular board games in Japan, before the Cataclysm, and the main objective is to, though strategy, tsumi (checkmate) the opponent's osho (king).",
     "weight": "2871 g",
-    "volume": "3033 L",
+    "volume": "3033 ml",
     "price": 5900,
     "price_postapoc": 5,
     "material": [ "wood" ],
