@@ -42,6 +42,7 @@ enum weather_sound_category : int {
     silent,
     drizzle,
     rainy,
+    rainstorm,
     thunder,
     flurries,
     snowstorm,

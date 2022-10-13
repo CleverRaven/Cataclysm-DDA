@@ -12,10 +12,11 @@ onlyLabels: []
 
 # Issues or Pull Requests with these labels will never be considered stale. Set to `[]` to disable
 exemptLabels:
-  - <Bug>
-  - <Bugfix>
+  - "<Bug>"
+  - "<Bugfix>"
   - "<Crash / Freeze>"
   - "Organization: Bounty"
+  - "Good First Issue"
   - "(P1 - Critical)"
   - "(P2 - High)"
   - "(P3 - Medium)"

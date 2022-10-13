@@ -321,6 +321,11 @@
   },
   {
     "type": "construction_group",
+    "id": "build_high_end_of_an_earth_ramp",
+    "name": "Build High End of an Earth Ramp"
+  },
+  {
+    "type": "construction_group",
     "id": "build_high_end_of_a_concrete_ramp",
     "name": "Build High End of a Concrete Ramp"
   },
@@ -363,6 +368,11 @@
     "type": "construction_group",
     "id": "build_log_wall",
     "name": "Build Log Wall"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_low_end_of_an_earth_ramp",
+    "name": "Build Low End of an Earth Ramp"
   },
   {
     "type": "construction_group",
@@ -1396,6 +1406,11 @@
   },
   {
     "type": "construction_group",
+    "id": "place_screw_press",
+    "name": "Place Screw Press"
+  },
+  {
+    "type": "construction_group",
     "id": "place_workbench",
     "name": "Place Workbench"
   },
@@ -1601,6 +1616,11 @@
   },
   {
     "type": "construction_group",
+    "id": "hang_heavy_punching_bag",
+    "name": "Hang a Heavy Punching Bag"
+  },
+  {
+    "type": "construction_group",
     "id": "build_training_dummy_light",
     "name": "Install Training Dummy"
   },
@@ -1618,6 +1638,11 @@
     "type": "construction_group",
     "id": "build_archery_target_bale",
     "name": "Mark Hay Bale For Archery"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_flagpole",
+    "name": "Build a Flagpole"
   },
   {
     "type": "construction_group",

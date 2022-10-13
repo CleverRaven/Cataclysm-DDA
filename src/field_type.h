@@ -204,6 +204,7 @@ struct field_type {
         std::vector<json_character_flag> immunity_data_flags;
         std::vector<std::pair<body_part_type::type, int>> immunity_data_body_part_env_resistance;
         std::vector < std::pair<body_part_type::type, flag_id>> immunity_data_part_item_flags;
+        std::vector < std::pair<body_part_type::type, flag_id>> immunity_data_part_item_flags_any;
         std::set<mtype_id> immune_mtypes;
 
         int priority = 0;

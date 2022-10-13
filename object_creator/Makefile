@@ -11,7 +11,7 @@ CATA_LIB=../$(BUILD_PREFIX)cataclysm.a
 
 ODIR ?= obj
 
-CXXFLAGS += $(QT5_CFLAGS) -I../src -I../tools/format -fPIC
+CXXFLAGS += $(QT5_CFLAGS) -I../src -I../tools/format -isystem ../src/third-party -fPIC
 LDFLAGS += $(QT5_LIBS)
 DEFINES += -DQT_NO_KEYWORDS
 

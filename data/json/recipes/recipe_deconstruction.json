@@ -2631,14 +2631,6 @@
     "flags": [ "BLIND_EASY" ]
   },
   {
-    "result": "felt_patch",
-    "type": "uncraft",
-    "time": "5 m",
-    "activity_level": "NO_EXERCISE",
-    "qualities": [ { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "yarn", 50 ] ] ]
-  },
-  {
     "result": "file",
     "type": "uncraft",
     "activity_level": "NO_EXERCISE",
@@ -6433,6 +6425,14 @@
     "activity_level": "LIGHT_EXERCISE",
     "time": "24 s",
     "components": [ [ [ "leather", 12 ] ] ],
+    "qualities": [ { "id": "CUT", "level": 1 } ]
+  },
+  {
+    "result": "heavy_punching_bag_sack",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "30 m",
+    "components": [ [ [ "leather", 16 ] ], [ [ "tanned_hide", 8 ] ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ]
   },
   {

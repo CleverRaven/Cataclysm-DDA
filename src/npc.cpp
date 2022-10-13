@@ -1991,6 +1991,7 @@ ret_val<void> npc::wants_to_sell( const item_location &it, int at_price,
 
     // Keep items that we never want to trade and the ones we don't want to trade while in use.
     if( it->has_flag( flag_TRADER_KEEP ) ||
+        is_worn( *it ) ||
         ( ( !myclass->sells_belongings || it->has_flag( flag_TRADER_KEEP_EQUIPPED ) ) &&
           it.held_by( *this ) ) ) {
         return ret_val<void>::make_failure( _( "<npcname> will never sell this" ) );
@@ -2122,9 +2123,6 @@ void npc::shop_restock()
                 value_groups.emplace_back( ig.id );
             }
         }
-    }
-    if( value_groups.empty() && rigid_groups.empty() ) {
-        return;
     }
 
     std::list<item> ret;
