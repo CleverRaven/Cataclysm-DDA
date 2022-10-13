@@ -133,7 +133,7 @@
     "name": { "str": "triceratops skull" },
     "description": "Large dinosaur skull with three large horns and a large crest.",
     "copy-from": "skull_dino_large",
-    "qualities": [ [ "COOKING", 1 ] ]
+    "qualities": [ [ "COOK", 1 ] ]
   },
   {
     "type": "GENERIC",
@@ -141,7 +141,7 @@
     "name": { "str": "torosaurus skull" },
     "description": "Large dinosaur skull with three large horns and a large crest.",
     "copy-from": "skull_dino_large",
-    "qualities": [ [ "COOKING", 1 ] ]
+    "qualities": [ [ "COOK", 1 ] ]
   },
   {
     "type": "GENERIC",
@@ -149,7 +149,7 @@
     "name": { "str": "styracosaurus skull" },
     "description": "Large dinosaur skull with a large horn above the nose and a spiked crest.",
     "copy-from": "skull_dino_large",
-    "qualities": [ [ "COOKING", 1 ] ]
+    "qualities": [ [ "COOK", 1 ] ]
   },
   {
     "type": "GENERIC",
@@ -157,6 +157,6 @@
     "name": { "str": "centrosaurus skull" },
     "description": "Large dinosaur skull with a large horn above the nose and a bony crest.",
     "copy-from": "skull_dino_large",
-    "qualities": [ [ "COOKING", 1 ] ]
+    "qualities": [ [ "COOK", 1 ] ]
   }
 ]
