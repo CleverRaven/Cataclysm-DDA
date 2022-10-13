@@ -402,6 +402,7 @@ craftable
 craftsfolk
 craftswoman
 craftwork
+crappie
 creeply
 creped
 cresent
@@ -1471,6 +1472,7 @@ pts
 pufts
 pukers
 pumpkinseed
+pumpkinseeds
 purslane
 purviews
 pushmower
