@@ -36,9 +36,9 @@
     "batch_time_factors": [ 50, 1 ],
     "book_learn": [ [ "cookbook_foodfashions", 5 ], [ "baking_book", 2 ] ],
     "qualities": [ { "id": "COOK", "level": 2 }, { "id": "CUT", "level": 2 } ],
-    "tools": [ [ [ "surface_heat", 12, "LIST" ] ] ],
-    "//": "power use = 10 for flour, 1 for water, 1 for sugar",
-    "charges": 8,
+    "tools": [ [ [ "surface_heat", 13, "LIST" ] ], [ [ "frying_oil", 1, "LIST" ] ] ],
+    "//": "power use = 10 for flour, 1 for water, 1 for sugar, 1 for oil",
+    "charges": 10,
     "proficiencies": [
       { "proficiency": "prof_food_prep" },
       { "proficiency": "prof_frying" },
@@ -49,7 +49,9 @@
       [ [ "flour_any", 10, "LIST" ] ],
       [ [ "water_clean", 1 ] ],
       [ [ "salt", 1 ] ],
-      [ [ "sugar", 5 ], [ "artificial_sweetener", 5 ] ]
+      [ [ "sugar_standard", 1, "LIST" ] ],
+      [ [ "fry_oil", 2, "LIST" ] ]
+      
     ]
   },
   {
@@ -77,7 +79,8 @@
     "time": "9 s",
     "//": "https://www.netsolwater.com/how-much-energy-does-an-ro-system-use.php?blog=484",
     "//1": "Unclear if this is a RO filter but basing it off that.  0.03 KwH per 2 liters in a RO filter = 14kJ for 1u of water",
-    "//2": "50g of charcoal for 1 liter of water = 12.5g of charcoal for 1u",
+    "//2": "https://blackblum.com/pages/charcoal-water-filter",
+    "//3": "50g of charcoal for 1 liter of water = 12.5g of charcoal.  1u charcoal weighs 11g, so making it 1:1",
     "autolearn": true,
     "tools": [
       [
@@ -152,7 +155,7 @@
     "batch_time_factors": [ 67, 5 ],
     "qualities": [ { "id": "COOK", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 3, "LIST" ] ] ],
-    "//": "standard is 2u energy per 100g veggy ish, mushroom is 70g",
+    "//": "standard is 2u energy per 100g veggy ish, 1u mushroom is 70g",
     "proficiencies": [ { "proficiency": "prof_food_prep" } ],
     "components": [ [ [ "mushroom", 2 ] ] ]
   },
@@ -263,7 +266,7 @@
     "batch_time_factors": [ 83, 5 ],
     "qualities": [ { "id": "COOK", "level": 1 } ],
     "tools": [ [ [ "char_smoker", 75 ] ], [ [ "surface_heat", 6, "LIST" ] ] ],
-    "//": "250g of raw cured meat, which is 16-17u surface_heat by weight + it is smoked, so treat it as half the smoke needed to dehydrate - half 150 per dehydrating_heat = 75u charcoal",
+    "//": "250g of raw cured meat, which is 16-17u surface_heat by weight + it is smoked, so treat it as half the smoke needed to dehydrate - 25 dehydrating_heats is 150u charcoal so half is 75",
     "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_preservation" }, { "proficiency": "prof_food_curing" } ],
     "components": [ [ [ "raw_cured_fatty_meat", 1 ] ] ]
   },
@@ -857,8 +860,8 @@
     "autolearn": true,
     "batch_time_factors": [ 83, 3 ],
     "qualities": [ { "id": "COOK", "level": 1 } ],
-    "tools": [ [ [ "char_smoker", 80 ] ] ],
-    "//": "300g of meat would be 20u surface_heat, or 80u charcoal",
+    "tools": [ [ [ "char_smoker", 90 ] ] ],
+    "//": "300g of meat would be 30 dehydrating_heats, half that since it isn't fully dehydrated, 15x6 = 90 charcoals",
     "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_preservation" }, { "proficiency": "prof_food_curing" } ],
     "components": [ [ [ "meat_red_raw", 1, "LIST" ] ] ]
   },
@@ -875,8 +878,8 @@
     "autolearn": true,
     "batch_time_factors": [ 83, 3 ],
     "qualities": [ { "id": "COOK", "level": 1 } ],
-    "tools": [ [ [ "char_smoker", 40 ] ] ],
-    "//": "150g of meat would be 10u surface_heat, or 40u charcoal",
+    "tools": [ [ [ "char_smoker", 45 ] ] ],
+    "//": "150g of meat would be 15 dehydrating_heats, half that since it isn't fully dehydrated, 7.5x6 = 45 charcoals",
     "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_preservation" }, { "proficiency": "prof_food_curing" } ],
     "components": [ [ [ "fish", 1 ] ] ]
   },
@@ -893,8 +896,8 @@
     "autolearn": true,
     "batch_time_factors": [ 83, 3 ],
     "qualities": [ { "id": "COOK", "level": 1 } ],
-    "tools": [ [ [ "char_smoker", 40 ] ] ],
-    "//": "150g of meat would be 10u surface_heat, or 40u charcoal",
+    "tools": [ [ [ "char_smoker", 45 ] ] ],
+    "//": "150g of meat would be 15 dehydrating_heats, half that since it isn't fully dehydrated, 7.5x6 = 45 charcoals",
     "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_preservation" }, { "proficiency": "prof_food_curing" } ],
     "components": [ [ [ "lobster", 1 ] ] ]
   },
@@ -911,8 +914,8 @@
     "autolearn": true,
     "batch_time_factors": [ 83, 3 ],
     "qualities": [ { "id": "COOK", "level": 1 } ],
-    "tools": [ [ [ "char_smoker", 40 ] ] ],
-    "//": "150g of meat would be 10u surface_heat, or 40u charcoal",
+    "tools": [ [ [ "char_smoker", 45 ] ] ],
+    "//": "150g of meat would be 15 dehydrating_heats, half that since it isn't fully dehydrated, 7.5x6 = 45 charcoals",
     "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_preservation" }, { "proficiency": "prof_food_curing" } ],
     "components": [ [ [ "mollusk", 1 ] ] ]
   },
@@ -928,8 +931,8 @@
     "autolearn": true,
     "time": "16 m",
     "qualities": [ { "id": "CUT", "level": 2 }, { "id": "COOK", "level": 2 } ],
-    "tools": [ [ [ "surface_heat", 21, "LIST" ] ] ],
-    "//": "300g of meat, 20u of cooking, plus 1u for batter/oil",
+    "tools": [ [ [ "surface_heat", 22, "LIST" ] ] ],
+    "//": "300g of meat, 20u of cooking, plus 2u for batter/oil",
     "proficiencies": [
       { "proficiency": "prof_food_prep" },
       { "proficiency": "prof_knife_skills" },
@@ -950,8 +953,8 @@
     "autolearn": true,
     "time": "16 m",
     "qualities": [ { "id": "CUT", "level": 2 }, { "id": "COOK", "level": 2 } ],
-    "tools": [ [ [ "surface_heat", 21, "LIST" ] ] ],
-    "//": "300g of meat, 20u of cooking, plus 1u for batter/oil",
+    "tools": [ [ [ "surface_heat", 22, "LIST" ] ] ],
+    "//": "300g of meat, 20u of cooking, plus 2u for batter/oil",
     "proficiencies": [
       { "proficiency": "prof_food_prep" },
       { "proficiency": "prof_knife_skills" },
@@ -972,7 +975,8 @@
     "autolearn": true,
     "time": "16 m",
     "qualities": [ { "id": "CUT", "level": 2 }, { "id": "COOK", "level": 2 } ],
-    "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
+    "tools": [ [ [ "surface_heat", 13, "LIST" ] ] ],
+    "//": "170g of meat, 11u of cooking, plus 2u for batter/oil",
     "proficiencies": [
       { "proficiency": "prof_food_prep" },
       { "proficiency": "prof_knife_skills" },
@@ -993,8 +997,8 @@
     "charges": 1,
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 2 }, { "id": "COOK", "level": 2 } ],
-    "tools": [ [ [ "surface_heat", 24, "LIST" ] ] ],
-    "//": "340g of fish, 21u of cooking, plus 1u for batter/oil, plus 2u for the onions",
+    "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
+    "//": "300g of onions for 6u heat and 4u for the batter.",
     "proficiencies": [
       { "proficiency": "prof_food_prep" },
       { "proficiency": "prof_knife_skills" },
@@ -1114,8 +1118,8 @@
     "book_learn": [ [ "cookbook_sushi", 3 ], [ "cookbook_eatyrway", 4 ] ],
     "time": "45 m",
     "qualities": [ { "id": "CONTAIN", "level": 1 } ],
-    "tools": [ [ [ "cotton_patchwork", -1 ] ], [ [ "water_boiling_heat", 10, "LIST" ] ] ],
-    "//": "boiling and straining 1.5 liters of liquid",
+    "tools": [ [ [ "cotton_patchwork", -1 ] ], [ [ "water_boiling_heat", 14, "LIST" ] ] ],
+    "//": "water alone is 4u boiling, then there is 1.25L of soymilk - assuming roughly half water by weight, another 10u heat",
     "proficiencies": [ { "proficiency": "prof_food_prep" } ],
     "batch_time_factors": [ 50, 2 ],
     "components": [ [ [ "soy_milk", 5 ] ], [ [ "water_clean", 1 ] ], [ [ "lemon", 1 ], [ "vinegar", 1 ] ] ]
@@ -1132,7 +1136,7 @@
     "time": "5 m",
     "qualities": [ { "id": "CONTAIN", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 6, "LIST" ] ] ],
-    "//": "Not exactly meat but weighs 3x scrap of meat so 6u heat",
+    "//": "Not exactly meat but weighs 3x scrap of meat so 6u heat, which is the given standard",
     "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_frying" } ],
     "components": [ [ [ "tofu", 1 ] ] ]
   },
@@ -1147,8 +1151,8 @@
     "book_learn": [ [ "cookbook_sushi", 3 ] ],
     "time": "45 m",
     "qualities": [ { "id": "CONTAIN", "level": 1 }, { "id": "COOK", "level": 3 } ],
-    "tools": [ [ [ "surface_heat", 40, "LIST" ] ] ],
-    "//": "4 tofus = 24u, rice = 12u, veggies = 4u total = 40u.  it's a big dish!",
+    "tools": [ [ [ "surface_heat", 45, "LIST" ] ] ],
+    "//": "4 tofus = 24u, rice = 16u, veggies (200g) = 4u, sugar/oil: 1u, total = 45u.  it's a big dish!",
     "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_knife_skills" } ],
     "batch_time_factors": [ 25, 2 ],
     "components": [
@@ -1172,8 +1176,8 @@
     "time": "45 m",
     "qualities": [ { "id": "COOK", "level": 2 }, { "id": "CONTAIN", "level": 1 } ],
     "proficiencies": [ { "proficiency": "prof_food_prep" } ],
-    "tools": [ [ [ "surface_heat", 18, "LIST" ] ] ],
-    "//": "rice = 3u, blood = 15u",
+    "tools": [ [ [ "surface_heat", 19, "LIST" ] ] ],
+    "//": "rice = 4u, blood = 15u",
     "batch_time_factors": [ 50, 2 ],
     "components": [
       [ [ "dry_rice", 1 ] ],
@@ -1319,9 +1323,9 @@
     "book_learn": [ [ "family_cookbook", 2 ], [ "scots_cookbook", 2 ] ],
     "batch_time_factors": [ 83, 3 ],
     "qualities": [ { "id": "CUT", "level": 2 }, { "id": "COOK", "level": 1 } ],
-    "//": "820g of flesh would be 55u of surface_heat, or 220u of charcoal",
+    "//": "820g of flesh would be 82 surface heats, since this is just smoking count it as half (41x6) = 246 or so charcoal",
     "tools": [
-      [ [ "char_smoker", 220 ] ],
+      [ [ "char_smoker", 245 ] ],
       [
         [ "funnel", -1 ],
         [ "makeshift_funnel", -1 ],
@@ -1533,9 +1537,9 @@
     "autolearn": true,
     "batch_time_factors": [ 83, 3 ],
     "qualities": [ { "id": "CUT", "level": 2 }, { "id": "COOK", "level": 1 } ],
-    "//": "600g meat being smoked, 40u of surface heat = 160u charcoal",
+    "//": "600g meat being smoked, cut in half for 30u dehydration = 180u charcoal",
     "tools": [
-      [ [ "char_smoker", 160 ] ],
+      [ [ "char_smoker", 180 ] ],
       [
         [ "funnel", -1 ],
         [ "makeshift_funnel", -1 ],
@@ -1653,11 +1657,12 @@
     "skill_used": "cooking",
     "time": "4 m",
     "autolearn": true,
+    "charges": 2,
     "qualities": [ { "id": "COOK", "level": 1 } ],
-    "tools": [ [ [ "surface_heat", 2, "LIST" ] ] ],
-    "//": "2u to cook a veggy",
+    "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
+    "//": "2u to cook a veggy weighing 100u, these clock in at 119g",
     "proficiencies": [ { "proficiency": "prof_food_prep" } ],
-    "components": [ [ [ "veggy", 1 ] ] ]
+    "components": [ [ [ "veggy", 2 ] ] ]
   },
   {
     "type": "recipe",
@@ -1668,12 +1673,13 @@
     "skill_used": "cooking",
     "time": "4 m",
     "autolearn": true,
+    "charges": 2,
     "batch_time_factors": [ 80, 4 ],
     "qualities": [ { "id": "COOK", "level": 2 } ],
-    "tools": [ [ [ "surface_heat", 2, "LIST" ] ] ],
-    "//": "2u to cook a veggy",
+    "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
+    "//": "2u to cook a veggy weighing 100u, these clock in at 119g",
     "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_forage_cooking" } ],
-    "components": [ [ [ "veggy_wild", 1 ] ] ]
+    "components": [ [ [ "veggy_wild", 2 ] ] ]
   },
   {
     "type": "recipe",
@@ -1690,7 +1696,7 @@
     "batch_time_factors": [ 40, 5 ],
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 2, "LIST" ] ] ],
-    "//": "once you get down to it these are basically just bigger leeks.  power cost 2u",
+    "//": "not starchy like the rhizome, basically just bigger leeks, weighing 100g.  power cost 2u",
     "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_forage_cooking" } ],
     "components": [ [ [ "cattail_stalk", 1 ] ] ]
   },
@@ -1709,7 +1715,7 @@
     "batch_time_factors": [ 80, 3 ],
     "qualities": [ { "id": "COOK", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 16, "LIST" ] ] ],
-    "//": "starch equivalent to 16u of flour",
+    "//": "starch equivalent to 16u of flour by weight",
     "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_forage_cooking" } ],
     "components": [ [ [ "cattail_rhizome", 1 ] ] ]
   },
@@ -1726,7 +1732,7 @@
     "autolearn": true,
     "qualities": [ { "id": "COOK", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 2, "LIST" ] ] ],
-    "//": "basically like frying a veggy so 2u",
+    "//": "80g of veggy-adjacent matter for 2u heat",
     "proficiencies": [ { "proficiency": "prof_food_prep" } ],
     "components": [ [ [ "water_clean", 1 ] ], [ [ "mushroom_morel", 1 ] ] ]
   },
@@ -1741,8 +1747,8 @@
     "time": "8 m",
     "autolearn": true,
     "qualities": [ { "id": "COOK", "level": 2 } ],
-    "tools": [ [ [ "surface_heat", 3, "LIST" ] ] ],
-    "//": "2u 'veggy' plus 1u for batter and oil",
+    "tools": [ [ [ "surface_heat", 4, "LIST" ] ] ],
+    "//": "80g of veggy-adjacent matter for 2u heat plus 2u for batter and oil",
     "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_frying" }, { "proficiency": "prof_frying_bread" } ],
     "components": [ [ [ "mushroom_morel", 1 ] ], [ [ "any_butter_or_oil", 1, "LIST" ] ], [ [ "batter", 1, "LIST" ] ] ]
   },
@@ -1821,8 +1827,8 @@
     "autolearn": true,
     "//": "Small amounts of oil will be absorbed by the batter, real fried food 8-25% by weight",
     "qualities": [ { "id": "COOK", "level": 2 }, { "id": "CUT", "level": 1 } ],
-    "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
-    "//1": "136g of dandelion + batter",
+    "tools": [ [ [ "surface_heat", 5, "LIST" ] ], [ [ "frying_oil", 1, "LIST" ] ] ],
+    "//1": "3u heat for 136g of dandelion + 2u for the batter",
     "proficiencies": [
       { "proficiency": "prof_food_prep" },
       { "proficiency": "prof_forage_cooking" },
@@ -1869,7 +1875,7 @@
     "batch_time_factors": [ 80, 4 ],
     "book_learn": { "cookbook_sushi": { "skill_level": 2 }, "family_cookbook": { "skill_level": 2 } },
     "qualities": [ { "id": "COOK", "level": 2 }, { "id": "CUT", "level": 1 } ],
-    "tools": [ [ [ "water_boiling_heat", 3, "LIST" ] ] ],
+    "tools": [ [ [ "water_boiling_heat", 3, "LIST" ] ], [ [ "frying_oil", 1, "LIST" ] ] ],
     "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_forage_cooking" } ],
     "components": [ [ [ "raw_bamboo", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
   },
@@ -1893,8 +1899,8 @@
       "cookbook_daintydishes": { "skill_level": 2, "recipe_name": "Royal Penny Tea" }
     },
     "qualities": [ { "id": "COOK", "level": 2 }, { "id": "CUT", "level": 1 } ],
-    "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
-    "//": "136g of burdock + batter",
+    "tools": [ [ [ "surface_heat", 5, "LIST" ] ], [ [ "frying_oil", 1, "LIST" ] ] ],
+    "//": "3u heat for 136g of burdock + 2u heat for batter",
     "proficiencies": [
       { "proficiency": "prof_food_prep" },
       { "proficiency": "prof_forage_cooking" },
@@ -1915,7 +1921,8 @@
     "time": "20 m",
     "book_learn": { "cookbook_sushi": { "skill_level": 2 }, "family_cookbook": { "skill_level": 2 } },
     "qualities": [ { "id": "COOK", "level": 2 }, { "id": "CUT", "level": 1 } ],
-    "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
+    "tools": [ [ [ "surface_heat", 8, "LIST" ] ], [ [ "frying_oil", 2, "LIST" ] ] ],
+    "//": "300g of veggy for 6u + 2u heat for batter",
     "proficiencies": [
       { "proficiency": "prof_food_prep" },
       { "proficiency": "prof_forage_cooking" },
@@ -1945,7 +1952,7 @@
     },
     "//": "the cooking oil isn't supposed to be expended since you can recycle it after frying the burdocks",
     "qualities": [ { "id": "COOK", "level": 2 }, { "id": "CUT", "level": 1 } ],
-    "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
+    "tools": [ [ [ "surface_heat", 5, "LIST" ] ], [ [ "frying_oil", 1, "LIST" ] ] ],
     "//1": "136g of dandelion/burdock + batter",
     "proficiencies": [
       { "proficiency": "prof_food_prep" },
@@ -2111,8 +2118,8 @@
     "autolearn": true,
     "book_learn": [ [ "cookbook_mexican", 2 ] ],
     "qualities": [ { "id": "CUT", "level": 2 }, { "id": "COOK", "level": 2 } ],
-    "tools": [ [ [ "surface_heat", 10, "LIST" ] ], [ [ "frying_oil", 1, "LIST" ] ] ],
-    "//": "confusingly, these are actually tortilla chips.  about 120g of tortilla chips, plus oil, so about 10u",
+    "tools": [ [ [ "surface_heat", 11, "LIST" ] ], [ [ "frying_oil", 1, "LIST" ] ] ],
+    "//": "these are actually tortilla chips.  about 120g of tortilla, plus oil, so about 11u",
     "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_knife_skills" }, { "proficiency": "prof_frying" } ],
     "components": [ [ [ "tortilla_corn", 5 ] ], [ [ "fry_oil", 2, "LIST" ] ], [ [ "salt", 2 ], [ "seasoning_salt", 2 ] ] ]
   },
