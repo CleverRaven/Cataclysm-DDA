@@ -123,8 +123,8 @@
   },
   {
     "type": "GENERIC",
-    "id": "skull_allosaurus",
-    "name": { "str": "allosaurus skull" },
+    "id": "skull_acrocanthosaurus",
+    "name": { "str": "acrocanthosaurus skull" },
     "copy-from": "skull_dino_pred_large"
   },
   {
