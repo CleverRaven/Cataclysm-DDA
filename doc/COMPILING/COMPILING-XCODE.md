@@ -48,6 +48,6 @@ Configuration and save files are accessible in your documents folder via the Fil
 
 I appreciate the many folks in the community who have contributed to making such a wonderful game, and my intent was to make sure that everyone had access to an ipad version that was freely available and built to integrate with the existing codebase.
 
-There are likely other first time developer setup releated steps that may need to be captured here, please update accoringly or find me on Discord with questions or issues (smileynet#7052) understanding that my support of this build is at-will and may be intermittent.
+There are likely other first time developer setup related steps that may need to be captured here, please update accordingly or find me on Discord with questions or issues (smileynet#7052) understanding that my support of this build is at-will and may be intermittent.
 
 My use case for this build is playing on an iPad with an attached magic keyboard, so while I've tested the soft keyboard's basic functionality, at this point I have not done any of the UI enhancements found in the other ports found on the AppStore (or the Android build, but I'm looking at adapting that since it is likely to be easier to implement).
