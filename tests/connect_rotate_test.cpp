@@ -28,7 +28,7 @@ TEST_CASE( "walls should be unconnected without nearby walls", "[multitile][conn
 
     std::bitset<NUM_TERCONN> none;
     std::bitset<NUM_TERCONN> wall;
-    wall.set( TERCONN_WALL );
+    wall.set( get_connect_group( "WALL" ).index );
 
     tripoint pos = get_avatar().pos() + point_east + point_east;
 
@@ -58,7 +58,7 @@ TEST_CASE( "walls should connect to walls as end pieces", "[multitile][connects]
 
     std::bitset<NUM_TERCONN> none;
     std::bitset<NUM_TERCONN> wall;
-    wall.set( TERCONN_WALL );
+    wall.set( get_connect_group( "WALL" ).index );
 
     tripoint pos = get_avatar().pos() + point_east + point_east;
 
@@ -127,7 +127,7 @@ TEST_CASE( "walls should connect to walls as corners", "[multitile][connects]" )
 
     std::bitset<NUM_TERCONN> none;
     std::bitset<NUM_TERCONN> wall;
-    wall.set( TERCONN_WALL );
+    wall.set( get_connect_group( "WALL" ).index );
 
     tripoint pos = get_avatar().pos() + point_east + point_east;
 
@@ -196,7 +196,7 @@ TEST_CASE( "walls should connect to walls as edges", "[multitile][connects]" )
 
     std::bitset<NUM_TERCONN> none;
     std::bitset<NUM_TERCONN> wall;
-    wall.set( TERCONN_WALL );
+    wall.set( get_connect_group( "WALL" ).index );
 
     tripoint pos = get_avatar().pos() + point_east + point_east;
 
@@ -239,7 +239,7 @@ TEST_CASE( "walls should connect to walls as t-connections and fully", "[multiti
 
     std::bitset<NUM_TERCONN> none;
     std::bitset<NUM_TERCONN> wall;
-    wall.set( TERCONN_WALL );
+    wall.set( get_connect_group( "WALL" ).index );
 
     tripoint pos = get_avatar().pos() + point_east + point_east;
 
@@ -322,9 +322,9 @@ TEST_CASE( "windows should connect to walls and rotate to indoor floor", "[multi
     clear_avatar();
 
     std::bitset<NUM_TERCONN> floor;
-    floor.set( TERCONN_INDOORFLOOR );
+    floor.set( get_connect_group( "INDOORFLOOR" ).index );
     std::bitset<NUM_TERCONN> wall;
-    wall.set( TERCONN_WALL );
+    wall.set( get_connect_group( "WALL" ).index );
 
     tripoint pos = get_avatar().pos() + point_east + point_east;
 
@@ -447,7 +447,7 @@ TEST_CASE( "unconnected windows rotate to indoor floor", "[multitile][rotates]" 
 
     std::bitset<NUM_TERCONN> none;
     std::bitset<NUM_TERCONN> floor;
-    floor.set( TERCONN_INDOORFLOOR );
+    floor.set( get_connect_group( "INDOORFLOOR" ).index );
 
     tripoint pos = get_avatar().pos() + point_east + point_east;
 

@@ -31,6 +31,10 @@ struct furn_t;
 struct itype;
 struct tripoint;
 
+// size of connect groups bitset; increase if needed
+const int NUM_TERCONN = 32;
+connect_group get_connect_group( const std::string &name );
+
 template <typename E> struct enum_traits;
 
 struct map_bash_info {
@@ -310,37 +314,18 @@ struct enum_traits<ter_furn_flag> {
     static constexpr ter_furn_flag last = ter_furn_flag::NUM_TFLAG_FLAGS;
 };
 
-/*
- * Terrain groups which affect whether the terrain connects visually.
- * Groups are also defined in ter_connects_map() in mapdata.cpp which matches group to JSON string.
- */
-enum ter_connects : int {
-    TERCONN_NONE,
-    TERCONN_WALL,
-    TERCONN_CHAINFENCE,
-    TERCONN_WOODFENCE,
-    TERCONN_RAILING,
-    TERCONN_POOLWATER,
-    TERCONN_WATER,
-    TERCONN_PAVEMENT,
-    TERCONN_PAVEMENT_MARKING,
-    TERCONN_RAIL,
-    TERCONN_COUNTER,
-    TERCONN_CANVAS_WALL,
-    TERCONN_SAND,
-    TERCONN_PIT_DEEP,
-    TERCONN_LINOLEUM,
-    TERCONN_CARPET,
-    TERCONN_CONCRETE,
-    TERCONN_CLAY,
-    TERCONN_DIRT,
-    TERCONN_ROCKFLOOR,
-    TERCONN_MULCHFLOOR,
-    TERCONN_METALFLOOR,
-    TERCONN_WOODFLOOR,
-    TERCONN_INDOORFLOOR,
 
-    NUM_TERCONN
+struct connect_group {
+    public:
+        connect_group_id id;
+        int index;
+        std::set<ter_furn_flag> group_flags;
+        std::set<ter_furn_flag> connects_to_flags;
+        std::set<ter_furn_flag> rotates_to_flags;
+
+        bool was_loaded;
+        static void load( const JsonObject &jo );
+        static void reset();
 };
 
 struct activity_byproduct {
