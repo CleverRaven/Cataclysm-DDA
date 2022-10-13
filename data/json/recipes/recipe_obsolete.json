@@ -812,6 +812,7 @@
     "result": "sheet_metal_lit",
     "obsolete": true
   },
+  {
     "type": "recipe",
     "result": "ammo_satchel_from leather",
     "obsolete": true
