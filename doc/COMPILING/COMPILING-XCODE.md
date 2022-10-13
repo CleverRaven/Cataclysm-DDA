@@ -7,7 +7,7 @@ For the official way to build CataclysmDDA, see:
 
 # Prerequisites
 
-Currently all required libraries are either pre-installed on the OS or privded as static libraries as part of the project. The project will build for tiles and sound by default.
+Currently all required libraries are either pre-installed on the OS or provided as static libraries as part of the project. The project will build for tiles and sound by default.
 
 *TODO: need to confirm minimum version targets*
 
