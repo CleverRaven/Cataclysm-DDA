@@ -391,7 +391,7 @@
   {
     "id": "mon_fish_perch",
     "type": "MONSTER",
-    "copy-from": "mon_fish_small",
+    "copy-from": "mon_fish_tiny",
     "name": { "str": "yellow perch", "str_pl": "yellow perches" },
     "looks_like": "mon_fish_pickerel",
     "description": "A small, sprightly perch.  It is a very bony fish, still has some tasty meat on it though.",
@@ -428,8 +428,10 @@
     "id": "mon_fish_sunfish",
     "type": "MONSTER",
     "copy-from": "mon_fish_tiny",
-    "name": { "str_sp": "sunfish" },
+    "name": { "str_sp": "banded sunfish" },
     "description": "A sunfish.  A small fish related to bass and bluegill.",
+    "volume": "50 ml",
+    "weight": "20 g",
     "reproduction": { "baby_egg": "egg_sunfish", "baby_count": 2, "baby_timer": 17 }
   },
   {
@@ -443,9 +445,11 @@
     "id": "mon_fish_pumpkinseed",
     "type": "MONSTER",
     "copy-from": "mon_fish_tiny",
-    "name": { "str_sp": "pumpkinseed sunfish" },
+    "name": { "str": "pumpkinseed" },
     "looks_like": "mon_fish_sunfish",
     "description": "A pumpkinseed sunfish.  A small fish related to bass and bluegill.",
+    "volume": "375 ml",
+    "weight": "175 g",
     "reproduction": { "baby_egg": "egg_pumpkinseed", "baby_count": 2, "baby_timer": 17 }
   },
   {
@@ -458,9 +462,11 @@
   {
     "id": "mon_fish_bluegill",
     "type": "MONSTER",
-    "copy-from": "mon_fish_small",
+    "copy-from": "mon_fish_tiny",
     "name": { "str": "bluegill" },
     "description": "A bluegill, an invasive species in Japan.  Commonly gutted and cooked whole.",
+    "volume": "800 ml",
+    "weight": "280 g",
     "reproduction": { "baby_egg": "egg_bluegill", "baby_count": 2, "baby_timer": 17 }
   },
   {
@@ -477,6 +483,8 @@
     "name": { "str_sp": "redbreast sunfish" },
     "looks_like": "mon_fish_sunfish",
     "description": "A redbreast sunfish.  A small fish related to bass and bluegill.",
+    "volume": "115 ml",
+    "weight": "55 g",
     "reproduction": { "baby_egg": "egg_redbreast", "baby_count": 2, "baby_timer": 17 }
   },
   {
@@ -493,6 +501,8 @@
     "name": { "str_sp": "green sunfish" },
     "looks_like": "mon_fish_sunfish",
     "description": "A green sunfish.  A small fish related to bass and bluegill.",
+    "volume": "800 ml",
+    "weight": "280 g",
     "reproduction": { "baby_egg": "egg_green_sunfish", "baby_count": 2, "baby_timer": 17 }
   },
   {
@@ -509,6 +519,8 @@
     "name": { "str_sp": "rock bass" },
     "looks_like": "mon_fish_sunfish",
     "description": "A rock bass.  Related to sunfish, this tiny fish has a camouflage-like patterning and red eyes.",
+    "volume": "375 ml",
+    "weight": "175 g",
     "reproduction": { "baby_egg": "egg_rock_bass", "baby_count": 2, "baby_timer": 17 }
   },
   {
@@ -521,10 +533,12 @@
   {
     "id": "mon_fish_calico_bass",
     "type": "MONSTER",
-    "copy-from": "mon_fish_medium",
-    "name": { "str_sp": "calico bass" },
+    "copy-from": "mon_fish_small",
+    "name": { "str_sp": "black crappie" },
     "looks_like": "mon_fish_pbass",
-    "description": "A calico bass.  A medium-sized fish also known as a 'crappie'.",
+    "description": "A black crappie.  A medium-sized fish also known as a 'calico bass'.",
+    "volume": "2300 ml",
+    "weight": "850 g",
     "reproduction": { "baby_egg": "egg_calico_bass", "baby_count": 2, "baby_timer": 17 }
   },
   {
@@ -541,6 +555,8 @@
     "name": { "str": "warmouth" },
     "looks_like": "mon_fish_sunfish",
     "description": "A warmouth, similar to a rock bass.  This small fish is related to the sunfish.",
+    "volume": "375 ml",
+    "weight": "175 g",
     "reproduction": { "baby_egg": "egg_warmouth", "baby_count": 2, "baby_timer": 17 }
   },
   {
