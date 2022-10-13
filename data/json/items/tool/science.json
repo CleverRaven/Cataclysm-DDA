@@ -37,6 +37,7 @@
   },
   {
     "id": "chemistry_set",
+    "//": "To Do: Create a bunsen burner that uses a mix of electricity and LPG, then convert this to use that.  Will need multimag",
     "type": "TOOL",
     "name": { "str": "chemistry set" },
     "description": "This is a chemistry set stored in a box.  The contents include glass containers, hoses, metal wire, a hotplate, and safety glasses.  It might be used to craft some chemistry projects if you're so inclined.",
