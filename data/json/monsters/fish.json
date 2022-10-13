@@ -676,6 +676,8 @@
     "name": { "str": "white sucker" },
     "looks_like": "mon_fish_pbass",
     "description": "A white sucker.  It has a streamlined body with a round mouth.",
+    "volume": "2500 ml",
+    "weight": "660 g",
     "reproduction": { "baby_egg": "egg_white_sucker", "baby_count": 2, "baby_timer": 17 }
   },
   {
@@ -689,8 +691,10 @@
     "id": "mon_fish_carp",
     "type": "MONSTER",
     "copy-from": "mon_fish_medium",
-    "name": { "str": "carp" },
+    "name": { "str_sp": "european carp" },
     "description": "A golden-yellow common carp.  Some people think they don't taste great, but you can't afford to be choosy in the Cataclysm.",
+    "volume": "3000 ml",
+    "weight": "1 kg",
     "reproduction": { "baby_egg": "egg_carp", "baby_count": 2, "baby_timer": 17 }
   },
   {
@@ -703,10 +707,12 @@
   {
     "id": "mon_fish_grass_carp",
     "type": "MONSTER",
-    "copy-from": "mon_fish_huge",
+    "copy-from": "mon_fish_large",
     "name": { "str": "grass carp" },
     "looks_like": "mon_fish_carp",
     "description": "A huge grass carp.  A golden, herbivorous fish.",
+    "volume": "20 L",
+    "weight": "15 kg",
     "reproduction": { "baby_egg": "egg_grass_carp", "baby_count": 2, "baby_timer": 17 }
   },
   {
@@ -719,9 +725,11 @@
   {
     "id": "mon_fish_bowfin",
     "type": "MONSTER",
-    "copy-from": "mon_fish_large",
+    "copy-from": "mon_fish_medium",
     "name": { "str": "bowfin" },
     "description": "A bowfin.  These fish are related to gar but without the huge teeth, skin-rending scales, and aggression.",
+    "volume": "3500 ml",
+    "weight": "1 kg",
     "reproduction": { "baby_egg": "egg_bowfin", "baby_count": 2, "baby_timer": 17 }
   },
   {
@@ -734,10 +742,12 @@
   {
     "id": "mon_fish_fallfish",
     "type": "MONSTER",
-    "copy-from": "mon_fish_small",
+    "copy-from": "mon_fish_tiny",
     "name": { "str_sp": "fallfish" },
     "looks_like": "mon_fish_pbass",
-    "description": "A fallfish.  These fish are related to gar but without the huge teeth, skin-rending scales, and aggression.",
+    "description": "A fallfish.  These fish are small cyprinids, related to carp.",
+    "volume": "250 ml",
+    "weight": "120 g",
     "reproduction": { "baby_egg": "egg_fallfish", "baby_count": 2, "baby_timer": 17 }
   },
   {
@@ -844,14 +854,14 @@
   {
     "id": "mon_fish_eel",
     "type": "MONSTER",
-    "name": { "str": "freshwater eel" },
+    "name": { "str": "American eel" },
     "description": "An American eel.  They used to be quite common in these parts until the dams were built.  They'll get a second chance now that those aren't running.",
     "default_faction": "fish",
     "bodytype": "snake",
     "categories": [ "WILDLIFE" ],
     "species": [ "FISH" ],
-    "volume": "5 L",
-    "weight": "3650 g",
+    "volume": "10 L",
+    "weight": "2150 g",
     "hp": 10,
     "speed": 150,
     "material": [ "flesh" ],
