@@ -117,6 +117,17 @@
   },
   {
     "type": "effect_type",
+    "id": "creative_spark",
+    "name": [ "One Amazing Idea", "Several Inspired Tangents", "Brimming with Creativity" ],
+    "desc": [
+      "You have one incredibly amazing idea.",
+      "You've got a few theories you'd like to explore.",
+      "Your brain can't hold any more brilliance."
+    ],
+    "rating": "good"
+  },
+  {
+    "type": "effect_type",
     "id": "hallu",
     "max_duration": "6 h",
     "resist_effects": [ "relative_physics" ],
