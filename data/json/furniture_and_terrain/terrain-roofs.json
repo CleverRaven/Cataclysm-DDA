@@ -47,6 +47,7 @@
     "color": "white",
     "move_cost": 3,
     "flags": [ "TRANSPARENT", "NOITEM", "THIN_OBSTACLE", "MOUNTABLE", "TINY", "AUTO_WALL_SYMBOL", "UNSTABLE" ],
+    "connect_groups": "RAILING",
     "connects_to": "RAILING",
     "deconstruct": { "ter_set": "t_flat_roof", "items": [ { "item": "scrap_aluminum", "count": 12 } ] },
     "bash": {
@@ -68,6 +69,7 @@
     "color": "white",
     "move_cost": 3,
     "flags": [ "TRANSPARENT", "NOITEM", "THIN_OBSTACLE", "MOUNTABLE", "TINY", "AUTO_WALL_SYMBOL", "UNSTABLE" ],
+    "connect_groups": "RAILING",
     "connects_to": "RAILING",
     "deconstruct": { "ter_set": "t_flat_roof", "items": [ { "item": "scrap_aluminum", "count": 12 } ] },
     "bash": {
@@ -89,6 +91,7 @@
     "color": "white",
     "move_cost": 3,
     "flags": [ "TRANSPARENT", "NOITEM", "THIN_OBSTACLE", "MOUNTABLE", "TINY", "AUTO_WALL_SYMBOL", "UNSTABLE" ],
+    "connect_groups": "RAILING",
     "connects_to": "RAILING",
     "deconstruct": { "ter_set": "t_flat_roof", "items": [ { "item": "scrap_aluminum", "count": 12 } ] },
     "bash": {
@@ -110,6 +113,7 @@
     "color": "white",
     "move_cost": 3,
     "flags": [ "TRANSPARENT", "NOITEM", "THIN_OBSTACLE", "MOUNTABLE", "TINY", "AUTO_WALL_SYMBOL", "UNSTABLE" ],
+    "connect_groups": "RAILING",
     "connects_to": "RAILING",
     "deconstruct": { "ter_set": "t_flat_roof", "items": [ { "item": "scrap_aluminum", "count": 12 } ] },
     "bash": {
@@ -131,6 +135,7 @@
     "color": "white",
     "move_cost": 3,
     "flags": [ "TRANSPARENT", "NOITEM", "THIN_OBSTACLE", "MOUNTABLE", "TINY", "AUTO_WALL_SYMBOL", "UNSTABLE", "CLIMBABLE" ],
+    "connect_groups": "RAILING",
     "connects_to": "RAILING",
     "deconstruct": { "ter_set": "t_flat_roof", "items": [ { "item": "scrap_aluminum", "count": 12 } ] },
     "bash": {

@@ -1789,5 +1789,41 @@
     "looks_like": "salon_roof",
     "sym": "s",
     "color": "pink"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "strip_mall_1", "strip_mall_2", "strip_mall_3", "strip_mall_4" ],
+    "name": "strip mall",
+    "sym": "v",
+    "color": "light_red",
+    "mondensity": 1,
+    "copy-from": "generic_city_building",
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "strip_mall_roof_1", "strip_mall_roof_2", "strip_mall_roof_3", "strip_mall_roof_4" ],
+    "name": "strip mall roof",
+    "sym": "v",
+    "color": "light_red",
+    "copy-from": "generic_city_building"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "strip_mall_5",
+    "name": "parking lot",
+    "sym": "O",
+    "color": "dark_gray",
+    "mondensity": 1,
+    "flags": [ "SIDEWALK" ],
+    "copy-from": "generic_city_building"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "strip_mall_roof_5",
+    "name": "open air",
+    "copy-from": "generic_city_building",
+    "sym": ".",
+    "color": "blue"
   }
 ]

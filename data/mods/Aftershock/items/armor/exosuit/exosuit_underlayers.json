@@ -28,13 +28,18 @@
       }
     ],
     "warmth": 10,
-    "flags": [ "EXO_UNDERLAYER", "CANT_WEAR", "SKINTIGHT", "WATERPROOF", "POWERARMOR_COMPATIBLE", "SOFT", "CLIMATE_CONTROL" ],
+    "flags": [ "EXO_UNDERLAYER", "CANT_WEAR", "SKINTIGHT", "WATERPROOF", "POWERARMOR_COMPATIBLE", "SOFT" ],
     "relic_data": {
       "passive_effects": [
         {
           "has": "WORN",
           "condition": "ALWAYS",
-          "values": [ { "value": "ITEM_ENCUMBRANCE", "add": -10 }, { "value": "ARMOR_COLD", "multiply": -0.25 } ]
+          "values": [
+            { "value": "ITEM_ENCUMBRANCE", "add": -10 },
+            { "value": "ARMOR_COLD", "multiply": -0.25 },
+            { "value": "CLIMATE_CONTROL_HEAT", "add": 50 },
+            { "value": "CLIMATE_CONTROL_CHILL", "add": 50 }
+          ]
         }
       ]
     }
@@ -76,13 +81,18 @@
       }
     ],
     "warmth": 10,
-    "flags": [ "EXO_UNDERLAYER", "CANT_WEAR", "SKINTIGHT", "WATERPROOF", "POWERARMOR_COMPATIBLE", "SOFT", "CLIMATE_CONTROL" ],
+    "flags": [ "EXO_UNDERLAYER", "CANT_WEAR", "SKINTIGHT", "WATERPROOF", "POWERARMOR_COMPATIBLE", "SOFT" ],
     "relic_data": {
       "passive_effects": [
         {
           "has": "WORN",
           "condition": "ALWAYS",
-          "values": [ { "value": "ITEM_ENCUMBRANCE", "add": -10 }, { "value": "ARMOR_COLD", "multiply": -0.25 } ]
+          "values": [
+            { "value": "ITEM_ENCUMBRANCE", "add": -10 },
+            { "value": "ARMOR_COLD", "multiply": -0.25 },
+            { "value": "CLIMATE_CONTROL_HEAT", "add": 50 },
+            { "value": "CLIMATE_CONTROL_CHILL", "add": 50 }
+          ]
         }
       ]
     }
@@ -125,15 +135,19 @@
       "SOFT",
       "GAS_PROOF",
       "RAD_RESIST",
-      "RAINPROOF",
-      "CLIMATE_CONTROL"
+      "RAINPROOF"
     ],
     "relic_data": {
       "passive_effects": [
         {
           "has": "WORN",
           "condition": "ALWAYS",
-          "values": [ { "value": "ITEM_ENCUMBRANCE", "add": -10 }, { "value": "ARMOR_COLD", "multiply": -0.25 } ]
+          "values": [
+            { "value": "ITEM_ENCUMBRANCE", "add": -10 },
+            { "value": "ARMOR_COLD", "multiply": -0.25 },
+            { "value": "CLIMATE_CONTROL_HEAT", "add": 50 },
+            { "value": "CLIMATE_CONTROL_CHILL", "add": 50 }
+          ]
         }
       ]
     }
@@ -184,15 +198,19 @@
       "SOFT",
       "GAS_PROOF",
       "RAD_RESIST",
-      "RAINPROOF",
-      "CLIMATE_CONTROL"
+      "RAINPROOF"
     ],
     "relic_data": {
       "passive_effects": [
         {
           "has": "WORN",
           "condition": "ALWAYS",
-          "values": [ { "value": "ITEM_ENCUMBRANCE", "add": -10 }, { "value": "ARMOR_COLD", "multiply": -0.25 } ]
+          "values": [
+            { "value": "ITEM_ENCUMBRANCE", "add": -10 },
+            { "value": "ARMOR_COLD", "multiply": -0.25 },
+            { "value": "CLIMATE_CONTROL_HEAT", "add": 50 },
+            { "value": "CLIMATE_CONTROL_CHILL", "add": 50 }
+          ]
         }
       ]
     }

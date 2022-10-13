@@ -1930,13 +1930,18 @@ std::list<item> &item_pocket::edit_contents()
     return contents;
 }
 
-ret_val<item_pocket::contain_code> item_pocket::insert_item( const item &it )
+ret_val<item_pocket::contain_code> item_pocket::insert_item( const item &it,
+        const bool into_bottom )
 {
     ret_val<item_pocket::contain_code> ret = !is_standard_type() ?
             ret_val<item_pocket::contain_code>::make_success() : can_contain( it );
 
     if( ret.success() ) {
-        contents.push_front( it );
+        if( !into_bottom ) {
+            contents.push_front( it );
+        } else {
+            contents.push_back( it );
+        }
         restack();
     }
     return ret;

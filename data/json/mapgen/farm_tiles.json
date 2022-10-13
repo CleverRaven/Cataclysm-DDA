@@ -1186,13 +1186,14 @@
         ".....os    @@|  |    Io.",
         ".....#E  h   +  +   T##.",
         ".....###III#######oo##..",
-        ".......#ooo#^...........",
+        ".......#ooo#^........../",
         "........................",
         "........................",
         "........................"
       ],
       "palettes": [ { "distribution": [ [ "standard_domestic_palette", 10 ], [ "standard_domestic_palette_abandoned", 2 ] ] } ],
-      "terrain": { "#": "t_wall_log", "-": "t_concrete" },
+      "terrain": { "#": "t_wall_log", "-": "t_concrete", "/": "t_region_groundcover_urban" },
+      "furniture": { "/": "f_wooden_flagpole" },
       "place_nested": [
         {
           "chunks": [
@@ -1240,13 +1241,14 @@
         ".....#@@  R|  S|R l  io.",
         ".....#d  E |BB8|RHHHL##.",
         ".....###III#######o###..",
-        ".......#ooo#^...........",
+        ".......#ooo#^........../",
         "........................",
         "........................",
         "........................"
       ],
       "palettes": [ { "distribution": [ [ "standard_domestic_palette", 10 ], [ "standard_domestic_palette_abandoned", 2 ] ] } ],
-      "terrain": { "#": "t_wall_log", "-": "t_concrete", "Ŧ": "t_railing" },
+      "terrain": { "#": "t_wall_log", "-": "t_concrete", "Ŧ": "t_railing", "/": "t_region_groundcover_urban" },
+      "furniture": { "/": "f_wooden_flagpole" },
       "place_nested": [
         {
           "chunks": [
@@ -1294,13 +1296,14 @@
         ".....o   l      hffh yo.",
         ".....#y      T|      ##.",
         ".....### a ######oo###..",
-        ".......#####^...........",
+        ".......#####^........../",
         "........................",
         "........................",
         "........................"
       ],
       "palettes": [ { "distribution": [ [ "standard_domestic_palette", 10 ], [ "standard_domestic_palette_abandoned", 2 ] ] } ],
-      "terrain": { "#": "t_wall_log", "-": "t_concrete", "Ŧ": "t_railing" },
+      "terrain": { "#": "t_wall_log", "-": "t_concrete", "Ŧ": "t_railing", "/": "t_region_groundcover_urban" },
+      "furniture": { "/": "f_wooden_flagpole" },
       "place_nested": [
         {
           "chunks": [
@@ -1347,13 +1350,14 @@
         ".....oO  5           Io.",
         ".....#FY J  T  RRR  y##.",
         ".....###   ##oo###oo##..",
-        ".......#ooo#^...........",
+        ".......#ooo#^........../",
         "........................",
         "........................",
         "........................"
       ],
       "palettes": [ { "distribution": [ [ "standard_domestic_palette", 10 ], [ "standard_domestic_palette_abandoned", 2 ] ] } ],
-      "terrain": { "#": "t_wall_log", "-": "t_concrete", "Ŧ": "t_railing" },
+      "terrain": { "#": "t_wall_log", "-": "t_concrete", "Ŧ": "t_railing", "/": "t_region_groundcover_urban" },
+      "furniture": { "/": "f_wooden_flagpole" },
       "place_nested": [
         {
           "chunks": [

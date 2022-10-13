@@ -29,6 +29,8 @@ namespace enchant_vals
 // the different types of values that can be modified by enchantments
 // either the item directly or the Character, whichever is more appropriate
 enum class mod : int {
+    //tracker for artifact carrying penalties
+    ARTIFACT_RESONANCE,
     // effects for the Character
     STRENGTH,
     DEXTERITY,
@@ -120,6 +122,8 @@ enum class mod : int {
     ITEM_COVERAGE,
     ITEM_ATTACK_SPEED,
     ITEM_WET_PROTECTION,
+    CLIMATE_CONTROL_HEAT,
+    CLIMATE_CONTROL_CHILL,
     NUM_MOD
 };
 } // namespace enchant_vals

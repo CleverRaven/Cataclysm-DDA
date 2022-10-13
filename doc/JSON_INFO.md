@@ -150,6 +150,7 @@ Use the `Home` key to return to the top.
     - [Harvest Drop Type](#harvest-drop-type)
     - [leftovers](#leftovers)
     - [Weapon Category](#weapon-category)
+    - [Connect group definitions](#connect-group-definitions)
     - [Furniture](#furniture)
       - [`type`](#type-1)
       - [`move_cost_mod`](#move_cost_mod)
@@ -184,9 +185,10 @@ Use the `Home` key to return to the top.
       - [`id`](#id-1)
       - [`name`](#name-1)
       - [`flags`](#flags-1)
-      - [`connects_to`](#connects_to)
-        - [Connect groups](#connect-groups)
-      - [`rotates_to` and `rotates_to_member`](#rotates_to-and-rotates_to_member)
+      - [`connect_groups`](#connect_groups)
+        - [Connection groups](#connection-groups)
+      - [`connects_to` and](#connects_to-and)
+      - [`rotates_to`](#rotates_to)
       - [`symbol`](#symbol)
       - [`comfort`](#comfort)
       - [`floor_bedding_warmth`](#floor_bedding_warmth)
@@ -473,6 +475,7 @@ Here's a quick summary of what each of the JSON files contain, broken down by fo
 | `body_parts.json`             | an expansion of anatomy.json - do not edit
 | `clothing_mods.json`          | definition of clothing mods
 | `conducts.json`               | conducts
+| `connect_groups.json`         | definition of terrain and furniture connect groups
 | `construction.json`           | definition of construction menu tasks
 | `default_blacklist.json`      | a standard blacklist of joke monsters
 | `doll_speech.json`            | talking doll speech messages
@@ -1410,16 +1413,7 @@ See MONSTERS.md
 
 ### Mutation Categories
 
-A Mutation Category identifies a set of interrelated mutations that as a whole establish an entirely new identity for a mutant character. Categories can and usually do have their own "flavor" of mutagen, the properties of which are defined in the category definition itself. A second kind of mutagen, called a "mutagen serum" or "IV mutagen" is necessary to trigger "threshold mutations" which cause irrevocable changes to the character.
-
-| Identifier         | Description
-|---                 |---
-| `id`               | Unique ID. Must be one continuous word, use underscores when necessary.
-| `name`             | Human readable name for the category of mutations.
-| `threshold_mut`    | A special mutation that marks the point at which the identity of the character is changed by the extent of mutation they have experienced.
-| `mutagen_message`  | A message displayed to the player when they mutate in this category.
-| `memorial_message` | The memorial message to display when a character crosses the associated mutation threshold.
-| `wip`              | A flag indicating that a mutation category is unfinished and shouldn't have consistency tests run on it. See tests/mutation_test.cpp.
+See MUTATIONS.md
 
 
 ### Names
@@ -2528,188 +2522,11 @@ at level `2` to the item.
 
 ### Traits/Mutations
 
-```C++
-"id": "LIGHTEATER",  // Unique ID
-"name": "Optimist",  // In-game name displayed
-"points": 2,         // Point cost of the trait. Positive values cost points and negative values give points
-"visibility": 0,     // Visibility of the trait for purposes of NPC interaction (default: 0)
-"ugliness": 0,       // Ugliness of the trait for purposes of NPC interaction (default: 0)
-"cut_dmg_bonus": 3, // Bonus to unarmed cut damage (default: 0)
-"pierce_dmg_bonus": 3, // Bonus to unarmed pierce damage (default: 0.0)
-"bash_dmg_bonus": 3, // Bonus to unarmed bash damage (default: 0)
-"butchering_quality": 4, // Butchering quality of this mutations (default: 0)
-"rand_cut_bonus": { "min": 2, "max": 3 }, // Random bonus to unarmed cut damage between min and max.
-"rand_bash_bonus": { "min": 2, "max": 3 }, // Random bonus to unarmed bash damage between min and max.
-"bodytemp_modifiers" : [100, 150], // Range of additional bodytemp units (these units are described in 'weather.h'. First value is used if the person is already overheated, second one if it's not.
-"bodytemp_sleep" : 50, // Additional units of bodytemp which are applied when sleeping
-"initial_ma_styles": [ "style_crane" ], // (optional) A list of ids of martial art styles of which the player can choose one when starting a game.
-"mixed_effect": false, // Whether the trait has both positive and negative effects. This is purely declarative and is only used for the user interface. (default: false)
-"description": "Nothing gets you down!" // In-game description
-"starting_trait": true, // Can be selected at character creation (default: false)
-"valid": false,      // Can be mutated ingame (default: true)
-"purifiable": false, //Sets if the mutation be purified (default: true)
-"profession": true, //Trait is a starting profession special trait. (default: false)
-"debug": false,     //Trait is for debug purposes (default: false)
-"player_display": true, //Trait is displayed in the `@` player display menu and mutations screen
-"vanity": false, //Trait can be changed any time with no cost, like hair, eye color and skin color
-"variants": [ // Cosmetic variants of this mutation
-  {
-    "id": "red", // String (mandatory): id of the variant
-    "name": { "str": "Glass-Half-Full Optimist" } // Name displayed in place of the mutation name
-    "description": "You think the glass is half-full." // Description displayed in place of mutation description, unless append_desc is true.
-    "apped_desc": false // If true, append the description, instead of replacing.
-    "weight": 1 // Used to randomly select variant when this is mutated. Chance of being selected is weight/sum-of-all-weights. If no weight is specified or weight is 0, variant will not be selected.
-  }
-]
-"category": ["MUTCAT_BIRD", "MUTCAT_INSECT"], // Categories containing this mutation
-// prereqs and prereqs2 specify prerequisites of the current mutation
-// Both are optional, but if prereqs2 is specified prereqs must also be specified
-// The example below means: ( "SLOWREADER" OR "ILLITERATE") AND ("CEPH_EYES" OR "LIZ_EYE")
-"prereqs": [ "SLOWREADER", "ILLITERATE"],
-"prereqs2": [ "CEPH_EYES", "LIZ_EYE" ],
-"threshreq": ["THRESH_SPIDER"], //Required threshold for this mutation to be possible
-"cancels": ["ROT1", "ROT2", "ROT3"], // Cancels these mutations when mutating
-"changes_to": ["FASTHEALER2"], // Can change into these mutations when mutating further
-"leads_to": [], // Mutations that add to this one
-"passive_mods" : { //increases stats with the listed value. Negative means a stat reduction
-            "per_mod" : 1, //Possible values per_mod, str_mod, dex_mod, int_mod
-            "str_mod" : 2
-},
-"wet_protection":[{ "part": "head", // Wet Protection on specific bodyparts
-                    "good": 1 } ] // "neutral/good/ignored" // Good increases pos and cancels neg, neut cancels neg, ignored cancels both
-"vitamin_rates": [ [ "vitC", -1200 ] ], // How much extra vitamins do you consume, one point per this many seconds. Negative values mean production
-"vitamins_absorb_multi": [ [ "flesh", [ [ "vitA", 0 ], [ "vitB", 0 ], [ "vitC", 0 ], [ "calcium", 0 ], [ "iron", 0 ] ], [ "all", [ [ "vitA", 2 ], [ "vitB", 2 ], [ "vitC", 2 ], [ "calcium", 2 ], [ "iron", 2 ] ] ] ], // multiplier of vitamin absorption based on material. "all" is every material. supports multiple materials.
-"craft_skill_bonus": [ [ "electronics", -2 ], [ "tailor", -2 ], [ "mechanics", -2 ] ], // Skill affected by the mutation and their bonuses. Bonuses can be negative, a bonus of 4 is worth 1 full skill level.
-"restricts_gear" : [ "torso" ], //list of bodyparts that get restricted by this mutation
-"allow_soft_gear" : true, //If there is a list of 'restricts_gear' this sets if the location still allows items made out of soft materials (Only one of the types need to be soft for it to be considered soft). (default: false)
-"destroys_gear" : true, //If true, destroys the gear in the 'restricts_gear' location when mutated into. (default: false)
-"encumbrance_always" : [ // Adds this much encumbrance to selected body parts
-    [ "arm_l", 20 ],
-    [ "arm_r", 20 ]
-],
-"encumbrance_covered" : [ // Adds this much encumbrance to selected body parts, but only if the part is covered by not-OVERSIZE worn equipment
-    [ "hand_l", 50 ],
-    [ "hand_r", 50 ]
-],
-"encumbrance_multiplier_always": { // if the bodypart has encumbrance caused by a mutation, multiplies that encumbrance penalty by this multiplier.
-  "arm_l": 0.75,                   // DOES NOT AFFECT CLOTHING ENCUMBRANCE
-  "arm_r": 0.75
-},
-"armor" : [ // Protects selected body parts this much. Resistances use syntax like `PART RESISTANCE` below.
-  {
-    "part_types": [ "arm", "leg" ],
-    "bash": 2,
-    "electric": 5                  // The resistance provided to the body part type(s) selected above
-  },
-  {
-    "parts": [ "arm_l", "arm_r" ], // Overrides the above settings for those specific body parts
-    "bash": 1,                     // ...and gives them those resistances instead
-    "cut": 2
-  }
-],
-"stealth_modifier" : 0, // Percentage to be subtracted from player's visibility range, capped to 60. Negative values work, but are not very effective due to the way vision ranges are capped
-"active" : true, //When set the mutation is an active mutation that the player needs to activate (default: false)
-"starts_active" : true, //When true, this 'active' mutation starts active (default: false, requires 'active')
-"cost" : 8, // Cost to activate this mutation. Needs one of the hunger, thirst, or fatigue values set to true. (default: 0)
-"time" : 100, //Sets the amount of (turns * current player speed ) time units that need to pass before the cost is to be paid again. Needs to be higher than one to have any effect. (default: 0)
-"kcal" : true, //If true, activated mutation consumes `cost` kcal. (default: false)
-"thirst" : true, //If true, activated mutation increases thirst by cost. (default: false)
-"fatigue" : true, //If true, activated mutation increases fatigue by cost. (default: false)
-"scent_modifier": 0.0,// float affecting the intensity of your smell. (default: 1.0)
-"scent_intensity": 800,// int affecting the target scent toward which you current smell gravitates. (default: 500)
-"scent_mask": -200,// int added to your target scent value. (default: 0)
-"scent_type": "sc_flower",// scent_typeid, defined in scent_types.json, The type scent you emit. (default: empty)
-"consume_time_modifier": 1.0f,//time to eat or drink is multiplied by this
-"bleed_resist": 1000, // Int quantifying your resistance to bleed effect, if it's > to the intensity of the effect you don't get any bleeding. (default: 0)
-"fat_to_max_hp": 1.0, // Amount of hp_max gained for each unit of bmi above character_weight_category::normal. (default: 0.0)
-"healthy_rate": 0.0, // How fast your health can change. If set to 0 it never changes. (default: 1.0)
-"weakness_to_water": 5, // How much damage water does to you, negative values heal you. (default: 0)
-"ignored_by": [ "ZOMBIE" ], // List of species ignoring you. (default: empty)
-"anger_relations": [ [ "MARSHMALLOW", 20 ], [ "GUMMY", 5 ], [ "CHEWGUM", 20 ] ], // List of species angered by you and by how much, can use negative value to calm.  (default: empty)
-"can_only_eat": [ "junk" ], // List of materiel required for food to be comestible for you. (default: empty)
-"can_only_heal_with": [ "bandage" ], // List of med you are restricted to, this includes mutagen,serum,aspirin,bandages etc... (default: empty)
-"can_heal_with": [ "caramel_ointement" ], // List of med that will work for you but not for anyone. See `CANT_HEAL_EVERYONE` flag for items. (default: empty)
-"allowed_category": [ "ALPHA" ], // List of category you can mutate into. (default: empty)
-"no_cbm_on_bp": [ "torso", "head", "eyes", "mouth", "arm_l" ], // List of body parts that can't receive cbms. (default: empty)
-"lumination": [ [ "head", 20 ], [ "arm_l", 10 ] ], // List of glowing bodypart and the intensity of the glow as a float. (default: empty)
-"metabolism_modifier": 0.333, // Extra metabolism rate multiplier. 1.0 doubles usage, -0.5 halves.
-"fatigue_modifier": 0.5, // Extra fatigue rate multiplier. 1.0 doubles usage, -0.5 halves.
-"fatigue_regen_modifier": 0.333, // Modifier for the rate at which fatigue and sleep deprivation drops when resting.
-"stamina_regen_modifier": 0.1, // Increase stamina regen by this proportion (1.0 being 100% of normal regen)
-"cardio_multiplier": 1.5, // Multiply total cardio fitness by this amount
-"healing_awake": 1.0, // Healing rate per turn while awake.
-"healing_resting": 0.5, // Healing rate per turn while resting.
-"mending_modifier": 1.2, // Multiplier on how fast your limbs mend - This value would make your limbs mend 20% faster
-"spells_learned": [ [ "spell_slime_spray", 1 ] ], // spells learned and the level they're at after gaining the trait/mutation.
-"transform": { "target": "BIOLUM1", // Trait_id of the mutation this one will transform into
-               "msg_transform": "You turn your photophore OFF.", // message displayed upon transformation
-               "active": false , // Will the target mutation start powered ( turn ON ).
-               "moves": 100 // how many moves this costs. (default: 0)
-},
-"triggers": [ // List of sublist of triggers, all sublists must be True for the mutation to activate
-  [ // Sublist of trigger: at least one trigger must be true for the sublist to be true
-      {
-        "condition": { "compare_int": [ { "u_val": "morale" }, "<", { "const": -50 } ] }, //dialog condition(see NPCs.md)
-        "msg_on": { "text": "Everything is terrible and this makes you so ANGRY!", "rating": "mixed" } // message displayed when the trigger activates
-      }
-  ],
-  [
-    {
-      "condition": { //dialog condition(see NPCs.md)
-        "or": [
-          { "compare_int": [ { "hour", "<", { "const": 2 } ] },
-          { "compare_int": [ { "hour", ">", { "const": 20 } ] }
-        ]
-      },
-      "msg_on": { "text": "Everything is terrible and this makes you so ANGRY!", "rating": "mixed" } // message displayed when the trigger activates
-      "msg_off": { "text": "Your glow fades." } // message displayed when the trigger deactivates the trait
-    }
-  ]
-],
-"activated_eocs": [ "eoc_id_1" ],  // List of effect_on_conditions that attempt to activate when this mutation is successfully activated.
-"deactivated_eocs": [ "eoc_id_1" ],  // List of effect_on_conditions that attempt to activate when this mutation is successfully deactivated.
-"enchantments": [ "ench_id_1" ],   // List of enchantments granted by this mutation, can be either string ids of the enchantment or an inline definition of the enchantment
-"temperature_speed_modifier": 0.5, // If nonzero, become slower when cold, and faster when hot
-                                   // 1.0 gives +/-1% speed for each degree above or below 65F
-"mana_modifier": 100               // Positive or negative change to total mana pool
-
-```
+See MUTATIONS.md
 
 ### Trait Migrations
 
-A mutation migration can be used to migrate a mutation that formerly existed gracefully into a proficiency, another mutation (potentially a specific variant), or to simply remove it without noise.
-
-```json
-[
-  {
-    "type": "TRAIT_MIGRATION",
-    "id": "dead_trait1",
-    "trait": "new_trait",
-    "variant": "correct_variant"
-  },
-  {
-    "type": "TRAIT_MIGRATION",
-    "id": "trait_now_prof",
-    "proficiency": "prof_old_trait"
-  },
-  {
-    "type": "TRAIT_MIGRATION",
-    "id": "deleted_trait",
-    "remove": true
-  }
-]
-```
-
-| Identifier    | Description
-|---            |---
-| `type`        | Mandatory. String. Must be `"TRAIT_MIGRATION"`
-| `id`          | Mandatory. String. Id of the trait that has been removed.
-| `trait`       | Optional\*. String. Id of the trait this trait is being migrated to.
-| `variant`     | Optional. String. Can only be specified if `trait` is specified. Id of a variant of `trait` that this mutation will be set to.
-| `proficiency` | Optional\*. String. Id of proficiency that will replace this trait.
-| `remove`      | Optional\*. Boolean. If neither `trait` or `variant` are specified, this must be true.
-
-\*One of these three must be specified.
+See MUTATIONS.md
 
 ### Traps
 
@@ -4350,6 +4167,39 @@ itype_id of the item dropped as leftovers after butchery or when the monster is 
 }
 ```
 
+### Connect group definitions
+
+Connect groups can be used by id in terrain and furniture `connect_groups`, `connects_to` and `rotates_to` properties.
+
+Examples from the actual definitions:
+
+**`group_flags`**: Flags that imply that terrain or furniture is added to this group.
+
+**`connects_to_flags`**: Flags that imply that terrain or furniture connects to this group.
+
+**`rotates_to_flags`**: Flags that imply that terrain or furniture rotates to this group.
+
+```json
+[
+  {
+    "type": "connect_group",
+    "id": "WALL",
+    "group_flags": [ "WALL", "CONNECT_WITH_WALL" ],
+    "connects_to_flags": [ "WALL", "CONNECT_WITH_WALL" ]
+  },
+  {
+    "type": "connect_group",
+    "id": "CHAINFENCE"
+  },
+  {
+    "type": "connect_group",
+    "id": "INDOORFLOOR",
+    "group_flags": [ "INDOORS" ],
+    "rotates_to_flags": [ "WINDOW", "DOOR" ]
+  }
+]
+```
+
 ### Furniture
 
 ```C++
@@ -4364,6 +4214,9 @@ itype_id of the item dropped as leftovers after butchery or when the monster is 
     "light_emitted": 5,
     "required_str": 18,
     "flags": [ "TRANSPARENT", "BASHABLE", "FLAMMABLE_HARD" ],
+    "connect_groups" : [ "WALL" ],
+    "connects_to" : [ "WALL" ],
+    "rotates_to" : [ "INDOORFLOOR" ],
     "crafting_pseudo_item": "anvil",
     "examine_action": "toilet",
     "close": "f_foo_closed",
@@ -4559,9 +4412,9 @@ Strength required to move the furniture around. Negative values indicate an unmo
     "trap": "spike_pit",
     "max_volume": "1000 L",
     "flags": ["TRANSPARENT", "DIGGABLE"],
-    "connects_to" : "WALL",
-    "rotates_to" : "INDOORFLOOR",
-    "rotates_to_member" : "INDOORFLOOR",
+    "connect_groups" : [ "WALL" ],
+    "connects_to" : [ "WALL" ],
+    "rotates_to" : [ "INDOORFLOOR" ],
     "close": "t_foo_closed",
     "open": "t_foo_open",
     "lockpick_result": "t_door_unlocked",
@@ -4766,47 +4619,63 @@ Displayed name of the object. This will be translated.
 
 (Optional) Various additional flags, see "doc/JSON_FLAGS.md".
 
-#### `connects_to`
+#### `connect_groups`
 
-(Optional) The group of terrains to which this terrain connects. This affects tile rotation and connections, and the ASCII symbol drawn by terrain with the flag "AUTO_WALL_SYMBOL".
+(Optional) Makes the type a member of one or more [Connection groups](#connection-groups).
+
+Does not make the type connect or rotate itself, but serves as the passive side.
+For the active, connecting or rotating side, see [`connects_to`](#connects_to) and [`rotates_to`](#rotates_to).
 
 Available groups are:
 
-##### Connect groups
+##### Connection groups
+
+Connect groups are defined by JSON types `connect_group`.
+Current connect groups are:
 
 ```
-NONE                 PIT_DEEP
-WALL                 LINOLEUM
-CHAINFENCE           CARPET
-WOODFENCE            CONCRETE
-RAILING              CLAY
-POOLWATER            DIRT
-WATER                ROCKFLOOR
-PAVEMENT             MULCHFLOOR
+NONE                 SAND
+WALL                 PIT_DEEP
+CHAINFENCE           LINOLEUM
+WOODFENCE            CARPET
+RAILING              CONCRETE
+POOLWATER            CLAY
+WATER                DIRT
+PAVEMENT             ROCKFLOOR
+PAVEMENT_MARKING     MULCHFLOOR
 RAIL                 METALFLOOR
 COUNTER              WOODFLOOR
 CANVAS_WALL          INDOORFLOOR
-SAND
 ```
 
-Example: `-` , `|` , `X` and `Y` are terrain which share the same `connects_to` value. `O` does not have it. `X` and `Y` also have the `AUTO_WALL_SYMBOL` flag. `X` will be drawn as a T-intersection (connected to west, south and east), `Y` will be drawn as a horizontal line (going from west to east, no connection to south).
+`WALL` is implied by the flags `WALL` and `CONNECT_WITH_WALL`.
+`INDOORFLOOR` is implied by the flag `INDOORS`.
+Implicit groups can be removed be using tilde `~` as prefix of the group name.
+
+#### `connects_to` and 
+
+(Optional) Makes the type connect to terrain types in the given groups (see [`connect_groups`](#connect_groups)). This affects tile rotation and connections, and the ASCII symbol drawn by terrain with the flag "AUTO_WALL_SYMBOL".
+
+Example: `-` , `|` , `X` and `Y` are terrain which share a group in `connect_groups` and `connects_to`. `O` does not have it. `X` and `Y` also have the `AUTO_WALL_SYMBOL` flag. `X` will be drawn as a T-intersection (connected to west, south and east), `Y` will be drawn as a horizontal line (going from west to east, no connection to south).
 
 ```
 -X-    -Y-
  |      O
 ```
 
-#### `rotates_to` and `rotates_to_member`
+Group `WALL` is implied by the flags `WALL` and `CONNECT_WITH_WALL`.
+Implicit groups can be removed be using tilde `~` as prefix of the group name.
 
-(Optional) `rotates_to` specifies the group of terrain (or furniture) towards which this terrain (or furniture) rotates.
-`rotates_to_member` adds the terrain (or furniture) to a group, as rotation target.
-See [Connect groups](#Connect-groups) for available values.
+#### `rotates_to`
 
-In contrast to `connects_to`, this is not symmetric.
-Only the terrain or furniture with `rotates_to` will rotate.
+(Optional) Makes the type rotate towards terrain types in the given groups (see [`connect_groups`](#connect_groups)).
+
 Terrain can only rotate depending on terrain, while funiture can rotate depending on terrain and on other funiture.
 
 The parameters can e.g. be used to have window curtains on the indoor side only, or to orient traffic lights depending on the pavement.
+
+Group `INDOORFLOOR` is implied by the flags `DOOR` and `WINDOW`.
+Implicit groups can be removed be using tilde `~` as prefix of the group name.
 
 #### `symbol`
 

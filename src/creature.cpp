@@ -1152,7 +1152,7 @@ dealt_damage_instance Creature::deal_damage( Creature *source, bodypart_id bp,
 
     dealt_damage_instance dealt_dams;
     const weakpoint *wp = absorb_hit( attack_copy, bp, d );
-    dealt_dams.wp_hit = wp == nullptr ? "" : wp->name;
+    dealt_dams.wp_hit = wp == nullptr ? "" : wp->get_name();
 
     // Add up all the damage units dealt
     for( const damage_unit &it : d.damage_units ) {

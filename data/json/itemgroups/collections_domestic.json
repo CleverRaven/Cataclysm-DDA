@@ -625,7 +625,8 @@
       { "item": "eclipse_glasses", "prob": 1 },
       { "item": "reading_light", "prob": 9, "charges": [ 0, 50 ] },
       { "item": "balloon", "prob": 5 },
-      { "group": "memorial", "prob": 3 }
+      { "group": "memorial", "prob": 3 },
+      { "item": "air_launcher", "prob": 1 }
     ]
   },
   {
@@ -1198,7 +1199,8 @@
       { "item": "bodypillow", "prob": 2 },
       { "item": "teddy_bear", "prob": 2 },
       { "item": "reading_light", "prob": 8, "charges": [ 0, 50 ] },
-      { "item": "condom", "prob": 50, "count": [ 1, 5 ] }
+      { "item": "condom", "prob": 50, "count": [ 1, 5 ] },
+      { "item": "air_launcher", "prob": 1 }
     ]
   },
   {
