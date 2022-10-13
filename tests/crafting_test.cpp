@@ -599,10 +599,10 @@ TEST_CASE( "tools use charge to craft", "[crafting][charge]" )
 
         // Charges needed to craft:
         // - 10 charges of soldering iron
-        // - 10 charges of surface heat
+        // - 20 charges of surface heat
 
         WHEN( "each tool has enough charges" ) {
-            item hotplate = tool_with_ammo( "hotplate", 500 );
+            item hotplate = tool_with_ammo( "hotplate_induction", 500 );
             REQUIRE( hotplate.ammo_remaining() == 500 );
             tools.push_back( hotplate );
             item soldering = tool_with_ammo( "soldering_iron", 20 );
@@ -616,20 +616,20 @@ TEST_CASE( "tools use charge to craft", "[crafting][charge]" )
                 prep_craft( recipe_carver_off, tools, true );
                 int turns = actually_test_craft( recipe_carver_off, INT_MAX );
                 CAPTURE( turns );
-                CHECK( get_remaining_charges( "hotplate" ) == 150 );
+                CHECK( get_remaining_charges( "hotplate_induction" ) == 0 );
                 CHECK( get_remaining_charges( "soldering_iron" ) == 10 );
             }
         }
 
         WHEN( "multiple tools have enough combined charges" ) {
-            tools.insert( tools.end(), 2, tool_with_ammo( "hotplate", 175 ) );
+            tools.insert( tools.end(), 2, tool_with_ammo( "hotplate_induction", 250 ) );
             tools.insert( tools.end(), 2, tool_with_ammo( "soldering_iron", 5 ) );
             tools.insert( tools.end(), 1, tool_with_ammo( "vac_mold", 4 ) );
 
             THEN( "crafting succeeds, and uses charges from multiple tools" ) {
                 prep_craft( recipe_carver_off, tools, true );
                 actually_test_craft( recipe_carver_off, INT_MAX );
-                CHECK( get_remaining_charges( "hotplate" ) == 0 );
+                CHECK( get_remaining_charges( "hotplate_induction" ) == 0 );
                 CHECK( get_remaining_charges( "soldering_iron" ) == 0 );
             }
         }
