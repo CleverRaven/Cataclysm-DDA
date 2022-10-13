@@ -30,6 +30,7 @@
 #include "options.h"
 #include "output.h"
 #include "point.h"
+#include "popup.h"
 #include "ret_val.h"
 #include "sdltiles.h"
 #include "localized_comparator.h"
@@ -3597,6 +3598,15 @@ void inventory_multiselector::toggle_entries( int &count, const toggle_mode mode
     }
 
     if( selected.empty() || !selected.front()->is_selectable() ) {
+        if( !selected.front()->is_selectable() && mode == toggle_mode::SELECTED ) {
+            const std::string denial = preset.get_denial( selected.front()->any_item() );
+            if( !denial.empty() ) {
+                query_popup()
+                .message( "%s", denial )
+                .option( "CONTINUE" )
+                .query();
+            }
+        }
         count = 0;
         return;
     }
