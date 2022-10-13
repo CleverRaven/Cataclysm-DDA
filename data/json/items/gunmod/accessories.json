@@ -100,7 +100,7 @@
     "id": "belt_clip",
     "type": "GUNMOD",
     "name": { "str": "belt clip" },
-    "description": "This is a belt clip that attaches to the grip or slide of a pistol so as to facilitate 'Mexican carry', the practice of carrying without a holster.  It does not offer any protection for the trigger, so users are strongly advised to carry with the chamber empty or select a firearm with a very heavy trigger pull.",
+    "description": "A belt clip that attaches to the grip or slide of a pistol to facilitate 'Mexican carry', the practice of carrying without a holster.  It does not offer any protection for the trigger, so users are strongly advised to carry with the chamber empty or select a firearm with a very heavy trigger pull.",
     "weight": "40 g",
     "volume": "250 ml",
     "integral_volume": "0 ml",
