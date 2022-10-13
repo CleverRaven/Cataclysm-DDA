@@ -429,7 +429,7 @@
     "type": "MONSTER",
     "copy-from": "mon_fish_tiny",
     "name": { "str_sp": "banded sunfish" },
-    "description": "A sunfish.  A small fish related to bass and bluegill.",
+    "description": "A banded sunfish.  A small fish related to bass and bluegill.",
     "volume": "50 ml",
     "weight": "20 g",
     "reproduction": { "baby_egg": "egg_sunfish", "baby_count": 2, "baby_timer": 17 }
@@ -465,7 +465,6 @@
     "copy-from": "mon_fish_tiny",
     "name": { "str": "bluegill" },
     "description": "A bluegill, an invasive species in Japan.  Commonly gutted and cooked whole.",
-    "volume": "800 ml",
     "weight": "280 g",
     "reproduction": { "baby_egg": "egg_bluegill", "baby_count": 2, "baby_timer": 17 }
   },
@@ -501,7 +500,6 @@
     "name": { "str_sp": "green sunfish" },
     "looks_like": "mon_fish_sunfish",
     "description": "A green sunfish.  A small fish related to bass and bluegill.",
-    "volume": "800 ml",
     "weight": "280 g",
     "reproduction": { "baby_egg": "egg_green_sunfish", "baby_count": 2, "baby_timer": 17 }
   },
@@ -569,9 +567,11 @@
   {
     "id": "mon_fish_bullhead",
     "type": "MONSTER",
-    "copy-from": "mon_fish_small",
-    "name": { "str": "bullhead" },
-    "description": "A bullhead, a type of catfish.  Delicious when battered and fried.",
+    "copy-from": "mon_fish_tiny",
+    "name": { "str": "brown bullhead" },
+    "description": "A brown bullhead, a type of catfish.  Delicious when battered and fried.",
+    "volume": "500 ml",
+    "weight": "650 g",
     "reproduction": { "baby_egg": "egg_bullhead", "baby_count": 2, "baby_timer": 17 }
   },
   {
@@ -584,10 +584,12 @@
   {
     "id": "mon_fish_channel_catfish",
     "type": "MONSTER",
-    "copy-from": "mon_fish_large",
+    "copy-from": "mon_fish_medium",
     "name": { "str_sp": "channel catfish" },
     "looks_like": "mon_fish_bullhead",
     "description": "A channel catfish.  It has a forked tail and long whiskers.",
+    "volume": "5 L",
+    "weight": "7 kg",
     "reproduction": { "baby_egg": "egg_channel_catfish", "baby_count": 2, "baby_timer": 17 }
   },
   {
@@ -604,6 +606,8 @@
     "name": { "str_sp": "white catfish" },
     "looks_like": "mon_fish_bullhead",
     "description": "A white catfish.  A small whiskered fish with a broad head.",
+    "volume": "750 ml",
+    "weight": "950 g",
     "reproduction": { "baby_egg": "egg_white_catfish", "baby_count": 2, "baby_timer": 17 }
   },
   {
@@ -616,9 +620,11 @@
   {
     "id": "mon_fish_pike",
     "type": "MONSTER",
-    "copy-from": "mon_fish_large",
-    "name": { "ctxt": "fish", "str": "pike" },
+    "copy-from": "mon_fish_medium",
+    "name": { "ctxt": "fish", "str": "northern pike" },
     "description": "A northern pike.  Pike can be pretty aggressive fish, careful around those teeth.",
+    "volume": "3500 ml",
+    "weight": "1750 g",
     "reproduction": { "baby_egg": "egg_pike", "baby_count": 2, "baby_timer": 17 }
   },
   {
@@ -631,9 +637,11 @@
   {
     "id": "mon_fish_pickerel",
     "type": "MONSTER",
-    "copy-from": "mon_fish_tiny",
+    "copy-from": "mon_fish_medium",
     "name": { "str": "pickerel" },
-    "description": "A pickerel.  It looks like a pike, but much smaller.",
+    "description": "A pickerel.  It looks like a pike, but slightly smaller.",
+    "volume": "2750 ml",
+    "weight": "1150 g",
     "reproduction": { "baby_egg": "egg_pickerel", "baby_count": 2, "baby_timer": 17 }
   },
   {
@@ -649,7 +657,9 @@
     "copy-from": "mon_fish_large",
     "name": { "str": "muskellunge" },
     "looks_like": "mon_fish_pike",
-    "description": "A muskellunge.  Closely related to pike, it shares the same aggression and sharp teeth.",
+    "description": "A muskellunge.  Closely related to pike but even larger, it shares the same aggression and sharp teeth.",
+    "volume": "20 L",
+    "weight": "10 kg",
     "reproduction": { "baby_egg": "egg_muskellunge", "baby_count": 2, "baby_timer": 17 }
   },
   {
