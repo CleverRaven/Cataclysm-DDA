@@ -16,7 +16,7 @@
     "type": "npc_class",
     "id": "NC_FORGE_LORD_DIVINER",
     "name": { "str": "Diviner" },
-    "job_description": "I see the past, the present, and the furure.",
+    "job_description": "I see the past, the present, and the future.",
     "traits": [
       { "trait": "VAULT_DEFENDER" },
       { "trait": "LIBRARY_DEFENDER" },
