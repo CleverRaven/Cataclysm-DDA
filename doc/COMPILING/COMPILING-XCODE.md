@@ -20,7 +20,7 @@ Currently all required libraries are either pre-installed on the OS or privded a
 
 ### (Optional) Apple Developer ID pre-configuration
 
-If you already know you developed ID, you can add it to the file `xcode_dev_id_example.yml`, and rename the file to `xcode_dev_id.yml`.
+If you already know you developer ID, you can add it to the file `xcode_dev_id_example.yml`, and rename the file to `xcode_dev_id.yml`.
 
 Additional details can be found inside the example file.
 
