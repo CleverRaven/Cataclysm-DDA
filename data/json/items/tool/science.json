@@ -51,7 +51,7 @@
     "symbol": ";",
     "color": "light_gray",
     "ammo": [ "battery" ],
-    "flags": [ "WATER_BREAK", "ELECTRONIC" ],
+    "flags": [ "WATER_BREAK" ],
     "sub": "hotplate",
     "charges_per_use": 1,
     "qualities": [ [ "DISTILL", 1 ], [ "CHEM", 3 ], [ "BOIL", 1 ] ],
@@ -95,7 +95,7 @@
     "material": [ "steel", "copper", "plastic" ],
     "symbol": ";",
     "ammo": [ "battery" ],
-    "flags": [ "WATER_BREAK", "ELECTRONIC" ],
+    "flags": [ "WATER_BREAK" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -117,7 +117,7 @@
     "symbol": ";",
     "color": "light_gray",
     "ammo": [ "battery" ],
-    "flags": [ "WATER_BREAK", "ELECTRONIC" ],
+    "flags": [ "WATER_BREAK" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -273,7 +273,7 @@
     "to_hit": -10,
     "bashing": 40,
     "material": [ "steel" ],
-    "flags": [ "ALLOWS_REMOTE_USE", "WATER_BREAK", "ELECTRONIC" ],
+    "flags": [ "ALLOWS_REMOTE_USE", "WATER_BREAK" ],
     "ammo": [ "battery" ],
     "qualities": [ [ "EXTRACT", 2 ] ],
     "pocket_data": [
@@ -427,7 +427,7 @@
     "to_hit": -5,
     "bashing": 10,
     "material": [ "iron" ],
-    "flags": [ "ALLOWS_REMOTE_USE", "WATER_BREAK", "ELECTRONIC" ],
+    "flags": [ "ALLOWS_REMOTE_USE", "WATER_BREAK" ],
     "ammo": [ "battery" ],
     "pocket_data": [
       {
@@ -483,7 +483,7 @@
     "symbol": ";",
     "color": "light_gray",
     "ammo": [ "battery" ],
-    "flags": [ "ALLOWS_REMOTE_USE", "WATER_BREAK", "ELECTRONIC" ],
+    "flags": [ "ALLOWS_REMOTE_USE", "WATER_BREAK" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "storage_battery", "large_storage_battery" ] } ]
   },
   {
@@ -884,7 +884,7 @@
     "price": 6000,
     "price_postapoc": 250,
     "ammo": [ "battery" ],
-    "flags": [ "WATER_BREAK", "ELECTRONIC" ],
+    "flags": [ "WATER_BREAK" ],
     "to_hit": -5,
     "bashing": 2,
     "material": [ "plastic", "glass" ],
@@ -915,7 +915,7 @@
     "bashing": 2,
     "material": [ "plastic" ],
     "use_action": [ "VOLTMETER" ],
-    "flags": [ "WATER_BREAK", "ELECTRONIC" ],
+    "flags": [ "WATER_BREAK" ],
     "symbol": ";",
     "color": "light_gray",
     "pocket_data": [

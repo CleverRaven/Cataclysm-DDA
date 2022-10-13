@@ -414,6 +414,7 @@
         "8": { "item": "SUS_kitchen_sink", "chance": 100 }
       },
       "furniture": {
+        "3": "f_flagpole",
         "4": "f_cupboard",
         "5": "f_cupboard",
         "6": "f_cupboard",
@@ -425,7 +426,7 @@
       "terrain": {
         "1": "t_ramp_down_high",
         "2": "t_ramp_down_low",
-        "3": "t_pillar",
+        "3": "t_region_groundcover_urban",
         " ": "t_region_groundcover_urban",
         "é": "t_region_groundcover_barren",
         "*": "t_region_shrub_decorative",
@@ -448,8 +449,8 @@
         { "monster": "GROUP_ZOMBIE_PRISON", "x": [ 24, 41 ], "y": [ 33, 40 ], "density": 0.5 }
       ],
       "place_item": [
-        { "item": "american_flag", "x": 42, "y": 4 },
-        { "item": "american_flag", "x": 33, "y": 4 },
+        { "item": "american_flag", "x": 42, "y": 5 },
+        { "item": "american_flag", "x": 33, "y": 5 },
         { "item": "g_shovel", "x": 40, "y": 37 },
         { "item": "mess_tray", "x": 26, "y": 39, "repeat": [ 1, 20 ] },
         { "item": "plastic_spoon", "x": 25, "y": 39, "repeat": [ 1, 20 ] },

@@ -6724,6 +6724,27 @@
   },
   {
     "type": "construction",
+    "id": "hang_heavy_punching_bag",
+    "description": "A hefty leather bag in an oblong shape, suspended from a ceiling mount with a steel chain.  It can be used for exercise and combat training, with the notable advantage that it doesn't fight back.",
+    "group": "hang_heavy_punching_bag",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 1 ] ],
+    "time": "60 m",
+    "qualities": [ [ { "id": "DRILL", "level": 1 } ], [ { "id": "WRENCH_FINE", "level": 1 } ] ],
+    "components": [
+      [ [ "nuts_bolts", 4 ] ],
+      [ [ "chain", 4 ] ],
+      [ [ "blanket", 6 ] ],
+      [ [ "material_sand", 4000 ] ],
+      [ [ "bag_plastic", 4 ] ],
+      [ [ "duct_tape", 20 ] ]
+    ],
+    "pre_flags": [ "INDOORS" ],
+    "pre_special": "check_empty",
+    "post_terrain": "f_punching_bag"
+  },
+  {
+    "type": "construction",
     "id": "constr_training_dummy_light",
     "group": "build_training_dummy_light",
     "category": "CONSTRUCT",
@@ -6768,6 +6789,23 @@
     "using": [ [ "marking_soft", 10, "LIST" ] ],
     "pre_terrain": "f_hay",
     "post_terrain": "f_archery_target_bale"
+  },
+  {
+    "type": "construction",
+    "id": "constr_wooden_flagpole",
+    "group": "build_flagpole",
+    "category": "CONSTRUCT",
+    "time": "30 m",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "DIG", "level": 1 } ] ],
+    "components": [
+      [ [ "long_pole", 2 ] ],
+      [ [ "rope_makeshift_6", 3 ], [ "rope_6", 3 ], [ "vine_6", 3 ] ],
+      [ [ "nail", 6 ], [ "string_36", 2 ], [ "cordage_36", 2 ] ]
+    ],
+    "pre_flags": "DIGGABLE",
+    "pre_special": "check_empty",
+    "post_terrain": "f_wooden_flagpole"
   },
   {
     "type": "construction",
