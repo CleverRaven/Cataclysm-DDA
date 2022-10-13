@@ -1638,7 +1638,7 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
                         break;
                     }
                     const level_cache &ch = here.access_cache( z );
-                    if( static_cast<bool>( here.inbounds( p.pos && z != p.pos.z ) ) ) {
+                    if( here.inbounds( p.pos ) && z != p.pos.z ) {
                         if( !f.hide_unseen || ch.visibility_cache[p.pos.x][p.pos.y] != lit_level::BLANK ) {
                             const std::array<bool, 5> invis = {false, false, false, false, false};
                             ( this->*( f.function ) )( {p.pos.xy(), z}, p.ll, p.height_3d, invis, center.z - z );
@@ -1920,7 +1920,7 @@ cata_tiles::find_tile_with_season( const std::string &id ) const
 template<typename T>
 cata::optional<tile_lookup_res>
 cata_tiles::find_tile_looks_like_by_string_id( const std::string &id, TILE_CATEGORY category,
-        const int looks_like_jumps_limit ) const
+        int looks_like_jumps_limit ) const
 {
     const string_id<T> s_id( id );
     if( !s_id.is_valid() ) {
@@ -2118,7 +2118,7 @@ bool cata_tiles::draw_from_id_string( const std::string &id, TILE_CATEGORY categ
                                       int subtile, int rota, lit_level ll,
                                       bool apply_night_vision_goggles, int &height_3d,
                                       int intensity_level, const std::string &variant,
-                                      const point &offset )
+                                      const point &offset, int overlay_count )
 {
     bool nv_color_active = apply_night_vision_goggles && get_option<bool>( "NV_GREEN_TOGGLE" );
     // If the ID string does not produce a drawable tile
@@ -2601,7 +2601,7 @@ bool cata_tiles::draw_sprite_at(
         }
 
     } else if( overlay_count > 0 && static_z_effect ) {
-        if( const auto ptr = tileset_ptr->get_z_overlay( spritelist[sprite_num] ) ) {
+        if( const texture *ptr = tileset_ptr->get_z_overlay( spritelist[sprite_num] ) ) {
             sprite_tex = ptr;
         }
     } else if( ll == lit_level::LOW ) {
