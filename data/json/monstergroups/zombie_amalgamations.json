@@ -3,9 +3,7 @@
     "name": "GROUP_COCOON_TINY",
     "type": "monstergroup",
     "//": "All cocoon groups have a token mon_null spawn, increase its weight if they turn out to be too common",
-    "monsters": [
-      { "monster": "mon_null", "weight": 1 },
-      { "monster": "mon_amalgamation_swarmer", "weight": 1, "starts": "2 days" } ]
+    "monsters": [ { "monster": "mon_null", "weight": 1 }, { "monster": "mon_amalgamation_swarmer", "weight": 1, "starts": "2 days" } ]
   },
   {
     "name": "GROUP_COCOON_SMALL",
@@ -15,7 +13,7 @@
       { "group": "GROUP_AMALGAMATION_SMALL", "weight": 1, "starts": "2 days" },
       { "group": "GROUP_AMALGAMATION_SMALL", "weight": 2, "pack_size": [ 2, 2 ], "starts": "7 days" },
       { "group": "GROUP_AMALGAMATION_SMALL", "weight": 2, "pack_size": [ 3, 3 ], "starts": "28 days" }
-     ]
+    ]
   },
   {
     "name": "GROUP_COCOON_MED_1",
@@ -23,7 +21,8 @@
     "monsters": [
       { "monster": "mon_null", "weight": 1 },
       { "group": "GROUP_COCOON_MED_2", "weight": 1, "starts": "2 days" },
-      { "group": "GROUP_COCOON_MED_2", "weight": 1, "pack_size": [ 2, 2 ], "starts": "14 days" } ]
+      { "group": "GROUP_COCOON_MED_2", "weight": 1, "pack_size": [ 2, 2 ], "starts": "14 days" }
+    ]
   },
   {
     "name": "GROUP_COCOON_MED_2",
@@ -43,7 +42,7 @@
       { "group": "GROUP_COCOON_MED_1", "weight": 1, "starts": "2 days" },
       { "group": "GROUP_COCOON_MED_1", "weight": 1, "pack_size": [ 2, 2 ], "starts": "7 days" },
       { "group": "GROUP_COCOON_MED_1", "weight": 1, "pack_size": [ 3, 3 ], "starts": "28 days" }
-     ]
+    ]
   },
   {
     "name": "GROUP_AMALGAMATION_SMALL",
