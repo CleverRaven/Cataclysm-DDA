@@ -291,7 +291,7 @@
     "id": "mon_fish_salmon",
     "type": "MONSTER",
     "copy-from": "mon_fish_large",
-    "name": { "str": "atlantic salmon" },
+    "name": { "str_sp": "atlantic salmon" },
     "description": "An Atlantic salmon.  A very fatty, nutritious fish.  Tastes great smoked.",
     "weight": "4 kg",
     "reproduction": { "baby_egg": "egg_salmon", "baby_count": 2, "baby_timer": 17 }
@@ -307,7 +307,7 @@
     "id": "mon_fish_kokanee_salmon",
     "type": "MONSTER",
     "copy-from": "mon_fish_medium",
-    "name": { "str": "kokanee salmon" },
+    "name": { "str_sp": "kokanee salmon" },
     "looks_like": "mon_fish_salmon",
     "description": "A Kokanee salmon.  A very fatty, nutritious fish.  Tastes great smoked.",
     "volume": "6 L",
