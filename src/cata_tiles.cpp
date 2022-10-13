@@ -1907,7 +1907,7 @@ bool cata_tiles::draw_from_id_string( const std::string &id, TILE_CATEGORY categ
     return cata_tiles::draw_from_id_string( id, category, subcategory, pos, subtile, rota,
                                             ll, apply_night_vision_goggles, height_3d, intensity_level,
                                             variant, point() );
->>>>>>> origin/master
+    >>> >>> > origin / master
 }
 
 cata::optional<tile_lookup_res>
@@ -2548,7 +2548,8 @@ bool cata_tiles::draw_from_id_string( const std::string &id, TILE_CATEGORY categ
 bool cata_tiles::draw_sprite_at(
     const tile_type &tile, const weighted_int_list<std::vector<int>> &svlist,
     const point &p, unsigned int loc_rand, bool rota_fg, int rota, lit_level ll,
-    bool apply_night_vision_goggles, int retract, int &height_3d, const point &offset, int overlay_count )
+    bool apply_night_vision_goggles, int retract, int &height_3d, const point &offset,
+    int overlay_count )
 {
     const std::vector<int> *picked = svlist.pick( loc_rand );
     if( !picked ) {
