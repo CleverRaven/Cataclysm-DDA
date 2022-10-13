@@ -39,7 +39,7 @@
               }
             ],
             "prob": 15
-          } 
+          }
         ]
       },
       { "distribution": [ { "item": "welding_mask", "prob": 70 }, { "item": "goggles_welding", "prob": 70 } ] },
