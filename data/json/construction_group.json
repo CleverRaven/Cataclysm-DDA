@@ -1631,6 +1631,11 @@
   },
   {
     "type": "construction_group",
+    "id": "hang_heavy_punching_bag",
+    "name": "Hang a Heavy Punching Bag"
+  },
+  {
+    "type": "construction_group",
     "id": "build_training_dummy_light",
     "name": "Install Training Dummy"
   },
