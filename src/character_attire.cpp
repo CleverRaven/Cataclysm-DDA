@@ -2281,7 +2281,7 @@ void outfit::add_stash( Character &guy, const item &newit, int &remaining_charge
             if( amount <= num_contained || remaining_charges <= 0 ) {
                 break;
             }
-            const int filled_count = pocket->fill_with( newit, remaining_charges, false, false );
+            const int filled_count = pocket->fill_with( newit, guy, remaining_charges, false, false );
             num_contained += filled_count;
             remaining_charges -= filled_count;
         }
