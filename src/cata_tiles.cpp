@@ -1902,12 +1902,11 @@ bool cata_tiles::draw_from_id_string( const std::string &id, TILE_CATEGORY categ
                                       const std::string &subcategory, const tripoint &pos,
                                       int subtile, int rota, lit_level ll,
                                       bool apply_night_vision_goggles, int &height_3d,
-                                      int intensity_level, const std::string &variant )
+                                      int intensity_level, const std::string &variant, int overlay_count )
 {
     return cata_tiles::draw_from_id_string( id, category, subcategory, pos, subtile, rota,
                                             ll, apply_night_vision_goggles, height_3d, intensity_level,
-                                            variant, point() );
-    >>> >>> > origin / master
+                                            variant, point(), int overlay_count );
 }
 
 cata::optional<tile_lookup_res>
