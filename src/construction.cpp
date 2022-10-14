@@ -1626,7 +1626,7 @@ static void unroll_digging( const int numer_of_2x4s )
 }
 
 void construct::done_digormine_stairorslope( const tripoint_bub_ms &p, bool dig, bool burrow,
-                                      Character &player_character )
+        Character &player_character )
 {
     map &here = get_map();
     const tripoint_abs_ms abs_pos = here.getglobal( p );
@@ -1658,27 +1658,27 @@ void construct::done_digormine_stairorslope( const tripoint_bub_ms &p, bool dig,
     }
 
     bool impassable = tmpmap.impassable( local_tmp );
-	if ( !burrow ) {
-		if( !impassable ) {
-			add_msg( _( "You dig into a preexisting space, and improvise a ladder." ) );
-		} else if( dig ) {
-			add_msg( _( "You dig a stairway, adding sturdy timbers and a rope for safety." ) );
-		} else {
-			add_msg( _( "You drill out a passage, heading deeper underground." ) );
-		}
-		here.ter_set( p, t_stairs_down ); // There's the top half
-		// Again, need to use submap-local coordinates.
-		tmpmap.ter_set( local_tmp, impassable ? t_stairs_up : t_ladder_up ); // and there's the bottom half.
-	} else {
-		if( !impassable ) {
-			add_msg( _( "You burrow into a preexisting space, and improvise a slope" ) );
-		} else {
-			add_msg( _( "You burrow a rough slope" ) );
-		}
-		here.ter_set( p, t_slope_down ); // There's the top half
-		// Again, need to use submap-local coordinates.
-		tmpmap.ter_set( local_tmp, t_slope_up ); // and there's the bottom half.
-	}
+    if( !burrow ) {
+        if( !impassable ) {
+            add_msg( _( "You dig into a preexisting space, and improvise a ladder." ) );
+        } else if( dig ) {
+            add_msg( _( "You dig a stairway, adding sturdy timbers and a rope for safety." ) );
+        } else {
+            add_msg( _( "You drill out a passage, heading deeper underground." ) );
+        }
+        here.ter_set( p, t_stairs_down ); // There's the top half
+        // Again, need to use submap-local coordinates.
+        tmpmap.ter_set( local_tmp, impassable ? t_stairs_up : t_ladder_up ); // and there's the bottom half.
+    } else {
+        if( !impassable ) {
+            add_msg( _( "You burrow into a preexisting space, and improvise a slope" ) );
+        } else {
+            add_msg( _( "You burrow a rough slope" ) );
+        }
+        here.ter_set( p, t_slope_down ); // There's the top half
+        // Again, need to use submap-local coordinates.
+        tmpmap.ter_set( local_tmp, t_slope_up ); // and there's the bottom half.
+    }
     // And save to the center coordinate of the current active map.
     tmpmap.save();
 }
