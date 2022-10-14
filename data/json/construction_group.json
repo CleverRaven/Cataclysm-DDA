@@ -1683,5 +1683,10 @@
     "type": "construction_group",
     "id": "build_chain_hoist",
     "name": "Build Chain & Tackle Hoist"
+  },
+  {
+    "type": "construction_group",
+    "id": "clear_rubble",
+    "name": "Clear rubble"
   }
 ]

@@ -6937,5 +6937,94 @@
     "byproducts": [ { "item": "material_sand", "charges": [ 300, 600 ] } ],
     "pre_terrain": "t_sand_underground",
     "post_special": "done_extract_maybe_revert_to_dirt"
+  },
+  {
+    "type": "construction",
+    "id": "constr_clear_rubble",
+    "group": "clear_rubble",
+    "category": "OTHER",
+    "qualities": [ [ { "id": "DIG", "level": 2 } ] ],
+    "required_skills": [ [ "survival", 0 ] ],
+    "time": "1 m",
+    "byproducts": [
+      { "item": "plastic_chunk", "count": [ 0, 1 ] },
+      { "item": "scrap", "count": [ 0, 1 ] },
+      { "item": "rock", "count": [ 0, 1 ] },
+      { "item": "glass_shard", "count": [ 0, 1 ] },
+      { "item": "splinter", "count": [ 0, 1 ] }
+    ],
+    "pre_terrain": "f_rubble",
+    "post_terrain": "f_null"
+  },
+  {
+    "type": "construction",
+    "id": "constr_clear_rubble_rock",
+    "group": "clear_rubble",
+    "category": "OTHER",
+    "qualities": [ [ { "id": "DIG", "level": 2 } ] ],
+    "required_skills": [ [ "survival", 0 ] ],
+    "time": "1 m",
+    "byproducts": [ { "item": "rock", "count": [ 0, 3 ] } ],
+    "pre_flags": "RUBBLE",
+    "pre_terrain": "f_rubble_rock",
+    "post_terrain": "f_null"
+  },
+  {
+    "type": "construction",
+    "id": "constr_clear_rubble_landfill",
+    "group": "clear_rubble",
+    "category": "OTHER",
+    "qualities": [ [ { "id": "DIG", "level": 2 } ] ],
+    "required_skills": [ [ "survival", 0 ] ],
+    "time": "1 m",
+    "byproducts": [
+      { "item": "plastic_chunk", "count": [ 0, 1 ] },
+      { "item": "scrap", "count": [ 0, 1 ] },
+      { "item": "rock", "count": [ 0, 1 ] },
+      { "item": "glass_shard", "count": [ 0, 1 ] },
+      { "item": "splinter", "count": [ 0, 1 ] }
+    ],
+    "pre_flags": "RUBBLE",
+    "pre_terrain": "f_rubble_landfill",
+    "post_terrain": "f_null"
+  },
+  {
+    "type": "construction",
+    "id": "constr_clear_rubble_wreckage",
+    "group": "clear_rubble",
+    "category": "OTHER",
+    "qualities": [ [ { "id": "DIG", "level": 2 } ] ],
+    "required_skills": [ [ "survival", 0 ] ],
+    "time": "1 m",
+    "byproducts": [ { "item": "scrap", "count": [ 0, 3 ] } ],
+    "pre_flags": "RUBBLE",
+    "pre_terrain": "f_wreckage",
+    "post_terrain": "f_null"
+  },
+  {
+    "type": "construction",
+    "id": "constr_clear_rubble_woodchips",
+    "group": "clear_rubble",
+    "category": "OTHER",
+    "qualities": [ [ { "id": "DIG", "level": 2 } ] ],
+    "required_skills": [ [ "survival", 0 ] ],
+    "time": "1 m",
+    "byproducts": [ { "item": "splinter", "count": [ 0, 3 ] } ],
+    "pre_flags": "RUBBLE",
+    "pre_terrain": "f_woodchips",
+    "post_terrain": "f_null"
+  },
+  {
+    "type": "construction",
+    "id": "constr_clear_rubble_ash",
+    "group": "clear_rubble",
+    "category": "OTHER",
+    "qualities": [ [ { "id": "DIG", "level": 2 } ] ],
+    "required_skills": [ [ "survival", 0 ] ],
+    "time": "1 m",
+    "byproducts": [ { "item": "ash", "count": [ 0, 2 ] } ],
+    "pre_flags": "RUBBLE",
+    "pre_terrain": "f_ash",
+    "post_terrain": "f_null"
   }
 ]
