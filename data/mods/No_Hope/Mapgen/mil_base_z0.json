@@ -1145,7 +1145,6 @@
         { "item": "weak_antibiotic", "x": 28, "y": 25, "chance": 50, "repeat": [ 20, 60 ] },
         { "item": "strong_antibiotic", "x": 28, "y": 25, "chance": 50, "repeat": [ 20, 60 ] },
         { "item": "diazepam", "x": 28, "y": 25, "chance": 50, "repeat": [ 20, 60 ] },
-        { "item": "vaccine_shot", "x": 29, "y": 25, "chance": 50, "repeat": [ 1, 10 ] },
         { "item": "flu_shot", "x": 29, "y": 25, "chance": 50, "repeat": [ 1, 10 ] },
         { "item": "adrenaline_injector", "x": 29, "y": 25, "chance": 50, "repeat": [ 1, 10 ] },
         { "item": "vitamins", "x": 28, "y": 25, "chance": 50, "repeat": [ 20, 60 ] },

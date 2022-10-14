@@ -9,6 +9,7 @@
 #include "debug.h"
 #include "filesystem.h"
 #include "json.h"
+#include "json_loader.h"
 #include "path_info.h"
 
 template<typename ColorType>
@@ -45,24 +46,20 @@ class color_loader
             return it->second;
         }
 
-        void load_colorfile( const std::string &path ) {
-            cata::ifstream colorfile( fs::u8path( path ), std::ifstream::in | std::ifstream::binary );
-            JsonIn jsin( colorfile );
-            jsin.start_array();
-            while( !jsin.end_array() ) {
-                JsonObject jo = jsin.get_object();
+        void load_colorfile( const cata_path &path ) {
+            JsonValue jsin = json_loader::from_path( path );
+            for( JsonObject jo : jsin.get_array() ) {
                 // This isn't actually read (here), so just ignore it
                 jo.get_string( "type" );
                 load_colors( jo );
-                jo.finish();
             }
         }
 
     public:
         /// @throws std::exception upon any kind of error.
         void load( std::array<ColorType, COLOR_NAMES_COUNT> &windowsPalette ) {
-            const std::string default_path = PATH_INFO::colors();
-            const std::string custom_path = PATH_INFO::base_colors();
+            const cata_path default_path = PATH_INFO::colors();
+            const cata_path custom_path = PATH_INFO::base_colors();
 
             if( !file_exist( custom_path ) ) {
                 copy_file( default_path, custom_path );
@@ -71,7 +68,7 @@ class color_loader
             try {
                 load_colorfile( custom_path );
             } catch( const JsonError &err ) {
-                debugmsg( "Failed to load color data from \"%s\": %s", custom_path, err.what() );
+                debugmsg( "Failed to load color data from \"%s\": %s", custom_path.generic_u8string(), err.what() );
 
                 // this should succeed, otherwise the installation is botched
                 load_colorfile( default_path );

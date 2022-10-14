@@ -30,6 +30,7 @@
 #ifdef TILES
 #include "cata_tiles.h"
 #endif // TILES
+#include "cata_scope_helpers.h"
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "character.h"
@@ -1395,7 +1396,7 @@ static bool search( const ui_adaptor &om_ui, tripoint_abs_omt &curs, const tripo
         int c = utf8_width( _( "Results:" ) );
         int d = utf8_width( _( "Direction:" ) );
         int align_width = 0;
-        int align_w_value[4] = { a, b, c, d};
+        std::array<int, 4> align_w_value = { a, b, c, d};
         for( int n : align_w_value ) {
             if( n > align_width ) {
                 align_width = n + 2;

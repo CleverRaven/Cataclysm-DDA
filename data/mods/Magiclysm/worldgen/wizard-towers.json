@@ -121,7 +121,7 @@
       "I": "f_dishwasher",
       "L": "f_alembic",
       "m": "f_magic_bench",
-      "o": "f_oven",
+      "o": [ "f_oven", "f_gas_oven_microwave_combo" ],
       "O": "f_orrery",
       "r": "f_rack",
       "R": "f_rack",

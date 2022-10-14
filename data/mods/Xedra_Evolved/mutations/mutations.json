@@ -62,5 +62,136 @@
     "points": 0,
     "player_display": false,
     "description": "Your dreams can change reality."
+  },
+  {
+    "type": "mutation",
+    "id": "VAMPIRE",
+    "name": { "str": "Infected with the vampire disease." },
+    "points": 0,
+    "description": "You have developed a thirst for the blood of your fellow humans.",
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "vitamin_rates": [ [ "human_blood_vitamin", 180 ] ],
+    "spells_learned": [ [ "consume_human_blood", 1 ] ],
+    "flags": [ "CANNIBAL" ]
+  },
+  {
+    "type": "mutation",
+    "id": "EYEGLEAM",
+    "points": 0,
+    "name": { "str": "Gleaming eyes" },
+    "description": "Your eyes gleam lightly red as the light catches in them and with a few drops of the stolen blood in your veins you are able to see in the dark.",
+    "active": true,
+    "activated_eocs": [ "EOC_EYEGLEAM_activated" ]
+  },
+  {
+    "type": "mutation",
+    "id": "STAMINAFORBLOOD",
+    "points": 0,
+    "name": { "str": "Recover Stamina" },
+    "description": "Your exhaust some of the blood in your veins to boost and recover some of your spent stamina.",
+    "active": true,
+    "activated_eocs": [ "EOC_STAMINAFORBLOOD_activated" ]
+  },
+  {
+    "type": "mutation",
+    "id": "VAMPIRE2",
+    "name": { "str": "Walking the shadowed path of blood." },
+    "points": 0,
+    "description": "You have new fangs to go along with your thirst for blood.",
+    "starting_trait": false,
+    "purifiable": false,
+    "types": [ "TEETH" ],
+    "valid": false,
+    "vitamin_rates": [ [ "human_blood_vitamin", 180 ] ],
+    "flags": [ "CANNIBAL" ],
+    "attacks": [
+      {
+        "attack_text_u": "You sink your fangs into %s",
+        "attack_text_npc": "%1$s sinks their fangs into %2$s",
+        "blocker_mutations": [ "MUZZLE", "MUZZLE_LONG", "MUZZLE_RAT" ],
+        "body_part": "mouth",
+        "chance": 20,
+        "base_damage": { "damage_type": "stab", "amount": 20 }
+      }
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "COAGULANTWEAVE",
+    "points": 0,
+    "name": { "str": "Coagulant Weave" },
+    "description": "Your body prepares to prevent the lose of any blood to combat damage.",
+    "active": true,
+    "activated_eocs": [ "EOC_COAGULANTWEAVE_activated" ]
+  },
+  {
+    "type": "mutation",
+    "id": "BLOODHEAL",
+    "points": 0,
+    "name": { "str": "Blood spurred healing" },
+    "description": "Your flesh heals visibly while blood disintegrates hidden inside your veins.",
+    "active": true,
+    "activated_eocs": [ "EOC_BLOODHEAL_activated" ]
+  },
+  {
+    "type": "mutation",
+    "id": "VAMPIRE3",
+    "name": { "str": "Mortal hungers are replaced with immortal hungers." },
+    "points": 0,
+    "description": "You have developed a thirst for the blood of your fellow humans.",
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "vitamins_absorb_multi": [ [ "all", [ [ "human_blood_vitamin", 1.25 ] ] ] ],
+    "vitamin_rates": [ [ "human_blood_vitamin", 180 ] ],
+    "flags": [ "CANNIBAL" ],
+    "metabolism_modifier": 0.8,
+    "stamina_regen_modifier": 0.1
+  },
+  {
+    "type": "mutation",
+    "id": "HYPNOTIC_GAZE",
+    "points": 0,
+    "name": { "str": "Hypnotic gaze" },
+    "description": "You lock eyes with your prey and stun them with the force of your will.",
+    "active": true,
+    "activated_eocs": [ "EOC_HYPNOTIC_GAZE_activated" ]
+  },
+  {
+    "type": "mutation",
+    "id": "BLOODHASTE",
+    "points": 0,
+    "name": { "str": "Blood driven speed" },
+    "description": "Your body exceeds normal human reaction limits as blood turns to ash in your veins.",
+    "active": true,
+    "activated_eocs": [ "EOC_BLOODHASTE_activated" ]
+  },
+  {
+    "type": "mutation",
+    "id": "VAMPIRE4",
+    "name": { "str": "Mortal hungers are replaced with immortal hungers." },
+    "points": 0,
+    "description": "You have developed a thirst for the blood of your fellow humans.",
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "flags": [ "CANNIBAL" ],
+    "metabolism_modifier": 5,
+    "stamina_regen_modifier": 0.1
+  },
+  {
+    "type": "mutation",
+    "id": "BLOOD_DRINKER",
+    "name": { "str": "Mortal hungers are replaced with immortal hungers." },
+    "points": 0,
+    "description": "You have developed a thirst for the blood of your fellow humans.",
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "flags": [ "CANNIBAL" ],
+    "metabolism_modifier": 5,
+    "stamina_regen_modifier": 0.1
   }
 ]

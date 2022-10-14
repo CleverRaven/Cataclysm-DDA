@@ -1,0 +1,49 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "nether_glass_impassable_corner",
+    "object": { "mapgensize": [ 2, 2 ], "set": [ { "point": "terrain", "id": "t_nether_glass_wall", "x": [ 0, 1 ], "y": [ 0, 1 ] } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "nether_glass" ],
+    "object": { "fill_ter": "t_nether_glass_floor" }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "nether_glass_deep" ],
+    "object": {
+      "fill_ter": "t_nether_glass_floor",
+      "place_nested": [
+        { "else_chunks": [ "nether_glass_impassable_corner" ], "x": 0, "y": 0, "neighbors": { "north_west": "nether_glass" } },
+        {
+          "else_chunks": [ "nether_glass_impassable_corner" ],
+          "x": 22,
+          "y": 0,
+          "neighbors": { "north_east": "nether_glass" }
+        },
+        {
+          "else_chunks": [ "nether_glass_impassable_corner" ],
+          "x": 22,
+          "y": 22,
+          "neighbors": { "south_east": "nether_glass" }
+        },
+        {
+          "else_chunks": [ "nether_glass_impassable_corner" ],
+          "x": 0,
+          "y": 22,
+          "neighbors": { "south_west": "nether_glass" }
+        }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "nether_glass_impassable" ],
+    "object": { "fill_ter": "t_nether_glass_wall" }
+  }
+]

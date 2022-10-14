@@ -38,6 +38,8 @@ std::string enum_to_string<condition_type>( condition_type data )
             return "FLAG";
         case condition_type::COMPONENT_ID:
             return "COMPONENT_ID";
+        case condition_type::COMPONENT_ID_SUBSTRING:
+            return "COMPONENT_ID_SUBSTRING";
         case condition_type::VAR:
             return "VAR";
         case condition_type::SNIPPET_ID:
@@ -104,6 +106,16 @@ int itype::charges_default() const
         return ammo->def_charges;
     }
     return count_by_charges() ? 1 : 0;
+}
+
+int itype::charges_to_use() const
+{
+    if( tool ) {
+        return tool->charges_per_use;
+    } else if( comestible ) {
+        return 1;
+    }
+    return 0;
 }
 
 int itype::charges_per_volume( const units::volume &vol ) const

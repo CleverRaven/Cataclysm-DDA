@@ -135,7 +135,8 @@
       "moves": 100,
       "practice": 0,
       "done_message": "You unfold the cot and place it on the ground."
-    }
+    },
+    "flags": [ "SINGLE_USE" ]
   },
   {
     "id": "metal_butcher_rack",
@@ -270,6 +271,23 @@
     "to_hit": -5,
     "bashing": 40,
     "material": [ "steel" ],
+    "symbol": "T",
+    "color": "red",
+    "flags": [ "DURABLE_MELEE" ]
+  },
+  {
+    "id": "screw_press_tool",
+    "type": "TOOL",
+    "name": { "str": "screw press", "str_pl": "screw presses" },
+    "description": "A large screw press for the purpose of manually pressing oil out of fruit or seed paste.  Needs to be placed via the construction menu.",
+    "weight": "70000 g",
+    "volume": "100 L",
+    "longest_side": "250 cm",
+    "price": 100000,
+    "price_postapoc": 1500,
+    "to_hit": -5,
+    "bashing": 40,
+    "material": [ "wood" ],
     "symbol": "T",
     "color": "red",
     "flags": [ "DURABLE_MELEE" ]

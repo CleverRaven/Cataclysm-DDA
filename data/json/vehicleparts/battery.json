@@ -22,7 +22,6 @@
       "removal": { "skills": [ [ "mechanics", 0 ] ], "time": "50 s", "qualities": [ { "id": "WRENCH", "level": 1 } ] },
       "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "600 s", "using": [ [ "soldering_standard", 5 ] ] }
     },
-    "flags": [ "FOLDABLE" ],
     "damage_reduction": { "bash": 10 }
   },
   {
@@ -93,8 +92,7 @@
     "requirements": {
       "install": { "skills": [ [ "mechanics", 0 ] ], "time": "200 s", "using": "vehicle_screw" },
       "removal": { "skills": [ [ "mechanics", 0 ] ], "time": "200 s", "using": "vehicle_screw" }
-    },
-    "extend": { "flags": [ "FOLDABLE" ] }
+    }
   },
   {
     "id": "small_storage_battery",
@@ -108,8 +106,7 @@
     "requirements": {
       "install": { "skills": [ [ "mechanics", 0 ] ], "time": "100 s", "using": [  ] },
       "removal": { "skills": [ [ "mechanics", 0 ] ], "time": "100 s", "using": [  ] }
-    },
-    "extend": { "flags": [ "FOLDABLE" ] }
+    }
   },
   {
     "id": "storage_battery",
@@ -165,7 +162,7 @@
     "durability": 10,
     "folded_volume": "10 ml",
     "breaks_into": [ { "item": "e_scrap", "prob": 10 } ],
-    "flags": [ "FOLDABLE", "NEEDS_HANDHELD_BATTERY_MOUNT", "NO_REPAIR" ]
+    "flags": [ "NEEDS_HANDHELD_BATTERY_MOUNT", "NO_REPAIR" ]
   },
   {
     "id": "car_light_battery_cell",
@@ -181,7 +178,7 @@
     "durability": 20,
     "folded_volume": "25ml",
     "breaks_into": [ { "item": "e_scrap", "prob": 10 } ],
-    "flags": [ "FOLDABLE", "NEEDS_HANDHELD_BATTERY_MOUNT", "NO_REPAIR" ]
+    "flags": [ "NEEDS_HANDHELD_BATTERY_MOUNT", "NO_REPAIR" ]
   },
   {
     "id": "car_light_plus_battery_cell",
@@ -197,7 +194,7 @@
     "durability": 20,
     "folded_volume": "35ml",
     "breaks_into": [ { "item": "e_scrap", "prob": 10 } ],
-    "flags": [ "FOLDABLE", "NEEDS_HANDHELD_BATTERY_MOUNT", "NO_REPAIR" ]
+    "flags": [ "NEEDS_HANDHELD_BATTERY_MOUNT", "NO_REPAIR" ]
   },
   {
     "id": "car_medium_battery_cell",
@@ -213,7 +210,7 @@
     "durability": 30,
     "folded_volume": "450 ml",
     "breaks_into": [ { "item": "light_battery_cell", "count": [ 0, 3 ] }, { "item": "scrap", "count": [ 1, 4 ] } ],
-    "flags": [ "FOLDABLE", "NEEDS_HANDHELD_BATTERY_MOUNT", "NO_REPAIR" ]
+    "flags": [ "NEEDS_HANDHELD_BATTERY_MOUNT", "NO_REPAIR" ]
   },
   {
     "id": "car_medium_plus_battery_cell",
@@ -229,7 +226,7 @@
     "durability": 30,
     "folded_volume": "525 ml",
     "breaks_into": [ { "item": "light_plus_battery_cell", "count": [ 0, 3 ] }, { "item": "scrap", "count": [ 1, 4 ] } ],
-    "flags": [ "FOLDABLE", "NEEDS_HANDHELD_BATTERY_MOUNT", "NO_REPAIR" ]
+    "flags": [ "NEEDS_HANDHELD_BATTERY_MOUNT", "NO_REPAIR" ]
   },
   {
     "id": "car_heavy_battery_cell",
@@ -245,7 +242,7 @@
     "durability": 40,
     "folded_volume": "1225 ml",
     "breaks_into": [ { "item": "medium_battery_cell", "count": [ 0, 1 ] }, { "item": "scrap", "count": [ 1, 4 ] } ],
-    "flags": [ "FOLDABLE", "NEEDS_HANDHELD_BATTERY_MOUNT", "NO_REPAIR" ]
+    "flags": [ "NEEDS_HANDHELD_BATTERY_MOUNT", "NO_REPAIR" ]
   },
   {
     "id": "car_heavy_plus_battery_cell",
@@ -261,6 +258,6 @@
     "durability": 40,
     "folded_volume": "1500 ml",
     "breaks_into": [ { "item": "medium_battery_cell", "count": [ 0, 1 ] }, { "item": "scrap", "count": [ 1, 4 ] } ],
-    "flags": [ "FOLDABLE", "NEEDS_HANDHELD_BATTERY_MOUNT", "NO_REPAIR" ]
+    "flags": [ "NEEDS_HANDHELD_BATTERY_MOUNT", "NO_REPAIR" ]
   }
 ]

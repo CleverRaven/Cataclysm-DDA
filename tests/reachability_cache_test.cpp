@@ -6,6 +6,7 @@
 
 #include "cached_options.h"
 #include "cata_catch.h"
+#include "cata_scope_helpers.h"
 #include "map.h"
 #include "map_helpers.h"
 #include "map_iterator.h"

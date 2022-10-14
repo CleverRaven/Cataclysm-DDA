@@ -9,7 +9,7 @@
     "description": "seeing this is a bug",
     "stackable": true,
     "price": 0,
-    "volume": "0 ml",
+    "volume": "1 L",
     "material": [ "animal" ],
     "flags": [ "PSEUDO", "PERPETUAL" ]
   },
@@ -27,6 +27,20 @@
   },
   {
     "type": "GENERIC",
+    "id": "cottonwood_tree_boll",
+    "name": { "str": "cottonwood tree boll" },
+    "category": "other",
+    "weight": "5g",
+    "color": "white",
+    "symbol": "%",
+    "description": "A fluffy white seed.  While it looks like the common cotton, it is too weak and short to be turned into clothing.",
+    "price": 1,
+    "price_postapoc": 1,
+    "material": [ "wood" ],
+    "volume": "250 ml"
+  },
+  {
+    "type": "GENERIC",
     "//": "pseudo item, used as fuel type for engines that are human-powered",
     "id": "muscle",
     "symbol": "?",
@@ -35,7 +49,7 @@
     "description": "seeing this is a bug",
     "stackable": true,
     "price": 0,
-    "volume": "0 ml",
+    "volume": "1 L",
     "material": [ "muscle" ],
     "flags": [ "PSEUDO", "PERPETUAL" ]
   },
@@ -49,7 +63,7 @@
     "description": "seeing this is a bug",
     "stackable": true,
     "price": 0,
-    "volume": "0 ml",
+    "volume": "1 L",
     "material": [ "wind" ],
     "flags": [ "PSEUDO", "PERPETUAL" ]
   },
@@ -63,7 +77,7 @@
     "description": "seeing this is a bug",
     "stackable": true,
     "price": 0,
-    "volume": "0 ml",
+    "volume": "1 L",
     "material": [ "sunlight" ],
     "flags": [ "PSEUDO", "PERPETUAL" ]
   },
@@ -77,7 +91,7 @@
     "description": "seeing this is a bug",
     "stackable": true,
     "price": 0,
-    "volume": "0 ml",
+    "volume": "1 L",
     "material": [ "metabolism" ],
     "flags": [ "PSEUDO", "PERPETUAL" ]
   },
@@ -355,19 +369,21 @@
     "bashing": 1
   },
   {
-    "type": "GENERIC",
+    "type": "COMESTIBLE",
     "id": "mutant_bug_hydrogen_sacs",
-    "category": "spare_parts",
+    "comestible_type": "FOOD",
     "symbol": "o",
     "color": "light_gray",
     "name": { "str": "cluster of gas sacs", "str_pl": "clusters of gas sacs" },
     "description": "This is a cluster of membranous bubbles, each about the size of a grape, retrieved from inside a mutant insect.  They float like tiny helium balloons - perhaps they are full of a lighter-than-air gas.",
     "price": 0,
     "material": [ "flesh" ],
+    "spoils_in": "8 hours",
     "flags": [ "NO_SALVAGE" ],
     "weight": "50 g",
     "volume": "250 ml",
-    "to_hit": -4
+    "to_hit": -4,
+    "fun": -25
   },
   {
     "type": "GENERIC",
@@ -399,12 +415,26 @@
     "id": "bundle_rag",
     "type": "GENERIC",
     "category": "spare_parts",
-    "name": { "str": "bundle of rags", "str_pl": "bundles of rags" },
-    "description": "Cotton rags, bundled tightly together for storage.  Disassemble to unpack.",
-    "weight": "800 g",
-    "volume": "750 ml",
-    "price": 0,
-    "price_postapoc": 5,
+    "name": { "str": "bundle of cotton patches", "str_pl": "bundles of cotton patches" },
+    "description": "Cotton patches, bundled tightly together for storage.  Disassemble to unpack.",
+    "weight": "500 g",
+    "volume": "500 ml",
+    "price": 20000,
+    "price_postapoc": 200,
+    "material": [ "cotton" ],
+    "symbol": ",",
+    "color": "white"
+  },
+  {
+    "id": "bundle_cotton",
+    "type": "GENERIC",
+    "category": "spare_parts",
+    "name": { "str": "bundle of cotton sheets", "str_pl": "bundles of cotton sheets" },
+    "description": "Cotton sheets, bundled tightly together for storage.  Disassemble to unpack.",
+    "weight": "950 g",
+    "volume": "1000 ml",
+    "price": 20000,
+    "price_postapoc": 200,
     "material": [ "cotton" ],
     "symbol": ",",
     "color": "white"
@@ -415,10 +445,10 @@
     "category": "spare_parts",
     "name": { "str": "bundle of leather", "str_pl": "bundles of leather" },
     "description": "Leather patches, bundled tightly together for storage.  Disassemble to unpack.",
-    "weight": "1000 g",
-    "volume": "1 L",
-    "price": 20000,
-    "price_postapoc": 50,
+    "weight": "1250 g",
+    "volume": "1150 ml",
+    "price": 200000,
+    "price_postapoc": 2500,
     "material": [ "leather" ],
     "symbol": ",",
     "color": "brown"
@@ -429,10 +459,10 @@
     "category": "spare_parts",
     "name": { "str": "bundle of felt", "str_pl": "bundles of felt" },
     "description": "Felt patches, bundled tightly together for storage.  Disassemble to unpack.",
-    "weight": "1000 g",
+    "weight": "300 g",
     "volume": "1 L",
-    "price": 20000,
-    "price_postapoc": 50,
+    "price": 200000,
+    "price_postapoc": 1000,
     "material": [ "wool" ],
     "symbol": ",",
     "color": "white"
@@ -529,6 +559,22 @@
     "longest_side": "260 cm",
     "price": 0,
     "price_postapoc": 50,
+    "material": [ "wood" ],
+    "symbol": "H",
+    "color": "brown"
+  },
+  {
+    "id": "bundle_javelin",
+    "type": "GENERIC",
+    "category": "other",
+    "name": { "str": "bundle of javelins", "str_pl": "bundles of javelins" },
+    "description": "Five wooden javelins securely tied together for easier transport.  Disassemble to untie them.",
+    "//": "total volume is greater than 5 wooden javelins, since they are rough lumber and do not stack perfectly",
+    "volume": "7 L",
+    "weight": "3 kg",
+    "longest_side": "140 cm",
+    "price": 20000,
+    "price_postapoc": 1250,
     "material": [ "wood" ],
     "symbol": "H",
     "color": "brown"
@@ -1375,7 +1421,7 @@
     "color": "green",
     "name": { "str": "broken prototype robot" },
     "category": "other",
-    "description": "A broken prototype robot, well more broken than before.  Could be gutted for parts.",
+    "description": "A broken prototype robot--well, more broken than before.  Could be gutted for parts.",
     "price": 30000,
     "price_postapoc": 10,
     "material": [ "steel", "plastic" ],
@@ -1909,10 +1955,10 @@
     "color": "light_gray",
     "name": { "str": "antenna" },
     "category": "spare_parts",
-    "description": "A simple thin aluminum shaft.  Useful in lots of electronics recipes.",
+    "description": "A simple thin copper shaft.  Useful in lots of electronics recipes.",
     "price": 8000,
     "price_postapoc": 10,
-    "material": [ "aluminum" ],
+    "material": [ "copper" ],
     "weight": "68 g",
     "volume": "250 ml",
     "to_hit": 2
@@ -2777,6 +2823,93 @@
     "weight": "774 g",
     "volume": "1750 ml",
     "flags": [ "SLEEP_AID" ],
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "bodypillow_generic",
+        "name": { "str": "anime body pillow" },
+        "description": "A big, body-sized pillow with a print of an anime character on the front and their scantily clad version on the back.",
+        "weight": 1
+      },
+      {
+        "id": "bodypillow_azurlane",
+        "name": { "str": "ship body pillow" },
+        "description": "A big, body-sized pillow with a print of an aircraft carrier drawn on both sides.  The one on the back is stripped of its armor plating, how naughty.",
+        "weight": 1
+      },
+      {
+        "id": "bodypillow_gfl",
+        "name": { "str": "gun body pillow" },
+        "description": "A big, body-sized pillow with a print of a fully-modded tacticool M4 SOPMOD II on both sides.  The rifle firing a grenade somehow looks suggestive.",
+        "weight": 1
+      },
+      {
+        "id": "bodypillow_boston",
+        "name": { "str": "Boston-Chan body pillow" },
+        "description": "A big, body-sized pillow with a print of a blue-haired Boston-Chan, the mascot of Boston AnimeCon, on both sides.  This seems to be official merch, and the art on both sides is quite tame.",
+        "weight": 2
+      },
+      {
+        "id": "bodypillow_boston_lewd",
+        "name": { "str": "Boston-Chan body pillow" },
+        "description": "A big, body-sized pillow with a print of a blue-haired Boston-Chan, the mascot of Boston AnimeCon, on both sides.  It's highly unlikely the convention would officially endorse such a lewd depiction of her.",
+        "weight": 1
+      },
+      {
+        "id": "bodypillow_survivor",
+        "name": { "str": "survivor body pillow" },
+        "description": "A big, body-sized pillow with an anime-style print of Bear Grillings, Ultimate Survivor on both sides.  On one side he's holding a pneumatic air rifle, and on the other he is clad in nothing but duct tape.  The pillow is stylized to look like Kevlar.",
+        "weight": 1
+      },
+      {
+        "id": "bodypillow_furry",
+        "name": { "str": "fox body pillow" },
+        "description": "A big, body-sized pillow with a print of an anthropomorphic fox on the front and a scantily-clad version on the back.",
+        "weight": 1
+      },
+      {
+        "id": "bodypillow_vocaloid",
+        "name": { "str": "vocaloid body pillow" },
+        "description": "A big, body-sized pillow with a print of a popular blue-twintailed virtual musician on the front and her scantily-clad version on the back.",
+        "weight": 1
+      },
+      {
+        "id": "bodypillow_goth",
+        "name": { "str": "goth body pillow" },
+        "description": "A big, body-sized pillow with a print of an anime character dressed in all black on the front and their scantily-clad version on the back.  They're surrounded by red candles and laying atop a demonic pentagram.",
+        "weight": 1
+      },
+      {
+        "id": "bodypillow_yandere",
+        "name": { "str": "yandere body pillow" },
+        "description": "A big, body-sized pillow with a print of a cute maid on the front and the same maid - covered in blood and holding a knife - on the back.",
+        "weight": 1
+      },
+      {
+        "id": "bodypillow_tomboy",
+        "name": { "str": "tomboy body pillow" },
+        "description": "A big, body-sized pillow with a print of a masculine woman on the front and her scantily-clad version on the back.  It's captioned with 'TOMBOY SUPREMACY' on both sides.",
+        "weight": 1
+      },
+      {
+        "id": "bodypillow_femboy",
+        "name": { "str": "femboy body pillow" },
+        "description": "A big, body-sized pillow with a print of a feminine man on the front and his scantily-clad version on the back.  It's captioned with 'FEMBOY SUPREMACY' on both sides.",
+        "weight": 1
+      },
+      {
+        "id": "bodypillow_tsundere",
+        "name": { "str": "tsundere body pillow" },
+        "description": "A big, body-sized pillow with a print of a pouting anime character on the front and their scantily-clad version on the back.  They don't actually like you or anything, they swear!",
+        "weight": 1
+      },
+      {
+        "id": "bodypillow_vtuber",
+        "name": { "str": "VTuber body pillow" },
+        "description": "A big, body-sized pillow with a print of a popular anime VTuber on the front and their scantily-clad version on the back.",
+        "weight": 1
+      }
+    ],
     "category": "other"
   },
   {
@@ -2830,6 +2963,21 @@
     "material": [ "cotton" ],
     "weight": "444 g",
     "volume": "850 ml",
+    "flags": [ "SLEEP_AID" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "shark_plushie",
+    "symbol": "s",
+    "color": "cyan",
+    "name": { "str": "shark plushie" },
+    "description": "A somewhat large, mass produced shark plushie.  Meant to provide comfort to people of all ages.",
+    "price": 600,
+    "price_postapoc": 20,
+    "material": [ "cotton" ],
+    "weight": "1945 g",
+    "volume": "30000 ml",
+    "longest_side": "103 cm",
     "flags": [ "SLEEP_AID" ]
   },
   {

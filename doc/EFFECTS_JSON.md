@@ -192,7 +192,7 @@ the message fields the "apply_memorial_log" will only be added to the log for ne
 
 ### Resistances
 ```C++
-    "resist_trait": "NOPAIN",
+    "resist_traits": "NOPAIN",
     "resist_effect": "flumed"
 ```
 These fields are used to determine if an effect is being resisted or not. If the player has the

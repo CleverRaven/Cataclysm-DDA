@@ -565,6 +565,23 @@
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "223": 100 } } ]
   },
   {
+    "id": "zpap85mag",
+    "looks_like": "stanag30",
+    "type": "MAGAZINE",
+    "name": { "str": "ZPAP 85 30-round magazine" },
+    "description": "A 30-round box magazine for use with the ZPAP 85 and ZPAP M90 rifles.",
+    "weight": "360 g",
+    "volume": "500 ml",
+    "price": 8000,
+    "price_postapoc": 250,
+    "material": [ "steel" ],
+    "symbol": "#",
+    "color": "light_gray",
+    "ammo_type": [ "223" ],
+    "flags": [ "MAG_COMPACT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "223": 30 } } ]
+  },
+  {
     "id": "survivor223mag",
     "looks_like": "stanag30",
     "type": "MAGAZINE",

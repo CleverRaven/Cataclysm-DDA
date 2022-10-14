@@ -5,57 +5,89 @@
     "text": [
       {
         "id": "male_1",
-        "text": "MISSING\nHAVE YOU SEEN THIS PERSON?\n\n[Photograph: professional headshot of a middle-aged man wearing glasses and a formal white shirt.]\n\nFULL NAME: Theodore Dean Garrity\nDOB: January 23, 1979\nAGE: 43\nSEX: Male\nHEIGHT: 6'1\"\nWEIGHT: 171 lbs\nRACE: Caucasian\nHAIR: Brown\nEYES: Hazel\nLAST SEEN: April 15th, around 5PM, near Derry gas station\nIDENTIFYING MARKS: heart tattoo on left forearm above wrists\nWEARING: light blue windbreaker, gray jeans, 'I <3 MASSACHUSETTS' cap, leather boots\n\nIF YOU HAVE ANY INFORMATION ABOUT THEODORE'S WHEREABOUTS, CONTACT LOCAL LAW ENFORCEMENT OR CALL (617)781-7979."
+        "text": {
+          "str": "MISSING\nHAVE YOU SEEN THIS PERSON?\n\n[Photograph: professional headshot of a middle-aged man wearing glasses and a formal white shirt.]\n\nFULL NAME: Theodore Dean Garrity\nDOB: January 23, 1979\nAGE: 43\nSEX: Male\nHEIGHT: 6'1\"\nWEIGHT: 171 lbs\nRACE: Caucasian\nHAIR: Brown\nEYES: Hazel\nLAST SEEN: April 15th, around 5PM, near Derry gas station\nIDENTIFYING MARKS: heart tattoo on left forearm above wrists\nWEARING: light blue windbreaker, gray jeans, 'I <3 MASSACHUSETTS' cap, leather boots\n\nIF YOU HAVE ANY INFORMATION ABOUT THEODORE'S WHEREABOUTS, CONTACT LOCAL LAW ENFORCEMENT OR CALL (617)555-7979.",
+          "//~": "Please replace the fictitious phone number with one of your local equivalent when translating"
+        }
       },
       {
         "id": "male_2",
-        "text": "NORWOOD POLICE DEPARTMENT\nMISSING PERSON\n\nMARK WALLACE\n\n[Photograph: two muscular adult men posing for a selfie in a fitness gym.  The one on the right is blurred out.]\n\nMiSSING FROM: Norwood MA\nDATE MISSING: April 23\nAGE: 33\nHEIGHT: 6'0\"\nWEIGHT: 196 Lbs\nHAIR: brown ponytail with goatee\n\nMark was last seen on April 23 at 7:23 PM., leaving BWZ Fitness Center on Allen Road.  He was seen wearing a gray polo shirt, khaki pants and white running shoes carrying a blue duffel bag.  His 2005 Opel Agila was found abandoned in a nearby parking lot.  Mr. Wallace does not have a history of going missing and his family is concerned about his well-being.\n\nCAN YOU HELP?\nPLEASE CALL NORWOOD POLICE DEPARTMENT\n781-894-2394\n\nCallers may remain anonymous and information will be treated confidentially."
+        "text": {
+          "str": "NORWOOD POLICE DEPARTMENT\nMISSING PERSON\n\nMARK WALLACE\n\n[Photograph: two muscular adult men posing for a selfie in a fitness gym.  The one on the right is blurred out.]\n\nMiSSING FROM: Norwood MA\nDATE MISSING: April 23\nAGE: 33\nHEIGHT: 6'0\"\nWEIGHT: 196 Lbs\nHAIR: brown ponytail with goatee\n\nMark was last seen on April 23 at 7:23 PM., leaving BWZ Fitness Center on Allen Road.  He was seen wearing a gray polo shirt, khaki pants and white running shoes carrying a blue duffel bag.  His 2005 Opel Agila was found abandoned in a nearby parking lot.  Mr. Wallace does not have a history of going missing and his family is concerned about his well-being.\n\nCAN YOU HELP?\nPLEASE CALL NORWOOD POLICE DEPARTMENT\n781-555-2394\n\nCallers may remain anonymous and information will be treated confidentially.",
+          "//~": "Please replace the fictitious phone number with one of your local equivalent when translating"
+        }
       },
       {
         "id": "male_3",
-        "text": "WORCESTER COUNTY SHERIFF'S DEPARTMENT\nSPECIAL BULLETIN\nMISSING PERSON\nCRTITICAL MISSING\n\nWILLIAMS, SAMUEL ERIC\n\n[Photograph: an overweight adult man with an unkept beard wearing a gray shirt.  He looks slightly unwell.]\n\nMale, Hispanic, 32 years old\n5'7\", 330 lbs, green eyes, receding brown hair, full beard\n\nPOSSIBLY SUICIDAL\n\nDetectives from Worcester County Sheriff's Department are seeking assistance in locating the above missing person.\n\nMissing person, Eric Williams, was last seen on CCTV leaving his apartment on 1529 Lynn Street, Holden at 7 A.M.  Williams is possibly suicidal.  His family members are very concerned.\n\nAny information, please contact the Sheriff's Homicide Bureau, Missing Persons Detail.\n(617)323-4882"
+        "text": {
+          "str": "WORCESTER COUNTY SHERIFF'S DEPARTMENT\nSPECIAL BULLETIN\nMISSING PERSON\nCRTITICAL MISSING\n\nWILLIAMS, SAMUEL ERIC\n\n[Photograph: an overweight adult man with an unkept beard wearing a gray shirt.  He looks slightly unwell.]\n\nMale, Hispanic, 32 years old\n5'7\", 330 lbs, green eyes, receding brown hair, full beard\n\nPOSSIBLY SUICIDAL\n\nDetectives from Worcester County Sheriff's Department are seeking assistance in locating the above missing person.\n\nMissing person, Eric Williams, was last seen on CCTV leaving his apartment on 1529 Lynn Street, Holden at 7 A.M.  Williams is possibly suicidal.  His family members are very concerned.\n\nAny information, please contact the Sheriff's Homicide Bureau, Missing Persons Detail.\n(617)555-4882",
+          "//~": "Please replace the fictitious phone number with one of your local equivalent when translating"
+        }
       },
       {
         "id": "male_4",
-        "text": "MISSING\nCan you help?\n\nClarence Richards\n\n[Photograph: a middle-aged man in orange fishing overalls holding a large bass with both hands.]\n\nDate of Birth: April 21, 1978\nAge: 44 years old\nSex: male\nRace: black\nEyes: brown\nHair: short, black\nHeight: 5'8\"\nWeight: 166 lbs\nWearing: black long sleeve shirt, winter camo pants, red bucket hat, white running shoes\nIdentifying Characteristics: scar on forehead\n\nLAST SEEN:\nMissing person, Clarence Richards, was last seen on May 7 around 12 am on Leverton Road, Springfield.  Mr. Richards was last seen driving a gray 2017 Honda Civic with a Massachusetts Licence Plate number of 218 B31.\n\nIF YOU HAVE ANY INFORMATION ABOUT CLARENCE PLEASE CONTACT:\n781-269-0799"
+        "text": {
+          "str": "MISSING\nCan you help?\n\nClarence Richards\n\n[Photograph: a middle-aged man in orange fishing overalls holding a large bass with both hands.]\n\nDate of Birth: April 21, 1978\nAge: 44 years old\nSex: male\nRace: black\nEyes: brown\nHair: short, black\nHeight: 5'8\"\nWeight: 166 lbs\nWearing: black long sleeve shirt, winter camo pants, red bucket hat, white running shoes\nIdentifying Characteristics: scar on forehead\n\nLAST SEEN:\nMissing person, Clarence Richards, was last seen on May 7 around 12 am on Leverton Road, Springfield.  Mr. Richards was last seen driving a gray 2017 Honda Civic with a Massachusetts Licence Plate number of 218 B31.\n\nIF YOU HAVE ANY INFORMATION ABOUT CLARENCE PLEASE CONTACT:\n781-555-0799",
+          "//~": "Please replace the fictitious phone number with one of your local equivalent when translating"
+        }
       },
       {
         "id": "male_5",
-        "text": "AT-RISK MISSING PERSON\n\n[Photograph: a wise-looking old man with receding gray hair and a long white beard.]\n\nDAVIS, JOHN CHRISTOPHER\n\nMale, White, 67 years old\n5'11\", 155 lbs, blue eyes, bald, full white beard\n\nMISSING PERSON SUFFERS FROM DIABETES AND HIGH BLOOD PRESSURE\n\nMissing person, John Christopher Davis, a resident of Charlestown, MA, was last seen on February 27, at 3:30 p.m. leaving a grocery store on 3678 Rockford Road.  He was wearing a black winter coat, brown jeans, sunglasses and holding two plastic bags.  Mr. Davis' family is concerned for his well-being.\n\nIF YOU HAVE ANY INFORMATION OR HAVE SEEN MR. DAVIS\nPLEASE CONTACT 978-518-5874 IMMEDIATELY\n\nHELP US PLEASE"
+        "text": {
+          "str": "AT-RISK MISSING PERSON\n\n[Photograph: a wise-looking old man with receding gray hair and a long white beard.]\n\nDAVIS, JOHN CHRISTOPHER\n\nMale, White, 67 years old\n5'11\", 155 lbs, blue eyes, bald, full white beard\n\nMISSING PERSON SUFFERS FROM DIABETES AND HIGH BLOOD PRESSURE\n\nMissing person, John Christopher Davis, a resident of Charlestown, MA, was last seen on February 27, at 3:30 p.m. leaving a grocery store on 3678 Rockford Road.  He was wearing a black winter coat, brown jeans, sunglasses and holding two plastic bags.  Mr. Davis' family is concerned for his well-being.\n\nIF YOU HAVE ANY INFORMATION OR HAVE SEEN MR. DAVIS\nPLEASE CONTACT 978-555-5874 IMMEDIATELY\n\nHELP US PLEASE",
+          "//~": "Please replace the fictitious phone number with one of your local equivalent when translating"
+        }
       },
       {
         "id": "male_6",
-        "text": "MISSING/ RUNAWAY PERSON\n\nIF YOU HAVE ANY INFORMATION ON JONAH BROWN'S WHEREABOUTS PLEASE CALL ESSEX COUNTY SHERIFF'S DEPARTMENT AT 978-586-6174 OR BY DIALING 911.\n\n[Photograph: a college athlete posing with a basketball for a professional photo.]\n\nJONAH BROWN\n\nMissing From: 2337 Huntz Lane, Lynn, MA\nDate Missing: March 7\nAge: 20\nSex: Male\nHeight: 6'3\"\nEyes: Brown\nHair: Black, Short\nRace: African-American\n\nLast Seen Wearing:\n ● orange & gray puffer coat\n ● red long beanie\n ● black jeans\n ● white running shoes\n ● silver necklace\n\nFor additional information, please see www.where-is-jonah.org.\n\nDON'T HESITATE\nANYONE HAVING INFORMATION SHOULD CONTACT 911 or 1-800-TIPS"
+        "text": {
+          "str": "MISSING/ RUNAWAY PERSON\n\nIF YOU HAVE ANY INFORMATION ON JONAH BROWN'S WHEREABOUTS PLEASE CALL ESSEX COUNTY SHERIFF'S DEPARTMENT AT 978-555-6174 OR BY DIALING 911.\n\n[Photograph: a college athlete posing with a basketball for a professional photo.]\n\nJONAH BROWN\n\nMissing From: 2337 Huntz Lane, Lynn, MA\nDate Missing: March 7\nAge: 20\nSex: Male\nHeight: 6'3\"\nEyes: Brown\nHair: Black, Short\nRace: African-American\n\nLast Seen Wearing:\n ● orange & gray puffer coat\n ● red long beanie\n ● black jeans\n ● white running shoes\n ● silver necklace\n\nFor additional information, please see www.where-is-jonah.org.\n\nDON'T HESITATE\nANYONE HAVING INFORMATION SHOULD CONTACT 911 or 1-800-TIPS",
+          "//~": "Please replace the fictitious phone number with one of your local equivalent when translating"
+        }
       },
       {
         "id": "male_7",
         "text": {
-          "str": "SPECIAL BULLETIN\nMISSING PERSON SUSPICIOUS CIRCUMSTANCES\nCALL: FRAMINGHAM POLICE DEPT. AT (508)391-4957\n\nLee M. Younce\n\n[Photograph: employee identification photo of a stern-looking man in his early fifties wearing a formal office shirt.]\nHave you seen me?\n\nMale, Asian, 50 years old\n5'7\", 150-155 lbs, hazel eyes, black hair (buzzcut), goatee\n\nMISSING PERSON SUFFERS FROM SCHIZOPHRENIA AND HAS NOT BEEN TAKING HIS PRESCRIPTION MEDICATION\n\nMr. Younce was last seen leaving his residence on 760 Christie Way, Groton, on April 14, at approximately 7 am.  He was wearing a formal gray shirt, black jeans, dress shoes and was seen carrying a blue briefcase.  His 2018 Chevrolet Bolt was discovered in Groton Town Forest with his wallet and cellphone inside.  Mr. Younce is believed to be in the Hickory Hills Lake area.\n\nFOR CURRENT INFORMATION & HOW TO HELP\n\nCALL FRAMINGHAM POLICE DEPT. AT (508)391-4957",
+          "str": "SPECIAL BULLETIN\nMISSING PERSON SUSPICIOUS CIRCUMSTANCES\nCALL: FRAMINGHAM POLICE DEPT. AT (508)555-4957\n\nLee M. Younce\n\n[Photograph: employee identification photo of a stern-looking man in his early fifties wearing a formal office shirt.]\nHave you seen me?\n\nMale, Asian, 50 years old\n5'7\", 150-155 lbs, hazel eyes, black hair (buzzcut), goatee\n\nMISSING PERSON SUFFERS FROM SCHIZOPHRENIA AND HAS NOT BEEN TAKING HIS PRESCRIPTION MEDICATION\n\nMr. Younce was last seen leaving his residence on 760 Christie Way, Groton, on April 14, at approximately 7 am.  He was wearing a formal gray shirt, black jeans, dress shoes and was seen carrying a blue briefcase.  His 2018 Chevrolet Bolt was discovered in Groton Town Forest with his wallet and cellphone inside.  Mr. Younce is believed to be in the Hickory Hills Lake area.\n\nFOR CURRENT INFORMATION & HOW TO HELP\n\nCALL FRAMINGHAM POLICE DEPT. AT (508)555-4957",
+          "//~": "Please replace the fictitious phone number with one of your local equivalent when translating",
           "//NOLINT(cata-text-style)": "intentional format"
         }
       },
       {
         "id": "female_1",
-        "text": "Bring her home.  Your help is needed.\n\nMISSING PERSON\n$50,000 REWARD\n\n[Photograph: a middle-aged woman with shoulder-length black hair in a cropped group photo.]\n\nA $50,000 reward is being offered for anyone willing to come forward with new information that leads to finding Shayla Kaplan.\n\nOn March 12 Shayla Kaplan was last seen leaving her residence on 445 Huntz Lane, Franklin, MA.  She has not been heard from since.\n\nShe was 43 years old at the time of her disappearance.  She was described as a Native American female with shoulder-length black hair and brown eyes.  She was 5'5\" tall and weighed 153 lbs.\n\nIf you have any information about what may have happened to her, please contact the number below.\n  > Call: (508)474-5918\n  > Or text information to: (508)309-1711"
+        "text": {
+          "str": "Bring her home.  Your help is needed.\n\nMISSING PERSON\n$50,000 REWARD\n\n[Photograph: a middle-aged woman with shoulder-length black hair in a cropped group photo.]\n\nA $50,000 reward is being offered for anyone willing to come forward with new information that leads to finding Shayla Kaplan.\n\nOn March 12 Shayla Kaplan was last seen leaving her residence on 445 Huntz Lane, Franklin, MA.  She has not been heard from since.\n\nShe was 43 years old at the time of her disappearance.  She was described as a Native American female with shoulder-length black hair and brown eyes.  She was 5'5\" tall and weighed 153 lbs.\n\nIf you have any information about what may have happened to her, please contact the number below.\n  > Call: (508)555-5918\n  > Or text information to: (508)555-1711",
+          "//~": "Please replace the fictitious phone number with one of your local equivalent when translating"
+        }
       },
       {
         "id": "female_2",
         "text": {
-          "str": "Bedford Police Department\n2 Mudge Way\nBedford, MA 01730\nPHONE: 781-418-2788\n\n[Photograph: police mugshot of a distraught young woman with long blonde hair.]\n\nBedford Police Department Missing Persons Unit Investigators are asking for the public's help locating Sophia Breece.  She lives on 4307 Lyon Avenue, Worcester, and was last seen on April 30 at approximately 6 p.m.\n\nMrs. Breece is a female Caucasian 30 years old, 5'3\" tall, 100-105 pounds, blonde curled hair, with blue eyes.\n\nMP has a history of substance abuse.  Her loved ones are very worried and asking for your help locating her.\n\nAnyone with information is asked to call Bedford Police Department Missing Persons Unit at 781-418-2788",
+          "str": "Bedford Police Department\n2 Mudge Way\nBedford, MA 01730\nPHONE: 781-555-2788\n\n[Photograph: police mugshot of a distraught young woman with long blonde hair.]\n\nBedford Police Department Missing Persons Unit Investigators are asking for the public's help locating Sophia Breece.  She lives on 4307 Lyon Avenue, Worcester, and was last seen on April 30 at approximately 6 p.m.\n\nMrs. Breece is a female Caucasian 30 years old, 5'3\" tall, 100-105 pounds, blonde curled hair, with blue eyes.\n\nMP has a history of substance abuse.  Her loved ones are very worried and asking for your help locating her.\n\nAnyone with information is asked to call Bedford Police Department Missing Persons Unit at 781-555-2788",
+          "//~": "Please replace the fictitious phone number with one of your local equivalent when translating",
           "//NOLINT(cata-text-style)": "intentional format"
         }
       },
       {
         "id": "female_3",
-        "text": "MISSING\n\n[Photograph: a female hiker with a large backpack and trekking sticks hiking in the mountains.]\n\nVivian Sanchez\nMissing since March 17th\n\nSex: Female\nRace: Hispanic\nAge at missing: 28\nMissing from: Foxborough, MA\nHeight: 5'7\"\nWeight: 125-130 lbs\nEyes: Green\nHair: Brown\n\nMissing person (MP), Vivian Sanchez, day hiked on the Simons Trail from Simons Outhouse to Simons Springwater on Saturday, March 17th.  She was last seen on trail cam on Surry Trail, west of Simons Clearwater at 11:47 am, taking a shortcut to Simons Outhouse.  She was last seen wearing leather hiking boots, pink leg warmers, blue nylon shorts, a reflective windbreaker and a multicolored knit hat with a fuzzy ball on top.\n\nIf you have seen this missing person, please contact the law enforcement agency listed below:\nFoxborough Police Department - 781-369-7514"
+        "text": {
+          "str": "MISSING\n\n[Photograph: a female hiker with a large backpack and trekking sticks hiking in the mountains.]\n\nVivian Sanchez\nMissing since March 17th\n\nSex: Female\nRace: Hispanic\nAge at missing: 28\nMissing from: Foxborough, MA\nHeight: 5'7\"\nWeight: 125-130 lbs\nEyes: Green\nHair: Brown\n\nMissing person (MP), Vivian Sanchez, day hiked on the Simons Trail from Simons Outhouse to Simons Springwater on Saturday, March 17th.  She was last seen on trail cam on Surry Trail, west of Simons Clearwater at 11:47 am, taking a shortcut to Simons Outhouse.  She was last seen wearing leather hiking boots, pink leg warmers, blue nylon shorts, a reflective windbreaker and a multicolored knit hat with a fuzzy ball on top.\n\nIf you have seen this missing person, please contact the law enforcement agency listed below:\nFoxborough Police Department - 781-555-7514",
+          "//~": "Please replace the fictitious phone number with one of your local equivalent when translating"
+        }
       },
       {
         "id": "female_4",
-        "text": "CITY OF\nBOSTON\nPOLICE DEPARTMENT\n\nMissing/ Runaway Person\n\nThe Boston Police Department's Special Victims Unit is seeking information on the location of Cassandra Rose.\n\n[Photograph: a middle-aged woman in heavy makeup posing for a selfie inside a truck.]\n\nCassandra Rose\n43-year-old White Female; 5'9\"; 138 lbs.\nLong Black Hair; Tattoos on neck, right forearm and upper back\n\nCassandra Rose was last seen on 4/6, wearing a camouflage hoodie and gray sweatpants, near Eternal Harvest Baptist Church.  There is concern for Cassandra's welfare.\n\nAnyone with information is asked to call the Boston Police Department Special Victims Unit at (508) 892-4200."
+        "text": {
+          "str": "CITY OF\nBOSTON\nPOLICE DEPARTMENT\n\nMissing/ Runaway Person\n\nThe Boston Police Department's Special Victims Unit is seeking information on the location of Cassandra Rose.\n\n[Photograph: a middle-aged woman in heavy makeup posing for a selfie inside a truck.]\n\nCassandra Rose\n43-year-old White Female; 5'9\"; 138 lbs.\nLong Black Hair; Tattoos on neck, right forearm and upper back\n\nCassandra Rose was last seen on 4/6, wearing a camouflage hoodie and gray sweatpants, near Eternal Harvest Baptist Church.  There is concern for Cassandra's welfare.\n\nAnyone with information is asked to call the Boston Police Department Special Victims Unit at (508) 555-4200.",
+          "//~": "Please replace the fictitious phone number with one of your local equivalent when translating"
+        }
       },
       {
         "id": "female_5",
-        "text": "Missing Person - Pittsfield, MA\n\n[Photograph: a young woman with long dyed hair taking a selfie with a branded styrofoam coffee cup.]\n\nNAME: Kelly Cline\nRACE: White/Asian\nAge: 23 (at the time of disappearance)\nHeight: 5'7\"\nWeight: 130-135 lbs\nHair color: blue (natural brown)\nEye color: brown\nIdentifying marks: beauty mark on chin\n\nMP was last contacted via cell phone on March 17 and was never seen or heard from again.  She was due to fly out of Boston Logan International Airport on March 18 but did not make her flight.\n\nIF YOU HAVE ANY INFORMATION, PLEASE CONTACT PITTSFIELD POLICE DEPARTMENT 781-720-9059"
+        "text": {
+          "str": "Missing Person - Pittsfield, MA\n\n[Photograph: a young woman with long dyed hair taking a selfie with a branded styrofoam coffee cup.]\n\nNAME: Kelly Cline\nRACE: White/Asian\nAge: 23 (at the time of disappearance)\nHeight: 5'7\"\nWeight: 130-135 lbs\nHair color: blue (natural brown)\nEye color: brown\nIdentifying marks: beauty mark on chin\n\nMP was last contacted via cell phone on March 17 and was never seen or heard from again.  She was due to fly out of Boston Logan International Airport on March 18 but did not make her flight.\n\nIF YOU HAVE ANY INFORMATION, PLEASE CONTACT PITTSFIELD POLICE DEPARTMENT 781-555-9059",
+          "//~": "Please replace the fictitious phone number with one of your local equivalent when translating"
+        }
       },
       {
         "id": "female_6",
@@ -64,7 +96,8 @@
       {
         "id": "female_7",
         "text": {
-          "str": "AT RISK MISSING PERSON\n\n[Photograph: an elderly woman with short curly hair wearing a pearl necklace and a floral dress.]\nBetty Rue Webber, 74\n\nMrs. Webber is a female Caucasian 74-year-old, 5'1\" tall, 160 pounds, short gray curly hair, wears reading glasses, last seen wearing a purple waistcoat, blue jeans and black crocs.\n\nThe family reports Mrs. Webber has dementia.  The missing person left her residence on 2354 Kennedy Court, Mansfield, MA, at approximately 11 to 13 am.  Her loved ones are very worried and asking for your help locating her.\n\nANY INFORMATION PLEASE CONTACT LOCAL LAW ENFORCEMENT OR CALL 774-263-3710",
+          "str": "AT RISK MISSING PERSON\n\n[Photograph: an elderly woman with short curly hair wearing a pearl necklace and a floral dress.]\nBetty Rue Webber, 74\n\nMrs. Webber is a female Caucasian 74-year-old, 5'1\" tall, 160 pounds, short gray curly hair, wears reading glasses, last seen wearing a purple waistcoat, blue jeans and black crocs.\n\nThe family reports Mrs. Webber has dementia.  The missing person left her residence on 2354 Kennedy Court, Mansfield, MA, at approximately 11 to 13 am.  Her loved ones are very worried and asking for your help locating her.\n\nANY INFORMATION PLEASE CONTACT LOCAL LAW ENFORCEMENT OR CALL 774-555-3710",
+          "//~": "Please replace the fictitious phone number with one of your local equivalent when translating",
           "//NOLINT(cata-text-style)": "intentional format"
         }
       }
@@ -76,36 +109,48 @@
     "text": [
       {
         "id": "boy_1",
-        "text": "MISSING BOY\n\n[Photograph: a toddler wearing sunglasses and a bucket cap harnessed in a booster car seat.]\n\nHave you seen me?\n\nLucas Beery\n4 years old\nHazel eyes, curly brown hair\n\nMissing from Tenmile Beach, Hinkle Lake, Massachusetts\nLast seen building a sandcastle near his family at 2 pm on 3rd May.\nLucas was wearing the same sunglasses as the photo above and blue swimming shorts.\n\nANYONE WITH INFORMATION ABOUT THIS MISSING CHILD SHOULD CALL 617-527-7017\n\n#FindingLucas"
+        "text": {
+          "str": "MISSING BOY\n\n[Photograph: a toddler wearing sunglasses and a bucket cap harnessed in a booster car seat.]\n\nHave you seen me?\n\nLucas Beery\n4 years old\nHazel eyes, curly brown hair\n\nMissing from Tenmile Beach, Hinkle Lake, Massachusetts\nLast seen building a sandcastle near his family at 2 pm on 3rd May.\nLucas was wearing the same sunglasses as the photo above and blue swimming shorts.\n\nANYONE WITH INFORMATION ABOUT THIS MISSING CHILD SHOULD CALL 617-555-7017\n\n#FindingLucas",
+          "//~": "Please replace the fictitious phone number with one of your local equivalent when translating"
+        }
       },
       {
         "id": "boy_2",
         "text": {
-          "str": "MISSING\nCan You Help?\n\n[Photograph: Picture Day photo of an adolescent male.]\n\nJacob Hutchinson\n\nJacob Hutchinson, 17, left Marlborough High School located at 4116 Romano Street, Marlborough, at about 4 pm, 19 March.  He was later seen on Reservoir Street at about 4:30 pm.  Jacob is known to frequent the Ft. Meadow Lake Area.\n\nJacob Hutchinson is a Caucasian male, approximately 6 feet 2 inches tall and weighs about 175 lbs.  He has short brown hair, brown eyes, pierced left ear.\n\nJacob was last seen wearing dark gray camo pants, a white hoodie, a green baseball cap and black leather shoes.\n\nAnyone Having Information Are Required To Call\n781-365-2294",
+          "str": "MISSING\nCan You Help?\n\n[Photograph: Picture Day photo of an adolescent male.]\n\nJacob Hutchinson\n\nJacob Hutchinson, 17, left Marlborough High School located at 4116 Romano Street, Marlborough, at about 4 pm, 19 March.  He was later seen on Reservoir Street at about 4:30 pm.  Jacob is known to frequent the Ft. Meadow Lake Area.\n\nJacob Hutchinson is a Caucasian male, approximately 6 feet 2 inches tall and weighs about 175 lbs.  He has short brown hair, brown eyes, pierced left ear.\n\nJacob was last seen wearing dark gray camo pants, a white hoodie, a green baseball cap and black leather shoes.\n\nAnyone Having Information Are Required To Call\n781-555-2294",
+          "//~": "Please replace the fictitious phone number with one of your local equivalent when translating",
           "//NOLINT(cata-text-style)": "intentional format"
         }
       },
       {
         "id": "boy_3",
         "text": {
-          "str": "MISSING CHILD\nHELP BRING ME HOME\n\n[Photograph: a child in pajamas holding an oversize firefighter helmet over his head.]\n\nMichael M. Vanwyk\n\nMissing Since January 21st.  Last seen at 7 a.m., at 2340 Pearlman Avenue, Boston.\n\nDESCRIPTION\n\nMale, White, 8 y/o.\nHeight 50 inches ; Weight: 56 lbs.\nLight Brown Hair, Brown Eyes\nWearing Red & Blue Striped Puffercoat, Red Knit Beanie, Brown Insulated Pants, Blue Schoolbag\nCarrying: Paper Lunchbag\n\nANYONE HAVING INFORMATION SHOULD CONTACT:\nBoston Police Department Special Victims Unit - 508-892-4200",
+          "str": "MISSING CHILD\nHELP BRING ME HOME\n\n[Photograph: a child in pajamas holding an oversize firefighter helmet over his head.]\n\nMichael M. Vanwyk\n\nMissing Since January 21st.  Last seen at 7 a.m., at 2340 Pearlman Avenue, Boston.\n\nDESCRIPTION\n\nMale, White, 8 y/o.\nHeight 50 inches ; Weight: 56 lbs.\nLight Brown Hair, Brown Eyes\nWearing Red & Blue Striped Puffercoat, Red Knit Beanie, Brown Insulated Pants, Blue Schoolbag\nCarrying: Paper Lunchbag\n\nANYONE HAVING INFORMATION SHOULD CONTACT:\nBoston Police Department Special Victims Unit - 508-555-4200",
+          "//~": "Please replace the fictitious phone number with one of your local equivalent when translating",
           "//NOLINT(cata-text-style)": "intentional format"
         }
       },
       {
         "id": "boy_4",
-        "text": "HAVE YOU SEEN MY SON?\n\n[Photograph: a prepubescent boy with short brown hair wearing glasses.]\n\nTyler Gibson\n\nAge:\n 13\nMissing Since:\n 16 April\nLast Seen:\n Townsend, Massachusetts\n\nTyler Gibson is 5'3\", 113 pounds, has short brown hair, hazel eyes and wears blue-rimmed eyeglasses.  He was last seen wearing a green hoodie with a text reading 'Anxiety is my super power', black jeans, glasses, and red running shoes.\n\nIf you see Gibson please call Middlesex County Sheriff's Department at 978-597-6376"
+        "text": {
+          "str": "HAVE YOU SEEN MY SON?\n\n[Photograph: a prepubescent boy with short brown hair wearing glasses.]\n\nTyler Gibson\n\nAge:\n 13\nMissing Since:\n 16 April\nLast Seen:\n Townsend, Massachusetts\n\nTyler Gibson is 5'3\", 113 pounds, has short brown hair, hazel eyes and wears blue-rimmed eyeglasses.  He was last seen wearing a green hoodie with a text reading 'Anxiety is my super power', black jeans, glasses, and red running shoes.\n\nIf you see Gibson please call Middlesex County Sheriff's Department at 978-555-6376",
+          "//~": "Please replace the fictitious phone number with one of your local equivalent when translating"
+        }
       },
       {
         "id": "boy_5",
         "text": {
-          "str": "AMBER ALERT\n\nJayden Perry Norton\n\n[Photograph: a child in a baby blue short sleeve onesie playing with a toy car.]\n\nHAVE YOU SEEN THIS BOY?\n\nSex: Male ; Age: 6\nHair: Brown; Eyes: Brown\nHeight: 3'7\" ; Weight: 40 pounds\n\nIT IS BELIEVED HE WAS ABDUCTED BY A CAUCASIAN MALE FROM HIS SOUTH BOSTON HOME ON THE NIGHT OF 3 MAY.\n\n[Illustration: poorly drawn police sketch of a man in a black hoodie.]\nUNIDENTIFIED SUSPECT\n\nThe abductor drives a black sedan with a Canadian license plate.\nAuthorities say the abductor may have been headed to Canada or Maine.\n\nIF YOU HAVE ANY INFORMATION THAT CAN HELP THE INVESTIGATION, PLEASE CONTACT LOCAL LAW ENFORCEMENT IMMEDIATELY OR CALL TIPS TO 508-713-6311",
+          "str": "AMBER ALERT\n\nJayden Perry Norton\n\n[Photograph: a child in a baby blue short sleeve onesie playing with a toy car.]\n\nHAVE YOU SEEN THIS BOY?\n\nSex: Male ; Age: 6\nHair: Brown; Eyes: Brown\nHeight: 3'7\" ; Weight: 40 pounds\n\nIT IS BELIEVED HE WAS ABDUCTED BY A CAUCASIAN MALE FROM HIS SOUTH BOSTON HOME ON THE NIGHT OF 3 MAY.\n\n[Illustration: poorly drawn police sketch of a man in a black hoodie.]\nUNIDENTIFIED SUSPECT\n\nThe abductor drives a black sedan with a Canadian license plate.\nAuthorities say the abductor may have been headed to Canada or Maine.\n\nIF YOU HAVE ANY INFORMATION THAT CAN HELP THE INVESTIGATION, PLEASE CONTACT LOCAL LAW ENFORCEMENT IMMEDIATELY OR CALL TIPS TO 508-555-6311",
+          "//~": "Please replace the fictitious phone number with one of your local equivalent when translating",
           "//NOLINT(cata-text-style)": "intentional format"
         }
       },
       {
         "id": "boy_6",
-        "text": "FIND DANIEL\n\n[Photograph: a teenaged boy in a flannel shirt sitting on a couch.]\nDaniel Dunn\n\n13 years old, white, 5'3\", blond, blue eyes.  Daniel left home at 2:00 pm telling his mother he was going to visit a friend's house on Union Street.  Daniel lives on Poplar Drive.  His family reported him missing at 8:00 pm.\nDavid was wearing a red flannel shirt, light brown jeans and green sneakers.  David is left-handed and misses an upper incisor.\n\nLAST SEEN: April 18\nBurlington, Massachusetts\n\nIf you have seen this boy or know his whereabouts, please contact us.\nAny information whatsoever, please call Brockton Police Department on this number: (508) 815-7848\n\nTHANK YOU"
+        "text": {
+          "str": "FIND DANIEL\n\n[Photograph: a teenaged boy in a flannel shirt sitting on a couch.]\nDaniel Dunn\n\n13 years old, white, 5'3\", blond, blue eyes.  Daniel left home at 2:00 pm telling his mother he was going to visit a friend's house on Union Street.  Daniel lives on Poplar Drive.  His family reported him missing at 8:00 pm.\nDavid was wearing a red flannel shirt, light brown jeans and green sneakers.  David is left-handed and misses an upper incisor.\n\nLAST SEEN: April 18\nBurlington, Massachusetts\n\nIf you have seen this boy or know his whereabouts, please contact us.\nAny information whatsoever, please call Brockton Police Department on this number: (508) 555-7848\n\nTHANK YOU",
+          "//~": "Please replace the fictitious phone number with one of your local equivalent when translating"
+        }
       },
       {
         "id": "girl_1",
@@ -113,23 +158,38 @@
       },
       {
         "id": "girl_2",
-        "text": "SEARCH FOR SOPHIE\nPLEASE HELP OUR DAUGHTER FIND HER WAY HOME\n\n[Photograph: a child with a curly ponytail wearing a yellow sundress, smiling at the camera.]\n\nSophie Grace Knapp is African-American, 9 years old, 4'4\" tall, 60 pounds with curly black hair and brown eyes.\nSophie was last seen at Adele Addison Elementary School located at 2666 Burke Street, Springfield at approximately 4 p.m. on April 20.\nSophie was last seen wearing a purple sweater, a dark blue knee-length skirt and a 'My Little Pony' backpack.\n\nIF YOU HAVE ANY INFORMATION ON SOPHIE'S WHEREABOUTS,\nPLEASE CALL 911 OR WALTHAM POLICE DEPARTMENT AT (508) 314-7028."
+        "text": {
+          "str": "SEARCH FOR SOPHIE\nPLEASE HELP OUR DAUGHTER FIND HER WAY HOME\n\n[Photograph: a child with a curly ponytail wearing a yellow sundress, smiling at the camera.]\n\nSophie Grace Knapp is African-American, 9 years old, 4'4\" tall, 60 pounds with curly black hair and brown eyes.\nSophie was last seen at Adele Addison Elementary School located at 2666 Burke Street, Springfield at approximately 4 p.m. on April 20.\nSophie was last seen wearing a purple sweater, a dark blue knee-length skirt and a 'My Little Pony' backpack.\n\nIF YOU HAVE ANY INFORMATION ON SOPHIE'S WHEREABOUTS,\nPLEASE CALL 911 OR WALTHAM POLICE DEPARTMENT AT (508) 555-7028.",
+          "//~": "Please replace the fictitious phone number with one of your local equivalent when translating"
+        }
       },
       {
         "id": "girl_3",
-        "text": "AMBER ALERT\n\nChild Find Case #01943\n\n[Photograph: a child with curly ginger hair celebrating her sixth birthday.]\n\nOlivia Clymer\n\nAge At Missing: 6\nHair: Ginger, Curly, Neck-Length\nEyes: Green\n\nOlivia was last seen playing in her backyard on 176 Farland Street under parental supervision.  When her mother was momentarily distracted, Olivia disappeared.  A police search is currently being conducted to find Olivia.  She was wearing a dark blue sweater, an ankle-length floral skirt, red cotton gloves and a knitted wool cap on the day of her disappearance.  Olivia has burn marks on her left arm.\n\nLast Seen: 1:30 pm, October 22\nConcord, MA\n\nIf you have any information regarding Olivia, please call\nConcorde Police Department: 617-993-7622\n\nPLEASE HELP US"
+        "text": {
+          "str": "AMBER ALERT\n\nChild Find Case #01943\n\n[Photograph: a child with curly ginger hair celebrating her sixth birthday.]\n\nOlivia Clymer\n\nAge At Missing: 6\nHair: Ginger, Curly, Neck-Length\nEyes: Green\n\nOlivia was last seen playing in her backyard on 176 Farland Street under parental supervision.  When her mother was momentarily distracted, Olivia disappeared.  A police search is currently being conducted to find Olivia.  She was wearing a dark blue sweater, an ankle-length floral skirt, red cotton gloves and a knitted wool cap on the day of her disappearance.  Olivia has burn marks on her left arm.\n\nLast Seen: 1:30 pm, October 22\nConcord, MA\n\nIf you have any information regarding Olivia, please call\nConcorde Police Department: 617-555-7622\n\nPLEASE HELP US",
+          "//~": "Please replace the fictitious phone number with one of your local equivalent when translating"
+        }
       },
       {
         "id": "girl_4",
-        "text": "BOLTON POLICE DEPARTMENT\nSPECIAL VICTIMS BUREAU\n\n***PUBLIC INFORMATION***\n\nMISSING PERSON\n***JUVENILE***\n\n[Photograph: a teenage girl wearing glasses and a silver necklace holding a plastic red cup.]\n\nANNA LEE\nAsian, Female\nDOB: July 28, 2005 (16 years old)\n5'4\" 107 lbs\nEYES: Hazel\nHAIR: Light Brown\nLAST SEEN WEARING:\n - black hoodie with a teddy bear insignia on the back\n - blue skinny jeans\n - beaded armbands on both hands\n - leather sandals\n\nMISSING FROM: Needham, MA\nLAST SEEN: March 7\n\nMissing person was allegedly last seen in the company of an adult male outside the corner store on Kinney Street.  The man was described as 5'7\", Hispanic, approximately 40 years old wearing a gray hoodie and black pants.\nAnyone with information about this missing person should contact Detective Barlow or any detective of the Bolton Police Department, Special Victims Bureau at 978-470-0388."
+        "text": {
+          "str": "BOLTON POLICE DEPARTMENT\nSPECIAL VICTIMS BUREAU\n\n***PUBLIC INFORMATION***\n\nMISSING PERSON\n***JUVENILE***\n\n[Photograph: a teenage girl wearing glasses and a silver necklace holding a plastic red cup.]\n\nANNA LEE\nAsian, Female\nDOB: July 28, 2005 (16 years old)\n5'4\" 107 lbs\nEYES: Hazel\nHAIR: Light Brown\nLAST SEEN WEARING:\n - black hoodie with a teddy bear insignia on the back\n - blue skinny jeans\n - beaded armbands on both hands\n - leather sandals\n\nMISSING FROM: Needham, MA\nLAST SEEN: March 7\n\nMissing person was allegedly last seen in the company of an adult male outside the corner store on Kinney Street.  The man was described as 5'7\", Hispanic, approximately 40 years old wearing a gray hoodie and black pants.\nAnyone with information about this missing person should contact Detective Barlow or any detective of the Bolton Police Department, Special Victims Bureau at 978-555-0388.",
+          "//~": "Please replace the fictitious phone number with one of your local equivalent when translating"
+        }
       },
       {
         "id": "girl_5",
-        "text": "MISSING TEEN\n\n[Photograph: three teenaged girls in winter attire sitting on a bench in a park.  Two of them are blurred out.]\nEvelyn Phelps, aged 17\nMissing from Walpole, MA\nWent missing on 23 February\n\nLong black hair, green eyes, 5'6\", scars on right wrist\n\nEvelyn, we can safely work this out.  We can listen, talk you through what help you need, and help you be safe.  Please call Child Find at 1-800-I AM-LOST, or the National Runaway Safeline at 1-800-RUNAWAY\n\nIt's free, 24h and confidential\n\nIf you have any information about Evelyn's whereabouts, please call 911 or Walpole PD at (774) 242-5419"
+        "text": {
+          "str": "MISSING TEEN\n\n[Photograph: three teenaged girls in winter attire sitting on a bench in a park.  Two of them are blurred out.]\nEvelyn Phelps, aged 17\nMissing from Walpole, MA\nWent missing on 23 February\n\nLong black hair, green eyes, 5'6\", scars on right wrist\n\nEvelyn, we can safely work this out.  We can listen, talk you through what help you need, and help you be safe.  Please call Child Find at 1-800-I AM-LOST, or the National Runaway Safeline at 1-800-RUNAWAY\n\nIt's free, 24h and confidential\n\nIf you have any information about Evelyn's whereabouts, please call 911 or Walpole PD at (774) 555-5419",
+          "//~": "Please replace the fictitious phone number with one of your local equivalent when translating"
+        }
       },
       {
         "id": "girl_6",
-        "text": "MISSING\n\nNevaeh Alexandra Breedlove\n\n[Photograph: an adolescent girl with blonde hair attempting to smile for a Picture Day photo.]\n\nAge At Missing: 14\nHair Color: Blonde\nEye Color: Blue\nHeight: 5'2\"\nWeight: 100-105 lbs\n\nAlexandra was last seen leaving a party on Kennedy Court, Falmouth at approximately 11 PM, April 5th.  She was later seen walking to a bus stop at Kovar Street and taking the A-21 Bus.  It is unclear what happened to her after that.\nAlexandra was last seen wearing a denim jacket, dark gray pants, and red sneakers.\n\nPlease SHARE so we can find her.  1 share makes a difference.\n\nIF YOU KNOW WHERE NEVAEH IS OR HAVE ANY INFORMATION THAT CAN HELP THE INVESTIGATION, PLEASE CONTACT 978-680-7686"
+        "text": {
+          "str": "MISSING\n\nNevaeh Alexandra Breedlove\n\n[Photograph: an adolescent girl with blonde hair attempting to smile for a Picture Day photo.]\n\nAge At Missing: 14\nHair Color: Blonde\nEye Color: Blue\nHeight: 5'2\"\nWeight: 100-105 lbs\n\nAlexandra was last seen leaving a party on Kennedy Court, Falmouth at approximately 11 PM, April 5th.  She was later seen walking to a bus stop at Kovar Street and taking the A-21 Bus.  It is unclear what happened to her after that.\nAlexandra was last seen wearing a denim jacket, dark gray pants, and red sneakers.\n\nPlease SHARE so we can find her.  1 share makes a difference.\n\nIF YOU KNOW WHERE NEVAEH IS OR HAVE ANY INFORMATION THAT CAN HELP THE INVESTIGATION, PLEASE CONTACT 978-555-7686",
+          "//~": "Please replace the fictitious phone number with one of your local equivalent when translating"
+        }
       }
     ]
   },
@@ -139,58 +199,95 @@
     "text": [
       {
         "id": "beagle",
-        "text": "HAVE YOU SEEN MY DOG?\n\n[Photograph: an adorable beagle smiling at the camera, wagging its tail.]\n\nWINSTON\n4 YEARS OLD\nMALE\nLOST SINCE APRIL 2\nLAST SEEN IN MADISONVILLE, NEAR DOG PARK\nWEARS RED & BLUE COLLAR WITH NAME TAG\n\nCALL (857)226-9645"
+        "text": {
+          "str": "HAVE YOU SEEN MY DOG?\n\n[Photograph: an adorable beagle smiling at the camera, wagging its tail.]\n\nWINSTON\n4 YEARS OLD\nMALE\nLOST SINCE APRIL 2\nLAST SEEN IN MADISONVILLE, NEAR DOG PARK\nWEARS RED & BLUE COLLAR WITH NAME TAG\n\nCALL (857)555-9645",
+          "//~": "Please replace the fictitious phone number with one of your local equivalent when translating"
+        }
       },
       {
         "id": "border_collie",
         "text": {
-          "str": "MISSING!!!\n\nBrodie the Border Collie\n\n - Female, black & white coat color\n - 2.5 years old\n - Last seen in Greenfield, near Maple Ave.\n - Lost since Feb. 21\n\nCALL (413)573-291\n\n[Photograph: a border collie with light blue eyes lying on the grass, chewing on a rubber chicken.]\n\nA handsome reward is promised!",
+          "str": "MISSING!!!\n\nBrodie the Border Collie\n\n - Female, black & white coat color\n - 2.5 years old\n - Last seen in Greenfield, near Maple Ave.\n - Lost since Feb. 21\n\nCALL (413)555-291\n\n[Photograph: a border collie with light blue eyes lying on the grass, chewing on a rubber chicken.]\n\nA handsome reward is promised!",
+          "//~": "Please replace the fictitious phone number with one of your local equivalent when translating",
           "//NOLINT(cata-text-style)": "intentional format"
         }
       },
       {
         "id": "boxer_mastiff",
-        "text": "LOST DOG\n\n[Photograph: a selfie of a boxer mastiff and its owner.  The dog has a goofy grin.]\n\nNAME: BOOMER THE BOXER\nSEX: MALE, NEUTERED\nBREED: BOXER MASTIFF MIX\nCOLOR: BROWN BODY, WHITE STOMACH, BLACK SNOUT\nPERSONALITY: LOVES OTHER DOGS, AFRAID OF LOUD NOISES, KNOWS SIT, STAY, PLAY, ETC.\n\nLast seen on Dalton Avenue near Brown Street in Pittsfield, wearing a yellow reflective collar on Oct 11.\n\nIF YOU SAW HIM, PLEASE DON'T HESITATE TO CALL 617-933-1745."
+        "text": {
+          "str": "LOST DOG\n\n[Photograph: a selfie of a boxer mastiff and its owner.  The dog has a goofy grin.]\n\nNAME: BOOMER THE BOXER\nSEX: MALE, NEUTERED\nBREED: BOXER MASTIFF MIX\nCOLOR: BROWN BODY, WHITE STOMACH, BLACK SNOUT\nPERSONALITY: LOVES OTHER DOGS, AFRAID OF LOUD NOISES, KNOWS SIT, STAY, PLAY, ETC.\n\nLast seen on Dalton Avenue near Brown Street in Pittsfield, wearing a yellow reflective collar on Oct 11.\n\nIF YOU SAW HIM, PLEASE DON'T HESITATE TO CALL 617-555-1745.",
+          "//~": "Please replace the fictitious phone number with one of your local equivalent when translating"
+        }
       },
       {
         "id": "bulldog",
-        "text": "LOST PET:\nBruno the Bulldog\n\n[Photograph: an English bulldog in spiked collars and a camo vest.]\n\nDO NOT APPROACH OR TRY TO CAPCURE, BRUNO CAN BE AGGRESSIVE TO STRANGERS AND UNFAMILIAR DOGS\n\nIF YOU SEE HIM, CALL 413-448-8476 AT ANY TIME\nLAST SEEN IN NELSON ST, WARREN ON MAY 4\n\n$$$ SUBSTANCIAL REWARD $$$"
+        "text": {
+          "str": "LOST PET:\nBruno the Bulldog\n\n[Photograph: an English bulldog in spiked collars and a camo vest.]\n\nDO NOT APPROACH OR TRY TO CAPTURE, BRUNO CAN BE AGGRESSIVE TO STRANGERS AND UNFAMILIAR DOGS\n\nIF YOU SEE HIM, CALL 413-555-8476 AT ANY TIME\nLAST SEEN IN NELSON ST, WARREN ON MAY 4\n\n$$$ SUBSTANCIAL REWARD $$$",
+          "//~": "Please replace the fictitious phone number with one of your local equivalent when translating"
+        }
       },
       {
         "id": "cattle dog",
-        "text": "!MISSING DOG!\nMale, 5 years old, fine and dense blue mottled fur, stands 19 inches, sharp ears.\nAnswers to the name \"Caesar\".\nHe is an Australian Cattle Dog.\nHe's NOT FRIENDLY and is irate at times.  But he's a good boy.  We miss him dearly.\n\nLast seen on Liberty Street, Canton.  Missing since May 13.\nIf found please contact 978-996-6865.\n\n$100 REWARD IF FOUND!"
+        "text": {
+          "str": "!MISSING DOG!\nMale, 5 years old, fine and dense blue mottled fur, stands 19 inches, sharp ears.\nAnswers to the name \"Caesar\".\nHe is an Australian Cattle Dog.\nHe's NOT FRIENDLY and is irate at times.  But he's a good boy.  We miss him dearly.\n\nLast seen on Liberty Street, Canton.  Missing since May 13.\nIf found please contact 978-555-6865.\n\n$100 REWARD IF FOUND!",
+          "//~": "Please replace the fictitious phone number with one of your local equivalent when translating"
+        }
       },
       {
         "id": "chihuahua",
-        "text": "LOST DOG\nHAVE YOU SEEN ME?\n\n[Photograph: a tired-looking Chihuahua lying on a dog bed made for larger breeds.]\n\n <3 Female 11 y/o Chihuahua mix with long legs.\n <3 Wears a pink collar with rhinestone letters reading \"TAMMY\".\n <3 Very shy around strangers and other dogs.\n <3 Last seen on Franklin Street (near PizzaLand) in Carthage on May 2.\n\nANY HELP IS APPRECIATED\n\n978-206-6010 or 978-985-0497"
+        "text": {
+          "str": "LOST DOG\nHAVE YOU SEEN ME?\n\n[Photograph: a tired-looking Chihuahua lying on a dog bed made for larger breeds.]\n\n <3 Female 11 y/o Chihuahua mix with long legs.\n <3 Wears a pink collar with rhinestone letters reading \"TAMMY\".\n <3 Very shy around strangers and other dogs.\n <3 Last seen on Franklin Street (near PizzaLand) in Carthage on May 2.\n\nANY HELP IS APPRECIATED\n\n978-555-6010 or 978-555-0497",
+          "//~": "Please replace the fictitious phone number with one of your local equivalent when translating"
+        }
       },
       {
         "id": "dachshund",
-        "text": "LOST DACHSHUND: DANNY\n\n[Photograph: a brown, long-haired dachshund with very fluffy ears.]\n\nSHY!  Do not chase!\n\nCall or text 413-788-9095 or visit danny-doggo.com if you have any information.\nLast seen: April 29th, near Playtime Dogpark, wearing a red collar with a bone-shaped dog tag.\n\n$200 REWARD"
+        "text": {
+          "str": "LOST DACHSHUND: DANNY\n\n[Photograph: a brown, long-haired dachshund with very fluffy ears.]\n\nSHY!  Do not chase!\n\nCall or text 413-555-9095 or visit danny-doggo.com if you have any information.\nLast seen: April 29th, near Playtime Dogpark, wearing a red collar with a bone-shaped dog tag.\n\n$200 REWARD",
+          "//~": "Please replace the fictitious phone number with one of your local equivalent when translating"
+        }
       },
       {
         "id": "german_shepherd",
-        "text": "LOST POLICE DOG\nBISCUIT\n\n[Photograph: a German Shepherd posing for an official K-9 badge photo in uniform, behind it is the American flag.]\n\nDo not attempt to pet or capture him, he has PTSD and may be agitated!\n\nGerman Shepherd\nLast seen in the park next to Littleton Church on 9th April\n\nIf you've seen him or know where he is please phone me\n774-312-7217"
+        "text": {
+          "str": "LOST POLICE DOG\nBISCUIT\n\n[Photograph: a German Shepherd posing for an official K-9 badge photo in uniform, behind it is the American flag.]\n\nDo not attempt to pet or capture him, he has PTSD and may be agitated!\n\nGerman Shepherd\nLast seen in the park next to Littleton Church on 9th April\n\nIf you've seen him or know where he is please phone me\n774-555-7217",
+          "//~": "Please replace the fictitious phone number with one of your local equivalent when translating"
+        }
       },
       {
         "id": "great_pyrenese",
-        "text": "MISSING DOG\nA CRY FOR HELP FOR OUR FURRY FRIEND.\n\nMARSHMALLOW\n\n[Photograph: a large-sized Great Pyrenees with a beautiful, thick white coat.  It looks like a polar bear at a glance.]\n\nBREED: Pyrenean Mountain Dog\nFUR: white without patches, thick double coat\nAGE: 6 years old\nCOLLAR: bright yellow\n\nMarshmallow has been missing since 17 April and was last seen in Century Park in Weston.\n\nPLEASE CONTACT AT:\n339-883-6206 or 339-200-7877"
+        "text": {
+          "str": "MISSING DOG\nA CRY FOR HELP FOR OUR FURRY FRIEND.\n\nMARSHMALLOW\n\n[Photograph: a large-sized Great Pyrenees with a beautiful, thick white coat.  It looks like a polar bear at a glance.]\n\nBREED: Pyrenean Mountain Dog\nFUR: white without patches, thick double coat\nAGE: 6 years old\nCOLLAR: bright yellow\n\nMarshmallow has been missing since 17 April and was last seen in Century Park in Weston.\n\nPLEASE CONTACT AT:\n339-555-6206 or 339-555-7877",
+          "//~": "Please replace the fictitious phone number with one of your local equivalent when translating"
+        }
       },
       {
         "id": "labrador",
-        "text": "HELP US FIND OUR MISSING DOG\n<3 MR. RUFFLES <3\n\n[Photograph: a white labrador retriever holding a tennis ball in its paws, smiling at the camera.]\n\nBREED: Labrador Retriever\nAGE: 4 Years old\nCOLOR: White\nWEIGHT: 43 Lbs.\nHEIGHT: 25 Inches\nMANNERISMS: Friendly, loves playing fetch, will come when called\n\nAny information you could provide would be helpful!\nWe love Mr. Ruffles so much and miss him dearly!\n\nCALL OR TEXT: 781-903-3980"
+        "text": {
+          "str": "HELP US FIND OUR MISSING DOG\n<3 MR. RUFFLES <3\n\n[Photograph: a white labrador retriever holding a tennis ball in its paws, smiling at the camera.]\n\nBREED: Labrador Retriever\nAGE: 4 Years old\nCOLOR: White\nWEIGHT: 43 Lbs.\nHEIGHT: 25 Inches\nMANNERISMS: Friendly, loves playing fetch, will come when called\n\nAny information you could provide would be helpful!\nWe love Mr. Ruffles so much and miss him dearly!\n\nCALL OR TEXT: 781-555-3980",
+          "//~": "Please replace the fictitious phone number with one of your local equivalent when translating"
+        }
       },
       {
         "id": "pit_bull",
-        "text": "LOST PET ALERT\nHELP US FIND PRINCESS!\nREWARD: $150\n\n[Photograph: a short-coated white pitbull wearing an American flag bandana.]\n\nDESCRIPTION:\nNAME: Princess — SEX: Female — AGE: 6\nBREED: American Pit Bull Terrier\nPERSONALITY: Loves chewing toys and kids — KNOWS: Sit, stay, roll\n\nIF YOU SEE HIM, PLEASE CALL 508-331-7266\nLast seen near Doyle Park wearing his US flag bandana."
+        "text": {
+          "str": "LOST PET ALERT\nHELP US FIND PRINCESS!\nREWARD: $150\n\n[Photograph: a short-coated white pitbull wearing an American flag bandana.]\n\nDESCRIPTION:\nNAME: Princess — SEX: Female — AGE: 6\nBREED: American Pit Bull Terrier\nPERSONALITY: Loves chewing toys and kids — KNOWS: Sit, stay, roll\n\nIF YOU SEE HIM, PLEASE CALL 508-555-7266\nLast seen near Doyle Park wearing his US flag bandana.",
+          "//~": "Please replace the fictitious phone number with one of your local equivalent when translating"
+        }
       },
       {
         "id": "rottweiler",
-        "text": "[Photograph: close-up of a cute Rottweiler puppy.]\n\nI'M LOST!\n\nMy name is Toto, I'm a 0.5 y/o male rottweiler, and I was last seen in Milford near the public pond wearing a red & white collar.  Please help me return home, my owners miss me very much!\n\nIF YOU HAVE FOUND THIS DOG OR THINK YOU HAVE SEEN IT, PLEASE CONTACT US: 617-795-7788"
+        "text": {
+          "str": "[Photograph: close-up of a cute Rottweiler puppy.]\n\nI'M LOST!\n\nMy name is Toto, I'm a 0.5 y/o male rottweiler, and I was last seen in Milford near the public pond wearing a red & white collar.  Please help me return home, my owners miss me very much!\n\nIF YOU HAVE FOUND THIS DOG OR THINK YOU HAVE SEEN IT, PLEASE CONTACT US: 617-555-7788",
+          "//~": "Please replace the fictitious phone number with one of your local equivalent when translating"
+        }
       },
       {
         "id": "samoyed",
-        "text": "MISSING!\n\n[Photograph: an adorable Samoyed puppy with a carefully groomed coif.  It wears a pink tie to avoid being mistaken for a fluffy puffball.]\n\nPLEASE HELP ME FIND MY DOG!\n\nIF YOU SEE HER, CALL 781-656-0045\n\n ● My dog's name is Luna.\n ● She's a 1 y/o female Samoyed breed.\n ● She wears a pink tie and a pink collar with \"Luna\" written on it.\n\nMissing from Connor Street, Gardner, MA.\nPlease call with any sightings.  She is very loved and very missed!"
+        "text": {
+          "str": "MISSING!\n\n[Photograph: an adorable Samoyed puppy with a carefully groomed coif.  It wears a pink tie to avoid being mistaken for a fluffy puffball.]\n\nPLEASE HELP ME FIND MY DOG!\n\nIF YOU SEE HER, CALL 781-555-0045\n\n ● My dog's name is Luna.\n ● She's a 1 y/o female Samoyed breed.\n ● She wears a pink tie and a pink collar with \"Luna\" written on it.\n\nMissing from Connor Street, Gardner, MA.\nPlease call with any sightings.  She is very loved and very missed!",
+          "//~": "Please replace the fictitious phone number with one of your local equivalent when translating"
+        }
       },
       {
         "id": "Laika",
@@ -204,34 +301,53 @@
     "text": [
       {
         "id": "shorthair",
-        "text": "MISSING\nPLEASE CHECK PICTURE/SHEDS/GARAGES\n\n[Photograph: a black-and-white shorthair cat sleeping in a sunbeam.]\n\nSchmeeda is a black female short-haired cat with a large white spot on her back.  She wears a deep blue collar with a small bell attached to it.  She went missing on 19th March at around midnight.  She is microchipped.\n\n$500 REWARD OFFERED\n\nIF YOU HAVE ANY INFORMATION:\nCALL 857-227-3146"
+        "text": {
+          "str": "MISSING\nPLEASE CHECK PICTURE/SHEDS/GARAGES\n\n[Photograph: a black-and-white shorthair cat sleeping in a sunbeam.]\n\nSchmeeda is a black female short-haired cat with a large white spot on her back.  She wears a deep blue collar with a small bell attached to it.  She went missing on 19th March at around midnight.  She is microchipped.\n\n$500 REWARD OFFERED\n\nIF YOU HAVE ANY INFORMATION:\nCALL 857-555-3146",
+          "//~": "Please replace the fictitious phone number with one of your local equivalent when translating"
+        }
       },
       {
         "id": "longhair",
-        "text": "LOST PET!\nPlease help me find my cat!\n\n[Photograph: a ginger longhair cat rolled over on his back, playing with dangling feathers.]\n\n ● His name is Charlie\n ● He has greenish-yellow eyes\n ● Ginger in color, long-haired\n ● Likes playing, especially with laser pointers\n ● Last seen on Flint Street, Charlton\n\nIf sighted, please call Martha at:\n978-890-5467"
+        "text": {
+          "str": "LOST PET!\nPlease help me find my cat!\n\n[Photograph: a ginger longhair cat rolled over on his back, playing with dangling feathers.]\n\n ● His name is Charlie\n ● He has greenish-yellow eyes\n ● Ginger in color, long-haired\n ● Likes playing, especially with laser pointers\n ● Last seen on Flint Street, Charlton\n\nIf sighted, please call Martha at:\n978-555-5467",
+          "//~": "Please replace the fictitious phone number with one of your local equivalent when translating"
+        }
       },
       {
         "id": "maine_coon",
-        "text": "LOST CAT\n\n - ADULT BLACK & BROWN MALE MAINE COON CAT\n - WHITE ON NECK AND MUZZLE\n - WEARS REFLECTIVE GREEN COLLAR\n\n[Photograph: a large cat with a dense coat of fur sleeping in a plastic lawn chair.  He looks uncomfortable.]\n\nLoki from Shutesbury, MA.\n\nTAKE A PIC IF YOU CAN + PLEASE DON'T CHASE\n617-460-9958"
+        "text": {
+          "str": "LOST CAT\n\n - ADULT BLACK & BROWN MALE MAINE COON CAT\n - WHITE ON NECK AND MUZZLE\n - WEARS REFLECTIVE GREEN COLLAR\n\n[Photograph: a large cat with a dense coat of fur sleeping in a plastic lawn chair.  He looks uncomfortable.]\n\nLoki from Shutesbury, MA.\n\nTAKE A PIC IF YOU CAN + PLEASE DON'T CHASE\n617-555-9958",
+          "//~": "Please replace the fictitious phone number with one of your local equivalent when translating"
+        }
       },
       {
         "id": "siamese",
-        "text": "MISSING CAT ALERT\n\n781-669-2647\n\n[Photograph: a slender white cat with a grayish face peeking out a small cardboard box.]\n\nThis adorable Siamese cat is called COCOA.\nHe is new to the area and escaped out of the door.  He is microchipped and has a name tag on his collar.  He is very nervous around strangers and may flee if he thinks you are going to catch him.\n\nIf you see him or think you have seen a purrson like him, please call me ASAP.  We love him and miss him dearly."
+        "text": {
+          "str": "MISSING CAT ALERT\n\n781-555-2647\n\n[Photograph: a slender white cat with a grayish face peeking out a small cardboard box.]\n\nThis adorable Siamese cat is called COCOA.\nHe is new to the area and escaped out of the door.  He is microchipped and has a name tag on his collar.  He is very nervous around strangers and may flee if he thinks you are going to catch him.\n\nIf you see him or think you have seen a purrson like him, please call me ASAP.  We love him and miss him dearly.",
+          "//~": "Please replace the fictitious phone number with one of your local equivalent when translating"
+        }
       },
       {
         "id": "persian",
         "text": {
-          "str": "!! HELP ME !!\nMy name is Pippa and I am lost!\n\n[Photograph: a long-haired cat with a round face and short muzzle sitting on a floral carpet.]\n\nI'm getting on with age, so I don't remember how to get home.  I am a (traditional) Persian longhair with silky white fur and brownish eyes.  I was wearing a red collar with my name tag on it.\n\nPLEASE CALL (413)347-1688 IF YOU SEE ME\n(AND TAKE A PICTURE IF YOU CAN)",
+          "str": "!! HELP ME !!\nMy name is Pippa and I am lost!\n\n[Photograph: a long-haired cat with a round face and short muzzle sitting on a floral carpet.]\n\nI'm getting on with age, so I don't remember how to get home.  I am a (traditional) Persian longhair with silky white fur and brownish eyes.  I was wearing a red collar with my name tag on it.\n\nPLEASE CALL (413)555-1688 IF YOU SEE ME\n(AND TAKE A PICTURE IF YOU CAN)",
+          "//~": "Please replace the fictitious phone number with one of your local equivalent when translating",
           "//NOLINT(cata-text-style)": "intentional format"
         }
       },
       {
         "id": "bengal",
-        "text": "MISSING CAT\n\n[Photograph: a shorthair cat with rosette markings training its claws on a scratching post.]\n\nCheddar is a male 3.5 y/o brown Bengal cat who went missing on April 8.  She was last seen wearing a striped collar.\n\nIF YOU SEE HIM, CONTACT US IMMEDIATELY: 978-860-3760\n\n YOU CAN HELP!\nPlease photograph this poster and share it on social media."
+        "text": {
+          "str": "MISSING CAT\n\n[Photograph: a shorthair cat with rosette markings training its claws on a scratching post.]\n\nCheddar is a male 3.5 y/o brown Bengal cat who went missing on April 8.  She was last seen wearing a striped collar.\n\nIF YOU SEE HIM, CONTACT US IMMEDIATELY: 978-555-3760\n\nYOU CAN HELP!\nPlease photograph this poster and share it on social media.",
+          "//~": "Please replace the fictitious phone number with one of your local equivalent when translating"
+        }
       },
       {
         "id": "devon_rex",
-        "text": "DEXTER IS LOST!\nAGAIN!!!  He was scared off by the neighbor's dogs on 6th May & doesn't know how to get home…\n…he's not very clever at finding his way back!\nHe's a 3 y/o male Devon Rex cat with soft gray fur and big blue eyes.\nHe's chipped and should be wearing a yellow collar with a tag that has his name & my phone number on it.\n\n[Photograph: a short-haired gray cat sitting next to four similar-looking felines.  Dexter is circled in and has a bright red arrow pointing at him.]\n\nIF YOU SEE MY DEXTER, PLEASE DIAL 978-615-8152!\n\n!!!REWARD OFFERED!!!"
+        "text": {
+          "str": "DEXTER IS LOST!\nAGAIN!!!  He was scared off by the neighbor's dogs on 6th May & doesn't know how to get home…\n…he's not very clever at finding his way back!\nHe's a 3 y/o male Devon Rex cat with soft gray fur and big blue eyes.\nHe's chipped and should be wearing a yellow collar with a tag that has his name & my phone number on it.\n\n[Photograph: a short-haired gray cat sitting next to four similar-looking felines.  Dexter is circled in and has a bright red arrow pointing at him.]\n\nIF YOU SEE MY DEXTER, PLEASE DIAL 978-555-8152!\n\n!!!REWARD OFFERED!!!",
+          "//~": "Please replace the fictitious phone number with one of your local equivalent when translating"
+        }
       },
       {
         "id": "sphynx",
@@ -239,11 +355,17 @@
       },
       {
         "id": "tabby",
-        "text": "HAVE YOU SEEN MARBLES?\n\n[Photograph: a gray cat with gently curving stripes covering its body.  It stares at the camera as if it's hypnotized by it.]\n\nMARBLES IS VERY FRIENDLY AND ENERGETIC.  MISSING SINCE THE EVENING OF MARCH 21.  IF SPOTTED OR FOUND, PLEASE CALL ME AT 774-696-9361.\n\nTHANK YOU!!!"
+        "text": {
+          "str": "HAVE YOU SEEN MARBLES?\n\n[Photograph: a gray cat with gently curving stripes covering its body.  It stares at the camera as if it's hypnotized by it.]\n\nMARBLES IS VERY FRIENDLY AND ENERGETIC.  MISSING SINCE THE EVENING OF MARCH 21.  IF SPOTTED OR FOUND, PLEASE CALL ME AT 774-555-9361.\n\nTHANK YOU!!!",
+          "//~": "Please replace the fictitious phone number with one of your local equivalent when translating"
+        }
       },
       {
         "id": "calico",
-        "text": "PLEASE PLEASE HELP ME!\n\n[Photograph: a longhaired tri-color coat with heterochromia lying on top of a cat tree.]\n\nMy name is Buttons and I'm a calico cat with large orange and black patches.  My left eye is blue and the other is green.  I went missing on the evening of April 15th and I haven't been seen since.  I love people and will come if called.\n\nIF YOU HAVE SEEN BUTTONS, PLEASE DON'T HESITATE TO CONTACT ME: 508-558-1050"
+        "text": {
+          "str": "PLEASE PLEASE HELP ME!\n\n[Photograph: a longhaired tri-color coat with heterochromia lying on top of a cat tree.]\n\nMy name is Buttons and I'm a calico cat with large orange and black patches.  My left eye is blue and the other is green.  I went missing on the evening of April 15th and I haven't been seen since.  I love people and will come if called.\n\nIF YOU HAVE SEEN BUTTONS, PLEASE DON'T HESITATE TO CONTACT ME: 508-555-1050",
+          "//~": "Please replace the fictitious phone number with one of your local equivalent when translating"
+        }
       }
     ]
   }

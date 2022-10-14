@@ -41,7 +41,8 @@
       { "result": "test_2x4", "amount": [ 5, 10 ] },
       { "result": "test_rag", "ratio_mass": 0.5 },
       { "result": "test_pipe", "ratio_volume": 0.3 }
-    ]
+    ],
+    "upgrades": false
   },
   {
     "type": "MONSTER",
@@ -57,7 +58,8 @@
     "weight": "81500 g",
     "hp": 100,
     "speed": 50,
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "PET_WONT_FOLLOW" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "PET_WONT_FOLLOW" ],
+    "upgrades": { "half_life": 0, "into_group": "test_upgrades_multi_late", "multiple_spawns": true, "spawn_range": 5 }
   },
   {
     "id": "mon_test_bovine",

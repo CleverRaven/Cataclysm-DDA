@@ -56,6 +56,7 @@ static const flag_id json_flag_UNCONSUMED( "UNCONSUMED" );
 
 static const itype_id itype_bullwhip( "bullwhip" );
 static const itype_id itype_grapnel( "grapnel" );
+static const itype_id itype_grenade_act( "grenade_act" );
 static const itype_id itype_rope_30( "rope_30" );
 
 static const json_character_flag json_flag_WALL_CLING( "WALL_CLING" );
@@ -667,7 +668,7 @@ bool trapfunc::landmine( const tripoint &p, Creature *c, item * )
         c->add_msg_player_or_npc( m_bad, _( "You trigger a land mine!" ),
                                   _( "<npcname> triggers a land mine!" ) );
     }
-    explosion_handler::explosion( p, 18, 0.5, false, 8 );
+    explosion_handler::explosion( c, p, 18, 0.5, false, 8 );
     get_map().remove_trap( p );
     return true;
 }
@@ -678,7 +679,11 @@ bool trapfunc::boobytrap( const tripoint &p, Creature *c, item * )
         c->add_msg_player_or_npc( m_bad, _( "You trigger a booby trap!" ),
                                   _( "<npcname> triggers a booby trap!" ) );
     }
-    explosion_handler::explosion( p, 18, 0.6, false, 12 );
+
+    item grenade( itype_grenade_act );
+    grenade.active = true;
+    get_map().add_item( p, grenade );
+
     get_map().remove_trap( p );
     return true;
 }
@@ -1262,7 +1267,7 @@ bool trapfunc::ledge( const tripoint &p, Creature *c, item * )
         if( jetpack.ammo_sufficient( you ) ) {
             you->add_msg_player_or_npc( _( "You ignite your %s and use it to break the fall." ),
                                         _( "<npcname> uses their %s to break the fall." ), jetpack.tname() );
-            you->use_charges( jetpack.typeId(), jetpack.type->charges_to_use() );
+            jetpack.activation_consume( 1, you->pos(), you );
         } else {
             you->add_msg_if_player( m_bad,
                                     _( "You attempt to break the fall with your %s but it is out of fuel!" ), jetpack.tname() );
@@ -1343,6 +1348,26 @@ bool trapfunc::temple_toggle( const tripoint &p, Creature *c, item * )
                 }
             }
         }
+
+        // In case we're completely encircled by walls, replace random wall around the player with floor tile
+        std::vector<tripoint> blocked_tiles;
+        for( const tripoint &pnt : here.points_in_radius( p, 1 ) ) {
+            if( here.impassable( pnt ) ) {
+                blocked_tiles.push_back( pnt );
+            }
+        }
+
+        if( blocked_tiles.size() == 8 ) {
+            const tripoint &pnt = random_entry( blocked_tiles );
+            if( here.ter( pnt ) == t_rock_red ) {
+                here.ter_set( pnt, t_floor_red );
+            } else if( here.ter( pnt ) == t_rock_green ) {
+                here.ter_set( pnt, t_floor_green );
+            } else if( here.ter( pnt ) == t_rock_blue ) {
+                here.ter_set( pnt, t_floor_blue );
+            }
+        }
+
         return true;
     }
     return false;

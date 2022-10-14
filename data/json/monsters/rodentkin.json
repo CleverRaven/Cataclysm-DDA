@@ -142,6 +142,45 @@
     "dissect": "dissect_rat_sample_small"
   },
   {
+    "id": "mon_pack_rat",
+    "type": "MONSTER",
+    "name": { "str": "pack rat" },
+    "description": "This humanoid rodent stands over five feet tall, it pokes and bites at anything shiny, hastily shoving anything of interest into its mouth.",
+    "default_faction": "ratkin",
+    "copy-from": "mon_big_rat",
+    "volume": "20 L",
+    "weight": "30 kg",
+    "hp": 60,
+    "speed": 90,
+    "attack_cost": 80,
+    "symbol": "R",
+    "color": "brown_green",
+    "melee_dice": 4,
+    "melee_dice_sides": 4,
+    "melee_damage": [ { "damage_type": "cut", "amount": 5 } ],
+    "dodge": 3,
+    "armor_bash": 5,
+    "armor_cut": 6,
+    "armor_bullet": 2,
+    "anger_triggers": [ "PLAYER_WEAK", "PLAYER_CLOSE", "FRIEND_ATTACKED", "STALK" ],
+    "path_settings": { "max_dist": 50, "avoid_traps": true, "avoid_sharp": true },
+    "death_drops": "ratkin_death_drops_pack_rat",
+    "special_attacks": [
+      { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 17, "armor_multiplier": 0.8 } ] },
+      {
+        "type": "bite",
+        "cooldown": 3,
+        "move_cost": 110,
+        "damage_max_instance": [ { "damage_type": "stab", "amount": 12, "armor_penetration": 12 } ],
+        "min_mul": 1,
+        "max_mul": 2.1,
+        "infection_chance": 4
+      }
+    ],
+    "attack_effs": [ { "id": "rat_bite_fever", "duration": 400, "chance": 20 } ],
+    "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "SWIMS", "PATH_AVOID_DANGER_1", "CAN_DIG" ]
+  },
+  {
     "id": "mon_teke_mouse",
     "type": "MONSTER",
     "name": { "str": "Mouse of NEMA", "str_pl": "Mice of NEMA" },

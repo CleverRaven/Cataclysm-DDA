@@ -39,7 +39,7 @@
     "id": "shoulder_strap_front",
     "type": "GUNMOD",
     "name": { "str": "shoulder strap (front)", "str_pl": "shoulder straps (front)" },
-    "description": "A shoulder strap allows the rifle to be worn over your shoulders like a piece of clothing.  Currently the weapon hangs off your front.",
+    "description": "A shoulder strap allows the rifle to be worn over your shoulders like a piece of clothing.  Currently adjusted so the weapon hangs off your front.",
     "copy-from": "shoulder_strap",
     "use_action": {
       "type": "transform",

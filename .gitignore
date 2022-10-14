@@ -13,9 +13,11 @@
 /bindist/
 /build/
 /build-start-time
+/cache/
 /cmake-build-debug/
 /config/
 /data/*.template
+/data/cache/
 /data/mods/user-default-mods.json
 /dep/
 /doxygen_doc/html/*
@@ -61,6 +63,8 @@ json_formatter
 *.lastbuildstate
 .vs/
 .vscode/
+Directory.Build.props
+Directory.Build.targets
 
 # Visual Studio project files
 /msvc-full-features/**/

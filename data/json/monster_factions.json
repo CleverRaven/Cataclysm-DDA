@@ -15,7 +15,7 @@
     "type": "MONSTER_FACTION",
     "name": "human",
     "neutral": [ "mech_bot", "passive_machine" ],
-    "by_mood": [ "exodii", "isolated_artisans" ]
+    "by_mood": [ "exodii", "isolated_artisans", "yrax" ]
   },
   {
     "type": "MONSTER_FACTION",
@@ -66,14 +66,14 @@
     "type": "MONSTER_FACTION",
     "name": "small_animal",
     "base_faction": "animal",
-    "neutral": [ "zombie", "fish", "exodii", "isolated_artisans", "nether", "animal", "passive_machine" ],
+    "neutral": [ "zombie", "fish", "exodii", "isolated_artisans", "nether", "animal", "yrax", "passive_machine" ],
     "by_mood": [ "cat", "bear", "fox", "big_cat", "dog", "wolf" ]
   },
   {
     "type": "MONSTER_FACTION",
     "name": "herbivore",
     "base_faction": "animal",
-    "neutral": [ "small_animal", "fish", "exodii", "isolated_artisans", "passive_machine" ]
+    "neutral": [ "small_animal", "fish", "exodii", "isolated_artisans", "yrax", "passive_machine" ]
   },
   {
     "type": "MONSTER_FACTION",
@@ -149,6 +149,7 @@
       "insect",
       "mutant",
       "fungus",
+      "yrax",
       "passive_machine"
     ]
   },
@@ -333,6 +334,7 @@
       "lab_mutant",
       "exodii",
       "isolated_artisans",
+      "yrax",
       "mi-go",
       "seweranha",
       "sewer_snake",
@@ -521,7 +523,7 @@
   {
     "type": "MONSTER_FACTION",
     "name": "fungus",
-    "neutral": [ "bot", "fish", "passive_machine" ],
+    "neutral": [ "bot", "fish", "passive_machine", "yrax" ],
     "hate": [ "triffid" ]
   },
   {
@@ -548,7 +550,7 @@
     "name": "exodii",
     "base_faction": "human",
     "neutral": [ "fish", "small_animal", "herbivore", "passive_machine" ],
-    "by_mood": [ "animal", "nether", "human" ],
+    "by_mood": [ "animal", "nether", "human", "yrax" ],
     "hate": [ "zombie", "fungus", "triffid", "mi-go" ]
   },
   {
@@ -563,9 +565,18 @@
     "type": "MONSTER_FACTION",
     "name": "mi-go",
     "base_faction": "nether",
-    "neutral": [ "fish", "small_animal", "slime", "passive_machine" ],
+    "neutral": [ "fish", "yrax", "small_animal", "slime", "passive_machine" ],
     "by_mood": [ "nether" ],
     "hate": [ "zombie", "triffid", "fungus", "exodii", "isolated_artisans" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "yrax",
+    "base_faction": "human",
+    "//": "detestably neutral",
+    "neutral": [ "triffid", "mi-go", "fungus", "fish", "small_animal", "herbivore", "passive_machine" ],
+    "by_mood": [ "nether", "human" ],
+    "hate": [ "zombie" ]
   },
   {
     "type": "MONSTER_FACTION",
@@ -577,6 +588,7 @@
     "type": "MONSTER_FACTION",
     "name": "triffid",
     "base_faction": "plant",
+    "neutral": [ "yrax" ],
     "hate": [ "fungus" ]
   },
   {

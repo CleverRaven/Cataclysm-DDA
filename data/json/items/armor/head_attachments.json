@@ -102,7 +102,7 @@
     "armor": [ { "coverage": 60, "covers": [ "mouth" ], "specifically_covers": [ "mouth_chin" ] } ]
   },
   {
-    "id": "counterweight pouch",
+    "id": "counterweight_pouch",
     "repairs_like": "ankle_wallet_pouch",
     "type": "ARMOR",
     "category": "armor",

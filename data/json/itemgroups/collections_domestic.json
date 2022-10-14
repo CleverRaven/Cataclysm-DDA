@@ -233,7 +233,7 @@
       { "item": "denat_alcohol", "prob": 6 },
       { "item": "methed_alcohol", "prob": 4 },
       { "item": "textbook_extraction", "prob": 5 },
-      { "item": "butane_can", "prob": 10, "charges-min": 1 },
+      { "item": "butane_can", "prob": 10, "charges-min": 1, "charges": [ 1, 30 ] },
       { "item": "gasket_plastic", "prob": 10 },
       { "item": "vac_pump", "prob": 3 },
       { "item": "recovery_pump", "prob": 3 },
@@ -625,7 +625,8 @@
       { "item": "eclipse_glasses", "prob": 1 },
       { "item": "reading_light", "prob": 9, "charges": [ 0, 50 ] },
       { "item": "balloon", "prob": 5 },
-      { "group": "memorial", "prob": 3 }
+      { "group": "memorial", "prob": 3 },
+      { "item": "air_launcher", "prob": 1 }
     ]
   },
   {
@@ -672,7 +673,7 @@
       { "item": "chem_washing_soda", "prob": 20, "charges-min": 1 },
       { "item": "chem_baking_soda", "prob": 20, "charges-min": 1 },
       { "item": "ammonia_hydroxide", "prob": 24, "charges-min": 1 },
-      { "item": "butane_can", "prob": 10 },
+      { "item": "butane_can", "prob": 10, "charges": [ 0, 30 ] },
       { "item": "milk_powder", "prob": 15 },
       { "item": "powder_eggs", "prob": 20 },
       {
@@ -1112,6 +1113,7 @@
       { "item": "ref_matches", "prob": 60, "charges": [ 1, 32 ] },
       { "item": "sewing_kit", "prob": 47, "charges-min": 0 },
       { "item": "tailors_kit", "prob": 3, "charges-min": 0 },
+      { "item": "electric_spinwheel", "prob": 3, "charges-min": 0 },
       { "item": "thread", "prob": 40 },
       { "item": "scissors", "prob": 50 },
       { "item": "soldering_iron", "prob": 70, "charges": [ 0, 50 ] },
@@ -1197,7 +1199,8 @@
       { "item": "bodypillow", "prob": 2 },
       { "item": "teddy_bear", "prob": 2 },
       { "item": "reading_light", "prob": 8, "charges": [ 0, 50 ] },
-      { "item": "condom", "prob": 50, "count": [ 1, 5 ] }
+      { "item": "condom", "prob": 50, "count": [ 1, 5 ] },
+      { "item": "air_launcher", "prob": 1 }
     ]
   },
   {
@@ -1248,6 +1251,7 @@
       { "item": "bottle_plastic_small", "prob": 5 },
       { "item": "sewing_kit", "prob": 47, "charges-min": 0 },
       { "item": "tailors_kit", "prob": 3, "charges-min": 0 },
+      { "item": "electric_spinwheel", "prob": 3, "charges-min": 0 },
       { "item": "thread", "prob": 40 },
       { "item": "cotton_patchwork", "prob": 1 },
       { "item": "scissors", "prob": 50 },
@@ -1321,14 +1325,10 @@
       [ "binoculars", 50 ],
       [ "crossbow", 20 ],
       [ "compcrossbow", 20 ],
-      [ "rapier", 1 ],
       [ "rapier_fake", 10 ],
-      [ "cavalry_sabre", 1 ],
       [ "cavalry_sabre_fake", 20 ],
-      [ "katana", 1 ],
       [ "katana_fake", 20 ],
       [ "katana_inferior", 2 ],
-      [ "cutlass", 1 ],
       [ "cutlass_fake", 25 ],
       [ "cutlass_inferior", 2 ],
       [ "longbow", 10 ],

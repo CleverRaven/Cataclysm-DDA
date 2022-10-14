@@ -237,7 +237,7 @@
         "a": "f_dumpster",
         "b": "f_bluebell",
         "f": "f_dahlia",
-        "o": "f_oven",
+        "o": [ "f_oven", "f_gas_oven_microwave_combo" ],
         "{": "f_fridge"
       },
       "place_item": [

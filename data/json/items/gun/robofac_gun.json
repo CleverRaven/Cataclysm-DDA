@@ -17,6 +17,7 @@
     "symbol": "(",
     "color": "blue",
     "ammo": [ "NULL" ],
+    "extend": { "flags": [ "NO_TURRET" ] },
     "ranged_damage": { "damage_type": "bullet", "amount": -2 },
     "modes": [  ],
     "dispersion": 150,
@@ -25,6 +26,8 @@
     "default_mods": [ "robofac_handguard", "hybrid_sight_4x", "holo_sight", "robofac_laser_sight", "robofac_stock" ],
     "//": "Forward ejection port would require a different brass catcher design",
     "valid_mod_locations": [
+      [ "underbarrel", 1 ],
+      [ "rail", 1 ],
       [ "accessories", 2 ],
       [ "sling", 1 ],
       [ "grip", 1 ],

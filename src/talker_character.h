@@ -71,8 +71,13 @@ class talker_character_const: public talker
         bool has_max_power() const override;
         bool has_bionic( const bionic_id &bionics_id ) const override;
         bool knows_spell( const spell_id &sp ) const override;
-        int get_skill_level( const skill_id &skill ) const override;
+        int get_skill_level( const skill_id & ) const override;
+        int get_spell_level( const trait_id & ) const override;
+        int get_spell_level( const spell_id & ) const override;
+        int get_spell_exp( const spell_id & ) const override;
+        int get_highest_spell_level() const override;
         bool knows_proficiency( const proficiency_id &proficiency ) const override;
+        time_duration proficiency_practiced_time( const proficiency_id & ) const override;
 
         // effects and values
         bool has_effect( const efftype_id &effect_id, const bodypart_id &bp ) const override;
@@ -175,6 +180,9 @@ class talker_character: public talker_character_const
         void set_per_bonus( int value ) override;
         void set_power_cur( units::energy value ) override;
         void set_mana_cur( int value ) override;
+        void set_spell_level( const spell_id &, int ) override;
+        void set_spell_exp( const spell_id &, int ) override;
+        void set_proficiency_practiced_time( const proficiency_id &prof, int turns ) override;
         void mutate( const int &highest_cat_chance, const bool &use_vitamins ) override;
         void mutate_category( const mutation_category_id &mut_cat, const bool &use_vitamins ) override;
         void set_mutation( const trait_id &new_trait ) override;
@@ -223,6 +231,9 @@ class talker_character: public talker_character_const
         void remove_bionic( const bionic_id &old_bionic ) override;
         std::vector<skill_id> skills_teacheable() const override;
         std::string skill_seminar_text( const skill_id &s ) const override;
+        std::vector<bodypart_id> get_all_body_parts() const override;
+        int get_part_hp_cur( const bodypart_id &id ) const override;
+        void set_part_hp_cur( const bodypart_id &id, int set ) const override;
     protected:
         talker_character() = default;
         Character *me_chr;

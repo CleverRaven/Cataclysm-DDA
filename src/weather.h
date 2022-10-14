@@ -13,7 +13,7 @@
 #include "weather_gen.h"
 #include "weather_type.h"
 
-class JsonIn;
+class JsonObject;
 class JsonOut;
 class translation;
 
@@ -44,6 +44,28 @@ static constexpr int BODYTEMP_SCORCHING = 9500;
 //!< Additional Threshold before speed is impacted by heat.
 static constexpr int BODYTEMP_THRESHOLD = 500;
 ///@}
+
+// Rough tresholds for sunlight intensity in W/m2.
+namespace irradiance
+{
+// Sun at 5° on a clear day. Minimal for what is considered direct sunlight
+constexpr float minimal = 87;
+
+// Sun at 25° on a clear day.
+constexpr float low = 422;
+
+// Sun at 35° on a clear day.
+constexpr float moderate = 573;
+
+// Sun at 45° on a clear day.
+constexpr float high = 707;
+
+// Sun at 60° on a clear day.
+constexpr float very_high = 866;
+
+// Sun at 65° on a clear day.
+constexpr float extreme = 906;
+} // namespace irradiance
 
 #include <cstdint>
 #include <iosfwd>
@@ -181,6 +203,9 @@ class weather_manager
         weather_type_id weather_id = WEATHER_NULL;
         int winddirection = 0;
         int windspeed = 0;
+
+        // For debug menu option "Force temperature"
+        cata::optional<units::temperature> forced_temperature;
         // Cached weather data
         pimpl<w_point> weather_precise;
         cata::optional<int> wind_direction_override;
@@ -197,7 +222,8 @@ class weather_manager
         // Returns outdoor or indoor temperature of given location
         units::temperature get_temperature( const tripoint_abs_omt &location ) const;
         void clear_temp_cache();
-        static void unserialize_all( JsonIn &jsin );
+        static void serialize_all( JsonOut &json );
+        static void unserialize_all( const JsonObject &w );
 };
 
 weather_manager &get_weather();

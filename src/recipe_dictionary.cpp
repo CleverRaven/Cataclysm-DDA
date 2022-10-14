@@ -138,6 +138,20 @@ std::vector<const recipe *> recipe_subset::hidden() const
     return res;
 }
 
+std::vector<const recipe *> recipe_subset::expanded() const
+{
+    std::vector<const recipe *> res;
+
+    std::copy_if( recipes.begin(), recipes.end(), std::back_inserter( res ), [&]( const recipe * r ) {
+        if( !*r || r->obsolete ) {
+            return false;
+        }
+        return uistate.expanded_recipes.find( r->ident() ) != uistate.expanded_recipes.end();
+    } );
+
+    return res;
+}
+
 std::vector<const recipe *> recipe_subset::recent() const
 {
     std::vector<const recipe *> res;
@@ -153,19 +167,7 @@ std::vector<const recipe *> recipe_subset::recent() const
     return res;
 }
 
-std::vector<const recipe *> recipe_subset::nested() const
-{
-    std::vector<const recipe *> res;
 
-    std::copy_if( recipes.begin(), recipes.end(), std::back_inserter( res ), [&]( const recipe * r ) {
-        if( !*r || r->obsolete ) {
-            return false;
-        }
-        return uistate.nested_recipes.find( r->ident() ) != uistate.nested_recipes.end();
-    } );
-
-    return res;
-}
 std::vector<const recipe *> recipe_subset::search(
     const std::string &txt, const search_type key,
     const std::function<void( size_t, size_t )> &progress_callback ) const
@@ -350,8 +352,9 @@ bool recipe_subset::empty_category( const std::string &cat, const std::string &s
         return uistate.recent_recipes.empty();
     } else if( subcat == "CSC_*_HIDDEN" ) {
         return uistate.hidden_recipes.empty();
-    } else if( subcat == "CSC_*_NESTED" ) {
-        return uistate.nested_recipes.empty();
+    } else if( cat == "CC_*" ) {
+        //any other category in CC_* is populated
+        return false;
     }
 
     auto iter = category.find( cat );
@@ -428,7 +431,7 @@ recipe &recipe_dictionary::load( const JsonObject &jo, const std::string &src,
     if( jo.has_string( "copy-from" ) ) {
         auto base = recipe_id( jo.get_string( "copy-from" ) );
         if( !out.count( base ) ) {
-            deferred.emplace_back( jo.get_source_location(), src );
+            deferred.emplace_back( jo, src );
             jo.allow_omitted_members();
             return null_recipe;
         }
@@ -454,6 +457,18 @@ std::map<recipe_id, recipe>::const_iterator recipe_dictionary::begin() const
 std::map<recipe_id, recipe>::const_iterator recipe_dictionary::end() const
 {
     return recipes.end();
+}
+
+std::map<recipe_id, const recipe *> recipe_dictionary::find_obsoletes(
+    const itype_id &item_id ) const
+{
+    std::map<recipe_id, const recipe *> ret;
+    auto p = obsoletes.equal_range( item_id );
+    for( auto it = p.first; it != p.second; ++it ) {
+        const recipe *r = it->second;
+        ret.emplace( r->ident(), r );
+    }
+    return ret;
 }
 
 bool recipe_dictionary::is_item_on_loop( const itype_id &i ) const
@@ -611,6 +626,9 @@ void recipe_dictionary::finalize()
 
     // Cache auto-learn recipes and blueprints
     for( const auto &e : recipe_dict.recipes ) {
+        if( e.second.obsolete ) {
+            recipe_dict.obsoletes.emplace( e.second.result(), &e.second );
+        }
         if( e.second.autolearn ) {
             recipe_dict.autolearn.insert( &e.second );
         }
@@ -669,6 +687,7 @@ void recipe_dictionary::reset()
     recipe_dict.blueprints.clear();
     recipe_dict.autolearn.clear();
     recipe_dict.nested.clear();
+    recipe_dict.obsoletes.clear();
     recipe_dict.recipes.clear();
     recipe_dict.uncraft.clear();
     recipe_dict.items_on_loops.clear();

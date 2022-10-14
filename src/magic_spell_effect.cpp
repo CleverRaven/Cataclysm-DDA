@@ -1258,7 +1258,7 @@ void spell_effect::transform_blast( const spell &sp, Creature &caster,
     const std::set<tripoint> area = spell_effect_area( sp, target, caster );
     for( const tripoint &location : area ) {
         if( one_in( sp.damage() ) ) {
-            transform->transform( location );
+            transform->transform( get_map(), tripoint_bub_ms{ location } );
         }
     }
 }
@@ -1290,9 +1290,9 @@ void spell_effect::pull_to_caster( const spell &sp, Creature &caster, const trip
     caster.longpull( sp.name(), target );
 }
 
-void spell_effect::explosion( const spell &sp, Creature &, const tripoint &target )
+void spell_effect::explosion( const spell &sp, Creature &caster, const tripoint &target )
 {
-    explosion_handler::explosion( target, sp.damage(), sp.aoe() / 10.0, true );
+    explosion_handler::explosion( &caster, target, sp.damage(), sp.aoe() / 10.0, true );
 }
 
 void spell_effect::flashbang( const spell &sp, Creature &caster, const tripoint &target )

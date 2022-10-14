@@ -8,6 +8,7 @@
 #include <utility>
 #include <vector>
 
+#include "cata_path.h"
 #include "map_extras.h"
 #include "string_id.h"
 
@@ -135,7 +136,7 @@ class auto_note_settings
 
     private:
         /// Build string containing path to the auto notes save file for the active player.
-        std::string build_save_path() const;
+        cata_path build_save_path() const;
 
         /// This set contains the ID strings of all map extras that have auto note enabled for a character.
         std::unordered_set<map_extra_id> character_autoNoteEnabled;

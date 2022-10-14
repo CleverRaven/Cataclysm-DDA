@@ -24,6 +24,7 @@ static constexpr int KITTEN = 1;
 robot_finds_kitten::robot_finds_kitten()
 {
     ret = false;
+    // NOLINTNEXTLINE(modernize-avoid-c-arrays)
     char ktile[83] =
         "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!#&()*+./:;=?![]{|}y";
 

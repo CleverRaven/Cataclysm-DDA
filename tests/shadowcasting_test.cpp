@@ -353,8 +353,8 @@ static void do_3d_benchmark(
     const int iterations )
 {
     struct test_grids {
-        cata::mdarray<float, point_bub_ms> seen_squares[OVERMAP_LAYERS] = {};
-        cata::mdarray<bool, point_bub_ms> floor_cache[OVERMAP_LAYERS] = {};
+        std::array<cata::mdarray<float, point_bub_ms>, OVERMAP_LAYERS> seen_squares = {};
+        std::array<cata::mdarray<bool, point_bub_ms>, OVERMAP_LAYERS> floor_cache = {};
     };
 
     std::unique_ptr<test_grids> grids = std::make_unique<test_grids>();
@@ -386,12 +386,12 @@ static void do_3d_benchmark(
 static void shadowcasting_3d_benchmark( const int iterations )
 {
     struct test_grids {
-        cata::mdarray<float, point_bub_ms>
-        transparency_cache[OVERMAP_LAYERS] = {};
+        std::array<cata::mdarray<float, point_bub_ms>, OVERMAP_LAYERS> transparency_cache = {};
     };
 
     std::unique_ptr<test_grids> grids = std::make_unique<test_grids>();
-    cata::mdarray<float, point_bub_ms> *transparency_cache = grids->transparency_cache;
+    std::array<cata::mdarray<float, point_bub_ms>, OVERMAP_LAYERS> &transparency_cache =
+        grids->transparency_cache;
     array_of_grids_of<const float> transparency_caches;
     for( int z = -OVERMAP_DEPTH; z <= OVERMAP_HEIGHT; z++ ) {
         randomly_fill_transparency( transparency_cache[z + OVERMAP_DEPTH] );
@@ -558,7 +558,7 @@ static void run_spot_check( const grid_overlay &test_case, const grid_overlay &e
     if( !fov_3d ) {
         REQUIRE( test_case.depth() == 1 );
     }
-    level_cache *caches[OVERMAP_LAYERS];
+    std::array<level_cache *, OVERMAP_LAYERS> caches;
     array_of_grids_of<float> seen_squares;
     array_of_grids_of<const float> transparency_cache;
     array_of_grids_of<const bool> floor_cache;
