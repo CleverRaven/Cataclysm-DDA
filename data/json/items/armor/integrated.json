@@ -849,5 +849,236 @@
         "cover_vitals": 60
       }
     ]
+  },
+  {
+    "id": "armor_bio_head",
+    "type": "ARMOR",
+    "category": "armor",
+    "weight": "400 g",
+    "volume": "400 ml",
+    "price": 0,
+    "price_postapoc": 0,
+    "symbol": ",",
+    "color": "white",
+    "warmth": 0,
+    "environmental_protection": 0,
+    "material_thickness": 1.0,
+    "flags": [ "INTEGRATED", "UNBREAKABLE", "PERSONAL", "WATER_FRIENDLY", "NO_REPAIR", "ALLOWS_NATURAL_ATTACKS" ],
+    "material": [ "subdermal_alloy" ],
+    "name": { "str_sp": "alloy plating - head" },
+    "description": "Subdermal magnesium alloy plating installed within your head that helps mitigate blunt trauma and bullets.",
+    "armor": [
+      {
+        "material": [ { "type": "subdermal_alloy", "covered_by_mat": 100, "thickness": 1 } ],
+        "covers": [ "head" ],
+        "specifically_covers": [ "head_crown", "head_nape" ],
+        "coverage": 95,
+        "encumbrance": 2,
+        "cover_vitals": 60
+      },
+      {
+        "material": [ { "type": "subdermal_alloy", "covered_by_mat": 100, "thickness": 1 } ],
+        "covers": [ "head" ],
+        "specifically_covers": [ "head_ear_l", "head_ear_r" ],
+        "coverage": 90,
+        "encumbrance": 0,
+        "cover_vitals": 55
+      },
+      {
+        "material": [ { "type": "subdermal_alloy", "covered_by_mat": 100, "thickness": 1 } ],
+        "covers": [ "head" ],
+        "specifically_covers": [ "head_forehead" ],
+        "coverage": 100,
+        "encumbrance": 0,
+        "cover_vitals": 65
+      },
+      {
+        "material": [ { "type": "subdermal_alloy", "covered_by_mat": 100, "thickness": 1 } ],
+        "covers": [ "head" ],
+        "specifically_covers": [ "heat_throat" ],
+        "coverage": 85,
+        "encumbrance": 0,
+        "cover_vitals": 50
+      },
+      {
+        "material": [ { "type": "subdermal_alloy", "covered_by_mat": 100, "thickness": 1 } ],
+        "covers": [ "mouth" ],
+        "coverage": 70,
+        "encumbrance": 0,
+        "cover_vitals": 25
+      }
+    ]
+  },
+  {
+    "id": "armor_bio_torso",
+    "type": "ARMOR",
+    "category": "armor",
+    "weight": "750 g",
+    "volume": "750 ml",
+    "price": 0,
+    "price_postapoc": 0,
+    "symbol": ",",
+    "color": "white",
+    "warmth": 0,
+    "environmental_protection": 0,
+    "material_thickness": 1.0,
+    "flags": [ "INTEGRATED", "UNBREAKABLE", "PERSONAL", "WATER_FRIENDLY", "NO_REPAIR", "ALLOWS_NATURAL_ATTACKS" ],
+    "material": [ "subdermal_alloy" ],
+    "name": { "str_sp": "alloy plating - torso" },
+    "description": "Subdermal magnesium alloy plating installed within your torso that helps mitigate blunt trauma and bullets.",
+    "armor": [
+      {
+        "material": [ { "type": "subdermal_alloy", "covered_by_mat": 100, "thickness": 1.2 } ],
+        "covers": [ "torso" ],
+        "specifically_covers": [ "torso_upper" ],
+        "coverage": 95,
+        "encumbrance": 1,
+        "cover_vitals": 75
+      },
+      {
+        "material": [ { "type": "subdermal_alloy", "covered_by_mat": 100, "thickness": 1 } ],
+        "covers": [ "torso" ],
+        "specifically_covers": [ "torso_lower" ],
+        "coverage": 90,
+        "encumbrance": 0,
+        "cover_vitals": 70
+      }
+    ]
+  },
+  {
+    "id": "armor_bio_arms",
+    "type": "ARMOR",
+    "category": "armor",
+    "weight": "350 g",
+    "volume": "350 ml",
+    "price": 0,
+    "price_postapoc": 0,
+    "symbol": ",",
+    "color": "white",
+    "warmth": 0,
+    "environmental_protection": 0,
+    "material_thickness": 1.0,
+    "flags": [ "INTEGRATED", "UNBREAKABLE", "PERSONAL", "WATER_FRIENDLY", "NO_REPAIR", "ALLOWS_NATURAL_ATTACKS" ],
+    "material": [ "subdermal_alloy" ],
+    "name": { "str_sp": "alloy plating - arms" },
+    "description": "Subdermal magnesium alloy plating installed within your arms and hands that helps mitigate blunt trauma and bullets.",
+    "armor": [
+      {
+        "material": [ { "type": "subdermal_alloy", "covered_by_mat": 100, "thickness": 1 } ],
+        "covers": [ "arm_l", "arm_r" ],
+        "specifically_covers": [ "arm_upper_l", "arm_lower_l", "arm_upper_r", "arm_lower_r" ],
+        "coverage": 95,
+        "encumbrance": 1,
+        "cover_vitals": 75
+      },
+      {
+        "material": [ { "type": "subdermal_alloy", "covered_by_mat": 100, "thickness": 1 } ],
+        "covers": [ "arm_l", "arm_r" ],
+        "specifically_covers": [ "arm_elbow_l", "arm_shoulder_l", "arm_elbow_r", "arm_shoulder_r" ],
+        "coverage": 45,
+        "encumbrance": 0,
+        "cover_vitals": 50
+      },
+      {
+        "material": [ { "type": "subdermal_alloy", "covered_by_mat": 100, "thickness": 0.8 } ],
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_back_l", "hand_back_r" ],
+        "coverage": 80,
+        "encumbrance": 0,
+        "cover_vitals": 40
+      },
+      {
+        "material": [ { "type": "subdermal_alloy", "covered_by_mat": 100, "thickness": 0.5 } ],
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ],
+        "coverage": 60,
+        "encumbrance": 0,
+        "cover_vitals": 25
+      },
+      {
+        "material": [ { "type": "subdermal_alloy", "covered_by_mat": 100, "thickness": 0.8 } ],
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_wrist_l", "hand_wrist_r" ],
+        "coverage": 40,
+        "encumbrance": 0,
+        "cover_vitals": 20
+      }
+    ]
+  },
+  {
+    "id": "armor_bio_legs",
+    "type": "ARMOR",
+    "category": "armor",
+    "weight": "500 g",
+    "volume": "500 ml",
+    "price": 0,
+    "price_postapoc": 0,
+    "symbol": ",",
+    "color": "white",
+    "warmth": 0,
+    "environmental_protection": 0,
+    "material_thickness": 1.0,
+    "flags": [ "INTEGRATED", "UNBREAKABLE", "PERSONAL", "WATER_FRIENDLY", "NO_REPAIR", "ALLOWS_NATURAL_ATTACKS" ],
+    "material": [ "subdermal_alloy" ],
+    "name": { "str_sp": "alloy plating - legs" },
+    "description": "Subdermal magnesium alloy plating installed within your legs and feet that helps mitigate blunt trauma and bullets.",
+    "armor": [
+      {
+        "material": [ { "type": "subdermal_alloy", "covered_by_mat": 100, "thickness": 1.2 } ],
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_upper_l", "leg_upper_r" ],
+        "coverage": 95,
+        "encumbrance": 1,
+        "cover_vitals": 75
+      },
+      {
+        "material": [ { "type": "subdermal_alloy", "covered_by_mat": 100, "thickness": 1 } ],
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_lower_l", "leg_lower_r" ],
+        "coverage": 95,
+        "encumbrance": 0,
+        "cover_vitals": 70
+      },
+      {
+        "material": [ { "type": "subdermal_alloy", "covered_by_mat": 100, "thickness": 1 } ],
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_hip_l", "leg_hip_r" ],
+        "coverage": 90,
+        "encumbrance": 0,
+        "cover_vitals": 65
+      },
+      {
+        "material": [ { "type": "subdermal_alloy", "covered_by_mat": 100, "thickness": 0.8 } ],
+        "covers": [ "knee_l", "knee_r" ],
+        "specifically_covers": [ "leg_knee_l", "leg_knee_r" ],
+        "coverage": 45,
+        "encumbrance": 0,
+        "cover_vitals": 50
+      },
+      {
+        "material": [ { "type": "subdermal_alloy", "covered_by_mat": 100, "thickness": 0.8 } ],
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [ "foot_ankle_l", "foot_ankle_r", "foot_heel_l", "foot_heel_r" ],
+        "coverage": 80,
+        "encumbrance": 1,
+        "cover_vitals": 40
+      },
+      {
+        "material": [ { "type": "subdermal_alloy", "covered_by_mat": 100, "thickness": 0.8 } ],
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [ "foot_arch_l", "foot_arch_r" ],
+        "coverage": 90,
+        "encumbrance": 0,
+        "cover_vitals": 45
+      },
+      {
+        "material": [ { "type": "subdermal_alloy", "covered_by_mat": 100, "thickness": 0.8 } ],
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [ "foot_sole_l", "foot_sole_r" ],
+        "coverage": 70,
+        "encumbrance": 0,
+        "cover_vitals": 30
+      }
+    ]
   }
 ]
