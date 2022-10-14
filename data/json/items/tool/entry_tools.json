@@ -128,7 +128,7 @@
     "type": "TOOL",
     "name": { "str": "heavy crowbar" },
     "looks_like": "crowbar",
-    "description": "A 5-foot-long construction prybar.  Essentially a long solid steel rod with a hardened chisel tip.",
+    "description": "A 5-foot-long construction prybar.  Essentially a long, solid steel rod with a hardened chisel tip.",
     "weight": "4 kg",
     "volume": "725 ml",
     "longest_side": "150 cm",
