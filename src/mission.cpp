@@ -40,8 +40,8 @@
 
 #define dbg(x) DebugLog((x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
-static const itype_id itype_null( "null" );
 static const efftype_id effect_pet( "pet" );
+static const itype_id itype_null( "null" );
 
 static const mission_type_id mission_NULL( "NULL" );
 
