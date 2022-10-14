@@ -6110,7 +6110,7 @@
   {
     "type": "mutation",
     "id": "PAWS_HUGE",
-    "name": { "str": "Crushing Paws" },
+    "name": { "str": "Ursine Paws" },
     "points": 2,
     "visibility": 6,
     "ugliness": 3,
@@ -6135,7 +6135,7 @@
     "threshreq": [ "THRESH_URSINE" ],
     "prereqs": [ "PAWS_LARGE" ],
     "cancels": [ "TALONS" ],
-    "category": [ "BEAST", "URSINE" ]
+    "category": [ "URSINE" ]
   },
   {
     "type": "mutation",
