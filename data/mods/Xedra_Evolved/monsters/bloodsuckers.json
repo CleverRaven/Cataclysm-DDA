@@ -317,8 +317,6 @@
         "fake_dex": 10,
         "no_ammo_sound": "hiss!",
         "ranges": [ [ 0, 10, "DEFAULT" ] ],
-        "//": "(ferals don't care about max-effective range.)",
-        "ranges": [ [ 2, 25, "DEFAULT" ] ],
         "require_targeting_player": false,
         "description": "The renfield shoots their flamethrower!"
       }
@@ -389,11 +387,10 @@
     ]
   },
   {
-    "id": "mon_mutant_evolved",
+    "id": "mon_renfield_abomination",
     "type": "MONSTER",
-    "name": { "str": "bestial mutant" },
+    "name": { "str": "abominable renfield" },
     "description": "A towering mutated test subject, covered in thick fur and the torn bottom part of a jumpsuit.  Their legs end in large padded feet not unlike a dog's, but they still manage to stand upright, freeing up their clawed hands to tear you apart.",
-    "copy-from": "mon_mutant_antler",
     "symbol": "A",
     "color": "brown_red",
     "default_faction": "vampire",
@@ -430,9 +427,18 @@
     ],
     "death_drops": "mon_renfield_abomination_death_drops",
     "regenerates": 7,
-    "extend": {
-      "flags": [ "SMELLS", "KEENNOSE", "PUSH_MON", "PUSH_VEH", "CAN_OPEN_DOORS" ],
-      "anger_triggers": [ "PLAYER_CLOSE", "PLAYER_WEAK", "HURT" ]
-    }
+    "flags": [
+      "SEES",
+      "HEARS",
+      "BASHES",
+      "GROUP_BASH",
+      "PUSH_MON",
+      "ELECTRONIC",
+      "WARM",
+      "HUMAN",
+      "PATH_AVOID_DANGER_1",
+      "PRIORITIZE_TARGETS"
+    ],
+    "anger_triggers": [ "FRIEND_DIED", "FRIEND_ATTACKED", "HURT" ]
   }
 ]
