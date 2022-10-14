@@ -81,14 +81,7 @@
     "description": "Segmented magnesium alloy plating installed within your head and jaw, partially mitigating blunt impacts and bullet wounds.",
     "occupied_bodyparts": [ [ "head", 3 ], [ "mouth", 1 ] ],
     "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ],
-    "mutation_conflicts": [
-      "AMORPHOUS",
-      "MINOTAUR",
-      "MUZZLE",
-      "MUZZLE_BEAR",
-      "MUZZLE_RAT",
-      "MUZZLE_LONG"
-    ],
+    "mutation_conflicts": [ "AMORPHOUS", "MINOTAUR", "MUZZLE", "MUZZLE_BEAR", "MUZZLE_RAT", "MUZZLE_LONG" ],
     "passive_pseudo_items": [ "armor_bio_head" ]
   },
   {
@@ -98,16 +91,7 @@
     "description": "Segmented magnesium alloy plating installed within your legs and feet, partially mitigating blunt impacts and bullet wounds.",
     "occupied_bodyparts": [ [ "leg_l", 6 ], [ "leg_r", 6 ], [ "foot_l", 1 ], [ "foot_r", 1 ] ],
     "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ],
-    "mutation_conflicts": [
-      "AMORPHOUS",
-      "BENDY2",
-      "BENDY3",
-      "LEG_TENTACLES",
-      "LEG_TENT_BRACE",
-      "HOOVES",
-      "GASTROPOD_FOOT",
-      "GASTROPOD_BALANCE"
-    ],
+    "mutation_conflicts": [ "AMORPHOUS", "BENDY2", "BENDY3", "LEG_TENTACLES", "LEG_TENT_BRACE", "HOOVES", "GASTROPOD_FOOT", "GASTROPOD_BALANCE" ],
     "passive_pseudo_items": [ "armor_bio_legs" ]
   },
   {
