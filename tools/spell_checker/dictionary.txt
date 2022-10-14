@@ -16,6 +16,7 @@ aerially
 aeterna
 aetheric
 afterbirth
+afterglow
 afterimage
 afterlife
 aftermarket
@@ -533,6 +534,7 @@ dryptosaurus
 drywalled
 dunderfuck
 dyoplosaurus
+dysmorphia
 dysrhythmia
 earthbag
 earthbags
@@ -564,6 +566,7 @@ encumbers
 endochitin
 endolymph
 ener
+enervating
 enjoyability
 envenomations
 eocs
@@ -1345,6 +1348,7 @@ pachyrhinosaurus
 packable
 paf
 palpably
+palpitate
 panoplosaurus
 papyrifera
 parabellum
