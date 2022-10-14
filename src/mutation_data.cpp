@@ -950,7 +950,11 @@ void mutation_branch::finalize()
         for( const mutation_category_id &cat : branch.category ) {
             mutations_category[cat].push_back( trait_id( branch.id ) );
         }
-        mutations_category[mutation_category_ANY].push_back( trait_id( branch.id ) );
+        // Don't include dummy mutations for the ANY category, since they have a very specific use case
+        // Otherwise, the system will prioritize them
+        if( !branch.dummy ) {
+            mutations_category[mutation_category_ANY].push_back( trait_id( branch.id ) );
+        }
     }
     finalize_trait_blacklist();
 }
