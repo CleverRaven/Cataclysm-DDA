@@ -2104,7 +2104,7 @@ void load_construction( const JsonObject &jo )
             { "done_dig_grave_nospawn", construct::done_dig_grave_nospawn },
             { "done_dig_stair", construct::done_dig_stair },
             { "done_mine_downstair", construct::done_mine_downstair },
-			{ "done_dig_slope", construct::done_dig_slope },
+            { "done_dig_slope", construct::done_dig_slope },
             { "done_mine_upstair", construct::done_mine_upstair },
             { "done_mine_upslope", construct::done_dig_upslope },
             { "done_wood_stairs", construct::done_wood_stairs },
