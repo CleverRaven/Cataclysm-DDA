@@ -47,7 +47,6 @@
     - [Categories](#categories)
     - [Death Functions](#death-functions)
     - [Sizes](#sizes)
-    - [Special attacks](#special-attacks)
   - [Overmap](#overmap)
     - [Overmap connections](#overmap-connections)
     - [Overmap specials](#overmap-specials)
@@ -1205,11 +1204,6 @@ Monster physical sizes.
 - ```MEDIUM``` Human
 - ```SMALL``` Dog
 - ```TINY``` Squirrel
-
-
-### Special attacks
-
-Special attacks have been moved to [MONSTER_SPECIAL_ATTACKS.md](MONSTER_SPECIAL_ATTACKS.md) as they have all been migrated away from flags.
 
 
 ## Overmap
