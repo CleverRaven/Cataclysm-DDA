@@ -1463,7 +1463,7 @@ int vehicle::install_part( const point &dp, const vehicle_part &new_part )
     bool enable = false;
     if( new_part.is_engine() ) {
         enable = true;
-        // if smart conntroller is enabled there is charge in battery, no need to test it
+        // if smart controller is enabled there is charge in battery, no need to test it
         if( has_enabled_smart_controller && !engine_on && new_part.info().fuel_type == fuel_type_battery &&
             !has_available_electric_engine() ) {
             engine_on = true;
