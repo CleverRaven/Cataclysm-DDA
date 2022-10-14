@@ -986,7 +986,7 @@
     "type": "TOOL",
     "category": "tools",
     "name": { "str": "vortex device" },
-    "description": "A small, hefty, boringlooking machine.  Its weighted trapezoidal frame has a single on-off switch and a speed dial, and on top of it sits a rubber receptacle.  Pressing a test tube into the receptacle would, with power, rapidly shake and mix the contents of the test tube.  It's surprisingly fun to use.",
+    "description": "A small, hefty, boring-looking machine.  Its weighted trapezoidal frame has a single on-off switch and a speed dial, and on top of it sits a rubber receptacle.  Pressing a test tube into the receptacle would, with power, rapidly shake and mix the contents of the test tube.  It's surprisingly fun to use.",
     "weight": "3500 g",
     "volume": "750 ml",
     "price": 1000,
