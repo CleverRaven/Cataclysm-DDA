@@ -851,7 +851,7 @@
     "copy-from": "shotgun_base",
     "type": "GUN",
     "name": { "str": "M26-MASS standalone shotgun" },
-    "description": "The Modular Accessory Shotgun System, an underbarrel bolt-action shotgun that was inspired by the \"Masterkey\", and fixed most of its predecessor's problems.  This one is configured for standalone usage.",
+    "description": "The Modular Accessory Shotgun System is an underbarrel bolt-action shotgun that was inspired by the \"Masterkey\" and fixed most of its predecessor's problems.  This one is configured for standalone usage.",
     "variant_type": "gun",
     "weight": "1900 g",
     "volume": "2390 ml",

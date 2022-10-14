@@ -41,6 +41,6 @@
     "max_level": 10,
     "spell_class": "DREAMSMITH",
     "energy_source": "MANA",
-    "flags": [ "PERMANENT", "NO_LEGS", "CONCENTRATE" ]
+    "flags": [ "PERMANENT_ALL_LEVELS", "NO_LEGS", "CONCENTRATE" ]
   }
 ]

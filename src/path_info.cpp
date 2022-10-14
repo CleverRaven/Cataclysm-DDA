@@ -104,6 +104,10 @@ void PATH_INFO::set_standard_filenames()
     // Special: data_dir and gfx_dir
     std::string prefix;
     cata_path prefix_path;
+
+    // Data is always relative to itself. Also, the base path might not be writeable.
+    datadir_path_value = cata_path{ cata_path::root_path::data, fs::path{} };
+
     if( !base_path_value.empty() ) {
 #if defined(DATA_DIR_PREFIX)
         datadir_value = base_path_value + "share/cataclysm-dda/";
@@ -119,9 +123,6 @@ void PATH_INFO::set_standard_filenames()
         // Base path is empty here but everything else is still relative to base, which is empty.
         prefix_path = base_path_path_value;
     }
-
-    // Data is always relative to itself. Also, the base path might not be writeable.
-    datadir_path_value = cata_path{ cata_path::root_path::data, fs::path{} };
 
     gfxdir_value = prefix + "gfx/";
     gfxdir_path_value = prefix_path / "gfx";

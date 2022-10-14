@@ -38,7 +38,7 @@ You have three major choices here: GCC, Clang and MXE.
 
 Cataclysm is targeting the C++14 standard and that means you'll need a compiler that supports it. You can easily check if your version of `g++` supports C++14 by running:
 
-    $ g++ --std=c++14
+    $ `g++ --std=c++14`
     g++: fatal error: no input files
     compilation terminated.
 
@@ -96,7 +96,7 @@ There is a couple of other possible options - feel free to read the `Makefile`.
 
 If you have a multi-core computer you'd probably want to add `-jX` to the options, where `X` is your CPU's number of threads (generally twice the number of your CPU cores). Alternatively, you can add `-j$(nproc)` for the build to use all of your CPU processors.
 
-Examples: 
+Examples:
 - `make -j4 CLANG=1 CCACHE=1 NATIVE=linux64 RELEASE=1 TILES=1`
 - `make -j$(nproc) CLANG=1 TILES=1 SOUND=0`
 
@@ -116,7 +116,7 @@ PREFIX specifies a directory which will be the prefix for binaries, resources, a
 
 If you want to compile localization files for specific languages, you can add the `LANGUAGES="<lang_id_1> [lang_id_2] [...]"` option to the `make` command:
 
-    make LANGUAGES="zh_CN zh_TW"
+    `make LANGUAGES="zh_CN zh_TW"`
 
 You can get the language ID from the filenames of `*.po` in `lang/po` directory. Setting `LOCALIZE=1` only may not tell `make` to compile those localization files for you.
 
@@ -139,7 +139,7 @@ It may also be possible to get away with fewer dependencies, but this set has be
 
 Once the above libraries are installed, compile with:
 
-`make -j$(nproc) TILES=1 SOUND=1 RELEASE=1`
+    `make -j$(nproc) TILES=1 SOUND=1 RELEASE=1`
 
 ## Linux (native) ncurses builds
 
@@ -150,13 +150,13 @@ Dependencies:
 
 Install:
 
-    sudo apt-get install libncurses5-dev libncursesw5-dev build-essential astyle
+    `sudo apt-get install libncurses5-dev libncursesw5-dev build-essential astyle`
 
 ### Building
 
 Run:
 
-    make
+    `make`
 
 ## Linux (native) SDL builds
 
@@ -170,17 +170,17 @@ Dependencies:
 
 Install:
 
-    sudo apt-get install libsdl2-dev libsdl2-ttf-dev libsdl2-image-dev libsdl2-mixer-dev libfreetype6-dev build-essential
+    `sudo apt-get install libsdl2-dev libsdl2-ttf-dev libsdl2-image-dev libsdl2-mixer-dev libfreetype6-dev build-essential`
 
 ### Building
 
 A simple installation could be done by simply running:
 
-    make TILES=1
+    `make TILES=1`
 
 A more comprehensive alternative is:
 
-    make -j2 TILES=1 SOUND=1 RELEASE=1 USE_HOME_DIR=1
+    `make -j2 TILES=1 SOUND=1 RELEASE=1 USE_HOME_DIR=1`
 
 The -j2 flag means it will compile with two parallel processes. It can be omitted or changed to -j4 in a more modern processor. If there is no desire to have sound, those flags can also be omitted. The USE_HOME_DIR flag places the user files, like configurations and saves, into the home folder, making it easier for backups, and can also be omitted.
 
@@ -195,13 +195,13 @@ Dependencies:
 
 Install:
 
-    sudo apt-get install libc6-dev-i386 lib32stdc++-dev g++-multilib lib32ncursesw5-dev
+    `sudo apt-get install libc6-dev-i386 lib32stdc++-dev g++-multilib lib32ncursesw5-dev`
 
 ### Building
 
 Run:
 
-    make NATIVE=linux32
+    `make NATIVE=linux32`
 
 ## Cross-compile to Windows from Linux
 
@@ -217,20 +217,22 @@ Installation
 <!-- astyle and lzip added to initial sudo apt install string to forestall complaints from MinGW and make -->
 <!-- ncurses removed from make MXE_TARGETS because we're not gonna be cross-compiling ncurses -->
 
-    sudo apt install astyle autoconf automake autopoint bash bison bzip2 cmake flex gettext git g++ gperf intltool libffi-dev libgdk-pixbuf2.0-dev libtool libltdl-dev libssl-dev libxml-parser-perl lzip make mingw-w64 openssl p7zip-full patch perl pkg-config python ruby scons sed unzip wget xz-utils g++-multilib libc6-dev-i386 libtool-bin
-    mkdir -p ~/src/Cataclysm-DDA
-    mkdir -p ~/src/mxe
-    mkdir -p ~/src/libbacktrace
-    cd ~/src
-    git clone https://github.com/CleverRaven/Cataclysm-DDA.git ./Cataclysm-DDA
-    git clone https://github.com/mxe/mxe.git ./mxe
-    cd mxe
-    make -j$((`nproc`+0)) MXE_TARGETS='x86_64-w64-mingw32.static i686-w64-mingw32.static' MXE_PLUGIN_DIRS=plugins/gcc11 sdl2 sdl2_ttf sdl2_image sdl2_mixer gettext
-    cd ../libbacktrace/
-    wget https://github.com/Qrox/libbacktrace/releases/download/2020-01-03/libbacktrace-x86_64-w64-mingw32.tar.gz
-    wget https://github.com/Qrox/libbacktrace/releases/download/2020-01-03/libbacktrace-i686-w64-mingw32.tar.gz
-    tar -xzf libbacktrace-x86_64-w64-mingw32.tar.gz --exclude=LICENSE -C ~/src/mxe/usr/x86_64-w64-mingw32.static
-    tar -xzf libbacktrace-i686-w64-mingw32.tar.gz --exclude=LICENSE -C ~/src/mxe/usr/i686-w64-mingw32.static
+```bash
+sudo apt install astyle autoconf automake autopoint bash bison bzip2 cmake flex gettext git g++ gperf intltool libffi-dev libgdk-pixbuf2.0-dev libtool libltdl-dev libssl-dev libxml-parser-perl lzip make mingw-w64 openssl p7zip-full patch perl pkg-config python ruby scons sed unzip wget xz-utils g++-multilib libc6-dev-i386 libtool-bin
+mkdir -p ~/src/Cataclysm-DDA
+mkdir -p ~/src/mxe
+mkdir -p ~/src/libbacktrace
+cd ~/src
+git clone https://github.com/CleverRaven/Cataclysm-DDA.git ./Cataclysm-DDA
+git clone https://github.com/mxe/mxe.git ./mxe
+cd mxe
+make -j$((`nproc`+0)) MXE_TARGETS='x86_64-w64-mingw32.static i686-w64-mingw32.static' MXE_PLUGIN_DIRS=plugins/gcc11 sdl2 sdl2_ttf sdl2_image sdl2_mixer gettext
+cd ../libbacktrace/
+wget https://github.com/Qrox/libbacktrace/releases/download/2020-01-03/libbacktrace-x86_64-w64-mingw32.tar.gz
+wget https://github.com/Qrox/libbacktrace/releases/download/2020-01-03/libbacktrace-i686-w64-mingw32.tar.gz
+tar -xzf libbacktrace-x86_64-w64-mingw32.tar.gz --exclude=LICENSE -C ~/src/mxe/usr/x86_64-w64-mingw32.static
+tar -xzf libbacktrace-i686-w64-mingw32.tar.gz --exclude=LICENSE -C ~/src/mxe/usr/i686-w64-mingw32.static
+```
 
 Building all these packages from MXE might take a while, even on a fast computer. Be patient; the `-j` flag will take advantage of all your processor cores. If you are not planning on building for both 32-bit and 64-bit, you might want to adjust your MXE_TARGETS.  Additionally if not building for a particular target you can skip the curl and tar commands for the targets NOT being built.
 
@@ -238,23 +240,23 @@ An additional note: With C:DDA switching to gcc 11.2 with MXE (MingW), if you've
 
 Edit your `~/.profile` as follows:
 
-    export PLATFORM_32="~/src/mxe/usr/bin/i686-w64-mingw32.static-"
-    export PLATFORM_64="~/src/mxe/usr/bin/x86_64-w64-mingw32.static-"
+```bash
+export PLATFORM_32="~/src/mxe/usr/bin/i686-w64-mingw32.static-"
+export PLATFORM_64="~/src/mxe/usr/bin/x86_64-w64-mingw32.static-"
+```
 
 This is to ensure that the variables for the `make` command will not get reset after a power cycle.
 
 ### Building (SDL)
 
-    cd ~/src/Cataclysm-DDA
-
-***IMPORTANT:***
-
-The first time you set up your build environment, you must `touch VERSION.txt` to create a dummy file to avoid `make` complaining about not having a rule. You will need to add "VERSION.txt" to /.git/info/exclude in order to prevent your system from trying to `git push` this dummy file. Subsequent builds should not require `touch` again.
+    `cd ~/src/Cataclysm-DDA`
 
 Run one of the following commands based on your targeted environment:
 
-    make -j$((`nproc`+0)) CROSS="${PLATFORM_32}" TILES=1 SOUND=1 RELEASE=1 LOCALIZE=1 bindist
-    make -j$((`nproc`+0)) CROSS="${PLATFORM_64}" TILES=1 SOUND=1 RELEASE=1 LOCALIZE=1 bindist
+```bash
+make -j$((`nproc`+0)) CROSS="${PLATFORM_32}" TILES=1 SOUND=1 RELEASE=1 LOCALIZE=1 bindist
+make -j$((`nproc`+0)) CROSS="${PLATFORM_64}" TILES=1 SOUND=1 RELEASE=1 LOCALIZE=1 bindist
+```
 
 
 <!-- Building ncurses for Windows is a nonstarter, so the directions were removed. -->
@@ -308,9 +310,11 @@ Frameworks were obtained from the SDL official website as described in the next 
 
 To build the full feature tiles and sound enabled version with localizations enabled:
 
-    make dmgdist CROSS=x86_64-apple-darwin15- NATIVE=osx OSX_MIN=10.7 USE_HOME_DIR=1 CLANG=1
-      RELEASE=1 LOCALIZE=1 LANGUAGES=all TILES=1 SOUND=1 FRAMEWORK=1
-      OSXCROSS=1 LIBSDIR=../libs FRAMEWORKSDIR=../Frameworks
+```bash
+make dmgdist CROSS=x86_64-apple-darwin15- NATIVE=osx OSX_MIN=10.7 USE_HOME_DIR=1 CLANG=1
+  RELEASE=1 LOCALIZE=1 LANGUAGES=all TILES=1 SOUND=1 FRAMEWORK=1
+  OSXCROSS=1 LIBSDIR=../libs FRAMEWORKSDIR=../Frameworks
+```
 
 Make sure that `x86_64-apple-darwin15-clang++` is in `PATH` environment variable.
 
@@ -318,8 +322,10 @@ Make sure that `x86_64-apple-darwin15-clang++` is in `PATH` environment variable
 
 To build the full curses version with localizations enabled:
 
-    make dmgdist CROSS=x86_64-apple-darwin15- NATIVE=osx OSX_MIN=10.7 USE_HOME_DIR=1 CLANG=1
-      RELEASE=1 LOCALIZE=1 LANGUAGES=all OSXCROSS=1 LIBSDIR=../libs FRAMEWORKSDIR=../Frameworks
+```bash
+make dmgdist CROSS=x86_64-apple-darwin15- NATIVE=osx OSX_MIN=10.7 USE_HOME_DIR=1 CLANG=1
+  RELEASE=1 LOCALIZE=1 LANGUAGES=all OSXCROSS=1 LIBSDIR=../libs FRAMEWORKSDIR=../Frameworks
+```
 
 Make sure that `x86_64-apple-darwin15-clang++` is in `PATH` environment variable.
 
@@ -343,30 +349,36 @@ The Gradle build process automatically installs dependencies from [deps.zip](/an
 
 Install Linux dependencies. For a desktop Ubuntu installation:
 
-    sudo apt-get install openjdk-8-jdk-headless
+    `sudo apt-get install openjdk-8-jdk-headless`
 
 Install Android SDK and NDK:
 
-    wget https://dl.google.com/android/repository/sdk-tools-linux-4333796.zip
-    unzip sdk-tools-linux-4333796.zip -d ~/android-sdk
-    rm sdk-tools-linux-4333796.zip
-    ~/android-sdk/tools/bin/sdkmanager --update
-    ~/android-sdk/tools/bin/sdkmanager "tools" "platform-tools" "ndk-bundle"
-    ~/android-sdk/tools/bin/sdkmanager --licenses
+```bash
+wget https://dl.google.com/android/repository/sdk-tools-linux-4333796.zip
+unzip sdk-tools-linux-4333796.zip -d ~/android-sdk
+rm sdk-tools-linux-4333796.zip
+~/android-sdk/tools/bin/sdkmanager --update
+~/android-sdk/tools/bin/sdkmanager "tools" "platform-tools" "ndk-bundle"
+~/android-sdk/tools/bin/sdkmanager --licenses
+```
 
 Export Android environment variables (you can add these to the end of `~/.bashrc`):
 
-    export ANDROID_SDK_ROOT=~/android-sdk
-    export ANDROID_HOME=~/android-sdk
-    export ANDROID_NDK_ROOT=~/android-sdk/ndk-bundle
-    export PATH=$PATH:$ANDROID_SDK_ROOT/platform-tools
-    export PATH=$PATH:$ANDROID_SDK_ROOT/tools
-    export PATH=$PATH:$ANDROID_NDK_ROOT
+```bash
+export ANDROID_SDK_ROOT=~/android-sdk
+export ANDROID_HOME=~/android-sdk
+export ANDROID_NDK_ROOT=~/android-sdk/ndk-bundle
+export PATH=$PATH:$ANDROID_SDK_ROOT/platform-tools
+export PATH=$PATH:$ANDROID_SDK_ROOT/tools
+export PATH=$PATH:$ANDROID_NDK_ROOT
+```
 
 You can also use these additional variables if you want to use `ccache` to speed up subsequent builds:
 
-    export USE_CCACHE=1
-    export NDK_CCACHE=/usr/local/bin/ccache
+```bash
+export USE_CCACHE=1
+export NDK_CCACHE=/usr/local/bin/ccache
+```
 
 **Note:** Path to `ccache` can be different on your system.
 
@@ -374,8 +386,10 @@ You can also use these additional variables if you want to use `ccache` to speed
 
 Enable [Developer options on your Android device](https://developer.android.com/studio/debug/dev-options). Connect your device to your PC via USB cable and run:
 
-    adb devices
-    adb connect <devicename>
+```bash
+adb devices
+adb connect <devicename>
+```
 
 ### Building
 
@@ -383,13 +397,13 @@ To build an APK, use the Gradle wrapper command line tool (gradlew). The Android
 
 To build a debug APK, from the `android/` subfolder of the repository run:
 
-    ./gradlew assembleDebug
+    `./gradlew assembleDebug`
 
 This creates a debug APK in `./android/app/build/outputs/apk/` ready to be installed on your device.
 
 To build a debug APK and immediately deploy to your connected device over adb run:
 
-    ./gradlew installDebug
+    `./gradlew installDebug`
 
 To build a signed release APK (ie. one that can be installed on a device), [build an unsigned release APK and sign it manually](https://developer.android.com/studio/publish/app-signing#signing-manually).
 
@@ -409,11 +423,11 @@ Once you have Homebrew installed, open Terminal and run one of the following com
 
 For a stable tiles build:
 
-    brew install cataclysm
+    `brew install cataclysm`
 
 For an experimental tiles build built from the current HEAD of [master](https://github.com/CleverRaven/Cataclysm-DDA/tree/master/):
 
-    brew install cataclysm --HEAD
+    `brew install cataclysm --HEAD`
 
 Whichever build you choose, Homebrew will install the appropriate dependencies as needed. The installation will be in `/usr/local/Cellar/cataclysm` with a symlink named `cataclysm` in `/usr/local/bin`.
 
@@ -421,12 +435,14 @@ To launch Cataclysm, just open Terminal and run `cataclysm`.
 
 To update a stable tiles build simply run:
 
-    brew upgrade cataclysm
+    `brew upgrade cataclysm`
 
 To update an experimental build, you must uninstall Cataclysm then reinstall with `--HEAD`, triggering a new build from source.
 
-    brew uninstall cataclysm
-    brew install cataclysm --HEAD
+```bash
+brew uninstall cataclysm
+brew install cataclysm --HEAD
+```
 
 ## Advanced info for Developers
 
@@ -455,19 +471,19 @@ Alternatively, SDL shared libraries can be installed using a package manager:
 
 For Homebrew:
 
-    brew install sdl2 sdl2_image sdl2_ttf
+    `brew install sdl2 sdl2_image sdl2_ttf`
 
 with sound:
 
-    brew install sdl2_mixer libvorbis libogg
+    `brew install sdl2_mixer libvorbis libogg`
 
 For MacPorts:
 
-    sudo port install libsdl2 libsdl2_image libsdl2_ttf
+    `sudo port install libsdl2 libsdl2_image libsdl2_ttf`
 
 with sound:
 
-    sudo port install libsdl2_mixer libvorbis libogg
+    `sudo port install libsdl2_mixer libvorbis libogg`
 
 ### ncurses and gettext
 
@@ -475,29 +491,33 @@ ncurses (with wide character support enabled) and gettext are needed if you want
 
 For Homebrew:
 
-    brew install gettext ncurses
+    `brew install gettext ncurses`
 
 For MacPorts:
 
-    sudo port install gettext ncurses
-    hash -r
+```bash
+sudo port install gettext ncurses
+hash -r
+```
 
 ### gcc
 
 The version of gcc/g++ installed with the [Command Line Tools for Xcode](https://developer.apple.com/downloads/) is actually just a front end for the same Apple LLVM as clang.  This doesn't necessarily cause issues, but this version of gcc/g++ will have clang error messages and essentially produce the same results as if using clang. To compile with the "real" gcc/g++, install it with homebrew:
 
-    brew install gcc
+    `brew install gcc`
 
 However, homebrew installs gcc as gcc-8 (where 6 is the version) to avoid conflicts. The simplest way to use the homebrew version at `/usr/local/bin/gcc-8` instead of the Apple LLVM version at `/usr/bin/gcc` is to symlink the necessary.
 
-    cd /usr/local/bin
-    ln -s gcc-8 gcc
-    ln -s g++-8 g++
-    ln -s c++-8 c++
+```bash
+cd /usr/local/bin
+ln -s gcc-8 gcc
+ln -s g++-8 g++
+ln -s c++-8 c++
+```
 
 Or, to do this for everything in `/usr/local/bin/` ending with `-8`,
 
-    find /usr/local/bin -name "*-8" -exec sh -c 'ln -s "$1" $(echo "$1" | sed "s/..$//")' _ {} \;
+    `find /usr/local/bin -name "*-8" -exec sh -c 'ln -s "$1" $(echo "$1" | sed "s/..$//")' _ {} \;`
 
 Also, you need to make sure that `/usr/local/bin` appears before `/usr/bin` in your `$PATH`, or else this will not work.
 
@@ -530,25 +550,25 @@ For more info, see the comments in the `Makefile`.
 
 Build a release SDL version using Clang without gettext:
 
-    make RELEASE=1 TILES=1 LOCALIZE=0
+    `make RELEASE=1 TILES=1 LOCALIZE=0`
 
 Build a release SDL version using Clang, link to libraries in the OS X Frameworks folders, don't use `gettext`, and package it into `Cataclysm.app`:
 
-    make app RELEASE=1 TILES=1 FRAMEWORK=1 LOCALIZE=0
+    `make app RELEASE=1 TILES=1 FRAMEWORK=1 LOCALIZE=0`
 
 Build a release curses version with gettext supplied by Macports:
 
-    make RELEASE=1 LOCALIZE=1 MACPORTS=1
+    `make RELEASE=1 LOCALIZE=1 MACPORTS=1`
 
 ### Running
 
 For curses builds:
 
-    ./cataclysm
+    `./cataclysm`
 
 For SDL:
 
-    ./cataclysm-tiles
+    `./cataclysm-tiles`
 
 For `app` builds, launch Cataclysm.app from Finder.
 
@@ -562,14 +582,16 @@ Pass the ``--help`` flag to list options.
 
 You can build a nice dmg distribution file with the `dmgdist` target. You will need a tool called [dmgbuild](https://pypi.python.org/pypi/dmgbuild). To install this tool, you may need to install Python first. You can download Python [on their official website](https://www.python.org/downloads/) or install it with homebrew `brew install python`. Once you have Python, you should be able to install `dmgbuild` by running:
 
-    # This install pip. It might not be required if it is already installed.
-    curl --silent --show-error --retry 5 https://bootstrap.pypa.io/get-pip.py | sudo python
-    # dmgbuild install
-    sudo pip install dmgbuild pyobjc-framework-Quartz
+```bash
+# This install pip. It might not be required if it is already installed.
+curl --silent --show-error --retry 5 https://bootstrap.pypa.io/get-pip.py | sudo python
+# dmgbuild install
+sudo pip install dmgbuild pyobjc-framework-Quartz
+```
 
 Once `dmgbuild` is installed, you will be able to use the `dmgdist` target like this. The use of `USE_HOME_DIR=1` is important here because it will allow for an easy upgrade of the game while keeping the user config and his saves in his home directory.
 
-    make dmgdist NATIVE=osx OSX_MIN=10.12 RELEASE=1 TILES=1 FRAMEWORK=1 LOCALIZE=0 CLANG=1 USE_HOME_DIR=1
+    `make dmgdist NATIVE=osx OSX_MIN=10.12 RELEASE=1 TILES=1 FRAMEWORK=1 LOCALIZE=0 CLANG=1 USE_HOME_DIR=1`
 
 You should see a `Cataclysm.dmg` file.
 
@@ -632,7 +654,7 @@ Tiles builds will also require SDL2:
 
 Then you should be able to build with something like this:
 
-```
+```bash
 gmake RELEASE=1 # ncurses builds
 gmake RELEASE=1 TILES=1 # tiles builds
 ```
@@ -649,7 +671,7 @@ If building with tiles also install:
 
 Compiling:
 
-```
+```bash
 $ gmake RELEASE=1 BSD=1 CLANG=1 RUNTESTS=0 # ncurses build
 $ gmake RELEASE=1 BSD=1 CLANG=1 RUNTESTS=0 TILES=1 # tiles build
 ```
@@ -695,7 +717,7 @@ NetBSD has (or will have) gcc 4.8.4 as of version 7.0, which is new enough to bu
 
 Then you should be able to build with something like this (LDFLAGS for ncurses builds are taken care of by the ncurses configuration script; you can of course set CXXFLAGS/LDFLAGS in your .profile or something):
 
-```
+```bash
 export CXXFLAGS="-I/usr/pkg/include"
 gmake # ncurses builds
 LDFLAGS="-L/usr/pkg/lib" gmake TILES=1 # tiles builds

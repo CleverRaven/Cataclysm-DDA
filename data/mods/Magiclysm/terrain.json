@@ -47,6 +47,7 @@
     "coverage": 100,
     "roof": "t_flat_roof",
     "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
+    "connect_groups": "WALL",
     "connects_to": "WALL"
   },
   {
@@ -124,7 +125,6 @@
     "coverage": 100,
     "roof": "t_flat_roof",
     "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "BLOCK_WIND" ],
-    "connects_to": "WALL",
     "bash": {
       "str_min": 240,
       "str_max": 560,

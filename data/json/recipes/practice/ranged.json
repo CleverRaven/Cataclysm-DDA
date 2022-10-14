@@ -228,5 +228,25 @@
     "autolearn": [ [ "smg", 0 ] ],
     "tools": [ [ [ "aim_game", 50 ] ] ],
     "qualities": [ { "id": "SMG", "level": 1 } ]
+  },
+  {
+    "id": "prac_launch_beg",
+    "type": "practice",
+    "activity_level": "BRISK_EXERCISE",
+    "category": "CC_PRACTICE",
+    "subcategory": "CSC_PRACTICE_COMBAT",
+    "name": "launchers (beginner)",
+    "description": "Use a compressed air launcher to safely practice aiming trajectories.",
+    "skill_used": "launcher",
+    "time": "1 h",
+    "practice_data": { "min_difficulty": 0, "max_difficulty": 1, "skill_limit": 2 },
+    "autolearn": [ [ "launcher", 0 ] ],
+    "tools": [
+      [ [ "air_launcher", -1 ] ],
+      [ [ "golf_ball", -1 ], [ "baseball", -1 ], [ "magic_8_ball", -1 ], [ "pool_ball", -1 ] ],
+      [ [ "hand_pump", -1 ] ],
+      [ [ "hose", -1 ] ],
+      [ [ "pseudo_archery_target_box", -1 ], [ "pseudo_archery_target_bale", -1 ] ]
+    ]
   }
 ]

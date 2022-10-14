@@ -2628,6 +2628,10 @@ bool game::is_game_over()
     }
     // is_dead_state() already checks hp_torso && hp_head, no need to for loop it
     if( u.is_dead_state() ) {
+        effect_on_conditions::prevent_death();
+        if( !u.is_dead_state() ) {
+            return false;
+        }
         effect_on_conditions::avatar_death();
         if( !u.is_dead_state() ) {
             return false;
@@ -2827,7 +2831,8 @@ bool game::load( const save_t &name )
     calendar::set_eternal_day( ::get_option<std::string>( "ETERNAL_TIME_OF_DAY" ) == "day" );
 
     u.reset();
-
+    u.recalculate_enchantment_cache();
+    u.enchantment_cache->activate_passive( u );
     events().send<event_type::game_load>( getVersionString() );
     time_of_last_load = std::chrono::steady_clock::now();
     time_played_at_last_load = std::chrono::seconds( 0 );
@@ -8024,14 +8029,32 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
             if( !u.sees( u.pos() + active_pos ) ) {
                 add_msg( _( "You can't see that destination." ) );
             }
-            auto route = m.route( u.pos_bub(), u.pos_bub() + active_pos,
-                                  u.get_pathfinding_settings(), u.get_path_avoid() );
-            if( route.size() > 1 ) {
-                route.pop_back();
-                u.set_destination( route );
+            if( rl_dist( tripoint_zero, active_pos ) <= 1 ) {
+                break; // no need to move anywhere, already near destination
+            }
+            using route_t = std::vector<tripoint_bub_ms>;
+            const auto get_shorter_route = [&]( const route_t &a, const route_t &b ) {
+                // if one route is empty return the non-empty one
+                // if both non empty return shortest length in tiles
+                // if both equal length in tile return shortest in distance
+                return a.empty() ? b
+                       : b.empty() ? a
+                       : a.size() != b.size() ? ( a.size() < b.size() ? a : b )
+                       : ( rl_dist_exact( a.back().raw(), u.pos() ) < rl_dist_exact( b.back().raw(), u.pos() ) ? a : b );
+            };
+            route_t shortest_route;
+            for( const tripoint_bub_ms &p : m.points_in_radius( u.pos_bub() + active_pos, 1, 0 ) ) {
+                const route_t route = m.route( u.pos_bub(), p, u.get_pathfinding_settings(), u.get_path_avoid() );
+                if( route.empty() ) {
+                    continue;
+                }
+                shortest_route = get_shorter_route( shortest_route, route );
+            }
+            if( !shortest_route.empty() ) {
+                u.set_destination( shortest_route );
                 break;
             } else {
-                add_msg( m_info, _( "You can't travel there." ) );
+                popup( _( "You can't travel there." ) );
             }
         }
         if( uistate.list_item_sort == 1 ) {
@@ -11211,7 +11234,7 @@ void game::vertical_move( int movez, bool force, bool peeking )
         return;
     }
 
-    if( !u.move_effects( false ) ) {
+    if( !u.move_effects( false ) && !force ) {
         u.moves -= 100;
         return;
     }

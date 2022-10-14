@@ -734,7 +734,9 @@
     "material": [ "egg" ],
     "volume": "50 ml",
     "flags": [  ],
-    "fun": -2
+    "fun": -2,
+    "rot_spawn": "GROUP_NULL",
+    "rot_spawn_chance": 0
   },
   {
     "type": "COMESTIBLE",
@@ -751,7 +753,9 @@
     "volume": "125 ml",
     "charges": 2,
     "flags": [ "EATEN_HOT", "FREEZERBURN" ],
-    "fun": 3
+    "fun": 3,
+    "rot_spawn": "GROUP_NULL",
+    "rot_spawn_chance": 0
   },
   {
     "type": "COMESTIBLE",
@@ -766,7 +770,9 @@
     "price_postapoc": 50,
     "material": [ "egg" ],
     "fun": 2,
-    "flags": [ "FREEZERBURN" ]
+    "flags": [ "FREEZERBURN" ],
+    "rot_spawn": "GROUP_NULL",
+    "rot_spawn_chance": 0
   },
   {
     "type": "COMESTIBLE",
@@ -1031,6 +1037,14 @@
     "copy-from": "egg_insect",
     "description": "The egg of a butterfly.  They are usually found clustered on leaves.",
     "rot_spawn": "GROUP_EGG_BUTTERFLY"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_moth",
+    "name": "moth egg",
+    "copy-from": "egg_insect",
+    "description": "The egg of a moth.  They are usually found clustered on leaves.",
+    "rot_spawn": "GROUP_EGG_MOTH"
   },
   {
     "type": "COMESTIBLE",

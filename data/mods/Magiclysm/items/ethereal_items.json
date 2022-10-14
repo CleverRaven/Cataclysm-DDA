@@ -1018,5 +1018,30 @@
     "name": { "str": "magical throwing knife", "str_pl": "magical throwing knives" },
     "description": "A transparent blade seems to radiate intent to be thrown.  Its ineffective cutting edge and odd shape makes it unsuitable for use as a tool.",
     "thrown_damage": [ { "damage_type": "pure", "amount": 40 } ]
+  },
+  {
+    "id": "flask_ethereal_rebreather",
+    "name": { "str_sp": "spiritus" },
+    "description": "Now you can breath under water, like a fish.",
+    "type": "TOOL_ARMOR",
+    "category": "clothing",
+    "weight": "0 g",
+    "material": [ "concentrated_mana" ],
+    "volume": "1 ml",
+    "symbol": "0",
+    "color": "white",
+    "armor": [ { "encumbrance": 0, "coverage": 75, "covers": [ "mouth" ] } ],
+    "flags": [
+      "WATER_FRIENDLY",
+      "SEMITANGIBLE",
+      "ONLY_ONE",
+      "OVERSIZE",
+      "AURA",
+      "ZERO_WEIGHT",
+      "NO_TAKEOFF",
+      "NONCONDUCTIVE",
+      "TRADER_AVOID",
+      "REBREATHER"
+    ]
   }
 ]

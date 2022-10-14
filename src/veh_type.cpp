@@ -652,7 +652,7 @@ static std::string get_looks_like( const vpart_info &vpi, const itype &it )
     } else if( it.gun->skill_used == skill_launcher ) {
         return "tow_launcher"; // launchers
     } else {
-        return "mounted_m249"; // machine guns and also default for any unknown
+        return "m249"; // machine guns and also default for any unknown
     }
 }
 
@@ -723,10 +723,6 @@ void vpart_info::finalize()
     }
 
     for( auto &e : vpart_info_all ) {
-        if( e.second.folded_volume > 0_ml ) {
-            e.second.set_flag( "FOLDABLE" );
-        }
-
         for( const auto &f : e.second.flags ) {
             auto b = vpart_bitflag_map.find( f );
             if( b != vpart_bitflag_map.end() ) {
@@ -890,11 +886,8 @@ void vpart_info::check()
         if( part.dmg_mod < 0 ) {
             debugmsg( "vehicle part %s has negative damage modifier", part.id.c_str() );
         }
-        if( part.folded_volume < 0_ml ) {
-            debugmsg( "vehicle part %s has negative folded volume", part.id.c_str() );
-        }
-        if( part.has_flag( "FOLDABLE" ) && part.folded_volume == 0_ml ) {
-            debugmsg( "vehicle part %s has folding part with zero folded volume", part.name() );
+        if( part.folded_volume && part.folded_volume.value() <= 0_ml ) {
+            debugmsg( "vehicle part %s has folding part with zero or negative folded volume", part.id.c_str() );
         }
         if( !item::type_is_defined( part.default_ammo ) ) {
             debugmsg( "vehicle part %s has undefined default ammo %s", part.id.c_str(),
