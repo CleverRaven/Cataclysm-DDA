@@ -226,6 +226,7 @@
     "type": "MONSTER",
     "copy-from": "mon_fish_large",
     "name": { "str": "brown trout" },
+    "looks_like": "mon_fish_salmon",
     "description": "A brown trout.  A fish made popular by father-son fishing trips, except for the part where you have to gut it.",
     "weight": "3 kg",
     "reproduction": { "baby_egg": "egg_brown_trout", "baby_count": 2, "baby_timer": 17 }
@@ -242,6 +243,7 @@
     "type": "MONSTER",
     "copy-from": "mon_fish_small",
     "name": { "str": "brook trout" },
+    "looks_like": "mon_fish_salmon",
     "description": "A brook trout.  A fish made popular by father-son fishing trips, except for the part where you have to gut it.",
     "volume": "3500 ml",
     "weight": "1650 g",
@@ -259,6 +261,7 @@
     "type": "MONSTER",
     "copy-from": "mon_fish_large",
     "name": { "str": "lake trout" },
+    "looks_like": "mon_fish_salmon",
     "description": "A lake trout.  A fish made popular by father-son fishing trips, except for the part where you have to gut it.",
     "weight": "4 kg",
     "reproduction": { "baby_egg": "egg_lake_trout", "baby_count": 2, "baby_timer": 17 }
@@ -275,6 +278,7 @@
     "type": "MONSTER",
     "copy-from": "mon_fish_large",
     "name": { "str": "rainbow trout" },
+    "looks_like": "mon_fish_salmon",
     "description": "A rainbow trout.  A fish made popular by father-son fishing trips, except for the part where you have to gut it.",
     "volume": "12 L",
     "weight": "3 kg",
