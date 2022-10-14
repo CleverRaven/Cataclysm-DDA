@@ -22,7 +22,7 @@
     "copy-from": "bionic_general",
     "type": "BIONIC_ITEM",
     "name": { "str": "Monofilament Whip CBM" },
-    "description": "A carbon nanotube wire covertly installed in your right arm. When activated, it extends to its full length and can be used to strike enemies both at close and long range.",
+    "description": "A carbon nanotube wire covertly installed in your right arm.  When activated, it extends to its full length and can be used to strike enemies both at close and long range.",
     "price": "15 kUSD",
     "difficulty": 5
   },

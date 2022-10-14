@@ -36,7 +36,7 @@
     "type": "bionic",
     "id": "afs_bio_monowhip",
     "name": { "str": "Monofilament Whip" },
-    "description": "A carbon nanotube wire covertly installed in your right arm. When activated, it extends to its full length and can be used to strike enemies both at close and long range.",
+    "description": "A carbon nanotube wire covertly installed in your right arm.  When activated, it extends to its full length and can be used to strike enemies both at close and long range.",
     "occupied_bodyparts": [ [ "arm_r", 4 ], [ "hand_r", 1 ] ],
     "act_cost": "50 J",
     "fake_weapon": "afs_bio_whip_weapon",
