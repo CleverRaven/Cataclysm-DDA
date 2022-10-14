@@ -1884,7 +1884,7 @@ bool item_pocket::can_unload_liquid() const
     return will_spill() || !cts_is_frozen_liquid;
 }
 
-int item_pocket::fill_with( const item &contained, const Character &guy, int amount,
+int item_pocket::fill_with( const item &contained, Character &guy, int amount,
                             bool allow_unseal, bool ignore_settings )
 {
     int num_contained = 0;
@@ -1915,7 +1915,7 @@ int item_pocket::fill_with( const item &contained, const Character &guy, int amo
         return 0;
     }
 
-    contained_item.handle_pickup_ownership( const_cast<Character &>( guy ) );
+    contained_item.handle_pickup_ownership( guy );
     if( !insert_item( contained_item ).success() ) {
         debugmsg( "charges per remaining pocket volume does not fit in that very volume" );
         return 0;
