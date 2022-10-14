@@ -70,6 +70,7 @@
       "b": "t_concrete",
       "á": "t_concrete",
       "s": "t_sidewalk",
+      "/": "t_sidewalk",
       "|": { "param": "i_wall_type", "fallback": "t_wall_w" },
       "R": "t_concrete_railing",
       "!": "t_ticket_vendor",
@@ -121,7 +122,8 @@
       "y": [ "f_indoor_plant", "f_indoor_plant_y" ],
       "ε": [ "f_indoor_plant", "f_indoor_plant_y" ],
       "Y": "f_rack_coat",
-      "f": { "param": "flower", "fallback": "f_region_flower_decorative" }
+      "f": { "param": "flower", "fallback": "f_region_flower_decorative" },
+      "/": "f_flagpole"
     },
     "items": {
       "b": [
@@ -146,7 +148,7 @@
         { "item": "winter", "chance": 30 }
       ]
     },
-    "item": { "T": { "item": "toilet_paper", "chance": 33 } },
+    "item": { "T": { "item": "toilet_paper", "chance": 33 }, "/": { "item": "american_flag", "chance": 10 } },
     "toilets": { "T": {  } },
     "vehicles": {
       "1": { "vehicle": "food_cart", "chance": 33, "rotation": [ 0, 90, 180, 270 ] },

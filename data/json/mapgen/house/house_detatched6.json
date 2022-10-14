@@ -1,5 +1,10 @@
 [
   {
+    "id": "flags_pride_and_other",
+    "type": "item_group",
+    "items": [ [ "pride_flag", 70 ], [ "american_flag", 20 ], [ "state_flag", 10 ] ]
+  },
+  {
     "method": "json",
     "om_terrain": "house_detatched6",
     "type": "mapgen",
@@ -23,7 +28,7 @@
         ".#sHHHR #`````{=~=~=~=#.",
         ".###o####.....}=~===~=#.",
         ".$^...........#=~===~=#.",
-        ".$.(((((&(&...}=~=~=~K#.",
+        ".$.(((((&(&.§.}=~=~=~K#.",
         ".$.&&&&&&&&...}/==~=~=#.",
         ".$.((&(%(((...}//==G=K#.",
         ".$.&&&&&&&&...#}}}#}}}#.",
@@ -57,9 +62,10 @@
         "{": "t_reinforced_door_glass_c",
         "}": "t_reinforced_glass_shutter",
         ")": "t_wall_glass",
-        "]": "t_door_metal_pickable"
+        "]": "t_door_metal_pickable",
+        "§": "t_region_groundcover_urban"
       },
-      "furniture": { "?": "f_beaded_door", "!": "f_region_flower", ",": "f_pinball_machine" },
+      "furniture": { "?": "f_beaded_door", "!": "f_region_flower", ",": "f_pinball_machine", "§": "f_wooden_flagpole" },
       "place_item": [
         { "item": "television", "repeat": 1, "x": 4, "y": 4 },
         { "item": "cannabis", "repeat": 1, "x": 18, "y": 14 },
@@ -74,7 +80,8 @@
         { "chance": 35, "item": "tools_home", "x": 21, "y": 16 },
         { "chance": 50, "item": "stoner", "x": 4, "y": 11 },
         { "chance": 50, "item": "stoner", "x": 5, "y": [ 10, 11 ] },
-        { "chance": 50, "item": "stoner", "x": 4, "y": 5 }
+        { "chance": 50, "item": "stoner", "x": 4, "y": 5 },
+        { "chance": 50, "item": "flags_pride_and_other", "x": 12, "y": 16 }
       ],
       "sealed_item": {
         "~": { "item": { "item": "seed_weed" }, "furniture": "f_planter_harvest" },

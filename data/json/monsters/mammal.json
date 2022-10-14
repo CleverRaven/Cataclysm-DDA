@@ -1129,6 +1129,7 @@
     "melee_dice": 1,
     "melee_dice_sides": 1,
     "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
+    "delete": { "zombify_into": "mon_zombie_dog" },
     "fear_triggers": [ "HURT" ],
     "reproduction": { "baby_monster": "mon_dog_beagle_pup", "baby_count": 4, "baby_timer": 270 },
     "//": "1-4 puppies & 270 days per-litter for size tiny canines",
@@ -1364,6 +1365,7 @@
     "vision_night": 6,
     "harvest": "dog_small_with_skull",
     "fear_triggers": [ "HURT" ],
+    "delete": { "zombify_into": "mon_zombie_dog" },
     "reproduction": { "baby_monster": "mon_dog_chihuahua_pup", "baby_count": 3, "baby_timer": 240 },
     "//": "1-3 puppies & 240 days per-litter for size tiny canines",
     "petfood": {
@@ -1438,6 +1440,7 @@
     "vision_night": 6,
     "fear_triggers": [ "HURT" ],
     "harvest": "dog_small_with_skull_leather",
+    "delete": { "zombify_into": "mon_zombie_dog" },
     "reproduction": { "baby_monster": "mon_dog_dachshund_pup", "baby_count": 4, "baby_timer": 270 },
     "//": "1-4 puppies & 270 days per-litter for size small canines",
     "petfood": {
