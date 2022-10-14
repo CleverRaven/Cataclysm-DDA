@@ -243,6 +243,7 @@ void DynamicDataLoader::initialize()
     add( "EXTERNAL_OPTION", &load_external_option );
     add( "option_slider", &option_slider::load_option_sliders );
     add( "json_flag", &json_flag::load_all );
+    add( "connect_group", &connect_group::load );
     add( "fault", &fault::load_fault );
     add( "relic_procgen_data", &relic_procgen_data::load_relic_procgen_data );
     add( "effect_on_condition", &effect_on_conditions::load );
@@ -570,6 +571,7 @@ void DynamicDataLoader::unload_data()
     item_category::reset();
     item_controller->reset();
     json_flag::reset();
+    connect_group::reset();
     limb_score::reset();
     mapgen_palette::reset();
     materials::reset();

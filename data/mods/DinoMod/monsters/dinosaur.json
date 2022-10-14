@@ -218,7 +218,7 @@
     "biosignature": { "biosig_item": "feces_dino", "biosig_timer": 1 },
     "special_attacks": [ [ "GRAB", 10 ], { "type": "bite", "cooldown": 10 } ],
     "flags": [ "SEES", "SMELLS", "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "BASHES", "WARM" ],
-    "harvest": "dino_large_pred",
+    "harvest": "allosaurus",
     "dissect": "dissect_dino_large_pred",
     "anger_triggers": [ "STALK", "PLAYER_WEAK", "HURT", "PLAYER_CLOSE", "SOUND" ],
     "categories": [ "DINOSAUR", "WILDLIFE" ]
@@ -239,7 +239,8 @@
     "zombify_into": "mon_zacrocanthosaurus",
     "special_attacks": [ [ "GRAB", 10 ], { "type": "bite", "cooldown": 10 }, [ "LUNGE", 20 ] ],
     "description": "Huge predatory bipedal dinosaur with a tall ridge running the length of its back covered with heavy muscles.  Its teeth are curved and serrated like sawblades.",
-    "reproduction": { "baby_egg": "egg_acrocanthosaurus", "baby_count": 3, "baby_timer": 24 }
+    "reproduction": { "baby_egg": "egg_acrocanthosaurus", "baby_count": 3, "baby_timer": 24 },
+    "harvest": "acrocanthosaurus"
   },
   {
     "type": "MONSTER",
@@ -253,7 +254,8 @@
     "zombify_into": "mon_ziats",
     "special_attacks": [ [ "BIO_OP_TAKEDOWN", 20 ], [ "RANGED_PULL", 20 ], [ "GRAB_DRAG", 10 ], { "type": "bite", "cooldown": 10 } ],
     "description": "Huge predatory bipedal dinosaur with long claws and strong arms for grappling.",
-    "reproduction": { "baby_egg": "egg_siats", "baby_count": 3, "baby_timer": 24 }
+    "reproduction": { "baby_egg": "egg_siats", "baby_count": 3, "baby_timer": 24 },
+    "harvest": "dino_large_pred"
   },
   {
     "type": "MONSTER",
@@ -421,7 +423,8 @@
     "zombify_into": "mon_zaspletosaurus",
     "description": "Bipedal dinosaur with long sharp teeth in a massive jaw, fierce eyes, and a powerful frame to drive it forward, short arms, with a feathered mullet and tail.",
     "reproduction": { "baby_egg": "egg_daspletosaurus", "baby_count": 3, "baby_timer": 24 },
-    "special_attacks": [ [ "GRAB", 10 ], { "type": "bite", "cooldown": 10 }, [ "LUNGE", 10 ], [ "BIO_OP_TAKEDOWN", 15 ] ]
+    "special_attacks": [ [ "GRAB", 10 ], { "type": "bite", "cooldown": 10 }, [ "LUNGE", 10 ], [ "BIO_OP_TAKEDOWN", 15 ] ],
+    "harvest": "dino_large_feather_pred"
   },
   {
     "type": "MONSTER",
@@ -469,7 +472,7 @@
       "PUSH_MON",
       "PRIORITIZE_TARGETS"
     ],
-    "harvest": "dino_large_feather_pred",
+    "harvest": "tyrannosaurus",
     "dissect": "dissect_tyrant_sample_large",
     "anger_triggers": [ "STALK", "PLAYER_WEAK", "HURT", "PLAYER_CLOSE", "SOUND" ],
     "categories": [ "DINOSAUR", "WILDLIFE" ]
@@ -1711,6 +1714,7 @@
     "copy-from": "mon_camptosaurus",
     "volume": "1000 L",
     "weight": "1000 kg",
+    "default_faction": "hadrosaur",
     "//": "When large weights and volumes are fixed this should be 3000 L and 3000 kg",
     "bodytype": "bear",
     "speed": 80,
@@ -1722,6 +1726,7 @@
     "armor_bullet": 3,
     "hp": 250,
     "zombify_into": "mon_zadrosaurus",
+    "fungalize_into": "mon_hadrosaurus_mutant1",
     "description": "A bulky, beaked dinosaur with hooved front legs and strong clawed back legs.",
     "special_attacks": [
       { "type": "leap", "cooldown": 10, "max_range": 2, "allow_no_target": true },
@@ -1983,7 +1988,8 @@
     "zombify_into": "mon_ztyracosaurus",
     "description": "A large stocky four-legged dinosaur with a bony crest with several long spikes and one large horn above the beak and a short tail.",
     "reproduction": { "baby_egg": "egg_styracosaurus", "baby_count": 20, "baby_timer": 40 },
-    "special_attacks": [ [ "SMASH", 60 ], [ "LUNGE", 10 ], [ "EAT_CROP", 30 ], [ "stretch_horn_DinoMod", 40 ] ]
+    "special_attacks": [ [ "SMASH", 60 ], [ "LUNGE", 10 ], [ "EAT_CROP", 30 ], [ "stretch_horn_DinoMod", 40 ] ],
+    "harvest": "styracosaurus"
   },
   {
     "type": "MONSTER",
@@ -2005,7 +2011,8 @@
       [ "LUNGE", 10 ],
       [ "EAT_CROP", 30 ],
       [ "stretch_horn_DinoMod", 40 ]
-    ]
+    ],
+    "harvest": "centrosaurus"
   },
   {
     "type": "MONSTER",
@@ -2062,7 +2069,8 @@
       [ "SMASH", 30 ],
       [ "LUNGE", 10 ],
       [ "EAT_CROP", 20 ]
-    ]
+    ],
+    "harvest": "dino_large_leather"
   },
   {
     "type": "MONSTER",
@@ -2090,7 +2098,8 @@
     "zombify_into": "mon_zentaceratops",
     "description": "A massive rhino-like dinosaur with a tall bony crest from which four long horns and a short nose horn emerge.",
     "reproduction": { "baby_egg": "egg_pentaceratops", "baby_count": 20, "baby_timer": 40 },
-    "special_attacks": [ [ "EAT_CROP", 24 ], { "id": "impale" } ]
+    "special_attacks": [ [ "EAT_CROP", 24 ], { "id": "impale" } ],
+    "harvest": "dino_large_leather"
   },
   {
     "type": "MONSTER",
@@ -2106,7 +2115,8 @@
     "zombify_into": "mon_zosmoceratops",
     "description": "A massive rhino-like dinosaur with an ornate spiked neck crest and two long horns curving up and to the sides from above its eyes.",
     "reproduction": { "baby_egg": "egg_kosmoceratops", "baby_count": 20, "baby_timer": 40 },
-    "special_attacks": [ [ "EAT_CROP", 24 ], { "id": "impale" }, [ "stretch_horns_DinoMod", 20 ] ]
+    "special_attacks": [ [ "EAT_CROP", 24 ], { "id": "impale" }, [ "stretch_horns_DinoMod", 20 ] ],
+    "harvest": "dino_large_leather"
   },
   {
     "type": "MONSTER",
@@ -2119,7 +2129,8 @@
     "zombify_into": "mon_zorosaurus",
     "description": "A massive rhino-like dinosaur with a tall bony crest from which two long wicked horns emerge.",
     "reproduction": { "baby_egg": "egg_torosaurus", "baby_count": 20, "baby_timer": 40 },
-    "special_attacks": [ [ "EAT_CROP", 20 ], { "id": "impale" }, [ "stretch_horns_DinoMod", 10 ] ]
+    "special_attacks": [ [ "EAT_CROP", 20 ], { "id": "impale" }, [ "stretch_horns_DinoMod", 10 ] ],
+    "harvest": "torosaurus"
   },
   {
     "type": "MONSTER",
@@ -2159,7 +2170,7 @@
     "special_attacks": [ [ "EAT_CROP", 20 ], { "id": "impale" } ],
     "petfood": { "food": [ "DINOFOOD_C" ] },
     "flags": [ "SEES", "SMELLS", "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "PET_MOUNTABLE", "BASHES" ],
-    "harvest": "mammal_large_leather",
+    "harvest": "triceratops",
     "dissect": "dissect_horns_sample_large",
     "anger_triggers": [ "HURT", "FRIEND_ATTACKED", "PLAYER_NEAR_BABY" ],
     "fear_triggers": [ "FRIEND_DIED" ],
