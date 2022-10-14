@@ -895,7 +895,7 @@
       {
         "material": [ { "type": "subdermal_alloy", "covered_by_mat": 100, "thickness": 1 } ],
         "covers": [ "head" ],
-        "specifically_covers": [ "heat_throat" ],
+        "specifically_covers": [ "head_throat" ],
         "coverage": 85,
         "encumbrance": 0,
         "cover_vitals": 50
@@ -1049,7 +1049,7 @@
       },
       {
         "material": [ { "type": "subdermal_alloy", "covered_by_mat": 100, "thickness": 0.8 } ],
-        "covers": [ "knee_l", "knee_r" ],
+        "covers": [ "leg_l", "leg_r" ],
         "specifically_covers": [ "leg_knee_l", "leg_knee_r" ],
         "coverage": 45,
         "encumbrance": 0,
