@@ -3484,7 +3484,8 @@
     "description": "Your bloodstream has developed antibiotic properties.  Your wounds will never become infected.",
     "prereqs": [ "DISRESISTANT" ],
     "prereqs2": [ "INFRESIST" ],
-    "category": [ "MEDICAL" ]
+    "category": [ "MEDICAL" ],
+    "flags": [ "INFECTION_IMMUNE" ]
   },
   {
     "type": "mutation",
