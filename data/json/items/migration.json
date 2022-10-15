@@ -194,6 +194,11 @@
     "charges": 1930
   },
   {
+    "id": "gasfilter_l",
+    "type": "MIGRATION",
+    "replace": "gasfilter_m"
+  },
+  {
     "id": "jacqueshammer",
     "type": "MIGRATION",
     "replace": "jackhammer"
