@@ -136,5 +136,27 @@
     "copy-from": "mon_fry",
     "upgrades": { "half_life": 14, "into": "mon_fish_redear_sunfish" },
     "name": { "str_sp": "fry" }
+   },
+   {
+    "//": "This monster used to have a death function (mon_endless_hunger_revive) and a special attack (mon_endless_hunger_attack). //",
+    "id": "mon_endless_hunger",
+    "type": "MONSTER",
+    "name": { "str": "endless hunger" },
+    "description": "Your mind fills in large shifting images of predators to save you from its actual appearance.  You can feel it despite the distance as if it were connected to you.",
+    "default_faction": "nether",
+    "species": [ "NETHER" ],
+    "volume": "62500 ml",
+    "weight": "10 g",
+    "hp": 35,
+    "speed": 80,
+    "symbol": "O",
+    "color": "dark_gray",
+    "aggression": 100,
+    "morale": 100,
+    "melee_skill": 5,
+    "melee_dice": 2,
+    "melee_dice_sides": 2,
+    "melee_damage": [ { "damage_type": "cut", "amount": 10 } ],
+    "flags": [ "SEES", "HEARS", "NO_BREATHE", "PUSH_MON", "ALWAYS_VISIBLE", "ALWAYS_SEES_YOU" ]
   }
 ]

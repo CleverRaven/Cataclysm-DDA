@@ -161,6 +161,7 @@ batching
 batlike
 batrachian
 bday
+beaked
 beartrap
 beebalm
 beeeeeeeeep
@@ -302,6 +303,7 @@ cecalia
 cegamente
 centerdamage
 centric
+centrosaurus
 cepa
 cephalopod
 cephalothorax
@@ -622,6 +624,7 @@ falx
 falxes
 familiaris
 famoso
+fanbase
 fance
 fanfictions
 farmwork
@@ -805,6 +808,7 @@ gutskin
 guvnah
 gymnocladus
 h
+hadrosaur
 hadrosaurus
 haematopoiesis
 haft
@@ -861,6 +865,7 @@ holybook
 homebrewing
 homovorus
 honeygold
+hooved
 hosomaki
 hotcut
 hotkey
@@ -1671,6 +1676,7 @@ sharksuits
 shatteringly
 shedded
 sheetmetal
+shitstorms
 shitweasel
 shlip
 shlop
