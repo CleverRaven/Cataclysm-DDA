@@ -3,8 +3,9 @@
     "result": "offal_canned",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
+    "result_mult": 14,
     "id_suffix": "jarred",
-    "byproducts": [ [ "water", 10 ] ],
+    "byproducts": [ [ "water_clean", 12 ] ],
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
     "skill_used": "cooking",
@@ -16,8 +17,8 @@
     "container": "jar_glass_sealed",
     "result_mult": 2,
     "qualities": [ { "id": "CUT", "level": 2 }, { "id": "COOK", "level": 3 } ],
-    "tools": [ [ [ "surface_heat", 100, "LIST" ] ], [ [ "pot_canning", -1 ], [ "pot_canning_clay", -1 ] ] ],
-    "components": [ [ [ "water", 11 ], [ "water_clean", 11 ] ], [ [ "jar_glass", 1 ] ], [ [ "meat_offal", 2, "LIST" ] ] ]
+    "tools": [ [ [ "canning_standard", 40, "LIST" ] ] ],
+    "components": [ [ [ "water", 13 ], [ "water_clean", 13 ] ], [ [ "jar_glass", 14 ] ], [ [ "meat_offal", 28, "LIST" ] ] ]
   },
   {
     "result": "offal_canned",
@@ -40,11 +41,11 @@
       { "id": "CUT", "level": 2 },
       { "id": "COOK", "level": 3 }
     ],
-    "tools": [ [ [ "surface_heat", 10, "LIST" ] ], [ [ "can_sealer", -1 ] ] ],
+    "tools": [ [ [ "surface_heat", 40, "LIST" ] ], [ [ "can_sealer", -1 ] ] ],
     "components": [
       [ [ "can_medium", 1 ] ],
       [ [ "scrap", 1 ] ],
-      [ [ "water", 1 ], [ "water_clean", 1 ] ],
+      [ [ "water_clean", 1 ] ],
       [ [ "meat_offal", 2, "LIST" ] ]
     ]
   },
@@ -69,7 +70,7 @@
       { "id": "COOK", "level": 3 }
     ],
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ], [ [ "can_sealer", -1 ] ] ],
-    "components": [ [ [ "can_food", 1 ] ], [ [ "scrap", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ], [ [ "meat_offal", 1, "LIST" ] ] ]
+    "components": [ [ [ "can_food", 1 ] ], [ [ "scrap", 1 ] ], [ [ "water_clean", 1 ] ], [ [ "meat_offal", 1, "LIST" ] ] ]
   },
   {
     "result": "offal_canned",
