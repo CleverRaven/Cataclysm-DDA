@@ -40,5 +40,35 @@
     "type": "overmap_terrain",
     "id": [ "safe_house_basement" ],
     "copy-from": "generic_city_house_basement"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "cathedralv_1_NW",
+      "cathedralv_1_NE",
+      "cathedralv_1_SW",
+      "cathedralv_1_SE",
+      "cathedralv_2_NW",
+      "cathedralv_2_NE",
+      "cathedralv_2_SW",
+      "cathedralv_2_SE",
+      "cathedral_3_NW",
+      "cathedral_3_NE",
+      "cathedral_3_SW",
+      "cathedral_3_SE"
+    ],
+    "name": "cathedral",
+    "sym": "C",
+    "color": "i_light_red",
+    "see_cost": 5,
+    "mondensity": 2,
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "cathedralv_b_NW", "cathedralv_b_NE", "cathedralv_b_SW", "cathedralv_b_SE" ],
+    "copy-from": "cathedral_1_NW",
+    "name": "cathedral basement",
+    "delete": { "flags": [ "SIDEWALK" ] }
   }
 ]

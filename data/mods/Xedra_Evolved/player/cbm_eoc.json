@@ -1,0 +1,17 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SUMMON_BAT_SWARM",
+    "effect": [
+      {
+        "u_cast_spell": {
+          "id": "spell_summon_bat_swarm",
+          "min_level": 1,
+          "max_level": 6,
+          "message": "Their is a loud clicking sound as you commune with any nearby bats."
+        },
+        "targeted": true
+      }
+    ]
+  }
+]

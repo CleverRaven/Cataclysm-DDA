@@ -107,5 +107,13 @@
       { "monster": "mon_vampire_moroi", "weight": 25 },
       { "monster": "mon_vampire_strigoi", "weight": 15 }
     ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_RENFIELDS",
+    "monsters": [
+      { "monster": "mon_zombie", "weight": 50, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_renfield", "weight": 50, "pack_size": [ 1, 2 ] }
+    ]
   }
 ]
