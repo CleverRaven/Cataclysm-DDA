@@ -406,7 +406,7 @@ void Character::update_bodytemp()
     const units::temperature player_local_temp = weather_man.get_temperature( pos() );
     // NOTE : visit weather.h for some details on the numbers used
     // Converts temperature to Celsius/100
-    int Ctemperature = static_cast<int>( 100 * units::to_celcius( player_local_temp ) );
+    int Ctemperature = static_cast<int>( 100 * units::to_celsius( player_local_temp ) );
     const w_point weather = *weather_man.weather_precise;
     int vehwindspeed = 0;
     map &here = get_map();
@@ -750,15 +750,18 @@ void Character::update_bodytemp()
         // Otherwise, if any other body part is BODYTEMP_VERY_COLD, or 31C
         // AND you have frostbite, then that also prevents you from sleeping
         if( in_sleep_state() && !has_effect( effect_narcosis ) ) {
-            if( bp == body_part_torso && temp_after <= BODYTEMP_VERY_COLD &&
+            if( bp == body_part_torso && temp_after <= BODYTEMP_COLD && calendar::once_every( 1_hours ) ) {
+                add_msg( m_warning, _( "You feel cold and shivers." ) );
+            }
+            if( temp_after <= BODYTEMP_VERY_COLD &&
                 get_fatigue() <= fatigue_levels::DEAD_TIRED && !has_bionic( bio_sleep_shutdown ) ) {
-                add_msg( m_warning, _( "Your shivering prevents you from sleeping." ) );
-                wake_up();
-            } else if( bp != body_part_torso && temp_after <= BODYTEMP_VERY_COLD &&
-                       get_fatigue() <= fatigue_levels::DEAD_TIRED &&
-                       has_effect( effect_frostbite ) && !has_bionic( bio_sleep_shutdown ) ) {
-                add_msg( m_warning, _( "You are too cold.  Your frostbite prevents you from sleeping." ) );
-                wake_up();
+                if( bp == body_part_torso ) {
+                    add_msg( m_warning, _( "Your shivering prevents you from sleeping." ) );
+                    wake_up();
+                } else if( has_effect( effect_frostbite ) ) {
+                    add_msg( m_warning, _( "You are too cold.  Your frostbite prevents you from sleeping." ) );
+                    wake_up();
+                }
             }
         }
 
