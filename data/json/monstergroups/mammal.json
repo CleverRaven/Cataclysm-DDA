@@ -15,7 +15,13 @@
     "default": "mon_dog",
     "monsters": [
       { "group": "GROUP_PET_DOGS", "weight": 95, "cost_multiplier": 0 },
-      { "monster": "mon_dog_mutant_mongrel", "weight": 5, "cost_multiplier": 0 }
+      { "monster": "mon_dog_mutant_mongrel", "weight": 10, "cost_multiplier": 0 },
+      { "monster": "mon_dog_incorporeal", "weight": 10, "cost_multiplier": 0 },
+      { "monster": "mon_dog_incorporeal_pup", "weight": 5, "cost_multiplier": 0 },
+      { "monster": "mon_dog_telekenetic", "weight": 10, "cost_multiplier": 0 },
+      { "monster": "mon_dog_telekenetic_pup", "weight": 5, "cost_multiplier": 0 },
+      { "monster": "mon_dog_antimemetic", "weight": 10, "cost_multiplier": 0 },
+      { "monster": "mon_dog_antimemetic_pup", "weight": 5, "cost_multiplier": 0 }
     ]
   },
   {
