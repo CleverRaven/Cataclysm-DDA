@@ -188,6 +188,16 @@
     "color": "black"
   },
   {
+    "id": "bag_garbage_reinforced",
+    "type": "GENERIC",
+    "name": { "str": "reinforced garbage bag" },
+    "copy-from": "bag_garbage",
+    "description": "Garbage bags layered within each other, made to carry a heavier load.",
+    "weight": "400 g",
+    "volume": "500 ml",
+    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "98 L", "max_contains_weight": "46 kg", "moves": 400 } ]
+  },
+  {
     "id": "bag_paper_powder",
     "type": "GENERIC",
     "category": "container",

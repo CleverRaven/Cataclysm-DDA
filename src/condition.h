@@ -182,6 +182,7 @@ struct conditional_t {
         void set_has_many_available_missions( bool is_npc );
         void set_mission_complete( bool is_npc );
         void set_mission_incomplete( bool is_npc );
+        void set_mission_failed( bool is_npc );
         void set_npc_available( bool is_npc );
         void set_npc_following( bool is_npc );
         void set_npc_friend( bool is_npc );
