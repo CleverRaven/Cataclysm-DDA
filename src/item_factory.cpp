@@ -578,10 +578,9 @@ void Item_factory::finalize_pre( itype &obj )
         }
     }
 
-    if( obj.tool ) {
-        if( !obj.tool->subtype.is_empty() && has_template( obj.tool->subtype ) ) {
-            tool_subtypes[ obj.tool->subtype ].insert( obj.id );
-        }
+    // recurse into subtypes, adding self as substitution for all items in the subtypes chain
+    for( itype_id it = obj.id; it->tool && it->tool->subtype.is_valid(); it = it->tool->subtype ) {
+        tool_subtypes[ it->tool->subtype ].insert( obj.id );
     }
 
     for( auto &e : obj.use_methods ) {
