@@ -1590,7 +1590,7 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
                             invisible[0] = true;
                         }
                         for( int cz = pos.z; !invisible[0] && cz <= -center.z; cz++ ) {
-                            const Creature *critter = get_creature_tracker().creature_at( {pos.xy(), cz}, true );
+                            const Creature *critter = creatures.creature_at( {pos.xy(), cz}, true );
                             if( critter && ( you.sees_with_infrared( *critter ) ||
                                              you.sees_with_specials( *critter ) ) ) {
                                 invisible[0] = true;
@@ -1906,7 +1906,7 @@ bool cata_tiles::draw_from_id_string( const std::string &id, TILE_CATEGORY categ
 {
     return cata_tiles::draw_from_id_string( id, category, subcategory, pos, subtile, rota,
                                             ll, apply_night_vision_goggles, height_3d, intensity_level,
-                                            variant, point(), int overlay_count );
+                                            variant, point(), overlay_count );
 }
 
 cata::optional<tile_lookup_res>
@@ -2610,7 +2610,7 @@ bool cata_tiles::draw_sprite_at(
         }
     }
 
-    const auto overlay = tileset_ptr->get_z_overlay( spritelist[sprite_num] );
+    const texture *overlay = tileset_ptr->get_z_overlay( spritelist[sprite_num] );
 
     int width = 0;
     int height = 0;
@@ -2708,7 +2708,8 @@ bool cata_tiles::draw_sprite_at(
 
 bool cata_tiles::draw_tile_at(
     const tile_type &tile, const point &p, unsigned int loc_rand, int rota,
-    lit_level ll, bool apply_night_vision_goggles, int retract, int &height_3d, int overlay_count )
+    lit_level ll, bool apply_night_vision_goggles, int retract, int &height_3d,
+    const point &offset, int overlay_count )
 {
     int fake_int = height_3d;
     draw_sprite_at( tile, tile.bg, p, loc_rand, /*fg:*/ false, rota, ll,
@@ -2786,7 +2787,7 @@ bool cata_tiles::draw_block( const tripoint &p, SDL_Color color, int scale )
     if( is_isometric() ) {
         rect.y += tile_height / 8;
     }
-    geometry->rect( renderer, rect, tercol );
+    geometry->rect( renderer, rect,  color );
 
     return true;
 }
