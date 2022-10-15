@@ -135,8 +135,9 @@
   {
     "id": "fake_arc_furnace",
     "type": "TOOL",
-    "copy-from": "fake_power_tool",
-    "name": { "str": "electric arc furnace" }
+    "copy-from": "fake_item",
+    "name": { "str": "electric arc furnace" },
+    "flags": [ "ALLOWS_REMOTE_USE", "PSEUDO", "USE_UPS" ]
   },
   {
     "id": "fake_beverly_shear",
