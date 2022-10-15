@@ -407,7 +407,7 @@
     "required_str": -1,
     "examine_action": "arcfurnace_empty",
     "max_volume": "200 L",
-    "crafting_pseudo_item": "fake_arcfurnace",
+    "crafting_pseudo_item": "fake_arc_furnace",
     "flags": [ "CONTAINER", "FIRE_CONTAINER", "PLACE_ITEM" ],
     "deconstruct": { "items": [ { "item": "metal_tank", "count": [ 1, 4 ] }, { "item": "pipe", "count": [ 2, 4 ] } ] },
     "bash": {
