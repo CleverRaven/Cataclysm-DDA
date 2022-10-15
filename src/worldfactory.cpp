@@ -934,10 +934,8 @@ void worldfactory::show_active_world_mods( const std::vector<mod_id> &world_mods
         const int iMinScreenWidth = std::max( FULL_SCREEN_WIDTH, TERMX / 2 );
         const int iOffsetX = TERMX > FULL_SCREEN_WIDTH ? ( TERMX - iMinScreenWidth ) / 2 : 0;
 
-        w_border = catacurses::newwin( TERMY - 11, iMinScreenWidth / 2 - 3,
-                                       point( iOffsetX, 4 ) );
-        w_mods   = catacurses::newwin( TERMY - 13, iMinScreenWidth / 2 - 4,
-                                       point( iOffsetX, 5 ) );
+        w_border = catacurses::newwin( TERMY - 11, iMinScreenWidth, point( iOffsetX, 4 ) );
+        w_mods   = catacurses::newwin( TERMY - 13, iMinScreenWidth - 1, point( iOffsetX, 5 ) );
 
         ui.position_from_window( w_border );
     };

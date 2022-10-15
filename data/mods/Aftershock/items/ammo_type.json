@@ -31,9 +31,21 @@
   },
   {
     "type": "ammunition_type",
+    "id": "afs_25mm_smart",
+    "name": "25mm microjet",
+    "default": "afs_25mm_smart"
+  },
+  {
+    "type": "ammunition_type",
     "id": "afs_10mm",
     "name": "10mm",
     "default": "afs_10mm_caseless_JHP"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "afs_10mm_smart",
+    "name": "10mm microjet",
+    "default": "afs_10mm_smart"
   },
   {
     "type": "ammunition_type",

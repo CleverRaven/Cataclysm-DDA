@@ -1421,6 +1421,11 @@
   },
   {
     "type": "construction_group",
+    "id": "place_screw_press",
+    "name": "Place Screw Press"
+  },
+  {
+    "type": "construction_group",
     "id": "place_workbench",
     "name": "Place Workbench"
   },
@@ -1626,6 +1631,11 @@
   },
   {
     "type": "construction_group",
+    "id": "hang_heavy_punching_bag",
+    "name": "Hang a Heavy Punching Bag"
+  },
+  {
+    "type": "construction_group",
     "id": "build_training_dummy_light",
     "name": "Install Training Dummy"
   },
@@ -1643,6 +1653,11 @@
     "type": "construction_group",
     "id": "build_archery_target_bale",
     "name": "Mark Hay Bale For Archery"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_flagpole",
+    "name": "Build a Flagpole"
   },
   {
     "type": "construction_group",

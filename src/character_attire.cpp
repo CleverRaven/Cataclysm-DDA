@@ -1663,19 +1663,6 @@ void outfit::get_overlay_ids( std::vector<std::pair<std::string, std::string>> &
     }
 }
 
-bool outfit::in_climate_control() const
-{
-    for( const item &w : worn ) {
-        if( w.active && w.is_power_armor() ) {
-            return true;
-        }
-        if( w.has_flag( flag_CLIMATE_CONTROL ) ) {
-            return true;
-        }
-    }
-    return false;
-}
-
 std::list<item>::iterator outfit::position_to_wear_new_item( const item &new_item )
 {
     // By default we put this item on after the last item on the same or any
@@ -2294,7 +2281,7 @@ void outfit::add_stash( Character &guy, const item &newit, int &remaining_charge
             if( amount <= num_contained || remaining_charges <= 0 ) {
                 break;
             }
-            const int filled_count = pocket->fill_with( newit, remaining_charges, false, false );
+            const int filled_count = pocket->fill_with( newit, guy, remaining_charges, false, false );
             num_contained += filled_count;
             remaining_charges -= filled_count;
         }

@@ -60,7 +60,8 @@
     "charges": 4,
     "smoking_result": "pistachio_roasted",
     "vitamins": [ [ "vitC", 1 ], [ "calcium", 3 ], [ "iron", 7 ] ],
-    "fun": 1
+    "fun": 1,
+    "milling": { "into": "paste_nut", "conversion_rate": 0.1 }
   },
   {
     "type": "COMESTIBLE",
@@ -93,7 +94,8 @@
     "smoking_result": "almond_roasted",
     "vitamins": [ [ "calcium", 6 ], [ "iron", 6 ] ],
     "charges": 4,
-    "fun": 1
+    "fun": 1,
+    "milling": { "into": "paste_nut", "conversion_rate": 0.1 }
   },
   {
     "type": "COMESTIBLE",
@@ -145,7 +147,8 @@
     "flags": [ "EDIBLE_FROZEN", "NUTRIENT_OVERRIDE" ],
     "charges": 4,
     "vitamins": [ [ "calcium", 1 ], [ "iron", 12 ] ],
-    "fun": 3
+    "fun": 3,
+    "milling": { "into": "paste_nut", "conversion_rate": 0.1 }
   },
   {
     "type": "COMESTIBLE",
@@ -168,7 +171,8 @@
     "charges": 4,
     "smoking_result": "pecan_roasted",
     "vitamins": [ [ "calcium", 2 ], [ "iron", 4 ] ],
-    "fun": 1
+    "fun": 1,
+    "milling": { "into": "paste_nut", "conversion_rate": 0.1 }
   },
   {
     "type": "COMESTIBLE",
@@ -200,7 +204,8 @@
     "flags": [ "EDIBLE_FROZEN", "NUTRIENT_OVERRIDE", "RAW" ],
     "charges": 4,
     "vitamins": [ [ "calcium", 1 ], [ "iron", 3 ] ],
-    "fun": 3
+    "fun": 3,
+    "milling": { "into": "paste_nut", "conversion_rate": 0.1 }
   },
   {
     "type": "COMESTIBLE",
@@ -220,7 +225,8 @@
     "volume": "250 ml",
     "flags": [ "EDIBLE_FROZEN", "NUTRIENT_OVERRIDE", "RAW" ],
     "vitamins": [ [ "vitC", 5 ], [ "iron", 9 ] ],
-    "charges": 4
+    "charges": 4,
+    "milling": { "into": "paste_nut", "conversion_rate": 0.1 }
   },
   {
     "type": "COMESTIBLE",
@@ -242,7 +248,8 @@
     "charges": 4,
     "smoking_result": "walnut_roasted",
     "vitamins": [ [ "calcium", 2 ], [ "iron", 4 ] ],
-    "fun": -1
+    "fun": -1,
+    "milling": { "into": "paste_nut", "conversion_rate": 0.1 }
   },
   {
     "type": "COMESTIBLE",
@@ -274,7 +281,8 @@
     "volume": "250 ml",
     "smoking_result": "chestnut_roasted",
     "vitamins": [ [ "vitC", 13 ], [ "iron", 1 ] ],
-    "fun": -10
+    "fun": -10,
+    "milling": { "into": "paste_nut", "conversion_rate": 0.1 }
   },
   {
     "type": "COMESTIBLE",
@@ -307,7 +315,8 @@
     "charges": 4,
     "smoking_result": "hazelnut_roasted",
     "vitamins": [ [ "vitC", 2 ], [ "calcium", 3 ], [ "iron", 7 ] ],
-    "fun": -1
+    "fun": -1,
+    "milling": { "into": "paste_nut", "conversion_rate": 0.1 }
   },
   {
     "type": "COMESTIBLE",
@@ -381,7 +390,8 @@
     "charges": 4,
     "smoking_result": "hickory_nut_roasted",
     "vitamins": [ [ "calcium", 2 ], [ "iron", 8 ] ],
-    "fun": -10
+    "fun": -10,
+    "milling": { "into": "paste_nut", "conversion_rate": 0.1 }
   },
   {
     "type": "COMESTIBLE",
@@ -527,7 +537,8 @@
     "price_postapoc": 200,
     "flags": [ "EDIBLE_FROZEN", "SMOKABLE" ],
     "smoking_result": "acorns_cooked",
-    "fun": -1
+    "fun": -1,
+    "milling": { "into": "paste_nut", "conversion_rate": 0.1 }
   },
   {
     "type": "COMESTIBLE",
