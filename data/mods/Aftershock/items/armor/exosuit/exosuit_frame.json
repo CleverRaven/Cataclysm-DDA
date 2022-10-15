@@ -342,9 +342,7 @@
     "power_draw": "6173 mW",
     "revert_to": "modular_exosuit",
     "use_action": [
-      { "type": "transform", "menu_text": "Turn off", "msg": "The %s disengages.", "target": "modular_exosuit" },
-      "MANAGE_EXOSUIT"
-    ],
+      { "type": "transform", "menu_text": "Turn off", "msg": "The %s disengages.", "target": "modular_exosuit" } ],
     "armor": [
       {
         "material": [
