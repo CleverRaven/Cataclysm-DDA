@@ -61,6 +61,7 @@ static const mutation_category_id mutation_category_ANY( "ANY" );
 
 static const trait_id trait_BURROW( "BURROW" );
 static const trait_id trait_BURROWLARGE( "BURROWLARGE" );
+static const trait_id trait_CHAOTIC_BAD( "CHAOTIC_BAD" );
 static const trait_id trait_DEBUG_BIONIC_POWER( "DEBUG_BIONIC_POWER" );
 static const trait_id trait_DEBUG_BIONIC_POWERGEN( "DEBUG_BIONIC_POWERGEN" );
 static const trait_id trait_DEX_ALPHA( "DEX_ALPHA" );
@@ -990,6 +991,12 @@ void Character::mutate( const int &true_random_chance, const bool use_vitamins )
         add_msg_if_player( m_bad,
                            _( "Your body tries to mutate, but it lacks a primer to do so and only contorts for a moment." ) );
         return;
+    }
+    // Genetic Downwards Spiral has special logic that makes every possible mutation negative
+    // Positive mutations can still be gained as prerequisites to a negative, but every targeted mutation will be a negative one
+    if( has_trait( trait_CHAOTIC_BAD ) ) {
+        allow_good = false;
+        allow_bad = true;
     }
 
     std::vector<trait_id> valid; // Valid mutations
