@@ -3356,7 +3356,7 @@
     "butchering_quality": 4,
     "flags": [ "UNARMED_BONUS" ],
     "mixed_effect": true,
-    "restricts_gear": [ "hand_l", "hand_r" ],
+    "restricts_gear": [ "hand_fingers_l", "hand_fingers_r" ],
     "destroys_gear": true,
     "description": "Your index fingers have grown into huge talons.  After a bit of practice, you find that this does not affect your dexterity, but allows for a deadly unarmed attack.  They also prevent wearing gloves.",
     "types": [ "CLAWS" ],
@@ -3733,7 +3733,7 @@
     "description": "You have grown large, curved, and wickedly sharp talons in place of your big toes.  Fortunately, they don't get in the way of your movement.  Unfortunately, they do prevent wearing footgear.",
     "types": [ "FEET" ],
     "category": [ "RAPTOR", "SPIDER" ],
-    "restricts_gear": [ "foot_l", "foot_r" ],
+    "restricts_gear": [ "foot_toes_l", "foot_toes_r" ],
     "destroys_gear": true,
     "allowed_items": [ "ALLOWS_TALONS" ],
     "attacks": {
@@ -3773,7 +3773,7 @@
     "types": [ "FEET", "SOLES" ],
     "category": [ "CATTLE", "CHIMERA" ],
     "wet_protection": [ { "part": "foot_l", "neutral": 10 }, { "part": "foot_r", "neutral": 10 } ],
-    "restricts_gear": [ "foot_l", "foot_r" ],
+    "restricts_gear": [ "foot_sole_l", "foot_sole_r" ],
     "destroys_gear": true,
     "armor": [ { "parts": [ "foot_l", "foot_r" ], "bash": 1 } ],
     "attacks": {
@@ -4038,7 +4038,7 @@
     "types": [ "HORNS" ],
     "prereqs": [ "HORNS" ],
     "category": [ "CHIMERA" ],
-    "restricts_gear": [ "head" ],
+    "restricts_gear": [ "head_crown" ],
     "attacks": {
       "attack_text_u": "You headbutt %s with your curled horns",
       "attack_text_npc": "%1$s headbutts %2$s with their curled horns",
@@ -4057,7 +4057,7 @@
     "description": "You have a pair of long, pointed horns, like those of an antelope.  They allow you to make a strong piercing headbutt attack, but prevent wearing headwear that is not made of fabric.",
     "types": [ "HORNS" ],
     "prereqs": [ "HORNS" ],
-    "restricts_gear": [ "head" ],
+    "restricts_gear": [ "head_crown" ],
     "allow_soft_gear": true,
     "attacks": {
       "attack_text_u": "You stab %s with your pointed horns",
@@ -4077,7 +4077,7 @@
     "description": "You have a huge rack of antlers, like those of a moose.  They allow you to make a weak headbutt attack, but prevent wearing headwear that is not made of fabric.",
     "types": [ "HORNS" ],
     "prereqs": [ "HORNS" ],
-    "restricts_gear": [ "head" ],
+    "restricts_gear": [ "head_crown" ],
     "allow_soft_gear": true,
     "attacks": {
       "attack_text_u": "You butt %s with your antlers",
@@ -4099,7 +4099,7 @@
     "category": [ "INSECT" ],
     "active": true,
     "starts_active": true,
-    "restricts_gear": [ "head" ],
+    "restricts_gear": [ "head_crown" ],
     "allow_soft_gear": true
   },
   {
@@ -4138,7 +4138,7 @@
     "category": [ "FISH" ],
     "wet_protection": [ { "part": "leg_l", "good": 3 }, { "part": "leg_r", "good": 3 } ],
     "movecost_swim_modifier": 0.75,
-    "restricts_gear": [ "leg_l", "leg_r" ],
+    "restricts_gear": [ "leg_hip_l", "leg_hip_r" ],
     "allowed_items": [ "ALLOWS_TAIL" ],
     "allow_soft_gear": true
   },
@@ -4154,7 +4154,7 @@
     "prereqs": [ "TAIL_STUB" ],
     "changes_to": [ "TAIL_FLUFFY", "TAIL_STING", "TAIL_CATTLE", "TAIL_RAT" ],
     "category": [ "FELINE", "LUPINE", "INSECT", "CHIMERA", "CATTLE", "RAT", "MOUSE" ],
-    "restricts_gear": [ "leg_l", "leg_r" ],
+    "restricts_gear": [ "leg_hip_l", "leg_hip_r" ],
     "allowed_items": [ "ALLOWS_TAIL" ],
     "allow_soft_gear": true,
     "dodge_modifier": 2
@@ -4170,7 +4170,7 @@
     "types": [ "TAIL" ],
     "prereqs": [ "TAIL_LONG" ],
     "category": [ "CATTLE" ],
-    "restricts_gear": [ "leg_l", "leg_r" ],
+    "restricts_gear": [ "leg_hip_l", "leg_hip_r" ],
     "allowed_items": [ "ALLOWS_TAIL" ],
     "allow_soft_gear": true,
     "dodge_modifier": 1
@@ -4186,7 +4186,7 @@
     "types": [ "TAIL" ],
     "prereqs": [ "TAIL_LONG", "TAIL_STUB" ],
     "category": [ "RAT", "MOUSE" ],
-    "restricts_gear": [ "leg_l", "leg_r" ],
+    "restricts_gear": [ "leg_hip_l", "leg_hip_r" ],
     "allowed_items": [ "ALLOWS_TAIL" ],
     "allow_soft_gear": true,
     "dodge_modifier": 2
@@ -4203,7 +4203,7 @@
     "prereqs": [ "TAIL_STUB" ],
     "changes_to": [ "TAIL_CLUB" ],
     "category": [ "LIZARD", "CHIMERA" ],
-    "restricts_gear": [ "leg_l", "leg_r" ],
+    "restricts_gear": [ "leg_hip_l", "leg_hip_r" ],
     "allowed_items": [ "ALLOWS_TAIL" ],
     "allow_soft_gear": true,
     "attacks": {
@@ -4225,7 +4225,7 @@
     "types": [ "TAIL" ],
     "prereqs": [ "TAIL_STUB" ],
     "category": [ "RAPTOR" ],
-    "restricts_gear": [ "leg_l", "leg_r" ],
+    "restricts_gear": [ "leg_hip_l", "leg_hip_r" ],
     "allowed_items": [ "ALLOWS_TAIL" ],
     "allow_soft_gear": true,
     "dodge_modifier": 3
@@ -4240,7 +4240,7 @@
     "types": [ "TAIL" ],
     "prereqs": [ "TAIL_LONG" ],
     "category": [ "LUPINE" ],
-    "restricts_gear": [ "leg_l", "leg_r" ],
+    "restricts_gear": [ "leg_hip_l", "leg_hip_r" ],
     "allowed_items": [ "ALLOWS_TAIL" ],
     "allow_soft_gear": true,
     "social_modifiers": { "lie": -20, "persuade": 10 },
@@ -4256,7 +4256,7 @@
     "description": "You have a long tail that ends in a vicious stinger.  It does not improve your balance at all, but allows for a powerful piercing attack.  Prevents wearing non-fabric pants.",
     "types": [ "TAIL" ],
     "prereqs": [ "TAIL_LONG" ],
-    "restricts_gear": [ "leg_l", "leg_r" ],
+    "restricts_gear": [ "leg_hip_l", "leg_hip_r" ],
     "allowed_items": [ "ALLOWS_TAIL" ],
     "category": [ "INSECT", "CHIMERA" ],
     "threshreq": [ "THRESH_INSECT", "THRESH_CHIMERA" ],
@@ -4279,7 +4279,7 @@
     "types": [ "TAIL" ],
     "prereqs": [ "TAIL_THICK" ],
     "category": [ "CHIMERA" ],
-    "restricts_gear": [ "leg_l", "leg_r" ],
+    "restricts_gear": [ "leg_hip_l", "leg_hip_r" ],
     "allowed_items": [ "ALLOWS_TAIL" ],
     "allow_soft_gear": true,
     "attacks": {
