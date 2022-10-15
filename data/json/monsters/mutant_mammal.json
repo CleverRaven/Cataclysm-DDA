@@ -615,7 +615,7 @@
     "type": "MONSTER",
     "copy-from": "mon_dog_auscattle_pup",
     "name": { "str": "unknowable puppy" },
-    "description": "Try as you might, your brain is unable to recall any details on what this puppy looks like. All you can remember is that it is a puppy, that it exists, and that it is cute.",
+    "description": "Try as you might, your brain is unable to recall any details on what this puppy looks like.  All you can remember is that it is a puppy, that it exists, and that it is cute.",
     "upgrades": { "age_grow": 42, "into": "mon_dog_antimemetic" }
   }
 ]
