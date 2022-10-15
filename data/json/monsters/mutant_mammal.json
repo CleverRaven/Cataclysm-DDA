@@ -551,7 +551,7 @@
     "id": "mon_dog_telekenetic_pup",
     "type": "MONSTER",
     "copy-from": "mon_dog_auscattle_pup",
-    "name": { "str": "triclopean puppy" },
+    "name": { "str": "triclopean puppy", "str_pl": "triclopean puppies" },
     "description": "A rather cuddly looking pup despite the third eye on its forehead, which has yet to actually open.  Particles of dust from the floor occasionally shift towards it when its excited.",
     "upgrades": { "age_grow": 42, "into": "mon_dog_telekenetic" }
   },
