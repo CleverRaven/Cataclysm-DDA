@@ -9488,18 +9488,27 @@ bool game::check_safe_mode_allowed( bool repeat_safe_mode_warnings )
         get_safemode().lastmon_whitelist = get_safemode().npc_type_name();
     } else if( new_seen_mon.size() == 1 ) {
         const shared_ptr_fast<monster> &mon = new_seen_mon.back();
+        const std::string dist_text = string_format( _( "%d tiles" ), rl_dist( u.pos(), mon->pos() ) );
         //~ %s: Cardinal/ordinal direction ("east")
         const std::string dir_text = string_format( _( "to the %s" ),
                                      colorize( direction_name( direction_from( u.pos(), mon->pos() ) ), dir_color ) );
-        //~ %1$s: Monster name ("headless zombie"), %2$s: direction text ("to the east")
-        spotted_creature_text = string_format( pgettext( "monster description", "%1$s %2$s" ),
+        //~ %1$s: Name of monster spotted ("headless zombie")
+        //~ %2$s: Distance to monster ("17 tiles")
+        //~ %3$s: Description of where the monster is ("to the east")
+        spotted_creature_text = string_format( pgettext( "monster description", "%1$s %2$s %3$s" ),
                                                colorize( mon->name(), mon_color ),
+                                               dist_text,
                                                dir_text );
         get_safemode().lastmon_whitelist = mon->name();
     } else {
-        // We've got multiple monsters to inform about. Find the most frequent type to call out by name.
+        // We've got multiple monsters to inform about.
+        // Find the range of distances.
+        int min_dist = INT_MAX, max_dist = 0;
+        // Find the most frequent type to call out by name.
         std::unordered_map<std::string, std::vector<const monster *>> mons_by_name;
         for( const shared_ptr_fast<monster> &mon : new_seen_mon ) {
+            min_dist = std::min( min_dist, rl_dist( u.pos(), mon->pos() ) );
+            max_dist = std::max( min_dist, rl_dist( u.pos(), mon->pos() ) );
             mons_by_name[mon->name()].push_back( mon.get() );
         }
         const std::vector<const monster *> &most_frequent_mon = std::max_element( mons_by_name.begin(),
@@ -9511,6 +9520,12 @@ bool game::check_safe_mode_allowed( bool repeat_safe_mode_warnings )
         const std::string most_frequent_mon_text = colorize( most_frequent_mon.size() > 1 ?
                 string_format( "%d %s",
                                most_frequent_mon.size(), mon->name( most_frequent_mon.size() ) ) : mon->name(), mon_color );
+
+        const std::string dist_text = min_dist == max_dist ?
+                                      //~ %d: Distance to all monsters ("7")
+                                      string_format( _( "%d tiles" ), max_dist ) :
+                                      //~ %d, %d: Minimum and Maximum distance to the monsters ("5"; "20")
+                                      string_format( _( "%d-%d tiles" ), min_dist, max_dist );
 
         // If they're all in one or two directions, let's call that out.
         // Otherwise, we can say they're in "various directions", so it's clear they aren't clustered.
@@ -9545,9 +9560,11 @@ bool game::check_safe_mode_allowed( bool repeat_safe_mode_warnings )
         }
 
         //~ %1$s: Description of primary monster spotted ("3 fat zombies")
-        //~ %2$s: Description of where the primary monster is ("to the east and south")
-        //~ %3$s: Description of any other monsters spotted (" and 4 others")
-        spotted_creature_text = string_format( _( "%1$s %2$s%3$s" ),  most_frequent_mon_text,
+        //~ %2$s: Description of how far away the monsters are ("7 tiles" or "5-20 tiles")
+        //~ %3$s: Description of where the primary monster is ("to the east and south")
+        //~ %4$s: Description of any other monsters spotted (" and 4 others")
+        spotted_creature_text = string_format( _( "%1$s %2$s %3$s%4$s" ),  most_frequent_mon_text,
+                                               dist_text,
                                                dir_text,
                                                other_mon_text );
         get_safemode().lastmon_whitelist = mon->name();
