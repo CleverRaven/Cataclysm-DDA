@@ -89,7 +89,13 @@
     "id": "canning_standard",
     "type": "requirement",
     "//": "This is mostly similar to water_boiling_heat, because principally you are just boiling water.  However coffeepots are excluded because you need a lot of room for the cannning pot.",
-    "//1": "still trying to figure this out",
+    "//1": "canning 1 jar uses almost the same amount of energy as canning 10 jars.",
+    "//2": "Per its longest_side (13.2cm) a 0.5L jar is about 7cm wide.  Per its longest_side (29.8cm) a 3L jar is about 11cm wide.  Being 32cm tall, the canning pot is almost exactly as wide as tall - 32cm wide or so.",
+    "//3": "That gives us 256π cm^2 of canning space - a 0.5L jar is 12.25π cm^2 and a 3L jar is 32π cm^2.  With good spacing you can fit about 14 0.5L jars or 5 3L jars.",
+    "//4": "Total displacement of one layer of 0.5L jars is 9.52 liters, so to fill up the pot 3cm above that's about 12u (3L) water.  Add 1u more to account for loss from boiling.",
+    "//5": "Total displacement of 5 3L jars is 19.25L.  It takes 17u water (4.25L) to fill above the lids, and an additional 7u to fill above the lids.  Add 2u more to account for loss from boiling.",
+    "//6": "Since it takes 10-15 minutes of exposure to boiling water for jars to begin sealing, power cost is 2u of this per water base.  Add 1u of this for each liter of stuff being canned.  Add an additional 1u for each liter of meat being canned (meat specifically needs a prolonged high temp to sterilize)",
+    "//7": "For examples, making canned veggy in 0.5L jars expects a total power use of about 33u of this, while canning meat in 3L jars would take about 82u.",
     "tools": [
       [
         [ "hotplate_induction", 125 ],
