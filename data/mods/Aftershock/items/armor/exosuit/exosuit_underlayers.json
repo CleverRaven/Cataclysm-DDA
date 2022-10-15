@@ -126,16 +126,7 @@
       }
     ],
     "warmth": 10,
-    "flags": [
-      "EXO_UNDERLAYER",
-      "SKINTIGHT",
-      "WATERPROOF",
-      "POWERARMOR_COMPATIBLE",
-      "SOFT",
-      "GAS_PROOF",
-      "RAD_RESIST",
-      "RAINPROOF"
-    ],
+    "flags": [ "EXO_UNDERLAYER", "SKINTIGHT", "WATERPROOF", "POWERARMOR_COMPATIBLE", "SOFT", "GAS_PROOF", "RAD_RESIST", "RAINPROOF" ],
     "relic_data": {
       "passive_effects": [
         {
@@ -188,16 +179,7 @@
       }
     ],
     "warmth": 10,
-    "flags": [
-      "EXO_UNDERLAYER",
-      "SKINTIGHT",
-      "WATERPROOF",
-      "POWERARMOR_COMPATIBLE",
-      "SOFT",
-      "GAS_PROOF",
-      "RAD_RESIST",
-      "RAINPROOF"
-    ],
+    "flags": [ "EXO_UNDERLAYER", "SKINTIGHT", "WATERPROOF", "POWERARMOR_COMPATIBLE", "SOFT", "GAS_PROOF", "RAD_RESIST", "RAINPROOF" ],
     "relic_data": {
       "passive_effects": [
         {
