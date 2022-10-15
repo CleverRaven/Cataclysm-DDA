@@ -302,6 +302,7 @@ cecalia
 cegamente
 centerdamage
 centric
+centrosaurus
 cepa
 cephalopod
 cephalothorax
@@ -620,6 +621,7 @@ falx
 falxes
 familiaris
 famoso
+fanbase
 fance
 fanfictions
 farmwork
@@ -1669,6 +1671,7 @@ sharksuits
 shatteringly
 shedded
 sheetmetal
+shitstorms
 shitweasel
 shlip
 shlop

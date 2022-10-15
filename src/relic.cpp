@@ -60,6 +60,8 @@ std::string enum_to_string<relic_recharge_type>( relic_recharge_type type )
         case relic_recharge_type::PERIODIC: return "periodic";
         case relic_recharge_type::SOLAR_SUNNY: return "solar_sunny";
         case relic_recharge_type::LUNAR: return "lunar";
+        case relic_recharge_type::FULL_MOON: return "full_moon";
+        case relic_recharge_type::NEW_MOON: return "new_moon";
         case relic_recharge_type::SOLAR_CLOUDY: return "solar_cloudy";
         case relic_recharge_type::NUM: break;
     }
@@ -481,7 +483,22 @@ void relic::try_recharge( item &parent, Character *carrier, const tripoint &pos 
         }
         case relic_recharge_type::LUNAR : {
             if( can_recharge_lunar( parent, carrier, pos ) &&
+                get_moon_phase( calendar::turn ) >= MOON_NEW &&
+                get_moon_phase( calendar::turn ) <= MOON_WANING_CRESCENT ) {
+                charge.accumulate_charge( parent );
+            }
+            return;
+        }
+        case relic_recharge_type::FULL_MOON : {
+            if( can_recharge_lunar( parent, carrier, pos ) &&
                 get_moon_phase( calendar::turn ) == MOON_FULL ) {
+                charge.accumulate_charge( parent );
+            }
+            return;
+        }
+        case relic_recharge_type::NEW_MOON : {
+            if( can_recharge_lunar( parent, carrier, pos ) &&
+                get_moon_phase( calendar::turn ) == MOON_NEW ) {
                 charge.accumulate_charge( parent );
             }
             return;
