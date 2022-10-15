@@ -90,7 +90,7 @@
     "components": [
       [ [ "amplifier", 1 ] ],
       [
-        [ "scrap", 4 ],
+        [ "scrap_aluminum", 4 ],
         [ "can_drink", 1 ],
         [ "can_food", 1 ],
         [ "canister_empty", 1 ],

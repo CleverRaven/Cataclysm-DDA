@@ -80,6 +80,19 @@
     ]
   },
   {
+    "id": "structured_all_body_graphs_layout",
+    "type": "widget",
+    "copy-from": "structured_health_encumb_layout",
+    "label": "All Bodygraphs",
+    "description": "Bodygraphs for bodypart <color_yellow>encumbrance</color>, <color_yellow>hitpoints</color>, <color_yellow>temperature</color>, and <color_yellow>status</color> (bite, etc.).\n\nIntended for use with the <color_yellow>Health + Overmap</color> widget.",
+    "widgets": [
+      "structured_body_graph_encumb_layout",
+      "structured_body_graph_layout",
+      "structured_body_graph_temp_layout",
+      "structured_body_graph_status_layout"
+    ]
+  },
+  {
     "id": "structured_health_tiny_body_graphs_layout",
     "type": "widget",
     "style": "layout",

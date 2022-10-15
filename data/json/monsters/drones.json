@@ -13,7 +13,6 @@
     "aggression": 100,
     "morale": 100,
     "luminance": 5,
-    "death_drops": { "subtype": "collection", "groups": [ [ "robots", 80 ] ], "//": "80% chance of an item from group robots" },
     "death_function": { "message": "The %s's interior compartment sizzles with destructive energy.", "corpse_type": "BROKEN" },
     "flags": [ "SEES", "FLIES", "NOHEAD", "ELECTRONIC", "NO_BREATHE", "INTERIOR_AMMO", "STUN_IMMUNE" ]
   },
@@ -109,7 +108,6 @@
     "armor_cut": 8,
     "armor_bullet": 6,
     "revert_to_itype": "bot_manhack",
-    "death_drops": { "groups": [ [ "robots", 4 ], [ "manhack", 1 ] ] },
     "death_function": { "corpse_type": "BROKEN" },
     "extend": { "flags": [ "HIT_AND_RUN" ] }
   },

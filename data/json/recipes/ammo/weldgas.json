@@ -208,6 +208,6 @@
       [ [ "forge", 200 ] ]
     ],
     "proficiencies": [ { "proficiency": "prof_metalworking" } ],
-    "components": [ [ [ "material_aluminium_ingot", 1 ] ] ]
+    "components": [ [ [ "material_aluminium_ingot", 1 ], [ "scrap_aluminum", 13 ] ] ]
   }
 ]

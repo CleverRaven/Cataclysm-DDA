@@ -6,7 +6,7 @@
     "description": "A tiny charred body, jumping and kicked and flailing around in a mockery of playground exercise.  It does not need a face for you to feel bad about killing it.",
     "default_faction": "zombie",
     "bodytype": "human",
-    "species": [ "ZOMBIE" ],
+    "species": [ "ZOMBIE", "HUMAN" ],
     "diff": 2,
     "volume": "30000 ml",
     "weight": "40750 g",

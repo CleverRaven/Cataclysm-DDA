@@ -87,7 +87,12 @@
         { "monster": "mon_feral_human_crowbar", "x": [ 38, 46 ], "y": [ 10, 13 ], "chance": 25, "repeat": [ 1, 2 ] },
         { "monster": "mon_feral_human_axe", "x": [ 38, 46 ], "y": [ 10, 13 ], "chance": 10 }
       ],
-      "place_item": [ { "item": "cig_butt", "x": [ 3, 5 ], "y": [ 41, 42 ], "chance": 80, "repeat": [ 1, 10 ] } ]
+      "place_item": [ { "item": "cig_butt", "x": [ 3, 5 ], "y": [ 41, 42 ], "chance": 80, "repeat": [ 1, 10 ] } ],
+      "place_items": [
+        { "item": "bulletin_police", "x": 29, "y": 12, "chance": 40, "repeat": [ 1, 3 ] },
+        { "item": "bulletin_police", "x": 29, "y": 13, "chance": 40, "repeat": [ 1, 3 ] },
+        { "item": "bulletin_police", "x": 29, "y": 14, "chance": 40, "repeat": [ 1, 3 ] }
+      ]
     }
   },
   {
@@ -409,6 +414,7 @@
         "8": { "item": "SUS_kitchen_sink", "chance": 100 }
       },
       "furniture": {
+        "3": "f_flagpole",
         "4": "f_cupboard",
         "5": "f_cupboard",
         "6": "f_cupboard",
@@ -420,7 +426,7 @@
       "terrain": {
         "1": "t_ramp_down_high",
         "2": "t_ramp_down_low",
-        "3": "t_pillar",
+        "3": "t_region_groundcover_urban",
         " ": "t_region_groundcover_urban",
         "é": "t_region_groundcover_barren",
         "*": "t_region_shrub_decorative",
@@ -443,8 +449,8 @@
         { "monster": "GROUP_ZOMBIE_PRISON", "x": [ 24, 41 ], "y": [ 33, 40 ], "density": 0.5 }
       ],
       "place_item": [
-        { "item": "american_flag", "x": 42, "y": 4 },
-        { "item": "american_flag", "x": 33, "y": 4 },
+        { "item": "american_flag", "x": 42, "y": 5 },
+        { "item": "american_flag", "x": 33, "y": 5 },
         { "item": "g_shovel", "x": 40, "y": 37 },
         { "item": "mess_tray", "x": 26, "y": 39, "repeat": [ 1, 20 ] },
         { "item": "plastic_spoon", "x": 25, "y": 39, "repeat": [ 1, 20 ] },

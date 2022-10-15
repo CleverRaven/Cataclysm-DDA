@@ -33,6 +33,6 @@
     "style": "layout",
     "arrange": "rows",
     "width": 28,
-    "widgets": [ "weather_desc", "lighting_desc", "wind_desc", "env_temp_desc" ]
+    "widgets": [ "weather_desc", "lighting_desc", "env_temp_desc" ]
   }
 ]

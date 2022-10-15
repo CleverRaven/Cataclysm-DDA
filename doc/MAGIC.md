@@ -1,11 +1,46 @@
 # How to add magic to a mod
 
-### Spells
+- [Spells](#spells)
+- [The template spell](#the-template-spell)
+- [Mandatory fields](#mandatory-fields)
+  - [Spell effects](#spell-effects)
+  - [Spell shape](#spell-shape)
+- [Common fields](#common-fields)
+  - [Spell Flags](#spell-flags)
+  - [Damage Types](#damage-types)
+  - [Spell level](#spell-level)
+  - [Learning Spells](#learning-spells)
+  - [Extra spell effects](#extra-spell-effects)
+- [Adding spells to professions and NPCs](#adding-spells-to-professions-and-npcs)
+- [Examples](#examples)
+  - [Summon spell](#summon-spell)
+  - [Typical attack](#typical-attack)
+  - [Consecutive spell casting](#consecutive-spell-casting)
+  - [Random spell casting](#random-spell-casting)
+  - [Repeatedly cast the same spell](#repeatedly-cast-the-same-spell)
+  - [A spell that casts a note on the target and an effect on the caster](#a-spell-that-casts-a-note-on-the-target-and-an-effect-on-the-caster)
+  - [Monster spells](#monster-spells)
+- [Enchantments](#enchantments)
+  - [ID values](#id-values)
+  - [Enchantment value examples](#enchantment-value-examples)
+
+
+## Spells
+
+Spells in Cataclysm: Dark Days Ahead consist in actions performed by a character or item, that result on a target or targets receiving an event.
+
+This can be anything from the humble fireball spell or the simple heal, to granting states, mutations, summoning items and vehicles, spawning monsters, exploding monsters, applying auras, crowd-controlling, blinking, transforming terrain, adding or subtracting stats, granting or removing `effect_type`s, and more.
+
+Remarkably, some things that don't seem quite "magical" at first glance may also be handled by spells, like casting Fist, casting Gun, casting Vomit, granting (or removing) `drunk`enness, handling fields (`field_id`s), transforming items, among other things.
+
+By making clever use of JSON fields, interactions, combinations and descriptions, anyone can go wild in spell crafting.  Different spells from the official mods can be used as reference.
+
+## The template spell
 
 In `data/mods/Magiclysm` there is a template spell, copied here for your perusal:
 
 ```C++
-{
+  {
     // This spell exists in json as a template for contributors to see the possible values of the spell
     "id": "example_template",                                 // id of the spell, used internally. not translated
     "type": "SPELL",
@@ -14,7 +49,6 @@ In `data/mods/Magiclysm` there is a template spell, copied here for your perusal
     "valid_targets": [ "hostile", "ground", "self", "ally" ], // if a valid target is not included, you cannot cast the spell on that target.
     "effect": "shallow_pit",                                  // effects are coded in C++. A list will be provided below of possible effects that have been coded.
     "effect_str": "template",                                 // special. see below
-    "effect_on_conditions": ["template"],                     // special. see below
     "shape": "blast",                                         // the "shape" of the spell's area of effect. uses the aoe stat
     "extra_effects": [ { "id": "fireball", "hit_self": false, "max_level": 3 } ],	// this allows you to cast multiple spells with only one spell
     "affected_body_parts": [ "head", "torso", "mouth", "eyes", "arm_l", "arm_r", "hand_r", "hand_l", "leg_l", "foot_l", "foot_r" ], // body parts affected by effects
@@ -23,7 +57,7 @@ In `data/mods/Magiclysm` there is a template spell, copied here for your perusal
     "base_casting_time": 1000,                                // this is the casting time (in moves)
     "final_casting_time": 100,
     "casting_time_increment": -50,
-    "base_energy_cost": 30,                                  // the amount of energy (of the requisite type) to cast the spell
+    "base_energy_cost": 30,                                   // the amount of energy (of the requisite type) to cast the spell
     "final_energy_cost": 100,
     "energy_increment": -6,
     "energy_source": "MANA",                                  // the type of energy used to cast the spell. types are: MANA, BIONIC, HP, STAMINA, NONE (none will not use mana)
@@ -65,7 +99,7 @@ In `data/mods/Magiclysm` there is a template spell, copied here for your perusal
     "learn_spells": { "create_atomic_light": 5, "megablast": 10 }   // the caster will learn these spells when the current spell reaches the specified level. should be a map of spell_type_id and the level at which the new spell is learned.
   }
 ```
-Most of the default values for the above are either 0 or "NONE", so you may leave out most of the values if they do not pertain to your spell.
+The template spell above shows every JSON field that spells can have.  Most of these values can be set at 0 or "NONE", so you may leave out most of these fields if they do not pertain to your spell.
 
 When deciding values for some of these, it is important to note that some of the formulae are not linear.
 For example, this is the formula for spell failure chance:
@@ -79,73 +113,105 @@ However, experience gain is a little more complicated to calculate.  The formula
 
 ```e ^ ( ( level + 62.5 ) * 0.146661 ) ) - 6200```
 
-### Spell effects and rules
+## Mandatory fields
 
-The value of the `"effect"` string in the spell's JSON data says what effect the spell has. For example, the Magus spell "Magic Missile" has a `target_attack` effect, meaning it deals damage to a specific target:
+As noted above, few JSON fields are actually required for spells to work.  Some of the mandatory fields are:
+
+| Identifier                  | Description
+|---                          |---
+| `id` |  Unique ID for the spell, used internally. Must be one continuous word, use underscores if necessary.
+| `type` | Indicates the JSON object is a `SPELL`.
+| `name` | Name of the spell that shows in game.
+| `description` | Description of the spell that shows in game.
+| `valid_targets` | Targets affected by the spell.  If a valid target is not included, you cannot cast the spell on that target.  Additionally, if the valid target is not specified, the spell aoe will not affect it.  Can be `ally`, `field`, `ground`, `hostile`, `item`, `none` or `self`.
+| `effect` | Hardcoded spell behaviors, roughly speaking spell "type".  See the list below.
+| `shape` | The shape of the spell's area of effect.  See the list below.
+
+Depending on the spell effect, more or less fields will be required.  
+
+For example, a classic `attack` spell needs the `damage_type`, `min_damage`, `max_damage`, `min_range`, `max_range`, and `max_level` fields.  
+
+In contrast, an `attack` spell using `effect_str` to grant a `self` buff (without a damage component) needs the `min_duration`, `max_duration`, and `max_level` fields instead.
+
+
+### Spell effects
+
+Each spell effect is defined in the `effect` field. For example, the Magus spell "Magic Missile" has the `attack` effect, meaning it deals damage to a specific target:
 
 ```json
-{
-  "id": "magic_missile",
-  "effect": "attack",
-  "min_damage": 1
-}
+  {
+    "id": "magic_missile",
+    "effect": "attack",
+    "min_damage": 1
+  }
 ```
 
-while the Druid spell "Nature's Bow" has a `spawn_item` effect, and requires the name of the item to spawn:
+while the Druid spell "Nature's Bow" has the `spawn_item` effect, designating the ID of the item to spawn:
 
 ```json
-{
-  "id": "druid_naturebow1",
-  "effect": "spawn_item",
-  "effect_str": "druid_recurve"
-}
+  {
+    "id": "druid_naturebow1",
+    "effect": "spawn_item",
+    "effect_str": "druid_recurve"
+  }
 ```
 
 Below is a table of currently implemented effects, along with special rules for how they work:
 
 | Effect                   | Description
 |---                       |---
-| `pain_split` | makes all of your limbs' damage even out
-| `attack` | "causes damage to targets in its aoe, and applies an effect to the targets named by `effect_str`
-| `spawn_item` | spawns an item that will disappear at the end of its duration.  Default duration is 0.
-| `summon` | summons a monster ID or group ID from `effect_str` that will disappear at the end of its duration.  Default duration is 0.
-| `summon_vehicle` | summons a vehicle ID from `effect_str` that will disappear at the end of its duration.  Default duration is 0.
+| `area_pull` | Pulls `valid_targets` in its aoe toward the target location.  Currently, the pull distance is set to 1 (see `directed_push`).
+| `area_push` | Pushes `valid_targets` in its aoe away from the target location.  Currently, the push distance is set to 1 (see `directed_push`).
+| `attack` | Causes damage to `valid_targets` in its aoe, and applies `effect_str` named effect to targets.  To damage terrain use `bash`.
+| `banishment` | Kills any `MONSTER` in the aoe up to damage hp.  Any overflow hp is taken from the caster; if it's more than the caster's hp the spell fails.
+| `bash` | Bashes the terrain at the target.  Uses damage() as the strength of the bash.
+| `charm_monster` | Charms a monster that has less hp than damage() for approximately duration().
+| `dash` | Dashes forward up to range and hits targets in a cone at the target.
+| `directed_push` | Pushes `valid_targets` in aoe away from the target location, with a distance of damage().  Negative values pull instead.
+| `effect_on_condition` | Runs the `effect_on_condition` from `effect_str` on all valid targets.  The EOC will be centered on the player, with the NPC as caster.
+| `emit` | Causes an `emit` at the target.
+| `explosion` | Causes an explosion centered on the target.  Uses damage() for power and factor aoe()/10.
+| `flashbang` | Causes a flashbang effect is centered on the target.  Uses damage() for power and factor aoe()/10.
+| `fungalize` | Fungalizes the target.
+| `guilt` | Target gets the guilt morale as if it killed the caster.
+| `map` | Maps out the overmap centered on the player, to a radius of aoe().
+| `mod_moves` | Adds damage() moves to the targets.  Negative values "freeze" for that amount of time.
+| `morale` | Gives a morale effect to NPCs or the avatar within the aoe.  Uses damage() for the value.  `decay_start` is duration() / 10.
+| `mutate` | Mutates the targets.  If `effect_str` is defined, mutates toward that category instead of picking at random.  If the `MUTATE_TRAIT` flag is used, allows `effect_str` to be a specific trait.  Damage() / 100 is the percent chance the mutation will be successful (10000 represents 100.00%).
+| `noise` | Causes damage() amount of noise at the target.  Note: the noise can be described further with `sound_type`, `sound_description`, `sound_ambient`, `sound_id` and `sound_variant`.
+| `pain_split` | Evens out all of your limbs' damage.
+| `pull_target` | Attempts to pull the target towards the caster in a straight line.  If the path is blocked by impassable furniture or terrain, the effect fails.
+| `recover_energy` | Recovers an energy source equal to damage of the spell.  The energy source is defined in `effect_str` and may be one of `BIONIC`, `FATIGUE`, `PAIN`, `MANA` or `STAMINA`.
+| `remove_effect` | Removes `effect_str` effects from all creatures in the aoe.
+| `remove_field` | Removes a `effect_str` field in the aoe.  Causes teleglow of varying intensity and potentially teleportation depending on field density, if the field removed is `fd_fatigue`.
+| `revive` | Revives a monster like a zombie necromancer.  The monster must have the `REVIVES` flag.
+| `short_range_teleport` | Teleports the player randomly range spaces with aoe variation.  See also the `TARGET_TELEPORT` and `UNSAFE_TELEPORT` flags.
+| `slime_split` | The slime splits into two large or normal slimes, depending on mass.  Note: hardcoded for `mon_blob`-type enemies, check the monster `death_function` + spell `summon` combination.
+| `spawn_item` | Spawns an item that will disappear at the end of its duration.  Default duration is 0.
+| `summon` | Summons a `MONSTER` or `monstergroup` from `effect_str` that will disappear at the end of its duration.  Default duration is 0.  See also the `SPAWN_WITH_DEATH_DROPS` flag.
+| `summon_vehicle` | Summons a `vehicle` from `effect_str` that will disappear at the end of its duration.  Default duration is 0.
+| `targeted_polymorph` | A targeted monster is permanently transformed into the `MONSTER` specified by `effect_str`, if it has less HP than the spell's damage.  If `effect_str` is left empty, the target will transform into a random monster with a similar difficulty rating.  Alternatively, the `POLYMORPH_GROUP` flag can be used to pick a weighted ID from a `monstergroup`.  The player and NPCs are immune to this spell effect.
+| `ter_transform` | Transforms the terrain and furniture in its aoe.  The chance of any one of the points in the aoe changing is 1 / (damage).  The `effect_str` is the ID of a `ter_furn_transform`.
+| `timed_event` | Adds a timed event to the player only.  Valid timed events are: `amigara`, `artifact_light`, `dim`, `help`, `robot_attack`, `roots_die`, `spawn_wyrms`, `temple_flood`, `temple_open`, `temple_spawn`, `wanted`.  **NOTE**: This was added only for artifact active effects.  Support is limited, use at your own risk.
 | `translocate` | Opens up a window that allows the caster to choose a translocation gate to teleport to.
-| `area_pull` | Pulls `valid_targets` in aoe toward the target location
-| `area_push` | Pushes `valid_targets` in aoe away from the target location
-| `short_range_teleport` | teleports the player randomly range spaces with aoe variation
-| `targeted_polymorph` | A targeted monster is permanently transformed into the monster ID specified by  `effect_str` if it has less HP than the spell's damage. If `effect_str` is left empty, the target will transform into a random monster with a similar difficulty rating, alternatively  the flag `"POLYMORPH_GROUP"` can be used to pick a weighted monster ID from a monster group. The player and NPCs are immune to this spell effect.
-| `recover_energy` | recovers an energy source equal to damage of the spell. The energy source recovered is defined in "effect_str" and may be one of "MANA", "STAMINA", "FATIGUE", "PAIN", "BIONIC"
-| `ter_transform` | transform the terrain and furniture in an area centered at the target.  The chance of any one of the points in the area of effect changing is one_in( damage ).  The effect_str is the id of a ter_furn_transform.
-| `vomit` | any creature within its area of effect will instantly vomit, if it's able to do so.
-| `timed_event` | adds a timed event to the player only. valid timed events: "help", "wanted", "robot_attack", "spawn_wyrms", "amigara", "roots_die", "temple_open", "temple_flood", "temple_spawn", "dim", "artifact_light" NOTE: This was added only for artifact active effects. support is limited, use at your own risk.
-| `explosion` | an explosion is centered on the target, with power damage() and factor aoe()/10
-| `flashbang` | a flashbang effect is centered on the target, with power damage() and factor aoe()/10
-| `mod_moves` | adds damage() moves to the target. can be negative to "freeze" the target for that amount of time
-| `map` | maps the overmap centered on the player out to a radius of aoe()
-| `morale` | gives a morale effect to all npcs or avatar within aoe, with value damage(). decay_start is duration() / 10.
-| `charm_monster` | charms a monster that has less hp than damage() for approximately duration()
-| `mutate` | mutates the target(s). if effect_str is defined, mutates toward that category instead of picking at random. the "MUTATE_TRAIT" flag allows effect_str to be a specific trait instead of a category. damage() / 100 is the percent chance the mutation will be successful (a value of 10000 represents 100.00%)
-| `bash` | bashes the terrain at the target. uses damage() as the strength of the bash.
-| `dash` | dashes forward up to range and hits targets in a cone at the target
-| `banishment` | kills monsters in the aoe up to damage hp. any overflow hp the monster has is taken from the caster; if it's more hp than the caster has it fails.
-| `revive` | Revives a monster like a zombie necromancer.  The monster must have the revives flag
-| `upgrade` | Immediately upgrades a target monster
-| `pull_target` | Attempts to pull the target towards the caster in a straight line. If the path is blocked by impassable furniture or terrain, the effect fails.
-| `guilt` | The target gets the guilt morale as if it killed the caster
-| `remove_effect` | Removes `effect_str` effects from all creatures in aoe.
-| `remove_field` | Removes a `effect_str` field in aoe.  Causes teleglow of varying intensity and potentially teleportation depending on field density if the field removed is `fd_fatigue`.
-| `emit` | Causes an emit at the target
-| `fungalize` | Fungalizes the target
-| `effect_on_condition` | Runs the effect_on_condition with the id found in `effect_str` on all valid targets. For the run eoc the target will be u and the caster will be npc.
+| `upgrade` | Immediately upgrades a target `MONSTER`.
+| `vomit` | Any creature within its aoe will instantly vomit, if it's able to do so.
 
-Another mandatory member is spell "shape". This dictates how the area of effect works.
+
+### Spell shape
+
+Another mandatory field is the spell shape. This dictates how the area of effect works:
 
 | Shape | Description
 | --    | --
-| `blast` | a standard circular blast that goes outward from the impact position. aoe value is the radius.
-| `line` | fires a line with a width equal to the aoe
-| `cone` | fires a cone with an arc equal to aoe in degrees
+| `blast` | A circular blast centered on the impact position.  Aoe value is the radius.
+| `cone` | Fires a cone with an arc equal to aoe in degrees.
+| `line` | Fires a line with a width equal to the aoe.
+
+
+## Common fields
+
+The following JSON fields are also used in spells and, while optional, greatly expand how spells can behave.
 
 
 ### Spell Flags
@@ -154,114 +220,144 @@ Flags allow you to provide additional customizations for spell effects, behavior
 Spells may have any number of flags, for example:
 
 ```json
- {
+  {
     "id": "bless",
     "//": "Encumbrance on the mouth (verbal) or arms (somatic) affect casting success, but not legs.",
     "flags": [ "VERBAL", "SOMATIC", "NO_LEGS" ]
- }
+  }
 ```
 
 | Flag | Description
 | ---  | ---
-| `WONDER` | This alters the behavior of the parent spell drastically: The spell itself doesn't cast, but its damage and range information is used in order to cast the extra_effects.  N of the extra_effects will be chosen at random to be cast, where N is the current damage of the spell (stacks with RANDOM_DAMAGE flag) and the message of the spell cast by this spell will also be displayed.  If this spell's message is not wanted to be displayed, make sure the message is an empty string.
-| `EXTRA_EFFECTS_FIRST` | The spell extra effects will happen before the main spell effect.
-| `RANDOM_TARGET` | Forces the spell to choose a random valid target within range instead of the caster choosing the target. This also affects extra_effects.
-| `RANDOM_DURATION` | picks random number between min+increment*level and max instead of normal behavior
-| `RANDOM_DAMAGE` | picks random number between min+increment*level and max instead of normal behavior
-| `RANDOM_AOE` | picks random number between min+increment*level and max instead of normal behavior
-| `PERMANENT` | items or creatures spawned with this spell do not disappear and die as normal.  Items can only be permanent at maximum spell level; creatures can be permanent at any spell level.
-| `IGNORE_WALLS` | spell's aoe goes through walls
-| `SWAP_POS` | a projectile spell swaps the positions of the caster and target
-| `HOSTILE_SUMMON` | summon spell always spawns a hostile monster
-| `HOSTILE_50` | summoned monster spawns friendly 50% of the time
-| `FRIENDLY_POLY` | the target of a `targeted_polymorph` spell will become friendly to the caster if the spell resolves successfully.
-| `POLYMORPH_GROUP` | a `targeted_polymorph` spell will transform the target into random monster from the monster group ID matching `effect_str`.
-| `SILENT` | spell makes no noise at target
-| `LOUD` | spell makes extra noise at target
-| `VERBAL` | spell makes noise at caster location, mouth encumbrance affects fail %
-| `SOMATIC` | arm encumbrance affects fail % and casting time (slightly)
-| `NO_HANDS` | hands do not affect spell energy cost
-| `NO_LEGS` | legs do not affect casting time
-| `CONCENTRATE` | focus affects spell fail %
-| `MUTATE_TRAIT` | overrides the mutate spell_effect to use a specific trait_id instead of a category
-| `PAIN_NORESIST` | pain altering spells can't be resisted (like with the deadened trait)
-| `WITH_CONTAINER` | items spawned with container
-| `UNSAFE_TELEPORT` | teleport spell risks killing the caster or others
-| `TARGET_TELEPORT` | teleport spell changes to maximum range target with aoe as variation around target
-| `SPAWN_GROUP` | spawn or summon from an item or monster group, instead of individual item/monster ID
-| `SPAWN_WITH_DEATH_DROPS` | allows summoned monsters to retain their usual death drops, otherwise they drop nothing
-| `NON_MAGICAL` | ignores spell resistance when calculating damage mitigation
-| `NO_PROJECTILE` | the "projectile" portion of the spell phases through walls. the epicenter of the spell effect is exactly where you target it with no regards to obstacles
-| `NO_EXPLOSION_SFX` | The spell will not generate a visual explosion effect
+| `CONCENTRATE` | Focus affects spell fail %.
+| `EXTRA_EFFECTS_FIRST` | The spell's `extra_effects` will happen before the main spell effect.
+| `FRIENDLY_POLY` | The target of a `targeted_polymorph` spell will become friendly to the caster if the spell resolves successfully.
+| `HOSTILE_SUMMON` | Summon spell always spawns a hostile monster.
+| `HOSTILE_50` | Summoned monster spawns friendly 50% of the time.
+| `IGNITE_FLAMMABLE` | If the spell area has anything flammable, a fire will be produced
+| `IGNORE_WALLS` | Spell's aoe goes through walls.
+| `LOUD` | Spell makes extra noise at target.
+| `MUST_HAVE_CLASS_TO_LEARN` | The spell is autolearned when you have `spell_class`, and removed when you lost it.
+| `MUTATE_TRAIT` | Overrides the `mutate` spell effect to use a specific trait_id instead of a category.
+| `NO_EXPLOSION_SFX` | The spell will not generate a visual explosion effect.
+| `NO_FAIL` | This spell cannot fail when cast.
+| `NO_HANDS` | Hands do not affect spell energy cost.
+| `NO_LEGS` | Legs do not affect casting time.
+| `NO_PROJECTILE` | The "projectile" portion of the spell phases through walls, the epicenter of the spell effect is exactly where you target it, with no regards to obstacles.
+| `NON_MAGICAL` | Ignores spell resistance when calculating damage mitigation.
+| `PAIN_NORESIST` | Pain altering spells can't be resisted (like with the deadened trait).
+| `PERCENTAGE_DAMAGE` | The spell deals damage based on the target's current hp.  This means that the spell can't directly kill the target.
+| `PERMANENT` | Items or creatures spawned with this spell do not disappear and die as normal.  Items can only be permanent at maximum spell level; creatures can be permanent at any spell level.
+| `PERMANENT_ALL_LEVELS` | Items spawned with this spell do not disappear even if the spell is not max level.
+| `POLYMORPH_GROUP` | A `targeted_polymorph` spell will transform the target into a random monster from the `monstergroup` in `effect_str`.
+| `RANDOM_AOE` | Picks random number between (min + increment) * level and max instead of normal behavior.
+| `RANDOM_CRITTER` | Same as `RANDOM_TARGET` but ignores ground.
+| `RANDOM_DAMAGE` | Picks random number between (min + increment) * level and max instead of normal behavior.
+| `RANDOM_DURATION` | Picks random number between (min + increment) * level and max instead of normal behavior.
+| `RANDOM_TARGET` | Forces the spell to choose a random valid target within range instead of the caster choosing the target.  This also affects `extra_effects`.
+| `SILENT` | Spell makes no noise at target.
+| `SOMATIC` | Arm encumbrance affects fail % and casting time (slightly).
+| `SPAWN_GROUP` | Spawn or summon from an `item_group` or `monstergroup`, instead of the specific IDs.
+| `SPAWN_WITH_DEATH_DROPS` | Allows summoned monsters to retain their usual death drops, otherwise they drop nothing.
+| `SWAP_POS` | A projectile spell swaps the positions of the caster and target.
+| `TARGET_TELEPORT` | Teleport spell changes to maximum range target with aoe as variation around target.
+| `UNSAFE_TELEPORT` | Teleport spell risks killing the caster or others.
+| `VERBAL` | Spell makes noise at caster location, mouth encumbrance affects fail %.
+| `WITH_CONTAINER` | Items spawned with container.
+| `WONDER` | This drastically alters the behavior of the parent spell: The spell itself doesn't cast, but the damage and range information are used to cast the `extra_effects`.  A n number of `extra_effects` will be chosen to be cast at random, where n is the current damage of the spell (stacks with the `RANDOM_DAMAGE` flag), the message of the casted spell will also be displayed.  If this spell's message is not wanted, make sure `message` is an empty string.
 
 
 ### Damage Types
 
-For Spells that have an attack type, these are the available damage types:
+The following are the available damage types, for those spells that have a damaging component:
 
-* "heat"
-* "acid"
-* "bash"
-* "biological" - internal damage such as poison
-* "cold"
-* "cut"
-* "electric"
-* "stab"
-* "pure" - this damage type goes through armor altogether. it is the default.
+| Damage type             | Description
+|---                      |---
+| `acid` | 
+| `bash` | 
+| `biological` | Internal damage such as poison.
+| `cold` | 
+| `cut` | 
+| `electric` | 
+| `heat` | 
+| `pure` | This damage type goes through armor altogether.  Set by default.
+| `stab` | 
 
-### Spells that level up
 
-Spells that change effects as they level up must have a min and max effect and an increment. The min effect is what the spell will do at level 0, and the max effect is where it stops growing.  The increment is how much it changes per level. For example:
+### Spell level
+
+Spells can change effects as they level up.  "Effect" in this context can be: 
+* accuracy
+* aoe (area of effect)
+* damage
+* dot (damage over time)
+* duration
+* pierce, and
+* range
+
+The effect growth is indicated with the `min_effect`, `max_effect` and `effect_increment` fields:
+* `min_effect` is what the spell will do at level 0
+* `max_effect` is where it stops growing, the level cap.
+* `effect_increment` is how much it changes per level.
+
+Additionally, there are also included: 
+* energy cost (as `base_energy_cost`, `final_energy_cost`, `energy_increment`), and
+* field intensity (`min_field_intensity`, `max_field_intensity`, `field_intensity_increment` plus `field_intensity_variance`).
+
+For example:
 
 ```json
-"min_range": 1,
-"max_range": 25,
-"range_increment": 5,
+...
+    "min_range": 1,
+    "max_range": 25,
+    "range_increment": 5,
+...
 ```
 
-Min and max values must always have the same sign, but it can be negative eg. in the case of spells that use a negative 'recover' effect to cause pain or stamina damage. For example:
+Min and max values must always have the same sign, but it can be negative e.g. in the case of spells that use a negative 'recover' effect to cause pain or stamina damage. For example:
 
 ```json
-{
-  "id": "stamina_damage",
-  "type": "SPELL",
-  "name": "Tired",
-  "description": "decreases stamina",
-  "valid_targets": [ "hostile" ],
-  "min_damage": -2000,
-  "max_damage": -10000,
-  "damage_increment": -3000,
-  "max_level": 10,
-  "effect": "recover_energy",
-  "effect_str": "STAMINA"
-}
+  {
+    "id": "stamina_damage",
+    "type": "SPELL",
+    "name": "Tired",
+    "description": "decreases stamina",
+    "valid_targets": [ "hostile" ],
+    "min_damage": -2000,
+    "max_damage": -10000,
+    "damage_increment": -3000,
+    "max_level": 10,
+    "effect": "recover_energy",
+    "effect_str": "STAMINA"
+  }
 ```
+
 
 ### Learning Spells
 
-Currently there multiple ways of learning spells that are implemented: learning a spell from an item(through a use_action), from spells that have the learn_spells property and from traits/mutations.  An example of an use item is shown below:
+There multiple ways to learn spells: learning a spell from an item (through a `use_action`), from spells that have the `learn_spells` field, and from traits/mutations.  An example is shown below:
 
 ```json
-{
-  "id": "DEBUG_spellbook",
-  "type": "GENERIC",
-  "name": "A Technomancer's Guide to Debugging C:DDA",
-  "description": "static std::string description( spell sp ) const;",
-  "weight": 1,
-  "volume": "1 ml",
-  "symbol": "?",
-  "color": "magenta",
-  "use_action": {
+  {
+    "id": "DEBUG_spellbook",
+    "type": "GENERIC",
+    "name": "A Technomancer's Guide to Debugging C:DDA",
+    "description": "static std::string description( spell sp ) const;",
+    "weight": 1,
+    "volume": "1 ml",
+    "symbol": "?",
+    "color": "magenta",
+    "use_action": {
     "type": "learn_spell",
     "//": "list of spells you can learn from the item",
     "spells": [ "debug_hp", "debug_stamina", "example_template", "debug_bionic", "pain_split", "fireball" ]
+    }
   }
-},
 ```
 
 You can study this spellbook for a rate of ~1 experience per turn depending on intelligence, spellcraft, and focus.
 
-Below is an example of the learn_spells property:
+Below is an example of `learn_spells` usage:
 ```json
   {
     "id": "phase_door",
@@ -275,109 +371,136 @@ Below is an example of the learn_spells property:
     "difficulty": 2,
     "spell_class": "MAGUS",
     "learn_spells": { "dimension_door": 10 }
-  },
+  }
 ```
-Traits/mutations have the spells_learned property, see the [JSON_INFO](JSON_INFO.md) documentation for details.
+
+Traits/mutations have the `spells_learned` field, see the [JSON_INFO](JSON_INFO.md) documentation for details.
 
 
-### Spells in professions and NPC classes
+### Extra spell effects
 
-You can add a "spell" member to professions or an NPC class definition like so:
+Another two interesting fields are `extra_effects` and `effect_str`:
+
+* `extra_effects` allows to cast one or more spells simultaneously, thus enabling "chain" style casting.
+
+* `effect_str` works as a pointer, it links the main spell to a certain JSON object.  Behavior can vary depending on the spell's `effect`, e.g. it may define which `effect_type` will be applied the target, the ID of the `spawn_item`, `monster` or `vehicle` to spawn, etc.  Do note that some effect types are hardcoded, like `beartrap`, `crushed`, `dazed`, `downed`, `stunned`, etc. (non-exhaustive list!).
+
+
+## Adding spells to professions and NPCs
+
+You can add spells to professions or NPC class definitions like this:
 
 ```json
-"spells": [ { "id": "summon_zombie", "level": 0 }, { "id": "magic_missile", "level": 10 } ]
+  {
+    "id": "test_profession",
+    "type": "profession",
+    "name": "Test Professioner",
+    "description": "Tests professions",
+    "spells": [ { "id": "summon_zombie", "level": 0 }, { "id": "magic_missile", "level": 10 } ],
+    ...
+  }
 ```
 
-NOTE: This makes it possible to learn spells that conflict with a class. It also does not give the prompt to gain the class. Be judicious upon adding this to a profession!
+**Note:** This makes it possible to learn spells that conflict with a class. It also does not give the prompt to gain the class. Be judicious upon adding this to a profession!
 
-### Spell examples
+## Examples
 
-Below you can see the proper examples of monster spells - most common types and even some advanced ones:
+The following are some spell examples, from simple to advanced:
 
-Spell types:
+### Summon spell
 
-1) Summon:
-```
-    {
+```C++
+  {
     "type": "SPELL",
-    "id": "test_summon",                                       // id of the spell, used internally. not translated
-    "name": "Summon",                                          // name of the spell that shows in game
+    "id": "test_summon",                                     // id of the spell, used internally. not translated
+    "name": "Summon",                                        // name of the spell that shows in game
     "description": "Summons the creature specified in 'effect_str'",
     "flags": [ "SILENT", "HOSTILE_SUMMON" ],  // see "Spell Flags" in this document
-    "valid_targets": [ "ground" ],                             // if a valid target is not included, you cannot cast the spell on that target.
-    "min_damage": 1,                                           // minimum number of creatures summoned (or "starting" number of creatures summoned)
-    "max_damage": 1,                                           // maximum number of creatures summoned the spell can achieve
+    "valid_targets": [ "ground" ],                           // if a valid target is not included, you cannot cast the spell on that target.
+    "min_damage": 1,                                         // minimum number of creatures summoned (or "starting" number of creatures summoned)
+    "max_damage": 1,                                         // maximum number of creatures summoned the spell can achieve
     "min_aoe": 3,                                            // area of effect of the spell, in this case the area the summons can appear in
     "max_aoe": 3,
-    "effect": "summon",                                        // effects are coded in C++. A list is provided in this document of possible effects that have been coded.
-    "effect_str": "mon_test_monster",                          // varies, see table of implemented effects in this document
-    "min_duration": 6250,                                      // duration of spell effect in moves (if the spell has a special effect)
+    "effect": "summon",                                      // effects are coded in C++. A list is provided in this document of possible effects that have been coded.
+    "effect_str": "mon_test_monster",                        // varies, see table of implemented effects in this document
+    "min_duration": 6250,                                    // duration of spell effect in moves (if the spell has a special effect)
     "max_duration": 6250
   }
-  ```
-2) Typical attack:
 ```
-    {
+
+Self explanatory: when cast, `test_summon` will silently summon 1 hostile `mon_test_monster` on a random 3x3 location centered around the caster, with a duration of 62.5 seconds, after which it will disappear.
+
+### Typical attack
+
+```C++
+  {
     "id": "test_attack",                                     // id of the spell, used internally. not translated
     "type": "SPELL",
     "name": "Ranged Strike",                                 // name of the spell that shows in game
     "description": "Deals damage to the target with 100% accuracy. Will always apply the status effect specified in 'effect_str'.",
     "valid_targets": [ "ground", "hostile" ],                // if a valid target is not included, you cannot cast the spell on that target.
-     "effect": "projectile_attack",                           // effects are coded in C++. A list is provided in this document of possible effects that have been coded.
+    "effect": "attack",                                      // effects are coded in C++. A list is provided in this document of possible effects that have been coded.
     "effect_str": "stunned",                                 // varies, see table of implemented effects in this document
     "min_damage": 10,                                        // minimum damage (or "starting" damage)
     "max_damage": 20,                                        // maximum damage the spell can achieve
-    "damage_increment": 1.0,                              // How much damage increases per spell level increase
+    "damage_increment": 1.0,                                 // How much damage increases per spell level increase
     "min_range": 4,                                          // range of the spell
     "max_range": 4,
     "base_casting_time": 500,                                // this is the casting time (in moves)
     "min_duration": 200,                                     // duration of spell effect in moves (if the spell has a special effect)
     "max_duration": 300,
-    "duration_increment": 10,                              // How much longer the spell lasts per spell level
+    "duration_increment": 10,                                // How much longer the spell lasts per spell level
     "damage_type": "stab"                                    // type of damage
-  } ;
-  ```
-  note: Uses both `ground` and `hostile` in `valid_targets` as well so it can be targeted in an area with no line of sight
-
-
-3) Consecutively cast spells:
+  }
 ```
-    {
-    "id": "test_combo",                                        // id of the spell, used internally. not translated
+
+Explanation: classic damage spell with designated effect.  After a 5 second cast, a lvl 1 `test_attack` will deal 11 stab damage up to 4 tiles away, and stun the `hostile` target for 2.1 seconds.
+
+Note: `valid_targets` has both `ground` and `hostile` so it can be targeted in an area with no line of sight.
+
+
+### Consecutive spell casting
+
+```C++
+  {
+    "id": "test_combo",                                      // id of the spell, used internally. not translated
     "type": "SPELL",
-    "name": "Combo Strikes",                                   // name of the spell that shows in game
+    "name": "Combo Strikes",                                 // name of the spell that shows in game
     "description": "Upon casting this spell, will also activate the spells specified on the 'extra_effects' in descending order.",
-    "flags": [ "SILENT", "RANDOM_DAMAGE", "RANDOM_AOE" ],      // see "Spell Flags" in this document
-    "valid_targets": [ "hostile", "ground" ],                  // if a valid target is not included, you cannot cast the spell on that target.
-    "effect": "projectile_attack",                             // effects are coded in C++. A list is provided in this document of possible effects that have been coded.
-    "effect_str": "downed",                                    // varies, see table of implemented effects in this document
+    "flags": [ "SILENT", "RANDOM_DAMAGE", "RANDOM_AOE" ],    // see "Spell Flags" in this document
+    "valid_targets": [ "hostile", "ground" ],                // if a valid target is not included, you cannot cast the spell on that target.
+    "effect": "attack",                                      // effects are coded in C++. A list is provided in this document of possible effects that have been coded.
+    "effect_str": "downed",                                  // varies, see table of implemented effects in this document
     "extra_effects": [ { "id": "test_atk1" }, { "id": "test_atk2" } ],               // this allows you to cast multiple spells with only one spell
     "min_damage": 7,                                         // minimum damage (or "starting" damage)
     "max_damage": 14,                                        // maximum  damage the spell can achieve
-    "damage_increment": 0.7                            // damage increase per spell level
+    "damage_increment": 0.7                                  // damage increase per spell level
     "min_aoe": 2,                                            // area of effect
     "max_aoe": 4,
-    "aoe_increment": 0.2,                               // how much wider the area of effect gets per spell level
+    "aoe_increment": 0.2,                                    // how much wider the area of effect gets per spell level
     "min_range": 10,                                         // range of the spell
     "max_range": 10,
     "base_casting_time": 750,                                // this is the casting time (in moves)
     "min_duration": 325,                                     // duration of spell effect in moves (if the spell has a special effect)
     "max_duration": 325,
     "damage_type": "stab"                                    // type of damage
-  } ;
-  ```
-  note: If you put two or more spells in `extra_effects`, it will simply cast all the spells consecutively - first spell in `extra_effects`, second in `extra_effects`, third in `extra_effects` and etc. if you wish to pick one randomly, use the `WONDER` flag. Additionally, the extra spells will be cast at a level up to the level of the parent spell being cast, unless additional data is added to the fake_spell.
-
-4) Randomly cast spells:
+  }
 ```
+
+Explanation: If you put two or more spells in `extra_effects`, it will consecutively cast the spells: first `extra_effects`, second `extra_effects`, third `extra_effects`, etc.  If you wish to pick one at random, use the `WONDER` flag (see below).  Additionally, the extra spells will be cast at a level up to the level of the parent spell being cast, unless additional data is added to each `test_atk#`.
+
+
+### Random spell casting
+
+```C++
   {
     "id": "test_starter_spell",                              // id of the spell, used internally. not translated
     "type": "SPELL",
     "name": "Starter",                                       // name of the spell that shows in game
-    "description": "Upon casting this spell, randomly selects one spell specified in'extra_effects' to cast. This spell's damage counts how many times it will randomly select from the list",
+    "description": "Upon casting this spell, randomly selects one spell specified in 'extra_effects' to cast. The spell damage shows how many times it will randomly select from the list",
     "flags": [ "SILENT", "WONDER", "RANDOM_DAMAGE" ],        // see "Spell Flags" in this document
     "valid_targets": [ "hostile" ],                          // if a valid target is not included, you cannot cast the spell on that target.
-    "effect": "projectile_attack",                           // effects are coded in C++. A list is provided in this document of possible effects that have been coded.
+    "effect": "attack",                                      // effects are coded in C++. A list is provided in this document of possible effects that have been coded.
     "extra_effects": [                                       // this allows you to cast multiple spells with only one spell
       { "id": "test_atk1" },                                 // id of the spell, used internally. not translated
       { "id": "test_atk2" },                                 // id of the spell, used internally. not translated
@@ -388,86 +511,111 @@ Spell types:
     ],
     "min_damage": 3,                                         // minimum damage (or "starting" damage)
     "max_damage": 5,                                         // maximum damage the spell can achieve
-    "damage_increment": 0.2                            // damage increase per spell level
+    "damage_increment": 0.2                                  // damage increase per spell level
     "min_range": 10,                                         // range of the spell
     "max_range": 10
   }
-  ```
-  note: `WONDER` flag does wonders here, it works as a dice emulator. It picks one out of these spells (It cannot fail, it will always pick a minimum of one random spell), the amount of `rolls` of this dice are specified via `min_damage` and `max_damage` with the help of `RANDOM_DAMAGE` flag of course - in this example, this spell will be repeated minimum 3 times and maximum 5 times thus it will always be cast 3-5 times. There must be a minimum of one spell in `extra_effects` for wonder to work properly.
-
-5) Repeatedly cast the same spell:
 ```
-	{
+
+Explanation: The `WONDER` flag does wonders by turning the spell into a dice: When cast, the main spell will pick the subspells in `extra_effects`.  The amount of "rolls" is specified via `min_damage` and `max_damage` plus the `RANDOM_DAMAGE` flag.  In this example, casting `test_starter_spell` will cause any one of each `test_atk#` subspells to be selected, this repeats 3 to 5 times.
+
+Note: There must be a minimum of one spell in `extra_effects` for the `WONDER` flag to work properly.
+
+
+### Repeatedly cast the same spell
+
+```C++
+  {
     "type": "SPELL",
-    "id": "test_attack_repeat",                         // id of the spell, used internally. not translated
-    "name": "a spell",                                  // name of the spell that shows in game
+    "id": "test_attack_repeat",                              // id of the spell, used internally. not translated
+    "name": "a spell",                                       // name of the spell that shows in game
     "description": "Upon casting this spell it will repeat the spell specified in `extra_effects` - the amount of repetitions is the interval `min_damage`-`max_damage` ",
-    "extra_effects": [ { "id": "test_attack" } ],       // this allows you to cast multiple spells with only one spell
-    "flags": [ "SILENT", "WONDER", "RANDOM_DAMAGE" ],   // see "Spell Flags" in this document
-    "valid_targets": [ "hostile" ],                     // if a valid target is not included, you cannot cast the spell on that target.
-    "effect": "target_attack",                          // effects are coded in C++. A list is provided in this document of possible effects that have been coded.
-    "effect_str": "target_message",                     // varies, see table of implemented effects in this document
-    "min_damage": 5,                                    // minimum (starting damage)
-    "max_damage": 7,                                    // maximum damage the spell can achieve
-    "damage_increment": 0.2                        // damage increase per spell level
-    "min_range": 10,                                    // range of the spell
+    "extra_effects": [ { "id": "test_attack" } ],            // this allows you to cast multiple spells with only one spell
+    "flags": [ "SILENT", "WONDER", "RANDOM_DAMAGE" ],        // see "Spell Flags" in this document
+    "valid_targets": [ "hostile" ],                          // if a valid target is not included, you cannot cast the spell on that target.
+    "effect": "attack",                                      // effects are coded in C++. A list is provided in this document of possible effects that have been coded.
+    "effect_str": "target_message",                          // varies, see table of implemented effects in this document
+    "min_damage": 5,                                         // minimum (starting damage)
+    "max_damage": 7,                                         // maximum damage the spell can achieve
+    "damage_increment": 0.2                                  // damage increase per spell level
+    "min_range": 10,                                         // range of the spell
     "max_range": 10,
-    "min_duration": 1,                                  // duration of spell effect in moves (if the spell has a special effect)
+    "min_duration": 1,                                       // duration of spell effect in moves (if the spell has a special effect)
     "max_duration": 1
   }
-  ```
-  note: Notice how we have `WONDER`, `RANDOM_DAMAGE` combo again - we have `min_damage` set to 5, `max_damage` set to 7. so that means that the `dice` will `roll` 5-7 times, but this time we have only one spell in `extra_effects`. observe that `WONDER` has a 100% chance of picking a spell if there is only 1 spell in `extra_effets`, thus it will repeat the same spell 5-7 times.
-
-6) A spell that casts a note on a target and an effect on itself:
 ```
-	{
-    "id": "test_attack_note",                            // id of the spell, used internally. not translated
+
+Explanation: Notice a different approach for the `WONDER` and `RANDOM_DAMAGE` combo: `min_damage` set to 5 and `max_damage` set to 7 will cause the main spell to "roll" `extra_effects` 5 - 7 times, but this time there's a single `test_attack`.  Because `WONDER` has a 100% chance of picking a spell, `test_attack`, will be repeated 5 to 7 times.
+
+
+### A spell that casts a note on the target and an effect on the caster
+
+```C++
+  {
+    "id": "test_attack_note",                                // id of the spell, used internally. not translated
     "type": "SPELL",
-    "name": "a note",                                    // name of the spell that shows in game
+    "name": "a note",                                        // name of the spell that shows in game
     "description": "This spell applies a harmless status effect to notify the player about the spell that the user has cast.",
-    "flags": [ "SILENT" ],                               // see "Spell Flags" in this document
-    "valid_targets": [ "hostile" ],                      // if a valid target is not included, you cannot cast the spell on that target.
-    "effect": "target_attack",                           // effects are coded in C++. A list is provided in this document of possible effects that have been coded.
+    "flags": [ "SILENT" ],                                   // see "Spell Flags" in this document
+    "valid_targets": [ "hostile" ],                          // if a valid target is not included, you cannot cast the spell on that target.
+    "effect": "attack",                                      // effects are coded in C++. A list is provided in this document of possible effects that have been coded.
     "extra_effects": [ { "id": "sacrifice_spell", "hit_self": true }, { "id": "test_attack" } ],     // this allows you to cast multiple spells with only one spell
-    "effect_str": "eff_test_note",                       // varies, see table of implemented effects in this document
-    "min_aoe": 6,                                        // area of effect, or range of variance
+    "effect_str": "eff_test_note",                           // varies, see table of implemented effects in this document
+    "min_aoe": 6,                                            // area of effect, or range of variance
     "max_aoe": 6,
-    "min_duration": 1,                                   // duration of spell effect in moves (if the spell has a special effect)
+    "min_duration": 1,                                       // duration of spell effect in moves (if the spell has a special effect)
     "max_duration": 1
   }
-  ```
-  note: Here we have to use one spell on the caster itself and the other on the hostile target. in order to make the caster cast a spell on itself - you must specify the `id` of whatever spell you're using and write near it in the same brackets `hit_self`: true, the second spell will be cast on the target
-	This is necessary only if we need an effect that is cast on a target and a second effect that is cast on the caster.
+```
+
+Explanation: Here we have one main spell with two subspells: one on the caster and the other on the target.  To do this, you must specify the ID of whatever spells you're using with the `extra_effects` field.  In this case, `sacrifice_spell` is stated with `"hit_self": true` and will "hit" the caster, while the second spell will be cast as normal on the `hostile` target.  This is only necessary if we need an effect that is cast on a target and a secondary effect cast on the caster.
 
 
-#### Monsters
+### Monster spells
 
-You can assign a spell as a special attack for a monster.  Spells with `target_self: true` will only target the monster itself, but will still only be cast if the monster has a hostile target.
+`MONSTER`s can also cast spells.  To do this, you need to declare the spells in `special_attacks`.  Spells with `target_self: true` will only target the casting monster, and will be casted only if the monster has a hostile target.
 
 ```json 
-{ "type": "spell", "spell_data": { "id": "cone_cold", "min_level": 4 }, "monster_message": "%1$s casts %2$s at %3$s!", "cooldown": 25 }
+  { 
+    "type": "spell", 
+    "spell_data": { "id": "cone_cold", "min_level": 4 }, 
+    "monster_message": "%1$s casts %2$s at %3$s!", 
+    "cooldown": 25 
+  }
 ```
 
+| Identifier              | Description
+|---                      |---
 | `spell_data`            | List of spell properties for the attack.
-| `min_level`             | The level at which the spell is cast. Spells cast by monsters do not gain levels like player spells.
+| `min_level`             | The level at which the spell is cast.  Spells cast by monsters do not gain levels like player spells.
 | `cooldown `             | How often the monster can cast this spell
-| `monster_message`       | Message to print when the spell is cast, replacing the `message` in the spell definition. Dynamic fields correspond to `<Monster Display Name> / <Spell Name> / <Target name>`.
-| `forbidden_effects_any` | Array of effect ids, if the monster has any one the attack can't trigger.
-| `forbidden_effects_all` | Array of effect ids, if the monster has every effect the attack can't trigger.
-| `required_effects_any`  | Array of effect ids, the monster needs any one for the attack to trigger.
-| `required_effects_all`  | Array of effect ids, the monster needs every effect for the attack to trigger.
+| `monster_message`       | Message to print when the spell is cast, replacing the `message` in the spell definition.  Dynamic fields correspond to `<Monster Display Name> / <Spell Name> / <Target name>`.
+| `forbidden_effects_any` | Array of effect IDs, if the monster has any one the attack can't trigger.
+| `forbidden_effects_all` | Array of effect IDs, if the monster has every effect the attack can't trigger.
+| `required_effects_any`  | Array of effect IDs, the monster needs any one for the attack to trigger.
+| `required_effects_all`  | Array of effect IDs, the monster needs every effect for the attack to trigger.
+| `allow_no_target`       | Bool, default `false`.  If `true` the monster will cast it even without a hostile target.
 
-### Enchantments
+
+## Enchantments
+
+A subtype of spells are enchantments.  Enchantments can be considered physical spells, as these rely on item entities as "containers", and are automatically activated depending on the specified usage and `condition`, instead of being `a`ctivated directly or casted by someone.
+
+Depending on their effects on the user, enchantments can behave like blessings, by granting positive stats and subspells, curses if such effects are detrimental to the user (through a clever use of the `NO_TAKEOFF` flag), or a mix of both.
+
+
 | Identifier                  | Description
 |---                          |---
-| `id`                        | Unique ID. Must be one continuous word, use underscores if necessary.
-| `has`                       | How an enchantment determines if it is in the right location in order to qualify for being active. "WIELD" - when wielded in your hand * "WORN" - when worn as armor * "HELD" - when in your inventory
-| `condition`                 | How an enchantment determines if you are in the right environments in order for the enchantment to qualify for being active. * "ALWAYS" - Always and forevermore * "DIALOG_CONDITION" - ACTIVE whenever the dialog condition in `condition` is true * "ACTIVE" - whenever the item, mutation, bionic, or whatever the enchantment is attached to is active. * "INACTIVE" - whenever the item, mutation, bionic, or whatever the enchantment is attached to is inactive.
-| `hit_you_effect`            | A spell that activates when you melee_attack a creature.  The spell is centered on the location of the creature unless self = true, then it is centered on your location.  Follows the template for defining "fake_spell"
-| `hit_me_effect`             | A spell that activates when you are hit by a creature.  The spell is centered on your location.  Follows the template for defining "fake_spell"
-| `intermittent_activation`   | Spells that activate centered on you depending on the duration.  The spells follow the "fake_spell" template.
-| `values`                    | Anything that is a number that can be modified.  The id field is required, and "add" and "multiply" are optional.  A "multiply" value of -1 is -100% and a multiply of 2.5 is +250%.  Add is always before multiply. See allowed id below.
+| `id`                        | Unique ID.  Must be one continuous word, use underscores if necessary.
+| `has`                       | How an enchantment determines if it is in the right location in order to qualify for being active.  `WIELD` when wielded in your hand, `WORN` when worn as armor, `HELD` when in your inventory.
+| `condition`                 | Determines the environment where the enchantment is active.  `ALWAYS` is active always and forevermore, `ACTIVE` whenever the item, mutation, bionic, or whatever the enchantment is attached to is active, `INACTIVE` whenever the item, mutation, bionic, or whatever the enchantment is attached to is inactive.  `DIALOG_CONDITION - ACTIVE` whenever the dialog condition in `condition` is true.
+| `hit_you_effect`            | A spell that activates when you `melee_attack` a creature.  The spell is centered on the location of the creature unless `"hit_self": true`, then it is centered on your location.  Follows the template for defining `fake_spell`.
+| `hit_me_effect`             | A spell that activates when you are hit by a creature.  The spell is centered on your location.  Follows the template for defining `fake_spell`
+| `intermittent_activation`   | Spells that activate centered on you depending on the duration.  The spells follow the `fake_spell` template.
+| `values`                    | Anything that is a number that can be modified.  The ID field is required, `add` and `multiply` are optional.  A `multiply` value of -1 is -100% and 2.5 is +250%.  `add` is always applied before `multiply`.  Allowed ID values are shown below.  Either "add" or "multiply" can be a variable_object/arithmetic expression(see [NPCs](NPCs.md)).  If a "multiply" value is a variable_object/arithmetic it will be multiplied by .01 before use as decimals cannot be variable values.  So a variable with 100 would become 1, it is treated as a percent effectively.
+| `mutations`                 | Grants the mutation/trait id.  Note: enchantments effects added this way won't stack, due how mutations work.
 
+There are two syntaxes, the first is by defining the effect/spell within the enchantment, the second is by using ids:
 
 ```json
   {
@@ -482,7 +630,10 @@ You can assign a spell as a special attack for a monster.  Spells with `target_s
         "npc_message": "%1$s's ink glands spay some ink into %2$s's eyes."
       }
     ]
-  },
+  }
+```  
+
+```json
   {
     "type": "enchantment",
     "id": "ENCH_INVISIBILITY",
@@ -503,130 +654,158 @@ You can assign a spell as a special attack for a monster.  Spells with `target_s
       ]
     }
   }
-
 ```
 
-To add the enchantment to the item, you need to write the id of your enchantment inside `relic_data` field. For example:
+To add the enchantment to the item, you need to declare the enchantment id as `relic_data`.  For example:
 
 ```json
-"relic_data": { "passive_effects": [ { "id": "ench_fishform" } ] },
-
+  {
+    "id": "wildshape_cloak_fish",
+    "type": "ARMOR",
+    "name": { "str": "Wildshape Cloak: Fish", "str_pl": "Wildshape Cloaks: Fish" },
+    "description": "A magical cloak that shimmers like fresh water under a warm sun.  It can be worn to morph your body to a form that is excellent for swimming, but ill-suited for combat.",
+    "relic_data": { "passive_effects": [ { "id": "ench_fishform" } ] },
+...
 ```
 
-If your enchantment is relatively small, you can write it right in the thing json, using the same syntaxys as the common enchantment. For example:
+Similarly as before, if the enchantment is relatively small, it can be written in the same JSON object, using the same common enchantment syntaxis.  For example:
 
 ```json
-"relic_data": {
-  "passive_effects": [
-    {
-      "has": "WORN",
-      "condition": "ALWAYS",
-      "values": [
-        { "value": "ARMOR_CUT", "add": -4 },
-        { "value": "ARMOR_BASH", "add": -4 },
-        { "value": "ARMOR_STAB", "add": -4 },
-        { "value": "ARMOR_BULLET", "add": -2 }
-      ]    
-    }
-  ]
-}
+...
+  "relic_data": {
+    "passive_effects": [
+      {
+        "has": "WORN",
+        "condition": "ALWAYS",
+        "values": [
+          { "value": "ARMOR_CUT", "add": -4 },
+          { "value": "ARMOR_BASH", "add": -4 },
+          { "value": "ARMOR_STAB", "add": -4 },
+          { "value": "ARMOR_BULLET", "add": -2 }
+        ]    
+      }
+    ]
+  },
+...
 ```
 
 
-### Allowed id for values
+### ID values
 
-The allowed values are as follows:
+The following is a list of possible `values`:
 
-Effects for the character that has the enchantment:
+| Character status value | Description
+|---                          |---
+| `ARMOR_ACID` | 
+| `ARMOR_BASH` | 
+| `ARMOR_BIO` | 
+| `ARMOR_BULLET` | 
+| `ARMOR_COLD` | 
+| `ARMOR_CUT` | 
+| `ARMOR_ELEC` | 
+| `ARMOR_HEAT` | 
+| `ARMOR_STAB` | 
+| `ATTACK_COST` | 
+| `ATTACK_NOISE` | 
+| `ATTACK_SPEED` | affects attack speed of item even if it's not the one you're wielding
+| `BIONIC_POWER` |
+| `BONUS_BLOCK` | 
+| `BONUS_DODGE` | 
+| `BONUS_DAMAGE` | 
+| `CARRY_WEIGHT` |
+| `CLIMATE_CONTROL_HEAT` | Moves body temperature up towards comfortable by number of warmth units up to value.
+| `CLIMATE_CONTROL_CHILL` | Moves body temperature down towards comfortable by number of warmth units up to value.
+| `DEXTERITY` | 
+| `INTELLIGENCE` | 
+| `PERCEPTION` | 
+| `STRENGTH` | 
+| `SPEED` | 
+| `EFFECTIVE_HEALTH_MOD` | If this is anything other than zero (which it defaults to) you will use it instead of your actual health mod.
+| `EXTRA_ACID` | EXTRA_TYPE increases received damage of the selected type.
+| `EXTRA_BASH` | 
+| `EXTRA_BIO` | 
+| `EXTRA_BULLET` | 
+| `EXTRA_COLD` | 
+| `EXTRA_CUT` | 
+| `EXTRA_ELEC` | 
+| `EXTRA_HEAT` | 
+| `EXTRA_STAB` | 
+| `EXTRA_ELEC_PAIN` | Multiplier on electric damage received, the result is applied as extra pain.
+| `FATIGUE` | 
+| `FOOTSTEP_NOISE` | 
+| `HUNGER` | 
+| `LEARNING_FOCUS` | Amount of bonus focus you have for learning purposes.
+| `LUMINATION` | Character produces light.
+| `MAX_HP` | 
+| `MAX_MANA` | 
+| `MAX_STAMINA` | 
+| `MELEE_DAMAGE` | 
+| `METABOLISM` | 
+| `MAP_MEMORY` | How many map tiles you can remember.
+| `MOD_HEALTH` | If this is anything other than zero (which it defaults to) you will to mod your health to a max/min of `MOD_HEALTH_CAP` every half hour.
+| `MOD_HEALTH_CAP` | If this is anything other than zero (which it defaults to) you will cap your `MOD_HEALTH` gain/loss at this every half hour.
+| `MOVE_COST` | 
+| `PAIN` | 
+| `SHOUT_NOISE` | 
+| `SIGHT_RANGE` | 
+| `SIGHT_RANGE_ELECTRIC` | How many tiles away is_electric() creatures are visible from
+| `SKILL_RUST_RESIST` | Chance / 100 to resist skill rust.
+| `SLEEPY` | The higher this the easier you fall asleep.
+| `SOCIAL_INTIMIDATE` | 
+| `SOCIAL_LIE` | 
+| `SOCIAL_PERSUADE` | 
+| `READING_EXP` | Changes the minimum you learn from each reading increment.
+| `RECOIL_MODIFIER` | affects recoil when shooting a gun
+| `REGEN_HP` | 
+| `REGEN_MANA` | 
+| `REGEN_STAMINA` | 
+| `THIRST` | 
+| `WEAPON_DISPERSION` | 
 
-* STRENGTH
-* DEXTERITY
-* PERCEPTION
-* INTELLIGENCE
-* SPEED
-* ATTACK_COST
-* ATTACK_SPEED
-* MOVE_COST
-* METABOLISM
-* MAX_MANA
-* REGEN_MANA
-* BIONIC_POWER
-* MAX_STAMINA
-* REGEN_STAMINA
-* MAX_HP
-* REGEN_HP
-* HUNGER
-* THIRST
-* FATIGUE
-* PAIN
-* BONUS_DODGE
-* BONUS_BLOCK
-* BONUS_DAMAGE
-* ATTACK_NOISE
-* SPELL_NOISE
-* SHOUT_NOISE
-* FOOTSTEP_NOISE
-* SIGHT_RANGE
-* CARRY_WEIGHT
-* CARRY_VOLUME
-* WEAPON_DISPERSION
-* SOCIAL_LIE
-* SOCIAL_PERSUADE
-* SOCIAL_INTIMIDATE
-* SLEEPY : The higher this is the more easily you fall asleep.
-* LUMINATION : The character produces light
-* EFFECTIVE_HEALTH_MOD : If this is anything other than zero(which it defaults to) you will use it instead of your actual health mod
-* MOD_HEALTH : If this is anything other than zero(which it defaults to) you will to mod your health to a max/min of MOD_HEALTH_CAP every half hour
-* MOD_HEALTH_CAP : If this is anything other than zero(which it defaults to) you will cap your MOD_HEALTH gain/loss at this every half hour
-* MAP_MEMORY : How many map tiles you can remember.
-* READING_EXP : Changes the minimum you learn from each reading increment.
-* SKILL_RUST_RESIST : Chance out of 100 to resist skill rust.
-* LEARNING_FOCUS : Amount of bonus focus you have for learning purposes.
-* ARMOR_BASH
-* ARMOR_CUT
-* ARMOR_STAB
-* ARMOR_HEAT
-* ARMOR_COLD
-* ARMOR_ELEC
-* ARMOR_ACID
-* ARMOR_BIO
 
-Effects for the item that has the enchantment:
+| Melee-only enchantment values | Description
+|---                          |---
+| `ITEM_DAMAGE_ACID` | 
+| `ITEM_DAMAGE_AP` | Armor piercing.
+| `ITEM_DAMAGE_BASH` | 
+| `ITEM_DAMAGE_BIO` | 
+| `ITEM_DAMAGE_BULLET` | 
+| `ITEM_DAMAGE_COLD` | 
+| `ITEM_DAMAGE_CUT` | 
+| `ITEM_DAMAGE_ELEC` | 
+| `ITEM_DAMAGE_HEAT` | 
+| `ITEM_DAMAGE_PURE` | 
+| `ITEM_DAMAGE_STAB` | 
 
-* ITEM_DAMAGE_PURE
-* ITEM_DAMAGE_BASH
-* ITEM_DAMAGE_CUT
-* ITEM_DAMAGE_STAB
-* ITEM_DAMAGE_HEAT
-* ITEM_DAMAGE_COLD
-* ITEM_DAMAGE_ELEC
-* ITEM_DAMAGE_ACID
-* ITEM_DAMAGE_BIO
 
-The damage enchantment values are for melee only.
+| Enchanted item value | Description
+|---                             |---
+| `ITEM_ARMOR_ACID` | 
+| `ITEM_ARMOR_BASH` | 
+| `ITEM_ARMOR_BIO` | 
+| `ITEM_ARMOR_BULLET` | 
+| `ITEM_ARMOR_COLD` | 
+| `ITEM_ARMOR_CUT` | 
+| `ITEM_ARMOR_ELEC` | 
+| `ITEM_ARMOR_HEAT` | 
+| `ITEM_ARMOR_STAB` | 
+| `ITEM_ATTACK_SPEED` | 
+| `ITEM_COVERAGE` | 
+| `ITEM_DAMAGE_AP` | Armor Piercing. Doesn't work currently
+| `ITEM_ENCUMBRANCE` | 
+| `ITEM_VOLUME` | 
+| `ITEM_WEIGHT` | 
+| `ITEM_WET_PROTECTION` | 
 
-* ITEM_DAMAGE_AP
-* ITEM_DAMAGE_PURE
-* ITEM_ARMOR_BASH
-* ITEM_ARMOR_CUT
-* ITEM_ARMOR_STAB
-* ITEM_ARMOR_HEAT
-* ITEM_ARMOR_COLD
-* ITEM_ARMOR_ELEC
-* ITEM_ARMOR_ACID
-* ITEM_ARMOR_BIO
-* ITEM_WEIGHT
-* ITEM_ENCUMBRANCE
-* ITEM_VOLUME
-* ITEM_COVERAGE
-* ITEM_ATTACK_SPEED
-* ITEM_WET_PROTECTION
 
-Examples
-    { "value": "ARMOR_ELEC", "add": -20 } subtracts 20 points of electrical damage
-    { "value": "ATTACK_SPEED", "add": -60 } subtracts 60 moves from attacking making the attack faster
-    { "value": "ARMOR_COLD", "multiply": -0.4 } subtracts 40 percent of the any cold damage
-    { "value": "ARMOR_HEAT", "multiply": 0.4 } increases damage taken from fire by 40 percent
-    { "value": "ARMOR_CUT", "add": 2 } increases cut damage taken by 2
-    { "value": "ARMOR_BIO", "multiply": -1.4 } subtracts 140 percent of the any bio damage giving 40% of damage dealt as increased health
-    { "value": "ARMOR_ACID", "multiply": 1.4 } increases damage taken from acid by 140 percent
+### Enchantment value examples
+
+```C++
+  { "value": "ARMOR_ELEC", "add": -20 }       // subtracts 20 points of incoming electrical damage
+  { "value": "ATTACK_SPEED", "add": -60 }     // subtracts 60 attack moves, making the attacker faster
+  { "value": "ARMOR_COLD", "multiply": -0.4 } // subtracts 40% of incoming cold damage
+  { "value": "ARMOR_HEAT", "multiply": 0.4 }  // increases damage taken from fire by 40%
+  { "value": "ARMOR_CUT", "add": 2 }          // increases incoming cut damage by 2
+  { "value": "ARMOR_BIO", "multiply": -1.4 }  // subtracts 100 percent of incoming biological damage, heals for the remaining 40%  
+  { "value": "ARMOR_ACID", "multiply": 1.4 }  // increases incoming acid damage by 140%
+```

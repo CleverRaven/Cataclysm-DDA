@@ -9,7 +9,7 @@
     "count": 25,
     "difficulty": 2,
     "value": 10000,
-    "origins": [ "ORIGIN_OPENER_NPC" ],
+    "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_SCRAP_TRADER_GET_75_CHARCOAL",
     "end": { "effect": [ { "npc_add_var": "specific_metal_tradeable", "type": "dialogue", "context": "trade", "value": "yes" } ] },
     "has_generic_rewards": true,
@@ -35,7 +35,7 @@
     "count": 75,
     "difficulty": 4,
     "value": 7500,
-    "origins": [ "ORIGIN_OPENER_NPC" ],
+    "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_SCRAP_TRADER_GET_100_SOLDER",
     "has_generic_rewards": true,
     "dialogue": {
@@ -60,7 +60,7 @@
     "count": 100,
     "difficulty": 3,
     "value": 8000,
-    "origins": [ "ORIGIN_OPENER_NPC" ],
+    "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_SCRAPPER_SET_TRADE_ROUTE",
     "has_generic_rewards": true,
     "dialogue": {
@@ -85,7 +85,7 @@
     "count": 1,
     "difficulty": 35,
     "value": 10000,
-    "origins": [ "ORIGIN_OPENER_NPC" ],
+    "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_SCRAPPER_SET_TRADE_ROUTE_BLACKSMITH",
     "start": { "assign_mission_target": { "om_terrain": "evac_center_18", "om_special": "evac_center", "reveal_radius": 0 } },
     "has_generic_rewards": true,
@@ -111,7 +111,7 @@
     "count": 1,
     "difficulty": 35,
     "value": 10000,
-    "origins": [ "ORIGIN_OPENER_NPC" ],
+    "origins": [ "ORIGIN_SECONDARY" ],
     "start": {
       "assign_mission_target": { "om_terrain": "isolated_house_farm_blacksmith", "om_special": "isolated_road", "reveal_radius": 0 }
     },

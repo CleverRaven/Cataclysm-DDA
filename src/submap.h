@@ -27,7 +27,6 @@
 #include "point.h"
 #include "type_id.h"
 
-class JsonIn;
 class JsonOut;
 class basecamp;
 class map;
@@ -215,12 +214,12 @@ class submap : maptile_soa
             cosmetics.push_back( ins );
         }
 
-        int get_temperature() const {
-            return temperature;
+        units::temperature get_temperature() const {
+            return units::from_kelvin( temperature_mod / 1.8 );
         }
 
-        void set_temperature( int new_temperature ) {
-            temperature = new_temperature;
+        void set_temperature_mod( units::temperature new_temperature_mod ) {
+            temperature_mod = units::to_kelvin( new_temperature_mod ) * 1.8;
         }
 
         bool has_graffiti( const point &p ) const;
@@ -253,7 +252,7 @@ class submap : maptile_soa
         void mirror( bool horizontally );
 
         void store( JsonOut &jsout ) const;
-        void load( JsonIn &jsin, const std::string &member_name, int version );
+        void load( const JsonValue &jv, const std::string &member_name, int version );
 
         // If is_uniform is true, this submap is a solid block of terrain
         // Uniform submaps aren't saved/loaded, because regenerating them is faster
@@ -278,7 +277,7 @@ class submap : maptile_soa
     private:
         std::map<point, computer> computers;
         std::unique_ptr<computer> legacy_computer;
-        int temperature = 0;
+        int temperature_mod = 0; // delta in F
 
         void update_legacy_computer();
 

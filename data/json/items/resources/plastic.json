@@ -30,6 +30,36 @@
     "flags": [ "NO_SALVAGE" ]
   },
   {
+    "id": "10l_plastic",
+    "type": "AMMO",
+    "category": "spare_parts",
+    "name": { "str": "10L plastic block" },
+    "description": "A ten-liter block of solid plastic.",
+    "weight": "10 kg",
+    "volume": "10 L",
+    "price": 23150,
+    "price_postapoc": 230,
+    "material": [ "plastic" ],
+    "symbol": "=",
+    "color": "light_blue",
+    "ammo_type": "components"
+  },
+  {
+    "id": "5l_plastic",
+    "type": "AMMO",
+    "category": "spare_parts",
+    "name": { "str": "5L plastic block" },
+    "description": "A five-liter block of solid plastic.",
+    "weight": "5 kg",
+    "volume": "5 L",
+    "price": 11575,
+    "price_postapoc": 116,
+    "material": [ "plastic" ],
+    "symbol": "=",
+    "color": "light_blue",
+    "ammo_type": "components"
+  },
+  {
     "id": "plastic_chunk",
     "type": "TOOL",
     "category": "spare_parts",

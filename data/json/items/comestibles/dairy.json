@@ -11,7 +11,7 @@
     "symbol": "~",
     "quench": 25,
     "calories": 132,
-    "description": "Baby cow food, appropriated for adult humans.  Spoils rapidly.",
+    "description": "Baby cow food, appropriated for human consumption.  Spoils rapidly.",
     "price": 38,
     "price_postapoc": 50,
     "//": "A 12-charge gallon currently goes for around US$4.",
@@ -28,7 +28,7 @@
     "name": { "str_sp": "chocolate milk" },
     "copy-from": "milk",
     "color": "brown",
-    "description": "Baby cow food, with chocolate added for adult humans.  Spoils rapidly.",
+    "description": "Baby cow food, with chocolate added for human enjoyment.  Spoils rapidly.",
     "calories": 272,
     "fun": 6
   },
@@ -37,7 +37,7 @@
     "id": "milk_reconstituted",
     "name": { "str_sp": "reconstituted milk" },
     "copy-from": "milk",
-    "description": "Baby cow food, appropriated for adult humans.  This milk has been reconstituted from a processed milk.  Spoils rapidly."
+    "description": "Baby cow food, appropriated for adult humans.  This milk has been reconstituted from powder.  Spoils rapidly."
   },
   {
     "type": "COMESTIBLE",
@@ -364,7 +364,7 @@
     "comestible_type": "FOOD",
     "quench": 3,
     "calories": 250,
-    "description": "Cream that has been whipped, perfect for frosting cakes and pies.  Either store-bought or homemade.",
+    "description": "Cream that has been whipped, perfect for frosting cakes and pies.",
     "fun": 4
   },
   {

@@ -202,7 +202,8 @@ static bool is_spawn_valid(
 // Quantity is adjusted directly as a side effect of this function
 // is_recursive is only true when called recursively from this function
 std::vector<MonsterGroupResult> MonsterGroupManager::GetResultFromGroup(
-    const mongroup_id &group_name, int *quantity, bool *mon_found, bool is_recursive )
+    const mongroup_id &group_name, int *quantity, bool *mon_found, bool is_recursive,
+    bool *returned_default )
 {
     const MonsterGroup &group = GetUpgradedMonsterGroup( group_name );
     int spawn_chance = rng( 1, group.event_adjusted_freq_total() );
@@ -261,6 +262,9 @@ std::vector<MonsterGroupResult> MonsterGroupManager::GetResultFromGroup(
 
     if( !is_recursive && spawn_details.empty() ) {
         spawn_details.emplace_back( MonsterGroupResult( group.defaultMonster, 1, spawn_data() ) );
+        if( returned_default ) {
+            ( *returned_default ) = true;
+        }
     }
 
     return spawn_details;

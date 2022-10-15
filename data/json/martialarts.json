@@ -25,7 +25,7 @@
     "id": "style_aikido",
     "name": { "str": "Aikido" },
     "description": "Aikido is a Japanese martial art focused on self-defense, while minimizing injury to the attacker.  It uses defensive throws and disarms but its techniques lack offensive power.",
-    "initiate": [ "You enter the hamni stance.", "%s changes into a relaxed combat posture." ],
+    "initiate": [ "You enter the hanmi stance.", "%s changes into a relaxed combat posture." ],
     "learn_difficulty": 5,
     "arm_block": 0,
     "static_buffs": [
@@ -719,7 +719,7 @@
     "type": "martial_art",
     "id": "style_kickboxing",
     "name": { "str": "Kickboxing" },
-    "description": "A martial art that combines western boxing with elements of Karate, Taekwando, Muay Thai and Savate, particularly in the use of kicks.",
+    "description": "A martial art that combines western boxing with elements of Karate, Taekwondo, Muay Thai and Savate, particularly in the use of kicks.",
     "initiate": [ "You assume a kickboxing stance and focus power into your limbs.", "%s assumes a kickboxing stance." ],
     "learn_difficulty": 4,
     "arm_block": 2,

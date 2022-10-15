@@ -205,5 +205,24 @@
     },
     "extend": { "flags": [ "HALF_BOARD" ] },
     "damage_reduction": { "all": 5 }
+  },
+  {
+    "id": "counterweight",
+    "type": "vehicle_part",
+    "copy-from": "base_board_abstract",
+    "looks_like": "hdhalfboard",
+    "item": "counterweight",
+    "color": "dark_gray",
+    "durability": 600,
+    "name": { "str": "counterweight" },
+    "description": "A half-height heavy metal wall.  Commonly used in forklifts to balance them when lifting heavy things.",
+    "breaks_into": "ig_vp_hdframe",
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "qualities": [ { "id": "WRENCH", "level": 1 } ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "qualities": [ { "id": "WRENCH", "level": 1 } ] },
+      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "repair_welding_standard", 3 ] ] }
+    },
+    "damage_reduction": { "all": 20 },
+    "extend": { "flags": [ "HALF_BOARD" ] }
   }
 ]

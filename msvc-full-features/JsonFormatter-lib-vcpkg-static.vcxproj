@@ -53,6 +53,7 @@
   <PropertyGroup Label="Configuration">
     <PreferredToolArchitecture>x64</PreferredToolArchitecture>
   </PropertyGroup>
+  <Import Project="Cataclysm.Cpp.props" />
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings" />
   <ImportGroup Label="Shared" />
@@ -64,8 +65,7 @@
   <PropertyGroup>
     <TargetName>$(ProjectName)-$(Configuration)-$(Platform)</TargetName>
     <TargetExt>.lib</TargetExt>
-    <OutDir>$(SolutionDir)..\tools\format\</OutDir>
-    <IntDir>$(SolutionDir)$(ProjectName)\$(Configuration)\$(Platform)\</IntDir>
+    <OutDir>$(CDDA_ROOT)tools\format\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)'=='Debug'">
     <LinkIncremental>true</LinkIncremental>
@@ -118,6 +118,7 @@
   <ItemGroup>
     <ProjectReference Include="..\msvc-full-features\Cataclysm-lib-vcpkg-static.vcxproj">
       <Project>{0009bb11-11ad-4c14-a5fc-d882a942c00b}</Project>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

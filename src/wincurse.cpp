@@ -20,6 +20,7 @@
 #include "path_info.h"
 #include "filesystem.h"
 #include "debug.h"
+#include "cata_scope_helpers.h"
 #include "cata_utility.h"
 #include "string_formatter.h"
 #include "color_loader.h"

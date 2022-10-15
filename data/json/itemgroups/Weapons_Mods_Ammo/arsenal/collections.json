@@ -2,10 +2,10 @@
   {
     "type": "item_group",
     "id": "milspec_arsenal_weapon&ammo_collection",
-    "//": "This file provide some milspec loot groups for using in military armament rooms - part is deployed and ready to use (or already used), and part is store the ammo. This was maded to make some consistency and order in arsenals",
-    "//2": "the list of armament picked from <https://en.wikipedia.org/wiki/List_of_equipment_of_the_United_States_Army#Small_arms>. If you have a better source youre welcome",
+    "//": "This file provide some milspec loot groups for using in military armament rooms - part is deployed and ready to use (or already used), and part is store the ammo. This was made to make some consistency and order in arsenals.",
+    "//2": "the list of armament picked from <https://en.wikipedia.org/wiki/List_of_equipment_of_the_United_States_Army#Small_arms>. If you have a better source you're welcome.",
     "//3": "i tried to make them flexible enough, so each part can be reused, without making 10 different copies for each using",
-    "//4": "each file contain (in basic): an ammo can with weapon of one caliber, a gun with his mags, a group of this guns, the group of few gun groups (gun&mags), gun&mags + ammo (gun&ammo), and gun&ammo + empty cans (gun&mags&cans).  Then each of them can be united in group of similar weapons, so we can generate, for example, group from only guns, olny ammo or, as the very first idea, the 'deployed' group with a bit of ammo and a bit of guns of same caliber",
+    "//4": "each file contains (in basic): an ammo can with weapon of one caliber, a gun with its mags, a group of these guns, the group of few gun groups (gun&mags), gun&mags + ammo (gun&ammo), and gun&ammo + empty cans (gun&mags&cans).  Then each of them can be united in group of similar weapons, so we can generate, for example, group from only guns, only ammo or, as the very first idea, the 'deployed' group with a bit of ammo and a few guns of same caliber.",
     "//5": "this one contain a group of weapon and ammo that kinda 'deployed', in term 'there is a stuff that common soldier will use in operation'",
     "subtype": "collection",
     "items": [

@@ -7,7 +7,7 @@
     "object": {
       "fill_ter": "t_region_groundcover_urban",
       "rows": [
-        " @      fff    f.f    @ ",
+        " @      fff NN f.f    @ ",
         " @ fff  f7f    f.f    @ ",
         " @ f7f  fff    f.f    @ ",
         " @ fff      |_______| @ ",
@@ -48,6 +48,7 @@
         "|": "t_wall_log"
       },
       "furniture": {
+        "N": "f_bulletin",
         "@": "f_hedge_short",
         "#": "f_bench",
         "&": "f_trashcan",
@@ -57,6 +58,7 @@
         "f": "f_region_flower_decorative",
         "t": "f_table"
       },
+      "items": { "N": { "item": "bulletin_public", "chance": 50, "repeat": [ 1, 3 ] } },
       "place_items": [
         { "item": "snacks", "x": 18, "y": 11, "chance": 15 },
         { "item": "snacks", "x": 5, "y": 7, "chance": 15 },
@@ -110,7 +112,7 @@
       "fill_ter": "t_thconc_floor",
       "rows": [
         "     @sss@    @sss@     ",
-        "  4  @sss@ 7  @sss@  4  ",
+        "  4  @Nss@ 7  @sss@  4  ",
         "     @sss@    @sss@     ",
         "     @sss@    @sss@     ",
         "     @sss@  7 @sss@     ",
@@ -142,9 +144,11 @@
         "7": "t_region_tree_fruit",
         "_": "t_thconc_floor",
         "s": "t_concrete",
+        "N": "t_concrete",
         "|": "t_wall_log"
       },
-      "furniture": { "@": "f_hedge_short", "#": "f_bench", "t": "f_table", "w": "f_woodstove" },
+      "furniture": { "@": "f_hedge_short", "#": "f_bench", "t": "f_table", "w": "f_woodstove", "N": "f_bulletin" },
+      "items": { "N": { "item": "bulletin_public", "chance": 50, "repeat": [ 1, 3 ] } },
       "place_items": [
         { "item": "snacks", "x": 5, "y": 18, "chance": 25 },
         { "item": "snacks", "x": 15, "y": 15, "chance": 25 },

@@ -910,7 +910,7 @@
       { "item": "cookies", "prob": 100 },
       { "group": "harddrugs", "prob": 10 },
       { "item": "dentures", "prob": 75 },
-      { "item": "folded_wheelchair", "damage": [ 1, 4 ], "prob": 100 }
+      { "item": "folded_wheelchair_generic", "damage": [ 1, 4 ], "prob": 100 }
     ]
   }
 ]

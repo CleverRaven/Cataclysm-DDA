@@ -63,7 +63,7 @@
     "copy-from": "mre_entree",
     "name": { "str": "chicken chunks entree" },
     "calories": 238,
-    "description": "The chicken chunks entree from an MRE with an included beef stick.",
+    "description": "The chicken chunks entree from an MRE, with an included beef stick.",
     "material": [ "flesh" ]
   },
   {
@@ -300,7 +300,7 @@
     "copy-from": "mre_entree",
     "name": { "str": "cheese pizza entree" },
     "calories": 261,
-    "description": "The pizza entree from an MRE now in vegetarian form.",
+    "description": "The pizza entree from an MRE, now in vegetarian form.",
     "price": 850,
     "material": [ "wheat", "milk" ],
     "fun": 1

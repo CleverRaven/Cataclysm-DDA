@@ -75,7 +75,6 @@ class outfit
                                    const body_part_set &worn_item_body_parts ) const;
         // will someone get shocked by zapback
         bool hands_conductive() const;
-        bool in_climate_control() const;
         bool can_pickVolume( const item &it, bool ignore_pkt_settings = true ) const;
         side is_wearing_shoes( const bodypart_id &bp ) const;
         bool is_wearing_helmet() const;
@@ -203,6 +202,8 @@ class outfit
         void on_item_wear( Character &guy );
         // used in the pickup code in the STASH section
         void pickup_stash( const item &newit, int &remaining_charges, bool ignore_pkt_settings = false );
+        void add_stash( Character &guy, const item &newit, int &remaining_charges,
+                        bool ignore_pkt_settings = false );
         // used for npc generation
         void set_fitted();
         std::vector<item> available_pockets() const;

@@ -48,5 +48,58 @@
     "name": "GROUP_RIVER",
     "is_animal": true,
     "monsters": [ { "monster": "mon_xe_mavka", "weight": 1, "cost_multiplier": 10, "starts": 500, "pack_size": [ 1, 5 ] } ]
+  },
+  {
+    "name": "GROUP_PARK_SCENIC",
+    "type": "monstergroup",
+    "monsters": [
+      { "monster": "mon_vampire_moroi", "weight": 10, "conditions": [ "DAWN", "DUSK", "NIGHT" ] },
+      { "monster": "mon_vampire_strigoi", "weight": 1, "conditions": [ "DAWN", "DUSK", "NIGHT" ] }
+    ]
+  },
+  {
+    "name": "GROUP_PARK_PLAYGROUND",
+    "type": "monstergroup",
+    "monsters": [
+      { "monster": "mon_vampire_moroi", "weight": 10, "conditions": [ "DAWN", "DUSK", "NIGHT" ] },
+      { "monster": "mon_vampire_strigoi", "weight": 1, "conditions": [ "DAWN", "DUSK", "NIGHT" ] }
+    ]
+  },
+  {
+    "name": "GROUP_HOUSE",
+    "type": "monstergroup",
+    "monsters": [
+      { "monster": "mon_vampire_moroi", "weight": 5, "conditions": [ "DAWN", "DUSK", "NIGHT" ] },
+      { "monster": "mon_vampire_strigoi", "weight": 1, "conditions": [ "DAWN", "DUSK", "NIGHT" ] }
+    ]
+  },
+  {
+    "name": "GROUP_MANSION",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_vampire_moroi", "weight": 1 } ]
+  },
+  {
+    "name": "GROUP_HOSPITAL",
+    "type": "monstergroup",
+    "monsters": [
+      { "monster": "mon_vampire_moroi", "weight": 5, "conditions": [ "DAWN", "DUSK", "NIGHT" ] },
+      { "monster": "mon_vampire_strigoi", "weight": 1, "conditions": [ "DAWN", "DUSK", "NIGHT" ] }
+    ]
+  },
+  {
+    "name": "FERAL_HUMANS",
+    "type": "monstergroup",
+    "monsters": [
+      { "monster": "mon_vampire_moroi", "weight": 5, "conditions": [ "DAWN", "DUSK", "NIGHT" ] },
+      { "monster": "mon_vampire_strigoi", "weight": 1, "conditions": [ "DAWN", "DUSK", "NIGHT" ] }
+    ]
+  },
+  {
+    "name": "GROUP_RETIREMENT_COMMUNITY",
+    "type": "monstergroup",
+    "monsters": [
+      { "monster": "mon_vampire_moroi", "weight": 5, "conditions": [ "DAWN", "DUSK", "NIGHT" ] },
+      { "monster": "mon_vampire_strigoi", "weight": 1, "conditions": [ "DAWN", "DUSK", "NIGHT" ] }
+    ]
   }
 ]

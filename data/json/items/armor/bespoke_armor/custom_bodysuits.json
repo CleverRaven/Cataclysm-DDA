@@ -105,7 +105,16 @@
     "warmth": 10,
     "material_thickness": 4,
     "valid_mods": [ "steel_padded" ],
-    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "mutations": [ "well_distributed" ] } ] },
+    "relic_data": {
+      "passive_effects": [
+        { "has": "WORN", "condition": "ALWAYS", "mutations": [ "well_distributed" ] },
+        {
+          "has": "WORN",
+          "condition": "ACTIVE",
+          "values": [ { "value": "CLIMATE_CONTROL_HEAT", "add": 50 }, { "value": "CLIMATE_CONTROL_CHILL", "add": 50 } ]
+        }
+      ]
+    },
     "environmental_protection": 1,
     "flags": [ "VARSIZE", "POCKETS", "STURDY", "USES_BIONIC_POWER", "MUNDANE" ]
   },
@@ -117,8 +126,8 @@
     "name": { "str": "advanced nomad jumpsuit (on)", "str_pl": "advanced nomad jumpsuits (on)" },
     "description": "A reinforced but airy jumpsuit designed to survive the long-term wear and tear of exploring the apocalyptic wasteland.  Its clever construction adds additional core support, helping you to carry more equipment.  The internal cooling tubes are active and humming.",
     "revert_to": "armor_nomad_advanced",
-    "flags": [ "VARSIZE", "POCKETS", "STURDY", "USES_BIONIC_POWER", "CLIMATE_CONTROL", "MUNDANE" ],
-    "power_draw": 100000,
+    "flags": [ "VARSIZE", "POCKETS", "STURDY", "USES_BIONIC_POWER", "MUNDANE" ],
+    "power_draw": "100 J",
     "use_action": {
       "ammo_scale": 0,
       "type": "transform",

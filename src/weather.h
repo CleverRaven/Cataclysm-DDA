@@ -13,7 +13,7 @@
 #include "weather_gen.h"
 #include "weather_type.h"
 
-class JsonIn;
+class JsonObject;
 class JsonOut;
 class translation;
 
@@ -44,6 +44,28 @@ static constexpr int BODYTEMP_SCORCHING = 9500;
 //!< Additional Threshold before speed is impacted by heat.
 static constexpr int BODYTEMP_THRESHOLD = 500;
 ///@}
+
+// Rough tresholds for sunlight intensity in W/m2.
+namespace irradiance
+{
+// Sun at 5° on a clear day. Minimal for what is considered direct sunlight
+constexpr float minimal = 87;
+
+// Sun at 25° on a clear day.
+constexpr float low = 422;
+
+// Sun at 35° on a clear day.
+constexpr float moderate = 573;
+
+// Sun at 45° on a clear day.
+constexpr float high = 707;
+
+// Sun at 60° on a clear day.
+constexpr float very_high = 866;
+
+// Sun at 65° on a clear day.
+constexpr float extreme = 906;
+} // namespace irradiance
 
 #include <cstdint>
 #include <iosfwd>
@@ -84,6 +106,7 @@ struct weather_sum {
     int rain_amount = 0;
     int acid_amount = 0;
     float sunlight = 0.0f;
+    float radiant_exposure = 0.0f; // J/m2
     int wind_amount = 0;
 };
 bool is_creature_outside( const Creature &target );
@@ -101,12 +124,13 @@ std::string weather_forecast( const point_abs_sm &abs_sm_pos );
 // If scale is Fahrenheit: temperature(100) will return "100F"
 //
 // Use the decimals parameter to set number of decimal places returned in string.
-std::string print_temperature( double fahrenheit, int decimals = 0 );
+std::string print_temperature( units::temperature temperature, int decimals = 0 );
 std::string print_humidity( double humidity, int decimals = 0 );
 std::string print_pressure( double pressure, int decimals = 0 );
 
-// Return windchill offset in degrees F, starting from given temperature, humidity and wind
-int get_local_windchill( double temperature_f, double humidity, double wind_mph );
+// Returns temperature delta caused by windchill at given temperature, humidity and wind
+units::temperature get_local_windchill( units::temperature temperature, double humidity,
+                                        double wind_mph );
 
 int get_local_humidity( double humidity, const weather_type_id &weather, bool sheltered = false );
 
@@ -156,8 +180,12 @@ void glare( const weather_type_id &w );
  * Amount of sunlight incident at the ground, taking weather and time of day
  * into account.
  */
-int incident_sunlight( const weather_type_id &wtype,
-                       const time_point &t = calendar::turn );
+float incident_sunlight( const weather_type_id &wtype,
+                         const time_point &t = calendar::turn );
+
+/* Amount of irradiance (W/m2) at ground after weather modifications */
+float incident_sun_irradiance( const weather_type_id &wtype,
+                               const time_point &t = calendar::turn );
 
 void weather_sound( const translation &sound_message, const std::string &sound_effect );
 
@@ -169,12 +197,15 @@ class weather_manager
         // Updates the temperature and weather patten
         void update_weather();
         // The air temperature
-        int temperature = 0;
+        units::temperature temperature = 0_K;
         bool lightning_active = false;
         // Weather pattern
         weather_type_id weather_id = WEATHER_NULL;
         int winddirection = 0;
         int windspeed = 0;
+
+        // For debug menu option "Force temperature"
+        cata::optional<units::temperature> forced_temperature;
         // Cached weather data
         pimpl<w_point> weather_precise;
         cata::optional<int> wind_direction_override;
@@ -185,13 +216,14 @@ class weather_manager
         // The time at which weather will shift next.
         time_point nextweather;
         /** temperature cache, cleared every turn, sparse map of map tripoints to temperatures */
-        std::unordered_map< tripoint, int > temperature_cache;
+        std::unordered_map< tripoint, units::temperature > temperature_cache;
         // Returns outdoor or indoor temperature of given location
-        int get_temperature( const tripoint &location );
+        units::temperature get_temperature( const tripoint &location );
         // Returns outdoor or indoor temperature of given location
-        int get_temperature( const tripoint_abs_omt &location ) const;
+        units::temperature get_temperature( const tripoint_abs_omt &location ) const;
         void clear_temp_cache();
-        static void unserialize_all( JsonIn &jsin );
+        static void serialize_all( JsonOut &json );
+        static void unserialize_all( const JsonObject &w );
 };
 
 weather_manager &get_weather();

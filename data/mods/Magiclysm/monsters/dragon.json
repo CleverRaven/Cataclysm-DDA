@@ -52,7 +52,7 @@
     "dirty_transparency_cache": true,
     "percent_spread": 40,
     "outdoor_age_speedup": "0 turns",
-    "immunity_data": { "body_part_env_resistance": [ [ "eyes", 12 ] ] },
+    "immunity_data": { "body_part_env_resistance": [ [ "sensor", 12 ] ] },
     "priority": 8,
     "half_life": "2 minutes",
     "phase": "gas",

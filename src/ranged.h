@@ -18,6 +18,9 @@ class turret_data;
 class vehicle;
 struct vehicle_part;
 
+// Recoil change less or equal to this value (in MoA) stops further aiming
+static constexpr double MIN_RECOIL_IMPROVEMENT = 0.01;
+
 namespace target_handler
 {
 // Trajectory to target. Empty if selection was aborted or player ran out of moves

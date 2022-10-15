@@ -33,6 +33,7 @@ from .parsers.loot_zone import parse_loot_zone
 from .parsers.map_extra import parse_map_extra
 from .parsers.mapgen import parse_mapgen
 from .parsers.mutation import parse_mutation
+from .parsers.nested_category import parse_nested_category
 from .parsers.npc import parse_npc
 from .parsers.npc_class import parse_npc_class
 from .parsers.option_slider import parse_option_slider
@@ -115,6 +116,7 @@ parsers = {
     "comestible": parse_generic,
     "colordef": dummy_parser,
     "conduct": parse_achievement,
+    "connect_group": dummy_parser,
     "construction": parse_construction,
     "construction_category": parse_construction_category,
     "construction_group": parse_construction_group,
@@ -170,6 +172,7 @@ parsers = {
     "mutation": parse_mutation,
     "mutation_category": parse_mutation_category,
     "mutation_type": dummy_parser,
+    "nested_category": parse_nested_category,
     "npc": parse_npc,
     "npc_class": parse_npc_class,
     "obsolete_terrain": dummy_parser,

@@ -132,6 +132,10 @@ static const overmap_location_str_id overmap_location_source_of_weapons( "source
 static const skill_id skill_archery( "archery" );
 static const skill_id skill_bashing( "bashing" );
 static const skill_id skill_cutting( "cutting" );
+static const skill_id skill_dodge( "dodge" );
+static const skill_id skill_gun( "gun" );
+static const skill_id skill_launcher( "launcher" );
+static const skill_id skill_melee( "melee" );
 static const skill_id skill_pistol( "pistol" );
 static const skill_id skill_rifle( "rifle" );
 static const skill_id skill_shotgun( "shotgun" );
@@ -139,6 +143,7 @@ static const skill_id skill_smg( "smg" );
 static const skill_id skill_speech( "speech" );
 static const skill_id skill_stabbing( "stabbing" );
 static const skill_id skill_throw( "throw" );
+static const skill_id skill_unarmed( "unarmed" );
 
 static const trait_id trait_BEE( "BEE" );
 static const trait_id trait_CANNIBAL( "CANNIBAL" );
@@ -1198,38 +1203,39 @@ void npc::place_on_map()
     debugmsg( "Failed to place NPC in a valid location near (%d,%d,%d)", posx(), posy(), posz() );
 }
 
-skill_id npc::best_skill() const
+//Subset: whether "combat skill" includes all combat skills, no "general" (dodge, melee, marksman) skills, or only weapons you would expect NPCs to wield
+//Returns a pair with the skill_id (first) of the best skill, and the level (int) of that skill. If there is no best skill, defaults to stabbing.
+std::pair<skill_id, int> npc::best_combat_skill( combat_skills subset ) const
 {
-    int highest_level = std::numeric_limits<int>::min();
-    skill_id highest_skill( skill_id::NULL_ID() );
+    std::pair<skill_id, int> highest_skill( skill_stabbing, 0 );
 
     for( const auto &p : *_skills ) {
         if( p.first.obj().is_combat_skill() ) {
+            switch( subset ) {
+                case combat_skills::ALL:
+                    break;
+                case combat_skills::NO_GENERAL:
+                    if( p.first == skill_dodge || p.first == skill_gun || p.first == skill_melee ) {
+                        continue;
+                    }
+                    break;
+                case combat_skills::WEAPONS_ONLY:
+                    if( p.first == skill_dodge || p.first == skill_gun || p.first == skill_melee ||
+                        p.first == skill_unarmed || p.first == skill_launcher ) {
+                        continue;
+                    }
+                    break;
+            }
+
             const int level = p.second.level();
-            if( level > highest_level ) {
-                highest_level = level;
-                highest_skill = p.first;
+            if( level > highest_skill.second ) {
+                highest_skill.second = level;
+                highest_skill.first = p.first;
             }
         }
     }
 
     return highest_skill;
-}
-
-int npc::best_skill_level() const
-{
-    int highest_level = std::numeric_limits<int>::min();
-
-    for( const auto &p : *_skills ) {
-        if( p.first.obj().is_combat_skill() ) {
-            const int level = p.second.level();
-            if( level > highest_level ) {
-                highest_level = level;
-            }
-        }
-    }
-
-    return highest_level;
 }
 
 void npc::starting_weapon( const npc_class_id &type )
@@ -1239,10 +1245,9 @@ void npc::starting_weapon( const npc_class_id &type )
         return;
     }
 
-    const skill_id best = best_skill();
+    const skill_id best = best_combat_skill( combat_skills::WEAPONS_ONLY ).first;
 
-    // if NPC has no suitable skills default to stabbing weapon
-    if( !best || best == skill_stabbing ) {
+    if( best == skill_stabbing ) {
         set_wielded_item( random_item_from( type, "stabbing", Item_spawn_data_survivor_stabbing ) );
     } else if( best == skill_bashing ) {
         set_wielded_item( random_item_from( type, "bashing", Item_spawn_data_survivor_bashing ) );
@@ -1874,7 +1879,7 @@ std::vector<spell_id> npc::spells_offered_to( Character &you )
 void npc::decide_needs()
 {
     const item_location weapon = get_wielded_item();
-    double needrank[num_needs];
+    std::array<double, num_needs> needrank;
     for( double &elem : needrank ) {
         elem = 20;
     }
@@ -1968,25 +1973,27 @@ void npc::say( const std::string &line, const sounds::sound_t spriority ) const
     }
 }
 
-bool npc::wants_to_sell( const item &it ) const
+bool npc::wants_to_sell( const item_location &it ) const
 {
-    if( !it.is_owned_by( *this ) ) {
+    if( !it->is_owned_by( *this ) ) {
         return false;
     }
-    const int market_price = it.price( true );
-    return wants_to_sell( it, value( it, market_price ), market_price ).success();
+    const int market_price = it->price( true );
+    return wants_to_sell( it, value( *it, market_price ), market_price ).success();
 }
 
-ret_val<void> npc::wants_to_sell( const item &it, int at_price, int /*market_price*/ ) const
+ret_val<void> npc::wants_to_sell( const item_location &it, int at_price,
+                                  int /*market_price*/ ) const
 {
     if( will_exchange_items_freely() ) {
         return ret_val<void>::make_success();
     }
 
     // Keep items that we never want to trade and the ones we don't want to trade while in use.
-    if( it.has_flag( flag_TRADER_KEEP ) ||
-        ( ( !myclass->sells_belongings || it.has_flag( flag_TRADER_KEEP_EQUIPPED ) ) && ( is_worn( it ) ||
-                is_wielding( it ) ) ) ) {
+    if( it->has_flag( flag_TRADER_KEEP ) ||
+        is_worn( *it ) ||
+        ( ( !myclass->sells_belongings || it->has_flag( flag_TRADER_KEEP_EQUIPPED ) ) &&
+          it.held_by( *this ) ) ) {
         return ret_val<void>::make_failure( _( "<npcname> will never sell this" ) );
     }
 
@@ -1994,7 +2001,8 @@ ret_val<void> npc::wants_to_sell( const item &it, int at_price, int /*market_pri
         if( ig.can_sell( *this ) ) {
             continue;
         }
-        if( item_group::group_contains_item( ig.id, it.typeId() ) ) {
+        item const *const check_it = it->this_or_single_content();
+        if( item_group::group_contains_item( ig.id, check_it->typeId() ) ) {
             return ret_val<void>::make_failure( ig.get_refusal() );
         }
     }
@@ -2115,9 +2123,6 @@ void npc::shop_restock()
                 value_groups.emplace_back( ig.id );
             }
         }
-    }
-    if( value_groups.empty() && rigid_groups.empty() ) {
-        return;
     }
 
     std::list<item> ret;

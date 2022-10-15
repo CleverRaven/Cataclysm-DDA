@@ -184,6 +184,7 @@
     "description": "Violence excites your ley lines.  Whenever you hit an enemy in melee, you have a chance of regaining some mana.",
     "category": [ "MANATOUCHED", "DRAGON_BLACK" ],
     "threshreq": [ "THRESH_MANA", "THRESH_DRAGON_BLACK" ],
+    "types": [ "MANA_SIPHON" ],
     "changes_to": [ "MANA_SIPHON_2" ],
     "enchantments": [ "ench_mana_siphon_1" ]
   },
@@ -196,6 +197,7 @@
     "category": [ "MANATOUCHED", "DRAGON_BLACK" ],
     "threshreq": [ "THRESH_MANA", "THRESH_DRAGON_BLACK" ],
     "prereqs": [ "MANA_SIPHON_1" ],
+    "types": [ "MANA_SIPHON" ],
     "changes_to": [ "MANA_SIPHON_3" ],
     "enchantments": [ "ench_mana_siphon_2" ]
   },
@@ -207,6 +209,7 @@
     "description": "Violence excites your ley lines.  Whenever you hit an enemy in melee, you have a chance of regaining some mana.",
     "category": [ "MANATOUCHED", "DRAGON_BLACK" ],
     "threshreq": [ "THRESH_MANA", "THRESH_DRAGON_BLACK" ],
+    "types": [ "MANA_SIPHON" ],
     "prereqs": [ "MANA_SIPHON_2" ],
     "enchantments": [ "ench_mana_siphon_3" ]
   },

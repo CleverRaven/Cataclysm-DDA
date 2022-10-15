@@ -296,6 +296,7 @@
       [ "creepy_doll", 40 ],
       [ "holy_symbol", 40 ],
       [ "pride_flag", 20 ],
+      [ "state_flag", 15 ],
       [ "spiral_stone", 5 ],
       [ "petrified_eye", 5 ],
       [ "talking_doll", 40 ],

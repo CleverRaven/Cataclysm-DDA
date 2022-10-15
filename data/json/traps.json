@@ -134,6 +134,21 @@
   },
   {
     "type": "trap",
+    "id": "tr_microlab_portal_elevator_physics_shift",
+    "name": "microlab shifting elevator",
+    "color": "magenta",
+    "memorial_male": { "ctxt": "memorial_male", "str": "Triggered a dimensional anomaly." },
+    "memorial_female": { "ctxt": "memorial_female", "str": "Triggered a dimensional anomaly." },
+    "symbol": ".",
+    "visibility": 99,
+    "avoidance": 99,
+    "difficulty": 99,
+    "action": "map_regen",
+    "map_regen": "microlab_portal_elevator_physics_shift",
+    "benign": false
+  },
+  {
+    "type": "trap",
     "id": "tr_glimmer_floor",
     "name": "glimmering floor",
     "color": "yellow",
@@ -216,7 +231,7 @@
     "name": "caltrops",
     "color": "dark_gray",
     "memorial_male": { "ctxt": "memorial_male", "str": "Stepped on a caltrop." },
-    "memorial_female": { "ctxt": "memorial_female", "str": "stepped on a caltrop." },
+    "memorial_female": { "ctxt": "memorial_female", "str": "Stepped on a caltrop." },
     "symbol": "_",
     "visibility": 4,
     "avoidance": 6,
@@ -365,7 +380,7 @@
     "difficulty": 2,
     "trap_radius": 1,
     "action": "none",
-    "drops": [ "motor", "blade", "blade", "string_36" ]
+    "drops": [ "motor_small", "blade", "blade", "string_36" ]
   },
   {
     "type": "trap",
@@ -498,6 +513,7 @@
     "visibility": 0,
     "avoidance": 8,
     "difficulty": 99,
+    "flags": [ "PIT" ],
     "action": "pit",
     "vehicle_data": { "damage": 500 }
   },
@@ -512,6 +528,7 @@
     "visibility": 0,
     "avoidance": 8,
     "difficulty": 99,
+    "flags": [ "PIT" ],
     "action": "pit_spikes",
     "vehicle_data": { "damage": 500 }
   },
@@ -537,8 +554,8 @@
     "id": "tr_portal",
     "name": "shimmering portal",
     "color": "magenta",
-    "memorial_male": { "ctxt": "memorial_male", "str": "Triggered a teleoport trap." },
-    "memorial_female": { "ctxt": "memorial_female", "str": "Triggered a teleoport trap." },
+    "memorial_male": { "ctxt": "memorial_male", "str": "Triggered a teleport trap." },
+    "memorial_female": { "ctxt": "memorial_female", "str": "Triggered a teleport trap." },
     "symbol": "%",
     "visibility": 0,
     "avoidance": 99,
@@ -683,7 +700,7 @@
     "effect_str": "mon_spider_trapdoor_giant",
     "shape": "blast",
     "valid_targets": [ "ground" ],
-    "flags": [ "PERMANENT", "HOSTILE_SUMMON" ],
+    "flags": [ "PERMANENT", "HOSTILE_SUMMON", "NO_EXPLOSION_SFX" ],
     "max_level": 15,
     "min_aoe": 2,
     "max_aoe": 3,
@@ -711,6 +728,7 @@
     "visibility": 0,
     "avoidance": 8,
     "difficulty": 99,
+    "flags": [ "PIT" ],
     "action": "pit_glass",
     "vehicle_data": { "damage": 500 }
   },

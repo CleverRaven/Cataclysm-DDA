@@ -290,7 +290,10 @@
       "usc15mag",
       "usc20mag",
       "m1carbinemag",
-      "m1carbinebigmag"
+      "m1carbinebigmag",
+      "zpap85mag",
+      "papm77mag",
+      "papm77mag_10rd"
     ],
     "type": "MIGRATION",
     "replace": "rifle_mag"

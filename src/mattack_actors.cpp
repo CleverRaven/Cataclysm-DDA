@@ -45,6 +45,7 @@ static const efftype_id effect_run( "run" );
 static const efftype_id effect_sensor_stun( "sensor_stun" );
 static const efftype_id effect_stunned( "stunned" );
 static const efftype_id effect_targeted( "targeted" );
+static const efftype_id effect_vampire_virus( "vampire_virus" );
 static const efftype_id effect_was_laserlocked( "was_laserlocked" );
 static const efftype_id effect_zombie_virus( "zombie_virus" );
 
@@ -52,6 +53,7 @@ static const skill_id skill_gun( "gun" );
 static const skill_id skill_throw( "throw" );
 
 static const trait_id trait_TOXICFLESH( "TOXICFLESH" );
+static const trait_id trait_VAMPIRE( "VAMPIRE" );
 
 void leap_actor::load_internal( const JsonObject &obj, const std::string & )
 {
@@ -221,6 +223,7 @@ void mon_spellcasting_actor::load_internal( const JsonObject &obj, const std::st
     optional( obj, was_loaded, "forbidden_effects_all", forbidden_effects_all );
     optional( obj, was_loaded, "required_effects_any", required_effects_any );
     optional( obj, was_loaded, "required_effects_all", required_effects_all );
+    optional( obj, was_loaded, "allow_no_target", allow_no_target, false );
 
 }
 
@@ -230,8 +233,9 @@ bool mon_spellcasting_actor::call( monster &mon ) const
         return false;
     }
 
-    if( !mon.attack_target() ) {
+    if( !mon.attack_target() && !allow_no_target ) {
         // this is an attack. there is no reason to attack if there isn't a real target.
+        // Unless we don't need one
         return false;
     }
 
@@ -277,7 +281,8 @@ bool mon_spellcasting_actor::call( monster &mon ) const
         }
     }
 
-    const tripoint target = spell_data.self ? mon.pos() : mon.attack_target()->pos();
+    const tripoint target = ( spell_data.self ||
+                              allow_no_target ) ? mon.pos() : mon.attack_target()->pos();
     spell spell_instance = spell_data.get_spell();
     spell_instance.set_message( spell_data.trigger_message );
 
@@ -666,6 +671,11 @@ void bite_actor::load_internal( const JsonObject &obj, const std::string &src )
 {
     // Infection chance is a % (i.e. 5/100)
     melee_actor::load_internal( obj, src );
+    // If min hitsize is undefined restrict it to not biting eyes/mouths
+    // Hands are fair game, though
+    if( hitsize_min == -1 ) {
+        hitsize_min = 1;
+    }
     infection_chance = obj.get_int( "infection_chance", 5 );
 }
 
@@ -685,9 +695,11 @@ void bite_actor::on_damage( monster &z, Creature &target, dealt_damage_instance 
     }
 
     // Flag only set for zombies in the deadly_bites mod
-    if( z.has_flag( MF_DEADLY_VIRUS ) && x_in_y( infection_chance, 20 ) ) {
-        if( !target.has_effect( effect_zombie_virus ) ) {
+    if( x_in_y( infection_chance, 20 ) ) {
+        if( z.has_flag( MF_DEADLY_VIRUS ) && !target.has_effect( effect_zombie_virus ) ) {
             target.add_effect( effect_zombie_virus, 1_turns, bodypart_str_id::NULL_ID(), true );
+        } else if( z.has_flag( MF_VAMP_VIRUS ) && !target.has_trait( trait_VAMPIRE ) ) {
+            target.add_effect( effect_vampire_virus, 1_turns, bodypart_str_id::NULL_ID(), true );
         }
     }
 
@@ -938,4 +950,3 @@ void gun_actor::shoot( monster &z, const tripoint &target, const gun_mode_id &mo
         z.ammo[ammo] -= tmp.fire_gun( target, gun.gun_current_mode().qty );
     }
 }
-

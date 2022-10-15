@@ -61,14 +61,14 @@
     "size": 150,
     "power": 200,
     "location": "structure",
-    "//": "This should not be interactable nor visible as a vehicle part, its part of a summoned magic 'vehicle'",
+    "//": "Flagged OBSOLETE to hide from install UI. This should not be interactable nor visible as a vehicle part, its part of a summoned magic 'vehicle'",
     "requirements": {
       "install": { "skills": [ [ "mechanics", 20 ], [ "spellcraft", 1 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] },
       "removal": { "skills": [ [ "mechanics", 20 ], [ "spellcraft", 1 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 20 ], [ "spellcraft", 1 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
     },
     "flags": [
-      "INITIAL_PART",
+      "OBSOLETE",
       "ENGINE",
       "STABLE",
       "E_STARTS_INSTANTLY",

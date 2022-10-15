@@ -95,5 +95,23 @@
         { "item": "scrap_dreamdross", "prob": 75, "count": [ 1, 4 ] }
       ]
     }
+  },
+  {
+    "id": "default_moroi_death_drops",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [
+      {
+        "distribution": [
+          { "group": "default_zombie_clothes", "prob": 90 },
+          { "group": "default_zombie_clothes_christmas", "event": "christmas", "prob": 10 },
+          { "group": "professional_zombie_gear", "prob": 1 }
+        ]
+      },
+      { "group": "default_zombie_items", "prob": 50 },
+      { "group": "wallets", "damage": [ 1, 4 ], "prob": 30 },
+      { "item": "grimy_recipe", "prob": 55 },
+      { "item": "scrap_dreamdross", "prob": 75, "count": [ 1, 4 ] }
+    ]
   }
 ]
