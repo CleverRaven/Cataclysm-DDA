@@ -3868,6 +3868,7 @@ bool mattack::searchlight( monster *z )
         }
 
         point p( zpos + point( settings.get_var( "SL_SPOT_X", 0 ), settings.get_var( "SL_SPOT_Y", 0 ) ) );
+        point preshift_p = p;
         int shift = 0;
 
         for( int i = 0; i < rng( 1, 2 ); i++ ) {
@@ -3940,10 +3941,24 @@ bool mattack::searchlight( monster *z )
             }
         }
 
-        settings.set_var( "SL_SPOT_X", p.x - zpos.x );
-        settings.set_var( "SL_SPOT_Y", p.y - zpos.y );
+        tripoint t = tripoint( p, z->posz() );
+        if( z->sees( t, false, 0 ) ) {
+            settings.set_var( "SL_SPOT_X", p.x - zpos.x );
+            settings.set_var( "SL_SPOT_Y", p.y - zpos.y );
+        } else {
+            // If the searchlight cannot see the location it was going to look at check if
+            // the searchlight can see the current location (a door could have closed or
+            // a window covered). If the searchlight cannot see the current location then
+            // reset the searchlight to search from itself
+            t = tripoint( preshift_p, z->posz() );
+            if( !z->sees( t, false, 0 ) ) {
+                settings.set_var( "SL_SPOT_X", 0 );
+                settings.set_var( "SL_SPOT_Y", 0 );
+                t = z->pos();
+            }
+        }
 
-        here.add_field( tripoint( p, z->posz() ), field_type_id( "fd_spotlight" ), 1 );
+        here.add_field( t, field_type_id( "fd_spotlight" ), 1 );
     }
 
     return true;
