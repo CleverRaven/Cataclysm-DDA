@@ -10,5 +10,54 @@
     "type": "requirement",
     "//": "This should contain all weak acids, based on pKa value.",
     "components": [ [ [ "chem_acetic_acid", 1 ], [ "formic_acid", 1 ] ] ]
+  },
+  {
+    "id": "alcohol",
+    "type": "requirement",
+    "//": "This should contain all alcohols.",
+    "components": [
+      [
+        [ "chem_ethanol", 250 ],
+        [ "denat_alcohol", 250 ],
+        [ "mixed_alcohol_strong", 7 ],
+        [ "brandy", 7 ],
+        [ "bristol_sherry", 7 ],
+        [ "canadian_whiskey", 7 ],
+        [ "cheap_whiskey", 7 ],
+        [ "gin", 7 ],
+        [ "madeira", 7 ],
+        [ "moonshine", 7 ],
+        [ "rum", 7 ],
+        [ "sherry", 7 ],
+        [ "single_malt_whiskey", 7 ],
+        [ "single_pot_whiskey", 7 ],
+        [ "tequila", 7 ],
+        [ "triple_sec", 7 ],
+        [ "vodka", 7 ],
+        [ "whiskey", 7 ],
+        [ "drink_wsour", 7 ]
+      ]
+    ]
+  },
+  {
+    "id": "solvent",
+    "type": "requirement",
+    "//": "This should contain all solvents.",
+    "components": [
+      [
+        [ "water", 1 ],
+        [ "water_clean", 1 ],
+        [ "chem_ethanol", 250 ],
+        [ "chem_methanol", 250 ],
+        [ "methed_alcohol", 250 ],
+        [ "denat_alcohol", 250 ],
+        [ "chem_turpentine", 250 ],
+        [ "ether", 250 ],
+        [ "chem_DMSO", 250 ],
+        [ "chem_chloroform", 250 ],
+        [ "chem_phenol", 250 ],
+        [ "chem_toluene", 250 ]
+      ]
+    ]
   }
 ]

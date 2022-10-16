@@ -355,5 +355,66 @@
         [ "y_paint", 1 ]
       ]
     ]
+  },
+  {
+    "id": "cover_hands",
+    "type": "requirement",
+    "//": "Tools for protection hands for handling toxic substances, plastic and waterproof",
+    "tools": [
+      [
+        [ "gloves_bag", -1 ], 
+        [ "gloves_medical", -1 ], 
+        [ "gloves_rubber", -1 ], 
+        [ "gloves_claws", -1 ]
+      ]
+    ]
+  },
+  {
+    "id": "cover_mouth",
+    "type": "requirement",
+    "//": "Tools for protection the mouth for handling toxic substances, just covers mouth and nose",
+    "tools": [
+      [
+        [ "mask_dust", -1 ],
+        [ "bandana", -1 ],
+        [ "mask_rioter", -1 ],
+        [ "patchwork_scarf", -1 ],
+        [ "long_patchwork_scarf", -1 ],
+        [ "knit_scarf", -1 ],
+        [ "long_knit_scarf", -1 ],
+        [ "scarf", -1 ],
+        [ "scarf_long", -1 ],
+        [ "scarf_fur", -1 ],
+        [ "scarf_fur_long", -1 ],
+        [ "marloss_scarf", -1 ]
+      ]
+    ]
+  },
+  {
+    "id": "gas_mask",
+    "type": "requirement",
+    "//": "Tools for breathing protection for handling very toxic substances",
+    "tools": [
+      [
+        [ "mask_filter", 2 ],
+        [ "mask_gas", 1 ],
+        [ "mask_gas_xl", 1 ],
+        [ "mask_gas_xs", 1 ],
+        [ "mask_fsurvivor", 1 ],
+        [ "mask_fsurvivorxl", 1 ],
+        [ "mask_fsurvivorxs", 1 ],
+        [ "mask_bunker", 1 ],
+        [ "mask_hsurvivor", 1 ],
+        [ "mask_lsurvivor", 1 ],
+        [ "mask_lsurvivorxl", 1 ],
+        [ "mask_survivor", 1 ],
+        [ "mask_survivorxl", 1 ],
+        [ "mask_survivorxs", 1 ],
+        [ "mask_wsurvivor_nofur", 1 ],
+        [ "mask_wsurvivorxl_nofur", 1 ],
+        [ "mask_wsurvivor_nofur_xs", 1 ],
+        [ "mask_wsurvivor", 1 ]
+      ]
+    ]
   }
 ]
