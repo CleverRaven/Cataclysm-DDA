@@ -1670,9 +1670,8 @@ void inventory_column::draw( const catacurses::window &win, const point &p,
                                                   true ) ) );
 
             if( denial_width > 0 ) {
-                trim_and_print( win, point( p.x + get_width() - denial_width, yy ),
-                                denial_width,
-                                c_red, denial );
+	      // Print from right rather than trim_and_print to avoid improper positioning of wide characters
+	      right_print( win, yy, 1, c_red, trim_by_length( denial, denial_width ) );
             }
         }
 
