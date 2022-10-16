@@ -388,7 +388,7 @@
     ],
     "tools": [ [ [ "tongs", -1 ] ], [ [ "hotcut", -1 ] ] ],
     "components": [ [ [ "scrap", 2 ] ] ]
-  }
+  },
   {
     "type": "recipe",
     "activity_level": "BRISK_EXERCISE",
