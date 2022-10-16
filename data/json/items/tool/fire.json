@@ -177,7 +177,7 @@
     "name": { "str": "survival match", "str_pl": "survival matches" },
     "description": "A solid strike anywhere match.  One and done.",
     "looks_like": "matches",
-    "weight": "1 g",
+    "weight": "0.85 g",
     "volume": "1 ml",
     "price": 0,
     "price_postapoc": 10,
