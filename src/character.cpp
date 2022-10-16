@@ -372,7 +372,6 @@ static const scenttype_id scent_sc_human( "sc_human" );
 static const skill_id skill_archery( "archery" );
 static const skill_id skill_dodge( "dodge" );
 static const skill_id skill_driving( "driving" );
-static const skill_id skill_firstaid( "firstaid" );
 static const skill_id skill_melee( "melee" );
 static const skill_id skill_pistol( "pistol" );
 static const skill_id skill_speech( "speech" );
@@ -11697,7 +11696,7 @@ void Character::pause()
                                    _( "<npcname>'s bleeding is beyond staunching barehanded!" ) );
         } else {
             effect &e = get_effect( effect_bleed, bp_id );
-            e.mod_duration( - ( benefit ) );
+            e.mod_duration( - benefit );
             add_msg_player_or_npc( m_warning,
                                    _( "You put pressure on the bleeding wound…" ),
                                    _( "<npcname> puts pressure on the bleeding wound…" ) );
