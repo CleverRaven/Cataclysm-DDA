@@ -136,8 +136,8 @@
     "copy-from": "mon_fry",
     "upgrades": { "half_life": 14, "into": "mon_fish_redear_sunfish" },
     "name": { "str_sp": "fry" }
-   },
-   {
+  },
+  {
     "//": "This monster used to have a death function (mon_endless_hunger_revive) and a special attack (mon_endless_hunger_attack). //",
     "id": "mon_endless_hunger",
     "type": "MONSTER",
