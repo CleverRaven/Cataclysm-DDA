@@ -1058,6 +1058,7 @@ void mtype::load( const JsonObject &jo, const std::string &src )
         upgrade_group = mongroup_id::NULL_ID();
         upgrade_into = mtype_id::NULL_ID();
         upgrades = false;
+        upgrade_null_despawn = false;
     } else if( jo.has_member( "upgrades" ) ) {
         JsonObject up = jo.get_object( "upgrades" );
         optional( up, was_loaded, "half_life", half_life, -1 );
@@ -1074,6 +1075,7 @@ void mtype::load( const JsonObject &jo, const std::string &src )
         } else {
             jo.get_int( "spawn_range", 0 ); // ignore if defined
         }
+        optional( up, was_loaded, "despawn_when_null", upgrade_null_despawn, false );
         upgrades = true;
     }
 

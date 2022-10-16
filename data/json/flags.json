@@ -24,6 +24,12 @@
     "restriction": "Item must be an armored skirt"
   },
   {
+    "id": "ABLATIVE_HELMET",
+    "type": "json_flag",
+    "info": "This will hook to a <info>Hub 01 proprietary</info> helmet connector",
+    "restriction": "Item must be an armored helmet"
+  },
+  {
     "id": "ACTIVE_CLOAKING",
     "type": "json_flag",
     "info": "This gear has <info>cloaking tech</info> that will <good>make you invisible</good> when active, at the cost of <info>power from a UPS</info>."

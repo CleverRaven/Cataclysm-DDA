@@ -991,7 +991,7 @@
     "copy-from": "armor_lc_plate",
     "material": [ "qt_steel", "qt_steel_chain" ],
     "name": { "str": "tempered plate armor" },
-    "description": "A suit of plate armor with a 4mm thick chestpiece.  The medium steel has been quenched and tempered, offering top-of-the-line-protection.",
+    "description": "A suit of plate armor with a 4mm thick chestpiece.  The medium steel has been quenched and tempered, offering top-of-the-line protection.",
     "armor": [
       {
         "material": [
@@ -1244,7 +1244,7 @@
     "copy-from": "armor_lc_heavyplate",
     "material": [ "qt_steel", "qt_steel_chain" ],
     "name": { "str": "tempered heavy plate armor" },
-    "description": "A heavy suit of plate armor with a 6mm thick chestpiece.  The medium steel has been quenched and tempered, offering top of the line protection.",
+    "description": "A heavy suit of plate armor with a 6mm thick chestpiece.  The medium steel has been quenched and tempered, offering top-of-the-line protection.",
     "armor": [
       {
         "material": [

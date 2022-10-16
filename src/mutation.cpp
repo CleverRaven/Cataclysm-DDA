@@ -347,7 +347,13 @@ bool mutation_branch::conflicts_with_item( const item &it ) const
     }
 
     for( const bodypart_str_id &bp : restricts_gear ) {
-        if( it.covers( bp.id() ) ) {
+        if( it.covers( bp.id() ) && ( it.is_bp_rigid( bp.id() ) || !allow_soft_gear ) ) {
+            return true;
+        }
+    }
+
+    for( const sub_bodypart_str_id &bp : restricts_gear_subparts ) {
+        if( it.covers( bp.id() ) && ( it.is_bp_rigid( bp.id() ) || !allow_soft_gear ) ) {
             return true;
         }
     }
