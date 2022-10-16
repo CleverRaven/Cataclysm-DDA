@@ -157,24 +157,25 @@
   {
     "type": "mutation",
     "id": "TOE_CLAWS",
-    "name": { "str": "Clawed Feet" },
-    "copy-from": "RAP_TALONS",
-    "description": "Your toenails have grown long and sharp, preventing you from wearing shoes, but providing you with a set of powerful claws on your feet.  Fortunately they don't impede your movement.",
-    "category": [ "DRAGON_BLACK", "LIZARD" ],
+    "name": { "str": "Reptilian Legs" },
+    "points": 0,
+    "description": "Your legs and feet have become reptile-like and your toenails have grown into short claws.  Fortunately they don't impede your movement.",
+    "types": [ "LEGS", "FEET" ],
+    "cancels": [ "WEBBED_FEET" ],
+    "category": [ "DRAGON_BLACK" ],
     "changes_to": [ "DRAGON_FEET" ]
   },
   {
     "type": "mutation",
     "id": "DRAGON_FEET",
-    "name": { "str": "Dragon Clawed Feet" },
+    "name": { "str": "Dragon Legs" },
     "points": -1,
     "visibility": 4,
     "ugliness": 2,
     "mixed_effect": true,
-    "description": "The claws on your toes have developed in to incredibly tough talons.  These are fearsome and powerful, but still prevent you from wearing shoes and slightly impede your movement.",
-    "valid": false,
-    "types": [ "LEGS" ],
-    "//": "This is a failsafe in case you've obtained webbed feet from elsewhere.  By normal means black dragons shouldn't obtain Webbed Feet to begin with.",
+    "description": "Your legs and feet have become dragon-like and the claws on your toes have developed into incredibly tough talons.  These are fearsome and powerful, but prevent you from wearing shoes and slightly impede your movement.",
+    "types": [ "LEGS", "FEET" ],
+    "prereqs": [ "TOE_CLAWS" ],
     "cancels": [ "WEBBED_FEET" ],
     "category": [ "DRAGON_BLACK" ],
     "threshreq": [ "THRESH_DRAGON_BLACK" ],
@@ -219,6 +220,7 @@
     "mixed_effect": true,
     "encumbrance_always": [ [ "torso", 10 ], [ "arm_l", 10 ], [ "arm_r", 10 ] ],
     "description": "You have grown noticeably taller, broader, and menacing.  Much of it is useful muscle mass (Strength +2), but you find it throws off your balance and you get in your own way (+10 torso and arm encumbrance), and you notice people are starting to treat you differently.",
+    "types": [ "SIZE" ],
     "prereqs": [ "DRAGON_STR", "DRAGON_STR2", "DRAGON_STR3", "DRAGON_STR4" ],
     "cancels": [ "SMALL", "SMALL2", "LARGE", "LARGE_OK", "HUGE", "HUGE_OK" ],
     "changes_to": [ "LARGE_OK_DRAGON", "HUGE_DRAGON" ],
@@ -235,6 +237,7 @@
     "points": 2,
     "visibility": 1,
     "description": "You carry your rugged body with the dignity you deserve, but are all the more menacing for it.  Strength +2.",
+    "types": [ "SIZE" ],
     "prereqs": [ "LARGE_DRAGON" ],
     "prereqs2": [ "DRAGON_STR", "DRAGON_STR2", "DRAGON_STR3", "DRAGON_STR4" ],
     "cancels": [ "SMALL", "SMALL2", "LARGE", "LARGE_OK", "HUGE", "HUGE_OK" ],
@@ -255,6 +258,7 @@
     "ugliness": 4,
     "mixed_effect": true,
     "description": "You have grown even more massive, to the point where you cannot usefully fit into human-sized clothing or vehicles.  Much of it is powerful muscle mass (Strength +4), but it's a real pain to haul around.",
+    "types": [ "SIZE" ],
     "prereqs": [ "LARGE_DRAGON", "LARGE_OK_DRAGON" ],
     "prereqs2": [ "DRAGON_STR3", "DRAGON_STR4" ],
     "cancels": [ "SMALL", "SMALL2", "LARGE", "LARGE_OK", "HUGE", "HUGE_OK" ],
@@ -275,6 +279,7 @@
     "points": 4,
     "visibility": 1,
     "description": "Your muscles are enhanced by some growing innate magic.  You are slightly stronger.  Strength + 1",
+    "types": [ "STR" ],
     "changes_to": [ "DRAGON_STR2" ],
     "category": [ "DRAGON_BLACK" ],
     "passive_mods": { "str_mod": 1 }
@@ -286,6 +291,7 @@
     "points": 4,
     "visibility": 1,
     "description": "The connection to your inner magic is growing and your muscles are stronger, but you're a little more clumsy.  Strength + 3, Dexterity - 1",
+    "types": [ "STR" ],
     "prereqs": [ "DRAGON_STR" ],
     "changes_to": [ "DRAGON_STR3" ],
     "category": [ "DRAGON_BLACK" ],
@@ -298,6 +304,7 @@
     "points": 4,
     "visibility": 1,
     "description": "The magic within you courses through your muscles, greatly empowering them.  This costs you valuable flexibility and coordination, however.  Strength + 5, Dexterity - 2",
+    "types": [ "STR" ],
     "prereqs": [ "DRAGON_STR2" ],
     "changes_to": [ "DRAGON_STR4" ],
     "category": [ "DRAGON_BLACK" ],
@@ -311,6 +318,7 @@
     "visibility": 2,
     "ugliness": 2,
     "description": "Your internal magic has filled you with unimaginable strength, but you can't move as freely as your form once could.  This is no problem.  Strength + 8, Dexterity - 3",
+    "types": [ "STR" ],
     "prereqs": [ "DRAGON_STR3" ],
     "category": [ "DRAGON_BLACK" ],
     "threshreq": [ "THRESH_DRAGON_BLACK" ],
@@ -326,6 +334,7 @@
     "ugliness": 3,
     "mixed_effect": true,
     "description": "Your cardiovascular system has caught up with your muscular physique, so who needs pathetic human cars?  Strength +4.",
+    "types": [ "SIZE" ],
     "prereqs": [ "HUGE_DRAGON" ],
     "prereqs2": [ "DRAGON_STR3", "DRAGON_STR4" ],
     "cancels": [ "SMALL", "SMALL2", "LARGE", "LARGE_OK", "HUGE", "HUGE_OK" ],
@@ -341,7 +350,11 @@
     "type": "mutation",
     "id": "MUT_TOUGH",
     "copy-from": "MUT_TOUGH",
-    "extend": { "category": [ "DRAGON_BLACK" ], "prereqs": [ "LARGE_OK_DRAGON", "HUGE_OK_DRAGON" ] }
+    "extend": {
+      "category": [ "DRAGON_BLACK" ],
+      "prereqs": [ "LARGE_OK_DRAGON", "HUGE_OK_DRAGON" ],
+      "threshreq": [ "THRESH_DRAGON_BLACK" ]
+    }
   },
   {
     "type": "mutation",
@@ -372,6 +385,40 @@
     "id": "SLIT_NOSTRILS",
     "copy-from": "SLIT_NOSTRILS",
     "extend": { "category": [ "DRAGON_BLACK" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "HEADBUMPS",
+    "copy-from": "HEADBUMPS",
+    "extend": { "category": [ "DRAGON_BLACK" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "HORNS",
+    "copy-from": "HORNS",
+    "extend": { "category": [ "DRAGON_BLACK" ], "changes_to": [ "HORNS_DRAGON" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "HORNS_DRAGON",
+    "name": { "str": "Dragon Horns" },
+    "points": 1,
+    "visibility": 8,
+    "ugliness": 2,
+    "mixed_effect": true,
+    "description": "You have a pair of long, curved back, dragon-like horns.  They allow you to make a strong bashing headbutt attack, but prevent wearing headwear that is not made of fabric.",
+    "types": [ "HORNS" ],
+    "prereqs": [ "HORNS" ],
+    "category": [ "DRAGON_BLACK" ],
+    "threshreq": [ "THRESH_DRAGON_BLACK" ],
+    "restricts_gear": [ "head" ],
+    "allow_soft_gear": true,
+    "attacks": {
+      "attack_text_u": "You headbutt %s with your draconic horns",
+      "attack_text_npc": "%1$s headbutts %2$s with their draconic horns",
+      "chance": 20,
+      "base_damage": { "damage_type": "bash", "amount": 16 }
+    }
   },
   {
     "type": "mutation",
@@ -472,6 +519,7 @@
   {
     "type": "mutation",
     "id": "DRAGONBLOOD",
+    "flags": [ "COLDBLOOD" ],
     "name": { "str": "Draconic Heat Dependence" },
     "points": -1,
     "description": "Your muscle response is dependent on ambient temperatures.  You lose 1% of your speed for every 5 (2.8) degrees below 65 F (18.3 C).  Unfortunately, this doesn't seem to help you conserve any energy.",
@@ -483,18 +531,20 @@
   {
     "type": "mutation",
     "id": "DRAGONBLOOD2",
+    "flags": [ "COLDBLOOD2" ],
     "name": { "str": "High Draconic Heat Dependence" },
     "points": -2,
     "description": "Your muscle response is highly dependent on ambient temperatures.  You lose 1% of your speed for every 3 (1.7) degrees below 65 F (18.3 C).  Unfortunately, it seems you have to exert more energy to keep moving.",
     "changes_to": [ "DRAGONBLOOD3" ],
     "types": [ "METABOLISM" ],
     "category": [ "DRAGON_BLACK" ],
-    "temperature_speed_modifier": 0.2,
+    "temperature_speed_modifier": 0.333,
     "metabolism_modifier": 0.25
   },
   {
     "type": "mutation",
     "id": "DRAGONBLOOD3",
+    "flags": [ "ECTOTHERM" ],
     "name": { "str": "Draconic Ectothermia" },
     "points": -3,
     "description": "Your body has become permanently cold-blooded.  Your speed lowers or raises 1% for every 2 (1.1) degrees below or above 65 F (18.3 C).  All this and you need even more food to maintain your energy.",
@@ -516,9 +566,10 @@
     "type": "mutation",
     "id": "DRAGON_MAGIC",
     "name": { "str": "Draconic Magic" },
-    "description": "You are imbued with with the ancient magic powers of black dragons, improving your mana reserves and opening your mind to amazing feats of magic.",
+    "description": "You are imbued with the ancient magic powers of black dragons, improving your mana reserves and opening your mind to amazing feats of magic.",
     "points": 3,
     "category": [ "DRAGON_BLACK" ],
+    "changes_to": [ "DRAGON_SPELLS" ],
     "threshreq": [ "THRESH_DRAGON_BLACK" ],
     "prereqs": [ "MANA_MULT3" ],
     "purifiable": false,
@@ -535,9 +586,9 @@
     "category": [ "DRAGON_BLACK" ],
     "threshreq": [ "THRESH_DRAGON_BLACK" ],
     "prereqs": [ "DRAGON_MAGIC" ],
-    "spells_learned": [ [ "dragon_boost", 1 ] ],
-    "mana_modifier": 500,
-    "passive_mods": { "int_mod": 2 }
+    "spells_learned": [ [ "dragon_terror", 0 ], [ "dragon_boost", 1 ] ],
+    "mana_modifier": 750,
+    "passive_mods": { "int_mod": 4 }
   },
   {
     "type": "mutation",
@@ -591,7 +642,7 @@
   {
     "type": "mutation",
     "id": "DRAGON_TAIL_STUB",
-    "name": { "str": "Stubby Reptile Tail" },
+    "name": { "str": "Stubby Dragon Tail" },
     "points": 0,
     "visibility": 1,
     "ugliness": 2,
@@ -603,11 +654,11 @@
   {
     "type": "mutation",
     "id": "DRAGON_TAIL_SCALED",
-    "name": { "str": "Scaled Reptile Tail" },
+    "name": { "str": "Short Dragon Tail" },
     "points": 1,
     "visibility": 8,
     "ugliness": 2,
-    "description": "You have a long, thick, reptile tail.  You can use it decently as a club of sorts, but it's not doing anything to help you balance.  Prevents wearing non-fabric pants.",
+    "description": "You have a short, dragonlike tail.  You can use it decently as a club of sorts, but it's not doing anything to help you balance.  Prevents wearing non-fabric pants.",
     "types": [ "TAIL" ],
     "prereqs": [ "DRAGON_TAIL_STUB" ],
     "prereqs2": [ "SCALES", "DRAGON_SCALES_BLACK" ],
@@ -687,5 +738,54 @@
     "category": [ "DRAGON_BLACK" ],
     "threshreq": [ "THRESH_DRAGON_BLACK" ],
     "spells_learned": [ [ "acid_claw", 1 ] ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_GIVE_SOUL_PRESSURE_OFF",
+    "//": "Works only once, and give you a SOUL_PRESSURE_OFF mutation. Dont know how to optimise it, so left it as it is.",
+    "recurrence": [ "1 s", "1 s" ],
+    "condition": {
+      "and": [
+        { "u_has_trait": "SOULFIRE" },
+        {
+          "not": { "u_has_var": "u_got_soulfire_attunement", "type": "attunement", "context": "attunement", "value": "yes" }
+        }
+      ]
+    },
+    "deactivate_condition": { "not": { "u_has_trait": "SOULFIRE" } },
+    "effect": [
+      { "u_add_trait": "SOUL_PRESSURE_OFF" },
+      { "u_add_var": "u_got_soulfire_attunement", "type": "attunement", "context": "attunement", "value": "yes" }
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "SOUL_PRESSURE_OFF",
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "name": { "str": "Soul Pressure" },
+    "points": 0,
+    "active": true,
+    "description": "Your presence is so dangerous you can burn living creatures around you.  You suppress it now.",
+    "transform": {
+      "target": "SOUL_PRESSURE_ON",
+      "msg_transform": "Living creatures around you start to burn!",
+      "active": true,
+      "moves": 10
+    }
+  },
+  {
+    "type": "mutation",
+    "id": "SOUL_PRESSURE_ON",
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "active": true,
+    "name": { "str": "Soul Pressure (on)" },
+    "points": -1,
+    "description": "Your presence is so dangerous you can burn living creatures around you.",
+    "enchantments": [ "SOULFIRE" ],
+    "transform": { "target": "SOUL_PRESSURE_OFF", "msg_transform": "You suppress your soul pressure.", "active": false, "moves": 10 }
   }
 ]

@@ -1,0 +1,208 @@
+[
+  {
+    "type": "npc",
+    "id": "pagan_cult_member",
+    "//": "A generic follower of the Valhallists.",
+    "name_suffix": "valhallist",
+    "class": "NC_VALHALLIST",
+    "attitude": 0,
+    "mission": 7,
+    "chat": "TALK_VALHALLIST_MEMBER_1",
+    "faction": "valhallists"
+  },
+  {
+    "type": "npc",
+    "id": "pagan_cult_member_rescue",
+    "//": "Mission-specific, should not spawn naturally.",
+    "name_suffix": "valhallist",
+    "class": "NC_VALHALLIST",
+    "attitude": 0,
+    "mission": 7,
+    "chat": "TALK_VALHALLIST_MEMBER_Rescue",
+    "faction": "valhallists"
+  },
+  {
+    "type": "npc",
+    "id": "pagan_cult_shopkeep",
+    "name_suffix": "valhallist",
+    "class": "NC_VALHALLIST_SHOPKEEP",
+    "attitude": 0,
+    "mission": 7,
+    "chat": "TALK_VALHALLIST_SHOPKEEPER_1",
+    "mission_offered": "MISSION_VALHALLISTS_GET_3_HAZMAT_SUITS",
+    "faction": "valhallists"
+  },
+  {
+    "type": "npc",
+    "id": "pagan_cult_mechanic",
+    "name_suffix": "valhallist",
+    "class": "NC_VALHALLIST",
+    "attitude": 0,
+    "mission": 7,
+    "chat": "TALK_VALHALLIST_MECHANIC_1",
+    "mission_offered": "MISSION_VALHALLISTS_GET_25L_acetylene",
+    "faction": "valhallists"
+  },
+  {
+    "type": "npc",
+    "id": "pagan_cult_gode",
+    "//": "A priest of the Valhallists.",
+    "name_suffix": "gode",
+    "class": "NC_VALHALLIST",
+    "attitude": 0,
+    "mission": 7,
+    "chat": "TALK_VALHALLIST_GODE_1",
+    "mission_offered": "MISSION_VALHALLISTS_RESCUE_RAIDERS",
+    "faction": "valhallists"
+  },
+  {
+    "type": "npc",
+    "id": "pagan_cult_leader",
+    "//": "The leader of the Valhallists.",
+    "name_suffix": "high gode",
+    "class": "NC_VALHALLIST",
+    "attitude": 0,
+    "mission": 7,
+    "chat": "TALK_VALHALLIST_LEADER_1",
+    "mission_offered": "MISSION_VALHALLISTS_EXTERMINATE_FUNGAL_BLOOM",
+    "faction": "valhallists"
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_VALHALLIST",
+    "name": { "str": "Valhallist" },
+    "job_description": "I worship the Norse gods.",
+    "traits": [ { "group": "BG_survival_story_RURAL" }, { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
+    "bonus_str": { "rng": [ 2, 5 ] },
+    "weapon_override": "valhallist_weapons",
+    "worn_override": "valhallist_worn",
+    "skills": [
+      { "skill": "ALL", "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "rng": [ 0, -4 ] } ] } ] } },
+      { "skill": "survival", "bonus": { "rng": [ 1, 4 ] } },
+      { "skill": "swimming", "bonus": { "rng": [ 1, 4 ] } },
+      { "skill": "melee", "bonus": { "rng": [ 1, 4 ] } },
+      { "skill": "dodge", "bonus": { "rng": [ 1, 4 ] } },
+      { "skill": "firstaid", "bonus": { "rng": [ 0, 2 ] } },
+      { "skill": "driving", "bonus": { "rng": [ 0, 2 ] } },
+      { "skill": "gun", "bonus": { "rng": [ 0, 2 ] } }
+    ]
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_SLAVE",
+    "name": { "str": "Slave" },
+    "job_description": "I've had very bad luck recently.",
+    "traits": [ { "group": "BG_survival_story_EVACUEE" }, { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
+    "carry_override": "naked_prisoner",
+    "weapon_override": "naked_prisoner",
+    "worn_override": "slave_worn",
+    "skills": [
+      { "skill": "ALL", "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 4, 2 ] }, { "rng": [ -4, -1 ] } ] } ] } }
+    ]
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_VALHALLIST_SHOPKEEP",
+    "name": { "str": "Valhallist Shopkeeper" },
+    "job_description": "I worship the Norse gods.",
+    "traits": [ { "group": "BG_survival_story_RURAL" }, { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
+    "bonus_str": { "rng": [ 2, 5 ] },
+    "bonus_int": { "rng": [ 1, 3 ] },
+    "weapon_override": "valhallist_weapons",
+    "worn_override": "valhallist_worn",
+    "shopkeeper_item_group": [
+      { "group": "valhallist_shopkeep_0" },
+      { "group": "valhallist_shopkeep_1", "trust": 3 },
+      { "group": "valhallist_weapons", "trust": 10 }
+    ],
+    "skills": [
+      { "skill": "ALL", "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "rng": [ 0, -4 ] } ] } ] } },
+      { "skill": "survival", "bonus": { "rng": [ 1, 4 ] } },
+      { "skill": "swimming", "bonus": { "rng": [ 1, 4 ] } },
+      { "skill": "speech", "bonus": { "rng": [ 1, 4 ] } },
+      { "skill": "melee", "bonus": { "rng": [ 1, 4 ] } },
+      { "skill": "dodge", "bonus": { "rng": [ 1, 4 ] } },
+      { "skill": "firstaid", "bonus": { "rng": [ 0, 2 ] } },
+      { "skill": "driving", "bonus": { "rng": [ 0, 2 ] } },
+      { "skill": "gun", "bonus": { "rng": [ 0, 2 ] } }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "valhallist_weapons",
+    "subtype": "collection",
+    "entries": [
+      { "group": "guns_pistol_common", "prob": 35 },
+      { "group": "guns_smg_common", "prob": 35 },
+      { "group": "guns_rifle_common", "prob": 35 },
+      { "item": "longsword", "prob": 35 },
+      { "item": "arming_sword", "prob": 35 },
+      { "item": "broadsword", "prob": 35 },
+      { "item": "katana", "prob": 35 },
+      { "item": "mace", "prob": 35 },
+      { "item": "morningstar", "prob": 35 },
+      { "item": "zweihander", "prob": 35 },
+      { "item": "lucern_hammer", "prob": 35 },
+      { "item": "spear_steel", "prob": 35 },
+      { "item": "ax", "prob": 35 },
+      { "item": "bat", "prob": 35 },
+      { "item": "machete", "prob": 35 },
+      { "item": "survivor_machete", "prob": 35 },
+      { "item": "bullwhip", "prob": 35 },
+      { "item": "trimmer_off", "prob": 35, "charges": 600 },
+      { "item": "chainsaw_off", "prob": 35, "charges": 450 },
+      { "item": "elec_chainsaw_off", "prob": 35, "charges": 500 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "valhallist_worn",
+    "subtype": "collection",
+    "entries": [
+      { "item": "armguard_metal", "prob": 100 },
+      { "item": "boots_steel", "prob": 100 },
+      { "item": "helmet_skull", "prob": 100 },
+      { "item": "legguard_metal", "prob": 100 },
+      { "item": "armor_lamellar", "prob": 100 },
+      { "item": "pants", "prob": 100 },
+      { "item": "tshirt", "prob": 100 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "slave_worn",
+    "subtype": "collection",
+    "entries": [ { "item": "pants", "prob": 100 }, { "item": "tshirt", "prob": 100 }, { "item": "boxer_briefs", "prob": 100 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "valhallist_shopkeep_0",
+    "subtype": "collection",
+    "entries": [
+      { "group": "condiments" },
+      { "group": "groce_ingredient" },
+      { "group": "groce_bread" },
+      { "group": "pantry_liquids" },
+      { "group": "dry_goods" },
+      { "group": "preserved_food" },
+      { "group": "homebooks" },
+      { "group": "manuals" },
+      { "group": "textbooks" },
+      { "group": "tools_common" },
+      { "group": "tools_workshop" },
+      { "group": "tools_home" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "valhallist_shopkeep_1",
+    "subtype": "collection",
+    "entries": [
+      { "group": "homebooks" },
+      { "group": "manuals" },
+      { "group": "textbooks" },
+      { "group": "drugs_heal_simple" },
+      { "group": "drugs_emergency" }
+    ]
+  }
+]

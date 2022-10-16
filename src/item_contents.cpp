@@ -552,7 +552,8 @@ void item_contents::read_mods( const item_contents &read_input )
     }
 }
 
-void item_contents::combine( const item_contents &read_input, const bool convert )
+void item_contents::combine( const item_contents &read_input, const bool convert,
+                             const bool into_bottom )
 {
     std::vector<item> uninserted_items;
     size_t pocket_index = 0;
@@ -597,7 +598,8 @@ void item_contents::combine( const item_contents &read_input, const bool convert
             std::advance( current_pocket_iter, pocket_index );
 
             for( const item *it : pocket.all_items_top() ) {
-                const ret_val<item_pocket::contain_code> inserted = current_pocket_iter->insert_item( *it );
+                const ret_val<item_pocket::contain_code> inserted = current_pocket_iter->insert_item( *it,
+                        into_bottom );
                 if( !inserted.success() ) {
                     uninserted_items.push_back( *it );
                     debugmsg( "error: item %s cannot fit into pocket while loading: %s",
@@ -926,7 +928,8 @@ ret_val<void> item_contents::can_contain_rigid( const item &it,
     return ret;
 }
 
-ret_val<void> item_contents::can_contain( const item &it, const bool ignore_pkt_settings ) const
+ret_val<void> item_contents::can_contain( const item &it, const bool ignore_pkt_settings,
+        units::volume remaining_parent_volume ) const
 {
     ret_val<void> ret = ret_val<void>::make_failure( _( "is not a container" ) );
     for( const item_pocket &pocket : contents ) {
@@ -936,6 +939,9 @@ ret_val<void> item_contents::can_contain( const item &it, const bool ignore_pkt_
         }
         if( !ignore_pkt_settings && !pocket.settings.accepts_item( it ) ) {
             ret = ret_val<void>::make_failure( _( "denied by pocket auto insert settings" ) );
+            continue;
+        }
+        if( !pocket.rigid() && it.volume() > remaining_parent_volume ) {
             continue;
         }
         const ret_val<item_pocket::contain_code> pocket_contain_code = pocket.can_contain( it );
@@ -2117,6 +2123,15 @@ void item_contents::process( map &here, Character *carrier, const tripoint &pos,
     for( item_pocket &pocket : contents ) {
         if( pocket.is_type( item_pocket::pocket_type::CONTAINER ) ) {
             pocket.process( here, carrier, pos, insulation, flag, spoil_multiplier_parent );
+        }
+    }
+}
+
+void item_contents::leak( map &here, Character *carrier, const tripoint &pos, item_pocket *pocke )
+{
+    for( item_pocket &pocket : contents ) {
+        if( pocket.is_type( item_pocket::pocket_type::CONTAINER ) ) {
+            pocket.leak( here, carrier, pos, pocke );
         }
     }
 }

@@ -55,6 +55,7 @@
 #include "sounds.h"
 #include "stomach.h"
 #include "string_formatter.h"
+#include "teleport.h"
 #include "text_snippets.h"
 #include "translations.h"
 #include "type_id.h"
@@ -204,6 +205,7 @@ static void without_sleep( Character &you, int sleep_deprivation );
 static void from_tourniquet( Character &you );
 static void from_pain( Character &you );
 static void from_nyctophobia( Character &you );
+static void from_artifact_resonance( Character &you, int amt );
 } // namespace suffer
 
 static float addiction_scaling( float at_min, float at_max, float add_lvl )
@@ -311,8 +313,10 @@ void suffer::while_grabbed( Character &you )
     int grab_intensity = you.get_effect_int( effect_grabbed, body_part_torso );
 
     // you should have trouble breathing as you get swarmed by zombies grabbing you
-    if( grab_intensity <= 2 ) {
-        // only a chance to lose breath at low grab chance
+    if( grab_intensity < 2 ) {
+        return;
+    } else if( grab_intensity == 2 ) {
+        // only a chance to lose breath at low grab chance, none with only a single zombie
         you.oxygen -= rng( 0, 1 );
     } else if( grab_intensity <= 4 ) {
         you.oxygen -= 1;
@@ -390,6 +394,11 @@ void suffer::while_awake( Character &you, const int current_stim )
                                    _( "You're suddenly overcome with the urge to sleep and you pass out." ) );
             you.fall_asleep( 20_minutes );
         }
+    }
+
+    int resonance = you.enchantment_cache->get_value_add( enchant_vals::mod::ARTIFACT_RESONANCE );
+    if( resonance > 0 ) {
+        suffer::from_artifact_resonance( you, resonance );
     }
 
     if( you.has_trait( trait_JITTERY ) && !you.has_effect( effect_shakes ) ) {
@@ -815,9 +824,9 @@ void suffer::in_sunlight( Character &you )
         const bool leafiest = you.has_trait( trait_LEAVES3 );
         const double sleeve_factor = you.armwear_factor();
         const bool has_hat = you.wearing_something_on( bodypart_id( "head" ) );
-        const float weather_factor = ( get_weather().weather_id->sun_intensity >=
-                                       sun_intensity_type::normal ) ? 1.0 : 0.5;
-        const int player_local_temp = get_weather().get_temperature( position );
+        const float weather_factor = std::min( incident_sun_irradiance( get_weather().weather_id,
+                                               calendar::turn ) / irradiance::moderate, 1.f );
+        const int player_local_temp = units::to_fahrenheit( get_weather().get_temperature( position ) );
         const int flux = ( player_local_temp - 65 ) / 2;
         if( !has_hat ) {
             sunlight_nutrition += ( 100 + flux ) * weather_factor;
@@ -843,14 +852,15 @@ void suffer::in_sunlight( Character &you )
     }
 
     if( ( you.has_trait( trait_TROGLO ) || you.has_trait( trait_TROGLO2 ) ) &&
-        get_weather().weather_id->sun_intensity >= sun_intensity_type::high ) {
+        incident_sun_irradiance( get_weather().weather_id, calendar::turn ) > irradiance::moderate ) {
         you.mod_str_bonus( -1 );
         you.mod_dex_bonus( -1 );
         you.add_miss_reason( _( "The sunlight distracts you." ), 1 );
         you.mod_int_bonus( -1 );
         you.mod_per_bonus( -1 );
     }
-    if( you.has_trait( trait_TROGLO2 ) ) {
+    if( you.has_trait( trait_TROGLO2 ) &&
+        incident_sun_irradiance( get_weather().weather_id, calendar::turn ) > irradiance::low ) {
         you.mod_str_bonus( -1 );
         you.mod_dex_bonus( -1 );
         you.add_miss_reason( _( "The sunlight distracts you." ), 1 );
@@ -1321,8 +1331,10 @@ void suffer::from_radiation( Character &you )
         }
     }
 
-    if( !radiogenic && you.get_rad() > 0 ) {
-        you.mod_daily_health( -you.get_rad(), -200 );
+    if( calendar::once_every( 1_days ) ) {
+        if( !radiogenic && you.get_rad() > 0 ) {
+            you.mod_daily_health( -you.get_rad(), -200 );
+        }
     }
 
     if( you.get_rad() > 200 && calendar::once_every( 10_minutes ) && x_in_y( you.get_rad(), 1000 ) ) {
@@ -1712,6 +1724,89 @@ void suffer::from_nyctophobia( Character &you )
     }
 }
 
+void suffer::from_artifact_resonance( Character &you, int amt )
+{
+    int rng_outcome;
+    if( rng( 0, 3600 + std::floor( amt / 2000 ) ) > 3600 ) {
+        if( amt > 12500 && one_in( 2 ) ) {
+            //deadly effects from way too high resonance
+            rng_outcome = rng( 1, 3 );
+            if( rng_outcome == 1 ) {
+                you.add_msg_player_or_npc( m_bad, _( "You attract the attention of something horrible." ),
+                                           _( "<npcname> attracts the attention of something horrible." ) );
+                map &here = get_map();
+                for( const tripoint &dest : here.points_in_radius( you.pos(), 12 ) ) {
+                    if( here.is_cornerfloor( dest ) ) {
+                        here.add_field( dest, fd_tindalos_rift, 3 );
+                        add_msg( m_info, _( "You hear a low-pitched echoing howl." ) );
+                    }
+                }
+            } else if( rng_outcome == 2 ) {
+                you.add_msg_player_or_npc( m_bad, _( "Reality gives way under your feet like rotten scaffolding." ),
+                                           _( "Reality gives way under <npcname>'s feet like rotten scaffolding." ) );
+                map &here = get_map();
+                here.add_field( you.pos(), fd_fatigue, 1 );
+            } else if( rng_outcome == 3 ) {
+                you.add_msg_player_or_npc( m_bad, _( "You suddenly lose all substance and corporeality." ),
+                                           _( "<npcname> suddenly loses all substance and corporeality." ) );
+                you.add_effect( effect_incorporeal, 1_minutes );
+            }
+        } else if( amt > 7500 && one_in( 2 ) ) {
+            //severe effects from very high resonance
+            rng_outcome = rng( 1, 3 );
+            if( rng_outcome == 1 ) {
+                you.add_msg_player_or_npc( m_bad, _( "You are suddenly beset with agonizing, unbearable pain." ),
+                                           _( "<npcname> suddenly cries out in agony." ) );
+                you.mod_pain( 100 );
+                you.shout();
+            } else if( rng_outcome == 2 ) {
+                you.add_msg_player_or_npc( m_bad, _( "The air folds and distorts around you." ),
+                                           _( "The air folds and distorts around <npcname>." ) );
+                teleport::teleport( you );
+            } else if( rng_outcome == 3 ) {
+                you.add_msg_player_or_npc( m_bad, _( "You're bombarded with radioactive energy!" ),
+                                           _( "<npcname> is bombarded with radioactive energy!" ) );
+                you.irradiate( 5, true );
+                you.irradiate( 45, false );
+            }
+        } else if( amt > 4500 && one_in( 2 ) ) {
+            //bad effects from moderately high resonance
+            rng_outcome = rng( 1, 3 );
+            if( rng_outcome == 1  && !you.in_vehicle ) {
+                you.add_msg_player_or_npc( m_bad, _( "You suddenly shift slightly." ),
+                                           _( "<npcname> suddenly shifts slightly." ) );
+                teleport::teleport( you, 1, 1, true, false );
+            } else if( rng_outcome == 2 ) {
+                you.add_msg_player_or_npc( m_bad,
+                                           _( "You hear a painfully loud grinding noise from your location." ),
+                                           _( "A painfully loud grinding noise suddenly blares from the location of <npcname>." ) );
+                sounds::sound( you.pos(), 5000, sounds::sound_t::movement, _( "A horribly loud grinding sound!" ),
+                               true, "misc", "scraping" );
+            } else if( rng_outcome == 3 ) {
+                you.add_msg_player_or_npc( m_bad,
+                                           _( "The air suddenly crackles around you." ),
+                                           _( "The air suddenly crackles around <npcname>." ) );
+                you.irradiate( 10, false );
+            }
+        } else {
+            //mild effects from somewhat high resonance
+            rng_outcome = rng( 1, 3 );
+            if( rng_outcome == 1 ) {
+                you.add_msg_if_player( m_bad,
+                                       _( "You suddenly feel a sharp, stabbing pain with no apparent source." ) );
+                you.mod_pain( 5 );
+            } else if( rng_outcome == 2 ) {
+                you.add_msg_if_player( m_bad,
+                                       _( "Your vision suddenly becomes blurry and hard to decipher." ) );
+                you.add_effect( effect_hallu, 5_minutes );
+            } else if( rng_outcome == 3 ) {
+                you.add_msg_if_player( m_bad, _( "You suddenly feel very queasy." ) );
+                you.add_effect( effect_nausea, 1_minutes );
+            }
+        }
+    }
+}
+
 void Character::suffer()
 {
     const int current_stim = get_stim();
@@ -2070,7 +2165,7 @@ void Character::drench( int saturation, const body_part_set &flags, bool ignore_
     }
 }
 
-void Character::apply_wetness_morale( int temperature )
+void Character::apply_wetness_morale( units::temperature temperature )
 {
     // First, a quick check if we have any wetness to calculate morale from
     // Faster than checking all worn items for friendliness
@@ -2079,8 +2174,9 @@ void Character::apply_wetness_morale( int temperature )
     }
 
     // Normalize temperature to [-1.0,1.0]
-    temperature = std::max( 0, std::min( 100, temperature ) );
-    const double global_temperature_mod = -1.0 + ( 2.0 * temperature / 100.0 );
+    float temperature_f = units::to_fahrenheit( temperature );
+    temperature_f = std::max( 0.f, std::min( 100.f, temperature_f ) );
+    const double global_temperature_mod = -1.0 + ( 2.0 * temperature_f / 100.0 );
 
     int total_morale = 0;
     const body_part_set wet_friendliness = exclusive_flag_coverage( flag_WATER_FRIENDLY );

@@ -176,6 +176,8 @@
     "armor_bullet": 26,
     "armor_fire": 35,
     "harvest": "demihuman",
+    "families": [ "prof_wp_demihuman" ],
+    "weakpoint_sets": [ "wps_humanoid_body", "wps_humanoid_body_armor", "wps_humanoid_open_helmet" ],
     "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT" ],
     "path_settings": { "avoid_traps": true, "avoid_sharp": true },
     "death_drops": { "subtype": "collection", "groups": [ [ "forge_life", 40 ], [ "bedroom", 1 ], [ "dresser", 5 ], [ "ammo", 18 ] ] },

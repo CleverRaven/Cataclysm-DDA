@@ -1,6 +1,12 @@
 [
   {
     "type": "ammunition_type",
+    "id": "aetheric_charge",
+    "name": "aetheric_charge",
+    "default": "aetheric_charge"
+  },
+  {
+    "type": "ammunition_type",
     "id": "fae_blood",
     "name": "fae blood",
     "default": "fae_blood"

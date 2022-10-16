@@ -13,7 +13,8 @@
       { "item": "chem_washing_soda", "prob": 15, "charges-min": 1 },
       { "item": "chem_baking_soda", "prob": 5, "charges-min": 1 },
       [ "mutagen", 8 ],
-      [ "purifier", 12 ],
+      [ "mutagen_chelator", 7 ],
+      [ "purifier", 5 ],
       { "item": "iodine", "prob": 5, "charges": [ 1, 10 ] },
       { "item": "prussian_blue", "prob": 5, "charges": [ 1, 10 ] },
       { "item": "inhaler", "prob": 14, "charges-min": 10, "charges-max": 100 },
@@ -121,8 +122,6 @@
       { "item": "polycarbonate_sheet", "prob": 30 },
       { "item": "closed_loop_extractor_large", "prob": 2 },
       { "item": "closed_loop_extractor_small", "prob": 2 },
-      { "item": "filter_paper_qualitative", "prob": 10 },
-      { "item": "filter_paper_quantitative", "prob": 10 },
       { "item": "gasket_plastic", "prob": 10 },
       { "item": "butane_tank", "prob": 15, "charges-min": 1 },
       { "item": "vac_oven_small", "prob": 5 },
@@ -286,7 +285,8 @@
       [ "iv_mutagen_lupine", 2 ],
       [ "iv_mutagen_mouse", 2 ],
       [ "iv_mutagen_rabbit", 2 ],
-      [ "purifier", 10 ],
+      [ "mutagen_chelator", 5 ],
+      [ "purifier", 3 ],
       [ "iv_purifier", 8 ],
       [ "syringe", 8 ],
       { "item": "bleach", "prob": 20, "charges-min": 1 },
@@ -342,7 +342,8 @@
       [ "iv_mutagen_feline", 2 ],
       [ "iv_mutagen_lupine", 2 ],
       [ "iv_mutagen_rabbit", 2 ],
-      [ "purifier", 10 ],
+      [ "mutagen_chelator", 5 ],
+      [ "purifier", 3 ],
       [ "iv_purifier", 8 ],
       [ "syringe", 8 ]
     ]
@@ -458,6 +459,18 @@
       [ "anesthetic", 20 ],
       { "item": "rocuronium", "prob": 10, "count-min": 2, "count-max": 8 },
       { "item": "anesthetic_kit", "prob": 10, "charges-min": 0 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "yrax_scrap",
+    "items": [
+      [ "yrax_sensor", 5 ],
+      [ "yrax_robotics", 20 ],
+      [ "yrax_computer", 5 ],
+      [ "yrax_scrap", 40 ],
+      [ "yrax_metal", 40 ],
+      [ "yrax_electronics", 20 ]
     ]
   },
   {

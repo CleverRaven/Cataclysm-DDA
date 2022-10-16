@@ -50,7 +50,7 @@
     "type": "BIONIC_ITEM",
     "name": { "str": "Active Defense System CBM" },
     "looks_like": "bio_int_enhancer",
-    "description": "This bionic projects a thin forcefield around the user's body.  Anything attempting to penetrate this field has a chance of being deflected at the cost of energy, reducing their ability to deal damage.  Bullets will be deflected more than swords and those in turn more than massive objects.",
+    "description": "This bionic projects a thin forcefield around the user's body.  Everything loses velocity when penetrating this field, which results in reduced amount of dealt damage at the cost of user's bionic energy.  Bullets and stabbing attacks will lose more velocity than cutting attacks and those in turn more than bashing attacks.",
     "price": 950000,
     "weight": "1000 g",
     "difficulty": 7
@@ -574,7 +574,7 @@
     "type": "BIONIC_ITEM",
     "name": { "str": "Enhanced Memory Banks CBM" },
     "looks_like": "bio_int_enhancer",
-    "description": "A set of highly-advanced quantum storage drives used to enhance memory.  While active, they increase the rate that the user learns skills, and give them near-perfect memory of skills and terrain.",
+    "description": "A set of highly-advanced quantum storage drives used to enhance memory.  While active, they increase the rate that the user learns skills.",
     "price": 1000000,
     "weight": "100 g",
     "difficulty": 9

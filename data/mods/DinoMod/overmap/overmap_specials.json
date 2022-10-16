@@ -63,5 +63,21 @@
     "occurrences": [ 30, 100 ],
     "flags": [ "LAB", "UNIQUE" ],
     "rotate": false
+  },
+  {
+    "type": "overmap_special",
+    "id": "Mi-Go Scout Tower Dino",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "mi-go_scout_tower_dino_1_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "mi-go_scout_tower_2_north" },
+      { "point": [ 0, 0, 2 ], "overmap": "mi-go_scout_tower_dino_3_north" },
+      { "point": [ 0, 0, 3 ], "overmap": "mi-go_scout_tower_4_north" }
+    ],
+    "locations": [ "wilderness" ],
+    "city_distance": [ 5, -1 ],
+    "city_sizes": [ 0, 20 ],
+    "occurrences": [ 0, 3 ],
+    "flags": [ "MI-GO" ],
+    "spawns": { "group": "GROUP_MI-GO_CAMP_OM", "population": [ 2, 5 ], "radius": [ 2, 30 ] }
   }
 ]

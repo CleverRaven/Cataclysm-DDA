@@ -39,6 +39,7 @@
       "microlab_to_microlab",
       { "id": "dhallway_to_dmicrolab", "opposite": "dmicrolab_to_dhallway" },
       { "id": "dmicrolab_to_dhallway", "opposite": "dhallway_to_dmicrolab" },
+      "nether_to_nether",
       "dmicrolab_to_dmicrolab",
       "microlab_entry_to_station",
       "microlab_station_to_subway"
@@ -93,7 +94,44 @@
       },
       "microlab_sub_station": { "overmap": "microlab_sub_station_north", "north": "microlab_station_to_subway", "south": "microlab_entry_to_station" },
       "microlab_subway": { "overmap": "microlab_sub_connector_north", "south": "microlab_station_to_subway" },
-      "firebreak": { "overmap": "microlab_generic_firebreak_north", "north": "hallway_to_hallway", "south": "dhallway_to_dhallway" },
+      "firebreak": { "overmap": "microlab_generic_firebreak_north", "north": "hallway_to_hallway", "south": "hallway_to_hallway" },
+      "portal_elevator": {
+        "overmap": "microlab_portal_elevator_north",
+        "north": { "id": "hallway_to_hallway", "alternatives": [ "dhallway_to_dhallway" ] }
+      },
+      "portal_d_elevator": { "overmap": "microlab_portal_elevator_north", "north": "dhallway_to_dhallway" },
+      "nether_elevator_above": {
+        "overmap": "microlab_portal_elevator_physics_glass_north",
+        "north": { "id": "hallway_to_hallway", "alternatives": [ "dhallway_to_dhallway" ] }
+      },
+      "nether_elevator": {
+        "overmap": "microlab_portal_elevator_nether_glass_north",
+        "north": "nether_to_nether",
+        "east": "nether_to_nether",
+        "south": "nether_to_nether",
+        "west": "nether_to_nether"
+      },
+      "nether": {
+        "overmap": "nether_glass_north",
+        "north": "nether_to_nether",
+        "east": "nether_to_nether",
+        "south": "nether_to_nether",
+        "west": "nether_to_nether"
+      },
+      "nether_deep": {
+        "overmap": "nether_glass_deep_north",
+        "north": "nether_to_nether",
+        "east": "nether_to_nether",
+        "south": "nether_to_nether",
+        "west": "nether_to_nether"
+      },
+      "nether_impassable": {
+        "overmap": "nether_glass_impassable_north",
+        "north": "nether_to_nether",
+        "east": { "id": "nether_to_nether", "type": "available" },
+        "south": { "id": "nether_to_nether", "type": "available" },
+        "west": { "id": "nether_to_nether", "type": "available" }
+      },
       "hallway_cross": {
         "overmap": "microlab_generic_hallway_nesw",
         "north": "hallway_to_hallway",
@@ -160,7 +198,17 @@
         "south": "dmicrolab_to_dmicrolab",
         "east": { "id": "dmicrolab_to_dmicrolab", "type": "available", "alternatives": [ "microlab_to_microlab" ] },
         "west": { "id": "dmicrolab_to_dmicrolab", "type": "available", "alternatives": [ "microlab_to_microlab" ] }
-      }
+      },
+      "microlab_portal_security_hallway1": { "overmap": "microlab_portal_security_hallway1_south", "north": "hallway_to_hallway", "south": "hallway_to_hallway" },
+      "microlab_portal_security_hallway2": { "overmap": "microlab_portal_security_hallway2_south", "north": "hallway_to_hallway", "south": "hallway_to_hallway" },
+      "microlab_portal_security1": { "overmap": "microlab_portal_security1_south" },
+      "microlab_portal_security2": { "overmap": "microlab_portal_security2_south" },
+      "microlab_portal_security3": { "overmap": "microlab_portal_security3_south" },
+      "microlab_portal_security4": { "overmap": "microlab_portal_security4_south" },
+      "microlab_portal_security5": { "overmap": "microlab_portal_security5_south" },
+      "microlab_portal_security6": { "overmap": "microlab_portal_security6_south" },
+      "microlab_portal_security7": { "overmap": "microlab_portal_security7_south" },
+      "microlab_portal_security8": { "overmap": "microlab_portal_security8_south" }
     },
     "root": "surface",
     "phases": [
@@ -184,7 +232,8 @@
       [
         { "overmap": "hallway_straight", "max": 7 },
         {
-          "name": "firebreak_at_-2",
+          "name": "main-porta-elevator",
+          "//": "This is the main elevator and core mapgen piece for the portal lab, goes all the way down to hell.",
           "chunk": [
             { "overmap": "microlab_portal_dressroom", "pos": [ 0, 0, 0 ] },
             { "overmap": "microlab_rock_border", "pos": [ 1, 0, 0 ] },
@@ -192,6 +241,29 @@
             { "overmap": "microlab_rock_border", "pos": [ -1, 0, 0 ] },
             { "overmap": "microlab_rock_border", "pos": [ -2, 0, 0 ] },
             { "overmap": "firebreak", "pos": [ 0, 1, 0 ] },
+            { "overmap": "portal_elevator", "pos": [ 0, 2, 0 ] },
+            { "overmap": "portal_elevator", "pos": [ 0, 2, -2 ] },
+            { "overmap": "microlab_portal_security1", "pos": [ 2, 1, -2 ] },
+            { "overmap": "microlab_portal_security2", "pos": [ 1, 1, -2 ] },
+            { "overmap": "microlab_portal_security_hallway1", "pos": [ 0, 1, -2 ] },
+            { "overmap": "microlab_portal_security3", "pos": [ -1, 1, -2 ] },
+            { "overmap": "microlab_portal_security4", "pos": [ -2, 1, -2 ] },
+            { "overmap": "microlab_portal_security5", "pos": [ 2, 0, -2 ] },
+            { "overmap": "microlab_portal_security6", "pos": [ 1, 0, -2 ] },
+            { "overmap": "microlab_portal_security_hallway2", "pos": [ 0, 0, -2 ] },
+            { "overmap": "microlab_portal_security7", "pos": [ -1, 0, -2 ] },
+            { "overmap": "microlab_portal_security8", "pos": [ -2, 0, -2 ] },
+            { "overmap": "nether_elevator_above", "pos": [ 0, -1, -2 ], "rot": "south" },
+            { "overmap": "portal_d_elevator", "pos": [ 0, -1, -3 ], "rot": "south" },
+            { "overmap": "nether_elevator", "pos": [ 0, -1, -8 ], "rot": "south" },
+            { "overmap": "nether", "pos": [ -1, -2, -8 ] },
+            { "overmap": "nether", "pos": [ 0, -2, -8 ] },
+            { "overmap": "nether", "pos": [ 1, -2, -8 ] },
+            { "overmap": "nether", "pos": [ -1, -1, -8 ] },
+            { "overmap": "nether", "pos": [ 1, -1, -8 ] },
+            { "overmap": "nether", "pos": [ -1, 0, -8 ] },
+            { "overmap": "nether", "pos": [ 0, 0, -8 ] },
+            { "overmap": "nether", "pos": [ 1, 0, -8 ] },
             { "overmap": "microlab_rock_border", "pos": [ 1, 1, 0 ] },
             { "overmap": "microlab_rock_border", "pos": [ 2, 1, 0 ] },
             { "overmap": "microlab_rock_border", "pos": [ -1, 1, 0 ] },
@@ -206,6 +278,8 @@
       [ { "overmap": "microlab", "max": 20 } ],
       [ { "overmap": "microlab_edge", "weight": 1 } ],
       [ { "overmap": "dmicrolab", "max": 6 } ],
+      [ { "overmap": "nether_deep", "max": 480 } ],
+      [ { "overmap": "nether_impassable", "weight": 1 } ],
       [ { "overmap": "dmicrolab_edge", "weight": 100000 }, { "overmap": "rock_divisor", "weight": 1 } ]
     ]
   }

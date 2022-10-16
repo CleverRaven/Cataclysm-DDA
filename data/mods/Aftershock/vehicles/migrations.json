@@ -1,0 +1,26 @@
+[
+  {
+    "type": "vehicle_part_migration",
+    "//": "aftershock",
+    "from": "afs_mounted_emp_gun",
+    "to": "turret_afs_xm34"
+  },
+  {
+    "type": "vehicle_part_migration",
+    "//": "aftershock",
+    "from": "afs_mounted_gibs_shotgun",
+    "to": "turret_afs_gibs_shotgun"
+  },
+  {
+    "type": "vehicle_part_migration",
+    "//": "aftershock",
+    "from": "afs_mounted_Accipitermg",
+    "to": "turret_afs_Accipitermg"
+  },
+  {
+    "type": "vehicle_part_migration",
+    "//": "aftershock",
+    "from": "afs_laser_rifle",
+    "to": "turret_afs_a7"
+  }
+]

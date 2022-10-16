@@ -1,0 +1,300 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CONSUMED_BLOOD_TREATMENT",
+    "condition": { "u_has_effect": "blood_treatment" },
+    "effect": [
+      { "u_add_effect": "blood_treatment", "duration": "16 hours" },
+      { "u_message": "You take a blood treatment.", "type": "info" }
+    ],
+    "false_effect": [
+      { "u_add_effect": "blood_treatment", "duration": "16 hours" },
+      { "u_message": "You take a blood treatment.", "type": "info" },
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_REDUCE_VAMPVIRUS",
+            "condition": { "compare_int": [ { "u_val": "effect_intensity", "effect": "vampire_virus" }, "=", { "const": 1 } ] },
+            "effect": [
+              { "u_lose_effect": "vampire_virus" },
+              { "u_lose_trait": "VAMPIRE" },
+              { "u_lose_trait": "EYEGLEAM" },
+              { "u_lose_trait": "STAMINAFORBLOOD" },
+              { "u_message": "The light seems less bright and the air fresher.", "type": "good" }
+            ]
+          },
+          {
+            "id": "EOC_REDUCE_VAMPVIRUS1",
+            "condition": { "compare_int": [ { "u_val": "effect_intensity", "effect": "vampire_virus" }, "=", { "const": 2 } ] },
+            "effect": [
+              { "u_add_effect": "vampire_virus", "intensity": 1, "duration": "PERMANENT" },
+              { "u_lose_trait": "VAMPIRE2" },
+              { "u_lose_trait": "COAGULANTWEAVE" },
+              { "u_lose_trait": "BLOODHEAL" },
+              {
+                "u_message": "You seem to be feeling a little better, but the thirst for blood remains.",
+                "type": "good"
+              }
+            ]
+          },
+          {
+            "id": "EOC_REDUCE_VAMPVIRUS2",
+            "condition": { "compare_int": [ { "u_val": "effect_intensity", "effect": "vampire_virus" }, "=", { "const": 3 } ] },
+            "effect": [
+              { "u_add_effect": "vampire_virus", "intensity": 2, "duration": "PERMANENT" },
+              { "u_lose_trait": "VAMPIRE3" },
+              { "u_lose_trait": "HYPNOTIC_GAZE" },
+              { "u_lose_trait": "BLOODHASTE" },
+              {
+                "u_message": "You no longer instantly turn red in sunlight, but your skin is still concerningly pale.",
+                "type": "good"
+              }
+            ]
+          },
+          {
+            "id": "EOC_REDUCE_VAMPVIRUS3",
+            "condition": {
+              "and": [
+                { "u_has_effect": "vampire_virus_ascendant", "intensity": 1 },
+                {
+                  "compare_int": [ { "u_val": "effect_intensity", "effect": "vampire_virus_ascendant" }, "=", { "const": 1 } ]
+                }
+              ]
+            },
+            "effect": [
+              { "u_add_effect": "poisoned_blood", "intensity": 1, "duration": "4 hours" },
+              {
+                "u_message": "Your veins burn and ache.  What were you thinking trying this?  You are already one of the damned!",
+                "type": "bad"
+              }
+            ]
+          },
+          {
+            "id": "EOC_REDUCE_VAMPVIRUS4",
+            "condition": {
+              "and": [
+                { "u_has_effect": "vampire_virus_post_mortal", "intensity": 1 },
+                {
+                  "compare_int": [ { "u_val": "effect_intensity", "effect": "vampire_virus_post_mortal" }, "=", { "const": 1 } ]
+                }
+              ]
+            },
+            "effect": [
+              { "u_add_effect": "poisoned_blood2", "intensity": 1, "duration": "1 hours" },
+              {
+                "u_message": "Your veins burn and ache.  What were you thinking trying this?  You are already one of the damned!",
+                "type": "bad"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VAMPIRES",
+    "recurrence": [ { "global_val": "ps_min_woc", "default": "1 days" }, { "global_val": "ps_max_woc", "default": "2 days" } ],
+    "global": true,
+    "effect": { "run_eocs": "EOC_vampire_virus_escalation" }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_vampire_virus_escalation",
+    "recurrence": [ "48 hours", "72 hours 15 minutes" ],
+    "condition": { "and": [ { "u_has_effect": "vampire_virus" }, { "not": { "u_has_effect": "blood_treatment" } } ] },
+    "deactivate_condition": { "not": { "u_has_effect": "vampire_virus" } },
+    "effect": {
+      "run_eocs": [
+        {
+          "id": "EOC_VAMPVIRUS",
+          "condition": {
+            "and": [
+              { "u_has_effect": "vampire_virus", "intensity": 1 },
+              { "compare_int": [ { "u_val": "effect_intensity", "effect": "vampire_virus" }, "=", { "const": 1 } ] }
+            ]
+          },
+          "effect": {
+            "run_eocs": {
+              "id": "eoc_vampvirus_1_trait",
+              "condition": { "u_has_trait": "VAMPIRE" },
+              "effect": [
+                { "u_roll_remainder": [ "EYEGLEAM", "STAMINAFORBLOOD" ], "type": "mutation", "true_eocs": [ "EOC_VAMPVIRUS1" ] },
+                { "u_message": "Suddenly you feel your heart pounding and you realize a new ability." }
+              ],
+              "false_effect": [
+                { "u_add_trait": "VAMPIRE" },
+                {
+                  "u_message": "You suddenly understand that drinking someones blood will make you feel better than you've ever felt before in your life."
+                }
+              ]
+            }
+          }
+        },
+        {
+          "id": "EOC_VAMPVIRUS1",
+          "condition": {
+            "and": [
+              { "u_has_effect": "vampire_virus", "intensity": 2 },
+              { "compare_int": [ { "u_val": "effect_intensity", "effect": "vampire_virus" }, "=", { "const": 2 } ] }
+            ]
+          },
+          "effect": {
+            "run_eocs": {
+              "id": "eoc_vampvirus_2_trait",
+              "condition": { "u_has_trait": "VAMPIRE2" },
+              "effect": [
+                { "u_roll_remainder": [ "BLOODHEAL", "COAGULANTWEAVE" ], "type": "mutation", "true_eocs": [ "EOC_VAMPVIRUS2" ] },
+                { "u_message": "Suddenly you feel your heart slowing and you realize a new ability." }
+              ],
+              "false_effect": [
+                { "u_add_trait": "VAMPIRE2" },
+                {
+                  "u_message": "With a popping sound several of your teeth fall out but when you put a finger into your mouth to feel the hole, there are new sharp fangs where you expected nothing."
+                }
+              ]
+            }
+          }
+        },
+        {
+          "id": "EOC_VAMPVIRUS2",
+          "condition": {
+            "and": [
+              { "u_has_effect": "vampire_virus", "intensity": 3 },
+              { "compare_int": [ { "u_val": "effect_intensity", "effect": "vampire_virus" }, "=", { "const": 3 } ] }
+            ]
+          },
+          "effect": {
+            "run_eocs": {
+              "id": "eoc_vampvirus_3_trait",
+              "condition": { "u_has_trait": "VAMPIRE3" },
+              "effect": [
+                { "u_roll_remainder": [ "BLOODHASTE", "HYPNOTIC_GAZE" ], "type": "mutation", "true_eocs": [ "EOC_VAMPVIRUS2" ] },
+                {
+                  "u_message": "You feel the absence of your heart beating for several seconds and then it resumes at this new rhythm."
+                }
+              ],
+              "false_effect": [
+                { "u_add_trait": "VAMPIRE3" },
+                {
+                  "u_message": "With a popping sound several of your teeth fall out but when you put a finger into your mouth to feel the hole, there are new sharp fangs where you expected nothing."
+                }
+              ]
+            }
+          }
+        }
+      ]
+    }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_vampire_virus_blood_needs",
+    "recurrence": [ "8 hours", "36 hours 15 minutes" ],
+    "condition": {
+      "and": [
+        { "compare_int": [ { "u_val": "vitamin", "name": "blood" }, "<=", { "const": 450 } ] },
+        { "u_has_effect": "vampire_virus" }
+      ]
+    },
+    "deactivate_condition": { "not": { "u_has_effect": "vampire_virus" } },
+    "effect": {
+      "run_eocs": [
+        {
+          "id": "EOC_VAMPVIRUS_HUNGER",
+          "condition": {
+            "and": [
+              { "u_has_effect": "vampire_virus", "intensity": 1 },
+              { "compare_int": [ { "u_val": "effect_intensity", "effect": "vampire_virus" }, "=", { "const": 1 } ] }
+            ]
+          },
+          "effect": {
+            "run_eocs": {
+              "id": "eoc_blood_hunger",
+              "condition": { "u_has_trait": "VAMPIRE" },
+              "effect": { "u_message": "You daydream of drinking blood from a chalice." }
+            }
+          }
+        },
+        {
+          "id": "EOC_VAMPVIRUS5",
+          "condition": {
+            "and": [
+              { "u_has_effect": "vampire_virus", "intensity": 2 },
+              { "compare_int": [ { "u_val": "effect_intensity", "effect": "vampire_virus" }, "=", { "const": 2 } ] }
+            ]
+          },
+          "effect": {
+            "run_eocs": {
+              "id": "eoc_vampvirus_6_trait",
+              "condition": { "u_has_trait": "VAMPIRE2" },
+              "effect": { "u_message": "You feel an intense pain in your stomach and your skin reddens in a short time in sunlight." },
+              "false_effect": [
+                { "u_add_trait": "VAMPIRE2" },
+                {
+                  "u_message": "With a popping sound several of your teeth fall out but when you put a finger into your mouth to feel the hole, there are new sharp fangs where you expected nothing."
+                }
+              ]
+            }
+          }
+        },
+        {
+          "id": "EOC_VAMPVIRUS6",
+          "condition": {
+            "and": [
+              { "u_has_effect": "vampire_virus", "intensity": 3 },
+              { "compare_int": [ { "u_val": "effect_intensity", "effect": "vampire_virus" }, "=", { "const": 3 } ] }
+            ]
+          },
+          "effect": {
+            "run_eocs": {
+              "id": "eoc_vampvirus_7_trait",
+              "condition": { "u_has_trait": "VAMPIRE3" },
+              "effect": { "u_message": "You feel a gnawing in your belly and a pressure in your mouth, as if your teeth can't all fit." },
+              "false_effect": [ { "u_add_trait": "VAMPIRE3" }, { "u_message": "Your skin seems to have become unnaturally pale." } ]
+            }
+          }
+        },
+        {
+          "id": "EOC_VAMPVIRUS7",
+          "condition": {
+            "and": [
+              { "u_has_effect": "vampire_virus", "intensity": 4 },
+              { "compare_int": [ { "u_val": "effect_intensity", "effect": "vampire_virus" }, "=", { "const": 4 } ] }
+            ]
+          },
+          "effect": {
+            "run_eocs": {
+              "id": "eoc_vampvirus_8_trait",
+              "condition": { "u_has_trait": "VAMPIRE4" },
+              "effect": { "u_message": "You feel a gnawing in your belly and a pressure in your mouth, as if your teeth can't all fit." },
+              "false_effect": [ { "u_add_trait": "VAMPIRE4" }, { "u_message": "Your skin seems to have become unnaturally pale." } ]
+            }
+          }
+        },
+        {
+          "id": "EOC_VAMPVIRUS8",
+          "condition": {
+            "and": [
+              { "u_has_effect": "vampire_virus", "intensity": 5 },
+              { "compare_int": [ { "u_val": "effect_intensity", "effect": "vampire_virus" }, "=", { "const": 5 } ] }
+            ]
+          },
+          "effect": {
+            "run_eocs": {
+              "id": "eoc_vampvirus_9_trait",
+              "condition": { "u_has_trait": "BLOOD_DRINKER" },
+              "effect": [
+                { "u_message": "The HUNGER is overwhelming, all you can think about is blood!" },
+                { "u_add_effect": "blood_crazed", "duration": 28800 }
+              ],
+              "false_effect": [
+                { "u_add_trait": "BLOOD_DRINKER" },
+                { "u_message": "You no longer receive nourishment from anything other than blood." }
+              ]
+            }
+          }
+        }
+      ]
+    }
+  }
+]

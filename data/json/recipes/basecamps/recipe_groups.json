@@ -96,6 +96,11 @@
         "id": "faction_base_mansion_+4_0",
         "description": "Mansion Garden With Columns Base",
         "om_terrains": [ "mansion_+4" ]
+      },
+      {
+        "id": "faction_base_bare_bones_basecamp_0",
+        "description": "Faction Base Bare Bones Basecamp.  Manually add bulletin board to use.  No construction.  Can be constructed anywhere.  Access to crafting recipes using Supplies zone covered furniture and appliances.",
+        "om_terrains": [ "ANY" ]
       }
     ]
   },

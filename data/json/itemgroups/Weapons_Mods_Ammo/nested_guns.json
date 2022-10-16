@@ -2330,5 +2330,83 @@
       { "item": "m1carbinemag", "prob": 50 },
       { "group": "on_hand_30carbine" }
     ]
+  },
+  {
+    "id": "nested_ak556",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "ammo": 100,
+    "entries": [
+      { "item": "ak556", "charges-min": 0, "charges-max": 30 },
+      { "item": "zpap85mag" },
+      { "item": "zpap85mag", "prob": 50 },
+      { "group": "on_hand_223" }
+    ]
+  },
+  {
+    "id": "nested_minidraco556",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "ammo": 100,
+    "entries": [
+      { "item": "minidraco556", "charges-min": 0, "charges-max": 30 },
+      { "item": "zpap85mag" },
+      { "item": "zpap85mag", "prob": 50 },
+      { "group": "on_hand_223" }
+    ]
+  },
+  {
+    "id": "nested_ak308",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "ammo": 100,
+    "entries": [
+      { "item": "ak308", "charges-min": 0, "charges-max": 20 },
+      { "item": "papm77mag_10rd" },
+      { "item": "papm77mag_10rd", "prob": 50 },
+      { "group": "on_hand_308" }
+    ]
+  },
+  {
+    "id": "nested_zpapm90",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "ammo": 100,
+    "entries": [
+      { "item": "ak556", "variant": "zpapm90", "charges-min": 0, "charges-max": 30 },
+      { "item": "zpap85mag" },
+      { "item": "zpap85mag", "prob": 50 },
+      { "group": "on_hand_223" }
+    ]
+  },
+  {
+    "id": "nested_zpap85",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "ammo": 100,
+    "entries": [
+      { "item": "minidraco556", "variant": "zpap85", "charges-min": 0, "charges-max": 30 },
+      { "item": "zpap85mag" },
+      { "item": "zpap85mag", "prob": 50 },
+      { "group": "on_hand_223" }
+    ]
+  },
+  {
+    "id": "nested_papm77",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "ammo": 100,
+    "entries": [
+      { "item": "ak308", "variant": "papm77", "charges-min": 0, "charges-max": 20 },
+      { "item": "papm77mag_10rd" },
+      { "item": "papm77mag_10rd", "prob": 50 },
+      { "group": "on_hand_308" }
+    ]
   }
 ]

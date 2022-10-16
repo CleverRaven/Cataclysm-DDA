@@ -32,7 +32,7 @@
         "topic": "TALK_STRANGER_NEUTRAL",
         "effect": "player_weapon_drop",
         "opinion": { "trust": 4, "fear": -3 },
-        "condition": { "and": [ "u_has_weapon", "u_can_stow_weapon" ] }
+        "condition": "u_can_drop_weapon"
       },
       {
         "text": "Don't worry, I'm not going to hurt you",
@@ -100,7 +100,7 @@
       {
         "text": "Drop weapon.",
         "topic": "TALK_DEMAND_LEAVE",
-        "condition": { "and": [ "u_has_weapon", "u_can_stow_weapon" ] },
+        "condition": "u_can_drop_weapon",
         "effect": "player_weapon_drop"
       },
       {
@@ -153,7 +153,7 @@
       {
         "text": "Drop weapon.",
         "topic": "TALK_MUG",
-        "condition": { "and": [ "u_has_weapon", "u_can_stow_weapon" ] },
+        "condition": "u_can_drop_weapon",
         "effect": "player_weapon_drop"
       },
       {

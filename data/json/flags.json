@@ -24,6 +24,12 @@
     "restriction": "Item must be an armored skirt"
   },
   {
+    "id": "ABLATIVE_HELMET",
+    "type": "json_flag",
+    "info": "This will hook to a <info>Hub 01 proprietary</info> helmet connector",
+    "restriction": "Item must be an armored helmet"
+  },
+  {
     "id": "ACTIVE_CLOAKING",
     "type": "json_flag",
     "info": "This gear has <info>cloaking tech</info> that will <good>make you invisible</good> when active, at the cost of <info>power from a UPS</info>."
@@ -109,11 +115,6 @@
     "id": "CBM",
     "type": "json_flag",
     "info": "This item is a Compact Bionic Module.  You'll need to <info>use specialized machinery</info> or <info>ask a surgeon</info> to install it into your body."
-  },
-  {
-    "id": "CLIMATE_CONTROL",
-    "type": "json_flag",
-    "info": "This clothing has <info>built-in or attached climate control</info>, keeping you at a <good>comfortable temperature</good>."
   },
   {
     "id": "COLLAR",
@@ -284,7 +285,7 @@
     "id": "HELMET_MANDIBLE_GUARD",
     "type": "json_flag",
     "info": "This item is attachable as a mandible guard in military <info>helmets</info> or headgear specifically adapted with rails for attachments.",
-    "restriction": "Item must be some kind of mandible guard"
+    "restriction": "Item must be some kind of rail-mounted mandible guard"
   },
   {
     "id": "HELMET_MANDIBLE_GUARD_STRAPPED",
@@ -929,6 +930,11 @@
     "info": "This clothing has a wool lining sewn into it to <good>increase</good> its overall <info>warmth</info>."
   },
   {
+    "id": "WONT_TRAIN_MARKSMANSHIP",
+    "type": "json_flag",
+    "//": "This gun wont train marksmanship when fired.  Used in Aftershock smart guns."
+  },
+  {
     "id": "UNARMED_WEAPON",
     "type": "json_flag",
     "//": "Allows wielding with unarmed fighting styles and trains unarmed when used.",
@@ -1405,7 +1411,8 @@
   {
     "id": "IS_UPS",
     "type": "json_flag",
-    "info": "This item provides power to <info>UPS compatible items</info>."
+    "info": "This item provides power to <info>UPS compatible items</info>.",
+    "inherit": false
   },
   {
     "id": "LEAK_DAM",
@@ -1528,8 +1535,14 @@
     "type": "json_flag"
   },
   {
+    "id": "NO_TURRET",
+    "type": "json_flag",
+    "//": "This flag should only be applied to GUN definitions, it will prevent generation of a turret vehicle part for the gun.  This blocks fake guns, or player unobtainable ones from appearing in turret list."
+  },
+  {
     "id": "NO_UNLOAD",
-    "type": "json_flag"
+    "type": "json_flag",
+    "inherit": false
   },
   {
     "id": "NO_UNWIELD",
@@ -1827,7 +1840,8 @@
   },
   {
     "id": "GRENADE",
-    "type": "json_flag"
+    "type": "json_flag",
+    "restriction": "Item must be a grenade"
   },
   {
     "id": "JAVELIN",
@@ -2086,5 +2100,28 @@
     "id": "VOLTMETER",
     "type": "json_flag",
     "info": "This tool can test for voltage."
+  },
+  {
+    "id": "SHREDDED",
+    "type": "json_flag",
+    "info": "This is a small fragment."
+  },
+  {
+    "id": "FROM_FROZEN_LIQUID",
+    "type": "json_flag"
+  },
+  {
+    "id": "SINGLE_USE",
+    "type": "json_flag",
+    "info": "This item is removed after use."
+  },
+  {
+    "id": "BIONIC_FUEL_SOURCE",
+    "type": "json_flag",
+    "info": "Contents of this item are used for fueling bionics."
+  },
+  {
+    "id": "ELECTRONIC",
+    "type": "json_flag"
   }
 ]

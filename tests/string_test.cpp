@@ -31,7 +31,7 @@ static void output_string_trimming_results( const std::string &inputString )
         std::cout << seg << std::endl;
     }
     std::cout << "Fit test: " << std::endl;
-    for( int i = 0; i <= utf8_width( inputString, true ); ++i ) {
+    for( int i = 1; i <= utf8_width( inputString, true ); ++i ) {
         std::cout << i << ": |" << std::string( i, ' ' ) << "|" << std::endl;
         std::cout << i << ": |" << remove_color_tags( trim_by_length( inputString,
                   i ) ) << "|" << std::endl;
@@ -59,10 +59,20 @@ TEST_CASE( "trim_by_length", "[string_trimming]" )
     CHECK( trim_by_length( "MRE 主菜（鸡肉意大利香蒜沙司通心粉）（新鲜）",
                            36 ) == "MRE 主菜（鸡肉意大利香蒜沙司通心粉…" );
 
-    // Check handling of empty strings, 0-width (leaving … on 0-width tells the user that something should be there)
+    // Check handling of empty strings
     CHECK( trim_by_length( "", 5 ).empty() );
-    CHECK( trim_by_length( "", 0 ).empty() );
-    CHECK( trim_by_length( "test string", 0 ) == "…" );
+
+    // Check handling of invalid widths ( <= 0).
+    // A debugmsg should be output to tell the player (and programmer) that something has gone wrong
+    CHECK( capture_debugmsg_during( [&]() {
+        trim_by_length( "", 0 );
+    } ) == "Unable to trim string '' to width 0.  Returning empty string." );
+    CHECK( capture_debugmsg_during( [&]() {
+        trim_by_length( "test string", 0 );
+    } ) == "Unable to trim string 'test string' to width 0.  Returning empty string." );
+    CHECK( capture_debugmsg_during( [&]() {
+        trim_by_length( "test string", -2 );
+    } ) == "Unable to trim string 'test string' to width -2.  Returning empty string." );
 
     // Check trimming at color tag breaks
     /* Note: Due to trim_by_length() doing things one color tag segment at a time, color tags

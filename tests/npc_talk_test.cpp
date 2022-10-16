@@ -60,7 +60,13 @@ static const mtype_id mon_zombie_bio_op( "mon_zombie_bio_op" );
 static const npc_class_id NC_NONE( "NC_NONE" );
 static const npc_class_id NC_TEST_CLASS( "NC_TEST_CLASS" );
 
+static const proficiency_id proficiency_prof_test( "prof_test" );
+
 static const skill_id skill_driving( "driving" );
+
+static const spell_id spell_test_spell_json( "test_spell_json" );
+static const spell_id spell_test_spell_lava( "test_spell_lava" );
+static const spell_id spell_test_spell_pew( "test_spell_pew" );
 
 static const trait_id trait_ELFA_EARS( "ELFA_EARS" );
 
@@ -69,6 +75,7 @@ static const trait_id trait_PROF_SWAT( "PROF_SWAT" );
 static const trait_id trait_PSYCHOPATH( "PSYCHOPATH" );
 static const trait_id trait_SAPIOVORE( "SAPIOVORE" );
 static const trait_id trait_WEB_WEAVER( "WEB_WEAVER" );
+static const trait_id trait_test_trait( "test_trait" );
 
 static npc &create_test_talker( bool shopkeep = false )
 {
@@ -960,6 +967,17 @@ TEST_CASE( "npc_faction_trust", "[npc_talk]" )
     CHECK( d.responses[3].text == "Start trade." );
 }
 
+TEST_CASE( "test_talk_meta", "[npc_talk]" )
+{
+    dialogue d;
+    prep_test( d );
+
+    d.add_topic( "TALK_TEST_META" );
+    gen_response_lines( d, 2 );
+    CHECK( d.responses[0].text == "This is a basic test response." );
+    CHECK( d.responses[1].text == "Mod TESTING DATA is loaded." );
+}
+
 TEST_CASE( "npc_talk_effects", "[npc_talk]" )
 {
     dialogue d;
@@ -1103,9 +1121,9 @@ TEST_CASE( "npc_compare_int", "[npc_talk]" )
     const skill_id skill = skill_driving;
     player_character.set_skill_level( skill, 0 );
 
-    get_weather().temperature = 19;
+    get_weather().temperature = units::from_fahrenheit( 19 );
     get_weather().windspeed = 20;
-    get_weather().weather_precise->temperature = 19;
+    get_weather().weather_precise->temperature = units::from_fahrenheit( 19 );
     get_weather().weather_precise->windpower = 20;
     get_weather().weather_precise->humidity = 20;
     get_weather().weather_precise->pressure = 20;
@@ -1119,8 +1137,8 @@ TEST_CASE( "npc_compare_int", "[npc_talk]" )
     player_character.remove_value( "npctalk_var_test_var_time_test_test" );
     calendar::turn = calendar::turn_zero;
 
-    int expected_answers = 4;
-    if( player_character.magic->max_mana( player_character ) == 1000 ) {
+    int expected_answers = 6;
+    if( player_character.magic->max_mana( player_character ) == 900 ) {
         expected_answers++;
     }
 
@@ -1129,11 +1147,10 @@ TEST_CASE( "npc_compare_int", "[npc_talk]" )
     CHECK( d.responses[ 0 ].text == "This is a u_adjust_var test response that increments by 1." );
     CHECK( d.responses[ 1 ].text == "This is an npc_adjust_var test response that increments by 2." );
     CHECK( d.responses[ 2 ].text == "This is a u_add_var time test response." );
+    CHECK( d.responses[expected_answers - 2].text == "Exp of Pew, Pew is -1." );
+    CHECK( d.responses[expected_answers - 1].text ==
+           "Test Proficiency total learning time is 24 hours." );
 
-    player_character.str_cur = 5;
-    player_character.dex_cur = 6;
-    player_character.int_cur = 7;
-    player_character.per_cur = 8;
     beta.str_cur = 9;
     beta.dex_cur = 10;
     beta.int_cur = 11;
@@ -1154,7 +1171,7 @@ TEST_CASE( "npc_compare_int", "[npc_talk]" )
     player_character.cash = 13;
     beta.op_of_u.owed = 14;
     player_character.set_skill_level( skill, 8 );
-    get_weather().weather_precise->temperature = 21;
+    get_weather().weather_precise->temperature = units::from_fahrenheit( 21 );
     get_weather().weather_precise->windpower = 15;
     get_weather().weather_precise->humidity = 16;
     get_weather().weather_precise->pressure = 17;
@@ -1166,7 +1183,6 @@ TEST_CASE( "npc_compare_int", "[npc_talk]" )
     player_character.set_max_power_level( 44_mJ );
     player_character.clear_morale();
     player_character.add_morale( MORALE_HAIRCUT, 23 );
-    player_character.magic->set_mana( 25 );
     player_character.set_hunger( 26 );
     player_character.set_thirst( 27 );
     player_character.set_stored_kcal( 55000 );
@@ -1177,12 +1193,26 @@ TEST_CASE( "npc_compare_int", "[npc_talk]" )
     cata::event e = cata::event::make<event_type::character_kills_monster>(
                         get_player_character().getID(), mon_zombie_bio_op );
     get_event_bus().send( e );
+    player_character.magic->learn_spell( spell_test_spell_json, player_character, false );
+    player_character.set_mutation( trait_test_trait ); // Give the player the spell scool test_trait
+    player_character.magic->set_spell_level( spell_test_spell_json, 1, &player_character );
+    player_character.magic->learn_spell( spell_test_spell_pew, player_character, true );
+    player_character.magic->set_spell_level( spell_test_spell_pew, 4, &player_character );
+    player_character.magic->learn_spell( spell_test_spell_lava, player_character, true );
+    player_character.magic->set_spell_level( spell_test_spell_lava, 12, &player_character );
+    player_character.set_proficiency_practice( proficiency_prof_test, 12_hours );
     // Set focus after killing monster, since the character
     // gains weakpoint proficiency practice which lowers focus
     // (see kill_tracker::notify() -> weakpoint_families::practice_kill())
     player_character.set_focus( 24 );
+    player_character.str_cur = 5;
+    player_character.dex_cur = 6;
+    player_character.int_cur = 7;
+    player_character.per_cur = 8;
+    player_character.magic->set_mana( 25 );
 
-    gen_response_lines( d, 41 );
+    expected_answers = 51;
+    gen_response_lines( d, expected_answers );
     CHECK( d.responses[ 0 ].text == "This is a u_adjust_var test response that increments by 1." );
     CHECK( d.responses[ 1 ].text == "This is an npc_adjust_var test response that increments by 2." );
     CHECK( d.responses[ 2 ].text == "PC strength is five." );
@@ -1217,7 +1247,7 @@ TEST_CASE( "npc_compare_int", "[npc_talk]" )
     CHECK( d.responses[ 30 ].text == "Morale is 23." );
     CHECK( d.responses[ 31 ].text == "Focus is 24." );
     CHECK( d.responses[ 32 ].text == "Mana is 25." );
-    CHECK( d.responses[ 33 ].text == "Mana max is 1000." );
+    CHECK( d.responses[ 33 ].text == "Mana max is 900." );
     CHECK( d.responses[ 34 ].text == "Mana is at 2%." );
     CHECK( d.responses[ 35 ].text == "Hunger is 26." );
     CHECK( d.responses[ 36 ].text == "Thirst is 27." );
@@ -1225,10 +1255,20 @@ TEST_CASE( "npc_compare_int", "[npc_talk]" )
     CHECK( d.responses[ 38 ].text == "Stored kcal is at 100% of healthy." );
     CHECK( d.responses[ 39 ].text == "Has 3 glass bottles." );
     CHECK( d.responses[ 40 ].text == "Has more or equal to 35 experience." );
+    CHECK( d.responses[ 41 ].text == "Highest spell level in school test_trait is 1." );
+    CHECK( d.responses[ 42 ].text == "Spell level of Pew, Pew is 4." );
+    CHECK( d.responses[ 43 ].text == "Spell level of highest spell is 12." );
+    CHECK( d.responses[ 44 ].text == "Exp of Pew, Pew is 11006." );
+    CHECK( d.responses[ 45 ].text == "Test Proficiency learning is 5 out of 10." );
+    CHECK( d.responses[ 46 ].text == "Test Proficiency learning done is 12 hours total." );
+    CHECK( d.responses[ 47 ].text == "Test Proficiency learning is 50% learnt." );
+    CHECK( d.responses[ 48 ].text == "Test Proficiency learning is 500 permille learnt." );
+    CHECK( d.responses[ 49 ].text == "Test Proficiency total learning time is 24 hours." );
+    CHECK( d.responses[ 50 ].text == "Test Proficiency time lest to learn is 12h." );
 
     calendar::turn = calendar::turn + time_duration( 4_days );
-    gen_response_lines( d, 42 );
-
+    expected_answers++;
+    gen_response_lines( d, expected_answers );
     CHECK( d.responses[ 15 ].text == "This is a time since u_var test response for > 3_days." );
 
     // Teardown
@@ -1366,7 +1406,7 @@ TEST_CASE( "npc_arithmetic", "[npc_talk]" )
     Character &player_character = get_avatar();
 
     d.add_topic( "TALK_TEST_ARITHMETIC" );
-    gen_response_lines( d, 25 );
+    gen_response_lines( d, 32 );
 
     calendar::turn = calendar::turn_zero;
     REQUIRE( calendar::turn == time_point( 0 ) );
@@ -1375,12 +1415,13 @@ TEST_CASE( "npc_arithmetic", "[npc_talk]" )
     effects.apply( d );
     CHECK( calendar::turn == time_point( 1 ) );
 
-    get_weather().weather_precise->temperature = 20;
+    get_weather().weather_precise->temperature = units::from_fahrenheit( 20 );
     get_weather().clear_temp_cache();
     // "Sets temperature to 2."
     effects = d.responses[ 1 ].success;
     effects.apply( d );
-    CHECK( get_weather().weather_precise->temperature == 2 );
+    CHECK( units::to_fahrenheit( get_weather().weather_precise->temperature ) == Approx( 2 ).margin(
+               0.01 ) );
 
     get_weather().weather_precise->windpower = 20;
     get_weather().clear_temp_cache();
@@ -1515,6 +1556,87 @@ TEST_CASE( "npc_arithmetic", "[npc_talk]" )
     effects = d.responses[ 24 ].success;
     effects.apply( d );
     CHECK( player_character.get_stored_kcal() == 550000 / 2 );
+
+    // Spell tests setup
+    if( player_character.magic->knows_spell( spell_test_spell_pew ) ) {
+        player_character.magic->forget_spell( spell_test_spell_pew );
+    }
+    CHECK( player_character.magic->knows_spell( spell_test_spell_pew ) == false );
+
+    // "Sets pew pew's level to -1."
+    effects = d.responses[25].success;
+    effects.apply( d );
+    CHECK( player_character.magic->knows_spell( spell_test_spell_pew ) == false );
+
+    // "Sets pew pew's level to 4."
+    effects = d.responses[26].success;
+    effects.apply( d );
+    CHECK( player_character.magic->knows_spell( spell_test_spell_pew ) == true );
+    CHECK( player_character.magic->get_spell( spell_test_spell_pew ).get_level() == 4 );
+
+    // "Sets pew pew's level to -1."
+    effects = d.responses[25].success;
+    effects.apply( d );
+    CHECK( player_character.magic->knows_spell( spell_test_spell_pew ) == false );
+
+    // "Sets pew pew's exp to 11006."
+    effects = d.responses[28].success;
+    effects.apply( d );
+    CHECK( player_character.magic->knows_spell( spell_test_spell_pew ) == true );
+    CHECK( player_character.magic->get_spell( spell_test_spell_pew ).get_level() == 4 );
+
+    // "Sets pew pew's exp to -1."
+    effects = d.responses[27].success;
+    effects.apply( d );
+    CHECK( player_character.magic->knows_spell( spell_test_spell_pew ) == false );
+
+    // Setup proficiency tests
+    if( player_character.has_proficiency( proficiency_prof_test ) ) {
+        player_character.lose_proficiency( proficiency_prof_test, true );
+    }
+    std::vector<proficiency_id> proficiencies_vector = player_character.learning_proficiencies();
+    if( std::count( proficiencies_vector.begin(),
+                    proficiencies_vector.end(),
+                    proficiency_prof_test ) != 0 ) {
+        player_character.set_proficiency_practiced_time( proficiency_prof_test, -1 );
+    }
+
+    // "Sets Test Proficiency learning done to -1."
+    effects = d.responses[30].success;
+    effects.apply( d );
+    CHECK( player_character.has_proficiency( proficiency_prof_test ) == false );
+    proficiencies_vector = player_character.learning_proficiencies();
+    CHECK( std::count( proficiencies_vector.begin(),
+                       proficiencies_vector.end(),
+                       proficiency_prof_test ) == 0 );
+
+    // "Sets Test Proficiency learning done to 24h."
+    effects = d.responses[31].success;
+    effects.apply( d );
+    CHECK( player_character.has_proficiency( proficiency_prof_test ) == true );
+    proficiencies_vector = player_character.learning_proficiencies();
+    CHECK( std::count( proficiencies_vector.begin(),
+                       proficiencies_vector.end(),
+                       proficiency_prof_test ) == 0 );
+
+    // "Sets Test Proficiency learning done to 12 hours total."
+    effects = d.responses[29].success;
+    effects.apply( d );
+    CHECK( player_character.has_proficiency( proficiency_prof_test ) == false );
+    proficiencies_vector = player_character.learning_proficiencies();
+    CHECK( std::count( proficiencies_vector.begin(),
+                       proficiencies_vector.end(),
+                       proficiency_prof_test ) != 0 );
+
+    // "Sets Test Proficiency learning done to -1."
+    effects = d.responses[30].success;
+    effects.apply( d );
+    CHECK( player_character.has_proficiency( proficiency_prof_test ) == false );
+    proficiencies_vector = player_character.learning_proficiencies();
+    CHECK( std::count( proficiencies_vector.begin(),
+                       proficiencies_vector.end(),
+                       proficiency_prof_test ) == 0 );
+
 
     // Teardown
     player_character.remove_value( var_name );

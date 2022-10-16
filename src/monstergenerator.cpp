@@ -197,9 +197,11 @@ std::string enum_to_string<m_flag>( m_flag data )
         case MF_ATTACK_UPPER: return "ATTACK_UPPER";
         case MF_ATTACK_LOWER: return "ATTACK_LOWER";
         case MF_DEADLY_VIRUS: return "DEADLY_VIRUS";
+        case MF_VAMP_VIRUS: return "VAMP_VIRUS";
         case MF_ALWAYS_VISIBLE: return "ALWAYS_VISIBLE";
         case MF_ALWAYS_SEES_YOU: return "ALWAYS_SEES_YOU";
         case MF_ALL_SEEING: return "ALL_SEEING";
+        case MF_NEVER_WANDER: return "NEVER_WANDER";
         // *INDENT-ON*
         case m_flag::MF_MAX:
             break;
@@ -1056,6 +1058,7 @@ void mtype::load( const JsonObject &jo, const std::string &src )
         upgrade_group = mongroup_id::NULL_ID();
         upgrade_into = mtype_id::NULL_ID();
         upgrades = false;
+        upgrade_null_despawn = false;
     } else if( jo.has_member( "upgrades" ) ) {
         JsonObject up = jo.get_object( "upgrades" );
         optional( up, was_loaded, "half_life", half_life, -1 );
@@ -1072,6 +1075,7 @@ void mtype::load( const JsonObject &jo, const std::string &src )
         } else {
             jo.get_int( "spawn_range", 0 ); // ignore if defined
         }
+        optional( up, was_loaded, "despawn_when_null", upgrade_null_despawn, false );
         upgrades = true;
     }
 
@@ -1586,8 +1590,7 @@ void pet_food_data::load( const JsonObject &jo )
     optional( jo, was_loaded, "pet", pet );
 }
 
-void pet_food_data::deserialize( JsonIn &jsin )
+void pet_food_data::deserialize( const JsonObject &data )
 {
-    JsonObject data = jsin.get_object();
     load( data );
 }

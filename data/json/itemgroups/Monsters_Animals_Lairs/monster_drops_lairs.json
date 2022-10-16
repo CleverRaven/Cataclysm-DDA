@@ -213,6 +213,7 @@
     "//": "Normal/mutated animal remains",
     "subtype": "distribution",
     "entries": [
+      { "item": "skull_canis", "prob": 10 },
       { "item": "bone", "prob": 80 },
       { "item": "feather", "prob": 80 },
       { "item": "raw_leather", "prob": 30 },
@@ -235,6 +236,7 @@
     "//": "(demi)human remains",
     "subtype": "distribution",
     "entries": [
+      { "item": "skull_human", "prob": 20 },
       { "item": "bone_human", "prob": 80 },
       { "item": "raw_hleather", "prob": 30 },
       { "item": "raw_demihumanleather", "prob": 5 },

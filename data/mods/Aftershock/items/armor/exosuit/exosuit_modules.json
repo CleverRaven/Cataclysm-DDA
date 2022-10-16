@@ -185,7 +185,7 @@
     "relic_data": {
       "passive_effects": [ { "has": "WORN", "condition": "ACTIVE", "values": [ { "value": "CARRY_WEIGHT", "add": 20000 } ] } ]
     },
-    "power_draw": 1000,
+    "power_draw": "1 J",
     "revert_to": "exo_carry",
     "use_action": {
       "ammo_scale": 0,
@@ -232,7 +232,7 @@
     "relic_data": {
       "passive_effects": [ { "has": "WORN", "condition": "ACTIVE", "values": [ { "value": "CARRY_WEIGHT", "add": 10000 } ] } ]
     },
-    "power_draw": 500,
+    "power_draw": "500 mJ",
     "revert_to": "exo_small_carry",
     "use_action": {
       "ammo_scale": 0,
@@ -285,7 +285,7 @@
     "copy-from": "exo_flashlight",
     "type": "TOOL",
     "name": { "str": "mounted lamp (low)", "str_pl": "mounted lamps (low)" },
-    "power_draw": 1000,
+    "power_draw": "1 J",
     "revert_to": "exo_flashlight",
     "use_action": {
       "ammo_scale": 0,
@@ -301,7 +301,7 @@
     "copy-from": "exo_flashlight",
     "type": "TOOL",
     "name": { "str": "mounted lamp (high)", "str_pl": "mounted lamps (high)" },
-    "power_draw": 2000,
+    "power_draw": "2 J",
     "revert_to": "exo_flashlight",
     "use_action": {
       "ammo_scale": 0,
@@ -343,7 +343,7 @@
     "copy-from": "exo_recoil",
     "type": "TOOL",
     "name": { "str": "recoil mitigation system (on)", "str_pl": "recoil mitigation systems (on)" },
-    "power_draw": 2000,
+    "power_draw": "2 J",
     "revert_to": "exo_recoil",
     "use_action": {
       "ammo_scale": 0,
@@ -524,7 +524,7 @@
     "material": [ "vacuum_carbide", "qt_steel" ],
     "symbol": "(",
     "color": "light_gray",
-    "power_draw": 5000,
+    "power_draw": "5 J",
     "revert_to": "exo_forcefield",
     "flags": [ "CANT_WEAR", "ONLY_ONE", "EXO_MEDIUM_GADGET", "USE_UPS" ],
     "relic_data": {
@@ -560,7 +560,7 @@
     "material": [ "vacuum_carbide", "qt_steel" ],
     "symbol": "(",
     "color": "light_gray",
-    "power_draw": 5000,
+    "power_draw": "5 J",
     "revert_to": "exo_forcefield",
     "flags": [ "CANT_WEAR", "ONLY_ONE", "EXO_MEDIUM_GADGET", "USE_UPS" ],
     "relic_data": {
@@ -652,7 +652,46 @@
       "type": "transform",
       "target": "boarding_axe",
       "msg": "With a snap of your arm, the axe extends."
+    }
+  },
+  {
+    "id": "exo_AR_module",
+    "type": "TOOL",
+    "name": { "str": "exosuit AR research module" },
+    "description": "An augmented reality module interfaces with the exosuit's HUD, assisting you with research and study.",
+    "weight": "500 g",
+    "volume": "250 ml",
+    "price": "10 kUSD",
+    "material": [ "lvl4ballisticglass", "qt_steel" ],
+    "symbol": "(",
+    "color": "yellow",
+    "flags": [ "CANT_WEAR", "EXO_HELMET_GADGET" ],
+    "relic_data": {
+      "passive_effects": [ { "has": "WORN", "condition": "ACTIVE", "values": [ { "value": "LEARNING_FOCUS", "add": 15 } ] } ]
     },
-    "category": "weapons"
+    "use_action": {
+      "target": "exo_AR_module_on",
+      "msg": "The %s engages.",
+      "menu_text": "Turn on module",
+      "active": true,
+      "need_charges": 5,
+      "need_charges_msg": "There is not enough charge to activate the module.",
+      "type": "transform"
+    }
+  },
+  {
+    "id": "exo_AR_module_on",
+    "type": "TOOL",
+    "copy-from": "exo_AR_module",
+    "name": { "str": "exosuit AR research module (on)", "str_pl": "exosuit AR research modules (on)" },
+    "power_draw": "250 mJ",
+    "revert_to": "exo_AR_module",
+    "use_action": {
+      "ammo_scale": 0,
+      "target": "exo_AR_module",
+      "msg": "You deactivate the module.",
+      "menu_text": "Turn off module",
+      "type": "transform"
+    }
   }
 ]

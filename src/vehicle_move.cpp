@@ -187,8 +187,13 @@ void vehicle::smart_controller_handle_turn( bool thrusting,
     // otherwise trying to charge battery to 90% within 30 minutes
     bool discharge_forbidden_soft = battery_level_percent <= cfg.battery_hi;
     bool discharge_forbidden_hard = battery_level_percent <= cfg.battery_lo;
-    int target_charging_rate = ( max_battery_level == 0 || !discharge_forbidden_soft ) ? 0 :
-                               ( max_battery_level * cfg.battery_hi / 100 - cur_battery_level ) * 10 / ( 6 * 3 );
+    units::energy target_charging_rate;
+    if( max_battery_level == 0 || !discharge_forbidden_soft ) {
+        target_charging_rate = 0_J;
+    } else {
+        target_charging_rate = units::from_joule( ( max_battery_level * cfg.battery_hi / 100 -
+                               cur_battery_level ) * 10 / ( 6 * 3 ) );
+    }
     //      ( max_battery_level * battery_hi / 100 - cur_battery_level )  * (1000 / (60 * 30))   // originally
     //                                ^ battery_hi%                  bat to W ^         ^ 30 minutes
 
@@ -216,9 +221,9 @@ void vehicle::smart_controller_handle_turn( bool thrusting,
 
     int prev_mask = 0;
     // opt_ prefix denotes values for currently found "optimal" engine configuration
-    int opt_net_echarge_rate = net_battery_charge_rate_w();
+    units::energy opt_net_echarge_rate = units::from_joule( net_battery_charge_rate_w() );
     // total engine fuel energy usage (J)
-    int opt_fuel_usage = 0;
+    units::energy opt_fuel_usage = 0_J;
 
     int opt_accel = is_stationary ? 1 : current_acceleration() * traction;
     int opt_safe_vel = is_stationary ? 1 : safe_ground_velocity( true );
@@ -230,8 +235,8 @@ void vehicle::smart_controller_handle_turn( bool thrusting,
         if( is_engine_on( c_engines[i] ) ) {
             prev_mask |= 1 << i;
             bool is_electric = is_engine_type( c_engines[i], fuel_type_battery );
-            int fu = engine_fuel_usage( c_engines[i] ) * ( cur_load_approx + ( is_electric ? 0 :
-                     cur_load_alternator ) );
+            units::energy fu = engine_fuel_usage( c_engines[i] ) * ( cur_load_approx + ( is_electric ? 0 :
+                               cur_load_alternator ) );
             opt_fuel_usage += fu;
             if( is_electric ) {
                 opt_net_echarge_rate -= fu;
@@ -287,15 +292,16 @@ void vehicle::smart_controller_handle_turn( bool thrusting,
 
         int safe_vel =  is_stationary ? 1 : safe_ground_velocity( true );
         int accel = is_stationary ? 1 : current_acceleration() * traction;
-        int fuel_usage = 0;
-        int net_echarge_rate = net_battery_charge_rate_w();
+        units::energy fuel_usage = 0_J;
+        units::energy net_echarge_rate = units::from_joule( net_battery_charge_rate_w() );
         float load_approx = static_cast<float>( std::min( accel_demand, accel ) ) / std::max( accel, 1 );
         update_alternator_load();
         float load_approx_alternator  = std::min( 0.01f, static_cast<float>( alternator_load ) / 1000 );
 
         for( int e : c_engines ) {
             bool is_electric = is_engine_type( e, fuel_type_battery );
-            int fu = engine_fuel_usage( e ) * ( load_approx + ( is_electric ? 0 : load_approx_alternator ) );
+            units::energy fu = engine_fuel_usage( e ) * ( load_approx + ( is_electric ? 0 :
+                               load_approx_alternator ) );
             fuel_usage += fu;
             if( is_electric ) {
                 net_echarge_rate -= fu;
@@ -303,7 +309,7 @@ void vehicle::smart_controller_handle_turn( bool thrusting,
         }
 
         if( std::forward_as_tuple(
-                !discharge_forbidden_hard || ( net_echarge_rate > 0 ),
+                !discharge_forbidden_hard || ( net_echarge_rate > 0_J ),
                 accel >= accel_demand,
                 opt_accel < accel_demand ? accel : 0, // opt_accel usage here is intentional
                 safe_vel >= velocity_demand,
@@ -312,7 +318,7 @@ void vehicle::smart_controller_handle_turn( bool thrusting,
                 -fuel_usage,
                 net_echarge_rate
             ) >= std::forward_as_tuple(
-                !discharge_forbidden_hard || ( opt_net_echarge_rate > 0 ),
+                !discharge_forbidden_hard || ( opt_net_echarge_rate > 0_J ),
                 opt_accel >= accel_demand,
                 opt_accel < accel_demand ? opt_accel : 0,
                 opt_safe_vel >= velocity_demand,
@@ -1193,7 +1199,8 @@ void vehicle::handle_trap( const tripoint &p, int part )
                            veh_data.sound_type, veh_data.sound_variant );
         }
         if( veh_data.do_explosion ) {
-            explosion_handler::explosion( p, veh_data.damage, 0.5f, false, veh_data.shrapnel );
+            const Creature *source = player_in_control( player_character ) ? &player_character : nullptr;
+            explosion_handler::explosion( source, p, veh_data.damage, 0.5f, false, veh_data.shrapnel );
         } else {
             // Hit the wheel directly since it ran right over the trap.
             damage_direct( here, pwh, veh_data.damage );
@@ -1350,6 +1357,9 @@ bool vehicle::check_heli_ascend( Character &p ) const
     if( velocity > 0 && !is_flying_in_air() ) {
         p.add_msg_if_player( m_bad, _( "It would be unsafe to try and take off while you are moving." ) );
         return false;
+    }
+    if( sm_pos.z + 1 >= OVERMAP_HEIGHT ) {
+        return false; // don't allow trying to ascend to max zlevel
     }
     map &here = get_map();
     creature_tracker &creatures = get_creature_tracker();

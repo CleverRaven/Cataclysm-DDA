@@ -49,7 +49,7 @@
     "id": "sheet",
     "type": "ARMOR",
     "name": { "str": "sheet" },
-    "description": "A 72 inch by 24 inch, two layer thick fabric sheet, could be used as a curtain or bedsheets; or cut up for a bunch of rags.",
+    "description": "A 72 by 24 inch two-layer-thick fabric sheet.  It could be used as a curtain or bedsheet, or cut up for a bunch of rags.",
     "//density": "1.6 grams per mL",
     "weight": "420 g",
     "volume": "564 ml",

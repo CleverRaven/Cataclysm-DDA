@@ -1541,7 +1541,12 @@ void load_effect_type( const JsonObject &jo )
     new_etype.impairs_movement = hardcoded_movement_impairing.count( new_etype.id ) > 0;
 
     new_etype.flags = jo.get_tags<flag_id>( "flags" );
-
+    int enchant_num = 0;
+    for( JsonValue jv : jo.get_array( "enchantments" ) ) {
+        std::string enchant_name = "INLINE_ENCH_" + new_etype.id.str() + "_" + std::to_string(
+                                       enchant_num++ );
+        new_etype.enchantments.push_back( enchantment::load_inline_enchantment( jv, "", enchant_name ) );
+    }
     effect_types[new_etype.id] = new_etype;
 }
 

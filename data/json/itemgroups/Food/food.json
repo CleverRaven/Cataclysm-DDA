@@ -473,6 +473,7 @@
       { "item": "powder_candy", "prob": 50 },
       { "item": "candycigarette", "prob": 15 },
       { "item": "maple_candy", "prob": 10 },
+      { "item": "candy_bracelet", "prob": 10 },
       { "item": "candy_coated_peanuts", "prob": 50 }
     ]
   },

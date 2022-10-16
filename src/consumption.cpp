@@ -581,6 +581,11 @@ int Character::vitamin_mod( const vitamin_id &vit, int qty )
     } else if( qty < 0 ) {
         it->second = std::max( it->second + qty, v.min() );
         update_vitamins( vit );
+        for( const std::pair<vitamin_id, int> &dcy : v.decays_into() ) {
+            if( it->second != 0 ) {
+                vitamin_mod( dcy.first, dcy.second * std::abs( qty ) );
+            }
+        }
     }
 
     return it->second;
@@ -813,26 +818,6 @@ ret_val<edible_rating> Character::can_eat( const item &food ) const
         }
     }
 
-    return ret_val<edible_rating>::make_success();
-}
-
-ret_val<edible_rating> Character::can_consume_fuel( const item &fuel ) const
-{
-    if( !can_fuel_bionic_with( fuel ) ) {
-        return ret_val<edible_rating>::make_failure( _( "That doesn't look useable as fuel." ) );
-    } else {
-        std::string item_name = fuel.tname();
-        material_id mat_type = fuel.get_base_material().id;
-        if( fuel.type->magazine ) {
-            const item ammo = item( fuel.ammo_current() );
-            item_name = ammo.tname();
-            mat_type = ammo.get_base_material().id;
-        }
-        if( get_fuel_capacity( mat_type ) <= 0 ) {
-            return ret_val<edible_rating>::make_failure( _( "No space to store more %s" ), item_name );
-        }
-
-    }
     return ret_val<edible_rating>::make_success();
 }
 
@@ -1570,83 +1555,6 @@ bool Character::consume_effects( item &food )
     return true;
 }
 
-bool Character::fuel_bionic_with( item &it )
-{
-    if( !can_fuel_bionic_with( it ) ) {
-        return false;
-    }
-
-    if( it.is_favorite &&
-        !get_avatar().query_yn( _( "Are you sure you want to eat your favorited %s?" ), it.tname() ) ) {
-        return false;
-    }
-
-    const bionic_id bio = get_most_efficient_bionic( get_bionic_fueled_with( it ) );
-
-    const bool is_magazine = !!it.type->magazine;
-    int loadable;
-    material_id mat = it.get_base_material().id;
-
-    if( is_magazine ) {
-        const item ammo = item( it.ammo_current() );
-        mat = ammo.get_base_material().id;
-        loadable = std::min( it.ammo_remaining(), get_fuel_capacity( mat ) );
-        it.ammo_set( ammo.typeId(), it.ammo_remaining() - loadable );
-    } else if( it.flammable() ) {
-        // This a special case for items that are not fuels and don't have charges
-        loadable = std::min( units::to_milliliter( it.volume() ), get_fuel_capacity( mat ) );
-        it.charges -= it.charges_per_volume( units::from_milliliter( loadable ) );
-    } else {
-        loadable = std::min( it.charges, get_fuel_capacity( mat ) );
-        it.charges -= loadable;
-    }
-
-    const std::string str_loaded  = get_value( mat.str() );
-    int loaded = 0;
-    if( !str_loaded.empty() ) {
-        loaded = std::stoi( str_loaded );
-    }
-
-    const std::string new_charge = std::to_string( loadable + loaded );
-
-    // Type and amount of fuel
-    set_value( mat.str(), new_charge );
-    update_fuel_storage( mat );
-    add_msg_player_or_npc( m_info,
-                           //~ %1$i: charge number, %2$s: item name, %3$s: bionics name
-                           n_gettext( "You load %1$i charge of %2$s in your %3$s.",
-                                      "You load %1$i charges of %2$s in your %3$s.", loadable ),
-                           //~ %1$i: charge number, %2$s: item name, %3$s: bionics name
-                           n_gettext( "<npcname> load %1$i charge of %2$s in their %3$s.",
-                                      "<npcname> load %1$i charges of %2$s in their %3$s.", loadable ), loadable, mat->name(),
-                           bio->name );
-
-    // Return false for magazines because only their ammo is consumed
-    return !is_magazine;
-}
-
-int Character::get_acquirable_energy( const item &it ) const
-{
-    const std::vector<bionic_id> &bids = get_bionic_fueled_with( it );
-    if( bids.empty() ) {
-        return 0;
-    }
-    const bionic_id &bid = get_most_efficient_bionic( bids );
-    int to_consume;
-    int to_charge = 0;
-    if( it.type->magazine ) {
-        item ammo = item( it.ammo_current() );
-        to_consume = std::min( it.ammo_remaining(), bid->fuel_capacity );
-        to_charge = ammo.fuel_energy() * to_consume * bid->fuel_efficiency;
-    } else if( it.flammable() ) {
-        to_consume = std::min( units::to_milliliter( it.volume() ), bid->fuel_capacity );
-        to_charge = it.get_base_material().id->get_fuel_data().energy * to_consume * bid->fuel_efficiency;
-    } else {
-        to_consume = std::min( it.charges, bid->fuel_capacity );
-        to_charge = it.fuel_energy() * to_consume * bid->fuel_efficiency;
-    }
-    return to_charge;
-}
 
 bool Character::can_estimate_rot() const
 {
@@ -1819,7 +1727,7 @@ static bool consume_med( item &target, Character &you )
     return true;
 }
 
-trinary Character::consume( item &target, bool force, bool refuel )
+trinary Character::consume( item &target, bool force )
 {
     if( target.is_null() ) {
         add_msg_if_player( m_info, _( "You do not have that item." ) );
@@ -1841,10 +1749,6 @@ trinary Character::consume( item &target, bool force, bool refuel )
         return trinary::NONE;
     }
 
-    if( refuel ) {
-        return fuel_bionic_with( target ) && target.charges <= 0 ? trinary::ALL : trinary::SOME;
-    }
-
     if( consume_med( target, *this ) || eat( target, *this, force ) ) {
 
         get_event_bus().send<event_type::character_consumes_item>( getID(), target.typeId() );
@@ -1856,7 +1760,7 @@ trinary Character::consume( item &target, bool force, bool refuel )
     return trinary::NONE;
 }
 
-trinary Character::consume( item_location loc, bool force, bool refuel )
+trinary Character::consume( item_location loc, bool force )
 {
     if( !loc ) {
         debugmsg( "Null loc to consume." );
@@ -1864,7 +1768,7 @@ trinary Character::consume( item_location loc, bool force, bool refuel )
     }
     contents_change_handler handler;
     item &target = *loc;
-    trinary result = consume( target, force, refuel );
+    trinary result = consume( target, force );
     if( result != trinary::NONE ) {
         handler.unseal_pocket_containing( loc );
     }

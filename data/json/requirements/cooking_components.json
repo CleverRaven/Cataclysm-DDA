@@ -18,7 +18,8 @@
         [ "cornbread", 1 ],
         [ "biscuit", 1 ],
         [ "hardtack", 1 ],
-        [ "crackers", 1 ]
+        [ "crackers", 1 ],
+        [ "hallula", 1 ]
       ]
     ]
   },
@@ -35,7 +36,8 @@
         [ "biscuit", 1 ],
         [ "brioche", 1 ],
         [ "crackers", 1 ],
-        [ "brown_bread", 1 ]
+        [ "brown_bread", 1 ],
+        [ "hallula", 1 ]
       ]
     ]
   },
@@ -43,7 +45,7 @@
     "id": "bread_sandwich_wheat_free",
     "type": "requirement",
     "//": "Wheat free bread appropriate for sandwiches.",
-    "components": [ [ [ "cornbread", 1 ], [ "bread_wheat_free", 1 ], [ "flatbread_wheat_free", 1 ] ] ]
+    "components": [ [ [ "cornbread", 1 ], [ "bread_wheat_free", 1 ], [ "flatbread_wheat_free", 1 ], [ "brown_bread_wheat_free", 1 ] ] ]
   },
   {
     "id": "any_bread",
@@ -77,7 +79,15 @@
         [ "egg_goose_canadian", 1 ],
         [ "egg_turkey", 1 ],
         [ "egg_pheasant", 1 ],
-        [ "egg_cockatrice", 1 ]
+        [ "egg_cockatrice", 1 ],
+        [ "egg_goose", 1 ],
+        [ "egg_goose_golden", 1 ],
+        [ "egg_hummingbird", 5 ],
+        [ "egg_woodpecker", 5 ],
+        [ "egg_coot", 1 ],
+        [ "egg_cormorant", 1 ],
+        [ "egg_moorhen", 1 ],
+        [ "egg_grebe", 1 ]
       ]
     ]
   },
@@ -102,7 +112,59 @@
         [ "egg_lady_bug", 4 ],
         [ "egg_mole_cricket", 4 ],
         [ "egg_mantis", 4 ],
-        [ "egg_stag_beetle", 1 ]
+        [ "egg_stag_beetle", 1 ],
+        [ "egg_water_beetle", 4 ],
+        [ "egg_water_bug", 4 ],
+        [ "egg_butterfly", 1 ],
+        [ "egg_moth", 1 ],
+        [ "egg_cicada", 1 ]
+      ]
+    ]
+  },
+  {
+    "id": "eggs_roe",
+    "type": "requirement",
+    "//": "All of the different fish eggs",
+    "components": [
+      [
+        [ "egg_fish", 1 ],
+        [ "egg_trout", 1 ],
+        [ "egg_brown_trout", 1 ],
+        [ "egg_brook_trout", 1 ],
+        [ "egg_lake_trout", 1 ],
+        [ "egg_rainbow_trout", 1 ],
+        [ "egg_steelhead_trout", 1 ],
+        [ "egg_salmon", 1 ],
+        [ "egg_kokanee_salmon", 1 ],
+        [ "egg_chinook_salmon", 1 ],
+        [ "egg_coho_salmon", 1 ],
+        [ "egg_whitefish", 1 ],
+        [ "egg_lbass", 1 ],
+        [ "egg_sbass", 1 ],
+        [ "egg_pbass", 1 ],
+        [ "egg_white_bass", 1 ],
+        [ "egg_perch", 1 ],
+        [ "egg_walleye", 1 ],
+        [ "egg_sunfish", 1 ],
+        [ "egg_pumpkinseed", 1 ],
+        [ "egg_bluegill", 1 ],
+        [ "egg_redbreast", 1 ],
+        [ "egg_green_sunfish", 1 ],
+        [ "egg_longear_sunfish", 1 ],
+        [ "egg_redear_sunfish", 1 ],
+        [ "egg_rock_bass", 1 ],
+        [ "egg_calico_bass", 1 ],
+        [ "egg_bullhead", 1 ],
+        [ "egg_channel_catfish", 1 ],
+        [ "egg_white_catfish", 1 ],
+        [ "egg_pike", 1 ],
+        [ "egg_pickerel", 1 ],
+        [ "egg_muskellunge", 1 ],
+        [ "egg_white_sucker", 1 ],
+        [ "egg_carp", 1 ],
+        [ "egg_grass_carp", 1 ],
+        [ "egg_bowfin", 1 ],
+        [ "egg_fallfish", 1 ]
       ]
     ]
   },
@@ -444,6 +506,7 @@
         [ "fried_spam", 2 ],
         [ "can_chicken", 1 ],
         [ "fish_cooked", 1 ],
+        [ "fish_scrap_cooked", 10 ],
         [ "fish_smoked", 1 ],
         [ "lobster_cooked", 1 ],
         [ "lobster_smoked", 1 ],
@@ -536,6 +599,8 @@
         [ "hardtack", 1 ],
         [ "wastebread", 1 ],
         [ "sourdough_bread", 1 ],
+        [ "hallula", 1 ],
+        [ "brioche", 1 ],
         [ "flour", 2 ],
         [ "cornmeal", 2 ],
         [ "milk_powder", 1 ],
@@ -564,6 +629,7 @@
         [ "salted_fish", 2 ],
         [ "fish_canned", 2 ],
         [ "can_salmon", 2 ],
+        [ "fish_scrap", 10 ],
         [ "can_tuna", 2 ]
       ]
     ]
@@ -593,6 +659,8 @@
         [ "hardtack", 1 ],
         [ "wastebread", 1 ],
         [ "sourdough_bread", 1 ],
+        [ "brioche", 1 ],
+        [ "hallula", 1 ],
         [ "flour", 2 ],
         [ "cornmeal", 2 ],
         [ "milk_powder", 1 ],

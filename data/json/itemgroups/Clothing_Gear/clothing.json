@@ -1481,6 +1481,7 @@
       [ "firecracker", 5 ],
       [ "wolfsuit", 3 ],
       [ "dinosuit", 2 ],
+      [ "sharksuit", 2 ],
       [ "felinesuit", 3 ],
       [ "dragonsuit", 2 ],
       [ "zentai", 5 ],
@@ -2465,7 +2466,7 @@
       [ "fish_sandwich", 2 ],
       [ "mango", 1 ],
       [ "hand_pump", 5 ],
-      [ "inflatable_boat", 1 ]
+      [ "folded_inflatable_boat", 1 ]
     ]
   },
   {
@@ -2962,12 +2963,12 @@
     "type": "item_group",
     "id": "survivorzed_suits",
     "items": [
-      [ "survivor_suit", 8 ],
-      [ "lsurvivor_suit", 10 ],
-      [ "hsurvivor_suit", 6 ],
-      [ "wsurvivor_suit", 6 ],
-      [ "fsurvivor_suit", 4 ],
-      [ "h20survivor_suit", 2 ],
+      [ "survivor_jumpsuit", 8 ],
+      [ "lsurvivor_jumpsuit", 10 ],
+      [ "hsurvivor_jumpsuit", 6 ],
+      [ "wsurvivor_jumpsuit", 6 ],
+      [ "wsurvivor_jumpsuit_nofur", 4 ],
+      [ "h20survivor_jumpsuit", 2 ],
       [ "touring_suit", 16 ],
       [ "armor_larmor", 28 ],
       [ "armor_blarmor", 14 ],
@@ -3921,6 +3922,7 @@
       { "item": "bondage_suit", "prob": 10 },
       { "item": "bodysuit_lycra", "prob": 10 },
       { "item": "dinosuit", "prob": 5 },
+      { "item": "sharksuit", "prob": 5 },
       { "item": "yukata", "prob": 20 },
       { "item": "leotard", "prob": 40 },
       { "item": "motorbike_armor", "prob": 15 },

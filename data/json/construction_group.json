@@ -326,6 +326,11 @@
   },
   {
     "type": "construction_group",
+    "id": "build_high_end_of_an_earth_ramp",
+    "name": "Build High End of an Earth Ramp"
+  },
+  {
+    "type": "construction_group",
     "id": "build_high_end_of_a_concrete_ramp",
     "name": "Build High End of a Concrete Ramp"
   },
@@ -368,6 +373,11 @@
     "type": "construction_group",
     "id": "build_log_wall",
     "name": "Build Log Wall"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_low_end_of_an_earth_ramp",
+    "name": "Build Low End of an Earth Ramp"
   },
   {
     "type": "construction_group",
@@ -861,6 +871,16 @@
   },
   {
     "type": "construction_group",
+    "id": "build_wooden_gangway",
+    "name": "Build Wooden Gangway"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_metal_gangway",
+    "name": "Build Metal Gangway"
+  },
+  {
+    "type": "construction_group",
     "id": "build_wooden_keg",
     "name": "Build Wooden Keg"
   },
@@ -1171,6 +1191,11 @@
   },
   {
     "type": "construction_group",
+    "id": "place_weldkit",
+    "name": "Place Welding Kit"
+  },
+  {
+    "type": "construction_group",
     "id": "place_arcade_machine",
     "name": "Place Arcade Machine"
   },
@@ -1336,6 +1361,11 @@
   },
   {
     "type": "construction_group",
+    "id": "place_wall_wiring",
+    "name": "Place Wall Wirings"
+  },
+  {
+    "type": "construction_group",
     "id": "place_anvil",
     "name": "Place Anvil"
   },
@@ -1388,6 +1418,11 @@
     "type": "construction_group",
     "id": "place_wind_mill",
     "name": "Place Wind Mill"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_screw_press",
+    "name": "Place Screw Press"
   },
   {
     "type": "construction_group",
@@ -1596,6 +1631,11 @@
   },
   {
     "type": "construction_group",
+    "id": "hang_heavy_punching_bag",
+    "name": "Hang a Heavy Punching Bag"
+  },
+  {
+    "type": "construction_group",
     "id": "build_training_dummy_light",
     "name": "Install Training Dummy"
   },
@@ -1613,6 +1653,11 @@
     "type": "construction_group",
     "id": "build_archery_target_bale",
     "name": "Mark Hay Bale For Archery"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_flagpole",
+    "name": "Build a Flagpole"
   },
   {
     "type": "construction_group",

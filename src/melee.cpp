@@ -345,9 +345,11 @@ float Character::get_hit_weapon( const item &weap ) const
 float Character::get_melee_hit_base() const
 {
     float hit_weapon = 0.0f;
-    if( used_weapon() ) {
-        hit_weapon = get_hit_weapon( *used_weapon() );
-    }
+
+    item_location cur_weapon = used_weapon();
+    item cur_weap = cur_weapon ? *cur_weapon : null_item_reference();
+
+    hit_weapon = get_hit_weapon( cur_weap );
 
     // Character::get_hit_base includes stat calculations already
     return Character::get_hit_base() + hit_weapon + mabuff_tohit_bonus();
@@ -600,7 +602,7 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
 
     int move_cost = attack_speed( cur_weap );
 
-    if( cur_weap.attack_time() > move_cost * 20 ) {
+    if( cur_weap.attack_time( *this ) > move_cost * 20 ) {
         add_msg( m_bad, _( "This weapon is too unwieldy to attack with!" ) );
         return false;
     }
@@ -2058,7 +2060,8 @@ void Character::perform_technique( const ma_technique &technique, Creature &t, d
 
     Character *you = dynamic_cast<Character *>( &t );
 
-    if( technique.take_weapon && !has_weapon() && you != nullptr && you->is_armed() ) {
+    if( technique.take_weapon && !has_weapon() && you != nullptr && you->is_armed() &&
+        !you->is_hallucination() ) {
         if( you->is_avatar() ) {
             add_msg_if_npc( _( "<npcname> disarms you and takes your weapon!" ) );
         } else {
@@ -2070,7 +2073,7 @@ void Character::perform_technique( const ma_technique &technique, Creature &t, d
         wield( it );
     }
 
-    if( technique.disarms && you != nullptr && you->is_armed() ) {
+    if( technique.disarms && you != nullptr && you->is_armed() && !you->is_hallucination() ) {
         item weap = you->remove_weapon();
         here.add_item_or_charges( you->pos(), weap );
         if( you->is_avatar() ) {
@@ -2829,7 +2832,7 @@ void player_hit_message( Character *attacker, const std::string &message,
 
 int Character::attack_speed( const item &weap ) const
 {
-    const int base_move_cost = weap.attack_time() / 2;
+    const int base_move_cost = weap.attack_time( *this ) / 2;
     const int melee_skill = has_active_bionic( bionic_id( bio_cqb ) ) ? BIO_CQB_LEVEL : get_skill_level(
                                 skill_melee );
     /** @EFFECT_MELEE increases melee attack speed */

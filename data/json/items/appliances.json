@@ -239,7 +239,7 @@
     "max_charges": 3,
     "initial_charges": 3,
     "use_action": [ "CABLE_ATTACH" ],
-    "flags": [ "CABLE_SPOOL", "POWER_CORD" ]
+    "flags": [ "CABLE_SPOOL", "POWER_CORD", "SINGLE_USE" ]
   },
   {
     "type": "GENERIC",
@@ -253,7 +253,7 @@
     "longest_side": "170 cm",
     "bashing": 5,
     "price": 9000,
-    "price_postapoc": 5000,
+    "price_postapoc": 500,
     "symbol": "L",
     "color": "white",
     "looks_like": "f_floor_lamp"
@@ -270,7 +270,7 @@
     "longest_side": "170 cm",
     "bashing": 5,
     "price": 90000,
-    "price_postapoc": 500,
+    "price_postapoc": 1500,
     "symbol": "F",
     "color": "white"
   },
@@ -325,7 +325,7 @@
     "type": "GENERIC",
     "category": "other",
     "id": "compact_ASRG_containment",
-    "name": { "str_sp": "Compact Advanced Sterling Radioisotope Generator" },
+    "name": { "str_sp": "Compact Advanced Stirling Radioisotope Generator" },
     "looks_like": "t_plut_generator",
     "description": "A really heavy brick of metal housing an ASRG, formerly used by NASA and repurposed by the military.  Will provide about 130w, basically forever as far as you're concerned.  Should be safe due to the large amount of shielding.  Although these were designed for spacecraft, the sheer amount of armor plating and lead means it is much more massive, so you probably shouldn't try to power a vehicle with it.",
     "weight": "400 kg",
@@ -336,7 +336,7 @@
     "bashing": 5,
     "//": "I don't know how much these were worth pre-Cataclysm but the pu-238 alone is worth about 5-6 million and hundreds of millions were spent on research.  After the apocalypse these should basically be valuable beyond compare though.",
     "price": 1000000000,
-    "price_postapoc": 250000,
+    "price_postapoc": 12000,
     "symbol": "O",
     "color": "green_white",
     "flags": [ "LEAK_DAM", "NO_SALVAGE" ]

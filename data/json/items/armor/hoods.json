@@ -45,7 +45,7 @@
       {
         "material": [ { "type": "budget_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
         "covers": [ "head" ],
-        "coverage": 95,
+        "coverage": 100,
         "encumbrance_modifiers": [ "RESTRICTS_NECK", "WELL_SUPPORTED" ]
       }
     ]
@@ -72,7 +72,7 @@
       {
         "material": [ { "type": "lc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
         "covers": [ "head" ],
-        "coverage": 95,
+        "coverage": 100,
         "encumbrance_modifiers": [ "RESTRICTS_NECK", "WELL_SUPPORTED" ]
       }
     ]
@@ -107,7 +107,7 @@
       {
         "material": [ { "type": "mc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
         "covers": [ "head" ],
-        "coverage": 95,
+        "coverage": 100,
         "encumbrance_modifiers": [ "RESTRICTS_NECK", "WELL_SUPPORTED" ]
       }
     ]
@@ -142,7 +142,7 @@
       {
         "material": [ { "type": "hc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
         "covers": [ "head" ],
-        "coverage": 95,
+        "coverage": 100,
         "encumbrance_modifiers": [ "RESTRICTS_NECK", "WELL_SUPPORTED" ]
       }
     ]
@@ -177,7 +177,7 @@
       {
         "material": [ { "type": "ch_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
         "covers": [ "head" ],
-        "coverage": 95,
+        "coverage": 100,
         "encumbrance_modifiers": [ "RESTRICTS_NECK", "WELL_SUPPORTED" ]
       }
     ]
@@ -212,7 +212,7 @@
       {
         "material": [ { "type": "qt_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
         "covers": [ "head" ],
-        "coverage": 95,
+        "coverage": 100,
         "encumbrance_modifiers": [ "RESTRICTS_NECK", "WELL_SUPPORTED" ]
       }
     ]

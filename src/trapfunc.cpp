@@ -56,8 +56,10 @@ static const flag_id json_flag_UNCONSUMED( "UNCONSUMED" );
 
 static const itype_id itype_bullwhip( "bullwhip" );
 static const itype_id itype_grapnel( "grapnel" );
+static const itype_id itype_grenade_act( "grenade_act" );
 static const itype_id itype_rope_30( "rope_30" );
 
+static const json_character_flag json_flag_INFECTION_IMMUNE( "INFECTION_IMMUNE" );
 static const json_character_flag json_flag_WALL_CLING( "WALL_CLING" );
 static const json_character_flag json_flag_WINGS_1( "WINGS_1" );
 static const json_character_flag json_flag_WINGS_2( "WINGS_2" );
@@ -75,7 +77,6 @@ static const skill_id skill_throw( "throw" );
 
 static const species_id species_ROBOT( "ROBOT" );
 
-static const trait_id trait_INFIMMUNE( "INFIMMUNE" );
 static const trait_id trait_INFRESIST( "INFRESIST" );
 
 
@@ -181,10 +182,11 @@ bool trapfunc::beartrap( const tripoint &p, Creature *c, item * )
         damage_instance d;
         d.add_damage( damage_type::BASH, 12 );
         d.add_damage( damage_type::CUT, 18 );
-        c->deal_damage( nullptr, hit, d );
+        dealt_damage_instance dealt_dmg = c->deal_damage( nullptr, hit, d );
 
         Character *you = dynamic_cast<Character *>( c );
-        if( you != nullptr && !you->has_trait( trait_INFIMMUNE ) ) {
+        if( you != nullptr && !you->has_flag( json_flag_INFECTION_IMMUNE ) &&
+            dealt_dmg.type_damage( damage_type::CUT ) > 0 ) {
             const int chance_in = you->has_trait( trait_INFRESIST ) ? 512 : 128;
             if( one_in( chance_in ) ) {
                 you->add_effect( effect_tetanus, 1_turns, true );
@@ -222,11 +224,13 @@ bool trapfunc::board( const tripoint &, Creature *c, item * )
         z->deal_damage( nullptr, bodypart_id( "foot_r" ), damage_instance( damage_type::CUT, rng( 3,
                         5 ) ) );
     } else {
-        c->deal_damage( nullptr, bodypart_id( "foot_l" ), damage_instance( damage_type::CUT, rng( 6,
-                        10 ) ) );
-        c->deal_damage( nullptr, bodypart_id( "foot_r" ), damage_instance( damage_type::CUT, rng( 6,
-                        10 ) ) );
-        if( !you->has_trait( trait_INFIMMUNE ) ) {
+        dealt_damage_instance dealt_dmg_l = c->deal_damage( nullptr, bodypart_id( "foot_l" ),
+                                            damage_instance( damage_type::CUT, rng( 6, 10 ) ) );
+        dealt_damage_instance dealt_dmg_r = c->deal_damage( nullptr, bodypart_id( "foot_r" ),
+                                            damage_instance( damage_type::CUT, rng( 6, 10 ) ) );
+        int total_cut_dmg = dealt_dmg_l.type_damage( damage_type::CUT ) + dealt_dmg_l.type_damage(
+                                damage_type::CUT );
+        if( !you->has_flag( json_flag_INFECTION_IMMUNE ) && total_cut_dmg > 0 ) {
             const int chance_in = you->has_trait( trait_INFRESIST ) ? 256 : 35;
             if( one_in( chance_in ) ) {
                 you->add_effect( effect_tetanus, 1_turns, true );
@@ -256,15 +260,28 @@ bool trapfunc::caltrops( const tripoint &, Creature *c, item * )
         } else {
             z->moves -= 80;
         }
-        c->deal_damage( nullptr, bodypart_id( "foot_l" ), damage_instance( damage_type::CUT, rng( 9,
+        z->deal_damage( nullptr, bodypart_id( "foot_l" ), damage_instance( damage_type::CUT, rng( 9,
                         15 ) ) );
-        c->deal_damage( nullptr, bodypart_id( "foot_r" ), damage_instance( damage_type::CUT, rng( 9,
+        z->deal_damage( nullptr, bodypart_id( "foot_r" ), damage_instance( damage_type::CUT, rng( 9,
                         15 ) ) );
     } else {
-        c->deal_damage( nullptr, bodypart_id( "foot_l" ), damage_instance( damage_type::CUT, rng( 9,
-                        30 ) ) );
-        c->deal_damage( nullptr, bodypart_id( "foot_r" ), damage_instance( damage_type::CUT, rng( 9,
-                        30 ) ) );
+        dealt_damage_instance dealt_dmg_l = c->deal_damage( nullptr, bodypart_id( "foot_l" ),
+                                            damage_instance( damage_type::CUT, rng( 9,
+                                                    30 ) ) );
+        dealt_damage_instance dealt_dmg_r = c->deal_damage( nullptr, bodypart_id( "foot_r" ),
+                                            damage_instance( damage_type::CUT, rng( 9,
+                                                    30 ) ) );
+
+        const int total_cut_dmg = dealt_dmg_l.type_damage( damage_type::CUT ) + dealt_dmg_l.type_damage(
+                                      damage_type::CUT );
+        Character *you = dynamic_cast<Character *>( c );
+        if( you != nullptr && !you->has_flag( json_flag_INFECTION_IMMUNE ) && total_cut_dmg > 0 ) {
+            const int chance_in = you->has_trait( trait_INFRESIST ) ? 256 : 35;
+            if( one_in( chance_in ) ) {
+                you->add_effect( effect_tetanus, 1_turns, true );
+            }
+        }
+
     }
     c->check_dead_state();
     return true;
@@ -284,9 +301,9 @@ bool trapfunc::caltrops_glass( const tripoint &p, Creature *c, item * )
     monster *z = dynamic_cast<monster *>( c );
     if( z != nullptr ) {
         z->moves -= 80;
-        c->deal_damage( nullptr, bodypart_id( "foot_l" ), damage_instance( damage_type::CUT, rng( 9,
+        z->deal_damage( nullptr, bodypart_id( "foot_l" ), damage_instance( damage_type::CUT, rng( 9,
                         15 ) ) );
-        c->deal_damage( nullptr, bodypart_id( "foot_r" ), damage_instance( damage_type::CUT, rng( 9,
+        z->deal_damage( nullptr, bodypart_id( "foot_r" ), damage_instance( damage_type::CUT, rng( 9,
                         15 ) ) );
     } else {
         c->deal_damage( nullptr, bodypart_id( "foot_l" ), damage_instance( damage_type::CUT, rng( 9,
@@ -664,7 +681,7 @@ bool trapfunc::landmine( const tripoint &p, Creature *c, item * )
         c->add_msg_player_or_npc( m_bad, _( "You trigger a land mine!" ),
                                   _( "<npcname> triggers a land mine!" ) );
     }
-    explosion_handler::explosion( p, 18, 0.5, false, 8 );
+    explosion_handler::explosion( c, p, 18, 0.5, false, 8 );
     get_map().remove_trap( p );
     return true;
 }
@@ -675,7 +692,11 @@ bool trapfunc::boobytrap( const tripoint &p, Creature *c, item * )
         c->add_msg_player_or_npc( m_bad, _( "You trigger a booby trap!" ),
                                   _( "<npcname> triggers a booby trap!" ) );
     }
-    explosion_handler::explosion( p, 18, 0.6, false, 12 );
+
+    item grenade( itype_grenade_act );
+    grenade.active = true;
+    get_map().add_item( p, grenade );
+
     get_map().remove_trap( p );
     return true;
 }
@@ -897,8 +918,10 @@ bool trapfunc::pit_spikes( const tripoint &p, Creature *c, item * )
             }
             you->add_msg_if_player( m_bad, _( "The spikes impale your %s!" ),
                                     body_part_name_accusative( hit ) );
-            you->deal_damage( nullptr, hit, damage_instance( damage_type::CUT, damage ) );
-            if( !you->has_trait( trait_INFIMMUNE ) ) {
+            dealt_damage_instance dealt_dmg = you->deal_damage( nullptr, hit, damage_instance( damage_type::CUT,
+                                              damage ) );
+            if( !you->has_flag( json_flag_INFECTION_IMMUNE ) &&
+                dealt_dmg.type_damage( damage_type::CUT ) > 0 ) {
                 const int chance_in = you->has_trait( trait_INFRESIST ) ? 256 : 35;
                 if( one_in( chance_in ) ) {
                     you->add_effect( effect_tetanus, 1_turns, true );
@@ -985,8 +1008,10 @@ bool trapfunc::pit_glass( const tripoint &p, Creature *c, item * )
             }
             you->add_msg_if_player( m_bad, _( "The glass shards slash your %s!" ),
                                     body_part_name_accusative( hit ) );
-            you->deal_damage( nullptr, hit, damage_instance( damage_type::CUT, damage ) );
-            if( !you->has_trait( trait_INFIMMUNE ) ) {
+            dealt_damage_instance dealt_dmg = you->deal_damage( nullptr, hit, damage_instance( damage_type::CUT,
+                                              damage ) );
+            if( !you->has_flag( json_flag_INFECTION_IMMUNE ) &&
+                dealt_dmg.type_damage( damage_type::CUT ) > 0 ) {
                 const int chance_in = you->has_trait( trait_INFRESIST ) ? 256 : 35;
                 if( one_in( chance_in ) ) {
                     you->add_effect( effect_tetanus, 1_turns, true );
@@ -1257,7 +1282,7 @@ bool trapfunc::ledge( const tripoint &p, Creature *c, item * )
         if( jetpack.ammo_sufficient( you ) ) {
             you->add_msg_player_or_npc( _( "You ignite your %s and use it to break the fall." ),
                                         _( "<npcname> uses their %s to break the fall." ), jetpack.tname() );
-            you->use_charges( jetpack.typeId(), jetpack.type->charges_to_use() );
+            jetpack.activation_consume( 1, you->pos(), you );
         } else {
             you->add_msg_if_player( m_bad,
                                     _( "You attempt to break the fall with your %s but it is out of fuel!" ), jetpack.tname() );
@@ -1338,6 +1363,26 @@ bool trapfunc::temple_toggle( const tripoint &p, Creature *c, item * )
                 }
             }
         }
+
+        // In case we're completely encircled by walls, replace random wall around the player with floor tile
+        std::vector<tripoint> blocked_tiles;
+        for( const tripoint &pnt : here.points_in_radius( p, 1 ) ) {
+            if( here.impassable( pnt ) ) {
+                blocked_tiles.push_back( pnt );
+            }
+        }
+
+        if( blocked_tiles.size() == 8 ) {
+            const tripoint &pnt = random_entry( blocked_tiles );
+            if( here.ter( pnt ) == t_rock_red ) {
+                here.ter_set( pnt, t_floor_red );
+            } else if( here.ter( pnt ) == t_rock_green ) {
+                here.ter_set( pnt, t_floor_green );
+            } else if( here.ter( pnt ) == t_rock_blue ) {
+                here.ter_set( pnt, t_floor_blue );
+            }
+        }
+
         return true;
     }
     return false;

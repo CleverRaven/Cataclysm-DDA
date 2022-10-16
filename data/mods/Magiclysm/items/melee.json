@@ -37,6 +37,7 @@
     "material": [ "orichalcum_metal", "steel", "leather" ],
     "techniques": [ "WBLOCK_2", "PRECISE", "DIVIDE" ],
     "volume": "2500 ml",
+    "weapon_category": [ "MEDIEVAL_SWORDS", "MEDIUM_SWORDS" ],
     "cutting": 45,
     "price": 200000
   },

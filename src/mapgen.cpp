@@ -116,7 +116,6 @@ static const mongroup_id GROUP_LAB_CYBORG( "GROUP_LAB_CYBORG" );
 static const mongroup_id GROUP_LAB_SECURITY( "GROUP_LAB_SECURITY" );
 static const mongroup_id GROUP_NETHER( "GROUP_NETHER" );
 static const mongroup_id GROUP_ROBOT_SECUBOT( "GROUP_ROBOT_SECUBOT" );
-static const mongroup_id GROUP_SEWER( "GROUP_SEWER" );
 static const mongroup_id GROUP_SLIME( "GROUP_SLIME" );
 static const mongroup_id GROUP_TURRET( "GROUP_TURRET" );
 
@@ -160,8 +159,6 @@ static const oter_str_id oter_sewer_wn( "sewer_wn" );
 static const oter_str_id oter_slimepit( "slimepit" );
 static const oter_str_id oter_slimepit_bottom( "slimepit_bottom" );
 static const oter_str_id oter_slimepit_down( "slimepit_down" );
-static const oter_str_id oter_temple_finale( "temple_finale" );
-static const oter_str_id oter_temple_stairs( "temple_stairs" );
 static const oter_str_id oter_tower_lab( "tower_lab" );
 static const oter_str_id oter_tower_lab_finale( "tower_lab_finale" );
 static const oter_str_id oter_tower_lab_stairs( "tower_lab_stairs" );
@@ -169,8 +166,6 @@ static const oter_str_id oter_tower_lab_stairs( "tower_lab_stairs" );
 static const oter_type_str_id oter_type_road( "road" );
 static const oter_type_str_id oter_type_sewer( "sewer" );
 static const oter_type_str_id oter_type_subway( "subway" );
-
-static const relic_procgen_id relic_procgen_data_cult( "cult" );
 
 static const trait_id trait_NPC_STATIC_NPC( "NPC_STATIC_NPC" );
 
@@ -616,10 +611,9 @@ load_mapgen_function( const JsonObject &jio, const std::string &id_base, const p
             jio.throw_error( R"(mapgen with method "json" must define key "object")" );
         }
         JsonObject jo = jio.get_object( "object" );
-        const json_source_location jsrc = jo.get_source_location();
         jo.allow_omitted_members();
         return std::make_shared<mapgen_function_json>(
-                   jsrc, mgweight, "mapgen " + id_base, offset, total );
+                   jo, mgweight, "mapgen " + id_base, offset, total );
     } else {
         jio.throw_error_at( "method", R"(invalid value: must be "builtin" or "json")" );
     }
@@ -641,11 +635,10 @@ static void load_nested_mapgen( const JsonObject &jio, const nested_mapgen_id &i
         if( jio.has_object( "object" ) ) {
             int weight = jio.get_int( "weight", 1000 );
             JsonObject jo = jio.get_object( "object" );
-            const json_source_location jsrc = jo.get_source_location();
             jo.allow_omitted_members();
             nested_mapgens[id_base].add(
                 std::make_shared<mapgen_function_json_nested>(
-                    jsrc, "nested mapgen " + id_base.str() ),
+                    jo, "nested mapgen " + id_base.str() ),
                 weight );
         } else {
             debugmsg( "Nested mapgen: Invalid mapgen function (missing \"object\" object)", id_base.c_str() );
@@ -662,11 +655,10 @@ static void load_update_mapgen( const JsonObject &jio, const update_mapgen_id &i
     if( mgtype == "json" ) {
         if( jio.has_object( "object" ) ) {
             JsonObject jo = jio.get_object( "object" );
-            const json_source_location jsrc = jo.get_source_location();
             jo.allow_omitted_members();
             update_mapgens[id_base].add(
                 std::make_unique<update_mapgen_function_json>(
-                    jsrc, "update mapgen " + id_base.str() ) );
+                    jo, "update mapgen " + id_base.str() ) );
         } else {
             debugmsg( "Update mapgen: Invalid mapgen function (missing \"object\" object)",
                       id_base.c_str() );
@@ -789,22 +781,23 @@ bool mapgen_function_json_base::check_inbounds( const jmapgen_int &x, const jmap
 }
 
 mapgen_function_json_base::mapgen_function_json_base(
-    const json_source_location &jsrcloc, const std::string &context )
-    : jsrcloc( jsrcloc )
+    const JsonObject &jsobj, const std::string &context )
+    : jsobj( jsobj )
     , context_( context )
     , is_ready( false )
     , mapgensize( SEEX * 2, SEEY * 2 )
     , total_size( mapgensize )
     , objects( m_offset, mapgensize, total_size )
 {
+    jsobj.allow_omitted_members();
 }
 
 mapgen_function_json_base::~mapgen_function_json_base() = default;
 
-mapgen_function_json::mapgen_function_json( const json_source_location &jsrcloc, const int w,
+mapgen_function_json::mapgen_function_json( const JsonObject &jsobj, const int w,
         const std::string &context, const point &grid_offset, const point &grid_total )
     : mapgen_function( w )
-    , mapgen_function_json_base( jsrcloc, context )
+    , mapgen_function_json_base( jsobj, context )
     , fill_ter( t_null )
     , rotation( 0 )
     , fallback_predecessor_mapgen_( oter_str_id::NULL_ID() )
@@ -817,8 +810,8 @@ mapgen_function_json::mapgen_function_json( const json_source_location &jsrcloc,
 }
 
 mapgen_function_json_nested::mapgen_function_json_nested(
-    const json_source_location &jsrcloc, const std::string &context )
-    : mapgen_function_json_base( jsrcloc, context )
+    const JsonObject &jsobj, const std::string &context )
+    : mapgen_function_json_base( jsobj, context )
     , rotation( 0 )
 {
 }
@@ -829,7 +822,7 @@ jmapgen_int::jmapgen_int( const JsonObject &jo, const std::string &tag )
 {
     if( jo.has_array( tag ) ) {
         JsonArray sparray = jo.get_array( tag );
-        if( sparray.size() < 1 || sparray.size() > 2 ) {
+        if( sparray.empty() || sparray.size() > 2 ) {
             jo.throw_error_at( tag, "invalid data: must be an array of 1 or 2 values" );
         }
         val = sparray.get_int( 0 );
@@ -853,7 +846,7 @@ jmapgen_int::jmapgen_int( const JsonObject &jo, const std::string &tag, const in
         if( sparray.size() > 2 ) {
             jo.throw_error_at( tag, "invalid data: must be an array of 1 or 2 values" );
         }
-        if( sparray.size() >= 1 ) {
+        if( !sparray.empty() ) {
             val = sparray.get_int( 0 );
         }
         if( sparray.size() >= 2 ) {
@@ -2821,7 +2814,7 @@ class jmapgen_ter_furn_transform: public jmapgen_piece
             if( chosen_id.is_null() ) {
                 return;
             }
-            chosen_id->transform( dat.m, tripoint( x.get(), y.get(), dat.m.get_abs_sub().z() ) );
+            chosen_id->transform( dat.m, tripoint_bub_ms( x.get(), y.get(), dat.m.get_abs_sub().z() ) );
         }
 
         void check( const std::string &oter_name, const mapgen_parameters &parameters,
@@ -3693,7 +3686,7 @@ void load_place_mapings_alternatively(
                 // Test if this is a string or object, and then just emplace it.
                 if( piece_and_count_jarr.test_string() || piece_and_count_jarr.test_object() ) {
                     try {
-                        alter->alternatives.emplace_back( piece_and_count_jarr.next() );
+                        alter->alternatives.emplace_back( piece_and_count_jarr.next_value() );
                     } catch( const std::runtime_error &err ) {
                         piece_and_count_jarr.throw_error( err.what() );
                     }
@@ -4111,17 +4104,10 @@ void mapgen_function_json_base::setup_common()
     if( is_ready ) {
         return;
     }
-    if( !jsrcloc.path ) {
-        debugmsg( "null json source location path" );
-        return;
-    }
-    shared_ptr_fast<std::istream> stream = DynamicDataLoader::get_instance().get_cached_stream(
-            *jsrcloc.path );
-    JsonIn jsin( *stream, jsrcloc );
-    JsonObject jo = jsin.get_object();
+    JsonObject jo = jsobj;
     mapgen_defer::defer = false;
     if( !setup_common( jo ) ) {
-        jsin.error( "format: no terrain map" );
+        jo.throw_error( "format: no terrain map" );
     }
     if( mapgen_defer::defer ) {
         mapgen_defer::jsi.throw_error_at( mapgen_defer::member, mapgen_defer::message );
@@ -4921,8 +4907,6 @@ void map::draw_map( mapgendata &dat )
         if( is_ot_match( "slimepit", terrain_type, ot_match_type::prefix ) ||
             is_ot_match( "slime_pit", terrain_type, ot_match_type::prefix ) ) {
             draw_slimepit( dat );
-        } else if( is_ot_match( "temple", terrain_type, ot_match_type::prefix ) ) {
-            draw_temple( dat );
         } else if( is_ot_match( "lab", terrain_type, ot_match_type::contains ) ) {
             draw_lab( dat );
         } else {
@@ -4973,11 +4957,11 @@ void map::draw_lab( mapgendata &dat )
         tower_lab = is_ot_match( "tower_lab", terrain_type, ot_match_type::prefix );
 
         if( ice_lab ) {
-            int temperature = -20 + 30 * dat.zlevel();
-            set_temperature( p2, temperature );
-            set_temperature( p2 + point( SEEX, 0 ), temperature );
-            set_temperature( p2 + point( 0, SEEY ), temperature );
-            set_temperature( p2 + point( SEEX, SEEY ), temperature );
+            units::temperature temperature = units::from_kelvin( -11.111 + 16.666 * dat.zlevel() );
+            set_temperature_mod( p2, temperature );
+            set_temperature_mod( p2 + point( SEEX, 0 ), temperature );
+            set_temperature_mod( p2 + point( 0, SEEY ), temperature );
+            set_temperature_mod( p2 + point( SEEX, SEEY ), temperature );
         }
 
         // Check for adjacent sewers; used below
@@ -5661,11 +5645,11 @@ void map::draw_lab( mapgendata &dat )
         tower_lab = is_ot_match( "tower_lab", terrain_type, ot_match_type::prefix );
 
         if( ice_lab ) {
-            int temperature = -20 + 30 * dat.zlevel();
-            set_temperature( p2, temperature );
-            set_temperature( p2 + point( SEEX, 0 ), temperature );
-            set_temperature( p2 + point( 0, SEEY ), temperature );
-            set_temperature( p2 + point( SEEX, SEEY ), temperature );
+            units::temperature temperature = units::from_kelvin( -11.111 + 16.666 * dat.zlevel() );
+            set_temperature_mod( p2, temperature );
+            set_temperature_mod( p2 + point( SEEX, 0 ), temperature );
+            set_temperature_mod( p2 + point( 0, SEEY ), temperature );
+            set_temperature_mod( p2 + point( SEEX, SEEY ), temperature );
         }
 
         tw = is_ot_match( "lab", dat.north(), ot_match_type::contains ) ? 0 : 2;
@@ -5960,255 +5944,6 @@ void map::draw_lab( mapgendata &dat )
     }
 }
 
-void map::draw_temple( const mapgendata &dat )
-{
-    const oter_id &terrain_type = dat.terrain_type();
-    if( terrain_type == oter_temple_stairs ) {
-        if( dat.zlevel() == 0 ) {
-            // Ground floor
-            // TODO: More varieties?
-            fill_background( this, t_dirt );
-            square( this, t_grate, point( SEEX - 1, SEEY - 1 ), point( SEEX, SEEX ) );
-            ter_set( point( SEEX + 1, SEEY + 1 ), t_pedestal_temple );
-        } else {
-            // Underground!  Shit's about to get interesting!
-            // Start with all rock floor
-            square( this, t_rock_floor, point_zero, point( EAST_EDGE, SOUTH_EDGE ) );
-            // We always start at the south and go north.
-            // We use (y / 2 + z) % 4 to guarantee that rooms don't repeat.
-            switch( 1 + std::abs( abs_sub.y() / 2 + dat.zlevel() + 4 ) % 4 ) { // TODO: More varieties!
-
-                case 1:
-                    // Flame bursts
-                    square( this, t_rock, point_zero, point( SEEX - 1, SOUTH_EDGE ) );
-                    square( this, t_rock, point( SEEX + 2, 0 ), point( EAST_EDGE, SOUTH_EDGE ) );
-                    for( int i = 2; i < SEEY * 2 - 4; i++ ) {
-                        add_field( tripoint_bub_ms{SEEX, i, abs_sub.z()}, fd_fire_vent, rng( 1, 3 ) );
-                        add_field( tripoint_bub_ms{SEEX + 1, i, abs_sub.z()}, fd_fire_vent, rng( 1, 3 ) );
-                    }
-                    break;
-
-                case 2:
-                    // Spreading water
-                    square( this, t_water_dp, point( 4, 4 ), point( 5, 5 ) );
-                    // replaced mon_sewer_snake spawn with GROUP_SEWER
-                    // Decide whether a group of only sewer snakes be made, probably not worth it
-                    place_spawns( GROUP_SEWER, 1, point( 4, 4 ), point( 4, 4 ), 1, true );
-
-                    square( this, t_water_dp, point( SEEX * 2 - 5, 4 ), point( SEEX * 2 - 4, 6 ) );
-                    place_spawns( GROUP_SEWER, 1, point( 1, SEEX * 2 - 5 ), point( 1, SEEX * 2 - 5 ), 1, true );
-
-                    square( this, t_water_dp, point( 4, SEEY * 2 - 5 ), point( 6, SEEY * 2 - 4 ) );
-
-                    square( this, t_water_dp, point( SEEX * 2 - 5, SEEY * 2 - 5 ), point( SEEX * 2 - 4,
-                            SEEY * 2 - 4 ) );
-
-                    square( this, t_rock, point( 0, SEEY * 2 - 2 ), point( SEEX - 1, SOUTH_EDGE ) );
-                    square( this, t_rock, point( SEEX + 2, SEEY * 2 - 2 ), point( EAST_EDGE, SOUTH_EDGE ) );
-                    line( this, t_grate, point( SEEX, 1 ), point( SEEX + 1, 1 ) ); // To drain the water
-                    mtrap_set( this, point( SEEX, SEEY * 2 - 2 ), tr_temple_flood );
-                    mtrap_set( this, point( SEEX + 1, SEEY * 2 - 2 ), tr_temple_flood );
-                    for( int y = 2; y < SEEY * 2 - 2; y++ ) {
-                        for( int x = 2; x < SEEX * 2 - 2; x++ ) {
-                            if( ter( point( x, y ) ) == t_rock_floor && one_in( 4 ) ) {
-                                mtrap_set( this, point( x, y ), tr_temple_flood );
-                            }
-                        }
-                    }
-                    break;
-
-                case 3: { // Flipping walls puzzle
-                    line( this, t_rock, point_zero, point( SEEX - 1, 0 ) );
-                    line( this, t_rock, point( SEEX + 2, 0 ), point( EAST_EDGE, 0 ) );
-                    line( this, t_rock, point( SEEX - 1, 1 ), point( SEEX - 1, 6 ) );
-                    line( this, t_bars, point( SEEX + 2, 1 ), point( SEEX + 2, 6 ) );
-                    ter_set( point( 14, 1 ), t_switch_rg );
-                    ter_set( point( 15, 1 ), t_switch_gb );
-                    ter_set( point( 16, 1 ), t_switch_rb );
-                    ter_set( point( 17, 1 ), t_switch_even );
-                    // Start with clear floors--then work backwards to the starting state
-                    line( this, t_floor_red,   point( SEEX, 1 ), point( SEEX + 1, 1 ) );
-                    line( this, t_floor_green, point( SEEX, 2 ), point( SEEX + 1, 2 ) );
-                    line( this, t_floor_blue,  point( SEEX, 3 ), point( SEEX + 1, 3 ) );
-                    line( this, t_floor_red,   point( SEEX, 4 ), point( SEEX + 1, 4 ) );
-                    line( this, t_floor_green, point( SEEX, 5 ), point( SEEX + 1, 5 ) );
-                    line( this, t_floor_blue,  point( SEEX, 6 ), point( SEEX + 1, 6 ) );
-                    // Now, randomly choose actions
-                    // Set up an actions vector so that there's not undue repetition
-                    std::vector<int> actions;
-                    actions.push_back( 1 );
-                    actions.push_back( 2 );
-                    actions.push_back( 3 );
-                    actions.push_back( 4 );
-                    actions.push_back( rng( 1, 3 ) );
-                    while( !actions.empty() ) {
-                        const int action = random_entry_removed( actions );
-                        for( int y = 1; y < 7; y++ ) {
-                            for( int x = SEEX; x <= SEEX + 1; x++ ) {
-                                switch( action ) {
-                                    case 1:
-                                        // Toggle RG
-                                        if( ter( point( x, y ) ) == t_floor_red ) {
-                                            ter_set( point( x, y ), t_rock_red );
-                                        } else if( ter( point( x, y ) ) == t_rock_red ) {
-                                            ter_set( point( x, y ), t_floor_red );
-                                        } else if( ter( point( x, y ) ) == t_floor_green ) {
-                                            ter_set( point( x, y ), t_rock_green );
-                                        } else if( ter( point( x, y ) ) == t_rock_green ) {
-                                            ter_set( point( x, y ), t_floor_green );
-                                        }
-                                        break;
-                                    case 2:
-                                        // Toggle GB
-                                        if( ter( point( x, y ) ) == t_floor_blue ) {
-                                            ter_set( point( x, y ), t_rock_blue );
-                                        } else if( ter( point( x, y ) ) == t_rock_blue ) {
-                                            ter_set( point( x, y ), t_floor_blue );
-                                        } else if( ter( point( x, y ) ) == t_floor_green ) {
-                                            ter_set( point( x, y ), t_rock_green );
-                                        } else if( ter( point( x, y ) ) == t_rock_green ) {
-                                            ter_set( point( x, y ), t_floor_green );
-                                        }
-                                        break;
-                                    case 3:
-                                        // Toggle RB
-                                        if( ter( point( x, y ) ) == t_floor_blue ) {
-                                            ter_set( point( x, y ), t_rock_blue );
-                                        } else if( ter( point( x, y ) ) == t_rock_blue ) {
-                                            ter_set( point( x, y ), t_floor_blue );
-                                        } else if( ter( point( x, y ) ) == t_floor_red ) {
-                                            ter_set( point( x, y ), t_rock_red );
-                                        } else if( ter( point( x, y ) ) == t_rock_red ) {
-                                            ter_set( point( x, y ), t_floor_red );
-                                        }
-                                        break;
-                                    case 4:
-                                        // Toggle Even
-                                        if( y % 2 == 0 ) {
-                                            if( ter( point( x, y ) ) == t_floor_blue ) {
-                                                ter_set( point( x, y ), t_rock_blue );
-                                            } else if( ter( point( x, y ) ) == t_rock_blue ) {
-                                                ter_set( point( x, y ), t_floor_blue );
-                                            } else if( ter( point( x, y ) ) == t_floor_red ) {
-                                                ter_set( point( x, y ), t_rock_red );
-                                            } else if( ter( point( x, y ) ) == t_rock_red ) {
-                                                ter_set( point( x, y ), t_floor_red );
-                                            } else if( ter( point( x, y ) ) == t_floor_green ) {
-                                                ter_set( point( x, y ), t_rock_green );
-                                            } else if( ter( point( x, y ) ) == t_rock_green ) {
-                                                ter_set( point( x, y ), t_floor_green );
-                                            }
-                                        }
-                                        break;
-                                }
-                            }
-                        }
-                    }
-                }
-                break;
-
-                case 4: { // Toggling walls maze
-                    square( this, t_rock, point_zero, point( SEEX     - 1, 1 ) );
-                    square( this, t_rock, point( 0, SEEY * 2 - 2 ), point( SEEX     - 1, SOUTH_EDGE ) );
-                    square( this, t_rock, point( 0, 2 ), point( SEEX     - 4, SEEY * 2 - 3 ) );
-                    square( this, t_rock, point( SEEX + 2, 0 ), point( EAST_EDGE, 1 ) );
-                    square( this, t_rock, point( SEEX + 2, SEEY * 2 - 2 ), point( EAST_EDGE, SOUTH_EDGE ) );
-                    square( this, t_rock, point( SEEX + 5, 2 ), point( EAST_EDGE, SEEY * 2 - 3 ) );
-                    point p2( rng( SEEX - 1, SEEX + 2 ), 2 );
-                    std::vector<point> path; // Path, from end to start
-                    while( p2.x < SEEX - 1 || p2.x > SEEX + 2 || p2.y < SEEY * 2 - 2 ) {
-                        static const std::vector<ter_id> terrains = {
-                            t_floor_red, t_floor_green, t_floor_blue,
-                        };
-                        path.emplace_back( p2 );
-                        ter_set( p2, random_entry( terrains ) );
-                        if( p2.y == SEEY * 2 - 2 ) {
-                            if( p2.x < SEEX - 1 ) {
-                                p2.x++;
-                            } else if( p2.x > SEEX + 2 ) {
-                                p2.x--;
-
-                            }
-                        } else {
-                            std::vector<point> next;
-                            for( int nx = p2.x - 1; nx <= p2.x + 1; nx++ ) {
-                                for( int ny = p2.y; ny <= p2.y + 1; ny++ ) {
-                                    if( ter( point( nx, ny ) ) == t_rock_floor ) {
-                                        next.emplace_back( nx, ny );
-                                    }
-                                }
-                            }
-                            if( next.empty() ) {
-                                break;
-                            } else {
-                                const point p = random_entry( next );
-                                p2.x = p.x;
-                                p2.y = p.y;
-                            }
-                        }
-                    }
-                    // Now go backwards through path (start to finish), toggling any tiles that need
-                    bool toggle_red = false;
-                    bool toggle_green = false;
-                    bool toggle_blue = false;
-                    for( int i = path.size() - 1; i >= 0; i-- ) {
-                        if( ter( path[i] ) == t_floor_red ) {
-                            toggle_green = !toggle_green;
-                            if( toggle_red ) {
-                                ter_set( path[i], t_rock_red );
-                            }
-                        } else if( ter( path[i] ) == t_floor_green ) {
-                            toggle_blue = !toggle_blue;
-                            if( toggle_green ) {
-                                ter_set( path[i], t_rock_green );
-                            }
-                        } else if( ter( path[i] ) == t_floor_blue ) {
-                            toggle_red = !toggle_red;
-                            if( toggle_blue ) {
-                                ter_set( path[i], t_rock_blue );
-                            }
-                        }
-                    }
-                    // Finally, fill in the rest with random tiles, and place toggle traps
-                    for( int i = SEEX - 3; i <= SEEX + 4; i++ ) {
-                        for( int j = 2; j <= SEEY * 2 - 2; j++ ) {
-                            mtrap_set( this, point( i, j ), tr_temple_toggle );
-                            if( ter( point( i, j ) ) == t_rock_floor ) {
-                                static const std::vector<ter_id> terrains = {
-                                    t_rock_red, t_rock_green, t_rock_blue,
-                                    t_floor_red, t_floor_green, t_floor_blue,
-                                };
-                                ter_set( point( i, j ), random_entry( terrains ) );
-                            }
-                        }
-                    }
-                }
-                break;
-            } // Done with room type switch
-            // Stairs down if we need them
-            if( terrain_type == oter_temple_stairs ) {
-                line( this, t_stairs_down, point( SEEX, 0 ), point( SEEX + 1, 0 ) );
-            }
-            // Stairs at the south if dat.above() has stairs down.
-            if( dat.above() == oter_temple_stairs ) {
-                line( this, t_stairs_up, point( SEEX, SOUTH_EDGE ), point( SEEX + 1, SOUTH_EDGE ) );
-            }
-
-        } // Done with underground-only stuff
-    } else if( terrain_type == oter_temple_finale ) {
-        fill_background( this, t_rock );
-        square( this, t_rock_floor, point( SEEX - 1, 1 ), point( SEEX + 2, 4 ) );
-        square( this, t_rock_floor, point( SEEX, 5 ), point( SEEX + 1, SOUTH_EDGE ) );
-        line( this, t_stairs_up, point( SEEX, SOUTH_EDGE ), point( SEEX + 1, SOUTH_EDGE ) );
-        spawn_artifact( tripoint( rng( SEEX, SEEX + 1 ), rng( 2, 3 ), abs_sub.z() ),
-                        relic_procgen_data_cult );
-        spawn_artifact( tripoint( rng( SEEX, SEEX + 1 ), rng( 2, 3 ), abs_sub.z() ),
-                        relic_procgen_data_cult );
-        return;
-
-    }
-}
-
 void map::draw_slimepit( const mapgendata &dat )
 {
     const oter_id &terrain_type = dat.terrain_type();
@@ -6374,7 +6109,7 @@ void map::draw_connections( const mapgendata &dat )
     // finally, any terrain with SIDEWALKS should contribute sidewalks to neighboring diagonal roads
     if( terrain_type->has_flag( oter_flags::has_sidewalk ) ) {
         for( int dir = 4; dir < 8; dir++ ) { // NE SE SW NW
-            bool n_roads_nesw[4] = {};
+            std::array<bool, 4> n_roads_nesw = {};
             int n_num_dirs = terrain_type_to_nesw_array( oter_id( dat.t_nesw[dir] ), n_roads_nesw );
             // only handle diagonal neighbors
             if( n_num_dirs == 2 &&
@@ -7696,8 +7431,8 @@ void add_corpse( map *m, const point &p )
 
 //////////////////// mapgen update
 update_mapgen_function_json::update_mapgen_function_json(
-    const json_source_location &jsrcloc, const std::string &context ) :
-    mapgen_function_json_base( jsrcloc, context )
+    const JsonObject &jsobj, const std::string &context ) :
+    mapgen_function_json_base( jsobj, context )
 {
 }
 
@@ -7802,7 +7537,7 @@ mapgen_update_func add_mapgen_update_func( const JsonObject &jo, bool &defer )
         return update_function;
     }
 
-    update_mapgen_function_json json_data( json_source_location {},
+    update_mapgen_function_json json_data( {},
                                            "unknown object in add_mapgen_update_func" );
     mapgen_defer::defer = defer;
     if( !json_data.setup_update( jo ) ) {

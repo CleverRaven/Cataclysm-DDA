@@ -174,7 +174,7 @@ std::string enum_to_string<ter_furn_flag>( ter_furn_flag data )
         case ter_furn_flag::TFLAG_HARVESTED: return "HARVESTED";
         case ter_furn_flag::TFLAG_PERMEABLE: return "PERMEABLE";
         case ter_furn_flag::TFLAG_AUTO_WALL_SYMBOL: return "AUTO_WALL_SYMBOL";
-        case ter_furn_flag::TFLAG_CONNECT_TO_WALL: return "CONNECT_TO_WALL";
+        case ter_furn_flag::TFLAG_CONNECT_WITH_WALL: return "CONNECT_WITH_WALL";
         case ter_furn_flag::TFLAG_CLIMBABLE: return "CLIMBABLE";
         case ter_furn_flag::TFLAG_GOES_DOWN: return "GOES_DOWN";
         case ter_furn_flag::TFLAG_GOES_UP: return "GOES_UP";
@@ -266,30 +266,59 @@ std::string enum_to_string<ter_furn_flag>( ter_furn_flag data )
 
 } // namespace io
 
-static const std::unordered_map<std::string, ter_connects> ter_connects_map = { {
-        { "WALL",                     TERCONN_WALL },         // implied by ter_furn_flag::TFLAG_CONNECT_TO_WALL, ter_furn_flag::TFLAG_AUTO_WALL_SYMBOL or ter_furn_flag::TFLAG_WALL
-        { "CHAINFENCE",               TERCONN_CHAINFENCE },
-        { "WOODFENCE",                TERCONN_WOODFENCE },
-        { "RAILING",                  TERCONN_RAILING },
-        { "WATER",                    TERCONN_WATER },
-        { "POOLWATER",                TERCONN_POOLWATER },
-        { "PAVEMENT",                 TERCONN_PAVEMENT },
-        { "RAIL",                     TERCONN_RAIL },
-        { "COUNTER",                  TERCONN_COUNTER },
-        { "CANVAS_WALL",              TERCONN_CANVAS_WALL },
-        { "SAND",                     TERCONN_SAND },
-        { "PIT_DEEP",                 TERCONN_PIT_DEEP },
-        { "LINOLEUM",                 TERCONN_LINOLEUM },
-        { "CARPET",                   TERCONN_CARPET },
-        { "CONCRETE",                 TERCONN_CONCRETE },
-        { "CLAY",                     TERCONN_CLAY },
-        { "DIRT",                     TERCONN_DIRT },
-        { "ROCKFLOOR",                TERCONN_ROCKFLOOR },
-        { "MULCHFLOOR",               TERCONN_MULCHFLOOR },
-        { "METALFLOOR",               TERCONN_METALFLOOR },
-        { "WOODFLOOR",               TERCONN_WOODFLOOR },
+static std::unordered_map<std::string, connect_group> ter_connects_map;
+
+connect_group get_connect_group( const std::string &name )
+{
+    return ter_connects_map[name];
+}
+
+void connect_group::load( const JsonObject &jo )
+{
+
+    connect_group result;
+
+    result.id = connect_group_id( jo.get_string( "id" ) );
+    result.index = ter_connects_map.find( result.id.str() ) == ter_connects_map.end() ?
+                   ter_connects_map.size() : ter_connects_map[result.id.str()].index;
+    // Check index overflow for bitsets
+    if( result.index >= NUM_TERCONN ) {
+        debugmsg( "Exceeded current maximum of %d connection groups.  Increase NUM_TERCONN to allow for more groups!",
+                  NUM_TERCONN );
+        return;
     }
-};
+
+    if( jo.has_string( "group_flags" ) || jo.has_array( "group_flags" ) ) {
+        const std::vector<std::string> str_flags = jo.get_as_string_array( "group_flags" );
+        for( const std::string &flag : str_flags ) {
+            const ter_furn_flag f = io::string_to_enum<ter_furn_flag>( flag );
+            result.group_flags.insert( f );
+        }
+    }
+
+    if( jo.has_string( "connects_to_flags" ) || jo.has_array( "connects_to_flags" ) ) {
+        const std::vector<std::string> str_flags = jo.get_as_string_array( "connects_to_flags" );
+        for( const std::string &flag : str_flags ) {
+            const ter_furn_flag f = io::string_to_enum<ter_furn_flag>( flag );
+            result.connects_to_flags.insert( f );
+        }
+    }
+
+    if( jo.has_string( "rotates_to_flags" ) || jo.has_array( "rotates_to_flags" ) ) {
+        const std::vector<std::string> str_flags = jo.get_as_string_array( "rotates_to_flags" );
+        for( const std::string &flag : str_flags ) {
+            const ter_furn_flag f = io::string_to_enum<ter_furn_flag>( flag );
+            result.rotates_to_flags.insert( f );
+        }
+    }
+
+    ter_connects_map[ result.id.str() ] = result;
+}
+
+void connect_group::reset()
+{
+    ter_connects_map.clear();
+}
 
 static void load_map_bash_tent_centers( const JsonArray &ja, std::vector<furn_str_id> &centers )
 {
@@ -626,9 +655,17 @@ void map_data_common_t::extraprocess_flags( const ter_furn_flag flag )
     if( !transparent && flag == ter_furn_flag::TFLAG_TRANSPARENT ) {
         transparent = true;
     }
-    // wall connection check for JSON backwards compatibility
-    if( flag == ter_furn_flag::TFLAG_WALL || flag == ter_furn_flag::TFLAG_CONNECT_TO_WALL ) {
-        set_connects( "WALL" );
+
+    for( std::pair<const std::string, connect_group> &item : ter_connects_map ) {
+        if( item.second.group_flags.find( flag ) != item.second.group_flags.end() ) {
+            set_connect_groups( { item.second.id.str() } );
+        }
+        if( item.second.connects_to_flags.find( flag ) != item.second.connects_to_flags.end() ) {
+            set_connects_to( { item.second.id.str() } );
+        }
+        if( item.second.rotates_to_flags.find( flag ) != item.second.rotates_to_flags.end() ) {
+            set_rotates_to( { item.second.id.str() } );
+        }
     }
 }
 
@@ -649,23 +686,47 @@ void map_data_common_t::set_flag( const ter_furn_flag flag )
     extraprocess_flags( flag );
 }
 
-void map_data_common_t::set_connects( const std::string &connect_group_string )
+void map_data_common_t::set_connect_groups( const std::vector<std::string>
+        &connect_groups_vec )
 {
-    const auto it = ter_connects_map.find( connect_group_string );
-    if( it != ter_connects_map.end() ) {
-        connect_group = it->second;
-    } else { // arbitrary connect groups are a bad idea for optimization reasons
-        debugmsg( "can't find terrain connection group %s", connect_group_string.c_str() );
-    }
+    set_groups( connect_groups, connect_groups_vec );
 }
 
-bool map_data_common_t::connects( int &ret ) const
+void map_data_common_t::set_connects_to( const std::vector<std::string> &connect_groups_vec )
 {
-    if( connect_group != TERCONN_NONE ) {
-        ret = connect_group;
-        return true;
+    set_groups( connect_to_groups, connect_groups_vec );
+}
+
+void map_data_common_t::set_rotates_to( const std::vector<std::string> &connect_groups_vec )
+{
+    set_groups( rotate_to_groups, connect_groups_vec );
+}
+
+void map_data_common_t::set_groups( std::bitset<NUM_TERCONN> &bits,
+                                    const std::vector<std::string> &connect_groups_vec )
+{
+    for( const std::string &group : connect_groups_vec ) {
+        if( group.empty() ) {
+            debugmsg( "Can't use empty string for terrain groups" );
+            continue;
+        }
+        std::string grp = group;
+        bool remove = false;
+        if( grp.at( 0 ) == '~' ) {
+            grp = grp.substr( 1 );
+            remove = true;
+        }
+        const auto it = ter_connects_map.find( grp );
+        if( it != ter_connects_map.end() ) {
+            if( remove ) {
+                bits.reset( it->second.index );
+            } else {
+                bits.set( it->second.index );
+            }
+        } else {
+            debugmsg( "can't find terrain group %s", group.c_str() );
+        }
     }
-    return false;
 }
 
 ter_id t_null,
@@ -811,6 +872,7 @@ void set_ter_ids()
     t_pit_glass_covered = ter_id( "t_pit_glass_covered" );
     t_rock_floor = ter_id( "t_rock_floor" );
     t_grass = ter_id( "t_grass" );
+    t_grass_dead = ter_id( "t_grass_dead" );
     t_grass_long = ter_id( "t_grass_long" );
     t_grass_tall = ter_id( "t_grass_tall" );
     t_moss = ter_id( "t_moss" );
@@ -1151,7 +1213,7 @@ furn_id f_null, f_clear,
         f_tourist_table,
         f_camp_chair,
         f_sign,
-        f_street_light, f_traffic_light,
+        f_street_light, f_traffic_light, f_flagpole, f_wooden_flagpole,
         f_console, f_console_broken;
 
 void set_furn_ids()
@@ -1267,6 +1329,8 @@ void set_furn_ids()
     f_gun_safe_el = furn_id( "f_gun_safe_el" );
     f_street_light = furn_id( "f_street_light" );
     f_traffic_light = furn_id( "f_traffic_light" );
+    f_flagpole = furn_id( "f_flagpole" );
+    f_wooden_flagpole = furn_id( "f_wooden_flagpole" );
     f_console_broken = furn_id( "f_console_broken" );
     f_console = furn_id( "f_console" );
 }
@@ -1380,16 +1444,24 @@ void ter_t::load( const JsonObject &jo, const std::string &src )
 
     trap = tr_null;
     transparent = false;
-    connect_group = TERCONN_NONE;
+    connect_groups.reset();
+    connect_to_groups.reset();
+    rotate_to_groups.reset();
 
     for( auto &flag : jo.get_string_array( "flags" ) ) {
         set_flag( flag );
     }
-    // connect_group is initialized to none, then terrain flags are set, then finally
+    // connect_to_groups is initialized to none, then terrain flags are set, then finally
     // connections from JSON are set. This is so that wall flags can set wall connections
     // but can be overridden by explicit connections in JSON.
+    if( jo.has_member( "connect_groups" ) ) {
+        set_connect_groups( jo.get_as_string_array( "connect_groups" ) );
+    }
     if( jo.has_member( "connects_to" ) ) {
-        set_connects( jo.get_string( "connects_to" ) );
+        set_connects_to( jo.get_as_string_array( "connects_to" ) );
+    }
+    if( jo.has_member( "rotates_to" ) ) {
+        set_rotates_to( jo.get_as_string_array( "rotates_to" ) );
     }
 
     optional( jo, was_loaded, "allowed_template_ids", allowed_template_id );
@@ -1550,13 +1622,22 @@ void furn_t::load( const JsonObject &jo, const std::string &src )
     optional( jo, was_loaded, "light_emitted", light_emitted );
 
     // see the comment in ter_id::load for connect_group handling
-    connect_group = TERCONN_NONE;
+    connect_groups.reset();
+    connect_to_groups.reset();
+    rotate_to_groups.reset();
+
     for( auto &flag : jo.get_string_array( "flags" ) ) {
         set_flag( flag );
     }
 
+    if( jo.has_member( "connect_groups" ) ) {
+        set_connect_groups( jo.get_as_string_array( "connect_groups" ) );
+    }
     if( jo.has_member( "connects_to" ) ) {
-        set_connects( jo.get_string( "connects_to" ) );
+        set_connects_to( jo.get_as_string_array( "connects_to" ) );
+    }
+    if( jo.has_member( "rotates_to" ) ) {
+        set_rotates_to( jo.get_as_string_array( "rotates_to" ) );
     }
 
     optional( jo, was_loaded, "open", open, string_id_reader<furn_t> {}, furn_str_id::NULL_ID() );

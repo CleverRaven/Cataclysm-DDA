@@ -111,7 +111,6 @@ static const activity_id ACT_BUTCHER( "ACT_BUTCHER" );
 static const activity_id ACT_BUTCHER_FULL( "ACT_BUTCHER_FULL" );
 static const activity_id ACT_CONSUME_DRINK_MENU( "ACT_CONSUME_DRINK_MENU" );
 static const activity_id ACT_CONSUME_FOOD_MENU( "ACT_CONSUME_FOOD_MENU" );
-static const activity_id ACT_CONSUME_FUEL_MENU( "ACT_CONSUME_FUEL_MENU" );
 static const activity_id ACT_CONSUME_MEDS_MENU( "ACT_CONSUME_MEDS_MENU" );
 static const activity_id ACT_DISMEMBER( "ACT_DISMEMBER" );
 static const activity_id ACT_DISSECT( "ACT_DISSECT" );
@@ -241,7 +240,6 @@ activity_handlers::do_turn_functions = {
     { ACT_CONSUME_FOOD_MENU, consume_food_menu_do_turn },
     { ACT_CONSUME_DRINK_MENU, consume_drink_menu_do_turn },
     { ACT_CONSUME_MEDS_MENU, consume_meds_menu_do_turn },
-    { ACT_CONSUME_FUEL_MENU, consume_fuel_menu_do_turn },
     { ACT_VIEW_RECIPE, view_recipe_do_turn },
     { ACT_MOVE_LOOT, move_loot_do_turn },
     { ACT_ADV_INVENTORY, adv_inventory_do_turn },
@@ -308,7 +306,6 @@ activity_handlers::finish_functions = {
     { ACT_CONSUME_FOOD_MENU, eat_menu_finish },
     { ACT_CONSUME_DRINK_MENU, eat_menu_finish },
     { ACT_CONSUME_MEDS_MENU, eat_menu_finish },
-    { ACT_CONSUME_FUEL_MENU, eat_menu_finish },
     { ACT_VIEW_RECIPE, view_recipe_finish },
     { ACT_WASH, washing_finish },
     { ACT_JACKHAMMER, jackhammer_finish },
@@ -768,7 +765,7 @@ static bool butchery_drops_harvest( item *corpse_item, const mtype &mt, Characte
         for( item *item : corpse_item->all_items_top( item_pocket::pocket_type::CORPSE ) ) {
             dissectable_num++;
             const int skill_level = butchery_dissect_skill_level( you, tool_quality,
-                                    item->dropped_from.value_or( harvest_drop_type_id::NULL_ID() ) );
+                                    item->dropped_from );
             const int butchery = roll_butchery_dissect( skill_level, you.dex_cur, tool_quality );
             dissectable_practice += ( 4 + butchery );
             int roll = butchery - corpse_item->damage_level();
@@ -1307,8 +1304,8 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act, Character *yo
         liquid.charges = std::min( charges_per_second, liquid.charges );
         const int original_charges = liquid.charges;
         if( liquid.has_temperature() && units::to_joule_per_gram( liquid.specific_energy ) < 0 ) {
-            liquid.set_item_temperature( std::max( units::from_fahrenheit( get_weather().get_temperature(
-                    you->pos() ) ), temperatures::cold ) );
+            liquid.set_item_temperature( std::max( get_weather().get_temperature( you->pos() ),
+                                                   temperatures::cold ) );
         }
 
         // 2. Transfer charges.
@@ -1365,6 +1362,11 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act, Character *yo
         switch( source_type ) {
             case liquid_source_type::VEHICLE:
                 if( part_num != -1 ) {
+                    const vehicle_part &pt = source_veh->part( part_num );
+                    if( pt.is_leaking() && !pt.ammo_remaining() ) {
+                        act_ref.set_to_null(); // leaky tank spilled while we were transferring
+                        return;
+                    }
                     source_veh->drain( part_num, removed_charges );
                     liquid.charges = veh_charges - removed_charges;
                     // If there's no liquid left in this tank we're done, otherwise
@@ -1667,7 +1669,7 @@ void activity_handlers::start_fire_finish( player_activity *act, Character *you 
         return;
     }
 
-    it.ammo_consume( it.type->charges_to_use(), tripoint_zero, you );
+    it.activation_consume( 1, you->pos(), you );
 
     you->practice( skill_survival, act->index, 5 );
 
@@ -2188,6 +2190,16 @@ void repair_item_finish( player_activity *act, Character *you, bool no_menu )
         const int old_level = you->get_skill_level( actor->used_skill );
         const repair_item_actor::attempt_hint attempt = actor->repair( *you, *used_tool,
                 fix_location, repeat == repeat_type::REFIT_ONCE || repeat == repeat_type::REFIT_FULL );
+
+        // If the item being repaired has been destroyed stop further
+        // processing in case the items being used for the repair was
+        // contained by the item being repaired, which will result
+        // in the tool being invalid
+        if( attempt == repair_item_actor::AS_DESTROYED ) {
+            act->set_to_null();
+            return;
+        }
+
         if( attempt != repair_item_actor::AS_CANT ) {
             if( ploc && ploc->where() == item_location::type::map ) {
                 used_tool->ammo_consume( used_tool->ammo_required(), ploc->position(), you );
@@ -2399,10 +2411,10 @@ void activity_handlers::mend_item_finish( player_activity *act, Character *you )
     }
 
     item_location &target = act->targets[ 0 ];
+    const fault_id fault( act->name );
 
-    const auto f = target->faults.find( fault_id( act->name ) );
-    if( f == target->faults.end() ) {
-        debugmsg( "item %s does not have fault %s", target->tname(), act->name );
+    if( target->faults.count( fault ) == 0 ) {
+        debugmsg( "item %s does not have fault %s", target->tname(), fault.str() );
         return;
     }
 
@@ -2411,16 +2423,17 @@ void activity_handlers::mend_item_finish( player_activity *act, Character *you )
         return;
     }
 
-    const mending_method *method = fault_id( act->name )->find_mending_method( act->str_values[0] );
+    const mending_method *method = fault->find_mending_method( act->str_values[0] );
     if( !method ) {
         debugmsg( "invalid mending_method id for ACT_MEND_ITEM." );
         return;
     }
 
-    const inventory inv = you->crafting_inventory();
-    const requirement_data &reqs = method->requirements.obj();
+    const inventory &inv = you->crafting_inventory();
+    const requirement_data reqs = method->get_requirements();
     if( !reqs.can_make_with_inventory( inv, is_crafting_component ) ) {
         add_msg( m_info, _( "You are currently unable to mend the %s." ), target->tname() );
+        return;
     }
     for( const auto &e : reqs.get_components() ) {
         you->consume_items( e );
@@ -2430,7 +2443,7 @@ void activity_handlers::mend_item_finish( player_activity *act, Character *you )
     }
     you->invalidate_crafting_inventory();
 
-    target->faults.erase( *f );
+    target->faults.erase( fault );
     if( method->turns_into ) {
         target->faults.emplace( *method->turns_into );
     }
@@ -2438,8 +2451,18 @@ void activity_handlers::mend_item_finish( player_activity *act, Character *you )
     if( method->also_mends ) {
         target->faults.erase( *method->also_mends );
     }
-    if( act->name == "fault_gun_blackpowder" || act->name == "fault_gun_dirt" ) {
-        target->set_var( "dirt", 0 );
+    for( const std::pair<const std::string, std::string> &pair : method->set_variables ) {
+        target->set_var( pair.first, pair.second );
+    }
+
+    const std::string start_durability = target->durability_indicator( true );
+    item &fix = *target.get_item();
+    for( int i = 0; i < method->heal_stages.value_or( 0 ); i++ ) {
+        int dmg = fix.damage() + 1;
+        for( const int lvl = fix.damage_level(); lvl == fix.damage_level() && dmg != fix.damage(); ) {
+            dmg = fix.damage(); // break loop if clamped by degradation or no more repair needed
+            fix.mod_damage( -1 ); // scan for next damage indicator breakpoint, repairing that much damage
+        }
     }
 
     //get skill list from mending method, iterate through and give xp
@@ -2447,7 +2470,8 @@ void activity_handlers::mend_item_finish( player_activity *act, Character *you )
         you->practice( e.first, 10, static_cast<int>( e.second * 1.25 ) );
     }
 
-    add_msg( m_good, method->success_msg.translated(), target->tname() );
+    add_msg( m_good, method->success_msg.translated(), target->tname( 1, false ),
+             start_durability, target->durability_indicator( true ) );
 }
 
 void activity_handlers::toolmod_add_finish( player_activity *act, Character *you )
@@ -2489,12 +2513,6 @@ void activity_handlers::consume_meds_menu_do_turn( player_activity *, Character 
 {
     avatar &player_character = get_avatar();
     avatar_action::eat( player_character, game_menus::inv::consume_meds( player_character ) );
-}
-
-void activity_handlers::consume_fuel_menu_do_turn( player_activity *, Character * )
-{
-    avatar &player_character = get_avatar();
-    avatar_action::eat( player_character, game_menus::inv::consume_fuel( player_character ), true );
 }
 
 void activity_handlers::view_recipe_do_turn( player_activity *act, Character *you )
