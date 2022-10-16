@@ -187,7 +187,8 @@
     "copy-from": "bandages",
     "description": "A reasonably clean piece of cloth wrapped for use as a simple bandage.  Better than nothing.",
     "price_postapoc": 100,
-    "flags": [ "NO_INGEST", "EDIBLE_FROZEN" ],
+    "flags": [ "NO_INGEST" ],
+    "//": "'Once upon a winter freezing, while I pressed 'E', hypovalemic...Quoth the Makeshift Bandage, (frozen).' -Edgar Allen Pollywog",
     "use_action": { "type": "heal", "bandages_power": 2, "bleed": 10, "move_cost": 6000 }
   },
   {
@@ -207,7 +208,7 @@
     "copy-from": "bandages",
     "description": "A piece of cloth boiled in water to sterilize it for use as a bandage.",
     "price_postapoc": 150,
-    "flags": [ "NO_INGEST", "EDIBLE_FROZEN" ],
+    "flags": [ "NO_INGEST" ],
     "use_action": { "type": "heal", "bandages_power": 3, "bleed": 10, "move_cost": 6000 }
   },
   {
