@@ -508,7 +508,7 @@
       { "item": "bandages", "charges": 3, "count": 3 },
       { "item": "medical_gauze", "count": 3 },
       { "item": "adhesive_bandages", "count": 3 },
-      { "item": "pur_tablets", "container-item": "bottle_plastic_small", "charges": 3 },
+      { "item": "pur_tablets", "container-item": "bottle_plastic_small", "charges": [ 0, 3 ] },
       { "item": "gloves_medical" },
       { "item": "scissors" }
     ]
@@ -525,7 +525,7 @@
       { "item": "bandages", "charges": [ 0, 3 ], "count": [ 0, 3 ] },
       { "item": "medical_gauze", "count": [ 0, 3 ] },
       { "item": "adhesive_bandages", "count": [ 0, 3 ] },
-      { "item": "pur_tablets", "container-item": "bottle_plastic_small", "charges": 3 },
+      { "item": "pur_tablets", "container-item": "bottle_plastic_small", "charges": [ 0, 3 ] },
       { "item": "gloves_medical", "prob": 50 },
       { "item": "scissors", "prob": 30 }
     ]
