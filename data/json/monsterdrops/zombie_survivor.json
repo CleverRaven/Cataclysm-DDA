@@ -105,7 +105,12 @@
   {
     "id": "survivor_knife",
     "type": "item_group",
-    "items": [ [ "makeshift_knife", 80 ], [ "copper_knife", 20 ], [ "knife_steak", 20 ], [ "knife_rambo", 60 ] ]
+    "items": [
+      [ "makeshift_knife", 80 ],
+      [ "copper_knife", 20 ],
+      [ "knife_steak", 20 ],
+      { "distribution": [ { "group": "knife_rambo_full" }, { "group": "knife_rambo_used" } ], "prob": 60 }
+    ]
   },
   {
     "id": "survivor_melee",
