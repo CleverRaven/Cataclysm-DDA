@@ -1781,7 +1781,7 @@
     "armor": [
       {
         "material": [ { "type": "lc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
-        [ "head", "torso", "leg_l", "leg_r", "arm_l", "arm_r" ],
+        "covers": [ "head", "torso", "leg_l", "leg_r", "arm_l", "arm_r" ],
         "coverage": 100,
         "encumbrance": 20
       }
