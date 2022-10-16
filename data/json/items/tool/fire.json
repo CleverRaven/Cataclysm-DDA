@@ -175,7 +175,7 @@
     "id": "survival_match",
     "type": "TOOL",
     "name": { "str": "survival match" },
-	  "looks_like": "matches"
+	  "looks_like": "matches",
 	  "description": "A solid strike anywhere match. One and done",   
     "weight": "1 g",
     "volume": "1 ml",
