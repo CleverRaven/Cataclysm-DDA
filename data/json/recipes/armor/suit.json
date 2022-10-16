@@ -1207,7 +1207,7 @@
   {
     "result": "xl_ch_chainmail_suit",
     "type": "recipe",
-    "copy-from": "lc_chainmail_suit",
+    "copy-from": "ch_chainmail_suit",
     "time": "1h 50m",
     "components": [
       [ [ "xl_ch_chainmail_hood", 1 ] ],
