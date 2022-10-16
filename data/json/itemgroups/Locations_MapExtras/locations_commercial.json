@@ -725,7 +725,7 @@
       [ "flyer", 10 ],
       [ "helmet_liner", 20 ],
       [ "jacket_army", 40 ],
-      [ "pur_tablets", 10 ],
+      { "item": "pur_tablets", "container-item": "bottle_plastic_small", "prob": 10, "charges": [ 1, 15 ] },
       [ "knife_trench", 14 ],
       [ "flaregun", 20 ],
       [ "signal_flare", 25 ],
