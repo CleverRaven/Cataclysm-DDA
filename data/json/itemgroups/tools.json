@@ -203,7 +203,7 @@
       [ "storage_line", 5 ],
       [ "knife_folding", 25 ],
       [ "knife_hunting", 10 ],
-      { "distribution": [ { "group": "knife_rambo_full", }, { "group": "knife_rambo_used" } ], "prob" 10 },
+      { "distribution": [ { "group": "knife_rambo_full" }, { "group": "knife_rambo_used" } ], "prob" 10 },
       [ "knife_swissarmy", 10 ],
       { "item": "mess_kit", "prob": 20, "charges": [ 0, 500 ] },
       [ "multitool", 10 ],
@@ -414,22 +414,26 @@
     "type": "item_group",
     "subtype": "collection",
     "id": "knife_rambo_full",
+    "container-item": "knife_rambo",
     "entries": [
       { "item": "fishing_hook_basic" },
       { "item": "needle_steel" },
       { "item": "pur_tablets", "count": 3 },
-      { "item": "matches", "prob": 50, "charges": 10 }
+      { "item": "matches", "charges": 10 }
+      { "item": "kevlar_thread", "charges": 36 }
     ]
   },
   {
     "type": "item_group",
     "subtype": "collection",
     "id": "knife_rambo_used",
+    "container-item": "knife_rambo",
     "entries": [
       { "item": "fishing_hook_basic", "prob": 50 },
       { "item": "needle_steel", "prob": 40 },
       { "item": "pur_tablets", "prob": 50, "count": [ 0, 3 ] },
       { "item": "matches", "prob": 50, "charges": [ 5, 10 ] }
+      { "item": "kevlar_thread", "charges": [0, 36] }
     ]
   },
   {
