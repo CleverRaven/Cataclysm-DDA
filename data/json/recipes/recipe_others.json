@@ -1666,7 +1666,7 @@
     "time": "1 m",
     "reversible": true,
     "autolearn": true,
-    "using": [ [ "cordage", 6 ] ],
+    "using": [ [ "cordage_fishing", 1 ] ],
     "tools": [  ],
     "components": [ [ [ "stick", 1 ] ], [ [ "fishing_hook_bone", 1 ], [ "fishing_hook_basic", 1 ] ] ]
   },
