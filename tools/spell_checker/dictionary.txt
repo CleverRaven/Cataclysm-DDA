@@ -130,6 +130,7 @@ autoselect
 autoshotgun
 avin
 avy
+awared
 axolotl
 aztlani
 b
@@ -160,6 +161,7 @@ batching
 batlike
 batrachian
 bday
+beaked
 beartrap
 beebalm
 beeeeeeeeep
@@ -300,7 +302,9 @@ cecalia
 cegamente
 centerdamage
 centric
+centrosaurus
 cepa
+cephalopod
 cephalothorax
 ceratopsian
 ceratosaurus
@@ -380,6 +384,7 @@ consecrator
 consistence
 const
 constabulario
+contorts
 controllability
 conversando
 cookin
@@ -582,6 +587,7 @@ esters
 estoc
 estocs
 ethereally
+euoplocephalus
 eusocial
 evacs
 everburning
@@ -615,6 +621,7 @@ falx
 falxes
 familiaris
 famoso
+fanbase
 fance
 fanfictions
 farmwork
@@ -738,6 +745,7 @@ gasbomb
 gasgun
 gasmask
 gastank
+gastonia
 gastrolith
 geddoff
 genecraft
@@ -776,6 +784,8 @@ greaseproof
 greatbow
 greatclub
 greatclubs
+greatsword
+greatswords
 greenways
 grindle
 grinny
@@ -795,6 +805,7 @@ gutskin
 guvnah
 gymnocladus
 h
+hadrosaur
 hadrosaurus
 haematopoiesis
 haft
@@ -822,6 +833,7 @@ hauberks
 hbhbh
 hdd
 headwear
+healthiness
 heartlike
 heatsink
 heatsinks
@@ -850,6 +862,7 @@ holybook
 homebrewing
 homovorus
 honeygold
+hooved
 hosomaki
 hotcut
 hotkey
@@ -862,6 +875,7 @@ hrmmm
 hsh
 hsss
 https
+hued
 hulled
 humaniform
 humaniforms
@@ -872,6 +886,7 @@ hunllef
 hydria
 hydrogel
 hygrometer
+hypacrosaurus
 hyperaggressive
 hypergeometric
 hypervitaminosis
@@ -1008,6 +1023,7 @@ l
 labbit
 lactobacillus
 lajatang
+lambeosaurus
 lamellar
 landshark
 langourous
@@ -1208,6 +1224,7 @@ myrmidon
 mythologically
 n
 nable
+nagamaki
 nailboard
 nakha
 nanocompound
@@ -1327,6 +1344,8 @@ pachycephalosaurus
 pachyrhinosaurus
 packable
 paf
+palpably
+panoplosaurus
 papyrifera
 parabellum
 parabolan
@@ -1442,6 +1461,7 @@ proficiencies
 profusive
 promptus
 propyl
+prosaurolophus
 proten
 prybar
 pseudopods
@@ -1606,6 +1626,7 @@ sapience
 sarahsaurus
 sarracenia
 satirizes
+saurolophus
 sauropelta
 sauropod
 saurornitholestes
@@ -1619,6 +1640,7 @@ scatterer
 scimitars
 scissorlimbs
 sclerotin
+scolosaurus
 scrabblin
 screecher
 screechin
@@ -1649,6 +1671,7 @@ sharksuits
 shatteringly
 shedded
 sheetmetal
+shitstorms
 shitweasel
 shlip
 shlop
@@ -1754,6 +1777,7 @@ starrin
 std
 steeltoed
 steerable
+stego
 stegoceras
 stegosaurus
 stegosaurusfindsrobot
@@ -1979,6 +2003,7 @@ unspecialized
 unstocked
 untampered
 untargeted
+untired
 untyped
 unwield
 unwieldiness
@@ -2130,6 +2155,8 @@ zombullfrogs
 zpzzzzpzz
 zubon
 zuul
+zweitimber
+zweitimbers
 zygomaticus
 zzz
 zzzzchzzzzchurzzzpileus

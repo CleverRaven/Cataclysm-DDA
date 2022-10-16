@@ -1040,6 +1040,14 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "egg_moth",
+    "name": "moth egg",
+    "copy-from": "egg_insect",
+    "description": "The egg of a moth.  They are usually found clustered on leaves.",
+    "rot_spawn": "GROUP_EGG_MOTH"
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "egg_cicada",
     "name": "cicada egg",
     "copy-from": "egg_insect",

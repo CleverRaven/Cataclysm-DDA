@@ -763,6 +763,8 @@ void uilist::show( ui_adaptor &ui )
         entry.drawn_rect = cata::nullopt;
     }
 
+    // Entry text will be trimmed to this length for printing.  Need spacer at beginning/end, room for second column
+    const int entry_space = pad_size - 2 - 1 - ( max_column_len > 0 ? max_column_len + 2 : 0 );
     for( int fei = vshift, si = 0; si < vmax; fei++, si++ ) {
         if( fei < static_cast<int>( fentries.size() ) ) {
             int ei = fentries [ fei ];
@@ -789,7 +791,7 @@ void uilist::show( ui_adaptor &ui )
                 point p( pad_left + 4, estart + si );
                 entries[ei].drawn_rect =
                     inclusive_rectangle<point>( p + point( -3, 0 ), p + point( -4 + pad_size, 0 ) );
-                trim_and_print( window, p, max_entry_len, co, _color_error, "%s", entry );
+                trim_and_print( window, p, entry_space, co, _color_error, "%s", entry );
 
                 if( max_column_len && !entries[ ei ].ctxt.empty() ) {
                     const std::string &centry = ei == selected ? remove_color_tags( entries[ ei ].ctxt ) :

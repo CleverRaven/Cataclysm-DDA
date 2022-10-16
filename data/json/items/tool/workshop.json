@@ -385,7 +385,7 @@
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 7000 } } ],
     "charges_per_use": 3500,
     "use_action": [ "JACKHAMMER" ],
-    "flags": [ "STAB", "DIG_TOOL", "POWERED", "USE_UPS", "NO_UNLOAD", "NO_RELOAD", "WATER_BREAK" ]
+    "flags": [ "STAB", "DIG_TOOL", "POWERED", "USE_UPS", "NO_UNLOAD", "NO_RELOAD", "WATER_BREAK", "ELECTRONIC" ]
   },
   {
     "id": "hacksaw",
@@ -572,7 +572,7 @@
     "symbol": ";",
     "color": "dark_gray",
     "ammo": [ "battery" ],
-    "flags": [ "ALLOWS_REMOTE_USE", "WATER_BREAK" ],
+    "flags": [ "ALLOWS_REMOTE_USE", "WATER_BREAK", "ELECTRONIC" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
