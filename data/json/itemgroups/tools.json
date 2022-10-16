@@ -420,7 +420,7 @@
       { "item": "needle_steel" },
       { "item": "pur_tablets", "count": 3 },
       { "item": "survival_match", "count": 3 },
-      { "item": "kevlar_thread", "charges": 36 }
+      { "item": "thread_kevlar", "charges": 36 }
     ]
   },
   {
@@ -433,7 +433,7 @@
       { "item": "needle_steel", "prob": 40 },
       { "item": "pur_tablets", "prob": 50, "count": [ 0, 3 ] },
       { "item": "survival_match", "prob": 50, "count": [ 0, 3 ] },
-      { "item": "kevlar_thread", "charges": [ 0, 36 ] }
+      { "item": "thread_kevlar", "charges": [ 0, 36 ] }
     ]
   },
   {
