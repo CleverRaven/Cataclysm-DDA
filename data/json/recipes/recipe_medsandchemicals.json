@@ -1824,7 +1824,10 @@
     "qualities": [ { "id": "BOIL", "level": 2 }, { "id": "CHEM", "level": 1 } ],
     "proficiencies": [ { "proficiency": "prof_intro_chemistry" }, { "proficiency": "prof_organic_chemistry" } ],
     "tools": [ [ [ "surface_heat", 20, "LIST" ] ], [ [ "gas_mask", 10, "LIST" ] ], [ [ "cover_hands", 1, "LIST" ] ] ],
-    "components": [ [ [ "chem_ethanol", 250 ], [ "denat_alcohol", 250 ], [ "mixed_alcohol_strong", 14 ] ], [ [ "blood_acid_zombie", 2 ] ] ]
+    "components": [
+      [ [ "chem_ethanol", 250 ], [ "denat_alcohol", 250 ], [ "mixed_alcohol_strong", 14 ] ],
+      [ [ "blood_acid_zombie", 2 ] ]
+    ]
   },
   {
     "type": "recipe",
@@ -1842,7 +1845,10 @@
     "qualities": [ { "id": "BOIL", "level": 2 }, { "id": "CHEM", "level": 2 }, { "id": "DISTILL", "level": 2 } ],
     "proficiencies": [ { "proficiency": "prof_intro_chemistry" }, { "proficiency": "prof_organic_chemistry" } ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ], [ [ "gas_mask", 10, "LIST" ] ], [ [ "cover_hands", 1, "LIST" ] ] ],
-    "components": [ [ [ "chem_ethanol", 250 ], [ "denat_alcohol", 250 ], [ "mixed_alcohol_strong", 14 ] ], [ [ "blood_acid_zombie", 2 ] ] ]
+    "components": [
+      [ [ "chem_ethanol", 250 ], [ "denat_alcohol", 250 ], [ "mixed_alcohol_strong", 14 ] ],
+      [ [ "blood_acid_zombie", 2 ] ]
+    ]
   },
   {
     "type": "recipe",
@@ -1860,7 +1866,10 @@
     "qualities": [ { "id": "BOIL", "level": 2 }, { "id": "CHEM", "level": 1 } ],
     "proficiencies": [ { "proficiency": "prof_intro_chemistry" }, { "proficiency": "prof_organic_chemistry" } ],
     "tools": [ [ [ "surface_heat", 20, "LIST" ] ], [ [ "cover_mouth", 1, "LIST" ] ], [ [ "cover_hands", 1, "LIST" ] ] ],
-    "components": [ [ [ "chem_ethanol", 250 ], [ "denat_alcohol", 250 ], [ "mixed_alcohol_strong", 14 ] ], [ [ "blood_acid_arachnid", 2 ] ] ]
+    "components": [
+      [ [ "chem_ethanol", 250 ], [ "denat_alcohol", 250 ], [ "mixed_alcohol_strong", 14 ] ],
+      [ [ "blood_acid_arachnid", 2 ] ]
+    ]
   },
   {
     "type": "recipe",
@@ -1879,7 +1888,10 @@
     "qualities": [ { "id": "BOIL", "level": 2 }, { "id": "CHEM", "level": 2 }, { "id": "DISTILL", "level": 2 } ],
     "proficiencies": [ { "proficiency": "prof_intro_chemistry" }, { "proficiency": "prof_organic_chemistry" } ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ], [ [ "cover_mouth", 1, "LIST" ] ], [ [ "cover_hands", 1, "LIST" ] ] ],
-    "components": [ [ [ "chem_ethanol", 250 ], [ "denat_alcohol", 250 ], [ "mixed_alcohol_strong", 14 ] ], [ [ "blood_acid_arachnid", 2 ] ] ]
+    "components": [
+      [ [ "chem_ethanol", 250 ], [ "denat_alcohol", 250 ], [ "mixed_alcohol_strong", 14 ] ],
+      [ [ "blood_acid_arachnid", 2 ] ]
+    ]
   },
   {
     "type": "recipe",

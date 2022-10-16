@@ -360,14 +360,7 @@
     "id": "cover_hands",
     "type": "requirement",
     "//": "Tools for protection hands for handling toxic substances, plastic and waterproof",
-    "tools": [
-      [
-        [ "gloves_bag", -1 ], 
-        [ "gloves_medical", -1 ], 
-        [ "gloves_rubber", -1 ], 
-        [ "gloves_claws", -1 ]
-      ]
-    ]
+    "tools": [ [ [ "gloves_bag", -1 ], [ "gloves_medical", -1 ], [ "gloves_rubber", -1 ], [ "gloves_claws", -1 ] ] ]
   },
   {
     "id": "cover_mouth",
