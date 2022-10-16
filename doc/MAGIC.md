@@ -612,9 +612,9 @@ Depending on their effects on the user, enchantments can behave like blessings, 
 | `hit_you_effect`            | A spell that activates when you `melee_attack` a creature.  The spell is centered on the location of the creature unless `"hit_self": true`, then it is centered on your location.  Follows the template for defining `fake_spell`.
 | `hit_me_effect`             | A spell that activates when you are hit by a creature.  The spell is centered on your location.  Follows the template for defining `fake_spell`
 | `intermittent_activation`   | Spells that activate centered on you depending on the duration.  The spells follow the `fake_spell` template.
-| `values`                    | Anything that is a number that can be modified.  The ID field is required, `add` and `multiply` are optional.  A `multiply` value of -1 is -100% and 2.5 is +250%.  `add` is always applied before `multiply`.  Allowed ID values are shown below.  Either "add" or "multiply" can be a variable_object/arithmetic expression(see [NPCs](NPCs.md)).  If a "multiply" value is a variable_object/arithmetic it will be multiplied by .01 before use as decimals cannot be variable values.  So a variable with 100 would become 1, it is treated as a percent effectively.
+| `values`                    | Numbers that can be modified (see [list](#id-values)).  The ID field is required, `add` and `multiply` are optional.  `multiply` is **added** to the base value: 2.5 is +250% and -1 is -100%.  `add` is always applied before `multiply`.  Either `add` or `multiply` can be a variable_object/arithmetic expression (see [NPCs](NPCs.md)).  If a `multiply` value is a variable_object/arithmetic it will be multiplied by .01 before use, as decimals cannot be variable values: a variable with 100 would become 1, effectively treated as a percentage.
 | `mutations`                 | Grants the mutation/trait ID.  Note: enchantments effects added this way won't stack, due how mutations work.
-| `ench_effects`              | Grants the effect ID.  Requires the `intensity` value for the effect.
+| `ench_effects`              | Grants the effect ID.  Requires the `intensity` for the effect.
 
 
 There are two possible syntaxes.  The first is by defining an enchantment object and then referencing the ID, the second is by directly defining the effects as an inline enchantment (in this case, an item):
@@ -658,7 +658,7 @@ There are two possible syntaxes.  The first is by defining an enchantment object
 
 ### The `relic_data` field
 
-As seen in the last example, enchantments are added to the item as `passive_effects` inside the `relic_data` field.  Items with such data are turn into a relic or artifact, being displayed inside the inventory view as magenta.
+As seen in the last example, enchantments are added to the item as `passive_effects` inside the `relic_data` field.  Items with this data are turn into a relic or artifact, being displayed as magenta inside the inventory view.
 
 Also supported is `charge_info`, which allows automatic charge regeneration.  This in turn enables active magical items that cast spells on use:
 
