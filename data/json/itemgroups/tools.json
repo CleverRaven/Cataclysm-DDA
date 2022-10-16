@@ -411,28 +411,28 @@
     ]
   },
   {
+    "id": "knife_rambo_full",
     "type": "item_group",
     "subtype": "collection",
-    "id": "knife_rambo_full",
     "container-item": "knife_rambo",
     "entries": [
       { "item": "fishing_hook_basic" },
       { "item": "needle_steel" },
       { "item": "pur_tablets", "count": 3 },
-      { "item": "matches", "charges": 10 },
+      { "item": "survival_match", "count": 3 },
       { "item": "kevlar_thread", "charges": 36 }
     ]
   },
   {
+    "id": "knife_rambo_used",
     "type": "item_group",
     "subtype": "collection",
-    "id": "knife_rambo_used",
     "container-item": "knife_rambo",
     "entries": [
       { "item": "fishing_hook_basic", "prob": 50 },
       { "item": "needle_steel", "prob": 40 },
       { "item": "pur_tablets", "prob": 50, "count": [ 0, 3 ] },
-      { "item": "matches", "prob": 50, "charges": [ 5, 10 ] },
+      { "survival_match", "prob": 50, "count": [ 0, 3 ] },
       { "item": "kevlar_thread", "charges": [0, 36] }
     ]
   },
