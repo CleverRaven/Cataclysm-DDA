@@ -1884,8 +1884,8 @@ bool item_pocket::can_unload_liquid() const
     return will_spill() || !cts_is_frozen_liquid;
 }
 
-int item_pocket::fill_with( const item &contained, int amount, bool allow_unseal,
-                            bool ignore_settings )
+int item_pocket::fill_with( const item &contained, Character &guy, int amount,
+                            bool allow_unseal, bool ignore_settings )
 {
     int num_contained = 0;
 
@@ -1914,10 +1914,13 @@ int item_pocket::fill_with( const item &contained, int amount, bool allow_unseal
     if( contained_item.charges == 0 ) {
         return 0;
     }
+
+    contained_item.handle_pickup_ownership( guy );
     if( !insert_item( contained_item ).success() ) {
         debugmsg( "charges per remaining pocket volume does not fit in that very volume" );
         return 0;
     }
+
     num_contained += contained_item.charges;
     if( allow_unseal ) {
         unseal();
@@ -1930,13 +1933,18 @@ std::list<item> &item_pocket::edit_contents()
     return contents;
 }
 
-ret_val<item_pocket::contain_code> item_pocket::insert_item( const item &it )
+ret_val<item_pocket::contain_code> item_pocket::insert_item( const item &it,
+        const bool into_bottom )
 {
     ret_val<item_pocket::contain_code> ret = !is_standard_type() ?
             ret_val<item_pocket::contain_code>::make_success() : can_contain( it );
 
     if( ret.success() ) {
-        contents.push_front( it );
+        if( !into_bottom ) {
+            contents.push_front( it );
+        } else {
+            contents.push_back( it );
+        }
         restack();
     }
     return ret;

@@ -60,7 +60,7 @@ Some code distributed with the project is not part of the project and is release
 
 [<img src="https://www.bountysource.com/badge/tracker?tracker_id=146201" alt="Bountysource" align="right">](https://www.bountysource.com/trackers/146201-clever-raven-cataclysm-dda?utm_source=146201&utm_medium=shield&utm_campaign=TRACKER_BADGE)
 
-Please see [CONTRIBUTING.md](https://github.com/CleverRaven/Cataclysm-DDA/blob/master/.github/CONTRIBUTING.md) for details.
+Please see [CONTRIBUTING.md](.github/CONTRIBUTING.md) for details.
 
 Special thanks to the contributors, including but not limited to, people below:
 <a href="https://github.com/cleverraven/cataclysm-dda/graphs/contributors">

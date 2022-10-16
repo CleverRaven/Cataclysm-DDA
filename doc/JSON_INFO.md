@@ -150,6 +150,7 @@ Use the `Home` key to return to the top.
     - [Harvest Drop Type](#harvest-drop-type)
     - [leftovers](#leftovers)
     - [Weapon Category](#weapon-category)
+    - [Connect group definitions](#connect-group-definitions)
     - [Furniture](#furniture)
       - [`type`](#type-1)
       - [`move_cost_mod`](#move_cost_mod)
@@ -185,7 +186,8 @@ Use the `Home` key to return to the top.
       - [`name`](#name-1)
       - [`flags`](#flags-1)
       - [`connect_groups`](#connect_groups)
-      - [`connects_to`](#connects_to)
+        - [Connection groups](#connection-groups)
+      - [`connects_to` and](#connects_to-and)
       - [`rotates_to`](#rotates_to)
       - [`symbol`](#symbol)
       - [`comfort`](#comfort)
@@ -473,6 +475,7 @@ Here's a quick summary of what each of the JSON files contain, broken down by fo
 | `body_parts.json`             | an expansion of anatomy.json - do not edit
 | `clothing_mods.json`          | definition of clothing mods
 | `conducts.json`               | conducts
+| `connect_groups.json`         | definition of terrain and furniture connect groups
 | `construction.json`           | definition of construction menu tasks
 | `default_blacklist.json`      | a standard blacklist of joke monsters
 | `doll_speech.json`            | talking doll speech messages
@@ -4164,6 +4167,39 @@ itype_id of the item dropped as leftovers after butchery or when the monster is 
 }
 ```
 
+### Connect group definitions
+
+Connect groups can be used by id in terrain and furniture `connect_groups`, `connects_to` and `rotates_to` properties.
+
+Examples from the actual definitions:
+
+**`group_flags`**: Flags that imply that terrain or furniture is added to this group.
+
+**`connects_to_flags`**: Flags that imply that terrain or furniture connects to this group.
+
+**`rotates_to_flags`**: Flags that imply that terrain or furniture rotates to this group.
+
+```json
+[
+  {
+    "type": "connect_group",
+    "id": "WALL",
+    "group_flags": [ "WALL", "CONNECT_WITH_WALL" ],
+    "connects_to_flags": [ "WALL", "CONNECT_WITH_WALL" ]
+  },
+  {
+    "type": "connect_group",
+    "id": "CHAINFENCE"
+  },
+  {
+    "type": "connect_group",
+    "id": "INDOORFLOOR",
+    "group_flags": [ "INDOORS" ],
+    "rotates_to_flags": [ "WINDOW", "DOOR" ]
+  }
+]
+```
+
 ### Furniture
 
 ```C++
@@ -4178,6 +4214,9 @@ itype_id of the item dropped as leftovers after butchery or when the monster is 
     "light_emitted": 5,
     "required_str": 18,
     "flags": [ "TRANSPARENT", "BASHABLE", "FLAMMABLE_HARD" ],
+    "connect_groups" : [ "WALL" ],
+    "connects_to" : [ "WALL" ],
+    "rotates_to" : [ "INDOORFLOOR" ],
     "crafting_pseudo_item": "anvil",
     "examine_action": "toilet",
     "close": "f_foo_closed",
@@ -4582,7 +4621,7 @@ Displayed name of the object. This will be translated.
 
 #### `connect_groups`
 
-(Optional) Makes the type a member of one or more [Connect groups](#connect-groups).
+(Optional) Makes the type a member of one or more [Connection groups](#connection-groups).
 
 Does not make the type connect or rotate itself, but serves as the passive side.
 For the active, connecting or rotating side, see [`connects_to`](#connects_to) and [`rotates_to`](#rotates_to).
@@ -4591,19 +4630,22 @@ Available groups are:
 
 ##### Connection groups
 
+Connect groups are defined by JSON types `connect_group`.
+Current connect groups are:
+
 ```
-NONE                 PIT_DEEP
-WALL                 LINOLEUM
-CHAINFENCE           CARPET
-WOODFENCE            CONCRETE
-RAILING              CLAY
-POOLWATER            DIRT
-WATER                ROCKFLOOR
-PAVEMENT             MULCHFLOOR
+NONE                 SAND
+WALL                 PIT_DEEP
+CHAINFENCE           LINOLEUM
+WOODFENCE            CARPET
+RAILING              CONCRETE
+POOLWATER            CLAY
+WATER                DIRT
+PAVEMENT             ROCKFLOOR
+PAVEMENT_MARKING     MULCHFLOOR
 RAIL                 METALFLOOR
 COUNTER              WOODFLOOR
 CANVAS_WALL          INDOORFLOOR
-SAND
 ```
 
 `WALL` is implied by the flags `WALL` and `CONNECT_WITH_WALL`.
