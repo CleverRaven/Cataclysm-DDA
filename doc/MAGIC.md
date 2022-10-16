@@ -21,6 +21,7 @@
   - [A spell that casts a note on the target and an effect on the caster](#a-spell-that-casts-a-note-on-the-target-and-an-effect-on-the-caster)
   - [Monster spells](#monster-spells)
 - [Enchantments](#enchantments)
+  - [relic_data](#relic_data)
   - [ID values](#id-values)
   - [Enchantment value examples](#enchantment-value-examples)
 
@@ -613,9 +614,9 @@ Depending on their effects on the user, enchantments can behave like blessings, 
 | `hit_me_effect`             | A spell that activates when you are hit by a creature.  The spell is centered on your location.  Follows the template for defining `fake_spell`
 | `intermittent_activation`   | Spells that activate centered on you depending on the duration.  The spells follow the `fake_spell` template.
 | `values`                    | Anything that is a number that can be modified.  The ID field is required, `add` and `multiply` are optional.  A `multiply` value of -1 is -100% and 2.5 is +250%.  `add` is always applied before `multiply`.  Allowed ID values are shown below.  Either "add" or "multiply" can be a variable_object/arithmetic expression(see [NPCs](NPCs.md)).  If a "multiply" value is a variable_object/arithmetic it will be multiplied by .01 before use as decimals cannot be variable values.  So a variable with 100 would become 1, it is treated as a percent effectively.
-| `mutations`                 | Grants the mutation/trait id.  Note: enchantments effects added this way won't stack, due how mutations work.
+| `mutations`                 | Grants the mutation/trait ID.  Note: enchantments effects added this way won't stack, due how mutations work.
 
-There are two syntaxes, the first is by defining the effect/spell within the enchantment, the second is by using ids:
+There are two syntaxes, the first is by defining the effect/spell within the enchantment, the second is by using IDs:
 
 ```json
   {
@@ -643,6 +644,7 @@ There are two syntaxes, the first is by defining the effect/spell within the enc
     "hit_you_effect": [ { "id": "AEA_FIREBALL" } ],
     "hit_me_effect": [ { "id": "AEA_HEAL" } ],
     "values": [ { "value": "STRENGTH", "multiply": 1.1, "add": -5 } ],
+    "mutations": [ "GILLS", "MEMBRANE", "AMPHIBIAN", "WAYFARER", "WILDSHAPE:FISH" ],
     "intermittent_activation": {
       "effects": [
         {
@@ -656,7 +658,10 @@ There are two syntaxes, the first is by defining the effect/spell within the enc
   }
 ```
 
-To add the enchantment to the item, you need to declare the enchantment id as `relic_data`.  For example:
+
+### `relic_data`
+
+To add the enchantment to the item, the ID has to be declared as `relic_data`.  For example:
 
 ```json
   {
@@ -672,22 +677,66 @@ Similarly as before, if the enchantment is relatively small, it can be written i
 
 ```json
 ...
-  "relic_data": {
-    "passive_effects": [
-      {
-        "has": "WORN",
-        "condition": "ALWAYS",
-        "values": [
-          { "value": "ARMOR_CUT", "add": -4 },
-          { "value": "ARMOR_BASH", "add": -4 },
-          { "value": "ARMOR_STAB", "add": -4 },
-          { "value": "ARMOR_BULLET", "add": -2 }
-        ]    
-      }
-    ]
-  },
+    "relic_data": {
+      "passive_effects": [
+        {
+          "has": "WORN",
+          "condition": "ALWAYS",
+          "values": [
+            { "value": "ARMOR_CUT", "add": -4 },
+            { "value": "ARMOR_BASH", "add": -4 },
+            { "value": "ARMOR_STAB", "add": -4 },
+            { "value": "ARMOR_BULLET", "add": -2 }
+          ]
+        }
+      ]
+    },
 ...
 ```
+
+
+Mutations can also be declared this way, with the same syntax as enchantments:
+
+```json
+...
+    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "mutations": [ "well_distributed" ] } ] }
+...
+```
+
+Another feature is the `charge_info` field, which allows automatic charge regeneration.  Combined with the `pocket_data` and `use_action`, this enables active magical items that cast spells on use:
+
+```json
+...
+    "use_action": { "type": "cast_spell", "spell_id": "conj_throwing_blade3", "no_fail": true, "level": 1, "need_worn": true },
+    "extend": { "flags": [ "NO_UNLOAD", "NO_RELOAD" ] },
+    "charges_per_use": 1,
+    "relic_data": { "charge_info": { "recharge_type": "periodic", "time": "1 h", "regenerate_ammo": true } },
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "holster": true, "ammo_restriction": { "crystallized_mana": 5 } } ]
+...
+```
+
+The item consumes 1 charge per spell cast.  It can't be recharged or unloaded, relying on ammo regeneration over time.
+
+A second example is a `GUN` type item (e.g. a firearm).  As shooting it consumes the specified ammo, the `use_action` field can be omitted:
+
+```json
+...
+    "clip_size": 5,
+    "flags": [ "NO_UNLOAD", "NO_RELOAD" ],
+    "relic_data": { "charge_info": { "regenerate_ammo": true, "recharge_type": "periodic", "time": "12 s" } },
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "ammo_magic_bullet": 5 } } ],
+...
+```
+This weapon consumes 1 "magic bullet" ammo per cast.  Again, flags disable it from being manually recharged or unloaded.
+
+`charge_info` supports the following fields:
+
+| Identifier                  | Description
+|---                          |---
+| `regenerate_ammo`           | `true`.
+| `recharge_type`             | Can be one of: `lunar`, `periodic`, `solar_cloudy`, `solar_sunny`, or `none`.
+| `time`                      | Time required per charge.
+| `recharge_condition`        | (optional) Similar to `has` from enchantments: can be one of `held`, `worn`, `wield`.  If omitted, the item recharges regardless, even if dropped.
 
 
 ### ID values
@@ -748,14 +797,14 @@ The following is a list of possible `values`:
 | `PAIN` | 
 | `SHOUT_NOISE` | 
 | `SIGHT_RANGE` | 
-| `SIGHT_RANGE_ELECTRIC` | How many tiles away is_electric() creatures are visible from
+| `SIGHT_RANGE_ELECTRIC` | How many tiles away is_electric() creatures are visible from.
 | `SKILL_RUST_RESIST` | Chance / 100 to resist skill rust.
 | `SLEEPY` | The higher this the easier you fall asleep.
 | `SOCIAL_INTIMIDATE` | 
 | `SOCIAL_LIE` | 
 | `SOCIAL_PERSUADE` | 
 | `READING_EXP` | Changes the minimum you learn from each reading increment.
-| `RECOIL_MODIFIER` | affects recoil when shooting a gun
+| `RECOIL_MODIFIER` | Affects recoil when shooting a gun.
 | `REGEN_HP` | 
 | `REGEN_MANA` | 
 | `REGEN_STAMINA` | 
