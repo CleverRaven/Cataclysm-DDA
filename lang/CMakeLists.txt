@@ -77,13 +77,13 @@ else ()
             DEPENDS translations_prepare)
 endif ()
 
-set(dirs "${LANGUAGES}")
-list(TRANSFORM dirs REPLACE \(.+\) lang/mo/\\1/LC_MESSAGES)
+set(DIRS "${LANGUAGES}")
+list(TRANSFORM DIRS REPLACE "\(.+\)" lang/mo/\\1/LC_MESSAGES)
 add_custom_command(
         TARGET translations_prepare
         PRE_BUILD
         COMMAND ${CMAKE_COMMAND} -E
-                make_directory ${dirs}
+                make_directory ${DIRS}
         WORKING_DIRECTORY ${CMAKE_SOURCE_DIR})
 
 foreach (LANG ${LANGUAGES})
