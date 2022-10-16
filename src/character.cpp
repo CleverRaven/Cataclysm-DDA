@@ -11652,7 +11652,7 @@ void Character::pause()
         // Don't warn about encumbrance if your arms are broken
         if( num_broken_arms ) {
             // Handle multiple arms
-            max *= ( 1.0f - num_broken_arms / num_arms );
+            max *= ( 1.0f - num_broken_arms / static_cast<float>( num_arms ) );
             add_msg_debug( debugmode::DF_CHARACTER, "%d out of %d arms broken, staunch limit %d",
                            num_broken_arms, num_arms, max );
             add_msg_player_or_npc( m_warning,

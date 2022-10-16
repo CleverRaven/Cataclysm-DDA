@@ -2467,9 +2467,7 @@ body_part_set Creature::get_drenching_body_parts( bool upper, bool mid, bool low
 
 int Creature::get_num_body_parts_of_type( body_part_type::type part_type ) const
 {
-    int ret = 0;
-    ret = get_all_body_parts_of_type( part_type ).size();
-    return ret;
+    return static_cast<int>( get_all_body_parts_of_type( part_type ).size() );
 }
 
 int Creature::get_num_broken_body_parts_of_type( body_part_type::type part_type ) const
