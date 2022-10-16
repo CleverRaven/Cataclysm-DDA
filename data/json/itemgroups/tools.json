@@ -419,7 +419,7 @@
       { "item": "fishing_hook_basic" },
       { "item": "needle_steel" },
       { "item": "pur_tablets", "count": 3 },
-      { "item": "matches", "charges": 10 }
+      { "item": "matches", "charges": 10 },
       { "item": "kevlar_thread", "charges": 36 }
     ]
   },
@@ -432,7 +432,7 @@
       { "item": "fishing_hook_basic", "prob": 50 },
       { "item": "needle_steel", "prob": 40 },
       { "item": "pur_tablets", "prob": 50, "count": [ 0, 3 ] },
-      { "item": "matches", "prob": 50, "charges": [ 5, 10 ] }
+      { "item": "matches", "prob": 50, "charges": [ 5, 10 ] },
       { "item": "kevlar_thread", "charges": [0, 36] }
     ]
   },
