@@ -411,6 +411,28 @@
     ]
   },
   {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "knife_rambo_full",
+    "entries": [
+      { "item": "fishing_hook_basic" },
+      { "item": "needle_steel" },
+      { "item": "pur_tablets", "count": 3 },
+      { "item": "matches", "prob": 50, "charges": 10 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "knife_rambo_used",
+    "entries": [
+      { "item": "fishing_hook_basic", "prob": 50 },
+      { "item": "needle_steel", "prob": 40 },
+      { "item": "pur_tablets", "prob": 50, "count": [ 0, 3 ] },
+      { "item": "matches", "prob": 50, "charges": [ 5, 10 ] }
+    ]
+  },
+  {
     "id": "full_1st_aid",
     "type": "item_group",
     "subtype": "collection",
