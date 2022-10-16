@@ -744,7 +744,7 @@
     "type": "recipe",
     "copy-from": "lc_chainmail_hauberk",
     "time": "1 h 45 m",
-    "components": [ [ [ "lc_chainmail_vest", 1 ] ], [ [ "lc_chainmail_arms", 1 ] ] ]
+    "components": [ [ [ "xs_lc_chainmail_vest", 1 ] ], [ [ "xs_lc_chainmail_arms", 1 ] ] ]
   },
   {
     "result": "xl_lc_chainmail_hauberk",
@@ -773,7 +773,7 @@
     "type": "recipe",
     "copy-from": "mc_chainmail_hauberk",
     "time": "1 h 45 m",
-    "components": [ [ [ "mc_chainmail_vest", 1 ] ], [ [ "mc_chainmail_arms", 1 ] ] ]
+    "components": [ [ [ "xs_mc_chainmail_vest", 1 ] ], [ [ "xs_mc_chainmail_arms", 1 ] ] ]
   },
   {
     "result": "xl_mc_chainmail_hauberk",
@@ -802,7 +802,7 @@
     "type": "recipe",
     "copy-from": "hc_chainmail_hauberk",
     "time": "1 h 45 m",
-    "components": [ [ [ "hc_chainmail_vest", 1 ] ], [ [ "hc_chainmail_arms", 1 ] ] ]
+    "components": [ [ [ "xs_hc_chainmail_vest", 1 ] ], [ [ "xs_hc_chainmail_arms", 1 ] ] ]
   },
   {
     "result": "xl_hc_chainmail_hauberk",
@@ -831,7 +831,7 @@
     "type": "recipe",
     "copy-from": "ch_chainmail_hauberk",
     "time": "1 h 45 m",
-    "components": [ [ [ "ch_chainmail_vest", 1 ] ], [ [ "ch_chainmail_arms", 1 ] ] ]
+    "components": [ [ [ "xs_ch_chainmail_vest", 1 ] ], [ [ "xs_ch_chainmail_arms", 1 ] ] ]
   },
   {
     "result": "xl_ch_chainmail_hauberk",
@@ -860,7 +860,7 @@
     "type": "recipe",
     "copy-from": "qt_chainmail_hauberk",
     "time": "1 h 45 m",
-    "components": [ [ [ "qt_chainmail_vest", 1 ] ], [ [ "qt_chainmail_arms", 1 ] ] ]
+    "components": [ [ [ "xs_qt_chainmail_vest", 1 ] ], [ [ "xs_qt_chainmail_arms", 1 ] ] ]
   },
   {
     "result": "xl_qt_chainmail_hauberk",
