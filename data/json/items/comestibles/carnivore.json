@@ -523,7 +523,7 @@
     "spoils_in": "1 day",
     "type": "COMESTIBLE",
     "name": { "str": "cooked pepper meat" },
-    "description": "A piece of cooked meat, properly seasoned with black pepper and salt.  It's nutritious and vey satiating, and the well distributed, yet basic seasoning adds a welcoming taste to this simple dish.",
+    "description": "A piece of cooked meat, properly seasoned with black pepper and salt.  It's nutritious, yet basic seasoning adds a welcoming taste to this simple dish.",
     "price": 800,
     "price_postapoc": 150,
     "fun": 2,
