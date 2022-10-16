@@ -359,7 +359,7 @@
     "remove_message": "Your reaction speed turns back to normal.",
     "rating": "good",
     "show_intensity": false,
-    "enchantments": [ { "condition": { "not": "ALWAYS" }, "values": [ { "value": "BONUS_DODGE", "add": 2 } ] } ]
+    "enchantments": [ { "values": [ { "value": "BONUS_DODGE", "add": 2 } ] } ]
   },
   {
     "id": "effect_endurance",
@@ -372,7 +372,6 @@
     "show_intensity": false,
     "enchantments": [
       {
-        "condition": { "not": "ALWAYS" },
         "values": [ { "value": "ARMOR_BASH", "add": -12 }, { "value": "ARMOR_CUT", "add": -12 }, { "value": "ARMOR_STAB", "add": -12 } ]
       }
     ]
@@ -388,7 +387,6 @@
     "show_intensity": false,
     "enchantments": [
       {
-        "condition": { "not": "ALWAYS" },
         "values": [
           { "value": "ATTACK_SPEED", "add": 20 },
           { "value": "BONUS_DODGE", "add": 2 },
