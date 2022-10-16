@@ -348,7 +348,7 @@
     "category": "weapons",
     "name": { "str": "survival knife", "str_pl": "survival knives" },
     "//": "This isn't really supposed to be a very good knife, or a very good saw.  It's more for looking scary.",
-    "description": "This massive knife features a hollow handle with a compass built into the pommel and a row of fearsome looking saw teeth along the back of its blade.",
+    "description": "This massive knife features a hollow handle with a compass built into the pommel and a row of fearsome-looking saw teeth along the back of its blade.",
     "weight": "612 g",
     "volume": "1 L",
     "longest_side": "30 cm",
