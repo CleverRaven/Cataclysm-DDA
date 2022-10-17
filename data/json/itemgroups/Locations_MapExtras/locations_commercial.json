@@ -319,7 +319,10 @@
       [ "knife_rm42", 1 ],
       [ "kukri", 2 ],
       [ "knife_hunting", 8 ],
-      { "distribution": [ { "group": "knife_rambo_full", "prob": 20 }, { "group": "knife_rambo_used", "prob": 80 } ], "prob": 16 },
+      {
+        "distribution": [ { "group": "knife_rambo_full", "prob": 20 }, { "item": "knife_rambo_used", "prob": 80 } ],
+        "prob": 16
+      },
       [ "throwing_knife", 7 ],
       [ "throwing_axe", 4 ],
       [ "punch_dagger", 12 ],
@@ -657,7 +660,10 @@
       [ "knife_rm42", 1 ],
       [ "kukri", 2 ],
       [ "knife_hunting", 4 ],
-      { "distribution": [ { "group": "knife_rambo_full", "prob": 20 }, { "group": "knife_rambo_used", "prob": 80 } ], "prob": 20 },
+      {
+        "distribution": [ { "group": "knife_rambo_full", "prob": 20 }, { "item": "knife_rambo_used", "prob": 80 } ],
+        "prob": 20
+      },
       [ "folded_inflatable_boat", 40 ],
       [ "hand_pump", 40 ],
       [ "throwing_knife", 14 ],
