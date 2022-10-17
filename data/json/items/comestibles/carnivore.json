@@ -1815,7 +1815,7 @@
   {
     "type": "GENERIC",
     "id": "skull_rodent",
-    "name": { "str": "rat skull" },
+    "name": { "str": "rodent skull" },
     "description": "The skull of a small rodent, most likely a rat.",
     "flags": [ "TRADER_AVOID" ],
     "category": "spare_parts",
