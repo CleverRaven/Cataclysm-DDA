@@ -1785,6 +1785,6 @@
     "name": { "str": "Throwing Assist" },
     "description": "Taken from a world that embraced cybernetics in their sports, this CBM links the eyes to a series of nerve stimulators along the arms and hands.  The result is a significant increase to throwing accuracy, and it turns out it works great with fragmentation grenades.",
     "occupied_bodyparts": [ [ "eyes", 1 ], [ "arm_l", 2 ], [ "arm_r", 2 ], [ "hand_l", 2 ], [ "hand_r", 2 ] ],
-    "learned_proficiencies": [ "prof_pitch_perfect" ]
+    "enchantments": [ { "condition": "ALWAYS", "skills": [ { "value": "throwing", "add": 5 } ] } ]
   }
 ]
