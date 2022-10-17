@@ -268,7 +268,7 @@
     "ammo": 100,
     "entries": [
       { "item": "mr73", "charges-min": 0, "charges-max": 6 },
-      { "group": "on_hand_357mag" },
+      { "group": "on_hand_357_38mixed" },
       { "item": "38_speedloader6" },
       { "item": "38_speedloader6", "prob": 50 }
     ]
