@@ -85,6 +85,24 @@
     "count": 250
   },
   {
+    "type": "AMMO",
+    "id": "chem_baking_powder",
+    "looks_like": "chem_baking_soda",
+    "category": "chems",
+    "price": 3000,
+    "price_postapoc": 500,
+    "name": { "str_sp": "baking powder" },
+    "symbol": "=",
+    "color": "white",
+    "description": "Baking powder is a widely-used leavening agent.  It contains baking soda and a weak acid that react together in water, making it a preferred alternative to yeast.",
+    "container": "box_small",
+    "material": [ "powder_nonflam" ],
+    "volume": "250 ml",
+    "weight": "2200 mg",
+    "ammo_type": "components",
+    "count": 250
+  },
+  {
     "type": "COMESTIBLE",
     "id": "mercury",
     "category": "chems",
