@@ -1216,6 +1216,7 @@
       [ "syrup", 100 ],
       [ "maple_candy", 10 ],
       [ "flour", 30 ],
+      { "item": "chem_baking_powder", "prob": 10, "charges-min": 1 },
       [ "milk_powder", 30 ],
       [ "powder_eggs", 10 ],
       { "item": "egg_bird_unfert", "charges": 10, "container-item": "carton_egg" },
