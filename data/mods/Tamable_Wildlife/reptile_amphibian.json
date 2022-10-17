@@ -1,4 +1,4 @@
-[  
+[
   {
     "id": "mon_frog",
     "type": "MONSTER",
@@ -7,7 +7,8 @@
     "petfood": {
       "food": [ "CATTLEFOOD" ],
       "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
-      "pet": "The %s hops around you." },
+      "pet": "The %s hops around you."
+    },
     "extend": { "flags": [ "CANPLAY" ] }
   },
   {
@@ -39,7 +40,8 @@
     "petfood": {
       "food": [ "CATTLEFOOD" ],
       "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
-      "pet": "The %s hops around you." },
+      "pet": "The %s hops around you."
+    },
     "extend": { "flags": [ "CANPLAY" ] }
   },
   {
