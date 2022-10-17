@@ -330,8 +330,8 @@
     "locations": [ "forest_without_trail" ],
     "city_distance": [ 25, -1 ],
     "city_sizes": [ 0, 12 ],
-    "occurrences": [ 80, 100 ],
-    "flags": [ "CLASSIC", "MAN_MADE", "UNIQUE" ]
+    "occurrences": [ 100, 100 ],
+    "flags": [ "CLASSIC", "MAN_MADE", "GLOBALLY_UNIQUE" ]
   },
   {
     "type": "overmap_special",

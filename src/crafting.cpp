@@ -147,15 +147,24 @@ float Character::lighting_craft_speed_multiplier( const recipe &rec ) const
         // 100% speed in well lit area at skill+0
         // 25% speed in pitch black at skill+0
         // skill+2 removes speed penalty
-        return 1.0f - ( darkness / ( 7.0f / 0.75f ) ) * std::max( 0,
-                2 - exceeds_recipe_requirements( rec ) ) / 2.0f;
+        if( rec.skill_used ) {
+            return 1.0f - ( darkness / ( 7.0f / 0.75f ) ) * std::max( 0,
+                    2 - exceeds_recipe_requirements( rec ) ) / 2.0f;
+        } else { // If there's no skill involved there shouldn't be any speed reduction due to not having levels in a non existent skill.
+            return 1.0f;
+        }
     }
-    if( rec.has_flag( flag_BLIND_HARD ) && exceeds_recipe_requirements( rec ) >= 2 ) {
+    if( rec.has_flag( flag_BLIND_HARD ) && ( !rec.skill_used ||
+            exceeds_recipe_requirements( rec ) >= 2 ) ) {
         // 100% speed in well lit area at skill+2
         // 25% speed in pitch black at skill+2
         // skill+8 removes speed penalty
-        return 1.0f - ( darkness / ( 7.0f / 0.75f ) ) * std::max( 0,
-                8 - exceeds_recipe_requirements( rec ) ) / 6.0f;
+        if( rec.skill_used ) {
+            return 1.0f - ( darkness / ( 7.0f / 0.75f ) ) * std::max( 0,
+                    8 - exceeds_recipe_requirements( rec ) ) / 6.0f;
+        } else { // No skill involved, so apply arbitrary penalty.
+            return 0.5f;
+        }
     }
     return 0.0f; // it's dark and you could craft this if you had more skill
 }

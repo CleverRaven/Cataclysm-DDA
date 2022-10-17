@@ -44,6 +44,7 @@
           { "u_spawn_item": "robofac_military_skirt" },
           { "u_spawn_item": "robofac_military_vambraces" },
           { "u_spawn_item": "robofac_military_greaves" },
+          { "u_spawn_item": "robofac_military_helmet" },
           { "u_add_var": "u_can_buy_armor", "type": "dialogue", "context": "hub_rnd", "value": "no" }
         ],
         "topic": "TALK_ROBOFAC_INTERCOM_SERVICES"
@@ -299,7 +300,8 @@
           { "u_spawn_item": "robofac_military_skirt" },
           { "u_spawn_item": "robofac_military_vambraces" },
           { "u_spawn_item": "robofac_military_greaves" },
-          { "u_spawn_item": "robofac_military_mantle" }
+          { "u_spawn_item": "robofac_military_mantle" },
+          { "u_spawn_item": "robofac_military_helmet" }
         ],
         "topic": "TALK_ROBOFAC_INTERCOM_SERVICES"
       },
