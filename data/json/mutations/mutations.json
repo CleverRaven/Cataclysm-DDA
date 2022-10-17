@@ -1905,7 +1905,7 @@
     "name": { "str": "Genetic Downward Spiral" },
     "points": -8,
     "purifiable": false,
-    "description": "The events of the Cataclysm have damaged your DNA beyond repair.  You mutate frequently, and your genetic instability is rapidly climbing.",
+    "description": "The events of the Cataclysm have damaged your DNA beyond repair.  You mutate frequently, all mutations you receive (from any source) are negative, and your instability is rapidly growing out of control.",
     "starting_trait": true,
     "cancels": [ "ROBUST" ],
     "valid": false,

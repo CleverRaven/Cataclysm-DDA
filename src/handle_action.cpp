@@ -1654,7 +1654,8 @@ bool Character::cast_spell( spell &sp, bool fake_spell,
             distraction_type::talked_to,
             distraction_type::asthma,
             distraction_type::motion_alarm,
-            distraction_type::weather_change
+            distraction_type::weather_change,
+            distraction_type::mutation
         };
         for( const distraction_type ignored : ignored_distractions ) {
             spell_act.ignore_distraction( ignored );
