@@ -190,7 +190,8 @@
       { "group": "textbooks" },
       { "group": "tools_common" },
       { "group": "tools_workshop" },
-      { "group": "tools_home" }
+      { "group": "tools_home" },
+      { "item": "hnefatafl" }
     ]
   },
   {
