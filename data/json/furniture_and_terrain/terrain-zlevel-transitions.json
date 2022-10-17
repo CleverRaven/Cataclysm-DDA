@@ -13,7 +13,7 @@
       "str_max": 70,
       "sound": "crunch!",
       "sound_fail": "whump!",
-      "ter_set": "t_open_air_rooved",
+      "ter_set": "t_hole",
       "items": [
         { "item": "2x4", "count": [ 0, 2 ] },
         { "item": "nail", "charges": [ 0, 5 ] },
@@ -21,7 +21,7 @@
       ]
     },
     "deconstruct": {
-      "ter_set": "t_open_air_rooved",
+      "ter_set": "t_hole",
       "items": [ { "item": "nail", "charges": [ 4, 8 ] }, { "item": "2x4", "count": [ 0, 4 ] } ]
     }
   },

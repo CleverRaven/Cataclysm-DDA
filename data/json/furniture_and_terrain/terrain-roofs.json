@@ -201,7 +201,7 @@
       "str_max": 210,
       "sound": "crash!",
       "sound_fail": "whump!",
-      "ter_set": "t_open_air",
+      "ter_set": "t_hole",
       "bash_below": true
     }
   },
@@ -220,7 +220,7 @@
       "str_max": 210,
       "sound": "crash!",
       "sound_fail": "whump!",
-      "ter_set": "t_open_air",
+      "ter_set": "t_hole",
       "bash_below": true
     }
   },
@@ -239,7 +239,7 @@
       "str_max": 210,
       "sound": "crash!",
       "sound_fail": "whump!",
-      "ter_set": "t_open_air",
+      "ter_set": "t_hole",
       "bash_below": true
     }
   },
@@ -258,7 +258,7 @@
       "str_max": 210,
       "sound": "crash!",
       "sound_fail": "whump!",
-      "ter_set": "t_open_air",
+      "ter_set": "t_hole",
       "bash_below": true
     }
   },
@@ -277,7 +277,7 @@
       "str_max": 210,
       "sound": "crash!",
       "sound_fail": "whump!",
-      "ter_set": "t_open_air",
+      "ter_set": "t_hole",
       "bash_below": true
     }
   },
@@ -296,7 +296,7 @@
       "str_max": 210,
       "sound": "crash!",
       "sound_fail": "whump!",
-      "ter_set": "t_open_air",
+      "ter_set": "t_hole",
       "bash_below": true
     }
   },
@@ -315,7 +315,7 @@
       "str_max": 6,
       "sound": "glass breaking!",
       "sound_fail": "whack!",
-      "ter_set": "t_open_air",
+      "ter_set": "t_hole",
       "bash_below": true
     }
   },
@@ -334,7 +334,7 @@
       "str_max": 210,
       "sound": "crash!",
       "sound_fail": "whump!",
-      "ter_set": "t_open_air",
+      "ter_set": "t_hole",
       "bash_below": true
     }
   },
@@ -365,7 +365,7 @@
       "sound_fail": "slap!",
       "sound_vol": 8,
       "sound_fail_vol": 4,
-      "ter_set": "t_open_air",
+      "ter_set": "t_hole",
       "bash_below": true
     }
   },
@@ -387,7 +387,7 @@
       "sound_fail": "slap!",
       "sound_vol": 15,
       "sound_fail_vol": 10,
-      "ter_set": "t_open_air",
+      "ter_set": "t_hole",
       "bash_below": true
     }
   },
@@ -406,7 +406,7 @@
       "str_max": 400,
       "sound": "crash!",
       "sound_fail": "whump!",
-      "ter_set": "t_open_air",
+      "ter_set": "t_hole",
       "bash_below": true
     }
   },
@@ -425,7 +425,7 @@
       "str_max": 400,
       "sound": "crash!",
       "sound_fail": "whump!",
-      "ter_set": "t_open_air",
+      "ter_set": "t_hole",
       "bash_below": true
     }
   },
@@ -444,7 +444,7 @@
       "str_max": 400,
       "sound": "crash!",
       "sound_fail": "whump!",
-      "ter_set": "t_open_air",
+      "ter_set": "t_hole",
       "bash_below": true
     }
   },
@@ -463,7 +463,7 @@
       "str_max": 500,
       "sound": "crash!",
       "sound_fail": "whump!",
-      "ter_set": "t_open_air",
+      "ter_set": "t_hole",
       "bash_below": true
     }
   },
@@ -482,7 +482,7 @@
       "str_max": 210,
       "sound": "crash!",
       "sound_fail": "whump!",
-      "ter_set": "t_open_air",
+      "ter_set": "t_hole",
       "bash_below": true
     }
   },
@@ -495,6 +495,6 @@
     "color": "red",
     "move_cost": 2,
     "flags": [ "TRANSPARENT", "FLAT", "ROAD" ],
-    "bash": { "str_min": 48, "str_max": 80, "sound": "crash!", "sound_fail": "whump!", "ter_set": "t_open_air", "bash_below": true }
+    "bash": { "str_min": 48, "str_max": 80, "sound": "crash!", "sound_fail": "whump!", "ter_set": "t_hole", "bash_below": true }
   }
 ]
