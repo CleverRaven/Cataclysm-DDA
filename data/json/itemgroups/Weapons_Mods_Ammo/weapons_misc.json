@@ -14,7 +14,7 @@
       [ "knife_combat", 14 ],
       [ "kukri", 2 ],
       [ "knife_hunting", 4 ],
-      { "distribution": [ { "group": "knife_rambo_full" }, { "group": "knife_rambo_used" } ], "prob": 8 },
+      { "distribution": [ { "group": "knife_rambo_full", "prob": 20 }, { "group": "knife_rambo_used", "prob": 80 } ], "prob": 8 },
       [ "knife_rm42", 2 ],
       [ "throwing_knife", 7 ],
       [ "throwing_axe", 6 ],
