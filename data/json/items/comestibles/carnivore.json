@@ -1782,7 +1782,7 @@
   },
   {
     "type": "GENERIC",
-    "id": "skull_canis_small",
+    "id": "skull_canis_medium",
     "name": { "str": "small canine skull" },
     "description": "The skull of a small canine, likely a small dog breed.",
     "flags": [ "TRADER_AVOID" ],
@@ -1814,7 +1814,7 @@
   },
   {
     "type": "GENERIC",
-    "id": "skull_rat",
+    "id": "skull_rodent",
     "name": { "str": "rat skull" },
     "description": "The skull of a small rodent, most likely a rat.",
     "flags": [ "TRADER_AVOID" ],
@@ -1910,7 +1910,7 @@
   },
   {
     "type": "GENERIC",
-    "id": "skull_cervid",
+    "id": "skull_cervine",
     "name": { "str": "deer skull" },
     "description": "The skull of a cervine, either a deer or a reindeer, with the antlers still attached.",
     "flags": [ "TRADER_AVOID" ],
