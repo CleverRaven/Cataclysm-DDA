@@ -9503,7 +9503,8 @@ bool game::check_safe_mode_allowed( bool repeat_safe_mode_warnings )
     } else {
         // We've got multiple monsters to inform about.
         // Find the range of distances.
-        int min_dist = INT_MAX, max_dist = 0;
+        int min_dist = INT_MAX;
+        int max_dist = 0;
         // Find the most frequent type to call out by name.
         std::unordered_map<std::string, std::vector<const monster *>> mons_by_name;
         for( const shared_ptr_fast<monster> &mon : new_seen_mon ) {
