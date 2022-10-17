@@ -46,8 +46,17 @@
     "looks_like": "ar15",
     "type": "GUN",
     "reload_noise_volume": 10,
-    "name": { "str": "Cx4 Storm" },
-    "description": "A small pistol caliber carbine designed for police use and civilian self-defense, the Cx4 Storm uses magazines that are interchangeable with other Beretta 9x19mm handguns.",
+    "name": { "str": "compact pistol-calibre carbine" },
+    "description": "Designed to be a companion rifle with the M9 handgun, this compact and light weight carbine makes use of the same 9x19mm magazines.  Intended principally for law enforcement use, despite never achieving the same level of popularity within that field as regular and more potent rifles, weapons like this one nevertheless found a home in sport shooting and self-defence civilian roles.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "cx4",
+        "name": { "str": "Cx4 Storm" },
+        "description": "A small pistol caliber carbine designed for police use and civilian self-defense, the Cx4 Storm uses magazines that are interchangeable with other Beretta 9x19mm handguns.",
+        "weight": 1
+      }
+    ],
     "weight": "2575 g",
     "volume": "4458 ml",
     "longest_side": "762 mm",
@@ -94,8 +103,17 @@
     "copy-from": "pistol_base",
     "looks_like": "glock_17",
     "type": "GUN",
-    "name": { "str": "Glock 19" },
-    "description": "Possibly the most popular pistol in existence, the Glock 19 can be summed up as being fundamentally a more compact brother to the full-sized Glock 17 pistol.  Sporting a mainly polymer based design, the Glock 19 is often derided for its plastic construction which lends the handgun a deceptively flimsy feel.  Even so, the Glock 19 remains both a remarkably reliable firearm and a quite shootable gun in its own right.",
+    "name": { "str": "compact 9mm Glock pistol" },
+    "description": "Designed to be a companion rifle with the M9 handgun, this compact and light weight carbine makes use of the same 9x19mm magazines.  Intended principally for law enforcement use, despite never achieving the same level of popularity within that field as regular and more potent rifles, weapons like this one nevertheless found a home in sport shooting and self-defence civilian roles.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "glock_19",
+        "name": { "str": "Glock 19" },
+        "description": "Possibly the most popular pistol in existence, the Glock 19 can be summed up as being fundamentally a more compact brother to the full-sized Glock 17 pistol.  Sporting a mainly polymer based design, the Glock 19 is often derided for its plastic construction which lends the handgun a deceptively flimsy feel.  Even so, the Glock 19 remains both a remarkably reliable firearm and a quite shootable gun in its own right.",
+        "weight": 1
+      }
+    ],
     "ascii_picture": "glock_19",
     "weight": "600 g",
     "volume": "386 ml",
