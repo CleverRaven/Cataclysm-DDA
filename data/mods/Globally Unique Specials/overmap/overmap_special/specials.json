@@ -24,4 +24,29 @@
     "id": "ranch_camp",
     "flags": [ "GLOBALLY_UNIQUE", "SAFE_AT_WORLDGEN", "MAN_MADE" ]
   },
+  {
+    "type": "overmap_special",
+    "id": "valhalla_cult",
+    "flags": [ "CLASSIC", "GLOBALLY_UNIQUE", "MAN_MADE" ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "Occupied Lumbermill",
+    "flags": [ "CLASSIC", "GLOBALLY UNIQUE", "WILDERNESS" ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "Occupied Scrap Yard",
+    "flags": [ "CLASSIC", "GLOBALLY UNIQUE" ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "Occupied Chem Lab",
+    "flags": [ "CLASSIC", "GLOBALLY UNIQUE" ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "Occupied Homeless Camp",
+    "flags": [ "CLASSIC", "GLOBALLY UNIQUE", "URBAN" ]
+  }
 ]
