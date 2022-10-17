@@ -226,7 +226,7 @@
     "type": "COMESTIBLE",
     "name": { "str": "chunk of meat", "str_pl": "chunks of meat" },
     "description": "A chunk of raw meat.  You could eat it as-is, but cooking it is better.",
-    "weight": "296 g",
+    "weight": "325 g",
     "volume": "250 ml",
     "price": 500,
     "price_postapoc": 50,
