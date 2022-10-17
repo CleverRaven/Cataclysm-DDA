@@ -1,0 +1,27 @@
+[
+  {
+    "type": "overmap_special",
+    "id": "Isherwood Farms",
+    "flags": [ "FARM", "GLOBALLY_UNIQUE", "SAFE_AT_WORLDGEN" ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "evac_center",
+    "flags": [ "GLOBALLY_UNIQUE", "SAFE_AT_WORLDGEN", "MAN_MADE" ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "hub_01",
+    "flags": [ "GLOBALLY_UNIQUE", "SAFE_AT_WORLDGEN" ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "isolated_road",
+    "flags": [ "GLOBALLY_UNIQUE", "SAFE_AT_WORLDGEN" ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "ranch_camp",
+    "flags": [ "GLOBALLY_UNIQUE", "SAFE_AT_WORLDGEN", "MAN_MADE" ]
+  },
+]
