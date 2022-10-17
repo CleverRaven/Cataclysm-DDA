@@ -5117,6 +5117,9 @@ Character::comfort_response_t Character::base_comfort_value( const tripoint &p )
             } else {
                 comfort -= here.move_cost( p );
             }
+            if( vp->vehicle().enclosed_at( p ) && get_size() == creature_size::huge ) {
+                comfort = static_cast<int>( comfort_level::impossible );
+            }
         }
         // Not in a vehicle, start checking furniture/terrain/traps at this point in decreasing order
         else if( furn_at_pos != f_null ) {
