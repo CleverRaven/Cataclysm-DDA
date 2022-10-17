@@ -1951,5 +1951,14 @@
       { "drop": "raw_leather", "type": "skin", "mass_ratio": 0.02 },
       { "drop": "fat", "type": "flesh", "mass_ratio": 0.07 }
     ]
+  },
+  {
+    "id": "dog_tiny_with_skull",
+    "type": "harvest",
+    "entries": [
+      { "drop": "skull_canis_small", "type": "bone", "scale_num": [ 1, 1 ], "max": 1 },
+      { "drop": "meat_scrap", "type": "flesh", "mass_ratio": 0.5 },
+      { "drop": "animal_blood", "type": "blood", "mass_ratio": 0.1 }
+    ]
   }
 ]
