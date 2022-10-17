@@ -51,7 +51,7 @@
     "type": "bionic",
     "name": { "str": "Finger Lighter" },
     "description": "The index finger of your left hand has a fire starter that can extend from the tip.",
-    "occupied_bodyparts": [ [ "throat", 2 ] ],
+    "occupied_bodyparts": [ [ "mouth", 1 ] ],
     "flags": [ "USES_BIONIC_POWER" ],
     "activated_eocs": [ "EOC_SUMMON_BAT_SWARM" ],
     "act_cost": "100 J"
@@ -61,7 +61,7 @@
     "type": "bionic",
     "name": { "str": "Fingerpick" },
     "description": "One of your fingers has an electronic lockpick surgically embedded in it.  This automatic system will quickly unlock all but the most advanced key locks without any skill required on the part of the user.",
-    "occupied_bodyparts": [ [ "throat", 2 ] ],
+    "occupied_bodyparts": [ [ "mouth", 2 ] ],
     "flags": [ "USES_BIONIC_POWER" ],
     "activated_eocs": [ "EOC_SUMMON_XL_BAT" ],
     "act_cost": "50 J"
