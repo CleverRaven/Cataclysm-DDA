@@ -3417,38 +3417,39 @@ CBMs can be defined like this:
 
 ### Containers
 
-Any Item can be a container. To add the ability to contain things to an item, you need to add pocket_data. The below example is a typical container (shown with optional default values, or mandatory if the value is mandatory)
+Any Item can be a container. To add the ability to contain things to an item, you need to add `pocket_data`.  The below example is a typical container (shown with optional default values, or mandatory if the value is mandatory):
 
 ```C++
 "pocket_data": [
   {
-    "pocket_type": "CONTAINER",       // Typical container pocket. Pockets can also be MAGAZINE.
-    "max_contains_volume": mandatory, // Maximum volume this pocket can hold, totaled among all contained items.  For example "2 L" or "2000 ml" would hold two liters of items.
-    "max_contains_weight": mandatory, // Maximum weight this pocket can hold, totaled among all container items.  For example "6 kg" is about enough to contain a bowling ball.
-    "min_item_volume": "0 ml",        // Minimum volume of item that can be placed into this pocket.  Items smaller than this cannot be placed in the pocket.
+    "pocket_type": "CONTAINER",       // Type of pocket.  Can be CONTAINER for typical pockets, MAGAZINE for individual bullets, or MAGAZINE_WELL for magazines.
+    "max_contains_volume": "2 L",     // (mandatory) Maximum volume this pocket can hold, totaled among all contained items.
+    "max_contains_weight": "2 kg",    // (mandatory) Maximum weight this pocket can hold, totaled among all contained items.
+    "min_item_volume": "0 ml",        // Minimum volume of item that can be placed into this pocket, items smaller than this cannot be placed in the pocket.
     "max_item_volume": "0 ml",        // Maximum volume of item that can fit through the opening into this pocket.  For example, a 2-liter bottle has a "17 ml" opening.
-    "max_item_length": "0 mm",        // Maximum length of items that can fit in this pocket, by their longest_side.  Default is the diagonal opening length assuming volume is a cube (cube_root(vol)*square_root(2))
+    "max_item_length": "0 mm",        // Maximum length of items that can fit in this pocket, by their longest_side (default: diagonal opening length assuming volume is a cube (cube_root (vol) * square_root(2)) )
     "spoil_multiplier": 1.0,          // How putting an item in this pocket affects spoilage.  Less than 1.0 and the item will be preserved longer; 0.0 will preserve indefinitely.
     "weight_multiplier": 1.0,         // The items in this pocket magically weigh less inside than outside.  Nothing in vanilla should have a weight_multiplier.
     "moves": 100,                     // Indicates the number of moves it takes to remove an item from this pocket, assuming best conditions.
-    "rigid": false,                   // Default false. If true, this pocket's size is fixed, and does not expand when filled.  A glass jar would be rigid, while a plastic bag is not.
+    "rigid": false,                   // If true, this pocket's size is fixed, and does not expand when filled (default: false).  A glass jar would be rigid, while a plastic bag is not.
     "magazine_well": "0 ml",          // Amount of space you can put items in the pocket before it starts expanding.  Only works if rigid = false.
-    "watertight": false,              // Default false. If true, can contain liquid.
-    "airtight": false,                // Default false. If true, can contain gas.
-    "ablative": false,                 // Default false. If true, this item holds a single ablative plate. Make sure to include a flag_restriction on the type of plate that can be added.
-    "holster": false,                 // Default false. If true, only one stack of items can be placed inside this pocket, or one item if that item is not count_by_charges.
-    "open_container": false,          // Default false. If true, the contents of this pocket will spill if this item is placed into another item.
-    "fire_protection": false,         // Default false. If true, the pocket protects the contained items from exploding if tossed into a fire.
-    "ammo_restriction": { "ammotype": count }, // Restrict pocket to a given ammo type and count.  This overrides mandatory volume, weight, watertight and airtight to use the given ammo type instead.  A pocket can contain any number of unique ammo types each with different counts, and the container will only hold one type (as of now).  If this is left out, it will be empty.
-    "flag_restriction": [ "FLAG1", "FLAG2" ],  // Items can only be placed into this pocket if they have a flag that matches one of these flags.
-    "item_restriction": [ "item_id" ],         // Only these item IDs can be placed into this pocket. Overrides ammo and flag restrictions.
-    "material_restriction": [ "material_id" ], // Only items that are mainly made of this material can enter.
-	// If multiple of "flag_restriction", "material_restriction" and "item_restriction" are used simultaneously then any item that matches any of them will be accepted.
+    "watertight": false,              // If true, can contain liquid (default: false).
+    "airtight": false,                // If true, can contain gas (default: false).
+    "ablative": false,                // If true, this item holds a single ablative plate (default: false).  Make sure to include a flag_restriction on the type of plate that can be added.
+    "holster": false,                 // If true, only one stack of items can be placed inside this pocket, or one item if that item is not count_by_charges (default: false).
+    "open_container": false,          // If true, the contents of this pocket will spill if this item is placed into another item (default: false).
+    "fire_protection": false,         // If true, the pocket protects the contained items from exploding if tossed into a fire (default: false).
+    "ammo_restriction": { "ammotype": count },  // Restrict pocket to a given ammo type and count.  This overrides mandatory volume, weight, watertight and airtight to use the given ammo type instead.  A pocket can contain any number of unique ammo types each with different counts, and the container will only hold one type (as of now).  If this is left out, it will be empty.
+    "flag_restriction": [ "FLAG1", "FLAG2" ],   // Items can only be placed into this pocket if they have a flag that matches one of these flags.
+    "item_restriction": [ "item_id" ],          // Only these item IDs can be placed into this pocket.  Overrides ammo and flag restrictions.
+    "material_restriction": [ "material_id" ],  // Only items that are mainly made of this material can enter.
+                                                // If multiple of "flag_restriction", "material_restriction" and "item_restriction" are used simultaneously then any item that matches any of them will be accepted.
 
-    "sealed_data": { "spoil_multiplier": 0.0 } // If a pocket has sealed_data, it will be sealed when the item spawns.  The sealed version of the pocket will override the unsealed version of the same datatype.
+    "sealed_data": { "spoil_multiplier": 0.0 }  // If a pocket has sealed_data, it will be sealed when the item spawns.  The sealed version of the pocket will override the unsealed version of the same datatype.
   }
 ]
 ```
+
 
 ### Melee
 
@@ -3749,114 +3750,208 @@ The contents of use_action fields can either be a string indicating a built-in f
 
 ```C++
 "use_action": {
-    "type": "transform",  // The type of method, in this case one that transforms the item.
-    "target": "gasoline_lantern_on", // The item to transform to.
-    "active": true,       // Whether the item is active once transformed.
-    "ammo_scale": 0,    // For use when an item automatically transforms into another when its ammo drops to 0, or to allow guns to transform with 0 ammo.
-    "msg": "You turn the lamp on.", // Message to display when activated.
-    "need_fire": 1,                 // Whether fire is needed to activate.
-    "need_fire_msg": "You need a lighter!", // Message to display if there is no fire.
-    "need_charges": 1,                      // Number of charges the item needs to transform.
-    "need_charges_msg": "The lamp is empty.", // Message to display if there aren't enough charges.
-    "need_worn": true;                        // Whether the item must be worn to be transformed; false by default.
-    "need_wielding": true;                    // Whether the item must be wielded to be transformed; false by default.
-    "target_charges" : 3, // Number of charges the transformed item has.
-    "rand_target_charges": [10, 15, 25], // Randomize the charges the transformed item has. This example has a 50% chance of rng(10, 15) charges and a 50% chance of rng(15, 25). (The endpoints are included.)
-    "container" : "jar",  // Container holding the target item.
-    "menu_text": "Lower visor"      // (Optional) Text displayed in the activation screen, defaults to "Turn on".
-    "moves" : 500         // Moves required to transform the item in excess of a normal action.
+    "type": "bandolier",            // Store ammo.
+    "capacity": 10,                 // Total number of rounds that can be stored.
+    "ammo": [ "shot", "9mm" ],      // IDs of the ammo_type that can be stored.
 },
 "use_action": {
-    "type": "explosion", // An item that explodes when it runs out of charges.
-    "sound_volume": 0, // Volume of a sound the item makes every turn.
-    "sound_msg": "Tick.", // Message describing sound the item makes every turn.
-    "no_deactivate_msg": "You've already pulled the %s's pin, try throwing it instead.", // Message to display if the player tries to activate the item, prevents activation from succeeding if defined.
-    "explosion": { // Optional: physical explosion data
-        // Specified like `"explosion"` field in generic items
-    },
-    "draw_explosion_radius" : 5, // How large to draw the radius of the explosion.
-    "draw_explosion_color" : "ltblue", // The color to use when drawing the explosion.
-    "do_flashbang" : true, // Whether to do the flashbang effect.
-    "flashbang_player_immune" : true, // Whether the player is immune to the flashbang effect.
-    "fields_radius": 3, // The radius of spread for fields produced.
-    "fields_type": "fd_tear_gas", // The type of fields produced.
-    "fields_min_intensity": 3, // Minimum intensity of field generated by the explosion.
-    "fields_max_intensity": 3, // Maximum intensity of field generated by the explosion.
-    "emp_blast_radius": 4, // The radius of EMP blast created by the explosion.
-    "scrambler_blast_radius": 4 // The radius of scrambler blast created by the explosion.
+    "type": "cauterize",            // Cauterize the character.
+    "flame": true                   // If true, the character needs 4 charges of fire (e.g. from a lighter) to do this action, if false, the charges of the item itself are used.
 },
 "use_action": {
-    "type": "change_scent", // Change the scent type of the user.
-    "scent_typeid": "sc_fetid", // The scenttype_id of the new scent.
-    "charges_to_use": 2, // Charges consumed when the item is used.  (Default: 1)
-    "scent_mod": 150, // Modifier added to the scent intensity.  (Default: 0)
-    "duration": "6 m", // How long does the effect last.
-    "effects": [ { "id": "fetid_goop", "duration": 360, "bp": "torso", "permanent": true } ], // List of effects with their id, duration, bodyparts, and permanent bool
-    "waterproof": true, // Is the effect waterproof.  (Default: false)
-    "moves": 500 // Number of moves required in the process.
+    "type": "change_scent",         // Change the scent type of the user.
+    "scent_typeid": "sc_fetid",     // The scenttype_id of the new scent.
+    "charges_to_use": 2,            // Charges consumed when the item is used (default: 1).
+    "scent_mod": 150,               // Modifier added to the scent intensity (default: 0).
+    "duration": "6 m",              // How long does the effect last.
+    "effects": [ { "id": "fetid_goop", "duration": 360, "bp": "torso", "permanent": true } ], // IDs of the effect, duration, bodyparts, and permanent bool
+    "waterproof": true,             // Makes the effect waterproof (default: false).
+    "moves": 500                    // Number of moves required in the process.
 },
-"use_action" : {
-    "type" : "consume_drug", // A drug the player can consume.
-    "activation_message" : "You smoke your crack rocks.  Mother would be proud.", // Message, ayup.
-    "effects" : { "high": 15 }, // Effects and their duration.
+"use_action": {
+    "type": "consume_drug",         // A drug the player can consume.
+    "activation_message": "You smoke your crack rocks.  Mother would be proud.", // Message, ayup.
+    "effects": { "high": 15 },      // Effects and their duration.
     "damage_over_time": [
         {
-          "damage_type": "pure", // Type of damage
-          "duration": "1 m", // For how long this damage will be applied
-          "amount": -10, // Amount of damage applied every turn, negative damage heals
-          "bodyparts": [ "torso", "head", "arm_l", "leg_l", "arm_r", "leg_r" ] // Body parts hit by the damage
+          "damage_type": "pure",    // Type of damage.
+          "duration": "1 m",        // For how long this damage will be applied.
+          "amount": -10,            // Amount of damage applied every turn, negative damage heals.
+          "bodyparts": [ "torso", "head", "arm_l", "leg_l", "arm_r", "leg_r" ] // Body parts hit by the damage.
         }
     ]
-    "stat_adjustments": {"hunger" : -10}, // Adjustment to make to player stats.
-    "fields_produced" : {"cracksmoke" : 2}, // Fields to produce, mostly used for smoke.
-    "charges_needed" : { "fire" : 1 }, // Charges to use in the process of consuming the drug.
-    "tools_needed" : { "apparatus" : -1 }, // Tool needed to use the drug.
-    "moves": 50 // Number of moves required in the process, default value is 100.
+    "stat_adjustments": { "hunger": -10 },      // Adjustment to make to player stats.
+    "fields_produced": { "cracksmoke": 2 },     // Fields to produce, mostly used for smoke.
+    "charges_needed": { "fire": 1 },            // Charges to use in the process of consuming the drug.
+    "tools_needed": { "apparatus": -1 },        // Tool needed to use the drug.
+    "moves": 50                                 // Number of moves required in the process (default: 100).
 },
 "use_action": {
-    "type": "place_monster", // place a turret / manhack / whatever monster on the map
-    "monster_id": "mon_manhack", // monster id, see monsters.json
-    "difficulty": 4, // difficulty for programming it (manhacks have 4, turrets 6, ...)
-    "hostile_msg": "It's hostile!", // (optional) message when programming the monster failed and it's hostile.
-    "friendly_msg": "Good!", // (optional) message when the monster is programmed properly and it's friendly.
-    "place_randomly": true, // if true: places the monster randomly around the player, if false: let the player decide where to put it (default: false)
-    "skills": [ "unarmed", "throw" ], // (optional) array of skill IDs. Higher skill level means more likely to place a friendly monster.
-    "moves": 60, // how many move points the action takes.
-    "is_pet": false // specifies if the spawned monster is a pet. The monster will only spawn as a pet if it is spawned as friendly, hostile monsters will never be pets.
+    "type": "delayed_transform",    // Like transform, but it will only transform when the item has a certain age.
+    "transform_age": 600,           // The minimal age of the item in turns (60 turns = 1 minute).  Items younger than this value won't transform.
+    "not_ready_msg": "The yeast has not been done The yeast isn't done culturing yet." // A message shown when the item is not old enough.
 },
 "use_action": {
-    "type": "place_npc", // place npc of specific class on the map
-    "npc_class_id": "true_foodperson", // npc id, see npcs/npc.json
-    "summon_msg": "You summon a food hero!", // (optional) message when summoning the npc.
-    "place_randomly": true, // if true: places npc randomly around the player, if false: let the player decide where to put it (default: false)
-    "moves": 50, // how many move points the action takes.
-    "radius": 1 // maximum radius for random npc placement.
-},
-"use_action" : {
-    "type" : "delayed_transform", // Like transform, but it will only transform when the item has a certain age
-    "transform_age" : 600, // The minimal age of the item. Items that are younger wont transform. In turns (60 turns = 1 minute)
-    "not_ready_msg" : "The yeast has not been done The yeast isn't done culturing yet." // A message, shown when the item is not old enough
+    "type": "deploy_furn",          // Create a furniture at the location.
+    "furn_type": "f_brazier"        // ID of the furniture to be placed.
 },
 "use_action": {
-    "type": "firestarter", // Start a fire, like with a lighter.
-    "moves_cost": 15 // Number of moves it takes to start the fire.
+    "type": "effect_on_conditions",             // Activate effect_on_conditions.
+    "description": "This debugs the game",      // Usage description.
+    "effect_on_conditions": [ "test_cond" ]     // IDs of the effect_on_conditions to activate.
 },
 "use_action": {
-    "type": "unpack", // unpack this item
-    "group": "gobag_contents", // itemgroup this unpacks into
-    "items_fit": true, // Do the armor items in this fit? Defaults to false.
-    "filthy_volume_threshold": "10 L" // If the items unpacked from this item have volume, and this item is filthy, at what amount of held volume should they become filthy
+    "type": "explosion",            // An item that explodes when it runs out of charges.
+    "sound_volume": 0,              // Volume of a sound the item makes every turn.
+    "sound_msg": "Tick.",           // Message describing sound the item makes every turn.
+    "no_deactivate_msg": "You've already pulled the %s's pin, try throwing it instead.", // Message to display if the player tries to activate the item, prevents activation from succeeding if defined.
+    "explosion": {                  // (optional) Physical explosion data.
+                                    // Specified like `"explosion"` field in generic items
+    },
+    "draw_explosion_radius": 5,                 // How large to draw the radius of the explosion.
+    "draw_explosion_color": "light_blue",       // The color to use when drawing the explosion.
+    "do_flashbang": true,                       // Whether to do the flashbang effect.
+    "flashbang_player_immune": true,            // Whether the player is immune to the flashbang effect.
+    "fields_radius": 3,                         // The radius of spread for fields produced.
+    "fields_type": "fd_tear_gas",               // The type of fields produced.
+    "fields_min_intensity": 3,                  // Minimum intensity of field generated by the explosion.
+    "fields_max_intensity": 3,                  // Maximum intensity of field generated by the explosion.
+    "emp_blast_radius": 4,                      // The radius of EMP blast created by the explosion.
+    "scrambler_blast_radius": 4                 // The radius of scrambler blast created by the explosion.
 },
 "use_action": {
-    "type": "extended_firestarter", // Start a fire (like with magnifying glasses or a fire drill). This action can take many turns, not just some moves like firestarter, it can also be canceled (firestarter can't).
-    "need_sunlight": true // Whether the character needs to be in direct sunlight, e.g. to use magnifying glasses.
+    "type": "extended_firestarter", // Start a fire (like with magnifying glasses or a fire drill).  This action can take many turns, not just some moves like firestarter, it can also be canceled (firestarter can't).
+    "need_sunlight": true           // Whether the character needs to be in direct sunlight, e.g. to use magnifying glasses.
 },
 "use_action": {
-    "type": "salvage", // Try to salvage base materials from an item, e.g. cutting up cloth to get rags or leather.
-    "moves_per_part": 25, // Number of moves it takes (optional).
-    "material_whitelist": [ // List of material ids (not item ids!) that can be salvage from.
-        "cotton",           // The list here is the default list, used when there is no explicit martial list given.
-        "leather",          // If the item (that is to be cut up) has any material not in the list, it can not be cut up.
+    "type": "firestarter",          // Start a fire, like with a lighter.
+    "moves_cost": 15                // Number of moves it takes to start the fire.
+},
+"use_action": {
+    "type": "fireweapon_on",        // Function for active (burning) fire based weapons.
+    "noise_chance": 1,              // The chance (one in X) that the item will make a noise, rolled on each turn.
+    "noise": 0,                     // The sound volume it makes, if it makes a noise at all.  If 0, no sound is made, but the noise message is still printed.
+    "noise_message": "Your No. 9 hisses.",                      // The message / sound description (if noise is > 0), that appears when the item makes a sound.
+    "voluntary_extinguish_message": "Your No. 9 goes dark.",    // Message that appears when the item is turned of by player.
+    "charges_extinguish_message": "Out of ammo!",               // Message that appears when the item runs out of charges.
+    "water_extinguish_message": "Your No. 9 hisses in the water and goes out.", // Message that appears if the character walks into water and the fire of the item is extinguished.
+    "auto_extinguish_chance": 0,                                // If > 0, this is the (one in X) chance that the item goes out on its own.
+    "auto_extinguish_message": "Your No. 9 cuts out!"           // Message that appears if the item goes out on its own (only required if auto_extinguish_chance is > 0).
+},
+"use_action": {
+    "type": "fireweapon_off",               // Activate a fire based weapon.
+    "target_id": "firemachete_on",          // The item type to transform this item into.
+    "success_message": "Your No. 9 glows!", // A message that is shows if the action succeeds.
+    "failure_message": "",                  // (optional) A message that is shown if the action fails, for whatever reason.  If not present, no message will be printed.
+    "lacks_fuel_message": "Out of fuel",    // Message that is shown if the item has no charges.
+    "noise": 0,                             // (optional) The noise it makes to active the item, 0 means no sound at all.
+    "moves": 0,                             // The number of moves it takes the character to even try this action (independent of the result).
+    "success_chance": 0                     // How likely it is to succeed the action (default: always).  Try numbers in the range of 0-10.
+},
+"use_action": {
+    "type": "heal",                 // Heal damage, possibly some statuses.
+    "limb_power": 10,               // How much hp to restore when healing limbs.  Mandatory value.
+    "head_power": 7,                // How much hp to restore when healing head (default: 0.8 * limb_power).
+    "torso_power": 15,              // How much hp to restore when healing torso (default: 1.5 * limb_power).
+    "bleed": 4,                     // How many bleed effect intensity levels can be reduced by it.  Base value.
+    "bite": 0.95,                   // Chance to remove bite effect.
+    "infect": 0.1,                  // Chance to remove infected effect.
+    "move_cost": 250,               // Cost in moves to use the item.
+    "limb_scaling": 1.2,            // How much extra limb hp should be healed per first aid level (default: 0.25 * limb_power).
+    "head_scaling": 1.0,            // How much extra limb hp should be healed per first aid level (default: (limb_scaling / limb_power) * head_power).
+    "torso_scaling": 2.0,           // How much extra limb hp should be healed per first aid level (default: (limb_scaling / limb_power) * torso_power).
+    "effects": [                    // Effects to apply to patient on finished healing.  Same syntax as in consume_drug effects.
+        { "id": "pkill1", "duration": 120 }
+    ],
+    "used_up_item": "rag_bloody"    // Item produced on successful healing.  If the healing item is a tool, it is turned into the new type, otherwise a new item is produced.
+},
+"use_action": {
+    "type": "holster",                          // Holster or draw a weapon.
+    "holster_prompt": "Holster item",           // Prompt to use when selecting an item.
+    "holster_msg": "You holster your %s",       // Message to show when holstering an item.
+    "max_volume": "1500 ml",                    // Maximum volume of each item that can be holstered.  Volume can be in ml or L.
+    "min_volume": "750 ml",                     // Minimum volume of each item that can be holstered or 1/3 max_volume if unspecified.  Volume can be in ml or L.
+    "max_weight": 2000,                         // Maximum weight of each item.  If unspecified no weight limit is imposed.
+    "multi": 1,                                 // Total number of items that holster can contain.
+    "draw_cost": 10,                            // Base move cost per unit volume when wielding the contained item.
+    "skills": [ "pistol", "shotgun" ],          // Guns using any of these skills can be holstered.
+    "flags": [ "SHEATH_KNIFE", "SHEATH_SWORD" ] // Items with any of these flags set can be holstered.
+},
+"use_action": {
+    "type": "inscribe",             // Inscribe a message on an item or on the ground.
+    "on_items": true,               // Whether the item can inscribe on an item.
+    "on_terrain": false,            // Whether the item can inscribe on the ground.
+    "material_restricted": true,    // Whether the item can only inscribe on certain item materials.  Not used when inscribing on the ground.
+    "material_whitelist": [         // List of material ids (not item ids!) that can be inscribed on.
+        "wood",                     // Only used when inscribing on an item, and only when material_restricted is true.
+        "plastic",                  // The list here is the default that is used when no explicit list is given.
+        "glass",
+        "chitin",
+        "iron",
+        "steel",
+        "silver"
+    ]
+},
+"use_action": {
+    "type": "musical_instrument",   // The character plays this item as instrument while walking around.
+    "speed_penalty": 10,            // Character's movement cost penalty when used.
+    "volume": 12,                   // Volume of the sound of the instrument.
+    "fun": -5,                      // Together with fun_bonus, this defines how much morale the character gets from playing the instrument.  They get `fun + fun_bonus * <character-perception>` morale points out of it.  Both values and the result may be negative.
+    "fun_bonus": 2,
+    "description_frequency": 20,    // Once every Nth turn, a randomly chosen description is displayed.
+    "player_descriptions": [
+        "You play a little tune on your flute.",
+        "You play a beautiful piece on your flute.",
+        "You play a piece on your flute that sounds harmonious with nature."
+    ]
+},
+"use_action": {
+    "type": "place_monster",            // Place a monster on the map.
+    "monster_id": "mon_manhack",        // ID of the monster to be placed.
+    "difficulty": 4,                    // Difficulty for programming it (manhacks have 4, turrets 6, etc.).
+    "hostile_msg": "It's hostile!",     // (optional) Message when programming the monster failed and it's hostile.
+    "friendly_msg": "Good!",            // (optional) Message when the monster is programmed properly and it's friendly.
+    "place_randomly": true,             // Places the monster randomly around the player if true, otherwise the player can decide where to put it (default: false).
+    "skills": [ "unarmed", "throw" ],   // (optional) Array of skill IDs.  Higher skill level means more likely to place a friendly monster.
+    "moves": 60,                        // How many move points the action takes.
+    "is_pet": false                     // Specifies if the spawned monster is a pet.  The monster will only spawn as a pet if it is spawned as friendly, hostile monsters will never be pets.
+},
+"use_action": {
+    "type": "place_npc",                        // Place a NPC of a specific class.
+    "npc_class_id": "true_foodperson",          // ID of the NPC.
+    "summon_msg": "You summon a food hero!",    // (optional) Message when summoning the NPC.
+    "place_randomly": true,                     // Places the NPC randomly around the player if true, otherwise the player can decide where to put it (default: false).
+    "moves": 50,                                // How many move points the action takes.
+    "radius": 1                                 // Maximum radius for random NPC placement.
+},
+"use_action": {
+    "type": "place_trap",               // Places a trap.
+    "allow_underwater": false,          // (optional) Allow placing this trap when the player character is underwater.
+    "allow_under_player": false,        // (optional) Allow placing the trap on the same square as the player character (e.g. for benign traps).
+    "needs_solid_neighbor": false,      // (optional) Trap must be placed between two solid tiles (e.g. for tripwire).
+    "needs_neighbor_terrain": "t_tree", // (optional) ID of the terrain the trap must be placed adjacent to.
+    "outer_layer_trap": "tr_blade",     // (optional) ID of the trap the game places on a 3x3 field.  The center trap is the one defined by "trap", the 8 surrounding traps are defined by this (e.g. tr_blade for blade traps).
+    "bury_question": "",                // (optional) If non-empty: a question that will be asked if the player character has a shoveling tool and the target location is diggable, placing a buried trap.  If the player answers yes, the data from the "bury" object will be used.
+    "bury": {                           // If bury_question was answered with yes, data from this entry will be used instead of outer data.
+                                        // This json object should contain "trap", "done_message", "practice" and (optional) "moves", with the same meaning as below.
+    },
+    "trap": "tr_engine",                // The trap to place.
+    "done_message": "Place the beartrap on the %s.", // The message that appears after the trap has been placed.  %s is replaced with the terrain name of the place where the trap has been put.
+    "practice": 4,                      // How much practice to the "traps" skill placing the trap gives.
+    "moves": 10                         // (optional) Move points used by placing the trap (default: 100).
+},
+"use_action": {
+    "type": "reveal_map",               // Reveal specific terrains on the overmap.
+    "radius": 180,                      // Radius around the player where things are revealed.  A single overmap is 180x180 tiles.
+    "terrain": [ "hiway", "road" ],     // IDs of overmap terrain types that should be revealed.
+    "message": "You add roads and tourist attractions to your map." // Displayed after the revelation.
+},
+"use_action": {
+    "type": "salvage",              // Try to salvage base materials from an item, e.g. cutting up cloth to get rags or leather.
+    "moves_per_part": 25,           // (optional) Number of moves it takes.
+    "material_whitelist": [         // List of material IDs (not item IDs!) that can be salvage from.
+        "cotton",                   // The list here is the default list, used when there is no explicit martial list given.
+        "leather",                  // If the item (that is to be cut up) has any material not in the list, it can not be cut up.
         "fur",
         "nomex",
         "kevlar",
@@ -3866,131 +3961,41 @@ The contents of use_action fields can either be a string indicating a built-in f
     ]
 },
 "use_action": {
-    "type": "inscribe", // Inscribe a message on an item or on the ground.
-    "on_items": true, // Whether the item can inscribe on an item.
-    "on_terrain": false, // Whether the item can inscribe on the ground.
-    "material_restricted": true, // Whether the item can only inscribe on certain item materials. Not used when inscribing on the ground.
-    "material_whitelist": [ // List of material ids (not item ids!) that can be inscribed on.
-        "wood",             // Only used when inscribing on an item, and only when material_restricted is true.
-        "plastic",          // The list here is the default that is used when no explicit list is given.
-        "glass",
-        "chitin",
-        "iron",
-        "steel",
-        "silver"
-    ]
-},
-"use_action": {
-    "type": "cauterize", // Cauterize the character.
-    "flame": true // If true, the character needs 4 charges of fire (e.g. from a lighter) to do this action, if false, the charges of the item itself are used.
-},
-"use_action": {
-    "type": "fireweapon_off", // Activate a fire based weapon.
-    "target_id": "firemachete_on", // The item type to transform this item into.
-    "success_message": "Your No. 9 glows!", // A message that is shows if the action succeeds.
-    "failure_message": "", // A message that is shown if the action fails, for whatever reason. (Optional, if not given, no message will be printed.)
-    "lacks_fuel_message": "Out of fuel", // Message that is shown if the item has no charges.
-    "noise": 0, // The noise it makes to active the item, Optional, 0 means no sound at all.
-    "moves": 0, // The number of moves it takes the character to even try this action (independent of the result).
-    "success_chance": 0 // How likely it is to succeed the action. Default is to always succeed. Try numbers in the range of 0-10.
-},
-"use_action": {
-    "type": "fireweapon_on", // Function for active (burning) fire based weapons.
-    "noise_chance": 1, // The chance (one in X) that the item will make a noise, rolled on each turn.
-    "noise": 0, // The sound volume it makes, if it makes a noise at all. If 0, no sound is made, but the noise message is still printed.
-    "noise_message": "Your No. 9 hisses.", // The message / sound description (if noise is > 0), that appears when the item makes a sound.
-    "voluntary_extinguish_message": "Your No. 9 goes dark.", // Message that appears when the item is turned of by player.
-    "charges_extinguish_message": "Out of ammo!", // Message that appears when the item runs out of charges.
-    "water_extinguish_message": "Your No. 9 hisses in the water and goes out.", // Message that appears if the character walks into water and the fire of the item is extinguished.
-    "auto_extinguish_chance": 0, // If > 0, this is the (one in X) chance that the item goes out on its own.
-    "auto_extinguish_message": "Your No. 9 cuts out!" // Message that appears if the item goes out on its own (only required if auto_extinguish_chance is > 0).
-},
-"use_action": {
-    "type": "musical_instrument", // The character plays an instrument (this item) while walking around.
-    "speed_penalty": 10, // This is subtracted from the characters speed.
-    "volume": 12, // Volume of the sound of the instrument.
-    "fun": -5, // Together with fun_bonus, this defines how much morale the character gets from playing the instrument. They get `fun + fun_bonus * <character-perception>` morale points out of it. Both values and the result may be negative.
-    "fun_bonus": 2,
-    "description_frequency": 20, // Once every Nth turn, a randomly chosen description (from the that array) is displayed.
-    "player_descriptions": [
-        "You play a little tune on your flute.",
-        "You play a beautiful piece on your flute.",
-        "You play a piece on your flute that sounds harmonious with nature."
-    ]
-},
-"use_action": {
-    "type": "holster", // Holster or draw a weapon
-    "holster_prompt": "Holster item", // Prompt to use when selecting an item
-    "holster_msg": "You holster your %s", // Message to show when holstering an item
-    "max_volume": "1500 ml", // Maximum volume of each item that can be holstered. Volume in ml and L can be used - "50 ml" or "2 L".
-    "min_volume": "750 ml",  // Minimum volume of each item that can be holstered or 1/3 max_volume if unspecified. volume in ml and L can be used - "50 ml" or "2 L".
-    "max_weight": 2000, // Maximum weight of each item. If unspecified no weight limit is imposed
-    "multi": 1, // Total number of items that holster can contain
-    "draw_cost": 10, // Base move cost per unit volume when wielding the contained item
-    "skills": ["pistol", "shotgun"], // Guns using any of these skills can be holstered
-    "flags": ["SHEATH_KNIFE", "SHEATH_SWORD"] // Items with any of these flags set can be holstered
-},
-"use_action": {
-    "type": "bandolier", // Store ammo and later reload using it
-    "capacity": 10, // Total number of rounds that can be stored
-    "ammo": [ "shot", "9mm" ], // What types of ammo can be stored?
-},
-"use_action": {
-    "type": "reveal_map", // reveal specific terrains on the overmap
-    "radius": 180, // radius around the player where things are revealed. A single overmap is 180x180 tiles.
-    "terrain": ["hiway", "road"], // ids of overmap terrain types that should be revealed (as many as you want).
-    "message": "You add roads and tourist attractions to your map." // Displayed after the revelation.
-},
-"use_action": {
-    "type" : "heal",        // Heal damage, possibly some statuses
-    "limb_power" : 10,      // How much hp to restore when healing limbs? Mandatory value
-    "head_power" : 7,       // How much hp to restore when healing head? If unset, defaults to 0.8 * limb_power.
-    "torso_power" : 15,     // How much hp to restore when healing torso? If unset, defaults to 1.5 * limb_power.
-    "bleed" : 4,            // How many bleed effect intensity levels can be reduced by it. Base value.
-    "bite" : 0.95,          // Chance to remove bite effect.
-    "infect" : 0.1,         // Chance to remove infected effect.
-    "move_cost" : 250,      // Cost in moves to use the item.
-    "limb_scaling" : 1.2,   // How much extra limb hp should be healed per first aid level. Defaults to 0.25 * limb_power.
-    "head_scaling" : 1.0,   // How much extra limb hp should be healed per first aid level. Defaults to (limb_scaling / limb_power) * head_power.
-    "torso_scaling" : 2.0,  // How much extra limb hp should be healed per first aid level. Defaults to (limb_scaling / limb_power) * torso_power.
-    "effects" : [           // Effects to apply to patient on finished healing. Same syntax as in consume_drug effects.
-        { "id" : "pkill1", "duration" : 120 }
-    ],
-    "used_up_item" : "rag_bloody" // Item produced on successful healing. If the healing item is a tool, it is turned into the new type. Otherwise a new item is produced.
-},
-"use_action": {
-    "type": "place_trap", // places a trap
-    "allow_underwater": false, // (optional) allow placing this trap when the player character is underwater
-    "allow_under_player": false, // (optional) allow placing the trap on the same square as the player character (e.g. for benign traps)
-    "needs_solid_neighbor": false, // (optional) trap must be placed between two solid tiles (e.g. for tripwire).
-    "needs_neighbor_terrain": "t_tree", // (optional, default is empty) if non-empty: a terrain id, the trap must be placed adjacent to that terrain.
-    "outer_layer_trap": "tr_blade", // (optional, default is empty) if non-empty: a trap id, makes the game place a 3x3 field of traps. The center trap is the one defined by "trap", the 8 surrounding traps are defined by this (e.g. tr_blade for blade traps).
-    "bury_question": "", // (optional) if non-empty: a question that will be asked if the player character has a shoveling tool and the target location is diggable. It allows to place a buried trap. If the player answers the question (e.g. "Bury the X-trap?") with yes, the data from the "bury" object will be used.
-    "bury": { // If the bury_question was answered with yes, data from this entry will be used instead of outer data.
-         // This json object should contain "trap", "done_message", "practice" and (optional) "moves", with the same meaning as below.
-    },
-    "trap": "tr_engine", // The trap to place.
-    "done_message": "Place the beartrap on the %s.", // The message that appears after the trap has been placed. %s is replaced with the terrain name of the place where the trap has been put.
-    "practice": 4, // How much practice to the "traps" skill placing the trap gives.
-    "moves": 10 // (optional, default is 100): the move points that are used by placing the trap.
-}
-"use_action": {
-    "type": "sew_advanced",  // Modify clothing
-    "materials": [           // materials to deal with.
+    "type": "sew_advanced",         // Modify clothing
+    "materials": [                  // Materials to deal with.
         "cotton",
         "leather"
     ],
-    "skill": "tailor",       // Skill used.
-    "clothing_mods": [       // Clothing mods to deal with.
+    "skill": "tailor",              // Skill used.
+    "clothing_mods": [              // Clothing mods to deal with.
         "leather_padded",
         "kevlar_padded"
     ]
-}
+},
 "use_action": {
-    "type" :"effect_on_conditions", // activate effect_on_conditions
-    "description" :"This debugs the game", // usage description
-    "effect_on_conditions" : ["test_cond"] // ids of the effect_on_conditions to activate
-    }
+    "type": "transform",                    // Transforms the item.
+    "target": "gasoline_lantern_on",        // ID of the transformed item.
+    "active": true,                         // Whether the item is active once transformed.
+    "ammo_scale": 0,                        // For use when an item automatically transforms into another when its ammo drops to 0, or to allow guns to transform with 0 ammo.
+    "msg": "You turn the lamp on.",         // Message to display when activated.
+    "need_fire": 1,                         // Whether fire is needed to activate.
+    "need_fire_msg": "You need a lighter!", // Message to display if there is no fire.
+    "need_charges": 1,                      // Number of charges the item needs to transform.
+    "need_charges_msg": "The lamp is empty.", // Message to display if there aren't enough charges.
+    "need_worn": true;                      // Whether the item must be worn to be transformed (default: false).
+    "need_wielding": true;                  // Whether the item must be wielded to be transformed (default: false).
+    "target_charges": 3,                    // Number of charges of the transformed item.
+    "rand_target_charges": [10, 15, 25],    // Randomize charges of the transformed item.  In this case a 50% chance of rng(10, 15) charges and a 50% chance of rng(15, 25), included endpoints.
+    "container": "jar",                 // Container holding the target item.
+    "menu_text": "Lower visor"          // (optional) Text displayed in the activation screen (default: "Turn on").
+    "moves": 500                        // Moves required to transform the item in excess of a normal action.
+},
+"use_action": {
+    "type": "unpack",                   // Unpack this item.
+    "group": "gobag_contents",          // ID of the unpacked itemgroup.
+    "items_fit": true,                  // Do the armor items in this fit? (default: false).
+    "filthy_volume_threshold": "10 L"   // If the items unpacked from this item have volume, and this item is filthy, at what amount of held volume should they become filthy.
+}
 ```
 
 ### Random Descriptions
