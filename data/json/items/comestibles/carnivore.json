@@ -1798,6 +1798,22 @@
   },
   {
     "type": "GENERIC",
+    "id": "skull_canis_small",
+    "name": { "str": "tiny canine skull" },
+    "description": "The skull of a tiny canine, likely a Chihuahua or another similarly sized dog breed.",
+    "flags": [ "TRADER_AVOID" ],
+    "category": "spare_parts",
+    "weight": "35 g",
+    "volume": "270 ml",
+    "longest_side": "7 cm",
+    "symbol": "@",
+    "color": "white",
+    "price": 0,
+    "price_postapoc": 5,
+    "material": [ "bone" ]
+  },
+  {
+    "type": "GENERIC",
     "id": "skull_feline_small",
     "name": { "str": "small feline skull" },
     "description": "The skull of a small feline, likely a house cat.",
