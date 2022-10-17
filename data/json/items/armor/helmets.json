@@ -476,7 +476,7 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "football helmet" },
-    "description": "A heavy polycarbonate helmet normally worn by football players. It comes with a visor to protect the eyes",
+    "description": "A heavy polycarbonate helmet normally worn by football players.  It comes with a visor to protect the eyes.",
     "weight": "1360 g",
     "volume": "2250 ml",
     "price": 19800,
