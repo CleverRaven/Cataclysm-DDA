@@ -189,5 +189,13 @@
     "name": { "str": "artificial sweetener" },
     "description": "Sweet, sweet sugar?  No, it is bitter-sweet artificial sweetener.  No calories, no worries.",
     "calories": 0
-  }
+  },
+  {
+    "id": "cream_of_tartar",
+    "copy-from": "spice",
+    "type": "COMESTIBLE",
+    "name": { "str_sp": "cream of tartar" },
+    "description": "This acidic powder is sometimes used in baking and household cleaning. Also known as potassium bitartrate.",
+    "color": "white"
+  },
 ]

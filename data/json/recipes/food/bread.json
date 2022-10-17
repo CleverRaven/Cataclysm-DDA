@@ -49,10 +49,10 @@
       [ [ "sugar", 1 ] ],
       [ [ "molasses", 1 ], [ "sugar", 13 ] ],
       [ [ "water", 1 ], [ "water_clean", 1 ] ],
-      [ [ "chem_baking_soda", 1 ] ],
+      [ [ "chem_baking_powder", 1 ] ],
       [ [ "salt", 1 ] ]
     ],
-    "//": "Later: this needs baking soda. Also possibility of rewrite to use portions of components' charges."
+    "//": "Later: possibility of rewrite to use portions of components' charges."
   },
   {
     "type": "recipe",
@@ -77,10 +77,10 @@
       [ [ "sugar", 1 ] ],
       [ [ "molasses", 1 ], [ "sugar", 13 ] ],
       [ [ "water", 1 ], [ "water_clean", 1 ] ],
-      [ [ "chem_baking_soda", 1 ] ],
+      [ [ "chem_baking_powder", 1 ] ],
       [ [ "salt", 1 ] ]
     ],
-    "//": "Later: this needs baking soda. Also possibility of rewrite to use portions of components' charges."
+    "//": "Later: possibility of rewrite to use portions of components' charges."
   },
   {
     "type": "recipe",
