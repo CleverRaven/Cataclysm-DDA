@@ -515,7 +515,7 @@ hint_rating Character::rate_action_reload( const item &it ) const
 hint_rating Character::rate_action_unload( const item &it ) const
 {
     if( it.is_container() && !it.empty() &&
-        it.can_unload_liquid() ) {
+        it.can_unload_liquid() && !it.has_flag( flag_NO_UNLOAD ) ) {
         return hint_rating::good;
     }
 
