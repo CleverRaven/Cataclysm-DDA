@@ -109,7 +109,10 @@
       [ "makeshift_knife", 80 ],
       [ "copper_knife", 20 ],
       [ "knife_steak", 20 ],
-      { "distribution": [ { "group": "knife_rambo_full", "prob": 20 }, { "group": "knife_rambo_used", "prob": 80 } ], "prob": 60 }
+      {
+        "distribution": [ { "group": "knife_rambo_full", "prob": 20 }, { "item": "knife_rambo_used", "prob": 80 } ],
+        "prob": 60
+      },
     ]
   },
   {
