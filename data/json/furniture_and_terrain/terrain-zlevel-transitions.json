@@ -13,7 +13,7 @@
       "str_max": 70,
       "sound": "crunch!",
       "sound_fail": "whump!",
-      "ter_set": "t_hole",
+      "ter_set": "t_open_air_rooved",
       "items": [
         { "item": "2x4", "count": [ 0, 2 ] },
         { "item": "nail", "charges": [ 0, 5 ] },
