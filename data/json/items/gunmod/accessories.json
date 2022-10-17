@@ -19,6 +19,25 @@
     "min_skills": [ [ "gun", 1 ] ]
   },
   {
+    "id": "arrowrest_wood",
+    "type": "GUNMOD",
+    "name": { "str": "wooden arrow rest" },
+    "description": "A small extension above the grip which an arrow rests upon while being aimed.  Improves accuracy with no drawbacks.",
+    "weight": "100 g",
+    "volume": "250 ml",
+    "integral_volume": "0 ml",
+    "price": 4000,
+    "price_postapoc": 250,
+    "install_time": "15 m",
+    "material": [ "wood" ],
+    "symbol": ":",
+    "color": "dark_gray",
+    "location": "accessories",
+    "mod_targets": [ "bow" ],
+    "dispersion_modifier": -20,
+    "min_skills": [ [ "gun", 1 ] ]
+  },
+  {
     "id": "bow_stabilizer",
     "type": "GUNMOD",
     "name": { "str": "bow stabilizer" },
