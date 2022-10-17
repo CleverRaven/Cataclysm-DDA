@@ -3414,7 +3414,7 @@ bool cata_tiles::draw_field_or_item( const tripoint &p, const lit_level ll, int 
                                 }
                                 // if we have found info on the item go through and draw its stuff
                                 draw_from_id_string( sprite_to_draw, TILE_CATEGORY::ITEM, layer_it_category, p, 0,
-                                                     0, layer_lit, layer_nv, height_3d, 0, variant, layer_var.offset );
+                                                     0, layer_lit, layer_nv, height_3d, 0, variant, layer_var.offset, z_drop );
 
 
                                 // if the top item is already being layered don't draw it later
@@ -3481,13 +3481,13 @@ bool cata_tiles::draw_field_or_item( const tripoint &p, const lit_level ll, int 
 bool cata_tiles::draw_vpart_no_roof( const tripoint &p, lit_level ll, int &height_3d,
                                      const std::array<bool, 5> &invisible, int z_drop )
 {
-    return draw_vpart( p, ll, height_3d, invisible, false );
+    return draw_vpart( p, ll, height_3d, invisible, false, z_drop );
 }
 
 bool cata_tiles::draw_vpart_roof( const tripoint &p, lit_level ll, int &height_3d,
                                   const std::array<bool, 5> &invisible, int z_drop )
 {
-    return draw_vpart( p, ll, height_3d, invisible, true );
+    return draw_vpart( p, ll, height_3d, invisible, true, z_drop );
 }
 
 bool cata_tiles::draw_vpart( const tripoint &p, lit_level ll, int &height_3d,
