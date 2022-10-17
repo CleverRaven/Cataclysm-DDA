@@ -21,7 +21,8 @@
   - [A spell that casts a note on the target and an effect on the caster](#a-spell-that-casts-a-note-on-the-target-and-an-effect-on-the-caster)
   - [Monster spells](#monster-spells)
 - [Enchantments](#enchantments)
-  - [The relic_data field](#the-relic_data-field)
+  - [The `relic_data` field](#the-relic_data-field)
+  - [Variables](#variables)
   - [ID values](#id-values)
   - [Enchantment value examples](#enchantment-value-examples)
 
@@ -245,6 +246,7 @@ Spells may have any number of flags, for example:
 | `NO_HANDS` | Hands do not affect spell energy cost.
 | `NO_LEGS` | Legs do not affect casting time.
 | `NO_PROJECTILE` | The "projectile" portion of the spell phases through walls, the epicenter of the spell effect is exactly where you target it, with no regards to obstacles.
+| `NO_SPELLCASTING` | Disables spellcasting.
 | `NON_MAGICAL` | Ignores spell resistance when calculating damage mitigation.
 | `PAIN_NORESIST` | Pain altering spells can't be resisted (like with the deadened trait).
 | `PERCENTAGE_DAMAGE` | The spell deals damage based on the target's current hp.  This means that the spell can't directly kill the target.
@@ -257,9 +259,11 @@ Spells may have any number of flags, for example:
 | `RANDOM_DURATION` | Picks random number between (min + increment) * level and max instead of normal behavior.
 | `RANDOM_TARGET` | Forces the spell to choose a random valid target within range instead of the caster choosing the target.  This also affects `extra_effects`.
 | `SILENT` | Spell makes no noise at target.
+| `SILENT_SPELL` | Mouth encumbrance no longer applies to spell failure chance.
 | `SOMATIC` | Arm encumbrance affects fail % and casting time (slightly).
 | `SPAWN_GROUP` | Spawn or summon from an `item_group` or `monstergroup`, instead of the specific IDs.
 | `SPAWN_WITH_DEATH_DROPS` | Allows summoned monsters to retain their usual death drops, otherwise they drop nothing.
+| `SUBTLE_SPELL` | Arm encumbrance no longer applies to spell failure chance.
 | `SWAP_POS` | A projectile spell swaps the positions of the caster and target.
 | `TARGET_TELEPORT` | Teleport spell changes to maximum range target with aoe as variation around target.
 | `UNSAFE_TELEPORT` | Teleport spell risks killing the caster or others.
@@ -612,12 +616,12 @@ Depending on their effects on the user, enchantments can behave like blessings, 
 | `hit_you_effect`            | A spell that activates when you `melee_attack` a creature.  The spell is centered on the location of the creature unless `"hit_self": true`, then it is centered on your location.  Follows the template for defining `fake_spell`.
 | `hit_me_effect`             | A spell that activates when you are hit by a creature.  The spell is centered on your location.  Follows the template for defining `fake_spell`
 | `intermittent_activation`   | Spells that activate centered on you depending on the duration.  The spells follow the `fake_spell` template.
-| `values`                    | Numbers that can be modified (see [list](#id-values)).  `add` is added to the base value, `multiply` is **also added** and treated as percentage: 2.5 is +250% and -1 is -100%.  `add` is always applied before `multiply`.  Either `add` or `multiply` can be a variable_object/arithmetic expression (see [NPCs](NPCs.md)).  If a `multiply` value is a variable_object/arithmetic it will be multiplied by .01 before use, as decimals cannot be variable values: a variable with 100 would become 1, effectively treated as a percentage.
+| `values`                    | Numbers that can be modified (see [list](#id-values)).  `add` is added to the base value, `multiply` is **also added** and treated as percentage: 2.5 is +250% and -1 is -100%.  `add` is always applied before `multiply`.  Either `add` or `multiply` can be a variable_object/arithmetic expression (see [below](#variables) for syntax and application, and [NPCs](NPCs.md) for the in depth explanation).
 | `mutations`                 | Grants the mutation/trait ID.  Note: enchantments effects added this way won't stack, due how mutations work.
 | `ench_effects`              | Grants the effect ID.  Requires the `intensity` for the effect.
 
 
-There are two possible syntaxes.  The first is by defining an enchantment object and then referencing the ID, the second is by directly defining the effects as an inline enchantment (in this case, an item):
+There are two possible syntaxes.  The first is by defining an enchantment object and then referencing the ID, the second is by directly defining the effects as an inline enchantment of something (in this case, an item):
 
 ```json
   {
@@ -658,7 +662,7 @@ There are two possible syntaxes.  The first is by defining an enchantment object
 
 ### The `relic_data` field
 
-As seen in the last example, enchantments are added to the item as `passive_effects` inside the `relic_data` field.  Items with this data are turn into a relic or artifact, being displayed as magenta inside the inventory view.
+As seen in the last example, enchantments are added to the item as `passive_effects` inside the `relic_data` field.  Items with this data are turned into a relic or artifact, being displayed as magenta inside the inventory view.
 
 Also supported is `charge_info`, which allows automatic charge regeneration.  This in turn enables active magical items that cast spells on use:
 
@@ -690,6 +694,7 @@ Another example is a `GUN` type item (e.g. a firearm).  As this is a weapon that
 
 This weapon consumes "magic bullet" ammo every time it's fired.  Note how `charge_info` and `passive_effects` can be used together.
 
+
 The `charge_info` field supports the following:
 
 | Identifier                  | Description
@@ -698,6 +703,61 @@ The `charge_info` field supports the following:
 | `recharge_type`             | Can be one of: `lunar`, `periodic`, `solar_cloudy`, `solar_sunny`, or `none`.
 | `time`                      | Time required per charge.
 | `recharge_condition`        | (optional) Similar to `has` from enchantments: can be one of `held`, `worn`, `wield`.  If omitted, the item recharges regardless, even if dropped.
+
+
+### Variables
+
+From now, EOC variables can be used inside enchantments, including both predefined (see [NPCs.md](NPCs.md#dialogue-conditions) for examples), and custom variables.  The `values` field also supports arithmetic operations, having the same syntax as EOCs.  Here are some examples:
+
+```json
+  {
+    "type": "enchantment",
+    "id": "MON_NEARBY_STR",
+    "has": "WIELD",
+    "condition": "ALWAYS",
+    "values": [ { "value": "STRENGTH", "add": { "arithmetic": [ { "u_val": "dexterity" } ] } } ]
+  }
+```
+
+This enchantment adds the dexterity value to strength: a character with str 8 and dex 10 will end with str 18 and dex 10.
+
+
+```json
+  {
+    "type": "enchantment",
+    "id": "MON_NEARBY_LUMINATION",
+    "has": "WIELD",
+    "condition": "ALWAYS",
+    "values": [
+      {
+        "value": "LUMINATION",
+        "add": { "arithmetic": [ { "global_val": "monsters_nearby", "radius": 25 }, "*", { "const": 20 } ] }
+      }
+    ]
+  }
+```
+
+This enchantment checks the amount of monsters near the character (in a 25 tile range), then multiplies that number by 20, and adds the value as lumination: more monsters nearby = more light produced.
+
+
+```json
+  {
+    "type": "enchantment",
+    "id": "MOON_STR",
+    "has": "WORN",
+    "condition": "ALWAYS",
+    "values": [
+      {
+        "value": "STRENGTH",
+        "add": { "arithmetic": [ { "global_val": "var", "var_name": "IS_UNDER_THE_MOON" }, "*", { "const": 4 } ] }
+      }
+    ]
+  }
+```
+
+Here's an enchantment that relies on a custom variable check, the full power of EOCs in your hand.
+
+First, the custom variable IS_UNDER_THE_MOON is set behind the scenes,  it checks if the character is under the moon's rays (by a combination of `{ "not": "is_day" }` and `"u_is_outside"`): if true value is 1, otherwise is 0.  Then, the custom variable is used inside an arithmetic operation that multiplies the truth value by 4: character is granted [ 1 * 4 ] = 4 additional strength if outside and during the night, or [ 0 * 4 ] = 0 additional strength otherwise.
 
 
 ### ID values
