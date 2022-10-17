@@ -203,7 +203,10 @@
       [ "storage_line", 5 ],
       [ "knife_folding", 25 ],
       [ "knife_hunting", 10 ],
-      { "distribution": [ { "group": "knife_rambo_full", "prob": 20 }, { "group": "knife_rambo_used", "prob": 80 } ], "prob": 10 },
+      {
+        "distribution": [ { "group": "knife_rambo_full", "prob": 20 }, { "item": "knife_rambo_used", "prob": 80 } ],
+        "prob": 10
+      },
       [ "knife_swissarmy", 10 ],
       { "item": "mess_kit", "prob": 20, "charges": [ 0, 500 ] },
       [ "multitool", 10 ],
