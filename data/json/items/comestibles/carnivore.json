@@ -512,6 +512,8 @@
     "description": "A chunk of cooked meat.  It's filling and nutritious, but unseasoned and a bit bland.",
     "price": 750,
     "price_postapoc": 100,
+    "parasites": 0,
+    "calories": 402,
     "vitamins": [ [ "calcium", 2 ], [ "iron", 12 ] ],
     "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ]
   },
