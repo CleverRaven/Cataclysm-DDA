@@ -48,6 +48,7 @@ allosaurid
 allosaurus
 allucination
 alnico
+alquerque
 altamente
 alternators
 alumentum
@@ -319,6 +320,7 @@ champed
 channnnce
 chasin
 chasmosaurus
+chaturanga
 chausses
 cheapshot
 cheescutter
@@ -790,6 +792,7 @@ greatclubs
 greatsword
 greatswords
 greenways
+gridded
 grindle
 grinny
 grnd
@@ -860,6 +863,7 @@ hivemind
 hjklyubn
 hmm
 hmmm
+hnefatafl
 hollowpoint
 holybook
 homebrewing
@@ -949,6 +953,7 @@ j
 jabberwock
 jabberwocks
 jackolantern
+jackstraws
 jawless
 jerrypack
 jewelboxes
@@ -1030,6 +1035,7 @@ lambeosaurus
 lamellar
 landshark
 langourous
+latrunculi
 latticed
 lavrae
 lawd
@@ -1323,6 +1329,7 @@ ornithomimid
 ornithomimus
 orrery
 oryctodromeus
+osho
 otes
 otha
 otherland
@@ -1585,6 +1592,7 @@ rhytidomes
 ribbonlike
 ridged
 riendly
+rightmost
 rigida
 riotbot
 riskin
@@ -1659,6 +1667,7 @@ seguiram
 semiaquatic
 sendin
 sendo
+senet
 serendipitously
 serrate
 servomotors
@@ -1682,6 +1691,7 @@ shlip
 shlop
 shoddiness
 shoggoth
+shogi
 shopkeep
 shoppette
 shorthair
@@ -1945,6 +1955,7 @@ troublin
 tryphillum
 tshirt
 tshk
+tsumi
 ttitude
 tumescences
 tundras
@@ -2063,6 +2074,7 @@ wammles
 wanderin
 wantin
 warframe
+wargame
 warhammer
 warmouth
 wastebread
