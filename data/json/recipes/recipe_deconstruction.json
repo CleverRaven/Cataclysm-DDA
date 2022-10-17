@@ -2529,7 +2529,39 @@
     "activity_level": "NO_EXERCISE",
     "time": "1 m",
     "qualities": [ { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "thread", 10 ] ] ]
+    "components": [ [ [ "thread", 1 ] ] ]
+  },
+  {
+    "result": "sheet_canvas_patchwork",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "time": "10 s",
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "canvas_patch", 8 ] ] ]
+  },
+  {
+    "result": "sheet_canvas",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "time": "30 s",
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "canvas_patch", 8 ] ] ]
+  },
+  {
+    "result": "canvas_patch",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "time": "1 m",
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "scrap_canvas", 4 ] ] ]
+  },
+  {
+    "result": "scrap_canvas",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "time": "1 m",
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "thread_canvas", 1 ] ] ]
   },
   {
     "result": "sheet_neoprene_patchwork",
@@ -2561,7 +2593,7 @@
     "activity_level": "NO_EXERCISE",
     "time": "35 m",
     "qualities": [ { "id": "CUT_FINE", "level": 1 } ],
-    "components": [ [ [ "thread_nomex", 40 ] ] ],
+    "components": [ [ [ "thread_nomex", 2 ] ] ],
     "//": "Thread is odd so we're just kind of giving you some whole pieces of thread, when it shouldn't be near that, but we need a source."
   },
   {
@@ -6231,7 +6263,7 @@
     "activity_level": "NO_EXERCISE",
     "time": "1 m",
     "qualities": [ { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "thread_kevlar", 10 ] ] ]
+    "components": [ [ [ "thread_kevlar", 2 ] ] ]
   },
   {
     "result": "sheet_kevlar_layered",

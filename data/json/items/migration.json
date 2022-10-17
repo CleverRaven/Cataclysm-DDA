@@ -1823,5 +1823,40 @@
     "type": "MIGRATION",
     "replace": "folded_inflatable_boat",
     "reset_item_vars": true
+  },
+  {
+    "id": "egg_trout",
+    "type": "MIGRATION",
+    "replace": "egg_fish"
+  },
+  {
+    "id": "egg_steelhead_trout",
+    "type": "MIGRATION",
+    "replace": "egg_rainbow_trout"
+  },
+  {
+    "id": "egg_coho_salmon",
+    "type": "MIGRATION",
+    "replace": "egg_fish"
+  },
+  {
+    "id": "egg_chinook_salmon",
+    "type": "MIGRATION",
+    "replace": "egg_fish"
+  },
+  {
+    "id": "egg_white_bass",
+    "type": "MIGRATION",
+    "replace": "egg_fish"
+  },
+  {
+    "id": "egg_longear_sunfish",
+    "type": "MIGRATION",
+    "replace": "egg_fish"
+  },
+  {
+    "id": "egg_redear_sunfish",
+    "type": "MIGRATION",
+    "replace": "egg_fish"
   }
 ]
