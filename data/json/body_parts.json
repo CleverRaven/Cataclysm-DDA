@@ -230,8 +230,8 @@
     "smash_message": "You smash the %s with your fist.",
     "bionic_slots": 5,
     "sub_parts": [ "hand_wrist_l", "hand_palm_l", "hand_back_l", "hand_fingers_l" ],
-    "bmi_encumbrance_threshold": 36,
-    "bmi_encumbrance_scalar": 0.25
+    "bmi_encumbrance_threshold": 45,
+    "bmi_encumbrance_scalar": 0.15
   },
   {
     "id": "hand_r",
@@ -261,8 +261,8 @@
     "smash_message": "You smash the %s with your fist.",
     "bionic_slots": 5,
     "sub_parts": [ "hand_wrist_r", "hand_palm_r", "hand_back_r", "hand_fingers_r" ],
-    "bmi_encumbrance_threshold": 36,
-    "bmi_encumbrance_scalar": 0.25
+    "bmi_encumbrance_threshold": 45,
+    "bmi_encumbrance_scalar": 0.15
   },
   {
     "id": "leg_l",
@@ -368,8 +368,8 @@
     "bionic_slots": 7,
     "sub_parts": [ "foot_sole_l", "foot_arch_l", "foot_toes_l", "foot_ankle_l", "foot_heel_l" ],
     "flags": [ "LIMB_LOWER" ],
-    "bmi_encumbrance_threshold": 36,
-    "bmi_encumbrance_scalar": 0.25
+    "bmi_encumbrance_threshold": 45,
+    "bmi_encumbrance_scalar": 0.15
   },
   {
     "id": "foot_r",
@@ -401,8 +401,8 @@
     "bionic_slots": 7,
     "sub_parts": [ "foot_sole_r", "foot_arch_r", "foot_toes_r", "foot_ankle_r", "foot_heel_r" ],
     "flags": [ "LIMB_LOWER" ],
-    "bmi_encumbrance_threshold": 36,
-    "bmi_encumbrance_scalar": 0.25
+    "bmi_encumbrance_threshold": 45,
+    "bmi_encumbrance_scalar": 0.15
   },
   {
     "id": "debug_tail",
