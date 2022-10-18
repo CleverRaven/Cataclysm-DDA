@@ -440,10 +440,7 @@
     "id": "knife_rambo_cont",
     "type": "item_group",
     "subtype": "distribution",
-    "entries": [
-      { "group": "knife_rambo_full", "prob": 20 },
-      { "group": "knife_rambo_used", "prob": 80 }
-    ]
+    "entries": [ { "group": "knife_rambo_full", "prob": 20 }, { "group": "knife_rambo_used", "prob": 80 } ]
   },
   {
     "id": "full_1st_aid",
