@@ -6,15 +6,14 @@
     "description": "A simple wooden chair, with four legs, a seat, and a back.  It's nice to rest your feet for once, and if coupled with a suitable table, you could eat a meal properly and almost pretend that things were normal again.",
     "symbol": "#",
     "color": "brown",
-    "flags": [ "NO_SALVAGE" ],
+    "flags": [ "NO_SALVAGE", "FRAGILE_MELEE" ],
     "price": 3000,
     "price_postapoc": 250,
     "longest_side": "95 cm",
     "volume": "112 L",
     "weight": "12 kg",
     "material": [ "wood" ],
-    "to_hit": -1,
-    "bashing": 5
+    "to_hit": -3
   },
   {
     "type": "GENERIC",
@@ -30,8 +29,7 @@
     "volume": "570 L",
     "weight": "27 kg",
     "material": [ { "type": "cotton", "portion": 75 }, { "type": "wood" } ],
-    "to_hit": -1,
-    "bashing": 3
+    "to_hit": -4
   },
   {
     "type": "GENERIC",
@@ -40,15 +38,14 @@
     "description": "A simple stool, with four legs and a seat.  While it's a touch more maneuverable to sit on, the lack of back support means it's significantly less comfortable than a normal chair.",
     "symbol": "#",
     "color": "brown",
-    "flags": [ "NO_SALVAGE" ],
+    "flags": [ "NO_SALVAGE", "FRAGILE_MELEE" ],
     "price": 3000,
     "price_postapoc": 250,
     "longest_side": "45 cm",
     "volume": "17 L",
     "weight": "3 kg",
     "material": [ "wood" ],
-    "to_hit": -1,
-    "bashing": 3
+    "to_hit": -2
   },
   {
     "type": "GENERIC",
@@ -64,8 +61,7 @@
     "volume": "20 L",
     "weight": "11 kg",
     "material": [ "wood" ],
-    "to_hit": -1,
-    "bashing": 4
+    "to_hit": -2
   },
   {
     "type": "GENERIC",
@@ -80,8 +76,7 @@
     "volume": "75 L",
     "weight": "7500 g",
     "material": [ { "type": "steel", "portion": 97 }, { "type": "leather" } ],
-    "to_hit": -1,
-    "bashing": 4
+    "to_hit": -2
   },
   {
     "type": "GENERIC",
@@ -90,14 +85,14 @@
     "description": "A simple chair made of plywood on a steel frame.  Quite uncomfortable but works for sleeping if it's the only option available.",
     "symbol": "#",
     "color": "brown",
+    "flags": [ "FRAGILE_MELEE" ],
     "price": 3000,
     "price_postapoc": 500,
     "longest_side": "80 cm",
     "volume": "94 L",
     "weight": "5 kg",
     "material": [ { "type": "wood", "portion": 85 }, { "type": "steel" } ],
-    "to_hit": -1,
-    "bashing": 3
+    "to_hit": -3
   },
   {
     "type": "GENERIC",
