@@ -116,7 +116,7 @@
     "armor": [ { "encumbrance": 15, "coverage": 70, "covers": [ "arm_l", "arm_r", "hand_l", "hand_r" ] } ]
   },
   {
-    "id": "ice_gliders_on",
+    "id": "ice_gliders",
     "type": "ARMOR",
     "name": { "str_sp": "slick icy coatings (on)" },
     "description": "A magical slick icy coating on your feet.  While quite fast on flat floors, they make it difficult to move on rough terrain.",
