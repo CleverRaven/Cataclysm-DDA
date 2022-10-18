@@ -1034,9 +1034,11 @@ static void eff_fun_sleep( Character &u, effect &it )
     }
 
     // Check mutation category strengths to see if we're mutated enough to get a dream
-    mutation_category_id cat;
+    // If we've crossed a threshold, always show dreams for that category
+    // Otherwise, check for the category that we have the most vitamins in our blood for
+    mutation_category_id cat = u.get_threshold_category();
     weighted_int_list<mutation_category_id> cat_list = u.get_vitamin_weighted_categories();
-    if( cat_list.get_weight() > 0 ) {
+    if( cat.is_null() && cat_list.get_weight() > 0 ) {
         cat = *cat_list.pick();
     }
     int cat_strength = u.mutation_category_level[cat];

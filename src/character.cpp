@@ -7788,6 +7788,16 @@ bool Character::crossed_threshold() const
     return false;
 }
 
+mutation_category_id Character::get_threshold_category() const
+{
+    for( const trait_id &mut : get_mutations() ) {
+        if( mut->threshold ) {
+            return mut->category[0];
+        }
+    }
+    return mutation_category_id::NULL_ID();
+}
+
 void Character::update_type_of_scent( bool init )
 {
     scenttype_id new_scent = scent_sc_human;
