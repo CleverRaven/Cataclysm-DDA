@@ -41,6 +41,7 @@
 #define dbg(x) DebugLog((x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
 static const efftype_id effect_pet( "pet" );
+static const efftype_id effect_run( "run" );
 static const itype_id itype_null( "null" );
 
 static const mission_type_id mission_NULL( "NULL" );
@@ -427,7 +428,9 @@ void mission::wrap_up()
                 if( found_monster != nullptr ) {
                     found_monster->mission_ids.erase( uid );
                     found_monster->remove_effect( effect_pet );
+                    found_monster->remove_effect( effect_run );
                     found_monster->friendly = 0;
+                    found_monster->morale = 100;
                 }
             }
         }
