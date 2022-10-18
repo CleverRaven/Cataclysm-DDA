@@ -1246,7 +1246,7 @@ void iexamine::elevator( Character &you, const tripoint &examp )
 
     auto const uit = std::find( this_elevator.cbegin(), this_elevator.cend(), you.pos() );
     if( uit == this_elevator.cend() ) {
-        popup( _( "You must stand inside the elevator to use it" ) );
+        popup( _( "You must stand inside the elevator to use it." ) );
         return;
     }
 
