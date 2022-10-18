@@ -92,5 +92,30 @@
       "place_item": [ { "item": "corpse_generic_human", "x": [ 0, 4 ], "y": [ 0, 4 ], "chance": 65 } ],
       "place_fields": [ { "field": "fd_blood", "x": [ 0, 4 ], "y": [ 0, 4 ], "intensity": 1, "age": 10 } ]
     }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "roof_6x6_bat_house_1",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "%#++#%",
+        "%1  1%",
+        "#1  1#",
+        "#1  1#",
+        "%1  1%",
+        "%#++#%"
+      ],
+      "terrain": {
+        "#": "t_reinforced_glass_shutter_open",
+        "+": "t_reinforced_door_glass_c",
+        "%": "t_reinforced_glass_shutter",
+        "$": "t_wall_glass"
+      },
+      "furniture": { "1": "f_bat_roost" },
+      "sealed_item": { "1": { "item": { "item": "seed_rose" }, "furniture": "f_planter_mature" } }
+    }
   }
 ]

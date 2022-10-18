@@ -52,10 +52,10 @@
       "cathedralv_2_NE",
       "cathedralv_2_SW",
       "cathedralv_2_SE",
-      "cathedral_3_NW",
-      "cathedral_3_NE",
-      "cathedral_3_SW",
-      "cathedral_3_SE"
+      "cathedralv_3_NW",
+      "cathedralv_3_NE",
+      "cathedralv_3_SW",
+      "cathedralv_3_SE"
     ],
     "name": "cathedral",
     "sym": "C",
@@ -63,6 +63,22 @@
     "see_cost": 5,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "cathedralv_4_NW",
+      "cathedralv_4_NE",
+      "cathedralv_5_NW",
+      "cathedralv_5_NE",
+      "cathedralv_6_NW",
+      "cathedralv_6_NE",
+      "cathedralv_7_NW",
+      "cathedralv_7_NE"
+    ],
+    "copy-from": "cathedral_1_NW",
+    "name": "cathedral tower",
+    "delete": { "flags": [ "SIDEWALK" ] }
   },
   {
     "type": "overmap_terrain",

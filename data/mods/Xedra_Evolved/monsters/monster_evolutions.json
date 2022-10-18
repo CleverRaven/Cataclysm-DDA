@@ -2,7 +2,6 @@
   {
     "type": "monstergroup",
     "name": "GROUP_RENFIELD_UPGRADE",
-    "//": "No bionics or fungal",
     "monsters": [
       { "monster": "mon_renfield", "weight": 910 },
       { "monster": "mon_renfield_9mm", "weight": 450 },

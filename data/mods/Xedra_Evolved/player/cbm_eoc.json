@@ -8,7 +8,22 @@
           "id": "spell_summon_bat_swarm",
           "min_level": 1,
           "max_level": 6,
-          "message": "Their is a loud clicking sound as you commune with any nearby bats."
+          "message": "There is a loud clicking sound as you commune with any nearby bats."
+        },
+        "targeted": true
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SUMMON_XL_BAT",
+    "effect": [
+      {
+        "u_cast_spell": {
+          "id": "spell_summon_bat_giant",
+          "min_level": 1,
+          "max_level": 6,
+          "message": "A click fires out of the back of your throat like a gunshot.  What could this possibly be speaking to?"
         },
         "targeted": true
       }

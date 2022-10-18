@@ -117,7 +117,7 @@
   },
   {
     "type": "effect_type",
-    "id": "creative_spark",
+    "id": "creativity",
     "name": [ "One Amazing Idea", "Several Inspired Tangents", "Brimming with Creativity" ],
     "desc": [
       "You have one incredibly amazing idea.",
