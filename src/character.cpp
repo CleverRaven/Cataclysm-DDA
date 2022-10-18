@@ -7791,7 +7791,7 @@ bool Character::crossed_threshold() const
 mutation_category_id Character::get_threshold_category() const
 {
     for( const trait_id &mut : get_mutations() ) {
-        if( mut->threshold ) {
+        if( mut->threshold && !mut->category.empty() ) {
             return mut->category[0];
         }
     }

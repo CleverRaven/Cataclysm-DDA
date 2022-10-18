@@ -253,10 +253,10 @@ static void eff_fun_rat( Character &u, effect &it )
     it.set_intensity( dur / 10 );
     if( rng( 0, 100 ) < dur / 10 ) {
         if( !one_in( 5 ) ) {
-            u.mutate_category( mutation_category_RAT );
+            u.mutate_category( mutation_category_RAT, false, true );
             it.mult_duration( .2 );
         } else {
-            u.mutate_category( mutation_category_TROGLOBITE );
+            u.mutate_category( mutation_category_TROGLOBITE, false, true );
             it.mult_duration( .33 );
         }
     } else if( rng( 0, 100 ) < dur / 8 ) {
@@ -1067,7 +1067,7 @@ static void eff_fun_sleep( Character &u, effect &it )
             // Mycus folks upgrade in their sleep.
             if( u.has_trait( trait_THRESH_MYCUS ) ) {
                 if( one_in( 8 ) ) {
-                    u.mutate_category( mutation_category_MYCUS );
+                    u.mutate_category( mutation_category_MYCUS, false, true );
                     u.mod_stored_kcal( -87 );
                     u.mod_thirst( 10 );
                     u.mod_fatigue( 5 );

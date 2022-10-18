@@ -1526,7 +1526,7 @@ cata::optional<int> iuse::mycus( Character *p, item *, bool, const tripoint & )
     } else if( p->has_trait( trait_THRESH_MYCUS ) &&
                !p->has_trait( trait_M_DEPENDENT ) ) { // OK, now set the hook.
         if( !one_in( 3 ) ) {
-            p->mutate_category( mutation_category_MYCUS );
+            p->mutate_category( mutation_category_MYCUS, false, true );
             p->mod_stored_kcal( -87 );
             p->mod_thirst( 10 );
             p->mod_fatigue( 5 );
