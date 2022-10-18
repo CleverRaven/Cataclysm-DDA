@@ -1269,9 +1269,8 @@ int Character::swim_speed() const
     float hand_bonus_mult = ( usable.test( body_part_hand_l ) ? 0.5f : 0.0f ) +
                             ( usable.test( body_part_hand_r ) ? 0.5f : 0.0f );
 
-    // base swim speed. weight carried usually includes bodyweight_fat() but cancel it out here since fat is bouyant to avoid drowning from it being too low
-    ret = ( 440 * mutation_value( "movecost_swim_modifier" ) ) + ( weight_carried() -
-            bodyweight_fat() / 2 ) /
+    // base swim speed.
+    ret = ( 440 * mutation_value( "movecost_swim_modifier" ) ) + weight_carried() /
           ( 60_gram / mutation_value( "movecost_swim_modifier" ) ) - 50 * get_skill_level( skill_swimming );
     /** @EFFECT_STR increases swim speed bonus from PAWS */
     if( has_trait( trait_PAWS ) ) {
@@ -2738,7 +2737,7 @@ units::mass Character::weight_carried() const
     if( cached_weight_carried ) {
         return *cached_weight_carried;
     }
-    cached_weight_carried = bodyweight_fat() / 2 + weight_carried_with_tweaks( item_tweaks() );
+    cached_weight_carried = weight_carried_with_tweaks( item_tweaks() );
     return *cached_weight_carried;
 }
 
@@ -2908,9 +2907,9 @@ bool Character::can_pickWeight( const item &it, bool safe ) const
 {
     if( !safe ) {
         // Character can carry up to four times their maximum weight
-        return ( weight_carried() - ( bodyweight_fat() / 2 ) + it.weight() <= weight_capacity() * 4 );
+        return ( weight_carried() + it.weight() <= weight_capacity() * 4 );
     } else {
-        return ( weight_carried() - ( bodyweight_fat() / 2 ) + it.weight() <= weight_capacity() );
+        return ( weight_carried() + it.weight() <= weight_capacity() );
     }
 }
 
@@ -6353,7 +6352,7 @@ void Character::mod_stamina( int mod )
 void Character::burn_move_stamina( int moves )
 {
     int overburden_percentage = 0;
-    units::mass current_weight = weight_carried();
+    units::mass current_weight = weight_carried() + bodyweight_fat() / 2;
     // Make it at least 1 gram to avoid divide-by-zero warning
     units::mass max_weight = std::max( weight_capacity(), 1_gram );
     if( current_weight > max_weight ) {
