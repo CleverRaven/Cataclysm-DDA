@@ -88,12 +88,12 @@
     "price": 5000,
     "price_postapoc": 100,
     "to_hit": -4,
-    "bashing": 3,
     "looks_like": "rollmat",
-    "material": [ { "type": "steel", "portion": 97 }, { "type": "cotton" } ],
+    "material": [ { "type": "steel", "portion": 975 }, { "type": "cotton" } ],
     "symbol": "#",
     "color": "light_gray",
-    "use_action": { "type": "deploy_furn", "furn_type": "f_camp_chair" }
+    "use_action": { "type": "deploy_furn", "furn_type": "f_camp_chair" },
+    "flags": [ "FRAGILE_MELEE" ]
   },
   {
     "id": "deck_chair",
@@ -106,11 +106,11 @@
     "price": 7000,
     "price_postapoc": 100,
     "to_hit": -4,
-    "bashing": 3,
     "material": [ { "type": "wood", "portion": 975 }, { "type": "cotton" } ],
     "symbol": "#",
     "color": "brown",
-    "use_action": { "type": "deploy_furn", "furn_type": "f_deckchair" }
+    "use_action": { "type": "deploy_furn", "furn_type": "f_deckchair" },
+    "flags": [ "FRAGILE_MELEE" ]
   },
   {
     "id": "chair_folding",
@@ -123,11 +123,11 @@
     "price": 2350,
     "price_postapoc": 100,
     "to_hit": -4,
-    "bashing": 2,
     "material": [ { "type": "plastic", "portion": 60 }, { "type": "steel" } ],
     "symbol": "#",
     "color": "light_gray",
-    "use_action": { "type": "deploy_furn", "furn_type": "f_chair_folding" }
+    "use_action": { "type": "deploy_furn", "furn_type": "f_chair_folding" },
+    "flags": [ "FRAGILE_MELEE" ]
   },
   {
     "id": "xedra_antenna",
