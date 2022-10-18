@@ -823,6 +823,20 @@
   },
   {
     "type": "GENERIC",
+    "id": "makeshift_tree_spile",
+    "symbol": ".",
+    "color": "brown",
+    "name": { "str": "tree spile" },
+    "description": "A shaped piece of bark which is inserted in a tree crust in order to slowly harvest its sap.  Can be used on a maple tree in between late winter and early spring to harvest maple sap.",
+    "category": "tools",
+    "price": 5,
+    "price_postapoc": 10,
+    "material": [ "dry_plant" ],
+    "weight": "6 g",
+    "volume": "50 ml"
+  },
+  {
+    "type": "GENERIC",
     "id": "wire",
     "symbol": ";",
     "color": "light_gray",
