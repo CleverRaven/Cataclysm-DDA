@@ -527,8 +527,7 @@ static void check_knives( const std::function<Approx( const std::string & )> &ca
         CHECK( calc_expected_dps( "tanto" ) == 15.78 );
         CHECK( calc_expected_dps( "kris" ) == 14.08 );
         CHECK( calc_expected_dps( "knife_rambo" ) == 14.36 );
-        CHECK( calc_expected_dps( "knife_rm42" ) ==
-               45.17 ); // dps 1.3x from CVD, 1.2x from qt_steel, would be 25.2
+        CHECK( calc_expected_dps( "knife_rm42" ) == 39.13 );
         CHECK( calc_expected_dps( "tanto_inferior" ) == 14.14 );
         CHECK( calc_expected_dps( "bone_knife" ) == 7.9 );
         CHECK( calc_expected_dps( "knife_hunting" ) == 11.0 );
