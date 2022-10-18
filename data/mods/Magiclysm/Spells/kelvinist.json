@@ -260,7 +260,7 @@
     "min_damage": 1,
     "max_damage": 1,
     "effect": "spawn_item",
-    "effect_str": "ice_gliders_on",
+    "effect_str": "ice_gliders",
     "shape": "blast",
     "energy_source": "MANA",
     "spell_class": "KELVINIST",
