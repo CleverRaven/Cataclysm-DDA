@@ -609,6 +609,22 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "seed_wild_rice",
+    "copy-from": "seed",
+    "name": { "str_sp": "Wild rice seeds" },
+    "description": "Some wild rice seeds, prepared for planting.",
+    "primary_material": "dried_vegetable",
+    "weight": "5 g",
+    "stack_size": 10,
+    "seed_data": {
+      "plant_name": "wild rice",
+      "fruit": "wild_rice",
+      "byproducts": [ "withered" ],
+      "grow": "91 days"
+    }
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "seed_jerusalem_artichoke",
     "copy-from": "seed",
     "name": { "str_sp": "Jerusalem artichoke seeds" },

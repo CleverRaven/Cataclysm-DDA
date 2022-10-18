@@ -221,6 +221,12 @@
     "components": [ [ [ "japanese_knotweed_stem", 1 ] ] ]
   },
   {
+    "result": "seed_wild_rice",
+    "type": "recipe",
+    "copy-from": "seed_extraction_base",
+    "components": [ [ [ "wild_rice", 1 ] ] ]
+  },
+  {
     "result": "seed_jerusalem_artichoke",
     "type": "recipe",
     "copy-from": "seed_extraction_cutting",
