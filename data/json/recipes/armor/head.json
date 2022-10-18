@@ -2297,6 +2297,7 @@
     "subcategory": "CSC_ARMOR_HEAD",
     "skill_used": "tailor",
     "time": "30 s",
+    "reversible": true,
     "autolearn": true,
     "tools": [  ],
     "components": [ [ [ "aluminum_foil", 4 ] ] ]
