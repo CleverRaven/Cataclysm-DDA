@@ -59,6 +59,7 @@
         "type": "spell",
         "spell_data": { "id": "green_maintenance_check" },
         "cooldown": 20,
+        "require_targeting_player": true,
         "monster_message": "Remain still.  Scanning for authorization."
       }
     ],
@@ -122,6 +123,7 @@
         "type": "spell",
         "spell_data": { "id": "yellow_maintenance_check" },
         "cooldown": 120,
+        "require_targeting_player": true,
         "monster_message": "Remain still.  Scanning for authorization."
       }
     ],
@@ -184,6 +186,7 @@
         "type": "spell",
         "spell_data": { "id": "blue_maintenance_check" },
         "cooldown": 120,
+        "require_targeting_player": true,
         "monster_message": "Remain still.  Scanning for authorization."
       }
     ],
@@ -272,6 +275,7 @@
         "type": "spell",
         "spell_data": { "id": "blue_maintenance_check2" },
         "cooldown": 120,
+        "require_targeting_player": true,
         "monster_message": "Remain still.  Scanning for authorization."
       }
     ],
@@ -349,6 +353,7 @@
         "type": "spell",
         "spell_data": { "id": "green_researcher_check" },
         "cooldown": 120,
+        "require_targeting_player": true,
         "monster_message": "Remain still.  Scanning for authorization."
       }
     ],
@@ -452,6 +457,7 @@
         "type": "spell",
         "spell_data": { "id": "black_security_check" },
         "cooldown": 120,
+        "require_targeting_player": true,
         "monster_message": "Remain still.  Scanning for authorization."
       }
     ],
