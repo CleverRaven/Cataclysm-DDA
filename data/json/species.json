@@ -69,8 +69,7 @@
     "type": "SPECIES",
     "id": "MIGO",
     "description": "a creature from the mi-go homeworld",
-    "fear_triggers": [ "HURT" ],
-    "bleeds": "fd_blood_invertebrate"
+    "fear_triggers": [ "HURT" ]
   },
   {
     "type": "SPECIES",
