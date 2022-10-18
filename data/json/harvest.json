@@ -318,7 +318,7 @@
   {
     "id": "wild_rice_harv",
     "type": "harvest",
-    "entries": [ { "drop": "wild_rice", "base_num": [ 6, 20 ] } ]
+    "entries": [ { "drop": "wild_rice", "base_num": [ 2, 4 ] } ]
   },
   {
     "id": "wintergreen_harv",

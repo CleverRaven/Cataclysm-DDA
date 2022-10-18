@@ -611,7 +611,7 @@
     "type": "COMESTIBLE",
     "id": "seed_wild_rice",
     "copy-from": "seed",
-    "name": { "str_sp": "Wild rice seeds" },
+    "name": { "str_sp": "wild rice seeds" },
     "description": "Some wild rice seeds, prepared for planting.",
     "primary_material": "dried_vegetable",
     "weight": "5 g",
