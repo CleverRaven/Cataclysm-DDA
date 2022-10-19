@@ -180,8 +180,7 @@
         ],
         "covers": [ "arm_l", "arm_r" ],
         "coverage": 100,
-        "encumbrance": 22,
-        "warmth": 10
+        "encumbrance": 22
       },
     ]
   },
