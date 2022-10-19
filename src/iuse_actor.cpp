@@ -2811,37 +2811,70 @@ bool repair_item_actor::handle_components( Character &pl, const item &fix,
     return true;
 }
 
-// Find the difficulty of the recipes that result in id
+// Find the difficulty of the recipe for the item type.
 // If the recipe is not known by the player, +1 to difficulty
 // If player doesn't meet the requirements of the recipe, +1 to difficulty
 // Returns -1 if no recipe is found
-static int find_repair_difficulty( const Character &pl, const itype_id &id, bool training )
+static std::pair<int, bool> find_repair_difficulty( const Character &pl, const itype &it,
+        bool training )
 {
-    // If the recipe is not found, this will remain unchanged
     int min = -1;
-    for( const auto &e : recipe_dict ) {
-        const recipe r = e.second;
-        if( id != r.result() ) {
-            continue;
-        }
-        // If this is the first time we found a recipe
-        if( min == -1 ) {
-            min = 5;
-        }
+    const int def_diff = 5;
+    const itype_id iid = it.get_id();
+    bool found = false;
+    bool difficulty_defined = false;
 
-        int cur_difficulty = r.difficulty;
-        if( !training && !pl.knows_recipe( &r ) ) {
-            cur_difficulty++;
-        }
+    if( !it.recipes.empty() ) {
+        for( const recipe_id &rid : it.recipes ) {
+            const recipe &r = recipe_id( rid ).obj();
+            if( !r ) {
+                continue;
+            }
+            // If this is the first time we found a recipe
+            if( !found ) {
+                min = def_diff;
+                found = true;
+            }
 
-        if( !training && !pl.has_recipe_requirements( r ) ) {
-            cur_difficulty++;
-        }
+            int cur_difficulty = r.difficulty;
 
-        min = std::min( cur_difficulty, min );
+            // Recipes with difficulty 0 are not present. Difficulty is considered undefined.
+            difficulty_defined = cur_difficulty != 0 || difficulty_defined;
+
+            if( !training && !pl.knows_recipe( &r ) ) {
+                cur_difficulty++;
+            }
+
+            if( !training && !pl.has_recipe_requirements( r ) ) {
+                cur_difficulty++;
+            }
+            min = std::min( cur_difficulty, min );
+        }
     }
 
-    return min;
+    recipe uncraft_recipe = recipe_dictionary::get_uncraft( iid );
+    if( uncraft_recipe ) {
+        found = true;
+        int uncraft_difficulty = uncraft_recipe.difficulty;
+        if( difficulty_defined ) {
+            // Both craft recipe and uncraft recipe are defined, dividing by the sum
+            if( uncraft_difficulty > 0 ) {
+                min = std::max( 1, min + uncraft_difficulty ) / 2;
+            }
+        } else {
+            difficulty_defined = uncraft_difficulty != 0;
+            min = def_diff;
+        }
+    }
+
+    //Couldn't find recipe, try to find from obsolete recipes
+    if( !found ) {
+        auto obsoletes = recipe_dict.find_obsoletes( iid );
+        if( !obsoletes.empty() ) {
+            min = def_diff;
+        }
+    }
+    return { min, difficulty_defined };
 }
 
 // Returns the level of the lowest level recipe that results in item of `fix`'s type
@@ -2850,11 +2883,19 @@ static int find_repair_difficulty( const Character &pl, const itype_id &id, bool
 int repair_item_actor::repair_recipe_difficulty( const Character &pl,
         const item &fix, bool training ) const
 {
-    int diff = find_repair_difficulty( pl, fix.typeId(), training );
+    std::pair<int, bool> ret;
+    ret = find_repair_difficulty( pl, *fix.type, training );
+    int diff = ret.first;
+    bool defined = ret.second;
 
-    // If we don't find a recipe, see if there's a repairs_like that has a recipe
-    if( diff == -1 && !fix.type->repairs_like.is_empty() ) {
-        diff = find_repair_difficulty( pl, fix.type->repairs_like, training );
+    // See if there's a repairs_like that has a recipe
+    if( !defined && !fix.type->repairs_like.is_empty() ) {
+        ret = find_repair_difficulty( pl, fix.type->repairs_like.obj(), training );
+        if( ret.second ) {
+            diff = ret.first;
+        } else {
+            diff = std::min( std::max( 0, diff ), ret.first );
+        }
     }
 
     // If we still don't find a recipe, difficulty is 10

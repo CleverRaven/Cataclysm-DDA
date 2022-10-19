@@ -24,6 +24,12 @@
     "restriction": "Item must be an armored skirt"
   },
   {
+    "id": "ABLATIVE_HELMET",
+    "type": "json_flag",
+    "info": "This will hook to a <info>Hub 01 proprietary</info> helmet connector",
+    "restriction": "Item must be an armored helmet"
+  },
+  {
     "id": "ACTIVE_CLOAKING",
     "type": "json_flag",
     "info": "This gear has <info>cloaking tech</info> that will <good>make you invisible</good> when active, at the cost of <info>power from a UPS</info>."
@@ -109,11 +115,6 @@
     "id": "CBM",
     "type": "json_flag",
     "info": "This item is a Compact Bionic Module.  You'll need to <info>use specialized machinery</info> or <info>ask a surgeon</info> to install it into your body."
-  },
-  {
-    "id": "CLIMATE_CONTROL",
-    "type": "json_flag",
-    "info": "This clothing has <info>built-in or attached climate control</info>, keeping you at a <good>comfortable temperature</good>."
   },
   {
     "id": "COLLAR",
@@ -927,6 +928,11 @@
     "id": "wooled",
     "type": "json_flag",
     "info": "This clothing has a wool lining sewn into it to <good>increase</good> its overall <info>warmth</info>."
+  },
+  {
+    "id": "WONT_TRAIN_MARKSMANSHIP",
+    "type": "json_flag",
+    "//": "This gun wont train marksmanship when fired.  Used in Aftershock smart guns."
   },
   {
     "id": "UNARMED_WEAPON",
@@ -2113,5 +2119,9 @@
     "id": "BIONIC_FUEL_SOURCE",
     "type": "json_flag",
     "info": "Contents of this item are used for fueling bionics."
+  },
+  {
+    "id": "ELECTRONIC",
+    "type": "json_flag"
   }
 ]

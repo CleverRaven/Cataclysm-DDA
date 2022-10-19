@@ -143,7 +143,7 @@ TEST_CASE( "uncraft difficulty and character skill", "[uncraft][difficulty][skil
         CHECK( uncraft_yield( they, decon_it, part_it, 0, 4 ) == 1000 );
     }
 
-    constexpr int margin = 51;
+    constexpr int margin = 55;
 
     SECTION( "uncraft recipe with difficulty 1" ) {
         CHECK( uncraft_yield( they, decon_it, part_it, 1, 0 ) == Approx( 830 ).margin( margin ) );

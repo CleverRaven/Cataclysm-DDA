@@ -12,6 +12,40 @@
     "id": "MANA_REGEN"
   },
   {
+    "type": "mutation_type",
+    "id": "MANA_SIPHON"
+  },
+  {
+    "//": "Catch-all dummy trait for Magiclysm mutations.",
+    "type": "mutation",
+    "id": "HUMAN_MAGIC",
+    "name": { "str": "Human Magic" },
+    "points": 0,
+    "player_display": false,
+    "dummy": true,
+    "category": [ "HUMAN" ],
+    "types": [ "MANA_ADD", "MANA_MULT", "MANA_REGEN", "MANA_SIPHON" ],
+    "cancels": [
+      "FASTREADER",
+      "HOARDER",
+      "LOVES_BOOKS",
+      "SAVANT",
+      "WEAK",
+      "MIRROR_DISPLACEMENT",
+      "MANA_CRYST_MANA",
+      "MANA_SEEKER_BOLTS",
+      "MANA_SUBTLE_SPELL",
+      "MANA_SILENT_SPELL",
+      "MANA_LUM",
+      "OVERLY_ACID_GUT",
+      "DRAGON_BREATH_BLACK",
+      "DRAGON_SPELLS",
+      "CHIMERIC_BREATH",
+      "SLIME_BREATH"
+    ],
+    "description": "Your body is depressingly mundane."
+  },
+  {
     "type": "mutation",
     "id": "MANA_ADD1",
     "name": "Lesser Mana Efficiency",

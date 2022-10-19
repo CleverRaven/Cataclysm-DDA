@@ -607,10 +607,10 @@ static bool mx_roadblock( map &m, const tripoint &abs_sub )
             }
         }
 
-        line_furn( &m, f_sandbag_wall, point( 12, 7 ), point( 15, 7 ) );
+        line_furn( &m, f_sandbag_half, point( 12, 7 ), point( 15, 7 ) );
         m.add_spawn( mon_turret_searchlight, 1, { 13, 8, abs_sub.z } );
         m.furn_set( point( 14, 8 ), furn_f_compact_ASRG_containment );
-        line_furn( &m, f_sandbag_wall, point( 12, 9 ), point( 15, 9 ) );
+        line_furn( &m, f_sandbag_half, point( 12, 9 ), point( 15, 9 ) );
 
         int num_bodies = dice( 2, 5 );
         for( int i = 0; i < num_bodies; i++ ) {
@@ -666,10 +666,10 @@ static bool mx_roadblock( map &m, const tripoint &abs_sub )
         m.add_vehicle( vehicle_prototype_policecar, point( 8, 6 ), 20_degrees );
         m.add_vehicle( vehicle_prototype_policecar, point( 16, SEEY * 2 - 6 ), 145_degrees );
 
-        line_furn( &m, f_sandbag_wall, point( 6, 10 ), point( 9, 10 ) );
+        line_furn( &m, f_sandbag_half, point( 6, 10 ), point( 9, 10 ) );
         m.add_spawn( mon_turret_searchlight, 1, { 7, 11, abs_sub.z } );
         m.furn_set( point( 8, 11 ), furn_f_compact_ASRG_containment );
-        line_furn( &m, f_sandbag_wall, point( 6, 12 ), point( 9, 12 ) );
+        line_furn( &m, f_sandbag_half, point( 6, 12 ), point( 9, 12 ) );
 
         int num_bodies = dice( 1, 6 );
         for( int i = 0; i < num_bodies; i++ ) {
@@ -1512,7 +1512,7 @@ static bool mx_portal_in( map &m, const tripoint &abs_sub )
                 static_cast<artifact_natural_property>( rng( ARTPROP_NULL + 1, ARTPROP_MAX - 1 ) );
             m.create_anomaly( portal_location, prop );
             m.spawn_artifact( p + tripoint( rng( -1, 1 ), rng( -1, 1 ), abs_sub.z ),
-                              relic_procgen_data_alien_reality );
+                              relic_procgen_data_alien_reality, true );
             break;
         }
     }

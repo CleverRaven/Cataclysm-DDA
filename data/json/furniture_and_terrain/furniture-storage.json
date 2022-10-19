@@ -40,6 +40,7 @@
     "coverage": 80,
     "required_str": 10,
     "flags": [ "FLAMMABLE", "PLACE_ITEM", "ORGANIC", "BLOCKSDOOR" ],
+    "rotates_to": "INDOORFLOOR",
     "deconstruct": {
       "items": [ { "item": "2x4", "count": 14 }, { "item": "wood_panel", "count": 2 }, { "item": "nail", "charges": [ 12, 20 ] } ]
     },
@@ -454,6 +455,7 @@
     "coverage": 90,
     "required_str": 9,
     "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR" ],
+    "rotates_to": "INDOORFLOOR",
     "deconstruct": {
       "items": [
         { "item": "sheet_metal", "count": [ 1, 2 ] },
@@ -789,6 +791,7 @@
     "id": "f_metal_trashcan",
     "name": "metal trash can",
     "symbol": "&",
+    "looks_like": "f_trashcan",
     "description": "A crude metal bin typically used to dispose of waste.",
     "//": "The constructed trash can variant, deliberately looks like the original. Does not spawn naturally, although feel free to add it to worldgen.",
     "color": "light_cyan",
@@ -846,7 +849,7 @@
     "move_cost_mod": 2,
     "coverage": 70,
     "required_str": 7,
-    "flags": [ "PLACE_ITEM", "TRANSPARENT", "CONTAINER", "BLOCKSDOOR", "MOUNTABLE" ],
+    "flags": [ "PLACE_ITEM", "TRANSPARENT", "CONTAINER", "BLOCKSDOOR", "MOUNTABLE", "NO_SELF_CONNECT" ],
     "deconstruct": {
       "items": [
         { "item": "sheet_metal", "count": [ 2, 6 ] },

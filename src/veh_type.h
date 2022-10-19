@@ -416,7 +416,7 @@ class vpart_info
         itype_id default_ammo = itype_id::NULL_ID();
 
         /** Volume of a foldable part when folded */
-        units::volume folded_volume = 0_ml;
+        cata::optional<units::volume> folded_volume = cata::nullopt;
 
         /** Cargo location volume */
         units::volume size = 0_ml;

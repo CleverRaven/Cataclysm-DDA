@@ -141,7 +141,7 @@
     ]
   },
   {
-    "id": "spell_components_dreamdross3",
+    "id": "spell_components_forging_dreamdross",
     "type": "requirement",
     "components": [ [ [ "dreamdross_lump", 2 ], [ "scrap_dreamdross", 4 ] ], [ [ "xe_oneiric_hammer", 1 ] ] ]
   },

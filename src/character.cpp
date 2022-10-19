@@ -289,7 +289,6 @@ static const json_character_flag json_flag_BLIND( "BLIND" );
 static const json_character_flag json_flag_BULLET_IMMUNE( "BULLET_IMMUNE" );
 static const json_character_flag json_flag_CLAIRVOYANCE( "CLAIRVOYANCE" );
 static const json_character_flag json_flag_CLAIRVOYANCE_PLUS( "CLAIRVOYANCE_PLUS" );
-static const json_character_flag json_flag_CLIMATE_CONTROL( "CLIMATE_CONTROL" );
 static const json_character_flag json_flag_COLD_IMMUNE( "COLD_IMMUNE" );
 static const json_character_flag json_flag_CUT_IMMUNE( "CUT_IMMUNE" );
 static const json_character_flag json_flag_DEAF( "DEAF" );
@@ -303,6 +302,7 @@ static const json_character_flag json_flag_HEATSINK( "HEATSINK" );
 static const json_character_flag json_flag_HEAT_IMMUNE( "HEAT_IMMUNE" );
 static const json_character_flag json_flag_HYPEROPIC( "HYPEROPIC" );
 static const json_character_flag json_flag_IMMUNE_HEARING_DAMAGE( "IMMUNE_HEARING_DAMAGE" );
+static const json_character_flag json_flag_INFECTION_IMMUNE( "INFECTION_IMMUNE" );
 static const json_character_flag json_flag_INFRARED( "INFRARED" );
 static const json_character_flag json_flag_INVISIBLE( "INVISIBLE" );
 static const json_character_flag json_flag_MYOPIC( "MYOPIC" );
@@ -420,7 +420,6 @@ static const trait_id trait_HEAVYSLEEPER2( "HEAVYSLEEPER2" );
 static const trait_id trait_HIBERNATE( "HIBERNATE" );
 static const trait_id trait_HOOVES( "HOOVES" );
 static const trait_id trait_ILLITERATE( "ILLITERATE" );
-static const trait_id trait_INFIMMUNE( "INFIMMUNE" );
 static const trait_id trait_INSOMNIA( "INSOMNIA" );
 static const trait_id trait_INT_SLIME( "INT_SLIME" );
 static const trait_id trait_LEG_TENTACLES( "LEG_TENTACLES" );
@@ -3463,7 +3462,7 @@ void Character::calc_discomfort()
 {
     // clear all instances of discomfort
     remove_effect( effect_chafing );
-    for( const bodypart_id &bp : worn.where_discomfort() ) {
+    for( const bodypart_id &bp : worn.where_discomfort( *this ) ) {
         if( bp->feels_discomfort ) {
             add_effect( effect_chafing, 1_turns, bp, true, 1 );
         }
@@ -3501,21 +3500,22 @@ units::mass Character::get_weight() const
     return ret;
 }
 
-bool Character::in_climate_control()
+std::pair<int, int> Character::climate_control_strength()
 {
-    bool regulated_area = false;
-    // Check
-    if( has_flag( json_flag_CLIMATE_CONTROL ) ) {
-        return true;
-    }
+    // In warmth points
+    const int DEFAULT_STRENGTH = 50;
+
+    int power_heat = enchantment_cache->get_value_add( enchant_vals::mod::CLIMATE_CONTROL_HEAT );
+    int power_chill = enchantment_cache->get_value_add( enchant_vals::mod::CLIMATE_CONTROL_CHILL );
+
     map &here = get_map();
     if( has_trait( trait_M_SKIN3 ) && here.has_flag_ter_or_furn( ter_furn_flag::TFLAG_FUNGUS, pos() ) &&
         in_sleep_state() ) {
-        return true;
+        power_heat += DEFAULT_STRENGTH;
+        power_chill += DEFAULT_STRENGTH;
     }
-    if( worn.in_climate_control() ) {
-        return true;
-    }
+
+    bool regulated_area = false;
     if( calendar::turn >= next_climate_control_check ) {
         // save CPU and simulate acclimation.
         next_climate_control_check = calendar::turn + 20_turns;
@@ -3542,9 +3542,15 @@ bool Character::in_climate_control()
             next_climate_control_check += 40_turns;
         }
     } else {
-        return last_climate_control_ret;
+        regulated_area = last_climate_control_ret;
     }
-    return regulated_area;
+
+    if( regulated_area ) {
+        power_heat += DEFAULT_STRENGTH;
+        power_chill += DEFAULT_STRENGTH;
+    }
+
+    return { power_heat, power_chill };
 }
 
 std::map<bodypart_id, int> Character::get_wind_resistance( const std::map <bodypart_id,
@@ -4708,6 +4714,16 @@ void Character::calc_sleep_recovery_rate( needs_rates &rates ) const
     const effect &sleep = get_effect( effect_sleep );
     static const std::string fatigue_regen_modifier( "fatigue_regen_modifier" );
     rates.recovery = 1.0f + mutation_value( fatigue_regen_modifier );
+
+    // -5% sleep recovery rate for every main part below cold
+    float temp_mod = 0.0f;
+    for( const bodypart_id &bp : get_all_body_parts( get_body_part_flags::only_main ) ) {
+        if( get_part_temp_cur( bp ) <= BODYTEMP_COLD ) {
+            temp_mod -= 0.05f;
+        }
+    }
+    rates.recovery += temp_mod;
+
     if( !is_hibernating() ) {
         // Hunger and thirst advance more slowly while we sleep. This is the standard rate.
         rates.hunger *= 0.5f;
@@ -5303,6 +5319,7 @@ bool Character::is_immune_field( const field_type_id &fid ) const
     }
 
     bool immune_by_worn_flags = !ft.immunity_data_part_item_flags.empty();
+    // Check if all worn flags are fulfilled
     for( const std::pair<body_part_type::type, flag_id> &fide :
          ft.immunity_data_part_item_flags ) {
         for( const bodypart_id &bp : get_all_body_parts_of_type( fide.first ) ) {
@@ -5314,8 +5331,20 @@ bool Character::is_immune_field( const field_type_id &fid ) const
             }
         }
     }
+
     if( immune_by_worn_flags ) {
         return true;
+    }
+
+    // Check if the optional worn flags are fulfilled
+    for( const std::pair<body_part_type::type, flag_id> &fide :
+         ft.immunity_data_part_item_flags_any ) {
+        for( const bodypart_id &bp : get_all_body_parts_of_type( fide.first ) ) {
+            if( worn_with_flag( fide.second, bp ) ) {
+                // For now a single flag will protect all limbs, TODO: handle optional flags for multiples of the same limb type
+                return true;
+            }
+        }
     }
 
     if( ft.has_elec ) {
@@ -5907,18 +5936,18 @@ void Character::mod_base_age( int mod )
     init_age += mod;
 }
 
-int Character::age() const
+int Character::age( time_point when ) const
 {
-    int years_since_cataclysm = to_turns<int>( calendar::turn - calendar::turn_zero ) /
+    int years_since_cataclysm = to_turns<int>( when - calendar::turn_zero ) /
                                 to_turns<int>( calendar::year_length() );
     return init_age + years_since_cataclysm;
 }
 
-std::string Character::age_string() const
+std::string Character::age_string( time_point when ) const
 {
     //~ how old the character is in years. try to limit number of characters to fit on the screen
     std::string unformatted = _( "%d years" );
-    return string_format( unformatted, age() );
+    return string_format( unformatted, age( when ) );
 }
 
 
@@ -6537,7 +6566,11 @@ bool Character::invoke_item( item *used, const std::string &method, const tripoi
 
     if( actually_used->is_comestible() ) {
         const bool ret = consume_effects( *used );
-        actually_used->activation_consume( charges_used.value(), pt, this );
+        const int consumed = used->activation_consume( charges_used.value(), pt, this );
+        if( consumed == 0 ) {
+            // Nothing was consumed from within the item. "Eat" the item itself away.
+            i_rem( actually_used );
+        }
         return ret;
     }
 
@@ -8478,24 +8511,17 @@ int Character::bodytemp_modifier_traits_floor() const
     return mod;
 }
 
-int Character::temp_corrected_by_climate_control( int temperature ) const
+int Character::temp_corrected_by_climate_control( int temperature,
+        int heat_strength, int chill_strength ) const
 {
-    const int variation = static_cast<int>( BODYTEMP_NORM * 0.5 );
-    if( temperature < BODYTEMP_SCORCHING + variation &&
-        temperature > BODYTEMP_FREEZING - variation ) {
-        if( temperature > BODYTEMP_SCORCHING ) {
-            temperature = BODYTEMP_VERY_HOT;
-        } else if( temperature > BODYTEMP_VERY_HOT ) {
-            temperature = BODYTEMP_HOT;
-        } else if( temperature < BODYTEMP_FREEZING ) {
-            temperature = BODYTEMP_VERY_COLD;
-        } else if( temperature < BODYTEMP_VERY_COLD ) {
-            temperature = BODYTEMP_COLD;
-        } else {
-            temperature = BODYTEMP_NORM;
-        }
+    const int variation_heat = static_cast<int>( BODYTEMP_NORM * ( heat_strength / 100.0f ) );
+    const int variation_chill = static_cast<int>( BODYTEMP_NORM * ( chill_strength / 100.0f ) );
+
+    if( temperature > BODYTEMP_NORM ) {
+        return std::max( BODYTEMP_NORM, temperature - variation_chill );
+    } else {
+        return std::min( BODYTEMP_NORM, temperature + variation_heat );
     }
-    return temperature;
 }
 
 bool Character::in_sleep_state() const
@@ -9766,8 +9792,9 @@ void Character::process_effects()
         remove_effect( effect_tapeworm );
         add_msg_if_player( m_good, _( "Your bowels gurgle as something inside them dies." ) );
     }
-    if( has_trait( trait_INFIMMUNE ) && ( has_effect( effect_bite ) || has_effect( effect_infected ) ||
-                                          has_effect( effect_recover ) ) ) {
+    if( has_flag( json_flag_INFECTION_IMMUNE ) && ( has_effect( effect_bite ) ||
+            has_effect( effect_infected ) ||
+            has_effect( effect_recover ) ) ) {
         remove_effect( effect_bite );
         remove_effect( effect_infected );
         remove_effect( effect_recover );

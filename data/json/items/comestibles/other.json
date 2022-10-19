@@ -485,7 +485,8 @@
     "fun": -5,
     "vitamins": [ [ "iron", 25 ], [ "vitC", 1 ], [ "calcium", 3 ] ],
     "flags": [ "SMOKABLE", "NUTRIENT_OVERRIDE", "RAW" ],
-    "smoking_result": "soy_nuts"
+    "smoking_result": "soy_nuts",
+    "milling": { "into": "paste_nut", "conversion_rate": 0.2 }
   },
   {
     "type": "COMESTIBLE",
@@ -1051,5 +1052,46 @@
     "price_postapoc": 0,
     "volume": "15 ml",
     "fun": -20
+  },
+  {
+    "type": "COMESTIBLE",
+    "comestible_type": "FOOD",
+    "id": "paste_seed",
+    "name": { "str_sp": "seed paste" },
+    "description": "A mass of ground seeds that are ready to be pressed into oil.",
+    "weight": "100 g",
+    "volume": "100 ml",
+    "price": 100,
+    "price_postapoc": 25,
+    "to_hit": -5,
+    "material": [ "veggy" ],
+    "symbol": "%",
+    "color": "brown",
+    "spoils_in": "3 days",
+    "calories": 100,
+    "quench": -15,
+    "fun": -15,
+    "freezing_point": -274
+  },
+  {
+    "type": "COMESTIBLE",
+    "comestible_type": "FOOD",
+    "id": "paste_nut",
+    "name": { "str_sp": "nut paste" },
+    "description": "A thick mass of ground nuts that are ready to be pressed into oil.",
+    "weight": "100 g",
+    "volume": "100 ml",
+    "price": 100,
+    "price_postapoc": 25,
+    "to_hit": -5,
+    "material": [ "nut" ],
+    "symbol": "%",
+    "color": "brown",
+    "spoils_in": "3 days",
+    "calories": 200,
+    "quench": -15,
+    "fun": -15,
+    "freezing_point": -274,
+    "flags": [ "NUTRIENT_OVERRIDE" ]
   }
 ]
