@@ -970,7 +970,7 @@ bool Character::roll_bad_mutation() const
     }
 }
 
-void Character::mutate( const int &true_random_chance, const bool use_vitamins )
+void Character::mutate( const int &true_random_chance, bool use_vitamins )
 {
     // Determine the highest mutation category
     mutation_category_id cat;

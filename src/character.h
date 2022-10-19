@@ -1378,7 +1378,7 @@ class Character : public Creature, public visitable
                              int num_tries = INT_MAX, bool use_vitamins = true );
         /** Mutates toward the entered mutation, upgrading or removing conflicts if necessary */
         bool mutate_towards( const trait_id &mut, const mutation_category_id &mut_cat,
-                             const mutation_variant *chosen_var = nullptr, const bool use_vitamins = true );
+                             const mutation_variant *chosen_var = nullptr, bool use_vitamins = true );
         bool mutate_towards( const trait_id &mut, const mutation_variant *chosen_var = nullptr );
         /** Removes a mutation, downgrading to the previous level if possible */
         void remove_mutation( const trait_id &mut, bool silent = false );
