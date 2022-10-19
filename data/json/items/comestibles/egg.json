@@ -837,6 +837,23 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "caviar_egg_sandwich",
+    "name": { "str_sp": "caviar and egg sandwich" },
+    "weight": "75 g",
+    "color": "brown",
+    "comestible_type": "FOOD",
+    "symbol": "%",
+    "description": "A simple sandwich with sliced, hard boiled eggs and mayo to balance out the saltiness of the caviar.  Scandinavian breakfast stable.",
+    "price": 500,
+	  "charges": 2,
+    "price_postapoc": 300,
+    "material": [ "veggy", "egg" ],
+    "primary_material": "egg",
+    "volume": "120 ml",
+    "fun": 10
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "pickled_egg",
     "name": { "str": "pickled egg" },
     "copy-from": "egg_chicken",
