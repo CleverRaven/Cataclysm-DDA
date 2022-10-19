@@ -382,7 +382,7 @@
   {
     "id": "TALK_ROBOFAC_INTERCOM_RIFLE_TIMEGATE",
     "type": "talk_topic",
-    "dynamic_line": "As before, each Platform is made to order. This is a slow process for several reasons.  First, the parts must be printed to spec; this takes a great degree of precision, and so the process is lengthy.  The remainder of the week is spent running reliability tests as each conversion kit finishes production.  I understand that it isn't an ideal option, but I believe the quality of the product is worth that investment."
+    "dynamic_line": "As before, each Platform is made to order.  This is a slow process for several reasons.  First, the parts must be printed to spec; this takes a great degree of precision, and so the process is lengthy.  The remainder of the week is spent running reliability tests as each conversion kit finishes production.  I understand that it isn't an ideal option, but I believe the quality of the product is worth that investment."
   },
   {
     "id": "TALK_ROBOFAC_INTERCOM_RIFLE_BENEFITS",
@@ -649,8 +649,8 @@
           ]
         },
         "effect": [
-          { "u_consume_item": "pamd68", "count": 1, "popup": true },
-          { "u_consume_item": "exodiiBRmag", "count": 1, "popup": true },
+          { "u_consume_item": "pamd71z", "count": 1, "popup": true },
+          { "u_consume_item": "exodiiminimag", "count": 1, "popup": true },
           { "u_consume_item": "123ln", "count": 5, "popup": true }
         ],
         "topic": "TALK_ROBOFAC_INTERCOM_HWP_EXODII_STARTED"
