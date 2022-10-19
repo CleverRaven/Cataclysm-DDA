@@ -161,7 +161,7 @@
     "id": "tome_of_storms",
     "type": "BOOK",
     "category": "manuals",
-    "//": "6 Stormshaper spells",
+    "//": "7 Stormshaper spells",
     "name": { "str": "The Tome of The Oncoming Storm", "str_pl": "copies of The Tome of The Oncoming Storm" },
     "description": "A large book embossed with crossed lightning bolts and storm clouds, it tingles to the touch.",
     "weight": "430 g",
@@ -172,7 +172,7 @@
     "color": "light_gray",
     "use_action": {
       "type": "learn_spell",
-      "spells": [ "jolt", "windstrike", "windrun", "storm_hammer", "lightning_bolt", "lightning_blast" ]
+      "spells": [ "jolt", "windstrike", "windrun", "storm_hammer", "stormfist", "lightning_bolt", "lightning_blast" ]
     }
   },
   {
