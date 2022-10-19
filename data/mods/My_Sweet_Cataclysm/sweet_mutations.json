@@ -35,7 +35,7 @@
       "SLOWHEALER",
       "SLOWHEALER2",
       "SLOWHEALER3",
-      "NOHEAL"      
+      "NOHEAL"
     ],
     "can_only_eat": [ "junk", "sugar", "honey" ],
     "can_only_heal_with": [ "caramel_ointement" ],
