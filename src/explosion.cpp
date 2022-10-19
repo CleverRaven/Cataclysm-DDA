@@ -759,8 +759,8 @@ void emp_blast( const tripoint &p )
 
         for( item_location &it : player_character.all_items_loc() ) {
             // Render any electronic stuff in player's possession non-functional
-            if( ( it->has_flag( flag_ELECTRONIC ) ) {
-            add_msg( m_bad, _( "The EMP blast fries your %s!" ), it->tname() );
+            if( it->has_flag( flag_ELECTRONIC ) ) {
+                add_msg( m_bad, _( "The EMP blast fries your %s!" ), it->tname() );
                 it->deactivate();
                 it->set_flag( flag_ITEM_BROKEN );
             }
