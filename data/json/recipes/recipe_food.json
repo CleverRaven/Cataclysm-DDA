@@ -4506,7 +4506,7 @@
     "components": [
       [ [ "boiled_egg", 2 ] ],
       [ [ "mayonnaise", 2 ] ],
-	    [ [ "cured_roe", 2 ], [ "razorclaw_roe", 1 ] ], 
+      [ [ "cured_roe", 2 ], [ "razorclaw_roe", 1 ] ],
       [ [ "bread_sandwich", 4, "LIST" ] ]
     ]
   },
