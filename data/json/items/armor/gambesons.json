@@ -20,7 +20,7 @@
     "armor": [
       {
         "material": [
-          { "type": "canvas", "covered_by_mat": 100, "thickness": 3.5 },
+          { "type": "canvas", "covered_by_mat": 100, "thickness": 3.5 }
         ],
         "covers": [ "torso" ],
         "coverage": 100,
@@ -49,7 +49,7 @@
     "armor": [
       {
         "material": [
-          { "type": "canvas", "covered_by_mat": 100, "thickness": 2.5 },
+          { "type": "canvas", "covered_by_mat": 100, "thickness": 2.5 }
         ],
         "covers": [ "arm_l", "arm_r" ],
         "coverage": 100,
@@ -78,7 +78,7 @@
     "armor": [
       {
         "material": [
-          { "type": "canvas", "covered_by_mat": 100, "thickness": 3.0 },
+          { "type": "canvas", "covered_by_mat": 100, "thickness": 3.0 }
         ],
         "covers": [ "leg_l", "leg_r" ],
         "coverage": 100,
@@ -107,7 +107,7 @@
     "armor": [
       {
         "material": [
-          { "type": "canvas", "covered_by_mat": 100, "thickness": 3.0 },
+          { "type": "canvas", "covered_by_mat": 100, "thickness": 3.0 }
         ],
         "covers": [ "head" ],
         "specifically_covers": [ "head_throat" ],
@@ -137,7 +137,7 @@
     "armor": [
       {
         "material": [
-          { "type": "canvas", "covered_by_mat": 100, "thickness": 7.5 },
+          { "type": "canvas", "covered_by_mat": 100, "thickness": 7.5 }
         ],
         "covers": [ "torso" ],
         "coverage": 100,
@@ -145,7 +145,7 @@
       },
       {
         "material": [
-          { "type": "canvas", "covered_by_mat": 100, "thickness": 2.5 },
+          { "type": "canvas", "covered_by_mat": 100, "thickness": 2.5 }
         ],
         "covers": [ "leg_l", "leg_r" ],
         "specifically_covers": [ "leg_draped_l", "leg_draped_r" ],
@@ -176,7 +176,7 @@
     "armor": [
       {
         "material": [
-          { "type": "canvas", "covered_by_mat": 100, "thickness": 5.0 },
+          { "type": "canvas", "covered_by_mat": 100, "thickness": 5.0 }
         ],
         "covers": [ "arm_l", "arm_r" ],
         "coverage": 100,
@@ -206,7 +206,7 @@
     "armor": [
       {
         "material": [
-          { "type": "canvas", "covered_by_mat": 100, "thickness": 5.0 },
+          { "type": "canvas", "covered_by_mat": 100, "thickness": 5.0 }
         ],
         "covers": [ "leg_l", "leg_r" ],
         "coverage": 100,
@@ -235,7 +235,7 @@
     "armor": [
       {
         "material": [
-          { "type": "canvas", "covered_by_mat": 100, "thickness": 6.0 },
+          { "type": "canvas", "covered_by_mat": 100, "thickness": 6.0 }
         ],
         "covers": [ "head" ],
         "specifically_covers": [ "head_throat" ],
