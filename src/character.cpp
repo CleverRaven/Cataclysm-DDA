@@ -4714,6 +4714,16 @@ void Character::calc_sleep_recovery_rate( needs_rates &rates ) const
     const effect &sleep = get_effect( effect_sleep );
     static const std::string fatigue_regen_modifier( "fatigue_regen_modifier" );
     rates.recovery = 1.0f + mutation_value( fatigue_regen_modifier );
+
+    // -5% sleep recovery rate for every main part below cold
+    float temp_mod = 0.0f;
+    for( const bodypart_id &bp : get_all_body_parts( get_body_part_flags::only_main ) ) {
+        if( get_part_temp_cur( bp ) <= BODYTEMP_COLD ) {
+            temp_mod -= 0.05f;
+        }
+    }
+    rates.recovery += temp_mod;
+
     if( !is_hibernating() ) {
         // Hunger and thirst advance more slowly while we sleep. This is the standard rate.
         rates.hunger *= 0.5f;
