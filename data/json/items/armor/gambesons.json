@@ -181,7 +181,7 @@
         "covers": [ "arm_l", "arm_r" ],
         "coverage": 100,
         "encumbrance": 22
-      },
+      }
     ]
   },
   {
@@ -210,7 +210,7 @@
         "covers": [ "leg_l", "leg_r" ],
         "coverage": 100,
         "encumbrance": 20
-      },
+      }
     ]
   },
   {
@@ -240,7 +240,7 @@
         "specifically_covers": [ "head_throat" ],
         "coverage": 100,
         "encumbrance_modifiers": [ "RESTRICTS_NECK", "WELL_SUPPORTED" ]
-      },
+      }
     ]
   }
 ]
