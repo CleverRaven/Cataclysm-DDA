@@ -758,12 +758,8 @@ void emp_blast( const tripoint &p )
         }
 
         for( item_location &it : player_character.all_items_loc() ) {
-            // Drain any batteries and battery-operated items in player's possession of their battery charge
-            if( ( it->is_tool() && it->ammo_current() == itype_battery ) || it->is_battery() ) {
-                it->ammo_unset();
-            }
             // Render any electronic stuff in player's possession non-functional
-            if( ( it->has_flag( flag_ELECTRONIC ) || it->is_battery() ) && !it->is_broken() ) {
+            if( ( it->has_flag( flag_ELECTRONIC ) ) {
                 add_msg( m_bad, _( "The EMP blast fries your %s!" ), it->tname() );
                 it->deactivate();
                 it->set_flag( flag_ITEM_BROKEN );
@@ -772,10 +768,6 @@ void emp_blast( const tripoint &p )
     }
 
     for( item &it : here.i_at( p ) ) {
-        // Drain any batteries and battery-operated items on the ground of their battery charge
-        if( ( it.is_tool() && it.ammo_current() == itype_battery ) || it.is_battery() ) {
-            it.ammo_unset();
-        }
         // Render any electronic stuff on the ground non-functional
         if( it.has_flag( flag_ELECTRONIC ) && !it.is_broken() ) {
             if( sight ) {
