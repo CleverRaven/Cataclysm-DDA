@@ -1816,6 +1816,7 @@
     "type": "TOOL_ARMOR",
     "name": { "str": "half-face gas mask" },
     "description": "A lightweight form-fitting mask that straps over your mouth and nose, providing full protection from the inhalation of smoke, teargas, and chemical contaminants - though safety goggles are advised!  It must be prepared before use.",
+	  "category": "clothing",
     "flags": [ "SLEEP_IGNORE" ],
     "weight": "400 g",
     "volume": "500 ml",
@@ -1832,7 +1833,7 @@
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "gasfilter_m": 60 } } ],
     "ammo": "gasfilter_m",
     "use_action": [ "GASMASK" ],
-    "armor": [ { "encumbrance": 20, "coverage": 100, "covers": [ "mouth" ] } ]
+    "armor": [ { "encumbrance": 20, "rigid_layer_only": true, "coverage": 100, "covers": [ "mouth" ] } ]
   },
   {
     "id": "mask_fsurvivor",
