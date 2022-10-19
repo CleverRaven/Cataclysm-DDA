@@ -246,7 +246,6 @@ Spells may have any number of flags, for example:
 | `NO_HANDS` | Hands do not affect spell energy cost.
 | `NO_LEGS` | Legs do not affect casting time.
 | `NO_PROJECTILE` | The "projectile" portion of the spell phases through walls, the epicenter of the spell effect is exactly where you target it, with no regards to obstacles.
-| `NO_SPELLCASTING` | Disables spellcasting.
 | `NON_MAGICAL` | Ignores spell resistance when calculating damage mitigation.
 | `PAIN_NORESIST` | Pain altering spells can't be resisted (like with the deadened trait).
 | `PERCENTAGE_DAMAGE` | The spell deals damage based on the target's current hp.  This means that the spell can't directly kill the target.
@@ -259,11 +258,9 @@ Spells may have any number of flags, for example:
 | `RANDOM_DURATION` | Picks random number between (min + increment) * level and max instead of normal behavior.
 | `RANDOM_TARGET` | Forces the spell to choose a random valid target within range instead of the caster choosing the target.  This also affects `extra_effects`.
 | `SILENT` | Spell makes no noise at target.
-| `SILENT_SPELL` | Mouth encumbrance no longer applies to spell failure chance.
 | `SOMATIC` | Arm encumbrance affects fail % and casting time (slightly).
 | `SPAWN_GROUP` | Spawn or summon from an `item_group` or `monstergroup`, instead of the specific IDs.
 | `SPAWN_WITH_DEATH_DROPS` | Allows summoned monsters to retain their usual death drops, otherwise they drop nothing.
-| `SUBTLE_SPELL` | Arm encumbrance no longer applies to spell failure chance.
 | `SWAP_POS` | A projectile spell swaps the positions of the caster and target.
 | `TARGET_TELEPORT` | Teleport spell changes to maximum range target with aoe as variation around target.
 | `UNSAFE_TELEPORT` | Teleport spell risks killing the caster or others.
@@ -604,9 +601,7 @@ Explanation: Here we have one main spell with two subspells: one on the caster a
 
 ## Enchantments
 
-A subtype of spells are enchantments.  Enchantments are bound to different "containers", such as items, mutations, bionics or even effects (the type).  Enchantment effects are thus active depending on the state of the container and what they grant, instead of being `a`ctivated directly or casted by someone.
-
-Depending on their effects on the user, enchantments can behave like blessings, by granting positive stats and effects, curses if such effects are detrimental to the user (through a clever use of the `NO_TAKEOFF` flag), or a mix of both.
+Enchantments are another layer of enhancements, similar to `effect_type` and `mutation`.  Unlike these which are carried by the avatar and similar entities, enchantments are bound to "containers" such as items, mutations, bionics and effects.  This allows some flexibility in customizing effects and interactions according to the current state of the container, the spell being activated if any, what exactly is being granted, and more.
 
 | Identifier                  | Description
 |---                          |---
@@ -618,7 +613,7 @@ Depending on their effects on the user, enchantments can behave like blessings, 
 | `intermittent_activation`   | Spells that activate centered on you depending on the duration.  The spells follow the `fake_spell` template.
 | `values`                    | Numbers that can be modified (see [list](#id-values)).  `add` is added to the base value, `multiply` is **also added** and treated as percentage: 2.5 is +250% and -1 is -100%.  `add` is always applied before `multiply`.  Either `add` or `multiply` can be a variable_object/arithmetic expression (see [below](#variables) for syntax and application, and [NPCs](NPCs.md) for the in depth explanation).
 | `mutations`                 | Grants the mutation/trait ID.  Note: enchantments effects added this way won't stack, due how mutations work.
-| `ench_effects`              | Grants the effect ID.  Requires the `intensity` for the effect.
+| `ench_effects`              | Grants the effect_id.  Requires the `intensity` for the effect.
 
 
 There are two possible syntaxes.  The first is by defining an enchantment object and then referencing the ID, the second is by directly defining the effects as an inline enchantment of something (in this case, an item):
@@ -695,7 +690,7 @@ Another example is a `GUN` type item (e.g. a firearm).  As this is a weapon that
 This weapon consumes "magic bullet" ammo every time it's fired.  Note how `charge_info` and `passive_effects` can be used together.
 
 
-The `charge_info` field supports the following:
+The field `charge_info` supports the following:
 
 | Identifier                  | Description
 |---                          |---
@@ -719,7 +714,7 @@ From now, EOC variables can be used inside enchantments, including both predefin
   }
 ```
 
-This enchantment adds the dexterity value to strength: a character with str 8 and dex 10 will end with str 18 and dex 10.
+This enchantment adds the dexterity value to strength: a character with str 8 and dex 10 will result with str 18 and dex 10.
 
 
 ```json
@@ -757,7 +752,7 @@ This enchantment checks the amount of monsters near the character (in a 25 tile 
 
 Here's an enchantment that relies on a custom variable check, the full power of EOCs in your hand.
 
-First, the custom variable IS_UNDER_THE_MOON is set behind the scenes,  it checks if the character is under the moon's rays (by a combination of `{ "not": "is_day" }` and `"u_is_outside"`): if true value is 1, otherwise is 0.  Then, the custom variable is used inside an arithmetic operation that multiplies the truth value by 4: character is granted [ 1 * 4 ] = 4 additional strength if outside and during the night, or [ 0 * 4 ] = 0 additional strength otherwise.
+First, the custom variable IS_UNDER_THE_MOON is set behind the scenes, it checks if the character is under the moon's rays (by a combination of `{ "not": "is_day" }` and `"u_is_outside"`): if true value is 1, otherwise is 0.  Then, the custom variable is used inside an arithmetic operation that multiplies the truth value by 4: character is granted [ 1 * 4 ] = 4 additional strength if outside and during the night, or [ 0 * 4 ] = 0 additional strength otherwise.
 
 
 ### ID values
