@@ -266,32 +266,59 @@ std::string enum_to_string<ter_furn_flag>( ter_furn_flag data )
 
 } // namespace io
 
-static const std::unordered_map<std::string, ter_connects> ter_connects_map = { {
-        { "WALL",                     TERCONN_WALL },         // implied for connects_to by ter_furn_flag::TFLAG_CONNECT_WITH_WALL, ter_furn_flag::TFLAG_AUTO_WALL_SYMBOL or ter_furn_flag::TFLAG_WALL
-        { "CHAINFENCE",               TERCONN_CHAINFENCE },
-        { "WOODFENCE",                TERCONN_WOODFENCE },
-        { "RAILING",                  TERCONN_RAILING },
-        { "WATER",                    TERCONN_WATER },
-        { "POOLWATER",                TERCONN_POOLWATER },
-        { "PAVEMENT",                 TERCONN_PAVEMENT },
-        { "PAVEMENT_MARKING",         TERCONN_PAVEMENT_MARKING },
-        { "RAIL",                     TERCONN_RAIL },
-        { "COUNTER",                  TERCONN_COUNTER },
-        { "CANVAS_WALL",              TERCONN_CANVAS_WALL },
-        { "SAND",                     TERCONN_SAND },
-        { "PIT_DEEP",                 TERCONN_PIT_DEEP },
-        { "LINOLEUM",                 TERCONN_LINOLEUM },
-        { "CARPET",                   TERCONN_CARPET },
-        { "CONCRETE",                 TERCONN_CONCRETE },
-        { "CLAY",                     TERCONN_CLAY },
-        { "DIRT",                     TERCONN_DIRT },
-        { "ROCKFLOOR",                TERCONN_ROCKFLOOR },
-        { "MULCHFLOOR",               TERCONN_MULCHFLOOR },
-        { "METALFLOOR",               TERCONN_METALFLOOR },
-        { "WOODFLOOR",                TERCONN_WOODFLOOR },
-        { "INDOORFLOOR",              TERCONN_INDOORFLOOR },         // implied for rotates_to by ter_furn_flag::WINDOW and ter_furn_flag::DOOR, and for rotates_to_member by ter_furn_flag::INDOORS
+static std::unordered_map<std::string, connect_group> ter_connects_map;
+
+connect_group get_connect_group( const std::string &name )
+{
+    return ter_connects_map[name];
+}
+
+void connect_group::load( const JsonObject &jo )
+{
+
+    connect_group result;
+
+    result.id = connect_group_id( jo.get_string( "id" ) );
+    result.index = ter_connects_map.find( result.id.str() ) == ter_connects_map.end() ?
+                   ter_connects_map.size() : ter_connects_map[result.id.str()].index;
+    // Check index overflow for bitsets
+    if( result.index >= NUM_TERCONN ) {
+        debugmsg( "Exceeded current maximum of %d connection groups.  Increase NUM_TERCONN to allow for more groups!",
+                  NUM_TERCONN );
+        return;
     }
-};
+
+    if( jo.has_string( "group_flags" ) || jo.has_array( "group_flags" ) ) {
+        const std::vector<std::string> str_flags = jo.get_as_string_array( "group_flags" );
+        for( const std::string &flag : str_flags ) {
+            const ter_furn_flag f = io::string_to_enum<ter_furn_flag>( flag );
+            result.group_flags.insert( f );
+        }
+    }
+
+    if( jo.has_string( "connects_to_flags" ) || jo.has_array( "connects_to_flags" ) ) {
+        const std::vector<std::string> str_flags = jo.get_as_string_array( "connects_to_flags" );
+        for( const std::string &flag : str_flags ) {
+            const ter_furn_flag f = io::string_to_enum<ter_furn_flag>( flag );
+            result.connects_to_flags.insert( f );
+        }
+    }
+
+    if( jo.has_string( "rotates_to_flags" ) || jo.has_array( "rotates_to_flags" ) ) {
+        const std::vector<std::string> str_flags = jo.get_as_string_array( "rotates_to_flags" );
+        for( const std::string &flag : str_flags ) {
+            const ter_furn_flag f = io::string_to_enum<ter_furn_flag>( flag );
+            result.rotates_to_flags.insert( f );
+        }
+    }
+
+    ter_connects_map[ result.id.str() ] = result;
+}
+
+void connect_group::reset()
+{
+    ter_connects_map.clear();
+}
 
 static void load_map_bash_tent_centers( const JsonArray &ja, std::vector<furn_str_id> &centers )
 {
@@ -628,18 +655,17 @@ void map_data_common_t::extraprocess_flags( const ter_furn_flag flag )
     if( !transparent && flag == ter_furn_flag::TFLAG_TRANSPARENT ) {
         transparent = true;
     }
-    // wall connection check for JSON backwards compatibility
-    if( flag == ter_furn_flag::TFLAG_WALL || flag == ter_furn_flag::TFLAG_CONNECT_WITH_WALL ) {
-        set_connect_groups( { "WALL" } );
-        set_connects_to( { "WALL" } );
-    }
-    // rotates_to check for JSON backwards compatibility
-    if( flag == ter_furn_flag::TFLAG_WINDOW || flag == ter_furn_flag::TFLAG_DOOR ) {
-        set_rotates_to( { "INDOORFLOOR" } );
-    }
-    // rotates_to_member check for JSON backwards compatibility
-    if( flag == ter_furn_flag::TFLAG_INDOORS ) {
-        set_connect_groups( { "INDOORFLOOR" } );
+
+    for( std::pair<const std::string, connect_group> &item : ter_connects_map ) {
+        if( item.second.group_flags.find( flag ) != item.second.group_flags.end() ) {
+            set_connect_groups( { item.second.id.str() } );
+        }
+        if( item.second.connects_to_flags.find( flag ) != item.second.connects_to_flags.end() ) {
+            set_connects_to( { item.second.id.str() } );
+        }
+        if( item.second.rotates_to_flags.find( flag ) != item.second.rotates_to_flags.end() ) {
+            set_rotates_to( { item.second.id.str() } );
+        }
     }
 }
 
@@ -693,9 +719,9 @@ void map_data_common_t::set_groups( std::bitset<NUM_TERCONN> &bits,
         const auto it = ter_connects_map.find( grp );
         if( it != ter_connects_map.end() ) {
             if( remove ) {
-                bits.reset( it->second );
+                bits.reset( it->second.index );
             } else {
-                bits.set( it->second );
+                bits.set( it->second.index );
             }
         } else {
             debugmsg( "can't find terrain group %s", group.c_str() );
@@ -1187,7 +1213,7 @@ furn_id f_null, f_clear,
         f_tourist_table,
         f_camp_chair,
         f_sign,
-        f_street_light, f_traffic_light,
+        f_street_light, f_traffic_light, f_flagpole, f_wooden_flagpole,
         f_console, f_console_broken;
 
 void set_furn_ids()
@@ -1303,6 +1329,8 @@ void set_furn_ids()
     f_gun_safe_el = furn_id( "f_gun_safe_el" );
     f_street_light = furn_id( "f_street_light" );
     f_traffic_light = furn_id( "f_traffic_light" );
+    f_flagpole = furn_id( "f_flagpole" );
+    f_wooden_flagpole = furn_id( "f_wooden_flagpole" );
     f_console_broken = furn_id( "f_console_broken" );
     f_console = furn_id( "f_console" );
 }

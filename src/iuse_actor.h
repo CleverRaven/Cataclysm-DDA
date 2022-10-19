@@ -475,6 +475,7 @@ class salvage_actor : public iuse_actor
             material_id( "acidchitin" ),
             material_id( "alien_resin" ),
             material_id( "bone" ),
+            material_id( "canvas" ),
             material_id( "chitin" ),
             material_id( "cotton" ),
             material_id( "faux_fur" ),
@@ -489,6 +490,7 @@ class salvage_actor : public iuse_actor
             material_id( "nylon" ),
             material_id( "plastic" ),
             material_id( "rubber" ),
+            material_id( "thermo_resin" ),
             material_id( "wood" ),
             material_id( "wool" )
         };

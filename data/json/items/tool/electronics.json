@@ -110,7 +110,7 @@
     "price": 800,
     "price_postapoc": 250,
     "to_hit": 1,
-    "material": [ "aluminum" ],
+    "material": [ "copper", "wood" ],
     "symbol": ",",
     "color": "light_gray",
     "use_action": [ "DIRECTIONAL_ANTENNA" ]
@@ -246,7 +246,7 @@
     "symbol": ";",
     "color": "green",
     "ammo": [ "battery" ],
-    "flags": [ "WATER_BREAK", "ELECTRONIC" ],
+    "flags": [ "WATER_BREAK" ],
     "charges_per_use": 1,
     "use_action": [ "GEIGER" ],
     "pocket_data": [
@@ -267,7 +267,7 @@
     "power_draw": "200 mJ",
     "revert_to": "geiger_off",
     "use_action": [ "GEIGER" ],
-    "flags": [ "TRADER_AVOID", "WATER_BREAK", "ELECTRONIC" ]
+    "flags": [ "TRADER_AVOID", "WATER_BREAK" ]
   },
   {
     "id": "nre_recorder",
@@ -313,7 +313,7 @@
     "symbol": ":",
     "color": "light_gray",
     "ammo": [ "battery" ],
-    "flags": [ "WATER_BREAK", "ELECTRONIC" ],
+    "flags": [ "WATER_BREAK" ],
     "use_action": [ "HAND_CRANK" ],
     "pocket_data": [
       {
@@ -438,7 +438,7 @@
     "ammo": [ "battery" ],
     "charges_per_use": 1,
     "use_action": [ "NOISE_EMITTER_OFF" ],
-    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "WATER_BREAK", "ELECTRONIC" ],
+    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "WATER_BREAK" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -457,7 +457,7 @@
     "power_draw": "10 J",
     "revert_to": "noise_emitter",
     "use_action": [ "NOISE_EMITTER_ON" ],
-    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "TRADER_AVOID", "WATER_BREAK", "ELECTRONIC" ]
+    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "TRADER_AVOID", "WATER_BREAK" ]
   },
   {
     "id": "emf_detector",
@@ -618,7 +618,7 @@
     "symbol": ";",
     "color": "light_gray",
     "ammo": [ "battery" ],
-    "flags": [ "IS_UPS", "ELECTRONIC" ],
+    "flags": [ "IS_UPS" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -660,7 +660,7 @@
     "ammo": [ "battery" ],
     "charges_per_use": 10,
     "use_action": [ "VIBE" ],
-    "flags": [ "WATER_BREAK", "ELECTRONIC" ],
+    "flags": [ "WATER_BREAK" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
