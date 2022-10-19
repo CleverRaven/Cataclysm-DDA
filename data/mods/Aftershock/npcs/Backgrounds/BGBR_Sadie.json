@@ -47,6 +47,10 @@
         }
       ]
     },
-    "responses": [ { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" }, { "text": "<end_talking>", "topic": "TALK_DONE" } ]
+    "responses": [ { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" }, {
+        "text": "Can you inject me with whatever that was again?",
+        "condition": { "u_has_var": "sadie_heart", "type": "general", "context": "heart", "value": "yes" },
+        "topic": "TALK_sadie_injection2"
+      }, { "text": "<end_talking>", "topic": "TALK_DONE" } ]
   }
 ]
