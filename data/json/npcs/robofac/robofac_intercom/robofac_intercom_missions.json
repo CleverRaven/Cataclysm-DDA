@@ -874,7 +874,7 @@
   {
     "id": "MISSION_ROBOFAC_INTERCOM_PORTAL_SM_1_OFFER_ADVICE_Replacement",
     "type": "talk_topic",
-    "dynamic_line": "The recorder is not irreplaceable, but it is constructed using delicate components that are now in short supply.  In the event that the device is rendered nonfunctional, we are willing to provide a replacement at an equivalent cost.  Specifically, if you can locate an NRE microphone, which can be located in certain laboraties, then we are willing to provide a replacement recorder in exchange for it."
+    "dynamic_line": "The recorder is not irreplaceable, but it is constructed using delicate components that are now in short supply.  In the event that the device is rendered nonfunctional, we are willing to provide a replacement at an equivalent cost.  Specifically, if you can locate an NRE microphone, which can be located in certain laboratories, then we are willing to provide a replacement recorder in exchange for it."
   },
   {
     "id": "MISSION_ROBOFAC_INTERCOM_PORTAL_SM_1_ACCEPTED",
