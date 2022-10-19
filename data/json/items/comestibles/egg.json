@@ -845,7 +845,7 @@
     "symbol": "%",
     "description": "A simple sandwich with sliced, hard boiled eggs and mayo to balance out the saltiness of the caviar.  Scandinavian breakfast staple.",
     "price": 500,
-	  "charges": 2,
+    "charges": 2,
     "price_postapoc": 300,
     "material": [ "veggy", "egg" ],
     "primary_material": "egg",
