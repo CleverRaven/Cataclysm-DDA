@@ -162,6 +162,7 @@
   {
     "type": "MONSTER_FACTION",
     "name": "nether_player_hate",
+    "//": "These creatures aren't necessarily sentient in and of themselves or are drawn to sentient life in and around dimensional breaches.",
     "base_faction": "nether",
     "friendly": [ "zombie" ],
     "hate": [ "player" ]
