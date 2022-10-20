@@ -27,7 +27,15 @@
       "UNSTABLE",
       "HERBIVORE",
       "ROBUST",
-      "CARNIVORE"
+      "CARNIVORE",
+      "FASTHEALER",
+      "FASTHEALER2",
+      "REGEN",
+      "REGEN_LIZ",
+      "SLOWHEALER",
+      "SLOWHEALER2",
+      "SLOWHEALER3",
+      "NOHEAL"
     ],
     "can_only_eat": [ "junk", "sugar", "honey" ],
     "can_only_heal_with": [ "caramel_ointement" ],
@@ -50,6 +58,6 @@
         "bash": 5
       }
     ],
-    "flags": [ "NO_THIRST", "NO_DISEASE", "NO_RADIATION", "NO_MINIMAL_HEALING" ]
+    "flags": [ "NO_THIRST", "NO_DISEASE", "NO_RADIATION", "NO_MINIMAL_HEALING", "INFECTION_IMMUNE" ]
   }
 ]

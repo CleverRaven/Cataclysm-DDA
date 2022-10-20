@@ -412,7 +412,17 @@ void monster::try_upgrade( bool pin_time )
                 new_type = MonsterGroupManager::GetRandomMonsterFromGroup( type->upgrade_group );
             }
             if( !new_type.is_empty() ) {
-                poly( new_type );
+                if( new_type ) {
+                    poly( new_type );
+                } else {
+                    // "upgrading" to mon_null
+                    if( type->upgrade_null_despawn ) {
+                        g->remove_zombie( *this );
+                    } else {
+                        die( nullptr );
+                    }
+                    return;
+                }
             }
         }
 
@@ -524,6 +534,10 @@ void monster::refill_udders()
 
 void monster::try_biosignature()
 {
+    if( is_hallucination() ) {
+        return;
+    }
+
     if( !biosignatures ) {
         return;
     }

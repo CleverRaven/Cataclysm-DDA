@@ -397,7 +397,7 @@
   },
   {
     "type": "SPELL",
-    "id": "shifting_mass",
+    "id": "shifting_mass_attack",
     "name": { "str": "Shifting Mass Attack" },
     "description": "Drains some of your essence.",
     "copy-from": "base_portal",
@@ -629,47 +629,116 @@
   },
   {
     "type": "SPELL",
-    "id": "mon_endless_hunger_attack",
-    "name": { "str": "Endless Hunger Action" },
+    "id": "mon_reflection_attack",
+    "name": { "str": "Reflection Action" },
     "description": "Teleports and harms monsters.",
     "copy-from": "base_portal",
     "min_range": 15,
     "max_range": 15,
-    "effect_str": "EOC_mon_endless_hunger_attack"
+    "effect_str": "EOC_mon_reflection_attack"
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_mon_endless_hunger_attack",
+    "id": "EOC_mon_reflection_attack",
     "effect": {
       "switch": { "distance": [ "u", "npc" ] },
       "cases": [
         {
           "case": 0,
           "effect": [
-            { "u_message": "The endless hunger feasts directly on your essence." },
-            { "arithmetic": [ { "u_val": "fatigue" }, "+=", { "global_val": "var", "var_name": "endless_hunger" } ] },
-            { "arithmetic": [ { "global_val": "var", "var_name": "endless_hunger" }, "+=", { "const": 3 } ] }
+            { "u_message": "Your reflection feasts directly on your essence." },
+            {
+              "arithmetic": [ { "u_val": "fatigue" }, "+=", { "global_val": "var", "var_name": "portal_dungeon_reflect_strength" } ]
+            },
+            {
+              "arithmetic": [ { "global_val": "var", "var_name": "portal_dungeon_reflect_strength" }, "+=", { "const": 3 } ]
+            }
           ]
         },
         {
           "case": 2,
           "effect": [
-            { "u_message": "The endless hunger uses your bond to feast on your essence." },
-            { "arithmetic": [ { "u_val": "fatigue" }, "+=", { "global_val": "var", "var_name": "endless_hunger" } ] },
-            { "arithmetic": [ { "global_val": "var", "var_name": "endless_hunger" }, "++" ] }
+            { "u_message": "Your reflection uses your bond to feast on your essence." },
+            {
+              "arithmetic": [ { "u_val": "fatigue" }, "+=", { "global_val": "var", "var_name": "portal_dungeon_reflect_strength" } ]
+            },
+            { "arithmetic": [ { "global_val": "var", "var_name": "portal_dungeon_reflect_strength" }, "++" ] }
           ]
         },
         {
           "case": 8,
           "effect": [
-            { "u_message": "The endless hunger uses some of the energy it stole from you to clear the way." },
-            { "arithmetic": [ { "global_val": "var", "var_name": "endless_hunger" }, "--" ] },
-            { "u_location_variable": { "global_val": "first" }, "min_radius": 1, "max_radius": 1 },
-            { "npc_location_variable": { "global_val": "second" }, "min_radius": 1, "max_radius": 1 },
             {
-              "transform_line": "clear_portal_walls",
-              "first": { "global_val": "first" },
-              "second": { "global_val": "second" }
+              "switch": { "rand": 10 },
+              "cases": [
+                {
+                  "case": 0,
+                  "effect": [
+                    { "u_message": "Your reflection clears the way between you two." },
+                    { "u_location_variable": { "global_val": "first" }, "min_radius": 1, "max_radius": 1 },
+                    { "npc_location_variable": { "global_val": "second" }, "min_radius": 1, "max_radius": 1 },
+                    {
+                      "transform_line": "clear_portal_walls",
+                      "first": { "global_val": "first" },
+                      "second": { "global_val": "second" }
+                    }
+                  ]
+                },
+                {
+                  "case": 5,
+                  "effect": {
+                    "run_eocs": {
+                      "id": "portal_storm_reflection_summon_guilt",
+                      "condition": {
+                        "and": [
+                          { "compare_int": [ { "global_val": "var", "var_name": "portal_dungeon_level" }, ">", { "const": 0 } ] },
+                          {
+                            "compare_int": [
+                              { "global_val": "monsters_nearby", "target_var": { "global_val": "dungeon_loc" }, "id": "mon_guilt" },
+                              "<",
+                              { "const": 1 }
+                            ]
+                          }
+                        ]
+                      },
+                      "effect": {
+                        "u_spawn_monster": "mon_guilt",
+                        "real_count": 1,
+                        "min_radius": 2,
+                        "max_radius": 4,
+                        "spawn_message": "Something deep inside you is manifested physically."
+                      }
+                    }
+                  }
+                },
+                {
+                  "case": 8,
+                  "effect": {
+                    "run_eocs": {
+                      "id": "portal_storm_reflection_summon_sloth",
+                      "condition": {
+                        "and": [
+                          { "compare_int": [ { "global_val": "var", "var_name": "portal_dungeon_level" }, ">", { "const": 0 } ] },
+                          {
+                            "compare_int": [
+                              { "global_val": "monsters_nearby", "target_var": { "global_val": "dungeon_loc" }, "id": "mon_sloth" },
+                              "<",
+                              { "const": 1 }
+                            ]
+                          }
+                        ]
+                      },
+                      "effect": {
+                        "u_spawn_monster": "mon_sloth",
+                        "real_count": 1,
+                        "min_radius": 2,
+                        "max_radius": 4,
+                        "spawn_message": "Something deep inside you is manifested physically."
+                      }
+                    }
+                  }
+                }
+              ]
             }
           ]
         }
@@ -683,9 +752,9 @@
   },
   {
     "type": "SPELL",
-    "id": "mon_endless_hunger_revive",
-    "name": { "str": "Endless Hunger Revive" },
-    "description": "Revives the endless hunger.",
+    "id": "mon_reflection_revive",
+    "name": { "str": "Reflection Revive" },
+    "description": "Revives the reflection.",
     "valid_targets": [ "self", "ground" ],
     "max_level": 1,
     "flags": [ "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
@@ -694,12 +763,12 @@
     "max_range": 15,
     "shape": "blast",
     "effect": "effect_on_condition",
-    "effect_str": "EOC_PORTAL_STORM_DUNGEON_ENDLESS_HUNGER_RESPAWN"
+    "effect_str": "EOC_PORTAL_STORM_DUNGEON_REFLECTION_RESPAWN"
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_PORTAL_STORM_DUNGEON_ENDLESS_HUNGER_RESPAWN",
-    "effect": [ { "queue_eocs": "EOC_PORTAL_STORM_DUNGEON_ENDLESS_HUNGER_SPAWN", "time_in_future": [ "30 seconds", "1 minutes" ] } ]
+    "id": "EOC_PORTAL_STORM_DUNGEON_REFLECTION_RESPAWN",
+    "effect": [ { "queue_eocs": "EOC_PORTAL_STORM_DUNGEON_REFLECTION_SPAWN", "time_in_future": [ "30 seconds", "1 minutes" ] } ]
   },
   {
     "type": "SPELL",
@@ -753,5 +822,37 @@
     "min_duration": 25920000,
     "max_duration": 25920000,
     "extra_effects": [ { "id": "hallu_touch_suicide", "hit_self": true } ]
+  },
+  {
+    "type": "SPELL",
+    "id": "sloth_attack",
+    "name": { "str": "Sloth Attack" },
+    "description": "Slows you.",
+    "copy-from": "base_portal",
+    "effect_str": "EOC_sloth_attack"
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_sloth_attack",
+    "effect": [
+      { "arithmetic": [ { "global_val": "var", "var_name": "portal_dungeon_slow_strength" }, "--" ], "min": -75 },
+      { "u_add_effect": "slowed_time", "duration": [ "4 hours", "6 hours" ] }
+    ]
+  },
+  {
+    "type": "SPELL",
+    "id": "guilt_attack",
+    "name": { "str": "Guilt Attack" },
+    "description": "Makes things heavier.",
+    "copy-from": "base_portal",
+    "effect_str": "EOC_guilt_attack"
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_guilt_attack",
+    "effect": [
+      { "arithmetic": [ { "global_val": "var", "var_name": "portal_dungeon_carry_strength" }, "--" ], "min": -75 },
+      { "u_add_effect": "strengthened_gravity", "duration": [ "4 hours", "6 hours" ] }
+    ]
   }
 ]

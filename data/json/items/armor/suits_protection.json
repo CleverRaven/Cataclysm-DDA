@@ -991,7 +991,7 @@
     "copy-from": "armor_lc_plate",
     "material": [ "qt_steel", "qt_steel_chain" ],
     "name": { "str": "tempered plate armor" },
-    "description": "A suit of plate armor with a 4mm thick chestpiece.  The medium steel has been quenched and tempered, offering top-of-the-line-protection.",
+    "description": "A suit of plate armor with a 4mm thick chestpiece.  The medium steel has been quenched and tempered, offering top-of-the-line protection.",
     "armor": [
       {
         "material": [
@@ -1244,7 +1244,7 @@
     "copy-from": "armor_lc_heavyplate",
     "material": [ "qt_steel", "qt_steel_chain" ],
     "name": { "str": "tempered heavy plate armor" },
-    "description": "A heavy suit of plate armor with a 6mm thick chestpiece.  The medium steel has been quenched and tempered, offering top of the line protection.",
+    "description": "A heavy suit of plate armor with a 6mm thick chestpiece.  The medium steel has been quenched and tempered, offering top-of-the-line protection.",
     "armor": [
       {
         "material": [
@@ -1543,7 +1543,7 @@
     "category": "armor",
     "name": { "str": "chainmail hauberk" },
     "description": "A fully customized chainmail outfit, leaving the head uncovered.  Combine with a gambeson or other padded layer for optimal protection.",
-    "weight": "14430 g",
+    "weight": "9012 g",
     "volume": "2750 ml",
     "price": 35988,
     "price_postapoc": 3000,
@@ -1557,7 +1557,7 @@
     "armor": [
       {
         "material": [ { "type": "budget_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
-        "covers": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r" ],
+        "covers": [ "torso", "arm_l", "arm_r" ],
         "coverage": 97,
         "encumbrance": 20
       }
@@ -1567,9 +1567,10 @@
     "id": "lc_chainmail_hauberk",
     "type": "ARMOR",
     "category": "armor",
-    "name": { "str": "low steel chainmail hauberk" },
-    "description": "A fully customized low steel chainmail outfit, leaving the head uncovered.  Combine with a gambeson or other padded layer for optimal protection.",
-    "weight": "14430 g",
+    "name": { "str": "mild steel chainmail hauberk" },
+    "description": "A fully customized mild steel chainmail outfit, leaving the head uncovered.  Combine with a gambeson or other padded layer for optimal protection.",
+    "weight": "9012 g",
+    "//": "Should be lighter when irl hauberk as it does not cover legs",
     "volume": "2750 ml",
     "price": 35988,
     "price_postapoc": 3000,
@@ -1583,7 +1584,7 @@
     "armor": [
       {
         "material": [ { "type": "lc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
-        "covers": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r" ],
+        "covers": [ "torso", "arm_l", "arm_r" ],
         "coverage": 100,
         "encumbrance": 20
       }
@@ -1615,7 +1616,7 @@
     "armor": [
       {
         "material": [ { "type": "mc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
-        "covers": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r" ],
+        "covers": [ "torso", "arm_l", "arm_r" ],
         "coverage": 100,
         "encumbrance": 20
       }
@@ -1648,7 +1649,7 @@
     "armor": [
       {
         "material": [ { "type": "hc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
-        "covers": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r" ],
+        "covers": [ "torso", "arm_l", "arm_r" ],
         "coverage": 100,
         "encumbrance": 20
       }
@@ -1680,7 +1681,7 @@
     "armor": [
       {
         "material": [ { "type": "ch_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
-        "covers": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r" ],
+        "covers": [ "torso", "arm_l", "arm_r" ],
         "coverage": 100,
         "encumbrance": 20
       }
@@ -1712,7 +1713,7 @@
     "armor": [
       {
         "material": [ { "type": "qt_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
-        "covers": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r" ],
+        "covers": [ "torso", "arm_l", "arm_r" ],
         "coverage": 100,
         "encumbrance": 20
       }
@@ -1740,7 +1741,7 @@
     "category": "armor",
     "name": { "str": "chainmail armor" },
     "description": "A fully customized chainmail suit.  The metal shows signs of rust and corrosion.  Combine with a gambeson or other padded layer for optimal protection.",
-    "weight": "16436 g",
+    "weight": "14539 g",
     "volume": "3250 ml",
     "price": 45000,
     "price_postapoc": 8000,
@@ -1764,9 +1765,9 @@
     "id": "lc_chainmail_suit",
     "type": "ARMOR",
     "category": "armor",
-    "name": { "str": "low steel chainmail armor" },
-    "description": "A fully customized low steel chainmail suit.  Combine with a gambeson or other padded layer for optimal protection.",
-    "weight": "16436 g",
+    "name": { "str": "mild steel chainmail armor" },
+    "description": "A fully customized mild steel chainmail suit.  Combine with a gambeson or other padded layer for optimal protection.",
+    "weight": "14539 g",
     "volume": "3250 ml",
     "price": 45000,
     "price_postapoc": 8000,
@@ -3042,7 +3043,16 @@
       }
     ],
     "extend": { "flags": [ "NORMAL", "MUNDANE", "USES_BIONIC_POWER" ] },
-    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "mutations": [ "well_distributed" ] } ] },
+    "relic_data": {
+      "passive_effects": [
+        { "has": "WORN", "condition": "ALWAYS", "mutations": [ "well_distributed" ] },
+        {
+          "has": "WORN",
+          "condition": "ACTIVE",
+          "values": [ { "value": "CLIMATE_CONTROL_HEAT", "add": 50 }, { "value": "CLIMATE_CONTROL_CHILL", "add": 50 } ]
+        }
+      ]
+    },
     "use_action": {
       "type": "transform",
       "msg": "You turn the climate control on.",
@@ -3059,7 +3069,6 @@
     "type": "TOOL_ARMOR",
     "name": { "str": "nomad plate armor (on)", "str_pl": "nomad plate armors (on)" },
     "revert_to": "armor_nomad_plate",
-    "extend": { "flags": [ "CLIMATE_CONTROL" ] },
     "power_draw": "100 J",
     "use_action": {
       "ammo_scale": 0,
@@ -3110,7 +3119,16 @@
       }
     ],
     "extend": { "flags": [ "NORMAL", "MUNDANE", "USES_BIONIC_POWER" ] },
-    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "mutations": [ "well_distributed" ] } ] },
+    "relic_data": {
+      "passive_effects": [
+        { "has": "WORN", "condition": "ALWAYS", "mutations": [ "well_distributed" ] },
+        {
+          "has": "WORN",
+          "condition": "ACTIVE",
+          "values": [ { "value": "CLIMATE_CONTROL_HEAT", "add": 50 }, { "value": "CLIMATE_CONTROL_CHILL", "add": 50 } ]
+        }
+      ]
+    },
     "use_action": {
       "type": "transform",
       "msg": "You turn the climate control on.",
@@ -3127,7 +3145,6 @@
     "type": "TOOL_ARMOR",
     "name": { "str": "nomad light plate armor (on)", "str_pl": "nomad light plate armors (on)" },
     "revert_to": "armor_nomad_lightplate",
-    "extend": { "flags": [ "CLIMATE_CONTROL" ] },
     "power_draw": "100 J",
     "use_action": {
       "ammo_scale": 0,
@@ -3178,7 +3195,16 @@
       }
     ],
     "extend": { "flags": [ "NORMAL", "MUNDANE", "USES_BIONIC_POWER" ] },
-    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "mutations": [ "well_distributed" ] } ] },
+    "relic_data": {
+      "passive_effects": [
+        { "has": "WORN", "condition": "ALWAYS", "mutations": [ "well_distributed" ] },
+        {
+          "has": "WORN",
+          "condition": "ACTIVE",
+          "values": [ { "value": "CLIMATE_CONTROL_HEAT", "add": 50 }, { "value": "CLIMATE_CONTROL_CHILL", "add": 50 } ]
+        }
+      ]
+    },
     "use_action": {
       "type": "transform",
       "msg": "You turn the climate control on.",
@@ -3195,7 +3221,6 @@
     "type": "TOOL_ARMOR",
     "name": { "str": "nomad heavy plate armor (on)", "str_pl": "nomad heavy plate armors (on)" },
     "revert_to": "armor_nomad_heavyplate",
-    "extend": { "flags": [ "CLIMATE_CONTROL" ] },
     "power_draw": "100 J",
     "use_action": {
       "ammo_scale": 0,

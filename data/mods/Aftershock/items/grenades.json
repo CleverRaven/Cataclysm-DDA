@@ -153,5 +153,33 @@
       "explosion": { "power": 540, "shrapnel": { "casing_mass": 217, "fragment_mass": 0.125 } }
     },
     "flags": [ "BOMB", "TRADER_AVOID" ]
+  },
+  {
+    "id": "afs_oxygen_bomb",
+    "type": "TOOL",
+    "copy-from": "pipebomb",
+    "looks_like": "pipebomb",
+    "name": "oxygen bomb",
+    "price": "150 USD",
+    "description": "A favorite tool of mutineers everywhere, this is a standard issue oxygen candle deliberately tampered to explode upon activation.  Its fuse is dangerously short, so you won't want to waste any time.",
+    "use_action": {
+      "need_wielding": true,
+      "target": "afs_oxygen_bomb_act",
+      "msg": "You pull the pin on the bomb.",
+      "target_charges": 3,
+      "active": true,
+      "menu_text": "Pull the pin",
+      "type": "transform"
+    },
+    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "NPC_ACTIVATE" ]
+  },
+  {
+    "id": "afs_oxygen_bomb_act",
+    "type": "TOOL",
+    "copy-from": "pipebomb_act",
+    "looks_like": "pipebomb_act",
+    "name": "active oxygen bomb",
+    "price": "0 USD",
+    "description": "This bomb's fuse is lit, and it will explode any second now.  Throw it immediately!."
   }
 ]

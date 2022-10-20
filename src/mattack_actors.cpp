@@ -671,6 +671,11 @@ void bite_actor::load_internal( const JsonObject &obj, const std::string &src )
 {
     // Infection chance is a % (i.e. 5/100)
     melee_actor::load_internal( obj, src );
+    // If min hitsize is undefined restrict it to not biting eyes/mouths
+    // Hands are fair game, though
+    if( hitsize_min == -1 ) {
+        hitsize_min = 1;
+    }
     infection_chance = obj.get_int( "infection_chance", 5 );
 }
 

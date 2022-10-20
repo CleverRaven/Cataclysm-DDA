@@ -150,6 +150,7 @@
     "weight": "135 mg",
     "//": "Density of 2.7 g/cm3",
     "ammo_type": "components",
+    "flags": [ "NO_REPAIR" ],
     "count": 200
   },
   {
@@ -233,6 +234,7 @@
     "looks_like": "thread",
     "description": "Wool yarn, could be used to knit wool clothing.",
     "material": [ "wool" ],
+    "flags": [ "NO_SALVAGE" ],
     "volume": "250 ml",
     "weight": "1 g",
     "ammo_type": "thread",

@@ -269,8 +269,12 @@ void trim_and_print( const catacurses::window &w, const point &begin,
     print_colored_text( w, begin, dummy, base_color, sText, color_error );
 }
 
-std::string trim_by_length( const std::string  &text, int width )
+std::string trim_by_length( const std::string &text, int width )
 {
+    if( width <= 0 ) {
+        debugmsg( "Unable to trim string '%s' to width %d.  Returning empty string.", text, width );
+        return "";
+    }
     std::string sText;
     sText.reserve( width );
     if( utf8_width( remove_color_tags( text ) ) > width ) {
@@ -1327,6 +1331,16 @@ std::string trim_trailing_punctuations( const std::string &s )
         // '<' and '>' are used for tags and should not be removed
         return c == '.' || c == '!';
     } );
+}
+
+std::string remove_punctuations( const std::string &s )
+{
+    std::string result;
+    std::remove_copy_if( s.begin(), s.end(), std::back_inserter( result ),
+    []( unsigned char ch ) {
+        return std::ispunct( ch ) && ch != '_';
+    } );
+    return result;
 }
 
 using char_t = std::string::value_type;

@@ -330,6 +330,7 @@ void uistatedata::serialize( JsonOut &json ) const
     json.member( "distraction_hunger", distraction_hunger );
     json.member( "distraction_thirst", distraction_thirst );
     json.member( "distraction_temperature", distraction_temperature );
+    json.member( "distraction_mutation", distraction_mutation );
 
     json.member( "input_history" );
     json.start_object();
@@ -396,6 +397,7 @@ void uistatedata::deserialize( const JsonObject &jo )
     jo.read( "distraction_hunger", distraction_hunger );
     jo.read( "distraction_thirst", distraction_thirst );
     jo.read( "distraction_temperature", distraction_temperature );
+    jo.read( "distraction_mutation", distraction_mutation );
 
     if( !jo.read( "vmenu_show_items", vmenu_show_items ) ) {
         // This is an old save: 1 means view items, 2 means view monsters,
