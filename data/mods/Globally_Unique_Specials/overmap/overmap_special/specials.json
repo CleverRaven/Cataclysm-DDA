@@ -51,7 +51,8 @@
     "type": "overmap_special",
     "id": "Occupied Chem Lab",
     "copy-from": "Occupied Chem Lab",
-    "flags": [ "CLASSIC", "GLOBALLY UNIQUE" ]
+    "flags": [ "CLASSIC", "UNIQUE" ],
+    "occurrences": [ 15, 100 ]
   },
   {
     "type": "overmap_special",
