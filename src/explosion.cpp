@@ -47,6 +47,7 @@
 #include "mtype.h"
 #include "npc.h"
 #include "optional.h"
+#include "options.h"
 #include "point.h"
 #include "projectile.h"
 #include "rng.h"
@@ -758,7 +759,8 @@ void emp_blast( const tripoint &p )
 
         for( item_location &it : player_character.all_items_loc() ) {
             // Render any electronic stuff in player's possession non-functional
-            if( it->has_flag( flag_ELECTRONIC ) ) {
+            if( it->has_flag( flag_ELECTRONIC ) && !it->is_broken() &&
+                get_option<bool>( "EMP_DISABLE_ELECTRONICS" ) ) {
                 add_msg( m_bad, _( "The EMP blast fries your %s!" ), it->tname() );
                 it->deactivate();
                 it->set_flag( flag_ITEM_BROKEN );
@@ -768,7 +770,8 @@ void emp_blast( const tripoint &p )
 
     for( item &it : here.i_at( p ) ) {
         // Render any electronic stuff on the ground non-functional
-        if( it.has_flag( flag_ELECTRONIC ) && !it.is_broken() ) {
+        if( it.has_flag( flag_ELECTRONIC ) && !it.is_broken() &&
+            get_option<bool>( "EMP_DISABLE_ELECTRONICS" ) ) {
             if( sight ) {
                 add_msg( _( "The EMP blast fries the %s!" ), it.tname() );
             }
