@@ -884,6 +884,11 @@
   },
   {
     "type": "recipe",
+    "result": "scrap_aluminum",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
     "result": "2x4_from wooden beams",
     "obsolete": true
   },

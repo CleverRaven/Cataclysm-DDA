@@ -1294,6 +1294,7 @@ nodachi
 nodosaurus
 noisiness
 nomex
+nonfunctional
 nonpareils
 nonrevealing
 nonsedated
@@ -1996,6 +1997,7 @@ undulates
 uneasing
 unfavorite
 unfermented
+unfixable
 unflavored
 unfoldable
 ungraspable
