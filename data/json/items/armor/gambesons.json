@@ -19,9 +19,7 @@
     "flags": [ "VARSIZE", "STURDY" ],
     "armor": [
       {
-        "material": [
-          { "type": "canvas", "covered_by_mat": 100, "thickness": 3.5 }
-        ],
+        "material": [ { "type": "canvas", "covered_by_mat": 100, "thickness": 3.5 } ],
         "covers": [ "torso" ],
         "coverage": 100,
         "encumbrance": 11
@@ -48,9 +46,7 @@
     "flags": [ "VARSIZE", "STURDY" ],
     "armor": [
       {
-        "material": [
-          { "type": "canvas", "covered_by_mat": 100, "thickness": 2.5 }
-        ],
+        "material": [ { "type": "canvas", "covered_by_mat": 100, "thickness": 2.5 } ],
         "covers": [ "arm_l", "arm_r" ],
         "coverage": 100,
         "encumbrance": 11
@@ -77,9 +73,7 @@
     "flags": [ "VARSIZE", "STURDY" ],
     "armor": [
       {
-        "material": [
-          { "type": "canvas", "covered_by_mat": 100, "thickness": 3.0 }
-        ],
+        "material": [ { "type": "canvas", "covered_by_mat": 100, "thickness": 3.0 } ],
         "covers": [ "leg_l", "leg_r" ],
         "coverage": 100,
         "encumbrance": 11
@@ -106,9 +100,7 @@
     "flags": [ "VARSIZE", "STURDY" ],
     "armor": [
       {
-        "material": [
-          { "type": "canvas", "covered_by_mat": 100, "thickness": 3.0 }
-        ],
+        "material": [ { "type": "canvas", "covered_by_mat": 100, "thickness": 3.0 } ],
         "covers": [ "head" ],
         "specifically_covers": [ "head_throat" ],
         "coverage": 100,
@@ -136,17 +128,13 @@
     "flags": [ "VARSIZE", "STURDY", "NORMAL", "OUTER" ],
     "armor": [
       {
-        "material": [
-          { "type": "canvas", "covered_by_mat": 100, "thickness": 7.5 }
-        ],
+        "material": [ { "type": "canvas", "covered_by_mat": 100, "thickness": 7.5 } ],
         "covers": [ "torso" ],
         "coverage": 100,
         "encumbrance": 22
       },
       {
-        "material": [
-          { "type": "canvas", "covered_by_mat": 100, "thickness": 2.5 }
-        ],
+        "material": [ { "type": "canvas", "covered_by_mat": 100, "thickness": 2.5 } ],
         "covers": [ "leg_l", "leg_r" ],
         "specifically_covers": [ "leg_draped_l", "leg_draped_r" ],
         "coverage": 72,
@@ -175,9 +163,7 @@
     "flags": [ "VARSIZE", "STURDY", "NORMAL", "OUTER" ],
     "armor": [
       {
-        "material": [
-          { "type": "canvas", "covered_by_mat": 100, "thickness": 5.0 }
-        ],
+        "material": [ { "type": "canvas", "covered_by_mat": 100, "thickness": 5.0 } ],
         "covers": [ "arm_l", "arm_r" ],
         "coverage": 100,
         "encumbrance": 22
@@ -204,9 +190,7 @@
     "flags": [ "VARSIZE", "STURDY", "NORMAL", "OUTER" ],
     "armor": [
       {
-        "material": [
-          { "type": "canvas", "covered_by_mat": 100, "thickness": 5.0 }
-        ],
+        "material": [ { "type": "canvas", "covered_by_mat": 100, "thickness": 5.0 } ],
         "covers": [ "leg_l", "leg_r" ],
         "coverage": 100,
         "encumbrance": 20
@@ -233,9 +217,7 @@
     "flags": [ "VARSIZE", "STURDY", "NORMAL", "OUTER" ],
     "armor": [
       {
-        "material": [
-          { "type": "canvas", "covered_by_mat": 100, "thickness": 6.0 }
-        ],
+        "material": [ { "type": "canvas", "covered_by_mat": 100, "thickness": 6.0 } ],
         "covers": [ "head" ],
         "specifically_covers": [ "head_throat" ],
         "coverage": 100,
