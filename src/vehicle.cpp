@@ -5227,7 +5227,7 @@ int vehicle::discharge_battery( int amount, bool recurse )
     // Key parts by percentage charge level.
     std::multimap<int, vehicle_part *> dischargeable_parts;
     for( vehicle_part &p : parts ) {
-        if( p.is_available() && p.is_battery() && p.ammo_remaining() > 0 ) {
+        if( p.is_available() && p.is_battery() && p.ammo_remaining() > 0 && !p.is_fake ) {
             dischargeable_parts.insert( { ( p.ammo_remaining() * 100 ) / p.ammo_capacity( ammo_battery ), &p } );
         }
     }
