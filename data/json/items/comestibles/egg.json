@@ -839,7 +839,7 @@
     "type": "COMESTIBLE",
     "id": "caviar_egg_sandwich",
     "name": { "str_sp": "caviar and egg sandwich" },
-    "weight": "110 g",
+    "weight": "165 g",
     "color": "brown",
     "comestible_type": "FOOD",
     "symbol": "%",
@@ -847,9 +847,9 @@
     "price": 500,
     "charges": 2,
     "price_postapoc": 300,
-    "material": [ "veggy", "egg" ],
-    "primary_material": "egg",
-    "volume": "100 ml",
+    "material": [ "bread", "egg" ],
+    "primary_material": "bread",
+    "volume": "650 ml",
     "fun": 10
   },
   {
