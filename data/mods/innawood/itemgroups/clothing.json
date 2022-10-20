@@ -1,5 +1,41 @@
 [
   {
+    "id": "clothing_biker",
+    "type": "item_group",
+    "subtype": "collection",
+    "//": "Protective clothing for motorbike riding.",
+    "items": [
+      { "item": "straw_hat" },
+      { "item": "leathersandals", "prob": 80 },
+      {
+        "distribution": [
+          { "collection": [ { "item": "npc_coat" }, { "item": "npc_pants_male", "prob": 80 } ], "prob": 40 },
+          { "item": "null", "prob": 60 }
+        ],
+        "prob": 80
+      }
+    ]
+  },
+  {
+    "id": "clothing_glasses",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [ { "item": "null", "prob": 10 } ]
+  },
+  {
+    "id": "clothing_watch",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [ { "item": "null", "prob": 10 } ]
+  },
+  {
+    "id": "clothing_hunting",
+    "type": "item_group",
+    "//": "Clothes that hunters take on hunting trips.",
+    "subtype": "distribution",
+    "entries": [ { "item": "hat_fur", "prob": 50 }, { "item": "leathersandals", "prob": 75 } ]
+  },
+  {
     "type": "item_group",
     "id": "female_underwear_top",
     "items": [
