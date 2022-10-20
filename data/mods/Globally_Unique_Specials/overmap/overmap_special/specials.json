@@ -46,7 +46,8 @@
     "type": "overmap_special",
     "id": "Occupied Scrap Yard",
     "copy-from": "Occupied Scrap Yard",
-    "flags": [ "CLASSIC", "GLOBALLY UNIQUE" ]
+    "flags": [ "CLASSIC", "UNIQUE" ],
+    "occurrences": [ 15, 100 ]
   },
   {
     "type": "overmap_special",
