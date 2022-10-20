@@ -4,9 +4,18 @@
     "looks_like": "hk_mp5",
     "type": "GUN",
     "reload_noise_volume": 10,
-    "name": { "str_sp": "Calico M960" },
-    "//": "Automatic variant.  Cyclic fire rate: 750 rpm",
-    "description": "The Calico M960 is an automatic carbine with a unique circular magazine that allows for high capacities and reduced recoil.",
+    "name": { "str": "Calico automatic carbine" },
+    "description": "Designed to be a companion rifle with the M9 handgun, this compact and light weight carbine makes use of the same 9x19mm magazines.  Intended principally for law enforcement use, despite never achieving the same level of popularity within that field as regular and more potent rifles, weapons like this one nevertheless found a home in sport shooting and self-defence civilian roles.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "calico",
+        "name": { "str_sp": "Calico M960" },
+        "//": "Automatic variant.  Cyclic fire rate: 750 rpm",
+        "description": "The Calico M960 is an automatic carbine with a unique circular magazine that allows for high capacities and reduced recoil.",
+        "weight": 1
+      }
+    ],
     "weight": "2270 g",
     "volume": "2420 ml",
     "longest_side": "655 mm",
@@ -47,7 +56,7 @@
     "type": "GUN",
     "reload_noise_volume": 10,
     "name": { "str": "compact pistol-calibre carbine" },
-    "description": "Designed to be a companion rifle with the M9 handgun, this compact and light weight carbine makes use of the same 9x19mm magazines.  Intended principally for law enforcement use, despite never achieving the same level of popularity within that field as regular and more potent rifles, weapons like this one nevertheless found a home in sport shooting and self-defence civilian roles.",
+    "description": "Designed to be a companion rifle with provided M9 handguns, this compact and light weight pistol-calibre carbine makes use of the same 9x19mm magazines.  Originally intended for use by law enforcement units, this style of small calibre, semi-automatic carbine failed to achieve the same level of popularity as regular and more potent rifles.  However, despite being inadequate for their original purpose, before the Cataclysm these modestly sized weapons still found a home in sport shooting and self-defence civilian roles.",
     "variant_type": "gun",
     "variants": [
       {
@@ -103,7 +112,7 @@
     "copy-from": "pistol_base",
     "looks_like": "glock_17",
     "type": "GUN",
-    "name": { "str": "compact 9mm Glock pistol" },
+    "name": { "str": "Glock carry pistol" },
     "description": "Designed to be a companion rifle with the M9 handgun, this compact and light weight carbine makes use of the same 9x19mm magazines.  Intended principally for law enforcement use, despite never achieving the same level of popularity within that field as regular and more potent rifles, weapons like this one nevertheless found a home in sport shooting and self-defence civilian roles.",
     "variant_type": "gun",
     "variants": [
@@ -913,8 +922,17 @@
     "copy-from": "pistol_base",
     "//": "Tilelist whitelist for pistols.",
     "type": "GUN",
-    "name": { "str": "Glock 17" },
-    "description": "Designed for all shooters, the Glock 17 is a full-sized handgun marketed towards law-enforcement and military users.",
+    "name": { "str": "Glock duty pistol" },
+    "description": "Designed to be a companion rifle with the M9 handgun, this compact and light weight carbine makes use of the same 9x19mm magazines.  Intended principally for law enforcement use, despite never achieving the same level of popularity within that field as regular and more potent rifles, weapons like this one nevertheless found a home in sport shooting and self-defence civilian roles.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "glock_17",
+        "name": { "str": "Glock 17" },
+        "description": "Designed for all shooters, the Glock 17 is a full-sized handgun marketed towards law-enforcement and military users.",
+        "weight": 1
+      }
+    ],
     "ascii_picture": "glock_17",
     "weight": "630 g",
     "volume": "427 ml",
@@ -945,8 +963,17 @@
     "id": "glock_18c",
     "copy-from": "glock_17",
     "type": "GUN",
-    "name": { "str": "Glock 18C" },
-    "description": "A selective fire variation on the Glock 17, originally designed for Austria's EKO Cobra unit.  It has compensator cuts along its barrel to make recoil more manageable.",
+    "name": { "str": "Glock machine pistol" },
+    "description": "Designed to be a companion rifle with the M9 handgun, this compact and light weight carbine makes use of the same 9x19mm magazines.  Intended principally for law enforcement use, despite never achieving the same level of popularity within that field as regular and more potent rifles, weapons like this one nevertheless found a home in sport shooting and self-defence civilian roles.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "glock_18c",
+        "name": { "str": "Glock 18C" },
+        "description": "A selective fire variation on the Glock 17, originally designed for Austria's EKO Cobra unit.  It has compensator cuts along its barrel to make recoil more manageable.",
+        "weight": 1
+      }
+    ],
     "ascii_picture": "glock_18c",
     "weight": "620 g",
     "price": 100000,
