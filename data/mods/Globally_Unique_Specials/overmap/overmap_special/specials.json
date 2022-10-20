@@ -57,6 +57,7 @@
     "type": "overmap_special",
     "id": "Occupied Homeless Camp",
     "copy-from": "Occupied Homeless Camp",
-    "flags": [ "CLASSIC", "GLOBALLY UNIQUE", "URBAN" ]
+    "flags": [ "CLASSIC", "UNIQUE", "URBAN" ],
+    "occurrences": [ 25, 100 ]
   }
 ]
