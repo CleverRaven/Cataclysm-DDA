@@ -326,8 +326,8 @@ const weakpoint *Character::absorb_hit( const weakpoint_attack &, const bodypart
                 // costs energy equal to the square of the base damage, before it is reduced, regardless of how much it is reduced.
                 // a 50 damage attack would incur the whole 25kJ. A 12 damage attack would cost 144j.
                 units::energy power_cost = units::from_joule( std::max( -2500, ( elem.amount * elem.amount * -1 ) );
-                // If damage is higher than maximum absorption capability, lower the damage by a flat amount of this capability
-                // Otherwise, divide the damage by X times, depending on damage type
+                                           // If damage is higher than maximum absorption capability, lower the damage by a flat amount of this capability
+                                           // Otherwise, divide the damage by X times, depending on damage type
                 if( elem.type == damage_type::BASH ) {
                     elem.amount = elem.amount > max_absorption ? elem.amount - max_absorption : elem.amount / 2;
                 } else if( elem.type == damage_type::CUT ) {
