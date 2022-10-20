@@ -4503,7 +4503,7 @@
     "autolearn": true,
     "batch_time_factors": [ 80, 2 ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "boiled_egg", 2 ] ], [ [ "mayonnaise", 2 ] ], [ [ "cured_roe", 2 ] ], [ [ "bread_sandwich", 4, "LIST" ] ] ]
+    "components": [ [ [ "boiled_egg", 1 ] ], [ [ "mayonnaise", 1 ] ], [ [ "cured_roe", 1 ] ], [ [ "bread_sandwich", 2, "LIST" ] ] ]
   },
   {
     "type": "recipe",
