@@ -323,7 +323,9 @@ const weakpoint *Character::absorb_hit( const weakpoint_attack &, const bodypart
                 // Taking muzzle energy of 5.56mm ammo as a reference, 1936 J is equal to 44 damage
                 // Having this in mind, let's make 2500 J equal to 50 damage, which will be the maximum damage ADS can absorb
                 const int max_absorption = 50;
-
+                // costs energy equal to the square of the base damage, before it is reduced, regardless of how much it is reduced.
+                // a 50 damage attack would incur the whole 25kJ. A 12 damage attack would cost 144j.
+                units::energy power_cost = units::from_joule ( elem.amount * elem.amount * -1 );
                 // If damage is higher than maximum absorption capability, lower the damage by a flat amount of this capability
                 // Otherwise, divide the damage by X times, depending on damage type
                 if( elem.type == damage_type::BASH ) {
@@ -333,7 +335,7 @@ const weakpoint *Character::absorb_hit( const weakpoint_attack &, const bodypart
                 } else if( elem.type == damage_type::STAB || elem.type == damage_type::BULLET ) {
                     elem.amount = elem.amount > max_absorption ? elem.amount - max_absorption : elem.amount / 4;
                 }
-                mod_power_level( -bio_ads->power_trigger );
+                mod_power_level( power_cost );
                 add_msg_if_player( m_good,
                                    _( "The defensive forcefield surrounding your body ripples as it reduces velocity of incoming attack." ) );
             }
