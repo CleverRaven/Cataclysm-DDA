@@ -843,6 +843,7 @@
     "color": "brown",
     "comestible_type": "FOOD",
     "symbol": "%",
+    "calories": 252,
     "description": "A simple sandwich with sliced, hard boiled eggs and mayo to balance out the saltiness of the caviar.  Scandinavian breakfast staple.",
     "price": 500,
     "price_postapoc": 300,
