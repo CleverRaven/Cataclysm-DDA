@@ -1858,5 +1858,10 @@
     "id": "egg_redear_sunfish",
     "type": "MIGRATION",
     "replace": "egg_fish"
+  },
+  {
+    "id": "veh_tracker",
+    "type": "MIGRATION",
+    "replace": "vehicle_dashboard"
   }
 ]
