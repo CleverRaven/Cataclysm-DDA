@@ -881,5 +881,10 @@
     "type": "recipe",
     "result": "xl_chainmail_suit_hauberk",
     "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "scrap_aluminum",
+    "obsolete": true
   }
 ]
