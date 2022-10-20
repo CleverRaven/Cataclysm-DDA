@@ -16,7 +16,7 @@
     "id": "fd_hard_vacuum",
     "type": "field_type",
     "intensity_levels": [ { "name": "hard vacuum", "sym": " ", "convection_temperature_mod": -273 } ],
-    "immunity_data": { "body_part_env_resistance": [ [ "mouth", 100 ], [ "eyes", 100 ] ] },
+    "immunity_data": { "body_part_env_resistance": [ [ "mouth", 100 ], [ "sensor", 100 ] ] },
     "dangerous": true,
     "transparent": true,
     "move_cost": 1000,
