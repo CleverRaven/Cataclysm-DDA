@@ -39,7 +39,8 @@
     "type": "overmap_special",
     "id": "Occupied Lumbermill",
     "copy-from": "Occupied Lumbermill",
-    "flags": [ "CLASSIC", "GLOBALLY UNIQUE", "WILDERNESS" ]
+    "flags": [ "CLASSIC", "UNIQUE", "WILDERNESS" ],
+    "occurrences": [ 15, 100 ]
   },
   {
     "type": "overmap_special",
