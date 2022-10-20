@@ -322,10 +322,9 @@ const weakpoint *Character::absorb_hit( const weakpoint_attack &, const bodypart
                 // Assuming it absorbs damage at 10% efficiency, it can absorb at most 2500 J of energy
                 // Taking muzzle energy of 5.56mm ammo as a reference, 1936 J is equal to 44 damage
                 // Having this in mind, let's make 2500 J equal to 50 damage, which will be the maximum damage ADS can absorb
+                // costs energy equal to the square of the base damage, before it is reduced, regardless of how much it is reduced
+                // a 50 damage attack would incur the whole 25kJ. A 12 damage attack would cost 144j
                 const int max_absorption = 50;
-
-                // costs energy equal to the square of the base damage, before it is reduced, regardless of how much it is reduced.
-                // a 50 damage attack would incur the whole 25kJ. A 12 damage attack would cost 144j.
                 units::energy power_cost = units::from_joule( std::max( -2500, ( elem.amount * elem.amount * -1 ) );
 
                 // If damage is higher than maximum absorption capability, lower the damage by a flat amount of this capability
