@@ -2336,7 +2336,7 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "linothorax", "str_pl": "linothorakes" },
-    "description": "Ancient Greek armor made from laminated cloth.  Lighter and more comfortable than bronze while providing similar protection.",
+    "description": "Ancient greek armor thought to be made of laminated linen. Lighter and more comfortable than bronze while providing similar protection.",
     "weight": "4.5 kg",
     "volume": "8 L",
     "price": 10000,
@@ -2389,10 +2389,10 @@
     "id": "drying_linothorax",
     "type": "ARMOR",
     "name": { "str": "drying linothorax", "str_pl": "drying linothorakes" },
-    "description": "Ancient Greek armor made from laminated cloth.  Lighter and more comfortable than bronze while providing similar protection.  The glue will need two days to dry before it can be worn.",
+    "description": "Ancient Greek armor thought to be made from laminated linen.  Lighter and more comfortable than bronze while providing similar protection.  The glue will need about nine days to dry before it can be worn.",
     "copy-from": "linothorax",
     "extend": { "flags": [ "CANT_WEAR", "SPAWN_ACTIVE" ] },
-    "countdown_interval": 604800,
+    "countdown_interval": 756000,
     "countdown_action": { "type": "transform", "target": "linothorax", "msg": "The glue finishes curing, readying the linothorax for use." }
   },
   {
