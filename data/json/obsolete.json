@@ -1036,7 +1036,6 @@
     "name": { "str": "small ammo box", "str_pl": "small ammo boxes" },
     "//": "100x9mm",
     "flags": [ "COLLAPSE_CONTENTS", "OBSOLETE" ],
-    "weight": "17 g",
     "volume": "175 ml",
     "pocket_data": [ { "pocket_type": "CONTAINER", "rigid": true, "max_contains_volume": "170 ml", "max_contains_weight": "450 g" } ]
   }
