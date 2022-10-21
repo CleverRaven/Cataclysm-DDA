@@ -27,7 +27,15 @@
       "UNSTABLE",
       "HERBIVORE",
       "ROBUST",
-      "CARNIVORE"
+      "CARNIVORE",
+      "FASTHEALER",
+      "FASTHEALER2",
+      "REGEN",
+      "REGEN_LIZ",
+      "SLOWHEALER",
+      "SLOWHEALER2",
+      "SLOWHEALER3",
+      "NOHEAL"
     ],
     "can_only_eat": [ "junk", "sugar", "honey" ],
     "can_only_heal_with": [ "caramel_ointement" ],

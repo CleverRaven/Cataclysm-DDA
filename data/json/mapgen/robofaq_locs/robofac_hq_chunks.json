@@ -194,11 +194,11 @@
         "'''''''''''''''''''''|##",
         "'''''''''''''''''''''|##",
         "||||=========|||||||||##",
-        " |cFcb^h hth^??|^^^^^|##",
-        " |c cb t hth t?|^ YY  ||",
-        " |rÑc  h      ?|^ YY   >",
-        "=|r c    PP  n|||      >",
-        " 2     Y   Y  2 2    |||",
+        "|cFcb ^h hth^??|^^^^^|##",
+        "|c cb  t hth t?|^ YY  ||",
+        "|rÑc   h      ?|^ YY   >",
+        "|r c     PP  n|||      >",
+        "2      Y   Y  2 2    |||",
         "||||=========|||||   |##",
         "'''''''''''''|##|    |##",
         "'''''''''''''||||    |##",
@@ -219,9 +219,9 @@
       "item": { "P": [ { "item": "pool_cue", "chance": 100, "repeat": 2 }, { "item": "pool_ball", "chance": 100, "repeat": 8 } ] },
       "npcs": { "Ñ": { "class": "ancilla_barkeep" } },
       "place_zones": [
-        { "type": "NPC_INVESTIGATE_ONLY", "faction": "robofac_auxiliaries", "x": [ 2, 14 ], "y": [ 8, 12 ] },
-        { "type": "LOOT_UNSORTED", "faction": "robofac_auxiliaries", "x": [ 2, 2 ], "y": [ 10, 10 ] },
-        { "type": "LOOT_CURRENCY", "faction": "robofac_auxiliaries", "x": [ 2, 2 ], "y": [ 9, 9 ] }
+        { "type": "NPC_INVESTIGATE_ONLY", "faction": "robofac_auxiliaries", "x": [ 1, 14 ], "y": [ 8, 12 ] },
+        { "type": "LOOT_UNSORTED", "faction": "robofac_auxiliaries", "x": [ 1, 1 ], "y": [ 10, 10 ] },
+        { "type": "LOOT_CURRENCY", "faction": "robofac_auxiliaries", "x": [ 1, 1 ], "y": [ 9, 9 ] }
       ]
     }
   },
@@ -240,7 +240,7 @@
         "                        ",
         "                        ",
         "                        ",
-        "     1   4    2         ",
+        "    1    4    2         ",
         "                        ",
         "                        ",
         "           3            ",
