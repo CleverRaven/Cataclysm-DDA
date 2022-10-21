@@ -913,6 +913,7 @@ bool advanced_inventory::move_all_items()
 
     // Check some preconditions to quickly leave the function.
     size_t liquid_items = 0;
+    size_t gas_items = 0;
     for( const advanced_inv_listitem &elem : spane.items ) {
         for( const item_location &elemit : elem.items ) {
             if( elemit->made_of_from_type( phase_id::LIQUID ) && !elemit->is_frozen_liquid() ) {
@@ -920,7 +921,16 @@ bool advanced_inventory::move_all_items()
             }
         }
     }
-    if( spane.items.empty() || liquid_items == spane.items.size() ) {
+
+    for( const advanced_inv_listitem &elem : spane.items ) {
+        for( const item_location &elemit : elem.items ) {
+            if( elemit->made_of_from_type( phase_id::GAS ) ) {
+                gas_items++;
+            }
+        }
+    }
+    if( spane.items.empty() || liquid_items == spane.items.size() || gas_items == spane.items.size() ) {
+		popup( _( "No eligible items found to be moved." ) );
         return false;
     }
     std::unique_ptr<on_out_of_scope> restore_area;
@@ -1918,6 +1928,10 @@ bool advanced_inventory::query_charges( aim_location destarea, const advanced_in
     // Includes moving from/to inventory and around on the map.
     if( it.made_of_from_type( phase_id::LIQUID ) && !it.is_frozen_liquid() ) {
         popup( _( "Spilt liquid cannot be picked back up.  Try mopping it instead." ) );
+        return false;
+    }
+    if( it.made_of_from_type( phase_id::GAS ) ) {
+        popup( _( "Spilt gasses cannot be picked up.  They will disappear over time." ) );
         return false;
     }
 
