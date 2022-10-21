@@ -55,28 +55,28 @@
   },
   {
     "id": "aketon_pants_canvas_layered",
-    "//": "roughly 0.25mm per sheet of canvas making these 12 layer pants, sheets are 1x2 feet. 36 sheets total",
-    "//1": "human legs is about 6 sq. feet.  80g (canvas) x 12 (layers) x 3 (surface area) = 2880g",
+    "//": "roughly 0.25mm per sheet of canvas making these 10 layer pants, sheets are 1x2 feet. 30 sheets total",
+    "//1": "human legs is about 6 sq. feet.  80g (canvas) x 10 (layers) x 3 (surface area) = 2400g",
     "type": "ARMOR",
     "name": { "str": "layered canvas aketon pants" },
     "description": "Cloth arming pants worn alongside an aketon underneath metal armor.  These are made of many layers of canvas offering solid protection.",
-    "weight": "2880 g",
-    "volume": "1750 ml",
+    "weight": "2400 g",
+    "volume": "1500 ml",
     "price_postapoc": 750,
     "to_hit": -5,
     "material": [ "canvas" ],
     "symbol": "[",
     "looks_like": "pants",
     "color": "light_gray",
-    "warmth": 25,
-    "material_thickness": 3.0,
+    "warmth": 20,
+    "material_thickness": 2.5,
     "flags": [ "VARSIZE", "STURDY" ],
     "armor": [
       {
-        "material": [ { "type": "canvas", "covered_by_mat": 100, "thickness": 3.0 } ],
+        "material": [ { "type": "canvas", "covered_by_mat": 100, "thickness": 2.5 } ],
         "covers": [ "leg_l", "leg_r" ],
         "coverage": 100,
-        "encumbrance": 11
+        "encumbrance": 10
       }
     ]
   },
@@ -114,7 +114,7 @@
     "//1": "human torso is about 7 sq. feet.  80g (canvas) x 30 (layers) x 3.5 (surface area) = 8400g + 40x80 = 11600g total",
     "type": "ARMOR",
     "name": { "str": "layered canvas gambeson" },
-    "description": "A thick cloth tunic, intended to be worn as standalone armor and a little too thick to add chainmail or a cuirass on top.  Made of thirty layers of tough canvas, this will protect you from almost everything, but it's very heavy and warm.",
+    "description": "A thick cloth tunic intended to be worn as standalone armor, as it's a little too thick to add chainmail or a cuirass on top.  Made of thirty layers of tough canvas, this will protect you from almost everything, but it's very heavy and warm.",
     "weight": "11600 g",
     "volume": "5500 ml",
     "price_postapoc": 750,
@@ -123,15 +123,15 @@
     "symbol": "[",
     "looks_like": "tunic",
     "color": "light_gray",
-    "warmth": 55,
+    "warmth": 50,
     "material_thickness": 7.5,
     "flags": [ "VARSIZE", "STURDY", "NORMAL", "OUTER" ],
     "armor": [
       {
-        "material": [ { "type": "canvas", "covered_by_mat": 100, "thickness": 7.5 } ],
+        "material": [ { "type": "canvas", "covered_by_mat": 100, "thickness": 3.5 }, { "type": "canvas", "covered_by_mat": 95, "thickness": 4.0 } ],
         "covers": [ "torso" ],
         "coverage": 100,
-        "encumbrance": 22
+        "encumbrance": 20
       },
       {
         "material": [ { "type": "canvas", "covered_by_mat": 100, "thickness": 2.5 } ],
@@ -139,7 +139,8 @@
         "specifically_covers": [ "leg_draped_l", "leg_draped_r" ],
         "coverage": 72,
         "encumbrance": 5,
-        "layers": [ "BELTED" ]
+        "layers": [ "BELTED" ],
+        "warmth": 10
       }
     ]
   },
@@ -163,10 +164,10 @@
     "flags": [ "VARSIZE", "STURDY", "NORMAL", "OUTER" ],
     "armor": [
       {
-        "material": [ { "type": "canvas", "covered_by_mat": 100, "thickness": 5.0 } ],
+        "material": [ { "type": "canvas", "covered_by_mat": 100, "thickness": 2.5 }, { "type": "canvas", "covered_by_mat": 95, "thickness": 2.5 } ],
         "covers": [ "arm_l", "arm_r" ],
         "coverage": 100,
-        "encumbrance": 22
+        "encumbrance": 20
       }
     ]
   },
@@ -190,7 +191,7 @@
     "flags": [ "VARSIZE", "STURDY", "NORMAL", "OUTER" ],
     "armor": [
       {
-        "material": [ { "type": "canvas", "covered_by_mat": 100, "thickness": 5.0 } ],
+        "material": [ { "type": "canvas", "covered_by_mat": 100, "thickness": 2.5 }, { "type": "canvas", "covered_by_mat": 95, "thickness": 2.5 } ],
         "covers": [ "leg_l", "leg_r" ],
         "coverage": 100,
         "encumbrance": 20
@@ -212,12 +213,12 @@
     "symbol": "[",
     "looks_like": "scarf_loose",
     "color": "light_gray",
-    "warmth": 10,
+    "warmth": 8,
     "material_thickness": 6.0,
     "flags": [ "VARSIZE", "STURDY", "NORMAL", "OUTER" ],
     "armor": [
       {
-        "material": [ { "type": "canvas", "covered_by_mat": 100, "thickness": 6.0 } ],
+        "material": [ { "type": "canvas", "covered_by_mat": 100, "thickness": 3.0 }, { "type": "canvas", "covered_by_mat": 95, "thickness": 3.0 } ],
         "covers": [ "head" ],
         "specifically_covers": [ "head_throat" ],
         "coverage": 100,
