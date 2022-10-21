@@ -140,6 +140,6 @@
       { "id": "CUT", "level": 2 },
       { "id": "COOK", "level": 3 }
     ],
-    "tools": [ [ [ "can_sealer", -1 ] ]
+    "tools": [ [ [ "can_sealer", -1 ] ] ]
   }
 ]
