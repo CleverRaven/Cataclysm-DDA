@@ -381,6 +381,12 @@
     "armor_bash": 5,
     "armor_cut": 16,
     "armor_bullet": 24,
+    "armor_stab": 30,
+    "armor_acid": 2,
+    "armor_elec": 2,
+    "weakpoint_sets": [ "wps_bone_armor" ],
+    "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_wp_skeleton" ],
+    "harvest": "mr_bones",
     "special_attacks": [ { "id": "smash", "throw_strength": 91, "cooldown": 30 } ],
     "flags": [ "SEES", "HEARS", "BASHES", "GROUP_BASH", "HARDTOSHOOT", "REVIVES", "NO_BREATHE", "POISON", "FILTHY" ]
   },
