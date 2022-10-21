@@ -61,6 +61,7 @@ static const mutation_category_id mutation_category_ANY( "ANY" );
 
 static const trait_id trait_BURROW( "BURROW" );
 static const trait_id trait_BURROWLARGE( "BURROWLARGE" );
+static const trait_id trait_CHAOTIC_BAD( "CHAOTIC_BAD" );
 static const trait_id trait_DEBUG_BIONIC_POWER( "DEBUG_BIONIC_POWER" );
 static const trait_id trait_DEBUG_BIONIC_POWERGEN( "DEBUG_BIONIC_POWERGEN" );
 static const trait_id trait_DEX_ALPHA( "DEX_ALPHA" );
@@ -347,7 +348,13 @@ bool mutation_branch::conflicts_with_item( const item &it ) const
     }
 
     for( const bodypart_str_id &bp : restricts_gear ) {
-        if( it.covers( bp.id() ) ) {
+        if( it.covers( bp.id() ) && ( it.is_bp_rigid( bp.id() ) || !allow_soft_gear ) ) {
+            return true;
+        }
+    }
+
+    for( const sub_bodypart_str_id &bp : restricts_gear_subparts ) {
+        if( it.covers( bp.id() ) && ( it.is_bp_rigid( bp.id() ) || !allow_soft_gear ) ) {
             return true;
         }
     }
@@ -979,13 +986,23 @@ void Character::mutate( const int &true_random_chance, const bool use_vitamins )
 
     if( true_random_chance > 0 && one_in( true_random_chance ) ) {
         cat = mutation_category_ANY;
+        allow_good = true; // because i'm WILD YEAH
+        allow_bad = true;
+        allow_neutral = true;
     } else if( cat_list.get_weight() > 0 ) {
         cat = *cat_list.pick();
         cat_list.add_or_replace( cat, 0 );
     } else {
+        // This is fairly direct in explaining why it fails - hopefully it'll help folks to learn the system without needing to read docs
         add_msg_if_player( m_bad,
-                           _( "Your body tries to shift, tries to change, but only contorts for a moment.  You crave a more exotic mutagen." ) );
+                           _( "Your body tries to mutate, but it lacks a primer to do so and only contorts for a moment." ) );
         return;
+    }
+    // Genetic Downwards Spiral has special logic that makes every possible mutation negative
+    // Positive mutations can still be gained as prerequisites to a negative, but every targeted mutation will be a negative one
+    if( has_trait( trait_CHAOTIC_BAD ) ) {
+        allow_good = false;
+        allow_bad = true;
     }
 
     std::vector<trait_id> valid; // Valid mutations
@@ -1083,7 +1100,7 @@ void Character::mutate( const int &true_random_chance, const bool use_vitamins )
             } else {
                 // every option we have vitamins for is invalid
                 add_msg_if_player( m_bad,
-                                   _( "Your body tries to shift, tries to change, but only contorts for a moment.  You crave a more exotic mutagen." ) );
+                                   _( "Your body tries to mutate, but it lacks a primer to do so and only contorts for a moment." ) );
                 return;
             }
         } else {
@@ -1329,6 +1346,8 @@ bool Character::mutate_towards( const trait_id &mut, const mutation_category_id 
     if( mut_vit != vitamin_id::NULL_ID() ) {
         if( vitamin_get( mut_vit ) >= mdata.vitamin_cost ) {
             vitamin_mod( mut_vit, -mdata.vitamin_cost );
+            // No instability necessary for true random mutations - they are, after all, true random
+            vitamin_mod( vitamin_instability, mdata.vitamin_cost );
         } else {
             return false;
         }
@@ -1365,6 +1384,7 @@ bool Character::mutate_towards( const trait_id &mut, const mutation_category_id 
     }
 
     bool mutation_replaced = false;
+    bool do_interrupt = true;
 
     game_message_type rating;
 
@@ -1405,6 +1425,10 @@ bool Character::mutate_towards( const trait_id &mut, const mutation_category_id 
             add_msg_player_or_npc( rating, _( "You lose your %s mutation." ),
                                    _( "<npcname> loses their %s mutation." ), lost_name );
         }
+        // Both new and old mutation invisible
+        else {
+            do_interrupt = false;
+        }
         get_event_bus().send<event_type::evolves_mutation>( getID(), replace_mdata.id, mdata.id );
         unset_mutation( replacing );
         mutation_replaced = true;
@@ -1429,17 +1453,21 @@ bool Character::mutate_towards( const trait_id &mut, const mutation_category_id 
                                    lost_name, gained_name );
         }
         // New mutation visible, precursor invisible
-        if( mdata.player_display && !replace_mdata.player_display ) {
+        else if( mdata.player_display && !replace_mdata.player_display ) {
             add_msg_player_or_npc( rating,
                                    _( "You gain a mutation called %s!" ),
                                    _( "<npcname> gains a mutation called %s!" ),
                                    gained_name );
         }
         // Precursor visible, new mutation invisible
-        if( !mdata.player_display && replace_mdata.player_display ) {
+        else if( !mdata.player_display && replace_mdata.player_display ) {
             add_msg_player_or_npc( rating,
                                    _( "You lose your %s mutation." ),
                                    _( "<npcname> loses their %s mutation." ), lost_name );
+        }
+        // Both new and old mutation invisible
+        else {
+            do_interrupt = false;
         }
         get_event_bus().send<event_type::evolves_mutation>( getID(), replace_mdata.id, mdata.id );
         unset_mutation( replacing2 );
@@ -1489,6 +1517,7 @@ bool Character::mutate_towards( const trait_id &mut, const mutation_category_id 
                                    _( "You gain a mutation called %s!" ),
                                    _( "<npcname> gains a mutation called %s!" ),
                                    gained_name );
+            do_interrupt = true;
         }
         get_event_bus().send<event_type::gains_mutation>( getID(), mdata.id );
     }
@@ -1498,8 +1527,10 @@ bool Character::mutate_towards( const trait_id &mut, const mutation_category_id 
     if( !mdata.dummy ) {
         set_mutation( mut, chosen_var );
     }
+    if( do_interrupt && uistate.distraction_mutation ) {
+        g->cancel_activity_or_ignore_query( distraction_type::mutation, _( "You mutate!" ) );
+    }
 
-    vitamin_mod( vitamin_instability, mdata.vitamin_cost );
     calc_mutation_levels();
     drench_mut_calc();
     return true;
@@ -1818,6 +1849,9 @@ void Character::remove_mutation( const trait_id &mut, bool silent )
                                    _( "<npcname> loses their %s mutation." ),
                                    lost_name );
         }
+    }
+    if( !silent && uistate.distraction_mutation ) {
+        g->cancel_activity_or_ignore_query( distraction_type::mutation, _( "You mutate!" ) );
     }
 
     calc_mutation_levels();

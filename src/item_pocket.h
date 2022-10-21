@@ -325,9 +325,8 @@ class item_pocket
         void add( const item &it, item **ret = nullptr );
         bool can_unload_liquid() const;
 
-        int fill_with( const item &contained, int amount = 0,
-                       bool allow_unseal = false,
-                       bool ignore_settings = false );
+        int fill_with( const item &contained, Character &guy, int amount = 0,
+                       bool allow_unseal = false, bool ignore_settings = false );
 
         /**
         * @brief Check contents of pocket to see if it contains a valid item/pocket to store the given item.

@@ -1129,7 +1129,6 @@
     "death_drops": "default_zombie_death_drops",
     "regenerates": 12,
     "burn_into": "mon_zombie_scorched",
-    "upgrades": { "half_life": 28, "into_group": "GROUP_ZOMBIE_CRAWLER_UPGRADE" },
     "flags": [
       "SEES",
       "HEARS",

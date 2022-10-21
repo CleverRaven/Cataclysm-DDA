@@ -1460,8 +1460,12 @@
       {
         "covers": [ "foot_l", "foot_r" ],
         "specifically_covers": [ "foot_sole_r", "foot_sole_l" ],
-        "material": [ { "type": "leather", "covered_by_mat": 100, "thickness": 2.0 } ],
-        "coverage": 90
+        "material": [
+          { "type": "leather", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "rubber", "covered_by_mat": 100, "thickness": 4.0 },
+          { "type": "rubber", "covered_by_mat": 5, "thickness": 80.0 }
+        ],
+        "coverage": 100
       }
     ]
   },
@@ -2281,7 +2285,7 @@
     "category": "armor",
     "name": { "str": "pair of chainmail chausses", "str_pl": "pairs of chainmail chausses" },
     "description": "Customized chainmail chausses that cover the feet, like booties made of chainmail.  The metal shows signs of rust and corrosion.",
-    "weight": "2006 g",
+    "weight": "1801 g",
     "volume": "500 ml",
     "price": 5012,
     "price_postapoc": 2000,
@@ -2323,7 +2327,7 @@
     "category": "armor",
     "name": { "str": "pair of mild steel chainmail chausses", "str_pl": "pairs of mild steel chainmail chausses" },
     "description": "Customized chainmail chausses that cover the feet, like booties made of chainmail.",
-    "weight": "2006 g",
+    "weight": "1801 g",
     "volume": "500 ml",
     "price": 5012,
     "price_postapoc": 2000,
