@@ -27,7 +27,7 @@
     "volume": "1 ml",
     "weight": "1 mg",
     "color": "white",
-    "flags": [ "TRADER_AVOID" ],
+    "flags": [ "TRADER_AVOID", "NO_DROP" ],
     "phase": "liquid",
     "ammo_type": "butane"
   },
@@ -1033,7 +1033,7 @@
     "material": [ "plastic" ],
     "volume": "1 ml",
     "weight": "1 mg",
-    "flags": [ "TRADER_AVOID" ],
+    "flags": [ "TRADER_AVOID", "NO_DROP" ],
     "phase": "gas",
     "ammo_type": "albuterol"
   },
@@ -1324,6 +1324,7 @@
     "description": "Mixture of oxygen and nitrogen in proportions suitable for diving.",
     "volume": "250 ml",
     "weight": "1 g",
+    "flags": [ "TRADER_AVOID", "NO_DROP" ],
     "phase": "gas",
     "ammo_type": "nitrox"
   },
