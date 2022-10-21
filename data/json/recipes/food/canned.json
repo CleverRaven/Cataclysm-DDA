@@ -1554,12 +1554,7 @@
       { "id": "COOK", "level": 3 }
     ],
     "tools": [ [ [ "surface_heat", 40, "LIST" ] ], [ [ "can_sealer", -1 ] ] ],
-    "components": [
-      [ [ "can_medium", 1 ] ],
-      [ [ "scrap", 1 ] ],
-      [ [ "water_clean", 1 ] ],
-      [ [ "meat_offal", 2, "LIST" ] ]
-    ]
+    "components": [ [ [ "can_medium", 1 ] ], [ [ "scrap", 1 ] ], [ [ "water_clean", 1 ] ], [ [ "meat_offal", 2, "LIST" ] ] ]
   },
   {
     "result": "offal_canned",
