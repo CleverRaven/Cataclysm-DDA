@@ -2585,8 +2585,8 @@ class Character : public Creature, public visitable
         void set_base_age( int age );
         void mod_base_age( int mod );
         // age in years
-        int age() const;
-        std::string age_string() const;
+        int age( time_point when = calendar::turn ) const;
+        std::string age_string( time_point when = calendar::turn ) const;
         // returns the height in cm
         int base_height() const;
         void set_base_height( int height );
