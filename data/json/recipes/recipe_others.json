@@ -1663,7 +1663,7 @@
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
     "skill_used": "survival",
-    "time": "1 m",
+    "time": "5 m",
     "reversible": true,
     "autolearn": true,
     "using": [ [ "cordage_fishing", 1 ] ],
