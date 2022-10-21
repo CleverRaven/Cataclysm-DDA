@@ -17,15 +17,15 @@
     "container": "jar_glass_sealed",
     "result_mult": 2,
     "qualities": [ { "id": "CUT", "level": 2 }, { "id": "COOK", "level": 3 } ],
-    "tools": [ [ [ "surface_heat", 100, "LIST" ] ] ],
-    "components": [ [ [ "water", 13 ], [ "water_clean", 13 ] ], [ [ "jar_glass", 1 ] ], [ [ "meat_offal", 2, "LIST" ] ] ]
+    "using": [ [ "canning_high_heat", 15, "LIST" ] ],
+    "components": [ [ [ "jar_glass", 1 ] ], [ [ "meat_offal", 2, "LIST" ] ] ]
   },
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "result": "dogfood",
     "id_suffix": "jarred",
-    "byproducts": [ [ "water", 10 ] ],
+    "byproducts": [ [ "jar_glass_sealed", 2 ] ],
     "container": "jar_glass_sealed",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_OTHER",
@@ -35,10 +35,9 @@
     "book_learn": [ [ "manual_canning", 3 ] ],
     "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_preservation" }, { "proficiency": "prof_food_canning" } ],
     "batch_time_factors": [ 83, 5 ],
-    "qualities": [ { "id": "CUT", "level": 2 }, { "id": "COOK", "level": 3 } ],
-    "tools": [ [ [ "surface_heat", 100, "LIST" ] ], [ [ "pot_canning", -1 ], [ "pot_canning_clay", -1 ] ] ],
+    "using": [ [ "canning_high_heat", 15, "LIST" ] ],
     "components": [
-      [ [ "water", 11 ], [ "water_clean", 11 ] ],
+      [ [ "water_clean", 11 ] ],
       [ [ "jar_glass_sealed", 1 ] ],
       [ [ "meat_red_raw", 1, "LIST" ], [ "fish", 1 ], [ "lobster", 1 ] ],
       [ [ "veggy_green", 1, "LIST" ] ]
@@ -60,8 +59,7 @@
     "book_learn": [ [ "manual_canning", 3 ] ],
     "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_preservation" }, { "proficiency": "prof_food_canning" } ],
     "batch_time_factors": [ 83, 5 ],
-    "qualities": [ { "id": "CUT", "level": 2 }, { "id": "COOK", "level": 3 } ],
-    "tools": [ [ [ "surface_heat", 200, "LIST" ] ], [ [ "pot_canning", -1 ], [ "pot_canning_clay", -1 ] ] ],
+    "using": [ [ "canning_high_heat", 90, "LIST" ] ],
     "components": [
       [ [ "water", 16 ], [ "water_clean", 16 ] ],
       [ [ "jar_3l_glass_sealed", 1 ] ],
@@ -85,8 +83,7 @@
     "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_preservation" }, { "proficiency": "prof_food_canning" } ],
     "batch_time_factors": [ 83, 5 ],
     "result_mult": 2,
-    "qualities": [ { "id": "CUT", "level": 2 }, { "id": "COOK", "level": 3 } ],
-    "tools": [ [ [ "surface_heat", 100, "LIST" ] ], [ [ "pot_canning", -1 ], [ "pot_canning_clay", -1 ] ] ],
+    "using": [ [ "canning_high_heat", 15, "LIST" ] ],
     "components": [
       [ [ "water", 11 ], [ "water_clean", 11 ] ],
       [ [ "jar_glass_sealed", 1 ] ],
@@ -109,8 +106,7 @@
     "book_learn": [ [ "manual_canning", 3 ] ],
     "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_preservation" }, { "proficiency": "prof_food_canning" } ],
     "batch_time_factors": [ 83, 5 ],
-    "qualities": [ { "id": "CUT", "level": 2 }, { "id": "COOK", "level": 3 } ],
-    "tools": [ [ [ "surface_heat", 200, "LIST" ] ], [ [ "pot_canning", -1 ], [ "pot_canning_clay", -1 ] ] ],
+    "using": [ [ "canning_high_heat", 90, "LIST" ] ],
     "components": [
       [ [ "water", 16 ], [ "water_clean", 16 ] ],
       [ [ "jar_3l_glass_sealed", 1 ] ],
@@ -134,9 +130,7 @@
     "book_learn": [ [ "manual_canning", 3 ] ],
     "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_preservation" }, { "proficiency": "prof_food_canning" } ],
     "batch_time_factors": [ 80, 4 ],
-    "qualities": [ { "id": "COOK", "level": 3 } ],
-    "tools": [ [ [ "surface_heat", 100, "LIST" ] ], [ [ "pot_canning", -1 ] ] ],
-    "using": [ [ "mushroom_soup_ingredients", 2 ] ],
+    "using": [ [ "mushroom_soup_ingredients", 2 ], [ "canning_high_heat", 15, "LIST" ] ],
     "components": [ [ [ "jar_glass_sealed", 1 ] ], [ [ "water", 10 ], [ "water_clean", 10 ] ] ]
   },
   {
@@ -156,9 +150,7 @@
     "book_learn": [ [ "manual_canning", 3 ] ],
     "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_preservation" }, { "proficiency": "prof_food_canning" } ],
     "batch_time_factors": [ 80, 4 ],
-    "qualities": [ { "id": "COOK", "level": 3 } ],
-    "tools": [ [ [ "surface_heat", 200, "LIST" ] ], [ [ "pot_canning", -1 ], [ "pot_canning_clay", -1 ] ] ],
-    "using": [ [ "mushroom_soup_ingredients", 12 ] ],
+    "using": [ [ "mushroom_soup_ingredients", 12 ], [ "canning_high_heat", 90, "LIST" ] ],
     "components": [ [ [ "jar_3l_glass_sealed", 1 ] ], [ [ "water", 10 ], [ "water_clean", 10 ] ] ]
   },
   {
@@ -177,8 +169,7 @@
     "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_preservation" }, { "proficiency": "prof_food_canning" } ],
     "batch_time_factors": [ 83, 5 ],
     "result_mult": 2,
-    "qualities": [ { "id": "CUT", "level": 2 }, { "id": "COOK", "level": 3 } ],
-    "tools": [ [ [ "surface_heat", 100, "LIST" ] ], [ [ "pot_canning", -1 ], [ "pot_canning_clay", -1 ] ] ],
+    "using": [ [ "canning_high_heat", 15, "LIST" ] ],
     "components": [ [ [ "water", 11 ], [ "water_clean", 11 ] ], [ [ "jar_glass_sealed", 1 ] ], [ [ "meat_red_raw", 2, "LIST" ] ] ]
   },
   {
@@ -197,8 +188,7 @@
     "book_learn": [ [ "manual_canning", 3 ] ],
     "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_preservation" }, { "proficiency": "prof_food_canning" } ],
     "batch_time_factors": [ 83, 5 ],
-    "qualities": [ { "id": "CUT", "level": 2 }, { "id": "COOK", "level": 3 } ],
-    "tools": [ [ [ "surface_heat", 100, "LIST" ] ], [ [ "pot_canning", -1 ], [ "pot_canning_clay", -1 ] ] ],
+    "using": [ [ "canning_high_heat", 15, "LIST" ] ],
     "components": [ [ [ "water", 11 ], [ "water_clean", 11 ] ], [ [ "jar_glass_sealed", 1 ] ], [ [ "fish", 2 ] ] ]
   },
   {
@@ -217,8 +207,7 @@
     "book_learn": [ [ "manual_canning", 3 ] ],
     "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_preservation" }, { "proficiency": "prof_food_canning" } ],
     "batch_time_factors": [ 83, 5 ],
-    "qualities": [ { "id": "CUT", "level": 2 }, { "id": "COOK", "level": 3 } ],
-    "tools": [ [ [ "surface_heat", 100, "LIST" ] ], [ [ "pot_canning", -1 ], [ "pot_canning_clay", -1 ] ] ],
+    "using": [ [ "canning_high_heat", 15, "LIST" ] ],
     "components": [ [ [ "water", 11 ], [ "water_clean", 11 ] ], [ [ "jar_glass_sealed", 1 ] ], [ [ "lobster", 2 ] ] ]
   },
   {
@@ -237,8 +226,7 @@
     "book_learn": [ [ "cookbook", 4 ], [ "manual_canning", 3 ] ],
     "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_preservation" }, { "proficiency": "prof_food_canning" } ],
     "batch_time_factors": [ 83, 5 ],
-    "qualities": [ { "id": "CUT", "level": 2 }, { "id": "COOK", "level": 3 } ],
-    "tools": [ [ [ "surface_heat", 100, "LIST" ] ], [ [ "pot_canning", -1 ], [ "pot_canning_clay", -1 ] ] ],
+    "using": [ [ "canning_high_heat", 15, "LIST" ] ],
     "components": [
       [ [ "water", 11 ], [ "water_clean", 11 ] ],
       [ [ "jar_glass_sealed", 1 ] ],
@@ -262,9 +250,7 @@
     "book_learn": [ [ "manual_canning", 3 ] ],
     "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_preservation" }, { "proficiency": "prof_food_canning" } ],
     "batch_time_factors": [ 80, 4 ],
-    "qualities": [ { "id": "COOK", "level": 3 } ],
-    "tools": [ [ [ "surface_heat", 100, "LIST" ] ], [ [ "pot_canning", -1 ], [ "pot_canning_clay", -1 ] ] ],
-    "using": [ [ "woods_soup_ingredients", 1 ] ],
+    "using": [ [ "woods_soup_ingredients", 1 ], [ "canning_high_heat", 15, "LIST" ] ],
     "components": [ [ [ "jar_glass_sealed", 1 ] ], [ [ "water", 11 ], [ "water_clean", 11 ] ] ]
   },
   {
@@ -284,9 +270,7 @@
     "book_learn": [ [ "manual_canning", 3 ] ],
     "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_preservation" }, { "proficiency": "prof_food_canning" } ],
     "batch_time_factors": [ 80, 4 ],
-    "qualities": [ { "id": "COOK", "level": 3 } ],
-    "tools": [ [ [ "surface_heat", 100, "LIST" ] ], [ [ "pot_canning", -1 ], [ "pot_canning_clay", -1 ] ] ],
-    "using": [ [ "meat_soup_ingredients", 1 ] ],
+    "using": [ [ "meat_soup_ingredients", 1 ], [ "canning_high_heat", 15, "LIST" ] ],
     "components": [ [ [ "jar_glass_sealed", 1 ] ], [ [ "water", 11 ], [ "water_clean", 11 ] ] ]
   },
   {
@@ -306,9 +290,7 @@
     "book_learn": [ [ "cookbook", 4 ], [ "manual_canning", 3 ] ],
     "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_preservation" }, { "proficiency": "prof_food_canning" } ],
     "batch_time_factors": [ 80, 4 ],
-    "qualities": [ { "id": "COOK", "level": 3 } ],
-    "tools": [ [ [ "surface_heat", 100, "LIST" ] ], [ [ "pot_canning", -1 ], [ "pot_canning_clay", -1 ] ] ],
-    "using": [ [ "veggy_soup_ingredients", 2 ] ],
+    "using": [ [ "veggy_soup_ingredients", 2 ], [ "canning_high_heat", 15, "LIST" ] ],
     "components": [ [ [ "jar_glass_sealed", 1 ] ], [ [ "water", 11 ], [ "water_clean", 11 ] ] ]
   },
   {
@@ -328,9 +310,7 @@
     "book_learn": [ [ "manual_canning", 3 ] ],
     "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_preservation" }, { "proficiency": "prof_food_canning" } ],
     "batch_time_factors": [ 80, 4 ],
-    "qualities": [ { "id": "COOK", "level": 3 } ],
-    "tools": [ [ [ "surface_heat", 100, "LIST" ] ], [ [ "pot_canning", -1 ], [ "pot_canning_clay", -1 ] ] ],
-    "using": [ [ "fish_soup_ingredients", 1 ] ],
+    "using": [ [ "fish_soup_ingredients", 1 ], [ "canning_high_heat", 15, "LIST" ] ],
     "components": [ [ [ "jar_glass_sealed", 1 ] ], [ [ "water", 11 ], [ "water_clean", 11 ] ] ]
   },
   {
@@ -350,9 +330,7 @@
     "book_learn": [ [ "cookbook", 4 ], [ "manual_canning", 3 ] ],
     "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_preservation" }, { "proficiency": "prof_food_canning" } ],
     "batch_time_factors": [ 80, 4 ],
-    "qualities": [ { "id": "COOK", "level": 3 } ],
-    "tools": [ [ [ "surface_heat", 100, "LIST" ] ], [ [ "pot_canning", -1 ], [ "pot_canning_clay", -1 ] ] ],
-    "using": [ [ "broth_ingredients", 2 ] ],
+    "using": [ [ "broth_ingredients", 2 ], [ "canning_high_heat", 15, "LIST" ] ],
     "components": [ [ [ "jar_glass_sealed", 1 ] ], [ [ "water", 11 ], [ "water_clean", 11 ] ] ]
   },
   {
@@ -372,8 +350,7 @@
     "book_learn": [ [ "cookbook_eatyrway", 5 ], [ "manual_canning", 3 ] ],
     "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_preservation" }, { "proficiency": "prof_food_canning" } ],
     "batch_time_factors": [ 80, 4 ],
-    "qualities": [ { "id": "COOK", "level": 3 } ],
-    "tools": [ [ [ "surface_heat", 100, "LIST" ] ], [ [ "pot_canning", -1 ], [ "pot_canning_clay", -1 ] ] ],
+    "using": [ [ "canning_high_heat", 15, "LIST" ] ],
     "components": [ [ [ "jar_glass_sealed", 1 ] ], [ [ "bone_edible", 20, "LIST" ] ], [ [ "water", 11 ], [ "water_clean", 11 ] ] ]
   },
   {
@@ -392,8 +369,7 @@
     "book_learn": [ [ "cookbook", 4 ], [ "manual_canning", 3 ] ],
     "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_preservation" }, { "proficiency": "prof_food_canning" } ],
     "batch_time_factors": [ 83, 5 ],
-    "qualities": [ { "id": "CUT", "level": 2 }, { "id": "COOK", "level": 3 } ],
-    "tools": [ [ [ "surface_heat", 100, "LIST" ] ], [ [ "pot_canning", -1 ], [ "pot_canning_clay", -1 ] ] ],
+    "using": [ [ "canning_high_heat", 15, "LIST" ] ],
     "components": [
       [ [ "water", 11 ], [ "water_clean", 11 ] ],
       [ [ "jar_glass_sealed", 1 ] ],
@@ -416,8 +392,7 @@
     "book_learn": [ [ "cookbook", 4 ], [ "manual_canning", 3 ] ],
     "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_preservation" }, { "proficiency": "prof_food_canning" } ],
     "batch_time_factors": [ 83, 5 ],
-    "qualities": [ { "id": "CUT", "level": 2 }, { "id": "COOK", "level": 3 } ],
-    "tools": [ [ [ "surface_heat", 200, "LIST" ] ], [ [ "pot_canning", -1 ], [ "pot_canning_clay", -1 ] ] ],
+    "using": [ [ "canning_high_heat", 90, "LIST" ] ],
     "components": [ [ [ "water", 16 ], [ "water_clean", 16 ] ], [ [ "jar_3l_glass_sealed", 1 ] ], [ [ "meat_red_raw", 12, "LIST" ] ] ]
   },
   {
@@ -436,8 +411,7 @@
     "book_learn": [ [ "cookbook", 4 ], [ "manual_canning", 3 ] ],
     "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_preservation" }, { "proficiency": "prof_food_canning" } ],
     "batch_time_factors": [ 83, 5 ],
-    "qualities": [ { "id": "CUT", "level": 2 }, { "id": "COOK", "level": 3 } ],
-    "tools": [ [ [ "surface_heat", 200, "LIST" ] ], [ [ "pot_canning", -1 ], [ "pot_canning_clay", -1 ] ] ],
+    "using": [ [ "canning_high_heat", 90, "LIST" ] ],
     "components": [
       [ [ "water", 16 ], [ "water_clean", 16 ] ],
       [ [ "jar_3l_glass_sealed", 1 ] ],
@@ -461,8 +435,7 @@
     "result_mult": 24,
     "autolearn": true,
     "batch_time_factors": [ 83, 5 ],
-    "qualities": [ { "id": "CUT", "level": 2 }, { "id": "COOK", "level": 3 } ],
-    "tools": [ [ [ "surface_heat", 200, "LIST" ] ], [ [ "pot_canning", -1 ], [ "pot_canning_clay", -1 ] ] ],
+    "using": [ [ "canning_high_heat", 90, "LIST" ] ],
     "components": [
       [ [ "water", 16 ], [ "water_clean", 16 ] ],
       [ [ "jar_3l_glass_sealed", 1 ] ],
@@ -486,8 +459,7 @@
     "book_learn": [ [ "manual_canning", 3 ] ],
     "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_preservation" }, { "proficiency": "prof_food_canning" } ],
     "batch_time_factors": [ 83, 5 ],
-    "qualities": [ { "id": "CUT", "level": 2 }, { "id": "COOK", "level": 3 } ],
-    "tools": [ [ [ "surface_heat", 200, "LIST" ] ], [ [ "pot_canning", -1 ], [ "pot_canning_clay", -1 ] ] ],
+    "using": [ [ "canning_high_heat", 90, "LIST" ] ],
     "components": [ [ [ "water", 16 ], [ "water_clean", 16 ] ], [ [ "jar_3l_glass_sealed", 1 ] ], [ [ "fish", 12 ] ] ]
   },
   {
@@ -506,8 +478,7 @@
     "book_learn": [ [ "manual_canning", 3 ] ],
     "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_preservation" }, { "proficiency": "prof_food_canning" } ],
     "batch_time_factors": [ 83, 5 ],
-    "qualities": [ { "id": "CUT", "level": 2 }, { "id": "COOK", "level": 3 } ],
-    "tools": [ [ [ "surface_heat", 200, "LIST" ] ], [ [ "pot_canning", -1 ], [ "pot_canning_clay", -1 ] ] ],
+    "using": [ [ "canning_high_heat", 90, "LIST" ] ],
     "components": [ [ [ "water", 16 ], [ "water_clean", 16 ] ], [ [ "jar_3l_glass_sealed", 1 ] ], [ [ "lobster", 12 ] ] ]
   },
   {
@@ -526,8 +497,7 @@
     "book_learn": [ [ "cookbook", 4 ], [ "manual_canning", 3 ] ],
     "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_preservation" }, { "proficiency": "prof_food_canning" } ],
     "container": "jar_3l_glass_sealed",
-    "qualities": [ { "id": "CUT", "level": 2 }, { "id": "COOK", "level": 3 } ],
-    "tools": [ [ [ "surface_heat", 200, "LIST" ] ], [ [ "pot_canning", -1 ], [ "pot_canning_clay", -1 ] ] ],
+    "using": [ [ "canning_high_heat", 90, "LIST" ] ],
     "components": [ [ [ "water", 16 ], [ "water_clean", 16 ] ], [ [ "jar_3l_glass_sealed", 1 ] ], [ [ "meat_offal", 12, "LIST" ] ] ]
   },
   {
@@ -546,8 +516,7 @@
     "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_preservation" }, { "proficiency": "prof_food_canning" } ],
     "batch_time_factors": [ 83, 5 ],
     "charges": 12,
-    "qualities": [ { "id": "CUT", "level": 2 }, { "id": "COOK", "level": 3 } ],
-    "tools": [ [ [ "surface_heat", 200, "LIST" ] ], [ [ "pot_canning", -1 ], [ "pot_canning_clay", -1 ] ] ],
+    "using": [ [ "canning_high_heat", 90, "LIST" ] ],
     "components": [
       [ [ "water", 16 ], [ "water_clean", 16 ] ],
       [ [ "jar_3l_glass_sealed", 1 ] ],
@@ -571,9 +540,7 @@
     "book_learn": [ [ "manual_canning", 3 ] ],
     "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_preservation" }, { "proficiency": "prof_food_canning" } ],
     "batch_time_factors": [ 80, 4 ],
-    "qualities": [ { "id": "COOK", "level": 3 } ],
-    "tools": [ [ [ "surface_heat", 200, "LIST" ] ], [ [ "pot_canning", -1 ], [ "pot_canning_clay", -1 ] ] ],
-    "using": [ [ "woods_soup_ingredients", 6 ] ],
+    "using": [ [ "woods_soup_ingredients", 6 ], [ "canning_high_heat", 90, "LIST" ] ],
     "components": [ [ [ "jar_3l_glass_sealed", 1 ] ], [ [ "water", 16 ], [ "water_clean", 16 ] ] ]
   },
   {
@@ -593,9 +560,7 @@
     "book_learn": [ [ "manual_canning", 3 ] ],
     "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_preservation" }, { "proficiency": "prof_food_canning" } ],
     "batch_time_factors": [ 80, 4 ],
-    "qualities": [ { "id": "COOK", "level": 3 } ],
-    "tools": [ [ [ "surface_heat", 200, "LIST" ] ], [ [ "pot_canning", -1 ], [ "pot_canning_clay", -1 ] ] ],
-    "using": [ [ "meat_soup_ingredients", 6 ] ],
+    "using": [ [ "meat_soup_ingredients", 6 ], [ "canning_high_heat", 90, "LIST" ] ],
     "components": [ [ [ "jar_3l_glass_sealed", 1 ] ], [ [ "water", 16 ], [ "water_clean", 16 ] ] ]
   },
   {
@@ -615,9 +580,7 @@
     "book_learn": [ [ "cookbook", 4 ], [ "manual_canning", 3 ] ],
     "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_preservation" }, { "proficiency": "prof_food_canning" } ],
     "batch_time_factors": [ 80, 4 ],
-    "qualities": [ { "id": "COOK", "level": 3 } ],
-    "tools": [ [ [ "surface_heat", 200, "LIST" ] ], [ [ "pot_canning", -1 ], [ "pot_canning_clay", -1 ] ] ],
-    "using": [ [ "veggy_soup_ingredients", 12 ] ],
+    "using": [ [ "veggy_soup_ingredients", 12 ], [ "canning_high_heat", 90, "LIST" ] ],
     "components": [ [ [ "jar_3l_glass_sealed", 1 ] ], [ [ "water", 16 ], [ "water_clean", 16 ] ] ]
   },
   {
@@ -637,9 +600,7 @@
     "book_learn": [ [ "manual_canning", 3 ] ],
     "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_preservation" }, { "proficiency": "prof_food_canning" } ],
     "batch_time_factors": [ 80, 4 ],
-    "qualities": [ { "id": "COOK", "level": 3 } ],
-    "tools": [ [ [ "surface_heat", 200, "LIST" ] ], [ [ "pot_canning", -1 ], [ "pot_canning_clay", -1 ] ] ],
-    "using": [ [ "fish_soup_ingredients", 6 ] ],
+    "using": [ [ "fish_soup_ingredients", 6 ], [ "canning_high_heat", 90, "LIST" ] ],
     "components": [ [ [ "jar_3l_glass_sealed", 1 ] ], [ [ "water", 16 ], [ "water_clean", 16 ] ] ]
   },
   {
@@ -659,9 +620,7 @@
     "book_learn": [ [ "cookbook", 4 ], [ "manual_canning", 3 ] ],
     "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_preservation" }, { "proficiency": "prof_food_canning" } ],
     "batch_time_factors": [ 80, 4 ],
-    "qualities": [ { "id": "COOK", "level": 3 } ],
-    "tools": [ [ [ "surface_heat", 200, "LIST" ] ], [ [ "pot_canning", -1 ], [ "pot_canning_clay", -1 ] ] ],
-    "using": [ [ "broth_ingredients", 12 ] ],
+    "using": [ [ "broth_ingredients", 12 ], [ "canning_high_heat", 90, "LIST" ] ],
     "components": [ [ [ "jar_3l_glass_sealed", 1 ] ], [ [ "water", 28 ], [ "water_clean", 28 ] ] ]
   },
   {
@@ -681,8 +640,7 @@
     "book_learn": [ [ "cookbook_eatyrway", 5 ], [ "manual_canning", 3 ] ],
     "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_preservation" }, { "proficiency": "prof_food_canning" } ],
     "batch_time_factors": [ 80, 4 ],
-    "qualities": [ { "id": "COOK", "level": 3 } ],
-    "tools": [ [ [ "surface_heat", 200, "LIST" ] ], [ [ "pot_canning", -1 ], [ "pot_canning_clay", -1 ] ] ],
+    "using": [ [ "canning_high_heat", 90, "LIST" ] ],
     "components": [ [ [ "jar_3l_glass_sealed", 1 ] ], [ [ "water", 28 ], [ "water_clean", 28 ] ], [ [ "bone_edible", 120, "LIST" ] ] ]
   },
   {
@@ -708,8 +666,7 @@
     ],
     "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_preservation" }, { "proficiency": "prof_food_canning" } ],
     "batch_time_factors": [ 80, 4 ],
-    "qualities": [ { "id": "CUT", "level": 2 }, { "id": "COOK", "level": 3 } ],
-    "tools": [ [ [ "surface_heat", 200, "LIST" ] ], [ [ "pot_canning", -1 ], [ "pot_canning_clay", -1 ] ] ],
+    "using": [ [ "canning_high_heat", 90, "LIST" ] ],
     "components": [
       [ [ "jar_3l_glass_sealed", 1 ] ],
       [ [ "water", 16 ], [ "water_clean", 16 ] ],
@@ -740,8 +697,7 @@
     ],
     "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_preservation" }, { "proficiency": "prof_food_canning" } ],
     "batch_time_factors": [ 80, 4 ],
-    "qualities": [ { "id": "CUT", "level": 2 }, { "id": "COOK", "level": 3 } ],
-    "tools": [ [ [ "surface_heat", 200, "LIST" ] ], [ [ "pot_canning", -1 ], [ "pot_canning_clay", -1 ] ] ],
+    "using": [ [ "canning_high_heat", 90, "LIST" ] ],
     "components": [
       [ [ "jar_glass_sealed", 1 ] ],
       [ [ "water", 11 ], [ "water_clean", 11 ] ],
@@ -761,8 +717,7 @@
     "difficulty": 5,
     "time": "30 m",
     "batch_time_factors": [ 83, 5 ],
-    "qualities": [ { "id": "COOK", "level": 3 }, { "id": "CUT", "level": 2 } ],
-    "tools": [ [ [ "surface_heat", 100, "LIST" ] ], [ [ "pot_canning", -1 ], [ "pot_canning_clay", -1 ] ] ],
+    "using": [ [ "canning_high_heat", 90, "LIST" ] ],
     "book_learn": [ [ "cookbook", 6 ], [ "manual_canning", 4 ] ],
     "container": "jar_glass_sealed",
     "charges": 8,
@@ -784,8 +739,7 @@
     "difficulty": 5,
     "time": "60 m",
     "batch_time_factors": [ 83, 5 ],
-    "qualities": [ { "id": "COOK", "level": 3 }, { "id": "CUT", "level": 2 } ],
-    "tools": [ [ [ "surface_heat", 200, "LIST" ] ], [ [ "pot_canning", -1 ], [ "pot_canning_clay", -1 ] ] ],
+    "using": [ [ "canning_high_heat", 90, "LIST" ] ],
     "book_learn": [ [ "cookbook", 6 ], [ "manual_canning", 4 ] ],
     "container": "jar_3l_glass_sealed",
     "charges": 48,
