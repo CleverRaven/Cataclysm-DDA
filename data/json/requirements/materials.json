@@ -50,7 +50,7 @@
   {
     "id": "cordage_fishing",
     "type": "requirement",
-    "//": " makes 540cm of 10 lbish fishing line",
+    "//": " makes 540cm of 10 lbish fishing line with little time spent braiding, thread requires to much work and sinew unglues in water unless threated",
     "components": [
       [
         [ "string_36", 6 ],
@@ -59,10 +59,6 @@
         [ "string_6", 36 ],
         [ "cordage_6", 36 ],
         [ "cordage_6_leather", 36 ],
-        [ "thread", 127 ],
-        [ "sinew", 127 ],
-        [ "plant_fibre", 127 ],
-        [ "yarn", 127 ],
         [ "thread_nomex", 108 ],
         [ "thread_kevlar", 36 ]
       ]
