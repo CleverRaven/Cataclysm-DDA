@@ -96,10 +96,7 @@
     "//5": "Total displacement of 5 3L jars is 19.25L.  It takes 17u water (4.25L) to fill above the lids, and an additional 7u to fill above the lids.  Add 2u more to account for loss from boiling.",
     "//6": "Since it takes 10-15 minutes of exposure to boiling water for jars to begin sealing, power cost is 2u of this per water base.  Add 1u of this for each liter of stuff being canned.  Add an additional 1u for each liter of meat being canned (meat specifically needs a prolonged high temp to sterilize)",
     "//7": "For examples, making canned veggy in 0.5L jars expects a total power use of about 33u of this, while canning meat in 3L jars would take about 82u.",
-    "tools": [
-      [ [ "water_boiling_heat", 10, "LIST" ] ],
-      [ [ "pot_canning", -1 ], [ "pot_canning_clay", -1 ] ]
-    ]
+    "tools": [ [ [ "water_boiling_heat", 10, "LIST" ] ], [ [ "pot_canning", -1 ], [ "pot_canning_clay", -1 ] ] ]
   },
   {
     "id": "canning_acid",
