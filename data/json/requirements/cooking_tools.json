@@ -105,7 +105,8 @@
       [ [ "water_boiling_heat", 10, "LIST" ] ],
       [ [ "pot_canning", -1 ], [ "pot_canning_clay", -1 ] ],
       [ [ "water", 2 ], [ "water_clean", 2 ] ]
-    ]
+    ],
+    "qualities": [ { "id": "CUT", "level": 2 }, { "id": "COOK", "level": 3 } ]
   },
   {
     "id": "canning_high_heat",
@@ -120,7 +121,8 @@
       [ [ "water_boiling_heat", 15, "LIST" ] ],
       [ [ "pressure_cooker", -1 ], [ "small_pressure_vessel", -1 ] ],
       [ [ "water", 2 ], [ "water_clean", 2 ] ]
-    ]
+    ],
+    "qualities": [ { "id": "CUT", "level": 2 }, { "id": "COOK", "level": 3 } ]
   },
   {
     "id": "canning_standard",
