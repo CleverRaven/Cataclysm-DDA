@@ -97,23 +97,43 @@
     "//6": "Since it takes 10-15 minutes of exposure to boiling water for jars to begin sealing, power cost is 2u of this per water base.  Add 1u of this for each liter of stuff being canned.  Add an additional 1u for each liter of meat being canned (meat specifically needs a prolonged high temp to sterilize)",
     "//7": "For examples, making canned veggy in 0.5L jars expects a total power use of about 33u of this, while canning meat in 3L jars would take about 82u.",
     "tools": [
-      [
-        [ "hotplate_induction", 125 ],
-        [ "hotplate", 200 ],
-        [ "microwave", 250 ],
-        [ "multi_cooker", 200 ],
-        [ "char_smoker", 32 ],
-        [ "charcoal_cooker", 32 ],
-        [ "esbit_stove", 14 ],
-        [ "oil_cooker", 12 ],
-        [ "gasoline_cooker", 12 ],
-        [ "propane_cooker", 16 ],
-        [ "acetylene_cooker", 8 ],
-        [ "popcan_stove", 20 ],
-        [ "fake_oven", 1000 ],
-        [ "fire", -1 ]
-      ],
+      [ [ "water_boiling_heat", 10, "LIST" ] ],
       [ [ "pot_canning", -1 ], [ "pot_canning_clay", -1 ] ]
+    ]
+  },
+  {
+    "id": "canning_acid",
+    "type": "requirement",
+    "//": "acidic additives to prevent the growth of botulinum.",
+    "tools": [ [ [ "chem_citric_acid", 2 ], [ "formic_acid", 1 ], [ "lemon", 1 ], [ "irradiated_lemon", 1 ], [ "vinegar", 4 ] ] ]
+  },
+  {
+    "id": "canning_low_heat",
+    "type": "requirement",
+    "//": "This is sealing glass jars using the water bath method, using acid to neutralize botulinum instead of extreme heat.
+    "//2": "Per its longest_side (13.2cm) a 0.5L jar is about 7cm wide.  Per its longest_side (29.8cm) a 3L jar is about 11cm wide.
+    "//3": "water needs to fill above the jar about 3-6cm.  I'm assuming half this for the radius.  Therefore 0.5L jar is immersed in an 10x18cm cylinder, and 3L jar is immersed in a 15x35cm cylinder.",
+    "//4": "accounting for displacement that means about 2u water per 0.5L jar and 12u water per 3L jar.",
+    "//5": "using water_boiling_heat as a base, a minimum cost of 2u for the temp needed to heat the water, another 2u for the jar (specific heat is lower than water but jar will contain an aqueous solution so this is an estimate, though it takes about 15 minutes for water to come to temp again after adding jars so it should be accurate) as well as another 2u for the roughly 15 minutes to seal the jar, and another 2u to represent time lost due to inefficiency and heat bleed.",
+    "//6": "lemon is about 20-25% juice by weight. 
+    "tools": [
+      [ [ "water_boiling_heat", 10, "LIST" ] ],
+      [ [ "pot_canning", -1 ], [ "pot_canning_clay", -1 ] ],
+      [ [ "water", 2 ], [ "water_clean", 2 ] ]
+    ]
+  },
+  {
+    "id": "canning_high_heat",
+    "type": "requirement",
+    "//": "This is sealing glass jars using the water bath method, using extreme heat (125c) to neutralize botulinum, requires a pressure cooker to achieve such temperatures.
+    "//2": "Per its longest_side (13.2cm) a 0.5L jar is about 7cm wide.  Per its longest_side (29.8cm) a 3L jar is about 11cm wide.
+    "//3": "water needs to fill above the jar about 3-6cm.  I'm assuming half this for the radius.  Therefore 0.5L jar is immersed in an 10x18cm cylinder, and 3L jar is immersed in a 15x35cm cylinder.",
+    "//4": "accounting for displacement that means about 2u water per 0.5L jar and 12u water per 3L jar.",
+    "//5": "50% more energy used compared to low_heat canning."
+    "tools": [
+      [ [ "water_boiling_heat", 15, "LIST" ] ],
+      [ [ "pressure_cooker", -1 ], [ "small_pressure_vessel", -1 ] ],
+      [ [ "water", 2 ], [ "water_clean", 2 ] ]
     ]
   }
 ]
