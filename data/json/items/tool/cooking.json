@@ -13,7 +13,7 @@
     "price_postapoc": 3000,
     "to_hit": -2,
     "bashing": 5,
-    "material": [ "plastic", "aluminum", "lead", "steel"  ],
+    "material": [ "plastic", "aluminum", "lead", "steel" ],
     "qualities": [ [ "BOIL", 1 ] ],
     "ammo": [ "battery" ],
     "symbol": ",",
