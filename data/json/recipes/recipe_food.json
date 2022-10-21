@@ -1655,13 +1655,14 @@
     "subcategory": "CSC_FOOD_VEGGI",
     "skill_used": "cooking",
     "time": "4 m",
+    "batch_time_factors": [ 80, 4 ],
     "autolearn": true,
-    "charges": 2,
+    "charges": 1,
     "qualities": [ { "id": "COOK", "level": 1 } ],
-    "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
+    "tools": [ [ [ "surface_heat", 2, "LIST" ] ] ],
     "//": "2u to cook a veggy weighing 100u, these clock in at 119g",
     "proficiencies": [ { "proficiency": "prof_food_prep" } ],
-    "components": [ [ [ "veggy", 2 ] ] ]
+    "components": [ [ [ "veggy", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -1672,13 +1673,13 @@
     "skill_used": "cooking",
     "time": "4 m",
     "autolearn": true,
-    "charges": 2,
+    "charges": 1,
     "batch_time_factors": [ 80, 4 ],
     "qualities": [ { "id": "COOK", "level": 2 } ],
-    "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
+    "tools": [ [ [ "surface_heat", 2, "LIST" ] ] ],
     "//": "2u to cook a veggy weighing 100u, these clock in at 119g",
     "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_forage_cooking" } ],
-    "components": [ [ [ "veggy_wild", 2 ] ] ]
+    "components": [ [ [ "veggy_wild", 1 ] ] ]
   },
   {
     "type": "recipe",
