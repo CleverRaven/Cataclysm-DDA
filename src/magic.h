@@ -598,6 +598,7 @@ class spell
         bool is_valid_target( const Creature &caster, const tripoint &p ) const;
         bool is_valid_target( spell_target t ) const;
         bool target_by_monster_id( const tripoint &p ) const;
+        bool target_by_species_id( const tripoint &p ) const;
 
         // picks a random valid tripoint from @area
         cata::optional<tripoint> random_valid_target( const Creature &caster,
