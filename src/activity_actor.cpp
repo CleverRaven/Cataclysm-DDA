@@ -1858,7 +1858,8 @@ void move_items_activity_actor::do_turn( player_activity &act, Character &who )
         }
 
         // Check that we can pick it up.
-        if( !target->made_of_from_type( phase_id::LIQUID ) && !target->made_of_from_type( phase_id::GAS ) ) {
+        if( !target->made_of_from_type( phase_id::LIQUID ) &&
+            !target->made_of_from_type( phase_id::GAS ) ) {
             item &leftovers = *target;
             // Make a copy to be put in the destination location
             item newit = leftovers;

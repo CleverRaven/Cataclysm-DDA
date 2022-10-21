@@ -159,7 +159,8 @@ bool Pickup::query_thief()
 }
 
 // Returns false if pickup caused a prompt and the player selected to cancel pickup
-static bool pick_one_up( item_location &loc, int quantity, bool &got_water, bool &got_gas, PickupMap &mapPickup,
+static bool pick_one_up( item_location &loc, int quantity, bool &got_water, bool &got_gas,
+                         PickupMap &mapPickup,
                          bool autopickup, bool &stash_successful, bool &got_frozen_liquid )
 {
     Character &player_character = get_player_character();
@@ -336,7 +337,8 @@ bool Pickup::do_pickup( std::vector<item_location> &targets, std::vector<int> &q
             continue;
         }
 
-        problem = !pick_one_up( target, quantity, got_water, got_gas, mapPickup, autopickup, stash_successful,
+        problem = !pick_one_up( target, quantity, got_water, got_gas, mapPickup, autopickup,
+                                stash_successful,
                                 got_frozen_liquid );
     }
 
