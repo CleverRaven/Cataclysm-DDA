@@ -489,7 +489,7 @@
     "type": "MONSTER",
     "name": { "str": "chocolate cow" },
     "description": "The domestic cow, a baleful, ruminating farm animal.  It is quite muscular, and the males can have a violent streak to accompany their nasty-looking horns.  This one looks to be made entirely of chocolate.",
-    "default_faction": "herbivore",
+    "default_faction": "chocolate_cow",
     "bodytype": "dog",
     "species": [ "CHOCOLATE" ],
     "symbol": "C",
