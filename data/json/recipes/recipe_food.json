@@ -3329,7 +3329,7 @@
     "difficulty": 1,
     "time": "1 h",
     "autolearn": true,
-    "batch_time_factors": [ 80, 4 ],
+    "batch_time_factors": [ 95, 2 ],
     "qualities": [ { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "water_boiling_heat", 11, "LIST" ] ] ],
     "//": "this was using 10 bones (2.3kg), so it was lowered.  Bone broth uses 1:2-1:4 bone:water per weight.  2u for the water + 10u for the 60min boiling + 1u for the bone.",
