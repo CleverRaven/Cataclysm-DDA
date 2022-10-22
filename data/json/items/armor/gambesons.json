@@ -58,8 +58,8 @@
     "//": "roughly 0.25mm per sheet of canvas making these 10 layer pants, sheets are 1x2 feet. 30 sheets total",
     "//1": "human legs is about 6 sq. feet.  80g (canvas) x 10 (layers) x 3 (surface area) = 2400g",
     "type": "ARMOR",
-    "name": { "str": "canvas aketon pants", "str_pl": "pairs of canvas aketon pants" },
-    "description": "Cloth arming pants worn alongside an aketon underneath metal armor.  These are made of many layers of canvas offering solid protection.",
+    "name": { "str": "canvas arming pants", "str_pl": "pairs of canvas arming pants" },
+    "description": "Tough cloth pants worn alongside an aketon underneath metal armor.  These are made of many layers of canvas offering solid protection.",
     "weight": "2400 g",
     "volume": "1500 ml",
     "price_postapoc": 750,
@@ -82,13 +82,13 @@
   },
   {
     "id": "aketon_neck_canvas_layered",
-    "//": "roughly 0.25mm per sheet of canvas making this 12 layers, sheets are 1x2 feet. 5 sheets total",
-    "//1": "human neck is about 0.75 sq. feet.  80g (canvas) x 12 (layers) x 0.375 (surface area) = 360g",
+    "//": "roughly 0.25mm per sheet of canvas making this 8 layers, sheets are 1x2 feet. 3 sheets total",
+    "//1": "human neck is about 0.75 sq. feet.  80g (canvas) x 8 (layers) x 0.375 (surface area) = 240g",
     "type": "ARMOR",
     "name": { "str": "canvas neck protector", "str_pl": "canvas aketon neck protectors" },
-    "description": "A cloth gorget made of many canvas layers.  A little restrictive but keeps your throat safe from danger, and it will fit under metal armor too.",
-    "weight": "360 g",
-    "volume": "250 ml",
+    "description": "A cloth gorget made of many canvas layers.  A little warm but keeps your throat safe from danger, and it will fit under metal armor too.",
+    "weight": "240 g",
+    "volume": "150 ml",
     "price_postapoc": 750,
     "to_hit": -5,
     "material": [ "canvas" ],
@@ -96,15 +96,43 @@
     "looks_like": "scarf_loose",
     "color": "light_gray",
     "warmth": 5,
-    "material_thickness": 3.0,
-    "flags": [ "VARSIZE", "STURDY" ],
+    "material_thickness": 2.0,
+    "flags": [ "VARSIZE", "STURDY", "SKINTIGHT" ],
     "armor": [
       {
-        "material": [ { "type": "canvas", "covered_by_mat": 100, "thickness": 3.0 } ],
+        "material": [ { "type": "canvas", "covered_by_mat": 100, "thickness": 2.0 } ],
         "covers": [ "head" ],
         "specifically_covers": [ "head_throat" ],
         "coverage": 100,
-        "encumbrance_modifiers": [ "RESTRICTS_NECK", "WELL_SUPPORTED" ]
+        "encumbrance_modifiers": [ "WELL_SUPPORTED" ]
+      }
+    ]
+  },
+  {
+    "id": "aketon_hood_canvas_layered",
+    "//": "roughly 0.25mm per sheet of canvas making this 8 layers, sheets are 1x2 feet. 10 sheets total",
+    "//1": "human head total is about 2.5 sq. feet.  80g (canvas) x 8 (layers) x 1.25 (surface area) = 800g",
+    "type": "ARMOR",
+    "name": { "str": "canvas coif", "str_pl": "canvas coifs" },
+    "description": "A cloth coif with neck protection.  Resting on your shoulders, it serves as padding for a helmet.  Though it's pretty warm, it is constructed of tough canvas and provides substantial protection even on its own.",
+    "weight": "800 g",
+    "volume": "500 ml",
+    "price_postapoc": 750,
+    "to_hit": -5,
+    "material": [ "canvas" ],
+    "symbol": "[",
+    "looks_like": "scarf_loose",
+    "color": "light_gray",
+    "warmth": 30,
+    "material_thickness": 2.0,
+    "flags": [ "VARSIZE", "STURDY", "SKINTIGHT" ],
+    "armor": [
+      {
+        "material": [ { "type": "canvas", "covered_by_mat": 100, "thickness": 2.0 } ],
+        "covers": [ "head" ],
+        "specifically_covers": [ "head_throat", "head_ear_l", "head_ear_r", "head_forehead", "head_crown", "head_nape" ],
+        "coverage": 100,
+        "encumbrance_modifiers": [ "WELL_SUPPORTED" ]
       }
     ]
   },
@@ -182,8 +210,8 @@
     "//": "roughly 0.25mm per sheet of canvas making these 20 layer pants, sheets are 1x2 feet. 40 sheets total",
     "//1": "human legs is about 6 sq. feet.  80g (canvas) x 20 (layers) x 3 (surface area) = 4800g",
     "type": "ARMOR",
-    "name": { "str": "layered canvas gambeson pants", "str_pl": "pairs of canvas gambeson sleeves" },
-    "description": "Thick cloth arming pants worn on their own alongside a gambeson.  These are made of a huge number of canvas layers offering very solid protection, though they're too thick to easily add metal armor on top and are both stuffy and restrictive.",
+    "name": { "str": "canvas heavy arming pants", "str_pl": "pairs of canvas heavy arming pants" },
+    "description": "Tough, thick cloth pants worn on their own alongside a gambeson.  These are made of a huge number of canvas layers offering very solid protection, though they're too thick to easily add metal armor on top and are both stuffy and restrictive.",
     "weight": "4800 g",
     "volume": "3000 ml",
     "price_postapoc": 750,
@@ -204,37 +232,6 @@
         "covers": [ "leg_l", "leg_r" ],
         "coverage": 100,
         "encumbrance": 20
-      }
-    ]
-  },
-  {
-    "id": "gambeson_neck_canvas_layered",
-    "//": "roughly 0.25mm per sheet of canvas making this 24 layers, sheets are 1x2 feet. 10 sheets total",
-    "//1": "human neck is about 0.75 sq. feet.  80g (canvas) x 24 (layers) x 0.375 (surface area) = 720g",
-    "type": "ARMOR",
-    "name": { "str": "thick canvas neck protector", "str_pl": "thick canvas neck protectors" },
-    "description": "A thick cloth gorget made of many canvas layers.  It's thick enough that a metal protector won't fit over it easily and it seriously hampers the movement of your neck, but it is very protective.",
-    "weight": "720 g",
-    "volume": "500 ml",
-    "price_postapoc": 750,
-    "to_hit": -5,
-    "material": [ "canvas" ],
-    "symbol": "[",
-    "looks_like": "scarf_loose",
-    "color": "light_gray",
-    "warmth": 8,
-    "material_thickness": 6.0,
-    "flags": [ "VARSIZE", "STURDY", "NORMAL", "OUTER" ],
-    "armor": [
-      {
-        "material": [
-          { "type": "canvas", "covered_by_mat": 100, "thickness": 3.0 },
-          { "type": "canvas", "covered_by_mat": 95, "thickness": 3.0 }
-        ],
-        "covers": [ "head" ],
-        "specifically_covers": [ "head_throat" ],
-        "coverage": 100,
-        "encumbrance_modifiers": [ "RESTRICTS_NECK", "WELL_SUPPORTED" ]
       }
     ]
   }
