@@ -833,7 +833,7 @@
     "flags": [ "TRADER_AVOID", "LEAK_ALWAYS", "RADIOACTIVE" ],
     "volume": "50 ml",
     "weight": "953 g"
-  },  
+  },
   {
     "type": "AMMO",
     "id": "chem_ammonium_nitrate",
