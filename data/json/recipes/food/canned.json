@@ -172,7 +172,7 @@
     "batch_time_factors": [ 83, 5 ],
     "result_mult": 2,
     "using": [ [ "canning_high_heat", 1, "LIST" ] ],
-    "components": [ [ "water_clean", 1 ] ], [ [ "jar_glass_sealed", 1 ] ], [ [ "meat_red_raw", 2, "LIST" ] ], [ [ "canning_acid", 1, "LIST" ] ] ]
+    "components": [ [ [ "water_clean", 1 ] ], [ [ "jar_glass_sealed", 1 ] ], [ [ "meat_red_raw", 2, "LIST" ] ], [ [ "canning_acid", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
