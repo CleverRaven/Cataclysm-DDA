@@ -241,6 +241,7 @@ static const flag_id json_flag_POWER_CORD( "POWER_CORD" );
 
 static const furn_str_id furn_f_aluminum_stepladder( "f_aluminum_stepladder" );
 static const furn_str_id furn_f_ladder( "f_ladder" );
+static const furn_str_id furn_f_translocator_buoy( "f_translocator_buoy" );
 
 static const itype_id itype_advanced_ecig( "advanced_ecig" );
 static const itype_id itype_afs_atomic_smartphone( "afs_atomic_smartphone" );
@@ -7639,9 +7640,9 @@ cata::optional<int> iuse::afs_translocator( Character *p, item *it, bool, const 
         add_msg( m_info, _( "The %s, emits a short angry beep." ), it->tname() );
         return cata::nullopt;
     } else {
-        here.furn_set( dest, furn_str_id( "f_translocator_buoy" ) );
+        here.furn_set( dest, furn_f_translocator_buoy );
         add_msg( m_info, _( "Space warps momentarily as the %s is created." ),
-                 furn_id( "f_translocator_buoy" ).obj().name() );
+                 furn_f_translocator_buoy.obj().name() );
         return  1;
     }
 }
