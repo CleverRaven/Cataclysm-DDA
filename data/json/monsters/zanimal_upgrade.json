@@ -315,7 +315,7 @@
     "color": "light_gray_yellow",
     "bleed_rate": 40,
     "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_biochemistry" ],
-    "special_attacks": [ [ "ACID_BARF", 15 ] ],
+    "special_attacks": [ [ "ACID", 15 ] ],
     "death_function": { "message": "The %s's body leaks acid.", "effect": { "id": "death_acid", "hit_self": true } },
     "flags": [
       "SEES",
