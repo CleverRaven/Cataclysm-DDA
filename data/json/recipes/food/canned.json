@@ -354,7 +354,12 @@
     "batch_time_factors": [ 80, 4 ],
     "//": "this was using 20 bones (2.3kg), so it was lowered.  Bone broth uses 1:2-1:4 bone:water per weight.",
     "using": [ [ "canning_high_heat", 1, "LIST" ] ],
-    "components": [ [ [ "jar_glass_sealed", 1 ] ], [ [ "water_clean", 2 ] ], [ [ "bone_edible", 1, "LIST" ] ], [ [ "canning_acid", 1, "LIST" ] ] ]
+    "components": [
+      [ [ "jar_glass_sealed", 1 ] ],
+      [ [ "water_clean", 2 ] ],
+      [ [ "bone_edible", 1, "LIST" ] ],
+      [ [ "canning_acid", 1, "LIST" ] ]
+    ]
   },
   {
     "type": "recipe",
