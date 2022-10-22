@@ -2269,7 +2269,7 @@ static std::string assemble_hobby_details( const avatar &u, const input_context 
     if( !prof_proficiencies.empty() ) {
         assembled += "\n" + colorize( _( "Background proficiencies:" ), COL_HEADER ) + "\n";
         for( const proficiency_id &prof : prof_proficiencies ) {
-            assembled += prof->name() + "\n";
+            assembled += prof->name() + ": " + colorize( prof->description(), COL_HEADER ) + "\n";
         }
     }
 

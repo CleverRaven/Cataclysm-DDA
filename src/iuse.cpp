@@ -241,6 +241,7 @@ static const flag_id json_flag_POWER_CORD( "POWER_CORD" );
 
 static const furn_str_id furn_f_aluminum_stepladder( "f_aluminum_stepladder" );
 static const furn_str_id furn_f_ladder( "f_ladder" );
+static const furn_str_id furn_f_translocator_buoy( "f_translocator_buoy" );
 
 static const itype_id itype_advanced_ecig( "advanced_ecig" );
 static const itype_id itype_afs_atomic_smartphone( "afs_atomic_smartphone" );
@@ -1526,7 +1527,7 @@ cata::optional<int> iuse::mycus( Character *p, item *, bool, const tripoint & )
     } else if( p->has_trait( trait_THRESH_MYCUS ) &&
                !p->has_trait( trait_M_DEPENDENT ) ) { // OK, now set the hook.
         if( !one_in( 3 ) ) {
-            p->mutate_category( mutation_category_MYCUS );
+            p->mutate_category( mutation_category_MYCUS, false, true );
             p->mod_stored_kcal( -87 );
             p->mod_thirst( 10 );
             p->mod_fatigue( 5 );
@@ -7225,9 +7226,14 @@ static bool show_photo_selection( Character &p, item &it, const std::string &var
     return true;
 }
 
-cata::optional<int> iuse::camera( Character *p, item *it, bool, const tripoint & )
+cata::optional<int> iuse::camera( Character *p, item *it, bool t, const tripoint & )
 {
     enum {c_shot, c_photos, c_monsters, c_upload};
+
+    // From item processing
+    if( t ) {
+        return cata::nullopt;
+    }
 
     // CAMERA_NPC_PHOTOS is old save variable
     bool found_extended_photos = !it->get_var( "CAMERA_NPC_PHOTOS" ).empty() ||
@@ -7611,6 +7617,34 @@ cata::optional<int> iuse::ehandcuffs( Character *p, item *it, bool t, const trip
     }
 
     return 1;
+}
+
+cata::optional<int> iuse::afs_translocator( Character *p, item *it, bool, const tripoint & )
+{
+    if( !it->ammo_sufficient( p ) ) {
+        return cata::nullopt;
+    }
+
+    const cata::optional<tripoint> dest_ = choose_adjacent( _( "Create buoy where?" ) );
+    if( !dest_ ) {
+        return cata::nullopt;
+    }
+
+    tripoint dest = *dest_;
+
+    p->moves -= to_moves<int>( 2_seconds );
+
+    map &here = get_map();
+    if( here.impassable( dest ) || here.has_flag( ter_furn_flag::TFLAG_NO_FLOOR, dest ) ||
+        here.has_furn( dest ) ) {
+        add_msg( m_info, _( "The %s, emits a short angry beep." ), it->tname() );
+        return cata::nullopt;
+    } else {
+        here.furn_set( dest, furn_f_translocator_buoy );
+        add_msg( m_info, _( "Space warps momentarily as the %s is created." ),
+                 furn_f_translocator_buoy.obj().name() );
+        return  1;
+    }
 }
 
 cata::optional<int> iuse::foodperson( Character *p, item *it, bool t, const tripoint &pos )
@@ -9713,9 +9747,14 @@ cata::optional<int> iuse::magic_8_ball( Character *p, item *it, bool, const trip
     return 0;
 }
 
-cata::optional<int> iuse::electricstorage( Character *p, item *it, bool, const tripoint & )
+cata::optional<int> iuse::electricstorage( Character *p, item *it, bool t, const tripoint & )
 {
     if( p->is_npc() ) {
+        return cata::nullopt;
+    }
+
+    // From item processing
+    if( t ) {
         return cata::nullopt;
     }
 

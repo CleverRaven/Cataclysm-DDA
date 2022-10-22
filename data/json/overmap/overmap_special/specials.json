@@ -3881,8 +3881,8 @@
     "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "hot_springs_north" } ],
     "locations": [ "field" ],
     "city_distance": [ 15, -1 ],
-    "occurrences": [ 0, 2 ],
-    "flags": [ "CLASSIC", "WILDERNESS" ]
+    "occurrences": [ 5, 100 ],
+    "flags": [ "CLASSIC", "WILDERNESS", "UNIQUE" ]
   },
   {
     "type": "overmap_special",
