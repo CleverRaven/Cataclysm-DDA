@@ -7,7 +7,7 @@
       ";": "t_open_air",
       ":": "t_open_air_rooved",
       "I": "t_strconc_wall",
-      "+": "t_door_metal_c",
+      "+": [ [ "t_door_metal_interior_locked", 2 ], "t_door_metal_c" ],
       "$": "t_door_metal_locked",
       "D": "t_door_c",
       "O": "t_double_pane_glass",
