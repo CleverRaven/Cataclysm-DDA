@@ -913,23 +913,16 @@ bool advanced_inventory::move_all_items()
 
     // Check some preconditions to quickly leave the function.
     size_t liquid_items = 0;
-    size_t gas_items = 0;
     for( const advanced_inv_listitem &elem : spane.items ) {
         for( const item_location &elemit : elem.items ) {
-            if( elemit->made_of_from_type( phase_id::LIQUID ) && !elemit->is_frozen_liquid() ) {
+            if( elemit->made_of( phase_id::LIQUID ) && !elemit->is_frozen_liquid() ||
+                elemit->made_of_from_type( phase_id::GAS ) ) {
                 liquid_items++;
             }
         }
     }
 
-    for( const advanced_inv_listitem &elem : spane.items ) {
-        for( const item_location &elemit : elem.items ) {
-            if( elemit->made_of_from_type( phase_id::GAS ) ) {
-                gas_items++;
-            }
-        }
-    }
-    if( spane.items.empty() || liquid_items == spane.items.size() || gas_items == spane.items.size() ) {
+    if( spane.items.empty() || liquid_items == spane.items.size() ) {
         popup( _( "No eligible items found to be moved." ) );
         return false;
     }

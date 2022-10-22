@@ -730,8 +730,8 @@ class comestible_inventory_preset : public inventory_selector_preset
                 return _( "Can't drink spilt liquids." );
             }
             if(
-                ( loc->made_of_from_type( phase_id::GAS ) &&
-                  loc.where() != item_location::type::container ) ) {
+                loc->made_of_from_type( phase_id::GAS ) &&
+                loc.where() != item_location::type::container ) {
                 return _( "Can't consume spilt gasses." );
             }
 
