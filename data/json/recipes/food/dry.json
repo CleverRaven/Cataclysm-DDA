@@ -294,7 +294,7 @@
     "autolearn": true,
     "batch_time_factors": [ 67, 5 ],
     "tools": [ [ [ "dehydrating_heat", 12, "LIST" ] ] ],
-    "//": "highly variable - most hover around 10-12g but some (tomato) are much heavier.  Basing this off plant marrow (119g) since it's the most common ingredient",
+    "//": "highly variable - most hover around 100-120g but some (tomato) are much heavier.  Basing this off plant marrow (119g) since it's the most common ingredient",
     "components": [
       [
         [ "veggy_any_fresh_uncooked", 1, "LIST" ],
@@ -320,7 +320,7 @@
     "autolearn": true,
     "batch_time_factors": [ 67, 5 ],
     "tools": [ [ [ "dehydrating_heat", 12, "LIST" ] ], [ [ "surface_heat", 2, "LIST" ] ] ],
-    "//": "highly variable - most hover around 10-12g but some (tomato) are much heavier.  Basing this off plant marrow (119g) since it's the most common ingredient",
+    "//": "highly variable - most hover around 100-120g but some (tomato) are much heavier.  Basing this off plant marrow (119g) since it's the most common ingredient",
     "components": [
       [
         [ "veggy_any_fresh_uncooked", 1, "LIST" ],
