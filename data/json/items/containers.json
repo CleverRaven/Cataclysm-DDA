@@ -1852,6 +1852,7 @@
     "description": "A steel jerrycan, meant to carry fuel, but can carry other liquids in a pinch.",
     "weight": "4300 g",
     "volume": "26750 ml",
+    "longest_side": "47 cm",
     "price": 5000,
     "price_postapoc": 100,
     "to_hit": -3,
