@@ -612,6 +612,8 @@ Enchantments are another layer of enhancements, similar to `effect_type` and `mu
 | `hit_me_effect`             | A spell that activates when you are hit by a creature.  The spell is centered on your location.  Follows the template for defining `fake_spell`
 | `intermittent_activation`   | Spells that activate centered on you depending on the duration.  The spells follow the `fake_spell` template.
 | `values`                    | Numbers that can be modified (see [list](#id-values)).  `add` is added to the base value, `multiply` is **also added** and treated as percentage: 2.5 is +250% and -1 is -100%.  `add` is always applied before `multiply`.  Either `add` or `multiply` can be a variable_object/arithmetic expression (see [below](#variables) for syntax and application, and [NPCs](NPCs.md) for the in depth explanation).
+| `emitter`                   | Grants the emit_id.
+| `modified_bodyparts`        | Modifies the body plan (standard is human).  `gain` adds body_part_id, `lose` removes body_part_id.  Note: changes done this way stay even after the item/effect/mutation carrying the enchantment is removed.
 | `mutations`                 | Grants the mutation/trait ID.  Note: enchantments effects added this way won't stack, due how mutations work.
 | `ench_effects`              | Grants the effect_id.  Requires the `intensity` for the effect.
 
@@ -623,12 +625,14 @@ There are two possible syntaxes.  The first is by defining an enchantment object
     "type": "enchantment",
     "id": "ENCH_INVISIBILITY",
     "condition": "ALWAYS",
-    "ench_effects": [ { "effect": "invisibility", "intensity": 1 } ],
     "has": "WIELD",
     "hit_you_effect": [ { "id": "AEA_FIREBALL" } ],
     "hit_me_effect": [ { "id": "AEA_HEAL" } ],
     "values": [ { "value": "STRENGTH", "multiply": 1.1, "add": -5 } ],
+    "emitter": "emit_AEP_SMOKE",
+    "modified_bodyparts": [ { "gain": "test_corvid_beak" }, { "lose": "torso" } ],
     "mutations": [ "GILLS", "MEMBRANE", "AMPHIBIAN", "WAYFARER", "WILDSHAPE:FISH" ],
+    "ench_effects": [ { "effect": "invisibility", "intensity": 1 } ],
     "intermittent_activation": {
       "effects": [
         {
@@ -653,6 +657,8 @@ There are two possible syntaxes.  The first is by defining an enchantment object
     "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "MAX_MANA", "add": 400 } ] } ] }
   }
 ```
+
+Note: all fields except for `type` and `id` are optional.
 
 
 ### The `relic_data` field
