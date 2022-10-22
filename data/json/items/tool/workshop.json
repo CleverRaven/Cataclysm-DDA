@@ -969,7 +969,7 @@
     "material": [ "steel", "plastic" ],
     "symbol": "/",
     "color": "yellow",
-    "charged_qualities": [ [ "SAW_M", 1 ], [ "SAW_W", 1 ] ],
+    "charged_qualities": [ [ "SAW_M", 3 ], [ "SAW_W", 2 ] ],
     "ammo": [ "battery" ],
     "charges_per_use": 1,
     "power_draw": "800 J",
