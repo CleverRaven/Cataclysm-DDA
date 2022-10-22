@@ -128,7 +128,7 @@
     "comestible_type": "FOOD",
     "looks_like": "caff_gum",
     "name": { "str": "chunk of caffeinated gum flesh", "str_pl": "chunks of caffeinated gum flesh" },
-    "description": "A nice chunk of still shivering caffeinated gumm flesh.",
+    "description": "A nice chunk of still shivering caffeinated gum flesh.",
     "addiction_type": "caffeine",
     "category": "drugs",
     "weight": "300 g",
