@@ -915,7 +915,7 @@ bool advanced_inventory::move_all_items()
     size_t liquid_items = 0;
     for( const advanced_inv_listitem &elem : spane.items ) {
         for( const item_location &elemit : elem.items ) {
-            if( elemit->made_of( phase_id::LIQUID ) && !elemit->is_frozen_liquid() ||
+            if( ( elemit->made_of_from_type( phase_id::LIQUID ) && !elemit->is_frozen_liquid() ) ||
                 elemit->made_of_from_type( phase_id::GAS ) ) {
                 liquid_items++;
             }
