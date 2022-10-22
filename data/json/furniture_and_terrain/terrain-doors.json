@@ -2756,7 +2756,7 @@
     "symbol": "+",
     "looks_like": "t_door_glass_c",
     "color": "white",
-    "flags": [ "DOOR", "NOITEM", "CONNECT_WITH_WALL", "BLOCK_WIND", "SUPPORTS_ROOF" ],
+    "flags": [ "DOOR", "NOITEM", "CONNECT_WITH_WALL", "BLOCK_WIND", "SUPPORTS_ROOF", "TRANSPARENT", "TRANSLUCENT" ],
     "open": "t_door_glass_frosted_o",
     "copy-from": "t_door_glass_c"
   },
@@ -2768,7 +2768,7 @@
     "symbol": "+",
     "looks_like": "t_door_glass_frosted_c",
     "color": "white",
-    "flags": [ "DOOR", "NOITEM", "CONNECT_WITH_WALL", "SUPPORTS_ROOF" ],
+    "flags": [ "DOOR", "NOITEM", "CONNECT_WITH_WALL", "SUPPORTS_ROOF", "TRANSPARENT", "TRANSLUCENT" ],
     "open": "t_door_glass_frosted_lab_o",
     "copy-from": "t_door_glass_frosted_c"
   },

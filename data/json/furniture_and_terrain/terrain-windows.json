@@ -924,6 +924,8 @@
       "BLOCK_WIND",
       "REDUCE_SCENT",
       "WINDOW",
+      "TRANSPARENT",
+      "TRANSLUCENT",
       "SUPPORTS_ROOF"
     ],
     "bash": {
@@ -953,6 +955,8 @@
       "BLOCK_WIND",
       "REDUCE_SCENT",
       "WINDOW",
+      "TRANSPARENT",
+      "TRANSLUCENT",
       "SUPPORTS_ROOF"
     ],
     "bash": {
@@ -982,6 +986,8 @@
       "BLOCK_WIND",
       "REDUCE_SCENT",
       "WINDOW",
+      "TRANSPARENT",
+      "TRANSLUCENT",
       "SUPPORTS_ROOF"
     ],
     "bash": {

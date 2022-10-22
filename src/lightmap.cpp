@@ -151,7 +151,8 @@ bool map::build_transparency_cache( const int zlev )
                     // Fields are either transparent or not, however we want some to be translucent
                     value = value * i_level.translucency;
                 }
-                // TODO: [lightmap] Have glass reduce light as well
+                // TODO: [lightmap] Have glass reduce light as well.
+                // Note, binary transluceny is implemented in build_vision_transparency_cache below
                 return std::make_pair( value, value_wo_fields );
             };
 
@@ -197,7 +198,7 @@ bool map::build_vision_transparency_cache( const int zlev )
     auto &vision_transparency_cache = map_cache.vision_transparency_cache;
 
     memcpy( &vision_transparency_cache, &transparency_cache, sizeof( transparency_cache ) );
-
+    
     Character &player_character = get_player_character();
     const tripoint p = player_character.pos();
 
@@ -207,6 +208,8 @@ bool map::build_vision_transparency_cache( const int zlev )
 
     bool dirty = false;
 
+    // This segment handles vision when the player is crouching or prone. It only checks adjacent tiles.
+    // If you change this, also consider creature::sees and map::obstacle_coverage.
     bool is_crouching = player_character.is_crouching();
     bool is_prone = player_character.is_prone();
     for( const tripoint &loc : points_in_radius( p, 1 ) ) {
@@ -215,6 +218,23 @@ bool map::build_vision_transparency_cache( const int zlev )
             vision_transparency_cache[p.x][p.y] = LIGHT_TRANSPARENCY_OPEN_AIR;
         } else if( ( is_crouching || is_prone ) && coverage( loc ) >= 30 ) {
             // If we're crouching or prone behind an obstacle, we can't see past it.
+            vision_transparency_cache[loc.x][loc.y] = LIGHT_TRANSPARENCY_SOLID;
+            dirty = true;
+        }
+        else if (map::ter(loc).obj().has_flag(ter_furn_flag::TFLAG_TRANSLUCENT)) {
+            vision_transparency_cache[loc.x][loc.y] = LIGHT_TRANSPARENCY_SOLID;
+            dirty = true;
+        }
+    }
+
+    // This segment handles blocking vision through TRANSLUCENT flagged terrain.
+    // 60 tile radius should cover all potentially visible tiles.
+    for ( const tripoint& loc : points_in_radius(p, 60) ) {
+        if (loc == p) {
+            // The tile player is standing on should always be visible
+            vision_transparency_cache[p.x][p.y] = LIGHT_TRANSPARENCY_OPEN_AIR;
+        }
+        else if (map::ter(loc).obj().has_flag(ter_furn_flag::TFLAG_TRANSLUCENT)) {
             vision_transparency_cache[loc.x][loc.y] = LIGHT_TRANSPARENCY_SOLID;
             dirty = true;
         }
