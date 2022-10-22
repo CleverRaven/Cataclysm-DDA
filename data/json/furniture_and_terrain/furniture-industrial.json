@@ -547,6 +547,7 @@
     "coverage": 80,
     "move_cost_mod": 6,
     "max_volume": "800 L",
+    "emissions": [ "emit_rad_leak" ],
     "required_str": -1,
     "flags": [ "SEALED", "REDUCE_SCENT", "PERMEABLE", "CONTAINER", "FLAMMABLE" ],
     "bash": {

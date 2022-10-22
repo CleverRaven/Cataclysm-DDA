@@ -19,6 +19,7 @@
       "R": "t_radio_tower",
       "r": [ [ "t_metal_flat_roof", 200 ], [ "t_metal_roof", 1 ] ],
       "_": "t_metal_floor",
+      "*": "t_metal_floor",
       "#": "t_grate",
       "a": [ [ "t_pavement", 900 ], [ "t_region_groundcover_barren", 1 ], [ "t_region_groundcover", 1 ] ],
       "A": "t_pavement_y",
@@ -187,6 +188,10 @@
         { "item": "supplies_reagents_lab", "chance": 5, "repeat": [ 1, 3 ] },
         { "item": "metal_workshop", "chance": 15 }
       ]
+    },
+    "fields": {
+      "*": { "field": "fd_nuke_gas", "intensity": 3, "age": 990 },
+      "N": { "field": "fd_nuke_gas", "intensity": 2, "age": 990 }
     },
     "liquids": { "o": { "liquid": "water_clean", "amount": [ 0, 1000 ] }, "h": { "liquid": "water_clean", "amount": [ 0, 100 ] } },
     "monster": {
