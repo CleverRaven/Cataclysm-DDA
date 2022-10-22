@@ -783,12 +783,7 @@
     "container": "jar_glass_sealed",
     "result_mult": 2,
     "using": [ [ "canning_low_heat", 1, "LIST" ] ],
-    "components": [
-      [ [ "salt", 10 ], [ "saline", 10 ] ],
-      [ [ "jar_glass", 1 ] ],
-      [ [ "meat_offal", 2, "LIST" ] ],
-      [ [ "vinegar", 16 ] ]
-    ]
+    "components": [ [ [ "salt", 10 ], [ "saline", 10 ] ], [ [ "jar_glass", 1 ] ], [ [ "meat_offal", 2, "LIST" ] ], [ [ "vinegar", 16 ] ] ]
   },
   {
     "result": "offal_pickled",
