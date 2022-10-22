@@ -2,9 +2,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [
-      [ "nuclear_plant_7_3_7", "nuclear_plant_8_3_7" ]
-    ],
+    "om_terrain": [ [ "nuclear_plant_7_3_7", "nuclear_plant_8_3_7" ] ],
     "object": {
       "fill_ter": "t_open_air",
       "rows": [
@@ -33,12 +31,10 @@
         "                                                ",
         "                                                "
       ],
-      "terrain": { },
-      "furniture": { },
+      "terrain": {  },
+      "furniture": {  },
       "palettes": [ "nuclear_plant_palette" ],
-      "set": [
-        { "square": "radiation", "amount": [ 0, 10 ], "x": 0, "y": 0, "x2": 23, "y2": 23 }
-      ]
+      "set": [ { "square": "radiation", "amount": [ 0, 10 ], "x": 0, "y": 0, "x2": 23, "y2": 23 } ]
     }
   }
 ]

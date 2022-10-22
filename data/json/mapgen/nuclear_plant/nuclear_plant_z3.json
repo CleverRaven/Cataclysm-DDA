@@ -3,18 +3,118 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [
-      [ "nuclear_plant_0_0_3", "nuclear_plant_1_0_3", "nuclear_plant_2_0_3", "nuclear_plant_3_0_3", "nuclear_plant_4_0_3", "nuclear_plant_5_0_3", "nuclear_plant_6_0_3", "nuclear_plant_7_0_3", "nuclear_plant_8_0_3", "nuclear_plant_9_0_3", "nuclear_plant_10_0_3", "nuclear_plant_11_0_3", "nuclear_plant_12_0_3", "nuclear_plant_13_0_3", "nuclear_plant_14_0_3", "nuclear_plant_15_0_3" ],
-      [ "nuclear_plant_0_1_3", "nuclear_plant_1_1_3", "nuclear_plant_2_1_3", "nuclear_plant_3_1_3", "nuclear_plant_4_1_3", "nuclear_plant_5_1_3", "nuclear_plant_6_1_3", "nuclear_plant_7_1_3", "nuclear_plant_8_1_3", "nuclear_plant_9_1_3", "nuclear_plant_10_1_3", "nuclear_plant_11_1_3", "nuclear_plant_12_1_3", "nuclear_plant_13_1_3", "nuclear_plant_14_1_3", "nuclear_plant_15_1_3" ],
-      [ "nuclear_plant_0_2_3", "nuclear_plant_1_2_3", "nuclear_plant_2_2_3", "nuclear_plant_3_2_3", "nuclear_plant_4_2_3", "nuclear_plant_5_2_3", "nuclear_plant_6_2_3", "nuclear_plant_7_2_3", "nuclear_plant_8_2_3", "nuclear_plant_9_2_3", "nuclear_plant_10_2_3", "nuclear_plant_11_2_3", "nuclear_plant_12_2_3", "nuclear_plant_13_2_3", "nuclear_plant_14_2_3", "nuclear_plant_15_2_3" ],
-      [ "nuclear_plant_0_3_3", "nuclear_plant_1_3_3", "nuclear_plant_2_3_3", "nuclear_plant_3_3_3", "nuclear_plant_4_3_3", "nuclear_plant_5_3_3", "nuclear_plant_6_3_3", "nuclear_plant_7_3_3", "nuclear_plant_8_3_3", "nuclear_plant_9_3_3", "nuclear_plant_10_3_3", "nuclear_plant_11_3_3", "nuclear_plant_12_3_3", "nuclear_plant_13_3_3", "nuclear_plant_14_3_3", "nuclear_plant_15_3_3" ],
-      [ "nuclear_plant_0_4_3", "nuclear_plant_1_4_3", "nuclear_plant_2_4_3", "nuclear_plant_3_4_3", "nuclear_plant_4_4_3", "nuclear_plant_5_4_3", "nuclear_plant_6_4_3", "nuclear_plant_7_4_3", "nuclear_plant_8_4_3", "nuclear_plant_9_4_3", "nuclear_plant_10_4_3", "nuclear_plant_11_4_3", "nuclear_plant_12_4_3", "nuclear_plant_13_4_3", "nuclear_plant_14_4_3", "nuclear_plant_15_4_3" ],
-      [ "nuclear_plant_0_5_3", "nuclear_plant_1_5_3", "nuclear_plant_2_5_3", "nuclear_plant_3_5_3", "nuclear_plant_4_5_3", "nuclear_plant_5_5_3", "nuclear_plant_6_5_3", "nuclear_plant_7_5_3", "nuclear_plant_8_5_3", "nuclear_plant_9_5_3", "nuclear_plant_10_5_3", "nuclear_plant_11_5_3", "nuclear_plant_12_5_3", "nuclear_plant_13_5_3", "nuclear_plant_14_5_3", "nuclear_plant_15_5_3" ]
+      [
+        "nuclear_plant_0_0_3",
+        "nuclear_plant_1_0_3",
+        "nuclear_plant_2_0_3",
+        "nuclear_plant_3_0_3",
+        "nuclear_plant_4_0_3",
+        "nuclear_plant_5_0_3",
+        "nuclear_plant_6_0_3",
+        "nuclear_plant_7_0_3",
+        "nuclear_plant_8_0_3",
+        "nuclear_plant_9_0_3",
+        "nuclear_plant_10_0_3",
+        "nuclear_plant_11_0_3",
+        "nuclear_plant_12_0_3",
+        "nuclear_plant_13_0_3",
+        "nuclear_plant_14_0_3",
+        "nuclear_plant_15_0_3"
+      ],
+      [
+        "nuclear_plant_0_1_3",
+        "nuclear_plant_1_1_3",
+        "nuclear_plant_2_1_3",
+        "nuclear_plant_3_1_3",
+        "nuclear_plant_4_1_3",
+        "nuclear_plant_5_1_3",
+        "nuclear_plant_6_1_3",
+        "nuclear_plant_7_1_3",
+        "nuclear_plant_8_1_3",
+        "nuclear_plant_9_1_3",
+        "nuclear_plant_10_1_3",
+        "nuclear_plant_11_1_3",
+        "nuclear_plant_12_1_3",
+        "nuclear_plant_13_1_3",
+        "nuclear_plant_14_1_3",
+        "nuclear_plant_15_1_3"
+      ],
+      [
+        "nuclear_plant_0_2_3",
+        "nuclear_plant_1_2_3",
+        "nuclear_plant_2_2_3",
+        "nuclear_plant_3_2_3",
+        "nuclear_plant_4_2_3",
+        "nuclear_plant_5_2_3",
+        "nuclear_plant_6_2_3",
+        "nuclear_plant_7_2_3",
+        "nuclear_plant_8_2_3",
+        "nuclear_plant_9_2_3",
+        "nuclear_plant_10_2_3",
+        "nuclear_plant_11_2_3",
+        "nuclear_plant_12_2_3",
+        "nuclear_plant_13_2_3",
+        "nuclear_plant_14_2_3",
+        "nuclear_plant_15_2_3"
+      ],
+      [
+        "nuclear_plant_0_3_3",
+        "nuclear_plant_1_3_3",
+        "nuclear_plant_2_3_3",
+        "nuclear_plant_3_3_3",
+        "nuclear_plant_4_3_3",
+        "nuclear_plant_5_3_3",
+        "nuclear_plant_6_3_3",
+        "nuclear_plant_7_3_3",
+        "nuclear_plant_8_3_3",
+        "nuclear_plant_9_3_3",
+        "nuclear_plant_10_3_3",
+        "nuclear_plant_11_3_3",
+        "nuclear_plant_12_3_3",
+        "nuclear_plant_13_3_3",
+        "nuclear_plant_14_3_3",
+        "nuclear_plant_15_3_3"
+      ],
+      [
+        "nuclear_plant_0_4_3",
+        "nuclear_plant_1_4_3",
+        "nuclear_plant_2_4_3",
+        "nuclear_plant_3_4_3",
+        "nuclear_plant_4_4_3",
+        "nuclear_plant_5_4_3",
+        "nuclear_plant_6_4_3",
+        "nuclear_plant_7_4_3",
+        "nuclear_plant_8_4_3",
+        "nuclear_plant_9_4_3",
+        "nuclear_plant_10_4_3",
+        "nuclear_plant_11_4_3",
+        "nuclear_plant_12_4_3",
+        "nuclear_plant_13_4_3",
+        "nuclear_plant_14_4_3",
+        "nuclear_plant_15_4_3"
+      ],
+      [
+        "nuclear_plant_0_5_3",
+        "nuclear_plant_1_5_3",
+        "nuclear_plant_2_5_3",
+        "nuclear_plant_3_5_3",
+        "nuclear_plant_4_5_3",
+        "nuclear_plant_5_5_3",
+        "nuclear_plant_6_5_3",
+        "nuclear_plant_7_5_3",
+        "nuclear_plant_8_5_3",
+        "nuclear_plant_9_5_3",
+        "nuclear_plant_10_5_3",
+        "nuclear_plant_11_5_3",
+        "nuclear_plant_12_5_3",
+        "nuclear_plant_13_5_3",
+        "nuclear_plant_14_5_3",
+        "nuclear_plant_15_5_3"
+      ]
     ],
     "object": {
       "fill_ter": "t_strconc_floor",
       "rows": [
-      
-      
         ";;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;",
         ";;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;",
         ";;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;",
@@ -160,12 +260,10 @@
         ";;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;",
         ";;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;"
       ],
-      "terrain": { },
-      "furniture": { },
+      "terrain": {  },
+      "furniture": {  },
       "palettes": [ "nuclear_plant_palette" ],
-      "set": [
-        { "square": "radiation", "amount": [ 0, 10 ], "x": 0, "y": 0, "x2": 23, "y2": 23 }
-      ]
+      "set": [ { "square": "radiation", "amount": [ 0, 10 ], "x": 0, "y": 0, "x2": 23, "y2": 23 } ]
     }
   }
 ]
