@@ -645,6 +645,7 @@ There are two possible syntaxes.  The first is by defining an enchantment object
     }
   }
 ```
+Note: all fields except for `type` and `id` are optional.
 
 ```json
   {
@@ -657,8 +658,6 @@ There are two possible syntaxes.  The first is by defining an enchantment object
     "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "MAX_MANA", "add": 400 } ] } ] }
   }
 ```
-
-Note: all fields except for `type` and `id` are optional.
 
 
 ### The `relic_data` field
