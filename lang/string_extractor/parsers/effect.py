@@ -21,7 +21,7 @@ def parse_effect(effects, origin):
             if "run_eocs" in eff:
                 if type(eff["run_eocs"]) is list:
                     for eoc in eff["run_eocs"]:
-                        if "false_effect" in eoc:  
+                        if "false_effect" in eoc:
                             parse_effect(eoc["false_effect"], origin)
-                        elif "effect" in eoc:  
+                        elif "effect" in eoc:
                             parse_effect(eoc["effect"], origin)
