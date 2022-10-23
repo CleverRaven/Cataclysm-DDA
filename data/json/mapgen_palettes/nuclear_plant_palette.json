@@ -25,6 +25,7 @@
       "A": "t_pavement_y",
       "M": "t_wall_metal",
       "~": "t_water_pool",
+      "k": "t_water_pool",
       "p": "t_sewage_pipe",
       "P": "t_sewage_pump",
       "o": "t_bulk_tank",
@@ -76,7 +77,8 @@
       "2": "f_bench",
       "Q": [ [ "f_crate_c", 65 ], [ "f_crate_o", 10 ], [ "f_cardboard_box", 25 ] ],
       "C": [ [ "f_console_broken", 70 ], [ "f_console_broken_table", 30 ] ],
-      "N": "f_nuclear_fuel_cell"
+      "N": "f_nuclear_fuel_cell",
+      "k": [ [ "f_nuclear_fuel_cell", 60 ], [ "f_null", 40 ] ]
     },
     "items": {
       "7": { "item": "cleaning", "chance": 10, "repeat": [ 1, 2 ] },
