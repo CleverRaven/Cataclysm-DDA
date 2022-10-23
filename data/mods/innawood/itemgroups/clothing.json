@@ -8,10 +8,7 @@
       { "item": "straw_hat" },
       { "item": "leathersandals", "prob": 80 },
       {
-        "distribution": [
-          { "collection": [ { "item": "npc_coat" }, { "item": "npc_pants_male", "prob": 80 } ], "prob": 40 },
-          { "item": "null", "prob": 60 }
-        ],
+        "distribution": [ { "collection": [ { "item": "grass_cloak" }, { "item": "skirt_leather", "prob": 80 } ], "prob": 40 } ],
         "prob": 80
       }
     ]
