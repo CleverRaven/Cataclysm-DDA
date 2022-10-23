@@ -64,7 +64,7 @@
     "requirements": [ { "event_statistic": "num_avatar_vampire_kills", "is": ">=", "target": 1000 } ]
   },
   {
-    "id": "achievement_kill_10000_changelings",
+    "id": "achievement_kill_10000_vampires",
     "type": "achievement",
     "name": "Founding member of the Hammer and Stake Society",
     "hidden_by": [ "achievement_kill_1000_vampires" ],
