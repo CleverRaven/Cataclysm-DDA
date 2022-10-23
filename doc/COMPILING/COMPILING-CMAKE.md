@@ -96,9 +96,8 @@ There are two ways to build CataclysmDDA with CMake: inside the source tree or o
 To build CataclysmDDA out of source:
 
 ```
-$ mkdir build && cd build
-$ cmake .. -DCMAKE_BUILD_TYPE=Release
-$ make
+$ cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
+$ cmake --build build
 ```
 
 The above example creates a build directory inside the source directory, but that's not required - you can just as easily create it in a completely different location.
@@ -106,13 +105,13 @@ The above example creates a build directory inside the source directory, but tha
 To install CataclysmDDA after building (as root using su or sudo if necessary):
 
 ```
-# make install
+# cmake --build build --target install
 ```
 
 To change build options, you can either pass the options on the command line:
 
 ```
-$ cmake .. -DOPTION_NAME=option_value
+$ cmake -S . -B build -DOPTION_NAME=option_value
 ```
 
 Or use either the `ccmake` or `cmake-gui` front-ends, which display all options and their cached values on a console UI or a graphical UI, respectively.
@@ -133,10 +132,8 @@ Example:
 
 ```
 $ cd <Path-to-CataclysmDDA-Sources>
-$ mkdir build
-$ cd build
-$ cmake .. -G "MSYS Makefiles"
-$ make  # or $ cmake --build .
+$ cmake -S . -B build -G "MSYS Makefiles"
+$ cmake --build build
 ```
 
 The resulting binary will be placed inside the source code directory.
@@ -148,7 +145,7 @@ If you got a `libgcc_s_dw2-1.dll not found` error, you need to copy shared libra
 **NOTE**: For `-DRELEASE=OFF` development builds, you can automate the copy process with:
 
 ```
-$ make install
+$ cmake --build build --target install
 ```
 
 However, it will likely fail because you have a different build environment setup. :)
@@ -233,15 +230,13 @@ Open the Windows command line (or powershell) and set the environment variables 
 
 ```
 > cd <path to cdda sources>
-> mkdir build
-> cd build
-> cmake .. -DTILES=ON -DLOCALIZE=OFF -DBACKTRACE=OFF -DSOUND=ON
+> cmake -S . -B build  -DTILES=ON -DLOCALIZE=OFF -DBACKTRACE=OFF -DSOUND=ON
 ```
 
 ### Build!
 
 ```
-> cmake --build . -j 2 -- /p:Configuration=Release
+> cmake --build build -j 2 -- /p:Configuration=Release
 ```
 
 The `-j 2` flag controls build parallelism - you can omit it if you wish. The `/p:Configuration=Release` flag is passed directly to MSBuild and controls optimizations. If you omit it, the `Debug` configuration would be built instead. For powershell you'll need to have an extra ` -- ` after the first one.
@@ -299,5 +294,5 @@ $ cmake -DOPTION_NAME1=option_value1 [-DOPTION_NAME2=option_value2 [...]]
    So a CMake command for building Cataclysm-DDA in release mode with tiles and sound support will look as follows, provided it is run in the build directory located in the project.
 
    ```
-   cmake ../ -DCMAKE_BUILD_TYPE=Release -DTILES=ON -DSOUND=ON
+   cmake -S . -B build -DCMAKE_BUILD_TYPE=Release -DTILES=ON -DSOUND=ON
    ```
