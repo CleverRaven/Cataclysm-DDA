@@ -582,18 +582,19 @@
       { "point": [ 13, 9, 0 ], "overmap": "river_east" }
     ],
     "connections": [
-      { "point": [ 1, -3, 0 ] },
-      { "point": [ 9, -2, 0 ] },
-      { "point": [ 10, -2, 0 ] },
-      { "point": [ 12, -1, 0 ] },
-      { "point": [ 15, -3, 0 ] },
+      { "point": [ 1, -3, 0 ], "terrain": "road" },
+      { "point": [ 9, -2, 0 ], "terrain": "road" },
+      { "point": [ 10, -2, 0 ], "terrain": "road" },
+      { "point": [ 12, -1, 0 ], "terrain": "road" },
+      { "point": [ 15, -3, 0 ], "terrain": "road" },
       { "point": [ 1, 10, 0 ], "terrain": "road" },
       { "point": [ 15, 10, 0 ], "terrain": "road" }
     ],
     "locations": [ "wilderness" ],
     "city_distance": [ 5, 15 ],
-    "city_sizes": [ 5, 10 ],
-    "occurrences": [ 50, 100 ],
-    "flags": [ "CLASSIC", "MAN_MADE", "GLOBALLY_UNIQUE" ]
+    "city_sizes": [ 5, 99 ],
+    "//": "Inflated chance, effective rate ~25%",
+    "occurrences": [ 900, 1000 ],
+    "flags": [ "CLASSIC", "MAN_MADE", "UNIQUE" ]
   }
 ]
