@@ -27,7 +27,7 @@
     "name_suffix": "valhallist",
     "class": "NC_VALHALLIST_SHOPKEEP",
     "attitude": 0,
-    "mission": 7,
+    "mission": 3,
     "chat": "TALK_VALHALLIST_SHOPKEEPER_1",
     "mission_offered": "MISSION_VALHALLISTS_GET_3_HAZMAT_SUITS",
     "faction": "valhallists"
