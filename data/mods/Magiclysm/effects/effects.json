@@ -453,7 +453,7 @@
     "desc": [
       "Your body is heavy as the heaviest rocks.  Your attack speed is slowed down, but your melee damage increased drastically."
     ],
-    "apply_message": "Your bones is hardended, and your muscles and skin are compressed.",
+    "apply_message": "Your bones are hardened, and your muscles and skin are compressed.",
     "remove_message": "You feel yourself fast again.",
     "rating": "good",
     "show_intensity": false,
