@@ -164,7 +164,7 @@
   {
     "id": "avchievement_gains_vampire3_trait",
     "type": "achievement",
-    "name": "Ivy Tamwood, eat your heart out. 'kisskiss' hand motion.",
+    "name": "Ivy Tamwood, eat your heart out.  'kisskiss' hand motion.",
     "requirements": [
       {
         "event_statistic": "avatar_last_gains_mutation",
