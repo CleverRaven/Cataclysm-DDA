@@ -104,7 +104,7 @@
     "color": "light_gray",
     "name": "broken stone golem",
     "category": "other",
-    "description": "A broken earthsaper's golem, almost same as his natural stone counterpart.  Could be smashed for stone.",
+    "description": "A broken earthshaper's golem, almost same as his natural stone counterpart.  Could be smashed for stone.",
     "price": 10000,
     "material": [ "stone" ],
     "weight": "112 kg",
