@@ -109,7 +109,7 @@ void mutation_category_trait::load( const JsonObject &jsobj )
     static_cast<void>( translate_marker_context( "memorial_female", "Crossed a threshold" ) );
     optional( jsobj, false, "memorial_message", new_category.raw_memorial_message,
               text_style_check_reader(), "Crossed a threshold" );
-    new_category.vitamin = vitamin_id( jsobj.get_string( "vitamin", "" ) );
+    new_category.vitamin = vitamin_id( jsobj.get_string( "vitamin", "null" ) );
 
     mutation_category_traits[new_category.id] = new_category;
 }
