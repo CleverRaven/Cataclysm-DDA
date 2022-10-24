@@ -185,7 +185,7 @@
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "stanag30", "stanag30ranger" ] } ]
   },
   {
-    "//": "Groups all 'H&K416' related rifles together, alongside the SCAR-L due to its similar properties. Used M27 due to it being the most popular of the four in the US.",
+    "//": "Groups all 'H&K416' related rifles together. Used M27 due to it being the most popular of the three in the US.",
     "id": "m27_assault_rifle",
     "copy-from": "rifle_auto",
     "looks_like": "ar15",
@@ -215,12 +215,6 @@
         "id": "m38dmr",
         "name": { "str": "M38 DMR" },
         "description": "The M38 Designated Marksman Rifle is an M27 IAR, itself derived from a H&K416, selected for accuracy, and outfitted with a variable power scope and a QDSS suppressor."
-      },
-      {
-        "id": "scar_l",
-        "name": { "str": "FN SCAR-L" },
-        "description": "A highly accurate and modular assault rifle specially designed for the United States Special Operations Command.  The 'L' in its name stands for light, as it uses the lightweight .223 round.",
-        "ascii_picture": "scar-L"
       }
     ],
     "to_hit": -1,
@@ -259,6 +253,15 @@
         ]
       }
     ]
+  },
+  {
+    "id": "scar_l",
+    "copy-from": "m27_assault_rifle",
+    "type": "GUN",
+    "name": { "str": "FN SCAR-L" },
+    "description": "A highly accurate and modular assault rifle specially designed for the United States Special Operations Command.  The 'L' in its name stands for light, as it uses the lightweight .223 round.",
+    "ascii_picture": "scar-L",
+    "default_mods": [ "high_end_folding_stock" ]
   },
   {
     "id": "hk_g36",
