@@ -179,6 +179,8 @@
       [ "druid_spellbook", 60 ],
       [ "pyro", 60 ],
       [ "eshaper_spellbook", 60 ],
+      [ "eshaper_spellbook_melee", 30 ],
+      [ "eshaper_spellbook_tool", 90 ],
       [ "techno_em", 60 ],
       [ "animist_spirits", 60 ],
       [ "wizard_advanced", 60 ],
