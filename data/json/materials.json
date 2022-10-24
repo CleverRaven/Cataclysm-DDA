@@ -1206,7 +1206,7 @@
   {
     "type": "material",
     "id": "bread",
-    "//": "copied from junk food sans resists,  then i googled density of bread and didnt do any other research, its supposed to be US style white bread",
+    "//": "copied from junk food sans resists,  then I googled density of bread and didn't do any other research, it's supposed to be US style white bread",
     "name": "Bread",
     "density": 0.2,
     "specific_heat_liquid": 3.3,
