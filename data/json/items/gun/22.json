@@ -4,8 +4,17 @@
     "looks_like": "hk_mp5",
     "type": "GUN",
     "reload_noise_volume": 10,
-    "name": { "str_sp": "American-180" },
-    "description": "The American-180 is a submachine gun developed in the 1960s that fires .22 LR, unusual for an SMG.  Though the round is low-powered, the high rate of fire and large magazine makes the 180 a formidable weapon.",
+    "name": { "str": ".22 calibre submachine gun" },
+    "description": "Featuring a handsome set of wooden furnishings, a classic design, and a no nonsense .270 caliber chambering, this is a powerful hunting rifle.  With a tried and proven pedigree dating back over 60 years, millions of such rugged arms have been made, exported, and used throughout the United States and the world at large.  Where hunting is concerned, this is a highly capable and well proven weapon in all respects.  Fortunate, given that your prey in these dark days may turn out to be a little bit more feisty than typical White-Tailed deer, moose, and black bears.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "american_180",
+        "name": { "str_sp": "American-180" },
+        "description": "The American-180 is a submachine gun developed in the 1960s that fires .22 LR, unusual for an SMG.  Though the round is low-powered, the high rate of fire and large magazine makes the 180 a formidable weapon.",
+        "weight": 1
+      }
+    ],
     "weight": "2585 g",
     "volume": "2200 ml",
     "longest_side": "905 mm",
@@ -49,8 +58,17 @@
     "looks_like": "ar15",
     "type": "GUN",
     "reload_noise_volume": 10,
-    "name": { "str_sp": "Marlin 39A" },
-    "description": "The oldest and longest-produced shoulder firearm in the world.  Though it fires the weak .22 round, it is highly accurate and damaging, and has essentially no recoil.",
+    "name": { "str": "small game rifle" },
+    "description": "Featuring a handsome set of wooden furnishings, a classic design, and a no nonsense .270 caliber chambering, this is a powerful hunting rifle.  With a tried and proven pedigree dating back over 60 years, millions of such rugged arms have been made, exported, and used throughout the United States and the world at large.  Where hunting is concerned, this is a highly capable and well proven weapon in all respects.  Fortunate, given that your prey in these dark days may turn out to be a little bit more feisty than typical White-Tailed deer, moose, and black bears.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "marlin_9a",
+        "name": { "str_sp": "Marlin 39A" },
+        "description": "The oldest and longest-produced shoulder firearm in the world.  Though it fires the weak .22 round, it is highly accurate and damaging, and has essentially no recoil.",
+        "weight": 1
+      }
+    ],
     "ascii_picture": "marlin_39a",
     "weight": "2948 g",
     "volume": "2180 ml",
@@ -100,8 +118,17 @@
     "looks_like": "glock_17",
     "copy-from": "pistol_base",
     "type": "GUN",
-    "name": { "str_sp": "Mossberg Brownie" },
-    "description": "The first gun produced by O.F. Mossberg & Sons, the Brownie is a small pocket pistol marketed to trappers during the early 20th century.  Its four barrels can accept .22 Short and .22 LR cartridges.",
+    "name": { "str": ".22 deringer pistol" },
+    "description": "Featuring a handsome set of wooden furnishings, a classic design, and a no nonsense .270 caliber chambering, this is a powerful hunting rifle.  With a tried and proven pedigree dating back over 60 years, millions of such rugged arms have been made, exported, and used throughout the United States and the world at large.  Where hunting is concerned, this is a highly capable and well proven weapon in all respects.  Fortunate, given that your prey in these dark days may turn out to be a little bit more feisty than typical White-Tailed deer, moose, and black bears.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "moss_brownie",
+        "name": { "str_sp": "Mossberg Brownie" },
+        "description": "The first gun produced by O.F. Mossberg & Sons, the Brownie is a small pocket pistol marketed to trappers during the early 20th century.  Its four barrels can accept .22 Short and .22 LR cartridges.",
+        "weight": 1
+      }
+    ],
     "weight": "286 g",
     "volume": "100 ml",
     "longest_side": "129 mm",
@@ -178,8 +205,17 @@
     "looks_like": "ar15",
     "type": "GUN",
     "reload_noise_volume": 10,
-    "name": { "str_sp": "Ruger 10/22" },
-    "description": "A combination of negligible recoil, high customization, and inexpensive ammunition made the Ruger 10/22 a popular choice among enthusiasts and small game hunters.  Even though it fires the weak .22 round, it's perfectly capable of killing.",
+    "name": { "str": ".22 pistol calibre carbine" },
+    "description": "Featuring a handsome set of wooden furnishings, a classic design, and a no nonsense .270 caliber chambering, this is a powerful hunting rifle.  With a tried and proven pedigree dating back over 60 years, millions of such rugged arms have been made, exported, and used throughout the United States and the world at large.  Where hunting is concerned, this is a highly capable and well proven weapon in all respects.  Fortunate, given that your prey in these dark days may turn out to be a little bit more feisty than typical White-Tailed deer, moose, and black bears.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "ruger_1022",
+        "name": { "str_sp": "Ruger 10/22" },
+        "description": "A combination of negligible recoil, high customization, and inexpensive ammunition made the Ruger 10/22 a popular choice among enthusiasts and small game hunters.  Even though it fires the weak .22 round, it's perfectly capable of killing.",
+        "weight": 1
+      }
+    ],
     "ascii_picture": "ruger1022",
     "weight": "2270 g",
     "volume": "2120 ml",
@@ -223,7 +259,10 @@
     "looks_like": "sw_619",
     "copy-from": "ruger_lcr_38",
     "type": "GUN",
-    "name": { "str_sp": "Ruger LCR .22" },
+    "name": { "str": ".22 caliber revolver" },
+    "description": "Featuring a handsome set of wooden furnishings, a classic design, and a no nonsense .270 caliber chambering, this is a powerful hunting rifle.  With a tried and proven pedigree dating back over 60 years, millions of such rugged arms have been made, exported, and used throughout the United States and the world at large.  Where hunting is concerned, this is a highly capable and well proven weapon in all respects.  Fortunate, given that your prey in these dark days may turn out to be a little bit more feisty than typical White-Tailed deer, moose, and black bears.",
+    "variant_type": "gun",
+    "variants": [ { "id": "ruger_lcr_22", "name": { "str_sp": "Ruger LCR .22" }, "weight": 1 } ],
     "weight": "422 g",
     "ammo": [ "22" ],
     "longest_side": "192 mm",
@@ -242,8 +281,20 @@
     "looks_like": "glock_17",
     "type": "GUN",
     "reload_noise_volume": 10,
-    "name": { "str_sp": "SIG Mosquito" },
-    "description": "A popular, small .22 LR pistol.  One of the many polymer frame pistols produced during the late 20th and early 21st centuries; it has an underbarrel rail.",
+    "name": { "str": "Mosquito pistol" },
+    "description": "Featuring a handsome set of wooden furnishings, a classic design, and a no nonsense .270 caliber chambering, this is a powerful hunting rifle.  With a tried and proven pedigree dating back over 60 years, millions of such rugged arms have been made, exported, and used throughout the United States and the world at large.  Where hunting is concerned, this is a highly capable and well proven weapon in all respects.  Fortunate, given that your prey in these dark days may turn out to be a little bit more feisty than typical White-Tailed deer, moose, and black bears.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "sig_mosquito",
+        "looks_like": "glock_17",
+        "type": "GUN",
+        "reload_noise_volume": 10,
+        "name": { "str_sp": "SIG Mosquito" },
+        "description": "A popular, small .22 LR pistol.  One of the many polymer frame pistols produced during the late 20th and early 21st centuries; it has an underbarrel rail.",
+        "weight": 1
+      }
+    ],
     "ascii_picture": "sig_mosquito",
     "weight": "720 g",
     "volume": "467 ml",
@@ -283,8 +334,17 @@
     "copy-from": "pistol_base",
     "looks_like": "glock_17",
     "type": "GUN",
-    "name": { "str_sp": "S&W 22A" },
-    "description": "A popular .22 pistol from Smith & Wesson.  It's quite light for its size, and an integrated rail makes it easy to mount optics to the gun.",
+    "name": { "str": "S&W .22 pocket pistol" },
+    "description": "Featuring a handsome set of wooden furnishings, a classic design, and a no nonsense .270 caliber chambering, this is a powerful hunting rifle.  With a tried and proven pedigree dating back over 60 years, millions of such rugged arms have been made, exported, and used throughout the United States and the world at large.  Where hunting is concerned, this is a highly capable and well proven weapon in all respects.  Fortunate, given that your prey in these dark days may turn out to be a little bit more feisty than typical White-Tailed deer, moose, and black bears.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "sw_22",
+        "name": { "str_sp": "S&W 22A" },
+        "description": "A popular .22 pistol from Smith & Wesson.  It's quite light for its size, and an integrated rail makes it easy to mount optics to the gun.",
+        "weight": 1
+      }
+    ],
     "ascii_picture": "sw_22a",
     "weight": "975 g",
     "volume": "560 ml",
@@ -330,8 +390,17 @@
     "copy-from": "pistol_base",
     "looks_like": "glock_17",
     "type": "GUN",
-    "name": { "str": "Walther P22" },
-    "description": "The Walther P22 is a blowback operated semi-automatic pistol.  It is about half the size of most Walthers.  It is made mostly with plastic, with the slide and key components being made of die-cast zinc alloy.",
+    "name": { "str": "Walther .22 pocket pistol" },
+    "description": "Featuring a handsome set of wooden furnishings, a classic design, and a no nonsense .270 caliber chambering, this is a powerful hunting rifle.  With a tried and proven pedigree dating back over 60 years, millions of such rugged arms have been made, exported, and used throughout the United States and the world at large.  Where hunting is concerned, this is a highly capable and well proven weapon in all respects.  Fortunate, given that your prey in these dark days may turn out to be a little bit more feisty than typical White-Tailed deer, moose, and black bears.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "walther_p22",
+        "name": { "str": "Walther P22" },
+        "description": "The Walther P22 is a blowback operated semi-automatic pistol.  It is about half the size of most Walthers.  It is made mostly with plastic, with the slide and key components being made of die-cast zinc alloy.",
+        "weight": 1
+      }
+    ],
     "weight": "480 g",
     "volume": "290 ml",
     "longest_side": "183 mm",
