@@ -37,7 +37,7 @@
     "qty": 300,
     "chance": 100
   },
-    {
+  {
     "id": "emit_eshaper_dust",
     "type": "emit",
     "field": "fd_eshaper_dust",
