@@ -41,7 +41,7 @@
   {
     "id": "achievement_kill_vampire",
     "type": "achievement",
-    "name": "Arthur 'Art' Holmwood.  Avenger of lost innonence.",
+    "name": "Arthur 'Art' Holmwood.  Avenger of lost innocence.",
     "requirements": [ { "event_statistic": "num_avatar_vampire_kills", "is": ">=", "target": 1 } ]
   },
   {

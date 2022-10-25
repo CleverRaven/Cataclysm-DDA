@@ -1518,7 +1518,7 @@ reckonin
 recolherem
 recrafted
 recursively
-recurve 
+recurve
 redcaps
 redear
 redits
@@ -1534,6 +1534,7 @@ remodulator
 rended
 renderer
 renfaires
+renfield
 rennet
 replow
 reprime
