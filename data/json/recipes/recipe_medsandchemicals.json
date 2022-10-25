@@ -1125,7 +1125,7 @@
     "time": "10 m",
     "autolearn": true,
     "qualities": [ { "id": "FINE_GRIND", "level": 1 } ],
-    "components": [ [ [ "match", 20] ] ]
+    "components": [ [ [ "match", 20 ] ] ]
   },
   {
     "type": "recipe",
