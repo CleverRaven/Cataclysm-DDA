@@ -705,7 +705,7 @@
     "looks_like": "mutagen",
     "use_action": {
       "type": "consume_drug",
-      "activation_message": "You drink the gastropod mutagen.",
+      "activation_message": "You drink the snail mutagen.",
       "vitamins": [ [ "mutagen_gastropod", 225 ], [ "mutagen", 125 ] ]
     }
   },
