@@ -30,7 +30,7 @@
 
 class item;
 
-static const zone_type_id zone_type_zone_start_point( "ZONE_START_POINT" );
+static const zone_type_id zone_type_ZONE_START_POINT( "ZONE_START_POINT" );
 
 namespace
 {
@@ -380,8 +380,8 @@ void start_location::place_player( avatar &you, const tripoint_abs_omt &omtstart
     //Check if a start_point zone exists first
     const zone_manager &mgr = zone_manager::get_manager();
     for( const auto &i : mgr.get_zones() ) {
-        const zone_data zone = i.get();
-        if( zone.get_type() == zone_type_zone_start_point ) {
+        const zone_data &zone = i.get();
+        if( zone.get_type() == zone_type_ZONE_START_POINT ) {
             if( here.inbounds( zone.get_center_point() ) ) {
                 found_good_spot = true;
                 best_spot = here.getlocal( zone.get_center_point() );
