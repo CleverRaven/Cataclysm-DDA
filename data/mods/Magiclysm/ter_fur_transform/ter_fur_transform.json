@@ -109,7 +109,7 @@
       {
         "result": "f_boulder_earthshaper",
         "valid_furniture": [ "f_null" ],
-        "message": "The ground shakes, when a section of unnaturally smooth stone rising up."
+        "message": "The ground shakes, and a section of unnaturally smooth stone rises to the surface."
       }
     ]
   },

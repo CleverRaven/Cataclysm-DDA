@@ -338,7 +338,7 @@
     "category": "manuals",
     "name": { "str": "One Spell is All You Need!", "str_pl": "copies of One Spell is All You Need!" },
     "//": "1 earthshaper spell. yes, the whole book is only for one, that's the idea",
-    "description": "The book ( more like advertising booklet ) promote one spell, that allow you to create a different tools for different purposes.  Surprisingly, it works as the book says - you can change the shape of your tool, depending on your needs.",
+    "description": "This advertising booklet promotes one spell that allows you to create a different tool for different purposes.  Surprisingly, it works as the book says - you can change the shape of your tool, depending on your needs.",
     "weight": "83 g",
     "volume": "132 ml",
     "price": 1000,
