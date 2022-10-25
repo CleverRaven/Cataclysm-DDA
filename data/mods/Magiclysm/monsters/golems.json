@@ -124,7 +124,7 @@
     "id": "mon_eshaper_golem",
     "type": "MONSTER",
     "name": "earthshaper's golem",
-    "description": "This golem is easy to separate from other golems - the shiny earthshaper's emblem shine on his smooth body, and his eyes and hands are made out of purple crystals.",
+    "description": "This golem is easy to separate from other golems - the metallic earthshaper's emblem shines on its smooth body, and it's eyes and hands are made out of amethyst.",
     "default_faction": "player",
     "bodytype": "human",
     "species": [ "GOLEM" ],

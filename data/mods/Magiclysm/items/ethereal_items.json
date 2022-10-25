@@ -1057,7 +1057,7 @@
       "need_wielding": true,
       "target": "eshaper_pickaxe",
       "menu_text": "Transform",
-      "msg": "You change the shape of your tool, and it transforms into heavy pickaxe."
+      "msg": "Your hammer transforms into a pickaxe!"
     },
     "extend": { "flags": [ "TRADER_AVOID", "NO_REPAIR", "NO_SALVAGE", "MAGIC_FOCUS" ] }
   },
@@ -1076,7 +1076,7 @@
       "need_wielding": true,
       "target": "eshaper_ax",
       "menu_text": "Transform",
-      "msg": "You change the shape of your tool, and it transforms into sturdy axe."
+      "msg": "Your pickaxe transforms into an ax!"
     },
     "extend": { "flags": [ "TRADER_AVOID", "NO_REPAIR", "NO_SALVAGE", "MAGIC_FOCUS" ] }
   },
@@ -1096,7 +1096,7 @@
       "need_wielding": true,
       "target": "eshaper_knife",
       "menu_text": "Transform",
-      "msg": "You change the shape of your tool, and it transforms into sharp knife."
+      "msg": "Your ax transforms into a knife!"
     },
     "extend": { "flags": [ "TRADER_AVOID", "NO_REPAIR", "NO_SALVAGE", "MAGIC_FOCUS" ] }
   },
@@ -1117,7 +1117,7 @@
       "need_wielding": true,
       "target": "eshaper_shovel",
       "menu_text": "Transform",
-      "msg": "You change the shape of your tool, and it transforms into dense shovel."
+      "msg": "Your knife transforms into a shovel!"
     },
     "extend": { "flags": [ "TRADER_AVOID", "NO_REPAIR", "NO_SALVAGE", "MAGIC_FOCUS" ] }
   },
@@ -1136,7 +1136,7 @@
       "need_wielding": true,
       "target": "eshaper_hammer",
       "menu_text": "Transform",
-      "msg": "You change the shape of your tool, and it transforms into small hammer."
+      "msg": "Your shovel transforms into a hammer!"
     },
     "extend": { "flags": [ "TRADER_AVOID", "NO_REPAIR", "NO_SALVAGE", "MAGIC_FOCUS" ] }
   },

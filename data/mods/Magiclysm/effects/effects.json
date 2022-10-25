@@ -453,8 +453,8 @@
     "desc": [
       "Your body is heavy as the heaviest rocks.  Your attack speed is slowed down, but your melee damage increased drastically."
     ],
-    "apply_message": "Your bones are hardened, and your muscles and skin are compressed.",
-    "remove_message": "You feel yourself fast again.",
+    "apply_message": "You feel your body compress and harden.",
+    "remove_message": "You no longer feel encumbered.",
     "rating": "good",
     "show_intensity": false,
     "enchantments": [ { "values": [ { "value": "ATTACK_SPEED", "multiply": -0.25 }, { "value": "MELEE_DAMAGE", "multiply": 1.2 } ] } ]

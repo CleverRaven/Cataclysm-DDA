@@ -456,7 +456,7 @@
     "copy-from": "spell_scroll",
     "id": "spell_scroll_eshaper_spawn_tools",
     "//": "Earthshaper spell",
-    "name": { "str": "Scroll of Shaping A Tool", "str_pl": "Scrolls of Shaping A Tool" },
+    "name": { "str": "Scroll of Utility Molding", "str_pl": "Scrolls of Utility Molding" },
     "description": "Shape the basic working tools, using your own magic abilities and earth nearby.  Activate to change the shape of a tool.",
     "use_action": { "type": "learn_spell", "spells": [ "eshaper_spawn_tools" ] }
   },
@@ -466,7 +466,7 @@
     "id": "spell_scroll_eshaper_melee_damage",
     "//": "Earthshaper spell",
     "name": { "str": "Scroll of Weighting", "str_pl": "Scrolls of Weighting" },
-    "description": "Fill yourself with power of Earth, and make each your attack devastating as quake.",
+    "description": "Fill yourself with power of Earth, and make each your attack as devastating as quake.",
     "use_action": { "type": "learn_spell", "spells": [ "eshaper_melee_damage" ] }
   },
   {
@@ -501,7 +501,7 @@
     "copy-from": "spell_scroll",
     "id": "spell_scroll_earthshaper_boulder",
     "//": "Earthshaper spell",
-    "name": { "str": "Scroll of a Boulder", "str_pl": "Scrolls of a Boulder" },
+    "name": { "str": "Scroll of Summon Boulder", "str_pl": "Scrolls of Summon Boulder" },
     "description": "Pull the smooth rock underground, using your forces of earth shaping.  You can use it as a table, or as a primitive anvil.",
     "use_action": { "type": "learn_spell", "spells": [ "earthshaper_boulder" ] }
   },
