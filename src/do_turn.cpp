@@ -511,14 +511,14 @@ void monmove()
             if( moves == guy.moves ) {
                 // Count every time we exit npc::move() without spending any moves.
                 real_count++;
-                if( has_destination == guy.has_destination_activity() ) {
+                if( has_destination == guy.has_destination_activity() || real_count >= count_limit ) {
                     turns++;
                 }
             }
             // Turn on debug mode when in infinite loop
             // It has to be done before the last turn, otherwise
             // there will be no meaningful debug output.
-            if( turns == 9 || real_count >= count_limit ) {
+            if( turns == 9 ) {
                 debugmsg( "NPC %s entered infinite loop.  Turning on debug mode",
                           guy.get_name() );
                 debug_mode = true;
