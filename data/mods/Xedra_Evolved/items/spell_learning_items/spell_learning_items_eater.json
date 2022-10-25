@@ -1,6 +1,6 @@
 [
   {
-    "id": "deck_of_cards",
+    "id": "deck_of_tarot_cards",
     "type": "GENERIC",
     "category": "artifacts",
     "name": { "str": "deck of tarot cards", "str_pl": "decks of tarot cards" },
@@ -73,5 +73,20 @@
     "symbol": "O",
     "color": "white_magenta",
     "use_action": { "type": "learn_spell", "spells": [ "self_healing" ] }
+  },
+  {
+    "id": "strange_coffee",
+    "type": "GENERIC",
+    "category": "artifacts",
+    "name": { "str": "strange_coffee", "str_pl": "strange_coffee" },
+    "description": "A small jar with coffee, it is moving in weird patterns even without being touch. After watching the movement of the dark liquid for some time you are sure that repeat a certain pattern, like a message",
+    "weight": "90 g",
+    "volume": "100 ml",
+    "price": 2000,
+    "price_postapoc": 10,
+    "material": [ "forged_dreamstuff" ],
+    "symbol": "C",
+    "color": "white_magenta",
+    "use_action": { "type": "learn_spell", "spells": [ "supercoffee" ] }
   }
 ]
