@@ -922,7 +922,7 @@ bool advanced_inventory::move_all_items()
         }
     }
 
-    if( spane.items.empty() || liquid_items == spane.items.size() ) {
+    if( ( spane.items.empty() || liquid_items == spane.items.size() ) && !is_processing() ) {
         popup( _( "No eligible items found to be moved." ) );
         return false;
     }
