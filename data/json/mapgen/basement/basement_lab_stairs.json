@@ -67,7 +67,7 @@
         "|&...|7..D...>=         ",
         "|....|...=....=         ",
         "|--+---DD6=====---------",
-        "|............fffrrrrrrc|",
+        "|...........éfffrrrrrrc|",
         "|......................|",
         "|...........ccccccccccc|",
         "|......................|",
@@ -94,7 +94,8 @@
         "D": "t_door_metal_locked",
         ">": "t_stairs_down",
         "6": "t_card_science",
-        "X": "t_thconc_floor"
+        "X": "t_thconc_floor",
+        "é": "t_thconc_floor"
       },
       "place_loot": [
         { "group": "alcohol", "x": [ 16, 20 ], "y": 6, "chance": 96 },
@@ -102,6 +103,8 @@
         { "group": "pool_table", "x": [ 17, 18 ], "y": [ 11, 13 ], "chance": 90 },
         { "group": "livingroom", "x": [ 9, 23 ], "y": [ 6, 16 ], "chance": 60 },
         { "group": "dresser", "x": 18, "y": 19, "chance": 80 },
+        { "group": "costume_all", "x": 18, "y": 19, "chance": 15 },
+        { "group": "costume_all", "x": 22, "y": 19, "chance": 15 },
         { "group": "dresser", "x": 22, "y": 19, "chance": 80 },
         { "group": "cleaning", "x": [ 14, 18 ], "y": 19, "chance": 80 }
       ],

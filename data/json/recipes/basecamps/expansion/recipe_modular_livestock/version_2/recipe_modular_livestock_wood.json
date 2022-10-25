@@ -38,8 +38,9 @@
     "construction_blueprint": "fbml_2_shack_wood",
     "blueprint_name": "wood panel storage shack",
     "blueprint_requires": [ { "id": "fbml_2" } ],
-    "blueprint_provides": [ { "id": "fbml_2_shack" } ],
+    "blueprint_provides": [ { "id": "fbml_2_shack" }, { "id": "blacksmith" }, { "id": "fbml_2_shed_recipes_1" } ],
     "blueprint_excludes": [ { "id": "fbml_2_shack" } ],
+    "blueprint_resources": [ "spinwheelitem" ],
     "flags": [
       "MAP_MIRROR_HORIZONTAL_IF_N",
       "MAP_ROTATE_90_IF_NE",

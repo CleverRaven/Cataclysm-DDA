@@ -1,0 +1,48 @@
+[
+  {
+    "id": "30carbine",
+    "type": "AMMO",
+    "name": { "str_sp": ".30 Carbine" },
+    "description": ".30 Carbine ammunition with a 110gr full metal jacket bullet.  A light rifle round developed during the Second World War for use in the M1 carbine, it remains a popular sporting round today.",
+    "weight": "10 g",
+    "volume": "160 ml",
+    "price": 200,
+    "price_postapoc": 1200,
+    "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
+    "material": [ "brass", "powder" ],
+    "symbol": "=",
+    "color": "yellow",
+    "count": 50,
+    "stack_size": 50,
+    "ammo_type": "30carbine",
+    "casing": "30carbine_casing",
+    "range": 25,
+    "damage": { "damage_type": "bullet", "amount": 36, "armor_penetration": 4 },
+    "dispersion": 30,
+    "recoil": 1000,
+    "effects": [ "COOKOFF" ]
+  },
+  {
+    "id": "bp_30carbine",
+    "copy-from": "30carbine",
+    "type": "AMMO",
+    "name": { "str_sp": ".30 carbine, black powder" },
+    "description": ".30 Carbine ammunition with a 110gr full metal jacket bullet.  This one is filled with black powder instead of smokeless powder.  Expect lower velocity, muzzle smoke, and a dirtier barrel if you shoot it.",
+    "proportional": {
+      "price": 0.3,
+      "damage": { "damage_type": "bullet", "amount": 0.76, "armor_penetration": 0.5 },
+      "recoil": 0.76,
+      "dispersion": 1.2
+    },
+    "extend": { "effects": [ "RECYCLED", "BLACKPOWDER", "MUZZLE_SMOKE" ] },
+    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
+  },
+  {
+    "id": "reloaded_30carbine",
+    "copy-from": "30carbine",
+    "type": "AMMO",
+    "name": { "str_sp": ".30 Carbine, reloaded" },
+    "description": ".30 Carbine ammunition with a 110gr full metal jacket bullet.  This one has been hand-reloaded, leading to slightly inferior performance compared to factory-produced ammo.",
+    "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1, "recoil": 0.9 }
+  }
+]

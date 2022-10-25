@@ -156,7 +156,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "construction_site",
+    "id": [ "construction_site", "house_vacant", "house_vacant1", "house_vacant2", "house_vacant3" ],
     "name": "construction site",
     "copy-from": "generic_city_building",
     "sym": "x",
@@ -431,6 +431,23 @@
     "color": "dark_gray",
     "see_cost": 5,
     "flags": [ "KNOWN_UP" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mine_tunnel",
+    "name": "mine tunnels",
+    "color": "dark_gray",
+    "see_cost": 5,
+    "spawns": { "group": "GROUP_MINERS", "population": [ 1, 2 ], "chance": 100 },
+    "flags": [ "LINEAR" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mine_finale",
+    "name": "mine",
+    "sym": "M",
+    "color": "brown",
+    "see_cost": 5
   },
   {
     "type": "overmap_terrain",

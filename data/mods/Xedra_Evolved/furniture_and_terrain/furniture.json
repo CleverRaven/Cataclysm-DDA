@@ -1,0 +1,68 @@
+[
+  {
+    "type": "furniture",
+    "id": "f_golden_monolith",
+    "name": "golden monolith",
+    "move_cost_mod": -1,
+    "symbol": "H",
+    "color": "white_yellow",
+    "coverage": 60,
+    "description": "A shiny golden monolith covered in shimmering pictograms.  There is a mist condensing near it.",
+    "light_emitted": 15,
+    "emissions": [ "emit_changeling_mist" ],
+    "required_str": -1,
+    "bash": {
+      "str_min": 600,
+      "str_max": 860,
+      "sound": "smash!",
+      "sound_fail": "thump.",
+      "items": [ { "item": "rock", "count": [ 5, 15 ] }, { "item": "sharp_rock", "count": [ 3, 5 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_radio_equipment",
+    "name": "radio controls",
+    "description": "This specialized looking radio receiver equipment covers most of a table.  It doesn't seem to be fully operational.",
+    "symbol": "6",
+    "color": "green",
+    "looks_like": "f_console_broken",
+    "move_cost": 0,
+    "coverage": 50,
+    "flags": [ "TRANSPARENT", "NOITEM", "PERMEABLE" ],
+    "deconstruct": {
+      "ter_set": "t_concrete",
+      "items": [
+        { "item": "processor", "count": [ 1, 2 ] },
+        { "item": "RAM", "count": [ 4, 8 ] },
+        { "item": "cable", "charges": [ 4, 6 ] },
+        { "item": "large_lcd_screen", "count": 1 },
+        { "item": "e_scrap", "count": [ 10, 16 ] },
+        { "item": "circuit", "count": [ 6, 10 ] },
+        { "item": "power_supply", "count": [ 2, 4 ] },
+        { "item": "amplifier", "count": [ 2, 4 ] },
+        { "item": "plastic_chunk", "count": [ 10, 12 ] },
+        { "item": "scrap", "count": [ 6, 8 ] }
+      ]
+    },
+    "bash": {
+      "str_min": 8,
+      "str_max": 150,
+      "sound": "crunch!",
+      "sound_fail": "whack!",
+      "ter_set": "t_console_broken",
+      "items": [
+        { "item": "processor", "prob": 25 },
+        { "item": "RAM", "count": [ 0, 2 ], "prob": 50 },
+        { "item": "cable", "charges": [ 1, 2 ], "prob": 50 },
+        { "item": "large_lcd_screen", "prob": 25 },
+        { "item": "e_scrap", "count": [ 1, 4 ], "prob": 50 },
+        { "item": "circuit", "count": [ 0, 2 ], "prob": 50 },
+        { "item": "power_supply", "prob": 25 },
+        { "item": "amplifier", "prob": 25 },
+        { "item": "plastic_chunk", "count": [ 4, 10 ], "prob": 50 },
+        { "item": "scrap", "count": [ 2, 6 ], "prob": 50 }
+      ]
+    }
+  }
+]

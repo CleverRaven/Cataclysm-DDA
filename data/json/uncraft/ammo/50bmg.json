@@ -14,8 +14,7 @@
       [ [ "lgrifle_primer", 1 ] ],
       [ [ "gunpowder_large_rifle", 158 ] ],
       [ [ "copper", 6 ] ]
-    ],
-    "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
+    ]
   },
   {
     "result": "50bmg",
@@ -31,8 +30,7 @@
       [ [ "lgrifle_primer", 1 ] ],
       [ [ "gunpowder_large_rifle", 158 ] ],
       [ [ "copper", 6 ] ]
-    ],
-    "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
+    ]
   },
   {
     "result": "50ss",
@@ -48,7 +46,6 @@
       [ [ "gunpowder_large_rifle", 158 ] ],
       [ [ "copper", 6 ] ],
       [ [ "scrap", 1 ] ]
-    ],
-    "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
+    ]
   }
 ]

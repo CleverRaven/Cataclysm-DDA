@@ -16,6 +16,7 @@
 #include "catacharset.h"
 #include "character.h"
 #include "coordinates.h"
+#include "condition.h"
 #include "cursesdef.h"
 #include "debug.h"
 #include "display.h"
@@ -24,10 +25,12 @@
 #include "game_constants.h"
 #include "input.h"
 #include "item.h"
+#include "item_group.h"
 #include "json.h"
 #include "line.h"
 #include "localized_comparator.h"
 #include "memory_fast.h"
+#include "mtype.h"
 #include "npc.h"
 #include "optional.h"
 #include "output.h"
@@ -49,7 +52,7 @@ static const flag_id json_flag_TWO_WAY_RADIO( "TWO_WAY_RADIO" );
 
 namespace npc_factions
 {
-std::vector<faction_template> all_templates;
+static std::vector<faction_template> all_templates;
 } // namespace npc_factions
 
 faction_template::faction_template()
@@ -106,6 +109,16 @@ void faction_template::load_relations( const JsonObject &jsobj )
         relations[fac.name()] = fac_relation;
     }
 }
+faction_price_rule faction_price_rules_reader::get_next( JsonValue &jv )
+{
+    JsonObject jo = jv.get_object();
+    faction_price_rule ret( icg_entry_reader::_part_get_next( jo ) );
+    optional( jo, false, "markup", ret.markup, 1.0 );
+    optional( jo, false, "premium", ret.premium, 1.0 );
+    optional( jo, false, "fixed_adj", ret.fixed_adj, cata::nullopt );
+    optional( jo, false, "price", ret.price, cata::nullopt );
+    return ret;
+}
 
 faction_template::faction_template( const JsonObject &jsobj )
     : name( jsobj.get_string( "name" ) )
@@ -120,8 +133,10 @@ faction_template::faction_template( const JsonObject &jsobj )
     , wealth( jsobj.get_int( "wealth" ) )
 {
     jsobj.get_member( "description" ).read( desc );
+    optional( jsobj, false, "price_rules", price_rules, faction_price_rules_reader {} );
     if( jsobj.has_string( "currency" ) ) {
         jsobj.read( "currency", currency, true );
+        price_rules.emplace_back( currency, 1, 0 );
     } else {
         currency = itype_id::NULL_ID();
     }
@@ -340,6 +355,18 @@ nc_color faction::food_supply_color()
     }
 }
 
+faction_price_rule const *faction::get_price_rules( item const &it, npc const &guy ) const
+{
+    auto const el = std::find_if(
+    price_rules.crbegin(), price_rules.crend(), [&it, &guy]( faction_price_rule const & fc ) {
+        return fc.matches( it, guy );
+    } );
+    if( el != price_rules.crend() ) {
+        return &*el;
+    }
+    return nullptr;
+}
+
 bool faction::has_relationship( const faction_id &guy_id, npc_factions::relationship flag ) const
 {
     for( const auto &rel_data : relations ) {
@@ -439,6 +466,7 @@ faction *faction_manager::get( const faction_id &id, const bool complain )
                 for( const faction_template &fac_temp : npc_factions::all_templates ) {
                     if( fac_temp.id == id ) {
                         elem.second.currency = fac_temp.currency;
+                        elem.second.price_rules = fac_temp.price_rules;
                         elem.second.lone_wolf_faction = fac_temp.lone_wolf_faction;
                         elem.second.name = fac_temp.name;
                         elem.second.desc = fac_temp.desc;
@@ -677,7 +705,7 @@ int npc::faction_display( const catacurses::window &fac_w, const int width ) con
     mvwprintz( fac_w, point( width, ++y ), fatigue_pair.second,
                _( "Fatigue: " ) + ( fatigue_pair.first.empty() ? nominal : fatigue_pair.first ) );
     int lines = fold_and_print( fac_w, point( width, ++y ), getmaxx( fac_w ) - width - 2, c_white,
-                                _( "Wielding: " ) + get_wielded_item().tname() );
+                                _( "Wielding: " ) + weapname_simple() );
     y += lines;
 
     const auto skillslist = Skill::get_skills_sorted_by( [&]( const Skill & a, const Skill & b ) {
@@ -698,7 +726,8 @@ int npc::faction_display( const catacurses::window &fac_w, const int width ) con
     }
     std::string best_three_noncombat = _( "Best other skills: " );
     std::string best_skill_text = string_format( _( "Best combat skill: %s: %d" ),
-                                  best_skill().obj().name(), best_skill_level() );
+                                  best_combat_skill( combat_skills::NO_GENERAL ).first.obj().name(),
+                                  best_combat_skill( combat_skills::NO_GENERAL ).second );
     mvwprintz( fac_w, point( width, ++y ), col, best_skill_text );
     mvwprintz( fac_w, point( width, ++y ), col, best_three_noncombat + skill_strs[0] );
     mvwprintz( fac_w, point( width + utf8_width( best_three_noncombat ), ++y ), col, skill_strs[1] );
@@ -730,6 +759,7 @@ void faction_manager::display() const
         TAB_FOLLOWERS,
         TAB_OTHERFACTIONS,
         TAB_LORE,
+        TAB_CREATURES,
         NUM_TABS,
         FIRST_TAB = 0,
         LAST_TAB = NUM_TABS - 1
@@ -759,6 +789,8 @@ void faction_manager::display() const
     size_t active_vec_size = 0;
     std::vector<std::pair<snippet_id, std::string>> lore; // Lore we have seen
     std::pair<snippet_id, std::string> *snippet = nullptr;
+    std::vector<mtype_id> creatures; // Creatures we've recorded
+    mtype_id cur_creature = mtype_id::NULL_ID();
 
     ui.on_redraw( [&]( const ui_adaptor & ) {
         werase( w_missions );
@@ -772,6 +804,7 @@ void faction_manager::display() const
             { tab_mode::TAB_FOLLOWERS, _( "YOUR FOLLOWERS" ) },
             { tab_mode::TAB_OTHERFACTIONS, _( "OTHER FACTIONS" ) },
             { tab_mode::TAB_LORE, _( "LORE" ) },
+            { tab_mode::TAB_CREATURES, _( "CREATURES" ) },
         };
         draw_tabs( w_missions, tabs, tab );
         draw_border_below_tabs( w_missions );
@@ -876,6 +909,30 @@ void faction_manager::display() const
                 }
             }
             break;
+            case tab_mode::TAB_CREATURES: {
+                const std::string no_creatures =
+                    _( "You haven't recorded sightings of any creatures.  Taking photos can be a good way to keep track of them." );
+                const int w = getmaxx( w_missions ) - 31 - 2;
+                if( active_vec_size > 0 ) {
+                    draw_scrollbar( w_missions, selection, entries_per_page, active_vec_size,
+                                    point( 0, 3 ) );
+                    for( size_t i = top_of_page; i < active_vec_size && i < top_of_page + entries_per_page; i++ ) {
+                        const int y = i - top_of_page + 3;
+                        trim_and_print( w_missions, point( 1, y ), 28, selection == i ? hilite( col ) : col,
+                                        string_format( "%s  %s", colorize( creatures[i]->sym,
+                                                       selection == i ? hilite( creatures[i]->color ) : creatures[i]->color ),
+                                                       creatures[i]->nname() ) );
+                    }
+                    if( !cur_creature.is_null() ) {
+                        cur_creature->faction_display( w_missions, point( 31, 3 ), w );
+                    } else {
+                        fold_and_print( w_missions, point( 31, 4 ), w, c_light_red, no_creatures );
+                    }
+                    break;
+                } else {
+                    fold_and_print( w_missions, point( 31, 4 ), w, c_light_red, no_creatures );
+                }
+            }
             default:
                 break;
         }
@@ -886,7 +943,7 @@ void faction_manager::display() const
     while( true ) {
         // create a list of NPCs, visible and the ones on overmapbuffer
         followers.clear();
-        for( const auto &elem : g->get_follower_list() ) {
+        for( const character_id &elem : g->get_follower_list() ) {
             shared_ptr_fast<npc> npc_to_get = overmap_buffer.find_npc( elem );
             if( !npc_to_get ) {
                 continue;
@@ -903,6 +960,7 @@ void faction_manager::display() const
         guy = nullptr;
         cur_fac = nullptr;
         snippet = nullptr;
+        cur_creature = mtype_id::NULL_ID();
         interactable = false;
         radio_interactable = false;
         camp = nullptr;
@@ -935,6 +993,13 @@ void faction_manager::display() const
             debugmsg( "The sanity check failed because tab=%d", static_cast<int>( tab ) );
             tab = tab_mode::FIRST_TAB;
         }
+        creatures.clear();
+        creatures.reserve( player_character.get_known_monsters().size() );
+        creatures.insert( creatures.end(), player_character.get_known_monsters().begin(),
+                          player_character.get_known_monsters().end() );
+        std::sort( creatures.begin(), creatures.end(), []( const mtype_id & a, const mtype_id & b ) {
+            return localized_compare( a->nname(), b->nname() );
+        } );
         active_vec_size = camps.size();
         if( tab == tab_mode::TAB_FOLLOWERS ) {
             if( selection < followers.size() ) {
@@ -956,6 +1021,11 @@ void faction_manager::display() const
                 snippet = &lore[selection];
             }
             active_vec_size = lore.size();
+        } else if( tab == tab_mode::TAB_CREATURES ) {
+            if( selection < creatures.size() ) {
+                cur_creature = creatures[selection];
+            }
+            active_vec_size = creatures.size();
         }
 
         ui_manager::redraw();

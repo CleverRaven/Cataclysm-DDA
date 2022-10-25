@@ -91,7 +91,7 @@ drop_locations multidrop( avatar &you );
  * @return A list of pairs of item_location, quantity.
  */
 drop_locations pickup( avatar &you, const cata::optional<tripoint> &target = cata::nullopt,
-                       std::vector<drop_location> selection = {} );
+                       const std::vector<drop_location> &selection = {} );
 
 drop_locations smoke_food( Character &you, units::volume total_capacity,
                            units::volume used_capacity );
@@ -100,15 +100,13 @@ drop_locations smoke_food( Character &you, units::volume total_capacity,
 * Consume an item via a custom menu.
 * If item_location is provided then consume only from the contents of that container.
 */
-item_location consume( avatar &you, const item_location loc = item_location() );
+item_location consume( avatar &you, const item_location &loc = item_location() );
 /** Consuming a food item via a custom menu. */
 item_location consume_food( avatar &you );
 /** Consuming a drink item via a custom menu. */
 item_location consume_drink( avatar &you );
 /** Consuming a medication item via a custom menu. */
 item_location consume_meds( avatar &you );
-/** Consuming fuel item via a custom menu. */
-item_location consume_fuel( avatar &you );
 /** Choosing a container for liquid. */
 item_location container_for( Character &you, const item &liquid, int radius = 0,
                              const item *avoid = nullptr );
@@ -132,6 +130,8 @@ void insert_items( avatar &you, item_location &holster );
 drop_locations unload_container( avatar &you );
 /** Choosing a gun to saw down it's barrel. */
 item_location saw_barrel( Character &you, item &tool );
+/** Choosing a gun to saw down its barrel. */
+item_location saw_stock( Character &you, item &tool );
 /** Choosing an item to attach to a load bearing vest. */
 item_location molle_attach( Character &you, item &tool );
 /** Choose item to wear. */

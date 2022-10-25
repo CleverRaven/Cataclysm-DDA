@@ -1,0 +1,44 @@
+[
+  {
+    "type": "TOOL",
+    "id": "escape_stone",
+    "name": { "str_sp": "portable portal" },
+    "color": "magenta",
+    "use_action": {
+      "type": "effect_on_conditions",
+      "description": "Seems like a targeted spatial distortion.",
+      "effect_on_conditions": [ "EOC_PORTAL_STORM_CELL" ]
+    },
+    "volume": "250 ml",
+    "weight": "10 g",
+    "symbol": "@",
+    "description": "This defies easy description, it feels solid but the surface is yielding.  Looking at it you have a strange desire to call it a door.",
+    "flags": [ "SINGLE_USE" ]
+  },
+  {
+    "type": "TOOL",
+    "id": "unstable_rift",
+    "name": { "str_sp": "unstable rift" },
+    "color": "red",
+    "copy-from": "escape_stone",
+    "use_action": {
+      "type": "effect_on_conditions",
+      "description": "Seems like a random spatial distortion.",
+      "effect_on_conditions": [ "EOC_PORTAL_TELEPORT_UNSTABLE_RIFT" ]
+    },
+    "description": "This defies easy description, it feels solid but the surface is yielding.  Looking at it you have a strange desire to call it a door."
+  },
+  {
+    "type": "TOOL",
+    "id": "calming_stone",
+    "name": { "str_sp": "calming anomaly" },
+    "color": "red",
+    "copy-from": "escape_stone",
+    "use_action": {
+      "type": "effect_on_conditions",
+      "description": "Seems like it could calm local conditions.",
+      "effect_on_conditions": [ "EOC_CANCEL_PORTAL_STORM" ]
+    },
+    "description": "This defies easy description, it feels solid but the surface is yielding.  Looking at it you are reminded of the calm at the end of a portal storm."
+  }
+]

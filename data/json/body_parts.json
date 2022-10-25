@@ -4,8 +4,8 @@
     "type": "body_part",
     "name": "torso",
     "accusative": { "ctxt": "bodypart_accusative", "str": "torso" },
-    "heading": "Torso",
-    "heading_multiple": "Torso",
+    "heading": "torso",
+    "heading_multiple": "torso",
     "hp_bar_ui_text": "TORSO",
     "encumbrance_text": "Dodging and melee is hampered.",
     "main_part": "torso",
@@ -36,8 +36,8 @@
     "type": "body_part",
     "name": "head",
     "accusative": { "ctxt": "bodypart_accusative", "str": "head" },
-    "heading": "Head",
-    "heading_multiple": "Head",
+    "heading": "head",
+    "heading_multiple": "head",
     "hp_bar_ui_text": "HEAD",
     "encumbrance_text": "Dodging and blocking is hampered.",
     "encumbrance_threshold": 10,
@@ -62,15 +62,25 @@
     "smash_efficiency": 0.25,
     "bionic_slots": 18,
     "flags": [ "LIMB_UPPER" ],
-    "sub_parts": [ "head_forehead", "head_crown", "head_nape", "head_throat", "head_ear_r", "head_ear_l" ]
+    "sub_parts": [ "head_forehead", "head_crown", "head_nape", "head_throat", "head_ear_r", "head_ear_l" ],
+    "encumbrance_per_weight": [
+      { "weight": "1 mg", "encumbrance": 1 },
+      { "weight": "300 g", "encumbrance": 4 },
+      { "weight": "800 g", "encumbrance": 8 },
+      { "weight": "1300 g", "encumbrance": 20 },
+      { "weight": "1600 g", "encumbrance": 30 },
+      { "weight": "2200 g", "encumbrance": 50 },
+      { "weight": "5600 g", "encumbrance": 80 },
+      { "weight": "10000 g", "encumbrance": 160 }
+    ]
   },
   {
     "id": "eyes",
     "type": "body_part",
     "name": "eyes",
     "accusative": { "ctxt": "bodypart_accusative", "str": "eyes" },
-    "heading": "Eyes",
-    "heading_multiple": "Eyes",
+    "heading": "eyes",
+    "heading_multiple": "eyes",
     "encumbrance_text": "Ranged combat is hampered.",
     "encumbrance_limit": 60,
     "main_part": "head",
@@ -96,8 +106,8 @@
     "type": "body_part",
     "name": "mouth",
     "accusative": { "ctxt": "bodypart_accusative", "str": "mouth" },
-    "heading": "Mouth",
-    "heading_multiple": "Mouth",
+    "heading": "mouth",
+    "heading_multiple": "mouth",
     "encumbrance_text": "Running is slowed.",
     "main_part": "head",
     "opposite_part": "mouth",
@@ -117,7 +127,7 @@
     "smash_efficiency": 0.25,
     "bionic_slots": 4,
     "flags": [ "LIMB_UPPER" ],
-    "sub_parts": [ "mouth_lips", "mouth_nose", "mouth_cheeks" ]
+    "sub_parts": [ "mouth_lips", "mouth_nose", "mouth_cheeks", "mouth_chin" ]
   },
   {
     "id": "arm_l",
@@ -127,8 +137,8 @@
     "name_multiple": "arms",
     "accusative": { "ctxt": "bodypart_accusative", "str": "left arm" },
     "accusative_multiple": { "ctxt": "bodypart_accusative", "str": "arms" },
-    "heading": "L. Arm",
-    "heading_multiple": "Arms",
+    "heading": "l. arm",
+    "heading_multiple": "arms",
     "encumbrance_text": "Melee combat is hampered.",
     "encumbrance_threshold": 5,
     "hp_bar_ui_text": "L ARM",
@@ -159,8 +169,8 @@
     "name_multiple": "arms",
     "accusative": { "ctxt": "bodypart_accusative", "str": "right arm" },
     "accusative_multiple": { "ctxt": "bodypart_accusative", "str": "arms" },
-    "heading": "R. Arm",
-    "heading_multiple": "Arms",
+    "heading": "r. arm",
+    "heading_multiple": "arms",
     "hp_bar_ui_text": "R ARM",
     "encumbrance_text": "Melee combat is hampered.",
     "encumbrance_threshold": 5,
@@ -191,8 +201,8 @@
     "name_multiple": "hands",
     "accusative": { "ctxt": "bodypart_accusative", "str": "left hand" },
     "accusative_multiple": { "ctxt": "bodypart_accusative", "str": "hands" },
-    "heading": "L. Hand",
-    "heading_multiple": "Hands",
+    "heading": "l. hand",
+    "heading_multiple": "hands",
     "encumbrance_text": "Manual tasks are slowed.",
     "main_part": "arm_l",
     "opposite_part": "hand_r",
@@ -220,8 +230,8 @@
     "name_multiple": "hands",
     "accusative": { "ctxt": "bodypart_accusative", "str": "right hand" },
     "accusative_multiple": { "ctxt": "bodypart_accusative", "str": "hands" },
-    "heading": "R. Hand",
-    "heading_multiple": "Hands",
+    "heading": "r. hand",
+    "heading_multiple": "hands",
     "encumbrance_text": "Manual tasks are slowed.",
     "main_part": "arm_r",
     "opposite_part": "hand_l",
@@ -249,8 +259,8 @@
     "name_multiple": "legs",
     "accusative": { "ctxt": "bodypart_accusative", "str": "left leg" },
     "accusative_multiple": { "ctxt": "bodypart_accusative", "str": "legs" },
-    "heading": "L. Leg",
-    "heading_multiple": "Legs",
+    "heading": "l. leg",
+    "heading_multiple": "legs",
     "hp_bar_ui_text": "L LEG",
     "encumbrance_text": "Running and swimming are slowed.",
     "encumbrance_threshold": 6,
@@ -274,7 +284,7 @@
     "drench_capacity": 1100,
     "smash_message": "You bring your knee down on the %s, smashing it.",
     "bionic_slots": 30,
-    "sub_parts": [ "leg_hip_l", "leg_upper_l", "leg_knee_l", "leg_lower_l" ],
+    "sub_parts": [ "leg_hip_l", "leg_upper_l", "leg_knee_l", "leg_lower_l", "leg_draped_l" ],
     "flags": [ "LIMB_LOWER" ]
   },
   {
@@ -284,8 +294,8 @@
     "name_multiple": "legs",
     "accusative": { "ctxt": "bodypart_accusative", "str": "right leg" },
     "accusative_multiple": { "ctxt": "bodypart_accusative", "str": "legs" },
-    "heading": "R. Leg",
-    "heading_multiple": "Legs",
+    "heading": "r. leg",
+    "heading_multiple": "legs",
     "hp_bar_ui_text": "R LEG",
     "encumbrance_text": "Running and swimming are slowed.",
     "encumbrance_threshold": 6,
@@ -309,7 +319,7 @@
     "drench_capacity": 1100,
     "smash_message": "You bring your knee down on the %s, smashing it.",
     "bionic_slots": 30,
-    "sub_parts": [ "leg_hip_r", "leg_upper_r", "leg_knee_r", "leg_lower_r" ],
+    "sub_parts": [ "leg_hip_r", "leg_upper_r", "leg_knee_r", "leg_lower_r", "leg_draped_r" ],
     "flags": [ "LIMB_LOWER" ]
   },
   {
@@ -319,8 +329,8 @@
     "name_multiple": "feet",
     "accusative": { "ctxt": "bodypart_accusative", "str": "left foot" },
     "accusative_multiple": { "ctxt": "bodypart_accusative", "str": "feet" },
-    "heading": "L. Foot",
-    "heading_multiple": "Feet",
+    "heading": "l. foot",
+    "heading_multiple": "feet",
     "encumbrance_text": "Running is slowed.",
     "encumbrance_threshold": 5,
     "main_part": "leg_l",
@@ -340,7 +350,7 @@
     "drench_capacity": 300,
     "smash_message": "You kick down the %s, smashing it.",
     "bionic_slots": 7,
-    "sub_parts": [ "foot_arch_l", "foot_toes_l", "foot_ankle_l", "foot_heel_l" ],
+    "sub_parts": [ "foot_sole_l", "foot_arch_l", "foot_toes_l", "foot_ankle_l", "foot_heel_l" ],
     "flags": [ "LIMB_LOWER" ]
   },
   {
@@ -350,8 +360,8 @@
     "name_multiple": "feet",
     "accusative": { "ctxt": "bodypart_accusative", "str": "right foot" },
     "accusative_multiple": { "ctxt": "bodypart_accusative", "str": "feet" },
-    "heading": "R. Foot",
-    "heading_multiple": "Feet",
+    "heading": "r. foot",
+    "heading_multiple": "feet",
     "encumbrance_text": "Running is slowed.",
     "encumbrance_threshold": 5,
     "main_part": "leg_r",
@@ -371,7 +381,7 @@
     "drench_capacity": 300,
     "smash_message": "You kick down the %s, smashing it.",
     "bionic_slots": 7,
-    "sub_parts": [ "foot_arch_r", "foot_toes_r", "foot_ankle_r", "foot_heel_r" ],
+    "sub_parts": [ "foot_sole_r", "foot_arch_r", "foot_toes_r", "foot_ankle_r", "foot_heel_r" ],
     "flags": [ "LIMB_LOWER" ]
   },
   {
@@ -380,7 +390,7 @@
     "name": "debug tail",
     "name_multiple": "debug tails",
     "heading": "DBG Tail",
-    "heading_multiple": "Tails",
+    "heading_multiple": "tails",
     "encumbrance_text": "Your debug tail feels heavy",
     "hit_size": 100,
     "heal_bonus": 15,
@@ -429,7 +439,8 @@
     "type": "sub_body_part",
     "side": 0,
     "opposite": "sub_limb_debug",
-    "name": "neck"
+    "name": "neck",
+    "locations_under": [ "torso_upper" ]
   },
   {
     "id": "torso_lower",
@@ -448,9 +459,10 @@
     "parent": "torso",
     "secondary": true,
     "side": 0,
-    "name": "item hangs off your front",
+    "name": "front torso (hang)",
     "opposite": "torso_hanging_back",
-    "name_multiple": "item hangs off you"
+    "name_multiple": "item hangs off you",
+    "locations_under": [ "torso_upper", "torso_lower" ]
   },
   {
     "id": "torso_hanging_back",
@@ -459,9 +471,34 @@
     "parent": "torso",
     "secondary": true,
     "side": 0,
-    "name": "item hangs off your back",
+    "name": "back torso (hang)",
     "opposite": "torso_hanging_front",
-    "name_multiple": "item hangs off you"
+    "name_multiple": "item hangs off you",
+    "locations_under": [ "torso_upper", "torso_lower" ]
+  },
+  {
+    "id": "leg_draped_l",
+    "type": "sub_body_part",
+    "max_coverage": 100,
+    "parent": "leg_l",
+    "side": 1,
+    "secondary": true,
+    "opposite": "leg_draped_r",
+    "name_multiple": "legs (draped)",
+    "name": "left leg (draped)",
+    "locations_under": [ "leg_hip_l", "leg_upper_l" ]
+  },
+  {
+    "id": "leg_draped_r",
+    "type": "sub_body_part",
+    "max_coverage": 100,
+    "parent": "leg_r",
+    "side": 2,
+    "secondary": true,
+    "opposite": "leg_draped_l",
+    "name_multiple": "legs (draped)",
+    "name": "right leg (draped)",
+    "locations_under": [ "leg_hip_r", "leg_upper_r" ]
   },
   {
     "id": "torso_waist",
@@ -471,7 +508,8 @@
     "secondary": true,
     "side": 0,
     "name": "waist",
-    "opposite": "sub_limb_debug"
+    "opposite": "sub_limb_debug",
+    "locations_under": [ "leg_hip_r", "leg_hip_l" ]
   },
   {
     "id": "arm_shoulder_r",
@@ -670,7 +708,7 @@
     "parent": "hand_r",
     "side": 2,
     "opposite": "hand_fingers_l",
-    "name_multiple": "wrists",
+    "name_multiple": "fingers",
     "name": "right fingers"
   },
   {
@@ -736,31 +774,53 @@
   {
     "id": "mouth_lips",
     "type": "sub_body_part",
-    "max_coverage": 30,
+    "max_coverage": 15,
     "parent": "mouth",
+    "opposite": "sub_limb_debug",
     "side": 0,
     "name": "lips"
   },
   {
     "id": "mouth_nose",
     "type": "sub_body_part",
-    "max_coverage": 30,
+    "max_coverage": 15,
     "parent": "mouth",
+    "opposite": "sub_limb_debug",
     "side": 0,
     "name": "nose"
   },
   {
     "id": "mouth_cheeks",
     "type": "sub_body_part",
-    "max_coverage": 40,
+    "max_coverage": 30,
     "parent": "mouth",
+    "opposite": "sub_limb_debug",
     "side": 0,
     "name": "cheeks"
   },
   {
+    "id": "mouth_chin",
+    "type": "sub_body_part",
+    "max_coverage": 40,
+    "parent": "mouth",
+    "opposite": "sub_limb_debug",
+    "side": 0,
+    "name": "chin"
+  },
+  {
+    "id": "foot_sole_l",
+    "type": "sub_body_part",
+    "max_coverage": 25,
+    "parent": "foot_l",
+    "side": 1,
+    "opposite": "foot_sole_r",
+    "name_multiple": "foot bottoms",
+    "name": "left foot bottom"
+  },
+  {
     "id": "foot_arch_l",
     "type": "sub_body_part",
-    "max_coverage": 50,
+    "max_coverage": 25,
     "parent": "foot_l",
     "side": 1,
     "opposite": "foot_arch_r",
@@ -798,9 +858,19 @@
     "name": "left heel"
   },
   {
+    "id": "foot_sole_r",
+    "type": "sub_body_part",
+    "max_coverage": 25,
+    "parent": "foot_r",
+    "side": 2,
+    "opposite": "foot_sole_l",
+    "name_multiple": "foot bottoms",
+    "name": "right foot bottom"
+  },
+  {
     "id": "foot_arch_r",
     "type": "sub_body_part",
-    "max_coverage": 50,
+    "max_coverage": 25,
     "parent": "foot_r",
     "side": 2,
     "opposite": "foot_arch_l",
@@ -842,6 +912,7 @@
     "type": "sub_body_part",
     "max_coverage": 15,
     "parent": "head",
+    "opposite": "sub_limb_debug",
     "side": 0,
     "name": "forehead"
   },
@@ -850,6 +921,7 @@
     "type": "sub_body_part",
     "max_coverage": 25,
     "parent": "head",
+    "opposite": "sub_limb_debug",
     "side": 0,
     "name": "crown"
   },
@@ -858,6 +930,7 @@
     "type": "sub_body_part",
     "max_coverage": 20,
     "parent": "head",
+    "opposite": "sub_limb_debug",
     "side": 0,
     "name": "nape"
   },
@@ -866,6 +939,7 @@
     "type": "sub_body_part",
     "max_coverage": 20,
     "parent": "head",
+    "opposite": "sub_limb_debug",
     "side": 0,
     "name": "throat"
   },
@@ -874,15 +948,19 @@
     "type": "sub_body_part",
     "max_coverage": 10,
     "parent": "head",
+    "opposite": "head_ear_l",
     "side": 2,
-    "name": "right ear"
+    "name": "right ear",
+    "name_multiple": "ears"
   },
   {
     "id": "head_ear_l",
     "type": "sub_body_part",
     "max_coverage": 10,
     "parent": "head",
+    "opposite": "head_ear_r",
     "side": 1,
-    "name": "left ear"
+    "name": "left ear",
+    "name_multiple": "ears"
   }
 ]

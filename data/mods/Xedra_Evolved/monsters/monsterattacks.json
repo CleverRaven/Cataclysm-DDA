@@ -1,0 +1,63 @@
+[
+  {
+    "id": "changeling_thrown_knife",
+    "type": "GUN",
+    "symbol": "%",
+    "color": "red",
+    "name": { "str": "thrown knife" },
+    "description": "Shiny reflective throwing knife at the ready.",
+    "material": [ "stone" ],
+    "flags": [
+      "PRIMITIVE_RANGED_WEAPON",
+      "NEVER_JAMS",
+      "NONCONDUCTIVE",
+      "NO_REPAIR",
+      "WATERPROOF_GUN",
+      "NO_SALVAGE",
+      "NO_UNLOAD",
+      "NO_TURRET"
+    ],
+    "skill": "throw",
+    "ammo": [ "throwing_knives" ],
+    "ammo_effects": [ "NO_PENETRATE_OBSTACLES", "NEVER_MISFIRES" ],
+    "ranged_damage": { "damage_type": "cut", "amount": -1 },
+    "clip_size": 1,
+    "weight": "540 g",
+    "volume": "210 ml",
+    "longest_side": "75 mm",
+    "bashing": 2,
+    "to_hit": 1,
+    "loudness": 2,
+    "range": 6,
+    "dispersion": 150,
+    "durability": 8,
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE",
+        "rigid": true,
+        "max_contains_volume": "200 L",
+        "max_contains_weight": "400 kg",
+        "max_item_length": "2000 m",
+        "ammo_restriction": { "throwing_knives": 3 }
+      }
+    ]
+  },
+  {
+    "type": "monster_attack",
+    "attack_type": "melee",
+    "id": "sharp_objects",
+    "cooldown": 25,
+    "move_cost": 150,
+    "damage_max_instance": [ { "damage_type": "stab", "amount": 10, "armor_penetration": 8, "armor_multiplier": 0.5 } ],
+    "hitsize_min": 4,
+    "effects": [ { "id": "bleed", "duration": 100, "affect_hit_bp": true } ],
+    "hit_dmg_u": "%1$s impales your %2$s!",
+    "hit_dmg_npc": "%1$s impales <npcname>!",
+    "miss_msg_u": "%1$s tries to impale your %2$s, but you dodge!",
+    "miss_msg_npc": "%1$s tries to impale <npcname>, but they dodge!",
+    "no_dmg_msg_u": "%1$s tries to impale your %2$s, but fails to penetrate your armor!",
+    "no_dmg_msg_npc": "%1$s tries to impale <npcname>, but fails to penetrate their armor!",
+    "dodgeable": true,
+    "blockable": true
+  }
+]

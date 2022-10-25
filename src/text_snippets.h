@@ -50,7 +50,7 @@ class snippet_library
         * Returns the EOC connected with the snippet referenced by the id, or cata::nullopt if there
         * is no snippet with such id.
         */
-        cata::optional<talk_effect_t> get_EOC_by_id( const snippet_id &id ) const;
+        cata::optional<talk_effect_t<dialogue>> get_EOC_by_id( const snippet_id &id ) const;
         /**
         * Returns the name connected with the snippet referenced by the id, or cata::nullopt if there
         * is no snippet with such id.
@@ -112,11 +112,14 @@ class snippet_library
          */
         snippet_id migrate_hash_to_id( int hash );
 
+        std::vector<std::pair<snippet_id, std::string>> get_snippets_by_category( const std::string &cat,
+                bool add_null_id = false );
+
     private:
         std::unordered_map<snippet_id, translation> snippets_by_id;
         // front facing name
         std::unordered_map<snippet_id, translation> name_by_id;
-        std::unordered_map<snippet_id, talk_effect_t> EOC_by_id;
+        std::unordered_map<snippet_id, talk_effect_t<dialogue>> EOC_by_id;
 
         struct category_snippets {
             std::vector<snippet_id> ids;

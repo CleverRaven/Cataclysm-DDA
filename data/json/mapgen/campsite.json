@@ -236,7 +236,7 @@
         "+": "t_region_groundcover",
         "-": "t_region_groundcover",
         "b": "t_pit_shallow",
-        "d": "t_dirt",
+        "d": "t_region_soil",
         "r": "t_region_groundcover"
       },
       "furniture": { "-": "f_camp_chair", "b": "f_firering" },

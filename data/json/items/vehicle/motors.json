@@ -12,7 +12,8 @@
     "bashing": 4,
     "category": "veh_parts",
     "price": 12000,
-    "price_postapoc": 1500
+    "price_postapoc": 1500,
+    "flags": [ "WATER_BREAK", "ELECTRONIC" ]
   },
   {
     "type": "GENERIC",
@@ -20,7 +21,7 @@
     "name": { "str": "enhanced electric motor" },
     "description": "A very powerful and yet lightweight electric motor.  Useful for crafting.",
     "weight": "100 kg",
-    "material": [ "superalloy" ],
+    "material": [ "superalloy", "copper" ],
     "volume": "20 L",
     "price": 68000,
     "price_postapoc": 2500,
@@ -68,7 +69,7 @@
     "id": "motor_tiny",
     "name": { "str": "tiny electric motor" },
     "description": "A tiny electric motor.  Useful for crafting.",
-    "weight": "625 g",
+    "weight": "560 g",
     "color": "light_cyan",
     "symbol": ",",
     "material": [ "steel", "plastic" ],
@@ -80,8 +81,8 @@
   {
     "type": "GENERIC",
     "id": "motor_train1300",
-    "name": { "str": "1300hp electric train engine" },
-    "description": "A 1300hp 3-phase 60 Hz electric engine.  Normally used in trains.",
+    "name": { "str": "1,300 HP electric train engine" },
+    "description": "A 1,300 HP 3-phase 60 Hz electric engine.  Normally used in trains.",
     "weight": "2000 kg",
     "volume": "250 L",
     "price": 120000,

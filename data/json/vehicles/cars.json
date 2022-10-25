@@ -57,9 +57,10 @@
       { "x": 0, "y": 1, "chance": 5, "item_groups": [ "used_1st_aid" ] },
       { "x": 0, "y": 1, "chance": 5, "item_groups": [ "snacks" ] },
       { "x": 0, "y": 0, "chance": 5, "item_groups": [ "fast_food" ] },
-      { "x": -1, "y": 1, "chance": 12, "item_groups": [ "car_kit" ] },
-      { "x": -1, "y": 1, "chance": 12, "items": [ "jack", "e_tool", "rope_30" ] },
-      { "x": -1, "y": 1, "chance": 10, "item_groups": [ "car_kit" ] },
+      { "x": -1, "y": 1, "chance": 8, "item_groups": [ "car_kit" ] },
+      { "x": -1, "y": 1, "chance": 8, "items": [ "e_tool", "rope_30" ] },
+      { "x": -1, "y": 1, "chance": 6, "item_groups": [ "car_kit" ] },
+      { "x": -1, "y": 0, "chance": 100, "item_groups": [ "spare_tire_kit_tools_only" ] },
       { "x": -1, "y": 0, "chance": 8, "item_groups": [ "fuel_gasoline" ] }
     ]
   },
@@ -98,9 +99,9 @@
     ],
     "items": [
       { "x": 0, "y": 0, "chance": 8, "item_groups": [ "car_misc" ] },
-      { "x": 2, "y": 0, "chance": 6, "item_groups": [ "car_kit" ] },
-      { "x": 2, "y": 1, "chance": 8, "item_groups": [ "car_kit" ] },
-      { "x": 2, "y": 1, "chance": 8, "items": [ "jack_small", "wheel" ] }
+      { "x": 2, "y": 0, "chance": 4, "item_groups": [ "car_kit" ] },
+      { "x": 2, "y": 1, "chance": 5, "item_groups": [ "car_kit" ] },
+      { "x": 2, "y": 1, "chance": 40, "item_groups": [ "spare_tire_kit_small_jack" ] }
     ]
   },
   {
@@ -148,8 +149,8 @@
       { "x": -3, "y": 1, "parts": [ "xlframe_se", "windshield_se_edge" ] }
     ],
     "items": [
-      { "x": -2, "y": 0, "chance": 3, "item_groups": [ "car_kit" ] },
-      { "x": -2, "y": 0, "chance": 3, "items": [ "jack_small", "wheel" ] }
+      { "x": -2, "y": 0, "chance": 2, "item_groups": [ "car_kit" ] },
+      { "x": -2, "y": 0, "chance": 10, "item_groups": [ "spare_tire_kit_small_jack" ] }
     ]
   },
   {
@@ -201,9 +202,63 @@
       { "x": 0, "y": 0, "chance": 5, "item_groups": [ "snacks" ] },
       { "x": 0, "y": 1, "chance": 8, "item_groups": [ "car_misc" ] },
       { "x": 0, "y": 1, "chance": 2, "item_groups": [ "fast_food" ] },
-      { "x": -2, "y": 0, "chance": 11, "item_groups": [ "car_kit" ] },
-      { "x": -2, "y": 1, "chance": 15, "item_groups": [ "car_kit" ] },
-      { "x": -2, "y": 1, "chance": 15, "items": [ "jack_small", "wheel" ] }
+      { "x": -2, "y": 0, "chance": 7, "item_groups": [ "car_kit" ] },
+      { "x": -2, "y": 1, "chance": 10, "item_groups": [ "car_kit" ] },
+      { "x": -2, "y": 1, "chance": 40, "item_groups": [ "spare_tire_kit_small_jack" ] }
+    ]
+  },
+  {
+    "id": "car_diesel",
+    "type": "vehicle",
+    "name": "Car",
+    "blueprint": [
+      [ "-o++o-" ],
+      [ "+=##'|" ],
+      [ "+=##'|" ],
+      [ "-o++o-" ]
+    ],
+    "parts": [
+      { "x": 0, "y": 0, "parts": [ "frame_vertical_2", "reclining_seat_windshield", "seatbelt" ] },
+      { "x": 0, "y": 0, "parts": [ "controls", "dashboard", "vehicle_clock", "vehicle_alarm" ] },
+      { "x": 0, "y": 0, "parts": [ "stereo", "horn_car", "roof" ] },
+      { "x": 0, "y": -1, "parts": [ "frame_vertical_left", "door_nw" ] },
+      { "x": 0, "y": 1, "parts": [ "frame_vertical_2", "reclining_seat_windshield", "seatbelt", "roof" ] },
+      { "x": 0, "y": 2, "parts": [ "frame_vertical_right", "door_ne" ] },
+      { "x": 1, "y": -1, "parts": [ "frame_vertical_T_left", "windshield_wheel_left" ] },
+      { "x": 1, "y": -1, "parts": [ "wheel_mount_medium_steerable", "wheel" ] },
+      { "x": 1, "y": 0, "parts": [ "frame_horizontal", "windshield_cover_left" ] },
+      { "x": 1, "y": 1, "parts": [ "frame_horizontal", "windshield_cover_right" ] },
+      { "x": 1, "y": 2, "parts": [ "frame_vertical_T_right", "windshield_wheel_right" ] },
+      { "x": 1, "y": 2, "parts": [ "wheel_mount_medium_steerable", "wheel" ] },
+      { "x": 2, "y": -1, "parts": [ "frame_nw", "halfboard_nw", "headlight" ] },
+      { "x": 2, "y": 0, "parts": [ "frame_horizontal_front", "halfboard_cover_left" ] },
+      { "x": 2, "y": 0, "parts": [ "diesel_engine_inline4", "alternator_car", "battery_car" ] },
+      { "x": 2, "y": 1, "parts": [ "frame_horizontal_front", "halfboard_cover_right" ] },
+      { "x": 2, "y": 2, "parts": [ "frame_ne", "halfboard_ne", "headlight" ] },
+      { "x": -1, "y": -1, "parts": [ "frame_vertical_left", "door_sw" ] },
+      { "x": -1, "y": 0, "parts": [ "frame_vertical_2", "seat_back_left", "seatbelt", "roof" ] },
+      { "x": -1, "y": 1, "parts": [ "frame_vertical_2", "seat_back_right", "seatbelt", "roof" ] },
+      { "x": -1, "y": 2, "parts": [ "frame_vertical_right", "door_se" ] },
+      { "x": -2, "y": -1, "parts": [ "frame_vertical_left", "halfboard_wheel_left" ] },
+      { "x": -2, "y": -1, "parts": [ "wheel_mount_medium", "wheel" ] },
+      { "x": -2, "y": -1, "part": "tank", "fuel": "diesel" },
+      { "x": -2, "y": 0, "parts": [ "frame_vertical", "trunk", "muffler", "roof" ] },
+      { "x": -2, "y": 1, "parts": [ "frame_vertical", "trunk", "roof" ] },
+      { "x": -2, "y": 2, "parts": [ "frame_vertical_right", "halfboard_wheel_right" ] },
+      { "x": -2, "y": 2, "parts": [ "wheel_mount_medium", "wheel" ] },
+      { "x": -3, "y": -1, "parts": [ "frame_horizontal_rear", "halfboard_sw" ] },
+      { "x": -3, "y": 0, "parts": [ "frame_horizontal_rear", "door_trunk" ] },
+      { "x": -3, "y": 1, "parts": [ "frame_horizontal_rear", "door_trunk" ] },
+      { "x": -3, "y": 2, "parts": [ "frame_horizontal_rear", "halfboard_se" ] }
+    ],
+    "items": [
+      { "x": 0, "y": 0, "chance": 14, "item_groups": [ "car_misc" ] },
+      { "x": 0, "y": 0, "chance": 5, "item_groups": [ "snacks" ] },
+      { "x": 0, "y": 1, "chance": 8, "item_groups": [ "car_misc" ] },
+      { "x": 0, "y": 1, "chance": 2, "item_groups": [ "fast_food" ] },
+      { "x": -2, "y": 0, "chance": 7, "item_groups": [ "car_kit" ] },
+      { "x": -2, "y": 1, "chance": 10, "item_groups": [ "car_kit" ] },
+      { "x": -2, "y": 1, "chance": 40, "item_groups": [ "spare_tire_kit_small_jack" ] }
     ]
   },
   {
@@ -255,9 +310,9 @@
       { "x": 0, "y": 0, "chance": 5, "item_groups": [ "snacks" ] },
       { "x": 0, "y": 1, "chance": 8, "item_groups": [ "car_misc" ] },
       { "x": 0, "y": 1, "chance": 2, "item_groups": [ "fast_food" ] },
-      { "x": -2, "y": 0, "chance": 11, "item_groups": [ "car_kit" ] },
-      { "x": -2, "y": 1, "chance": 15, "item_groups": [ "car_kit" ] },
-      { "x": -2, "y": 1, "chance": 15, "items": [ "jack_small", "wheel" ] }
+      { "x": -2, "y": 0, "chance": 7, "item_groups": [ "car_kit" ] },
+      { "x": -2, "y": 1, "chance": 10, "item_groups": [ "car_kit" ] },
+      { "x": -2, "y": 1, "chance": 40, "item_groups": [ "spare_tire_kit_small_jack" ] }
     ]
   },
   {
@@ -309,9 +364,9 @@
       { "x": 0, "y": 0, "chance": 5, "item_groups": [ "snacks" ] },
       { "x": 0, "y": 1, "chance": 8, "item_groups": [ "car_misc" ] },
       { "x": 0, "y": 1, "chance": 10, "item_groups": [ "suits" ] },
-      { "x": -2, "y": 0, "chance": 11, "item_groups": [ "car_kit" ] },
-      { "x": -2, "y": 1, "chance": 15, "item_groups": [ "car_kit" ] },
-      { "x": -2, "y": 1, "chance": 15, "items": [ "jack_small", "wheel" ] }
+      { "x": -2, "y": 0, "chance": 7, "item_groups": [ "car_kit" ] },
+      { "x": -2, "y": 1, "chance": 10, "item_groups": [ "car_kit" ] },
+      { "x": -2, "y": 1, "chance": 40, "item_groups": [ "spare_tire_kit_small_jack" ] }
     ]
   },
   {
@@ -365,8 +420,8 @@
       { "x": 0, "y": 1, "chance": 8, "item_groups": [ "car_misc" ] },
       { "x": 0, "y": 1, "chance": 2, "item_groups": [ "fast_food" ] },
       { "x": -2, "y": 0, "chance": 10, "items": [ "blanket" ] },
-      { "x": -2, "y": 1, "chance": 15, "item_groups": [ "car_kit" ] },
-      { "x": -2, "y": 1, "chance": 15, "items": [ "jack_small", "wheel" ] }
+      { "x": -2, "y": 1, "chance": 10, "item_groups": [ "car_kit" ] },
+      { "x": -2, "y": 1, "chance": 40, "item_groups": [ "spare_tire_kit_small_jack" ] }
     ]
   },
   {
@@ -459,9 +514,9 @@
       { "x": 0, "y": 0, "chance": 5, "item_groups": [ "snacks" ] },
       { "x": 0, "y": 1, "chance": 8, "item_groups": [ "car_misc" ] },
       { "x": 0, "y": 1, "chance": 2, "item_groups": [ "fast_food" ] },
-      { "x": -2, "y": 0, "chance": 11, "item_groups": [ "car_kit" ] },
-      { "x": -2, "y": 1, "chance": 15, "item_groups": [ "car_kit" ] },
-      { "x": -2, "y": 1, "chance": 15, "items": [ "jack_small", "wheel" ] }
+      { "x": -2, "y": 0, "chance": 7, "item_groups": [ "car_kit" ] },
+      { "x": -2, "y": 1, "chance": 10, "item_groups": [ "car_kit" ] },
+      { "x": -2, "y": 1, "chance": 25, "item_groups": [ "spare_tire_kit_small_jack" ] }
     ]
   },
   {
@@ -514,9 +569,9 @@
       { "x": 0, "y": 0, "chance": 5, "item_groups": [ "snacks" ] },
       { "x": 0, "y": 1, "chance": 8, "item_groups": [ "car_misc" ] },
       { "x": 0, "y": 1, "chance": 2, "item_groups": [ "fast_food" ] },
-      { "x": -2, "y": 0, "chance": 11, "item_groups": [ "car_kit" ] },
-      { "x": -2, "y": 1, "chance": 15, "item_groups": [ "car_kit" ] },
-      { "x": -2, "y": 1, "chance": 15, "items": [ "jack_small", "wheel" ] }
+      { "x": -2, "y": 0, "chance": 7, "item_groups": [ "car_kit" ] },
+      { "x": -2, "y": 1, "chance": 10, "item_groups": [ "car_kit" ] },
+      { "x": -2, "y": 1, "chance": 25, "item_groups": [ "spare_tire_kit_small_jack" ] }
     ]
   },
   {
@@ -606,8 +661,57 @@
       { "x": 0, "y": 1, "chance": 8, "item_groups": [ "car_misc" ] },
       { "x": 0, "y": 1, "chance": 2, "item_groups": [ "fast_food" ] },
       { "x": -2, "y": 0, "chance": 10, "items": [ "blanket" ] },
-      { "x": -2, "y": 1, "chance": 15, "item_groups": [ "car_kit" ] },
-      { "x": -2, "y": 1, "chance": 15, "items": [ "jack_small", "wheel" ] }
+      { "x": -2, "y": 1, "chance": 10, "item_groups": [ "car_kit" ] }
+    ]
+  },
+  {
+    "id": "car_hatch_diesel",
+    "type": "vehicle",
+    "name": "Hatchback",
+    "blueprint": [
+      [ "o++o-" ],
+      [ "+##'|" ],
+      [ "+##'|" ],
+      [ "o++o-" ]
+    ],
+    "parts": [
+      { "x": 0, "y": 0, "parts": [ "frame_cross", "seat_windshield", "seatbelt", "controls", "stereo" ] },
+      { "x": 0, "y": 0, "parts": [ "dashboard", "vehicle_clock", "vehicle_alarm", "horn_car" ] },
+      { "x": 0, "y": 0, "part": "roof" },
+      { "x": 0, "y": -1, "parts": [ "frame_vertical_left", "door_nw" ] },
+      { "x": 0, "y": 1, "parts": [ "frame_cross", "seat_windshield", "seatbelt", "roof" ] },
+      { "x": 0, "y": 2, "parts": [ "frame_vertical_right", "door_ne" ] },
+      { "x": 1, "y": -1, "parts": [ "frame_vertical_T_left", "windshield_wheel_left" ] },
+      { "x": 1, "y": -1, "parts": [ "wheel_mount_medium_steerable", "wheel" ] },
+      { "x": 1, "y": 0, "parts": [ "frame_horizontal_2", "windshield_cover_left" ] },
+      { "x": 1, "y": 1, "parts": [ "frame_horizontal_2", "windshield_cover_right" ] },
+      { "x": 1, "y": 2, "parts": [ "frame_vertical_T_right", "windshield_wheel_right" ] },
+      { "x": 1, "y": 2, "parts": [ "wheel_mount_medium_steerable", "wheel" ] },
+      { "x": 2, "y": -1, "parts": [ "frame_nw", "halfboard_nw", "headlight" ] },
+      { "x": 2, "y": 0, "parts": [ "frame_horizontal_front", "halfboard_cover_left" ] },
+      { "x": 2, "y": 0, "parts": [ "diesel_engine_inline4", "alternator_car", "battery_car" ] },
+      { "x": 2, "y": 1, "parts": [ "frame_horizontal_front", "halfboard_cover_right" ] },
+      { "x": 2, "y": 2, "parts": [ "frame_ne", "halfboard_ne", "headlight" ] },
+      { "x": -1, "y": -1, "parts": [ "frame_vertical_left", "door_sw" ] },
+      { "x": -1, "y": 0, "parts": [ "frame_cross", "seat_back_left", "seatbelt", "roof" ] },
+      { "x": -1, "y": 1, "parts": [ "frame_cross", "seat_back_right", "seatbelt", "roof" ] },
+      { "x": -1, "y": 2, "parts": [ "frame_vertical_right", "door_se" ] },
+      { "x": -2, "y": -1, "parts": [ "frame_sw", "wheel_mount_medium", "wheel" ] },
+      { "x": -2, "y": -1, "part": "tank_medium", "fuel": "diesel" },
+      { "x": -2, "y": -1, "part": "halfboard_hatch_wheel_left" },
+      { "x": -2, "y": 0, "parts": [ "frame_horizontal_rear", "hatch", "muffler" ] },
+      { "x": -2, "y": 1, "parts": [ "frame_horizontal_rear", "hatch" ] },
+      { "x": -2, "y": 2, "parts": [ "frame_se", "wheel_mount_medium", "wheel" ] },
+      { "x": -2, "y": 2, "part": "tank_medium", "fuel": "diesel" },
+      { "x": -2, "y": 2, "part": "halfboard_hatch_wheel_right" }
+    ],
+    "items": [
+      { "x": 0, "y": 0, "chance": 14, "item_groups": [ "car_misc" ] },
+      { "x": 0, "y": 0, "chance": 5, "item_groups": [ "snacks" ] },
+      { "x": 0, "y": 1, "chance": 8, "item_groups": [ "car_misc" ] },
+      { "x": 0, "y": 1, "chance": 2, "item_groups": [ "fast_food" ] },
+      { "x": -2, "y": 0, "chance": 10, "items": [ "blanket" ] },
+      { "x": -2, "y": 1, "chance": 10, "item_groups": [ "car_kit" ] }
     ]
   },
   {
@@ -657,8 +761,7 @@
       { "x": 0, "y": 1, "chance": 8, "item_groups": [ "car_misc" ] },
       { "x": 0, "y": 1, "chance": 2, "item_groups": [ "fast_food" ] },
       { "x": -2, "y": 0, "chance": 10, "items": [ "blanket" ] },
-      { "x": -2, "y": 1, "chance": 15, "item_groups": [ "car_kit" ] },
-      { "x": -2, "y": 1, "chance": 15, "items": [ "jack_small", "wheel" ] }
+      { "x": -2, "y": 1, "chance": 10, "item_groups": [ "car_kit" ] }
     ]
   },
   {
@@ -702,7 +805,8 @@
     ],
     "items": [
       { "x": 0, "y": 0, "chance": 10, "item_groups": [ "snacks_fancy" ] },
-      { "x": -1, "y": 1, "chance": 15, "item_groups": [ "car_kit" ] },
+      { "x": -1, "y": 1, "chance": 10, "item_groups": [ "car_kit" ] },
+      { "x": -1, "y": 1, "chance": 10, "item_groups": [ "spare_tire_kit_small_jack" ] },
       { "x": 0, "y": 1, "chance": 10, "item_groups": [ "snacks_fancy" ] }
     ]
   },
@@ -801,7 +905,7 @@
     ],
     "items": [
       { "x": -1, "y": 0, "chance": 8, "items": [ "sm_extinguisher" ] },
-      { "x": -1, "y": 1, "chance": 15, "item_groups": [ "car_kit" ] }
+      { "x": -1, "y": 1, "chance": 10, "item_groups": [ "car_kit" ] }
     ]
   },
   {
@@ -894,7 +998,8 @@
       { "x": -3, "y": 0, "parts": [ "xlframe_horizontal_rear", "door_trunk" ] },
       { "x": -3, "y": 1, "parts": [ "xlframe_horizontal_rear", "door_trunk" ] },
       { "x": -3, "y": 2, "parts": [ "xlframe_se", "halfboard_se", "solar_panel" ] }
-    ]
+    ],
+    "items": [ { "x": -2, "y": 1, "chance": 10, "item_groups": [ "spare_tire_kit_small_jack" ] } ]
   },
   {
     "id": "rara_x",
@@ -1006,9 +1111,9 @@
       { "x": -2, "y": 1, "chance": 5, "items": [ "screwdriver" ] },
       { "x": -2, "y": 1, "chance": 5, "items": [ "scissors" ] },
       { "x": -2, "y": 1, "chance": 5, "items": [ "crowbar" ] },
-      { "x": -2, "y": 1, "chance": 5, "item_groups": [ "car_kit" ] },
+      { "x": -2, "y": 1, "chance": 3, "item_groups": [ "car_kit" ] },
       { "x": -2, "y": 1, "chance": 5, "items": [ "jumper_cable" ] },
-      { "x": -2, "y": 1, "chance": 15, "items": [ "jack_small", "wheel" ] }
+      { "x": -2, "y": 1, "chance": 80, "item_groups": [ "spare_tire_kit_small_jack" ] }
     ]
   },
   {
@@ -1070,11 +1175,11 @@
       { "x": -1, "y": 1, "chance": 5, "item_groups": [ "snacks" ] },
       { "x": -1, "y": 1, "chance": 5, "item_groups": [ "fast_food" ] },
       { "x": -2, "y": 1, "chance": 5, "items": [ "screwdriver" ] },
-      { "x": -2, "y": 1, "chance": 5, "item_groups": [ "car_kit" ] },
+      { "x": -2, "y": 1, "chance": 3, "item_groups": [ "car_kit" ] },
       { "x": -2, "y": 1, "chance": 5, "items": [ "scissors" ] },
       { "x": -2, "y": 1, "chance": 5, "items": [ "crowbar" ] },
       { "x": -2, "y": 1, "chance": 5, "items": [ "jumper_cable" ] },
-      { "x": -2, "y": 1, "chance": 15, "items": [ "jack_small", "wheel" ] }
+      { "x": -2, "y": 1, "chance": 50, "item_groups": [ "spare_tire_kit_small_jack" ] }
     ]
   },
   {
@@ -1134,12 +1239,12 @@
       { "x": -1, "y": 0, "chance": 5, "item_groups": [ "fast_food" ] },
       { "x": -1, "y": 1, "chance": 5, "item_groups": [ "snacks" ] },
       { "x": -1, "y": 1, "chance": 5, "item_groups": [ "fast_food" ] },
-      { "x": -2, "y": 1, "chance": 5, "item_groups": [ "car_kit" ] },
+      { "x": -2, "y": 1, "chance": 3, "item_groups": [ "car_kit" ] },
       { "x": -2, "y": 1, "chance": 5, "items": [ "screwdriver" ] },
       { "x": -2, "y": 1, "chance": 5, "items": [ "scissors" ] },
       { "x": -2, "y": 1, "chance": 5, "items": [ "crowbar" ] },
       { "x": -2, "y": 1, "chance": 5, "items": [ "jumper_cable" ] },
-      { "x": -2, "y": 1, "chance": 15, "items": [ "jack_small", "wheel" ] }
+      { "x": -2, "y": 1, "chance": 50, "item_groups": [ "spare_tire_kit_small_jack" ] }
     ]
   },
   {
@@ -1188,8 +1293,23 @@
       { "x": 0, "y": 1, "chance": 5, "item_groups": [ "snacks" ] },
       { "x": 0, "y": 1, "chance": 7, "item_groups": [ "fast_food" ] },
       { "x": -1, "y": 0, "chance": 20, "item_groups": [ "mixed_alcoholic_drinks" ] },
-      { "x": -1, "y": 0, "chance": 20, "item_groups": [ "car_kit" ] },
-      { "x": -2, "y": 1, "chance": 15, "items": [ "jack_small", "wheel_wide_or" ] }
+      { "x": -1, "y": 0, "chance": 13, "item_groups": [ "car_kit" ] },
+      { "x": -2, "y": 1, "chance": 100, "items": [ "jack", "lug_wrench" ] },
+      { "x": -2, "y": 1, "chance": 75, "items": [ "wheel_wide_or" ] }
+    ]
+  },
+  {
+    "id": "go_kart",
+    "type": "vehicle",
+    "name": "Go-kart",
+    "blueprint": [ "o>o" ],
+    "parts": [
+      { "x": 0, "y": 0, "parts": [ "frame_handle", "seat", "seatbelt", "controls", "controls_electronic" ] },
+      { "x": 0, "y": 0, "parts": [ "engine_1cyl", "alternator_motorbike" ] },
+      { "x": 0, "y": 0, "parts": [ "battery_motorbike", { "part": "tank_small", "fuel": "gasoline" } ] },
+      { "x": 1, "y": 0, "parts": [ "xlframe_vertical", "wheel_mount_medium_steerable", "wheel_slick" ] },
+      { "x": -1, "y": 0, "parts": [ "xlframe_vertical", "wheel_mount_medium", "wheel_slick" ] },
+      { "x": -1, "y": 0, "part": "muffler" }
     ]
   }
 ]

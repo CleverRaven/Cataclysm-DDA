@@ -42,7 +42,7 @@
       "D": "f_trashcan",
       "L": "f_locker",
       "6": "f_hay",
-      "o": "f_oven",
+      "o": [ "f_oven", "f_gas_oven_microwave_combo" ],
       "S": "f_sink",
       "Y": "f_sofa",
       "c": "f_counter",
@@ -63,7 +63,7 @@
       "i": "f_beaded_door",
       "y": [ "f_indoor_plant_y", "f_indoor_plant" ],
       "b": "f_rotary_clothesline",
-      "p": [ "f_region_flower", "f_region_weed" ]
+      "p": "f_region_flower_decorative"
     }
   }
 ]

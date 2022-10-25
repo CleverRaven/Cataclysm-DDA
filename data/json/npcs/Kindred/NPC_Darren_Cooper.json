@@ -3,7 +3,7 @@
     "type": "npc_class",
     "id": "NC_KINDRED_COOPER",
     "name": { "str": "Rogue Kindred" },
-    "job_description": "I have to gather more bones",
+    "job_description": "I have to gather more bones.",
     "traits": [
       { "trait": "OUTDOORSMAN" },
       { "trait": "INSOMNIA" },
@@ -44,7 +44,7 @@
       { "item": "helmet_liner" },
       { "item": "gloves_liner" },
       { "item": "boots_larmor" },
-      { "item": "swat_armor" },
+      { "group": "swat_ballistic_vest" },
       { "item": "gauntlets_larmor" },
       { "item": "leather_belt" },
       { "item": "canteen" },

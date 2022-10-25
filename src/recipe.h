@@ -91,6 +91,7 @@ class recipe
 
         int64_t time = 0; // in movement points (100 per turn)
 
+        std::string exertion_str;
         float exertion = 0.0f;
 
     public:
@@ -185,6 +186,8 @@ class recipe
         std::map<itype_id, book_recipe_data> booksets;
         // Parameters for practice recipes
         cata::optional<practice_recipe_data> practice_data;
+        // Parameters for nested categories
+        std::set<recipe_id> nested_category_data;
 
         std::set<flag_id> flags_to_delete; // Flags to delete from the resultant item.
 
@@ -257,6 +260,7 @@ class recipe
         std::string get_consistency_error() const;
 
         bool is_practice() const;
+        bool is_nested() const;
         bool is_blueprint() const;
         const update_mapgen_id &get_blueprint() const;
         const translation &blueprint_name() const;
@@ -283,7 +287,6 @@ class recipe
         void incorporate_build_reqs();
         void add_requirements( const std::vector<std::pair<requirement_id, int>> &reqs );
 
-    private:
         recipe_id ident_ = recipe_id::NULL_ID();
 
         /** Abstract recipes can be inherited from but are themselves disposed of at finalization */

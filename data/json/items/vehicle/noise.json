@@ -31,7 +31,8 @@
     "bashing": 2,
     "category": "veh_parts",
     "price": 6000,
-    "price_postapoc": 100
+    "price_postapoc": 100,
+    "flags": [ "WATER_BREAK", "ELECTRONIC" ]
   },
   {
     "type": "GENERIC",
@@ -46,7 +47,8 @@
     "volume": "3500 ml",
     "category": "veh_parts",
     "price": 800,
-    "price_postapoc": 100
+    "price_postapoc": 100,
+    "flags": [ "WATER_BREAK", "ELECTRONIC" ]
   },
   {
     "type": "GENERIC",
@@ -61,6 +63,7 @@
     "volume": "4 L",
     "category": "veh_parts",
     "price": 5000,
-    "price_postapoc": 250
+    "price_postapoc": 250,
+    "flags": [ "WATER_BREAK", "ELECTRONIC" ]
   }
 ]

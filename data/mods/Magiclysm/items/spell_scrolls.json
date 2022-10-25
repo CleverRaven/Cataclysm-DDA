@@ -319,6 +319,24 @@
   {
     "type": "BOOK",
     "copy-from": "spell_scroll",
+    "id": "spell_scroll_druid_healing",
+    "//": "Druid spell",
+    "name": { "str": "Scroll of Restoration", "str_pl": "Scrolls of Restoration" },
+    "description": "Directed magic energy, that slowly heal your body from wounds.",
+    "use_action": { "type": "learn_spell", "spells": [ "druid_healing" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_druid_healing_herb",
+    "//": "Druid spell",
+    "name": { "str": "Scroll of Floral Healing", "str_pl": "Scrolls of Floral Healing" },
+    "description": "Using a magic energy from herbs allow you to heal yourself.",
+    "use_action": { "type": "learn_spell", "spells": [ "druid_healing_herb" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
     "id": "spell_scroll_stonefist",
     "//": "Earthshaper spell",
     "name": { "str": "Scroll of Stonefist", "str_pl": "Scrolls of Stonefist" },
@@ -895,6 +913,14 @@
     "name": { "str": "Scroll of Pillar of Stone", "str_pl": "Scrolls of Pillar of Stone" },
     "description": "Drawing upon the surrounding earth, you form a pillar of solid rock.  Experience will make the task easier, and less disruptive to the surrounding area.",
     "use_action": { "type": "learn_spell", "spells": [ "earthshaper_pillar" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_move_earth",
+    "name": { "str": "Scroll of Move Earth", "str_pl": "Scrolls of Move Earth" },
+    "description": "Make the terrain answer to your call.",
+    "use_action": { "type": "learn_spell", "spells": [ "move_earth" ] }
   },
   {
     "type": "BOOK",

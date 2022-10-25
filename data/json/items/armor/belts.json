@@ -117,7 +117,7 @@
     "id": "leather_belt",
     "type": "ARMOR",
     "name": { "str": "leather belt" },
-    "description": "A leather belt.  Useful for making your pair of pants fit.",
+    "description": "A leather belt.  Designed to look good and hold up a pair of pants, but you should be able to attach a small tool or weapon to one of the belt loops.",
     "weight": "102 g",
     "volume": "250 ml",
     "price": 9000,
@@ -159,7 +159,7 @@
     "id": "police_belt",
     "type": "ARMOR",
     "name": { "str": "police duty belt" },
-    "description": "Black leather belt used by police officers.  It has several pouches and a holder for a baton.",
+    "description": "A black leather belt used by police officers.  It has several pouches and a holder for a baton.",
     "weight": "250 g",
     "volume": "2 L",
     "price": 10000,
@@ -171,10 +171,21 @@
     "repairs_like": "tool_belt",
     "color": "brown",
     "pocket_data": [
-      { "max_contains_volume": "500 ml", "max_item_volume": "125 ml", "max_contains_weight": "1500 g", "moves": 100 },
-      { "max_contains_volume": "500 ml", "max_item_volume": "125 ml", "max_contains_weight": "1500 g", "moves": 100 },
-      { "max_contains_volume": "500 ml", "max_item_volume": "125 ml", "max_contains_weight": "1500 g", "moves": 100 },
-      { "max_contains_volume": "500 ml", "max_item_volume": "125 ml", "max_contains_weight": "1500 g", "moves": 100 },
+      {
+        "description": "flashlight storage",
+        "max_contains_volume": "500 ml",
+        "max_item_length": "40 cm",
+        "max_contains_weight": "1500 g",
+        "moves": 100
+      },
+      {
+        "description": "radio storage",
+        "max_contains_volume": "500 ml",
+        "max_contains_weight": "1500 g",
+        "moves": 100
+      },
+      { "max_contains_volume": "500 ml", "max_contains_weight": "1500 g", "moves": 100 },
+      { "max_contains_volume": "500 ml", "max_contains_weight": "1500 g", "moves": 100 },
       {
         "holster": true,
         "max_contains_volume": "2250 ml",
@@ -188,7 +199,7 @@
     "flags": [ "BELTED", "WATER_FRIENDLY" ],
     "armor": [
       {
-        "encumbrance": [ 2, 5 ],
+        "volume_encumber_modifier": 0.4,
         "coverage": 50,
         "covers": [ "torso" ],
         "specifically_covers": [ "torso_waist" ],
@@ -234,7 +245,7 @@
     "type": "ARMOR",
     "name": { "str": "tool belt" },
     "description": "A common belt with pockets, loops and sheaths to store up to six tools or blades.  Widely used by handymen and electricians.",
-    "weight": "2000 g",
+    "weight": "4480 g",
     "volume": "2250 ml",
     "price": 4500,
     "price_postapoc": 1500,
@@ -318,7 +329,7 @@
         "max_contains_weight": "1000 g",
         "max_item_length": "70 cm",
         "moves": 60,
-        "description": "Clipped directly to belt",
+        "description": "Clipped directly to belt.",
         "flag_restriction": [ "BELT_CLIP" ]
       }
     ],
@@ -337,5 +348,53 @@
         "volume_encumber_modifier": 0.35
       }
     ]
+  },
+  {
+    "id": "suspenders_cloth",
+    "type": "ARMOR",
+    "name": { "str": "suspenders", "str_pl": "pairs of suspenders" },
+    "description": "A pair of black suspenders, which reach over the wearer's shoulders and hook to their waist.  Gives a wonderful western feel!",
+    "weight": "250g",
+    "volume": "500 ml",
+    "price": 1000,
+    "price_postapoc": 25,
+    "material": [ "cotton", "steel" ],
+    "symbol": "#",
+    "looks_like": "leather_belt",
+    "color": "black",
+    "material_thickness": 1.5,
+    "flags": [ "BELTED", "WATER_FRIENDLY" ],
+    "armor": [ { "coverage": 50, "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ] } ]
+  },
+  {
+    "id": "suspenders_leather",
+    "type": "ARMOR",
+    "name": { "str": "leather suspenders", "str_pl": "pairs of leather suspenders" },
+    "description": "A pair of leather suspenders, which reach over the wearer's shoulders and hook to their waist.  Gives a wonderful western feel!",
+    "material": [ "leather", "steel" ],
+    "color": "brown",
+    "copy-from": "suspenders_cloth"
+  },
+  {
+    "id": "suspenders_holster",
+    "type": "ARMOR",
+    "name": { "str": "holster suspenders", "str_pl": "pairs of holster suspenders" },
+    "description": "A pair of leather suspenders with a holster placed near the stomach.",
+    "copy-from": "suspenders_leather",
+    "use_action": { "type": "holster", "holster_prompt": "Store tool or blade", "holster_msg": "You put your %1$s in your %2$s" },
+    "flags": [ "BELTED", "WATER_FRIENDLY", "NO_QUICKDRAW" ],
+    "pocket_data": [
+      {
+        "magazine_well": "350 ml",
+        "pocket_type": "CONTAINER",
+        "holster": true,
+        "min_item_volume": "250 ml",
+        "max_contains_volume": "1000 ml",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "30 cm",
+        "moves": 50
+      }
+    ],
+    "armor": [ { "encumbrance": [ 3, 4 ], "coverage": 75, "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ] } ]
   }
 ]

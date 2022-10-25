@@ -1,0 +1,51 @@
+# Lines longer than 78 characters will be wrapped automatically
+# The following line is for reference
+##############################################################################
+<color_white>Rólunk:</color>
+
+<color_light_gray>* Honlap:</color>    <color_cyan>https://cataclysmdda.org</color>
+<color_light_gray>* Wiki:</color>        <color_cyan>https://cddawiki.chezzo.com/cdda_wiki</color>
+
+<color_white>Programhibák bejelentése, új ötletek és folyamatos fejlesztés:</color>
+
+<color_light_gray>* Github: </color><color_light_cyan>https://github.com/CleverRaven/Cataclysm-DDA/issues</color>
+<color_light_gray>* e-mail: </color><color_light_cyan>kevin.granade@gmail.com</color>
+
+<color_white>Angol nyelvű fórumozás és chat:</color>
+
+<color_light_gray>* Discourse:                 </color><color_cyan>https://discourse.cataclysmdda.org/</color>
+<color_light_gray>* Discord:                   </color><color_cyan>https://discord.gg/jFEc7Yp</color>
+<color_light_gray>* IRC:                       </color><color_cyan>#CataclysmDDA at libera.chat</color>
+<color_light_gray>* Reddit (nem hivatalos):       </color><color_cyan>https://www.reddit.com/r/cataclysmdda/</color>
+
+<color_light_gray>További hasznos hivatkozásokért lásd a honlapot.</color>
+
+<color_light_gray>A játékon belül a beállításokat az (<color_yellow>Esc</color>) gomb lenyomásánál felugró menüben találod.</color>
+
+<color_light_red>******************************************************************************</color>
+<color_light_red>    Amit a kísérleti verziókról kell tudni:</color>
+<color_light_red>******************************************************************************</color>
+
+<color_white>K: </color><color_yellow>Mi az a kísérleti verzió (experimental build) ?</color>
+
+<color_white>V: </color><color_light_gray>A kísérleti verziók a játék másodlagos minőség-ellenőrzése céljából vannak. Itt kerülnek be a legújabb tartalmak, hogy teszteljék és kiegyensúlyozzák az elsődleges ellenőrzés után. Tudatában kell lenned annak, hogy a legújabb kísérleti verzió választása esetén részt veszel a fejlesztési folyamatban, a legújabb tartalmak lejátszásával amelyek hibásak lehetnek még vagy félkészek.</color>
+
+<color_white>K: </color><color_yellow>Mi értelme a kísérleti verzióknak?</color>
+
+<color_white>V: </color><color_light_gray>Tekintsd úgy, mintha egy alfa/béta verziót játszanál – a hibák és a félkész funkciók a részei. A folyamatos fejlesztés miatt a kísérleti verziók mindig a folyamatos munka egy állapotában vannak. Az "Experimental" egy homokozó, ahol a hibakeresés és a funkciók javítása történik. A nagy és kis funkciók is folyamatosan megjelennek ezekben a verziókban, hogy ellenőrizni lehessen az általános stabilitást és kiegyensúlyozást. Emiatt a kísérletezőkre nem vonatkozik az egyensúly és a stabilitás garantálásának szigora. Valójában semmi sem garantált a kísérleti verziókban.</color>
+
+<color_white>K: </color><color_yellow>Vagyis a kísérleti verziók is játszhatóak?</color>
+
+<color_white>V: </color><color_light_gray>Igen. Bár a kísérleti verziók összességükben stabilak, de ez nem garantálja azt, hogy az éppen fejlesztés alatt álló funkciók is azok lennének, amelyek részenként kerülnek bevezetésre; és hibákat okozhatnak, beleértve az olyan súlyos hibákat is amelyektől összeomlik a játék vagy megsérül a mentés. Ritka, de a játék komplexitása miatt előfordulhat, hogy az elsődleges minőség-ellenőrzés a kísérleti verzióval való egyesülés előtt nem megfelelő, vagyis mindig van hely az emberi hibáknak is. Ez az elsődleges oka annak, hogy vannak kísérleti verziók.</color>
+
+<color_white>K: </color><color_yellow>Szóval akkor játszhatok a kísérleti verziókkal, vagy maradjon a stabil verzió?</color>
+
+<color_white>V: </color><color_light_gray>A jutalom az azonnali hozzáférés a legújabb tartalmakhoz, a kockázat pedig a játék előrehaladásának elvesztése, ha egy csúnya hiba jelentkezik. A döntés a tiéd, hogy a kísérleti vagy a stabil verziót választod, vagyis játssz a saját megítélésed szerint. Tiéd minden felelősség, ha valami elromlik, ezért legyél óvatos! Tegyél óvintézkedéseket, mint a biztonsági másolat készítése. Néha az a legjobb, ha néhány nappal elhalasztod a frissítést, amíg egy nagy funkció stabilizálódik vagy egy jelentősebb hibát el nem távolítanak.</color>
+
+<color_white>K: </color><color_yellow>Van még valami amit tudnom kell?</color>
+
+<color_white>V: </color><color_light_gray>Igen. Ne feledd, hogy minden amit látsz és látni fogsz, az változhat. Minden funkció, beleértve az újonnan bevezetetteket is, folyamatban van, és a játék fejlesztése során változhat. Ahogy korábban is mondtuk, semmi sem garantált, beleértve az egyensúlyt és a stabilitást is.</color>
+
+<color_white>K: </color><color_yellow>Mi van ha a kísérleti verzió kockázatait nem vállalom?</color>
+
+<color_white>V: </color><color_light_gray>Ha a kockázat számodra elfogadhatatlan - játssz a stabil verzióval. Ha hajlandó vagy vállalni a kockázatot - élvezd a kísérleti verziók újonnan hozzáadott tartalmát, és vegyél részt a fejlesztésben - jelentsd a hibákat, küldj be javaslatokat, vagy akár saját tartalmat adj hozzá a játékhoz. Sok szerencsét!</color>

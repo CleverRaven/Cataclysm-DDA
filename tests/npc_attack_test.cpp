@@ -81,7 +81,7 @@ TEST_CASE( "NPC faces zombies", "[npc_attack]" )
         WHEN( "NPC only has a chef knife" ) {
             item weapon( "knife_chef" );
             main_npc.set_wielded_item( weapon );
-            REQUIRE( main_npc.get_wielded_item().typeId() == itype_knife_chef );
+            REQUIRE( main_npc.get_wielded_item()->typeId() == itype_knife_chef );
 
             THEN( "NPC attempts to melee the enemy target" ) {
                 main_npc.evaluate_best_weapon( zombie );
@@ -140,7 +140,7 @@ TEST_CASE( "NPC faces zombies", "[npc_attack]" )
         WHEN( "NPC only has a bunch of rocks" ) {
             item weapon( "rock" );
             main_npc.set_wielded_item( weapon );
-            REQUIRE( main_npc.get_wielded_item().typeId() == itype_rock );
+            REQUIRE( main_npc.get_wielded_item()->typeId() == itype_rock );
 
             THEN( "NPC doesn't bother throwing the rocks so close" ) {
                 main_npc.evaluate_best_weapon( zombie );
@@ -166,8 +166,8 @@ TEST_CASE( "NPC faces zombies", "[npc_attack]" )
 
                 ps.put_in( battery, item_pocket::pocket_type::MAGAZINE_WELL );
 
-                item *stored_ps = main_npc.try_add( ps );
-                REQUIRE( stored_ps != nullptr );
+                item_location stored_ps = main_npc.try_add( ps );
+                REQUIRE( stored_ps != item_location::nowhere );
 
                 THEN( "NPC activates their power armor successfully" ) {
                     // target is not exposed, so regen_ai_cache is used to have the npc re-assess threat and store the target.
@@ -211,7 +211,7 @@ TEST_CASE( "NPC faces zombies", "[npc_attack]" )
         WHEN( "NPC only has a chef knife" ) {
             item weapon( "knife_chef" );
             main_npc.set_wielded_item( weapon );
-            REQUIRE( main_npc.get_wielded_item().typeId() == itype_knife_chef );
+            REQUIRE( main_npc.get_wielded_item()->typeId() == itype_knife_chef );
 
             THEN( "NPC attempts to melee the enemy target" ) {
                 main_npc.evaluate_best_weapon( zombie );
@@ -228,7 +228,7 @@ TEST_CASE( "NPC faces zombies", "[npc_attack]" )
         WHEN( "NPC only has a bunch of rocks" ) {
             item weapon( "rock" );
             main_npc.set_wielded_item( weapon );
-            REQUIRE( main_npc.get_wielded_item().typeId() == itype_rock );
+            REQUIRE( main_npc.get_wielded_item()->typeId() == itype_rock );
 
             THEN( "NPC throws rocks at the zombie" ) {
                 main_npc.evaluate_best_weapon( zombie );
@@ -245,7 +245,7 @@ TEST_CASE( "NPC faces zombies", "[npc_attack]" )
         WHEN( "NPC only has a chef knife" ) {
             item weapon( "knife_chef" );
             main_npc.set_wielded_item( weapon );
-            REQUIRE( main_npc.get_wielded_item().typeId() == itype_knife_chef );
+            REQUIRE( main_npc.get_wielded_item()->typeId() == itype_knife_chef );
 
             WHEN( "NPC is targetting closest zombie" ) {
                 main_npc.evaluate_best_weapon( zombie );

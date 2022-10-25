@@ -278,7 +278,18 @@
     "color": "green",
     "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "25 L", "max_contains_weight": "75 kg", "moves": 60 } ],
     "material_thickness": 3,
-    "flags": [ "BELTED", "TRADER_AVOID", "WATERPROOF", "STURDY", "NO_UNWIELD", "ONLY_ONE", "NO_REPAIR", "NO_SALVAGE" ],
+    "flags": [
+      "BELTED",
+      "TRADER_AVOID",
+      "WATERPROOF",
+      "STURDY",
+      "OVERSIZE",
+      "NO_TAKEOFF",
+      "ONLY_ONE",
+      "NO_REPAIR",
+      "NO_SALVAGE",
+      "ZERO_WEIGHT"
+    ],
     "armor": [ { "encumbrance": [ 5, 10 ], "coverage": 40, "covers": [ "torso" ] } ]
   },
   {
@@ -289,6 +300,7 @@
     "name": { "str": "Wicked Bonespear" },
     "description": "This is a wicked spear/halberd hybrid entirely created of bone.",
     "material": [ "bone" ],
+    "weapon_category": [ "POLEARMS", "SPEARS" ],
     "flags": [
       "UNBREAKABLE_MELEE",
       "REACH_ATTACK",
@@ -327,6 +339,7 @@
       "NO_SALVAGE",
       "NO_UNLOAD",
       "WATERPROOF_GUN",
+      "NO_TURRET",
       "NEVER_JAMS"
     ],
     "ammo_effects": [ "NEVER_MISFIRES" ],
@@ -357,7 +370,7 @@
       "menu_text": "Squeeze seed"
     },
     "symbol": "!",
-    "description": "A magical seed that can be squeezed to release purifying dust, which can then be used to purify up to a gallon of water",
+    "description": "A magical seed that can be squeezed to release purifying dust, which can then be used to purify up to a gallon of water.",
     "volume": "250 ml",
     "flags": [ "TRADER_AVOID" ]
   },
@@ -365,7 +378,7 @@
     "id": "druid_dust",
     "type": "TOOL",
     "name": "faintly glowing dust",
-    "description": "This fine dust glows with a growing intensity",
+    "description": "This fine dust glows with a growing intensity.",
     "weight": "1 g",
     "volume": "30 ml",
     "price": 0,
@@ -474,7 +487,7 @@
     "warmth": 0,
     "material_thickness": 2,
     "environmental_protection": 2,
-    "flags": [ "ONLY_ONE", "OVERSIZE", "PERSONAL", "STURDY" ],
+    "flags": [ "SEMITANGIBLE", "ONLY_ONE", "OVERSIZE", "TRADER_AVOID", "PERSONAL", "STURDY", "NO_TAKEOFF", "NONCONDUCTIVE" ],
     "armor": [
       {
         "encumbrance": 10,
@@ -603,6 +616,7 @@
     "name": { "str": "flaming sword" },
     "description": "This wooden sword is ablaze!  It seems to be safe-ish to hold, but will burn up soon.",
     "material": [ "wood" ],
+    "weapon_category": [ "CONSTRUCTED_SWORDS", "MEDIUM_SWORDS" ],
     "flags": [
       "UNBREAKABLE_MELEE",
       "NONCONDUCTIVE",
@@ -622,7 +636,7 @@
     "cutting": 2,
     "to_hit": 2,
     "relic_data": {
-      "passive_effects": [ { "has": "WIELD", "condition": "ALWAYS", "values": [ { "value": "ITEM_DAMAGE_HEAT", "add": 8 } ] } ]
+      "passive_effects": [ { "has": "WIELD", "condition": "ALWAYS", "values": [ { "value": "ITEM_DAMAGE_HEAT", "add": 28 } ] } ]
     }
   },
   {
@@ -634,6 +648,7 @@
     "name": { "str": "decaying boneclub" },
     "description": "A pulsating club made of bone, stained with an ever-moving blood coating eager to absorb the living.",
     "material": [ "bone", "flesh" ],
+    "weapon_category": [ "BATONS" ],
     "flags": [
       "UNBREAKABLE_MELEE",
       "NONCONDUCTIVE",
@@ -672,6 +687,7 @@
       "TRADER_AVOID",
       "NO_UNLOAD",
       "NO_REPAIR",
+      "NO_TURRET",
       "WATERPROOF_GUN"
     ],
     "ammo_effects": [ "NEVER_MISFIRES" ],
@@ -801,6 +817,7 @@
     "symbol": "[",
     "color": "light_gray",
     "qualities": [ [ "CUT", 2 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 12 ] ],
+    "weapon_category": [ "CLAWS" ],
     "flags": [
       "UNARMED_WEAPON",
       "UNBREAKABLE_MELEE",
@@ -1001,5 +1018,30 @@
     "name": { "str": "magical throwing knife", "str_pl": "magical throwing knives" },
     "description": "A transparent blade seems to radiate intent to be thrown.  Its ineffective cutting edge and odd shape makes it unsuitable for use as a tool.",
     "thrown_damage": [ { "damage_type": "pure", "amount": 40 } ]
+  },
+  {
+    "id": "flask_ethereal_rebreather",
+    "name": { "str_sp": "spiritus" },
+    "description": "Now you can breath under water, like a fish.",
+    "type": "TOOL_ARMOR",
+    "category": "clothing",
+    "weight": "0 g",
+    "material": [ "concentrated_mana" ],
+    "volume": "1 ml",
+    "symbol": "0",
+    "color": "white",
+    "armor": [ { "encumbrance": 0, "coverage": 75, "covers": [ "mouth" ] } ],
+    "flags": [
+      "WATER_FRIENDLY",
+      "SEMITANGIBLE",
+      "ONLY_ONE",
+      "OVERSIZE",
+      "AURA",
+      "ZERO_WEIGHT",
+      "NO_TAKEOFF",
+      "NONCONDUCTIVE",
+      "TRADER_AVOID",
+      "REBREATHER"
+    ]
   }
 ]

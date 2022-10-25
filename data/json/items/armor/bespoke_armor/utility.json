@@ -116,14 +116,14 @@
     "volume": "1250 ml",
     "price": 20000,
     "price_postapoc": 4000,
-    "material": [ "leather", "cotton" ],
+    "material": [ "leather", "canvas" ],
     "symbol": "[",
     "looks_like": "tacvest",
     "color": "green",
     "material_thickness": 2,
     "pocket_data": [
       {
-        "description": "rifle sling",
+        "description": "Rifle sling.",
         "pocket_type": "CONTAINER",
         "holster": true,
         "min_item_volume": "1000 ml",

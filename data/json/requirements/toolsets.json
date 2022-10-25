@@ -24,6 +24,59 @@
     ]
   },
   {
+    "id": "gun_cleaning",
+    "type": "requirement",
+    "//": "Gun cleaning",
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "tools": [ [ [ "pipe_cleaner", -1 ], [ "small_repairkit", -1 ], [ "large_repairkit", -1 ] ] ],
+    "components": [
+      [
+        [ "gasoline", 125 ],
+        [ "diesel", 125 ],
+        [ "chem_ethanol", 125 ],
+        [ "chem_methanol", 125 ],
+        [ "methed_alcohol", 125 ],
+        [ "denat_alcohol", 125 ],
+        [ "chem_acetone", 1 ],
+        [ "chem_chloroform", 125 ],
+        [ "ether", 125 ],
+        [ "chem_DMSO", 125 ],
+        [ "vinegar", 8 ],
+        [ "ammonia_hydroxide", 1 ],
+        [ "bleach", 1 ],
+        [ "soapy_water", 1 ]
+      ],
+      [ [ "cotton_patchwork", 1 ], [ "fur", 1 ], [ "faux_fur", 1 ], [ "felt_patch", 1 ], [ "cotton_ball", 2 ] ]
+    ]
+  },
+  {
+    "id": "gun_lubrication",
+    "type": "requirement",
+    "//": "Gun Lubrication",
+    "qualities": [  ],
+    "tools": [ [ [ "pipe_cleaner", -1 ], [ "small_repairkit", -1 ], [ "large_repairkit", -1 ] ] ],
+    "components": [
+      [ [ "cotton_patchwork", 1 ], [ "fur", 1 ], [ "faux_fur", 1 ], [ "felt_patch", 1 ], [ "cotton_ball", 2 ] ],
+      [ [ "lamp_oil", 5 ], [ "cooking_oil", 1 ], [ "cooking_oil2", 1 ], [ "motor_oil", 5 ] ]
+    ]
+  },
+  {
+    "id": "gun_repair",
+    "type": "requirement",
+    "//": "Gun repair",
+    "tools": [ [ [ "soldering_iron", 25 ], [ "toolset", 25 ] ] ],
+    "components": [ [ [ "solder_wire", 25 ] ], [ [ "scrap", 1 ] ] ],
+    "qualities": [
+      { "id": "HAMMER_FINE", "level": 1 },
+      { "id": "SAW_M_FINE", "level": 1 },
+      { "id": "WRENCH_FINE", "level": 1 },
+      { "id": "SCREW_FINE", "level": 1 },
+      { "id": "SCREW", "level": 1 },
+      { "id": "CHISEL", "level": 3 },
+      { "id": "CHISEL_WOOD", "level": 3 }
+    ]
+  },
+  {
     "id": "earthenware_firing",
     "type": "requirement",
     "//": "Firing various clay shapes to make earthenware",
@@ -63,8 +116,29 @@
   {
     "id": "sewing_standard",
     "type": "requirement",
-    "//": "Crafting or repair of fabric items",
-    "qualities": [ { "id": "SEW", "level": 1 }, { "id": "CUT", "level": 2 } ],
+    "//": "Crafting or repair of fabric items, includes roughly 10 inches of thread.",
+    "qualities": [ { "id": "SEW", "level": 1 }, { "id": "CUT", "level": 2 }, { "id": "FABRIC_CUT", "level": 1 } ],
+    "components": [ [ [ "filament", 1, "LIST" ] ] ]
+  },
+  {
+    "id": "sewing_aramids",
+    "type": "requirement",
+    "//": "crafting or repair of aramid based fabrics (nomex, kevlar). Aramid threads are abrasive and require a stronger needle. they also have special cutting considerations.",
+    "qualities": [ { "id": "SEW", "level": 3 }, { "id": "CUT", "level": 2 }, { "id": "FABRIC_CUT", "level": 2 } ],
+    "components": [ [ [ "advanced_filament", 1, "LIST" ] ] ]
+  },
+  {
+    "id": "sewing_kevlar",
+    "type": "requirement",
+    "//": "Crafting or repair of Kevlar/aramid items. This was added in the middle of the tailoring overhaul, i'll be migrating to sewing_aramids",
+    "qualities": [ { "id": "SEW", "level": 2 }, { "id": "CUT", "level": 2 }, { "id": "FABRIC_CUT", "level": 2 } ],
+    "components": [ [ [ "filament_durable", 1, "LIST" ] ] ]
+  },
+  {
+    "id": "sewing_simple",
+    "type": "requirement",
+    "//": "Crafting or repair of fabric simple items where exact shape is not important, such as cloaks and blankets, includes roughly 10 inches of thread.",
+    "qualities": [ { "id": "SEW", "level": 1 }, { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "filament", 1, "LIST" ] ] ]
   },
   {
@@ -109,12 +183,8 @@
     "id": "chainmail_standard",
     "type": "requirement",
     "//": "Construction of chainmail items",
-    "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "ANVIL", "level": 3 } ],
-    "tools": [
-      [ [ "pliers", -1 ], [ "multitool", -1 ] ],
-      [ [ "boltcutters", -1 ] ],
-      [ [ "cordless_drill", 10 ], [ "fake_drill_press", 5 ] ]
-    ]
+    "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "ANVIL", "level": 3 }, { "id": "WRENCH", "level": 1 } ],
+    "tools": [ [ [ "boltcutters", -1 ] ], [ [ "cordless_drill", 10 ], [ "drill_press_tool", 5 ] ] ]
   },
   {
     "id": "soldering_standard",
@@ -127,7 +197,7 @@
     "id": "drilling_standard",
     "type": "requirement",
     "//": "Drilling holes in various materials, including metal",
-    "tools": [ [ [ "cordless_drill", 2 ], [ "fake_drill_press", 1 ] ] ]
+    "tools": [ [ [ "cordless_drill", 2 ], [ "drill_press_tool", 1 ], [ "hand_drill", -1 ] ] ]
   },
   {
     "id": "anesthetic",
@@ -147,7 +217,7 @@
     "id": "mining_standard",
     "type": "requirement",
     "//": "mining",
-    "tools": [ [ [ "pickaxe", -1 ], [ "jackhammer", 300 ], [ "elec_jackhammer", 3500 ] ] ]
+    "tools": [ [ [ "pickaxe", -1 ], [ "bronze_pickaxe", -1 ], [ "jackhammer", 300 ], [ "elec_jackhammer", 3500 ] ] ]
   },
   {
     "id": "bronzesmithing_tools",
@@ -163,16 +233,22 @@
     "tools": [ [ [ "pen", 1 ], [ "black_pen", 1 ], [ "blue_pen", 1 ], [ "green_pen", 1 ], [ "red_pen", 1 ] ] ]
   },
   {
+    "id": "drawing_tool",
+    "type": "requirement",
+    "//": "Things suitable for drawing or writing something on paper, cardboard, cloth or similar materials.",
+    "tools": [ [ [ "ink_standard", 1, "LIST" ], [ "pencil", 1 ], [ "permanent_marker", 1 ], [ "survival_marker", 1 ] ] ]
+  },
+  {
     "id": "power_saw_long",
     "type": "requirement",
     "//": "Power tools able to make long, straight cuts",
-    "tools": [ [ [ "fake_tablesaw", 50 ], [ "circsaw_off", 100 ], [ "fake_bandsaw", 50 ] ] ]
+    "tools": [ [ [ "tablesaw_tool", 50 ], [ "circsaw_off", 100 ], [ "bandsaw_tool", 50 ] ] ]
   },
   {
     "id": "power_saw_short",
     "type": "requirement",
     "//": "Power tools able to make short, precise cuts",
-    "tools": [ [ [ "fake_mitresaw", 10 ], [ "circsaw_off", 20 ], [ "fake_bandsaw", 10 ] ] ]
+    "tools": [ [ [ "mitresaw_tool", 10 ], [ "circsaw_off", 20 ], [ "bandsaw_tool", 10 ] ] ]
   },
   {
     "id": "concrete_removal_standard",
@@ -185,7 +261,13 @@
       { "id": "DIG", "level": 3 }
     ],
     "tools": [
-      [ [ "pickaxe", -1 ], [ "jackhammer", 140 ], [ "elec_jackhammer", 7000 ], [ "hammer_sledge", -1 ] ],
+      [
+        [ "pickaxe", -1 ],
+        [ "bronze_pickaxe", -1 ],
+        [ "jackhammer", 140 ],
+        [ "elec_jackhammer", 7000 ],
+        [ "hammer_sledge", -1 ]
+      ],
       [ [ "masonrysaw_off", 100 ] ],
       [ [ "cordless_drill", 200 ] ],
       [ [ "angle_grinder", 200 ] ]
@@ -214,7 +296,10 @@
     "type": "requirement",
     "//": "Tools for removing road / sidewalk",
     "qualities": [ { "id": "PRY", "level": 3 } ],
-    "tools": [ [ [ "pickaxe", -1 ], [ "jackhammer", 140 ], [ "elec_jackhammer", 7000 ] ], [ [ "masonrysaw_off", 100 ] ] ]
+    "tools": [
+      [ [ "pickaxe", -1 ], [ "bronze_pickaxe", -1 ], [ "jackhammer", 140 ], [ "elec_jackhammer", 7000 ] ],
+      [ [ "masonrysaw_off", 100 ] ]
+    ]
   },
   {
     "id": "metal_removal_standard",
@@ -232,6 +317,43 @@
       { "id": "CHISEL", "level": 2 },
       { "id": "PRY", "level": 3 },
       { "id": "SCREW", "level": 1 }
+    ]
+  },
+  {
+    "id": "marking_hard",
+    "type": "requirement",
+    "//": "Tools to mark a hard surface. Uses individual paint colors as using the paint requirement didn't work",
+    "tools": [
+      [
+        [ "ink_standard", 2, "LIST" ],
+        [ "medical_tape", 1 ],
+        [ "duct_tape", 1 ],
+        [ "permanent_marker", 1 ],
+        [ "survival_marker", -1 ],
+        [ "r_paint", 1 ],
+        [ "b_paint", 1 ],
+        [ "w_paint", 1 ],
+        [ "g_paint", 1 ],
+        [ "p_paint", 1 ],
+        [ "y_paint", 1 ]
+      ]
+    ]
+  },
+  {
+    "id": "marking_soft",
+    "type": "requirement",
+    "//": "Tools to mark a soft, rough surface. Uses individual paint colors as using the paint requirement didn't work",
+    "tools": [
+      [
+        [ "duct_tape", 1 ],
+        [ "survival_marker", -1 ],
+        [ "r_paint", 1 ],
+        [ "b_paint", 1 ],
+        [ "w_paint", 1 ],
+        [ "g_paint", 1 ],
+        [ "p_paint", 1 ],
+        [ "y_paint", 1 ]
+      ]
     ]
   }
 ]

@@ -1,0 +1,105 @@
+[
+  {
+    "type": "monstergroup",
+    "name": "GROUP_SPIDER",
+    "monsters": [
+      { "monster": "mon_spider_disease", "weight": 40, "cost_multiplier": 0 },
+      { "monster": "mon_spider_web_small", "weight": 400, "cost_multiplier": 0 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_CHANGELING_MIRRORED_FIELD",
+    "monsters": [
+      { "monster": "mon_changeling", "weight": 100, "cost_multiplier": 1 },
+      { "monster": "mon_fetch_child", "weight": 400, "cost_multiplier": 0 },
+      { "monster": "mon_fae_wolf", "weight": 250, "cost_multiplier": 5 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_CHANGELING_STRIKE_FORCE",
+    "monsters": [
+      { "monster": "mon_changeling_bannerman", "weight": 100, "cost_multiplier": 1 },
+      { "monster": "mon_fetch_daffodil_warrior", "weight": 400, "cost_multiplier": 0 },
+      { "monster": "mon_pooka_aspirant", "weight": 10, "cost_multiplier": 4 },
+      { "monster": "mon_redcap_aspirant", "weight": 10, "cost_multiplier": 4 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_GOBLIN_SPIDER",
+    "monsters": [
+      { "monster": "mon_goblin_spider", "weight": 100, "cost_multiplier": 1 },
+      { "monster": "mon_fetch_child", "weight": 200, "cost_multiplier": 1 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_FOREST",
+    "is_animal": true,
+    "monsters": [
+      { "monster": "mon_xe_unicorn", "weight": 10, "cost_multiplier": 10, "starts": 240, "pack_size": [ 1, 5 ] },
+      { "monster": "mon_goblin_spider", "weight": 15, "cost_multiplier": 15, "starts": 780, "pack_size": [ 3, 12 ] }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_RIVER",
+    "is_animal": true,
+    "monsters": [ { "monster": "mon_xe_mavka", "weight": 1, "cost_multiplier": 10, "starts": 500, "pack_size": [ 1, 5 ] } ]
+  },
+  {
+    "name": "GROUP_PARK_SCENIC",
+    "type": "monstergroup",
+    "monsters": [
+      { "monster": "mon_vampire_moroi", "weight": 10, "conditions": [ "DAWN", "DUSK", "NIGHT" ] },
+      { "monster": "mon_vampire_strigoi", "weight": 1, "conditions": [ "DAWN", "DUSK", "NIGHT" ] }
+    ]
+  },
+  {
+    "name": "GROUP_PARK_PLAYGROUND",
+    "type": "monstergroup",
+    "monsters": [
+      { "monster": "mon_vampire_moroi", "weight": 10, "conditions": [ "DAWN", "DUSK", "NIGHT" ] },
+      { "monster": "mon_vampire_strigoi", "weight": 1, "conditions": [ "DAWN", "DUSK", "NIGHT" ] }
+    ]
+  },
+  {
+    "name": "GROUP_HOUSE",
+    "type": "monstergroup",
+    "monsters": [
+      { "monster": "mon_vampire_moroi", "weight": 5, "conditions": [ "DAWN", "DUSK", "NIGHT" ] },
+      { "monster": "mon_vampire_strigoi", "weight": 1, "conditions": [ "DAWN", "DUSK", "NIGHT" ] }
+    ]
+  },
+  {
+    "name": "GROUP_MANSION",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_vampire_moroi", "weight": 1 } ]
+  },
+  {
+    "name": "GROUP_HOSPITAL",
+    "type": "monstergroup",
+    "monsters": [
+      { "monster": "mon_vampire_moroi", "weight": 5, "conditions": [ "DAWN", "DUSK", "NIGHT" ] },
+      { "monster": "mon_vampire_strigoi", "weight": 1, "conditions": [ "DAWN", "DUSK", "NIGHT" ] }
+    ]
+  },
+  {
+    "name": "FERAL_HUMANS",
+    "type": "monstergroup",
+    "monsters": [
+      { "monster": "mon_vampire_moroi", "weight": 5, "conditions": [ "DAWN", "DUSK", "NIGHT" ] },
+      { "monster": "mon_vampire_strigoi", "weight": 1, "conditions": [ "DAWN", "DUSK", "NIGHT" ] }
+    ]
+  },
+  {
+    "name": "GROUP_RETIREMENT_COMMUNITY",
+    "type": "monstergroup",
+    "monsters": [
+      { "monster": "mon_vampire_moroi", "weight": 5, "conditions": [ "DAWN", "DUSK", "NIGHT" ] },
+      { "monster": "mon_vampire_strigoi", "weight": 1, "conditions": [ "DAWN", "DUSK", "NIGHT" ] }
+    ]
+  }
+]

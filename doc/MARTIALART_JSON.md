@@ -2,7 +2,7 @@
 
 ### Martial arts
 
-```C++
+```JSON
 "type" : "martial_art",
 "id" : "style_debug",       // Unique ID. Must be one continuous word,
                             // use underscores if necessary.
@@ -53,7 +53,7 @@
 
 ### Techniques
 
-```C++
+```JSON
 "id" : "tec_debug_arpen",   // Unique ID. Must be one continuous word
 "name" : "phasing strike",  // In-game name displayed
 "unarmed_allowed" : true,   // Can an unarmed character use this technique
@@ -107,7 +107,7 @@
 ```JSON
 "tech_effects": [
     {
-        "id": "eff_expl",    // id
+        "id": "eff_expl",    // Unique ID. Must be one continuous word
         "chance": 100,       // Percent chance to apply the effect on this attack
         "permanent": false,  // If true the effect won't decay (default false)
         "duration": 15,      // Duration of the effect in turns
@@ -120,19 +120,19 @@
 
 ### Buffs
 
-```C++
+```JSON
 "id" : "debug_elem_resist",         // Unique ID. Must be one continuous word
-"name" : "Elemental resistance",    // In-game name displayed
-"description" : "+Strength bash armor, +Dexterity acid armor, +Intelligence electricity armor, +Perception fire armor.",    // In-game description
+"name" : "Elemental Resistance",    // In-game name displayed
+"description" : "You are a walking tank!\n\nBash armor increased by 100% of Strength, Cut armor increased by 100% of Dexterity, Electricic armor increased by 100% of Intelligence, and Fire armor increased by 100% of Perception", // In-game description
 "buff_duration": 2,                 // Duration in turns that this buff lasts
-"persists": false,                 // Allow buff to remain when changing to a new style
+"persists": false,                  // Allow buff to remain when changing to a new style
 "unarmed_allowed" : true,           // Can this buff be applied to an unarmed character
 "unarmed_allowed" : false,          // Can this buff be applied to an armed character
-"unarmed_weapons_allowed" : true,          // Does this buff require the character to be actually unarmed. If true, allows unarmed weapons (brass knuckles, punch daggers)
+"unarmed_weapons_allowed" : true,   // Does this buff require the character to be actually unarmed. If true, allows unarmed weapons (brass knuckles, punch daggers)
 "weapon_categories_allowed" : [ "BLADES", "KNIVES" ], // Restrict buff to only these categories of weapons. If omitted, all weapon categories are allowed.
 "max_stacks" : 8,                   // Maximum number of stacks on the buff. Buff bonuses are multiplied by current buff intensity
-"bonus_blocks": 1       // Extra blocks per turn
-"bonus_dodges": 1       // Extra dodges per turn
+"bonus_blocks": 1                   // Extra blocks per turn
+"bonus_dodges": 1                   // Extra dodges per turn
 "flat_bonuses" : [                  // Flat bonuses, see below
 ],
 "mult_bonuses" : [                  // Multiplicative bonuses, see below
@@ -143,7 +143,7 @@
 
 The bonuses arrays contain any number of bonus entries like this:
 
-```C++
+```JSON
 {
   "stat": "damage",
   "type": "bash",

@@ -1,9 +1,11 @@
 from .parsers.achievement import parse_achievement
 from .parsers.activity_type import parse_activity_type
+from .parsers.addiction_type import parse_addiction_type
 from .parsers.ammunition_type import parse_ammunition_type
 from .parsers.bionic import parse_bionic
 from .parsers.body_part import parse_body_part
 from .parsers.character_mod import parse_character_mod
+from .parsers.city import parse_city
 from .parsers.clothing_mod import parse_clothing_mod
 from .parsers.construction import parse_construction
 from .parsers.construction_category import parse_construction_category
@@ -31,8 +33,10 @@ from .parsers.loot_zone import parse_loot_zone
 from .parsers.map_extra import parse_map_extra
 from .parsers.mapgen import parse_mapgen
 from .parsers.mutation import parse_mutation
+from .parsers.nested_category import parse_nested_category
 from .parsers.npc import parse_npc
 from .parsers.npc_class import parse_npc_class
+from .parsers.option_slider import parse_option_slider
 from .parsers.overmap_terrain import parse_overmap_terrain
 from .parsers.palette import parse_palette
 from .parsers.profession import parse_profession
@@ -54,6 +58,7 @@ from .parsers.mutation_category import parse_mutation_category
 from .parsers.overmap_land_use_code import parse_overmap_land_use_code
 from .parsers.practice import parse_practice
 from .parsers.scenario import parse_scenario
+from .parsers.shop_blacklist import parse_shopkeeper_blacklist
 from .parsers.skill import parse_skill
 from .parsers.skill_display_type import parse_skill_display_type
 from .parsers.speech import parse_speech
@@ -87,6 +92,7 @@ def dummy_parser(json, origin):
 parsers = {
     "achievement": parse_achievement,
     "activity_type": parse_activity_type,
+    "addiction_type": parse_addiction_type,
     "ammo": parse_generic,
     "ammo_effect": dummy_parser,
     "ammunition_type": parse_ammunition_type,
@@ -97,17 +103,20 @@ parsers = {
     "behavior": dummy_parser,
     "bionic": parse_bionic,
     "bionic_item": parse_generic,
+    "body_graph": dummy_parser,
     "body_part": parse_body_part,
     "book": parse_generic,
     "butchery_requirement": dummy_parser,
     "character_mod": parse_character_mod,
     "charge_migration_blacklist": dummy_parser,
     "charge_removal_blacklist": dummy_parser,
+    "city": parse_city,
     "city_building": dummy_parser,
     "clothing_mod": parse_clothing_mod,
     "comestible": parse_generic,
     "colordef": dummy_parser,
     "conduct": parse_achievement,
+    "connect_group": dummy_parser,
     "construction": parse_construction,
     "construction_category": parse_construction_category,
     "construction_group": parse_construction_group,
@@ -163,9 +172,11 @@ parsers = {
     "mutation": parse_mutation,
     "mutation_category": parse_mutation_category,
     "mutation_type": dummy_parser,
+    "nested_category": parse_nested_category,
     "npc": parse_npc,
     "npc_class": parse_npc_class,
     "obsolete_terrain": dummy_parser,
+    "option_slider": parse_option_slider,
     "overlay_order": dummy_parser,
     "overmap_connection": dummy_parser,
     "overmap_land_use_code": parse_overmap_land_use_code,
@@ -193,6 +204,8 @@ parsers = {
     "scenario_blacklist": dummy_parser,
     "scent_type": dummy_parser,
     "score": dummy_parser,
+    "shopkeeper_blacklist": parse_shopkeeper_blacklist,
+    "shopkeeper_consumption_rates": dummy_parser,
     "skill": parse_skill,
     "skill_boost": dummy_parser,
     "skill_display_type": parse_skill_display_type,
@@ -210,6 +223,7 @@ parsers = {
     "terrain": parse_terrain,
     "trait_blacklist": dummy_parser,
     "trait_group": dummy_parser,
+    "trait_migration": dummy_parser,
     "trap": parse_trap,
     "tool": parse_generic,
     "tool_armor": parse_generic,
@@ -220,6 +234,7 @@ parsers = {
     "vehicle_group": dummy_parser,
     "vehicle_part": parse_vehicle_part,
     "vehicle_part_category": parse_vehicle_part_category,
+    "vehicle_part_migration": dummy_parser,
     "vehicle_placement": dummy_parser,
     "vehicle_spawn": parse_vehicle_spawn,
     "vitamin": parse_vitamin,

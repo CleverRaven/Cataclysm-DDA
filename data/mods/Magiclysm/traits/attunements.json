@@ -50,7 +50,7 @@
     "valid": false,
     "description": "The alchemist comes from the technomancer's skills with unliving matter combined with the animist's grasp on the ambient ley lines.  It requires magical talent and lots of time, but is invaluable for creating powerful magical effects in a storable, accessible form.",
     "prereqs": [ "ANIMIST", "TECHNOMANCER" ],
-    "spells_learned": [ [ "alchemist_make_potion_bomb", 5 ], [ "alchemist_make_potion_trap", 5 ] ],
+    "spells_learned": [ [ "alchemist_make_potion_starter", 5 ], [ "alchemist_make_potion_bomb", 5 ], [ "alchemist_make_potion_trap", 5 ] ],
     "cancels": [
       "ARTIFICER",
       "BIOTEK",
@@ -94,7 +94,6 @@
     "cancels": [
       "ARTIFICER",
       "ALCHEMIST",
-      "BIOTEK",
       "BLOOD_MAGE",
       "BOREAL_MAGE",
       "CRUSADER",
@@ -109,13 +108,10 @@
       "ICE_ELEMENTAL",
       "ILLUSIONIST",
       "MAGNETISM_MAGE",
-      "PERMAFROST_MAGE",
-      "RADIATION_MAGE",
       "SHAMAN",
       "SHAPESHIFTER",
       "STORM_ELEMENTAL",
       "STORMCALLER",
-      "SUN_MAGE",
       "TUNDRA_MAGE",
       "VOID_MAGE",
       "VULCANIST",
@@ -139,7 +135,6 @@
     "cancels": [
       "ALCHEMIST",
       "BIOTEK",
-      "BLOOD_MAGE",
       "CRUSADER",
       "CLEANSING_FLAME",
       "EARTH_ELEMENTAL",
@@ -179,7 +174,6 @@
       "ARTIFICER",
       "ALCHEMIST",
       "BIOTEK",
-      "BOREAL_MAGE",
       "CRUSADER",
       "CLEANSING_FLAME",
       "EARTH_ELEMENTAL",
@@ -222,7 +216,6 @@
       "BLOOD_MAGE",
       "BOREAL_MAGE",
       "CRUSADER",
-      "CLEANSING_FLAME",
       "EARTH_ELEMENTAL",
       "FIRE_ELEMENTAL",
       "FORCE_MAGE",
@@ -256,7 +249,7 @@
     "valid": false,
     "description": "The Crusader attunement is a clashing dichotomy of Man and Nature.  Utilizing man's propensity for tools and nature's resilience, the Crusader is a juggernaut in armed combat.",
     "prereqs": [ "DRUID", "TECHNOMANCER" ],
-    "spells_learned": [ [ "holy_shield", 5 ] ],
+    "spells_learned": [ [ "holy_shield", 5 ], [ "judgement_sword", 5 ] ],
     "passive_mods": { "dex_mod": 5 },
     "hp_modifier": 1,
     "cancels": [
@@ -265,7 +258,6 @@
       "BIOTEK",
       "BLOOD_MAGE",
       "BOREAL_MAGE",
-      "CRUSADER",
       "CLEANSING_FLAME",
       "EARTH_ELEMENTAL",
       "FIRE_ELEMENTAL",
@@ -310,7 +302,6 @@
       "BOREAL_MAGE",
       "CRUSADER",
       "CLEANSING_FLAME",
-      "EARTH_ELEMENTAL",
       "FIRE_ELEMENTAL",
       "GAIAS_CHOSEN",
       "GLACIER_MAGE",
@@ -350,7 +341,6 @@
       "CRUSADER",
       "CLEANSING_FLAME",
       "EARTH_ELEMENTAL",
-      "FIRE_ELEMENTAL",
       "FORCE_MAGE",
       "GAIAS_CHOSEN",
       "GLACIER_MAGE",
@@ -390,7 +380,6 @@
       "BOREAL_MAGE",
       "CLEANSING_FLAME",
       "FIRE_ELEMENTAL",
-      "FORCE_MAGE",
       "GLACIER_MAGE",
       "GOLEMANCER",
       "GRAVITY_MAGE",
@@ -412,7 +401,7 @@
       "WITHER_MAGE"
     ],
     "flags": [ "ATTUNEMENT" ],
-    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "SPEED", "multiply": 0.2 } ] } ]
+    "enchantments": [ "FORCE_MAGE" ]
   },
   {
     "id": "GAIAS_CHOSEN",
@@ -436,7 +425,6 @@
       "CLEANSING_FLAME",
       "EARTH_ELEMENTAL",
       "FIRE_ELEMENTAL",
-      "GAIAS_CHOSEN",
       "GLACIER_MAGE",
       "GOLEMANCER",
       "GRAVITY_MAGE",
@@ -476,7 +464,6 @@
       "FIRE_ELEMENTAL",
       "FORCE_MAGE",
       "GAIAS_CHOSEN",
-      "GLACIER_MAGE",
       "GOLEMANCER",
       "GRAVITY_MAGE",
       "OVERCLOCKER",
@@ -517,7 +504,6 @@
       "FORCE_MAGE",
       "GAIAS_CHOSEN",
       "GLACIER_MAGE",
-      "GOLEMANCER",
       "GRAVITY_MAGE",
       "OVERCLOCKER",
       "ILLUSIONIST",
@@ -558,7 +544,6 @@
       "GAIAS_CHOSEN",
       "GLACIER_MAGE",
       "GOLEMANCER",
-      "GRAVITY_MAGE",
       "OVERCLOCKER",
       "ILLUSIONIST",
       "MAGNETISM_MAGE",
@@ -641,7 +626,6 @@
       "GAIAS_CHOSEN",
       "GLACIER_MAGE",
       "OVERCLOCKER",
-      "ICE_ELEMENTAL",
       "MAGNETISM_MAGE",
       "PERMAFROST_MAGE",
       "RADIATION_MAGE",
@@ -683,7 +667,6 @@
       "GOLEMANCER",
       "GRAVITY_MAGE",
       "OVERCLOCKER",
-      "ILLUSIONIST",
       "MAGNETISM_MAGE",
       "PERMAFROST_MAGE",
       "RADIATION_MAGE",
@@ -707,7 +690,7 @@
     "valid": false,
     "description": "",
     "prereqs": [ "STORMSHAPER", "EARTHSHAPER" ],
-    "spells_learned": [ [ "railgun", 5 ], [ "magnetismmage_electrolaser", 5 ] ],
+    "spells_learned": [ [ "railgun", 5 ], [ "magnetismmage_electrolaser", 5 ], [ "robot_disabler_explosion", 5 ] ],
     "cancels": [
       "ARTIFICER",
       "ALCHEMIST",
@@ -725,7 +708,6 @@
       "OVERCLOCKER",
       "ICE_ELEMENTAL",
       "ILLUSIONIST",
-      "MAGNETISM_MAGE",
       "PERMAFROST_MAGE",
       "RADIATION_MAGE",
       "STORM_ELEMENTAL",
@@ -764,7 +746,6 @@
       "ICE_ELEMENTAL",
       "ILLUSIONIST",
       "MAGNETISM_MAGE",
-      "PERMAFROST_MAGE",
       "RADIATION_MAGE",
       "SHAMAN",
       "SHAPESHIFTER",
@@ -777,7 +758,7 @@
       "SOULFIRE",
       "WITHER_MAGE"
     ],
-    "flags": [ "ATTUNEMENT" ]
+    "flags": [ "ATTUNEMENT", "COLD_ENERGY_IMMUNE" ]
   },
   {
     "id": "RADIATION_MAGE",
@@ -806,7 +787,6 @@
       "ILLUSIONIST",
       "MAGNETISM_MAGE",
       "PERMAFROST_MAGE",
-      "RADIATION_MAGE",
       "SHAMAN",
       "SHAPESHIFTER",
       "STORM_ELEMENTAL",
@@ -828,8 +808,10 @@
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
-    "description": "Deeply attuned to the spiritual fabric that shapes and nurtures the natural world.  Shamans call upon the primeval spirits of nature for aid and advice.  Be careful however, for ancient spirits are fickle and unknowable things.",
+    "description": "Deeply attuned to the spiritual fabric that shapes and nurtures the natural world, shamans call upon the primeval spirits of nature for aid and advice.  Be careful however, for ancient spirits are fickle and unknowable things.",
     "prereqs": [ "ANIMIST", "DRUID" ],
+    "spells_learned": [ [ "butterfly_swarm", 5 ], [ "summon_shambling_mound", 5 ] ],
+    "enchantments": [ "SHAMAN" ],
     "cancels": [
       "ALCHEMIST",
       "BIOTEK",
@@ -846,7 +828,6 @@
       "ILLUSIONIST",
       "PERMAFROST_MAGE",
       "RADIATION_MAGE",
-      "SHAMAN",
       "SHAPESHIFTER",
       "STORM_ELEMENTAL",
       "STORMCALLER",
@@ -890,7 +871,6 @@
       "PERMAFROST_MAGE",
       "RADIATION_MAGE",
       "SHAMAN",
-      "SHAPESHIFTER",
       "STORM_ELEMENTAL",
       "STORMCALLER",
       "SUN_MAGE",
@@ -899,7 +879,7 @@
       "SOULFIRE",
       "WITHER_MAGE"
     ],
-    "flags": [ "ATTUNEMENT" ]
+    "flags": [ "ATTUNEMENT", "ALKAHEST_IMMUNE" ]
   },
   {
     "id": "SOULFIRE",
@@ -911,7 +891,6 @@
     "valid": false,
     "description": "The Soulfire is a phenomena of the caster's spirit binding to a fragment of a spirit of flame.  This makes it possible for the Soulfire to use its namesake as an element - much like fire, it does burn, but it burns away at the soul instead of the flesh.",
     "spells_learned": [ [ "burn_at_both_ends", 5 ], [ "soul_afterburner", 5 ] ],
-    "enchantments": [ "SOULFIRE" ],
     "prereqs": [ "KELVINIST", "ANIMIST" ],
     "cancels": [
       "ARTIFICER",
@@ -973,7 +952,6 @@
       "RADIATION_MAGE",
       "SHAMAN",
       "SHAPESHIFTER",
-      "STORM_ELEMENTAL",
       "STORMCALLER",
       "SUN_MAGE",
       "TUNDRA_MAGE",
@@ -1014,7 +992,6 @@
       "SHAMAN",
       "SHAPESHIFTER",
       "STORM_ELEMENTAL",
-      "STORMCALLER",
       "SUN_MAGE",
       "TUNDRA_MAGE",
       "VOID_MAGE",
@@ -1034,7 +1011,6 @@
     "valid": false,
     "description": "The Sun Mage has been studying the Laws governing heat, and has attained a special relationship with that life-giving yellow orb in the sky.  Glimpses of the Sun meet its foes, and its own burning light pierces the darkness.",
     "prereqs": [ "MAGUS", "KELVINIST" ],
-    "passive_mods": { "per_mod": 5 },
     "enchantments": [ "SUN_MAGE" ],
     "spells_learned": [ [ "solar_beam", 5 ], [ "sunmage_pocket_sun", 5 ] ],
     "cancels": [
@@ -1058,7 +1034,6 @@
       "SHAPESHIFTER",
       "STORM_ELEMENTAL",
       "STORMCALLER",
-      "SUN_MAGE",
       "TUNDRA_MAGE",
       "VOID_MAGE",
       "VULCANIST",
@@ -1100,7 +1075,6 @@
       "STORM_ELEMENTAL",
       "STORMCALLER",
       "SUN_MAGE",
-      "TUNDRA_MAGE",
       "VOID_MAGE",
       "VULCANIST",
       "SOULFIRE",
@@ -1143,7 +1117,6 @@
       "STORMCALLER",
       "SUN_MAGE",
       "TUNDRA_MAGE",
-      "VOID_MAGE",
       "VULCANIST",
       "SOULFIRE",
       "WITHER_MAGE"
@@ -1186,7 +1159,6 @@
       "SUN_MAGE",
       "TUNDRA_MAGE",
       "VOID_MAGE",
-      "VULCANIST",
       "SOULFIRE"
     ],
     "flags": [ "ATTUNEMENT", "HEAT_IMMUNE" ]
@@ -1225,8 +1197,7 @@
       "SUN_MAGE",
       "TUNDRA_MAGE",
       "VOID_MAGE",
-      "SOULFIRE",
-      "WITHER_MAGE"
+      "SOULFIRE"
     ],
     "flags": [ "ATTUNEMENT" ]
   }

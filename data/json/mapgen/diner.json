@@ -17,7 +17,7 @@
         "=|HtHHtHHtHHtHHtHlblbY|=",
         "=|HtHHtHHtHHtHHtHblblb|=",
         "=|blblblblblblblblblbY|=",
-        "=|UbUbUbUbUbUbUbUbcblb|=",
+        "=|UbUbUbUbUbUbUbUblblb|=",
         "=|#################lbl|=",
         "=|lblblblblblblblb#blb|=",
         "=|blblblblblblblblblbl|=",
@@ -40,15 +40,9 @@
         ".": "t_grass",
         "=": "t_sidewalk",
         "G": "t_linoleum_gray",
-        "H": "t_linoleum_white",
         "O": "t_window",
-        "S": "t_linoleum_white",
-        "T": "t_linoleum_white",
-        "Y": "t_linoleum_white",
         "_": "t_pavement",
         "b": "t_linoleum_gray",
-        "c": "t_linoleum_white",
-        "f": "t_linoleum_white",
         "l": "t_linoleum_white",
         "t": "t_linoleum_gray",
         "4": "t_gutter_downspout",
@@ -71,7 +65,8 @@
       "place_items": [
         { "item": "diner_food", "x": [ 4, 17 ], "y": [ 14, 14 ], "chance": 75, "repeat": [ 1, 8 ] },
         { "item": "diner_back", "x": [ 4, 16 ], "y": [ 16, 16 ], "chance": 95, "repeat": [ 1, 8 ] },
-        { "item": "coat_rack", "x": [ 17, 18 ], "y": 18, "chance": 95, "repeat": [ 1, 4 ] }
+        { "item": "coat_rack", "x": [ 17, 18 ], "y": 18, "chance": 95, "repeat": [ 1, 4 ] },
+        { "item": "cash_register_random", "x": 5, "y": 14, "chance": 100 }
       ]
     }
   },

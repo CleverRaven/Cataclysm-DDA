@@ -122,7 +122,7 @@
         "e": "f_trashcan",
         "f": "f_fridge",
         "g": "f_toilet",
-        "o": "f_oven",
+        "o": [ "f_oven", "f_gas_oven_microwave_combo" ],
         "p": "f_mailbox",
         "{": "f_dumpster"
       },
@@ -229,7 +229,7 @@
         "g": "f_trashcan",
         "h": "f_toilet",
         "i": "f_trashcan",
-        "o": "f_oven",
+        "o": [ "f_oven", "f_gas_oven_microwave_combo" ],
         "p": "f_mailbox",
         "{": "f_dresser"
       },

@@ -154,12 +154,12 @@
     "id": "bandolier_wrist",
     "type": "ARMOR",
     "name": { "str": "wrist bandolier" },
-    "description": "A small fabric bandolier for rifle cartridges designed to be worn around the wrist.",
+    "description": "A small fabric bandolier for rifle cartridges, designed to be worn around the wrist.",
     "weight": "30 g",
     "volume": "250 ml",
     "price": 2900,
     "price_postapoc": 500,
-    "material": [ "cotton" ],
+    "material": [ "canvas" ],
     "symbol": "[",
     "looks_like": "leather_belt",
     "color": "dark_gray",
@@ -194,7 +194,7 @@
     "id": "grenade_pouch",
     "type": "ARMOR",
     "name": { "str": "grenade pouch", "str_pl": "grenade pouches" },
-    "description": "A small pouch for storing cartridge grenades with straps for attaching it to your belt or other webbing.",
+    "description": "A small pouch for storing cartridge grenades, with straps for attaching it to your belt or other webbing.",
     "weight": "90 g",
     "volume": "250 ml",
     "price": 5900,
@@ -315,5 +315,101 @@
     "use_action": { "type": "holster", "holster_prompt": "Stash grenades", "holster_msg": "You stash your %s." },
     "flags": [ "WATER_FRIENDLY", "BELTED" ],
     "armor": [ { "coverage": 25, "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ] } ]
+  },
+  {
+    "id": "cheap_ammo_pouch",
+    "type": "ARMOR",
+    "name": "cheap ammo bandolier",
+    "description": "A small bandolier with four pouches that perfectly fit standard STANAG 30-round magazines.  You could also use them to store several smaller ammo clips or other items.",
+    "weight": "60 g",
+    "volume": "40 ml",
+    "price": 600,
+    "price_postapoc": 15,
+    "to_hit": -1,
+    "material": [ "cotton" ],
+    "symbol": "[",
+    "looks_like": "leather_pouch",
+    "color": "brown",
+    "material_thickness": 1,
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "290 ml",
+        "max_contains_weight": "650 g",
+        "max_item_length": "200 mm"
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "290 ml",
+        "max_contains_weight": "650 g",
+        "max_item_length": "200 mm"
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "290 ml",
+        "max_contains_weight": "650 g",
+        "max_item_length": "200 mm"
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "290 ml",
+        "max_contains_weight": "650 g",
+        "max_item_length": "200 mm"
+      }
+    ],
+    "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY" ],
+    "armor": [ { "encumbrance": 7, "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ] } ]
+  },
+  {
+    "id": "cheap_ammo_pouch_belt223",
+    "type": "ARMOR",
+    "name": { "str": "5.56x45 belt pouch", "str_pl": "5.56x45 belt pouches" },
+    "description": "A large cotton pouch, designed to store a spare ammo belt for the M249 SAW.",
+    "weight": "60 g",
+    "volume": "40 ml",
+    "price": 600,
+    "price_postapoc": 15,
+    "to_hit": -1,
+    "material": [ "cotton" ],
+    "symbol": "[",
+    "looks_like": "leather_pouch",
+    "color": "brown",
+    "material_thickness": 1,
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "2100 ml",
+        "max_contains_weight": "7000 g",
+        "max_item_length": "60 mm"
+      }
+    ],
+    "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY" ],
+    "armor": [ { "encumbrance": 7, "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ] } ]
+  },
+  {
+    "id": "cheap_ammo_pouch_belt308",
+    "type": "ARMOR",
+    "name": { "str": "7.62x51 belt pouch", "str_pl": "7.62x51 belt pouches" },
+    "description": "A large cotton pouch, designed to store a spare ammo belt for the M240 or M60 machine guns.",
+    "weight": "60 g",
+    "volume": "40 ml",
+    "price": 600,
+    "price_postapoc": 15,
+    "to_hit": -1,
+    "material": [ "cotton" ],
+    "symbol": "[",
+    "looks_like": "leather_pouch",
+    "color": "brown",
+    "material_thickness": 1,
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "4000 ml",
+        "max_contains_weight": "10000 g",
+        "max_item_length": "72 mm"
+      }
+    ],
+    "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY" ],
+    "armor": [ { "encumbrance": 7, "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ] } ]
   }
 ]

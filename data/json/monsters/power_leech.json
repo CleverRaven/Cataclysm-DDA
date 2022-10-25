@@ -38,6 +38,7 @@
     ],
     "special_when_hit": [ "ZAPBACK", 100 ],
     "harvest": "flesh_plant_bloom",
+    "dissect": "dissect_plant_sample_large",
     "flags": [ "SEES", "NOHEAD", "IMMOBILE", "NO_BREATHE", "QUEEN", "HARDTOSHOOT" ]
   },
   {
@@ -77,6 +78,7 @@
     ],
     "special_when_hit": [ "ZAPBACK", 100 ],
     "harvest": "flesh_plant",
+    "dissect": "dissect_plant_sample_single",
     "flags": [ "SEES", "NOHEAD", "IMMOBILE", "NO_BREATHE", "HARDTOSHOOT" ]
   },
   {
@@ -104,7 +106,7 @@
     "luminance": 200,
     "special_when_hit": [ "ZAPBACK", 100 ],
     "harvest": "flesh_plant",
-    "death_drops": {  },
+    "dissect": "dissect_plant_sample_single",
     "flags": [ "SEES", "NOHEAD", "IMMOBILE", "NO_BREATHE", "HARDTOSHOOT" ]
   },
   {
@@ -138,6 +140,7 @@
       [ "LEECH_SPAWNER", 120 ]
     ],
     "harvest": "flesh_plant",
+    "dissect": "dissect_plant_sample_single",
     "flags": [ "SEES", "NOHEAD", "IMMOBILE", "NO_BREATHE" ]
   },
   {
@@ -181,6 +184,7 @@
     ],
     "special_when_hit": [ "ZAPBACK", 100 ],
     "harvest": "flesh_plant",
+    "dissect": "dissect_plant_sample_single",
     "flags": [ "SEES", "NOHEAD", "NO_BREATHE", "HARDTOSHOOT" ]
   },
   {
@@ -222,6 +226,7 @@
       [ "EVOLVE_KILL_STRIKE", 6 ]
     ],
     "harvest": "flesh_plant",
+    "dissect": "dissect_plant_sample_single",
     "flags": [ "SEES", "NOHEAD", "NO_BREATHE", "HARDTOSHOOT" ]
   }
 ]

@@ -21,6 +21,7 @@
 #include "cata_assert.h"
 #include "catacharset.h"
 #include "color.h"
+#include "cuboid_rectangle.h"
 #include "debug.h"
 #include "enums.h"
 #include "item.h"
@@ -30,6 +31,8 @@
 #include "string_formatter.h"
 #include "translations.h"
 #include "units_fwd.h"
+
+class input_context;
 
 struct input_event;
 
@@ -90,50 +93,7 @@ using chtype = int;
 #define LINE_XXXX_UNICODE 0x253C
 
 // Supports line drawing
-inline std::string string_from_int( const catacurses::chtype ch )
-{
-    catacurses::chtype charcode = ch;
-    // LINE_NESW  - X for on, O for off
-    switch( ch ) {
-        case LINE_XOXO:
-            charcode = LINE_XOXO_C;
-            break;
-        case LINE_OXOX:
-            charcode = LINE_OXOX_C;
-            break;
-        case LINE_XXOO:
-            charcode = LINE_XXOO_C;
-            break;
-        case LINE_OXXO:
-            charcode = LINE_OXXO_C;
-            break;
-        case LINE_OOXX:
-            charcode = LINE_OOXX_C;
-            break;
-        case LINE_XOOX:
-            charcode = LINE_XOOX_C;
-            break;
-        case LINE_XXOX:
-            charcode = LINE_XXOX_C;
-            break;
-        case LINE_XXXO:
-            charcode = LINE_XXXO_C;
-            break;
-        case LINE_XOXX:
-            charcode = LINE_XOXX_C;
-            break;
-        case LINE_OXXX:
-            charcode = LINE_OXXX_C;
-            break;
-        case LINE_XXXX:
-            charcode = LINE_XXXX_C;
-            break;
-        default:
-            break;
-    }
-    char buffer[2] = { static_cast<char>( charcode ), '\0' };
-    return buffer;
-}
+std::string string_from_int( catacurses::chtype ch );
 
 // a consistent border color
 #define BORDER_COLOR c_light_gray
@@ -147,8 +107,10 @@ extern int TERRAIN_WINDOW_WIDTH; // width of terrain window
 extern int TERRAIN_WINDOW_HEIGHT; // height of terrain window
 extern int TERRAIN_WINDOW_TERM_WIDTH; // width of terrain window in terminal characters
 extern int TERRAIN_WINDOW_TERM_HEIGHT; // same for height
-extern int FULL_SCREEN_WIDTH; // width of "full screen" popups
-extern int FULL_SCREEN_HEIGHT; // height of "full screen" popups
+// Width of "full screen" popups. `FULL_SCREEN` is a misnomer from legacy code.
+extern int FULL_SCREEN_WIDTH;
+// Height of "full screen" popups. `FULL_SCREEN` is a misnomer from legacy code.
+extern int FULL_SCREEN_HEIGHT;
 extern int OVERMAP_WINDOW_WIDTH; // width of overmap window
 extern int OVERMAP_WINDOW_HEIGHT; // height of overmap window
 extern int OVERMAP_WINDOW_TERM_WIDTH; // width of the overmap window in terminal characters
@@ -213,7 +175,7 @@ std::string rm_prefix( std::string str, char c1 = '<', char c2 = '>' );
  */
 color_tag_parse_result::tag_type update_color_stack(
     std::stack<nc_color> &color_stack, const std::string &seg,
-    const report_color_error color_error = report_color_error::yes );
+    report_color_error color_error = report_color_error::yes );
 
 /**
  * Removes the color tags from the input string. This might be required when the string is to
@@ -322,7 +284,8 @@ inline int fold_and_print_from( const catacurses::window &w, const point &begin,
 }
 /**
  * Prints a single line of text. The text is automatically trimmed to fit into the given
- * width. The function handles @ref color_tags correctly.
+ * width. The function handles @ref color_tags correctly.  It does not handle any other
+ * tags, and does not handle line breaks.
  *
  * @param w Window we are printing in
  * @param begin The coordinates of line start (curses coordinates)
@@ -363,8 +326,14 @@ std::string satiety_bar( int calpereffv );
 std::string healthy_bar( int healthy );
 void scrollable_text( const std::function<catacurses::window()> &init_window,
                       const std::string &title, const std::string &text );
-std::string name_and_value( const std::string &name, int value, int field_width );
-std::string name_and_value( const std::string &name, const std::string &value, int field_width );
+void add_folded_name_and_value( std::vector<std::string> &current_vector, const std::string &name,
+                                int value, int field_width );
+void add_folded_name_and_value( std::vector<std::string> &current_vector, const std::string &name,
+                                const std::string &value, int field_width );
+std::string trimmed_name_and_value( const std::string &name, int value,
+                                    int field_width );
+std::string trimmed_name_and_value( const std::string &name, const std::string &value,
+                                    int field_width );
 
 void wputch( const catacurses::window &w, nc_color FG, int ch );
 // Using int ch is deprecated, use an UTF-8 encoded string instead
@@ -482,7 +451,8 @@ std::vector<std::string> get_hotkeys( const std::string &s );
  * - PF_ON_TOP makes the window appear on the top of the screen (at the upper most row). Without
  *   this flag, the popup is centered on the screen.
  *   The flag is passed by @ref popup_top.
- * - PF_FULLSCREEN makes the popup window as big as the whole screen.
+ * - PF_FULLSCREEN makes the window have a size of `FULL_SCREEN_WIDTH` and `FULL_SCREEN_HEIGHT`.
+ *   The `FULL_SCREEN` part is a misnomer from legacy code as the popup is not actually full-screen.
  *   This flag is passed by @ref full_screen_popup.
  * - PF_NONE is a placeholder for none of the above flags.
  *
@@ -592,14 +562,22 @@ enum class item_filter_type : int {
 */
 void draw_item_filter_rules( const catacurses::window &win, int starty, int height,
                              item_filter_type type );
+/**
+ * Get the tips printed by `draw_item_filter_rules` as a string.
+ * @param type Filter to use when drawing
+ */
+std::string item_filter_rule_string( item_filter_type type );
 
 char rand_char();
 int special_symbol( int sym );
+int special_symbol( char sym );
 
 // Remove spaces from the start and the end of a string.
 std::string trim( const std::string &s );
 // Removes trailing periods and exclamation marks.
 std::string trim_trailing_punctuations( const std::string &s );
+// Removes all punctuation except underscore.
+std::string remove_punctuations( const std::string &s );
 // Converts the string to upper case.
 std::string to_upper_case( const std::string &s );
 
@@ -641,7 +619,7 @@ std::pair<std::string, nc_color> get_stamina_bar( int cur_stam, int max_stam );
 
 std::pair<std::string, nc_color> get_light_level( float light );
 
-std::pair<std::string, nc_color> rad_badge_color( const int rad );
+std::pair<std::string, nc_color> rad_badge_color( int rad );
 
 /**
  * @return String containing the bar. Example: "Label [********    ]".
@@ -702,8 +680,8 @@ enum class enumeration_conjunction : int {
  * @param values A vector of strings
  * @param conj Choose how to separate the last elements.
  */
-template<typename _Container>
-std::string enumerate_as_string( const _Container &values,
+template<typename Container>
+std::string enumerate_as_string( const Container &values,
                                  enumeration_conjunction conj = enumeration_conjunction::and_ )
 {
     const std::string final_separator = [&]() {
@@ -752,13 +730,13 @@ std::string enumerate_as_string( const _Container &values,
  * May return an empty string to omit the element.
  * @param conj Choose how to separate the last elements.
  */
-template<typename _FIter, typename F>
-std::string enumerate_as_string( _FIter first, _FIter last, F &&string_for,
+template<typename FIter, typename F>
+std::string enumerate_as_string( FIter first, FIter last, F &&string_for,
                                  enumeration_conjunction conj = enumeration_conjunction::and_ )
 {
     std::vector<std::string> values;
     values.reserve( static_cast<size_t>( std::distance( first, last ) ) );
-    for( _FIter iter = first; iter != last; ++iter ) {
+    for( FIter iter = first; iter != last; ++iter ) {
         const std::string str( string_for( *iter ) );
         if( !str.empty() ) {
             values.push_back( str );
@@ -785,9 +763,9 @@ std::string get_labeled_bar( double val, int width, const std::string &label, ch
 
 void draw_tab( const catacurses::window &w, int iOffsetX, const std::string &sText,
                bool bSelected );
-void draw_subtab( const catacurses::window &w, int iOffsetX, const std::string &sText,
-                  bool bSelected,
-                  bool bDecorate = true, bool bDisabled = false );
+inclusive_rectangle<point> draw_subtab( const catacurses::window &w, int iOffsetX,
+                                        const std::string &sText, bool bSelected,
+                                        bool bDecorate = true, bool bDisabled = false );
 
 // Draws multiple tabs, with the titles specified in tab_texts.
 // Also draws the line beneath the tabs and corners at the ends.
@@ -796,11 +774,11 @@ void draw_subtab( const catacurses::window &w, int iOffsetX, const std::string &
 //   ┌──────┐ ┌──────┐
 //   │ TAB1 │ │ TAB2 │
 // ┌─┴──────┴─┘      └───────────┐
-void draw_tabs( const catacurses::window &, const std::vector<std::string> &tab_texts,
-                size_t current_tab );
+std::map<size_t, inclusive_rectangle<point>> draw_tabs( const catacurses::window &,
+        const std::vector<std::string> &tab_texts, size_t current_tab, size_t offset = 0 );
 // As above, but specify current tab by its label rather than position
-void draw_tabs( const catacurses::window &, const std::vector<std::string> &tab_texts,
-                const std::string &current_tab );
+std::map<std::string, inclusive_rectangle<point>> draw_tabs( const catacurses::window &,
+        const std::vector<std::string> &tab_texts, const std::string &current_tab );
 
 // This overload of draw_tabs is intended for use when you track the current
 // tab via some other value (like an enum) linked to each tab.  Expected use
@@ -815,8 +793,8 @@ void draw_tabs( const catacurses::window &, const std::vector<std::string> &tab_
 template<typename TabList, typename CurrentTab, typename = std::enable_if_t<
              std::is_same<CurrentTab,
                           std::remove_const_t<typename TabList::value_type::first_type>>::value>>
-void draw_tabs( const catacurses::window &w, const TabList &tab_list,
-                const CurrentTab &current_tab )
+std::map<CurrentTab, inclusive_rectangle<point>> draw_tabs( const catacurses::window &w,
+        const TabList &tab_list, const CurrentTab &current_tab )
 {
     std::vector<std::string> tab_text;
     std::transform( tab_list.begin(), tab_list.end(), std::back_inserter( tab_text ),
@@ -828,7 +806,18 @@ void draw_tabs( const catacurses::window &w, const TabList &tab_list,
         return pair.first == current_tab;
     } );
     cata_assert( current_tab_it != tab_list.end() );
-    draw_tabs( w, tab_text, std::distance( tab_list.begin(), current_tab_it ) );
+    std::map<size_t, inclusive_rectangle<point>> tab_map =
+                draw_tabs( w, tab_text, std::distance( tab_list.begin(), current_tab_it ) );
+
+    std::map<CurrentTab, inclusive_rectangle<point>> ret_map;
+    size_t i = 0;
+    for( const typename TabList::value_type &pair : tab_list ) {
+        if( tab_map.count( i ) > 0 ) {
+            ret_map.emplace( pair.first, tab_map.at( i ) );
+        }
+        i++;
+    }
+    return ret_map;
 }
 
 // Similar to the above, but where the order of tabs is specified separately
@@ -836,8 +825,8 @@ void draw_tabs( const catacurses::window &w, const TabList &tab_list,
 template<typename TabList, typename TabKeys, typename CurrentTab, typename = std::enable_if_t<
              std::is_same<CurrentTab,
                           std::remove_const_t<typename TabList::value_type::first_type>>::value>>
-void draw_tabs( const catacurses::window &w, const TabList &tab_list, const TabKeys &keys,
-                const CurrentTab &current_tab )
+std::map<CurrentTab, inclusive_rectangle<point>> draw_tabs( const catacurses::window &w,
+        const TabList &tab_list, const TabKeys &keys, const CurrentTab &current_tab )
 {
     std::vector<typename TabList::value_type> ordered_tab_list;
     for( const auto &key : keys ) {
@@ -845,8 +834,47 @@ void draw_tabs( const catacurses::window &w, const TabList &tab_list, const TabK
         cata_assert( it != tab_list.end() );
         ordered_tab_list.push_back( *it );
     }
-    draw_tabs( w, ordered_tab_list, current_tab );
+    return draw_tabs( w, ordered_tab_list, current_tab );
 }
+
+/**
+ * Produces the largest subset of a list of tabs (for draw_tabs or draw_subtab) that can be displayed within max_width
+ *
+ * Set up for display of crafting recipe categories and subcategories.  Provided with
+ * a list of tabs and the translated names, checks to see if they fit within max_width.
+ * If they don't, finds the largest sequential collection of tabs that fit within
+ * max_width and contain current_tab.  Since the function is already handling translated
+ * tab names, the translated strings can be returned instead of the generic identifiers.
+ * @param max_width The maximum width available for display of the tabs.  Currently assumes
+ * that this value includes a border.
+ * @param current_tab The index of the currently selected tab
+ * @param original_tab_list a list of the translated tab names to display
+ * @return Return 1: A vector of tab identifiers or names that will fit within max_width and contain
+ * current_tab.
+ * @return Return 2: The offset of the displayed tabs to be passed into draw_tabs
+ */
+std::pair<std::vector<std::string>, size_t> fit_tabs_to_width( size_t max_width,
+        int current_tab,
+        const std::vector<std::string> &original_tab_list );
+
+struct best_fit {
+    int start;
+    int length;
+};
+/**
+ * Algorith for finding the largest subset of varied-length items that fit in allowed_size
+ *
+ * @param size_of_items_to_fit: how much space the entries take up.  In a vertical list, height.  In a horizontal list, width.
+ * @param selected: the index of the currently selected item.  This index will be included in the 'best-fitting' subset
+ * @param allowed_size: the total height/width in which the entries need to fit
+ * @param spacer_size: the size, if any, of the spacers between entries.  In a tabbed list, tab_step or equivalent.
+ * @param continuation_marker_size: If a continuation marker will be added to the beginning or end
+ * (e.g. "<" or ">" in a horizontal list, the length of that marker.
+ * @return best_fit.start: start index in size_of_items_to_fit for the 'best-fitting' subset
+ * @return best_fit.length: number of entries in size_of_items_to_fit in the 'best-fitting' subset
+ */
+best_fit find_best_fit_in_size( const std::vector<int> &size_of_items_to_fit, const int &selected,
+                                const int &allowed_size, const int &spacer_size = 0, const int &continuation_marker_size = 0 );
 
 // Legacy function, use class scrollbar instead!
 void draw_scrollbar( const catacurses::window &window, int iCurrentLine,
@@ -878,31 +906,51 @@ class scrollbar
         scrollbar &bar_color( nc_color bar_c );
         // can viewport_pos go beyond (content_size - viewport_size)?
         scrollbar &scroll_to_last( bool scr2last );
+        // Sets up ability for the scrollbar to be dragged with the mouse
+        scrollbar &set_draggable( input_context &ctxt );
         // draw the scrollbar to the window
         void apply( const catacurses::window &window );
+        // Checks if the user is dragging the scrollbar with the mouse (set_draggable first)
+        bool handle_dragging( const std::string &action, const cata::optional<point> &coord,
+                              int &position );
     private:
         int offset_x_v, offset_y_v;
         int content_size_v, viewport_pos_v, viewport_size_v;
         nc_color border_color_v, arrow_color_v, slot_color_v, bar_color_v;
         bool scroll_to_last_v;
+        bool dragging = false;
+        inclusive_rectangle<point> scrollbar_area;
 };
 
-// A simple scrolling view onto some text.  Given a window, it will use the
-// leftmost column for the scrollbar and fill the rest with text.  When the
-// scrollbar is not needed it prints a vertical border in place of it, so the
-// expectation is that the given window will overlap the left edge of a
-// bordered window if one exists.
-// (Options to e.g. not print the border would be easy to add if needed).
-// Update the text with set_text (it will be wrapped for you).
-// scroll_up and scroll_down are expected to be called from handlers for the
-// keys used for that purpose.
-// Call draw when drawing related UI stuff.  draw calls werase/wnoutrefresh for its
-// window internally.
+/** A simple scrolling view onto some text.  Given a window, it will use the
+ * leftmost column for the scrollbar and fill the rest with text.  When the
+ * scrollbar is not needed it prints a vertical border in place of it, so the
+ * expectation is that the given window will overlap the left edge of a
+ * bordered window if one exists.
+ * (Options to e.g. not print the border would be easy to add if needed).
+ * Update the text with set_text (it will be wrapped for you).
+ * scroll_up and scroll_down are expected to be called from handlers for the
+ * keys used for that purpose.
+ * Call draw when drawing related UI stuff.  draw calls werase/wnoutrefresh for its
+ * window internally.
+ * Has some built-in default navigation options, including mousewheel scrolling
+ * when the mouse is over the window (tiles only) and a click-and-drag scrollbar
+ * (technically works in curses, but is smoother in tiles).
+ **/
+enum scrolling_key_scheme : int {
+    no_scheme,
+    angle_bracket_scroll,
+    arrow_scroll,
+    page_page
+};
 class scrolling_text_view
 {
     public:
         explicit scrolling_text_view( catacurses::window &w ) : w_( w ) {}
 
+        bool handle_navigation( const std::string &action, input_context &ctxt );
+        void set_up_navigation( input_context &ctxt,
+                                scrolling_key_scheme scheme = scrolling_key_scheme::no_scheme, bool enable_paging = false );
         void set_text( const std::string & );
         void scroll_up();
         void scroll_down();
@@ -917,6 +965,10 @@ class scrolling_text_view
         catacurses::window &w_;
         std::vector<std::string> text_;
         int offset_ = 0;
+        std::string scroll_up_action;
+        std::string scroll_down_action;
+        bool paging_enabled = false;
+        scrollbar text_view_scrollbar;
 };
 
 class scrollingcombattext
@@ -1065,7 +1117,7 @@ std::string colorize_symbols( const std::string &str, F color_of )
         }
     };
 
-    for( const auto &elem : str ) {
+    for( const char &elem : str ) {
         const nc_color new_color = color_of( elem );
 
         if( prev_color != new_color ) {
@@ -1081,5 +1133,47 @@ std::string colorize_symbols( const std::string &str, F color_of )
 
     return res;
 }
+
+// More specialized list_circularizer (see cata_utility.h) to allow jumping to a specific tab
+class tab_list
+{
+    private:
+        size_t _index = 0;
+        std::vector<std::string> *_list;
+    public:
+        explicit tab_list( std::vector<std::string> &_list ) : _list( &_list ) {
+        }
+
+        void last() {
+            if( !_list->empty() ) {
+                _index = _list->size() - 1;
+            }
+        }
+
+        void next() {
+            _index = ( _index == _list->size() - 1 ? 0 : _index + 1 );
+        }
+
+        void prev() {
+            _index = ( _index == 0 ? _list->size() - 1 : _index - 1 );
+        }
+
+        int cur_index() const {
+            return static_cast<int>( _index );
+        }
+
+        std::string cur() const {
+            if( _list->empty() ) {
+                return std::string( "" );
+            }
+            return ( *_list )[_index];
+        }
+
+        void set_index( const size_t new_index ) {
+            if( new_index < _list->size() ) {
+                _index = new_index;
+            }
+        }
+};
 
 #endif // CATA_SRC_OUTPUT_H

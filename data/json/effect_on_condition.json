@@ -38,6 +38,41 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "scenario_assassin_convict",
+    "//": "Determines which prison the assassin is in currently to correctly place the target.",
+    "recurrence": 1,
+    "condition": { "u_has_trait": "PROF_ASSASSIN_CONVICT" },
+    "deactivate_condition": { "not": { "u_has_trait": "PROF_ASSASSIN_CONVICT" } },
+    "effect": [
+      {
+        "run_eocs": {
+          "id": "EOC_ASSASSIN_CONVICT_PRISON",
+          "condition": { "u_near_om_location": "prison_1_5" },
+          "effect": [
+            { "assign_mission": "MISSION_ASSASSIN_CONVICT_PRISON" },
+            { "u_message": "Now… Where is your mark?", "type": "warning", "popup": true }
+          ],
+          "false_effect": {
+            "run_eocs": {
+              "id": "EOC_ASSASSIN_CONVICT_PRISON_ISLAND",
+              "condition": { "u_near_om_location": "prison_alcatraz_3" },
+              "effect": [
+                { "assign_mission": "MISSION_ASSASSIN_CONVICT_PRISON_ISLAND1" },
+                { "u_message": "Now… Where is your mark?", "type": "warning", "popup": true }
+              ],
+              "false_effect": [
+                { "assign_mission": "MISSION_ASSASSIN_CONVICT_PRISON_ISLAND2" },
+                { "u_message": "Now… Where is your mark?", "type": "warning", "popup": true }
+              ]
+            }
+          }
+        }
+      },
+      { "u_lose_trait": "PROF_ASSASSIN_CONVICT" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "thunder",
     "recurrence": 1,
     "global": true,
@@ -168,12 +203,12 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "eoc_robofac_surveillance",
+    "id": "robofac_surveillance",
+    "recurrence": [ "1 days", "7 days" ],
+    "global": true,
     "condition": { "or": [ { "u_has_trait": "PROF_HUB01_ANCILLIARY" }, { "u_has_effect": "robofac_surveillance" } ] },
-    "deactivate_condition": { "not": { "or": [ { "u_has_trait": "PROF_HUB01_ANCILLIARY" }, { "u_has_effect": "robofac_surveillance" } ] } },
     "effect": [
-      { "u_spawn_monster": "mon_robofac_camspy", "real_count": 1, "min_radius": 15, "max_radius": 40, "outdoor_only": true },
-      { "queue_eocs": "eoc_robofac_surveillance", "time_in_future": [ "1 days", "7 days" ] }
+      { "u_spawn_monster": "mon_robofac_camspy", "real_count": 1, "min_radius": 15, "max_radius": 40, "outdoor_only": true }
     ]
   },
   {
@@ -320,52 +355,131 @@
     "effect": [ { "u_mod_healthy": -1, "cap": -200 } ]
   },
   {
+    "id": "EOC_DEATH_PORTAL_DUNGEON",
+    "type": "effect_on_condition",
+    "eoc_type": "AVATAR_DEATH",
+    "condition": { "compare_int": [ { "global_val": "var", "var_name": "portal_dungeon_level" }, "!=", { "const": 0 } ] },
+    "effect": [
+      {
+        "u_message": "Your ultimate fate is hard to sum up in words but suffice to say, the thing that used to be you wishes it had hidden from the storm.",
+        "popup": true
+      },
+      { "run_eocs": "EOC_PORTAL_STORM_DUNGEON_EXIT" }
+    ]
+  },
+  {
     "id": "EOC_DEATH_SWITCH",
     "type": "effect_on_condition",
     "eoc_type": "AVATAR_DEATH",
-    "condition": { "u_query": "You have died. Continue as one of your followers?", "default": false },
+    "condition": {
+      "and": [ { "npc_allies_global": 1 }, { "u_query": "You have died. Continue as one of your followers?", "default": false } ]
+    },
     "effect": [ "take_control_menu" ]
   },
   {
+    "id": "EOC_PREVENT_DEATH",
     "type": "effect_on_condition",
-    "id": "isolated_artisans_gunsmith_refresh",
-    "eoc_type": "OM_MOVE",
-    "condition": {
-      "and": [
-        { "u_near_om_location": "isolated_house_farm_gunsmith", "range": 2 },
-        { "compare_int": [ { "global_val": "var", "var_name": "jay_dead" }, "!=", { "const": 1 } ] },
-        {
-          "not": { "u_compare_time_since_var": "gunsmith_shop_update", "type": "timer", "context": "artisans", "op": "<", "time": "7 d" }
-        }
-      ]
-    },
+    "eoc_type": "PREVENT_DEATH",
+    "condition": { "u_has_trait": "PORTAL_RESURRECTION" },
     "effect": [
-      { "mapgen_update": "jay_shop_update", "om_terrain": "isolated_house_farm_gunsmith" },
-      { "u_add_var": "gunsmith_shop_update", "type": "timer", "context": "artisans", "time": true }
+      { "u_set_hp": 50, "only_increase": true },
+      { "u_add_effect": "incorporeal", "duration": [ "5 minutes", "10 minutes" ] },
+      { "u_lose_trait": "PORTAL_RESURRECTION" },
+      { "arithmetic": [ { "u_val": "pain" }, "=", { "const": 0 } ] },
+      { "arithmetic": [ { "u_val": "fatigue" }, "=", { "const": 0 } ] },
+      {
+        "u_message": "For an instant that is also an eternity, you exist only in an empty void.  Then you feel something vast, alien, and merciless reach through a preexisting connection to give you just enough energy to exist.  Its motives for doing so are not likely to be benign.",
+        "popup": true
+      }
     ]
   },
   {
     "type": "effect_on_condition",
-    "id": "isolated_artisans_blacksmith_refresh",
-    "eoc_type": "OM_MOVE",
-    "condition": {
-      "and": [
-        { "u_near_om_location": "isolated_house_farm_blacksmith", "range": 2 },
-        { "compare_int": [ { "global_val": "var", "var_name": "cody_dead" }, "!=", { "const": 1 } ] },
+    "id": "record_portal_storm_data",
+    "recurrence": "5 minutes",
+    "global": true,
+    "condition": { "and": [ { "is_weather": "portal_storm" }, { "u_has_item": "nre_recorder" }, "u_is_outside" ] },
+    "deactivate_condition": { "not": { "is_weather": "portal_storm" } },
+    "effect": [
+      { "u_adjust_var": "portal_storm_record", "type": "counter", "context": "nre_recorder", "adjustment": 1 },
+      { "u_message": "The NRE recorder emits a sharp beep!", "type": "info" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "print_portal_storm_data",
+    "condition": { "u_compare_var": "portal_storm_record", "type": "counter", "context": "nre_recorder", "op": ">=", "value": 1 },
+    "deactivate_condition": { "not": { "is_weather": "portal_storm" } },
+    "effect": {
+      "run_eocs": [
         {
-          "not": {
-            "u_compare_time_since_var": "blacksmith_shop_update",
-            "type": "timer",
-            "context": "artisans",
-            "op": "<",
-            "time": "7 d"
-          }
+          "id": "large_printout_portal_storm_data",
+          "condition": { "u_compare_var": "portal_storm_record", "type": "counter", "context": "nre_recorder", "op": ">=", "value": 25 },
+          "effect": [
+            { "u_message": "The recorder whirs as it starts printing the recorded data.", "type": "info" },
+            { "u_spawn_item": "large_printout_portal_storm_data", "count": 1 },
+            { "u_add_var": "portal_storm_record", "type": "counter", "context": "nre_recorder", "value": "0" }
+          ]
+        },
+        {
+          "id": "medium_printout_portal_storm_data",
+          "condition": { "u_compare_var": "portal_storm_record", "type": "counter", "context": "nre_recorder", "op": ">=", "value": 3 },
+          "effect": [
+            { "u_message": "The recorder whirs as it starts printing the recorded data.", "type": "info" },
+            { "u_spawn_item": "medium_printout_portal_storm_data", "count": 1 },
+            { "u_add_var": "portal_storm_record", "type": "counter", "context": "nre_recorder", "value": "0" }
+          ]
+        },
+        {
+          "id": "small_printout_portal_storm_data",
+          "condition": { "u_compare_var": "portal_storm_record", "type": "counter", "context": "nre_recorder", "op": ">=", "value": 1 },
+          "effect": [
+            { "u_message": "The recorder whirs as it starts printing the recorded data.", "type": "info" },
+            { "u_spawn_item": "small_printout_portal_storm_data", "count": 1 },
+            { "u_add_var": "portal_storm_record", "type": "counter", "context": "nre_recorder", "value": "0" }
+          ]
         }
       ]
     },
+    "false_effect": { "u_message": "The recorder prints: \"NO DATA\" in a short piece of paper", "type": "info" }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_last_amigara_death",
+    "condition": { "compare_int": [ { "global_val": "monsters_nearby", "id": "mon_amigara_horror" }, "<", { "const": 1 } ] },
     "effect": [
-      { "mapgen_update": "cody_shop_update", "om_terrain": "isolated_house_farm_blacksmith" },
-      { "u_add_var": "blacksmith_shop_update", "type": "timer", "context": "artisans", "time": true }
+      { "mapgen_update": "amigara_death" },
+      { "u_lose_effect": "effect_amigara" },
+      {
+        "u_message": "As the last of the horrors fell dead, you notice a strange thing popped up from nowhere and dropped on the ground.",
+        "type": "info"
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_RANDOM_HALLUCINATIONS",
+    "recurrence": [ "1 hours", "3 hours" ],
+    "condition": { "and": [ { "u_has_effect": "hallucination_attacks" }, { "x_in_y_chance": { "x": 1, "y": 6 } } ] },
+    "effect": [
+      {
+        "run_eocs": {
+          "id": "EOC_HALLUCINATION_ATTACKS",
+          "condition": { "compare_int": [ { "global_val": "monsters_nearby" }, ">", { "const": 1 } ] },
+          "effect": [
+            {
+              "u_spawn_monster": "GROUP_YOUR_FEARS",
+              "group": true,
+              "real_count": 0,
+              "hallucination_count": { "arithmetic": [ { "const": 1 }, "+", { "rand": 2 } ] },
+              "outdoor_only": false,
+              "min_radius": 10,
+              "max_radius": 40,
+              "lifespan": [ "1 hours", "4 hours" ]
+            }
+          ]
+        }
+      }
     ]
   }
 ]

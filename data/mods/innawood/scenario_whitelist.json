@@ -4,6 +4,7 @@
     "subtype": "whitelist",
     "scenarios": [
       "evacuee",
+      "cave_lonesome",
       "medieval",
       "migo_prisoner",
       "mutant",

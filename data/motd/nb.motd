@@ -1,0 +1,51 @@
+# Lines longer than 78 characters will be wrapped automatically
+# The following line is for reference
+##############################################################################
+<color_white>Besøk oss:</color>
+
+<color_light_gray>*Hjemmeside:</color> <color_cyan>https://cataclysmdda.org</color>
+<color_light_gray>* Wiki:</color>        <color_cyan>https://cddawiki.chezzo.com/cdda_wiki</color>
+
+<color_white>Rapporter feil, forslag og følg utviklingen ved:</color>
+
+<color_light_gray>* Github: </color><color_light_cyan>https://github.com/CleverRaven/Cataclysm-DDA/issues</color>
+<color_light_gray>* e-mail: </color><color_light_cyan>kevin.granade@gmail.com</color>
+
+<color_white>Delta i diskusjonene på forum og chatter:</color>
+
+<color_light_gray>* Discourse:                 </color><color_cyan>https://discourse.cataclysmdda.org/</color>
+<color_light_gray>* Discord:                   </color><color_cyan>https://discord.gg/jFEc7Yp</color>
+<color_light_gray>* IRC:                       </color><color_cyan>#CataclysmDDA at libera.chat</color>
+<color_light_gray>* Reddit (uoffisiell):       </color><color_cyan>https://www.reddit.com/r/cataclysmdda/</color>
+
+<color_light_gray>Andre nyttige lenker er også tilgjengelige på hjemmesiden vår.</color>
+
+<color_light_gray>I spillet kan du få tilgang til alternativene via hovedmenyen (<color_yellow>Esc</color>).</color>
+
+<color_light_red>******************************************************************************</color>
+<color_light_red>    Ansvarsfraskrivelse for eksperimentelle bygg:</color>
+<color_light_red>******************************************************************************</color>
+
+<color_white>Spørsmål: </color><color_yellow>Hva er et eksperimentelt bygg?</color>
+
+<color_white>Svar:</color><color_light_gray>Målet med eksperimentelle bygg er å være et andre nivå av kvalitetskontroll. Det er frontlinjen der nytt innhold blir utgitt for å bli testet og balansert etter innledende kvalitetskontroll. Vær oppmerksom på at ved å velge å spille de nyeste eksperimentelle versjonene, deltar du i utviklingsprosessen ved å bokstavelig talt spille av det nye innholdet, og det er utsatt for feil og underutviklede funksjoner.
+
+<color_white>Spørsmål:</color><color_yellow>Hvorfor er eksperimentelle bygg en greie?</color>
+
+<color_white>Svar:</color><color_light_gray>Vurder det som å spille en alfa / beta-versjon - feil og underutviklede funksjoner er en del av det. På grunn av kontinuerlige integrasjonsproblemer er eksperimentelle bygg alltid under en tilstand av pågående arbeid. Eksperimentelle bygg er en sandkasse der feiloppdaging og polering av funksjoner foregår. Store og små funksjoner blir kontinuerlig frigitt til disse byggene som skal kontrolleres for generell stabilitet og balanse. På grunn av dette er eksperimentelle bygg ikke under strenghet for å garantere balanse og stabilitet. Faktisk er ingenting garantert i de eksperimentelle byggene.
+
+<color_white>Spørsmål</color> <color_yellow>Er eksperimentelle bygg spillbare da?</color>
+
+<color_white>Svar:</color><color_light_gray>Ja. Men mens eksperimentelle bygg generelt er stabile, er det heller ikke garantert da funksjoner kan bli introdusert i en underutviklet tilstand, i deler; og kan introdusere feil, inkludert alvorlige som kan krasje spillet eller ødelegge lagringspunkter. Det er sjeldent, men på grunn av kompleksiteten i spillet kan den innledende kvalitetskontrollen før sammenslåing med eksperimentell bygging være utilstrekkelig, og det er alltid rom for menneskelige feil. Dette er grunnen til at eksperimentelle bygg eksisterer i utgangspunktet.
+
+<color_white>Spørsmål: </color><color_yellow>Burde jeg spille eksperimentelle bygg da, eller holde meg til mer stabile bygg?</color>
+
+<color_white>Svar:</color><color_light_gray>Belønningen er øyeblikkelig tilgang til det nyeste innholdet, risikoen for å miste fremdriften i spillet hvis en stygg feil dukker opp. Det er alltid ditt valg å spille eksperimentelle bygg, med en stabil bygg tilgjengelig, så spill etter eget skjønn. Du tar hele byrden hvis noe går galt, så vær advart. Ta forholdsregler, ta sikkerhetskopier. Noen ganger er det til og med best å utsette oppdateringen i noen dager til en stor funksjon er stabilisert eller en betydelig feil er fjernet.</color>
+
+<color_white>Spørsmål:</color><color_yellow>Bør jeg være klar over noe annet?</color>
+
+<color_white>Svar:</color><color_light_gray>Ja. Husk at alt du ser og er i ferd med å se potensielt kan endres. Alle funksjoner, inkludert nylig implementert, er under pågående arbeid og kan endres i løpet av spillutviklingen. Og som sagt tidligere er ingenting garantert, inkludert balanse og stabilitet.
+
+<color_white>Spørsmål:</color><color_yellow>Hva om jeg synes risikoen for å spille eksperimentell bygg er uakseptabel?</color>
+
+<color_white>Svar:</color><color_light_gray>Hvis risikoen er uakseptabel - spill den stabile versjonen. Hvis du er villig til å ta risikoen - nyt det nylig skapte innholdet i eksperimentelle bygg og delta i utviklingen - rapporter feil, send inn forslag, eller til og med bidra med ditt eget innhold til spillet. Lykke til.

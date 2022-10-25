@@ -14,8 +14,7 @@
     "precip": "none",
     "rains": false,
     "acidic": false,
-    "sound_category": "clear",
-    "sun_intensity": "normal"
+    "sound_category": "clear"
   },
   {
     "id": "null",
@@ -31,7 +30,6 @@
     "dangerous": false,
     "precip": "none",
     "rains": false,
-    "acidic": false,
-    "sun_intensity": "normal"
+    "acidic": false
   }
 ]

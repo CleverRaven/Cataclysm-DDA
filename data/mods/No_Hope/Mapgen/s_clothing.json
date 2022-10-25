@@ -10,11 +10,11 @@
       "rows": [
         "...........--...........",
         "...........--...........",
-        "..##:::::::**:::::::##..",
-        "..# y         &y&y(y #..",
-        "..#b         ||||||||#..",
-        "..#J    &y&     c s  #..",
-        "..#J            c   D#..",
+        "..#::::::::**::::::::#..",
+        "..#y          y&y(y&y#..",
+        "..#b          |||||||#..",
+        "..#J    &y&     c    #..",
+        "..#J            cs  D#..",
         "..#J            c   y#..",
         "..#J    CyC     ccc  o..",
         "..#K                b#..",
@@ -35,234 +35,7 @@
       ],
       "palettes": [ "standard_building_palette", "clothes_store_palette" ],
       "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 0, 0 ], "y": [ 23, 23 ], "chance": 2, "repeat": [ 2, 3 ] } ],
-      "vehicles": { ".": { "vehicle": "shopping_cart", "chance": 1 } }
-    }
-  },
-  {
-    "type": "mapgen",
-    "method": "json",
-    "om_terrain": "s_clothes_roof",
-    "object": {
-      "fill_ter": "t_flat_roof",
-      "rows": [
-        "                        ",
-        "                        ",
-        "  |2222222222222222223  ",
-        "  |..................3  ",
-        "  |..................3  ",
-        "  |..................3  ",
-        "  |..................3  ",
-        "  |..................3  ",
-        "  |..................3  ",
-        "  |..................3  ",
-        "  |..................3  ",
-        "  |..................3  ",
-        "  |..................3  ",
-        "  |..................3  ",
-        "  |..................3  ",
-        "  |..................3  ",
-        "  |..................3  ",
-        "  |..................3  ",
-        "  |..................3  ",
-        "  |..................3  ",
-        "  |............&.....3  ",
-        "  |..................3  ",
-        "  ------------------5-  ",
-        "                        "
-      ],
-      "palettes": [ "roof_palette" ],
-      "furniture": { "&": "f_roof_turbine_vent" },
-      "place_items": [ { "item": "roof_trash", "x": [ 3, 19 ], "y": [ 3, 19 ], "chance": 50, "repeat": [ 1, 3 ] } ],
-      "place_nested": [
-        {
-          "chunks": [
-            [ "null", 20 ],
-            [ "roof_2x2_utilities_b", 15 ],
-            [ "roof_2x2_utilities_c", 5 ],
-            [ "roof_2x2_utilities_d", 30 ],
-            [ "roof_2x2_utilities", 30 ],
-            [ "roof_4x4_utility", 30 ],
-            [ "roof_6x6_utility", 20 ]
-          ],
-          "x": [ 5, 15 ],
-          "y": [ 5, 15 ]
-        }
-      ]
-    }
-  },
-  {
-    "type": "mapgen",
-    "method": "json",
-    "om_terrain": [ "s_clothes_1" ],
-    "//": "Suit Tailor",
-    "weight": 30000,
-    "object": {
-      "fill_ter": "t_floor",
-      "rows": [
-        "------------------------",
-        "-----.ppp.-----.ppp.----",
-        "------------------------",
-        "...#:::::::***:::::::#..",
-        "...#c & &c|   |c&c & #..",
-        "...#||||+||   ||||||+#..",
-        "...#  b| &        c  #..",
-        "...o   |          %  #..",
-        "...# h +          c  #..",
-        "...#b  |b         cs #..",
-        "...#||||h  & &  y|||+#..",
-        "...#  b|h       h|]  #..",
-        "...o h |        h|dh #..",
-        "...#   +   & &   |d  o..",
-        "...#  b|         +  [#..",
-        "...#||||         | hd#..",
-        "...#b  +    hhb y|  b#..",
-        "...# h ||+||||||||[  #..",
-        "...o   |S |d[]b f|dh o..",
-        "...#  b|t |dh    +   ;..",
-        "...######o####o#######..",
-        "....4..ppp...ppp........",
-        "........................",
-        "........................"
-      ],
-      "palettes": [ "standard_building_palette", "tailor_palette" ]
-    }
-  },
-  {
-    "type": "mapgen",
-    "method": "json",
-    "om_terrain": "s_clothes_roof_1",
-    "object": {
-      "fill_ter": "t_flat_roof",
-      "rows": [
-        "                        ",
-        "                        ",
-        "                        ",
-        "   |222222222222222223  ",
-        "   |.................3  ",
-        "   |.................3  ",
-        "   |.................3  ",
-        "   |.................3  ",
-        "   |.................3  ",
-        "   |.................3  ",
-        "   |.................3  ",
-        "   |.................3  ",
-        "   |.................3  ",
-        "   |.................3  ",
-        "   |.................3  ",
-        "   |.................3  ",
-        "   |.................3  ",
-        "   |.................3  ",
-        "   |............&....3  ",
-        "   |.................3  ",
-        "   |5----------------3  ",
-        "                        ",
-        "                        ",
-        "                        "
-      ],
-      "palettes": [ "roof_palette" ],
-      "furniture": { "&": "f_roof_turbine_vent" },
-      "place_nested": [
-        {
-          "chunks": [
-            [ "null", 20 ],
-            [ "roof_2x2_utilities_b", 15 ],
-            [ "roof_2x2_utilities_c", 5 ],
-            [ "roof_2x2_utilities_d", 20 ],
-            [ "roof_4x4_utility", 20 ],
-            [ "roof_2x2_utilities", 30 ]
-          ],
-          "x": [ 5, 15 ],
-          "y": [ 5, 13 ]
-        }
-      ]
-    }
-  },
-  {
-    "type": "mapgen",
-    "method": "json",
-    "om_terrain": [ "s_clothes_2" ],
-    "//": "Fancy Furs",
-    "weight": 10000,
-    "object": {
-      "fill_ter": "t_floor",
-      "rows": [
-        "------------------------",
-        "------------------------",
-        "------------------------",
-        "..p--####:::++:::#......",
-        "..p--#JJ|&      &#......",
-        "..p--#  |        #......",
-        "..p--#+||b  yA  y#......",
-        "..p--# %c       h#......",
-        "..p--#  c       h#......",
-        "..p--#  c  ccc  h#......",
-        "..p--#  c       b#......",
-        "..p--#  c        #......",
-        "..p--#+|||i|ccccc#......",
-        "..p--# [[[ |   s%#......",
-        "..p--#  h  |     #......",
-        "..p--;   h |+||||#......",
-        ".....0  [[   +   #......",
-        "....z#|+||i|||bSt#......",
-        "....z#d |    #####......",
-        "....z#dh|LLLL#4zzz......",
-        "....z##0######z.........",
-        "........................",
-        "........................",
-        "........................"
-      ],
-      "palettes": [ "standard_building_palette", "furs_palette" ]
-    }
-  },
-  {
-    "type": "mapgen",
-    "method": "json",
-    "om_terrain": "s_clothes_roof_2",
-    "object": {
-      "fill_ter": "t_flat_roof",
-      "rows": [
-        "                        ",
-        "                        ",
-        "                        ",
-        "     |222222222223      ",
-        "     |...........3      ",
-        "     |...........3      ",
-        "     |...........3      ",
-        "     |...........3      ",
-        "     |...........3      ",
-        "     |...........3      ",
-        "     |...........3      ",
-        "     |...........3      ",
-        "     |...........3      ",
-        "     |...........3      ",
-        "     |...........3      ",
-        "     |...........3      ",
-        "     |...........3      ",
-        "     |...........3      ",
-        "     |.......5---3      ",
-        "     |...&...3          ",
-        "     |-------|          ",
-        "                        ",
-        "                        ",
-        "                        "
-      ],
-      "palettes": [ "roof_palette" ],
-      "furniture": { "&": "f_roof_turbine_vent" },
-      "place_items": [ { "item": "roof_trash", "x": [ 7, 13 ], "y": [ 5, 15 ], "chance": 50, "repeat": [ 1, 3 ] } ],
-      "place_nested": [
-        {
-          "chunks": [
-            [ "null", 20 ],
-            [ "roof_2x2_utilities_b", 15 ],
-            [ "roof_2x2_utilities_c", 5 ],
-            [ "roof_2x2_utilities_d", 20 ],
-            [ "roof_4x4_utility", 20 ],
-            [ "roof_2x2_utilities", 30 ]
-          ],
-          "x": [ 7, 12 ],
-          "y": [ 5, 13 ]
-        }
-      ]
+      "vehicles": { " ": { "vehicle": "shopping_cart", "chance": 1, "status": 1 } }
     }
   },
   {
@@ -301,12 +74,12 @@
       ],
       "terrain": {
         "*": "t_region_groundcover_urban",
-        "+": [ [ "t_door_b", 20 ], [ "t_door_frame", 10 ], [ "t_door_o", 70 ], [ "t_door_c", 5 ], [ "t_door_locked_interior", 3 ] ],
+        "+": "t_door_c",
         "-": "t_wall_w",
         ".": "t_floor",
         ":": "t_door_glass_c",
         "=": "t_wall_glass",
-        "O": [ [ "t_window_frame", 70 ], [ "t_window_empty", 20 ], [ "t_window", 5 ] ],
+        "O": "t_window",
         "i": "t_door_locked_interior",
         "|": "t_wall_w",
         "~": "t_sidewalk",
@@ -332,16 +105,16 @@
       },
       "toilets": { "t": {  } },
       "place_items": [
-        { "item": "shoestore_shoes", "x": 4, "y": [ 7, 13 ], "chance": 80, "repeat": [ 1, 8 ] },
-        { "item": "shoestore_shoes", "x": 7, "y": [ 7, 12 ], "chance": 80, "repeat": [ 1, 8 ] },
-        { "item": "shoestore_shoes", "x": 10, "y": [ 7, 13 ], "chance": 80, "repeat": [ 1, 8 ] },
-        { "item": "shoestore_accessories", "x": 4, "y": [ 4, 6 ], "chance": 90, "repeat": [ 1, 8 ] },
-        { "item": "hatstore_hats", "x": [ 12, 13 ], "y": 4, "chance": 70, "repeat": [ 1, 4 ] },
-        { "item": "hatstore_hats", "x": [ 17, 18 ], "y": 4, "chance": 70, "repeat": [ 1, 4 ] },
-        { "item": "hatstore_hats", "x": 18, "y": [ 10, 13 ], "chance": 70, "repeat": [ 1, 4 ] },
-        { "item": "hatstore_hats", "x": 15, "y": [ 11, 12 ], "chance": 70, "repeat": [ 1, 4 ] },
-        { "item": "hatstore_accessories", "x": 12, "y": [ 10, 13 ], "chance": 70, "repeat": [ 1, 8 ] },
-        { "item": "fridge", "x": 14, "y": 16, "chance": 30 },
+        { "item": "shoestore_shoes", "x": 4, "y": [ 7, 13 ], "chance": 20, "repeat": [ 1, 8 ] },
+        { "item": "shoestore_shoes", "x": 7, "y": [ 7, 12 ], "chance": 20, "repeat": [ 1, 8 ] },
+        { "item": "shoestore_shoes", "x": 10, "y": [ 7, 13 ], "chance": 20, "repeat": [ 1, 8 ] },
+        { "item": "shoestore_accessories", "x": 4, "y": [ 4, 6 ], "chance": 20, "repeat": [ 1, 8 ] },
+        { "item": "hatstore_hats", "x": [ 12, 13 ], "y": 4, "chance": 20, "repeat": [ 1, 4 ] },
+        { "item": "hatstore_hats", "x": [ 17, 18 ], "y": 4, "chance": 20, "repeat": [ 1, 4 ] },
+        { "item": "hatstore_hats", "x": 18, "y": [ 10, 13 ], "chance": 20, "repeat": [ 1, 4 ] },
+        { "item": "hatstore_hats", "x": 15, "y": [ 11, 12 ], "chance": 20, "repeat": [ 1, 4 ] },
+        { "item": "hatstore_accessories", "x": 12, "y": [ 10, 13 ], "chance": 20, "repeat": [ 1, 8 ] },
+        { "item": "SUS_fridge_breakroom", "x": 14, "y": 16, "chance": 30 },
         { "item": "livingroom", "x": 14, "y": 17, "chance": 30 },
         { "item": "office", "x": [ 4, 5 ], "y": 15, "chance": 50 },
         { "item": "cleaning", "x": 18, "y": 15, "chance": 50 },
@@ -352,95 +125,8 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": "s_clothes_roof_3",
-    "object": {
-      "fill_ter": "t_flat_roof",
-      "rows": [
-        "                        ",
-        "                        ",
-        "                        ",
-        "   |2222222222222223    ",
-        "   |...............3    ",
-        "   |...............3    ",
-        "   |...............3    ",
-        "   |...............3    ",
-        "   |...............3    ",
-        "   |...............3    ",
-        "   |...............3    ",
-        "   |...............3    ",
-        "   |...............3    ",
-        "   |...............3    ",
-        "   |...............3    ",
-        "   |...............3    ",
-        "   |...............3    ",
-        "   |...........&...3    ",
-        "   |...............3    ",
-        "   |--5------------3    ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        "
-      ],
-      "palettes": [ "roof_palette" ],
-      "furniture": { "&": "f_roof_turbine_vent" },
-      "place_items": [ { "item": "roof_trash", "x": [ 7, 15 ], "y": [ 4, 15 ], "chance": 50, "repeat": [ 1, 3 ] } ],
-      "place_nested": [
-        {
-          "chunks": [
-            [ "null", 20 ],
-            [ "roof_2x2_utilities_b", 15 ],
-            [ "roof_2x2_utilities_c", 5 ],
-            [ "roof_2x2_utilities_d", 20 ],
-            [ "roof_4x4_utility", 20 ],
-            [ "roof_2x2_utilities", 30 ]
-          ],
-          "x": [ 7, 12 ],
-          "y": [ 4, 12 ]
-        }
-      ]
-    }
-  },
-  {
-    "type": "mapgen",
-    "method": "json",
-    "om_terrain": [ "s_clothes_4" ],
-    "//": "Dress Tailor",
-    "weight": 30000,
-    "object": {
-      "fill_ter": "t_floor",
-      "rows": [
-        "------------------------",
-        "------------------------",
-        "------------------------",
-        ".#:::::**::::::**:::::#.",
-        ".#cy@c   c@y@ c   c@y@#.",
-        ".#           sc       #.",
-        ".#||||   c    c    @c #.",
-        ".#b  |   cccc%c       #.",
-        ".#   +           [@  R#.",
-        ".o h |  @@       [@  R#.",
-        ".#||||  [[  RRR      R#.",
-        ".o   |           [@  R#.",
-        ".# h +           [@  R#.",
-        ".#b  |RRRRRRRR       R#.",
-        ".###########||||+|||+|#.",
-        ".zzzz4zzzzz#<|dd  ]| S#.",
-        "..........z#+|h   ]| t#.",
-        "..........z#      ]|||#.",
-        "-----------+  ff   + L#.",
-        "..........z#####o######.",
-        "........................",
-        "........................",
-        "........................",
-        "........................"
-      ],
-      "palettes": [ "standard_building_palette", "tailor_palette" ]
-    }
-  },
-  {
-    "type": "mapgen",
-    "method": "json",
     "om_terrain": "s_clothes_roof_4",
+    "weight": 100000,
     "object": {
       "fill_ter": "t_flat_roof",
       "rows": [
@@ -482,11 +168,11 @@
       "furniture": { "^": "f_roof_turbine_vent", "z": "f_cardboard_box", "d": "f_mannequin" },
       "items": {
         "z": [
-          { "item": "dresses_womens", "chance": 70 },
-          { "item": "shirts_summer_womens", "chance": 70 },
-          { "item": "pants_summer_womens", "chance": 70 }
+          { "item": "dresses_womens", "chance": 20 },
+          { "item": "shirts_summer_womens", "chance": 20 },
+          { "item": "pants_summer_womens", "chance": 20 }
         ],
-        "L": { "item": "SUS_kitchen_sink", "chance": 70 }
+        "L": { "item": "SUS_kitchen_sink", "chance": 20 }
       },
       "place_nested": [
         {
@@ -502,42 +188,6 @@
           "y": [ 5, 7 ]
         }
       ]
-    }
-  },
-  {
-    "type": "mapgen",
-    "method": "json",
-    "om_terrain": "s_clothes_upper_roof_4",
-    "object": {
-      "fill_ter": "t_flat_roof",
-      "rows": [
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "           |22222222253 ",
-        "           |..........3 ",
-        "           |.......:..3 ",
-        "           |..........3 ",
-        "           |...X......3 ",
-        "           |----------3 ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        "
-      ],
-      "palettes": [ "roof_palette" ],
-      "furniture": { ":": "f_cellphone_booster", "X": "f_small_satelitte_dish" }
     }
   },
   {
@@ -577,7 +227,7 @@
       "terrain": {
         "*": "t_region_groundcover_urban",
         "&": "t_region_groundcover_urban",
-        "+": [ [ "t_door_b", 20 ], [ "t_door_frame", 10 ], [ "t_door_o", 70 ], [ "t_door_c", 5 ], [ "t_door_locked_interior", 3 ] ],
+        "+": "t_door_c",
         "-": "t_brick_wall",
         ".": "t_floor",
         "0": "t_window_alarm",
@@ -585,7 +235,7 @@
         ";": "t_door_locked",
         "=": "t_wall_glass",
         "H": "t_sidewalk",
-        "O": [ [ "t_window_frame", 70 ], [ "t_window_empty", 20 ], [ "t_window", 5 ] ],
+        "O": "t_window",
         "T": "t_sidewalk",
         "^": "t_region_tree",
         "r": "t_region_groundcover_urban",
@@ -615,166 +265,29 @@
       },
       "toilets": { "t": {  } },
       "place_items": [
-        { "item": "wedding_suits", "x": 2, "y": [ 6, 8 ], "chance": 70, "repeat": [ 2, 4 ] },
-        { "item": "wedding_suits", "x": 6, "y": 6, "chance": 80, "repeat": [ 1, 4 ] },
-        { "item": "wedding_dresses", "x": 16, "y": 6, "chance": 70, "repeat": [ 1, 4 ] },
-        { "item": "wedding_dresses", "x": 13, "y": 7, "chance": 70, "repeat": [ 1, 4 ] },
-        { "item": "wedding_dresses", "x": 11, "y": 9, "chance": 70, "repeat": [ 1, 4 ] },
-        { "item": "wedding_dresses", "x": 15, "y": 9, "chance": 70, "repeat": [ 1, 4 ] },
-        { "item": "wedding_dresses", "x": 11, "y": 11, "chance": 70, "repeat": [ 1, 4 ] },
-        { "item": "wedding_dresses", "x": 15, "y": 11, "chance": 70, "repeat": [ 1, 4 ] },
-        { "item": "wedding_dresses", "x": [ 14, 20 ], "y": 14, "chance": 70, "repeat": [ 2, 4 ] },
-        { "item": "dress_shoes", "x": [ 14, 20 ], "y": 14, "chance": 80, "repeat": [ 2, 4 ] },
-        { "item": "wedding_suits", "x": [ 19, 21 ], "y": 6, "chance": 65, "repeat": [ 1, 4 ] },
-        { "item": "wedding_dresses", "x": [ 19, 21 ], "y": 6, "chance": 65, "repeat": [ 1, 4 ] },
-        { "item": "tools_commercial_tailor", "x": [ 19, 21 ], "y": 6, "chance": 80 },
-        { "item": "wedding_suits", "x": 19, "y": [ 9, 10 ], "chance": 55, "repeat": [ 1, 4 ] },
-        { "item": "wedding_dresses", "x": 19, "y": [ 9, 10 ], "chance": 55, "repeat": [ 1, 4 ] },
-        { "item": "tools_commercial_tailor", "x": 19, "y": [ 9, 10 ], "chance": 80 },
-        { "item": "tailorbooks", "x": 19, "y": [ 11, 12 ], "chance": 30, "repeat": [ 2, 3 ] }
+        { "item": "wedding_suits", "x": 2, "y": [ 6, 8 ], "chance": 20, "repeat": [ 2, 4 ] },
+        { "item": "wedding_suits", "x": 6, "y": 6, "chance": 20, "repeat": [ 1, 4 ] },
+        { "item": "wedding_dresses", "x": 16, "y": 6, "chance": 20, "repeat": [ 1, 4 ] },
+        { "item": "wedding_dresses", "x": 13, "y": 7, "chance": 20, "repeat": [ 1, 4 ] },
+        { "item": "wedding_dresses", "x": 11, "y": 9, "chance": 20, "repeat": [ 1, 4 ] },
+        { "item": "wedding_dresses", "x": 15, "y": 9, "chance": 20, "repeat": [ 1, 4 ] },
+        { "item": "wedding_dresses", "x": 11, "y": 11, "chance": 20, "repeat": [ 1, 4 ] },
+        { "item": "wedding_dresses", "x": 15, "y": 11, "chance": 20, "repeat": [ 1, 4 ] },
+        { "item": "wedding_dresses", "x": [ 14, 20 ], "y": 14, "chance": 20, "repeat": [ 2, 4 ] },
+        { "item": "dress_shoes", "x": [ 14, 20 ], "y": 14, "chance": 20, "repeat": [ 2, 4 ] },
+        { "item": "wedding_suits", "x": [ 19, 21 ], "y": 6, "chance": 25, "repeat": [ 1, 4 ] },
+        { "item": "wedding_dresses", "x": [ 19, 21 ], "y": 6, "chance": 25, "repeat": [ 1, 4 ] },
+        { "item": "tools_commercial_tailor", "x": [ 19, 21 ], "y": 6, "chance": 20 },
+        { "item": "wedding_suits", "x": 19, "y": [ 9, 10 ], "chance": 25, "repeat": [ 1, 4 ] },
+        { "item": "wedding_dresses", "x": 19, "y": [ 9, 10 ], "chance": 25, "repeat": [ 1, 4 ] },
+        { "item": "tools_commercial_tailor", "x": 19, "y": [ 9, 10 ], "chance": 20 },
+        { "item": "tailorbooks", "x": 19, "y": [ 11, 12 ], "chance": 20, "repeat": [ 2, 3 ] }
       ],
       "place_monsters": [
         { "monster": "GROUP_MAYBE_ZOMBIE", "x": [ 13, 16 ], "y": [ 18, 19 ], "density": 1 },
         { "monster": "GROUP_MAYBE_ZOMBIE", "x": [ 18, 21 ], "y": [ 18, 19 ], "density": 1 }
       ],
       "nested": { "R": { "chunks": [ [ "roof_6x6_garden_1", 95 ], [ "roof_6x6_garden_2", 5 ] ] } }
-    }
-  },
-  {
-    "type": "mapgen",
-    "method": "json",
-    "om_terrain": "s_clothes_roof_5",
-    "object": {
-      "fill_ter": "t_flat_roof",
-      "rows": [
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        " |222222222222222222223 ",
-        " |....................3 ",
-        " |....................3 ",
-        " |....................3 ",
-        " |....................3 ",
-        " |....................3 ",
-        " |....................3 ",
-        " |....................3 ",
-        " |----------|.........3 ",
-        "            |.........3 ",
-        "            |.........5 ",
-        "            |..X......3 ",
-        "            |.........3 ",
-        "            |......&..3 ",
-        "            |..:......3 ",
-        "            |---------3 ",
-        "                        ",
-        "                        ",
-        "                        "
-      ],
-      "palettes": [ "roof_palette" ],
-      "furniture": { "&": "f_roof_turbine_vent", ":": "f_cellphone_booster", "X": "f_small_satelitte_dish" },
-      "place_nested": [
-        {
-          "chunks": [
-            [ "null", 20 ],
-            [ "roof_2x2_utilities_b", 15 ],
-            [ "roof_2x2_utilities_c", 5 ],
-            [ "roof_2x2_utilities_d", 20 ],
-            [ "roof_4x4_utility", 20 ],
-            [ "roof_2x2_utilities", 30 ]
-          ],
-          "x": [ 5, 12 ],
-          "y": [ 7, 8 ]
-        }
-      ]
-    }
-  },
-  {
-    "type": "mapgen",
-    "method": "json",
-    "om_terrain": [ "s_clothes_6" ],
-    "//": "All clothing",
-    "weight": 50000,
-    "object": {
-      "fill_ter": "t_floor",
-      "rows": [
-        "------------------------",
-        "----ppppp------ppppp----",
-        "------------------------",
-        "..#:::::::#**#:::::::#..",
-        "..#&ycy&       c&yy& #..",
-        "..#                  #..",
-        "..#J  W          W  K#..",
-        "..#J  W   cccc   W  K#..",
-        "..#J  W   c  %   W  T#..",
-        "..oc      c sc      T#..",
-        "..#U  &   c cc   M  I#..",
-        "..#U  M          M  I#..",
-        "..#U  M     [&   M  I#..",
-        "..#U  M     &[   M  I#..",
-        "..#y                b#..",
-        "..#   b [[&         y#..",
-        "..#+|||||||||+||+||+|#..",
-        "..#        l| h| h| D#..",
-        ".4#   h[[h l|  |  |  #..",
-        "..#n        |b |b |St#..",
-        "..#####o###+#######o##..",
-        "...........-............",
-        "...........-............",
-        "...........-............"
-      ],
-      "palettes": [ "standard_building_palette", "clothes_store_palette" ]
-    }
-  },
-  {
-    "type": "mapgen",
-    "method": "json",
-    "om_terrain": "s_clothes_roof_6",
-    "object": {
-      "fill_ter": "t_flat_roof",
-      "rows": [
-        "                        ",
-        "                        ",
-        "                        ",
-        "  |2222222222222222223  ",
-        "  |..................3  ",
-        "  |.........:........3  ",
-        "  |...ooo......ooo...3  ",
-        "  |...ooo......ooo...3  ",
-        "  |..................3  ",
-        "  |.......&..........3  ",
-        "  |..................3  ",
-        "  |..................3  ",
-        "  |..................3  ",
-        "  |..................3  ",
-        "  |..................3  ",
-        "  |..................3  ",
-        "  |..................3  ",
-        "  |..................3  ",
-        "  5..................3  ",
-        "  |..................3  ",
-        "  |------------------3  ",
-        "                        ",
-        "                        ",
-        "                        "
-      ],
-      "palettes": [ "roof_palette" ],
-      "furniture": { "&": "f_roof_turbine_vent", ":": "f_cellphone_booster" },
-      "place_nested": [
-        {
-          "chunks": [
-            [ "null", 20 ],
-            [ "roof_2x2_utilities_b", 15 ],
-            [ "roof_2x2_utilities_c", 5 ],
-            [ "roof_2x2_utilities_d", 20 ],
-            [ "roof_4x4_utility", 20 ],
-            [ "roof_2x2_utilities", 30 ]
-          ],
-          "x": [ 5, 12 ],
-          "y": [ 11, 14 ]
-        }
-      ]
     }
   }
 ]

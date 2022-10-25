@@ -148,41 +148,5 @@
         }
       ]
     }
-  },
-  {
-    "type": "mapgen",
-    "method": "json",
-    "om_terrain": "cs_internet_cafe_upper_roof",
-    "object": {
-      "fill_ter": "t_tar_flat_roof",
-      "rows": [
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "    ............        ",
-        "    ............        ",
-        "    ........X...        ",
-        "    ............        ",
-        "    ............        ",
-        "    ............        ",
-        "    ............        ",
-        "    ...:........        ",
-        "    ............        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        "
-      ],
-      "palettes": [ "roof_palette" ],
-      "terrain": { ".": "t_tar_flat_roof", "X": "t_tar_flat_roof", ":": "t_tar_flat_roof" }
-    }
   }
 ]

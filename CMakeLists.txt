@@ -1,10 +1,13 @@
-cmake_minimum_required(VERSION 3.1.4)
+cmake_minimum_required(VERSION 3.21)
 
 project(CataclysmDDA)
 
-set(CMAKE_MODULE_PATH
-        ${CMAKE_MODULE_PATH}
+list(APPEND CMAKE_MODULE_PATH
         ${CMAKE_SOURCE_DIR}/CMakeModules)
+if (NOT VCPKG_MANIFEST_MODE)
+    list(APPEND CMAKE_MODULE_PATH
+            ${CMAKE_SOURCE_DIR}/CMakeModules/Find)
+endif()
 
 set(CMAKE_TLS_VERIFY ON)
 
@@ -42,7 +45,7 @@ add_definitions(-DCMAKE)
 
 include(GetGitRevisionDescription)
 git_describe(GIT_VERSION --tags --always --match "[0-9A-Z]*.[0-9A-Z]*")
-if (NOT ${GIT_VERSION} MATCHES GIT-NOTFOUND)
+if (NOT "${GIT_VERSION}" MATCHES "GIT-NOTFOUND")
     string(REPLACE "-NOTFOUND" "" GIT_VERSION ${GIT_VERSION})
     file(WRITE ${CMAKE_SOURCE_DIR}/src/version.h
             "// NOLINT(cata-header-guard)\n\#define VERSION \"${GIT_VERSION}\"\n")
@@ -51,18 +54,18 @@ if (NOT ${GIT_VERSION} MATCHES GIT-NOTFOUND)
 endif ()
 
 #OS Check Placeholders. Will be used for BINDIST
-if (${CMAKE_SYSTEM_NAME} MATCHES Linux)
+if ("${CMAKE_SYSTEM_NAME}" MATCHES "Linux")
     set(_OS_LINUX_ 1)
 endif ()
 
-if (${CMAKE_SYSTEM_NAME} MATCHES FreeBSD)
+if ("${CMAKE_SYSTEM_NAME}" MATCHES "FreeBSD")
     set(_OS_FREEBSD_ 1)
 endif ()
 
-if (${CMAKE_SYSTEM_NAME} MATCHES Darwin)
+if ("${CMAKE_SYSTEM_NAME}" MATCHES "Darwin")
     set(_OS_DARWIN_ 1)
     add_definitions(-DMACOSX)
-    if (${TILES})
+    if (TILES)
         add_definitions(-DOSX_SDL2_LIBS)
     endif ()
 endif ()
@@ -77,7 +80,9 @@ include(CheckCXXCompilerFlag)
 #SET(CMAKE_SHARED_LIBRARY_CXX_FLAGS "${CMAKE_SHARED_LIBRARY_CXX_FLAGS} -m32")
 
 if (NOT DYNAMIC_LINKING)
-    set(CMAKE_FIND_LIBRARY_SUFFIXES ".a;.dll.a")
+    if(NOT MSVC)
+        set(CMAKE_FIND_LIBRARY_SUFFIXES ".a;.dll.a")
+    endif()
     set(BUILD_SHARED_LIBRARIES OFF)
     check_cxx_compiler_flag (-static HAVE_STATIC_FLAG)
     if (HAVE_STATIC_FLAG)
@@ -91,15 +96,14 @@ if (NOT DYNAMIC_LINKING)
     set(CMAKE_SHARED_LIBRARY_LINK_C_FLAGS)    # remove -rdynamic
     set(CMAKE_SHARED_LIBRARY_LINK_CXX_FLAGS)
 else ()
-    if (MINGW AND NOT CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+    if (MINGW AND NOT "${CMAKE_CXX_COMPILER_ID}" MATCHES "Clang")
         # Avoid depending on MinGW runtime DLLs
         set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -static-libgcc -static-libstdc++")
     endif ()
 endif ()
 
 # System specific actions
-if (${CMAKE_SYSTEM_NAME} MATCHES Linux OR ${CMAKE_SYSTEM_NAME} MATCHES FreeBSD
-    OR ${CMAKE_SYSTEM_NAME} MATCHES Darwin)
+if ("${CMAKE_SYSTEM_NAME}" MATCHES "(Linux|FreeBSD|Darwin)")
     if (NOT DATA_PREFIX)
         set(DATA_PREFIX ${CMAKE_INSTALL_PREFIX}/share/cataclysm-dda)
     endif ()
@@ -123,12 +127,12 @@ if (${CMAKE_SYSTEM_NAME} MATCHES Linux OR ${CMAKE_SYSTEM_NAME} MATCHES FreeBSD
     endif ()
 endif ()
 
-if (${CMAKE_SYSTEM_NAME} MATCHES Windows)
+if ("${CMAKE_SYSTEM_NAME}" MATCHES "(Windows|MSYS)")
     if (NOT DATA_PREFIX)
-        set(DATA_PREFIX ${CMAKE_INSTALL_PREFIX})
+        set(DATA_PREFIX ${CMAKE_INSTALL_PREFIX}/data)
     endif ()
     if (NOT LOCALE_DIR)
-        set(LOCALE_DIR ${CMAKE_INSTALL_PREFIX})
+        set(LOCALE_DIR ${CMAKE_INSTALL_PREFIX}/lang)
     endif ()
     if (NOT BIN_PREFIX)
         set(BIN_PREFIX ${CMAKE_INSTALL_PREFIX})
@@ -159,7 +163,7 @@ if (TILES)
 endif ()
 
 # Set build types and display info
-if (CMAKE_BUILD_TYPE STREQUAL Debug)
+if ("${CMAKE_BUILD_TYPE}" STREQUAL "Debug")
     set(RELEASE 0)
     message(STATUS "Build ${PROJECT} in development mode --")
     message(STATUS "Binaries will be located in: " ${CMAKE_SOURCE_DIR})
@@ -186,6 +190,10 @@ else ()
     # Use CMAKE_INSTALL_PREFIX as storage of data,gfx, etc.. Useful only on *nix OS.
     if (CMAKE_INSTALL_PREFIX AND NOT WIN32 AND USE_PREFIX_DATA_DIR)
         add_definitions(-DPREFIX=${CMAKE_INSTALL_PREFIX})
+        configure_file(
+            "${CMAKE_SOURCE_DIR}/src/prefix.h.in"
+            "${CMAKE_SOURCE_DIR}/src/prefix.h"
+            @ONLY)
         add_definitions(-DDATA_DIR_PREFIX)
     endif ()
 endif ()
@@ -202,7 +210,7 @@ message(STATUS "LANGUAGES                     : ${LANGUAGES}")
 message(STATUS "See doc/COMPILING/COMPILING-CMAKE.md for details and more info --")
 
 if (MSVC)
-    if (CMAKE_SIZEOF_VOID_P EQUAL 8)
+    if ("${CMAKE_SIZEOF_VOID_P}" EQUAL "8")
         add_definitions(-D_AMD64_)
     else ()
         add_definitions(-D_X86_)
@@ -220,9 +228,13 @@ else ()
              -Wpedantic \
              -Wsuggest-override \
              -Wunused-macros \
-             -Wzero-as-null-pointer-constant \
-             -Wno-unknown-warning-option")
-    if (NOT ${CMAKE_SYSTEM_NAME} MATCHES Windows)
+             -Wzero-as-null-pointer-constant")
+    if("${CMAKE_CXX_COMPILER_ID}" MATCHES "Clang")
+        set(CATA_WARNINGS "${CATA_WARNINGS} -Wno-unknown-warning-option")
+    else()
+        set(CATA_WARNINGS "${CATA_WARNINGS} -Wno-unknown-warning")
+    endif()
+    if (NOT "${CMAKE_SYSTEM_NAME}" MATCHES "Windows")
         set(CATA_WARNINGS "${CATA_WARNINGS} -Wredundant-decls")
     endif ()
     set(CATA_OTHER_FLAGS "${CATA_OTHER_FLAGS} -fsigned-char")
@@ -233,9 +245,11 @@ else ()
 endif ()
 
 set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
 
 # Force out-of-source build
-if (${CMAKE_SOURCE_DIR} STREQUAL ${CMAKE_BINARY_DIR})
+if ("${CMAKE_SOURCE_DIR}" STREQUAL "${CMAKE_BINARY_DIR}")
     message(FATAL_ERROR
             "This project requires an out of source build. \
              Remove the file 'CMakeCache.txt' found in this directory before continuing; \
@@ -254,7 +268,7 @@ if (TILES)
     # Find SDL, SDL_ttf & SDL_image for graphical install
     message(STATUS "Searching for SDL2 library --")
     find_package(SDL2)
-    if (NOT SDL2_FOUND)
+    if (NOT (SDL2_FOUND OR TARGET SDL2::SDL2))
         message(FATAL_ERROR
                 "This project requires SDL2 to be installed to compile in graphical mode.  \
                  Please install the SDL2 development libraries, \
@@ -274,7 +288,7 @@ if (TILES)
 
     message(STATUS "Searching for SDL2_TTF library --")
     find_package(SDL2_ttf)
-    if (NOT SDL2_TTF_FOUND)
+    if (NOT (SDL2_TTF_FOUND OR TARGET SDL2_ttf::SDL2_ttf OR TARGET SDL2_ttf::SDL2_ttf-static))
         message(FATAL_ERROR
                 "This project requires SDL2_ttf to be installed to compile in graphical mode. \
                  Please install the SDL2_ttf development libraries, \
@@ -283,8 +297,12 @@ if (TILES)
     endif ()
 
     message(STATUS "Searching for SDL2_image library --")
-    find_package(SDL2_image)
-    if (NOT SDL2_IMAGE_FOUND)
+    if(VCPKG_MANIFEST_MODE)
+        find_package(sdl2-image)
+    else()
+        find_package(SDL2_image)
+    endif()
+    if (NOT (SDL2_IMAGE_FOUND OR TARGET SDL2::SDL2_image))
         message(FATAL_ERROR
                 "This project requires SDL2_image to be installed to compile in graphical mode. \
                  Please install the SDL2_image development libraries, \
@@ -307,6 +325,9 @@ if (CURSES)
                  or try compiling with -DTILES=1 for a graphical compilation. \
                  See doc/COMPILING/COMPILING-CMAKE.md for details and more info")
     endif ()
+    if (NOT DYNAMIC_LINKING)
+        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DNCURSES_STATIC")
+    endif ()
 endif ()
 
 if (SOUND)
@@ -321,12 +342,21 @@ if (SOUND)
     # Sound requires SDL_mixer library
     message(STATUS "Searching for SDL2_mixer library --")
     find_package(SDL2_mixer)
-    if (NOT SDL2_MIXER_FOUND)
-        message(FATAL_ERROR
-                "You need the SDL2_mixer development library \
-                 to be able to compile with sound enabled. \
-                 See doc/COMPILING/COMPILING-CMAKE.md for details and more info.")
-    endif ()
+    if(VCPKG_MANIFEST_MODE)
+        if (NOT TARGET SDL2_mixer::SDL2_mixer-static) # TODO x64-mingw-static
+            message(FATAL_ERROR
+                    "You need the SDL2_mixer development library \
+                     to be able to compile with sound enabled. \
+                     See doc/COMPILING/COMPILING-CMAKE.md for details and more info.")
+        endif()
+    else()
+        if (NOT SDL2_MIXER_FOUND)
+            message(FATAL_ERROR
+                    "You need the SDL2_mixer development library \
+                     to be able to compile with sound enabled. \
+                     See doc/COMPILING/COMPILING-CMAKE.md for details and more info.")
+        endif ()
+    endif()
 endif ()
 
 if (BACKTRACE)
@@ -344,6 +374,14 @@ endif ()
 
 if (USE_HOME_DIR)
     add_definitions(-DUSE_HOME_DIR)
+endif ()
+
+find_program(CCACHE_FOUND ccache)
+if (CCACHE_FOUND AND CATA_CCACHE)
+    set(CMAKE_C_COMPILER_LAUNCHER ccache)
+    set(CMAKE_CXX_COMPILER_LAUNCHER ccache)
+    set(CMAKE_C_LINKER_LAUNCHER ccache)
+    set(CMAKE_CXX_LINKER_LAUNCHER ccache)
 endif ()
 
 add_subdirectory(src)
@@ -367,10 +405,4 @@ configure_file(
 add_custom_target(uninstall
         "${CMAKE_COMMAND}"
         -P "${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake")
-
-find_program(CCACHE_FOUND ccache)
-if (CCACHE_FOUND AND CATA_CCACHE)
-    set_property(GLOBAL PROPERTY RULE_LAUNCH_COMPILE ccache)
-    set_property(GLOBAL PROPERTY RULE_LAUNCH_LINK ccache)
-endif ()
 

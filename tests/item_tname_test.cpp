@@ -280,9 +280,9 @@ TEST_CASE( "engine displacement volume", "[item][tname][engine]" )
     REQUIRE( v12diesel.engine_displacement() == 700 );
     REQUIRE( turbine.engine_displacement() == 2700 );
 
-    CHECK( vtwin.tname() == "1.0L V-twin engine" );
+    CHECK( vtwin.tname() == "1.0L V2 engine" );
     CHECK( v12diesel.tname() == "7.0L V12 diesel engine" );
-    CHECK( turbine.tname() == "27.0L 1350 hp gas turbine engine" );
+    CHECK( turbine.tname() == "27.0L 1,350 HP gas turbine engine" );
 }
 
 TEST_CASE( "wheel diameter", "[item][tname][wheel]" )

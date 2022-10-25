@@ -34,12 +34,15 @@
 #include "string_formatter.h"
 #include "teleport.h"
 #include "translations.h"
+#include "uistate.h"
 #include "units.h"
 #include "vitamin.h"
 #include "weather.h"
 #include "weather_type.h"
 
 static const activity_id ACT_FIRSTAID( "ACT_FIRSTAID" );
+
+static const bionic_id bio_sleep_shutdown( "bio_sleep_shutdown" );
 
 static const efftype_id effect_adrenaline( "adrenaline" );
 static const efftype_id effect_alarm_clock( "alarm_clock" );
@@ -77,6 +80,7 @@ static const efftype_id effect_narcosis( "narcosis" );
 static const efftype_id effect_onfire( "onfire" );
 static const efftype_id effect_paincysts( "paincysts" );
 static const efftype_id effect_panacea( "panacea" );
+static const efftype_id effect_pet( "pet" );
 static const efftype_id effect_rat( "rat" );
 static const efftype_id effect_recover( "recover" );
 static const efftype_id effect_redcells_anemia( "redcells_anemia" );
@@ -111,6 +115,7 @@ static const mutation_category_id mutation_category_TROGLOBITE( "TROGLOBITE" );
 static const proficiency_id proficiency_prof_wound_care( "prof_wound_care" );
 static const proficiency_id proficiency_prof_wound_care_expert( "prof_wound_care_expert" );
 
+static const trait_id trait_ACIDBLOOD( "ACIDBLOOD" );
 static const trait_id trait_CHLOROMORPH( "CHLOROMORPH" );
 static const trait_id trait_HEAVYSLEEPER( "HEAVYSLEEPER" );
 static const trait_id trait_HEAVYSLEEPER2( "HEAVYSLEEPER2" );
@@ -139,7 +144,7 @@ static void eff_fun_spores( Character &u, effect &it )
     // Equivalent to X in 150000 + health * 100
     const int intense = it.get_intensity();
     if( ( !u.has_trait( trait_M_IMMUNE ) ) && ( one_in( 100 ) &&
-            x_in_y( intense, 900 + u.get_healthy() * 0.6 ) ) ) {
+            x_in_y( intense, 900 + u.get_lifestyle() * 0.6 ) ) ) {
         u.add_effect( effect_fungus, 1_turns, true );
     }
 }
@@ -162,7 +167,7 @@ static void eff_fun_fungus( Character &u, effect &it )
 {
     const int intense = it.get_intensity();
     const bool resists = u.resists_effect( it );
-    const int bonus = u.get_healthy() / 10 + ( resists ? 100 : 0 );
+    const int bonus = u.get_lifestyle() / 10 + ( resists ? 100 : 0 );
 
     // clock the progress
     // hard reverse the clock if you resist fungus
@@ -248,10 +253,10 @@ static void eff_fun_rat( Character &u, effect &it )
     it.set_intensity( dur / 10 );
     if( rng( 0, 100 ) < dur / 10 ) {
         if( !one_in( 5 ) ) {
-            u.mutate_category( mutation_category_RAT );
+            u.mutate_category( mutation_category_RAT, false, true );
             it.mult_duration( .2 );
         } else {
-            u.mutate_category( mutation_category_TROGLOBITE );
+            u.mutate_category( mutation_category_TROGLOBITE, false, true );
             it.mult_duration( .33 );
         }
     } else if( rng( 0, 100 ) < dur / 8 ) {
@@ -284,8 +289,37 @@ static void eff_fun_bleed( Character &u, effect &it )
             u.mod_pain( 1 );
         }
         if( one_in( 120 / intense ) ) {
+            static const translation blood_str = !u.has_trait( trait_ACIDBLOOD ) ?
+                                                 to_translation( "bleed_message", "Blood" ) : to_translation( "bleed_message", "Acid" );
+            // the numerical values here coincide with the intensity thresholds at which the name of the effect changes
+            // i.e. 0-5 intensity is displayed as "Minor Bleeding", 11-20 intensity is displayed as "Bad Bleeding", etc
+            static const std::map<int, translation> intensity_strings = {
+                { 0, to_translation( "%1s drips from your %2s." ) },
+                { 6, to_translation( "%1s leaks from your %2s." ) },
+                { 11, to_translation( "%1s flows from your %2s." ) },
+                { 21, to_translation( "%1s pours from your %2s!" ) },
+                { 31, to_translation( "%1s gushes from your %2s!" ) }
+            };
+            translation suffer_string = intensity_strings.at( 0 );
+            // iterate in reverse to find the first string that we qualify for based on intensity
+            // if we go through the map from front to back, we end up choosing the string for the lowest intensity all the time
+            for( auto iter = intensity_strings.rbegin(); iter != intensity_strings.rend(); ++iter ) {
+                if( intense >= iter->first ) {
+                    suffer_string = iter->second;
+                    break;
+                }
+            }
             u.bleed();
-            u.add_msg_player_or_npc( m_bad, _( "You lose some blood." ),
+            bodypart_id bp = it.get_bp();
+            // piece together the final displayed message here instead of inline, for readability's sake
+            // format the chosen string with the relevant variables to make it human-readable, then translate everything we have so far
+            // we maintain a generic part-less fallback just in case the effect is added without a target body part, in order to avoid crashes
+            const std::string final_message = bp != bodypart_str_id::NULL_ID() ? string_format(
+                                                  suffer_string,
+                                                  blood_str, body_part_name_accusative( bp ) ) : _( "You lose some blood." );
+            // display the final message
+            u.add_msg_player_or_npc( m_bad,
+                                     final_message,
                                      _( "<npcname> loses some blood." ) );
         }
     }
@@ -559,10 +593,12 @@ static void eff_fun_teleglow( Character &u, effect &it )
                 if( here.impassable( dest ) ) {
                     here.make_rubble( dest, f_rubble_rock, true );
                 }
-                MonsterGroupResult spawn_details = MonsterGroupManager::GetResultFromGroup(
-                                                       GROUP_NETHER );
-                g->place_critter_at( spawn_details.name, dest );
-                if( player_character.sees( dest ) ) {
+                std::vector<MonsterGroupResult> spawn_details =
+                    MonsterGroupManager::GetResultFromGroup( GROUP_NETHER );
+                for( const MonsterGroupResult &mgr : spawn_details ) {
+                    g->place_critter_at( mgr.name, dest );
+                }
+                if( uistate.distraction_hostile_spotted && player_character.sees( dest ) ) {
                     g->cancel_activity_or_ignore_query( distraction_type::hostile_spotted_far,
                                                         _( "A monster appears nearby!" ) );
                     add_msg( m_warning, _( "A portal opens nearby, and a monster crawls through!" ) );
@@ -964,15 +1000,14 @@ static void eff_fun_sleep( Character &u, effect &it )
         here.is_outside( u.pos() ) ) {
         if( u.has_trait( trait_CHLOROMORPH ) ) {
             // Hunger and thirst fall before your Chloromorphic physiology!
-            if( g->natural_light_level( u.posz() ) >= 12 &&
-                get_weather().weather_id->sun_intensity >= sun_intensity_type::light ) {
+            if( incident_sun_irradiance( get_weather().weather_id, calendar::turn ) > irradiance::low ) {
                 if( u.has_active_mutation( trait_CHLOROMORPH ) && ( u.get_fatigue() <= 25 ) ) {
                     u.set_fatigue( 25 );
                 }
                 if( u.get_hunger() >= -30 ) {
                     u.mod_hunger( -5 );
                     // photosynthesis warrants absorbing kcal directly
-                    u.mod_stored_nutr( -5 );
+                    u.mod_stored_kcal( 43 );
                 }
             }
             if( u.get_thirst() >= -40 ) {
@@ -999,9 +1034,11 @@ static void eff_fun_sleep( Character &u, effect &it )
     }
 
     // Check mutation category strengths to see if we're mutated enough to get a dream
-    mutation_category_id cat;
+    // If we've crossed a threshold, always show dreams for that category
+    // Otherwise, check for the category that we have the most vitamins in our blood for
+    mutation_category_id cat = u.get_threshold_category();
     weighted_int_list<mutation_category_id> cat_list = u.get_vitamin_weighted_categories();
-    if( cat_list.get_weight() > 0 ) {
+    if( cat.is_null() && cat_list.get_weight() > 0 ) {
         cat = *cat_list.pick();
     }
     int cat_strength = u.mutation_category_level[cat];
@@ -1030,8 +1067,8 @@ static void eff_fun_sleep( Character &u, effect &it )
             // Mycus folks upgrade in their sleep.
             if( u.has_trait( trait_THRESH_MYCUS ) ) {
                 if( one_in( 8 ) ) {
-                    u.mutate_category( mutation_category_MYCUS );
-                    u.mod_stored_nutr( 10 );
+                    u.mutate_category( mutation_category_MYCUS, false, true );
+                    u.mod_stored_kcal( -87 );
                     u.mod_thirst( 10 );
                     u.mod_fatigue( 5 );
                 }
@@ -1042,7 +1079,7 @@ static void eff_fun_sleep( Character &u, effect &it )
     bool woke_up = false;
     int tirednessVal = rng( 5, 200 ) + rng( 0, std::abs( u.get_fatigue() * 2 * 5 ) );
     if( !u.is_blind() && !u.has_effect( effect_narcosis ) &&
-        !u.has_active_mutation( trait_CHLOROMORPH ) ) {
+        !u.has_active_mutation( trait_CHLOROMORPH ) && !u.has_bionic( bio_sleep_shutdown ) ) {
         // People who can see while sleeping are acclimated to the light.
         if( !u.has_flag( json_flag_SEESLEEP ) ) {
             if( u.has_trait( trait_HEAVYSLEEPER2 ) && !u.has_trait( trait_HIBERNATE ) ) {
@@ -1214,6 +1251,7 @@ void Character::hardcoded_effects( effect &it )
                 if( monster *const grub = g->place_critter_around( mon_dermatik_larva, pos(), 1 ) ) {
                     if( one_in( 3 ) ) {
                         grub->friendly = -1;
+                        grub->add_effect( effect_pet, 1_turns, true );
                     }
                 }
             }
@@ -1267,10 +1305,12 @@ void Character::hardcoded_effects( effect &it )
                 if( here.impassable( dest ) ) {
                     here.make_rubble( dest, f_rubble_rock, true );
                 }
-                MonsterGroupResult spawn_details = MonsterGroupManager::GetResultFromGroup(
-                                                       GROUP_NETHER );
-                g->place_critter_at( spawn_details.name, dest );
-                if( player_character.sees( dest ) ) {
+                std::vector<MonsterGroupResult> spawn_details =
+                    MonsterGroupManager::GetResultFromGroup( GROUP_NETHER );
+                for( const MonsterGroupResult &mgr : spawn_details ) {
+                    g->place_critter_at( mgr.name, dest );
+                }
+                if( uistate.distraction_hostile_spotted && player_character.sees( dest ) ) {
                     g->cancel_activity_or_ignore_query( distraction_type::hostile_spotted_far,
                                                         _( "A monster appears nearby!" ) );
                     add_msg_if_player( m_warning, _( "A portal opens nearby, and a monster crawls through!" ) );
@@ -1329,7 +1369,7 @@ void Character::hardcoded_effects( effect &it )
             add_msg_if_player( m_bad, _( "Your head aches faintly." ) );
         }
         if( one_in( 6144 ) ) {
-            mod_healthy_mod( -10, -100 );
+            mod_daily_health( -10, -100 );
             apply_damage( nullptr, bodypart_id( "head" ), rng( 0, 1 ) );
             if( !has_effect( effect_visuals ) ) {
                 add_msg_if_player( m_bad, _( "Your vision is getting fuzzy." ) );
@@ -1337,7 +1377,7 @@ void Character::hardcoded_effects( effect &it )
             }
         }
         if( one_in( 24576 ) ) {
-            mod_healthy_mod( -10, -100 );
+            mod_daily_health( -10, -100 );
             apply_damage( nullptr, bodypart_id( "head" ), rng( 1, 2 ) );
             if( !is_blind() && !sleeping ) {
                 add_msg_if_player( m_bad, _( "Your vision goes black!" ) );
@@ -1434,7 +1474,7 @@ void Character::hardcoded_effects( effect &it )
             } else if( has_effect( effect_weak_antibiotic ) ) {
                 recover_factor += 100;
             }
-            recover_factor += get_healthy() / 10;
+            recover_factor += get_lifestyle() / 10;
 
             if( x_in_y( recover_factor, 648000 ) ) {
                 //~ %s is bodypart name.
@@ -1486,7 +1526,7 @@ void Character::hardcoded_effects( effect &it )
             } else if( has_effect( effect_weak_antibiotic ) ) {
                 recover_factor += 100;
             }
-            recover_factor += get_healthy() / 10;
+            recover_factor += get_lifestyle() / 10;
 
             if( x_in_y( recover_factor, 5184000 ) ) {
                 //~ %s is bodypart name.
@@ -1543,10 +1583,12 @@ void Character::hardcoded_effects( effect &it )
                         add_msg_if_player( _( "Your internal chronometer went off and you haven't slept a wink." ) );
                         activity.set_to_null();
                     } else if( ( !( has_trait( trait_HEAVYSLEEPER ) ||
-                                    has_trait( trait_HEAVYSLEEPER2 ) ) &&
+                                    has_trait( trait_HEAVYSLEEPER2 ) ||
+                                    has_bionic( bio_sleep_shutdown ) ) &&
                                  dice( 2, 15 ) < volume ) ||
                                ( has_trait( trait_HEAVYSLEEPER ) && dice( 3, 15 ) < volume ) ||
-                               ( has_trait( trait_HEAVYSLEEPER2 ) && dice( 6, 15 ) < volume ) ) {
+                               ( has_trait( trait_HEAVYSLEEPER2 ) && dice( 6, 15 ) < volume ) ||
+                               has_bionic( bio_sleep_shutdown ) ) {
                         // Secure the flag before wake_up() clears the effect
                         bool slept_through = has_effect( effect_slept_through_alarm );
                         wake_up();
@@ -1638,7 +1680,7 @@ void Character::hardcoded_effects( effect &it )
                         mod_dex_bonus( -8 );
                         recoil = MAX_RECOIL;
                     } else if( limb == "hand" ) {
-                        if( is_armed() && can_drop( get_wielded_item() ).success() ) {
+                        if( is_armed() && can_drop( *get_wielded_item() ).success() ) {
                             if( dice( 4, 4 ) > get_dex() ) {
                                 cancel_activity();  //Prevent segfaults from activities trying to access missing item
                                 put_into_vehicle_or_drop( *this, item_drop_reason::tumbling, { remove_weapon() } );

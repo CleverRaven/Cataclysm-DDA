@@ -23,6 +23,7 @@
 #include "inventory.h"
 #include "item.h"
 #include "item_group.h"
+#include "itype.h"
 #include "make_static.h"
 #include "map.h"
 #include "map_iterator.h"
@@ -83,7 +84,7 @@ std::string base_camps::faction_decode( const std::string &full_type )
     }
     int last_bar = full_type.find_last_of( '_' );
 
-    return full_type.substr( prefix_len, last_bar - prefix_len );
+    return full_type.substr( prefix_len, size_t( last_bar - prefix_len ) );
 }
 
 time_duration base_camps::to_workdays( const time_duration &work_time )
@@ -144,9 +145,9 @@ expansion_data basecamp::parse_expansion( const std::string &terrain,
         const tripoint_abs_omt &new_pos )
 {
     expansion_data e;
-    int last_bar = terrain.find_last_of( '_' );
+    size_t last_bar = terrain.find_last_of( '_' );
     e.type = terrain.substr( base_camps::prefix_len, last_bar - base_camps::prefix_len );
-    e.cur_level = std::stoi( terrain.substr( last_bar + 1 ) );
+    e.cur_level = std::stoi( "0" + terrain.substr( last_bar + 1 ) );
     e.pos = new_pos;
     return e;
 }
@@ -159,7 +160,6 @@ void basecamp::add_expansion( const std::string &terrain, const tripoint_abs_omt
 
     const point dir = talk_function::om_simple_dir( omt_pos, new_pos );
     expansions[ dir ] = parse_expansion( terrain, new_pos );
-    resources_updated = false;
     reset_camp_resources();
     update_provides( terrain, expansions[ dir ] );
     directions.push_back( dir );
@@ -180,7 +180,7 @@ void basecamp::add_expansion( const std::string &bldg, const tripoint_abs_omt &n
 
 void basecamp::define_camp( const tripoint_abs_omt &p, const std::string &camp_type )
 {
-    query_new_name();
+    query_new_name( true );
     omt_pos = p;
     const oter_id &omt_ref = overmap_buffer.ter( omt_pos );
     // purging the regions guarantees all entries will start with faction_base_
@@ -286,12 +286,12 @@ bool basecamp::has_provides( const std::string &req, const cata::optional<point>
     return false;
 }
 
-bool basecamp::can_expand()
+bool basecamp::can_expand() const
 {
     return has_provides( "bed", base_camps::base_dir, directions.size() * 2 );
 }
 
-bool basecamp::has_water()
+bool basecamp::has_water() const
 {
     return has_provides( "water_well" ) || has_provides( "fbmh_well_north" ) ||
            has_provides( "faction_base_camp_12" ) || has_provides( "faction_base_kitchen_6" ) ||
@@ -350,7 +350,7 @@ std::vector<basecamp_upgrade> basecamp::available_upgrades( const point &dir )
             basecamp_upgrade data;
             data.bldg = bldg;
             data.name = recp.blueprint_name();
-            const auto &reqs = recp.deduped_requirements();
+            const deduped_requirement_data &reqs = recp.deduped_requirements();
             data.avail = reqs.can_make_with_inventory( _inv, recp.get_component_filter(), 1 );
             data.in_progress = in_progress;
             ret_data.emplace_back( data );
@@ -376,15 +376,14 @@ std::map<recipe_id, translation> basecamp::recipe_deck( const point &dir ) const
 
 std::map<recipe_id, translation> basecamp::recipe_deck( const std::string &bldg ) const
 {
-    const std::map<recipe_id, translation> recipes = recipe_group::get_recipes_by_bldg( bldg );
-    return recipes;
+    return recipe_group::get_recipes_by_bldg( bldg );
 }
 
 item_group_id basecamp::get_gatherlist() const
 {
     const auto &e = expansions.find( base_camps::base_dir );
     if( e != expansions.end() ) {
-        const item_group_id gatherlist(
+        item_group_id gatherlist(
             "gathering_" + base_camps::faction_encode_abs( e->second, 4 ) );
         if( item_group::group_is_defined( gatherlist ) ) {
             return gatherlist;
@@ -453,20 +452,20 @@ void basecamp::update_in_progress( const std::string &bldg, const point &dir )
 void basecamp::reset_camp_resources()
 {
     reset_camp_workers();
-    if( !resources_updated ) {
-        resources_updated = true;
-        for( auto &e : expansions ) {
-            expansion_data &e_data = e.second;
-            for( int level = 0; level <= e_data.cur_level; level++ ) {
-                const std::string &bldg = base_camps::faction_encode_abs( e_data, level );
-                if( bldg == "null" ) {
-                    break;
-                }
-                update_provides( bldg, e_data );
+    for( auto &e : expansions ) {
+        expansion_data &e_data = e.second;
+        for( int level = 0; level <= e_data.cur_level; level++ ) {
+            const std::string &bldg = base_camps::faction_encode_abs( e_data, level );
+            if( bldg == "null" ) {
+                break;
             }
-            for( const auto &bp_provides : e_data.provides ) {
-                update_resources( bp_provides.first );
-            }
+            update_provides( bldg, e_data );
+        }
+        for( const auto &bp_provides : e_data.provides ) {
+            update_resources( bp_provides.first );
+        }
+        for( itype_id &it : e.second.available_pseudo_items ) {
+            add_resource( it );
         }
     }
     form_crafting_inventory();
@@ -543,6 +542,45 @@ std::vector<npc_ptr> basecamp::get_npcs_assigned()
     return assigned_npcs;
 }
 
+void basecamp::hide_mission( ui_mission_id id )
+{
+    const base_camps::direction_data &base_data = base_camps::all_directions.at( id.id.dir.value() );
+    for( ui_mission_id &miss_id : hidden_missions[size_t( base_data.tab_order )] ) {
+        if( is_equal( miss_id, id ) ) {
+            return;
+        }  //  The UI shouldn't allow us to hide something already hidden, but check anyway.
+    }
+    hidden_missions[size_t( base_data.tab_order )].push_back( id );
+}
+
+void basecamp::reveal_mission( ui_mission_id id )
+{
+    const base_camps::direction_data &base_data = base_camps::all_directions.at( id.id.dir.value() );
+    for( auto it = hidden_missions[size_t( base_data.tab_order )].begin();
+         it != hidden_missions[size_t( base_data.tab_order )].end(); it++ ) {
+        if( is_equal( id.id, it->id ) ) {
+            hidden_missions[size_t( base_data.tab_order )].erase( it );
+            return;
+        }
+    }
+    debugmsg( "Trying to reveal revealed mission.  Has no effect." );
+}
+
+bool basecamp::is_hidden( ui_mission_id id )
+{
+    if( hidden_missions.empty() ) {
+        return false;
+    }
+
+    const base_camps::direction_data &base_data = base_camps::all_directions.at( id.id.dir.value() );
+    for( ui_mission_id &miss_id : hidden_missions[size_t( base_data.tab_order )] ) {
+        if( is_equal( miss_id, id ) ) {
+            return true;
+        }
+    }
+    return false;
+}
+
 // get the subset of companions working on a specific task
 comp_list basecamp::get_mission_workers( const mission_id &miss_id, bool contains )
 {
@@ -558,18 +596,29 @@ comp_list basecamp::get_mission_workers( const mission_id &miss_id, bool contain
     return available;
 }
 
-void basecamp::query_new_name()
+void basecamp::query_new_name( bool force )
 {
-    string_input_popup popup;
+    string_input_popup input_popup;
+    bool done = false;
+    bool need_input = true;
     do {
-        popup.title( _( "Name this camp" ) )
+        input_popup.title( _( "Name this camp" ) )
         .width( 40 )
-        .text( "" )
         .max_length( 25 )
         .query();
-    } while( popup.canceled() || popup.text().empty() );
-
-    name = popup.text();
+        if( input_popup.canceled() || input_popup.text().empty() ) {
+            if( name.empty() || force ) {
+                popup( _( "You need to input the base camp name." ) );
+            } else {
+                need_input = false;
+            }
+        } else {
+            done = true;
+        }
+    } while( !done && need_input );
+    if( done ) {
+        name = input_popup.text();
+    }
 }
 
 void basecamp::set_name( const std::string &new_name )
@@ -608,7 +657,7 @@ void basecamp::form_crafting_inventory( map &target_map )
     _inv.clear();
     const tripoint_abs_ms &dump_spot = get_dumping_spot();
     const tripoint &origin = target_map.getlocal( dump_spot );
-    auto &mgr = zone_manager::get_manager();
+    zone_manager &mgr = zone_manager::get_manager();
     map &here = get_map();
     if( here.check_vehicle_zones( here.get_abs_sub().z() ) ) {
         mgr.cache_vzones();
@@ -661,6 +710,28 @@ void basecamp::form_crafting_inventory( map &target_map )
             }
         }
         _inv.add_item( camp_item );
+    }
+
+    //  We're potentially adding the same item multiple times if present in multiple expansions,
+    //  but we're already that with the resources above. The resources are stored in expansions
+    //  rather than in a common pool to allow them to apply only to their respective expansion
+    //  in the future.
+    for( auto &expansion : expansions ) {
+        for( itype_id &it : expansion.second.available_pseudo_items ) {
+            item camp_item = item( it );
+            if( camp_item.is_magazine() ) {
+                for( basecamp_fuel &bcp_f : fuels ) {
+                    if( camp_item.can_reload_with( item( bcp_f.ammo_id ), false ) ) {
+                        if( bcp_f.available > 0 ) {
+                            camp_item = camp_item.ammo_set( bcp_f.ammo_id, bcp_f.available );
+                        }
+                        break;
+                    }
+                }
+            }
+
+            _inv.add_item( camp_item );
+        }
     }
 }
 

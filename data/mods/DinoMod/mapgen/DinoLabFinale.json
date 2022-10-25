@@ -139,7 +139,7 @@
             { "item": "blanket", "repeat": [ 1, 5 ], "chance": 70 },
             { "item": "sheet", "repeat": [ 1, 5 ], "chance": 70 },
             { "item": "down_blanket", "repeat": [ 1, 2 ], "chance": 50 },
-            { "item": "rag", "repeat": [ 20, 50 ] }
+            { "item": "cotton_patchwork", "repeat": [ 20, 50 ] }
           ]
         }
       },
@@ -205,7 +205,7 @@
             { "item": "blanket", "repeat": [ 1, 5 ], "chance": 70 },
             { "item": "sheet", "repeat": [ 1, 5 ], "chance": 70 },
             { "item": "down_blanket", "repeat": [ 1, 2 ], "chance": 50 },
-            { "item": "rag", "repeat": [ 20, 50 ] }
+            { "item": "cotton_patchwork", "repeat": [ 20, 50 ] }
           ]
         },
         "D": { "item": [ { "item": "report_dino_exploration" } ] }

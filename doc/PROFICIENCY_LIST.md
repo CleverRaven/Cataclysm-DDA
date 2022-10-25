@@ -10,7 +10,7 @@
 | prof_baking_bread | Breadmaking | You've baked enough bread to consider yourself an expert.  May your yeast be ever frothy. | prof_baking
 | prof_baking_desserts_1 | Dessert Baking | Anyone can make a cookie, but you can make it look amazing.  Cakes and other fluffies are also no longer a barrier. | prof_baking
 | prof_baking_desserts_2 | Patisserie Expert | You could have been a professional baker before the Cataclysm.  Your profiteroles are the envy of the wastelands. | prof_baking_desserts_1
-| prof_frying | Principles of Frying | Anyone can toss stuff into deep frier oil.  You know more about selecting oil, keeping the food from burning, and the like. | None
+| prof_frying | Principles of Frying | Anyone can toss stuff into deep fryer oil.  You know more about selecting oil, keeping the food from burning, and the like. | None
 | prof_frying_bread | Breading & Battering | You know enough about deep frying breads and batters to do it easily without thinking about it. | prof_frying
 | prof_frying_dessert | Fried Desserts | You know the vaunted secrets of creating delicious deep fried sweets. | prof_frying / prof_baking_desserts_1
 | |

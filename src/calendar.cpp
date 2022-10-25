@@ -22,7 +22,7 @@
 #include "units_utility.h"
 
 /** How much light moon provides per lit-up quarter (Full-moon light is four times this value) */
-static constexpr double moonlight_per_quarter = 1.5;
+static constexpr float moonlight_per_quarter = 1.5f;
 
 // Divided by 100 to prevent overflowing when converted to moves
 const int calendar::INDEFINITELY_LONG( std::numeric_limits<int>::max() / 100 );
@@ -44,9 +44,14 @@ static constexpr units::angle nautical_dawn = -12_degrees;
 static constexpr units::angle civil_dawn = -6_degrees;
 static constexpr units::angle sunrise_angle = -1_degrees;
 
-double default_daylight_level()
+float default_daylight_level()
 {
-    return 100.0;
+    return 100.0f;
+}
+
+float max_sun_irradiance()
+{
+    return 1000.f;
 }
 
 time_duration lunar_month()
@@ -77,12 +82,15 @@ template<>
 std::string enum_to_string<time_accuracy>( time_accuracy acc )
 {
     switch( acc ) {
-        case time_accuracy::NONE: return "NONE";
         case time_accuracy::PARTIAL: return "PARTIAL";
         case time_accuracy::FULL: return "FULL";
-        case time_accuracy::NUM_TIME_ACCURACY: break;
+        case time_accuracy::NUM_TIME_ACCURACY:
+        case time_accuracy::NONE: break;
+        default:
+            DebugLog( DebugLevel::D_WARNING, DebugClass::D_GAME )
+                << "Invalid time_accuracy " << static_cast<int>( acc );
     }
-    cata_fatal( "Invalid time_accuracy %d", acc );
+    return "NONE";
 }
 // *INDENT-ON*
 } // namespace io
@@ -330,7 +338,7 @@ time_point daylight_time( const time_point &p )
 
 bool is_night( const time_point &p )
 {
-    return sun_altitude( p ) <= nautical_dawn;
+    return sun_altitude( p ) <= civil_dawn;
 }
 
 bool is_day( const time_point &p )
@@ -341,7 +349,7 @@ bool is_day( const time_point &p )
 static bool is_twilight( const time_point &p )
 {
     units::angle altitude = sun_altitude( p );
-    return altitude >= astronomical_dawn && altitude <= sunrise_angle;
+    return altitude >= civil_dawn && altitude <= sunrise_angle;
 }
 
 bool is_dusk( const time_point &p )
@@ -389,12 +397,22 @@ float sun_light_at( const time_point &p )
     }
 }
 
+float sun_irradiance( const time_point &p )
+{
+    const units::angle solar_alt = sun_altitude( p );
+
+    if( solar_alt < 0_degrees ) {
+        return 0;
+    }
+    return max_sun_irradiance() * sin( solar_alt );
+}
+
 float sun_moon_light_at( const time_point &p )
 {
     return sun_light_at( p ) + moon_light_at( p );
 }
 
-double sun_moon_light_at_noon_near( const time_point &p )
+float sun_moon_light_at_noon_near( const time_point &p )
 {
     const time_point solar_noon = solar_noon_near( p );
     return sun_moon_light_at( solar_noon );
@@ -845,12 +863,16 @@ std::string get_diary_time_since_str( const time_duration &turn_diff, time_accur
                 days_text = _( "Not long" );
             }
             break;
+        default:
+            DebugLog( DebugLevel::D_WARNING, DebugClass::D_GAME )
+                    << "Unknown time_accuracy " << io::enum_to_string<time_accuracy>( acc );
+        /* fallthrough */
+        case time_accuracy::NUM_TIME_ACCURACY:
         case time_accuracy::NONE:
             //~ Estimate of how much time has passed since the last entry
             days_text = days > 0 ? _( "A long while" ) : hours > 0 ? _( "A while" ) : _( "A short while" );
             break;
-        default:
-            debugmsg( "Unknown time_accuracy %s", io::enum_to_string<time_accuracy>( acc ) );
+
     }
     //~ %1$s is xx days, %2$s is xx hours, %3$s is xx minutes
     return string_format( _( "%1$s%2$s%3$s since last entry" ), days_text, hours_text, minutes_text );
@@ -873,7 +895,12 @@ std::string get_diary_time_str( const time_point &turn, time_accuracy acc )
             //~ $4 = approximate time of day
             return string_format( _( "Year %1$d, %2$s, day %3$d, %4$s" ), year,
                                   calendar::name_season( season_of_year( turn ) ),
-                                  day, display::time_approx() );
+                                  day, display::time_approx( turn ) );
+        default:
+            DebugLog( DebugLevel::D_WARNING, DebugClass::D_GAME )
+                    << "Unknown time_accuracy " << io::enum_to_string<time_accuracy>( acc );
+        /* fallthrough */
+        case time_accuracy::NUM_TIME_ACCURACY:
         case time_accuracy::NONE: {
             // normalized to 100 day seasons
             const int day_norm = ( day * 100 ) / to_days<int>( calendar::season_length() );
@@ -894,8 +921,6 @@ std::string get_diary_time_str( const time_point &turn, time_accuracy acc )
             //~ Time of year: $1 = year since Cataclysm, $2 = season
             return string_format( _( "Year %1$d, %2$s" ), year, season );
         }
-        default:
-            debugmsg( "Unknown time_accuracy %s", io::enum_to_string<time_accuracy>( acc ) );
     }
     return std::string();
 }

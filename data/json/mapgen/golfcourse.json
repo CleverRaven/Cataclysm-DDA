@@ -47,8 +47,8 @@
         "│4ooo.__44__...._44www44_....._44444dd&4444444444444444_..._444_....__4│ss|,a,C,ccccccccc,,,F|ss",
         "│4oooo._44_....._44www44_....._44444ddP4444444444444444_..._444_....._4│ss|tttC,ccccccccc,,,,|ss",
         "│4ooooo._4_....._444ww44_....._444__dd_444_____44444&44_..._444_....._4│ss|||||,ccccccccc,{{,|ss",
-        "│4oooo.._4_....__444ww44_....._444_vvvv_4_.ggg_44____44_..._444_....._4│ss|,,,+,,,,,,,,,,,{{,|ss",
-        "│44oo..._4_....__444ww44_....._444_vvvv_4_.gGg_4Pvvvv44_..._444__...._4│ss|T,S|p,aaaa,,,,,,,p|ss",
+        "│4oooo.._4_....__444ww44_....._444_vvvv_4_.ggg_44____44_..._444_....._4│ss|   +,,,,,,,,,,,{{,|ss",
+        "│44oo..._4_....__444ww44_....._444_vvvv_4_.gGg_4Pvvvv44_..._444__...._4│ss|T S|p,aaaa,,,,,,,p|ss",
         "│44_...._44_...__444ww44_....._44_.vvvv_4_.ggg.ddvvvv44_...__44__...._4│ss|||||||||||||+||||||ss",
         "│44_...._44_...._444ww44_....._44_.vvvv_4_.....ddvvvv44_...._44__...._4│ss;;;y;;;y;;;y;;;;;<|Uss",
         "│44_...._44_...._44www44__...._44__..._44_....._.vvvv_4_...._444_...._4│ss;;;y;;;y;;;y;;;;;<|Uss",
@@ -103,6 +103,9 @@
         ".": "t_region_grass",
         "o": "t_sand",
         ",": "t_floor",
+        " ": "t_linoleum_gray",
+        "T": "t_linoleum_gray",
+        "S": "t_linoleum_gray",
         "c": "t_carpet_purple",
         "&": "t_region_grass",
         "v": "t_grass_golf",
@@ -129,6 +132,7 @@
         "v": { "item": "golf_green", "chance": 10 },
         "t": { "chance": 75, "item": "office_mess" }
       },
+      "place_loot": [ { "group": "cash_register_random", "x": 78, "y": [ 31, 34 ] } ],
       "place_item": [
         { "item": "gloves_golf", "chance": 40, "repeat": 2, "x": 76, "y": 28 },
         { "item": "gloves_golf", "chance": 40, "repeat": 2, "x": 77, "y": 28 },

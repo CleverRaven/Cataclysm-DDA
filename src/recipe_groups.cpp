@@ -97,7 +97,8 @@ std::map<recipe_id, translation> recipe_group::get_recipes_by_id( const std::str
             if( recp_terrain == group.om_terrains.end() ) {
                 continue;
             }
-            if( recp_terrain->second.find( base_om_ter_id ) != recp_terrain->second.end() ) {
+            if( recp_terrain->second.find( base_om_ter_id ) != recp_terrain->second.end() ||
+                recp_terrain->second.find( "ANY" ) != recp_terrain->second.end() ) {
                 all_rec.emplace( recp );
             }
         }

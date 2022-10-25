@@ -40,7 +40,7 @@
     "subtype": "collection",
     "entries": [
       { "item": "linuxtshirt" },
-      { "group": "military_ballistic_vest_light_pristine" },
+      { "group": "ballistic_vest_light_pristine" },
       { "item": "boxer_briefs" },
       { "item": "jeans" },
       { "item": "fn57", "ammo-item": "57mm", "charges": 20, "container-item": "tactical_holster" },

@@ -10,7 +10,8 @@
 
 static const activity_id ACT_DISSECT( "ACT_DISSECT" );
 
-static const item_group_id Item_spawn_data_bovine_sample( "bovine_sample" );
+static const item_group_id
+Item_spawn_data_cattle_sample_single( "cattle_sample_single" );
 
 static const itype_id itype_scalpel( "scalpel" );
 
@@ -47,7 +48,8 @@ static void butcher_mon( const mtype_id &monid, const activity_id &actid, int *c
         for( const item &it : here.i_at( cow_loc ) ) {
             if( it.is_bionic() ) {
                 ( *cbm_count )++;
-            } else if( item_group::group_contains_item( Item_spawn_data_bovine_sample, it.typeId() ) ) {
+            } else if( item_group::group_contains_item( Item_spawn_data_cattle_sample_single,
+                       it.typeId() ) ) {
                 ( *sample_count )++;
             } else {
                 ( *other_count )++;

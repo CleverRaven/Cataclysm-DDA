@@ -15,12 +15,12 @@
 #include "event.h"
 #include "event_bus.h"
 #include "filesystem.h"
+#include "make_static.h"
 #include "memorial_logger.h"
 #include "mutation.h"
 #include "npc.h"
 #include "output.h"
 #include "player_helpers.h"
-#include "pldata.h"
 #include "profession.h"
 #include "stats_tracker.h"
 #include "type_id.h"
@@ -211,7 +211,7 @@ TEST_CASE( "memorials", "[memorial]" )
         m, b, "The fuel tank of the vehicle_name exploded!", "vehicle_name" );
 
     check_memorial<event_type::gains_addiction>(
-        m, b, "Became addicted to alcohol.", ch, add_type::ALCOHOL );
+        m, b, "Became addicted to alcohol.", ch, STATIC( addiction_id( "alcohol" ) ) );
 
     check_memorial<event_type::gains_mutation>(
         m, b, "Gained the mutation 'Carnivore'.", ch, mut );
@@ -237,7 +237,7 @@ TEST_CASE( "memorials", "[memorial]" )
         m, b, "Learned Aikido.", ch, style_aikido );
 
     check_memorial<event_type::loses_addiction>(
-        m, b, "Overcame addiction to alcohol.", ch, add_type::ALCOHOL );
+        m, b, "Overcame addiction to alcohol.", ch, STATIC( addiction_id( "alcohol" ) ) );
 
     check_memorial<event_type::npc_becomes_hostile>(
         m, b, "npc_name became hostile.", ch2, "npc_name" );
@@ -304,7 +304,7 @@ TEST_CASE( "convert_legacy_memorial_log", "[memorial]" )
     memorial_logger logger;
     {
         std::istringstream is( input );
-        logger.load( is, "<test data>" );
+        logger.load( is );
         std::ostringstream os;
         logger.save( os );
         CHECK( os.str() == json_value );
@@ -313,7 +313,7 @@ TEST_CASE( "convert_legacy_memorial_log", "[memorial]" )
     // Then verify that the new format is unchanged
     {
         std::istringstream is( json_value );
-        logger.load( is, "<test data>" );
+        logger.load( is );
         std::ostringstream os;
         logger.save( os );
         CHECK( os.str() == json_value );
@@ -338,6 +338,6 @@ TEST_CASE( "memorial_log_dumping", "[memorial]" )
 
     memorial_logger logger;
     std::istringstream is( json_value );
-    logger.load( is, "<test data>" );
+    logger.load( is );
     CHECK( logger.dump() == expected_output );
 }

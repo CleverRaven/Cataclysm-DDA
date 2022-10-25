@@ -42,6 +42,33 @@ The examine actors are specified as JSON objects with a `type` corresponding to 
 
 ## Examine Actors
 
+### `appliance_convert`
+
+#### `furn_set`
+Optional, defaults to no change.
+String.
+Furniture id that this tile will be set to after placing the appliance.
+
+#### `ter_set`
+Optional, defaults to no change.
+String.
+Terrain id that this tile will be set to after placing the appliance.
+
+#### `item`
+Mandatory.
+String.
+Item id of the base item of this appliance.
+
+#### Example
+```json
+{
+  "type": "appliance_convert",
+  "furn_set": "f_null",
+  "ter_set": "t_floor",
+  "item": "fridge"
+}
+```
+
 ### `cardreader`
 
 #### `flags`

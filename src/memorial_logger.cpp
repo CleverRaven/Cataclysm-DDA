@@ -32,6 +32,7 @@
 #include "item_factory.h"
 #include "itype.h"
 #include "json.h"
+#include "json_loader.h"
 #include "kill_tracker.h"
 #include "magic.h"
 #include "martialarts.h"
@@ -44,7 +45,6 @@
 #include "overmapbuffer.h"
 #include "past_games_info.h"
 #include "pimpl.h"
-#include "pldata.h"
 #include "profession.h"
 #include "skill.h"
 #include "stats_tracker.h"
@@ -139,7 +139,7 @@ void memorial_logger::add( const std::string &male_msg,
  * In new format the entries are stored as json.
  * @param fin The stream to read the memorial entries from.
  */
-void memorial_logger::load( std::istream &fin, const std::string &path )
+void memorial_logger::load( std::istream &fin )
 {
     log.clear();
     if( fin.peek() == '|' ) {
@@ -154,7 +154,14 @@ void memorial_logger::load( std::istream &fin, const std::string &path )
             log.emplace_back( entry );
         }
     } else {
-        JsonIn jsin( fin, path );
+        // Unittests do not write data to a file first.
+        std::string memorial_data;
+        fin.seekg( 0, std::ios_base::end );
+        size_t size = fin.tellg();
+        fin.seekg( 0, std::ios_base::beg );
+        memorial_data.resize( size );
+        fin.read( &memorial_data[0], size );
+        JsonValue jsin = json_loader::from_string( memorial_data );
         if( !jsin.read( log ) ) {
             debugmsg( "Error reading JSON memorial log" );
         }
@@ -319,7 +326,7 @@ void memorial_logger::write_text_memorial( std::ostream &file,
     //Traits
     file << _( "Traits:" ) << eol;
     for( const trait_id &mut : u.get_mutations() ) {
-        file << indent << mutation_branch::get_name( mut ) << eol;
+        file << indent << u.mutation_name( mut ) << eol;
     }
     if( u.get_mutations().empty() ) {
         file << indent << _( "(None)" ) << eol;
@@ -352,7 +359,7 @@ void memorial_logger::write_text_memorial( std::ostream &file,
     file << eol;
 
     //Equipment
-    const item &weapon = u.get_wielded_item();
+    const item &weapon = u.get_wielded_item() ? *u.get_wielded_item() : null_item_reference();
     file << _( "Weapon:" ) << eol;
     file << indent << weapon.invlet << " - " << weapon.tname( 1, false ) << eol;
     file << eol;
@@ -785,7 +792,7 @@ void memorial_logger::notify( const cata::event &e )
                 trait_id to = e.get<trait_id>( "to_trait" );
                 add( pgettext( "memorial_male", "'%s' mutation turned into '%s'" ),
                      pgettext( "memorial_female", "'%s' mutation turned into '%s'" ),
-                     from->name(), to->name() );
+                     get_avatar().mutation_name( from ), get_avatar().mutation_name( to ) );
             }
             break;
         }
@@ -835,12 +842,11 @@ void memorial_logger::notify( const cata::event &e )
         case event_type::gains_addiction: {
             character_id ch = e.get<character_id>( "character" );
             if( ch == avatar_id ) {
-                add_type type = e.get<add_type>( "add_type" );
-                const std::string &type_name = addiction_type_name( type );
+                addiction_id type = e.get<addiction_id>( "add_type" );
                 //~ %s is addiction name
                 add( pgettext( "memorial_male", "Became addicted to %s." ),
                      pgettext( "memorial_female", "Became addicted to %s." ),
-                     type_name );
+                     type->get_type_name().translated() );
             }
             break;
         }
@@ -850,7 +856,7 @@ void memorial_logger::notify( const cata::event &e )
                 trait_id trait = e.get<trait_id>( "trait" );
                 add( pgettext( "memorial_male", "Gained the mutation '%s'." ),
                      pgettext( "memorial_female", "Gained the mutation '%s'." ),
-                     trait->name() );
+                     get_avatar().mutation_name( trait ) );
             }
             break;
         }
@@ -931,12 +937,11 @@ void memorial_logger::notify( const cata::event &e )
         case event_type::loses_addiction: {
             character_id ch = e.get<character_id>( "character" );
             if( ch == avatar_id ) {
-                add_type type = e.get<add_type>( "add_type" );
-                const std::string &type_name = addiction_type_name( type );
+                addiction_id type = e.get<addiction_id>( "add_type" );
                 //~ %s is addiction name
                 add( pgettext( "memorial_male", "Overcame addiction to %s." ),
                      pgettext( "memorial_female", "Overcame addiction to %s." ),
-                     type_name );
+                     type->get_type_name().translated() );
             }
             break;
         }
@@ -1093,6 +1098,7 @@ void memorial_logger::notify( const cata::event &e )
         case event_type::reads_book:
         case event_type::game_load:
         case event_type::game_save:
+        case event_type::u_var_changed:
             break;
         case event_type::num_event_types: {
             debugmsg( "Invalid event type" );

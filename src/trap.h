@@ -141,6 +141,9 @@ struct trap {
         cata::optional<translation> memorial_male;
         cata::optional<translation> memorial_female;
 
+        cata::optional<translation> trigger_message_u;
+        cata::optional<translation> trigger_message_npc;
+
         cata::flat_set<flag_id> _flags;
 
         /**
@@ -155,7 +158,6 @@ struct trap {
         fake_spell spell_data;
         int comfort = 0;
         int floor_bedding_warmth = 0;
-    public:
         vehicle_handle_trap_data vehicle_data;
         std::string name() const;
         /**
@@ -239,6 +241,22 @@ struct trap {
          * the trap) or by the visibility of the trap (the trap is not hidden at all)?
          */
         bool can_see( const tripoint &pos, const Character &p ) const;
+
+        bool has_trigger_msg() const {
+            return trigger_message_u && trigger_message_npc;
+        }
+        /**
+        * Prints a trap-specific trigger message when player steps on it.
+        */
+        std::string get_trigger_message_u() const {
+            return trigger_message_u->translated();
+        }
+        /**
+        * Prints a trap-specific trigger message when NPC or a monster steps on it.
+        */
+        std::string get_trigger_message_npc() const {
+            return trigger_message_npc->translated();
+        }
     private:
         /**
          * Trigger trap effects.

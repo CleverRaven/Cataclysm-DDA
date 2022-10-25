@@ -50,6 +50,11 @@
     ]
   },
   {
+    "id": "spell_components_healing_herb",
+    "type": "requirement",
+    "components": [ [ [ "horn_moss_capsule", 1 ] ] ]
+  },
+  {
     "id": "spell_components_impactsling",
     "type": "requirement",
     "//": "Sling for the Impact Sling spell",
@@ -80,14 +85,19 @@
     "components": [ [ [ "icecream_choc", 1 ], [ "icecream", 1 ], [ "icecream_fruit", 1 ], [ "icecream_candy", 1 ] ] ]
   },
   {
+    "id": "spell_components_potion_starter",
+    "type": "requirement",
+    "components": [ [ [ "water", 1 ], [ "salt_water", 1 ], [ "water_clean", 1 ] ] ]
+  },
+  {
     "id": "spell_components_manabomb",
     "type": "requirement",
-    "components": [ [ [ "potion_starter", 3 ] ], [ [ "rune_technomancer", 1 ] ] ]
+    "components": [ [ [ "potion_starter", 3 ] ] ]
   },
   {
     "id": "spell_components_manatrap",
     "type": "requirement",
-    "components": [ [ [ "potion_starter", 6 ], [ "alchemist_bomb", 2 ] ], [ [ "rune_technomancer", 2 ] ] ]
+    "components": [ [ [ "potion_starter", 6 ], [ "alchemist_bomb", 2 ] ] ]
   },
   {
     "id": "spell_components_samsara",

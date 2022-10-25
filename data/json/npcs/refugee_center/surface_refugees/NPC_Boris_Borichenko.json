@@ -131,50 +131,48 @@
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Boris_1",
-    "dynamic_line": {
-      "u_has_var": "u_met_Boris_Borichenko",
-      "type": "general",
-      "context": "meeting",
-      "value": "yes",
-      "yes": [ "Well, well.  I'm glad you are back.", "Hello again, my friend.", "It is good to see you again." ],
-      "no": "Ah, another new face.  Hello.  I am Boris."
+    "dynamic_line": "Ah, another new face.  Hello.  I am Boris.",
+    "speaker_effect": {
+      "effect": [
+        { "u_add_var": "u_met_Boris_Borichenko", "type": "general", "context": "meeting", "value": "yes" },
+        { "npc_first_topic": "TALK_REFUGEE_Boris_1a" }
+      ]
     },
     "responses": [
-      {
-        "//": "First meeting with Boris",
-        "text": "Nice to meet you, Boris.",
-        "effect": { "u_add_var": "u_met_Boris_Borichenko", "type": "general", "context": "meeting", "value": "yes" },
-        "condition": { "not": { "u_has_var": "u_met_Boris_Borichenko", "type": "general", "context": "meeting", "value": "yes" } },
-        "topic": "TALK_REFUGEE_Boris_1_firstmeet"
-      },
-      {
-        "//": "Subsequent meetings with Boris before you have helped him finish some of his quests",
-        "text": "Hi, Boris.  What's up?",
-        "topic": "TALK_REFUGEE_Boris_2",
-        "condition": {
-          "and": [
-            { "u_has_var": "u_met_Boris_Borichenko", "type": "general", "context": "meeting", "value": "yes" },
-            { "not": { "u_has_var": "Boris_mission_1", "type": "mission", "context": "completed", "value": "yes" } }
-          ]
-        }
-      },
-      {
-        "//": "Later meetings with Boris, after you've started doing quests for him",
-        "text": "Good to see you, Boris.  Are things looking up for you at all?",
-        "topic": "TALK_REFUGEE_Boris_3",
-        "condition": { "u_has_var": "Boris_mission_1", "type": "mission", "context": "completed", "value": "yes" }
-      },
-      {
-        "text": "Hi Boris, nice to meet you.  I gotta go though.",
-        "effect": { "u_add_var": "u_met_Boris_Borichenko", "type": "general", "context": "meeting", "value": "yes" },
-        "condition": { "not": { "u_has_var": "u_met_Boris_Borichenko", "type": "general", "context": "meeting", "value": "yes" } },
-        "topic": "TALK_DONE"
-      },
-      {
-        "text": "Hi Boris.  I can't stay to talk.",
-        "condition": { "u_has_var": "u_met_Boris_Borichenko", "type": "general", "context": "meeting", "value": "yes" },
-        "topic": "TALK_DONE"
-      }
+      { "text": "Nice to meet you, Boris.", "topic": "TALK_REFUGEE_Boris_1_firstmeet" },
+      { "text": "Hi Boris, nice to meet you.  I gotta go though.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_Boris_1a",
+    "dynamic_line": {
+      "concatenate": [
+        "*stares at you for a moment before nodding in recognition.  \"",
+        [ "Well, well.  You are back.", "So, you have survived." ],
+        "\""
+      ]
+    },
+    "//": "Subsequent meetings with Boris before you have helped him finish some of his quests",
+    "responses": [
+      { "text": "Hi, Boris.  What's up?", "topic": "TALK_REFUGEE_Boris_2" },
+      { "text": "Hi Boris.  I can't stay to talk.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_Boris_1b",
+    "dynamic_line": {
+      "concatenate": [
+        "*nods at you, his eyes lighting up a little as you approach.  \"",
+        [ "Well, well.  I'm glad you are back.", "It is good to see you again, my friend.", "Hello, my friend." ],
+        "\""
+      ]
+    },
+    "//": "Later meetings with Boris, after you've started doing quests for him",
+    "responses": [
+      { "text": "Good to see you, Boris.  Are things looking up for you at all?", "topic": "TALK_REFUGEE_Boris_3" },
+      { "text": "Hi Boris.  I can't stay to talk.", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -192,14 +190,14 @@
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Boris_2",
-    "dynamic_line": "What is \"up\"?  Less than I would like, it seems.  I am better when I am busy, and I am not at all busy.",
+    "dynamic_line": "What is 'up'?  Less than I would like, it seems.  I am better when I am busy, and I am not at all busy.",
     "responses": [ { "text": "I'd better get going.", "topic": "TALK_DONE" } ]
   },
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Boris_3",
     "//": "This option is Boris' start point after you've finished his first mission and got to know him a bit.",
-    "dynamic_line": "It is good to see you too.  I would not say things are looking \"up\" yet, but they are not so much looking down perhaps.  I am keeping a bit busier.",
+    "dynamic_line": "*forces a bit of a smile through his bushy beard, though it doesn't reach his eyes.  \"It is good to see you too.  I would not say things are looking 'up' yet, but they are not so much looking down perhaps.  I am keeping a bit busier.",
     "responses": [
       { "text": "Want to talk about it a little?", "topic": "TALK_REFUGEE_Boris_Son" },
       { "text": "I'd better get going.", "topic": "TALK_DONE" }
@@ -284,6 +282,12 @@
   },
   {
     "type": "talk_topic",
+    "id": "TALK_REFUGEE_Boris_Son_Tough",
+    "dynamic_line": "Of course, yes.  I know this, but it is not so easy, is it?  So many are gone, and I do not know which of the two I would prefer, just yet.",
+    "responses": [ { "text": "Yeah, fine.  Just wallow in it.  I'm out.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "type": "talk_topic",
     "id": "TALK_REFUGEE_Boris_Son_Writing",
     "dynamic_line": "No.  In the evacuation shelter, distracted by grief, I forgot it.  We were rushed onto the bus so quickly, and… well, I don't remember much of that time.  His work was all saved on the hard drive, we thought we could download it from the cloud when we arrived but, well, there is no cloud now.  Even if there were, it would only have his writing, not his little games, his silly voice recordings.",
     "//": "TK add a quest.",
@@ -355,7 +359,28 @@
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Boris_Situation",
-    "dynamic_line": "Everyone agrees this is bad.  Sleeping on a cot on the floor, crowded in with strangers, woken by zombies in the night.  To me, though, that is all just a drop in the bucket.  What is killing me is being forced to sit with nothing but my thoughts of what I've lost.",
+    "dynamic_line": {
+      "concatenate": [
+        "Everyone agrees this is bad.  Sleeping on a cot on the floor, crowded in with strangers",
+        {
+          "u_has_var": "Boris_mission_1",
+          "type": "mission",
+          "context": "completed",
+          "value": "yes",
+          "yes": ", but it is a bit better since we cleaned up our dead",
+          "no": ", woken by zombies in the night"
+        },
+        ".  To me, though, that is all just a drop in the bucket",
+        {
+          "u_has_var": "Boris_mission_3",
+          "type": "mission",
+          "context": "completed",
+          "value": "yes",
+          "yes": ".  What is killing me is being forced to sit with nothing but my thoughts of what I've lost.",
+          "no": ".  I have spent so much time, just regretting what I have lost.  Thank you for bringing back what little you could."
+        }
+      ]
+    },
     "responses": [
       { "text": "What were you saying before?", "topic": "TALK_NONE" },
       { "text": "I'd better get going.", "topic": "TALK_DONE" }
@@ -403,7 +428,6 @@
     "difficulty": 1,
     "value": 0,
     "goal": "MGOAL_CONDITION",
-    "//": "TK: add update mapgen when done.",
     "goal_condition": { "u_compare_var": "Boris_mission_1", "type": "mission", "context": "cleanup_promises", "op": ">=", "value": 5 },
     "followup": "MISSION_REFUGEE_Boris_WORKSPACE",
     "origins": [ "ORIGIN_SECONDARY" ],
@@ -422,7 +446,10 @@
       "effect": [
         { "u_spawn_item": "FMCNote", "count": 5 },
         { "u_add_var": "Boris_mission_1", "type": "mission", "context": "completed", "value": "yes" },
-        { "u_adjust_var": "refugee_happiness", "type": "counter", "context": "refugee_center", "adjustment": 3 }
+        { "npc_first_topic": "TALK_REFUGEE_Boris_1b" },
+        { "u_adjust_var": "refugee_happiness", "type": "counter", "context": "refugee_center", "adjustment": 3 },
+        { "mapgen_update": "boris_cleanup_garage", "om_terrain": "evac_center_8" },
+        { "mapgen_update": "boris_cleanup_back_bay", "om_terrain": "evac_center_9" }
       ]
     }
   },
@@ -503,5 +530,36 @@
     "type": "TOOL",
     "name": { "str": "Ash's laptop computer" },
     "description": "A small, somewhat worn-out laptop computer.  The flip-top is decorated with various stickers."
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "boris_cleanup_garage",
+    "method": "json",
+    "object": {
+      "set": [
+        { "square": "furniture", "id": "f_clear", "x": 6, "y": 3, "x2": 17, "y2": 3 },
+        { "square": "furniture", "id": "f_clear", "x": 3, "y": 4, "x2": 20, "y2": 14 },
+        { "square": "furniture", "id": "f_clear", "x": 4, "y": 15, "x2": 20, "y2": 15 },
+        { "square": "furniture", "id": "f_clear", "x": 5, "y": 16, "x2": 18, "y2": 16 },
+        { "square": "item_remove", "x": 3, "y": 3, "x2": 20, "y2": 16 },
+        { "square": "item_remove", "x": 21, "y": 12, "x2": 23, "y2": 15 },
+        { "square": "field_remove", "x": 2, "y": 2, "x2": 21, "y2": 17 },
+        { "square": "field_remove", "x": 22, "y": 11, "x2": 23, "y2": 17 },
+        { "square": "terrain", "id": "t_rdoor_c", "x": 21, "y": 13, "x2": 21, "y2": 14 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "boris_cleanup_back_bay",
+    "method": "json",
+    "object": {
+      "set": [
+        { "square": "furniture", "id": "f_clear", "x": 0, "y": 4, "x2": 17, "y2": 22 },
+        { "square": "item_remove", "x": 0, "y": 4, "x2": 17, "y2": 22 },
+        { "square": "field_remove", "x": 0, "y": 4, "x2": 17, "y2": 22 },
+        { "square": "furniture", "id": "f_locker", "x": 17, "y": 6, "x2": 17, "y2": 19 }
+      ]
+    }
   }
 ]

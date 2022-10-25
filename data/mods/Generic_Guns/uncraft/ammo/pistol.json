@@ -13,8 +13,7 @@
       [ [ "pistol_casing", 1 ] ],
       [ [ "smpistol_primer", 1 ] ],
       [ [ "lead", 2 ] ]
-    ],
-    "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
+    ]
   },
   {
     "result": "pistol_jhp",
@@ -24,7 +23,6 @@
     "difficulty": 5,
     "time": "5 s",
     "qualities": [ { "id": "PULL", "level": 1 } ],
-    "components": [ [ [ "gunpowder_pistol", 4 ] ], [ [ "pistol_casing", 1 ] ], [ [ "smpistol_primer", 1 ] ], [ [ "lead", 2 ] ] ],
-    "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
+    "components": [ [ [ "gunpowder_pistol", 4 ] ], [ [ "pistol_casing", 1 ] ], [ [ "smpistol_primer", 1 ] ], [ [ "lead", 2 ] ] ]
   }
 ]

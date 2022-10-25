@@ -1,0 +1,133 @@
+[
+  {
+    "id": "BEM_human_sample_mission",
+    "type": "mission_definition",
+    "name": { "str": "Fleshmonger" },
+    "//": "This mission is assigned and completed using dialogue and EOCs. As such, we don't have any goal, which would make it auto-complete under certain circumstances.",
+    "goal": "MGOAL_NULL",
+    "description": "Deposit a human sample in a pit within the dead drop location.  Pick your reward at The Terminal once thats done.",
+    "difficulty": 1,
+    "value": 0,
+    "start": {
+      "assign_mission_target": { "om_terrain": "forest", "reveal_radius": 2, "random": true, "search_range": 40, "z": 0 },
+      "update_mapgen": {
+        "place_terrain": [ { "ter": "t_pit_BEM_human_sample", "x": 9, "y": 3 } ],
+        "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+      }
+    },
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
+    "dialogue": {
+      "//": "All dialogue about this mission is handled through talk_topics, so we don't use any of these strings.",
+      "describe": "…",
+      "offer": "…",
+      "accepted": "…",
+      "rejected": "…",
+      "advice": "…",
+      "inquire": "…",
+      "success": "…",
+      "success_lie": "…",
+      "failure": "…"
+    }
+  },
+  {
+    "id": "BEM_HUMAN_SAMPLE_1",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "u_has_mission": "BEM_human_sample_mission",
+      "yes": "Not in the mood for a talk, sorry.",
+      "no": "&The mercenary stares at the window, and speaks in a quiet and terse manner.  \"I have a client looking for a medical-grade human biopsy sample, no questions asked.  Are you the right one for the job?"
+    },
+    "responses": [
+      {
+        "text": "Oh yes.  I actually have one right here.",
+        "condition": {
+          "and": [
+            { "u_has_items": { "item": "human_sample", "count": 1 } },
+            { "not": { "u_has_mission": "BEM_human_sample_mission" } }
+          ]
+        },
+        "topic": "BEM_HUMAN_SAMPLE_FINISH"
+      },
+      {
+        "text": "I might be.",
+        "condition": { "not": { "u_has_mission": "BEM_human_sample_mission" } },
+        "topic": "BEM_HUMAN_SAMPLE2"
+      },
+      {
+        "text": "No, but I might be looking to buy some.",
+        "condition": { "not": { "u_has_mission": "BEM_human_sample_mission" } },
+        "topic": "BEM_HUMAN_SAMPLE_BUY"
+      },
+      {
+        "text": "No, not at all.",
+        "condition": { "not": { "u_has_mission": "BEM_human_sample_mission" } },
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "Sure, whatever.",
+        "condition": { "u_has_mission": "BEM_human_sample_mission" },
+        "topic": "TALK_DONE"
+      }
+    ]
+  },
+  {
+    "id": "BEM_HUMAN_SAMPLE2",
+    "type": "talk_topic",
+    "dynamic_line": "Most I can give is two gold coins.  I have arranged a drop in the nearby woods, put the goods there and you can get your cash with the barkeep here.",
+    "responses": [
+      {
+        "text": "It'll get done",
+        "effect": [ { "assign_mission": "BEM_human_sample_mission" }, "end_conversation" ],
+        "topic": "TALK_DONE"
+      },
+      { "text": "Not interested after all", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "BEM_HUMAN_SAMPLE_BUY",
+    "type": "talk_topic",
+    "dynamic_line": "&The mercenary gives you a quick appraisal.  \"Five coins for three, special price just for you.  Pay in advance, and I'll arrange a drop in the subway rails here for you to pick within two days.  Deal or not?",
+    "responses": [
+      {
+        "text": "[5 HGC] Its a deal",
+        "topic": "TALK_DONE",
+        "condition": { "u_has_items": { "item": "RobofacCoin", "count": 5 } },
+        "effect": [
+          { "u_sell_item": "RobofacCoin", "count": 5 },
+          { "queue_eocs": "EOC_BEM_HUMAN_SAMPLE_BUY", "time_in_future": [ "2 days", "2 days" ] }
+        ]
+      },
+      {
+        "text": "Sure, just let me find the cash",
+        "topic": "TALK_DONE",
+        "condition": { "not": { "u_has_items": { "item": "RobofacCoin", "count": 5 } } }
+      },
+      { "text": "No deal.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "BEM_HUMAN_SAMPLE_FINISH",
+    "type": "talk_topic",
+    "dynamic_line": "&<mypronoun> quickly removes the offending piece of meat from your hand and places two golden coins in the table.  Apparently unshaken by the prospect of meeting someone who casually visits bars while carrying cuts of human flesh.  \"Now if you please, I have a meal to ger rid off.\" <mypronoun> says, between poorly masked bouts nausea.",
+    "speaker_effect": { "effect": { "u_spawn_item": "RobofacCoin", "count": 2 } },
+    "responses": [ { "text": "Leave.", "topic": "TALK_DONE", "effect": "end_conversation" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BEM_HUMAN_SAMPLE_BUY",
+    "effect": [ { "mapgen_update": "EOC_BEM_HUMAN_SAMPLE_BUY_MAP", "om_terrain": "robofachq_subline_a1" } ]
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "update_mapgen_id": "EOC_BEM_HUMAN_SAMPLE_BUY_MAP",
+    "object": { "place_loot": [ { "group": "BEM_human_sample_drop", "x": 13, "y": 4, "repeat": [ 1, 3 ] } ] }
+  },
+  {
+    "id": "BEM_human_sample_drop",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "human_sample", "container-item": "flask_glass", "count": 3 } ]
+  }
+]

@@ -30,6 +30,7 @@
       { "group": "college_camping", "prob": 50 },
       { "group": "college_camping", "prob": 80 },
       { "group": "SUS_book_nonf_soft", "prob": 20 },
+      { "item": "pride_flag", "prob": 5 },
       { "item": "corpse", "damage": 4 }
     ]
   },
@@ -48,6 +49,7 @@
       { "group": "college_sports", "prob": 50 },
       { "group": "college_sports", "prob": 90 },
       { "group": "SUS_book_sports", "prob": 30 },
+      { "item": "pride_flag", "prob": 2 },
       { "item": "corpse", "damage": 4 }
     ]
   },
@@ -122,10 +124,21 @@
     "subtype": "distribution",
     "id": "map_extra_casings",
     "entries": [
-      { "item": "rag", "custom-flags": [ "FILTHY" ] },
+      { "item": "cotton_patchwork", "custom-flags": [ "FILTHY" ] },
       { "item": "cigar_butt" },
       { "item": "cig_butt" },
       { "item": "can_drink" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "corpse_in_body_bag",
+    "container-item": "bag_body_bag",
+    "entries": [
+      { "group": "corpse_male", "damage": [ 1, 4 ] },
+      { "group": "corpse_male", "damage": [ 1, 4 ] },
+      { "group": "corpse_child", "damage": [ 1, 4 ] }
     ]
   }
 ]

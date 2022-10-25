@@ -78,7 +78,7 @@
     "symbol": "/",
     "color": "brown",
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "STURDY" ],
+    "flags": [ "DURABLE_MELEE" ],
     "use_action": {
       "target": "mtorch_everburning_lit",
       "msg": "You light the torch.",
@@ -104,7 +104,7 @@
       }
     ],
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "FIRE", "LIGHT_240", "FLAMING", "TRADER_AVOID", "WATER_EXTINGUISH", "STURDY" ]
+    "extend": { "flags": [ "FIRE", "LIGHT_240", "FLAMING", "TRADER_AVOID", "WATER_EXTINGUISH" ] }
   },
   {
     "name": { "str": "endless flask" },
@@ -144,6 +144,7 @@
           "cotton",
           "leather",
           "lycra",
+          "nylon",
           "wool",
           "fur",
           "faux_fur",
@@ -159,25 +160,6 @@
         "tool_quality": 1,
         "cost_scaling": 0.1,
         "move_cost": 500
-      },
-      {
-        "type": "sew_advanced",
-        "materials": [
-          "cotton",
-          "leather",
-          "lycra",
-          "wool",
-          "fur",
-          "faux_fur",
-          "nomex",
-          "kevlar",
-          "neoprene",
-          "gutskin",
-          "plastic",
-          "kevlar_rigid"
-        ],
-        "skill": "tailor",
-        "clothing_mods": [ "leather_padded", "steel_padded", "kevlar_padded", "furred", "wooled" ]
       }
     ],
     "flags": [ "ALLOWS_REMOTE_USE", "NO_UNLOAD" ]

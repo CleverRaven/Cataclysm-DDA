@@ -4,6 +4,7 @@
 #include "cached_options.h"
 #include "calendar.h"
 #include "cata_catch.h"
+#include "cata_scope_helpers.h"
 #include "character.h"
 #include "line.h"
 #include "map.h"
@@ -33,20 +34,16 @@ static void reset_caches( int a_zlev, int t_zlev )
     here.update_visibility_cache( a_zlev );
     here.invalidate_map_cache( a_zlev );
     here.build_map_cache( a_zlev );
-    here.build_lightmap( a_zlev, you.pos() );
     here.update_visibility_cache( a_zlev );
     here.invalidate_map_cache( a_zlev );
     here.build_map_cache( a_zlev );
-    here.build_lightmap( a_zlev, you.pos() );
     if( a_zlev != t_zlev ) {
         here.update_visibility_cache( t_zlev );
         here.invalidate_map_cache( t_zlev );
         here.build_map_cache( t_zlev );
-        here.build_lightmap( t_zlev, you.pos() );
         here.update_visibility_cache( t_zlev );
         here.invalidate_map_cache( t_zlev );
         here.build_map_cache( t_zlev );
-        here.build_lightmap( t_zlev, you.pos() );
     }
     you.recalc_sight_limits();
 }
@@ -179,7 +176,7 @@ TEST_CASE( "monster_special_attack", "[vision][reachability]" )
 
 TEST_CASE( "monster_throwing_sanity_test", "[throwing],[balance]" )
 {
-    float expected_average_damage_at_range[] = { 0, 0, 8.5, 6.5, 5, 3.25 };
+    std::array<float, 6> expected_average_damage_at_range = { 0, 0, 8.5, 6.5, 5, 3.25 };
     clear_map();
     map &here = get_map();
     restore_on_out_of_scope<time_point> restore_calendar_turn( calendar::turn );
@@ -212,6 +209,7 @@ TEST_CASE( "monster_throwing_sanity_test", "[throwing],[balance]" )
         REQUIRE( rl_dist( test_monster.pos(), target->pos() ) <= 5 );
         statistics<int> damage_dealt;
         statistics<bool> hits;
+        epsilon_threshold threshold{ expected_damage, 2.5 };
         do {
             you.set_all_parts_hp_to_max();
             you.dodges_left = 1;
@@ -224,13 +222,14 @@ TEST_CASE( "monster_throwing_sanity_test", "[throwing],[balance]" )
             hits.add( current_hp < prev_hp );
             damage_dealt.add( prev_hp - current_hp );
             test_monster.ammo[ itype_rock ]++;
-        } while( damage_dealt.n() < 100 );
+        } while( damage_dealt.n() < 100 || damage_dealt.uncertain_about( threshold ) );
         clear_creatures();
         CAPTURE( expected_damage );
         CAPTURE( distance );
+        INFO( "Num hits: " << damage_dealt.n() );
         INFO( "Hit rate: " << hits.avg() );
         INFO( "Avg total damage: " << damage_dealt.avg() );
         INFO( "Dmg Lower: " << damage_dealt.lower() << " Dmg Upper: " << damage_dealt.upper() );
-        CHECK( damage_dealt.test_threshold( epsilon_threshold{ expected_damage, 2.5 } ) );
+        CHECK( damage_dealt.test_threshold( threshold ) );
     }
 }

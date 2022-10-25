@@ -21,7 +21,7 @@
         "|ctc   ctc     c    c  |",
         "|             ctc  ctc |",
         "|          r           |",
-        "| ####     r    =  =   |",
+        "|#@###     r    =  =   |",
         "|r   #c   &| GSSGSSGSSG|",
         "|r   #     | GSSGSSGSSG|",
         "|r  s#c    | GSSGSSGSSG|",
@@ -51,6 +51,7 @@
       },
       "furniture": {
         "#": "f_counter",
+        "@": "f_counter_gate_c",
         "%": "f_trashcan",
         "&": "f_trashcan",
         "=": "f_ball_mach",
@@ -84,7 +85,8 @@
         { "item": "bowling_table", "x": [ 15, 15 ], "y": [ 12, 12 ], "chance": 40 },
         { "item": "bowling_table", "x": [ 20, 20 ], "y": [ 12, 12 ], "chance": 40 },
         { "item": "bowling_food", "x": [ 1, 1 ], "y": [ 15, 16 ], "chance": 60 },
-        { "item": "bowling_fridge", "x": [ 1, 1 ], "y": [ 19, 21 ], "chance": 70 }
+        { "item": "bowling_fridge", "x": [ 1, 1 ], "y": [ 19, 21 ], "chance": 70 },
+        { "item": "cash_register_random", "x": [ 2, 4 ], "y": 14, "chance": 100 }
       ],
       "place_monsters": [ { "monster": "GROUP_PLAIN", "x": [ 2, 21 ], "y": [ 7, 22 ], "chance": 1 } ]
     }

@@ -7,7 +7,12 @@
   {
     "type": "overmap_special_migration",
     "id": "Military Bunker",
-    "new_id": "military_bunker"
+    "new_id": "military_bunker_1"
+  },
+  {
+    "type": "overmap_special_migration",
+    "id": "military_bunker",
+    "new_id": "military_bunker_1"
   },
   {
     "type": "overmap_special_migration",
@@ -28,5 +33,15 @@
     "type": "overmap_special_migration",
     "id": "FakeSpecial_s_bike_shop_1",
     "new_id": "s_bike_shop_1"
+  },
+  {
+    "type": "overmap_special_migration",
+    "id": "Mine Entrance",
+    "//": "Removed - no new id"
+  },
+  {
+    "type": "overmap_special_migration",
+    "id": "Homeless Camp",
+    "new_id": "Occupied Homeless Camp"
   }
 ]

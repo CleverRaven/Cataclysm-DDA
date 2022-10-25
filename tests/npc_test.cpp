@@ -228,6 +228,7 @@ TEST_CASE( "snippet-tag-test" )
  * B/C is acid with (follower/non-follower) NPC on it.
  */
 static constexpr int height = 5, width = 17;
+// NOLINTNEXTLINE(cata-use-mdarray,modernize-avoid-c-arrays)
 static constexpr char setup[height][width + 1] = {
     "U ###############",
     "V #R#AAA#W# # #C#",
@@ -437,14 +438,7 @@ TEST_CASE( "npc-movement" )
 
 TEST_CASE( "npc_can_target_player" )
 {
-    time_point noon = calendar::turn - time_past_midnight( calendar::turn ) + 12_hours;
-    if( noon < calendar::turn ) {
-        noon = noon + 1_days;
-    }
-    REQUIRE( time_past_midnight( noon ) == 12_hours );
-    REQUIRE( noon >= calendar::turn );
-    // Set to daytime for visibiliity
-    calendar::turn = noon;
+    set_time_to_day();
 
     g->faction_manager_ptr->create_if_needed();
 

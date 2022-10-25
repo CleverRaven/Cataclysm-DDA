@@ -38,6 +38,7 @@
         ".": [ "t_floor_paper" ],
         "8": [ "t_floor_paper" ]
       },
+      "item": { ".": { "item": "egg_wasp", "chance": 1, "amount": [ 1, 2 ] }, "8": { "item": "egg_wasp", "amount": [ 5, 8 ] } },
       "monster": { "8": { "group": "GROUP_WASP_QUEEN" } },
       "place_monster": [ { "group": "GROUP_WASP_NEST", "x": [ 0, 23 ], "y": [ 0, 23 ], "repeat": [ 5, 15 ] } ]
     }

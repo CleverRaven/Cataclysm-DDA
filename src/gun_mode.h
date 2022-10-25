@@ -38,6 +38,7 @@ class gun_mode
             return target != nullptr;
         }
 
+        // NOLINTNEXTLINE(readability-make-member-function-const)
         item &operator*() {
             return *target;
         }
@@ -45,6 +46,7 @@ class gun_mode
             return *target;
         }
 
+        // NOLINTNEXTLINE(readability-make-member-function-const)
         item *operator->() {
             return target;
         }

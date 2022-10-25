@@ -1,0 +1,99 @@
+[
+  {
+    "id": "mon_vampire_moroi",
+    "type": "MONSTER",
+    "name": { "str_sp": "moroi" },
+    "description": "This creature looks more aware than most of the ferals you have seen and in fact you might even suspect them of being normal if it weren't for the dried blood caked around their mouth and down the front of their clothes.  The light glints against what look to be sharp fangs in their mouth.",
+    "default_faction": "vampire",
+    "bodytype": "human",
+    "species": [ "VAMPIRE", "HUMAN" ],
+    "volume": "62500 ml",
+    "weight": "81500 g",
+    "hp": 90,
+    "speed": 80,
+    "material": [ "flesh" ],
+    "symbol": "V",
+    "color": "brown",
+    "aggression": 100,
+    "morale": 100,
+    "melee_skill": 3,
+    "melee_dice": 2,
+    "melee_dice_sides": 4,
+    "melee_damage": [ { "damage_type": "cut", "amount": 5 } ],
+    "dodge": 3,
+    "armor_bash": 15,
+    "armor_cut": 5,
+    "armor_bullet": 14,
+    "armor_elec": 6,
+    "regenerates_in_dark": true,
+    "weakpoints": [
+      { "name": "the head", "armor_mult": { "physical": 0.5 }, "coverage": 3 },
+      { "name": "the eye", "armor_mult": { "physical": 0 }, "coverage": 1 }
+    ],
+    "families": [ "prof_wp_demihuman" ],
+    "bleed_rate": 80,
+    "vision_day": 45,
+    "vision_night": 15,
+    "harvest": "demihuman",
+    "path_settings": { "max_dist": 5 },
+    "special_attacks": [
+      {
+        "type": "bite",
+        "cooldown": 10,
+        "damage_max_instance": [ { "damage_type": "stab", "amount": 10, "armor_multiplier": 0.2 } ]
+      },
+      [ "GRAB", 7 ]
+    ],
+    "death_drops": "default_moroi_death_drops",
+    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "REVIVES", "PUSH_MON", "VAMP_VIRUS" ]
+  },
+  {
+    "id": "mon_vampire_strigoi",
+    "type": "MONSTER",
+    "name": { "str_sp": "strigoi" },
+    "description": "An incredibly skinny corpse like creature moving with unnatural flexibility.  It sniffs the air and opens a mouthful of jagged teeth while the jaws keep distending.  This could easily be the origin creature of Nosferatu.",
+    "default_faction": "vampire",
+    "bodytype": "human",
+    "species": [ "VAMPIRE" ],
+    "volume": "62500 ml",
+    "weight": "81500 g",
+    "hp": 130,
+    "speed": 80,
+    "material": [ "flesh" ],
+    "symbol": "V",
+    "color": "brown_red",
+    "aggression": 100,
+    "morale": 100,
+    "melee_skill": 5,
+    "melee_dice": 3,
+    "melee_dice_sides": 5,
+    "melee_damage": [ { "damage_type": "cut", "amount": 7 } ],
+    "dodge": 4,
+    "armor_bash": 25,
+    "armor_cut": 8,
+    "armor_bullet": 24,
+    "armor_elec": 14,
+    "regenerates_in_dark": true,
+    "weakpoints": [
+      { "name": "the head", "armor_mult": { "physical": 0.5 }, "coverage": 3 },
+      { "name": "the eye", "armor_mult": { "physical": 0 }, "coverage": 1 }
+    ],
+    "families": [ "prof_wp_demihuman" ],
+    "bleed_rate": 40,
+    "vision_day": 30,
+    "vision_night": 15,
+    "harvest": "demihuman",
+    "path_settings": { "max_dist": 5 },
+    "special_attacks": [
+      { "type": "leap", "cooldown": 10, "max_range": 5, "min_consider_range": 2, "max_consider_range": 15 },
+      {
+        "type": "bite",
+        "cooldown": 10,
+        "damage_max_instance": [ { "damage_type": "stab", "amount": 10, "armor_multiplier": 0.2 } ]
+      },
+      [ "GRAB", 7 ]
+    ],
+    "death_drops": "default_moroi_death_drops",
+    "flags": [ "SEES", "HEARS", "SMELLS", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "PUSH_MON", "FILTHY", "VAMP_VIRUS" ]
+  }
+]

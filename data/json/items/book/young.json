@@ -41,7 +41,7 @@
       },
       {
         "id": "fairyat_50",
-        "text": "In this traditional story of beastly intrigue a clever fox convinces an elderly lion to kill a derogatory wolf."
+        "text": "In this traditional story of beastly intrigue, a clever fox convinces an elderly lion to kill a derogatory wolf."
       },
       {
         "id": "fairyat_111",
@@ -71,7 +71,7 @@
       { "id": "fairyat_328", "text": "This fairy tale book is a regional variant of \"Jack and the Beanstalk.\"" },
       {
         "id": "fairyat_333",
-        "text": "This fairy tale book is entitled \"Little Red Cap\".  It details a red-cloaked child's various encounters with talking wolves."
+        "text": "This fairy tale book is titled \"Little Red Cap.\"  It details a red-cloaked child's various encounters with talking wolves."
       },
       {
         "id": "fairyat_366",
@@ -92,7 +92,7 @@
       },
       {
         "id": "fairyat_530",
-        "text": "This charming book of Swedish fables is titled, \"The Glass Mountain and the Princess.\""
+        "text": "This charming book of Swedish fables is titled \"The Glass Mountain and the Princess.\""
       },
       {
         "id": "fairyat_555",
@@ -100,19 +100,19 @@
       },
       {
         "id": "fairyat_570",
-        "text": "This fable book is entitled, \"The Rabbit Herd.\"  Inside are woodcut illustrations of a peasant boy playing his flute for a mob of mischievous hares."
+        "text": "This fable book is titled \"The Rabbit Herd.\"  Inside are woodcut illustrations of a peasant boy playing his flute for a mob of mischievous hares."
       },
-      { "id": "fairyat_591", "text": "This book is titled, \"The Thieving Pot: Folktales of the Arab World.\"" },
+      { "id": "fairyat_591", "text": "This book is titled \"The Thieving Pot: Folktales of the Arab World.\"" },
       { "id": "fairyat_653", "text": "This is a book of legends collected by Traveller Johnny Cassidy in the 1960s." },
-      { "id": "fairyat_758", "text": "A book by the Brothers Grimm titled, \"Eve's Unequal Children.\"" },
+      { "id": "fairyat_758", "text": "A book by the Brothers Grimm, titled \"Eve's Unequal Children.\"" },
       { "id": "fairyat_766", "text": "This book of fables expands upon the legend of the Seven Sleepers of Ephesus." },
       {
         "id": "fairyat_1060",
-        "text": "In this fairy tale a strong man frightens an ogre by squeezing water out of a stone."
+        "text": "In this fairy tale, a strong man frightens an ogre by squeezing water out of a stone."
       },
       {
         "id": "fairyat_1084",
-        "text": "This book of rustic folk tales bears the title: \"How to Shout Down the Devil.\""
+        "text": "This book of rustic folk tales bears the title \"How to Shout Down the Devil.\""
       },
       {
         "id": "fairyat_1287",
@@ -120,7 +120,7 @@
       },
       {
         "id": "fairyat_1461",
-        "text": "This book of folk tales is titled, \"The Girl with the Ugly Name, and Other Stories.\""
+        "text": "This book of folk tales is titled \"The Girl with the Ugly Name, and Other Stories.\""
       },
       {
         "id": "fairyat_2025",
@@ -155,7 +155,7 @@
     "id": "book_fict_soft_ya_hilo",
     "type": "BOOK",
     "name": { "str": "High and Low", "str_pl": "copies of High and Low" },
-    "description": "In this work of adolescent fiction, a young gemini discovers that the astrology section of his small town newspaper is eerily preminiscent.  His efforts to uncover the oracle reveal more than the stars could have predicted.",
+    "description": "In this work of adolescent fiction, a young Gemini discovers that the astrology section of his small town newspaper is eerily preminiscent.  His efforts to uncover the oracle reveal more than the stars could have predicted.",
     "copy-from": "book_fict_soft_ya_vanilla"
   },
   {
@@ -176,14 +176,14 @@
     "id": "book_fict_soft_ya_rwya",
     "type": "BOOK",
     "name": { "str": "Ready When You Are", "str_pl": "copies of Ready When" },
-    "description": "When three teenage girls ditch class to drive cross country together they get a strong dose of life lessons on the road.  This work of young adult fiction explores how friendships evolve in early adulthood.",
+    "description": "When three teenage girls ditch class to drive cross-country together, they get a strong dose of life lessons on the road.  This work of young adult fiction explores how friendships evolve in early adulthood.",
     "copy-from": "book_fict_soft_ya_vanilla"
   },
   {
     "id": "book_fict_soft_ya_sboy",
     "type": "BOOK",
     "name": { "str": "Study of a Boy", "str_pl": "copies of \"Study of a Boy\"" },
-    "description": "A high school sophomore's personal journal is stolen and then leaked on social media.  When it goes viral he is forced simultaneously to contend with both fame and betrayal.",
+    "description": "A high school sophomore's personal journal is stolen and then leaked on social media.  When it goes viral, he is forced to contend with simultaneous fame and betrayal.",
     "copy-from": "book_fict_soft_ya_vanilla"
   },
   {

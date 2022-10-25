@@ -706,7 +706,7 @@
   },
   {
     "id": "LAW_Packed",
-    "type": "TOOL",
+    "type": "GENERIC",
     "category": "guns",
     "name": { "str": "packed M72 LAW" },
     "description": "This is a M72 LAW, packed in its storage form.  Use it to pop it out and make it ready to fire.  Once it is activated, it cannot be repacked.",
@@ -724,6 +724,7 @@
       "target_charges": 1,
       "target_ammo": "66mm_HEAT",
       "menu_text": "Activate",
+      "need_wielding": true,
       "type": "transform"
     }
   },
@@ -1006,7 +1007,8 @@
       "type": "explosion",
       "sound_volume": 0,
       "sound_msg": "sssssh.",
-      "no_deactivate_msg": "You've already lit the %s's fuse, try throwing it instead."
+      "no_deactivate_msg": "You've already lit the %s's fuse, try throwing it instead.",
+      "explosion": { "power": 460, "shrapnel": { "casing_mass": 200, "fragment_mass": 0.4 } }
     },
     "flags": [ "BOMB", "TRADER_AVOID", "DANGEROUS" ]
   },
@@ -1051,7 +1053,8 @@
       "type": "explosion",
       "sound_volume": 0,
       "sound_msg": "sssssh.",
-      "no_deactivate_msg": "You've already lit the %s's fuse, try throwing it instead."
+      "no_deactivate_msg": "You've already lit the %s's fuse, try throwing it instead.",
+      "explosion": { "power": 920, "shrapnel": { "casing_mass": 400, "fragment_mass": 0.4 } }
     },
     "flags": [ "BOMB", "TRADER_AVOID", "DANGEROUS" ]
   },
@@ -1479,7 +1482,8 @@
       "need_fire": 1,
       "menu_text": "Light fuse",
       "type": "transform"
-    }
+    },
+    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB" ]
   },
   {
     "id": "homemade_demolition_charge_act",

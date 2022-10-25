@@ -87,7 +87,7 @@
     ],
     "skill_requirements": [ { "name": "melee", "level": 4 } ],
     "melee_allowed": true,
-    "required_buffs_all": [ "mma_buff_hylian_onpause" ],
+    "required_buffs_any": [ "mma_buff_hylian_onpause", "mma_buff_hylian_spin" ],
     "crit_ok": true,
     "aoe": "spin",
     "attack_vectors": [ "WEAPON" ]
@@ -102,7 +102,7 @@
     ],
     "skill_requirements": [ { "name": "melee", "level": 4 } ],
     "melee_allowed": true,
-    "required_buffs_all": [ "mma_buff_hylian_onpause" ],
+    "required_buffs_any": [ "mma_buff_hylian_onpause", "mma_buff_hylian_spin" ],
     "crit_ok": true,
     "aoe": "wide",
     "attack_vectors": [ "WEAPON" ]
@@ -324,7 +324,7 @@
       { "stat": "damage", "type": "cut", "scale": 1.33 },
       { "stat": "damage", "type": "stab", "scale": 1.33 }
     ],
-    "attack_vectors": [ "THOW" ]
+    "attack_vectors": [ "THROW" ]
   },
   {
     "type": "technique",

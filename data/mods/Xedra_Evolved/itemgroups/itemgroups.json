@@ -1,0 +1,325 @@
+[
+  {
+    "id": "xed_cubical_office",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [
+      { "group": "softdrinks_canned", "prob": 560 },
+      { "group": "zebra_pistol_cache", "prob": 60 },
+      { "item": "file", "prob": 90 },
+      { "group": "magazines", "prob": 365 },
+      { "item": "glassblowing_book", "prob": 1 },
+      { "item": "trappers_companion", "prob": 1 },
+      { "item": "manual_bashing", "prob": 1 },
+      { "item": "textbook_speech", "prob": 6 },
+      { "item": "survival_book", "prob": 4 },
+      { "item": "fun_survival", "prob": 10 },
+      { "item": "recipe_augs", "prob": 1 },
+      { "item": "decoy_anarch", "prob": 10 },
+      { "item": "aspirin", "prob": 85, "charges": [ 1, 20 ] },
+      { "item": "maltballs", "prob": 30 },
+      { "group": "cigar_box_opened", "prob": 20 },
+      { "group": "cigar_box_unopened", "prob": 5 },
+      { "group": "tobacco_products", "prob": 151 },
+      { "item": "contacts", "prob": 15 },
+      { "group": "clothing_glasses", "prob": 80 },
+      { "item": "fan", "prob": 10 },
+      { "item": "briefcase", "prob": 40 },
+      { "item": "purse", "prob": 40 },
+      { "item": "mbag", "prob": 20 },
+      { "group": "ammo_pocket_batteries", "prob": 50 },
+      { "item": "manual_business", "prob": 40 },
+      { "item": "textbook_business", "prob": 12 },
+      { "item": "manual_computer", "prob": 20 },
+      { "item": "howto_computer", "prob": 10 },
+      { "item": "textbook_computer", "prob": 8 },
+      { "item": "computer_science", "prob": 8 },
+      { "item": "howto_computer", "prob": 6 },
+      { "item": "matches", "prob": 60, "charges": [ 1, 20 ] },
+      { "item": "ref_matches", "prob": 60, "charges": [ 1, 32 ] },
+      { "item": "extinguisher", "prob": 20, "charges": 100 },
+      { "item": "flashlight", "prob": 40, "charges": [ 0, 300 ] },
+      { "item": "radio", "prob": 20, "charges": [ 0, 100 ] },
+      { "item": "bubblewrap", "prob": 50 },
+      { "group": "toy_makerspace_kit", "prob": 1 },
+      { "group": "toy_robot_kit", "prob": 1 },
+      { "group": "toy_engine_kit", "prob": 1 },
+      { "item": "instant_coffee", "prob": 15 },
+      { "item": "usb_drive", "prob": 5 },
+      { "item": "coat_rain", "prob": 50 },
+      { "item": "hood_rain", "prob": 10 },
+      { "item": "poncho", "prob": 15 },
+      { "item": "folding_poncho", "prob": 5 },
+      { "item": "lighter", "prob": 60, "charges": [ 0, 100 ] },
+      { "item": "ref_lighter", "prob": 5, "charges": [ 0, 50 ] },
+      { "item": "matches", "prob": 60, "charges": [ 0, 20 ] },
+      { "item": "ref_matches", "prob": 60, "charges": [ 0, 32 ] },
+      { "item": "extinguisher", "prob": 20, "charges": 100 },
+      { "item": "mp3", "prob": 18, "charges": [ 0, 100 ] },
+      { "item": "portable_game", "prob": 8, "charges": [ 0, 100 ] },
+      { "item": "game_watch", "prob": 2, "charges": [ 0, 50 ] },
+      { "item": "umbrella", "prob": 5 },
+      { "item": "teleumbrella", "prob": 2 },
+      { "item": "mag_tailor", "prob": 5 },
+      { "item": "gum", "prob": 20, "charges": [ 1, 10 ] },
+      { "item": "caff_gum", "prob": 7, "charges": [ 1, 10 ] },
+      { "item": "nic_gum", "prob": 5, "charges": [ 1, 10 ] },
+      { "item": "sm_extinguisher", "prob": 10, "charges": 10 },
+      { "item": "pocketwatch", "prob": 2 },
+      { "item": "knitting_needles", "prob": 1 },
+      { "item": "survnote", "prob": 1 },
+      { "item": "eclipse_glasses", "prob": 1 },
+      { "group": "writing_utensils", "prob": 20 },
+      { "group": "softdrugs", "prob": 20 },
+      { "item": "wyld_candy", "prob": 15, "container-item": "wrapper_wyld", "sealed": false }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "xed_office",
+    "ammo": 75,
+    "magazine": 100,
+    "items": [
+      { "group": "softdrinks_canned", "prob": 370 },
+      { "group": "zebra_pistol_cache", "prob": 10 },
+      [ "file", 90 ],
+      { "group": "magazines", "prob": 130 },
+      [ "survival_book", 1 ],
+      [ "fun_survival", 5 ],
+      [ "howto_traps", 10 ],
+      [ "decoy_anarch", 8 ],
+      [ "recipe_augs", 8 ],
+      { "item": "aspirin", "prob": 85, "charges": [ 1, 20 ] },
+      [ "junk_burrito", 25 ],
+      { "group": "tobacco_products", "prob": 31 },
+      [ "contacts", 15 ],
+      { "group": "clothing_glasses", "prob": 80 },
+      [ "briefcase", 40 ],
+      [ "purse", 40 ],
+      [ "mbag", 20 ],
+      { "group": "ammo_pocket_batteries", "prob": 50 },
+      [ "manual_business", 40 ],
+      [ "textbook_business", 12 ],
+      [ "textbook_speech", 8 ],
+      [ "recipe_caseless", 1 ],
+      { "item": "lighter", "prob": 60, "charges": [ 0, 100 ] },
+      { "item": "ref_lighter", "prob": 5, "charges": [ 0, 50 ] },
+      { "item": "matches", "prob": 60, "charges": [ 0, 20 ] },
+      { "item": "extinguisher", "prob": 20, "charges": 100 },
+      { "item": "flashlight", "prob": 40, "charges": [ 0, 300 ] },
+      { "item": "radio", "prob": 20, "charges": [ 0, 100 ] },
+      [ "bubblewrap", 50 ],
+      [ "instant_coffee", 15 ],
+      [ "usb_drive", 5 ],
+      [ "software_useless", 10 ],
+      [ "software_electronics_reference", 2 ],
+      [ "umbrella", 5 ],
+      [ "teleumbrella", 2 ],
+      { "item": "gum", "prob": 10, "charges": [ 1, 10 ] },
+      { "item": "caff_gum", "prob": 6, "charges": [ 1, 10 ] },
+      { "item": "nic_gum", "prob": 4, "charges": [ 1, 10 ] },
+      [ "fan", 10 ],
+      { "item": "sm_extinguisher", "prob": 10, "charges": 10 },
+      [ "pocketwatch", 2 ],
+      [ "gold_watch", 2 ],
+      [ "sf_watch", 1 ],
+      [ "silver_watch", 5 ],
+      [ "survnote", 1 ],
+      [ "magnifying_glass", 8 ],
+      [ "camera_control", 2 ],
+      [ "eclipse_glasses", 1 ],
+      { "group": "writing_utensils", "prob": 20 },
+      { "item": "wyld_candy", "prob": 15, "container-item": "wrapper_wyld", "sealed": false }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "xed_notes",
+    "entries": [
+      { "item": "report_march_lord", "prob": 10 },
+      { "item": "green_postit_field_agent", "prob": 40 },
+      { "item": "agent_postit_gray", "prob": 50 },
+      { "item": "agent_postit_migo", "prob": 20 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "fae_furs",
+    "items": [
+      [ "hat_fur", 300 ],
+      [ "hat_faux_fur", 300 ],
+      [ "sleeveless_trenchcoat_fur", 10 ],
+      [ "sleeveless_duster_fur", 10 ],
+      [ "sleeveless_trenchcoat_faux_fur", 10 ],
+      [ "coat_fur_sf", 100 ],
+      [ "coat_faux_fur", 300 ],
+      [ "coat_fur", 300 ],
+      [ "gloves_fur", 300 ],
+      [ "boots_fur", 200 ],
+      [ "trenchcoat_faux_fur", 50 ],
+      [ "duster_faux_fur", 50 ],
+      [ "pants_faux_fur", 50 ],
+      [ "boots_glimmer_fur", 5 ],
+      [ "cloak_glimmer_fur", 5 ],
+      [ "coat_glimmer_fur", 1 ],
+      [ "duster_glimmer_fur", 1 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "bannerman_armor",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "mt_chainmail_arms", "prob": 20 },
+      { "item": "mt_chainmail_hood", "prob": 20 },
+      { "item": "mt_chainmail_hands", "prob": 20 },
+      { "item": "mt_chainmail_legs", "prob": 20 },
+      { "item": "mt_chainmail_vest", "prob": 20 },
+      { "item": "mt_chainmail_feet", "prob": 20 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "redcap_armor",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "xl_mt_chainmail_arms", "prob": 20 },
+      { "group": "redcap_headgear", "prob": 20 },
+      { "item": "xl_mt_chainmail_hands", "prob": 20 },
+      { "item": "xl_mt_chainmail_legs", "prob": 20 },
+      { "item": "xl_mt_chainmail_vest", "prob": 20 },
+      { "item": "xl_mt_chainmail_feet", "prob": 20 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "redcap_headgear",
+    "subtype": "distribution",
+    "entries": [ { "item": "xl_mt_chainmail_hood", "prob": 20 }, { "item": "theredcap", "prob": 20 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "spy_map",
+    "entries": [
+      { "item": "permanent_marker", "prob": 50, "charges": [ 0, 500 ] },
+      { "item": "spy_note", "prob": 90 },
+      { "item": "spy_map" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "zebra_pistol_cache",
+    "entries": [
+      { "item": "fn57mag", "ammo-item": "57mm_ss", "charges": 20 },
+      { "item": "fn57mag", "ammo-item": "57mm_ss", "charges": 20 },
+      { "item": "fn57_sup" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "vektor_pistol_cache",
+    "entries": [
+      { "item": "sr1vektor_mag_18rd", "ammo-item": "9x21mm", "charges": 18 },
+      { "item": "sr1vektor_mag_18rd", "ammo-item": "9x21mm", "charges": 18 },
+      { "item": "sr1vektor_9x21mm" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "pooka_armor",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "xs_mt_chainmail_arms", "prob": 20 },
+      { "item": "xs_mt_chainmail_feet", "prob": 20 },
+      { "item": "xs_mt_chainmail_hood", "prob": 20 },
+      { "item": "xs_mt_chainmail_hands", "prob": 20 },
+      { "item": "xs_mt_chainmail_legs", "prob": 20 },
+      { "item": "xs_mt_chainmail_vest", "prob": 20 }
+    ]
+  },
+  {
+    "id": "SUS_junk_drawer",
+    "type": "item_group",
+    "copy-from": "SUS_junk_drawer",
+    "subtype": "collection",
+    "extend": {
+      "items": [
+        [ "fire_ball", 5 ],
+        [ "glass_dagger_paperweight", 5 ],
+        [ "deck_of_tarot_cards", 5 ],
+        [ "polaroid_of_missing_person", 5 ],
+        [ "brass_cylinders", 1 ],
+        [ "glass_berries", 1 ],
+        [ "occult_seal", 1 ],
+        [ "hurricane_lamp_thorns", 1 ],
+        [ "caravaggio_self_portrait", 1 ],
+        [ "magick_8_ball", 1 ]
+      ]
+    }
+  },
+  {
+    "id": "SUS_junk_drawer_messy",
+    "type": "item_group",
+    "copy-from": "SUS_junk_drawer_messy",
+    "subtype": "collection",
+    "extend": {
+      "items": [
+        [ "fire_ball", 1 ],
+        [ "glass_dagger_paperweight", 1 ],
+        [ "deck_of_tarot_cards", 1 ],
+        [ "polaroid_of_missing_person", 1 ],
+        [ "brass_cylinders", 5 ],
+        [ "glass_berries", 5 ],
+        [ "occult_seal", 5 ],
+        [ "hurricane_lamp_thorns", 1 ],
+        [ "caravaggio_self_portrait", 1 ],
+        [ "magick_8_ball", 1 ]
+      ]
+    }
+  },
+  {
+    "id": "SUS_office_filing_cabinet",
+    "type": "item_group",
+    "copy-from": "SUS_office_filing_cabinet",
+    "subtype": "collection",
+    "extend": {
+      "items": [
+        [ "hurricane_lamp_thorns", 5 ],
+        [ "caravaggio_self_portrait", 5 ],
+        [ "magick_8_ball", 5 ],
+        [ "fire_ball", 1 ],
+        [ "glass_dagger_paperweight", 1 ],
+        [ "deck_of_tarot_cards", 1 ],
+        [ "polaroid_of_missing_person", 1 ],
+        [ "brass_cylinders", 1 ],
+        [ "glass_berries", 1 ],
+        [ "occult_seal", 1 ]
+      ]
+    }
+  },
+  {
+    "id": "costume_misc_items",
+    "type": "item_group",
+    "copy-from": "costume_misc_items",
+    "subtype": "distribution",
+    "extend": { "items": [ [ "wolf_mask", 5 ], [ "magicians_hat", 5 ], [ "syringe_artifact", 5 ], [ "foil_hat", 1 ] ] }
+  },
+  {
+    "id": "homebooks",
+    "type": "item_group",
+    "copy-from": "homebooks",
+    "subtype": "distribution",
+    "extend": {
+      "entries": [
+        { "item": "book_inventor", "prob": 1 },
+        { "item": "money_strap_magic", "prob": 1 },
+        { "item": "firmament_driver_book", "prob": 1 },
+        { "item": "ray_diagrams", "prob": 1 }
+      ]
+    }
+  }
+]

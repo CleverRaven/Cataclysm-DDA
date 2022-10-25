@@ -213,7 +213,7 @@ struct scored_address {
     struct node_address addr;
     int16_t score;
     bool operator> ( const scored_address &other ) const {
-        return score >= other.score;
+        return score > other.score;
     }
 };
 
@@ -283,9 +283,10 @@ struct auto_navigation_data {
 
     std::array<vehicle_profile, NUM_ORIENTATIONS> profiles;
     // known obstacles on the view map
-    bool is_obstacle[NAV_VIEW_SIZE_X][NAV_VIEW_SIZE_Y];
+    cata::mdarray<bool, point, NAV_VIEW_SIZE_X, NAV_VIEW_SIZE_Y> is_obstacle;
     // where on the nav map the vehicle pivot may be placed
-    bool valid_positions[NUM_ORIENTATIONS][NAV_MAP_SIZE_X][NAV_MAP_SIZE_Y];
+    std::array<cata::mdarray<bool, point, NAV_VIEW_SIZE_X, NAV_VIEW_SIZE_Y>, NUM_ORIENTATIONS>
+    valid_positions;
     // node addresses that are valid end positions
     std::unordered_set<node_address, node_address_hasher> goal_zone;
     // the middle of the goal zone, in nav map coords
@@ -858,7 +859,9 @@ scored_address vehicle::autodrive_controller::compute_node_score( const node_add
     if( node.is_goal ) {
         return ret;
     }
-    static const point neighbor_deltas[4] = { point_east, point_south, point_west, point_north };
+    static constexpr std::array<point, 4> neighbor_deltas = {
+        point_east, point_south, point_west, point_north
+    };
     for( const point &neighbor_delta : neighbor_deltas ) {
         const point p = addr.get_point() + neighbor_delta;
         if( !data.nav_bounds.contains( p ) || !data.valid_position( addr.facing_dir, p ) ) {
@@ -1094,15 +1097,31 @@ cata::optional<navigation_step> vehicle::autodrive_controller::compute_next_step
     precompute_data();
     const tripoint_abs_ms veh_pos = driven_veh.global_square_location();
     const bool had_cached_path = !data.path.empty();
-    while( !data.path.empty() && data.path.back().pos != veh_pos ) {
+    const bool two_steps = data.path.size() > 2;
+    const navigation_step first_step = two_steps ? data.path.back() : navigation_step();
+    const navigation_step second_step = two_steps ? data.path.at( data.path.size() - 2 ) :
+                                        navigation_step();
+    bool maintain_speed = false;
+    // If vehicle did not move as far as planned and direction is the same
+    // then it is still accelerating.
+    if( two_steps && square_dist( first_step.pos.xy().raw(), second_step.pos.xy().raw() ) >
+        square_dist( first_step.pos.xy().raw(), veh_pos.xy().raw() ) &&
+        first_step.steering_dir == second_step.steering_dir ) {
         data.path.pop_back();
+        maintain_speed = true;
+        data.path.clear();
+    } else {
+        while( !data.path.empty() && data.path.back().pos != veh_pos ) {
+            data.path.pop_back();
+        }
     }
     if( !data.path.empty() && data.path.back().target_speed_tps > data.max_speed_tps ) {
         data.path.clear();
+        maintain_speed = false;
     }
     if( data.path.empty() ) {
         // if we're just starting out or we've gone off-course use the lowest speed
-        if( had_cached_path || driven_veh.velocity == 0 ) {
+        if( ( had_cached_path && !maintain_speed ) || driven_veh.velocity == 0 ) {
             data.max_speed_tps = MIN_SPEED_TPS;
         }
         auto new_path = compute_path( data.max_speed_tps );
@@ -1188,7 +1207,7 @@ std::vector<std::tuple<point, int, std::string>> vehicle::get_debug_overlay_data
                 ret.emplace_back( pt, catacurses::white, "G" );
             }
         } else if( debug_str == "path" ) {
-            for( const auto &step : data.path ) {
+            for( const navigation_step &step : data.path ) {
                 ret.emplace_back( ( step.pos - veh_pos ).raw().xy(), 8 + catacurses::yellow,
                                   to_string( step.steering_dir ) );
             }

@@ -1,0 +1,26 @@
+[
+  {
+    "id": "mind_read",
+    "type": "SPELL",
+    "name": "Mind Reading",
+    "description": "You can predict some movements of your enemies (just slowdown in fact).  If you are seeing this spell, you have debugged it in.",
+    "valid_targets": [ "hostile" ],
+    "flags": [ "SILENT", "NO_PROJECTILE" ],
+    "effect": "attack",
+    "shape": "blast",
+    "effect_str": "mind_reading",
+    "min_damage": 0,
+    "max_damage": 0,
+    "min_aoe": 7,
+    "max_aoe": 7
+  },
+  {
+    "type": "enchantment",
+    "id": "SHAMAN",
+    "condition": "ALWAYS",
+    "intermittent_activation": {
+      "effects": [ { "frequency": "5 seconds", "spell_effects": [ { "id": "mind_read" } ] } ],
+      "message": "You anticpate where some of your foes are moving and striking and can react to them faster."
+    }
+  }
+]

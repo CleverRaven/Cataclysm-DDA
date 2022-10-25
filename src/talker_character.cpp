@@ -62,6 +62,11 @@ tripoint talker_character_const::pos() const
     return me_chr_const->pos();
 }
 
+tripoint_abs_ms talker_character_const::global_pos() const
+{
+    return me_chr_const->get_location();
+}
+
 tripoint_abs_omt talker_character_const::global_omt_location() const
 {
     return me_chr_const->global_omt_location();
@@ -75,6 +80,11 @@ void talker_character::set_pos( tripoint new_pos )
 int talker_character_const::get_cur_hp( const bodypart_id &bp ) const
 {
     return me_chr_const->get_hp( bp );
+}
+
+int talker_character_const::get_cur_part_temp( const bodypart_id &bp ) const
+{
+    return me_chr_const->get_part_temp_conv( bp );
 }
 
 int talker_character_const::str_cur() const
@@ -117,6 +127,26 @@ void talker_character::set_per_max( int value )
     me_chr->per_max = value;
 }
 
+void talker_character::set_str_bonus( int value )
+{
+    me_chr->mod_str_bonus( value );
+}
+
+void talker_character::set_dex_bonus( int value )
+{
+    me_chr->mod_dex_bonus( value );
+}
+
+void talker_character::set_int_bonus( int value )
+{
+    me_chr->mod_int_bonus( value );
+}
+
+void talker_character::set_per_bonus( int value )
+{
+    me_chr->mod_per_bonus( value );
+}
+
 int talker_character_const::get_str_max() const
 {
     return me_chr_const->str_max;
@@ -135,6 +165,26 @@ int talker_character_const::get_int_max() const
 int talker_character_const::get_per_max() const
 {
     return me_chr_const->per_max;
+}
+
+int talker_character_const::get_str_bonus() const
+{
+    return me_chr_const->get_str_bonus();
+}
+
+int talker_character_const::get_dex_bonus() const
+{
+    return me_chr_const->get_dex_bonus();
+}
+
+int talker_character_const::get_int_bonus() const
+{
+    return me_chr_const->get_int_bonus();
+}
+
+int talker_character_const::get_per_bonus() const
+{
+    return me_chr_const->get_per_bonus();
 }
 
 bool talker_character_const::has_trait( const trait_id &trait_to_check ) const
@@ -218,9 +268,63 @@ void talker_character::set_skill_level( const skill_id &skill, int value )
     me_chr->set_skill_level( skill, value );
 }
 
+int talker_character_const::get_spell_level( const trait_id &spell_school ) const
+{
+    int spell_level = -1;
+    for( const spell &sp : me_chr_const->spells_known_of_class( spell_school ) ) {
+        spell_level = std::max( sp.get_level(), spell_level );
+    }
+    return spell_level;
+}
+
+int talker_character_const::get_spell_level( const spell_id &spell_name ) const
+{
+    if( !me_chr_const->magic->knows_spell( spell_name ) ) {
+        return -1;
+    }
+    return me_chr_const->magic->get_spell( spell_name ).get_level();
+}
+
+int talker_character_const::get_highest_spell_level() const
+{
+    int spell_level = -1;
+    for( const spell *sp : me_chr_const->magic->get_spells() ) {
+        spell_level = std::max( sp->get_level(), spell_level );
+    }
+    return spell_level;
+}
+
+int talker_character_const::get_spell_exp( const spell_id &spell_name ) const
+{
+    if( !me_chr_const->magic->knows_spell( spell_name ) ) {
+        return -1;
+    }
+    return me_chr_const->magic->get_spell( spell_name ).xp();
+}
+
+void talker_character::set_spell_level( const spell_id &sp, int new_level )
+{
+    me_chr->magic->set_spell_level( sp, new_level, me_chr );
+}
+
+void talker_character::set_spell_exp( const spell_id &sp, int new_level )
+{
+    me_chr->magic->set_spell_exp( sp, new_level, me_chr );
+}
+
 bool talker_character_const::knows_proficiency( const proficiency_id &proficiency ) const
 {
     return me_chr_const->has_proficiency( proficiency );
+}
+
+time_duration talker_character_const::proficiency_practiced_time( const proficiency_id &prof ) const
+{
+    return me_chr_const->get_proficiency_practiced_time( prof );
+}
+
+void talker_character::set_proficiency_practiced_time( const proficiency_id &prof, int turns )
+{
+    me_chr->set_proficiency_practiced_time( prof, turns );
 }
 
 bool talker_character_const::has_effect( const efftype_id &effect_id, const bodypart_id &bp ) const
@@ -235,7 +339,8 @@ effect talker_character_const::get_effect( const efftype_id &effect_id,
 }
 
 void talker_character::add_effect( const efftype_id &new_effect, const time_duration &dur,
-                                   std::string bp, bool permanent, bool force, int intensity )
+                                   const std::string &bp, bool permanent, bool force,
+                                   int intensity )
 {
     bodypart_id target_part;
     if( "RANDOM" == bp ) {
@@ -282,9 +387,28 @@ bool talker_character_const::has_charges( const itype_id &item_id, int count ) c
     return me_chr_const->has_charges( item_id, count );
 }
 
+bool talker_character_const::has_charges( const itype_id &item_id, int count, bool in_tools ) const
+{
+    if( !in_tools ) {
+        return me_chr_const->has_charges( item_id, count );
+    } else {
+        return me_chr_const->charges_of( item_id, count, return_true<item>, nullptr, in_tools ) >= count;
+    }
+}
+
 std::list<item> talker_character::use_charges( const itype_id &item_name, const int count )
 {
     return me_chr->use_charges( item_name, count );
+}
+
+std::list<item> talker_character::use_charges( const itype_id &item_name, const int count,
+        bool in_tools )
+{
+    if( !in_tools ) {
+        return me_chr->use_charges( item_name, count );
+    } else {
+        return me_chr->use_charges( item_name, count, -1, return_true<item>, in_tools );
+    }
 }
 
 std::list<item> talker_character::use_amount( const itype_id &item_name, const int count )
@@ -337,14 +461,20 @@ bool talker_character_const::unarmed_attack() const
 
 bool talker_character_const::can_stash_weapon() const
 {
-    return me_chr_const->can_pickVolume( me_chr_const->get_wielded_item() );
+    cata::optional<bionic *> bionic_weapon = me_chr_const->find_bionic_by_uid(
+                me_chr_const->get_weapon_bionic_uid() );
+    if( bionic_weapon && me_chr_const->can_deactivate_bionic( **bionic_weapon ).success() ) {
+        return true;
+    }
+
+    return me_chr_const->can_pickVolume( *me_chr_const->get_wielded_item() );
 }
 
 bool talker_character_const::has_stolen_item( const talker &guy ) const
 {
     const Character *owner = guy.get_character();
     if( owner ) {
-        for( auto &elem : me_chr_const->inv_dump() ) {
+        for( const item *&elem : me_chr_const->inv_dump() ) {
             if( elem->is_old_owner( *owner, true ) ) {
                 return true;
             }
@@ -393,6 +523,11 @@ int talker_character_const::get_thirst() const
     return me_chr_const->get_thirst();
 }
 
+int talker_character_const::get_instant_thirst() const
+{
+    return me_chr_const->get_instant_thirst();
+}
+
 int talker_character_const::get_stored_kcal() const
 {
     return me_chr_const->get_stored_kcal();
@@ -434,7 +569,7 @@ bool talker_character_const::worn_with_flag( const flag_id &flag, const bodypart
 
 bool talker_character_const::wielded_with_flag( const flag_id &flag ) const
 {
-    return me_chr_const->get_wielded_item().has_flag( flag );
+    return me_chr_const->get_wielded_item() && me_chr_const->get_wielded_item()->has_flag( flag );
 }
 
 bool talker_character_const::has_item_with_flag( const flag_id &flag ) const
@@ -478,9 +613,9 @@ void talker_character::set_fatigue( int amount )
     me_chr->set_fatigue( amount );
 }
 
-void talker_character::mod_healthy_mod( int amount, int cap )
+void talker_character::mod_daily_health( int amount, int cap )
 {
-    me_chr->mod_healthy_mod( amount, cap );
+    me_chr->mod_daily_health( amount, cap );
 }
 
 int talker_character_const::morale_cur() const
@@ -522,6 +657,30 @@ int talker_character_const::get_rad() const
 int talker_character_const::get_stim() const
 {
     return me_chr_const->get_stim();
+}
+
+int talker_character_const::get_addiction_intensity( const addiction_id &add_id ) const
+{
+    return me_chr_const->addiction_level( add_id );
+}
+
+int talker_character_const::get_addiction_turns( const addiction_id &add_id ) const
+{
+    for( const addiction &add : me_chr_const->addictions ) {
+        if( add.type == add_id ) {
+            return to_turns<int>( add.sated );
+        }
+    }
+    return 0;
+}
+
+void talker_character::set_addiction_turns( const addiction_id &add_id, int amount )
+{
+    for( addiction &add : me_chr->addictions ) {
+        if( add.type == add_id ) {
+            add.sated += time_duration::from_turns( amount );
+        }
+    }
 }
 
 void talker_character::set_stim( int amount )
@@ -608,7 +767,7 @@ int talker_character_const::get_fine_detail_vision_mod() const
 
 int talker_character_const::get_health() const
 {
-    return me_chr_const->get_healthy();
+    return me_chr_const->get_lifestyle();
 }
 
 static std::pair<bodypart_id, bodypart_id> temp_delta( const Character *u )
@@ -667,4 +826,19 @@ std::string talker_character::skill_seminar_text( const skill_id &s ) const
 {
     int lvl = me_chr->get_skill_level( s );
     return string_format( "%s (%d)", s.obj().name(), lvl );
+}
+
+std::vector<bodypart_id> talker_character::get_all_body_parts() const
+{
+    return me_chr->get_all_body_parts( get_body_part_flags::none );
+}
+
+int talker_character::get_part_hp_cur( const bodypart_id &id ) const
+{
+    return me_chr->get_part_hp_cur( id );
+}
+
+void talker_character::set_part_hp_cur( const bodypart_id &id, int set ) const
+{
+    me_chr->set_part_hp_cur( id, set );
 }

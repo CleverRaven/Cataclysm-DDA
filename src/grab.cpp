@@ -14,6 +14,7 @@
 #include "units_utility.h"
 #include "vehicle.h"
 #include "vpart_position.h"
+#include "vpart_range.h"
 
 static const efftype_id effect_harnessed( "harnessed" );
 
@@ -31,8 +32,8 @@ bool game::grabbed_veh_move( const tripoint &dp )
         return false;
     }
     const int grabbed_part = grabbed_vehicle_vp->part_index();
-    for( int part_index = 0; part_index < grabbed_vehicle->part_count(); ++part_index ) {
-        monster *mon = grabbed_vehicle->get_monster( part_index );
+    for( const vpart_reference &vpr : grabbed_vehicle->get_all_parts() ) {
+        monster *mon = grabbed_vehicle->get_monster( vpr.part_index() );
         if( mon != nullptr && mon->has_effect( effect_harnessed ) ) {
             add_msg( m_info, _( "You cannot move this vehicle whilst your %s is harnessed!" ),
                      mon->get_name() );
@@ -192,6 +193,7 @@ bool game::grabbed_veh_move( const tripoint &dp )
     u.grab_point = next_grab;
 
     m.displace_vehicle( *grabbed_vehicle, final_dp_veh );
+    m.rebuild_vehicle_level_caches();
 
     if( grabbed_vehicle ) {
         m.level_vehicle( *grabbed_vehicle );
