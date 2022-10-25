@@ -5,7 +5,7 @@
     "type": "GUN",
     "reload_noise_volume": 10,
     "name": { "str": ".22 calibre submachine gun" },
-    "description": "Featuring a handsome set of wooden furnishings, a classic design, and a no nonsense .270 caliber chambering, this is a powerful hunting rifle.  With a tried and proven pedigree dating back over 60 years, millions of such rugged arms have been made, exported, and used throughout the United States and the world at large.  Where hunting is concerned, this is a highly capable and well proven weapon in all respects.  Fortunate, given that your prey in these dark days may turn out to be a little bit more feisty than typical White-Tailed deer, moose, and black bears.",
+    "description": "A dramatically uncommon automatic weapon, making use of high-capacity pan magazines and firing the low power .22 calibre cartridge: an unusual ammunition choice for a submachine gun.  With negligible recoil on account of its modest cartridge and a suppressively high rate of fire, a burst of .22 LR rounds from this little machine gun can be best likened with a swarm of hornets… an incredibly angry swarm of hornets.",
     "variant_type": "gun",
     "variants": [
       {
@@ -59,7 +59,7 @@
     "type": "GUN",
     "reload_noise_volume": 10,
     "name": { "str": "small game rifle" },
-    "description": "Featuring a handsome set of wooden furnishings, a classic design, and a no nonsense .270 caliber chambering, this is a powerful hunting rifle.  With a tried and proven pedigree dating back over 60 years, millions of such rugged arms have been made, exported, and used throughout the United States and the world at large.  Where hunting is concerned, this is a highly capable and well proven weapon in all respects.  Fortunate, given that your prey in these dark days may turn out to be a little bit more feisty than typical White-Tailed deer, moose, and black bears.",
+    "description": "A venerable .22 calibre lever-action rifle, with a 19-round tube magazine and a classic design that dates back over a century.  Generally used for the hunting of small game like rabbits, the strict taxonomic classification of zombies as 'small game' is debatable, but this decades old weapon can still be counted upon to help manage the undead population.",
     "variant_type": "gun",
     "variants": [
       {
