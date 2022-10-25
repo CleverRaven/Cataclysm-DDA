@@ -51,7 +51,7 @@
     "id": "mirror_artifact",
     "symbol": "o",
     "color": "light_cyan",
-    "name": { "str": "ɹoɹɹᴉɯ puɐɥ",  "str_pl": "sɹoɹɹᴉɯ puɐɥ", "ctxt": "'hand mirror' but upside down" },
+    "name": { "str": "ɹoɹɹᴉɯ puɐɥ", "str_pl": "sɹoɹɹᴉɯ puɐɥ", "ctxt": "'hand mirror' but upside down" },
     "description": "·ɓuoɹʍ ɓuᴉɥʇǝɯoS  ·ɹoɹɹᴉɯ puɐɥ ʅʅɐɯs Ɐ",
     "//": "'A small hand mirror.  Something wrong'.  I use https://www.messletters.com/en/mirrored/ (the third option) but I guess it doesn't work with non-Latin languages. Sorry translators.",
     "looks_like": "mirror",
