@@ -752,7 +752,11 @@
     "name": { "str": "rabbit mutagen" },
     "description": "A white, clear colored mutagen.  You can drink it… if you really want to?",
     "looks_like": "mutagen",
-    "vitamins": [ [ "mutagen_rabbit", 225 ], [ "mutagen", 125 ] ]
+    "use_action": {
+      "type": "consume_drug",
+      "activation_message": "You drink the rabbit mutagen.",
+      "vitamins": [ [ "mutagen_rabbit", 225 ], [ "mutagen", 125 ] ]
+    }
   },
   {
     "id": "purifier",
