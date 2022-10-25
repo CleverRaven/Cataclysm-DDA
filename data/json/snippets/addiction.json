@@ -1,0 +1,163 @@
+[
+  {
+    "type": "snippet",
+    "category": "addict_alcohol_mild_awake",
+    "text": [ "You could use a drink.", "You're dying for a drink.", "If only you had a beer…" ]
+  },
+  {
+    "type": "snippet",
+    "category": "addict_alcohol_strong_awake",
+    "text": [
+      "Your hands start shaking… you need a drink bad!",
+      "You're really struggling with how long it's been since your last drink.",
+      "You're really dying for a drink now!"
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "addict_alcohol_mild_asleep",
+    "text": [
+      "You dream of sitting at your favorite venue, enjoying a nice drink…",
+      "Talking to your friends for hours while having a couple drinks, just good times, until you wake up alone and sober."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "addict_alcohol_strong_asleep",
+    "text": [
+      "You dream about searching an empty world for any kind of drink, for what seems like ages.  At last, you find a strong beverage to appease your thirst, only for it to be snatched away from you!",
+      "Zombies crash through your bar setup at home, smashing the bottles and spilling everything.  You fall to your knees in the wreckage and wait for the end."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "addict_diazepam_mild_awake",
+    "text": [ "You could use some diazepam." ]
+  },
+  {
+    "type": "snippet",
+    "category": "addict_diazepam_strong_awake",
+    "text": [ "You're shaking… you need some diazepam!" ]
+  },
+  {
+    "type": "snippet",
+    "category": "addict_diazepam_mild_asleep",
+    "text": [
+      "You dream that you reach into your pocket and pull out a bottle full of that wonderful diazepam candy…",
+      "'A song plays in your dreams' ♪Lie still little bottle, and shake my shaky hand.  Black coffee's not enough for me, I need a better friend♪."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "addict_diazepam_strong_asleep",
+    "text": [ "You dream about lying in an ocean of benzo boxes.  To your dismay, every single box is empty…" ]
+  },
+  {
+    "type": "snippet",
+    "category": "addict_coke_awake",
+    "text": [ "You feel like you need a bump.", "What would you do for some coke, right now?" ]
+  },
+  {
+    "type": "snippet",
+    "category": "addict_crack_awake",
+    "text": [ "You're shivering, you need some crack." ]
+  },
+  {
+    "type": "snippet",
+    "category": "addict_coke_asleep",
+    "text": [ "You feel like you need a bump." ]
+  },
+  {
+    "type": "snippet",
+    "category": "addict_crack_asleep",
+    "text": [ "You're shivering, you need some crack." ]
+  },
+  {
+    "type": "snippet",
+    "category": "addict_nicotine_mild_awake",
+    "text": [ "You could use some nicotine." ]
+  },
+  {
+    "type": "snippet",
+    "category": "addict_nicotine_strong_awake",
+    "text": [ "You need some nicotine." ]
+  },
+  {
+    "type": "snippet",
+    "category": "addict_nicotine_mild_asleep",
+    "text": [
+      "You could use some nicotine.",
+      "You dream of a long conversation with a dead relative, a cigarette in their hand and smoke wafts through your brain."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "addict_nicotine_strong_asleep",
+    "text": [
+      "You need some nicotine.",
+      "You dream of sex with an old flame, but the realest part of the dream is the post coital cigarette.",
+      "You wake with the imagined taste of smoke in your mouth, how long has it been since that was true?"
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "addict_opiate_mild_awake",
+    "text": [
+      "Your hands start shaking… you need some painkillers.",
+      "If you don't find some opiates soon you might start engaging in reckless behavior, you think to yourself.",
+      "You daydream of crushing pills and snorting them through a rolled up dollar bill.  The drip in the back of your throat presaging a fun time."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "addict_opiate_mild_asleep",
+    "text": [
+      "Your hands start shaking… you need some painkillers.",
+      "♪It is not a habit, it is cool, I feel alive, I feel♪",
+      "That warm rush fills your body in your dream, oxy's hug enveloping you."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "addict_opiate_strong_awake",
+    "text": [
+      "You feel anxious.  You need your painkillers!",
+      "You need to find an unlooted pharmacy today before the lack of opiates kills you."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "addict_opiate_strong_asleep",
+    "text": [ "You feel anxious.  You need your painkillers!" ]
+  },
+  {
+    "type": "snippet",
+    "category": "addict_amphetamine_mild_awake",
+    "text": [ "You feel depressed.  Speed would help." ]
+  },
+  {
+    "type": "snippet",
+    "category": "addict_amphetamine_mild_asleep",
+    "text": [ "You feel depressed.  Speed would help." ]
+  },
+  {
+    "type": "snippet",
+    "category": "addict_amphetamine_strong_awake",
+    "text": [ "Your hands start shaking… you need a pick-me-up." ]
+  },
+  {
+    "type": "snippet",
+    "category": "addict_amphetamine_strong_asleep",
+    "text": [ "Your hands start shaking… you need a pick-me-up." ]
+  },
+  {
+    "type": "snippet",
+    "category": "addict_amphetamine_paralysis_awake",
+    "text": [ "You stop suddenly, feeling bewildered." ]
+  },
+  {
+    "type": "snippet",
+    "category": "addict_amphetamine_paralysis_asleep",
+    "text": [ "You attempt to gasp as you wake, but your body initially refuses to respond to your mind." ]
+  }
+]

@@ -50,6 +50,11 @@
     "type": "item_group",
     "id": "NC_LUMBERJACK_tools",
     "subtype": "distribution",
-    "entries": [ { "item": "ax", "prob": 100 } ]
+    "entries": [
+      { "item": "ax", "prob": 70 },
+      { "item": "saw", "prob": 10 },
+      { "item": "can_beans", "prob": 10 },
+      { "item": "chainsaw_off", "prob": 10 }
+    ]
   }
 ]

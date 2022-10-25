@@ -10,7 +10,12 @@
     "type": "widget",
     "copy-from": "lcla_health_layout",
     "separator": " ",
-    "widgets": [ "lcla_health_overmap", "lcla_health_left_layout", "lcla_health_mid_layout_one_padding", "lcla_health_right_layout" ]
+    "widgets": [
+      "lcla_health_overmap_wrapper",
+      "lcla_health_left_layout",
+      "lcla_health_mid_layout_one_padding",
+      "lcla_health_right_layout"
+    ]
   },
   {
     "id": "lcla_health_sa_mid_layout_one_padding",
@@ -25,7 +30,7 @@
     "label": "Health (self-aware)",
     "separator": " ",
     "widgets": [
-      "lcla_health_overmap",
+      "lcla_health_overmap_wrapper",
       "lcla_health_sa_left_layout",
       "lcla_health_sa_mid_layout_one_padding",
       "lcla_health_right_layout"

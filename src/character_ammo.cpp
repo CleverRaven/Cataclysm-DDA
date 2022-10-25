@@ -1,4 +1,7 @@
 #include "ammo.h"
+
+#include <utility>
+
 #include "character.h"
 #include "character_modifier.h"
 #include "flag.h"
@@ -10,7 +13,7 @@ static const character_modifier_id character_modifier_reloading_move_mod( "reloa
 static const itype_id itype_battery( "battery" );
 static const skill_id skill_gun( "gun" );
 
-int Character::ammo_count_for( const item_location &gun )
+int Character::ammo_count_for( const item_location &gun ) const
 {
     int ret = item::INFINITE_CHARGES;
     if( !gun || !gun->is_gun() ) {
@@ -43,9 +46,9 @@ int Character::ammo_count_for( const item_location &gun )
         ret = std::min( ret, total_ammo / required );
     }
 
-    int ups_drain = gun->get_gun_ups_drain();
-    if( ups_drain > 0 ) {
-        ret = std::min( ret, available_ups() / ups_drain );
+    units::energy ups_drain = gun->get_gun_ups_drain();
+    if( ups_drain > 0_kJ ) {
+        ret = std::min( ret, static_cast<int>( available_ups() / ups_drain ) );
     }
 
     return ret;
@@ -297,7 +300,7 @@ item::reload_option Character::select_ammo( const item_location &base,
             reload_callback( std::vector<item::reload_option> &_opts,
                              std::function<std::string( int )> _draw_row,
                              int _last_key, int _default_to, bool _can_partial_reload ) :
-                opts( _opts ), draw_row( _draw_row ),
+                opts( _opts ), draw_row( std::move( _draw_row ) ),
                 last_key( _last_key ), default_to( _default_to ),
                 can_partial_reload( _can_partial_reload )
             {}

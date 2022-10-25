@@ -165,7 +165,7 @@ struct container_data {
     units::mass total_capacity_weight;
     units::length max_containable_length;
 
-    std::string to_formatted_string( const bool compact = true ) {
+    std::string to_formatted_string( const bool compact = true ) const {
         std::string string_to_format;
         if( compact ) {
             string_to_format = _( "%s/%s : %s/%s : max %s" );
@@ -311,6 +311,7 @@ void uistatedata::serialize( JsonOut &json ) const
     json.member( "construction_tab", construction_tab );
     json.member( "hidden_recipes", hidden_recipes );
     json.member( "favorite_recipes", favorite_recipes );
+    json.member( "expanded_recipes", expanded_recipes );
     json.member( "read_recipes", read_recipes );
     json.member( "recent_recipes", recent_recipes );
     json.member( "bionic_ui_sort_mode", bionic_sort_mode );
@@ -328,6 +329,8 @@ void uistatedata::serialize( JsonOut &json ) const
     json.member( "distraction_weather_change", distraction_weather_change );
     json.member( "distraction_hunger", distraction_hunger );
     json.member( "distraction_thirst", distraction_thirst );
+    json.member( "distraction_temperature", distraction_temperature );
+    json.member( "distraction_mutation", distraction_mutation );
 
     json.member( "input_history" );
     json.start_object();
@@ -375,6 +378,7 @@ void uistatedata::deserialize( const JsonObject &jo )
     jo.read( "overmap_show_forest_trails", overmap_show_forest_trails );
     jo.read( "hidden_recipes", hidden_recipes );
     jo.read( "favorite_recipes", favorite_recipes );
+    jo.read( "expanded_recipes", expanded_recipes );
     jo.read( "read_recipes", read_recipes );
     jo.read( "recent_recipes", recent_recipes );
     jo.read( "bionic_ui_sort_mode", bionic_sort_mode );
@@ -392,6 +396,8 @@ void uistatedata::deserialize( const JsonObject &jo )
     jo.read( "distraction_weather_change", distraction_weather_change );
     jo.read( "distraction_hunger", distraction_hunger );
     jo.read( "distraction_thirst", distraction_thirst );
+    jo.read( "distraction_temperature", distraction_temperature );
+    jo.read( "distraction_mutation", distraction_mutation );
 
     if( !jo.read( "vmenu_show_items", vmenu_show_items ) ) {
         // This is an old save: 1 means view items, 2 means view monsters,
@@ -714,8 +720,12 @@ bool inventory_holster_preset::is_shown( const item_location &contained ) const
     if( contained.eventually_contains( holster ) || holster.eventually_contains( contained ) ) {
         return false;
     }
-    if( !is_container( contained ) && contained->made_of( phase_id::LIQUID ) ) {
+    if( !is_container( contained ) && contained->made_of( phase_id::LIQUID ) &&
+        !contained->is_frozen_liquid() ) {
         // spilt liquid cannot be picked up
+        return false;
+    }
+    if( contained->made_of( phase_id::LIQUID ) && !holster->is_watertight_container() ) {
         return false;
     }
     item item_copy( *contained );
@@ -2217,7 +2227,7 @@ void inventory_selector::refresh_window()
     wnoutrefresh( w_inv );
 }
 
-std::pair< bool, std::string > inventory_selector::query_string( std::string val )
+std::pair< bool, std::string > inventory_selector::query_string( const std::string &val )
 {
     spopup = std::make_unique<string_input_popup>();
     spopup->max_length( 256 )
@@ -2788,7 +2798,7 @@ item_location inventory_pick_selector::execute()
     }
 }
 
-void inventory_selector::action_examine( const item_location sitem )
+void inventory_selector::action_examine( const item_location &sitem )
 {
     // Code below pulled from the action_examine function in advanced_inv.cpp
     std::vector<iteminfo> vThisItem;
@@ -2906,7 +2916,7 @@ void inventory_multiselector::set_chosen_count( inventory_entry &entry, size_t c
     } else {
         entry.chosen_count = std::min( {count, max_chosen_count, entry.get_available_count() } );
         if( it->count_by_charges() ) {
-            auto iter = find_if( to_use.begin(), to_use.end(), [&it]( drop_location drop ) {
+            auto iter = find_if( to_use.begin(), to_use.end(), [&it]( const drop_location & drop ) {
                 return drop.first == it;
             } );
             if( iter == to_use.end() ) {
@@ -2917,7 +2927,7 @@ void inventory_multiselector::set_chosen_count( inventory_entry &entry, size_t c
                 if( count == 0 ) {
                     break;
                 }
-                auto iter = find_if( to_use.begin(), to_use.end(), [&loc]( drop_location drop ) {
+                auto iter = find_if( to_use.begin(), to_use.end(), [&loc]( const drop_location & drop ) {
                     return drop.first == loc;
                 } );
                 if( iter == to_use.end() ) {
@@ -3164,7 +3174,22 @@ void inventory_multiselector::deselect_contained_items()
     for( inventory_column *col : get_all_columns() ) {
         for( inventory_entry *selected : col->get_entries(
         []( const inventory_entry & entry ) {
-        return entry.is_item() && entry.chosen_count > 0 && entry.locations.front()->is_frozen_liquid();
+        return entry.is_item() && entry.chosen_count > 0 && entry.locations.front()->is_frozen_liquid() &&
+                   //Frozen liquids can be selected if it have the SHREDDED flag.
+                   !entry.locations.front()->has_flag( STATIC( flag_id( "SHREDDED" ) ) ) &&
+                   (
+                       ( //Frozen liquids on the map are not selectable if they can't be crushed.
+                           entry.locations.front().where() == item_location::type::map &&
+                           !get_player_character().can_crush_frozen_liquid( entry.locations.front() ).success() ) ||
+                       ( //Weapon in hand is can selectable.
+                           entry.locations.front().where() == item_location::type::character &&
+                           !entry.locations.front().has_parent() &&
+                           entry.locations.front() != get_player_character().used_weapon() ) ||
+                       ( //Frozen liquids are unselectable if they don't have SHREDDED flag and can't be crushed in a container.
+                           entry.locations.front().has_parent() &&
+                           entry.locations.front().where() == item_location::type::container &&
+                           !get_player_character().can_crush_frozen_liquid( entry.locations.front() ).success() )
+                   );
         } ) ) {
             set_chosen_count( *selected, 0 );
         }
@@ -3253,7 +3278,8 @@ drop_locations inventory_drop_selector::execute()
 
     for( const std::pair<item_location, int> &drop_pair : to_use ) {
         bool should_drop = true;
-        if( drop_pair.first->made_of_from_type( phase_id::LIQUID ) ) {
+        if( drop_pair.first->made_of_from_type( phase_id::LIQUID ) &&
+            !drop_pair.first->is_frozen_liquid() ) {
             if( should_drop_liquid == drop_liquid::ask ) {
                 if( !warn_liquid || query_yn(
                         _( "You are dropping liquid from its container.  You might not be able to pick it back up.  Really do so?" ) ) ) {
@@ -3452,7 +3478,7 @@ bool inventory_examiner::check_parent_item()
     return !( parent_item->is_container_empty() || empty() );
 }
 
-int inventory_examiner::cleanup()
+int inventory_examiner::cleanup() const
 {
     if( changes_made ) {
         return EXAMINED_CONTENTS_WITH_CHANGES;

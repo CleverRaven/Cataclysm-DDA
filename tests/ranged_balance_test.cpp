@@ -243,7 +243,7 @@ TEST_CASE( "unskilled_shooter_accuracy", "[ranged] [balance] [slow]" )
     standard_npc shooter( "Shooter", shooter_pos, {}, 0, 8, 8, 8, 7 );
     shooter.set_body();
     shooter.worn.wear_item( shooter, item( "backpack" ), false, false );
-    equip_shooter( shooter, { "bastsandals", "armguard_hard", "armguard_soft", "armor_chitin", "beekeeping_gloves", "mask_guy_fawkes", "cowboy_hat" } );
+    equip_shooter( shooter, { "bastsandals", "armguard_hard", "armguard_soft", "test_armor_chitin", "beekeeping_gloves", "mask_guy_fawkes", "cowboy_hat" } );
     assert_encumbrance( shooter, 10 );
 
     SECTION( "an unskilled shooter with a common pistol" ) {
@@ -440,9 +440,9 @@ TEST_CASE( "synthetic_range_test", "[.]" )
     }
 }
 
-static void shoot_monster( std::string gun_type, const std::vector<std::string> &mods,
-                           std::string ammo_type, int range,
-                           int expected_damage, std::string monster_type )
+static void shoot_monster( const std::string &gun_type, const std::vector<std::string> &mods,
+                           const std::string &ammo_type, int range,
+                           int expected_damage, const std::string &monster_type )
 {
     clear_map();
     statistics<int> damage;
@@ -582,9 +582,9 @@ std::map<T, float> hit_distribution( const targeting_graph<T, W> &graph,
     for( int i = 0; i < iters; ++i ) {
         typename std::map<T, float>::iterator it;
         if( guess ) {
-            it = hits.emplace( graph.select( 0.0, 1.0, *guess ), 0 ).first;
+            it = hits.emplace( graph.select( 0.0, 1.0, *guess ), 0.f ).first;
         } else {
-            it = hits.emplace( graph.select( 0.0, 1.0, rng_float( 0, 1 ) ), 0 ).first;
+            it = hits.emplace( graph.select( 0.0, 1.0, rng_float( 0, 1 ) ), 0.f ).first;
         }
         ++it->second;
     }
@@ -1160,7 +1160,7 @@ TEST_CASE( "Default_anatomy_body_part_hit_chances", "[targeting_graph][anatomy][
     const int total_hits = 1000000;
     for( int i = 0; i < total_hits; ++i ) {
         auto it = hits.emplace( tested->select_body_part_projectile_attack( 0, 1, rng_float( 0, 1 ) ),
-                                0 ).first;
+                                0.f ).first;
         ++it->second;
     }
 

@@ -16,6 +16,7 @@ class main_window
 
 enum class jsobj_type {
     SPELL,
+    item_group,
     LAST
 };
 }

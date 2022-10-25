@@ -95,5 +95,74 @@
     "name": { "str_sp": "small ammo pouches (exosuit)" },
     "description": "A set of pouches that attach to a hardpoint.",
     "flags": [ "WATER_FRIENDLY", "EXO_SMALL_GADGET" ]
+  },
+  {
+    "id": "exo_large_holster",
+    "type": "TOOL_ARMOR",
+    "category": "exosuit",
+    "name": { "str": "exosuit quick draw holster" },
+    "description": "This module holds a single sidearm and will recharge an energy weapon.  Automatically opens when the exosuit's pilot reaches for it, just like in that one movie.",
+    "weight": "500 g",
+    "volume": "2500 ml",
+    "material": [ "plastic", "nylon" ],
+    "symbol": "=",
+    "looks_like": "storage_battery",
+    "color": "light_gray",
+    "sided": true,
+    "flags": [ "CANT_WEAR", "USE_UPS", "EXO_MEDIUM_GADGET" ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "holster": true,
+        "min_item_volume": "500 ml",
+        "max_contains_volume": "1500 ml",
+        "max_contains_weight": "5 kg",
+        "max_item_length": "45 cm",
+        "moves": 20
+      }
+    ],
+    "use_action": { "type": "holster" },
+    "armor": [
+      {
+        "encumbrance": 5,
+        "coverage": 0,
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_hip_r", "leg_hip_l", "leg_upper_r", "leg_upper_l" ]
+      }
+    ]
+  },
+  {
+    "id": "exo_sheath",
+    "type": "TOOL_ARMOR",
+    "category": "exosuit",
+    "name": { "str": "exosuit blade sheath" },
+    "description": "This module holds a single knife or small blade.  Automatically opens when the exosuit's pilot reaches for it.",
+    "weight": "500 g",
+    "volume": "2500 ml",
+    "material": [ "plastic", "nylon" ],
+    "symbol": "=",
+    "looks_like": "storage_battery",
+    "color": "light_gray",
+    "sided": true,
+    "flags": [ "CANT_WEAR", "EXO_MEDIUM_GADGET" ],
+    "pocket_data": [
+      {
+        "magazine_well": "350 ml",
+        "holster": true,
+        "max_contains_volume": "1500 ml",
+        "max_contains_weight": "5 kg",
+        "max_item_length": "70 cm",
+        "moves": 10,
+        "flag_restriction": [ "SHEATH_KNIFE" ]
+      }
+    ],
+    "use_action": { "type": "holster" },
+    "armor": [
+      {
+        "encumbrance": 5,
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_hip_r", "leg_hip_l", "leg_upper_r", "leg_upper_l" ]
+      }
+    ]
   }
 ]

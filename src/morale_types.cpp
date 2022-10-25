@@ -14,6 +14,8 @@
 const morale_type MORALE_ACCOMPLISHMENT( "morale_accomplishment" );
 const morale_type MORALE_ANTIFRUIT( "morale_antifruit" );
 const morale_type MORALE_ANTIJUNK( "morale_antijunk" );
+const morale_type MORALE_ANTIMEAT( "morale_antimeat" );
+const morale_type MORALE_ANTIVEGGY( "morale_antiveggy" );
 const morale_type MORALE_ANTIWHEAT( "morale_antiwheat" );
 const morale_type MORALE_ATE_WITHOUT_TABLE( "morale_ate_without_table" );
 const morale_type MORALE_ATE_WITH_TABLE( "morale_ate_with_table" );

@@ -888,6 +888,12 @@ tripoint item_location::position() const
     return ptr->position();
 }
 
+tripoint_bub_ms item_location::pos_bub() const
+{
+    // TODO: fix point types
+    return tripoint_bub_ms( ptr->position() );
+}
+
 std::string item_location::describe( const Character *ch ) const
 {
     return ptr->describe( ch );
@@ -941,7 +947,7 @@ void item_location::set_should_stack( bool should_stack ) const
     ptr->should_stack = should_stack;
 }
 
-bool item_location::held_by( Character &who ) const
+bool item_location::held_by( Character const &who ) const
 {
     if( where() == type::character &&
         get_creature_tracker().creature_at<Character>( position() ) == &who ) {

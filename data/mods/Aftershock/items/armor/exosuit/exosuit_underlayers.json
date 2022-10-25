@@ -2,7 +2,7 @@
   {
     "id": "afs_exo_standard_underlayer",
     "repairs_like": "thermal_suit",
-    "type": "ARMOR",
+    "type": "TOOL_ARMOR",
     "copy-from": "jumpsuit",
     "looks_like": "robofac_enviro_suit",
     "name": { "str": "exosuit underlayer" },
@@ -28,15 +28,26 @@
       }
     ],
     "warmth": 10,
-    "flags": [ "EXO_UNDERLAYER", "USE_UPS", "SKINTIGHT", "WATERPROOF", "POWERARMOR_COMPATIBLE", "SOFT" ],
+    "flags": [ "EXO_UNDERLAYER", "CANT_WEAR", "SKINTIGHT", "WATERPROOF", "POWERARMOR_COMPATIBLE", "SOFT" ],
     "relic_data": {
-      "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "ITEM_ENCUMBRANCE", "add": -10 } ] } ]
+      "passive_effects": [
+        {
+          "has": "WORN",
+          "condition": "ALWAYS",
+          "values": [
+            { "value": "ITEM_ENCUMBRANCE", "add": -10 },
+            { "value": "ARMOR_COLD", "multiply": -0.25 },
+            { "value": "CLIMATE_CONTROL_HEAT", "add": 50 },
+            { "value": "CLIMATE_CONTROL_CHILL", "add": 50 }
+          ]
+        }
+      ]
     }
   },
   {
     "id": "afs_exo_combat_underlayer",
     "repairs_like": "thermal_suit",
-    "type": "ARMOR",
+    "type": "TOOL_ARMOR",
     "copy-from": "jumpsuit",
     "looks_like": "robofac_enviro_suit",
     "name": { "str": "exosuit combat underlayer" },
@@ -70,15 +81,26 @@
       }
     ],
     "warmth": 10,
-    "flags": [ "EXO_UNDERLAYER", "USE_UPS", "SKINTIGHT", "WATERPROOF", "POWERARMOR_COMPATIBLE", "SOFT" ],
+    "flags": [ "EXO_UNDERLAYER", "CANT_WEAR", "SKINTIGHT", "WATERPROOF", "POWERARMOR_COMPATIBLE", "SOFT" ],
     "relic_data": {
-      "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "ITEM_ENCUMBRANCE", "add": -10 } ] } ]
+      "passive_effects": [
+        {
+          "has": "WORN",
+          "condition": "ALWAYS",
+          "values": [
+            { "value": "ITEM_ENCUMBRANCE", "add": -10 },
+            { "value": "ARMOR_COLD", "multiply": -0.25 },
+            { "value": "CLIMATE_CONTROL_HEAT", "add": 50 },
+            { "value": "CLIMATE_CONTROL_CHILL", "add": 50 }
+          ]
+        }
+      ]
     }
   },
   {
     "id": "afs_exo_eva_underlayer",
     "repairs_like": "thermal_suit",
-    "type": "ARMOR",
+    "type": "TOOL_ARMOR",
     "copy-from": "jumpsuit",
     "looks_like": "robofac_enviro_suit",
     "name": { "str": "exosuit EVA underlayer" },
@@ -106,7 +128,7 @@
     "warmth": 10,
     "flags": [
       "EXO_UNDERLAYER",
-      "USE_UPS",
+      "CANT_WEAR",
       "SKINTIGHT",
       "WATERPROOF",
       "POWERARMOR_COMPATIBLE",
@@ -116,13 +138,24 @@
       "RAINPROOF"
     ],
     "relic_data": {
-      "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "ITEM_ENCUMBRANCE", "add": -10 } ] } ]
+      "passive_effects": [
+        {
+          "has": "WORN",
+          "condition": "ALWAYS",
+          "values": [
+            { "value": "ITEM_ENCUMBRANCE", "add": -10 },
+            { "value": "ARMOR_COLD", "multiply": -0.25 },
+            { "value": "CLIMATE_CONTROL_HEAT", "add": 50 },
+            { "value": "CLIMATE_CONTROL_CHILL", "add": 50 }
+          ]
+        }
+      ]
     }
   },
   {
     "id": "afs_exo_hazard_underlayer",
     "repairs_like": "thermal_suit",
-    "type": "ARMOR",
+    "type": "TOOL_ARMOR",
     "copy-from": "jumpsuit",
     "looks_like": "robofac_enviro_suit",
     "name": { "str": "exosuit utility underlayer" },
@@ -158,7 +191,7 @@
     "warmth": 10,
     "flags": [
       "EXO_UNDERLAYER",
-      "USE_UPS",
+      "CANT_WEAR",
       "SKINTIGHT",
       "WATERPROOF",
       "POWERARMOR_COMPATIBLE",
@@ -168,7 +201,18 @@
       "RAINPROOF"
     ],
     "relic_data": {
-      "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "ITEM_ENCUMBRANCE", "add": -10 } ] } ]
+      "passive_effects": [
+        {
+          "has": "WORN",
+          "condition": "ALWAYS",
+          "values": [
+            { "value": "ITEM_ENCUMBRANCE", "add": -10 },
+            { "value": "ARMOR_COLD", "multiply": -0.25 },
+            { "value": "CLIMATE_CONTROL_HEAT", "add": 50 },
+            { "value": "CLIMATE_CONTROL_CHILL", "add": 50 }
+          ]
+        }
+      ]
     }
   }
 ]

@@ -779,7 +779,7 @@
     "//": "The classical vision of the wizard gets a classic weapon.  DPS Stats are between the regular and ironshod versions.  Stats are slightly worse than the QS+1 due to the glass weight slowing attack speed.",
     "description": "A quarterstaff with runes carved into it and two glass jars, heat-tempered and infused with mana for durability, to act as mana receptacles.  There are two Magi runes embedded at the tips.",
     "weight": "1530 g",
-    "volume": "3500 ml",
+    "volume": "1550 ml",
     "longest_side": "185 cm",
     "price": 3900,
     "to_hit": 4,
@@ -798,7 +798,7 @@
     "//": "It will be based on the Q +2 weapon but slightly worse, slightly better than the magus staff, but its greatest strength will be its regen mana capabilities, better than magi staff minor but worse than the lesser one.",
     "description": "A quarterstaff with runes carved into it and two mana pearls at the tip, enchanted with mana for durability.  It fills you with an invigorating sensation.  There are two Magi runes carved into the wood.",
     "weight": "1600 g",
-    "volume": "3500 ml",
+    "volume": "1550 ml",
     "longest_side": "185 cm",
     "price": 15000,
     "to_hit": 4,
@@ -857,6 +857,7 @@
     "to_hit": 3,
     "category": "weapons",
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 8 ] ],
+    "weapon_category": [ "MEDIEVAL_SWORDS", "MEDIUM_SWORDS" ],
     "use_action": [
       { "type": "cast_spell", "spell_id": "frost_spray", "no_fail": true, "level": 10, "need_wielding": true },
       "WEATHER_TOOL"

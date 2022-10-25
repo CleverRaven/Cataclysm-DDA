@@ -44,6 +44,7 @@
     "type": "SPECIES",
     "id": "KRAKEN",
     "description": "a squid-like mutant",
+    "footsteps": "slithering.",
     "fear_triggers": [ "HURT", "FRIEND_ATTACKED" ],
     "bleeds": "fd_blood"
   },
@@ -56,6 +57,12 @@
     "type": "SPECIES",
     "id": "NETHER",
     "description": "a nether creature",
+    "fear_triggers": [ "HURT" ]
+  },
+  {
+    "type": "SPECIES",
+    "id": "NETHER_EMANATION",
+    "description": "a reflection of another dimension",
     "fear_triggers": [ "HURT" ]
   },
   {

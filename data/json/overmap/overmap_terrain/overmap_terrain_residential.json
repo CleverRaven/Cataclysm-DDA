@@ -43,6 +43,22 @@
     "id": [
       "2storyModern01_first",
       "2storyModern01_second",
+      "2storyModern02_1",
+      "2storyModern02_2",
+      "2StoryModern03_1",
+      "2StoryModern03_2",
+      "2StoryModern04_1_1",
+      "2StoryModern04_1_2",
+      "2StoryModern04_2_1",
+      "2StoryModern04_2_2",
+      "bungalow01_1",
+      "bungalow02_1",
+      "bungalow03",
+      "bungalow04",
+      "bungalow05",
+      "bungalow06",
+      "bungalow07",
+      "bungalow08",
       "duplex",
       "garden_house_1_floor_1",
       "garden_house_1_floor_2",
@@ -312,6 +328,18 @@
     "type": "overmap_terrain",
     "id": [
       "2storyModern01_roof",
+      "2storyModern02_roof",
+      "2StoryModern03_roof",
+      "2StoryModern04_roof_1",
+      "2StoryModern04_roof_2",
+      "bungalow01_roof",
+      "bungalow02_roof",
+      "bungalow03_roof",
+      "bungalow04_roof",
+      "bungalow05_roof",
+      "bungalow06_roof",
+      "bungalow07_roof",
+      "bungalow08_roof",
       "duplex_roof",
       "garden_house_1_roof",
       "house_01_roof",
@@ -412,6 +440,10 @@
     "type": "overmap_terrain",
     "id": [
       "2storyModern01_basement",
+      "2storyModern02_basement",
+      "2StoryModern03_basement",
+      "2StoryModern04_basement_1",
+      "2StoryModern04_basement_2",
       "basement_bionic",
       "basement_bionic_decoy",
       "basement_chem",
@@ -601,7 +633,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "homelesscamp",
+    "id": [ "homelesscamp", "homelesscamp_npc" ],
     "copy-from": "generic_city_building_no_sidewalk",
     "name": "homeless camp",
     "sym": "H",
@@ -643,5 +675,34 @@
     "see_cost": 5,
     "extras": "build",
     "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "prefab",
+    "name": "mobile home",
+    "copy-from": "generic_city_house_no_sidewalk",
+    "spawns": { "group": "GROUP_NULL", "population": [ 1, 1 ], "chance": 100 }
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "prefab_roof",
+    "name": "mobile home roof",
+    "copy-from": "generic_city_house_roof"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "trailer_hub_10",
+    "name": "administration building",
+    "sym": "A",
+    "color": "cyan",
+    "copy-from": "generic_city_house_no_sidewalk"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "trailer_hub_10_roof",
+    "name": "administration building roof",
+    "sym": "A",
+    "color": "cyan",
+    "copy-from": "generic_city_house_roof"
   }
 ]

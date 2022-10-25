@@ -245,7 +245,7 @@
         "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ]
       }
     ],
-    "flags": [ "FANCY", "NO_WEAR_EFFECT" ]
+    "flags": [ "FANCY", "NO_WEAR_EFFECT", "SKINTIGHT" ]
   },
   {
     "id": "diving_watch",
@@ -387,7 +387,7 @@
         "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ]
       }
     ],
-    "flags": [ "NO_WEAR_EFFECT" ]
+    "flags": [ "NO_WEAR_EFFECT", "SKINTIGHT" ]
   },
   {
     "id": "cufflinks",
@@ -940,6 +940,20 @@
     "flags": [ "NO_WEAR_EFFECT" ]
   },
   {
+    "id": "service_medal",
+    "type": "ARMOR",
+    "name": { "str": "service medal" },
+    "description": "A medal awarded to military personnel for heroism, wounds suffered in combat, or distinguished service.",
+    "weight": "50 g",
+    "volume": "25 ml",
+    "price": 10000,
+    "price_postapoc": 25,
+    "material": [ { "type": "gold", "portion": 1 }, { "type": "bronze", "portion": 4 } ],
+    "symbol": "[",
+    "color": "brown",
+    "flags": [ "NO_WEAR_EFFECT" ]
+  },
+  {
     "id": "gold_necklace",
     "type": "ARMOR",
     "name": { "str": "gold necklace" },
@@ -967,7 +981,7 @@
     "color": "yellow",
     "sided": true,
     "armor": [ { "coverage": 0, "covers": [ "hand_l", "hand_r" ], "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ] } ],
-    "flags": [ "FANCY", "NO_WEAR_EFFECT" ]
+    "flags": [ "FANCY", "NO_WEAR_EFFECT", "SKINTIGHT" ]
   },
   {
     "id": "gold_watch",
@@ -1266,7 +1280,7 @@
     "color": "white",
     "sided": true,
     "armor": [ { "coverage": 0, "covers": [ "hand_l", "hand_r" ], "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ] } ],
-    "flags": [ "FANCY", "NO_WEAR_EFFECT" ]
+    "flags": [ "FANCY", "NO_WEAR_EFFECT", "SKINTIGHT" ]
   },
   {
     "id": "ring_engagement",
@@ -1282,7 +1296,7 @@
     "color": "yellow",
     "sided": true,
     "armor": [ { "coverage": 0, "covers": [ "hand_l", "hand_r" ], "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ] } ],
-    "flags": [ "FANCY", "NO_WEAR_EFFECT" ]
+    "flags": [ "FANCY", "NO_WEAR_EFFECT", "SKINTIGHT" ]
   },
   {
     "id": "ring_purity",
@@ -1298,7 +1312,7 @@
     "color": "light_gray",
     "sided": true,
     "armor": [ { "coverage": 0, "covers": [ "hand_l", "hand_r" ], "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ] } ],
-    "flags": [ "FANCY", "NO_WEAR_EFFECT" ]
+    "flags": [ "FANCY", "NO_WEAR_EFFECT", "SKINTIGHT" ]
   },
   {
     "id": "ring_signet",
@@ -1314,7 +1328,7 @@
     "color": "yellow",
     "sided": true,
     "armor": [ { "coverage": 0, "covers": [ "hand_l", "hand_r" ], "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ] } ],
-    "flags": [ "FANCY", "NO_WEAR_EFFECT" ]
+    "flags": [ "FANCY", "NO_WEAR_EFFECT", "SKINTIGHT" ]
   },
   {
     "id": "ring_wedding",
@@ -1330,7 +1344,7 @@
     "color": "yellow",
     "sided": true,
     "armor": [ { "coverage": 0, "covers": [ "hand_l", "hand_r" ], "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ] } ],
-    "flags": [ "SUPER_FANCY", "NO_WEAR_EFFECT" ]
+    "flags": [ "SUPER_FANCY", "NO_WEAR_EFFECT", "SKINTIGHT" ]
   },
   {
     "id": "silver_necklace",
@@ -1402,7 +1416,7 @@
     "color": "light_gray",
     "sided": true,
     "armor": [ { "coverage": 0, "covers": [ "hand_l", "hand_r" ], "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ] } ],
-    "flags": [ "FANCY", "NO_WEAR_EFFECT" ]
+    "flags": [ "FANCY", "NO_WEAR_EFFECT", "SKINTIGHT" ]
   },
   {
     "id": "leather_collar",
@@ -2058,7 +2072,7 @@
     "color": "red",
     "sided": true,
     "armor": [ { "coverage": 0, "covers": [ "hand_l", "hand_r" ], "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ] } ],
-    "flags": [ "FANCY", "NO_WEAR_EFFECT" ]
+    "flags": [ "FANCY", "NO_WEAR_EFFECT", "SKINTIGHT" ]
   },
   {
     "id": "amethyst_gold_ring",
@@ -2349,7 +2363,7 @@
     "symbol": "[",
     "color": "red",
     "sided": true,
-    "flags": [ "FANCY", "NO_WEAR_EFFECT" ],
+    "flags": [ "FANCY", "NO_WEAR_EFFECT", "SKINTIGHT" ],
     "armor": [ { "coverage": 0, "covers": [ "hand_l", "hand_r" ], "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ] } ]
   },
   {

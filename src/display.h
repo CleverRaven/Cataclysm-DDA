@@ -62,11 +62,11 @@ struct disp_bodygraph_cache {
         explicit disp_bodygraph_cache( bodygraph_var var );
 
         // Returns true if the stored map of current/max HP values differ from the character.
-        bool is_valid_for( const Character &u, std::string graph_id ) const;
+        bool is_valid_for( const Character &u, const std::string &graph_id ) const;
 
         // Rebuild the cache using the bodypart HP values from the character and
         // store the resulting widget string.
-        void rebuild( const Character &u, std::string graph_id, const std::string &bg_wgt_str );
+        void rebuild( const Character &u, const std::string &graph_id, const std::string &bg_wgt_str );
 
         // Retrieve the cached widget string
         const std::string &get_val() const {
@@ -127,6 +127,7 @@ std::pair<std::string, nc_color> activity_text_color( const Character &u );
 std::pair<std::string, nc_color> thirst_text_color( const Character &u );
 std::pair<std::string, nc_color> hunger_text_color( const Character &u );
 std::pair<std::string, nc_color> weight_text_color( const Character &u );
+std::pair<std::string, nc_color> health_text_color( const Character &u );
 std::pair<std::string, nc_color> fatigue_text_color( const Character &u );
 std::pair<std::string, nc_color> pain_text_color( const Creature &c );
 std::pair<std::string, nc_color> pain_text_color( const Character &u );
@@ -147,6 +148,7 @@ std::pair<std::string, nc_color> carry_weight_text_color( const avatar &u );
 std::pair<std::string, nc_color> temp_text_color( const Character &u,
         const bodypart_str_id &bp = bodypart_str_id::NULL_ID() );
 std::pair<std::string, nc_color> power_text_color( const Character &u );
+std::pair<std::string, nc_color> power_balance_text_color( const avatar &u );
 std::pair<std::string, nc_color> mana_text_color( const Character &you );
 std::pair<std::string, nc_color> str_text_color( const Character &p );
 std::pair<std::string, nc_color> dex_text_color( const Character &p );
@@ -161,7 +163,7 @@ std::string colorized_compass_text( cardinal_direction dir, int width );
 std::string colorized_compass_legend_text( int width, int max_height, int &height );
 
 // Get color-coded body graph representing body part HP
-std::string colorized_bodygraph_text( const Character &u, std::string graph_id,
+std::string colorized_bodygraph_text( const Character &u, const std::string &graph_id,
                                       bodygraph_var var, int width, int max_height, int &height );
 
 // Get color for bodygraph part
@@ -194,6 +196,10 @@ std::string current_position_text( const tripoint_abs_omt &loc );
 // Functions returning colorized string
 // gets the string that describes your weight
 std::string weight_string( const Character &u );
+
+// Functions returning colorized string
+// gets the string that describes your health
+std::string health_string( const Character &u );
 
 // Prints a list of nearby monsters
 void print_mon_info( const avatar &u, const catacurses::window &, int hor_padding = 0,

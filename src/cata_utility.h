@@ -8,6 +8,7 @@
 #include <functional>
 #include <iosfwd>
 #include <map>
+#include <memory>
 #include <string> // IWYU pragma: keep
 #include <type_traits>
 #include <unordered_set>
@@ -16,8 +17,8 @@
 
 #include "enums.h"
 #include "json.h"
+#include "path_info.h"
 
-class JsonIn;
 class JsonOut;
 class JsonValue;
 class translation;
@@ -194,26 +195,6 @@ const char *velocity_units( units_type vel_units );
  */
 double convert_velocity( int velocity, units_type vel_units );
 
-/**
- * Convert a temperature from degrees Fahrenheit to degrees Celsius.
- *
- * @return Temperature in degrees C.
- */
-double temp_to_celsius( double fahrenheit );
-
-/**
- * Convert a temperature from degrees Fahrenheit to Kelvin.
- *
- * @return Temperature in degrees K.
- */
-double temp_to_kelvin( double fahrenheit );
-
-/**
- * Convert a temperature from degrees Celsius to Kelvin.
- *
- * @return Temperature in degrees K.
- */
-double celsius_to_kelvin( double celsius );
 
 /**
  * Convert a temperature from Kelvin to degrees Fahrenheit.
@@ -318,6 +299,9 @@ class list_circularizer
 bool write_to_file( const std::string &path, const std::function<void( std::ostream & )> &writer,
                     const char *fail_message );
 void write_to_file( const std::string &path, const std::function<void( std::ostream & )> &writer );
+bool write_to_file( const cata_path &path, const std::function<void( std::ostream & )> &writer,
+                    const char *fail_message );
+void write_to_file( const cata_path &path, const std::function<void( std::ostream & )> &writer );
 ///@}
 
 /**
@@ -340,16 +324,49 @@ void write_to_file( const std::string &path, const std::function<void( std::ostr
  */
 /**@{*/
 bool read_from_file( const std::string &path, const std::function<void( std::istream & )> &reader );
-bool read_from_file_json( const std::string &path, const std::function<void( JsonIn & )> &reader );
-bool read_from_file_json( const std::string &path,
+bool read_from_file( const fs::path &path, const std::function<void( std::istream & )> &reader );
+bool read_from_file( const cata_path &path, const std::function<void( std::istream & )> &reader );
+bool read_from_file_json( const cata_path &path,
                           const std::function<void( const JsonValue & )> &reader );
 
 bool read_from_file_optional( const std::string &path,
                               const std::function<void( std::istream & )> &reader );
-bool read_from_file_optional_json( const std::string &path,
-                                   const std::function<void( JsonIn & )> &reader );
-bool read_from_file_optional_json( const std::string &path,
+bool read_from_file_optional( const fs::path &path,
+                              const std::function<void( std::istream & )> &reader );
+bool read_from_file_optional( const cata_path &path,
+                              const std::function<void( std::istream & )> &reader );
+bool read_from_file_optional_json( const cata_path &path,
                                    const std::function<void( const JsonValue & )> &reader );
+/**@}*/
+
+/**
+ * Try to open and provide a std::istream for the given, possibly, gzipped, file.
+ *
+ * The file is opened for reading (binary mode) and tested to see if it is compressed.
+ * Compressed files are decompressed into a std::stringstream and returned.
+ * Uncompressed files are returned as normal lazy ifstreams.
+ * Any exceptions during reading, including failing to open the file, are reported as dbgmsg.
+ *
+ * @return A unique_ptr of the appropriate istream, or nullptr on failure.
+ */
+/**@{*/
+std::unique_ptr<std::istream> read_maybe_compressed_file( const std::string &path );
+std::unique_ptr<std::istream> read_maybe_compressed_file( const fs::path &path );
+std::unique_ptr<std::istream> read_maybe_compressed_file( const cata_path &path );
+/**@}*/
+
+/**
+ * Try to open and read the entire file to a string.
+ *
+ * The file is opened for reading (binary mode), read into a string, and then closed.
+ * Any exceptions during reading, including failing to open the file, are reported as dbgmsg.
+ *
+ * @return A nonempty optional with the contents of the file on success, or cata::nullopt on failure.
+ */
+/**@{*/
+cata::optional<std::string> read_whole_file( const std::string &path );
+cata::optional<std::string> read_whole_file( const fs::path &path );
+cata::optional<std::string> read_whole_file( const cata_path &path );
 /**@}*/
 
 std::istream &safe_getline( std::istream &ins, std::string &str );
@@ -386,7 +403,7 @@ std::string obscure_message( const std::string &str, const std::function<char()>
  */
 /**@{*/
 std::string serialize_wrapper( const std::function<void( JsonOut & )> &callback );
-void deserialize_wrapper( const std::function<void( JsonIn & )> &callback,
+void deserialize_wrapper( const std::function<void( const JsonValue & )> &callback,
                           const std::string &data );
 
 template<typename T>
@@ -397,21 +414,11 @@ inline std::string serialize( const T &obj )
     } );
 }
 
-template < typename T, std::enable_if_t < detail::IsJsonInDeserializable<T>::value &&
-           !detail::IsJsonValueDeserializable<T>::value > * = nullptr >
+template<typename T>
 inline void deserialize_from_string( T &obj, const std::string &data )
 {
-    deserialize_wrapper( [&obj]( JsonIn & jsin ) {
+    deserialize_wrapper( [&obj]( const JsonValue & jsin ) {
         obj.deserialize( jsin );
-    }, data );
-}
-
-template < typename T, std::enable_if_t < !detail::IsJsonInDeserializable<T>::value &&
-           detail::IsJsonValueDeserializable<T>::value > * = nullptr >
-inline void deserialize_from_string( T &obj, const std::string &data )
-{
-    deserialize_wrapper( [&obj]( JsonIn & jsin ) {
-        obj.deserialize( jsin.get_value() );
     }, data );
 }
 /**@}*/
@@ -427,6 +434,7 @@ bool string_starts_with( const std::string &s1, const std::string &s2 );
  * Note: N is (size+1) for null-terminated strings.
  */
 template <std::size_t N>
+// NOLINTNEXTLINE(modernize-avoid-c-arrays)
 inline bool string_starts_with( const std::string &s1, const char( &s2 )[N] )
 {
     return s1.compare( 0, N - 1, s2, N - 1 ) == 0;
@@ -443,6 +451,7 @@ bool string_ends_with( const std::string &s1, const std::string &s2 );
  *  Note: N is (size+1) for null-terminated strings.
  */
 template <std::size_t N>
+// NOLINTNEXTLINE(modernize-avoid-c-arrays)
 inline bool string_ends_with( const std::string &s1, const char( &s2 )[N] )
 {
     return s1.size() >= N - 1 && s1.compare( s1.size() - ( N - 1 ), std::string::npos, s2, N - 1 ) == 0;
@@ -581,54 +590,6 @@ std::map<K, V> map_without_keys( const std::map<K, V> &original, const std::vect
 }
 
 int modulo( int v, int m );
-
-class on_out_of_scope
-{
-    private:
-        std::function<void()> func;
-    public:
-        explicit on_out_of_scope( const std::function<void()> &func ) : func( func ) {
-        }
-
-        on_out_of_scope( const on_out_of_scope & ) = delete;
-        on_out_of_scope( on_out_of_scope && ) = delete;
-        on_out_of_scope &operator=( const on_out_of_scope & ) = delete;
-        on_out_of_scope &operator=( on_out_of_scope && ) = delete;
-
-        ~on_out_of_scope() {
-            if( func ) {
-                func();
-            }
-        }
-
-        void cancel() {
-            func = nullptr;
-        }
-};
-
-template<typename T>
-class restore_on_out_of_scope
-{
-    private:
-        T &t;
-        T orig_t;
-        on_out_of_scope impl;
-    public:
-        // *INDENT-OFF*
-        explicit restore_on_out_of_scope( T &t_in ) : t( t_in ), orig_t( t_in ),
-            impl( [this]() { t = std::move( orig_t ); } ) {
-        }
-
-        explicit restore_on_out_of_scope( T &&t_in ) : t( t_in ), orig_t( std::move( t_in ) ),
-            impl( [this]() { t = std::move( orig_t ); } ) {
-        }
-        // *INDENT-ON*
-
-        restore_on_out_of_scope( const restore_on_out_of_scope<T> & ) = delete;
-        restore_on_out_of_scope( restore_on_out_of_scope<T> && ) = delete;
-        restore_on_out_of_scope &operator=( const restore_on_out_of_scope<T> & ) = delete;
-        restore_on_out_of_scope &operator=( restore_on_out_of_scope<T> && ) = delete;
-};
 
 /** Add elements from one set to another */
 template <typename T>

@@ -213,12 +213,7 @@ cata::optional<std::pair<trap_str_id, std::pair<std::string, bool>>> ter_furn_tr
     return next( trap_flag_transform, flag );
 }
 
-void ter_furn_transform::transform( const tripoint &location, bool shifted ) const
-{
-    transform( get_map(), location, shifted );
-}
-
-void ter_furn_transform::transform( map &m, const tripoint &location, bool shifted ) const
+void ter_furn_transform::transform( map &m, const tripoint_bub_ms &location ) const
 {
     avatar &you = get_avatar();
     const ter_id ter_at_loc = m.ter( location );
@@ -239,7 +234,7 @@ void ter_furn_transform::transform( map &m, const tripoint &location, bool shift
             m.add_field( location, field_potential->first, fld.second.get_field_intensity(),
                          fld.second.get_field_age(), true );
             m.remove_field( location, fld.first );
-            if( !shifted && you.sees( location ) ) {
+            if( you.sees( location ) ) {
                 you.add_msg_if_player( field_potential->second.first,
                                        field_potential->second.second ? m_good : m_bad );
             }
@@ -284,20 +279,20 @@ void ter_furn_transform::transform( map &m, const tripoint &location, bool shift
 
     if( ter_potential ) {
         m.ter_set( location, ter_potential->first );
-        if( !shifted && you.sees( location ) ) {
+        if( you.sees( location ) ) {
             you.add_msg_if_player( ter_potential->second.first, ter_potential->second.second ? m_good : m_bad );
         }
     }
     if( furn_potential ) {
         m.furn_set( location, furn_potential->first );
-        if( !shifted && you.sees( location ) ) {
+        if( you.sees( location ) ) {
             you.add_msg_if_player( furn_potential->second.first,
                                    furn_potential->second.second ? m_good : m_bad );
         }
     }
     if( trap_potential ) {
         m.trap_set( location, trap_potential->first );
-        if( !shifted && you.sees( location ) ) {
+        if( you.sees( location ) ) {
             you.add_msg_if_player( trap_potential->second.first,
                                    trap_potential->second.second ? m_good : m_bad );
         }

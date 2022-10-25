@@ -77,9 +77,11 @@ static const move_mode_id move_mode_prone( "prone" );
 
 static const skill_id skill_swimming( "swimming" );
 
+static const trait_id trait_BRAWLER( "BRAWLER" );
 static const trait_id trait_GRAZER( "GRAZER" );
 static const trait_id trait_RUMINANT( "RUMINANT" );
 static const trait_id trait_SHELL2( "SHELL2" );
+static const trait_id trait_SHELL3( "SHELL3" );
 
 #define dbg(x) DebugLog((x),D_SDL) << __FILE__ << ":" << __LINE__ << ": "
 
@@ -155,8 +157,10 @@ static bool check_water_affect_items( avatar &you )
 
 bool avatar_action::move( avatar &you, map &m, const tripoint &d )
 {
-    if( ( !g->check_safe_mode_allowed() ) || you.has_active_mutation( trait_SHELL2 ) ) {
-        if( you.has_active_mutation( trait_SHELL2 ) ) {
+    bool in_shell = you.has_active_mutation( trait_SHELL2 ) ||
+                    you.has_active_mutation( trait_SHELL3 );
+    if( ( !g->check_safe_mode_allowed() ) || in_shell ) {
+        if( in_shell ) {
             add_msg( m_warning, _( "You can't move while in your shell.  Deactivate it to go mobile." ) );
         }
         return false;
@@ -224,7 +228,7 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
     // If the player is *attempting to* move on the X axis, update facing direction of their sprite to match.
     point new_d( dest_loc.xy() + point( -you.posx(), -you.posy() ) );
 
-    if( !tile_iso ) {
+    if( !g->is_tileset_isometric() ) {
         if( new_d.x > 0 ) {
             you.facing = FacingDirection::RIGHT;
             if( is_riding ) {
@@ -756,6 +760,11 @@ static bool can_fire_turret( avatar &you, const map &m, const turret_data &turre
         return false;
     }
 
+    if( you.has_trait( trait_BRAWLER ) ) {
+        add_msg( m_bad, _( "You refuse to use the %s." ), turret.name() );
+        return false;
+    }
+
     switch( turret.query() ) {
         case turret_data::status::no_ammo:
             add_msg( m_bad, _( "The %s is out of ammo." ), turret.name() );
@@ -920,21 +929,21 @@ bool avatar_action::eat_here( avatar &you )
     return false;
 }
 
-void avatar_action::eat( avatar &you, const item_location &loc, bool refuel )
+void avatar_action::eat( avatar &you, const item_location &loc )
 {
     std::string filter;
     if( !you.activity.str_values.empty() ) {
         filter = you.activity.str_values.back();
     }
     avatar_action::eat( you, loc, you.activity.values, you.activity.targets, filter,
-                        you.activity.id(), refuel );
+                        you.activity.id() );
 }
 
 void avatar_action::eat( avatar &you, const item_location &loc,
                          const std::vector<int> &consume_menu_selections,
                          const std::vector<item_location> &consume_menu_selected_items,
                          const std::string &consume_menu_filter,
-                         activity_id type, bool refuel )
+                         activity_id type )
 {
     if( !loc ) {
         you.cancel_activity();
@@ -942,13 +951,15 @@ void avatar_action::eat( avatar &you, const item_location &loc,
         return;
     }
     you.assign_activity( player_activity( consume_activity_actor( loc, consume_menu_selections,
-                                          consume_menu_selected_items, consume_menu_filter, type, refuel ) ) );
+                                          consume_menu_selected_items, consume_menu_filter, type ) ) );
 }
 
 void avatar_action::plthrow( avatar &you, item_location loc,
                              const cata::optional<tripoint> &blind_throw_from_pos )
 {
-    if( you.has_active_mutation( trait_SHELL2 ) ) {
+    bool in_shell = you.has_active_mutation( trait_SHELL2 ) ||
+                    you.has_active_mutation( trait_SHELL3 );
+    if( in_shell ) {
         add_msg( m_info, _( "You can't effectively throw while you're in your shell." ) );
         return;
     } else if( you.has_effect( effect_incorporeal ) ) {

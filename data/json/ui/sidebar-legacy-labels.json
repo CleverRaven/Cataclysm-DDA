@@ -162,7 +162,7 @@
     "id": "ll_place_info",
     "type": "widget",
     "style": "layout",
-    "width": 20,
+    "width": 26,
     "copy-from": "all_location_info_rows_layout"
   },
   {
@@ -170,7 +170,7 @@
     "type": "widget",
     "style": "layout",
     "label": "Place",
-    "arrange": "columns",
+    "arrange": "minimum_columns",
     "widgets": [ "ll_place_info", "ll_place_overmap" ]
   },
   {

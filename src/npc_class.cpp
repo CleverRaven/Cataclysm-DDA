@@ -289,6 +289,7 @@ void npc_class::load( const JsonObject &jo, const std::string & )
             jo.throw_error( string_format( "invalid format for shopkeeper_item_group in npc class %s", name ) );
         }
     }
+    optional( jo, was_loaded, "shopkeeper_price_rules", shop_price_rules, faction_price_rules_reader {} );
     optional( jo, was_loaded, SHOPKEEPER_CONSUMPTION_RATES, shop_cons_rates_id,
               shopkeeper_cons_rates_id::NULL_ID() );
     optional( jo, was_loaded, SHOPKEEPER_BLACKLIST, shop_blacklist_id,
@@ -311,7 +312,7 @@ void npc_class::load( const JsonObject &jo, const std::string & )
     }
 
     optional( jo, was_loaded, "proficiencies", _starting_proficiencies );
-    optional( jo, was_loaded, "sells_belongings", sells_belongings );
+    optional( jo, was_loaded, "sells_belongings", sells_belongings, true );
     /* Mutation rounds can be specified as follows:
      *   "mutation_rounds": {
      *     "ANY" : { "constant": 1 },
@@ -428,6 +429,18 @@ const shopkeeper_blacklist &npc_class::get_shopkeeper_blacklist() const
         return null_blacklist;
     }
     return shop_blacklist_id.obj();
+}
+
+faction_price_rule const *npc_class::get_price_rules( item const &it, npc const &guy ) const
+{
+    auto const el = std::find_if(
+    shop_price_rules.crbegin(), shop_price_rules.crend(), [&it, &guy]( faction_price_rule const & fc ) {
+        return fc.matches( it, guy );
+    } );
+    if( el != shop_price_rules.crend() ) {
+        return &*el;
+    }
+    return nullptr;
 }
 
 const time_duration &npc_class::get_shop_restock_interval() const

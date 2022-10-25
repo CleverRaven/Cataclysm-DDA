@@ -1,6 +1,7 @@
 #include "creator_main_window.h"
 
 #include "spell_window.h"
+#include "item_group_window.h"
 #include "enum_conversions.h"
 #include "translations.h"
 #include "worldfactory.h"
@@ -19,6 +20,7 @@ namespace io
     {
         switch( data ) {
         case creator::jsobj_type::SPELL: return "Spell";
+        case creator::jsobj_type::item_group: return "Item group";
         case creator::jsobj_type::LAST: break;
         }
         debugmsg( "Invalid valid_target" );
@@ -33,23 +35,24 @@ int creator::main_window::execute( QApplication &app )
     const int default_text_box_height = 20;
     const int default_text_box_width = 100;
     const QSize default_text_box_size( default_text_box_width, default_text_box_height );
-
+    
     int row = 0;
     int col = 0;
     int max_row = 0;
     int max_col = 0;
-
-    QMainWindow title_menu;
-    spell_window spell_editor( &title_menu );
 
     //Does nothing on it's own but once settings.setvalue() is called it will create
     //an ini file in C:\Users\User\AppData\Roaming\CleverRaven or equivalent directory
     QSettings settings( QSettings::IniFormat, QSettings::UserScope,
                         "CleverRaven", "Cataclysm - DDA" );
 
-
     // =========================================================================================
     // first column of boxes
+    row = 0;
+
+    QMainWindow title_menu;
+    spell_window spell_editor( &title_menu );
+    item_group_window item_group_editor( &title_menu );
 
     QLabel mods_label;
     mods_label.setParent( &title_menu );
@@ -95,16 +98,30 @@ int creator::main_window::execute( QApplication &app )
     } );
 
 
+    // =========================================================================================
+    // second column of boxes
+    col++;
+
+    QPushButton item_group_button( _( "Item group Creator" ), &title_menu );
+    item_group_button.move( QPoint( col * default_text_box_width, row++ * default_text_box_height ) );
+    item_group_button.resize( 150, 30 );
+
+    QObject::connect( &item_group_button, &QPushButton::released,
+    [&]() {
+        title_menu.hide();
+        item_group_editor.show();
+    } );
 
     title_menu.show();
     spell_button.show();
+    item_group_button.show();
 
     row += 3;
     col += 6;
     max_row = std::max( max_row, row );
     max_col = std::max( max_col, col );
     title_menu.resize( QSize( ( max_col + 1 ) * default_text_box_width,
-                              ( max_row )*default_text_box_height ) );
+        ( max_row )*default_text_box_height ) );
 
 
     return app.exec();

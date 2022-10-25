@@ -10,8 +10,8 @@
 
 #include <string>
 
-static void check_reload_time( std::string weapon, std::string ammo,
-                               std::string container, int expected_moves )
+static void check_reload_time( const std::string &weapon, const std::string &ammo,
+                               const std::string &container, int expected_moves )
 {
     const tripoint test_origin( 60, 60, 0 );
     avatar &shooter = get_avatar();

@@ -1,6 +1,26 @@
 [
   {
     "type": "item_group",
+    "id": "afs_tools_space_emergency",
+    "//": "Emergency Firefighting and repair tools for inside an habitat or spaceship. Can get as specialized as needed.",
+    "subtype": "collection",
+    "items": [
+      {
+        "distribution": [ { "item": "extinguisher", "prob": 35 }, { "item": "throw_extinguisher", "prob": 75, "count": [ 3, 5 ] } ],
+        "prob": 100
+      },
+      { "item": "rebreather", "ammo-item": "rebreather_filter", "charges": 60, "prob": 75 },
+      { "distribution": [ { "item": "fire_ax", "prob": 20 }, { "item": "crash_axe", "prob": 80 } ], "prob": 30 },
+      {
+        "collection": [ { "item": "afs_foamgun" }, { "item": "afs_foam_tank", "ammo-item": "afs_foamcrete", "charges": 30, "prob": 100 } ],
+        "prob": 10
+      },
+      { "item": "afs_oxygen_candle", "prob": 75, "count": [ 2, 4 ] },
+      { "distribution": [ { "group": "full_ifak" }, { "group": "used_ifak" } ], "prob": 10 }
+    ]
+  },
+  {
+    "type": "item_group",
     "id": "afs_tools_robot_maintenance",
     "//": "tools used for fixing robots.",
     "items": [
