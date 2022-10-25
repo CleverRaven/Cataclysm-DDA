@@ -393,7 +393,6 @@
     "flags": [ "SILENT", "NO_EXPLOSION_SFX" ],
     "effect": "mod_moves",
     "shape": "blast",
-    "damage_type": "stab",
     "min_damage": -1000,
     "max_damage": -1,
     "damage_increment": 50,
