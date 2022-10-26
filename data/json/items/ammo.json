@@ -1120,21 +1120,6 @@
   },
   {
     "type": "AMMO",
-    "id": "gasfilter_l",
-    "category": "spare_parts",
-    "price": 2500,
-    "price_postapoc": 1000,
-    "name": { "str": "chemical mask cartridge" },
-    "symbol": "=",
-    "color": "light_gray",
-    "description": "Heavy replacement filter cartridge for air filtration masks.",
-    "volume": "250 ml",
-    "weight": "3 g",
-    "ammo_type": "gasfilter_l",
-    "count": 100
-  },
-  {
-    "type": "AMMO",
     "id": "nicotine_liquid",
     "category": "drugs",
     "price": 1000,
