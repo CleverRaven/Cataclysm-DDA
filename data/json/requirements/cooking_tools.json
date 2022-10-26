@@ -37,16 +37,17 @@
     "id": "dehydrating_heat",
     "type": "requirement",
     "//": "Power requirement to dehydrate 10g of food. Electric food dehydrators are about 30-35% efficient",
-    "//1": "Estimate given by dehydrating 3 lbs of bananas at 500w for 6 hours.",
+    "//1": "I am assuming the same 15% eff for charcoal as surface_heat. 6u charcoal is worth 187kJ base, then multiply by 15/35 to get 80kJ.",
+    "//2": "Estimate given by dehydrating 3 lbs of bananas for 6 hours (https://www.freshoffthegrid.com/dehydrating-bananas/), 500w is about normal for a dehydrator.",
     "tools": [ [ [ "dehydrator", 80 ], [ "char_smoker", 6 ] ] ]
   },
   {
     "id": "vacuum_sealing_standard",
     "type": "requirement",
-    "//": "Power requirement to seal one bag, 400w for 10 seconds.  Includes the bag.",
-    "//1": "Yes, they really are that cheap.",
+    "//": "Power requirement to seal one bag, 400w for 10 seconds.  Includes the bag which must be heat-resistant.",
+    "//1": "Yes, they really are that cheap, vacuum sealers are trivial to operate. However vacuum sealed bags are an ideal environment for botulinum growth.",
     "tools": [ [ [ "vac_sealer", 4 ], [ "makeshift_sealer", 8 ] ] ],
-    "components": [ [ [ "bag_plastic", 1 ], [ "plastic_bag_vac", 1 ] ] ]
+    "components": [ [ [ "pouch_autoclave", 1 ], [ "plastic_bag_vac", 1 ] ] ]
   },
   {
     "id": "frying_oil",
@@ -142,12 +143,19 @@
     "id": "canning_metal",
     "type": "requirement",
     "//": "Toolset required to seal a tin can.  Power costs of contents will need to reach 125c in order to kill botulinum, as usual.",
+    "//1": "The ingredients and the can are heated separately and then sealed while hot.",
+    "//2": "specific heat of steel is much lower than most food (420j vs 3-3.5kJ for meat) so surface_heat power cost of heating 1/8th or so",
+    "//3": "that puts cost at about 3 surface_heat for a large tin can (350g weight would be 24u if it was meat, so 24/8=3u), 1 each for small (40g) and medium (70g)",
+    "//4": "Double the surface_heat req for the food being cooked. using meat as a reference, temp is 25c->75c or so normally, but 25c->125c to kill botulinum",
+    "//5": "to reduce clutter, add 3u of surface_heat this + 2x the normal cooking cost for a large tin can, and 1u surface_heat + 2x cooking cost for small/medium",
+    "//6": "as an example, canning a large tin can of meat would be 12x20x2 = 480u surface_heat + 3u heat (12,075kJ if done by induction, compare this to 28,800kJ to dehydrate)",
     "qualities": [
       { "id": "SAW_M", "level": 1 },
-      { "id": "HAMMER", "level": 1 },
+      { "id": "HAMMER", "level": 2 },
       { "id": "CUT", "level": 2 },
       { "id": "COOK", "level": 3 }
     ],
-    "tools": [ [ [ "can_sealer", -1 ] ] ]
+    "tools": [ [ [ "can_sealer", -1 ] ] ],
+    "components": [ [ [ "scrap", 1 ] ] ]
   }
 ]
