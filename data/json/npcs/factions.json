@@ -303,6 +303,7 @@
     "food_supply": 115200,
     "wealth": 10000000,
     "currency": "FMCNote",
+    "price_rules": [ { "item": "money_strap_FMCNote", "fixed_adj": 0 }, { "item": "money_bundle_FMCNote", "fixed_adj": 0 } ],
     "relations": {
       "free_merchants": {
         "kill on sight": false,
@@ -332,6 +333,7 @@
     "food_supply": 4000,
     "wealth": 100000,
     "currency": "FMCNote",
+    "price_rules": [ { "item": "money_strap_FMCNote", "fixed_adj": 0 }, { "item": "money_bundle_FMCNote", "fixed_adj": 0 } ],
     "relations": {
       "free_merchants": {
         "kill on sight": false,
@@ -528,6 +530,10 @@
       "marloss": { "kill on sight": true },
       "hells_raiders": { "kill on sight": true }
     },
+    "epilogues": [
+      { "power_min": 0, "power_max": 149, "id": "epilogue_faction_valhallists_0" },
+      { "power_min": 150, "id": "epilogue_faction_valhallists_150" }
+    ],
     "description": "A band of people practicing 'Asatro' or 'Forn Sidr'; the worship of the Norse pantheon.  Thay have the common goal of recruiting new members, entering Valhalla, and exterminating the Marloss Evangelists; whom they deem heretics."
   },
   {
@@ -624,6 +630,10 @@
       },
       "hells_raiders": { "kill on sight": true }
     },
+    "epilogues": [
+      { "power_min": 0, "power_max": 149, "id": "epilogue_faction_isherwoods_0" },
+      { "power_min": 150, "id": "epilogue_faction_isherwoods_150" }
+    ],
     "description": "A small family surviving on their generational land."
   },
   {
@@ -782,6 +792,10 @@
       "hells_raiders": { "kill on sight": true },
       "marloss": { "kill on sight": true }
     },
+    "epilogues": [
+      { "power_min": 0, "power_max": 149, "id": "epilogue_faction_lapin_0" },
+      { "power_min": 150, "id": "epilogue_faction_lapin_150" }
+    ],
     "description": "Mr. Lapin and any acolytes he may have gathered in the apocalypse."
   },
   {
@@ -828,6 +842,10 @@
       "old_guard": { "kill on sight": true },
       "your_followers": { "kill on sight": false }
     },
+    "epilogues": [
+      { "power_min": 0, "power_max": 149, "id": "epilogue_faction_prisoners_0" },
+      { "power_min": 150, "id": "epilogue_faction_prisoners_150" }
+    ],
     "description": "Former prisoners who got their freedom during the apocalypse."
   },
   {
@@ -906,6 +924,10 @@
         "knows your voice": true
       }
     },
+    "epilogues": [
+      { "power_min": 0, "power_max": 149, "id": "epilogue_faction_exodii_0" },
+      { "power_min": 150, "id": "epilogue_faction_exodii_150" }
+    ],
     "description": "A tribe of scavengers and survivors that have been through this before, and sacrificed what they must to make it through."
   }
 ]

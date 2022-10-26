@@ -28,9 +28,10 @@ static const itype_id itype_test_extension_cable( "test_extension_cable" );
 static const itype_id itype_test_power_cord( "test_power_cord" );
 
 static const vpart_id vpart_ap_test_standing_lamp( "ap_test_standing_lamp" );
+static const vpart_id vpart_bike_rack( "bike_rack" );
 
 static const vproto_id vehicle_prototype_bicycle( "bicycle" );
-static const vproto_id vehicle_prototype_car_rack( "car_rack" );
+static const vproto_id vehicle_prototype_car( "car" );
 static const vproto_id vehicle_prototype_wheelchair( "wheelchair" );
 
 TEST_CASE( "detaching_vehicle_unboards_passengers", "[vehicle]" )
@@ -560,6 +561,7 @@ struct rack_activation {
 struct rack_preset {
     std::vector<vproto_id> vehicles;            // vehicles to spawn, index matching positions/facings
     std::vector<tripoint> positions;            // spawned vehicle position
+    std::vector<point> install_racks;           // install racks on first vehicle at these mounts
     std::vector<units::angle> facings;          // spawned vehicle facing
     std::vector<rack_activation> rack_orders;   // racking orders
     std::vector<rack_activation> unrack_orders; // unracking orders
@@ -585,8 +587,13 @@ static void rack_check( const rack_preset &preset )
         vehicle *veh_ptr = m.add_vehicle( preset.vehicles[i], preset.positions[i],
                                           preset.facings[i], 0, 0 );
         REQUIRE( veh_ptr != nullptr );
+        veh_ptr->refresh();
         vehs.push_back( veh_ptr );
         veh_names.push_back( veh_ptr->name );
+    }
+
+    for( const point &rack_pos : preset.install_racks ) {
+        vehs[0]->install_part( rack_pos, vpart_bike_rack );
     }
 
     for( const rack_activation &rack_act : preset.rack_orders ) {
@@ -624,8 +631,8 @@ static void rack_check( const rack_preset &preset )
         } else {
             REQUIRE( error ==
                      "vehicle named Foldable wheelchair is already racked on this vehicle"
-                     "racking actor failed: failed racking Foldable wheelchair on Car "
-                     "with Bike Rack, racks: [82, 79, and 73]." );
+                     "racking actor failed: failed racking Foldable wheelchair on Car, "
+                     "racks: [130, 117, and 91]." );
         }
 
         const optional_vpart_position ovp_racked = m.veh_at(
@@ -682,9 +689,10 @@ TEST_CASE( "Racking and unracking tests", "[vehicle]" )
     std::vector<rack_preset> racking_presets {
         // basic test; rack bike on car, unrack it, everything should succeed
         {
-            { vehicle_prototype_car_rack, vehicle_prototype_bicycle },
-            { tripoint_zero,              tripoint( -4, 0, 0 ) },
-            { 0_degrees,                  90_degrees },
+            { vehicle_prototype_car, vehicle_prototype_bicycle },
+            { tripoint_zero,         tripoint( -4, 0, 0 ) },
+            { point( -3, -1 ), point( -3, 0 ), point( -3, 1 ), point( -3, 2 ) },
+            { 0_degrees,             90_degrees },
 
             { { 0, tripoint( -3, -1, 0 ), 1, false } }, // rack bicycle to car
             { { 0, tripoint( -3, -1, 0 ), 1, false } }, // unrack bicycle from car
@@ -692,9 +700,10 @@ TEST_CASE( "Racking and unracking tests", "[vehicle]" )
         // rack test probing for #60453 and #52079
         // racking vehicles with same name on ( potentially ) same rack should expect failures
         {
-            { vehicle_prototype_car_rack, vehicle_prototype_wheelchair, vehicle_prototype_wheelchair },
-            { tripoint_zero,              tripoint( -4, 0, 0 ),         tripoint( -4, 1, 0 )         },
-            { 0_degrees,                  0_degrees,                    0_degrees                    },
+            { vehicle_prototype_car, vehicle_prototype_wheelchair, vehicle_prototype_wheelchair },
+            { tripoint_zero,         tripoint( -4, 0, 0 ),         tripoint( -4, 1, 0 )         },
+            { point( -3, -1 ), point( -3, 0 ), point( -3, 1 ), point( -3, 2 ) },
+            { 0_degrees,             0_degrees,                    0_degrees                    },
 
             // rack both wheelchairs to car, second rack activation should fail with debugmsg
             { { 0, tripoint( -3, 0, 0 ), 1, false }, { 0, tripoint( -3, -1, 0 ), 2, true } },

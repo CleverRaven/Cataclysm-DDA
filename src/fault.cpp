@@ -46,6 +46,7 @@ void fault::load_fault( const JsonObject &jo )
         optional( jo_method, false, "description", m.description, f.description_ );
         mandatory( jo_method, false, "success_msg", m.success_msg );
         mandatory( jo_method, false, "time", m.time );
+        optional( jo_method, false, "set_variables", m.set_variables );
 
         for( const JsonObject jo_skill : jo_method.get_array( "skills" ) ) {
             skill_id sk_id;
@@ -55,14 +56,21 @@ void fault::load_fault( const JsonObject &jo )
 
         if( jo_method.has_string( "requirements" ) ) {
             mandatory( jo_method, false, "requirements", m.requirements );
-        } else {
+        } else if( jo_method.has_object( "requirements" ) ) {
             JsonObject jo_req = jo_method.get_object( "requirements" );
-            m.requirements = requirement_id( m.id );
-            requirement_data::load_requirement( jo_req, m.requirements );
+            requirement_id req_id = requirement_id( m.id );
+            requirement_data::load_requirement( jo_req, req_id );
+            m.requirements.emplace_back( req_id, 1 );
+        } else {
+            for( const JsonValue &jv : jo_method.get_array( "requirements" ) ) {
+                const JsonArray &req = static_cast<JsonArray>( jv );
+                m.requirements.emplace_back( requirement_id( req.get_string( 0 ) ), req.get_int( 1 ) );
+            }
         }
 
         optional( jo_method, false, "turns_into", m.turns_into, cata::nullopt );
         optional( jo_method, false, "also_mends", m.also_mends, cata::nullopt );
+        optional( jo_method, false, "heal_stages", m.heal_stages, cata::nullopt );
 
         f.mending_methods_.emplace( m.id, m );
     }
@@ -90,9 +98,11 @@ void fault::check_consistency()
 {
     for( const auto &f : faults_all ) {
         for( const auto &m : f.second.mending_methods_ ) {
-            if( !m.second.requirements.is_valid() ) {
-                debugmsg( "fault %s has invalid requirement id %s for mending method %s",
-                          f.second.id_.str(), m.second.requirements.str(), m.first );
+            for( const auto &r : m.second.requirements ) {
+                if( !r.first.is_valid() ) {
+                    debugmsg( "fault %s has invalid requirement id %s for mending method %s",
+                              f.second.id_.str(), r.first.str(), m.first );
+                }
             }
             if( m.second.time < 0_turns ) {
                 debugmsg( "fault %s requires negative mending time for mending method %s",
@@ -118,4 +128,14 @@ void fault::check_consistency()
             }
         }
     }
+}
+
+requirement_data mending_method::get_requirements() const
+{
+    requirement_data rd;
+    for( const std::pair<requirement_id, int> &req_pair : requirements ) {
+        rd = rd + req_pair.first.obj() * static_cast<uint32_t>( req_pair.second );
+    }
+    rd.consolidate();
+    return rd;
 }

@@ -71,7 +71,7 @@
     "replace": "pistol_magnum_pipe"
   },
   {
-    "id": [ "rm228", "sw_619", "ruger_redhawk", "sw629", "bfr", "sw_500", "raging_bull", "raging_judge" ],
+    "id": [ "rm228", "sw_619", "mr73", "ruger_redhawk", "sw629", "bfr", "sw_500", "raging_bull", "raging_judge" ],
     "type": "MIGRATION",
     "replace": "pistol_magnum_revolver"
   },

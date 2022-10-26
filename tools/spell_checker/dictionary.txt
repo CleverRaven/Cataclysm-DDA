@@ -5,6 +5,7 @@ abso
 acausal
 accurize
 accurized
+achelousaurus
 acidball
 acrocanthosaurus
 acrylamide
@@ -15,6 +16,7 @@ aerially
 aeterna
 aetheric
 afterbirth
+afterglow
 afterimage
 afterlife
 aftermarket
@@ -43,10 +45,11 @@ alkahest
 alkalis
 alkyl
 alleghaniensis
-allosaurus
 allosaurid
+allosaurus
 allucination
 alnico
+alquerque
 altamente
 alternators
 alumentum
@@ -58,6 +61,7 @@ ampersand
 amphibole
 amt
 analogues
+anchisaurus
 andom
 anglerfish
 anglic
@@ -128,6 +132,7 @@ autoselect
 autoshotgun
 avin
 avy
+awared
 axolotl
 aztlani
 b
@@ -147,6 +152,7 @@ barding
 barebones
 barghest
 barkin
+barosaurus
 basecamp
 basecamps
 baselard
@@ -157,6 +163,7 @@ batching
 batlike
 batrachian
 bday
+beaked
 beartrap
 beebalm
 beeeeeeeeep
@@ -253,6 +260,7 @@ bugout
 builtin
 bulette
 bullhead
+bullheads
 bullpup
 burdocks
 burette
@@ -297,18 +305,23 @@ cecalia
 cegamente
 centerdamage
 centric
+centrosaurus
 cepa
+cephalopod
 cephalothorax
 ceratopsian
 ceratosaurus
 cere
 cerium
+cesti
 cestus
 chainmail
 chamberings
 champed
 channnnce
 chasin
+chasmosaurus
+chaturanga
 chausses
 cheapshot
 cheescutter
@@ -375,6 +388,7 @@ consecrator
 consistence
 const
 constabulario
+contorts
 controllability
 conversando
 cookin
@@ -394,6 +408,7 @@ craftable
 craftsfolk
 craftswoman
 craftwork
+crappie
 creeply
 creped
 cresent
@@ -425,6 +440,7 @@ cyberdog
 cyberterror
 cybug
 cyphers
+cyprinids
 d
 dagnabbit
 dambreaker
@@ -523,6 +539,7 @@ dryptosaurus
 drywalled
 dunderfuck
 dyoplosaurus
+dysmorphia
 dysrhythmia
 earthbag
 earthbags
@@ -536,6 +553,7 @@ edmontosaurus
 eeds
 efault
 eidolon
+einiosaurus
 elderberries
 electrochemistry
 electrohack
@@ -553,6 +571,7 @@ encumbers
 endochitin
 endolymph
 ener
+enervating
 enjoyability
 envenomations
 eocs
@@ -576,6 +595,7 @@ esters
 estoc
 estocs
 ethereally
+euoplocephalus
 eusocial
 evacs
 everburning
@@ -586,6 +606,7 @@ exchangeable
 exodii
 exosuit
 exosuits
+expansionary
 explodin
 explosivity
 extensible
@@ -609,6 +630,7 @@ falx
 falxes
 familiaris
 famoso
+fanbase
 fance
 fanfictions
 farmwork
@@ -678,6 +700,7 @@ foodplace
 footgear
 foregrip
 foregrips
+foreleg
 forestock
 forgemaster
 forgnottedn
@@ -731,6 +754,7 @@ gasbomb
 gasgun
 gasmask
 gastank
+gastonia
 gastrolith
 geddoff
 genecraft
@@ -769,7 +793,10 @@ greaseproof
 greatbow
 greatclub
 greatclubs
+greatsword
+greatswords
 greenways
+gridded
 grindle
 grinny
 grnd
@@ -788,6 +815,7 @@ gutskin
 guvnah
 gymnocladus
 h
+hadrosaur
 hadrosaurus
 haematopoiesis
 haft
@@ -814,6 +842,8 @@ hauberk
 hauberks
 hbhbh
 hdd
+headwear
+healthiness
 heartlike
 heatsink
 heatsinks
@@ -837,11 +867,13 @@ hivemind
 hjklyubn
 hmm
 hmmm
+hnefatafl
 hollowpoint
 holybook
 homebrewing
 homovorus
 honeygold
+hooved
 hosomaki
 hotcut
 hotkey
@@ -854,6 +886,7 @@ hrmmm
 hsh
 hsss
 https
+hued
 hulled
 humaniform
 humaniforms
@@ -864,6 +897,7 @@ hunllef
 hydria
 hydrogel
 hygrometer
+hypacrosaurus
 hyperaggressive
 hypergeometric
 hypervitaminosis
@@ -923,6 +957,7 @@ j
 jabberwock
 jabberwocks
 jackolantern
+jackstraws
 jawless
 jerrypack
 jewelboxes
@@ -1000,9 +1035,11 @@ l
 labbit
 lactobacillus
 lajatang
+lambeosaurus
 lamellar
 landshark
 langourous
+latrunculi
 latticed
 lavrae
 lawd
@@ -1029,9 +1066,9 @@ lifestraw
 lightnin
 lightsource
 lightstrip
-limbed
 lilypad
 lilypads
+limbed
 listlessly
 lithely
 litheness
@@ -1200,6 +1237,7 @@ myrmidon
 mythologically
 n
 nable
+nagamaki
 nailboard
 nakha
 nanocompound
@@ -1256,6 +1294,7 @@ nodachi
 nodosaurus
 noisiness
 nomex
+nonfunctional
 nonpareils
 nonrevealing
 nonsedated
@@ -1295,6 +1334,7 @@ ornithomimid
 ornithomimus
 orrery
 oryctodromeus
+osho
 otes
 otha
 otherland
@@ -1319,6 +1359,9 @@ pachycephalosaurus
 pachyrhinosaurus
 packable
 paf
+palpably
+palpitate
+panoplosaurus
 papyrifera
 parabellum
 parabolan
@@ -1354,6 +1397,7 @@ peytral
 phelloderm
 phelloderms
 phenotypes
+phenotypic
 phenotypical
 phenotypically
 phloem
@@ -1364,11 +1408,11 @@ photochromic
 photodiode
 photophore
 phthalocyanine
-phenotypic
 phyle
 physicochemical
 picatinny
 pickelhaube
+pickerel
 pickhead
 pickin
 piezomechanical
@@ -1434,6 +1478,7 @@ proficiencies
 profusive
 promptus
 propyl
+prosaurolophus
 proten
 prybar
 pseudopods
@@ -1448,6 +1493,7 @@ pts
 pufts
 pukers
 pumpkinseed
+pumpkinseeds
 purslane
 purviews
 pushmower
@@ -1510,7 +1556,7 @@ reckonin
 recolherem
 recrafted
 recursively
-recurve 
+recurve
 redcaps
 redear
 redits
@@ -1526,6 +1572,7 @@ remodulator
 rended
 renderer
 renfaires
+renfield
 rennet
 replow
 reprime
@@ -1552,6 +1599,7 @@ rhytidomes
 ribbonlike
 ridged
 riendly
+rightmost
 rigida
 riotbot
 riskin
@@ -1598,6 +1646,7 @@ sapience
 sarahsaurus
 sarracenia
 satirizes
+saurolophus
 sauropelta
 sauropod
 saurornitholestes
@@ -1611,6 +1660,7 @@ scatterer
 scimitars
 scissorlimbs
 sclerotin
+scolosaurus
 scrabblin
 screecher
 screechin
@@ -1624,6 +1674,7 @@ seguiram
 semiaquatic
 sendin
 sendo
+senet
 serendipitously
 serrate
 servomotors
@@ -1641,11 +1692,13 @@ sharksuits
 shatteringly
 shedded
 sheetmetal
+shitstorms
 shitweasel
 shlip
 shlop
 shoddiness
 shoggoth
+shogi
 shopkeep
 shoppette
 shorthair
@@ -1746,6 +1799,7 @@ starrin
 std
 steeltoed
 steerable
+stego
 stegoceras
 stegosaurus
 stegosaurusfindsrobot
@@ -1773,6 +1827,7 @@ struthiomimus
 stungun
 stupidass
 stylette
+styracosaurus
 subcutis
 subgun
 sublethal
@@ -1834,6 +1889,7 @@ telepad
 telepads
 temaki
 tems
+tenontosaurus
 tenuously
 terpenes
 terranean
@@ -1898,6 +1954,7 @@ tricorne
 trifacet
 trifacets
 trilaser
+trilobite
 tripcore
 troglobite
 troodon
@@ -1905,6 +1962,7 @@ troublin
 tryphillum
 tshirt
 tshk
+tsumi
 ttitude
 tumescences
 tundras
@@ -1940,6 +1998,7 @@ undulates
 uneasing
 unfavorite
 unfermented
+unfixable
 unflavored
 unfoldable
 ungraspable
@@ -1969,6 +2028,7 @@ unspecialized
 unstocked
 untampered
 untargeted
+untired
 untyped
 unwield
 unwieldiness
@@ -1987,12 +2047,12 @@ utilibot
 uttarasanga
 v
 vajra
+valhallist
 vambraces
 vantablack
 varanid
 vars
 vatgrown
-valhallist
 vaulters
 veggy
 venandi
@@ -2022,6 +2082,7 @@ wammles
 wanderin
 wantin
 warframe
+wargame
 warhammer
 warmouth
 wastebread
@@ -2068,6 +2129,7 @@ wk
 wolfshead
 woodchips
 woodcutting
+woodlouse
 woodsmanship
 workcycle
 workshifts
@@ -2120,8 +2182,8 @@ zombullfrogs
 zpzzzzpzz
 zubon
 zuul
+zweitimber
+zweitimbers
 zygomaticus
 zzz
 zzzzchzzzzchurzzzpileus
-trilobite
-woodlouse

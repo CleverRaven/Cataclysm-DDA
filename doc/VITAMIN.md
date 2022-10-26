@@ -15,7 +15,8 @@
   "rate": "15 m",
   "flags": [ "FOO" ],
   "disease": [ [ -4800, -5600 ], [ -5601, -6400 ], [ -6401, -12000 ] ],
-  "disease_excess": [ [ 10, 19 ], [ 20, 29 ], [ 30, 40 ] ]
+  "disease_excess": [ [ 10, 19 ], [ 20, 29 ], [ 30, 40 ] ],
+  "decays_into": [ "calcium", 2 ]
 },
 ```
 ### `id`
@@ -70,6 +71,14 @@ Each tier of deficiency corresponds to the intensity level of the effect defined
 What the thresholds of excess of this vitamin are.
 Each pair in the list determines the start and end points of that tier of excess.
 Each tier of excess corresponds to the intensity level of the effect defined in `excess`.
+
+
+### `decays_into`
+Whenever this vitamin is naturally metabolized, it can adjust the levels of other vitamins in the body.
+Each pair in the list contains a vitamin ID and a number, with the number representing how much that vitamin will be adjusted by when this vitamin is metabolized by one unit.
+In the provided example, each unit of iron will decay into two units of calcium; four units of iron decays into eight units of calcium, and so on.
+Negative values can be used to purge existing vitamins from the body, instead of adding them.
+This only happens with natural decay, as determined by `rate`; other sources of vitamin removal won't cause this to trigger.
 
 ## flags
 

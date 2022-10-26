@@ -28,7 +28,7 @@ TEST_CASE( "name_generation", "[name]" )
 {
     GIVEN( "Names loaded from tests/data/name.json" ) {
         Name::clear();
-        Name::load_from_file( "tests/data/name.json" );
+        Name::load_from_file( PATH_INFO::base_path_path() / "tests" / "data" / "name.json" );
         WHEN( "Getting a town name" ) {
             auto name = Name::get( nameFlags::IsTownName );
             CHECK( name == "City" );

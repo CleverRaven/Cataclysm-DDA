@@ -44,7 +44,7 @@
       { "x": -2, "y": -1, "parts": [ "frame_vertical_left", "board_vertical_left", "roof" ] },
       { "x": -2, "y": 0, "parts": [ "frame_cross", "box", "roof" ] },
       { "x": -2, "y": 1, "parts": [ "frame_cross", "reclining_seat", "roof" ] },
-      { "x": -2, "y": 2, "parts": [ "frame_cross", "lit_aisle_vertical", "roof" ] },
+      { "x": -2, "y": 2, "parts": [ "frame_cross", "aisle", "aisle_lights", "roof" ] },
       { "x": -2, "y": 3, "parts": [ "frame_vertical_right", "door_opaque_full_right", "roof" ] },
       { "x": -3, "y": -1, "parts": [ "frame_vertical_left", "board_vertical_left", "roof" ] },
       { "x": -3, "y": 0, "parts": [ "frame_cross", "box", "roof" ] },

@@ -296,7 +296,7 @@ bool Creature::is_dangerous_fields( const field &fld ) const
 {
     // Else check each field to see if it's dangerous to us
     for( const auto &dfield : fld ) {
-        if( is_dangerous_field( dfield.second ) ) {
+        if( is_dangerous_field( dfield.second ) && !is_immune_field( dfield.first ) ) {
             return true;
         }
     }
@@ -1152,7 +1152,7 @@ dealt_damage_instance Creature::deal_damage( Creature *source, bodypart_id bp,
 
     dealt_damage_instance dealt_dams;
     const weakpoint *wp = absorb_hit( attack_copy, bp, d );
-    dealt_dams.wp_hit = wp == nullptr ? "" : wp->name;
+    dealt_dams.wp_hit = wp == nullptr ? "" : wp->get_name();
 
     // Add up all the damage units dealt
     for( const damage_unit &it : d.damage_units ) {
@@ -1750,6 +1750,11 @@ std::string Creature::get_value( const std::string &key ) const
 {
     auto it = values.find( key );
     return ( it == values.end() ) ? "" : it->second;
+}
+
+void Creature::clear_values()
+{
+    values.clear();
 }
 
 void Creature::mod_pain( int npain )

@@ -122,6 +122,7 @@ void pocket_data::load( const JsonObject &jo )
     optional( jo, was_loaded, "ammo_restriction", ammo_restriction );
     optional( jo, was_loaded, "flag_restriction", flag_restrictions );
     optional( jo, was_loaded, "item_restriction", item_id_restriction );
+    optional( jo, was_loaded, "material_restriction", material_restriction );
     optional( jo, was_loaded, "allowed_speedloaders", allowed_speedloaders );
     optional( jo, was_loaded, "default_magazine", default_magazine );
     optional( jo, was_loaded, "description", description );
@@ -1026,6 +1027,21 @@ void item_pocket::general_info( std::vector<iteminfo> &info, int pocket_number,
 
     info.emplace_back( base_type_str, _( "Base moves to remove item: " ),
                        "<num>", iteminfo::lower_is_better, data->moves );
+
+    if( !data->material_restriction.empty() ) {
+        std::string materials;
+        bool first = true;
+        for( material_id mat : data->material_restriction ) {
+            if( first ) {
+                materials += mat.obj().name();
+                first = false;
+            } else {
+                materials += ", " + mat.obj().name();
+            }
+        }
+        info.emplace_back( "DESCRIPTION", string_format( _( "Allowed materials: %s" ), materials ) );
+    }
+
     if( data->rigid ) {
         info.emplace_back( "DESCRIPTION", _( "This pocket is <info>rigid</info>." ) );
     }
@@ -1246,9 +1262,11 @@ ret_val<item_pocket::contain_code> item_pocket::is_compatible( const item &it ) 
         }
     }
 
-    if( !data->item_id_restriction.empty() || !data->get_flag_restrictions().empty() ) {
+    if( !data->item_id_restriction.empty() || !data->get_flag_restrictions().empty() ||
+        !data->material_restriction.empty() ) {
         if( data->item_id_restriction.count( it.typeId() ) == 0 &&
-            !it.has_any_flag( data->get_flag_restrictions() ) ) {
+            !it.has_any_flag( data->get_flag_restrictions() ) &&
+            !data->material_restriction.count( it.get_base_material().id ) ) {
             return ret_val<item_pocket::contain_code>::make_failure( contain_code::ERR_FLAG,
                     _( "holster does not accept this item type or form factor" ) );
         }
@@ -1866,8 +1884,8 @@ bool item_pocket::can_unload_liquid() const
     return will_spill() || !cts_is_frozen_liquid;
 }
 
-int item_pocket::fill_with( const item &contained, int amount, bool allow_unseal,
-                            bool ignore_settings )
+int item_pocket::fill_with( const item &contained, Character &guy, int amount,
+                            bool allow_unseal, bool ignore_settings )
 {
     int num_contained = 0;
 
@@ -1896,10 +1914,13 @@ int item_pocket::fill_with( const item &contained, int amount, bool allow_unseal
     if( contained_item.charges == 0 ) {
         return 0;
     }
+
+    contained_item.handle_pickup_ownership( guy );
     if( !insert_item( contained_item ).success() ) {
         debugmsg( "charges per remaining pocket volume does not fit in that very volume" );
         return 0;
     }
+
     num_contained += contained_item.charges;
     if( allow_unseal ) {
         unseal();
@@ -1912,13 +1933,18 @@ std::list<item> &item_pocket::edit_contents()
     return contents;
 }
 
-ret_val<item_pocket::contain_code> item_pocket::insert_item( const item &it )
+ret_val<item_pocket::contain_code> item_pocket::insert_item( const item &it,
+        const bool into_bottom )
 {
     ret_val<item_pocket::contain_code> ret = !is_standard_type() ?
             ret_val<item_pocket::contain_code>::make_success() : can_contain( it );
 
     if( ret.success() ) {
-        contents.push_front( it );
+        if( !into_bottom ) {
+            contents.push_front( it );
+        } else {
+            contents.push_back( it );
+        }
         restack();
     }
     return ret;

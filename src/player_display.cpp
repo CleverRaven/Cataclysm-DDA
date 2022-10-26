@@ -1281,7 +1281,9 @@ static bool handle_player_display_action( Character &you, unsigned int &line,
         ++info_line;
         ui_info.invalidate_ui();
     } else if( action == "MEDICAL_MENU" ) {
-        you.as_avatar()->disp_medical();
+        if( you.is_avatar() ) {
+            you.as_avatar()->disp_medical();
+        }
     }
     return done;
 }

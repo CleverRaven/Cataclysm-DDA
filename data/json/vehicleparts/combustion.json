@@ -186,7 +186,6 @@
         "using": [ [ "repair_welding_standard", 1 ], [ "repair_welding_alloys", 1 ], [ "vehicle_wrench_2", 1 ], [ "vehicle_screw", 1 ] ]
       }
     },
-    "extend": { "flags": [ "FOLDABLE" ] },
     "damage_reduction": { "all": 40 }
   },
   {
@@ -215,7 +214,6 @@
         "using": [ [ "repair_welding_standard", 2 ], [ "repair_welding_alloys", 1 ], [ "vehicle_wrench_2", 1 ], [ "vehicle_screw", 1 ] ]
       }
     },
-    "extend": { "flags": [ "FOLDABLE" ] },
     "damage_reduction": { "all": 40 }
   },
   {
@@ -245,7 +243,6 @@
         "using": [ [ "repair_welding_standard", 1 ], [ "vehicle_wrench_2", 1 ], [ "vehicle_screw", 1 ] ]
       }
     },
-    "extend": { "flags": [ "FOLDABLE" ] },
     "damage_reduction": { "all": 40 }
   },
   {
@@ -428,7 +425,6 @@
         "using": [ [ "repair_welding_standard", 1 ], [ "repair_welding_alloys", 1 ], [ "vehicle_wrench_2", 1 ], [ "vehicle_screw", 1 ] ]
       }
     },
-    "extend": { "flags": [ "FOLDABLE" ] },
     "damage_reduction": { "all": 60 }
   },
   {

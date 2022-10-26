@@ -27,7 +27,7 @@
     "volume": "1 ml",
     "weight": "1 mg",
     "color": "white",
-    "flags": [ "TRADER_AVOID" ],
+    "flags": [ "TRADER_AVOID", "NO_DROP" ],
     "phase": "liquid",
     "ammo_type": "butane"
   },
@@ -150,6 +150,7 @@
     "weight": "135 mg",
     "//": "Density of 2.7 g/cm3",
     "ammo_type": "components",
+    "flags": [ "NO_REPAIR" ],
     "count": 200
   },
   {
@@ -233,6 +234,7 @@
     "looks_like": "thread",
     "description": "Wool yarn, could be used to knit wool clothing.",
     "material": [ "wool" ],
+    "flags": [ "NO_SALVAGE" ],
     "volume": "250 ml",
     "weight": "1 g",
     "ammo_type": "thread",
@@ -814,6 +816,7 @@
     "color": "dark_gray",
     "description": "Primer from a small caliber pistol round.",
     "material": [ "steel", "powder" ],
+    "looks_like": "shotgun_primer",
     "volume": "250 ml",
     "weight": "1 g",
     "ammo_type": "components",
@@ -831,6 +834,7 @@
     "color": "dark_gray",
     "description": "Primer from a large caliber pistol round.",
     "material": [ "steel", "powder" ],
+    "looks_like": "shotgun_primer",
     "volume": "250 ml",
     "weight": "1 g",
     "ammo_type": "components",
@@ -848,6 +852,7 @@
     "color": "dark_gray",
     "description": "Primer from a small caliber rifle round.",
     "material": [ "steel", "powder" ],
+    "looks_like": "shotgun_primer",
     "volume": "250 ml",
     "weight": "1 g",
     "ammo_type": "components",
@@ -865,6 +870,7 @@
     "color": "dark_gray",
     "description": "Primer from a large caliber rifle round.",
     "material": [ "steel", "powder" ],
+    "looks_like": "shotgun_primer",
     "volume": "250 ml",
     "weight": "1 g",
     "ammo_type": "components",
@@ -1028,7 +1034,7 @@
     "material": [ "plastic" ],
     "volume": "1 ml",
     "weight": "1 mg",
-    "flags": [ "TRADER_AVOID" ],
+    "flags": [ "TRADER_AVOID", "NO_DROP" ],
     "phase": "gas",
     "ammo_type": "albuterol"
   },
@@ -1319,6 +1325,7 @@
     "description": "Mixture of oxygen and nitrogen in proportions suitable for diving.",
     "volume": "250 ml",
     "weight": "1 g",
+    "flags": [ "TRADER_AVOID", "NO_DROP" ],
     "phase": "gas",
     "ammo_type": "nitrox"
   },

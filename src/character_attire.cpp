@@ -25,9 +25,6 @@ static const flag_id json_flag_ONE_PER_LAYER( "ONE_PER_LAYER" );
 
 static const itype_id itype_shoulder_strap( "shoulder_strap" );
 
-static const material_id material_cotton( "cotton" );
-static const material_id material_leather( "leather" );
-static const material_id material_nomex( "nomex" );
 static const material_id material_wool( "wool" );
 
 static const trait_id trait_ANTENNAE( "ANTENNAE" );
@@ -99,8 +96,7 @@ ret_val<void> Character::can_wear( const item &it, bool with_equip_change ) cons
             }
         }
         if( it.covers( body_part_head ) && !it.has_flag( flag_SEMITANGIBLE ) &&
-            !it.made_of( material_wool ) && !it.made_of( material_cotton ) &&
-            !it.made_of( material_nomex ) && !it.made_of( material_leather ) &&
+            it.is_rigid() &&
             ( has_trait( trait_HORNS_POINTED ) || has_trait( trait_ANTENNAE ) ||
               has_trait( trait_ANTLERS ) ) ) {
             return ret_val<void>::make_failure( _( "Cannot wear a helmet over %s." ),
@@ -747,12 +743,15 @@ static void layer_item( std::map<bodypart_id, encumbrance_data> &vals, const ite
          * Setting layering_encumbrance to 0 at this point makes the item cease to exist
          * for the purposes of the layer penalty system. (normally an item has a minimum
          * layering_encumbrance of 2 )
+         * Personal layer items and semitangible items do not conflict.
          */
         if( it.has_flag( flag_SEMITANGIBLE ) ) {
             encumber_val = 0;
             layering_encumbrance = 0;
         }
-
+        if( it.has_flag( flag_PERSONAL ) ) {
+            layering_encumbrance = 0;
+        }
         for( layer_level item_layer : item_layers ) {
             // do the sublayers of this armor conflict
             bool conflicts = false;
@@ -1664,19 +1663,6 @@ void outfit::get_overlay_ids( std::vector<std::pair<std::string, std::string>> &
     }
 }
 
-bool outfit::in_climate_control() const
-{
-    for( const item &w : worn ) {
-        if( w.active && w.is_power_armor() ) {
-            return true;
-        }
-        if( w.has_flag( flag_CLIMATE_CONTROL ) ) {
-            return true;
-        }
-    }
-    return false;
-}
-
 std::list<item>::iterator outfit::position_to_wear_new_item( const item &new_item )
 {
     // By default we put this item on after the last item on the same or any
@@ -1753,10 +1739,8 @@ void outfit::absorb_damage( Character &guy, damage_unit &elem, bodypart_id bp,
     // if this body part has sub part locations roll one
     if( !bp->sub_parts.empty() ) {
         sbp = bp->random_sub_part( false );
-        // the torso has a second layer of hanging body parts
-        if( bp == body_part_torso ) {
-            secondary_sbp = bp->random_sub_part( true );
-        }
+        // the torso nad legs has a second layer of hanging body parts
+        secondary_sbp = bp->random_sub_part( true );
     }
 
     // generate a single roll for determining if hit
@@ -1800,7 +1784,7 @@ void outfit::absorb_damage( Character &guy, damage_unit &elem, bodypart_id bp,
                 // if this armor has sublocation data test against it instead of just a generic roll
                 destroy = guy.armor_absorb( elem, armor, bp, sbp, roll );
                 // for the torso we also need to consider if it hits anything hanging off the character or their neck
-                if( bp == body_part_torso ) {
+                if( secondary_sbp != sub_bodypart_id() ) {
                     destroy = guy.armor_absorb( elem, armor, bp, secondary_sbp, roll );
                 }
 
@@ -1876,7 +1860,7 @@ std::map<bodypart_id, int> outfit::warmth( const Character &guy ) const
     return total_warmth;
 }
 
-std::unordered_set<bodypart_id> outfit::where_discomfort() const
+std::unordered_set<bodypart_id> outfit::where_discomfort( const Character &guy ) const
 {
     // get all rigid body parts to begin with
     std::unordered_set<sub_bodypart_id> covered_sbps;
@@ -1892,8 +1876,17 @@ std::unordered_set<bodypart_id> outfit::where_discomfort() const
             // note anything selectively rigid reasonably can be assumed to support itself so we don't need to worry about this
             // items must also be somewhat heavy in order to cause discomfort
             if( !i.is_bp_rigid_selective( sbp ) && !i.is_bp_comfortable( sbp ) &&
-                covered_sbps.count( sbp ) != 1 && i.weight() > units::from_gram( 250 ) ) {
-                uncomfortable_bps.insert( sbp->parent );
+                i.weight() > units::from_gram( 250 ) ) {
+
+                // need to go through each locations under location to check if its covered, since secondary locations can cover multiple underlying locations
+                for( const sub_bodypart_str_id &under_sbp : sbp->locations_under ) {
+                    if( covered_sbps.count( under_sbp ) != 1 ) {
+                        guy.add_msg_if_player(
+                            string_format( _( "<color_c_red> the %s rubs uncomfortably against your unpadded %s </color>" ),
+                                           i.display_name(), under_sbp->name ) );
+                        uncomfortable_bps.insert( sbp->parent );
+                    }
+                }
             }
         }
     }
@@ -2297,7 +2290,7 @@ void outfit::add_stash( Character &guy, const item &newit, int &remaining_charge
             if( amount <= num_contained || remaining_charges <= 0 ) {
                 break;
             }
-            const int filled_count = pocket->fill_with( newit, remaining_charges, false, false );
+            const int filled_count = pocket->fill_with( newit, guy, remaining_charges, false, false );
             num_contained += filled_count;
             remaining_charges -= filled_count;
         }

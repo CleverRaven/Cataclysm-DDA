@@ -805,10 +805,10 @@ class map
         // terrain. Additional overrides can be passed in to override terrain
         // at specific positions. This is used to display terrain overview in
         // the map editor.
-        uint8_t get_known_connections( const tripoint &p, int connect_group,
+        uint8_t get_known_connections( const tripoint &p, const std::bitset<NUM_TERCONN> &connect_group,
                                        const std::map<tripoint, ter_id> &override = {} ) const;
         // as above, but for furniture
-        uint8_t get_known_connections_f( const tripoint &p, int connect_group,
+        uint8_t get_known_connections_f( const tripoint &p, const std::bitset<NUM_TERCONN> &connect_group,
                                          const std::map<tripoint, furn_id> &override = {} ) const;
 
         // Return a bitfield of the adjacent tiles which rotate towards the given
@@ -818,10 +818,10 @@ class map
         // Based on the true terrain.
         // Additional overrides can be passed in to override terrain
         // at specific positions.
-        uint8_t get_known_rotates_to( const tripoint &p, int rotate_to_group,
+        uint8_t get_known_rotates_to( const tripoint &p, const std::bitset<NUM_TERCONN> &rotate_to_group,
                                       const std::map<tripoint, ter_id> &override = {} ) const;
         // as above, but for furniture (considers neighbouring terrain and furniture)
-        uint8_t get_known_rotates_to_f( const tripoint &p, int rotate_to_group,
+        uint8_t get_known_rotates_to_f( const tripoint &p, const std::bitset<NUM_TERCONN> &rotate_to_group,
                                         const std::map<tripoint, ter_id> &override = {},
                                         const std::map<tripoint, furn_id> &override_f = {} ) const;
 
@@ -1235,7 +1235,7 @@ class map
             i_rem( tripoint( p, abs_sub.z() ), it );
         }
         void spawn_artifact( const tripoint &p, const relic_procgen_id &id, int max_attributes = 5,
-                             int power_level = 1000, int max_negative_power = -2000 );
+                             int power_level = 1000, int max_negative_power = -2000, bool is_resonant = false );
         void spawn_item( const tripoint &p, const itype_id &type_id,
                          unsigned quantity = 1, int charges = 0,
                          const time_point &birthday = calendar::start_of_cataclysm, int damlevel = 0,

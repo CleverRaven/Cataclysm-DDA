@@ -49,6 +49,7 @@
 #include "butchery_requirements.h"
 #include "cached_options.h"
 #include "cata_assert.h"
+#include "cata_scope_helpers.h"
 #include "cata_utility.h"
 #include "cata_variant.h"
 #include "catacharset.h"
@@ -258,6 +259,7 @@ static const itype_id itype_towel_wet( "towel_wet" );
 
 static const json_character_flag json_flag_CLIMB_NO_LADDER( "CLIMB_NO_LADDER" );
 static const json_character_flag json_flag_HYPEROPIC( "HYPEROPIC" );
+static const json_character_flag json_flag_INFECTION_IMMUNE( "INFECTION_IMMUNE" );
 static const json_character_flag json_flag_NYCTOPHOBIA( "NYCTOPHOBIA" );
 static const json_character_flag json_flag_WALL_CLING( "WALL_CLING" );
 static const json_character_flag json_flag_WEB_RAPPEL( "WEB_RAPPEL" );
@@ -292,7 +294,6 @@ static const trait_id trait_BADKNEES( "BADKNEES" );
 static const trait_id trait_CENOBITE( "CENOBITE" );
 static const trait_id trait_ILLITERATE( "ILLITERATE" );
 static const trait_id trait_INATTENTIVE( "INATTENTIVE" );
-static const trait_id trait_INFIMMUNE( "INFIMMUNE" );
 static const trait_id trait_INFRESIST( "INFRESIST" );
 static const trait_id trait_LEG_TENT_BRACE( "LEG_TENT_BRACE" );
 static const trait_id trait_MASOCHIST( "MASOCHIST" );
@@ -555,7 +556,7 @@ void game::load_core_data( loading_ui &ui )
     load_data_from_dir( PATH_INFO::jsondir(), "core", ui );
 }
 
-void game::load_data_from_dir( const std::string &path, const std::string &src, loading_ui &ui )
+void game::load_data_from_dir( const cata_path &path, const std::string &src, loading_ui &ui )
 {
     DynamicDataLoader::get_instance().load_data_from_path( path, src, ui );
 }
@@ -2627,6 +2628,10 @@ bool game::is_game_over()
     }
     // is_dead_state() already checks hp_torso && hp_head, no need to for loop it
     if( u.is_dead_state() ) {
+        effect_on_conditions::prevent_death();
+        if( !u.is_dead_state() ) {
+            return false;
+        }
         effect_on_conditions::avatar_death();
         if( !u.is_dead_state() ) {
             return false;
@@ -2707,9 +2712,9 @@ void game::move_save_to_graveyard()
 
 void game::load_master()
 {
-    const auto datafile = PATH_INFO::world_base_save_path() + "/" + SAVE_MASTER;
-    read_from_file_optional( datafile, [this]( std::istream & is ) {
-        unserialize_master( is );
+    const cata_path datafile = PATH_INFO::world_base_save_path_path() / SAVE_MASTER;
+    read_from_file_optional( datafile, [this, &datafile]( std::istream & is ) {
+        unserialize_master( datafile, is );
     } );
 }
 
@@ -2745,17 +2750,16 @@ bool game::load( const save_t &name )
     ui_manager::redraw();
     refresh_display();
 
-    const std::string worldpath = PATH_INFO::world_base_save_path() + "/";
-    const std::string playerpath = worldpath + name.base_path();
+    const cata_path worldpath = PATH_INFO::world_base_save_path_path();
+    const cata_path save_file_path = PATH_INFO::world_base_save_path_path() /
+                                     ( name.base_path() + SAVE_EXTENSION );
 
     // Now load up the master game data; factions (and more?)
     load_master();
     u = avatar();
     u.set_save_id( name.decoded_name() );
-    const std::string save_filename = playerpath + SAVE_EXTENSION;
-    if( !read_from_file( save_filename,
-    [this, &save_filename]( std::istream & is ) {
-    unserialize( is, save_filename );
+    if( !read_from_file( save_file_path, [this, &save_file_path]( std::istream & is ) {
+    unserialize( is, save_file_path );
     } ) ) {
         return false;
     }
@@ -2763,17 +2767,16 @@ bool game::load( const save_t &name )
     u.load_map_memory();
     u.get_avatar_diary()->load();
 
-    const std::string log_filename = worldpath + name.base_path() + SAVE_EXTENSION_LOG;
-    read_from_file_optional( log_filename,
-    [this, &log_filename]( std::istream & is ) {
-        memorial().load( is, log_filename );
+    const cata_path log_filename = worldpath / ( name.base_path() + SAVE_EXTENSION_LOG );
+    read_from_file_optional( log_filename.get_unrelative_path(), [this]( std::istream & is ) {
+        memorial().load( is );
     } );
 
 #if defined(__ANDROID__)
-    const std::string shortcuts_filename = worldpath + name.base_path() + SAVE_EXTENSION_SHORTCUTS;
-    read_from_file_optional( shortcuts_filename, [this, &shortcuts_filename]( std::istream & is ) {
-        load_shortcuts( is, shortcuts_filename );
-    } );
+    const cata_path shortcuts_filename = worldpath / ( name.base_path() + SAVE_EXTENSION_SHORTCUTS );
+    if( file_exist( shortcuts_filename ) ) {
+        load_shortcuts( shortcuts_filename );
+    }
 #endif
 
     // Now that the player's worn items are updated, their sight limits need to be
@@ -2792,9 +2795,8 @@ bool game::load( const save_t &name )
     get_auto_notes_settings().load( true ); // Load character auto notes settings
     get_safemode().load_character(); // Load character safemode rules
     zone_manager::get_manager().load_zones(); // Load character world zones
-    read_from_file_optional( PATH_INFO::world_base_save_path() + "/uistate.json", [](
-    std::istream & stream ) {
-        JsonIn jsin( stream );
+    read_from_file_optional_json( PATH_INFO::world_base_save_path_path() / "uistate.json", [](
+    const JsonValue & jsin ) {
         uistate.deserialize( jsin.get_object() );
     } );
     reload_npcs();
@@ -2829,7 +2831,8 @@ bool game::load( const save_t &name )
     calendar::set_eternal_day( ::get_option<std::string>( "ETERNAL_TIME_OF_DAY" ) == "day" );
 
     u.reset();
-
+    u.recalculate_enchantment_cache();
+    u.enchantment_cache->activate_passive( u );
     events().send<event_type::game_load>( getVersionString() );
     time_of_last_load = std::chrono::steady_clock::now();
     time_played_at_last_load = std::chrono::seconds( 0 );
@@ -2880,7 +2883,7 @@ void game::load_world_modfiles( loading_ui &ui )
     load_packs( _( "Loading files" ), mods, ui );
 
     // Load additional mods from that world-specific folder
-    load_data_from_dir( PATH_INFO::world_base_save_path() + "/mods", "custom", ui );
+    load_data_from_dir( PATH_INFO::world_base_save_path_path() / "mods", "custom", ui );
 
     DynamicDataLoader::get_instance().finalize_loaded_data( ui );
 }
@@ -4765,7 +4768,7 @@ bool game::find_nearby_spawn_point( const tripoint &target, const mtype_id &mt, 
     tripoint target_point;
     //find a legal outdoor place to spawn based on the specified radius,
     //we just try a bunch of random points and use the first one that works, it none do then no spawn
-    for( int attempts = 0; attempts < 15; attempts++ ) {
+    for( int attempts = 0; attempts < 75; attempts++ ) {
         target_point = target + tripoint( rng( -max_radius, max_radius ),
                                           rng( -max_radius, max_radius ), 0 );
         if( can_place_monster( monster( mt->id ), target_point ) &&
@@ -8026,14 +8029,32 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
             if( !u.sees( u.pos() + active_pos ) ) {
                 add_msg( _( "You can't see that destination." ) );
             }
-            auto route = m.route( u.pos_bub(), u.pos_bub() + active_pos,
-                                  u.get_pathfinding_settings(), u.get_path_avoid() );
-            if( route.size() > 1 ) {
-                route.pop_back();
-                u.set_destination( route );
+            if( rl_dist( tripoint_zero, active_pos ) <= 1 ) {
+                break; // no need to move anywhere, already near destination
+            }
+            using route_t = std::vector<tripoint_bub_ms>;
+            const auto get_shorter_route = [&]( const route_t &a, const route_t &b ) {
+                // if one route is empty return the non-empty one
+                // if both non empty return shortest length in tiles
+                // if both equal length in tile return shortest in distance
+                return a.empty() ? b
+                       : b.empty() ? a
+                       : a.size() != b.size() ? ( a.size() < b.size() ? a : b )
+                       : ( rl_dist_exact( a.back().raw(), u.pos() ) < rl_dist_exact( b.back().raw(), u.pos() ) ? a : b );
+            };
+            route_t shortest_route;
+            for( const tripoint_bub_ms &p : m.points_in_radius( u.pos_bub() + active_pos, 1, 0 ) ) {
+                const route_t route = m.route( u.pos_bub(), p, u.get_pathfinding_settings(), u.get_path_avoid() );
+                if( route.empty() ) {
+                    continue;
+                }
+                shortest_route = get_shorter_route( shortest_route, route );
+            }
+            if( !shortest_route.empty() ) {
+                u.set_destination( shortest_route );
                 break;
             } else {
-                add_msg( m_info, _( "You can't travel there." ) );
+                popup( _( "You can't travel there." ) );
             }
         }
         if( uistate.list_item_sort == 1 ) {
@@ -9209,17 +9230,11 @@ void game::reload( item_location &loc, bool prompt, bool empty )
     }
 
     if( opt ) {
-        int moves = opt.moves();
-        if( loc->get_var( "dirt", 0 ) > 7800 ) {
+        const int extra_moves = loc->get_var( "dirt", 0 ) > 7800 ? 2500 : 0;
+        if( extra_moves > 0 ) {
             add_msg( m_warning, _( "You struggle to reload the fouled %s." ), loc->tname() );
-            moves += 2500;
         }
-        std::vector<item_location> targets;
-        targets.push_back( opt.target );
-        targets.push_back( std::move( opt.ammo ) );
-
-        u.assign_activity( player_activity( reload_activity_actor( moves, opt.qty(), targets ) ) );
-
+        u.assign_activity( player_activity( reload_activity_actor( std::move( opt ), extra_moves ) ) );
     }
 }
 
@@ -9304,16 +9319,14 @@ void game::reload_weapon( bool try_everything )
         return;
     }
     // If we make it here and haven't found anything to reload, start looking elsewhere.
-    vehicle *veh = veh_pointer_or_null( m.veh_at( u.pos() ) );
-    turret_data turret;
-    if( veh && ( turret = veh->turret_query( u.pos() ) ) && turret.can_reload() ) {
-        item::reload_option opt = u.select_ammo( turret.base(), true );
-        std::vector<item_location> targets;
-        if( opt ) {
-            const int moves = opt.moves();
-            targets.push_back( opt.target );
-            targets.push_back( std::move( opt.ammo ) );
-            u.assign_activity( player_activity( reload_activity_actor( moves, opt.qty(), targets ) ) );
+    const optional_vpart_position ovp = m.veh_at( u.pos() );
+    if( ovp ) {
+        const turret_data turret = ovp->vehicle().turret_query( ovp->pos() );
+        if( turret.can_reload() ) {
+            item::reload_option opt = u.select_ammo( turret.base(), true );
+            if( opt ) {
+                u.assign_activity( player_activity( reload_activity_actor( std::move( opt ) ) ) );
+            }
         }
         return;
     }
@@ -9475,18 +9488,28 @@ bool game::check_safe_mode_allowed( bool repeat_safe_mode_warnings )
         get_safemode().lastmon_whitelist = get_safemode().npc_type_name();
     } else if( new_seen_mon.size() == 1 ) {
         const shared_ptr_fast<monster> &mon = new_seen_mon.back();
+        const std::string dist_text = string_format( _( "%d tiles" ), rl_dist( u.pos(), mon->pos() ) );
         //~ %s: Cardinal/ordinal direction ("east")
         const std::string dir_text = string_format( _( "to the %s" ),
                                      colorize( direction_name( direction_from( u.pos(), mon->pos() ) ), dir_color ) );
-        //~ %1$s: Monster name ("headless zombie"), %2$s: direction text ("to the east")
-        spotted_creature_text = string_format( pgettext( "monster description", "%1$s %2$s" ),
+        //~ %1$s: Name of monster spotted ("headless zombie")
+        //~ %2$s: Distance to monster ("17 tiles")
+        //~ %3$s: Description of where the monster is ("to the east")
+        spotted_creature_text = string_format( pgettext( "monster description", "%1$s %2$s %3$s" ),
                                                colorize( mon->name(), mon_color ),
+                                               dist_text,
                                                dir_text );
         get_safemode().lastmon_whitelist = mon->name();
     } else {
-        // We've got multiple monsters to inform about. Find the most frequent type to call out by name.
+        // We've got multiple monsters to inform about.
+        // Find the range of distances.
+        int min_dist = INT_MAX;
+        int max_dist = 0;
+        // Find the most frequent type to call out by name.
         std::unordered_map<std::string, std::vector<const monster *>> mons_by_name;
         for( const shared_ptr_fast<monster> &mon : new_seen_mon ) {
+            min_dist = std::min( min_dist, rl_dist( u.pos(), mon->pos() ) );
+            max_dist = std::max( min_dist, rl_dist( u.pos(), mon->pos() ) );
             mons_by_name[mon->name()].push_back( mon.get() );
         }
         const std::vector<const monster *> &most_frequent_mon = std::max_element( mons_by_name.begin(),
@@ -9498,6 +9521,12 @@ bool game::check_safe_mode_allowed( bool repeat_safe_mode_warnings )
         const std::string most_frequent_mon_text = colorize( most_frequent_mon.size() > 1 ?
                 string_format( "%d %s",
                                most_frequent_mon.size(), mon->name( most_frequent_mon.size() ) ) : mon->name(), mon_color );
+
+        const std::string dist_text = min_dist == max_dist ?
+                                      //~ %d: Distance to all monsters ("7")
+                                      string_format( _( "%d tiles" ), max_dist ) :
+                                      //~ %d, %d: Minimum and Maximum distance to the monsters ("5"; "20")
+                                      string_format( _( "%d-%d tiles" ), min_dist, max_dist );
 
         // If they're all in one or two directions, let's call that out.
         // Otherwise, we can say they're in "various directions", so it's clear they aren't clustered.
@@ -9532,9 +9561,11 @@ bool game::check_safe_mode_allowed( bool repeat_safe_mode_warnings )
         }
 
         //~ %1$s: Description of primary monster spotted ("3 fat zombies")
-        //~ %2$s: Description of where the primary monster is ("to the east and south")
-        //~ %3$s: Description of any other monsters spotted (" and 4 others")
-        spotted_creature_text = string_format( _( "%1$s %2$s%3$s" ),  most_frequent_mon_text,
+        //~ %2$s: Description of how far away the monsters are ("7 tiles" or "5-20 tiles")
+        //~ %3$s: Description of where the primary monster is ("to the east and south")
+        //~ %4$s: Description of any other monsters spotted (" and 4 others")
+        spotted_creature_text = string_format( _( "%1$s %2$s %3$s%4$s" ),  most_frequent_mon_text,
+                                               dist_text,
                                                dir_text,
                                                other_mon_text );
         get_safemode().lastmon_whitelist = mon->name();
@@ -10069,7 +10100,7 @@ point game::place_player( const tripoint &dest_loc )
                          body_part_name_accusative( bp ),
                          m.has_flag_ter( ter_furn_flag::TFLAG_SHARP, dest_loc ) ? m.tername( dest_loc ) : m.furnname(
                              dest_loc ) );
-                if( !u.has_trait( trait_INFIMMUNE ) ) {
+                if( !u.has_flag( json_flag_INFECTION_IMMUNE ) ) {
                     const int chance_in = u.has_trait( trait_INFRESIST ) ? 1024 : 256;
                     if( one_in( chance_in ) ) {
                         u.add_effect( effect_tetanus, 1_turns, true );
@@ -10793,10 +10824,10 @@ void game::on_move_effects()
     // TODO: Move this to a character method
     if( !u.is_mounted() ) {
         const item muscle( "muscle" );
-        for( const bionic_id &bid : u.get_bionic_fueled_with( muscle ) ) {
+        for( const bionic_id &bid : u.get_bionic_fueled_with_muscle() ) {
             if( u.has_active_bionic( bid ) ) {// active power gen
                 u.mod_power_level( muscle.fuel_energy() * bid->fuel_efficiency );
-            } else if( u.has_bionic( bid ) ) {// passive power gen
+            } else {// passive power gen
                 u.mod_power_level( muscle.fuel_energy() * bid->passive_fuel_efficiency );
             }
         }
@@ -10848,7 +10879,7 @@ void game::water_affect_items( Character &ch ) const
                    && !loc.protected_from_liquids() ) {
             wet.emplace_back( loc );
         } else if( loc->typeId() == itype_towel && !loc.protected_from_liquids() ) {
-            loc->convert( itype_towel_wet );
+            loc->convert( itype_towel_wet ).active = true;
         }
     }
 
@@ -11221,7 +11252,7 @@ void game::vertical_move( int movez, bool force, bool peeking )
         return;
     }
 
-    if( !u.move_effects( false ) ) {
+    if( !u.move_effects( false ) && !force ) {
         u.moves -= 100;
         return;
     }
@@ -12111,31 +12142,8 @@ void game::autosave()
 
 void game::start_calendar()
 {
-    time_duration initial_days;
-    // Initial day is the time of the Cataclysm. Limit it to occur on the first year.
-    if( get_option<int>( "INITIAL_DAY" )  == -1 ) {
-        initial_days = 1_days * rng( 0, get_option<int>( "SEASON_LENGTH" ) * 4 - 1 );
-    } else {
-        initial_days = 1_days * std::min( get_option<int>( "INITIAL_DAY" ),
-                                          get_option<int>( "SEASON_LENGTH" ) * 4 );
-    }
-    calendar::start_of_cataclysm = calendar::turn_zero + initial_days;
-
-    if( scen->custom_start_date() ) {
-        calendar::start_of_game = calendar::turn_zero
-                                  + 1_hours * scen->start_hour()
-                                  + 1_days * scen->start_day();
-        if( calendar::start_of_game < calendar::start_of_cataclysm ) {
-            // If the Cataclysm has been set to happen late or the scenario has random start it may try to start before the Cataclysm happens.
-            // That is unacceptable. So lets just jump to same day on next year.
-            calendar::start_of_game += calendar::year_length();
-        }
-    } else {
-        calendar::start_of_game = calendar::start_of_cataclysm
-                                  + 1_hours * get_option<int>( "INITIAL_TIME" )
-                                  + 1_days * get_option<int>( "SPAWN_DELAY" );
-    }
-
+    calendar::start_of_cataclysm = scen->start_of_cataclysm();
+    calendar::start_of_game = scen->start_of_game();
     calendar::turn = calendar::start_of_game;
     calendar::initial_season = static_cast<season_type>( ( to_days<int>( calendar::start_of_game -
                                calendar::turn_zero ) / get_option<int>( "SEASON_LENGTH" ) ) % 4 );
@@ -12267,12 +12275,25 @@ std::string PATH_INFO::player_base_save_path()
     return PATH_INFO::world_base_save_path() + "/" + base64_encode( get_avatar().get_save_id() );
 }
 
+cata_path PATH_INFO::player_base_save_path_path()
+{
+    return PATH_INFO::world_base_save_path_path() / base64_encode( get_avatar().get_save_id() );
+}
+
 std::string PATH_INFO::world_base_save_path()
 {
     if( world_generator->active_world == nullptr ) {
         return PATH_INFO::savedir();
     }
     return world_generator->active_world->folder_path();
+}
+
+cata_path PATH_INFO::world_base_save_path_path()
+{
+    if( world_generator->active_world == nullptr ) {
+        return PATH_INFO::savedir_path();
+    }
+    return world_generator->active_world->folder_path_path();
 }
 
 void game::shift_destination_preview( const point &delta )
@@ -12453,6 +12474,7 @@ const scenario *get_scenario()
 }
 void set_scenario( const scenario *new_scenario )
 {
+    new_scenario->rerandomize();
     g->scen = new_scenario;
 }
 

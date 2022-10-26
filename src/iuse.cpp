@@ -62,6 +62,7 @@
 #include "itype.h"
 #include "iuse_actor.h" // For firestarter
 #include "json.h"
+#include "json_loader.h"
 #include "line.h"
 #include "make_static.h"
 #include "map.h"
@@ -240,6 +241,7 @@ static const flag_id json_flag_POWER_CORD( "POWER_CORD" );
 
 static const furn_str_id furn_f_aluminum_stepladder( "f_aluminum_stepladder" );
 static const furn_str_id furn_f_ladder( "f_ladder" );
+static const furn_str_id furn_f_translocator_buoy( "f_translocator_buoy" );
 
 static const itype_id itype_advanced_ecig( "advanced_ecig" );
 static const itype_id itype_afs_atomic_smartphone( "afs_atomic_smartphone" );
@@ -1525,7 +1527,7 @@ cata::optional<int> iuse::mycus( Character *p, item *, bool, const tripoint & )
     } else if( p->has_trait( trait_THRESH_MYCUS ) &&
                !p->has_trait( trait_M_DEPENDENT ) ) { // OK, now set the hook.
         if( !one_in( 3 ) ) {
-            p->mutate_category( mutation_category_MYCUS );
+            p->mutate_category( mutation_category_MYCUS, false, true );
             p->mod_stored_kcal( -87 );
             p->mod_thirst( 10 );
             p->mod_fatigue( 5 );
@@ -3814,31 +3816,31 @@ cata::optional<int> iuse::grenade_inc_act( Character *p, item *it, bool t, const
 
 cata::optional<int> iuse::molotov_lit( Character *p, item *it, bool t, const tripoint &pos )
 {
-    if( pos.x == -999 || pos.y == -999 ) {
-        return cata::nullopt;
-    } else if( !t ) {
-        map &here = get_map();
-        for( const tripoint &pt : here.points_in_radius( pos, 1, 0 ) ) {
-            const int intensity = 1 + one_in( 3 ) + one_in( 5 );
-            here.add_field( pt, fd_fire, intensity );
+    if( !t ) { // The Molotov is no longer active
+        if( it->charges > 0 ) { // Because the player tried to light it again
+            p->add_msg_if_player( m_info, _( "You've already lit the %s, try throwing it instead." ),
+                                  it->tname() );
+            return cata::nullopt;
+        } else { // It ran out of charges because it was thrown or dropped, so burst into flames
+            map &here = get_map();
+            for( const tripoint &pt : here.points_in_radius( pos, 1, 0 ) ) {
+                const int intensity = 1 + one_in( 3 ) + one_in( 5 );
+                here.add_field( pt, fd_fire, intensity );
+            }
+            if( p->has_trait( trait_PYROMANIA ) ) {
+                p->add_morale( MORALE_PYROMANIA_STARTFIRE, 15, 15, 8_hours, 6_hours );
+                p->rem_morale( MORALE_PYROMANIA_NOFIRE );
+                p->add_msg_if_player( m_good, _( "Fire…  Good…" ) );
+            }
+            return 1;
         }
-        if( p->has_trait( trait_PYROMANIA ) ) {
-            p->add_morale( MORALE_PYROMANIA_STARTFIRE, 15, 15, 8_hours, 6_hours );
-            p->rem_morale( MORALE_PYROMANIA_NOFIRE );
-            p->add_msg_if_player( m_good, _( "Fire…  Good…" ) );
-        }
-        return 1;
-    } else if( it->charges > 0 ) {
-        p->add_msg_if_player( m_info, _( "You've already lit the %s, try throwing it instead." ),
-                              it->tname() );
-        return cata::nullopt;
     } else if( p->has_item( *it ) && it->charges == 0 ) {
+        // Add a charge to stay lit, but has a 20% chance of going out harmlessly.
         it->charges += 1;
         if( one_in( 5 ) ) {
             p->add_msg_if_player( _( "Your lit Molotov goes out." ) );
             it->convert( itype_molotov ).active = false;
         }
-        return 0;
     }
     return 0;
 }
@@ -4776,7 +4778,7 @@ cata::optional<int> iuse::blood_draw( Character *p, item *it, bool, const tripoi
     if( !drew_blood && query_yn( _( "Draw your own blood?" ) ) ) {
         p->add_msg_if_player( m_info, _( "You drew your own blood…" ) );
         drew_blood = true;
-        blood_temp = units::from_celcius( 37 );
+        blood_temp = units::from_celsius( 37 );
         if( p->has_trait( trait_ACIDBLOOD ) ) {
             acid_blood = true;
         }
@@ -5158,7 +5160,7 @@ cata::optional<int> iuse::handle_ground_graffiti( Character &p, item *it, const 
     map &here = get_map();
     string_input_popup popup;
     std::string message = popup
-                          .title( prefix + " " + _( "(To delete, clear the text and confirm)" ) )
+                          .description( prefix + " " + _( "(To delete, clear the text and confirm)" ) )
                           .text( here.has_graffiti_at( where ) ? here.graffiti_at( where ) : std::string() )
                           .identifier( "graffiti" )
                           .query_string();
@@ -7141,8 +7143,11 @@ static bool item_read_extended_photos( item &it, std::vector<extended_photo_def>
                                        const std::string &var_name, bool insert_at_begin )
 {
     bool result = false;
-    std::istringstream extended_photos_data( it.get_var( var_name ) );
-    JsonIn json( extended_photos_data );
+    cata::optional<JsonValue> json_opt = json_loader::from_string_opt( it.get_var( var_name ) );
+    if( !json_opt.has_value() ) {
+        return result;
+    }
+    JsonValue &json = *json_opt;
     if( insert_at_begin ) {
         std::vector<extended_photo_def> temp_vec;
         result = json.read( temp_vec );
@@ -7221,9 +7226,14 @@ static bool show_photo_selection( Character &p, item &it, const std::string &var
     return true;
 }
 
-cata::optional<int> iuse::camera( Character *p, item *it, bool, const tripoint & )
+cata::optional<int> iuse::camera( Character *p, item *it, bool t, const tripoint & )
 {
     enum {c_shot, c_photos, c_monsters, c_upload};
+
+    // From item processing
+    if( t ) {
+        return cata::nullopt;
+    }
 
     // CAMERA_NPC_PHOTOS is old save variable
     bool found_extended_photos = !it->get_var( "CAMERA_NPC_PHOTOS" ).empty() ||
@@ -7607,6 +7617,34 @@ cata::optional<int> iuse::ehandcuffs( Character *p, item *it, bool t, const trip
     }
 
     return 1;
+}
+
+cata::optional<int> iuse::afs_translocator( Character *p, item *it, bool, const tripoint & )
+{
+    if( !it->ammo_sufficient( p ) ) {
+        return cata::nullopt;
+    }
+
+    const cata::optional<tripoint> dest_ = choose_adjacent( _( "Create buoy where?" ) );
+    if( !dest_ ) {
+        return cata::nullopt;
+    }
+
+    tripoint dest = *dest_;
+
+    p->moves -= to_moves<int>( 2_seconds );
+
+    map &here = get_map();
+    if( here.impassable( dest ) || here.has_flag( ter_furn_flag::TFLAG_NO_FLOOR, dest ) ||
+        here.has_furn( dest ) ) {
+        add_msg( m_info, _( "The %s, emits a short angry beep." ), it->tname() );
+        return cata::nullopt;
+    } else {
+        here.furn_set( dest, furn_f_translocator_buoy );
+        add_msg( m_info, _( "Space warps momentarily as the %s is created." ),
+                 furn_f_translocator_buoy.obj().name() );
+        return  1;
+    }
 }
 
 cata::optional<int> iuse::foodperson( Character *p, item *it, bool t, const tripoint &pos )
@@ -8585,6 +8623,8 @@ cata::optional<int> iuse::cable_attach( Character *p, item *it, bool, const trip
 
     const std::string choose_ups = _( "Choose UPS:" );
     const std::string dont_have_ups = _( "You don't have any UPS." );
+    const std::string choose_solar = _( "Choose solar panel:" );
+    const std::string dont_have_solar = _( "You don't have any solar panels." );
 
     const auto set_cable_active = []( Character * p, item * it, const std::string & state ) {
         const std::string prev_state = it->get_var( "state" );
@@ -8592,11 +8632,6 @@ cata::optional<int> iuse::cable_attach( Character *p, item *it, bool, const trip
         it->active = true;
         it->process( get_map(), p, p->pos() );
         p->moves -= 15;
-
-        if( !prev_state.empty() && ( prev_state == "cable_charger" || ( prev_state != "attach_first" &&
-                                     ( state == "cable_charger_link" || state == "cable_charger" ) ) ) ) {
-            p->find_remote_fuel();
-        }
     };
     map &here = get_map();
     if( initial_state == "attach_first" ) {
@@ -8621,6 +8656,18 @@ cata::optional<int> iuse::cable_attach( Character *p, item *it, bool, const trip
                 p->add_msg_if_player( m_info, _( "You attach the cable to your Cable Charger System." ) );
                 return 0;
             } else if( choice == 2 ) {
+                auto solar_filter = [&]( const item & itm ) {
+                    return itm.has_flag( flag_SOLARPACK_ON );
+                };
+                if( you != nullptr )                     {
+                    loc = game_menus::inv::titled_filter_menu( solar_filter, *you, choose_solar, dont_have_solar );
+                }
+                if( !loc ) {
+                    add_msg( _( "Never mind" ) );
+                    return cata::nullopt;
+                }
+                item &chosen = *loc;
+                chosen.set_var( "cable", "plugged_in" );
                 set_cable_active( p, it, "solar_pack" );
                 p->add_msg_if_player( m_info, _( "You attach the cable to the solar pack." ) );
                 return 0;
@@ -8705,7 +8752,6 @@ cata::optional<int> iuse::cable_attach( Character *p, item *it, bool, const trip
         if( choice < 0 ) {
             return cata::nullopt; // we did nothing.
         } else if( choice == 0 ) { // unconnect & respool
-            p->reset_remote_fuel();
             it->reset_cable( p );
             return 0;
         } else if( choice == 2 ) { // connect self while other end already connected
@@ -8731,6 +8777,18 @@ cata::optional<int> iuse::cable_attach( Character *p, item *it, bool, const trip
             return 0;
         } else if( choice == 3 ) {
             // connecting self to solar backpack
+            auto solar_filter = [&]( const item & itm ) {
+                return itm.has_flag( flag_SOLARPACK_ON );
+            };
+            if( you != nullptr )                     {
+                loc = game_menus::inv::titled_filter_menu( solar_filter, *you, choose_solar, dont_have_solar );
+            }
+            if( !loc ) {
+                add_msg( _( "Never mind" ) );
+                return cata::nullopt;
+            }
+            item &chosen = *loc;
+            chosen.set_var( "cable", "plugged_in" );
             set_cable_active( p, it, "solar_pack_link" );
             p->add_msg_if_player( m_good, _( "You are now plugged to the solar backpack." ) );
             return 0;
@@ -8827,11 +8885,6 @@ cata::optional<int> iuse::cord_attach( Character *p, item *it, bool, const tripo
         it->active = true;
         it->process( get_map(), p, p->pos() );
         p->moves -= 15;
-
-        if( !prev_state.empty() && ( prev_state == "cable_charger" || ( prev_state != "attach_first" &&
-                                     ( state == "cable_charger_link" || state == "cable_charger" ) ) ) ) {
-            p->find_remote_fuel();
-        }
     };
     map &here = get_map();
     if( initial_state == "attach_first" ) {
@@ -8884,7 +8937,6 @@ cata::optional<int> iuse::cord_attach( Character *p, item *it, bool, const tripo
         if( choice < 0 ) {
             return cata::nullopt; // we did nothing.
         } else if( choice == 0 ) { // unconnect & respool
-            p->reset_remote_fuel();
             it->reset_cable( p );
             return 0;
         }
@@ -9695,9 +9747,14 @@ cata::optional<int> iuse::magic_8_ball( Character *p, item *it, bool, const trip
     return 0;
 }
 
-cata::optional<int> iuse::electricstorage( Character *p, item *it, bool, const tripoint & )
+cata::optional<int> iuse::electricstorage( Character *p, item *it, bool t, const tripoint & )
 {
     if( p->is_npc() ) {
+        return cata::nullopt;
+    }
+
+    // From item processing
+    if( t ) {
         return cata::nullopt;
     }
 
