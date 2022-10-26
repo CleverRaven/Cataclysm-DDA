@@ -2,6 +2,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_CONSUMED_BLOOD_TREATMENT",
+    "//": "Should resist and reverse some of the early stages of the vampire virus.",
     "condition": { "u_has_effect": "blood_treatment" },
     "effect": [
       { "u_add_effect": "blood_treatment", "duration": "16 hours" },
@@ -101,6 +102,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_vampire_virus_escalation",
+    "//": "This EOC controls the speed at which vampires mutate and evolve.",
     "recurrence": [ "48 hours", "72 hours 15 minutes" ],
     "condition": { "and": [ { "u_has_effect": "vampire_virus" }, { "not": { "u_has_effect": "blood_treatment" } } ] },
     "deactivate_condition": { "not": { "u_has_effect": "vampire_virus" } },
@@ -189,7 +191,8 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_vampire_virus_blood_needs",
-    "recurrence": [ "8 hours", "36 hours 15 minutes" ],
+    "//": "This EOC works on telling the vampire whether they need to consume blood or not.",
+    "recurrence": [ "8 hours", "14 hours 15 minutes" ],
     "condition": {
       "and": [
         { "compare_int": [ { "u_val": "vitamin", "name": "blood" }, "<=", { "const": 450 } ] },
@@ -204,93 +207,14 @@
           "condition": {
             "and": [
               { "u_has_effect": "vampire_virus", "intensity": 1 },
-              { "compare_int": [ { "u_val": "effect_intensity", "effect": "vampire_virus" }, "=", { "const": 1 } ] }
+              { "compare_int": [ { "u_val": "effect_intensity", "effect": "vampire_virus" }, ">=", { "const": 1 } ] }
             ]
           },
           "effect": {
             "run_eocs": {
               "id": "eoc_blood_hunger",
               "condition": { "u_has_trait": "VAMPIRE" },
-              "effect": { "u_message": "You daydream of drinking blood from a chalice." }
-            }
-          }
-        },
-        {
-          "id": "EOC_VAMPVIRUS5",
-          "condition": {
-            "and": [
-              { "u_has_effect": "vampire_virus", "intensity": 2 },
-              { "compare_int": [ { "u_val": "effect_intensity", "effect": "vampire_virus" }, "=", { "const": 2 } ] }
-            ]
-          },
-          "effect": {
-            "run_eocs": {
-              "id": "eoc_vampvirus_6_trait",
-              "condition": { "u_has_trait": "VAMPIRE2" },
-              "effect": { "u_message": "You feel an intense pain in your stomach and your skin reddens in a short time in sunlight." },
-              "false_effect": [
-                { "u_add_trait": "VAMPIRE2" },
-                {
-                  "u_message": "With a popping sound several of your teeth fall out but when you put a finger into your mouth to feel the hole, there are new sharp fangs where you expected nothing."
-                }
-              ]
-            }
-          }
-        },
-        {
-          "id": "EOC_VAMPVIRUS6",
-          "condition": {
-            "and": [
-              { "u_has_effect": "vampire_virus", "intensity": 3 },
-              { "compare_int": [ { "u_val": "effect_intensity", "effect": "vampire_virus" }, "=", { "const": 3 } ] }
-            ]
-          },
-          "effect": {
-            "run_eocs": {
-              "id": "eoc_vampvirus_7_trait",
-              "condition": { "u_has_trait": "VAMPIRE3" },
-              "effect": { "u_message": "You feel a gnawing in your belly and a pressure in your mouth, as if your teeth can't all fit." },
-              "false_effect": [ { "u_add_trait": "VAMPIRE3" }, { "u_message": "Your skin seems to have become unnaturally pale." } ]
-            }
-          }
-        },
-        {
-          "id": "EOC_VAMPVIRUS7",
-          "condition": {
-            "and": [
-              { "u_has_effect": "vampire_virus", "intensity": 4 },
-              { "compare_int": [ { "u_val": "effect_intensity", "effect": "vampire_virus" }, "=", { "const": 4 } ] }
-            ]
-          },
-          "effect": {
-            "run_eocs": {
-              "id": "eoc_vampvirus_8_trait",
-              "condition": { "u_has_trait": "VAMPIRE4" },
-              "effect": { "u_message": "You feel a gnawing in your belly and a pressure in your mouth, as if your teeth can't all fit." },
-              "false_effect": [ { "u_add_trait": "VAMPIRE4" }, { "u_message": "Your skin seems to have become unnaturally pale." } ]
-            }
-          }
-        },
-        {
-          "id": "EOC_VAMPVIRUS8",
-          "condition": {
-            "and": [
-              { "u_has_effect": "vampire_virus", "intensity": 5 },
-              { "compare_int": [ { "u_val": "effect_intensity", "effect": "vampire_virus" }, "=", { "const": 5 } ] }
-            ]
-          },
-          "effect": {
-            "run_eocs": {
-              "id": "eoc_vampvirus_9_trait",
-              "condition": { "u_has_trait": "BLOOD_DRINKER" },
-              "effect": [
-                { "u_message": "The HUNGER is overwhelming, all you can think about is blood!" },
-                { "u_add_effect": "blood_crazed", "duration": 28800 }
-              ],
-              "false_effect": [
-                { "u_add_trait": "BLOOD_DRINKER" },
-                { "u_message": "You no longer receive nourishment from anything other than blood." }
-              ]
+              "effect": { "u_message": "You need to consume human blood to stay alive." }
             }
           }
         }

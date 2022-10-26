@@ -136,6 +136,7 @@
     "type": "item_group",
     "subtype": "distribution",
     "id": "xed_notes",
+    "//": "Itemgroup for lore snippet items in Xedra Offices and Labs.",
     "entries": [
       { "item": "report_march_lord", "prob": 10 },
       { "item": "green_postit_field_agent", "prob": 40 },
@@ -222,6 +223,7 @@
     "type": "item_group",
     "subtype": "collection",
     "id": "vektor_pistol_cache",
+    "//": "Foreign agent safehouse pistol group.",
     "entries": [
       { "item": "sr1vektor_mag_18rd", "ammo-item": "9x21mm", "charges": 18 },
       { "item": "sr1vektor_mag_18rd", "ammo-item": "9x21mm", "charges": 18 },
@@ -244,6 +246,7 @@
   {
     "id": "SUS_junk_drawer",
     "type": "item_group",
+    "//": "Adding spell learning items to standard itemgroups",
     "copy-from": "SUS_junk_drawer",
     "subtype": "collection",
     "extend": {
@@ -264,6 +267,7 @@
   {
     "id": "SUS_junk_drawer_messy",
     "type": "item_group",
+    "//": "Adding spell learning items to standard itemgroups",
     "copy-from": "SUS_junk_drawer_messy",
     "subtype": "collection",
     "extend": {
@@ -284,6 +288,7 @@
   {
     "id": "SUS_office_filing_cabinet",
     "type": "item_group",
+    "//": "Adding spell learning items to standard itemgroups",
     "copy-from": "SUS_office_filing_cabinet",
     "subtype": "collection",
     "extend": {
@@ -304,6 +309,7 @@
   {
     "id": "costume_misc_items",
     "type": "item_group",
+    "//": "Adding spell learning items to standard itemgroups",
     "copy-from": "costume_misc_items",
     "subtype": "distribution",
     "extend": { "items": [ [ "wolf_mask", 5 ], [ "magicians_hat", 5 ], [ "syringe_artifact", 5 ], [ "foil_hat", 1 ] ] }
@@ -311,6 +317,7 @@
   {
     "id": "homebooks",
     "type": "item_group",
+    "//": "Adding spell learning items to standard itemgroups",
     "copy-from": "homebooks",
     "subtype": "distribution",
     "extend": {
@@ -324,6 +331,7 @@
   },
   {
     "id": "renfield_glock_mags",
+    "//": "Magazine item group for vampire servants.",
     "type": "item_group",
     "subtype": "distribution",
     "items": [

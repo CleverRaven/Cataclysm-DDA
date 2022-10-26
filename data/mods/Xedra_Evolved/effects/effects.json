@@ -17,7 +17,7 @@
       "You have contracted an interdimensional disease, specifically Blood Spiders.  Symptoms can be alleviated by medication (antiparasitic)."
     ],
     "apply_memorial_log": "Caught blood spiders.",
-    "remove_memorial_log": "Eradicated the spiders in his blood.",
+    "remove_memorial_log": "Eradicated the spiders in their blood.",
     "apply_message": "Your veins itch…",
     "rating": "bad",
     "resist_traits": [ "PARAIMMUNE", "ACIDBLOOD" ],
@@ -39,6 +39,7 @@
   {
     "type": "effect_type",
     "id": "faewild",
+    "//": "Should make the player have better perception with a worse dex but should be offset if taken with consumables that grant altered_physics.",
     "name": [ "glamoured" ],
     "desc": [ "The world is beautiful and breathtaking but maybe also terrifying." ],
     "apply_message": "Colors brighten and vision sharpens.",
@@ -51,6 +52,7 @@
   {
     "type": "effect_type",
     "id": "relative_physics",
+    "//": "Should improve your dex but worsen your mood.  Also should resist Hallucinating when on this.",
     "name": [ "Angled", "Canted", "Mirrored" ],
     "desc": [
       "Your vision suddenly feels as if it shifted down and to the left.",
@@ -62,25 +64,8 @@
     "decay_messages": [ [ "Your body accepts your presence once more.", "good" ], [ "A mirror cracks in the distance.", "good" ] ],
     "max_intensity": 3,
     "rating": "bad",
-    "base_mods": {
-      "pain_chance": [ 256 ],
-      "pain_max_val": [ 15 ],
-      "pain_min": [ 1, 0 ],
-      "fatigue_min": [ 10 ],
-      "fatigue_max": [ 20 ],
-      "fatigue_chance": [ 900 ],
-      "h_mod_min": [ -1 ],
-      "h_mod_min_val": [ 0 ],
-      "h_mod_chance": [ 900 ]
-    },
-    "scaling_mods": {
-      "pain_max_val": [ 5 ],
-      "pain_chance": [ 150 ],
-      "fatigue_chance": [ -300 ],
-      "h_mod_min": [ -1 ],
-      "h_mod_min_val": [ -50 ],
-      "h_mod_chance": [ -200 ]
-    },
+    "base_mods": { "dex_mod": [ 1 ], "h_mod_min": [ -1 ], "h_mod_min_val": [ 0 ], "h_mod_chance": [ 900 ] },
+    "scaling_mods": { "dex_mod": [ 1 ], "h_mod_min": [ -1 ], "h_mod_min_val": [ -50 ], "h_mod_chance": [ -200 ] },
     "blood_analysis_description": "Anomalous Readings"
   },
   {
@@ -95,7 +80,7 @@
     "miss_messages": [ [ "The flames distract you.", 1 ] ],
     "rating": "bad",
     "resist_traits": [ "POISRESIST", "VOMITSTOMACH" ],
-    "//": "Needs to emit light once Mylie unites traits, effects etc 'light_emitted: 3'.",
+    "//": "Needs to emit light once someone unites traits, effects etc 'light_emitted: 3'.",
     "base_mods": { "per_mod": [ -1 ], "dex_mod": [ -1 ] },
     "scaling_mods": { "per_mod": [ -1 ], "dex_mod": [ -1 ] }
   },
@@ -118,6 +103,7 @@
   {
     "type": "effect_type",
     "id": "creativity",
+    "//": "Tracks inventors creative sparks",
     "name": [ "One Amazing Idea", "Several Inspired Tangents", "Brimming with Creativity" ],
     "desc": [
       "You have one incredibly amazing idea.",
@@ -158,6 +144,7 @@
   {
     "type": "effect_type",
     "id": "blood_treatment",
+    "//": "Should reduce and reverse the effects of vampire_virus.",
     "rating": "good",
     "blocks_effects": [ "vampire_virus" ],
     "blood_analysis_description": "Heightened levels of organosulfur compounds, mercury, and silver.",
@@ -167,6 +154,7 @@
   {
     "type": "effect_type",
     "id": "blood_quenched",
+    "//": "The PC has consumed more human blood than usual.  Will slow them down some but gives them more blood vitamin to cast with or to go without consuming blood for longer.",
     "name": [ "Flush", "Engorged", "Tick-like" ],
     "rating": "mixed",
     "max_intensity": 100,
@@ -178,6 +166,7 @@
   {
     "type": "effect_type",
     "id": "poisoned_blood",
+    "//": "Should happen if you consume blood treatments after gaining Vampire4 trait.  Currently unobtainable.",
     "name": [ "Poisoned blood" ],
     "desc": [ "You have poisoned your own blood!" ],
     "miss_messages": [ [ "You feel bad inside.", 1 ] ],
@@ -200,6 +189,7 @@
   {
     "type": "effect_type",
     "id": "poisoned_blood2",
+    "//": "Should happen if you consume blood treatments after gaining Vampire5 trait.  Currently unobtainable.",
     "rating": "bad",
     "chance_kill": [ [ 1, 1 ] ],
     "chance_kill_resist": [ [ 1, 1 ] ],
@@ -226,7 +216,8 @@
     "max_intensity": 3,
     "int_add_val": 1,
     "int_decay_step": 1,
-    "int_decay_tick": 2864000,
+    "int_decay_tick": 28512000,
+    "//": "Each stage is intended to last 3.3 days.  I'm not sure if I've got the decay ticks correct on this.",
     "rating": "bad",
     "blood_analysis_description": "Unknown RNA virus is rewriting sampled blood cells.",
     "base_mods": { "speed_mod": [ -10 ], "str_mod": [ -1 ], "dodge_mod": [ -1 ] },
@@ -235,6 +226,7 @@
   {
     "type": "effect_type",
     "id": "vampire_virus_ascendant",
+    "//": "Currently unobtainable.  Needs to be player choice and significant quest/difficulty to advance to this stage. VAMPIRE4 will be gated behind this.",
     "name": [ "Terminal Porphyria" ],
     "desc": [ "Your skin is deathly white and will redden and burn when exposed to the sun." ],
     "apply_message": "You've chosen to embrace this illness and enhance your curse.",
@@ -250,6 +242,7 @@
   {
     "type": "effect_type",
     "id": "vampire_virus_post_mortal",
+    "//": "Currently unobtainable.  Needs to be player choice and significant quest/difficulty to advance to this stage. VAMPIRE5 will be gated behind this.",
     "name": [ "Homo sapiens homovorus" ],
     "desc": [
       "Your skin is deathly white, your eyes are solid red except for a huge pupil, the only food you can consume is human blood, and if sunlight hits you that part of your body instantly burns."
@@ -268,6 +261,7 @@
   {
     "type": "effect_type",
     "id": "withering",
+    "//": "This is the starving effect when the vampire hasn't consumed enough human blood.  Should take several days of not consuming blood even if not using any powers.",
     "name": [ "Sallow", "Hypomia", "Corpse-like", "Eternal Slumber" ],
     "desc": [
       "The absence of raw blood from your diet has left you wan, pale and uncomfortable.",
