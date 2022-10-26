@@ -511,7 +511,7 @@ void monmove()
             if( moves == guy.moves ) {
                 // Count every time we exit npc::move() without spending any moves.
                 real_count++;
-                if( has_destination == guy.has_destination_activity() || real_count >= count_limit ) {
+                if( has_destination == guy.has_destination_activity() || real_count > count_limit ) {
                     turns++;
                 }
             }
