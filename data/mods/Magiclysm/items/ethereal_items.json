@@ -169,7 +169,7 @@
     "name": { "str": "Stormfist" },
     "description": "Encases your arm and hand in a sheath of crackling magical lightning, you can punch and defend yourself with it in melee combat.",
     "material": [ "concentrated_mana" ],
-    "volume": "100 ml",
+    "volume": "155 ml",
     "weight": "300 g",
     "bashing": 6,
     "flags": [
@@ -216,7 +216,7 @@
     "name": "vicious tentacle whip",
     "description": "A long, writhing, tentacle covered in sharp bonelike blades and spikey protrusions.",
     "weight": "2460 g",
-    "volume": "1500 ml",
+    "volume": "1975 ml",
     "material": [ "bone", "flesh" ],
     "techniques": [ "PRECISE", "RAPID", "WBLOCK_2" ],
     "flags": [
