@@ -6,7 +6,7 @@
     "//1": "Roughly 75% efficiency for a microwave or induction hotplate, 35-40% for gas/kerosene/alcohol/propane/acetylene, 20-25% for hexamine, 15% for an oven/charcoal, 50-60% for a regular electric cooker.  18% efficiency for improvised options like the toolkit or an arc welder.",
     "//2": "esbit has 40kJ/u, kerosene/gasoline 34 kJ/u, propane 25kJ/u, acetylene 50kJ/u alcohol 20kJ/u. needs 2x total energy of induction.",
     "//3": "charcoal/coal 31/u, it is less efficient than other fossil fuels and is closer to an oven.  I'm treating the smoker as a big charcoal grill as far as efficiency is concerned.",
-    "//4": "Standards: 1 surface_heat - bake one unit of standard flour, process 2u of butter/oil, 1u of sugar_standard, make caramel out of 3u of sugar, cook a corn tortilla, process 100g of fruit.  2 surface_heats - cook a scrap of raw meat (30g), process milk in a recipe, apply a unit of 'batter' to a recipe, process 100g of veggy (treat very starchy stuff like potatoes, roots, cattails, as flour).",
+    "//4": "Standards: 1 surface_heat - bake one unit of standard flour, process 2u of butter/oil, 1u of sugar_standard, cook a corn tortilla, process 100g of fruit.  2 surface_heats - cook a scrap of raw meat (30g), process milk in a recipe, apply a unit of 'batter' to a recipe, process 100g of veggy (treat very starchy stuff like potatoes, roots, cattails, as flour).",
     "//5": "More Standards: 3 surface_heats: cook oatmeal. 4 surface_heats: cook beans, rice, or lentils, use cooked meat in a recipe, cook one unit of raw organs.  5 surface_heats: cook 1 unit of cornmeal or bread flour. 6u surface_heats: roast nuts, cook a chunk of tofu. 15u surface heat: process a chunk of fat or a unit of blood. 20u: cook a chunk of raw meat (300g)",
     "//6": "Note that a lot of food is not cooked to boiling temperature.  As a result most comestibles that used surface_heat have been made clean water only because it is not sufficient to guarantee potability.",
     "//7": "Ovens are terrible, this is intentional.  Typical oven uses 3x the wattage of a microwave, and bakes for often over 10x as long as the microwave does.  We cannot account for batch energy savings (multiple things in same oven) nor keeping the oven at temp (many kJ are wasted bringing it up to temp, unlike with a microwave) so efficiency is generously 0.2x that of microwave.",
@@ -44,10 +44,12 @@
   {
     "id": "vacuum_sealing_standard",
     "type": "requirement",
-    "//": "Power requirement to seal one bag, 400w for 10 seconds.  Includes the bag which must be heat-resistant.",
-    "//1": "Yes, they really are that cheap, vacuum sealers are trivial to operate. However vacuum sealed bags are an ideal environment for botulinum growth.",
+    "//": "Power requirement to seal one bag, 400w for 10 seconds.  Includes the bag.",
+    "//1": "Yes, they really are that cheap, vacuum sealers are trivial to operate.",
+    "//2": "Vacuum sealed bags are an ideal environment for botulinum growth, and they cannot be heated to 125c due to bag meltage.",
+    "//3": "Therefore, indefinite storage is impossible through this method, and as such vac bags are now only 50% instead of 0% spoilage.",
     "tools": [ [ [ "vac_sealer", 4 ], [ "makeshift_sealer", 8 ] ] ],
-    "components": [ [ [ "pouch_autoclave", 1 ], [ "plastic_bag_vac", 1 ] ] ]
+    "components": [ [ [ "plastic_bag", 1 ], [ "plastic_bag_vac", 1 ] ] ]
   },
   {
     "id": "frying_oil",
