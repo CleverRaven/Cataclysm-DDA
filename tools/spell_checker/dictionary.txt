@@ -1796,6 +1796,8 @@ sssssh
 ssssssss
 starer
 starrin
+staunchable
+staunching
 std
 steeltoed
 steerable

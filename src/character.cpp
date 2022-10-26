@@ -176,6 +176,7 @@ static const bionic_id bio_voice( "bio_voice" );
 static const character_modifier_id character_modifier_aim_speed_dex_mod( "aim_speed_dex_mod" );
 static const character_modifier_id character_modifier_aim_speed_mod( "aim_speed_mod" );
 static const character_modifier_id character_modifier_aim_speed_skill_mod( "aim_speed_skill_mod" );
+static const character_modifier_id character_modifier_bleed_staunch_mod( "bleed_staunch_mod" );
 static const character_modifier_id
 character_modifier_crawl_speed_movecost_mod( "crawl_speed_movecost_mod" );
 static const character_modifier_id character_modifier_limb_fall_mod( "limb_fall_mod" );
@@ -372,7 +373,6 @@ static const scenttype_id scent_sc_human( "sc_human" );
 static const skill_id skill_archery( "archery" );
 static const skill_id skill_dodge( "dodge" );
 static const skill_id skill_driving( "driving" );
-static const skill_id skill_firstaid( "firstaid" );
 static const skill_id skill_melee( "melee" );
 static const skill_id skill_pistol( "pistol" );
 static const skill_id skill_speech( "speech" );
@@ -11657,53 +11657,76 @@ void Character::pause()
         try_remove_grab();
     }
 
-    // put pressure on bleeding wound, prioritizing most severe bleeding
+    // put pressure on bleeding wound, prioritizing most severe bleeding that you can compress
     if( !is_armed() && has_effect( effect_bleed ) ) {
-        int most = 0;
-        bodypart_id bp_id;
-        for( const bodypart_id &bp : get_all_body_parts() ) {
-            if( most <= get_effect_int( effect_bleed, bp ) ) {
-                most = get_effect_int( effect_bleed, bp );
-                bp_id =  bp ;
-            }
-        }
-        effect &e = get_effect( effect_bleed, bp_id );
-        int total_hand_encumb = 0;
-        for( const bodypart_id &part : get_all_body_parts_of_type( body_part_type::type::hand ) ) {
-            total_hand_encumb += encumb( part );
-        }
-        // proficiency bonus is equal to having extra levels of firstaid skill (up to +3)
-        int prof_bonus = get_skill_level( skill_firstaid );
-        prof_bonus = has_proficiency( proficiency_prof_wound_care ) ? prof_bonus + 1 : prof_bonus;
-        prof_bonus = has_proficiency( proficiency_prof_wound_care_expert ) ? prof_bonus + 2 : prof_bonus;
-        time_duration penalty = 1_turns * total_hand_encumb;
-        time_duration benefit = 5_turns + 10_turns * prof_bonus;
+        // Calculate max staunchable bleed level
+        // Top out at 20 intensity for base, unencumbered survivors
+        int max = 20;
+        max *= get_modifier( character_modifier_bleed_staunch_mod );
+        add_msg_debug( debugmode::DF_CHARACTER, "Staunch limit after limb score modifier %d", max );
 
-        bool broken_arm = false;
-        for( const bodypart_id &part : get_all_body_parts_of_type( body_part_type::type::arm ) ) {
-            if( is_limb_broken( part ) ) {
-                broken_arm = true;
-                break;
+        // +5 bonus if you know your first aid
+        if( has_proficiency( proficiency_prof_wound_care ) ||
+            has_proficiency( proficiency_prof_wound_care_expert ) ) {
+            max += 5;
+            add_msg_debug( debugmode::DF_CHARACTER, "Wound care proficiency found, new limit %d", max );
+        }
+
+        int num_broken_arms = get_num_broken_body_parts_of_type( body_part_type::type::arm );
+        int num_arms = get_num_body_parts_of_type( body_part_type::type::arm );
+
+        // Don't warn about encumbrance if your arms are broken
+        if( num_broken_arms ) {
+            // Handle multiple arms
+            max *= ( 1.0f - num_broken_arms / static_cast<float>( num_arms ) );
+            add_msg_debug( debugmode::DF_CHARACTER, "%d out of %d arms broken, staunch limit %d",
+                           num_broken_arms, num_arms, max );
+            add_msg_player_or_npc( m_warning,
+                                   _( "Your broken limb significantly hampers your efforts to put pressure on a bleeding wound!" ),
+                                   _( "<npcname>'s broken limb significantly hampers their effort to put pressure on a bleeding wound!" ) );
+        } else if( max < 10 ) {
+            add_msg_player_or_npc( m_warning,
+                                   _( "Your hands are too encumbered to effectively put pressure on a bleeding wound!" ),
+                                   _( "<npcname>'s hands are too encumbered to effectively put pressure on a bleeding wound!" ) );
+        }
+
+        int most = 0;
+        int intensity = 0;
+        bodypart_id bp_id = bodypart_str_id::NULL_ID();
+        for( const bodypart_id &bp : get_all_body_parts() ) {
+            intensity = get_effect_int( effect_bleed, bp );
+            // Staunching a bleeding on one of your arms is hard (handle multiple arms)
+            if( bp->has_type( body_part_type::type::arm ) ) {
+                intensity /= ( 1.0f - 1.0f / num_arms );
+            }
+            // Tourniquets make staunching easier, letting you treat arterial bleeds on your legs
+            if( worn_with_flag( flag_TOURNIQUET, bp ) ) {
+                intensity /= 2;
+            }
+            if( most < get_effect_int( effect_bleed, bp ) && intensity <= max ) {
+                // Don't use intensity here, we might have increased it for the arm penalty
+                most = get_effect_int( effect_bleed, bp );
+                bp_id = bp;
             }
         }
-        if( broken_arm ) {
+        add_msg_debug( debugmode::DF_CHARACTER,
+                       "Selected %s to staunch (base intensity %d, modified intensity %d)", bp_id->name, intensity, most );
+
+        // 5 - 30 sec per turn (with standard hands)
+        time_duration benefit = 5_turns + 1_turns * max;
+
+        if( bp_id == bodypart_str_id::NULL_ID() ) {
+            // We're bleeding, but couldn't find any bp we can staunch
             add_msg_player_or_npc( m_warning,
-                                   _( "Your broken limb significantly hampers your efforts to put pressure on the bleeding wound!" ),
-                                   _( "<npcname>'s broken limb significantly hampers their effort to put pressure on the bleeding wound!" ) );
-            e.mod_duration( -1_turns );
-        } else if( benefit <= penalty ) {
-            add_msg_player_or_npc( m_warning,
-                                   _( "Your hands are too encumbered to effectively put pressure on the bleeding wound!" ),
-                                   _( "<npcname>'s hands are too encumbered to effectively put pressure on the bleeding wound!" ) );
-            e.mod_duration( -1_turns );
+                                   _( "Your bleeding is beyond staunching barehanded!  A tourniquet might help." ),
+                                   _( "<npcname>'s bleeding is beyond staunching barehanded!" ) );
         } else {
-            e.mod_duration( - ( benefit - penalty ) );
+            effect &e = get_effect( effect_bleed, bp_id );
+            e.mod_duration( - benefit );
             add_msg_player_or_npc( m_warning,
                                    _( "You put pressure on the bleeding wound…" ),
                                    _( "<npcname> puts pressure on the bleeding wound…" ) );
-            practice( skill_firstaid, 1 );
             practice_proficiency( proficiency_prof_wound_care, 1_turns );
-            practice_proficiency( proficiency_prof_wound_care_expert, 1_turns );
         }
     }
     // on-pause effects for martial arts
