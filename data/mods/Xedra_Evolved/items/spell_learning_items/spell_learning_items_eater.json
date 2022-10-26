@@ -79,7 +79,7 @@
     "type": "GENERIC",
     "category": "artifacts",
     "name": { "str": "strange_coffee", "str_pl": "strange_coffee" },
-    "description": "A small jar with coffee, it is moving in weird patterns even without being touch. After watching the movement of the dark liquid for some time you are sure that repeat a certain pattern, like a message",
+    "description": "A small jar with coffee, moving in weird patterns with no apparent cause.  After watching the swirls for some time you are sure that it loops back on it's movements, like some sort of message.",
     "weight": "90 g",
     "volume": "100 ml",
     "price": 2000,
