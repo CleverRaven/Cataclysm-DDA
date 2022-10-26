@@ -86,11 +86,18 @@
     ]
   },
   {
-    "id": "canning_acid",
+    "id": "canning_acid_large",
     "type": "requirement",
-    "//": "acidic additives to prevent the growth of botulinum.",
+    "//": "acidic additives to lower PH and prevent the growth of botulinum, for a 3L jar.",
     "//1": "lemon is about 20-25% juice by weight.",
-    "tools": [ [ [ "chem_citric_acid", 2 ], [ "formic_acid", 1 ], [ "lemon", 1 ], [ "irradiated_lemon", 1 ], [ "vinegar", 4 ] ] ]
+    "tools": [ [ [ "chem_citric_acid", 6 ], [ "formic_acid", 2 ], [ "lemon", 1 ], [ "irradiated_lemon", 1 ], [ "vinegar", 6 ] ] ]
+  },
+  {
+    "id": "canning_acid_small",
+    "type": "requirement",
+    "//": "acidic additives to lower PH and prevent the growth of botulinum.",
+    "//1": "lemon is about 20-25% juice by weight.",
+    "tools": [ [ [ "chem_citric_acid", 1 ], [ "vinegar", 1 ] ] ]
   },
   {
     "id": "canning_low_heat",
