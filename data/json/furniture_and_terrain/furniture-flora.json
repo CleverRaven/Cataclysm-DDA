@@ -420,6 +420,7 @@
     "move_cost_mod": 3,
     "coverage": 50,
     "required_str": -1,
+    "connect_groups": "WOODFENCE",
     "connects_to": "WOODFENCE",
     "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "SHRUB", "PERMEABLE" ],
     "bash": {
@@ -445,6 +446,7 @@
     "move_cost_mod": -1,
     "coverage": 90,
     "required_str": 14,
+    "connect_groups": "WOODFENCE",
     "connects_to": "WOODFENCE",
     "flags": [ "FLAMMABLE_ASH", "SHRUB", "PERMEABLE", "BLOCK_WIND", "NOITEM" ],
     "bash": {

@@ -171,7 +171,8 @@
       "monster_id": "afs_mon_sentinel_lx",
       "difficulty": 4,
       "moves": 100,
-      "skills": [ "computer" ]
+      "skills": [ "computer" ],
+      "is_pet": true
     },
     "flags": [ "SINGLE_USE" ]
   },
@@ -221,7 +222,8 @@
       "difficulty": 4,
       "moves": 60,
       "place_randomly": true,
-      "skills": [ "electronics", "computer" ]
+      "skills": [ "electronics", "computer" ],
+      "is_pet": true
     },
     "flags": [ "SINGLE_USE" ]
   },
@@ -260,7 +262,8 @@
       "monster_id": "mon_utilibot_beehive",
       "difficulty": 1,
       "moves": 100,
-      "skills": [ "electronics", "computer" ]
+      "skills": [ "electronics", "computer" ],
+      "is_pet": true
     }
   },
   {
@@ -282,7 +285,8 @@
       "monster_id": "mon_medibot",
       "difficulty": 1,
       "moves": 100,
-      "skills": [ "electronics", "computer" ]
+      "skills": [ "electronics", "computer" ],
+      "is_pet": true
     },
     "flags": [ "LEAK_DAM", "RADIOACTIVE", "TRADER_AVOID", "SINGLE_USE" ]
   },
@@ -448,7 +452,8 @@
       "monster_id": "mon_skitterbot_hunter",
       "difficulty": 1,
       "moves": 100,
-      "skills": [ "electronics", "computer" ]
+      "skills": [ "electronics", "computer" ],
+      "is_pet": true
     }
   },
   {
@@ -480,7 +485,8 @@
       "monster_id": "mon_eyebot_heater",
       "difficulty": 1,
       "moves": 100,
-      "skills": [ "electronics", "computer" ]
+      "skills": [ "electronics", "computer" ],
+      "is_pet": true
     },
     "flags": [ "SINGLE_USE" ]
   },

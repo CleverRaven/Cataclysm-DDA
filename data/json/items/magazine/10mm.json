@@ -94,7 +94,7 @@
       {
         "id": "mp5_10_mag",
         "name": { "str": "MP5/10 30-round magazine" },
-        "description": "A straight 30-round box magazine for use with MP5/10's and similar 10mm MP5 clones such as the Brethren Arms BA10.",
+        "description": "A straight 30-round box magazine for use with MP5/10s and similar 10mm MP5 clones such as the Brethren Arms BA10.",
         "weight": 1
       }
     ],
@@ -142,13 +142,13 @@
     "looks_like": "tdi_mag",
     "type": "MAGAZINE",
     "name": { "str": "Glock 10mm 30-round magazine" },
-    "description": "A 30-round plastic and steel box 10mm Auto magazine for use with the Glock pistols and submachine guns chambered in 10mm.",
+    "description": "A 30-round plastic and steel box 10mm Auto magazine for use with Glock pistols and submachine guns chambered in 10mm.",
     "variant_type": "gun",
     "variants": [
       {
         "id": "tdi_10mm_mag",
         "name": { "str": "Glock 10mm 30-round magazine" },
-        "description": "A 30-round plastic and steel box 10mm Auto magazine for use with the Glock pattern magazine wells, namely the Vector SDP.",
+        "description": "A 30-round plastic and steel box 10mm Auto magazine for use with Glock pattern magazine wells, namely the Vector SDP.",
         "weight": 1
       }
     ],

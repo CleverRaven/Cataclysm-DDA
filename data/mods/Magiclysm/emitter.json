@@ -43,5 +43,13 @@
     "field": "fd_electricity",
     "intensity": 1,
     "qty": 10
+  },
+  {
+    "id": "emit_eshaper_dust",
+    "type": "emit",
+    "field": "fd_eshaper_dust",
+    "intensity": 1,
+    "qty": 22,
+    "chance": 100
   }
 ]

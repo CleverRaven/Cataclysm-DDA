@@ -3,7 +3,7 @@
     "type": "GENERIC",
     "id": "bio_claws_weapon",
     "name": { "str_sp": "bionic claws" },
-    "description": "Short and sharp claws made from a high-tech metal.",
+    "description": "Short, sharp claws made from a high-tech metal.",
     "to_hit": { "grip": "weapon", "length": "hand", "surface": "line", "balance": "neutral" },
     "color": "light_gray",
     "symbol": "{",

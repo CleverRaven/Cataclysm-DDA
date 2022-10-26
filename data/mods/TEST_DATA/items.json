@@ -2429,6 +2429,15 @@
     "symbol": "[",
     "looks_like": "depowered_armor",
     "color": "light_gray",
+    "relic_data": {
+      "passive_effects": [
+        {
+          "has": "WORN",
+          "condition": "ACTIVE",
+          "values": [ { "value": "CLIMATE_CONTROL_HEAT", "add": 50 }, { "value": "CLIMATE_CONTROL_CHILL", "add": 50 } ]
+        }
+      ]
+    },
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -2460,7 +2469,7 @@
     "type": "TOOL_ARMOR",
     "name": { "str": "test power armor (on)" },
     "description": "This is a prototype power armor just for testing.",
-    "flags": [ "USE_UPS", "WATERPROOF", "STURDY", "ELECTRIC_IMMUNE", "TRADER_AVOID", "CLIMATE_CONTROL" ],
+    "flags": [ "USE_UPS", "WATERPROOF", "STURDY", "ELECTRIC_IMMUNE", "TRADER_AVOID" ],
     "power_draw": "4 kJ",
     "revert_to": "test_power_armor",
     "use_action": { "type": "transform", "menu_text": "Turn off", "msg": "The %s armor disengages.", "target": "test_power_armor" }

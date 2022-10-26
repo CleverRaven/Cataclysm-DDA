@@ -5,7 +5,7 @@
     "name": "Void Claws",
     "description": "This is a spell that causes a DoT effect whenever you hit.",
     "valid_targets": [ "hostile" ],
-    "flags": [ "SILENT", "NO_PROJECTILE" ],
+    "flags": [ "SILENT", "NO_PROJECTILE", "NO_EXPLOSION_SFX" ],
     "effect": "attack",
     "shape": "blast",
     "min_dot": 8,

@@ -439,5 +439,15 @@
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "bone_human", 4 ] ] ],
     "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "skull_canis",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "skill_used": "fabrication",
+    "time": "10 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "bone", 2 ] ] ],
+    "flags": [ "BLIND_EASY" ]
   }
 ]

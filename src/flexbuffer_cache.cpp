@@ -14,6 +14,7 @@
 
 #include <ghc/fs_std_fwd.hpp>
 
+#include "cata_utility.h"
 #include "filesystem.h"
 #include "json.h"
 #include "json_error.h"
@@ -131,9 +132,8 @@ struct file_flexbuffer : parsed_flexbuffer {
         }
 
         std::unique_ptr<std::istream> get_source_stream() const noexcept( false ) override {
-            auto ifs = std::make_unique<cata::ifstream>( source_file_path_,
-                       std::ifstream::in | std::ifstream::binary );
-            if( !ifs->good() ) {
+            std::unique_ptr<std::istream> ifs = read_maybe_compressed_file( source_file_path_ );
+            if( !ifs || !ifs->good() ) {
                 return nullptr;
             }
             ifs->seekg( offset_ );
@@ -382,10 +382,12 @@ std::shared_ptr<parsed_flexbuffer> flexbuffer_cache::parse_and_cache(
     }
 
     std::string json_source_path_string = lexically_normal_json_source_path.generic_u8string();
-    std::string json_source = read_entire_file( lexically_normal_json_source_path );
-    if( json_source.empty() ) {
+    cata::optional<std::string> json_file_contents = read_whole_file(
+                lexically_normal_json_source_path );
+    if( !json_file_contents.has_value() || json_file_contents->empty() ) {
         throw std::runtime_error( "Failed to read " + json_source_path_string );
     }
+    std::string &json_source = *json_file_contents;
 
     const char *json_text = reinterpret_cast<const char *>( json_source.c_str() ) + offset;
     std::vector<uint8_t> fb = parse_json_to_flexbuffer_( json_text, json_source_path_string.c_str() );
