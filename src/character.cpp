@@ -6470,9 +6470,9 @@ int Character::get_cardiofit() const
     }
 
     float weight_mod = 1.0f;
-    /* 
+    /*
     This code snippet below lowers max amount of stamina based on player's overweight level.
-    Effects of max stamina reduction begins when player is on halfway to being obese. 
+    Effects of max stamina reduction begins when player is on halfway to being obese.
     On this level stamina reduction is 12%, upon reaching morbidly obese level the reduction is almost 40%.
     */
     if( get_bmi() >
