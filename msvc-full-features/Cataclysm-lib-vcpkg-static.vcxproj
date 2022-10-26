@@ -105,7 +105,6 @@
     </ClCompile>
     <PreBuildEvent>
       <Command>..\msvc-full-features\prebuild.cmd</Command>
-      <Message>Get version string</Message>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)'=='Debug'">
@@ -161,6 +160,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\*.cpp" Exclude="..\src\main.cpp;..\src\messages.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="flatbuffers.vcxproj">
+      <Project>{8a533a64-435d-4d4f-9ff0-1e97aace9374}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

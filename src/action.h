@@ -31,6 +31,8 @@ enum action_id : int {
     ACTION_SELECT,
     /** Click on a point with secondary mouse button (usually right button) */
     ACTION_SEC_SELECT,
+    /** action on left mouse button-down, for clicking and dragging */
+    ACTION_CLICK_AND_DRAG,
     /**@}*/
 
     // Character movement actions

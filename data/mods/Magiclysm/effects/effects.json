@@ -253,8 +253,8 @@
   },
   {
     "type": "effect_type",
-    "id": "debug_feather_fall",
-    "name": [ "Debug Feather Fall" ],
+    "id": "feather_fall",
+    "name": [ "Pluma" ],
     "desc": [ "You are light as a feather and fall like one." ],
     "apply_message": "Your body feels light as a feather.",
     "remove_message": "The earth pulls you down hard.",
@@ -447,6 +447,35 @@
     "max_intensity": 3
   },
   {
+    "id": "eshaper_melee_damage",
+    "type": "effect_type",
+    "name": [ "Heft" ],
+    "desc": [
+      "Your body is heavy as the heaviest rocks.  Your attack speed is slowed down, but your melee damage increased drastically."
+    ],
+    "apply_message": "You feel your body compress and harden.",
+    "remove_message": "You no longer feel encumbered.",
+    "rating": "good",
+    "show_intensity": false,
+    "enchantments": [ { "values": [ { "value": "ATTACK_SPEED", "multiply": -0.25 }, { "value": "MELEE_DAMAGE", "multiply": 1.2 } ] } ]
+  },
+  {
+    "id": "eshaper_crystal_wrap",
+    "type": "effect_type",
+    "name": [ "Crystal Wrapping" ],
+    "desc": [ "Thin layer of almost living crystals, that rapidly grows and moves on the body." ],
+    "apply_message": "You feel a light, purple material cover your body and clothes.",
+    "remove_message": "The crystals crumble.",
+    "rating": "good",
+    "show_intensity": false,
+    "enchantments": [
+      {
+        "hit_me_effect": [ { "id": "eshaper_crystal_wrap_damage" } ],
+        "values": [ { "value": "ITEM_DAMAGE_CUT", "add": 17 }, { "value": "ITEM_DAMAGE_AP", "add": 6 } ]
+      }
+    ]
+  },
+  {
     "type": "effect_type",
     "id": "flower_fern_eff",
     "name": [ "Positivity" ],
@@ -460,5 +489,117 @@
     "name": [ "Lightness" ],
     "desc": [ "You feel yourself a bit lighter.  You doubt you can lose weight from this." ],
     "base_mods": { "speed_mod": [ 15 ] }
+  },
+  {
+    "type": "effect_type",
+    "id": "flask_speed_eff",
+    "name": [ "Velocitas" ],
+    "desc": [ "Make you faster, and allow to hold this state for a while." ],
+    "apply_message": "You feel your legs can work much better than before",
+    "remove_message": "Your speed slows down.",
+    "rating": "good",
+    "base_mods": { "speed_mod": [ 40 ], "stamina_min": [ 20 ] }
+  },
+  {
+    "type": "effect_type",
+    "id": "flask_healing_eff",
+    "name": [ "Sanatio" ],
+    "desc": [ "Improve your organism's ability to heal himself." ],
+    "//": "i have no idea how health works now, so ill just copypaste the nature commune effect and stretch it.",
+    "base_mods": { "health_min": [ 1 ], "health_chance": [ 2880 ], "h_mod_min": [ 1 ], "h_mod_chance": [ 5760 ] }
+  },
+  {
+    "type": "effect_type",
+    "id": "flask_stamina_eff",
+    "name": [ "Constantia" ],
+    "desc": [ "You can't get tired." ],
+    "apply_message": "You feel an energy in your muscles, untired and jazzed.",
+    "remove_message": "The energy in your body fades away.",
+    "base_mods": { "stamina_min": [ 50 ] }
+  },
+  {
+    "id": "flask_excitement",
+    "type": "effect_type",
+    "name": [ "Motus" ],
+    "desc": [ "Your reaction now is way better than before." ],
+    "apply_message": "You can feel the fly wings movement now.",
+    "remove_message": "Your reflexes turn back to normal.",
+    "rating": "good",
+    "show_intensity": false,
+    "enchantments": [
+      {
+        "condition": { "not": "ALWAYS" },
+        "values": [
+          { "value": "SPEED", "add": 30 },
+          { "value": "ATTACK_SPEED", "add": 20 },
+          { "value": "BONUS_DODGE", "add": 2 },
+          { "value": "MELEE_DAMAGE", "multiply": 0.5 }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "flask_resistance",
+    "type": "effect_type",
+    "name": [ "Resistentia" ],
+    "desc": [ "Thin layer of energy cover your body, and allow you to hold more physical damage than before." ],
+    "apply_message": "Your touch sense are blunted for a bit, but your skin feels more dense.",
+    "remove_message": "The sturdy feeling is gone.",
+    "rating": "good",
+    "show_intensity": false,
+    "enchantments": [
+      {
+        "condition": { "not": "ALWAYS" },
+        "values": [ { "value": "ARMOR_BASH", "add": -10 }, { "value": "ARMOR_CUT", "add": -10 }, { "value": "ARMOR_STAB", "add": -10 } ]
+      }
+    ]
+  },
+  {
+    "id": "flask_illumination",
+    "type": "effect_type",
+    "name": [ "Illuminatio" ],
+    "desc": [ "Your body emit a lot of light around." ],
+    "apply_message": "Your skin glow like an old lantern.  You feel no discomfort for some reason.",
+    "remove_message": "Your skin turn back to normal state.",
+    "rating": "good",
+    "show_intensity": false,
+    "enchantments": [ { "condition": { "not": "ALWAYS" }, "values": [ { "value": "LUMINATION", "add": 800 } ] } ]
+  },
+  {
+    "id": "flask_mana_regen",
+    "type": "effect_type",
+    "name": [ "Recuperatio" ],
+    "desc": [ "Increase the amount of ley-lines your body can process at once, making you restore your mana pool faster." ],
+    "apply_message": "You can feel the thinnest ley lines around you.",
+    "remove_message": "The mana senses blunts.",
+    "rating": "good",
+    "show_intensity": false,
+    "enchantments": [ { "condition": { "not": "ALWAYS" }, "values": [ { "value": "REGEN_MANA", "multiply": 2 } ] } ]
+  },
+  {
+    "id": "flask_max_mana",
+    "type": "effect_type",
+    "name": [ "Augere" ],
+    "desc": [ "Increase the amount of mana you can operate." ],
+    "apply_message": "You feel a deep mana well inside your body.",
+    "remove_message": "Your well feels empty now.",
+    "rating": "good",
+    "show_intensity": false,
+    "enchantments": [ { "condition": { "not": "ALWAYS" }, "values": [ { "value": "MAX_MANA", "add": 1500 } ] } ]
+  },
+  {
+    "id": "flask_regeneration",
+    "type": "effect_type",
+    "name": [ "Regeneration" ],
+    "desc": [ "Slowly regenerate your damaged body." ],
+    "apply_message": "Your flesh and bones start to regenerate before your eyes.",
+    "remove_message": "Your regeneration slows down.",
+    "rating": "good",
+    "show_intensity": false,
+    "enchantments": [
+      {
+        "intermittent_activation": { "effects": [ { "frequency": "30 seconds", "spell_effects": [ { "id": "flask_regeneration_effect" } ] } ] }
+      }
+    ]
   }
 ]

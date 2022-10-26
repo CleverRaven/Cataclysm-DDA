@@ -39,7 +39,7 @@
         "|ssgg#o......w.htthW.....w.OOq.+W+.zaZ.w..h..Whttt.w.h.h.+W......wb...hWttt..w......W+.CCC.wCCCCHWx.S.bw......W......w5.nn.W.h...w.....-W......w...H_W.....w......o#gss|",
         "|ssgg#WzZqY..D.....WSSSH.D.....-WK.....D....iW..hh.D.....KWOOO...D.....Wh.h..D..qzZhWKcccccDcCCCcWl.S..D....O.WqzZ...D.....W.....D.YzZ.KWh.....D....dWlxxl.D....OzW#gss|",
         "|ssgg#WOOO...wwwwwwWwwwwww...zZMW-qR...wwwwwwWwwwwww...R-aWzaZ-..wwwwwwWwwwwww...hh.Wa-RCCcwwwwwwWwwwwww...qzZWOOO...wwwwwwWwwwwww.....RWzZq...wwwwwwWwwwwww....OZW#gss|",
-        "|ssgg#WwwwJi...D```W```D...YJwwwWwwwJY...D```W```D...YJwwwWwwwww...D```W```D...YJwwwWwwwCCcccDcccW```D...YJwwwWwwwJY...D```W```D...iJwwwWwwwiY...D```W```D...YqwwwW#gss|",
+        "|ssgg#WwwwJi...D```W```D...YJwwwWwwwJY...D```W```D...YJwwwWwwwww...D```W```D...YJwwwWwwwCCcccD```W```D...YJwwwWwwwJY...D```W```D...iJwwwWwwwiY...D```W```D...YqwwwW#gss|",
         "|ssgg#Wv^wwww..wAk&W&kAw..wwww^vWv^wwww..wAk&W&kAw..wwww^vWv^Eeww..wAk&W&kAw..wwww^vWv^wwwwCcwAk&W&kAw..wwww^vWv^wwww..wAk&W&kAw..wwww^vWv^wwww..wAk&W&kAw..wwww^vW#gss|",
         "|ssgg#W..SSS...wwwwWwwww........W..blxl..wwwwWwwww..SSSS..W........wwwwWwwww..lxli..WccccccccwwwwWwwww..SSSS..W..SSS...wwwwWwwww...SSH..W........wwwwWwwww..SSSS..W#gss|",
         "|ssgg#Wb...........W........bS.lW............W............Wl.Hb..S.....W............WxcHCCCCcccccW............Wb....H......W...........bWt.S.lb......W...........HW#gss|",
@@ -165,15 +165,15 @@
         "                                                                                                                                                                        ",
         "                                                                                                                                                                        ",
         "      ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ     ",
-        "      Z&kwcccccf###ZZ...........Z11..........ZZZ2.........Z.....3....ZZZZ2..........Z1111111111ZZZ2..........1Z1....WWWWWWWZBc55cBwBc5cBZ1......3....Z2........1.1Z     ",
-        "      Z..wc₸₸ccccccZZ...........Zk...........ZZZ..........Z..........ZZZZ...........ZCCCCCCCCCCZZZ...........1Z1....Wi@!bbWZBccccBwBcccBZ1...........Z...........1Z     ",
-        "      ZwDwc₸₸cc----ZZwwwwwwww..TZT......a....ZZZ..........Z..........ZZZZ...........ZCCCCCCCCCCZZZ...........TZT....WgggggWZccccccwcccccZT...........Z...........TZ     ",
-        "      Zcccc₸₸ccooooZZwdcdMdww..tZt......SSS11ZZZ..........Z..........ZZZZ...........ZCCCCCCCCCCZZZ...........tZt....Wg!*~~WZBB_cccwc_5BBZt...........Z...........tZ     ",
-        "      ZccccccccccccZZwdccccDX...Z.......aaa11ZZZ..........Z..........ZZZZ...........ZCCCCCCCCCCZZZ............Z.....WGWWWWWZwwwwwDwDwwwwZ............Z............Z     ",
-        "      Z^cccPclcsslcZZwdcdMdww..^Z^.........OOZZZ.........^Z^1EeZ.....ZZZZ.........1^Z^CCCCCCCCCZZZ..........1^Z^1..........Z55_cDccc...^Z^1..........Z..........1^Z     ",
-        "      ZZZ.wwwsccccxZZwwwwwwww.ZZZZZ........OOZZZ.........ZZZZZZZ.....ZZZZ.........ZZZZZCCCCCCCCZZZ..........ZZZZZ..........Zccccwsss.1ZZZZZ..........Z..........ZZZ     ",
-        "      Zh...twsclccxZZ..........hZh..........1ZZZ.........hZh.........ZZZZ..........hZhCCCCCCCCCZZZ...........hZh...........ZBccBwccc.11hZh..........1Z...........hZ     ",
-        "      ZH...TwsclccxZZ11........HZH..........1ZZZ11.......HZH.........ZZZZ11........HZH111111111ZZZ111........HZH...........ZBccBwxxxTt1HZH..........1Z11...SSS...HZ     ",
+        "      Z&kwcccccf###ZZwwwwwÆÆÆÆÆ1Z11..........ZZZ2.........Z.....3....ZZZZ2..........Z1111111111ZZZ2..........1Z1....WWWWWWWZBc55cBwBc5cBZ1......3....Z2........1.1Z     ",
+        "      Z..wc₸₸ccccccZZwdcdwÆÆÆÆÆ1Zk...........ZZZ..........Z..........ZZZZ...........ZCCCCCCCCCCZZZ...........1Z1....Wi@!bbWZBccccBwBcccBZ1...........Z...........1Z     ",
+        "      ZwDwc₸₸cc----ZZwcccwÆÆÆÆÆTZT......a....ZZZ..........Z..........ZZZZ...........ZCCCCCCCCCCZZZ...........TZT....WgggggWZccccccwcccccZT...........Z...........TZ     ",
+        "      Zcccc₸₸ccooooZZwMcMwÆÆÆÆÆtZt......SSS11ZZZ..........Z..........ZZZZ...........ZCCCCCCCCCCZZZ...........tZt....Wg!*~~WZBB_cccwc_5BBZt...........Z...........tZ     ",
+        "      ZccccccccccccZZwdcdwÆÆÆÆÆÆZ.......aaa11ZZZ..........Z..........ZZZZ...........ZCCCCCCCCCCZZZ............Z.....WGWWWWWZwwwwwDwDwwwwZ............Z............Z     ",
+        "      Z^cccPclcsslcZZwwDwwÆÆÆÆÆ^Z^.........OOZZZ.........^Z^1EeZ.....ZZZZ.........1^Z^CCCCCCCCCZZZ..........1^Z^1..........Z55_cDccc...^Z^1..........Z..........1^Z     ",
+        "      ZZZ.wwwsccccxZZwwXwwÆÆÆÆZZZZZ........OOZZZ.........ZZZZZZZ.....ZZZZ.........ZZZZZCCCCCCCCZZZ..........ZZZZZ..........Zccccwsss.1ZZZZZ..........Z..........ZZZ     ",
+        "      Zh...twsclccxZZÆÆÆÆÆÆÆÆÆÆhZh..........1ZZZ.........hZh.........ZZZZ..........hZhCCCCCCCCCZZZ...........hZh...........ZBccBwccc.11hZh..........1Z...........hZ     ",
+        "      ZH...TwsclccxZZÆÆÆÆÆÆÆÆÆÆHZH..........1ZZZ11.......HZH.........ZZZZ11........HZH111111111ZZZ111........HZH...........ZBccBwxxxTt1HZH..........1Z11...SSS...HZ     ",
         "      ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ     ",
         "                                                                                                                                                                        ",
         "                                                                                                                                                                        ",
@@ -203,14 +203,16 @@
             [ "5x5_sauna_S", 20 ],
             [ "5x5_gym_S", 25 ]
           ]
-        }
+        },
+        "Æ": { "chunks": [ [ "spider_webs", 100 ] ] }
       },
       "place_monster": [
         { "group": "GROUP_RETIREMENT_COMMUNITY", "x": [ 8, 18 ], "y": [ 9, 13 ], "repeat": [ 1, 2 ] },
         { "group": "GROUP_RETIREMENT_COMMUNITY", "x": [ 34, 44 ], "y": [ 9, 13 ], "repeat": [ 1, 2 ] },
         { "group": "GROUP_RETIREMENT_COMMUNITY", "x": [ 48, 56 ], "y": [ 9, 13 ], "repeat": [ 1, 2 ] },
         { "group": "GROUP_RETIREMENT_COMMUNITY", "x": [ 73, 81 ], "y": [ 9, 13 ], "repeat": [ 1, 2 ] },
-        { "monster": "mon_large_cockroach", "x": [ 85, 91 ], "y": [ 10 ], "chance": 100, "repeat": [ 3, 5 ] },
+        { "monster": "mon_large_cockroach", "x": [ 85, 91 ], "y": [ 10 ], "chance": 100, "repeat": [ 5, 6 ] },
+        { "monster": "mon_spider_cellar_giant", "x": [ 26, 30 ], "y": [ 9, 17 ], "chance": 100, "repeat": [ 2, 3 ] },
         { "monster": "mon_zombie_child", "x": [ 125 ], "y": [ 17 ], "chance": 100, "repeat": [ 0, 1 ] },
         { "monster": "mon_zombie_child", "x": [ 125 ], "y": [ 11 ], "chance": 100, "repeat": [ 0, 1 ] },
         { "monster": "mon_zombie_child", "x": [ 132 ], "y": [ 11 ], "chance": 100, "repeat": [ 0, 1 ] }
@@ -754,7 +756,7 @@
         "Q                       ",
         "Q                       ",
         "Q      WWWWWWWoWWWWWW   ",
-        "Q      W4....w.vw6&AWЯ  ",
+        "Q      W1....w.vw6&AWЯ  ",
         "Q      o.....w..D..ko   ",
         "Q     ЯW.....w..wwwwW   ",
         "Q      o.....D...o..f   ",
@@ -1461,23 +1463,23 @@
       ],
       "palettes": [ "retirement_community_c_palette" ],
       "place_monster": [
-        { "group": "GROUP_RETIREMENT_COMMUNITY", "x": [ 2, 23 ], "y": [ 2, 18 ], "repeat": [ 3, 4 ] },
-        { "group": "GROUP_RETIREMENT_COMMUNITY", "x": [ 144, 156 ], "y": [ 2, 18 ], "repeat": [ 3, 4 ] },
-        { "group": "GROUP_RETIREMENT_COMMUNITY", "x": [ 5, 23 ], "y": [ 27, 43 ], "repeat": [ 3, 4 ] },
-        { "group": "GROUP_RETIREMENT_COMMUNITY", "x": [ 25, 47 ], "y": [ 27, 43 ], "repeat": [ 3, 4 ] },
-        { "group": "GROUP_RETIREMENT_COMMUNITY", "x": [ 25, 47 ], "y": [ 49, 70 ], "repeat": [ 3, 4 ] },
-        { "group": "GROUP_RETIREMENT_COMMUNITY", "x": [ 95, 112 ], "y": [ 49, 70 ], "repeat": [ 2, 3 ] },
-        { "group": "GROUP_ZOMBIE", "x": [ 120, 143 ], "y": [ 28, 43 ], "repeat": [ 4, 5 ] },
+        { "group": "GROUP_RETIREMENT_COMMUNITY", "x": [ 2, 23 ], "y": [ 2, 18 ], "repeat": [ 4, 5 ] },
+        { "group": "GROUP_RETIREMENT_COMMUNITY", "x": [ 144, 156 ], "y": [ 2, 18 ], "repeat": [ 4, 5 ] },
+        { "group": "GROUP_RETIREMENT_COMMUNITY", "x": [ 5, 23 ], "y": [ 27, 43 ], "repeat": [ 4, 5 ] },
+        { "group": "GROUP_RETIREMENT_COMMUNITY", "x": [ 25, 47 ], "y": [ 27, 43 ], "repeat": [ 4, 5 ] },
+        { "group": "GROUP_RETIREMENT_COMMUNITY", "x": [ 25, 47 ], "y": [ 49, 70 ], "repeat": [ 4, 5 ] },
+        { "group": "GROUP_RETIREMENT_COMMUNITY", "x": [ 95, 112 ], "y": [ 49, 70 ], "repeat": [ 4, 5 ] },
+        { "group": "GROUP_ZOMBIE", "x": [ 120, 143 ], "y": [ 28, 43 ], "repeat": [ 5, 6 ] },
         { "group": "GROUP_ZOMBIE", "x": [ 145, 160 ], "y": [ 28, 43 ], "repeat": [ 5, 6 ] }
       ],
       "items": {
         ",": [
-          { "item": "home_hw", "chance": 30 },
-          { "item": "chem_home", "chance": 30 },
-          { "item": "metal_workshop", "chance": 30 },
-          { "item": "tools_common_small", "chance": 30 },
-          { "item": "cleaning", "chance": 30 },
-          { "item": "tools_workshop", "chance": 30 }
+          { "item": "home_hw", "chance": 10 },
+          { "item": "chem_home", "chance": 10 },
+          { "item": "metal_workshop", "chance": 10 },
+          { "item": "tools_common_small", "chance": 25 },
+          { "item": "cleaning", "chance": 20 },
+          { "item": "tools_workshop", "chance": 10 }
         ],
         "N": { "item": "gym", "chance": 50, "repeat": [ 0, 1 ] },
         "-": { "item": "allclothes", "chance": 50, "repeat": [ 0, 1 ] },
@@ -1631,11 +1633,11 @@
       "palettes": [ "retirement_community_b_palette" ],
       "items": {
         "R": [
-          { "item": "tools_common", "chance": 30 },
-          { "item": "tools_workshop", "chance": 30 },
-          { "item": "tools_plumbing", "chance": 30 },
-          { "item": "hardware_clothing", "chance": 30 },
-          { "item": "construction_worker", "chance": 30 }
+          { "item": "tools_common", "chance": 15 },
+          { "item": "tools_workshop", "chance": 10 },
+          { "item": "tools_plumbing", "chance": 10 },
+          { "item": "hardware_clothing", "chance": 10 },
+          { "item": "construction_worker", "chance": 10 }
         ]
       }
     }
@@ -1727,15 +1729,15 @@
       ],
       "palettes": [ "retirement_community_park_palette" ],
       "place_monster": [
-        { "group": "GROUP_RETIREMENT_COMMUNITY", "x": [ 2, 23 ], "y": [ 2, 23 ], "repeat": [ 3, 4 ] },
-        { "group": "GROUP_RETIREMENT_COMMUNITY", "x": [ 25, 47 ], "y": [ 2, 23 ], "repeat": [ 3, 4 ] },
-        { "group": "GROUP_RETIREMENT_COMMUNITY", "x": [ 49, 71 ], "y": [ 2, 23 ], "repeat": [ 3, 4 ] },
-        { "group": "GROUP_RETIREMENT_COMMUNITY", "x": [ 2, 23 ], "y": [ 25, 47 ], "repeat": [ 3, 4 ] },
-        { "group": "GROUP_RETIREMENT_COMMUNITY", "x": [ 25, 47 ], "y": [ 25, 47 ], "repeat": [ 3, 4 ] },
-        { "group": "GROUP_RETIREMENT_COMMUNITY", "x": [ 49, 71 ], "y": [ 25, 47 ], "repeat": [ 3, 4 ] },
-        { "group": "GROUP_RETIREMENT_COMMUNITY", "x": [ 2, 23 ], "y": [ 49, 71 ], "repeat": [ 3, 4 ] },
-        { "group": "GROUP_RETIREMENT_COMMUNITY", "x": [ 25, 47 ], "y": [ 49, 71 ], "repeat": [ 3, 4 ] },
-        { "group": "GROUP_RETIREMENT_COMMUNITY", "x": [ 49, 71 ], "y": [ 49, 71 ], "repeat": [ 3, 4 ] },
+        { "group": "GROUP_RETIREMENT_COMMUNITY", "x": [ 2, 23 ], "y": [ 2, 23 ], "repeat": [ 1, 3 ] },
+        { "group": "GROUP_RETIREMENT_COMMUNITY", "x": [ 25, 47 ], "y": [ 2, 23 ], "repeat": [ 1, 3 ] },
+        { "group": "GROUP_RETIREMENT_COMMUNITY", "x": [ 49, 71 ], "y": [ 2, 23 ], "repeat": [ 1, 3 ] },
+        { "group": "GROUP_RETIREMENT_COMMUNITY", "x": [ 2, 23 ], "y": [ 25, 47 ], "repeat": [ 2, 3 ] },
+        { "group": "GROUP_RETIREMENT_COMMUNITY", "x": [ 25, 47 ], "y": [ 25, 47 ], "repeat": [ 2, 3 ] },
+        { "group": "GROUP_RETIREMENT_COMMUNITY", "x": [ 49, 71 ], "y": [ 25, 47 ], "repeat": [ 2, 3 ] },
+        { "group": "GROUP_RETIREMENT_COMMUNITY", "x": [ 2, 23 ], "y": [ 49, 71 ], "repeat": [ 5, 6 ] },
+        { "group": "GROUP_RETIREMENT_COMMUNITY", "x": [ 25, 47 ], "y": [ 49, 71 ], "repeat": [ 5, 6 ] },
+        { "group": "GROUP_RETIREMENT_COMMUNITY", "x": [ 49, 71 ], "y": [ 49, 71 ], "repeat": [ 5, 6 ] },
         { "group": "GROUP_STOCKED_POND", "x": [ 51, 61 ], "y": [ 7, 19 ], "repeat": [ 4, 5 ] },
         { "monster": "mon_squirrel", "x": [ 1, 23 ], "y": [ 1, 23 ], "repeat": [ 3, 4 ] },
         { "monster": "mon_squirrel", "x": [ 24, 47 ], "y": [ 50, 70 ], "repeat": [ 2, 3 ] },
@@ -1748,10 +1750,7 @@
         "T": { "item": "trash", "chance": 70, "repeat": [ 2, 7 ] },
         "t": { "item": "barbecue", "chance": 20 },
         "₸": { "item": "liquor_and_spirits", "chance": 100, "repeat": 2 },
-        "R": [
-          { "item": "tools_plumbing", "chance": 50, "repeat": [ 0, 2 ] },
-          { "item": "tools_general", "chance": 50, "repeat": [ 0, 2 ] }
-        ]
+        "R": [ { "item": "tools_plumbing", "chance": 50 }, { "item": "tools_general", "chance": 50 } ]
       },
       "place_item": [
         { "item": "panties", "x": 44, "y": 5, "chance": 100 },

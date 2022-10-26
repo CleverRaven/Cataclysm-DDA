@@ -1407,13 +1407,13 @@
     "repairs_like": "jeans",
     "type": "ARMOR",
     "name": { "str": "work pants", "str_pl": "pairs of work pants" },
-    "description": "A pair of gray work pants.",
-    "weight": "520 g",
+    "description": "A pair of gray canvas work pants.",
+    "weight": "1040 g",
     "volume": "2 L",
     "price": 5000,
     "price_postapoc": 100,
     "to_hit": 1,
-    "material": [ "cotton" ],
+    "material": [ "canvas" ],
     "symbol": "[",
     "looks_like": "pants",
     "color": "light_gray",
@@ -1448,14 +1448,14 @@
       }
     ],
     "warmth": 15,
-    "material_thickness": 0.3,
+    "material_thickness": 0.5,
     "snippet_category": [
-      { "id": "technician_pants_blue", "text": "A pair of blue work pants." },
-      { "id": "technician_pants_gray", "text": "A pair of gray work pants." },
-      { "id": "technician_pants_lightblue", "text": "A pair of light-blue work pants." }
+      { "id": "technician_pants_blue", "text": "A pair of blue canvas work pants." },
+      { "id": "technician_pants_gray", "text": "A pair of gray canvas work pants." },
+      { "id": "technician_pants_lightblue", "text": "A pair of light-blue canvas work pants." }
     ],
-    "flags": [ "VARSIZE", "POCKETS" ],
-    "armor": [ { "encumbrance": [ 2, 5 ], "coverage": 95, "covers": [ "leg_l", "leg_r" ] } ]
+    "flags": [ "VARSIZE", "POCKETS", "STURDY", "WATERPROOF" ],
+    "armor": [ { "encumbrance": [ 4, 9 ], "coverage": 100, "covers": [ "leg_l", "leg_r" ] } ]
   },
   {
     "id": "winter_pants_army",

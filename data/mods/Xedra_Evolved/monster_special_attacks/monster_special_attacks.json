@@ -36,8 +36,8 @@
     "base_casting_time": 300,
     "base_energy_cost": 800,
     "flags": [ "SOMATIC", "VERBAL", "NO_PROJECTILE" ],
-    "spell_class": "BIOMANCER",
+    "spell_class": "NONE",
     "difficulty": 2,
-    "energy_source": "MANA"
+    "energy_source": "NONE"
   }
 ]

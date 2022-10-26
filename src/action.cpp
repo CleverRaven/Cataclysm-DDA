@@ -381,6 +381,8 @@ std::string action_ident( action_id act )
             return "SELECT";
         case ACTION_SEC_SELECT:
             return "SEC_SELECT";
+        case ACTION_CLICK_AND_DRAG:
+            return "CLICK_AND_DRAG";
         case ACTION_AUTOATTACK:
             return "autoattack";
         case ACTION_MAIN_MENU:

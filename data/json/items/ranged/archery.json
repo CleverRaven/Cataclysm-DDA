@@ -420,6 +420,7 @@
     "sight_dispersion": 3000,
     "durability": 4,
     "clip_size": 1,
+    "valid_mod_locations": [ [ "dampening", 1 ], [ "accessories", 1 ] ],
     "reload": 50,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "arrow": 1 } } ]
   },
@@ -472,7 +473,7 @@
     "sight_dispersion": 3000,
     "durability": 6,
     "clip_size": 1,
-    "valid_mod_locations": [ [ "dampening", 1 ] ],
+    "valid_mod_locations": [ [ "dampening", 1 ], [ "accessories", 1 ] ],
     "reload": 50,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "arrow": 1 } } ]
   },
@@ -606,7 +607,7 @@
     "sight_dispersion": 3000,
     "durability": 6,
     "clip_size": 1,
-    "valid_mod_locations": [ [ "dampening", 1 ] ],
+    "valid_mod_locations": [ [ "dampening", 1 ], [ "accessories", 1 ] ],
     "reload": 50,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "arrow": 1 } } ]
   },
@@ -659,7 +660,7 @@
     "sight_dispersion": 3000,
     "durability": 6,
     "clip_size": 1,
-    "valid_mod_locations": [ [ "dampening", 1 ] ],
+    "valid_mod_locations": [ [ "dampening", 1 ], [ "accessories", 1 ] ],
     "reload": 50,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "arrow": 1 } } ]
   },
@@ -803,6 +804,7 @@
     "//2": "When taken down.",
     "price_postapoc": 2200,
     "bashing": 12,
+    "flags": [ "NO_TURRET" ],
     "modes": [ [ "DEFAULT", "disassembled", 0, [ "MELEE" ] ] ],
     "valid_mod_locations": [ [ "underbarrel", 1 ], [ "sights", 1 ], [ "accessories", 2 ], [ "stabilizer", 1 ], [ "dampening", 1 ] ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "arrow": 1 } } ],
@@ -863,7 +865,7 @@
     "sight_dispersion": 3000,
     "durability": 6,
     "clip_size": 1,
-    "valid_mod_locations": [ [ "dampening", 1 ] ],
+    "valid_mod_locations": [ [ "dampening", 1 ], [ "accessories", 1 ] ],
     "reload": 50,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "arrow": 1 } } ]
   },

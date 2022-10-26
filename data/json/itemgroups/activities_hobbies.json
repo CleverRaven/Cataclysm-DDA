@@ -305,6 +305,7 @@
       { "group": "butane_lighter_and_fuel", "prob": 10 },
       { "item": "sewing_kit", "prob": 47, "charges-min": 0 },
       { "item": "tailors_kit", "prob": 3, "charges-min": 0 },
+      { "item": "electric_spinwheel", "prob": 3, "charges-min": 0 },
       [ "thread", 40 ],
       [ "hammer", 35 ],
       { "item": "flashlight", "prob": 40, "charges": [ 0, 300 ] },
@@ -493,6 +494,7 @@
       { "item": "matches", "prob": 60, "charges": [ 1, 20 ] },
       { "item": "sewing_kit", "prob": 47, "charges-min": 0 },
       { "item": "tailors_kit", "prob": 3, "charges-min": 0 },
+      { "item": "electric_spinwheel", "prob": 3, "charges-min": 0 },
       [ "thread", 40 ],
       [ "hammer", 35 ],
       { "item": "flashlight", "prob": 40, "charges": [ 0, 300 ] },
@@ -572,9 +574,26 @@
       [ "metal_RPG_die", 30 ],
       [ "RPG_die", 40 ],
       [ "character_sheet", 20 ],
+      [ "mahjong", 20 ],
+      [ "go", 15 ],
+      [ "shogi", 15 ],
+      [ "snakesnladders", 15 ],
+      [ "ludo", 15 ],
+      [ "jackstraws", 12 ],
+      [ "domino", 10 ],
       [ "scorecard", 10 ],
+      [ "poppirate", 9 ],
       [ "dnd_handbook", 5 ],
-      { "item": "portable_game", "prob": 5, "charges": [ 0, 100 ] }
+      [ "senet", 5 ],
+      [ "ambush", 5 ],
+      [ "ranger", 5 ],
+      [ "openfire", 5 ],
+      { "item": "portable_game", "prob": 5, "charges": [ 0, 100 ] },
+      [ "hnefatafl", 3 ],
+      [ "alquerque", 3 ],
+      [ "chaturanga", 3 ],
+      [ "backgammon", 3 ],
+      [ "latrunculi", 2 ]
     ]
   },
   {
@@ -587,7 +606,19 @@
       [ "checkers", 50 ],
       [ "battleship", 30 ],
       [ "monopoly", 10 ],
-      [ "clue", 10 ]
+      [ "clue", 10 ],
+      [ "snakesnladders", 10 ],
+      [ "domino", 7 ],
+      [ "jackstraws", 5 ],
+      [ "poppirate", 3 ],
+      [ "go", 1 ],
+      [ "shogi", 1 ]
     ]
+  },
+  {
+    "type": "item_group",
+    "//": "oriental games, for dojo location.",
+    "id": "games_dojo",
+    "items": [ [ "go", 50 ], [ "shogi", 50 ], [ "mahjong", 50 ], [ "chaturanga", 25 ] ]
   }
 ]

@@ -300,5 +300,40 @@
         [ "occult_seal", 1 ]
       ]
     }
+  },
+  {
+    "id": "costume_misc_items",
+    "type": "item_group",
+    "copy-from": "costume_misc_items",
+    "subtype": "distribution",
+    "extend": { "items": [ [ "wolf_mask", 5 ], [ "magicians_hat", 5 ], [ "syringe_artifact", 5 ], [ "foil_hat", 1 ] ] }
+  },
+  {
+    "id": "homebooks",
+    "type": "item_group",
+    "copy-from": "homebooks",
+    "subtype": "distribution",
+    "extend": {
+      "entries": [
+        { "item": "book_inventor", "prob": 1 },
+        { "item": "money_strap_magic", "prob": 1 },
+        { "item": "firmament_driver_book", "prob": 1 },
+        { "item": "ray_diagrams", "prob": 1 }
+      ]
+    }
+  },
+  {
+    "id": "renfield_glock_mags",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [
+      { "item": "glockmag", "prob": 20, "charges": [ 0, 15 ] },
+      { "item": "glockbigmag", "prob": 10, "charges": [ 0, 30 ] },
+      { "item": "glock40bigmag", "prob": 10, "charges": [ 0, 40 ] },
+      { "item": "glock17_17", "prob": 5, "charges": [ 0, 17 ] },
+      { "item": "glock17_22", "prob": 10, "charges": [ 0, 22 ] },
+      { "item": "glock_drum_50rd", "prob": 20, "charges": [ 0, 50 ] },
+      { "item": "glock_drum_100rd", "prob": 5, "charges": [ 0, 100 ] }
+    ]
   }
 ]

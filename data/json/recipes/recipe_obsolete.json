@@ -779,5 +779,117 @@
     "result": "chem_black_powder",
     "id_suffix": "generic",
     "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "nomex",
+    "id_suffix": "from_sheet",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "neoprene",
+    "id_suffix": "from_sheet",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "neoprene",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "filter_paper_qualitative",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "filter_paper_quantitative",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "sheet_metal_lit",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "ammo_satchel_from leather",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "chestpouch_from leather",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "crude_picklock_from wire",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "rag_from_sheet",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "rag_knitting",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "scrambled_eggs_from_powder",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "deluxe_eggs_from_powder",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "acorns_cooked_mortar",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "jug_plastic_plastic-mod",
+    "obsolete": true
+  },
+  {
+    "result": "gasfilter_l",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "box_medium",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "chem_match_head_powder",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "chem_sulphuric_acid_from batteries",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "chainmail_suit_hauberk",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "xl_chainmail_suit_hauberk",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "scrap_aluminum",
+    "obsolete": true
   }
 ]

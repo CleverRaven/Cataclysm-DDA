@@ -1414,7 +1414,7 @@ int spell::casting_exp( const Character &guy ) const
     // the amount of xp you would get with no modifiers
     const int base_casting_xp = 75;
 
-    return std::round( guy.adjust_for_focus( base_casting_xp * exp_modifier( guy ) ) / 100.0 );
+    return std::round( guy.adjust_for_focus( base_casting_xp * exp_modifier( guy ) ) );
 }
 
 std::string spell::enumerate_targets() const
@@ -1747,6 +1747,46 @@ void known_magic::forget_spell( const spell_id &sp )
     // TODO: add parameter for owner of known_magic for this function
     get_event_bus().send<event_type::character_forgets_spell>( get_player_character().getID(), sp->id );
     spellbook.erase( sp );
+}
+
+void known_magic::set_spell_level( const spell_id &sp, int new_level, const Character *guy )
+{
+    spell temp_spell( sp->id );
+    if( !knows_spell( sp ) ) {
+        if( new_level >= 0 ) {
+            temp_spell.set_level( new_level );
+            spellbook.emplace( sp->id, spell( temp_spell ) );
+            get_event_bus().send<event_type::character_learns_spell>( guy->getID(), sp->id );
+        }
+    } else {
+        if( new_level >= 0 ) {
+            spell &temp_sp = get_spell( sp );
+            temp_sp.set_level( new_level );
+        } else {
+            get_event_bus().send<event_type::character_forgets_spell>( guy->getID(), sp->id );
+            spellbook.erase( sp );
+        }
+    }
+}
+
+void known_magic::set_spell_exp( const spell_id &sp, int new_exp, const Character *guy )
+{
+    spell temp_spell( sp->id );
+    if( !knows_spell( sp ) ) {
+        if( new_exp >= 0 ) {
+            temp_spell.set_exp( new_exp );
+            spellbook.emplace( sp->id, spell( temp_spell ) );
+            get_event_bus().send<event_type::character_learns_spell>( guy->getID(), sp->id );
+        }
+    } else {
+        if( new_exp >= 0 ) {
+            spell &temp_sp = get_spell( sp );
+            temp_sp.set_exp( new_exp );
+        } else {
+            get_event_bus().send<event_type::character_forgets_spell>( guy->getID(), sp->id );
+            spellbook.erase( sp );
+        }
+    }
 }
 
 bool known_magic::can_learn_spell( const Character &guy, const spell_id &sp ) const

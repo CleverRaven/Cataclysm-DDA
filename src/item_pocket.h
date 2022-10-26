@@ -305,6 +305,9 @@ class item_pocket
          */
         void process( map &here, Character *carrier, const tripoint &pos, float insulation = 1,
                       temperature_flag flag = temperature_flag::NORMAL, float spoil_multiplier_parent = 1.0f );
+
+        void leak( map &here, Character *carrier, const tripoint &pos, item_pocket *pocke = nullptr );
+
         pocket_type saved_type() const {
             return _saved_type;
         }
@@ -314,13 +317,16 @@ class item_pocket
         }
 
         // tries to put an item in the pocket. returns false if failure
-        ret_val<contain_code> insert_item( const item &it );
+        ret_val<contain_code> insert_item( const item &it, bool into_bottom = false );
         /**
           * adds an item to the pocket with no checks
           * may create a new pocket
           */
         void add( const item &it, item **ret = nullptr );
         bool can_unload_liquid() const;
+
+        int fill_with( const item &contained, Character &guy, int amount = 0,
+                       bool allow_unseal = false, bool ignore_settings = false );
 
         /**
         * @brief Check contents of pocket to see if it contains a valid item/pocket to store the given item.
@@ -512,6 +518,8 @@ class pocket_data
         // items stored are restricted to these item ids.
         // this takes precedence over the other two restrictions
         cata::flat_set<itype_id> item_id_restriction;
+        // Restricts items by their material.
+        cata::flat_set<material_id> material_restriction;
         cata::flat_set<itype_id> allowed_speedloaders;
         // the first in the json array for item_id_restriction when loaded
         itype_id default_magazine = itype_id::NULL_ID();

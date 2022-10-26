@@ -64,3 +64,5 @@
 #include <unordered_set>
 #include <utility>
 #include <vector>
+
+#include <flatbuffers/flexbuffers.h>

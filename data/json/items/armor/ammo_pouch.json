@@ -78,7 +78,7 @@
     "volume": "500 ml",
     "price": 2000,
     "price_postapoc": 2000,
-    "material": [ "cotton" ],
+    "material": [ "canvas" ],
     "symbol": "[",
     "looks_like": "ragpouch",
     "color": "dark_gray",
@@ -107,7 +107,7 @@
     "volume": "250 ml",
     "price": 1250,
     "price_postapoc": 2000,
-    "material": [ "cotton" ],
+    "material": [ "canvas" ],
     "symbol": "[",
     "looks_like": "ragpouch",
     "color": "dark_gray",
@@ -136,7 +136,7 @@
     "volume": "500 ml",
     "price": 3900,
     "price_postapoc": 3000,
-    "material": [ "cotton" ],
+    "material": [ "canvas" ],
     "symbol": "[",
     "looks_like": "tool_belt",
     "color": "dark_gray",
@@ -593,7 +593,7 @@
     "color": "dark_gray",
     "material_thickness": 1.5,
     "use_action": [ { "type": "attach_molle", "size": 4 }, { "type": "detach_molle" } ],
-    "flags": [ "WATER_FRIENDLY", "BELTED" ],
+    "flags": [ "WATER_FRIENDLY", "BELTED", "STURDY" ],
     "armor": [
       {
         "encumbrance": 1,
@@ -620,7 +620,7 @@
     "color": "dark_gray",
     "material_thickness": 1.5,
     "use_action": [ { "type": "attach_molle", "size": 8 }, { "type": "detach_molle" } ],
-    "flags": [ "WATER_FRIENDLY", "BELTED" ],
+    "flags": [ "WATER_FRIENDLY", "BELTED", "STURDY" ],
     "armor": [
       {
         "encumbrance": 2,
@@ -680,7 +680,7 @@
     "color": "dark_gray",
     "material_thickness": 1.5,
     "use_action": [ { "type": "attach_molle", "size": 14 }, { "type": "detach_molle" } ],
-    "flags": [ "WATER_FRIENDLY", "BELTED" ],
+    "flags": [ "WATER_FRIENDLY", "BELTED", "STURDY" ],
     "armor": [
       {
         "encumbrance": 4,
@@ -1159,63 +1159,48 @@
   },
   {
     "id": "xlkevlar",
+    "repairs_like": "survivor_suit",
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "XL Kevlar vest" },
-    "description": "A massive, hand-built Kevlar vest based on the design of existing bullet-resistant vests.  It has four pouches capable of carrying magazines.",
-    "looks_like": "tacvest",
-    "weight": "5148 g",
-    "volume": "10750 ml",
-    "price": 200000,
-    "price_postapoc": 6000,
+    "description": "A massive handmade imitation of a proper ballistic vest for abnormally large folks.  Large and heavy, but will still fit under an abnormally large coat.",
+    "weight": "4210 g",
+    "volume": "8 L",
+    "price_postapoc": 2500,
     "to_hit": -3,
     "bashing": 6,
-    "material": [ "kevlar_layered" ],
+    "material": [ "kevlar_layered", "nylon" ],
     "symbol": "[",
+    "looks_like": "kevlar",
     "color": "light_gray",
-    "warmth": 15,
-    "material_thickness": 4.4,
-    "pocket_data": [
+    "warmth": 20,
+    "material_thickness": 5,
+    "flags": [ "STURDY", "OVERSIZE" ],
+    "armor": [
       {
-        "pocket_type": "CONTAINER",
-        "max_item_length": "240 mm",
-        "min_item_volume": "250 ml",
-        "max_contains_volume": "1 L",
-        "max_contains_weight": "2 kg",
-        "moves": 60,
-        "flag_restriction": [ "MAG_COMPACT" ]
+        "material": [
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "kevlar_layered", "covered_by_mat": 95, "thickness": 4.4 }
+        ],
+        "encumbrance": 6,
+        "coverage": 98,
+        "cover_vitals": 70,
+        "covers": [ "torso" ],
+        "specifically_covers": [ "torso_upper" ]
       },
       {
-        "pocket_type": "CONTAINER",
-        "max_item_length": "240 mm",
-        "min_item_volume": "250 ml",
-        "max_contains_volume": "1 L",
-        "max_contains_weight": "2 kg",
-        "moves": 60,
-        "flag_restriction": [ "MAG_COMPACT" ]
-      },
-      {
-        "pocket_type": "CONTAINER",
-        "max_item_length": "240 mm",
-        "min_item_volume": "250 ml",
-        "max_contains_volume": "1 L",
-        "max_contains_weight": "2 kg",
-        "moves": 60,
-        "flag_restriction": [ "MAG_COMPACT" ]
-      },
-      {
-        "pocket_type": "CONTAINER",
-        "max_item_length": "240 mm",
-        "min_item_volume": "250 ml",
-        "max_contains_volume": "1 L",
-        "max_contains_weight": "2 kg",
-        "moves": 60,
-        "flag_restriction": [ "MAG_COMPACT" ]
+        "material": [
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "kevlar_layered", "covered_by_mat": 95, "thickness": 4.4 }
+        ],
+        "//": "encumbrance handled above",
+        "encumbrance": 0,
+        "coverage": 92,
+        "cover_vitals": 60,
+        "covers": [ "torso" ],
+        "specifically_covers": [ "torso_lower" ]
       }
-    ],
-    "use_action": { "type": "holster", "holster_prompt": "Stash ammo", "holster_msg": "You stash your %s." },
-    "flags": [ "OVERSIZE", "STURDY", "OUTER" ],
-    "armor": [ { "encumbrance": 17, "coverage": 85, "covers": [ "torso" ] } ]
+    ]
   },
   {
     "id": "ammo_satchel_leather",

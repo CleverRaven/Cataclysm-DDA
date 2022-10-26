@@ -39,8 +39,8 @@
     "result": "armor_chitin",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_SUIT",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
     "skill_used": "tailor",
     "difficulty": 7,
     "skills_required": [ [ "fabrication", 3 ] ],
@@ -78,8 +78,8 @@
     "result": "armor_acidchitin",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_SUIT",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
     "skill_used": "tailor",
     "difficulty": 8,
     "skills_required": [ [ "fabrication", 3 ], [ "chemistry", 2 ] ],
@@ -468,6 +468,226 @@
     "components": [ [ [ "cuirass_scrap", 1 ] ], [ [ "armguard_scrap", 1 ] ], [ [ "legguard_scrap", 1 ] ] ]
   },
   {
+    "result": "armor_metal_sheets",
+    "id_suffix": "assembly",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_SUIT",
+    "skill_used": "fabrication",
+    "difficulty": 4,
+    "time": "20 m",
+    "reversible": true,
+    "autolearn": true,
+    "components": [
+      [ [ "chestguard_metal_sheets", 1 ] ],
+      [ [ "armguard_metal", 1 ] ],
+      [ [ "armguard_metal_sheets_shoulders", 1 ] ],
+      [ [ "armguard_metal_sheets_elbows", 1 ] ],
+      [ [ "legguard_metal_sheets", 1 ] ],
+      [ [ "legguard_metal_sheets_hip", 1 ] ],
+      [ [ "legguard_metal_sheets_knees", 1 ] ]
+    ]
+  },
+  {
+    "result": "armor_ch_metal_sheets",
+    "id_suffix": "assembly",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_SUIT",
+    "skill_used": "fabrication",
+    "difficulty": 4,
+    "time": "20 m",
+    "reversible": true,
+    "autolearn": true,
+    "components": [
+      [ [ "ch_chestguard_metal_sheets", 1 ] ],
+      [ [ "ch_armguard_metal", 1 ] ],
+      [ [ "ch_armguard_metal_sheets_shoulders", 1 ] ],
+      [ [ "ch_armguard_metal_sheets_elbows", 1 ] ],
+      [ [ "ch_legguard_metal_sheets", 1 ] ],
+      [ [ "ch_legguard_metal_sheets_hip", 1 ] ],
+      [ [ "ch_legguard_metal_sheets_knees", 1 ] ]
+    ]
+  },
+  {
+    "result": "armor_ch_metal_sheets",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_SUIT",
+    "skill_used": "fabrication",
+    "difficulty": 6,
+    "time": "12 h",
+    "book_learn": [ [ "textbook_armwest", 6 ], [ "welding_book", 6 ] ],
+    "using": [ [ "carbon", 10 ] ],
+    "components": [ [ [ "armor_metal_sheets", 1 ] ] ],
+    "proficiencies": [
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_blacksmithing" },
+      { "proficiency": "prof_case_hardening" }
+    ],
+    "qualities": [ { "id": "HAMMER", "level": 2 } ],
+    "tools": [ [ [ "forge", 256 ] ], [ [ "metalworking_tongs", -1 ] ] ]
+  },
+  {
+    "result": "armor_metal_sheets_heavy",
+    "id_suffix": "assembly",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_SUIT",
+    "skill_used": "fabrication",
+    "difficulty": 4,
+    "time": "20 m",
+    "reversible": true,
+    "autolearn": true,
+    "components": [
+      [ [ "chestguard_metal_sheets_heavy", 1 ] ],
+      [ [ "armguard_metal", 1 ] ],
+      [ [ "armguard_metal_sheets_shoulders", 1 ] ],
+      [ [ "armguard_metal_sheets_elbows", 1 ] ],
+      [ [ "legguard_metal_sheets", 1 ] ],
+      [ [ "legguard_metal_sheets_hip", 1 ] ],
+      [ [ "legguard_metal_sheets_knees", 1 ] ]
+    ]
+  },
+  {
+    "result": "armor_ch_metal_sheets_heavy",
+    "id_suffix": "assembly",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_SUIT",
+    "skill_used": "fabrication",
+    "difficulty": 4,
+    "time": "20 m",
+    "reversible": true,
+    "autolearn": true,
+    "components": [
+      [ [ "ch_chestguard_metal_sheets_heavy", 1 ] ],
+      [ [ "ch_armguard_metal", 1 ] ],
+      [ [ "ch_armguard_metal_sheets_shoulders", 1 ] ],
+      [ [ "ch_armguard_metal_sheets_elbows", 1 ] ],
+      [ [ "ch_legguard_metal_sheets", 1 ] ],
+      [ [ "ch_legguard_metal_sheets_hip", 1 ] ],
+      [ [ "ch_legguard_metal_sheets_knees", 1 ] ]
+    ]
+  },
+  {
+    "result": "armor_ch_metal_sheets_heavy",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_SUIT",
+    "skill_used": "fabrication",
+    "difficulty": 6,
+    "time": "14 h",
+    "using": [ [ "carbon", 8 ] ],
+    "book_learn": [ [ "textbook_armwest", 6 ], [ "welding_book", 6 ] ],
+    "components": [ [ [ "armor_metal_sheets_heavy", 1 ] ] ],
+    "proficiencies": [
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_blacksmithing" },
+      { "proficiency": "prof_case_hardening" }
+    ],
+    "qualities": [ { "id": "HAMMER", "level": 2 } ],
+    "tools": [ [ [ "forge", 312 ] ], [ [ "metalworking_tongs", -1 ] ] ]
+  },
+  {
+    "result": "armor_metal_sheets_chain",
+    "id_suffix": "assembly",
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_SUIT",
+    "skill_used": "fabrication",
+    "difficulty": 4,
+    "time": "120 m",
+    "autolearn": true,
+    "components": [ [ [ "armor_metal_sheets", 1 ] ], [ [ "lc_link_sheet", 2 ] ], [ [ "nuts_bolts", 48 ] ] ],
+    "qualities": [ { "id": "SAW_M", "level": 2 }, { "id": "DRILL", "level": 2 } ],
+    "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_chain_armour" } ]
+  },
+  {
+    "result": "armor_metal_sheets_chain_heavy",
+    "id_suffix": "assembly",
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_SUIT",
+    "skill_used": "fabrication",
+    "difficulty": 4,
+    "time": "120 m",
+    "autolearn": true,
+    "components": [ [ [ "armor_metal_sheets_heavy", 1 ] ], [ [ "lc_link_sheet", 2 ] ], [ [ "nuts_bolts", 48 ] ] ],
+    "qualities": [ { "id": "SAW_M", "level": 2 }, { "id": "DRILL", "level": 2 } ],
+    "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_chain_armour" } ]
+  },
+  {
+    "result": "armor_ch_metal_sheets_chain",
+    "id_suffix": "assembly",
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_SUIT",
+    "skill_used": "fabrication",
+    "difficulty": 4,
+    "time": "120 m",
+    "autolearn": true,
+    "components": [ [ [ "armor_ch_metal_sheets", 1 ] ], [ [ "ch_link_sheet", 2 ] ], [ [ "nuts_bolts", 48 ] ] ],
+    "qualities": [ { "id": "SAW_M", "level": 2 }, { "id": "DRILL", "level": 2 } ],
+    "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_chain_armour" } ]
+  },
+  {
+    "result": "armor_ch_metal_sheets_chain_heavy",
+    "id_suffix": "assembly",
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_SUIT",
+    "skill_used": "fabrication",
+    "difficulty": 4,
+    "time": "120 m",
+    "autolearn": true,
+    "components": [ [ [ "armor_ch_metal_sheets_heavy", 1 ] ], [ [ "ch_link_sheet", 2 ] ], [ [ "nuts_bolts", 48 ] ] ],
+    "qualities": [ { "id": "SAW_M", "level": 2 }, { "id": "DRILL", "level": 2 } ],
+    "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_chain_armour" } ]
+  },
+  {
+    "result": "armor_ch_metal_sheets_chain",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_SUIT",
+    "skill_used": "fabrication",
+    "difficulty": 6,
+    "time": "16 h",
+    "book_learn": [ [ "textbook_armwest", 6 ], [ "welding_book", 6 ] ],
+    "using": [ [ "carbon", 10 ] ],
+    "components": [ [ [ "armor_metal_sheets_chain", 1 ] ] ],
+    "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
+    "qualities": [ { "id": "HAMMER", "level": 2 } ],
+    "tools": [ [ [ "forge", 256 ] ], [ [ "metalworking_tongs", -1 ] ] ]
+  },
+  {
+    "result": "armor_ch_metal_sheets_chain_heavy",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_SUIT",
+    "skill_used": "fabrication",
+    "difficulty": 6,
+    "time": "16 h",
+    "book_learn": [ [ "textbook_armwest", 6 ], [ "welding_book", 6 ] ],
+    "using": [ [ "carbon", 8 ] ],
+    "components": [ [ [ "armor_metal_sheets_chain_heavy", 1 ] ] ],
+    "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
+    "qualities": [ { "id": "HAMMER", "level": 2 } ],
+    "tools": [ [ [ "forge", 312 ] ], [ [ "metalworking_tongs", -1 ] ] ]
+  },
+  {
     "result": "armor_tiresuit",
     "id_suffix": "assembly",
     "type": "recipe",
@@ -517,21 +737,21 @@
     "autolearn": true,
     "flags": [ "NO_RESIZE" ],
     "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_chain_armour" } ],
-    "components": [ [ [ "lc_chainmail_vest", 1 ] ], [ [ "lc_chainmail_arms", 1 ] ], [ [ "lc_chainmail_legs", 1 ] ] ]
+    "components": [ [ [ "lc_chainmail_vest", 1 ] ], [ [ "lc_chainmail_arms", 1 ] ] ]
   },
   {
     "result": "lc_chainmail_hauberk_xs",
     "type": "recipe",
     "copy-from": "lc_chainmail_hauberk",
     "time": "1 h 45 m",
-    "components": [ [ [ "lc_chainmail_vest", 1 ] ], [ [ "lc_chainmail_arms", 1 ] ], [ [ "lc_chainmail_legs", 1 ] ] ]
+    "components": [ [ [ "xs_lc_chainmail_vest", 1 ] ], [ [ "xs_lc_chainmail_arms", 1 ] ] ]
   },
   {
     "result": "xl_lc_chainmail_hauberk",
     "type": "recipe",
     "copy-from": "lc_chainmail_hauberk",
     "time": "1h 45m",
-    "components": [ [ [ "xl_lc_chainmail_vest", 1 ] ], [ [ "xl_lc_chainmail_arms", 1 ] ], [ [ "xl_lc_chainmail_legs", 1 ] ] ]
+    "components": [ [ [ "xl_lc_chainmail_vest", 1 ] ], [ [ "xl_lc_chainmail_arms", 1 ] ] ]
   },
   {
     "result": "mc_chainmail_hauberk",
@@ -546,21 +766,21 @@
     "autolearn": true,
     "flags": [ "NO_RESIZE" ],
     "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_chain_armour" } ],
-    "components": [ [ [ "mc_chainmail_vest", 1 ] ], [ [ "mc_chainmail_arms", 1 ] ], [ [ "mc_chainmail_legs", 1 ] ] ]
+    "components": [ [ [ "mc_chainmail_vest", 1 ] ], [ [ "mc_chainmail_arms", 1 ] ] ]
   },
   {
     "result": "mc_chainmail_hauberk_xs",
     "type": "recipe",
     "copy-from": "mc_chainmail_hauberk",
     "time": "1 h 45 m",
-    "components": [ [ [ "mc_chainmail_vest", 1 ] ], [ [ "mc_chainmail_arms", 1 ] ], [ [ "mc_chainmail_legs", 1 ] ] ]
+    "components": [ [ [ "xs_mc_chainmail_vest", 1 ] ], [ [ "xs_mc_chainmail_arms", 1 ] ] ]
   },
   {
     "result": "xl_mc_chainmail_hauberk",
     "type": "recipe",
     "copy-from": "mc_chainmail_hauberk",
     "time": "1h 45m",
-    "components": [ [ [ "xl_mc_chainmail_vest", 1 ] ], [ [ "xl_mc_chainmail_arms", 1 ] ], [ [ "xl_mc_chainmail_legs", 1 ] ] ]
+    "components": [ [ [ "xl_mc_chainmail_vest", 1 ] ], [ [ "xl_mc_chainmail_arms", 1 ] ] ]
   },
   {
     "result": "hc_chainmail_hauberk",
@@ -575,21 +795,21 @@
     "autolearn": true,
     "flags": [ "NO_RESIZE" ],
     "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_chain_armour" } ],
-    "components": [ [ [ "hc_chainmail_vest", 1 ] ], [ [ "hc_chainmail_arms", 1 ] ], [ [ "hc_chainmail_legs", 1 ] ] ]
+    "components": [ [ [ "hc_chainmail_vest", 1 ] ], [ [ "hc_chainmail_arms", 1 ] ] ]
   },
   {
     "result": "hc_chainmail_hauberk_xs",
     "type": "recipe",
     "copy-from": "hc_chainmail_hauberk",
     "time": "1 h 45 m",
-    "components": [ [ [ "hc_chainmail_vest", 1 ] ], [ [ "hc_chainmail_arms", 1 ] ], [ [ "hc_chainmail_legs", 1 ] ] ]
+    "components": [ [ [ "xs_hc_chainmail_vest", 1 ] ], [ [ "xs_hc_chainmail_arms", 1 ] ] ]
   },
   {
     "result": "xl_hc_chainmail_hauberk",
     "type": "recipe",
     "copy-from": "hc_chainmail_hauberk",
     "time": "1h 45m",
-    "components": [ [ [ "xl_hc_chainmail_vest", 1 ] ], [ [ "xl_hc_chainmail_arms", 1 ] ], [ [ "xl_hc_chainmail_legs", 1 ] ] ]
+    "components": [ [ [ "xl_hc_chainmail_vest", 1 ] ], [ [ "xl_hc_chainmail_arms", 1 ] ] ]
   },
   {
     "result": "ch_chainmail_hauberk",
@@ -604,21 +824,21 @@
     "autolearn": true,
     "flags": [ "NO_RESIZE" ],
     "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_chain_armour" } ],
-    "components": [ [ [ "ch_chainmail_vest", 1 ] ], [ [ "ch_chainmail_arms", 1 ] ], [ [ "ch_chainmail_legs", 1 ] ] ]
+    "components": [ [ [ "ch_chainmail_vest", 1 ] ], [ [ "ch_chainmail_arms", 1 ] ] ]
   },
   {
     "result": "ch_chainmail_hauberk_xs",
     "type": "recipe",
     "copy-from": "ch_chainmail_hauberk",
     "time": "1 h 45 m",
-    "components": [ [ [ "ch_chainmail_vest", 1 ] ], [ [ "ch_chainmail_arms", 1 ] ], [ [ "ch_chainmail_legs", 1 ] ] ]
+    "components": [ [ [ "xs_ch_chainmail_vest", 1 ] ], [ [ "xs_ch_chainmail_arms", 1 ] ] ]
   },
   {
     "result": "xl_ch_chainmail_hauberk",
     "type": "recipe",
     "copy-from": "ch_chainmail_hauberk",
     "time": "1h 45m",
-    "components": [ [ [ "xl_ch_chainmail_vest", 1 ] ], [ [ "xl_ch_chainmail_arms", 1 ] ], [ [ "xl_ch_chainmail_legs", 1 ] ] ]
+    "components": [ [ [ "xl_ch_chainmail_vest", 1 ] ], [ [ "xl_ch_chainmail_arms", 1 ] ] ]
   },
   {
     "result": "qt_chainmail_hauberk",
@@ -633,21 +853,21 @@
     "autolearn": true,
     "flags": [ "NO_RESIZE" ],
     "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_chain_armour" } ],
-    "components": [ [ [ "qt_chainmail_vest", 1 ] ], [ [ "qt_chainmail_arms", 1 ] ], [ [ "qt_chainmail_legs", 1 ] ] ]
+    "components": [ [ [ "qt_chainmail_vest", 1 ] ], [ [ "qt_chainmail_arms", 1 ] ] ]
   },
   {
     "result": "qt_chainmail_hauberk_xs",
     "type": "recipe",
     "copy-from": "qt_chainmail_hauberk",
     "time": "1 h 45 m",
-    "components": [ [ [ "qt_chainmail_vest", 1 ] ], [ [ "qt_chainmail_arms", 1 ] ], [ [ "qt_chainmail_legs", 1 ] ] ]
+    "components": [ [ [ "xs_qt_chainmail_vest", 1 ] ], [ [ "xs_qt_chainmail_arms", 1 ] ] ]
   },
   {
     "result": "xl_qt_chainmail_hauberk",
     "type": "recipe",
     "copy-from": "qt_chainmail_hauberk",
     "time": "1h 45m",
-    "components": [ [ [ "xl_qt_chainmail_vest", 1 ] ], [ [ "xl_qt_chainmail_arms", 1 ] ], [ [ "xl_qt_chainmail_legs", 1 ] ] ]
+    "components": [ [ [ "xl_qt_chainmail_vest", 1 ] ], [ [ "xl_qt_chainmail_arms", 1 ] ] ]
   },
   {
     "result": "lc_chainmail_suit",
@@ -675,10 +895,10 @@
     "copy-from": "lc_chainmail_suit",
     "time": "1 h 50 m",
     "components": [
-      [ [ "lc_chainmail_hood", 1 ] ],
-      [ [ "lc_chainmail_vest", 1 ] ],
-      [ [ "lc_chainmail_arms", 1 ] ],
-      [ [ "lc_chainmail_legs", 1 ] ]
+      [ [ "xs_lc_chainmail_hood", 1 ] ],
+      [ [ "xs_lc_chainmail_vest", 1 ] ],
+      [ [ "xs_lc_chainmail_arms", 1 ] ],
+      [ [ "xs_lc_chainmail_legs", 1 ] ]
     ]
   },
   {
@@ -710,7 +930,7 @@
       { "proficiency": "prof_closures", "fail_multiplier": 1 },
       { "proficiency": "prof_chain_armour", "fail_multiplier": 1 }
     ],
-    "components": [ [ [ "lc_chainmail_hood", 1 ] ], [ [ "lc_chainmail_hauberk", 1 ] ] ]
+    "components": [ [ [ "lc_chainmail_hood", 1 ] ], [ [ "lc_chainmail_hauberk", 1 ] ], [ [ "lc_chainmail_legs", 1 ] ] ]
   },
   {
     "result": "xl_lc_chainmail_suit",
@@ -729,7 +949,26 @@
       { "proficiency": "prof_closures", "fail_multiplier": 1 },
       { "proficiency": "prof_chain_armour", "fail_multiplier": 1 }
     ],
-    "components": [ [ [ "xl_lc_chainmail_hood", 1 ] ], [ [ "xl_lc_chainmail_hauberk", 1 ] ] ]
+    "components": [ [ [ "xl_lc_chainmail_hood", 1 ] ], [ [ "xl_lc_chainmail_hauberk", 1 ] ], [ [ "xl_lc_chainmail_legs", 1 ] ] ]
+  },
+  {
+    "result": "lc_chainmail_suit_xs",
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "id_suffix": "hauberk",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "time": "5 m",
+    "reversible": true,
+    "autolearn": true,
+    "flags": [ "NO_RESIZE" ],
+    "proficiencies": [
+      { "proficiency": "prof_closures", "fail_multiplier": 1 },
+      { "proficiency": "prof_chain_armour", "fail_multiplier": 1 }
+    ],
+    "components": [ [ [ "xs_lc_chainmail_hood", 1 ] ], [ [ "lc_chainmail_hauberk_xs", 1 ] ], [ [ "xs_lc_chainmail_legs", 1 ] ] ]
   },
   {
     "result": "mc_chainmail_suit",
@@ -757,10 +996,10 @@
     "copy-from": "mc_chainmail_suit",
     "time": "1 h 50 m",
     "components": [
-      [ [ "mc_chainmail_hood", 1 ] ],
-      [ [ "mc_chainmail_vest", 1 ] ],
-      [ [ "mc_chainmail_arms", 1 ] ],
-      [ [ "mc_chainmail_legs", 1 ] ]
+      [ [ "xs_mc_chainmail_hood", 1 ] ],
+      [ [ "xs_mc_chainmail_vest", 1 ] ],
+      [ [ "xs_mc_chainmail_arms", 1 ] ],
+      [ [ "xs_mc_chainmail_legs", 1 ] ]
     ]
   },
   {
@@ -792,7 +1031,7 @@
       { "proficiency": "prof_closures", "fail_multiplier": 1 },
       { "proficiency": "prof_chain_armour", "fail_multiplier": 1 }
     ],
-    "components": [ [ [ "mc_chainmail_hood", 1 ] ], [ [ "mc_chainmail_hauberk", 1 ] ] ]
+    "components": [ [ [ "mc_chainmail_hood", 1 ] ], [ [ "mc_chainmail_hauberk", 1 ] ], [ [ "mc_chainmail_legs", 1 ] ] ]
   },
   {
     "result": "xl_mc_chainmail_suit",
@@ -811,7 +1050,26 @@
       { "proficiency": "prof_closures", "fail_multiplier": 1 },
       { "proficiency": "prof_chain_armour", "fail_multiplier": 1 }
     ],
-    "components": [ [ [ "xl_mc_chainmail_hood", 1 ] ], [ [ "xl_mc_chainmail_hauberk", 1 ] ] ]
+    "components": [ [ [ "xl_mc_chainmail_hood", 1 ] ], [ [ "xl_mc_chainmail_hauberk", 1 ] ], [ [ "xl_mc_chainmail_legs", 1 ] ] ]
+  },
+  {
+    "result": "mc_chainmail_suit_xs",
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "id_suffix": "hauberk",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "time": "5 m",
+    "reversible": true,
+    "autolearn": true,
+    "flags": [ "NO_RESIZE" ],
+    "proficiencies": [
+      { "proficiency": "prof_closures", "fail_multiplier": 1 },
+      { "proficiency": "prof_chain_armour", "fail_multiplier": 1 }
+    ],
+    "components": [ [ [ "xs_mc_chainmail_hood", 1 ] ], [ [ "mc_chainmail_hauberk_xs", 1 ] ], [ [ "xs_mc_chainmail_legs", 1 ] ] ]
   },
   {
     "result": "hc_chainmail_suit",
@@ -839,10 +1097,10 @@
     "copy-from": "hc_chainmail_suit",
     "time": "1 h 50 m",
     "components": [
-      [ [ "hc_chainmail_hood", 1 ] ],
-      [ [ "hc_chainmail_vest", 1 ] ],
-      [ [ "hc_chainmail_arms", 1 ] ],
-      [ [ "hc_chainmail_legs", 1 ] ]
+      [ [ "xs_hc_chainmail_hood", 1 ] ],
+      [ [ "xs_hc_chainmail_vest", 1 ] ],
+      [ [ "xs_hc_chainmail_arms", 1 ] ],
+      [ [ "xs_hc_chainmail_legs", 1 ] ]
     ]
   },
   {
@@ -874,7 +1132,7 @@
       { "proficiency": "prof_closures", "fail_multiplier": 1 },
       { "proficiency": "prof_chain_armour", "fail_multiplier": 1 }
     ],
-    "components": [ [ [ "hc_chainmail_hood", 1 ] ], [ [ "hc_chainmail_hauberk", 1 ] ] ]
+    "components": [ [ [ "hc_chainmail_hood", 1 ] ], [ [ "hc_chainmail_hauberk", 1 ] ], [ [ "hc_chainmail_legs", 1 ] ] ]
   },
   {
     "result": "xl_hc_chainmail_suit",
@@ -893,7 +1151,26 @@
       { "proficiency": "prof_closures", "fail_multiplier": 1 },
       { "proficiency": "prof_chain_armour", "fail_multiplier": 1 }
     ],
-    "components": [ [ [ "xl_hc_chainmail_hood", 1 ] ], [ [ "xl_hc_chainmail_hauberk", 1 ] ] ]
+    "components": [ [ [ "xl_hc_chainmail_hood", 1 ] ], [ [ "xl_lc_chainmail_hauberk", 1 ] ], [ [ "xl_hc_chainmail_legs", 1 ] ] ]
+  },
+  {
+    "result": "hc_chainmail_suit_xs",
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "id_suffix": "hauberk",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "time": "5 m",
+    "reversible": true,
+    "autolearn": true,
+    "flags": [ "NO_RESIZE" ],
+    "proficiencies": [
+      { "proficiency": "prof_closures", "fail_multiplier": 1 },
+      { "proficiency": "prof_chain_armour", "fail_multiplier": 1 }
+    ],
+    "components": [ [ [ "xs_hc_chainmail_hood", 1 ] ], [ [ "hc_chainmail_hauberk_xs", 1 ] ], [ [ "xs_hc_chainmail_legs", 1 ] ] ]
   },
   {
     "result": "ch_chainmail_suit",
@@ -921,10 +1198,10 @@
     "copy-from": "ch_chainmail_suit",
     "time": "1 h 50 m",
     "components": [
-      [ [ "ch_chainmail_hood", 1 ] ],
-      [ [ "ch_chainmail_vest", 1 ] ],
-      [ [ "ch_chainmail_arms", 1 ] ],
-      [ [ "ch_chainmail_legs", 1 ] ]
+      [ [ "xs_ch_chainmail_hood", 1 ] ],
+      [ [ "xs_ch_chainmail_vest", 1 ] ],
+      [ [ "xs_ch_chainmail_arms", 1 ] ],
+      [ [ "xs_ch_chainmail_legs", 1 ] ]
     ]
   },
   {
@@ -956,7 +1233,7 @@
       { "proficiency": "prof_closures", "fail_multiplier": 1 },
       { "proficiency": "prof_chain_armour", "fail_multiplier": 1 }
     ],
-    "components": [ [ [ "ch_chainmail_hood", 1 ] ], [ [ "ch_chainmail_hauberk", 1 ] ] ]
+    "components": [ [ [ "ch_chainmail_hood", 1 ] ], [ [ "ch_chainmail_hauberk", 1 ] ], [ [ "ch_chainmail_legs", 1 ] ] ]
   },
   {
     "result": "xl_ch_chainmail_suit",
@@ -975,7 +1252,26 @@
       { "proficiency": "prof_closures", "fail_multiplier": 1 },
       { "proficiency": "prof_chain_armour", "fail_multiplier": 1 }
     ],
-    "components": [ [ [ "xl_ch_chainmail_hood", 1 ] ], [ [ "xl_ch_chainmail_hauberk", 1 ] ] ]
+    "components": [ [ [ "xl_ch_chainmail_hood", 1 ] ], [ [ "xl_ch_chainmail_hauberk", 1 ] ], [ [ "xl_ch_chainmail_legs", 1 ] ] ]
+  },
+  {
+    "result": "ch_chainmail_suit_xs",
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "id_suffix": "hauberk",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "time": "5 m",
+    "reversible": true,
+    "autolearn": true,
+    "flags": [ "NO_RESIZE" ],
+    "proficiencies": [
+      { "proficiency": "prof_closures", "fail_multiplier": 1 },
+      { "proficiency": "prof_chain_armour", "fail_multiplier": 1 }
+    ],
+    "components": [ [ [ "xs_ch_chainmail_hood", 1 ] ], [ [ "ch_chainmail_hauberk_xs", 1 ] ], [ [ "xs_ch_chainmail_legs", 1 ] ] ]
   },
   {
     "result": "qt_chainmail_suit",
@@ -1003,10 +1299,10 @@
     "copy-from": "qt_chainmail_suit",
     "time": "1 h 50 m",
     "components": [
-      [ [ "qt_chainmail_hood", 1 ] ],
-      [ [ "qt_chainmail_vest", 1 ] ],
-      [ [ "qt_chainmail_arms", 1 ] ],
-      [ [ "qt_chainmail_legs", 1 ] ]
+      [ [ "xs_qt_chainmail_hood", 1 ] ],
+      [ [ "xs_qt_chainmail_vest", 1 ] ],
+      [ [ "xs_qt_chainmail_arms", 1 ] ],
+      [ [ "xs_qt_chainmail_legs", 1 ] ]
     ]
   },
   {
@@ -1038,7 +1334,7 @@
       { "proficiency": "prof_closures", "fail_multiplier": 1 },
       { "proficiency": "prof_chain_armour", "fail_multiplier": 1 }
     ],
-    "components": [ [ [ "qt_chainmail_hood", 1 ] ], [ [ "qt_chainmail_hauberk", 1 ] ] ]
+    "components": [ [ [ "qt_chainmail_hood", 1 ] ], [ [ "qt_chainmail_hauberk", 1 ] ], [ [ "qt_chainmail_legs", 1 ] ] ]
   },
   {
     "result": "xl_qt_chainmail_suit",
@@ -1057,7 +1353,26 @@
       { "proficiency": "prof_closures", "fail_multiplier": 1 },
       { "proficiency": "prof_chain_armour", "fail_multiplier": 1 }
     ],
-    "components": [ [ [ "xl_qt_chainmail_hood", 1 ] ], [ [ "xl_qt_chainmail_hauberk", 1 ] ] ]
+    "components": [ [ [ "xl_qt_chainmail_hood", 1 ] ], [ [ "xl_qt_chainmail_hauberk", 1 ] ], [ [ "xl_qt_chainmail_legs", 1 ] ] ]
+  },
+  {
+    "result": "qt_chainmail_suit_xs",
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "id_suffix": "hauberk",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "time": "5 m",
+    "reversible": true,
+    "autolearn": true,
+    "flags": [ "NO_RESIZE" ],
+    "proficiencies": [
+      { "proficiency": "prof_closures", "fail_multiplier": 1 },
+      { "proficiency": "prof_chain_armour", "fail_multiplier": 1 }
+    ],
+    "components": [ [ [ "xs_qt_chainmail_hood", 1 ] ], [ [ "qt_chainmail_hauberk_xs", 1 ] ], [ [ "xs_qt_chainmail_legs", 1 ] ] ]
   },
   {
     "result": "chainmail_suit_faraday",
@@ -2162,7 +2477,7 @@
     "difficulty": 6,
     "time": "39 d 14 h 24 m",
     "book_learn": [ [ "textbook_armwest", 7 ] ],
-    "using": [ [ "blacksmithing_standard", 80 ], [ "lc_steel_standard", 20 ], [ "tailoring_leather_patchwork", 3 ] ],
+    "using": [ [ "blacksmithing_standard", 80 ], [ "lc_steel_standard", 20 ], [ "tailoring_leather_patchwork", 3 ], [ "carbon", 5 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "proficiencies": [
       { "proficiency": "prof_leatherworking_basic", "fail_multiplier": 1.15, "time_multiplier": 1.1 },
@@ -2170,18 +2485,24 @@
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing" },
       { "proficiency": "prof_armorsmithing" },
-      { "proficiency": "prof_articulation" }
+      { "proficiency": "prof_articulation" },
+      { "proficiency": "prof_case_hardening" }
     ],
-    "tools": [ [ [ "swage", -1 ] ], [ [ "metal_tank", -1 ] ], [ [ "charcoal", 150 ] ] ]
+    "tools": [ [ [ "swage", -1 ] ], [ [ "metal_tank", -1 ] ] ]
   },
   {
     "result": "xl_armor_ch_lightplate",
     "type": "recipe",
     "copy-from": "armor_ch_lightplate",
     "time": "44 d 17 h 57 m",
-    "using": [ [ "blacksmithing_standard", 110 ], [ "lc_steel_standard", 32 ], [ "tailoring_leather_patchwork", 5 ] ],
+    "using": [
+      [ "blacksmithing_standard", 110 ],
+      [ "lc_steel_standard", 32 ],
+      [ "tailoring_leather_patchwork", 5 ],
+      [ "carbon", 7 ]
+    ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "swage", -1 ] ], [ [ "metal_tank", -1 ] ], [ [ "charcoal", 150 ] ] ]
+    "tools": [ [ [ "swage", -1 ] ], [ [ "metal_tank", -1 ] ] ]
   },
   {
     "result": "armor_ch_lightplate",
@@ -2248,7 +2569,7 @@
       { "proficiency": "prof_articulation" },
       { "proficiency": "prof_quenching", "fail_multiplier": 2 }
     ],
-    "tools": [ [ [ "swage", -1 ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -240 ] ] ]
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "hotcut", -1 ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -240 ] ] ]
   },
   {
     "result": "xl_armor_qt_lightplate",
@@ -2257,7 +2578,7 @@
     "time": "46 d 18 h 46 m",
     "using": [ [ "blacksmithing_standard", 110 ], [ "mc_steel_standard", 32 ], [ "tailoring_leather_patchwork", 5 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "swage", -1 ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -240 ] ] ]
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "hotcut", -1 ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -240 ] ] ]
   },
   {
     "result": "armor_qt_lightplate",
@@ -2526,7 +2847,7 @@
     "difficulty": 7,
     "time": "43 d 13 h",
     "book_learn": [ [ "textbook_armwest", 7 ] ],
-    "using": [ [ "blacksmithing_standard", 96 ], [ "lc_steel_standard", 25 ], [ "tailoring_leather_patchwork", 3 ] ],
+    "using": [ [ "blacksmithing_standard", 96 ], [ "lc_steel_standard", 25 ], [ "tailoring_leather_patchwork", 3 ], [ "carbon", 5 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "proficiencies": [
       { "proficiency": "prof_leatherworking_basic", "fail_multiplier": 1.15, "time_multiplier": 1.1 },
@@ -2534,7 +2855,8 @@
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing" },
       { "proficiency": "prof_armorsmithing" },
-      { "proficiency": "prof_articulation" }
+      { "proficiency": "prof_articulation" },
+      { "proficiency": "prof_case_hardening" }
     ],
     "tools": [ [ [ "swage", -1 ] ] ]
   },
@@ -2543,7 +2865,12 @@
     "type": "recipe",
     "copy-from": "armor_ch_plate",
     "time": "49 d 5 h 20 m",
-    "using": [ [ "blacksmithing_standard", 110 ], [ "lc_steel_standard", 39 ], [ "tailoring_leather_patchwork", 5 ] ],
+    "using": [
+      [ "blacksmithing_standard", 110 ],
+      [ "lc_steel_standard", 39 ],
+      [ "tailoring_leather_patchwork", 5 ],
+      [ "carbon", 7 ]
+    ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ]
   },
@@ -2597,7 +2924,7 @@
     "difficulty": 8,
     "time": "45 d 12 h 57 m",
     "book_learn": [ [ "textbook_armwest", 7 ] ],
-    "using": [ [ "blacksmithing_standard", 96 ], [ "mc_steel_standard", 25 ], [ "tailoring_leather_patchwork", 3 ] ],
+    "using": [ [ "blacksmithing_standard", 80 ], [ "mc_steel_standard", 20 ], [ "tailoring_leather_patchwork", 3 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "proficiencies": [
       { "proficiency": "prof_leatherworking_basic", "fail_multiplier": 1.15, "time_multiplier": 1.1 },
@@ -2605,9 +2932,10 @@
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing" },
       { "proficiency": "prof_armorsmithing" },
-      { "proficiency": "prof_articulation" }
+      { "proficiency": "prof_articulation" },
+      { "proficiency": "prof_quenching", "fail_multiplier": 2 }
     ],
-    "tools": [ [ [ "swage", -1 ] ] ]
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "hotcut", -1 ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -240 ] ] ]
   },
   {
     "result": "xl_armor_qt_plate",
@@ -2616,7 +2944,7 @@
     "time": "51 d 11 h 2 m",
     "using": [ [ "blacksmithing_standard", 110 ], [ "mc_steel_standard", 39 ], [ "tailoring_leather_patchwork", 5 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "swage", -1 ] ] ]
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "hotcut", -1 ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -240 ] ] ]
   },
   {
     "result": "armor_qt_plate",
@@ -2893,7 +3221,7 @@
     "difficulty": 8,
     "time": "47 d 12 h 28 m",
     "book_learn": [ [ "textbook_armwest", 7 ] ],
-    "using": [ [ "blacksmithing_standard", 115 ], [ "lc_steel_standard", 30 ], [ "tailoring_leather_patchwork", 3 ] ],
+    "using": [ [ "blacksmithing_standard", 80 ], [ "lc_steel_standard", 30 ], [ "tailoring_leather_patchwork", 3 ], [ "carbon", 5 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "proficiencies": [
       { "proficiency": "prof_leatherworking_basic", "fail_multiplier": 1.15, "time_multiplier": 1.1 },
@@ -2901,18 +3229,24 @@
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing" },
       { "proficiency": "prof_armorsmithing" },
-      { "proficiency": "prof_articulation" }
+      { "proficiency": "prof_articulation" },
+      { "proficiency": "prof_case_hardening" }
     ],
-    "tools": [ [ [ "swage", -1 ] ], [ [ "metal_tank", -1 ] ], [ [ "charcoal", 150 ] ] ]
+    "tools": [ [ [ "swage", -1 ] ], [ [ "metal_tank", -1 ] ] ]
   },
   {
     "result": "xl_armor_ch_heavyplate",
     "type": "recipe",
     "copy-from": "armor_ch_heavyplate",
     "time": "53 d 16 h 44 m",
-    "using": [ [ "blacksmithing_standard", 110 ], [ "lc_steel_standard", 39 ], [ "tailoring_leather_patchwork", 5 ] ],
+    "using": [
+      [ "blacksmithing_standard", 110 ],
+      [ "lc_steel_standard", 39 ],
+      [ "tailoring_leather_patchwork", 5 ],
+      [ "carbon", 7 ]
+    ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "swage", -1 ] ], [ [ "metal_tank", -1 ] ], [ [ "charcoal", 150 ] ] ]
+    "tools": [ [ [ "swage", -1 ] ], [ [ "metal_tank", -1 ] ] ]
   },
   {
     "result": "armor_ch_heavyplate",
@@ -2979,7 +3313,7 @@
       { "proficiency": "prof_articulation" },
       { "proficiency": "prof_quenching", "fail_multiplier": 2 }
     ],
-    "tools": [ [ [ "swage", -1 ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -240 ] ] ]
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "hotcut", -1 ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -240 ] ] ]
   },
   {
     "result": "xl_armor_qt_heavyplate",
@@ -2988,7 +3322,7 @@
     "time": "56 d 3 h 19 m",
     "using": [ [ "blacksmithing_standard", 110 ], [ "mc_steel_standard", 39 ], [ "tailoring_leather_patchwork", 5 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "swage", -1 ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -240 ] ] ]
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "hotcut", -1 ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -120 ] ] ]
   },
   {
     "result": "armor_qt_heavyplate",

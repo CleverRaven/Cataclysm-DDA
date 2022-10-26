@@ -10,7 +10,7 @@
       "so, I'm calling it a glock smg."
     ],
     "name": { "str": "Glock SMG" },
-    "description": "This is a submachine gun chambered in .45 ACP, accepting Glock magazines.",
+    "description": "A submachine gun chambered in .45 ACP, accepting Glock magazines.",
     "variant_type": "gun",
     "variants": [
       {
@@ -60,7 +60,7 @@
     "type": "GUN",
     "reload_noise_volume": 10,
     "name": { "str": "UMP45 SMG" },
-    "description": "This is a submachine gun, chambered in .45 ACP, and accepting UMP45 magazines.",
+    "description": "A submachine gun chambered in .45 ACP and accepting UMP45 magazines.",
     "variant_type": "gun",
     "variants": [
       {
@@ -112,7 +112,7 @@
     "looks_like": "glock_17",
     "type": "GUN",
     "name": { "str": "M1911 pistol" },
-    "description": "This is a semi-automatic pistol, chambered in .45 ACP and accepting M1911 magazines.",
+    "description": "A semi-automatic pistol chambered in .45 ACP and accepting M1911 magazines.",
     "variant_type": "gun",
     "variants": [
       {
@@ -125,7 +125,7 @@
       {
         "id": "m1911_MEU",
         "name": { "str": "M45A1" },
-        "description": "The M45A1 supplanted earlier M45 MEUSOC pistols in use by Force Recon elements of Marine Expeditionary Units.  Where the original M45 pistols were gutted M1911A1's hand-fitted by USMC armorers, the updated M45A1's are hardly different from any other commercial 1911 design save for their dual recoil springs.  Most were replaced in 2016 with Glock 19's due to logistics issues."
+        "description": "The M45A1 supplanted earlier M45 MEUSOC pistols in use by Force Recon elements of Marine Expeditionary Units.  Where the original M45 pistols were gutted M1911A1s hand-fitted by USMC armorers, the updated M45A1s are hardly different from any other commercial 1911 design, save for their dual recoil springs.  Most were replaced in 2016 with Glock 19s due to logistics issues."
       }
     ],
     "ascii_picture": "m1911",
@@ -153,13 +153,13 @@
     "type": "GUN",
     "reload_noise_volume": 10,
     "name": { "str": "MAC-10 SMG" },
-    "description": "This is a submachine gun chambered in .45 ACP, and accepting MAC-10 magazines.",
+    "description": "A submachine gun chambered in .45 ACP and accepting MAC-10 magazines.",
     "variant_type": "gun",
     "variants": [
       {
         "id": "mac_10",
         "name": { "str": "MAC-10" },
-        "description": "The MAC-10 is a popular machine pistol originally designed for military use.  For many years they were the most inexpensive automatic weapon in the US, and enjoyed great popularity among criminals less concerned with quality firearms.",
+        "description": "The MAC-10 is a popular machine pistol originally designed for military use.  For many years it was the most inexpensive automatic weapon in the US, and enjoyed great popularity among criminals less concerned with quality firearms.",
         "weight": 1
       }
     ],
@@ -245,7 +245,7 @@
     "looks_like": "ar15",
     "type": "GUN",
     "name": { "str": "H&K USC 45 Carbine" },
-    "description": "A compact, light weight carbine chambering the popular .45 ACP pistol round.  Resembling the popular UMP submachine gun in both its blowback operating system and light weight polymer frame construction.  This civilian variant is distinguished by its skeletonized stock and 16 inch barrel.",
+    "description": "A compact, lightweight carbine chambering the popular .45 ACP pistol round.  Resembling the popular UMP submachine gun in both its blowback operating system and lightweight polymer frame construction.  This civilian variant is distinguished by its skeletonized stock and 16 inch barrel.",
     "weight": "2781 g",
     "volume": "6116 ml",
     "longest_side": "900 mm",
@@ -283,7 +283,7 @@
     "looks_like": "hk_mp5",
     "type": "GUN",
     "name": { "str": "Luty SMG: .45", "str_pl": "Luty SMGs: .45" },
-    "description": "A Luty pattern makeshift smoothbore SMG crudely constructed out of various steel parts using some of the more advanced powered hand tools; likely one of the most complex guns that are feasible to make outside of a machine shop, but still very unreliable.  This one is chambered for .45 ACP cartridges and accepts MAC-10 compatible magazines.",
+    "description": "A Luty pattern makeshift smoothbore SMG crudely constructed out of various steel parts using advanced powered hand tools; likely one of the most complex guns that is feasible to make outside of a machine shop, but still very unreliable.  This one is chambered for .45 ACP cartridges and accepts MAC-10 compatible magazines.",
     "//": "Crafting recipe must make use of angle grinder, bench grinder, set square and vise, which don't yet exist in game.",
     "weight": "3520 g",
     "volume": "1110 ml",
@@ -351,13 +351,13 @@
     "type": "GUN",
     "reload_noise_volume": 10,
     "name": { "str": "Thompson SMG" },
-    "description": "This is a submachine gun chambered in .45 ACP, and accepting Thompson magazines.",
+    "description": "A submachine gun chambered in .45 ACP and accepting Thompson magazines.",
     "variant_type": "gun",
     "variants": [
       {
         "id": "tommygun",
         "name": { "str": "Thompson M1928A1" },
-        "description": "An American-made submachine gun developed during the very end of World War I, too late to see action.  Infamous during the 1920s for its use by gangsters, and was used during World War II before being mostly replaced with less-expensive alternatives.",
+        "description": "An American-made submachine gun developed during the very end of World War I, too late to see action.  Infamous during the 1920s for its use by gangsters, and used during World War II before being mostly replaced with less-expensive alternatives.",
         "weight": 1
       }
     ],
@@ -407,7 +407,7 @@
     "copy-from": "usp_9mm",
     "type": "GUN",
     "name": { "str": "USP pistol" },
-    "description": "A semi-automatic pistol chambered in .45 ACP, and accepting USP magazines.",
+    "description": "A semi-automatic pistol chambered in .45 ACP and accepting USP magazines.",
     "variant_type": "gun",
     "variants": [
       {
@@ -419,7 +419,7 @@
       {
         "id": "mk23",
         "name": { "str": "MK 23 MOD 0" },
-        "description": "Jokingly referred to as \"The World's Only Crew-Served Pistol\", this massive pistol was designed as a primary weapon for select \"special operators\".  Its cumbersome nature, the introduction of the derivative HK USP series and the logistics of getting .45 ACP ammunition in theater doomed this behemoth to US SOCOM armories.  Like the USP, the MK 23 is a remarkably reliable gun; someone could probably take out a nuclear equipped walking tank with this in their holster."
+        "description": "Jokingly referred to as \"The World's Only Crew-Served Pistol\", this massive pistol was designed as a primary weapon for select \"special operators\".  Its cumbersome nature, the introduction of the derivative HK USP series, and the logistics of getting .45 ACP ammunition in theater doomed this behemoth to US SOCOM armories.  Like the USP, the MK 23 is a remarkably reliable gun; someone could probably take out a nuclear-equipped walking tank with this in their holster."
       }
     ],
     "weight": "887 g",
@@ -439,7 +439,7 @@
     "looks_like": "glock_17",
     "type": "GUN",
     "name": { "str": "PPQ pistol" },
-    "description": "This is a semi-automatic pistol chambered in .45 ACP, and accepting PPQ magazines",
+    "description": "A semi-automatic pistol chambered in .45 ACP and accepting PPQ magazines",
     "variant_type": "gun",
     "variants": [
       {
@@ -470,7 +470,7 @@
     "looks_like": "glock_17",
     "type": "GUN",
     "name": { "str": "Hi-Point pistol" },
-    "description": "This is a semi-automatic pistol chambered in .45 ACP, and accepting Hi-Point magazines.",
+    "description": "A semi-automatic pistol chambered in .45 ACP and accepting Hi-Point magazines.",
     "variant_type": "gun",
     "variants": [
       {
@@ -502,7 +502,7 @@
     "looks_like": "glock_17",
     "type": "GUN",
     "name": { "str": "Glock pistol" },
-    "description": "This is a semi-automatic pistol chambered in .45 ACP, and accepting Glock magazines.",
+    "description": "A semi-automatic pistol chambered in .45 ACP and accepting Glock magazines.",
     "variant_type": "gun",
     "variants": [
       {

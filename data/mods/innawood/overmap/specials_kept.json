@@ -3,17 +3,16 @@
     "type": "overmap_special",
     "id": "Strangle Temple",
     "overmaps": [
-      { "point": [ 0, 0, 0 ], "overmap": "temple_stairs" },
-      { "point": [ 0, 0, -1 ], "overmap": "temple_stairs" },
-      { "point": [ 0, 0, -2 ], "overmap": "temple_stairs" },
-      { "point": [ 0, 0, -3 ], "overmap": "temple_stairs" },
-      { "point": [ 0, 0, -4 ], "overmap": "temple_stairs" },
-      { "point": [ 0, 0, -5 ], "overmap": "temple_finale" }
+      { "point": [ 0, 0, 0 ], "overmap": "temple_stairs_north" },
+      { "point": [ 0, 0, -1 ], "overmap": "temple_underground_1_north" },
+      { "point": [ 0, 0, -2 ], "overmap": "temple_underground_2_north" },
+      { "point": [ 0, 0, -3 ], "overmap": "temple_underground_3_north" },
+      { "point": [ 0, 0, -4 ], "overmap": "temple_underground_4_north" },
+      { "point": [ 0, 0, -5 ], "overmap": "temple_finale_north" }
     ],
     "locations": [ "forest" ],
     "city_distance": [ 40, -1 ],
     "occurrences": [ 10, 100 ],
-    "rotate": false,
     "flags": [ "WILDERNESS", "UNIQUE" ]
   },
   {

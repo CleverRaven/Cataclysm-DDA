@@ -107,7 +107,7 @@
     "name_suffix": "officer",
     "class": "NC_CITY_COP",
     "attitude": 0,
-    "mission": 7,
+    "mission": 3,
     "mission_offered": "MISSION_GET_CITY_COP_MOMENTO",
     "chat": "TALK_CITY_COP",
     "faction": "no_faction"

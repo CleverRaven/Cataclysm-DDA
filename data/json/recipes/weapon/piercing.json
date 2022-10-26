@@ -185,12 +185,36 @@
     ],
     "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "GRIND", "level": 2 } ],
     "tools": [ [ [ "tongs", -1 ] ] ],
-    "components": [ [ [ "stick_long", 1 ] ] ]
+    "components": [ [ [ "spear_shaft", 1 ] ] ]
   },
   {
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
     "result": "spear_stone",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_PIERCING",
+    "skill_used": "survival",
+    "skills_required": [ "fabrication", 2 ],
+    "difficulty": 6,
+    "time": "3 h",
+    "autolearn": true,
+    "qualities": [
+      { "id": "PUNCH", "level": 1 },
+      { "id": "CHISEL_WOOD", "level": 1 },
+      { "id": "HAMMER_SOFT", "level": 1 },
+      { "id": "HAMMER", "level": 1 }
+    ],
+    "proficiencies": [
+      { "proficiency": "prof_knapping" },
+      { "proficiency": "prof_knapping_speed" },
+      { "proficiency": "prof_carving", "fail_multiplier": 1.15 }
+    ],
+    "components": [ [ [ "spear_shaft", 1 ] ], [ [ "rock_flaking_any", 1, "LIST" ] ], [ [ "cordage_short", 1, "LIST" ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "spear_stone_simple",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_PIERCING",
     "skill_used": "survival",
@@ -313,7 +337,7 @@
     "using": [ [ "forging_standard", 1 ], [ "bronzesmithing_tools", 1 ] ],
     "qualities": [ { "id": "CUT", "level": 2 } ],
     "tools": [ [ [ "casting_mold", -1 ] ] ],
-    "components": [ [ [ "scrap_bronze", 2 ] ], [ [ "stick_long", 1 ] ] ]
+    "components": [ [ [ "scrap_bronze", 2 ] ], [ [ "long_pole", 1 ] ] ]
   },
   {
     "result": "spear_bronze",
@@ -333,7 +357,7 @@
     "using": [ [ "forging_standard", 1 ], [ "bronzesmithing_tools", 1 ] ],
     "qualities": [ { "id": "CUT", "level": 2 } ],
     "tools": [ [ [ "casting_mold", -1 ] ] ],
-    "components": [ [ [ "scrap_bronze", 2 ] ], [ [ "stick_long", 1 ] ] ]
+    "components": [ [ [ "scrap_bronze", 2 ] ], [ [ "spear_shaft", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -394,7 +418,7 @@
     "using": [ [ "blacksmithing_standard", 4 ], [ "steel_standard", 1 ] ],
     "qualities": [ { "id": "GRIND", "level": 2 } ],
     "tools": [ [ [ "hotcut", -1 ] ] ],
-    "components": [ [ [ "filament", 100, "LIST" ] ], [ [ "stick_long", 1 ] ], [ [ "fur", 2 ], [ "leather", 2 ] ] ]
+    "components": [ [ [ "filament", 100, "LIST" ] ], [ [ "long_pole", 1 ] ], [ [ "fur", 2 ], [ "leather", 2 ] ] ]
   },
   {
     "type": "recipe",
@@ -614,12 +638,40 @@
     "skill_used": "fabrication",
     "skills_required": [ "survival", 1 ],
     "difficulty": 2,
-    "time": "25 m",
+    "time": "45 m",
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 2 } ],
     "tools": [ [ [ "fire", -1 ] ] ],
     "proficiencies": [ { "proficiency": "prof_carving", "fail_multiplier": 1 } ],
     "components": [ [ [ "stick_long", 1 ], [ "pointy_stick_long", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "spear_wood_simple",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_PIERCING",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "time": "120 m",
+    "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "proficiencies": [ { "proficiency": "prof_carving", "fail_multiplier": 1 } ],
+    "components": [ [ [ "stick_long", 1 ], [ "pointy_stick_long", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "spear_shaft_sharpened",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_PIERCING",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "time": "60 m",
+    "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "proficiencies": [ { "proficiency": "prof_carving", "fail_multiplier": 1 } ],
+    "components": [ [ [ "spear_shaft", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -639,7 +691,7 @@
       { "proficiency": "prof_redsmithing" },
       { "proficiency": "prof_carving", "fail_multiplier": 1 }
     ],
-    "components": [ [ [ "stick_long", 1 ] ], [ [ "copper_scrap_equivalent", 15, "LIST" ] ] ]
+    "components": [ [ [ "spear_shaft", 1 ] ], [ [ "copper_scrap_equivalent", 15, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -673,6 +725,32 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "spear_homemade_halfpike",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_PIERCING",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "time": "2 h",
+    "reversible": true,
+    "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 2 }, { "id": "HAMMER", "level": 1 }, { "id": "DRILL", "level": 1 } ],
+    "components": [
+      [ [ "stick_long", 1 ] ],
+      [
+        [ "spike", 1 ],
+        [ "knife_steak", 1 ],
+        [ "knife_paring", 1 ],
+        [ "knife_folding", 1 ],
+        [ "scalpel", 1 ],
+        [ "xacto", 1 ]
+      ],
+      [ [ "nail", 2 ], [ "nuts_bolts", 2 ] ],
+      [ [ "cordage", 2, "LIST" ], [ "duct_tape", 100 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "result": "javelin",
     "category": "CC_WEAPON",
@@ -685,7 +763,7 @@
     "qualities": [ { "id": "CUT", "level": 2 } ],
     "tools": [ [ [ "fire", -1 ] ] ],
     "proficiencies": [ { "proficiency": "prof_carving" } ],
-    "components": [ [ [ "spear_wood", 1 ], [ "pointy_stick_long", 1 ] ] ]
+    "components": [ [ [ "spear_wood", 1 ], [ "spear_wood_simple", 1 ], [ "pointy_stick_long", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -714,12 +792,12 @@
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_PIERCING",
     "skill_used": "fabrication",
-    "time": "15 m",
+    "time": "2 h",
     "reversible": true,
     "autolearn": true,
     "proficiencies": [ { "proficiency": "prof_carving", "time_multiplier": 1.5, "fail_multiplier": 1.15 } ],
     "components": [
-      [ [ "stick_long", 1 ], [ "long_pole", 1 ], [ "broom", 1 ] ],
+      [ [ "stick_long", 1 ] ],
       [
         [ "spike", 1 ],
         [ "knife_steak", 1 ],
@@ -733,17 +811,44 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "spear_steel_crude",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_PIERCING",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": "30 m",
+    "reversible": true,
+    "autolearn": true,
+    "proficiencies": [ { "proficiency": "prof_carving", "time_multiplier": 1.5, "fail_multiplier": 1.15 } ],
+    "qualities": [ { "id": "CUT", "level": 2 }, { "id": "HAMMER", "level": 1 }, { "id": "DRILL", "level": 1 } ],
+    "components": [
+      [ [ "spear_shaft", 1 ] ],
+      [
+        [ "spike", 1 ],
+        [ "knife_steak", 1 ],
+        [ "knife_paring", 1 ],
+        [ "knife_folding", 1 ],
+        [ "scalpel", 1 ],
+        [ "xacto", 1 ]
+      ],
+      [ [ "nail", 2 ], [ "nuts_bolts", 2 ] ],
+      [ [ "cordage", 2, "LIST" ], [ "duct_tape", 100 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "result": "spear_knife",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_PIERCING",
     "skill_used": "fabrication",
-    "time": "15 m",
+    "time": "2 h",
     "reversible": true,
     "autolearn": true,
     "proficiencies": [ { "proficiency": "prof_carving", "time_multiplier": 1.5, "fail_multiplier": 1.15 } ],
     "components": [
-      [ [ "stick_long", 1 ], [ "long_pole", 1 ], [ "broom", 1 ] ],
+      [ [ "stick_long", 1 ], [ "long_pole", 1 ] ],
       [
         [ "knife_butcher", 1 ],
         [ "knife_chef", 1 ],
@@ -769,7 +874,7 @@
     "subcategory": "CSC_WEAPON_PIERCING",
     "skill_used": "fabrication",
     "difficulty": 1,
-    "time": "45 m",
+    "time": "2 h",
     "reversible": true,
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 2 }, { "id": "HAMMER", "level": 1 }, { "id": "DRILL", "level": 1 } ],
@@ -789,7 +894,7 @@
         [ "tanto", 1 ],
         [ "kirpan", 1 ]
       ],
-      [ [ "nail", 2 ] ],
+      [ [ "nail", 2 ], [ "nuts_bolts", 2 ] ],
       [ [ "cordage", 2, "LIST" ], [ "duct_tape", 100 ] ]
     ]
   },
@@ -807,7 +912,39 @@
     "autolearn": true,
     "proficiencies": [ { "proficiency": "prof_carving", "time_multiplier": 1.5, "fail_multiplier": 1.15 } ],
     "qualities": [ { "id": "CUT", "level": 2 }, { "id": "HAMMER", "level": 1 }, { "id": "DRILL", "level": 1 } ],
-    "components": [ [ [ "spear_knife", 1 ] ], [ [ "nail", 2 ] ], [ [ "cordage", 1, "LIST" ], [ "duct_tape", 50 ] ] ]
+    "components": [ [ [ "spear_knife", 1 ] ], [ [ "nail", 2 ], [ "nuts_bolts", 2 ] ], [ [ "cordage", 1, "LIST" ], [ "duct_tape", 50 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "spear_knife_proper",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_PIERCING",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": "30 m",
+    "reversible": true,
+    "autolearn": true,
+    "proficiencies": [ { "proficiency": "prof_carving", "time_multiplier": 1.5, "fail_multiplier": 1.15 } ],
+    "qualities": [ { "id": "CUT", "level": 2 }, { "id": "HAMMER", "level": 1 }, { "id": "DRILL", "level": 1 } ],
+    "components": [
+      [ [ "spear_shaft", 1 ] ],
+      [
+        [ "knife_butcher", 1 ],
+        [ "knife_chef", 1 ],
+        [ "knife_carving", 1 ],
+        [ "knife_combat", 1 ],
+        [ "knife_combat_mod", 1 ],
+        [ "knife_hunting", 1 ],
+        [ "knife_rambo", 1 ],
+        [ "knife_rm42", 1 ],
+        [ "knife_trench", 1 ],
+        [ "tanto", 1 ],
+        [ "kirpan", 1 ]
+      ],
+      [ [ "nail", 2 ], [ "nuts_bolts", 2 ] ],
+      [ [ "cordage", 2, "LIST" ], [ "duct_tape", 100 ] ]
+    ]
   },
   {
     "type": "recipe",
@@ -936,7 +1073,66 @@
   {
     "type": "recipe",
     "activity_level": "BRISK_EXERCISE",
-    "result": "rapier",
+    "result": "lc_rapier",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_PIERCING",
+    "skill_used": "fabrication",
+    "difficulty": 7,
+    "time": "6 h",
+    "book_learn": [ [ "textbook_weapwest", 7 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_blacksmithing" },
+      { "proficiency": "prof_bladesmith" }
+    ],
+    "using": [ [ "forging_standard", 2 ], [ "lc_steel_standard", 2 ] ],
+    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 4 }, { "id": "GRIND", "level": 2 } ],
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "hotcut", -1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
+    "result": "mc_rapier",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_PIERCING",
+    "skill_used": "fabrication",
+    "difficulty": 8,
+    "time": "7 h",
+    "book_learn": [ [ "textbook_weapwest", 8 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_blacksmithing" },
+      { "proficiency": "prof_bladesmith" }
+    ],
+    "using": [ [ "forging_standard", 2 ], [ "mc_steel_standard", 2 ] ],
+    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "GRIND", "level": 2 } ],
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "hotcut", -1 ] ] ],
+    "components": [ [ [ "leather", 1 ], [ "mc_wire", 2 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
+    "result": "hc_rapier",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_PIERCING",
+    "skill_used": "fabrication",
+    "difficulty": 8,
+    "time": "7 h",
+    "book_learn": [ [ "textbook_weapwest", 8 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_blacksmithing" },
+      { "proficiency": "prof_bladesmith" }
+    ],
+    "using": [ [ "forging_standard", 2 ], [ "hc_steel_standard", 4 ] ],
+    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "GRIND", "level": 2 } ],
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "hotcut", -1 ] ] ],
+    "components": [ [ [ "leather", 1 ], [ "hc_wire", 2 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
+    "result": "ch_rapier",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_PIERCING",
     "skill_used": "fabrication",
@@ -946,12 +1142,34 @@
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing" },
-      { "proficiency": "prof_bladesmith" }
+      { "proficiency": "prof_bladesmith" },
+      { "proficiency": "prof_case_hardening" }
     ],
-    "using": [ [ "blacksmithing_standard", 8 ], [ "steel_standard", 2 ] ],
-    "qualities": [ { "id": "GRIND", "level": 2 } ],
-    "tools": [ [ [ "hotcut", -1 ] ] ],
-    "components": [ [ [ "2x4", 1 ], [ "stick", 2 ] ], [ [ "fur", 2 ], [ "leather", 2 ] ] ]
+    "using": [ [ "blacksmithing_standard", 12 ], [ "lc_steel_standard", 2 ], [ "carbon", 1 ] ],
+    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "GRIND", "level": 2 } ],
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "hotcut", -1 ] ] ],
+    "components": [ [ [ "scrap_kevlar", 2 ], [ "plastic_chunk", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
+    "result": "qt_rapier",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_PIERCING",
+    "skill_used": "fabrication",
+    "difficulty": 9,
+    "time": "7 h",
+    "book_learn": [ [ "textbook_weapwest", 8 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_blacksmithing" },
+      { "proficiency": "prof_bladesmith" },
+      { "proficiency": "prof_quenching" }
+    ],
+    "using": [ [ "blacksmithing_standard", 12 ], [ "mc_steel_standard", 2 ] ],
+    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "GRIND", "level": 2 } ],
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "hotcut", -1 ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -120 ] ] ],
+    "components": [ [ [ "scrap_kevlar", 2 ], [ "plastic_chunk", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -1097,5 +1315,19 @@
       { "proficiency": "prof_blacksmithing" },
       { "proficiency": "prof_articulation" }
     ]
+  },
+  {
+    "result": "xl_knuckle_skewer",
+    "type": "recipe",
+    "copy-from": "knuckle_skewer",
+    "time": "4h",
+    "using": [ [ "blacksmithing_standard", 6 ], [ "steel_standard", 1 ] ]
+  },
+  {
+    "result": "xs_knuckle_skewer",
+    "type": "recipe",
+    "copy-from": "knuckle_skewer",
+    "time": "4h",
+    "using": [ [ "blacksmithing_standard", 4 ], [ "steel_standard", 1 ] ]
   }
 ]

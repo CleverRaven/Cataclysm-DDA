@@ -92,6 +92,7 @@ class avatar : public Character
         bool create( character_type type, const std::string &tempname = "" );
         void add_profession_items();
         void randomize( bool random_scenario, bool play_now = false );
+        void randomize_cosmetics();
         bool load_template( const std::string &template_name, pool_type & );
         void save_template( const std::string &name, pool_type );
         void character_to_template( const std::string &name );
@@ -368,7 +369,7 @@ class avatar : public Character
         // amount of turns since last check for pocket noise
         time_point last_pocket_noise = time_point( 0 );
 
-        vproto_id starting_vehicle;
+        vproto_id starting_vehicle = vproto_id::NULL_ID();
         std::vector<mtype_id> starting_pets;
         std::set<character_id> follower_ids;
 

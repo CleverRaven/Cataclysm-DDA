@@ -290,7 +290,8 @@
     "points": 4,
     "description": "You can now breathe the gasses the mi-go thrive in.",
     "starting_trait": false,
-    "category": [ "MIGO" ]
+    "category": [ "MIGO" ],
+    "flags": [ "MIGO_IMMUNE" ]
   },
   {
     "type": "mutation",
