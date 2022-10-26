@@ -2,7 +2,7 @@
   {
     "type": "mutation",
     "id": "buzzcut",
-    "name": "Hairstyle: buzzcut",
+    "name": "Hairstyle: buzz cut",
     "points": 0,
     "description": "Your hair has been shaved close to the head.",
     "starting_trait": true,
@@ -12,55 +12,55 @@
     "variants": [
       {
         "id": "blue",
-        "name": { "str": "Hairstyle: blue, buzzcut" },
+        "name": { "str": "Hairstyle: blue, buzz cut" },
         "description": "Your blue hair has been shaved close to the head.",
         "weight": 1
       },
       {
         "id": "black",
-        "name": { "str": "Hairstyle: black, buzzcut" },
+        "name": { "str": "Hairstyle: black, buzz cut" },
         "description": "Your black hair has been shaved close to the head.",
         "weight": 1
       },
       {
         "id": "blond",
-        "name": { "str": "Hairstyle: blond, buzzcut" },
+        "name": { "str": "Hairstyle: blond, buzz cut" },
         "description": "Your blond hair has been shaved close to the head.",
         "weight": 1
       },
       {
         "id": "brown",
-        "name": { "str": "Hairstyle: brown, buzzcut" },
+        "name": { "str": "Hairstyle: brown, buzz cut" },
         "description": "Your brown hair has been shaved close to the head.",
         "weight": 1
       },
       {
         "id": "red",
-        "name": { "str": "Hairstyle: red, buzzcut" },
+        "name": { "str": "Hairstyle: red, buzz cut" },
         "description": "Your red hair has been shaved close to the head.",
         "weight": 1
       },
       {
         "id": "green",
-        "name": { "str": "Hairstyle: green, buzzcut" },
+        "name": { "str": "Hairstyle: green, buzz cut" },
         "description": "Your green hair has been shaved close to the head.",
         "weight": 1
       },
       {
         "id": "pink",
-        "name": { "str": "Hairstyle: pink, buzzcut" },
+        "name": { "str": "Hairstyle: pink, buzz cut" },
         "description": "Your pink hair has been shaved close to the head.",
         "weight": 1
       },
       {
         "id": "purple",
-        "name": { "str": "Hairstyle: purple, buzzcut" },
+        "name": { "str": "Hairstyle: purple, buzz cut" },
         "description": "Your purple hair has been shaved close to the head.",
         "weight": 1
       },
       {
         "id": "white",
-        "name": { "str": "Hairstyle: white, buzzcut" },
+        "name": { "str": "Hairstyle: white, buzz cut" },
         "description": "Your w hair has been shaved close to the head.",
         "weight": 1
       }
